@@ -1,23 +1,21 @@
-Return-Path: <daniel@zonque.org>
-Received: from mail.bugwerft.de (mail.bugwerft.de [46.23.86.59])
-	by mail.openembedded.org (Postfix) with ESMTP id C0B8765CC6
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A04D65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 14:18:40 +0000 (UTC)
-Received: from [192.168.24.183] (p54AC5F3C.dip0.t-ipconnect.de [84.172.95.60])
-	by mail.bugwerft.de (Postfix) with ESMTPSA id B9D892800CF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 14:18:30 +0000 (UTC)
+	Tue, 14 Nov 2017 14:57:43 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 06:57:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173402128"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 06:57:43 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <20171114073653.12566-1-daniel@zonque.org>
-	<20171114080525.2787.1167@do.openembedded.org>
-From: Daniel Mack <daniel@zonque.org>
-Message-ID: <c3570720-c03e-9f76-5256-d03d64570d94@zonque.org>
-Date: Tue, 14 Nov 2017 15:18:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <20171114080525.2787.1167@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNvbm5tYW46IGJ1bXAgdG8gdmVyc2lvbiAxLjM1?=
+Date: Tue, 14 Nov 2017 16:57:28 +0200
+Message-Id: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.0
+Subject: [PATCH 01/27] distrodata.bbclass: make upstream version check more useful for git upstreams
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,54 +28,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 14:18:41 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Nov 2017 14:57:43 -0000
 
-Ha, this exact same patch is already in master-next.
-I must have missed that.
+Specifically:
 
-Sorry for the noise!
+1) remove +git${SRCPV} stuff from comparison and output; it's just
+unnecessary clutter;
 
+2) write the commit id of the latest version tag into the output;
+this saves quite a bit of trouble of manually checking what that
+commit id is when doing version updates;
 
-Daniel
+3) when UPSTREAM_CHECK_COMMITS is set, ignore the tags altogether;
+instead check if the latest commit is different to the one we use,
+and if so, report that the recipe can be updated to said commit
+(which is also written into the output, as in 2). Multiple
+recipes are failing the upstream check because they never
+issue tags, now we can fix them.
 
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/distrodata.bbclass | 26 ++++++++----------------
+ meta/lib/oe/recipeutils.py      | 44 +++++++++++++++++------------------------
+ 2 files changed, 26 insertions(+), 44 deletions(-)
 
-On Tuesday, November 14, 2017 09:05 AM, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: connman: bump to version 1.35
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/9769/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at a17f3ec910)
-> 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index c85f7b3474f..b0f4ecea09f 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -272,24 +272,15 @@ python do_checkpkg() {
+             if upstream_check_unreliable == "1":
+                 return "N/A", "CHECK_IS_UNRELIABLE"
+ 
+-            try:
+-                uv = oe.recipeutils.get_recipe_upstream_version(localdata)
+-                pupver = uv['version'] if uv['version'] else "N/A"
+-            except Exception as e:
+-                pupver = "N/A"
++            uv = oe.recipeutils.get_recipe_upstream_version(localdata)
++            pupver = uv['version'] if uv['version'] else "N/A"
++            pversion = uv['current_version']
++            revision = uv['revision'] if uv['revision'] else "N/A"
+ 
+             if pupver == "N/A":
+                 pstatus = "UNKNOWN" if upstream_version_unknown else "UNKNOWN_BROKEN"
+             else:
+-                src_uri = (localdata.getVar('SRC_URI') or '').split()
+-                if src_uri:
+-                    uri_type, _, _, _, _, _ = decodeurl(src_uri[0])
+-                else:
+-                    uri_type = "none"
+-                pv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pversion, uri_type)
+-                upv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pupver, uri_type)
+-
+-                cmp = vercmp_string(pv, upv)
++                cmp = vercmp_string(pversion, pupver)
+                 if cmp == -1:
+                     pstatus = "UPDATE" if not upstream_version_unknown else "KNOWN_BROKEN"
+                 elif cmp == 0:
+@@ -297,7 +288,7 @@ python do_checkpkg() {
+                 else:
+                     pstatus = "UNKNOWN" if upstream_version_unknown else "UNKNOWN_BROKEN"
+ 
+-            return pupver, pstatus
++            return pversion, pupver, pstatus, revision
+ 
+ 
+         """initialize log files."""
+@@ -334,7 +325,6 @@ python do_checkpkg() {
+ 
+         pdesc = localdata.getVar('DESCRIPTION')
+         pgrp = localdata.getVar('SECTION')
+-        pversion = localdata.getVar('PV')
+         plicense = localdata.getVar('LICENSE')
+         psection = localdata.getVar('SECTION')
+         phome = localdata.getVar('HOMEPAGE')
+@@ -345,7 +335,7 @@ python do_checkpkg() {
+         psrcuri = localdata.getVar('SRC_URI')
+         maintainer = localdata.getVar('RECIPE_MAINTAINER')
+ 
+-        pupver, pstatus = get_upstream_version_and_status()
++        pversion, pupver, pstatus, prevision = get_upstream_version_and_status()
+ 
+         if psrcuri:
+             psrcuri = psrcuri.split()[0]
+@@ -358,7 +348,7 @@ python do_checkpkg() {
+         with open(logfile, "a") as f:
+             writer = csv.writer(f, delimiter='\t')
+             writer.writerow([pname, pversion, pupver, plicense, psection, phome, 
+-                prelease, pdepends, pbugtracker, ppe, pdesc, pstatus, pupver,
++                prelease, pdepends, pbugtracker, ppe, pdesc, pstatus, prevision,
+                 psrcuri, maintainer, no_upgr_reason])
+             f.close()
+         bb.utils.unlockfile(lf)
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index a1e191afc7b..4e0859e6d90 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -900,25 +900,25 @@ def get_recipe_upstream_version(rd):
+             FetchError when don't have network access or upstream site don't response.
+             NoMethodError when uri latest_versionstring method isn't implemented.
+ 
+-        Returns a dictonary with version, type and datetime.
++        Returns a dictonary with version, repository revision, current_version, type and datetime.
+         Type can be A for Automatic, M for Manual and U for Unknown.
+     """
+     from bb.fetch2 import decodeurl
+     from datetime import datetime
+ 
+     ru = {}
++    ru['current_version'] = rd.getVar('PV')
+     ru['version'] = ''
+     ru['type'] = 'U'
+     ru['datetime'] = ''
+-
+-    pv = rd.getVar('PV')
++    ru['revision'] = ''
+ 
+     # XXX: If don't have SRC_URI means that don't have upstream sources so
+     # returns the current recipe version, so that upstream version check
+     # declares a match.
+     src_uris = rd.getVar('SRC_URI')
+     if not src_uris:
+-        ru['version'] = pv
++        ru['version'] = ru['current_version']
+         ru['type'] = 'M'
+         ru['datetime'] = datetime.now()
+         return ru
+@@ -927,6 +927,9 @@ def get_recipe_upstream_version(rd):
+     src_uri = src_uris.split()[0]
+     uri_type, _, _, _, _, _ =  decodeurl(src_uri)
+ 
++    (pv, pfx, sfx) = get_recipe_pv_without_srcpv(rd.getVar('PV'), uri_type)
++    ru['current_version'] = pv
++
+     manual_upstream_version = rd.getVar("RECIPE_UPSTREAM_VERSION")
+     if manual_upstream_version:
+         # manual tracking of upstream version.
+@@ -947,33 +950,22 @@ def get_recipe_upstream_version(rd):
+         ru['datetime'] = datetime.now()
+     else:
+         ud = bb.fetch2.FetchData(src_uri, rd)
+-        pupver = ud.method.latest_versionstring(ud, rd)
+-        (upversion, revision) = pupver
+-
+-        # format git version version+gitAUTOINC+HASH
+-        if uri_type == 'git':
+-            (pv, pfx, sfx) = get_recipe_pv_without_srcpv(pv, uri_type)
+-
+-            # if contains revision but not upversion use current pv
+-            if upversion == '' and revision:
+-                upversion = pv
+-
+-            if upversion:
+-                tmp = upversion
+-                upversion = ''
+-
+-                if pfx:
+-                    upversion = pfx + tmp
+-                else:
+-                    upversion = tmp
+-
+-                if sfx:
+-                    upversion = upversion + sfx + revision[:10]
++        if rd.getVar("UPSTREAM_CHECK_COMMITS") == "1":
++            revision = ud.method.latest_revision(ud, rd, 'default')
++            upversion = pv
++            if revision != rd.getVar("SRCREV"):
++                upversion = upversion + "-new-commits-available" 
++        else:
++            pupver = ud.method.latest_versionstring(ud, rd)
++            (upversion, revision) = pupver
+ 
+         if upversion:
+             ru['version'] = upversion
+             ru['type'] = 'A'
+ 
++        if revision:
++            ru['revision'] = revision
++
+         ru['datetime'] = datetime.now()
+ 
+     return ru
+-- 
+2.15.0
 
 
