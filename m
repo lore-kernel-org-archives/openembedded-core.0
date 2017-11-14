@@ -1,42 +1,55 @@
-Return-Path: <h4nn35.work@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A3FB678449
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 94C0178429
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 11:51:52 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id r68so17698403wmr.0
+	Tue, 14 Nov 2017 12:06:06 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id u97so17314873wrc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 03:51:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=mhBxLqi9YtQ/rA1Z/yb64gwRuSZXsAoGxu+Qv2dz8vk=;
-	b=JZjj5tGZPrbZ9oDSH0oJ3npJ1hEq8U9g9KEmTtVNZqBNi1zjginq4ehmldpwAcVnVp
-	+3X+RuTE5SRI9Y97vg114I8Vr68R0P93VtjFukq1Xj1hU4UzA0DfkGm5cFSbJq6DPrpZ
-	ikZWVUYQK5+VIMUGuTti35MdS9/4/VO/HmLpcKP2dw0UIWQRLmoK3K4QLLZLi5rj03H0
-	G0a1/oEh9cqA+0VGm6+ZtYwDONuiR+2djlYwxuVRUETgbpGrRwiOZZ1eb6ID6efTewv4
-	/WNRDDBmYtStZVVeV3y9sEzT6kYVw82RFnK1L7tCNNx4sTi5Boc9y+lUnjOZzy8tqVwH
-	A9Mw==
+	Tue, 14 Nov 2017 04:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=UCgr4itYriclr98YrUv56aAp1bh+dLlLGB5dKasyEf8=;
+	b=i+8mhKTHrom1RgMhLSA8ajaKq2fmWEEIcbjcUmxb/Cuh5txPPZxG453jSrR2n18HKe
+	AWWeNUzScDPA+gf+DSFQr4HePdI3VH2IAhD55bH9fDnnLEgdOk2HGwuwol7hBc+8lSs+
+	BkZZxatNX7UdtXpQoEHqI3UkQSO4Qd36uU3NiVOVj0CBMzzUVED1+ENYOECsjqp1vCBx
+	0FWYR53f1YVkvyzA9W5PSPwQdvVXLyJ4NMolwQCaxxyH33oPNd4lVfJ/odmPzpC8rksQ
+	Mex+oYZBGXpz20Uj0WglGWxB/1hUPLqyVdZU+6rK3T24WEWcQL/z31Zc3aP5bBOSfGhi
+	Z42w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=mhBxLqi9YtQ/rA1Z/yb64gwRuSZXsAoGxu+Qv2dz8vk=;
-	b=UStJ3YYPoErlqQjn9PDLW622UUF6ruaY7e2GWsEqK5gY+xUKZ2yPUmvgefpR17njgA
-	SXMOsFBy1d/djQnSf4JTVsy5AjIyK9B7rZNZWf5jSaL3o924DtvvsQAUNwAgeEORsdwc
-	/xqrODyGDPzbqL0xbTBPWHMzlPBZlGTPcAI99CQ3exrnrwkhAGbDDVaNkY+Q6aqiLTqI
-	LECzKaxF/P47wo7M3+pIpeIe4+2a1MiQ2hwdKRq/UtalvmAF3QvIIB+DCWPQqt5V6ndi
-	muOTbsc+8o588jFhwilKwQhXXpTM3xq4FbihFoGmF9TxqDAMi6s54akIzQNrF6/SM5ya
-	2TJw==
-X-Gm-Message-State: AJaThX4l0RMqbeEdLQ8IB1+Ci1EPJARY6Bu57GxtAuQ9QftNQ4hTMXAZ
-	VZbcG56Ryr+QClGFf8Wnwr174kh3uc9+doIu1hRQ
-X-Google-Smtp-Source: AGs4zMb+Of2I35ps0NW+bekkmoJ4Wz6UGMHux9tD9juXwQiNvgkylj3Q/oYaFiyZm2HU58DF1U50t+MrxYXOJkJlVz8=
-X-Received: by 10.28.143.84 with SMTP id r81mr6074735wmd.122.1510660312919;
-	Tue, 14 Nov 2017 03:51:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.67.65 with HTTP; Tue, 14 Nov 2017 03:51:52 -0800 (PST)
-From: Johannes Pointner <h4nn35.work@gmail.com>
-Date: Tue, 14 Nov 2017 12:51:52 +0100
-Message-ID: <CAHvQdo0LKDbFYudJJHbpLt7mEZq62vdG9nAoiYjBsTwHAqFM4g@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: glibc 2.26 memory leak
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=UCgr4itYriclr98YrUv56aAp1bh+dLlLGB5dKasyEf8=;
+	b=dkjpfVr00jsc7uprNqeUBk9+HcBuItzqxNa22GNPdujJuVB5R/+HE9wIOh1Tc43IQy
+	h6u3zdeE62dvraMRGXUT0h6Bqfv8AOm1euntGuK5iOYxbbGp/G6lSKHtkwhC5vOBc+VE
+	/v2PalPEhmkFvzxzoYbb6P7Rvk6YBryaKxpyoLPy88fszE8snngkzsJIvTE83VcEjejc
+	LdgDWcHSD7CtAUbZ/vCV5QY+6P21XPELv7KhR3R18OSEwTRy+yFaCeSsv8HrVvdmZoCg
+	XZDUMXCwHRh7g2W9+8Rp/qQdXmt1YDDvC17cDQvmySYusU3Z7cgsigfPY0hYlSAFGuUq
+	krYw==
+X-Gm-Message-State: AJaThX7WpMEuhNAy8dL2K5mzo/p2HWUBrKjK7sRk5v5iMej4hhH/a9f9
+	bH1enkejQKDPF7obYVwqDWBW
+X-Google-Smtp-Source: AGs4zMatzwpTB7ybWDW00QvBzuOpxD/MFgAMQ3XPrZ2T3zCkpdJdxLll0VZ5XkLitwLX/NJfFBA9Ig==
+X-Received: by 10.223.182.3 with SMTP id f3mr10630736wre.127.1510661167416;
+	Tue, 14 Nov 2017 04:06:07 -0800 (PST)
+Received: from pohly-mobl1 (p54BD5874.dip0.t-ipconnect.de. [84.189.88.116])
+	by smtp.gmail.com with ESMTPSA id
+	x63sm13567532wma.39.2017.11.14.04.06.06
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 Nov 2017 04:06:06 -0800 (PST)
+Message-ID: <1510661165.5979.6.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2017 13:06:05 +0100
+In-Reply-To: <20171106175558.24581-1-ross.burton@intel.com>
+References: <20171106175558.24581-1-ross.burton@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] oeqa/selftest/runtime_test: fix postinst_rootfs_and_boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,31 +62,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 11:51:52 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 12:06:07 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On Mon, 2017-11-06 at 17:55 +0000, Ross Burton wrote:
+>                     testcommand = 'ls /etc/' + fileboot_name
 
-I started to switch to rocko and noticed that processes like automount
-are steadily increasing their memory usage over time until the kernel
-kills them with out of memory.
-After a bit research I came to the conclusion that glibc could be the
-guilty one.
-I updated glibc 2.26 to the commit which is used by archlinux:
-https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/glibc
-After a rebuild everythings seems normal.
+Can't this be removed?
 
-I found a commit in glibc 2.26 which could be the fix for my problem
+>                      with runqemu('core-image-minimal') as qemu:
+> -                        ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog)
+> -                        status, output = ssh.run(testcommand)
+> +                        status, output = qemu.run_serial("-f /etc/" + fileboot_name)
 
-commit 6e1ea21501eac981204c3cc8212d45998f74983c
-Author: Carlos O'Donell <carlos@systemhalted.org>
-Date:   Thu Sep 28 11:05:18 2017 -0600
+Did you mean "test -f"?
 
-   malloc: Fix tcache leak after thread destruction [BZ #22111]
+>                          self.assertEqual(status, 0, 'File %s was not created at first boot (%s)' % (fileboot_name, output))
+
+run_serial has the quirk that status == 1 on *success*. Yes, weird.
+
+The test probably passed because it was testing for failure, and the
+missing "test" ensured that the command failed.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-Have somebody noticed something similar?
-
-Thanks,
-Hannes
 
