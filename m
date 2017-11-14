@@ -1,29 +1,29 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 732FB784D1
+	by mail.openembedded.org (Postfix) with ESMTP id 33B9F784F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 15:51:22 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	Tue, 14 Nov 2017 15:54:40 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 07:51:24 -0800
+	14 Nov 2017 07:54:41 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; 
-   d="scan'208";a="1463153"
-Received: from $_hostname.zpn.intel.com (HELO lsandov1-mobl2.zpn.intel.com)
-	([10.219.128.134])
-	by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2017 07:51:24 -0800
-Date: Tue, 14 Nov 2017 10:01:54 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Daniel Mack <daniel@zonque.org>
-Message-ID: <20171114100154.40735411@lsandov1-mobl2.zpn.intel.com>
-In-Reply-To: <c3570720-c03e-9f76-5256-d03d64570d94@zonque.org>
-References: <20171114073653.12566-1-daniel@zonque.org>
-	<20171114080525.2787.1167@do.openembedded.org>
-	<c3570720-c03e-9f76-5256-d03d64570d94@zonque.org>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+   d="scan'208";a="4839939"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2017 07:54:40 -0800
+To: "Viguera, Javier" <Javier.Viguera@digi.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <DA8287CC96892A4EB4FCF4FB3FBDA1AB016B7958@dor-sms-xch01.digi.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <987bb588-d8dd-c2e8-52a7-1a7ce3d3865b@linux.intel.com>
+Date: Tue, 14 Nov 2017 17:54:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNvbm5tYW46IGJ1bXAgdG8gdmVyc2lvbiAxLjM1?=
+In-Reply-To: <DA8287CC96892A4EB4FCF4FB3FBDA1AB016B7958@dor-sms-xch01.digi.com>
+Subject: Re: [Morty backports] tcf-agent fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 15:51:23 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 14 Nov 2017 15:54:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Tue, 14 Nov 2017 15:18:40 +0100
-Daniel Mack <daniel@zonque.org> wrote:
+On 11/14/2017 05:40 PM, Viguera, Javier wrote:
 
-> Ha, this exact same patch is already in master-next.
-> I must have missed that.
+> There are a couple of commits in master fixing the tcf-agent bootscript 
+> and systemd service files so the daemon is properly kill on reboot/shutdown.
 > 
-> Sorry for the noise!
+> This is failing also in past stable releases.
+> 
+> At least for Morty the cherry-picks apply just fine.
+> 
+> So could you do the cherry-picks for Morty?
+> 
+> git cherry-pick b33356d168c0fec9b2df387b51240fa6566ca145
+> 
+> git cherry-pick b467a22729bea886d7bde976c9606ac8e4589cde
 
-'patchtest' checks only stable branches, and what I can see is that this
-patch is already on master (From OE-Core rev: f4b9c5dba4ca0c0242284eb8148e25e89f02d988)
+Just send the patches here, with [morty] in the subject. If they need to 
+go to pyro and rocko, that'd be appreciated too.
 
-> 
-> 
-> Daniel
-> 
-> 
-> On Tuesday, November 14, 2017 09:05 AM, Patchwork wrote:
-> > == Series Details ==
-> > 
-> > Series: connman: bump to version 1.35
-> > Revision: 1
-> > URL   : https://patchwork.openembedded.org/series/9769/
-> > State : failure
-> > 
-> > == Summary ==
-> > 
-> > 
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series by patchtest resulting in the following failures:
-> > 
-> > 
-> > 
-> > * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at a17f3ec910)
-> > 
-> > 
-> > 
-> > If you believe any of these test results are incorrect, please reply to the
-> > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> > Otherwise we would appreciate you correcting the issues and submitting a new
-> > version of the patchset if applicable. Please ensure you add/increment the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> > [PATCH v3] -> ...).
-> > 
-> > ---
-> > Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> >   
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
