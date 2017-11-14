@@ -1,43 +1,45 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BB52784D3
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E5D4784D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 10:11:47 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id r68so17358854wmr.0
+	Tue, 14 Nov 2017 10:16:09 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id r135so21635388lfe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 02:11:48 -0800 (PST)
+	Tue, 14 Nov 2017 02:16:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=X4eNhi0J6az6N+4g8k3kB2tGGqlzxzZznS64diybSqc=;
-	b=Z/8ImZrePXlRxHmLe9b2+jMnQnBWt4/ceGwA7O9OwjgxlwPy7SlGTUg6v8hlW5hQjk
-	A9xaTt8NRiwRMUjko1aSw5sdaBxltVXpCErdAtTgfqByNhvdXNTyPWvb81QFeHu20WsH
-	W+Er5OJAafDQHjVBY6z1d5b2J2eHk71XkLrmqQ52Ei3OpI7B0dZLPl4we38mxeugPnXB
-	xlfZcVczYbDTl5U/pB1m+iwnNX17FY3mYQr8avJmV5f/NO2EeTK1d7J1MvISL7Kp/0iR
-	wyGlBGPPqckPB0AXyimdInLsUxk3oRgxzaIzKNQxQ5smA83AG68lijpfUGVf/nzQsSg6
-	5wag==
-X-Gm-Message-State: AJaThX4VjVyF6nAp0LAroJzRKw+pZl5hFAMz83LLa+L9wK1s/PKwA6Mj
-	jRBf158ZSrbpkD1JrzpOKDAJWMVl
-X-Google-Smtp-Source: AGs4zMaeaq4MNXs71jU0aeJhIQwRAhdCZGBPCGBuzKyI6O8EGf1403x+4M5q0kRQaHCFrk2h2w7/7w==
-X-Received: by 10.80.144.248 with SMTP id d53mr16176407eda.234.1510654307858; 
-	Tue, 14 Nov 2017 02:11:47 -0800 (PST)
+	bh=QT0c6uQT0AOL9kSn5yex3wq+GzvMw43JLzYZyuXlG2w=;
+	b=Mbeg6COmdhhybMVe64tkmOu88HrscowWwr0d9sPRL1hKwBMl0IeouHE2/LBCvMTNve
+	LxtImTkVZNfY98Bx7aRnjEC2nwkP4mJVpM6BLWM3VgiWEyWyEK+RQgHmkshDyAr5QvY5
+	OaDbykf/GCGboCrsSbPvHmrLT6rKhW1vk3B0IZmOACRzbyVLHVFS1fwQjiuUPqo9oyas
+	27iak3SOLjLkKBnDEYvXBVjim8ftLd8HcU8/MABjMKEhRYHndGfr7euebPiVuj732o+Q
+	JCy9kJstyKC43S1vKpgwafNUW0Zp9dpeqU6/AMxjS884QThvyRxLdUpLvKAFH10BvqbW
+	/Ccg==
+X-Gm-Message-State: AJaThX4J+dDO4/Ount3BUl5cwW8v7UxBnzrYAt3Wtg9kPYYC6KtwPLzH
+	gy60acsUmOLRq+rY9Dh0neVa7epi
+X-Google-Smtp-Source: AGs4zMYKzPrfma1rIjj8RdBeXQ1/dGc3kgfbwZtN0EEbIVHQGX7glA/75h/Ie8xBhxQJwTkHYBd25w==
+X-Received: by 10.25.121.10 with SMTP id u10mr294505lfc.50.1510654570196;
+	Tue, 14 Nov 2017 02:16:10 -0800 (PST)
 Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	88sm13621313edq.49.2017.11.14.02.11.46
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id m26sm600298ljb.61.2017.11.14.02.16.08
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 Nov 2017 02:11:46 -0800 (PST)
-Message-ID: <1510654305.4049.60.camel@andred.net>
+	Tue, 14 Nov 2017 02:16:09 -0800 (PST)
+Message-ID: <1510654568.4049.64.camel@andred.net>
 From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 10:11:45 +0000
-In-Reply-To: <1510668898-21058-2-git-send-email-shashwatx.pandey@intel.com>
-References: <1510668898-21058-1-git-send-email-shashwatx.pandey@intel.com>
-	<1510668898-21058-2-git-send-email-shashwatx.pandey@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2017 10:16:08 +0000
+In-Reply-To: <a4f2cfac-2714-ef11-c4ff-308ce183f1e1@windriver.com>
+References: <cover.1510550741.git.Qi.Chen@windriver.com>
+	<62db9387c3ee71f4bed87a7a546afdf927ba5ac0.1510550741.git.Qi.Chen@windriver.com>
+	<1510563249.4049.33.camel@andred.net>
+	<a4f2cfac-2714-ef11-c4ff-308ce183f1e1@windriver.com>
 X-Mailer: Evolution 3.26.1-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] Image_types: use ustar format in cpio command
+Subject: Re: [PATCH 1/1] autoconf-archive: inherit allarch and fix package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,19 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 10:11:47 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 10:16:09 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2017-11-14 at 22:14 +0800, Shashwat Pandey wrote:
-> Using ustar format due to ROOTFS size exceeding issue.
-> Ustar supports up to 8GB.
-> Where as newc support up to 4GB.
+On Mon, 2017-11-13 at 19:54 +0800, Robert Yang wrote:
 > 
-> [YOCTO #11674]
+> On 11/13/2017 04:54 PM, André Draszik wrote:
+> > Hi,
+> > 
+> > On Mon, 2017-11-13 at 13:26 +0800, Chen Qi wrote:
+> > > autoconf-archive is a set of common m4 macros, it should be allarch,
+> > > just like it is on other distros.
+> > 
+> > I have found previously that when changing a recipe to produce more
+> > generic
+> > output, like in this case, and the old binary package is still in
+> > deploy/,
+> > then the package manager would always pick the more specific version,
+> > even
+> > if a more recent (by package version) exists in deploy. In my case I was
+> > moving from PACKAGE_ARCH=${MACHINE_ARCH} to
+> > PACKAGE_ARCH=${TUNE_PKGARCH},
+> > but I guess it'll be the same here.
+> 
+> I think that it is because of the priority MACHINE_ARCH > TUNE_PKGARCH >
+> allarch,
+> which is the right behavior.
 
-Do recent kernels actually support ustar for initramfs? I thought it only
-supported newc? My 4.9 kernel certainly still only mentions newc...
+I'd say this patch here is a good example why it's not the right behaviour.
+
+This patch is making autoconf-archive allarch, i.e. lower priority than
+before. In other words, anybody who has the previous TUNE_PKGARCH version
+already will never get an update, even if the version number is bumped.
 
 Cheers,
 Andre'
