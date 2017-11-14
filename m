@@ -1,50 +1,48 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 84620784F8
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E472784F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 17:18:50 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id l24so2450541pfj.6
+	Tue, 14 Nov 2017 17:20:23 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id z184so10453997pgd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 09:18:51 -0800 (PST)
+	Tue, 14 Nov 2017 09:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=bAu2QLFd0bPo2uzfCQom1fSEVBllGNKoPsM15K1MfGY=;
-	b=Lb8fNewWvTUDP4ProBA1ZKUpW7vHOvWp99W465IR9OLrpWqbR+Bm9lXgRo+1tmTU/K
-	Te39UHRjAhyHood25sAZJOik3/ZdFzfOcvf3Rl8ZX3Dj5Bn/DpNVt4498Ed2ybEI9CA8
-	o47dg08BW9+LgANngc4riHZBuae/90M+GxNwcvw0fi0qwAFu71zY5+4gjPl0RRSVhGmN
-	LORJstAR/C5LRK5qOdPc5vQ+NYaHRV586Th6Gxk6vwC/uuP179nu/iSvcTbOYU3zVHSG
-	2AXma1KHtdnsK4SMAoDSs7BOLUGglGBstQ/DK4qH2nfb/wDFBIv4gjJSnhdDDbBb+uCP
-	OccQ==
+	bh=06B6b6eq786c4g1c5JZsRlsLOpw6pQ6NSIDLjtBPVaw=;
+	b=jAiE9JeEFXVeGXI0NuTKcvKYpKDoHyTEVSp2aCdulOC1p7VgVGRY735evB+IYR5cG5
+	4s6hFDcn5ZAoX2zL7E7lQgnPm9fCLtGb0TxNcb1qa1FWKqJDOV9VA/xcYyz/DtuqMImy
+	9nwnWj7OLns/J1SVvgQoj+/Oe/7UHwAiZPk5qzAOGa9qbv57QDyMFNMjTHaCOmJzJpru
+	hPCgGhc/DmgdYq6Dyzn1MvY5TtIowhMcosiKOAbHEV1IGENJsWwds5JlUyLzRGmze6zN
+	K+aNGJGp2YJs53ORMhmUDk/DeqwuC7wXPiJMvYd8hWAOPP/yyLh5a8NMUnE4UsVgXbfP
+	moVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bAu2QLFd0bPo2uzfCQom1fSEVBllGNKoPsM15K1MfGY=;
-	b=RWxLn8503z9nzbMxqBdtzfXdRG6nBybRKl4qKSyBEMleMzbzD4riM57/Wbkb8z52VU
-	VIM0+tF9luCUVKXeCersmb+eKOazszYVqXMoDqnzt5aXpnXaJS2024NyzdQD2Cm8lYX4
-	mj2LlImwOP1AJpKVOYUefIA/QrhsJTSctFomsgcLMbwjhR8ayQC7n4LCFl0SrI9SHNH+
-	6rdDAQcW3ciQCT/WzPfr1MRQFBAKJLnHHAAQYtw53teRxWGFOQno3E17/d+zcOqSvGvj
-	6tp5XFR/0IYE4IgA4aMIEu6lgRHj+oh8lATPhjzGJSGexQqGQWtJhliJCZCENfdB/4NU
-	DA9A==
-X-Gm-Message-State: AJaThX6SQDdM4GZmKCraTl6Q/QHaHc/XNyYU3yXhrurUizJ8g82hVR8U
-	UL3QQoPxtinYN0A9RLb9PDcraQFt
-X-Google-Smtp-Source: AGs4zMabBtmF+5KBUJJxjTEc5PznYeglT0nxntb1uS+bEXvCzDQ/3k4gCs0c1OD4Z+xFz/Pd/bfFpw==
-X-Received: by 10.84.240.204 with SMTP id l12mr12980906plt.211.1510679931161; 
-	Tue, 14 Nov 2017 09:18:51 -0800 (PST)
+	bh=06B6b6eq786c4g1c5JZsRlsLOpw6pQ6NSIDLjtBPVaw=;
+	b=mkV0+sv/ApD0nkarDI2AKf2uEARLUnZJXy7BSV9pt5vWC53CMxvl/fNQkOLWaMXyxw
+	XzD74EU/toSBxQbHLMEESJongJzVI8fWX1y7EmA7WQL/kcycv289o/fROO07w4drJb4Y
+	zNz8pM/MnMdMbNHamsrkEWssEENbYWkngHedLPEWRpiJz7wYju8zoph/dzxbgec/ZLoj
+	vadty2msq+NYu1QQZGDt2qSl3nXxLGrnO8lB6+4HDVo4RXvSVnlfzWl8nEp4WoFeLSQ0
+	xmqDPt5fZJ0u7GsPfKnHwNq910R24GZVA7N2cVLQ6Sf2/pwSoS8Qqj2IU1nNhJM0q6Kw
+	dpsA==
+X-Gm-Message-State: AJaThX6/W+rr99xAW7Zxi8tzX7E2Z7KZUt1VqyGTjL1jI2L8u5aID+Ft
+	Ya+HCsMyabbGM51tdcuUe+g0MdZT
+X-Google-Smtp-Source: AGs4zMYjLMpbVklgywydWX4DyKXwXo3T8GAmzViM71aDMTl2dKLeO/PxGdD2bNG+mBBiq8f6rptZTw==
+X-Received: by 10.98.10.77 with SMTP id s74mr8967353pfi.104.1510680024355;
+	Tue, 14 Nov 2017 09:20:24 -0800 (PST)
 Received: from workhorse.madison.systems
 	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
-	by smtp.gmail.com with ESMTPSA id
-	x9sm42161637pfk.120.2017.11.14.09.18.49
+	by smtp.gmail.com with ESMTPSA id y5sm37802155pfk.3.2017.11.14.09.20.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Nov 2017 09:18:50 -0800 (PST)
+	Tue, 14 Nov 2017 09:20:23 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 09:18:46 -0800
-Message-Id: <1510679926-24611-1-git-send-email-matt@madison.systems>
+Date: Tue, 14 Nov 2017 09:20:15 -0800
+Message-Id: <1510680015-24735-1-git-send-email-matt@madison.systems>
 X-Mailer: git-send-email 2.7.4
 Cc: paul.eggleton@linux.intel.com, otavio.salvador@ossystems.com.br
-Subject: [PATCH v2] go: ensure use of BUILD_CC when building bootstrap tools
+Subject: [PATCH v3] go: ensure use of BUILD_CC when building bootstrap tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 17:18:50 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 17:20:24 -0000
 
 For cross-canadian builds, we were accidentally using
 the crosssdk C compiler when building the Go compiler
@@ -90,11 +88,11 @@ index 65adaa8..1dbb5ef 100644
  SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
 diff --git a/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
 new file mode 100644
-index 0000000..94ea197
+index 0000000..83fd78c
 --- /dev/null
 +++ b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
 @@ -0,0 +1,43 @@
-+From 36787fbf0e0a6298ba1038bbbae526654597eee4 Mon Sep 17 00:00:00 2001
++From 21d83dd9499e5be30eea28dd7034d1ea2a01c838 Mon Sep 17 00:00:00 2001
 +From: Matt Madison <matt@madison.systems>
 +Date: Tue, 14 Nov 2017 07:38:42 -0800
 +Subject: [PATCH 10/10] make.bash: override CC when building dist and
@@ -105,7 +103,7 @@ index 0000000..94ea197
 +build host's C compiler.  Add a BUILD_CC environment
 +for this, falling back to $CC if not present.
 +
-+Upstream-Status: pending
++Upstream-Status: Pending
 +
 +Signed-off-by: Matt Madison <matt@madison.systems>
 +---
