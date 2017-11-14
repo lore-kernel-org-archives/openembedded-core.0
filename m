@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F338078511
+	by mail.openembedded.org (Postfix) with ESMTP id 528E8784E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 14:58:15 +0000 (UTC)
+	Tue, 14 Nov 2017 14:58:17 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 06:58:17 -0800
+	14 Nov 2017 06:58:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173402292"
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173402294"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 06:58:16 -0800
+	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 06:58:17 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 16:57:52 +0200
-Message-Id: <20171114145754.9643-25-alexander.kanavin@linux.intel.com>
+Date: Tue, 14 Nov 2017 16:57:53 +0200
+Message-Id: <20171114145754.9643-26-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
 References: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 25/27] libxslt: update to 1.1.32
+Subject: [PATCH 26/27] ffmpeg: update to 3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 14:58:16 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 14:58:17 -0000
+
+Schroedinger support has been dropped:
+https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/220b24c7c9
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/libxslt/{libxslt_1.1.31.bb => libxslt_1.1.32.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libxslt/{libxslt_1.1.31.bb => libxslt_1.1.32.bb} (90%)
+ meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.31.bb b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
-similarity index 90%
-rename from meta/recipes-support/libxslt/libxslt_1.1.31.bb
-rename to meta/recipes-support/libxslt/libxslt_1.1.32.bb
-index 77b8b768eb6..e8b1409d79b 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.31.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
-@@ -12,8 +12,8 @@ SRC_URI = "ftp://xmlsoft.org/libxslt/libxslt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch \
-            "
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+similarity index 95%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+index 57e0ac04115..42dbe5582f3 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+@@ -25,10 +25,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
--SRC_URI[md5sum] = "14e9842a70fda476065f2eefcbc29af0"
--SRC_URI[sha256sum] = "db25e96b6b801144277e67c05b10560ac09dfff82ccd53a154ce86e43622f3ab"
-+SRC_URI[md5sum] = "1fc72f98e98bf4443f1651165f3aa146"
-+SRC_URI[sha256sum] = "526ecd0abaf4a7789041622c3950c0e7f2c4c8835471515fd77eec684a355460"
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+-           file://0001-build-fix-for-mips.patch \
+-          "
+-SRC_URI[md5sum] = "e14a0200c78ce5c918427e57cd406a0d"
+-SRC_URI[sha256sum] = "98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957"
++           "
++SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
++SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
  
- UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
- 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
+@@ -64,7 +63,6 @@ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+-PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+ PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
+ PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
+ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
 -- 
 2.15.0
 
