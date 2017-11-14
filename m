@@ -1,55 +1,43 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id BDF06784F5
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB52784D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 08:24:31 +0000 (UTC)
-Received: by mail-wr0-f171.google.com with SMTP id y9so16741778wrb.2
+	Tue, 14 Nov 2017 10:11:47 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id r68so17358854wmr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 00:24:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=RMHMkE279TxmKkM4HN4HNyVjbZ32uCqlJh1ZFcOI+4U=;
-	b=IWPn+xT7EIrmGwsYym0JQwlcbTh1kaEyof2kF1IfuKRhcXqdwrbm5fhA/nubcAXH8o
-	2Nx0zvBxtcJzfHrKBfH2NqddbC4qYEDaXJWvvlWR+PZPSHKJwxIJo57jMvu8dLHlgsE/
-	ahLBDLYxerFt5xWmEFVw4OjY58HHXFbdlOwmXzH1gQOeL7hKfatJZ1v21segdFKr5RO8
-	gIIiHqxdO2mP42jtUY88YwQb9mYunVXwbur6IbqZzvYRJ9NJcVKXSi+qtBLZCqwh98cy
-	23CHSqeUFqKCy+TlXllomQuy43MeDZV6NO07NwYMhkBPanS/8eYFcFjn1JDvERumipJA
-	++EA==
+	Tue, 14 Nov 2017 02:11:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=RMHMkE279TxmKkM4HN4HNyVjbZ32uCqlJh1ZFcOI+4U=;
-	b=HwVGncHsi3sFS0Y7WzxIhX3Ok6DL26cuTafSdNMMfJqqYsUvt4XTNALPeWicnLSU/5
-	qJVhei4us980AvYaejXDwolRFJ9V3o+6Im5HBc3fROZpoio+VXxLVNWSmbHCvGTebpt4
-	kE0ace77hZigg+IVM+4NXiZvf8P57U/zZ3f5f2SeEKxGs1mbTAU7GtFzTwpud0pOZ2mo
-	v6uDzSRrFvAyN8n7mxA37Q/LmnvK4dJ2FEf1ZesGnaoAfszmfJT87ni4Nv/JxtYS8QyS
-	gFUmMtohYoRrcuaa2+LdeT/5bEyxMSPk3J1zKYUCKfJ83177kV1SJQYwjjy4Y0Y0l2CG
-	CXnQ==
-X-Gm-Message-State: AJaThX740wzKdjEtiXgTkrjEJkws9+YIJor/dLBzDvdKt4xrFfHMg+qp
-	nB4deaLA1U72EVHtmAC2RGBu
-X-Google-Smtp-Source: AGs4zMZ86Rm6WfOXX7V+oqes3FQd1xQNh8WuKjpAKYmfK4IVSorFgOpnEEHWa8KNG0cKcFPtQ5qKyQ==
-X-Received: by 10.223.176.176 with SMTP id i45mr10054370wra.240.1510647872457; 
-	Tue, 14 Nov 2017 00:24:32 -0800 (PST)
-Received: from pohly-mobl1 (p54BD5874.dip0.t-ipconnect.de. [84.189.88.116])
+	:references:mime-version:content-transfer-encoding;
+	bh=X4eNhi0J6az6N+4g8k3kB2tGGqlzxzZznS64diybSqc=;
+	b=Z/8ImZrePXlRxHmLe9b2+jMnQnBWt4/ceGwA7O9OwjgxlwPy7SlGTUg6v8hlW5hQjk
+	A9xaTt8NRiwRMUjko1aSw5sdaBxltVXpCErdAtTgfqByNhvdXNTyPWvb81QFeHu20WsH
+	W+Er5OJAafDQHjVBY6z1d5b2J2eHk71XkLrmqQ52Ei3OpI7B0dZLPl4we38mxeugPnXB
+	xlfZcVczYbDTl5U/pB1m+iwnNX17FY3mYQr8avJmV5f/NO2EeTK1d7J1MvISL7Kp/0iR
+	wyGlBGPPqckPB0AXyimdInLsUxk3oRgxzaIzKNQxQ5smA83AG68lijpfUGVf/nzQsSg6
+	5wag==
+X-Gm-Message-State: AJaThX4VjVyF6nAp0LAroJzRKw+pZl5hFAMz83LLa+L9wK1s/PKwA6Mj
+	jRBf158ZSrbpkD1JrzpOKDAJWMVl
+X-Google-Smtp-Source: AGs4zMaeaq4MNXs71jU0aeJhIQwRAhdCZGBPCGBuzKyI6O8EGf1403x+4M5q0kRQaHCFrk2h2w7/7w==
+X-Received: by 10.80.144.248 with SMTP id d53mr16176407eda.234.1510654307858; 
+	Tue, 14 Nov 2017 02:11:47 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	p28sm22964574wmf.2.2017.11.14.00.24.31
+	88sm13621313edq.49.2017.11.14.02.11.46
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 Nov 2017 00:24:31 -0800 (PST)
-Message-ID: <1510647870.5979.4.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 09:24:30 +0100
-In-Reply-To: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1+deb9u1 
+	Tue, 14 Nov 2017 02:11:46 -0800 (PST)
+Message-ID: <1510654305.4049.60.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2017 10:11:45 +0000
+In-Reply-To: <1510668898-21058-2-git-send-email-shashwatx.pandey@intel.com>
+References: <1510668898-21058-1-git-send-email-shashwatx.pandey@intel.com>
+	<1510668898-21058-2-git-send-email-shashwatx.pandey@intel.com>
+X-Mailer: Evolution 3.26.1-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH v2 1/2] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
+Subject: Re: [PATCH 1/1] Image_types: use ustar format in cpio command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,42 +50,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 08:24:32 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 10:11:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-11-13 at 10:17 -0800,
-leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Tue, 2017-11-14 at 22:14 +0800, Shashwat Pandey wrote:
+> Using ustar format due to ROOTFS size exceeding issue.
+> Ustar supports up to 8GB.
+> Where as newc support up to 4GB.
 > 
-> The main idea is to isolate the oe-selftest execution so neither the
-> current build dir nor the configuration data is touch/polluted. This
-> approach uses a wrapper script (which is the one presented on this
-> commit) which creates a unique directory and inside it copies all
-> scripts and metadata, re-initializes the enviroment (re-sources oe-
-> init-build-env) and finally launches the oe-selftest-internal (which
-> used to be oe-selftest) command, passing command arguments to the
-> latter.
+> [YOCTO #11674]
 
-This mode of operation may or may not be desirable. Can it be made
-optional?
+Do recent kernels actually support ustar for initramfs? I thought it only
+supported newc? My 4.9 kernel certainly still only mentions newc...
 
-In refkit CI testing, several selftests run tests on build artifacts
-(primarily the images) produced during the previous build and only
-build them if needed, i.e. they run "bitbake some-image" and that is
-usually fast because the image already exists. Reusing sstate and
-download dir also is important for speed.
-
-Forcing all tests to run in a clean environment would make the overall
-CI run slower.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+Cheers,
+Andre'
 
 
