@@ -1,29 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 33B9F784F8
+	by mail.openembedded.org (Postfix) with ESMTP id 39D0B78508
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 15:54:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	Tue, 14 Nov 2017 15:59:08 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 07:54:41 -0800
+	14 Nov 2017 07:59:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; 
-   d="scan'208";a="4839939"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2017 07:54:40 -0800
-To: "Viguera, Javier" <Javier.Viguera@digi.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <DA8287CC96892A4EB4FCF4FB3FBDA1AB016B7958@dor-sms-xch01.digi.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <987bb588-d8dd-c2e8-52a7-1a7ce3d3865b@linux.intel.com>
-Date: Tue, 14 Nov 2017 17:54:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173425971"
+Received: from $_hostname.zpn.intel.com (HELO lsandov1-mobl2.zpn.intel.com)
+	([10.219.128.134])
+	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 07:59:09 -0800
+Date: Tue, 14 Nov 2017 10:09:39 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20171114100939.12d4c1df@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <1510647870.5979.4.camel@intel.com>
+References: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1510647870.5979.4.camel@intel.com>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <DA8287CC96892A4EB4FCF4FB3FBDA1AB016B7958@dor-sms-xch01.digi.com>
-Subject: Re: [Morty backports] tcf-agent fixes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 15:54:40 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Tue, 14 Nov 2017 15:59:09 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/14/2017 05:40 PM, Viguera, Javier wrote:
+On Tue, 14 Nov 2017 09:24:30 +0100
+Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-> There are a couple of commits in master fixing the tcf-agent bootscript 
-> and systemd service files so the daemon is properly kill on reboot/shutdown.
+> On Mon, 2017-11-13 at 10:17 -0800,
+> leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> > 
+> > The main idea is to isolate the oe-selftest execution so neither the
+> > current build dir nor the configuration data is touch/polluted. This
+> > approach uses a wrapper script (which is the one presented on this
+> > commit) which creates a unique directory and inside it copies all
+> > scripts and metadata, re-initializes the enviroment (re-sources oe-
+> > init-build-env) and finally launches the oe-selftest-internal (which
+> > used to be oe-selftest) command, passing command arguments to the
+> > latter.  
 > 
-> This is failing also in past stable releases.
-> 
-> At least for Morty the cherry-picks apply just fine.
-> 
-> So could you do the cherry-picks for Morty?
-> 
-> git cherry-pick b33356d168c0fec9b2df387b51240fa6566ca145
-> 
-> git cherry-pick b467a22729bea886d7bde976c9606ac8e4589cde
+> This mode of operation may or may not be desirable. Can it be made
+> optional?
 
-Just send the patches here, with [morty] in the subject. If they need to 
-go to pyro and rocko, that'd be appreciated too.
+good idea. However, you can call the oe-selftest-internal for the this purpose.
 
-Alex
+> 
+> In refkit CI testing, several selftests run tests on build artifacts
+> (primarily the images) produced during the previous build and only
+> build them if needed, i.e. they run "bitbake some-image" and that is
+> usually fast because the image already exists. Reusing sstate and
+> download dir also is important for speed.
+
+oe-selftest creates a new build/conf folder, with the same conf files as the ones present in your current build/conf, so this means that you can set there DL_DIR and SSTATE_DIR (for example) on your main local.conf and these will be used by oe-selftest, effectively reusing these folders.
+
+> 
+> Forcing all tests to run in a clean environment would make the overall
+> CI run slower.
+
+Agree. better to start with a 'hot cache' scenario, and this can be accomplished the way I mentioned before.
+
+
+
+> 
+> -- 
+> Best Regards, Patrick Ohly
+> 
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+> 
+> 
 
