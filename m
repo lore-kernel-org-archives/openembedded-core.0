@@ -1,44 +1,51 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E5D4784D3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 47636783DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 10:16:09 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id r135so21635388lfe.5
+	Tue, 14 Nov 2017 11:35:14 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id x63so11849863ioe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 02:16:10 -0800 (PST)
+	Tue, 14 Nov 2017 03:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YR2WkmMV+Uj48rqQYuyUo8+jIyQPZ9IJwalsmokJEzw=;
+	b=GvliK+MTeYbec2rVB1QsXKeuss9/K4+973z1mB9vYGhegv3I5FJWFJ9QkDEZqdKZ9g
+	690rNTVErhVGVih8DluCdPdK+N1qjH0/5sJsTDxUJiC4U9XS4ivqxxQ6W178poI7+M1J
+	6VzF4/MSdleRZb6Ep+WehBORf9w6Ry2zG1VhIn3T9Aw2/bbJVSEcxDxHDXJx/mffbqew
+	m1zIWumnxBFw4HFN5p2S2xI38MliwNra0rnHZkk0SqEpRV1uJzal9Y1gAvN3uGx99Hms
+	Fd8bFkd243hbxUdrWdoAFdoaX4Id97752GXxDdI3aSy8GXM5UDRkn5J6Irs4aPxLxw5Z
+	6zAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=QT0c6uQT0AOL9kSn5yex3wq+GzvMw43JLzYZyuXlG2w=;
-	b=Mbeg6COmdhhybMVe64tkmOu88HrscowWwr0d9sPRL1hKwBMl0IeouHE2/LBCvMTNve
-	LxtImTkVZNfY98Bx7aRnjEC2nwkP4mJVpM6BLWM3VgiWEyWyEK+RQgHmkshDyAr5QvY5
-	OaDbykf/GCGboCrsSbPvHmrLT6rKhW1vk3B0IZmOACRzbyVLHVFS1fwQjiuUPqo9oyas
-	27iak3SOLjLkKBnDEYvXBVjim8ftLd8HcU8/MABjMKEhRYHndGfr7euebPiVuj732o+Q
-	JCy9kJstyKC43S1vKpgwafNUW0Zp9dpeqU6/AMxjS884QThvyRxLdUpLvKAFH10BvqbW
-	/Ccg==
-X-Gm-Message-State: AJaThX4J+dDO4/Ount3BUl5cwW8v7UxBnzrYAt3Wtg9kPYYC6KtwPLzH
-	gy60acsUmOLRq+rY9Dh0neVa7epi
-X-Google-Smtp-Source: AGs4zMYKzPrfma1rIjj8RdBeXQ1/dGc3kgfbwZtN0EEbIVHQGX7glA/75h/Ie8xBhxQJwTkHYBd25w==
-X-Received: by 10.25.121.10 with SMTP id u10mr294505lfc.50.1510654570196;
-	Tue, 14 Nov 2017 02:16:10 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id m26sm600298ljb.61.2017.11.14.02.16.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 Nov 2017 02:16:09 -0800 (PST)
-Message-ID: <1510654568.4049.64.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 10:16:08 +0000
-In-Reply-To: <a4f2cfac-2714-ef11-c4ff-308ce183f1e1@windriver.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YR2WkmMV+Uj48rqQYuyUo8+jIyQPZ9IJwalsmokJEzw=;
+	b=az8oe2EGDLPSUF+mQM8saB2jbcaLb/HvGETt7VqdNpPbV59HiFjPhZ0NYrj9NRE1XY
+	Gv1L+36TY0vmCon7bYlgnTuXVIVm2S7D5cPKcjpJf1piH3ysb7HuxovKNCUWvciMYBOd
+	EUDE6TIQ7HGslBPum3ZfguuOiO4K72WOMT0YWGV/9+f6ynHWrA1dsxVre64F4o/DCcqy
+	kNhndHhYjll+7b8hF+odozFrX2F8AG05HplBbg+VOdwvlpMI97FKeyqOEUlUb5S+1eym
+	7aSib3Y49tdHGw6xphKhy50obb2vjbl+ITR+aTaEOanC1sr1AZDs3yIvtttypTX44afo
+	Mqwg==
+X-Gm-Message-State: AJaThX4KiYpg74yE1wiaBRJDBBwN3rsXWaGnetGj+ykzJxm8Ou+r+F55
+	+I8GW3IY7QMl41aNirM9M42tI9wiGSFfXqanWZCGWw==
+X-Google-Smtp-Source: AGs4zMaJhMsSIsGMkhSCfn0Yji5AMVjJAT6tNPMMR5HJ4/XMwWtRWhH2Nym4c2ORoMpLklmczEE7kjO2zE6Xs1ZQBiY=
+X-Received: by 10.107.133.85 with SMTP id h82mr13312217iod.208.1510659315334; 
+	Tue, 14 Nov 2017 03:35:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.171.196 with HTTP; Tue, 14 Nov 2017 03:34:54 -0800 (PST)
+In-Reply-To: <1510654568.4049.64.camel@andred.net>
 References: <cover.1510550741.git.Qi.Chen@windriver.com>
 	<62db9387c3ee71f4bed87a7a546afdf927ba5ac0.1510550741.git.Qi.Chen@windriver.com>
 	<1510563249.4049.33.camel@andred.net>
 	<a4f2cfac-2714-ef11-c4ff-308ce183f1e1@windriver.com>
-X-Mailer: Evolution 3.26.1-1 
-Mime-Version: 1.0
+	<1510654568.4049.64.camel@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Nov 2017 11:34:54 +0000
+Message-ID: <CAJTo0LZFWFV-ZThaf0aNxC6r8+guutmNU68759hHND7zESmc6A@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] autoconf-archive: inherit allarch and fix package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -52,41 +59,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 10:16:09 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 11:35:14 -0000
+Content-Type: multipart/alternative; boundary="001a113fd83ade1dd3055defc7d9"
+
+--001a113fd83ade1dd3055defc7d9
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2017-11-13 at 19:54 +0800, Robert Yang wrote:
-> 
-> On 11/13/2017 04:54 PM, André Draszik wrote:
-> > Hi,
-> > 
-> > On Mon, 2017-11-13 at 13:26 +0800, Chen Qi wrote:
-> > > autoconf-archive is a set of common m4 macros, it should be allarch,
-> > > just like it is on other distros.
-> > 
-> > I have found previously that when changing a recipe to produce more
-> > generic
-> > output, like in this case, and the old binary package is still in
-> > deploy/,
-> > then the package manager would always pick the more specific version,
-> > even
-> > if a more recent (by package version) exists in deploy. In my case I was
-> > moving from PACKAGE_ARCH=${MACHINE_ARCH} to
-> > PACKAGE_ARCH=${TUNE_PKGARCH},
-> > but I guess it'll be the same here.
-> 
-> I think that it is because of the priority MACHINE_ARCH > TUNE_PKGARCH >
-> allarch,
-> which is the right behavior.
+But don't we remove the old version from the feeds, or does that only
+happen if the arch matches?
 
-I'd say this patch here is a good example why it's not the right behaviour.
+Ross
 
-This patch is making autoconf-archive allarch, i.e. lower priority than
-before. In other words, anybody who has the previous TUNE_PKGARCH version
-already will never get an update, even if the version number is bumped.
+On 14 November 2017 at 10:16, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-Cheers,
-Andre'
+> On Mon, 2017-11-13 at 19:54 +0800, Robert Yang wrote:
+> >
+> > On 11/13/2017 04:54 PM, Andr=C3=A9 Draszik wrote:
+> > > Hi,
+> > >
+> > > On Mon, 2017-11-13 at 13:26 +0800, Chen Qi wrote:
+> > > > autoconf-archive is a set of common m4 macros, it should be allarch=
+,
+> > > > just like it is on other distros.
+> > >
+> > > I have found previously that when changing a recipe to produce more
+> > > generic
+> > > output, like in this case, and the old binary package is still in
+> > > deploy/,
+> > > then the package manager would always pick the more specific version,
+> > > even
+> > > if a more recent (by package version) exists in deploy. In my case I
+> was
+> > > moving from PACKAGE_ARCH=3D${MACHINE_ARCH} to
+> > > PACKAGE_ARCH=3D${TUNE_PKGARCH},
+> > > but I guess it'll be the same here.
+> >
+> > I think that it is because of the priority MACHINE_ARCH > TUNE_PKGARCH =
+>
+> > allarch,
+> > which is the right behavior.
+>
+> I'd say this patch here is a good example why it's not the right behaviou=
+r.
+>
+> This patch is making autoconf-archive allarch, i.e. lower priority than
+> before. In other words, anybody who has the previous TUNE_PKGARCH version
+> already will never get an update, even if the version number is bumped.
+>
+> Cheers,
+> Andre'
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a113fd83ade1dd3055defc7d9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">But don&#39;t we remove the old version from the feeds, or=
+ does that only happen if the arch matches?<div><br></div><div>Ross</div></=
+div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 14 Novembe=
+r 2017 at 10:16, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><span class=3D"">On Mon, 2017-11-13 at 19:54=
+ +0800, Robert Yang wrote:<br>
+&gt;<br>
+&gt; On 11/13/2017 04:54 PM, Andr=C3=A9 Draszik wrote:<br>
+&gt; &gt; Hi,<br>
+&gt; &gt;<br>
+&gt; &gt; On Mon, 2017-11-13 at 13:26 +0800, Chen Qi wrote:<br>
+&gt; &gt; &gt; autoconf-archive is a set of common m4 macros, it should be =
+allarch,<br>
+&gt; &gt; &gt; just like it is on other distros.<br>
+&gt; &gt;<br>
+&gt; &gt; I have found previously that when changing a recipe to produce mo=
+re<br>
+&gt; &gt; generic<br>
+&gt; &gt; output, like in this case, and the old binary package is still in=
+<br>
+&gt; &gt; deploy/,<br>
+&gt; &gt; then the package manager would always pick the more specific vers=
+ion,<br>
+&gt; &gt; even<br>
+&gt; &gt; if a more recent (by package version) exists in deploy. In my cas=
+e I was<br>
+&gt; &gt; moving from PACKAGE_ARCH=3D${MACHINE_ARCH} to<br>
+&gt; &gt; PACKAGE_ARCH=3D${TUNE_PKGARCH},<br>
+&gt; &gt; but I guess it&#39;ll be the same here.<br>
+&gt;<br>
+&gt; I think that it is because of the priority MACHINE_ARCH &gt; TUNE_PKGA=
+RCH &gt;<br>
+&gt; allarch,<br>
+&gt; which is the right behavior.<br>
+<br>
+</span>I&#39;d say this patch here is a good example why it&#39;s not the r=
+ight behaviour.<br>
+<br>
+This patch is making autoconf-archive allarch, i.e. lower priority than<br>
+before. In other words, anybody who has the previous TUNE_PKGARCH version<b=
+r>
+already will never get an update, even if the version number is bumped.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+Cheers,<br>
+Andre&#39;<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a113fd83ade1dd3055defc7d9--
