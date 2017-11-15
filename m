@@ -1,21 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2039378537
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A64C78508
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 10:21:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2017 02:21:09 -0800
+	Wed, 15 Nov 2017 11:08:11 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Nov 2017 03:08:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,398,1505804400"; d="scan'208";a="1244379881"
+X-IronPort-AV: E=Sophos;i="5.44,398,1505804400"; 
+   d="scan'208";a="1804778"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2017 02:21:08 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2017 03:08:11 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 12:21:21 +0200
-Message-Id: <20171115102121.38854-1-alexander.kanavin@linux.intel.com>
+Date: Wed, 15 Nov 2017 13:08:16 +0200
+Message-Id: <cover.1510744037.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] ffmpeg: update to 3.4
+Subject: [PATCH 0/7] Introduce meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,100 +29,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 10:21:08 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 11:08:11 -0000
 
-Schroedinger support has been dropped:
-https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/220b24c7c9
+This patch series introduces meson recipe and class (that recipes
+should inherit in order to be built with meson).
 
-Remove upstreamed patch.
+It also converts a few recipes from autotools to meson to establish
+that things basically work. Note that I haven't tackled the bigger
+items: gstreamer family of recipes, systed and gdk-pixbuf. I'd like
+to request that maintainers of these recipes start looking into
+the conversion, based on this patchset.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    | 44 ----------------------
- .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |  8 ++--
- 2 files changed, 3 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+I also didn't test this super-well; there might well be corner cases
+where things break down.
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
-deleted file mode 100644
-index 3f8224aa079..00000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From f34c567045bea5a7ded9bcfa8e785cfd24cc7dde Mon Sep 17 00:00:00 2001
--From: Shivraj Patil <shivraj.patil@imgtec.com>
--Date: Tue, 4 Apr 2017 18:56:01 +0530
--Subject: [PATCH] build fix for mips
--
--Signed-off-by: Shivraj Patil <shivraj.patil@imgtec.com>
--Signed-off-by: Ronald S. Bultje <rsbultje@gmail.com>
-----
--Upstream-Status: Backport
--
-- libavcodec/mips/hevcpred_init_mips.c | 3 ++-
-- libavcodec/mips/hevcpred_msa.c       | 2 +-
-- 2 files changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/libavcodec/mips/hevcpred_init_mips.c b/libavcodec/mips/hevcpred_init_mips.c
--index 331cfac115..e987698d66 100644
----- a/libavcodec/mips/hevcpred_init_mips.c
--+++ b/libavcodec/mips/hevcpred_init_mips.c
--@@ -18,7 +18,8 @@
--  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
--  */
-- 
---#include "libavcodec/hevc.h"
--+#include "config.h"
--+#include "libavutil/attributes.h"
-- #include "libavcodec/mips/hevcpred_mips.h"
-- 
-- #if HAVE_MSA
--diff --git a/libavcodec/mips/hevcpred_msa.c b/libavcodec/mips/hevcpred_msa.c
--index 6a3b2815fd..963c64c861 100644
----- a/libavcodec/mips/hevcpred_msa.c
--+++ b/libavcodec/mips/hevcpred_msa.c
--@@ -18,7 +18,7 @@
--  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
--  */
-- 
---#include "libavcodec/hevc.h"
--+#include "libavcodec/hevcdec.h"
-- #include "libavutil/mips/generic_macros_msa.h"
-- #include "hevcpred_mips.h"
-- 
---- 
--2.13.1
--
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
-similarity index 95%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
-index 57e0ac04115..42dbe5582f3 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
-@@ -25,10 +25,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
--           file://0001-build-fix-for-mips.patch \
--          "
--SRC_URI[md5sum] = "e14a0200c78ce5c918427e57cd406a0d"
--SRC_URI[sha256sum] = "98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957"
-+           "
-+SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
-+SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET = "arm"
-@@ -64,7 +63,6 @@ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
- PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
- PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
- PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
--PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
- PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
- PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
- PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
+The following changes since commit 4ed19ac8c19afd56d445d84e02b622cb056b8359:
+
+  poky: Switch to post release name/version (2017-11-14 17:26:58 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/meson
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/meson
+
+Alexander Kanavin (6):
+  meson: add a recipe and class from meta-oe
+  gnomebase.bbclass: split into autotools and meson versions
+  json-glib: convert to meson build
+  libepoxy: convert to meson build
+  libinput: convert to meson build
+  sysprof: convert to meson build
+
+Jussi Kukkonen (1):
+  gst-player: Upgrade, rename to gst-examples
+
+ meta/classes/gnomebase-meson.bbclass               |   1 +
+ meta/classes/gnomebase-nobuildsystem.bbclass       |  27 +++++
+ meta/classes/gnomebase.bbclass                     |  30 +-----
+ meta/classes/meson.bbclass                         | 103 +++++++++++++++++++
+ .../packagegroup-core-tools-testapps.bb            |   2 +-
+ ...ix-issues-that-arise-when-cross-compiling.patch | 113 +++++++++++++++++++++
+ ...rospection-determine-g-ir-scanner-and-g-i.patch |  41 ++++++++
+ meta/recipes-devtools/meson/meson_0.43.0.bb        |  19 ++++
+ ...ble-gobject-introspection-when-cross-comp.patch |  32 ++++++
+ meta/recipes-gnome/json-glib/json-glib_1.2.8.bb    |  23 ++++-
+ ...sible-to-disable-the-use-of-dlvsym-needed.patch |  55 ++++++++++
+ meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb   |  12 ++-
+ .../0001-Fix-meson-options-default-values.patch    |  50 +++++++++
+ meta/recipes-graphics/wayland/libinput_1.8.3.bb    |  13 +--
+ .../sysprof/files/0001-Avoid-building-docs.patch   |  42 --------
+ .../0001-Disable-check-for-polkit-for-UI.patch     |  32 ------
+ ...d-anything-in-help-as-it-requires-itstool.patch |  26 +++++
+ ...igure-Add-option-to-enable-disable-polkit.patch |  41 --------
+ meta/recipes-kernel/sysprof/sysprof_3.26.1.bb      |  23 ++---
+ .../0001-Make-player-examples-installable.patch    |  39 +++++++
+ .../gst-player.desktop                             |   0
+ .../{gst-player_git.bb => gst-examples_git.bb}     |  18 ++--
+ .../packagegroups/packagegroup-core-x11-sato.bb    |   2 +-
+ 23 files changed, 564 insertions(+), 180 deletions(-)
+ create mode 100644 meta/classes/gnomebase-meson.bbclass
+ create mode 100644 meta/classes/gnomebase-nobuildsystem.bbclass
+ create mode 100644 meta/classes/meson.bbclass
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
+ create mode 100644 meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
+ create mode 100644 meta/recipes-devtools/meson/meson_0.43.0.bb
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+ create mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
+ create mode 100644 meta/recipes-graphics/wayland/libinput/0001-Fix-meson-options-default-values.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-configure-Add-option-to-enable-disable-polkit.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+ rename meta/recipes-multimedia/gstreamer/{gst-player => gst-examples}/gst-player.desktop (100%)
+ rename meta/recipes-multimedia/gstreamer/{gst-player_git.bb => gst-examples_git.bb} (65%)
+
 -- 
 2.15.0
 
