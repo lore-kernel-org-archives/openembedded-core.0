@@ -1,28 +1,22 @@
-Return-Path: <daniela.plascencia@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CFE03784FE
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B5B6FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 23:21:49 +0000 (UTC)
+	Wed, 15 Nov 2017 01:59:24 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 15:21:51 -0800
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 17:59:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; d="scan'208,217";a="1927060"
-Received: from dplascen-mobl2.zpn.intel.com (HELO [10.219.128.121])
-	([10.219.128.121])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Nov 2017 15:21:50 -0800
-To: jhaws@sdl.usu.edu
-References: <1510698639-3858-1-git-send-email-jhaws@sdl.usu.edu>
-	<20171114230258.2787.25990@do.openembedded.org>
-From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-Message-ID: <4c7d89fc-d8fc-e5b3-9b0d-19f561b5ba5c@linux.intel.com>
-Date: Tue, 14 Nov 2017 17:25:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <20171114230258.2787.25990@do.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG1hcmlhZGI6IEFkZGVkIG1pc3NpbmcgaW5zdGFsbGF0aW9uIG9mIG15c3FsZF9zYWZlX2hlbHBlciB0byBGSUxFU18ke1BOfS1zZXJ2ZXIgKHJldjIp?=
+X-IronPort-AV: E=Sophos;i="5.44,397,1505804400"; 
+   d="scan'208";a="1962882"
+Received: from rebeccas.png.intel.com ([172.30.199.129])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Nov 2017 17:59:20 -0800
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Nov 2017 10:01:13 +0800
+Message-Id: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] recipetool: create: fix conflict between SRCREV and tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,120 +29,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 23:21:50 -0000
-Content-Type: multipart/alternative;
-	boundary="------------E069ACCDAF06D1098144564E"
-Content-Language: en-US
+X-List-Received-Date: Wed, 15 Nov 2017 01:59:24 -0000
 
---------------E069ACCDAF06D1098144564E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+If you specify 'tag=' for a git URL and passed to recipetool create, you
+will get into Bitbake expansion error shown below:
 
-You should send this series to openembedded-devel@lists.openembedded.org.
-All meta-oe patches should be sent there.
+----- snip -----
+$ devtool add --version 2.4.2 mbedtls "git://github.com/ARMmbed/mbedtls;tag=mbedtls-2.4.2"
+...
+bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: Conflicting revisions (abeccb9dbd7e19ae91ac50e1edd3803111c5f9b6 from SRCREV and mbedtls-2.4.2 from the url) found, please specify one valid value
+----- snip -----
 
+Assuming the tag is valid, we should get the tag commit hash and
+drop the usage of 'tag=' from SRC_URI. By using a commit hash
+corresponding to the tag will prevent bitbake from accessing
+remote repository in order to expand SRCPV.
 
-On 11/14/2017 05:02 PM, Patchwork wrote:
-> == Series Details ==
->
-> Series: mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server (rev2)
-> Revision: 2
-> URL   : https://patchwork.openembedded.org/series/9784/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Patch            [meta-oe, v2, meta-oe] mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server
->   Issue             Series sent to the wrong mailing list [test_target_mailing_list]
->    Suggested fix    Check the project's README (meta-oe, v2, meta-oe) and send the patch to the indicated list
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at a17f3ec910)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-
-
---------------E069ACCDAF06D1098144564E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <pre class="content">You should send this series to <a class="moz-txt-link-abbreviated" href="mailto:openembedded-devel@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a>.
-All meta-oe patches should be sent there.
-</pre>
-    <br>
-    <div class="moz-cite-prefix">On 11/14/2017 05:02 PM, Patchwork
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20171114230258.2787.25990@do.openembedded.org">
-      <pre wrap="">== Series Details ==
-
-Series: mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server (rev2)
-Revision: 2
-URL   : <a class="moz-txt-link-freetext" href="https://patchwork.openembedded.org/series/9784/">https://patchwork.openembedded.org/series/9784/</a>
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe, v2, meta-oe] mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe, v2, meta-oe) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a17f3ec910)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (<a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] -&gt;
-[PATCH v3] -&gt; ...).
-
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
-Guidelines:     <a class="moz-txt-link-freetext" href="https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a>
-Test framework: <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest</a>
-Test suite:     <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe</a>
+ scripts/lib/recipetool/create.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 54e7e85..2fc9e0a 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -480,7 +480,6 @@ def create_recipe(args):
+         if tag:
+             # Keep a copy of tag and append nobranch=1 then remove tag from URL.
+             # Bitbake fetcher unable to fetch when {AUTOREV} and tag is set at the same time.
+-            # We will re-introduce tag argument after bitbake fetcher process is complete.
+             storeTagName = params['tag']
+             params['nobranch'] = '1'
+             del params['tag']
+@@ -552,13 +551,11 @@ def create_recipe(args):
+ 
+         # Since we might have a value in srcbranch, we need to
+         # recontruct the srcuri to include 'branch' in params.
++        scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(srcuri)
+         if srcbranch:
+-            scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(srcuri)
+             params['branch'] = srcbranch
+-            srcuri = bb.fetch2.encodeurl((scheme, network, path, user, passwd, params))
+ 
+         if storeTagName and scheme in ['git', 'gitsm']:
+-            # Re-introduced tag variable from storeTagName
+             # Check srcrev using tag and check validity of the tag
+             cmd = ('git rev-parse --verify %s' % (storeTagName))
+             try:
+@@ -568,6 +565,9 @@ def create_recipe(args):
+                 logger.error(str(err))
+                 logger.error("Possibly wrong tag name is provided")
+                 sys.exit(1)
++            # Drop tag from srcuri as it will have conflicts with SRCREV during recipe parse.
++            del params['tag']
++        srcuri = bb.fetch2.encodeurl((scheme, network, path, user, passwd, params))
+ 
+         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
+             srcuri = 'gitsm://' + srcuri[6:]
+-- 
+2.7.4
 
---------------E069ACCDAF06D1098144564E--
+
