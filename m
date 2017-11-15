@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 19D0A78518
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BBE478513
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:09:30 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id r58so7411764qtc.0
+	Wed, 15 Nov 2017 03:09:33 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id v41so31300989qtv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:09:32 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2bKxJ0Ep3vbAHu4iBzgsWuUiu4gO9ynMWCPolMJ6sNI=;
-	b=heNOm6yCv5Lzh3obLOsjeLIgTVP74ZkS8IOyLlG/CNXIRt9feixZmsKz+t2x2o41/t
-	5CUx6MD6dpSiHGMrJ7ZKd+WSaE3ycwXB2X7nWj3Jx5pOnLFMQ82nTi8DoYDsDvW5fOyI
-	UXqP1rkPTHmNTdXxC+7kGjFPh5a5YoKbqFp6s0fZJqH8SYcQsVoauPQSeE76rgTP/HSx
-	f20mQq48jGME1dMSv6WQ94N+sDcETxHR0eJKyI1pOSP8z40AhfFC89T8OoEPv4u4LFYr
-	HN+KCMOI57DBqJ0/R5HIiS1XGTbyvhWMoItP5I4wVVj5AddS5KOlAUbanJs6guW8YJQ/
-	v8cg==
+	bh=sZgx9F4izPDHOtTZe9K9LbQdsnlwJV3FmhNcVlppKE0=;
+	b=CdWQXTVrvk7l2sr6SDiTI6K07p+VMSPHXxNrdVHR2fbZ4Tg1GZSKTxuUUO0lpmrGYg
+	rGUv287enY3/DjV8EVj4pN+z6mdHtLWV0eilr9FIjXB0FYuEwfsQxxfeEjwpAHuPSAWQ
+	uLqGvDMtd6aZlR+n4k5JYnCEl/T+K2adYLzDSSvTEZUplXxTKkDwsrF1KGsEH+JWC+pI
+	zZ9SaPlctaDIoePVDlQxLq4reXHOSmH8kyykiVY7Hfde59q+F+1wnugWG3fb8zkNMWGu
+	/Ji7wvMxgubravQfiNGokhgeBW+fnD+FiRZwQ22OXwOIP7PLg3ejMUfV1IGlDaYyA0eS
+	4B4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=2bKxJ0Ep3vbAHu4iBzgsWuUiu4gO9ynMWCPolMJ6sNI=;
-	b=R1XJEclgy+xCYHpqFmBUNOAaO8C6xr9ujA30op0ZQC+syTi1cwEA1Nde1PyxxSjVyW
-	j27HIf/1MtpH1HlTfncmjrSjeJXmgUEiCuWp1AHp7ykpYq0RS2jOYWU5C05LajU7mAAZ
-	+QO0KeBjY/fm8DZoOeq4sh9MQjMJ8+vCdsAYW99HbSLcRXLV9IwfL7Jra6NL0GGp7h2R
-	+66tdHs+l6rxMx6hbIU5JaXTtwqsZYROld4auGAURwXguBYl1X3LMNw6Inc7B23J5Wt1
-	hsvPcs4I55CcCw5wVJBFkePQzt9VHA7aU0FMHms+X+DWXj0NLYzPZnkJVrEVSYT3lztk
-	/04Q==
-X-Gm-Message-State: AJaThX7fwVAcOH0WRIxCinpFuZocjsT+AvWwI7XIgInJ0NwgWy7XWBHI
-	vCxYAevC69uHsp2MMpXi8wyDuw==
-X-Google-Smtp-Source: AGs4zMYClKb/V7oeas3qeuGYiL7wfhFHsYMT8yvYmIHz2DpY5XArb9wC08ceGY6BDRzPb5zcDdOp5Q==
-X-Received: by 10.200.4.7 with SMTP id v7mr8818832qtg.129.1510715371743;
-	Tue, 14 Nov 2017 19:09:31 -0800 (PST)
+	bh=sZgx9F4izPDHOtTZe9K9LbQdsnlwJV3FmhNcVlppKE0=;
+	b=SQG+DYvS1IUUT9D3BUqqpgaC9/MvIyhzF2GxI9mOf28TaPJd0PEDFeG9n/kq6J7p6m
+	VCoyPp5T4ZnI6jDT4dylb4NRBeMFTVXgoKXp2sYeFj3tmHPGX3ne/u3+MSpAuY9dM+CK
+	t6x4iHeLprN3A30oYSa8G0SA9cLXvhMUQxIPN4SxG38FqjsZ58nb+gscD1NomPnRc8KS
+	m/qga+8MLIoJ/AvYOSwYFW7VC/+abOhSZYQda7mSFvf/zkPpgQKu023tjDmpcp5G/5fK
+	Wm5H74izPj9yJztChpcFlzfoZf/y0obk1N9imhnEslL+PD/E3pEDQTRuPh5P5TPAJF/D
+	PcOA==
+X-Gm-Message-State: AJaThX69RK40giNAuGL87OSKLsocbWW+OmwzFXBHuvKMhNOX4aR+b9vQ
+	CD2BQ5McUJER2pXm0Bk++D/4dQ==
+X-Google-Smtp-Source: AGs4zMa2yByQcI0ujz/nu2mySU8j8b1+4DoqMmWpfmK02cCjpYUs55H+gpWMbTRS3iaWMQsf3DweoQ==
+X-Received: by 10.55.204.131 with SMTP id n3mr22037105qkl.234.1510715374446;
+	Tue, 14 Nov 2017 19:09:34 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8882:b8c::a4a])
 	by smtp.gmail.com with ESMTPSA id
-	r21sm7319968qkh.89.2017.11.14.19.09.30
+	r21sm7319968qkh.89.2017.11.14.19.09.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 19:09:30 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:32 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 19:09:14 -0800
-Message-Id: <070cd17f60090f3b08b24e8808aab67543a3eb88.1510715185.git.raj.khem@gmail.com>
+Date: Tue, 14 Nov 2017 19:09:15 -0800
+Message-Id: <bbb2b97f66c8c7ab5f32ea229d81e1d81e980d3b.1510715185.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1510715185.git.raj.khem@gmail.com>
 References: <cover.1510715185.git.raj.khem@gmail.com>
-Subject: [PATCH 3/8] binutils: Convert SRC_URI and SRCREV to weak defines
+Subject: [PATCH 4/8] gdb: Upgrade to 8.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:09:31 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 03:09:33 -0000
 
-This makes it easy to override them in bbappends
+Minor bugfix release, details are here
+https://sourceware.org/ml/gdb-announce/2017/msg00004.html
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.29.1.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gdb/{gdb-8.0.inc => gdb-8.0.1.inc}              | 4 ++--
+ .../gdb/{gdb-cross-canadian_8.0.bb => gdb-cross-canadian_8.0.1.bb}    | 0
+ meta/recipes-devtools/gdb/{gdb-cross_8.0.bb => gdb-cross_8.0.1.bb}    | 0
+ meta/recipes-devtools/gdb/{gdb_8.0.bb => gdb_8.0.1.bb}                | 0
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-8.0.inc => gdb-8.0.1.inc} (88%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.0.bb => gdb-cross-canadian_8.0.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_8.0.bb => gdb-cross_8.0.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_8.0.bb => gdb_8.0.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index d92bbbce5d..07a72e2b5a 100644
---- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -18,9 +18,10 @@ BINUPV = "${@binutils_branch_version(d)}"
+diff --git a/meta/recipes-devtools/gdb/gdb-8.0.inc b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+similarity index 88%
+rename from meta/recipes-devtools/gdb/gdb-8.0.inc
+rename to meta/recipes-devtools/gdb/gdb-8.0.1.inc
+index fba32ce12c..04a1c809db 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.0.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+@@ -17,6 +17,6 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+            file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
+ "
+-SRC_URI[md5sum] = "c3d35cd949084be53b92cc1e03485f88"
+-SRC_URI[sha256sum] = "f6a24ffe4917e67014ef9273eb8b547cb96a13e5ca74895b06d683b391f3f4ee"
++SRC_URI[md5sum] = "48cac527e6f3018b865ece021e9723ac"
++SRC_URI[sha256sum] = "3dbd5f93e36ba2815ad0efab030dcd0c7b211d7b353a40a53f4c02d7d56295e3"
  
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
--SRCREV = "90276f15379d380761fc499da2ba24cfb3c12a94"
-+SRCREV ?= "90276f15379d380761fc499da2ba24cfb3c12a94"
-+BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git"
- SRC_URI = "\
--     git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
-+     ${BINUTILS_GIT_URI} \
-      file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
-      file://0004-Point-scripts-location-to-libdir.patch \
-      file://0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_8.0.bb b/meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_8.0.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb_8.0.bb b/meta/recipes-devtools/gdb/gdb_8.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_8.0.bb
+rename to meta/recipes-devtools/gdb/gdb_8.0.1.bb
 -- 
 2.15.0
 
