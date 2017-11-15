@@ -1,64 +1,50 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C9EEF7868C
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CA37D786AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 20:36:27 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id l138so6840180oib.7
+	Wed, 15 Nov 2017 20:36:29 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id m191so3266765itg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 12:36:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Qmfh+tjfomGP+mouj3j49uUfUkJSYUy25t5Ak16XNBI=;
-	b=XhCWPlDujD5zPXGzs4z7HjbsCC2rM8rIwVliWSPUj61BgIiVneWI+h/WoPn7JEcXb+
-	OelIUs9oa/sU6NNYPvC6U8dEftjElN5wX6ii265T7PDiTP7duiIdHmJdayoU8yNGWV3T
-	g70KGq8IzbWPT+SCIIZlPduNd+nU/ve2wwKIxgAcK+h0T/bsRhKPbSrQME0nDp/MExYu
-	REGgZHSbezJCWDoVg/LqWNiAqPKd9AoxGCs1PawS9aAl+OPBrRH6vGnXn87gUpbpSD7W
-	+hsgoe1Q9aCPb9TANTvZow8T8i5rhNj7mqCsw1fHm5P58jYri9/X533CT1iLRs81aAdI
-	fcsQ==
+	Wed, 15 Nov 2017 12:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=mbJhNozhI8Kt046TTwR3NZC4ieLWenA1ogMtC1i7zBo=;
+	b=dyz5FmuYG9qhbBJQqfb+VWNr0XzUA9iWHDinihAgdDbqR8pMigNJpjTQHI8lEVU1Bh
+	8aDRJOPByC7/GswTnuE4xPT13c9bNI9Rg2Lu15E/q7xImhvbsx+0O+31YuKAXA/mQRyD
+	3Ut+EAibFNbwjkznGFn0zH9eSkABdHfloYIBBXY8KlC1FZy6yiMOfNDyuhgiQtX9+TAl
+	EeY74tpQEi3u44grpwZaxcXVQml+Kafi4BjYkk/3yqQVyYFvwit4IDpytIzkYZV1DnpF
+	zdBoOpOqC25+bw16ATECiC/BVAT+HVJL6dG/qDoscP2T8KePmH9qVYRMWtkxf45mN3Di
+	sI4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=Qmfh+tjfomGP+mouj3j49uUfUkJSYUy25t5Ak16XNBI=;
-	b=XmGlk5/nOEXqEPi8j/yfrfe4R7hBC2jyUkvKO2E9EDY3vvWLB2lfeIJRoLxxbW1AcY
-	wmzEQuBKewUsSfYcWm6h3SsdOROsLVQMgePv4cwUIDvczOFfyL6JM4awq0XGti5dxviA
-	kjpM+H3nvH5rCtt/ce+IrJCYbdeD+itATOw9kJ57ARzKdqRxmrQGENE+bS81/bff3UV0
-	THabMUMhEycbBzvCQMJqvwQOCeo1v2tZPBBsSqoC722O242LQBtvuCXrXC83Zhf7ql1C
-	F3R7Ax2/0MiFvtkOn7VMTsuwch2gncJ5/Z/7N/VrRQReEeNu/KKOrRs40UxXUmwAN/AE
-	PQzA==
-X-Gm-Message-State: AJaThX741gIcASFy/x3W17zBkER1ZiJ5+CYkwDnOejdjFMafWKhB1SRZ
-	FKFM9pUWks2Ei7vIKkZfagzC/1w8
-X-Google-Smtp-Source: AGs4zMYme4TPiCu2pudm+cj2COPdlLDp+fl7YWb2P0fmPSkGJgw+rH3B3C02OiewoF+jzJmCJIu5Zw==
-X-Received: by 10.202.10.197 with SMTP id k66mr10122632oiy.248.1510778188565; 
-	Wed, 15 Nov 2017 12:36:28 -0800 (PST)
-Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com.
-	[74.125.82.176]) by smtp.gmail.com with ESMTPSA id
-	x127sm4433808oix.8.2017.11.15.12.36.27
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=mbJhNozhI8Kt046TTwR3NZC4ieLWenA1ogMtC1i7zBo=;
+	b=ERP8XKMYoqkVhepFSQh8PgrBXFj+GEBOknCS+g3nSe4KdS3WdxUFImZBZLMTP9XT5a
+	RENCP0cxfjn6Qzw77WwUKtlWhOgUwpMm0zP+HoKGHljS6MAur/nDLNrKzlsIr2YKJtLv
+	Jeij96Q6FSDPI1Fp7maJQwIdpLAdCFjwaqEgmXQ3VCnF5nJ1OwKcEZqgEfA/OU6vJvhF
+	eCHj5X5qpFScsVZAf1Y7fagBWmb8syHbjLFSavYH/7WcyJNuvSbBmAmVqhSgYeiAAEvl
+	weMLpYsTP/g3fKcZAdzx2lqE8tcqL7itSlOh4Si2Za1dHZ99spd7ond+xp37MRUF9y0c
+	2iMg==
+X-Gm-Message-State: AJaThX5PEBdk9ajEiWXh7pH7ABbzbP2R3SYPH0MmU6u4yAG1+DlqPVoC
+	RoOkPsRvKzbN0RxKeMHemb6E
+X-Google-Smtp-Source: AGs4zMb9McGLbe0CB3xWSvTsuRC666dOMCLfLbNf2++lfIYHEp+TpVv2gm+VA0vOzzn2TE4n/1Xf4w==
+X-Received: by 10.36.213.67 with SMTP id a64mr6713244itg.87.1510778190512;
+	Wed, 15 Nov 2017 12:36:30 -0800 (PST)
+Received: from localhost.localdomain ([216.21.169.52])
+	by smtp.gmail.com with ESMTPSA id
+	z71sm10426345ioz.27.2017.11.15.12.36.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Nov 2017 12:36:27 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f176.google.com with SMTP id g104so8610380otg.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 12:36:27 -0800 (PST)
-X-Received: by 10.157.80.13 with SMTP id a13mr12009604oth.370.1510778186958;
-	Wed, 15 Nov 2017 12:36:26 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Wed, 15 Nov 2017 12:36:26 -0800 (PST)
-In-Reply-To: <20171114221009.29839-1-california.l.sullivan@intel.com>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-	<20171114221009.29839-1-california.l.sullivan@intel.com>
-Date: Wed, 15 Nov 2017 18:36:26 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoRSgS24uD4d9T4e+S922gYoEwAbA631ad=Yypwg38ikA@mail.gmail.com>
-Message-ID: <CAP9ODKoRSgS24uD4d9T4e+S922gYoEwAbA631ad=Yypwg38ikA@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: Saul Wold <saul.wold@intel.com>, "Bruce, Henry" <henry.bruce@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHi 3/3 V3] initramfs-framework: add install module
+	Wed, 15 Nov 2017 12:36:29 -0800 (PST)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Nov 2017 14:36:05 -0600
+Message-Id: <20171115203605.19088-2-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.15.0
+In-Reply-To: <20171115203605.19088-1-george.mccollister@gmail.com>
+References: <20171115203605.19088-1-george.mccollister@gmail.com>
+Subject: [morty][PATCH v2 2/2] glibc: Fix CVE-2017-1000366
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,33 +57,506 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 20:36:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Nov 2017 20:36:30 -0000
 
-On Tue, Nov 14, 2017 at 8:10 PM, California Sullivan
-<california.l.sullivan@intel.com> wrote:
-> The non-EFI counterpart for installation was previously missing for
-> initramfs-framework. This simply puts the normal install script in the
-> correct location for initramfs-framework to make use of it.
->
-> Partial fix for [YOCTO #12346].
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
-> V2 changes:
-> * Add the module's dependencies to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, since
->   its dependencies changing don't matter in regards building the package.
-> * PR = "r1" since its a new recipe.
->
-> V3 changes:
-> * Add back bug ID that I somehow dropped from commit message. Sorry for spam.
+Add backported patches from the upstream release/2.24/master branch to
+fix CVE-2017-1000366
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
 
-Please also queue this for rocko backport. It seems a good fix.
+Changes in v2:
+ - Fix commit message
 
+ ...00366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch |  71 +++++++
+ ...ject-overly-long-LD_PRELOAD-path-elements.patch | 145 +++++++++++++
+ ...Reject-overly-long-LD_AUDIT-path-elements.patch | 231 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.24.bb              |   3 +
+ 4 files changed, 450 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+new file mode 100644
+index 0000000000..78e9ea9e65
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+@@ -0,0 +1,71 @@
++From 400f170750a4b2c94a2670ca44de166cc5dd6e3b Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Mon, 19 Jun 2017 18:33:26 +0200
++Subject: [PATCH] CVE-2017-1000366: Ignore LD_LIBRARY_PATH for AT_SECURE=1
++ programs [BZ #21624]
++
++LD_LIBRARY_PATH can only be used to reorder system search paths, which
++is not useful functionality.
++
++This makes an exploitable unbounded alloca in _dl_init_paths unreachable
++for AT_SECURE=1 programs.
++
++(cherry picked from commit f6110a8fee2ca36f8e2d2abecf3cba9fa7b8ea7d)
++
++Upstream-Status: Backport
++https://sourceware.org/git/?p=glibc.git;a=commit;h=87bd4186da10371f46e2f1a7bf7c0a45bb04f1ac
++https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++
++CVE: CVE-2017-1000366
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++---
++ ChangeLog  | 7 +++++++
++ NEWS       | 1 +
++ elf/rtld.c | 3 ++-
++ 3 files changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index 2bdaf69e43..7a999802dd 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,10 @@
+++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+++
+++	[BZ #21624]
+++	CVE-2017-1000366
+++	* elf/rtld.c (process_envvars): Ignore LD_LIBRARY_PATH for
+++	__libc_enable_secure.
+++
++ 2016-12-31  Florian Weimer  <fweimer@redhat.com>
++ 
++ 	[BZ #18784]
++diff --git a/NEWS b/NEWS
++index 4b1ca3cb65..66b49dbbc0 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -17,6 +17,7 @@ using `glibc' in the "product" field.
++   question type which is outside the range of valid question type values.
++   (CVE-2015-5180)
++ 
+++  [21624] Unsafe alloca allows local attackers to alias stack and heap (CVE-2017-1000366)
++ Version 2.24
++ 
++ * The minimum Linux kernel version that this version of the GNU C Library
++diff --git a/elf/rtld.c b/elf/rtld.c
++index 647661ca45..215a9aec8f 100644
++--- a/elf/rtld.c
+++++ b/elf/rtld.c
++@@ -2437,7 +2437,8 @@ process_envvars (enum mode *modep)
++ 
++ 	case 12:
++ 	  /* The library search path.  */
++-	  if (memcmp (envline, "LIBRARY_PATH", 12) == 0)
+++	  if (!__libc_enable_secure
+++	      && memcmp (envline, "LIBRARY_PATH", 12) == 0)
++ 	    {
++ 	      library_path = &envline[13];
++ 	      break;
++-- 
++2.15.0
++
+diff --git a/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch b/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+new file mode 100644
+index 0000000000..7f81ed1566
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+@@ -0,0 +1,145 @@
++From 6d49272e6d6741496e3456f2cc22ebc2b9f7f989 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Mon, 19 Jun 2017 22:31:04 +0200
++Subject: [PATCH] ld.so: Reject overly long LD_PRELOAD path elements
++
++(cherry picked from commit 6d0ba622891bed9d8394eef1935add53003b12e8)
++
++Upstream-Status: Backport
++https://sourceware.org/git/?p=glibc.git;a=commit;h=aab04ca5d359150e17631e6a9b44b65e93bdc467
++https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++
++CVE: CVE-2017-1000366
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++---
++ ChangeLog  |  7 ++++++
++ elf/rtld.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++------------
++ 2 files changed, 73 insertions(+), 16 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index 7a999802dd..ea5ecd4a1e 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,10 @@
+++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+++
+++	* elf/rtld.c (SECURE_NAME_LIMIT, SECURE_PATH_LIMIT): Define.
+++	(dso_name_valid_for_suid): New function.
+++	(handle_ld_preload): Likewise.
+++	(dl_main): Call it.  Remove alloca.
+++
++ 2017-06-19  Florian Weimer  <fweimer@redhat.com>
++ 
++ 	[BZ #21624]
++diff --git a/elf/rtld.c b/elf/rtld.c
++index 215a9aec8f..1d8eab9fe2 100644
++--- a/elf/rtld.c
+++++ b/elf/rtld.c
++@@ -99,6 +99,35 @@ uintptr_t __pointer_chk_guard_local
++ strong_alias (__pointer_chk_guard_local, __pointer_chk_guard)
++ #endif
++ 
+++/* Length limits for names and paths, to protect the dynamic linker,
+++   particularly when __libc_enable_secure is active.  */
+++#ifdef NAME_MAX
+++# define SECURE_NAME_LIMIT NAME_MAX
+++#else
+++# define SECURE_NAME_LIMIT 255
+++#endif
+++#ifdef PATH_MAX
+++# define SECURE_PATH_LIMIT PATH_MAX
+++#else
+++# define SECURE_PATH_LIMIT 1024
+++#endif
+++
+++/* Check that AT_SECURE=0, or that the passed name does not contain
+++   directories and is not overly long.  Reject empty names
+++   unconditionally.  */
+++static bool
+++dso_name_valid_for_suid (const char *p)
+++{
+++  if (__glibc_unlikely (__libc_enable_secure))
+++    {
+++      /* Ignore pathnames with directories for AT_SECURE=1
+++	 programs, and also skip overlong names.  */
+++      size_t len = strlen (p);
+++      if (len >= SECURE_NAME_LIMIT || memchr (p, '/', len) != NULL)
+++	return false;
+++    }
+++  return *p != '\0';
+++}
++ 
++ /* List of auditing DSOs.  */
++ static struct audit_list
++@@ -730,6 +759,42 @@ static const char *preloadlist attribute_relro;
++ /* Nonzero if information about versions has to be printed.  */
++ static int version_info attribute_relro;
++ 
+++/* The LD_PRELOAD environment variable gives list of libraries
+++   separated by white space or colons that are loaded before the
+++   executable's dependencies and prepended to the global scope list.
+++   (If the binary is running setuid all elements containing a '/' are
+++   ignored since it is insecure.)  Return the number of preloads
+++   performed.  */
+++unsigned int
+++handle_ld_preload (const char *preloadlist, struct link_map *main_map)
+++{
+++  unsigned int npreloads = 0;
+++  const char *p = preloadlist;
+++  char fname[SECURE_PATH_LIMIT];
+++
+++  while (*p != '\0')
+++    {
+++      /* Split preload list at space/colon.  */
+++      size_t len = strcspn (p, " :");
+++      if (len > 0 && len < sizeof (fname))
+++	{
+++	  memcpy (fname, p, len);
+++	  fname[len] = '\0';
+++	}
+++      else
+++	fname[0] = '\0';
+++
+++      /* Skip over the substring and the following delimiter.  */
+++      p += len;
+++      if (*p != '\0')
+++	++p;
+++
+++      if (dso_name_valid_for_suid (fname))
+++	npreloads += do_preload (fname, main_map, "LD_PRELOAD");
+++    }
+++  return npreloads;
+++}
+++
++ static void
++ dl_main (const ElfW(Phdr) *phdr,
++ 	 ElfW(Word) phnum,
++@@ -1481,23 +1546,8 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++ 
++   if (__glibc_unlikely (preloadlist != NULL))
++     {
++-      /* The LD_PRELOAD environment variable gives list of libraries
++-	 separated by white space or colons that are loaded before the
++-	 executable's dependencies and prepended to the global scope
++-	 list.  If the binary is running setuid all elements
++-	 containing a '/' are ignored since it is insecure.  */
++-      char *list = strdupa (preloadlist);
++-      char *p;
++-
++       HP_TIMING_NOW (start);
++-
++-      /* Prevent optimizing strsep.  Speed is not important here.  */
++-      while ((p = (strsep) (&list, " :")) != NULL)
++-	if (p[0] != '\0'
++-	    && (__builtin_expect (! __libc_enable_secure, 1)
++-		|| strchr (p, '/') == NULL))
++-	  npreloads += do_preload (p, main_map, "LD_PRELOAD");
++-
+++      npreloads += handle_ld_preload (preloadlist, main_map);
++       HP_TIMING_NOW (stop);
++       HP_TIMING_DIFF (diff, start, stop);
++       HP_TIMING_ACCUM_NT (load_time, diff);
++-- 
++2.15.0
++
+diff --git a/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch b/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+new file mode 100644
+index 0000000000..b52b8a1fa7
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+@@ -0,0 +1,231 @@
++From c0b25407def32718147530da72959a034cd1318d Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Mon, 19 Jun 2017 22:32:12 +0200
++Subject: [PATCH] ld.so: Reject overly long LD_AUDIT path elements
++
++Also only process the last LD_AUDIT entry.
++
++(cherry picked from commit 81b82fb966ffbd94353f793ad17116c6088dedd9)
++
++Upstream-Status: Backport
++https://sourceware.org/git/?p=glibc.git;a=commit;h=2febff860b31df3666bef5ade0d0744c93f76a74
++https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++
++CVE: CVE-2017-1000366
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++---
++ ChangeLog  |  11 +++++++
++ elf/rtld.c | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++---------
++ 2 files changed, 106 insertions(+), 15 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index ea5ecd4a1e..638cb632b1 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,14 @@
+++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+++
+++	* elf/rtld.c (audit_list_string): New variable.
+++	(audit_list): Update comment.
+++	(struct audit_list_iter): Define.
+++	(audit_list_iter_init, audit_list_iter_next): New function.
+++	(dl_main): Use struct audit_list_iter to process audit modules.
+++	(process_dl_audit): Call dso_name_valid_for_suid.
+++	(process_envvars): Set audit_list_string instead of calling
+++	process_dl_audit.
+++
++ 2017-06-19  Florian Weimer  <fweimer@redhat.com>
++ 
++ 	* elf/rtld.c (SECURE_NAME_LIMIT, SECURE_PATH_LIMIT): Define.
++diff --git a/elf/rtld.c b/elf/rtld.c
++index 1d8eab9fe2..302bb63620 100644
++--- a/elf/rtld.c
+++++ b/elf/rtld.c
++@@ -129,13 +129,91 @@ dso_name_valid_for_suid (const char *p)
++   return *p != '\0';
++ }
++ 
++-/* List of auditing DSOs.  */
+++/* LD_AUDIT variable contents.  Must be processed before the
+++   audit_list below.  */
+++const char *audit_list_string;
+++
+++/* Cyclic list of auditing DSOs.  audit_list->next is the first
+++   element.  */
++ static struct audit_list
++ {
++   const char *name;
++   struct audit_list *next;
++ } *audit_list;
++ 
+++/* Iterator for audit_list_string followed by audit_list.  */
+++struct audit_list_iter
+++{
+++  /* Tail of audit_list_string still needing processing, or NULL.  */
+++  const char *audit_list_tail;
+++
+++  /* The list element returned in the previous iteration.  NULL before
+++     the first element.  */
+++  struct audit_list *previous;
+++
+++  /* Scratch buffer for returning a name which is part of
+++     audit_list_string.  */
+++  char fname[SECURE_NAME_LIMIT];
+++};
+++
+++/* Initialize an audit list iterator.  */
+++static void
+++audit_list_iter_init (struct audit_list_iter *iter)
+++{
+++  iter->audit_list_tail = audit_list_string;
+++  iter->previous = NULL;
+++}
+++
+++/* Iterate through both audit_list_string and audit_list.  */
+++static const char *
+++audit_list_iter_next (struct audit_list_iter *iter)
+++{
+++  if (iter->audit_list_tail != NULL)
+++    {
+++      /* First iterate over audit_list_string.  */
+++      while (*iter->audit_list_tail != '\0')
+++	{
+++	  /* Split audit list at colon.  */
+++	  size_t len = strcspn (iter->audit_list_tail, ":");
+++	  if (len > 0 && len < sizeof (iter->fname))
+++	    {
+++	      memcpy (iter->fname, iter->audit_list_tail, len);
+++	      iter->fname[len] = '\0';
+++	    }
+++	  else
+++	    /* Do not return this name to the caller.  */
+++	    iter->fname[0] = '\0';
+++
+++	  /* Skip over the substring and the following delimiter.  */
+++	  iter->audit_list_tail += len;
+++	  if (*iter->audit_list_tail == ':')
+++	    ++iter->audit_list_tail;
+++
+++	  /* If the name is valid, return it.  */
+++	  if (dso_name_valid_for_suid (iter->fname))
+++	    return iter->fname;
+++	  /* Otherwise, wrap around and try the next name.  */
+++	}
+++      /* Fall through to the procesing of audit_list.  */
+++    }
+++
+++  if (iter->previous == NULL)
+++    {
+++      if (audit_list == NULL)
+++	/* No pre-parsed audit list.  */
+++	return NULL;
+++      /* Start of audit list.  The first list element is at
+++	 audit_list->next (cyclic list).  */
+++      iter->previous = audit_list->next;
+++      return iter->previous->name;
+++    }
+++  if (iter->previous == audit_list)
+++    /* Cyclic list wrap-around.  */
+++    return NULL;
+++  iter->previous = iter->previous->next;
+++  return iter->previous->name;
+++}
+++
++ #ifndef HAVE_INLINED_SYSCALLS
++ /* Set nonzero during loading and initialization of executable and
++    libraries, cleared before the executable's entry point runs.  This
++@@ -1322,11 +1400,13 @@ of this helper program; chances are you did not intend to run this program.\n\
++     GL(dl_rtld_map).l_tls_modid = _dl_next_tls_modid ();
++ 
++   /* If we have auditing DSOs to load, do it now.  */
++-  if (__glibc_unlikely (audit_list != NULL))
+++  bool need_security_init = true;
+++  if (__glibc_unlikely (audit_list != NULL)
+++      || __glibc_unlikely (audit_list_string != NULL))
++     {
++-      /* Iterate over all entries in the list.  The order is important.  */
++       struct audit_ifaces *last_audit = NULL;
++-      struct audit_list *al = audit_list->next;
+++      struct audit_list_iter al_iter;
+++      audit_list_iter_init (&al_iter);
++ 
++       /* Since we start using the auditing DSOs right away we need to
++ 	 initialize the data structures now.  */
++@@ -1337,9 +1417,14 @@ of this helper program; chances are you did not intend to run this program.\n\
++ 	 use different values (especially the pointer guard) and will
++ 	 fail later on.  */
++       security_init ();
+++      need_security_init = false;
++ 
++-      do
+++      while (true)
++ 	{
+++	  const char *name = audit_list_iter_next (&al_iter);
+++	  if (name == NULL)
+++	    break;
+++
++ 	  int tls_idx = GL(dl_tls_max_dtv_idx);
++ 
++ 	  /* Now it is time to determine the layout of the static TLS
++@@ -1348,7 +1433,7 @@ of this helper program; chances are you did not intend to run this program.\n\
++ 	     no DF_STATIC_TLS bit is set.  The reason is that we know
++ 	     glibc will use the static model.  */
++ 	  struct dlmopen_args dlmargs;
++-	  dlmargs.fname = al->name;
+++	  dlmargs.fname = name;
++ 	  dlmargs.map = NULL;
++ 
++ 	  const char *objname;
++@@ -1361,7 +1446,7 @@ of this helper program; chances are you did not intend to run this program.\n\
++ 	    not_loaded:
++ 	      _dl_error_printf ("\
++ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++-				al->name, err_str);
+++				name, err_str);
++ 	      if (malloced)
++ 		free ((char *) err_str);
++ 	    }
++@@ -1465,10 +1550,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++ 		  goto not_loaded;
++ 		}
++ 	    }
++-
++-	  al = al->next;
++ 	}
++-      while (al != audit_list->next);
++ 
++       /* If we have any auditing modules, announce that we already
++ 	 have two objects loaded.  */
++@@ -1732,7 +1814,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++   if (tcbp == NULL)
++     tcbp = init_tls ();
++ 
++-  if (__glibc_likely (audit_list == NULL))
+++  if (__glibc_likely (need_security_init))
++     /* Initialize security features.  But only if we have not done it
++        earlier.  */
++     security_init ();
++@@ -2363,9 +2445,7 @@ process_dl_audit (char *str)
++   char *p;
++ 
++   while ((p = (strsep) (&str, ":")) != NULL)
++-    if (p[0] != '\0'
++-	&& (__builtin_expect (! __libc_enable_secure, 1)
++-	    || strchr (p, '/') == NULL))
+++    if (dso_name_valid_for_suid (p))
++       {
++ 	/* This is using the local malloc, not the system malloc.  The
++ 	   memory can never be freed.  */
++@@ -2429,7 +2509,7 @@ process_envvars (enum mode *modep)
++ 	      break;
++ 	    }
++ 	  if (memcmp (envline, "AUDIT", 5) == 0)
++-	    process_dl_audit (&envline[6]);
+++	    audit_list_string = &envline[6];
++ 	  break;
++ 
++ 	case 7:
++-- 
++2.15.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 4c7d901149..4eba6aceb6 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -46,6 +46,9 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0005-Remove-__ASSUME_REQUEUE_PI.patch \
+            file://0006-Fix-atomic_fetch_xor_release.patch \
+            file://0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch \
++           file://0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch \
++           file://0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch \
++           file://0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch \
+ "
+ 
+ SRC_URI += "\
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.15.0
+
 
