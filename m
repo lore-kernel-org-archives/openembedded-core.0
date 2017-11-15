@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F382878542
+	by mail.openembedded.org (Postfix) with ESMTP id EE1357851F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 11:08:13 +0000 (UTC)
+	Wed, 15 Nov 2017 11:08:14 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2017 03:08:15 -0800
+	15 Nov 2017 03:08:16 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,398,1505804400"; 
-   d="scan'208";a="1804791"
+   d="scan'208";a="1804794"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2017 03:08:14 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2017 03:08:15 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 13:08:19 +0200
-Message-Id: <d179bc8e83c4fe900f67fbcbf41577cdded0b731.1510744037.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 15 Nov 2017 13:08:20 +0200
+Message-Id: <13a1b2c99d6a84f392b2fbe6f2ddbe69920b239f.1510744037.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1510744037.git.alexander.kanavin@linux.intel.com>
 References: <cover.1510744037.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/7] json-glib: convert to meson build
+Subject: [PATCH 4/7] libepoxy: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,97 +31,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 11:08:14 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 11:08:15 -0000
 
-Note that meson flags for gobject introspection and gtk-doc
-appear to be non-standardized; going forward we should devise
-a common way to deal with it.
-
-gettext inherit is removed, as there is no equivalent functionality
-in meson; NLS bits are always built and installed.
+Add a patch to work around absence of dlvsym() on musl
+(wasn't previously a problem as autotools weren't building tests by default)
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...ble-gobject-introspection-when-cross-comp.patch | 32 ++++++++++++++++++++++
- meta/recipes-gnome/json-glib/json-glib_1.2.8.bb    | 23 ++++++++++++++--
- 2 files changed, 53 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+ ...sible-to-disable-the-use-of-dlvsym-needed.patch | 55 ++++++++++++++++++++++
+ meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb   | 12 +++--
+ 2 files changed, 63 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
 new file mode 100644
-index 00000000000..849bb9d3165
+index 00000000000..c2a2fa34535
 --- /dev/null
-+++ b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
-@@ -0,0 +1,32 @@
-+From 293452c963188666dae99521294f09a0cf9582e2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
+@@ -0,0 +1,55 @@
++From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 4 Aug 2017 16:01:11 +0300
-+Subject: [PATCH] Do not disable gobject introspection when cross-compiling.
-+
-+Introspection does work fine for instance in Open Embedded,
-+one of the most prominent cross-compilation frameworks
-+(through qemu emulating target hardware), so let the user
-+decide if he wants the feature or not.
++Date: Wed, 15 Nov 2017 12:48:27 +0200
++Subject: [PATCH] Make it possible to disable the use of dlvsym() (needed for
++ musl)
 +
 +Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
 +---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ meson_options.txt | 3 +++
++ test/meson.build  | 6 +++---
++ 2 files changed, 6 insertions(+), 3 deletions(-)
 +
-+diff --git a/meson.build b/meson.build
-+index 43cbfd9..8a32f26 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -147,7 +147,7 @@ root_dir = include_directories('.')
++diff --git a/meson_options.txt b/meson_options.txt
++index 244476a..071f0b6 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -1,6 +1,9 @@
++ option('enable-docs',
++        type: 'boolean', value: false,
++        description: 'Enable generating the Epoxy API reference (depends on Doxygen)')
+++option('has-dlvsym',
+++       type: 'boolean', value: true,
+++       description: 'Whether dlvsym() is available (it is not when using musl C library)')
++ option('enable-glx',
++        type: 'combo',
++        choices: [ 'auto', 'yes', 'no' ],
++diff --git a/test/meson.build b/test/meson.build
++index 2340fc6..bc4330b 100644
++--- a/test/meson.build
+++++ b/test/meson.build
++@@ -86,8 +86,8 @@ if build_glx
++     [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c' ], [], [], true ],
++     [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [ '-static' ], libtype == 'static' ],
++     [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ], has_znow ],
++-    [ 'glx_alias_prefer_same_name', [ 'glx_alias_prefer_same_name.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple ],
++-    [ 'glx_gles2', [ 'glx_gles2.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple ],
+++    [ 'glx_alias_prefer_same_name', [ 'glx_alias_prefer_same_name.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple and get_option('has-dlvsym') == true ],
+++    [ 'glx_gles2', [ 'glx_gles2.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple and get_option('has-dlvsym') == true ],
++   ]
 + 
-+ gnome = import('gnome')
-+ gir = find_program('g-ir-scanner', required: false)
-+-build_gir = gir.found() and not meson.is_cross_build() and not get_option('disable_introspection')
-++build_gir = gir.found() and not get_option('disable_introspection')
++   foreach test: glx_tests
++@@ -108,7 +108,7 @@ if build_glx
++     endif
++   endforeach
 + 
-+ subdir('json-glib')
-+ 
++-  if not build_apple
+++  if not build_apple and get_option('has-dlvsym') == true
++     # GLX/EGL tests
++     if build_egl
++       glx_egl_sources = [
 +-- 
-+2.13.2
++2.15.0
 +
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-index 2c5d3817ba7..bf37015b03f 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-@@ -10,11 +10,30 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+index c8b398f1766..b327e001564 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+@@ -5,17 +5,21 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
  
- DEPENDS = "glib-2.0"
- 
-+SRC_URI += " \
-+           file://0001-Do-not-disable-gobject-introspection-when-cross-comp.patch \
+-SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz"
++SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
++           file://0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch \
 +           "
- SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
- SRC_URI[archive.sha256sum] = "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
+ SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
+ SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8bc7fb2fda074478e329b063c1f872b826f6"
+ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
  
--inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
-+inherit gnomebase-meson lib_package gobject-introspection gtk-doc manpages
+-inherit autotools pkgconfig distro_features_check
++inherit meson pkgconfig distro_features_check
  
--PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
-+GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
-+GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
-+
-+GI_ENABLE_FLAG = "-Ddisable_introspection=false"
-+GI_DISABLE_FLAG = "-Ddisable_introspection=true"
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-+                                                                                    '${GTKDOC_DISABLE_FLAG}', d)} "
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-+                                                                                    '${GI_DISABLE_FLAG}', d)} "
-+
-+PACKAGECONFIG[manpages] = "-Denable-man=true, -Denable-man=false, libxslt-native xmlto-native"
-+
-+do_install_append() {
-+    # FIXME: these need to be provided via ptest
-+    rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
-+}
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- BBCLASSEXTEND = "native nativesdk"
+ DEPENDS = "util-macros"
+ 
+-PACKAGECONFIG[egl] = "--enable-egl, --disable-egl, virtual/egl"
+-PACKAGECONFIG[x11] = "--enable-glx, --disable-glx, virtual/libx11"
++PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
++PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no, virtual/libx11"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
++
++EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
 -- 
 2.15.0
 
