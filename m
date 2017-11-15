@@ -1,31 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 448096FFD3
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 542 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 15 Nov 2017 17:00:25 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 6684B7847F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 16:59:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 077C020BAB;
-	Wed, 15 Nov 2017 16:59:48 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id bgFF2eKHjsbA; Wed, 15 Nov 2017 16:59:47 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DACBD20B9E;
-	Wed, 15 Nov 2017 16:59:46 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 60A66162723;
-	Wed, 15 Nov 2017 11:59:46 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 11:59:45 -0500
-Message-Id: <1510765185-45865-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] libinput: update to 1.8.4
+	Wed, 15 Nov 2017 17:00:25 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 89B705C100E;
+	Wed, 15 Nov 2017 17:46:03 +0100 (CET)
+MIME-Version: 1.0
+Date: Wed, 15 Nov 2017 17:47:01 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Otavio Salvador <otavio@ossystems.com.br>
+In-Reply-To: <20171114183223.7804-1-otavio@ossystems.com.br>
+References: <20171114183223.7804-1-otavio@ossystems.com.br>
+Message-ID: <52e78a6cf11a3a374fab68885140c2b4@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1510764363; bh=frF505qsgz/u7u+RHMgZYaJlh7plGJkFyDWjiKP4zeo=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=HjqlOS2mmXo4wgAsgmnXk29ywoG/VgYrShCUIxg65L8EGEc/xvNQWXjAdahnQKqmdXnaqBuiUq29j9CYHAdVpOIn3Af9d3SnZJOFnPCES57Sa2/DBdy4/jeielPnomQaWxDY5ZbbUssPZubzGAA5GKRim17uilPgSVUrU4y+S2A=
+Cc: Marek Vasut <marex@denx.de>, U-Boot Mailing List <u-boot@lists.denx.de>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Upgrade to 2017.11 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 16:59:47 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 17:00:26 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On 2017-11-14 19:32, Otavio Salvador wrote:
+> This upgrades the U-Boot from 2017.09 to 2017.11 release.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- .../recipes-graphics/wayland/{libinput_1.8.3.bb => libinput_1.8.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{libinput_1.8.3.bb => libinput_1.8.4.bb} (86%)
+You might encounter this when building fw_printenv/setenv tools alone:
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.8.3.bb b/meta/recipes-graphics/wayland/libinput_1.8.4.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/libinput_1.8.3.bb
-rename to meta/recipes-graphics/wayland/libinput_1.8.4.bb
-index 3a02c4b..aea2348 100644
---- a/meta/recipes-graphics/wayland/libinput_1.8.3.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.8.4.bb
-@@ -9,8 +9,8 @@ DEPENDS = "libevdev udev mtdev"
- 
- SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
- 
--SRC_URI[md5sum] = "5265244853ad7cf41232b0d3ee805ab9"
--SRC_URI[sha256sum] = "2fe2e2f52f0971a9c43541b8f26582ca8df6ed4bb9050e85eb40d4ff6b13142d"
-+SRC_URI[md5sum] = "aeeb79bfe1b1cb64c939098468d350b3"
-+SRC_URI[sha256sum] = "5ad95c8db75d59f1662199df748f912b150c3294d33cd4dd592aeb1908fe9d7f"
- 
- inherit autotools pkgconfig lib_package
- 
--- 
-2.7.4
+https://lists.denx.de/pipermail/u-boot/2017-November/311505.html
 
+--
+Stefan
+
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  .../u-boot/{u-boot-common_2017.09.inc => u-boot-common_2017.11.inc}     | 2 +-
+>  .../u-boot/{u-boot-fw-utils_2017.09.bb => u-boot-fw-utils_2017.11.bb}   | 0
+>  .../u-boot/{u-boot-mkimage_2017.09.bb => u-boot-mkimage_2017.11.bb}     | 0
+>  meta/recipes-bsp/u-boot/{u-boot_2017.09.bb => u-boot_2017.11.bb}        | 0
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.09.inc =>
+> u-boot-common_2017.11.inc} (89%)
+>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.09.bb =>
+> u-boot-fw-utils_2017.11.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.09.bb =>
+> u-boot-mkimage_2017.11.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot_2017.09.bb => u-boot_2017.11.bb} (100%)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+> b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
+> similarity index 89%
+> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
+> index 02e51242cb..bfdf1a0d8f 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
+> @@ -7,7 +7,7 @@ PE = "1"
+>  
+>  # We use the revision in order to avoid having to fetch it from the
+>  # repo during parse
+> -SRCREV = "c98ac3487e413c71e5d36322ef3324b21c6f60f9"
+> +SRCREV = "c253573f3e269fd9a24ee6684d87dd91106018a5"
+>  
+>  SRC_URI = "git://git.denx.de/u-boot.git \
+>      file://MPC8315ERDB-enable-DHCP.patch \
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
+> b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.11.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
+> rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.11.bb
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.09.bb
+> b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.11.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.09.bb
+> rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.11.bb
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.09.bb
+> b/meta/recipes-bsp/u-boot/u-boot_2017.11.bb
+> similarity index 100%
+> rename from meta/recipes-bsp/u-boot/u-boot_2017.09.bb
+> rename to meta/recipes-bsp/u-boot/u-boot_2017.11.bb
+> -- 
+> 2.15.0
 
