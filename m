@@ -1,47 +1,37 @@
-Return-Path: <prvs=4852871d9=mnhu@prevas.dk>
-X-Greylist: delayed 948 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 15 Nov 2017 12:00:41 UTC
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A42378478
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E57407852A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 12:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=5195; q=dns/txt;
-	s=ironport2; t=1510747244; x=1542283244;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=5uhDWFay+ic/5TM1b8Z9KmGkxoMxVIyfHpC9q5KvBVs=;
-	b=w7F7gIwafz03P07WqwyEPJQS9ZGCghdLMYn+xPoxBSgHX2+tJnbv5jyf
-	SRHajR40ZeRjDboeMwKU5u7kJ4rczPD7k0kOR/OUZfNLZ6KEbeU7yzNNr
-	YiCvB04zKN2uSw2beIufQyxhx6iEwUE5FiTSKf/V2L9dqYb8w73nSSpAY s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GpAABRKAxa/+iTuFUNUBoBAQEBAQIBA?=
-	=?us-ascii?q?QEBCAEBAQGEGoEVg3+bOohbkBAKG4EThA0ChU0UAQEBAQEBAQEBA4UYWzwBAQE?=
-	=?us-ascii?q?DIxUTAT0LDQsCAiYCAiE2BgEMBgIBAYoIAwinJ2uCJyGDbgGDMQ2DSQEBAQEBA?=
-	=?us-ascii?q?QQBAQEBAQEBAQEfgQ+CJYVugkw1gmuFQoJjBYotiTWOGD2HbYgfAYR5gnaJIIc?=
-	=?us-ascii?q?ujSiFFAGDcIE5NmSBMjQpMoMtCYRXdgGIYAEBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2GpAABRKAxa/+iTuFUNUBoBAQEBAQIBAQEBCAEBAQGEGoE?=
-	=?us-ascii?q?Vg3+bOohbkBAKG4EThA0ChU0UAQEBAQEBAQEBA4UYWzwBAQEDIxUTAT0LDQsCA?=
-	=?us-ascii?q?iYCAiE2BgEMBgIBAYoIAwinJ2uCJyGDbgGDMQ2DSQEBAQEBAQQBAQEBAQEBAQE?=
-	=?us-ascii?q?fgQ+CJYVugkw1gmuFQoJjBYotiTWOGD2HbYgfAYR5gnaJIIcujSiFFAGDcIE5N?=
-	=?us-ascii?q?mSBMjQpMoMtCYRXdgGIYAEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.44,399,1505772000"; 
-   d="scan'208";a="2685630"
-Received: from unknown (HELO [10.0.0.232]) ([85.184.147.232])
-	by mail02.prevas.se with ESMTP/TLS/DHE-RSA-AES128-SHA;
-	15 Nov 2017 12:42:58 +0100
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1510744037.git.alexander.kanavin@linux.intel.com>
-	<e92a4137ae84734d1e3b5805964054305ce2388d.1510744037.git.alexander.kanavin@linux.intel.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
-Message-ID: <7fed5f8c-c678-40b5-e788-f4fa13b94676@prevas.dk>
-Date: Wed, 15 Nov 2017 12:42:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <e92a4137ae84734d1e3b5805964054305ce2388d.1510744037.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 1/7] meson: add a recipe and class from meta-oe
+	Wed, 15 Nov 2017 12:16:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Nov 2017 04:16:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,399,1505804400"; 
+   d="scan'208";a="5218408"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.31])
+	([10.237.66.31])
+	by orsmga001.jf.intel.com with ESMTP; 15 Nov 2017 04:16:00 -0800
+User-Agent: Microsoft-MacOutlook/f.27.0.171010
+Date: Wed, 15 Nov 2017 14:15:59 +0200
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Konrad Scherer <Konrad.Scherer@windriver.com>,
+	ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+Message-ID: <40402C0B-F567-41EB-BE3E-F23261E7CC95@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v5 05/10] bitbake.conf: add ip and scp to
+	HOSTTOOLS unconditionally
+References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
+	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
+	<0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
+	<8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
+	<E8F574EB-8489-49D9-8202-7DD5A77875D8@linux.intel.com>
+	<ed3ef63c-70e9-71d9-c068-509f462e7f95@windriver.com>
+	<9CB13C08-90ED-4213-98B1-81DD4223E5CC@linux.intel.com>
+	<ef6cb9de-02fd-06f2-3f75-57875aeac3a0@windriver.com>
+In-Reply-To: <ef6cb9de-02fd-06f2-3f75-57875aeac3a0@windriver.com>
+Mime-version: 1.0
+Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,153 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 12:00:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-IE
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Nov 2017 12:16:01 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
 Hi,
 
-On 2017-11-15 12:08, Alexander Kanavin wrote:
-> The original recipe has been provided and improved by:
-> 
-> Ross Burton <ross.burton@intel.com>
-> Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> Adam C. Foltzer <acfoltzer@galois.com>
-> Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Linus Svensson <linussn@axis.com>
-> 
-> I have added a couple patches to fix up gtk-doc and
-> gobject-introspection in cross-compilation environments.
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->   meta/classes/meson.bbclass                         | 103 +++++++++++++++++++
->   ...ix-issues-that-arise-when-cross-compiling.patch | 113 +++++++++++++++++++++
->   ...rospection-determine-g-ir-scanner-and-g-i.patch |  41 ++++++++
->   meta/recipes-devtools/meson/meson_0.43.0.bb        |  19 ++++
->   4 files changed, 276 insertions(+)
->   create mode 100644 meta/classes/meson.bbclass
->   create mode 100644 meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
->   create mode 100644 meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
->   create mode 100644 meta/recipes-devtools/meson/meson_0.43.0.bb
-> 
-> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-> new file mode 100644
-> index 00000000000..f6cf24c33a7
-> --- /dev/null
-> +++ b/meta/classes/meson.bbclass
-> @@ -0,0 +1,103 @@
-> +inherit python3native
-> +
-> +DEPENDS_append = " meson-native ninja-native"
-> +
-> +# As Meson enforces out-of-tree builds we can just use cleandirs
-> +B = "${WORKDIR}/build"
-> +do_configure[cleandirs] = "${B}"
-> +
-> +# Where the meson.build build configuration is
-> +MESON_SOURCEPATH = "${S}"
-> +
-> +# These variables in the environment override meson's *native* tools settings.
-> +# We have to unset them, so that meson doesn't pick up the cross tools and
-> +# use them for native builds.
-> +unset CC
-> +unset CXX
-> +unset AR
-> +
-> +def noprefix(var, d):
-> +    return d.getVar(var, True).replace(d.getVar('prefix', True) + '/', '', 1)
-> +
-> +MESONOPTS = " --prefix ${prefix} \
-> +              --bindir ${@noprefix('bindir', d)} \
-> +              --sbindir ${@noprefix('sbindir', d)} \
-> +              --datadir ${@noprefix('datadir', d)} \
-> +              --libdir ${@noprefix('libdir', d)} \
-> +              --libexecdir ${@noprefix('libexecdir', d)} \
-> +              --includedir ${@noprefix('includedir', d)} \
-> +              --mandir ${@noprefix('mandir', d)} \
-> +              --infodir ${@noprefix('infodir', d)} \
-> +              --sysconfdir ${sysconfdir} \
-> +              --localstatedir ${localstatedir} \
-> +              --sharedstatedir ${sharedstatedir}"
-> +
-> +MESON_C_ARGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-> +MESON_LINK_ARGS = "${MESON_C_ARGS} ${LDFLAGS}"
-> +
-> +MESON_HOST_ENDIAN = "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be', 'big', 'little', d)}"
-> +MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'big', 'little', d)}"
-> +
-> +EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
-> +
-> +MESON_CROSS_FILE = ""
-> +MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+Hosttools are set after the bitbake configuration is parsed so there is no way to affect the outcome from the "recipe space". HOSTTOOLS can only be set from bitbake configuration. Thus, I don't see any way to conditionally expand the value in case something specific is being built.
 
-Shouldn't nativesdk builds use a meson.cross file too?
+The only way that I can think of to make this somehow work would be to add the utilities to HOSTTOOLS_NONFATAL. Then, the utils would be linked if present and the profile task would succeed on most systems.
 
-> +
-> +def meson_array(var, d):
-> +    return "', '".join(d.getVar(var, True).split()).join(("'", "'"))
-> +
-> +addtask write_config before do_configure
-> +do_write_config[vardeps] += "MESON_C_ARGS TOOLCHAIN_OPTIONS"
-> +do_write_config() {
-> +    # This needs to be Py to split the args into single-element lists
-> +    cat >${WORKDIR}/meson.cross <<EOF
-> +[binaries]
-> +c = '${HOST_PREFIX}gcc'
-> +cpp = '${HOST_PREFIX}g++'
-> +ar = '${HOST_PREFIX}ar'
-> +ld = '${HOST_PREFIX}ld'
-> +strip = '${HOST_PREFIX}strip'
-> +readelf = '${HOST_PREFIX}readelf'
-> +pkgconfig = 'pkg-config'
-> +
-> +[properties]
-> +needs_exe_wrapper = true
-> +c_args = [${@meson_array('MESON_C_ARGS', d)}]
-> +c_link_args = [${@meson_array('MESON_LINK_ARGS', d)}]
-> +cpp_args = [${@meson_array('MESON_C_ARGS', d)}]
-> +cpp_link_args = [${@meson_array('MESON_LINK_ARGS', d)}]
-> +gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
-> +
-> +[host_machine]
-> +system = '${HOST_OS}'
-> +cpu_family = '${HOST_ARCH}'
-> +cpu = '${HOST_ARCH}'
-> +endian = '${MESON_HOST_ENDIAN}'
-> +
-> +[target_machine]
-> +system = '${TARGET_OS}'
-> +cpu_family = '${TARGET_ARCH}'
-> +cpu = '${TARGET_ARCH}'
-> +endian = '${MESON_TARGET_ENDIAN}'
-> +EOF
-> +}
+Thanks,
+   Markus
 
-Is meson.cross also written for native builds? If so, isn't there a way 
-to avoid that?
+On 01/11/2017, 17.35, "Konrad Scherer" <Konrad.Scherer@windriver.com> wrote:
 
-> +
-> +CONFIGURE_FILES = "meson.build"
-> +
-> +meson_do_configure() {
-> +    if ! meson ${MESONOPTS} "${MESON_SOURCEPATH}" "${B}" ${MESON_CROSS_FILE} ${EXTRA_OEMESON}; then
-> +        cat ${B}/meson-logs/meson-log.txt
-> +        bbfatal_log meson failed
-> +    fi
-> +}
-> +
-> +do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
-> +meson_do_compile() {
-> +    ninja ${PARALLEL_MAKE}
-> +}
-> +
-> +meson_do_install() {
-> +    DESTDIR='${D}' ninja ${PARALLEL_MAKEINST} install
-> +}
-> +
-> +EXPORT_FUNCTIONS do_configure do_compile do_install
+    On 10/31/2017 03:15 AM, Markus Lehtonen wrote:
+    > Hi,
+    > 
+    > Please see the 6th patch ("devtools/images: add python-pgo-image") in my patchset for python-pgo-image.
+    > 
+    > I'd like the profiling to work out-of-the-box, without requiring some
+    > strange-ish (i.e. modification of HOSTTOOLS) changes in local.conf.
+    > The required utilities, ip and scp, are rather standard tools,
+    > anyway. And, they used to be in HOSTTOOLS, unconditionally, before.
+    ip and scp are not needed for a normal build so it doesn't make sense to 
+    make them mandatory. Including them unconditionally caused build 
+    failures for us because the docker images we use for coverage builds did 
+    not include those binaries. I realize that doing builds in minimal 
+    containers is rare today, but I expect it to become more common.
+    
+    Since the recipe uses the oeqa helpers, is there a way to setup the 
+    conditional inclusion to detect this and include the required binaries 
+    in HOSTTOOLS? Or have the oeqa helper modify the HOSTTOOLS before they 
+    are used?
+    
+    -- 
+    Konrad Scherer, MTS, Linux Products Group, Wind River
+    
 
-// Martin
+
 
