@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 366E17851E
+	by mail.openembedded.org (Postfix) with ESMTP id C39887851E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:36:24 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id j16so11486125pgn.9
+	Wed, 15 Nov 2017 03:37:32 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 4so8115520pge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:36:26 -0800 (PST)
+	Tue, 14 Nov 2017 19:37:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=83n3ZyAZEMEkJAZnYfnImoyaLTVThTWQSHF1RpufuxA=;
-	b=Pbn22mKmrPHTVnX+qg80IvCWwnhi6Ryz9DnKWSZiweH1zzlM/fSeKNalfFzD0qpqV+
-	3uxQiSedPnBBJ7V0tJO9PugIysKMF0Z0hO+njz0cauXGjODpn/Wc2VR+nOQrs7EcKlnP
-	XeZyUIQzh3KDBVzBnBOPjzmOQjOcMbAtPRVIpU24pPLf3DVmXzTwUbYYyNXDo72qLb8J
-	4x50qhxUslI0LnAYMQmL9wAYJhdEO++0FzeIQf7RrxHBxW1z/t3KWnXoBXkCHPQ1I/2w
-	fwsP4KpXRIfeZ0j7CSmPRD0atxo7k6/0CYTLtuSRls9sSWgpeNmHNPAS2Bz7twLnAOcX
-	hdyQ==
+	:cc; bh=Muxqli4EbdSG2nV3xje6RjfukpJ9MgsLTTqS9fw5ouk=;
+	b=hgVtZ1T9dG9LNnSYs7DAPO+kiWrWdhwz6mZ7jDhXu2VuNhys+bxrkU5rHQv8ELJPcE
+	FxtIy6nkOP3K/umD6o5aMmSjCCnBl8Ao8YFtT/WRQaFVgPimt0eCRU+UB0PImcq5PbJs
+	lvN/DbhWPZr+gMBT55PTwugbAa2DY9KwVEOTTeufDvbKpuKp3C9XXLq/pPWOOUpI8Jjp
+	LNL1y7jCJF1m2Wn5K6mv+gXPXnym5USaeXqndfmoOPE26sAlAf7LCymEKNYr8RnyLX+9
+	nu5mY9JQtKhLuown8jJ4sOZKfx1UfjLAmFAsLwOr1/dP1aa/nbETQdPiHt4KB6j8MpRs
+	wvxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=83n3ZyAZEMEkJAZnYfnImoyaLTVThTWQSHF1RpufuxA=;
-	b=sN30dHUdYahDstmnxAWvxgp8CO5rNxHhvK8aVXUfYYTAiA1/49eW10edszhu6VYH1M
-	P+4DpERFvRbXm2JijSNadR5uCwJ2LKq6mvnqp+trw5BaV3bzCI6kF4n3vlTa8DPLKqTz
-	73WCtQS9pOuDnAo02sUPlcGEbiYjg5ou0DXaWko8Q9lVYmPYxpVU3h4ezg7IjrABbck+
-	rMN3xq6tnUOMMUgjeid9mhh8s08i5hmL8HAq/JsBI+bzVkbFie/3f/7m4Yt53BiaCVh6
-	s3uVIJcUr0Czgg2ksPt+FGDyrbCwZviRLO0Foalp0hdoqzq74m9nqIuEwa246+JWdjgb
-	7DOQ==
-X-Gm-Message-State: AJaThX4EMqGqN9QTT3Czskm4P9Pvuh3pcx0jvnwOhopioEZ39ytegdBT
-	l4rkjKtWfShWBx2+l2kog6vx/jjOjaWMY7+dufE=
-X-Google-Smtp-Source: AGs4zMaZaAgcHhcy2jyrZkUx/OBGQ9S8V1dl39MPPzOuhm4+gHUODv1qmRomj3/mbmazCBlrgKDcRIU1YOkb9oRhKRg=
-X-Received: by 10.84.252.4 with SMTP id x4mr8428140pll.99.1510716985422; Tue,
-	14 Nov 2017 19:36:25 -0800 (PST)
+	bh=Muxqli4EbdSG2nV3xje6RjfukpJ9MgsLTTqS9fw5ouk=;
+	b=PhQXX1OjUbGYu4+iN1EmiKZ9vgv4lzpIyD+ourphjBPKjRqaRbvrE89K9IXk5nsaHj
+	dMoq0SMA3O+KQvP1T0WGU/OuBpiKa6oA/CedTv++uG70m564vJVnx0wQMI4fzGWVxdw1
+	iqlCvsKwU5kTPYD8nVBryqV6wAJRdjrkzwIG0i9mGTV1S/WUgaWzoTz7C9MKcMLelKpN
+	VIo1zN5JVF181WOeUcZv2DAsHRZbeVvvyh2ekaXrLKDATjgzdedTLFTFN+hfbxLd1NVx
+	VMkcZzqm74BhkScs1Y/PcH6hw+2RRPV367Z3CZtU0ffQobzTvUhJJBtUC+RBQmJbN4mR
+	Wsuw==
+X-Gm-Message-State: AJaThX5wWi7kHne0U+i87UQ3V3TdLRj+fAm6gEEg9tJigmSNgsOcJQmL
+	ArvM8WRQolPF1KIvwnhuhhQwUCTzr7kI8XKBV+s=
+X-Google-Smtp-Source: AGs4zMZFpUqpOH4CdFKB4cAX7JCGWp5Tx9hzt6uuGJwGnMOP6rxIKCPOd4duSfqNy5JI+Zd9keDFEo+bAnDGAx0vxw0=
+X-Received: by 10.99.160.96 with SMTP id u32mr14366962pgn.25.1510717054172;
+	Tue, 14 Nov 2017 19:37:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.167.106 with HTTP; Tue, 14 Nov 2017 19:35:54 -0800 (PST)
-In-Reply-To: <20171113125714.21427-1-ricardo.ribalda@gmail.com>
-References: <20171113125714.21427-1-ricardo.ribalda@gmail.com>
+Received: by 10.100.167.106 with HTTP; Tue, 14 Nov 2017 19:37:03 -0800 (PST)
+In-Reply-To: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
+References: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Nov 2017 19:35:54 -0800
-Message-ID: <CAMKF1so_ciNyeNbo9GuxcT6qCw7XgykYGEY5LQ23ikqCJiMx4A@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 14 Nov 2017 19:37:03 -0800
+Message-ID: <CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-7.2: Fix libgfortran build
+Subject: Re: [PATCH] musl: use arm instruction set for armv4 and armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,103 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:36:25 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 03:37:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 13, 2017 at 4:57 AM, Ricardo Ribalda Delgado
-<ricardo.ribalda@gmail.com> wrote:
-> Without this patch libbacktrace cannot be included/link during
-> libgfortran build.
+On Tue, Nov 14, 2017 at 1:44 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
+> thumb1 is not supported with musl.
 >
-> libbtool: link: cannot find the library
-> `../libbacktrace/libbacktrace.la'
-> or unhandled argument `../libbacktrace/libbacktrace.la
+> Fixes: [YOCTO #12336]
 >
-
-This patch is ok.
-while here, can you please backport this patch to gcc6 as well ?
-
-
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 > ---
->  meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
->  .../gcc/gcc-7.2/0051-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
+>  meta/recipes-core/musl/musl.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> index 1d40cba73175..ae3ed02d6ce3 100644
-> --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> @@ -75,6 +75,7 @@ SRC_URI = "\
->             file://0048-gcc-Enable-static-PIE.patch \
->             file://fix-segmentation-fault-precompiled-hdr.patch \
->             file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-> +          file://0051-Fix-gfortran-build.patch \
->             ${BACKPORTS} \
->  "
->  BACKPORTS = "\
-> diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
-> new file mode 100644
-> index 000000000000..a71b6b0bee0e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
-> @@ -0,0 +1,53 @@
-> +Without this patch libbacktrace cannot be included/link during
-> +libgfortran build.
+> diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+> index 56c9d7f..b4b0de9 100644
+> --- a/meta/recipes-core/musl/musl.inc
+> +++ b/meta/recipes-core/musl/musl.inc
+> @@ -26,3 +26,7 @@ INSANE_SKIP_${PN} = "dev-so"
+>  # Doesn't compile in MIPS16e mode due to use of hand-written
+>  # assembly
+>  MIPS_INSTRUCTION_SET = "mips"
 > +
-> +libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-> +or unhandled argument `../libbacktrace/libbacktrace.la'
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> +
-> +diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
-> +index 2857af5943f9..e07760069a3c 100644
-> +--- a/libgfortran/Makefile.am
-> ++++ b/libgfortran/Makefile.am
-> +@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-> + toolexeclib_DATA = libgfortran.spec
-> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-> +-      $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-> ++      $(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-> +       $(HWCAP_LDFLAGS) \
-> +       -lm $(extra_ldflags_libgfortran) \
-> +       $(version_arg) -Wc,-shared-libgcc
-> +@@ -64,7 +64,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-> +             -I$(MULTIBUILDTOP)../libgcc \
-> +             -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-> +             -I$(MULTIBUILDTOP)../libbacktrace \
-> +-            -I../libbacktrace
-> ++            -I../../libbacktrace
-> +
-> + # Fortran rules for complex multiplication and division
-> + AM_CFLAGS += -fcx-fortran-rules
-> +diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
-> +index 05b183dcadb0..c9e0280e412c 100644
-> +--- a/libgfortran/Makefile.in
-> ++++ b/libgfortran/Makefile.in
-> +@@ -581,7 +581,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-> + toolexeclib_DATA = libgfortran.spec
-> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-> +-      $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-> ++      $(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-> +       $(HWCAP_LDFLAGS) \
-> +       -lm $(extra_ldflags_libgfortran) \
-> +       $(version_arg) -Wc,-shared-libgcc
-> +@@ -602,7 +602,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-> +             -I$(MULTIBUILDTOP)../libgcc \
-> +             -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-> +             -I$(MULTIBUILDTOP)../libbacktrace \
-> +-            -I../libbacktrace
-> ++            -I../../libbacktrace
-> +
-> + gfor_io_src = io/size_from_kind.c $(am__append_2)
-> + gfor_io_headers = \
+> +# Doesn't support thumb1
+> +ARM_INSTRUCTION_SET_armv4 = "arm"
+> +ARM_INSTRUCTION_SET_armv5 = "arm"
+
+Ah I submitted a parallel fix that was sitting on my branch.
+is that fine ?
+
 > --
-> 2.15.0
+> 2.7.4
 >
 > --
 > _______________________________________________
