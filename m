@@ -1,37 +1,59 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E79B76FEFE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 01AC871985
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 09:24:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAF9OcwL016692
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Nov 2017 01:24:38 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 15 Nov 2017 01:24:38 -0800
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1510550741.git.Qi.Chen@windriver.com>
-	<62db9387c3ee71f4bed87a7a546afdf927ba5ac0.1510550741.git.Qi.Chen@windriver.com>
-	<1510563249.4049.33.camel@andred.net>
-	<a4f2cfac-2714-ef11-c4ff-308ce183f1e1@windriver.com>
-	<1510654568.4049.64.camel@andred.net>
-	<CAJTo0LZFWFV-ZThaf0aNxC6r8+guutmNU68759hHND7zESmc6A@mail.gmail.com>
-	<CAJTo0LbnJtZG2LTe_NsOgH5-q1y7JectDHDM0h9nJMbi5txb9w@mail.gmail.com>
-	<1510668148.4049.71.camel@andred.net>
-	<4a8c2156-35df-8786-31c8-b35b8a6588d3@windriver.com>
-	<1510736807.4049.75.camel@andred.net>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <e65fb1a6-f2fd-e294-fac6-9c587d8b386e@windriver.com>
-Date: Wed, 15 Nov 2017 17:24:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <1510736807.4049.75.camel@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] autoconf-archive: inherit allarch and fix package splitting
+	Wed, 15 Nov 2017 10:01:34 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id 15so19946120wrb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Nov 2017 02:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Dxri7RcdmHfKk+EHPvtYr207pyHTvYNn/1qKbBy5fG8=;
+	b=Y3oacp/dxmlo8CFKln3weaFr/hmz+XM1cLNuPsNBjoFPVHykgPwxru4rsH05Z5Z4No
+	FoTecXR2DXndXu+GCQR/0Sp+oH/JxWB/5AOQQjw9LwRlA9hKNzEHTxj2HD5A2Z6SUf9z
+	1CfP7agGKE7OYo77LXyaC3+/KfzyxbSnNFgGBE+Gpz4NBfb3ylZX0LeCJ3N0BOc7YdO1
+	fMyMDkcBnj2+MEAKqVfb6gclSm5zWNUhA3Gihao/slWl2Cyf7Rdhk6/eekbmW8TCeAMN
+	GHiwy2kaOWt6S7t1lixm0Ellov27KLZ9kcW5zHZ58Vj0qXTo8Bzrm8qzaSLDG5P9wEUf
+	BqSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Dxri7RcdmHfKk+EHPvtYr207pyHTvYNn/1qKbBy5fG8=;
+	b=gyVtF9yaXsYZuf5MNYINZTftuq8hCWhP7goeN9otFTCVoH9gM80mqJ549xZD5leTCm
+	FWUIWj+bwo7AOk0nLRRxzYuOcbF8I+EaeLs5xiBaQsQUICSNHaVW3SScN/Qbo10/xIuQ
+	oA3Ra0PhgZxUxgpN26lpw9IdIJWz6B4otXwEO6a2aUXCk582E3pZByHQzrbX0iLeIktD
+	mBeD57PJJZdGbYQaoWiQp8x5oJ3PEbq6gemZfbi9CJzZFeXygDKXFm7yQgzD47Zvezak
+	zLREMhiTz0+QXnG1cw1oTCJ4v1iNhSGJmC4zjZcASU8GexCiQWp4rXgaaIu16oIleant
+	X91A==
+X-Gm-Message-State: AJaThX7l3oSTkgFyU/Mh5uVYHClR4SIIuaJk0/xV9cF+NEDebOHBki7e
+	RMLq+YIGGnzaArGCIT+/DEshQj4=
+X-Google-Smtp-Source: AGs4zMaPC09ZRoShAaCRQS2zgFGB+yZ8C6aCbtEAJoXdLc3K0ThBbZJfgbuSgEqMCM3QrStqAiRZSQ==
+X-Received: by 10.223.129.35 with SMTP id 32mr7711227wrm.271.1510740095557;
+	Wed, 15 Nov 2017 02:01:35 -0800 (PST)
+Received: from pohly-mobl1 (p54BD58DF.dip0.t-ipconnect.de. [84.189.88.223])
+	by smtp.gmail.com with ESMTPSA id
+	x17sm6865472wrg.82.2017.11.15.02.01.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 15 Nov 2017 02:01:34 -0800 (PST)
+Message-ID: <1510740093.5979.12.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed, 15 Nov 2017 11:01:33 +0100
+In-Reply-To: <20171114114239.66b7d58e@lsandov1-mobl2.zpn.intel.com>
+References: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1510647870.5979.4.camel@intel.com>
+	<20171114100939.12d4c1df@lsandov1-mobl2.zpn.intel.com>
+	<1510675768.5979.9.camel@intel.com>
+	<20171114114239.66b7d58e@lsandov1-mobl2.zpn.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +66,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 09:24:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Nov 2017 10:01:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Tue, 2017-11-14 at 11:42 -0600, Leonardo Sandoval wrote:
+> On Tue, 14 Nov 2017 17:09:28 +0100
+> Patrick Ohly <patrick.ohly@intel.com> wrote:
+> > Is oe-selftest-internal even going to be in the default PATH? It
+> > probably shouldn't be, once it truly becomes an implementation
+> > detail.
+> 
+> where can we placed it besides the scripts folder?
+
+scripts/lib/ perhaps, then call it from oe-selftest with an absolute
+path?
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-
-On 11/15/2017 05:06 PM, André Draszik wrote:
-> Hi,
-> 
-> On Wed, 2017-11-15 at 10:23 +0800, Robert Yang wrote:
->>
->> On 11/14/2017 10:02 PM, André Draszik wrote:
->>> Is that an ipk / OPKG issue? Should something be removing the old
->>> packages
->>> from deploy?
->>
->> I tried PACKAGE_CLASSES = "package_ipk", I got the same result as ross:
-> 
-> OK, so I tried with autoconf-archive myself now. I get the same result as
-> you two.
-> 
-> But - When moving a recipe from MACHINE_ARCH to TUNE_PKGARCH then the old
-> package is not removed.
-> 
-> [...]
->> I guess something is wrong with your build.
-> 
-> To summarise:
-> - moving a recipe from TUNE_PKGARCH to allarch removes the old package
-> - moving a recipe from MACHINE_ARCH to TUNE_PKGARCH *doesn't* remove the old
->    package.
-> 
-> Where would I start looking?
-
-It is removed by sstate.bbclass, take a look at sstate_clean() may help.
-
-// Robert
-
-> 
-> 
-> Cheers,
-> Andre'
-> 
-> 
 
