@@ -1,37 +1,52 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E57407852A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DA9C27851F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 12:16:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2017 04:16:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,399,1505804400"; 
-   d="scan'208";a="5218408"
-Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.31])
-	([10.237.66.31])
-	by orsmga001.jf.intel.com with ESMTP; 15 Nov 2017 04:16:00 -0800
-User-Agent: Microsoft-MacOutlook/f.27.0.171010
-Date: Wed, 15 Nov 2017 14:15:59 +0200
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Konrad Scherer <Konrad.Scherer@windriver.com>,
-	ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-Message-ID: <40402C0B-F567-41EB-BE3E-F23261E7CC95@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v5 05/10] bitbake.conf: add ip and scp to
-	HOSTTOOLS unconditionally
-References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
-	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
-	<0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
-	<8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
-	<E8F574EB-8489-49D9-8202-7DD5A77875D8@linux.intel.com>
-	<ed3ef63c-70e9-71d9-c068-509f462e7f95@windriver.com>
-	<9CB13C08-90ED-4213-98B1-81DD4223E5CC@linux.intel.com>
-	<ef6cb9de-02fd-06f2-3f75-57875aeac3a0@windriver.com>
-In-Reply-To: <ef6cb9de-02fd-06f2-3f75-57875aeac3a0@windriver.com>
-Mime-version: 1.0
-Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
+	Wed, 15 Nov 2017 12:26:41 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id n79so1388563ion.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Nov 2017 04:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gUS7ELIwRbWKsCCJtZ0EfVywMggZHiX5kzutN4l0wbI=;
+	b=FqIsEslzUCpZ3NKtuSxG6kf2DDERWnWlKqfgwQ2wGGKMqcprQPsVYdEbnc0EWImYvj
+	AE2+eluYI0q6eebO64Ny6luWIi+m/tZuCusjoQWW9fSLI1jo1GS9DJQD8cyKRjFXXJbh
+	+nLqudZibpCHlNofw2okD8ug05jfrqjb43JoWUWL+ZdjH97pqguzzFcm5oDdXBxCPlx4
+	q0z2H4s8YVJfVyW27Pfoqy2v4TK/aWJQNhF8zXpBB8q1zRXkWuiFct+mFFEUkWot2IKK
+	I0TXe8pRDSV9VFe/ExYV+3SMzE1VZzPv7wuP/TUxZcOwbe58WNG5kqJ85Ay1TdPv0J/V
+	6tjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gUS7ELIwRbWKsCCJtZ0EfVywMggZHiX5kzutN4l0wbI=;
+	b=RShm51VhWP6z4dzsZl4eGmAblYfEUKpU7GjC2pGke9gZHWtt1atNscodY95pFswX5I
+	lE4Yjra8NQp+9vfbe2UDSRImOQOCzOGywRZMULFxZa7UjRrBOOBTrODi7BWXwTxjnOh3
+	5BgtnSsj7WJNCm0ebwyZaMIqQXDBLsbcmnbl7U19vD7Li+RQ/5l9Sb8OQ/mIc054Aefy
+	fiV+mZRBqxZRNQRiaUSQkYUDaKaCWFm1kt3iOkWzEmuwInrTigWtVkmT5uZO7FUfZdkM
+	L3GkwMX5bczhaown0jyz1XYfLCnDMiCQ5hUY2qLCaWgsalmeOqSpdhXqvpjA2y1bAdkp
+	bcEQ==
+X-Gm-Message-State: AJaThX4bjvtkmR2If8SlsV6omuHjrPIz90KObzH1bI5IDe2eFYoyBlIB
+	oHdZUOOIO/Yj5SPCplXmsbSCHOhzhtFMiVUytCxx9A==
+X-Google-Smtp-Source: AGs4zMZX6GC4BPpX8npBiAbZTL25sRr1RYdT1kjeR8bPhUmBlKg63W5Dhd0D0MBeSTTGM4Z4z+vMQCcLM7mXZ0JD96k=
+X-Received: by 10.107.146.86 with SMTP id u83mr18525377iod.37.1510748802539;
+	Wed, 15 Nov 2017 04:26:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.171.196 with HTTP; Wed, 15 Nov 2017 04:26:22 -0800 (PST)
+In-Reply-To: <CAP9ODKow3s0rXMmkVYM5b5jsgG-70GnXZkHMK1WxaFSUTA-c2A@mail.gmail.com>
+References: <1510594546-27018-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAP9ODKquk8Cf-chkGCRTpPurE+ABQZgzgAs=3M4hp0qV5NMWug@mail.gmail.com>
+	<CAJTo0LaNR-YLyCX=wHTS42XimeJrfhCWwCmm-hKCwNRkJ1KFmQ@mail.gmail.com>
+	<CAP9ODKow3s0rXMmkVYM5b5jsgG-70GnXZkHMK1WxaFSUTA-c2A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Nov 2017 12:26:22 +0000
+Message-ID: <CAJTo0LYfAYZruf=9WYFqD2ae2==LdTGwayFeXPxtQ7ROPm-T2w@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu.inc: Drop rng-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 12:16:01 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Wed, 15 Nov 2017 12:26:42 -0000
+Content-Type: multipart/alternative; boundary="94eb2c054fa6b87a1c055e049d3b"
 
-Hi,
+--94eb2c054fa6b87a1c055e049d3b
+Content-Type: text/plain; charset="UTF-8"
 
-Hosttools are set after the bitbake configuration is parsed so there is no way to affect the outcome from the "recipe space". HOSTTOOLS can only be set from bitbake configuration. Thus, I don't see any way to conditionally expand the value in case something specific is being built.
+On 14 November 2017 at 17:16, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-The only way that I can think of to make this somehow work would be to add the utilities to HOSTTOOLS_NONFATAL. Then, the utils would be linked if present and the profile task would succeed on most systems.
-
-Thanks,
-   Markus
-
-On 01/11/2017, 17.35, "Konrad Scherer" <Konrad.Scherer@windriver.com> wrote:
-
-    On 10/31/2017 03:15 AM, Markus Lehtonen wrote:
-    > Hi,
-    > 
-    > Please see the 6th patch ("devtools/images: add python-pgo-image") in my patchset for python-pgo-image.
-    > 
-    > I'd like the profiling to work out-of-the-box, without requiring some
-    > strange-ish (i.e. modification of HOSTTOOLS) changes in local.conf.
-    > The required utilities, ip and scp, are rather standard tools,
-    > anyway. And, they used to be in HOSTTOOLS, unconditionally, before.
-    ip and scp are not needed for a normal build so it doesn't make sense to 
-    make them mandatory. Including them unconditionally caused build 
-    failures for us because the docker images we use for coverage builds did 
-    not include those binaries. I realize that doing builds in minimal 
-    containers is rare today, but I expect it to become more common.
-    
-    Since the recipe uses the oeqa helpers, is there a way to setup the 
-    conditional inclusion to detect this and include the required binaries 
-    in HOSTTOOLS? Or have the oeqa helper modify the HOSTTOOLS before they 
-    are used?
-    
-    -- 
-    Konrad Scherer, MTS, Linux Products Group, Wind River
-    
+> Hello Ross,
+>
+> On Mon, Nov 13, 2017 at 5:55 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > Can you explain why?
+>
+> We are using QEMU ARM for runtime tests on CI for updatehub, on this,
+> when we run something that required entropy just after boot and
+> especially if running inside of a Docker, it fails badly for 140s.
+> Adding rng-tools solves it :-)
 
 
+Are you enabling the virtio-rng driver so qemu can bridge the host entropy
+into the guest?
 
+Ross
+
+--94eb2c054fa6b87a1c055e049d3b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 14 November 2017 at 17:16, Otavio Salvador <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_bl=
+ank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+Hello Ross,<br>
+<br>
+On Mon, Nov 13, 2017 at 5:55 PM, Burton, Ross &lt;<a href=3D"mailto:ross.bu=
+rton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt; Can you explain why?<br>
+<br>
+We are using QEMU ARM for runtime tests on CI for updatehub, on this,<br>
+when we run something that required entropy just after boot and<br>
+especially if running inside of a Docker, it fails badly for 140s.<br>
+Adding rng-tools solves it :-)</blockquote><div><br></div><div>Are you enab=
+ling the virtio-rng driver so qemu can bridge the host entropy into the gue=
+st?</div><div><br></div><div>Ross</div></div></div></div>
+
+--94eb2c054fa6b87a1c055e049d3b--
