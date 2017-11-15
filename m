@@ -1,56 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E5CCA78480
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2596D78480
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 15:27:14 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id b6so17006739pff.10
+	Wed, 15 Nov 2017 15:29:27 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id w21so26653841lfc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 07:27:16 -0800 (PST)
+	Wed, 15 Nov 2017 07:29:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=A3FajRi0kaDMV9SQGus+v+OpBW7crBhcRE8AxDh7Oto=;
-	b=vM14JUP10HhnJKKAuUVewtyAt+T1Z5j+KzH0wVDtJsPtp1jtBXIEfahprozxm/E5hC
-	2gyM8cT5M9sufCp14JA6WJfKp59bAL60TGZgJFV/fodI9HWHA4pzUkb9KbbABZNm2O1z
-	0AHFNlOethrPHSDhUZFpX6Yv9mRIQXwHL+m1VW/lkvJAFB1MUGZBlf2BXfK5ot56o8Nr
-	T69Krqq3ib+vCq55CtJYakhqw6+1dQXgw5mSqp8yomDpjoiu2z+EMuIHs1vNGTU2bfPI
-	o/jyhSxn2ju/W+F9W7BF7R39LzEQELj2CHjlvYyRYlI4hpF/oUFKnidzyA1goSXym+IW
-	qOyg==
+	h=from:to:cc:subject:date:message-id;
+	bh=L9Gwu68lx7ZgBhnYc9ZZRc2tjZthuafGq/LxvTrmiRo=;
+	b=d+CuiM2u+Q7TWcTmZ3KYwcINy5vdcsRYiGUVC1+9ggS+5lyRDhCn2R39PkaS13qBvm
+	mdMuAg+BtkICY0kMEoY6XlKbvhz50zgNJcHc/INBpOU2FlvvgsxTjK5MueN9AW2Uhbne
+	Hpi+Sq3ZvhHlEMXtHmoUcmuorVn9JVYYFCPnUXtcJAYT5nIKFFn1mMa1mZ8WcXDSRCSV
+	gjDmklwHtGQFteX/yD/qAKaHz3GNSvlogPWdcjRkts0KHqlfGud69rg4XUyFKCcTzSeu
+	lZO+4cFfDBrPhgwSGpaDRgnrkJ29/AUKEWkZu40TxiF1nhSa1OeSitf/2xIK9E88m2US
+	8+UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=A3FajRi0kaDMV9SQGus+v+OpBW7crBhcRE8AxDh7Oto=;
-	b=MwgANYWtcRXCS+00tIdmOeMz0XfpNmZ89FPZR8Hw2XRT9yoaHns14CZfKBZAIFb3/K
-	mGnvG9vO0jfuj4sIy2Hr78XTrPMEk2gVFlDqNdFXktkygn+4xCgzRn+PhVJvE1Z34FFb
-	CivIKAg06oXdRl2gLJt+TCOTsavmSvWaPgMJExBKfQV8dTcwDIFO1ulh+CUrAIqbKiSH
-	3LdueFrViVrVe1gSTqW1lA0ftxpCPwQOz2OUCflDrLADLYyfEZlmxtUznjaLDBBxdLpY
-	RYraKTCJcmTQFQhCwhSjRn/LcezqaQGRwi6+UNLVmyWkhLiKf9zeRX2r5SOqpHHJ/qva
-	/FCQ==
-X-Gm-Message-State: AJaThX54X95xvvCIndR0EGf0x9/JK/z2kBgzmHleg3oNJeO0b8wc5hHT
-	skJpJLiuBRm1gEztmD+aiEMl4A==
-X-Google-Smtp-Source: AGs4zMaT/JslBtXN11HzCUYh5mldwSzofXLm8ASQN8/523sksCSpA4NpyHQuCRJeC4aUvgxTQlo2uA==
-X-Received: by 10.84.160.200 with SMTP id v8mr15835258plg.55.1510759635464;
-	Wed, 15 Nov 2017 07:27:15 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:d04d:dd67:32c6:fbd1?
-	([2601:202:4001:9ea0:d04d:dd67:32c6:fbd1])
-	by smtp.gmail.com with ESMTPSA id
-	r18sm36050056pge.87.2017.11.15.07.27.14
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=L9Gwu68lx7ZgBhnYc9ZZRc2tjZthuafGq/LxvTrmiRo=;
+	b=pk3bFNiA55k6sFE213CGMlim7Y4XUkCovtsYv7idtwQ4SrXoaLBRcgbaMY84y8s7YT
+	cuAtXGsvQXF05zuJ+yFUqzzEAs7k+Jq8ujtQltp3zbNSF+H2WlHYryFtA6G/R6sZZwyv
+	cpxmQUe977V5Ioce6suGn3c+Nqnxdvlq72M7tBEIegkDSvlWu7LrIPMVZ+eikCMTRwjs
+	oTgF5iL2KgwM7CkA9ZGsDMrNPaqK6FB7rN4f4kEQPF0sV3CqRK1/b2IO0nGP64UVrvWx
+	AFcJJNaU5zxd4APj59hQbW071T7K0bkc0uX/rq/x/ztbQ/ydC9BeSqbsb3VxhJKF32vM
+	vSyQ==
+X-Gm-Message-State: AJaThX5Z3/xbYdHX9MYM2Yz0nsWcRGap0YW8G82g7LeWY3C75WnfN/SI
+	iRciaU4swqom4/P6MmMeLitvfzwb
+X-Google-Smtp-Source: AGs4zMZpBKMSeZLMOToQlFR91fwN9aJE+UWyPgTpAZFqRauLJc+pF6meWTLxNFNNlFE1vhbwB5AJrw==
+X-Received: by 10.25.23.165 with SMTP id 37mr2662815lfx.127.1510759768475;
+	Wed, 15 Nov 2017 07:29:28 -0800 (PST)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id k68sm4429218lje.8.2017.11.15.07.29.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Nov 2017 07:27:15 -0800 (PST)
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <cover.1510715185.git.raj.khem@gmail.com>
-	<bbb2b97f66c8c7ab5f32ea229d81e1d81e980d3b.1510715185.git.raj.khem@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <a3256d70-fe9e-8dd3-0f46-825f6be0cb76@gmail.com>
-Date: Wed, 15 Nov 2017 07:27:14 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <bbb2b97f66c8c7ab5f32ea229d81e1d81e980d3b.1510715185.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 4/8] gdb: Upgrade to 8.0.1
+	Wed, 15 Nov 2017 07:29:27 -0800 (PST)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Date: Wed, 15 Nov 2017 16:29:17 +0100
+Message-Id: <20171115152918.677-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.15.0
+Subject: [meta-oe][PATCH v2 1/2] gcc-6.4: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,59 +55,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 15:27:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 15 Nov 2017 15:29:28 -0000
 
+Without this patch libbacktrace cannot be included/link during
+libgfortran build.
 
+libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
+or unhandled argument `../libbacktrace/libbacktrace.la'
 
-On 11/14/2017 07:09 PM, Khem Raj wrote:
-> Minor bugfix release, details are here
-> https://sourceware.org/ml/gdb-announce/2017/msg00004.html
-Since these are bug fixes only, its it update backport to Rocko?
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-6.4.inc              |  1 +
+ .../gcc/gcc-6.4/0057-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0057-Fix-gfortran-build.patch
 
-- armin
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/gdb/{gdb-8.0.inc => gdb-8.0.1.inc}              | 4 ++--
->  .../gdb/{gdb-cross-canadian_8.0.bb => gdb-cross-canadian_8.0.1.bb}    | 0
->  meta/recipes-devtools/gdb/{gdb-cross_8.0.bb => gdb-cross_8.0.1.bb}    | 0
->  meta/recipes-devtools/gdb/{gdb_8.0.bb => gdb_8.0.1.bb}                | 0
->  4 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/gdb/{gdb-8.0.inc => gdb-8.0.1.inc} (88%)
->  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.0.bb => gdb-cross-canadian_8.0.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb-cross_8.0.bb => gdb-cross_8.0.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb_8.0.bb => gdb_8.0.1.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb-8.0.inc b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
-> similarity index 88%
-> rename from meta/recipes-devtools/gdb/gdb-8.0.inc
-> rename to meta/recipes-devtools/gdb/gdb-8.0.1.inc
-> index fba32ce12c..04a1c809db 100644
-> --- a/meta/recipes-devtools/gdb/gdb-8.0.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
-> @@ -17,6 +17,6 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
->             file://0010-resolve-restrict-keyword-conflict.patch \
->             file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
->  "
-> -SRC_URI[md5sum] = "c3d35cd949084be53b92cc1e03485f88"
-> -SRC_URI[sha256sum] = "f6a24ffe4917e67014ef9273eb8b547cb96a13e5ca74895b06d683b391f3f4ee"
-> +SRC_URI[md5sum] = "48cac527e6f3018b865ece021e9723ac"
-> +SRC_URI[sha256sum] = "3dbd5f93e36ba2815ad0efab030dcd0c7b211d7b353a40a53f4c02d7d56295e3"
->  
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_8.0.bb b/meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross_8.0.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb_8.0.bb b/meta/recipes-devtools/gdb/gdb_8.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb_8.0.bb
-> rename to meta/recipes-devtools/gdb/gdb_8.0.1.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
+index 37e996afb706..f2b01699f157 100644
+--- a/meta/recipes-devtools/gcc/gcc-6.4.inc
++++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
+@@ -76,6 +76,7 @@ SRC_URI = "\
+            file://0054_all_nopie-all-flags.patch \
+            file://0055-unwind_h-glibc26.patch \
+            file://0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch \
++           file://0057-Fix-gfortran-build.patch \
+            ${BACKPORTS} \
+ "
+ BACKPORTS = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0057-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-6.4/0057-Fix-gfortran-build.patch
+new file mode 100644
+index 000000000000..30b135b9780f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-6.4/0057-Fix-gfortran-build.patch
+@@ -0,0 +1,53 @@
++Without this patch libbacktrace cannot be included/link during
++libgfortran build.
++
++libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
++or unhandled argument `../libbacktrace/libbacktrace.la'
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++
++diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
++index 39d3e11d223c..b5efe6dfe195 100644
++--- a/libgfortran/Makefile.am
+++++ b/libgfortran/Makefile.am
++@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
++ toolexeclib_DATA = libgfortran.spec
++ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
++ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
++-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
++ 	-lm $(extra_ldflags_libgfortran) \
++ 	$(version_arg) -Wc,-shared-libgcc
++ libgfortran_la_DEPENDENCIES = $(version_dep) libgfortran.spec $(LIBQUADLIB_DEP)
++@@ -63,7 +63,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
++ 	      -I$(MULTIBUILDTOP)../libgcc \
++ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
++ 	      -I$(MULTIBUILDTOP)../libbacktrace \
++-	      -I../libbacktrace
+++	      -I../../libbacktrace
++ 
++ # Fortran rules for complex multiplication and division
++ AM_CFLAGS += -fcx-fortran-rules
++diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
++index 7ed080cf7b0d..d197fbd6b683 100644
++--- a/libgfortran/Makefile.in
+++++ b/libgfortran/Makefile.in
++@@ -598,7 +598,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
++ toolexeclib_DATA = libgfortran.spec
++ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
++ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
++-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
++ 	-lm $(extra_ldflags_libgfortran) \
++ 	$(version_arg) -Wc,-shared-libgcc
++ 
++@@ -618,7 +618,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
++ 	      -I$(MULTIBUILDTOP)../libgcc \
++ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
++ 	      -I$(MULTIBUILDTOP)../libbacktrace \
++-	      -I../libbacktrace
+++	      -I../../libbacktrace
++ 
++ gfor_io_src = io/size_from_kind.c $(am__append_2)
++ gfor_io_headers = \
+-- 
+2.15.0
 
 
