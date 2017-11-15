@@ -1,22 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id F246B71985
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2039378537
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 10:20:48 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2017 02:20:49 -0800
+	Wed, 15 Nov 2017 10:21:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Nov 2017 02:21:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,398,1505804400"; 
-   d="scan'208";a="2075176"
+X-IronPort-AV: E=Sophos;i="5.44,398,1505804400"; d="scan'208";a="1244379881"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Nov 2017 02:20:47 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2017 02:21:08 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 12:20:58 +0200
-Message-Id: <20171115102058.38801-1-alexander.kanavin@linux.intel.com>
+Date: Wed, 15 Nov 2017 12:21:21 +0200
+Message-Id: <20171115102121.38854-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] lighttpd: update to 1.4.48
+Subject: [PATCH] ffmpeg: update to 3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,101 +28,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 10:20:49 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 10:21:08 -0000
 
-Refresh the pcre pkg-config patch.
+Schroedinger support has been dropped:
+https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/220b24c7c9
+
+Remove upstreamed patch.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...fig-for-pcre-dependency-instead-of-config.patch | 45 ++++++++++++----------
- .../{lighttpd_1.4.45.bb => lighttpd_1.4.48.bb}     |  4 +-
- 2 files changed, 27 insertions(+), 22 deletions(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.45.bb => lighttpd_1.4.48.bb} (96%)
+ .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    | 44 ----------------------
+ .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |  8 ++--
+ 2 files changed, 3 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch b/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch
-index b8c7f375147..f17bdce2c00 100644
---- a/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch
-+++ b/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch
-@@ -1,4 +1,4 @@
--From e7a8c925b9316a72bdc8f32789ffe56fda5c4788 Mon Sep 17 00:00:00 2001
-+From 22afc5d9aaa215c3c87ba21c77d47da44ab3b113 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 26 Aug 2016 18:20:32 +0300
- Subject: [PATCH] Use pkg-config for pcre dependency instead of -config script.
-@@ -7,31 +7,36 @@ RP 2014/5/22
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- configure.ac | 11 ++++++-----
-- 1 file changed, 6 insertions(+), 5 deletions(-)
-+ configure.ac | 16 ++++++++++++----
-+ 1 file changed, 12 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 1d172a1..a9236da 100644
-+index 5383cec..c29a902 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -380,11 +380,12 @@ if test "$WITH_PCRE" != "no"; then
-- 			PCRE_LIB="-L$WITH_PCRE/lib -lpcre"
-- 			CPPFLAGS="$CPPFLAGS -I$WITH_PCRE/include"
-- 		else
---			AC_PATH_PROG(PCRECONFIG, pcre-config)
---			if test x"$PCRECONFIG" != x; then
---				PCRE_LIB=`$PCRECONFIG --libs`
---				CPPFLAGS="$CPPFLAGS `$PCRECONFIG --cflags`"
---			fi
--+			PKG_CHECK_MODULES(PCREPKG, [libpcre], [
-+@@ -651,10 +651,18 @@ AC_ARG_WITH([pcre],
-+ )
-+ AC_MSG_RESULT([$WITH_PCRE])
-+ 
-+-if test "$WITH_PCRE" != no; then
-+-  if test "$WITH_PCRE" != yes; then
-+-    PCRE_LIB="-L$WITH_PCRE/lib -lpcre"
-+-    CPPFLAGS="$CPPFLAGS -I$WITH_PCRE/include"
-++if test "$WITH_PCRE" != "no"; then
-++  PKG_CHECK_MODULES(PCREPKG, [libpcre], [
- +				PCRE_LIB=${PCREPKG_LIBS}
- +				CPPFLAGS="$CPPFLAGS ${PCREPKG_CFLAGS}"
--+			], [
-++  ], [
- +				AC_MSG_ERROR([pcre pkgconfig not found, install the pcre-devel package or build with --without-pcre])
--+			])
-- 		fi
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
+deleted file mode 100644
+index 3f8224aa079..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From f34c567045bea5a7ded9bcfa8e785cfd24cc7dde Mon Sep 17 00:00:00 2001
+-From: Shivraj Patil <shivraj.patil@imgtec.com>
+-Date: Tue, 4 Apr 2017 18:56:01 +0530
+-Subject: [PATCH] build fix for mips
+-
+-Signed-off-by: Shivraj Patil <shivraj.patil@imgtec.com>
+-Signed-off-by: Ronald S. Bultje <rsbultje@gmail.com>
+----
+-Upstream-Status: Backport
+-
+- libavcodec/mips/hevcpred_init_mips.c | 3 ++-
+- libavcodec/mips/hevcpred_msa.c       | 2 +-
+- 2 files changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/libavcodec/mips/hevcpred_init_mips.c b/libavcodec/mips/hevcpred_init_mips.c
+-index 331cfac115..e987698d66 100644
+---- a/libavcodec/mips/hevcpred_init_mips.c
+-+++ b/libavcodec/mips/hevcpred_init_mips.c
+-@@ -18,7 +18,8 @@
+-  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-  */
 - 
--   if test x"$PCRE_LIB" != x; then
-++  ])
-++
-++  if test x"$PCRE_LIB" != x; then
-++    AC_DEFINE([HAVE_LIBPCRE], [1], [libpcre])
-++    AC_DEFINE([HAVE_PCRE_H], [1], [pcre.h])
-++    AC_SUBST(PCRE_LIB)
-+   else
-+     AC_PATH_PROG([PCRECONFIG], [pcre-config])
-+     if test -n "$PCRECONFIG"; then
- -- 
--2.9.3
-+2.15.0
+--#include "libavcodec/hevc.h"
+-+#include "config.h"
+-+#include "libavutil/attributes.h"
+- #include "libavcodec/mips/hevcpred_mips.h"
+- 
+- #if HAVE_MSA
+-diff --git a/libavcodec/mips/hevcpred_msa.c b/libavcodec/mips/hevcpred_msa.c
+-index 6a3b2815fd..963c64c861 100644
+---- a/libavcodec/mips/hevcpred_msa.c
+-+++ b/libavcodec/mips/hevcpred_msa.c
+-@@ -18,7 +18,7 @@
+-  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-  */
+- 
+--#include "libavcodec/hevc.h"
+-+#include "libavcodec/hevcdec.h"
+- #include "libavutil/mips/generic_macros_msa.h"
+- #include "hevcpred_mips.h"
+- 
+--- 
+-2.13.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+similarity index 95%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+index 57e0ac04115..42dbe5582f3 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+@@ -25,10 +25,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.45.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.48.bb
-similarity index 96%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.45.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.48.bb
-index 08dda33606c..3c4444cf423 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.45.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.48.bb
-@@ -20,8 +20,8 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
-         "
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+-           file://0001-build-fix-for-mips.patch \
+-          "
+-SRC_URI[md5sum] = "e14a0200c78ce5c918427e57cd406a0d"
+-SRC_URI[sha256sum] = "98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957"
++           "
++SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
++SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
  
--SRC_URI[md5sum] = "a128e1eda76899ce3fd115efae5fe631"
--SRC_URI[sha256sum] = "1c97225deea33eefba6d4158c2cef27913d47553263516bbe9d2e2760fc43a3f"
-+SRC_URI[md5sum] = "1e3a9eb5078f481e3a8a1d0aaac8c3c8"
-+SRC_URI[sha256sum] = "0f8ad5aac7529d7b948b9d7e8cd0b4a9e177309d85d6bf6516e28e6e40d74f36"
- 
- PACKAGECONFIG ??= "openssl pcre zlib \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
+@@ -64,7 +63,6 @@ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+-PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+ PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
+ PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
+ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
 -- 
 2.15.0
 
