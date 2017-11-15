@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C39887851E
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f169.google.com (mail-yw0-f169.google.com
+	[209.85.161.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F80F7851E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:37:32 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 4so8115520pge.1
+	Wed, 15 Nov 2017 03:38:23 +0000 (UTC)
+Received: by mail-yw0-f169.google.com with SMTP id c197so336369ywb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Muxqli4EbdSG2nV3xje6RjfukpJ9MgsLTTqS9fw5ouk=;
-	b=hgVtZ1T9dG9LNnSYs7DAPO+kiWrWdhwz6mZ7jDhXu2VuNhys+bxrkU5rHQv8ELJPcE
-	FxtIy6nkOP3K/umD6o5aMmSjCCnBl8Ao8YFtT/WRQaFVgPimt0eCRU+UB0PImcq5PbJs
-	lvN/DbhWPZr+gMBT55PTwugbAa2DY9KwVEOTTeufDvbKpuKp3C9XXLq/pPWOOUpI8Jjp
-	LNL1y7jCJF1m2Wn5K6mv+gXPXnym5USaeXqndfmoOPE26sAlAf7LCymEKNYr8RnyLX+9
-	nu5mY9JQtKhLuown8jJ4sOZKfx1UfjLAmFAsLwOr1/dP1aa/nbETQdPiHt4KB6j8MpRs
-	wvxA==
+	Tue, 14 Nov 2017 19:38:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=6FDN7eNpsQYv9xfM44PUul2/KISCDuvZjOrza2TSFBE=;
+	b=izXlvHUzPNF4AFwRmqOXuGT9FowuoHjpiqWq37T3IqwmLji04QQGJF0EU/i85ZN4HV
+	hVkU3I8WGXfFgVqtC4S9KZdEC+fAAkHDA+NGrgMW4AJp5/cPnIDbPP0s5+lNvpFCXrQc
+	EcCPrb0+v2Tp6sOccbWZ2lxFXFGnveU+KauCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Muxqli4EbdSG2nV3xje6RjfukpJ9MgsLTTqS9fw5ouk=;
-	b=PhQXX1OjUbGYu4+iN1EmiKZ9vgv4lzpIyD+ourphjBPKjRqaRbvrE89K9IXk5nsaHj
-	dMoq0SMA3O+KQvP1T0WGU/OuBpiKa6oA/CedTv++uG70m564vJVnx0wQMI4fzGWVxdw1
-	iqlCvsKwU5kTPYD8nVBryqV6wAJRdjrkzwIG0i9mGTV1S/WUgaWzoTz7C9MKcMLelKpN
-	VIo1zN5JVF181WOeUcZv2DAsHRZbeVvvyh2ekaXrLKDATjgzdedTLFTFN+hfbxLd1NVx
-	VMkcZzqm74BhkScs1Y/PcH6hw+2RRPV367Z3CZtU0ffQobzTvUhJJBtUC+RBQmJbN4mR
-	Wsuw==
-X-Gm-Message-State: AJaThX5wWi7kHne0U+i87UQ3V3TdLRj+fAm6gEEg9tJigmSNgsOcJQmL
-	ArvM8WRQolPF1KIvwnhuhhQwUCTzr7kI8XKBV+s=
-X-Google-Smtp-Source: AGs4zMZFpUqpOH4CdFKB4cAX7JCGWp5Tx9hzt6uuGJwGnMOP6rxIKCPOd4duSfqNy5JI+Zd9keDFEo+bAnDGAx0vxw0=
-X-Received: by 10.99.160.96 with SMTP id u32mr14366962pgn.25.1510717054172;
-	Tue, 14 Nov 2017 19:37:34 -0800 (PST)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=6FDN7eNpsQYv9xfM44PUul2/KISCDuvZjOrza2TSFBE=;
+	b=Hqp7bwOelSgUDY5edGcbAYkfHZz98MTiTGHlMWeB+kxsfaffEUVL8psY0MxNXsosLX
+	hFYX0TcLR402dEbPRqErYSyEhu1RINGQkYH7aj9bog4jwd3J1hBynDX9RhAag8wAchfq
+	OM0UJlftDBZM1Y1MESpw+Y/M4rDoA479+uwLN98zf9ksfqjCtjA61X1dduGlEhaLuvWP
+	9fxgxupmCnP0vmbbR8IoCXc8QwyEC+dRk6hzSrS67pdjoNda9zIhiTV3Bvy3/0tQyGJe
+	iwTyD0c7t66rv8iDkfR8ExVwcFPBiHLpqZHGvF1HIm2Aiq2RMwT5WPe1fQfC4xdhEPWs
+	uh/Q==
+X-Gm-Message-State: AJaThX6t58s8EMtKOa6VEOPobmelQkcEKkagvwnuyLAHPgEtenUThYmt
+	5NsGz6rIUEmOOEFsORUkl57SlQ==
+X-Google-Smtp-Source: AGs4zMZMQ8TmBXLN1tc+3AQEnj37tcdYI+QJR1sxT7hR3L0hSckEOW1m4XhQ6rqoENvAQ9mTypDKBQ==
+X-Received: by 10.37.186.9 with SMTP id t9mr1205593ybg.307.1510717104946;
+	Tue, 14 Nov 2017 19:38:24 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	m63sm1394353ywm.1.2017.11.14.19.38.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Nov 2017 19:38:24 -0800 (PST)
+Date: Tue, 14 Nov 2017 22:38:22 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20171115033822.GF9986@bill-the-cat>
+References: <20171114183223.7804-1-otavio@ossystems.com.br>
 MIME-Version: 1.0
-Received: by 10.100.167.106 with HTTP; Tue, 14 Nov 2017 19:37:03 -0800 (PST)
-In-Reply-To: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
-References: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Nov 2017 19:37:03 -0800
-Message-ID: <CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] musl: use arm instruction set for armv4 and armv5
+In-Reply-To: <20171114183223.7804-1-otavio@ossystems.com.br>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Marek Vasut <marex@denx.de>, U-Boot Mailing List <u-boot@lists.denx.de>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Upgrade to 2017.11 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:37:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Nov 2017 03:38:24 -0000
+X-Groupsio-MsgNum: 105034
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KJY2Ze80yH5MUxol"
+Content-Disposition: inline
 
-On Tue, Nov 14, 2017 at 1:44 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> thumb1 is not supported with musl.
->
-> Fixes: [YOCTO #12336]
->
-> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> ---
->  meta/recipes-core/musl/musl.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-> index 56c9d7f..b4b0de9 100644
-> --- a/meta/recipes-core/musl/musl.inc
-> +++ b/meta/recipes-core/musl/musl.inc
-> @@ -26,3 +26,7 @@ INSANE_SKIP_${PN} = "dev-so"
->  # Doesn't compile in MIPS16e mode due to use of hand-written
->  # assembly
->  MIPS_INSTRUCTION_SET = "mips"
-> +
-> +# Doesn't support thumb1
-> +ARM_INSTRUCTION_SET_armv4 = "arm"
-> +ARM_INSTRUCTION_SET_armv5 = "arm"
+--KJY2Ze80yH5MUxol
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ah I submitted a parallel fix that was sitting on my branch.
-is that fine ?
+On Tue, Nov 14, 2017 at 04:32:23PM -0200, Otavio Salvador wrote:
 
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> This upgrades the U-Boot from 2017.09 to 2017.11 release.
+>=20
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+--=20
+Tom
+
+--KJY2Ze80yH5MUxol
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJaC7auAAoJEIf59jXTHXZSx1sP+wQhOUgjG4uV3cfLd1sShFC3
+8Yz64zLEIl6YehMAHn5OGHSRVAV5fngdGUNclETmPmXGcfIipTCJ4w6GZNj8a1kT
+9HyCRrJrhu0dHiffolZbof729WwUGDEVlEVlJDVSuCSTxMzdONDGYNeiLiG6ek6T
+KP+P5HJ3sEfW4toV0u0HvZ87UF2vpkaDKuZauREpz9a29ZBnHwAtHj7Zr46XHqBv
+RkyP4UY3H1jl3+885YEgYkaDx99ZShpag8wIUMrRrUHWqcZQ8vho2qxrzbqqkhrU
+9SCueHMobhsbvNzFS8Dj8pfCwexVGs85SX8thU5jp5Mbc+/4OLbxV8aFRFAEjf0l
+vYHnBPRBZJ855Yfgt2mVzIelYeH8hY+Qa2qnJuOUM+kbV5QvkTnxXvLe7yzYTQnn
+v8dEnDNugqaOH1ugHxgNikCM0cykdTn/Ecpj6xN0UOQR1xaAmT6YBvFnykgmfU1W
+wLHP5SpLZYY9nvfD9DrENSuDPt0TQsbLHm4SpIVmSoyuTvFv44PQ390soW3Gbp6g
+T31ur5+a9YKwNduukQa5yAWQgvRdGcNfbkIHoMYaHiBaDqmie2b/43MNGrDB14KC
+yVxJvJdyDQUgPKsXyByEhFVnUjuvg6+8puMk/h0RePejYOUvG/pSVuNWa3WVmfX5
+pmWdvY1zpTN5H8dLeMHl
+=+JCh
+-----END PGP SIGNATURE-----
+
+--KJY2Ze80yH5MUxol--
