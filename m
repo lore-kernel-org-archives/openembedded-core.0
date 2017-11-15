@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A83D78516
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D0A78518
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:09:29 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id 1so31342949qtn.3
+	Wed, 15 Nov 2017 03:09:30 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id r58so7411764qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:09:31 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KdaDL+A6ItnhQvHyT1qncnT4vEUjYYW6qVTfJUtH9OU=;
-	b=tjLeD1Rkkiuu7yVi9O6dB5GR4LuSKbatjGV8WR8W06W2qPoW4dN0iANmP7mQbkuila
-	IKd1q5I0jVeZU74uojnzdeHDcRyxGXcvQnRf7I5JFChgZa9EmV6fL+qvsO9RAmaUR+sk
-	WE6PQId3RbeCmWheaumzPGekBUzX+FFQ5w+TC+Fn/EfIrvve/b7+oclvijZDpfA5Q9Fh
-	t83k8mrLFUdBk8MpoWNoTlalYlTUW1IXwFLM+YFaC4PsfxhOujJKBFhK9TtmSOrkOcdI
-	XNgPkqoFv8JHf8RS2OCQ58pPq7iVVDMXr7Y5wNFrw1Gl78Pz82MyxozsJcWgcWqMlPvE
-	4qMQ==
+	bh=2bKxJ0Ep3vbAHu4iBzgsWuUiu4gO9ynMWCPolMJ6sNI=;
+	b=heNOm6yCv5Lzh3obLOsjeLIgTVP74ZkS8IOyLlG/CNXIRt9feixZmsKz+t2x2o41/t
+	5CUx6MD6dpSiHGMrJ7ZKd+WSaE3ycwXB2X7nWj3Jx5pOnLFMQ82nTi8DoYDsDvW5fOyI
+	UXqP1rkPTHmNTdXxC+7kGjFPh5a5YoKbqFp6s0fZJqH8SYcQsVoauPQSeE76rgTP/HSx
+	f20mQq48jGME1dMSv6WQ94N+sDcETxHR0eJKyI1pOSP8z40AhfFC89T8OoEPv4u4LFYr
+	HN+KCMOI57DBqJ0/R5HIiS1XGTbyvhWMoItP5I4wVVj5AddS5KOlAUbanJs6guW8YJQ/
+	v8cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=KdaDL+A6ItnhQvHyT1qncnT4vEUjYYW6qVTfJUtH9OU=;
-	b=AX2P1vf5XJ2R2z939XBxgu/0eRt9jPpRuz+/XMHin5xsQZHQljb1iVFmAwdIWldiIH
-	4YVY5zPUK48c9utdkg3mDmG7zS+7laPmDqTtL/UPCU0CDno6SKP4WQWCKJjrpm2qzP/p
-	2ZjridPpGqJeogAjVhl5v3IhNDdgeIUWZlUYl05+qRK+atgnjd+9NmBwhQsaMGQsHCaP
-	KxtI0Pcv/1hHHbvH8PTsTD/6zNlVvyQzbrTV68I6nQ1HSHgJSiwdbTJFxyaQvwqd3mFj
-	zb5/WsE6Ufr5Dznf14VEKC556bdWw+71+o/kBaqSzDMQcgWjB2oBw2YfzLfmDl7uUJAJ
-	a0WA==
-X-Gm-Message-State: AJaThX4x/BMfCL/AZpvljO48nUc+szW8lwMcpEWJJ8o01Nqo8SNg30E4
-	XxqAnCdy5KXP/Ge0PqWA8ZaEtw==
-X-Google-Smtp-Source: AGs4zMYEgD/1a74YYqaVKSNiD7lBykVNo21u/ThqqpZkV0fsmKoZu3DWH8M48Trk/jUOSTSwanxkGw==
-X-Received: by 10.200.22.39 with SMTP id p36mr24060144qtj.336.1510715370269;
-	Tue, 14 Nov 2017 19:09:30 -0800 (PST)
+	bh=2bKxJ0Ep3vbAHu4iBzgsWuUiu4gO9ynMWCPolMJ6sNI=;
+	b=R1XJEclgy+xCYHpqFmBUNOAaO8C6xr9ujA30op0ZQC+syTi1cwEA1Nde1PyxxSjVyW
+	j27HIf/1MtpH1HlTfncmjrSjeJXmgUEiCuWp1AHp7ykpYq0RS2jOYWU5C05LajU7mAAZ
+	+QO0KeBjY/fm8DZoOeq4sh9MQjMJ8+vCdsAYW99HbSLcRXLV9IwfL7Jra6NL0GGp7h2R
+	+66tdHs+l6rxMx6hbIU5JaXTtwqsZYROld4auGAURwXguBYl1X3LMNw6Inc7B23J5Wt1
+	hsvPcs4I55CcCw5wVJBFkePQzt9VHA7aU0FMHms+X+DWXj0NLYzPZnkJVrEVSYT3lztk
+	/04Q==
+X-Gm-Message-State: AJaThX7fwVAcOH0WRIxCinpFuZocjsT+AvWwI7XIgInJ0NwgWy7XWBHI
+	vCxYAevC69uHsp2MMpXi8wyDuw==
+X-Google-Smtp-Source: AGs4zMYClKb/V7oeas3qeuGYiL7wfhFHsYMT8yvYmIHz2DpY5XArb9wC08ceGY6BDRzPb5zcDdOp5Q==
+X-Received: by 10.200.4.7 with SMTP id v7mr8818832qtg.129.1510715371743;
+	Tue, 14 Nov 2017 19:09:31 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8882:b8c::a4a])
 	by smtp.gmail.com with ESMTPSA id
-	r21sm7319968qkh.89.2017.11.14.19.09.28
+	r21sm7319968qkh.89.2017.11.14.19.09.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 19:09:29 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:30 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 19:09:13 -0800
-Message-Id: <d1ec100e5d4db7f68b896564a0362be9ba8f6f55.1510715185.git.raj.khem@gmail.com>
+Date: Tue, 14 Nov 2017 19:09:14 -0800
+Message-Id: <070cd17f60090f3b08b24e8808aab67543a3eb88.1510715185.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1510715185.git.raj.khem@gmail.com>
 References: <cover.1510715185.git.raj.khem@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 2/8] binutils: update to 2.29.1
+Subject: [PATCH 3/8] binutils: Convert SRC_URI and SRCREV to weak defines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:09:29 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 03:09:31 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+This makes it easy to override them in bbappends
 
-update to 2.29.1 to fix the following missing CVE's
-
-CVE-2017-15939, CVE-2017-15938, CVE-2017-15225, CVE-2017-15025,
-CVE-2017-15024, CVE-2017-15023, CVE-2017-15022, CVE-2017-15021,
-CVE-2017-15020, CVE-2017-14974, CVE-2017-14940, CVE-2017-14939,
-CVE-2017-14938, CVE-2017-14934, CVE-2017-14933, CVE-2017-14932,
-CVE-2017-14930, CVE-2017-14745, CVE-2017-14729, CVE-2017-14529,
-CVE-2017-14333, CVE-2017-14130, CVE-2017-14129, CVE-2017-14128,
-CVE-2017-13757, CVE-2017-13716, CVE-2017-13710, CVE-2017-12967,
-CVE-2017-12799, CVE-2017-12459, CVE-2017-12458, CVE-2017-12457,
-CVE-2017-12456, CVE-2017-12455, CVE-2017-12454, CVE-2017-12453,
-CVE-2017-12452, CVE-2017-12451, CVE-2017-12450, CVE-2017-12449,
-CVE-2017-12448
-
-see Changelogs for additional information
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../binutils/{binutils-2.29.inc => binutils-2.29.1.inc}                 | 2 +-
- ...inutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} | 0
- .../binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb}       | 0
- .../binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} | 0
- meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} | 0
- 5 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/binutils/{binutils-2.29.inc => binutils-2.29.1.inc} (97%)
- rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} (100%)
+ meta/recipes-devtools/binutils/binutils-2.29.1.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.29.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-similarity index 97%
-rename from meta/recipes-devtools/binutils/binutils-2.29.inc
-rename to meta/recipes-devtools/binutils/binutils-2.29.1.inc
-index 27d46eb088..d92bbbce5d 100644
---- a/meta/recipes-devtools/binutils/binutils-2.29.inc
+diff --git a/meta/recipes-devtools/binutils/binutils-2.29.1.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
+index d92bbbce5d..07a72e2b5a 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.29.1.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-@@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
+@@ -18,9 +18,10 @@ BINUPV = "${@binutils_branch_version(d)}"
  
  UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
--SRCREV = "37e991bb143ca2106330bcdc625590d53838b7a1"
-+SRCREV = "90276f15379d380761fc499da2ba24cfb3c12a94"
+-SRCREV = "90276f15379d380761fc499da2ba24cfb3c12a94"
++SRCREV ?= "90276f15379d380761fc499da2ba24cfb3c12a94"
++BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git"
  SRC_URI = "\
-      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
+-     git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
++     ${BINUTILS_GIT_URI} \
       file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb
-rename to meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
-diff --git a/meta/recipes-devtools/binutils/binutils-cross_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/binutils/binutils-cross_2.29.bb
-rename to meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
-diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb
-rename to meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
-diff --git a/meta/recipes-devtools/binutils/binutils_2.29.bb b/meta/recipes-devtools/binutils/binutils_2.29.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/binutils/binutils_2.29.bb
-rename to meta/recipes-devtools/binutils/binutils_2.29.1.bb
+      file://0004-Point-scripts-location-to-libdir.patch \
+      file://0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
 -- 
 2.15.0
 
