@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E2078519
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 389C57851E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:43:53 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id f8so31480912qta.5
+	Wed, 15 Nov 2017 06:37:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAF6bc0r006903
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:43:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hYL+6B4ERFMltBW7AxQ/S5XUt38vR6NQlAHMWeHqCi4=;
-	b=TLbFxLIyzya+lvxkO3UzFHTp5vlZFALZgTRWbwnKg54KuIHInQ+rTU+4BcbHu70LIF
-	mPVEYkqsrpgWjAiHMAkLqZk0LpGOK5O6Zrzn0ImCp2RmlpB2anHbsh6nU6D6kWjwLgzZ
-	knLFapBPTdVzyOE/axfGSfwxWcL2K/4lcGLzh/smdqvMoms80TBk8LgN2owazV/4MME6
-	9geLqHYIC50KsC4MsrceyGwMy8DctmebRhP7pD0Vqq8t44NWbD/L6u2c7cnkhK3tbLs0
-	vgyFDuuBrh8xNBecYux0NAyyYjCJcdY6J5qKDB2t2lRtCT3n3GFpVwq6J8j8blFOU2Qg
-	OHtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=hYL+6B4ERFMltBW7AxQ/S5XUt38vR6NQlAHMWeHqCi4=;
-	b=j+tFk5TUL6MAqbwEUihrhwQKb9QqiD/z4Egeg5A6rZKl2VEEODK+4JDihU1nDmJ4lG
-	IKKIqkBMKJ+B+nLKgfzuzk78DWBwGW+Hz+FmX1fOIXHjV0h5H7HOqX+9ahPtawCcNi3t
-	6x/n/Tk6AzxKMbZmBh/28B8KId4ii2rWwipE60x4C6Fan6e5qlrfYZcoaOjEYOwWcBVa
-	fG/xKDejUcBpIoPe7oKj38fh7a3TfiUdKFVfERMCdxMfri6hqkRfpcntNSUIADZ3Rl80
-	wPkwnyOyLY8A6EIOEpSrd1t7EEGlHpfr6gIXw+GhgPpDCD4B0JfAcDaz6gUtEATbmGiC
-	udHQ==
-X-Gm-Message-State: AJaThX5+0g19vC3HxTVSR+RSJzqXJJy5sO/4hd6MiVDlKgMnVk5t948j
-	+dQS0J4cAYvRb6oXZF/nmFVzQw==
-X-Google-Smtp-Source: AGs4zMa0wQ0cM1Oqkrd22wMDfYhbIK7V1HQIChaJtvzt1tQGnA7JSsvRhRPkgnoGGjgNodXCNpum0Q==
-X-Received: by 10.200.35.173 with SMTP id q42mr9188852qtq.199.1510717434195;
-	Tue, 14 Nov 2017 19:43:54 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:8882:b8c::a4a])
-	by smtp.gmail.com with ESMTPSA id
-	z75sm13407762qkb.30.2017.11.14.19.43.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 19:43:53 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 19:43:42 -0800
-Message-Id: <20171115034342.42901-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171115034342.42901-1-raj.khem@gmail.com>
-References: <20171115034342.42901-1-raj.khem@gmail.com>
-Subject: [PATCH V2 6/8] musl: Disable thumb1 ISA
+	Tue, 14 Nov 2017 22:37:38 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 14 Nov 2017 22:37:37 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Nov 2017 14:38:30 +0800
+Message-ID: <cover.1510727871.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:43:53 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 06:37:38 -0000
+Content-Type: text/plain
 
-From: Andrea Adami <andrea.adami@gmail.com>
+The following changes since commit 4ed19ac8c19afd56d445d84e02b622cb056b8359:
 
-thumb1 is unsupported see http://www.openwall.com/lists/musl/2017/10/20/10
+  poky: Switch to post release name/version (2017-11-14 17:26:58 +0000)
 
-Fix
-[YOCTO #12336]
+are available in the git repository at:
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Changes in V2: Add author attribution
+  git://git.pokylinux.org/poky-contrib ChenQi/esdk_manifest_excludes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/esdk_manifest_excludes
 
- meta/recipes-core/musl/musl.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+Chen Qi (1):
+  populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index 56c9d7fe17..9af1172ae0 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -26,3 +26,8 @@ INSANE_SKIP_${PN} = "dev-so"
- # Doesn't compile in MIPS16e mode due to use of hand-written
- # assembly
- MIPS_INSTRUCTION_SET = "mips"
-+
-+# thumb1 is unsupported
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+
+ meta/classes/populate_sdk_ext.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
 -- 
-2.15.0
+1.9.1
 
 
