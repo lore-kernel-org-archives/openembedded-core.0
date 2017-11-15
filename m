@@ -1,46 +1,47 @@
-Return-Path: <patrick@advancedtelematic.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F006B783C6
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 604C16093C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 12:40:54 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id y42so20372710wrd.3
+	Wed, 15 Nov 2017 13:18:00 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id v186so2919131wma.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 04:40:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=advancedtelematic.com; s=google;
+	Wed, 15 Nov 2017 05:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=i/Vc1qMqtRhDBpkB3yn5r1p/Tj3dT3MIFX7+pOkKpA8=;
-	b=eReLoep1dfLnBu4gT94WaBwK7FB2S3T9pxFTo7aRf+VZfZSEX9AEikutyiyF66KSUL
-	Pej0Is5k5gpEiffsyo0wv8U8FESPjkc1eEiDcFNRr9cq4uQcdrOzUPzt2o2oiHxTpJh5
-	EUu4axfQUkTUU4PxH0PJLbroNeNlDU1s1lAIs=
+	bh=0jCd/oDUt5p33IThX/9Yd3FPx+skq9JaBmAAgxHTGHY=;
+	b=djMCsYawhavS07aa0OoPVUiRRHzWBMwirPS+/h+9TSor9xA2sFombWeqfgmFj/k6b3
+	hF/kUPK7EOlyLjVnEGJKPKoDeb19VA9LwgisvEMrz+XpWSo6Cj6kJzXOHgZ4kZRHkYAb
+	6b2ZTkYA6U44yI4r755TBbzAMT//ypI7mhLTSbIavxU1j6bXhH6cMpoq6cYZ0ZO2lFcR
+	fdDB99QfzcxmmBrMnViZjPGhS/b0NV3hfSeSygXcN9gXOcjRNvIXuNZQMR2U2yzsyyeG
+	4AqkULVd4DnLq01TIVDy+2nDSCA/BtaGkPiwpwvfdfqgfzxETW4cBReOf8WdXGE8fX1b
+	BF4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=i/Vc1qMqtRhDBpkB3yn5r1p/Tj3dT3MIFX7+pOkKpA8=;
-	b=iZ2RQBsLobv2yQsZB1Fm35yh0qT9xDnpzM4J+SiQUAhUxz5LOiJxT0hIhpyRMkGeg6
-	PTH3QrGBabPQvN6JTgwYR13pEz2sc+5ZO8MIrL/ZCWKEOtX/SE6IIkAvEpTrusfPoKhI
-	jm7XsYpJ4SvDBIGnXjwE4q7eO16RgMndXkBArTgD6M3XMKODqhcl9rz4xHBjNaHHMWlw
-	SrDFaRTSZ7cZiTZACjzuAG4SMyHLvkwkDpXjsDMbMz9N+mp9LPOykqbZ1FgtXp7WocCh
-	U3FKHGU35ygmxc0mZV82tkPN72zM2hWes+2nMhaDpBbEzy3iEYr81XBLSpBeYhrPejYk
-	NTxg==
-X-Gm-Message-State: AJaThX7iIjbUJRBTP5hNVKRDN54JrqWjYybu3UIFUWIX49naCkFrR6Yn
-	GAmcmFmbahHkfqGw9sZCHLrFwNPAy+k=
-X-Google-Smtp-Source: AGs4zMY0y0tpSmp1u8VXoaxTy4ws/3/btu/XaLLvWffC4vUCYcuf4ckSqZqBrj7h0L/5oU8JdoMscg==
-X-Received: by 10.223.130.225 with SMTP id 88mr13006540wrc.6.1510749655635;
-	Wed, 15 Nov 2017 04:40:55 -0800 (PST)
-Received: from localhost.localdomain (p57bf9f95.dip0.t-ipconnect.de.
-	[87.191.159.149]) by smtp.gmail.com with ESMTPSA id
-	x63sm17482002wma.39.2017.11.15.04.40.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Nov 2017 04:40:55 -0800 (PST)
-From: Patrick Vacek <patrick@advancedtelematic.com>
+	bh=0jCd/oDUt5p33IThX/9Yd3FPx+skq9JaBmAAgxHTGHY=;
+	b=tmQmvjIuIy7sMrkjZbaioiKOJttM7HpbfLbbrle+IPdjNZnwh7i1N3r8pADxlIHVrn
+	6CX1VsQoycY2Z0uPVcsI4qkFU1IfNZ6gZcpe5UfzQf2uDAMw9hMPXiv4V/mk+Z5XezRL
+	yIzld4o0AaSdOJGzxeOeLaaOiKcLzSUkrIvOQKxY9RwrUDTzy19PngQJXVcPDEEDD10p
+	He5w0NTqQYB+ILEVEZCYiETCDKhTCB3uzNnMUiG1a5D9sP2OhlFlBc3DkM6zCsPJM1O4
+	CEZD6IhgZNeLz765CA0aDhNad2bx/uG9e4V1wU6SlVpXHR22fMVs3FWT4NsJq2RnWGCZ
+	sGlw==
+X-Gm-Message-State: AJaThX6G1z0Bu1rKJnHDi7xffRlDQF3woq39dfmdoimGJfwghCCeEfxE
+	znZGSu+lraMNygkUB7zhpVc1gg==
+X-Google-Smtp-Source: AGs4zMZpke3FQXWlsTAbRZfsxzPu3cGKcN8joNVpEvqUDndYJClIruPeFhYMnqjmwW3WRrdlK5k4SA==
+X-Received: by 10.80.146.184 with SMTP id k53mr22563736eda.78.1510751880943;
+	Wed, 15 Nov 2017 05:18:00 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58]) by smtp.gmail.com with ESMTPSA id
+	c5sm18017967edd.38.2017.11.15.05.17.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 15 Nov 2017 05:17:59 -0800 (PST)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 13:40:41 +0100
-Message-Id: <20171115124041.23289-1-patrick@advancedtelematic.com>
-X-Mailer: git-send-email 2.11.0
-Cc: Patrick Vacek <patrick@advancedtelematic.com>
-Subject: [PATCH v2] ca-certificates: Add /etc to SYSROOT_DIRS
+Date: Wed, 15 Nov 2017 14:15:50 +0100
+Message-Id: <1510751750-1916-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] qemu.inc: let linux-yocto-rt also provide nfs server kernel module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 12:40:55 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 13:18:00 -0000
 
-From: Patrick Vacek <patrickvacek@gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
 
-For recipes that depend on native ca-certificates.crt, /etc should be
-added to the list of directories that automatically populate the
-sysroot, otherwise the file may not be there.
+In case some users want to use linux-yocto-rt as the preferred kernel.
 
-Signed-off-by: Patrick Vacek <patrick@advancedtelematic.com>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/recipes-support/ca-certificates/ca-certificates_20170717.bb | 1 +
+ meta/conf/machine/include/qemu.inc | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-index 59e7d51437..52a1a07f68 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-@@ -24,6 +24,7 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://sbindir.patch"
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 0e4103b..e64b0c8 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -25,6 +25,7 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
  
- S = "${WORKDIR}/git"
-+SYSROOT_DIRS_class-native += "${sysconfdir}"
+ # Provide the nfs server kernel module for all qemu images
+ KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
++KERNEL_FEATURES_append_pn-linux-yocto-rt = " features/nfsd/nfsd-enable.scc"
  
- inherit allarch
+ MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
  
 -- 
-2.11.0
+2.7.4
 
 
