@@ -1,47 +1,107 @@
-Return-Path: <samentu1@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA1578699
+Return-Path: <mkelly@xevo.com>
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-co1nam03on0080.outbound.protection.outlook.com [104.47.40.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F837784B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 19:00:29 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id m191so2982408itg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 11:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rU5IcLCAuim6uA+eIw9ozxKyey0asS6Y1u8cYrqHq1M=;
-	b=kO5dUxZMRHmfm9OWxjnN7qMV5DRBWYreQ769B+og52Zgk12D85YCG32hs58WNbEO5R
-	DFRRGlSrq3Awje4s23kIilrIQ2ZWt+6cyhna1d58IqOmkT0FGusKqlUkFVW3+5lHXjgB
-	yrzskgAC1qiQwW1q31Vv8zUhs5F2K41MVH0wdnMBEbY0YPzeYDR+Fg3e9to7CoaF4xh/
-	VptNnqn1p5wxsTLJ82LyjageCJoU1xSzc+QGCzxspPgdQW7g768im8tDslRxRYRfQHve
-	+fWdcAmvGZan4jGVb52kVpLMTt0xkbgj1G6g0LjSeRYK4ikMFN89JWxwf6lr/j4C5GCF
-	xvlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rU5IcLCAuim6uA+eIw9ozxKyey0asS6Y1u8cYrqHq1M=;
-	b=kUmFhYJBWx53CN/1HBlm3V6HHeaJArNCwhOwBIivAHjkpDWTDm8lYt6XT+O54durNU
-	E2/tm3j7gE/WU2of636/2kAqg6yQHmkgeTLkzibPQpwmY2IsPQsu7m/PJmzzXQnWtXO6
-	5RO13A6FgQQvcTONCzkoQhLJliAr3C0VOyuD6NPYbAYjxDVB+Zc0RVhQaU8lVN/y61mF
-	DJrM0rGRsp3iH5DsFDqlKXhlg0UfulJkTabYE58lly1zC7guO4WwdrovOZU/YLaTvFej
-	BOeYpRBQrIlL9wsVdtnhlttTjPk+PP79j7S6yqDfMYQTbUMzIKY9SzSrdBPzxtWgKEqb
-	jo4g==
-X-Gm-Message-State: AJaThX6gVGLEcv+ivirH+CYFFd+Kyh9v0zChoNHdURq5lbq/kaABvcYY
-	fy8P30Wl46FTo8Nn4qU4j4Tyh77dO/crymqQ0Uw=
-X-Google-Smtp-Source: AGs4zMaWHEL8p2nBmb6DH116bAJxnF7LmeWaczGY1jMbVmIEFS8ACI19nxJE2S+kV6UbWRp9Lahos0H/HgK6GGYMPhg=
-X-Received: by 10.36.66.80 with SMTP id i77mr22154442itb.102.1510772430981;
-	Wed, 15 Nov 2017 11:00:30 -0800 (PST)
+	Wed, 15 Nov 2017 19:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=tL55WT/pxLcYBK6Py19SvIHYJN+6Ok6xrQFFz2/yCbU=;
+	b=LbRzu9z/mzrCIfhXSIaeD/iMFFzSNASBCZJuV5deNzbekGNetv9eBcXiT1+r/FLshh3aXA+Zh6tUfDIbCE1aQT0MK6EKq0TCu8jNVU/sQ2xm9nAPEz9+Ug++VHFUAicpWBhgZ4QUDkYXDBYndokwOX00uQtdks577Qrd8DqXQWA=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+Received: from [192.168.0.3] (71.35.172.156) by
+	MWHPR0101MB2943.prod.exchangelabs.com (10.174.170.14) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.20.218.12; Wed, 15 Nov 2017 17:29:44 +0000
+To: Javier Viguera <javier.viguera@digi.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171114195619.30923-1-javier.viguera@digi.com>
+From: Martin Kelly <mkelly@xevo.com>
+Message-ID: <cc366431-431b-6baf-0166-c2e8df37adae@xevo.com>
+Date: Wed, 15 Nov 2017 09:29:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Received: by 10.107.18.11 with HTTP; Wed, 15 Nov 2017 11:00:30 -0800 (PST)
-In-Reply-To: <20171113190011.17183-1-florin@resin.io>
-References: <20171113190011.17183-1-florin@resin.io>
-From: Florin Ionut <samentu1@gmail.com>
-Date: Wed, 15 Nov 2017 21:00:30 +0200
-Message-ID: <CAM4Jt4nGjzhCDFxpkzNVYrs8REGhQ57aO89yj4t7O8tOM8c4yw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Florin Sarbu <florin@resin.io>
-Subject: Re: [pyro][PATCH] gcc: Use libssp_nonshared linker specs only for ppc/musl
+In-Reply-To: <20171114195619.30923-1-javier.viguera@digi.com>
+X-Originating-IP: [71.35.172.156]
+X-ClientProxiedBy: CY4PR1101CA0016.namprd11.prod.outlook.com (10.172.74.154)
+	To MWHPR0101MB2943.prod.exchangelabs.com (10.174.170.14)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e80bb14-5e2a-44a7-701b-08d52c4e76ec
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(22001)(4534020)(4602075)(4627115)(201703031133081)(201702281549075)(2017052603199);
+	SRVR:MWHPR0101MB2943; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
+	3:m37F5R12X0tvGGJV8OuctAVVYo5d010/O+BL43skJ6dUjYi2HUixIroayHYNU54mvJr0YJnp5TInftXk8IcyXH5tjH6FxyoDgtu2PMde8RWlZHgmTZICCLX6fsM9zFGDLCA1FUtYjnlMsd9hO1bhzxrdMOzjYIo5WiEqrl8Czz+Up9drnBi/Ayfws2BfSdN4qgifSWSpEr77dJ6/T87SWZIhslP4fHBVBbILyTeU3wCJg7mmbA0uW2ma7NGfLIGa;
+	25:YjU5EaDlV1qcuow34MWVZGXSIQm9NQ19C/e/YVYjvyU0p6ZpWRrMyyH0RinqnnLwfLCyP2d+nUjm2D8Y/pJmAEkmcVMHIrlpDlAFGrmLGGPBNMTiYpzhxoZcUpXwZ2YJwDni41Fck6uI+OGfg9/sPdnTc2TgFmjGdw10nPfKJyZ6xRu+fVgG/HCD8Dvzd4/49DDOgZc3o9vjcY+Eun1Mn2YUHEcNvCjRzOquLFp9X9NCiu/7YIw+7UbRaaLXg7GqltWfhFxv1DAVnl6s921SCfLZQGUaEUH3ew8GC77ZJp/egrdDhed500GnKDDi5SOR59oiLMuzNhVpQeErIRiWJQ==;
+	31:ksSnD29jR6LyP5IzoFu9+W8B1cSWvkIRlX5KApPNbE8+N5hjYPcDE5GabxuVJUmUQ0yX5BDZizPuJWvdksaJpR1m+I3QWlrZzHBklF/uyLvKT1fFEyyAKn0y1L/giVfrBV9d9fozITjXMpU/VRtb9oqP7hDgPi+vDwyhKmFGKAajwEX5g/rYDZf09rKQal/Qp1JA3iBwFUg4RKdS6xsNIht2N6iEit092xkTGPGCwqw=
+X-MS-TrafficTypeDiagnostic: MWHPR0101MB2943:
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
+	20:mzAFtfIiSa3fJFE+eAb8JkiZJQ/FX1/ugMPIqPgaqnzqJfZjzEak/TMhOjYHv9wADh8bA9CO6Nq2XtFbxPtAXET6Bz0K6hjxO+QA8b56iVVVzWKKPih7PSFMvIYo0jwCzaupNZRgSvSlxvIqv0FamTG7PT7PHreDiVGVGpxDKlKAmsOT5qZfecQH24nVUnun+hwlu3hn6wBBm2+3MWF740KZnCA6ugxm1QGdXI/aHvlW8U2GmP4EZvXg31xza9AbXPqrKvA3GDbp6aqhZ5kMUnjQaYE3MGL+BrcvFDjZB8mduk37EipLF7t40vte+z0eFm9a3Vl0YUsz8Iz/pigOYV8oO5uTWrEnBurB5PesS428r8YinCIGxiB1nfoQieVGzc8gzXXQ4ClbvN14HnPQs+QXRVX56mvF2jy+U6tcMhQ=;
+	4:0+s7QT2qhJAuNcCXFTtXoXOFqw7EOGGVF+hy3Ry9btvJifH2EsL5zQcwaqo1HLCRGm7aMosL2L5uZVh6j49ReCo5/jbgZh4vPS6Fn0RA+CMc+/7td1kofD7vnUHVEeTKjQFVcuotB6JNh4t5K2+pWbpD5Z0Uy1II2m6njJN9VcaHg45MRGPCbo7NmaQWpRUsZcvlLaPO0FCrT5X1rSXap3oNmVFFQToiOHG3V7sf9hb5HJJ3pwscRU7mfq4LgXnVwXxYmacABKbdJC6ey/B1cw==
+X-Microsoft-Antispam-PRVS: <MWHPR0101MB2943CCE4EFC4539A8E99DCD8AB290@MWHPR0101MB2943.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(8121501046)(5005006)(93006095)(93001095)(100000703101)(100105400095)(3231022)(10201501046)(3002001)(6041248)(20161123560025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123562025)(20161123564025)(20161123558100)(20161123555025)(6072148)(201708071742011)(100000704101)(100105200095)(100000705101)(100105500095);
+	SRVR:MWHPR0101MB2943; BCL:0; PCL:0;
+	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
+	SRVR:MWHPR0101MB2943; 
+X-Forefront-PRVS: 0492FD61DD
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(6049001)(6009001)(39830400002)(376002)(346002)(189002)(24454002)(199003)(53754006)(7736002)(86362001)(47776003)(65806001)(66066001)(65956001)(2906002)(6486002)(77096006)(90366009)(68736007)(8676002)(189998001)(81166006)(81156014)(53546010)(54356999)(50986999)(76176999)(305945005)(31696002)(101416001)(97736004)(33646002)(16576012)(36756003)(25786009)(106356001)(478600001)(58126008)(105586002)(316002)(83506002)(2950100002)(23676003)(16526018)(3846002)(50466002)(65826007)(53936002)(6116002)(6246003)(230700001)(8936002)(67846002)(117156002)(64126003)(5660300001)(31686004)(6666003)(229853002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0101MB2943; H:[192.168.0.3];
+	FPR:; SPF:None; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtNV0hQUjAxMDFNQjI5NDM7MjM6OHFBQjNyK2NnSmtsME1NWVlMUHNjUzlR?=
+	=?utf-8?B?dmV2aWg1U3hrVHpKK092NG9MdmJqMzZIYmlFZ1dMTUo2aVNiSG42OEV5ZkZ5?=
+	=?utf-8?B?bkh5bjhoV09zUVZtbVRlTys0QzY3N3J0elRDWHc4UWVFRnIzUXpwbVBaYW9H?=
+	=?utf-8?B?aEtUQnhFUTFHc2xIYUJibzNnOHFzSXZRSGgwRVdQRlhueThZZFRENWM5ZlQz?=
+	=?utf-8?B?TmF6Y0hqL2VSdmR2Z2xyNmFjRVp3dXNzWVdWNXpTaFp6cEVhcCtuRkpVdC9v?=
+	=?utf-8?B?UGkrUDd6cEYxZkI1K1BQOUU4RmlOSER2ZDFyM0loVVB5aXpvRktlaTB5QU1G?=
+	=?utf-8?B?NGRhb3lDV0x6Y2FvM1pYd2hQM0h1TkwwUXM4NXpuV0h1b3Q5T3RydUFXMUw3?=
+	=?utf-8?B?aituL25maEZoVlE0ejJxN3J5NDM3RWUrd01PNUo1WUgzdGs5K3lsZno5UDJU?=
+	=?utf-8?B?ZDVtZVo5U2hZOTdYeGZ5eTFBbEpxZTlRZDhSRE1DSnVLbXpQaGFUbGMxUlpj?=
+	=?utf-8?B?cmdjelgrZUVuOVc4M3pRUXZMR2NYRlRSNWtpdU14eVk3bVRKUDJLdE9SL25O?=
+	=?utf-8?B?cG5WUm9tSXIza2NEbGpDWTh1RjhGTkxlQk5yNVZHYWFaMHhTaFJhamg5UUFw?=
+	=?utf-8?B?ZXE3aEpXQVQvcDI3YW1hUXVpSDhwNHJwMjVJN292d3pVOVdoYnpKWEp1Ykpv?=
+	=?utf-8?B?NzNZTDMwZFpuTUEyaERiRnZzZ25BOHNiRkFKQllacXZDSlFFaHZUVFhtbDNm?=
+	=?utf-8?B?WDBMalZlWHZUNTRiaXJVdndxaUhDTFQ4bnQrZ2c4RVRQTktLc0RFUDFERjZI?=
+	=?utf-8?B?T3VSdHo1VTVWcDUxQldsanh4ZEVTUFUzODVqaGc3M2lyZmt6ZnJoWlhKWXkr?=
+	=?utf-8?B?VUZmVzNiQlMxRmdsSzRDS2hoTUNGVzFpdHhpSG9PMFBPemd6VjBBczNLcmln?=
+	=?utf-8?B?SDMwTlJ6dFFqS0dOMVl0U3JhT0RxSWs0b3h0QVNvNTVZbHRLcS9EV1hLMWhD?=
+	=?utf-8?B?bk5BNk1NMUtCR1p6QzFBR0Q5cnRBc2xsazNnaHduamJ0TkFScHM0d1ZYMmpJ?=
+	=?utf-8?B?UjBZVHBvb2tJZTVxNHlrU1BOSHp3Tk9ZREJNUDMwQU0yNVppalByOUJacHpy?=
+	=?utf-8?B?NjJOdHFVNm53Y0U3WnRtZGhHREp1NmI3NlpzZWJqWis4ZU9aS084UklqUEEz?=
+	=?utf-8?B?N3JmdTNtUXBraTRJeFAwUnVhK1p0RXZzQXJHRjllUUcyV3NhRXRCK3h2c3h5?=
+	=?utf-8?B?ZkRPN0FCM3JXS1VoWmhMdXJ1LzlPbVRkWVBXekc3QnlhL3ZadTFOWWROdWEx?=
+	=?utf-8?B?LzZaZXV0VUVWN25hbFQ1VTZmREZjeXBZOHhkb09jYmVmWml3VFc0eE9XeWl3?=
+	=?utf-8?B?UXZGbjVNZERiTVhmZElybkZpTXhjOTlJaFBDMGN5NVlTWGJtaXg3NTFhbFBx?=
+	=?utf-8?B?b1BXMTd0RHVFd2FtbEJYZVhCSlVoK29Dakx3ZVlNc2ExVmVzZk1LbnZhcmhu?=
+	=?utf-8?B?T2hNbnBZdWN2bjZzejZTbktKR29KMnd3aWdMcGxLbzdIdnBFYXZMUTVGRWxw?=
+	=?utf-8?B?RkxxSm56ZVI2YTdkOWdDUjhQeTUzZnQ0Z1FIUHlZOThNS1ROWFZ0Z05CeU55?=
+	=?utf-8?B?OG9Remk2TmRwOWh1TDNFR283UlpsUFUzcy8wdzhoVXlQNEd6K05oVHFpM0g4?=
+	=?utf-8?B?MWJ0YVgvblBZWmJCanVRVUROdG1QR3BYQllzQkp1SzJOeTRlQnJxalQxRnAy?=
+	=?utf-8?B?RFNJRDdmYjJiNG12ZFRPTWg2bUYwVEVLR2JFbWIvM1l6bXpjUkc2dUcyYjNC?=
+	=?utf-8?B?YzhPdzRTMld5cG5mdGRLNGhlUlJnY2dZNlFSZWNQUWNCa1pmOFByTmN1cDRJ?=
+	=?utf-8?Q?Nrk39+aiiMJAo=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
+	6:EvawPcd117F2l8fJOVIx2y+id5GgHie1Rg/nuv+Is3RCH+nlmmWvKDf2vqVXDbEU+9YrpTVHHjhlGU/6kAizEQ3FUpc1dXOJE0bs1rHn+Jr2o92ldCIWSbh6liUZPYjQUWbFzrvsr+jI44Eb9i+bE54+gTESKSSKG5oXx0gvEf7+7XSMuE6sMcIue2Eh+vGLhWJKtaZuQ/t6WWd4qjdnK5rpHURdw2JEraxgBR8el5W2TTQBU+THY4hRvBRLYOi8INBDC7G7yrv8Xcr1/sMuqknzlqyJqYI1i9UumOkP4EeIA/TvLbooqyzTz6HiiaD1bZ99a0mZPJm/HBEHbqSFoNdAfgmBi/xDsFQNsqGTRCY=;
+	5:x4wc/lIb6M2n1vS/hgjg1IECDA+UvbhuivqS3Dtqm50bwUOGTFuxN8EUeTUKH1xQ6mLyxhximq/N0WH/IzguwLQ1Or4bcdO4TVkRcBv9w1fv9wVLBdqreDEbtUtN86aZZ5p83Z/X7SoWkXnLhAx+b69kVLGde/HsHL4Oz5s70H4=;
+	24:/LLHQdZkWK9XS7b5B/eOirDNtMdxZBfxJ7yMQrIQqmtTGwuLXHNCKek1LHge1ZMhr3m5ghTSbPUguFrfQmtXxe7mdy4K7GB34BdDgPLjBoc=;
+	7:2ZmiBJCXA2Xr2pmSXneCNvOsZeECtCOACgEBOeVvCBhHQitORhz+jP6atK1zmMjfAIf3CZngVaZN9cUXvmyM4kholvqOndpv3PnEFThiBnwDXmlPwtXMrOWJiet0WN5DvGYNmJTRJTzPeu2gh5oYBYMhwL3vebig47mul1woo7wq+OLVu7WJgxzumi2ThrfZLJlXL0WbzX0gefw5/t5k7QDNdnPlXkxfz2YeIX7pxhyN/nSnxPzsWwPtA1Zcb9J7
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2017 17:29:44.5352 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e80bb14-5e2a-44a7-701b-08d52c4e76ec
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2943
+Subject: Re: [morty backport][PATCH 0/2] tcf-agent fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,434 +114,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 19:00:30 -0000
-Content-Type: multipart/alternative; boundary="001a1140695815d034055e0a1eef"
+X-List-Received-Date: Wed, 15 Nov 2017 19:03:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a1140695815d034055e0a1eef
-Content-Type: text/plain; charset="UTF-8"
+I'm not a maintainer, but both of these look good to me, thanks!
 
-Hi,
-any comments on this commit?
-
-Thanks
-
-On Mon, Nov 13, 2017 at 9:00 PM, Florin Sarbu <samentu1@gmail.com> wrote:
-
-> Link libssp_nonshared.a only for ppc/musl because glibc already
-> provides the content for libssp_nonshared in libc_nonshared.a and
-> therefore we dont need to make it universal.
->
-> (From OE-Core rev: c08247e3c7c004a40281d4010186a9ace86e0e47)
->
-> Signed-off-by: Florin Sarbu <florin@resin.io>
-> ---
->  meta/recipes-devtools/gcc/gcc-6.3.inc              |  2 +-
->  ...shared-to-link-commandline-for-musl-targe.patch | 87
-> ++++++++++++++++++++++
->  .../gcc/gcc-6.3/0041-ssp_nonshared.patch           | 28 -------
->  3 files changed, 88 insertions(+), 29 deletions(-)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-
-> 6.3/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
->  delete mode 100644 meta/recipes-devtools/gcc/gcc-
-> 6.3/0041-ssp_nonshared.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc
-> b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> index d74f12c466..5c81a33af0 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> @@ -71,7 +71,7 @@ SRC_URI = "\
->             file://0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
-> \
->             file://0039-Fix-various-_FOR_BUILD-and-related-variables.patch
-> \
->             file://0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch \
-> -           file://0041-ssp_nonshared.patch \
-> +           file://0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-> \
->             file://0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
-> \
->             file://0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
-> \
->             file://0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
-> \
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0041-Add-ssp_
-> nonshared-to-link-commandline-for-musl-targe.patch
-> b/meta/recipes-devtools/gcc/gcc-6.3/0041-Add-ssp_
-> nonshared-to-link-commandline-for-musl-targe.patch
-> new file mode 100644
-> index 0000000000..29b7ce72d2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3/0041-Add-ssp_
-> nonshared-to-link-commandline-for-musl-targe.patch
-> @@ -0,0 +1,87 @@
-> +From 210f6b3b82084cc756e02b8bc12f909a43b14ee8 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Tue, 27 Jun 2017 18:10:54 -0700
-> +Subject: [PATCH 40/49] Add ssp_nonshared to link commandline for musl
-> targets
-> +
-> +when -fstack-protector options are enabled we need to
-> +link with ssp_shared on musl since it does not provide
-> +the __stack_chk_fail_local() so essentially it provides
-> +libssp but not libssp_nonshared something like
-> +TARGET_LIBC_PROVIDES_SSP_BUT_NOT_SSP_NONSHARED
-> + where-as for glibc the needed symbols
-> +are already present in libc_nonshared library therefore
-> +we do not need any library helper on glibc based systems
-> +but musl needs the libssp_noshared from gcc
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + gcc/config/linux.h          |  7 +++++++
-> + gcc/config/rs6000/linux.h   | 10 ++++++++++
-> + gcc/config/rs6000/linux64.h | 10 ++++++++++
-> + 3 files changed, 27 insertions(+)
-> +
-> +diff --git a/gcc/config/linux.h b/gcc/config/linux.h
-> +index 2e683d0c430..1b4df798671 100644
-> +--- a/gcc/config/linux.h
-> ++++ b/gcc/config/linux.h
-> +@@ -182,6 +182,13 @@ see the files COPYING3 and COPYING.RUNTIME
-> respectively.  If not, see
-> +     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },           \
-> +     { 0, 0, 0, 0, 0, 0 }                              \
-> +   }
-> ++#ifdef TARGET_LIBC_PROVIDES_SSP
-> ++#undef LINK_SSP_SPEC
-> ++#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-> ++                     "|fstack-protector-strong|fstack-protector-explicit"
-> \
-> ++                     ":-lssp_nonshared}"
-> ++#endif
-> ++
-> + #endif
-> +
-> + #if (DEFAULT_LIBC == LIBC_UCLIBC) && defined (SINGLE_LIBC) /* uClinux */
-> +diff --git a/gcc/config/rs6000/linux.h b/gcc/config/rs6000/linux.h
-> +index 684afd6c190..22cfa391b89 100644
-> +--- a/gcc/config/rs6000/linux.h
-> ++++ b/gcc/config/rs6000/linux.h
-> +@@ -91,6 +91,16 @@
-> +                                        " -m elf32ppclinux")
-> + #endif
-> +
-> ++/* link libssp_nonshared.a with musl */
-> ++#if DEFAULT_LIBC == LIBC_MUSL
-> ++#ifdef TARGET_LIBC_PROVIDES_SSP
-> ++#undef LINK_SSP_SPEC
-> ++#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-> ++                     "|fstack-protector-strong|fstack-protector-explicit"
-> \
-> ++                     ":-lssp_nonshared}"
-> ++#endif
-> ++#endif
-> ++
-> + #undef LINK_OS_LINUX_SPEC
-> + #define LINK_OS_LINUX_SPEC LINK_OS_LINUX_EMUL " %{!shared: %{!static: \
-> +   %{rdynamic:-export-dynamic} \
-> +diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
-> +index 3b00ec0fcf0..8371f8d7b6b 100644
-> +--- a/gcc/config/rs6000/linux64.h
-> ++++ b/gcc/config/rs6000/linux64.h
-> +@@ -465,6 +465,16 @@ extern int dot_symbols;
-> +                                          " -m elf64ppc")
-> + #endif
-> +
-> ++/* link libssp_nonshared.a with musl */
-> ++#if DEFAULT_LIBC == LIBC_MUSL
-> ++#ifdef TARGET_LIBC_PROVIDES_SSP
-> ++#undef LINK_SSP_SPEC
-> ++#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-> ++                     "|fstack-protector-strong|fstack-protector-explicit"
-> \
-> ++                     ":-lssp_nonshared}"
-> ++#endif
-> ++#endif
-> ++
-> + #define LINK_OS_LINUX_SPEC32 LINK_OS_LINUX_EMUL32 " %{!shared:
-> %{!static: \
-> +   %{rdynamic:-export-dynamic} \
-> +   -dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
-> +--
-> +2.13.2
-> +
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0041-ssp_nonshared.patch
-> b/meta/recipes-devtools/gcc/gcc-6.3/0041-ssp_nonshared.patch
-> deleted file mode 100644
-> index 0744529741..0000000000
-> --- a/meta/recipes-devtools/gcc/gcc-6.3/0041-ssp_nonshared.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -From 551a5db7acb56e085a101f1c222d51b2c1b039a4 Mon Sep 17 00:00:00 2001
-> -From: Szabolcs Nagy <nsz@port70.net>
-> -Date: Sat, 7 Nov 2015 14:58:40 +0000
-> -Subject: [PATCH 41/46] ssp_nonshared
-> -
-> ----
-> -Upstream-Status: Inappropriate [OE Configuration]
-> -
-> - gcc/gcc.c | 3 ++-
-> - 1 file changed, 2 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/gcc/gcc.c b/gcc/gcc.c
-> -index 2812819..9de96ee 100644
-> ---- a/gcc/gcc.c
-> -+++ b/gcc/gcc.c
-> -@@ -863,7 +863,8 @@ proper position among the other output files.  */
-> - #ifndef LINK_SSP_SPEC
-> - #ifdef TARGET_LIBC_PROVIDES_SSP
-> - #define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-> --                     "|fstack-protector-strong|
-> fstack-protector-explicit:}"
-> -+                     "|fstack-protector-strong|fstack-protector-explicit"
-> \
-> -+                     ":-lssp_nonshared}"
-> - #else
-> - #define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-> -                      "|fstack-protector-strong|fstack-protector-explicit"
-> \
-> ---
-> -2.8.2
-> -
+On 11/14/2017 11:56 AM, Javier Viguera wrote:
+> Hi all,
+> 
+> There are a couple of commits in master fixing the tcf-agent bootscript and systemd service files so the daemon is properly kill on reboot/shutdown.
+> 
+> These patches backport the fixes to Morty.
+> 
+> Regards,
+> 
+> Javier Viguera
+> 
+> 
+> 
 > --
-> 2.13.6
->
->
+> Jan Kiszka (1):
+>    tcf-agent: Fix daemon termination
+> 
+> Martin Kelly (1):
+>    tcf-agent: kill with USR2 in systemd stop
+> 
+>   meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init    | 12 +-----------
+>   meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service |  2 ++
+>   2 files changed, 3 insertions(+), 11 deletions(-)
+> 
 
---001a1140695815d034055e0a1eef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div>any comments on this commit?</div><div><br></div><=
-div>Thanks</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote">On Mon, Nov 13, 2017 at 9:00 PM, Florin Sarbu <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:samentu1@gmail.com" target=3D"_blank">samentu1@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Link libssp_nonshared=
-.a only for ppc/musl because glibc already<br>
-provides the content for libssp_nonshared in libc_nonshared.a and<br>
-therefore we dont need to make it universal.<br>
-<br>
-(From OE-Core rev: c08247e3c7c004a40281d4010186a9<wbr>ace86e0e47)<br>
-<br>
-Signed-off-by: Florin Sarbu &lt;<a href=3D"mailto:florin@resin.io">florin@r=
-esin.io</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gcc/gcc-<wbr>6.3.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0...shared-to-link-commandline-<wbr>for-musl-targe.patch | 87 ++++++++=
-++++++++++++++<br>
-=C2=A0.../gcc/gcc-6.3/0041-ssp_<wbr>nonshared.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 28 -------<br>
-=C2=A03 files changed, 88 insertions(+), 29 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>6.3/0041-Add-ss=
-p_nonshared-to-<wbr>link-commandline-for-musl-<wbr>targe.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>6.3/0041-ssp_no=
-nshared.patch<br>
-<br>
-diff --git a/meta/recipes-devtools/gcc/<wbr>gcc-6.3.inc b/meta/recipes-devt=
-ools/gcc/<wbr>gcc-6.3.inc<br>
-index d74f12c466..5c81a33af0 100644<br>
---- a/meta/recipes-devtools/gcc/<wbr>gcc-6.3.inc<br>
-+++ b/meta/recipes-devtools/gcc/<wbr>gcc-6.3.inc<br>
-@@ -71,7 +71,7 @@ SRC_URI =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0038-Search-target-<wbr>sy=
-sroot-gcc-version-specific-<wbr>dirs-with.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0039-Fix-various-_FOR_<wbr=
->BUILD-and-related-variables.<wbr>patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0040-nios2-Define-MUSL_<wb=
-r>DYNAMIC_LINKER.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0041-ssp_nonshared.<wbr>pa=
-tch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0041-Add-ssp_nonshared-<wb=
-r>to-link-commandline-for-musl-<wbr>targe.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0042-gcc-libcpp-<wbr>suppo=
-rt-ffile-prefix-map-old-<wbr>new.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0043-Reuse-fdebug-<wbr>pre=
-fix-map-to-replace-ffile-<wbr>prefix-map.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0044-gcc-final.c-<wbr>fdeb=
-ug-prefix-map-support-to-<wbr>remap-sourc.patch \<br>
-diff --git a/meta/recipes-devtools/gcc/<wbr>gcc-6.3/0041-Add-ssp_<wbr>nonsh=
-ared-to-link-commandline-<wbr>for-musl-targe.patch b/meta/recipes-devtools/=
-gcc/<wbr>gcc-6.3/0041-Add-ssp_<wbr>nonshared-to-link-commandline-<wbr>for-m=
-usl-targe.patch<br>
-new file mode 100644<br>
-index 0000000000..29b7ce72d2<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/gcc/<wbr>gcc-6.3/0041-Add-ssp_<wbr>nonshared-to=
--link-commandline-<wbr>for-musl-targe.patch<br>
-@@ -0,0 +1,87 @@<br>
-+From 210f6b3b82084cc756e02b8bc12f90<wbr>9a43b14ee8 Mon Sep 17 00:00:00 200=
-1<br>
-+From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.co=
-m</a>&gt;<br>
-+Date: Tue, 27 Jun 2017 18:10:54 -0700<br>
-+Subject: [PATCH 40/49] Add ssp_nonshared to link commandline for musl targ=
-ets<br>
-+<br>
-+when -fstack-protector options are enabled we need to<br>
-+link with ssp_shared on musl since it does not provide<br>
-+the __stack_chk_fail_local() so essentially it provides<br>
-+libssp but not libssp_nonshared something like<br>
-+TARGET_LIBC_PROVIDES_SSP_BUT_<wbr>NOT_SSP_NONSHARED<br>
-+ where-as for glibc the needed symbols<br>
-+are already present in libc_nonshared library therefore<br>
-+we do not need any library helper on glibc based systems<br>
-+but musl needs the libssp_noshared from gcc<br>
-+<br>
-+Upstream-Status: Pending<br>
-+<br>
-+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem=
-@gmail.com</a>&gt;<br>
-+---<br>
-+ gcc/config/linux.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 7 +++++++<br=
->
-+ gcc/config/rs6000/linux.h=C2=A0 =C2=A0| 10 ++++++++++<br>
-+ gcc/config/rs6000/linux64.h | 10 ++++++++++<br>
-+ 3 files changed, 27 insertions(+)<br>
-+<br>
-+diff --git a/gcc/config/linux.h b/gcc/config/linux.h<br>
-+index 2e683d0c430..1b4df798671 100644<br>
-+--- a/gcc/config/linux.h<br>
-++++ b/gcc/config/linux.h<br>
-+@@ -182,6 +182,13 @@ see the files COPYING3 and COPYING.RUNTIME respective=
-ly.=C2=A0 If not, see<br>
-+=C2=A0 =C2=A0 =C2=A0{ GCC_INCLUDE_DIR, &quot;GCC&quot;, 0, 1, 0, 0 },=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0{ 0, 0, 0, 0, 0, 0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br=
->
-+=C2=A0 =C2=A0}<br>
-++#ifdef TARGET_LIBC_PROVIDES_SSP<br>
-++#undef LINK_SSP_SPEC<br>
-++#define LINK_SSP_SPEC &quot;%{fstack-protector|fstack-<wbr>protector-all&=
-quot; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;|fstack-protector-strong|<wbr>fstack-protector-explicit&quot; \<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;:-lssp_nonshared}&quot;<br>
-++#endif<br>
-++<br>
-+ #endif<br>
-+<br>
-+ #if (DEFAULT_LIBC =3D=3D LIBC_UCLIBC) &amp;&amp; defined (SINGLE_LIBC) /*=
- uClinux */<br>
-+diff --git a/gcc/config/rs6000/linux.h b/gcc/config/rs6000/linux.h<br>
-+index 684afd6c190..22cfa391b89 100644<br>
-+--- a/gcc/config/rs6000/linux.h<br>
-++++ b/gcc/config/rs6000/linux.h<br>
-+@@ -91,6 +91,16 @@<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; -=
-m elf32ppclinux&quot;)<br>
-+ #endif<br>
-+<br>
-++/* link libssp_nonshared.a with musl */<br>
-++#if DEFAULT_LIBC =3D=3D LIBC_MUSL<br>
-++#ifdef TARGET_LIBC_PROVIDES_SSP<br>
-++#undef LINK_SSP_SPEC<br>
-++#define LINK_SSP_SPEC &quot;%{fstack-protector|fstack-<wbr>protector-all&=
-quot; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;|fstack-protector-strong|<wbr>fstack-protector-explicit&quot; \<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;:-lssp_nonshared}&quot;<br>
-++#endif<br>
-++#endif<br>
-++<br>
-+ #undef LINK_OS_LINUX_SPEC<br>
-+ #define LINK_OS_LINUX_SPEC LINK_OS_LINUX_EMUL &quot; %{!shared: %{!static=
-: \<br>
-+=C2=A0 =C2=A0%{rdynamic:-export-dynamic} \<br>
-+diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h<br>
-+index 3b00ec0fcf0..8371f8d7b6b 100644<br>
-+--- a/gcc/config/rs6000/linux64.h<br>
-++++ b/gcc/config/rs6000/linux64.h<br>
-+@@ -465,6 +465,16 @@ extern int dot_symbols;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-quot; -m elf64ppc&quot;)<br>
-+ #endif<br>
-+<br>
-++/* link libssp_nonshared.a with musl */<br>
-++#if DEFAULT_LIBC =3D=3D LIBC_MUSL<br>
-++#ifdef TARGET_LIBC_PROVIDES_SSP<br>
-++#undef LINK_SSP_SPEC<br>
-++#define LINK_SSP_SPEC &quot;%{fstack-protector|fstack-<wbr>protector-all&=
-quot; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;|fstack-protector-strong|<wbr>fstack-protector-explicit&quot; \<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;:-lssp_nonshared}&quot;<br>
-++#endif<br>
-++#endif<br>
-++<br>
-+ #define LINK_OS_LINUX_SPEC32 LINK_OS_LINUX_EMUL32 &quot; %{!shared: %{!st=
-atic: \<br>
-+=C2=A0 =C2=A0%{rdynamic:-export-dynamic} \<br>
-+=C2=A0 =C2=A0-dynamic-linker &quot; GNU_USER_DYNAMIC_LINKER32 &quot;}} \<b=
-r>
-+--<br>
-+2.13.2<br>
-+<br>
-diff --git a/meta/recipes-devtools/gcc/<wbr>gcc-6.3/0041-ssp_nonshared.<wbr=
->patch b/meta/recipes-devtools/gcc/<wbr>gcc-6.3/0041-ssp_nonshared.<wbr>pat=
-ch<br>
-deleted file mode 100644<br>
-index 0744529741..0000000000<br>
---- a/meta/recipes-devtools/gcc/<wbr>gcc-6.3/0041-ssp_nonshared.<wbr>patch<=
-br>
-+++ /dev/null<br>
-@@ -1,28 +0,0 @@<br>
--From 551a5db7acb56e085a101f1c222d51<wbr>b2c1b039a4 Mon Sep 17 00:00:00 200=
-1<br>
--From: Szabolcs Nagy &lt;<a href=3D"mailto:nsz@port70.net">nsz@port70.net</=
-a>&gt;<br>
--Date: Sat, 7 Nov 2015 14:58:40 +0000<br>
--Subject: [PATCH 41/46] ssp_nonshared<br>
--<br>
-----<br>
--Upstream-Status: Inappropriate [OE Configuration]<br>
--<br>
-- gcc/gcc.c | 3 ++-<br>
-- 1 file changed, 2 insertions(+), 1 deletion(-)<br>
--<br>
--diff --git a/gcc/gcc.c b/gcc/gcc.c<br>
--index 2812819..9de96ee 100644<br>
----- a/gcc/gcc.c<br>
--+++ b/gcc/gcc.c<br>
--@@ -863,7 +863,8 @@ proper position among the other output files.=C2=A0 */=
-<br>
-- #ifndef LINK_SSP_SPEC<br>
-- #ifdef TARGET_LIBC_PROVIDES_SSP<br>
-- #define LINK_SSP_SPEC &quot;%{fstack-protector|fstack-<wbr>protector-all&=
-quot; \<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;|fstack-protector-strong|<wbr>fstack-protector-explicit:}&quot;<br=
->
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;|fstack-protector-strong|<wbr>fstack-protector-explicit&quot; \<br=
->
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;:-lssp_nonshared}&quot;<br>
-- #else<br>
-- #define LINK_SSP_SPEC &quot;%{fstack-protector|fstack-<wbr>protector-all&=
-quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;|fstack-protector-strong|<wbr>fstack-protector-explicit&quot; \<b=
-r>
----<br>
--2.8.2<br>
--<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.13.6<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---001a1140695815d034055e0a1eef--
