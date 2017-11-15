@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D81C778524
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 5288978513
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Nov 2017 03:09:37 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id 1so31343566qtn.3
+	Wed, 15 Nov 2017 03:09:39 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id 1so31343677qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:09:39 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MDxRoyRMXia/EWwfvU/hEbd7mhlpKEcasn3ADkES0PU=;
-	b=JWWejhVGSPTYn/zftRgHXqdNYoDJkGMDOMc+Y2iP34K++ZVY5mLL5iabx5RSD7I/tI
-	Je2K0ANpVudZkfb7WCauru1Wl8RlWqt8AJ6BfSp93C6NIDUk+8ccHHQGW9Oy+KeCijUH
-	BROrCVHzxbdVxVH0kYlNYI9htr2IRK3CpUBMEyW4VYoiGA8kYuvISY/93FDeloT86uE4
-	BXpMsaHJWu5wHUI9UDDnKwLMUPyY/ipyMoeMfCRhBAp+8/w7OVWYaqkxZoK8Esy+8XtX
-	7XLCyUmiDz2m7LiUf2FkjmTnPj1zdEll06du4I6qieURoEMXBTnDfKuncRWoQwumEsAj
-	i6mA==
+	bh=WoGBxTWSKK7Q9Csh9jtKULc2AUVpgQRcs7V3vznPgpI=;
+	b=oP8d03jgE2pqjMlLawBG0aSQGA5ZmMHNNlOJaZyl5rV2201wGfd3Rusba566bZolbg
+	G6YUIeI0HR4weLdWkbEFt43CVEUrxLJD11fKzLGnoK+J4oHiAabPDUXF9yXdq8GvHh83
+	vZ274//vEYUTWFFYiZBo8G9MOva/lZriNrSdV+mMZt6B81jqGm22UR9MBR+9/wos/5m+
+	4zSX2/CyEveSsK4bA1K/eVol6KjGFkSpamw9ZYwfTF4WIpM46P7IJAhX2IjgItARK2JM
+	why0It4uWUlMGtDeoGan7gICOk0AI7CUWizjIBiZAshzt9czjSsF4P3TalDILRs0zAWp
+	WqoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MDxRoyRMXia/EWwfvU/hEbd7mhlpKEcasn3ADkES0PU=;
-	b=FdBAKOxWlFWiA+f4q2lm4hNRn617u7X8fTrRz7O5GwwA83ajhTD7g9wVcPpP1OgRK6
-	GqhTz5IT8/MzG6ARCm9Ae0enbjfdOsgEXGxBhuN8hZlAuCSECeKuBN5qaGo32zfggQHo
-	s2K7IUrI3Pr8SMDedVYcm2KPH6zAhCIYqJOkQfXLssseGqmKVV+W5e0bNYOBwIywupWN
-	hxCngennVJOuQU4aUydYtHYKbx4/B6wseMvyNZPIm87gjDfaaDV1nvW/vOOlSCLDdzy7
-	m+Ygqop6GmpT5iEnuhINMh+Q5nLB02q0uAMSlSfqo6hqGnGeFXGDm8rwrliusiEPbhmX
-	2rUQ==
-X-Gm-Message-State: AJaThX6Ywb//FeKF7JBwTkqN/ISedYIvtWFPHtBpN/ZdIpEcyqRtJozA
-	4EBzcctRjCRl4PLYBLLZzy6AEA==
-X-Google-Smtp-Source: AGs4zMYnpIrpWVT9myPCG19N7dNA9/bisibEOyVjmjIt6ilcf2qoLzsAz/GYPEwHxCPEzedlmAMKfQ==
-X-Received: by 10.55.23.154 with SMTP id 26mr23303730qkx.175.1510715378997;
-	Tue, 14 Nov 2017 19:09:38 -0800 (PST)
+	bh=WoGBxTWSKK7Q9Csh9jtKULc2AUVpgQRcs7V3vznPgpI=;
+	b=LEd2+rG0N1A1HyKHhyJklNlW4Kv5B7Pz7qcAiE2dIBYRDg8ntxjMJP+Mn6Cej0UbOH
+	RJETL6ylgoQ7DN82EtmmC0uQG5TgRplhKjjyXiNjpvdCstoEiwk1xQhUOmkNGGXmxuRm
+	Odk7xFZfcicIwlM60U7V128gfJu5zz19EOLptZuq/loXCmLlf4nzPHDx7DaWKB9PbToH
+	TyYGEWXMPQGmGSScCxcgzJAE9NDAGr75AK8F3E+rqnm+8sw+PKh9xUvEfogrnejMsDLr
+	RUIKcG5sKbKtzbcZ1qJczSYIOPxhaDYVbzzPuByGAk9/2g374+NUSjWbh2fEWHm0WVe8
+	O7Tg==
+X-Gm-Message-State: AJaThX7yB3vGXAw2lxqSsXlSf0vKFR62wTrtbEsFjvbDEMBpOqLslzcd
+	oK+3rHh67rnioODGnkpi8arqrw==
+X-Google-Smtp-Source: AGs4zMZWb7XduXUdwl0VTD+LcBTLKC0ZoAxy0xDkVEVpIViezuHKllPM9Ck9/HgqdpSS6UPyy7rjUQ==
+X-Received: by 10.237.60.117 with SMTP id u50mr21878951qte.6.1510715380442;
+	Tue, 14 Nov 2017 19:09:40 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8882:b8c::a4a])
 	by smtp.gmail.com with ESMTPSA id
-	r21sm7319968qkh.89.2017.11.14.19.09.37
+	r21sm7319968qkh.89.2017.11.14.19.09.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 19:09:38 -0800 (PST)
+	Tue, 14 Nov 2017 19:09:39 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 19:09:18 -0800
-Message-Id: <a737cd8e89895fe2d0f5f32ec09ff6ffd9a9ebec.1510715185.git.raj.khem@gmail.com>
+Date: Tue, 14 Nov 2017 19:09:19 -0800
+Message-Id: <e7e785aca5d96b26f9e69e083b08fbceb05bfeee.1510715185.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1510715185.git.raj.khem@gmail.com>
 References: <cover.1510715185.git.raj.khem@gmail.com>
-Subject: [PATCH 7/8] musl: Update to latest
+Subject: [PATCH 8/8] glibc: Upgrade to latest on 2.26 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 03:09:38 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 03:09:39 -0000
 
-These commits are added
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=eb03bde2f24582874cb72b56c7811bf51da0c817..105eff9dec51bc4898a74af2854ab71f927a5c3b
-
-Key fix for malloc
-https://git.musl-libc.org/cgit/musl/commit/?id=a71b46cfd289aa0ff829fc9a436c59c398f8326d
+For detailed view of changes see
+https://github.com/kraj/glibc/compare/glibc-2.26...77f921dac17c5fa99bd9e926d926c327982895f7
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
+ meta/recipes-core/glibc/glibc_2.26.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 932c9a27a0..9e15842ad7 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
+diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
+index 135ec4fb16..d449af2548 100644
+--- a/meta/recipes-core/glibc/glibc_2.26.bb
++++ b/meta/recipes-core/glibc/glibc_2.26.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
  
- require musl.inc
+ DEPENDS += "gperf-native"
  
--SRCREV = "eb03bde2f24582874cb72b56c7811bf51da0c817"
-+SRCREV = "105eff9dec51bc4898a74af2854ab71f927a5c3b"
+-SRCREV ?= "1c9a5c270d8b66f30dcfaf1cb2d6cf39d3e18369"
++SRCREV ?= "77f921dac17c5fa99bd9e926d926c327982895f7"
  
- PV = "1.1.18+git${SRCPV}"
+ SRCBRANCH ?= "release/${PV}/master"
  
 -- 
 2.15.0
