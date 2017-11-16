@@ -1,48 +1,26 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CA4F60777
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 13AF97876F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 22:46:10 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id r128so439459oig.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 14:46:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hyLgaEdoCSW1hfDLaFa/zWlE05lxlWn/phpcEbiYeTs=;
-	b=SmRJ/1G3ly5WE64GU6BEnBbeq/HJnTGBOxp6iyr5X0nU57KP+hegEEIdEYK9TkoowM
-	IBPRgGQvciwaqt/Xsj90iF1zGR306UGhVPBJfWJ9iZKmsyiFVo9bvldjBYXJO3zaFvqp
-	aI1Jty2Yxt+WoQXIWOghdnKY5/Bg1onTw7lkaqfJe2jS37/JY0Rvo7iw0XvEgZp0+naM
-	gqvNqE1D2p1BEiOKqKyFMSpvP8rn526P6+4MDkAQXVLCRfeoTsJuTKZN1xSwcNGL55tl
-	IKCdEfRBSTbelGzJBpCqKanD0HOzXP2cboFr/bXVHGA0DaHh1J7LlDeg+Xpwp4jBU3K2
-	VOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hyLgaEdoCSW1hfDLaFa/zWlE05lxlWn/phpcEbiYeTs=;
-	b=OQe7f7E6ofcJQJjY/1Qu6Q24uq+AQPHbw865/xRy7xRO7xtNhUL0gAxeM7cFmWbkle
-	sMEqs8vWB1uKtdUsE8pdqzvTJeCCwOlofelRow6aOkkr08fj1CRE+UY1HM+qQfNOCpVH
-	/59qrDkDw0KMa2BuNGUASoGRokHFF/aUPFoAiS1bu+nOJl1AItrk3EcbpKnPsymOnF0v
-	2cIBC5bgjGm4pSo0viIdFFiS/7+6Lnve0ry0RfFAx7DJ7noeMqJ9N4u/qsl3xP0hZxBU
-	RPS9lieqIqvWLLvu6jUaueQdFvx9tiXKaJJxiuZ97RGo69oogtWkTCymE50RALey5/as
-	Ylgw==
-X-Gm-Message-State: AJaThX6+hUYTpZqqCHwCq8+7cVdusDkOTUH1DH6soM/F0NWQKe8eVM5Z
-	mcTGWf+T3VnQkAPnvtqgfXupijEduyuV2ejFUQ==
-X-Google-Smtp-Source: AGs4zMa+KJsPA3oXVyOB2ffSe+Dj3hX9s1+uiOqMBhLhjeeHkEOxdHEoNLdIh+JbRey/3TutJyW5z1GVZcKlH7eOtgU=
-X-Received: by 10.202.69.5 with SMTP id s5mr2242043oia.269.1510872371292; Thu,
-	16 Nov 2017 14:46:11 -0800 (PST)
+	Thu, 16 Nov 2017 23:12:13 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2017 15:12:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,405,1505804400"; d="scan'208";a="150285877"
+Received: from $_hostname.zpn.intel.com (HELO lsandov1-mobl2.zpn.intel.com)
+	([10.219.128.134])
+	by orsmga004.jf.intel.com with ESMTP; 16 Nov 2017 15:12:14 -0800
+Date: Thu, 16 Nov 2017 17:21:29 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Martyn Welch <martyn.welch@collabora.co.uk>
+Message-ID: <20171116172129.11b89562@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
+References: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 10.74.194.14 with HTTP; Thu, 16 Nov 2017 14:46:10 -0800 (PST)
-In-Reply-To: <896364ab-7d3e-45a7-cbfd-621079b79724@gmail.com>
-References: <20171115203605.19088-1-george.mccollister@gmail.com>
-	<896364ab-7d3e-45a7-cbfd-621079b79724@gmail.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Thu, 16 Nov 2017 16:46:10 -0600
-Message-ID: <CAFSKS=MR0Kd_8J+BCf63fYe0-U9h7QtNzuamhXhksByHOTx5uA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH v2 1/2] glibc: Fix CVE-2015-5180
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] [PATCH v4 1/3] image.bbclass: add prohibited-paths QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 22:46:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 16 Nov 2017 23:12:14 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 16, 2017 at 12:45 PM, akuster808 <akuster808@gmail.com> wrote:
->
->
-> On 11/15/2017 12:36 PM, George McCollister wrote:
->> Add backported patch to fix CVE-2015-5180 from the upstream
->> release/2.24/master branch.
->>
->> Signed-off-by: George McCollister <george.mccollister@gmail.com>
->
-> Thanks for this series. I will have to wait until I address this in Pyro.
+isn't it this class meta/classes/insane.bbclass for this type of checks?
 
-CVE-2015-5180 should not be an issue in glibc 2.25.
 
-The CVE-2017-1000366 commits backported to glibc 2.25 are here:
-https://sourceware.org/git/?p=glibc.git;a=commit;h=3c7cd21290cabdadd72984fb69bc51e64ff1002d
-https://sourceware.org/git/?p=glibc.git;a=commit;h=46703a3995aa3ca2b816814aa4ad05ed524194dd
-https://sourceware.org/git/?p=glibc.git;a=commit;h=c69d4a0f680a24fdbe323764a50382ad324041e9
+On Thu, 16 Nov 2017 15:05:56 +0000
+Martyn Welch <martyn.welch@collabora.co.uk> wrote:
 
-Would it help if I sent Pyro patches for these?
-
->
-> - armin
+> Sometimes we wish to ensure that files or directories are not installed
+> somewhere that may prove detrimental to the operation of the system. For
+> example, this may be the case if files are placed in a directory that is
+> utilised as a mount point at run time, thus making them inaccessible once
+> when the mount point is being utilised.
+> 
+> Implement the prohibited paths QA test, which enables such locations to be
+> specified in a "IMAGE_QA_PROHIBITED_PATHS" variable. This implementation
+> allows for a colon separated list of paths to be provided. Shell style
+> wildcards can be used.
+> 
+> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+> ---
+> Changes since v1:
+>  - Correcting author and SOB.
+> 
+> Changes since v2:
+>  - Reimplemented as image rather than package level QA test.
+>  - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
+>    reflect its use.
+> 
+> Changes since v3:
+>  - Rename variable to IMAGE_QA_PROHIBITED_PATHS.
+>  - Use str.startswith().
+>  - Simplify if statement.
+> 
+>  meta/classes/image.bbclass | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index d93de02..9053ce3 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -296,6 +296,26 @@ python do_image_complete_setscene () {
+>  }
+>  addtask do_image_complete_setscene
+>  
+> +python image_check_prohibited_paths () {
+> +    import glob
+> +    from oe.utils import ImageQAFailed
+> +
+> +    rootfs = d.getVar('IMAGE_ROOTFS')
+> +
+> +    path = (d.getVar('IMAGE_QA_PROHIBITED_PATHS') or "")
+> +    if path != "":
+> +        for p in path.split(':'):
+> +            if not p.startswith('/'):
+> +                raise ImageQAFailed("IMAGE_QA_PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
+> +
+> +            match = glob.glob("%s%s" % (rootfs, p))
+> +            if match:
+> +                loc = ", ".join(item.replace(rootfs, '') for item in match)
+> +                raise ImageQAFailed("Match(es) for IMAGE_QA_PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
+> +}
+> +
+> +IMAGE_QA_COMMANDS += "image_check_prohibited_paths"
+> +
+>  # Add image-level QA/sanity checks to IMAGE_QA_COMMANDS
+>  #
+>  # IMAGE_QA_COMMANDS += " \
+> -- 
+> 2.1.4
+> 
+> -- 
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
