@@ -1,25 +1,48 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 35CA3787E6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E4D01787DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 19:49:03 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Nov 2017 11:49:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,405,1505804400"; 
-   d="scan'208";a="3105425"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga003.jf.intel.com with ESMTP; 16 Nov 2017 11:49:03 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Nov 2017 11:48:48 -0800
-Message-Id: <1510861730-82471-3-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510861730-82471-1-git-send-email-juro.bystricky@intel.com>
+	Thu, 16 Nov 2017 20:06:03 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r68so2531463wmr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Nov 2017 12:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Mwnhl0jOjFCBIvYVmtIB2c3NSqVzNcqrueTzxDUAoOg=;
+	b=oCKFj78nYjWDsKQMNOCZfqESqAaLEoCpsivpRMKAP9PN1WS38fhDrV+MHxKP5X9uDi
+	y1EuSF8sYUl3U6ALXRoWawlneXbf7g8v7TOMWy48TC0wfLIbkTGpg428uC2FhndMDvzn
+	FMRWb4TXeJLzENKt9LEQZQAq1RrkA904gI6PPEVn0U7vRVDdxYa8Dz/uN8+JOuSVFzVz
+	EvDTjanyzsrA7+I2jprRVkCkB1Eqs7/Xi4ed0U4oW0LtWlMn00MQnCWZsb8MqjoGiFbI
+	nHZrbz3/N8PaBoBB2y1I6iVduDMZiimP+lIW6hQuVT5Ol29X58pMg0QsUy7MKt42qdeV
+	avZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Mwnhl0jOjFCBIvYVmtIB2c3NSqVzNcqrueTzxDUAoOg=;
+	b=Y4Z/9vO6XTy0WMZf0chyBZ9O7OOIGhAPxzE38g7kcRUzRaHbbHwmrba2IZgv3HBuMW
+	d7v2CqU5EHSb9MJ/27dt3GOkiDANnIkYbXHkwtonCc+y5KzPsCKH5z6iQCg3MUPDgLmw
+	NcuqHoGk81kq4LrDzjWN6dgLkEoUjL/8BxrjyiH0St55Z93yWX8rcCaaGDyTI4fdZSmQ
+	c73bqunvSl0PuF00mBNn1cjWYrejzAhrLWaRWoQwZ/BkUWDbOYCJD9MFxRKowk6+m0/v
+	yQZC0dntSNaCKjfZ464ZXrc0pgpm3l0rwQVs9ehZj1wzJy7FT+qJ4tkmV4q1RTn/EWiv
+	acrg==
+X-Gm-Message-State: AJaThX4aTAR/1HSPXp+s+YU8UW4wOziLoxEJTDQFFY2tyBeR8yZe0r6U
+	siWkCqxOGQiCGh1qiRzr1pEaEn85GFE2tpdwbcA=
+X-Google-Smtp-Source: AGs4zMbpkVgQFeQ8N6xUB+TmTSAZJQvCLJR6hvIyyuAYRy0u1Yckjb2yis+iY1z3zAhtOiANNqSFHJjcSs7mE6/sFaY=
+X-Received: by 10.28.127.197 with SMTP id a188mr2474620wmd.138.1510862764835; 
+	Thu, 16 Nov 2017 12:06:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.133.99 with HTTP; Thu, 16 Nov 2017 12:06:03 -0800 (PST)
+In-Reply-To: <1510861730-82471-2-git-send-email-juro.bystricky@intel.com>
 References: <1510861730-82471-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH 2/4] grub-efi_2.02.bb: improve reproducibility
+	<1510861730-82471-2-git-send-email-juro.bystricky@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 16 Nov 2017 12:06:03 -0800
+Message-ID: <CAJ86T=Xs5b3dNfaNFE_kzDJ1AMknRPqMw60gC_c+8gBA21SiNw@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] gnutls: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 19:49:04 -0000
+X-List-Received-Date: Thu, 16 Nov 2017 20:06:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Remove several build host references from modinfo.sh files.
+On Thu, Nov 16, 2017 at 11:48 AM, Juro Bystricky
+<juro.bystricky@intel.com> wrote:
+> Sanitize generated config.h containing build host reference such as:
+>
+>  #define POSIX_SHELL "<builddir>/tmp/hosttools/bash"
+>
+> The path for POSIX_SHELL is not only wrong for the cross-compiled target,
+> it also prevents reproducible build.
+>
+> Prior the compilation we edit the value to:
+>
+>  #define POSIX_SHELL "bash"
+>
+> With this change we can build reproducible libgnutls-bin, libgnutls-dev
+> and libgnutls-dbg packages.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Is there a configure option we could use (perhaps via
+CACHED_CONFIGUREVARS) to achieve the same end result without needing
+to run sed on config.h?
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index b949beb..44e32a8 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -41,6 +41,16 @@ do_install_class-native() {
- 	install -m 755 grub-mkimage ${D}${bindir}
- }
- 
-+do_install_append_class-target() {
-+    # Remove build host references...
-+    find "${D}" -name modinfo.sh -type f -exec \
-+        sed -i \
-+        -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-+        -e 's|${DEBUG_PREFIX_MAP}||g' \
-+        -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+        {} +
-+}
-+
- GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search"
- 
- do_deploy() {
--- 
-2.7.4
-
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  meta/recipes-support/gnutls/gnutls.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+> index 29b5dd6..5b45b27 100644
+> --- a/meta/recipes-support/gnutls/gnutls.inc
+> +++ b/meta/recipes-support/gnutls/gnutls.inc
+> @@ -53,6 +53,11 @@ do_configure_prepend() {
+>         done
+>  }
+>
+> +do_configure_append_class-target () {
+> +       # Remove build host references from config.h
+> +       sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${B}/config.h
+> +}
+> +
+>  PACKAGES =+ "${PN}-openssl ${PN}-xx"
+>
+>  FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
