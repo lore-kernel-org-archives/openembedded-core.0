@@ -1,26 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BE15578780
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC4660049
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 15:55:37 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Nov 2017 07:55:38 -0800
+	Thu, 16 Nov 2017 15:55:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2017 07:55:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,404,1505804400"; d="scan'208";a="174302945"
+X-IronPort-AV: E=Sophos;i="5.44,404,1505804400"; 
+   d="scan'208";a="3434065"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 16 Nov 2017 07:55:38 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 16 Nov 2017 07:55:42 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 2CE5B5800A7
+	by linux.intel.com (Postfix) with ESMTP id 0CE5F5803BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 07:55:37 -0800 (PST)
+	Thu, 16 Nov 2017 07:55:41 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Nov 2017 17:56:06 +0200
-Message-Id: <1510847767-2966-1-git-send-email-maxin.john@intel.com>
+Date: Thu, 16 Nov 2017 17:56:07 +0200
+Message-Id: <1510847767-2966-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] libogg: upgrade to 1.3.3
+In-Reply-To: <1510847767-2966-1-git-send-email-maxin.john@intel.com>
+References: <1510847767-2966-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] image.bbclass: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 15:55:37 -0000
+X-List-Received-Date: Thu, 16 Nov 2017 15:55:41 -0000
 
-1.3.2 -> 1.3.3
+Improve reproducibility of builds by adding --apparent-size to du -ks in
+get_rootfs_size
+
+[YOCTO #12235]
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/libogg/{libogg_1.3.2.bb => libogg_1.3.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libogg/{libogg_1.3.2.bb => libogg_1.3.3.bb} (80%)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.2.bb b/meta/recipes-multimedia/libogg/libogg_1.3.3.bb
-similarity index 80%
-rename from meta/recipes-multimedia/libogg/libogg_1.3.2.bb
-rename to meta/recipes-multimedia/libogg/libogg_1.3.3.bb
-index 0142e0f..8d88f1f 100644
---- a/meta/recipes-multimedia/libogg/libogg_1.3.2.bb
-+++ b/meta/recipes-multimedia/libogg/libogg_1.3.3.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 0d14250..a24a561 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -524,7 +524,7 @@ def get_rootfs_size(d):
+     initramfs_fstypes = d.getVar('INITRAMFS_FSTYPES') or ''
+     initramfs_maxsize = d.getVar('INITRAMFS_MAXSIZE')
  
- SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
- 
--SRC_URI[md5sum] = "5c3a34309d8b98640827e5d0991a4015"
--SRC_URI[sha256sum] = "3f687ccdd5ac8b52d76328fbbfebc70c459a40ea891dbf3dccb74a210826e79b"
-+SRC_URI[md5sum] = "87ed742047f065046eb6c36745d871b8"
-+SRC_URI[sha256sum] = "4f3fc6178a533d392064f14776b23c397ed4b9f48f5de297aba73b643f955c08"
- 
- inherit autotools pkgconfig
+-    output = subprocess.check_output(['du', '-ks',
++    output = subprocess.check_output(['du', '--apparent-size', '-ks',
+                                       d.getVar('IMAGE_ROOTFS')])
+     size_kb = int(output.split()[0])
+     base_size = size_kb * overhead_factor
 -- 
 2.4.0
 
