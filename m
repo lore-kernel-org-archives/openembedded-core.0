@@ -1,48 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A45EB7877D
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EAA76010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 23:17:58 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id u132so2074152ita.0
+	Thu, 16 Nov 2017 23:29:23 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id x68so755740lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 15:18:00 -0800 (PST)
+	Thu, 16 Nov 2017 15:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tx6vHucrHZToiPiuZ/bw6l8o5vmJrkE+Ya0cnRijgjk=;
-	b=Yav2aVs6OY9oXkRooFihVcGEkmw9ppY0b5ag8YGe4E4vLPLb3Av6ezWFHjobK1PsCn
-	C+HhlLkoYlsYP/PBSa8vKZlvtLeSp7YhdGSPqX1z93I5mw6DNFmhcupPjzkV8BP5YrUy
-	bV6g7ftxYVIThb7uasWEx4rYjZUxNfo+84zXDI4gOP94IC3m5vbERITd3mcRyzDfA9bD
-	5RdGSZLFC9uWZGMcT8gKlMr3HDO4EZgh+8VOX0+WOdOPgI7EbYUPrCYiGrLIhY6LJu56
-	1uHJqZaOYlZiOtYiIDqsubwv8j6qJSvCx4XjFXzCUZiutKJ32e65qGfpLXX/M+b9G9pd
-	rTxw==
+	:cc; bh=ghJ9odQ9nsOptMIdYqFJmSOYu4QPAdjozeK3RnI117M=;
+	b=PaQoru4AG4ffI0jBZ6dvc8kDDw5p6RwKkWYakFreFpNF4CL2p0oCH/Zg3xcddMnxyf
+	niV5OhizmvggA8PSvKzTNvGfV0PUPl5FyFQLtzoFbULI4g95OzGAjOj1SpeKIbnks/mx
+	vuXui9P6B98PodheDMzt3J7rvNQ4Fm05txk9avcy5gV0O99NAstmTHRFc8d74DlLxn9F
+	7jYMyjfwHUrsSMH6r42KLuRnPRR+hQXE3HnfUG7rQEIOTSySqKTUeJvoQxOmZBIAcbNh
+	ubLUxWYGxSjGm+8LLNk1IZU32ZSIbn0Tdw5vCiS2ZhqnpdCCgOr/oG5Xs/9XXUMqgd2r
+	Qmug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Tx6vHucrHZToiPiuZ/bw6l8o5vmJrkE+Ya0cnRijgjk=;
-	b=Un7gJ13FKXfxFcHvVtHv/ssAsWEdUPocIm/XmvsbqI/bpsEBDUeRPRi+6BAgB0HOI4
-	yQOta33D3t1upnE0vxSQ0WRLETiTfaeOvLlbM4bWelnzvxtcji6MK5FjFy09r0wPKzaJ
-	kDM9v6NoME6F1GTBeJl5uoZl/OAqNVH+3jwtS5Ewd4S99p2/8jKj+DlMyQbo5fYzQm/l
-	T6W5OdhhXR+vmem3lT7NLDlJ58Z8/YuBv/eEE8dB2PxxzVZ4PFEsbPHiBlVJiZjtS3T8
-	P+0xKUXU4i9VlSDrSuewXv7AkdJLC1CAEh5kLK9/k03kLStVSr96/UQl2F0BGZOQNwdY
-	lnug==
-X-Gm-Message-State: AJaThX4o3AFad6A0CReauooWJiZl23OuR7/0jqNpuCN8rO3+Lgcagfl+
-	oGqS+YBHARsEM86wItoG8moL1ezGbp8aWrtnWOsh6Q==
-X-Google-Smtp-Source: AGs4zMYcEFIJLi00Q0qBc7Hv9ZUgwWpL6lIidB65d70p9LlMMiXX9ljRVLGR5cpJhp09exY93MJIuOHtG9DlG86pfSA=
-X-Received: by 10.36.120.11 with SMTP id p11mr4336996itc.10.1510874279746;
-	Thu, 16 Nov 2017 15:17:59 -0800 (PST)
+	bh=ghJ9odQ9nsOptMIdYqFJmSOYu4QPAdjozeK3RnI117M=;
+	b=i80YNfL2r7JquWF0qTtUbjZLEVzNRgLBPxESOlQiE8KUmF/+UFiUw+U5BSG7qpKClQ
+	eD4ebujBBNZuxhdN3lgWgPunuX+HXAfWzT0HKyYqpyV1tvBNHqtZCRuDWU3A6TqsAdYK
+	5RfjSsxT2FEkVGR0YglBogGDRNqArzSgXakLy9UVSh70a2phWONQ0jDTtU786VPMJxOT
+	jrbWFvIJj1Esx0MVGrgI+fgjYSw/DTzduk/DgETbDv7PeaHIX5PoF96lURUAeg+WBLF8
+	KEbkGtO5PUuq2UXuXaO7s9Qo9SbialwpiOiOyVbhN0wipUW7evcHngDSWfDVi4hRZMcX
+	1O1g==
+X-Gm-Message-State: AJaThX45NcxhFKBKFvWrEfGVGJjFbZDOJHLl6yaRElOSN3f/tb1TBK9w
+	IpLOiR0jigvaGFj/7ffI5MfExo2aZRu9JBLzS9jNAQ==
+X-Google-Smtp-Source: AGs4zMYn4jSrRdEZufpp7IFH+d31Bry6X+xnkqhSudstiSJXvAANqOGSA2Q4r3ARpWGupOGG9w3vod9iFuG3BOUbEJg=
+X-Received: by 10.25.150.67 with SMTP id y64mr150353lfd.124.1510874963906;
+	Thu, 16 Nov 2017 15:29:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.196 with HTTP; Thu, 16 Nov 2017 15:17:39 -0800 (PST)
-In-Reply-To: <1510823468-63055-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1510823468-63055-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Nov 2017 23:17:39 +0000
-Message-ID: <CAJTo0LaH1N4+rUCeKuzZtHhoUOFqCPLJe+YXs-Q=iECUa9oodw@mail.gmail.com>
-To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-setuptools: update to 36.7.2
+Received: by 10.25.158.198 with HTTP; Thu, 16 Nov 2017 15:29:23 -0800 (PST)
+In-Reply-To: <CAJTo0LZhfw5cViLMfXTTk8bvDdp_pN3p9g2uhAPDsSCbaZygOQ@mail.gmail.com>
+References: <1510679926-24611-1-git-send-email-matt@madison.systems>
+	<CAP9ODKr6V9rtuVzx8uN6Mr-ke1jW=Q411b=unZn+hZo1t_zh7g@mail.gmail.com>
+	<CAGgRHJoGLRhhyjPzWGna9wSPK1Y33f9FqgsRJPHr_XPj_=ZEyg@mail.gmail.com>
+	<CAJTo0LZhfw5cViLMfXTTk8bvDdp_pN3p9g2uhAPDsSCbaZygOQ@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+Date: Thu, 16 Nov 2017 15:29:23 -0800
+Message-ID: <CAGgRHJo0hCR7WCzf0j0UzQnV9SvKufMHvJ72f-xNdj4oVBm_3Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] go: ensure use of BUILD_CC when building bootstrap tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,143 +61,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 23:17:58 -0000
-Content-Type: multipart/alternative; boundary="001a114a9b5ebeb17d055e21d427"
-
---001a114a9b5ebeb17d055e21d427
+X-List-Received-Date: Thu, 16 Nov 2017 23:29:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-python3-setuptools includes this file too, so this patch breaks that recipe.
+On Thu, Nov 16, 2017 at 12:29 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Looks like this is failing on some of our autobuilders, such as
+> https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/58/steps/BuildImages/logs/stdio
 
-Ross
+I'm looking into it.
 
-On 16 November 2017 at 09:11, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
+Thanks,
+-Matt
 
-> 1) Upgrade python-setuptools from 36.5.0 to 36.7.2.
 >
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-devtools/python/python-setuptools.inc                    |
-> 4 ++--
->  .../{python-setuptools_36.5.0.bb => python-setuptools_36.7.2.bb}      | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python-setuptools_36.5.0.bb =>
-> python-setuptools_36.7.2.bb} (100%)
+> | cmd/go/internal/vet
+> | # cmd/api
+> |
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/build/tmp/work/core2-64-poky-linux-musl/go/1.9-r0/go/src/host-tools/link:
+> running x86_64-poky-linux-musl-gcc failed: exit status 1
+> |
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/build/tmp/work/core2-64-poky-linux-musl/go/1.9-r0/build-tmp/go-link-213113620/000000.o:
+> In function `vfprintf':
+> | /usr/include/x86_64-linux-gnu/bits/stdio2.h:127: undefined reference to
+> `__vfprintf_chk'
+> |
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/build/tmp/work/core2-64-poky-linux-musl/go/1.9-r0/build-tmp/go-link-213113620/000000.o:
+> In function `fprintf':
+> | /usr/include/x86_64-linux-gnu/bits/stdio2.h:97: undefined reference to
+> `__fprintf_chk'
+> | collect2: error: ld returned 1 exit status
 >
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc
-> b/meta/recipes-devtools/python/python-setuptools.inc
-> index 1eae0b6..56b17ad 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -9,8 +9,8 @@ SRCNAME = "setuptools"
+> It's running x86-64-poky-linux-musl-gcc but using headers from /usr, which
+> looks wrong.
 >
->  SRC_URI = "https://files.pythonhosted.org/packages/source/s/${
-> SRCNAME}/${SRCNAME}-${PV}.zip"
->
-> -SRC_URI[md5sum] = "704f500dd55f4bd0be905444f3ba892c"
-> -SRC_URI[sha256sum] = "ce2007c1cea3359870b80657d63425
-> 3a0765b0c7dc5a988d77ba803fc86f2c64"
-> +SRC_URI[md5sum] = "1874983171af0f7b16b5ec48558e6e55"
-> +SRC_URI[sha256sum] = "ad86fd8dd09c285c33b4c5b82bbc21
-> d21883637faef78b0ab58fa9984847220d"
->
->  UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools_36.5.0.bb
-> b/meta/recipes-devtools/python/python-setuptools_36.7.2.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python/python-setuptools_36.5.0.bb
-> rename to meta/recipes-devtools/python/python-setuptools_36.7.2.bb
-> --
-> 2.7.4
+> Ross
 >
 >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> On 14 November 2017 at 17:21, Matt Madison <matt@madison.systems> wrote:
+>>
+>> Yes, drat it, v3 should fix that.
+>>
+>> Thanks,
+>> -Matt
+>>
+>> On Tue, Nov 14, 2017 at 9:20 AM, Otavio Salvador
+>> <otavio.salvador@ossystems.com.br> wrote:
+>> > Hello Matt,
+>> >
+>> > A minor thing:
+>> >
+>> > Upstream-Status: Pending
+>> >
+>> > On Tue, Nov 14, 2017 at 3:18 PM, Matt Madison <matt@madison.systems>
+>> > wrote:
+>> >> For cross-canadian builds, we were accidentally using
+>> >> the crosssdk C compiler when building the Go compiler
+>> >> bootstrap.  Add a patch to the make script to let us
+>> >> use BUILD_CC, and prepend do_compile to set it in
+>> >> the local environment to ensure that the trailing
+>> >> blank gets stripped, since that confuses Go.
+>> >>
+>> >> [YOCTO #12341]
+>> >>
+>> >> Signed-off-by: Matt Madison <matt@madison.systems>
+>> >> ---
+>> >>  meta/recipes-devtools/go/go-1.9.inc                |  1 +
+>> >>  ...verride-CC-when-building-dist-and-go_boot.patch | 43
+>> >> ++++++++++++++++++++++
+>> >>  meta/recipes-devtools/go/go-common.inc             |  4 ++
+>> >>  3 files changed, 48 insertions(+)
+>> >>  create mode 100644
+>> >> meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>> >>
+>> >> diff --git a/meta/recipes-devtools/go/go-1.9.inc
+>> >> b/meta/recipes-devtools/go/go-1.9.inc
+>> >> index 65adaa8..1dbb5ef 100644
+>> >> --- a/meta/recipes-devtools/go/go-1.9.inc
+>> >> +++ b/meta/recipes-devtools/go/go-1.9.inc
+>> >> @@ -15,6 +15,7 @@ SRC_URI += "\
+>> >>          file://0007-ld-add-soname-to-shareable-objects.patch \
+>> >>
+>> >> file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
+>> >>
+>> >> file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
+>> >> +
+>> >> file://0010-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+>> >>  "
+>> >>  SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
+>> >>  SRC_URI[main.sha256sum] =
+>> >> "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
+>> >> diff --git
+>> >> a/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>> >> b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>> >> new file mode 100644
+>> >> index 0000000..94ea197
+>> >> --- /dev/null
+>> >> +++
+>> >> b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>> >> @@ -0,0 +1,43 @@
+>> >> +From 36787fbf0e0a6298ba1038bbbae526654597eee4 Mon Sep 17 00:00:00 2001
+>> >> +From: Matt Madison <matt@madison.systems>
+>> >> +Date: Tue, 14 Nov 2017 07:38:42 -0800
+>> >> +Subject: [PATCH 10/10] make.bash: override CC when building dist and
+>> >> + go_bootstrap
+>> >> +
+>> >> +For cross-canadian builds, dist and go_bootstrap
+>> >> +run on the build host, so CC needs to point to the
+>> >> +build host's C compiler.  Add a BUILD_CC environment
+>> >> +for this, falling back to $CC if not present.
+>> >> +
+>> >> +Upstream-Status: pending
+>> >> +
+>> >> +Signed-off-by: Matt Madison <matt@madison.systems>
+>> >> +---
+>> >> + src/make.bash | 4 ++--
+>> >> + 1 file changed, 2 insertions(+), 2 deletions(-)
+>> >> +
+>> >> +diff --git a/src/make.bash b/src/make.bash
+>> >> +index 0bdadc6..f199349 100755
+>> >> +--- a/src/make.bash
+>> >> ++++ b/src/make.bash
+>> >> +@@ -131,7 +131,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ]; then
+>> >> +       exit 1
+>> >> + fi
+>> >> + rm -f cmd/dist/dist
+>> >> +-GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH=""
+>> >> "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
+>> >> ++CC=${BUILD_CC:-${CC}} GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH=""
+>> >> "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
+>> >> +
+>> >> + # -e doesn't propagate out of eval, so check success by hand.
+>> >> + eval $(./cmd/dist/dist env -p || echo FAIL=true)
+>> >> +@@ -167,7 +167,7 @@ elif [ "$1" = "--host-only" ]; then
+>> >> + fi
+>> >> +
+>> >> + if [ "$do_host_build" = "yes" ]; then
+>> >> +-      ./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds
+>> >> go_bootstrap
+>> >> ++      CC=${BUILD_CC:-${CC}} ./cmd/dist/dist bootstrap $buildall
+>> >> $GO_DISTFLAGS -v # builds go_bootstrap
+>> >> +       # Delay move of dist tool to now, because bootstrap may clear
+>> >> tool directory.
+>> >> +       mv cmd/dist/dist "$GOTOOLDIR"/dist
+>> >> +       echo
+>> >> +--
+>> >> +2.7.4
+>> >> +
+>> >> diff --git a/meta/recipes-devtools/go/go-common.inc
+>> >> b/meta/recipes-devtools/go/go-common.inc
+>> >> index ce1eb86..9af6873 100644
+>> >> --- a/meta/recipes-devtools/go/go-common.inc
+>> >> +++ b/meta/recipes-devtools/go/go-common.inc
+>> >> @@ -20,3 +20,7 @@ B = "${S}"
+>> >>
+>> >>  INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+>> >>  SSTATE_SCAN_CMD = "true"
+>> >> +
+>> >> +do_compile_prepend() {
+>> >> +       BUILD_CC=${BUILD_CC}
+>> >> +}
+>> >> --
+>> >> 2.7.4
+>> >>
+>> >> --
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >
+>> >
+>> >
+>> > --
+>> > Otavio Salvador                             O.S. Systems
+>> > http://www.ossystems.com.br        http://code.ossystems.com.br
+>> > Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a114a9b5ebeb17d055e21d427
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">python3-setuptools includes this file too, so this patch b=
-reaks that recipe.<div><br></div><div>Ross</div></div><div class=3D"gmail_e=
-xtra"><br><div class=3D"gmail_quote">On 16 November 2017 at 09:11, zhengrq =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=
-=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">1) Upgrade python-setuptools from 36.5.0 to 36.7.2.<br=
->
-<br>
-Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.c=
-om">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<wbr>python-setuptools.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A0.../{<a href=3D"http://python-setuptools_36.5.0.bb" rel=3D"noreferrer=
-" target=3D"_blank">python-setuptools_36.5.0.<wbr>bb</a> =3D&gt; <a href=3D=
-"http://python-setuptools_36.7.2.bb" rel=3D"noreferrer" target=3D"_blank">p=
-ython-setuptools_36.7.2.bb</a>}=C2=A0 =C2=A0 =C2=A0 | 0<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python-setupto=
-ols_36.5.0.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python-setuptools_=
-36.5.0.bb</a> =3D&gt; <a href=3D"http://python-setuptools_36.7.2.bb" rel=3D=
-"noreferrer" target=3D"_blank">python-setuptools_36.7.2.bb</a>} (100%)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>python/python-setuptools.inc b/meta=
-/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-index 1eae0b6..56b17ad 100644<br>
---- a/meta/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-+++ b/meta/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-@@ -9,8 +9,8 @@ SRCNAME =3D &quot;setuptools&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://files.pythonhosted.org/packages/=
-source/s/${SRCNAME}/${SRCNAME}-${PV}.zip" rel=3D"noreferrer" target=3D"_bla=
-nk">https://files.pythonhosted.<wbr>org/packages/source/s/${<wbr>SRCNAME}/$=
-{SRCNAME}-${PV}.zip</a>&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;<wbr>704f500dd55f4bd0be905444f3ba89<wbr>2c&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>ce2007c1cea3359870b80657d63425<wbr>3a076=
-5b0c7dc5a988d77ba803fc86f<wbr>2c64&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>1874983171af0f7b16b5ec48558e6e<wbr>55&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>ad86fd8dd09c285c33b4c5b82bbc21<wbr>d2188=
-3637faef78b0ab58fa9984847<wbr>220d&quot;<br>
-<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://pypi.python.org/pypi/=
-setuptools" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/py=
-pi/<wbr>setuptools</a>&quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>python/<a href=3D"http://python-set=
-uptools_36.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-setuptools_3=
-6.5.<wbr>0.bb</a> b/meta/recipes-devtools/<wbr>python/<a href=3D"http://pyt=
-hon-setuptools_36.7.2.bb" rel=3D"noreferrer" target=3D"_blank">python-setup=
-tools_36.7.<wbr>2.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python-setuptool=
-s_36.5.0.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-setuptools_36=
-.5.0.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python-setuptools_=
-36.7.2.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-setuptools_36.7=
-.2.bb</a><br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
-<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a114a9b5ebeb17d055e21d427--
