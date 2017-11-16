@@ -1,24 +1,46 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 496C17869D
+Return-Path: <limon.anibal@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FF1A7822A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 00:20:53 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2017 16:20:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,401,1505804400"; d="scan'208";a="149923469"
-Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
-	by orsmga004.jf.intel.com with ESMTP; 15 Nov 2017 16:20:55 -0800
-From: Amanda Brindle <amanda.r.brindle@intel.com>
+	Thu, 16 Nov 2017 00:56:33 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id a132so17326591oih.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Nov 2017 16:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=vqqoFrYjH2u5sNTZWHSQEitjGT6I9pR2XvEsZVFJBzc=;
+	b=OpD1jUXKDgpmOSeKWEbq09ygFs8dTYj7BxrTPjRUT6x+hzh6aHjzGd8FfY2kfuRFt8
+	keLtn3QEljl4RpT1+TWkyv7RiOsB2Ig7ynyPQVJJ7uJKGd2BsDVu7OXrK4zIDBF3JVXP
+	NsvWVS+iydr2gAC/9Un9goKk8Me4ijZ+Crw0P84C77ArKX1pAHb1qYHnqV05jOvteHWe
+	lSRqYSK0fmA0gillKW7ZK1qSqd2vz1WYmrk8rm3RPs+c5UXz3zBT5vZHUAzH8vVDq7zu
+	obYoYiFsjXgNj5z8DxMMHWSg+r4H34zH3szvZebcmahyYTalazB7NjMiLoK4k02SbWTn
+	99Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vqqoFrYjH2u5sNTZWHSQEitjGT6I9pR2XvEsZVFJBzc=;
+	b=O4Tp1lJhp+4Ssee/Srgc1p46q1gcebDcrgjzaBCh7Wr6Ii9STj0RA9qEMBTaYvYV8y
+	fQBkkgArrR2snN84n5KctFxhghhaZXL4Lt3IOaAiBBrc1eTUys6I2v4guP3+94vs1eKn
+	mkEqTsqOxHOjfl1m3OpaEcKcKgGSVBzAc4MOZsJ5U7afutxkssTIcSiTm6zK6vAJ8Gfm
+	MlKzGI0uz2dB8feVMHy25t/snOLeo0M0suoD88BihKeCrYLKSQT3SzASxbTGr+Apm+uZ
+	Ls+D8Ghipy0gqZFJEXuQYHeTjr7i0kfoKD22pBCX7ioYxZHqUlcLTXVKzJS3gECLTYVS
+	jWbA==
+X-Gm-Message-State: AJaThX5dZNjCAsbjc1bhkOLF2WAjK8D22n0t0LvUEzvk0nJd7kL3h5P7
+	c9b0D52IFHEQ4gxRhv4+18IPAtBj
+X-Google-Smtp-Source: AGs4zMZ9eFtan94bkFcD/3gVE5JQz8BIDOOShl7FSV8aJFBYOdWtEB2HTF1rU1noQDi3PBFIlCDxYA==
+X-Received: by 10.202.56.86 with SMTP id f83mr10233578oia.108.1510793794652;
+	Wed, 15 Nov 2017 16:56:34 -0800 (PST)
+Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	by smtp.gmail.com with ESMTPSA id 80sm2602278otj.75.2017.11.15.16.56.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Nov 2017 16:56:33 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Nov 2017 16:21:04 -0800
-Message-Id: <ca3937bd8e776363d8dd58348b8f220c230222f8.1510791278.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1510791278.git.amanda.r.brindle@intel.com>
-References: <cover.1510791278.git.amanda.r.brindle@intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v2 1/1] scripts/contrib/bbvars.py: Rewrite to use tinfoil
+Date: Wed, 15 Nov 2017 18:56:22 -0600
+Message-Id: <20171116005622.25680-1-limon.anibal@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH][morty] python-3.3-multilib.patch: Fixes getpath on multilib configurations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,226 +53,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 00:20:53 -0000
+X-List-Received-Date: Thu, 16 Nov 2017 00:56:34 -0000
 
-Use tinfoil to collect all variable names globally and in each recipe.
-This will capture more variable references than parsing manually.
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
 
-With the use of tinfoil, this script can no longer distinguish unique
-references to each variable, so it's no longer showing the count of
-undocumented variables.
+When using multilib configurations either on arm/arm64 and x86/x86-64
+python3 failed to execute due to a failure when looking for its
+platform independent and dependent libraries.
 
-Removed the -m option since this script now searches through all recipes
-in the configuration.
+This patch fixes this issue by assigning lib_python to the appropriate
+macro.
 
-Fixes [YOCTO #2086]
+[YOCTO #10812]
 
-Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/contrib/bbvars.py | 140 ++++++++++++++++++++++------------------------
- 1 file changed, 67 insertions(+), 73 deletions(-)
+ .../python/python3/python-3.3-multilib.patch            | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
-index d8d0594..286b5a9 100755
---- a/scripts/contrib/bbvars.py
-+++ b/scripts/contrib/bbvars.py
-@@ -23,62 +23,38 @@ import os
- import os.path
- import re
- 
-+# Set up sys.path to let us import tinfoil
-+scripts_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-+lib_path = scripts_path + '/lib'
-+sys.path.insert(0, lib_path)
-+import scriptpath
-+scriptpath.add_bitbake_lib_path()
-+import bb.tinfoil
-+
- def usage():
--    print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
-+    print('Usage: %s -d FILENAME [-d FILENAME]*' % os.path.basename(sys.argv[0]))
-     print('  -d FILENAME         documentation file to search')
-     print('  -h, --help          display this help and exit')
--    print('  -m METADIR          meta directory to search for recipes')
-     print('  -t FILENAME         documentation config file (for doc tags)')
-     print('  -T                  Only display variables with doc tags (requires -t)')
- 
--def recipe_bbvars(recipe):
--    ''' Return a unique set of every bbvar encountered in the recipe '''
--    prog = re.compile("[A-Z_]+")
--    vset = set()
--    try:
--        r = open(recipe)
--    except IOError as err:
--        print('WARNING: Failed to open recipe ', recipe)
--        print(err.args[1])
--
--    for line in r:
--        # Strip any comments from the line
--        line = line.rsplit('#')[0]
--        vset = vset.union(set(prog.findall(line)))
--    r.close()
--
--    bbvars = {}
--    for v in vset:
--        bbvars[v] = 1
--
--    return bbvars
--
--def collect_bbvars(metadir):
--    ''' Walk the metadir and collect the bbvars from each recipe found '''
--    bbvars = {}
--    for root,dirs,files in os.walk(metadir):
--        for name in files:
--            if name.find(".bb") >= 0:
--                for key in recipe_bbvars(os.path.join(root,name)).keys():
--                    if key in bbvars:
--                        bbvars[key] = bbvars[key] + 1
--                    else:
--                        bbvars[key] = 1
--    return bbvars
--
--def bbvar_is_documented(var, docfiles):
--    prog = re.compile(".*($|[^A-Z_])%s([^A-Z_]|$)" % (var))
--    for doc in docfiles:
--        try:
--            f = open(doc)
--        except IOError as err:
--            print('WARNING: Failed to open doc ', doc)
--            print(err.args[1])
--        for line in f:
--            if prog.match(line):
--                return True
--        f.close()
--    return False
-+def bbvar_is_documented(var, documented_vars):
-+    ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
-+    if var in documented_vars:
-+        return True
-+    else:
-+        return False
-+
-+def collect_documented_vars(docfiles):
-+    ''' Walk the docfiles and collect the documented variables '''
-+    documented_vars = []
-+    prog = re.compile(".*($|[^A-Z_])<glossentry id=\'var-")
-+    var_prog = re.compile('<glossentry id=\'var-(.*)\'>')
-+    for d in docfiles:
-+        with open(d) as f:
-+            documented_vars += var_prog.findall(f.read())
-+
-+    return documented_vars
- 
- def bbvar_doctag(var, docconf):
-     prog = re.compile('^%s\[doc\] *= *"(.*)"' % (var))
-@@ -100,8 +76,7 @@ def bbvar_doctag(var, docconf):
- 
- def main():
-     docfiles = []
--    metadirs = []
--    bbvars = {}
-+    bbvars = set()
-     undocumented = []
-     docconf = ""
-     onlydoctags = False
-@@ -124,12 +99,6 @@ def main():
-             else:
-                 print('ERROR: documentation file %s is not a regular file' % a)
-                 sys.exit(3)
--        elif o == '-m':
--            if os.path.isdir(a):
--                metadirs.append(a)
--            else:
--                print('ERROR: meta directory %s is not a directory' % a)
--                sys.exit(4)
-         elif o == "-t":
-             if os.path.isfile(a):
-                 docconf = a
-@@ -143,43 +112,68 @@ def main():
-         usage()
-         sys.exit(5)
- 
--    if len(metadirs) == 0:
--        print('ERROR: no metadir specified')
--        usage()
--        sys.exit(6)
--
-     if onlydoctags and docconf == "":
-         print('ERROR: no docconf specified')
-         usage()
-         sys.exit(7)
- 
--    # Collect all the variable names from the recipes in the metadirs
--    for m in metadirs:
--        for key,cnt in collect_bbvars(m).items():
--            if key in bbvars:
--                bbvars[key] = bbvars[key] + cnt
-+    prog = re.compile("^[^a-z]*$")
-+    with bb.tinfoil.Tinfoil() as tinfoil:
-+        tinfoil.prepare(config_only=False)
-+        parser = bb.codeparser.PythonParser('parser', None)
-+        datastore = tinfoil.config_data
-+
-+        def bbvars_update(data):
-+            if prog.match(data):
-+                bbvars.add(data)
-+            if tinfoil.config_data.getVarFlag(data, 'python'):
-+                try:
-+                    parser.parse_python(tinfoil.config_data.getVar(data))
-+                except bb.data_smart.ExpansionError:
-+                    pass
-+                for var in parser.references:
-+                    if prog.match(var):
-+                        bbvars.add(var)
-             else:
--                bbvars[key] = cnt
-+                try:
-+                    expandedVar = datastore.expandWithRefs(datastore.getVar(data, False), data)
-+                    for var in expandedVar.references:
-+                        if prog.match(var):
-+                            bbvars.add(var)
-+                except bb.data_smart.ExpansionError:
-+                    pass
-+
-+        # Use tinfoil to collect all the variable names globally
-+        for data in datastore:
-+            bbvars_update(data)
-+
-+        # Collect variables from all recipes
-+        for recipe in tinfoil.all_recipe_files(variants=False):
-+            print("Checking %s" % recipe)
-+            for data in tinfoil.parse_recipe_file(recipe):
-+                bbvars_update(data)
-+
-+    documented_vars = collect_documented_vars(docfiles)
- 
-     # Check each var for documentation
-     varlen = 0
--    for v in bbvars.keys():
-+    for v in bbvars:
-         if len(v) > varlen:
-             varlen = len(v)
--        if not bbvar_is_documented(v, docfiles):
-+        if not bbvar_is_documented(v, documented_vars):
-             undocumented.append(v)
-     undocumented.sort()
-     varlen = varlen + 1
- 
-     # Report all undocumented variables
-     print('Found %d undocumented bb variables (out of %d):' % (len(undocumented), len(bbvars)))
--    header = '%s%s%s' % (str("VARIABLE").ljust(varlen), str("COUNT").ljust(6), str("DOCTAG").ljust(7))
-+    header = '%s%s' % (str("VARIABLE").ljust(varlen), str("DOCTAG").ljust(7))
-     print(header)
-     print(str("").ljust(len(header), '='))
-     for v in undocumented:
-         doctag = bbvar_doctag(v, docconf)
-         if not onlydoctags or not doctag == "":
--            print('%s%s%s' % (v.ljust(varlen), str(bbvars[v]).ljust(6), doctag))
-+            print('%s%s' % (v.ljust(varlen), doctag))
- 
- 
- if __name__ == "__main__":
+diff --git a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
+index 056e8e7631..860190340e 100644
+--- a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
++++ b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
+@@ -138,6 +138,15 @@ Index: Python-3.5.2/Modules/getpath.c
+  
+  /* Get file status. Encode the path to the locale encoding. */
+  
++@@ -494,7 +502,7 @@ calculate_path(void)
++     _pythonpath = Py_DecodeLocale(PYTHONPATH, NULL);
++     _prefix = Py_DecodeLocale(PREFIX, NULL);
++     _exec_prefix = Py_DecodeLocale(EXEC_PREFIX, NULL);
++-    lib_python = Py_DecodeLocale("lib/python" VERSION, NULL);
+++    lib_python = Py_DecodeLocale(LIB_PYTHON, NULL);
++ 
++     if (!_pythonpath || !_prefix || !_exec_prefix || !lib_python) {
++         Py_FatalError(
+ Index: Python-3.5.2/Python/getplatform.c
+ ===================================================================
+ --- Python-3.5.2.orig/Python/getplatform.c
+@@ -185,7 +194,7 @@ Index: Python-3.5.2/setup.py
+ ===================================================================
+ --- Python-3.5.2.orig/setup.py
+ +++ Python-3.5.2/setup.py
+-@@ -492,7 +492,7 @@ class PyBuildExt(build_ext):
++@@ -495,7 +495,7 @@ class PyBuildExt(build_ext):
+          # directories (i.e. '.' and 'Include') must be first.  See issue
+          # 10520.
+          if not cross_compiling:
+@@ -194,7 +203,7 @@ Index: Python-3.5.2/setup.py
+              add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
+          # only change this for cross builds for 3.3, issues on Mageia
+          if cross_compiling:
+-@@ -550,8 +550,7 @@ class PyBuildExt(build_ext):
++@@ -553,8 +553,7 @@ class PyBuildExt(build_ext):
+          # be assumed that no additional -I,-L directives are needed.
+          if not cross_compiling:
+              lib_dirs = self.compiler.library_dirs + [
+@@ -204,7 +213,7 @@ Index: Python-3.5.2/setup.py
+                  ]
+              inc_dirs = self.compiler.include_dirs + ['/usr/include']
+          else:
+-@@ -743,11 +742,11 @@ class PyBuildExt(build_ext):
++@@ -746,11 +745,11 @@ class PyBuildExt(build_ext):
+              elif curses_library:
+                  readline_libs.append(curses_library)
+              elif self.compiler.find_library_file(lib_dirs +
+@@ -268,7 +277,7 @@ Index: Python-3.5.2/configure.ac
+ ===================================================================
+ --- Python-3.5.2.orig/configure.ac
+ +++ Python-3.5.2/configure.ac
+-@@ -876,6 +876,41 @@ PLATDIR=plat-$MACHDEP
++@@ -883,6 +883,41 @@ PLATDIR=plat-$MACHDEP
+  AC_SUBST(PLATDIR)
+  AC_SUBST(PLATFORM_TRIPLET)
+  
 -- 
-2.7.4
+2.11.0
 
 
