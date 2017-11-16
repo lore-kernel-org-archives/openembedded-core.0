@@ -1,24 +1,24 @@
-Return-Path: <martyn.welch@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id E5CE878423
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id DF0E57874E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 09:40:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: martyn) with ESMTPSA id 9A0552607F2
-Message-ID: <1510825242.6402.23.camel@collabora.co.uk>
-From: Martyn Welch <martyn.welch@collabora.co.uk>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 16 Nov 2017 09:40:42 +0000
-In-Reply-To: <CAP9ODKq5HO3MtsCsJ+3o4cicrQD+9H-=yGf=TjE0i3riy+oK4w@mail.gmail.com>
-References: <1510758646-19268-1-git-send-email-martyn.welch@collabora.co.uk>
-	<CAP9ODKq5HO3MtsCsJ+3o4cicrQD+9H-=yGf=TjE0i3riy+oK4w@mail.gmail.com>
-Organization: Collabora Ltd
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: yocto <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/2] image.bbclass: add prohibited-paths QA test
+	Thu, 16 Nov 2017 09:52:52 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 4E42F5C0DBA;
+	Thu, 16 Nov 2017 10:47:32 +0100 (CET)
+MIME-Version: 1.0
+Date: Thu, 16 Nov 2017 10:48:31 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: alexander.kanavin@linux.intel.com, Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <a316ea0c483e68f37d624e742472d248@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1510825652; bh=ek2RRB5s4pZgrMorD3QDZz2FCEjjOq5AoJ+VOTzvo5A=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:Message-ID;
+	b=d/Vk3oe0jDTqSd8+LGabRlD4vUyyJfyOM9DgRcWQaFP+uvwo2SIERznJM3Qz8105tQXWKPjH4e7KvboANzVYafk8Bw1nJ4SNWVLgucuFu41S/9oW7xUnCKsOLZGbPjj0ofRYGHYtvAf49CPaWhKf8yuts9lTd0/jO/sU1qML67Q=
+Subject: Error when connecting to OpenSSH server using rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 09:40:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 16 Nov 2017 09:52:53 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-11-15 at 18:46 -0200, Otavio Salvador wrote:
-> On Wed, Nov 15, 2017 at 1:10 PM, Martyn Welch
-> <martyn.welch@collabora.co.uk> wrote:
-> > Sometimes we wish to ensure that files or directories are not installed
-> > somewhere that may prove detrimental to the operation of the system. For
-> > example, this may be the case if files are placed in a directory that is
-> > utilised as a mount point at run time, thus making them inaccessible once
-> > when the mount point is being utilised.
-> >
-> > Implement the prohibited paths QA test, which enables such locations to be
-> > specified in a "PROHIBITED_PATHS" variable. This implementation allows for
-> > a colon separated list of paths to be provided. Shell style wildcards can
-> > be used.
-> >
-> > Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-> > Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
-> > ---
-> > Changes since v1:
-> >  - Correcting author and SOB.
-> >
-> > Changes since v2:
-> >  - Reimplemented as image rather than package level QA test.
-> >  - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
-> >    reflect its use.
-> >
-> >  meta/classes/image.bbclass | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index d93de02..bebb363 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -296,6 +296,26 @@ python do_image_complete_setscene () {
-> >  }
-> >  addtask do_image_complete_setscene
-> >
-> > +python image_check_prohibited_paths () {
-> > +    import glob
-> > +    from oe.utils import ImageQAFailed
-> > +
-> > +    rootfs = d.getVar('IMAGE_ROOTFS')
-> > +
-> > +    path = d.getVar('PROHIBITED_PATHS')
-> 
-> path = (d.getVar('PROHIBITED_PATHS') or "")
-> 
-> I'd use IMAGE_QA_PROHIBITED_PATHS as variable name. It makes easier to
-> know what it relates to.
-> 
-> > +    if path != None and path != "":
-> 
-> If can die.
-> 
-> > +        for p in path.split(':'):
-> > +            if p[0] != '/':
-> 
-> if not p.startswith('/'):
-> 
-> > +                raise ImageQAFailed("PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
-> > +
-> > +            match = glob.glob("%s%s" % (rootfs, p))
-> > +            if match:
-> 
-> I'd use:
-> 
-> if glob.glob(...):
-> 
-> It is a single use so not sure it is worth the extra variable.
-> 
-> > +                loc = ", ".join(item.replace(rootfs, '') for item in match)
+Hi,
 
-match is used here.
+We currently experience problems when trying to connect to OpenSSH
+servers on rocko distros. Connecting between rocko machines seems to
+work, however, connecting from a morty based machine or Desktop
+distributions fails:
 
-> > +                raise ImageQAFailed("Match(es) for PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
-> > +}
-> 
+$ ssh root@192.168.10.171
+ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect
+signature
+
+The server shows not special sign other than that the client closed the
+connection. Forcing Ciphers/MACs seems not to help.
+
+This is ssh used on the client side ArchLinux machine:
+$ ssh -V
+OpenSSH_7.6p1, OpenSSL 1.1.0g  2 Nov 2017
+
+But the same happens from a Fedora machine:
+$ ssh -V
+OpenSSH_7.5p1, OpenSSL 1.1.0f-fips  25 May 2017
+
+And morty based machine:
+# ssh -V
+OpenSSH_7.3p1, OpenSSL 1.0.2j  26 Sep 2016
 
 
+The OpenSSH version on rocko:
+# ssh -V
+OpenSSH_7.5p1, OpenSSL 1.0.2l  25 May 2017
+
+I also backported 7.6p1 from master, but it fails as well.
+
+It seems that at least OpenSSH 7.5p1/7.6p1 is broken with the OpenSSL
+1.0 version used in rocko...
+
+In a quick test I removed the PREFERRED_VERSION_openssl to get 1.1.0f,
+removed openssl10 DEPENDS in the openssh recipe and added the ArchLinux'
+openssl-1.1.0.patch:
+
+# ssh -V 
+OpenSSH_7.5p1, OpenSSL 1.1.0f  25 May 2017
+
+With that I could login.
+
+User nayfe on IRC reported the same issue.
+
+I guess moving rocko to OpenSSL 1.1 is not really an option at this
+point? Thoughts?
+
+--
+Stefan
 
