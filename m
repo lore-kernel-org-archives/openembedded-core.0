@@ -1,29 +1,28 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC4660049
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 504E2605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 15:55:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Nov 2017 07:55:42 -0800
+	Thu, 16 Nov 2017 15:56:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2017 07:56:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,404,1505804400"; 
-   d="scan'208";a="3434065"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Nov 2017 07:55:42 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 0CE5F5803BE
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 07:55:41 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Nov 2017 17:56:07 +0200
-Message-Id: <1510847767-2966-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1510847767-2966-1-git-send-email-maxin.john@intel.com>
-References: <1510847767-2966-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] image.bbclass: improve reproducibility
+   d="scan'208";a="5749791"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 16 Nov 2017 07:56:17 -0800
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <e2254f9e-7b5c-f21e-e2cd-48808f938f86@linux.intel.com>
+Date: Thu, 16 Nov 2017 17:56:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
+Subject: Re: [PATCH] meson: Port pkgconfig-native patch to 0.43.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +35,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 15:55:41 -0000
+X-List-Received-Date: Thu, 16 Nov 2017 15:56:17 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Improve reproducibility of builds by adding --apparent-size to du -ks in
-get_rootfs_size
+On 11/16/2017 05:52 PM, Ricardo Ribalda Delgado wrote:
+> The update to 0.43.0 forgot to add this patch required for qt builds
 
-[YOCTO #12235]
+Please explain why the patch is needed and what does it do (in the 
+commit message of the patch file).
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 0d14250..a24a561 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -524,7 +524,7 @@ def get_rootfs_size(d):
-     initramfs_fstypes = d.getVar('INITRAMFS_FSTYPES') or ''
-     initramfs_maxsize = d.getVar('INITRAMFS_MAXSIZE')
- 
--    output = subprocess.check_output(['du', '-ks',
-+    output = subprocess.check_output(['du', '--apparent-size', '-ks',
-                                       d.getVar('IMAGE_ROOTFS')])
-     size_kb = int(output.split()[0])
-     base_size = size_kb * overhead_factor
--- 
-2.4.0
-
+Alex
 
