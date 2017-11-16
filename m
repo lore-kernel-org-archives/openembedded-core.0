@@ -1,40 +1,28 @@
-Return-Path: <marex@denx.de>
-X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 16 Nov 2017 08:17:47 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 720CC78347
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4225278589
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 08:17:47 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3ycvB442WZz1qsTT;
-	Thu, 16 Nov 2017 09:12:44 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3ycvB42zdmz1rJhw;
-	Thu, 16 Nov 2017 09:12:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id e__tXrxnE_W8; Thu, 16 Nov 2017 09:12:42 +0100 (CET)
-X-Auth-Info: 63WpuSDD3bB1FxM3QH9QCuLKl26ru/zltg7UomAo5vE=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 16 Nov 2017 09:12:42 +0100 (CET)
-To: Stefan Agner <stefan@agner.ch>, Otavio Salvador <otavio@ossystems.com.br>
-References: <20171114183223.7804-1-otavio@ossystems.com.br>
-	<52e78a6cf11a3a374fab68885140c2b4@agner.ch>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <12cc8c4c-7d8c-f3c5-eef0-938ff9d16801@denx.de>
-Date: Thu, 16 Nov 2017 09:12:24 +0100
+	Thu, 16 Nov 2017 08:44:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAG8isdJ007035
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Nov 2017 00:44:54 -0800
+Received: from [128.224.162.152] (128.224.162.152) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 16 Nov 2017 00:44:53 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20171018080205.9834-1-kai.kang@windriver.com>
+	<20171018080205.9834-2-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <ad549f16-99d7-8197-5320-84aee7c8668c@windriver.com>
+Date: Thu, 16 Nov 2017 16:44:48 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <52e78a6cf11a3a374fab68885140c2b4@agner.ch>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.11 release
+In-Reply-To: <20171018080205.9834-2-kai.kang@windriver.com>
+Subject: Re: [PATCH 1/1] toolchain-scripts.bbclass: do not extend dependency if extended already
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 08:17:48 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 16 Nov 2017 08:44:54 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 11/15/2017 05:47 PM, Stefan Agner wrote:
-> On 2017-11-14 19:32, Otavio Salvador wrote:
->> This upgrades the U-Boot from 2017.09 to 2017.11 release.
-> 
-> You might encounter this when building fw_printenv/setenv tools alone:
-> 
-> https://lists.denx.de/pipermail/u-boot/2017-November/311505.html
+On 2017年10月18日 16:02, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When set MULTILIBS with two or more items, such as for mips64:
+>
+> MULTILIBS ?= "multilib:lib32 multilib:libn32"
+>
+> It extends dependency package name once in multilib.bbclass, and expand again
+> in toolchain-scripts.bbclass which causes error:
+>
+> | ERROR: Nothing PROVIDES 'virtual/lib32-libn32-libc'. Close matches:
+> |   virtual/libn32-libc
+> |   virtual/lib32-libc
+> |   virtual/libn32-librpc
+> | ERROR: Required build target 'libn32-meta-ide-support' has no buildable providers.
+> | Missing or unbuildable dependency chain was: ['libn32-meta-ide-support', 'virtual/lib32-libn32-libc']
+>
+> Don't extend package name if it has been extended already.
 
-[...]
+Any comment? Thanks.
 
->>  SRC_URI = "git://git.denx.de/u-boot.git \
->>      file://MPC8315ERDB-enable-DHCP.patch \
-I also see that the number of out-of-tree patches didn't change since
-last time, even though I complained about it ... why are these patches
-still here ?
+--Kai
+
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/classes/toolchain-scripts.bbclass | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index 9bcfe708c7..4e4334abbb 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -150,11 +150,17 @@ toolchain_create_sdk_siteconfig () {
+>   toolchain_create_sdk_siteconfig[vardepsexclude] = "TOOLCHAIN_CONFIGSITE_SYSROOTCACHE"
+>   
+>   python __anonymous () {
+> +    import re
+>       import oe.classextend
+>       deps = ""
+>       for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
+>           deps += " %s:do_populate_sysroot" % dep
+> -        for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
+> +        ml_variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
+> +        for variant in ml_variants:
+> +            # don't extend if dep has been extended already
+> +            if filter(lambda x: re.match('(virtual/)?' + x, dep), ml_variants):
+> +                continue
+> +
+>               clsextend = oe.classextend.ClassExtender(variant, d)
+>               newdep = clsextend.extend_name(dep)
+>               deps += " %s:do_populate_sysroot" % newdep
+
 
 -- 
-Best regards,
-Marek Vasut
+Regards,
+Neil | Kai Kang
+
 
