@@ -1,24 +1,28 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0E57874E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2275378538
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 09:52:52 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 4E42F5C0DBA;
-	Thu, 16 Nov 2017 10:47:32 +0100 (CET)
+	Thu, 16 Nov 2017 10:14:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2017 02:14:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,402,1505804400"; 
+   d="scan'208";a="5631096"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 16 Nov 2017 02:14:28 -0800
+To: Martin Kelly <mkelly@xevo.com>, openembedded-core@lists.openembedded.org
+References: <20171115175303.3557-1-mkelly@xevo.com>
+	<20171115175303.3557-2-mkelly@xevo.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <cb3f9315-d599-4f65-59c4-7b016d0a9614@linux.intel.com>
+Date: Thu, 16 Nov 2017 12:14:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Date: Thu, 16 Nov 2017 10:48:31 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: alexander.kanavin@linux.intel.com, Armin Kuster <akuster808@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <a316ea0c483e68f37d624e742472d248@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.2.5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1510825652; bh=ek2RRB5s4pZgrMorD3QDZz2FCEjjOq5AoJ+VOTzvo5A=;
-	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:Message-ID;
-	b=d/Vk3oe0jDTqSd8+LGabRlD4vUyyJfyOM9DgRcWQaFP+uvwo2SIERznJM3Qz8105tQXWKPjH4e7KvboANzVYafk8Bw1nJ4SNWVLgucuFu41S/9oW7xUnCKsOLZGbPjj0ofRYGHYtvAf49CPaWhKf8yuts9lTd0/jO/sU1qML67Q=
-Subject: Error when connecting to OpenSSH server using rocko
+In-Reply-To: <20171115175303.3557-2-mkelly@xevo.com>
+Subject: Re: [PATCH 1/1] meson: export native env only for native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 09:52:53 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 16 Nov 2017 10:14:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 11/15/2017 07:53 PM, Martin Kelly wrote:
+> Although the meson crossfile should take care of setting the right cross
+> environment for a target build, meson slurps any set CFLAGS, CXXFLAGS,
+> LDFLAGS, and CPPFLAGS from the environment and injects them into the
+> build (see mesonbuild/environment.py:get_args_from_envvars for details).
+> 
+> This means that we are seeing native CFLAGS, CXXFLAGS, LDFLAGS, and
+> CPPFLAGS in the target build, which is wrong and causes build failures
+> when target and native have libraries in common (the linker gets
+> confused and bails).
+> 
+> That said, we *do* need to set certain vars for all builds so that meson
+> can find the right build tools. Without this, meson will fail during its
+> sanity checking step because it will determine the build tools to be
+> unrunnable since they output target instead of native artifacts.
+> 
+> The solution to all of this is to set CC, CXX, LD, and AR globally to
+> the native tools while setting the other native vars *only* for the
+> native build. For target builds, these vars will get overridden by the
+> cross file as we expect.
 
-We currently experience problems when trying to connect to OpenSSH
-servers on rocko distros. Connecting between rocko machines seems to
-work, however, connecting from a morty based machine or Desktop
-distributions fails:
+Thanks; I will add this patch to my branch (so you get the credit for 
+it). There's still a few failures to sort first though, discovered by AB 
+(see Ross' email).
 
-$ ssh root@192.168.10.171
-ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect
-signature
-
-The server shows not special sign other than that the client closed the
-connection. Forcing Ciphers/MACs seems not to help.
-
-This is ssh used on the client side ArchLinux machine:
-$ ssh -V
-OpenSSH_7.6p1, OpenSSL 1.1.0g  2 Nov 2017
-
-But the same happens from a Fedora machine:
-$ ssh -V
-OpenSSH_7.5p1, OpenSSL 1.1.0f-fips  25 May 2017
-
-And morty based machine:
-# ssh -V
-OpenSSH_7.3p1, OpenSSL 1.0.2j  26 Sep 2016
-
-
-The OpenSSH version on rocko:
-# ssh -V
-OpenSSH_7.5p1, OpenSSL 1.0.2l  25 May 2017
-
-I also backported 7.6p1 from master, but it fails as well.
-
-It seems that at least OpenSSH 7.5p1/7.6p1 is broken with the OpenSSL
-1.0 version used in rocko...
-
-In a quick test I removed the PREFERRED_VERSION_openssl to get 1.1.0f,
-removed openssl10 DEPENDS in the openssh recipe and added the ArchLinux'
-openssl-1.1.0.patch:
-
-# ssh -V 
-OpenSSH_7.5p1, OpenSSL 1.1.0f  25 May 2017
-
-With that I could login.
-
-User nayfe on IRC reported the same issue.
-
-I guess moving rocko to OpenSSL 1.1 is not really an option at this
-point? Thoughts?
-
---
-Stefan
+Alex
 
