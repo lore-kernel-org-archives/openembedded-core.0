@@ -1,6 +1,6 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C71A787DC
+	by mail.openembedded.org (Postfix) with ESMTP id B2FE7787E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 16 Nov 2017 19:49:03 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
@@ -8,18 +8,18 @@ Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	16 Nov 2017 11:49:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,405,1505804400"; 
-   d="scan'208";a="3105426"
+   d="scan'208";a="3105424"
 Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
 	by orsmga003.jf.intel.com with ESMTP; 16 Nov 2017 11:49:03 -0800
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Nov 2017 11:48:49 -0800
-Message-Id: <1510861730-82471-4-git-send-email-juro.bystricky@intel.com>
+Date: Thu, 16 Nov 2017 11:48:47 -0800
+Message-Id: <1510861730-82471-2-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1510861730-82471-1-git-send-email-juro.bystricky@intel.com>
 References: <1510861730-82471-1-git-send-email-juro.bystricky@intel.com>
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH 3/4] x11perf: improve reproducibility
+Subject: [PATCH 1/4] gnutls: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +34,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Nov 2017 19:49:03 -0000
 
-Remove build host refeences.
+Sanitize generated config.h containing build host reference such as:
+
+ #define POSIX_SHELL "<builddir>/tmp/hosttools/bash"
+
+The path for POSIX_SHELL is not only wrong for the cross-compiled target,
+it also prevents reproducible build.
+
+Prior the compilation we edit the value to:
+
+ #define POSIX_SHELL "bash"
+
+With this change we can build reproducible libgnutls-bin, libgnutls-dev
+and libgnutls-dbg packages.
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-support/gnutls/gnutls.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb b/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-index 4e93558..a06aa26 100644
---- a/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-+++ b/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-@@ -13,6 +13,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=428ca4d67a41fcd4fc3283dce9bbda7e \
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 29b5dd6..5b45b27 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -53,6 +53,11 @@ do_configure_prepend() {
+ 	done
+ }
  
- PE = "1"
- 
-+do_install_append_class-target () {
-+    sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${bindir}/x11perfcomp
++do_configure_append_class-target () {
++	# Remove build host references from config.h
++	sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${B}/config.h
 +}
 +
- FILES_${PN} += "${libdir}/X11/x11perfcomp/*"
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
  
- SRC_URI[md5sum] = "f0b24e4d8beb622a419e8431e1c03cd7"
+ FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
 -- 
 2.7.4
 
