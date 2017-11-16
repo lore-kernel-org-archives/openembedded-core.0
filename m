@@ -1,25 +1,28 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id E76847865E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 640837872E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 14:55:44 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id B08A45C0DBA;
-	Thu, 16 Nov 2017 15:50:23 +0100 (CET)
-MIME-Version: 1.0
-Date: Thu, 16 Nov 2017 15:51:22 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-In-Reply-To: <da5f7d07-f51c-e1f4-56dd-78e4febe9da7@linux.intel.com>
+	Thu, 16 Nov 2017 15:06:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Nov 2017 07:06:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,404,1505804400"; 
+   d="scan'208";a="5731470"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 16 Nov 2017 07:06:04 -0800
+To: Stefan Agner <stefan@agner.ch>
 References: <a316ea0c483e68f37d624e742472d248@agner.ch>
 	<da5f7d07-f51c-e1f4-56dd-78e4febe9da7@linux.intel.com>
-Message-ID: <a4fcab328359fd5906f90c75d3d8cef0@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.2.5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1510843823; bh=pys371rfSGY8GwPGLMT+XQA7e/kfW4QmwwCLAxsbKMg=;
-	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
-	b=jrDtMfx1WyBnQ6V9GAzzuiLOSPqafhmVoFhwvuVdiM0vSVeDLjwD08TvnjI2S7M92XXYFpHCYuSfWLeP2Hk6vNaFTKe31ySpqW98ZeFuyOL/nzl5z2o085agVRdqMoZR0GwqnQtu41sYIsZ05gqrtgWYcEjFg6ApmXgH24vNA4E=
+	<a4fcab328359fd5906f90c75d3d8cef0@agner.ch>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <0658eacf-cf19-fd5b-6518-65e3f3f349e4@linux.intel.com>
+Date: Thu, 16 Nov 2017 17:06:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <a4fcab328359fd5906f90c75d3d8cef0@agner.ch>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Error when connecting to OpenSSH server using rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,43 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 14:55:45 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 16 Nov 2017 15:06:05 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 2017-11-16 11:39, Alexander Kanavin wrote:
-> On 11/16/2017 11:48 AM, Stefan Agner wrote:
->> In a quick test I removed the PREFERRED_VERSION_openssl to get 1.1.0f,
->> removed openssl10 DEPENDS in the openssh recipe and added the ArchLinux'
->> openssl-1.1.0.patch:
->>
->> # ssh -V
->> OpenSSH_7.5p1, OpenSSL 1.1.0f  25 May 2017
->>
->> With that I could login.
->>
->> User nayfe on IRC reported the same issue.
->>
->> I guess moving rocko to OpenSSL 1.1 is not really an option at this
->> point? Thoughts?
+On 11/16/2017 04:51 PM, Stefan Agner wrote:
+> True, I cannot reproduce using qemuarm, but I created a ARMv7 qemu
+> machine and run that using qemu-system-arm -M virt -cpu cortex-a15, and
+> it did fail...
 > 
-> Openssl 1.0 is what the openssh upstream officially supports. All the
-> 1.1 patches are vendor hacks.
-> 
-> Can you try to bisect the issue with the rocko branch? Find some
-> commit in the past where it still works, and take it from there. And
-> do everything you can to enable additional diagnostics on the server
-> side when it fails. Note that we use ssh on the autobuilder to run
-> commands on test images, and this surely would've been noticed if it
-> was a common issue.
+> So yeah qemuarm is not affected, but pretty much every relevant 32-bit
+> ARM machine out there...
 
-True, I cannot reproduce using qemuarm, but I created a ARMv7 qemu
-machine and run that using qemu-system-arm -M virt -cpu cortex-a15, and
-it did fail...
+openssl recipes have an architecture-specific configuration step where 
+you need to specify the target machine by hand. I strongly *suspect* we 
+do something incorrectly there in the 1.0 recipe for ARM machines.
 
-So yeah qemuarm is not affected, but pretty much every relevant 32-bit
-ARM machine out there...
+I couldn't stand looking at that mess when writing 1.1, so rewrote the 
+whole recipe from scratch, and it *probably* works correctly on ARM :)
 
---
-Stefan
+Alex
 
