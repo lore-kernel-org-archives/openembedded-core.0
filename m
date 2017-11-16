@@ -1,28 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2275378538
+Return-Path: <martyn.welch@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 825DB78538
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 10:14:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Nov 2017 02:14:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,402,1505804400"; 
-   d="scan'208";a="5631096"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 16 Nov 2017 02:14:28 -0800
-To: Martin Kelly <mkelly@xevo.com>, openembedded-core@lists.openembedded.org
-References: <20171115175303.3557-1-mkelly@xevo.com>
-	<20171115175303.3557-2-mkelly@xevo.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cb3f9315-d599-4f65-59c4-7b016d0a9614@linux.intel.com>
-Date: Thu, 16 Nov 2017 12:14:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <20171115175303.3557-2-mkelly@xevo.com>
-Subject: Re: [PATCH 1/1] meson: export native env only for native build
+	Thu, 16 Nov 2017 10:19:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: martyn) with ESMTPSA id 2AD902607F2
+Message-ID: <1510827541.6402.25.camel@collabora.co.uk>
+From: Martyn Welch <martyn.welch@collabora.co.uk>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Thu, 16 Nov 2017 10:19:01 +0000
+In-Reply-To: <CAP9ODKq5HO3MtsCsJ+3o4cicrQD+9H-=yGf=TjE0i3riy+oK4w@mail.gmail.com>
+References: <1510758646-19268-1-git-send-email-martyn.welch@collabora.co.uk>
+	<CAP9ODKq5HO3MtsCsJ+3o4cicrQD+9H-=yGf=TjE0i3riy+oK4w@mail.gmail.com>
+Organization: Collabora Ltd
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: yocto <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/2] image.bbclass: add prohibited-paths QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 10:14:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 16 Nov 2017 10:19:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/15/2017 07:53 PM, Martin Kelly wrote:
-> Although the meson crossfile should take care of setting the right cross
-> environment for a target build, meson slurps any set CFLAGS, CXXFLAGS,
-> LDFLAGS, and CPPFLAGS from the environment and injects them into the
-> build (see mesonbuild/environment.py:get_args_from_envvars for details).
+On Wed, 2017-11-15 at 18:46 -0200, Otavio Salvador wrote:
+> On Wed, Nov 15, 2017 at 1:10 PM, Martyn Welch
+> <martyn.welch@collabora.co.uk> wrote:
+> > Sometimes we wish to ensure that files or directories are not installed
+> > somewhere that may prove detrimental to the operation of the system. For
+> > example, this may be the case if files are placed in a directory that is
+> > utilised as a mount point at run time, thus making them inaccessible once
+> > when the mount point is being utilised.
+> >
+> > Implement the prohibited paths QA test, which enables such locations to be
+> > specified in a "PROHIBITED_PATHS" variable. This implementation allows for
+> > a colon separated list of paths to be provided. Shell style wildcards can
+> > be used.
+> >
+> > Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> > Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+> > ---
+> > Changes since v1:
+> >  - Correcting author and SOB.
+> >
+> > Changes since v2:
+> >  - Reimplemented as image rather than package level QA test.
+> >  - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
+> >    reflect its use.
+> >
+> >  meta/classes/image.bbclass | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index d93de02..bebb363 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -296,6 +296,26 @@ python do_image_complete_setscene () {
+> >  }
+> >  addtask do_image_complete_setscene
+> >
+> > +python image_check_prohibited_paths () {
+> > +    import glob
+> > +    from oe.utils import ImageQAFailed
+> > +
+> > +    rootfs = d.getVar('IMAGE_ROOTFS')
+> > +
+> > +    path = d.getVar('PROHIBITED_PATHS')
 > 
-> This means that we are seeing native CFLAGS, CXXFLAGS, LDFLAGS, and
-> CPPFLAGS in the target build, which is wrong and causes build failures
-> when target and native have libraries in common (the linker gets
-> confused and bails).
+> path = (d.getVar('PROHIBITED_PATHS') or "")
 > 
-> That said, we *do* need to set certain vars for all builds so that meson
-> can find the right build tools. Without this, meson will fail during its
-> sanity checking step because it will determine the build tools to be
-> unrunnable since they output target instead of native artifacts.
+> I'd use IMAGE_QA_PROHIBITED_PATHS as variable name. It makes easier to
+> know what it relates to.
 > 
-> The solution to all of this is to set CC, CXX, LD, and AR globally to
-> the native tools while setting the other native vars *only* for the
-> native build. For target builds, these vars will get overridden by the
-> cross file as we expect.
+> > +    if path != None and path != "":
+> 
+> If can die.
+> 
 
-Thanks; I will add this patch to my branch (so you get the credit for 
-it). There's still a few failures to sort first though, discovered by AB 
-(see Ross' email).
+OK, if is still needed, else the zero length path triggers the "not
+p.startswith('/')" error condition.
 
-Alex
+> > +        for p in path.split(':'):
+> > +            if p[0] != '/':
+> 
+> if not p.startswith('/'):
+> 
+> > +                raise ImageQAFailed("PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
+> > +
+> > +            match = glob.glob("%s%s" % (rootfs, p))
+> > +            if match:
+> 
+> I'd use:
+> 
+> if glob.glob(...):
+> 
+> It is a single use so not sure it is worth the extra variable.
+> 
+> > +                loc = ", ".join(item.replace(rootfs, '') for item in match)
+> > +                raise ImageQAFailed("Match(es) for PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
+> > +}
+> 
+
+
 
