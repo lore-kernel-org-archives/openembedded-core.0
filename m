@@ -1,49 +1,48 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C29B47876E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 05C187876E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 15:52:27 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id g35so16455248lfi.13
+	Thu, 16 Nov 2017 15:55:29 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id l25so10843775uag.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 07:52:29 -0800 (PST)
+	Thu, 16 Nov 2017 07:55:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=qxP565Oeb6KNTf8PVGDi1HAg+Yosu3VnVDdPKjEkb4Y=;
-	b=uJxdXXz+u4oaX+9rPx9AixoHpwF5niAxyE8OEdguhW8IuHh0WN5rL6Vf0qAbsSj9/R
-	uPW7NPiX9ep6K9L77A7sZrnX7e2Ju8MMN2NH+qwoyZ7cCiIHkUvHFcw+gyPKTZU+mMjy
-	7e6qCzMGWuzApbFeNKnjcYC9hfYCWL7k0gAgj6yyaqz9xyhPyDIB23h8uzRNwzV/GiM/
-	jLhjECdlsAp/K5A1SGoxK0Dv01CCA533vGEomlQboy9nVckUgBHAQVJqo0qy7wYXsGm4
-	W4rW6H8KZzHuqh9tN/lIlIyjtXz0qMDv47GDb2lB2vl9qM0Rlz1OATtWGO2TwIEeUxyZ
-	wuYA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=B1i7MC+nsGrF75r7POVynSmYAOBSMJszwpijnAeU4QU=;
+	b=Ee8iE1xnO9P8q6YF65yB/If9IZMGQU5yeBREPeKVDvBwzvZGHq5CSj/k9OpB6rD1Np
+	UOAv4MRBdLG62CyClI5XtEcRiLEmwVDI6zMboOa2qmtFXtbygyBZ8c1GjvSGZqHRZDzF
+	8YJwXHgmdXHtIUQeTSsQI3qorGjk/Y3O0ck7uZXJ+gHyqZ15c8FQibsWl9P+9ZOQRf+E
+	iHMnfXehalJraFC0qvaSc0czQ57jC8IN5mxOapiImXB6Pgk7AOQmSa2LSQEMebW1uI/O
+	dOKQxL+0tL9e2z+PazCAZwomzFSLpZTNVFijK+Aqcd4b8Qsbytt2aPMomCxgtipv/umm
+	cnWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qxP565Oeb6KNTf8PVGDi1HAg+Yosu3VnVDdPKjEkb4Y=;
-	b=ITXAjlyZJ52pnp9tSWns1eiwKa1xtrjEE2VEBpRbtrJoEbifU50LvUmxnivCg2BgED
-	h8OaJ+NxD6MCNqfWOZhSJbnNnkLWqRL5RMG9B5caVVHIul5KgZjOrEPUlfRYVdHTXq63
-	zPKPwBvge5IYcyfdVK0YV0Z3rFnIgq3sHvIRP42Fp/GN8Iq1aGG/Er/S2nDq0yBPxAye
-	9owsl5iAfFk35teow9Q+7uGnssXt8JLW8WVQFibYmGsf0CtskzkTG1IVl+VXMzLrPQyS
-	DyNs1lAyzSBAuk3NdsyVfJDPBsrUiOU4gvtw6BIOFbggTK2tOdFMQkM4ZAZIVG3VNp9v
-	gjlQ==
-X-Gm-Message-State: AJaThX7eJx/+YucztbcShc0PmFBs1ASu77o8WpuEQUFW9eWfcaoM2E2m
-	YhyeqyHnQl7EQCB9aazrxQykHQtk
-X-Google-Smtp-Source: AGs4zMZ5MpW1UtqK/GQW5BTFLOuLfCwfKDpUheRGuv5VEOPPXeDV91X4zApJy4a2KDjJiaBCMj2htw==
-X-Received: by 10.46.43.86 with SMTP id q83mr917000lje.104.1510847547947;
-	Thu, 16 Nov 2017 07:52:27 -0800 (PST)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	a198sm264601lfb.79.2017.11.16.07.52.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Nov 2017 07:52:26 -0800 (PST)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 16 Nov 2017 16:52:15 +0100
-Message-Id: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] meson: Port pkgconfig-native patch to 0.43.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=B1i7MC+nsGrF75r7POVynSmYAOBSMJszwpijnAeU4QU=;
+	b=YpiKZs4Bh+gfnplOqhBlN9gdsHWTEY972hb2y9rQziw22J9BEeQW9GLhjLu12sZ4U7
+	1qaDWTjGSZhMwCf2Fr7Go/CC/A0743L2/NqVVzHQK66KOlhTN6BG+BcjnGznznS089lU
+	gy5Wh62UbfUcxG1sYnfYFlxvWuMyoAdzqyzMAOKhulYtH544os5DLKO+0dEbnuUsdokP
+	60hmrgPrOGdGoembzqVt2TjG1bmukPGQxAbBPbxS1Kd1+BjGXNGD6J27oiNCjs8b/ufW
+	FdPPmVjGzfc0+ZZSWQJMiVZ5C52PLfe2WzNjP2Po/LaAaDO78Ii4cIFIFUsI8KWy7XHX
+	S4iw==
+X-Gm-Message-State: AJaThX5DTL/Gkw1jYPsGPr3Wc6dzYh6AfmcUrDGVOK0HELWHrx3lqDxW
+	T0EoKXLvPw85J3oqkkZrQEg1vjsTq03v7Kx8ovM=
+X-Google-Smtp-Source: AGs4zMZvPdizS5fOIXdhqio72wgqio802sBr+AdgzLFiM8Rkue8h47HigTHBohXg/g0DIEeXpRIFDgj+0vSi/d2qzX0=
+X-Received: by 10.176.87.217 with SMTP id u25mr1785525uac.4.1510847730553;
+	Thu, 16 Nov 2017 07:55:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.19.130 with HTTP; Thu, 16 Nov 2017 07:55:10 -0800 (PST)
+In-Reply-To: <1510847249-15722-1-git-send-email-vlsireddy@gmail.com>
+References: <1510847249-15722-1-git-send-email-vlsireddy@gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 16 Nov 2017 08:55:10 -0700
+Message-ID: <CABcZANkN28FE_RLtwbzshWr2TYeZdcoqX_6SWheC4S_wAVOZ9A@mail.gmail.com>
+To: RC Reddy <vlsireddy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH]ethool updated to 4.13] ethtool bb: upgraded the .bb to pick latest ethtool-4.13.tar.xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,127 +55,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Nov 2017 15:52:28 -0000
+X-List-Received-Date: Thu, 16 Nov 2017 15:55:30 -0000
+Content-Type: multipart/alternative; boundary="f403045f7eee4a1969055e1ba6af"
 
-The update to 0.43.0 forgot to add this patch required for qt builds
+--f403045f7eee4a1969055e1ba6af
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
-This patch sits on top of  Alexander Kanavin's "Introduce meson build
-system" patchset
+On Thu, Nov 16, 2017 at 8:47 AM, RC Reddy <vlsireddy@gmail.com> wrote:
 
- .../meson/meson/0003-native_bindir.patch           | 88 ++++++++++++++++++++++
- meta/recipes-devtools/meson/meson_0.43.0.bb        |  1 +
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> Tests : - Compiled and tested the ethtool 4.13 package from
+> https://www.kernel.org/pub/software/network/ethtool/ethtool-4.13.tar.xz
+> using AARCH64 compiler [compilation succeed and also the binary works]
+>
+> Signed-off-by: RC Reddy <vlsireddy@gmail.com>
+> ---
+>  meta/recipes-extended/ethtool/{ethtool_4.11.bb =3D> ethtool_4.13.bb} | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/ethtool/{ethtool_4.11.bb =3D> ethtool_4.13.=
+bb}
+> (88%)
+>
+> diff --git a/meta/recipes-extended/ethtool/ethtool_4.11.bb
+> b/meta/recipes-extended/ethtool/ethtool_4.13.bb
+> similarity index 88%
+> rename from meta/recipes-extended/ethtool/ethtool_4.11.bb
+> rename to meta/recipes-extended/ethtool/ethtool_4.13.bb
+> index befe9b9..c862a57 100644
+> --- a/meta/recipes-extended/ethtool/ethtool_4.11.bb
+> +++ b/meta/recipes-extended/ethtool/ethtool_4.13.bb
+> @@ -11,8 +11,8 @@ SRC_URI =3D "${KERNELORG_MIRROR}/software/
+> network/ethtool/ethtool-${PV}.tar.gz \
+>             file://avoid_parallel_tests.patch \
+>             "
+>
+> -SRC_URI[md5sum] =3D "8f1072679888c9335e49b17efb798b4c"
+> -SRC_URI[sha256sum] =3D "af2fd9692f3159d3ab1e41e6f9b7d8
+> db2a4693f1cb22348c88ba89f70f0e6503"
+> +SRC_URI[md5sum] =3D "2ba44eb0ca96752392e9bf8dc83ba302"
+> +SRC_URI[sha256sum] =3D "d311c4b557c44c5248ac5436b9e19c
+> 391a60d8e4830b6a7f41be16d89c0556de"
+>
+>
+If you=E2=80=99re going to update a checksum for a tarball that was replace=
+d
+in-place upstream, we need to know why it changed, and what changed,
+otherwise it could well have been compromised. Also, the subject line has a
+typo: ethool.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-new file mode 100644
-index 000000000000..805c1f6a50dc
---- /dev/null
-+++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-@@ -0,0 +1,88 @@
-+From 01dd18c9c9c042268b87d576624c16fc74253cd9 Mon Sep 17 00:00:00 2001
-+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Date: Wed, 15 Nov 2017 15:05:01 +0100
-+Subject: [PATCH] native_bindir
-+
-+There are some discussions upstream to merge this patch, but I presonaly believe
-+that is is OE only. https://github.com/mesonbuild/meson/issues/1849#issuecomment-303730323
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+---
-+ mesonbuild/dependencies/base.py | 14 +++++++++-----
-+ mesonbuild/dependencies/ui.py   |  6 +++---
-+ 2 files changed, 12 insertions(+), 8 deletions(-)
-+
-+diff --git a/mesonbuild/dependencies/base.py b/mesonbuild/dependencies/base.py
-+index 0d9742d426cb..0c8e79a8e9e3 100644
-+--- a/mesonbuild/dependencies/base.py
-++++ b/mesonbuild/dependencies/base.py
-+@@ -114,7 +114,7 @@ class Dependency:
-+     def need_threads(self):
-+         return False
-+ 
-+-    def get_pkgconfig_variable(self, variable_name):
-++    def get_pkgconfig_variable(self, variable_name, use_native=False):
-+         raise NotImplementedError('{!r} is not a pkgconfig dependency'.format(self.name))
-+ 
-+ 
-+@@ -256,8 +256,12 @@ class PkgConfigDependency(ExternalDependency):
-+         return s.format(self.__class__.__name__, self.name, self.is_found,
-+                         self.version_reqs)
-+ 
-+-    def _call_pkgbin(self, args):
-+-        p, out = Popen_safe([self.pkgbin] + args, env=os.environ)[0:2]
-++    def _call_pkgbin(self, args, use_native=False):
-++        if use_native:
-++            pkgbin = [self.pkgbin + "-native"]
-++        else:
-++            pkgbin = [self.pkgbin]
-++        p, out = Popen_safe(pkgbin + args, env=os.environ)[0:2]
-+         return p.returncode, out.strip()
-+ 
-+     def _set_cargs(self):
-+@@ -291,8 +295,8 @@ class PkgConfigDependency(ExternalDependency):
-+                 self.is_libtool = True
-+             self.link_args.append(lib)
-+ 
-+-    def get_pkgconfig_variable(self, variable_name):
-+-        ret, out = self._call_pkgbin(['--variable=' + variable_name, self.name])
-++    def get_pkgconfig_variable(self, variable_name, use_native=False):
-++        ret, out = self._call_pkgbin(['--variable=' + variable_name, self.name], use_native=use_native)
-+         variable = ''
-+         if ret != 0:
-+             if self.required:
-+diff --git a/mesonbuild/dependencies/ui.py b/mesonbuild/dependencies/ui.py
-+index 8f183e54d4d2..34ef33e79ad9 100644
-+--- a/mesonbuild/dependencies/ui.py
-++++ b/mesonbuild/dependencies/ui.py
-+@@ -239,7 +239,7 @@ class QtBaseDependency(ExternalDependency):
-+         self.bindir = self.get_pkgconfig_host_bins(core)
-+         if not self.bindir:
-+             # If exec_prefix is not defined, the pkg-config file is broken
-+-            prefix = core.get_pkgconfig_variable('exec_prefix')
-++            prefix = core.get_pkgconfig_variable('exec_prefix', use_native=True)
-+             if prefix:
-+                 self.bindir = os.path.join(prefix, 'bin')
-+ 
-+@@ -359,7 +359,7 @@ class Qt4Dependency(QtBaseDependency):
-+         applications = ['moc', 'uic', 'rcc', 'lupdate', 'lrelease']
-+         for application in applications:
-+             try:
-+-                return os.path.dirname(core.get_pkgconfig_variable('%s_location' % application))
-++                return os.path.dirname(core.get_pkgconfig_variable('%s_location' % application, use_native=True))
-+             except MesonException:
-+                 pass
-+ 
-+@@ -369,7 +369,7 @@ class Qt5Dependency(QtBaseDependency):
-+         QtBaseDependency.__init__(self, 'qt5', env, kwargs)
-+ 
-+     def get_pkgconfig_host_bins(self, core):
-+-        return core.get_pkgconfig_variable('host_bins')
-++        return core.get_pkgconfig_variable('host_bins', use_native=True)
-+ 
-+ 
-+ # There are three different ways of depending on SDL2:
-+-- 
-+2.15.0
-+
-diff --git a/meta/recipes-devtools/meson/meson_0.43.0.bb b/meta/recipes-devtools/meson/meson_0.43.0.bb
-index bbb48d9197c0..403f744c1cf5 100644
---- a/meta/recipes-devtools/meson/meson_0.43.0.bb
-+++ b/meta/recipes-devtools/meson/meson_0.43.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
- SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/${BP}.tar.gz \
-            file://0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch \
-            file://0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch \
-+           file://0003-native_bindir.patch \
-            "
- SRC_URI[md5sum] = "b0d389cc5937928c2f5114656dc5a99a"
- SRC_URI[sha256sum] = "c513eca90e0d70bf14cd1eaafea2fa91cf40a73326a7ff61f08a005048057340"
--- 
-2.15.0
+--f403045f7eee4a1969055e1ba6af
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Nov 16, 2017 at 8:47 AM, RC Reddy <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:vlsireddy@gmail.com" target=3D"_blank">vlsireddy@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">Tests : - Compiled and t=
+ested the ethtool 4.13 package from<br>
+<a href=3D"https://www.kernel.org/pub/software/network/ethtool/ethtool-4.13=
+.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://www.kernel.org/pub/<w=
+br>software/network/ethtool/<wbr>ethtool-4.13.tar.xz</a><br>
+using AARCH64 compiler [compilation succeed and also the binary works]<br>
+<br>
+Signed-off-by: RC Reddy &lt;<a href=3D"mailto:vlsireddy@gmail.com">vlsiredd=
+y@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/ethtool/<wbr>{<a href=3D"http://ethtool_4.11.bb=
+" rel=3D"noreferrer" target=3D"_blank">ethtool_4.11.bb</a> =3D&gt; <a href=
+=3D"http://ethtool_4.13.bb" rel=3D"noreferrer" target=3D"_blank">ethtool_4.=
+13.bb</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-extended/ethtool/<wbr>{<a href=3D"http://ethtool_=
+4.11.bb" rel=3D"noreferrer" target=3D"_blank">ethtool_4.11.bb</a> =3D&gt; <=
+a href=3D"http://ethtool_4.13.bb" rel=3D"noreferrer" target=3D"_blank">etht=
+ool_4.13.bb</a>} (88%)<br>
+<br>
+diff --git a/meta/recipes-extended/<wbr>ethtool/<a href=3D"http://ethtool_4=
+.11.bb" rel=3D"noreferrer" target=3D"_blank">ethtool_4.11.bb</a> b/meta/rec=
+ipes-extended/<wbr>ethtool/<a href=3D"http://ethtool_4.13.bb" rel=3D"norefe=
+rrer" target=3D"_blank">ethtool_4.13.bb</a><br>
+similarity index 88%<br>
+rename from meta/recipes-extended/ethtool/<a href=3D"http://ethtool_4.11.bb=
+" rel=3D"noreferrer" target=3D"_blank"><wbr>ethtool_4.11.bb</a><br>
+rename to meta/recipes-extended/ethtool/<a href=3D"http://ethtool_4.13.bb" =
+rel=3D"noreferrer" target=3D"_blank"><wbr>ethtool_4.13.bb</a><br>
+index befe9b9..c862a57 100644<br>
+--- a/meta/recipes-extended/<wbr>ethtool/<a href=3D"http://ethtool_4.11.bb"=
+ rel=3D"noreferrer" target=3D"_blank">ethtool_4.11.bb</a><br>
++++ b/meta/recipes-extended/<wbr>ethtool/<a href=3D"http://ethtool_4.13.bb"=
+ rel=3D"noreferrer" target=3D"_blank">ethtool_4.13.bb</a><br>
+@@ -11,8 +11,8 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/software/<wbr>netwo=
+rk/ethtool/ethtool-${PV}.<wbr>tar.gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://avoid_parallel_tests.<wbr>=
+patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>8f1072679888c9335e49b17efb798b<wbr>4c&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>af2fd9692f3159d3ab1e41e6f9b7d8<wbr>db2a4=
+693f1cb22348c88ba89f70f0e<wbr>6503&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>2ba44eb0ca96752392e9bf8dc83ba3<wbr>02&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>d311c4b557c44c5248ac5436b9e19c<wbr>391a6=
+0d8e4830b6a7f41be16d89c05<wbr>56de&quot;<br><br></blockquote><div><br></div=
+><div>If you=E2=80=99re going to update a checksum for a tarball that was r=
+eplaced in-place upstream, we need to know why it changed, and what changed=
+, otherwise it could well have been compromised. Also, the subject line has=
+ a typo: ethool.</div></div>-- <br><div class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christophe=
+r Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, Op=
+enZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></di=
+v>
+</div></div>
 
+--f403045f7eee4a1969055e1ba6af--
