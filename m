@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BEEC783E8;
-	Fri, 17 Nov 2017 22:53:04 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 86AEE783E8;
+	Fri, 17 Nov 2017 22:53:05 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Fri, 17 Nov 2017 22:53:06 -0000
-Message-ID: <20171117225306.2787.46079@do.openembedded.org>
-References: <1510842145-6067-1-git-send-email-bruce.ashfield@windriver.com>
+To: Martyn Welch <martyn.welch@collabora.co.uk>
+Date: Fri, 17 Nov 2017 22:53:07 -0000
+Message-ID: <20171117225307.2786.11683@do.openembedded.org>
+References: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1510842145-6067-1-git-send-email-bruce.ashfield@windriver.com>
+In-Reply-To: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgteW9jdG8vNC44OiB1cGRhdGUgdG8gdjQuOC4yNg==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2NF0gaW1hZ2UuYmJjbGFzczogYWRkIHByb2hpYi4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 22:53:04 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 22:53:05 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: linux-yocto/4.8: update to v4.8.26
+Series: "[v4] image.bbclass: add prohib..." and 2 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9828/
+URL   : https://patchwork.openembedded.org/series/9830/
 State : failure
 
 == Summary ==
@@ -44,6 +44,11 @@ an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
 
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     yocto@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/]
+  Patch's path:    documentation/ref-manual/ref-variables.xml
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
