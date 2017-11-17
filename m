@@ -1,25 +1,25 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA7578827
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E035E787FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 02:18:35 +0000 (UTC)
+	Fri, 17 Nov 2017 02:20:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAH2IaoL031973
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Nov 2017 18:18:37 -0800
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAH2KHM4000669
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Nov 2017 18:20:17 -0800 (PST)
 Received: from localhost (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 16 Nov 2017 18:18:35 -0800
+	Thu, 16 Nov 2017 18:20:16 -0800
 From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <jackie.huang@windriver.com>
-Date: Fri, 17 Nov 2017 10:17:13 +0800
-Message-ID: <1510885033-25394-1-git-send-email-yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jackie.huang@windriver.com>, 
+	<akuster808@gmail.com>
+Date: Fri, 17 Nov 2017 10:18:53 +0800
+Message-ID: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.134]
-Subject: [PATCH] ppp: include netinet/in.h before linux/in.h in pppoe.h
+Subject: [morty][PATCH] ppp: include netinet/in.h before linux/in.h in pppoe.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,13 +32,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 02:18:36 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 02:20:21 -0000
 Content-Type: text/plain
 
 The patch ppp-fix-building-with-linux-4.8.patch tries to fix build error
 with 4.8 or newer linux headers, but it would break building with kernel
 < 4.8. There is a better solution to fix this issue in upstream.
 Backport the upstream patch and replace the old one.
+
+[YOCTO #10457]
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
@@ -160,18 +162,18 @@ index f77b0de..0000000
 -2.8.3
 -
 diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index b2c4d4c..a5f764f 100644
+index 56dbd98..ec9947f 100644
 --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
 +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -30,7 +30,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+@@ -30,7 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
             file://ppp@.service \
             file://fix-CVE-2015-3310.patch \
 -           file://ppp-fix-building-with-linux-4.8.patch \
 +           file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
-            file://0001-ppp-Remove-unneeded-include.patch \
  "
  
+ SRC_URI_append_libc-musl = "\
 -- 
 2.7.4
 
