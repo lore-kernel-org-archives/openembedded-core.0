@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A9B62783E8;
-	Fri, 17 Nov 2017 22:52:55 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 12A8878863;
+	Fri, 17 Nov 2017 22:52:59 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jose Lamego <jose.a.lamego@linux.intel.com>
-Date: Fri, 17 Nov 2017 22:52:57 -0000
-Message-ID: <20171117225257.2783.14190@do.openembedded.org>
-References: <20171116005622.25680-1-limon.anibal@gmail.com>
+To: Amanda Brindle <amanda.r.brindle@intel.com>
+Date: Fri, 17 Nov 2017 22:53:00 -0000
+Message-ID: <20171117225300.2785.91623@do.openembedded.org>
+References: <cover.1510791278.git.amanda.r.brindle@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20171116005622.25680-1-limon.anibal@gmail.com>
+In-Reply-To: <cover.1510791278.git.amanda.r.brindle@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uLTMuMy1tdWx0aWxpYi5wYXRjaDogRml4ZXMgZ2V0cGF0aCBvbiBtdWx0aWxpYiBjb25maWd1cmF0aW9ucyAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgW3YyXSBzY3JpcHRzL2NvbnRyaWIvYmJ2YXJzLnB5OiBSZXdyaXRlIHRvIHVzZSB0aW5mb2ls?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 22:52:55 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 22:52:59 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: python-3.3-multilib.patch: Fixes getpath on multilib configurations (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/5870/
+Series: [v2] scripts/contrib/bbvars.py: Rewrite to use tinfoil
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9816/
 State : failure
 
 == Summary ==
