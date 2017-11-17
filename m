@@ -1,43 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A1A9C7879B
+Return-Path: <martyn.welch@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id B09DB77EFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 09:09:18 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id z3so4967703wme.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 01:09:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=vDHFSKXk+8Fs/WNPQD/wFJljCqq5Q1lbyh8I7BPvQVY=;
-	b=SQzv+Hh+d7dBFVlSt8NIwahlKXKEBm1wgD6REbuLXXZ+SFK/t4vaD+gkHHWy20rcF6
-	cxcdsjdVnEKe+dikctMH8Kk6V0uRZ+cRDwHdeTQp7ZBIaVd0I/9+wwhUkQelbemu0gOa
-	SMJ7PGb4wISce9n5fK1s1Uaki2kr6IGLaDu3lyWQu2V/kzLaMxMxz+SGZFKAM1rRgWyE
-	Zk4V7nnJReMbPajygUoQc5wdmTP1zrGkNUiNjDqTTBqrGEkBaHXx+5J0rC9bkBl6HTSA
-	JuHh6PleAVt5+bCVGEaPAYjoJWPmBE6xoxc21gDY27h9PV5rLa6AmSdQAf2cXG5l8wd6
-	oDMA==
-X-Gm-Message-State: AJaThX6PwBcOeI41c9Umqzqrmc9ZHLDZbrNdVRz3xwy2fFgkGcqZRfCU
-	SrS/nHnp/fZNatVmwg3SZZg=
-X-Google-Smtp-Source: AGs4zMZtGMB/2vIKEEdXMvO2q+Py81fPOlrLq58/6aHeqSpTYeSfeZNRAr0OM6neFHzTPF8esvuBhA==
-X-Received: by 10.80.183.193 with SMTP id i1mr6386181ede.167.1510909759457;
-	Fri, 17 Nov 2017 01:09:19 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	k19sm1366662ede.35.2017.11.17.01.09.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 17 Nov 2017 01:09:18 -0800 (PST)
-Message-ID: <1510909757.4049.85.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 17 Nov 2017 09:09:17 +0000
-In-Reply-To: <CAMKF1sq31HwJAMyZ-LFyej7Dy4S2k-q-ZCUv-Zg_cQid2qvmiQ@mail.gmail.com>
-References: <20171116091639.16549-1-git@andred.net>
-	<CAMKF1sq31HwJAMyZ-LFyej7Dy4S2k-q-ZCUv-Zg_cQid2qvmiQ@mail.gmail.com>
-X-Mailer: Evolution 3.26.1-1 
+	Fri, 17 Nov 2017 10:02:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: martyn) with ESMTPSA id 18A7E26F33A
+Message-ID: <1510912951.4514.0.camel@collabora.co.uk>
+From: Martyn Welch <martyn.welch@collabora.co.uk>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 17 Nov 2017 10:02:31 +0000
+In-Reply-To: <CAP9ODKo8OPv9RDv54sz+dWSUWqTBL-gEtf3eWzGGp7puCCq2zg@mail.gmail.com>
+References: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
+	<CAP9ODKo8OPv9RDv54sz+dWSUWqTBL-gEtf3eWzGGp7puCCq2zg@mail.gmail.com>
+Organization: Collabora Ltd
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: add 'xz' to HOSTTOOLS
+Cc: yocto <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 1/3] image.bbclass: add prohibited-paths QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,25 +31,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 09:09:19 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 10:02:39 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-11-16 at 18:52 +0000, Khem Raj wrote:
-> On Thu, Nov 16, 2017 at 1:16 AM André Draszik <git@andred.net> wrote:
+On Thu, 2017-11-16 at 15:58 -0200, Otavio Salvador wrote:
+> On Thu, Nov 16, 2017 at 1:05 PM, Martyn Welch
+> <martyn.welch@collabora.co.uk> wrote:
+> > Sometimes we wish to ensure that files or directories are not installed
+> > somewhere that may prove detrimental to the operation of the system. For
+> > example, this may be the case if files are placed in a directory that is
+> > utilised as a mount point at run time, thus making them inaccessible once
+> > when the mount point is being utilised.
+> >
+> > Implement the prohibited paths QA test, which enables such locations to be
+> > specified in a "IMAGE_QA_PROHIBITED_PATHS" variable. This implementation
+> > allows for a colon separated list of paths to be provided. Shell style
+> > wildcards can be used.
+> >
+> > Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> > Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+> > ---
+> > Changes since v1:
+> >  - Correcting author and SOB.
+> >
+> > Changes since v2:
+> >  - Reimplemented as image rather than package level QA test.
+> >  - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
+> >    reflect its use.
+> >
+> > Changes since v3:
+> >  - Rename variable to IMAGE_QA_PROHIBITED_PATHS.
+> >  - Use str.startswith().
+> >  - Simplify if statement.
+> >
+> >  meta/classes/image.bbclass | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index d93de02..9053ce3 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -296,6 +296,26 @@ python do_image_complete_setscene () {
+> >  }
+> >  addtask do_image_complete_setscene
+> >
+> > +python image_check_prohibited_paths () {
+> > +    import glob
+> > +    from oe.utils import ImageQAFailed
+> > +
+> > +    rootfs = d.getVar('IMAGE_ROOTFS')
+> > +
+> > +    path = (d.getVar('IMAGE_QA_PROHIBITED_PATHS') or "")
+> > +    if path != "":
+> > +        for p in path.split(':'):
+> > +            if not p.startswith('/'):
+> > +                raise ImageQAFailed("IMAGE_QA_PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
+> > +
+> > +            match = glob.glob("%s%s" % (rootfs, p))
+> > +            if match:
+> > +                loc = ", ".join(item.replace(rootfs, '') for item in match)
+> > +                raise ImageQAFailed("Match(es) for IMAGE_QA_PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
+> > +}
 > 
-> > Files in SRC_URI that are xz compressed can not be
-> > unpacked without this, as we'd have no decompressor
-> > available.
+> 
+>         for p in path.split(':'):
+>             if not p.startswith('/'):
+> 
+> so you can drop the if path != "".
+> 
+> An empty list won't go inside the for. Each item needs to be tested.
+> 
+
+That's what I initially thought...
+
+>>> path = ""
+>>> for p in path.split(':'):
+...     print "Hello"
+... 
+Hello
+>>> 
+
+> > +IMAGE_QA_COMMANDS += "image_check_prohibited_paths"
+> > +
+> >  # Add image-level QA/sanity checks to IMAGE_QA_COMMANDS
+> >  #
+> >  # IMAGE_QA_COMMANDS += " \
+> > --
+> > 2.1.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > 
 > 
-> I thought we added  xz-native dependency to such recipes
+> 
 
-OK, I have no problem doing that instead. Just seems a little inconsistent,
-as bunzip and gunzip are available by default for all recipes.
-
-
-Cheers,
-Andre'
 
 
