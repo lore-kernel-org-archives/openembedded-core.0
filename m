@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 8123778852
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 286A778852
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 20:25:00 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id b189so8589997wmd.5
+	Fri, 17 Nov 2017 20:25:04 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id y42so3102484wrd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 12:25:01 -0800 (PST)
+	Fri, 17 Nov 2017 12:25:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=Y9zgE4s1Xagxu8DX9naKVF73FDULimnbYdzbAeahS6U=;
-	b=lEPKRgNCwvoQrjL5lsCF9DkV1Os5NDG25b0dibX+s3/nSAwslyJXyCXX+r/MDKBcA1
-	eCX//UJwG6pl1tr69goXqcCc54kL8viixQGaZGnB6l2B70ki3ttLWSqD5LpUo9SeJpLH
-	Xbt0LSx4FewJrB3hP8qDzRwmenTgyWCcnjuO0o+6LdGKixtHwIQvgjz8qbfNa/h92hXz
-	0XCkIB/giDlinx8TFDENbXqxPCFlNUNU2tdmdkBRMyIxt4aUdWUjwjWCBdOGlISQ6SuD
-	vWK2mJvvjN7I7AYlq7A7zorVe5v0oid5SW+h3LQ7pbfD9vlwl7E62eyoHA6LWleMbRpo
-	SBWg==
+	bh=ApbkV0Vuf/6HfxDTfFn1QT44WA2WrbXYPu800uK2W7U=;
+	b=gneAqWPJFbjWBOivfZrnPX3Wk6HbNlUsBFTUQmX1b18/p3u+F62wQbxzFwyrP9woZv
+	hayRj/B6hXMJP4fQXAULbtYgfPMJbwA1m0Gu9zq3jIBdugMu5TAqiah5KqSq9aMGIqRJ
+	QNpbjr+SfpLHNz4VxdB5iJKjhs1VcqiVCp1FTyqtsAGWm5PJRIc8KLcbBh7WUa5pJScP
+	AlY77DNaGCfQbeduSgV2e2lY3oVzyw+LjPySrdtyaN880H72K5ljxcFq+MnyXmpzZCOb
+	I6cFYTik9OXrp9y+npfajXl0tAuOQW0cIROKGAH4ENYGcC98m5Gwv+sOc7yU6DE7KgnR
+	INrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Y9zgE4s1Xagxu8DX9naKVF73FDULimnbYdzbAeahS6U=;
-	b=sI8z9+Xv3SUZGglqrt3lFgentImUXW9WcbUXHN81mcLrJnEOGALMLkIWve64B2VtUu
-	IFUGAAqmv8McdfhSbQTBRSdw0KeCcyM9mtwobB4khDmWXWun4ne+ioSpENqqA04gwSZg
-	2jJthdAPs/X9eTNzbR8cnpq91cO6hGmc0VL39A//2a+MVqIzsf2AwRd4AlQTcrXADmC4
-	7/n3ZF0LR6r/0Dd9hfGvqHXGaN9OXKaxDzxeVcQ/FSLA2VT9N7d6Ezu5xOt9xwQEVFRC
-	IXsz4ggF8k7mnlJCFAGblZ4OWr9sTf/lle9AWXj3X0PFq6PESlbTSLE/YpKGjx56LV3x
-	yb8Q==
-X-Gm-Message-State: AJaThX4QbFVaNqiZ3t3mkHyuOWWf31hlxzJHw+AikdMsmBXQHIjmwoRp
-	vr9R8hw6uR2f+SMRdkPJqlw5dbmo
-X-Google-Smtp-Source: AGs4zMYFGtJbJxuI8v6jqVn8/+HkzVPOrUPtZzOb2iR2Rw0LcW7tYOp+hE+NTqHs31j2s1vkaEjIYA==
-X-Received: by 10.28.66.25 with SMTP id p25mr4662354wma.154.1510950300706;
-	Fri, 17 Nov 2017 12:25:00 -0800 (PST)
+	bh=ApbkV0Vuf/6HfxDTfFn1QT44WA2WrbXYPu800uK2W7U=;
+	b=pLvHfvvDQmvK2whuSt7q91J/l2ER0sUzkmzNsJq1wU6XCVesESt1+fU7l8HKZJyVm7
+	z0B2SYVReyTfI/bRsL5TkWqpkRb0ibVVAqhR5yTEisDG4ZvkEmeHL+P+AIbiSKPQBtef
+	fhrTfdSh/vLS2yP36bD9jK64mBrMIYP3DrAbsCZWx/lSwO/YoxPXpQL7Reir3CjlwXTa
+	FVmxkuArhm0VMnpZxh5hX951Dajps3U92f0mDu8vTbhAKCczUV9+mBEN2Bz236T42p5I
+	qjHlYP9MKnZfaEwFLg9gYD5BoUlPjl2z4nkvntpWj2EQgLDaxLqH7yRmBecxyehUTgS0
+	foSw==
+X-Gm-Message-State: AJaThX4vktbOCoeP9F5nsv1EQfgUlRoW7ZTSsI3Px+MiziJ5Dt19CayL
+	3gu4QBVKtIlDp/dkRRCB6IC1U4jD
+X-Google-Smtp-Source: AGs4zMaei4xKw66azmtGnhTG0rp5onN7FfX8+r4PUIx1E/g+P7gMQLkFbr7QOf3DodNhtgXtSqZaIg==
+X-Received: by 10.223.157.41 with SMTP id k41mr3575046wre.281.1510950305293;
+	Fri, 17 Nov 2017 12:25:05 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	r14sm9537255wrb.43.2017.11.17.12.24.58
+	by smtp.gmail.com with ESMTPSA id p7sm4273943wmg.44.2017.11.17.12.25.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Nov 2017 12:24:59 -0800 (PST)
+	Fri, 17 Nov 2017 12:25:04 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Nov 2017 20:24:56 +0000
-Message-Id: <20171117202456.10196-1-ross.burton@intel.com>
+Date: Fri, 17 Nov 2017 20:25:02 +0000
+Message-Id: <20171117202502.10262-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] e2fsprogs: remove aclocal/acinclude dance
+Subject: [PATCH] usbutils: remove uclibc-specific patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,212 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 20:25:00 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 20:25:05 -0000
 
-Upstream has fixed their use of aclocal.m4 vs acinclude.m4, so now we can remove
-some hacks that were previously required.
+This patch is only needed for uclibc, which we don't support in oe-core anymore.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../e2fsprogs/e2fsprogs/acinclude.m4               | 135 ---------------------
- .../e2fsprogs/e2fsprogs/mkdir.patch                |  18 ---
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb |   7 +-
- 3 files changed, 1 insertion(+), 159 deletions(-)
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/acinclude.m4
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir.patch
+ meta/recipes-bsp/usbutils/usbutils/iconv.patch | 41 --------------------------
+ meta/recipes-bsp/usbutils/usbutils_008.bb      |  3 +-
+ 2 files changed, 1 insertion(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-bsp/usbutils/usbutils/iconv.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/acinclude.m4 b/meta/recipes-devtools/e2fsprogs/e2fsprogs/acinclude.m4
+diff --git a/meta/recipes-bsp/usbutils/usbutils/iconv.patch b/meta/recipes-bsp/usbutils/usbutils/iconv.patch
 deleted file mode 100644
-index c0bd7dbdee9..00000000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/acinclude.m4
+index 6455567174b..00000000000
+--- a/meta/recipes-bsp/usbutils/usbutils/iconv.patch
 +++ /dev/null
-@@ -1,135 +0,0 @@
--# Extracted from the package's shipped aclocal.m4. Custom macros should be in
--# acinclude.m4 so running aclocal doesn't blow them away.
--#
--# Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -1,41 +0,0 @@
+-This patch adds support for detecting iconv support using autotools
+-uclibc does not have iconv implementation inside libc like glibc, therefore
+-the existing checks were not sufficient, it worked for glibc but not for
+-uclibc. The new patch portably detects the iconv support and adds the
+-libiconv to linker cmdline
 -
--# from http://autoconf-archive.cryp.to/ax_tls.html
--#
--# This was licensed under the GPL with the following exception:
--#
--# As a special exception, the respective Autoconf Macro's copyright
--# owner gives unlimited permission to copy, distribute and modify the
--# configure scripts that are the output of Autoconf when processing
--# the Macro. You need not follow the terms of the GNU General Public
--# License when using or distributing such scripts, even though
--# portions of the text of the Macro appear in them. The GNU General
--# Public License (GPL) does govern all other use of the material that
--# constitutes the Autoconf Macro.
--#
--# This special exception to the GPL applies to versions of the
--# Autoconf Macro released by the Autoconf Macro Archive. When you make
--# and distribute a modified version of the Autoconf Macro, you may
--# extend this special exception to the GPL to apply to your modified
--# version as well.
--#
--AC_DEFUN([AX_TLS], [
--  AC_MSG_CHECKING(for thread local storage (TLS) class)
--  AC_CACHE_VAL(ac_cv_tls, [
--    ax_tls_keywords="__thread __declspec(thread) none"
--    for ax_tls_keyword in $ax_tls_keywords; do
--       case $ax_tls_keyword in
--          none) ac_cv_tls=none ; break ;;
--          *)
--             AC_TRY_COMPILE(
--                [#include <stdlib.h>
--                 static void
--                 foo(void) {
--                 static ] $ax_tls_keyword [ int bar;
--                 exit(1);
--                 }],
--                 [],
--                 [ac_cv_tls=$ax_tls_keyword ; break],
--                 ac_cv_tls=none
--             )
--          esac
--    done
--])
+-This patch should be submitted upstream too
 -
--  if test "$ac_cv_tls" != "none"; then
--    dnl AC_DEFINE([TLS], [], [If the compiler supports a TLS storage class define it to that here])
--    AC_DEFINE_UNQUOTED([TLS], $ac_cv_tls, [If the compiler supports a TLS storage class define it to that here])
--  fi
--  AC_MSG_RESULT($ac_cv_tls)
--])
+-Upstream-Status: Pending
 -
--# ===========================================================================
--#         http://www.nongnu.org/autoconf-archive/check_gnu_make.html
--# ===========================================================================
--#
--# SYNOPSIS
--#
--#   CHECK_GNU_MAKE()
--#
--# DESCRIPTION
--#
--#   This macro searches for a GNU version of make. If a match is found, the
--#   makefile variable `ifGNUmake' is set to the empty string, otherwise it
--#   is set to "#". This is useful for including a special features in a
--#   Makefile, which cannot be handled by other versions of make. The
--#   variable _cv_gnu_make_command is set to the command to invoke GNU make
--#   if it exists, the empty string otherwise.
--#
--#   Here is an example of its use:
--#
--#   Makefile.in might contain:
--#
--#       # A failsafe way of putting a dependency rule into a makefile
--#       $(DEPEND):
--#               $(CC) -MM $(srcdir)/*.c > $(DEPEND)
--#
--#       @ifGNUmake@ ifeq ($(DEPEND),$(wildcard $(DEPEND)))
--#       @ifGNUmake@ include $(DEPEND)
--#       @ifGNUmake@ endif
--#
--#   Then configure.in would normally contain:
--#
--#       CHECK_GNU_MAKE()
--#       AC_OUTPUT(Makefile)
--#
--#   Then perhaps to cause gnu make to override any other make, we could do
--#   something like this (note that GNU make always looks for GNUmakefile
--#   first):
--#
--#       if  ! test x$_cv_gnu_make_command = x ; then
--#               mv Makefile GNUmakefile
--#               echo .DEFAULT: > Makefile ;
--#               echo \  $_cv_gnu_make_command \$@ >> Makefile;
--#       fi
--#
--#   Then, if any (well almost any) other make is called, and GNU make also
--#   exists, then the other make wraps the GNU make.
--#
--# LICENSE
--#
--#   Copyright (c) 2008 John Darrington <j.darrington@elvis.murdoch.edu.au>
--#
--#   Copying and distribution of this file, with or without modification, are
--#   permitted in any medium without royalty provided the copyright notice
--#   and this notice are preserved.
--#
--# Note: Modified by Ted Ts'o to add @ifNotGNUMake@
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--AC_DEFUN(
--        [CHECK_GNU_MAKE], [ AC_CACHE_CHECK( for GNU make,_cv_gnu_make_command,
--                _cv_gnu_make_command='' ;
--dnl Search all the common names for GNU make
--                for a in "$MAKE" make gmake gnumake ; do
--                        if test -z "$a" ; then continue ; fi ;
--                        if  ( sh -c "$a --version" 2> /dev/null | grep GNU  2>&1 > /dev/null ) ;  then
--                                _cv_gnu_make_command=$a ;
--                                break;
--                        fi
--                done ;
--        ) ;
--dnl If there was a GNU version, then set @ifGNUmake@ to the empty string, '#' otherwise
--        if test  "x$_cv_gnu_make_command" != "x"  ; then
--                ifGNUmake='' ;
--                ifNotGNUmake='#' ;
--        else
--                ifGNUmake='#' ;
--                ifNotGNUmake='' ;
--                AC_MSG_RESULT("Not found");
--        fi
--        AC_SUBST(ifGNUmake)
--        AC_SUBST(ifNotGNUmake)
--] )
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir.patch
-deleted file mode 100644
-index 2a3aeff6136..00000000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Mei Lei <lei.mei@intel.com>
--
--diff --git a/configure.ac b/configure.ac
--index c1fe224..f5ac628 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1374,7 +1374,8 @@ if test -n "$WITH_DIET_LIBC" ; then
-- 	INCLUDES="$INCLUDES -D_REENTRANT"
-- fi
-- AC_SUBST(INCLUDES)
---AM_MKINSTALLDIRS
--+MKINSTALLDIRS="mkdir -p"
--+AC_SUBST(MKINSTALLDIRS)
-- dnl
-- dnl Build CFLAGS
-- dnl
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-index 00093cc20c5..bf12d701241 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-@@ -1,11 +1,9 @@
- require e2fsprogs.inc
+-Index: usbutils-008/configure.ac
+-===================================================================
+---- usbutils-008.orig/configure.ac
+-+++ usbutils-008/configure.ac
+-@@ -10,7 +10,9 @@ AC_USE_SYSTEM_EXTENSIONS
+- AC_SYS_LARGEFILE
+- 
+- AC_CHECK_HEADERS([byteswap.h])
+--AC_CHECK_FUNCS([nl_langinfo iconv])
+-+
+-+AM_GNU_GETTEXT
+-+AM_ICONV
+- 
+- PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.0)
+- 
+-Index: usbutils-008/Makefile.am
+-===================================================================
+---- usbutils-008.orig/Makefile.am
+-+++ usbutils-008/Makefile.am
+-@@ -29,7 +29,8 @@ lsusb_CPPFLAGS = \
+- 
+- lsusb_LDADD = \
+- 	$(LIBUSB_LIBS) \
+--	$(UDEV_LIBS)
+-+	$(UDEV_LIBS) \
+-+	$(LIBICONV)
+- 
+- man_MANS = \
+- 	lsusb.8	\
+diff --git a/meta/recipes-bsp/usbutils/usbutils_008.bb b/meta/recipes-bsp/usbutils/usbutils_008.bb
+index d3c5bd52a43..3c821eac375 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_008.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_008.bb
+@@ -11,13 +11,12 @@ DEPENDS = "libusb zlib virtual/libiconv udev"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+            file://usb-devices-avoid-dependency-on-bash.patch \
+            file://Fix-NULL-pointer-crash.patch \
+-           file://iconv.patch \
+           "
  
--SRC_URI += "file://acinclude.m4 \
--            file://remove.ldconfig.call.patch \
-+SRC_URI += "file://remove.ldconfig.call.patch \
-             file://quiet-debugfs.patch \
-             file://run-ptest \
-             file://ptest.patch \
--            file://mkdir.patch \
-             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
-             file://mkdir_p.patch \
-             file://reproducible-doc.patch \
-@@ -26,9 +24,6 @@ EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enabl
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[fuse] = '--enable-fuse2fs,--disable-fuse2fs,fuse'
+ SRC_URI[md5sum] = "cb20148c2e784577e924a7b4c560c8fb"
+ SRC_URI[sha256sum] = "6d5f16c2961df37e22e492c736a3e162a8fde24480f23a40d85f79af80d3fe95"
  
--do_configure_prepend () {
--	cp ${WORKDIR}/acinclude.m4 ${S}/
--}
+-inherit autotools gettext pkgconfig distro_features_check
++inherit autotools pkgconfig distro_features_check
  
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
+ FILES_${PN}-dev += "${datadir}/pkgconfig"
+ 
 -- 
 2.11.0
 
