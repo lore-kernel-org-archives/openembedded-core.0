@@ -1,64 +1,65 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 47C6778838
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 22C7A7885A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 19:23:00 +0000 (UTC)
-Received: by mail-ot0-f175.google.com with SMTP id v15so2891548ote.6
+	Fri, 17 Nov 2017 19:23:42 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id f135so2375914oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 11:23:02 -0800 (PST)
+	Fri, 17 Nov 2017 11:23:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=LPdnWf6FutPOOeB9PMItwUzCaPySVPX0XKEHuNzcocI=;
-	b=h7jeP0Z19ZGxJTAu52DwmjnmJOF4MyEHliVthVf/O/sUVvrtPd/9itAaHGIBUO7z/y
-	dRsNeQJQtCDjaWix7uRkwHOwIQgF8VkSM8+vni3QpfGdYchPtmm1bCpkxdKxTGHqEhhs
-	7elXpaPC2BOKxdg0XpXTOUVvznitXH6nyfH4+7coa3bhZps3zW7vgsa6O6xnPVjWxerI
-	rR9p70HyCiUVLf/eQ4+yLIG2JSlen9+cvb3ogNKek3hsvbD4VVdITzO2jsVm69yKEtTg
-	Y4FIH/rl+6HpDO1ZnWByRNLF1OrJaQagUOR5Q0RiK0enj5npUXi9lYGk1MsHGOWpmnZu
-	08GQ==
+	:cc; bh=47Ny72sTHxPXmPSjwrAm/V7kkS7xeKjEJ/bEK16c3BY=;
+	b=dfAzG6GrB1x94p7+pMpanQuZsAucTyddCP6YM27z8yxc4HutYCTrfhCEgk4FDtwwme
+	FFIi6JpAwYSVoVXuGoJET5jzR/uYcvptWjQ/iq547iTcp47WP8UNh1knzDR1KHSOgEp4
+	ZXwDukDJR0icOJ1e/lizgEfAy/u9zN83eIQ+gFv2eFnQCLx5o4/afm6I9SkUbSFq9joM
+	msyafmhsxJOM+bnT55biterSz68ZKpCfVbavTfwJzbrlf88O2y4LFLRHYnennQVA4pB1
+	QKZN0WzuTkpuSqiOom8EG/SXx83+/D2EuBiWQLuNEQkxAecC9lQ2lXDvlcl+Q6ofaCDM
+	CQ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=LPdnWf6FutPOOeB9PMItwUzCaPySVPX0XKEHuNzcocI=;
-	b=Bn4tSTY5QUhHokwJh3GWOMLu+MWf3JtnIOcD6ycTASz0HAZc3wiQwMwgKh3l0J7QJS
-	B9RyuZ4ytm53exNhuPMqbKmOYrupqCvHBLAbv+tN+UPRtqDpGHGvJj7ioXTmnjMna2sO
-	e2LOhvHcYvAs6cWKgceQ3m1QeJs08rgQWpHFU4SuYXBZTnRaNMTy9AclYl/gX6z73XH/
-	JIpTgUi/POoWQHYbUsoB9Xksk+kLcOnOCZpFpRQKMmX09tuoWk3n1CDWIqUkNGow0FPa
-	u7vG+s5XGAf7XFjg0qw1t5k8EqY08+iSp3Bzyj1xqI/Ylf6Vlt1qnF0m/yA00tdSqf/z
-	gq0g==
-X-Gm-Message-State: AJaThX4KeHmLTtVQ4aHs9rM0Z29na70z/0rfj0V6wvA1I+sjDlxtpMlL
-	Ft06LwBMVQHQHJ+ScLF4gD/EDbw6
-X-Google-Smtp-Source: AGs4zMbbAg9CIB7mpvGzKGfnmW/ixwvJXLRYuYo9l6wH2xlPBJloFUpUMpDO3ZoeFvaWzyNJeYtAjQ==
-X-Received: by 10.157.63.218 with SMTP id i26mr2035851ote.72.1510946581841;
-	Fri, 17 Nov 2017 11:23:01 -0800 (PST)
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com.
-	[209.85.218.54])
-	by smtp.gmail.com with ESMTPSA id t90sm506477ota.79.2017.11.17.11.23.00
+	bh=47Ny72sTHxPXmPSjwrAm/V7kkS7xeKjEJ/bEK16c3BY=;
+	b=I6dSdC/MmJxCnpVEL329jtkFa++l3sBBAjBFI5O7PL5A7mbiJt12Xr3TQwOHC0cz/4
+	qScXL+YLQbCfiq+9tqRNqd+ICDdE4x8HF/br3F/KPQvAfsjD89LOl0rp1cq37h/az4TA
+	uVdR9HaPEDMmPvcbhqOfK79Z0PvdQ69+qocjjZZEk7ZIj7GlHYZME70TJOUySjmO6IhP
+	9hfQO5RdOR/5KPCg7xsMuqQ1F28/t+aK7bDRAsSL0Cl6OKeC5IJAaoWHxqRimwVXqd2H
+	0aPVVqBXQzuHkMtEOGhSdUG1IPsH1mMXkZmuBObCmnMy3L1eTB3zr1w0TXNw1t635fHt
+	gD7Q==
+X-Gm-Message-State: AJaThX4Pv4Q2uK4+9bgSpsZ4jZwaN4b5S2qcibw0Nhosth8X2b6pSIgE
+	UVL8YT4MozI0yfqm/gyrz0sRhToy
+X-Google-Smtp-Source: AGs4zMaq7AKvevMMwokGczxby8ud9/of/PGeP3EpPwoPqbhB8WnuxwRYb5lSib8Y6IC8RnGsA94zmA==
+X-Received: by 10.202.106.68 with SMTP id f65mr2000852oic.95.1510946623616;
+	Fri, 17 Nov 2017 11:23:43 -0800 (PST)
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
+	[209.85.218.49])
+	by smtp.gmail.com with ESMTPSA id t35sm1954143otd.6.2017.11.17.11.23.42
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Nov 2017 11:23:00 -0800 (PST)
+	Fri, 17 Nov 2017 11:23:42 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f54.google.com with SMTP id h81so2352465oib.8
+Received: by mail-oi0-f49.google.com with SMTP id a75so2371892oib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 11:23:00 -0800 (PST)
-X-Received: by 10.202.55.132 with SMTP id e126mr2139163oia.216.1510946580069; 
-	Fri, 17 Nov 2017 11:23:00 -0800 (PST)
+	Fri, 17 Nov 2017 11:23:42 -0800 (PST)
+X-Received: by 10.202.102.207 with SMTP id m76mr1892365oik.68.1510946622070;
+	Fri, 17 Nov 2017 11:23:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Fri, 17 Nov 2017 11:22:59 -0800 (PST)
-In-Reply-To: <20171117175338.48565-1-stefan@agner.ch>
-References: <20171117175338.48565-1-stefan@agner.ch>
-Date: Fri, 17 Nov 2017 17:22:59 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrbKbuiMp8BGfaVi1DyNjS-YgR7f_m3m0sR9D1pent19g@mail.gmail.com>
-Message-ID: <CAP9ODKrbKbuiMp8BGfaVi1DyNjS-YgR7f_m3m0sR9D1pent19g@mail.gmail.com>
+Received: by 10.157.17.210 with HTTP; Fri, 17 Nov 2017 11:23:41 -0800 (PST)
+In-Reply-To: <20171117175142.2642-2-stefan@agner.ch>
+References: <20171117175142.2642-1-stefan@agner.ch>
+	<20171117175142.2642-2-stefan@agner.ch>
+Date: Fri, 17 Nov 2017 17:23:41 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKr0ZAk-SsSQwj0WW04HoaA-GCWDfzNUSBxA2twu_J5dBg@mail.gmail.com>
+Message-ID: <CAP9ODKr0ZAk-SsSQwj0WW04HoaA-GCWDfzNUSBxA2twu_J5dBg@mail.gmail.com>
 To: Stefan Agner <stefan@agner.ch>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Stefan Agner <stefan.agner@toradex.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+Subject: Re: [rocko][PATCH 2/4] openssl10: fix runtime errors with Thumb2 when using binutils 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,17 +72,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 19:23:01 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 19:23:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 17, 2017 at 3:53 PM, Stefan Agner <stefan@agner.ch> wrote:
+On Fri, Nov 17, 2017 at 3:51 PM, Stefan Agner <stefan@agner.ch> wrote:
 > From: Stefan Agner <stefan.agner@toradex.com>
 >
-> Deals with two CVEs:
-> * bn_sqrx8x_internal carry bug on x86_64 (CVE-2017-3736)
-> * Malformed X.509 IPAddressFamily could cause OOB read (CVE-2017-3735)
+> When compiling OpenSSL with binutils 2.29 for ARM with Thumb2 enabled
+> crashes and unexpected behavior occurs. E.g. connecting to a OpenSSH
+> server using the affected binary fails with:
+>   ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect signature
+>
+> Backport upstream bugfix:
+> https://github.com/openssl/openssl/issues/4659
 >
 > Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+
 
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
