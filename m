@@ -1,41 +1,41 @@
 Return-Path: <tom.rini@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D39AF78851
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D4CA78851
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Nov 2017 16:08:29 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id p44so7244923qtj.6
+Received: by mail-qt0-f196.google.com with SMTP id d15so7262132qte.4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Nov 2017 08:08:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=KfdVNI3ql/fT6LZPi233rAvjolnTx2magig+faW0Zg0=;
-	b=ifGc08zDmoYOvNlsZbfjnXDc+N7aTAm19fsokct/yIPeVYN39xsyP+XOUAsaP6RYJz
-	gbofH8qzbwjJQyMT8TjaHSHGvgPclWL6ukzLl3bra18UK9UHVAZZULxhMhJWqais0Pm8
-	lNjZdhJh9uZ1dKNuKYYwFV014Zh2b3in2cOL8R7hyN4sbKuBwyLyIQSO1VGQA5qo0EJG
-	xxp0R6B7EtqT+beOYbKhBXmjmm/iP6781PcTUJsPdHpeQTVi3qAxFCj7pkiHTOHqiTBl
-	ovQSxfOwt9EVE9hiue2LXOwWPOBGE+GnIqeZ+ynwQEkGqRcpUaVyKkCcH975s8jmiM3X
-	C6DQ==
-X-Gm-Message-State: AJaThX6lAnspmoPeTAwiezUxUrwxKz/i+vyyPDtilbBepb6A/9OoQHx+
-	MfZ1NVvV26PKqz0vuRql0e0i
-X-Google-Smtp-Source: AGs4zMaMoG12MGvvv2lGdGXW+4lTYoMXtfq5qE+6eYNXbhjUzsh7KdBduAxT/Htq+/Stgfk6Tojx4g==
-X-Received: by 10.55.156.74 with SMTP id f71mr9202543qke.27.1510934910248;
-	Fri, 17 Nov 2017 08:08:30 -0800 (PST)
+	bh=KyoY2CVhnFExO74eJXKUQssIg8UrQCphsv288cBJiik=;
+	b=jHk0lSLrIkp7l8q5tmQIDyI6DoI7pDu1ent37oSVjMhyxY++dp6+cSqFiHpULAupI/
+	2Anib9F9qrbql9p5EkW3fQWt8a75eT//tDeeW7zs7ndUyu1+3sSGRb7dx71yaUXpEW1l
+	Jo5vczIsLB9svy33Y2hNTqE+Ri3w6/3MHd0kJvboEFDHi2iEjTKXiAptoWGCX3FtI/eH
+	mienutRv+6Dqz7x9wj6LOzWh8w1J7/LsKl8i0uVnmIlI7I+ikE1L2aYWT7sIpotGvD7X
+	8ySSrm2j+2MpBn7u87ZJKuyWC9+BqYgLElH+FunWwLKYGFzFhR7zLBlIxJrI15B31rc6
+	c+sQ==
+X-Gm-Message-State: AJaThX5wMVs1aaU//57kgBYenRtlfpSzXMsP5bpqZFHoJUrXEz9f9gYs
+	RcJpCQn4t3U8QrwsZoVITU3d
+X-Google-Smtp-Source: AGs4zMYxJtA3iozwXY7PBL+Lc74HOlFrRz0+iXB3tFCl7IP0erjv7WTRQAA7PtuunN1opFqv/K984g==
+X-Received: by 10.55.158.132 with SMTP id h126mr9615782qke.245.1510934911035; 
+	Fri, 17 Nov 2017 08:08:31 -0800 (PST)
 Received: from opus.ec.rr.com (cpe-65-184-142-68.ec.res.rr.com.
 	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	q37sm2714304qtj.66.2017.11.17.08.08.29
+	q37sm2714304qtj.66.2017.11.17.08.08.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Nov 2017 08:08:29 -0800 (PST)
+	Fri, 17 Nov 2017 08:08:30 -0800 (PST)
 From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Nov 2017 11:08:19 -0500
-Message-Id: <1510934900-22044-4-git-send-email-trini@konsulko.com>
+Date: Fri, 17 Nov 2017 11:08:20 -0500
+Message-Id: <1510934900-22044-5-git-send-email-trini@konsulko.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1510934900-22044-1-git-send-email-trini@konsulko.com>
 References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv2 3/4] wic: Introduce --fsuuid and have --use-uuid make use of UUID too
+Subject: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,232 +50,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Nov 2017 16:08:30 -0000
 
-First, allow for wic to be given a filesystem UUID to be used when
-creating a filesystem.  When not provided, wic will generate the UUID to
-be used.  Next, when --use-uuid is passed, we update the fstab to mount
-things via UUID (and if not found, then use PARTUUID) as UUID is more
-portable.
+- Add a '/uuid' partition to wic-image-minimal.wks with a known UUID.
+- In test_qemu, sort our output from checking the output of 'mount' as
+  it may not be stable.  Also, do not check the exit code as passing any
+  output to cut ensures a 0 exit code.
+- Check for a 'UUID=' line in /etc/fstab with out expected output.
 
 Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- scripts/lib/wic/help.py                          | 10 +++++++-
- scripts/lib/wic/ksparser.py                      |  1 +
- scripts/lib/wic/partition.py                     | 32 +++++++++++++-----------
- scripts/lib/wic/plugins/imager/direct.py         | 17 +++++++++++--
- scripts/lib/wic/plugins/source/bootimg-efi.py    |  3 ++-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py |  3 ++-
- 6 files changed, 47 insertions(+), 19 deletions(-)
+ meta-selftest/recipes-test/images/wic-image-minimal.wks | 1 +
+ meta/lib/oeqa/selftest/cases/wic.py                     | 9 ++++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2ac45e052ebe..bf658b94e34f 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -863,7 +863,10 @@ DESCRIPTION
-        This is achieved by wic adding entries to the fstab during image
-        generation. In order for a valid fstab to be generated one of the
-        --ondrive, --ondisk or --use-uuid partition options must be used for
--       each partition that specifies a mountpoint.
-+       each partition that specifies a mountpoint.  Note that with --use-uuid
-+       and non-root <mountpoint>, including swap, the mount program must
-+       understand the PARTUUID syntax.  This currently excludes the busybox
-+       versions of these applications.
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+index 9410b684bed8..2fb34c4ef40a 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+@@ -5,5 +5,6 @@
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+ part /mnt --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
++part /uuid --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label uuid-test --align 1024 --use-uuid --fsuuid 2c71ef06-a81d-4735-9d3a-379b69c6bdba
  
+ bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 651d575dc3b2..969ee1054d8b 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+         self.assertEqual(0, bitbake('wic-image-minimal').status)
+         self.remove_config(config)
  
-        The following are supported 'part' options:
-@@ -986,6 +989,11 @@ DESCRIPTION
-                  in bootloader configuration before running wic. In this case .wks file can
-                  be generated or modified to set preconfigured parition UUID using this option.
+-        with runqemu('wic-image-minimal', ssh=False) as qemu:
+-            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
++        with runqemu('wic-image-minimal', ssh=False, runqemuparams="nographic") as qemu:
++            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
++            cmd = "grep UUID= /etc/fstab"
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+-            self.assertEqual(output, '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt')
++            self.assertEqual(output, 'UUID=2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\tdefaults\t0\t0')
  
-+         --fsuuid: This option is specific to wic. It specifies filesystem UUID.
-+                   It's useful if preconfigured filesystem UUID is added to kernel command line
-+                   in bootloader configuration before running wic. In this case .wks file can
-+                   be generated or modified to set preconfigured filesystem UUID using this option.
-+
-          --system-id: This option is specific to wic. It specifies partition system id. It's useful
-                       for the harware that requires non-default partition system ids. The parameter
-                       in one byte long hex number either with 0x prefix or without it.
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 4fb6868531df..e590b2fe3c0d 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -161,6 +161,7 @@ class KickStart():
-         part.add_argument('--system-id', type=systemidtype)
-         part.add_argument('--use-uuid', action='store_true')
-         part.add_argument('--uuid')
-+        part.add_argument('--fsuuid')
- 
-         bootloader = subparsers.add_parser('bootloader')
-         bootloader.add_argument('--append')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 87312383378a..c0b67d829f80 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -26,6 +26,7 @@
- 
- import logging
- import os
-+import uuid
- 
- from wic import WicError
- from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-@@ -61,6 +62,7 @@ class Partition():
-         self.system_id = args.system_id
-         self.use_uuid = args.use_uuid
-         self.uuid = args.uuid
-+        self.fsuuid = args.fsuuid
- 
-         self.lineno = lineno
-         self.source_file = ""
-@@ -264,8 +266,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s %s %s %s -d %s" % \
--            (self.fstype, extraopts, rootfs, label_str, rootfs_dir)
-+        mkfs_cmd = "mkfs.%s %s %s %s -U %s -d %s" % \
-+            (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-@@ -289,9 +291,9 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -b %d -r %s %s %s %s" % \
-+        mkfs_cmd = "mkfs.%s -b %d -r %s %s %s -U %s %s" % \
-             (self.fstype, rootfs_size * 1024, rootfs_dir, label_str,
--             self.mkfs_extraopts, rootfs)
-+             self.mkfs_extraopts, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-     def prepare_rootfs_msdos(self, rootfs, oe_builddir, rootfs_dir,
-@@ -315,8 +317,9 @@ class Partition():
- 
-         extraopts = self.mkfs_extraopts or '-S 512'
- 
--        dosfs_cmd = "mkdosfs %s %s %s -C %s %d" % \
--                    (label_str, size_str, extraopts, rootfs, rootfs_size)
-+        dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-+                    (label_str, self.fsuuid, size_str, extraopts, rootfs,
-+                     rootfs_size)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
-@@ -352,8 +355,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -F %s %s %s" % \
--            (self.fstype, extraopts, label_str, rootfs)
-+        mkfs_cmd = "mkfs.%s -F %s %s -U %s %s" % \
-+            (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-     def prepare_empty_partition_btrfs(self, rootfs, oe_builddir,
-@@ -369,8 +372,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -b %d %s %s %s" % \
--                   (self.fstype, self.size * 1024, label_str,
-+        mkfs_cmd = "mkfs.%s -b %d %s -U %s %s %s" % \
-+                   (self.fstype, self.size * 1024, label_str, self.fsuuid,
-                     self.mkfs_extraopts, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-@@ -391,8 +394,9 @@ class Partition():
- 
-         extraopts = self.mkfs_extraopts or '-S 512'
- 
--        dosfs_cmd = "mkdosfs %s %s %s -C %s %d" % \
--                    (label_str, extraopts, size_str, rootfs, blocks)
-+        dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-+                    (label_str, self.fsuuid, extraopts, size_str, rootfs,
-+                     blocks)
- 
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-@@ -410,9 +414,9 @@ class Partition():
-         with open(path, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), self.size * 1024)
- 
--        import uuid
-         label_str = ""
-         if self.label:
-             label_str = "-L %s" % self.label
--        mkswap_cmd = "mkswap %s -U %s %s" % (label_str, str(uuid.uuid1()), path)
-+
-+        mkswap_cmd = "mkswap %s -U %s %s" % (label_str, self.fsuuid, path)
-         exec_native_cmd(mkswap_cmd, native_sysroot)
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index da1c061063d2..71c0b1c82bf3 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -141,7 +141,15 @@ class DirectPlugin(ImagerPlugin):
-                 continue
- 
-             if part.use_uuid:
--                device_name = "PARTUUID=%s" % part.uuid
-+                if part.fsuuid:
-+                    # FAT UUID is different from others
-+                    if len(part.fsuuid) == 10:
-+                        device_name = "UUID=%s-%s" % \
-+                                       (part.fsuuid[2:6], part.fsuuid[6:])
-+                    else:
-+                        device_name = "UUID=%s" % part.fsuuid
-+                else:
-+                    device_name = "PARTUUID=%s" % part.uuid
-             else:
-                 # mmc device partitions are named mmcblk0p1, mmcblk0p2..
-                 prefix = 'p' if  part.disk.startswith('mmcblk') else ''
-@@ -334,13 +342,18 @@ class PartitionedImage():
-                     continue
-                 part.realnum = realnum
- 
--        # generate parition UUIDs
-+        # generate parition and filesystem UUIDs
-         for part in self.partitions:
-             if not part.uuid and part.use_uuid:
-                 if self.ptable_format == 'gpt':
-                     part.uuid = str(uuid.uuid4())
-                 else: # msdos partition table
-                     part.uuid = '%08x-%02d' % (self.identifier, part.realnum)
-+            if not part.fsuuid:
-+                if part.fstype == 'vfat' or part.fstype == 'msdos':
-+                    part.fsuuid = '0x' + str(uuid.uuid4())[:8].upper()
-+                else:
-+                    part.fsuuid = str(uuid.uuid4())
- 
-     def prepare(self, imager):
-         """Prepare an image. Call prepare method of all image partitions."""
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 4c4f36a32f56..beb74d7a7121 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -240,7 +240,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot.img" % cr_workdir
- 
--        dosfs_cmd = "mkdosfs -n efi -C %s %d" % (bootimg, blocks)
-+        dosfs_cmd = "mkdosfs -n efi -i %s -C %s %d" % \
-+                    (part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 56da468fb5cd..d599112dd759 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -186,7 +186,8 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
- 
--        dosfs_cmd = "mkdosfs -n boot -S 512 -C %s %d" % (bootimg, blocks)
-+        dosfs_cmd = "mkdosfs -n boot -i %s -S 512 -C %s %d" % \
-+                    (part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     @OETestID(1852)
 -- 
 2.7.4
 
