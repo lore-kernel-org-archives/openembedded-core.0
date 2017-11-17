@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F10378837
+	by mail.openembedded.org (Postfix) with ESMTP id 1E6D678844
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 12:02:46 +0000 (UTC)
+	Fri, 17 Nov 2017 12:02:47 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2017 04:02:47 -0800
+	17 Nov 2017 04:02:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,409,1505804400"; 
-   d="scan'208";a="3341753"
+   d="scan'208";a="3341761"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 17 Nov 2017 04:02:47 -0800
+	by orsmga003.jf.intel.com with ESMTP; 17 Nov 2017 04:02:48 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Nov 2017 14:02:49 +0200
-Message-Id: <bacd171cb246f007d8c6570eb16c47bcd9a061e5.1510920094.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 17 Nov 2017 14:02:50 +0200
+Message-Id: <5b4eb9bc257a810c09a878fd54a711ff7c75846c.1510920094.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
 References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/9] libepoxy: convert to meson build
+Subject: [PATCH 5/9] libinput: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,109 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 12:02:46 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 12:02:47 -0000
 
-Add a patch to work around absence of dlvsym() on musl
-(wasn't previously a problem as autotools weren't building tests by default)
+Drop autotools-specific patch.
+
+Drop libunwind option, as it is only used if tests are enabled
+(and they're unconditionally not enabled).
+
+Add a backported upstream fix for invalid meson options.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...sible-to-disable-the-use-of-dlvsym-needed.patch | 55 ++++++++++++++++++++++
- meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb   | 12 +++--
- 2 files changed, 63 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
+ .../0001-Fix-meson-options-default-values.patch    | 50 ++++++++++++++++++++++
+ meta/recipes-graphics/wayland/libinput_1.8.3.bb    | 13 +++---
+ 2 files changed, 57 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/libinput/0001-Fix-meson-options-default-values.patch
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
+diff --git a/meta/recipes-graphics/wayland/libinput/0001-Fix-meson-options-default-values.patch b/meta/recipes-graphics/wayland/libinput/0001-Fix-meson-options-default-values.patch
 new file mode 100644
-index 00000000000..c2a2fa34535
+index 00000000000..615bbcd3f96
 --- /dev/null
-+++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
-@@ -0,0 +1,55 @@
-+From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 15 Nov 2017 12:48:27 +0200
-+Subject: [PATCH] Make it possible to disable the use of dlvsym() (needed for
-+ musl)
++++ b/meta/recipes-graphics/wayland/libinput/0001-Fix-meson-options-default-values.patch
+@@ -0,0 +1,50 @@
++From 10e022a2b18a089265d07b9d0887dba157e066b9 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Tue, 10 Oct 2017 08:04:35 +1000
++Subject: [PATCH] Fix meson options default values
 +
-+Upstream-Status: Pending
++The keyword is 'value', not 'default'. With meson 0.43 this now stops
++building.
++
++https://bugs.freedesktop.org/show_bug.cgi?id=103162
++
++Upstream-Status: Backport
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
 +---
-+ meson_options.txt | 3 +++
-+ test/meson.build  | 6 +++---
-+ 2 files changed, 6 insertions(+), 3 deletions(-)
++ meson_options.txt | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
 +
 +diff --git a/meson_options.txt b/meson_options.txt
-+index 244476a..071f0b6 100644
++index 9861d2d..144f916 100644
 +--- a/meson_options.txt
 ++++ b/meson_options.txt
-+@@ -1,6 +1,9 @@
-+ option('enable-docs',
-+        type: 'boolean', value: false,
-+        description: 'Enable generating the Epoxy API reference (depends on Doxygen)')
-++option('has-dlvsym',
-++       type: 'boolean', value: true,
-++       description: 'Whether dlvsym() is available (it is not when using musl C library)')
-+ option('enable-glx',
-+        type: 'combo',
-+        choices: [ 'auto', 'yes', 'no' ],
-+diff --git a/test/meson.build b/test/meson.build
-+index 2340fc6..bc4330b 100644
-+--- a/test/meson.build
-++++ b/test/meson.build
-+@@ -86,8 +86,8 @@ if build_glx
-+     [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c' ], [], [], true ],
-+     [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [ '-static' ], libtype == 'static' ],
-+     [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ], has_znow ],
-+-    [ 'glx_alias_prefer_same_name', [ 'glx_alias_prefer_same_name.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple ],
-+-    [ 'glx_gles2', [ 'glx_gles2.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple ],
-++    [ 'glx_alias_prefer_same_name', [ 'glx_alias_prefer_same_name.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple and get_option('has-dlvsym') == true ],
-++    [ 'glx_gles2', [ 'glx_gles2.c', 'dlwrap.c', 'dlwrap.h' ], [], [ '-rdynamic' ], not build_apple and get_option('has-dlvsym') == true ],
-+   ]
-+ 
-+   foreach test: glx_tests
-+@@ -108,7 +108,7 @@ if build_glx
-+     endif
-+   endforeach
-+ 
-+-  if not build_apple
-++  if not build_apple and get_option('has-dlvsym') == true
-+     # GLX/EGL tests
-+     if build_egl
-+       glx_egl_sources = [
++@@ -1,20 +1,20 @@
++ option('udev-dir',
++        type: 'string',
++-       default: '',
+++       value: '',
++        description: 'udev base directory [default=$prefix/lib/udev]')
++ option('libwacom',
++        type: 'boolean',
++-       default: true,
+++       value: true,
++        description: 'Use libwacom for tablet identification (default=true)')
++ option('debug-gui',
++        type: 'boolean',
++-       default: true,
+++       value: true,
++        description: 'Enable the "debug-gui" feature in the libinput tool [default=true]')
++ option('tests',
++        type: 'boolean',
++-       default: true,
+++       value: true,
++        description: 'Build the tests [default=true]')
++ option('documentation',
++        type: 'boolean',
++-       default: true,
+++       value: true,
++        description: 'Build the documentation [default=true]')
 +-- 
-+2.15.0
++2.14.1
 +
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-index c8b398f1766..b327e001564 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-@@ -5,17 +5,21 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.8.3.bb b/meta/recipes-graphics/wayland/libinput_1.8.3.bb
+index 3a02c4b1d24..ce59e30582e 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.8.3.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.8.3.bb
+@@ -7,21 +7,22 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
  
--SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz"
-+SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
-+           file://0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch \
+ DEPENDS = "libevdev udev mtdev"
+ 
+-SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
++SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
++           file://0001-Fix-meson-options-default-values.patch \
 +           "
- SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
- SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8bc7fb2fda074478e329b063c1f872b826f6"
- UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
  
--inherit autotools pkgconfig distro_features_check
-+inherit meson pkgconfig distro_features_check
+ SRC_URI[md5sum] = "5265244853ad7cf41232b0d3ee805ab9"
+ SRC_URI[sha256sum] = "2fe2e2f52f0971a9c43541b8f26582ca8df6ed4bb9050e85eb40d4ff6b13142d"
  
- REQUIRED_DISTRO_FEATURES = "opengl"
+-inherit autotools pkgconfig lib_package
++inherit meson pkgconfig lib_package
  
- DEPENDS = "util-macros"
+ PACKAGECONFIG ??= ""
+-PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+-PACKAGECONFIG[libwacom] = "--enable-libwacom,--disable-libwacom,libwacom"
+-PACKAGECONFIG[gui] = "--enable-debug-gui,--disable-debug-gui,cairo gtk+3"
++PACKAGECONFIG[libwacom] = "-Dlibwacom=true,-Dlibwacom=false,libwacom"
++PACKAGECONFIG[gui] = "-Ddebug-gui=true,-Ddebug-gui=false,cairo gtk+3"
  
--PACKAGECONFIG[egl] = "--enable-egl, --disable-egl, virtual/egl"
--PACKAGECONFIG[x11] = "--enable-glx, --disable-glx, virtual/libx11"
-+PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
-+PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no, virtual/libx11"
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
-+
-+EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
+ UDEVDIR = "`pkg-config --variable=udevdir udev`"
+ 
+-EXTRA_OECONF += "--with-udev-dir=${UDEVDIR} --disable-documentation --disable-tests"
++EXTRA_OEMESON += "-Dudev-dir=${UDEVDIR} -Ddocumentation=false -Dtests=false"
+ 
+ # package name changed in 1.8.1 upgrade: make sure package upgrades work
+ RPROVIDES_${PN} = "libinput"
 -- 
 2.15.0
 
