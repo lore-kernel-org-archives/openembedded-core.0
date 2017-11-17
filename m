@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE2B7886F;
-	Fri, 17 Nov 2017 22:53:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id DB53578875;
+	Fri, 17 Nov 2017 22:53:19 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Stefan Agner <stefan@agner.ch>
-Date: Fri, 17 Nov 2017 22:53:20 -0000
-Message-ID: <20171117225320.2784.57738@do.openembedded.org>
-References: <20171117175142.2642-1-stefan@agner.ch>
+Date: Fri, 17 Nov 2017 22:53:21 -0000
+Message-ID: <20171117225321.2785.95291@do.openembedded.org>
+References: <20171117175338.48565-1-stefan@agner.ch>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20171117175142.2642-1-stefan@agner.ch>
+In-Reply-To: <20171117175338.48565-1-stefan@agner.ch>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltyb2Nrb10gb3BlbnNzbDEwOiBVcGdyYWRlIDEuMC4uLiIgYW5kIDMgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9wZW5zc2wxMDogVXBncmFkZSAxLjAuMmwgLT4gMS4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 22:53:18 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 22:53:20 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[rocko] openssl10: Upgrade 1.0..." and 3 more
+Series: "openssl10: Upgrade 1.0.2l -> 1..." and 3 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9855/
+URL   : https://patchwork.openembedded.org/series/9856/
 State : failure
 
 == Summary ==
@@ -45,11 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a17f3ec910)
-
-* Patch            [rocko,1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+* Patch            [1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
  Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
   Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
