@@ -1,24 +1,62 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BFB378867
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 48BB47882E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 12:02:51 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2017 04:02:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,409,1505804400"; 
-   d="scan'208";a="3341774"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 17 Nov 2017 04:02:52 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Nov 2017 14:02:54 +0200
-Message-Id: <5fd0b679e9a7310b4988c304343fad77f0ebe7ff.1510920094.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
-References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 9/9] meson: export native env only for native build
+	Fri, 17 Nov 2017 13:11:40 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id n16so1598521oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Nov 2017 05:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=zCYyAG3JJNtlACsxmwdtNSzcuh29yq35lSoPeONPtZM=;
+	b=XOal5SsUZWZF88SHFXc5f8GG+H4RQXKKX13e0BxPdIJ2FWJerhzJcpT6GpyROEyhMz
+	erXef+X8zBQCFKGZZ2SMeVbEmfpOoV+EJercWNnr2idALWTmi6kc9iPVBtIuV7Olj6yJ
+	FhbpgqITqvaeWoySiFIlCx9Fhg4kBLR1eovPkIGK+uJ5YZPIMpsJ/+kDvpufgSi+ySRl
+	Ku8LRSUNNZNd71OqwE62bKi26S/gVrLnFEsSnySjdVoRTgCHIjD32SGvvH4AnZ6F86GI
+	qb1W/eILGDVTgw4hOeaxngKaxZWF5ybI7XtmgnmOFsYBv9MtyNHQ8zexxErD9wslB40D
+	dCOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=zCYyAG3JJNtlACsxmwdtNSzcuh29yq35lSoPeONPtZM=;
+	b=XF0P3elQ4saEXYVQpW1LzqLSo8zswcfU29b5nRiLZQmJFjYqFGxkmmgUzD59KQK2gc
+	oh5JhQUrzCq88Vz6bTjMwQrlWnsLCgdiGvmobvuiKXBII4my1W6pef1O+YX4+iWKb6y7
+	NtqfUv+92grUvZqyKkgUceBbat+EvLNT5I4NO3pMaOd994wcz/P0WfSIcrYv2/ZEqr6q
+	Qx32sbSjU1oHgKnhB4RE3iWzNwNpLDEatPIHWoRdDyB0+OV2n8gD4AhwSnGLVq5D5sbZ
+	DNbykCheLoXHamelghGPZ3QvN2teDnAyAT5e4AYzxDtiUDfoZZx9i7ZK9AG3A+L6kcy0
+	AlTw==
+X-Gm-Message-State: AJaThX7dHfoTpWejI2IuMp7ETPEhGSbtO3ZQ4gtR0X12J24RmNxLW2gL
+	7fJ17vtlVILMRJo+HS777fWaZSSt
+X-Google-Smtp-Source: AGs4zMZ3HXR+9kohU1mPFFyvkCQKYwh0i3YQJpBdteQ0z29Y+WlAcnng/2I2/ugzvtaJjEU2IqvzCw==
+X-Received: by 10.202.117.141 with SMTP id q135mr1260532oic.109.1510924301909; 
+	Fri, 17 Nov 2017 05:11:41 -0800 (PST)
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com.
+	[209.85.218.45])
+	by smtp.gmail.com with ESMTPSA id h7sm1548995oti.76.2017.11.17.05.11.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 Nov 2017 05:11:40 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f45.google.com with SMTP id a132so1580072oih.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Nov 2017 05:11:40 -0800 (PST)
+X-Received: by 10.202.83.131 with SMTP id h125mr1183245oib.329.1510924300384; 
+	Fri, 17 Nov 2017 05:11:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.157.17.210 with HTTP; Fri, 17 Nov 2017 05:11:39 -0800 (PST)
+In-Reply-To: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
+References: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
+Date: Fri, 17 Nov 2017 11:11:39 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrpw=uTymo6Kc8J3yxijxYB5nx+-B2kv1kw_Ys+zRP8jg@mail.gmail.com>
+Message-ID: <CAP9ODKrpw=uTymo6Kc8J3yxijxYB5nx+-B2kv1kw_Ys+zRP8jg@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libepoxy: Fix build break for EGL_CAST dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +69,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 12:02:51 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 13:11:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Martin Kelly <mkelly@xevo.com>
+On Thu, Nov 16, 2017 at 9:36 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+> This is a backport [1] to fix the following build error:
+>
+> | In file included from /home/r60874/upstream/xwayland/tmp/work/armv7at2hf-neon-mx6qdl-fslc-linux-gnueabi/gtk+3/3.22.17-r0/recipe-sysroot/usr/include/epoxy/egl.h:46:0,
+> |                  from ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.h:32,
+> |                  from ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c:24:
+> | ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c: In function 'gdk_wayland_gl_context_realize':
+> | ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c:179:43: error: expected expression before 'EGLContext'
+> |                                          : EGL_NO_CONTEXT,
+> |                                            ^
+>
+> [1] https://github.com/anholt/libepoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8
+>
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 
-Although the meson crossfile should take care of setting the right cross
-environment for a target build, meson slurps any set CFLAGS, CXXFLAGS,
-LDFLAGS, and CPPFLAGS from the environment and injects them into the
-build (see mesonbuild/environment.py:get_args_from_envvars for details).
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-This means that we are seeing native CFLAGS, CXXFLAGS, LDFLAGS, and
-CPPFLAGS in the target build, which is wrong and causes build failures
-when target and native have libraries in common (the linker gets
-confused and bails).
-
-That said, we *do* need to set certain vars for all builds so that meson
-can find the right build tools. Without this, meson will fail during its
-sanity checking step because it will determine the build tools to be
-unrunnable since they output target instead of native artifacts.
-
-The solution to all of this is to set CC, CXX, LD, and AR globally to
-the native tools while setting the other native vars *only* for the
-native build. For target builds, these vars will get overridden by the
-cross file as we expect.
-
-Signed-off-by: Martin Kelly <mkelly@xevo.com>
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/meson.bbclass | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 64553cd8f3d..f64377efcba 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -9,13 +9,6 @@ do_configure[cleandirs] = "${B}"
- # Where the meson.build build configuration is
- MESON_SOURCEPATH = "${S}"
- 
--# These variables in the environment override meson's *native* tools settings.
--# We have to unset them, so that meson doesn't pick up the cross tools and
--# use them for native builds.
--unset CC
--unset CXX
--unset AR
--
- def noprefix(var, d):
-     return d.getVar(var, True).replace(d.getVar('prefix', True) + '/', '', 1)
- 
-@@ -91,6 +84,18 @@ meson_do_configure() {
-     fi
- }
- 
-+meson_do_configure_prepend_class-target() {
-+    # Set these so that meson uses the native tools for its build sanity tests,
-+    # which require executables to be runnable. The cross file will still
-+    # override these for the target build. Note that we do *not* set CFLAGS,
-+    # LDFLAGS, etc. as they will be slurped in by meson and applied to the
-+    # target build, causing errors.
-+    export CC="${BUILD_CC}"
-+    export CXX="${BUILD_CXX}"
-+    export LD="${BUILD_LD}"
-+    export AR="${BUILD_AR}"
-+}
-+
- meson_do_configure_prepend_class-native() {
-     export PKG_CONFIG="pkg-config-native"
- }
 -- 
-2.15.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
