@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A8878863;
-	Fri, 17 Nov 2017 22:52:59 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 4BEEC783E8;
+	Fri, 17 Nov 2017 22:53:04 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Amanda Brindle <amanda.r.brindle@intel.com>
-Date: Fri, 17 Nov 2017 22:53:00 -0000
-Message-ID: <20171117225300.2785.91623@do.openembedded.org>
-References: <cover.1510791278.git.amanda.r.brindle@intel.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 17 Nov 2017 22:53:06 -0000
+Message-ID: <20171117225306.2787.46079@do.openembedded.org>
+References: <1510842145-6067-1-git-send-email-bruce.ashfield@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1510791278.git.amanda.r.brindle@intel.com>
+In-Reply-To: <1510842145-6067-1-git-send-email-bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgW3YyXSBzY3JpcHRzL2NvbnRyaWIvYmJ2YXJzLnB5OiBSZXdyaXRlIHRvIHVzZSB0aW5mb2ls?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgteW9jdG8vNC44OiB1cGRhdGUgdG8gdjQuOC4yNg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 22:52:59 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 22:53:04 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: [v2] scripts/contrib/bbvars.py: Rewrite to use tinfoil
+Series: linux-yocto/4.8: update to v4.8.26
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9816/
+URL   : https://patchwork.openembedded.org/series/9828/
 State : failure
 
 == Summary ==
