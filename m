@@ -1,32 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BE6F78414
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AA7578827
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 01:46:35 +0000 (UTC)
+	Fri, 17 Nov 2017 02:18:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAH1kZDI000251
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Nov 2017 17:46:35 -0800 (PST)
-Received: from [128.224.162.152] (128.224.162.152) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 16 Nov 2017 17:46:34 -0800
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1495183828.git.kai.kang@windriver.com>
-	<d0db7f059097d0271e5808dda280140ef49aae6f.1495183828.git.kai.kang@windriver.com>
-	<CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com>
-	<c46b6cd7-cf25-8fd6-789f-c9cfbcbf9026@windriver.com>
-	<726d845f-268e-0f27-bcd7-c6b2fd9f4c53@windriver.com>
-	<CAJ86T=UMd9D-_WZ3um3Yg6+yKRFJyToLhNjZw90U0LUujTGfgg@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <9dabcc17-148f-a0d9-d9d6-3abcd2836ea0@windriver.com>
-Date: Fri, 17 Nov 2017 09:46:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAH2IaoL031973
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Nov 2017 18:18:37 -0800
+Received: from localhost (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 16 Nov 2017 18:18:35 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jackie.huang@windriver.com>
+Date: Fri, 17 Nov 2017 10:17:13 +0800
+Message-ID: <1510885033-25394-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UMd9D-_WZ3um3Yg6+yKRFJyToLhNjZw90U0LUujTGfgg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bind: build with threads and update configure options
+X-Originating-IP: [128.224.162.134]
+Subject: [PATCH] ppp: include netinet/in.h before linux/in.h in pppoe.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +32,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 01:46:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 17 Nov 2017 02:18:36 -0000
+Content-Type: text/plain
 
-On 2017年11月16日 18:27, Andre McCurdy wrote:
-> On Fri, May 26, 2017 at 8:24 PM, Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2017年05月23日 17:58, Kang Kai wrote:
->> On 2017年05月19日 19:47, Burton, Ross wrote:
->> On 19 May 2017 at 09:52, <kai.kang@windriver.com> wrote:
->>> Build without threads for bind is inherited from legacy openembedded.
->>> All libc's support proper threading on Linux now, so enable threads
->>> support for bind.
->>>
->>> It is also need to disable static library build which cause package dhcp
->>> fail to build after enable bind threads support.
-> It seems this change was made without taking into account the advice given in:
->
->    http://git.openembedded.org/openembedded-core/commit/?id=f28757a4b89447ea528cba987f0396b92aa0bbfe
->
-> "If and when we ship bind's shared libraries we should ensure that the
-> libraries go into a separate package."
->
-> In rocko builds I see "named" running on port 53 and dnsmasq fails to start...
+The patch ppp-fix-building-with-linux-4.8.patch tries to fix build error
+with 4.8 or newer linux headers, but it would break building with kernel
+< 4.8. There is a better solution to fix this issue in upstream.
+Backport the upstream patch and replace the old one.
 
-Thanks. I'll check that.
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ ...oe-include-netinet-in.h-before-linux-in.h.patch | 54 ++++++++++++++++++++++
+ .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ------------------
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  2 +-
+ 3 files changed, 55 insertions(+), 45 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+ delete mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
 
---Kai
-
->
->>> Options devpoll and epoll are configured to choose most preferable
->>> multiplex method for unix socket. The priorities are: epoll > poll >
->>> select. When set '--enable-epoll', it just defines a var and include
->>> header file that is available for cross compile. So use epoll for bind.
->>>
->>> Add PACKAGECONFIG 'urandom' that could use /dev/urandom as random device.
->>>
->>> Update file/directory ownerships to fix daemon start failure.
-
-
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+new file mode 100644
+index 0000000..9362d12
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+@@ -0,0 +1,54 @@
++From 50a2997b256e0e0ef7a46fae133f56f60fce539c Mon Sep 17 00:00:00 2001
++From: Lubomir Rintel <lkundrak@v3.sk>
++Date: Mon, 9 Jan 2017 13:34:23 +0000
++Subject: [PATCH] pppoe: include netinet/in.h before linux/in.h
++
++This fixes builds with newer kernels. Basically, <netinet/in.h> needs to be
++included before <linux/in.h> otherwise the earlier, unaware of the latter,
++tries to redefine symbols and structures. Also, <linux/if_pppox.h> doesn't work
++alone anymore, since it pulls the headers in the wrong order, so we better
++include <netinet/in.h> early.
++
++Upstream-Status: Backport
++[https://github.com/paulusmack/ppp/commit/50a2997b256e0e0ef7a46fae133f56f60fce539c]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ pppd/plugins/rp-pppoe/pppoe.h | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
++index 9ab2eee..c4aaa6e 100644
++--- a/pppd/plugins/rp-pppoe/pppoe.h
+++++ b/pppd/plugins/rp-pppoe/pppoe.h
++@@ -47,6 +47,10 @@
++ #include <sys/socket.h>
++ #endif
++ 
+++/* This has to be included before Linux 4.8's linux/in.h
+++ * gets dragged in. */
+++#include <netinet/in.h>
+++
++ /* Ugly header files on some Linux boxes... */
++ #if defined(HAVE_LINUX_IF_H)
++ #include <linux/if.h>
++@@ -84,8 +88,6 @@ typedef unsigned long UINT32_t;
++ #include <linux/if_ether.h>
++ #endif
++ 
++-#include <netinet/in.h>
++-
++ #ifdef HAVE_NETINET_IF_ETHER_H
++ #include <sys/types.h>
++ 
++@@ -98,7 +100,6 @@ typedef unsigned long UINT32_t;
++ #endif
++ 
++ 
++-
++ /* Ethernet frame types according to RFC 2516 */
++ #define ETH_PPPOE_DISCOVERY 0x8863
++ #define ETH_PPPOE_SESSION   0x8864
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+deleted file mode 100644
+index f77b0de..0000000
+--- a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
+-From: Jackie Huang <jackie.huang@windriver.com>
+-Date: Thu, 13 Oct 2016 13:41:43 +0800
+-Subject: [PATCH] ppp: fix building with linux-4.8
+-
+-Fix a build error when using the linux-4.8 headers that results in:
+-
+-In file included from pppoe.h:87:0,
+-                 from plugin.c:29:
+-../usr/include/netinet/in.h:211:8: note: originally defined here
+- struct in6_addr
+-        ^~~~~~~~
+-In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
+-                 from ../usr/include/linux/if_pppox.h:26,
+-                 from plugin.c:52:
+-../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
+- struct sockaddr_in6 {
+-        ^~~~~~~~~~~~
+-
+-Upstream-Status: Submitted [1]
+-
+-[1] https://github.com/paulusmack/ppp/pull/69
+-
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+----
+- pppd/plugins/rp-pppoe/pppoe.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
+-index 9ab2eee..96d2794 100644
+---- a/pppd/plugins/rp-pppoe/pppoe.h
+-+++ b/pppd/plugins/rp-pppoe/pppoe.h
+-@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
+- #include <linux/if_ether.h>
+- #endif
+- 
+--#include <netinet/in.h>
+-+#include <linux/in.h>
+- 
+- #ifdef HAVE_NETINET_IF_ETHER_H
+- #include <sys/types.h>
+--- 
+-2.8.3
+-
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index b2c4d4c..a5f764f 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -30,7 +30,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
+            file://ppp@.service \
+            file://fix-CVE-2015-3310.patch \
+-           file://ppp-fix-building-with-linux-4.8.patch \
++           file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
+            file://0001-ppp-Remove-unneeded-include.patch \
+ "
+ 
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
 
 
