@@ -1,33 +1,47 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FDE278522
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B0678534
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 21:14:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAHLEVj2026244
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 17 Nov 2017 13:14:32 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Fri, 17 Nov 2017 13:14:31 -0800
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] nss: pay attention to CFLAGS
-Thread-Index: AQHTXkMf3kOO/2pyMkibT1LD4t5M8qMWXGWAgAK34qA=
-Date: Fri, 17 Nov 2017 21:14:31 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF45529C@ALA-MBC.corp.ad.wrs.com>
-References: <20171115185409.12050-1-jslater@windriver.com>
-	<CAMKF1srAN=7-=Tt1MYGW45Qm==UFyCfFs9396NOj1u0LhMSfcQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srAN=7-=Tt1MYGW45Qm==UFyCfFs9396NOj1u0LhMSfcQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.157.209]
+	Fri, 17 Nov 2017 21:36:57 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id s75so2863964pgs.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Nov 2017 13:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2Fwy091uGm/tm0Lny30JgBAF3dQ8Fh0A97pDgdMNaek=;
+	b=Omw4jYMtj3RGQoU9Qw0K/xGTUBBW1ZTcYBoOj9QHf2zHjm87hMxKMIrcF4ouKQ8s/L
+	Cnlnbhmm5rlKTj+liLpuWEwqobwSlAW59VyC38CxL+j5BqmqL+9FLyz6dwK0M4mSPCzJ
+	2bJ4eX/2xjorduZGV92BFj8DSzDb+zF2OGYyqjkwDhZXxoWrmtsjDkvaEVqFcnF8zZpC
+	AI61Yf5wbx1c8DH8F/6YY4pGqxHKeXFqS/v5v3VMiT6OEWEeppkVkBnMi5zKRuukyJgW
+	RFQIn4nN0ATYz7zuXSbj9l1YT6OPMTvSYyt33UjCn+GyyRNmeBEiz0bim1YSKR74xZM5
+	TR9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2Fwy091uGm/tm0Lny30JgBAF3dQ8Fh0A97pDgdMNaek=;
+	b=OmcN0RveZgoCp8dol5QQp9aXO4pe1FMO+T6AXrCgsgnrmBstrxaJqYZzDcSSApHf2P
+	FNWMsao7MSME2rf4YJBRs8AE3xfA9iwDR2WDYSD04B78Av1dJotYooVa7TM6bBadcQK8
+	qGguqdk89/qTeEYEdulneH6DgmZXRkd7nyRDl8S/IZHwLS0v439z4tS1NQZiJ0ene3fe
+	VEWBcsA+u8adDEPw8DWa9oRii0o3BiurxHEmo7flH/BTvqq/Qwf0Ly720or8MYbBlGXP
+	RYHON0NICm5NyubY5axuTGJMsm9sdgQnqyKfYOUe31F9XJvXcznbhCq4pOM8/DfFW2eG
+	mQkw==
+X-Gm-Message-State: AJaThX4CkixqDvOWmrGlyCMMJvChNXhE3MfiHXOsdKqFDO0s9lFpz7lh
+	dX8P9I9S93Z15CfZZ0enuy/xi9qdMSxhV+UVjV0=
+X-Google-Smtp-Source: AGs4zMYnhdzMjenb1r+y+3/M7aHW+VeG8Egu+OYz3/VfyJ6QpFLQINh0P5lC1+imIgUkL1VP/K0B6KZeRkfxpA0MPMc=
+X-Received: by 10.84.252.4 with SMTP id x4mr6235506pll.99.1510954618880; Fri,
+	17 Nov 2017 13:36:58 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.100.159.15 with HTTP; Fri, 17 Nov 2017 13:36:28 -0800 (PST)
+In-Reply-To: <20171117202502.10262-1-ross.burton@intel.com>
+References: <20171117202502.10262-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 17 Nov 2017 13:36:28 -0800
+Message-ID: <CAMKF1sq9jsT7JG8B3A+aa+Ga8L9Z4xy5PbFEqJ90=VSAYNgtOA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nss: pay attention to CFLAGS
+Subject: Re: [PATCH] usbutils: remove uclibc-specific patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +54,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 21:14:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 17 Nov 2017 21:36:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SXQgaXMgaW50ZW50aW9uYWwgdGhhdCBuc3MgdHJpZXMgdG8gY29uZmlndXJlIENGTEFHUyBmb3Ig
-dGhlIHBhcnRpY3VsYXIgYnVpbGQgZW52aXJvbm1lbnQuICBBbm90aGVyIGFwcHJvYWNoIHdlIGNv
-dWxkIHRha2UgaGVyZSB3b3VsZCBiZSB0byBvbmx5IHB1dCBpbiB0aGUgcHJlZml4LW1hcHBpbmcg
-b3B0aW9ucyAoYW5kIC1nKS4NCg0KSm9lDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-CkZyb206IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXSANClNlbnQ6IFdlZG5l
-c2RheSwgTm92ZW1iZXIgMTUsIDIwMTcgMTE6MzkgQU0NClRvOiBTbGF0ZXIsIEpvc2VwaA0KQ2M6
-IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFdIG5zczogcGF5IGF0dGVudGlvbiB0
-byBDRkxBR1MNCg0KT24gV2VkLCBOb3YgMTUsIDIwMTcgYXQgMTA6NTQgQU0sIEpvZSBTbGF0ZXIg
-PGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+IG5zcyBpZ25vcmVzIENGTEFHUyBzbyB3
-ZSBzdWdnZXN0IHRoZW0gdmlhIENDLg0KDQppcyB0aGF0IGEgbGltaXRhdGlvbiBvciBpbnRlbnRp
-b25hbCBpbiBuc3MgYnVpbGQgc3lzdGVtLg0KDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0
-ZXIgPGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9uc3MvbnNzXzMuMzMuYmIgfCA3ICsrKysrKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L25zcy9uc3NfMy4zMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25zcy9uc3NfMy4z
-My5iYg0KPiBpbmRleCBlM2Q0Zjk2Li4wNmQ4MWNlIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9uc3MvbnNzXzMuMzMuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-bnNzL25zc18zLjMzLmJiDQo+IEBAIC0xMDQsNyArMTA0LDEyIEBAIGRvX2NvbXBpbGUoKSB7DQo+
-ICAgICAgIyBXZSBjYW4gbW9kaWZ5IENDIGluIHRoZSBlbnZpcm9ubWVudCwgYnV0IGlmIHdlIHNl
-dCBpdCB2aWEgYW4NCj4gICAgICAjIGFyZ3VtZW50IHRvIG1ha2UsIG5zaW5zdGFsbCwgYSBob3N0
-IHByb2dyYW0sIHdpbGwgYWxzbyBidWlsZCB3aXRoIGl0IQ0KPiAgICAgICMNCj4gLSAgICBleHBv
-cnQgQ0M9IiR7Q0N9IC1nIg0KPiArICAgICMgbnNzIHByZXR0eSBtdWNoIGRvZXMgaXRzIG93biB0
-aGluZyB3aXRoIENGTEFHUywgc28gd2UgcHV0IHRoZW0gaW50byBDQy4NCj4gKyAgICAjIE9wdGlt
-aXphdGlvbiB3aWxsIGdldCBjbG9iYmVyZWQsIGJ1dCBtb3N0IG9mIHRoZSBzdHVmZiB3aWxsIHN1
-cnZpdmUuDQo+ICsgICAgIyBUaGUgbW90aXZhdGlvbiBmb3IgdGhpcyBpcyB0byBwb2ludCB0byB0
-aGUgY29ycmVjdCBwbGFjZSBmb3IgZGVidWcNCj4gKyAgICAjIHNvdXJjZSBmaWxlcyBhbmQgQ0ZM
-QUdTIGRvZXMgdGhhdC4gIE5vdGhpbmcgdXNlcyBDQ0MuDQo+ICsgICAgIw0KPiArICAgIGV4cG9y
-dCBDQz0iJHtDQ30gJHtDRkxBR1N9Ig0KPiAgICAgIG1ha2UgLUMgLi9uc3MgQ0NDPSIke0NYWH0g
-LWciIFwNCj4gICAgICAgICAgT1NfVEVTVD0ke09TX1RFU1R9IFwNCj4gICAgICAgICAgUlBBVEg9
-IiR7UlBBVEh9Ig0KPiAtLQ0KPiAyLjcuNA0KPg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
-IGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRw
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
-b3JlDQo=
+On Fri, Nov 17, 2017 at 12:25 PM, Ross Burton <ross.burton@intel.com> wrote:
+> This patch is only needed for uclibc, which we don't support in oe-core anymore.
+>
+
+indeed, thanks for doing it
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-bsp/usbutils/usbutils/iconv.patch | 41 --------------------------
+>  meta/recipes-bsp/usbutils/usbutils_008.bb      |  3 +-
+>  2 files changed, 1 insertion(+), 43 deletions(-)
+>  delete mode 100644 meta/recipes-bsp/usbutils/usbutils/iconv.patch
+>
+> diff --git a/meta/recipes-bsp/usbutils/usbutils/iconv.patch b/meta/recipes-bsp/usbutils/usbutils/iconv.patch
+> deleted file mode 100644
+> index 6455567174b..00000000000
+> --- a/meta/recipes-bsp/usbutils/usbutils/iconv.patch
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -This patch adds support for detecting iconv support using autotools
+> -uclibc does not have iconv implementation inside libc like glibc, therefore
+> -the existing checks were not sufficient, it worked for glibc but not for
+> -uclibc. The new patch portably detects the iconv support and adds the
+> -libiconv to linker cmdline
+> -
+> -This patch should be submitted upstream too
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> -Index: usbutils-008/configure.ac
+> -===================================================================
+> ---- usbutils-008.orig/configure.ac
+> -+++ usbutils-008/configure.ac
+> -@@ -10,7 +10,9 @@ AC_USE_SYSTEM_EXTENSIONS
+> - AC_SYS_LARGEFILE
+> -
+> - AC_CHECK_HEADERS([byteswap.h])
+> --AC_CHECK_FUNCS([nl_langinfo iconv])
+> -+
+> -+AM_GNU_GETTEXT
+> -+AM_ICONV
+> -
+> - PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.0)
+> -
+> -Index: usbutils-008/Makefile.am
+> -===================================================================
+> ---- usbutils-008.orig/Makefile.am
+> -+++ usbutils-008/Makefile.am
+> -@@ -29,7 +29,8 @@ lsusb_CPPFLAGS = \
+> -
+> - lsusb_LDADD = \
+> -       $(LIBUSB_LIBS) \
+> --      $(UDEV_LIBS)
+> -+      $(UDEV_LIBS) \
+> -+      $(LIBICONV)
+> -
+> - man_MANS = \
+> -       lsusb.8 \
+> diff --git a/meta/recipes-bsp/usbutils/usbutils_008.bb b/meta/recipes-bsp/usbutils/usbutils_008.bb
+> index d3c5bd52a43..3c821eac375 100644
+> --- a/meta/recipes-bsp/usbutils/usbutils_008.bb
+> +++ b/meta/recipes-bsp/usbutils/usbutils_008.bb
+> @@ -11,13 +11,12 @@ DEPENDS = "libusb zlib virtual/libiconv udev"
+>  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+>             file://usb-devices-avoid-dependency-on-bash.patch \
+>             file://Fix-NULL-pointer-crash.patch \
+> -           file://iconv.patch \
+>            "
+>
+>  SRC_URI[md5sum] = "cb20148c2e784577e924a7b4c560c8fb"
+>  SRC_URI[sha256sum] = "6d5f16c2961df37e22e492c736a3e162a8fde24480f23a40d85f79af80d3fe95"
+>
+> -inherit autotools gettext pkgconfig distro_features_check
+> +inherit autotools pkgconfig distro_features_check
+>
+>  FILES_${PN}-dev += "${datadir}/pkgconfig"
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
