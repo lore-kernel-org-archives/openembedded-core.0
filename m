@@ -1,53 +1,33 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8260E7874B
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FDE278522
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 20:59:20 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id r186so1885823ywe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 12:59:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=alF5A4BjXSUhZxJu/Kw1LsTFW3XeVjGC95byKzlgUhA=;
-	b=IP5LL4nv+I8Qjer059B57yDys1soLwMudYEUbdEr9vGhlkN1k7eDtSrFA8CMQ2//7z
-	TrmnJIGorqp9WLfHd7cEPUM5AlwMkTV1wgtmWzJx26GNN5m40zZrtx93VG7AZPYgJx3M
-	b6kNxKlAZIZlHfOIAz4qWLhmfbnHZgpJ6r9K8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=alF5A4BjXSUhZxJu/Kw1LsTFW3XeVjGC95byKzlgUhA=;
-	b=BB29tw3+eFI71F1LeK9EQmR3xEaz8/BhxvnxqNHHPsee8Jva2P6Gkuoa0emAN7KNfB
-	vaamZvRWo+KU2wtiDuQxySyvK7GPq9dZ1Wt6RNWLXBgP9wjbEnnUedyoMiWe8PXol2Q9
-	1JFnpfBFtyqHMZBuGvovoJmqzahHrSO83VstT/KXSXACEDwMyS+ZGZ4iIW+linyyqczQ
-	MNXm6ntTx1A4u0Sp/peh+SmSfCeaj23h+IhtxLrMCdMWjR0Xu1CfTlM+TN7Y0z4KdKXc
-	tlO850TYJxcWFRUL7hNwfD+58PWNxfiBRmt0E8ICMDcoEh2U1vw1yZF/wmmJSo4O8upu
-	pzKw==
-X-Gm-Message-State: AJaThX6ZRsy5KXCIAgQ6yoN8rTySeedWAijJN6GVLaN/dBVp333AWlCa
-	w/mysH8NKQcKanpy0Nz+gGLz6MEW3SI=
-X-Google-Smtp-Source: AGs4zMZYTV/CeSWlTCpNDS8F72YfUSZzyur/01NKg87k4jXrdw6Z7MGK7d0+VbeVAzPj4un5YEm7jQ==
-X-Received: by 10.129.54.15 with SMTP id d15mr4212149ywa.149.1510952361226;
-	Fri, 17 Nov 2017 12:59:21 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	d139sm1907352ywe.49.2017.11.17.12.59.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Nov 2017 12:59:20 -0800 (PST)
-Date: Fri, 17 Nov 2017 15:59:18 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20171117205918.GX9986@bill-the-cat>
-References: <20171114183223.7804-1-otavio@ossystems.com.br>
-	<c19104c9-f988-d406-650e-2c9d7d74babd@denx.de>
+	Fri, 17 Nov 2017 21:14:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAHLEVj2026244
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 17 Nov 2017 13:14:32 -0800
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Fri, 17 Nov 2017 13:14:31 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] nss: pay attention to CFLAGS
+Thread-Index: AQHTXkMf3kOO/2pyMkibT1LD4t5M8qMWXGWAgAK34qA=
+Date: Fri, 17 Nov 2017 21:14:31 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84CF45529C@ALA-MBC.corp.ad.wrs.com>
+References: <20171115185409.12050-1-jslater@windriver.com>
+	<CAMKF1srAN=7-=Tt1MYGW45Qm==UFyCfFs9396NOj1u0LhMSfcQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srAN=7-=Tt1MYGW45Qm==UFyCfFs9396NOj1u0LhMSfcQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.157.209]
 MIME-Version: 1.0
-In-Reply-To: <c19104c9-f988-d406-650e-2c9d7d74babd@denx.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.11 release
+Subject: Re: [PATCH 1/1] nss: pay attention to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,87 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 20:59:20 -0000
-X-Groupsio-MsgNum: 105214
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Zr5irScySb2At5ws"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 Nov 2017 21:14:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---Zr5irScySb2At5ws
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+SXQgaXMgaW50ZW50aW9uYWwgdGhhdCBuc3MgdHJpZXMgdG8gY29uZmlndXJlIENGTEFHUyBmb3Ig
+dGhlIHBhcnRpY3VsYXIgYnVpbGQgZW52aXJvbm1lbnQuICBBbm90aGVyIGFwcHJvYWNoIHdlIGNv
+dWxkIHRha2UgaGVyZSB3b3VsZCBiZSB0byBvbmx5IHB1dCBpbiB0aGUgcHJlZml4LW1hcHBpbmcg
+b3B0aW9ucyAoYW5kIC1nKS4NCg0KSm9lDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+CkZyb206IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXSANClNlbnQ6IFdlZG5l
+c2RheSwgTm92ZW1iZXIgMTUsIDIwMTcgMTE6MzkgQU0NClRvOiBTbGF0ZXIsIEpvc2VwaA0KQ2M6
+IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFdIG5zczogcGF5IGF0dGVudGlvbiB0
+byBDRkxBR1MNCg0KT24gV2VkLCBOb3YgMTUsIDIwMTcgYXQgMTA6NTQgQU0sIEpvZSBTbGF0ZXIg
+PGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+IG5zcyBpZ25vcmVzIENGTEFHUyBzbyB3
+ZSBzdWdnZXN0IHRoZW0gdmlhIENDLg0KDQppcyB0aGF0IGEgbGltaXRhdGlvbiBvciBpbnRlbnRp
+b25hbCBpbiBuc3MgYnVpbGQgc3lzdGVtLg0KDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0
+ZXIgPGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9uc3MvbnNzXzMuMzMuYmIgfCA3ICsrKysrKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L25zcy9uc3NfMy4zMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25zcy9uc3NfMy4z
+My5iYg0KPiBpbmRleCBlM2Q0Zjk2Li4wNmQ4MWNlIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9uc3MvbnNzXzMuMzMuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bnNzL25zc18zLjMzLmJiDQo+IEBAIC0xMDQsNyArMTA0LDEyIEBAIGRvX2NvbXBpbGUoKSB7DQo+
+ICAgICAgIyBXZSBjYW4gbW9kaWZ5IENDIGluIHRoZSBlbnZpcm9ubWVudCwgYnV0IGlmIHdlIHNl
+dCBpdCB2aWEgYW4NCj4gICAgICAjIGFyZ3VtZW50IHRvIG1ha2UsIG5zaW5zdGFsbCwgYSBob3N0
+IHByb2dyYW0sIHdpbGwgYWxzbyBidWlsZCB3aXRoIGl0IQ0KPiAgICAgICMNCj4gLSAgICBleHBv
+cnQgQ0M9IiR7Q0N9IC1nIg0KPiArICAgICMgbnNzIHByZXR0eSBtdWNoIGRvZXMgaXRzIG93biB0
+aGluZyB3aXRoIENGTEFHUywgc28gd2UgcHV0IHRoZW0gaW50byBDQy4NCj4gKyAgICAjIE9wdGlt
+aXphdGlvbiB3aWxsIGdldCBjbG9iYmVyZWQsIGJ1dCBtb3N0IG9mIHRoZSBzdHVmZiB3aWxsIHN1
+cnZpdmUuDQo+ICsgICAgIyBUaGUgbW90aXZhdGlvbiBmb3IgdGhpcyBpcyB0byBwb2ludCB0byB0
+aGUgY29ycmVjdCBwbGFjZSBmb3IgZGVidWcNCj4gKyAgICAjIHNvdXJjZSBmaWxlcyBhbmQgQ0ZM
+QUdTIGRvZXMgdGhhdC4gIE5vdGhpbmcgdXNlcyBDQ0MuDQo+ICsgICAgIw0KPiArICAgIGV4cG9y
+dCBDQz0iJHtDQ30gJHtDRkxBR1N9Ig0KPiAgICAgIG1ha2UgLUMgLi9uc3MgQ0NDPSIke0NYWH0g
+LWciIFwNCj4gICAgICAgICAgT1NfVEVTVD0ke09TX1RFU1R9IFwNCj4gICAgICAgICAgUlBBVEg9
+IiR7UlBBVEh9Ig0KPiAtLQ0KPiAyLjcuNA0KPg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
+IGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRw
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
+b3JlDQo=
 
-On Fri, Nov 17, 2017 at 08:19:07PM +0100, Marek Vasut wrote:
-> On 11/14/2017 07:32 PM, Otavio Salvador wrote:
-> > This upgrades the U-Boot from 2017.09 to 2017.11 release.
-> >=20
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > ---
-> >=20
-> >  .../u-boot/{u-boot-common_2017.09.inc =3D> u-boot-common_2017.11.inc} =
-    | 2 +-
-> >  .../u-boot/{u-boot-fw-utils_2017.09.bb =3D> u-boot-fw-utils_2017.11.bb=
-}   | 0
-> >  .../u-boot/{u-boot-mkimage_2017.09.bb =3D> u-boot-mkimage_2017.11.bb} =
-    | 0
-> >  meta/recipes-bsp/u-boot/{u-boot_2017.09.bb =3D> u-boot_2017.11.bb}    =
-    | 0
-> >  4 files changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.09.inc =3D> u-boot-=
-common_2017.11.inc} (89%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.09.bb =3D> u-boot=
--fw-utils_2017.11.bb} (100%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.09.bb =3D> u-boot-=
-mkimage_2017.11.bb} (100%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot_2017.09.bb =3D> u-boot_2017.11.=
-bb} (100%)
-> >=20
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc b/meta/r=
-ecipes-bsp/u-boot/u-boot-common_2017.11.inc
-> > similarity index 89%
-> > rename from meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
-> > rename to meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-> > index 02e51242cb..bfdf1a0d8f 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-> > @@ -7,7 +7,7 @@ PE =3D "1"
-> > =20
-> >  # We use the revision in order to avoid having to fetch it from the
-> >  # repo during parse
-> > -SRCREV =3D "c98ac3487e413c71e5d36322ef3324b21c6f60f9"
-> > +SRCREV =3D "c253573f3e269fd9a24ee6684d87dd91106018a5"
-> > =20
-> >  SRC_URI =3D "git://git.denx.de/u-boot.git \
-> >      file://MPC8315ERDB-enable-DHCP.patch \
->=20
-> This patch ^ could use a refresh , since it applies with Fuzz now.
-
-Honestly, just enable DISTRO_DEFAULTS for the board and post that
-upstream instead.
-
---=20
-Tom
-
---Zr5irScySb2At5ws
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJaD02mAAoJEIf59jXTHXZSOVkQALT0N84bwvifVHj/3zM7CXT6
-fIZOiMXFoUWNvLFUHA3K5Cno5Yac/a7IRSEOxGCru5u6R+VfymGWiigQzxJ5T9Yk
-aPYOR1WDvQfrnK6rtcc0xRmh35F6QKeEWuRNdqfOQhJQnth2a9dI+C+FTxaQI827
-7eJrhi7pJ0CpqHm6iIUoPRCS2BwDySimNYV45+ABcJYC0qXdV6DwkoFc2ofpsNd3
-TSSQNqawMAWlII7ItYbaXsaj3k9njweUTcNWbZbKvlgo4gRhi623ZD1iAiPwqIoO
-OshMHWRReOP0tMEgoHZFmMYOjJLwkEFg9MGVMDTxi+Js9UdVHjZ9YJUIMiAPW/Gh
-EWDTEdf7QOgGXETXPVm6hDj8vJzhQIzcqtussG8i98VRwBIpc2BWSXqpuECEf9lM
-FhWpwDIjLJm66HfeFwhhd10GcNErXNxsXoU/KzT1SYturANpP9pXyQNdp06mq2fp
-k7HclBIGPFPKO/bHF8wmi8ciyxVAAKK/sCIY1cRuwdLSVxOOO2PxGBnV+q012KDQ
-rL5fgwtO0jGugV9mIi5j7SstIeI7pSELwchlC1Ts7VAIDAeGWcqqTrm5gxjhmYfq
-6nrEBsVsJKoDR7S+sA4OxZT032Ux+G2QMZO2wD0QK1qcDYkPmaHvv6SnFMjxHZzz
-oh4mpnwYyNbW9pPIJiyd
-=Oq4X
------END PGP SIGNATURE-----
-
---Zr5irScySb2At5ws--
