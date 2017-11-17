@@ -1,41 +1,29 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D4CA78851
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B68678744
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 16:08:29 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id d15so7262132qte.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Nov 2017 08:08:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KyoY2CVhnFExO74eJXKUQssIg8UrQCphsv288cBJiik=;
-	b=jHk0lSLrIkp7l8q5tmQIDyI6DoI7pDu1ent37oSVjMhyxY++dp6+cSqFiHpULAupI/
-	2Anib9F9qrbql9p5EkW3fQWt8a75eT//tDeeW7zs7ndUyu1+3sSGRb7dx71yaUXpEW1l
-	Jo5vczIsLB9svy33Y2hNTqE+Ri3w6/3MHd0kJvboEFDHi2iEjTKXiAptoWGCX3FtI/eH
-	mienutRv+6Dqz7x9wj6LOzWh8w1J7/LsKl8i0uVnmIlI7I+ikE1L2aYWT7sIpotGvD7X
-	8ySSrm2j+2MpBn7u87ZJKuyWC9+BqYgLElH+FunWwLKYGFzFhR7zLBlIxJrI15B31rc6
-	c+sQ==
-X-Gm-Message-State: AJaThX5wMVs1aaU//57kgBYenRtlfpSzXMsP5bpqZFHoJUrXEz9f9gYs
-	RcJpCQn4t3U8QrwsZoVITU3d
-X-Google-Smtp-Source: AGs4zMYxJtA3iozwXY7PBL+Lc74HOlFrRz0+iXB3tFCl7IP0erjv7WTRQAA7PtuunN1opFqv/K984g==
-X-Received: by 10.55.158.132 with SMTP id h126mr9615782qke.245.1510934911035; 
-	Fri, 17 Nov 2017 08:08:31 -0800 (PST)
-Received: from opus.ec.rr.com (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	q37sm2714304qtj.66.2017.11.17.08.08.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Nov 2017 08:08:30 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Nov 2017 11:08:20 -0500
-Message-Id: <1510934900-22044-5-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510934900-22044-1-git-send-email-trini@konsulko.com>
-References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
+	Fri, 17 Nov 2017 17:03:01 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id B0BC55C1939;
+	Fri, 17 Nov 2017 17:57:39 +0100 (CET)
+MIME-Version: 1.0
+Date: Fri, 17 Nov 2017 17:58:38 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <0658eacf-cf19-fd5b-6518-65e3f3f349e4@linux.intel.com>
+References: <a316ea0c483e68f37d624e742472d248@agner.ch>
+	<da5f7d07-f51c-e1f4-56dd-78e4febe9da7@linux.intel.com>
+	<a4fcab328359fd5906f90c75d3d8cef0@agner.ch>
+	<0658eacf-cf19-fd5b-6518-65e3f3f349e4@linux.intel.com>
+Message-ID: <0573397f4480fdde492e1b5dba0d159f@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1510937859; bh=FNs+kLLIWK/hy/yuLnTrDgfdIRtJebu2ab0dPPWZJaw=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=EoHUG7Uxf+IXi8gtMTlbQ8iF0L7gR6nSxf9X9g66p4flcZlqUme75J4tVisMirbb0E9dzK80wRQ5hr8+wAG8wvbSB5NS3wNWbs9dsCuXk6rqTXFR7GNXD0EcWloQFP5uZXz/MyWba7mTr96vPy2lhXRgYU80kAZSdwlI+oBM7KM=
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Error when connecting to OpenSSH server using rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,54 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Nov 2017 16:08:30 -0000
+X-List-Received-Date: Fri, 17 Nov 2017 17:03:02 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-- Add a '/uuid' partition to wic-image-minimal.wks with a known UUID.
-- In test_qemu, sort our output from checking the output of 'mount' as
-  it may not be stable.  Also, do not check the exit code as passing any
-  output to cut ensures a 0 exit code.
-- Check for a 'UUID=' line in /etc/fstab with out expected output.
+On 2017-11-16 16:06, Alexander Kanavin wrote:
+> On 11/16/2017 04:51 PM, Stefan Agner wrote:
+>> True, I cannot reproduce using qemuarm, but I created a ARMv7 qemu
+>> machine and run that using qemu-system-arm -M virt -cpu cortex-a15, and
+>> it did fail...
+>>
+>> So yeah qemuarm is not affected, but pretty much every relevant 32-bit
+>> ARM machine out there...
+> 
+> openssl recipes have an architecture-specific configuration step where
+> you need to specify the target machine by hand. I strongly *suspect*
+> we do something incorrectly there in the 1.0 recipe for ARM machines.
+> 
+> I couldn't stand looking at that mess when writing 1.1, so rewrote the
+> whole recipe from scratch, and it *probably* works correctly on ARM :)
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 1 +
- meta/lib/oeqa/selftest/cases/wic.py                     | 9 ++++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
+Found the issue. It seems that binutils 2.29 broke OpenSSL 1.0.2 and
+1.1.0. It only really showed for 1.0.2 in my case, but I guess this was
+by chance...
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index 9410b684bed8..2fb34c4ef40a 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -5,5 +5,6 @@
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
- part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- part /mnt --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
-+part /uuid --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label uuid-test --align 1024 --use-uuid --fsuuid 2c71ef06-a81d-4735-9d3a-379b69c6bdba
- 
- bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 651d575dc3b2..969ee1054d8b 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         self.assertEqual(0, bitbake('wic-image-minimal').status)
-         self.remove_config(config)
- 
--        with runqemu('wic-image-minimal', ssh=False) as qemu:
--            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
-+        with runqemu('wic-image-minimal', ssh=False, runqemuparams="nographic") as qemu:
-+            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
-+            cmd = "grep UUID= /etc/fstab"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
--            self.assertEqual(output, '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt')
-+            self.assertEqual(output, 'UUID=2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\tdefaults\t0\t0')
- 
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     @OETestID(1852)
--- 
-2.7.4
+https://github.com/openssl/openssl/issues/4659
 
+Will send out patches.
+
+--
+Stefan
 
