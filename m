@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E69F978870;
-	Sat, 18 Nov 2017 00:11:16 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2819178878;
+	Sat, 18 Nov 2017 00:11:18 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Yi Zhao <yi.zhao@windriver.com>
-Date: Sat, 18 Nov 2017 00:11:18 -0000
-Message-ID: <20171118001118.2786.67396@do.openembedded.org>
-References: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Date: Sat, 18 Nov 2017 00:11:19 -0000
+Message-ID: <20171118001119.2787.18052@do.openembedded.org>
+References: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
+In-Reply-To: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHBwOiBpbmNsdWRlIG5ldGluZXQvaW4uaCBiZWZvcmUgbGludXgvaW4uaCBpbiBwcHBvZS5oIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliZXBveHk6IEZpeCBidWlsZCBicmVhayBmb3IgRUdMX0NBU1QgZGVwZW5kZW5jeQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Nov 2017 00:11:17 -0000
+X-List-Received-Date: Sat, 18 Nov 2017 00:11:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: ppp: include netinet/in.h before linux/in.h in pppoe.h (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/9844/
+Series: libepoxy: Fix build break for EGL_CAST dependency
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9846/
 State : failure
 
 == Summary ==
@@ -45,9 +45,8 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a17f3ec910)
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch)
 
 
 
