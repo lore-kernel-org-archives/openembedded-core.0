@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EEC778870;
-	Sat, 18 Nov 2017 00:11:08 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9FE3978878;
+	Sat, 18 Nov 2017 00:11:10 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martyn Welch <martyn.welch@collabora.co.uk>
-Date: Sat, 18 Nov 2017 00:11:10 -0000
-Message-ID: <20171118001110.2787.39974@do.openembedded.org>
-References: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Sat, 18 Nov 2017 00:11:12 -0000
+Message-ID: <20171118001112.2785.72790@do.openembedded.org>
+References: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1510844758-20290-1-git-send-email-martyn.welch@collabora.co.uk>
+In-Reply-To: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2NF0gaW1hZ2UuYmJjbGFzczogYWRkIHByb2hpYi4uLiIgYW5kIDIgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzb246IFBvcnQgcGtnY29uZmlnLW5hdGl2ZSBwYXRjaCB0byAwLjQzLjA=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Nov 2017 00:11:08 -0000
+X-List-Received-Date: Sat, 18 Nov 2017 00:11:11 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[v4] image.bbclass: add prohib..." and 2 more
+Series: meson: Port pkgconfig-native patch to 0.43.0
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9830/
+URL   : https://patchwork.openembedded.org/series/9834/
 State : failure
 
 == Summary ==
@@ -44,11 +44,6 @@ an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
 
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     yocto@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/]
-  Patch's path:    documentation/ref-manual/ref-variables.xml
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
