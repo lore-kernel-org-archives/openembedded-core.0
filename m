@@ -1,24 +1,24 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CBF378876
+	by mail.openembedded.org (Postfix) with ESMTP id 52ED978873
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 18 Nov 2017 09:00:08 +0000 (UTC)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 855115C38B9;
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 4A2BD5C05C2;
 	Sat, 18 Nov 2017 09:54:45 +0100 (CET)
 From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Nov 2017 10:00:02 +0100
-Message-Id: <20171118090003.48218-3-stefan@agner.ch>
+Date: Sat, 18 Nov 2017 10:00:01 +0100
+Message-Id: <20171118090003.48218-2-stefan@agner.ch>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <20171118090003.48218-1-stefan@agner.ch>
 References: <20171118090003.48218-1-stefan@agner.ch>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1510995285; bh=yRp4O0/QfmwqPyb8C2sn65LpfOWWEax/3H5fAWfA+8I=;
+	t=1510995285; bh=m+QlgM/e9p87akJ7xZkh7nMyl83ZBD4i/A1k9eP0wGY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
-	b=PayOjm9e2SCpWtXDlnsb9Zu6Gy8d6hA5vTWpAhlIMubHPp5o3D+XN30K4pHJ11cg2nlUBEdd2MIv2ziPfyZRNp58Xlp3zgY60rwTJ95GO6x67lx3jvNZJkA0tvCrMmT69t6A62sPoMMopsNLkWGDwb3iVsTtP2mWeTrziVpYhHs=
+	b=qPpmN5cCEACSG1ItgGpLqyqflApEwpLsArtLy18eWaiVfHAC0I40rbYxrYJBGloVXcVrE46pbxQ22lAopRMN4dlHjUp6giMF07sPdnbBasdOrMJPHUBA8mnAiEDiEl8d6QyI0zPAiKc4SLo73nXHp1NBxEQNAqxtKiOd65lSCSY=
 Cc: Stefan Agner <stefan.agner@toradex.com>, otavio@ossystems.com.br
-Subject: [rocko][PATCH v2 3/4] openssl: Upgrade 1.1.0f -> 1.1.0g
+Subject: [rocko][PATCH v2 2/4] openssl10: fix runtime errors with Thumb2 when using binutils 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +35,140 @@ X-List-Received-Date: Sat, 18 Nov 2017 09:00:08 -0000
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-Deals with two CVEs:
-* bn_sqrx8x_internal carry bug on x86_64 (CVE-2017-3736)
-* Malformed X.509 IPAddressFamily could cause OOB read (CVE-2017-3735)
+When compiling OpenSSL with binutils 2.29 for ARM with Thumb2 enabled
+crashes and unexpected behavior occurs. E.g. connecting to a OpenSSH
+server using the affected binary fails with:
+  ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect signature
+
+Backport upstream bugfix:
+https://github.com/openssl/openssl/issues/4659
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../openssl/{openssl_1.1.0f.bb => openssl_1.1.0g.bb}                  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.0f.bb => openssl_1.1.0g.bb} (96%)
+ ...saes-armv7-sha256-armv4-.pl-make-it-work-.patch | 100 +++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2m.bb |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-similarity index 96%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.0f.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-index 711a95985a..5f3e9a9dfa 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=cae6da10f4ffd9703214776d2aabce32"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "7b521dea79ab159e8ec879d2333369fa"
--SRC_URI[sha256sum] = "12f746f3f2493b2f39da7ecf63d7ee19c6ac9ec6a4fcd8c229da8a522cb12765"
-+SRC_URI[md5sum] = "ba5f1b8b835b88cadbce9b35ed9531a6"
-+SRC_URI[sha256sum] = "de4d501267da39310905cb6dc8c6121f7a2cad45a7707f76df828fe1b85073af"
- 
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
+new file mode 100644
+index 0000000000..2ce0320c49
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
+@@ -0,0 +1,100 @@
++From d1d6c69b6fd25e71dbae67fad17b2c7737f6b2dc Mon Sep 17 00:00:00 2001
++From: Andy Polyakov <appro@openssl.org>
++Date: Sun, 5 Nov 2017 17:08:16 +0100
++Subject: [PATCH] {aes-armv4|bsaes-armv7|sha256-armv4}.pl: make it work with
++ binutils-2.29
++
++It's not clear if it's a feature or bug, but binutils-2.29[.1]
++interprets 'adr' instruction with Thumb2 code reference differently,
++in a way that affects calculation of addresses of constants' tables.
++
++Upstream-Status: Backport
++
++Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
++Reviewed-by: Kurt Roeckx <kurt@roeckx.be>
++Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
++(Merged from https://github.com/openssl/openssl/pull/4673)
++---
++ crypto/aes/asm/aes-armv4.pl    | 6 +++---
++ crypto/aes/asm/bsaes-armv7.pl  | 6 +++---
++ crypto/sha/asm/sha256-armv4.pl | 2 +-
++ 3 files changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
++index 4f8917089f..c1b5e352d7 100644
++--- a/crypto/aes/asm/aes-armv4.pl
+++++ b/crypto/aes/asm/aes-armv4.pl
++@@ -184,7 +184,7 @@ AES_encrypt:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_encrypt
++ #else
++-	adr	r3,AES_encrypt
+++	adr	r3,.
++ #endif
++ 	stmdb   sp!,{r1,r4-r12,lr}
++ 	mov	$rounds,r0		@ inp
++@@ -430,7 +430,7 @@ _armv4_AES_set_encrypt_key:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_set_encrypt_key
++ #else
++-	adr	r3,private_AES_set_encrypt_key
+++	adr	r3,.
++ #endif
++ 	teq	r0,#0
++ #if __ARM_ARCH__>=7
++@@ -952,7 +952,7 @@ AES_decrypt:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_decrypt
++ #else
++-	adr	r3,AES_decrypt
+++	adr	r3,.
++ #endif
++ 	stmdb   sp!,{r1,r4-r12,lr}
++ 	mov	$rounds,r0		@ inp
++diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
++index 70b3f9656f..ec66b0502a 100644
++--- a/crypto/aes/asm/bsaes-armv7.pl
+++++ b/crypto/aes/asm/bsaes-armv7.pl
++@@ -724,7 +724,7 @@ $code.=<<___;
++ .type	_bsaes_decrypt8,%function
++ .align	4
++ _bsaes_decrypt8:
++-	adr	$const,_bsaes_decrypt8
+++	adr	$const,.
++ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++ 	add	$const,$const,#.LM0ISR-_bsaes_decrypt8
++ 
++@@ -819,7 +819,7 @@ _bsaes_const:
++ .type	_bsaes_encrypt8,%function
++ .align	4
++ _bsaes_encrypt8:
++-	adr	$const,_bsaes_encrypt8
+++	adr	$const,.
++ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++ 	sub	$const,$const,#_bsaes_encrypt8-.LM0SR
++ 
++@@ -923,7 +923,7 @@ $code.=<<___;
++ .type	_bsaes_key_convert,%function
++ .align	4
++ _bsaes_key_convert:
++-	adr	$const,_bsaes_key_convert
+++	adr	$const,.
++ 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
++ 	sub	$const,$const,#_bsaes_key_convert-.LM0
++ 	vld1.8	{@XMM[15]}, [$inp]!		@ load round 1 key
++diff --git a/crypto/sha/asm/sha256-armv4.pl b/crypto/sha/asm/sha256-armv4.pl
++index 4fee74d832..750216eb42 100644
++--- a/crypto/sha/asm/sha256-armv4.pl
+++++ b/crypto/sha/asm/sha256-armv4.pl
++@@ -205,7 +205,7 @@ sha256_block_data_order:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ sha256_block_data_order
++ #else
++-	adr	r3,sha256_block_data_order
+++	adr	r3,.
++ #endif
++ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
++ 	ldr	r12,.LOPENSSL_armcap
++-- 
++2.15.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+index b28420b075..72862fedda 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+@@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+             file://openssl-util-perlpath.pl-cwd.patch \
+             file://Use-SHA256-not-MD5-as-default-digest.patch \
+             file://0001-Fix-build-with-clang-using-external-assembler.patch \
++            file://0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch \
+             "
+ SRC_URI[md5sum] = "10e9e37f492094b9ef296f68f24a7666"
+ SRC_URI[sha256sum] = "8c6ff15ec6b319b50788f42c7abc2890c08ba5a1cdcd3810eb9092deada37b0f"
 -- 
 2.13.6
 
