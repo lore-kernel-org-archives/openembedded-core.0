@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2819178878;
-	Sat, 18 Nov 2017 00:11:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF1778893;
+	Sat, 18 Nov 2017 00:11:21 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Date: Sat, 18 Nov 2017 00:11:19 -0000
-Message-ID: <20171118001119.2787.18052@do.openembedded.org>
-References: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
+To: Stefan Agner <stefan@agner.ch>
+Date: Sat, 18 Nov 2017 00:11:23 -0000
+Message-ID: <20171118001123.2783.54203@do.openembedded.org>
+References: <20171117175142.2642-1-stefan@agner.ch>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1510875389-6932-1-git-send-email-tom.hochstein@nxp.com>
+In-Reply-To: <20171117175142.2642-1-stefan@agner.ch>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliZXBveHk6IEZpeCBidWlsZCBicmVhayBmb3IgRUdMX0NBU1QgZGVwZW5kZW5jeQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltyb2Nrb10gb3BlbnNzbDEwOiBVcGdyYWRlIDEuMC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Nov 2017 00:11:18 -0000
+X-List-Received-Date: Sat, 18 Nov 2017 00:11:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: libepoxy: Fix build break for EGL_CAST dependency
+Series: "[rocko] openssl10: Upgrade 1.0..." and 3 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9846/
+URL   : https://patchwork.openembedded.org/series/9855/
 State : failure
 
 == Summary ==
@@ -45,8 +45,21 @@ series by patchtest resulting in the following failures:
 
 
 
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a17f3ec910)
+
+* Patch            [rocko,1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
 * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch)
+  Suggested fix    Sign off the added patch file (meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
