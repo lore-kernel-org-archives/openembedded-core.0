@@ -1,18 +1,39 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DBB37889C;
-	Sat, 18 Nov 2017 00:11:22 +0000 (UTC)
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id DDE0B78874
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Nov 2017 00:23:52 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Nov 2017 16:23:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,411,1505804400"; d="scan'208";a="177066818"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by fmsmga005.fm.intel.com with ESMTP; 17 Nov 2017 16:23:53 -0800
+Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Fri, 17 Nov 2017 16:23:53 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
+	ORSMSX159.amr.corp.intel.com ([169.254.11.33]) with mapi id
+	14.03.0319.002; Fri, 17 Nov 2017 16:23:53 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/4] gnutls: improve reproducibility
+Thread-Index: AQHTXxP3MaOocqfn5E2F/d5Eg3sMJKMX9JyAgAFTcos=
+Date: Sat, 18 Nov 2017 00:23:52 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6404703B8@ORSMSX112.amr.corp.intel.com>
+References: <1510861730-82471-1-git-send-email-juro.bystricky@intel.com>
+	<1510861730-82471-2-git-send-email-juro.bystricky@intel.com>,
+	<CAJ86T=Xs5b3dNfaNFE_kzDJ1AMknRPqMw60gC_c+8gBA21SiNw@mail.gmail.com>
+In-Reply-To: <CAJ86T=Xs5b3dNfaNFE_kzDJ1AMknRPqMw60gC_c+8gBA21SiNw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Stefan Agner <stefan@agner.ch>
-Date: Sat, 18 Nov 2017 00:11:24 -0000
-Message-ID: <20171118001124.2785.87853@do.openembedded.org>
-References: <20171117175338.48565-1-stefan@agner.ch>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171117175338.48565-1-stefan@agner.ch>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9wZW5zc2wxMDogVXBncmFkZSAxLjAuMmwgLT4gMS4uLiIgYW5kIDMgbW9yZQ==?=
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] gnutls: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Nov 2017 00:11:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Nov 2017 00:23:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
-
-Series: "openssl10: Upgrade 1.0.2l -> 1..." and 3 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9856/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+=0A=
+> Is there a configure option we could use (perhaps via=0A=
+> CACHED_CONFIGUREVARS) to achieve the same end result without needing=0A=
+> to run sed on config.h?=0A=
+=0A=
+Sorry Andre, I am not quite sure I understand the question. Do you suggest =
+to have a "config.h"=0A=
+cached somewhere instead of generating the file at build time?=0A=
+=0A=
 
