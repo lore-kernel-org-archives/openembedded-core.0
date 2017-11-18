@@ -1,24 +1,18 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id B44C778879
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Nov 2017 09:00:08 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id B73C95C38BA;
-	Sat, 18 Nov 2017 09:54:45 +0100 (CET)
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Nov 2017 10:00:03 +0100
-Message-Id: <20171118090003.48218-4-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <20171118090003.48218-1-stefan@agner.ch>
-References: <20171118090003.48218-1-stefan@agner.ch>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1510995285; bh=mzxUeVNn1aqPDWyBdeqt4fEYkudekKNZs7NP0AmocvM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
-	b=S0w9ARHC84kQRc41AHEyhIM9C9GIO3quPh6Mx3rNXnIFu3EmoYxJb1I1dT0KVyjkHMrG4eqY76fVCiBfaxJIm+F+dZ4vK3l9imG66hUg3f0Uv4NPCKXjJ6+2e3L+gNK7CEKHd6t2US0qvOJYzhwYzXP5e6y/pJl7t4+pkODPxns=
-Cc: Stefan Agner <stefan.agner@toradex.com>, otavio@ossystems.com.br
-Subject: [rocko][PATCH v2 4/4] openssl: fix runtime errors with Thumb2 when using binutils 2.29
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 18E4078685;
+	Sat, 18 Nov 2017 09:03:00 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Stefan Agner <stefan@agner.ch>
+Date: Sat, 18 Nov 2017 09:03:01 -0000
+Message-ID: <20171118090301.2783.15393@do.openembedded.org>
+References: <20171118085357.47305-1-stefan@agner.ch>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171118085357.47305-1-stefan@agner.ch>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gb3BlbnNzbDEwOiBVcGdyYWRlIDEuMC4ybC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,133 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Nov 2017 09:00:09 -0000
+X-List-Received-Date: Sat, 18 Nov 2017 09:03:00 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+== Series Details ==
 
-When compiling OpenSSL with binutils 2.29 for ARM with Thumb2 enabled
-crashes and unexpected behavior occurs. E.g. connecting to a OpenSSH
-server using the affected binary fails with:
-  ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect signature
+Series: "[v2] openssl10: Upgrade 1.0.2l..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9868/
+State : failure
 
-Backport upstream bugfix:
-https://github.com/openssl/openssl/issues/4659
+== Summary ==
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [v2,1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...-armv4-bsaes-armv7-.pl-make-it-work-with-.patch | 88 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.1.0g.bb |  1 +
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch b/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-new file mode 100644
-index 0000000000..bb0a1689ed
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-@@ -0,0 +1,88 @@
-+From bcc096a50811bf0f0c4fd34b2993fed7a7015972 Mon Sep 17 00:00:00 2001
-+From: Andy Polyakov <appro@openssl.org>
-+Date: Fri, 3 Nov 2017 23:30:01 +0100
-+Subject: [PATCH] aes/asm/{aes-armv4|bsaes-armv7}.pl: make it work with
-+ binutils-2.29.
-+
-+It's not clear if it's a feature or bug, but binutils-2.29[.1]
-+interprets 'adr' instruction with Thumb2 code reference differently,
-+in a way that affects calculation of addresses of constants' tables.
-+
-+Upstream-Status: Backport
-+
-+Reviewed-by: Tim Hudson <tjh@openssl.org>
-+Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
-+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-+(Merged from https://github.com/openssl/openssl/pull/4669)
-+
-+(cherry picked from commit b82acc3c1a7f304c9df31841753a0fa76b5b3cda)
-+---
-+ crypto/aes/asm/aes-armv4.pl   | 6 +++---
-+ crypto/aes/asm/bsaes-armv7.pl | 6 +++---
-+ 2 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
-+index 16d79aae53..c6474b8aad 100644
-+--- a/crypto/aes/asm/aes-armv4.pl
-++++ b/crypto/aes/asm/aes-armv4.pl
-+@@ -200,7 +200,7 @@ AES_encrypt:
-+ #ifndef	__thumb2__
-+ 	sub	r3,pc,#8		@ AES_encrypt
-+ #else
-+-	adr	r3,AES_encrypt
-++	adr	r3,.
-+ #endif
-+ 	stmdb   sp!,{r1,r4-r12,lr}
-+ #ifdef	__APPLE__
-+@@ -450,7 +450,7 @@ _armv4_AES_set_encrypt_key:
-+ #ifndef	__thumb2__
-+ 	sub	r3,pc,#8		@ AES_set_encrypt_key
-+ #else
-+-	adr	r3,AES_set_encrypt_key
-++	adr	r3,.
-+ #endif
-+ 	teq	r0,#0
-+ #ifdef	__thumb2__
-+@@ -976,7 +976,7 @@ AES_decrypt:
-+ #ifndef	__thumb2__
-+ 	sub	r3,pc,#8		@ AES_decrypt
-+ #else
-+-	adr	r3,AES_decrypt
-++	adr	r3,.
-+ #endif
-+ 	stmdb   sp!,{r1,r4-r12,lr}
-+ #ifdef	__APPLE__
-+diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
-+index 9f288660ef..a27bb4a179 100644
-+--- a/crypto/aes/asm/bsaes-armv7.pl
-++++ b/crypto/aes/asm/bsaes-armv7.pl
-+@@ -744,7 +744,7 @@ $code.=<<___;
-+ .type	_bsaes_decrypt8,%function
-+ .align	4
-+ _bsaes_decrypt8:
-+-	adr	$const,_bsaes_decrypt8
-++	adr	$const,.
-+ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
-+ #ifdef	__APPLE__
-+ 	adr	$const,.LM0ISR
-+@@ -843,7 +843,7 @@ _bsaes_const:
-+ .type	_bsaes_encrypt8,%function
-+ .align	4
-+ _bsaes_encrypt8:
-+-	adr	$const,_bsaes_encrypt8
-++	adr	$const,.
-+ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
-+ #ifdef	__APPLE__
-+ 	adr	$const,.LM0SR
-+@@ -951,7 +951,7 @@ $code.=<<___;
-+ .type	_bsaes_key_convert,%function
-+ .align	4
-+ _bsaes_key_convert:
-+-	adr	$const,_bsaes_key_convert
-++	adr	$const,.
-+ 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
-+ #ifdef	__APPLE__
-+ 	adr	$const,.LM0
-+-- 
-+2.15.0
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-index 5f3e9a9dfa..1649bffaa1 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-@@ -18,6 +18,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://openssl-c_rehash.sh \
-            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
-            file://0001-Remove-test-that-requires-running-as-non-root.patch \
-+           file://0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch \
-           "
- 
- S = "${WORKDIR}/openssl-${PV}"
--- 
-2.13.6
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
