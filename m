@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FE3978878;
-	Sat, 18 Nov 2017 00:11:10 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id CC96978870;
+	Sat, 18 Nov 2017 00:11:11 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Sat, 18 Nov 2017 00:11:12 -0000
-Message-ID: <20171118001112.2785.72790@do.openembedded.org>
-References: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
+Date: Sat, 18 Nov 2017 00:11:13 -0000
+Message-ID: <20171118001113.2787.76643@do.openembedded.org>
+References: <20171116174541.3081-1-ricardo.ribalda@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20171116155215.21122-1-ricardo.ribalda@gmail.com>
+In-Reply-To: <20171116174541.3081-1-ricardo.ribalda@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzb246IFBvcnQgcGtnY29uZmlnLW5hdGl2ZSBwYXRjaCB0byAwLjQzLjA=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzb246IFBvcnQgcGtnY29uZmlnLW5hdGl2ZSBwYXRjaCB0byAwLjQzLjAgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,8 +31,8 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: meson: Port pkgconfig-native patch to 0.43.0
-Revision: 1
+Series: meson: Port pkgconfig-native patch to 0.43.0 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/9834/
 State : failure
 
