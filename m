@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BE22E78696;
-	Mon, 20 Nov 2017 19:05:28 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id DC05978687;
+	Mon, 20 Nov 2017 19:32:56 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ming Liu <liu.ming50@gmail.com>
-Date: Mon, 20 Nov 2017 19:05:30 -0000
-Message-ID: <20171120190530.2785.4319@do.openembedded.org>
-References: <1511203084-3492-1-git-send-email-armccurdy@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 20 Nov 2017 19:32:58 -0000
+Message-ID: <20171120193258.2787.94163@do.openembedded.org>
+References: <20171120190028.24015-1-sgw@linux.intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1511203084-3492-1-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <20171120190028.24015-1-sgw@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliL29lL3Rlcm1pbmFsLnB5OiB1c2UgYW4gYWJzb2x1dGUgcGF0aCB0byBleGVjdXRlIG9lLWdub21lLXRlcm1pbmFsLXBob25laG9tZSAocmV2NSk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251LWVmaTogRml4IG1pc3Npbmcgc3BhY2UgaW4gX2FwcGVuZCBsaW5l?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 19:05:29 -0000
+X-List-Received-Date: Mon, 20 Nov 2017 19:32:57 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome (rev5)
-Revision: 5
-URL   : https://patchwork.openembedded.org/series/1745/
+Series: gnu-efi: Fix missing space in _append line
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9880/
 State : failure
 
 == Summary ==
