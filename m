@@ -1,27 +1,27 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 23F87788CE
+	by mail.openembedded.org (Postfix) with ESMTP id 375D278906
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 12:15:44 +0000 (UTC)
+	Mon, 20 Nov 2017 12:15:45 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 04:15:45 -0800
+	20 Nov 2017 04:15:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,426,1505804400"; 
-   d="scan'208";a="7294472"
+   d="scan'208";a="7294475"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:45 -0800
+	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:46 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 14:15:28 +0200
-Message-Id: <bde57b66b8485ab79cfe04cc5e219939c9c5eb57.1511179969.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Nov 2017 14:15:29 +0200
+Message-Id: <83515a4574ff78bb4cdd4aa88401522f2f2b52d9.1511179969.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 References: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
 	<cover.1511179969.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v6 11/15] devtools/images: add python-pgo-image
+Subject: [PATCH v6 12/15] python3: support profile optimized build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,123 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 12:15:44 -0000
+X-List-Received-Date: Mon, 20 Nov 2017 12:15:45 -0000
 
-This is a special image for profiling Python 3.x in order to utilize
-profile-guided-optimization. Profile data can be obtained by by running
-bitbake python-pgo-image -c profile. Profile data will be copied into a
-directory pointed by PYTHON3_PROFILE_DIR on the host system. The profile
-task may be specified with PYTHON3_PROFILE_TASK.
+This patch makes it possible to build python3 with profile directed
+optimization. That is, feed python build process with profile data to
+guide optimization. This is the third (and the last) step in profile
+directed optimization for Python 3.x.
 
-The default profile task is pybench, although an example for using
-test.regrtest is included in the recipe.
+In order to do a profile-optimized build you need to specify
+PYTHON3_PROFILE_OPT = "1" in your local.conf, and, have profile data available
+in the location pointed to by PYTHON3_PROFILE_DIR. Profile data can be
+obtainen e.g. by running bitbake python-pgo-image -c profile3.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/images/python-pgo-image.bb | 92 ++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
- create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ meta/recipes-devtools/python/python3_3.5.3.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
-new file mode 100644
-index 0000000000..0dbe8fd052
---- /dev/null
-+++ b/meta/recipes-devtools/images/python-pgo-image.bb
-@@ -0,0 +1,92 @@
-+SUMMARY = "Minimal image for doing Python profiling (for PGO)"
-+
-+IMAGE_FEATURES += "ssh-server-dropbear"
-+IMAGE_INSTALL = "packagegroup-core-boot"
-+IMAGE_INSTALL += "python3-profile-opt python3-profile-opt-tests python3-profile-opt-tools"
-+
-+LICENSE = "MIT"
-+
-+inherit core-image
-+
-+PROFILE_DATA_WORKDIR = "${WORKDIR}/profile-data"
-+
-+PYTHON3_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data"
-+PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
-+# Exclude tests that are failing on qemux86
-+PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
-+# Exclude tests that are taking very long on qemux86
-+PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
-+
-+# Change default profile target to pybench. Running test.regrtest takes
-+# ridiculously long, i.e. around 4 hours in qemux86 on i7-3770K desktop
-+# machine. Pybench "only" takes around 55 minutes.
-+PYTHON3_PROFILE_TASK_DEFAULT = "${docdir}/python3-profile-opt/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
-+
-+PYTHON3_PROFILE_TASK ?= "${PYTHON3_PROFILE_TASK_DEFAULT}"
-+
-+# We need these because we're utilizing the runtime test helpers from oeqa
-+TEST_TARGET ?= "qemu"
-+TEST_QEMUBOOT_TIMEOUT ?= "1000"
-+TEST_LOG_DIR ?= "${WORKDIR}/qemulogs"
-+FIND_ROOTFS = "1"
-+
-+def run_profile(d, profile_bin, profile_task, tgt_in_dir, host_out_dir):
-+    import logging
-+    from oeqa.targetcontrol import get_target_controller
-+    from oeqa.utils import make_logger_bitbake_compatible
-+    from oe.utils import getstatusoutput
-+
-+    logger = make_logger_bitbake_compatible(logging.getLogger("TargetControl"))
-+    target = get_target_controller(d, logger)
-+    target.deploy()
-+    try:
-+        # Boot target
-+        bootparams = None
-+        if d.getVar('VIRTUAL-RUNTIME_init_manager', True) == 'systemd':
-+            bootparams = 'systemd.log_level=debug systemd.log_target=console'
-+        target.start(extra_bootparams=bootparams)
-+
-+        # Run profile task
-+        ret, output = target.run(profile_bin + ' ' + profile_task, timeout=7200)
-+        if ret:
-+            bb.fatal("Failed to run profile task on target: %s" % output)
-+        ret, output = target.run('tar czf pgo-data.tgz -C %s .' % tgt_in_dir)
-+        if ret:
-+            bb.fatal("Failed to archive profile data on target: %s" % output)
-+
-+        # Retrieve and unpack profile data
-+        target.copy_from('/home/root/pgo-data.tgz', host_out_dir)
-+
-+        profile_tarball = os.path.join(host_out_dir, 'pgo-data.tgz')
-+        ret, output = getstatusoutput('tar xf %s -C %s' % (profile_tarball, host_out_dir))
-+        os.unlink(profile_tarball)
-+        if ret:
-+            bb.fatal("Failed to unpack python profile data: %s" % output)
-+    finally:
-+        target.stop()
-+
-+
-+# Profile task for Python 3.x
-+python do_profile() {
-+    run_profile(d, 'python3',
-+                d.getVar('PYTHON3_PROFILE_TASK', True),
-+                '/home/root/python3-pgo-profiles/',
-+                os.path.join(d.getVar("PROFILE_DATA_WORKDIR", True), 'python3'))
+diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
+index bb524eb17d..844139dfa3 100644
+--- a/meta/recipes-devtools/python/python3_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3_3.5.3.bb
+@@ -79,6 +79,17 @@ export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dy
+ # No ctypes option for python 3
+ PYTHONLSBOPTS = ""
+ 
++# Automatic profile guided optimization
++PYTHON3_MAKE_TARGET ?= "${@'build_all_use_profile' if d.getVar('PYTHON3_PROFILE_OPT', True) == '1' else ''}"
++PYTHON3_PROFILE_DIR ?= "${@'${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data' if d.getVar('PYTHON3_PROFILE_OPT', True) == '1' else ''}"
++python () {
++    if (d.getVar('PYTHON3_PROFILE_OPT', True) == '1' and
++            d.getVar('PYTHON3_MAKE_TARGET', True) == 'build_all_use_profile'):
++        profile_dir = d.getVar('PYTHON3_PROFILE_DIR', True)
++        bb.utils.mkdirhier(profile_dir)
++        d.setVarFlag('do_compile', 'file-checksums', '%s:True' % profile_dir)
 +}
 +
-+addtask profile after do_build
-+
-+# Strictly, these are dependencies of the do_profile task, but, we cannot put
-+# them in task depends because this would pull all possible build deps into the
-+# recipe sysroot causing conflicts (python3 and python3-profile-opt)
-+DEPENDS += "qemu-native qemu-helper-native openssh-native iproute2-native"
-+do_profile[cleandirs] = "${PROFILE_DATA_WORKDIR}/python3"
-+
-+python do_profile_setscene () {
-+    sstate_setscene(d)
-+}
-+
-+SSTATETASKS += "do_profile"
-+do_profile[sstate-inputdirs] = "${PROFILE_DATA_WORKDIR}/python3"
-+do_profile[sstate-outputdirs] = "${PYTHON3_PROFILE_DIR}"
-+addtask do_profile_setscene
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+ 	autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+@@ -118,6 +129,10 @@ do_compile() {
+     if [ "${PYTHON3_MAKE_TARGET}" = "build_all_generate_profile" ]; then
+         # This is only used in PGO profiling by python3-profile-opt package
+         export EXTRA_CFLAGS="-fprofile-dir=./python3-pgo-profiles/"
++    elif [ -n "${PYTHON3_PROFILE_DIR}" ]; then
++            export EXTRA_CFLAGS="-fprofile-dir=${PYTHON3_PROFILE_DIR}"
++            # Remove non-optimized build artefacts
++            oe_runmake clean
+     fi
+ 
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
+@@ -138,6 +153,11 @@ do_install() {
+ 	install -d ${D}${libdir}/pkgconfig
+ 	install -d ${D}${libdir}/python${PYTHON_MAJMIN}/config
+ 
++    # This only has effect if we build with -fprofile-use, e.g. when make
++    # target is build_all_use_profile
++    if [ -n "${PYTHON3_PROFILE_DIR}" ]; then
++        export EXTRA_CFLAGS="-fprofile-dir=${PYTHON3_PROFILE_DIR}"
++    fi
+ 	# rerun the build once again with original makefile this time
+ 	# run install in a separate step to avoid compile/install race
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
 -- 
 2.13.6
 
