@@ -1,48 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8426E786B6
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FD6160750
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 11:07:43 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id n134so11501606itg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 03:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gDKKcyCjU5E2UDcCkBtLX7u/EPcoDz807yOjKcSh9Wk=;
-	b=PRTQbUtKdavpEfEjgPYdoaVqwM8sMnFQW+UDUeL8ClDju1WNSpCy42UrpmSMLot9zn
-	A7ra9zKvZ5BDfVJz0pzILZFgrKX0nvexMGdv6DIm3TIfxsNtze2r5t/gEjevMoE9GZpZ
-	OGfE3VbtBhw93IjsxRpIvfSyD7W2ADUWzGL5B0AdU44IxYGN9/4lEZH/g8ZmPuvkWAFF
-	7ZlTjl0pmKEVknICeuvtWiWAlKboABSlNK2ZXKu6Y9R7pjexBuhhtqjek1YLDmN9PQgr
-	MbqDR98h6DKIjIYgKfEOoPoj8XND9x8jy4fWCG9J/V0nPqh+3L0RSFT/vAarqL52d8Vv
-	H4Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gDKKcyCjU5E2UDcCkBtLX7u/EPcoDz807yOjKcSh9Wk=;
-	b=cjQJKtjjuyPwud+zd12O+cjikwxfy9xfqg6IgccU8RG4h4EQwW0pOMGLGVSKKco/YC
-	vg1OHok/iT6OF3eRc0Xja3a2HkcKfvWthiqHwNqFuU2M5cClt14evLXbEXotKWzV/EVp
-	zo0QqYQWfDeRYo1JzuNKhVQ0DJd6pzoFZoBGAA0reanat4o2vfRCTSADaiKbicfsCY+C
-	FLXZeAqNMByWOAKiLkNMSbruAWfU1f9ls9tXT/G5MKeoypxEfJHBH2JyWIIXqwz6galT
-	9QBmkkDgU1S+3bieJdEVriemmkMEiripIBci30hQiDT+8d3Lc138y3lmm00bSMDiZJTM
-	obug==
-X-Gm-Message-State: AJaThX4T0wWSNucPlRHumwcDjjPWO5ehmh0ERznyMYpDgfE0FDka9Uz4
-	hNeWNSAkmZHK2VoGE4nb6fm6hiNvMwqhj+ZsbCQLWQ==
-X-Google-Smtp-Source: AGs4zMYehmJJPONCog9PNByfhGbRjCSv4dBIQ/QCtqATXGxRqo3kTx/fpNFM8nSI7hVYxax1LbFLLWbSWKDNtOGeYEU=
-X-Received: by 10.36.71.74 with SMTP id t71mr18173069itb.53.1511176064647;
-	Mon, 20 Nov 2017 03:07:44 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.171.132 with HTTP; Mon, 20 Nov 2017 03:07:24 -0800 (PST)
-In-Reply-To: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
-References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Nov 2017 11:07:24 +0000
-Message-ID: <CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
+	Mon, 20 Nov 2017 12:15:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2017 04:15:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,426,1505804400"; 
+   d="scan'208";a="7294422"
+Received: from marquiz2.fi.intel.com ([10.237.72.79])
+	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:33 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Nov 2017 14:15:17 +0200
+Message-Id: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+In-Reply-To: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH v6 00/15] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 11:07:43 -0000
-Content-Type: multipart/alternative; boundary="001a113f6a2086e140055e68188d"
+X-List-Received-Date: Mon, 20 Nov 2017 12:15:33 -0000
 
---001a113f6a2086e140055e68188d
-Content-Type: text/plain; charset="UTF-8"
+Sixth attempt on enabling profile-guided-optimization for Python 3.
 
-On 17 November 2017 at 06:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+Changes since v5:
+- drop the patch adding 'scp' and 'ip' to HOSTTOOLS
+- but, enable openssh-native and iproute2-native (and their native build deps)
+  and use these, instead
+- dependencies of 'do_profile' task of python-pgo-image are managed via DEPENDS
+  instead of task depends (which were used in a bit awkward way in the previous
+  version of the patchset)
+- re-introduce get_target_controller() function into oeqa/targetcontrol
+- one additional (unrelated) bugfix to oeqa/targetcontrol
 
-> +qemu by default emulates IDE and the linux-yocto kernel(s) use
-> +CONFIG_IDE instead of the more modern libsata, so disks appear as
-> +/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE
-> +is deprecated.
->
 
-Can we fix our kernel and/or qemu configuration too?
+The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
 
-Ross
+  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
 
---001a113f6a2086e140055e68188d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr">On 17 November 2017 at 06:08, Hongxu Jia <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.j=
-ia@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+qemu by default emulat=
-es IDE and the linux-yocto kernel(s) use<br>
-+CONFIG_IDE instead of the more modern libsata, so disks appear as<br>
-+/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE<br>
-+is deprecated.<br></blockquote><div><br></div><div>Can we fix our kernel a=
-nd/or qemu configuration too?</div><div><br></div><div>Ross=C2=A0</div></di=
-v></div></div>
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
 
---001a113f6a2086e140055e68188d--
+Markus Lehtonen (15):
+  python3-native: support profile optimized build
+  python3: fix depends of python3-tests
+  python3: add python3-profile-opt recipe
+  python3-profile-opt: rename libpython3
+  openssh: extend to -native
+  libmnl: enable native
+  iptables: enable native
+  iproute2: enable native
+  oeqa/targetcontrol: re-introduce get_target_controller()
+  oeqa/targetcontrol: add missing arg to SimpleRemoteTarget.__init__
+  devtools/images: add python-pgo-image
+  python3: support profile optimized build
+  python3: fix profile-optimized build of modules
+  python3: add python3-tools subpackage
+  python3: remove two setup.py cross-compile hacks
+
+ meta/lib/oeqa/targetcontrol.py                     |  29 +++++-
+ meta/recipes-connectivity/iproute2/iproute2.inc    |   7 +-
+ ...1-don-t-use-absolute-path-for-ssh-program.patch |  31 ++++++
+ meta/recipes-connectivity/openssh/openssh_7.6p1.bb |   7 +-
+ meta/recipes-devtools/images/python-pgo-image.bb   |  92 ++++++++++++++++++
+ .../python/python-3.5-manifest.inc                 |  10 +-
+ .../python/python3-native_3.5.3.bb                 |   9 ++
+ meta/recipes-devtools/python/python3-profile-opt   |   1 +
+ .../python/python3-profile-opt_3.5.3.bb            |  10 ++
+ .../python3/0001-cross-compile-support.patch       |   9 --
+ ...efile-add-install_generate_profile-target.patch |  25 +++++
+ ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 +++++++++++
+ .../python3-setup.py-no-host-headers-libs.patch    |  33 -------
+ ...name-libpython3-to-libpython-profile-opt3.patch | 108 +++++++++++++++++++++
+ .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
+ meta/recipes-devtools/python/python3_3.5.3.bb      |  58 ++++++++---
+ ...revent-absolute-path-in-installed-symlink.patch |  29 ++++++
+ meta/recipes-extended/iptables/iptables_1.6.1.bb   |   3 +
+ meta/recipes-extended/libmnl/libmnl_1.0.4.bb       |   2 +
+ 19 files changed, 453 insertions(+), 96 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
+ create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ create mode 120000 meta/recipes-devtools/python/python3-profile-opt
+ create mode 100644 meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
+ create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+ create mode 100644 meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
+
+-- 
+2.13.6
+
+
