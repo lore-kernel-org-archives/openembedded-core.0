@@ -1,27 +1,27 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A78788CE
+	by mail.openembedded.org (Postfix) with ESMTP id C329260750
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 12:15:36 +0000 (UTC)
+	Mon, 20 Nov 2017 12:15:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 04:15:38 -0800
+	20 Nov 2017 04:15:39 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,426,1505804400"; 
-   d="scan'208";a="7294441"
+   d="scan'208";a="7294446"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:37 -0800
+	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:38 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 14:15:21 +0200
-Message-Id: <51946c6785661242e4fa92da88a0f80490a691f7.1511179969.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Nov 2017 14:15:22 +0200
+Message-Id: <033e6da0dc098cfc5dee381c2d937ce6e919ed03.1511179969.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 References: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
 	<cover.1511179969.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v6 04/15] python3-profile-opt: rename libpython3
+Subject: [PATCH v6 05/15] openssh: extend to -native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,149 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 12:15:36 -0000
-
-Prevents soname clash with "normal" libpython3. The python library
-needs to be renamed so that the automatic ndency generation/checking
-mechanism in bitbake does not get confused. Otherwise
-python3-profile-opt will depend on libpython3 from the "normal" python3
-package.
+X-List-Received-Date: Mon, 20 Nov 2017 12:15:37 -0000
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- .../python/python3-profile-opt_3.5.3.bb            |   1 +
- ...name-libpython3-to-libpython-profile-opt3.patch | 108 +++++++++++++++++++++
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ ...1-don-t-use-absolute-path-for-ssh-program.patch | 31 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_7.6p1.bb |  7 ++++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
 
-diff --git a/meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb b/meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
-index 6940480546..3ad427117f 100644
---- a/meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
-@@ -1,6 +1,7 @@
- require python3_${PV}.bb
- 
- SRC_URI += "file://Makefile-add-install_generate_profile-target.patch \
-+            file://rename-libpython3-to-libpython-profile-opt3.patch \
-            "
- 
- PYTHON3_MAKE_TARGET = "build_all_generate_profile"
-diff --git a/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch b/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch b/meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
 new file mode 100644
-index 0000000000..2e5f9302fc
+index 0000000000..7c15dd72c8
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
-@@ -0,0 +1,108 @@
-+rename libpython3 to libpython-profile-opt3
++++ b/meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
+@@ -0,0 +1,31 @@
++From fb78bd8142f48d0909d8839e8bab48abe39d5ab7 Mon Sep 17 00:00:00 2001
++From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++Date: Mon, 20 Nov 2017 12:08:56 +0200
++Subject: [PATCH] don't use absolute path for ssh program
 +
-+Upstream-Status: Inappropriate [oe-specific]
++Makes it possible to relocate openssh binaries referencing to the ssh
++binary.
++
++Utream-Status: Inappropriate [oe-specific]
 +
 +Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++---
++ Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Lib/distutils/command/build_ext.py b/Lib/distutils/command/build_ext.py
-+index 7c278ef..78613d8 100644
-+--- a/Lib/distutils/command/build_ext.py
-++++ b/Lib/distutils/command/build_ext.py
-+@@ -747,7 +747,7 @@ class build_ext(Command):
-+         else:
-+             from distutils import sysconfig
-+             if sysconfig.get_config_var('Py_ENABLE_SHARED'):
-+-                pythonlib = 'python{}.{}{}'.format(
-++                pythonlib = 'python-profile-opt{}.{}{}'.format(
-+                     sys.hexversion >> 24, (sys.hexversion >> 16) & 0xff,
-+                     sysconfig.get_config_var('ABIFLAGS'))
-+                 return ext.libraries + [pythonlib]
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index 0327385..f744ce1 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -623,7 +623,7 @@ $(LIBRARY): $(LIBRARY_OBJS)
-+ 	$(AR) $(ARFLAGS) $@ $(MODOBJS)
-+ 	$(RANLIB) $@
++diff --git a/Makefile.in b/Makefile.in
++index c52ce19..752f7d0 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -21,7 +21,7 @@ top_srcdir=@top_srcdir@
 + 
-+-libpython$(LDVERSION).so: $(LIBRARY_OBJS)
-++libpython-profile-opt$(LDVERSION).so: $(LIBRARY_OBJS)
-+ 	if test $(INSTSONAME) != $(LDLIBRARY); then \
-+ 		$(BLDSHARED) -Wl,-h$(INSTSONAME) -o $(INSTSONAME) $(LIBRARY_OBJS) $(MODLIBS) $(SHLIBS) $(LIBC) $(LIBM) $(LDLAST); \
-+ 		$(LN) -f $(INSTSONAME) $@; \
-+@@ -631,7 +631,7 @@ libpython$(LDVERSION).so: $(LIBRARY_OBJS)
-+ 		$(BLDSHARED) -o $@ $(LIBRARY_OBJS) $(MODLIBS) $(SHLIBS) $(LIBC) $(LIBM) $(LDLAST); \
-+ 	fi
-+ 
-+-libpython3.so:	libpython$(LDVERSION).so
-++libpython-profile-opt3.so:	libpython-profile-opt$(LDVERSION).so
-+ 	$(BLDSHARED) $(NO_AS_NEEDED) -o $@ -Wl,-h$@ $^
-+ 
-+ libpython$(LDVERSION).dylib: $(LIBRARY_OBJS)
-+diff --git a/Misc/python-config.in b/Misc/python-config.in
-+index a808f1a..0dcc615 100644
-+--- a/Misc/python-config.in
-++++ b/Misc/python-config.in
-+@@ -47,7 +47,7 @@ for opt in opt_flags:
-+         print(' '.join(flags))
-+ 
-+     elif opt in ('--libs', '--ldflags'):
-+-        libs = ['-lpython' + pyver + sys.abiflags]
-++        libs = ['-lpython-profile-opt' + pyver + sys.abiflags]
-+         libs += getvar('LIBS').split()
-+         libs += getvar('SYSLIBS').split()
-+         # add the prefix/lib/pythonX.Y/config dir, but only if there is no
-+diff --git a/Misc/python-config.sh.in b/Misc/python-config.sh.in
-+index 30c6927..efad748 100644
-+--- a/Misc/python-config.sh.in
-++++ b/Misc/python-config.sh.in
-+@@ -40,7 +40,7 @@ LIBM="@LIBM@"
-+ LIBC="@LIBC@"
-+ SYSLIBS="$LIBM $LIBC"
-+ ABIFLAGS="@ABIFLAGS@"
-+-LIBS="-lpython${VERSION}${ABIFLAGS} @LIBS@ $SYSLIBS"
-++LIBS="-lpython-profile-opt${VERSION}${ABIFLAGS} @LIBS@ $SYSLIBS"
-+ BASECFLAGS="@BASECFLAGS@"
-+ LDLIBRARY="@LDLIBRARY@"
-+ LINKFORSHARED="@LINKFORSHARED@"
-+diff --git a/Misc/python.pc.in b/Misc/python.pc.in
-+index ae69867..b73d027 100644
-+--- a/Misc/python.pc.in
-++++ b/Misc/python.pc.in
-+@@ -9,5 +9,5 @@ Description: Python library
-+ Requires: 
-+ Version: @VERSION@
-+ Libs.private: @LIBS@
-+-Libs: -L${libdir} -lpython@VERSION@@ABIFLAGS@
-++Libs: -L${libdir} -lpython-profile-opt@VERSION@@ABIFLAGS@
-+ Cflags: -I${includedir}/python@VERSION@@ABIFLAGS@
-+diff --git a/configure.ac b/configure.ac
-+index d8c2847..ad63e4e 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1001,7 +1001,7 @@ AC_SUBST(LIBRARY)
-+ AC_MSG_CHECKING(LIBRARY)
-+ if test -z "$LIBRARY"
-+ then
-+-	LIBRARY='libpython$(VERSION)$(ABIFLAGS).a'
-++	LIBRARY='libpython-profile-opt$(VERSION)$(ABIFLAGS).a'
-+ fi
-+ AC_MSG_RESULT($LIBRARY)
-+ 
-+@@ -1162,13 +1162,13 @@ if test $enable_shared = "yes"; then
-+ 	  fi
-+           ;;
-+     Linux*|GNU*|NetBSD*|FreeBSD*|DragonFly*|OpenBSD*)
-+-	  LDLIBRARY='libpython$(LDVERSION).so'
-+-	  BLDLIBRARY='-L. -lpython$(LDVERSION)'
-++	  LDLIBRARY='libpython-profile-opt$(LDVERSION).so'
-++	  BLDLIBRARY='-L. -lpython-profile-opt$(LDVERSION)'
-+ 	  RUNSHARED=LD_LIBRARY_PATH=`pwd`${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-+ 	  INSTSONAME="$LDLIBRARY".$SOVERSION
-+ 	  if test "$with_pydebug" != yes
-+           then
-+-	      PY3LIBRARY=libpython3.so
-++	      PY3LIBRARY=libpython-profile-opt3.so
-+ 	  fi
-+ 	  ;;
-+     hp*|HP*)
++ DESTDIR=
++ VPATH=@srcdir@
++-SSH_PROGRAM=@bindir@/ssh
+++SSH_PROGRAM=ssh
++ ASKPASS_PROGRAM=$(libexecdir)/ssh-askpass
++ SFTP_SERVER=$(libexecdir)/sftp-server
++ SSH_KEYSIGN=$(libexecdir)/ssh-keysign
++-- 
++2.13.6
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+index ebb9a5734d..b0b9ba3f01 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+@@ -27,6 +27,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://add-test-support-for-busybox.patch \
+            "
+ 
++SRC_URI_append_class-native = " file://0001-don-t-use-absolute-path-for-ssh-program.patch"
++
+ PAM_SRC_URI = "file://sshd"
+ 
+ SRC_URI[md5sum] = "06a88699018e5fef13d4655abfed1f63"
+@@ -52,7 +54,7 @@ CFLAGS += "-D__FILE_OFFSET_BITS=64"
+ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
+                 --without-zlib-version-check \
+-                --with-privsep-path=/var/run/sshd \
++                --with-privsep-path=${localstatedir}/run/sshd \
+                 --sysconfdir=${sysconfdir}/ssh \
+                 --with-xauth=/usr/bin/xauth \
+                 --disable-strip \
+@@ -149,6 +151,8 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+ RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
+ 
++RDEPENDS_${PN}_class-native = ""
++
+ RPROVIDES_${PN}-ssh = "ssh"
+ RPROVIDES_${PN}-sshd = "sshd"
+ 
+@@ -163,3 +167,4 @@ ALTERNATIVE_PRIORITY = "90"
+ ALTERNATIVE_${PN}-scp = "scp"
+ ALTERNATIVE_${PN}-ssh = "ssh"
+ 
++BBCLASSEXTEND = "native"
 -- 
 2.13.6
 
