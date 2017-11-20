@@ -1,33 +1,28 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 39CBE784F0
+	by mail.openembedded.org (Postfix) with ESMTP id DB68678851
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 06:57:11 +0000 (UTC)
+	Mon, 20 Nov 2017 07:37:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAK6vBOR001291
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAK7bLrD001401
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 19 Nov 2017 22:57:11 -0800 (PST)
-Received: from [128.224.162.152] (128.224.162.152) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Sun, 19 Nov 2017 22:57:10 -0800
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1495183828.git.kai.kang@windriver.com>
-	<d0db7f059097d0271e5808dda280140ef49aae6f.1495183828.git.kai.kang@windriver.com>
-	<CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com>
-	<c46b6cd7-cf25-8fd6-789f-c9cfbcbf9026@windriver.com>
-	<726d845f-268e-0f27-bcd7-c6b2fd9f4c53@windriver.com>
-	<CAJ86T=UMd9D-_WZ3um3Yg6+yKRFJyToLhNjZw90U0LUujTGfgg@mail.gmail.com>
-	<9dabcc17-148f-a0d9-d9d6-3abcd2836ea0@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <c6cfdf1e-010a-0257-b1f9-465159db5a1d@windriver.com>
-Date: Mon, 20 Nov 2017 14:56:53 +0800
+	Sun, 19 Nov 2017 23:37:21 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Sun, 19 Nov 2017 23:37:20 -0800
+To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1510275834.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <a1b36b8d-0380-2cd4-8774-9927d2dd28f4@windriver.com>
+Date: Mon, 20 Nov 2017 15:36:40 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <9dabcc17-148f-a0d9-d9d6-3abcd2836ea0@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bind: build with threads and update configure options
+In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 00/23] Fixes for multilib and eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,65 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 06:57:12 -0000
+X-List-Received-Date: Mon, 20 Nov 2017 07:37:22 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On 2017年11月17日 09:46, Kang Kai wrote:
-> On 2017年11月16日 18:27, Andre McCurdy wrote:
->> On Fri, May 26, 2017 at 8:24 PM, Kang Kai <Kai.Kang@windriver.com> 
->> wrote:
->>> On 2017年05月23日 17:58, Kang Kai wrote:
->>> On 2017年05月19日 19:47, Burton, Ross wrote:
->>> On 19 May 2017 at 09:52, <kai.kang@windriver.com> wrote:
->>>> Build without threads for bind is inherited from legacy openembedded.
->>>> All libc's support proper threading on Linux now, so enable threads
->>>> support for bind.
->>>>
->>>> It is also need to disable static library build which cause package 
->>>> dhcp
->>>> fail to build after enable bind threads support.
->> It seems this change was made without taking into account the advice 
->> given in:
->>
->> http://git.openembedded.org/openembedded-core/commit/?id=f28757a4b89447ea528cba987f0396b92aa0bbfe
->>
->> "If and when we ship bind's shared libraries we should ensure that the
->> libraries go into a separate package."
+Hi RP and Ross,
 
-Libraries are packaged to bind-libs which has been created by :
+Would you please take a look at these patches ? The multilib image is
+broken (wrong packages are installed because of the allarch issues)
+without these fixes.
 
-http://git.openembedded.org/openembedded-core/commit/?id=d74ebc91388941295a2321a295cdb06ee87fc38b
+// Robert
 
-
-Regards,
-Kai
-
->>
->> In rocko builds I see "named" running on port 53 and dnsmasq fails to 
->> start...
->
-> Thanks. I'll check that.
->
-> --Kai
->
->>
->>>> Options devpoll and epoll are configured to choose most preferable
->>>> multiplex method for unix socket. The priorities are: epoll > poll >
->>>> select. When set '--enable-epoll', it just defines a var and include
->>>> header file that is available for cross compile. So use epoll for 
->>>> bind.
->>>>
->>>> Add PACKAGECONFIG 'urandom' that could use /dev/urandom as random 
->>>> device.
->>>>
->>>> Update file/directory ownerships to fix daemon start failure.
->
->
-
--- 
-Regards,
-Neil | Kai Kang
-
+On 11/10/2017 02:27 PM, Robert Yang wrote:
+> The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
+> 
+>    maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
+> 
+> are available in the git repository at:
+> 
+>    git://git.openembedded.org/openembedded-core-contrib rbt/multilib_sdk
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib_sdk
+> 
+> Robert Yang (23):
+>    staging.bbclass: make subprocess.check_output() capture stderr
+>    testsdk.bbclass: add a newline after own-mirrors
+>    populate_sdk_ext.bbclass: don't rename layers when failed
+>    oe/copy_buildsystem.py: make sure layer exists
+>    staging.bbclass: fix for multilib
+>    populate_sdk_ext.bbclass: fix for multilib
+>    sstate.bbclass: sstate_hardcode_path(): fix for multilib
+>    staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+>    staging.bbclass: print searched manifest when not found
+>    staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+>    image.bbclass: remove depmodwrapper-cross from DEPENDS
+>    package_manager.py: print running dnf command
+>    package_manager.py: reverse archs correctly
+>    package_manager.py: remove obsolete MULTILIB_ARCHS
+>    multilib.bbclass: remove unneeded bb.data.inherits_class()
+>    multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
+>    multilib.bbclass: remove invalid PACKAGE_INSTALL
+>    multilib_global.bbclass: fix indent
+>    volatile-binds: use PN to replace hardcode name
+>    multilib.bbclass: extend allarch recipes
+>    toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+>      image
+>    populate_sdk_ext.bbclass: disable for multilib image
+>    populate_sdk_ext.bbclass: remove the try...finally
+> 
+>   meta/classes/allarch.bbclass                       |   3 -
+>   meta/classes/image.bbclass                         |   2 +-
+>   meta/classes/multilib.bbclass                      |   8 -
+>   meta/classes/multilib_global.bbclass               |   6 +-
+>   meta/classes/package.bbclass                       |   9 --
+>   meta/classes/populate_sdk_ext.bbclass              | 161 +++++++++++++--------
+>   meta/classes/sstate.bbclass                        |   6 +-
+>   meta/classes/staging.bbclass                       |  46 +++++-
+>   meta/classes/testsdk.bbclass                       |   5 +-
+>   meta/classes/toolchain-scripts.bbclass             |   6 +
+>   meta/lib/oe/copy_buildsystem.py                    |   2 +-
+>   meta/lib/oe/package_manager.py                     |  55 ++++++-
+>   meta/recipes-core/volatile-binds/volatile-binds.bb |   2 +-
+>   13 files changed, 207 insertions(+), 104 deletions(-)
+> 
 
