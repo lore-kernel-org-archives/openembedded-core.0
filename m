@@ -1,57 +1,33 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AF3FC7832A
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39CBE784F0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Nov 2017 14:14:41 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id a4so3361755ywh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Nov 2017 06:14:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=I4oxuWqsV+HNaF7o9URzxIGa/esttLktJSw3tABpjvc=;
-	b=MMY6Dodc/wMnjzeNeA2whhf79iMrX9EuzKyQhXw/8DXRQcmzgtyNVbXgGLSlaCNa4R
-	IRIqaplexg9jhnnsb90jVVqiJ1W/pM0zVlOe33WtT5qUaFpn0xMiSSJo8uuSdwiT1k73
-	dXF2P3fjzkBCR2ExwQlMZ8NR8Ygd3B+y5lxFA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=I4oxuWqsV+HNaF7o9URzxIGa/esttLktJSw3tABpjvc=;
-	b=mOpkgAApcyydxUUmsW0gP98JnVJvAofY2id+hUgJWkOIY+m0S0gn8sMhf0F4j6L3Df
-	U3eMpuScSKbF5iaDn6Bw6w0yWtnUn60KUb10k5MbPBmeflZPqAzC0b1h5UEbl0qVmbxT
-	U/KoX5iX6cOfCys9runVljQBj61v6iqlsRp7zyUEL4FJd3lvKe9JKxK41gPa/jHzlQUY
-	cTvW4LP/NlPDK4Qvql/bB2EV5e08FcSNjP1Xfx0LplUUPggbEzh40W038oGk8hcJNwGH
-	WbDwmX6li9Oye9KDLG2YymCVwzQCFIPaNZeMvaKizh8H1VB1F9F9OOMVZGj/h3XnPnt1
-	n9cQ==
-X-Gm-Message-State: AJaThX7favrrepG8tHLIsn41XiQZciNghcrc99gue/1AKHEjCMwZXf+I
-	z7vyAeIPE9MrvKjhIAxf7wNyLQs13DA=
-X-Google-Smtp-Source: AGs4zMbVEnEYm350piK1NkMCgQ+Qchwhww4ZrvpILbkfJxfgtc5iGbh5qrypX85OucjXYNC7T3+UWQ==
-X-Received: by 10.129.177.68 with SMTP id p65mr6697121ywh.85.1511100882277;
-	Sun, 19 Nov 2017 06:14:42 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	d184sm3619091ywb.42.2017.11.19.06.14.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Nov 2017 06:14:40 -0800 (PST)
-Date: Sun, 19 Nov 2017 09:14:38 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20171119141438.GA9986@bill-the-cat>
-References: <20171114183223.7804-1-otavio@ossystems.com.br>
-	<c19104c9-f988-d406-650e-2c9d7d74babd@denx.de>
-	<20171117205918.GX9986@bill-the-cat>
-	<50bf044c-899c-cd0a-84fb-af563ee46546@denx.de>
-	<20171118141419.GZ9986@bill-the-cat>
-	<31a42ea0-2ec9-565a-aec2-2a4fbf2a1a06@denx.de>
+	Mon, 20 Nov 2017 06:57:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAK6vBOR001291
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Nov 2017 22:57:11 -0800 (PST)
+Received: from [128.224.162.152] (128.224.162.152) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Sun, 19 Nov 2017 22:57:10 -0800
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1495183828.git.kai.kang@windriver.com>
+	<d0db7f059097d0271e5808dda280140ef49aae6f.1495183828.git.kai.kang@windriver.com>
+	<CAJTo0LbxO83ka-W2znsakpTwOejgoJzmxFuehogFk5oDhZct2Q@mail.gmail.com>
+	<c46b6cd7-cf25-8fd6-789f-c9cfbcbf9026@windriver.com>
+	<726d845f-268e-0f27-bcd7-c6b2fd9f4c53@windriver.com>
+	<CAJ86T=UMd9D-_WZ3um3Yg6+yKRFJyToLhNjZw90U0LUujTGfgg@mail.gmail.com>
+	<9dabcc17-148f-a0d9-d9d6-3abcd2836ea0@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <c6cfdf1e-010a-0257-b1f9-465159db5a1d@windriver.com>
+Date: Mon, 20 Nov 2017 14:56:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <31a42ea0-2ec9-565a-aec2-2a4fbf2a1a06@denx.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.11 release
+In-Reply-To: <9dabcc17-148f-a0d9-d9d6-3abcd2836ea0@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] bind: build with threads and update configure options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,106 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Nov 2017 14:14:42 -0000
-X-Groupsio-MsgNum: 105261
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="92jpbWK/k6ZbIj2k"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 Nov 2017 06:57:12 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---92jpbWK/k6ZbIj2k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2017年11月17日 09:46, Kang Kai wrote:
+> On 2017年11月16日 18:27, Andre McCurdy wrote:
+>> On Fri, May 26, 2017 at 8:24 PM, Kang Kai <Kai.Kang@windriver.com> 
+>> wrote:
+>>> On 2017年05月23日 17:58, Kang Kai wrote:
+>>> On 2017年05月19日 19:47, Burton, Ross wrote:
+>>> On 19 May 2017 at 09:52, <kai.kang@windriver.com> wrote:
+>>>> Build without threads for bind is inherited from legacy openembedded.
+>>>> All libc's support proper threading on Linux now, so enable threads
+>>>> support for bind.
+>>>>
+>>>> It is also need to disable static library build which cause package 
+>>>> dhcp
+>>>> fail to build after enable bind threads support.
+>> It seems this change was made without taking into account the advice 
+>> given in:
+>>
+>> http://git.openembedded.org/openembedded-core/commit/?id=f28757a4b89447ea528cba987f0396b92aa0bbfe
+>>
+>> "If and when we ship bind's shared libraries we should ensure that the
+>> libraries go into a separate package."
 
-On Sat, Nov 18, 2017 at 08:29:36PM +0100, Marek Vasut wrote:
-> On 11/18/2017 03:14 PM, Tom Rini wrote:
-> > On Sat, Nov 18, 2017 at 11:19:13AM +0100, Marek Vasut wrote:
-> >> On 11/17/2017 09:59 PM, Tom Rini wrote:
-> >>> On Fri, Nov 17, 2017 at 08:19:07PM +0100, Marek Vasut wrote:
-> >>>> On 11/14/2017 07:32 PM, Otavio Salvador wrote:
-> >>>>> This upgrades the U-Boot from 2017.09 to 2017.11 release.
-> >>>>>
-> >>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >>>>> ---
-> >>>>>
-> >>>>>  .../u-boot/{u-boot-common_2017.09.inc =3D> u-boot-common_2017.11.i=
-nc}     | 2 +-
-> >>>>>  .../u-boot/{u-boot-fw-utils_2017.09.bb =3D> u-boot-fw-utils_2017.1=
-1.bb}   | 0
-> >>>>>  .../u-boot/{u-boot-mkimage_2017.09.bb =3D> u-boot-mkimage_2017.11.=
-bb}     | 0
-> >>>>>  meta/recipes-bsp/u-boot/{u-boot_2017.09.bb =3D> u-boot_2017.11.bb}=
-        | 0
-> >>>>>  4 files changed, 1 insertion(+), 1 deletion(-)
-> >>>>>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.09.inc =3D> u-b=
-oot-common_2017.11.inc} (89%)
-> >>>>>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.09.bb =3D> u-=
-boot-fw-utils_2017.11.bb} (100%)
-> >>>>>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.09.bb =3D> u-b=
-oot-mkimage_2017.11.bb} (100%)
-> >>>>>  rename meta/recipes-bsp/u-boot/{u-boot_2017.09.bb =3D> u-boot_2017=
-=2E11.bb} (100%)
-> >>>>>
-> >>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc b/me=
-ta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-> >>>>> similarity index 89%
-> >>>>> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
-> >>>>> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-> >>>>> index 02e51242cb..bfdf1a0d8f 100644
-> >>>>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
-> >>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-> >>>>> @@ -7,7 +7,7 @@ PE =3D "1"
-> >>>>> =20
-> >>>>>  # We use the revision in order to avoid having to fetch it from the
-> >>>>>  # repo during parse
-> >>>>> -SRCREV =3D "c98ac3487e413c71e5d36322ef3324b21c6f60f9"
-> >>>>> +SRCREV =3D "c253573f3e269fd9a24ee6684d87dd91106018a5"
-> >>>>> =20
-> >>>>>  SRC_URI =3D "git://git.denx.de/u-boot.git \
-> >>>>>      file://MPC8315ERDB-enable-DHCP.patch \
-> >>>>
-> >>>> This patch ^ could use a refresh , since it applies with Fuzz now.
-> >>>
-> >>> Honestly, just enable DISTRO_DEFAULTS for the board and post that
-> >>> upstream instead.
-> >>
-> >> Or that, but someone would have to test that first and the patch author
-> >> does not respond for some reason.
-> >=20
-> > Adding in Ed..
-> >=20
-> > Yes, it would be good if the MPC8315 got run-time tested more often, but
-> > no, a build test is sufficient I think for changing a few options like
-> > this.
->=20
-> I didn't have very good experience with changing such stuff for random
-> board and not actually testing it thus far ...
+Libraries are packaged to bind-libs which has been created by :
 
-Since we're just talking about enabling a few more generic commands, I
-think you might be being a tad overly cautious here...
+http://git.openembedded.org/openembedded-core/commit/?id=d74ebc91388941295a2321a295cdb06ee87fc38b
 
---=20
-Tom
 
---92jpbWK/k6ZbIj2k
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Kai
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+>>
+>> In rocko builds I see "named" running on port 53 and dnsmasq fails to 
+>> start...
+>
+> Thanks. I'll check that.
+>
+> --Kai
+>
+>>
+>>>> Options devpoll and epoll are configured to choose most preferable
+>>>> multiplex method for unix socket. The priorities are: epoll > poll >
+>>>> select. When set '--enable-epoll', it just defines a var and include
+>>>> header file that is available for cross compile. So use epoll for 
+>>>> bind.
+>>>>
+>>>> Add PACKAGECONFIG 'urandom' that could use /dev/urandom as random 
+>>>> device.
+>>>>
+>>>> Update file/directory ownerships to fix daemon start failure.
+>
+>
 
-iQIcBAEBAgAGBQJaEZHOAAoJEIf59jXTHXZScOgP/3bWCZhk9ynN/fEi/d7OJahC
-ulY0SC9iMmGv1UysovceCV2D1TbE5ZjIGlRJVlKmfcn4uOhYMbHOB9zu9oO2iH9B
-4eOffDdWE0lfNeS+kohq9TUMMYRHed4fdnT1dTFVZIOTEQKjw1mLAoytFSCSLo9H
-7K+JW+9tdzCPElVJM3IsjIIHrwGnrZOIE4gDyW4/85KxkC9wUEGxrMZaFun+9xyT
-RvNR7RmIAvbJNddDvEqegSPo9xUwp4T82nzl6yAfFxBUh6Df7zEcJT6nfBQt+4mb
-EN/pdUaL+/GJTe3e19NP1e364OU0UY0ESQxxSWxUwNGeHgWs5ujHc8IGxPOQHkZA
-wbZUGrlF8uB43EVLtjDE6ljzVvuwdPzr4iO1d2OPFX4nqlmQJ2ClD62ZQIOY8ZmD
-Nf4A2VcbAPGm+OKCvSq3jIj5Hkjss9ile5rTAae4lFgDwh1EGgdMg7vGqqg4CsOn
-Mc5c9Bc7+/CYaUXR63fdMBJ1YRxJfEJQcpCdPqCv08vLeTQxrXKXWL66jBckLhDe
-yNaD0Zw1/W8VrPKJCSurgKWoYmAxavWiVADT2f04nI1S4oGEzUY2xlgbE7culQp6
-AynEUX8gpPxsszXIvzrVnRzgmOp7U0BV70yS9cX2gm79HizdAueDOkb79552d4F1
-6Zhxo0ITeBu4awWE98Uu
-=w7MF
------END PGP SIGNATURE-----
+-- 
+Regards,
+Neil | Kai Kang
 
---92jpbWK/k6ZbIj2k--
+
