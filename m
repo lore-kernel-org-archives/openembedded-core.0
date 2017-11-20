@@ -1,24 +1,27 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FD6160750
+	by mail.openembedded.org (Postfix) with ESMTP id 8C5C6788CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 12:15:32 +0000 (UTC)
+	Mon, 20 Nov 2017 12:15:33 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 04:15:34 -0800
+	20 Nov 2017 04:15:35 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,426,1505804400"; 
-   d="scan'208";a="7294422"
+   d="scan'208";a="7294428"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:33 -0800
+	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:15:34 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 14:15:17 +0200
-Message-Id: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Nov 2017 14:15:18 +0200
+Message-Id: <2402408636c0e10611588037067eb5b72b592d07.1511179969.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
-In-Reply-To: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
+References: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
+In-Reply-To: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
 References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v6 00/15] support profile-optimized build for Python
+	<cover.1511179969.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH v6 01/15] python3-native: support profile optimized build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 20 Nov 2017 12:15:33 -0000
 
-Sixth attempt on enabling profile-guided-optimization for Python 3.
+Make it possible to build python3-native with profile directed optimization
+enabled. The feature is enabled by specifying
+PYTHON3_NATIVE_PROFILE_OPT = "1" in local.conf.
 
-Changes since v5:
-- drop the patch adding 'scp' and 'ip' to HOSTTOOLS
-- but, enable openssh-native and iproute2-native (and their native build deps)
-  and use these, instead
-- dependencies of 'do_profile' task of python-pgo-image are managed via DEPENDS
-  instead of task depends (which were used in a bit awkward way in the previous
-  version of the patchset)
-- re-introduce get_target_controller() function into oeqa/targetcontrol
-- one additional (unrelated) bugfix to oeqa/targetcontrol
+The profile task to be run may be specified with PYTHON3_NATIVE_PROFILE_TASK
+variable in local.conf, e.g.
+PYTHON3_NATIVE_PROFILE_TASK = "${S}/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
 
+[YOCTO #9338]
 
-The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/recipes-devtools/python/python3-native_3.5.3.bb             | 9 +++++++++
+ .../python/python3/0001-cross-compile-support.patch              | 9 ---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
-
-Markus Lehtonen (15):
-  python3-native: support profile optimized build
-  python3: fix depends of python3-tests
-  python3: add python3-profile-opt recipe
-  python3-profile-opt: rename libpython3
-  openssh: extend to -native
-  libmnl: enable native
-  iptables: enable native
-  iproute2: enable native
-  oeqa/targetcontrol: re-introduce get_target_controller()
-  oeqa/targetcontrol: add missing arg to SimpleRemoteTarget.__init__
-  devtools/images: add python-pgo-image
-  python3: support profile optimized build
-  python3: fix profile-optimized build of modules
-  python3: add python3-tools subpackage
-  python3: remove two setup.py cross-compile hacks
-
- meta/lib/oeqa/targetcontrol.py                     |  29 +++++-
- meta/recipes-connectivity/iproute2/iproute2.inc    |   7 +-
- ...1-don-t-use-absolute-path-for-ssh-program.patch |  31 ++++++
- meta/recipes-connectivity/openssh/openssh_7.6p1.bb |   7 +-
- meta/recipes-devtools/images/python-pgo-image.bb   |  92 ++++++++++++++++++
- .../python/python-3.5-manifest.inc                 |  10 +-
- .../python/python3-native_3.5.3.bb                 |   9 ++
- meta/recipes-devtools/python/python3-profile-opt   |   1 +
- .../python/python3-profile-opt_3.5.3.bb            |  10 ++
- .../python3/0001-cross-compile-support.patch       |   9 --
- ...efile-add-install_generate_profile-target.patch |  25 +++++
- ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 +++++++++++
- .../python3-setup.py-no-host-headers-libs.patch    |  33 -------
- ...name-libpython3-to-libpython-profile-opt3.patch | 108 +++++++++++++++++++++
- .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
- meta/recipes-devtools/python/python3_3.5.3.bb      |  58 ++++++++---
- ...revent-absolute-path-in-installed-symlink.patch |  29 ++++++
- meta/recipes-extended/iptables/iptables_1.6.1.bb   |   3 +
- meta/recipes-extended/libmnl/libmnl_1.0.4.bb       |   2 +
- 19 files changed, 453 insertions(+), 96 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
- create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
- create mode 120000 meta/recipes-devtools/python/python3-profile-opt
- create mode 100644 meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
- create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
- create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
- delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
- create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
- delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
- create mode 100644 meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
-
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+index 8cd9c88a82..936ea05b29 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+@@ -58,11 +58,20 @@ EXTRA_OEMAKE = '\
+ # No ctypes option for python 3
+ PYTHONLSBOPTS = ""
+ 
++PYTHON3_NATIVE_MAKE_TARGET ?= "${@'profile-opt' if d.getVar('PYTHON3_NATIVE_PROFILE_OPT', True) == '1' else ''}"
++
+ do_configure_append() {
+ 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+ 	sed -i -e 's,#define HAVE_GETRANDOM 1,/\* #undef HAVE_GETRANDOM \*/,' ${B}/pyconfig.h
+ }
+ 
++do_compile() {
++    if [ -n "${PYTHON3_NATIVE_PROFILE_TASK}" ]; then
++        sed -i -e 's,^PROFILE_TASK=.*,PROFILE_TASK=${PYTHON3_NATIVE_PROFILE_TASK},g' Makefile
++    fi
++    oe_runmake ${PYTHON3_NATIVE_MAKE_TARGET}
++}
++
+ do_install() {
+ 	install -d ${D}${libdir}/pkgconfig
+ 	oe_runmake 'DESTDIR=${D}' install
+diff --git a/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
+index 118d75ddc5..bd599a8b7e 100644
+--- a/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
++++ b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
+@@ -34,15 +34,6 @@ index a88b7d5..7cb8bb3 100644
+  
+  PSRCS=		\
+  		Parser/acceler.c \
+-@@ -510,7 +512,7 @@ build_all_generate_profile:
+- 
+- run_profile_task:
+- 	: # FIXME: can't run for a cross build
+--	$(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
+-+	$(LLVM_PROF_FILE) $(RUNSHARED) $(HOSTPYTHON) $(PROFILE_TASK) || true
+- 
+- build_all_merge_profile:
+- 	$(LLVM_PROF_MERGER)
+ @@ -787,7 +789,7 @@ $(IO_OBJS): $(IO_H)
+  
+  $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
 -- 
 2.13.6
 
