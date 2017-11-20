@@ -1,30 +1,18 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 970137865B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 19:58:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAKJwulw017658
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 11:58:56 -0800 (PST)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 20 Nov 2017 11:58:55 -0800
-To: <openembedded-core@lists.openembedded.org>, "Yang, Liezhi"
-	<Liezhi.Yang@windriver.com>
-References: <cover.1510275834.git.liezhi.yang@windriver.com>
-	<f098c01a598f8d4fc296fb408883040bd8bdc1d1.1510275834.git.liezhi.yang@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <14532d98-9cfc-341a-e6fe-d3de11fd7d8d@windriver.com>
-Date: Mon, 20 Nov 2017 14:58:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C838D7865B;
+	Mon, 20 Nov 2017 20:02:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <f098c01a598f8d4fc296fb408883040bd8bdc1d1.1510275834.git.liezhi.yang@windriver.com>
-X-Originating-IP: [172.25.44.3]
-Subject: Re: [PATCH 09/23] staging.bbclass: print searched manifest when not found
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 20 Nov 2017 20:02:56 -0000
+Message-ID: <20171120200256.2785.12454@do.openembedded.org>
+References: <1511206830-6353-1-git-send-email-armccurdy@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1511206830-6353-1-git-send-email-armccurdy@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmNfMi4yNTogZml4IGJ1aWxkaW5nIGZvciB4ODYgd2l0aCAtT3MgKG9yIC1mbm8tb21pdC1mcmFtZS1wb2ludGVyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 19:58:55 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Mon, 20 Nov 2017 20:02:55 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 2017-11-10 01:27 AM, Robert Yang wrote:
-> The old warning was:
-> WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 
-Please use a public image like core-image-minimal
-rather than an internal one in your long log.
+== Series Details ==
 
-../Randy
+Series: glibc_2.25: fix building for x86 with -Os (or -fno-omit-frame-pointer)
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9881/
+State : failure
+
+== Summary ==
 
 
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a17f3ec910)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
