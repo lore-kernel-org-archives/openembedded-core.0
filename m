@@ -1,47 +1,57 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2822178684
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E90FE78327
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 18:38:09 +0000 (UTC)
-Received: by mail-pg0-f48.google.com with SMTP id 70so8048647pgf.6
+	Mon, 20 Nov 2017 18:56:18 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id s11so8092049pgc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 10:38:11 -0800 (PST)
+	Mon, 20 Nov 2017 10:56:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
-	b=bzIb3hR4GMFRMgaAt866jrmajIqPJqfxPb8E/2NqAmkNBkr2BtTvV3+aWpaOE/HZZS
-	17IFzJf3D0/KM3fuJPtJB4NC7FGx9McGYl3wAioGtm9LrDsMWvaa10KWpA7v5Fyz4HP0
-	nEF6jspTrZaRy4pvo/PPAaeQnY4ta5TXZCJBeY3RvxT1nlH02vF7NzHTMrqDWA6i6A3Z
-	2gbPNBlyeerGKhLhx3aaZaLT3k2onL1lLA293Ft0wiqxOggHxkgzTj4RUFSsu3wcW+Sp
-	aC9sd8G0W96Yqz30zAosM/Eur7WU00y7rSGretUY9iGO6m4lWd2Zj7WiXLM44nMc3ve3
-	iaOQ==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=kgtwL/HZ7xOhmGYbp8Z0Y471n2wjEss4kp7/sBDylR4=;
+	b=vBAJ0TR5duBeuIYGj+5LKVaxFkIXnkV+Ov7lioIA58QROqM/XQyO6s6eCGLrWe3Zxl
+	fjSNBjbQ5/3e+8lC0lGp7sTz0yZxenhr5UGOk9m4GweebcH0HuBqDtStaJVjfx/lt7EN
+	TRbLFhB0aX+8kUYcFkTVLaeGKssbOUH0fQdgW/Zay/QTxIz0w7csX9JYrzHOIWnjXfIr
+	kBsaQL6umNdddOhvpuxyL9mThmCPGp7cSigWQ1kAY6lOfmWHX0GAQPd/01CT/xC20peP
+	4Zjl/k6XYckhzlwWFDwqgXtQ5brVxEwV20tnJtlcf2xg6uFYM0NX++S7QXRsJ6Zs98HD
+	d7ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
-	b=qHiYHX+swLsxdQaO3Cq6sk2DMgThbqFAFcAmXc7XE6tYdiQbHsp0EIxbh8OhqsS1tP
-	nR1KxqDg6FE3imqKvlRWT3tnLbvMyZf7hMenPN6fNz6KyPYiH7xVCzOpcVI2xP83IDZo
-	3F25p0dqBHN1P7saxfoDQFJMw10eyjTg20izHyoo2atId8e+S4exSF9yGhb97jp2KwEh
-	KCZcrNnyxc6CzB0JGrvptkpKfdNXtY6m32g3e1FbG0vTQHtsCLpDAeZtPj9AhjUpqqZW
-	sNCdz1owNhX9kJLNd6Vl4NPqlGpMsI/thUpBHv4lBTSBQPZrN3IwNJ+UMoZyCw1RchfB
-	XtuQ==
-X-Gm-Message-State: AJaThX4Sug/+YSnx0SNZwva9JndWbVvVdmO15YwzoNd6/xRgcLTTSbQI
-	4mcwlp7vhgBjA/fLUH8AgKFwXA==
-X-Google-Smtp-Source: AGs4zMYQ9XjSbOlE9yZP/dZFsS+hV+3gQGfby9ylLaZKBzUk8RfVGJAmzjvuvEq30KrGMn607GXOlg==
-X-Received: by 10.84.132.42 with SMTP id 39mr14590035ple.382.1511203091078;
-	Mon, 20 Nov 2017 10:38:11 -0800 (PST)
-Received: from localhost.localdomain ([4.16.80.121])
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=kgtwL/HZ7xOhmGYbp8Z0Y471n2wjEss4kp7/sBDylR4=;
+	b=ikgabumt8nm2I7LrD9gkCqaZrn+lgofDP0J5THz+yQBP9/mCr6M+D/7YMh4j6Frthd
+	O1yLFjVuaNfG4stM6hTtoBubyv4mVm5czsZ86vur6YnRLNX/IE8ErKPpES8BZVcjP9tQ
+	44Cbn+vlUM+6Uw7PAC9ulIsbQYV+gqj+X3TvUZCS5xTV5FlSgbYTfQFkxa6vQvofJJOz
+	iaM2LXJDEn2mCGR106YyC6t84q51U/vIIjmLvf5316KFujCnBMi2yCOo2SJIcI2OFHCQ
+	KlUyGjsPjPIuqZ1S54gsgwkeVg73oPzAWwNUQ6kzK7lkaonwXaS7tXxyFgDqJBS6ih27
+	Atbg==
+X-Gm-Message-State: AJaThX5dsIH+oWccwdzlMSZh3PUQYpoaTMHHL8KvHYNhh+rtd8KVtma6
+	0nq6aZdni9YOpUiqkEzqbNzxjw==
+X-Google-Smtp-Source: AGs4zMbfhQ7LGcjqxt27jllGwfs3cnqZZq1i+8javTyyhB+EnEm9WAEOYVrt88Nls2at01tfUCThcg==
+X-Received: by 10.99.152.68 with SMTP id l4mr14630828pgo.208.1511204179694;
+	Mon, 20 Nov 2017 10:56:19 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:6887:1a1e:fe67:2f7c?
+	([2601:202:4001:9ea0:6887:1a1e:fe67:2f7c])
 	by smtp.gmail.com with ESMTPSA id
-	s25sm19367779pge.44.2017.11.20.10.38.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Nov 2017 10:38:10 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 10:38:04 -0800
-Message-Id: <1511203084-3492-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+	n72sm22290424pfg.109.2017.11.20.10.56.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Nov 2017 10:56:19 -0800 (PST)
+To: George McCollister <george.mccollister@gmail.com>
+References: <20171115203605.19088-1-george.mccollister@gmail.com>
+	<896364ab-7d3e-45a7-cbfd-621079b79724@gmail.com>
+	<CAFSKS=MR0Kd_8J+BCf63fYe0-U9h7QtNzuamhXhksByHOTx5uA@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <81b36768-1b1e-9f1a-881d-096ab6f00067@gmail.com>
+Date: Mon, 20 Nov 2017 10:56:18 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAFSKS=MR0Kd_8J+BCf63fYe0-U9h7QtNzuamhXhksByHOTx5uA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH v2 1/2] glibc: Fix CVE-2015-5180
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +64,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 18:38:10 -0000
+X-List-Received-Date: Mon, 20 Nov 2017 18:56:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Ming Liu <liu.ming50@gmail.com>
 
-A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
-the default terminal, when I run any of the tasks:
-bitbake busybox -c menuconfig/devshell/devpyshell
-bitbake virtual/kernel -c menuconfig/devshell/devpyshell
 
-I got a error as follows:
-"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
+On 11/16/2017 02:46 PM, George McCollister wrote:
+> On Thu, Nov 16, 2017 at 12:45 PM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>> On 11/15/2017 12:36 PM, George McCollister wrote:
+>>> Add backported patch to fix CVE-2015-5180 from the upstream
+>>> release/2.24/master branch.
+>>>
+>>> Signed-off-by: George McCollister <george.mccollister@gmail.com>
+>> Thanks for this series. I will have to wait until I address this in Pyro.
+> CVE-2015-5180 should not be an issue in glibc 2.25.
+>
+> The CVE-2017-1000366 commits backported to glibc 2.25 are here:
+> https://sourceware.org/git/?p=glibc.git;a=commit;h=3c7cd21290cabdadd72984fb69bc51e64ff1002d
+> https://sourceware.org/git/?p=glibc.git;a=commit;h=46703a3995aa3ca2b816814aa4ad05ed524194dd
+> https://sourceware.org/git/?p=glibc.git;a=commit;h=c69d4a0f680a24fdbe323764a50382ad324041e9
+>
+> Would it help if I sent Pyro patches for these?
+yes it would help.
 
-Seems the environment of the process calling Popen is not passed to the
-child process, this behaviour is a known issue in Python bug tracker:
-http://bugs.python.org/issue8557
-
-It could be fixed by using an absolute path instead per test.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/lib/oe/terminal.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 3c8ef59..df4c75b 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -67,7 +67,7 @@ class Gnome(XTerminal):
-         import tempfile
-         pidfile = tempfile.NamedTemporaryFile(delete = False).name
-         try:
--            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
-+            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
-             XTerminal.__init__(self, sh_cmd, title, env, d)
-             while os.stat(pidfile).st_size <= 0:
-                 continue
--- 
-1.9.1
+thanks,
+Armin
+>
+>> - armin
 
 
