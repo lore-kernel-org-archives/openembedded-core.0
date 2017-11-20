@@ -1,49 +1,49 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EAEDE7869B
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 120057869F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 20:11:24 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id b189so21039275wmd.5
+	Mon, 20 Nov 2017 20:11:26 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id 9so21149216wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 12:11:26 -0800 (PST)
+	Mon, 20 Nov 2017 12:11:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=QU53PHL1Kuy90lozs84z25MvC1hteRNX+NfLKidoj5c=;
-	b=clSO7hzM34zp3FXXNBihYM4uv6ga3Mw8YWagHPbDBzMpb2wdPXMNfvzFcmHw8S2KQ8
-	+XjPL9BAhwAkgeOgREY3uLUYdgarQ0tb+VLzD2+K+heOynnS8PZRMBNjauXbpVc6R9qC
-	Ib/LVlapbFKT4LW+91e/aiv7uAGzIgHZv0QvVNBB01XNpmHkJLala9wIq0JUu1DXLZ2D
-	YzuMlebClDy8AHusK+SYBSyJ5qI864dZkgJhnCUIjmK77IFS6SoS23UY6a+WSyrnV8cd
-	/449xhZhk6jgZaMSO+XYC0uE3jY2oeURkuBkyWNybvH/rq9PYh1mar0KMQguN40F0d7J
-	wqbw==
+	bh=LV0E2aYjmj5+6HUaEpNVIKPHk1CwPnZU54pupsf7IBU=;
+	b=YlJ2yGtM6obiH9VgJoXEG2imBefJDpZYvAMEqtd2QfQ/FoNvxbsXVq5yi96vyf6H0G
+	Zb2IXqU/MjJ2To/HeIK2O4cfoPo4CwoYXiuW/Mit/mHFwpFMPD6YyNZeT1WJnT+FcZsF
+	AKnqS9r4gOGDdPVzPVGF3WBuHN0vhwpUUlL5WfokcyftLr7za61rXiA2JfGfKfWKKyGe
+	loi3CRRv3ZjmuMvQHsSWtEiGJ2s5Ms5GnfgYze2NCmRDE6FKY0uUfJ66EJzxI/oq3OGX
+	oCAgo/0D1Y/m1BcAz9pJ5DnKWLoFc/F93jQ/eTBAk3aEqH4gS1YyOQ98NAaU+XdMsxzT
+	naxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=QU53PHL1Kuy90lozs84z25MvC1hteRNX+NfLKidoj5c=;
-	b=HCX6MNf2BBofPfFsBGhaUgZ6L2kf+VUPhpILN2gmPqTuv6jNf5YUbBKeb/b91ZZ8Vp
-	xyWMksGJ5TNoyEo6Qh4u97jO9vXH5m8V36Je+YDG8yPkbyWjsMYqf7R3wdArCtKCWtDg
-	Fkql3DBxH07IBoJkRf6UniBo7jAORYR5m1O3W1wJuCUsqBrp22k9Lndk+3aWbrOCleap
-	cpwzMQ7h8+c6xdxGGxRPfsxAh4x5nMCDLIrbpuF6mffLVOgJGVnwiUl1Djy+A0xzjl/m
-	GQ4zcuti0OUqACz3B72Lwk8MkhtJL4cRjk+zpdn14Kpw2frYYDXyarWUucVrUuIEOYbz
-	LHlA==
-X-Gm-Message-State: AJaThX51Qx8s0YRGEMDJO3IEl38MZFN6fkHCrp8WFCeDyr1aSAUvnDIJ
-	7T4KyRHxuu/wvtBdJfEyTxz69A==
-X-Google-Smtp-Source: AGs4zMZk64DnYq95nOmiYVBrn/hs6Vd+NI5RGryDv0KK+VfkdCe3wpvVF2bhcOoJ7FlUKAX1SQ8JDQ==
-X-Received: by 10.28.127.197 with SMTP id a188mr11504668wmd.138.1511208686003; 
-	Mon, 20 Nov 2017 12:11:26 -0800 (PST)
+	bh=LV0E2aYjmj5+6HUaEpNVIKPHk1CwPnZU54pupsf7IBU=;
+	b=Hx9CEaf7fyZfGPT7d64O2gHLANM7i4CyW66JwheDpsliwWy6ccibVAnkD/LK6Y7TED
+	kwSvGOvoqEWSSg7+yJOI/ulPhTz7lIq2EiXtMC51YflRIBJ9noxTuTtAQjgph2UPvGuv
+	3YReewPnjw9cZjSlqntrlrb5kYO0IWrm0wHkWIbulA6xEOSRcty3FSkSXsWikGjFrrXN
+	sRlqiJ84z002UfsBgU7ek/v2VcPxnu7KKEFHHnTyUEisf29zhBmgRAvoTK6Ajf+Ftd54
+	NtBKykntXHNoKXtogwHZCxAv47rtWgpdaPa8EjbC2MCR6F9cX9KrRW+/Jb/i/VyrnSII
+	UkvA==
+X-Gm-Message-State: AJaThX4LmT6Oef2aSxcB7f0H246NdsSEo+d4oCuiDpfbzjbS8SfeVfzt
+	BSkNcTuCncCVgcjH0v1UVad/Sg==
+X-Google-Smtp-Source: AGs4zMYy2g14/nuDejLje3vEAlO/7uTCyo39MSv35XGhE57DSjGlc7B1ZiKc64YncLzvC0IeMej7Sg==
+X-Received: by 10.28.159.15 with SMTP id i15mr10714146wme.58.1511208687838;
+	Mon, 20 Nov 2017 12:11:27 -0800 (PST)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b206sm5105522wme.11.2017.11.20.12.11.24
+	f10sm11046326wrg.20.2017.11.20.12.11.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Nov 2017 12:11:24 -0800 (PST)
+	Mon, 20 Nov 2017 12:11:26 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 20:11:03 +0000
-Message-Id: <a7940d54e6c96d5965d65b6407a8c002a3ff9339.1511207344.git.Martin.Jansa@gmail.com>
+Date: Mon, 20 Nov 2017 20:11:04 +0000
+Message-Id: <473468c6099e62fc71b294de1689ad8a0cddb1f1.1511207344.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1511207344.git.Martin.Jansa@gmail.com>
 References: <cover.1511207344.git.Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH 4/5] kernel.bbclass: use the consistent naming schema for initramfs
+Subject: [RFC][PATCH 5/5] kernel.bbclass: move variables for kernel artifacts names to separate bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 20:11:25 -0000
+X-List-Received-Date: Mon, 20 Nov 2017 20:11:27 -0000
 
-* use INITRAMFS_BASE_NAME and INITRAMFS_SYMLINK_NAME variables, like
-  other kernel artifacts are using
-* use "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}" instead of
-  "${PV}-${PR}-${MACHINE}-${DATETIME}" to be consistent with other files
-* allow to modify default symlink name with INITRAMFS_SYMLINK_NAME
-  instead of currently used:
-  initramfs_symlink_name=${type}-initramfs-${MACHINE}
+* this makes it easier to access these variables from some other bbclass
+  e.g. sdcard_image-rpi.bbclass in meta-raspberry where we need to know
+  how some files in deploy are named, but we cannot inherit kernel.bbclass
+  as it's used in image recipe not kernel recipe
+* alternatively we can move these to bitbake.conf like similar image variables are:
+  meta/conf/bitbake.conf:IMAGE_BASENAME = "${PN}"
+  meta/conf/bitbake.conf:IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
+  meta/conf/bitbake.conf:IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel.bbclass | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ meta/classes/kernel-artifact-names.bbclass | 19 +++++++++++++++++++
+ meta/classes/kernel.bbclass                | 18 +-----------------
+ 2 files changed, 20 insertions(+), 17 deletions(-)
+ create mode 100644 meta/classes/kernel-artifact-names.bbclass
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8752af7..9ec7dd2 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -199,8 +199,6 @@ copy_initramfs() {
- 	echo "Finished copy of initramfs into ./usr"
- }
- 
--INITRAMFS_BASE_NAME ?= "initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
--INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
- do_bundle_initramfs () {
- 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
- 		echo "Creating a kernel image with a bundled initramfs..."
-@@ -628,6 +626,10 @@ MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
- MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
- MODULE_TARBALL_DEPLOY ?= "1"
- 
+diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
+new file mode 100644
+index 0000000..d696888
+--- /dev/null
++++ b/meta/classes/kernel-artifact-names.bbclass
+@@ -0,0 +1,19 @@
++KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
++# Don't include the DATETIME variable in the sstate package signatures
++KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
++KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
++
++KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
++KERNEL_DTB_BASE_NAME[vardepsexclude] = "DATETIME"
++KERNEL_DTB_SYMLINK_NAME ?= "${MACHINE}"
++
++MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
++MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
++
++MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
++MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
++MODULE_TARBALL_DEPLOY ?= "1"
++
 +INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
 +INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
 +INITRAMFS_SYMLINK_NAME ?= "initramfs-${MACHINE}"
-+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 9ec7dd2..455f939 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -612,23 +612,7 @@ do_sizecheck[dirs] = "${B}"
+ 
+ addtask sizecheck before do_install after do_strip
+ 
+-KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-# Don't include the DATETIME variable in the sstate package signatures
+-KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+-KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
+-KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-KERNEL_DTB_BASE_NAME[vardepsexclude] = "DATETIME"
+-KERNEL_DTB_SYMLINK_NAME ?= "${MACHINE}"
+-MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+-MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+-# Don't include the DATETIME variable in the sstate package signatures
+-MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+-MODULE_TARBALL_DEPLOY ?= "1"
+-
+-INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+-INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
+-INITRAMFS_SYMLINK_NAME ?= "initramfs-${MACHINE}"
++inherit kernel-artifact-names
+ 
  kernel_do_deploy() {
  	for type in ${KERNEL_IMAGETYPES} ; do
- 		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
-@@ -646,17 +648,14 @@ kernel_do_deploy() {
- 		ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
- 	done
- 
--	cd ${B}
--	# Update deploy directory
--	for type in ${KERNEL_IMAGETYPES} ; do
--		if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
--			echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
-+	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+		for type in ${KERNEL_IMAGETYPES} ; do
- 			initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
--			initramfs_symlink_name=${type}-initramfs-${MACHINE}
-+			initramfs_symlink_name=${type}-${INITRAMFS_SYMLINK_NAME}
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
- 			ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${initramfs_symlink_name}.bin
--		fi
--	done
-+		done
-+	fi
- }
- do_deploy[cleandirs] = "${DEPLOYDIR}"
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
 -- 
 2.7.4
 
