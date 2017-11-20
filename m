@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A76DC78055;
-	Mon, 20 Nov 2017 12:33:06 +0000 (UTC)
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C531E78055
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Nov 2017 12:35:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2017 04:35:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,426,1505804400"; 
+   d="scan'208";a="7301156"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 20 Nov 2017 04:35:56 -0800
+To: Stefan Agner <stefan@agner.ch>, openembedded-core@lists.openembedded.org
+References: <20171118085357.47305-1-stefan@agner.ch>
+	<20171118090301.2783.15393@do.openembedded.org>
+	<789b135f8ab78e296dd336ac9a21f68f@agner.ch>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <f16bda46-922c-acaa-fceb-52c25a3e0e3f@linux.intel.com>
+Date: Mon, 20 Nov 2017 14:36:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Mon, 20 Nov 2017 12:33:08 -0000
-Message-ID: <20171120123308.2784.45706@do.openembedded.org>
-References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3VwcG9ydCBwcm9maWxlLW9wdGltaXplZCBidWlsZCBmb3IgUHl0aG9uIChyZXYyKQ==?=
+In-Reply-To: <789b135f8ab78e296dd336ac9a21f68f@agner.ch>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJbdjJdIG9wZW5zc2wxMDogVXBncmFkZSAxLjAuMmwuLi4iIGFuZCAzIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 12:33:06 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 20 Nov 2017 12:35:56 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 11/18/2017 11:03 AM, Stefan Agner wrote:
 
-Series: support profile-optimized build for Python (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/9511/
-State : failure
+>> * Patch            [v2,1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+>>   Issue             Missing or incorrectly formatted CVE tag in
+>> included patch file [test_cve_tag_format]
+>>    Suggested fix    Correct or include the CVE tag on cve patch with
+>> format: "CVE: CVE-YYYY-XXXX"
+> 
+> I did not add any new patches which address CVE, hence I think this is a
+> false positive/not applicable.
 
-== Summary ==
+You mentioned CVEs in the commit message, I think it wants you to format 
+them in a standard way there.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Alex
 
