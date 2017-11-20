@@ -1,24 +1,41 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85CEF78775
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D3C5178830
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 07:45:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAK7j2JA003417
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Nov 2017 23:45:02 -0800
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Sun, 19 Nov 2017 23:45:01 -0800
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Nov 2017 15:44:15 +0800
-Message-ID: <1511163855-163322-1-git-send-email-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 20 Nov 2017 08:02:42 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208,217";a="30307854"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Nov 2017 16:02:42 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6F4E3486A857;
+	Mon, 20 Nov 2017 16:02:40 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0361.001; Mon, 20 Nov 2017 16:02:42 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] python-setuptools: update to 36.7.2
+Thread-Index: AQHTXogQ0SRiMiHiUUK55ufqG3+C9qMXHwSAgAXPcdA=
+Date: Mon, 20 Nov 2017 08:02:40 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF732EEA29B8@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1510823468-63055-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CAJTo0LaH1N4+rUCeKuzZtHhoUOFqCPLJe+YXs-Q=iECUa9oodw@mail.gmail.com>
+In-Reply-To: <CAJTo0LaH1N4+rUCeKuzZtHhoUOFqCPLJe+YXs-Q=iECUa9oodw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.116]
 MIME-Version: 1.0
-Subject: [PATCH] glibc: malloc: Add missing arena lock in malloc_info
+X-yoursite-MailScanner-ID: 6F4E3486A857.A7FF5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-setuptools: update to 36.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,214 +48,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 07:45:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Nov 2017 08:02:43 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA29B8G08CNEXMBPEKD01_"
 
-There are the multiple process crashes seen while using malloc_info.
-Obtain the size information while the arena lock is acquired, and only
-print it later.
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA29B8G08CNEXMBPEKD01_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backport patch from https://sourceware.org/git/gitweb.cgi?p=glibc.git;
-h=7a9368a1174cb15b9f1d6342e0e10dd90dae238d
+SGkgUm9zcw0KDQpJcyBpdCBtZWFucyB0aGF0IEkgc2hvdWxkIG1ha2UgYSBu
+ZXcgcGF0Y2ggZm9yIHB5dGhvbjMtc2V0dXB0b29scz8NCg0KLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClpo
+ZW5nIFJ1b3Fpbg0KTmFuamluZyBGdWppdHN1IE5hbmRhIFNvZnR3YXJlIFRl
+Y2guIENvLiwgTHRkLihGTlNUKQ0KQUREUi46IE5vLjYgV2Vuemh1IFJvYWQs
+IFNvZnR3YXJlIEF2ZW51ZSwNCiAgICAgICBOYW5qaW5nLCAyMTAwMTIsIENo
+aW5hDQpNQUlMIDogemhlbmdycS5mbnN0QGNuLmZ1amlzdHUuY29tDQoNCkZy
+b206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
+bV0NClNlbnQ6IEZyaWRheSwgTm92ZW1iZXIgMTcsIDIwMTcgNzoxOCBBTQ0K
+VG86IFpoZW5nLCBSdW9xaW4v6YORIOiLpemSpiA8emhlbmdycS5mbnN0QGNu
+LmZ1aml0c3UuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNv
+cmVdIFtQQVRDSF0gcHl0aG9uLXNldHVwdG9vbHM6IHVwZGF0ZSB0byAzNi43
+LjINCg0KcHl0aG9uMy1zZXR1cHRvb2xzIGluY2x1ZGVzIHRoaXMgZmlsZSB0
+b28sIHNvIHRoaXMgcGF0Y2ggYnJlYWtzIHRoYXQgcmVjaXBlLg0KDQpSb3Nz
+DQoNCk9uIDE2IE5vdmVtYmVyIDIwMTcgYXQgMDk6MTEsIHpoZW5ncnEgPHpo
+ZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbTxtYWlsdG86emhlbmdycS5mbnN0
+QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQoxKSBVcGdyYWRlIHB5dGhvbi1z
+ZXR1cHRvb2xzIGZyb20gMzYuNS4wIHRvIDM2LjcuMi4NCg0KU2lnbmVkLW9m
+Zi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5j
+b208bWFpbHRvOnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4+DQotLS0N
+CiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1zZXR1cHRv
+b2xzLmluYyAgICAgICAgICAgICAgICAgICAgfCA0ICsrLS0NCiAuLi4ve3B5
+dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYjxodHRwOi8vcHl0aG9uLXNldHVw
+dG9vbHNfMzYuNS4wLmJiPiA9PiBweXRob24tc2V0dXB0b29sc18zNi43LjIu
+YmI8aHR0cDovL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjcuMi5iYj59ICAgICAg
+fCAwDQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
+ZXRpb25zKC0pDQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24ve3B5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYjxodHRwOi8vcHl0aG9u
+LXNldHVwdG9vbHNfMzYuNS4wLmJiPiA9PiBweXRob24tc2V0dXB0b29sc18z
+Ni43LjIuYmI8aHR0cDovL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjcuMi5iYj59
+ICgxMDAlKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24tc2V0dXB0b29scy5pbmMgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1zZXR1cHRvb2xzLmluYw0KaW5kZXgg
+MWVhZTBiNi4uNTZiMTdhZCAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uLXNldHVwdG9vbHMuaW5jDQorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1zZXR1cHRvb2xz
+LmluYw0KQEAgLTksOCArOSw4IEBAIFNSQ05BTUUgPSAic2V0dXB0b29scyIN
+Cg0KIFNSQ19VUkkgPSAiaHR0cHM6Ly9maWxlcy5weXRob25ob3N0ZWQub3Jn
+L3BhY2thZ2VzL3NvdXJjZS9zLyR7U1JDTkFNRX0vJHtTUkNOQU1FfS0ke1BW
+fS56aXA8aHR0cHM6Ly9maWxlcy5weXRob25ob3N0ZWQub3JnL3BhY2thZ2Vz
+L3NvdXJjZS9zLyQlN2JTUkNOQU1FJTdkLyQlN2JTUkNOQU1FJTdkLSQlN2JQ
+ViU3ZC56aXA+Ig0KDQotU1JDX1VSSVttZDVzdW1dID0gIjcwNGY1MDBkZDU1
+ZjRiZDBiZTkwNTQ0NGYzYmE4OTJjIg0KLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICJjZTIwMDdjMWNlYTMzNTk4NzBiODA2NTdkNjM0MjUzYTA3NjViMGM3ZGM1
+YTk4OGQ3N2JhODAzZmM4NmYyYzY0Ig0KK1NSQ19VUklbbWQ1c3VtXSA9ICIx
+ODc0OTgzMTcxYWYwZjdiMTZiNWVjNDg1NThlNmU1NSINCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiYWQ4NmZkOGRkMDljMjg1YzMzYjRjNWI4MmJiYzIxZDIx
+ODgzNjM3ZmFlZjc4YjBhYjU4ZmE5OTg0ODQ3MjIwZCINCg0KIFVQU1RSRUFN
+X0NIRUNLX1VSSSA9ICJodHRwczovL3B5cGkucHl0aG9uLm9yZy9weXBpL3Nl
+dHVwdG9vbHMiDQoNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYjxodHRwOi8v
+cHl0aG9uLXNldHVwdG9vbHNfMzYuNS4wLmJiPiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uLXNldHVwdG9vbHNfMzYuNy4yLmJiPGh0
+dHA6Ly9weXRob24tc2V0dXB0b29sc18zNi43LjIuYmI+DQpzaW1pbGFyaXR5
+IGluZGV4IDEwMCUNCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uLXNldHVwdG9vbHNfMzYuNS4wLmJiPGh0dHA6Ly9w
+eXRob24tc2V0dXB0b29sc18zNi41LjAuYmI+DQpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tc2V0dXB0b29sc18zNi43
+LjIuYmI8aHR0cDovL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjcuMi5iYj4NCi0t
+DQoyLjcuNA0KDQoNCg0KLS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWls
+aW5nIGxpc3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCgoK
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- ...loc-add-missing-arena-lock-in-malloc-info.patch | 172 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.26.bb              |   1 +
- 2 files changed, 173 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0029-malloc-add-missing-arena-lock-in-malloc-info.patch
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA29B8G08CNEXMBPEKD01_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/recipes-core/glibc/glibc/0029-malloc-add-missing-arena-lock-in-malloc-info.patch b/meta/recipes-core/glibc/glibc/0029-malloc-add-missing-arena-lock-in-malloc-info.patch
-new file mode 100644
-index 0000000..e12400d
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0029-malloc-add-missing-arena-lock-in-malloc-info.patch
-@@ -0,0 +1,172 @@
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Wed, 15 Nov 2017 11:39:01 +0100
-+Subject: [PATCH] malloc: Add missing arena lock in malloc_info [BZ #22408]
-+
-+Obtain the size information while the arena lock is acquired, and only
-+print it later.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+Index: git/malloc/Makefile
-+===================================================================
-+--- git.orig/malloc/Makefile	2017-09-04 17:34:06.758018978 +0800
-++++ git/malloc/Makefile	2017-11-20 14:57:43.440337572 +0800
-+@@ -34,6 +34,7 @@
-+ 	 tst-interpose-nothread \
-+ 	 tst-interpose-thread \
-+ 	 tst-alloc_buffer \
-++	 tst-malloc_info \
-+ 
-+ tests-static := \
-+ 	 tst-interpose-static-nothread \
-+@@ -242,3 +243,5 @@
-+ $(objpfx)tst-dynarray-fail-mem.out: $(objpfx)tst-dynarray-fail.out
-+ 	$(common-objpfx)malloc/mtrace $(objpfx)tst-dynarray-fail.mtrace > $@; \
-+ 	$(evaluate-test)
-++
-++$(objpfx)tst-malloc_info: $(shared-thread-library)
-+Index: git/malloc/malloc.c
-+===================================================================
-+--- git.orig/malloc/malloc.c	2017-09-04 17:34:06.758018978 +0800
-++++ git/malloc/malloc.c	2017-11-20 15:01:02.412338959 +0800
-+@@ -5547,6 +5547,15 @@
-+ 	  avail += sizes[NFASTBINS - 1 + i].total;
-+ 	}
-+ 
-++      size_t heap_size = 0;
-++      size_t heap_mprotect_size = 0;
-++      if (ar_ptr != &main_arena)
-++	{
-++	  heap_info *heap = heap_for_ptr (top (ar_ptr));
-++	  heap_size = heap->size;
-++	  heap_mprotect_size = heap->mprotect_size;
-++	}
-++
-+       __libc_lock_unlock (ar_ptr->mutex);
-+ 
-+       total_nfastblocks += nfastblocks;
-+@@ -5580,13 +5589,12 @@
-+ 
-+       if (ar_ptr != &main_arena)
-+ 	{
-+-	  heap_info *heap = heap_for_ptr (top (ar_ptr));
-+ 	  fprintf (fp,
-+ 		   "<aspace type=\"total\" size=\"%zu\"/>\n"
-+ 		   "<aspace type=\"mprotect\" size=\"%zu\"/>\n",
-+-		   heap->size, heap->mprotect_size);
-+-	  total_aspace += heap->size;
-+-	  total_aspace_mprotect += heap->mprotect_size;
-++		   heap_size, heap_mprotect_size);
-++	  total_aspace += heap_size;
-++	  total_aspace_mprotect += heap_mprotect_size;
-+ 	}
-+       else
-+ 	{
-+Index: git/malloc/tst-malloc_info.c
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ git/malloc/tst-malloc_info.c	2017-11-20 15:02:03.208339383 +0800
-+@@ -0,0 +1,101 @@
-++/* Smoke test for malloc_info.
-++   Copyright (C) 2017 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++/* The purpose of this test is to provide a quick way to run
-++   malloc_info in a multi-threaded process.  */
-++
-++#include <array_length.h>
-++#include <malloc.h>
-++#include <stdlib.h>
-++#include <support/support.h>
-++#include <support/xthread.h>
-++
-++/* This barrier is used to have the main thread wait until the helper
-++   threads have performed their allocations.  */
-++static pthread_barrier_t barrier;
-++
-++enum
-++  {
-++    /* Number of threads performing allocations.  */
-++    thread_count  = 4,
-++
-++    /* Amount of memory allocation per thread.  This should be large
-++       enough to cause the allocation of multiple heaps per arena.  */
-++    per_thread_allocations
-++      = sizeof (void *) == 4 ? 16 * 1024 * 1024 : 128 * 1024 * 1024,
-++  };
-++
-++static void *
-++allocation_thread_function (void *closure)
-++{
-++  struct list
-++  {
-++    struct list *next;
-++    long dummy[4];
-++  };
-++
-++  struct list *head = NULL;
-++  size_t allocated = 0;
-++  while (allocated < per_thread_allocations)
-++    {
-++      struct list *new_head = xmalloc (sizeof (*new_head));
-++      allocated += sizeof (*new_head);
-++      new_head->next = head;
-++      head = new_head;
-++    }
-++
-++  xpthread_barrier_wait (&barrier);
-++
-++  /* Main thread prints first statistics here.  */
-++
-++  xpthread_barrier_wait (&barrier);
-++
-++  while (head != NULL)
-++    {
-++      struct list *next_head = head->next;
-++      free (head);
-++      head = next_head;
-++    }
-++
-++  return NULL;
-++}
-++
-++static int
-++do_test (void)
-++{
-++  xpthread_barrier_init (&barrier, NULL, thread_count + 1);
-++
-++  pthread_t threads[thread_count];
-++  for (size_t i = 0; i < array_length (threads); ++i)
-++    threads[i] = xpthread_create (NULL, allocation_thread_function, NULL);
-++
-++  xpthread_barrier_wait (&barrier);
-++  puts ("info: After allocation:");
-++  malloc_info (0, stdout);
-++
-++  xpthread_barrier_wait (&barrier);
-++  for (size_t i = 0; i < array_length (threads); ++i)
-++    xpthread_join (threads[i]);
-++
-++  puts ("\ninfo: After deallocation:");
-++  malloc_info (0, stdout);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-index 135ec4f..05d1e2c 100644
---- a/meta/recipes-core/glibc/glibc_2.26.bb
-+++ b/meta/recipes-core/glibc/glibc_2.26.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
-            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
-            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-+           file://0029-malloc-add-missing-arena-lock-in-malloc-info.patch \
- "
- 
- NATIVESDKFIXES ?= ""
--- 
-1.9.1
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
+dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
+bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
+dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
+a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmhv
+ZW56Yg0KCXttc28tc3R5bGUtbmFtZTpob2VuemI7fQ0Kc3Bhbi5FbWFpbFN0
+eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9u
+dC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6IzFGNDk3
+RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQt
+b25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpA
+cGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJ
+bWFyZ2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYuV29y
+ZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+
+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6
+ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZd
+LS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
+OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
+Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVh
+ZD4NCjxib2R5IGxhbmc9IlpILUNOIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
+cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+SGkgUm9zczxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+SXMgaXQgbWVh
+bnMgdGhhdCBJIHNob3VsZCBtYWtlIGEgbmV3IHBhdGNoIGZvcjwvc3Bhbj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OiMxRjQ5N0QiPg0KPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIj5weXRob24z
+LXNldHVwdG9vbHM/PC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0i
+Zm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
+O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
+bG9yOiMxRjQ5N0QiPi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJm
+b250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5aaGVuZyBSdW9xaW48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
+RjQ5N0QiPk5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBD
+by4sIEx0ZC4oRk5TVCk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
+c2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkFERFIuOiBOby42IFdlbnpodSBS
+b2FkLCBTb2Z0d2FyZSBBdmVudWUsPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
+PSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj4mbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgTmFuamluZywgMjEwMDEyLCBDaGlu
+YTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
+b3I6IzFGNDk3RCI+TUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNv
+bTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
+b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9
+IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3Mg
+W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50
+OjwvYj4gRnJpZGF5LCBOb3ZlbWJlciAxNywgMjAxNyA3OjE4IEFNPGJyPg0K
+PGI+VG86PC9iPiBaaGVuZywgUnVvcWluLzwvc3Bhbj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdCI+6YORPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZiI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQiPuiLpemSpjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmIj4gJmx0O3poZW5ncnEuZm5zdEBjbi5mdWppdHN1
+LmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+
+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBweXRob24tc2V0
+dXB0b29sczogdXBkYXRlIHRvIDM2LjcuMjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPnB5dGhvbjMtc2V0dXB0
+b29scyBpbmNsdWRlcyB0aGlzIGZpbGUgdG9vLCBzbyB0aGlzIHBhdGNoIGJy
+ZWFrcyB0aGF0IHJlY2lwZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5Sb3NzPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiAxNiBOb3ZlbWJlciAyMDE3
+IGF0IDA5OjExLCB6aGVuZ3JxICZsdDs8YSBocmVmPSJtYWlsdG86emhlbmdy
+cS5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9Il9ibGFuayI+emhlbmdy
+cS5mbnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286
+cD48L3NwYW4+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25l
+O2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20g
+MGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6
+MGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4xKSBVcGdyYWRlIHB5dGhvbi1zZXR1cHRvb2xzIGZyb20gMzYuNS4wIHRv
+IDM2LjcuMi48YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9x
+aW4gJmx0OzxhIGhyZWY9Im1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXRz
+dS5jb20iPnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7PGJy
+Pg0KLS0tPGJyPg0KJm5ic3A7bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24tc2V0dXB0b29scy5pbmMmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgfCA0ICYjNDM7JiM0MzstLTxicj4NCiZuYnNwOy4uLi97PGEgaHJlZj0i
+aHR0cDovL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYiIgdGFyZ2V0PSJf
+YmxhbmsiPnB5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYjwvYT4gPSZndDsN
+CjxhIGhyZWY9Imh0dHA6Ly9weXRob24tc2V0dXB0b29sc18zNi43LjIuYmIi
+IHRhcmdldD0iX2JsYW5rIj5weXRob24tc2V0dXB0b29sc18zNi43LjIuYmI8
+L2E+fSZuYnNwOyAmbmJzcDsgJm5ic3A7IHwgMDxicj4NCiZuYnNwOzIgZmls
+ZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCYjNDM7KSwgMiBkZWxldGlvbnMo
+LSk8YnI+DQombmJzcDtyZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi97PGEgaHJlZj0iaHR0cDovL3B5dGhvbi1zZXR1cHRvb2xzXzM2LjUu
+MC5iYiIgdGFyZ2V0PSJfYmxhbmsiPnB5dGhvbi1zZXR1cHRvb2xzXzM2LjUu
+MC5iYjwvYT4gPSZndDsNCjxhIGhyZWY9Imh0dHA6Ly9weXRob24tc2V0dXB0
+b29sc18zNi43LjIuYmIiIHRhcmdldD0iX2JsYW5rIj5weXRob24tc2V0dXB0
+b29sc18zNi43LjIuYmI8L2E+fSAoMTAwJSk8YnI+DQo8YnI+DQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tc2V0
+dXB0b29scy5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbi1zZXR1cHRvb2xzLmluYzxicj4NCmluZGV4IDFlYWUwYjYuLjU2YjE3
+YWQgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24tc2V0dXB0b29scy5pbmM8YnI+DQomIzQzOyYjNDM7JiM0
+MzsgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1zZXR1
+cHRvb2xzLmluYzxicj4NCkBAIC05LDggJiM0Mzs5LDggQEAgU1JDTkFNRSA9
+ICZxdW90O3NldHVwdG9vbHMmcXVvdDs8YnI+DQo8YnI+DQombmJzcDtTUkNf
+VVJJID0gJnF1b3Q7PGEgaHJlZj0iaHR0cHM6Ly9maWxlcy5weXRob25ob3N0
+ZWQub3JnL3BhY2thZ2VzL3NvdXJjZS9zLyQlN2JTUkNOQU1FJTdkLyQlN2JT
+UkNOQU1FJTdkLSQlN2JQViU3ZC56aXAiIHRhcmdldD0iX2JsYW5rIj5odHRw
+czovL2ZpbGVzLnB5dGhvbmhvc3RlZC5vcmcvcGFja2FnZXMvc291cmNlL3Mv
+JHtTUkNOQU1FfS8ke1NSQ05BTUV9LSR7UFZ9LnppcDwvYT4mcXVvdDs8YnI+
+DQo8YnI+DQotU1JDX1VSSVttZDVzdW1dID0gJnF1b3Q7NzA0ZjUwMGRkNTVm
+NGJkMGJlOTA1NDQ0ZjNiYTg5MmMmcXVvdDs8YnI+DQotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gJnF1b3Q7Y2UyMDA3YzFjZWEzMzU5ODcwYjgwNjU3ZDYzNDI1
+M2EwNzY1YjBjN2RjNWE5ODhkNzdiYTgwM2ZjODZmMmM2NCZxdW90Ozxicj4N
+CiYjNDM7U1JDX1VSSVttZDVzdW1dID0gJnF1b3Q7MTg3NDk4MzE3MWFmMGY3
+YjE2YjVlYzQ4NTU4ZTZlNTUmcXVvdDs8YnI+DQomIzQzO1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICZxdW90O2FkODZmZDhkZDA5YzI4NWMzM2I0YzViODJiYmMy
+MWQyMTg4MzYzN2ZhZWY3OGIwYWI1OGZhOTk4NDg0NzIyMGQmcXVvdDs8YnI+
+DQo8YnI+DQombmJzcDtVUFNUUkVBTV9DSEVDS19VUkkgPSAmcXVvdDs8YSBo
+cmVmPSJodHRwczovL3B5cGkucHl0aG9uLm9yZy9weXBpL3NldHVwdG9vbHMi
+IHRhcmdldD0iX2JsYW5rIj5odHRwczovL3B5cGkucHl0aG9uLm9yZy9weXBp
+L3NldHVwdG9vbHM8L2E+JnF1b3Q7PGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vPGEgaHJlZj0iaHR0cDov
+L3B5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYiIgdGFyZ2V0PSJfYmxhbmsi
+PnB5dGhvbi1zZXR1cHRvb2xzXzM2LjUuMC5iYjwvYT4gYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uLzxhIGhyZWY9Imh0dHA6Ly9weXRob24tc2V0
+dXB0b29sc18zNi43LjIuYmIiIHRhcmdldD0iX2JsYW5rIj5weXRob24tc2V0
+dXB0b29sc18zNi43LjIuYmI8L2E+PGJyPg0Kc2ltaWxhcml0eSBpbmRleCAx
+MDAlPGJyPg0KcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi88YSBocmVmPSJodHRwOi8vcHl0aG9uLXNldHVwdG9vbHNfMzYuNS4w
+LmJiIiB0YXJnZXQ9Il9ibGFuayI+cHl0aG9uLXNldHVwdG9vbHNfMzYuNS4w
+LmJiPC9hPjxicj4NCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uLzxhIGhyZWY9Imh0dHA6Ly9weXRob24tc2V0dXB0b29sc18zNi43
+LjIuYmIiIHRhcmdldD0iX2JsYW5rIj5weXRob24tc2V0dXB0b29sc18zNi43
+LjIuYmI8L2E+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+PHNwYW4gc3R5
+bGU9ImNvbG9yOiM4ODg4ODgiPi0tPC9zcGFuPjwvc3Bhbj48c3BhbiBzdHls
+ZT0iY29sb3I6Izg4ODg4OCI+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+
+Mi43LjQ8L3NwYW4+PGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPHNwYW4gY2xh
+c3M9ImhvZW56YiI+LS08L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56
+YiI+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX188L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+T3BlbmVt
+YmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PC9zcGFuPjxicj4NCjxzcGFuIGNs
+YXNzPSJob2VuemIiPjxhIGhyZWY9Im1haWx0bzpPcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjwvc3Bhbj48YnI+DQo8c3BhbiBj
+bGFzcz0iaG9lbnpiIj48YSBocmVmPSJodHRwOi8vbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlIiB0
+YXJnZXQ9Il9ibGFuayI+aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZTwvYT48L3NwYW4+
+PC9zcGFuPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvYmxvY2txdW90ZT4N
+CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA29B8G08CNEXMBPEKD01_--
