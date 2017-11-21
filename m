@@ -1,51 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1125C786AB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A73E78699
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 00:07:33 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 17so8486063pfn.12
+	Tue, 21 Nov 2017 00:16:03 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r68so22200665wmr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 16:07:35 -0800 (PST)
+	Mon, 20 Nov 2017 16:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ow4y20A9ER5WAaw3iKoMp2Cgc8y9xRzxF6RJf31+w9o=;
-	b=mGSpNPtjFZcWCViaxn+Qv/CXWAaJBQEVdoDpoYochh0ALuJUvNfnU4erCnn8ZtGIl8
-	ZiKKdmTr2RQUhtoPT2riKR0Tj3IGouZkXLNdU1hU+WResrbWpn3oVfTIIW53WKOTD7CB
-	2m8WClLHsPoaWzZWBJYbFfFWyPV9IxAe6aU4Vb4Bf7i1KL6B3l8OpppshONcjCH/SS2a
-	HNB4PVsMxgsNmmAKRrDRtru0Ui9GmoAwH/QCf5eGcI+2dw/8dPBmDSbRKwpJDc0Itb6z
-	qEVlL9pdZtQdXI8aa+h3S2o3Ls/0I+0CjmSTSkYkeV3+Zo5+OXoiEWKXhYFEgg6xNGkL
-	PN2g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=r1HU9JkvSb/5DjvJTnj6/mq5cVWG/YiACjy++g+WXQY=;
+	b=OmC3W/g+zDeNkisNYc27/eiO8zvsZe/4wbRHllvNWjm50MpoXRBVJ8goEIKrv11ZPy
+	N2Da8i8xosaXxXfrKVRtvO30dNFN4QT/dHOD/LxhTkynRp9Yv6rJb+3xf0SuP8PXHNxf
+	Khj65/jZLm8b2+S3Y+zUN2IzW0UB1s0oVJU7mhfBYkN0hTri7xaye4GLCmtsikXYlSg3
+	wiEC1NbRJSa/qinj2N9acewp3tGjA00jX2sAQVbQEJJBodDmo5DF42NCbEhO3JNDQxbY
+	KNY3H5n4q3YTeuC2LNlJ31ZJm2337jf2VDk75cQMHVS4KSY9+dZEeX2/Rhs95e13DtPr
+	K6OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ow4y20A9ER5WAaw3iKoMp2Cgc8y9xRzxF6RJf31+w9o=;
-	b=UHTvnAE5d5K3g1nq7zXLHZCGbxcoFumNweiSGt2bbeLrc2B14xb3+XUjPJYlIPmkjD
-	S47P7aEaOpV/3vh1tw7icklNam6a38kbo3qgNDwuv5N1xhHf2dRNtb8zHPi/TfdELO5y
-	N66wwL7cmLqXAyi9WDyEK8cZnOVTBI+Kw1qUsGke9i3YT3eAdiXYM/6orW7cO22l4noT
-	ViKsvVpuvMkU5NJrK9WRuf6SORHwzQAbm0s16+Tq4K1yeL2YoPiD2PksNrtvQWGD6fnc
-	MRjLwIHQXwE2Aj+k100NxPcn3J8+EX+4QcCD4QxeDJKxRNXYQ6YN8N1Caee1O7cr3MIb
-	Yq3g==
-X-Gm-Message-State: AJaThX49bOLezV2uY9tqO5SUkspy/uoaNBbgTFZjnWo7j8PZEUyP/G2e
-	3+Yx05+Cgyty5u8a2kVqUz4=
-X-Google-Smtp-Source: AGs4zMb+VYyj1XMV6cWhz1txYSBpJ6YVngHVCmA1z2J3/zKwAix3IjZRyxpoLb0eMedJ/3r+VFDyGQ==
-X-Received: by 10.84.224.206 with SMTP id k14mr15556944pln.403.1511222855173; 
-	Mon, 20 Nov 2017 16:07:35 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4001:9ea0:b90e:aa41:7e0b:9c90])
-	by smtp.gmail.com with ESMTPSA id m9sm4221109pgt.17.2017.11.20.16.07.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Nov 2017 16:07:34 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 16:07:15 -0800
-Message-Id: <a5f87758e9ee7ea1eee0f3c546bd1ee39456886f.1511222485.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1511222485.git.akuster@mvista.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=r1HU9JkvSb/5DjvJTnj6/mq5cVWG/YiACjy++g+WXQY=;
+	b=bRA2wnR5pyDXJlRsLo5Ur99EFeviuAhu8oc2GXzwOykHOJ6XBA631+MXFGzAgsRk75
+	5OI7ND9BwKiTrdeClTSh0e2gb71lHHtQPOD2rBCJHX1zQke7j8hoWDRW/EJgfu+lKYnQ
+	GHXjECCMFCdZ7ZFzpnt0FXTZKb4rGOPDSnfq7Zr7R74wEZzGRhCuuoQyyiOmRW8J9EUQ
+	S8sOOmMkELNGGF64Ny3ZFyfu0i5J2MgeDH/s+tzWLPzjM7EkucztGIDpbnyA5CMRhIhs
+	0XJpffjzEbnDEFpLfswrplL9t0Wy4doCP2eUoqHpMmGAMuZSzb8ymgHoK6kqRB5aVycK
+	jkLA==
+X-Gm-Message-State: AJaThX4UCYHWkBOK8vBs4bDC035Smwsq0F0a8kwNwjWSOlQFOAbQdSNw
+	updZV5Gtt1yRDjNfKdT194w5Rr7Cq/pbOpMQTzg=
+X-Google-Smtp-Source: AGs4zMaKYs8xDcU17/CqV5fPfjEimTdV5LBvuAbEVNrsJf3wj1/O7d3+67wUoidhOlxcRjC1hkzI7zP4Kg2nRMNhxmI=
+X-Received: by 10.28.156.67 with SMTP id f64mr10943106wme.42.1511223364919;
+	Mon, 20 Nov 2017 16:16:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.133.68 with HTTP; Mon, 20 Nov 2017 16:16:04 -0800 (PST)
+In-Reply-To: <cb6bd21a2334aaad2f19df7dc433d629313bb146.1511222485.git.akuster@mvista.com>
 References: <cover.1511222485.git.akuster@mvista.com>
-Subject: [PATCH 5/5] curl: update to 7.56.1
+	<cb6bd21a2334aaad2f19df7dc433d629313bb146.1511222485.git.akuster@mvista.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 20 Nov 2017 16:16:04 -0800
+Message-ID: <CAJ86T=V1J9zsASYonv0SX8HMsu+nMBcnBJc=6CqRcW9nft2awQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: akuster <akuster@mvista.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] gnutls: update to 3.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:07:34 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 00:16:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Armin Kuster <akuster@mvista.com>
+On Mon, Nov 20, 2017 at 4:07 PM, Armin Kuster <akuster808@gmail.com> wrote:
+> zlib configure.ac support removed in  3.6.1
+> drop patch
 
-curlbuild.h removed from sources
+If the patch is now unused, can it be deleted?
 
-includes:
-CVE-2017-1000257
-
-removed patches for the following cve fixs:
-CVE-2017-1000254
-CVE-2017-1000101
-CVE-2017-1000100
-CVE-2017-1000099
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
- rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} (89%)
-
-diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.56.1.bb
-similarity index 89%
-rename from meta/recipes-support/curl/curl_7.54.1.bb
-rename to meta/recipes-support/curl/curl_7.56.1.bb
-index 58f0531..2891a4b 100644
---- a/meta/recipes-support/curl/curl_7.54.1.bb
-+++ b/meta/recipes-support/curl/curl_7.56.1.bb
-@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
--           file://CVE-2017-1000099.patch \
--           file://CVE-2017-1000100.patch \
--           file://CVE-2017-1000101.patch \
--           file://CVE-2017-1000254.patch \
- "
- 
- SRC_URI_append_class-target = " \
-@@ -22,8 +18,8 @@ SRC_URI_append_class-target = " \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
--SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770046249263c491fcae48df0e1a3ca8f25a0"
-+SRC_URI[md5sum] = "428de25834ef8c04076906d6d5c0498e"
-+SRC_URI[sha256sum] = "2594670367875e7d87b0f129b5e4690150780884d90244ba0fe3e74a778b5f90"
- 
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
-@@ -64,10 +60,6 @@ EXTRA_OECONF = " \
-     --without-libpsl \
- "
- 
--do_install_append() {
--	oe_multilib_header curl/curlbuild.h
--}
--
- do_install_append_class-target() {
- 	# cleanup buildpaths from curl-config
- 	sed -i \
--- 
-2.7.4
-
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/recipes-support/gnutls/gnutls.inc                            | 3 +--
+>  meta/recipes-support/gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb} | 5 ++---
+>  2 files changed, 3 insertions(+), 5 deletions(-)
+>  rename meta/recipes-support/gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb} (45%)
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+> index 29b5dd6..7bcb913 100644
+> --- a/meta/recipes-support/gnutls/gnutls.inc
+> +++ b/meta/recipes-support/gnutls/gnutls.inc
+> @@ -21,7 +21,7 @@ SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
+>
+>  inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+>
+> -PACKAGECONFIG ??= "libidn zlib"
+> +PACKAGECONFIG ??= "libidn"
+>
+>  # You must also have CONFIG_SECCOMP enabled in the kernel for
+>  # seccomp to work.
+> @@ -32,7 +32,6 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
+>  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+>  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+>  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+> -PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+>
+>  EXTRA_OECONF = " \
+>      --enable-doc \
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.5.16.bb b/meta/recipes-support/gnutls/gnutls_3.6.1.bb
+> similarity index 45%
+> rename from meta/recipes-support/gnutls/gnutls_3.5.16.bb
+> rename to meta/recipes-support/gnutls/gnutls_3.6.1.bb
+> index 635c519..7624a20 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.5.16.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.6.1.bb
+> @@ -1,10 +1,9 @@
+>  require gnutls.inc
+>
+>  SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
+> -            file://use-pkg-config-to-locate-zlib.patch \
+>              file://arm_eabi.patch \
+>             "
+> -SRC_URI[md5sum] = "4c39612f1ec3ef7ed79cfb8936fa8143"
+> -SRC_URI[sha256sum] = "0924dec90c37c05f49fec966eba3672dab4d336d879e5c06e06e13325cbfec25"
+> +SRC_URI[md5sum] = "4b65ae3ffef59f3eeed51a6166ff12b3"
+> +SRC_URI[sha256sum] = "20b10d2c9994bc032824314714d0e84c0f19bdb3d715d8ed55beb7364a8ebaed"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
