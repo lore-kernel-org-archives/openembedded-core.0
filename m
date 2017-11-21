@@ -1,62 +1,65 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5501678442
+Received: from mail-ot0-f171.google.com (mail-ot0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3768D78644
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 11:58:52 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id a81so8330429oii.13
+	Tue, 21 Nov 2017 12:06:26 +0000 (UTC)
+Received: by mail-ot0-f171.google.com with SMTP id 18so10309450oty.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 03:58:54 -0800 (PST)
+	Tue, 21 Nov 2017 04:06:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Z8Ge0dlPRq2Z4i+0y7tpJZcbwh+w3FIOqtuKpstqqck=;
-	b=jWEl7P47Irk4QYFe+5p+lsjpGR28TqQQ2l7iehICkPGAAmiZEqwZgyy71TpmewFT5r
-	D1NbTIfOpkqkvH14ZNbrjxE0sBkApjvW6bfOi7enRYn7OiZhdIdVxcSdiR5vpVaLzdFp
-	xwh/u3IiEpxvkiXMjqRdSwE26ZdsMAKPqO0VB1orT6dY7ahGASDM93V473bd4BPXAD6a
-	xVqaieiUwkswpjORSY5V7ngy/fiVWIy5alax6VagVPQO6a8HuG+4FDuJx1yuMKo4a0K1
-	Qn4nKSs4RR0mcYhesJvLzMjPcki9jfNOu2dg3YRqc58YSVTZF+c4Nq16zS9sv99gyHj1
-	IJ+Q==
+	:cc; bh=9oSiOEqIXD3M22fg6lU5Hht/psTUkgDb691A4VRQDbw=;
+	b=gUq3GLvIVvLGXA7LEDV74/qUz62m+n5eup9znlqvSt50v080tEazp+ljeJZ2f1jHkt
+	eBKOt/+zwBNLOkr+rJiV7hgNSusvSfxgwQkSaNjUJsHmcyi3VJKM/BiFPX6UYq+JVvV+
+	ffYZTpT4FETMXULrxcgBjNfiE1yySmdYCVF/Sl9mmrxeo0OsIrAza9rxoWbsbEPmURYc
+	bxaZvizId4EED/EJAjVA8sqOdGKuCEXnJkaPN3hEZorsjs2gCRHr3bRqgnji3uA8ojpV
+	IElTChYfE/B0R/mMiEMiNzlTPZdtRRyF+qbs7YAEEd4wJfI4jN4Fsui8JvupTGWRbiK6
+	ggaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=Z8Ge0dlPRq2Z4i+0y7tpJZcbwh+w3FIOqtuKpstqqck=;
-	b=dMzNP9s5LZDDgTOyRfjf+xl539rCWv8CF2vqxb/jgAh0Jxyx5MdO3bL6LWAYBVme7u
-	4bnIUrooDI25ApPH/LdWEigD6Uhlj7spTWqpNgkNnRUkdTwzwrikrj+n4NJLWs1C6hi5
-	l2W89PruNbVs6IgIzQpXevDv/BMwr3TBQ8WbTspZKKVulFPSEsBX6scFHpYMTK07UylW
-	JJR6NXX4lujAuubyrg1xyN1PGQ9/Av1iQDBvpiVO1LWje46LK+bCbt031/xGaZiViOkD
-	+x64i84+1NX1uM7Innkk4mTVdpC1MOhHlUo2xv8vZn0BwP5ZxiMsQHdmS+Muyo6NB7Wb
-	bWcw==
-X-Gm-Message-State: AJaThX66nwOFKSBzI9U3CQeLec8+7FTzNssxSebpHmy+tgKuYyoGXsE6
-	xDWm3+4FHa3780s64RZaphr1Tc6Q
-X-Google-Smtp-Source: AGs4zMYC3S7l2cx8lnQLthpllEUAACT9erDyCP57S15wK39AdKetUSiTyhebrg5Fqt7OwBhZCcJGiQ==
-X-Received: by 10.202.173.210 with SMTP id w201mr9311637oie.190.1511265533843; 
-	Tue, 21 Nov 2017 03:58:53 -0800 (PST)
-Received: from mail-ot0-f173.google.com (mail-ot0-f173.google.com.
-	[74.125.82.173])
-	by smtp.gmail.com with ESMTPSA id 23sm5840087otv.63.2017.11.21.03.58.52
+	bh=9oSiOEqIXD3M22fg6lU5Hht/psTUkgDb691A4VRQDbw=;
+	b=VxMugen91pXyJjUV7l3B5IUP5V1KVn1+lfiiwRTkDcPEfoaIrsTuLYnu3e6sEANpXN
+	4dwZb/tZCe8cofhoPBySgl6n/OxlgjttJpvbZszhwpHaVyw0KZaNDTYD3+TDfPX84foy
+	gaZrQsQR3R/ugATChNc/K/QO9X1/x1GoUhUGUu29CQJ07BvzhJqoGnP9asGbe0g6KvHp
+	OYxrhW9wSa8GssfRhN6+usQLXDuis09oqGhg5EsrDVsvJ0378ZkxaqYO4TJf+rYbXs/w
+	qyM1YlCKvHaQffVxLQKh18iK7cBSfbbPd6LnKxvH4T4qVQdpZx6nlu2GjkXDML6Yjanu
+	BzJw==
+X-Gm-Message-State: AJaThX4EuG03Q5AitLCDdpYKqdM3JJdL9EtdpDLZEDRQGc9j8iy4D0S/
+	ZthzHjeCj+Lz94yTOvI3TRZFVKXW
+X-Google-Smtp-Source: AGs4zMYkQZLu+8JuvOmxlxD1y5yMUMkCpF1Dl5DtrhDHeMWjF27crTHEVw0/uSzhMXZdoUjzCSEdHw==
+X-Received: by 10.157.42.228 with SMTP id e91mr10416041otb.372.1511265987884; 
+	Tue, 21 Nov 2017 04:06:27 -0800 (PST)
+Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com.
+	[74.125.82.181])
+	by smtp.gmail.com with ESMTPSA id t27sm163615oij.32.2017.11.21.04.06.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
+	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f173.google.com with SMTP id d27so10277008ote.11
+Received: by mail-ot0-f181.google.com with SMTP id o23so10324815otd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
-X-Received: by 10.157.34.200 with SMTP id y66mr9886768ota.276.1511265532298;
-	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
+	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
+X-Received: by 10.157.80.13 with SMTP id a13mr9930594oth.370.1511265986161;
+	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 21 Nov 2017 03:58:51 -0800 (PST)
-In-Reply-To: <cover.1511207344.git.Martin.Jansa@gmail.com>
-References: <cover.1511207344.git.Martin.Jansa@gmail.com>
-Date: Tue, 21 Nov 2017 09:58:51 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
-Message-ID: <CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.157.17.210 with HTTP; Tue, 21 Nov 2017 04:06:25 -0800 (PST)
+In-Reply-To: <1511251487.5979.54.camel@intel.com>
+References: <cover.1486668313.git.jussi.kukkonen@intel.com>
+	<3126cc0be3fdcd228a3bc73e2e58b90447c53ef2.1486668313.git.jussi.kukkonen@intel.com>
+	<1511251487.5979.54.camel@intel.com>
+Date: Tue, 21 Nov 2017 10:06:25 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
+Message-ID: <CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 0/5] Kernel artifacts naming changes
+Subject: Re: native CA cert bundles (was: Re: [PATCH 3/3] cve-check-tool: Use CA cert bundle in correct sysroot)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,22 +72,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 11:58:53 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 12:06:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Martin,
+On Tue, Nov 21, 2017 at 6:04 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Thu, 2017-02-09 at 21:38 +0200, Jussi Kukkonen wrote:
+> There is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9883 open
+> about some aspect of this, but it doesn't actually address the
+> underlying question about what the right behavior should be. It's based
+> on the assumption that libcurl-native should always use ca-
+> certificates-native.
+>
+> Thoughts anyone?
 
-On Mon, Nov 20, 2017 at 6:11 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-...
-> This RFC doesn't implement it all, but it makes naming all the artifacts in
-> consistent way a bit easier. If there is an agreement that OE should support
-> the naming scenario described above, I'll submit the rest of the changes.
-
-I think it all makes sense and if we preserve current behavior as
-default I see it as a very good addition :-)
-
-I didn't test the patches myself and I'd like to do a more extensive
-test once you send the full patchset.
+I agree it should use ca-certificates-native for all native; it allows
+for self-signed internal certificates to be added for internal
+development.
 
 -- 
 Otavio Salvador                             O.S. Systems
