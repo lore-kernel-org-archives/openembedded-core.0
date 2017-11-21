@@ -1,52 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3113778802
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E16EA78878
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 20:01:45 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id a84so10620108pfl.0
+	Tue, 21 Nov 2017 20:02:05 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id n134so3507170itg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 12:01:47 -0800 (PST)
+	Tue, 21 Nov 2017 12:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=kB513b75izIGsDp4HvgRtNXsTj3Q/lEq4oFwhj09S18=;
-	b=Z9yFRBFEYWuvhsWeEG7NTtRoDypqAQ/mhk51GwMckHCvXSB7CTxlr+O1mYMIDVnUOO
-	QWOViaA7go0HEh2j/V9Fi3vvOCDvWcxgXHj5yIGNlBlx7cs0E3MGDcYOmsXRKpO+8ujU
-	N1fqZJIMNt2Hak09IdLN/xhNAe0/Ip/YgbpvRBPrh4x7229oZe6v+7rhcWgpWZRr9NYL
-	AXdQaoZtD8NOHELKpisMagTvFMbydjKqDyd+AeiD8svqXlA0ibtkZTJd8HHPVNxU+hwF
-	T5IPFb8Hk/YUlg3b97u9u2srR2LPPddxyYqzJxGMoVB2E6BdhRX0sP4oQqT7R9Ux2Txm
-	xRyA==
+	h=from:to:cc:subject:date:message-id;
+	bh=G2whzoSiy7eSaaYrtbhtUS+dplsL8h9EshZiijk4ACY=;
+	b=BVQegW3zykx9pPnTJ9AMYkt/yHgF18ZwqSKoKwpGLBDk6tC1XhLWl4CVJeBl8odEe3
+	oSPsyHl8ZVyI+9DBNCGw89PDcyVc4scj58wa2+TasMYppdQjJ+hdrH4kHozfDTckIAi6
+	e6oJZUMvHLytL0AD1cGeZkwp+cUnHS5IxE3v/6jbPGk4GVTdMdqHn4Q/enYb8/KC7h4g
+	DQeqogbJG3rA4dWM0bAHYNpvrb94IAUmieJ4gMYGB+pkQH3qjN7648rgGPmWkAE/thFr
+	bldJmQlYWd+qg6CDasoXUkV1wVOC6UtnqcM9DrPgi9BuCEiyXyjhWDdeYu8kzW99n8th
+	TodQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=kB513b75izIGsDp4HvgRtNXsTj3Q/lEq4oFwhj09S18=;
-	b=FlQikPPOQMvfWy1o8Elb0DDp1LTLNM1xVzAV7wGIZGGwTUgZ4R3KCFcGMIFLKYZpOR
-	Os9KJ+YCOKm82IUo7TQ0vMvSXm2QQ+mKuEEkiX9jD03+oY9ffqneRQNFYS6UEqjma6k+
-	hLxUjuChAuOgGWXEUS6qooKFNyLFUh6cIUUEgCpf3B8IWv9JSIXGgYT3h95JyTo+VKIk
-	crjezb3/EyNrZRUyittbKKjSqxusQeNcZJhawLyFgHJLx/JDF5Q5cCc42op6bnM1/77F
-	M+1Hglrly9Llsz5zxsXTHtx3VHDDCz8MfmcqcEa1yg0PcCTy5Tq6Oky65Kaqcq+hinCR
-	rZrQ==
-X-Gm-Message-State: AJaThX6DULsT7095pDptxoC+lNkzZf5RaUaB6fPqTUooA/xKTmOIHOTv
-	Hhkb2e21s6hnM9nfzESQc5HUfQ==
-X-Google-Smtp-Source: AGs4zMbt7uR/awHdXVKz+AARX33k1jv/ExATaRiSBXkeefcO5EW1Vl/1z2leYH6OixJvXt6XwwhA4A==
-X-Received: by 10.101.99.199 with SMTP id n7mr18457374pgv.247.1511294507398;
-	Tue, 21 Nov 2017 12:01:47 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=G2whzoSiy7eSaaYrtbhtUS+dplsL8h9EshZiijk4ACY=;
+	b=sGWPeQIUEf3axCXqTcWFVAJdrlJhp3o/hngpiUJtD/wDEvBiUeK2gQmM4ZCHgasbce
+	aytrCTNfMi5CQcNuvwRRNcB6o1tgVSivNUwFCkScFBa2KKOL/bA+4Z/dM7f1rLn2pjX/
+	pXnHSCNSeUszCF7u2qQnVc8DqL0xJbdxGqDNklzBzwt1SVrEsgOUXqLQOo+M4Ju2SzH7
+	jhkZIia5fYHJzI8KpzGgxm17V9VqjvhjmFIhSRx5+NiJ31uQu68bisFWaxc62JXkSRHE
+	uBD4uxWERJkHNdQ+e/+jRsqby8y5GFv77EWSOkxaXA+Fdqxh/cINN3T1z9XTyhnN0zTD
+	6jDA==
+X-Gm-Message-State: AJaThX7QApiTNFpzioNoKlyXWf6ArOdMybeCercLEeICKN7d0ic/RPyq
+	En17EzEgOK3RQY1pu+fzSClb
+X-Google-Smtp-Source: AGs4zMYbWQAvl58JwR2sw0Exxsaov6AybKU8EtpzNHQDhwP8M0tcigEcU3x5DvL6KbgclW8yMHYfQg==
+X-Received: by 10.36.74.83 with SMTP id k80mr3233665itb.133.1511294526079;
+	Tue, 21 Nov 2017 12:02:06 -0800 (PST)
+Received: from localhost.localdomain ([216.21.169.52])
 	by smtp.gmail.com with ESMTPSA id
-	d28sm26770154pfb.105.2017.11.21.12.01.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Nov 2017 12:01:46 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 12:01:36 -0800
-Message-Id: <a8779efbc41a18d6f1c0c9d31b3706e3b47c81bc.1511294278.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1511294278.git.akuster808@gmail.com>
-References: <cover.1511294278.git.akuster808@gmail.com>
-Subject: [PATCH 5/5] curl: update to 7.56.1
+	v125sm1120339itv.42.2017.11.21.12.02.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Nov 2017 12:02:05 -0800 (PST)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Nov 2017 14:01:20 -0600
+Message-Id: <20171121200121.5896-1-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.15.0
+Subject: [morty][PATCH v3 1/2] glibc: Fix CVE-2015-5180
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,74 +54,401 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 20:01:46 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 20:02:06 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+Add backported patch to fix CVE-2015-5180 from the upstream
+release/2.24/master branch.
 
-v2] - remove inherit
-
-curlbuild.h removed from sources
-
-includes:
-CVE-2017-1000257
-
-removed patches for the following cve fixs:
-CVE-2017-1000254
-CVE-2017-1000101
-CVE-2017-1000100
-CVE-2017-1000099
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- .../curl/{curl_7.54.1.bb => curl_7.56.1.bb}                | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
- rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} (87%)
 
-diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.56.1.bb
-similarity index 87%
-rename from meta/recipes-support/curl/curl_7.54.1.bb
-rename to meta/recipes-support/curl/curl_7.56.1.bb
-index 58f0531..830f350 100644
---- a/meta/recipes-support/curl/curl_7.54.1.bb
-+++ b/meta/recipes-support/curl/curl_7.56.1.bb
-@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
--           file://CVE-2017-1000099.patch \
--           file://CVE-2017-1000100.patch \
--           file://CVE-2017-1000101.patch \
--           file://CVE-2017-1000254.patch \
+Changes in v2:
+ - Fix commit message
+
+Changes in v3:
+ - None. Resending with other patch in the series.
+
+ ...80-resolv-Fix-crash-with-internal-QTYPE-B.patch | 357 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.24.bb              |   1 +
+ 2 files changed, 358 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
+new file mode 100644
+index 0000000000..ba0bebe488
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
+@@ -0,0 +1,357 @@
++From ff9b7c4fb73295cd2de2d2ccfbbf4f6d50883d47 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Sat, 31 Dec 2016 20:22:09 +0100
++Subject: [PATCH] CVE-2015-5180: resolv: Fix crash with internal QTYPE [BZ
++ #18784]
++
++Also rename T_UNSPEC because an upcoming public header file
++update will use that name.
++
++(cherry picked from commit fc82b0a2dfe7dbd35671c10510a8da1043d746a5)
++
++Upstream-Status: Backport
++https://sourceware.org/git/?p=glibc.git;a=patch;h=b3b37f1a5559a7620e31c8053ed1b44f798f2b6d
++
++CVE: CVE-2015-5180
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++---
++ ChangeLog                     |  14 ++++
++ NEWS                          |   6 ++
++ include/arpa/nameser_compat.h |   6 +-
++ resolv/Makefile               |   5 ++
++ resolv/nss_dns/dns-host.c     |   2 +-
++ resolv/res_mkquery.c          |   4 +
++ resolv/res_query.c            |   6 +-
++ resolv/tst-resolv-qtypes.c    | 185 ++++++++++++++++++++++++++++++++++++++++++
++ 8 files changed, 221 insertions(+), 7 deletions(-)
++ create mode 100644 resolv/tst-resolv-qtypes.c
++
++diff --git a/ChangeLog b/ChangeLog
++index 893262de11..2bdaf69e43 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,17 @@
+++2016-12-31  Florian Weimer  <fweimer@redhat.com>
+++
+++	[BZ #18784]
+++	CVE-2015-5180
+++	* include/arpa/nameser_compat.h (T_QUERY_A_AND_AAAA): Rename from
+++	T_UNSPEC.  Adjust value.
+++	* resolv/nss_dns/dns-host.c (_nss_dns_gethostbyname4_r): Use it.
+++	* resolv/res_query.c (__libc_res_nquery): Likewise.
+++	* resolv/res_mkquery.c (res_nmkquery): Check for out-of-range
+++	QTYPEs.
+++	* resolv/tst-resolv-qtypes.c: New file.
+++	* resolv/Makefile (xtests): Add tst-resolv-qtypes.
+++	(tst-resolv-qtypes): Link against libresolv and libpthread.
+++
++ 2016-10-26  Carlos O'Donell  <carlos@redhat.com>
++ 
++ 	* include/atomic.h
++diff --git a/NEWS b/NEWS
++index 3002773c16..4b1ca3cb65 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -11,6 +11,12 @@ using `glibc' in the "product" field.
++   printers show various pthread variables in human-readable form when read
++   using the 'print' or 'display' commands in gdb.
++ 
+++* The DNS stub resolver functions would crash due to a NULL pointer
+++  dereference when processing a query with a valid DNS question type which
+++  was used internally in the implementation.  The stub resolver now uses a
+++  question type which is outside the range of valid question type values.
+++  (CVE-2015-5180)
+++
++ Version 2.24
++ 
++ * The minimum Linux kernel version that this version of the GNU C Library
++diff --git a/include/arpa/nameser_compat.h b/include/arpa/nameser_compat.h
++index 2e735ede4c..7c0deed9ae 100644
++--- a/include/arpa/nameser_compat.h
+++++ b/include/arpa/nameser_compat.h
++@@ -1,8 +1,8 @@
++ #ifndef _ARPA_NAMESER_COMPAT_
++ #include <resolv/arpa/nameser_compat.h>
++ 
++-/* Picksome unused number to represent lookups of IPv4 and IPv6 (i.e.,
++-   T_A and T_AAAA).  */
++-#define T_UNSPEC 62321
+++/* The number is outside the 16-bit RR type range and is used
+++   internally by the implementation.  */
+++#define T_QUERY_A_AND_AAAA 439963904
++ 
++ #endif
++diff --git a/resolv/Makefile b/resolv/Makefile
++index 8be41d3ae1..a4c86b9762 100644
++--- a/resolv/Makefile
+++++ b/resolv/Makefile
++@@ -40,6 +40,9 @@ ifeq ($(have-thread-library),yes)
++ extra-libs += libanl
++ routines += gai_sigqueue
++ tests += tst-res_hconf_reorder
+++
+++# This test sends millions of packets and is rather slow.
+++xtests += tst-resolv-qtypes
++ endif
++ extra-libs-others = $(extra-libs)
++ libresolv-routines := gethnamaddr res_comp res_debug	\
++@@ -117,3 +120,5 @@ tst-leaks2-ENV = MALLOC_TRACE=$(objpfx)tst-leaks2.mtrace
++ $(objpfx)mtrace-tst-leaks2.out: $(objpfx)tst-leaks2.out
++ 	$(common-objpfx)malloc/mtrace $(objpfx)tst-leaks2.mtrace > $@; \
++ 	$(evaluate-test)
+++
+++$(objpfx)tst-resolv-qtypes: $(objpfx)libresolv.so $(shared-thread-library)
++diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
++index 5f9e35701b..d16fa4b8ed 100644
++--- a/resolv/nss_dns/dns-host.c
+++++ b/resolv/nss_dns/dns-host.c
++@@ -323,7 +323,7 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
++ 
++   int olderr = errno;
++   enum nss_status status;
++-  int n = __libc_res_nsearch (&_res, name, C_IN, T_UNSPEC,
+++  int n = __libc_res_nsearch (&_res, name, C_IN, T_QUERY_A_AND_AAAA,
++ 			      host_buffer.buf->buf, 2048, &host_buffer.ptr,
++ 			      &ans2p, &nans2p, &resplen2, &ans2p_malloced);
++   if (n >= 0)
++diff --git a/resolv/res_mkquery.c b/resolv/res_mkquery.c
++index 12f9730199..d80b5318e5 100644
++--- a/resolv/res_mkquery.c
+++++ b/resolv/res_mkquery.c
++@@ -103,6 +103,10 @@ res_nmkquery(res_state statp,
++ 	int n;
++ 	u_char *dnptrs[20], **dpp, **lastdnptr;
++ 
+++	if (class < 0 || class > 65535
+++	    || type < 0 || type > 65535)
+++	  return -1;
+++
++ #ifdef DEBUG
++ 	if (statp->options & RES_DEBUG)
++ 		printf(";; res_nmkquery(%s, %s, %s, %s)\n",
++diff --git a/resolv/res_query.c b/resolv/res_query.c
++index 944d1a90f5..07dc6f6583 100644
++--- a/resolv/res_query.c
+++++ b/resolv/res_query.c
++@@ -122,7 +122,7 @@ __libc_res_nquery(res_state statp,
++ 	int n, use_malloc = 0;
++ 	u_int oflags = statp->_flags;
++ 
++-	size_t bufsize = (type == T_UNSPEC ? 2 : 1) * QUERYSIZE;
+++	size_t bufsize = (type == T_QUERY_A_AND_AAAA ? 2 : 1) * QUERYSIZE;
++ 	u_char *buf = alloca (bufsize);
++ 	u_char *query1 = buf;
++ 	int nquery1 = -1;
++@@ -137,7 +137,7 @@ __libc_res_nquery(res_state statp,
++ 		printf(";; res_query(%s, %d, %d)\n", name, class, type);
++ #endif
++ 
++-	if (type == T_UNSPEC)
+++	if (type == T_QUERY_A_AND_AAAA)
++ 	  {
++ 	    n = res_nmkquery(statp, QUERY, name, class, T_A, NULL, 0, NULL,
++ 			     query1, bufsize);
++@@ -190,7 +190,7 @@ __libc_res_nquery(res_state statp,
++ 	if (__builtin_expect (n <= 0, 0) && !use_malloc) {
++ 		/* Retry just in case res_nmkquery failed because of too
++ 		   short buffer.  Shouldn't happen.  */
++-		bufsize = (type == T_UNSPEC ? 2 : 1) * MAXPACKET;
+++		bufsize = (type == T_QUERY_A_AND_AAAA ? 2 : 1) * MAXPACKET;
++ 		buf = malloc (bufsize);
++ 		if (buf != NULL) {
++ 			query1 = buf;
++diff --git a/resolv/tst-resolv-qtypes.c b/resolv/tst-resolv-qtypes.c
++new file mode 100644
++index 0000000000..b3e60c693b
++--- /dev/null
+++++ b/resolv/tst-resolv-qtypes.c
++@@ -0,0 +1,185 @@
+++/* Exercise low-level query functions with different QTYPEs.
+++   Copyright (C) 2016 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <resolv.h>
+++#include <string.h>
+++#include <support/check.h>
+++#include <support/check_nss.h>
+++#include <support/resolv_test.h>
+++#include <support/support.h>
+++#include <support/test-driver.h>
+++#include <support/xmemstream.h>
+++
+++/* If ture, the response function will send the actual response packet
+++   over TCP instead of UDP.  */
+++static volatile bool force_tcp;
+++
+++/* Send back a fake resource record matching the QTYPE.  */
+++static void
+++response (const struct resolv_response_context *ctx,
+++          struct resolv_response_builder *b,
+++          const char *qname, uint16_t qclass, uint16_t qtype)
+++{
+++  if (force_tcp && ctx->tcp)
+++    {
+++      resolv_response_init (b, (struct resolv_response_flags) { .tc = 1 });
+++      resolv_response_add_question (b, qname, qclass, qtype);
+++      return;
+++    }
+++
+++  resolv_response_init (b, (struct resolv_response_flags) { });
+++  resolv_response_add_question (b, qname, qclass, qtype);
+++  resolv_response_section (b, ns_s_an);
+++  resolv_response_open_record (b, qname, qclass, qtype, 0);
+++  resolv_response_add_data (b, &qtype, sizeof (qtype));
+++  resolv_response_close_record (b);
+++}
+++
+++static const const char *domain = "www.example.com";
+++
+++static int
+++wrap_res_query (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_query (domain, C_IN, type, answer, answer_length);
+++}
+++
+++static int
+++wrap_res_search (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_query (domain, C_IN, type, answer, answer_length);
+++}
+++
+++static int
+++wrap_res_querydomain (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_querydomain ("www", "example.com", C_IN, type,
+++                           answer, answer_length);
+++}
+++
+++static int
+++wrap_res_send (int type, unsigned char *answer, int answer_length)
+++{
+++  unsigned char buf[512];
+++  int ret = res_mkquery (QUERY, domain, C_IN, type,
+++                         (const unsigned char *) "", 0, NULL,
+++                         buf, sizeof (buf));
+++  if (type < 0 || type >= 65536)
+++    {
+++      /* res_mkquery fails for out-of-range record types.  */
+++      TEST_VERIFY_EXIT (ret == -1);
+++      return -1;
+++    }
+++  TEST_VERIFY_EXIT (ret > 12);  /* DNS header length.  */
+++  return res_send (buf, ret, answer, answer_length);
+++}
+++
+++static int
+++wrap_res_nquery (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_nquery (&_res, domain, C_IN, type, answer, answer_length);
+++}
+++
+++static int
+++wrap_res_nsearch (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_nquery (&_res, domain, C_IN, type, answer, answer_length);
+++}
+++
+++static int
+++wrap_res_nquerydomain (int type, unsigned char *answer, int answer_length)
+++{
+++  return res_nquerydomain (&_res, "www", "example.com", C_IN, type,
+++                           answer, answer_length);
+++}
+++
+++static int
+++wrap_res_nsend (int type, unsigned char *answer, int answer_length)
+++{
+++  unsigned char buf[512];
+++  int ret = res_nmkquery (&_res, QUERY, domain, C_IN, type,
+++                         (const unsigned char *) "", 0, NULL,
+++                         buf, sizeof (buf));
+++  if (type < 0 || type >= 65536)
+++    {
+++      /* res_mkquery fails for out-of-range record types.  */
+++      TEST_VERIFY_EXIT (ret == -1);
+++      return -1;
+++    }
+++  TEST_VERIFY_EXIT (ret > 12);  /* DNS header length.  */
+++  return res_nsend (&_res, buf, ret, answer, answer_length);
+++}
+++
+++static void
+++test_function (const char *fname,
+++               int (*func) (int type,
+++                            unsigned char *answer, int answer_length))
+++{
+++  unsigned char buf[512];
+++  for (int tcp = 0; tcp < 2; ++tcp)
+++    {
+++      force_tcp = tcp;
+++      for (unsigned int type = 1; type <= 65535; ++type)
+++        {
+++          if (test_verbose)
+++            printf ("info: sending QTYPE %d with %s (tcp=%d)\n",
+++                    type, fname, tcp);
+++          int ret = func (type, buf, sizeof (buf));
+++          if (ret != 47)
+++            FAIL_EXIT1 ("%s tcp=%d qtype=%d return value %d",
+++                        fname,tcp, type, ret);
+++          /* One question, one answer record.  */
+++          TEST_VERIFY (memcmp (buf + 4, "\0\1\0\1\0\0\0\0", 8) == 0);
+++          /* Question section.  */
+++          static const char qname[] = "\3www\7example\3com";
+++          size_t qname_length = sizeof (qname);
+++          TEST_VERIFY (memcmp (buf + 12, qname, qname_length) == 0);
+++          /* RDATA part of answer.  */
+++          uint16_t type16 = type;
+++          TEST_VERIFY (memcmp (buf + ret - 2, &type16, sizeof (type16)) == 0);
+++        }
+++    }
+++
+++  TEST_VERIFY (func (-1, buf, sizeof (buf) == -1));
+++  TEST_VERIFY (func (65536, buf, sizeof (buf) == -1));
+++}
+++
+++static int
+++do_test (void)
+++{
+++  struct resolv_redirect_config config =
+++    {
+++      .response_callback = response,
+++    };
+++  struct resolv_test *obj = resolv_test_start (config);
+++
+++  test_function ("res_query", &wrap_res_query);
+++  test_function ("res_search", &wrap_res_search);
+++  test_function ("res_querydomain", &wrap_res_querydomain);
+++  test_function ("res_send", &wrap_res_send);
+++
+++  test_function ("res_nquery", &wrap_res_nquery);
+++  test_function ("res_nsearch", &wrap_res_nsearch);
+++  test_function ("res_nquerydomain", &wrap_res_nquerydomain);
+++  test_function ("res_nsend", &wrap_res_nsend);
+++
+++  resolv_test_end (obj);
+++  return 0;
+++}
+++
+++#define TIMEOUT 300
+++#include <support/test-driver.c>
++-- 
++2.15.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index e723e03dcf..4c7d901149 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0004-New-condvar-implementation-that-provides-stronger-or.patch \
+            file://0005-Remove-__ASSUME_REQUEUE_PI.patch \
+            file://0006-Fix-atomic_fetch_xor_release.patch \
++           file://0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch \
  "
  
- SRC_URI_append_class-target = " \
-@@ -22,11 +18,11 @@ SRC_URI_append_class-target = " \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
--SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770046249263c491fcae48df0e1a3ca8f25a0"
-+SRC_URI[md5sum] = "428de25834ef8c04076906d6d5c0498e"
-+SRC_URI[sha256sum] = "2594670367875e7d87b0f129b5e4690150780884d90244ba0fe3e74a778b5f90"
- 
- CVE_PRODUCT = "libcurl"
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy threaded-resolver zlib"
- PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver zlib"
-@@ -64,10 +60,6 @@ EXTRA_OECONF = " \
-     --without-libpsl \
- "
- 
--do_install_append() {
--	oe_multilib_header curl/curlbuild.h
--}
--
- do_install_append_class-target() {
- 	# cleanup buildpaths from curl-config
- 	sed -i \
+ SRC_URI += "\
 -- 
-2.7.4
+2.15.0
 
 
