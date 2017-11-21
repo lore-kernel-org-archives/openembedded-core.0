@@ -1,50 +1,47 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4369D78874
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D79C8786D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 20:02:07 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id m11so7970308iti.1
+	Tue, 21 Nov 2017 20:03:59 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id u42so20741436ioi.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 12:02:09 -0800 (PST)
+	Tue, 21 Nov 2017 12:04:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0rziBJxPLXs09aU/bLRKY0OD4CxD7xDYnsgqw1lg3Zg=;
-	b=RthHiCjWeo5KyIp6K9/7FulbaweENMYiOEujxOmxmG/Pa6GUdgVFfHfYr9DvsDxaCD
-	oUwnbpYNYS85mqIF0kZrvgPcSUy9K0T3XMJ2/q/c2KOgs38fU7iqxyyisygDWuvRzQDD
-	rCccFzfbwaiUIW8WeY57bAp+gWEI9KAfvcOjnn8Zkr82oQ1CSdAqESpKPg5HX+YWUk90
-	nChzwSonEzfmBFpX4lsRPt9I1F8H+TFbabMTOcFGy1YvN0pdP6dAWcZhbsmDG0Wmk5Uy
-	EHc1sg8wOBxIgGOLuVHkgO25J4A96iZ8XZMe0Glp3jB4U/L+pTNlEFwU0QRu2HV0e4NW
-	avsw==
+	h=from:to:cc:subject:date:message-id;
+	bh=kJzGMoIZov1YOK8VCYOYOw0m500rs2XxOib5AKiwL3k=;
+	b=d+ynAXrrlBXhLBLcedVfBLUft2W8dlEZ6Cii9AP7fS8pi3Gpxne9/RCD9I2Onfk4P3
+	SFVMR6R94VsO5Pu5lQ0AbYtvCsHEVKjQxdkpX7+YUfqbnIFKzxmhLGqzG8DwDsXOIW/z
+	ujuScvf2YsLOwd6KFCRzdAkufsOMYqTukwuQcl0jXR9g7kJMvTj5fYDzD609wb4IhRtF
+	SeLxMxfwIVvec7uj1hJ9XSHiHiDJQU0HIeWXwQ016OWN70LN6iY6Tp/871fgyYk4rCSP
+	ZxFpwn37KR/Gx2/DECIzmMkzaPH0LA38nTm+h5WwapK8j+gFgZhhrUTowjCIy6wpi1K6
+	gOaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=0rziBJxPLXs09aU/bLRKY0OD4CxD7xDYnsgqw1lg3Zg=;
-	b=GVxglC2J6Cwaa3x6GF/tnwPyyrrlGHEDFYM+PbBuJrBlqp5RD+P+BRTST8Imy5IPvd
-	rGyGyxzdGxBwXEjzuJCIUbyymwVxUnD4BsOjSVaqG09yTv7Gh6Zky3nY3H5RQ770xUj7
-	rSVh8qx8Nmm75y5zR1DG74MtgmwKOJ+dCsFZHXzdb7a/GUxnDtKUGvpLiKpLae2XpMsQ
-	gW/HM5qLk3zk6aobl/u5CP/Xou08n9A05EQ1AKiI3roeKDIR9AwfP3z3RwudeG3LMJbq
-	dBId1Lb/TBzAkJYBmFSbyVFs1lQJRWyj8C6XFJkA9ghUdl5/X9tqMfwaCMW3DN68Hxdl
-	YAYw==
-X-Gm-Message-State: AJaThX7FTWxIwPVLVRYHpLU3f/R2lvO2KCZ2vG7RGiXVmfnIe8cDyayp
-	igzstVtkcBFRzo5oNVnj6rnL
-X-Google-Smtp-Source: AGs4zMZhRUGXh7SOJxQWUT1eHINphnBEihkfDxdWrSF5y0IDEzsAkDGx/+iYWBqqIT2O/3a5IrssXg==
-X-Received: by 10.36.2.19 with SMTP id 19mr3669455itu.76.1511294528539;
-	Tue, 21 Nov 2017 12:02:08 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kJzGMoIZov1YOK8VCYOYOw0m500rs2XxOib5AKiwL3k=;
+	b=ola5Pdo4ju4I1ZL8oG31uwoyMvGzlNuIPC8/jfzaB44S0dHqAvTdRLERlC3omDXFtw
+	jAex/Pkf9bEn9a4ohymlHkqj+eCKQsYhwy518TlaxCH2hnLBXfvpJao+NdcJmjv+CVTy
+	JpDnSsKWbIp+k5uD0NrNrO54NlgaFVfEZYuUMtZ+A3AZe+rep49oC8Tz83EsSfdQ7nS8
+	S958aQhQanjiyv5gsR2Xj6TUMq9BJRIivmDZyl222o/FyUHxTohVM0xBsLzT9niSOfoN
+	KEFthuQxcI7Pmp7w2str5YsJkoY8bl0vrNW6H7/HV8XIE0IUEVTmWLL5Fzo3+XCI0Uq+
+	bpgQ==
+X-Gm-Message-State: AJaThX7OIEQApO2cUboqgmdjizc5Bh15jGhkKX6s2+s7znIRFIWxWKlz
+	wPg/c1dn9qoiOueu1/VNOORj
+X-Google-Smtp-Source: AGs4zMbJj7Iyk6bPodTRrrsSqeXg5Ee2R3ig8vtfoK2AnNseJ0LgC/9/zZ4t/To0HBYtovbUw4BSqg==
+X-Received: by 10.107.34.206 with SMTP id i197mr18080563ioi.134.1511294640162; 
+	Tue, 21 Nov 2017 12:04:00 -0800 (PST)
 Received: from localhost.localdomain ([216.21.169.52])
 	by smtp.gmail.com with ESMTPSA id
-	v125sm1120339itv.42.2017.11.21.12.02.07
+	n132sm1033087itn.25.2017.11.21.12.03.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 12:02:08 -0800 (PST)
+	Tue, 21 Nov 2017 12:03:59 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 14:01:21 -0600
-Message-Id: <20171121200121.5896-2-george.mccollister@gmail.com>
+Date: Tue, 21 Nov 2017 14:03:52 -0600
+Message-Id: <20171121200352.6348-1-george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171121200121.5896-1-george.mccollister@gmail.com>
-References: <20171121200121.5896-1-george.mccollister@gmail.com>
-Subject: [morty][PATCH v3 2/2] glibc: Fix CVE-2017-1000366
+Subject: [pyro][PATCH] glibc: Fix CVE-2017-1000366
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 20:02:08 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 20:04:00 -0000
 
-Add backported patches from the upstream release/2.24/master branch to
+Add backported patches from the upstream release/2.25/master branch to
 fix CVE-2017-1000366. Also add a backported patch that resolves SSE
 related build problems introduced by these patches.
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
-
-Changes in v2:
- - Fix commit message
-
-Changes in v3:
- - Added upstream patch to fix SSE issue introduced by this patch
-   series.
-
- ...00366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch |  71 +++++++
- ...ject-overly-long-LD_PRELOAD-path-elements.patch | 145 +++++++++++++
- ...Reject-overly-long-LD_AUDIT-path-elements.patch | 231 +++++++++++++++++++++
+ ...00366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch |  70 +++++++
+ ...ject-overly-long-LD_PRELOAD-path-elements.patch | 144 +++++++++++++
+ ...Reject-overly-long-LD_AUDIT-path-elements.patch | 230 +++++++++++++++++++++
  ...ssing-IS_IN-libc-guards-to-vectorized-str.patch |  62 ++++++
- meta/recipes-core/glibc/glibc_2.24.bb              |   4 +
- 5 files changed, 513 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0004-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
+ meta/recipes-core/glibc/glibc_2.25.bb              |   4 +
+ 5 files changed, 510 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+diff --git a/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch b/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
 new file mode 100644
-index 0000000000..78e9ea9e65
+index 0000000000..0178d50ff0
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
-@@ -0,0 +1,71 @@
-+From 400f170750a4b2c94a2670ca44de166cc5dd6e3b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+@@ -0,0 +1,70 @@
++From 4002021818bc31aec9b353c6e13ce9f82e84cd38 Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 19 Jun 2017 18:33:26 +0200
++Date: Mon, 19 Jun 2017 18:31:27 +0200
 +Subject: [PATCH] CVE-2017-1000366: Ignore LD_LIBRARY_PATH for AT_SECURE=1
 + programs [BZ #21624]
 +
@@ -105,8 +94,7 @@ index 0000000000..78e9ea9e65
 +(cherry picked from commit f6110a8fee2ca36f8e2d2abecf3cba9fa7b8ea7d)
 +
 +Upstream-Status: Backport
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=87bd4186da10371f46e2f1a7bf7c0a45bb04f1ac
-+https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++https://sourceware.org/git/?p=glibc.git;a=commit;h=3c7cd21290cabdadd72984fb69bc51e64ff1002d
 +
 +CVE: CVE-2017-1000366
 +
@@ -118,7 +106,7 @@ index 0000000000..78e9ea9e65
 + 3 files changed, 10 insertions(+), 1 deletion(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index 2bdaf69e43..7a999802dd 100644
++index f140ee67de..7bfdf45bb5 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
 +@@ -1,3 +1,10 @@
@@ -129,26 +117,26 @@ index 0000000000..78e9ea9e65
 ++	* elf/rtld.c (process_envvars): Ignore LD_LIBRARY_PATH for
 ++	__libc_enable_secure.
 ++
-+ 2016-12-31  Florian Weimer  <fweimer@redhat.com>
++ 2017-02-05  Siddhesh Poyarekar  <siddhesh@sourceware.org>
 + 
-+ 	[BZ #18784]
++ 	* version.h (RELEASE): Set to "stable"
 +diff --git a/NEWS b/NEWS
-+index 4b1ca3cb65..66b49dbbc0 100644
++index ec15dde761..f7d38536d6 100644
 +--- a/NEWS
 ++++ b/NEWS
-+@@ -17,6 +17,7 @@ using `glibc' in the "product" field.
-+   question type which is outside the range of valid question type values.
-+   (CVE-2015-5180)
-+ 
++@@ -5,6 +5,7 @@ See the end for copying conditions.
++ Please send GNU C library bug reports via <http://sourceware.org/bugzilla/>
++ using `glibc' in the "product" field.
++ 
 ++  [21624] Unsafe alloca allows local attackers to alias stack and heap (CVE-2017-1000366)
-+ Version 2.24
++ Version 2.25
 + 
-+ * The minimum Linux kernel version that this version of the GNU C Library
++ * The feature test macro __STDC_WANT_LIB_EXT2__, from ISO/IEC TR
 +diff --git a/elf/rtld.c b/elf/rtld.c
-+index 647661ca45..215a9aec8f 100644
++index a036ece956..2fc33a6178 100644
 +--- a/elf/rtld.c
 ++++ b/elf/rtld.c
-+@@ -2437,7 +2437,8 @@ process_envvars (enum mode *modep)
++@@ -2418,7 +2418,8 @@ process_envvars (enum mode *modep)
 + 
 + 	case 12:
 + 	  /* The library search path.  */
@@ -161,13 +149,13 @@ index 0000000000..78e9ea9e65
 +-- 
 +2.15.0
 +
-diff --git a/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch b/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+diff --git a/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch b/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
 new file mode 100644
-index 0000000000..7f81ed1566
+index 0000000000..142bd86d2f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
-@@ -0,0 +1,145 @@
-+From 6d49272e6d6741496e3456f2cc22ebc2b9f7f989 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
+@@ -0,0 +1,144 @@
++From d4fe2023bb908b85d577ac3843acd44bada330ce Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
 +Date: Mon, 19 Jun 2017 22:31:04 +0200
 +Subject: [PATCH] ld.so: Reject overly long LD_PRELOAD path elements
@@ -175,8 +163,7 @@ index 0000000000..7f81ed1566
 +(cherry picked from commit 6d0ba622891bed9d8394eef1935add53003b12e8)
 +
 +Upstream-Status: Backport
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=aab04ca5d359150e17631e6a9b44b65e93bdc467
-+https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++https://sourceware.org/git/?p=glibc.git;a=commit;h=46703a3995aa3ca2b816814aa4ad05ed524194dd
 +
 +CVE: CVE-2017-1000366
 +
@@ -187,7 +174,7 @@ index 0000000000..7f81ed1566
 + 2 files changed, 73 insertions(+), 16 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index 7a999802dd..ea5ecd4a1e 100644
++index 7bfdf45bb5..0aff2bd347 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
 +@@ -1,3 +1,10 @@
@@ -202,7 +189,7 @@ index 0000000000..7f81ed1566
 + 
 + 	[BZ #21624]
 +diff --git a/elf/rtld.c b/elf/rtld.c
-+index 215a9aec8f..1d8eab9fe2 100644
++index 2fc33a6178..4badcf6590 100644
 +--- a/elf/rtld.c
 ++++ b/elf/rtld.c
 +@@ -99,6 +99,35 @@ uintptr_t __pointer_chk_guard_local
@@ -241,7 +228,7 @@ index 0000000000..7f81ed1566
 + 
 + /* List of auditing DSOs.  */
 + static struct audit_list
-+@@ -730,6 +759,42 @@ static const char *preloadlist attribute_relro;
++@@ -716,6 +745,42 @@ static const char *preloadlist attribute_relro;
 + /* Nonzero if information about versions has to be printed.  */
 + static int version_info attribute_relro;
 + 
@@ -284,7 +271,7 @@ index 0000000000..7f81ed1566
 + static void
 + dl_main (const ElfW(Phdr) *phdr,
 + 	 ElfW(Word) phnum,
-+@@ -1481,23 +1546,8 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++@@ -1462,23 +1527,8 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
 + 
 +   if (__glibc_unlikely (preloadlist != NULL))
 +     {
@@ -312,13 +299,13 @@ index 0000000000..7f81ed1566
 +-- 
 +2.15.0
 +
-diff --git a/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch b/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+diff --git a/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch b/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
 new file mode 100644
-index 0000000000..b52b8a1fa7
+index 0000000000..2b633e730d
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
-@@ -0,0 +1,231 @@
-+From c0b25407def32718147530da72959a034cd1318d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
+@@ -0,0 +1,230 @@
++From 3e09d900f710318eddc474644aeb2e496be0ce02 Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
 +Date: Mon, 19 Jun 2017 22:32:12 +0200
 +Subject: [PATCH] ld.so: Reject overly long LD_AUDIT path elements
@@ -328,8 +315,7 @@ index 0000000000..b52b8a1fa7
 +(cherry picked from commit 81b82fb966ffbd94353f793ad17116c6088dedd9)
 +
 +Upstream-Status: Backport
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=2febff860b31df3666bef5ade0d0744c93f76a74
-+https://anonscm.debian.org/cgit/pkg-glibc/glibc.git/commit/?h=stretch&id=2755c57269f24e9d59c22c49788f92515346c1bb
++https://sourceware.org/git/?p=glibc.git;a=commit;h=c69d4a0f680a24fdbe323764a50382ad324041e9
 +
 +CVE: CVE-2017-1000366
 +
@@ -340,7 +326,7 @@ index 0000000000..b52b8a1fa7
 + 2 files changed, 106 insertions(+), 15 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index ea5ecd4a1e..638cb632b1 100644
++index 0aff2bd347..94ba05ed1f 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
 +@@ -1,3 +1,14 @@
@@ -359,7 +345,7 @@ index 0000000000..b52b8a1fa7
 + 
 + 	* elf/rtld.c (SECURE_NAME_LIMIT, SECURE_PATH_LIMIT): Define.
 +diff --git a/elf/rtld.c b/elf/rtld.c
-+index 1d8eab9fe2..302bb63620 100644
++index 4badcf6590..369724babe 100644
 +--- a/elf/rtld.c
 ++++ b/elf/rtld.c
 +@@ -129,13 +129,91 @@ dso_name_valid_for_suid (const char *p)
@@ -455,7 +441,7 @@ index 0000000000..b52b8a1fa7
 + #ifndef HAVE_INLINED_SYSCALLS
 + /* Set nonzero during loading and initialization of executable and
 +    libraries, cleared before the executable's entry point runs.  This
-+@@ -1322,11 +1400,13 @@ of this helper program; chances are you did not intend to run this program.\n\
++@@ -1303,11 +1381,13 @@ of this helper program; chances are you did not intend to run this program.\n\
 +     GL(dl_rtld_map).l_tls_modid = _dl_next_tls_modid ();
 + 
 +   /* If we have auditing DSOs to load, do it now.  */
@@ -472,7 +458,7 @@ index 0000000000..b52b8a1fa7
 + 
 +       /* Since we start using the auditing DSOs right away we need to
 + 	 initialize the data structures now.  */
-+@@ -1337,9 +1417,14 @@ of this helper program; chances are you did not intend to run this program.\n\
++@@ -1318,9 +1398,14 @@ of this helper program; chances are you did not intend to run this program.\n\
 + 	 use different values (especially the pointer guard) and will
 + 	 fail later on.  */
 +       security_init ();
@@ -488,7 +474,7 @@ index 0000000000..b52b8a1fa7
 + 	  int tls_idx = GL(dl_tls_max_dtv_idx);
 + 
 + 	  /* Now it is time to determine the layout of the static TLS
-+@@ -1348,7 +1433,7 @@ of this helper program; chances are you did not intend to run this program.\n\
++@@ -1329,7 +1414,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 + 	     no DF_STATIC_TLS bit is set.  The reason is that we know
 + 	     glibc will use the static model.  */
 + 	  struct dlmopen_args dlmargs;
@@ -497,7 +483,7 @@ index 0000000000..b52b8a1fa7
 + 	  dlmargs.map = NULL;
 + 
 + 	  const char *objname;
-+@@ -1361,7 +1446,7 @@ of this helper program; chances are you did not intend to run this program.\n\
++@@ -1342,7 +1427,7 @@ of this helper program; chances are you did not intend to run this program.\n\
 + 	    not_loaded:
 + 	      _dl_error_printf ("\
 + ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
@@ -506,7 +492,7 @@ index 0000000000..b52b8a1fa7
 + 	      if (malloced)
 + 		free ((char *) err_str);
 + 	    }
-+@@ -1465,10 +1550,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++@@ -1446,10 +1531,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
 + 		  goto not_loaded;
 + 		}
 + 	    }
@@ -517,7 +503,7 @@ index 0000000000..b52b8a1fa7
 + 
 +       /* If we have any auditing modules, announce that we already
 + 	 have two objects loaded.  */
-+@@ -1732,7 +1814,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++@@ -1713,7 +1795,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
 +   if (tcbp == NULL)
 +     tcbp = init_tls ();
 + 
@@ -526,7 +512,7 @@ index 0000000000..b52b8a1fa7
 +     /* Initialize security features.  But only if we have not done it
 +        earlier.  */
 +     security_init ();
-+@@ -2363,9 +2445,7 @@ process_dl_audit (char *str)
++@@ -2344,9 +2426,7 @@ process_dl_audit (char *str)
 +   char *p;
 + 
 +   while ((p = (strsep) (&str, ":")) != NULL)
@@ -537,7 +523,7 @@ index 0000000000..b52b8a1fa7
 +       {
 + 	/* This is using the local malloc, not the system malloc.  The
 + 	   memory can never be freed.  */
-+@@ -2429,7 +2509,7 @@ process_envvars (enum mode *modep)
++@@ -2410,7 +2490,7 @@ process_envvars (enum mode *modep)
 + 	      break;
 + 	    }
 + 	  if (memcmp (envline, "AUDIT", 5) == 0)
@@ -549,13 +535,13 @@ index 0000000000..b52b8a1fa7
 +-- 
 +2.15.0
 +
-diff --git a/meta/recipes-core/glibc/glibc/0004-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch b/meta/recipes-core/glibc/glibc/0004-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
+diff --git a/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch b/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
 new file mode 100644
-index 0000000000..43c4398fec
+index 0000000000..eeba66d30f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0004-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
++++ b/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
 @@ -0,0 +1,62 @@
-+From 203835b3bf6f1edfe1ebe4a7fa15dc085e6dc8f7 Mon Sep 17 00:00:00 2001
++From b30b4ac52748507c8a87c2bd1869f42fbf5b4f99 Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
 +Date: Wed, 14 Jun 2017 08:11:22 +0200
 +Subject: [PATCH] i686: Add missing IS_IN (libc) guards to vectorized strcspn
@@ -570,7 +556,7 @@ index 0000000000..43c4398fec
 +(cherry picked from commit 69052a3a95da37169a08f9e59b2cc1808312753c)
 +
 +Upstream-Status: Backport
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=86ac4a78a9218d1e1dcfbacc6f7d09957c1fe3a4
++https://sourceware.org/git/?p=glibc.git;a=commit;h=adc7e06fb412a2a1ee52f8cb788caf436335b9f3
 +
 +Required to build fixes for CVE-2017-1000366.
 +
@@ -582,7 +568,7 @@ index 0000000000..43c4398fec
 + 3 files changed, 12 insertions(+), 3 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index 638cb632b1..3f89a2cdb2 100644
++index 94ba05ed1f..9eb60e7728 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
 +@@ -1,3 +1,8 @@
@@ -617,21 +603,21 @@ index 0000000000..43c4398fec
 +-- 
 +2.15.0
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index 4c7d901149..359379bac5 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -46,6 +46,10 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0005-Remove-__ASSUME_REQUEUE_PI.patch \
-            file://0006-Fix-atomic_fetch_xor_release.patch \
-            file://0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch \
-+           file://0001-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch \
-+           file://0002-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch \
-+           file://0003-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch \
-+           file://0004-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
+index cf9c4f71b8..e9ef0e0d5e 100644
+--- a/meta/recipes-core/glibc/glibc_2.25.bb
++++ b/meta/recipes-core/glibc/glibc_2.25.bb
+@@ -42,6 +42,10 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+            file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
++           file://0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch \
++           file://0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch \
++           file://0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch \
++           file://0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch \
  "
  
- SRC_URI += "\
+ NATIVESDKFIXES ?= ""
 -- 
 2.15.0
 
