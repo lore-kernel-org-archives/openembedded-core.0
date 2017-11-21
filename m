@@ -1,30 +1,56 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F6E56AC37
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E3E30606CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 06:57:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAL6vrGf014082
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Nov 2017 22:57:53 -0800 (PST)
-Received: from [128.224.162.147] (128.224.162.147) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 20 Nov 2017 22:57:52 -0800
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
-	<cbb65333-4bc3-ec34-ffed-da65fc767030@windriver.com>
-	<CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <a738dbce-f217-54a3-c633-7945dafd462e@windriver.com>
-Date: Tue, 21 Nov 2017 15:00:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
+	Tue, 21 Nov 2017 08:04:48 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id k18so5491656wre.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Nov 2017 00:04:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=bt9ia8p5dkeVZuK0XnHQlkfvJwobGEEk+rHDsyGrG0I=;
+	b=l4jOBOwHlzdVuUE3wdBM0Uy8Ml5QchtHUE1sUbBO3xD8q1h5Zh/3nOfR0e1uuw5pyq
+	3ja8LXeTa3STtp2XbBfMDGr5C5q5Wig4EWa4iQw2X+zO5lburlOvFJUHXeEqig5seJQR
+	QqNL9m5yBPvag1sVnvJ1drBFbfd4RMaBqza4RsjrBNfClOS5DbmT+DBWpZDsANUVp2FL
+	X4oQrox0YcSbteOF34OStci+Qex6vf253L86gYqCz3CPtDe/AhtcARlqz6PFEn4I0Lov
+	IjGlafS0blMGhcgswM5ZHiOKb8W/ZDfltk+L8r2ejJVzWDKPtglitxQRKggks12F73+U
+	4eZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=bt9ia8p5dkeVZuK0XnHQlkfvJwobGEEk+rHDsyGrG0I=;
+	b=cHFfPzlfj0UaAUHKHplh6U4KmG8uVgXZcYt3cpvP0uCK51PBMHZ4n4CCjSE1vv3Xqf
+	JoZ42dK07QfRpj3Fj6/oNQSxWclkGuiodrDjXnNqPw1RHCzkReLFWBUrhDUr0l3GXc6G
+	dV52L5mbeUU6jGMt26IvDpn12DN6Q4z2lFowAkDhbfzQxehTD9Gn4yu/uEeKqiyLU3P2
+	eM/qL5D/n5KsN3LE6ahAjDBeT+AqYW3rCmi08Leu14cmFNGYIQ/06WJU2dJcXFspL0Be
+	NZF7bzpB1gHe+a2mHupUx7BZjT22vTAu+ADlNWZ4UZF5bFAojZ0HNJLux2hecXDokbb8
+	gy/g==
+X-Gm-Message-State: AJaThX7cZbj9HHGC20IVRmUivwg8nXYSxdqrrwx/k7ersohTkHiO6+Kf
+	DTzClXSNz2BtXp8H2eKyq1gV
+X-Google-Smtp-Source: AGs4zMb8U+kg6/lWSF4zEILG/fKrgUWb5vRtZuD3lKxlLokTbV2IFjFdKAyzA84B36/ukj1BLemLSQ==
+X-Received: by 10.223.168.23 with SMTP id l23mr13574841wrc.15.1511251489508;
+	Tue, 21 Nov 2017 00:04:49 -0800 (PST)
+Received: from pohly-mobl1 (p54BD5744.dip0.t-ipconnect.de. [84.189.87.68])
+	by smtp.gmail.com with ESMTPSA id
+	r14sm31335030wrb.43.2017.11.21.00.04.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 Nov 2017 00:04:48 -0800 (PST)
+Message-ID: <1511251487.5979.54.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 21 Nov 2017 09:04:47 +0100
+In-Reply-To: <3126cc0be3fdcd228a3bc73e2e58b90447c53ef2.1486668313.git.jussi.kukkonen@intel.com>
+References: <cover.1486668313.git.jussi.kukkonen@intel.com>
+	<3126cc0be3fdcd228a3bc73e2e58b90447c53ef2.1486668313.git.jussi.kukkonen@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Subject: native CA cert bundles (was: Re: [PATCH 3/3] cve-check-tool: Use CA cert bundle in correct sysroot)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,242 +63,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 06:57:53 -0000
-Content-Type: multipart/alternative;
-	boundary="------------6BCCF6D85838B08FE72D6A83"
-Content-Language: en-US
-
---------------6BCCF6D85838B08FE72D6A83
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 21 Nov 2017 08:04:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On 2017年11月21日 11:04, Bruce Ashfield wrote:
->
->
-> On Mon, Nov 20, 2017 at 8:18 PM, Hongxu Jia <hongxu.jia@windriver.com 
-> <mailto:hongxu.jia@windriver.com>> wrote:
->
->     On 2017年11月20日 19:07, Burton, Ross wrote:
->>     On 17 November 2017 at 06:08, Hongxu Jia
->>     <hongxu.jia@windriver.com <mailto:hongxu.jia@windriver.com>> wrote:
->>
->>         +qemu by default emulates IDE and the linux-yocto kernel(s) use
->>         +CONFIG_IDE instead of the more modern libsata, so disks
->>         appear as
->>         +/dev/hd*. A similar patch rejected by upstream because
->>         CONFIG_IDE
->>         +is deprecated.
->>
->>
->>     Can we fix our kernel and/or qemu configuration too?
->>
->
->     Hi Bruce,
->
->     Do you have any suggestion? How about disable CONFIG_IDE?
->
->
-> I've been telling people we can disable CONFIG_IDE for years now.
->
-> It just requires the kernel-cache change, and someone to boot all 
-> arches to show that
-> it continues to work, as well as a quick search for references to hda 
-> to make sure they
-> are all gone.
->
-> Not something that is on my TODO list at the moment, but I'd take 
-> patches to the kernel
-> part (with that testing shown).
->
+On Thu, 2017-02-09 at 21:38 +0200, Jussi Kukkonen wrote:
+> Native libcurl looks for CA certs in the wrong place by
+> default.
+> * Add patch that allows overriding the default CA certificate
+>   location. Patch is originally from meta-security-isafw.
+> * Use the new --cacert to set the correct CA bundle path
+> 
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  .../cve-check-tool/cve-check-tool_5.6.4.bb         |   4 +-
+>  ...ow-overriding-default-CA-certificate-file.patch | 215
+> +++++++++++++++++++++
+>  2 files changed, 218 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-
+> curl-allow-overriding-default-CA-certificate-file.patch
+> 
+> diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-
+> tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-
+> tool_5.6.4.bb
+> index c78af67..fcd3182 100644
+> --- a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+> +++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e8c1458438ead3
+> c34974bc0be3a03ed6"
+>  SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v
+> ${PV}/${BP}.tar.xz \
+>             file://check-for-malloc_trim-before-using-it.patch \
+>             file://0001-print-progress-in-percent-when-downloading-
+> CVE-db.patch \
+> +           file://0001-curl-allow-overriding-default-CA-certificate-
+> file.patch \
+>            "
+>  
+>  SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
+> @@ -39,7 +40,8 @@ do_populate_cve_db() {
+>      [ -z "${cve_file}" ] && cve_file="${TMPDIR}/cve_check"
+>  
+>      bbdebug 2 "Updating cve-check-tool database located in $cve_dir"
+> -    if cve-check-update -d "$cve_dir" ; then
+> +    # --cacert works around curl-native not finding the CA bundle
+> +    if cve-check-update --cacert ${sysconfdir}/ssl/certs/ca-
+> certificates.crt -d "$cve_dir" ; then
 
-I think I could have a try to clean up CONFIG_IDE.
+I went back to this patch to see how the problem was solved, because I
+am facing it again elsewhere. Now that I think about it again, I'm
+starting to wonder which SSL certificates the native tools really
+should trust. Tools like Python or  wget are taken from the host, which
+means they use the host defaults for SSL. That native tools built with
+bitbake then try to use ca-certificates-native looks inconsistent to
+me.
 
-Two steps:
-1. Tweak kernel-cache to remove CONFIG_IDE for all available bsp.
-     It require necessary test to prove it is safe to remove it.
-     If the test is OK, I will send patch to yocto mailing list.
+There is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9883 open
+about some aspect of this, but it doesn't actually address the
+underlying question about what the right behavior should be. It's based
+on the assumption that libcurl-native should always use ca-
+certificates-native.
 
-2. After 1 merged to kernel, I will clean up hda related (systemd/udev)
-     in oe-core, and send the fix to this mailing list.
+Thoughts anyone?
 
-//Hongxu
+-- 
+Best Regards, Patrick Ohly
 
-> Bruce
->
->
->     //Hongxu
->
->>     Ross
->
->
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
 
---------------6BCCF6D85838B08FE72D6A83
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2017年11月21日 11:04, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Mon, Nov 20, 2017 at 8:18 PM,
-            Hongxu Jia <span dir="ltr">&lt;<a
-                href="mailto:hongxu.jia@windriver.com" target="_blank"
-                moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF"><span class="">
-                  <div class="m_-548668992200033025moz-cite-prefix">On
-                    2017年11月20日 19:07, Burton, Ross wrote:<br>
-                  </div>
-                  <blockquote type="cite">
-                    <div dir="ltr">On 17 November 2017 at 06:08, Hongxu
-                      Jia <span dir="ltr">&lt;<a
-                          href="mailto:hongxu.jia@windriver.com"
-                          target="_blank" moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;</span>
-                      wrote:<br>
-                      <div class="gmail_extra">
-                        <div class="gmail_quote">
-                          <blockquote class="gmail_quote"
-                            style="margin:0 0 0 .8ex;border-left:1px
-                            #ccc solid;padding-left:1ex">+qemu by
-                            default emulates IDE and the linux-yocto
-                            kernel(s) use<br>
-                            +CONFIG_IDE instead of the more modern
-                            libsata, so disks appear as<br>
-                            +/dev/hd*. A similar patch rejected by
-                            upstream because CONFIG_IDE<br>
-                            +is deprecated.<br>
-                          </blockquote>
-                          <div><br>
-                          </div>
-                          <div>Can we fix our kernel and/or qemu
-                            configuration too?</div>
-                          <div><br>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </blockquote>
-                  <br>
-                </span> Hi Bruce,<br>
-                <br>
-                Do you have any suggestion? How about disable
-                CONFIG_IDE?<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>I've been telling people we can disable CONFIG_IDE for
-              years now.</div>
-            <div><br>
-            </div>
-            <div>It just requires the kernel-cache change, and someone
-              to boot all arches to show that</div>
-            <div>it continues to work, as well as a quick search for
-              references to hda to make sure they</div>
-            <div>are all gone.</div>
-            <div><br>
-            </div>
-            <div>Not something that is on my TODO list at the moment,
-              but I'd take patches to the kernel</div>
-            <div>part (with that testing shown).</div>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    I think I could have a try to clean up CONFIG_IDE.<br>
-    <br>
-    Two steps:<br>
-    1. Tweak kernel-cache to remove CONFIG_IDE for all available bsp.<br>
-        It require necessary test to prove it is safe to remove it.<br>
-        If the test is OK, I will send patch to yocto mailing list.<br>
-    <br>
-    2. After 1 merged to kernel, I will clean up hda related
-    (systemd/udev)<br>
-        in oe-core, and send the fix to this mailing list.<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>Bruce</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF"> <br>
-                //Hongxu<br>
-                <br>
-                <blockquote type="cite">
-                  <div dir="ltr">
-                    <div class="gmail_extra">
-                      <div class="gmail_quote">
-                        <div>Ross </div>
-                      </div>
-                    </div>
-                  </div>
-                </blockquote>
-                <p><br>
-                </p>
-              </div>
-              <br>
-              --<br>
-              ______________________________<wbr>_________________<br>
-              Openembedded-core mailing list<br>
-              <a href="mailto:Openembedded-core@lists.openembedded.org"
-                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-              <a
-                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              <br>
-            </blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">"Thou
-            shalt not follow the NULL pointer, for chaos and madness
-            await thee at its end"</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------6BCCF6D85838B08FE72D6A83--
