@@ -1,24 +1,26 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 550A178672
+	by mail.openembedded.org (Postfix) with ESMTP id 21617601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 13:10:49 +0000 (UTC)
+	Tue, 21 Nov 2017 13:10:50 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vALDAmF0017574
+	vALDAoUX017584
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 21 Nov 2017 13:10:49 GMT
+	verify=NOT); Tue, 21 Nov 2017 13:10:51 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1eH8K8-0004TY-Gk; Tue, 21 Nov 2017 13:10:48 +0000
+	id 1eH8KA-0004Tw-1e; Tue, 21 Nov 2017 13:10:50 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 13:10:42 +0000
-Message-Id: <1511269847-17161-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 21 Nov 2017 13:10:47 +0000
+Message-Id: <1511269847-17161-6-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1511269847-17161-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1511269847-17161-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 1/6] runqemu: Ensure we process all tap devices
+Subject: [PATCH 6/6] qemurunner: Simplify binary data handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 13:10:50 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 13:10:51 -0000
 
-The regexp in the script misses some tap devices, e.g. we see output like:
+I have concerns that bad timing of the flow of data from the logger
+might corrupt the output due to the way binary strings are handled
+in qemurunner.
 
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap25.lock failed: [Errno 11] Resource temporarily unavailable
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap26.lock failed: [Errno 11] Resource temporarily unavailable
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap27.lock failed: [Errno 11] Resource temporarily unavailable
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap28.lock failed: [Errno 11] Resource temporarily unavailable
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap40.lock failed: [Errno 11] Resource temporarily unavailable
-runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap41.lock failed: [Errno 11] Resource temporarily unavailable
-
-What happened to tap29 to tap39?
-
-The issue is was we were missing devices with '0' in the number,
-like "10:" and so on in the output from "ip link".
+This simplifies the code to do the same thing it did before but much
+more safely.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/qemurunner.py | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index fe4459d..ad88da3 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -923,7 +923,7 @@ class BaseConfig(object):
-         logger.debug('Running %s...' % cmd)
-         ip_link = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-         # Matches line like: 6: tap0: <foo>
--        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
-+        possibles = re.findall('^[0-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
-         tap = ""
-         for p in possibles:
-             lockfile = os.path.join(lockdir, p)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 82335d8..0631d43 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -275,7 +275,7 @@ class QemuRunner:
+         reachedlogin = False
+         stopread = False
+         qemusock = None
+-        bootlog = ''
++        bootlog = b''
+         data = b''
+         while time.time() < endtime and not stopread:
+             try:
+@@ -292,17 +292,13 @@ class QemuRunner:
+                 else:
+                     data = data + sock.recv(1024)
+                     if data:
+-                        try:
+-                            data = data.decode("utf-8", errors="surrogateescape")
+-                            bootlog += data
+-                            data = b''
+-                            if re.search(".* login:", bootlog):
+-                                self.server_socket = qemusock
+-                                stopread = True
+-                                reachedlogin = True
+-                                self.logger.debug("Reached login banner")
+-                        except UnicodeDecodeError:
+-                            continue
++                        bootlog += data
++                        data = b''
++                        if b' login:' in bootlog:
++                            self.server_socket = qemusock
++                            stopread = True
++                            reachedlogin = True
++                            self.logger.debug("Reached login banner")
+                     else:
+                         socklist.remove(sock)
+                         sock.close()
 -- 
 2.7.4
 
