@@ -1,33 +1,27 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B9560116
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 60FE477BD2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 19:10:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vALJAr8P022412
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Nov 2017 11:10:53 -0800 (PST)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Tue, 21 Nov 2017 11:10:53 -0800
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] backfill mechanism
-Thread-Index: AdNf+226ORa9l6NuR/SCoUcn6/NVXgCv9+cAABAjvbs=
-Date: Tue, 21 Nov 2017 19:10:51 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>,
-	<CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
-In-Reply-To: <CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.119.169]
+	Tue, 21 Nov 2017 19:27:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Nov 2017 11:27:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,432,1505804400"; 
+   d="scan'208";a="7956488"
+Received: from unknown (HELO lsandov1-mobl2.zpn.intel.com) ([10.219.128.134])
+	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2017 11:27:58 -0800
+Date: Tue, 21 Nov 2017 13:37:16 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Patchwork <patchwork@patchwork.openembedded.org>
+Message-ID: <20171121133539.683efeee@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <20171120200256.2785.12454@do.openembedded.org>
+References: <1511206830-6353-1-git-send-email-armccurdy@gmail.com>
+	<20171120200256.2785.12454@do.openembedded.org>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: backfill mechanism
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdsaWJjXzIuMjU6IGZpeCBidWlsZGluZyBmb3IgeDg2IHdpdGggLU9zIChvciAtZm5vLW9taXQtZnJhbWUtcG9pbnRlcik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 19:10:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Nov 2017 19:27:59 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The problem is that when backfilling is done, TUNE_FEATURES, etc, all have =
-values associated with the base arch, not the current multilib.  The "gener=
-ic" solution, below, should work, although I would still use overrides when=
- available.=0A=
-=0A=
-Beyond what actually works, if the special backfill processing can be elimi=
-nated and regular constructs used I think that would be desirable.=0A=
-=0A=
-Joe=0A=
-________________________________________=0A=
-From: Andre McCurdy [armccurdy@gmail.com]=0A=
-Sent: Monday, November 20, 2017 7:24 PM=0A=
-To: Slater, Joseph=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] backfill mechanism=0A=
-=0A=
-On Fri, Nov 17, 2017 at 3:32 PM, Slater, Joseph=0A=
-<joe.slater@windriver.com> wrote:=0A=
-> The backfill mechanism is not compatible with multilib.=0A=
-=0A=
-Did anyone ever explain why?=0A=
-=0A=
-> This could possibly=0A=
-> be fixed, but the backfill_considered functionality is also obscure, so I=
-=0A=
-> think in at least the machine related .inc files we should replace lines=
-=0A=
-> like=0A=
->=0A=
-> MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D "=0A=
-> ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"=0A=
->=0A=
-> with lines like=0A=
->=0A=
-> MACHINE_FEATURES_remove_mipsarchn32 =3D " qemu-usermode"=0A=
-=0A=
-That only works for TUNE_FEATURES which happen to have a corresponding=0A=
-over-ride, so may not be a generic solution. Does something like:=0A=
-=0A=
-  MACHINE_FEATURES_remove =3D "${@bb.utils.contains('TUNE_FEATURES',=0A=
-'n32', 'qemu-usermode', '', d)}"=0A=
-=0A=
-work for multilib?=0A=
-=0A=
-> There are two advantages:  the second line works for multilib, and it is =
-far=0A=
-> more readable.=0A=
->=0A=
-> Joe=0A=
->=0A=
+On Mon, 20 Nov 2017 20:02:56 -0000
+Patchwork <patchwork@patchwork.openembedded.org> wrote:
+
+> == Series Details ==
+> 
+> Series: glibc_2.25: fix building for x86 with -Os (or -fno-omit-frame-pointer)
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/9881/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at a17f3ec910)
+> 
+
+please ignore this request. I have fixed the root problem at patchtest-oe (pick up the correct branch from subject)
+
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
