@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C3007869B;
-	Tue, 21 Nov 2017 00:35:26 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Amanda Brindle <amanda.r.brindle@intel.com>
-Date: Tue, 21 Nov 2017 00:35:28 -0000
-Message-ID: <20171121003528.2787.38320@do.openembedded.org>
-References: <cover.1511223478.git.amanda.r.brindle@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1511223478.git.amanda.r.brindle@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2NyaXB0cy9jb250cmliL2JidmFycy5weTogUmVtb3ZlIGRlYWQgY29kZQ==?=
+Return-Path: <amanda.r.brindle@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 30E2478699
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Nov 2017 00:40:30 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2017 16:40:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; 
+   d="scan'208";a="4604421"
+Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
+	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2017 16:40:31 -0800
+From: Amanda Brindle <amanda.r.brindle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Nov 2017 16:40:24 -0800
+Message-Id: <cover.1511224677.git.amanda.r.brindle@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH v2 0/1]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:35:26 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Nov 2017 00:40:31 -0000
 
-== Series Details ==
+Added a signed-off-by for v2.
 
-Series: scripts/contrib/bbvars.py: Remove dead code
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9885/
-State : failure
+The following changes since commit 4ed19ac8c19afd56d445d84e02b622cb056b8359:
 
-== Summary ==
+  poky: Switch to post release name/version (2017-11-14 17:26:58 +0000)
 
+are available in the git repository at:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  git://git.yoctoproject.org/poky-contrib abrindle/bbvars_tinfoil2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/bbvars_tinfoil2
 
+Amanda Brindle (1):
+  scripts/contrib/bbvars.py: Remove dead code
 
+ scripts/contrib/bbvars.py | 52 ++---------------------------------------------
+ 1 file changed, 2 insertions(+), 50 deletions(-)
 
-* Patch            [1/1] scripts/contrib/bbvars.py: Remove dead code
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.7.4
 
 
