@@ -1,25 +1,38 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C4F84787AF
+Return-Path: <saul.wold@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D9D787AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 23:02:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Nov 2017 15:02:11 -0800
+	Tue, 21 Nov 2017 23:04:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Nov 2017 15:04:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,432,1505804400"; 
-   d="scan'208";a="8032785"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2017 15:02:11 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 15:02:09 -0800
-Message-Id: <20171121230209.4097-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20171121214703.11109-1-california.l.sullivan@intel.com>
+X-IronPort-AV: E=Sophos;i="5.44,432,1505804400"; d="scan'208";a="10484283"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga002.jf.intel.com with ESMTP; 21 Nov 2017 15:04:11 -0800
+Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Tue, 21 Nov 2017 15:04:11 -0800
+Received: from orsmsx113.amr.corp.intel.com ([169.254.9.80]) by
+	ORSMSX158.amr.corp.intel.com ([169.254.10.25]) with mapi id
+	14.03.0319.002; Tue, 21 Nov 2017 15:04:10 -0800
+From: "Wold, Saul" <saul.wold@intel.com>
+To: "Sullivan, California L" <california.l.sullivan@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2 2/2] install*.sh: add short sleep after parted commands
+Thread-Index: AQHTYxzLEdgsKpx7QEWEwqWSiXkjoaMf+fQA
+Date: Tue, 21 Nov 2017 23:04:10 +0000
+Message-ID: <1511305448.11515.4.camel@intel.com>
 References: <20171121214703.11109-1-california.l.sullivan@intel.com>
-Cc: saul.wold@intel.com
-Subject: [PATCH v2 2/2] install*.sh: add short sleep after parted commands
+	<20171121230209.4097-1-california.l.sullivan@intel.com>
+In-Reply-To: <20171121230209.4097-1-california.l.sullivan@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.10.203]
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 2/2] install*.sh: add short sleep after parted commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 23:02:11 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 23:04:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <635D26241C66F2458C722C047DB7C7CE@intel.com>
+Content-Transfer-Encoding: base64
 
-I wasn't able to install to my Optane SSD due to the following error:
-
-Formatting /dev/nvme0n1p1 to vfat...
-mkfs.fat 4.1 (2017-01-24)
-mkfs.vfat: unable to open /dev/nvme0n1p1: No such file or directory
-Target install-efi failed
-
-A couple lines later I see:
-
-[    10.265401]  nvme0n1: p1 p2 p3
-
-Then looking at the device itself after booting from a USB stick:
-
-root@intel-corei7-64: ~# ls /dev/nvme0n1*
-/dev/nvme0n1 /dev/nvme0n1p1 /dev/nvme0n1p2 /dev/nvme0n1p3
-
-So it looks like the parted commands return before the device node is
-actually created.
-
-Work around this issue by waiting for device nodes for a short duration.
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
-v2: sleep conditionally for up to three seconds instead of one second
-unconditionally. This makes it so if the device nodes are available
-immediately, people don't have to wait, but a system has up to three
-seconds to create them before failing. 
-
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 7 +++++++
- meta/recipes-core/initrdscripts/files/init-install.sh     | 7 +++++++
- 2 files changed, 14 insertions(+)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 5ad3a60..706418f 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -186,6 +186,13 @@ parted ${device} mkpart swap linux-swap $swap_start 100%
- 
- parted ${device} print
- 
-+echo "Waiting for device nodes..."
-+C=0
-+while [ $C -ne 3 ] && [ ! -e $bootfs  -o ! -e $rootfs -o ! -e $swap ]; do
-+    C=$(( C + 1 ))
-+    sleep 1
-+done
-+
- echo "Formatting $bootfs to vfat..."
- mkfs.vfat $bootfs
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 1cac806..dade059 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -211,6 +211,13 @@ parted ${device} mkpart $pname linux-swap $swap_start 100%
- 
- parted ${device} print
- 
-+echo "Waiting for device nodes..."
-+C=0
-+while [ $C -ne 3 ] && [ ! -e $bootfs  -o ! -e $rootfs -o ! -e $swap ]; do
-+    C=$(( C + 1 ))
-+    sleep 1
-+done
-+
- echo "Formatting $bootfs to ext3..."
- mkfs.ext3 $bootfs
- 
--- 
-2.9.5
-
+DQpNdWNoIGJldHRlciENCg0KU2F1IQ0KDQpPbiBUdWUsIDIwMTctMTEtMjEgYXQgMTU6MDIgLTA4
+MDAsIENhbGlmb3JuaWEgU3VsbGl2YW4gd3JvdGU6DQo+IEkgd2Fzbid0IGFibGUgdG8gaW5zdGFs
+bCB0byBteSBPcHRhbmUgU1NEIGR1ZSB0byB0aGUgZm9sbG93aW5nIGVycm9yOg0KPiANCj4gRm9y
+bWF0dGluZyAvZGV2L252bWUwbjFwMSB0byB2ZmF0Li4uDQo+IG1rZnMuZmF0IDQuMSAoMjAxNy0w
+MS0yNCkNCj4gbWtmcy52ZmF0OiB1bmFibGUgdG8gb3BlbiAvZGV2L252bWUwbjFwMTogTm8gc3Vj
+aCBmaWxlIG9yIGRpcmVjdG9yeQ0KPiBUYXJnZXQgaW5zdGFsbC1lZmkgZmFpbGVkDQo+IA0KPiBB
+IGNvdXBsZSBsaW5lcyBsYXRlciBJIHNlZToNCj4gDQo+IFsgICAgMTAuMjY1NDAxXSAgbnZtZTBu
+MTogcDEgcDIgcDMNCj4gDQo+IFRoZW4gbG9va2luZyBhdCB0aGUgZGV2aWNlIGl0c2VsZiBhZnRl
+ciBib290aW5nIGZyb20gYSBVU0Igc3RpY2s6DQo+IA0KPiByb290QGludGVsLWNvcmVpNy02NDog
+fiMgbHMgL2Rldi9udm1lMG4xKg0KPiAvZGV2L252bWUwbjEgL2Rldi9udm1lMG4xcDEgL2Rldi9u
+dm1lMG4xcDIgL2Rldi9udm1lMG4xcDMNCj4gDQo+IFNvIGl0IGxvb2tzIGxpa2UgdGhlIHBhcnRl
+ZCBjb21tYW5kcyByZXR1cm4gYmVmb3JlIHRoZSBkZXZpY2Ugbm9kZSBpcw0KPiBhY3R1YWxseSBj
+cmVhdGVkLg0KPiANCj4gV29yayBhcm91bmQgdGhpcyBpc3N1ZSBieSB3YWl0aW5nIGZvciBkZXZp
+Y2Ugbm9kZXMgZm9yIGEgc2hvcnQNCj4gZHVyYXRpb24uDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBD
+YWxpZm9ybmlhIFN1bGxpdmFuIDxjYWxpZm9ybmlhLmwuc3VsbGl2YW5AaW50ZWwuY29tPg0KPiAt
+LS0NCj4gdjI6IHNsZWVwIGNvbmRpdGlvbmFsbHkgZm9yIHVwIHRvIHRocmVlIHNlY29uZHMgaW5z
+dGVhZCBvZiBvbmUgc2Vjb25kDQo+IHVuY29uZGl0aW9uYWxseS4gVGhpcyBtYWtlcyBpdCBzbyBp
+ZiB0aGUgZGV2aWNlIG5vZGVzIGFyZSBhdmFpbGFibGUNCj4gaW1tZWRpYXRlbHksIHBlb3BsZSBk
+b24ndCBoYXZlIHRvIHdhaXQsIGJ1dCBhIHN5c3RlbSBoYXMgdXAgdG8gdGhyZWUNCj4gc2Vjb25k
+cyB0byBjcmVhdGUgdGhlbSBiZWZvcmUgZmFpbGluZy4gDQo+IA0KPiAgbWV0YS9yZWNpcGVzLWNv
+cmUvaW5pdHJkc2NyaXB0cy9maWxlcy9pbml0LWluc3RhbGwtZWZpLnNoIHwgNw0KPiArKysrKysr
+DQo+ICBtZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2ZpbGVzL2luaXQtaW5zdGFsbC5z
+aCAgICAgfCA3DQo+ICsrKysrKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygr
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMvZmls
+ZXMvaW5pdC1pbnN0YWxsLQ0KPiBlZmkuc2ggYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3Jp
+cHRzL2ZpbGVzL2luaXQtaW5zdGFsbC1lZmkuc2gNCj4gaW5kZXggNWFkM2E2MC4uNzA2NDE4ZiAx
+MDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9maWxlcy9pbml0
+LWluc3RhbGwtZWZpLnNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMv
+ZmlsZXMvaW5pdC1pbnN0YWxsLWVmaS5zaA0KPiBAQCAtMTg2LDYgKzE4NiwxMyBAQCBwYXJ0ZWQg
+JHtkZXZpY2V9IG1rcGFydCBzd2FwIGxpbnV4LXN3YXANCj4gJHN3YXBfc3RhcnQgMTAwJQ0KPiAg
+DQo+ICBwYXJ0ZWQgJHtkZXZpY2V9IHByaW50DQo+ICANCj4gK2VjaG8gIldhaXRpbmcgZm9yIGRl
+dmljZSBub2Rlcy4uLiINCj4gK0M9MA0KPiArd2hpbGUgWyAkQyAtbmUgMyBdICYmIFsgISAtZSAk
+Ym9vdGZzICAtbyAhIC1lICRyb290ZnMgLW8gISAtZSAkc3dhcA0KPiBdOyBkbw0KPiArICAgIEM9
+JCgoIEMgKyAxICkpDQo+ICsgICAgc2xlZXAgMQ0KPiArZG9uZQ0KPiArDQo+ICBlY2hvICJGb3Jt
+YXR0aW5nICRib290ZnMgdG8gdmZhdC4uLiINCj4gIG1rZnMudmZhdCAkYm9vdGZzDQo+ICANCj4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMvZmlsZXMvaW5pdC1p
+bnN0YWxsLnNoDQo+IGIvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9maWxlcy9pbml0
+LWluc3RhbGwuc2gNCj4gaW5kZXggMWNhYzgwNi4uZGFkZTA1OSAxMDA2NDQNCj4gLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9maWxlcy9pbml0LWluc3RhbGwuc2gNCj4gKysr
+IGIvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9maWxlcy9pbml0LWluc3RhbGwuc2gN
+Cj4gQEAgLTIxMSw2ICsyMTEsMTMgQEAgcGFydGVkICR7ZGV2aWNlfSBta3BhcnQgJHBuYW1lIGxp
+bnV4LXN3YXANCj4gJHN3YXBfc3RhcnQgMTAwJQ0KPiAgDQo+ICBwYXJ0ZWQgJHtkZXZpY2V9IHBy
+aW50DQo+ICANCj4gK2VjaG8gIldhaXRpbmcgZm9yIGRldmljZSBub2Rlcy4uLiINCj4gK0M9MA0K
+PiArd2hpbGUgWyAkQyAtbmUgMyBdICYmIFsgISAtZSAkYm9vdGZzICAtbyAhIC1lICRyb290ZnMg
+LW8gISAtZSAkc3dhcA0KPiBdOyBkbw0KPiArICAgIEM9JCgoIEMgKyAxICkpDQo+ICsgICAgc2xl
+ZXAgMQ0KPiArZG9uZQ0KPiArDQo+ICBlY2hvICJGb3JtYXR0aW5nICRib290ZnMgdG8gZXh0My4u
+LiINCj4gIG1rZnMuZXh0MyAkYm9vdGZzDQo+ICA=
 
