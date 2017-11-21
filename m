@@ -1,29 +1,47 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D993A785CC
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B2CB37868A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 23:37:15 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 15:37:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; 
-   d="scan'208";a="4588976"
-Received: from ttorling-mac01.jf.intel.com ([10.24.15.25])
-	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2017 15:37:17 -0800
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-In-Reply-To: <d84f38f0603080318e5ad61926da813be90d25ba.1511179969.git.markus.lehtonen@linux.intel.com>
-Date: Mon, 20 Nov 2017 15:37:18 -0800
-Message-Id: <1340244A-99EC-41D5-B6DB-4D1805583B3B@linux.intel.com>
-References: <cover.1511179969.git.markus.lehtonen@linux.intel.com>
-	<cover.1509094533.git.markus.lehtonen@linux.intel.com>
-	<cover.1511179969.git.markus.lehtonen@linux.intel.com>
-	<d84f38f0603080318e5ad61926da813be90d25ba.1511179969.git.markus.lehtonen@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-X-Mailer: Apple Mail (2.3273)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v6 02/15] python3: fix depends of python3-tests
+	Tue, 21 Nov 2017 00:07:17 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id p9so8696705pgc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Nov 2017 16:07:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=olUvPxuSue5e8H9XSzKfMFc0G3G5PcYVwMM1ernFicY=;
+	b=rQzUZ0nqe2eqe4PhPDYCkpkJiQVgHrW2yKRs9f640OVtB3nrBFS3wlMe1rsitY2kVY
+	OVZ+qhqBsZVCV/ENwp/oa8w9UKN6U7IJk9Bp+4x1EkP4FyH+XmlFfrDtSuc0kEdc96eT
+	0MCgL4xyVjMSQS91M5/B2Y99P/uBF0m6ptkMTQvxhO5VUsb8d0niE8Eyb1iK4/Enmlz4
+	UalIhaX1wJsIrBK+gVgAyWE5mLfUJjQKfYNmyAKlySxVJkMpHxH+WZoIn9J7kaSzhL19
+	71gdvo8O+U0Oug7o/j26rCSX2bpX5M+kDHMb9OsNPuTARcqJxLwJz2XW1WzUcvzagxuM
+	9bSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=olUvPxuSue5e8H9XSzKfMFc0G3G5PcYVwMM1ernFicY=;
+	b=oyrVaF6cDlBMgTRPIEgrxDWRhaOdCQThmv3O7EGp3tC7V5WjgswOpqEC10yGkJwCH4
+	dBfKNbtv4C9/P/Uk/PBGw38BpYWgX6bjAhED/edi64Oe4Lt78pA/1CRP9cAvapPUgQN7
+	GahChYa9/87F71yEhnxdSvGcEymDhpSOmca94k+C5R4dijCIxNtzvDWSTnLqjUh5hFAF
+	lMNC1C/fwVDJEU+WCQvkq+A7YKXow5tGEhNk+Rs52HBU7e2Ps/HgSnny72y/X1HozPz8
+	Ydt8yY5ocjba1OXFVOwCEV7DejwEFsjXwP57z0ETlZzwQCApNIaAIigXSe1E1f2bTVkL
+	bISQ==
+X-Gm-Message-State: AJaThX7/icrQLy9zsCwsvY4QXOahAgmZ1lurpsJHcHypdQkdlch10Fmv
+	tcUXlRCzcsYDHVBrTU+n7Oxf7Q==
+X-Google-Smtp-Source: AGs4zMZ6wC3R/Qz9xR56Ns7XJD/mrpqV2Gomnj9lQ55FB7Spst7HuaDQ5QglGMnedO9sa2uaFvKN7A==
+X-Received: by 10.99.43.71 with SMTP id r68mr15384369pgr.348.1511222838930;
+	Mon, 20 Nov 2017 16:07:18 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4001:9ea0:b90e:aa41:7e0b:9c90])
+	by smtp.gmail.com with ESMTPSA id m9sm4221109pgt.17.2017.11.20.16.07.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Nov 2017 16:07:18 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 20 Nov 2017 16:07:10 -0800
+Message-Id: <cover.1511222485.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/5] Master package updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +54,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 23:37:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Nov 2017 00:07:17 -0000
 
-The top of the manifest file says that it is auto generated [1], this =
-change must also be done in =
-scripts/contrib/python/generate-manifest-3.5.py [2]:
+From: Armin Kuster <akuster@mvista.com>
 
-[1] =
-http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/p=
-ython/python-3.5-manifest.inc#n1
-[2] =
-http://git.openembedded.org/openembedded-core/tree/scripts/contrib/python/=
-generate-manifest-3.5.py
 
-Nacked-by: Tim Orling <timothy.t.orling@linux.intel.com>
+I suspect curl may have conflicts if the changes in mut are applied.
 
-> On Nov 20, 2017, at 4:15 AM, Markus Lehtonen =
-<markus.lehtonen@linux.intel.com> wrote:
->=20
-> Similar to an earlier fix for Python 2.7. Make the tests subpackage
-> depend on all modules as test.regrtest uses most (if not all) of them.
->=20
-> Some tests also depend on libgcc so add that as a runtime dependency =
-as
-> well.
->=20
-> [YOCTO #9338]
->=20
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
-> meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc =
-b/meta/recipes-devtools/python/python-3.5-manifest.inc
-> index 0260e87e75..067f6c58c5 100644
-> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-> @@ -241,7 +241,7 @@ RDEPENDS_${PN}-terminal=3D"${PN}-core ${PN}-io"
-> FILES_${PN}-terminal=3D"${libdir}/python3.5/pty.* =
-${libdir}/python3.5/__pycache__/pty.* ${libdir}/python3.5/tty.* =
-${libdir}/python3.5/__pycache__/tty.* "
->=20
-> SUMMARY_${PN}-tests=3D"Python tests"
-> -RDEPENDS_${PN}-tests=3D"${PN}-core ${PN}-compression"
-> +RDEPENDS_${PN}-tests=3D"${PN}-core ${PN}-modules libgcc"
-> FILES_${PN}-tests=3D"${libdir}/python3.5/test =
-${libdir}/python3.5/test/__pycache__ "
->=20
-> SUMMARY_${PN}-textutils=3D"Python option parsing, text wrapping and =
-CSV support"
-> --=20
-> 2.13.6
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The gnutls changes built with meta-oe world. boot tested on a few arm machines.
+
+The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
+
+  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib akuster/master-updates
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=akuster/master-updates
+
+Armin Kuster (5):
+  gnutls: update to  3.6.1
+  nettle: update to 3.4 and cleanup
+  nss: update to 3.34
+  libassuan: update to 2.4.4
+  curl: update to 7.56.1
+
+ .../curl/{curl_7.54.1.bb => curl_7.56.1.bb}        | 12 +---
+ meta/recipes-support/gnutls/gnutls.inc             |  3 +-
+ .../gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb}   |  5 +-
+ .../libassuan-add-pkgconfig-support.patch          | 77 +++++++++++-----------
+ .../{libassuan_2.4.3.bb => libassuan_2.4.4.bb}     | 11 ++--
+ ...d-target-to-only-build-tests-not-run-them.patch | 46 -------------
+ ...d-target-to-only-build-tests-not-run-them.patch | 38 +++++++++++
+ ...k-header-files-of-openssl-only-if-enable_.patch | 26 ++++----
+ .../{nettle-3.3 => nettle-3.4}/dlopen-test.patch   |  0
+ .../nettle/{files => nettle-3.4}/run-ptest         |  0
+ meta/recipes-support/nettle/nettle_3.3.bb          | 19 ------
+ .../nettle/{nettle.inc => nettle_3.4.bb}           | 14 ++++
+ .../nss/{nss_3.33.bb => nss_3.34.bb}               |  4 +-
+ 13 files changed, 116 insertions(+), 139 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} (89%)
+ rename meta/recipes-support/gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb} (45%)
+ rename meta/recipes-support/libassuan/{libassuan_2.4.3.bb => libassuan_2.4.4.bb} (67%)
+ delete mode 100644 meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
+ rename meta/recipes-support/nettle/{nettle-3.3 => nettle-3.4}/check-header-files-of-openssl-only-if-enable_.patch (63%)
+ rename meta/recipes-support/nettle/{nettle-3.3 => nettle-3.4}/dlopen-test.patch (100%)
+ rename meta/recipes-support/nettle/{files => nettle-3.4}/run-ptest (100%)
+ delete mode 100644 meta/recipes-support/nettle/nettle_3.3.bb
+ rename meta/recipes-support/nettle/{nettle.inc => nettle_3.4.bb} (60%)
+ rename meta/recipes-support/nss/{nss_3.33.bb => nss_3.34.bb} (98%)
+
+-- 
+2.7.4
 
 
