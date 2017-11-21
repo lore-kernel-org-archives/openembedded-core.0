@@ -1,49 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A94871985
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1385F6E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 02:00:27 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id y42so9870810wrd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Nov 2017 18:00:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=aqrFWTMqAxiHvlBdJF7OKZZ0ZqICnGp8lOOc4+m61t4=;
-	b=bDCfaM3dQgX1a6SFfAx69d8tiNeb9QI50pkBLB7C1lyf0Hl/42d65W0akPVQ3UHKeM
-	6GB7lZL12eXtZHWbf5535ioLkwLinUVCfk5Z6hAYNk47PKtnemiPzA0HT+hASjjzl4m0
-	jENp8Yq8XajSt7ZtGzsrFYmatUNutBVDauWn3gRvAHGR+SNXylyhrFepY97M1BdEqF2k
-	In4msdR5SCLCM4WteJbG2thiAx5gGT1lqQOkTQTV1s1VyEHmuygxnuWiOuAXTFlQqDG8
-	O3As0ox9Y0M91T/TkCU8X2oF7Ys8L7OIJBMZ0twLSRwL/TgHWGobiuSEyF+tp08ca8B+
-	OoIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=aqrFWTMqAxiHvlBdJF7OKZZ0ZqICnGp8lOOc4+m61t4=;
-	b=Ovgi25jExaVcWZqwrejzMvBHBg2rrKrEeiJrhkIrlZBIdzAXl4t8J5QdCw030RQt1h
-	tbNDp6bO82dfbtyR7uRZ99QkY5twQ2AmOqMxGgEnJRzvYRig6yJEL2QcDYQjSk+4CKbe
-	JGsvdkwqlpCKPKoc7/CyDzgAlb55cxptlF1sp/4d5oNTzOA3li8Jg4aAfS5Sn54+KmhU
-	RmvDEqqVLRbkdx6SFjQA9uR+ZN7vGNpmmEj4LdPR6ZvfOQ0hSNv4fclg9ZFi1AzWlThI
-	bTKTxWYZLYP/18XP1QI+/dHsBHu42EoecsIhEBj41LlmLZPwmYpCqYw9tyUTKCqLeq9+
-	+Sdw==
-X-Gm-Message-State: AJaThX4USjJP0hZmZrLCquH0ND30HlUcatnvYZV5mXDROTdSzWUN2EP3
-	sxiFW1jK8B2gM0I/P6ur47ls1ZBHXBnQBX2pCrE=
-X-Google-Smtp-Source: AGs4zMZQ6KgBx7GXqqrPoMqkpBgjh52yNnfY585Uu28ld8kgH/S5+bnnOSIImkocIzgXYXmpSlDcZR+nVpyuSkKN+24=
-X-Received: by 10.223.135.59 with SMTP id a56mr14135151wra.173.1511229628220; 
-	Mon, 20 Nov 2017 18:00:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Mon, 20 Nov 2017 18:00:27 -0800 (PST)
-In-Reply-To: <82397892-7190-ac1a-8aa4-128cb928e8f0@windriver.com>
+	Tue, 21 Nov 2017 02:22:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAL2M6b4030783
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 20 Nov 2017 18:22:06 -0800
+Received: from [128.224.162.147] (128.224.162.147) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 20 Nov 2017 18:22:05 -0800
+To: Andre McCurdy <armccurdy@gmail.com>
 References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
 	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
 	<82397892-7190-ac1a-8aa4-128cb928e8f0@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 20 Nov 2017 18:00:27 -0800
-Message-ID: <CAJ86T=VJo7d94DVxHGdhRLve8kjWNRSidMJfuxPxienV1MK3yA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJ86T=VJo7d94DVxHGdhRLve8kjWNRSidMJfuxPxienV1MK3yA@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <e02b7a4b-0430-81f9-8dfa-7ff3d616d0f5@windriver.com>
+Date: Tue, 21 Nov 2017 10:24:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=VJo7d94DVxHGdhRLve8kjWNRSidMJfuxPxienV1MK3yA@mail.gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,54 +38,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 02:00:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Nov 2017 02:22:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Mon, Nov 20, 2017 at 5:21 PM, Hongxu Jia <hongxu.jia@windriver.com> wrot=
-e:
-> On 2017=E5=B9=B411=E6=9C=8820=E6=97=A5 19:07, Burton, Ross wrote:
-> On 17 November 2017 at 06:08, Hongxu Jia <hongxu.jia@windriver.com> wrote=
-:
+On 2017年11月21日 10:00, Andre McCurdy wrote:
+> On Mon, Nov 20, 2017 at 5:21 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> On 2017年11月20日 19:07, Burton, Ross wrote:
+>> On 17 November 2017 at 06:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>> +qemu by default emulates IDE and the linux-yocto kernel(s) use
+>>> +CONFIG_IDE instead of the more modern libsata, so disks appear as
+>>> +/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE
+>>> +is deprecated.
+>> Can we fix our kernel and/or qemu configuration too?
 >>
->> +qemu by default emulates IDE and the linux-yocto kernel(s) use
->> +CONFIG_IDE instead of the more modern libsata, so disks appear as
->> +/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE
->> +is deprecated.
+>> For qemu, RP have replace it with virtio, but it have the
+>> similar issue on virtualbox with IDE controller.
+> VirtualBox gives you the choice about whether to connect the HDD image
+> to a virtual IDE or SATA port.
 >
-> Can we fix our kernel and/or qemu configuration too?
->
-> For qemu, RP have replace it with virtio, but it have the
-> similar issue on virtualbox with IDE controller.
+> ie VirtualBox isn't a reason to have our rootfs images continue to try
+> to support IDE.
 
-VirtualBox gives you the choice about whether to connect the HDD image
-to a virtual IDE or SATA port.
+For IDE, the mainstream distribution (ubuntu/fedora) do not support it.
 
-ie VirtualBox isn't a reason to have our rootfs images continue to try
-to support IDE.
+Ubuntu 17.10, kernel 4.13.0-16
+vim /boot/config-4.13.0-16-generic
+...
+# CONFIG_IDE is not set
+CONFIG_ATA_PIIX=y
+...
 
-> ...
-> commit f59e729f98ef9b506b0cfdc415567e03ec87f2a9
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Tue Aug 22 22:58:02 2017 +0100
->
->     runqemu: Use virtio to mount cdrom drives
->
->     The IDE driver in the kernel is fragile and in 4.12 is causing
-> backtraces.
->     To unblock 4.12 kernel merging use the virtio CD driver instead to mo=
-unt
->     iso images which should be faster and more stable.
-> ...
->
-> //Hongxu
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Fedora 27, kernel 4.13.5
+vi /boot/config-4.13.5-300.fc27.x86_64
+...
+# CONFIG_IDE is not set
+CONFIG_ATA_PIIX=y
+...
+
+The IDE seems not stable, and I have fixed two issue on it.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=79d73346ac05bc31f2e96f899c4e9aaaa616a8d4
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8dc7a31fbce5e2dbbacd83d910da37105181b054
+
+If enable both of IDE and ATA and the IDE still have a higher priority.
+We should explicitly not set CONFIG_IDE.
+
+Here is the discussion on upstream mailing list.
+https://www.mail-archive.com/linux-block@vger.kernel.org/msg15114.html
+
+//Hongxu
+
+>> ...
+>> commit f59e729f98ef9b506b0cfdc415567e03ec87f2a9
+>> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Date:   Tue Aug 22 22:58:02 2017 +0100
+>>
+>>      runqemu: Use virtio to mount cdrom drives
+>>
+>>      The IDE driver in the kernel is fragile and in 4.12 is causing
+>> backtraces.
+>>      To unblock 4.12 kernel merging use the virtio CD driver instead to mount
+>>      iso images which should be faster and more stable.
+>> ...
+>>
+>> //Hongxu
+>>
+>> Ross
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+
 
