@@ -1,67 +1,24 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9125178623
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 550A178672
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 12:52:27 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id v123so8422385oif.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 04:52:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=bJSkj0fWuFePe5cmaLkEqVpFpDa7tENznVK3jy/Wz6s=;
-	b=fmuhiVC9Z5or2nVd02VYXjukC+x3rACvCNoLkv3KQXfBHZi0LJjRFxyemfsVsLDwkC
-	cfe4oSihorRBKBYBYaL108yON2iqx1yKOo04BPOsRccbw0GNC4Y6w7X20SZvM3Pf76Gg
-	9+9ZSkUcjvbZ89xY03zfv1pqCQ6ZdkcG8YIx5RQ2fmsKdriUQxnEUHvx+OL/XjRpQCJh
-	5AFOwVP8vKxkRRJi+6l2KdWiaLFPoNiNxS9C7/Mi3RBMKehZBtNqNKxm6vz7rYVbaVfw
-	bLYNsoQg8Zp+eRrZp6jqogtEqUb6puC/T6FTWHNnrwFzKTB4q4HVOPTI7L5XCVYEroS6
-	8zPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=bJSkj0fWuFePe5cmaLkEqVpFpDa7tENznVK3jy/Wz6s=;
-	b=TurnVNEJjsRn8Jj8NwpxBmzz6lYIN+F/Pj67ulnkAK/1AG7aTVGEk5POE4M/c1wkaH
-	le4/ffq4C41fl8yF8G7bm6KVnu0QYRP5fDLsI0moIEIyBJSrVEmijryIDYTdhHfpGv3W
-	JmQwmCWbF4+D/PzBQOr9hY+/X0XjXE6/ScjQPA3pc54CVWZXIRChbH+InMmL1c1G4IkA
-	70LBNRFiw+Gi84MRmvcfd9wVrP9AY+XtR1hyCgWoQGPPf7h2Sep7Trl5EXgFqvHBI5Do
-	V0l55n39DUaoI3Os34Gc/eBCno23XmXD3eKbSg8/BRhqmQ6Omxr2a+w3tLOFENOZysMl
-	DXfw==
-X-Gm-Message-State: AJaThX6L91LkbAZ1mM74JVO3pn014gIhsFL/ufCH2IcvaQ0a6sp0Lv4h
-	xk/KyAgYRPJELP4qwSFhfndrropl
-X-Google-Smtp-Source: AGs4zMYuz86PqPUxuPIRTNX7+vMNAUdY3h8p3zPBro8CjT1k6NfjLgPv68TixQo5em1ReNa6MvGEnw==
-X-Received: by 10.202.214.203 with SMTP id n194mr1133146oig.195.1511268748016; 
-	Tue, 21 Nov 2017 04:52:28 -0800 (PST)
-Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com.
-	[74.125.82.176]) by smtp.gmail.com with ESMTPSA id
-	x127sm5419743oix.8.2017.11.21.04.52.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 04:52:26 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f176.google.com with SMTP id v15so10412828ote.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 04:52:26 -0800 (PST)
-X-Received: by 10.157.80.13 with SMTP id a13mr10034174oth.370.1511268746408;
-	Tue, 21 Nov 2017 04:52:26 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 21 Nov 2017 04:52:25 -0800 (PST)
-In-Reply-To: <1511266891.5979.56.camel@intel.com>
-References: <cover.1486668313.git.jussi.kukkonen@intel.com>
-	<3126cc0be3fdcd228a3bc73e2e58b90447c53ef2.1486668313.git.jussi.kukkonen@intel.com>
-	<1511251487.5979.54.camel@intel.com>
-	<CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
-	<1511266891.5979.56.camel@intel.com>
-Date: Tue, 21 Nov 2017 10:52:25 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKo154yFY92zAmkGo5o5w0rLbc7-9xEg-sBXQJz6iYLwzw@mail.gmail.com>
-Message-ID: <CAP9ODKo154yFY92zAmkGo5o5w0rLbc7-9xEg-sBXQJz6iYLwzw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: native CA cert bundles (was: Re: [PATCH 3/3] cve-check-tool: Use CA cert bundle in correct sysroot)
+	Tue, 21 Nov 2017 13:10:49 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vALDAmF0017574
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 21 Nov 2017 13:10:49 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1eH8K8-0004TY-Gk; Tue, 21 Nov 2017 13:10:48 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Nov 2017 13:10:42 +0000
+Message-Id: <1511269847-17161-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/6] runqemu: Ensure we process all tap devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,45 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 12:52:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Nov 2017 13:10:50 -0000
 
-On Tue, Nov 21, 2017 at 10:21 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Tue, 2017-11-21 at 10:06 -0200, Otavio Salvador wrote:
->> On Tue, Nov 21, 2017 at 6:04 AM, Patrick Ohly <patrick.ohly@intel.com
->> > wrote:
->> > On Thu, 2017-02-09 at 21:38 +0200, Jussi Kukkonen wrote:
->> > There is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9883
->> > open
->> > about some aspect of this, but it doesn't actually address the
->> > underlying question about what the right behavior should be. It's
->> > based
->> > on the assumption that libcurl-native should always use ca-
->> > certificates-native.
->> >
->> > Thoughts anyone?
->>
->> I agree it should use ca-certificates-native for all native; it
->> allows for self-signed internal certificates to be added for internal
->> development.
->
-> But that's not what bitbake itself uses. Are you saying that bitbake
-> fetchers etc. should also use whatever certificates are configured for
-> ca-certificates-native? That leads to a chicken-and-egg problem.
->
-> A solution where custom certificates need to be configured in two
-> different places (system for bitbake, ca-certificates-native for some
-> other tools) sounds sub-optimal to me.
+The regexp in the script misses some tap devices, e.g. we see output like:
 
-I know and we could override it to a place.
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap25.lock failed: [Errno 11] Resource temporarily unavailable
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap26.lock failed: [Errno 11] Resource temporarily unavailable
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap27.lock failed: [Errno 11] Resource temporarily unavailable
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap28.lock failed: [Errno 11] Resource temporarily unavailable
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap40.lock failed: [Errno 11] Resource temporarily unavailable
+runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap41.lock failed: [Errno 11] Resource temporarily unavailable
 
-We ended doing it ourselves:
-https://github.com/updatehub/meta-updatehub/commit/e9c34faddb6a59d560147798b37ac6a0e3fa57bf
+What happened to tap29 to tap39?
 
-but this is not generic.
+The issue is was we were missing devices with '0' in the number,
+like "10:" and so on in the output from "ip link".
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index fe4459d..ad88da3 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -923,7 +923,7 @@ class BaseConfig(object):
+         logger.debug('Running %s...' % cmd)
+         ip_link = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+         # Matches line like: 6: tap0: <foo>
+-        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
++        possibles = re.findall('^[0-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
+         tap = ""
+         for p in possibles:
+             lockfile = os.path.join(lockdir, p)
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.4
+
 
