@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CCA1787EE
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 45309787CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 20:01:41 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id l24so10609566pfj.6
+	Tue, 21 Nov 2017 20:01:42 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id q4so10585439pfg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 12:01:43 -0800 (PST)
+	Tue, 21 Nov 2017 12:01:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=E/34rIbrdC4aj8fR16g9RPeG49wPm9WSBCdusSnDFzQ=;
-	b=sNntkaF6+5WAFq8fPIpZ5otGD3Ll/LyhFXXPRUq75WQaISd/mFufjyD0TTFDRL2hvq
-	0Oa5zWj1iZ/O4DnvM3DLpCKNuY6uJuQZ/jGP16xSgZiZKRbx+ByKX7HJJUb56SR4GuVV
-	9kO1xSbmyTeLPGfW411K7dFwPFwpqdV5MgmKtgj5w3vBtF/iEeUiXW9SL24Bk8ibpdDF
-	YZbOgirzRECJe6B4E5+gFQ1iiC2kEfLfFqyEO0fU9CNyS//+6PQ5lsItD+T6OjbnUeBL
-	9oy1deIvw7lBViYMNSu21IN5H7C4WcLuoBnNZIV7odYvslj2uAGwvU1axzq0gcBMGGAg
-	kbMQ==
+	bh=YZwXyoPFgo/8TM7rJWpKY2tCDTOmxohGS1anb0Ueq7U=;
+	b=MQ2l4TA0G6roKLtbJHqiw07/yE165uN2qc/iVj2zhfsClQvn8ITjO23A49uRYYo/62
+	3QBiP6rzCTNsPqPPiEF6Mt/K4Pv+FlwTLehTjrlFysgi4cwZr2lkb9OImiPl7/y+Ybwg
+	4qfTmA03TN7ufV1s50yCUSOwV4uwKDpmGJO6CXSlKp35cQxoHYaptSBMQtCZPg/a4hf4
+	PyKb40XV0kCDI0wwcOWeiKSQOEGAcLt6VqICgNQoJ53DzjqUfx9dCYD2sMI5MRQ+zQvk
+	qHfrt2iGcJ4J13u5NNX5X0EwQulwoseeeLkh+QANEtxBF8HrzpzcQljlHhXD1B83v6tS
+	BA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=E/34rIbrdC4aj8fR16g9RPeG49wPm9WSBCdusSnDFzQ=;
-	b=QwbZURH2R/pc76lXa9p9Z/TXC90CaurZYRtEuv6NK791+ZpPTjKf5vY0bVT0C8aILW
-	bwxIuntT9r1T+u7ZAz38byzj+nlT5HCE3ZLHUZYoxs8i9DtGtotrUWScaej1F0uVxVdk
-	mZUVLrPaxuaJwAA4K3tl9hVIb51lAT2BkwO6IIY9pF94Jtd7ANHYv5e3GXUGrzr9T+C4
-	U2E2ychI/oR7cLuHZXyaehaCQXnFi9hP7k3rvzVsfCWa8sv3naqUWp1Ubyg23RLtIKiN
-	bCW2JdcJx21U2FehWjCf+yjdyfJQxaUPdGMNfgG7Bc3Mv8ymBX3EMTsmZOblIDdmWOJ7
-	O8xA==
-X-Gm-Message-State: AJaThX42I3ZOfP6EVDEB9h8T3F4X/d0LmNB/OJRs3CYbk+kNmBqNnW3a
-	RjeGeiYb1suE94T7Ux7w1hSMcg==
-X-Google-Smtp-Source: AGs4zMZKQDVM9Gj0TKwIQoEF7ocJoFnvmyS4RNHXtXud/3YnM087EgnCaUJHdwaswUnTxBm9Da361w==
-X-Received: by 10.159.216.152 with SMTP id s24mr13118430plp.46.1511294503309; 
-	Tue, 21 Nov 2017 12:01:43 -0800 (PST)
+	bh=YZwXyoPFgo/8TM7rJWpKY2tCDTOmxohGS1anb0Ueq7U=;
+	b=JpqjRrdJEbaTAKcL8Es6iWQhWnMgPsgV6US7q8xZMwZAd/yh8DQKovx7MxPcw1uuod
+	okIBVrxiStrGT4U2482NUmGfklqA/z+B6Uv9xWFzLCs2rqYJHrg8exONYgNasNVzmhEX
+	FwkugBkygeH6Cbh3EytjaxSe7FQ2ASP7SAw/P4yeQY05hij+VHrb2H00VZtFnUFn3x9e
+	/IFpUf9mw8fp/TZJ2uOWUO1kLrJKdCKp6eYQ9Z/hsZFLxx8FvjHtPGNE9CmvCg61dbdg
+	BY2ofut8JDSIQLqbB+Bjw7LqHVOiMYLUVG9HWimWnVsgWrhc+xElk83bnAt7o4yX1q3m
+	ydQw==
+X-Gm-Message-State: AJaThX4xwcXLU3GAiSB4wG4zLBcBFGj1S4SO+ByiSAiEFWxzUJJDzo1a
+	oqkOPT7dpS8JxNKN61ReM0UpZw==
+X-Google-Smtp-Source: AGs4zMaam3vA32g4PlDj9h6dkU4Kg+F9KGVCKuOo68CVKU2GdYkJWtqbLSvYhJt7HLvCCCzamGgZmA==
+X-Received: by 10.159.202.139 with SMTP id p11mr16277274plo.182.1511294504430; 
+	Tue, 21 Nov 2017 12:01:44 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
 	by smtp.gmail.com with ESMTPSA id
-	d28sm26770154pfb.105.2017.11.21.12.01.42
+	d28sm26770154pfb.105.2017.11.21.12.01.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Nov 2017 12:01:42 -0800 (PST)
+	Tue, 21 Nov 2017 12:01:43 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 12:01:32 -0800
-Message-Id: <68571a23c7230fd6bbd97d4ea9d52c3756839795.1511294278.git.akuster808@gmail.com>
+Date: Tue, 21 Nov 2017 12:01:33 -0800
+Message-Id: <1355ffaccf3da8419c4067047000b68c2f83cda6.1511294278.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1511294278.git.akuster808@gmail.com>
 References: <cover.1511294278.git.akuster808@gmail.com>
-Subject: [PATCH 1/5] gnutls: update to 3.6.1
+Subject: [PATCH 2/5] nettle: update to 3.4 and cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,144 +59,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 20:01:42 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 20:01:43 -0000
 
-zlib configure.ac support removed in  3.6.1
-drop patch
+From: Armin Kuster <akuster@mvista.com>
 
-v2: actually remove patch
+merge .inc
+forward ported two patches to work with 3.4
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+for more info see:
+http://lists.gnu.org/archive/html/info-gnu/2017-11/msg00007.html
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc             |  3 +-
- .../gnutls/use-pkg-config-to-locate-zlib.patch     | 75 ----------------------
- .../gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb}   |  5 +-
- 3 files changed, 3 insertions(+), 80 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls/use-pkg-config-to-locate-zlib.patch
- rename meta/recipes-support/gnutls/{gnutls_3.5.16.bb => gnutls_3.6.1.bb} (45%)
+ ...d-target-to-only-build-tests-not-run-them.patch | 46 ----------------------
+ ...d-target-to-only-build-tests-not-run-them.patch | 38 ++++++++++++++++++
+ ...k-header-files-of-openssl-only-if-enable_.patch | 26 ++++++------
+ .../{nettle-3.3 => nettle-3.4}/dlopen-test.patch   |  0
+ .../nettle/{files => nettle-3.4}/run-ptest         |  0
+ meta/recipes-support/nettle/nettle_3.3.bb          | 19 ---------
+ .../nettle/{nettle.inc => nettle_3.4.bb}           | 14 +++++++
+ 7 files changed, 64 insertions(+), 79 deletions(-)
+ delete mode 100644 meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
+ rename meta/recipes-support/nettle/{nettle-3.3 => nettle-3.4}/check-header-files-of-openssl-only-if-enable_.patch (63%)
+ rename meta/recipes-support/nettle/{nettle-3.3 => nettle-3.4}/dlopen-test.patch (100%)
+ rename meta/recipes-support/nettle/{files => nettle-3.4}/run-ptest (100%)
+ delete mode 100644 meta/recipes-support/nettle/nettle_3.3.bb
+ rename meta/recipes-support/nettle/{nettle.inc => nettle_3.4.bb} (60%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 29b5dd6..7bcb913 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -21,7 +21,7 @@ SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
- 
- inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
- 
--PACKAGECONFIG ??= "libidn zlib"
-+PACKAGECONFIG ??= "libidn"
- 
- # You must also have CONFIG_SECCOMP enabled in the kernel for
- # seccomp to work.
-@@ -32,7 +32,6 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
- PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
--PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
- 
- EXTRA_OECONF = " \
-     --enable-doc \
-diff --git a/meta/recipes-support/gnutls/gnutls/use-pkg-config-to-locate-zlib.patch b/meta/recipes-support/gnutls/gnutls/use-pkg-config-to-locate-zlib.patch
+diff --git a/meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch
 deleted file mode 100644
-index ae141a5..0000000
---- a/meta/recipes-support/gnutls/gnutls/use-pkg-config-to-locate-zlib.patch
+index 23da777..0000000
+--- a/meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch
 +++ /dev/null
-@@ -1,75 +0,0 @@
--From 18081068a97c00015aabc5fa321664951458ea0d Mon Sep 17 00:00:00 2001
--From: Fan Xin <fan.xin@jp.fujitsu.com>
--Date: Fri, 9 Jun 2017 15:20:31 +0900
--Subject: [PATCH] From cee80af1fe93f5b76765afeebfcc3b902768f5d6 Mon Sep 17
-- 00:00:00 2001 From: Andre McCurdy <armccurdy@gmail.com> Date: Tue, 26 May
-- 2015 21:41:24 -0700 Subject: [PATCH] use pkg-config to locate zlib
+@@ -1,46 +0,0 @@
+-From 46edf01cc98db9f9feec984897836dfdd26bdc8d Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Wed, 12 Aug 2015 23:27:27 +0300
+-Subject: [PATCH] Add target to only build tests (not run them)
 -
--AC_LIB_HAVE_LINKFLAGS can sometimes find host libs and is therefore not
--robust when cross-compiling. Remove it for zlib and use PKG_CHECK_MODULES
--instead.
+-Not sending upstream as this is only a start of a solution to
+-installable tests: It's useful for us already as is.
 -
--Removing AC_LIB_HAVE_LINKFLAGS for zlib also removes the --with-libz-prefix
--configure option. If zlib support is enabled, then failure to find zlib via
--pkg-config is now treated as a fatal error.
+-Upstream-Status: Inappropriate [not a complete solution]
 -
--Change based on ChromeOS gnutls 2.12.23 cross-compile fixes patch:
--
--  https://chromium-review.googlesource.com/#/c/271661/
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
--
--Rebase on gnutls 3.5.13
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ----
-- configure.ac | 25 +++++++++----------------
-- 1 file changed, 9 insertions(+), 16 deletions(-)
+- Makefile.in           | 3 +++
+- testsuite/Makefile.in | 2 ++
+- 2 files changed, 5 insertions(+)
 -
+-diff --git a/Makefile.in b/Makefile.in
+-index 08efb7d..7909342 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -55,6 +55,9 @@ clean distclean mostlyclean maintainer-clean tags:
+- 	  echo "Making $@ in $$d" ; (cd $$d && $(MAKE) $@); done
+- 	$(MAKE) $@-here
+- 
+-+buildtest:
+-+	echo "Making $@ in testsuite" ; (cd testsuite && $(MAKE) $@)
+-+
+- check-here:
+- 	true
+- 
+-diff --git a/testsuite/Makefile.in b/testsuite/Makefile.in
+-index 6bc1907..bb65bf0 100644
+---- a/testsuite/Makefile.in
+-+++ b/testsuite/Makefile.in
+-@@ -116,6 +116,8 @@ $(TARGETS) $(EXTRA_TARGETS): testutils.$(OBJEXT) ../nettle-internal.$(OBJEXT) \
+- # data.
+- VALGRIND = valgrind --error-exitcode=1 --leak-check=full --show-reachable=yes @IF_ASM@ --partial-loads-ok=yes
+- 
+-+buildtest: $(TS_ALL)
+-+
+- # The PATH update is for locating dlls on w*ndows.
+- check: $(TS_ALL)
+- 	LD_LIBRARY_PATH=../.lib PATH="../.lib:$$PATH" srcdir="$(srcdir)" \
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
+new file mode 100644
+index 0000000..c007060
+--- /dev/null
++++ b/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
+@@ -0,0 +1,38 @@
++Add target to only build tests (not run them)
++
++Not sending upstream as this is only a start of a solution to
++installable tests: It's useful for us already as is.
++
++Upstream-Status: Inappropriate [not a complete solution]
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Refactored for 3.4
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: nettle-3.4/Makefile.in
++===================================================================
++--- nettle-3.4.orig/Makefile.in
+++++ nettle-3.4/Makefile.in
++@@ -55,6 +55,9 @@ clean distclean mostlyclean maintainer-c
++ 	  echo "Making $@ in $$d" ; (cd $$d && $(MAKE) $@); done
++ 	$(MAKE) $@-here
++ 
+++buildtest:
+++	echo "Making $@ in testsuite" ; (cd testsuite && $(MAKE) $@)
+++
++ check-here:
++ 	true
++ 
++Index: nettle-3.4/testsuite/Makefile.in
++===================================================================
++--- nettle-3.4.orig/testsuite/Makefile.in
+++++ nettle-3.4/testsuite/Makefile.in
++@@ -131,6 +131,8 @@ $(TARGETS) $(EXTRA_TARGETS): testutils.$
++ # data.
++ VALGRIND = valgrind --error-exitcode=1 --leak-check=full --show-reachable=yes @IF_ASM@ --partial-loads-ok=yes
++ 
+++buildtest: $(TS_ALL)
+++
++ # The PATH update is for windows dlls, DYLD_LIBRARY_PATH is for OSX.
++ check: $(TS_ALL)
++ 	LD_LIBRARY_PATH=../.lib PATH="../.lib:$$PATH" DYLD_LIBRARY_PATH=../.lib \
+diff --git a/meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
+similarity index 63%
+rename from meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch
+rename to meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
+index e7216ba..d5f2666 100644
+--- a/meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch
++++ b/meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
+@@ -10,29 +10,27 @@ building for nettle.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+----
+- configure.ac | 8 +++++---
+- 1 file changed, 5 insertions(+), 3 deletions(-)
+ 
 -diff --git a/configure.ac b/configure.ac
--index c65268e..f6a18aa 100644
+-index 4ead52c..982760f 100644
 ---- a/configure.ac
 -+++ b/configure.ac
--@@ -735,28 +735,21 @@ AC_ARG_WITH(zlib, AS_HELP_STRING([--without-zlib],
-- AC_MSG_CHECKING([whether to include zlib compression support])
-- if test x$ac_zlib != xno; then
--  AC_MSG_RESULT(yes)
--- AC_LIB_HAVE_LINKFLAGS(z,, [#include <zlib.h>], [compress (0, 0, 0, 0);])
--- if test x$ac_cv_libz != xyes; then
---   AC_MSG_WARN(
---*** 
---*** ZLIB was not found. You will not be able to use ZLIB compression.)
--- fi
-- else
--  AC_MSG_RESULT(no)
-- fi
++refactored for 3.4. pending not in as of 3.4
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: nettle-3.4/configure.ac
++===================================================================
++--- nettle-3.4.orig/configure.ac
+++++ nettle-3.4/configure.ac
+ @@ -185,9 +185,11 @@ AC_HEADER_TIME
+  AC_CHECK_SIZEOF(long)
+  AC_CHECK_SIZEOF(size_t)
+  
+--AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h openssl/ecdsa.h],,
++-AC_CHECK_HEADERS([openssl/evp.h openssl/ecdsa.h],,
+ -[enable_openssl=no
+ - break])
+ +if test "x$enable_openssl" = "xyes"; then
+-+  AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h openssl/ecdsa.h],,
+++  AC_CHECK_HEADERS([openssl/evp.h openssl/ecdsa.h],,
+ +  [enable_openssl=no
+-+  break])
+++   break])
+ +fi
+  
++ # For use by the testsuite
+  AC_CHECK_HEADERS([valgrind/memcheck.h])
 - 
---PKG_CHECK_EXISTS(zlib, ZLIB_HAS_PKGCONFIG=y, ZLIB_HAS_PKGCONFIG=n)
---
-- if test x$ac_zlib != xno; then
---  if test "$ZLIB_HAS_PKGCONFIG" = "y" ; then
---    if test "x$GNUTLS_REQUIRES_PRIVATE" = x; then
---      GNUTLS_REQUIRES_PRIVATE="Requires.private: zlib"
---    else
---      GNUTLS_REQUIRES_PRIVATE="$GNUTLS_REQUIRES_PRIVATE, zlib"
---    fi
---    LIBZ_PC=""
--+  PKG_CHECK_MODULES(ZLIB, zlib)
--+  HAVE_LIBZ=yes
--+  AC_DEFINE([HAVE_LIBZ], [1], [zlib is enabled])
--+  AC_SUBST(HAVE_LIBZ)
--+  LTLIBZ=$ZLIB_LIBS
--+  AC_SUBST(LTLIBZ)
--+  if test "x$GNUTLS_REQUIRES_PRIVATE" = x; then
--+    GNUTLS_REQUIRES_PRIVATE="Requires.private: zlib"
--   else
---    LIBZ_PC=$LIBZ
--+    GNUTLS_REQUIRES_PRIVATE="$GNUTLS_REQUIRES_PRIVATE, zlib"
--   fi
-- fi
-- AC_SUBST(LIBZ_PC)
 --- 
 -1.9.1
 -
-diff --git a/meta/recipes-support/gnutls/gnutls_3.5.16.bb b/meta/recipes-support/gnutls/gnutls_3.6.1.bb
-similarity index 45%
-rename from meta/recipes-support/gnutls/gnutls_3.5.16.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.1.bb
-index 635c519..7624a20 100644
---- a/meta/recipes-support/gnutls/gnutls_3.5.16.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.1.bb
-@@ -1,10 +1,9 @@
- require gnutls.inc
+diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+rename to meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch
+diff --git a/meta/recipes-support/nettle/files/run-ptest b/meta/recipes-support/nettle/nettle-3.4/run-ptest
+similarity index 100%
+rename from meta/recipes-support/nettle/files/run-ptest
+rename to meta/recipes-support/nettle/nettle-3.4/run-ptest
+diff --git a/meta/recipes-support/nettle/nettle_3.3.bb b/meta/recipes-support/nettle/nettle_3.3.bb
+deleted file mode 100644
+index 3951678..0000000
+--- a/meta/recipes-support/nettle/nettle_3.3.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-require nettle.inc
+-
+-LICENSE = "LGPLv3+ | GPLv2+"
+-
+-LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-                    file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e \
+-                    file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e"
+-
+-SRC_URI += "\
+-            file://check-header-files-of-openssl-only-if-enable_.patch \
+-            "
+-
+-SRC_URI_append_class-target = "\
+-            file://dlopen-test.patch \
+-            "
+-
+-SRC_URI[md5sum] = "10f969f78a463704ae73529978148dbe"
+-SRC_URI[sha256sum] = "46942627d5d0ca11720fec18d81fc38f7ef837ea4197c1f630e71ce0d470b11e"
+diff --git a/meta/recipes-support/nettle/nettle.inc b/meta/recipes-support/nettle/nettle_3.4.bb
+similarity index 60%
+rename from meta/recipes-support/nettle/nettle.inc
+rename to meta/recipes-support/nettle/nettle_3.4.bb
+index af51fb6..b4e525c 100644
+--- a/meta/recipes-support/nettle/nettle.inc
++++ b/meta/recipes-support/nettle/nettle_3.4.bb
+@@ -1,14 +1,28 @@
+ SUMMARY = "A low level cryptographic library"
+ HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+ SECTION = "libs"
++LICENSE = "LGPLv3+ | GPLv2+"
++
++LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
++                    file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e \
++                    file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e"
  
- SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
--            file://use-pkg-config-to-locate-zlib.patch \
-             file://arm_eabi.patch \
+ DEPENDS += "gmp"
+ 
+ SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz \
+            file://Add-target-to-only-build-tests-not-run-them.patch \
+            file://run-ptest \
++           file://check-header-files-of-openssl-only-if-enable_.patch \
             "
--SRC_URI[md5sum] = "4c39612f1ec3ef7ed79cfb8936fa8143"
--SRC_URI[sha256sum] = "0924dec90c37c05f49fec966eba3672dab4d336d879e5c06e06e13325cbfec25"
-+SRC_URI[md5sum] = "4b65ae3ffef59f3eeed51a6166ff12b3"
-+SRC_URI[sha256sum] = "20b10d2c9994bc032824314714d0e84c0f19bdb3d715d8ed55beb7364a8ebaed"
  
- BBCLASSEXTEND = "native nativesdk"
++SRC_URI_append_class-target = "\
++            file://dlopen-test.patch \
++            "
++
++SRC_URI[md5sum] = "dc0f13028264992f58e67b4e8915f53d"
++SRC_URI[sha256sum] = "ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94"
++
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ inherit autotools ptest
 -- 
 2.7.4
 
