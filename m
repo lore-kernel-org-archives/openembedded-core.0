@@ -1,24 +1,18 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E37978699
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 00:21:56 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 16:21:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; d="scan'208";a="151615612"
-Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
-	by orsmga004.jf.intel.com with ESMTP; 20 Nov 2017 16:21:57 -0800
-From: Amanda Brindle <amanda.r.brindle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 16:21:50 -0800
-Message-Id: <2382244f12b66b084aa1c7efebe35e3ddfa9133e.1511223478.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1511223478.git.amanda.r.brindle@intel.com>
-References: <cover.1511223478.git.amanda.r.brindle@intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 1/1] scripts/contrib/bbvars.py: Remove dead code
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 297ED78699;
+	Tue, 21 Nov 2017 00:35:25 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Tue, 21 Nov 2017 00:35:26 -0000
+Message-ID: <20171121003526.2787.46427@do.openembedded.org>
+References: <cover.1511222485.git.akuster@mvista.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1511222485.git.akuster@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWFzdGVyIHBhY2thZ2UgdXBkYXRlcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,112 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:21:56 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 00:35:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Removed the -m option since this script now searches through all
-recipes in the configuration. Also removed dead code, which includes
-the functions recipe_bbvars() and collect_bbvars().
+== Series Details ==
+
+Series: Master package updates
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9884/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [5/5] curl: update to 7.56.1
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/contrib/bbvars.py | 52 ++---------------------------------------------
- 1 file changed, 2 insertions(+), 50 deletions(-)
-
-diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
-index 556f652..286b5a9 100755
---- a/scripts/contrib/bbvars.py
-+++ b/scripts/contrib/bbvars.py
-@@ -32,48 +32,12 @@ scriptpath.add_bitbake_lib_path()
- import bb.tinfoil
- 
- def usage():
--    print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
-+    print('Usage: %s -d FILENAME [-d FILENAME]*' % os.path.basename(sys.argv[0]))
-     print('  -d FILENAME         documentation file to search')
-     print('  -h, --help          display this help and exit')
--    print('  -m METADIR          meta directory to search for recipes')
-     print('  -t FILENAME         documentation config file (for doc tags)')
-     print('  -T                  Only display variables with doc tags (requires -t)')
- 
--def recipe_bbvars(recipe):
--    ''' Return a unique set of every bbvar encountered in the recipe '''
--    prog = re.compile("[A-Z_]+")
--    vset = set()
--    try:
--        r = open(recipe)
--    except IOError as err:
--        print('WARNING: Failed to open recipe ', recipe)
--        print(err.args[1])
--
--    for line in r:
--        # Strip any comments from the line
--        line = line.rsplit('#')[0]
--        vset = vset.union(set(prog.findall(line)))
--    r.close()
--
--    bbvars = {}
--    for v in vset:
--        bbvars[v] = 1
--
--    return bbvars
--
--def collect_bbvars(metadir):
--    ''' Walk the metadir and collect the bbvars from each recipe found '''
--    bbvars = {}
--    for root,dirs,files in os.walk(metadir):
--        for name in files:
--            if name.find(".bb") >= 0:
--                for key in recipe_bbvars(os.path.join(root,name)).keys():
--                    if key in bbvars:
--                        bbvars[key] = bbvars[key] + 1
--                    else:
--                        bbvars[key] = 1
--    return bbvars
--
- def bbvar_is_documented(var, documented_vars):
-     ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
-     if var in documented_vars:
-@@ -112,7 +76,6 @@ def bbvar_doctag(var, docconf):
- 
- def main():
-     docfiles = []
--    metadirs = []
-     bbvars = set()
-     undocumented = []
-     docconf = ""
-@@ -136,12 +99,6 @@ def main():
-             else:
-                 print('ERROR: documentation file %s is not a regular file' % a)
-                 sys.exit(3)
--        elif o == '-m':
--            if os.path.isdir(a):
--                metadirs.append(a)
--            else:
--                print('ERROR: meta directory %s is not a directory' % a)
--                sys.exit(4)
-         elif o == "-t":
-             if os.path.isfile(a):
-                 docconf = a
-@@ -155,11 +112,6 @@ def main():
-         usage()
-         sys.exit(5)
- 
--    if len(metadirs) == 0:
--        print('ERROR: no metadir specified')
--        usage()
--        sys.exit(6)
--
-     if onlydoctags and docconf == "":
-         print('ERROR: no docconf specified')
-         usage()
-@@ -196,7 +148,7 @@ def main():
-             bbvars_update(data)
- 
-         # Collect variables from all recipes
--        for recipe in tinfoil.all_recipe_files():
-+        for recipe in tinfoil.all_recipe_files(variants=False):
-             print("Checking %s" % recipe)
-             for data in tinfoil.parse_recipe_file(recipe):
-                 bbvars_update(data)
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
