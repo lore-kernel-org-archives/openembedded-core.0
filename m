@@ -1,34 +1,50 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DFA4171985
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A94871985
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 01:56:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAL1uMDn012273
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Nov 2017 17:56:22 -0800 (PST)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Mon, 20 Nov 2017 17:56:21 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>
-Thread-Topic: =?Windows-1252?Q?[OE-core]_Yocto_Project_Status_WW47=9217?=
-Thread-Index: AQHTYmcmgqTPpRsuNECxbskG01ShP6MeD2JQ
-Date: Tue, 21 Nov 2017 01:56:20 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B91BBEA@ALA-MBC.corp.ad.wrs.com>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
-	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
-In-Reply-To: <45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.140]
+	Tue, 21 Nov 2017 02:00:27 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id y42so9870810wrd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Nov 2017 18:00:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=aqrFWTMqAxiHvlBdJF7OKZZ0ZqICnGp8lOOc4+m61t4=;
+	b=bDCfaM3dQgX1a6SFfAx69d8tiNeb9QI50pkBLB7C1lyf0Hl/42d65W0akPVQ3UHKeM
+	6GB7lZL12eXtZHWbf5535ioLkwLinUVCfk5Z6hAYNk47PKtnemiPzA0HT+hASjjzl4m0
+	jENp8Yq8XajSt7ZtGzsrFYmatUNutBVDauWn3gRvAHGR+SNXylyhrFepY97M1BdEqF2k
+	In4msdR5SCLCM4WteJbG2thiAx5gGT1lqQOkTQTV1s1VyEHmuygxnuWiOuAXTFlQqDG8
+	O3As0ox9Y0M91T/TkCU8X2oF7Ys8L7OIJBMZ0twLSRwL/TgHWGobiuSEyF+tp08ca8B+
+	OoIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=aqrFWTMqAxiHvlBdJF7OKZZ0ZqICnGp8lOOc4+m61t4=;
+	b=Ovgi25jExaVcWZqwrejzMvBHBg2rrKrEeiJrhkIrlZBIdzAXl4t8J5QdCw030RQt1h
+	tbNDp6bO82dfbtyR7uRZ99QkY5twQ2AmOqMxGgEnJRzvYRig6yJEL2QcDYQjSk+4CKbe
+	JGsvdkwqlpCKPKoc7/CyDzgAlb55cxptlF1sp/4d5oNTzOA3li8Jg4aAfS5Sn54+KmhU
+	RmvDEqqVLRbkdx6SFjQA9uR+ZN7vGNpmmEj4LdPR6ZvfOQ0hSNv4fclg9ZFi1AzWlThI
+	bTKTxWYZLYP/18XP1QI+/dHsBHu42EoecsIhEBj41LlmLZPwmYpCqYw9tyUTKCqLeq9+
+	+Sdw==
+X-Gm-Message-State: AJaThX4USjJP0hZmZrLCquH0ND30HlUcatnvYZV5mXDROTdSzWUN2EP3
+	sxiFW1jK8B2gM0I/P6ur47ls1ZBHXBnQBX2pCrE=
+X-Google-Smtp-Source: AGs4zMZQ6KgBx7GXqqrPoMqkpBgjh52yNnfY585Uu28ld8kgH/S5+bnnOSIImkocIzgXYXmpSlDcZR+nVpyuSkKN+24=
+X-Received: by 10.223.135.59 with SMTP id a56mr14135151wra.173.1511229628220; 
+	Mon, 20 Nov 2017 18:00:28 -0800 (PST)
 MIME-Version: 1.0
-Cc: "Xu, Chi" <Chi.Xu@windriver.com>, "WOLD, SAUL" <saul.wold@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNDfigJkxNw==?=
+Received: by 10.223.133.68 with HTTP; Mon, 20 Nov 2017 18:00:27 -0800 (PST)
+In-Reply-To: <82397892-7190-ac1a-8aa4-128cb928e8f0@windriver.com>
+References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
+	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
+	<82397892-7190-ac1a-8aa4-128cb928e8f0@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 20 Nov 2017 18:00:27 -0800
+Message-ID: <CAJ86T=VJo7d94DVxHGdhRLve8kjWNRSidMJfuxPxienV1MK3yA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,145 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 01:56:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
+X-List-Received-Date: Tue, 21 Nov 2017 02:00:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
->=20
->=20
-> From: MacLeod, Randy=20
-> Sent: Tuesday, November 21, 2017 09:22
-> To: openembedded-core@lists.openembedded.org; Armin Kuster; Huang, Jie (J=
-ackie); Xu, Chi; Yang, Liezhi; WOLD, SAUL
-> Subject: Re: [OE-core] Yocto Project Status WW47=9217
->=20
-> On 2017-11-20 10:36 AM, Jolley, Stephen K wrote:
-> Current Dev Position: YP 2.5 Planning and M1 development
-> Next Deadline: YP 2.5 M1 cut off of 12/4/17
-> =20
-> SWAT team rotation: Juro -> Paul on Nov.17, 2017.
-> SWAT team rotation: Paul -> Todor on Nov. 24, 2017.
-> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-> =20
-> Key Status/Updates:
-> ?        There is no real change to the status from last week. We continu=
-e to suffer intermittent build failures and are continuing to attempt to de=
-bug these.
-> ?        Currently open issues are:
->=20
-> Some US-based people may be on holiday later this week so I'm offering=20
-> help from the frozen Northland and more importantly from the team in Beij=
-ing. ;-)
->=20
->=20
-> o   qemuppc continues to demonstrate random hangs in boot  in userspace
->=20
-> Is we can create a defect for this and point / copy the wiki notes into i=
-t, that
-> would help.
->    https://wiki.yoctoproject.org/wiki/Qemuppc_Boot_Hangs
->=20
-> I think I had asked Chi to see if he could reproduce this a week or two a=
-go.
-> When the lack of entropy problem was identified and fix, many people thou=
-ght
-> this hang went away as well. Chi can you read the wiki report and see if =
-you
-> can add anything to them?
->=20
->=20
-> o   Issues with 4.13.10 host kernels booting kvm x86 guests on Tumbleweed=
- (Suse) and Fedora 26 (attempting to see if 4.13.12 helps)
->=20
-> Robert, can you test Fedora 26. It would help to have a defect open with =
-steps to reproduce or
-> something about the typical workflow/ build time/ day of the week/ phase =
-of the moon.=20
->=20
->=20
-> o   nfs inode count for the sstate/dldir share appears to break periodica=
-lly causing the disk monitor to halt the builds (bug 12267)
->=20
-> Likely specific to the AB server so no plans to do anything for this bug.
->=20
->=20
-> o   a perf build race (bug 12302)
->  I'll take a look to:
->  - see if I can duplicate the bug on a fast build host
->  - check upstream to see if the bug is known/fixed
->  - see if I can spot a race in the build rules.
->=20
->=20
-> o   An ext filesystem creation/sizing issue (bug 12304)
->=20
-> Saul, Are you around this week? Do you have any additional information be=
-fore
-> leaving for Thanksgiving?
->=20
-> Jackie,=20
-> Can you look at the code around the image creation and try to reproduce t=
-his one?
+On Mon, Nov 20, 2017 at 5:21 PM, Hongxu Jia <hongxu.jia@windriver.com> wrot=
+e:
+> On 2017=E5=B9=B411=E6=9C=8820=E6=97=A5 19:07, Burton, Ross wrote:
+> On 17 November 2017 at 06:08, Hongxu Jia <hongxu.jia@windriver.com> wrote=
+:
+>>
+>> +qemu by default emulates IDE and the linux-yocto kernel(s) use
+>> +CONFIG_IDE instead of the more modern libsata, so disks appear as
+>> +/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE
+>> +is deprecated.
+>
+> Can we fix our kernel and/or qemu configuration too?
+>
+> For qemu, RP have replace it with virtio, but it have the
+> similar issue on virtualbox with IDE controller.
 
-There is no steps to reproduce in this bug and it seems to be a rare issue,=
- but yes, I can=20
-take a look at the code and info from yocto's autobuilder and try to reprod=
-uce it.
+VirtualBox gives you the choice about whether to connect the HDD image
+to a virtual IDE or SATA port.
 
-Thanks,
-Jackie
+ie VirtualBox isn't a reason to have our rootfs images continue to try
+to support IDE.
 
->=20
-> ../Randy
->=20
->=20
-> ?        Until we resolve these issues patches will continue to be slow t=
-o merge, if at all. This also blocks several core developers from doing any=
- feature work at this point in time (e.g. layer setup tool is on hold, agai=
-n).
-> ?        We can only continue to stress that unless others step up and he=
-lp to try and root cause these issues, things will stall with the project.
-> =20
-> Planned upcoming dot releases:
-> YP 2.2.3 is planned and should be out in the next few weeks.
-> YP 2.3.3 is planned, but date TBD during YP 2.5 planning.
-> YP 2.4.1 is planned, but date TBD during YP 2.5 planning.
-> =20
-> Key YP 2.5 Dates are:
-> YP 2.5 M1 cut off of 12/4/17
-> YP 2.5 M1 release of 12/15/17
-> YP 2.5 M2 cut off of 1/15/18
-> YP 2.5 M2 release of 1/26/18
-> YP 2.5 M3 cut off of 2/19/18
-> YP 2.5 M3 release of 3/2/18
-> YP 2.5 M4 cut off of 4/2/18
-> YP 2.5 M4 release of 4/27/18
-> =20
-> Tracking Metrics:
->             WDD 2655 (last week 2640)
->        (https://wiki.yoctoproject.org/charts/combo.html)
-> =20
-> Key Status Links for YP:
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.5_Status
-> https://wiki.yoctoproject.org/wiki/Yocto_2.5_Schedule
-> https://wiki.yoctoproject.org/wiki/Yocto_2.5_Features
-> [If anyone has suggestions for other information you=92d like to see on t=
-his weekly status update, let us know!]
-> =20
-> Thanks,
-> =20
-> Stephen K. Jolley
-> Yocto Project Program Manager
-> INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124=20
->     Work Telephone:        (503) 712-0534
-> 4    Cell:                              (208) 244-4460
-> 00Email:                            stephen.k.jolley@intel.com
-> =20
->=20
->=20
->=20
-> --=20
-> # Randy MacLeod.  WR Linux
-> # Wind River an Intel Company
+> ...
+> commit f59e729f98ef9b506b0cfdc415567e03ec87f2a9
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Tue Aug 22 22:58:02 2017 +0100
+>
+>     runqemu: Use virtio to mount cdrom drives
+>
+>     The IDE driver in the kernel is fragile and in 4.12 is causing
+> backtraces.
+>     To unblock 4.12 kernel merging use the virtio CD driver instead to mo=
+unt
+>     iso images which should be faster and more stable.
+> ...
+>
+> //Hongxu
+>
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
