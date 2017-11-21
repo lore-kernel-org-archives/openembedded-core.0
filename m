@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 297ED78699;
-	Tue, 21 Nov 2017 00:35:25 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5C3007869B;
+	Tue, 21 Nov 2017 00:35:26 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Tue, 21 Nov 2017 00:35:26 -0000
-Message-ID: <20171121003526.2787.46427@do.openembedded.org>
-References: <cover.1511222485.git.akuster@mvista.com>
+To: Amanda Brindle <amanda.r.brindle@intel.com>
+Date: Tue, 21 Nov 2017 00:35:28 -0000
+Message-ID: <20171121003528.2787.38320@do.openembedded.org>
+References: <cover.1511223478.git.amanda.r.brindle@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1511222485.git.akuster@mvista.com>
+In-Reply-To: <cover.1511223478.git.amanda.r.brindle@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWFzdGVyIHBhY2thZ2UgdXBkYXRlcw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2NyaXB0cy9jb250cmliL2JidmFycy5weTogUmVtb3ZlIGRlYWQgY29kZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:35:25 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 00:35:26 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Master package updates
+Series: scripts/contrib/bbvars.py: Remove dead code
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9884/
+URL   : https://patchwork.openembedded.org/series/9885/
 State : failure
 
 == Summary ==
@@ -45,9 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [5/5] curl: update to 7.56.1
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+* Patch            [1/1] scripts/contrib/bbvars.py: Remove dead code
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
 
