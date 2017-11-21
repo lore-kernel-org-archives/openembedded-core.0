@@ -1,58 +1,33 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 740037886E
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D3B9560116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 16:08:21 +0000 (UTC)
-Received: by mail-pg0-f45.google.com with SMTP id u3so10497375pgn.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 08:08:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=7YfhAl6Q3bHS3yb1QEL/AGxwvZHBIjQYk798CenzzL4=;
-	b=BV1kJUuL5lNjZoR1l6SYY9wLE8xGNGWMyYC8+UeEFKQYzXdCn1Z28szbvo7MxWA2kL
-	JHZ4zgRKWFaAkU9/jA8TLyG2NnzM/wRBdTfyIHQJCHu0hQg8TNSQ+spvPbUkNGws0K5V
-	gBztbXAxMIOEMeYbT/y2zj5JXg2O22PUkL9v5oZKPZ6UmuzCblGGPt4tUo7LMWHXiypj
-	0kpa7cZI599aupD3p9KM2mXYL55hYaeWh7th8nNnO/1rwHP0LLgpK7qwrCjRCEOT5IMn
-	8i2W695fIoLHoBu9xL+N0R9tuDV8PICpH4rYQPWGbevR2sYPJrfR9a/WAHmmvYc8LLTi
-	RL+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=7YfhAl6Q3bHS3yb1QEL/AGxwvZHBIjQYk798CenzzL4=;
-	b=BWaxK9KoaWq1SKZjLRsu0tAiRcdJMhWKuv5OvIms0jWpW7Q7+ze2wFcikyz/HHRJ5F
-	f1PIu7bmty02krmDq5T6eT/Ax/csleBLxxONN2DG/tpff3IUYK9oM+aKS5y4poD9I3hk
-	y3NyOEELSMUWllv6yYALxx8OKGPMGr0bKGP4J1MNjjPTA2Lidwe1OFm6DPTJLxwEBh89
-	4kxGLZ5DK07vbCfPuSt/HNsFkzLjywY6TkcufKgIp+P8HlSAneXTdKZnStelpezzjmbO
-	uZwK6PpLmw2+ze7gbaWLbWcBJ0Thejo97yaFedUmHd4ieDrBn9iLru53k0yN/s0Mtyrw
-	Sk8Q==
-X-Gm-Message-State: AJaThX5RhQGVejubSjtH70mqeB6Ju1ZU1BMW5cBx6YVXOyGtNN6C0ZPh
-	KYQylAVBqlIN+/QFEBh4u/BCKA==
-X-Google-Smtp-Source: AGs4zMYTBqGLE8822pCRanH8XxXeWIxWqUhWQUKRA84qaKdlbiH+LCaQVq+0WRcoJMNdE7owK0s/ng==
-X-Received: by 10.98.247.4 with SMTP id h4mr15695888pfi.16.1511280502628;
-	Tue, 21 Nov 2017 08:08:22 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:b90e:aa41:7e0b:9c90?
-	([2601:202:4001:9ea0:b90e:aa41:7e0b:9c90])
-	by smtp.gmail.com with ESMTPSA id z5sm12944877pgb.6.2017.11.21.08.08.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 08:08:21 -0800 (PST)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
-References: <cover.1511222485.git.akuster@mvista.com>
-	<fb0a858be004dd7f7be4be564d85ebc088fdf104.1511222485.git.akuster@mvista.com>
-	<CAJTo0LZOr7EXUkH7J+_QSZzoKFOpobrExieEcAsNTQXNz0aXEA@mail.gmail.com>
-	<58bea898-a1b0-3459-34b4-5e41490bdfd8@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <55a1db60-9c55-d551-b49a-223d38161c7a@gmail.com>
-Date: Tue, 21 Nov 2017 08:08:21 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Tue, 21 Nov 2017 19:10:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vALJAr8P022412
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Nov 2017 11:10:53 -0800 (PST)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Tue, 21 Nov 2017 11:10:53 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] backfill mechanism
+Thread-Index: AdNf+226ORa9l6NuR/SCoUcn6/NVXgCv9+cAABAjvbs=
+Date: Tue, 21 Nov 2017 19:10:51 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>,
+	<CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
+In-Reply-To: <CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.119.169]
 MIME-Version: 1.0
-In-Reply-To: <58bea898-a1b0-3459-34b4-5e41490bdfd8@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] libassuan: update to 2.4.4
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: backfill mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,27 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 16:08:21 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Nov 2017 19:10:54 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 11/21/2017 07:56 AM, Alexander Kanavin wrote:
-> On 11/21/2017 04:41 PM, Burton, Ross wrote:
->> License checksum changes but no explanation.
->
-> Should we introduce a standard tag for the explanation, similar to cve
-> tags?
->
-> License-checksum-change: copyright years updated
-seems reasonable.
->
-> and then have the robot do the check, while we can spend time on more
-> interesting things.
->
->
-> Alex
-
+The problem is that when backfilling is done, TUNE_FEATURES, etc, all have =
+values associated with the base arch, not the current multilib.  The "gener=
+ic" solution, below, should work, although I would still use overrides when=
+ available.=0A=
+=0A=
+Beyond what actually works, if the special backfill processing can be elimi=
+nated and regular constructs used I think that would be desirable.=0A=
+=0A=
+Joe=0A=
+________________________________________=0A=
+From: Andre McCurdy [armccurdy@gmail.com]=0A=
+Sent: Monday, November 20, 2017 7:24 PM=0A=
+To: Slater, Joseph=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] backfill mechanism=0A=
+=0A=
+On Fri, Nov 17, 2017 at 3:32 PM, Slater, Joseph=0A=
+<joe.slater@windriver.com> wrote:=0A=
+> The backfill mechanism is not compatible with multilib.=0A=
+=0A=
+Did anyone ever explain why?=0A=
+=0A=
+> This could possibly=0A=
+> be fixed, but the backfill_considered functionality is also obscure, so I=
+=0A=
+> think in at least the machine related .inc files we should replace lines=
+=0A=
+> like=0A=
+>=0A=
+> MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D "=0A=
+> ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"=0A=
+>=0A=
+> with lines like=0A=
+>=0A=
+> MACHINE_FEATURES_remove_mipsarchn32 =3D " qemu-usermode"=0A=
+=0A=
+That only works for TUNE_FEATURES which happen to have a corresponding=0A=
+over-ride, so may not be a generic solution. Does something like:=0A=
+=0A=
+  MACHINE_FEATURES_remove =3D "${@bb.utils.contains('TUNE_FEATURES',=0A=
+'n32', 'qemu-usermode', '', d)}"=0A=
+=0A=
+work for multilib?=0A=
+=0A=
+> There are two advantages:  the second line works for multilib, and it is =
+far=0A=
+> more readable.=0A=
+>=0A=
+> Joe=0A=
+>=0A=
 
