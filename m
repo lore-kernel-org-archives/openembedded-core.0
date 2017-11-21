@@ -1,22 +1,24 @@
 Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9283C78699
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E37978699
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 00:21:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 16:21:56 -0800
+	Tue, 21 Nov 2017 00:21:56 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2017 16:21:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; d="scan'208";a="10090968"
+X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; d="scan'208";a="151615612"
 Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
-	by orsmga002.jf.intel.com with ESMTP; 20 Nov 2017 16:21:56 -0800
+	by orsmga004.jf.intel.com with ESMTP; 20 Nov 2017 16:21:57 -0800
 From: Amanda Brindle <amanda.r.brindle@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 16:21:48 -0800
-Message-Id: <cover.1511223478.git.amanda.r.brindle@intel.com>
+Date: Mon, 20 Nov 2017 16:21:50 -0800
+Message-Id: <2382244f12b66b084aa1c7efebe35e3ddfa9133e.1511223478.git.amanda.r.brindle@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1511223478.git.amanda.r.brindle@intel.com>
+References: <cover.1511223478.git.amanda.r.brindle@intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 0/1]
+Subject: [PATCH 1/1] scripts/contrib/bbvars.py: Remove dead code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,23 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:21:55 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 00:21:56 -0000
 
-The following changes since commit 4ed19ac8c19afd56d445d84e02b622cb056b8359:
-
-  poky: Switch to post release name/version (2017-11-14 17:26:58 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib abrindle/bbvars_tinfoil2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/bbvars_tinfoil2
-
-Amanda Brindle (1):
-  scripts/contrib/bbvars.py: Remove dead code
-
+Removed the -m option since this script now searches through all
+recipes in the configuration. Also removed dead code, which includes
+the functions recipe_bbvars() and collect_bbvars().
+---
  scripts/contrib/bbvars.py | 52 ++---------------------------------------------
  1 file changed, 2 insertions(+), 50 deletions(-)
 
+diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
+index 556f652..286b5a9 100755
+--- a/scripts/contrib/bbvars.py
++++ b/scripts/contrib/bbvars.py
+@@ -32,48 +32,12 @@ scriptpath.add_bitbake_lib_path()
+ import bb.tinfoil
+ 
+ def usage():
+-    print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
++    print('Usage: %s -d FILENAME [-d FILENAME]*' % os.path.basename(sys.argv[0]))
+     print('  -d FILENAME         documentation file to search')
+     print('  -h, --help          display this help and exit')
+-    print('  -m METADIR          meta directory to search for recipes')
+     print('  -t FILENAME         documentation config file (for doc tags)')
+     print('  -T                  Only display variables with doc tags (requires -t)')
+ 
+-def recipe_bbvars(recipe):
+-    ''' Return a unique set of every bbvar encountered in the recipe '''
+-    prog = re.compile("[A-Z_]+")
+-    vset = set()
+-    try:
+-        r = open(recipe)
+-    except IOError as err:
+-        print('WARNING: Failed to open recipe ', recipe)
+-        print(err.args[1])
+-
+-    for line in r:
+-        # Strip any comments from the line
+-        line = line.rsplit('#')[0]
+-        vset = vset.union(set(prog.findall(line)))
+-    r.close()
+-
+-    bbvars = {}
+-    for v in vset:
+-        bbvars[v] = 1
+-
+-    return bbvars
+-
+-def collect_bbvars(metadir):
+-    ''' Walk the metadir and collect the bbvars from each recipe found '''
+-    bbvars = {}
+-    for root,dirs,files in os.walk(metadir):
+-        for name in files:
+-            if name.find(".bb") >= 0:
+-                for key in recipe_bbvars(os.path.join(root,name)).keys():
+-                    if key in bbvars:
+-                        bbvars[key] = bbvars[key] + 1
+-                    else:
+-                        bbvars[key] = 1
+-    return bbvars
+-
+ def bbvar_is_documented(var, documented_vars):
+     ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
+     if var in documented_vars:
+@@ -112,7 +76,6 @@ def bbvar_doctag(var, docconf):
+ 
+ def main():
+     docfiles = []
+-    metadirs = []
+     bbvars = set()
+     undocumented = []
+     docconf = ""
+@@ -136,12 +99,6 @@ def main():
+             else:
+                 print('ERROR: documentation file %s is not a regular file' % a)
+                 sys.exit(3)
+-        elif o == '-m':
+-            if os.path.isdir(a):
+-                metadirs.append(a)
+-            else:
+-                print('ERROR: meta directory %s is not a directory' % a)
+-                sys.exit(4)
+         elif o == "-t":
+             if os.path.isfile(a):
+                 docconf = a
+@@ -155,11 +112,6 @@ def main():
+         usage()
+         sys.exit(5)
+ 
+-    if len(metadirs) == 0:
+-        print('ERROR: no metadir specified')
+-        usage()
+-        sys.exit(6)
+-
+     if onlydoctags and docconf == "":
+         print('ERROR: no docconf specified')
+         usage()
+@@ -196,7 +148,7 @@ def main():
+             bbvars_update(data)
+ 
+         # Collect variables from all recipes
+-        for recipe in tinfoil.all_recipe_files():
++        for recipe in tinfoil.all_recipe_files(variants=False):
+             print("Checking %s" % recipe)
+             for data in tinfoil.parse_recipe_file(recipe):
+                 bbvars_update(data)
 -- 
 2.7.4
 
