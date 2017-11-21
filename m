@@ -1,29 +1,28 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CF371C14
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CFAC787CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 19:29:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Nov 2017 11:29:42 -0800
+	Tue, 21 Nov 2017 19:32:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Nov 2017 11:32:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,432,1505804400"; 
-   d="scan'208";a="7957006"
+X-IronPort-AV: E=Sophos;i="5.44,432,1505804400"; d="scan'208";a="1246956874"
 Received: from unknown (HELO lsandov1-mobl2.zpn.intel.com) ([10.219.128.134])
-	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2017 11:29:42 -0800
-Date: Tue, 21 Nov 2017 13:38:59 -0600
+	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2017 11:32:36 -0800
+Date: Tue, 21 Nov 2017 13:41:54 -0600
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20171121133859.044a4947@lsandov1-mobl2.zpn.intel.com>
-In-Reply-To: <CAJ86T=XjKS1eS58m94r7BoW0d0-Ps6WqXh-CjOh68qcoLvtarg@mail.gmail.com>
-References: <1511203084-3492-1-git-send-email-armccurdy@gmail.com>
-	<20171120190530.2785.4319@do.openembedded.org>
-	<CAJ86T=XjKS1eS58m94r7BoW0d0-Ps6WqXh-CjOh68qcoLvtarg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20171121134154.70d49a9d@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <f16bda46-922c-acaa-fceb-52c25a3e0e3f@linux.intel.com>
+References: <20171118085357.47305-1-stefan@agner.ch>
+	<20171118090301.2783.15393@do.openembedded.org>
+	<789b135f8ab78e296dd336ac9a21f68f@agner.ch>
+	<f16bda46-922c-acaa-fceb-52c25a3e0e3f@linux.intel.com>
 X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: Ming Liu <liu.ming50@gmail.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGxpYi9vZS90ZXJtaW5hbC5weTogdXNlIGFuIGFic29sdXRlIHBhdGggdG8gZXhlY3V0ZSBvZS1nbm9tZS10ZXJtaW5hbC1waG9uZWhvbWUgKHJldjUp?=
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJbdjJdIG9wZW5zc2wxMDogVXBncmFkZSAxLjAuMmwuLi4iIGFuZCAzIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 19:29:41 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 19:32:36 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Nov 2017 11:46:40 -0800
-Andre McCurdy <armccurdy@gmail.com> wrote:
+On Mon, 20 Nov 2017 14:36:16 +0200
+Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
 
-> On Mon, Nov 20, 2017 at 11:05 AM, Patchwork
-> <patchwork@patchwork.openembedded.org> wrote:
-> > == Series Details ==
-> >
-> > Series: lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome (rev5)
-> > Revision: 5
-> > URL   : https://patchwork.openembedded.org/series/1745/
-> > State : failure
-> >
-> > == Summary ==
-> >
-> >
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series by patchtest resulting in the following failures:
-> >
-> >
-> >
-> > * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at a17f3ec910)  
+> On 11/18/2017 11:03 AM, Stefan Agner wrote:
 > 
-> This is a backport request so target branch is morty, not master.
-> Isn't that detected from the subject line?
+> >> * Patch            [v2,1/4] openssl10: Upgrade 1.0.2l -> 1.0.2m
+> >>   Issue             Missing or incorrectly formatted CVE tag in
+> >> included patch file [test_cve_tag_format]
+> >>    Suggested fix    Correct or include the CVE tag on cve patch with
+> >> format: "CVE: CVE-YYYY-XXXX"  
+> > 
+> > I did not add any new patches which address CVE, hence I think this is a
+> > false positive/not applicable.  
+> 
+> You mentioned CVEs in the commit message, I think it wants you to format 
+> them in a standard way there.
 
-this enhancement (take the target branch from subject line) was supposed to be working since last Friday but this was not the case. I have fixed the issue and this problem should not happen any more.
+Right. Currently test is kind of simple, in the sense that it parse the subject/description for a CVE and if found it, it then looks for the standard tag (CVE: ...). CC Daniela who is working on making this test a bit smarter.
+
 
 > 
-> > If you believe any of these test results are incorrect, please reply to the
-> > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> > Otherwise we would appreciate you correcting the issues and submitting a new
-> > version of the patchset if applicable. Please ensure you add/increment the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> > [PATCH v3] -> ...).
-> >
-> > ---
-> > Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
+> Alex
 > -- 
 > _______________________________________________
 > Openembedded-core mailing list
