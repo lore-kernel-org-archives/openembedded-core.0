@@ -1,25 +1,28 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 469D17869E
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2850F7868A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 00:40:31 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Nov 2017 16:40:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,430,1505804400"; 
-   d="scan'208";a="4604425"
-Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
-	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2017 16:40:32 -0800
-From: Amanda Brindle <amanda.r.brindle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Nov 2017 16:40:25 -0800
-Message-Id: <20dcdcbee3f183d21a738c27010fd51bc6b02b8a.1511224677.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1511224677.git.amanda.r.brindle@intel.com>
-References: <cover.1511224677.git.amanda.r.brindle@intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v2 1/1] scripts/contrib/bbvars.py: Remove dead code
+	Tue, 21 Nov 2017 01:16:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAL1G0A5012166
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Nov 2017 17:16:00 -0800 (PST)
+Received: from [128.224.162.147] (128.224.162.147) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 20 Nov 2017 17:15:59 -0800
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
+	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <cbb65333-4bc3-ec34-ffed-da65fc767030@windriver.com>
+Date: Tue, 21 Nov 2017 09:18:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,114 +35,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 00:40:31 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 01:16:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------2E59D4664801D85926CBB752"
+Content-Language: en-US
 
-Removed the -m option since this script now searches through all
-recipes in the configuration. Also removed dead code, which includes
-the functions recipe_bbvars() and collect_bbvars().
+--------------2E59D4664801D85926CBB752
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
----
- scripts/contrib/bbvars.py | 52 ++---------------------------------------------
- 1 file changed, 2 insertions(+), 50 deletions(-)
+On 2017年11月20日 19:07, Burton, Ross wrote:
+> On 17 November 2017 at 06:08, Hongxu Jia <hongxu.jia@windriver.com 
+> <mailto:hongxu.jia@windriver.com>> wrote:
+>
+>     +qemu by default emulates IDE and the linux-yocto kernel(s) use
+>     +CONFIG_IDE instead of the more modern libsata, so disks appear as
+>     +/dev/hd*. A similar patch rejected by upstream because CONFIG_IDE
+>     +is deprecated.
+>
+>
+> Can we fix our kernel and/or qemu configuration too?
+>
 
-diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
-index 556f652..286b5a9 100755
---- a/scripts/contrib/bbvars.py
-+++ b/scripts/contrib/bbvars.py
-@@ -32,48 +32,12 @@ scriptpath.add_bitbake_lib_path()
- import bb.tinfoil
- 
- def usage():
--    print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
-+    print('Usage: %s -d FILENAME [-d FILENAME]*' % os.path.basename(sys.argv[0]))
-     print('  -d FILENAME         documentation file to search')
-     print('  -h, --help          display this help and exit')
--    print('  -m METADIR          meta directory to search for recipes')
-     print('  -t FILENAME         documentation config file (for doc tags)')
-     print('  -T                  Only display variables with doc tags (requires -t)')
- 
--def recipe_bbvars(recipe):
--    ''' Return a unique set of every bbvar encountered in the recipe '''
--    prog = re.compile("[A-Z_]+")
--    vset = set()
--    try:
--        r = open(recipe)
--    except IOError as err:
--        print('WARNING: Failed to open recipe ', recipe)
--        print(err.args[1])
--
--    for line in r:
--        # Strip any comments from the line
--        line = line.rsplit('#')[0]
--        vset = vset.union(set(prog.findall(line)))
--    r.close()
--
--    bbvars = {}
--    for v in vset:
--        bbvars[v] = 1
--
--    return bbvars
--
--def collect_bbvars(metadir):
--    ''' Walk the metadir and collect the bbvars from each recipe found '''
--    bbvars = {}
--    for root,dirs,files in os.walk(metadir):
--        for name in files:
--            if name.find(".bb") >= 0:
--                for key in recipe_bbvars(os.path.join(root,name)).keys():
--                    if key in bbvars:
--                        bbvars[key] = bbvars[key] + 1
--                    else:
--                        bbvars[key] = 1
--    return bbvars
--
- def bbvar_is_documented(var, documented_vars):
-     ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
-     if var in documented_vars:
-@@ -112,7 +76,6 @@ def bbvar_doctag(var, docconf):
- 
- def main():
-     docfiles = []
--    metadirs = []
-     bbvars = set()
-     undocumented = []
-     docconf = ""
-@@ -136,12 +99,6 @@ def main():
-             else:
-                 print('ERROR: documentation file %s is not a regular file' % a)
-                 sys.exit(3)
--        elif o == '-m':
--            if os.path.isdir(a):
--                metadirs.append(a)
--            else:
--                print('ERROR: meta directory %s is not a directory' % a)
--                sys.exit(4)
-         elif o == "-t":
-             if os.path.isfile(a):
-                 docconf = a
-@@ -155,11 +112,6 @@ def main():
-         usage()
-         sys.exit(5)
- 
--    if len(metadirs) == 0:
--        print('ERROR: no metadir specified')
--        usage()
--        sys.exit(6)
--
-     if onlydoctags and docconf == "":
-         print('ERROR: no docconf specified')
-         usage()
-@@ -196,7 +148,7 @@ def main():
-             bbvars_update(data)
- 
-         # Collect variables from all recipes
--        for recipe in tinfoil.all_recipe_files():
-+        for recipe in tinfoil.all_recipe_files(variants=False):
-             print("Checking %s" % recipe)
-             for data in tinfoil.parse_recipe_file(recipe):
-                 bbvars_update(data)
--- 
-2.7.4
+Hi Bruce,
+
+Do you have any suggestion? How about disable CONFIG_IDE?
+
+//Hongxu
+
+> Ross
 
 
+
+--------------2E59D4664801D85926CBB752
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2017年11月20日 19:07, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">On 17 November 2017 at 06:08, Hongxu Jia <span
+          dir="ltr">&lt;<a href="mailto:hongxu.jia@windriver.com"
+            target="_blank" moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">+qemu by
+              default emulates IDE and the linux-yocto kernel(s) use<br>
+              +CONFIG_IDE instead of the more modern libsata, so disks
+              appear as<br>
+              +/dev/hd*. A similar patch rejected by upstream because
+              CONFIG_IDE<br>
+              +is deprecated.<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Can we fix our kernel and/or qemu configuration too?</div>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Bruce,<br>
+    <br>
+    Do you have any suggestion? How about disable CONFIG_IDE?<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------2E59D4664801D85926CBB752--
