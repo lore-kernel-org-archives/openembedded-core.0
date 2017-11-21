@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B6D678802;
-	Tue, 21 Nov 2017 20:38:07 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 8752B78802;
+	Tue, 21 Nov 2017 20:38:09 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Tue, 21 Nov 2017 20:38:08 -0000
-Message-ID: <20171121203808.2787.80308@do.openembedded.org>
-References: <cover.1511294278.git.akuster808@gmail.com>
+To: George McCollister <george.mccollister@gmail.com>
+Date: Tue, 21 Nov 2017 20:38:11 -0000
+Message-ID: <20171121203811.2787.36891@do.openembedded.org>
+References: <20171121200121.5896-1-george.mccollister@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1511294278.git.akuster808@gmail.com>
+In-Reply-To: <20171121200121.5896-1-george.mccollister@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWFzdGVyIHBhY2thZ2UgdXBkYXRlcyAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttb3J0eSx2M10gZ2xpYmM6IEZpeCBDVkUtMjAxNS4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 20:38:07 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 20:38:09 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Master package updates (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/9884/
+Series: "[morty,v3] glibc: Fix CVE-2015..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9906/
 State : failure
 
 == Summary ==
@@ -45,9 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [5/5] curl: update to 7.56.1
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 33418ed064)
 
 
 
