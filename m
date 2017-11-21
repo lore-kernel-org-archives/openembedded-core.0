@@ -1,22 +1,22 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2850F7868A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 11D3C7868A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 01:16:00 +0000 (UTC)
+	Tue, 21 Nov 2017 01:19:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAL1G0A5012166
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAL1JTEe000811
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Nov 2017 17:16:00 -0800 (PST)
+	Mon, 20 Nov 2017 17:19:29 -0800 (PST)
 Received: from [128.224.162.147] (128.224.162.147) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 20 Nov 2017 17:15:59 -0800
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Mon, 20 Nov 2017 17:19:28 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
 	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
 From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <cbb65333-4bc3-ec34-ffed-da65fc767030@windriver.com>
-Date: Tue, 21 Nov 2017 09:18:20 +0800
+Message-ID: <82397892-7190-ac1a-8aa4-128cb928e8f0@windriver.com>
+Date: Tue, 21 Nov 2017 09:21:49 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
@@ -35,12 +35,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 01:16:01 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 01:19:29 -0000
 Content-Type: multipart/alternative;
-	boundary="------------2E59D4664801D85926CBB752"
+	boundary="------------89013D512EAD159421F97805"
 Content-Language: en-US
 
---------------2E59D4664801D85926CBB752
+--------------89013D512EAD159421F97805
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -57,9 +57,21 @@ On 2017年11月20日 19:07, Burton, Ross wrote:
 > Can we fix our kernel and/or qemu configuration too?
 >
 
-Hi Bruce,
+For qemu, RP have replace it with virtio, but it have the
+similar issue on virtualbox with IDE controller.
+...
+commit f59e729f98ef9b506b0cfdc415567e03ec87f2a9
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Tue Aug 22 22:58:02 2017 +0100
 
-Do you have any suggestion? How about disable CONFIG_IDE?
+     runqemu: Use virtio to mount cdrom drives
+
+     The IDE driver in the kernel is fragile and in 4.12 is causing 
+backtraces.
+     To unblock 4.12 kernel merging use the virtio CD driver instead to 
+mount
+     iso images which should be faster and more stable.
+...
 
 //Hongxu
 
@@ -67,7 +79,7 @@ Do you have any suggestion? How about disable CONFIG_IDE?
 
 
 
---------------2E59D4664801D85926CBB752
+--------------89013D512EAD159421F97805
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -107,9 +119,21 @@ cite="mid:CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com">
       </div>
     </blockquote>
     <br>
-    Hi Bruce,<br>
+    For qemu, RP have replace it with virtio, but it have the<br>
+    similar issue on virtualbox with IDE controller.<br>
+    ...<br>
+    commit f59e729f98ef9b506b0cfdc415567e03ec87f2a9<br>
+    Author: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a><br>
+    Date:   Tue Aug 22 22:58:02 2017 +0100<br>
     <br>
-    Do you have any suggestion? How about disable CONFIG_IDE?<br>
+        runqemu: Use virtio to mount cdrom drives<br>
+        <br>
+        The IDE driver in the kernel is fragile and in 4.12 is causing
+    backtraces.<br>
+        To unblock 4.12 kernel merging use the virtio CD driver instead
+    to mount<br>
+        iso images which should be faster and more stable.<br>
+    ...<br>
     <br>
     //Hongxu<br>
     <br>
@@ -128,4 +152,4 @@ cite="mid:CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com">
   </body>
 </html>
 
---------------2E59D4664801D85926CBB752--
+--------------89013D512EAD159421F97805--
