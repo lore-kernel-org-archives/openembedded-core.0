@@ -1,61 +1,54 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f171.google.com (mail-ot0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3768D78644
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 87ADA785F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 12:06:26 +0000 (UTC)
-Received: by mail-ot0-f171.google.com with SMTP id 18so10309450oty.9
+	Tue, 21 Nov 2017 12:21:32 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id g130so9887016wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 04:06:28 -0800 (PST)
+	Tue, 21 Nov 2017 04:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=9oSiOEqIXD3M22fg6lU5Hht/psTUkgDb691A4VRQDbw=;
-	b=gUq3GLvIVvLGXA7LEDV74/qUz62m+n5eup9znlqvSt50v080tEazp+ljeJZ2f1jHkt
-	eBKOt/+zwBNLOkr+rJiV7hgNSusvSfxgwQkSaNjUJsHmcyi3VJKM/BiFPX6UYq+JVvV+
-	ffYZTpT4FETMXULrxcgBjNfiE1yySmdYCVF/Sl9mmrxeo0OsIrAza9rxoWbsbEPmURYc
-	bxaZvizId4EED/EJAjVA8sqOdGKuCEXnJkaPN3hEZorsjs2gCRHr3bRqgnji3uA8ojpV
-	IElTChYfE/B0R/mMiEMiNzlTPZdtRRyF+qbs7YAEEd4wJfI4jN4Fsui8JvupTGWRbiK6
-	ggaA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=lK7e+zMZEdIIrlT2jESq98y8ze7MxxijTrsqAWs+xWI=;
+	b=v7Jxiub9tT21q1kuFUbCntNOWOKG58yUUhpOAa85k1lN1DTtpPABdVN9UEhkBev3tV
+	ENBxvJ7sBw+2DAK65x8+HmRvFs5813agPghNiaYAxUnPDWpvI8IMJxa1y/unOQ9l70lu
+	dAAF6an644kWTNEkvOCrWPReDzPoHCo6fizA5E0bx0ThhCx12DuXgt12ber52V1Hxs92
+	yvHr7fSb/i+1WvTJ6yI6y99AK6HF73eGXg6lC/+boBPpfJMGJvMdlU3mmUu7z06+dkZD
+	D0XSj6BEh1hc5MBckxjFlBOn7XF6AOroT7iBJcj3SPSxsrotbD5XQUEwhZn8GQtw8rNE
+	mSDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=9oSiOEqIXD3M22fg6lU5Hht/psTUkgDb691A4VRQDbw=;
-	b=VxMugen91pXyJjUV7l3B5IUP5V1KVn1+lfiiwRTkDcPEfoaIrsTuLYnu3e6sEANpXN
-	4dwZb/tZCe8cofhoPBySgl6n/OxlgjttJpvbZszhwpHaVyw0KZaNDTYD3+TDfPX84foy
-	gaZrQsQR3R/ugATChNc/K/QO9X1/x1GoUhUGUu29CQJ07BvzhJqoGnP9asGbe0g6KvHp
-	OYxrhW9wSa8GssfRhN6+usQLXDuis09oqGhg5EsrDVsvJ0378ZkxaqYO4TJf+rYbXs/w
-	qyM1YlCKvHaQffVxLQKh18iK7cBSfbbPd6LnKxvH4T4qVQdpZx6nlu2GjkXDML6Yjanu
-	BzJw==
-X-Gm-Message-State: AJaThX4EuG03Q5AitLCDdpYKqdM3JJdL9EtdpDLZEDRQGc9j8iy4D0S/
-	ZthzHjeCj+Lz94yTOvI3TRZFVKXW
-X-Google-Smtp-Source: AGs4zMYkQZLu+8JuvOmxlxD1y5yMUMkCpF1Dl5DtrhDHeMWjF27crTHEVw0/uSzhMXZdoUjzCSEdHw==
-X-Received: by 10.157.42.228 with SMTP id e91mr10416041otb.372.1511265987884; 
-	Tue, 21 Nov 2017 04:06:27 -0800 (PST)
-Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com.
-	[74.125.82.181])
-	by smtp.gmail.com with ESMTPSA id t27sm163615oij.32.2017.11.21.04.06.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f181.google.com with SMTP id o23so10324815otd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
-X-Received: by 10.157.80.13 with SMTP id a13mr9930594oth.370.1511265986161;
-	Tue, 21 Nov 2017 04:06:26 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 21 Nov 2017 04:06:25 -0800 (PST)
-In-Reply-To: <1511251487.5979.54.camel@intel.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=lK7e+zMZEdIIrlT2jESq98y8ze7MxxijTrsqAWs+xWI=;
+	b=Xoov1IqChO8I+8MFGSYGe/4tNAjnkKRjudU0N22Pdf40MZ9hcUtA69u7pFNLdTHviY
+	t76FhbQuUHr/dpgErVHMr3zgUpJ3BD1jJfL8lOEPoovzltUG+uc8OOvgiSbjA4uXXoMb
+	Lkx+7Cq3a99fORZqTpNKoSLdhe0fyzPPkk+S5pctdTWhT1h9Dby3rMBHI9sj0uKtV3zq
+	LW984C02KI1D7+tXye9eIhJeWawxEWMqUe2r66YDyXDjKmVdPvOiTRp2jk8MzMj9O8nE
+	nHc3jiQCr8xJ9Ji+PJRIk6UdoJWZfn1JaQsRqk0JTv/AxKMv67HnT2BjmtkYTJERhXVi
+	CTPA==
+X-Gm-Message-State: AJaThX7uChEdeUWn8btq9hoXet1a9EZn5UnG0r3pwA67dC4g39vdQEMA
+	SArDtrXDAuiFSwSn6IIMAuqr
+X-Google-Smtp-Source: AGs4zMbb+3icnFu85hr3eqLmQUzHtt1hPZGy6lrWh9HFf+VofoFAfKJl/LynPEZbALfrudttbdgbag==
+X-Received: by 10.28.159.15 with SMTP id i15mr1115088wme.58.1511266893198;
+	Tue, 21 Nov 2017 04:21:33 -0800 (PST)
+Received: from pohly-mobl1 (p54BD5744.dip0.t-ipconnect.de. [84.189.87.68])
+	by smtp.gmail.com with ESMTPSA id w133sm686952wmg.9.2017.11.21.04.21.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 Nov 2017 04:21:32 -0800 (PST)
+Message-ID: <1511266891.5979.56.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Tue, 21 Nov 2017 13:21:31 +0100
+In-Reply-To: <CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
 References: <cover.1486668313.git.jussi.kukkonen@intel.com>
 	<3126cc0be3fdcd228a3bc73e2e58b90447c53ef2.1486668313.git.jussi.kukkonen@intel.com>
 	<1511251487.5979.54.camel@intel.com>
-Date: Tue, 21 Nov 2017 10:06:25 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
-Message-ID: <CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
+	<CAP9ODKqxbnkpimHmdoYEax6Njmxfcf9KVJazzvpgn=QzRWPc4w@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
 Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -72,25 +65,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 12:06:27 -0000
+X-List-Received-Date: Tue, 21 Nov 2017 12:21:33 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 21, 2017 at 6:04 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Thu, 2017-02-09 at 21:38 +0200, Jussi Kukkonen wrote:
-> There is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9883 open
-> about some aspect of this, but it doesn't actually address the
-> underlying question about what the right behavior should be. It's based
-> on the assumption that libcurl-native should always use ca-
-> certificates-native.
->
-> Thoughts anyone?
+On Tue, 2017-11-21 at 10:06 -0200, Otavio Salvador wrote:
+> On Tue, Nov 21, 2017 at 6:04 AM, Patrick Ohly <patrick.ohly@intel.com
+> > wrote:
+> > On Thu, 2017-02-09 at 21:38 +0200, Jussi Kukkonen wrote:
+> > There is https://bugzilla.yoctoproject.org/show_bug.cgi?id=9883
+> > open
+> > about some aspect of this, but it doesn't actually address the
+> > underlying question about what the right behavior should be. It's
+> > based
+> > on the assumption that libcurl-native should always use ca-
+> > certificates-native.
+> > 
+> > Thoughts anyone?
+> 
+> I agree it should use ca-certificates-native for all native; it
+> allows for self-signed internal certificates to be added for internal
+> development.
 
-I agree it should use ca-certificates-native for all native; it allows
-for self-signed internal certificates to be added for internal
-development.
+But that's not what bitbake itself uses. Are you saying that bitbake
+fetchers etc. should also use whatever certificates are configured for
+ca-certificates-native? That leads to a chicken-and-egg problem.
+
+A solution where custom certificates need to be configured in two
+different places (system for bitbake, ca-certificates-native for some
+other tools) sounds sub-optimal to me.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
