@@ -1,52 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 64BB378644
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5501678442
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 11:32:18 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id n134so1613171itg.3
+	Tue, 21 Nov 2017 11:58:52 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id a81so8330429oii.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 03:32:20 -0800 (PST)
+	Tue, 21 Nov 2017 03:58:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hBSAD2V+s346250feAzJ67FxVZSoS+Jfug4gIfvju+4=;
-	b=LWV8m8liRYtBJhnDfEdj02qZlueN8Pn43jFQ9TKcI/5PMcaaqxe5N/SWSDbqmDLPN4
-	W3vSb47Sl7IpUu6cZRP6VQ3ytyyvBwhtXt/5UhXKm9q86T0wUlOalab3AsvHrCx7a/HZ
-	1aSlrMB18ZxM9YdnT0lChpYiB4PVuic7oXasOR3iFzj+HRyESr2zdgMxf/VrbeQE51va
-	T+kvErZYHx7qh5+2wqVmlE5sLPLChtZvJH4oCxyTEmmc3RKjFImWqU94Qm5DA17Jd+7R
-	HfyBL3n7Mp59SNKnKGsukKmICU3QReM+S3r0mlfUGSB0XP8V3bhkewiHMZxMRoFtcHVI
-	c0Vw==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Z8Ge0dlPRq2Z4i+0y7tpJZcbwh+w3FIOqtuKpstqqck=;
+	b=jWEl7P47Irk4QYFe+5p+lsjpGR28TqQQ2l7iehICkPGAAmiZEqwZgyy71TpmewFT5r
+	D1NbTIfOpkqkvH14ZNbrjxE0sBkApjvW6bfOi7enRYn7OiZhdIdVxcSdiR5vpVaLzdFp
+	xwh/u3IiEpxvkiXMjqRdSwE26ZdsMAKPqO0VB1orT6dY7ahGASDM93V473bd4BPXAD6a
+	xVqaieiUwkswpjORSY5V7ngy/fiVWIy5alax6VagVPQO6a8HuG+4FDuJx1yuMKo4a0K1
+	Qn4nKSs4RR0mcYhesJvLzMjPcki9jfNOu2dg3YRqc58YSVTZF+c4Nq16zS9sv99gyHj1
+	IJ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=hBSAD2V+s346250feAzJ67FxVZSoS+Jfug4gIfvju+4=;
-	b=fFX7d8J32YgeEDt6Bq6QZ+A2dzGrfHDw5RaxP7ZSSNguHRsFnqwfxW5pUIjVGAECHb
-	zP6NTYMYfRGWW+uqc+78M/NoirKbxZ4h6duFbRVcGKcTQWP3+iNmOzFtGCJ1FWfYzjrM
-	O2touWmg2f7d4snQ0uxItXNo2IDvkKnrB46knCC0BnnjlOjHQmg57nrZcx4hOAyX36pY
-	wCp/40d2kFaoFx5EFOc7otZPnWH1un4An8SIgjvGZGA4jmTv6JrvlOdMvHEZFPD+zMfw
-	6YoUQAD0MJ5cfBh5lySdZOZ+/vGOu1ZTydUMXumXUas7NwgjjJVJ3cor6isC0yEhXeNa
-	loMA==
-X-Gm-Message-State: AJaThX7//JWyK+c7amrHEAL9O4bX22EI9TDwGOYob1C2tM72zfoGXI/p
-	c+EKITgWeqNmDHPksm5lJhUaFeCQdKJRTFnlLFK54A==
-X-Google-Smtp-Source: AGs4zMYq1rr7W4hmLNxmMXxMJ7GAihgGLyMqsQHn1qTqAaYkB3XqmxIye5T10VQnd5+bUv20R1sxe/LDxCnivL4yMrM=
-X-Received: by 10.36.120.11 with SMTP id p11mr1447652itc.10.1511263940323;
-	Tue, 21 Nov 2017 03:32:20 -0800 (PST)
+	bh=Z8Ge0dlPRq2Z4i+0y7tpJZcbwh+w3FIOqtuKpstqqck=;
+	b=dMzNP9s5LZDDgTOyRfjf+xl539rCWv8CF2vqxb/jgAh0Jxyx5MdO3bL6LWAYBVme7u
+	4bnIUrooDI25ApPH/LdWEigD6Uhlj7spTWqpNgkNnRUkdTwzwrikrj+n4NJLWs1C6hi5
+	l2W89PruNbVs6IgIzQpXevDv/BMwr3TBQ8WbTspZKKVulFPSEsBX6scFHpYMTK07UylW
+	JJR6NXX4lujAuubyrg1xyN1PGQ9/Av1iQDBvpiVO1LWje46LK+bCbt031/xGaZiViOkD
+	+x64i84+1NX1uM7Innkk4mTVdpC1MOhHlUo2xv8vZn0BwP5ZxiMsQHdmS+Muyo6NB7Wb
+	bWcw==
+X-Gm-Message-State: AJaThX66nwOFKSBzI9U3CQeLec8+7FTzNssxSebpHmy+tgKuYyoGXsE6
+	xDWm3+4FHa3780s64RZaphr1Tc6Q
+X-Google-Smtp-Source: AGs4zMYC3S7l2cx8lnQLthpllEUAACT9erDyCP57S15wK39AdKetUSiTyhebrg5Fqt7OwBhZCcJGiQ==
+X-Received: by 10.202.173.210 with SMTP id w201mr9311637oie.190.1511265533843; 
+	Tue, 21 Nov 2017 03:58:53 -0800 (PST)
+Received: from mail-ot0-f173.google.com (mail-ot0-f173.google.com.
+	[74.125.82.173])
+	by smtp.gmail.com with ESMTPSA id 23sm5840087otv.63.2017.11.21.03.58.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot0-f173.google.com with SMTP id d27so10277008ote.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
+X-Received: by 10.157.34.200 with SMTP id y66mr9886768ota.276.1511265532298;
+	Tue, 21 Nov 2017 03:58:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.132 with HTTP; Tue, 21 Nov 2017 03:31:59 -0800 (PST)
-In-Reply-To: <a738dbce-f217-54a3-c633-7945dafd462e@windriver.com>
-References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
-	<cbb65333-4bc3-ec34-ffed-da65fc767030@windriver.com>
-	<CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com>
-	<a738dbce-f217-54a3-c633-7945dafd462e@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Nov 2017 11:31:59 +0000
-Message-ID: <CAJTo0LZNDCQNS9pCphNowjKTN-3ArhtCs2QMXz37FKkMTGujDA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
+Received: by 10.157.17.210 with HTTP; Tue, 21 Nov 2017 03:58:51 -0800 (PST)
+In-Reply-To: <cover.1511207344.git.Martin.Jansa@gmail.com>
+References: <cover.1511207344.git.Martin.Jansa@gmail.com>
+Date: Tue, 21 Nov 2017 09:58:51 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
+Message-ID: <CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/5] Kernel artifacts naming changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +69,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 11:32:19 -0000
-Content-Type: multipart/alternative; boundary="001a114a9b5e533eaa055e7c8efd"
-
---001a114a9b5e533eaa055e7c8efd
+X-List-Received-Date: Tue, 21 Nov 2017 11:58:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 21 November 2017 at 07:00, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+Hello Martin,
 
-> 1. Tweak kernel-cache to remove CONFIG_IDE for all available bsp.
->     It require necessary test to prove it is safe to remove it.
->     If the test is OK, I will send patch to yocto mailing list.
->
+On Mon, Nov 20, 2017 at 6:11 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+...
+> This RFC doesn't implement it all, but it makes naming all the artifacts in
+> consistent way a bit easier. If there is an agreement that OE should support
+> the naming scenario described above, I'll submit the rest of the changes.
 
-I know you have your own huge autobuilder framework inside WR but I'll
-happily throw a patch against oe-core at the public autobuilders for extra
-testing.
+I think it all makes sense and if we preserve current behavior as
+default I see it as a very good addition :-)
 
-Ross
+I didn't test the patches myself and I'd like to do a more extensive
+test once you send the full patchset.
 
---001a114a9b5e533eaa055e7c8efd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div dir=3D"ltr">On 21 November 2017 at 07:00, Hongxu Jia <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.j=
-ia@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div text=3D"#000000" bgcolor=3D"#FFFFFF"><span class=3D"">
-    <div class=3D"m_-1761857646591655639moz-cite-prefix">1. Tweak kernel-ca=
-che to remove CONFIG_IDE for all available bsp.<br></div></span>
-    =C2=A0=C2=A0=C2=A0 It require necessary test to prove it is safe to rem=
-ove it.<br>
-    =C2=A0=C2=A0=C2=A0 If the test is OK, I will send patch to yocto mailin=
-g list.<br></div></blockquote><div><br></div><div>I know you have your own =
-huge autobuilder framework inside WR but I&#39;ll happily throw a patch aga=
-inst oe-core at the public autobuilders for extra testing.</div><div><br></=
-div><div>Ross=C2=A0</div></div></div></div>
-
---001a114a9b5e533eaa055e7c8efd--
