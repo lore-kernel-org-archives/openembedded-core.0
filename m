@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D08F17867C;
-	Wed, 22 Nov 2017 18:02:57 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Nov 2017 18:02:59 -0000
-Message-ID: <20171122180259.2787.32936@do.openembedded.org>
-References: <20171122175147.31931-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171122175147.31931-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZm9udGNvbmZpZzogRml4IG5hbWVzcGFjZSBjb25mbGljdHMgd2l0aCBnbGliYyAocmV2Myk=?=
+Return-Path: <sgw@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B78CC783FB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Nov 2017 18:47:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2017 10:47:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,436,1505804400"; 
+   d="scan'208";a="5881394"
+Received: from swold-mobl2.jf.intel.com ([10.24.8.72])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2017 10:47:25 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, bruce.ashfield@windriver.com
+Date: Wed, 22 Nov 2017 10:47:24 -0800
+Message-Id: <20171122184724.21416-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH] kernel.bbclass: Add cleandirs for do_shared_workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 18:02:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Nov 2017 18:47:24 -0000
 
-== Series Details ==
+Ensure we have a clean and empty STAGING_KERNEL_BUILDDIR (kernel-build-artifacts)
+before creating it, otherwise there might be older artifacts from a prior
+kernel build.
 
-Series: fontconfig: Fix namespace conflicts with glibc (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/4342/
-State : failure
+[YOCTO #11880]
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where 0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch was submitted
-  Current          Upstream-Status: Submitted
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/kernel.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 756707a3c25..2a0a7707a14 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -400,6 +400,7 @@ emit_depmod_pkgdata() {
+ 
+ PACKAGEFUNCS += "emit_depmod_pkgdata"
+ 
++do_shared_workdir[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
+ do_shared_workdir () {
+ 	cd ${B}
+ 
+@@ -655,8 +656,6 @@ kernel_do_deploy() {
+ 		fi
+ 	done
+ }
+-do_deploy[cleandirs] = "${DEPLOYDIR}"
+-do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+ do_deploy[prefuncs] += "package_get_auto_pr"
+ 
+ addtask deploy after do_populate_sysroot do_packagedata
+-- 
+2.13.5
 
 
