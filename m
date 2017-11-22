@@ -1,35 +1,48 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E00171A30
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AAA4F786CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 15:19:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAMFJXT8005190
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Nov 2017 07:19:34 -0800 (PST)
-Received: from [128.224.162.147] (128.224.162.147) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 22 Nov 2017 07:19:21 -0800
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1510898885-256081-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0LaojmxziZDKu48jfM4K+TW6V9ra=FE8x_oJSz3ps+gG-g@mail.gmail.com>
-	<cbb65333-4bc3-ec34-ffed-da65fc767030@windriver.com>
-	<CADkTA4O=gNCQLLJ5Yu5MM7T2kbEb1=RFjb=Va0vUoS1VW7CEYA@mail.gmail.com>
-	<a738dbce-f217-54a3-c633-7945dafd462e@windriver.com>
-	<CAJTo0LZNDCQNS9pCphNowjKTN-3ArhtCs2QMXz37FKkMTGujDA@mail.gmail.com>
-	<f5d2f302-55a0-f48a-7ece-e7b38235f7ea@windriver.com>
-	<CADkTA4OCsE=g3OJL+p1rbXz1ghy6e7G7_8dEdWcdS_s+jxa-_w@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <99bc79c9-29c7-083d-854b-95315e15e769@windriver.com>
-Date: Wed, 22 Nov 2017 23:21:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Wed, 22 Nov 2017 15:21:26 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id j67so9995677vkd.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Nov 2017 07:21:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=k26+e0tTYIaIeKNGWPwpn/mugXrkXNjsMLHeFXYIDzU=;
+	b=eNjK84XC7qyh/kf8G8LsYCB3+e7vwGwC35q5nYQ8JaUWiz826lJ+xWTUPzHsSSdmIx
+	DGQncgEq1ZXalQsOwGLJZQHp9OKTMr8n9axmT23C6tFE4+HwhmN9alxn38DkT5cdvc9T
+	8XIpgld+fBkaxXA+upaytMbBrAq+Jy/QsI8fE99x+/9GsZuFS/jwIjdUsfbe7HXT38IA
+	Z96UX93C66EOlFMo5r+79vwGUG1Ui1hrUp5O2cXWqJHNpb67RSea55QMw5h/x/0R5Vug
+	aFQll/k8LUiJRClMv5H02cUDyVD6grIpRNAKd0JtxehgTehsy51k465KlpoBvI9ftSb5
+	iCHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=k26+e0tTYIaIeKNGWPwpn/mugXrkXNjsMLHeFXYIDzU=;
+	b=r2LErcrCe6zppB/dSqzWMIYrW7D3FKFtTuRnPTYTUTYZXD7am37nLqpdHbUtlPUPnJ
+	3UnK5v7Viod+AfeFfnCR6C2/2y1FYfbd/hTKOkezAVkXwLaA+JaytmDPZuIjn6qg6Hq3
+	8+DtN3s4A0RahuzfucTevZrNPoUXDyx+e3J0LS4V01YrhWohidK38GkdUgry+WOi45Wq
+	KgTPdr/654RWuKFVl4zbz9oZAWf+qCA4Hh+qjTeszq6zFvS95zjWnJkC9cA8nQjHYagF
+	TBgSzVOWeJ/CiGgmnI8msvmqU3uASpSEOODdeLG+uqwz0GTlYRhGBHLD3SNvFCIexY3L
+	czVA==
+X-Gm-Message-State: AJaThX6lf7mQtlob+CG1o72tzC6l6yPCfEJ1Ve3BTLM95oJe6XXXCbRQ
+	vVP7o52ZrEfqZ8I+PUuXpy8E24wOBUEPpyAp6xg=
+X-Google-Smtp-Source: AGs4zMagyAzktuvE6WASHhUntEzcC4Re35GtL489DiyYBsHSwVQZfP9wI1BAz1tVlGpBp3LHCN0oaZZBZs6alJbN3Ss=
+X-Received: by 10.31.141.74 with SMTP id p71mr15852413vkd.53.1511364087722;
+	Wed, 22 Nov 2017 07:21:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4OCsE=g3OJL+p1rbXz1ghy6e7G7_8dEdWcdS_s+jxa-_w@mail.gmail.com>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: fix formatting IDE storage does not trigger "change" uevents
+Received: by 10.176.72.130 with HTTP; Wed, 22 Nov 2017 07:21:07 -0800 (PST)
+In-Reply-To: <20171121235323.29727-1-ross.burton@intel.com>
+References: <20171121235323.29727-1-ross.burton@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Wed, 22 Nov 2017 08:21:07 -0700
+Message-ID: <CABcZAN=rzBprEN-bKfy6CKEVYeiHxQ=O=A4jfJApt4E-6wD7KA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bin_package: fail if ${S} doesn't actually contain anything
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,134 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 15:19:34 -0000
-Content-Type: multipart/alternative;
-	boundary="------------62B2528F1139CBBBE3B65207"
-Content-Language: en-US
+X-List-Received-Date: Wed, 22 Nov 2017 15:21:27 -0000
+Content-Type: multipart/alternative; boundary="001a114260ee9338e7055e93df71"
 
---------------62B2528F1139CBBBE3B65207
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a114260ee9338e7055e93df71
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 21, 2017 at 4:53 PM, Ross Burton <ross.burton@intel.com> wrote:
 
->
-> If you send a change for the kernel configuration, I can merge it, but not
-> activate it (i.e. I won't send SRCREV bumps), so as long as the 
-> autobuilder
-> can build a branch, we can queue this part of the change for testing.
+> If the user is trying to use bin_package but the SRC_URI hasn't extracted
+> anything into ${S}, which is easily done when writing a recipe by hand,
+> instead
+> of silently shippping an empty package abort the build.
 >
 
-Got it, thanks
+I was thinking about this the other day, as it=E2=80=99s a long standing an=
+noyance,
+I think we should add a new pwd or cwd flag which is used in preference to
+the last entry in `dirs` if it=E2=80=99s set, and which errors if the dir d=
+oesn=E2=80=99t
+exist and isn=E2=80=99t listed in `dirs`, then drop `${S}` from dirs. Thoug=
+hts?
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-//Hongxu
+--001a114260ee9338e7055e93df71
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Bruce
->
->
->     3. Most importantly, how to test, when find a way,
->         the ideally is to add the test case to oe-core's
->         meta-selftest
->
->        I should do some investigation on the storage test.
->
->     So I think I should do 3 first, and then 1/2 later
->
->     //Hongxu
->
->>     Ross
->
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
+<div dir=3D"ltr">On Tue, Nov 21, 2017 at 4:53 PM, Ross Burton <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bu=
+rton@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">If the user is trying to =
+use bin_package but the SRC_URI hasn&#39;t extracted<br>
+anything into ${S}, which is easily done when writing a recipe by hand, ins=
+tead<br>
+of silently shippping an empty package abort the build.<br></blockquote><di=
+v><br></div><div>I was thinking about this the other day, as it=E2=80=99s a=
+ long standing annoyance, I think we should add a new pwd or cwd flag which=
+ is used in preference to the last entry in `dirs` if it=E2=80=99s set, and=
+ which errors if the dir doesn=E2=80=99t exist and isn=E2=80=99t listed in =
+`dirs`, then drop `${S}` from dirs. Thoughts?</div></div>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
+iv><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Found=
+er - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor =
+Graphics</div></div></div></div>
+</div></div>
 
-
-
---------------62B2528F1139CBBBE3B65207
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <blockquote type="cite"
-cite="mid:CADkTA4OCsE=g3OJL+p1rbXz1ghy6e7G7_8dEdWcdS_s+jxa-_w@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>If you send a change for the kernel configuration, I
-              can merge it, but not</div>
-            <div>activate it (i.e. I won't send SRCREV bumps), so as
-              long as the autobuilder</div>
-            <div>can build a branch, we can queue this part of the
-              change for testing.</div>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Got it, thanks<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CADkTA4OCsE=g3OJL+p1rbXz1ghy6e7G7_8dEdWcdS_s+jxa-_w@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>Bruce</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div text="#000000" bgcolor="#FFFFFF"> <br>
-                3. Most importantly, how to test, when find a way,<br>
-                    the ideally is to add the test case to oe-core's <br>
-                    meta-selftest<br>
-                <br>
-                   I should do some investigation on the storage test.<br>
-                <br>
-                So I think I should do 3 first, and then 1/2 later<br>
-                <br>
-                //Hongxu<br>
-                <br>
-                <blockquote type="cite">
-                  <div dir="ltr">
-                    <div class="gmail_extra">
-                      <div class="gmail_quote">
-                        <div>Ross </div>
-                      </div>
-                    </div>
-                  </div>
-                </blockquote>
-                <p><br>
-                </p>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">"Thou
-            shalt not follow the NULL pointer, for chaos and madness
-            await thee at its end"</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------62B2528F1139CBBBE3B65207--
+--001a114260ee9338e7055e93df71--
