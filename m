@@ -1,62 +1,28 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B1B6786F4
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EA88578690
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 20:42:43 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id h81so11820677oib.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 12:42:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=XG5KmgV9Tz5Wvw5h2QZMENdtOXLsYFyyBeSqPVVVtFY=;
-	b=bVfFkIGEep7w1VyGaTqJHIA8DEw2uTP8HmSjPc7cmH5esUKUH7NaOXqWo27L/R+a7S
-	hVj8ii/JlqiUHWYcUYJiYR1TQ7oPL2xOtzR3ABwEc2dATD8fMTf048LhdTuAcXxN6y4Z
-	DOlUFdVp8YAC03x6p5qtTXRaF9PlZ4k8yGUBpPJsQODGQ3UyF3T514pEesdrHCedAra2
-	rygbfQagV4PD4ki58SBWaEYP3lUP9Oz6Ieu+hiqLZcywbVPOxfHbHX5p3sP9bZ3Md8Qh
-	HNq8wrYNOzR/tqWALL71GZzIV2ZFpi3s7ENDwi6nN9I25R0l7n9aOK9KZQoLejEo4Y1K
-	4IBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=XG5KmgV9Tz5Wvw5h2QZMENdtOXLsYFyyBeSqPVVVtFY=;
-	b=Lkl0uExvMtmeIHyn5eluqWTHEnRnDOL4IT01tg1/iczMiaM/HopEThZaQwRXz8JuJn
-	UDcW0jWD5CwHp+d5nrmxGl1UPao+3iO7NLyeix/iBoD+8DfqPKjdccDh9MROFpxKrhax
-	dvGAfifrAQTOUyDHF0MtefXPMecM55zj6spIAmODgLCJ9VHF+5OroZA4k2meoDYoQqT9
-	Q8QSqi8dUGY35EwCoboznCTbE1UUd5oDrhSxjajVivOe2ivpCZsKL/9f7k/Ii4YariG8
-	vVdgCoUzSUvQ8r0Q0Y21dTr6LNfdvFlX2brUhlFIlw1ZqKLQcW5dLKixh7Aed83tJpFb
-	Aumg==
-X-Gm-Message-State: AJaThX6rbp3oYt//z0Vo6EotqlM2OrEPy20F5c6Vl6udU7mSS3rVdH7+
-	As0tzUNHkhOZU2HYtWdZYDHmpN5V
-X-Google-Smtp-Source: AGs4zMZO4yMrBjwKY7VOj05MbxLDCZ+K8+Bt+POcWibUzNgttzm6ZviDar4YrY2dIg9fVrOkfLDWhw==
-X-Received: by 10.202.166.14 with SMTP id p14mr4902175oie.48.1511383364068;
-	Wed, 22 Nov 2017 12:42:44 -0800 (PST)
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
-	[209.85.218.53]) by smtp.gmail.com with ESMTPSA id
-	t29sm7591604otc.46.2017.11.22.12.42.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Nov 2017 12:42:42 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f53.google.com with SMTP id h81so11820624oib.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 12:42:42 -0800 (PST)
-X-Received: by 10.202.216.137 with SMTP id p131mr4747336oig.140.1511383362188; 
-	Wed, 22 Nov 2017 12:42:42 -0800 (PST)
+	Wed, 22 Nov 2017 20:51:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAMKpuYK022382
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Nov 2017 12:51:56 -0800 (PST)
+Received: from server.local (128.224.21.97) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 22 Nov 2017 12:51:56 -0800
+To: Saul Wold <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <20171122184724.21416-1-sgw@linux.intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <3a0e2cdc-ca8c-07ba-e27d-701e3e4f6154@windriver.com>
+Date: Wed, 22 Nov 2017 15:51:55 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.4.0
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Wed, 22 Nov 2017 12:42:41 -0800 (PST)
-In-Reply-To: <20171122170930.1861-1-alejandro.hernandez@linux.intel.com>
-References: <20171122170930.1861-1-alejandro.hernandez@linux.intel.com>
-Date: Wed, 22 Nov 2017 18:42:41 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoqySKd=NPbp-0d+EBZ9Evk=ZKG0Te7AykOQE+Bp4z2WA@mail.gmail.com>
-Message-ID: <CAP9ODKoqySKd=NPbp-0d+EBZ9Evk=ZKG0Te7AykOQE+Bp4z2WA@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] initramfs-live-boot-tiny: Create the initramfs-live-boot-tiny recipe
+In-Reply-To: <20171122184724.21416-1-sgw@linux.intel.com>
+Subject: Re: [PATCH] kernel.bbclass: Add cleandirs for do_shared_workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,28 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 20:42:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Nov 2017 20:51:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 22, 2017 at 3:09 PM, Alejandro Hernandez
-<alejandro.hernandez@linux.intel.com> wrote:
-> The original initramfs-live-boot recipe RDEPENDS on udev, which is ok since
-> the init script relies some of its functionality on udevadm and such,
-> but on core-image-tiny-initramfs the init script simply drops to shell
-> after a basic setup, so udev is not needed.
->
-> This patch splits up an initramfs-live-boot-tiny recipe which does not
-> use udev, but uses busybox-mdev instead, eudev installed about 600
-> extra Kilobytes to core-image-tiny-initramfs userspace, by avoiding to
-> install eudev we achieve an even smaller footprint (almost 40% smaller).
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+On 2017-11-22 1:47 PM, Saul Wold wrote:
+> Ensure we have a clean and empty STAGING_KERNEL_BUILDDIR (kernel-build-artifacts)
+> before creating it, otherwise there might be older artifacts from a prior
+> kernel build.
+> 
 
-It'd be nice if you could migrate to initramfs-framework as it
-provides mdev module and has part of this already done.
+What's the actual error that this triggers ? It would be nice to
+log it here in the commit message .. or at least a description
+of the symptoms.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> [YOCTO #11880]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/classes/kernel.bbclass | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 756707a3c25..2a0a7707a14 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -400,6 +400,7 @@ emit_depmod_pkgdata() {
+>   
+>   PACKAGEFUNCS += "emit_depmod_pkgdata"
+>   
+> +do_shared_workdir[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
+>   do_shared_workdir () {
+>   	cd ${B}
+>   
+> @@ -655,8 +656,6 @@ kernel_do_deploy() {
+>   		fi
+>   	done
+>   }
+> -do_deploy[cleandirs] = "${DEPLOYDIR}"
+> -do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+
+This isn't clear to me. Why does cleaning the STAGING_KERNEL_BUILDDIR
+as part of the do_shared_workdir mean that we no longer need the
+clean before the deploy (as well as the deploy dir).
+
+Bruce
+
+>   do_deploy[prefuncs] += "package_get_auto_pr"
+>   
+>   addtask deploy after do_populate_sysroot do_packagedata
+> 
+
 
