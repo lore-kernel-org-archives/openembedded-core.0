@@ -1,22 +1,18 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EB34B6093D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 21:58:57 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Nov 2017 13:58:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,438,1505804400"; d="scan'208";a="152250213"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga004.jf.intel.com with ESMTP; 22 Nov 2017 13:58:58 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Nov 2017 13:58:29 -0800
-Message-Id: <1511387909-80430-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] ltp: improve reproducibility
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id D407E78412;
+	Wed, 22 Nov 2017 22:05:21 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?b?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
+Date: Wed, 22 Nov 2017 22:05:23 -0000
+Message-ID: <20171122220523.2785.75162@do.openembedded.org>
+References: <20171122213140.4307-1-limon.anibal@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171122213140.4307-1-limon.anibal@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lcjogQWRkIGdzdC12YWxpZGF0ZSByZWNpcGU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,60 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 21:58:58 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 22:05:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-ltp package contains several gzipped files.
-Improve reproducibility of the build by ensuring the gzipped files
-do not contain timestamps in their headers.
+== Series Details ==
 
-https://wiki.debian.org/ReproducibleBuilds/TimestampsInGzipHeaders
+Series: recipes-multimedia/gstreamer: Add gst-validate recipe
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9926/
+State : failure
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             SUMMARY is missing in newly added recipe [test_summary_presence] 
+  Suggested fix    Specify the variable SUMMARY in gst-validate
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../ltp/ltp/0038-generate-reproducible-gzip.patch    | 20 ++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20170929.bb            |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
-new file mode 100644
-index 0000000..0153ace
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
-@@ -0,0 +1,20 @@
-+Do not generate timestamps in gzipped file headers.
-+The timestamps prevent reproducible build.
-+
-+Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/233]
-+
-+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+
-+diff --git a/testcases/network/generate.sh b/testcases/network/generate.sh
-+index 00216a6..939f792 100755
-+--- a/testcases/network/generate.sh
-++++ b/testcases/network/generate.sh
-+@@ -55,7 +55,7 @@ fi
-+ if [ ! -e "bin.sm" ] ; then
-+ 	cnt=0
-+ 	while [ $cnt -lt 5 ] ; do
-+-		gzip -1 -c ascii.sm >> "bin.sm"
-++		gzip -1 -c -n ascii.sm >> "bin.sm"
-+ 		cnt=$(($cnt + 1))
-+ 	done
-+ fi
-diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20170929.bb
-index 93a59b3..8a870b3 100644
---- a/meta/recipes-extended/ltp/ltp_20170929.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170929.bb
-@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0035-fix-test_proc_kill-hang.patch \
-            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-            file://0037-ltp-fix-format-security-error.patch \
-+           file://0038-generate-reproducible-gzip.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
