@@ -1,47 +1,29 @@
-Return-Path: <kristian.amlie@northern.tech>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D05C578707
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 42B9F7870E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 13:30:42 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id o41so18233792lfi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 05:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google; h=from:to:subject:date:message-id;
-	bh=Q0O+l8Hqb2inWghUnH4oB8rxMfl5vogqBbyGrQAlz28=;
-	b=JuPVEcoZNcaMGHxTpx7ZTFKcm4btiFM8KbNbyCpB39ZUetI/LI3zf3DtAfipeSCHPn
-	pjVEbCYj/4BpDYhH5aggCXN4ZcRMXI5vk1qz8W5Eh8mvYSVk3sJRy3u0HsJC9mx1oJnM
-	ugIQyvCK8PdFIynyYcXMYlbFSk+Yl5f0HXw/IJ2v2VIVnP6d7jXHr6gu3UB07VAQ9nQy
-	epTAt/Gaso+pFItd6Ef3yBIz07KIsPZfgrSwJHxbZKaT84lvp+CXAtKp3szkpis6iHud
-	ceqN1YE9IXGUtMMBehbhemzBUMXuPVb7ePI9dQq5Pv2NoKYT9AvB4Sm3UDY89C/6kXlt
-	62Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Q0O+l8Hqb2inWghUnH4oB8rxMfl5vogqBbyGrQAlz28=;
-	b=aMGC+gKUZkIAhRrn7PGQG51DxJEwcXTBW3u/hmxEjtCcGuPgUEMrThkk0OfKM0rPBD
-	D67AZDdMPoSTg2sPmAsSlVmlBICkgwCCIOHOLtsReqQ7tTKYJuh/zmzhxj+koLYQn6Rq
-	EF8qgsHLtrgI3Dwrnu6h8xFgs1I9mR7w0TDbNp3LDxs9+vlwIB9BuTFjGlwHBAhB9/Da
-	+Jd9w+RGeZdoG4YFFsq8ffHeFZI/54SUKp63jrT3tnk1BtuAG9D1q3hE7J21GBhhXpdx
-	MRbstYTNmY1clvD/asGWZGpXznZBKcDYuem5912dR6GOyyLmIqWBFH9zqi/vDj6yw7Nm
-	nCZQ==
-X-Gm-Message-State: AJaThX7XcA1Q1uo1B92062njRPbH0Qtn8CbRp5i/hhGzA8JHi25tCHk2
-	YXXITJuaXdxA0VYc2gyFosYhWl457Jk=
-X-Google-Smtp-Source: AGs4zMYQo5ETMoWkjz2pOEgymEgCDVos+ho2E6pu7+YyTyl0kTPdtjYLxFtnJXqs3ei0vaCHIzGALg==
-X-Received: by 10.25.145.7 with SMTP id t7mr5993507lfd.103.1511357442773;
-	Wed, 22 Nov 2017 05:30:42 -0800 (PST)
-Received: from localhost.localdomain ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	r101sm2845977lfi.17.2017.11.22.05.30.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Nov 2017 05:30:41 -0800 (PST)
-From: Kristian Amlie <kristian.amlie@northern.tech>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Nov 2017 14:30:40 +0100
-Message-Id: <1511357440-7368-1-git-send-email-kristian.amlie@northern.tech>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v1] systemd: Avoid fsck because time is out of sync on first boot.
+	Wed, 22 Nov 2017 13:30:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2017 05:30:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,436,1505804400"; 
+   d="scan'208";a="8263160"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2017 05:30:52 -0800
+To: Kristian Amlie <kristian.amlie@northern.tech>,
+	openembedded-core@lists.openembedded.org
+References: <6a525f12-f5ea-d079-83d8-46e6394be8ff@linux.intel.com>
+	<1511356419-32334-1-git-send-email-kristian.amlie@northern.tech>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <e4d7ba56-e92f-9322-6e37-be08bcab8ad8@linux.intel.com>
+Date: Wed, 22 Nov 2017 15:31:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <1511356419-32334-1-git-send-email-kristian.amlie@northern.tech>
+Subject: Re: [PATCH v6] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 13:30:43 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 13:30:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-By default, systemd uses its build time as the epoch. When systemd is
-launched on a system without a real time clock, this time will be
-detected as in the future and an fsck will be done.  Setting this to 0
-results in an epoch of January 1, 1970 which is detected as an invalid
-time and the fsck will be skipped.
+On 11/22/2017 03:13 PM, Kristian Amlie wrote:
 
-Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
----
- meta/recipes-core/systemd/systemd_234.bb | 1 +
- 1 file changed, 1 insertion(+)
+>> Bear with the pre-release freeze period please; once rocko is out
+>> patches will start flowing to master again.
+> 
+> So now that rocko has been out for a while, can we get this in please?
+> Already reviewed, and rebased patch is included.
 
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index 6b8745b..86c04fe 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -170,6 +170,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
-                  --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
-                  --with-firmware-path=${nonarch_base_libdir}/firmware \
-+                 --with-time-epoch=0 \
-                "
- # per the systemd README, define VALGRIND=1 to run under valgrind
- CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', '', d)}"
--- 
-2.7.4
+Please do pay attention to what the recent Yocto Project Status emails 
+say. Specifically:
 
+" Until we resolve these issues patches will continue to be slow to 
+merge, if at all. This also blocks several core developers from doing 
+any feature work at this point in time (e.g. layer setup tool is on 
+hold, again).
+
+·        We can only continue to stress that unless others step up and 
+help to try and root cause these issues, things will stall with the 
+project."
+
+The way things are with the project now, contributors are many, 
+maintainers are few. If you can balance things out a little bit, that 
+would be much appreciated.
+
+Alex
 
