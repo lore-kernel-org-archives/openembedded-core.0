@@ -1,33 +1,33 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E7EB27871B
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BA03B78711
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 09:39:59 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Nov 2017 01:39:58 -0800
+	Wed, 22 Nov 2017 09:52:17 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2017 01:52:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,436,1505804400"; 
-   d="scan'208";a="4586562"
+   d="scan'208";a="5709554"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Nov 2017 01:39:58 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2017 01:52:18 -0800
 Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 38D5E580329;
-	Wed, 22 Nov 2017 01:39:57 -0800 (PST)
-Date: Wed, 22 Nov 2017 10:26:45 +0200
+	by linux.intel.com (Postfix) with ESMTPS id 00C85580329;
+	Wed, 22 Nov 2017 01:52:17 -0800 (PST)
+Date: Wed, 22 Nov 2017 10:39:06 +0200
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Dogukan Ergun <dogukan.ergun@gmail.com>
-Message-ID: <20171122082645.qhfyyus754ft6pca@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20171122083906.gph76do4d7meusfe@linux.intel.com>
 Reply-To: ed.bartosh@linux.intel.com
-References: <1510832983-801-1-git-send-email-dogukan.ergun@gmail.com>
+References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
 MIME-Version: 1.0
-In-Reply-To: <1510832983-801-1-git-send-email-dogukan.ergun@gmail.com>
+In-Reply-To: <1510934900-22044-1-git-send-email-trini@konsulko.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: NeoMutt/20170421 (1.8.2)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: fallback to dd, if sparse_copy does not work
+Subject: Re: [PATCHv2 0/4] wic: Further enhance UUID / fstab support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,60 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 09:40:00 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 09:52:17 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Nov 16, 2017 at 02:49:43PM +0300, Dogukan Ergun wrote:
-> Docker's aufs filesystem doesn't support file ioctl operations like FIGETBSZ
-> or FIEMAP.
-> Sparse_copy operation will fail if those ioctls are not supported.
-> If sparse_copy fails while generating wic images, fallback to dd for copying
-> filesystems on final image.
+Hi Tom,
+
+Thank you for the great patchset!
+
++1
+
+On Fri, Nov 17, 2017 at 11:08:16AM -0500, Tom Rini wrote:
+> Hey all,
 > 
-
-You can make sparse_copy to use SEEK_HOLE / SEEK_DATA instead of FIEMAP.
-This can be done by using 'api' parameter. If AUFS supports it this
-there is no need to fall back to using dd.
-
-> Signed-off-by: Dogukan Ergun <dogukan.ergun@gmail.com>
-> ---
->  scripts/lib/wic/plugins/imager/direct.py | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> So, per Ed's feedback on my first series, I went and spent some time
+> trying to figure out how to have wic know what the UUID would be when
+> updating the fstab.  It turns out the easiest answer here is to have WIC
+> make the UUID.  Per Otavio's concern last time, I also make sure that
+> the filesystem UUID can be passed in, for reproducibility.  One thing to
+> keep in mind here is that FAT filesystem UUIDs are a bit funny to deal
+> with as mkfs.vfat / mkdosfs / etc want to be given a 32bit hexadecimal
+> value.  But when we talk mount, it must be split and it must be in
+> uppercase.  To make the rest of the code easier I'm encoding the '0x'
+> portion into part.fsuuid rather than doing "-i 0x%s" in a bunch of
+> places.
 > 
-> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-> index da1c061..70f93ee 100644
-> --- a/scripts/lib/wic/plugins/imager/direct.py
-> +++ b/scripts/lib/wic/plugins/imager/direct.py
-> @@ -577,8 +577,14 @@ class PartitionedImage():
->          for part in self.partitions:
->              source = part.source_file
->              if source:
-> -                # install source_file contents into a partition
-> -                sparse_copy(source, self.path, seek=part.start * self.sector_size)
-> +                try:
-> +                    # install source_file contents into a partition
-> +                    sparse_copy(source, self.path, seek=part.start * self.sector_size)
-> +                except:
-
-sparse_copy raises ErrorNotSupp if some ioctl is not supported. Please,
-catch this particular exception instead of any exception.
-
-> +                    # Sparse_copy failed, fallback to dd method
-> +                    dd_cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
-> +                        (source, self.path, self.sector_size, part.start, part.size_sec)
-> +                    exec_cmd(dd_cmd)
->  
->                  logger.debug("Installed %s in partition %d, sectors %d-%d, "
->                               "size %d sectors", source, part.num, part.start,
-> -- 
-> 2.7.4
+> While preparing all of this, I found a few minor things such as we did
+> not test for squashfs and --use-uuid (not supported) and an incorrect
+> comment around the btrfs support.
 > 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Since v1, I've added a testcase into wic.Wic.test_qemu for a UUID mount
+> and the UUID that we've given. I think this is cleaner than adding a
+> python function to make a wks file just for this task.
+> 
+> --
+> Tom
 
 -- 
 --
