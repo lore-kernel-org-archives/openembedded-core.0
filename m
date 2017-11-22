@@ -1,35 +1,32 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 795EC7872A
+	by mail.openembedded.org (Postfix) with ESMTP id ED2E27872A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 06:03:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAM63Kha026933
+	Wed, 22 Nov 2017 06:10:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAM6Abkf026953
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Nov 2017 22:03:20 -0800 (PST)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Tue, 21 Nov 2017 22:03:19 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>, Andre McCurdy
-	<armccurdy@gmail.com>
-Thread-Topic: [OE-core] backfill mechanism
-Thread-Index: AdNf+226ORa9l6NuR/SCoUcn6/NVXgCv9+cAABAjvbsAFuFbUA==
-Date: Wed, 22 Nov 2017 06:03:18 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B91E68C@ALA-MBC.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>,
-	<CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.140]
+	Tue, 21 Nov 2017 22:10:37 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 21 Nov 2017 22:10:37 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Randy MacLeod
+	<randy.macleod@windriver.com>, <openembedded-core@lists.openembedded.org>,
+	Armin Kuster <akuster808@gmail.com>, "Huang, Jie (Jackie)"
+	<Jackie.Huang@windriver.com>,
+	"Xu, Chi" <Chi.Xu@windriver.com>, "WOLD, SAUL" <saul.wold@intel.com>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
+	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
+	<1511262584.862.32.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <1864d74a-6b63-1e5e-b0b4-ec703ad260b9@windriver.com>
+Date: Wed, 22 Nov 2017 14:09:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: backfill mechanism
+In-Reply-To: <1511262584.862.32.camel@linuxfoundation.org>
+Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNDfigJkxNw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,85 +39,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 06:03:20 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 06:10:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
 
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Slater, Joseph
-> Sent: Wednesday, November 22, 2017 03:11
-> To: Andre McCurdy
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] backfill mechanism
->=20
-> The problem is that when backfilling is done, TUNE_FEATURES, etc, all hav=
-e
-> values associated with the base arch, not the current multilib.  The "gen=
-eric"
-> solution, below, should work, although I would still use overrides when a=
-vailable.
->=20
-> Beyond what actually works, if the special backfill processing can be eli=
-minated
-> and regular constructs used I think that would be desirable.
->=20
-> Joe
-> ________________________________________
-> From: Andre McCurdy [armccurdy@gmail.com]
-> Sent: Monday, November 20, 2017 7:24 PM
-> To: Slater, Joseph
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] backfill mechanism
->=20
-> On Fri, Nov 17, 2017 at 3:32 PM, Slater, Joseph
-> <joe.slater@windriver.com> wrote:
-> > The backfill mechanism is not compatible with multilib.
->=20
-> Did anyone ever explain why?
+On 11/21/2017 07:09 PM, Richard Purdie wrote:
+> On Mon, 2017-11-20 at 20:22 -0500, Randy MacLeod wrote:
+>> On 2017-11-20 10:36 AM, Jolley, Stephen K wrote:
+>>> Current Dev Position: YP 2.5 Planning and M1 development
+>>> Next Deadline: YP 2.5 M1 cut off of 12/4/17
+>>>   
+>>> SWAT team rotation: Juro -> Paul on Nov.17, 2017.
+>>> SWAT team rotation: Paul -> Todor on Nov. 24, 2017.
+>>> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+>>>   
+>>> Key Status/Updates:
+>>> ·        There is no real change to the status from last week. We
+>>> continue to suffer intermittent build failures and are continuing
+>>> to attempt to debug these.
+>>> ·        Currently open issues are:
+>>   
+>> Some US-based people may be on holiday later this week so I'm
+>> offering
+>> help from the frozen Northland and more importantly from the team in
+>> Beijing. ;-)
+>>
+>>> o   qemuppc continues to demonstrate random hangs in boot  in
+>>> userspace
+>>   
+>> Is we can create a defect for this and point / copy the wiki notes
+>> into it, that
+>> would help.
+>>     https://wiki.yoctoproject.org/wiki/Qemuppc_Boot_Hangs
+>>
+>> I think I had asked Chi to see if he could reproduce this a week or
+>> two ago.
+>> When the lack of entropy problem was identified and fix, many people
+>> thought
+>> this hang went away as well. Chi can you read the wiki report and see
+>> if you
+>> can add anything to them?
+> 
+> Good news is that the qemuppc issue has been identified as a bug in
+> qemu ppc locking which breaks timer interrupt handling. I've posted on
+> the qemu mailing list asking for help in verifying what I think is
+> happening.
+> 
+> I have a patch ready to merge which should address this one, just
+> cleaning up my environment and doing some further stress testing.
+> 
+> [There is a defect somewhere for this btw, I created the wiki as it was
+> a better place to dump and update information as we learnt what it
+> is/is not without having to follow a train of thought updating in the
+> bugzilla].
+> 
+>>> o   Issues with 4.13.10 host kernels booting kvm x86 guests on
+>>> Tumbleweed (Suse) and Fedora 26 (attempting to see if 4.13.12
+>>> helps)
+>>   
+>> Robert, can you test Fedora 26. It would help to have a defect open
+>> with steps to reproduce or
+>> something about the typical workflow/ build time/ day of the week/
+>> phase of the moon.
+> 
+> FWIW we have noticed that the choice of kernel timers seems to vary in
+> the x86_64 boots but not with a pattern that matches the hangs.
+> 
+>>> o   nfs inode count for the sstate/dldir share appears to break
+>>> periodically causing the disk monitor to halt the builds (bug
+>>> 12267)
+>>   
+>> Likely specific to the AB server so no plans to do anything for this
+>> bug.
+> 
+> Agreed, this one is our infrastructure somehow :(. We have a workaround
+> in -next for this at least.
+> 
+>>> o   a perf build race (bug 12302)
+>>    I'll take a look to:
+>>   - see if I can duplicate the bug on a fast build host
+>>   - check upstream to see if the bug is known/fixed
+>>   - see if I can spot a race in the build rules.
+> 
+> Sounds good, thanks!
+> 
+>>> o   An ext filesystem creation/sizing issue (bug 12304)
+>>   
+>> Saul, Are you around this week? Do you have any additional
+>> information before
+>> leaving for Thanksgiving?
+>>
+>> Jackie,
+>> Can you look at the code around the image creation and try to
+>> reproduce this one?
+> 
+> Saul hasn't been able to reproduce. I've asked at the minimum we add
+> better logging so if/when this happens again, we can debug it properly
+> next time. I did also wonder about fuzzing the image size code, writing
+> some code which puts in all possible input values and checks the sanity
+> of the resulting image size. Its the kind of problem a computer can
+> probably brute force. Anyone interested in trying that?
 
-I think it should be a defect, so I just opened one:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12373
+I have interests on it, but I don't quite understand what did you mean.
+Currently, the image size is from "du -sh <image_rootfs>" * factor, about
+the bug 12304, it got 8192 which is the default value of core-image-minimal,
+so maybe something is wrong with "du -sh", the normal value is larger than 8192.
 
-Thanks,
-Jackie
+// Robert
 
->=20
-> > This could possibly
-> > be fixed, but the backfill_considered functionality is also obscure, so=
- I
-> > think in at least the machine related .inc files we should replace line=
-s
-> > like
-> >
-> > MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D "
-> > ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
-> >
-> > with lines like
-> >
-> > MACHINE_FEATURES_remove_mipsarchn32 =3D " qemu-usermode"
->=20
-> That only works for TUNE_FEATURES which happen to have a corresponding
-> over-ride, so may not be a generic solution. Does something like:
->=20
->   MACHINE_FEATURES_remove =3D "${@bb.utils.contains('TUNE_FEATURES',
-> 'n32', 'qemu-usermode', '', d)}"
->=20
-> work for multilib?
->=20
-> > There are two advantages:  the second line works for multilib, and it i=
-s far
-> > more readable.
-> >
-> > Joe
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
 
