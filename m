@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 37CDC60778
+Return-Path: <alistair23@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9592C786F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 23:53:25 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id l22so12866787wrc.11
+	Wed, 22 Nov 2017 00:48:01 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b189so6969264wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Nov 2017 15:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=ONPBt3DpAbVBKkTu2kvJHs8wFAVN/Pn1N8+yKMvY500=;
-	b=KoMQwhBZlx0NIgDMfuUqbU79EgCy4xSixWiW5zMwWiN4VvKjTZli26bOtEx0qVxzzA
-	nS6IewoqeqUL7Y6tb4S97E1etTa2zmEn5UESNY9ao4IqJ4qhfJLL3btrbIjx4E45Rd+p
-	IJZz2s1CZmTWAaLh0fEij+L6mZ/joEhXIcHBgQK3LLxJ9hHsZr4MfOhK9VGIz34anT8a
-	P2mT11WFN9eNyzWgkGMXwO6lUgBvgBIiIEvL3FsR8CYUXsel731rjZwwSv7iaizwzMel
-	RypXI7Kj5XXKRzjM+Q5CRGzfLfz4WJO0BCvWUNJMxOWyywMUxCQ0xzbiSOWR2xzzhxne
-	/2Zw==
+	Tue, 21 Nov 2017 16:48:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=NJ9ASA6HgQawVo2y7XRk+ZTA9x5VctVxdq85tddyI9Y=;
+	b=JN0seIwKrSTnvQneLaDEaSDHLMKfUokJyaexd5+nku/bl+gQTFTw3wGtK1MBEMPyrr
+	kesh4wXzQw6qfcjNTde2zG7qAzWdBZEGWIxlYY7YmpK/uX+a6njk9qc2N2oRi5/HJ4+v
+	AVRefrF3iNqM2y3E8dP22Ascu2EarzDxkPCikAfnNNBgKwmCtMON92jo++PHUPa9srT9
+	ZWlEbftY/7fgnmDzv/p3ZpCoE9YBUQPPyQrI02E/sW5CKRwRqlHtfJtxGfgnDPiSoyq+
+	00JxmmBMRtcSzDMnWsz0OLI5q3EVL6XaIsbi5z48RqfWR1D6Tv9AmfbAh4v55/7HgPDg
+	UIwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ONPBt3DpAbVBKkTu2kvJHs8wFAVN/Pn1N8+yKMvY500=;
-	b=J6urfImHnpfWNVeKb2+mVjoU9c6bHDYcldT3T4Uh/XKhbh1rVdHoILo9gi/DN640c5
-	EYEP8Du4V8qeRFSmEhYRi1TackxjFkHnJo8fHem32gQvntMTTjO3xcQVT/al1Pki8Tc0
-	XFMPNFCSCdhVqcZl0shBKeC8wckHVtjedqAU+j3QI+4I9xL5s7MzvZcl23sb73jWVgB4
-	Hc2ezxfP0MFq+I5JY9yikkhNYVQS6O8mH5snC2e9DZQraWphI1N31u5E734ryAXaRWZa
-	hXLE0oizEeibAdW8TUqtPaDv3kVs7DVxuLuKLLHAVrBXL7bpJqk5+0AcSDYLH5+DFk8m
-	jv+w==
-X-Gm-Message-State: AJaThX4T6Jxs1s5F1ozZ4CIj7vHPRSRDCOTZ73rK2s0/JXnY0OK/zbNn
-	kqLB8TDp83C4si4UQzmJMsCyVTO0
-X-Google-Smtp-Source: AGs4zMZuw5/61MDYH5shnA8viNDcPFw3HkYbor+LdSEL0rXJg/drBpXVLTePTRP5Xqu/wiUESSOK0g==
-X-Received: by 10.223.199.70 with SMTP id b6mr6613792wrh.25.1511308406718;
-	Tue, 21 Nov 2017 15:53:26 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d4sm2811606wmh.35.2017.11.21.15.53.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Nov 2017 15:53:25 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Nov 2017 23:53:23 +0000
-Message-Id: <20171121235323.29727-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bin_package: fail if ${S} doesn't actually contain anything
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=NJ9ASA6HgQawVo2y7XRk+ZTA9x5VctVxdq85tddyI9Y=;
+	b=hrqwGXpd+VMYG0obP///rLChq+15vxrArjyjp9AyDwM+a6de3IFHxJlbtWiqGx3DLj
+	FVoismVTbyz/tmnCsZDw+mnDQrgqGpi4IuXWBtU1gAcGlYZrg4SFPRBQ94th+xOxZC6Y
+	AjRXDOhoC7UA9l/Oac/pbVSPNkFrUGjJX62j93gNKjyjguQSalDrtsUeh3W6MJ2pfdKq
+	WIZWtfIaDISTbNJRDPd+WDDOXntnZx0YWM4HvEakesuzA4NwWt1OH8P+TEUdPYVDDhP6
+	D4xfKsIWOkP0SSgr6LZsKHV6DG3XXENouvDzI/mi2daqzyJGLJQcOXJmnyjCWQmfksc2
+	fNBQ==
+X-Gm-Message-State: AJaThX4DeNn5gKpakx2y5BshMC45MKyN/SVZR7ztlZfhtrcDAeEx1Aol
+	EoRu7+EnzgcYXKks6iD2/5iaw1JNO0cDUCU6J7g=
+X-Google-Smtp-Source: AGs4zMbaxQlsK4VcArhPKjFGWJRU4ctRwLGfNY8ITHAPw4AvwWV5O0yhRvEd6kykCHaI6QMxeWtIyHvZWC24UOzJzjM=
+X-Received: by 10.28.166.193 with SMTP id p184mr2451637wme.6.1511311683028;
+	Tue, 21 Nov 2017 16:48:03 -0800 (PST)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.28.147.11 with HTTP; Tue, 21 Nov 2017 16:47:32 -0800 (PST)
+In-Reply-To: <CAJTo0LaSzXV=8qMZecM6QBPnhWiT-+bNnjL26YUgR+hdPkAE2Q@mail.gmail.com>
+References: <20171012233202.1281-1-alistair.francis@xilinx.com>
+	<20171012233202.1281-2-alistair.francis@xilinx.com>
+	<CAJTo0LaSzXV=8qMZecM6QBPnhWiT-+bNnjL26YUgR+hdPkAE2Q@mail.gmail.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Tue, 21 Nov 2017 16:47:32 -0800
+X-Google-Sender-Auth: lLzbFJQqKMnMTQvUwBkDtmEQwrg
+Message-ID: <CAKmqyKMPTYg0jS3EeqLHWv_UN0zPjF=RdMyt5qpwBkju4-1bxw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Ben Levinsky <ben.levinsky@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] runqemu: Allow the user to override the device tree option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +59,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 23:53:26 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 00:48:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-If the user is trying to use bin_package but the SRC_URI hasn't extracted
-anything into ${S}, which is easily done when writing a recipe by hand, instead
-of silently shippping an empty package abort the build.
+On Tue, Nov 14, 2017 at 4:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Doesn't actually work if DEVICE_TREE is not set but QB_DTB is:
+>
+> Traceback (most recent call last):
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/scripts/runqemu",
+> line 1277, in main
+>     config.check_and_set()
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/scripts/runqemu",
+> line 692, in check_and_set
+>     self.check_dtb()
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/scripts/runqemu",
+> line 624, in check_dtb
+>     cmd_match = "%s/%s" % (deploy_dir_image, dtb)
+> NameError: name 'deploy_dir_image' is not defined
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/bin_package.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Ah! I don't know how that slipped through.
 
-diff --git a/meta/classes/bin_package.bbclass b/meta/classes/bin_package.bbclass
-index a52b75be5c0..cbc9b1fa131 100644
---- a/meta/classes/bin_package.bbclass
-+++ b/meta/classes/bin_package.bbclass
-@@ -26,7 +26,10 @@ do_compile[noexec] = "1"
- bin_package_do_install () {
-     # Do it carefully
-     [ -d "${S}" ] || exit 1
--    cd ${S} || exit 1
-+    if [ -z "$(ls -A ${S})" ]; then
-+        bbfatal bin_package has nothing to install. Be sure the SRC_URI unpacks into S.
-+    fi
-+    cd ${S}
-     tar --no-same-owner --exclude='./patches' --exclude='./.pc' -cpf - . \
-         | tar --no-same-owner -xpf - -C ${D}
- }
--- 
-2.11.0
+Fixed in v3. Thanks for looking at the patch.
 
+Alistair
+
+>
+> Ross
+>
+> On 13 October 2017 at 00:32, Alistair Francis <alistair.francis@xilinx.com>
+> wrote:
+>>
+>> Update the runqemu script to allow the user to specify a device tree
+>> to boot when calling runqemu.
+>>
+>> This involves creating a seperate check_dtb() function incase the user
+>> has specified 'none' for the kernel but still wants a device tree.
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>> Reviewed-by: Ben Levinsky <ben.levinsky@xilinx.com>
+>> Cc: Ben Levinsky <ben.levinsky@xilinx.com>
+>> ---
+>>  scripts/runqemu | 14 +++++++++++++-
+>>  1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index c3719a86f7..1be6db0eea 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -69,6 +69,7 @@ Usage: you can run this script with any valid
+>> combination
+>>  of the following environment variables (in any order):
+>>    KERNEL - the kernel image file to use
+>>    ROOTFS - the rootfs image file or nfsroot directory to use
+>> +  DEVICE_TREE - the device tree blob to use
+>>    MACHINE - the machine name (optional, autodetected from KERNEL filename
+>> if unspecified)
+>>    Simplified QEMU command-line options can be passed with:
+>>      nographic - disable video console
+>> @@ -178,6 +179,7 @@ class BaseConfig(object):
+>>          self.env_vars = ('MACHINE',
+>>                          'ROOTFS',
+>>                          'KERNEL',
+>> +                        'DEVICE_TREE',
+>>                          'DEPLOY_DIR_IMAGE',
+>>                          'OE_TMPDIR',
+>>                          'OECORE_NATIVE_SYSROOT',
+>> @@ -579,7 +581,7 @@ class BaseConfig(object):
+>>                  raise RunQemuError("Can't find OVMF firmware: %s" % ovmf)
+>>
+>>      def check_kernel(self):
+>> -        """Check and set kernel, dtb"""
+>> +        """Check and set kernel"""
+>>          # The vm image doesn't need a kernel
+>>          if self.fstype in self.vmtypes:
+>>              return
+>> @@ -608,6 +610,15 @@ class BaseConfig(object):
+>>          if not os.path.exists(self.kernel):
+>>              raise RunQemuError("KERNEL %s not found" % self.kernel)
+>>
+>> +    def check_dtb(self):
+>> +        """Check and set dtb"""
+>> +        # Did the user specify a device tree?
+>> +        if self.get('DEVICE_TREE'):
+>> +            self.dtb = self.get('DEVICE_TREE')
+>> +            if not os.path.exists(self.dtb):
+>> +                raise RunQemuError('Specified DTB not found: %s' %
+>> self.dtb)
+>> +            return
+>> +
+>>          dtb = self.get('QB_DTB')
+>>          if dtb:
+>>              cmd_match = "%s/%s" % (deploy_dir_image, dtb)
+>> @@ -678,6 +689,7 @@ class BaseConfig(object):
+>>          self.check_rootfs()
+>>          self.check_ovmf()
+>>          self.check_kernel()
+>> +        self.check_dtb()
+>>          self.check_biosdir()
+>>          self.check_mem()
+>>          self.check_tcpserial()
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
