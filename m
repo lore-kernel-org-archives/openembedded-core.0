@@ -1,51 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 88F9378650
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B9EBE78702
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 16:04:18 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id r68so11309629wmr.1
+	Wed, 22 Nov 2017 16:04:19 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id u40so14966202wrf.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 08:04:19 -0800 (PST)
+	Wed, 22 Nov 2017 08:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=8sh5QGQfUJ4BwKz1TS2kb4UsFvJeJJ6se0J9LfxieFs=;
-	b=gFoNH55qK/SVrgA5sWDgbcz1EFIZXxgu8XYYHjocn6BPZUYQj0DNjCFhVkHSOyzZw4
-	CPtF8iX8/PJxRXz8/c3ffu+sY0viQrjQCfstq3Ragmmwiq2CTR/CJsqHnEh0qbcswYVM
-	HgW4bGHwuJuKYn1GH+5LS8IBcDJ3ZdDZ8AFQEteWds6Zfg3CbfJWts3c9pxKe878Fr1c
-	HxWss8HdadygFh/cQLFP0h3ZJx0AhFgmxYl+GmJNGsZFIfkIIkTGoQRVR7avqLcDP8Mu
-	U9E94LWpVESjvw/yq5DHV2i7mMPAlb+H4ifQ4puh6ccq4yARUsps5osMxwuZLoOR53EI
-	CO6A==
+	bh=Q3EwFlWk0KN5ppym7kgRH+4C74A1826pw4Z9VX4Uyu4=;
+	b=agrPAZgCefsZl6u/iM8Azi7VsD6mm5Ms6E9PwLD6jpA3FQJKOsY7VcvlLxEJyPekfr
+	zlY5k15D7JTQy5Gr+7QJCO4bX3XJYlrnlmOt0S4LyhLUzTjXk4JnstfOTMhOOG2vkjvD
+	gk6rcwa0QtQ4O2udjg9D4OQvxj1LWf4XU2MDgeqj5KrsL3Ulkmxi/sL5cdYpIW/TJl/n
+	W0xqbhTTCZpQOr3H+YE31YXl3kHRNxj0Dyz0XHjvrMbYnoCNV+Wspj9WNkTW6lndb4VR
+	8PhVOTlmQeg4R8aRZYBjp4n74HzYfEV9BnFC0jzOPllu0bkJcyWdyztgOjH49/t6snbG
+	FZUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=8sh5QGQfUJ4BwKz1TS2kb4UsFvJeJJ6se0J9LfxieFs=;
-	b=gUSHqDEw+xdqn8w8mMtky5bE3JzTuUOmxfFjcNeEIMy/dXOQ27TUliP3UU5p6BW6rP
-	gWX5K66ZIDhcvty1tcAg5Fu8MYRa37ionsJQ7EcvzcNrQjaIH6ucAyGtFL4Mjvf05+Rw
-	viB/7YuRp1+yryDAC/aJIrobffU1cAwdPw7YIGYsY9WUKSZyscyIBSPTNnt7bFRLyUik
-	p/6eI/vhDYIvrzeNTPmCTwBTVN3EhLvpTAu9xKwjYHhWiVDkecHthKsoc7WnjQNiKcL5
-	JdKwbpxcfpUXrxTLuHnx6KEGW2PQKAt5sioCDVmFNc0KquCbWJNaf5QfDTTrLlEmWyYi
-	VAEw==
-X-Gm-Message-State: AJaThX726kz9SNEQBo6a/oMQkGAGQ0Dpa9R+CEuU9AMS8z+9Kl2C913b
-	325Lob4d3vriIn8K7oylpRlyafa6
-X-Google-Smtp-Source: AGs4zMaZkSZMGVCaaO0RBiNLh5RGigWAVBcqK0VfqdJhbsLtlFsICZIjwNEYzbg0IKIPRU4K/tcJ6g==
-X-Received: by 10.28.157.7 with SMTP id g7mr4132444wme.99.1511366658985;
-	Wed, 22 Nov 2017 08:04:18 -0800 (PST)
+	bh=Q3EwFlWk0KN5ppym7kgRH+4C74A1826pw4Z9VX4Uyu4=;
+	b=g7e4oeyzbm2qbKo49+wlJnwdbOAeT6B/I7yNGa5a88H3dqg/0xf8K7eA/1TnOHSqP8
+	VJNTdMWBqZslcj65BnTIoUEfVPWZLVkJt8rxgFFqUvXKdS2Q7K1oxmmTvEcZ5AA2AHTc
+	PIK3+5mFKeP96pTrW2BKAlCW8u9b21+GvE0s2Kp5lB0yCeHkk49UGxkPAx0+iIyUY1xj
+	LiQHZ3ipyQZsur8o89/s2NC87GSl/lBnOgwNpL4EqbllhBJBS6R3tpY6l5/WeY4EAZ1B
+	YQo2ZWieSGIhLU6rkHCBH5+6/rCoXh4VB9CCMcG5HY0BXcv4SZ9D2cWXNYbSjpcnSg+S
+	Rtgw==
+X-Gm-Message-State: AJaThX4RbErX+hB5h14L3jDPG/rVs1G9cqhzWd/gwkKi9iZt/+jcQYBj
+	k0ELI1en8oh6Lfl0kWMt6Pw+snBn
+X-Google-Smtp-Source: AGs4zMbNJfMGOcVDP/kCc0VG6VqdeqrtCmsAIxZ5T26ZeWr86C/O43YawGer6vhBwXYrkmMDjxTIVQ==
+X-Received: by 10.223.150.2 with SMTP id b2mr19694668wra.185.1511366660133;
+	Wed, 22 Nov 2017 08:04:20 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	k30sm28923728wrf.63.2017.11.22.08.04.17
+	k30sm28923728wrf.63.2017.11.22.08.04.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Nov 2017 08:04:18 -0800 (PST)
+	Wed, 22 Nov 2017 08:04:19 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Nov 2017 16:04:13 +0000
-Message-Id: <20171122160414.14093-2-ross.burton@intel.com>
+Date: Wed, 22 Nov 2017 16:04:14 +0000
+Message-Id: <20171122160414.14093-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20171122160414.14093-1-ross.burton@intel.com>
 References: <20171122160414.14093-1-ross.burton@intel.com>
-Subject: [PATCH 2/3] postinst: fix and simplify the postinst test recipe
+Subject: [PATCH 3/3] oeqa/selftest/runtime_test: simplify postinst testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,198 +59,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 16:04:18 -0000
+X-List-Received-Date: Wed, 22 Nov 2017 16:04:20 -0000
 
-Reduce the number of packages, and fix some syntax and logic errors in the
-scripts.
+Update the packages and file names to reflect the new postinst recipe.
+
+Fix a sh syntax error in the run_serial file exists test which was hidden by a
+logic problem in the status code.
+
+Remove the older test_verify_postinst as it's effectively a subset of
+test_postinst_rootfs_and_boot, and doesn't work: when booting under systemd the
+strings it searches for are not output to the console, but the test still
+passes.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../recipes-test/postinst/postinst_1.0.bb          | 158 +++++++--------------
- 1 file changed, 51 insertions(+), 107 deletions(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 82 +++++++---------------------
+ 1 file changed, 19 insertions(+), 63 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/postinst/postinst_1.0.bb b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-index 6d497342779..112aa08c80f 100644
---- a/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-+++ b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-@@ -1,126 +1,70 @@
-+SUMMARY = "Packages to exercise postinstall functions"
- LICENSE = "MIT"
--ALLOW_EMPTY_${PN}-at-rootfs = "1"
-+
-+inherit allarch
-+
-+PACKAGES = "${PN}-rootfs ${PN}-delayed-a ${PN}-delayed-b"
-+
-+ALLOW_EMPTY_${PN}-rootfs = "1"
- ALLOW_EMPTY_${PN}-delayed-a = "1"
- ALLOW_EMPTY_${PN}-delayed-b = "1"
--ALLOW_EMPTY_${PN}-delayed-d = "1"
--ALLOW_EMPTY_${PN}-delayed-p = "1"
--ALLOW_EMPTY_${PN}-delayed-t = "1"
--
--PACKAGES += "${PN}-at-rootfs ${PN}-delayed-a ${PN}-delayed-b ${PN}-delayed-d ${PN}-delayed-p ${PN}-delayed-t"
--PROVIDES += "${PN}-at-rootfs ${PN}-delayed-a ${PN}-delayed-b ${PN}-delayed-d ${PN}-delayed-p ${PN}-delayed-t"
--FILES_${PN}-delayed-a = ""
--FILES_${PN}-delayed-b = ""
--FILES_${PN}-delayed-d = ""
--FILES_${PN}-delayed-p = ""
--FILES_${PN}-delayed-t = ""
--
--# Runtime dependencies
--RDEPENDS_${PN}-delayed-a = "${PN}-at-rootfs"
-+
-+RDEPENDS_${PN}-delayed-a = "${PN}-rootfs"
- RDEPENDS_${PN}-delayed-b = "${PN}-delayed-a"
--RDEPENDS_${PN}-delayed-d = "${PN}-delayed-b"
--RDEPENDS_${PN}-delayed-p = "${PN}-delayed-d"
--RDEPENDS_${PN}-delayed-t = "${PN}-delayed-p"
--
--# Main recipe post-install
--pkg_postinst_${PN}-at-rootfs () {
--    tfile="/etc/postinsta-test"
--    touch "$D"/this-was-created-at-rootfstime
--    if test "x$D" != "x" then
--        # Need to run on first boot
-+
-+TESTDIR = "${sysconfdir}/postinst-test"
-+
-+# At rootfs time touch $TESTDIR/rootfs.  Errors if the file already exists, or
-+# if the function runs on first boot.
-+pkg_postinst_${PN}-rootfs () {
-+    set -e
-+
-+    if [ -z "$D" ]; then
-+        echo "${PN}-rootfs should have finished at rootfs time"
-+        exit 1
-+    fi
-+
-+    if [ -e $D${TESTDIR}/rootfs ]; then
-+        echo "$D${TESTDIR}/rootfs exists, but should not"
-         exit 1
--    else
--        echo "lets write postinst" > $tfile
-     fi
-+
-+    mkdir -p $D${TESTDIR}
-+    touch $D${TESTDIR}/rootfs
- }
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 25270b7535b..1c69255b568 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -167,55 +167,6 @@ class TestImage(OESelftestTestCase):
  
--# Dependency recipes post-installs
-+# Depends on rootfs, delays until first boot, verifies that the rootfs file was
-+# written.
- pkg_postinst_${PN}-delayed-a () {
--    efile="/etc/postinst-test"
--    tfile="/etc/postinsta-test"
--    rdeps="postinst"
+ class Postinst(OESelftestTestCase):
+     @OETestID(1540)
+-    def test_verify_postinst(self):
+-        """
+-        Summary: The purpose of this test is to verify the execution order of postinst Bugzilla ID: [5319]
+-        Expected :
+-        1. Compile a minimal image.
+-        2. The compiled image will add the created layer with the recipes postinst[ abdpt]
+-        3. Run qemux86
+-        4. Validate the task execution order
+-        Author: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+-        """
+-        features = 'INHERIT += "testimage"\n'
+-        features += 'CORE_IMAGE_EXTRA_INSTALL += "postinst-at-rootfs \
+-postinst-delayed-a \
+-postinst-delayed-b \
+-postinst-delayed-d \
+-postinst-delayed-p \
+-postinst-delayed-t \
+-"\n'
+-        self.write_config(features)
 -
--    if test "x$D" != "x"; then
--      # Need to run on first boot
--      exit 1
--    else
--      touch /etc/this-was-created-at-first-boot
--      if test -e $efile ; then
--        echo 'success' > $tfile
--      else
--        echo 'fail to install $rdeps first!' >&2
-+    set -e
+-        bitbake('core-image-minimal -f ')
+-
+-        postinst_list = ['100-postinst-at-rootfs',
+-                         '101-postinst-delayed-a',
+-                         '102-postinst-delayed-b',
+-                         '103-postinst-delayed-d',
+-                         '104-postinst-delayed-p',
+-                         '105-postinst-delayed-t']
+-        path_workdir = get_bb_var('WORKDIR','core-image-minimal')
+-        workspacedir = 'testimage/qemu_boot_log'
+-        workspacedir = os.path.join(path_workdir, workspacedir)
+-        rexp = re.compile("^Running postinst .*/(?P<postinst>.*)\.\.\.$")
+-        with runqemu('core-image-minimal') as qemu:
+-            with open(workspacedir) as f:
+-                found = False
+-                idx = 0
+-                for line in f.readlines():
+-                    line = line.strip().replace("^M","")
+-                    if not line: # To avoid empty lines
+-                        continue
+-                    m = rexp.search(line)
+-                    if m:
+-                        self.assertEqual(postinst_list[idx], m.group('postinst'), "Fail")
+-                        idx = idx+1
+-                        found = True
+-                    elif found:
+-                        self.assertEqual(idx, len(postinst_list), "Not found all postinsts")
+-                        break
+-
+     @OETestID(1545)
+     def test_postinst_rootfs_and_boot(self):
+         """
+@@ -234,16 +185,22 @@ postinst-delayed-t \
+                         for initialization managers: sysvinit and systemd.
+ 
+         """
+-        file_rootfs_name = "this-was-created-at-rootfstime"
+-        fileboot_name = "this-was-created-at-first-boot"
+-        rootfs_pkg = 'postinst-at-rootfs'
+-        boot_pkg = 'postinst-delayed-a'
 +
-+    if [ -n "$D" ]; then
-+        echo "Delaying ${PN}-delayed-a until first boot"
-         exit 1
--      fi
--   fi
--}
-+    fi
- 
--pkg_postinst_${PN}-delayed-b () {
--    efile="/etc/postinsta-test"
--    tfile="/etc/postinstb-test"
--    rdeps="postinsta"
--
--    if test "x$D" != "x"; then
--      # Need to run on first boot
--      exit 1
--    else
--      if test -e $efile ; then
--        echo 'success' > $tfile
--      else
--        echo 'fail to install $rdeps first!' >&2
-+    if [ ! -e ${TESTDIR}/rootfs ]; then
-+        echo "${PN}-delayed-a: ${TESTDIR}/rootfs not found"
-         exit 1
--      fi
--   fi
-+    fi
++        import oe.path
 +
-+    touch ${TESTDIR}/delayed-a
- }
++        vars = get_bb_vars(("IMAGE_ROOTFS", "sysconfdir"), "core-image-minimal")
++        rootfs = vars["IMAGE_ROOTFS"]
++        self.assertIsNotNone(rootfs)
++        sysconfdir = vars["sysconfdir"]
++        self.assertIsNotNone(sysconfdir)
++        # Need to use oe.path here as sysconfdir starts with /
++        hosttestdir = oe.path.join(rootfs, sysconfdir, "postinst-test")
++        targettestdir = os.path.join(sysconfdir, "postinst-test")
  
--pkg_postinst_${PN}-delayed-d () {
--    efile="/etc/postinstb-test"
--    tfile="/etc/postinstd-test"
--    rdeps="postinstb"
--
--    if test "x$D" != "x"; then
--      # Need to run on first boot
--      exit 1
--    else
--      if test -e $efile ; then
--        echo 'success' > $tfile
--      else
--        echo 'fail to install $rdeps first!' >&2
-+# Depends on delayed-a, delays until first boot, verifies that the delayed-a file was
-+# written. This verifies the ordering between delayed postinsts.
-+pkg_postinst_${PN}-delayed-b () {
-+    set -e
-+
-+    if [ -n "$D" ]; then
-+        echo "Delaying ${PN}-delayed-b until first boot"
-         exit 1
--      fi
--   fi
--}
-+    fi
+         for init_manager in ("sysvinit", "systemd"):
+             for classes in ("package_rpm", "package_deb", "package_ipk"):
+                 with self.subTest(init_manager=init_manager, package_class=classes):
+-                    features = 'MACHINE = "qemux86"\n'
+-                    features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
++                    features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-delayed-b"\n'
+                     features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
+                     features += 'PACKAGE_CLASSES = "%s"\n' % classes
+                     if init_manager == "systemd":
+@@ -255,13 +212,12 @@ postinst-delayed-t \
  
--pkg_postinst_${PN}-delayed-p () {
--    efile="/etc/postinstd-test"
--    tfile="/etc/postinstp-test"
--    rdeps="postinstd"
--
--    if test "x$D" != "x"; then
--      # Need to run on first boot
--      exit 1
--    else
--      if test -e $efile ; then
--        echo 'success' > $tfile
--      else
--        echo 'fail to install $rdeps first!' >&2
-+    if [ ! -e ${TESTDIR}/delayed-a ]; then
-+        echo "${PN}-delayed-b: ${TESTDIR}/delayed-a not found"
-         exit 1
--      fi
--   fi
--}
-+    fi
+                     bitbake('core-image-minimal')
  
--pkg_postinst_${PN}-delayed-t () {
--    efile="/etc/postinstp-test"
--    tfile="/etc/postinstt-test"
--    rdeps="postinstp"
--
--    if test "x$D" != "x"; then
--      # Need to run on first boot
--      exit 1
--    else
--      if test -e $efile ; then
--          echo 'success' > $tfile
--      else
--          echo 'fail to install $rdeps first!' >&2
--          exit 1
--      fi
--   fi
-+    touch ${TESTDIR}/delayed-b
- }
+-                    file_rootfs_created = os.path.join(get_bb_var('IMAGE_ROOTFS', "core-image-minimal"),
+-                                                       file_rootfs_name)
+-                    found = os.path.isfile(file_rootfs_created)
+-                    self.assertTrue(found, "File %s was not created at rootfs time by %s" % \
+-                                    (file_rootfs_name, rootfs_pkg))
++                    self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs")),
++                                    "rootfs state file was not created")
+ 
+-                    testcommand = 'ls /etc/' + fileboot_name
+                     with runqemu('core-image-minimal') as qemu:
+-                        status, output = qemu.run_serial("-f /etc/" + fileboot_name)
+-                        self.assertEqual(status, 0, 'File %s was not created at first boot (%s)' % (fileboot_name, output))
++                        # Make the test echo a string and search for that as
++                        # run_serial()'s status code is useless.'
++                        for filename in ("rootfs", "delayed-a", "delayed-b"):
++                            status, output = qemu.run_serial("test -f %s && echo found" % os.path.join(targettestdir, filename))
++                            self.assertEqual(output, "found", "%s was not present on boot" % filename)
 -- 
 2.11.0
 
