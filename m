@@ -1,50 +1,22 @@
-Return-Path: <limon.anibal@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 59F3778508
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EB34B6093D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 21:31:55 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id u10so14738714otc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 13:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=eAlsZ11CrcY0XpYMY81xZLI+xykonFdOV6VfUIKc7ok=;
-	b=jlcPOVbi/fRcOa0HksrBcXQHt6cD2Jfnybw86Y9mAhSo6clvd4BtPxADaOmo/E5FUX
-	vbrtI5Lcl3zrf9ByOh3qPx4I8tGOLdrBvXLTXc9qFvxwXUlude5G1RzDLR8PUkO+yDVJ
-	Mfjg29EZ+59QORslseCoQeqp5AeDSnq9P/u2o9hm969uYmkVbkx389d4oK4xF+Yc8wwq
-	fZTsFM3KgJZ9eQetHQ4At8JSbf4dyKH0v1MHbyyuOuEXNjz85mzmRKNgK8Es98zkhfpj
-	O05WmA6AuDQl6Ur/g355XpNMi7cndxQCcW3UT85qC+CpweRdk1Jn/q07R7gU/tIJw8SG
-	rdbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=eAlsZ11CrcY0XpYMY81xZLI+xykonFdOV6VfUIKc7ok=;
-	b=L5XkfNZ982n5Hc/u5BGpobWo1wAz2SpeJD+XxwAcJWJVDFtWvpQIUUMxGiQ1KPV9pD
-	hvEd1y+lXhIjXersvtN9Az2j/m8CM4fhpb5hTZLsXwIG+JgTeebf/P7npUyrlemq0vJM
-	lRA0x9yBow30KW4OJR0UZDbpJdGQ2Z9a5Pon9Dduzv77OCtTlGvsGfSF2f8QeU2hz45R
-	So/PqxyBNZQB23kHYHHU+1EWfury1j5y4eUXit3lvlsM7HbY0qv4B+a4NyGHxz+JPIR9
-	LLinROREr2qCYWFxJjC9tIelKelhhdTfqCFRwlH7/+balVH1yrOV2TDuSLRMcRFjXNgt
-	Fe0w==
-X-Gm-Message-State: AJaThX6T9z9dFm8st+zvHyj/W04B++B6DofuWBeB1AmaVYA3kDyTahNM
-	Aq8g1HfSf8JvFMqC+cGWRaJ94xKe
-X-Google-Smtp-Source: AGs4zMYMGwVCaGaqr4yOY8mR+SZ5cCpS3IdAdkpTA5hRZO3NhHzxJK6rLgkq4DyxsYOrH+vvPOur/A==
-X-Received: by 10.157.12.150 with SMTP id b22mr17469817otb.390.1511386316130; 
-	Wed, 22 Nov 2017 13:31:56 -0800 (PST)
-Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
-	by smtp.gmail.com with ESMTPSA id 94sm7512135otq.16.2017.11.22.13.31.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Nov 2017 13:31:55 -0800 (PST)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+	Wed, 22 Nov 2017 21:58:57 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2017 13:58:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,438,1505804400"; d="scan'208";a="152250213"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga004.jf.intel.com with ESMTP; 22 Nov 2017 13:58:58 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Nov 2017 15:31:40 -0600
-Message-Id: <20171122213140.4307-1-limon.anibal@gmail.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCH] recipes-multimedia/gstreamer: Add gst-validate recipe
+Date: Wed, 22 Nov 2017 13:58:29 -0800
+Message-Id: <1511387909-80430-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] ltp: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +29,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Nov 2017 21:31:55 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Nov 2017 21:58:58 -0000
 
-From: Aníbal Limón <anibal.limon@linaro.org>
+ltp package contains several gzipped files.
+Improve reproducibility of the build by ensuring the gzipped files
+do not contain timestamps in their headers.
 
-The gst-validate is a tool to run integration tests of Gstreamer
-components [1].
+https://wiki.debian.org/ReproducibleBuilds/TimestampsInGzipHeaders
 
-[1]
-https://blogs.gnome.org/tsaunier/2014/04/21/gst-validate-a-suite-of-tools-to-run-integration-tests-for-gstreamer-2/
-
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- .../recipes-multimedia/gstreamer/gst-validate_1.12.3.bb | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+ .../ltp/ltp/0038-generate-reproducible-gzip.patch    | 20 ++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20170929.bb            |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+diff --git a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
 new file mode 100644
-index 0000000000..7477bf7a4e
+index 0000000..0153ace
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
-@@ -0,0 +1,17 @@
-+SUMARRY = "Gstreamer validation tool"
-+DESCRIPTION = "A Tool to test GStreamer components"
-+HOMEPAGE = "https://gstreamer.freedesktop.org/releases/gst-validate/1.12.3.html"
-+SECTION = "multimedia"
++++ b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
+@@ -0,0 +1,20 @@
++Do not generate timestamps in gzipped file headers.
++The timestamps prevent reproducible build.
 +
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
++Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/233]
 +
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PN}/${PN}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "623edc479a1e5c1e76bd7e1cf8393253"
-+SRC_URI[sha256sum] = "5139949d20274fdd702492438eeab2c9e55aa82f60aca17db27ebd3faf08489e"
++Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 +
-+DEPENDS = "json-glib glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
-+
-+FILES_${PN} += "${datadir}/gstreamer-1.0/* ${libdir}/gst-validate-launcher/* ${libdir}/gstreamer-1.0/*"
-+
-+inherit pkgconfig gettext autotools gobject-introspection gtk-doc
++diff --git a/testcases/network/generate.sh b/testcases/network/generate.sh
++index 00216a6..939f792 100755
++--- a/testcases/network/generate.sh
+++++ b/testcases/network/generate.sh
++@@ -55,7 +55,7 @@ fi
++ if [ ! -e "bin.sm" ] ; then
++ 	cnt=0
++ 	while [ $cnt -lt 5 ] ; do
++-		gzip -1 -c ascii.sm >> "bin.sm"
+++		gzip -1 -c -n ascii.sm >> "bin.sm"
++ 		cnt=$(($cnt + 1))
++ 	done
++ fi
+diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20170929.bb
+index 93a59b3..8a870b3 100644
+--- a/meta/recipes-extended/ltp/ltp_20170929.bb
++++ b/meta/recipes-extended/ltp/ltp_20170929.bb
+@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0035-fix-test_proc_kill-hang.patch \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0037-ltp-fix-format-security-error.patch \
++           file://0038-generate-reproducible-gzip.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.11.0
+2.7.4
 
 
