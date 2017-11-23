@@ -1,57 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 49F34782CC
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A6A78423
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 17:08:56 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id 61so2967087plf.4
+	Thu, 23 Nov 2017 18:05:02 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id r62so13780258pfd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 09:08:58 -0800 (PST)
+	Thu, 23 Nov 2017 10:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=rE6FawVaXJ6ivlorcVM9bsWxxjqDiBnZ1XzXBgM2wFQ=;
-	b=S7uYVXq+PHTXzC5D4M/MRlftcTe3tIU6T9eNgE6HVxxilQqqeo78kcROvlfZhHD6aW
-	S+RRNRdgV7pY4lRfGexlbSU7yYZC/Hg8BP2nZCFTrjslv+ak2l6KGZvASrSOmlUsj2Pi
-	tvubsLI7HwnhMkxbn1BoV2hBz8AX0c6LpTY5qe//BlCqnQV/bBfWPPtGrdjKjCEx8eRb
-	lgflwARma8ut9O9GZqr3g3DoLpsQ/ifZJ+lkN5a9fntj9yOguN6dHhLqpMXaPM8tb26k
-	eG3BCye+C4S2YQRke1Fw5vXZhhdygrJluqp2yQCopcOCqOjIc4FyYTxY83BexSdUGH4n
-	sPzQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=P0QA90F8eO/fznhkSEmOSI/UgNpEaSNaeW5qz9GPG20=;
+	b=Hzpve3N5F2449q3nfy6zWR/svYZt/mdVYjXlCuEEmjVfeBpTF6e7KVQFQJVKB6RjJU
+	q1EI6L+fgnAIGYD1iD1EICMpG/Yupyb7Me5Z/XS9SzrOj2ejkGltRhfOwXWwqRwWATGh
+	qBiVIF0XR2dtdDdh4zyZBv7byg/wlcimf9tLhCbaw6xmolR5IJuxl93vvg33wagR8UUH
+	SKjUjuqkfoiZn/ifo9NhNUhMFjl+N72GuG/jJKhj38R7+N+pe1AtBPccrywEVSS5YaYi
+	byk/6ELKc8vbty8F7lNHppSPS5haj8/bmPVlrVO1q4iqlhauT1NmwF/PIbHOcjsNOT21
+	BUrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=rE6FawVaXJ6ivlorcVM9bsWxxjqDiBnZ1XzXBgM2wFQ=;
-	b=CMeWeWIMa1UswhwNhYIQ927gBFqrOiMyHVcg8MfPdgyQImL8G/3trGHrNh7BcsKgNb
-	91Gpk5fD/hbP/leMdeJBB+Ggck/shChmzpuJ0xZetDk+27A2l/MnH+r0EwuYAk3r8wFC
-	2eoyFC/oCdFOWFZW052BwxiffR49evpTRpcMsM3ms9H5YabndaGEdS8oAyDNlmDxqLKO
-	QXKfg4nwKhkgGqMNb4rUEFjC8By8pGNMQ5j2S2MM+lKGZhQXm/vGc9L2WyQa1rd8PKHm
-	LGm+1Pg0x7ZKnLLBaJJdUnnJz6fyl1axDtLia9JEPr+yN/z/pMV8cUqLn5BwL4uGLEcH
-	Q6mw==
-X-Gm-Message-State: AJaThX4oHP97nv+jo8ucz+xnzl9jaHxtvvaeix4HlcNS/E9EjIZZcGJX
-	/+muezLTYmto52lLE5SGO/zm4g==
-X-Google-Smtp-Source: AGs4zMbd1tfRP/LC9nDq+gVxfBqL3MYCEMVcYLTyl6sW9Dg6SlcSGJ9DXUp1dpFw+6FfZsZh2zvEpQ==
-X-Received: by 10.159.218.76 with SMTP id x12mr22292785plv.285.1511456938025; 
-	Thu, 23 Nov 2017 09:08:58 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:844b:1cda:e660:cce8?
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=P0QA90F8eO/fznhkSEmOSI/UgNpEaSNaeW5qz9GPG20=;
+	b=GM8CDaPh51gGucWQpCeNHXKzhaELom3E+Uh4K6kvEnifkALQcttHOzklc6Q0z8PbJx
+	xBlh7CrNWciXSm++4lTEBqtEaLKPcb80obsrt9ftOaBv36X2SRYRboPsuffSm7mRD7yw
+	AvQxvedOpIcWrGJYbeTwNH1vqH5SU9Gh2SHZwl44pcAL/95f2BgbQWlin2nEiqCeGslt
+	XEuDIZsKPG5QNHGh8cqQwsTjPjilzaMhPjw7FqZlSd/fTaDzDQ2PJccZyIC3VNlT1Jgy
+	AbVa9kcZP/R4Uq88DmB0YTVdoO39pSZAJ2MZ6XZgUJhQi5TLRqv25xyHXe+PvLvlqjv9
+	nabQ==
+X-Gm-Message-State: AJaThX6+y+ucbaKDezb/Txwc9/hDxgHwQjREAAWctCowpkxz8VPyl8qQ
+	rbkvjemkoh3jp2IKC50lx3o=
+X-Google-Smtp-Source: AGs4zMZSV7KpNhelj+d07tLUbWTr3yOb2lqWRSLaoHnd2C7NLnqA9oLbr4Ryo/ExNEVuYfG46WShSg==
+X-Received: by 10.101.76.3 with SMTP id u3mr13475137pgq.136.1511460304538;
+	Thu, 23 Nov 2017 10:05:04 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4001:9ea0:844b:1cda:e660:cce8])
 	by smtp.gmail.com with ESMTPSA id
-	l73sm9927744pfi.82.2017.11.23.09.08.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Nov 2017 09:08:57 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
-References: <cover.1511294278.git.akuster808@gmail.com>
-	<1355ffaccf3da8419c4067047000b68c2f83cda6.1511294278.git.akuster808@gmail.com>
-	<CAJTo0LY14hO2kvvCyF8WyB1bvEHGG6Cg_LQ7TmbphLDeU9GTxg@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0f541e58-027e-cfd5-48c2-d85f228578f5@gmail.com>
-Date: Thu, 23 Nov 2017 09:08:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY14hO2kvvCyF8WyB1bvEHGG6Cg_LQ7TmbphLDeU9GTxg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] nettle: update to 3.4 and cleanup
+	v81sm28656440pgb.51.2017.11.23.10.05.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Nov 2017 10:05:04 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 23 Nov 2017 10:05:02 -0800
+Message-Id: <1511460302-27041-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [Morty][PATCH] binutils: Fix build issue on Centos 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,95 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 17:08:57 -0000
-Content-Type: multipart/alternative;
-	boundary="------------090129143FBC4AE5A2A6E54F"
-Content-Language: en-US
+X-List-Received-Date: Thu, 23 Nov 2017 18:05:03 -0000
 
---------------090129143FBC4AE5A2A6E54F
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+From: Armin Kuster <akuster@mvista.com>
+
+Per Yocto Compatable: The following change was made to fix a build issue we are seeing on
+Centos 6. Not expecting this to be merge.
+
+binutils-cross-canadian-arm-2.27-r0.47: task do_compile:
+
+gprof' cc1: error: unrecognized command line option "-Wstack-usage=262144"
+
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Reviewed-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+index ae14642..30e3bc6 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+@@ -12,6 +12,13 @@ EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VEND
+ # e.g. we switch between different machines with different tunes.
+ EXTRA_OECONF[vardepsexclude] = "TUNE_PKGARCH"
+ 
++EXTRA_OEMAKE += "WARN_CFLAGS='-W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow'"
++do_configure_prepend () {
++       sed -i ${S}/bfd/warning.m4 -e "/Wstack-usage/D"
++       sed -i ${S}/bfd/configure -e "s/-Wstack-usage=262144//"
++       sed -i ${S}/binutils/configure -e "s/-Wstack-usage=262144//"
++}
++
+ do_install () {
+ 	autotools_do_install
+ 
+-- 
+2.7.4
 
 
-
-On 11/23/2017 09:07 AM, Burton, Ross wrote:
-> On 21 November 2017 at 20:01, Armin Kuster <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->      SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz
->     <http://www.lysator.liu.se/%7Enisse/archive/$%7BBP%7D.tar.gz> \
->
->
-> So I've just discovered that this server is sending broken HTTP
-> headers and fetching this tarball doesn't work for anyone with wget
-> 1.19.2.
->
-> I've told the maintainer and changed the recipe to use the GNU mirror.
-thanks
--armin
->
-> Ross 
-
-
---------------090129143FBC4AE5A2A6E54F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 11/23/2017 09:07 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LY14hO2kvvCyF8WyB1bvEHGG6Cg_LQ7TmbphLDeU9GTxg@mail.gmail.com">
-      <div dir="ltr">On 21 November 2017 at 20:01, Armin Kuster <span
-          dir="ltr">&lt;<a href="mailto:akuster808@gmail.com"
-            target="_blank" moz-do-not-send="true">akuster808@gmail.com</a>&gt;</span>
-        wrote:<br>
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex"> SRC_URI
-              = "<a
-                href="http://www.lysator.liu.se/%7Enisse/archive/$%7BBP%7D.tar.gz"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://www.lysator.liu.se/~<wbr>nisse/archive/${BP}.tar.gz</a>
-              \<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>So I've just discovered that this server is sending
-              broken HTTP headers and fetching this tarball doesn't work
-              for anyone with wget 1.19.2.</div>
-            <div><br>
-            </div>
-            <div>I've told the maintainer and changed the recipe to use
-              the GNU mirror.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    thanks<br>
-    -armin<br>
-    <blockquote type="cite"
-cite="mid:CAJTo0LY14hO2kvvCyF8WyB1bvEHGG6Cg_LQ7TmbphLDeU9GTxg@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>Ross </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------090129143FBC4AE5A2A6E54F--
