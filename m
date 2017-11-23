@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7665777D16;
-	Thu, 23 Nov 2017 18:37:51 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B282E787EA;
+	Thu, 23 Nov 2017 18:37:52 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Armin Kuster <akuster808@gmail.com>
-Date: Thu, 23 Nov 2017 18:37:53 -0000
-Message-ID: <20171123183753.2785.39358@do.openembedded.org>
-References: <1511460302-27041-1-git-send-email-akuster808@gmail.com>
+Date: Thu, 23 Nov 2017 18:37:54 -0000
+Message-ID: <20171123183754.2786.15591@do.openembedded.org>
+References: <1511460550-27391-1-git-send-email-akuster808@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1511460302-27041-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <1511460550-27391-1-git-send-email-akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IEZpeCBidWlsZCBpc3N1ZSBvbiBDZW50b3MgNg==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogZml4cyBtaXBzNjQgbG9naW4gaXNzdWU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 18:37:51 -0000
+X-List-Received-Date: Thu, 23 Nov 2017 18:37:52 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: binutils: Fix build issue on Centos 6
+Series: systemd: fixs mips64 login issue
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9938/
+URL   : https://patchwork.openembedded.org/series/9939/
 State : failure
 
 == Summary ==
