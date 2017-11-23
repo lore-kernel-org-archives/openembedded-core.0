@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3BD7016E
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id BD9F1786DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 12:00:36 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id i184so19008689ioa.0
+	Thu, 23 Nov 2017 12:09:00 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id w127so26420882iow.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 04:00:38 -0800 (PST)
+	Thu, 23 Nov 2017 04:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HYMst3uUnlHpLKS9jlFYloPC+NhJImWwP01Gt3Ot4+I=;
-	b=lNauCm2W7pD6TSyEoF9grAmj5uUMD9XzgSwZWF0Y6xGUFUAN65bvYeIxRVGvLmVXWr
-	5P460e4q4CrmmBtdAjbvmY98j62Qx4W4D+Kuxvf+yk2cvy8PhLK5ZJMZhRSCRmVeF8DC
-	mYtNT5+vP9O5j829L4SiV6Gn7r4EgGvuC+p2hH8EAV+IF5EqkxZVM6yiZTZV8CmVJyqd
-	5Yh6UBwAdW5dfN3YGm9jaAl7lNroV+bvUiPIN4G0J/tvAdg5a3VjvaJBXHSk7soBaNVb
-	/0POD6tFI+y5PCakJihgkffrftmYbdk11hQDiIGECMNMi9v7ChLatRytpkjN5KxTxZS0
-	h+Xg==
+	:cc; bh=4PpsLOJgRfOYlXUG1+cAbz2Di591biVPlRn5Ufka16w=;
+	b=FpgkPvdZ6657nPGKmE3rT2jvRH+t3vb0gZ4IW5vP4JdxZKsX5fkqUkIhv3Z2YDheRh
+	fXA7SB4Vnf9uHx6GhRRXI052mvKcKolUO8rknOr6IOf7CteGYFlHf6pdvnm/V9D5oG39
+	dKgJGgFxxwmY6IUEwsMu9qMXErxedMMq0TEMW0hOMy13mPnj6SlIpmnVwHmNHSKG9p+B
+	I7zXvyH7a9XLBnhf7AeXXYRj9a4mY99k/VgtwtnXPq6ryzejSAKeY+hmtXlIWJ//Rlvi
+	Xws0Duslj41NtEWDc56K5IACAp9b+LTFuPNGZsiHp43KVYN6a6xdM5Xk6J/9TFjvcfAh
+	VB0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=HYMst3uUnlHpLKS9jlFYloPC+NhJImWwP01Gt3Ot4+I=;
-	b=D0sndlqsEnxNPj/JI8TG2VobTC2sPnLV1FrYOHOWZ/1UgySMVgvkFfkF+8O2jw1r93
-	rMKkWxq7Nz+zMGi5axhzbXxWASnh1VL/6XFGn2Cxk6nvOE+k551+uf6fkeEQZGATgpym
-	hqjRmlUaOkg9IrQHMIzg0jNRel6ulU7NFh4xQsr1sOmq1i2mytBDv1IQhCcECP3KsbZ8
-	CLQObUzy0VqQ1CpuKY5ADcBRXXTvb+KK4Q+8fpT2375y1bOxRrI1GMGIrf6W346MPMEM
-	ovuL6Sm2MrrJSeIQ4UEeR2g8h876X0O2i2RruisC0fHbCmb0hCCZWmLeqfOaYDBUo2sI
-	JujA==
-X-Gm-Message-State: AJaThX7shHhJO9CpnncteO7/1vK+a6fcsI6vXQJs+x/C0+BF3Twpgzb0
-	7d+fwWIuY2PUl2/uBIMtWaKFH2z3VoGPSCoKt61ZPjha
-X-Google-Smtp-Source: AGs4zMZzSRR8SRr5G9TDY+eGZgVGxvzKfXcvXFPy54S4NKQM8p/uaJPE2M0+Tfvqxqvnqp14+4TxiOba5FI8K5xcH1o=
-X-Received: by 10.107.32.18 with SMTP id g18mr25752212iog.227.1511438438322;
-	Thu, 23 Nov 2017 04:00:38 -0800 (PST)
+	bh=4PpsLOJgRfOYlXUG1+cAbz2Di591biVPlRn5Ufka16w=;
+	b=lKQyarkhGfa6H+AfwMWi3oTyGN+lVHg0CK7HnBx9gvsQOU3r1n6S3thPWczIFsNrQe
+	U9rFnIjQyTxMrBTGvneP6VLFV0x3xp0ZRYjMVWO+p7U+4fcJ+s6bgFN6FqsSopb82bLw
+	ZJuH+pz/SId1T1jUhVgw62VmlUuwE2kI9OQlyxBIQcdMJqrOKB2Ezcj/7nTcOxgdX3KF
+	qrVd01Q3rlmiU0mvd2QqpCg1KZ/j6eN/Vbly5tAGpBZbPloCHMzYx61D15a6kU8syi7Q
+	80zhHmEpwNko+31ajwMfivS+XTZTtn0tW/f39PodKzF9W+sJURhmWnOXCvHQKtoMwzQp
+	aV+Q==
+X-Gm-Message-State: AJaThX5s44NPA11fS6/D0XX5IZeT370wTPE2OqzH6Q0lypxo34C/5FG4
+	k0Ad8oJeMJFVVKj3/zOf3dPwA9cBFLrAbUaQ4SqbqA==
+X-Google-Smtp-Source: AGs4zMZEGiSMlKUTPvYt358MQAMytQtOq0GOHTiYhMVj+KTbCPF55bdTYyek7xoVB82HWwMGyVOJpEVZoG9cCNVD4zk=
+X-Received: by 10.107.32.18 with SMTP id g18mr25789054iog.227.1511438941850;
+	Thu, 23 Nov 2017 04:09:01 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.132 with HTTP; Thu, 23 Nov 2017 04:00:17 -0800 (PST)
-In-Reply-To: <1511409137-30823-1-git-send-email-akuster808@gmail.com>
-References: <1511409137-30823-1-git-send-email-akuster808@gmail.com>
+Received: by 10.107.171.132 with HTTP; Thu, 23 Nov 2017 04:08:41 -0800 (PST)
+In-Reply-To: <CAJTo0LY1LBR5XyVERkDiPJBokCeLLKxH4X38D4x1tuj+eZFTPA@mail.gmail.com>
+References: <20171122160414.14093-1-ross.burton@intel.com>
+	<20171122160414.14093-3-ross.burton@intel.com>
+	<35dc23c8-a8af-65ca-8cdf-5152b76d98c0@linux.intel.com>
+	<CAJTo0LY1LBR5XyVERkDiPJBokCeLLKxH4X38D4x1tuj+eZFTPA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Nov 2017 12:00:17 +0000
-Message-ID: <CAJTo0Larccb=6j_AgMpMpxtSDkUCSCLzC3HDJ12rqk=9_ybMdQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Several Glibc security fixes
+Date: Thu, 23 Nov 2017 12:08:41 +0000
+Message-ID: <CAJTo0Lb3jJfybQDAwX1nruJtDP+jtOhB08ZmoSaOv2p_LotKhQ@mail.gmail.com>
+To: Joshua Lock <joshua.g.lock@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] oeqa/selftest/runtime_test: simplify postinst testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 12:00:37 -0000
-Content-Type: multipart/alternative; boundary="001a1141b498376e5a055ea52f2a"
+X-List-Received-Date: Thu, 23 Nov 2017 12:09:01 -0000
+Content-Type: multipart/alternative; boundary="001a1141b4983a9cc5055ea54d58"
 
---001a1141b498376e5a055ea52f2a
+--001a1141b4983a9cc5055ea54d58
 Content-Type: text/plain; charset="UTF-8"
 
-On 23 November 2017 at 03:52, Armin Kuster <akuster808@gmail.com> wrote:
+On 23 November 2017 at 10:21, Burton, Ross <ross.burton@intel.com> wrote:
 
-> The pending 2.27 update does not need these. Only apply if that update is
-> delayed too long.
+>
+>> The indentation doesn't look right here?
+>
+>
+> That would be Atom "helpfully" doing smart intentation.  I'll fix it up in
+> something else, thanks.
 >
 
-I don't see a pending 2.27 update, just a 2.26 update (to
-77f921dac17c5fa99bd9e926d926c327982895f7).  Is there a patch I'm missing?
+Can't see any problems, what didn't look right?
 
 Ross
 
---001a1141b498376e5a055ea52f2a
+--001a1141b4983a9cc5055ea54d58
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 23 November 2017 at 03:52, Armin Kuster <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808=
-@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:r=
-gb(204,204,204);padding-left:1ex">The pending 2.27 update does not need the=
-se. Only apply if that update is delayed too long.<br></blockquote><div><br=
-></div><div>I don&#39;t see a pending 2.27 update, just a 2.26 update (to 7=
-7f921dac17c5fa99bd9e926d926c327982895f7).=C2=A0 Is there a patch I&#39;m mi=
-ssing?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+<div dir=3D"ltr">On 23 November 2017 at 10:21, Burton, Ross <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burt=
+on@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><span class=3D""><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
+;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1e=
+x"><div><div class=3D"m_8341726617125964381gmail-h5"><br></div></div>
+The indentation doesn&#39;t look right here?</blockquote><div><br></div></s=
+pan><div>That would be Atom &quot;helpfully&quot; doing smart intentation.=
+=C2=A0 I&#39;ll fix it up in something else, thanks.</div></div></div></div=
+></blockquote><div><br></div><div>Can&#39;t see any problems, what didn&#39=
+;t look right?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
---001a1141b498376e5a055ea52f2a--
+--001a1141b4983a9cc5055ea54d58--
