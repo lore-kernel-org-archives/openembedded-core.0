@@ -1,23 +1,23 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 31E9D787D9
+	by mail.openembedded.org (Postfix) with ESMTP id 3C0057875A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Nov 2017 18:14:53 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	23 Nov 2017 10:14:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; d="scan'208";a="179341194"
+X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; d="scan'208";a="179341196"
 Received: from wrath.jf.intel.com ([10.54.70.15])
 	by fmsmga005.fm.intel.com with ESMTP; 23 Nov 2017 10:14:54 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Nov 2017 10:14:29 -0800
-Message-Id: <4d7028d4af224d1d72fd164b2862223bb6091254.1511458497.git.timothy.t.orling@linux.intel.com>
+Date: Thu, 23 Nov 2017 10:14:30 -0800
+Message-Id: <e15f20ce36a67087bba498606abd63a21909653b.1511458497.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
 References: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH 08/13] python-mako: use pypi.bbclass
+Subject: [PATCH 09/13] python-smmap: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +32,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Nov 2017 18:14:53 -0000
 
-* Simpify python3-mako by using pypi.bbclass
+* Simpify python3-smmap using pypi.bbclass
 * Consolidate common content in .inc
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-mako.inc       | 13 +++++++++----
- meta/recipes-devtools/python/python3-mako_1.0.7.bb | 11 +----------
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/python/python-smmap.inc       | 12 ++++++------
+ meta/recipes-devtools/python/python3-smmap_0.9.0.bb |  5 +----
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
-index 1c83af6a23..e265bde85f 100644
---- a/meta/recipes-devtools/python/python-mako.inc
-+++ b/meta/recipes-devtools/python/python-mako.inc
-@@ -4,13 +4,18 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
+diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python-smmap.inc
+index d67e6b5412..32438350c1 100644
+--- a/meta/recipes-devtools/python/python-smmap.inc
++++ b/meta/recipes-devtools/python/python-smmap.inc
+@@ -7,13 +7,13 @@ SECTION = "devel/python"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
-+PYPI_PACKAGE = "Mako"
-+
+-SRC_URI = "https://files.pythonhosted.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
 +inherit pypi
++
+ SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
+ SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
  
- SRC_URI[md5sum] = "5836cc997b1b773ef389bf6629c30e65"
- SRC_URI[sha256sum] = "4e02fde57bd4abb5ec400181e4c314f56ac3e49ba4fb8b0d50bba18cb27d25ae"
- 
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
--UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
-+RDEPENDS_${PN} = "${PYTHON_PN}-html \
-+                  ${PYTHON_PN}-netclient \
-+                  ${PYTHON_PN}-threading \
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
+-UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/smmap-${PV}"
+-
++RDEPENDS_${PN} += "${PYTHON_PN}-codecs \
++                   ${PYTHON_PN}-lang \
++                   ${PYTHON_PN}-mmap \
 +"
- 
--S = "${WORKDIR}/Mako-${PV}"
-+RDEPENDS_${PN}_class-native = ""
- 
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-mako_1.0.7.bb b/meta/recipes-devtools/python/python3-mako_1.0.7.bb
-index 2b50ffd08a..22ceeeb395 100644
---- a/meta/recipes-devtools/python/python3-mako_1.0.7.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.0.7.bb
-@@ -1,11 +1,2 @@
--require python-mako.inc
+ BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+index 9f8a26d79e..e87b8df8c5 100644
+--- a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
++++ b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+@@ -1,5 +1,2 @@
+-require python-smmap.inc
 -
  inherit setuptools3
 -
--RDEPENDS_${PN} = "python3-threading \
--                  python3-netclient \
--                  python3-html \
--"
--RDEPENDS_${PN}_class-native = ""
--
--BBCLASSEXTEND = "native nativesdk"
-+require python-mako.inc
+-RDEPENDS_${PN} += "python3-codecs python3-mmap python3-lang"
++require python-smmap.inc
 -- 
 2.13.6
 
