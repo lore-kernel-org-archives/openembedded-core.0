@@ -1,23 +1,23 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DD1FB785D3
+	by mail.openembedded.org (Postfix) with ESMTP id F3F107875A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Nov 2017 18:14:52 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	23 Nov 2017 10:14:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; d="scan'208";a="179341185"
+X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; d="scan'208";a="179341187"
 Received: from wrath.jf.intel.com ([10.54.70.15])
-	by fmsmga005.fm.intel.com with ESMTP; 23 Nov 2017 10:14:53 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 23 Nov 2017 10:14:54 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Nov 2017 10:14:24 -0800
-Message-Id: <73b7854fce4c09f8a54d5a5ae3d80b0d96923c7f.1511458497.git.timothy.t.orling@linux.intel.com>
+Date: Thu, 23 Nov 2017 10:14:25 -0800
+Message-Id: <fc99c1bb60772edef5af908e78bcacb925cd0b45.1511458497.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
 References: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH 03/13] python-setuptools: upgrade to 36.8.0; use pypi.bbclass; improvements
+Subject: [PATCH 04/13] python3-pip: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,199 +32,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Nov 2017 18:14:53 -0000
 
-* Simplify python- and python3-setuptools with pypi.bbclass
-* inherit setuptools rather than distutils
-* Consolidate common settings in python-setuptools.inc
-  - use PYTHON_PN variable to eliminate duplication
-  - python3-setuptools had missing RDEPENDS (e.g., plistlib)
-  - installer no longer creates setuptools.pth, drop fixes
+* Simplify recipe by using pypi.bbclass
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc | 42 ++++++++++++++++++----
- .../python/python-setuptools_36.5.0.bb             | 38 --------------------
- .../python/python-setuptools_36.8.0.bb             |  9 +++++
- .../python/python3-setuptools_36.5.0.bb            | 38 --------------------
- .../python/python3-setuptools_36.8.0.bb            |  6 ++++
- 5 files changed, 51 insertions(+), 82 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-setuptools_36.5.0.bb
- create mode 100644 meta/recipes-devtools/python/python-setuptools_36.8.0.bb
- delete mode 100644 meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-setuptools_36.8.0.bb
+ meta/recipes-devtools/python/python3-pip_9.0.1.bb | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 1eae0b6174..bd46249cee 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -5,17 +5,47 @@ LICENSE = "MIT"
+diff --git a/meta/recipes-devtools/python/python3-pip_9.0.1.bb b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
+index 9b907a2631..4ce13da410 100644
+--- a/meta/recipes-devtools/python/python3-pip_9.0.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
+@@ -1,22 +1,15 @@
+ SUMMARY = "The PyPA recommended tool for installing Python packages"
+-sHOMEPAGEsss = "https://pypi.python.org/pypi/pip"
++HOMEPAGE = "https://pypi.python.org/pypi/pip"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=25fba45109565f87de20bae85bc39452"
  
- LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=9a33897f1bca1160d7aad3835152e158"
+-SRCNAME = "pip"
+ DEPENDS += "python3 python3-setuptools-native"
  
--SRCNAME = "setuptools"
-+PYPI_PACKAGE_EXT = "zip"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+ SRC_URI[md5sum] = "35f01da33009719497f01a4ba69d63c9"
+ SRC_URI[sha256sum] = "09f243e1a7b461f654c26a725fa373211bb7ff17a9300058b205c61658ca940d"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.zip"
-+inherit pypi
- 
--SRC_URI[md5sum] = "704f500dd55f4bd0be905444f3ba892c"
--SRC_URI[sha256sum] = "ce2007c1cea3359870b80657d634253a0765b0c7dc5a988d77ba803fc86f2c64"
-+SRC_URI[md5sum] = "3ecaa938a4c95a74dfbcd6340a47c7c5"
-+SRC_URI[sha256sum] = "b2aa5a00e9e4fd20f3c3dd412d490921746efe14bda34d53973c4a59ab05b35d"
- 
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
-+DEPENDS += "${PYTHON_PN}"
-+DEPENDS_class-native += "${PYTHON_PN}-native"
-+DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
- 
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pip"
+-
 -S = "${WORKDIR}/${SRCNAME}-${PV}"
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR} \
-+                           --script-dir=${bindir}"
-+
-+RDEPENDS_${PN}_class-native = "\
-+  ${PYTHON_PN}-distutils \
-+  ${PYTHON_PN}-compression \
-+"
-+RDEPENDS_${PN} = "\
-+  ${PYTHON_PN}-compile \
-+  ${PYTHON_PN}-compression \
-+  ${PYTHON_PN}-ctypes \
-+  ${PYTHON_PN}-distutils \
-+  ${PYTHON_PN}-email \
-+  ${PYTHON_PN}-html \
-+  ${PYTHON_PN}-importlib \
-+  ${PYTHON_PN}-netserver \
-+  ${PYTHON_PN}-numbers \
-+  ${PYTHON_PN}-pkgutil \
-+  ${PYTHON_PN}-plistlib \
-+  ${PYTHON_PN}-shell \
-+  ${PYTHON_PN}-subprocess \
-+  ${PYTHON_PN}-stringold \
-+  ${PYTHON_PN}-textutils \
-+  ${PYTHON_PN}-threading \
-+  ${PYTHON_PN}-unittest \
-+  ${PYTHON_PN}-xml \
-+"
- 
- do_install_prepend() {
-     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
- }
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-setuptools_36.5.0.bb b/meta/recipes-devtools/python/python-setuptools_36.5.0.bb
-deleted file mode 100644
-index 526474c7ea..0000000000
---- a/meta/recipes-devtools/python/python-setuptools_36.5.0.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--require python-setuptools.inc
--
--PROVIDES = "python-distribute"
--
--DEPENDS += "python"
--DEPENDS_class-native += "python-native"
--
--inherit distutils
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--RDEPENDS_${PN} = "\
--  python-stringold \
--  python-email \
--  python-shell \
--  python-distutils \
--  python-compression \
--  python-pkgutil \
--  python-plistlib \
--  python-numbers \
--  python-html \
--  python-netserver \
--  python-ctypes \
--  python-subprocess \
--  python-unittest \
--  python-compile \
--"
--
--RDEPENDS_${PN}_class-native = "\
--  python-distutils \
--  python-compression \
--"
--
--RREPLACES_${PN} = "python-distribute"
--RPROVIDES_${PN} = "python-distribute"
--RCONFLICTS_${PN} = "python-distribute"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-setuptools_36.8.0.bb b/meta/recipes-devtools/python/python-setuptools_36.8.0.bb
-new file mode 100644
-index 0000000000..cf9440495b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-setuptools_36.8.0.bb
-@@ -0,0 +1,9 @@
-+require python-setuptools.inc
-+
-+PROVIDES = "python-distribute"
-+
-+inherit setuptools
-+
-+RREPLACES_${PN} = "python-distribute"
-+RPROVIDES_${PN} = "python-distribute"
-+RCONFLICTS_${PN} = "python-distribute"
-diff --git a/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
-deleted file mode 100644
-index 63f241809e..0000000000
---- a/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--require python-setuptools.inc
--
--DEPENDS += "python3"
--DEPENDS_class-native += "python3-native"
--DEPENDS_class-nativesdk += "nativesdk-python3"
 -
 -inherit distutils3
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--# The installer puts the wrong path in the setuptools.pth file.  Correct it.
--do_install_append() {
--    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
--    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
--    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
--}
--
--RDEPENDS_${PN}_class-native = "\
--  python3-distutils \
--  python3-compression \
--"
--RDEPENDS_${PN} = "\
--  python3-ctypes \
--  python3-distutils \
--  python3-email \
--  python3-importlib \
--  python3-numbers \
--  python3-compression \
--  python3-shell \
--  python3-subprocess \
--  python3-textutils \
--  python3-pkgutil \
--  python3-threading \
--  python3-misc \
--  python3-unittest \
--  python3-xml \
--"
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-setuptools_36.8.0.bb b/meta/recipes-devtools/python/python3-setuptools_36.8.0.bb
-new file mode 100644
-index 0000000000..0dc1ed8622
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools_36.8.0.bb
-@@ -0,0 +1,6 @@
-+require python-setuptools.inc
-+inherit setuptools3
-+
-+do_install_append() {
-+    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
-+}
++inherit pypi distutils3
+ 
+ DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
+ 
+@@ -33,7 +26,7 @@ do_install_append() {
+     rm ${D}/${bindir}/pip
+ 
+     # Installed eggs need to be passed directly to the interpreter via a pth file
+-    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}-${PV}.pth
++    echo "./${PYPI_PACKAGE}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${PYPI_PACKAGE}-${PV}.pth
+ 
+     # Make sure we use /usr/bin/env python3
+     for PYTHSCRIPT in `grep -rIl ${bindir} ${D}${bindir}/pip3*`; do
 -- 
 2.13.6
 
