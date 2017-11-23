@@ -1,26 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 53A98786EE
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9550478591
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 05:54:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAN5sh4l006335
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Nov 2017 21:54:43 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 22 Nov 2017 21:54:42 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Nov 2017 13:55:40 +0800
-Message-ID: <046ede95b9cc6cebadac80a79c2b75eb9fb1a841.1511416502.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1511416502.git.Qi.Chen@windriver.com>
-References: <cover.1511416502.git.Qi.Chen@windriver.com>
+	Thu, 23 Nov 2017 09:37:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Nov 2017 01:38:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; 
+   d="scan'208";a="8602718"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 23 Nov 2017 01:37:58 -0800
+To: "Burton, Ross" <ross.burton@intel.com>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
+References: <20171122213140.4307-1-limon.anibal@gmail.com>
+	<CAJTo0La9PvgkwQy5t0339gYg0cfGFUBDiA4izcCBbCHxYRRzhA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <de36b06b-48b4-3f27-fce0-0dfdf84689a0@linux.intel.com>
+Date: Thu, 23 Nov 2017 11:38:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: fix register location for rfkill to avoid conflict
+In-Reply-To: <CAJTo0La9PvgkwQy5t0339gYg0cfGFUBDiA4izcCBbCHxYRRzhA@mail.gmail.com>
+Cc: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes-multimedia/gstreamer: Add gst-validate recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 05:54:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Nov 2017 09:37:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-If we have 'wifi' in distro feature, then busybox would have rfkill
-enabled. And we would have the following do_rootfs failure if we
-install both busybox and util-linux-rfkill.
+On 11/23/2017 12:46 AM, Burton, Ross wrote:
+> Patchtest already told you about the SUMMARY typo.  I've been meaning to 
+> look at this for automated gstreamer QA, would you say this would be 
+> simple enough and there would be value in integrating this into oe-selftest?
 
-  Error: cannot register alternative rfkill to /usr/bin/rfkill since
-  it is already registered to /usr/sbin/rfkill.
+We have a bug for improving gstreamer testing too, jku made a few points:
 
-There's another provider of rfkill in OE, that is rfkill recipe in meta-oe.
-And it also registers rfkill to ${sbindir}/rfkill.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11418
 
-So change the register location of rfkill in util-linux to avoid
-conflict with busybox and rfkill recipes.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 03970e9..248e8be 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -269,7 +269,7 @@ ALTERNATIVE_util-linux-blkid = "blkid"
- ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
- 
- ALTERNATIVE_util-linux-rfkill = "rfkill"
--ALTERNATIVE_LINK_NAME[rfkill] = "${bindir}/rfkill"
-+ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
- ALTERNATIVE_TARGET[rfkill] = "${base_bindir}/rfkill"
- 
- ALTERNATIVE_util-linux-getopt = "getopt"
--- 
-1.9.1
-
+Alex
 
