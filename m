@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B282E787EA;
-	Thu, 23 Nov 2017 18:37:52 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id F14DD71985;
+	Thu, 23 Nov 2017 18:37:53 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Thu, 23 Nov 2017 18:37:54 -0000
-Message-ID: <20171123183754.2786.15591@do.openembedded.org>
-References: <1511460550-27391-1-git-send-email-akuster808@gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Date: Thu, 23 Nov 2017 18:37:55 -0000
+Message-ID: <20171123183755.2786.77539@do.openembedded.org>
+References: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1511460550-27391-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogZml4cyBtaXBzNjQgbG9naW4gaXNzdWU=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIHB5cGkuYmJjbGFzczsgcHl0aG9uIGltcHJvdmVtZW50cw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 18:37:52 -0000
+X-List-Received-Date: Thu, 23 Nov 2017 18:37:54 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: systemd: fixs mips64 login issue
+Series: Add pypi.bbclass; python improvements
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/9939/
+URL   : https://patchwork.openembedded.org/series/9940/
 State : failure
 
 == Summary ==
