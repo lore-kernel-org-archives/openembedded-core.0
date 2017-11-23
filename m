@@ -1,33 +1,57 @@
-Return-Path: <prvs=493fea461=Martin.Hundeboll@prevas.dk>
-Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
-	by mail.openembedded.org (Postfix) with ESMTP id C65D778332
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 996CD78706
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 12:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=1648; q=dns/txt;
-	s=ironport1; t=1511439862; x=1542975862;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=Cnj8QJJShcjsdmRlmClpJ7iDB9Sxe31O105EyHOEwSg=;
-	b=BXc9dCrhQ2k3M00EJ6q6g786xztVZbH15sa7GRhICe6oL1CQfoVgycnk
-	7GWUw4F/f66SFc42KmUFRRfGQdGDVO3+uhlMzOhlJeiZETvcu6mDgBAZm
-	GYN+RUB2H/3W1tHb1zkmFpceIfI42Z+EFWLwKp/7Qrgh0SZFWMeCnwYvT E=;
-X-IronPort-AV: E=Sophos;i="5.44,441,1505772000"; 
-   d="scan'208";a="2859571"
-Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
-	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Nov 2017 13:24:20 +0100
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
-	with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 23 Nov 2017 13:24:20 +0100
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Nov 2017 13:24:10 +0100
-Message-ID: <20171123122410.9253-1-mnhu@prevas.dk>
-X-Mailer: git-send-email 2.15.0
+	Thu, 23 Nov 2017 12:34:37 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id o41so21858227lfi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Nov 2017 04:34:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=northern.tech; s=google;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=PCXPNodL8THdk690T4zmIzEUrbics3Y1PSrgT/boc84=;
+	b=QITLyr50BlfvrsrW4v6ENkqXAMs3vDgxoimCdhgOgnR8Ya905BotOJfUs6Z+5hcy7N
+	j2m3yeHJAgEPMSLrIyfO30Wy//Nm07HhbPf+OgZJ2NP3k87+foc5W1N5uw6aR0Bv6Tyf
+	kheUVIunpX6OFduHXG1ttumVii9b6QRTVtdcfGNDZDmnKUqzS8NKf1dswUk8Mmv3Cgok
+	Cbs3pmA4jIIE8f1FbxJFsLzDp0V0Zf5qRjPQPKCYAJByAyUrXnaq5ZAfrxczipihoHiI
+	wd//ygg10eltwu4j4mYA6gkFrdUad1UguDJRL/HdhXpONKSjnDtJzHk+MdxvsMQJEqf9
+	7lkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=PCXPNodL8THdk690T4zmIzEUrbics3Y1PSrgT/boc84=;
+	b=btJAaMYBI0Wh2DZwJHDbz/AwzSnT5lQE+KM/fVN8RJ+G9syPD5meLieKHaZe/lkTl5
+	w07L80frRIyzrWL/mgS8l3reTp69toZ4lOlDbmRa8hZfzZvleBcq4+ipgHSB/Pp2KKJA
+	FERVrZUit/sd5Ml9ZiEo/PHWIAKEyMof+8CzfX2g3xsvQ8qHBwL6i3a1o6EwjvJvcK3a
+	XXwiUYww6bjvvqfG2POyukppG/XtosnUJGu17srhEyyJoWgWJOSiKJVLAvTg5Q/gPwJu
+	OopB2YT/Zx2jnUOPQaAmmWc7+hc1WaWcbL7DVOrt9tzc9AWPFB9As3d95j+8XbpU77qp
+	0A0g==
+X-Gm-Message-State: AJaThX5WJk1vgXWbxclG3v079BWKNPeLH/kgSzuZ+sGZN9hcF+tzbbIR
+	GtP8iHI8FPN8H7zHLvJe5f6Jtw==
+X-Google-Smtp-Source: AGs4zMaSsz+HX52vAPI9gFc729KAs4Ca0DyzjCBysfXlnjWnxzacaZRJ1vveV0VlcNQH7fvTHA9Dag==
+X-Received: by 10.25.78.214 with SMTP id u83mr7949130lfk.74.1511440478255;
+	Thu, 23 Nov 2017 04:34:38 -0800 (PST)
+Received: from [10.20.33.141] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	x27sm3300048lfb.23.2017.11.23.04.34.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Nov 2017 04:34:37 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1511357440-7368-1-git-send-email-kristian.amlie@northern.tech>
+	<CAJTo0LZgkxiUxaz_jZ6wDwW2VumV_Jyd4e6r2Th6ZO9PCx=ZhA@mail.gmail.com>
+From: Kristian Amlie <kristian.amlie@northern.tech>
+Message-ID: <a56ca7e9-fd80-615b-ae39-fde4dc360bcc@northern.tech>
+Date: Thu, 23 Nov 2017 13:34:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH] systemd: allow dots in arguments to template units
+In-Reply-To: <CAJTo0LZgkxiUxaz_jZ6wDwW2VumV_Jyd4e6r2Th6ZO9PCx=ZhA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] systemd: Avoid fsck because time is out of sync on first boot.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,52 +64,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 12:24:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Nov 2017 12:34:38 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-When installing systemd template units with an argument, the current code
-removes characters between the '@' and the '.' from service names in
-SYSTEMD_SERVICE_${PN}, e.g.:
+On 23/11/17 13:13, Burton, Ross wrote:
+> Doesn't sound like something we want to be always on.  Either keep this
+> in your customisations, or add it as an optional PACKAGECONFIG that you
+> can turn on.
 
-  getty@tty1.service -> getty@.service
+I can of course do that, but maybe this should be the default? It feels
+like a bug that all devices without an onboard clock will run fsck on
+their first boot.
 
-This fails for services with dots in the argument (which is perfectly
-legal in systemd), since the code searches only until the first dot.
-E.g.:
+The build time isn't very reliable either, the sstate cache could cause
+it to be very far in the past. At least with a zero epoch you know what
+you're getting. Is there a reason for needing the epoch to be the build
+time?
 
-  vlan@eth0.1.service -> vlan@1.service
-
-This is obviously wrong, and fails in systemd_populate_packages(), where
-it fails to find the unit file.
-
-Fix this by reworking the removal of the argument part of the service
-name, so that parts before '@' and after teh last '.' are used as base
-name.
-
-Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
----
- meta/classes/systemd.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index c4b4bb9b70..1b134322fb 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -154,8 +154,10 @@ python systemd_populate_packages() {
-                 # Deal with adding, for example, 'ifplugd@eth0.service' from
-                 # 'ifplugd@.service'
-                 base = None
--                if service.find('@') != -1:
--                    base = re.sub('@[^.]+.', '@.', service)
-+                at = service.find('@')
-+                if at != -1:
-+                    ext = service.rfind('.')
-+                    base = service[:at] + '@' + service[ext:]
- 
-                 for path in searchpaths:
-                     if os.path.exists(oe.path.join(d.getVar("D"), path, service)):
 -- 
-2.15.0
+Kristian
+
+
+> On 22 November 2017 at 13:30, Kristian Amlie
+> <kristian.amlie@northern.tech <mailto:kristian.amlie@northern.tech>> wrote:
+> 
+>     By default, systemd uses its build time as the epoch. When systemd is
+>     launched on a system without a real time clock, this time will be
+>     detected as in the future and an fsck will be done.  Setting this to 0
+>     results in an epoch of January 1, 1970 which is detected as an invalid
+>     time and the fsck will be skipped.
+> 
+>     Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
+>     ---
+>      meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb> | 1 +
+>      1 file changed, 1 insertion(+)
+> 
+>     diff --git a/meta/recipes-core/systemd/systemd_234.bb
+>     <http://systemd_234.bb> b/meta/recipes-core/systemd/systemd_234.bb
+>     <http://systemd_234.bb>
+>     index 6b8745b..86c04fe 100644
+>     --- a/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
+>     +++ b/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
+>     @@ -170,6 +170,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+>                       --without-python \
+>                       --with-sysvrcnd-path=${sysconfdir} \
+>                       --with-firmware-path=${nonarch_base_libdir}/firmware \
+>     +                 --with-time-epoch=0 \
+>                     "
+>      # per the systemd README, define VALGRIND=1 to run under valgrind
+>      CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', '
+>     -DVALGRIND=1', '', d)}"
+>     --
+>     2.7.4
+> 
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
 
 
