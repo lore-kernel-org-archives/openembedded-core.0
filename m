@@ -1,28 +1,50 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE017866B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id BB33278590
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 11:29:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Nov 2017 03:29:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; 
-   d="scan'208";a="4986936"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Nov 2017 03:29:43 -0800
-Date: Thu, 23 Nov 2017 13:28:31 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20171123112830.GA27281@mbabyjoh-desk.ger.corp.intel.com>
-References: <20171122163233.10292-1-alexander.kanavin@linux.intel.com>
-	<20171122163233.10292-6-alexander.kanavin@linux.intel.com>
+	Thu, 23 Nov 2017 11:58:59 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id i38so26418081iod.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Nov 2017 03:59:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9Ow3bqhnBe9pak7GjLPDvk0p+JZ9Qw168KJFN/+l/eE=;
+	b=deV44xfJUDKIEO/3ep/a615P7bP7v8VKh6RbFsLmv8SP85VGaZMO53KMXWEp7P4dAC
+	iXinvkWKTDG/wg51S+gy8G+3Q1wiDNBeuowkZG98WUvXW4NMypXHu1qV7gvENlgpXZqM
+	yiydP66EXvGrJcIXosepXkB8k8V85VWgSwNZpNbbbKBvLlx+Y7YHpoZZ/EozYBrH/wLe
+	RzQkQ87PfwjWMCVk8FlKHlwAvjV2j8BHzGsQkkjg+obVhk0OH2BtpOlCAuQjhxkZeP0X
+	XBTyC/IxQGXHiLFpqvBI2EapPezle1xUt+Qw3CeD95Lfvbmy3FQuQOe4sZm0cUsPYYEu
+	tW7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9Ow3bqhnBe9pak7GjLPDvk0p+JZ9Qw168KJFN/+l/eE=;
+	b=ULy6S75kt34ceNK7yXaJbSN0wE9Liqm0xX5m9+Q58RJGtXXn/py8eYGPxcG4Y7TjIt
+	v1YtypuOEQUw7CyKQ+AQX02LNuQKXi0NypA6uGbmFjgqpOb9Ptp+M3BPGsXG7KyaqVLt
+	06MlHWy5gT197OFNiIkDMX9JPzf6dtUL1uPMujTVNVVrl4qqpHSNhbV0ICw8AT/fbdK/
+	U6tx6Lk53q9Ztb6qJnv3F/TQXS6xMqJfRozHKKbQ+8fizHLygAkBM3+cOdcXbC4QWf4/
+	mXdLvhp6GDojfCbF470uJlsJ1/qJwoOUSMbtLull8roMzI3IYB3+OuIGykyas9WvLWqs
+	k5xw==
+X-Gm-Message-State: AJaThX5b4wd4mdQdtJUNyGSWuOH4qWV5MMwcTdL9k40wJIU/qG98Vx64
+	jSCOMWcSUqOb5hKGk3AoBbBDPWxtWFhLYb8v8M+fRQ==
+X-Google-Smtp-Source: AGs4zMbYFJZSaVTvahLk7mFU5OMJqZIJiglPpk0ctJHjQuozbcks0gT1hQ4MaTnRfzQyIgZw/v0PM3PMPZ7q+p9UrtM=
+X-Received: by 10.107.133.94 with SMTP id h91mr26508123iod.208.1511438341187; 
+	Thu, 23 Nov 2017 03:59:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20171122163233.10292-6-alexander.kanavin@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] neon: remove the recipe
+Received: by 10.107.171.132 with HTTP; Thu, 23 Nov 2017 03:58:40 -0800 (PST)
+In-Reply-To: <CAJ86T=Wd0wCJbRAS+H3kDC2tg+51UsY_KwRjZKq46VEK+Y0NdA@mail.gmail.com>
+References: <1511163855-163322-1-git-send-email-zhixiong.chi@windriver.com>
+	<CAJTo0LY=Wii9Ys1R1Ny3U3X1T-J=MgVCXXDA7d4HH6n5vLtqcw@mail.gmail.com>
+	<CAJ86T=Wd0wCJbRAS+H3kDC2tg+51UsY_KwRjZKq46VEK+Y0NdA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Nov 2017 11:58:40 +0000
+Message-ID: <CAJTo0LbAMCEPOwE9SHNbtuGuO=63GHP8wYh3O9jG27U3xJKNAA@mail.gmail.com>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: malloc: Add missing arena lock in malloc_info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,146 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 11:29:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Nov 2017 11:59:00 -0000
+Content-Type: multipart/alternative; boundary="001a113ffc906d3ff6055ea52939"
 
-Hi,
+--001a113ffc906d3ff6055ea52939
+Content-Type: text/plain; charset="UTF-8"
 
-It will be good to remove references of neon from 'distro_alias.inc' and 'maintainers.inc' as well.
+Thanks Andre.  There's a glibc 2.26 upgrade pending and this doesn't apply
+on top of that, can you rebase?  poky-contrib:ross/mut2 is where I'm
+staging the toolchain updates.
 
-Acked-by: Maxin B. John <maxin.john@intel.com>
+Ross
 
-On Wed, Nov 22, 2017 at 06:32:33PM +0200, Alexander Kanavin wrote:
-> For these reasons:
-> 1) Upstream website has been dead for quite a while now;
-> 2) Nothing is actually using neon in oe-core, except one gstreamer plugin in gst-plugins-bad
-> (and I couldn't find evidence of that plugin being used anywhere)
+On 22 November 2017 at 00:50, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-generally, neonhttpsrc can be replaced by souphttpsrc or giosrc. 
+> On Tue, Nov 21, 2017 at 3:05 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > What glibc release is this in?  We've an upgrade patch pending that
+> bumps it
+> > to 77f921dac17c5fa99bd9e926d926c327982895f7.
+>
+> It's currently in the glibc master branch only (ie hasn't been
+> backported to the 2.26 release branch).
+>
 
-> However, the recipe is still required by libmusicbrainz in meta-oe and so it will be moved there
-> (with the tarball taken from debian).
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../packagegroups/packagegroup-self-hosted.bb      |  1 -
->  .../packagegroups/packagegroup-core-lsb.bb         |  1 -
->  .../gstreamer/gstreamer1.0-plugins-bad.inc         |  2 +-
->  meta/recipes-support/neon/neon/pkgconfig.patch     | 15 ---------
->  meta/recipes-support/neon/neon_0.30.2.bb           | 38 ----------------------
->  5 files changed, 1 insertion(+), 56 deletions(-)
->  delete mode 100644 meta/recipes-support/neon/neon/pkgconfig.patch
->  delete mode 100644 meta/recipes-support/neon/neon_0.30.2.bb
-> 
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> index ff42866e327..adb0c56c3a5 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> @@ -136,7 +136,6 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
->      mtools \
->      ncurses \
->      ncurses-terminfo-base \
-> -    neon \
->      nfs-utils \
->      nfs-utils-client \
->      openssl \
-> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> index 5baaf351e18..e1f34d5af11 100644
-> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> @@ -68,7 +68,6 @@ RDEPENDS_packagegroup-core-sys-extended = "\
->      mc-helpers-perl \
->      mdadm \
->      minicom \
-> -    neon \
->      parted \
->      quota \
->      screen \
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> index 7be15d99731..ca2ea9e963a 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> @@ -22,7 +22,7 @@ PACKAGECONFIG ??= " \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
->      ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland egl', '', d)} \
-> -    bz2 curl dash dtls hls neon rsvg sbc smoothstreaming sndfile uvch264 webp \
-> +    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile uvch264 webp \
->  "
->  
->  PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
-> diff --git a/meta/recipes-support/neon/neon/pkgconfig.patch b/meta/recipes-support/neon/neon/pkgconfig.patch
-> deleted file mode 100644
-> index 239dba8e255..00000000000
-> --- a/meta/recipes-support/neon/neon/pkgconfig.patch
-> +++ /dev/null
-> @@ -1,15 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> ----
-> - neon.pc.in |    2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> ---- neon-0.30.1.orig/neon.pc.in
-> -+++ neon-0.30.1/neon.pc.in
-> -@@ -7,5 +7,5 @@ Name: neon
-> - Description: HTTP/WebDAV client library
-> - Version: @NEON_VERSION@
-> - Libs: -L${libdir} -lneon @NEON_PC_LIBS@
-> --Libs.private: @NEON_LIBS@
-> -+Libs.private: -L${libdir} -lz -lgcrypt -lgpg-error -lexpat -lgnutls
-> - Cflags: -I${includedir}/neon @NEON_CFLAGS@
-> diff --git a/meta/recipes-support/neon/neon_0.30.2.bb b/meta/recipes-support/neon/neon_0.30.2.bb
-> deleted file mode 100644
-> index 5792c56f3aa..00000000000
-> --- a/meta/recipes-support/neon/neon_0.30.2.bb
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -SUMMARY = "An HTTP and WebDAV client library with a C interface"
-> -HOMEPAGE = "http://www.webdav.org/neon/"
-> -SECTION = "libs"
-> -LICENSE = "LGPLv2+"
-> -LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a \
-> -                    file://src/ne_utils.h;beginline=1;endline=20;md5=2caca609538eddaa6f6adf120a218037"
-> -
-> -SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
-> -           file://pkgconfig.patch \
-> -          "
-> -
-> -SRC_URI[md5sum] = "e28d77bf14032d7f5046b3930704ef41"
-> -SRC_URI[sha256sum] = "db0bd8cdec329b48f53a6f00199c92d5ba40b0f015b153718d1b15d3d967fbca"
-> -
-> -inherit autotools binconfig-disabled lib_package pkgconfig
-> -
-> -# Enable gnutls or openssl, not both
-> -PACKAGECONFIG ?= "expat gnutls libproxy webdav zlib"
-> -PACKAGECONFIG_class-native = "expat gnutls webdav zlib"
-> -
-> -PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat"
-> -PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
-> -PACKAGECONFIG[gssapi] = "--with-gssapi,--without-gssapi,krb5"
-> -PACKAGECONFIG[libproxy] = "--with-libproxy,--without-libproxy,libproxy"
-> -PACKAGECONFIG[libxml2] = "--with-libxml2,--without-libxml2,libxml2"
-> -PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
-> -PACKAGECONFIG[webdav] = "--enable-webdav,--disable-webdav,"
-> -PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
-> -
-> -EXTRA_OECONF += "--enable-shared"
-> -
-> -do_compile_append() {
-> -	oe_runmake -C test
-> -}
-> -
-> -BINCONFIG = "${bindir}/neon-config"
-> -
-> -BBCLASSEXTEND = "native"
-> -- 
-> 2.15.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--001a113ffc906d3ff6055ea52939
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Thanks Andre.=C2=A0 There&#39;s a glibc 2.26 upgrade pendi=
+ng and this doesn&#39;t apply on top of that, can you rebase? =C2=A0poky-co=
+ntrib:ross/mut2 is where I&#39;m staging the toolchain updates.<div><br></d=
+iv><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
+quote">On 22 November 2017 at 00:50, Andre McCurdy <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
+ Tue, Nov 21, 2017 at 3:05 PM, Burton, Ross &lt;<a href=3D"mailto:ross.burt=
+on@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt; What glibc release is this in?=C2=A0 We&#39;ve an upgrade patch pendin=
+g that bumps it<br>
+&gt; to 77f921dac17c5fa99bd9e926d926c3<wbr>27982895f7.<br>
+<br>
+</span>It&#39;s currently in the glibc master branch only (ie hasn&#39;t be=
+en<br>
+backported to the 2.26 release branch).<br>
+</blockquote></div><br></div>
+
+--001a113ffc906d3ff6055ea52939--
