@@ -1,48 +1,21 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C08978423
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6933C78423
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 18:09:10 +0000 (UTC)
-Received: by mail-pg0-f45.google.com with SMTP id 207so14283659pgc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 10:09:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=+rrncxpDd/o1X93eyqoBlpaEuZUZnkUHNqucaTmgiAs=;
-	b=C0f5R8v0oqJMG9zY8neMmsfrw2aR2ZwwwZlqIy9Y1ovbFh6dq0K8FKQvL8UlkxKT1l
-	UeTUIsFI3PiKn7toYDSybB6UEdZXcFt9LxG81l0aQp4w41zyByQF9ZV9I3HrmlycjK6m
-	RUDxsT6e2XpZG4R7jpGkgFhl1CgCtMW/BPBYrwgI+45jmOWCGnPcy0JDFSUriNBhecK/
-	7my432JtZCRecQ6YjXokRWmqek4NYC+PLU69ML8a10x9jsf8nngzVyO7h6uo1yeMzmhq
-	VDnDZKmAQ7gXdlFC13/8g4ZBIAfinJrUvipujYdXdRNzbG7J6ADj/KOSo3fV5WrfOh08
-	JEDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+rrncxpDd/o1X93eyqoBlpaEuZUZnkUHNqucaTmgiAs=;
-	b=OkCLNJfD+5wmBn2VV9F+8NRncTHGbDjTuwO0L2V56SHPT+i7IRoUzDFR6vRnVfegpl
-	hayjoTjksYxDXg47nzAuxggyBVtfKUjo+QLSKvjse5UEEi7MweTxOsykKEKXhpZxM35m
-	GuC2rUlVTo82KdoTabXOU4tUjUZ4Ls7dGI5Ih4Vw3sfKCc+nF6u6pEtOcB414bukZ8jy
-	v/W9AXB9q2SOd/Mz9mUlo3udUqLPCGy4BnViRFjXouiJHkaPnBFRE9uFoaiD2bk5aIgz
-	0H/bSNtkc7J0v5f1+aPH6gLpyAjq/9gCWEo2VAymjXIjbpZlRPWWSFAhb5tqrDN6uuhb
-	E8PA==
-X-Gm-Message-State: AJaThX7EROO0GCLUrWUj20GTtJGUjLUMLyIAqL7xPsw0Vj0FAKvcMaIs
-	veM7zvDmmpsaTYl0t08qwEvNzw==
-X-Google-Smtp-Source: AGs4zMYlB7MleFC4sX6JG5aNTdA71QpYPwats2z997Mre+Lx+v9L+H7LqywYKVpZTA4wkFVNuOS13A==
-X-Received: by 10.98.127.149 with SMTP id a143mr24200330pfd.65.1511460552179; 
-	Thu, 23 Nov 2017 10:09:12 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4001:9ea0:844b:1cda:e660:cce8])
-	by smtp.gmail.com with ESMTPSA id
-	j62sm6561929pgc.35.2017.11.23.10.09.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Nov 2017 10:09:11 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 23 Nov 2017 10:09:10 -0800
-Message-Id: <1511460550-27391-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [Morty][PATCH] systemd: fixs mips64 login issue
+	Thu, 23 Nov 2017 18:14:51 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Nov 2017 10:14:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,441,1505804400"; d="scan'208";a="179341179"
+Received: from wrath.jf.intel.com ([10.54.70.15])
+	by fmsmga005.fm.intel.com with ESMTP; 23 Nov 2017 10:14:53 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Nov 2017 10:14:21 -0800
+Message-Id: <cover.1511458497.git.timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH 00/13] Add pypi.bbclass; python improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,731 +28,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 18:09:11 -0000
+X-List-Received-Date: Thu, 23 Nov 2017 18:14:52 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+The pypi.bbclass added to meta-python by Derek Straka significantly
+simplifies python module packaging and has utility outside of just
+the meta-python layer. Most notably, it knows how to generate the
+SRC_URI, S, UPSTREAM_CHECK_URI and UPSTREAM_CHECK_REGEX variables
+given a PYPI_PACKAGE. For special cases where PYPI_PACKAGE is not
+guessable from the BPN, the value can be set in your recipe. For
+special cases where the upstream source is not bundled as a .tar.gz,
+the PYPI_PACKAGE_EXT can be set in your recipe. Providing python2 and
+python3 packaging is also simplified by putting most of the common
+content into .inc files. Note that it is strongly recommend to use
+PYTHON_PN to dynamically set "python-" vs. "python3-" prefix for your
+DEPENDS and RDEPENDS needs. This often moves everything but the
+"requires python-foo.inc" and "include setuptools*" lines in your
+python recipes to the common .inc file. Much simpler maintenance.
 
-With out this patch, one can not login to a mips64 machine like qumumips64 or Octeon mips64 when
-systemd is enabled.
+This patch series adds runpy to the python-*-manifests (and generators),
+which allows you to run, for example "python -m pip" from the command
+line. It also adds a couple dependencies that were silently breaking
+python packages at runtime.
 
-remove PACKAGECONFIG option too
+This series modifies all the recipes in recipes-devtools/python which had
+a SRC_URI pointing to "pythonhosted" to use the pypi.bbclass. Where it
+made sense, the "python-" and "python3-" specific files were simplified,
+putting the common content into the .inc file.
 
-affects: systemd < 2.3.2
+Finally, this series upgrades python-scons and python*-setuptools to the
+latest versions.
 
-Reviewed-by: Jeremy Puhlman <jpuhlman@mvista.com>
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../systemd/Ensure-kdbus-isn-t-used-3501.patch     | 670 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_230.bb           |   3 +-
- 2 files changed, 671 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/Ensure-kdbus-isn-t-used-3501.patch
+The following changes since commit 33418ed064fe9cff5b4803f09135a81d9170c189:
 
-diff --git a/meta/recipes-core/systemd/systemd/Ensure-kdbus-isn-t-used-3501.patch b/meta/recipes-core/systemd/systemd/Ensure-kdbus-isn-t-used-3501.patch
-new file mode 100644
-index 0000000..d08a10f
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/Ensure-kdbus-isn-t-used-3501.patch
-@@ -0,0 +1,670 @@
-+From 222953e87f34545a3f9c6d3c18216e222bf6ea94 Mon Sep 17 00:00:00 2001
-+From: Dave Reisner <dreisner@archlinux.org>
-+Date: Fri, 10 Jun 2016 09:50:16 -0400
-+Subject: [PATCH] Ensure kdbus isn't used (#3501)
-+
-+Delete the dbus1 generator and some critical wiring. This prevents
-+kdbus from being loaded or detected. As such, it will never be used,
-+even if the user still has a useful kdbus module loaded on their system.
-+
-+Sort of fixes #3480. Not really, but it's better than the current state.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ Makefile.am                           |  20 --
-+ autogen.sh                            |  12 +-
-+ configure.ac                          |  10 -
-+ src/core/busname.c                    |   7 +-
-+ src/core/kmod-setup.c                 |   3 -
-+ src/core/manager.c                    |  23 ---
-+ src/core/mount-setup.c                |   2 -
-+ src/core/service.c                    |  17 +-
-+ src/dbus1-generator/dbus1-generator.c | 331 ----------------------------------
-+ src/login/pam_systemd.c               |  31 ++--
-+ src/shared/bus-util.c                 |  34 ----
-+ src/shared/bus-util.h                 |   3 -
-+ 12 files changed, 23 insertions(+), 470 deletions(-)
-+ delete mode 100644 src/dbus1-generator/dbus1-generator.c
-+
-+Index: git/autogen.sh
-+===================================================================
-+--- git.orig/autogen.sh
-++++ git/autogen.sh
-+@@ -55,19 +55,19 @@ fi
-+ cd $oldpwd
-+ 
-+ if [ "x$1" = "xc" ]; then
-+-        $topdir/configure CFLAGS='-g -O0 -ftrapv' --enable-kdbus $args
-++        $topdir/configure CFLAGS='-g -O0 -ftrapv' $args
-+         make clean
-+ elif [ "x$1" = "xg" ]; then
-+-        $topdir/configure CFLAGS='-g -Og -ftrapv' --enable-kdbus $args
-++        $topdir/configure CFLAGS='-g -Og -ftrapv' $args
-+         make clean
-+ elif [ "x$1" = "xa" ]; then
-+-        $topdir/configure CFLAGS='-g -O0 -Wsuggest-attribute=pure -Wsuggest-attribute=const -ftrapv' --enable-kdbus $args
-++        $topdir/configure CFLAGS='-g -O0 -Wsuggest-attribute=pure -Wsuggest-attribute=const -ftrapv' $args
-+         make clean
-+ elif [ "x$1" = "xl" ]; then
-+-        $topdir/configure CC=clang CFLAGS='-g -O0 -ftrapv' --enable-kdbus $args
-++        $topdir/configure CC=clang CFLAGS='-g -O0 -ftrapv' $args
-+         make clean
-+ elif [ "x$1" = "xs" ]; then
-+-        scan-build $topdir/configure CFLAGS='-std=gnu99 -g -O0 -ftrapv' --enable-kdbus $args
-++        scan-build $topdir/configure CFLAGS='-std=gnu99 -g -O0 -ftrapv' $args
-+         scan-build make
-+ else
-+         echo
-+@@ -75,6 +75,6 @@ else
-+         echo "Initialized build system. For a common configuration please run:"
-+         echo "----------------------------------------------------------------"
-+         echo
-+-        echo "$topdir/configure CFLAGS='-g -O0 -ftrapv' --enable-kdbus $args"
-++        echo "$topdir/configure CFLAGS='-g -O0 -ftrapv' $args"
-+         echo
-+ fi
-+Index: git/configure.ac
-+===================================================================
-+--- git.orig/configure.ac
-++++ git/configure.ac
-+@@ -1294,16 +1294,6 @@ AC_ARG_WITH(tpm-pcrindex,
-+ AC_DEFINE_UNQUOTED(SD_TPM_PCR, [$SD_TPM_PCR], [TPM PCR register number to use])
-+ 
-+ # ------------------------------------------------------------------------------
-+-have_kdbus=no
-+-AC_ARG_ENABLE(kdbus, AS_HELP_STRING([--disable-kdbus], [do not connect to kdbus by default]))
-+-if test "x$enable_kdbus" != "xno"; then
-+-        AC_DEFINE(ENABLE_KDBUS, 1, [Define if kdbus is to be connected to by default])
-+-        have_kdbus=yes
-+-        M4_DEFINES="$M4_DEFINES -DENABLE_KDBUS"
-+-fi
-+-AM_CONDITIONAL(ENABLE_KDBUS, [test "$have_kdbus" = "yes"])
-+-
-+-# ------------------------------------------------------------------------------
-+ AC_ARG_WITH(rc-local-script-path-start,
-+         AS_HELP_STRING([--with-rc-local-script-path-start=PATH],
-+                 [Path to /etc/rc.local]),
-+Index: git/src/core/busname.c
-+===================================================================
-+--- git.orig/src/core/busname.c
-++++ git/src/core/busname.c
-+@@ -998,12 +998,7 @@ static int busname_get_timeout(Unit *u,
-+ }
-+ 
-+ static bool busname_supported(void) {
-+-        static int supported = -1;
-+-
-+-        if (supported < 0)
-+-                supported = is_kdbus_available();
-+-
-+-        return supported;
-++        return false;
-+ }
-+ 
-+ static int busname_control_pid(Unit *u) {
-+Index: git/src/core/kmod-setup.c
-+===================================================================
-+--- git.orig/src/core/kmod-setup.c
-++++ git/src/core/kmod-setup.c
-+@@ -64,9 +64,6 @@ int kmod_setup(void) {
-+                 /* this should never be a module */
-+                 { "unix",      "/proc/net/unix",            true,   true,    NULL      },
-+ 
-+-                /* IPC is needed before we bring up any other services */
-+-                { "kdbus",     "/sys/fs/kdbus",             false,  false,   is_kdbus_wanted },
-+-
-+ #ifdef HAVE_LIBIPTC
-+                 /* netfilter is needed by networkd, nspawn among others, and cannot be autoloaded */
-+                 { "ip_tables", "/proc/net/ip_tables_names", false,  false,   NULL      },
-+Index: git/src/core/manager.c
-+===================================================================
-+--- git.orig/src/core/manager.c
-++++ git/src/core/manager.c
-+@@ -809,28 +809,6 @@ static int manager_setup_cgroups_agent(M
-+         return 0;
-+ }
-+ 
-+-static int manager_setup_kdbus(Manager *m) {
-+-        _cleanup_free_ char *p = NULL;
-+-
-+-        assert(m);
-+-
-+-        if (m->test_run || m->kdbus_fd >= 0)
-+-                return 0;
-+-        if (!is_kdbus_available())
-+-                return -ESOCKTNOSUPPORT;
-+-
-+-        m->kdbus_fd = bus_kernel_create_bus(
-+-                        MANAGER_IS_SYSTEM(m) ? "system" : "user",
-+-                        MANAGER_IS_SYSTEM(m), &p);
-+-
-+-        if (m->kdbus_fd < 0)
-+-                return log_debug_errno(m->kdbus_fd, "Failed to set up kdbus: %m");
-+-
-+-        log_debug("Successfully set up kdbus on %s", p);
-+-
-+-        return 0;
-+-}
-+-
-+ static int manager_connect_bus(Manager *m, bool reexecuting) {
-+         bool try_bus_connect;
-+ 
-+@@ -1225,7 +1203,6 @@ int manager_startup(Manager *m, FILE *se
-+ 
-+         /* We might have deserialized the kdbus control fd, but if we
-+          * didn't, then let's create the bus now. */
-+-        manager_setup_kdbus(m);
-+         manager_connect_bus(m, !!serialization);
-+         bus_track_coldplug(m, &m->subscribed, &m->deserialized_subscribed);
-+ 
-+Index: git/src/core/mount-setup.c
-+===================================================================
-+--- git.orig/src/core/mount-setup.c
-++++ git/src/core/mount-setup.c
-+@@ -108,8 +108,6 @@ static const MountPoint mount_table[] =
-+         { "efivarfs",    "/sys/firmware/efi/efivars", "efivarfs",   NULL,                      MS_NOSUID|MS_NOEXEC|MS_NODEV,
-+           is_efi_boot,   MNT_NONE                   },
-+ #endif
-+-        { "kdbusfs",    "/sys/fs/kdbus",             "kdbusfs",    NULL, MS_NOSUID|MS_NOEXEC|MS_NODEV,
-+-          is_kdbus_wanted,       MNT_IN_CONTAINER },
-+ };
-+ 
-+ /* These are API file systems that might be mounted by other software,
-+Index: git/src/core/service.c
-+===================================================================
-+--- git.orig/src/core/service.c
-++++ git/src/core/service.c
-+@@ -574,20 +574,9 @@ static int service_setup_bus_name(Servic
-+         if (!s->bus_name)
-+                 return 0;
-+ 
-+-        if (is_kdbus_available()) {
-+-                const char *n;
-+-
-+-                n = strjoina(s->bus_name, ".busname");
-+-                r = unit_add_dependency_by_name(UNIT(s), UNIT_AFTER, n, NULL, true);
-+-                if (r < 0)
-+-                        return log_unit_error_errno(UNIT(s), r, "Failed to add dependency to .busname unit: %m");
-+-
-+-        } else {
-+-                /* If kdbus is not available, we know the dbus socket is required, hence pull it in, and require it */
-+-                r = unit_add_dependency_by_name(UNIT(s), UNIT_REQUIRES, SPECIAL_DBUS_SOCKET, NULL, true);
-+-                if (r < 0)
-+-                        return log_unit_error_errno(UNIT(s), r, "Failed to add dependency on " SPECIAL_DBUS_SOCKET ": %m");
-+-        }
-++        r = unit_add_dependency_by_name(UNIT(s), UNIT_REQUIRES, SPECIAL_DBUS_SOCKET, NULL, true);
-++        if (r < 0)
-++                return log_unit_error_errno(UNIT(s), r, "Failed to add dependency on " SPECIAL_DBUS_SOCKET ": %m");
-+ 
-+         /* Regardless if kdbus is used or not, we always want to be ordered against dbus.socket if both are in the transaction. */
-+         r = unit_add_dependency_by_name(UNIT(s), UNIT_AFTER, SPECIAL_DBUS_SOCKET, NULL, true);
-+Index: git/src/dbus1-generator/dbus1-generator.c
-+===================================================================
-+--- git.orig/src/dbus1-generator/dbus1-generator.c
-++++ /dev/null
-+@@ -1,331 +0,0 @@
-+-/***
-+-  This file is part of systemd.
-+-
-+-  Copyright 2013 Lennart Poettering
-+-
-+-  systemd is free software; you can redistribute it and/or modify it
-+-  under the terms of the GNU Lesser General Public License as published by
-+-  the Free Software Foundation; either version 2.1 of the License, or
-+-  (at your option) any later version.
-+-
-+-  systemd is distributed in the hope that it will be useful, but
-+-  WITHOUT ANY WARRANTY; without even the implied warranty of
-+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+-  Lesser General Public License for more details.
-+-
-+-  You should have received a copy of the GNU Lesser General Public License
-+-  along with systemd; If not, see <http://www.gnu.org/licenses/>.
-+-***/
-+-
-+-#include "alloc-util.h"
-+-#include "bus-internal.h"
-+-#include "bus-util.h"
-+-#include "cgroup-util.h"
-+-#include "conf-parser.h"
-+-#include "dirent-util.h"
-+-#include "fd-util.h"
-+-#include "fileio.h"
-+-#include "mkdir.h"
-+-#include "special.h"
-+-#include "unit-name.h"
-+-#include "util.h"
-+-
-+-static const char *arg_dest_late = "/tmp", *arg_dest = "/tmp";
-+-
-+-static int create_dbus_files(
-+-                const char *path,
-+-                const char *name,
-+-                const char *service,
-+-                const char *exec,
-+-                const char *user,
-+-                const char *type) {
-+-
-+-        _cleanup_free_ char *b = NULL, *s = NULL, *lnk = NULL;
-+-        _cleanup_fclose_ FILE *f = NULL;
-+-        int r;
-+-
-+-        assert(path);
-+-        assert(name);
-+-        assert(service || exec);
-+-
-+-        if (!service) {
-+-                _cleanup_free_ char *a = NULL;
-+-
-+-                s = strjoin("dbus-", name, ".service", NULL);
-+-                if (!s)
-+-                        return log_oom();
-+-
-+-                a = strjoin(arg_dest_late, "/", s, NULL);
-+-                if (!a)
-+-                        return log_oom();
-+-
-+-                f = fopen(a, "wxe");
-+-                if (!f)
-+-                        return log_error_errno(errno, "Failed to create %s: %m", a);
-+-
-+-                fprintf(f,
-+-                        "# Automatically generated by systemd-dbus1-generator\n\n"
-+-                        "[Unit]\n"
-+-                        "SourcePath=%s\n"
-+-                        "Description=DBUS1: %s\n"
-+-                        "Documentation=man:systemd-dbus1-generator(8)\n\n"
-+-                        "[Service]\n"
-+-                        "ExecStart=%s\n"
-+-                        "Type=dbus\n"
-+-                        "BusName=%s\n",
-+-                        path,
-+-                        name,
-+-                        exec,
-+-                        name);
-+-
-+-                if (user)
-+-                        fprintf(f, "User=%s\n", user);
-+-
-+-
-+-                if (type) {
-+-                        fprintf(f, "Environment=DBUS_STARTER_BUS_TYPE=%s\n", type);
-+-
-+-                        if (streq(type, "system"))
-+-                                fprintf(f, "Environment=DBUS_STARTER_ADDRESS=" DEFAULT_SYSTEM_BUS_ADDRESS "\n");
-+-                        else if (streq(type, "session")) {
-+-                                char *run;
-+-
-+-                                run = getenv("XDG_RUNTIME_DIR");
-+-                                if (!run) {
-+-                                        log_error("XDG_RUNTIME_DIR not set.");
-+-                                        return -EINVAL;
-+-                                }
-+-
-+-                                fprintf(f, "Environment=DBUS_STARTER_ADDRESS="KERNEL_USER_BUS_ADDRESS_FMT ";" UNIX_USER_BUS_ADDRESS_FMT "\n",
-+-                                        getuid(), run);
-+-                        }
-+-                }
-+-
-+-                r = fflush_and_check(f);
-+-                if (r < 0)
-+-                        return log_error_errno(r, "Failed to write %s: %m", a);
-+-
-+-                f = safe_fclose(f);
-+-
-+-                service = s;
-+-        }
-+-
-+-        b = strjoin(arg_dest_late, "/", name, ".busname", NULL);
-+-        if (!b)
-+-                return log_oom();
-+-
-+-        f = fopen(b, "wxe");
-+-        if (!f)
-+-                return log_error_errno(errno, "Failed to create %s: %m", b);
-+-
-+-        fprintf(f,
-+-                "# Automatically generated by systemd-dbus1-generator\n\n"
-+-                "[Unit]\n"
-+-                "SourcePath=%s\n"
-+-                "Description=DBUS1: %s\n"
-+-                "Documentation=man:systemd-dbus1-generator(8)\n\n"
-+-                "[BusName]\n"
-+-                "Name=%s\n"
-+-                "Service=%s\n"
-+-                "AllowWorld=talk\n",
-+-                path,
-+-                name,
-+-                name,
-+-                service);
-+-
-+-        r = fflush_and_check(f);
-+-        if (r < 0)
-+-                return log_error_errno(r, "Failed to write %s: %m", b);
-+-
-+-        lnk = strjoin(arg_dest_late, "/" SPECIAL_BUSNAMES_TARGET ".wants/", name, ".busname", NULL);
-+-        if (!lnk)
-+-                return log_oom();
-+-
-+-        mkdir_parents_label(lnk, 0755);
-+-        if (symlink(b, lnk))
-+-                return log_error_errno(errno, "Failed to create symlink %s: %m", lnk);
-+-
-+-        return 0;
-+-}
-+-
-+-static int add_dbus(const char *path, const char *fname, const char *type) {
-+-        _cleanup_free_ char *name = NULL, *exec = NULL, *user = NULL, *service = NULL;
-+-
-+-        const ConfigTableItem table[] = {
-+-                { "D-BUS Service", "Name", config_parse_string, 0, &name },
-+-                { "D-BUS Service", "Exec", config_parse_string, 0, &exec },
-+-                { "D-BUS Service", "User", config_parse_string, 0, &user },
-+-                { "D-BUS Service", "SystemdService", config_parse_string, 0, &service },
-+-                { },
-+-        };
-+-
-+-        char *p;
-+-        int r;
-+-
-+-        assert(path);
-+-        assert(fname);
-+-
-+-        p = strjoina(path, "/", fname);
-+-        r = config_parse(NULL, p, NULL,
-+-                         "D-BUS Service\0",
-+-                         config_item_table_lookup, table,
-+-                         true, false, true, NULL);
-+-        if (r < 0)
-+-                return r;
-+-
-+-        if (!name) {
-+-                log_warning("Activation file %s lacks name setting, ignoring.", p);
-+-                return 0;
-+-        }
-+-
-+-        if (!service_name_is_valid(name)) {
-+-                log_warning("Bus service name %s is not valid, ignoring.", name);
-+-                return 0;
-+-        }
-+-
-+-        if (streq(name, "org.freedesktop.systemd1")) {
-+-                log_debug("Skipping %s, identified as systemd.", p);
-+-                return 0;
-+-        }
-+-
-+-        if (service) {
-+-                if (!unit_name_is_valid(service, UNIT_NAME_PLAIN|UNIT_NAME_INSTANCE)) {
-+-                        log_warning("Unit name %s is not valid, ignoring.", service);
-+-                        return 0;
-+-                }
-+-                if (!endswith(service, ".service")) {
-+-                        log_warning("Bus names can only activate services, ignoring %s.", p);
-+-                        return 0;
-+-                }
-+-        } else {
-+-                if (streq(exec, "/bin/false") || !exec) {
-+-                        log_warning("Neither service name nor binary path specified, ignoring %s.", p);
-+-                        return 0;
-+-                }
-+-
-+-                if (exec[0] != '/') {
-+-                        log_warning("Exec= in %s does not start with an absolute path, ignoring.", p);
-+-                        return 0;
-+-                }
-+-        }
-+-
-+-        return create_dbus_files(p, name, service, exec, user, type);
-+-}
-+-
-+-static int parse_dbus_fragments(const char *path, const char *type) {
-+-        _cleanup_closedir_ DIR *d = NULL;
-+-        struct dirent *de;
-+-        int r;
-+-
-+-        assert(path);
-+-        assert(type);
-+-
-+-        d = opendir(path);
-+-        if (!d) {
-+-                if (errno == -ENOENT)
-+-                        return 0;
-+-
-+-                return log_error_errno(errno, "Failed to enumerate D-Bus activated services: %m");
-+-        }
-+-
-+-        r = 0;
-+-        FOREACH_DIRENT(de, d, goto fail) {
-+-                int q;
-+-
-+-                if (!endswith(de->d_name, ".service"))
-+-                        continue;
-+-
-+-                q = add_dbus(path, de->d_name, type);
-+-                if (q < 0)
-+-                        r = q;
-+-        }
-+-
-+-        return r;
-+-
-+-fail:
-+-        return log_error_errno(errno, "Failed to read D-Bus services directory: %m");
-+-}
-+-
-+-static int link_busnames_target(const char *units) {
-+-        const char *f, *t;
-+-
-+-        f = strjoina(units, "/" SPECIAL_BUSNAMES_TARGET);
-+-        t = strjoina(arg_dest, "/" SPECIAL_BASIC_TARGET ".wants/" SPECIAL_BUSNAMES_TARGET);
-+-
-+-        mkdir_parents_label(t, 0755);
-+-        if (symlink(f, t) < 0)
-+-                return log_error_errno(errno, "Failed to create symlink %s: %m", t);
-+-
-+-        return 0;
-+-}
-+-
-+-static int link_compatibility(const char *units) {
-+-        const char *f, *t;
-+-
-+-        f = strjoina(units, "/systemd-bus-proxyd.socket");
-+-        t = strjoina(arg_dest, "/" SPECIAL_DBUS_SOCKET);
-+-        mkdir_parents_label(t, 0755);
-+-        if (symlink(f, t) < 0)
-+-                return log_error_errno(errno, "Failed to create symlink %s: %m", t);
-+-
-+-        f = strjoina(units, "/systemd-bus-proxyd.socket");
-+-        t = strjoina(arg_dest, "/" SPECIAL_SOCKETS_TARGET ".wants/systemd-bus-proxyd.socket");
-+-        mkdir_parents_label(t, 0755);
-+-        if (symlink(f, t) < 0)
-+-                return log_error_errno(errno, "Failed to create symlink %s: %m", t);
-+-
-+-        t = strjoina(arg_dest, "/" SPECIAL_DBUS_SERVICE);
-+-        if (symlink("/dev/null", t) < 0)
-+-                return log_error_errno(errno, "Failed to mask %s: %m", t);
-+-
-+-        return 0;
-+-}
-+-
-+-int main(int argc, char *argv[]) {
-+-        const char *path, *type, *units;
-+-        int r, q;
-+-
-+-        if (argc > 1 && argc != 4) {
-+-                log_error("This program takes three or no arguments.");
-+-                return EXIT_FAILURE;
-+-        }
-+-
-+-        if (argc > 1) {
-+-                arg_dest = argv[1];
-+-                arg_dest_late = argv[3];
-+-        }
-+-
-+-        log_set_target(LOG_TARGET_SAFE);
-+-        log_parse_environment();
-+-        log_open();
-+-
-+-        umask(0022);
-+-
-+-        if (!is_kdbus_available())
-+-                return 0;
-+-
-+-        r = cg_pid_get_owner_uid(0, NULL);
-+-        if (r >= 0) {
-+-                path = "/usr/share/dbus-1/services";
-+-                type = "session";
-+-                units = USER_DATA_UNIT_PATH;
-+-        } else if (r == -ENXIO) {
-+-                path = "/usr/share/dbus-1/system-services";
-+-                type = "system";
-+-                units = SYSTEM_DATA_UNIT_PATH;
-+-        } else
-+-                return log_error_errno(r, "Failed to determine whether we are running as user or system instance: %m");
-+-
-+-        r = parse_dbus_fragments(path, type);
-+-
-+-        /* FIXME: One day this should just be pulled in statically from basic.target */
-+-        q = link_busnames_target(units);
-+-        if (q < 0)
-+-                r = q;
-+-
-+-        q = link_compatibility(units);
-+-        if (q < 0)
-+-                r = q;
-+-
-+-        return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
-+-}
-+Index: git/src/login/pam_systemd.c
-+===================================================================
-+--- git.orig/src/login/pam_systemd.c
-++++ git/src/login/pam_systemd.c
-+@@ -182,25 +182,20 @@ static int export_legacy_dbus_address(
-+         _cleanup_free_ char *s = NULL;
-+         int r = PAM_BUF_ERR;
-+ 
-+-        if (is_kdbus_available()) {
-+-                if (asprintf(&s, KERNEL_USER_BUS_ADDRESS_FMT ";" UNIX_USER_BUS_ADDRESS_FMT, uid, runtime) < 0)
-+-                        goto error;
-+-        } else {
-+-                /* FIXME: We *really* should move the access() check into the
-+-                 * daemons that spawn dbus-daemon, instead of forcing
-+-                 * DBUS_SESSION_BUS_ADDRESS= here. */
-++        /* FIXME: We *really* should move the access() check into the
-++         * daemons that spawn dbus-daemon, instead of forcing
-++         * DBUS_SESSION_BUS_ADDRESS= here. */
-+ 
-+-                s = strjoin(runtime, "/bus", NULL);
-+-                if (!s)
-+-                        goto error;
-++        s = strjoin(runtime, "/bus", NULL);
-++        if (!s)
-++                goto error;
-+ 
-+-                if (access(s, F_OK) < 0)
-+-                        return PAM_SUCCESS;
-++        if (access(s, F_OK) < 0)
-++                return PAM_SUCCESS;
-+ 
-+-                s = mfree(s);
-+-                if (asprintf(&s, UNIX_USER_BUS_ADDRESS_FMT, runtime) < 0)
-+-                        goto error;
-+-        }
-++        s = mfree(s);
-++        if (asprintf(&s, UNIX_USER_BUS_ADDRESS_FMT, runtime) < 0)
-++                goto error;
-+ 
-+         r = pam_misc_setenv(handle, "DBUS_SESSION_BUS_ADDRESS", s, 0);
-+         if (r != PAM_SUCCESS)
-+Index: git/src/shared/bus-util.c
-+===================================================================
-+--- git.orig/src/shared/bus-util.c
-++++ git/src/shared/bus-util.c
-+@@ -1492,40 +1492,6 @@ int bus_path_decode_unique(const char *p
-+         return 1;
-+ }
-+ 
-+-bool is_kdbus_wanted(void) {
-+-        _cleanup_free_ char *value = NULL;
-+-#ifdef ENABLE_KDBUS
-+-        const bool configured = true;
-+-#else
-+-        const bool configured = false;
-+-#endif
-+-
-+-        int r;
-+-
-+-        if (get_proc_cmdline_key("kdbus", NULL) > 0)
-+-                return true;
-+-
-+-        r = get_proc_cmdline_key("kdbus=", &value);
-+-        if (r <= 0)
-+-                return configured;
-+-
-+-        return parse_boolean(value) == 1;
-+-}
-+-
-+-bool is_kdbus_available(void) {
-+-        _cleanup_close_ int fd = -1;
-+-        struct kdbus_cmd cmd = { .size = sizeof(cmd), .flags = KDBUS_FLAG_NEGOTIATE };
-+-
-+-        if (!is_kdbus_wanted())
-+-                return false;
-+-
-+-        fd = open("/sys/fs/kdbus/control", O_RDWR | O_CLOEXEC | O_NONBLOCK | O_NOCTTY);
-+-        if (fd < 0)
-+-                return false;
-+-
-+-        return ioctl(fd, KDBUS_CMD_BUS_MAKE, &cmd) >= 0;
-+-}
-+-
-+ int bus_property_get_rlimit(
-+                 sd_bus *bus,
-+                 const char *path,
-+Index: git/src/shared/bus-util.h
-+===================================================================
-+--- git.orig/src/shared/bus-util.h
-++++ git/src/shared/bus-util.h
-+@@ -157,7 +157,4 @@ int bus_log_create_error(int r);
-+ int bus_path_encode_unique(sd_bus *b, const char *prefix, const char *sender_id, const char *external_id, char **ret_path);
-+ int bus_path_decode_unique(const char *path, const char *prefix, char **ret_sender, char **ret_external);
-+ 
-+-bool is_kdbus_wanted(void);
-+-bool is_kdbus_available(void);
-+-
-+ int bus_property_get_rlimit(sd_bus *bus, const char *path, const char *interface, const char *property, sd_bus_message *reply, void *userdata, sd_bus_error *error);
-+Index: git/Makefile.am
-+===================================================================
-+--- git.orig/Makefile.am
-++++ git/Makefile.am
-+@@ -2895,29 +2895,9 @@ systemd_gpt_auto_generator_CFLAGS = \
-+ endif
-+ 
-+ # ------------------------------------------------------------------------------
-+-systemgenerator_PROGRAMS +=  \
-+-	systemd-dbus1-generator
-+-
-+-systemd_dbus1_generator_SOURCES = \
-+-	src/dbus1-generator/dbus1-generator.c
-+-
-+-systemd_dbus1_generator_LDADD = \
-+-	libshared.la
-+-
-+-dbus1-generator-install-hook:
-+-	$(AM_V_at)$(MKDIR_P) $(DESTDIR)$(usergeneratordir)
-+-	$(AM_V_RM)rm -f $(DESTDIR)$(usergeneratordir)/systemd-dbus1-generator
-+-	$(AM_V_LN)lnr $(DESTDIR)$(systemgeneratordir)/systemd-dbus1-generator $(DESTDIR)$(usergeneratordir)/systemd-dbus1-generator
-+-
-+-dbus1-generator-uninstall-hook:
-+-	rm -f $(DESTDIR)$(usergeneratordir)/systemd-dbus1-generator
-+-
-+ dist_xinitrc_SCRIPTS = \
-+ 	xorg/50-systemd-user.sh
-+ 
-+-INSTALL_EXEC_HOOKS += dbus1-generator-install-hook
-+-UNINSTALL_EXEC_HOOKS += dbus1-generator-uninstall-hook
-+-
-+ # ------------------------------------------------------------------------------
-+ systemd_sysv_generator_SOURCES = \
-+ 	src/sysv-generator/sysv-generator.c
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index 40f1428..f4ff860 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -37,6 +37,7 @@ SRC_URI += " \
-            file://udev-re-enable-mount-propagation-for-udevd.patch \
-            file://CVE-2016-7795.patch \
-            file://validate-user.patch \
-+           file://Ensure-kdbus-isn-t-used-3501.patch \
- "
- SRC_URI_append_libc-uclibc = "\
-            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
-@@ -61,7 +62,6 @@ PACKAGECONFIG ??= "xz \
-                    timedated \
-                    timesyncd \
-                    localed \
--                   kdbus \
-                    ima \
-                    smack \
-                    logind \
-@@ -96,7 +96,6 @@ PACKAGECONFIG[timedated] = "--enable-timedated,--disable-timedated"
- PACKAGECONFIG[timesyncd] = "--enable-timesyncd,--disable-timesyncd"
- PACKAGECONFIG[localed] = "--enable-localed,--disable-localed"
- PACKAGECONFIG[efi] = "--enable-efi,--disable-efi"
--PACKAGECONFIG[kdbus] = "--enable-kdbus,--disable-kdbus"
- PACKAGECONFIG[ima] = "--enable-ima,--disable-ima"
- PACKAGECONFIG[smack] = "--enable-smack,--disable-smack"
- # libseccomp is found in meta-security
+  runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:36 +0000)
+
+are available in the git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib ttorling/pypi
+
+Tim Orling (13):
+  pypi.bbclass: bring in from meta-python
+  python-*-manifest/generator: add runpy; python3-plistlib
+  python-setuptools: upgrade to 36.8.0; use pypi.bbclass; improvements
+  python3-pip: use pypi.bbclass
+  python-nose: use pypi.bbclass
+  python-six: use pypi.bbclass
+  python-async: use pypi.bbclass
+  python-mako: use pypi.bbclass
+  python-smmap: use pypi.bbclass
+  python-gitdb: use pypi.bbclass
+  python-git: use pypi.bbclass
+  python3-iniparse: use pypi.bbclass
+  python-scons: upgrade to v3.0.1; use pypi.bbclass
+
+ meta/classes/pypi.bbclass                          | 26 ++++++++++++++
+ .../python/python-2.7-manifest.inc                 | 12 ++++---
+ .../python/python-3.5-manifest.inc                 | 16 ++++++---
+ meta/recipes-devtools/python/python-async.inc      |  7 ++--
+ meta/recipes-devtools/python/python-git.inc        | 26 +++++++++++---
+ meta/recipes-devtools/python/python-gitdb.inc      | 15 +++++---
+ meta/recipes-devtools/python/python-mako.inc       | 13 ++++---
+ meta/recipes-devtools/python/python-nose.inc       | 18 ++++++++++
+ meta/recipes-devtools/python/python-nose_1.3.7.bb  | 25 +------------
+ ...ative_3.0.0.bb => python-scons-native_3.0.1.bb} |  0
+ ...onscript-Support-python2-print-statements.patch | 38 --------------------
+ ...python-scons_3.0.0.bb => python-scons_3.0.1.bb} | 14 ++------
+ meta/recipes-devtools/python/python-setuptools.inc | 42 ++++++++++++++++++----
+ .../python/python-setuptools_36.5.0.bb             | 38 --------------------
+ .../python/python-setuptools_36.8.0.bb             |  9 +++++
+ meta/recipes-devtools/python/python-six.inc        |  8 ++---
+ meta/recipes-devtools/python/python-smmap.inc      | 12 +++----
+ .../recipes-devtools/python/python3-async_0.6.2.bb |  6 +---
+ meta/recipes-devtools/python/python3-git_2.1.7.bb  |  5 ---
+ .../recipes-devtools/python/python3-gitdb_0.6.4.bb |  7 +---
+ .../python/python3-iniparse_0.4.bb                 |  9 ++---
+ meta/recipes-devtools/python/python3-mako_1.0.7.bb | 11 +-----
+ meta/recipes-devtools/python/python3-nose_1.3.7.bb | 24 +------------
+ meta/recipes-devtools/python/python3-pip_9.0.1.bb  | 13 ++-----
+ .../python/python3-setuptools_36.5.0.bb            | 38 --------------------
+ .../python/python3-setuptools_36.8.0.bb            |  6 ++++
+ meta/recipes-devtools/python/python3-six_1.11.0.bb |  2 --
+ .../recipes-devtools/python/python3-smmap_0.9.0.bb |  5 +--
+ scripts/contrib/python/generate-manifest-2.7.py    |  3 ++
+ scripts/contrib/python/generate-manifest-3.5.py    |  7 ++++
+ 30 files changed, 193 insertions(+), 262 deletions(-)
+ create mode 100644 meta/classes/pypi.bbclass
+ create mode 100644 meta/recipes-devtools/python/python-nose.inc
+ rename meta/recipes-devtools/python/{python-scons-native_3.0.0.bb => python-scons-native_3.0.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/python/python-scons/SConscript-Support-python2-print-statements.patch
+ rename meta/recipes-devtools/python/{python-scons_3.0.0.bb => python-scons_3.0.1.bb} (43%)
+ delete mode 100644 meta/recipes-devtools/python/python-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-setuptools_36.8.0.bb
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools_36.8.0.bb
+
 -- 
-2.7.4
+2.13.6
 
 
