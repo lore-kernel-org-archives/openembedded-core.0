@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A7464786E7
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F031786C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 03:52:20 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id 61so1959935plf.4
+	Thu, 23 Nov 2017 03:52:21 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 207so13466629pgc.12
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Nov 2017 19:52:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=lij9CKHWjZT0GJ4QGJxhmq2Z4jXqXSZDgejnuCCGp7E=;
-	b=uEN27Fka8S/FsJTe2RmGi6KWY2jmE6iugz0C7tppk4QaZBDKST/SiaujpQV756DFBh
-	FQQNs7o0Ez8Obtxtu2KJ7hT+Yl5Jg/nUkz3msc6HDbc9Yx5sMVnU0tFKtcPpQDinwLTz
-	mFtp3BQD/yKIWPB2gD+N22WM6lVJkpFKcloDvKNIxPq1lRblVC0Oab92DRibl/3L13q9
-	wXdPS5F+NHCUvoQGnrbgLdxLjywd9PwJRC7c4rmd9e0k6DcLSTVcITI509I8EdsNuuiS
-	I+z13Vmn/Bews4/jS6yuUI3y8ui1NXG3sVSM344sIrbC5pH3Bajm0AC2rr9xSxqOLTWb
-	Rc0g==
+	bh=FokPHrua+8bSExoibDnt1g5Ea7pDGM/k8kAR+W/uI70=;
+	b=BPmh9hGTZhALTOM5LpyXwuy8mR8Akjs/JL6gxkShAGrBz3q3heZpo5VVfermHDPtgf
+	B/K0cG49ExigcjCe4GMbw3405lZ8mkDL0r5wF6ONBlA9vnWUFYcWVsCRAPEhg/4I9LWB
+	eJHqpl4sjqPdr/nRTqxPUGadIaPbnXK9MH/I8WK8ALdth4RV0S+6jNSKtg5pQAxGz7DP
+	daM2dY+cUl5arl/VH4ADzM39fV54zK7wlDJc21Z6ImHBZh7YydpCVoB1qyb26zqp25FB
+	vE5hYTSbFzsiwKg+4hl71xdXn4UOwOXy+L6kXmle/KGpiuqZjrrWGQVp69sd/Icqht/0
+	iizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=lij9CKHWjZT0GJ4QGJxhmq2Z4jXqXSZDgejnuCCGp7E=;
-	b=W/e1OFGvzXrFj7ykTSIVUJJPfydG0rzT2Ripkta5ia0yzpXfOooWzWLCeYhZ11PMEk
-	wkN9wruCbFXbKvoL0VkYdioFW8qKfZS96J85QSxwjoMpBh2h5/CahG0Jq49PcUlF/stZ
-	/ry27p6C+J49mfzE0PCVxsvDNTqgma3tPKCsMKR58FAeSqg8otw63SwSQEiXj866Xkzt
-	efksSJiqbNB+H6db4qETrdZKvhyiScxpewmDcyHTsGIgrEvBqvy5anJS/hKS+RPHDBaz
-	2lowKpHI2UWtzfCRMuGq0xfMqDC03rIhVZXqc6+nffjtEZlbfX6FuhetPMYNBV5nlhIW
-	An0w==
-X-Gm-Message-State: AJaThX7TzAyPNNCydyNUQLgXV8tQgVUttn+yFRYlS0sksZvDFdZ0rCCk
-	6NKc0X/UOq3E79rIdrEJzO81tw==
-X-Google-Smtp-Source: AGs4zMbihuQm41GLbp2VhN0RUonlEaLUCnzVxaCR2dOjdAqY8a6BWvVE6h9+qU54dxR2gGOAWkNoVw==
-X-Received: by 10.159.216.142 with SMTP id s14mr17329624plp.173.1511409141751; 
-	Wed, 22 Nov 2017 19:52:21 -0800 (PST)
+	bh=FokPHrua+8bSExoibDnt1g5Ea7pDGM/k8kAR+W/uI70=;
+	b=pmPnQtKUb2/p7Nm+imyIb+bbaoJBbYt1PyBnDRo9+pTEfFggqHgV1oQlJGceCCwm3Z
+	3byekHC88daZk2RMW58RpMVNz4EF3PmYd9pBZMXjBoM1Wo7ngbSAw+Q/L1/+rHKdWPXw
+	0wPoEJAF2XqWT5LNe6uMXXORJOuqwEmFleyCAP3O/CLFx8NlahjYLqGDNYZ0/gF08iu8
+	i1rLBrQVmrkdbwnigUMm2+7M8ycsstzdjgyHkifOdil4hitkylpKbDJ2CtWrkKUQSv1Q
+	9FwpmZ4ArycLkDxWLngAk/QkK76RI8c5U6fl4SjGy9msuh9noHdNl2vOrO19o0PeY5Y0
+	4t1A==
+X-Gm-Message-State: AJaThX69DLXjyMzABLRf9zBoOWK4r77EJykvYEwL8HXyssuUlB6nh4UX
+	XFQmtrV4kUODL1UbbfayB30=
+X-Google-Smtp-Source: AGs4zMaMrTGaj6D/0JVT/LeTM0H8854PgBGDujbDqzQ0aRiP33sHGfldIj+nisX3nv5jGS/n9osF4A==
+X-Received: by 10.98.155.129 with SMTP id e1mr21832744pfk.119.1511409142603;
+	Wed, 22 Nov 2017 19:52:22 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4001:9ea0:844b:1cda:e660:cce8])
 	by smtp.gmail.com with ESMTPSA id
-	n2sm25625481pgv.69.2017.11.22.19.52.20
+	n2sm25625481pgv.69.2017.11.22.19.52.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Nov 2017 19:52:21 -0800 (PST)
+	Wed, 22 Nov 2017 19:52:22 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed, 22 Nov 2017 19:52:16 -0800
-Message-Id: <1511409137-30823-3-git-send-email-akuster808@gmail.com>
+Date: Wed, 22 Nov 2017 19:52:17 -0800
+Message-Id: <1511409137-30823-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511409137-30823-1-git-send-email-akuster808@gmail.com>
 References: <1511409137-30823-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/3] glibc: Security fix CVE-2017-15671
+Subject: [PATCH 3/3] glibc: Security fix for CVE-2017-15804
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,251 +58,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 03:52:20 -0000
+X-List-Received-Date: Thu, 23 Nov 2017 03:52:21 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-The glob function in glob.c in the GNU C Library (aka glibc or libc6) before 2.27, when invoked with GLOB_TILDE, could skip freeing allocated memory when processing the ~ operator with a long user name, potentially leading to a denial of service (memory leak).
+The glob function in glob.c in the GNU C Library (aka glibc or libc6) before 2.27 contains a buffer overflow during unescaping of user names with the ~ operator.
 
-Affects: glibc < 2.27
+Affects: glibx < 2.27
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2017-15671.patch | 215 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc/CVE-2017-15804.patch | 111 +++++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.26.bb              |   1 +
- 2 files changed, 216 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2017-15671.patch
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2017-15804.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2017-15671.patch b/meta/recipes-core/glibc/glibc/CVE-2017-15671.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2017-15804.patch b/meta/recipes-core/glibc/glibc/CVE-2017-15804.patch
 new file mode 100644
-index 0000000..425aaa7
+index 0000000..b0dada3
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2017-15671.patch
-@@ -0,0 +1,215 @@
-+From 6182b3708b7af316454c81467538a8c20c1b046d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/CVE-2017-15804.patch
+@@ -0,0 +1,111 @@
++From 2fac6a6cd50c22ac28c97d0864306594807ade3e Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
-+Date: Sat, 21 Oct 2017 18:03:30 +0200
-+Subject: [PATCH] glob: Add new test tst-glob-tilde
-+
-+The new test checks for memory leaks (see bug 22325) and attempts
-+to trigger the buffer overflow in bug 22320.
-+
-+(cherry picked from commit e80fc1fc98bf614eb01cf8325503df3a1451a99c)
++Date: Thu, 2 Nov 2017 11:06:45 +0100
++Subject: [PATCH] posix/tst-glob-tilde.c: Add test for bug 22332
 +
 +Upstream-Status: Backport
-+CVE: CVE-2017-15671
++CVE: CVE-2017-15804
 +Affects: glibx < 2.27
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ ChangeLog              |   8 +++
-+ posix/Makefile         |  11 +++-
-+ posix/tst-glob-tilde.c | 136 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 153 insertions(+), 2 deletions(-)
-+ create mode 100644 posix/tst-glob-tilde.c
++ ChangeLog              |  7 +++++++
++ posix/tst-glob-tilde.c | 53 ++++++++++++++++++++++++++++----------------------
++ 2 files changed, 37 insertions(+), 23 deletions(-)
 +
++Index: git/posix/tst-glob-tilde.c
++===================================================================
++--- git.orig/posix/tst-glob-tilde.c
+++++ git/posix/tst-glob-tilde.c
++@@ -1,4 +1,4 @@
++-/* Check for GLOB_TIDLE heap allocation issues (bug 22320, bug 22325).
+++/* Check for GLOB_TIDLE heap allocation issues (bugs 22320, 22325, 22332).
++    Copyright (C) 2017 Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++@@ -34,6 +34,9 @@ static int do_nocheck;
++ /* Flag which indicates whether to pass the GLOB_MARK flag.  */
++ static int do_mark;
++ 
+++/* Flag which indicates whether to pass the GLOB_NOESCAPE flag.  */
+++static int do_noescape;
+++
++ static void
++ one_test (const char *prefix, const char *middle, const char *suffix)
++ {
++@@ -45,6 +48,8 @@ one_test (const char *prefix, const char
++     flags |= GLOB_NOCHECK;
++   if (do_mark)
++     flags |= GLOB_MARK;
+++  if (do_noescape)
+++    flags |= GLOB_NOESCAPE;
++   glob_t gl;
++   /* This glob call might result in crashes or memory leaks.  */
++   if (glob (pattern, flags, NULL, &gl) == 0)
++@@ -105,28 +110,30 @@ do_test (void)
++   for (do_onlydir = 0; do_onlydir < 2; ++do_onlydir)
++     for (do_nocheck = 0; do_nocheck < 2; ++do_nocheck)
++       for (do_mark = 0; do_mark < 2; ++do_mark)
++-        for (int base_idx = 0; base_sizes[base_idx] >= 0; ++base_idx)
++-          {
++-            for (int size_skew = -max_size_skew; size_skew <= max_size_skew;
++-                 ++size_skew)
++-              {
++-                int size = base_sizes[base_idx] + size_skew;
++-                if (size < 0)
++-                  continue;
++-
++-                const char *user_name = repeating_string (size);
++-                one_test ("~", user_name, "/a/b");
++-              }
++-
++-            const char *user_name = repeating_string (base_sizes[base_idx]);
++-            one_test ("~", user_name, "");
++-            one_test ("~", user_name, "/");
++-            one_test ("~", user_name, "/a");
++-            one_test ("~", user_name, "/*/*");
++-            one_test ("~", user_name, "\\/");
++-            one_test ("/~", user_name, "");
++-            one_test ("*/~", user_name, "/a/b");
++-          }
+++	for (do_noescape = 0; do_noescape < 2; ++do_noescape)
+++	  for (int base_idx = 0; base_sizes[base_idx] >= 0; ++base_idx)
+++	    {
+++	      for (int size_skew = -max_size_skew; size_skew <= max_size_skew;
+++		   ++size_skew)
+++		{
+++		  int size = base_sizes[base_idx] + size_skew;
+++		  if (size < 0)
+++		    continue;
+++
+++		  const char *user_name = repeating_string (size);
+++		  one_test ("~", user_name, "/a/b");
+++		  one_test ("~", user_name, "x\\x\\x////x\\a");
+++		}
+++
+++	      const char *user_name = repeating_string (base_sizes[base_idx]);
+++	      one_test ("~", user_name, "");
+++	      one_test ("~", user_name, "/");
+++	      one_test ("~", user_name, "/a");
+++	      one_test ("~", user_name, "/*/*");
+++	      one_test ("~", user_name, "\\/");
+++	      one_test ("/~", user_name, "");
+++	      one_test ("*/~", user_name, "/a/b");
+++	    }
++ 
++   free (repeat);
++ 
 +Index: git/ChangeLog
 +===================================================================
 +--- git.orig/ChangeLog
 ++++ git/ChangeLog
-+@@ -1,3 +1,11 @@
-++2017-10-21  Florian Weimer  <fweimer@redhat.com>
++@@ -1,3 +1,9 @@
+++2017-10-22  Paul Eggert <eggert@cs.ucla.edu>
 ++
-++	* posix/Makefile (tests): Add tst-glob-tilde.
-++	(tests-special): Add tst-glob-tilde-mem.out
-++	(tst-glob-tilde-ENV): Set MALLOC_TRACE.
-++	(tst-glob-tilde-mem.out): Add mtrace check.
-++	* posix/tst-glob-tilde.c: New file.
+++       [BZ #22332]
+++       * posix/glob.c (__glob): Fix buffer overflow during GLOB_TILDE
+++       unescaping.
 ++
-+ 2017-10-20  Paul Eggert <eggert@cs.ucla.edu>
++ 2017-10-21  Florian Weimer  <fweimer@redhat.com>
 + 
-+        [BZ #22320]
-+Index: git/posix/Makefile
-+===================================================================
-+--- git.orig/posix/Makefile
-++++ git/posix/Makefile
-+@@ -93,7 +93,7 @@ tests		:= test-errno tstgetopt testfnm r
-+ 		   tst-fnmatch3 bug-regex36 tst-getaddrinfo5 \
-+ 		   tst-posix_spawn-fd tst-posix_spawn-setsid \
-+ 		   tst-posix_fadvise tst-posix_fadvise64 \
-+-		   tst-sysconf-empty-chroot
-++		   tst-sysconf-empty-chroot tst-glob-tilde
-+ tests-internal	:= bug-regex5 bug-regex20 bug-regex33 \
-+ 		   tst-rfc3484 tst-rfc3484-2 tst-rfc3484-3
-+ xtests		:= bug-ga2
-+@@ -141,7 +141,8 @@ tests-special += $(objpfx)bug-regex2-mem
-+ 		 $(objpfx)tst-rxspencer-no-utf8-mem.out $(objpfx)tst-pcre-mem.out \
-+ 		 $(objpfx)tst-boost-mem.out $(objpfx)tst-getconf.out \
-+ 		 $(objpfx)bug-glob2-mem.out $(objpfx)tst-vfork3-mem.out \
-+-		 $(objpfx)tst-fnmatch-mem.out $(objpfx)bug-regex36-mem.out
-++		 $(objpfx)tst-fnmatch-mem.out $(objpfx)bug-regex36-mem.out \
-++		 $(objpfx)tst-glob-tilde-mem.out
-+ xtests-special += $(objpfx)bug-ga2-mem.out
-+ endif
-+ 
-+@@ -350,6 +351,12 @@ $(objpfx)bug-glob2-mem.out: $(objpfx)bug
-+ 	$(common-objpfx)malloc/mtrace $(objpfx)bug-glob2.mtrace > $@; \
-+ 	$(evaluate-test)
-+ 
-++tst-glob-tilde-ENV = MALLOC_TRACE=$(objpfx)tst-glob-tilde.mtrace
-++
-++$(objpfx)tst-glob-tilde-mem.out: $(objpfx)tst-glob-tilde.out
-++	$(common-objpfx)malloc/mtrace $(objpfx)tst-glob-tilde.mtrace > $@; \
-++	$(evaluate-test)
-++
-+ $(inst_libexecdir)/getconf: $(inst_bindir)/getconf \
-+ 			    $(objpfx)getconf.speclist FORCE
-+ 	$(addprefix $(..)./scripts/mkinstalldirs ,\
-+Index: git/posix/tst-glob-tilde.c
-+===================================================================
-+--- /dev/null
-++++ git/posix/tst-glob-tilde.c
-+@@ -0,0 +1,136 @@
-++/* Check for GLOB_TIDLE heap allocation issues (bug 22320, bug 22325).
-++   Copyright (C) 2017 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <glob.h>
-++#include <mcheck.h>
-++#include <nss.h>
-++#include <pwd.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <support/check.h>
-++#include <support/support.h>
-++
-++/* Flag which indicates whether to pass the GLOB_ONLYDIR flag.  */
-++static int do_onlydir;
-++
-++/* Flag which indicates whether to pass the GLOB_NOCHECK flag.  */
-++static int do_nocheck;
-++
-++/* Flag which indicates whether to pass the GLOB_MARK flag.  */
-++static int do_mark;
-++
-++static void
-++one_test (const char *prefix, const char *middle, const char *suffix)
-++{
-++  char *pattern = xasprintf ("%s%s%s", prefix, middle, suffix);
-++  int flags = GLOB_TILDE;
-++  if (do_onlydir)
-++    flags |= GLOB_ONLYDIR;
-++  if (do_nocheck)
-++    flags |= GLOB_NOCHECK;
-++  if (do_mark)
-++    flags |= GLOB_MARK;
-++  glob_t gl;
-++  /* This glob call might result in crashes or memory leaks.  */
-++  if (glob (pattern, flags, NULL, &gl) == 0)
-++    globfree (&gl);
-++  free (pattern);
-++}
-++
-++enum
-++  {
-++    /* The largest base being tested.  */
-++    largest_base_size = 500000,
-++
-++    /* The actual size is the base size plus a variable whose absolute
-++       value is not greater than this.  This helps malloc to trigger
-++       overflows.  */
-++    max_size_skew = 16,
-++
-++    /* The maximum string length supported by repeating_string
-++       below.  */
-++    repeat_size = largest_base_size + max_size_skew,
-++  };
-++
-++/* Used to construct strings which repeat a single character 'x'.  */
-++static char *repeat;
-++
-++/* Return a string of SIZE characters.  */
-++const char *
-++repeating_string (int size)
-++{
-++  TEST_VERIFY (size >= 0);
-++  TEST_VERIFY (size <= repeat_size);
-++  const char *repeated_shifted = repeat + repeat_size - size;
-++  TEST_VERIFY (strlen (repeated_shifted) == size);
-++  return repeated_shifted;
-++}
-++
-++static int
-++do_test (void)
-++{
-++  /* Avoid network-based NSS modules and initialize nss_files with a
-++     dummy lookup.  This has to come before mtrace because NSS does
-++     not free all memory.  */
-++  __nss_configure_lookup ("passwd", "files");
-++  (void) getpwnam ("root");
-++
-++  mtrace ();
-++
-++  repeat = xmalloc (repeat_size + 1);
-++  memset (repeat, 'x', repeat_size);
-++  repeat[repeat_size] = '\0';
-++
-++  /* These numbers control the size of the user name.  The values
-++     cover the minimum (0), a typical size (8), a large
-++     stack-allocated size (100000), and a somewhat large
-++     heap-allocated size (largest_base_size).  */
-++  static const int base_sizes[] = { 0, 8, 100, 100000, largest_base_size, -1 };
-++
-++  for (do_onlydir = 0; do_onlydir < 2; ++do_onlydir)
-++    for (do_nocheck = 0; do_nocheck < 2; ++do_nocheck)
-++      for (do_mark = 0; do_mark < 2; ++do_mark)
-++        for (int base_idx = 0; base_sizes[base_idx] >= 0; ++base_idx)
-++          {
-++            for (int size_skew = -max_size_skew; size_skew <= max_size_skew;
-++                 ++size_skew)
-++              {
-++                int size = base_sizes[base_idx] + size_skew;
-++                if (size < 0)
-++                  continue;
-++
-++                const char *user_name = repeating_string (size);
-++                one_test ("~", user_name, "/a/b");
-++              }
-++
-++            const char *user_name = repeating_string (base_sizes[base_idx]);
-++            one_test ("~", user_name, "");
-++            one_test ("~", user_name, "/");
-++            one_test ("~", user_name, "/a");
-++            one_test ("~", user_name, "/*/*");
-++            one_test ("~", user_name, "\\/");
-++            one_test ("/~", user_name, "");
-++            one_test ("*/~", user_name, "/a/b");
-++          }
-++
-++  free (repeat);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
++ 	* posix/Makefile (tests): Add tst-glob-tilde.
 diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-index ed4ea4f..e4ba28f 100644
+index e4ba28f..76a410d 100644
 --- a/meta/recipes-core/glibc/glibc_2.26.bb
 +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-@@ -44,6 +44,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
             file://CVE-2017-15670.patch \
-+           file://CVE-2017-15671.patch \
+            file://CVE-2017-15671.patch \
++           file://CVE-2017-15804.patch \
  "
  
  NATIVESDKFIXES ?= ""
