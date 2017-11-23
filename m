@@ -1,29 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6653A782A6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 58BF2782A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Nov 2017 10:20:17 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vANAK72a017441
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 23 Nov 2017 10:20:09 GMT
-Message-ID: <1511432407.862.111.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	openembedded-core@lists.openembedded.org, Armin Kuster
-	<akuster808@gmail.com>, "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>,
-	"Xu, Chi" <Chi.Xu@windriver.com>, "Yang,
-	Liezhi" <Liezhi.Yang@windriver.com>, "WOLD, SAUL" <saul.wold@intel.com>
-Date: Thu, 23 Nov 2017 10:20:07 +0000
-In-Reply-To: <45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
-	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNDfigJkxNw==?=
+	Thu, 23 Nov 2017 10:21:47 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id v21so26220950ioi.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Nov 2017 02:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=118HGxCnx5TE4ExnlvVol41Z+ZsAilsa9n2rzyqc/T4=;
+	b=PHvo5TwHlJq61AUt8C9CNX0y5ovV9f5xpgJJrGHr5i9amVHHeKKY4egOy2uSsfo0/9
+	YPGGe6UVTwBpvUct60pLcrzhxIFpKZzC7MwhuHjYvZknSAnn2uypUEOwj6DNKP9lsYj3
+	0PhIDY7LGN0C7Yvab19c1VMzPIzPrjYrLYVsrEl2WAiIm1jSRbv7vyO90Lkr+2x2zHty
+	k/PcfRtGGjfoVk/X8vol+0gLmF2GnLjkSNf8/h4xub6qB+dk74UU62xqgI0dhQ8BTurN
+	Tt5dqeMDERH7gK02f36yXkTLSMaIyYqt8eNa382Uou48P9kY4/zo+bnL+udqLRo5t+ml
+	gUkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=118HGxCnx5TE4ExnlvVol41Z+ZsAilsa9n2rzyqc/T4=;
+	b=I5eBfGdh9i4KnfrH8nHgx5yYaSPmP5GKI7Et0xupSx5RJVcAKye7/NnGOxQF6orYgR
+	MWc3mF7fQqfjJMtyLJxE4EuMxkMgD4y5cHKWI8jz9LoraB993qxE9a4d6e/f/l38bFXH
+	qU12XAaa0KC2H8TWcb+9rIYoQ3b4+UaBO0pg4e37HHyS7E968duIf8NDfNdp1ShqUTWV
+	fs1fWcJITFnjlifycfMpGZ4HJRi/GtvWXvGX7Bwvi63oSwZNr4/nFbxc1mrozara7alJ
+	wME1jYFicLcja+aydyQSXTu6d6IJefDD515WW+sNpp2tUr6D4mghNsOpmkpbBxUKxXBZ
+	/63Q==
+X-Gm-Message-State: AJaThX5hGi/v++JOM/7oH4EYyGpI/CiTf3JW1W45VI+ErOOZ9fAURPiU
+	sLX1PwuRK0kO6svdK4reIsQuh5FaVUAFF3t1EbeQ8w==
+X-Google-Smtp-Source: AGs4zMZJh+lVgXgUHx8NHeZWsInqrGwYWXDz2TA5r//2ERgJkePRxiur3JiOtLrMpC1CBBXYjrzT0nPDsKDGIjPiwyw=
+X-Received: by 10.107.47.1 with SMTP id j1mr19686469ioo.217.1511432509009;
+	Thu, 23 Nov 2017 02:21:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.171.132 with HTTP; Thu, 23 Nov 2017 02:21:28 -0800 (PST)
+In-Reply-To: <35dc23c8-a8af-65ca-8cdf-5152b76d98c0@linux.intel.com>
+References: <20171122160414.14093-1-ross.burton@intel.com>
+	<20171122160414.14093-3-ross.burton@intel.com>
+	<35dc23c8-a8af-65ca-8cdf-5152b76d98c0@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Nov 2017 10:21:28 +0000
+Message-ID: <CAJTo0LY1LBR5XyVERkDiPJBokCeLLKxH4X38D4x1tuj+eZFTPA@mail.gmail.com>
+To: Joshua Lock <joshua.g.lock@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] oeqa/selftest/runtime_test: simplify postinst testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,99 +57,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Nov 2017 10:20:18 -0000
-X-Groupsio-MsgNum: 105452
-Content-Type: multipart/mixed; boundary="=-HiKavBMyZUOzG+0T4M7E"
+X-List-Received-Date: Thu, 23 Nov 2017 10:21:48 -0000
+Content-Type: multipart/alternative; boundary="001a11377fbccd4d38055ea3cdcb"
 
---=-HiKavBMyZUOzG+0T4M7E
+--001a11377fbccd4d38055ea3cdcb
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2017-11-20 at 20:22 -0500, Randy MacLeod wrote:
-> > o   Issues with 4.13.10 host kernels booting kvm x86 guests on
-> > Tumbleweed (Suse) and Fedora 26 (attempting to see if 4.13.12
-> > helps)
->  
-> Robert, can you test Fedora 26. It would help to have a defect open
-> with steps to reproduce or
-> something about the typical workflow/ build time/ day of the week/
-> phase of the moon. 
+On 23 November 2017 at 01:34, Joshua Lock <joshua.g.lock@linux.intel.com>
+wrote:
 
-We have some further data:
+>       @OETestID(1540)
+>>
+>
+> We're effectively stating that test ID 1540 and test ID 1545 are both
+> covered by the same test method, right?
+>
+> Perhaps we don't need to maintain both test cases in Testopia, as we'll
+> only ever see both tests pass or fail?
 
-a) The issue occurs on 4.13.12
 
-rpurdie@tumbleweed:/tmp> cat /proc/version 
-Linux version 4.13.12-1-vanilla (geeko@buildhost) (gcc version 7.2.1 20171020 [gcc-7-branch revision 253932] (SUSE Linux)) #1 SMP PREEMPT Wed Nov 8 11:21:09 UTC 2017 (9151c66)
+Yes, reviewing and sanitising testopia was my next job.
 
-b) The hang usually occurs at the TIMER line in the kernel logs but can
-occur after booting into userspace around the udevd line, or
-occasionally later in the boot process.
+-                    features = 'MACHINE = "qemux86"\n'
+>> -                    features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s
+>> "\n'% (rootfs_pkg, boot_pkg)
+>> +                    features = 'CORE_IMAGE_EXTRA_INSTALL =
+>> "postinst-delayed-b"\n'
+>>                       features += 'IMAGE_FEATURES += "package-management
+>> empty-root-password"\n'
+>>
+>
+> The indentation doesn't look right here?
 
-c) The similarity between this and the ppc bug I worked on make me
-strongly suspect qemu's timers are stopping firing and the guest is
-sitting in the idle loop.
 
-d) I do now have a way to brute force the hangs at will. The attached
-"runqemu-parallel.py" script runs 50 qemus in parallel. In around 45s I
-had 10 hung on the autobuilder. I can provide more info on using that
-script if its not obvious. It does assume my recent master changes to
-the qemuconf files so we don't need to run bitbake -e to run runqemu.
+That would be Atom "helpfully" doing smart intentation.  I'll fix it up in
+something else, thanks.
 
-This could well be the same kind of locking issue we saw on ppc. I'll
-continue to look into that.
 
-Hopefully this extra information will put us on a good track to
-resolving it now. It is continuing to break builds and stop patch
-merging.
+> +                            status, output = qemu.run_serial("test -f %s
+>> && echo found" % os.path.join(targettestdir, filename))
+>> +                            self.assertEqual(output, "found", "%s was
+>> not present on boot" % filename)
+>>
+>>
+> Why not just test the status (return code of test -f) instead of echoing a
+> known value? i.e.
+>
+> self.assertEqual(status, 0, "%s was not present on boot" % filename)
 
-Cheers,
 
-Richard
+Because run_serial() is a bit lame and I don't trust it to correctly report
+the exit status.   Rewriting it is on my hitlist, yes.
 
---=-HiKavBMyZUOzG+0T4M7E
-Content-Disposition: attachment; filename="runqemu-parallel.py"
-Content-Type: text/x-python; name="runqemu-parallel.py"; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Ross
 
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoKaW1wb3J0IHNodXRpbAppbXBvcnQgdGltZQppbXBvcnQg
-c3VicHJvY2VzcwppbXBvcnQgb3MKCnByb2NzID0gbGlzdChyYW5nZSgxLCA1MCkpCgpsb2dzID0g
-Ii90bXAvcnVucWVtdS1sb2ciCmVycmxvZ3MgPSAiL3RtcC96cnVucWVtdS1sb2ciCmxvZ2ZkcyA9
-IHt9CmVycmxvZ2ZkcyA9IHt9CnByb2Nlc3NlcyA9IHt9CmltYWdlID0gIi9tZWRpYS9idWlsZDEv
-cG9reS9idWlsZC90bXAtbXVzbC9kZXBsb3kvaW1hZ2VzL3FlbXVwcGMvY29yZS1pbWFnZS1zYXRv
-LXFlbXVwcGMucWVtdWJvb3QuY29uZiIKa2VybmVsID0gInRtcC1tdXNsL2RlcGxveS9pbWFnZXMv
-cWVtdXBwYy92bWxpbnV4LXFlbXVwcGMuYmluIgptYWNoaW5lID0gInFlbXVwcGMiCgppbWFnZSA9
-ICIvbWVkaWEvYnVpbGQxL3Bva3kvYnVpbGQvdG1wLW11c2wvZGVwbG95L2ltYWdlcy9xZW11eDg2
-LTY0L2NvcmUtaW1hZ2Utc2F0by1xZW11eDg2LTY0LnFlbXVib290LmNvbmYiCmtlcm5lbCA9ICJ0
-bXAtbXVzbC9kZXBsb3kvaW1hZ2VzL3FlbXV4ODYtNjQvYnpJbWFnZS1xZW11eDg2LTY0LmJpbiIK
-bWFjaGluZSA9ICJxZW11eDg2LTY0IgoKZW52ID0gb3MuZW52aXJvbi5jb3B5KCkKZW52WydNQUNI
-SU5FJ10gPSBtYWNoaW5lCgpkZWYgc3RhcnQocCk6CiAgICBsb2dmZHNbcF0gPSBvcGVuKGxvZ3Mg
-KyAiLiVkIiAlIHAsICJ3IikKICAgIGVycmxvZ2Zkc1twXSA9IG9wZW4oZXJybG9ncyArICIuJWQi
-ICUgcCwgInciKQogICAgI2RlYnVnb3B0cyA9ICItZCB1bmltcCxndWVzdF9lcnJvcnMsaW50LG91
-dF9hc20sb3Asb3Bfb3B0LG9wX2luZCxtbXUscGNhbGwsY3B1X3Jlc2V0LG5vY2hhaW4iCiAgICAj
-ZXhlYyxjcHUsaW5fYXNtLAogICAgZGVidWdvcHRzID0gIi1kIHVuaW1wLGd1ZXN0X2Vycm9ycyxp
-bnQiCiAgICBkZWJ1Z29wdHMgKz0gIiAtRCAvdG1wL3FlbXUuJWQgLW1vbml0b3IgcHR5IiAlIHAK
-ICAgIHByb2Nlc3Nlc1twXSA9IHN1YnByb2Nlc3MuUG9wZW4oWyJydW5xZW11IixtYWNoaW5lLCJu
-b2dyYXBoaWMiLCAic25hcHNob3QiLCAia3ZtIiwga2VybmVsLCBpbWFnZSwgInFlbXVwYXJhbXM9
-LXBpZGZpbGUgL3RtcC96enFlbXUuJWQucGlkICVzIiAlIChwLCBkZWJ1Z29wdHMpXSwgc3Rkb3V0
-PWxvZ2Zkc1twXSwgc3RkZXJyPWVycmxvZ2Zkc1twXSwgZW52PWVudikKICAgIHByaW50KCJTdGFy
-dGVkICVkIiAlIHApCgpmb3IgcCBpbiBwcm9jczoKICAgIHN0YXJ0KHApCgpsYXN0c2l6ZSA9IHt9
-Cgp3aGlsZSBwcm9jczoKICAgIHNpemVzID0ge30KICAgIHRpbWUuc2xlZXAoMC41KQoKICAgIGZv
-ciBwIGluIHByb2NzOgogICAgICAgIGxvZ2ZpbGUgPSBsb2dzICsgIi4lZCIgJSBwCiAgICAgICAg
-cGlkZm4gPSAiL3RtcC96enFlbXUuJWQucGlkIiAlIHAKICAgICAgICB3aXRoIG9wZW4obG9nZmls
-ZSwgInIiKSBhcyBsZjoKICAgICAgICAgICAgZm9yIGwgaW4gbGY6CiAgICAgICAgICAgICAgICBp
-ZiAibG9naW46IiBpbiBsOgogICAgICAgICAgICAgICAgICAgIHdpdGggb3BlbihwaWRmbikgYXMg
-cGlkZmlsZToKICAgICAgICAgICAgICAgICAgICAgICAgcGlkID0gaW50KHBpZGZpbGUucmVhZGxp
-bmUoKS5zdHJpcCgpKQogICAgICAgICAgICAgICAgICAgIHByaW50KCJLaWxsaW5nICVkIHdpdGgg
-cGlkICVkIiAlIChwLCBwaWQpKQogICAgICAgICAgICAgICAgICAgIG9zLmtpbGwocGlkLCA5KQog
-ICAgICAgICAgICAgICAgICAgIHByb2NzLnJlbW92ZShwKQogICAgICAgICAgICAgICAgICAgIGlm
-IHAgaW4gbGFzdHNpemU6CiAgICAgICAgICAgICAgICAgICAgICAgIGRlbCBsYXN0c2l6ZVtwXQog
-ICAgICAgICAgICAgICAgICAgIHRpbWUuc2xlZXAoMC4xKQogICAgICAgICAgICAgICAgICAgIGxv
-Z2Zkc1twXS5jbG9zZSgpCiAgICAgICAgICAgICAgICAgICAgZXJybG9nZmRzW3BdLmNsb3NlKCkK
-ICAgICAgICAgICAgICAgICAgICBzdGFydChwKQogICAgICAgICAgICAgICAgICAgIHByb2NzLmFw
-cGVuZChwKQogICAgICAgIHNpemVzW3BdID0gb3Muc3RhdChsb2dmaWxlKS5zdF9zaXplCiAgICAg
-ICAgaWYgcCBpbiBsYXN0c2l6ZSBhbmQgc2l6ZXNbcF06CiAgICAgICAgICAgaWYgbm90IHNpemVz
-W3BdID4gbGFzdHNpemVbcF06CiAgICAgICAgICAgICAgIHByaW50KCIlZCBzdGFsbGVkPyIgJSBw
-KQogICAgbGFzdHNpemUgPSBzaXplcwoK
+--001a11377fbccd4d38055ea3cdcb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=-HiKavBMyZUOzG+0T4M7E--
+<div dir=3D"ltr">On 23 November 2017 at 01:34, Joshua Lock <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:joshua.g.lock@linux.intel.com" target=3D"_blank">jo=
+shua.g.lock@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_ex=
+tra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;bord=
+er-left-color:rgb(204,204,204);padding-left:1ex"><span class=3D"gmail-"><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padd=
+ing-left:1ex">=C2=A0 =C2=A0 =C2=A0 @OETestID(1540)<br>
+</blockquote>
+<br></span>
+We&#39;re effectively stating that test ID 1540 and test ID 1545 are both c=
+overed by the same test method, right?<br>
+<br>
+Perhaps we don&#39;t need to maintain both test cases in Testopia, as we&#3=
+9;ll only ever see both tests pass or fail?</blockquote><div><br></div><div=
+>Yes, reviewing and sanitising testopia was my next job.</div><div><br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204)=
+;padding-left:1ex"><div><div class=3D"gmail-h5"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-=
+style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">-=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D=
+ &#39;MACHINE =3D &quot;qemux86&quot;\n&#39;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feat=
+ures +=3D &#39;CORE_IMAGE_EXTRA_INSTALL +=3D &quot;%s %s &quot;\n&#39;% (ro=
+otfs_pkg, boot_pkg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feat=
+ures =3D &#39;CORE_IMAGE_EXTRA_INSTALL =3D &quot;postinst-delayed-b&quot;\n=
+&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 features +=3D &#39;IMAGE_FEATURES +=3D &quot;package-management empty-r=
+oot-password&quot;\n&#39;<br>
+</blockquote>
+<br></div></div>
+The indentation doesn&#39;t look right here?</blockquote><div><br></div><di=
+v>That would be Atom &quot;helpfully&quot; doing smart intentation.=C2=A0 I=
+&#39;ll fix it up in something else, thanks.</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-l=
+eft:1ex"><span class=3D"gmail-">
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);p=
+adding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D qemu.run_seria=
+l(&quot;test -f %s &amp;&amp; echo found&quot; % os.path.join(targettestdir=
+, filename))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(output, &quot;found&quot;, &quot;=
+%s was not present on boot&quot; % filename)<br>
+<br>
+</blockquote>
+<br></span>
+Why not just test the status (return code of test -f) instead of echoing a =
+known value? i.e.<br>
+<br>
+self.assertEqual(status, 0, &quot;%s was not present on boot&quot; % filena=
+me)</blockquote><div><br></div><div>Because run_serial() is a bit lame and =
+I don&#39;t trust it to correctly report the exit status. =C2=A0 Rewriting =
+it is on my hitlist, yes.</div><div><br></div><div>Ross</div></div></div></=
+div>
+
+--001a11377fbccd4d38055ea3cdcb--
