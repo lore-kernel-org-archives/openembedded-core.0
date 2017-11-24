@@ -1,55 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B1A719A4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C81A786AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 17:05:30 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id r12so15659645pgu.10
+	Fri, 24 Nov 2017 17:05:44 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id i38so30163152iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=XkwAYOzV1pwCcqeqWG0qpkqHLZDs+gH9+c5clvmGzJU=;
-	b=lx6BP2gloEgl0WlScBNKLHrthOwe+CBL9qwpgC/G9hz7LOlIGi2HBtzkYuCPCuAicI
-	8f3gBeBV+tjSPiKG3cJzK2ddi2zi0BPChCjqetc72f6iwBZEyeHuVlnqhthoTKXJDBAz
-	RDXFoOr0ofAaQSyZ83heHAvRX4jLnrgdmQjw30AgO5TD7FzAo+0kRnzkhud3aS1pKD2/
-	WxrmOLxvDg5AXOzH5ftRNenQRX+KXjzAvkTwX+G9DB4besUN9DYABtsy1JiE2rP2LINq
-	1540sp2E+FwMNC2ZC4gaZlL56s4yNh2cvy5z9LrpjOTJGfzzAGZkJ3gZ/MScUxB0mZ69
-	Le5Q==
+	Fri, 24 Nov 2017 09:05:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xyZFveLYyBx2lw+oFxZ/vlxUsuvqku14OaZ91jqZueU=;
+	b=lpY7k/QXo79MRX+lytyxRBBQjcURTTO/oYbMeeZddvynqDilh1hRR4wYkUYXXTgEfi
+	ttkCOFxHKj65nHmOh75Bqy10vpxLf9yc3izKgNWX9BlvVqZB3dbO2bm8m+FiESm9odrB
+	bab926+mGpHnGHn1+MRBDJILyNSCp1svBaj3jHBsHbPBD8jeLL4IET6AGW1lQXq3ZbMG
+	h0QTYFjBopaQJZRMw7/VfVwWp5A1RGP8ImDeHUg1bTzXsw91bmNm6h/NSgi13TA7B50v
+	1/+C5WoGKjZGSn1jBf4+UwR3uksLOPGAQTBWs72yyiXuggraR5E73J5tkXkg3azPnSXt
+	sAyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=XkwAYOzV1pwCcqeqWG0qpkqHLZDs+gH9+c5clvmGzJU=;
-	b=TUrJNbXp166l88EyMHi3/iagBr4dyIdvPa8oMSaZNQZ/6GPx95523ECgnHPq9B4G1T
-	OlepBeDYxwxImNg/4ByzKtEt79zE2ZtMmYESpCc2s+lnmQ8wje1mK4kC4jttkaJv/CUm
-	rpU/dNbWjCihPqYjhvt+E8uWpE5Qjy5KD0nO5A6PQO01PTpCgkbvmotPESy73babGnWO
-	iKGhvPzq2TJtHdCOkaFErDkDMTlrVzVaYHRuej6YYBQRECT5+GS+AE7l/fG5l3qYnQeU
-	s85xsUxzE8UpsdQmJOIXX+of+t07Pq78gxa836nK4MiiR5OAceYcIoJxxf8VIcGXXrhP
-	VmWg==
-X-Gm-Message-State: AJaThX6nZcFoA9piGSVFAIGS2LLdrNlj4oXEFvLBWdEMTSCJFC0e+TAu
-	T/JTXeQ3Hgyw6kTffX+ZyV1KqQ==
-X-Google-Smtp-Source: AGs4zMbADjYynHXnZD3yGwUGKRDkEFKZVOAKBiXp6ihp3zm2ESOOguidpd7b244E3cMUmRJf/OFqQw==
-X-Received: by 10.101.83.5 with SMTP id m5mr28603094pgq.350.1511543132495;
-	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:2178:58dc:281c:c010?
-	([2601:202:4001:9ea0:2178:58dc:281c:c010])
-	by smtp.gmail.com with ESMTPSA id
-	h69sm38389316pfk.166.2017.11.24.09.05.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
-To: Yi Zhao <yi.zhao@windriver.com>,
-	openembedded-core@lists.openembedded.org, jackie.huang@windriver.com
-References: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <2e29c60e-d8e2-84c4-690c-4accc3fd4a75@gmail.com>
-Date: Fri, 24 Nov 2017 09:05:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xyZFveLYyBx2lw+oFxZ/vlxUsuvqku14OaZ91jqZueU=;
+	b=GqJVaM4EcObQ4L9eHG/6w6PqkZL/YI63WElauZu1vlbfQKPehiDBzo6FJsMnEsmjUv
+	UUmqpgu/ZgyNWWp33TXgZUV1hv8YXuXGtlmBcAVj+XyFNnsM5WVTutlGCWk7FtdJsJyC
+	3jzhKFQFYkY/tlKohgpsQggyvj9WODRpaS2h+ZgeSRRcnJnL3wtWK1vohaV2PPiobA4s
+	vLfVjZWQFQKEipMcQv67epgjNqlWT28exp5fg5Hm1ryMxOjtvY2bQ5Sn2nJrYY9zgJoJ
+	mMzkprEIJY5taIC694erB7jfm6akojP0riapeq07AX74+p2k0NcJkyqnHVff8M3Yyfl6
+	uXAQ==
+X-Gm-Message-State: AJaThX41llWwjAgvgVkp1f+QkKKdi9GyMBc4HJ97eNRIxMuut6Ly4oQw
+	lRLMDTvpEpUe8IkE36gH3qilpl03nE0DBC8nkjvnhw==
+X-Google-Smtp-Source: AGs4zMams7oWTe6+bRpf2m6NSs3H5W+CF1WKKE+blP5xt1/Ic5nv0pUlHseXxz4XG7ObCRQsr6gMa3DSy6bkoR5+i2o=
+X-Received: by 10.107.178.145 with SMTP id b139mr32249258iof.52.1511543146356; 
+	Fri, 24 Nov 2017 09:05:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
-Subject: Re: [morty][PATCH] ppp: include netinet/in.h before linux/in.h in pppoe.h
+Received: by 10.107.171.134 with HTTP; Fri, 24 Nov 2017 09:05:25 -0800 (PST)
+In-Reply-To: <dec09146d2c3b9c8ee079613586d8c70cd5b7d72.1508360667.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1508360667.git.alejandro.hernandez@linux.intel.com>
+	<dec09146d2c3b9c8ee079613586d8c70cd5b7d72.1508360667.git.alejandro.hernandez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Nov 2017 17:05:25 +0000
+Message-ID: <CAJTo0LZ9zc9iUDvqT0an2LFgNszckm2PKkTD__XQZ253YoeOrw@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] python3: Restructure python3 packaging and replace it with autopackaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,153 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 17:05:31 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 24 Nov 2017 17:05:45 -0000
+Content-Type: multipart/alternative; boundary="001a114ca1624d6eb9055ebd90e8"
 
-in akuster/morty-next
+--001a114ca1624d6eb9055ebd90e8
+Content-Type: text/plain; charset="UTF-8"
 
+On 18 October 2017 at 22:07, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-On 11/16/2017 06:18 PM, Yi Zhao wrote:
-> The patch ppp-fix-building-with-linux-4.8.patch tries to fix build error
-> with 4.8 or newer linux headers, but it would break building with kernel
-> < 4.8. There is a better solution to fix this issue in upstream.
-> Backport the upstream patch and replace the old one.
+> @@ -77,8 +75,30 @@ do_install() {
+>                 sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
+>         done
 >
-> [YOCTO #10457]
+> -       # Tests are large and we don't need them in the native sysroot
+> -       rm ${D}${libdir}/python${PYTHON_MAJMIN}/test -rf
+> +        # Add a symlink to the native Python so that scripts can just
+> invoke
+> +        # "nativepython" and get the right one without needing absolute
+> paths
+> +        # (these often end up too long for the #! parser in the kernel as
+> the
+> +        # buffer is 128 bytes long).
+> +        ln -s python3-native/python3 ${D}${bindir}/nativepython3
 >
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  ...oe-include-netinet-in.h-before-linux-in.h.patch | 54 ++++++++++++++++++++++
->  .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ------------------
->  meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  2 +-
->  3 files changed, 55 insertions(+), 45 deletions(-)
->  create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
->  delete mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
->
-> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
-> new file mode 100644
-> index 0000000..9362d12
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
-> @@ -0,0 +1,54 @@
-> +From 50a2997b256e0e0ef7a46fae133f56f60fce539c Mon Sep 17 00:00:00 2001
-> +From: Lubomir Rintel <lkundrak@v3.sk>
-> +Date: Mon, 9 Jan 2017 13:34:23 +0000
-> +Subject: [PATCH] pppoe: include netinet/in.h before linux/in.h
-> +
-> +This fixes builds with newer kernels. Basically, <netinet/in.h> needs to be
-> +included before <linux/in.h> otherwise the earlier, unaware of the latter,
-> +tries to redefine symbols and structures. Also, <linux/if_pppox.h> doesn't work
-> +alone anymore, since it pulls the headers in the wrong order, so we better
-> +include <netinet/in.h> early.
-> +
-> +Upstream-Status: Backport
-> +[https://github.com/paulusmack/ppp/commit/50a2997b256e0e0ef7a46fae133f56f60fce539c]
-> +
-> +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> +---
-> + pppd/plugins/rp-pppoe/pppoe.h | 7 ++++---
-> + 1 file changed, 4 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
-> +index 9ab2eee..c4aaa6e 100644
-> +--- a/pppd/plugins/rp-pppoe/pppoe.h
-> ++++ b/pppd/plugins/rp-pppoe/pppoe.h
-> +@@ -47,6 +47,10 @@
-> + #include <sys/socket.h>
-> + #endif
-> + 
-> ++/* This has to be included before Linux 4.8's linux/in.h
-> ++ * gets dragged in. */
-> ++#include <netinet/in.h>
-> ++
-> + /* Ugly header files on some Linux boxes... */
-> + #if defined(HAVE_LINUX_IF_H)
-> + #include <linux/if.h>
-> +@@ -84,8 +88,6 @@ typedef unsigned long UINT32_t;
-> + #include <linux/if_ether.h>
-> + #endif
-> + 
-> +-#include <netinet/in.h>
-> +-
-> + #ifdef HAVE_NETINET_IF_ETHER_H
-> + #include <sys/types.h>
-> + 
-> +@@ -98,7 +100,6 @@ typedef unsigned long UINT32_t;
-> + #endif
-> + 
-> + 
-> +-
-> + /* Ethernet frame types according to RFC 2516 */
-> + #define ETH_PPPOE_DISCOVERY 0x8863
-> + #define ETH_PPPOE_SESSION   0x8864
-> +-- 
-> +2.7.4
-> +
-> diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> deleted file mode 100644
-> index f77b0de..0000000
-> --- a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> +++ /dev/null
-> @@ -1,44 +0,0 @@
-> -From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
-> -From: Jackie Huang <jackie.huang@windriver.com>
-> -Date: Thu, 13 Oct 2016 13:41:43 +0800
-> -Subject: [PATCH] ppp: fix building with linux-4.8
-> -
-> -Fix a build error when using the linux-4.8 headers that results in:
-> -
-> -In file included from pppoe.h:87:0,
-> -                 from plugin.c:29:
-> -../usr/include/netinet/in.h:211:8: note: originally defined here
-> - struct in6_addr
-> -        ^~~~~~~~
-> -In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-> -                 from ../usr/include/linux/if_pppox.h:26,
-> -                 from plugin.c:52:
-> -../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
-> - struct sockaddr_in6 {
-> -        ^~~~~~~~~~~~
-> -
-> -Upstream-Status: Submitted [1]
-> -
-> -[1] https://github.com/paulusmack/ppp/pull/69
-> -
-> -Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ----
-> - pppd/plugins/rp-pppoe/pppoe.h | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
-> -index 9ab2eee..96d2794 100644
-> ---- a/pppd/plugins/rp-pppoe/pppoe.h
-> -+++ b/pppd/plugins/rp-pppoe/pppoe.h
-> -@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
-> - #include <linux/if_ether.h>
-> - #endif
-> - 
-> --#include <netinet/in.h>
-> -+#include <linux/in.h>
-> - 
-> - #ifdef HAVE_NETINET_IF_ETHER_H
-> - #include <sys/types.h>
-> --- 
-> -2.8.3
-> -
-> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> index 56dbd98..ec9947f 100644
-> --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> @@ -30,7 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
->             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
->             file://ppp@.service \
->             file://fix-CVE-2015-3310.patch \
-> -           file://ppp-fix-building-with-linux-4.8.patch \
-> +           file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
->  "
->  
->  SRC_URI_append_libc-musl = "\
 
+Is that rm of the tests redundant?
 
+Ross
+
+--001a114ca1624d6eb9055ebd90e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 18 October 2017 at 22:07, Alejandro Hernandez <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:alejandro.hernandez@linux.intel.com" target=
+=3D"_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><d=
+iv class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">@@ -77,8 +75,30 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;1s|^=
+#!.*|#!/usr/bin/env python3|&#39; $PYTHSCRIPT<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Tests are large and we don&#39;t need them in=
+ the native sysroot<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0rm ${D}${libdir}/python${PYTHON_<wbr>MAJMIN}/te=
+st -rf<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add a symlink to the native Python so that s=
+cripts can just invoke<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # &quot;nativepython&quot; and get the right o=
+ne without needing absolute paths<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # (these often end up too long for the #! pars=
+er in the kernel as the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # buffer is 128 bytes long).<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s python3-native/python3 ${D}${bindir}/nat=
+ivepython3<br>
+</blockquote><div><br></div><div>Is that rm of the tests redundant?</div><d=
+iv><br></div><div>Ross</div><div><br></div></div></div></div>
+
+--001a114ca1624d6eb9055ebd90e8--
