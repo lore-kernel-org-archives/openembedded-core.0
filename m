@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BB465784D7
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 809A1784D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 15:28:40 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id u42so29889780ioi.9
+	Fri, 24 Nov 2017 15:29:45 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id 72so2132575itl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 07:28:42 -0800 (PST)
+	Fri, 24 Nov 2017 07:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/qjMIBxjpLDZHuWecGnLgkoISvbKmM6kuecHgqmkaVA=;
-	b=A9FdlGGylNbBKueY1t+lYnzlQPy/igQJ2lPDn8GgGipZ8ppHL0ItPauiFCxu1u7n90
-	mhvqyul4KAtP7/6nF9x2HxoI6Pitu7LhtShucFe0YptiGP4HHcdava6POT3L0lCyU55t
-	oIO+7ybv9utZaJt2vVK9JjrilEWPaZauFzzV5WWiiBQ5G8FVc+5XF8VGEM7422Lca6m7
-	SrbcO4AsFD5g6qvO9KP19EtoptK4zyi8tgQBAdFkd1D/FupjmWZWCf7n4HCpq99EuPxb
-	VwdTAVhvshNhSIf9NqlHnQMX6y9OaudFMdh+WhSxbihc3ePg3qZzbQCGWpqCNtaYS1R9
-	gI6g==
+	:cc; bh=p/IZiTvYi0E1n30b720tm5zY2SQatQsjG7JkZVvtd0I=;
+	b=VA+sIx3OFXOsfe91tfHbthOseOUq6bNzDBKccW2aGfP/Xj2tnfnJGui/l2KJnNf5xE
+	h0TW0stlWtucd4X7u4r4r1zgl/rqgh/YkDM5Sd3yyjV6xKIwc41c5JjuPU/J/rz5fEf8
+	uEpXpLNI5YuuDokiBaRSl+QrltWr8boYEPH9nSPrR34bgBVSW/WM8Fi/tnRmyx1vETLq
+	i7Gj10wgx9hPR80PvIVzqZZklxQUKw80CmVbVnU6Ln5r7HKD7BIGx2/2MBgJabv9KWlP
+	BuwlPfp+SSxbaL1npoke5QBfTr7l6zUCbb5pN6XwPCqaqYqPfqDKqcWdKADixR8u3GAx
+	OWNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=/qjMIBxjpLDZHuWecGnLgkoISvbKmM6kuecHgqmkaVA=;
-	b=ShppQJX38R9TnIpI/uBYBb4R/ZfRMxfCVnT8jXD3zdQblmvw6/bRv9CyxYGfn03ziC
-	Eh7j4NLHyaRWDBMofSzlxAABZ3E+cmdYxqKBTm9jr6TXwMRrDCqBdVm3OG3s4KcnUSRz
-	byd05xSCDgbkHVdJskO90HEYWsdevvHp31fsM5x5qnQYmAjlDQU7rk2XahkNGl6CeUdV
-	mDkT3G5S6GdMiUn7jZqoI9shW23FN1k/vo6RnpiMfCeoDsnqYqsTy9WvAgRkfwI7rmoI
-	Uko1utr0BlR3cdnhiCwpL3k/wAwrSDko8ND8MK6WlbVaXFcq1L8rXuiMDbXDyU+XxcGs
-	rREQ==
-X-Gm-Message-State: AJaThX4LW/lXM3Vhp1vAbyunpgM4ho8WtZghik2xCvlp7qFjAfQUV5lx
-	V+0wC/nN5etfDyVNHD2dYMkKssMBMymXwtajSnvwMepn
-X-Google-Smtp-Source: AGs4zMZcFhGDQhmP9zlf/iZKjud9AA0R/KoPSoF2lfYWFohssZzORaU3mz1hffS20JCdSnucnHSqod4dro3fY3CqEZQ=
-X-Received: by 10.107.133.94 with SMTP id h91mr31669991iod.208.1511537321620; 
-	Fri, 24 Nov 2017 07:28:41 -0800 (PST)
+	bh=p/IZiTvYi0E1n30b720tm5zY2SQatQsjG7JkZVvtd0I=;
+	b=MMmhdcIffvFbjfjjarpZg0unkjS5LaSvFgZiMOUf+mnfJGV1BNNrKTLvBm326aDf5L
+	DxKOCvJtCIa6qHhz5dn0xMq7y2zktVPauCt2Ui5u4/w8piEnvyqJcBA7fuOsCVgIFMrU
+	QiWRD0C8X7C77rHUdRd7J9AYbHidYi0We7n/EOowfdlJZ7ikcdYKkWDArvqUeSkU/VFi
+	foa4Tz09+Nirctv5PAF4yvnRds115v4+RqwZoULPi6YK00Zzis+w25iu57pd0YlcPkSn
+	4fjFeX2N1Ntlj/SC2vidUv21f9eN71Xq8ZcUhNwWej64u8VZKQ+IoM3RuvX9Ehmi0ETx
+	BfmA==
+X-Gm-Message-State: AJaThX54qj2Snf1oQg9hbx0Xv7RJeQqiwFjnrTddBpU8vanUxYEXYlz3
+	EJKkbql+6a5E9V593+Zn79jxzNKUDPyc1oANIl5CIA==
+X-Google-Smtp-Source: AGs4zMbydkcBi4k48q1c7Qd74HR1jvEgLovnBBqAXKdspeAzOaK1SRorhnDa386WpFoIVqo/0u08dnrorH6hb0psHO8=
+X-Received: by 10.36.93.5 with SMTP id w5mr11134847ita.124.1511537387487; Fri,
+	24 Nov 2017 07:29:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.134 with HTTP; Fri, 24 Nov 2017 07:28:21 -0800 (PST)
-In-Reply-To: <1510934900-22044-5-git-send-email-trini@konsulko.com>
-References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
-	<1510934900-22044-5-git-send-email-trini@konsulko.com>
+Received: by 10.107.171.134 with HTTP; Fri, 24 Nov 2017 07:29:27 -0800 (PST)
+In-Reply-To: <5A17A0F6.9090904@windriver.com>
+References: <1511163855-163322-1-git-send-email-zhixiong.chi@windriver.com>
+	<CAJTo0LY=Wii9Ys1R1Ny3U3X1T-J=MgVCXXDA7d4HH6n5vLtqcw@mail.gmail.com>
+	<CAJ86T=Wd0wCJbRAS+H3kDC2tg+51UsY_KwRjZKq46VEK+Y0NdA@mail.gmail.com>
+	<CAJTo0LbAMCEPOwE9SHNbtuGuO=63GHP8wYh3O9jG27U3xJKNAA@mail.gmail.com>
+	<5A17A0F6.9090904@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Nov 2017 15:28:21 +0000
-Message-ID: <CAJTo0LbsO5iYxo5W9GRn-CMNpY+oyky9emUO69RTRvo6-D8ATg@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
+Date: Fri, 24 Nov 2017 15:29:27 +0000
+Message-ID: <CAJTo0LaYTLzqZ3g46gC2EbFv9cB9A_u_yMzYfagmSDWeGGyu2Q@mail.gmail.com>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
+Subject: Re: [PATCH] glibc: malloc: Add missing arena lock in malloc_info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,193 +59,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 15:28:41 -0000
-Content-Type: multipart/alternative; boundary="001a113ffc901ed01b055ebc35fb"
+X-List-Received-Date: Fri, 24 Nov 2017 15:29:46 -0000
+Content-Type: multipart/alternative; boundary="001a1143f14c0bdc55055ebc398e"
 
---001a113ffc901ed01b055ebc35fb
+--001a1143f14c0bdc55055ebc398e
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Still fails on the autobuilder though:
+Yes, please.
 
-2017-11-24 03:33:51,694 - oe-selftest - INFO - FAIL: test_qemu (wic.Wic)
-2017-11-24 03:33:51,694 - oe-selftest - INFO -
-----------------------------------------------------------------------
-2017-11-24 03:33:51,694 - oe-selftest - INFO - Traceback (most recent call
-last):
-  File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
-line 32, in wrapped_f
-    return func(*args, **kwargs)
-  File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-line 58, in wrapped_f
-    return func(*args, **kwargs)
-  File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-line 639, in test_qemu
-    self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3
-/mnt\r\n/dev/sda4 /uuid')
-AssertionError: '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt' !=
-'/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid'
-- /dev/root /
-  /dev/sda1 /boot
-+ /dev/sda2 /
-- /dev/sda3 /mnt+ /dev/sda3 /mnt
-?               ++
-+ /dev/sda4 /uuid
+Ross
 
+On 24 November 2017 at 04:32, Zhixiong Chi <zhixiong.chi@windriver.com>
+wrote:
 
-
-On 17 November 2017 at 16:08, Tom Rini <trini@konsulko.com> wrote:
+> Hi Ross,
+> Is your meaning that I regenerate this patch based on
+> poky-contrib:ross/mut2 branch?
 >
-> - Add a '/uuid' partition to wic-image-minimal.wks with a known UUID.
-> - In test_qemu, sort our output from checking the output of 'mount' as
->   it may not be stable.  Also, do not check the exit code as passing any
->   output to cut ensures a 0 exit code.
-> - Check for a 'UUID=' line in /etc/fstab with out expected output.
+> Thanks.
 >
-> Signed-off-by: Tom Rini <trini@konsulko.com>
-> ---
->  meta-selftest/recipes-test/images/wic-image-minimal.wks | 1 +
->  meta/lib/oeqa/selftest/cases/wic.py                     | 9 ++++++---
->  2 files changed, 7 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-> index 9410b684bed8..2fb34c4ef40a 100644
-> --- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-> +++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-> @@ -5,5 +5,6 @@
->  part /boot --source bootimg-pcbios --ondisk sda --label boot --active
---align 1024
->  part / --source rootfs --ondisk sda --fstype=ext4 --label platform
---align 1024 --use-uuid
->  part /mnt --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda
---fstype=ext4 --label core --align 1024
-> +part /uuid --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda
---fstype=ext4 --label uuid-test --align 1024 --use-uuid --fsuuid
-2c71ef06-a81d-4735-9d3a-379b69c6bdba
+> On 2017=E5=B9=B411=E6=9C=8823=E6=97=A5 19:58, Burton, Ross wrote:
 >
->  bootloader --ptable gpt --timeout=0  --append="rootwait console=tty0"
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py
-b/meta/lib/oeqa/selftest/cases/wic.py
-> index 651d575dc3b2..969ee1054d8b 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0
---fstype=ext4 --exclude-path bin/ --r
->          self.assertEqual(0, bitbake('wic-image-minimal').status)
->          self.remove_config(config)
+> Thanks Andre.  There's a glibc 2.26 upgrade pending and this doesn't appl=
+y
+> on top of that, can you rebase?  poky-contrib:ross/mut2 is where I'm
+> staging the toolchain updates.
 >
-> -        with runqemu('wic-image-minimal', ssh=False) as qemu:
-> -            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
-> +        with runqemu('wic-image-minimal', ssh=False,
-runqemuparams="nographic") as qemu:
-> +            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
-> +            status, output = qemu.run_serial(cmd)
-> +            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2
-/\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
-> +            cmd = "grep UUID= /etc/fstab"
->              status, output = qemu.run_serial(cmd)
->              self.assertEqual(1, status, 'Failed to run command "%s": %s'
-% (cmd, output))
-> -            self.assertEqual(output, '/dev/root /\r\n/dev/sda1
-/boot\r\n/dev/sda3 /mnt')
-> +            self.assertEqual(output,
-'UUID=2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\tdefaults\t0\t0')
+> Ross
 >
->      @only_for_arch(['i586', 'i686', 'x86_64'])
->      @OETestID(1852)
-> --
-> 2.7.4
+> On 22 November 2017 at 00:50, Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+>> On Tue, Nov 21, 2017 at 3:05 PM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>> > What glibc release is this in?  We've an upgrade patch pending that
+>> bumps it
+>> > to 77f921dac17c5fa99bd9e926d926c327982895f7.
+>>
+>> It's currently in the glibc master branch only (ie hasn't been
+>> backported to the 2.26 release branch).
+>>
+>
 >
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> ---------------------
+> Thanks,
+> Zhixiong Chi
+> Tel: +86-10-8477-7036 <+86%2010%208477%207036>
+>
+>
 
---001a113ffc901ed01b055ebc35fb
+--001a1143f14c0bdc55055ebc398e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Still fails on the autobuilder though:<br><br>2017-11-24 0=
-3:33:51,694 - oe-selftest - INFO - FAIL: test_qemu (wic.Wic)<br>2017-11-24 =
-03:33:51,694 - oe-selftest - INFO - ---------------------------------------=
--------------------------------<br>2017-11-24 03:33:51,694 - oe-selftest - =
-INFO - Traceback (most recent call last):<br>=C2=A0 File &quot;/home/pokybu=
-ild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/=
-core/decorator/__init__.py&quot;, line 32, in wrapped_f<br>=C2=A0 =C2=A0 re=
-turn func(*args, **kwargs)<br>=C2=A0 File &quot;/home/pokybuild/yocto-autob=
-uilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/=
-wic.py&quot;, line 58, in wrapped_f<br>=C2=A0 =C2=A0 return func(*args, **k=
-wargs)<br>=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/=
-nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py&quot;, line 6=
-39, in test_qemu<br>=C2=A0 =C2=A0 self.assertEqual(output, &#39;/dev/sda1 /=
-boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid&#39;)<br>Assertion=
-Error: &#39;/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt&#39; !=3D &#39=
-;/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid&#39;<b=
-r>- /dev/root /<br>=C2=A0 /dev/sda1 /boot<br>+ /dev/sda2 /<br>- /dev/sda3 /=
-mnt+ /dev/sda3 /mnt<br>? =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
-+<br>+ /dev/sda4 /uuid<br><br><br><br>On 17 November 2017 at 16:08, Tom Rin=
-i &lt;<a href=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt; wrot=
-e:<br>&gt;<br>&gt; - Add a &#39;/uuid&#39; partition to wic-image-minimal.w=
-ks with a known UUID.<br>&gt; - In test_qemu, sort our output from checking=
- the output of &#39;mount&#39; as<br>&gt; =C2=A0 it may not be stable.=C2=
-=A0 Also, do not check the exit code as passing any<br>&gt; =C2=A0 output t=
-o cut ensures a 0 exit code.<br>&gt; - Check for a &#39;UUID=3D&#39; line i=
-n /etc/fstab with out expected output.<br>&gt;<br>&gt; Signed-off-by: Tom R=
-ini &lt;<a href=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt;<br=
->&gt; ---<br>&gt; =C2=A0meta-selftest/recipes-test/images/wic-image-minimal=
-.wks | 1 +<br>&gt; =C2=A0meta/lib/oeqa/selftest/cases/wic.py =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 9 ++++++---<br>&g=
-t; =C2=A02 files changed, 7 insertions(+), 3 deletions(-)<br>&gt;<br>&gt; d=
-iff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-=
-selftest/recipes-test/images/wic-image-minimal.wks<br>&gt; index 9410b684be=
-d8..2fb34c4ef40a 100644<br>&gt; --- a/meta-selftest/recipes-test/images/wic=
--image-minimal.wks<br>&gt; +++ b/meta-selftest/recipes-test/images/wic-imag=
-e-minimal.wks<br>&gt; @@ -5,5 +5,6 @@<br>&gt; =C2=A0part /boot --source boo=
-timg-pcbios --ondisk sda --label boot --active --align 1024<br>&gt; =C2=A0p=
-art / --source rootfs --ondisk sda --fstype=3Dext4 --label platform --align=
- 1024 --use-uuid<br>&gt; =C2=A0part /mnt --source rootfs --rootfs-dir=3Dwic=
--image-minimal --ondisk sda --fstype=3Dext4 --label core --align 1024<br>&g=
-t; +part /uuid --source rootfs --rootfs-dir=3Dwic-image-minimal --ondisk sd=
-a --fstype=3Dext4 --label uuid-test --align 1024 --use-uuid --fsuuid 2c71ef=
-06-a81d-4735-9d3a-379b69c6bdba<br>&gt;<br>&gt; =C2=A0bootloader --ptable gp=
-t --timeout=3D0 =C2=A0--append=3D&quot;rootwait console=3Dtty0&quot;<br>&gt=
-; diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
-/cases/wic.py<br>&gt; index 651d575dc3b2..969ee1054d8b 100644<br>&gt; --- a=
-/meta/lib/oeqa/selftest/cases/wic.py<br>&gt; +++ b/meta/lib/oeqa/selftest/c=
-ases/wic.py<br>&gt; @@ -633,11 +633,14 @@ part /etc --source rootfs --ondis=
-k mmcblk0 --fstype=3Dext4 --exclude-path bin/ --r<br>&gt; =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0self.assertEqual(0, bitbake(&#39;wic-image-minimal&#39;).s=
-tatus)<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.remove_config(config)=
-<br>&gt;<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0with runqemu(&#39;wic-image-m=
-inimal&#39;, ssh=3DFalse) as qemu:<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0cmd =3D &quot;mount |grep &#39;^/dev/&#39; | cut -f1,3 -d &#39=
-; &#39;&quot;<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0with runqemu(&#39;wic-im=
-age-minimal&#39;, ssh=3DFalse, runqemuparams=3D&quot;nographic&quot;) as qe=
-mu:<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &quot;mount =
-|grep &#39;^/dev/&#39; | cut -f1,3 -d &#39; &#39; | sort&quot;<br>&gt; + =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status, output =3D qemu.run_serial=
-(cmd)<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(o=
-utput, &#39;/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /=
-uuid&#39;)<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &quot=
-;grep UUID=3D /etc/fstab&quot;<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0status, output =3D qemu.run_serial(cmd)<br>&gt; =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(1, status, &#39;Failed t=
-o run command &quot;%s&quot;: %s&#39; % (cmd, output))<br>&gt; - =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(output, &#39;/dev/root /\r\=
-n/dev/sda1 /boot\r\n/dev/sda3 /mnt&#39;)<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0self.assertEqual(output, &#39;UUID=3D2c71ef06-a81d-4735-9d=
-3a-379b69c6bdba\t/uuid\text4\tdefaults\t0\t0&#39;)<br>&gt;<br>&gt; =C2=A0 =
-=C2=A0 =C2=A0@only_for_arch([&#39;i586&#39;, &#39;i686&#39;, &#39;x86_64&#3=
-9;])<br>&gt; =C2=A0 =C2=A0 =C2=A0@OETestID(1852)<br>&gt; --<br>&gt; 2.7.4<b=
-r>&gt;<br>&gt; --<br>&gt; _______________________________________________<b=
-r>&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedde=
-d-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>=
-<br>&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-</a></div>
+<div dir=3D"ltr">Yes, please.<div><br></div><div>Ross</div></div><div class=
+=3D"gmail_extra"><br><div class=3D"gmail_quote">On 24 November 2017 at 04:3=
+2, Zhixiong Chi <span dir=3D"ltr">&lt;<a href=3D"mailto:zhixiong.chi@windri=
+ver.com" target=3D"_blank">zhixiong.chi@windriver.com</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF" text=3D"#000000">
+    Hi Ross,<br>
+    Is your meaning that I regenerate this patch based on
+    poky-contrib:ross/mut2 branch?<br>
+    <br>
+    Thanks.<div><div class=3D"h5"><br>
+    <br>
+    <div class=3D"m_-6671565565886527906moz-cite-prefix">On 2017=E5=B9=B411=
+=E6=9C=8823=E6=97=A5 19:58, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+     =20
+      <div dir=3D"ltr">Thanks Andre.=C2=A0 There&#39;s a glibc 2.26 upgrade=
+ pending
+        and this doesn&#39;t apply on top of that, can you rebase?
+        =C2=A0poky-contrib:ross/mut2 is where I&#39;m staging the toolchain
+        updates.
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class=3D"gmail_extra"><br>
+        <div class=3D"gmail_quote">On 22 November 2017 at 00:50, Andre
+          McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.c=
+om" target=3D"_blank">armccurdy@gmail.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><span>On Tue, Nov 21, 2017 at 3:05=
+ PM, Burton, Ross
+              &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank=
+">ross.burton@intel.com</a>&gt;
+              wrote:<br>
+              &gt; What glibc release is this in?=C2=A0 We&#39;ve an upgrad=
+e
+              patch pending that bumps it<br>
+              &gt; to 77f921dac17c5fa99bd9e926d926c3<wbr>27982895f7.<br>
+              <br>
+            </span>It&#39;s currently in the glibc master branch only (ie
+            hasn&#39;t been<br>
+            backported to the 2.26 release branch).<br>
+          </blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+    </div></div><span class=3D"HOEnZb"><font color=3D"#888888"><pre class=
+=3D"m_-6671565565886527906moz-signature" cols=3D"72">--=20
+---------------------
+Thanks,
+Zhixiong Chi
+Tel: <a href=3D"tel:+86%2010%208477%207036" value=3D"+861084777036" target=
+=3D"_blank">+86-10-8477-7036</a>
+</pre>
+  </font></span></div>
 
---001a113ffc901ed01b055ebc35fb--
+</blockquote></div><br></div>
+
+--001a1143f14c0bdc55055ebc398e--
