@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 809A1784D7
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
+	[209.85.161.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 848DF783F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 15:29:45 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id 72so2132575itl.5
+	Fri, 24 Nov 2017 15:36:13 +0000 (UTC)
+Received: by mail-yw0-f175.google.com with SMTP id c195so6828299ywh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 07:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p/IZiTvYi0E1n30b720tm5zY2SQatQsjG7JkZVvtd0I=;
-	b=VA+sIx3OFXOsfe91tfHbthOseOUq6bNzDBKccW2aGfP/Xj2tnfnJGui/l2KJnNf5xE
-	h0TW0stlWtucd4X7u4r4r1zgl/rqgh/YkDM5Sd3yyjV6xKIwc41c5JjuPU/J/rz5fEf8
-	uEpXpLNI5YuuDokiBaRSl+QrltWr8boYEPH9nSPrR34bgBVSW/WM8Fi/tnRmyx1vETLq
-	i7Gj10wgx9hPR80PvIVzqZZklxQUKw80CmVbVnU6Ln5r7HKD7BIGx2/2MBgJabv9KWlP
-	BuwlPfp+SSxbaL1npoke5QBfTr7l6zUCbb5pN6XwPCqaqYqPfqDKqcWdKADixR8u3GAx
-	OWNA==
+	Fri, 24 Nov 2017 07:36:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=GeAMlMzD+igyIcrXpld78tfIVYJpK74vWliaMNa2t9o=;
+	b=ks6TRevpGxiPxJ7MPEkCQARq9IuFFwaym0zHt91nxQVzfL5BONwvzVSYc8be72zMtk
+	Ke8CnQHWN5D+AeZDKyTuoyVcDBYSQXBAckhlLZkNBxLyNPvbw0cH/DT4BVlLO05yzqcs
+	6xSmCqB/XnD3ii9Shos4BUsdW57UA+dbwJo0I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=p/IZiTvYi0E1n30b720tm5zY2SQatQsjG7JkZVvtd0I=;
-	b=MMmhdcIffvFbjfjjarpZg0unkjS5LaSvFgZiMOUf+mnfJGV1BNNrKTLvBm326aDf5L
-	DxKOCvJtCIa6qHhz5dn0xMq7y2zktVPauCt2Ui5u4/w8piEnvyqJcBA7fuOsCVgIFMrU
-	QiWRD0C8X7C77rHUdRd7J9AYbHidYi0We7n/EOowfdlJZ7ikcdYKkWDArvqUeSkU/VFi
-	foa4Tz09+Nirctv5PAF4yvnRds115v4+RqwZoULPi6YK00Zzis+w25iu57pd0YlcPkSn
-	4fjFeX2N1Ntlj/SC2vidUv21f9eN71Xq8ZcUhNwWej64u8VZKQ+IoM3RuvX9Ehmi0ETx
-	BfmA==
-X-Gm-Message-State: AJaThX54qj2Snf1oQg9hbx0Xv7RJeQqiwFjnrTddBpU8vanUxYEXYlz3
-	EJKkbql+6a5E9V593+Zn79jxzNKUDPyc1oANIl5CIA==
-X-Google-Smtp-Source: AGs4zMbydkcBi4k48q1c7Qd74HR1jvEgLovnBBqAXKdspeAzOaK1SRorhnDa386WpFoIVqo/0u08dnrorH6hb0psHO8=
-X-Received: by 10.36.93.5 with SMTP id w5mr11134847ita.124.1511537387487; Fri,
-	24 Nov 2017 07:29:47 -0800 (PST)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=GeAMlMzD+igyIcrXpld78tfIVYJpK74vWliaMNa2t9o=;
+	b=LU92ZIXfsfv04TJSNd5og9n2MvxQI+dEX4eHpV9eU73wy+5e5Phiv1zYprZwIDNgHp
+	RWCRc/i2+Lfyth/HHmj0Ut9dc/UhiI0Ul4DOwl8KGA73TczjB6zeluPhl1YqQ7lhINVg
+	jrLANJ7ciIcqn2Zyv9pbsCFm4d0OfPXi7BzeEokdTdLLWeWUMbdrfq5HzXEN487m73Fm
+	ptFPCJMKiBlbcqErs+36jrPjlkDvcE1Ze0FptfpCf4RXsCjTDag06g7YR8mYnva+Q2jy
+	ZR3lo7b4kFoBDmbdBH9/PlZFgF9ZnPcJoWxB2LRQx2heUaSIwCGcXzg9J+nkWO1LJhyt
+	z/VA==
+X-Gm-Message-State: AJaThX7wGqWNuJ8YilnOllrv3cChfdiMX9E9lBmiTUV2SCjYtE1TxKh3
+	9DW+TQuVfKK6Qg6Ordsa9iXdKA==
+X-Google-Smtp-Source: AGs4zMbydQbvRnZM4jL5jZiUFLXzFFrqyv7AqRFO8kZM90iKvhmt0ZRE5TEdu3cGDM0euDVa/whZ6g==
+X-Received: by 10.13.196.197 with SMTP id g188mr18494048ywd.242.1511537774475; 
+	Fri, 24 Nov 2017 07:36:14 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	v187sm8976564ywb.34.2017.11.24.07.36.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 Nov 2017 07:36:13 -0800 (PST)
+Date: Fri, 24 Nov 2017 10:36:11 -0500
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171124153611.GD3587@bill-the-cat>
+References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
+	<1510934900-22044-5-git-send-email-trini@konsulko.com>
+	<CAJTo0LbsO5iYxo5W9GRn-CMNpY+oyky9emUO69RTRvo6-D8ATg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.171.134 with HTTP; Fri, 24 Nov 2017 07:29:27 -0800 (PST)
-In-Reply-To: <5A17A0F6.9090904@windriver.com>
-References: <1511163855-163322-1-git-send-email-zhixiong.chi@windriver.com>
-	<CAJTo0LY=Wii9Ys1R1Ny3U3X1T-J=MgVCXXDA7d4HH6n5vLtqcw@mail.gmail.com>
-	<CAJ86T=Wd0wCJbRAS+H3kDC2tg+51UsY_KwRjZKq46VEK+Y0NdA@mail.gmail.com>
-	<CAJTo0LbAMCEPOwE9SHNbtuGuO=63GHP8wYh3O9jG27U3xJKNAA@mail.gmail.com>
-	<5A17A0F6.9090904@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Nov 2017 15:29:27 +0000
-Message-ID: <CAJTo0LaYTLzqZ3g46gC2EbFv9cB9A_u_yMzYfagmSDWeGGyu2Q@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
+In-Reply-To: <CAJTo0LbsO5iYxo5W9GRn-CMNpY+oyky9emUO69RTRvo6-D8ATg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: malloc: Add missing arena lock in malloc_info
+Subject: Re: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,127 +59,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 15:29:46 -0000
-Content-Type: multipart/alternative; boundary="001a1143f14c0bdc55055ebc398e"
+X-List-Received-Date: Fri, 24 Nov 2017 15:36:14 -0000
+X-Groupsio-MsgNum: 105502
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
+Content-Disposition: inline
 
---001a1143f14c0bdc55055ebc398e
-Content-Type: text/plain; charset="UTF-8"
+--E/DnYTRukya0zdZ1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Yes, please.
+On Fri, Nov 24, 2017 at 03:28:21PM +0000, Burton, Ross wrote:
+> Still fails on the autobuilder though:
+>=20
+> 2017-11-24 03:33:51,694 - oe-selftest - INFO - FAIL: test_qemu (wic.Wic)
+> 2017-11-24 03:33:51,694 - oe-selftest - INFO -
+> ----------------------------------------------------------------------
+> 2017-11-24 03:33:51,694 - oe-selftest - INFO - Traceback (most recent call
+> last):
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build=
+/meta/lib/oeqa/core/decorator/__init__.py",
+> line 32, in wrapped_f
+>     return func(*args, **kwargs)
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build=
+/meta/lib/oeqa/selftest/cases/wic.py",
+> line 58, in wrapped_f
+>     return func(*args, **kwargs)
+>   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build=
+/meta/lib/oeqa/selftest/cases/wic.py",
+> line 639, in test_qemu
+>     self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3
+> /mnt\r\n/dev/sda4 /uuid')
+> AssertionError: '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt' !=3D
+> '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid'
+> - /dev/root /
+>   /dev/sda1 /boot
+> + /dev/sda2 /
+> - /dev/sda3 /mnt+ /dev/sda3 /mnt
+> ?               ++
+> + /dev/sda4 /uuid
 
-Ross
+Erm, that doesn't make any sense:
 
-On 24 November 2017 at 04:32, Zhixiong Chi <zhixiong.chi@windriver.com>
-wrote:
+> > --- a/meta/lib/oeqa/selftest/cases/wic.py
+> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> > @@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0
+> --fstype=3Dext4 --exclude-path bin/ --r
+> >          self.assertEqual(0, bitbake('wic-image-minimal').status)
+> >          self.remove_config(config)
+> >
+> > -        with runqemu('wic-image-minimal', ssh=3DFalse) as qemu:
+> > -            cmd =3D "mount |grep '^/dev/' | cut -f1,3 -d ' '"
+> > +        with runqemu('wic-image-minimal', ssh=3DFalse,
+> runqemuparams=3D"nographic") as qemu:
 
-> Hi Ross,
-> Is your meaning that I regenerate this patch based on
-> poky-contrib:ross/mut2 branch?
->
-> Thanks.
->
->
-> On 2017=E5=B9=B411=E6=9C=8823=E6=97=A5 19:58, Burton, Ross wrote:
->
-> Thanks Andre.  There's a glibc 2.26 upgrade pending and this doesn't appl=
-y
-> on top of that, can you rebase?  poky-contrib:ross/mut2 is where I'm
-> staging the toolchain updates.
->
-> Ross
->
-> On 22 November 2017 at 00:50, Andre McCurdy <armccurdy@gmail.com> wrote:
->
->> On Tue, Nov 21, 2017 at 3:05 PM, Burton, Ross <ross.burton@intel.com>
->> wrote:
->> > What glibc release is this in?  We've an upgrade patch pending that
->> bumps it
->> > to 77f921dac17c5fa99bd9e926d926c327982895f7.
->>
->> It's currently in the glibc master branch only (ie hasn't been
->> backported to the 2.26 release branch).
->>
->
->
-> --
-> ---------------------
-> Thanks,
-> Zhixiong Chi
-> Tel: +86-10-8477-7036 <+86%2010%208477%207036>
->
->
+=2E.. I'll v2 since disabling graphics was a local thing, oops.
 
---001a1143f14c0bdc55055ebc398e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > +            cmd =3D "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
+> > +            status, output =3D qemu.run_serial(cmd)
+> > +            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2
+> /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
+> > +            cmd =3D "grep UUID=3D /etc/fstab"
+> >              status, output =3D qemu.run_serial(cmd)
+> >              self.assertEqual(1, status, 'Failed to run command "%s": %=
+s'
+> % (cmd, output))
+> > -            self.assertEqual(output, '/dev/root /\r\n/dev/sda1
+> /boot\r\n/dev/sda3 /mnt')
+> > +            self.assertEqual(output,
+> 'UUID=3D2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\tdefaults\t0\t0=
+')
 
-<div dir=3D"ltr">Yes, please.<div><br></div><div>Ross</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 24 November 2017 at 04:3=
-2, Zhixiong Chi <span dir=3D"ltr">&lt;<a href=3D"mailto:zhixiong.chi@windri=
-ver.com" target=3D"_blank">zhixiong.chi@windriver.com</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF" text=3D"#000000">
-    Hi Ross,<br>
-    Is your meaning that I regenerate this patch based on
-    poky-contrib:ross/mut2 branch?<br>
-    <br>
-    Thanks.<div><div class=3D"h5"><br>
-    <br>
-    <div class=3D"m_-6671565565886527906moz-cite-prefix">On 2017=E5=B9=B411=
-=E6=9C=8823=E6=97=A5 19:58, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">Thanks Andre.=C2=A0 There&#39;s a glibc 2.26 upgrade=
- pending
-        and this doesn&#39;t apply on top of that, can you rebase?
-        =C2=A0poky-contrib:ross/mut2 is where I&#39;m staging the toolchain
-        updates.
-        <div><br>
-        </div>
-        <div>Ross</div>
-      </div>
-      <div class=3D"gmail_extra"><br>
-        <div class=3D"gmail_quote">On 22 November 2017 at 00:50, Andre
-          McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.c=
-om" target=3D"_blank">armccurdy@gmail.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><span>On Tue, Nov 21, 2017 at 3:05=
- PM, Burton, Ross
-              &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank=
-">ross.burton@intel.com</a>&gt;
-              wrote:<br>
-              &gt; What glibc release is this in?=C2=A0 We&#39;ve an upgrad=
-e
-              patch pending that bumps it<br>
-              &gt; to 77f921dac17c5fa99bd9e926d926c3<wbr>27982895f7.<br>
-              <br>
-            </span>It&#39;s currently in the glibc master branch only (ie
-            hasn&#39;t been<br>
-            backported to the 2.26 release branch).<br>
-          </blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-    </div></div><span class=3D"HOEnZb"><font color=3D"#888888"><pre class=
-=3D"m_-6671565565886527906moz-signature" cols=3D"72">--=20
----------------------
-Thanks,
-Zhixiong Chi
-Tel: <a href=3D"tel:+86%2010%208477%207036" value=3D"+861084777036" target=
-=3D"_blank">+86-10-8477-7036</a>
-</pre>
-  </font></span></div>
+We no longer want to match the string you've got showing up, and the
+string you have showing up says that /uuid wasn't mounted either.
 
-</blockquote></div><br></div>
+Can you check the sources in the autobuilder please and make sure the
+whole series got applied correctly?  Thanks!
 
---001a1143f14c0bdc55055ebc398e--
+--=20
+Tom
+
+--E/DnYTRukya0zdZ1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJaGDxrAAoJEIf59jXTHXZSSOwP/Azteq664HFDEb7h5XiUJHkQ
+EnbDdSg7vJpb9ra8OARNmYTKgus/rN8Z7SUAZ61ZbhPpfX8fttZKbw0RwVI1/khy
+7gt55ZCdfYjUkwk55CSbFggvBbi2N02J7BBJ8xc5tyxLavo7QaZV+hcw1Srm+k8l
+yLDI/con2ENKjjnfClS5qQE2yAgphOW1iEM9Fw+b4Cv3sD/Pd8DCiKTofu1kODfe
+lSBBtGoGXwb2UvQrh4y/idz3mlCxjmJlm1XsLokKO6KNc1WlYRiM0kQtLME1l7l6
+or9zgJJjxgXDi/GBA0JWvj+4SPtFXB2e2rnuNsPBIgEZLPjHnCHC86axlnOmJ172
+g+iasz4IR1Nl/LTCC/iRMwcox1H/lb95wvlHvaua//KcCaiP4oOGkKsQh+vawzMI
+GyJXuoFgFrM9+HmEUZAv7S/8sVw+oRH/fv27eAJNT/13upGv166dNHN9dpM9sV2/
+1u4wQP/FDg6osUwTkHHEJFo8d9toIa1wB0vcpUsS+Kcz3VhmZPP10psyINPeLO+a
+93MpMKI3PO+yFKZaA2ydOJzT7oSQ8P8aWTnLxNvTNn3pdz9G/X0OF1HpwA3Lv0ZJ
+sLisjmF/N0pK9Ehp7Z7CMNZjXBm1b2GuN8PbpOnlgnraMYiy8RYfmQ+C8+25ZeD9
+xj07hgTWQMhmjszFGdbB
+=10Hr
+-----END PGP SIGNATURE-----
+
+--E/DnYTRukya0zdZ1--
