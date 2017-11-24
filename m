@@ -1,55 +1,55 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 08459786AB
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D4046E666
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 17:02:49 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id s75so15680900pgs.0
+	Fri, 24 Nov 2017 17:04:21 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id q7so3071641pgr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 09:02:51 -0800 (PST)
+	Fri, 24 Nov 2017 09:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding:content-language;
-	bh=wXY2nfVctuOWKq3tHphTrL3VT4G0MxLTlvQ9M75M3dA=;
-	b=TGJIvRRgMUV+b56K9Uu4BTxbT8sddr/xgW+IEbRYj2Q6mSCJidc/eIxDNLAYSohPbZ
-	2MBHkFKOs6m6TDl+S2kWbyFkpOgJPLDvNGzFZPjpj4OoD5Pz1X78dxwg4AfBTxE4RQwx
-	Ag4NI6B0+tItKN9nFm0DJ7ccUYlKZxr8r0J2USKPhCDV8lURI3xIvqAeoTOZAu33+oOK
-	NiDwDLJY83ubS6BssIi13a+CHnrj7Hok+RBMpGD5KoPsZBsfDVMdA/wmT5vPkoRMx7R6
-	THa6iFWYa2+8OQZ5+NO7fpMA61E48ckbf3be1D4VnVWst2UUpk++d+8AVcq19Vs6JQAZ
-	nXzw==
+	bh=7Z8yFYmRh64UNdogpqH0y2VXAniaAGYMbeCV4Thbd/o=;
+	b=FmhEOQE/jw61cB1o7iNn4nEICOIGX28p/dWjruZGgJMcWHr/yf9Tk+0vd46qqmeBZf
+	lZbRrvCeAV5Gf2+f+JLx29+9hWiSoYBO+I1+/ZkrGE2ur955HwIz5tCyQ4U5ZMe4MMN+
+	CgEES40D5VbQ33/nsOzCBYmf2Ymo6qVOZX4Q6+AUvrKKaiYlbleiAFc3ogLT8qTrTJ/K
+	nN6ReMdV6HTpj1hv7shEtFojmtbOp4mLxhc0GAcJ1lmQKKHJ3vgj4IuIXEuG6H0alisT
+	D9GzGaGccT0hJxmbcuYalJ96cQ92EstOJ8j9/aFg6UMPgE9g4yCKpsssDR3dF/Dd9Kj3
+	45+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=wXY2nfVctuOWKq3tHphTrL3VT4G0MxLTlvQ9M75M3dA=;
-	b=EooXS3XH6upY+IoDgK5RbsPKxGt/nEs2T1iDAEDojmqc16VRQzPSQrNIyOrcRhWF0X
-	dEMdvxrK3RqDyjOir58IHOXDIj9fyJy13y6b9BFwcvvsaKvZxOWG+gxm0aDG3rf4ewTR
-	80MIVlnTbX5C11HMTs6jsElrauzjpBzsD1D4TQMgfQHt7wxy+rZp2LaWb5t0HQWlySl9
-	wnXxj60rMkA3vT7jTEUrvhcZI8PsnwBv0GPFOu9EnkaaRHtDVnQ92Ij1TPACDyMYiX1S
-	fHDvmVR+pJswRnDZ3yz46rfyodyn3+tXp7FIX7py92BzPmkhTcYh4Q5yBIqX2Ihl88Vz
-	BhfA==
-X-Gm-Message-State: AJaThX5570sn1qSvQi9xDXhV9TcxQvDzImpBeHlv/VARAJYlMqPE5gqy
-	VHFWR8idRIrTr3jkDLlIOML0wg==
-X-Google-Smtp-Source: AGs4zMYeXi1mkpXx9hLy/Tx+iAuOL9NRD9F7eMxMF1MU+9y9LV99quUIWZdlVxiaYkiuWOjjc3DKVQ==
-X-Received: by 10.99.6.23 with SMTP id 23mr28297060pgg.276.1511542970654;
-	Fri, 24 Nov 2017 09:02:50 -0800 (PST)
+	bh=7Z8yFYmRh64UNdogpqH0y2VXAniaAGYMbeCV4Thbd/o=;
+	b=SXjzsybAaexeNw5isRo99I1rabbRVJ3aOCgtt4dEn/vmZsOIcwTKC9BntQrgTBNBb2
+	kpc7v9diH9MbpSZ8iubF5eELqO4T19+pm8SID8PBqTxdMeASo+NuakBt0M/in9rGG/Bg
+	BH2jXjnQRlG6GK+cbP/JtE+9OrDYW7eT+g2muFj87RbtxjCnLtEVkFSqG2pFXhmd6eSq
+	qDgJJEH+D0qDNgA9xvSI5+dTXbvMgxWa1DNVqudvKZtkUoKNsCbfspw6Ydx+xP8Kivl9
+	BEZjfpfud1RuVkLDfGvDys8wRy53xRRQHAdiggxnsj8t3c/AffRw0RglMLqpp3CS86aN
+	NvVQ==
+X-Gm-Message-State: AJaThX4BmEzlEbjFd+vqe+/8dLUfzz0bjyzOTum/ahMKb7S2g5wZ3epR
+	pjf8FuDu4axW1UgCeMmQuGUcIw==
+X-Google-Smtp-Source: AGs4zMZEO8mlm8t59xUTUH1YEkwbGocgb1ZCHs22Lkc5AdShCZ/WW5DKLUblNpTv6UAKJZiQkA6uSA==
+X-Received: by 10.99.3.146 with SMTP id 140mr28821386pgd.275.1511543062532;
+	Fri, 24 Nov 2017 09:04:22 -0800 (PST)
 Received: from ?IPv6:2601:202:4001:9ea0:2178:58dc:281c:c010?
 	([2601:202:4001:9ea0:2178:58dc:281c:c010])
 	by smtp.gmail.com with ESMTPSA id
-	g10sm17916325pfe.77.2017.11.24.09.02.49
+	z126sm27619792pfz.103.2017.11.24.09.04.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Nov 2017 09:02:50 -0800 (PST)
+	Fri, 24 Nov 2017 09:04:22 -0800 (PST)
 To: George McCollister <george.mccollister@gmail.com>,
 	openembedded-core@lists.openembedded.org
-References: <20171121200352.6348-1-george.mccollister@gmail.com>
+References: <20171121200121.5896-1-george.mccollister@gmail.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <b961ea21-02b4-8263-3d7e-165f6b0429b7@gmail.com>
-Date: Fri, 24 Nov 2017 09:02:49 -0800
+Message-ID: <2ee3f5fa-b45d-70cb-18fe-e69cd4e513f2@gmail.com>
+Date: Fri, 24 Nov 2017 09:04:21 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171121200352.6348-1-george.mccollister@gmail.com>
-Subject: Re: [pyro][PATCH] glibc: Fix CVE-2017-1000366
+In-Reply-To: <20171121200121.5896-1-george.mccollister@gmail.com>
+Subject: Re: [morty][PATCH v3 1/2] glibc: Fix CVE-2015-5180
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,576 +62,406 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 17:02:50 -0000
+X-List-Received-Date: Fri, 24 Nov 2017 17:04:21 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-in stable/pyro-next
+in akuster/pyro-next
 
 
-On 11/21/2017 12:03 PM, George McCollister wrote:
-> Add backported patches from the upstream release/2.25/master branch to
-> fix CVE-2017-1000366. Also add a backported patch that resolves SSE
-> related build problems introduced by these patches.
+On 11/21/2017 12:01 PM, George McCollister wrote:
+> Add backported patch to fix CVE-2015-5180 from the upstream
+> release/2.24/master branch.
 >
 > Signed-off-by: George McCollister <george.mccollister@gmail.com>
 > ---
->  ...00366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch |  70 +++++++
->  ...ject-overly-long-LD_PRELOAD-path-elements.patch | 144 +++++++++++++
->  ...Reject-overly-long-LD_AUDIT-path-elements.patch | 230 +++++++++++++++++++++
->  ...ssing-IS_IN-libc-guards-to-vectorized-str.patch |  62 ++++++
->  meta/recipes-core/glibc/glibc_2.25.bb              |   4 +
->  5 files changed, 510 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
->  create mode 100644 meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
->  create mode 100644 meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
->  create mode 100644 meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
 >
-> diff --git a/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch b/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
+> Changes in v2:
+>  - Fix commit message
+>
+> Changes in v3:
+>  - None. Resending with other patch in the series.
+>
+>  ...80-resolv-Fix-crash-with-internal-QTYPE-B.patch | 357 +++++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.24.bb              |   1 +
+>  2 files changed, 358 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
 > new file mode 100644
-> index 0000000000..0178d50ff0
+> index 0000000000..ba0bebe488
 > --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch
-> @@ -0,0 +1,70 @@
-> +From 4002021818bc31aec9b353c6e13ce9f82e84cd38 Mon Sep 17 00:00:00 2001
+> +++ b/meta/recipes-core/glibc/glibc/0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch
+> @@ -0,0 +1,357 @@
+> +From ff9b7c4fb73295cd2de2d2ccfbbf4f6d50883d47 Mon Sep 17 00:00:00 2001
 > +From: Florian Weimer <fweimer@redhat.com>
-> +Date: Mon, 19 Jun 2017 18:31:27 +0200
-> +Subject: [PATCH] CVE-2017-1000366: Ignore LD_LIBRARY_PATH for AT_SECURE=1
-> + programs [BZ #21624]
+> +Date: Sat, 31 Dec 2016 20:22:09 +0100
+> +Subject: [PATCH] CVE-2015-5180: resolv: Fix crash with internal QTYPE [BZ
+> + #18784]
 > +
-> +LD_LIBRARY_PATH can only be used to reorder system search paths, which
-> +is not useful functionality.
+> +Also rename T_UNSPEC because an upcoming public header file
+> +update will use that name.
 > +
-> +This makes an exploitable unbounded alloca in _dl_init_paths unreachable
-> +for AT_SECURE=1 programs.
-> +
-> +(cherry picked from commit f6110a8fee2ca36f8e2d2abecf3cba9fa7b8ea7d)
+> +(cherry picked from commit fc82b0a2dfe7dbd35671c10510a8da1043d746a5)
 > +
 > +Upstream-Status: Backport
-> +https://sourceware.org/git/?p=glibc.git;a=commit;h=3c7cd21290cabdadd72984fb69bc51e64ff1002d
+> +https://sourceware.org/git/?p=glibc.git;a=patch;h=b3b37f1a5559a7620e31c8053ed1b44f798f2b6d
 > +
-> +CVE: CVE-2017-1000366
+> +CVE: CVE-2015-5180
 > +
 > +Signed-off-by: George McCollister <george.mccollister@gmail.com>
 > +---
-> + ChangeLog  | 7 +++++++
-> + NEWS       | 1 +
-> + elf/rtld.c | 3 ++-
-> + 3 files changed, 10 insertions(+), 1 deletion(-)
+> + ChangeLog                     |  14 ++++
+> + NEWS                          |   6 ++
+> + include/arpa/nameser_compat.h |   6 +-
+> + resolv/Makefile               |   5 ++
+> + resolv/nss_dns/dns-host.c     |   2 +-
+> + resolv/res_mkquery.c          |   4 +
+> + resolv/res_query.c            |   6 +-
+> + resolv/tst-resolv-qtypes.c    | 185 ++++++++++++++++++++++++++++++++++++++++++
+> + 8 files changed, 221 insertions(+), 7 deletions(-)
+> + create mode 100644 resolv/tst-resolv-qtypes.c
 > +
 > +diff --git a/ChangeLog b/ChangeLog
-> +index f140ee67de..7bfdf45bb5 100644
+> +index 893262de11..2bdaf69e43 100644
 > +--- a/ChangeLog
 > ++++ b/ChangeLog
-> +@@ -1,3 +1,10 @@
-> ++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+> +@@ -1,3 +1,17 @@
+> ++2016-12-31  Florian Weimer  <fweimer@redhat.com>
 > ++
-> ++	[BZ #21624]
-> ++	CVE-2017-1000366
-> ++	* elf/rtld.c (process_envvars): Ignore LD_LIBRARY_PATH for
-> ++	__libc_enable_secure.
+> ++	[BZ #18784]
+> ++	CVE-2015-5180
+> ++	* include/arpa/nameser_compat.h (T_QUERY_A_AND_AAAA): Rename from
+> ++	T_UNSPEC.  Adjust value.
+> ++	* resolv/nss_dns/dns-host.c (_nss_dns_gethostbyname4_r): Use it.
+> ++	* resolv/res_query.c (__libc_res_nquery): Likewise.
+> ++	* resolv/res_mkquery.c (res_nmkquery): Check for out-of-range
+> ++	QTYPEs.
+> ++	* resolv/tst-resolv-qtypes.c: New file.
+> ++	* resolv/Makefile (xtests): Add tst-resolv-qtypes.
+> ++	(tst-resolv-qtypes): Link against libresolv and libpthread.
 > ++
-> + 2017-02-05  Siddhesh Poyarekar  <siddhesh@sourceware.org>
+> + 2016-10-26  Carlos O'Donell  <carlos@redhat.com>
 > + 
-> + 	* version.h (RELEASE): Set to "stable"
+> + 	* include/atomic.h
 > +diff --git a/NEWS b/NEWS
-> +index ec15dde761..f7d38536d6 100644
+> +index 3002773c16..4b1ca3cb65 100644
 > +--- a/NEWS
 > ++++ b/NEWS
-> +@@ -5,6 +5,7 @@ See the end for copying conditions.
-> + Please send GNU C library bug reports via <http://sourceware.org/bugzilla/>
-> + using `glibc' in the "product" field.
-> + 
-> ++  [21624] Unsafe alloca allows local attackers to alias stack and heap (CVE-2017-1000366)
-> + Version 2.25
+> +@@ -11,6 +11,12 @@ using `glibc' in the "product" field.
+> +   printers show various pthread variables in human-readable form when read
+> +   using the 'print' or 'display' commands in gdb.
 > + 
-> + * The feature test macro __STDC_WANT_LIB_EXT2__, from ISO/IEC TR
-> +diff --git a/elf/rtld.c b/elf/rtld.c
-> +index a036ece956..2fc33a6178 100644
-> +--- a/elf/rtld.c
-> ++++ b/elf/rtld.c
-> +@@ -2418,7 +2418,8 @@ process_envvars (enum mode *modep)
-> + 
-> + 	case 12:
-> + 	  /* The library search path.  */
-> +-	  if (memcmp (envline, "LIBRARY_PATH", 12) == 0)
-> ++	  if (!__libc_enable_secure
-> ++	      && memcmp (envline, "LIBRARY_PATH", 12) == 0)
-> + 	    {
-> + 	      library_path = &envline[13];
-> + 	      break;
-> +-- 
-> +2.15.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch b/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
-> new file mode 100644
-> index 0000000000..142bd86d2f
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch
-> @@ -0,0 +1,144 @@
-> +From d4fe2023bb908b85d577ac3843acd44bada330ce Mon Sep 17 00:00:00 2001
-> +From: Florian Weimer <fweimer@redhat.com>
-> +Date: Mon, 19 Jun 2017 22:31:04 +0200
-> +Subject: [PATCH] ld.so: Reject overly long LD_PRELOAD path elements
-> +
-> +(cherry picked from commit 6d0ba622891bed9d8394eef1935add53003b12e8)
-> +
-> +Upstream-Status: Backport
-> +https://sourceware.org/git/?p=glibc.git;a=commit;h=46703a3995aa3ca2b816814aa4ad05ed524194dd
-> +
-> +CVE: CVE-2017-1000366
-> +
-> +Signed-off-by: George McCollister <george.mccollister@gmail.com>
-> +---
-> + ChangeLog  |  7 ++++++
-> + elf/rtld.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++------------
-> + 2 files changed, 73 insertions(+), 16 deletions(-)
-> +
-> +diff --git a/ChangeLog b/ChangeLog
-> +index 7bfdf45bb5..0aff2bd347 100644
-> +--- a/ChangeLog
-> ++++ b/ChangeLog
-> +@@ -1,3 +1,10 @@
-> ++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+> ++* The DNS stub resolver functions would crash due to a NULL pointer
+> ++  dereference when processing a query with a valid DNS question type which
+> ++  was used internally in the implementation.  The stub resolver now uses a
+> ++  question type which is outside the range of valid question type values.
+> ++  (CVE-2015-5180)
 > ++
-> ++	* elf/rtld.c (SECURE_NAME_LIMIT, SECURE_PATH_LIMIT): Define.
-> ++	(dso_name_valid_for_suid): New function.
-> ++	(handle_ld_preload): Likewise.
-> ++	(dl_main): Call it.  Remove alloca.
-> ++
-> + 2017-06-19  Florian Weimer  <fweimer@redhat.com>
+> + Version 2.24
 > + 
-> + 	[BZ #21624]
-> +diff --git a/elf/rtld.c b/elf/rtld.c
-> +index 2fc33a6178..4badcf6590 100644
-> +--- a/elf/rtld.c
-> ++++ b/elf/rtld.c
-> +@@ -99,6 +99,35 @@ uintptr_t __pointer_chk_guard_local
-> + strong_alias (__pointer_chk_guard_local, __pointer_chk_guard)
+> + * The minimum Linux kernel version that this version of the GNU C Library
+> +diff --git a/include/arpa/nameser_compat.h b/include/arpa/nameser_compat.h
+> +index 2e735ede4c..7c0deed9ae 100644
+> +--- a/include/arpa/nameser_compat.h
+> ++++ b/include/arpa/nameser_compat.h
+> +@@ -1,8 +1,8 @@
+> + #ifndef _ARPA_NAMESER_COMPAT_
+> + #include <resolv/arpa/nameser_compat.h>
+> + 
+> +-/* Picksome unused number to represent lookups of IPv4 and IPv6 (i.e.,
+> +-   T_A and T_AAAA).  */
+> +-#define T_UNSPEC 62321
+> ++/* The number is outside the 16-bit RR type range and is used
+> ++   internally by the implementation.  */
+> ++#define T_QUERY_A_AND_AAAA 439963904
+> + 
+> + #endif
+> +diff --git a/resolv/Makefile b/resolv/Makefile
+> +index 8be41d3ae1..a4c86b9762 100644
+> +--- a/resolv/Makefile
+> ++++ b/resolv/Makefile
+> +@@ -40,6 +40,9 @@ ifeq ($(have-thread-library),yes)
+> + extra-libs += libanl
+> + routines += gai_sigqueue
+> + tests += tst-res_hconf_reorder
+> ++
+> ++# This test sends millions of packets and is rather slow.
+> ++xtests += tst-resolv-qtypes
+> + endif
+> + extra-libs-others = $(extra-libs)
+> + libresolv-routines := gethnamaddr res_comp res_debug	\
+> +@@ -117,3 +120,5 @@ tst-leaks2-ENV = MALLOC_TRACE=$(objpfx)tst-leaks2.mtrace
+> + $(objpfx)mtrace-tst-leaks2.out: $(objpfx)tst-leaks2.out
+> + 	$(common-objpfx)malloc/mtrace $(objpfx)tst-leaks2.mtrace > $@; \
+> + 	$(evaluate-test)
+> ++
+> ++$(objpfx)tst-resolv-qtypes: $(objpfx)libresolv.so $(shared-thread-library)
+> +diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
+> +index 5f9e35701b..d16fa4b8ed 100644
+> +--- a/resolv/nss_dns/dns-host.c
+> ++++ b/resolv/nss_dns/dns-host.c
+> +@@ -323,7 +323,7 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
+> + 
+> +   int olderr = errno;
+> +   enum nss_status status;
+> +-  int n = __libc_res_nsearch (&_res, name, C_IN, T_UNSPEC,
+> ++  int n = __libc_res_nsearch (&_res, name, C_IN, T_QUERY_A_AND_AAAA,
+> + 			      host_buffer.buf->buf, 2048, &host_buffer.ptr,
+> + 			      &ans2p, &nans2p, &resplen2, &ans2p_malloced);
+> +   if (n >= 0)
+> +diff --git a/resolv/res_mkquery.c b/resolv/res_mkquery.c
+> +index 12f9730199..d80b5318e5 100644
+> +--- a/resolv/res_mkquery.c
+> ++++ b/resolv/res_mkquery.c
+> +@@ -103,6 +103,10 @@ res_nmkquery(res_state statp,
+> + 	int n;
+> + 	u_char *dnptrs[20], **dpp, **lastdnptr;
+> + 
+> ++	if (class < 0 || class > 65535
+> ++	    || type < 0 || type > 65535)
+> ++	  return -1;
+> ++
+> + #ifdef DEBUG
+> + 	if (statp->options & RES_DEBUG)
+> + 		printf(";; res_nmkquery(%s, %s, %s, %s)\n",
+> +diff --git a/resolv/res_query.c b/resolv/res_query.c
+> +index 944d1a90f5..07dc6f6583 100644
+> +--- a/resolv/res_query.c
+> ++++ b/resolv/res_query.c
+> +@@ -122,7 +122,7 @@ __libc_res_nquery(res_state statp,
+> + 	int n, use_malloc = 0;
+> + 	u_int oflags = statp->_flags;
+> + 
+> +-	size_t bufsize = (type == T_UNSPEC ? 2 : 1) * QUERYSIZE;
+> ++	size_t bufsize = (type == T_QUERY_A_AND_AAAA ? 2 : 1) * QUERYSIZE;
+> + 	u_char *buf = alloca (bufsize);
+> + 	u_char *query1 = buf;
+> + 	int nquery1 = -1;
+> +@@ -137,7 +137,7 @@ __libc_res_nquery(res_state statp,
+> + 		printf(";; res_query(%s, %d, %d)\n", name, class, type);
 > + #endif
 > + 
-> ++/* Length limits for names and paths, to protect the dynamic linker,
-> ++   particularly when __libc_enable_secure is active.  */
-> ++#ifdef NAME_MAX
-> ++# define SECURE_NAME_LIMIT NAME_MAX
-> ++#else
-> ++# define SECURE_NAME_LIMIT 255
-> ++#endif
-> ++#ifdef PATH_MAX
-> ++# define SECURE_PATH_LIMIT PATH_MAX
-> ++#else
-> ++# define SECURE_PATH_LIMIT 1024
-> ++#endif
+> +-	if (type == T_UNSPEC)
+> ++	if (type == T_QUERY_A_AND_AAAA)
+> + 	  {
+> + 	    n = res_nmkquery(statp, QUERY, name, class, T_A, NULL, 0, NULL,
+> + 			     query1, bufsize);
+> +@@ -190,7 +190,7 @@ __libc_res_nquery(res_state statp,
+> + 	if (__builtin_expect (n <= 0, 0) && !use_malloc) {
+> + 		/* Retry just in case res_nmkquery failed because of too
+> + 		   short buffer.  Shouldn't happen.  */
+> +-		bufsize = (type == T_UNSPEC ? 2 : 1) * MAXPACKET;
+> ++		bufsize = (type == T_QUERY_A_AND_AAAA ? 2 : 1) * MAXPACKET;
+> + 		buf = malloc (bufsize);
+> + 		if (buf != NULL) {
+> + 			query1 = buf;
+> +diff --git a/resolv/tst-resolv-qtypes.c b/resolv/tst-resolv-qtypes.c
+> +new file mode 100644
+> +index 0000000000..b3e60c693b
+> +--- /dev/null
+> ++++ b/resolv/tst-resolv-qtypes.c
+> +@@ -0,0 +1,185 @@
+> ++/* Exercise low-level query functions with different QTYPEs.
+> ++   Copyright (C) 2016 Free Software Foundation, Inc.
+> ++   This file is part of the GNU C Library.
 > ++
-> ++/* Check that AT_SECURE=0, or that the passed name does not contain
-> ++   directories and is not overly long.  Reject empty names
-> ++   unconditionally.  */
-> ++static bool
-> ++dso_name_valid_for_suid (const char *p)
-> ++{
-> ++  if (__glibc_unlikely (__libc_enable_secure))
-> ++    {
-> ++      /* Ignore pathnames with directories for AT_SECURE=1
-> ++	 programs, and also skip overlong names.  */
-> ++      size_t len = strlen (p);
-> ++      if (len >= SECURE_NAME_LIMIT || memchr (p, '/', len) != NULL)
-> ++	return false;
-> ++    }
-> ++  return *p != '\0';
-> ++}
-> + 
-> + /* List of auditing DSOs.  */
-> + static struct audit_list
-> +@@ -716,6 +745,42 @@ static const char *preloadlist attribute_relro;
-> + /* Nonzero if information about versions has to be printed.  */
-> + static int version_info attribute_relro;
-> + 
-> ++/* The LD_PRELOAD environment variable gives list of libraries
-> ++   separated by white space or colons that are loaded before the
-> ++   executable's dependencies and prepended to the global scope list.
-> ++   (If the binary is running setuid all elements containing a '/' are
-> ++   ignored since it is insecure.)  Return the number of preloads
-> ++   performed.  */
-> ++unsigned int
-> ++handle_ld_preload (const char *preloadlist, struct link_map *main_map)
-> ++{
-> ++  unsigned int npreloads = 0;
-> ++  const char *p = preloadlist;
-> ++  char fname[SECURE_PATH_LIMIT];
+> ++   The GNU C Library is free software; you can redistribute it and/or
+> ++   modify it under the terms of the GNU Lesser General Public
+> ++   License as published by the Free Software Foundation; either
+> ++   version 2.1 of the License, or (at your option) any later version.
 > ++
-> ++  while (*p != '\0')
-> ++    {
-> ++      /* Split preload list at space/colon.  */
-> ++      size_t len = strcspn (p, " :");
-> ++      if (len > 0 && len < sizeof (fname))
-> ++	{
-> ++	  memcpy (fname, p, len);
-> ++	  fname[len] = '\0';
-> ++	}
-> ++      else
-> ++	fname[0] = '\0';
+> ++   The GNU C Library is distributed in the hope that it will be useful,
+> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> ++   Lesser General Public License for more details.
 > ++
-> ++      /* Skip over the substring and the following delimiter.  */
-> ++      p += len;
-> ++      if (*p != '\0')
-> ++	++p;
+> ++   You should have received a copy of the GNU Lesser General Public
+> ++   License along with the GNU C Library; if not, see
+> ++   <http://www.gnu.org/licenses/>.  */
 > ++
-> ++      if (dso_name_valid_for_suid (fname))
-> ++	npreloads += do_preload (fname, main_map, "LD_PRELOAD");
-> ++    }
-> ++  return npreloads;
-> ++}
+> ++#include <resolv.h>
+> ++#include <string.h>
+> ++#include <support/check.h>
+> ++#include <support/check_nss.h>
+> ++#include <support/resolv_test.h>
+> ++#include <support/support.h>
+> ++#include <support/test-driver.h>
+> ++#include <support/xmemstream.h>
 > ++
-> + static void
-> + dl_main (const ElfW(Phdr) *phdr,
-> + 	 ElfW(Word) phnum,
-> +@@ -1462,23 +1527,8 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-> + 
-> +   if (__glibc_unlikely (preloadlist != NULL))
-> +     {
-> +-      /* The LD_PRELOAD environment variable gives list of libraries
-> +-	 separated by white space or colons that are loaded before the
-> +-	 executable's dependencies and prepended to the global scope
-> +-	 list.  If the binary is running setuid all elements
-> +-	 containing a '/' are ignored since it is insecure.  */
-> +-      char *list = strdupa (preloadlist);
-> +-      char *p;
-> +-
-> +       HP_TIMING_NOW (start);
-> +-
-> +-      /* Prevent optimizing strsep.  Speed is not important here.  */
-> +-      while ((p = (strsep) (&list, " :")) != NULL)
-> +-	if (p[0] != '\0'
-> +-	    && (__builtin_expect (! __libc_enable_secure, 1)
-> +-		|| strchr (p, '/') == NULL))
-> +-	  npreloads += do_preload (p, main_map, "LD_PRELOAD");
-> +-
-> ++      npreloads += handle_ld_preload (preloadlist, main_map);
-> +       HP_TIMING_NOW (stop);
-> +       HP_TIMING_DIFF (diff, start, stop);
-> +       HP_TIMING_ACCUM_NT (load_time, diff);
-> +-- 
-> +2.15.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch b/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
-> new file mode 100644
-> index 0000000000..2b633e730d
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch
-> @@ -0,0 +1,230 @@
-> +From 3e09d900f710318eddc474644aeb2e496be0ce02 Mon Sep 17 00:00:00 2001
-> +From: Florian Weimer <fweimer@redhat.com>
-> +Date: Mon, 19 Jun 2017 22:32:12 +0200
-> +Subject: [PATCH] ld.so: Reject overly long LD_AUDIT path elements
-> +
-> +Also only process the last LD_AUDIT entry.
-> +
-> +(cherry picked from commit 81b82fb966ffbd94353f793ad17116c6088dedd9)
-> +
-> +Upstream-Status: Backport
-> +https://sourceware.org/git/?p=glibc.git;a=commit;h=c69d4a0f680a24fdbe323764a50382ad324041e9
-> +
-> +CVE: CVE-2017-1000366
-> +
-> +Signed-off-by: George McCollister <george.mccollister@gmail.com>
-> +---
-> + ChangeLog  |  11 +++++++
-> + elf/rtld.c | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++---------
-> + 2 files changed, 106 insertions(+), 15 deletions(-)
-> +
-> +diff --git a/ChangeLog b/ChangeLog
-> +index 0aff2bd347..94ba05ed1f 100644
-> +--- a/ChangeLog
-> ++++ b/ChangeLog
-> +@@ -1,3 +1,14 @@
-> ++2017-06-19  Florian Weimer  <fweimer@redhat.com>
+> ++/* If ture, the response function will send the actual response packet
+> ++   over TCP instead of UDP.  */
+> ++static volatile bool force_tcp;
 > ++
-> ++	* elf/rtld.c (audit_list_string): New variable.
-> ++	(audit_list): Update comment.
-> ++	(struct audit_list_iter): Define.
-> ++	(audit_list_iter_init, audit_list_iter_next): New function.
-> ++	(dl_main): Use struct audit_list_iter to process audit modules.
-> ++	(process_dl_audit): Call dso_name_valid_for_suid.
-> ++	(process_envvars): Set audit_list_string instead of calling
-> ++	process_dl_audit.
-> ++
-> + 2017-06-19  Florian Weimer  <fweimer@redhat.com>
-> + 
-> + 	* elf/rtld.c (SECURE_NAME_LIMIT, SECURE_PATH_LIMIT): Define.
-> +diff --git a/elf/rtld.c b/elf/rtld.c
-> +index 4badcf6590..369724babe 100644
-> +--- a/elf/rtld.c
-> ++++ b/elf/rtld.c
-> +@@ -129,13 +129,91 @@ dso_name_valid_for_suid (const char *p)
-> +   return *p != '\0';
-> + }
-> + 
-> +-/* List of auditing DSOs.  */
-> ++/* LD_AUDIT variable contents.  Must be processed before the
-> ++   audit_list below.  */
-> ++const char *audit_list_string;
-> ++
-> ++/* Cyclic list of auditing DSOs.  audit_list->next is the first
-> ++   element.  */
-> + static struct audit_list
-> + {
-> +   const char *name;
-> +   struct audit_list *next;
-> + } *audit_list;
-> + 
-> ++/* Iterator for audit_list_string followed by audit_list.  */
-> ++struct audit_list_iter
-> ++{
-> ++  /* Tail of audit_list_string still needing processing, or NULL.  */
-> ++  const char *audit_list_tail;
-> ++
-> ++  /* The list element returned in the previous iteration.  NULL before
-> ++     the first element.  */
-> ++  struct audit_list *previous;
-> ++
-> ++  /* Scratch buffer for returning a name which is part of
-> ++     audit_list_string.  */
-> ++  char fname[SECURE_NAME_LIMIT];
-> ++};
-> ++
-> ++/* Initialize an audit list iterator.  */
+> ++/* Send back a fake resource record matching the QTYPE.  */
 > ++static void
-> ++audit_list_iter_init (struct audit_list_iter *iter)
+> ++response (const struct resolv_response_context *ctx,
+> ++          struct resolv_response_builder *b,
+> ++          const char *qname, uint16_t qclass, uint16_t qtype)
 > ++{
-> ++  iter->audit_list_tail = audit_list_string;
-> ++  iter->previous = NULL;
-> ++}
-> ++
-> ++/* Iterate through both audit_list_string and audit_list.  */
-> ++static const char *
-> ++audit_list_iter_next (struct audit_list_iter *iter)
-> ++{
-> ++  if (iter->audit_list_tail != NULL)
+> ++  if (force_tcp && ctx->tcp)
 > ++    {
-> ++      /* First iterate over audit_list_string.  */
-> ++      while (*iter->audit_list_tail != '\0')
-> ++	{
-> ++	  /* Split audit list at colon.  */
-> ++	  size_t len = strcspn (iter->audit_list_tail, ":");
-> ++	  if (len > 0 && len < sizeof (iter->fname))
-> ++	    {
-> ++	      memcpy (iter->fname, iter->audit_list_tail, len);
-> ++	      iter->fname[len] = '\0';
-> ++	    }
-> ++	  else
-> ++	    /* Do not return this name to the caller.  */
-> ++	    iter->fname[0] = '\0';
-> ++
-> ++	  /* Skip over the substring and the following delimiter.  */
-> ++	  iter->audit_list_tail += len;
-> ++	  if (*iter->audit_list_tail == ':')
-> ++	    ++iter->audit_list_tail;
-> ++
-> ++	  /* If the name is valid, return it.  */
-> ++	  if (dso_name_valid_for_suid (iter->fname))
-> ++	    return iter->fname;
-> ++	  /* Otherwise, wrap around and try the next name.  */
-> ++	}
-> ++      /* Fall through to the procesing of audit_list.  */
+> ++      resolv_response_init (b, (struct resolv_response_flags) { .tc = 1 });
+> ++      resolv_response_add_question (b, qname, qclass, qtype);
+> ++      return;
 > ++    }
 > ++
-> ++  if (iter->previous == NULL)
-> ++    {
-> ++      if (audit_list == NULL)
-> ++	/* No pre-parsed audit list.  */
-> ++	return NULL;
-> ++      /* Start of audit list.  The first list element is at
-> ++	 audit_list->next (cyclic list).  */
-> ++      iter->previous = audit_list->next;
-> ++      return iter->previous->name;
-> ++    }
-> ++  if (iter->previous == audit_list)
-> ++    /* Cyclic list wrap-around.  */
-> ++    return NULL;
-> ++  iter->previous = iter->previous->next;
-> ++  return iter->previous->name;
+> ++  resolv_response_init (b, (struct resolv_response_flags) { });
+> ++  resolv_response_add_question (b, qname, qclass, qtype);
+> ++  resolv_response_section (b, ns_s_an);
+> ++  resolv_response_open_record (b, qname, qclass, qtype, 0);
+> ++  resolv_response_add_data (b, &qtype, sizeof (qtype));
+> ++  resolv_response_close_record (b);
 > ++}
 > ++
-> + #ifndef HAVE_INLINED_SYSCALLS
-> + /* Set nonzero during loading and initialization of executable and
-> +    libraries, cleared before the executable's entry point runs.  This
-> +@@ -1303,11 +1381,13 @@ of this helper program; chances are you did not intend to run this program.\n\
-> +     GL(dl_rtld_map).l_tls_modid = _dl_next_tls_modid ();
-> + 
-> +   /* If we have auditing DSOs to load, do it now.  */
-> +-  if (__glibc_unlikely (audit_list != NULL))
-> ++  bool need_security_init = true;
-> ++  if (__glibc_unlikely (audit_list != NULL)
-> ++      || __glibc_unlikely (audit_list_string != NULL))
-> +     {
-> +-      /* Iterate over all entries in the list.  The order is important.  */
-> +       struct audit_ifaces *last_audit = NULL;
-> +-      struct audit_list *al = audit_list->next;
-> ++      struct audit_list_iter al_iter;
-> ++      audit_list_iter_init (&al_iter);
-> + 
-> +       /* Since we start using the auditing DSOs right away we need to
-> + 	 initialize the data structures now.  */
-> +@@ -1318,9 +1398,14 @@ of this helper program; chances are you did not intend to run this program.\n\
-> + 	 use different values (especially the pointer guard) and will
-> + 	 fail later on.  */
-> +       security_init ();
-> ++      need_security_init = false;
-> + 
-> +-      do
-> ++      while (true)
-> + 	{
-> ++	  const char *name = audit_list_iter_next (&al_iter);
-> ++	  if (name == NULL)
-> ++	    break;
+> ++static const const char *domain = "www.example.com";
 > ++
-> + 	  int tls_idx = GL(dl_tls_max_dtv_idx);
-> + 
-> + 	  /* Now it is time to determine the layout of the static TLS
-> +@@ -1329,7 +1414,7 @@ of this helper program; chances are you did not intend to run this program.\n\
-> + 	     no DF_STATIC_TLS bit is set.  The reason is that we know
-> + 	     glibc will use the static model.  */
-> + 	  struct dlmopen_args dlmargs;
-> +-	  dlmargs.fname = al->name;
-> ++	  dlmargs.fname = name;
-> + 	  dlmargs.map = NULL;
-> + 
-> + 	  const char *objname;
-> +@@ -1342,7 +1427,7 @@ of this helper program; chances are you did not intend to run this program.\n\
-> + 	    not_loaded:
-> + 	      _dl_error_printf ("\
-> + ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-> +-				al->name, err_str);
-> ++				name, err_str);
-> + 	      if (malloced)
-> + 		free ((char *) err_str);
-> + 	    }
-> +@@ -1446,10 +1531,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-> + 		  goto not_loaded;
-> + 		}
-> + 	    }
-> +-
-> +-	  al = al->next;
-> + 	}
-> +-      while (al != audit_list->next);
-> + 
-> +       /* If we have any auditing modules, announce that we already
-> + 	 have two objects loaded.  */
-> +@@ -1713,7 +1795,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-> +   if (tcbp == NULL)
-> +     tcbp = init_tls ();
-> + 
-> +-  if (__glibc_likely (audit_list == NULL))
-> ++  if (__glibc_likely (need_security_init))
-> +     /* Initialize security features.  But only if we have not done it
-> +        earlier.  */
-> +     security_init ();
-> +@@ -2344,9 +2426,7 @@ process_dl_audit (char *str)
-> +   char *p;
-> + 
-> +   while ((p = (strsep) (&str, ":")) != NULL)
-> +-    if (p[0] != '\0'
-> +-	&& (__builtin_expect (! __libc_enable_secure, 1)
-> +-	    || strchr (p, '/') == NULL))
-> ++    if (dso_name_valid_for_suid (p))
-> +       {
-> + 	/* This is using the local malloc, not the system malloc.  The
-> + 	   memory can never be freed.  */
-> +@@ -2410,7 +2490,7 @@ process_envvars (enum mode *modep)
-> + 	      break;
-> + 	    }
-> + 	  if (memcmp (envline, "AUDIT", 5) == 0)
-> +-	    process_dl_audit (&envline[6]);
-> ++	    audit_list_string = &envline[6];
-> + 	  break;
-> + 
-> + 	case 7:
+> ++static int
+> ++wrap_res_query (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_query (domain, C_IN, type, answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_search (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_query (domain, C_IN, type, answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_querydomain (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_querydomain ("www", "example.com", C_IN, type,
+> ++                           answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_send (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  unsigned char buf[512];
+> ++  int ret = res_mkquery (QUERY, domain, C_IN, type,
+> ++                         (const unsigned char *) "", 0, NULL,
+> ++                         buf, sizeof (buf));
+> ++  if (type < 0 || type >= 65536)
+> ++    {
+> ++      /* res_mkquery fails for out-of-range record types.  */
+> ++      TEST_VERIFY_EXIT (ret == -1);
+> ++      return -1;
+> ++    }
+> ++  TEST_VERIFY_EXIT (ret > 12);  /* DNS header length.  */
+> ++  return res_send (buf, ret, answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_nquery (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_nquery (&_res, domain, C_IN, type, answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_nsearch (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_nquery (&_res, domain, C_IN, type, answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_nquerydomain (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  return res_nquerydomain (&_res, "www", "example.com", C_IN, type,
+> ++                           answer, answer_length);
+> ++}
+> ++
+> ++static int
+> ++wrap_res_nsend (int type, unsigned char *answer, int answer_length)
+> ++{
+> ++  unsigned char buf[512];
+> ++  int ret = res_nmkquery (&_res, QUERY, domain, C_IN, type,
+> ++                         (const unsigned char *) "", 0, NULL,
+> ++                         buf, sizeof (buf));
+> ++  if (type < 0 || type >= 65536)
+> ++    {
+> ++      /* res_mkquery fails for out-of-range record types.  */
+> ++      TEST_VERIFY_EXIT (ret == -1);
+> ++      return -1;
+> ++    }
+> ++  TEST_VERIFY_EXIT (ret > 12);  /* DNS header length.  */
+> ++  return res_nsend (&_res, buf, ret, answer, answer_length);
+> ++}
+> ++
+> ++static void
+> ++test_function (const char *fname,
+> ++               int (*func) (int type,
+> ++                            unsigned char *answer, int answer_length))
+> ++{
+> ++  unsigned char buf[512];
+> ++  for (int tcp = 0; tcp < 2; ++tcp)
+> ++    {
+> ++      force_tcp = tcp;
+> ++      for (unsigned int type = 1; type <= 65535; ++type)
+> ++        {
+> ++          if (test_verbose)
+> ++            printf ("info: sending QTYPE %d with %s (tcp=%d)\n",
+> ++                    type, fname, tcp);
+> ++          int ret = func (type, buf, sizeof (buf));
+> ++          if (ret != 47)
+> ++            FAIL_EXIT1 ("%s tcp=%d qtype=%d return value %d",
+> ++                        fname,tcp, type, ret);
+> ++          /* One question, one answer record.  */
+> ++          TEST_VERIFY (memcmp (buf + 4, "\0\1\0\1\0\0\0\0", 8) == 0);
+> ++          /* Question section.  */
+> ++          static const char qname[] = "\3www\7example\3com";
+> ++          size_t qname_length = sizeof (qname);
+> ++          TEST_VERIFY (memcmp (buf + 12, qname, qname_length) == 0);
+> ++          /* RDATA part of answer.  */
+> ++          uint16_t type16 = type;
+> ++          TEST_VERIFY (memcmp (buf + ret - 2, &type16, sizeof (type16)) == 0);
+> ++        }
+> ++    }
+> ++
+> ++  TEST_VERIFY (func (-1, buf, sizeof (buf) == -1));
+> ++  TEST_VERIFY (func (65536, buf, sizeof (buf) == -1));
+> ++}
+> ++
+> ++static int
+> ++do_test (void)
+> ++{
+> ++  struct resolv_redirect_config config =
+> ++    {
+> ++      .response_callback = response,
+> ++    };
+> ++  struct resolv_test *obj = resolv_test_start (config);
+> ++
+> ++  test_function ("res_query", &wrap_res_query);
+> ++  test_function ("res_search", &wrap_res_search);
+> ++  test_function ("res_querydomain", &wrap_res_querydomain);
+> ++  test_function ("res_send", &wrap_res_send);
+> ++
+> ++  test_function ("res_nquery", &wrap_res_nquery);
+> ++  test_function ("res_nsearch", &wrap_res_nsearch);
+> ++  test_function ("res_nquerydomain", &wrap_res_nquerydomain);
+> ++  test_function ("res_nsend", &wrap_res_nsend);
+> ++
+> ++  resolv_test_end (obj);
+> ++  return 0;
+> ++}
+> ++
+> ++#define TIMEOUT 300
+> ++#include <support/test-driver.c>
 > +-- 
 > +2.15.0
 > +
-> diff --git a/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch b/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
-> new file mode 100644
-> index 0000000000..eeba66d30f
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch
-> @@ -0,0 +1,62 @@
-> +From b30b4ac52748507c8a87c2bd1869f42fbf5b4f99 Mon Sep 17 00:00:00 2001
-> +From: Florian Weimer <fweimer@redhat.com>
-> +Date: Wed, 14 Jun 2017 08:11:22 +0200
-> +Subject: [PATCH] i686: Add missing IS_IN (libc) guards to vectorized strcspn
-> +
-> +Since commit d957c4d3fa48d685ff2726c605c988127ef99395 (i386: Compile
-> +rtld-*.os with -mno-sse -mno-mmx -mfpmath=387), vector intrinsics can
-> +no longer be used in ld.so, even if the compiled code never makes it
-> +into the final ld.so link.  This commit adds the missing IS_IN (libc)
-> +guard to the SSE 4.2 strcspn implementation, so that it can be used from
-> +ld.so in the future.
-> +
-> +(cherry picked from commit 69052a3a95da37169a08f9e59b2cc1808312753c)
-> +
-> +Upstream-Status: Backport
-> +https://sourceware.org/git/?p=glibc.git;a=commit;h=adc7e06fb412a2a1ee52f8cb788caf436335b9f3
-> +
-> +Required to build fixes for CVE-2017-1000366.
-> +
-> +Signed-off-by: George McCollister <george.mccollister@gmail.com>
-> +---
-> + ChangeLog                               | 5 +++++
-> + sysdeps/i386/i686/multiarch/strcspn-c.c | 6 ++++--
-> + sysdeps/i386/i686/multiarch/varshift.c  | 4 +++-
-> + 3 files changed, 12 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/ChangeLog b/ChangeLog
-> +index 94ba05ed1f..9eb60e7728 100644
-> +--- a/ChangeLog
-> ++++ b/ChangeLog
-> +@@ -1,3 +1,8 @@
-> ++2017-06-14  Florian Weimer  <fweimer@redhat.com>
-> ++
-> ++	* sysdeps/i386/i686/multiarch/strcspn-c.c: Add IS_IN (libc) guard.
-> ++	* sysdeps/i386/i686/multiarch/varshift.c: Likewise.
-> ++
-> + 2017-06-19  Florian Weimer  <fweimer@redhat.com>
-> + 
-> + 	* elf/rtld.c (audit_list_string): New variable.
-> +diff --git a/sysdeps/i386/i686/multiarch/strcspn-c.c b/sysdeps/i386/i686/multiarch/strcspn-c.c
-> +index 6d61e190a8..ec230fb383 100644
-> +--- a/sysdeps/i386/i686/multiarch/strcspn-c.c
-> ++++ b/sysdeps/i386/i686/multiarch/strcspn-c.c
-> +@@ -1,2 +1,4 @@
-> +-#define __strcspn_sse2 __strcspn_ia32
-> +-#include <sysdeps/x86_64/multiarch/strcspn-c.c>
-> ++#if IS_IN (libc)
-> ++# define __strcspn_sse2 __strcspn_ia32
-> ++# include <sysdeps/x86_64/multiarch/strcspn-c.c>
-> ++#endif
-> +diff --git a/sysdeps/i386/i686/multiarch/varshift.c b/sysdeps/i386/i686/multiarch/varshift.c
-> +index 7760b966e2..6742a35d41 100644
-> +--- a/sysdeps/i386/i686/multiarch/varshift.c
-> ++++ b/sysdeps/i386/i686/multiarch/varshift.c
-> +@@ -1 +1,3 @@
-> +-#include <sysdeps/x86_64/multiarch/varshift.c>
-> ++#if IS_IN (libc)
-> ++# include <sysdeps/x86_64/multiarch/varshift.c>
-> ++#endif
-> +-- 
-> +2.15.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
-> index cf9c4f71b8..e9ef0e0d5e 100644
-> --- a/meta/recipes-core/glibc/glibc_2.25.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.25.bb
-> @@ -42,6 +42,10 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
->             file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
->             file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
-> +           file://0028-CVE-2017-1000366-Ignore-LD_LIBRARY_PATH-for-AT_SECUR.patch \
-> +           file://0029-ld.so-Reject-overly-long-LD_PRELOAD-path-elements.patch \
-> +           file://0030-ld.so-Reject-overly-long-LD_AUDIT-path-elements.patch \
-> +           file://0031-i686-Add-missing-IS_IN-libc-guards-to-vectorized-str.patch \
+> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+> index e723e03dcf..4c7d901149 100644
+> --- a/meta/recipes-core/glibc/glibc_2.24.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
+> @@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0004-New-condvar-implementation-that-provides-stronger-or.patch \
+>             file://0005-Remove-__ASSUME_REQUEUE_PI.patch \
+>             file://0006-Fix-atomic_fetch_xor_release.patch \
+> +           file://0001-CVE-2015-5180-resolv-Fix-crash-with-internal-QTYPE-B.patch \
 >  "
 >  
->  NATIVESDKFIXES ?= ""
+>  SRC_URI += "\
 
 
