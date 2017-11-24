@@ -1,56 +1,55 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D55B4719A4
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 53B1A719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 17:05:13 +0000 (UTC)
-Received: by mail-pl0-f41.google.com with SMTP id z3so4731272plh.9
+	Fri, 24 Nov 2017 17:05:30 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id r12so15659645pgu.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 09:05:15 -0800 (PST)
+	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=r2LDTwgDsZ17CoSGWx3hOh5jA3Dll7heUo6k5EGJFRY=;
-	b=BwGERopQdX8Pe2X017ek6+/XjZV2Vbsxi5LCPJ/b2NH8/vH6G+cNIwLvq+X30eCa8r
-	9Kx0TKRFYdJkwZEOZ952MXbciwoEzpY+rfUORwIh37TsLG6R0eiRmueB0KZaaH77fANR
-	XOuf4D50LhVAS4FqeAqomn9fWkx8NMzqN42V+XiOky+at37rJBNF6COfNY6J6XYZL2GT
-	iArY+Ds7X8OfoL8acVV0VKNnHdKa5c9QyD8xIY5+chrF7zcU/nMDwtxJ60/GD4KRkFuK
-	5ZR1g86qZd9k9UEl4sF3sCbDgnyZ7/XtEiK4pUYUqDd3l5KSDT9mZmGh0Ikn+0dhBFxV
-	rIQA==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=XkwAYOzV1pwCcqeqWG0qpkqHLZDs+gH9+c5clvmGzJU=;
+	b=lx6BP2gloEgl0WlScBNKLHrthOwe+CBL9qwpgC/G9hz7LOlIGi2HBtzkYuCPCuAicI
+	8f3gBeBV+tjSPiKG3cJzK2ddi2zi0BPChCjqetc72f6iwBZEyeHuVlnqhthoTKXJDBAz
+	RDXFoOr0ofAaQSyZ83heHAvRX4jLnrgdmQjw30AgO5TD7FzAo+0kRnzkhud3aS1pKD2/
+	WxrmOLxvDg5AXOzH5ftRNenQRX+KXjzAvkTwX+G9DB4besUN9DYABtsy1JiE2rP2LINq
+	1540sp2E+FwMNC2ZC4gaZlL56s4yNh2cvy5z9LrpjOTJGfzzAGZkJ3gZ/MScUxB0mZ69
+	Le5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=r2LDTwgDsZ17CoSGWx3hOh5jA3Dll7heUo6k5EGJFRY=;
-	b=jHw+sBw9uvWrKyeZm21J+TBqUl6PKH2eSiZ2aMTU1mN+3kWuyzM6PqnXT3N+AmsvUt
-	iYZ0EkSkB+tLkUz7TV37tVCSF9Jakc+RQKrP2dAbxI8uTCuLi4N5DxjudQ9JUZTgiW3d
-	zH6Y7YPqT3I8g5ZoTwHd/FOO2dgVONQAONajzRU/nw3ivcpyiCfc3CGx4+UmsqqBPEFP
-	m/Eo21Lk9RUndYQPulXd4MLSMbbOn8XK2pK6gPw3NpdWyGlKffWRRCDG3tOJAEh8AZVQ
-	/UmSf6KzJo7aDbxmJN1hb9TSVStsPmhIdwSSLzkFG1C3sO111KxWoZjDH2ktjAnmXnEj
-	GyMQ==
-X-Gm-Message-State: AJaThX62dJpH0nNUZADYBtarcD69loOYAzbcyeahwXWFKijAv1w2kBy6
-	Trlul4OCH8k3l+QJRpmFUNQ=
-X-Google-Smtp-Source: AGs4zMbgu9TtLg0sXklvA8FbQDvtCKt72ILqs7HsUyJp9nOlywVNXOOLkxTXBVCTiJUzLPQgiWfeCQ==
-X-Received: by 10.84.131.36 with SMTP id 33mr7864985pld.348.1511543114817;
-	Fri, 24 Nov 2017 09:05:14 -0800 (PST)
+	bh=XkwAYOzV1pwCcqeqWG0qpkqHLZDs+gH9+c5clvmGzJU=;
+	b=TUrJNbXp166l88EyMHi3/iagBr4dyIdvPa8oMSaZNQZ/6GPx95523ECgnHPq9B4G1T
+	OlepBeDYxwxImNg/4ByzKtEt79zE2ZtMmYESpCc2s+lnmQ8wje1mK4kC4jttkaJv/CUm
+	rpU/dNbWjCihPqYjhvt+E8uWpE5Qjy5KD0nO5A6PQO01PTpCgkbvmotPESy73babGnWO
+	iKGhvPzq2TJtHdCOkaFErDkDMTlrVzVaYHRuej6YYBQRECT5+GS+AE7l/fG5l3qYnQeU
+	s85xsUxzE8UpsdQmJOIXX+of+t07Pq78gxa836nK4MiiR5OAceYcIoJxxf8VIcGXXrhP
+	VmWg==
+X-Gm-Message-State: AJaThX6nZcFoA9piGSVFAIGS2LLdrNlj4oXEFvLBWdEMTSCJFC0e+TAu
+	T/JTXeQ3Hgyw6kTffX+ZyV1KqQ==
+X-Google-Smtp-Source: AGs4zMbADjYynHXnZD3yGwUGKRDkEFKZVOAKBiXp6ihp3zm2ESOOguidpd7b244E3cMUmRJf/OFqQw==
+X-Received: by 10.101.83.5 with SMTP id m5mr28603094pgq.350.1511543132495;
+	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
 Received: from ?IPv6:2601:202:4001:9ea0:2178:58dc:281c:c010?
 	([2601:202:4001:9ea0:2178:58dc:281c:c010])
 	by smtp.gmail.com with ESMTPSA id
-	c8sm38790762pfm.47.2017.11.24.09.05.13
+	h69sm38389316pfk.166.2017.11.24.09.05.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Nov 2017 09:05:14 -0800 (PST)
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20171122194619.31291-1-limon.anibal@gmail.com>
+	Fri, 24 Nov 2017 09:05:32 -0800 (PST)
+To: Yi Zhao <yi.zhao@windriver.com>,
+	openembedded-core@lists.openembedded.org, jackie.huang@windriver.com
+References: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <91f595b7-794e-1c0b-926a-95f7a3734a47@gmail.com>
-Date: Fri, 24 Nov 2017 09:05:13 -0800
+Message-ID: <2e29c60e-d8e2-84c4-690c-4accc3fd4a75@gmail.com>
+Date: Fri, 24 Nov 2017 09:05:31 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171122194619.31291-1-limon.anibal@gmail.com>
-Subject: Re: [PATCH][morty] python3: do not hardcode "lib" into site-packages search path
+In-Reply-To: <1510885133-25478-1-git-send-email-yi.zhao@windriver.com>
+Subject: Re: [morty][PATCH] ppp: include netinet/in.h before linux/in.h in pppoe.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,405 +62,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 17:05:13 -0000
+X-List-Received-Date: Fri, 24 Nov 2017 17:05:31 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 in akuster/morty-next
 
 
-On 11/22/2017 11:46 AM, Aníbal Limón wrote:
-> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+On 11/16/2017 06:18 PM, Yi Zhao wrote:
+> The patch ppp-fix-building-with-linux-4.8.patch tries to fix build error
+> with 4.8 or newer linux headers, but it would break building with kernel
+> < 4.8. There is a better solution to fix this issue in upstream.
+> Backport the upstream patch and replace the old one.
 >
-> This was not working in multilib or x32 setups and amazingly, was not
-> noticed until now.
+> [YOCTO #10457]
 >
-> The actual modification is in Lib/site.py, the rest is just devtool moving things around in the patch.
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
->  .../python/python3/python-3.3-multilib.patch       | 290 ++++++++++++---------
->  1 file changed, 165 insertions(+), 125 deletions(-)
+>  ...oe-include-netinet-in.h-before-linux-in.h.patch | 54 ++++++++++++++++++++++
+>  .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ------------------
+>  meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  2 +-
+>  3 files changed, 55 insertions(+), 45 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+>  delete mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
 >
-> diff --git a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-> index 860190340e..08c4403cbf 100644
-> --- a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-> +++ b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-> @@ -1,16 +1,34 @@
-> -Upstream-Status: Pending
-> -
-> -get the sys.lib from python itself and do not use hardcoded value of 'lib'
-> +From 51fe6f22d0ba113674fb358bd11d75fe659bd26e Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Tue, 14 May 2013 15:00:26 -0700
-> +Subject: [PATCH 01/13] get the sys.lib from python itself and do not use
-> + hardcoded value of 'lib'
->  
->  02/2015 Rebased for 3.4.2
->  
-> +Upstream-Status: Pending
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
->  
-> -Index: Python-3.5.2/Include/pythonrun.h
-> -===================================================================
-> ---- Python-3.5.2.orig/Include/pythonrun.h
-> -+++ Python-3.5.2/Include/pythonrun.h
+> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+> new file mode 100644
+> index 0000000..9362d12
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/ppp/ppp/0001-pppoe-include-netinet-in.h-before-linux-in.h.patch
+> @@ -0,0 +1,54 @@
+> +From 50a2997b256e0e0ef7a46fae133f56f60fce539c Mon Sep 17 00:00:00 2001
+> +From: Lubomir Rintel <lkundrak@v3.sk>
+> +Date: Mon, 9 Jan 2017 13:34:23 +0000
+> +Subject: [PATCH] pppoe: include netinet/in.h before linux/in.h
+> +
+> +This fixes builds with newer kernels. Basically, <netinet/in.h> needs to be
+> +included before <linux/in.h> otherwise the earlier, unaware of the latter,
+> +tries to redefine symbols and structures. Also, <linux/if_pppox.h> doesn't work
+> +alone anymore, since it pulls the headers in the wrong order, so we better
+> +include <netinet/in.h> early.
+> +
+> +Upstream-Status: Backport
+> +[https://github.com/paulusmack/ppp/commit/50a2997b256e0e0ef7a46fae133f56f60fce539c]
+> +
+> +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > +---
-> + Include/pythonrun.h              |  3 +++
-> + Lib/distutils/command/install.py |  4 +++-
-> + Lib/pydoc.py                     |  2 +-
-> + Lib/site.py                      |  4 ++--
-> + Lib/sysconfig.py                 | 18 +++++++++---------
-> + Lib/trace.py                     |  4 ++--
-> + Makefile.pre.in                  |  7 +++++--
-> + Modules/getpath.c                | 10 +++++++++-
-> + Python/getplatform.c             | 20 ++++++++++++++++++++
-> + Python/sysmodule.c               |  4 ++++
-> + configure.ac                     | 35 +++++++++++++++++++++++++++++++++++
-> + setup.py                         |  9 ++++-----
-> + 12 files changed, 97 insertions(+), 23 deletions(-)
+> + pppd/plugins/rp-pppoe/pppoe.h | 7 ++++---
+> + 1 file changed, 4 insertions(+), 3 deletions(-)
 > +
-> +diff --git a/Include/pythonrun.h b/Include/pythonrun.h
-> +index 9c2e813..2f79cb6 100644
-> +--- a/Include/pythonrun.h
-> ++++ b/Include/pythonrun.h
->  @@ -23,6 +23,9 @@ typedef struct {
->   } PyCompilerFlags;
->   #endif
-> @@ -21,10 +39,10 @@ Index: Python-3.5.2/Include/pythonrun.h
->   #ifndef Py_LIMITED_API
->   PyAPI_FUNC(int) PyRun_SimpleStringFlags(const char *, PyCompilerFlags *);
->   PyAPI_FUNC(int) PyRun_AnyFileFlags(FILE *, const char *, PyCompilerFlags *);
-> -Index: Python-3.5.2/Lib/distutils/command/install.py
-> -===================================================================
-> ---- Python-3.5.2.orig/Lib/distutils/command/install.py
-> -+++ Python-3.5.2/Lib/distutils/command/install.py
-> +diff --git a/Lib/distutils/command/install.py b/Lib/distutils/command/install.py
-> +index 67db007..b46b45b 100644
-> +--- a/Lib/distutils/command/install.py
-> ++++ b/Lib/distutils/command/install.py
->  @@ -19,6 +19,8 @@ from site import USER_BASE
->   from site import USER_SITE
->   HAS_USER_SITE = True
-> @@ -43,10 +61,10 @@ Index: Python-3.5.2/Lib/distutils/command/install.py
->           'headers': '$base/include/python$py_version_short$abiflags/$dist_name',
->           'scripts': '$base/bin',
->           'data'   : '$base',
-> -Index: Python-3.5.2/Lib/pydoc.py
-> -===================================================================
-> ---- Python-3.5.2.orig/Lib/pydoc.py
-> -+++ Python-3.5.2/Lib/pydoc.py
-> +diff --git a/Lib/pydoc.py b/Lib/pydoc.py
-> +index 3ca08c9..6528730 100755
-> +--- a/Lib/pydoc.py
-> ++++ b/Lib/pydoc.py
->  @@ -384,7 +384,7 @@ class Doc:
->       docmodule = docclass = docroutine = docother = docproperty = docdata = fail
->   
-> @@ -56,10 +74,75 @@ Index: Python-3.5.2/Lib/pydoc.py
->                                          "python%d.%d" %  sys.version_info[:2])):
->           """Return the location of module docs or None"""
->   
-> -Index: Python-3.5.2/Lib/trace.py
-> -===================================================================
-> ---- Python-3.5.2.orig/Lib/trace.py
-> -+++ Python-3.5.2/Lib/trace.py
-> +diff --git a/Lib/site.py b/Lib/site.py
-> +index 3f78ef5..511931e 100644
-> +--- a/Lib/site.py
-> ++++ b/Lib/site.py
-> +@@ -303,12 +303,12 @@ def getsitepackages(prefixes=None):
-> +         seen.add(prefix)
+> +diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
+> +index 9ab2eee..c4aaa6e 100644
+> +--- a/pppd/plugins/rp-pppoe/pppoe.h
+> ++++ b/pppd/plugins/rp-pppoe/pppoe.h
+> +@@ -47,6 +47,10 @@
+> + #include <sys/socket.h>
+> + #endif
 > + 
-> +         if os.sep == '/':
-> +-            sitepackages.append(os.path.join(prefix, "lib",
-> ++            sitepackages.append(os.path.join(prefix, sys.lib,
-> +                                         "python" + sys.version[:3],
-> +                                         "site-packages"))
-> +         else:
-> +             sitepackages.append(prefix)
-> +-            sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
-> ++            sitepackages.append(os.path.join(prefix, sys.lib, "site-packages"))
-> +         if sys.platform == "darwin":
-> +             # for framework builds *only* we add the standard Apple
-> +             # locations.
-> +diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-> +index 9c34be0..3d1181a 100644
-> +--- a/Lib/sysconfig.py
-> ++++ b/Lib/sysconfig.py
-> +@@ -20,10 +20,10 @@ __all__ = [
+> ++/* This has to be included before Linux 4.8's linux/in.h
+> ++ * gets dragged in. */
+> ++#include <netinet/in.h>
+> ++
+> + /* Ugly header files on some Linux boxes... */
+> + #if defined(HAVE_LINUX_IF_H)
+> + #include <linux/if.h>
+> +@@ -84,8 +88,6 @@ typedef unsigned long UINT32_t;
+> + #include <linux/if_ether.h>
+> + #endif
 > + 
-> + _INSTALL_SCHEMES = {
-> +     'posix_prefix': {
-> +-        'stdlib': '{installed_base}/lib/python{py_version_short}',
-> +-        'platstdlib': '{platbase}/lib/python{py_version_short}',
-> ++        'stdlib': '{installed_base}/'+sys.lib+'/python{py_version_short}',
-> ++        'platstdlib': '{platbase}/'+sys.lib+'/python{py_version_short}',
-> +         'purelib': '{base}/lib/python{py_version_short}/site-packages',
-> +-        'platlib': '{platbase}/lib/python{py_version_short}/site-packages',
-> ++        'platlib': '{platbase}/'+sys.lib+'/python{py_version_short}/site-packages',
-> +         'include':
-> +             '{installed_base}/include/python{py_version_short}{abiflags}',
-> +         'platinclude':
-> +@@ -32,10 +32,10 @@ _INSTALL_SCHEMES = {
-> +         'data': '{base}',
-> +         },
-> +     'posix_home': {
-> +-        'stdlib': '{installed_base}/lib/python',
-> +-        'platstdlib': '{base}/lib/python',
-> ++        'stdlib': '{installed_base}/'+sys.lib+'/python',
-> ++        'platstdlib': '{base}/'+sys.lib+'/python',
-> +         'purelib': '{base}/lib/python',
-> +-        'platlib': '{base}/lib/python',
-> ++        'platlib': '{base}/'+sys.lib+'/python',
-> +         'include': '{installed_base}/include/python',
-> +         'platinclude': '{installed_base}/include/python',
-> +         'scripts': '{base}/bin',
-> +@@ -61,10 +61,10 @@ _INSTALL_SCHEMES = {
-> +         'data': '{userbase}',
-> +         },
-> +     'posix_user': {
-> +-        'stdlib': '{userbase}/lib/python{py_version_short}',
-> +-        'platstdlib': '{userbase}/lib/python{py_version_short}',
-> ++        'stdlib': '{userbase}/'+sys.lib+'/python{py_version_short}',
-> ++        'platstdlib': '{userbase}/'+sys.lib+'/python{py_version_short}',
-> +         'purelib': '{userbase}/lib/python{py_version_short}/site-packages',
-> +-        'platlib': '{userbase}/lib/python{py_version_short}/site-packages',
-> ++        'platlib': '{userbase}/'+sys.lib+'/python{py_version_short}/site-packages',
-> +         'include': '{userbase}/include/python{py_version_short}',
-> +         'scripts': '{userbase}/bin',
-> +         'data': '{userbase}',
-> +diff --git a/Lib/trace.py b/Lib/trace.py
-> +index f108266..7fd83f2 100755
-> +--- a/Lib/trace.py
-> ++++ b/Lib/trace.py
->  @@ -749,10 +749,10 @@ def main(argv=None):
->                   # should I also call expanduser? (after all, could use $HOME)
->   
-> @@ -73,11 +156,11 @@ Index: Python-3.5.2/Lib/trace.py
->                                              "python" + sys.version[:3]))
->                   s = os.path.normpath(s)
->                   ignore_dirs.append(s)
-> -Index: Python-3.5.2/Makefile.pre.in
-> -===================================================================
-> ---- Python-3.5.2.orig/Makefile.pre.in
-> -+++ Python-3.5.2/Makefile.pre.in
-> -@@ -106,6 +106,8 @@ PY_CORE_CFLAGS=	$(PY_CFLAGS) $(PY_CFLAGS
-> +diff --git a/Makefile.pre.in b/Makefile.pre.in
-> +index 109f402..61a41e2 100644
-> +--- a/Makefile.pre.in
-> ++++ b/Makefile.pre.in
-> +@@ -106,6 +106,8 @@ PY_CORE_CFLAGS=	$(PY_CFLAGS) $(PY_CFLAGS_NODIST) $(PY_CPPFLAGS) $(CFLAGSFORSHARE
->   
->   # Machine-dependent subdirectories
->   MACHDEP=	@MACHDEP@
-> @@ -95,7 +178,7 @@ Index: Python-3.5.2/Makefile.pre.in
->   ABIFLAGS=	@ABIFLAGS@
->   
->   # Detailed destination directories
-> -@@ -755,6 +757,7 @@ Modules/getpath.o: $(srcdir)/Modules/get
-> +@@ -755,6 +757,7 @@ Modules/getpath.o: $(srcdir)/Modules/getpath.c Makefile
->   		-DEXEC_PREFIX='"$(exec_prefix)"' \
->   		-DVERSION='"$(VERSION)"' \
->   		-DVPATH='"$(VPATH)"' \
-> @@ -103,7 +186,7 @@ Index: Python-3.5.2/Makefile.pre.in
->   		-o $@ $(srcdir)/Modules/getpath.c
->   
->   Programs/python.o: $(srcdir)/Programs/python.c
-> -@@ -835,7 +838,7 @@ $(OPCODE_H): $(srcdir)/Lib/opcode.py $(O
-> +@@ -835,7 +838,7 @@ $(OPCODE_H): $(srcdir)/Lib/opcode.py $(OPCODE_H_SCRIPT)
->   Python/compile.o Python/symtable.o Python/ast.o: $(GRAMMAR_H) $(AST_H)
->   
->   Python/getplatform.o: $(srcdir)/Python/getplatform.c
-> @@ -112,10 +195,10 @@ Index: Python-3.5.2/Makefile.pre.in
->   
->   Python/importdl.o: $(srcdir)/Python/importdl.c
->   		$(CC) -c $(PY_CORE_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
-> -Index: Python-3.5.2/Modules/getpath.c
-> -===================================================================
-> ---- Python-3.5.2.orig/Modules/getpath.c
-> -+++ Python-3.5.2/Modules/getpath.c
-> +diff --git a/Modules/getpath.c b/Modules/getpath.c
-> +index 18deb60..a01c3f8 100644
-> +--- a/Modules/getpath.c
-> ++++ b/Modules/getpath.c
->  @@ -105,6 +105,13 @@
->   #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
->   #endif
-> @@ -147,10 +230,10 @@ Index: Python-3.5.2/Modules/getpath.c
->   
->       if (!_pythonpath || !_prefix || !_exec_prefix || !lib_python) {
->           Py_FatalError(
-> -Index: Python-3.5.2/Python/getplatform.c
-> -===================================================================
-> ---- Python-3.5.2.orig/Python/getplatform.c
-> -+++ Python-3.5.2/Python/getplatform.c
-> +diff --git a/Python/getplatform.c b/Python/getplatform.c
-> +index 6899140..66a49c6 100644
-> +--- a/Python/getplatform.c
-> ++++ b/Python/getplatform.c
->  @@ -10,3 +10,23 @@ Py_GetPlatform(void)
->   {
->   	return PLATFORM;
-> @@ -175,10 +258,10 @@ Index: Python-3.5.2/Python/getplatform.c
->  +{
->  +	return LIB;
->  +}
-> -Index: Python-3.5.2/Python/sysmodule.c
-> -===================================================================
-> ---- Python-3.5.2.orig/Python/sysmodule.c
-> -+++ Python-3.5.2/Python/sysmodule.c
-> +diff --git a/Python/sysmodule.c b/Python/sysmodule.c
-> +index 8d7e05a..d9dee0f 100644
-> +--- a/Python/sysmodule.c
-> ++++ b/Python/sysmodule.c
->  @@ -1790,6 +1790,10 @@ _PySys_Init(void)
->                           PyUnicode_FromString(Py_GetCopyright()));
->       SET_SYS_FROM_STRING("platform",
-> @@ -190,93 +273,10 @@ Index: Python-3.5.2/Python/sysmodule.c
->       SET_SYS_FROM_STRING("executable",
->                           PyUnicode_FromWideChar(
->                                  Py_GetProgramFullPath(), -1));
-> -Index: Python-3.5.2/setup.py
-> -===================================================================
-> ---- Python-3.5.2.orig/setup.py
-> -+++ Python-3.5.2/setup.py
-> -@@ -495,7 +495,7 @@ class PyBuildExt(build_ext):
-> -         # directories (i.e. '.' and 'Include') must be first.  See issue
-> -         # 10520.
-> -         if not cross_compiling:
-> --            add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
-> -+            add_dir_to_list(self.compiler.library_dirs, os.path.join('/usr/local', sys.lib))
-> -             add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
-> -         # only change this for cross builds for 3.3, issues on Mageia
-> -         if cross_compiling:
-> -@@ -553,8 +553,7 @@ class PyBuildExt(build_ext):
-> -         # be assumed that no additional -I,-L directives are needed.
-> -         if not cross_compiling:
-> -             lib_dirs = self.compiler.library_dirs + [
-> --                '/lib64', '/usr/lib64',
-> --                '/lib', '/usr/lib',
-> -+                '/' + sys.lib, '/usr/' + sys.lib,
-> -                 ]
-> -             inc_dirs = self.compiler.include_dirs + ['/usr/include']
-> -         else:
-> -@@ -746,11 +745,11 @@ class PyBuildExt(build_ext):
-> -             elif curses_library:
-> -                 readline_libs.append(curses_library)
-> -             elif self.compiler.find_library_file(lib_dirs +
-> --                                                     ['/usr/lib/termcap'],
-> -+                                                     ['/usr/'+sys.lib+'/termcap'],
-> -                                                      'termcap'):
-> -                 readline_libs.append('termcap')
-> -             exts.append( Extension('readline', ['readline.c'],
-> --                                   library_dirs=['/usr/lib/termcap'],
-> -+                                   library_dirs=['/usr/'+sys.lib+'/termcap'],
-> -                                    extra_link_args=readline_extra_link_args,
-> -                                    libraries=readline_libs) )
-> -         else:
-> -Index: Python-3.5.2/Lib/sysconfig.py
-> -===================================================================
-> ---- Python-3.5.2.orig/Lib/sysconfig.py
-> -+++ Python-3.5.2/Lib/sysconfig.py
-> -@@ -20,10 +20,10 @@ __all__ = [
-> - 
-> - _INSTALL_SCHEMES = {
-> -     'posix_prefix': {
-> --        'stdlib': '{installed_base}/lib/python{py_version_short}',
-> --        'platstdlib': '{platbase}/lib/python{py_version_short}',
-> -+        'stdlib': '{installed_base}/'+sys.lib+'/python{py_version_short}',
-> -+        'platstdlib': '{platbase}/'+sys.lib+'/python{py_version_short}',
-> -         'purelib': '{base}/lib/python{py_version_short}/site-packages',
-> --        'platlib': '{platbase}/lib/python{py_version_short}/site-packages',
-> -+        'platlib': '{platbase}/'+sys.lib+'/python{py_version_short}/site-packages',
-> -         'include':
-> -             '{installed_base}/include/python{py_version_short}{abiflags}',
-> -         'platinclude':
-> -@@ -32,10 +32,10 @@ _INSTALL_SCHEMES = {
-> -         'data': '{base}',
-> -         },
-> -     'posix_home': {
-> --        'stdlib': '{installed_base}/lib/python',
-> --        'platstdlib': '{base}/lib/python',
-> -+        'stdlib': '{installed_base}/'+sys.lib+'/python',
-> -+        'platstdlib': '{base}/'+sys.lib+'/python',
-> -         'purelib': '{base}/lib/python',
-> --        'platlib': '{base}/lib/python',
-> -+        'platlib': '{base}/'+sys.lib+'/python',
-> -         'include': '{installed_base}/include/python',
-> -         'platinclude': '{installed_base}/include/python',
-> -         'scripts': '{base}/bin',
-> -@@ -61,10 +61,10 @@ _INSTALL_SCHEMES = {
-> -         'data': '{userbase}',
-> -         },
-> -     'posix_user': {
-> --        'stdlib': '{userbase}/lib/python{py_version_short}',
-> --        'platstdlib': '{userbase}/lib/python{py_version_short}',
-> -+        'stdlib': '{userbase}/'+sys.lib+'/python{py_version_short}',
-> -+        'platstdlib': '{userbase}/'+sys.lib+'/python{py_version_short}',
-> -         'purelib': '{userbase}/lib/python{py_version_short}/site-packages',
-> --        'platlib': '{userbase}/lib/python{py_version_short}/site-packages',
-> -+        'platlib': '{userbase}/'+sys.lib+'/python{py_version_short}/site-packages',
-> -         'include': '{userbase}/include/python{py_version_short}',
-> -         'scripts': '{userbase}/bin',
-> -         'data': '{userbase}',
-> -Index: Python-3.5.2/configure.ac
-> -===================================================================
-> ---- Python-3.5.2.orig/configure.ac
-> -+++ Python-3.5.2/configure.ac
-> +diff --git a/configure.ac b/configure.ac
-> +index 707324d..e8d59a3 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
->  @@ -883,6 +883,41 @@ PLATDIR=plat-$MACHDEP
->   AC_SUBST(PLATDIR)
->   AC_SUBST(PLATFORM_TRIPLET)
-> @@ -319,3 +319,43 @@ Index: Python-3.5.2/configure.ac
->   
->   AC_MSG_CHECKING([for -Wl,--no-as-needed])
->   save_LDFLAGS="$LDFLAGS"
-> +diff --git a/setup.py b/setup.py
-> +index 6d26deb..7b14215 100644
-> +--- a/setup.py
-> ++++ b/setup.py
-> +@@ -495,7 +495,7 @@ class PyBuildExt(build_ext):
-> +         # directories (i.e. '.' and 'Include') must be first.  See issue
-> +         # 10520.
-> +         if not cross_compiling:
-> +-            add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
-> ++            add_dir_to_list(self.compiler.library_dirs, os.path.join('/usr/local', sys.lib))
-> +             add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
-> +         # only change this for cross builds for 3.3, issues on Mageia
-> +         if cross_compiling:
-> +@@ -553,8 +553,7 @@ class PyBuildExt(build_ext):
-> +         # be assumed that no additional -I,-L directives are needed.
-> +         if not cross_compiling:
-> +             lib_dirs = self.compiler.library_dirs + [
-> +-                '/lib64', '/usr/lib64',
-> +-                '/lib', '/usr/lib',
-> ++                '/' + sys.lib, '/usr/' + sys.lib,
-> +                 ]
-> +             inc_dirs = self.compiler.include_dirs + ['/usr/include']
-> +         else:
-> +@@ -746,11 +745,11 @@ class PyBuildExt(build_ext):
-> +             elif curses_library:
-> +                 readline_libs.append(curses_library)
-> +             elif self.compiler.find_library_file(lib_dirs +
-> +-                                                     ['/usr/lib/termcap'],
-> ++                                                     ['/usr/'+sys.lib+'/termcap'],
-> +                                                      'termcap'):
-> +                 readline_libs.append('termcap')
-> +             exts.append( Extension('readline', ['readline.c'],
-> +-                                   library_dirs=['/usr/lib/termcap'],
-> ++                                   library_dirs=['/usr/'+sys.lib+'/termcap'],
-> +                                    extra_link_args=readline_extra_link_args,
-> +                                    libraries=readline_libs) )
-> +         else:
+> +-#include <netinet/in.h>
+> +-
+> + #ifdef HAVE_NETINET_IF_ETHER_H
+> + #include <sys/types.h>
+> + 
+> +@@ -98,7 +100,6 @@ typedef unsigned long UINT32_t;
+> + #endif
+> + 
+> + 
+> +-
+> + /* Ethernet frame types according to RFC 2516 */
+> + #define ETH_PPPOE_DISCOVERY 0x8863
+> + #define ETH_PPPOE_SESSION   0x8864
 > +-- 
-> +2.11.0
+> +2.7.4
 > +
+> diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+> deleted file mode 100644
+> index f77b0de..0000000
+> --- a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+> +++ /dev/null
+> @@ -1,44 +0,0 @@
+> -From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
+> -From: Jackie Huang <jackie.huang@windriver.com>
+> -Date: Thu, 13 Oct 2016 13:41:43 +0800
+> -Subject: [PATCH] ppp: fix building with linux-4.8
+> -
+> -Fix a build error when using the linux-4.8 headers that results in:
+> -
+> -In file included from pppoe.h:87:0,
+> -                 from plugin.c:29:
+> -../usr/include/netinet/in.h:211:8: note: originally defined here
+> - struct in6_addr
+> -        ^~~~~~~~
+> -In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
+> -                 from ../usr/include/linux/if_pppox.h:26,
+> -                 from plugin.c:52:
+> -../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
+> - struct sockaddr_in6 {
+> -        ^~~~~~~~~~~~
+> -
+> -Upstream-Status: Submitted [1]
+> -
+> -[1] https://github.com/paulusmack/ppp/pull/69
+> -
+> -Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ----
+> - pppd/plugins/rp-pppoe/pppoe.h | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
+> -index 9ab2eee..96d2794 100644
+> ---- a/pppd/plugins/rp-pppoe/pppoe.h
+> -+++ b/pppd/plugins/rp-pppoe/pppoe.h
+> -@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
+> - #include <linux/if_ether.h>
+> - #endif
+> - 
+> --#include <netinet/in.h>
+> -+#include <linux/in.h>
+> - 
+> - #ifdef HAVE_NETINET_IF_ETHER_H
+> - #include <sys/types.h>
+> --- 
+> -2.8.3
+> -
+> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> index 56dbd98..ec9947f 100644
+> --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> @@ -30,7 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+>             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
+>             file://ppp@.service \
+>             file://fix-CVE-2015-3310.patch \
+> -           file://ppp-fix-building-with-linux-4.8.patch \
+> +           file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
+>  "
+>  
+>  SRC_URI_append_libc-musl = "\
 
 
