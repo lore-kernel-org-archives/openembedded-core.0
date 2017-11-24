@@ -1,56 +1,53 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 113B878673
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A15177016E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 12:03:20 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id k61so20188914wrc.4
+	Fri, 24 Nov 2017 12:10:32 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id u40so20179175wrf.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Nov 2017 04:03:22 -0800 (PST)
+	Fri, 24 Nov 2017 04:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=9UWa926jLHmoaCv0APWduFdp2eC3XunYzgZudEbXSTM=;
-	b=tzko/zh7VIpjfeHANM4QWct6dNMIU67EoMtymnsZxAVXLY9jJm0srHxO4x3G3ahvIZ
-	8BLi66YNLqKoXJBGDY8AA68k6jpp66Jfuuy5tORzbdvGsQLcgDyc2vSblV2VGJ/gG/RN
-	HCcr1O8Dh+B1Xn4qEzCmNQtEcXS+C77BznVapKQVk/dZJPfQnV3oyYH8wp7bSf/bg6T9
-	R6qj1NRN+xdilJoSeaShlX97VVEwxgZLc4YIR2DWcGsNcwvnrIObhkB6PBshZk0ZlRy4
-	j+RMbgvQu0ojzXN9CZV3pG7FkqNNoVZpLc0hn6OzXINiYNkeuy7iFm5cWNTed80OnOut
-	OsmA==
+	h=message-id:subject:from:to:date:organization:mime-version
+	:content-transfer-encoding;
+	bh=Uid01AVUwyi3Ds2TuweT89drdSQI6UodR0tnLGN0alU=;
+	b=g78j/yLz89WhP05b6bFnFzSA3Ulv0kGCJjzH0S8QdA3QfM9zsUsebbBXJmuwDfoQ4X
+	az1wiGpsVSChVQSMg3HMFdx5ca+K+rsDw76EVau8m1xZInHMU7rS/WATLVQTkvYIo2Ff
+	uK/3RR2N1tNAqkw+ziP2j0xRKJZaDES7YpQGc0KbWEPpdWqn+DKg/YHOBQbZjXKogKRP
+	r/l+eSE0n0wC+wpwQKRdayf/afKO9fuWJE83HlUe90ACc3X40riGYeyczX0zvKES8jQt
+	YAoMljTNSRjY2jTlA0aU3Fb9voLz0ogf3Tpqtra+VNS5NX0oxEKZc1t8X5IWVhBbgBcQ
+	2jBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=9UWa926jLHmoaCv0APWduFdp2eC3XunYzgZudEbXSTM=;
-	b=Xj2nA2znQPdoA7numCZoskfZ0ZQl9tGE6B9L8okMT4A9II/hGtI2GhKsQCcI5HGR1k
-	kbmczjh9KIybUoorqhwgBIovq3816qL5zctYDfY4UI/unO1AgTKawQlGYgYYbLtnn5Uw
-	zr+tHEeFV89AI/J/WQOH0QkisDwc8WN9fk/wH1bhdC4jIc0EbryOgjfrkaH+200rxvII
-	2NKCwTT3RUGhTu4JCry6jwjw+wMHQUWJvEbIC7mkY8hVjpw1tMsneO3q17ZWDlQYVHvX
-	s+KjITMQraIFhr+45CpZgs36iba+hVndUnat6eqwWWF4iS3VwxEodTbdluOwTqCvj4mG
-	4bJg==
-X-Gm-Message-State: AJaThX5ZBe5zZZcryHcNkOOBYBiZEWdNFrrwAuQ/EAdrP6ytvyI+xxrQ
-	KVeqhMA0xLYWimBHmfdfp8c6
-X-Google-Smtp-Source: AGs4zMZ8w7tDDOaqp+ayBZCOdD7cfZg8BgNADFXo/N9TXsjg+dUeYRTB6JmZWlwUWp2Civo7qCxwfA==
-X-Received: by 10.223.145.230 with SMTP id 93mr4276534wri.190.1511525001881;
-	Fri, 24 Nov 2017 04:03:21 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:mime-version:content-transfer-encoding;
+	bh=Uid01AVUwyi3Ds2TuweT89drdSQI6UodR0tnLGN0alU=;
+	b=lXf2uycFluPs+8wAKuJS60nnEOsk4k8XYWAKgmiji8dboQl+ZN91jHj0YtOqrxLRk+
+	/v7qn19kX4V6s8P+tUTKmgl608w+kBVU6fh95zsHUretYfTmtQlMy9ZffDaS+RTe6Peo
+	vX/zteGtIMoG8gOvJYMNTnvs3KJIjMOnT2PcCqhSAoik+mX4nMujNOR6HEeR2vPZMPJq
+	rAbEhCEkoIzbmqEoqWMKegVZdo4eVtg/F02LXcysvBKJjjAEsso3LhyypIdhE6eAdKsz
+	7G/wCThgE7sDScs1YuEvQtwXoecjgmGDudCv3lT7HueHw/+ZcWKam85CnINgiQCy2gRh
+	5NPg==
+X-Gm-Message-State: AJaThX49yEqCrEowIFZR/T53qrCxgUnr9FCzTtqDyFGzG99McBe3nApw
+	IRHMyvuUuOS/Ip5VBasY4v0bBTE=
+X-Google-Smtp-Source: AGs4zMYNSs05DMutyJnAgy/O8WZ+Ss2BZYlPSDpygA/ZB0lzhKYhYN+yy7Cs/obR7GYfl2QZ/VkX/Q==
+X-Received: by 10.223.166.103 with SMTP id k94mr24530358wrc.22.1511525433278; 
+	Fri, 24 Nov 2017 04:10:33 -0800 (PST)
 Received: from pohly-mobl1 (p54BD57A0.dip0.t-ipconnect.de. [84.189.87.160])
 	by smtp.gmail.com with ESMTPSA id
-	p132sm1521909wmb.0.2017.11.24.04.03.20
+	g68sm6773179wmc.22.2017.11.24.04.10.32
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 Nov 2017 04:03:20 -0800 (PST)
-Message-ID: <1511524999.5979.62.camel@intel.com>
+	Fri, 24 Nov 2017 04:10:32 -0800 (PST)
+Message-ID: <1511525431.5979.64.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Maxin B. John" <maxin.john@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 24 Nov 2017 13:03:19 +0100
-In-Reply-To: <1497280222-11549-3-git-send-email-maxin.john@intel.com>
-References: <1497280222-11549-1-git-send-email-maxin.john@intel.com>
-	<1497280222-11549-3-git-send-email-maxin.john@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Nov 2017 13:10:31 +0100
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.22.6-1+deb9u1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] connman: correct the systemd boot in read only rootfs
+Subject: read-only rootfs + boot parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,97 +60,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Nov 2017 12:03:21 -0000
+X-List-Received-Date: Fri, 24 Nov 2017 12:10:32 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-06-12 at 18:10 +0300, Maxin B. John wrote:
-> connman fails to start in systemd based read-only images while
-> creating links:
-> 
-> Jun 08 12:53:56 qemux86-64 systemd[1]: Starting Create Volatile Files
-> and Directories...
-> Jun 08 12:53:56 qemux86-64 systemd-tmpfiles[366]:
-> [[0;1;31msymlink(/var/run/connman/resolv.conf, /etc/resolv.conf)
-> failed:
-> Read-only file system[[0m
-> 
-> Fix this failure and make connman co-exist with systemd-resolved.
-> 
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  meta/recipes-connectivity/connman/connman.inc      | 15 ++++++++++-
->  ...vice-stop-systemd-resolved-when-we-use-co.patch | 29
-> ++++++++++++++++++++++
->  meta/recipes-connectivity/connman/connman_1.34.bb  |  1 +
->  3 files changed, 44 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-connectivity/connman/connman/0001-
-> connman.service-stop-systemd-resolved-when-we-use-co.patch
-> 
-> diff --git a/meta/recipes-connectivity/connman/connman.inc
-> b/meta/recipes-connectivity/connman/connman.inc
-> index cc2d469..ab18f2f 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
->  LIC_FILES_CHKSUM =
-> "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->                      file://src/main.c;beginline=1;endline=20;md5=486
-> a279a6ab0c8d152bcda3a5b5edc36"
->  
-> -inherit autotools pkgconfig systemd update-rc.d bluetooth
-> +inherit autotools pkgconfig systemd update-rc.d bluetooth update-
-> alternatives
->  
->  DEPENDS  = "dbus glib-2.0 ppp readline"
->  
-> @@ -69,6 +69,11 @@ SYSTEMD_SERVICE_${PN} = "connman.service"
->  SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
->  SYSTEMD_SERVICE_${PN}-wait-online = "connman-wait-online.service"
->  
-> +ALTERNATIVE_PRIORITY = "100"
-> +ALTERNATIVE_${PN} ="resolv-conf"
-> +ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-
-> conf.connman"
-> +ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
-> +
->  do_install_append() {
->  	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true',
-> 'false',d)}; then
->  		install -d ${D}${sysconfdir}/init.d
-> @@ -89,6 +94,14 @@ do_install_append() {
->  	# Automake 1.12 won't install empty directories, but we need
-> the
->  	# plugins directory to be present for ownership
->  	mkdir -p ${D}${libdir}/connman/plugins
-> +
-> +    # For read-only filesystem, do not create links during bootup
-> +    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','fals
-> e',d)}; then
-> +        if ${@bb.utils.contains('IMAGE_FEATURES','re
-> ad-only-rootfs','true','false',d)}; then
-> +            echo "d    /var/run/connman    - - - -" >
-> ${D}${sysconfdir}/tmpfiles.d/connman_resolvconf.conf
-> +        fi
-> +        ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-
-> conf.connman
-> +    fi
->  }
+Hello!
 
-This check for 'IMAGE_FEATURES' is bogus: that's a per-image recipe
-variable, which can't be assumed to be set consistently for all images
-in the base configuration and therefore the connman recipe can't depend
- on it. The effect is that the tmpfiles.d entry doesn't get created
-when setting IMAGE_FEATURES only for some images.
+I noticed that APPEND is left unchanged when adding "read-only-rootfs"
+to IMAGE_FEATURES. The effect is (at least in refkit, which uses an
+initramfs based on initramfs-framework) that the rootfs initially gets
+mounted read/write and then gets remounted by systemd as read-only -
+but only after writing to /etc/machine-id.
 
-It still works for me (refkit, based on OE-core Rocko at the moment).
-Something has created /var/run/connman (perhaps connman itself?) and
-the resolv.conf inside it, so /etc/resolv.conf -> /etc/resolv-
-conf.connman -> ../run/connman/resolv.conf = /run/connman/resolv.conf
-exists.
+Is that the desired behavior or an oversight?
 
-But the bogus lines should be removed nonetheless, because it causes
-the connman recipe to depend on IMAGE_FEATURES.
+To me, read-only means read-only, with no exceptions. The obvious fix
+is:
+APPEND_append = "${@ bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', ' ro', '', d)} "
+
+I'm just not sure whether that should go into image.bbclass or
+elsewhere.
 
 -- 
 Best Regards, Patrick Ohly
