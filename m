@@ -1,54 +1,32 @@
-Return-Path: <andrey.konovalov@linaro.org>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F30077D16
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A755A605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Nov 2017 19:59:37 +0000 (UTC)
-Received: by mail-lf0-f41.google.com with SMTP id w23so28611728lfd.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Nov 2017 11:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=erhNDVJhGyN5YSZncYrGNYi9YcksusviIP040rm/0wo=;
-	b=GCAHyjrRhdeDIKcRJpWFgAPxj6forWXyBakXb4kY5EswNOs5/btPF8d8znMxn6KH4b
-	gq6gLHuoLvfU5QE3pb4DDajKVS2YdH7jlVKqi6lnVeufMG43htAAG9ffxCE5Ik10rgCT
-	BuKsouRrR3/3iwbT9pFZkW16Sz4i2PRCp5CsE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=erhNDVJhGyN5YSZncYrGNYi9YcksusviIP040rm/0wo=;
-	b=cqITRkO4SCl6YkDPL0rKq/7T4E6YPxOZDmbjGHE0UfsA8A5ju4xS+lDDlQWO9ajF0M
-	uJn7ORT4GEh+Etm29yvqA4RgWhS5bSn+y112czVYJL5OBosYMp84f934xjxYl6Tfk5Jk
-	AwwMdvK1m/gGiMDdo3dfWtR25gngAKQLjIWVmmLG7sbyHEBqpDGWtK7jpL8YuMuWzRP6
-	fYtLdxvbS28G7/hrOIWwyc/iF+gxhuTUjui1FyRWlDSWRNxuJgsbDzVfvICidwiUn8+w
-	EVERnFlrbicJv39hw27xbylWzWmayugn1+50zt5HOc3hEDU1DdeC04jkrXzGL7RWhoNw
-	UYtw==
-X-Gm-Message-State: AJaThX66VOHkY9MOSPmTTP0YkyrjluHNkx/Ru0tvsYLhjx4PRbHLG2IY
-	PECAVzld9sdNSMN8qvw7lxt5qA==
-X-Google-Smtp-Source: AGs4zMY7+mP63UM7UMwsVC7oFeVRVYYDL1DEoEq0ZOhM8kZ9CnzPkTq8u8hW8V89DAJdvpfRJcN0Pg==
-X-Received: by 10.46.117.28 with SMTP id q28mr11386089ljc.14.1511639977991;
-	Sat, 25 Nov 2017 11:59:37 -0800 (PST)
-Received: from [192.168.118.253] (95-28-65-22.broadband.corbina.ru.
-	[95.28.65.22]) by smtp.googlemail.com with ESMTPSA id
-	c1sm1458290ljb.78.2017.11.25.11.59.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 25 Nov 2017 11:59:37 -0800 (PST)
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1511552846-1887-1-git-send-email-andrey.konovalov@linaro.org>
-	<3c7c379d-44d8-162a-d941-a7d13ba48460@linaro.org>
-	<20171124143425.2751a5e3@lsandov1-mobl2.zpn.intel.com>
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
-Message-ID: <5352b394-5e08-2bec-2248-3b4ba7ea85b9@linaro.org>
-Date: Sat, 25 Nov 2017 22:59:36 +0300
+	Sat, 25 Nov 2017 23:45:47 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Nov 2017 15:45:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,455,1505804400"; 
+   d="scan'208";a="6296399"
+Received: from davidsol-mobl.amr.corp.intel.com (HELO [10.252.250.52])
+	([10.252.250.52])
+	by orsmga003.jf.intel.com with ESMTP; 25 Nov 2017 15:45:47 -0800
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+References: <cover.1508360667.git.alejandro.hernandez@linux.intel.com>
+	<0bddac7569ccd37263ce4d59d0ec3c4e2787246f.1508360667.git.alejandro.hernandez@linux.intel.com>
+	<CAJTo0LbTSY6w1+K8tCoyh0MpSG2H+_AA0B+P-DHgZHxz7m1s9A@mail.gmail.com>
+	<7079b2e6-b0e8-7882-9b7a-e8bafd94f78c@linux.intel.com>
+	<0A2583BA-1CFF-4687-A22A-AAAB8FF39E11@linux.intel.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <81105d2c-32f9-8002-2eb2-d9cac0b2fdf8@linux.intel.com>
+Date: Sat, 25 Nov 2017 17:45:50 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171124143425.2751a5e3@lsandov1-mobl2.zpn.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [rocko][PATCH] weston: add patch to set pitch correctly for subsampled textures
+In-Reply-To: <0A2583BA-1CFF-4687-A22A-AAAB8FF39E11@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] python: Restructure python packaging and replace it with autopackaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,29 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Nov 2017 19:59:38 -0000
+X-List-Received-Date: Sat, 25 Nov 2017 23:45:47 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On 24.11.2017 23:34, Leonardo Sandoval wrote:
-> On Fri, 24 Nov 2017 22:58:20 +0300
-> Andrey Konovalov <andrey.konovalov@linaro.org> wrote:
-> 
->> This exact patch also applies to pyro.
->> Should I send the separate "[OE-core][pyro][PATCH] weston: add patch to set pitch correctly for subsampled textures" email,
->> or just asking to merge it into pyro as well is enough?
-> 
-> better if you send another patch with that subject so the non-master maintainer can pick it up.
+Hey Tim,
 
-OK, have just sent the pyro version of this patch.
 
-Looks like it confuses the patchwork system a bit:
-> This is a system generated Comment: Patch 146165 was automatically marked as superseded by patch 146166.
-To be clear: the same patch should be applied to both pyro and rocko. Patch 146165 was posted for rocko (with [rocko] in the subject line),
-and patch 146166 is for pyro (has [pyro] in the subject line).
+Nice catch!, sorry this was an error of mine, but its just a typo, 
+must've copied it manually at some point, sorry about that, I fixed it 
+and updated the branch!
 
-Thanks,
-Andrey
+
+Thanks!
+
+
+Alejandro
+
+
+On 11/24/2017 11:04 PM, Tim Orling wrote:
+> Why does python3-manifest.json contain:
+> +            "${libdir}/python2.7/sitecustomize.py”,
+> ?
+>
+>> On Nov 24, 2017, at 4:51 PM, Alejandro Hernandez <alejandro.hernandez@linux.intel.com> wrote:
+>>
+>> Hey Ross,
+>>
+>>
+>> Yeah sorry, at first I didnt realize why we needed the manifest for python native, I will fix the commit message.
+>>
+>>
+>> Thanks!
+>>
+>>
+>> Alejandro
+>>
+>> On 11/24/2017 11:06 AM, Burton, Ross wrote:
+>>> On 18 October 2017 at 22:07, Alejandro Hernandez <alejandro.hernandez@linux.intel.com> wrote:
+>>>   - Removes the manifest from the python-native recipe (Why was it there
+>>>     in the first place?, native recipes do not get split).
+>>>
+>>> Was this commit written before you added manifest support to python-native?  :)  python-native needs the manifest to set RPROVIDES so that dependencies work.  Can you update the message? (just deleting this line will do)
+>>>
+>>> Ross
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
