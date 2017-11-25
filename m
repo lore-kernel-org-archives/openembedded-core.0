@@ -1,44 +1,54 @@
 Return-Path: <andrey.konovalov@linaro.org>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 73FB3780FA
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F30077D16
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Nov 2017 19:48:18 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id f134so28587732lfg.8
+	Sat, 25 Nov 2017 19:59:37 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id w23so28611728lfd.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Nov 2017 11:48:20 -0800 (PST)
+	Sat, 25 Nov 2017 11:59:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=fS4EZejR9fVZFBt83bSx2BqgJiRgapXo/EQhYpEfwaA=;
-	b=HP73ESdrAHJVpwGhSrComjfD0zyMj8xNPKfm5x+Q7ZjN9jV/u/prOn6pR5Ry863qTM
-	ySwPW3Hcrj1vVhitG9odvsTlcZp1ccnCmExbR+/CaVi2WS1pLf9zyUmtETIfsRE3MU5B
-	eMcuGl94hj+xi8JL6UR2qxqzPM88aN1xUeVac=
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=erhNDVJhGyN5YSZncYrGNYi9YcksusviIP040rm/0wo=;
+	b=GCAHyjrRhdeDIKcRJpWFgAPxj6forWXyBakXb4kY5EswNOs5/btPF8d8znMxn6KH4b
+	gq6gLHuoLvfU5QE3pb4DDajKVS2YdH7jlVKqi6lnVeufMG43htAAG9ffxCE5Ik10rgCT
+	BuKsouRrR3/3iwbT9pFZkW16Sz4i2PRCp5CsE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fS4EZejR9fVZFBt83bSx2BqgJiRgapXo/EQhYpEfwaA=;
-	b=OEdIWvVUMn07Sd9YA71hbdebhBGcg66pMJfJaV1ibKwil38UiNb8nUVwqmpFvjwbEG
-	vvmLXlAMtk2CKNvtMZ5HwIMUR5Fkusijfwoy/R2PaojssZMziQj5ZIfzApy/sLiVHmZ3
-	oimyRqMTu40QnEp9CpM/iXzE/PWul4OUXDOe0bg9MUcV84daV04vUg6UPfbxiYS/OuqB
-	QKZjJccy4VLcTYD2fUhK+meVBNeUxQ2fWoDOE/7aEXYrLenKvpiy88ZTkvLn9sy9Y99Z
-	jJGG1s88dGZI8KN6k8gWWV9qEacMRIWbjeczosBtwZdO9AavSJGr/vnSycWIulm8ijdR
-	hfJg==
-X-Gm-Message-State: AJaThX5rqHjQnqnQu0PzgEle/g1BPieQTRrNsMAXgiuGwjLqr/7iwz0Y
-	VvqheGi51/9mvvw2QUUXEspT9JsCmL8=
-X-Google-Smtp-Source: AGs4zMaKbic3ax4UHau0uIhSIUIH95sVzEzrSSTZcG0XBn8OUY4pcqOlebVL+K5jBLoe0X9093uzBQ==
-X-Received: by 10.25.233.83 with SMTP id g80mr8005816lfh.165.1511639299154;
-	Sat, 25 Nov 2017 11:48:19 -0800 (PST)
-Received: from localhost.localdomain (95-28-65-22.broadband.corbina.ru.
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=erhNDVJhGyN5YSZncYrGNYi9YcksusviIP040rm/0wo=;
+	b=cqITRkO4SCl6YkDPL0rKq/7T4E6YPxOZDmbjGHE0UfsA8A5ju4xS+lDDlQWO9ajF0M
+	uJn7ORT4GEh+Etm29yvqA4RgWhS5bSn+y112czVYJL5OBosYMp84f934xjxYl6Tfk5Jk
+	AwwMdvK1m/gGiMDdo3dfWtR25gngAKQLjIWVmmLG7sbyHEBqpDGWtK7jpL8YuMuWzRP6
+	fYtLdxvbS28G7/hrOIWwyc/iF+gxhuTUjui1FyRWlDSWRNxuJgsbDzVfvICidwiUn8+w
+	EVERnFlrbicJv39hw27xbylWzWmayugn1+50zt5HOc3hEDU1DdeC04jkrXzGL7RWhoNw
+	UYtw==
+X-Gm-Message-State: AJaThX66VOHkY9MOSPmTTP0YkyrjluHNkx/Ru0tvsYLhjx4PRbHLG2IY
+	PECAVzld9sdNSMN8qvw7lxt5qA==
+X-Google-Smtp-Source: AGs4zMY7+mP63UM7UMwsVC7oFeVRVYYDL1DEoEq0ZOhM8kZ9CnzPkTq8u8hW8V89DAJdvpfRJcN0Pg==
+X-Received: by 10.46.117.28 with SMTP id q28mr11386089ljc.14.1511639977991;
+	Sat, 25 Nov 2017 11:59:37 -0800 (PST)
+Received: from [192.168.118.253] (95-28-65-22.broadband.corbina.ru.
 	[95.28.65.22]) by smtp.googlemail.com with ESMTPSA id
-	u27sm3171855ljd.70.2017.11.25.11.48.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 25 Nov 2017 11:48:18 -0800 (PST)
+	c1sm1458290ljb.78.2017.11.25.11.59.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 25 Nov 2017 11:59:37 -0800 (PST)
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+References: <1511552846-1887-1-git-send-email-andrey.konovalov@linaro.org>
+	<3c7c379d-44d8-162a-d941-a7d13ba48460@linaro.org>
+	<20171124143425.2751a5e3@lsandov1-mobl2.zpn.intel.com>
 From: Andrey Konovalov <andrey.konovalov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Nov 2017 22:47:24 +0300
-Message-Id: <1511639244-4552-1-git-send-email-andrey.konovalov@linaro.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [pyro][PATCH] weston: add patch to set pitch correctly for subsampled textures
+Message-ID: <5352b394-5e08-2bec-2248-3b4ba7ea85b9@linaro.org>
+Date: Sat, 25 Nov 2017 22:59:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20171124143425.2751a5e3@lsandov1-mobl2.zpn.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [rocko][PATCH] weston: add patch to set pitch correctly for subsampled textures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,96 +61,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Nov 2017 19:48:19 -0000
+X-List-Received-Date: Sat, 25 Nov 2017 19:59:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-This fixes display issue with YUV420/I420 and NV12 formats, that
-can result in crash of weston.
+On 24.11.2017 23:34, Leonardo Sandoval wrote:
+> On Fri, 24 Nov 2017 22:58:20 +0300
+> Andrey Konovalov <andrey.konovalov@linaro.org> wrote:
+> 
+>> This exact patch also applies to pyro.
+>> Should I send the separate "[OE-core][pyro][PATCH] weston: add patch to set pitch correctly for subsampled textures" email,
+>> or just asking to merge it into pyro as well is enough?
+> 
+> better if you send another patch with that subject so the non-master maintainer can pick it up.
 
-The master branch has this fix as part of commit 148920f3971d "weston:
-Bump version to 3.0.0". The patch has been rebased to apply cleanly
-to weston 2.0.0. 
+OK, have just sent the pyro version of this patch.
 
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
----
- ...t-pitch-correctly-for-subsampled-textures.patch | 55 ++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_2.0.0.bb      |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+Looks like it confuses the patchwork system a bit:
+> This is a system generated Comment: Patch 146165 was automatically marked as superseded by patch 146166.
+To be clear: the same patch should be applied to both pyro and rocko. Patch 146165 was posted for rocko (with [rocko] in the subject line),
+and patch 146166 is for pyro (has [pyro] in the subject line).
 
-diff --git a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-new file mode 100644
-index 0000000..c188018
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-@@ -0,0 +1,55 @@
-+Multi-plane sub-sampled textures have partial width/height, e.g.
-+YUV420/I420 has a full-size Y plane, followed by a half-width/height U
-+plane, and a half-width/height V plane.
-+
-+zwp_linux_dmabuf_v1 allows clients to pass an explicit pitch for each
-+plane, but for wl_shm this must be inferred. gl-renderer was correctly
-+accounting for the width and height when subsampling, but the pitch was
-+being taken as the pitch for the first plane.
-+
-+This does not match the requirements for GStreamer's waylandsink, in
-+particular, as well as other clients. Fix the SHM upload path to
-+correctly set the pitch for each plane, according to subsampling.
-+
-+Tested with:
-+  $ gst-launch-1.0 videotestsrc ! waylandsink
-+
-+Upstream-Status: Backport [https://patchwork.freedesktop.org/patch/180767/]
-+
-+Signed-off-by: Daniel Stone <daniels@collabora.com>
-+Fixes: fdeefe42418 ("gl-renderer: add support of WL_SHM_FORMAT_YUV420")
-+Reported-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=103063
-+
-+---
-+ libweston/gl-renderer.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
-+index 244ce309..40bf0bb6 100644
-+--- a/libweston/gl-renderer.c
-++++ b/libweston/gl-renderer.c
-+@@ -1285,14 +1285,13 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-+ 		goto done;
-+ 	}
-+ 
-+-	glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch);
-+-
-+ 	if (gs->needs_full_upload) {
-+ 		glPixelStorei(GL_UNPACK_SKIP_PIXELS_EXT, 0);
-+ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, 0);
-+ 		wl_shm_buffer_begin_access(buffer->shm_buffer);
-+ 		for (j = 0; j < gs->num_textures; j++) {
-+ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-+ 			glTexImage2D(GL_TEXTURE_2D, 0,
-+ 				     gs->gl_format[j],
-+ 				     gs->pitch / gs->hsub[j],
-+@@ -1317,6 +1316,7 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-+ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, r.y1);
-+ 		for (j = 0; j < gs->num_textures; j++) {
-+ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-+ 			glTexSubImage2D(GL_TEXTURE_2D, 0,
-+ 					r.x1 / gs->hsub[j],
-+ 					r.y1 / gs->vsub[j],
-diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_2.0.0.bb
-index 54b07bd..063494c 100644
---- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_2.0.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-+           file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
- "
- SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
- SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
--- 
-2.7.4
+Thanks,
+Andrey
 
 
