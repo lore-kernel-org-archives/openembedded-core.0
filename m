@@ -1,19 +1,21 @@
 Return-Path: <v.vogelhuber@digitalendoscopy.de>
 Received: from mx-relay14-hz1.antispameurope.com
 	(mx-relay14-hz1.antispameurope.com [94.100.132.214])
-	by mail.openembedded.org (Postfix) with ESMTP id 2076A78235
+	by mail.openembedded.org (Postfix) with ESMTP id 22A59782A9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 16:21:20 +0000 (UTC)
+	Mon, 27 Nov 2017 16:21:21 +0000 (UTC)
 Received: from host-80-81-19-29.customer.m-online.net ([80.81.19.29]) by
-	mx-relay14-hz1.antispameurope.com; Mon, 27 Nov 2017 17:21:20 +0100
+	mx-relay14-hz1.antispameurope.com; Mon, 27 Nov 2017 17:21:22 +0100
 Received: from DE028.digitendos.de (192.168.20.186) by srv-msx01.digitendos.de
 	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
-	Mon, 27 Nov 2017 17:20:53 +0100
+	Mon, 27 Nov 2017 17:20:55 +0100
 From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Nov 2017 17:20:54 +0100
-Message-ID: <20171127162055.6612-1-v.vogelhuber@digitalendoscopy.de>
+Date: Mon, 27 Nov 2017 17:20:55 +0100
+Message-ID: <20171127162055.6612-2-v.vogelhuber@digitalendoscopy.de>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20171127162055.6612-1-v.vogelhuber@digitalendoscopy.de>
+References: <20171127162055.6612-1-v.vogelhuber@digitalendoscopy.de>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.20.186]
 X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
@@ -22,11 +24,11 @@ X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-Virusscan: CLEAN
 X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
-	mx-relay14-hz1.antispameurope.com with CB86158022D
+	mx-relay14-hz1.antispameurope.com with E210B5803E5
 X-cloud-security-connect: host-80-81-19-29.customer.m-online.net[80.81.19.29],
 	TLS=1, IP=80.81.19.29
-X-cloud-security: scantime:.1879
-Subject: (No subject)
+X-cloud-security: scantime:.2166
+Subject: [PATCH] Allow specifying subdir for rootfs when using wic -e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +44,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 27 Nov 2017 16:21:22 -0000
 Content-Type: text/plain
 
-I currently have an image with six different partitions. See the 
-following partition configuration:
+---
+ scripts/lib/wic/ksparser.py              | 1 +
+ scripts/lib/wic/partition.py             | 1 +
+ scripts/lib/wic/plugins/source/rootfs.py | 7 ++++---
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-># bootloader
->part /boot/EFI --source bootimg-efi --sourceparams="loader=systemd-boot" --ondisk mmcblk --fstype=vfat --label boot --active --align 1024 --size 20 --overhead-factor=1.0 --uuid="1EFC2AC2-449B-6ABB-AA63-7EA004446DF1"
->
->#--use-uuid
-># primary / recovery image
->part / --source rootfs --rootfs-dir=image --exclude-path opt/something/ opt/else/ opt/somemore/ --ondisk mmcblk --fstype=ext4 --label primary_rootfs --align 1024 --size 768 --overhead-factor=1.0 --uuid="2779D408-1362-AEF5-AEB1-00BF5674C065"
->part /recovery --source rootfs --rootfs-dir=image-recovery --ondisk mmcblk --fstype=ext4 --label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0 --uuid="528B6F25-5143-47B3-8D12-391820EAF1CF"
->
-># additional partitions
->part /opt/something --source rootfs --rootfs-dir=image --rootfs-subdir=opt/something --ondisk mmcblk --fstype=ext4 --label persist --align 1024 --size 64 --overhead-factor=1.0 --use-uuid
->part /opt/else --source rootfs --rootfs-dir=image --rootfs-subdir=opt/else --ondisk mmcblk --fstype=ext4 --label de --align 1024 --size 256 --overhead-factor=1.0 --use-uuid
->part /opt/somemore --source rootfs --rootfs-dir=image --rootfs-subdir=opt/somemore --ondisk mmcblk --fstype=ext4 --label data --align 1024 --size 1700 --overhead-factor=1.0 --use-uuid
->
->bootloader --timeout=0 --ptable gpt --configfile="disk.cfg"
-
-My problem is now that if I use the wic -e option to specify an image 
-name as rootfs-dir I can not extract subdirectories from the rootfs 
-to different partitions. Or at least I didn't found out a way.
-That's why I added a rootfs-subdir option to wic that allows appending 
-a rootfs dir to the one received by IMAGE_ROOTFS. I read something 
-about spliting should be done on recipe level 
-(https://lists.yoctoproject.org/pipermail/yocto/2016-March/029301.html), 
-but I couldn't figure out how that should be done and that patch seems 
-much easier for me.
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 99b66eebc5..a9e07fcd2f 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -146,6 +146,7 @@ class KickStart():
+         part.add_argument("--overhead-factor", type=overheadtype)
+         part.add_argument('--part-type')
+         part.add_argument('--rootfs-dir')
++        part.add_argument('--rootfs-subdir')
+ 
+         # --size and --fixed-size cannot be specified together; options
+         # ----extra-space and --overhead-factor should also raise a parser
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index b623bb9e6d..b42529ce48 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -53,6 +53,7 @@ class Partition():
+         self.overhead_factor = args.overhead_factor
+         self.part_type = args.part_type
+         self.rootfs_dir = args.rootfs_dir
++        self.rootfs_subdir = args.rootfs_subdir
+         self.size = args.size
+         self.fixed_size = args.fixed_size
+         self.source = args.source
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index aec720fb22..8dcf5a2872 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -83,7 +83,7 @@ class RootfsPlugin(SourcePlugin):
+ 
+         part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
+ 
+-        new_rootfs = None
++        new_rootfs = part.rootfs_dir
+         # Handle excluded paths.
+         if part.exclude_path is not None:
+             # We need a new rootfs directory we can delete files from. Copy to
+@@ -121,6 +121,7 @@ class RootfsPlugin(SourcePlugin):
+                 else:
+                     # Delete whole directory.
+                     shutil.rmtree(full_path)
+-
++        if not part.rootfs_subdir is None:
++            new_rootfs = os.path.join(new_rootfs, part.rootfs_subdir)
+         part.prepare_rootfs(cr_workdir, oe_builddir,
+-                            new_rootfs or part.rootfs_dir, native_sysroot)
++                            new_rootfs, native_sysroot)
+-- 
+2.11.0
 
 
