@@ -1,25 +1,25 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FDE277FF5
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC3B78087
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Nov 2017 12:07:21 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Nov 2017 04:07:09 -0800
+	27 Nov 2017 04:07:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,464,1505804400"; d="scan'208";a="12423519"
+X-IronPort-AV: E=Sophos;i="5.44,464,1505804400"; d="scan'208";a="12423524"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2017 04:07:08 -0800
+	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2017 04:07:09 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Nov 2017 14:06:51 +0200
-Message-Id: <730ffd1dd42dc4e74db9e6e9584e20bfc59eb570.1511784130.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 27 Nov 2017 14:06:52 +0200
+Message-Id: <4ec82b09c46ef7a37a0cd8ee530b1b2ff1f0cb60.1511784130.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
 References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
 References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v8 07/16] iptables: enable native
+Subject: [PATCH v8 08/16] iproute2: enable native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +38,34 @@ X-List-Received-Date: Mon, 27 Nov 2017 12:07:21 -0000
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- ...revent-absolute-path-in-installed-symlink.patch | 29 ++++++++++++++++++++++
- meta/recipes-extended/iptables/iptables_1.6.1.bb   |  3 +++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
+ meta/recipes-connectivity/iproute2/iproute2.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch b/meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
-new file mode 100644
-index 0000000000..3ca6c0dd28
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
-@@ -0,0 +1,29 @@
-+From d7a50cf5a9f03f3b65293d556dadfc484456b0d8 Mon Sep 17 00:00:00 2001
-+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+Date: Fri, 17 Nov 2017 14:10:59 +0200
-+Subject: [PATCH] prevent absolute path in installed symlink
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+---
-+ iptables/Makefile.am | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/iptables/Makefile.am b/iptables/Makefile.am
-+index f92cc4f..55ce793 100644
-+--- a/iptables/Makefile.am
-++++ b/iptables/Makefile.am
-+@@ -88,7 +88,8 @@ pkgconfig_DATA = xtables.pc
-+ install-exec-hook:
-+ 	-if test -z "${DESTDIR}"; then /sbin/ldconfig; fi;
-+ 	${INSTALL} -dm0755 "${DESTDIR}${bindir}";
-+-	for i in ${vx_bin_links}; do ${LN_S} -f "${sbindir}/xtables-multi" "${DESTDIR}${bindir}/$$i"; done;
-++	_relpath=`python -c "import os.path; print(os.path.relpath('${sbindir}/xtables-multi', '${bindir}'))"`; \
-++	for i in ${vx_bin_links}; do ${LN_S} -f "$${_relpath}" "${DESTDIR}${bindir}/$$i"; done;
-+ 	for i in ${v4_sbin_links}; do ${LN_S} -f xtables-multi "${DESTDIR}${sbindir}/$$i"; done;
-+ 	for i in ${v6_sbin_links}; do ${LN_S} -f xtables-multi "${DESTDIR}${sbindir}/$$i"; done;
-+ 	for i in ${x_sbin_links}; do ${LN_S} -f xtables-compat-multi "${DESTDIR}${sbindir}/$$i"; done;
-+-- 
-+2.13.6
-+
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-index b37c55a64e..2f565821a4 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
-            file://0001-fix-build-with-musl.patch \
-+           file://prevent-absolute-path-in-installed-symlink.patch \
- "
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index a578eb3afa..d08d049f41 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -26,12 +26,15 @@ do_configure_append () {
  
- SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
-@@ -47,3 +48,5 @@ do_configure_prepend() {
- 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
- 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+ do_install () {
+     oe_runmake DESTDIR=${D} install
+-    mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
+     install -d ${D}${datadir}
+     mv ${D}/share/* ${D}${datadir}/ || true
+     rm ${D}/share -rf || true
  }
+ 
++do_install_append_class-target () {
++    mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
++}
++
+ # The .so files in iproute2-tc are modules, not traditional libraries
+ INSANE_SKIP_${PN}-tc = "dev-so"
+ 
+@@ -50,3 +53,5 @@ ALTERNATIVE_${PN} = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+ ALTERNATIVE_LINK_NAME[ip] = "${base_sbindir}/ip"
+ ALTERNATIVE_PRIORITY = "100"
 +
 +BBCLASSEXTEND = "native"
 -- 
