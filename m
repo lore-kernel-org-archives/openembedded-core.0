@@ -1,49 +1,29 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 430F177FED
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EB0C6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 20:24:53 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id i14so34310185lfc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 12:24:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nvhic5K4JeVdoNBEH6V7npSBe2m9OZxW2wu9ODRbmrU=;
-	b=t3g5GVfZpQq1MswWpnlsn9qNmOSTosXcKrfVFxRBL1MgNHBxgrqJ6c7/Jb5JAwvtlE
-	12PGSQeMsZ8RgVVD3aqMen8wjqXGSAf7VrYvLjE7NkI8k+nQzrvKUP37TEmGMW6I/LsW
-	MV69mkpn/0BLVKeVLwxgdPspo7sZI4qV5D7amhw+ctejGzai47rD6T2FZo83pYQ8fdfr
-	xOvXtG5ie2GPunI9DrupW+X3LagnSjfR4bcW+3oO9upXCflQcvP6gotzRFN3/KPxldZP
-	zYnOKPJyRiNIR/3zHH0tn44c043mF2Rq4C34Qh9zF8dNMOpUFlrUljhSxtbrEZ9RSu2s
-	IhCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nvhic5K4JeVdoNBEH6V7npSBe2m9OZxW2wu9ODRbmrU=;
-	b=QewhBqlP5As7SNrgOjTfckZRSQtgqzHiCXYfu1aBmgMOYn/DJ9tvILc7NBGdvoN40w
-	KgtZlCkxjqNjGNNDCWRoMXpwFyFV4Js5AdLjJg+5Q7PaH/VXPf60Od258IZ8+aGN9f5w
-	+HOsMs5qljs1xDV/jID3X1DJXSNWr5uheTPehx/oBBq6xYHpMbZwm6L4Boo8D8sq3nrV
-	a6QnHDvENMNaHz3KXT5dbqvXr6rjzTASZ6LFktIckm7lhcw43fCoQFi/19ysDSANssdt
-	YfSPmn5Td8Apu5fFK/3pVwUQrqS9NiyKk553kKYXxmJVz371IBGNrGUWZCXsdUH1nvI2
-	X9Ag==
-X-Gm-Message-State: AJaThX5fZ1o6C4IsHhx5t3S7WENZ8Yd1qyQ+QLij+ltM7SUSvdcsCCNn
-	7q/DxRMyXxrXhKKCXw4+DSS11UBedqO/fTiYV9o=
-X-Google-Smtp-Source: AGs4zMb/LaroFutF+5FBQHMkc68fp33IbEjR7nd8UJG6cjLLBeL0YLXeT9t8EcsdzgOJX7KD8nCicDZdi516/YVfA+Q=
-X-Received: by 10.25.38.145 with SMTP id m139mr10043664lfm.122.1511814294786; 
-	Mon, 27 Nov 2017 12:24:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.25.59.196 with HTTP; Mon, 27 Nov 2017 12:24:53 -0800 (PST)
-In-Reply-To: <b5ec6830-3185-054f-7354-d9caa66e692b@linux.intel.com>
-References: <20171127183538.68275-1-danismostlikely@gmail.com>
-	<b5ec6830-3185-054f-7354-d9caa66e692b@linux.intel.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Mon, 27 Nov 2017 14:24:53 -0600
-Message-ID: <CACS+7ZT=pyM3uD-LbBy437NT=nHAS7ONarmMp0E3TA-b40LFaQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 27 Nov 2017 23:06:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vARN63HQ026208
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 27 Nov 2017 15:06:04 -0800 (PST)
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 27 Nov 2017 15:06:02 -0800
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: fix python3 dependencies
+References: <20171124165203.11759-1-limon.anibal@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <5cff7c9d-788c-65bf-0576-88a71ac4ccf3@windriver.com>
+Date: Mon, 27 Nov 2017 18:06:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20171124165203.11759-1-limon.anibal@gmail.com>
+X-Originating-IP: [172.25.44.3]
+Cc: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
+Subject: Re: [PATCH] recipes-graphics/piglit: Add patch for fix build in HiKey platforms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +36,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 20:24:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 27 Nov 2017 23:06:05 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On 27 November 2017 at 13:16, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 11/27/2017 08:35 PM, Dan McGregor wrote:
->>
->> Add missing python3 dependency, and use python3 from the build
->> system.
->> -DEPENDS = "openssl libcap"
->> +DEPENDS = "openssl libcap python3"
->> -inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
->> +inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
->> python3native
->
->
-> This should have a more specific explanation. Namely:
->
-> 1) why is target python3 needed at build time (if not, it should be in
-> RDEPENDS of a specific package)
+On 2017-11-24 11:52 AM, Aníbal Limón wrote:
+> From: Aníbal Limón <anibal.limon@linaro.org>
+> 
+> Some EGL implementations do not actually ship all Khronos-extensions.
+> As it turns out, the Mali 450 driver does not include eglGetPlatformDisplay
+> symbol so there is not grauntee to exists use piglit_egl_get_default_display
 
-It's already in RDEPENDS as python3-core. It's needed at build time so
-that the python component build of bind can find python in the
-sysroot. Without this change I get:
+Anibal,
 
-| error: invalid Python installation: unable to open
-/usr/lib/python3.5/config-3.5m/Makefile (No such file or directory)
+First, my grammar OCD corrections,   :)
 
-With only inherit python3native I get:
+s/grauntee/guarantee/
 
-| error: invalid Python installation: unable to open <recipe
-sysroot>/usr/lib64/python3.5/config-3.5m/Makefile (No such file or
-directory)
+and more generally:
+   so there is not guarantee ...
+   so there is no guarantee that it exists,
+      use piglit_egl_get_default_display
 
->
-> 2) why is native python3 needed, and host python3 is not enough.
+or just use the upstream commit log:
+     The entry point is not guaranteed to exist, so use the
+     piglit_egl_get_default_display() helper which does the
+     correct thing.
 
-Host python3 gives me the error above. Possibly my host's python3 is
-broken, but it's a Poky build appliance with multilib enabled.
 
-I'll make it more explicit in my commit message.
+This a backport of 45095dc08b from the piglet git repo
+so please make that clear in the long log as well.
 
-Thanks.
+Thanks,
 
->
->
-> Alex
+../Randy
+
+
+> wrapper instead.
+> 
+> Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+> Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+> ---
+>   ...gl-context-priority.c-Use-piglit_egl_get_.patch | 39 ++++++++++++++++++++++
+>   meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
+>   2 files changed, 40 insertions(+)
+>   create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+> 
+> diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+> new file mode 100644
+> index 0000000000..6b73950fc1
+> --- /dev/null
+> +++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+> @@ -0,0 +1,39 @@
+> +From 3b6c3abe3698abb0ae08d14a399eea29805cafd6 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+> +Date: Fri, 24 Nov 2017 10:11:42 -0600
+> +Subject: [PATCH] tests/egl/egl-context-priority.c: Use
+> + piglit_egl_get_default_display
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Some EGL implementations do not actually ship all Khronos-extensions.
+> +As it turns out, the Mali 450 driver does not include eglGetPlatformDisplay
+> +symbol so there is not grauntee to exists use piglit_egl_get_default_display
+> +wrapper instead. See rev 45095dc08b.
+> +
+> +Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+> +Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+> +
+> +Upstream-Status: Submitted [piglit@lists.freedesktop.org]
+> +---
+> + tests/egl/egl-context-priority.c | 3 +--
+> + 1 file changed, 1 insertion(+), 2 deletions(-)
+> +
+> +diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
+> +index 7f26fc614..9590ccae3 100644
+> +--- a/tests/egl/egl-context-priority.c
+> ++++ b/tests/egl/egl-context-priority.c
+> +@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
+> + 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
+> + 		piglit_report_result(PIGLIT_SKIP);
+> +
+> +-	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
+> +-				    EGL_DEFAULT_DISPLAY, NULL);
+> ++	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
+> +
+> + 	ok = eglInitialize(dpy, &major, &minor);
+> + 	if (!ok) {
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+> index eae3eed342..c6d4e5c6e0 100644
+> --- a/meta/recipes-graphics/piglit/piglit_git.bb
+> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
+> @@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+>   SRC_URI = "git://anongit.freedesktop.org/piglit \
+>              file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+>              file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
+> +           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
+>              "
+>   
+>   # From 2017-02-06
+> 
+
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
