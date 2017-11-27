@@ -1,18 +1,51 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E2F781C8;
-	Mon, 27 Nov 2017 13:03:03 +0000 (UTC)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 36A1678276
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 13:35:54 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id r58so39087013qtc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 05:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QFZ5yjKPIqwg4VdMUeuA9vwFiK1aZ+/pohSnHFe0P/0=;
+	b=p0xmMzhwPAX+8z/hxjlCD8/OrDAe8/KqAE8nn6qPaWvjBYOTjL81TZ4bXJtYBO2o82
+	5VBEqfwNH8LaxZhcskwt/1sH7YVb7B929SO2qqKhgkTURTJzRRfaHpYSDZcJSVr0m0z+
+	LjaYPAhgoqgZtDhlICrgzL83HD0i3RS87k9CE6jP9Ibpe9jVQfGwUrfe9YFpLXozHzeG
+	0VP2Fd1qzNJMrmIpUsdIlSsRtTvw3aOxXOuhayXs6udozSjf6++Fnfss+1vCrAh8ki3b
+	soo2hMwJG+tiOZg1rEKZWxDhsQgYX7KBv+TnpwauZsGT8QuZSU0qMmXUC0zmv6YvuodW
+	F4Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QFZ5yjKPIqwg4VdMUeuA9vwFiK1aZ+/pohSnHFe0P/0=;
+	b=T5pU7tYgsNPWY4OJeu3Jq2U4hPSWZBxCx95ypm8/UuhUnRYgwqbwCGYLmnV0FzmHee
+	1dEbS5uCIjUQAWpGv6/tga5fTc1uVLcShk5naFRjHjnKsGzgFdm6G0UQRqWtLfg+wmrB
+	SDEAimS9/8x+K1hagsSWX2Hrz79M88V54PVBBznGozYnsl8jR0mPldzY4wDHNSn4uaWv
+	SEVwY0eWwnAJ+83RxZvr2dJ0Zb0/579+8ymph+6VEEgF8ShbCf2IzSD+BdVne/TKLB6v
+	z+xfOU85wGBAbp78eQC/Rn5K+qSnCDG5KPBQKzPlCOQ16R7iLFH9i1grQS0sfSWcCM4a
+	d56w==
+X-Gm-Message-State: AJaThX7FUjD2KaMOK5/VRc5m+prHkVpLdc3L3Hopbhmz8+gsNdBJQ89L
+	kyPMtRL6fiyqeyvhNs3mK6gL3gSxVOkMlYEb068=
+X-Google-Smtp-Source: AGs4zMZnbRbdmB3Agbu0Qu42pFG6cDqG4p9de9GwekGqLQemb/Vy3VOlOm75ROe8OV7i8hI9HqUAgwNlAq/WVvOfb5o=
+X-Received: by 10.237.62.67 with SMTP id m3mr60231928qtf.289.1511789756110;
+	Mon, 27 Nov 2017 05:35:56 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ming Liu <liu.ming50@gmail.com>
-Date: Mon, 27 Nov 2017 13:03:05 -0000
-Message-ID: <20171127130305.2785.80912@do.openembedded.org>
-References: <1511787260-2490-1-git-send-email-liu.ming50@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1511787260-2490-1-git-send-email-liu.ming50@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgteW9jdG86IGRyb3AgS0NPTkZfQlNQX0FVRElUX0xFVkVM?=
+Received: by 10.12.182.96 with HTTP; Mon, 27 Nov 2017 05:35:55 -0800 (PST)
+In-Reply-To: <CADkTA4P98ysLwQ6nqpQGy940SLJ-aLRFs9QWMv4gKdkHN-+5ag@mail.gmail.com>
+References: <20171122184724.21416-1-sgw@linux.intel.com>
+	<3a0e2cdc-ca8c-07ba-e27d-701e3e4f6154@windriver.com>
+	<1511736279.11515.20.camel@linux.intel.com>
+	<CADkTA4P98ysLwQ6nqpQGy940SLJ-aLRFs9QWMv4gKdkHN-+5ag@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 27 Nov 2017 08:35:55 -0500
+Message-ID: <CADkTA4PgddGafbwcYYd=KyVyra8UMD91tFWCtRc3KNUZ_9=Gzg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Add cleandirs for do_shared_workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +58,258 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 13:03:03 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Nov 2017 13:35:55 -0000
+Content-Type: multipart/alternative; boundary="001a114455de635ea8055ef6fb89"
 
-== Series Details ==
+--001a114455de635ea8055ef6fb89
+Content-Type: text/plain; charset="UTF-8"
 
-Series: linux-yocto: drop KCONF_BSP_AUDIT_LEVEL
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9957/
-State : failure
+On Sun, Nov 26, 2017 at 11:52 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
-== Summary ==
+>
+>
+> On Sun, Nov 26, 2017 at 5:44 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>
+>> On Wed, 2017-11-22 at 15:51 -0500, Bruce Ashfield wrote:
+>> > On 2017-11-22 1:47 PM, Saul Wold wrote:
+>> > > Ensure we have a clean and empty STAGING_KERNEL_BUILDDIR (kernel-
+>> > > build-artifacts)
+>> > > before creating it, otherwise there might be older artifacts from a
+>> > > prior
+>> > > kernel build.
+>> > >
+>> >
+>> > What's the actual error that this triggers ? It would be nice to
+>> > log it here in the commit message .. or at least a description
+>> > of the symptoms.
+>> >
+>> As refered to in the bug, there is not an actual error occurs, but
+>> there are multiple older and non-appropriate (read older) artifacts
+>> remaining in the kernel-build-artifacts directory, just as the commit
+>> message describes.
+>>
+>
+> Quoting a bug isn't useful .. everything that someone needs to know
+> *must* be in a commit message. I'm not clicking through later on
+> when doing a 'git whatchanged', and I may not even be online at
+> that time .. so that bug reference just isn't useful.
+>
+> So the old artifacts remain .. is it a disk usage question ? Is it a
+> possible
+> confusion when inspecting a build ? .. All that the message does is
+> describe the change, not the why.
+>
+>
+I should have highlighted my real question, change log semantics and
+nitpicking are just noise :D See below in the double quoted reply.
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+> Bruce
+>
+>
+>
+>>
+>> Sau!
+>>
+>> > > [YOCTO #11880]
+>> > >
+>> > > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> > > ---
+>> > >   meta/classes/kernel.bbclass | 3 +--
+>> > >   1 file changed, 1 insertion(+), 2 deletions(-)
+>> > >
+>> > > diff --git a/meta/classes/kernel.bbclass
+>> > > b/meta/classes/kernel.bbclass
+>> > > index 756707a3c25..2a0a7707a14 100644
+>> > > --- a/meta/classes/kernel.bbclass
+>> > > +++ b/meta/classes/kernel.bbclass
+>> > > @@ -400,6 +400,7 @@ emit_depmod_pkgdata() {
+>> > >
+>> > >   PACKAGEFUNCS += "emit_depmod_pkgdata"
+>> > >
+>> > > +do_shared_workdir[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
+>> > >   do_shared_workdir () {
+>> > >     cd ${B}
+>> > >
+>> > > @@ -655,8 +656,6 @@ kernel_do_deploy() {
+>> > >             fi
+>> > >     done
+>> > >   }
+>> > > -do_deploy[cleandirs] = "${DEPLOYDIR}"
+>> > > -do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+>> >
+>> > This isn't clear to me. Why does cleaning the STAGING_KERNEL_BUILDDIR
+>> > as part of the do_shared_workdir mean that we no longer need the
+>> > clean before the deploy (as well as the deploy dir).
+>> >
+>>
+>
+
+It was this that was the real part of the question. The removal of these
+cleandirs
+didn't seem to be directly replaced by the new method. Is it that the
+DEPLOYDIR
+and STAGING_KERNEL_BUILDDIR are the same thing ?
+
+Bruce
+
+
+> > Bruce
+>> >
+>> > >   do_deploy[prefuncs] += "package_get_auto_pr"
+>> > >
+>> > >   addtask deploy after do_populate_sysroot do_packagedata
+>> > >
+>> >
+>> >
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
+>
 
 
 
-* Patch            linux-yocto: drop KCONF_BSP_AUDIT_LEVEL
- Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
-  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a114455de635ea8055ef6fb89
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sun, Nov 26, 2017 at 11:52 PM, Bruce Ashfield <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfiel=
+d@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote"><span class=3D"gmail-">On Sun, Nov 26, 2017 at 5:44 PM, Sa=
+ul Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com" target=
+=3D"_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><span>On Wed, 2017-11-22 at 15:51 -0500, B=
+ruce Ashfield wrote:<br>
+&gt; On 2017-11-22 1:47 PM, Saul Wold wrote:<br>
+&gt; &gt; Ensure we have a clean and empty STAGING_KERNEL_BUILDDIR (kernel-=
+<br>
+&gt; &gt; build-artifacts)<br>
+&gt; &gt; before creating it, otherwise there might be older artifacts from=
+ a<br>
+&gt; &gt; prior<br>
+&gt; &gt; kernel build.<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; What&#39;s the actual error that this triggers ? It would be nice to<b=
+r>
+&gt; log it here in the commit message .. or at least a description<br>
+&gt; of the symptoms.<br>
+&gt;<br>
+</span>As refered to in the bug, there is not an actual error occurs, but<b=
+r>
+there are multiple older and non-appropriate (read older) artifacts<br>
+remaining in the kernel-build-artifacts directory, just as the commit<br>
+message describes.<br></blockquote><div><br></div></span><div>Quoting a bug=
+ isn&#39;t useful .. everything that someone needs to know=C2=A0</div><div>=
+*must* be in a commit message. I&#39;m not clicking through later on</div><=
+div>when doing a &#39;git whatchanged&#39;, and I may not even be online at=
+</div><div>that time .. so that bug reference just isn&#39;t useful.</div><=
+div><br></div><div>So the old artifacts remain .. is it a disk usage questi=
+on ? Is it a possible</div><div>confusion when inspecting a build ? .. All =
+that the message does is</div><div>describe the change, not the why.</div><=
+div><br></div></div></div></div></blockquote><div><br></div><div>I should h=
+ave highlighted my real question, change log semantics and</div><div>nitpic=
+king are just noise :D See below in the double quoted reply.</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
+><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div></div><div>Bruc=
+e</div><div><div class=3D"gmail-h5"><div><br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+Sau!<br>
+<div class=3D"gmail-m_-3479085542083491279HOEnZb"><div class=3D"gmail-m_-34=
+79085542083491279h5"><br>
+&gt; &gt; [YOCTO #11880]<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.co=
+m" target=3D"_blank">sgw@linux.intel.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 =C2=A0meta/classes/kernel.bbclass | 3 +--<br>
+&gt; &gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/classes/kernel.bbclass<br>
+&gt; &gt; b/meta/classes/kernel.bbclass<br>
+&gt; &gt; index 756707a3c25..2a0a7707a14 100644<br>
+&gt; &gt; --- a/meta/classes/kernel.bbclass<br>
+&gt; &gt; +++ b/meta/classes/kernel.bbclass<br>
+&gt; &gt; @@ -400,6 +400,7 @@ emit_depmod_pkgdata() {<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0PACKAGEFUNCS +=3D &quot;emit_depmod_pkgdata&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; +do_shared_workdir[cleandirs] +=3D &quot; ${STAGING_KERNEL_BUILDD=
+IR}&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0do_shared_workdir () {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0cd ${B}<br>
+&gt; &gt;<br>
+&gt; &gt; @@ -655,8 +656,6 @@ kernel_do_deploy() {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0done<br>
+&gt; &gt;=C2=A0 =C2=A0}<br>
+&gt; &gt; -do_deploy[cleandirs] =3D &quot;${DEPLOYDIR}&quot;<br>
+&gt; &gt; -do_deploy[dirs] =3D &quot;${DEPLOYDIR} ${B}&quot;<br>
+&gt;<br>
+&gt; This isn&#39;t clear to me. Why does cleaning the STAGING_KERNEL_BUILD=
+DIR<br>
+&gt; as part of the do_shared_workdir mean that we no longer need the<br>
+&gt; clean before the deploy (as well as the deploy dir).<br>
+&gt;<br></div></div></blockquote></div></div></div></div></div></blockquote=
+><div><br></div><div><br></div><div>It was this that was the real part of t=
+he question. The removal of these cleandirs</div><div>didn&#39;t seem to be=
+ directly replaced by the new method. Is it that the DEPLOYDIR</div><div>an=
+d=C2=A0STAGING_KERNEL_BUILDDIR are the same thing ?</div><div><br></div><di=
+v>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"=
+><div><div class=3D"gmail-h5"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div class=3D"gmail-m_-3479085542083491279HOEnZb"><div class=3D"gmail-=
+m_-3479085542083491279h5">
+&gt; Bruce<br>
+&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0do_deploy[prefuncs] +=3D &quot;package_get_auto_pr&qu=
+ot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0addtask deploy after do_populate_sysroot do_packageda=
+ta<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div></div></div><span class=3D"gmail-HOEnZb"><fo=
+nt color=3D"#888888"><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"gmail-m_-3479085542083491279gmail_signature">&quot;Thou shalt not follo=
+w the NULL pointer, for chaos and madness await thee at its end&quot;</div>
+</font></span></div></div>
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
+s and madness await thee at its end&quot;</div>
+</div></div>
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
-
+--001a114455de635ea8055ef6fb89--
