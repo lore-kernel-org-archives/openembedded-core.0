@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
 	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B12F780B5
+	by mail.openembedded.org (Postfix) with ESMTP id 8801877E92
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:33 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id 62so7598310plc.7
+	Mon, 27 Nov 2017 02:35:34 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id s23so2315304plk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:35 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=E/iBGKO34gSi5fqUx+ZGUzF4bzLLcNYoG9+mO6Izu/w=;
-	b=XpGzwklJ8RMYEdgkQlWTqumFmCUKfudN8RRVcwu4estIgkKRDT1ViOx8PKBtZYQJqU
-	a9c5k/BERm/drNr8VYReWMuNiBMj1+pus//D5hWDxEGqWQ/PC/vyP7GAsrxHDqVhJFao
-	Dg2WRwwXuf1BcTn0YWu1lrNachEYi4S3q32nj6oelhK5PAaOX/mKCU8BJxgKu8ZCfkXe
-	JNTPupeo4rd243kDce+v6Mtx9VEo2O88EPBdUfMuVwckEejQiVZFun61kgx6LqDAbhf7
-	R7I+IDbqBui5SGOsqC2DagBrshsqUamIyxSLW8gjt1WmLXen5JKlAaQ+WeqqNewdqvy2
-	ZlUw==
+	bh=1Px3QStki7DeORujjhJPbekE2+Fo76rYo+gfxuMg/+A=;
+	b=gbY1qSAjoVWDnCAJidvohuP7uvwyXWQlpU8P4/2eOpj96Gb/85z8kq6qzw5m4NRyU2
+	z1YXUlHVWDtOqyaPtOcZyFTull00DY8xTG7v2t5vGauFBTVQwu/ZBT3gWVbT5B1rTZcc
+	SyOp2XBES64X7h7tWaENpM4t225L/bEKizBxNzGm55oBXl/JVQDZST/8NvSHnLqheJYG
+	xrc8r3WWhNcURntO5jvby0ALCpxVlsslcWaIOMbW4V6Iy9PuNUMCREbe3/d9ajto3LQK
+	5j0taKjQ2Zm05nXGbt+J2/wUQ3hjg0n0MpzbgpZld6hPX8+2CWprVsZ6BrBRbcxBNPAB
+	iMcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=E/iBGKO34gSi5fqUx+ZGUzF4bzLLcNYoG9+mO6Izu/w=;
-	b=XmIf2y6kpj5L6SESOKecgdrHFks/lswZ7A49NNLp0F7uCqMpBfFXBL21yso8j0dA5D
-	FpwrtuzQRA+OnV0bs1dr4eJxr0Q4DI5dpC1Y0Uyhwby6l7UPZJNobw/yr6PoexPTycS2
-	nd9qqTILwAwFvQ3hwwlmUCG13D9NdVyCcVEqpgeJW44hLoFiEwLlwNjPPj+4C/JowVs3
-	Mb0k5PZwFFF2MRmmIwmi/J2H6BcJqNKkCoNSOkhm9tW7Ov5vzrD92G0Zog7BZEmMCMUk
-	D6Nr2qiU8yuMFNNTrOjLzJAYnwWzm/5eZUbxWvsP6Pe935CTlia2Z3vcxvcLdJNV+5NS
-	fxNQ==
-X-Gm-Message-State: AJaThX4vZ8AA/uzjlabHrnOXz0FawKYRbP8fdwx5xAN5VJowlVwNBo7p
-	9lRwtFwq8SY8A2mcAw0Pulc=
-X-Google-Smtp-Source: AGs4zMY0o5kqdlZPpyo1hSheMsa1aigB+XiAyAo5IBXserHpmWTKGHkWaUL5EzC6U6yaPygsz1yeLg==
-X-Received: by 10.84.234.9 with SMTP id m9mr37638335plk.3.1511750135174;
-	Sun, 26 Nov 2017 18:35:35 -0800 (PST)
+	bh=1Px3QStki7DeORujjhJPbekE2+Fo76rYo+gfxuMg/+A=;
+	b=STmpS/5vCoAgaILBDtoknINGM76qLfS62P52m3jZMVP0uAFR9avTvEXzFWi1/+AgWK
+	53p+O0jeJB8sQ5k1rVWbnTBWmNSLo8bc+PEeBN5+2cNWIxlcvImAIjkL8K0kPJ8WXqux
+	FUpXra3YFC0oA4f5f36x/GFH+a0jgS/nw1b+fWAJCUaIduqwLbzSZ0h1cy8wuF4K7q0M
+	NStNQeFvV3cOps86UQYpGS+TslfSTKOBjl2/sBAX+bGgH2N7/q6ChlDhoizh8EAb8GLe
+	XDkuKpLV7dl0J1wjPKUGLE7uDQBKNeFlATrJNx0h2QKo1wsS9MMVYY+wkkvc999ZDFXT
+	o5SA==
+X-Gm-Message-State: AJaThX4oCj5pS+v0QJu+3sWr41rP7lHl62w82pI4itB0Q5M10dDSqVD9
+	Q4KxLb3b8C75WdiEJM1M77o=
+X-Google-Smtp-Source: AGs4zMZmBbmYDdTwwpaQXb4fg5RMj464I6hlXL2w++ZZtGBdZyb4DwbN0dx13BwOi1t/kTWx9KwWQg==
+X-Received: by 10.84.239.1 with SMTP id w1mr31333411plk.227.1511750136211;
+	Sun, 26 Nov 2017 18:35:36 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.34
+	e3sm17809103pfe.92.2017.11.26.18.35.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Nov 2017 18:35:34 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:35 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:35:09 -0800
-Message-Id: <1511750112-2263-23-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:35:10 -0800
+Message-Id: <1511750112-2263-24-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 23/26] binutls: Security fix for CVE-2017-9755
+Subject: [pyro][PATCH 24/26] binutls: Secuirty fix for CVE-2017-9756
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,98 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:33 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:35 -0000
 
 Affects: <= 2.28
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |  1 +
- .../binutils/binutils/CVE-2017-9755.patch          | 63 ++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9755.patch
+ .../binutils/binutils/CVE-2017-9756.patch          | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9756.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index c6ef647..b4299c8 100644
+index b4299c8..a2b2901 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -65,6 +65,7 @@ SRC_URI = "\
-      file://CVE-2017-9751.patch \
+@@ -66,6 +66,7 @@ SRC_URI = "\
       file://CVE-2017-9752.patch \
       file://CVE-2017-9753.patch \
-+     file://CVE-2017-9755.patch \
+      file://CVE-2017-9755.patch \
++     file://CVE-2017-9756.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9755.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9755.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9756.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9756.patch
 new file mode 100644
-index 0000000..15dc909
+index 0000000..191d0be
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9755.patch
-@@ -0,0 +1,63 @@
-+From 0d96e4df4812c3bad77c229dfef47a9bc115ac12 Mon Sep 17 00:00:00 2001
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Thu, 15 Jun 2017 06:40:17 -0700
-+Subject: [PATCH] i386-dis: Check valid bnd register
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9756.patch
+@@ -0,0 +1,50 @@
++From cd3ea7c69acc5045eb28f9bf80d923116e15e4f5 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Thu, 15 Jun 2017 13:26:54 +0100
++Subject: [PATCH] Prevent address violation problem when disassembling corrupt
++ aarch64 binary.
 +
-+Since there are only 4 bnd registers, return "(bad)" for register
-+number > 3.
++	PR binutils/21595
++	* aarch64-dis.c (aarch64_ext_ldst_reglist): Check for an out of
++	range value.
 +
-+	PR binutils/21594
-+	* i386-dis.c (OP_E_register): Check valid bnd register.
-+	(OP_G): Likewise.
-+
-+Upstream-Status: Backport 
-+CVE: CVE-2017-9755
++Upstream-Status: Backport
++CVE: CVE-2017-9756
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ opcodes/ChangeLog  |  6 ++++++
-+ opcodes/i386-dis.c | 10 ++++++++++
-+ 2 files changed, 16 insertions(+)
++ opcodes/ChangeLog     | 6 ++++++
++ opcodes/aarch64-dis.c | 3 +++
++ 2 files changed, 9 insertions(+)
 +
 +Index: git/opcodes/ChangeLog
 +===================================================================
 +--- git.orig/opcodes/ChangeLog
 ++++ git/opcodes/ChangeLog
-+@@ -1,3 +1,9 @@
-++2017-06-15  H.J. Lu  <hongjiu.lu@intel.com>
-++
-++	PR binutils/21594
-++	* i386-dis.c (OP_E_register): Check valid bnd register.
-++	(OP_G): Likewise.
-++
++@@ -6,6 +6,12 @@
++ 
 + 2017-06-15  Nick Clifton  <nickc@redhat.com>
 + 
+++	PR binutils/21595
+++	* aarch64-dis.c (aarch64_ext_ldst_reglist): Check for an out of
+++	range value.
+++
+++2017-06-15  Nick Clifton  <nickc@redhat.com>
+++
 + 	PR binutils/21588
-+Index: git/opcodes/i386-dis.c
++ 	* rl78-decode.opc (OP_BUF_LEN): Define.
++ 	(GETBYTE): Check for the index exceeding OP_BUF_LEN.
++Index: git/opcodes/aarch64-dis.c
 +===================================================================
-+--- git.orig/opcodes/i386-dis.c
-++++ git/opcodes/i386-dis.c
-+@@ -14939,6 +14939,11 @@ OP_E_register (int bytemode, int sizefla
-+       names = address_mode == mode_64bit ? names64 : names32;
-+       break;
-+     case bnd_mode:
-++      if (reg > 0x3)
-++	{
-++	  oappend ("(bad)");
-++	  return;
-++	}
-+       names = names_bnd;
-+       break;
-+     case indir_v_mode:
-+@@ -15483,6 +15488,11 @@ OP_G (int bytemode, int sizeflag)
-+       oappend (names64[modrm.reg + add]);
-+       break;
-+     case bnd_mode:
-++      if (modrm.reg > 0x3)
-++	{
-++	  oappend ("(bad)");
-++	  return;
-++	}
-+       oappend (names_bnd[modrm.reg]);
-+       break;
-+     case v_mode:
++--- git.orig/opcodes/aarch64-dis.c
+++++ git/opcodes/aarch64-dis.c
++@@ -409,6 +409,9 @@ aarch64_ext_ldst_reglist (const aarch64_
++   info->reglist.first_regno = extract_field (FLD_Rt, code, 0);
++   /* opcode */
++   value = extract_field (FLD_opcode, code, 0);
+++  /* PR 21595: Check for a bogus value.  */
+++  if (value >= ARRAY_SIZE (data))
+++    return 0;
++   if (expected_num != data[value].num_elements || data[value].is_reserved)
++     return 0;
++   info->reglist.num_regs = data[value].num_regs;
 -- 
 2.7.4
 
