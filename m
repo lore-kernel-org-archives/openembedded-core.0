@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B26D9606A8;
-	Mon, 27 Nov 2017 07:02:55 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13AC360778
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 08:06:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAR866KK003327
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 00:06:06 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 27 Nov 2017 00:06:05 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Nov 2017 16:07:16 +0800
+Message-ID: <cover.1511770008.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Date: Mon, 27 Nov 2017 07:02:57 -0000
-Message-ID: <20171127070257.2785.43952@do.openembedded.org>
-References: <20171127065359.256054-1-zhixiong.chi@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171127065359.256054-1-zhixiong.chi@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IG1hbGxvYzogQWRkIG1pc3NpbmcgYXJlbmEgbG9jayBpbiBtYWxsb2NfaW5mbyAocmV2Mik=?=
+Subject: [PATCH 0/1] bind: fix daemon startup failure on sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 07:02:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Nov 2017 08:06:06 -0000
+Content-Type: text/plain
 
-== Series Details ==
+The following changes since commit 72867393fe2004ab9f0ee23eb09a975c82938b9e:
 
-Series: glibc: malloc: Add missing arena lock in malloc_info (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/9874/
-State : failure
+  runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:41 +0000)
 
-== Summary ==
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib ChenQi/bind-daemon-sysvinit
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bind-daemon-sysvinit
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Chen Qi (1):
+  bind: fix daemon startup failure on sysvinit
 
+ ...owner-of-rndc.key-to-correctly-start-daem.patch | 32 ++++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.6.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 33418ed064)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+1.9.1
 
 
