@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DA521782BD
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F0BB878301
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:29 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id 61so7604276plf.4
+	Mon, 27 Nov 2017 02:35:31 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 17so16707188pfn.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:31 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3dU0SO1F2EyyY3/jyxzzKpETXd3kRyXZOodwp0HzaQY=;
-	b=JOTRTz4A+UCn3D9e4oAg0ZjgstkEN7dHZEeIt5If10g7gCY6N6H7AUO1wSPAaNwJCD
-	WFKCBF7qSZYq1NOuyDCAxyy/7EwTME3G6hXqu17WT4qSCwYl698snCBwWTK6vMYUUZbZ
-	5b829iVkVr8smIOh/Hdb74A5LdT6lX+ReWTP4zdSRCYXRQ0IucRiHqvhIhdanjwp2ap5
-	4a4tk1Nzn7xS/hmhkF5gvqCWTDUaFmGRi7+WIJ/bH9dDsJH1vv+6DPPSPIFWxqz6wfmb
-	KmszXpZ+N0cX82Tgcn44JllGNvJiNjNCOjeW3TsXa8/8LWzJKeYohx1hUzWQv2BT+QGg
-	2CSw==
+	bh=5PFEs+uNhOXQ7BLY328OnXSXIcKW2cUI3m/+qizlkPM=;
+	b=Wimuuo3a+lUybqgAcmDzOzj/8TpW4C1l9aHaEsgk/qTnOhYCTjXRLYdtReCiG/hvxk
+	gF0gwDwEN09lgtlITVp5ICiLANRDzSMTLIH0/BJxp0tnK/5oQcw6gDtw7j1FUYbdB0+t
+	lNP9UZeFFImym3BAbhjmaXtlr8RruybQ/I55J0F2svTqsqSXvpJU9xzB7GFrqWJg03fo
+	+sb5AKTTQOSQj+BOoxRZnFCw9iJ84XKUujxikMjnlI2idoHfwMpGAwyoeISaPX4EgDd4
+	srMhUnOmdxGOdxFgCylC3M6FEbqjZVKWmmspa6kgPrhHkYZ/FkzOJMIyuL8qqARE5s0+
+	FekA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=3dU0SO1F2EyyY3/jyxzzKpETXd3kRyXZOodwp0HzaQY=;
-	b=rZeY5J+1fmij8NhyNfPJRq4BUGKpe3qHgwxqQmMRCWPQpogI6pAHGo1s/0Ak4L2mzh
-	C7fGZCNhRK9DN1oupY/d89kHOAVDxLPvlCCrrQnkjxGapb116qbU626mWfoadBy0yP3f
-	5rhhpkLi+VWttbQyXf3UXolbJXnYRB7YL+VPZ8A6N470tUGXh7sNIyDcXBYbd11rJIrb
-	sqQsAU/slT18q/H6kBqlH1Lxf5bnKtNqzqg8nn0VgVZ7vKvTlWDgL3yFoQAjp/z3AyK3
-	GVkIw5gDC2Iy3MiKiBQ4CovrKnAyiBqmqkhg9TTh9DNWfCPOulGxdW1bM0CVYMFzv2cN
-	QPGQ==
-X-Gm-Message-State: AJaThX5GPx+Y322KX5dsYtPmunP4ocrSpZssEkbaCS+dtWhhyPBNVDaI
-	LoYi7CJlWekJYpH/UqPr4xI=
-X-Google-Smtp-Source: AGs4zMYYhfnSqap7LihRXlxTGqNZ8xs2nXpvnti9nreb/PMYROfKENQ1IYkZRTRDktf+Yk0TXNX0og==
-X-Received: by 10.84.172.1 with SMTP id m1mr37112997plb.345.1511750131013;
-	Sun, 26 Nov 2017 18:35:31 -0800 (PST)
+	bh=5PFEs+uNhOXQ7BLY328OnXSXIcKW2cUI3m/+qizlkPM=;
+	b=BM+IbMZAAH3FCIxWONKmZN2xmyocEJWXucxdT5aBL9wnYpJ5F1Bp3vLPync0KD6iwQ
+	44ltiAzHKlLCyUhajUQGpoEWM+bRdDhtnmzgVonJAqtg+oibIiUOlFgrU6iOxKoagDTK
+	YLuPRrJPA7tE/60un2Gn56v3+E8hbIgKKRZweiFCrhWYbUfQ1azgiONkXZFl42E1FZ9U
+	iA9kH7HCS9rFDHlNOhnPLgTevn3mVTkwVsOLGivNT2dGvDywVHaAtS2/R7QnG0TLIEUM
+	R2i7H0ZTwV+BJVTeTHzfZtbuU+e0OS4bB+SNAHQapDuIb7fDAVFq7fhV4DCA5fKaJtmU
+	l6uQ==
+X-Gm-Message-State: AJaThX6+Wf+z2RvDJ9B7Ilu5fNKMbRqnm2OzfqtcdtowLgRfMjp5BljR
+	eanZn2ZJ+3tvYC8vz5k8nKckpw==
+X-Google-Smtp-Source: AGs4zMZ3WzhnKevh7ZIn76n+h7qjijnsUZJKtObWedjiX9J7l+tzVMn5XjAcRHnZhfs5RM80Loy59Q==
+X-Received: by 10.99.95.70 with SMTP id t67mr35324366pgb.49.1511750133214;
+	Sun, 26 Nov 2017 18:35:33 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.30
+	e3sm17809103pfe.92.2017.11.26.18.35.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Nov 2017 18:35:30 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:32 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:35:05 -0800
-Message-Id: <1511750112-2263-19-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:35:07 -0800
+Message-Id: <1511750112-2263-21-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 19/26] Binutils: Security fix for CVE-2017-9750
+Subject: [pyro][PATCH 21/26] binutls: Security fix for CVE-2017-9752
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,282 +59,243 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:30 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:32 -0000
 
 Affects: <= 2.28
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |   1 +
- .../binutils/binutils/CVE-2017-9750.patch          | 247 +++++++++++++++++++++
- 2 files changed, 248 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9750.patch
+ .../binutils/binutils/CVE-2017-9752.patch          | 208 +++++++++++++++++++++
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9752.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index b88e154..c63a2e5 100644
+index 99fc1b1..68d21c8 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -61,6 +61,7 @@ SRC_URI = "\
-      file://CVE-2017-9747.patch \
-      file://CVE-2017-9748.patch \
+@@ -63,6 +63,7 @@ SRC_URI = "\
       file://CVE-2017-9749.patch \
-+     file://CVE-2017-9750.patch \
+      file://CVE-2017-9750.patch \
+      file://CVE-2017-9751.patch \
++     file://CVE-2017-9752.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9750.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9750.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9752.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9752.patch
 new file mode 100644
-index 0000000..fe8fa69
+index 0000000..f63a993
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9750.patch
-@@ -0,0 +1,247 @@
-+From db5fa770268baf8cc82cf9b141d69799fd485fe2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9752.patch
+@@ -0,0 +1,208 @@
++From c53d2e6d744da000aaafe0237bced090aab62818 Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Wed, 14 Jun 2017 13:35:06 +0100
-+Subject: [PATCH] Fix address violation problems when disassembling a corrupt
-+ RX binary.
++Date: Wed, 14 Jun 2017 11:27:15 +0100
++Subject: [PATCH] Fix potential address violations when processing a corrupt
++ Alpha VMA binary.
 +
-+	PR binutils/21587
-+	* rx-decode.opc: Include libiberty.h
-+	(GET_SCALE): New macro - validates access to SCALE array.
-+	(GET_PSCALE): New macro - validates access to PSCALE array.
-+	(DIs, SIs, S2Is, rx_disp): Use new macros.
-+	* rx-decode.c: Regenerate.
++	PR binutils/21589
++	* vms-alpha.c (_bfd_vms_get_value): Add an extra parameter - the
++	maximum value for the ascic pointer.  Check that name processing
++	does not read beyond this value.
++	(_bfd_vms_slurp_etir): Add checks for attempts to read beyond the
++	end of etir record.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2017-9750
++CVE: CVE-2017-9752
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ opcodes/ChangeLog     |  9 +++++++++
-+ opcodes/rx-decode.c   | 24 ++++++++++++++----------
-+ opcodes/rx-decode.opc | 24 ++++++++++++++----------
-+ 3 files changed, 37 insertions(+), 20 deletions(-)
++ bfd/ChangeLog   |  9 +++++++++
++ bfd/vms-alpha.c | 51 +++++++++++++++++++++++++++++++++++++++++----------
++ 2 files changed, 50 insertions(+), 10 deletions(-)
 +
-+Index: git/opcodes/rx-decode.c
++Index: git/bfd/ChangeLog
 +===================================================================
-+--- git.orig/opcodes/rx-decode.c
-++++ git/opcodes/rx-decode.c
-+@@ -27,6 +27,7 @@
-+ #include <string.h>
-+ #include "ansidecl.h"
-+ #include "opcode/rx.h"
-++#include "libiberty.h"
++--- git.orig/bfd/ChangeLog
+++++ git/bfd/ChangeLog
++@@ -9,6 +9,15 @@
 + 
-+ #define RX_OPCODE_BIG_ENDIAN 0
-+ 
-+@@ -45,7 +46,7 @@ static int trace = 0;
-+ #define LSIZE 2
-+ 
-+ /* These are for when the upper bits are "don't care" or "undefined".  */
-+-static int bwl[] =
-++static int bwl[4] =
-+ {
-+   RX_Byte,
-+   RX_Word,
-+@@ -53,7 +54,7 @@ static int bwl[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int sbwl[] =
-++static int sbwl[4] =
-+ {
-+   RX_SByte,
-+   RX_SWord,
-+@@ -61,7 +62,7 @@ static int sbwl[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int ubw[] =
-++static int ubw[4] =
-+ {
-+   RX_UByte,
-+   RX_UWord,
-+@@ -69,7 +70,7 @@ static int ubw[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int memex[] =
-++static int memex[4] =
-+ {
-+   RX_SByte,
-+   RX_SWord,
-+@@ -89,6 +90,9 @@ static int SCALE[] = { 1, 2, 4, 0 };
-+ /* This is for the prefix size enum.  */
-+ static int PSCALE[] = { 4, 1, 1, 1, 2, 2, 2, 3, 4 };
-+ 
-++#define GET_SCALE(_indx)  ((unsigned)(_indx) < ARRAY_SIZE (SCALE) ? SCALE[(_indx)] : 0)
-++#define GET_PSCALE(_indx) ((unsigned)(_indx) < ARRAY_SIZE (PSCALE) ? PSCALE[(_indx)] : 0)
++ 2017-06-14  Nick Clifton  <nickc@redhat.com>
++  
+++       PR binutils/21589
+++       * vms-alpha.c (_bfd_vms_get_value): Add an extra parameter - the
+++       maximum value for the ascic pointer.  Check that name processing
+++       does not read beyond this value.
+++       (_bfd_vms_slurp_etir): Add checks for attempts to read beyond the
+++       end of etir record.
 ++
-+ static int flagmap[] = {0, 1, 2, 3, 0, 0, 0, 0,
-+ 		       16, 17, 0, 0, 0, 0, 0, 0 };
+++2017-06-14  Nick Clifton  <nickc@redhat.com>
+++ 
++        PR binutils/21578
++        * elf32-sh.c (sh_elf_set_mach_from_flags): Fix check for invalid
++        flag value.
++Index: git/bfd/vms-alpha.c
++===================================================================
++--- git.orig/bfd/vms-alpha.c
+++++ git/bfd/vms-alpha.c
++@@ -1456,7 +1456,7 @@ dst_retrieve_location (bfd *abfd, unsign
++ /* Write multiple bytes to section image.  */
 + 
-+@@ -107,7 +111,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define DC(c)       OP (0, RX_Operand_Immediate, 0, c)
-+ #define DR(r)       OP (0, RX_Operand_Register,  r, 0)
-+ #define DI(r,a)     OP (0, RX_Operand_Indirect,  r, a)
-+-#define DIs(r,a,s)  OP (0, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define DIs(r,a,s)  OP (0, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define DD(t,r,s)   rx_disp (0, t, r, bwl[s], ld);
-+ #define DF(r)       OP (0, RX_Operand_Flag,  flagmap[r], 0)
-+ 
-+@@ -115,7 +119,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define SR(r)       OP (1, RX_Operand_Register,  r, 0)
-+ #define SRR(r)      OP (1, RX_Operand_TwoReg,  r, 0)
-+ #define SI(r,a)     OP (1, RX_Operand_Indirect,  r, a)
-+-#define SIs(r,a,s)  OP (1, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define SIs(r,a,s)  OP (1, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define SD(t,r,s)   rx_disp (1, t, r, bwl[s], ld);
-+ #define SP(t,r)     rx_disp (1, t, r, (t!=3) ? RX_UByte : RX_Long, ld); P(t, 1);
-+ #define SPm(t,r,m)  rx_disp (1, t, r, memex[m], ld); rx->op[1].size = memex[m];
-+@@ -124,7 +128,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define S2C(i)      OP (2, RX_Operand_Immediate, 0, i)
-+ #define S2R(r)      OP (2, RX_Operand_Register,  r, 0)
-+ #define S2I(r,a)    OP (2, RX_Operand_Indirect,  r, a)
-+-#define S2Is(r,a,s) OP (2, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define S2Is(r,a,s) OP (2, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define S2D(t,r,s)  rx_disp (2, t, r, bwl[s], ld);
-+ #define S2P(t,r)    rx_disp (2, t, r, (t!=3) ? RX_UByte : RX_Long, ld); P(t, 2);
-+ #define S2Pm(t,r,m) rx_disp (2, t, r, memex[m], ld); rx->op[2].size = memex[m];
-+@@ -211,7 +215,7 @@ immediate (int sfield, int ex, LocalData
-+ }
++ static bfd_boolean
++-image_write (bfd *abfd, unsigned char *ptr, int size)
+++image_write (bfd *abfd, unsigned char *ptr, unsigned int size)
++ {
++ #if VMS_DEBUG
++   _bfd_vms_debug (8, "image_write from (%p, %d) to (%ld)\n", ptr, size,
++@@ -1603,14 +1603,16 @@ _bfd_vms_etir_name (int cmd)
++ #define HIGHBIT(op) ((op & 0x80000000L) == 0x80000000L)
 + 
 + static void
-+-rx_disp (int n, int type, int reg, int size, LocalData * ld)
-++rx_disp (int n, int type, int reg, unsigned int size, LocalData * ld)
++-_bfd_vms_get_value (bfd *abfd, const unsigned char *ascic,
+++_bfd_vms_get_value (bfd *abfd,
+++		    const unsigned char *ascic,
+++		    const unsigned char *max_ascic,
++                     struct bfd_link_info *info,
++                     bfd_vma *vma,
++                     struct alpha_vms_link_hash_entry **hp)
 + {
-+   int disp;
++   char name[257];
++-  int len;
++-  int i;
+++  unsigned int len;
+++  unsigned int i;
++   struct alpha_vms_link_hash_entry *h;
 + 
-+@@ -228,7 +232,7 @@ rx_disp (int n, int type, int reg, int s
-+     case 1:
-+       ld->rx->op[n].type = RX_Operand_Indirect;
-+       disp = GETBYTE ();
-+-      ld->rx->op[n].addend = disp * PSCALE[size];
-++      ld->rx->op[n].addend = disp * GET_PSCALE (size);
-+       break;
-+     case 2:
-+       ld->rx->op[n].type = RX_Operand_Indirect;
-+@@ -238,7 +242,7 @@ rx_disp (int n, int type, int reg, int s
-+ #else
-+       disp = disp + GETBYTE () * 256;
-+ #endif
-+-      ld->rx->op[n].addend = disp * PSCALE[size];
-++      ld->rx->op[n].addend = disp * GET_PSCALE (size);
-+       break;
-+     default:
-+       abort ();
-+Index: git/opcodes/rx-decode.opc
-+===================================================================
-+--- git.orig/opcodes/rx-decode.opc
-++++ git/opcodes/rx-decode.opc
-+@@ -26,6 +26,7 @@
-+ #include <string.h>
-+ #include "ansidecl.h"
-+ #include "opcode/rx.h"
-++#include "libiberty.h"
++   /* Not linking.  Do not try to resolve the symbol.  */
++@@ -1622,6 +1624,14 @@ _bfd_vms_get_value (bfd *abfd, const uns
++     }
 + 
-+ #define RX_OPCODE_BIG_ENDIAN 0
-+ 
-+@@ -44,7 +45,7 @@ static int trace = 0;
-+ #define LSIZE 2
-+ 
-+ /* These are for when the upper bits are "don't care" or "undefined".  */
-+-static int bwl[] =
-++static int bwl[4] =
-+ {
-+   RX_Byte,
-+   RX_Word,
-+@@ -52,7 +53,7 @@ static int bwl[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int sbwl[] =
-++static int sbwl[4] =
-+ {
-+   RX_SByte,
-+   RX_SWord,
-+@@ -60,7 +61,7 @@ static int sbwl[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int ubw[] =
-++static int ubw[4] =
-+ {
-+   RX_UByte,
-+   RX_UWord,
-+@@ -68,7 +69,7 @@ static int ubw[] =
-+   RX_Bad_Size /* Bogus instructions can have a size field set to 3.  */
-+ };
-+ 
-+-static int memex[] =
-++static int memex[4] =
-+ {
-+   RX_SByte,
-+   RX_SWord,
-+@@ -88,6 +89,9 @@ static int SCALE[] = { 1, 2, 4, 0 };
-+ /* This is for the prefix size enum.  */
-+ static int PSCALE[] = { 4, 1, 1, 1, 2, 2, 2, 3, 4 };
-+ 
-++#define GET_SCALE(_indx)  ((unsigned)(_indx) < ARRAY_SIZE (SCALE) ? SCALE[(_indx)] : 0)
-++#define GET_PSCALE(_indx) ((unsigned)(_indx) < ARRAY_SIZE (PSCALE) ? PSCALE[(_indx)] : 0)
++   len = *ascic;
+++  if (ascic + len >= max_ascic)
+++    {
+++      _bfd_error_handler (_("Corrupt vms value"));
+++      *vma = 0;
+++      *hp = NULL;
+++      return;
+++    }
 ++
-+ static int flagmap[] = {0, 1, 2, 3, 0, 0, 0, 0,
-+ 		       16, 17, 0, 0, 0, 0, 0, 0 };
-+ 
-+@@ -106,7 +110,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define DC(c)       OP (0, RX_Operand_Immediate, 0, c)
-+ #define DR(r)       OP (0, RX_Operand_Register,  r, 0)
-+ #define DI(r,a)     OP (0, RX_Operand_Indirect,  r, a)
-+-#define DIs(r,a,s)  OP (0, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define DIs(r,a,s)  OP (0, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define DD(t,r,s)   rx_disp (0, t, r, bwl[s], ld);
-+ #define DF(r)       OP (0, RX_Operand_Flag,  flagmap[r], 0)
-+ 
-+@@ -114,7 +118,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define SR(r)       OP (1, RX_Operand_Register,  r, 0)
-+ #define SRR(r)      OP (1, RX_Operand_TwoReg,  r, 0)
-+ #define SI(r,a)     OP (1, RX_Operand_Indirect,  r, a)
-+-#define SIs(r,a,s)  OP (1, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define SIs(r,a,s)  OP (1, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define SD(t,r,s)   rx_disp (1, t, r, bwl[s], ld);
-+ #define SP(t,r)     rx_disp (1, t, r, (t!=3) ? RX_UByte : RX_Long, ld); P(t, 1);
-+ #define SPm(t,r,m)  rx_disp (1, t, r, memex[m], ld); rx->op[1].size = memex[m];
-+@@ -123,7 +127,7 @@ static int dsp3map[] = { 8, 9, 10, 3, 4,
-+ #define S2C(i)      OP (2, RX_Operand_Immediate, 0, i)
-+ #define S2R(r)      OP (2, RX_Operand_Register,  r, 0)
-+ #define S2I(r,a)    OP (2, RX_Operand_Indirect,  r, a)
-+-#define S2Is(r,a,s) OP (2, RX_Operand_Indirect,  r, (a) * SCALE[s])
-++#define S2Is(r,a,s) OP (2, RX_Operand_Indirect,  r, (a) * GET_SCALE (s))
-+ #define S2D(t,r,s)  rx_disp (2, t, r, bwl[s], ld);
-+ #define S2P(t,r)    rx_disp (2, t, r, (t!=3) ? RX_UByte : RX_Long, ld); P(t, 2);
-+ #define S2Pm(t,r,m) rx_disp (2, t, r, memex[m], ld); rx->op[2].size = memex[m];
-+@@ -210,7 +214,7 @@ immediate (int sfield, int ex, LocalData
-+ }
-+ 
-+ static void
-+-rx_disp (int n, int type, int reg, int size, LocalData * ld)
-++rx_disp (int n, int type, int reg, unsigned int size, LocalData * ld)
-+ {
-+   int disp;
-+ 
-+@@ -227,7 +231,7 @@ rx_disp (int n, int type, int reg, int s
-+     case 1:
-+       ld->rx->op[n].type = RX_Operand_Indirect;
-+       disp = GETBYTE ();
-+-      ld->rx->op[n].addend = disp * PSCALE[size];
-++      ld->rx->op[n].addend = disp * GET_PSCALE (size);
-+       break;
-+     case 2:
-+       ld->rx->op[n].type = RX_Operand_Indirect;
-+@@ -237,7 +241,7 @@ rx_disp (int n, int type, int reg, int s
-+ #else
-+       disp = disp + GETBYTE () * 256;
++   for (i = 0; i < len; i++)
++     name[i] = ascic[i + 1];
++   name[i] = 0;
++@@ -1741,6 +1751,15 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++       _bfd_hexdump (8, ptr, cmd_length - 4, 0);
 + #endif
-+-      ld->rx->op[n].addend = disp * PSCALE[size];
-++      ld->rx->op[n].addend = disp * GET_PSCALE (size);
-+       break;
-+     default:
-+       abort ();
++ 
+++      /* PR 21589: Check for a corrupt ETIR record.  */
+++      if (cmd_length < 4)
+++	{
+++	corrupt_etir:
+++	  _bfd_error_handler (_("Corrupt ETIR record encountered"));
+++	  bfd_set_error (bfd_error_bad_value);
+++	  return FALSE;
+++	}
+++
++       switch (cmd)
++         {
++           /* Stack global
++@@ -1748,7 +1767,7 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++ 
++              stack 32 bit value of symbol (high bits set to 0).  */
++         case ETIR__C_STA_GBL:
++-          _bfd_vms_get_value (abfd, ptr, info, &op1, &h);
+++          _bfd_vms_get_value (abfd, ptr, maxptr, info, &op1, &h);
++           _bfd_vms_push (abfd, op1, alpha_vms_sym_to_ctxt (h));
++           break;
++ 
++@@ -1757,6 +1776,8 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++ 
++              stack 32 bit value, sign extend to 64 bit.  */
++         case ETIR__C_STA_LW:
+++	  if (ptr + 4 >= maxptr)
+++	    goto corrupt_etir;
++           _bfd_vms_push (abfd, bfd_getl32 (ptr), RELC_NONE);
++           break;
++ 
++@@ -1765,6 +1786,8 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++ 
++              stack 64 bit value of symbol.  */
++         case ETIR__C_STA_QW:
+++	  if (ptr + 8 >= maxptr)
+++	    goto corrupt_etir;
++           _bfd_vms_push (abfd, bfd_getl64 (ptr), RELC_NONE);
++           break;
++ 
++@@ -1778,6 +1801,8 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++           {
++             int psect;
++ 
+++	    if (ptr + 12 >= maxptr)
+++	      goto corrupt_etir;
++             psect = bfd_getl32 (ptr);
++             if ((unsigned int) psect >= PRIV (section_count))
++               {
++@@ -1867,6 +1892,8 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++           {
++             int size;
++ 
+++	    if (ptr + 4 >= maxptr)
+++	      goto corrupt_etir;
++             size = bfd_getl32 (ptr);
++             _bfd_vms_pop (abfd, &op1, &rel1);
++             if (rel1 != RELC_NONE)
++@@ -1879,7 +1906,7 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++           /* Store global: write symbol value
++              arg: cs	global symbol name.  */
++         case ETIR__C_STO_GBL:
++-          _bfd_vms_get_value (abfd, ptr, info, &op1, &h);
+++          _bfd_vms_get_value (abfd, ptr, maxptr, info, &op1, &h);
++           if (h && h->sym)
++             {
++               if (h->sym->typ == EGSD__C_SYMG)
++@@ -1901,7 +1928,7 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++           /* Store code address: write address of entry point
++              arg: cs	global symbol name (procedure).  */
++         case ETIR__C_STO_CA:
++-          _bfd_vms_get_value (abfd, ptr, info, &op1, &h);
+++          _bfd_vms_get_value (abfd, ptr, maxptr, info, &op1, &h);
++           if (h && h->sym)
++             {
++               if (h->sym->flags & EGSY__V_NORM)
++@@ -1946,8 +1973,10 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++              da	data.  */
++         case ETIR__C_STO_IMM:
++           {
++-            int size;
+++            unsigned int size;
++ 
+++	    if (ptr + 4 >= maxptr)
+++	      goto corrupt_etir;
++             size = bfd_getl32 (ptr);
++             image_write (abfd, ptr + 4, size);
++           }
++@@ -1960,7 +1989,7 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++              store global longword: store 32bit value of symbol
++              arg: cs	symbol name.  */
++         case ETIR__C_STO_GBL_LW:
++-          _bfd_vms_get_value (abfd, ptr, info, &op1, &h);
+++          _bfd_vms_get_value (abfd, ptr, maxptr, info, &op1, &h);
++ #if 0
++           abort ();
++ #endif
++@@ -2013,7 +2042,7 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++              da	signature.  */
++ 
++         case ETIR__C_STC_LP_PSB:
++-          _bfd_vms_get_value (abfd, ptr + 4, info, &op1, &h);
+++          _bfd_vms_get_value (abfd, ptr + 4, maxptr, info, &op1, &h);
++           if (h && h->sym)
++             {
++               if (h->sym->typ == EGSD__C_SYMG)
++@@ -2109,6 +2138,8 @@ _bfd_vms_slurp_etir (bfd *abfd, struct b
++           /* Augment relocation base: increment image location counter by offset
++              arg: lw	offset value.  */
++         case ETIR__C_CTL_AUGRB:
+++	  if (ptr + 4 >= maxptr)
+++	    goto corrupt_etir;
++           op1 = bfd_getl32 (ptr);
++           image_inc_ptr (abfd, op1);
++           break;
 -- 
 2.7.4
 
