@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BDE87780A0
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E5B1E78285
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:27 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id z3so7596097plh.9
+	Mon, 27 Nov 2017 02:35:28 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id r12so18023578pgu.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:29 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=GpxcGq2s03CB1F+Sr9OvEYhILXLGKGjHzEkCFAVvEi0=;
-	b=o2Ga3sd534SAnERiePSdad2HuHeUndKUPpzoohnuEkYK0Ow6MjX6ow+9jmVTH0/dM+
-	+6Yted1CsHpiK9yN+6o6kJk9/emoTOQtB6xmNyceMpfgEk31GMJLco656bKds40BDpfd
-	tcJS3yXZpbTCKRphvhYggY3QJf4AQngbf2pJv+KQN4QpVK4g1s932vSN5mOt+OxWcyau
-	7gyRoIfrwlPEFHL0q79PKfDXrej3IBfnW5oHeDAKYBP6DWZcOh9/lqKIWt7Ek3SKjn68
-	Hz+EgtIZyP/FlbaDmIZHstBbpkfNwd+XsUy4t45GzB9LuDzDWhWwmqqlidZH6GGI0DeE
-	FKoQ==
+	bh=f23KwGdCiRSYbHAmfJX3RRu1aJRzOM4wbrRaCqtDvNg=;
+	b=s1nqYyB+rBmeGHwEQOol392t48LD0TXSa+J8YzusKNn0PMJ9SnvryHqdr70FdPOsqy
+	fpkFiwCLjlBupEgnN7WTHxQVRAKmiIRvo2FJ49Sx5OUbHRQgIAW7VaMegJT2zuo0VlxS
+	ALjvOvo4m6dz5WCJjaqL06FQvwbvzTQb1NCyf6F3hQInHRzq0mfgq1DFDVrx80TBk7Ib
+	1glrdzxf5f4ayYEp0YTuSGUORVxLOmybPxYQlzD2maSQwUFqD9QRhYDdHHcXgf/Oifvr
+	GXQyHop0w1McmmSWhlEobJqHAlwnKiwSEtBnEDHahRvBhNs3LWFSx26gFL94rvkfpZJ1
+	HDrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=GpxcGq2s03CB1F+Sr9OvEYhILXLGKGjHzEkCFAVvEi0=;
-	b=l3LmJVZNsbJlBOXqRpjKY2jLmo4zVG/WTjfr5p+JOlju/XboBfmeIQwzr0PnniKAWO
-	Uam96zN9ACZNA0EVe/sHu/BWEmRArLvB/5QK6QLDaLqyILVU8opx7erk0NzEJ8SWdTjp
-	oE+pTGbyrqxbsO5Bq+yCxDRfySPpj0XOQnfhcJNwZ5l5aaDlmlcM+NW/brUAWBUYOjN4
-	x4dejDSa7H2LdHVa6WYPCSz3SCvmRn/sFPy56ZezDWwKjwBKIcOydPOSqeB+86lbUTET
-	Lq9WfKobPns840YOGZerkTkYXb6rk00pigT+Rb0iOlO2ImMgMNI7ssImttdNI8+qTs6p
-	/Oww==
-X-Gm-Message-State: AJaThX6DsrMBC6jNWT62RcucQcrLQM91ITAJnzgL3qlqT0d3wicaNqdQ
-	ChEphtca8JPm1T91RSNTcxbjgQ==
-X-Google-Smtp-Source: AGs4zMYYmg2HdJClaiSflbfS7YosESawRNUHBqNOmfgp3DTlQERvwk3IxXxkozWOZekJksZz2v3uVw==
-X-Received: by 10.84.233.207 with SMTP id m15mr36107582pln.424.1511750129173; 
-	Sun, 26 Nov 2017 18:35:29 -0800 (PST)
+	bh=f23KwGdCiRSYbHAmfJX3RRu1aJRzOM4wbrRaCqtDvNg=;
+	b=csgPvzdF3GpEO0elOgYdatytG53nzxwTLmTr/ivkamMEwGeMzd0/7BdXx+IlWfOkih
+	06vxFmIUMJGQ+Vo+xOtYPmRMfXNTJoN1spIcnFObGXePZ3AZyCoXcGsYiOMAF6Gs+cVk
+	rSA7XjLOiz8WK8PiDTzWv9LBW2pFS3e1KV8ywqxL1qDZ8jOWlowIG7yN3TZTsdfN47yq
+	KbapHYOhzpPnvsZwjcFvGVHRjnOnfvez8xNU3dafgu4JM/3VrP130Z4LJ6dQ7zd+l1cq
+	ABD9f/Luf5g5/ocdb8dMZoVWDDvtgnNeubOZ5aHNnia2+klWNZJbXYAatXQbXkW2+d3x
+	YKzg==
+X-Gm-Message-State: AJaThX6Mqgwr198gdRK9+AS39SbA+DjcnnDshMlOhKU00uM3gQ3oX1gN
+	8bebivnHyBvgyIIRzAIQqTE=
+X-Google-Smtp-Source: AGs4zMaSnONn3mgXNB+ktXo09/E77o8rdKT0alcUdzSAx6uG4qsB+IP/cZHhkfsLEZT8Qzon3q4Esg==
+X-Received: by 10.99.116.30 with SMTP id p30mr35238828pgc.303.1511750130172;
+	Sun, 26 Nov 2017 18:35:30 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.28
+	e3sm17809103pfe.92.2017.11.26.18.35.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Nov 2017 18:35:28 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:29 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:35:03 -0800
-Message-Id: <1511750112-2263-17-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:35:04 -0800
+Message-Id: <1511750112-2263-18-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 17/26] binutls: Security fix for CVE-2017-9748
+Subject: [pyro][PATCH 18/26] binutils: Security fix for CVE-2017-9749
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,81 +58,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:28 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:29 -0000
 
-affects: <= 2.28
+Affects: <= 2.28
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |  1 +
- .../binutils/binutils/CVE-2017-9748.patch          | 46 ++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9748.patch
+ .../binutils/binutils/CVE-2017-9749.patch          | 77 ++++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9749.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 6822adb..8a19ac6 100644
+index 8a19ac6..b88e154 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -59,6 +59,7 @@ SRC_URI = "\
-      file://CVE-2017-9745.patch \
+@@ -60,6 +60,7 @@ SRC_URI = "\
       file://CVE-2017-9746.patch \
       file://CVE-2017-9747.patch \
-+     file://CVE-2017-9748.patch \
+      file://CVE-2017-9748.patch \
++     file://CVE-2017-9749.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9748.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9748.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9749.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9749.patch
 new file mode 100644
-index 0000000..0207023
+index 0000000..3cc2afc
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9748.patch
-@@ -0,0 +1,46 @@
-+From 63634bb4a107877dd08b6282e28e11cfd1a1649e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9749.patch
+@@ -0,0 +1,77 @@
++From 08c7881b814c546efc3996fd1decdf0877f7a779 Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Thu, 15 Jun 2017 12:44:23 +0100
-+Subject: [PATCH] Avoid a possible compiler bug by using a static buffer
-+ instead of a stack local buffer.
++Date: Thu, 15 Jun 2017 11:52:02 +0100
++Subject: [PATCH] Prevent invalid array accesses when disassembling a corrupt
++ bfin binary.
 +
-+	PR binutils/21582
-+	* ieee.c (ieee_object_p): Use a static buffer to avoid compiler
-+	bugs.
++	PR binutils/21586
++	* bfin-dis.c (gregs): Clip index to prevent overflow.
++	(regs): Likewise.
++	(regs_lo): Likewise.
++	(regs_hi): Likewise.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2017-9748
++CVE: CVE-2017-9749
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog | 6 ++++++
-+ bfd/ieee.c    | 2 +-
-+ 2 files changed, 7 insertions(+), 1 deletion(-)
++ opcodes/ChangeLog  | 8 ++++++++
++ opcodes/bfin-dis.c | 8 ++++----
++ 2 files changed, 12 insertions(+), 4 deletions(-)
 +
-+Index: git/bfd/ieee.c
++Index: git/opcodes/ChangeLog
 +===================================================================
-+--- git.orig/bfd/ieee.c
-++++ git/bfd/ieee.c
-+@@ -1875,7 +1875,7 @@ ieee_object_p (bfd *abfd)
-+   char *processor;
-+   unsigned int part;
-+   ieee_data_type *ieee;
-+-  unsigned char buffer[300];
-++  static unsigned char buffer[300];
-+   ieee_data_type *save = IEEE_DATA (abfd);
-+   bfd_size_type amt;
-+ 
-+Index: git/bfd/ChangeLog
-+===================================================================
-+--- git.orig/bfd/ChangeLog
-++++ git/bfd/ChangeLog
-+@@ -1,5 +1,9 @@
-+ 2017-06-15  Nick Clifton  <nickc@redhat.com>
-+ 
-++       PR binutils/21582
-++       * ieee.c (ieee_object_p): Use a static buffer to avoid compiler
-++       bugs.
++--- git.orig/opcodes/ChangeLog
+++++ git/opcodes/ChangeLog
++@@ -1,3 +1,11 @@
+++2017-06-15  Nick Clifton  <nickc@redhat.com>
 ++
-+        PR binutils/21581
-+        (ieee_archive_p): Likewise.
+++	PR binutils/21586
+++	* bfin-dis.c (gregs): Clip index to prevent overflow.
+++	(regs): Likewise.
+++	(regs_lo): Likewise.
+++	(regs_hi): Likewise.
+++
++ 2017-06-14  Nick Clifton  <nickc@redhat.com>
 + 
++        PR binutils/21576
++Index: git/opcodes/bfin-dis.c
++===================================================================
++--- git.orig/opcodes/bfin-dis.c
+++++ git/opcodes/bfin-dis.c
++@@ -350,7 +350,7 @@ static const enum machine_registers deco
++   REG_P0, REG_P1, REG_P2, REG_P3, REG_P4, REG_P5, REG_SP, REG_FP,
++ };
++ 
++-#define gregs(x, i) REGNAME (decode_gregs[((i) << 3) | (x)])
+++#define gregs(x, i) REGNAME (decode_gregs[(((i) << 3) | (x)) & 15])
++ 
++ /* [dregs pregs (iregs mregs) (bregs lregs)].  */
++ static const enum machine_registers decode_regs[] =
++@@ -361,7 +361,7 @@ static const enum machine_registers deco
++   REG_B0, REG_B1, REG_B2, REG_B3, REG_L0, REG_L1, REG_L2, REG_L3,
++ };
++ 
++-#define regs(x, i) REGNAME (decode_regs[((i) << 3) | (x)])
+++#define regs(x, i) REGNAME (decode_regs[(((i) << 3) | (x)) & 31])
++ 
++ /* [dregs pregs (iregs mregs) (bregs lregs) Low Half].  */
++ static const enum machine_registers decode_regs_lo[] =
++@@ -372,7 +372,7 @@ static const enum machine_registers deco
++   REG_BL0, REG_BL1, REG_BL2, REG_BL3, REG_LL0, REG_LL1, REG_LL2, REG_LL3,
++ };
++ 
++-#define regs_lo(x, i) REGNAME (decode_regs_lo[((i) << 3) | (x)])
+++#define regs_lo(x, i) REGNAME (decode_regs_lo[(((i) << 3) | (x)) & 31])
++ 
++ /* [dregs pregs (iregs mregs) (bregs lregs) High Half].  */
++ static const enum machine_registers decode_regs_hi[] =
++@@ -383,7 +383,7 @@ static const enum machine_registers deco
++   REG_BH0, REG_BH1, REG_BH2, REG_BH3, REG_LH0, REG_LH1, REG_LH2, REG_LH3,
++ };
++ 
++-#define regs_hi(x, i) REGNAME (decode_regs_hi[((i) << 3) | (x)])
+++#define regs_hi(x, i) REGNAME (decode_regs_hi[(((i) << 3) | (x)) & 31])
++ 
++ static const enum machine_registers decode_statbits[] =
++ {
 -- 
 2.7.4
 
