@@ -1,47 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D5F78301
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 89BF278347
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 15:56:49 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 70so18869016pgf.6
+	Mon, 27 Nov 2017 15:56:52 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id z184so18855620pgd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 07:56:51 -0800 (PST)
+	Mon, 27 Nov 2017 07:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=0dqv64kB53G2l3EY+gBM8pL8uJiIKh4pmacikeQxFBg=;
-	b=YfK+LuvCBs5gBX+zg/D+ZfsJ83+8GMLxZP7+isa5Sznjqza74OMkwetOZYQyhvpnA1
-	SQGZ+sXq21s05wkXefpK01cWvwVqd8f8P7lSAvEuv3sY2llMgAryZBWoztDHEMr08WjC
-	DkdV7TAXDO3g0EHIolAxr3gHLcofLx5/Fbad51Mg48DhJ4wY/TEzTrwdZ8oW5qvemaLw
-	0u++X/sYCnctKgwmNswvstiavejwTSsXnwxkbEru4hP3jlb5SSoOka9w0qPZD6nsSNW0
-	mAqoPH9f+CyattdKaY3/GFHU32U3r1zzvvbhIYwix58i5JhbF5I+2XbQetvvmp9PwRch
-	6QrA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=evJfdaWFKVBUf5iBcXi9Ob/bqQhh/z8pmBK4QFDGdRI=;
+	b=lB5HujleVfdl3Kfingo0FLBuiHEtH/nWPoUbHLU6tDtFFI2F9KgdcP5XKFmx5gD1aR
+	xjWoDEemzeJ99a4sg2sf3tUNfeEne/xD1m+sr+dDqfPbatGKRjSK0qCM3FWfKMOg6VTK
+	cV4eRPBt/OpuFJDKypMTnGP2Vj/4UzKynAvhrbzCNezgsbiWUTVorZvFLNx7guNXOXVb
+	qqO0UjjgOTA+cbzrhnFrKvbK/pht4rhAqYYQhAi+PQf1jUzetmk9tSENUC+pDAHRJKkW
+	4MtIondOubxRcU90mBx9S3SLN3Jw+K9nH+iS0E8JGf8/nyVRQdplBpcy8BNh4DyGuU58
+	DkMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0dqv64kB53G2l3EY+gBM8pL8uJiIKh4pmacikeQxFBg=;
-	b=ZJOdkNAJ+WoShT5ij8g6Mhh/VXdGBxAg1MYXTz88g4Es6Psvi/k2YInCG1S5Y84e9h
-	14MSZ6SqYb6vFG93ty9bXw+oDf8nVRJWginQsWTKmcQZqnGV4fGXFQHgsu3PZIAi2kTA
-	uiUjTlI2R0INB43TrjsNjwjhsWEQgSSBFDbY3GAUK+mFmozsLAZXXJ1x4/GIaLTIrzBN
-	4wprX/AZyJH2OK8Oz4Wi98D8Dh4t1sDIptJUW0eN0Mt33cG7EmH0YwEFudDVnS60W2Zg
-	sVi4xPPOi7oygeNBWcWuT2W+5XD/kgycuFbWx/6OQzqWL9wV12dX/H4o5/H6c+BM2ngK
-	Gpnw==
-X-Gm-Message-State: AJaThX6qDIeL0+YUtQ5cj6/04YpI0WZaQe62kiaS1h6zF2s/LvBE7UrQ
-	+/ETPbadB7AyuNQt/TLtuizDgiM=
-X-Google-Smtp-Source: AGs4zMaW3SNtTgZmTA1o4NdjeThUMnddXmGrHgoLMeWOjFda7cT/Tq6hzRLTzPs23RyJSq8j43zu7A==
-X-Received: by 10.101.67.140 with SMTP id m12mr36362110pgp.51.1511798210859;
-	Mon, 27 Nov 2017 07:56:50 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=evJfdaWFKVBUf5iBcXi9Ob/bqQhh/z8pmBK4QFDGdRI=;
+	b=lnUWCTsd7RTUGnkYR+pPcWb905txt+qbXIYa02o4thm1kzDD5nrFDr1Ys3tr9pLph+
+	z0XMEgzEhV0TbkN0Db4VP87o+BH+Zr1zgR4G5JC2cwWQI0Pgw0n9GcwfFGuDwUPwUEBl
+	XwnbVEbzMAKJNCQQloqmQJnnxCTpjClkDEZe2MbxxZEsqkVFcc1JcJ/WElrEY/8F4cAf
+	pbjY3mbSA9op7/sBfIGgMfzywdePOOxfbAnQBhxs8lQc2NM+GydYVZGA8I4TtF5wKp/s
+	9W3SV8hN/Xg5+n2eRMhYECijdv9jRPOVHdqsc5bGSwUUPzNh7As7D9c3LG4y0iaYU8Vk
+	GTgQ==
+X-Gm-Message-State: AJaThX6BhD1jqq7ILmibSCaQkCWpgIg2JEkW/j5HFCvWeGz8g0KPI4Jl
+	bJUxmypFpcQvHtup7bI6He9ewv0=
+X-Google-Smtp-Source: AGs4zMZJQVDadz33cz/JkxJvpfKwak+tzJI1O3s66BYJ9hlXL92ghoit/9NR0+u7R2or0QjKBqpV4Q==
+X-Received: by 10.101.72.1 with SMTP id h1mr28444449pgs.164.1511798213912;
+	Mon, 27 Nov 2017 07:56:53 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p54BD51E2.dip0.t-ipconnect.de.
 	[84.189.81.226]) by smtp.gmail.com with ESMTPSA id
-	m87sm40889460pfi.88.2017.11.27.07.56.48
+	m87sm40889460pfi.88.2017.11.27.07.56.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Nov 2017 07:56:49 -0800 (PST)
+	Mon, 27 Nov 2017 07:56:52 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Nov 2017 16:56:40 +0100
-Message-Id: <cover.34dd9130ccff96d177d10e8e7e414aa4ebbb71c2.1511796276.git-series.patrick.ohly@intel.com>
+Date: Mon, 27 Nov 2017 16:56:41 +0100
+Message-Id: <66206185d88df02f17308fb6f183fa541bcaac7c.1511796276.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 0/2] fixes for read-only rootfs
+In-Reply-To: <cover.34dd9130ccff96d177d10e8e7e414aa4ebbb71c2.1511796276.git-series.patrick.ohly@intel.com>
+References: <cover.34dd9130ccff96d177d10e8e7e414aa4ebbb71c2.1511796276.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 1/2] connman.inc: do not check IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 15:56:50 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 15:56:53 -0000
 
-When investigating in refkit why /etc/machine-id was getting
-permanently modified in a rootfs despite read-only-rootfs in
-IMAGE_FEATURES, I noticed two things:
-- the boot parameters did not include "ro", the initramfs thus
-  mounted the rootfs read/write, and systemd then wrote
-  /etc/machine-id before mounting read-only due to the options
-  in /etc/fstab; this explains the issue I was seeing
-- one bogus check for read-only-rootfs crept into connman.inc
+Recipes can't rely on IMAGE_FEATURES to determine whether the
+resulting packages will be used in an image with read/write or
+read-only rootfs because IMAGE_FEATURES is a per-image recipe
+variable.
 
-Let's make sure that "ro" gets added to the boot parameters to avoid
-the issue. I prefer to keep related functionality together, so I
-decided to put that into rootfs-postcommands.bbclass next to the fstab
-change. It could also go into image.bbclass itself.
+The connman.inc code checked IMAGE_FEATURES to determine whether
+/var/run/connman needs to be created via tmpfiles.d when booting a
+read-only rootfs. In my tests that is not necessary (anymore?),
+something (connman itself?) creates the missing directory.
 
-The special case in connman.inc doesn't seem to be needed, therefore I
-propose to remove it without trying to find a different solution.
-
-Patrick Ohly (2):
-  connman.inc: do not check IMAGE_FEATURES
-  rootfs-postcommands.bbclass: ensure that rootfs gets mounted ro
-
- meta/classes/rootfs-postcommands.bbclass      | 8 ++++++++
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
  meta/recipes-connectivity/connman/connman.inc | 3 ---
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ 1 file changed, 3 deletions(-)
 
-base-commit: 3b413a80578caacd9a7f405f3c51a3921d78a60d
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 6c8f405..2b03f9c 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -97,9 +97,6 @@ do_install_append() {
+ 
+     # For read-only filesystem, do not create links during bootup
+     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-        if ${@bb.utils.contains('IMAGE_FEATURES','read-only-rootfs','true','false',d)}; then
+-            echo "d    /var/run/connman    - - - -" > ${D}${sysconfdir}/tmpfiles.d/connman_resolvconf.conf
+-        fi
+         ln -sf ../run/connman/resolv.conf ${D}${sysconfdir}/resolv-conf.connman
+     fi
+ }
 -- 
 git-series 0.9.1
 
