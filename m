@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A03577E44
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB897782F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:14 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id z3so7595822plh.9
+	Mon, 27 Nov 2017 02:35:15 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id b12so7593611plm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:16 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=RsBY0n4ZGTLivL6vDdarmc2gw1BoQKYLbLDN1l57g3w=;
-	b=G61nvJIHG5SquSx+10IiEiernXz/T6tf1zjmXAxkcJQXCliXJy/lczkWtaJoFAaicK
-	lsGYWdrN5eK1V6+0kwDlePnGSANRO+hNRErvXx7pkVlnmxxjPXWKSbFsP/wvJ9sefgLG
-	yc8b9OpvJ+gOBRHX9GtfKQAwogBVfHWcnE4KrpbUHJF9oRxPpm88OUaOppGtIrdyqv+Q
-	1/gT0yu+at4uiDfIMFYc+zr6W/9PcTBZytzmzt73PGGOY57Rso82oTFk1u09RRimSurU
-	o+KQbHEEuoI1qdJfDKskIot5NHvKkeHEV4GF3N2xqdC1bGywOF92vX66qdsXbsJ0S/4I
-	8yLg==
+	bh=clc2SfUPlq2VMCZxNx82fezM9QdOd6XKQwfiF5kT2EU=;
+	b=i+zHEXf3atxQrUT+x59ete5zZk+mUMHKQoiVqZGwGQW4yXxfdqAs+M3zip3Atfipm3
+	Mbe3fD3irY7xeFkssiGEwSdlL9cvAbo7LB03Is7Bsf1gH5aPHdsKH2KNQKbM6N4TH5QG
+	nGF1Hg2s6S/znmRFv2NRQIIPTGXhynQypCWDTrmC5eSQCQUKKc32rZu1pbMm1ugHjRXg
+	hkoWTx783phplVSg/ZEKqK2r5t1cLadmc9PjFqomuI1C4C0tW2ITnRFq+OD5JJf3daSc
+	65xwRHTKWA73jzn4wd5PpUH/pQEiyvCPZ54xkMPQfxRMuXnWDysdSuKtW1rtRi3vw4A6
+	dcNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=RsBY0n4ZGTLivL6vDdarmc2gw1BoQKYLbLDN1l57g3w=;
-	b=YKeigExN9F8RwFt6XNloDCdaVJUv5xEMX/PVhN2E1s5xMVhhCR/WP7uVbCLFfGkbVh
-	eqvdimvn0g3jkNydsma9pIFtMZoO9GGbGXQORrUWpKPxVGtNrApMMvPqBrDLcBAXpCBI
-	g/wY+IwlptSVVxFMU0KeDO3McfuSaZTQNHO4IaOvOdKog0JmhYNs1k7I4DFeECYzYnLg
-	xPc298spSGIRUFXqOfwYQCnOKlcu8t3micv/CVjg0iLsGX0sR1VNnBceuQzyoAXDoAJx
-	qEvozpAywCyzy+oLCFgTcyUXWrTdfKgw3wgH/ui4+F4/e8AyxO7Nb+YgBndMjAmbKHvq
-	aD3w==
-X-Gm-Message-State: AJaThX5oLkQm9DA5E+4wq0yNDvmhLOt+OKXc7tFNgftEvLo5nyatyZdk
-	dmPaIF/8TIQ7tM+lp5k/hYc=
-X-Google-Smtp-Source: AGs4zMZscSK3SpJepFGEEeGmVCQVJHEtA7y4AAoUREigzQFzDip8EypRBebP5F7+S+3aWqwRx42KKA==
-X-Received: by 10.84.130.33 with SMTP id 30mr37492807plc.161.1511750116454;
-	Sun, 26 Nov 2017 18:35:16 -0800 (PST)
+	bh=clc2SfUPlq2VMCZxNx82fezM9QdOd6XKQwfiF5kT2EU=;
+	b=YGfWgjVtkw9OErYdunlWChu6rfzAJ89E7oY+Hobfbk656EbJBCfS+NUq2GeyzK3c0D
+	3SZ8AGjE1H9cINRAHglDRjBA3lAxPXZRSdgOH9PTwmt4Vs7QF7SyVXAIGbpxSgWQccOO
+	gfljTiQKYoRpwS9e1VYfSvWh3U0sgVYezx3l+LhY8K4blZo/DUQIptFs7fguM8L4GHTc
+	Ie/68Ho90wBTW7Xw4JBnxZ/0Ugqj8lYwKyrvu9VRNsWoW3FJz8d9Roq/nkS2bPGUIjPE
+	pDfAcgktBax4unmFC6kNy7mucg/rHGGJpa2xd0tVWbstdgZzlmkL5QKj4i3dUViRixam
+	kcCg==
+X-Gm-Message-State: AJaThX73QRDA3zUyr3K4I2TxEEeKlKAluK+YAn8fb9zLBRo720TFAVmo
+	aJKm25OlWc6XwsgsvGiyfaA=
+X-Google-Smtp-Source: AGs4zMbOi5vZpl/j+TR0Vtig3YvAUAl/r7hPOQeDYaCZiBy4UUxWBby6EzNLBYoUUpYTbTlAt2Nxbg==
+X-Received: by 10.159.214.147 with SMTP id n19mr34884717plp.1.1511750117295;
+	Sun, 26 Nov 2017 18:35:17 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.15
+	e3sm17809103pfe.92.2017.11.26.18.35.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 26 Nov 2017 18:35:16 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:34:49 -0800
-Message-Id: <1511750112-2263-3-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:34:50 -0800
+Message-Id: <1511750112-2263-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 03/26] binutils: Security fix CVE-2017-8393
+Subject: [pyro][PATCH 04/26] binutls: Secuirty fix CVE-2017-8394
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,240 +59,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:15 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:16 -0000
 
 Affects: <= 2.28
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |   1 +
- .../binutils/binutils/CVE-2017-8393.patch          | 205 +++++++++++++++++++++
- 2 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-8393.patch
+ .../binutils/binutils/CVE-2017-8394.patch          | 118 +++++++++++++++++++++
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-8394.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 6ae091c..53299fa 100644
+index 53299fa..8334a4c 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -45,6 +45,7 @@ SRC_URI = "\
-      file://CVE-2017-7210.patch \
+@@ -46,6 +46,7 @@ SRC_URI = "\
       file://CVE-2017-7223.patch \
       file://CVE-2017-7614.patch \
-+     file://CVE-2017-8393.patch \
+      file://CVE-2017-8393.patch \
++     file://CVE-2017-8394.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-8393.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-8393.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-8394.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-8394.patch
 new file mode 100644
-index 0000000..095cfc7
+index 0000000..e6c6b17
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-8393.patch
-@@ -0,0 +1,205 @@
-+From bce964aa6c777d236fbd641f2bc7bb931cfe4bf3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-8394.patch
+@@ -0,0 +1,118 @@
++From 7eacd66b086cabb1daab20890d5481894d4f56b2 Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 23 Apr 2017 11:03:34 +0930
-+Subject: [PATCH] PR 21412, get_reloc_section assumes .rel/.rela name for
-+ SHT_REL/RELA.
++Date: Sun, 23 Apr 2017 15:21:11 +0930
++Subject: [PATCH] PR 21414, null pointer deref of _bfd_elf_large_com_section
++ sym
 +
-+This patch fixes an assumption made by code that runs for objcopy and
-+strip, that SHT_REL/SHR_RELA sections are always named starting with a
-+.rel/.rela prefix.  I'm also modifying the interface for
-+elf_backend_get_reloc_section, so any backend function just needs to
-+handle name mapping.
++	PR 21414
++	* section.c (GLOBAL_SYM_INIT): Make available in bfd.h.
++	* elf.c (lcomm_sym): New.
++	(_bfd_elf_large_com_section): Use lcomm_sym section symbol.
++	* bfd-in2.h: Regenerate.
 +
-+	PR 21412
-+	* elf-bfd.h (struct elf_backend_data <get_reloc_section>): Change
-+	parameters and comment.
-+	(_bfd_elf_get_reloc_section): Delete.
-+	(_bfd_elf_plt_get_reloc_section): Declare.
-+	* elf.c (_bfd_elf_plt_get_reloc_section, elf_get_reloc_section):
-+	New functions.  Don't blindly skip over assumed .rel/.rela prefix.
-+	Extracted from..
-+	(_bfd_elf_get_reloc_section): ..here.  Delete.
-+	(assign_section_numbers): Call elf_get_reloc_section.
-+	* elf64-ppc.c (elf_backend_get_reloc_section): Define.
-+	* elfxx-target.h (elf_backend_get_reloc_section): Update.
-+
-+Upstream-Status: Backort
-+CVE: CVE-2017-8393
++Upstream-Status: Backport
++CVE: CVE-2017-8394
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog      | 15 ++++++++++++++
-+ bfd/elf-bfd.h      |  8 ++++---
-+ bfd/elf.c          | 61 +++++++++++++++++++++++++++++++-----------------------
-+ bfd/elf64-ppc.c    |  1 +
-+ bfd/elfxx-target.h |  2 +-
-+ 5 files changed, 57 insertions(+), 30 deletions(-)
++ bfd/ChangeLog |  8 ++++++++
++ bfd/bfd-in2.h | 12 ++++++++++++
++ bfd/elf.c     |  6 ++++--
++ bfd/section.c | 24 ++++++++++++------------
++ 4 files changed, 36 insertions(+), 14 deletions(-)
 +
-+Index: git/bfd/elf-bfd.h
++Index: git/bfd/bfd-in2.h
 +===================================================================
-+--- git.orig/bfd/elf-bfd.h
-++++ git/bfd/elf-bfd.h
-+@@ -1322,8 +1322,10 @@ struct elf_backend_data
-+   bfd_size_type (*maybe_function_sym) (const asymbol *sym, asection *sec,
-+ 				       bfd_vma *code_off);
++--- git.orig/bfd/bfd-in2.h
+++++ git/bfd/bfd-in2.h
++@@ -1838,6 +1838,18 @@ extern asection _bfd_std_section[4];
++      { NULL }, { NULL }                                                \
++     }
 + 
-+-  /* Return the section which RELOC_SEC applies to.  */
-+-  asection *(*get_reloc_section) (asection *reloc_sec);
-++  /* Given NAME, the name of a relocation section stripped of its
-++     .rel/.rela prefix, return the section in ABFD to which the
-++     relocations apply.  */
-++  asection *(*get_reloc_section) (bfd *abfd, const char *name);
+++/* We use a macro to initialize the static asymbol structures because
+++   traditional C does not permit us to initialize a union member while
+++   gcc warns if we don't initialize it.
+++   the_bfd, name, value, attr, section [, udata]  */
+++#ifdef __STDC__
+++#define GLOBAL_SYM_INIT(NAME, SECTION) \
+++  { 0, NAME, 0, BSF_SECTION_SYM, SECTION, { 0 }}
+++#else
+++#define GLOBAL_SYM_INIT(NAME, SECTION) \
+++  { 0, NAME, 0, BSF_SECTION_SYM, SECTION }
+++#endif
+++
++ void bfd_section_list_clear (bfd *);
 + 
-+   /* Called to set the sh_flags, sh_link and sh_info fields of OSECTION which
-+      has a type >= SHT_LOOS.  Returns TRUE if the fields were initialised,
-+@@ -2392,7 +2394,7 @@ extern bfd_boolean _bfd_elf_is_function_
-+ extern bfd_size_type _bfd_elf_maybe_function_sym (const asymbol *, asection *,
-+ 						  bfd_vma *);
-+ 
-+-extern asection *_bfd_elf_get_reloc_section (asection *);
-++extern asection *_bfd_elf_plt_get_reloc_section (bfd *, const char *);
-+ 
-+ extern int bfd_elf_get_default_section_type (flagword);
-+ 
++ asection *bfd_get_section_by_name (bfd *abfd, const char *name);
 +Index: git/bfd/elf.c
 +===================================================================
 +--- git.orig/bfd/elf.c
 ++++ git/bfd/elf.c
-+@@ -3532,17 +3532,39 @@ bfd_elf_set_group_contents (bfd *abfd, a
-+   H_PUT_32 (abfd, sec->flags & SEC_LINK_ONCE ? GRP_COMDAT : 0, loc);
-+ }
++@@ -11164,9 +11164,11 @@ _bfd_elf_get_synthetic_symtab (bfd *abfd
 + 
-+-/* Return the section which RELOC_SEC applies to.  */
-++/* Given NAME, the name of a relocation section stripped of its
-++   .rel/.rela prefix, return the section in ABFD to which the
-++   relocations apply.  */
++ /* It is only used by x86-64 so far.
++    ??? This repeats *COM* id of zero.  sec->id is supposed to be unique,
++-   but current usage would allow all of _bfd_std_section to be zero.  t*/
+++   but current usage would allow all of _bfd_std_section to be zero.  */
+++static const asymbol lcomm_sym
+++  = GLOBAL_SYM_INIT ("LARGE_COMMON", &_bfd_elf_large_com_section);
++ asection _bfd_elf_large_com_section
++-  = BFD_FAKE_SECTION (_bfd_elf_large_com_section, NULL,
+++  = BFD_FAKE_SECTION (_bfd_elf_large_com_section, &lcomm_sym,
++ 		      "LARGE_COMMON", 0, SEC_IS_COMMON);
 + 
-+ asection *
-+-_bfd_elf_get_reloc_section (asection *reloc_sec)
-++_bfd_elf_plt_get_reloc_section (bfd *abfd, const char *name)
-++{
-++  /* If a target needs .got.plt section, relocations in rela.plt/rel.plt
-++     section likely apply to .got.plt or .got section.  */
-++  if (get_elf_backend_data (abfd)->want_got_plt
-++      && strcmp (name, ".plt") == 0)
-++    {
-++      asection *sec;
-++
-++      name = ".got.plt";
-++      sec = bfd_get_section_by_name (abfd, name);
-++      if (sec != NULL)
-++	return sec;
-++      name = ".got";
-++    }
-++
-++  return bfd_get_section_by_name (abfd, name);
-++}
-++
-++/* Return the section to which RELOC_SEC applies.  */
-++
-++static asection *
-++elf_get_reloc_section (asection *reloc_sec)
-+ {
-+   const char *name;
-+   unsigned int type;
-+   bfd *abfd;
-+-
-+-  if (reloc_sec == NULL)
-+-    return NULL;
-++  const struct elf_backend_data *bed;
-+ 
-+   type = elf_section_data (reloc_sec)->this_hdr.sh_type;
-+   if (type != SHT_REL && type != SHT_RELA)
-+@@ -3550,28 +3572,15 @@ _bfd_elf_get_reloc_section (asection *re
-+ 
-+   /* We look up the section the relocs apply to by name.  */
-+   name = reloc_sec->name;
-+-  if (type == SHT_REL)
-+-    name += 4;
-+-  else
-+-    name += 5;
-++  if (strncmp (name, ".rel", 4) != 0)
-++    return NULL;
-++  name += 4;
-++  if (type == SHT_RELA && *name++ != 'a')
-++    return NULL;
-+ 
-+-  /* If a target needs .got.plt section, relocations in rela.plt/rel.plt
-+-     section apply to .got.plt section.  */
-+   abfd = reloc_sec->owner;
-+-  if (get_elf_backend_data (abfd)->want_got_plt
-+-      && strcmp (name, ".plt") == 0)
-+-    {
-+-      /* .got.plt is a linker created input section.  It may be mapped
-+-	 to some other output section.  Try two likely sections.  */
-+-      name = ".got.plt";
-+-      reloc_sec = bfd_get_section_by_name (abfd, name);
-+-      if (reloc_sec != NULL)
-+-	return reloc_sec;
-+-      name = ".got";
-+-    }
-+-
-+-  reloc_sec = bfd_get_section_by_name (abfd, name);
-+-  return reloc_sec;
-++  bed = get_elf_backend_data (abfd);
-++  return bed->get_reloc_section (abfd, name);
-+ }
-+ 
-+ /* Assign all ELF section numbers.  The dummy first section is handled here
-+@@ -3833,7 +3842,7 @@ assign_section_numbers (bfd *abfd, struc
-+ 	  if (s != NULL)
-+ 	    d->this_hdr.sh_link = elf_section_data (s)->this_idx;
-+ 
-+-	  s = get_elf_backend_data (abfd)->get_reloc_section (sec);
-++	  s = elf_get_reloc_section (sec);
-+ 	  if (s != NULL)
-+ 	    {
-+ 	      d->this_hdr.sh_info = elf_section_data (s)->this_idx;
-+Index: git/bfd/elf64-ppc.c
++ void
++Index: git/bfd/section.c
 +===================================================================
-+--- git.orig/bfd/elf64-ppc.c
-++++ git/bfd/elf64-ppc.c
-+@@ -121,6 +121,7 @@ static bfd_vma opd_entry_value
-+ #define elf_backend_special_sections	      ppc64_elf_special_sections
-+ #define elf_backend_merge_symbol_attribute    ppc64_elf_merge_symbol_attribute
-+ #define elf_backend_merge_symbol	      ppc64_elf_merge_symbol
-++#define elf_backend_get_reloc_section	      bfd_get_section_by_name
++--- git.orig/bfd/section.c
+++++ git/bfd/section.c
++@@ -738,20 +738,20 @@ CODE_FRAGMENT
++ .     { NULL }, { NULL }						\
++ .    }
++ .
+++.{* We use a macro to initialize the static asymbol structures because
+++.   traditional C does not permit us to initialize a union member while
+++.   gcc warns if we don't initialize it.
+++.   the_bfd, name, value, attr, section [, udata]  *}
+++.#ifdef __STDC__
+++.#define GLOBAL_SYM_INIT(NAME, SECTION) \
+++.  { 0, NAME, 0, BSF_SECTION_SYM, SECTION, { 0 }}
+++.#else
+++.#define GLOBAL_SYM_INIT(NAME, SECTION) \
+++.  { 0, NAME, 0, BSF_SECTION_SYM, SECTION }
+++.#endif
+++.
++ */
 + 
-+ /* The name of the dynamic interpreter.  This is put in the .interp
-+    section.  */
-+Index: git/bfd/elfxx-target.h
-+===================================================================
-+--- git.orig/bfd/elfxx-target.h
-++++ git/bfd/elfxx-target.h
-+@@ -706,7 +706,7 @@
-+ #endif
++-/* We use a macro to initialize the static asymbol structures because
++-   traditional C does not permit us to initialize a union member while
++-   gcc warns if we don't initialize it.  */
++- /* the_bfd, name, value, attr, section [, udata] */
++-#ifdef __STDC__
++-#define GLOBAL_SYM_INIT(NAME, SECTION) \
++-  { 0, NAME, 0, BSF_SECTION_SYM, SECTION, { 0 }}
++-#else
++-#define GLOBAL_SYM_INIT(NAME, SECTION) \
++-  { 0, NAME, 0, BSF_SECTION_SYM, SECTION }
++-#endif
++-
++ /* These symbols are global, not specific to any BFD.  Therefore, anything
++    that tries to change them is broken, and should be repaired.  */
 + 
-+ #ifndef elf_backend_get_reloc_section
-+-#define elf_backend_get_reloc_section _bfd_elf_get_reloc_section
-++#define elf_backend_get_reloc_section _bfd_elf_plt_get_reloc_section
-+ #endif
-+ 
-+ #ifndef elf_backend_copy_special_section_fields
 +Index: git/bfd/ChangeLog
 +===================================================================
 +--- git.orig/bfd/ChangeLog
 ++++ git/bfd/ChangeLog
-+@@ -1,3 +1,18 @@
-++2017-04-23  Alan Modra  <amodra@gmail.com>
-++ 
-++       PR 21412
-++       * elf-bfd.h (struct elf_backend_data <get_reloc_section>): Change
-++       parameters and comment.
-++       (_bfd_elf_get_reloc_section): Delete.
-++       (_bfd_elf_plt_get_reloc_section): Declare.
-++       * elf.c (_bfd_elf_plt_get_reloc_section, elf_get_reloc_section):
-++       New functions.  Don't blindly skip over assumed .rel/.rela prefix.
-++       Extracted from..
-++       (_bfd_elf_get_reloc_section): ..here.  Delete.
-++       (assign_section_numbers): Call elf_get_reloc_section.
-++       * elf64-ppc.c (elf_backend_get_reloc_section): Define.
-++       * elfxx-target.h (elf_backend_get_reloc_section): Update.
++@@ -1,4 +1,12 @@
 ++
-+ 2017-04-04  Nick Clifton  <nickc@redhat.com>
-+ 
-+        PR binutils/21342
++ 2017-04-23  Alan Modra  <amodra@gmail.com>
+++       PR 21414
+++       * section.c (GLOBAL_SYM_INIT): Make available in bfd.h.
+++       * elf.c (lcomm_sym): New.
+++       (_bfd_elf_large_com_section): Use lcomm_sym section symbol.
+++       * bfd-in2.h: Regenerate.
+++
++++2017-04-23  Alan Modra  <amodra@gmail.com>
++  
++        PR 21412
++        * elf-bfd.h (struct elf_backend_data <get_reloc_section>): Change
 -- 
 2.7.4
 
