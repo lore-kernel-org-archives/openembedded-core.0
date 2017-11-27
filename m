@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A96FC77E44
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BEB7577811
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:17 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id s23so2314943plk.10
+	Mon, 27 Nov 2017 02:35:18 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id k7so7595199pln.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:19 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XBv2OrU9XLLuMBSZXKWYS4dgV9rvcAYlKIMiIAZPP/Q=;
-	b=ONrR9iJRVm1IUOBzsP3oVPl62nRJmcL0wYol66gcOJKolNwHDwKYeoA4ilPjD6Nvpp
-	Wn/I5q/ybI62g+62SmzMZpVPsSJJ7T+5tc87EvbVWxUcx5jF+8I1n3sd0EC7flfkUHfo
-	hmNWw4W08FPbY1l+KKbLmBtk8hjOeRA2JoOfAcDAWnl1VJt+nQBX/F0uprCVeGewqKBC
-	9Wo/szVk23hw+edbWIDpKsM4L0GleZhZolxZ8IArZJ9oaSVqyAZykbGdoxWtXpDK6R5f
-	JZvS3lfRE71m0jO9Gpz1g+N3tVor1QEuPau1eZ+KNJkqzCkUAVHBHVjZq34TJAHSxk5z
-	qj9g==
+	bh=LBHHP8PtYLpVeONma3plscxRt/wYObRLBAYHU317cmg=;
+	b=qBYc0CsRAgCRDgx/gHXpvYEIH9vvgcQRJVHg026T0eGnnbMN0JUU8K4yQbJRYteJhB
+	4IWYsb1b7KO19p7nvb8NpFDB87ujlsQi0vThH5xrsS1iFc6jKvhlrRQyKzoHSw9M2xwk
+	B4UPJUMoyLCmuoZ9AKYyS3gGDMSP5fF+p8tLq21Qsv02/OYaWEcA9PJxgBt5UpIa7KcM
+	yym6Rx1ZcU4Y5yIkNPNaeAqdAFbwc2X/oh2mZwsUAZoJ+Rh8AxbR+ccrhdAds+ofLobC
+	noYoOm7FEIHTPYCsY6WqBfa3IGrCX1wqSNKzBenWReJnz0xNChHRwotedywTseREIsDk
+	CKUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XBv2OrU9XLLuMBSZXKWYS4dgV9rvcAYlKIMiIAZPP/Q=;
-	b=m1cFCgHh1upNwsGUuXh+1VozjxbOD2jjdYXAeHYI/2P+uGjvw+xnyibA8fE73loDOx
-	f5n0A8NBFNOVmHQDu7GbqmTtfOWkIk44Wn3MDZLgj6LodLnvbdPR+/q7C0oPEpTyZidf
-	zu9GhoL8N1FZUzGQt8J7DUoficYoImt6KrMw0AN8eMhd3T8vp+TyoLrSSwtZO9zlW8e9
-	YCNOWs6xY5rusUfhCUqdMYl7nVipvjzG/U61Qp3ccdF4QyrXtxk2XoaUQ/rizm/pv0E8
-	h7KNjvXdwzZDPYS3j4PpMiqTFum3rVQyld1WMKy8O0RxZnGb51dUx64WnIEQexJswuhC
-	BQ7Q==
-X-Gm-Message-State: AJaThX7o7trdTXsHXjLQJi4jEZEiSGNMSc9r5LxoCszf58S2OpYuUg5A
-	DIv/hD6Qf6DuAjpXpM83WGo=
-X-Google-Smtp-Source: AGs4zMaUC05gmrVZllKk7Eo5ovytOaTkRZ5Cvgp2lfoXHcEZD8mC+8nSIeq5VDxsEbxaoMZe117tMg==
-X-Received: by 10.84.232.138 with SMTP id i10mr37933240plk.104.1511750119298; 
-	Sun, 26 Nov 2017 18:35:19 -0800 (PST)
+	bh=LBHHP8PtYLpVeONma3plscxRt/wYObRLBAYHU317cmg=;
+	b=S0kdq6oYwelrwghoL42EVIxVSp72ZJV6YjzT3kSkcV1e42SwevPW2msU3wlbouRVxU
+	2CqI5UpREYjtTn8BkGdrcySDfe41swiG9AHgTTnLuwudOA2tvNbpDylk2ti5dTZJbCTV
+	JGNGvsRozdmcZ8+g/+8HMz05XsrZNwPU/B1Ue4mSL/ycZ7pWnn28gk5imS4N0g8Fy+2z
+	UhwlT7j/5QGmXsLSe3pj5RlVBXcFo1w5Kha/4RnIXxGBZSwgO8Zt4xwMg5AlT5OIie4P
+	JV2q5fBOXw1QAn42Sp7CSo4AO4ujHxtU9nRZ5aUgKAP0s9IcSpGsOVwOY4tuEz2VeVx/
+	Tmew==
+X-Gm-Message-State: AJaThX6VNbIHLb705D6vHhXCVOA/WVP6GH9RIHyrBb+cv8BvYiamrKwt
+	pCqzx1lGlxVgf+kfY30XiH+QKQ==
+X-Google-Smtp-Source: AGs4zMaa6EJTDY3OnOdEBHTEqGzo0wzNWyRuWKKnfgrcGYvCv2kRp1/ChZaHBhIKze1lGKm7OJCgZA==
+X-Received: by 10.159.194.1 with SMTP id x1mr37194775pln.48.1511750120368;
+	Sun, 26 Nov 2017 18:35:20 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.18
+	e3sm17809103pfe.92.2017.11.26.18.35.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Nov 2017 18:35:18 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:20 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:34:52 -0800
-Message-Id: <1511750112-2263-6-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:34:53 -0800
+Message-Id: <1511750112-2263-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 06/26] binutils: Secuirty fix CVE-2017-8396 and CVE-2017-8397
+Subject: [pyro][PATCH 07/26] binutils: Security fix for CVE-2017-8398
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,137 +59,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:17 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:18 -0000
 
 Affects: <= 2.28
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |   1 +
- .../binutils/binutils/CVE-2017-8396_8397.patch     | 102 +++++++++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-8396_8397.patch
+ .../binutils/binutils/CVE-2017-8398.patch          | 147 +++++++++++++++++++++
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-8398.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index 8c91f4c..ca78a30 100644
+index ca78a30..d58d7b8 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -48,6 +48,7 @@ SRC_URI = "\
-      file://CVE-2017-8393.patch \
+@@ -49,6 +49,7 @@ SRC_URI = "\
       file://CVE-2017-8394.patch \
       file://CVE-2017-8395.patch \
-+     file://CVE-2017-8396_8397.patch \
+      file://CVE-2017-8396_8397.patch \
++     file://CVE-2017-8398.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-8396_8397.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-8396_8397.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-8398.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-8398.patch
 new file mode 100644
-index 0000000..14f4282
+index 0000000..5b9acc8
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-8396_8397.patch
-@@ -0,0 +1,102 @@
-+From a941291cab71b9ac356e1c03968c177c03e602ab Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sat, 29 Apr 2017 14:48:16 +0930
-+Subject: [PATCH] PR21432, buffer overflow in perform_relocation
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-8398.patch
+@@ -0,0 +1,147 @@
++From d949ff5607b9f595e0eed2ff15fbe5eb84eb3a34 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Fri, 28 Apr 2017 10:28:04 +0100
++Subject: [PATCH] Fix heap-buffer overflow bugs caused when dumping debug
++ information from a corrupt binary.
 +
-+The existing reloc offset range tests didn't catch small negative
-+offsets less than the size of the reloc field.
-+
-+	PR 21432
-+	* reloc.c (reloc_offset_in_range): New function.
-+	(bfd_perform_relocation, bfd_install_relocation): Use it.
-+	(_bfd_final_link_relocate): Likewise.
++	PR binutils/21438
++	* dwarf.c (process_extended_line_op): Do not assume that the
++	string extracted from the section is NUL terminated.
++	(fetch_indirect_string): If the string retrieved from the section
++	is not NUL terminated, return an error message.
++	(fetch_indirect_line_string): Likewise.
++	(fetch_indexed_string): Likewise.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2017-8396
-+CVE: CVE-2017-8397
++CVE: CVE-2017-8398
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ bfd/ChangeLog |  7 +++++++
-+ bfd/reloc.c   | 32 ++++++++++++++++++++------------
-+ 2 files changed, 27 insertions(+), 12 deletions(-)
++ binutils/ChangeLog | 10 +++++++++
++ binutils/dwarf.c   | 66 +++++++++++++++++++++++++++++++++++++++++-------------
++ 2 files changed, 60 insertions(+), 16 deletions(-)
 +
-+Index: git/bfd/reloc.c
++Index: git/binutils/dwarf.c
 +===================================================================
-+--- git.orig/bfd/reloc.c
-++++ git/bfd/reloc.c
-+@@ -538,6 +538,22 @@ bfd_check_overflow (enum complain_overfl
-+   return flag;
++--- git.orig/binutils/dwarf.c
+++++ git/binutils/dwarf.c
++@@ -472,15 +472,20 @@ process_extended_line_op (unsigned char
++       printf (_("  Entry\tDir\tTime\tSize\tName\n"));
++       printf ("   %d\t", ++state_machine_regs.last_file_entry);
++ 
++-      name = data;
++-      data += strnlen ((char *) data, end - data) + 1;
++-      printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
++-      data += bytes_read;
++-      printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
++-      data += bytes_read;
++-      printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
++-      data += bytes_read;
++-      printf ("%s\n\n", name);
+++      {
+++	size_t l;
+++
+++	name = data;
+++	l = strnlen ((char *) data, end - data);
+++	data += len + 1;
+++	printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
+++	data += bytes_read;
+++	printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
+++	data += bytes_read;
+++	printf ("%s\t", dwarf_vmatoa ("u", read_uleb128 (data, & bytes_read, end)));
+++	data += bytes_read;
+++	printf ("%.*s\n\n", (int) l, name);
+++      }
++ 
++       if (((unsigned int) (data - orig_data) != len) || data == end)
++ 	warn (_("DW_LNE_define_file: Bad opcode length\n"));
++@@ -597,18 +602,27 @@ static const unsigned char *
++ fetch_indirect_string (dwarf_vma offset)
++ {
++   struct dwarf_section *section = &debug_displays [str].section;
+++  const unsigned char * ret;
++ 
++   if (section->start == NULL)
++     return (const unsigned char *) _("<no .debug_str section>");
++ 
++-  if (offset > section->size)
+++  if (offset >= section->size)
++     {
++       warn (_("DW_FORM_strp offset too big: %s\n"),
++ 	    dwarf_vmatoa ("x", offset));
++       return (const unsigned char *) _("<offset is too big>");
++     }
+++  ret = section->start + offset;
+++  /* Unfortunately we cannot rely upon the .debug_str section ending with a
+++     NUL byte.  Since our caller is expecting to receive a well formed C
+++     string we test for the lack of a terminating byte here.  */
+++  if (strnlen ((const char *) ret, section->size - offset)
+++      == section->size - offset)
+++    ret = (const unsigned char *)
+++      _("<no NUL byte at end of .debug_str section>");
++ 
++-  return (const unsigned char *) section->start + offset;
+++  return ret; 
 + }
 + 
-++/* HOWTO describes a relocation, at offset OCTET.  Return whether the
-++   relocation field is within SECTION of ABFD.  */
++ static const char *
++@@ -621,6 +635,7 @@ fetch_indexed_string (dwarf_vma idx, str
++   struct dwarf_section *str_section = &debug_displays [str_sec_idx].section;
++   dwarf_vma index_offset = idx * offset_size;
++   dwarf_vma str_offset;
+++  const char * ret;
++ 
++   if (index_section->start == NULL)
++     return (dwo ? _("<no .debug_str_offsets.dwo section>")
++@@ -628,7 +643,7 @@ fetch_indexed_string (dwarf_vma idx, str
++ 
++   if (this_set != NULL)
++     index_offset += this_set->section_offsets [DW_SECT_STR_OFFSETS];
++-  if (index_offset > index_section->size)
+++  if (index_offset >= index_section->size)
++     {
++       warn (_("DW_FORM_GNU_str_index offset too big: %s\n"),
++ 	    dwarf_vmatoa ("x", index_offset));
++@@ -641,14 +656,22 @@ fetch_indexed_string (dwarf_vma idx, str
++ 
++   str_offset = byte_get (index_section->start + index_offset, offset_size);
++   str_offset -= str_section->address;
++-  if (str_offset > str_section->size)
+++  if (str_offset >= str_section->size)
++     {
++       warn (_("DW_FORM_GNU_str_index indirect offset too big: %s\n"),
++ 	    dwarf_vmatoa ("x", str_offset));
++       return _("<indirect index offset is too big>");
++     }
++ 
++-  return (const char *) str_section->start + str_offset;
+++  ret = (const char *) str_section->start + str_offset;
+++  /* Unfortunately we cannot rely upon str_section ending with a NUL byte.
+++     Since our caller is expecting to receive a well formed C string we test
+++     for the lack of a terminating byte here.  */
+++  if (strnlen (ret, str_section->size - str_offset)
+++      == str_section->size - str_offset)
+++    ret = (const char *) _("<no NUL byte at end of section>");
 ++
-++static bfd_boolean
-++reloc_offset_in_range (reloc_howto_type *howto, bfd *abfd,
-++		       asection *section, bfd_size_type octet)
-++{
-++  bfd_size_type octet_end = bfd_get_section_limit_octets (abfd, section);
-++  bfd_size_type reloc_size = bfd_get_reloc_size (howto);
-++
-++  /* The reloc field must be contained entirely within the section.
-++     Allow zero length fields (marker relocs or NONE relocs where no
-++     relocation will be performed) at the end of the section.  */
-++  return octet <= octet_end && octet + reloc_size <= octet_end;
-++}
-++
-+ /*
-+ FUNCTION
-+ 	bfd_perform_relocation
-+@@ -618,13 +634,10 @@ bfd_perform_relocation (bfd *abfd,
-+   /* PR 17512: file: 0f67f69d.  */
-+   if (howto == NULL)
-+     return bfd_reloc_undefined;
-+-
-+-  /* Is the address of the relocation really within the section?
-+-     Include the size of the reloc in the test for out of range addresses.
-+-     PR 17512: file: c146ab8b, 46dff27f, 38e53ebf.  */
-++  
-++  /* Is the address of the relocation really within the section?  */
-+   octets = reloc_entry->address * bfd_octets_per_byte (abfd);
-+-  if (octets + bfd_get_reloc_size (howto)
-+-      > bfd_get_section_limit_octets (abfd, input_section))
-++  if (!reloc_offset_in_range (howto, abfd, input_section, octets))
-+     return bfd_reloc_outofrange;
+++  return ret;
++ }
 + 
-+   /* Work out which section the relocation is targeted at and the
-+@@ -1012,8 +1025,7 @@ bfd_install_relocation (bfd *abfd,
-+ 
-+   /* Is the address of the relocation really within the section?  */
-+   octets = reloc_entry->address * bfd_octets_per_byte (abfd);
-+-  if (octets + bfd_get_reloc_size (howto)
-+-      > bfd_get_section_limit_octets (abfd, input_section))
-++  if (!reloc_offset_in_range (howto, abfd, input_section, octets))
-+     return bfd_reloc_outofrange;
-+ 
-+   /* Work out which section the relocation is targeted at and the
-+@@ -1351,8 +1363,7 @@ _bfd_final_link_relocate (reloc_howto_ty
-+   bfd_size_type octets = address * bfd_octets_per_byte (input_bfd);
-+ 
-+   /* Sanity check the address.  */
-+-  if (octets + bfd_get_reloc_size (howto)
-+-      > bfd_get_section_limit_octets (input_bfd, input_section))
-++  if (!reloc_offset_in_range (howto, input_bfd, input_section, octets))
-+     return bfd_reloc_outofrange;
-+ 
-+   /* This function assumes that we are dealing with a basic relocation
-+Index: git/bfd/ChangeLog
++ static const char *
++Index: git/binutils/ChangeLog
 +===================================================================
-+--- git.orig/bfd/ChangeLog
-++++ git/bfd/ChangeLog
-+@@ -1,3 +1,10 @@
-++2017-04-29  Alan Modra  <amodra@gmail.com>
++--- git.orig/binutils/ChangeLog
+++++ git/binutils/ChangeLog
++@@ -1,3 +1,13 @@
+++2017-04-28  Nick Clifton  <nickc@redhat.com>
 ++
-++       PR 21432
-++       * reloc.c (reloc_offset_in_range): New function.
-++       (bfd_perform_relocation, bfd_install_relocation): Use it.
-++       (_bfd_final_link_relocate): Likewise.
+++       PR binutils/21438
+++       * dwarf.c (process_extended_line_op): Do not assume that the
+++       string extracted from the section is NUL terminated.
+++       (fetch_indirect_string): If the string retrieved from the section
+++       is not NUL terminated, return an error message.
+++       (fetch_indirect_line_string): Likewise.
+++       (fetch_indexed_string): Likewise.
 ++
-+ 2017-04-26  Nick Clifton  <nickc@redhat.com>
++ 2017-02-14  Nick Clifton  <nickc@redhat.com>
 + 
-+        PR binutils/21431
++ 	PR binutils/21157
 -- 
 2.7.4
 
