@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 49AF377BD2
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F4A577BD2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 02:35:22 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id o17so7598485pli.1
+	Mon, 27 Nov 2017 02:35:23 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id 62so7598068plc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 18:35:24 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=O33JcFdBXKhUt8J3uTTvE9ypPLnDiYcYIubP0WBoS0I=;
-	b=tYJx4LHFSoKvlXiCOfsZbjKBTd3IExzMQZndgxKkLY81Lu/HPpWc5pE5DrLGnc2lxw
-	s6/313iThmjHpaPpATuqM/hyGjAj6NIBuk8XB7O90rCd4Jf1Kt2vDta8TDogicQIFIBJ
-	JaxmG3H78s9PW3SKLjI3rxhS3b3P3Lv8/vZwJcVvg0knVYEk4TcGD8D5h8F1jmWar9pK
-	7LyHWmz45CgUowSifsv3Y0C2lgzyu9kDtqkwliD5cqNvwTWuVwNdNpx/p2gRzuuuZv3m
-	JRdu+zuKbgbczmCJNY6+LSM9/P8yj0jW3mewnS+x2nkovhx4GnrYELP4UW/hpsbM6j8c
-	yWOQ==
+	bh=n7UmeaUscv5YozzEPQtdP269ac+/utSk7OpYMx1ZC6o=;
+	b=ZbsoQgdHauzmUpxfDZciMZ0BR7nndyA77Kx0VsxwHfdPXLF0hn7g+gI0B6uPGMbxO8
+	jgIhVDnMZyBvBnR6yek5YJsvFFK6CwVd7a5IOMRZThGwFINNiT7XxkEs2IdiMiGPVUGX
+	qrK2JAXO6SeeKBA/NBHSoUsbNtD6sGCglfemzlbZgMUGIEWqPjyRnZCmjw/7xCabYkBB
+	+PxP9QA/TzfhSiw0IkHg76GbSfIlrdz3H0/m73em03HbSm2AKPlB2n/LY7yT2kit6cqL
+	qTdRvteZZahR7WcbK5RHswqgrA3yGha9BJmiTS+CbboWUyDq665/40Ua75i7vaeCPVRl
+	Xm4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=O33JcFdBXKhUt8J3uTTvE9ypPLnDiYcYIubP0WBoS0I=;
-	b=o8Gjrfp99LAHRiaTc92dv1GyupbRUU0149jnFtlXclRloELhbOaZQnADjj99rmPXPO
-	jVUfbMoU8ueO59oih1+H7jfpYI6SIq+0VTiuL53FwulfIj3y0BnzxoUSr+iI54U51f47
-	HEJwWEUv7n3JgYV6q4uO2wlDXzW8+dyRsyOxqZ6JdtjP1xZvQgHetRqZPK5KbpARQj6w
-	8z56YQ4fN6e/pRk6AYGZ0fgP8aUH0tVZ8tKEV/ZsOOZ9NSBmXhzA9qqj1VRCY2lRv3PA
-	rXtb2MuGhF40O6R9yqCB8Z3b1VattkkYLd8HUcljIgCGlc39epryRdcujFlbjsaeGorY
-	VjMw==
-X-Gm-Message-State: AJaThX6wpemM2SM1QSkP3G8O+T8yBaG26elKvEK1691AlLHqbRZ2N9Kf
-	hzs0sxj7bepTQn+dddpUMeTRTQ==
-X-Google-Smtp-Source: AGs4zMZwpP1Zq9MS+9+tXtEpqLdNgeEu4xYtPGnTqYkFv/kimNRTzRKzV5bDO7olPvTgKHBK8LhmbA==
-X-Received: by 10.159.255.70 with SMTP id u6mr36428030pls.372.1511750123932;
-	Sun, 26 Nov 2017 18:35:23 -0800 (PST)
+	bh=n7UmeaUscv5YozzEPQtdP269ac+/utSk7OpYMx1ZC6o=;
+	b=OZF62vegISod4WYygo4Mp7462NOzNTpGZDeY8Aq9EQluaTesql9sJrO0XKiPRHWiNZ
+	HZiXDst6XoaCLF1qQIccIq+AeypT5qjfeP8t8AGQ2c7UlbawlfoNQtYYqCe5RRyL8Rc0
+	+mwwNtULOWcwtKDjVfAnt3WOjNukEF7hPI2fIsDQQRcBDv4uK8MUs6LER8IdUbbfSJ8I
+	bhxTCTHWsKCBYxvjYP05WWu576OPNX6wuVdD6+NXCYY5qcwgj4R77JD/uQMbXEy1+YiH
+	f7XlRHdEFQq1ZVZ4fF8cXVn4yU66Za8XilQPxeXzABRUeYiMVV2xZ1c7cymDas41UzaL
+	5H5g==
+X-Gm-Message-State: AJaThX47lT1JCIcesmAhmQrfanhqlVF5q4tvfz6v0DY2PBpIrKvsHeX8
+	iIwrrmS47OYhrBOv/xsRv1E=
+X-Google-Smtp-Source: AGs4zMaskkl0r2B4Lqndke4cnf8LJ8ee+1oJ94CZVh+l+V/rYjFrtkWJBnrIMi7A5Gdq8dOqrADbGA==
+X-Received: by 10.84.235.136 with SMTP id p8mr36097767plk.263.1511750124817;
+	Sun, 26 Nov 2017 18:35:24 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:b082:a618:f613:3498])
 	by smtp.gmail.com with ESMTPSA id
-	e3sm17809103pfe.92.2017.11.26.18.35.23
+	e3sm17809103pfe.92.2017.11.26.18.35.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Nov 2017 18:35:23 -0800 (PST)
+	Sun, 26 Nov 2017 18:35:24 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Nov 2017 18:34:57 -0800
-Message-Id: <1511750112-2263-11-git-send-email-akuster808@gmail.com>
+Date: Sun, 26 Nov 2017 18:34:58 -0800
+Message-Id: <1511750112-2263-12-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
 References: <1511750112-2263-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 11/26] binutils: Security fix for CVE-2017-9040 and CVE-2017-9042
+Subject: [pyro][PATCH 12/26] binutils: Security fix for CVE-2017-9742
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,91 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 02:35:22 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 02:35:23 -0000
 
 Affects: <= 2.28
+
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-devtools/binutils/binutils-2.28.inc   |  1 +
- .../binutils/binutils/CVE-2017-9040_9042.patch     | 57 ++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9040_9042.patch
+ .../binutils/binutils/CVE-2017-9742.patch          | 45 ++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2017-9742.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.28.inc b/meta/recipes-devtools/binutils/binutils-2.28.inc
-index b8199a4..c376433 100644
+index c376433..946f16c 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.28.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.28.inc
-@@ -53,6 +53,7 @@ SRC_URI = "\
-      file://CVE-2017-8421.patch \
+@@ -54,6 +54,7 @@ SRC_URI = "\
       file://CVE-2017-9038_9044.patch \
       file://CVE-2017-9039.patch \
-+     file://CVE-2017-9040_9042.patch \
+      file://CVE-2017-9040_9042.patch \
++     file://CVE-2017-9742.patch \
  "
  S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9040_9042.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9040_9042.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2017-9742.patch b/meta/recipes-devtools/binutils/binutils/CVE-2017-9742.patch
 new file mode 100644
-index 0000000..79c6a7d
+index 0000000..0c9ed0d
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9040_9042.patch
-@@ -0,0 +1,57 @@
-+From 7296a62a2a237f6b1ad8db8c38b090e9f592c8cf Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2017-9742.patch
+@@ -0,0 +1,45 @@
++From e64519d1ed7fd8f990f05a5562d5b5c0c44b7d7e Mon Sep 17 00:00:00 2001
 +From: Nick Clifton <nickc@redhat.com>
-+Date: Thu, 13 Apr 2017 16:06:30 +0100
-+Subject: [PATCH] readelf: fix out of range subtraction, seg fault from a NULL
-+ pointer and memory exhaustion, all from parsing corrupt binaries.
++Date: Wed, 14 Jun 2017 17:10:28 +0100
++Subject: [PATCH] Fix seg-fault when trying to disassemble a corrupt score
++ binary.
 +
-+	PR binutils/21379
-+	* readelf.c (process_dynamic_section): Detect over large section
-+	offsets in the DT_SYMTAB entry.
-+
-+	PR binutils/21345
-+	* readelf.c (process_mips_specific): Catch an unfeasible memory
-+	allocation before it happens and print a suitable error message.
++	PR binutils/21576
++	* score7-dis.c (score_opcodes): Add sentinel.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2017-9040
-+CVE: CVE-2017-9042
++CVE: CVE-2017-9742
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ binutils/ChangeLog | 12 ++++++++++++
-+ binutils/readelf.c | 26 +++++++++++++++++++++-----
-+ 2 files changed, 33 insertions(+), 5 deletions(-)
++ opcodes/ChangeLog    | 5 +++++
++ opcodes/score7-dis.c | 3 ++-
++ 2 files changed, 7 insertions(+), 1 deletion(-)
 +
-+Index: git/binutils/readelf.c
++Index: git/opcodes/score7-dis.c
 +===================================================================
-+--- git.orig/binutils/readelf.c
-++++ git/binutils/readelf.c
-+@@ -9306,6 +9306,12 @@ process_dynamic_section (FILE * file)
-+ 	     processing that.  This is overkill, I know, but it
-+ 	     should work.  */
-+ 	  section.sh_offset = offset_from_vma (file, entry->d_un.d_val, 0);
-++	  if ((bfd_size_type) section.sh_offset > current_file_size)
-++	    {
-++	      /* See PR 21379 for a reproducer.  */
-++	      error (_("Invalid DT_SYMTAB entry: %lx"), (long) section.sh_offset);
-++	      return FALSE;
-++	    }
++--- git.orig/opcodes/score7-dis.c
+++++ git/opcodes/score7-dis.c
++@@ -513,7 +513,8 @@ static struct score_opcode score_opcodes
++   {0x00000d05, 0x00007f0f, "tvc!"},
++   {0x00000026, 0x3e0003ff, "xor\t\t%20-24r, %15-19r, %10-14r"},
++   {0x00000027, 0x3e0003ff, "xor.c\t\t%20-24r, %15-19r, %10-14r"},
++-  {0x00002007, 0x0000700f, "xor!\t\t%8-11r, %4-7r"}
+++  {0x00002007, 0x0000700f, "xor!\t\t%8-11r, %4-7r"},
+++  { 0, 0, NULL }
++ };
 + 
-+ 	  if (archive_file_offset != 0)
-+ 	    section.sh_size = archive_file_size - section.sh_offset;
-+@@ -15175,6 +15181,15 @@ process_mips_specific (FILE * file)
-+ 	  return 0;
-+ 	}
-+ 
-++      /* PR 21345 - print a slightly more helpful error message
-++	 if we are sure that the cmalloc will fail.  */
-++      if (conflictsno * sizeof (* iconf) > current_file_size)
-++	{
-++	  error (_("Overlarge number of conflicts detected: %lx\n"),
-++		 (long) conflictsno);
-++	  return FALSE;
-++	}
++ typedef struct
++Index: git/opcodes/ChangeLog
++===================================================================
++--- git.orig/opcodes/ChangeLog
+++++ git/opcodes/ChangeLog
++@@ -1,3 +1,8 @@
+++2017-06-14  Nick Clifton  <nickc@redhat.com>
 ++
-+       iconf = (Elf32_Conflict *) cmalloc (conflictsno, sizeof (* iconf));
-+       if (iconf == NULL)
-+ 	{
+++       PR binutils/21576
+++       * score7-dis.c (score_opcodes): Add sentinel.
+++
++ 2017-03-07  Alan Modra  <amodra@gmail.com>
++ 
++ 	Apply from master
 -- 
 2.7.4
 
