@@ -1,28 +1,47 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A9EAD608B7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f43.google.com (mail-pl0-f43.google.com
+	[209.85.160.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1590B606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Nov 2017 22:44:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Nov 2017 14:44:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,461,1505804400"; 
-   d="scan'208";a="9856581"
-Received: from swold-mobl2.jf.intel.com ([10.252.136.108])
-	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2017 14:44:40 -0800
-Message-ID: <1511736279.11515.20.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
-	openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Sun, 26 Nov 2017 14:44:39 -0800
-In-Reply-To: <3a0e2cdc-ca8c-07ba-e27d-701e3e4f6154@windriver.com>
-References: <20171122184724.21416-1-sgw@linux.intel.com>
-	<3a0e2cdc-ca8c-07ba-e27d-701e3e4f6154@windriver.com>
-X-Mailer: Evolution 3.24.5 (3.24.5-1.fc26) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] kernel.bbclass: Add cleandirs for do_shared_workdir
+	Mon, 27 Nov 2017 01:40:03 +0000 (UTC)
+Received: by mail-pl0-f43.google.com with SMTP id b12so7521173plm.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Nov 2017 17:40:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=G+7ziWbEfOe4tKqwRu7gJ/JVZ05heT5oq+cPsHN4Rpw=;
+	b=TW2u++SQCD9NMKEmxag/fGHobMDsolxOjr9OZZ7ikWgGRMeMjn7raPmVZNgFVcG4rL
+	0dxSxAxDsxcRwJRZGZBalxVMOST7/57+/8F7+7YDI0OBHKy9WAa6yQjjSQOAwknoH2ws
+	XjVJURFXVmtL99bwK57QzE9eX/bY11wLIXS/cIa7JFVPJaDPAr2r7oyGE8bwOdpyLfQH
+	SUcQ8TkmiA9Lq4lxq46q+lpBXiLtoyGElvhUORUI8OjHKOLxalhGc51pi56PYDAzB8DZ
+	S7pfyN20bwvAjTtM3iiuo+Ro/Eta8n8zF+IQK5K71BGcPKUeYe4VzjRHcsUI35CRJn+w
+	SiPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=G+7ziWbEfOe4tKqwRu7gJ/JVZ05heT5oq+cPsHN4Rpw=;
+	b=ljXat4nvCNNJtsVxy1FfDbnHeYGYlP+LGiQ+pWzcK4wxs/dHKEEUKJFbO91wZVdX3O
+	eIidKOyCSKhkf+AqPCOQwPjtSsHtd1Rqw74QZNgxm8+AcwLaRzHuiYQPgk3k0q7MEu/+
+	mavuO19ETonIl1PsAR3HU4vOj9jP3jceJPxVV0bTSy5AYE07ndw4wMb3U5sHw64g/6uT
+	VA8c1EDnQAyGLafPOMPV6z1Lg+1tXc1hrY33WfcfzCGp/rTZizap89rKnGzqZaJKk5cS
+	1ogR+knXLeNRdw1Rx2zxAY2BfLvG+tXvP/N8cBp8Z8Fsl+dHqeg39X5UWeW2H8HTJMyp
+	fxjQ==
+X-Gm-Message-State: AJaThX5hVQQpxYy1c6Tu9GGeO42d6cmEnFmGcSVal/MH+49y7kI3Ll0+
+	A0TN4QmGAD0T7cFTtfiWuHZcunc2WDfoBqdh9uA=
+X-Google-Smtp-Source: AGs4zMZP408hIDwawA00M2NTYqhh+mwz1PosyCxTPMLxYsYaRVqlu9ykDyuIs1d4OoRwmM3ZJEYYJ3lQDwLhPn17eKU=
+X-Received: by 10.84.213.144 with SMTP id g16mr36647128pli.339.1511746805300; 
+	Sun, 26 Nov 2017 17:40:05 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.159.15 with HTTP; Sun, 26 Nov 2017 17:39:34 -0800 (PST)
+In-Reply-To: <1511525431.5979.64.camel@intel.com>
+References: <1511525431.5979.64.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Nov 2017 17:39:34 -0800
+Message-ID: <CAMKF1spc06O7kq2kDbWXKZXxh0ErQvpdh6=+jObCKinpjT5=OA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: read-only rootfs + boot parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,67 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Nov 2017 22:44:39 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 01:40:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-11-22 at 15:51 -0500, Bruce Ashfield wrote:
-> On 2017-11-22 1:47 PM, Saul Wold wrote:
-> > Ensure we have a clean and empty STAGING_KERNEL_BUILDDIR (kernel-
-> > build-artifacts)
-> > before creating it, otherwise there might be older artifacts from a
-> > prior
-> > kernel build.
-> > 
-> 
-> What's the actual error that this triggers ? It would be nice to
-> log it here in the commit message .. or at least a description
-> of the symptoms.
-> 
-As refered to in the bug, there is not an actual error occurs, but
-there are multiple older and non-appropriate (read older) artifacts
-remaining in the kernel-build-artifacts directory, just as the commit
-message describes.
+On Fri, Nov 24, 2017 at 4:10 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> Hello!
+>
+> I noticed that APPEND is left unchanged when adding "read-only-rootfs"
+> to IMAGE_FEATURES. The effect is (at least in refkit, which uses an
+> initramfs based on initramfs-framework) that the rootfs initially gets
+> mounted read/write and then gets remounted by systemd as read-only -
+> but only after writing to /etc/machine-id.
+>
+> Is that the desired behavior or an oversight?
+>
 
-Sau!
+seems an oversight to me
 
-> > [YOCTO #11880]
-> > 
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> >   meta/classes/kernel.bbclass | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/classes/kernel.bbclass
-> > b/meta/classes/kernel.bbclass
-> > index 756707a3c25..2a0a7707a14 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -400,6 +400,7 @@ emit_depmod_pkgdata() {
-> >   
-> >   PACKAGEFUNCS += "emit_depmod_pkgdata"
-> >   
-> > +do_shared_workdir[cleandirs] += " ${STAGING_KERNEL_BUILDDIR}"
-> >   do_shared_workdir () {
-> >   	cd ${B}
-> >   
-> > @@ -655,8 +656,6 @@ kernel_do_deploy() {
-> >   		fi
-> >   	done
-> >   }
-> > -do_deploy[cleandirs] = "${DEPLOYDIR}"
-> > -do_deploy[dirs] = "${DEPLOYDIR} ${B}"
-> 
-> This isn't clear to me. Why does cleaning the STAGING_KERNEL_BUILDDIR
-> as part of the do_shared_workdir mean that we no longer need the
-> clean before the deploy (as well as the deploy dir).
-> 
-> Bruce
-> 
-> >   do_deploy[prefuncs] += "package_get_auto_pr"
-> >   
-> >   addtask deploy after do_populate_sysroot do_packagedata
-> > 
-> 
-> 
+> To me, read-only means read-only, with no exceptions. The obvious fix
+> is:
+> APPEND_append = "${@ bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', ' ro', '', d)} "
+>
+> I'm just not sure whether that should go into image.bbclass or
+> elsewhere.
+>
+> --
+> Best Regards, Patrick Ohly
+>
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
