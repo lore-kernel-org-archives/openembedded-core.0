@@ -1,29 +1,30 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1100F78308
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CE5E782EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 15:35:16 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Nov 2017 07:35:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,465,1505804400"; 
-   d="scan'208";a="6796917"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by orsmga003.jf.intel.com with ESMTP; 27 Nov 2017 07:35:17 -0800
-Date: Mon, 27 Nov 2017 09:44:46 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Andrey Konovalov <andrey.konovalov@linaro.org>
-Message-ID: <20171127094446.5e33c347@lsandov1-mobl2.zpn.intel.com>
-In-Reply-To: <5352b394-5e08-2bec-2248-3b4ba7ea85b9@linaro.org>
-References: <1511552846-1887-1-git-send-email-andrey.konovalov@linaro.org>
-	<3c7c379d-44d8-162a-d941-a7d13ba48460@linaro.org>
-	<20171124143425.2751a5e3@lsandov1-mobl2.zpn.intel.com>
-	<5352b394-5e08-2bec-2248-3b4ba7ea85b9@linaro.org>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+	Mon, 27 Nov 2017 15:45:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vARFjjbg022906
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 07:45:45 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 27 Nov 2017 07:45:44 -0800
+To: "Slater, Joseph" <joe.slater@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <59914a6c-c977-608e-b6eb-1f9167af3a59@windriver.com>
+Date: Mon, 27 Nov 2017 09:45:43 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [rocko][PATCH] weston: add patch to set pitch correctly for subsampled textures
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>
+Subject: Re: backfill mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 15:35:17 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Nov 2017 15:45:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Sat, 25 Nov 2017 22:59:36 +0300
-Andrey Konovalov <andrey.konovalov@linaro.org> wrote:
-
-> On 24.11.2017 23:34, Leonardo Sandoval wrote:
-> > On Fri, 24 Nov 2017 22:58:20 +0300
-> > Andrey Konovalov <andrey.konovalov@linaro.org> wrote:
-> >   
-> >> This exact patch also applies to pyro.
-> >> Should I send the separate "[OE-core][pyro][PATCH] weston: add patch to set pitch correctly for subsampled textures" email,
-> >> or just asking to merge it into pyro as well is enough?  
-> > 
-> > better if you send another patch with that subject so the non-master maintainer can pick it up.  
+On 11/17/17 5:32 PM, Slater, Joseph wrote:
+> The backfill mechanism is not compatible with multilib.  This could possibly be
+> fixed, but the backfill_considered functionality is also obscure, so I think in
+> at least the machine related .inc files we should replace lines like
 > 
-> OK, have just sent the pyro version of this patch.
+>  
 > 
-> Looks like it confuses the patchwork system a bit:
+> MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "
+> ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
+> 
 
-Right. Past weeks there were some issues for those series that were intended for non-master branches. This is a new enhancement and now is working as expected.
+This not working with multilibs is definitely a bug that we need to file with
+the community.  We can use the stuff below as a workaround.  But all features
+should work properly with the multilib configurations.
 
+Please open a bug in the Yocto System and our own (pointing to the YP bugzilla)
+so we can at the minimum track this.
 
-> > This is a system generated Comment: Patch 146165 was automatically marked as superseded by patch 146166.  
-> To be clear: the same patch should be applied to both pyro and rocko. Patch 146165 was posted for rocko (with [rocko] in the subject line),
-> and patch 146166 is for pyro (has [pyro] in the subject line).
-
-Perfect, thanks for this extra work.
+--Mark
 
 > 
-> Thanks,
-> Andrey
+> with lines like
 > 
+>  
+> 
+> MACHINE_FEATURES_remove_mipsarchn32 = " qemu-usermode"
+> 
+>  
+> 
+> There are two advantages:  the second line works for multilib, and it is far
+> more readable.
+> 
+>  
+> 
+> Joe
+> 
+>  
+> 
+
 
