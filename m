@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E04A783BB
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 54B8D78332
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 18:28:13 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u83so36255506wmb.5
+	Mon, 27 Nov 2017 18:35:54 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id g130so29203747wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 10:28:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=udXyKFVVyczvInicKb2OPS+ob48bKWmJhW7INkDhEfA=;
-	b=rWlc/Ab02plE9+Ym9b4OS5/YR2nfkBXKJearvukJ2lBBMHYjpzUU9G0g2lcQ/U2QWr
-	JkPW8FISJRVRxoyggTshsNzxIkVQodG3g8lsPsuEpD7X0Wwl9w0Co5lWOD0R338Rib8X
-	n5zVLrE0ST8K3EQlyL7T5LDOGsxACNbiu/7ilY1O6gDnttNaPmSw6tygonZaxlvat2yz
-	P9wyC7gNPK2juQxpozwdhrdZLFwKYkaDmPC5qmBTWtYvc/6K9lQwwGVi3uF+Pg2Y5yAP
-	4+DPsmil1QEtKy7nH3XPHM6yOCBrOVFcTVrcETA7wcun+M2HJe28o6l14NgBNhWhjmBf
-	hK+w==
+	Mon, 27 Nov 2017 10:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=NFpg7ptVBFqrwLaHcO5sAd/CqGZpb6JXnd8KyftOm4w=;
+	b=RCyHgIJumcgJGRv0KC+NTxdlaTB8jbIBgJ8vO0+mHWJ2zCzhXM/li+XE+FSRd9pcgO
+	xLS2xRg69nUryLKKfD2hM8q8x1allyrxLxXR/dxuK3epumrfVzt+cijW6k0u57Y37Mnu
+	YshcT0QiMUud9AEOuyrJWs1ODYkjxrBcq4+Tw2JQv/FJcdTGHGWO86eeBOkLQjF/fzIY
+	ObkGXxXrQ8ka18tbF+0J88A1sKLjgGCjtaQCRxAbpedTQdoPxk+89X9wP155vnS4JjS1
+	JOKgnYcN75xzZSfx3yPg2LhmLUFK1x+xnkSg85gdslYUHD654/Db9//ITO1EdMuC3GmQ
+	JOZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=udXyKFVVyczvInicKb2OPS+ob48bKWmJhW7INkDhEfA=;
-	b=MMYSjP7KXwhBtSrA+H8gBbslc1VhU3VAyW+EhbP4r6kS5h6vh5JIEbVr/LpNC97ZBS
-	lzUZCORwLXvIibE9boUahC5H7N0o2lVkOM63PuHzrq7Z0aajgrFX8VWUY78JX4DzkKem
-	5UYqZkLtWZHtguRZP8HDWafTDkXx6kPHUtntQ1Q9BQhwTT9cJpFn75k6rQCWHSb3z1xf
-	TBhapyIxxTf0+t0p8CWP1M7iWdzL97ngSBV9d9whFej6jXyQNGBOw/uxWu4UgFVP9d2D
-	kfQZdvb7VKb4QW2dg8ZGObDGWrf7kWxOv4b8W/rpYLu3xNo8SIioZa0alz0UTpTZvfC2
-	OIvQ==
-X-Gm-Message-State: AJaThX5TbqGjfe6I4/MYIpV3domIc1rpS3PvvFc035DdwWxCliOOMvi9
-	a5SBNMUeoW1axn7mUf+qnT3B9mnq
-X-Google-Smtp-Source: AGs4zMZTO11OZKHkdGv0yUL+mTEdr0+dOQMFwLiXOUsS5Nq1Ja8W3pKylijiNs7cIgBj/a8OQZxVwQ==
-X-Received: by 10.28.193.139 with SMTP id r133mr19067471wmf.39.1511807294734; 
-	Mon, 27 Nov 2017 10:28:14 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b66sm2525664wmh.32.2017.11.27.10.28.13
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NFpg7ptVBFqrwLaHcO5sAd/CqGZpb6JXnd8KyftOm4w=;
+	b=nuiVmoECcvMCwK+ipyx9sGtOW6KIaqf+N4pF7z4heW01uqWAPOeWXWhQ7vnG7pJA05
+	het7hMuaPyUaATzfsjX9ZRkGxWoMHUGsvHBWGd4TJJr4j2hgnwsOAWRSy07TTC2TdxsK
+	2gUJmSivlVn/xQb6L0jFYCAqiBkoKMr0SNiMLIGxN8LmPz2AuKg92DRPPu8JMMcv4GE9
+	POXCOFxsUAy+tzWPK5Qy+lHvyPavtnnW926c6QKNslugwAGRv17WVE+kLM1MoodRppwm
+	98I4T2jhc04wYKCyQmOASZT5HDo6bSTUVchnzOmLOkX+yVmrkpbsPO8TafFckV7OmWa+
+	Fj/w==
+X-Gm-Message-State: AJaThX4F+3Om09aP3NXecNAWlBWRfdU9YxZIi8k+eiFsfNWefBxNSAaU
+	ajz1fXHac6cJZAHr9PmYr/aCjPmk
+X-Google-Smtp-Source: AGs4zMaK5QwzkfyTu8jGFhx/4dkmcxf86tZklOJtzXJLVloODQquUffnaH2qpkUCrqzIPavusUEa8g==
+X-Received: by 10.28.236.6 with SMTP id k6mr2269660wmh.95.1511807755605;
+	Mon, 27 Nov 2017 10:35:55 -0800 (PST)
+Received: from shadrach.local (204-83-204-148.prna.hsdb.sasknet.sk.ca.
+	[204.83.204.148]) by smtp.gmail.com with ESMTPSA id
+	o135sm11400593wmg.1.2017.11.27.10.35.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Nov 2017 10:28:13 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 27 Nov 2017 10:35:54 -0800 (PST)
+From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Nov 2017 18:28:11 +0000
-Message-Id: <20171127182811.22760-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] package_manager: force dnf to refresh the cache
+Date: Mon, 27 Nov 2017 12:35:38 -0600
+Message-Id: <20171127183538.68275-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.15.0.106.g7bc77766e
+Cc: Dan McGregor <dan.mcgregor@usask.ca>
+Subject: [PATCH] bind: fix python3 dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 18:28:14 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 18:35:55 -0000
 
-DNF has a time-based cache policy (and a great sense of humour) so it's possible
-that 'dnf makecache' won't actually refresh any caches.  Force the cache updates
-by passing --refresh.
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Add missing python3 dependency, and use python3 from the build
+system.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- meta/lib/oe/package_manager.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/bind/bind_9.10.6.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 6cbb61fd849..ef69b18b642 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -692,7 +692,7 @@ class RpmPM(PackageManager):
-         return packages
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+index 8b8835ba80..0cf572af26 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+@@ -5,7 +5,7 @@ SECTION = "console/network"
+ LICENSE = "ISC & BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
  
-     def update(self):
--        self._invoke_dnf(["makecache"])
-+        self._invoke_dnf(["makecache", "--refresh"])
+-DEPENDS = "openssl libcap"
++DEPENDS = "openssl libcap python3"
  
-     def _invoke_dnf(self, dnf_args, fatal = True, print_output = True ):
-         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
+ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://conf.patch \
+@@ -38,7 +38,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+                  --with-openssl=${STAGING_LIBDIR}/.. \
+                "
+ 
+-inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
++inherit autotools update-rc.d systemd useradd pkgconfig python3-dir python3native
+ 
+ export PYTHON_SITEPACKAGES_DIR
+ 
 -- 
-2.11.0
+2.15.0.106.g7bc77766e
 
 
