@@ -1,21 +1,25 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9602A71C14
+	by mail.openembedded.org (Postfix) with ESMTP id 4E45771C14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 12:07:01 +0000 (UTC)
+	Mon, 27 Nov 2017 12:07:02 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Nov 2017 04:07:02 -0800
+	27 Nov 2017 04:07:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,464,1505804400"; d="scan'208";a="12423462"
+X-IronPort-AV: E=Sophos;i="5.44,464,1505804400"; d="scan'208";a="12423476"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2017 04:07:01 -0800
+	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2017 04:07:02 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Nov 2017 14:06:44 +0200
-Message-Id: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
+Date: Mon, 27 Nov 2017 14:06:45 +0200
+Message-Id: <12ea8ca7643ad58e6d7f966f0cd35ad0c8a41664.1511784130.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
-Subject: [PATCH v8 00/16] support profile-optimized build for Python
+In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
+References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
+In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
+References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH v8 01/16] python3-native: support profile optimized build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,71 +34,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 27 Nov 2017 12:07:02 -0000
 
-Changes since v7:
-- simple selftest added
+Make it possible to build python3-native with profile directed optimization
+enabled. The feature is enabled by specifying
+PYTHON3_NATIVE_PROFILE_OPT = "1" in local.conf.
 
+The profile task to be run may be specified with PYTHON3_NATIVE_PROFILE_TASK
+variable in local.conf, e.g.
+PYTHON3_NATIVE_PROFILE_TASK = "${S}/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
 
-The following changes since commit 33418ed064fe9cff5b4803f09135a81d9170c189:
+[YOCTO #9338]
 
-  runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:36 +0000)
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/recipes-devtools/python/python3-native_3.5.3.bb             | 9 +++++++++
+ .../python/python3/0001-cross-compile-support.patch              | 9 ---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
-
-Markus Lehtonen (16):
-  python3-native: support profile optimized build
-  python3: fix depends of python3-tests
-  python3: add python3-profile-opt recipe
-  python3-profile-opt: rename libpython3
-  openssh: extend to -native
-  libmnl: enable native
-  iptables: enable native
-  iproute2: enable native
-  oeqa/targetcontrol: re-introduce get_target_controller()
-  oeqa/targetcontrol: add missing arg to SimpleRemoteTarget.__init__
-  devtools/images: add python-pgo-image
-  python3: support profile optimized build
-  python3: fix profile-optimized build of modules
-  python3: add python3-tools subpackage
-  python3: remove two setup.py cross-compile hacks
-  oeqa: add selftest for python pgo
-
- meta/lib/oeqa/selftest/cases/python.py             |  28 ++++++
- meta/lib/oeqa/targetcontrol.py                     |  29 +++++-
- meta/recipes-connectivity/iproute2/iproute2.inc    |   7 +-
- ...1-don-t-use-absolute-path-for-ssh-program.patch |  31 ++++++
- meta/recipes-connectivity/openssh/openssh_7.6p1.bb |   7 +-
- meta/recipes-devtools/images/python-pgo-image.bb   |  92 ++++++++++++++++++
- .../python/python-3.5-manifest.inc                 |  12 ++-
- .../python/python3-native_3.5.3.bb                 |   9 ++
- meta/recipes-devtools/python/python3-profile-opt   |   1 +
- .../python/python3-profile-opt_3.5.3.bb            |  10 ++
- .../python3/0001-cross-compile-support.patch       |   9 --
- ...efile-add-install_generate_profile-target.patch |  25 +++++
- ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 +++++++++++
- .../python3-setup.py-no-host-headers-libs.patch    |  33 -------
- ...name-libpython3-to-libpython-profile-opt3.patch | 108 +++++++++++++++++++++
- .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
- meta/recipes-devtools/python/python3_3.5.3.bb      |  58 ++++++++---
- ...revent-absolute-path-in-installed-symlink.patch |  29 ++++++
- meta/recipes-extended/iptables/iptables_1.6.1.bb   |   3 +
- meta/recipes-extended/libmnl/libmnl_1.0.4.bb       |   2 +
- scripts/contrib/python/generate-manifest-3.5.py    |   5 +-
- 21 files changed, 487 insertions(+), 97 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/python.py
- create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-don-t-use-absolute-path-for-ssh-program.patch
- create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
- create mode 120000 meta/recipes-devtools/python/python3-profile-opt
- create mode 100644 meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
- create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
- create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
- delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
- create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
- delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
- create mode 100644 meta/recipes-extended/iptables/iptables/prevent-absolute-path-in-installed-symlink.patch
-
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+index 8cd9c88a82..936ea05b29 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+@@ -58,11 +58,20 @@ EXTRA_OEMAKE = '\
+ # No ctypes option for python 3
+ PYTHONLSBOPTS = ""
+ 
++PYTHON3_NATIVE_MAKE_TARGET ?= "${@'profile-opt' if d.getVar('PYTHON3_NATIVE_PROFILE_OPT', True) == '1' else ''}"
++
+ do_configure_append() {
+ 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+ 	sed -i -e 's,#define HAVE_GETRANDOM 1,/\* #undef HAVE_GETRANDOM \*/,' ${B}/pyconfig.h
+ }
+ 
++do_compile() {
++    if [ -n "${PYTHON3_NATIVE_PROFILE_TASK}" ]; then
++        sed -i -e 's,^PROFILE_TASK=.*,PROFILE_TASK=${PYTHON3_NATIVE_PROFILE_TASK},g' Makefile
++    fi
++    oe_runmake ${PYTHON3_NATIVE_MAKE_TARGET}
++}
++
+ do_install() {
+ 	install -d ${D}${libdir}/pkgconfig
+ 	oe_runmake 'DESTDIR=${D}' install
+diff --git a/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
+index 118d75ddc5..bd599a8b7e 100644
+--- a/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
++++ b/meta/recipes-devtools/python/python3/0001-cross-compile-support.patch
+@@ -34,15 +34,6 @@ index a88b7d5..7cb8bb3 100644
+  
+  PSRCS=		\
+  		Parser/acceler.c \
+-@@ -510,7 +512,7 @@ build_all_generate_profile:
+- 
+- run_profile_task:
+- 	: # FIXME: can't run for a cross build
+--	$(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
+-+	$(LLVM_PROF_FILE) $(RUNSHARED) $(HOSTPYTHON) $(PROFILE_TASK) || true
+- 
+- build_all_merge_profile:
+- 	$(LLVM_PROF_MERGER)
+ @@ -787,7 +789,7 @@ $(IO_OBJS): $(IO_H)
+  
+  $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
 -- 
 2.13.6
 
