@@ -1,27 +1,17 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id ED310602D9
+Return-Path: <martyn.welch@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D90B783C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 19:22:43 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Nov 2017 11:22:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,465,1505804400"; d="scan'208";a="10222588"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 27 Nov 2017 11:22:43 -0800
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20171127145454.19146-1-alexander.kanavin@linux.intel.com>
-	<3bd86191-d785-95c0-8625-fe8ee4b8efd5@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b9190a91-6e8b-8f6a-357f-74d1d2919eee@linux.intel.com>
-Date: Mon, 27 Nov 2017 21:23:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <3bd86191-d785-95c0-8625-fe8ee4b8efd5@gmail.com>
-Subject: Re: [PATCH] devtool: add license checksum change handling to 'devtool upgrade'
+	Mon, 27 Nov 2017 19:28:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: martyn) with ESMTPSA id AFCA4260EF5
+From: Martyn Welch <martyn.welch@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Nov 2017 19:28:46 +0000
+Message-Id: <1511810927-22695-1-git-send-email-martyn.welch@collabora.co.uk>
+X-Mailer: git-send-email 2.1.4
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: [PATCH v5 1/2] image.bbclass: add prohibited-paths QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +24,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 19:22:44 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Nov 2017 19:29:00 -0000
 
-On 11/27/2017 08:11 PM, Khem Raj wrote:
->> 3) and the cool part: devtool will create a diff of the old and new 
->> licenses,
->> and write the diff into the workspace recipe as a comment, like this:
->>
-> 
-> adding a comment in recipe itself might start folks sending patches with 
-> this text in the recipe changes. It should just be in commit message.
+Sometimes we wish to ensure that files or directories are not installed
+somewhere that may prove detrimental to the operation of the system. For
+example, this may be the case if files are placed in a directory that is
+utilised as a mount point at run time, thus making them inaccessible once
+when the mount point is being utilised.
 
-I'm not sure if this was clear, but the auto-generated license diff is 
-meant as a starting point for a commit summary written by a human, and 
-once the summary is written, should be deleted, regardless of whether it 
-was placed in a recipe, commit message or a separate file. Devtool does 
-not create or manage commits from the changes it makes to recipes, and 
-so placing this into the recipe felt the most appropriate to me 
-(separate files are more cumbersome to manage and printing to stdout can 
-be forgotten). We can have an automatic patch qa check that it's not 
-accidentally left over, similar to the existing check that license 
-changes have an explanation.
+Implement the prohibited paths QA test, which enables such locations to be
+specified in a "IMAGE_QA_PROHIBITED_PATHS" variable. This implementation
+allows for a colon separated list of paths to be provided. Shell style
+wildcards can be used.
 
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+---
+Changes since v1:
+ - Correcting author and SOB.
 
-Alex
+Changes since v2:
+ - Reimplemented as image rather than package level QA test.
+ - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
+   reflect its use.
+
+Changes since v3:
+ - Rename variable to IMAGE_QA_PROHIBITED_PATHS.
+ - Use str.startswith().
+ - Simplify if statement.
+
+Changes since v4:
+ - Move QA test to new class "image-insane.bbclass".
+
+ meta/classes/image-insane.bbclass | 20 ++++++++++++++++++++
+ meta/classes/image.bbclass        |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/classes/image-insane.bbclass
+
+diff --git a/meta/classes/image-insane.bbclass b/meta/classes/image-insane.bbclass
+new file mode 100644
+index 0000000..29935cf
+--- /dev/null
++++ b/meta/classes/image-insane.bbclass
+@@ -0,0 +1,20 @@
++python image_check_prohibited_paths () {
++    import glob
++    from oe.utils import ImageQAFailed
++
++    rootfs = d.getVar('IMAGE_ROOTFS')
++
++    path = (d.getVar('IMAGE_QA_PROHIBITED_PATHS') or "")
++    if path != "":
++        for p in path.split(':'):
++            if not p.startswith('/'):
++                raise ImageQAFailed("IMAGE_QA_PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
++
++            match = glob.glob("%s%s" % (rootfs, p))
++            if match:
++                loc = ", ".join(item.replace(rootfs, '') for item in match)
++                raise ImageQAFailed("Match(es) for IMAGE_QA_PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
++}
++
++IMAGE_QA_COMMANDS += "image_check_prohibited_paths"
++
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d93de02..8b45abb 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -1,4 +1,5 @@
+ inherit rootfs_${IMAGE_PKGTYPE}
++inherit image-insane
+ 
+ # Only Linux SDKs support populate_sdk_ext, fall back to populate_sdk_base
+ # in the non-Linux SDK_OS case, such as mingw32
+-- 
+2.1.4
+
 
