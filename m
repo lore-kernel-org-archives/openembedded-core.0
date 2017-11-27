@@ -1,26 +1,47 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9972878276
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E002A782A6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 12:07:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Nov 2017 04:07:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,464,1505804400"; d="scan'208";a="12423566"
-Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2017 04:07:17 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Mon, 27 Nov 2017 12:54:29 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x63so34552063wmf.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Nov 2017 04:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=FyXrGO1VpF3zHXWDEXSAa2cz/PXAYWGhlEJPDnbBRck=;
+	b=gOt4gyhqcbhRNedzSB8Vs/GKzT8Cwf3heHIg+AN4igJsTwYP2r1+3O8qckIb45Dup1
+	gFALgWXrh4ddgcrnL5fs+Gn+MnexSKvZa/FwBaDY32rzNLNan+r5/i7Bl19peJbxPeuv
+	kPvoors7v1qcgHwNfC3Vcn0mjY8s1lIGR+DbdBERnWuYqIsu0FsWawljkaLdVLKbPd7A
+	Npxg7RbkqdS8Ns/VgZzmQ80CyYgXYzapovTnTt4TVNznqTdLOdGSizbFBE3KuXSsHuYL
+	VPgAoKBGfkA1eJ4RhPwLieiq5vHUwg45QyxgEzDsLp9tUMSGvI3mHf4VWbJYM6Ktc5f8
+	Fswg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FyXrGO1VpF3zHXWDEXSAa2cz/PXAYWGhlEJPDnbBRck=;
+	b=FhhjXsbcbfVo+R4IF0F3WMJo7zAzrV0s6r6HZwJxmqZIHKj/M1IbYzTUOwyj6nAwAD
+	ETffGxsxS5I7OC5wnuuzWpCakPYtn0lIKTT4xvKbyg2wfrQl9bfJJoOilE9Gfh1Y62lt
+	XqoPPRTA+ZfJ9/WLSMwIpVdB6EbU0iH+No94lzHAx0gz5smu/rr2Vm7mxdti16pYlMYV
+	OzU9f29mtcdeASgrHN/6rxW5XX0Acu3ntDpN7hJUU2RKUnU2ob/YrRBwhHMk05KDnO7g
+	Zv/OKekvDIbNGEze7tH1ce/1Pwcruu8kEaVWCoRqTr0Ec85RyZW5MmXQWecXzLdqXh9q
+	X2yA==
+X-Gm-Message-State: AJaThX7l4f3Peeyp4eIseU28dMWurZLhlW2G0Mske2slWjcB96abvWNl
+	LdlA4NACs6gYhOFEXu//06y6dw==
+X-Google-Smtp-Source: AGs4zMYf5mTx3fY+ij5EooMbXsNPRnZZvB2UthTmYw9/FnbHDMa7eNqTIf9uJRybtqEkL3tBYK0SMw==
+X-Received: by 10.80.208.195 with SMTP id g3mr52180690edf.246.1511787269844;
+	Mon, 27 Nov 2017 04:54:29 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58])
+	by smtp.gmail.com with ESMTPSA id 4sm18348760edf.81.2017.11.27.04.54.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Nov 2017 04:54:28 -0800 (PST)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Nov 2017 14:06:59 +0200
-Message-Id: <569f396856c96cecebe01c5a0815e349f4b53f28.1511784130.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
-References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
-References: <cover.1511784130.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v8 15/16] python3: remove two setup.py cross-compile hacks
+Date: Mon, 27 Nov 2017 13:54:20 +0100
+Message-Id: <1511787260-2490-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] linux-yocto: drop KCONF_BSP_AUDIT_LEVEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +54,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 12:07:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Nov 2017 12:54:30 -0000
 
-Remove two unneeded hacks. The first hack ("setup.py: no host headers
-libs" patch) is not needed because we use cross-compiler (e.g.
-i586-oe-linux-gcc) which has not been configured with any host system
-include or library directories, and thus, we don't get any host system
-directories when running "gcc -E -v".
+From: Ming Liu <liu.ming50@gmail.com>
 
-The second hack becomes useless after the first hack has been removed
-and we get the standard include and lib directories normally from gcc.
+The warning that this flag was trying to control, it had been dropped
+by commit 0f698dfd:
+[ kernel-yocto: streamline patch, configuration and audit phases ]
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+so this flag is useless since that commit merged, drop it as well.
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- .../python3-setup.py-no-host-headers-libs.patch    | 33 ----------------------
- .../setup.py-find-libraries-in-staging-dirs.patch  | 30 --------------------
- meta/recipes-devtools/python/python3_3.5.3.bb      |  2 --
- 3 files changed, 65 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
- delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+ meta/classes/kernel-yocto.bbclass                  | 1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   | 1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    | 1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    | 1 -
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb | 1 -
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 1 -
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  | 1 -
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  | 1 -
+ meta/recipes-kernel/linux/linux-yocto.inc          | 1 -
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 1 -
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 1 -
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 1 -
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 1 -
+ 14 files changed, 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch b/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
-deleted file mode 100644
-index 2bc8b8c460..0000000000
---- a/meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 43238e1ac13e32984d015c92a5841f3de1fe1d15 Mon Sep 17 00:00:00 2001
--From: Jackie Huang <jackie.huang@windriver.com>
--Date: Tue, 18 Nov 2014 00:07:07 -0500
--Subject: [PATCH] setup.py: no host headers libs
--
--When we are cross-compiling, setup.py should never look in /usr
--or /usr/local to find headers or libraries.
--
--Upstream-Status: Inappropriate [Cross compile specific]
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- setup.py | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/setup.py b/setup.py
--index f020b28..e8339cd 100644
----- a/setup.py
--+++ b/setup.py
--@@ -444,10 +444,7 @@ class PyBuildExt(build_ext):
--         if not cross_compiling:
--             add_dir_to_list(self.compiler.library_dirs, os.path.join('/usr/local', sys.lib))
--             add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
---        # only change this for cross builds for 3.3, issues on Mageia
---        if cross_compiling:
--             self.add_gcc_paths()
---        if not cross_compiling:
--             self.add_multiarch_paths()
-- 
--         # Add paths specified in the environment variables LDFLAGS and
---- 
--2.0.0
--
-diff --git a/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch b/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-deleted file mode 100644
-index f26bd38b02..0000000000
---- a/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Patch setup.py so that the detect_modules() function looks for required
--libraries and headers in STAGING_LIBDIR / STAGING_INCDIR.
--
--Without this patch, several extension modules are not built, even though
--their dependencies are present in the compiler's search paths.
--The result is the following warning, and ultimately incomplete packages:
--
--| The necessary bits to build these optional modules were not found:
--| _bz2                  _curses_panel         _dbm
--| _gdbm                 _lzma                 _sqlite3
--| nis                   readline              zlib
--| To find the necessary bits, look in setup.py in detect_modules() for the module's name.
--
--Upstream-Status:  Inappropriate [Cross compile specific]
--
--Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
--
--Index: Python-3.4.3/setup.py
--===================================================================
----- Python-3.4.3.orig/setup.py
--+++ Python-3.4.3/setup.py
--@@ -521,6 +521,8 @@ class PyBuildExt(build_ext):
--         else:
--             lib_dirs = self.compiler.library_dirs[:]
--             inc_dirs = self.compiler.include_dirs[:]
--+            lib_dirs.append(os.environ.get('STAGING_LIBDIR'))
--+            inc_dirs.append(os.environ.get('STAGING_INCDIR'))
--         exts = []
--         missing = []
-- 
-diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-index 7746ffe3b1..3a997a3b4e 100644
---- a/meta/recipes-devtools/python/python3_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -31,10 +31,8 @@ SRC_URI += "\
-             file://unixccompiler.patch \
-             file://avoid-ncursesw-include-path.patch \
-             file://python3-use-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
--            file://python3-setup.py-no-host-headers-libs.patch \
-             file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
--            file://setup.py-find-libraries-in-staging-dirs.patch \
-             file://configure.ac-fix-LIBPL.patch \
-             file://upstream-random-fixes.patch \
-             file://0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch \
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 1d44795..1c3b778 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -322,7 +322,6 @@ python do_kernel_configcheck() {
+     ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
+ 
+     config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
+-    bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
+ 
+     # if config check visibility is non-zero, report dropped configuration values
+     mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+index f93d953..0c388d5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+@@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.10.17"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+index 983c1cc..e7172a5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+@@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.12.14"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index c1cbf35..9c23a3f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.4.93"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+index b6c98a5..0ef43cd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+@@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.9.57"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+index edaf853..39b58cd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+ LINUX_VERSION ?= "4.10.17"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "c1d8c4408b8aedd88eeb6ccc89ce834dd41b3f09"
+ SRCREV_meta ?= "40ee48ac099c04f60d2c132031d9625a4e0c4c9e"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+index 658ecc0..ed61756 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+ LINUX_VERSION ?= "4.12.14"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "9cc6b0ae1aad7312e85ac4134398f81c0140de33"
+ SRCREV_meta ?= "cebe198870d781829bd997a188cc34d9f7a61023"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index dd38095..7491ed2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+ LINUX_VERSION ?= "4.4.93"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "f070447fb60b5b939c94583d7c05f55ec2b37acd"
+ SRCREV_meta ?= "ae0119a2ff737b8c14bdf904b4c6eb790a7792cb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+index 79b8bfd..34ffdb4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+ LINUX_VERSION ?= "4.9.57"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "cd8f9254aaaacbfa7f45fcc0bf2bb307615a174b"
+ SRCREV_meta ?= "cdbd35c54b6a62e4fd543164f1dcdf92c85cff2d"
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 9c1f61b..07b9af7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -46,7 +46,6 @@ SRCREV_FORMAT ?= "meta_machine"
+ #   1: report options that are specified, but not in the final config
+ #   2: report options that are not hardware related, but set by a BSP
+ KCONF_AUDIT_LEVEL ?= "1"
+-KCONF_BSP_AUDIT_LEVEL ?= "0"
+ KMETA_AUDIT ?= "yes"
+ 
+ LINUX_VERSION_EXTENSION ??= "-yocto-${LINUX_KERNEL_TYPE}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.10.bb b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+index 7fcc753..f5b777e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+@@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.10.17"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+index a7dd763..493eb99 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+@@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.12.14"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index 4d8d3da..dbe9665 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.4.93"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+index 2486792..479064a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+@@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.9.57"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
 -- 
-2.13.6
+2.7.4
 
 
