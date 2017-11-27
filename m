@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 13AC360778
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D2E1878093
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 08:06:05 +0000 (UTC)
+	Mon, 27 Nov 2017 08:06:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAR866KK003327
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAR868Pa022272
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 00:06:06 -0800
+	Mon, 27 Nov 2017 00:06:08 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 27 Nov 2017 00:06:05 -0800
+	14.3.361.1; Mon, 27 Nov 2017 00:06:07 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Nov 2017 16:07:16 +0800
-Message-ID: <cover.1511770008.git.Qi.Chen@windriver.com>
+Date: Mon, 27 Nov 2017 16:07:17 +0800
+Message-ID: <77ec98cb684152de2ce0ea26dc7e877608c52d51.1511770008.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1511770008.git.Qi.Chen@windriver.com>
+References: <cover.1511770008.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] bind: fix daemon startup failure on sysvinit
+Subject: [PATCH 1/1] bind: fix daemon startup failure on sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 08:06:06 -0000
+X-List-Received-Date: Mon, 27 Nov 2017 08:06:08 -0000
 Content-Type: text/plain
 
-The following changes since commit 72867393fe2004ab9f0ee23eb09a975c82938b9e:
+When starting the bind daemon on sysvinit based system, we are
+meeting the following error and the daemon fails to start.
 
-  runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:41 +0000)
+  /etc/bind/rndc.key: permission denied
 
-are available in the git repository at:
+Fix this problem by chaning the ownship of rndc.key to root:bind.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/bind-daemon-sysvinit
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bind-daemon-sysvinit
-
-Chen Qi (1):
-  bind: fix daemon startup failure on sysvinit
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  ...owner-of-rndc.key-to-correctly-start-daem.patch | 32 ++++++++++++++++++++++
  meta/recipes-connectivity/bind/bind_9.10.6.bb      |  1 +
  2 files changed, 33 insertions(+)
  create mode 100644 meta/recipes-connectivity/bind/bind/0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch
 
+diff --git a/meta/recipes-connectivity/bind/bind/0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch b/meta/recipes-connectivity/bind/bind/0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch
+new file mode 100644
+index 0000000..b3ec013
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch
+@@ -0,0 +1,32 @@
++Subject: init.d: fix owner of rndc.key to correctly start daemon
++
++When starting with '-u bind' option, which is a common practice for
++most distros, we would meet the following error and the daemon would
++not be started up correctly.
++
++  /etc/bind/rndc.key: permission denied
++
++Fix this problem by changing the ownership of rndc.key to root:bind.
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ init.d | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/init.d b/init.d
++index b2eec60..d6860c7 100644
++--- a/init.d
+++++ b/init.d
++@@ -57,6 +57,7 @@ case "$1" in
++ 	modprobe capability >/dev/null 2>&1 || true
++ 	if [ ! -f /etc/bind/rndc.key ]; then
++ 	    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+++	    chown root:bind /etc/bind/rndc.key
++ 	    chmod 0640 /etc/bind/rndc.key
++ 	fi
++ 	if [ -f /var/run/named/named.pid ]; then
++-- 
++2.11.0
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+index 8b8835b..7eaaf9d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+            file://use-python3-and-fix-install-lib-path.patch \
++           file://0001-init.d-fix-owner-of-rndc.key-to-correctly-start-daem.patch \
+            "
+ 
+ SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
 -- 
 1.9.1
 
