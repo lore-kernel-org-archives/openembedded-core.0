@@ -1,63 +1,32 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DCD07826C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 91E3E7807D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 11:47:13 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id d27so33906ote.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 03:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=oZyMVoyqPxcFByljwg6/xhhMZIYPcgPTK1VJoF+7F10=;
-	b=aPQjkFtYmOnRM9Cv0AC2s7aZmQnkubWVgwCdlstALL6CT94qQIs+0t2S8kRCNOCyKd
-	8s3pOCRCgAsllPK3jC1RsHIjIliYr1YM+KqAWoFJBRxwni3ItFBacBlyzcyewTlVe1JD
-	ygqYCur+EC73EuBRNRUwCGETRuMEkgsRiAlHNuVgvCE+P3uvEx7lqdgXjO5+9M+p/bqP
-	XBFrRUCPkL+iWMWMer9SFpF8c06uiH5FxfNwzK0KxPlCscYGz+/N7QGKOK6ZrAjynVX/
-	EsJrLQAzCrJbcsCU+ik3AN7Qw4RMAJcNuFmgixH7orEtgqX3yCYINPUeO+0gYgnGNFCB
-	ELGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=oZyMVoyqPxcFByljwg6/xhhMZIYPcgPTK1VJoF+7F10=;
-	b=ff/L2JSxe/kX4mm3rBTGqUJ+r7ONWAi6heZmdaa325/2/jeNOqhFziGxgvY6NMPb9Y
-	OV8UHQEmccghBOZ5F2QJcA7BnCe3mD5Ide+1X+65zKyFNzb9prYbZXpPCqurdhxapd7U
-	sr6FcEFz3SzJRj2lIDVA5ryaN/IS0o38tZ9aQ1kKYiVzgq+loL5qUDrkwASC04ozHzUY
-	0DAVFAincPIejUrfHXRZshIfNIg41cANgOZcZOSh+DRsWLlp9bd4EEDqRIQGuWr9qk5Z
-	JjBcx9cZuT0oaRe0rq2nTx/yl0jhL/T5PZRbmvbaJUJHZWIrc68U0zgJHQE0gP33Ojeh
-	xLWw==
-X-Gm-Message-State: AJaThX7MNXu/w6ql6mn5lDXZIZ5L588RLH8O3CXlFtxqDJdV8Gu37uaZ
-	beYi2fzp2NrLiIeyf5ZYpqErbDG8
-X-Google-Smtp-Source: AGs4zMZGVDgeTAaadliUHrowl1FEWfF04SGB2PIXwSzDRIWsaE3h7gvKTwyKjWtrChX6/0KlI+1GXg==
-X-Received: by 10.157.39.45 with SMTP id r42mr34789032ota.71.1511869634783;
-	Tue, 28 Nov 2017 03:47:14 -0800 (PST)
-Received: from mail-ot0-f170.google.com (mail-ot0-f170.google.com.
-	[74.125.82.170]) by smtp.gmail.com with ESMTPSA id
-	a39sm13369491ota.59.2017.11.28.03.47.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 03:47:13 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f170.google.com with SMTP id g104so43695otg.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 03:47:13 -0800 (PST)
-X-Received: by 10.157.36.18 with SMTP id p18mr31385045ota.191.1511869633235;
-	Tue, 28 Nov 2017 03:47:13 -0800 (PST)
+	Tue, 28 Nov 2017 12:49:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vASCnmF1012051
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 28 Nov 2017 04:49:48 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 28 Nov 2017 04:49:35 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
+	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
+	<1511432407.862.111.camel@linuxfoundation.org>
+	<90368c50-316e-b03e-252f-33110c059737@windriver.com>
+	<bfe14ba9-7de8-6e8d-9d26-2fd05a4e62a2@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <6a03b501-31d9-5e20-4c40-ce381bb4ad17@windriver.com>
+Date: Tue, 28 Nov 2017 20:48:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 28 Nov 2017 03:47:12 -0800 (PST)
-In-Reply-To: <1511810927-22695-2-git-send-email-martyn.welch@collabora.co.uk>
-References: <1511810927-22695-1-git-send-email-martyn.welch@collabora.co.uk>
-	<1511810927-22695-2-git-send-email-martyn.welch@collabora.co.uk>
-Date: Tue, 28 Nov 2017 09:47:12 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKq=Qb+wcS6Cemh+Xeoe8imWek3avaRoUcOSREEAW3Gtvg@mail.gmail.com>
-Message-ID: <CAP9ODKq=Qb+wcS6Cemh+Xeoe8imWek3avaRoUcOSREEAW3Gtvg@mail.gmail.com>
-To: Martyn Welch <martyn.welch@collabora.co.uk>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 2/2] core-image.bbclass: add default IMAGE_QA_PROHIBIT_PATHS variable
+In-Reply-To: <bfe14ba9-7de8-6e8d-9d26-2fd05a4e62a2@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, "Xu, Chi" <Chi.Xu@windriver.com>,
+	"WOLD, SAUL" <saul.wold@intel.com>
+Subject: =?UTF-8?B?R29vZCBuZXdzIFJlOiBZb2N0byBQcm9qZWN0IFN0YXR1cyBXVzQ34oCZMTc=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,22 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 11:47:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 28 Nov 2017 12:49:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 27, 2017 at 5:28 PM, Martyn Welch
-<martyn.welch@collabora.co.uk> wrote:
-> Add a default IMAGE_QA_PROHIBIT_PATHS variable containing paths known to
-> be mounted in the default fstab, which are known mount points or
-> directories which should be populated at runtime.
->
-> Suggested-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+Hi RP,
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+On 11/28/2017 06:47 PM, Robert Yang wrote:
+> 
+> 
+> On 11/28/2017 03:49 PM, Robert Yang wrote:
+>>
+>> On 11/23/2017 06:20 PM, Richard Purdie wrote:
+>>> On Mon, 2017-11-20 at 20:22 -0500, Randy MacLeod wrote:
+>>>>> o   Issues with 4.13.10 host kernels booting kvm x86 guests on
+>>>>> Tumbleweed (Suse) and Fedora 26 (attempting to see if 4.13.12
+>>>>> helps)
+>>>> Robert, can you test Fedora 26. It would help to have a defect open
+>>>> with steps to reproduce or
+>>>> something about the typical workflow/ build time/ day of the week/
+>>>> phase of the moon.
+>>>
+>>> We have some further data:
+>>>
+>>> a) The issue occurs on 4.13.12
+>>>
+>>> rpurdie@tumbleweed:/tmp> cat /proc/version
+>>> Linux version 4.13.12-1-vanilla (geeko@buildhost) (gcc version 7.2.1 20171020 
+>>> [gcc-7-branch revision 253932] (SUSE Linux)) #1 SMP PREEMPT Wed Nov 8 
+>>> 11:21:09 UTC 2017 (9151c66)
+>>>
+>>> b) The hang usually occurs at the TIMER line in the kernel logs but can
+>>> occur after booting into userspace around the udevd line, or
+>>> occasionally later in the boot process.
+>>>
+>>> c) The similarity between this and the ppc bug I worked on make me
+>>> strongly suspect qemu's timers are stopping firing and the guest is
+>>> sitting in the idle loop.
+>>>
+>>> d) I do now have a way to brute force the hangs at will. The attached
+>>> "runqemu-parallel.py" script runs 50 qemus in parallel. In around 45s I
+>>> had 10 hung on the autobuilder. I can provide more info on using that
+>>> script if its not obvious. It does assume my recent master changes to
+>>> the qemuconf files so we don't need to run bitbake -e to run runqemu.
+>>>
+>>> This could well be the same kind of locking issue we saw on ppc. I'll
+>>> continue to look into that.
+>>>
+>>> Hopefully this extra information will put us on a good track to
+>>> resolving it now. It is continuing to break builds and stop patch
+>>> merging.
+>>
+>> I modified the script to run on my host (I used qemux86, not qemux86-64,
+>> the later one is still in building) (Up to date Fedora 26, the kernel
+>> is 4.13.13):
+>>
+>> $ cat /proc/version
+>> Linux version 4.13.13-200.fc26.x86_64 
+>> (mockbuild@bkernel01.phx2.fedoraproject.org) (gcc version 7.2.1 20170915 (Red 
+>> Hat 7.2.1-2) (GCC)) #1 SMP Wed Nov 15 15:46:36 UTC 2017
+>>
+>> But didn't see any hangs after 10 minutes, all the qemus reached login. So maybe
+>> it had been fixed on 4.13.13 ?
+> 
+> I tested qemux86-64, the boot became very slow (just like hang), no one booted
+> after about 2 hours (still in booting). And it only happened when
+> use qemux86-64 + kvm:
+> 
+> # Works
+> $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot
+> 
+> # Doesn't work, like hang:
+> $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot kvm
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I upgraded qemu-native to qemu-2.11.0-rc2, then no hangs any more. I dropped
+the conflicted patches during upgrade. I will send a formal upgrade tomorrow
+it this is acceptable.
+
+Here is the draft patch for testing:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/qemu_test
+   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qemu_test
+
+Robert Yang (1):
+   qemu: 2.10.1 -> 2.11.0-rc2 (test)
+
+// Robert
+
+> 
+> // Robert
+> 
+>>
+>> // Robert
+>>
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
 
