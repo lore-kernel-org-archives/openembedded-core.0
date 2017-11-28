@@ -1,34 +1,51 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3978B60806
+Return-Path: <limon.anibal@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF2A600EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 13:47:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vASDlUSC004530
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 Nov 2017 05:47:30 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 28 Nov 2017 05:47:29 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
-	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
-	<1511432407.862.111.camel@linuxfoundation.org>
-	<90368c50-316e-b03e-252f-33110c059737@windriver.com>
-	<bfe14ba9-7de8-6e8d-9d26-2fd05a4e62a2@windriver.com>
-	<6a03b501-31d9-5e20-4c40-ce381bb4ad17@windriver.com>
-	<1511874917.862.134.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <8f517f26-055b-325a-b627-780bd6447332@windriver.com>
-Date: Tue, 28 Nov 2017 21:46:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Tue, 28 Nov 2017 14:59:33 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id x4so49706plv.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Nov 2017 06:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BqzLbYECHb26ZPmdO3DDpfT8yfgIqQozvE8ncSJqwAw=;
+	b=vQED7UCI+l0DY78DRLPK8bcTYVA64S7VFmx6LfHuCPi9CVmC2pV+LBeEyOEVlQZwIh
+	qtQrTobF0YSRTpZ5Xa37n1zh5Q78E2tg2xfYxA4g6iLH1fCH1KRKYsNFVfHDWIyffsad
+	mmVkwXBE7HJM96pYtvhqrWTsrHICj0EDO4hgMY6lJ24VyFgYxtmBo8gwFsK1jXVhkJfd
+	xO99v3Ck9ShHvzsRLLfZ3GvElDZYIfoSbtkZISy93d0C6+qMQaCOEq23KfYicsjrE7F/
+	ox6jlxCoteLLVnIraCr/EZdEcyKY7Fy1YWcq/Phk1lF3jpSIQa7fZNCpqZvg1735Wtr+
+	aYYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BqzLbYECHb26ZPmdO3DDpfT8yfgIqQozvE8ncSJqwAw=;
+	b=ogXyFvz55dobu1n1CEJApizpTAYLsy+Y8qgz6qMnl8/zbXa7+4av2I9xNwVvyC02Wa
+	T86LRV/x3OXawNswEPvfRwx1Fqg2b89+MGm+VHgGG4xPpHt+9hrl/eLPhoWw1wXM6dZO
+	d5XxvpGYXMxDFwLnYTLdH9atnz6uvRJPorlavEPj5N8jWUlW2rmaS62FeuNKl3csTz+y
+	S4mVZ7lW/MzC+M9ibUhTkB3VoEAZDYvKPXUAu6+c5WudkfU0WL18uu7JTosIvHVNLRbZ
+	hX3K6WOcIQ+nal+OGVM40lKLjP+7hCacKjSHvHuumOewZBlP0FhW4OB2Y1VCPbV+4EQN
+	ic1g==
+X-Gm-Message-State: AJaThX5jkNBf5tSxn1ScZcRPPsDME2IR/ZlRmfZ5skf1F9ys3kqcGojS
+	tgIqWrjggMq8nIjm6n2JYCCA2F6r
+X-Google-Smtp-Source: AGs4zMbjg6eabCfN9r+OiBhvtg2cd6owPeGEXwcfm3blfWhEt8IAcQBZbXyfvBHJ982ci+xWptpoiw==
+X-Received: by 10.84.244.2 with SMTP id g2mr42202898pll.170.1511881174511;
+	Tue, 28 Nov 2017 06:59:34 -0800 (PST)
+Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	by smtp.gmail.com with ESMTPSA id
+	125sm50304756pff.14.2017.11.28.06.59.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Nov 2017 06:59:33 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Nov 2017 08:59:28 -0600
+Message-Id: <20171128145928.5784-1-limon.anibal@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <1511874917.862.134.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, "Xu, Chi" <Chi.Xu@windriver.com>,
-	"WOLD, SAUL" <saul.wold@intel.com>
-Subject: =?UTF-8?B?UmU6IEdvb2QgbmV3cyBSZTogWW9jdG8gUHJvamVjdCBTdGF0dXMgV1c0N+KAmTE3?=
+Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCHv2] recipes-graphics/piglit: Add patch to fix build in some platforms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,77 +58,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 13:47:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Tue, 28 Nov 2017 14:59:34 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+From: Aníbal Limón <anibal.limon@linaro.org>
 
+The entry point is not guaranteed to exist, so use the
+piglit_egl_get_default_display() helper which does the correct thing.
 
-On 11/28/2017 09:15 PM, Richard Purdie wrote:
-> On Tue, 2017-11-28 at 20:48 +0800, Robert Yang wrote:
->> Hi RP,
->> On 11/28/2017 06:47 PM, Robert Yang wrote:
->>> # Works
->>> $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot
->>>
->>> # Doesn't work, like hang:
->>> $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot kvm
->> I upgraded qemu-native to qemu-2.11.0-rc2, then no hangs any more. I
->> dropped
->> the conflicted patches during upgrade. I will send a formal upgrade
->> tomorrow
->> it this is acceptable.
->>
->> Here is the draft patch for testing:
->>
->>     git://git.openembedded.org/openembedded-core-contrib rbt/qemu_test
->>     http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/
->> qemu_test
-> 
-> Thanks for the data point. I've been putting my data into:
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
-> 
-> As you can see there, I think there are actually two issues:
-> 
-> a) A boot hang around the ..TIMER line where the guest isn't getting
-> timer interupts
-> 
-> b) Something which causes the APIC to see "version 0".
-> 
-> I applied the 2.11-rc2 upgrade and it seemed to stop the hangs I was
-> seeing with "-no-kvm-irqchip" but doesn't stop the ones I see without
-> that.
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ ...gl-context-priority.c-Use-piglit_egl_get_.patch | 41 ++++++++++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
 
-Maybe you can try to reboot the host ? It didn't work when I first
-upgrade to 2.11.0-rc2, and it worked after I reboot the machine.
-My host is fedora 26 server which is running in qemu-kvm, what I did was:
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+new file mode 100644
+index 0000000000..13b997c037
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+@@ -0,0 +1,41 @@
++From cb562a383229074b44db6998b85572d2abe7c363 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
++Date: Fri, 24 Nov 2017 10:31:55 -0600
++Subject: [PATCH] tests/egl/egl-context-priority.c: Use
++ piglit_egl_get_default_display
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The entry point is not guaranteed to exist, so use the
++piglit_egl_get_default_display() helper which does the correct thing.
++
++Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
++Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
++Reviewed-by: Tapani Pälli <tapani.palli@intel.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
++
++Upstream-status: Backport
++
++https://github.com/Igalia/piglit/commit/cb562a3832
++---
++ tests/egl/egl-context-priority.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
++index 7f26fc614..9590ccae3 100644
++--- a/tests/egl/egl-context-priority.c
+++++ b/tests/egl/egl-context-priority.c
++@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
++ 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
++ 		piglit_report_result(PIGLIT_SKIP);
++ 
++-	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
++-				    EGL_DEFAULT_DISPLAY, NULL);
+++	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
++ 
++ 	ok = eglInitialize(dpy, &major, &minor);
++ 	if (!ok) {
++-- 
++2.11.0
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index d274a8fbd5..45fd534dfa 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
++           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.11.0
 
-- Upgrade to 2.11.0-rc2
-- $ bitbake qemu-helper-native
-- Reboot fedora 26
-- run runqemu-parallel with qemux86-64
-No hangs
-- Back to qemu 2.10.1
-- $ bitbake qemu-helper-native
-- run runqemu-parallel
-Hangs
-- Upgrade to 2.11.0-rc2 again, no hangs
-
-// Robert
-
-> 
-> I am seeing hangs in guests where the version 0 message appears as well
-> as where we see 0x14. The 0x14 versions do boot further into userspace
-> usually.
-> 
-> It also seems host hardware specific as I cannot get my local build
-> machine to hang as yet. That could mean its timing or could be cpu
-> revision, I've removed many but not all OS differences :/.
-> 
-> Cheers,
-> 
-> Richard
-> 
 
