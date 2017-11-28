@@ -1,51 +1,51 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 02A8B6011C
+Return-Path: <limon.anibal@gmail.com>
+Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
+	[74.125.82.196])
+	by mail.openembedded.org (Postfix) with ESMTP id DCBB5780A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 16:54:53 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id r143so534898lfe.13
+	Tue, 28 Nov 2017 17:03:26 +0000 (UTC)
+Received: by mail-ot0-f196.google.com with SMTP id j2so458439ota.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 08:54:55 -0800 (PST)
+	Tue, 28 Nov 2017 09:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=97WWvX2EwJIwcVJMY/MTAcW1+LfkFTZ0Z+mJFvHj+5o=;
-	b=YUwPKsn5JldXucksTX0CVcBal802eWLKcvNg8uHFJHQmlK14xoJP7wV8wAG7lsG/aW
-	dt03v1UIbJhp2mYorry0DQrRfVzemhZXuZIG8T5U8Qd7ZrkU5F6AXL/16H28tRGeR/9e
-	SQruAyzk+JIil6IyrdK7L3OZMEtu2Wpb4mo7alFkJ0I+bEBXVrZJDw3Yb/8y3zGa/mnz
-	IzGhuhHgzQUdT/u3pYzsUwlpzr7kZiZ38k4WADgnxnyn3L0UJH3F0Ncs5yCpmiLiz1RP
-	7PcJudkxXMFyRtGwBYAz8BzY0kLZ8whHMrBuh2Qo0IoRVtxMfN8ai9ie8UAroAP5EN7h
-	W+eg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oPn/JwPPjoRaOTzgVJbu7VlKgIol7xcc+dUMefUTqkQ=;
+	b=biMUeZch2krM0hRGGXG4KO99Ik8N3B8KuCJxSN2Ah0TIGwcqcV9lJfyyLrHaYv7vs7
+	V/WGtDzxvPBe7QXhB25T8UsPqVcgkklk1Xceg1L7ogS/5ptW0jyh03btqKc0/TwFzYsz
+	a7xcBYwxlHX4vehtK0dBUr/vTfXmJSjzUYK8yNiQrQLcpSVLPKKrK1A6c25dpNDIb7GS
+	adYLJrPGYc4yjlYANvAinpIb6w6F3OY7jY38rjZdXHJaytlQMEM0yqFR5+SvtDkrRN+T
+	jk6fv2ko7EAC13Pzt3LIaaQV6ABKmP/PSVIUzTSYxlyww+tpfHofm0NmNRQDpbX3K0II
+	hqPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=97WWvX2EwJIwcVJMY/MTAcW1+LfkFTZ0Z+mJFvHj+5o=;
-	b=NXv7k1Vtk6fNqUfR9YtSTm1mZYyqiOsZMRqRG2FaZ8XyTQWACBLJIFvuSGgCQelJjA
-	WubuJH2bDTohEPwGZGf92Qfo4GFLN/sbxEihPxoVYIzTnwsloDs5ag/YPjYNbSuggLQf
-	lwvk48jk2rSAGduyG3NKek6rQn5m7ZspEuUam/pUNICSAN4onG4vVeZji03QGUo930z3
-	MRObaQsbCy/q11MViewiL5eGr0b/Nah2iz04lOkP2Wj0o+NySaq0XmygKaQiJa4fgDPN
-	iQ1fvwCFxZl5YKcOLiNcLbV6FsxsTigOafmPm17aoY+0xrvEvwoSNAVbzlJId+s4XFXz
-	8iVg==
-X-Gm-Message-State: AJaThX5UYPyX+O1yYAe7ZZ0fPkKVsV/p5RkjCoePhCq5jEXGjPUmwGSF
-	f/80aE/gjWp7ORSLbANWdeosuY+AOdu1ZiKdc9c=
-X-Google-Smtp-Source: AGs4zMY12Tlv8PZgYjYMyoz0n1YyHyt9x7KHE+7bP2yHKpMwoSNuqqJAsqu8zg9e0Ke+EPKpD7QsdXPW/snlGZ1aWbs=
-X-Received: by 10.46.74.26 with SMTP id x26mr13505417lja.83.1511888094408;
-	Tue, 28 Nov 2017 08:54:54 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oPn/JwPPjoRaOTzgVJbu7VlKgIol7xcc+dUMefUTqkQ=;
+	b=r7lwuZ7ZHD+xJ8fipm4yeLZXCQK0f1hxgjqGutAjAgwnZcIFs1WStiYGOI9lvAPenK
+	M165THzHq7YZMb/eAo+CwoGgUCXaJMiu61SG5K92e4NI27ihSXqYB0N5Q19eylcbdvlU
+	2I9sDSFyteIJIHgvVD5g8H1jMTq55BXitmXDkosDdB+D9n8C7YcjZCJKeCLjaj5ZMQsl
+	Nsi+vsqPWQceztQ4r0TY40CcDicGPFPdmbaOoKfXZ7rwZIo6upwE7wIzMgZrv/5MBmpE
+	1lbioM4/YEt03u3Tiut76yKmMpC/l73MYFC5PLJI6RtpF9i2Q2CczN3HQbB3xtIWQmDA
+	yDaw==
+X-Gm-Message-State: AJaThX65I/GxLygGy1cDelD/Ruj5YW2ve89SQNHkggAYMVElOHNZWBp0
+	eXpe9BDSU0fm3yBcL8H3wBcZ7gVU
+X-Google-Smtp-Source: AGs4zMacJWNORRXC+Szq+ISYtYgkk4PsIcH0Jy+MTFLrRIJdG8tAhSUGZd4Nv6rGmVi2Aupg5CoskA==
+X-Received: by 10.157.82.153 with SMTP id f25mr16880997oth.97.1511888607453;
+	Tue, 28 Nov 2017 09:03:27 -0800 (PST)
+Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	by smtp.gmail.com with ESMTPSA id
+	y51sm13742130oti.9.2017.11.28.09.03.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Nov 2017 09:03:26 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Nov 2017 11:03:23 -0600
+Message-Id: <20171128170323.4864-1-limon.anibal@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.25.59.196 with HTTP; Tue, 28 Nov 2017 08:54:53 -0800 (PST)
-In-Reply-To: <955afb0f-78b2-2de8-db0a-f301b62bc8ab@linux.intel.com>
-References: <20171127183538.68275-1-danismostlikely@gmail.com>
-	<b5ec6830-3185-054f-7354-d9caa66e692b@linux.intel.com>
-	<CACS+7ZT=pyM3uD-LbBy437NT=nHAS7ONarmMp0E3TA-b40LFaQ@mail.gmail.com>
-	<955afb0f-78b2-2de8-db0a-f301b62bc8ab@linux.intel.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Tue, 28 Nov 2017 10:54:53 -0600
-Message-ID: <CACS+7ZRKCjqB7Hp39Wv5GCLEV_qZsA=kh-okjLaGty0s8Cr96g@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: fix python3 dependencies
+Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCHv4] recipes-graphics/piglit: Add patch to fix build in some platforms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +58,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 16:54:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 28 Nov 2017 17:03:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 28 November 2017 at 00:30, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 11/27/2017 10:24 PM, Dan McGregor wrote:
->>>
->>> 2) why is native python3 needed, and host python3 is not enough.
->>
->>
->> Host python3 gives me the error above. Possibly my host's python3 is
->> broken, but it's a Poky build appliance with multilib enabled.
->>
->> I'll make it more explicit in my commit message.
->
->
-> Note that bind is built by yocto autobuilder many times a day, in multiple
-> configurations (including multilib). And no one else has reported the issue.
-> It does seem to me that the patch is working around a problem that is
-> somehow specific to your setup, and is not a common issue.
->
+From: Aníbal Limón <anibal.limon@linaro.org>
 
-Oh I'm sure it's specific to my organisation now. The issue is in
-distutils on the host, it doesn't like being installed in /usr/lib64,
-so I'll make a patch for that soon. I still don't like relying on host
-tools for the python stuff, though.
+The entry point is not guaranteed to exist, so use the
+piglit_egl_get_default_display() helper which does the correct thing.
 
-> Can you dig a bit deeper and find out the root cause of the error message
-> you are getting without this patch please? Try also with a plain poky
-> checkout, and see if the issue disappears there.
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ ...gl-context-priority.c-Use-piglit_egl_get_.patch | 41 ++++++++++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
 
-Yeah, as I said above python3 distutils seems to be broken when
-multilib is enabled. I'll fix that and send a patch later today or
-tomorrow.
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+new file mode 100644
+index 0000000000..e2e87cc1ed
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+@@ -0,0 +1,41 @@
++From cb562a383229074b44db6998b85572d2abe7c363 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
++Date: Fri, 24 Nov 2017 10:31:55 -0600
++Subject: [PATCH] tests/egl/egl-context-priority.c: Use
++ piglit_egl_get_default_display
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The entry point is not guaranteed to exist, so use the
++piglit_egl_get_default_display() helper which does the correct thing.
++
++Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
++Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
++Reviewed-by: Tapani Pälli <tapani.palli@intel.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
++
++Upstream-Status: Backport
++
++https://cgit.freedesktop.org/piglit/commit/?id=cb562a3832
++---
++ tests/egl/egl-context-priority.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
++index 7f26fc614..9590ccae3 100644
++--- a/tests/egl/egl-context-priority.c
+++++ b/tests/egl/egl-context-priority.c
++@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
++ 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
++ 		piglit_report_result(PIGLIT_SKIP);
++ 
++-	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
++-				    EGL_DEFAULT_DISPLAY, NULL);
+++	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
++ 
++ 	ok = eglInitialize(dpy, &major, &minor);
++ 	if (!ok) {
++-- 
++2.11.0
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index d274a8fbd5..45fd534dfa 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
++           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.11.0
 
->
->
-> Alex
 
