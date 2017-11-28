@@ -1,48 +1,49 @@
-Return-Path: <limon.anibal@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F05C378055
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E1CDF6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 23:14:29 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id w73so9541835wmw.0
+	Tue, 28 Nov 2017 01:02:56 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id c123so24630812qkf.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Nov 2017 15:14:31 -0800 (PST)
+	Mon, 27 Nov 2017 17:02:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=K+G9rHoup0+iurGBJOCWVGX/xgIIM1MH+BDpx+ms6Y4=;
-	b=qPLR9rpLvGBr+Lj2TTE/hoy8sB0SE0L9/GIXEoSKwSbSPvV3olBwI08AWu0OZ+ZGXL
-	4yDmZBQ+FtY7WiY8EHqvGcMv6S9HF8+XWdP34cUeNrmyO55LA+VQ/DdLsHUeQExO73e8
-	VoPG/jGZa2RNEnLBTiDcWezXfT/2PHZWLCHZOyBxL46w/gtxWYmqmg/xaA4K5xLl4PHq
-	LqbHmwxXVF/B3fUHmtEPURKpD1y05bDGDHQ4DikvRtfURmv0sSIzyjeilvCX2xQgxFgj
-	nAYH+rO4ubk4zd1igRNjXC/naQw4gOIrjuSdoZqcExQbswtEcn8szULwrR/EIKEkypSR
-	837A==
+	:cc; bh=p5PUZ1WZ57ifdHMJezriYaNVPCtXP+LS8qSoWhvokL0=;
+	b=oM20wmTTo39rtRL2WwjXLKJqdQaT7hkaddnN0q/Bn3R494KNRXDE00Sqtv3g3TQsvL
+	jy0EW0HZWZ+NqDxi3c6Qjjrk9S8BlbUNnBrpvmYONfcpsXyVoeiKzWLaX1Gx5X7aodRu
+	UdfnKK0FAdl0ZSczbebVTjm0KfXkyuk9pkmSZdhfgw9Q8mfymQdeGY1dE6gCxZhctfql
+	YmbiWA+LBJ9rZZSEzqToR81YOEMLF1erDALXDLjrkxjs8eLbYlBHXlV/KB9eE+xP7LlU
+	abdlFNb4CwPCDv1iK4OEBn2x+8VsVbvjyEWzhUI0woJhycWwFRnhwzgdeEYtcrSlNFv7
+	epmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=K+G9rHoup0+iurGBJOCWVGX/xgIIM1MH+BDpx+ms6Y4=;
-	b=BzH3hR2Q+MFw/YJpWup/dH/6fF8V9RZJTBxqE+JbPcAzT4tkunXoKz6WU3pMWUaDcp
-	vUm4kwBcXEi0DeOVXh/RR46GGf9okEOrkFkMFN6IKtG0MN+bfEUzMk+2yXJ2n+Vxbju2
-	mTbPs39R+szZU+iy0woIFhE9Hn4AJYdHGt5VudmuIuCAz3QfMFsxw3SbTknG7xbxGawO
-	U8cv2cvtDNVcpldzKGu0Gy9aYo8jpFbAyzEV5O3i7QOoN3Mjv8vHdStrJKGOqVMD6ZXC
-	LwH/rhaeWFzJXyuRzzCGyxvoMMj++xWfKjgERMsZd4C6CVhfZpwXf9em9bouN2BVPSA4
-	zwjQ==
-X-Gm-Message-State: AJaThX5rAUEbN2DcgOU38XyL0Daw+imRZ/6vnpTbj4nhUbmwqYHHjwol
-	uhbNzPopWSR+OCnfzniAFcrwAlt7gZIoEuUsjWw=
-X-Google-Smtp-Source: AGs4zMaEMQ8ZKgfbctmzuDpEP3OXlBy98nuF8UGnwTmzmoT8b34paFvClxoXQ5FsBfOk+OriGTFnOaFA7ibJRdEc4lU=
-X-Received: by 10.80.245.172 with SMTP id u41mr54412353edm.195.1511824470637; 
-	Mon, 27 Nov 2017 15:14:30 -0800 (PST)
+	bh=p5PUZ1WZ57ifdHMJezriYaNVPCtXP+LS8qSoWhvokL0=;
+	b=nrHzlwQf4poswPb+HrX6+4lqR3oTLpdM/AEbV+Q1izBmv149Kq+XbcITUNRHQ0mQEr
+	Lz/XC0urmjRHjk9y0VmK0WC/xQd+IBsNHX2wcbllX50D6cMLV1mRoPWMjz2IEcY84E+G
+	0OGXv09Y2t3OyoKu87/pJzeqvMd32g4Q7uhhi5awXrqtCqbCN3QQqyhg5qOZnk44tDKs
+	aRDuBZGkd1hNLVUetbLV1lmVAORU/dUhbHuxspxTZKwJMBs31/raAjtBh1b5dq3Nodki
+	7dFdF34YgC86TQ1iacxgZK/yNZVYh8x9LV3cRLsG95FJjFNvxlC/lDYHCiOn+yClXhIy
+	P5DA==
+X-Gm-Message-State: AJaThX7MMVqcali1qLQkEaXlRuNETmOnjFHa3XMdB/UB0XTdkYN1Vxx4
+	fnjpiCconic6B8Ra4EApW3C3DDPJxwAKc7QT4yQ=
+X-Google-Smtp-Source: AGs4zMY0XonVKUg/Gxh/Ryv/fVqY+VMNwL1hzAqq4snjiJc7BTryFEwWRiGnucLBhmfhCUO+3D1g9xrM6eD9PbayP7A=
+X-Received: by 10.55.70.77 with SMTP id t74mr33097737qka.342.1511830977835;
+	Mon, 27 Nov 2017 17:02:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.80.241.18 with HTTP; Mon, 27 Nov 2017 15:14:30 -0800 (PST)
-In-Reply-To: <5cff7c9d-788c-65bf-0576-88a71ac4ccf3@windriver.com>
-References: <20171124165203.11759-1-limon.anibal@gmail.com>
-	<5cff7c9d-788c-65bf-0576-88a71ac4ccf3@windriver.com>
-From: =?UTF-8?Q?Anibal_Lim=C3=B3n?= <limon.anibal@gmail.com>
-Date: Mon, 27 Nov 2017 17:14:30 -0600
-Message-ID: <CAPS-YPCi9PXq72rO6B8ae-3Sa+FQ6+Z9yhG7pLBnyzgJY4Y8aQ@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] recipes-graphics/piglit: Add patch for fix build in HiKey platforms
+Received: by 10.237.38.132 with HTTP; Mon, 27 Nov 2017 17:02:57 -0800 (PST)
+In-Reply-To: <CADkTA4N1Zci8nuXLRecGW6Pk0P9MvaY3Luob=jTQWdvnb70hxA@mail.gmail.com>
+References: <1511787260-2490-1-git-send-email-liu.ming50@gmail.com>
+	<CADkTA4N1Zci8nuXLRecGW6Pk0P9MvaY3Luob=jTQWdvnb70hxA@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Tue, 28 Nov 2017 09:02:57 +0800
+Message-ID: <CALatG=592Jf8+T6uY-qFCyYXJS9ro5xg9aBbd1RRuCqe_zKg4w@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto: drop KCONF_BSP_AUDIT_LEVEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,327 +56,599 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 23:14:30 -0000
-Content-Type: multipart/alternative; boundary="001a114811fa8900fb055eff10b0"
+X-List-Received-Date: Tue, 28 Nov 2017 01:02:57 -0000
+Content-Type: multipart/alternative; boundary="001a114ab57064f5d8055f009490"
 
---001a114811fa8900fb055eff10b0
+--001a114ab57064f5d8055f009490
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 27, 2017 at 5:06 PM, Randy MacLeod <randy.macleod@windriver.com=
->
-wrote:
+Hi, Bruce:
 
-> On 2017-11-24 11:52 AM, An=C3=ADbal Lim=C3=B3n wrote:
+OK, got that.
+
+//Ming Liu
+
+2017-11-27 21:36 GMT+08:00 Bruce Ashfield <bruce.ashfield@gmail.com>:
+
+> Nope.
 >
->> From: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> This flag can stay. I have new audit code coming that will use it again ..
+> that's
+> why it was left in the first place.
+>
+> Cheers,
+>
+> Bruce
+>
+> On Mon, Nov 27, 2017 at 7:54 AM, <liu.ming50@gmail.com> wrote:
+>
+>> From: Ming Liu <liu.ming50@gmail.com>
 >>
->> Some EGL implementations do not actually ship all Khronos-extensions.
->> As it turns out, the Mali 450 driver does not include
->> eglGetPlatformDisplay
->> symbol so there is not grauntee to exists use
->> piglit_egl_get_default_display
+>> The warning that this flag was trying to control, it had been dropped
+>> by commit 0f698dfd:
+>> [ kernel-yocto: streamline patch, configuration and audit phases ]
 >>
->
-> Anibal,
->
-> First, my grammar OCD corrections,   :)
->
-> s/grauntee/guarantee/
->
-
-Ok, typo.
-
-
->
-> and more generally:
->   so there is not guarantee ...
->   so there is no guarantee that it exists,
->      use piglit_egl_get_default_display
->
-> or just use the upstream commit log:
->     The entry point is not guaranteed to exist, so use the
->     piglit_egl_get_default_display() helper which does the
->     correct thing.
->
->
-> This a backport of 45095dc08b from the piglet git repo
-> so please make that clear in the long log as well.
->
-
-This isn't a backport, i will explain better in the commit message.
-
-Cheers,
-Anibal
-
-
-
->
-> Thanks,
->
-> ../Randy
->
->
->
-> wrapper instead.
+>> so this flag is useless since that commit merged, drop it as well.
 >>
->> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
->> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+>> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 >> ---
->>   ...gl-context-priority.c-Use-piglit_egl_get_.patch | 39
->> ++++++++++++++++++++++
->>   meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
->>   2 files changed, 40 insertions(+)
->>   create mode 100644 meta/recipes-graphics/piglit/p
->> iglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+>>  meta/classes/kernel-yocto.bbclass                  | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto.inc          | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 1 -
+>>  meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 1 -
+>>  14 files changed, 14 deletions(-)
 >>
->> diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-
->> context-priority.c-Use-piglit_egl_get_.patch
->> b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-
->> context-priority.c-Use-piglit_egl_get_.patch
->> new file mode 100644
->> index 0000000000..6b73950fc1
->> --- /dev/null
->> +++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-
->> context-priority.c-Use-piglit_egl_get_.patch
->> @@ -0,0 +1,39 @@
->> +From 3b6c3abe3698abb0ae08d14a399eea29805cafd6 Mon Sep 17 00:00:00 2001
->> +From: =3D?UTF-8?q?An=3DC3=3DADbal=3D20Lim=3DC3=3DB3n?=3D <anibal.limon@=
-linaro.org>
->> +Date: Fri, 24 Nov 2017 10:11:42 -0600
->> +Subject: [PATCH] tests/egl/egl-context-priority.c: Use
->> + piglit_egl_get_default_display
->> +MIME-Version: 1.0
->> +Content-Type: text/plain; charset=3DUTF-8
->> +Content-Transfer-Encoding: 8bit
->> +
->> +Some EGL implementations do not actually ship all Khronos-extensions.
->> +As it turns out, the Mali 450 driver does not include
->> eglGetPlatformDisplay
->> +symbol so there is not grauntee to exists use
->> piglit_egl_get_default_display
->> +wrapper instead. See rev 45095dc08b.
->> +
->> +Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
->> +Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
->> +
->> +Upstream-Status: Submitted [piglit@lists.freedesktop.org]
->> +---
->> + tests/egl/egl-context-priority.c | 3 +--
->> + 1 file changed, 1 insertion(+), 2 deletions(-)
->> +
->> +diff --git a/tests/egl/egl-context-priority.c
->> b/tests/egl/egl-context-priority.c
->> +index 7f26fc614..9590ccae3 100644
->> +--- a/tests/egl/egl-context-priority.c
->> ++++ b/tests/egl/egl-context-priority.c
->> +@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
->> +       if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
->> +               piglit_report_result(PIGLIT_SKIP);
->> +
->> +-      dpy =3D eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
->> +-                                  EGL_DEFAULT_DISPLAY, NULL);
->> ++      dpy =3D piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_
->> MESA);
->> +
->> +       ok =3D eglInitialize(dpy, &major, &minor);
->> +       if (!ok) {
->> +--
->> +2.11.0
->> +
->> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb
->> b/meta/recipes-graphics/piglit/piglit_git.bb
->> index eae3eed342..c6d4e5c6e0 100644
->> --- a/meta/recipes-graphics/piglit/piglit_git.bb
->> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
->> @@ -5,6 +5,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db2beded710
->> 3a3d8a442a2a0391d607b0"
->>   SRC_URI =3D "git://anongit.freedesktop.org/piglit \
->>              file://0001-cmake-install-bash-completions-in-the-right-pla=
-ce.patch
->> \
->>              file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv=
-.h.patch
->> \
->> +           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_=
-get_.patch
->> \
->>              "
->>     # From 2017-02-06
+>> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/
+>> kernel-yocto.bbclass
+>> index 1d44795..1c3b778 100644
+>> --- a/meta/classes/kernel-yocto.bbclass
+>> +++ b/meta/classes/kernel-yocto.bbclass
+>> @@ -322,7 +322,6 @@ python do_kernel_configcheck() {
+>>      ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
 >>
+>>      config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
+>> -    bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
 >>
+>>      # if config check visibility is non-zero, report dropped
+>> configuration values
+>>      mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+>> index f93d953..0c388d5 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+>> @@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.10.17"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  LINUX_KERNEL_TYPE = "preempt-rt"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+>> index 983c1cc..e7172a5 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+>> @@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.12.14"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  LINUX_KERNEL_TYPE = "preempt-rt"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+>> index c1cbf35..9c23a3f 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+>> @@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.4.93"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  LINUX_KERNEL_TYPE = "preempt-rt"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+>> index b6c98a5..0ef43cd 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+>> @@ -22,7 +22,6 @@ LINUX_VERSION ?= "4.9.57"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  LINUX_KERNEL_TYPE = "preempt-rt"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+>> index edaf853..39b58cd 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
+>> @@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+>>  LINUX_VERSION ?= "4.10.17"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  SRCREV_machine ?= "c1d8c4408b8aedd88eeb6ccc89ce834dd41b3f09"
+>>  SRCREV_meta ?= "40ee48ac099c04f60d2c132031d9625a4e0c4c9e"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+>> index 658ecc0..ed61756 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+>> @@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+>>  LINUX_VERSION ?= "4.12.14"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  SRCREV_machine ?= "9cc6b0ae1aad7312e85ac4134398f81c0140de33"
+>>  SRCREV_meta ?= "cebe198870d781829bd997a188cc34d9f7a61023"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+>> index dd38095..7491ed2 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+>> @@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+>>  LINUX_VERSION ?= "4.4.93"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  SRCREV_machine ?= "f070447fb60b5b939c94583d7c05f55ec2b37acd"
+>>  SRCREV_meta ?= "ae0119a2ff737b8c14bdf904b4c6eb790a7792cb"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+>> index 79b8bfd..34ffdb4 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+>> @@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yocto.inc
+>>  LINUX_VERSION ?= "4.9.57"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  SRCREV_machine ?= "cd8f9254aaaacbfa7f45fcc0bf2bb307615a174b"
+>>  SRCREV_meta ?= "cdbd35c54b6a62e4fd543164f1dcdf92c85cff2d"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+>> b/meta/recipes-kernel/linux/linux-yocto.inc
+>> index 9c1f61b..07b9af7 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+>> @@ -46,7 +46,6 @@ SRCREV_FORMAT ?= "meta_machine"
+>>  #   1: report options that are specified, but not in the final config
+>>  #   2: report options that are not hardware related, but set by a BSP
+>>  KCONF_AUDIT_LEVEL ?= "1"
+>> -KCONF_BSP_AUDIT_LEVEL ?= "0"
+>>  KMETA_AUDIT ?= "yes"
+>>
+>>  LINUX_VERSION_EXTENSION ??= "-yocto-${LINUX_KERNEL_TYPE}"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+>> index 7fcc753..f5b777e 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
+>> @@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.10.17"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+>> index a7dd763..493eb99 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+>> @@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.12.14"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+>> index 4d8d3da..dbe9665 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+>> @@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.4.93"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qem
+>> uppc|qemumips|qemumips64|qemux86-64"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+>> index 2486792..479064a 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+>> @@ -29,7 +29,6 @@ LINUX_VERSION ?= "4.9.57"
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>  KMETA = "kernel-meta"
+>> -KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>>  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
 >
 > --
-> # Randy MacLeod.  WR Linux
-> # Wind River an Intel Company
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
 >
 
---001a114811fa8900fb055eff10b0
+--001a114ab57064f5d8055f009490
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Nov 27, 2017 at 5:06 PM, Randy MacLeod <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:randy.macleod@windriver.com" target=3D"_blank">randy.macleo=
-d@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><sp=
-an class=3D"">On 2017-11-24 11:52 AM, An=C3=ADbal Lim=C3=B3n wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org"=
- target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+<div dir=3D"ltr"><div><div>Hi, Bruce:<br><br></div>OK, got that.<br><br></d=
+iv>//Ming Liu<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_q=
+uote">2017-11-27 21:36 GMT+08:00 Bruce Ashfield <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gma=
+il.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">N=
+ope.=C2=A0<div><br></div><div>This flag can stay. I have new audit code com=
+ing that will use it again .. that&#39;s</div><div>why it was left in the f=
+irst place.</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce=
+<br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div cla=
+ss=3D"h5">On Mon, Nov 27, 2017 at 7:54 AM,  <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>=
+&gt;</span> wrote:<br></div></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><di=
+v class=3D"h5">From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" t=
+arget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
 <br>
-Some EGL implementations do not actually ship all Khronos-extensions.<br>
-As it turns out, the Mali 450 driver does not include eglGetPlatformDisplay=
+The warning that this flag was trying to control, it had been dropped<br>
+by commit 0f698dfd:<br>
+[ kernel-yocto: streamline patch, configuration and audit phases ]<br>
 <br>
-symbol so there is not grauntee to exists use piglit_egl_get_default_displa=
-y<br>
-</blockquote>
-<br></span>
-Anibal,<br>
+so this flag is useless since that commit merged, drop it as well.<br>
 <br>
-First, my grammar OCD corrections,=C2=A0 =C2=A0:)<br>
-<br>
-s/grauntee/guarantee/<br></blockquote><div><br></div><div>Ok, typo.</div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-and more generally:<br>
-=C2=A0 so there is not guarantee ...<br>
-=C2=A0 so there is no guarantee that it exists,<br>
-=C2=A0 =C2=A0 =C2=A0use piglit_egl_get_default_display<br>
-<br>
-or just use the upstream commit log:<br>
-=C2=A0 =C2=A0 The entry point is not guaranteed to exist, so use the<br>
-=C2=A0 =C2=A0 piglit_egl_get_default_display<wbr>() helper which does the<b=
-r>
-=C2=A0 =C2=A0 correct thing.<br>
-<br>
-<br>
-This a backport of 45095dc08b from the piglet git repo<br>
-so please make that clear in the long log as well.<br></blockquote><div><br=
-></div><div>This isn&#39;t a backport, i will explain better in the commit =
-message.</div><div><br></div><div>Cheers,</div><div>Anibal</div><div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Thanks,<br>
-<br>
-../Randy<div><div class=3D"h5"><br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-wrapper instead.<br>
-<br>
-Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
-naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
-Signed-off-by: Daniel D=C3=ADaz &lt;<a href=3D"mailto:daniel.diaz@linaro.or=
-g" target=3D"_blank">daniel.diaz@linaro.org</a>&gt;<br>
+Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=
+=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0 ...gl-context-priority.c-Use-p<wbr>iglit_egl_get_.patch | 39 +++++++=
-+++++++++++++++<br>
-=C2=A0 meta/recipes-graphics/piglit/<a href=3D"http://piglit_git.bb" rel=3D=
-"noreferrer" target=3D"_blank">p<wbr>iglit_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0 2 files changed, 40 insertions(+)<br>
-=C2=A0 create mode 100644 meta/recipes-graphics/piglit/p<wbr>iglit/0001-tes=
-ts-egl-egl-conte<wbr>xt-priority.c-Use-piglit_egl_<wbr>get_.patch<br>
+=C2=A0meta/classes/kernel-yocto.bbc<wbr>lass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.10.bb" r=
+el=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-rt_4.10.bb</a>=C2=A0 =
+=C2=A0| 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.12.bb" r=
+el=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-rt_4.12.bb</a>=C2=A0 =
+=C2=A0| 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-rt_4.4.bb</a>=C2=A0 =C2=
+=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.9.bb" re=
+l=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-rt_4.9.bb</a>=C2=A0 =C2=
+=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.10.bb"=
+ rel=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-tiny_4.10.bb</a> | 1=
+ -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.12.bb"=
+ rel=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-tiny_4.12.bb</a> | 1=
+ -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-tiny_4.4.bb</a>=C2=A0=
+ | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.9.bb" =
+rel=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto-tiny_4.9.bb</a>=C2=A0=
+ | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/lin<wbr>ux-yocto.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.10.bb" rel=
+=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto_4.10.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto_4.12.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 | 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto_4.4.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 1 -<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">lin<wbr>ux-yocto_4.9.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 1 -<br>
+=C2=A014 files changed, 14 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-graphics/piglit<wbr>/piglit/0001-tests-egl-egl-<w=
-br>context-priority.c-Use-piglit_<wbr>egl_get_.patch b/meta/recipes-graphic=
-s/piglit<wbr>/piglit/0001-tests-egl-egl-<wbr>context-priority.c-Use-piglit_=
-<wbr>egl_get_.patch<br>
-new file mode 100644<br>
-index 0000000000..6b73950fc1<br>
---- /dev/null<br>
-+++ b/meta/recipes-graphics/piglit<wbr>/piglit/0001-tests-egl-egl-<wbr>cont=
-ext-priority.c-Use-piglit_<wbr>egl_get_.patch<br>
-@@ -0,0 +1,39 @@<br>
-+From 3b6c3abe3698abb0ae08d14a399eea<wbr>29805cafd6 Mon Sep 17 00:00:00 200=
-1<br>
-+From: =3D?UTF-8?q?An=3DC3=3DADbal=3D20Lim=3DC3<wbr>=3DB3n?=3D &lt;<a href=
-=3D"mailto:anibal.limon@linaro.org" target=3D"_blank">anibal.limon@linaro.o=
-rg</a>&gt;<br>
-+Date: Fri, 24 Nov 2017 10:11:42 -0600<br>
-+Subject: [PATCH] tests/egl/egl-context-priority<wbr>.c: Use<br>
-+ piglit_egl_get_default_display<br>
-+MIME-Version: 1.0<br>
-+Content-Type: text/plain; charset=3DUTF-8<br>
-+Content-Transfer-Encoding: 8bit<br>
-+<br>
-+Some EGL implementations do not actually ship all Khronos-extensions.<br>
-+As it turns out, the Mali 450 driver does not include eglGetPlatformDispla=
-y<br>
-+symbol so there is not grauntee to exists use piglit_egl_get_default_displ=
-ay<br>
-+wrapper instead. See rev 45095dc08b.<br>
-+<br>
-+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@l=
-inaro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
-+Signed-off-by: Daniel D=C3=ADaz &lt;<a href=3D"mailto:daniel.diaz@linaro.o=
-rg" target=3D"_blank">daniel.diaz@linaro.org</a>&gt;<br>
-+<br>
-+Upstream-Status: Submitted [<a href=3D"mailto:piglit@lists.freedesktop.org=
-" target=3D"_blank">piglit@lists.freedesktop.org</a>]<br>
-+---<br>
-+ tests/egl/egl-context-priority<wbr>.c | 3 +--<br>
-+ 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-+<br>
-+diff --git a/tests/egl/egl-context-priori<wbr>ty.c b/tests/egl/egl-context=
--priori<wbr>ty.c<br>
-+index 7f26fc614..9590ccae3 100644<br>
-+--- a/tests/egl/egl-context-priori<wbr>ty.c<br>
-++++ b/tests/egl/egl-context-priori<wbr>ty.c<br>
-+@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!strstr(exts, &quot;EGL_MESA_platform_surfa=
-celess<wbr>&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0piglit_report_resul=
-t(PIGLIT_S<wbr>KIP);<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 dpy =3D eglGetPlatformDisplay(EGL_PLAT<wbr>FORM_SURF=
-ACELESS_MESA,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_DEFAULT_DISPLAY, NULL);<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 dpy =3D piglit_egl_get_default_display<wbr>(EGL_PLAT=
-FORM_SURFACELESS_<wbr>MESA);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ok =3D eglInitialize(dpy, &amp;major, &amp;mino=
-r);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ok) {<br>
-+--<br>
-+2.11.0<br>
-+<br>
-diff --git a/meta/recipes-graphics/piglit<wbr>/<a href=3D"http://piglit_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">piglit_git.bb</a> b/meta/recipes-=
-graphics/piglit<wbr>/<a href=3D"http://piglit_git.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">piglit_git.bb</a><br>
-index eae3eed342..c6d4e5c6e0 100644<br>
---- a/meta/recipes-graphics/piglit<wbr>/<a href=3D"http://piglit_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">piglit_git.bb</a><br>
-+++ b/meta/recipes-graphics/piglit<wbr>/<a href=3D"http://piglit_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">piglit_git.bb</a><br>
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db2beded710<=
-wbr>3a3d8a442a2a0391d607b0&quot;<br>
-=C2=A0 SRC_URI =3D &quot;git://<a href=3D"http://anongit.freedesktop.org/pi=
-glit" rel=3D"noreferrer" target=3D"_blank">anongit.freedesktop.org<wbr>/pig=
-lit</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-cmake-install-b=
-as<wbr>h-completions-in-the-right-pla<wbr>ce.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-tests-Use-FE_UP=
-WA<wbr>RD-only-if-its-defined-in-fenv<wbr>.h.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-tests-egl-egl-con<wbr=
->text-priority.c-Use-piglit_egl<wbr>_get_.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-=C2=A0 =C2=A0 # From 2017-02-06<br>
+diff --git a/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yocto.b=
+b</a><wbr>class b/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yo=
+cto.bb</a><wbr>class<br>
+index 1d44795..1c3b778 100644<br>
+--- a/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yocto.bb</a><w=
+br>class<br>
++++ b/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yocto.bb</a><w=
+br>class<br>
+@@ -322,7 +322,6 @@ python do_kernel_configcheck() {<br>
+=C2=A0 =C2=A0 =C2=A0ret, result =3D oe.utils.getstatusoutput(&quot;%s%s<wbr=
+>&quot; % (pathprefix, cmd))<br>
 <br>
-</blockquote>
+=C2=A0 =C2=A0 =C2=A0config_check_visibility =3D int(d.getVar(&quot;KCONF_AU=
+DIT_LEVE<wbr>L&quot;) or 0)<br>
+-=C2=A0 =C2=A0 bsp_check_visibility =3D int(d.getVar(&quot;KCONF_BSP_AUDIT_=
+<wbr>LEVEL&quot;) or 0)<br>
 <br>
+=C2=A0 =C2=A0 =C2=A0# if config check visibility is non-zero, report droppe=
+d configuration values<br>
+=C2=A0 =C2=A0 =C2=A0mismatch_file =3D d.expand(&quot;${S}/%s/cfg/mismatch<w=
+br>.txt&quot; % kmeta)<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.1=
+0.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.10.bb</a> =
+b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.10.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.10.bb</a><br>
+index f93d953..0c388d5 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.10.bb" r=
+el=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.10.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.10.bb" r=
+el=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.10.bb</a><br>
+@@ -22,7 +22,6 @@ LINUX_VERSION ?=3D &quot;4.10.17&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
 <br>
--- <br></div></div>
-# Randy MacLeod.=C2=A0 WR Linux<br>
-# Wind River an Intel Company<br>
-</blockquote></div><br></div></div>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0LINUX_KERNEL_TYPE =3D &quot;preempt-rt&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.1=
+2.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.12.bb</a> =
+b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.12.bb</a><br>
+index 983c1cc..e7172a5 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.12.bb" r=
+el=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.12.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.12.bb" r=
+el=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.12.bb</a><br>
+@@ -22,7 +22,6 @@ LINUX_VERSION ?=3D &quot;4.12.14&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0LINUX_KERNEL_TYPE =3D &quot;preempt-rt&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4=
+.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.4.bb</a> b/=
+meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" rel=3D"n=
+oreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.4.bb</a><br>
+index c1cbf35..9c23a3f 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.4.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.4.bb</a><br>
+@@ -22,7 +22,6 @@ LINUX_VERSION ?=3D &quot;4.4.93&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0LINUX_KERNEL_TYPE =3D &quot;preempt-rt&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.9=
+.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.9.bb</a> b/=
+meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.9.bb" rel=3D"n=
+oreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.9.bb</a><br>
+index b6c98a5..0ef43cd 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.9.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.9.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.9.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-rt_4.9.bb</a><br>
+@@ -22,7 +22,6 @@ LINUX_VERSION ?=3D &quot;4.9.57&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0LINUX_KERNEL_TYPE =3D &quot;preempt-rt&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4=
+.10.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.10.bb<=
+/a> b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.10.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.10.bb</a><br>
+index edaf853..39b58cd 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.10.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.10.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.10.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.10.bb</a><br>
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yoc<wbr>to.inc<br>
+=C2=A0LINUX_VERSION ?=3D &quot;4.10.17&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0SRCREV_machine ?=3D &quot;c1d8c4408b8aedd88eeb6ccc89ce8<wbr>34dd41b3f=
+09&quot;<br>
+=C2=A0SRCREV_meta ?=3D &quot;40ee48ac099c04f60d2c132031d96<wbr>25a4e0c4c9e&=
+quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4=
+.12.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.12.bb<=
+/a> b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.12.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.12.bb</a><br>
+index 658ecc0..ed61756 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.12.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.12.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.12.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.12.bb</a><br>
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yoc<wbr>to.inc<br>
+=C2=A0LINUX_VERSION ?=3D &quot;4.12.14&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0SRCREV_machine ?=3D &quot;9cc6b0ae1aad7312e85ac4134398f<wbr>81c0140de=
+33&quot;<br>
+=C2=A0SRCREV_meta ?=3D &quot;cebe198870d781829bd997a188cc3<wbr>4d9f7a61023&=
+quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.4.bb</a=
+> b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.4.bb</a><br>
+index dd38095..7491ed2 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.4.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.4.bb</a><br>
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yoc<wbr>to.inc<br>
+=C2=A0LINUX_VERSION ?=3D &quot;4.4.93&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0SRCREV_machine ?=3D &quot;f070447fb60b5b939c94583d7c05f<wbr>55ec2b37a=
+cd&quot;<br>
+=C2=A0SRCREV_meta ?=3D &quot;ae0119a2ff737b8c14bdf904b4c6e<wbr>b790a7792cb&=
+quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4=
+.9.bb" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.9.bb</a=
+> b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.9.bb" re=
+l=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.9.bb</a><br>
+index 79b8bfd..34ffdb4 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.9.bb" =
+rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.9.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.9.bb" =
+rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.9.bb</a><br>
+@@ -7,7 +7,6 @@ require recipes-kernel/linux/linux-yoc<wbr>to.inc<br>
+=C2=A0LINUX_VERSION ?=3D &quot;4.9.57&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0SRCREV_machine ?=3D &quot;cd8f9254aaaacbfa7f45fcc0bf2bb<wbr>307615a17=
+4b&quot;<br>
+=C2=A0SRCREV_meta ?=3D &quot;cdbd35c54b6a62e4fd543164f1dcd<wbr>f92c85cff2d&=
+quot;<br>
+diff --git a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc b/meta/recipes-=
+kernel/linux/li<wbr>nux-yocto.inc<br>
+index 9c1f61b..07b9af7 100644<br>
+--- a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
++++ b/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
+@@ -46,7 +46,6 @@ SRCREV_FORMAT ?=3D &quot;meta_machine&quot;<br>
+=C2=A0#=C2=A0 =C2=A01: report options that are specified, but not in the fi=
+nal config<br>
+=C2=A0#=C2=A0 =C2=A02: report options that are not hardware related, but se=
+t by a BSP<br>
+=C2=A0KCONF_AUDIT_LEVEL ?=3D &quot;1&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL ?=3D &quot;0&quot;<br>
+=C2=A0KMETA_AUDIT ?=3D &quot;yes&quot;<br>
+<br>
+=C2=A0LINUX_VERSION_EXTENSION ??=3D &quot;-yocto-${LINUX_KERNEL_TYPE}&quot;=
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.10.b=
+b" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.10.bb</a> b/meta=
+/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.10.bb" rel=3D"norefer=
+rer" target=3D"_blank">li<wbr>nux-yocto_4.10.bb</a><br>
+index 7fcc753..f5b777e 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.10.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.10.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.10.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.10.bb</a><br>
+@@ -29,7 +29,6 @@ LINUX_VERSION ?=3D &quot;4.10.17&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0KERNEL_DEVICETREE_qemuarm =3D &quot;versatile-pb.dtb&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.12.b=
+b" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.12.bb</a> b/meta=
+/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.12.bb" rel=3D"norefer=
+rer" target=3D"_blank">li<wbr>nux-yocto_4.12.bb</a><br>
+index a7dd763..493eb99 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.12.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.12.bb</a><br>
+@@ -29,7 +29,6 @@ LINUX_VERSION ?=3D &quot;4.12.14&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0KERNEL_DEVICETREE_qemuarm =3D &quot;versatile-pb.dtb&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.4.bb</a> b/meta/r=
+ecipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=3D"noreferrer=
+" target=3D"_blank">li<wbr>nux-yocto_4.4.bb</a><br>
+index 4d8d3da..dbe9665 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.4.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.4.bb</a><br>
+@@ -29,7 +29,6 @@ LINUX_VERSION ?=3D &quot;4.4.93&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|qem<wbr>uppc|q=
+emumips|qemumips64|qemux<wbr>86-64&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.9.bb=
+" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.9.bb</a> b/meta/r=
+ecipes-kernel/linux/<a href=3D"http://linux-yocto_4.9.bb" rel=3D"noreferrer=
+" target=3D"_blank">li<wbr>nux-yocto_4.9.bb</a><br>
+index 2486792..479064a 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.9.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.9.bb</a><br>
+@@ -29,7 +29,6 @@ LINUX_VERSION ?=3D &quot;4.9.57&quot;<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+-KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0KERNEL_DEVICETREE_qemuarm =3D &quot;versatile-pb.dtb&quot;<br>
+</div></div><span class=3D"m_-2123488700047007755HOEnZb"><font color=3D"#88=
+8888"><br>
+--<br>
+2.7.4<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></font></span></blockquote></div><span class=3D"HOEnZb"><font=
+ color=3D"#888888"><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"m_-2123488700047007755gmail_signature" data-smartmail=3D"gmail_signatur=
+e">&quot;Thou shalt not follow the NULL pointer, for chaos and madness awai=
+t thee at its end&quot;</div>
+</font></span></div></div></div>
+</blockquote></div><br></div>
 
---001a114811fa8900fb055eff10b0--
+--001a114ab57064f5d8055f009490--
