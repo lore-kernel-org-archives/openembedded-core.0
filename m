@@ -1,51 +1,48 @@
-Return-Path: <limon.anibal@gmail.com>
-Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DCBB5780A0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A307780BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 17:03:26 +0000 (UTC)
-Received: by mail-ot0-f196.google.com with SMTP id j2so458439ota.13
+	Tue, 28 Nov 2017 17:12:06 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id v19so884765wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 09:03:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=oPn/JwPPjoRaOTzgVJbu7VlKgIol7xcc+dUMefUTqkQ=;
-	b=biMUeZch2krM0hRGGXG4KO99Ik8N3B8KuCJxSN2Ah0TIGwcqcV9lJfyyLrHaYv7vs7
-	V/WGtDzxvPBe7QXhB25T8UsPqVcgkklk1Xceg1L7ogS/5ptW0jyh03btqKc0/TwFzYsz
-	a7xcBYwxlHX4vehtK0dBUr/vTfXmJSjzUYK8yNiQrQLcpSVLPKKrK1A6c25dpNDIb7GS
-	adYLJrPGYc4yjlYANvAinpIb6w6F3OY7jY38rjZdXHJaytlQMEM0yqFR5+SvtDkrRN+T
-	jk6fv2ko7EAC13Pzt3LIaaQV6ABKmP/PSVIUzTSYxlyww+tpfHofm0NmNRQDpbX3K0II
-	hqPQ==
+	Tue, 28 Nov 2017 09:12:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=k0gp3aeK4fXJh/HrSKi9+CA7rxX6FmFOmx/PHsmeoP0=;
+	b=zRA11IlW88GD6iATv/i9iAyF/+N2WiQG4koJIzOoOJpseY3ycxODfdX/A7h8DDH78L
+	LW3H9QkLAqr6VdyhVhJNmIIlfcuNItxVqhZ81zCuZkZX79Qak//4lTvi1afMx9qz0mtW
+	EfGnIgsAtJLu6Yxhn1D8fXufYc9McKvF10TMYweZvONO7xF6ouwYsf1WBa68sxxVlXlb
+	yBFffLDabzS2aT/fTM8O17vEHgU1w+TBsdDqQiB/1Z6tW+viVGbrXSNwh1zIlqreYDwF
+	5qx45Nrt2dziqCMRARASln7SyIrjC5mqxn41JcFBkUztANUyKgFxvAh4hUYdtXeNsF/R
+	N4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=oPn/JwPPjoRaOTzgVJbu7VlKgIol7xcc+dUMefUTqkQ=;
-	b=r7lwuZ7ZHD+xJ8fipm4yeLZXCQK0f1hxgjqGutAjAgwnZcIFs1WStiYGOI9lvAPenK
-	M165THzHq7YZMb/eAo+CwoGgUCXaJMiu61SG5K92e4NI27ihSXqYB0N5Q19eylcbdvlU
-	2I9sDSFyteIJIHgvVD5g8H1jMTq55BXitmXDkosDdB+D9n8C7YcjZCJKeCLjaj5ZMQsl
-	Nsi+vsqPWQceztQ4r0TY40CcDicGPFPdmbaOoKfXZ7rwZIo6upwE7wIzMgZrv/5MBmpE
-	1lbioM4/YEt03u3Tiut76yKmMpC/l73MYFC5PLJI6RtpF9i2Q2CczN3HQbB3xtIWQmDA
-	yDaw==
-X-Gm-Message-State: AJaThX65I/GxLygGy1cDelD/Ruj5YW2ve89SQNHkggAYMVElOHNZWBp0
-	eXpe9BDSU0fm3yBcL8H3wBcZ7gVU
-X-Google-Smtp-Source: AGs4zMacJWNORRXC+Szq+ISYtYgkk4PsIcH0Jy+MTFLrRIJdG8tAhSUGZd4Nv6rGmVi2Aupg5CoskA==
-X-Received: by 10.157.82.153 with SMTP id f25mr16880997oth.97.1511888607453;
-	Tue, 28 Nov 2017 09:03:27 -0800 (PST)
-Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=k0gp3aeK4fXJh/HrSKi9+CA7rxX6FmFOmx/PHsmeoP0=;
+	b=MjtitDrVgpcyKOX5sfqrjtnmT6uFEuvvYlZN+Lo496x+OJZlxNfsSnh3GHa5kjh8JL
+	tDWVaTVizBImq/yqigdwPX52divOBDTbfrxYCttDpdfnypZcCbVL+B+FzwuVDTtjVCtk
+	GhSwaH8uphZToq0p4BxMGtxJD0x+KDM6H9xs/fjoQ4nI391guDJq+dhVPp/pcMJeKXKB
+	q69mSWNn2aqLqrCtk56mSiOztJSQIqHL6qCwYsrSEztxPiPXxtx5kHHAoBrCRFz3YEgq
+	1EayPv/Nea4GbXkcD3TIKESXe4NUTJV3/Txr2efWILB2halc90jzPavfYbqz7pkQnFfz
+	qEdg==
+X-Gm-Message-State: AJaThX4VoOKwWfcIBtWodviCDxAzKjMIddHNkei268+qNhKfo0JSpV02
+	hWKf330zxXHJ+rXbWExA5l0jGxZ7
+X-Google-Smtp-Source: AGs4zMYY3t0ykFKvPHzMCvEdgi90NJEXkk9MUx6M9WMzm8sxttZWP8aR6Cc4uNDEwUymweljSiRW4Q==
+X-Received: by 10.80.245.181 with SMTP id u50mr3594347edm.171.1511889127497;
+	Tue, 28 Nov 2017 09:12:07 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	y51sm13742130oti.9.2017.11.28.09.03.25
+	d58sm12451678ede.62.2017.11.28.09.12.06
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 09:03:26 -0800 (PST)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+	Tue, 28 Nov 2017 09:12:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Nov 2017 11:03:23 -0600
-Message-Id: <20171128170323.4864-1-limon.anibal@gmail.com>
+Date: Tue, 28 Nov 2017 17:12:04 +0000
+Message-Id: <20171128171204.11665-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCHv4] recipes-graphics/piglit: Add patch to fix build in some platforms
+Subject: [PATCH] bash: disable aclocal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,82 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 17:03:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 Nov 2017 17:12:07 -0000
 
-From: Aníbal Limón <anibal.limon@linaro.org>
+Bash hand-maintains their aclocal.m4, so stop autoreconf from invoking aclocal
+and overwriting it.  This means we can remove the kludge to copy aclocal.m4 to
+acinclude.m4.
 
-The entry point is not guaranteed to exist, so use the
-piglit_egl_get_default_display() helper which does the correct thing.
-
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...gl-context-priority.c-Use-piglit_egl_get_.patch | 41 ++++++++++++++++++++++
- meta/recipes-graphics/piglit/piglit_git.bb         |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+ meta/recipes-extended/bash/bash.inc | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
-new file mode 100644
-index 0000000000..e2e87cc1ed
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
-@@ -0,0 +1,41 @@
-+From cb562a383229074b44db6998b85572d2abe7c363 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-+Date: Fri, 24 Nov 2017 10:31:55 -0600
-+Subject: [PATCH] tests/egl/egl-context-priority.c: Use
-+ piglit_egl_get_default_display
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The entry point is not guaranteed to exist, so use the
-+piglit_egl_get_default_display() helper which does the correct thing.
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
-+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
-+Reviewed-by: Tapani Pälli <tapani.palli@intel.com>
-+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
-+
-+Upstream-Status: Backport
-+
-+https://cgit.freedesktop.org/piglit/commit/?id=cb562a3832
-+---
-+ tests/egl/egl-context-priority.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
-+index 7f26fc614..9590ccae3 100644
-+--- a/tests/egl/egl-context-priority.c
-++++ b/tests/egl/egl-context-priority.c
-+@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
-+ 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
-+ 		piglit_report_result(PIGLIT_SKIP);
-+ 
-+-	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
-+-				    EGL_DEFAULT_DISPLAY, NULL);
-++	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
-+ 
-+ 	ok = eglInitialize(dpy, &major, &minor);
-+ 	if (!ok) {
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index d274a8fbd5..45fd534dfa 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
- SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
-+           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index f4e1f7a11f4..89c35bd59c1 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -6,7 +6,7 @@ DEPENDS = "ncurses bison-native virtual/libiconv"
  
+ inherit autotools gettext texinfo update-alternatives ptest
+ 
+-EXTRA_AUTORECONF += "--exclude=autoheader"
++EXTRA_AUTORECONF += "--exclude=autoheader --exclude=aclocal"
+ EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
+ 
+ # If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
+@@ -33,12 +33,6 @@ USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
+ 
+ CACHED_CONFIGUREVARS += "headersdir=${includedir}/${PN}"
+ 
+-do_configure_prepend () {
+-	if [ ! -e ${S}/acinclude.m4 ]; then
+-		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
+-	fi
+-}
+-
+ do_compile_ptest () {
+ 	oe_runmake buildtest
+ }
 -- 
 2.11.0
 
