@@ -1,48 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A307780BD
+Return-Path: <francescogiancane8@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A94826011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 17:12:06 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v19so884765wmh.5
+	Tue, 28 Nov 2017 17:22:39 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id y82so32706739wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 09:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=k0gp3aeK4fXJh/HrSKi9+CA7rxX6FmFOmx/PHsmeoP0=;
-	b=zRA11IlW88GD6iATv/i9iAyF/+N2WiQG4koJIzOoOJpseY3ycxODfdX/A7h8DDH78L
-	LW3H9QkLAqr6VdyhVhJNmIIlfcuNItxVqhZ81zCuZkZX79Qak//4lTvi1afMx9qz0mtW
-	EfGnIgsAtJLu6Yxhn1D8fXufYc9McKvF10TMYweZvONO7xF6ouwYsf1WBa68sxxVlXlb
-	yBFffLDabzS2aT/fTM8O17vEHgU1w+TBsdDqQiB/1Z6tW+viVGbrXSNwh1zIlqreYDwF
-	5qx45Nrt2dziqCMRARASln7SyIrjC5mqxn41JcFBkUztANUyKgFxvAh4hUYdtXeNsF/R
-	N4zg==
+	Tue, 28 Nov 2017 09:22:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=XOpcjaid8YNvML1/etHFeoCQr4O3MazR5LdgAiY4HL0=;
+	b=s9GZiAhPBGvjHMwhhQAwVcDyAU8A7hm85/mcK0zDRZ40ngjfExJr6AVqJUu594yHHS
+	iEl2z/AGpi+z5GjEOqEdaSLcZpSqyVykdAxOivQVPAEyOeV1YWERAekblpNJbh7Fs3OQ
+	AqfO/nLfPBPylGlpmsmcuqybYXC7q6EsYkTAQe944ffjr1FNj+e1rneLfKnarEGx/uQz
+	W8e5THyqbSPWkdjg861KamjaBNEnLxqdiXUpZy1NjP1BupyoxXFR4V5X/KurUTkI99CG
+	D7nv5mRLrQaLPVZLzRv/vIkTgCVIrQIJ8O1ojxr894E8w5UM9ZuS2QyQQShFmBKQM6NB
+	fWAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=k0gp3aeK4fXJh/HrSKi9+CA7rxX6FmFOmx/PHsmeoP0=;
-	b=MjtitDrVgpcyKOX5sfqrjtnmT6uFEuvvYlZN+Lo496x+OJZlxNfsSnh3GHa5kjh8JL
-	tDWVaTVizBImq/yqigdwPX52divOBDTbfrxYCttDpdfnypZcCbVL+B+FzwuVDTtjVCtk
-	GhSwaH8uphZToq0p4BxMGtxJD0x+KDM6H9xs/fjoQ4nI391guDJq+dhVPp/pcMJeKXKB
-	q69mSWNn2aqLqrCtk56mSiOztJSQIqHL6qCwYsrSEztxPiPXxtx5kHHAoBrCRFz3YEgq
-	1EayPv/Nea4GbXkcD3TIKESXe4NUTJV3/Txr2efWILB2halc90jzPavfYbqz7pkQnFfz
-	qEdg==
-X-Gm-Message-State: AJaThX4VoOKwWfcIBtWodviCDxAzKjMIddHNkei268+qNhKfo0JSpV02
-	hWKf330zxXHJ+rXbWExA5l0jGxZ7
-X-Google-Smtp-Source: AGs4zMYY3t0ykFKvPHzMCvEdgi90NJEXkk9MUx6M9WMzm8sxttZWP8aR6Cc4uNDEwUymweljSiRW4Q==
-X-Received: by 10.80.245.181 with SMTP id u50mr3594347edm.171.1511889127497;
-	Tue, 28 Nov 2017 09:12:07 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	d58sm12451678ede.62.2017.11.28.09.12.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 09:12:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Nov 2017 17:12:04 +0000
-Message-Id: <20171128171204.11665-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bash: disable aclocal
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=XOpcjaid8YNvML1/etHFeoCQr4O3MazR5LdgAiY4HL0=;
+	b=uYRuaRvNESMdiZzNMteGciwVx2q46Ivzaxn9oDOjMbh9Bh/NRBK11nMiXApCQLkmoa
+	alBIHvQ1Zu+vPDTWESrZ98zlLNC1g93FsjJB4omKuifYlaIzcCePRT81OZ6eEKHcFFch
+	IXWOSafoL5Zf4otLzQSP2gDGGIyJp75N5AWR24I0MB3XLWQgoxtZU+2HPd7uAH4y9aeI
+	oFld3vgJ70yX2GRpGeUWk5pWKNA1u3U5dkwC96uK66PdPtdCmpQVcVxiNWC6nr6RYAEt
+	i87st3xj7jiPDr75qAveW6dmeJrDqjzc517ayoADRqmBjnIa29Mvl8knu2galLbdWPjO
+	xfvg==
+X-Gm-Message-State: AJaThX5ACaz3ura4STtWoN5YGrOX11WZc129J86XodVPc2wlfG2qjpHw
+	cU1TqCrBf23K1WIZKlYZVDUmujajGAGln50mhQht/g==
+X-Google-Smtp-Source: AGs4zMaIStOk3RBirgv+JOwA78x2TwYpfuF4mrSz+GxaP0uUkqMO66Sl9nMrJZ5cLtyqWTb/p6sphzR+ZcFvHkL+X4g=
+X-Received: by 10.80.179.120 with SMTP id r53mr3763472edd.174.1511889759987;
+	Tue, 28 Nov 2017 09:22:39 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.80.169.50 with HTTP; Tue, 28 Nov 2017 09:22:39 -0800 (PST)
+From: Francesco Giancane <francescogiancane8@gmail.com>
+Date: Tue, 28 Nov 2017 18:22:39 +0100
+Message-ID: <CAEQ58sgvjUMZK8VfmRmgs2+G7VGQ9rL71NgTxmUg=S832_ANvg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: connman-wait-online is not behaving properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +49,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 17:12:07 -0000
+X-List-Received-Date: Tue, 28 Nov 2017 17:22:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Bash hand-maintains their aclocal.m4, so stop autoreconf from invoking aclocal
-and overwriting it.  This means we can remove the kludge to copy aclocal.m4 to
-acinclude.m4.
+Hi everyone,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/bash/bash.inc | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+I am doing a build on the Raspberry Pi 3 for an University project. I
+included in the core-image-minimal image the connman packages, so that
+I have connmanctl, connman.service and connman-wait-online.service
+enabled.
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index f4e1f7a11f4..89c35bd59c1 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -6,7 +6,7 @@ DEPENDS = "ncurses bison-native virtual/libiconv"
- 
- inherit autotools gettext texinfo update-alternatives ptest
- 
--EXTRA_AUTORECONF += "--exclude=autoheader"
-+EXTRA_AUTORECONF += "--exclude=autoheader --exclude=aclocal"
- EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
- 
- # If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
-@@ -33,12 +33,6 @@ USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
- 
- CACHED_CONFIGUREVARS += "headersdir=${includedir}/${PN}"
- 
--do_configure_prepend () {
--	if [ ! -e ${S}/acinclude.m4 ]; then
--		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
--	fi
--}
--
- do_compile_ptest () {
- 	oe_runmake buildtest
- }
--- 
-2.11.0
+Wired network is set up properly and so is wifi using connmanctl. I
+can successfully connect to the board using ssh.
 
+What bugs me is the fact that connman-wait-online is not signaling
+properly systemd that the network is configured.
+
+systemctl status network.target yields that the target network has
+been reached so far.
+On the same side, network-online.target is not even started (no one
+notified it of the network being online).
+
+Also, connman-wait-online.service seems to not be even started
+(reports inactive (dead)).
+
+What is happening? Can someone tell me what I am missing in order to
+connman-wait-online to correctly signal network being online?
+
+Many thanks,
+Francesco
 
