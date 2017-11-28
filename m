@@ -1,33 +1,31 @@
-Return-Path: <prvs=4980545f9=Martin.Hundeboll@prevas.dk>
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 07F4C719B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CBB660720
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Nov 2017 12:56:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=1894; q=dns/txt;
-	s=ironport2; t=1511873780; x=1543409780;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=fno1+K/gzR6BiDmIGFSCP5tPeT7XhSNT50Sow084tg0=;
-	b=XXXpy3wF54nxMpjdJ5QxO6S8PsZIHmNySqWHwNyq6SmDSj4XnAEwnVjJ
-	XrhK4EEMeBqWRjZgG/Ma0iNRw9SWDldER47f5typzMYZW9aIV68jD6rnU
-	2lCje/iUWoJDj2woDKxE168LP8N4gDqy3y9ICCoTRc+yVwSaq5+qSlahE k=;
-X-IronPort-AV: E=Sophos;i="5.44,468,1505772000"; 
-   d="scan'208";a="2737323"
-Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
-	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Nov 2017 13:56:18 +0100
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
-	with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 28 Nov 2017 13:56:17 +0100
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Nov 2017 13:56:11 +0100
-Message-ID: <20171128125611.3338-1-mnhu@prevas.dk>
-X-Mailer: git-send-email 2.15.0
-MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH] wic: support filesystem label for rawcopy
+	Tue, 28 Nov 2017 13:15:24 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vASDFH3p005954
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 28 Nov 2017 13:15:19 GMT
+Message-ID: <1511874917.862.134.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 28 Nov 2017 13:15:17 +0000
+In-Reply-To: <6a03b501-31d9-5e20-4c40-ce381bb4ad17@windriver.com>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71D2023@fmsmsx111.amr.corp.intel.com>
+	<45922039-30bd-7fbc-89be-c037c068a0db@windriver.com>
+	<1511432407.862.111.camel@linuxfoundation.org>
+	<90368c50-316e-b03e-252f-33110c059737@windriver.com>
+	<bfe14ba9-7de8-6e8d-9d26-2fd05a4e62a2@windriver.com>
+	<6a03b501-31d9-5e20-4c40-ce381bb4ad17@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org, "Xu, Chi" <Chi.Xu@windriver.com>,
+	"WOLD, SAUL" <saul.wold@intel.com>
+Subject: =?UTF-8?B?UmU6IEdvb2QgbmV3cyBSZTogWW9jdG8gUHJvamVjdCBTdGF0dXMgV1c0N+KAmTE3?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,58 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 12:56:18 -0000
+X-List-Received-Date: Tue, 28 Nov 2017 13:15:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The '--label' argument should work for '--source rawcopy' as it does for
-'--source rootfs', so add a method in RawCopyPlugin to update the label
-on the temporary filesystem images.
+On Tue, 2017-11-28 at 20:48 +0800, Robert Yang wrote:
+> Hi RP,
+> On 11/28/2017 06:47 PM, Robert Yang wrote:
+> > # Works
+> > $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot
+> > 
+> > # Doesn't work, like hang:
+> > $ runqemu tmp/deploy/images/qemux86-64/ nographic snapshot kvm
+> I upgraded qemu-native to qemu-2.11.0-rc2, then no hangs any more. I
+> dropped
+> the conflicted patches during upgrade. I will send a formal upgrade
+> tomorrow
+> it this is acceptable.
+> 
+> Here is the draft patch for testing:
+> 
+>    git://git.openembedded.org/openembedded-core-contrib rbt/qemu_test
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/
+> qemu_test
 
-Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
----
- scripts/lib/wic/plugins/source/rawcopy.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Thanks for the data point. I've been putting my data into:
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 424ed26ed6..e86398ac8f 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -32,6 +32,25 @@ class RawCopyPlugin(SourcePlugin):
- 
-     name = 'rawcopy'
- 
-+    @staticmethod
-+    def do_image_label(fstype, dst, label):
-+        if fstype.startswith('ext'):
-+            cmd = 'tune2fs -L %s %s' % (label, dst)
-+        elif fstype in ('msdos', 'vfat'):
-+            cmd = 'dosfslabel %s %s' % (dst, label)
-+        elif fstype == 'btrfs':
-+            cmd = 'btrfs filesystem label %s %s' % (dst, label)
-+        elif fstype == 'swap':
-+            cmd = 'mkswap -L %s %s' % (label, dst)
-+        elif fstype == 'squashfs':
-+            raise WicError("It's not possible to update a squashfs "
-+                           "filesystem label '%s'" % (label))
-+        else:
-+            raise WicError("Cannot update filesystem label: "
-+                           "Unknown fstype: '%s'" % (fstype))
-+
-+        exec_cmd(cmd)
-+
-     @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-@@ -66,4 +85,7 @@ class RawCopyPlugin(SourcePlugin):
-         if filesize > part.size:
-             part.size = filesize
- 
-+        if part.label:
-+            RawCopyPlugin.do_image_label(part.fstype, dst, part.label)
-+
-         part.source_file = dst
--- 
-2.15.0
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
 
+As you can see there, I think there are actually two issues:
+
+a) A boot hang around the ..TIMER line where the guest isn't getting
+timer interupts
+
+b) Something which causes the APIC to see "version 0".
+
+I applied the 2.11-rc2 upgrade and it seemed to stop the hangs I was
+seeing with "-no-kvm-irqchip" but doesn't stop the ones I see without
+that.
+
+I am seeing hangs in guests where the version 0 message appears as well
+as where we see 0x14. The 0x14 versions do boot further into userspace
+usually.
+
+It also seems host hardware specific as I cannot get my local build
+machine to hang as yet. That could mean its timing or could be cpu
+revision, I've removed many but not all OS differences :/.
+
+Cheers,
+
+Richard
 
