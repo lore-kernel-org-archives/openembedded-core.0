@@ -1,27 +1,27 @@
 Return-Path: <rich.tollerton@ni.com>
 Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
 	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 133BE77DB5
+	by mail.openembedded.org (Postfix) with ESMTP id 113A86612D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Nov 2017 18:03:08 +0000 (UTC)
 Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
 	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	vATI2YLE003154; Wed, 29 Nov 2017 12:03:09 -0600
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2egpecqrkq-1
+	vATI2ZVu003159; Wed, 29 Nov 2017 12:03:09 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2egpecqrkn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=NOT); Wed, 29 Nov 2017 12:03:09 -0600
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
-	vATI37pU017590
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
+	vATI37cG023592
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
 	Wed, 29 Nov 2017 12:03:07 -0600
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
 	Server (TLS) id 15.0.1156.6; Wed, 29 Nov 2017 12:03:07 -0600
 Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
 	Server (TLS) id 15.0.1156.6; Wed, 29 Nov 2017 12:03:07 -0600
 Received: from weregild.amer.corp.natinst.com (130.164.49.7) by
 	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
@@ -29,8 +29,8 @@ Received: from weregild.amer.corp.natinst.com (130.164.49.7) by
 	id 15.0.1156.6 via Frontend Transport; Wed, 29 Nov 2017 12:03:07 -0600
 From: Richard Tollerton <rich.tollerton@ni.com>
 To: <seebs@seebs.net>, <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Nov 2017 12:02:41 -0600
-Message-ID: <20171129180242.29308-4-rich.tollerton@ni.com>
+Date: Wed, 29 Nov 2017 12:02:40 -0600
+Message-ID: <20171129180242.29308-3-rich.tollerton@ni.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20171129180242.29308-1-rich.tollerton@ni.com>
 References: <20171129180242.29308-1-rich.tollerton@ni.com>
@@ -45,7 +45,7 @@ X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
 	adultscore=0
 	classifier=spam adjust=30 reason=mlx scancount=1
 	engine=8.0.1-1709140000 definitions=main-1711290233
-Subject: [PATCH][PSEUDO 3/4] test-tclsh-fork.sh: fix permissions
+Subject: [PATCH][PSEUDO 2/4] test-cp-setuid.sh: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,17 +61,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 Nov 2017 18:03:08 -0000
 Content-Type: text/plain
 
-This was mode 644, needs to be mode 755.
+New test to verify that special bits including setuid are preserved
+under `cp -Rp`. This is a regression test of [YOCTO #12379]. Without a
+recently committed fix, this test will fail on coreutils 8.24 and later.
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- test/test-tclsh-fork.sh | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- mode change 100644 => 100755 test/test-tclsh-fork.sh
+ test/test-cp-setuid.sh | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100755 test/test-cp-setuid.sh
 
-diff --git a/test/test-tclsh-fork.sh b/test/test-tclsh-fork.sh
-old mode 100644
-new mode 100755
+diff --git a/test/test-cp-setuid.sh b/test/test-cp-setuid.sh
+new file mode 100755
+index 0000000..cdb2cd3
+--- /dev/null
++++ b/test/test-cp-setuid.sh
+@@ -0,0 +1,23 @@
++#!/bin/bash
++set -e
++
++# Verify that special bits (setuid/setgid/sticky) are preserved.
++#
++# Return vals:
++#
++#                 2 - Incorrect permissions
++# All other nonzero - Unexpected command error
++#                 0 - Pass
++
++trap "rm -rf d1 d2" EXIT
++
++mkdir d1
++chmod 7777 d1
++cp -Rp d1 d2
++perms=`ls -od d1 d2 | cut -c 1-10 | uniq`
++if [ "$perms" != drwsrwsrwt ]; then
++	exit 2
++fi
++
++
++exit 0
 -- 
 2.14.1
 
