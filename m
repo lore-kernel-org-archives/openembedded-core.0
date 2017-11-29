@@ -1,27 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id E72D97807C
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5664600BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 13:14:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2017 05:14:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,473,1505804400"; d="scan'208";a="10978705"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2017 05:14:10 -0800
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <20171129131304.17511-1-alexander.kanavin@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <3253c0f5-1868-a5c2-c637-655357fefe2b@linux.intel.com>
-Date: Wed, 29 Nov 2017 15:14:39 +0200
+	Wed, 29 Nov 2017 14:23:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vATENNQA021974
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Nov 2017 06:23:24 -0800 (PST)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 29 Nov 2017 06:23:23 -0800
+To: Saul Wold <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <20171129032818.2545-1-sgw@linux.intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <2b2306eb-7a97-b1e1-918b-4a47438ecad2@windriver.com>
+Date: Wed, 29 Nov 2017 09:23:22 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171129131304.17511-1-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCHv2] devtool: add license checksum change handling to 'devtool upgrade'
+In-Reply-To: <20171129032818.2545-1-sgw@linux.intel.com>
+Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,17 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 13:14:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Wed, 29 Nov 2017 14:23:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 11/29/2017 03:13 PM, Alexander Kanavin wrote:
-> 3) and the cool part: devtool will create a diff of the old and new licenses,
-> and write the diff into the workspace recipe as a comment, like this:
+On 11/28/2017 10:28 PM, Saul Wold wrote:
+> When using KBUILD_DEFCONFIG, $sccs should be set to the $WORKDIR/defconfig
+> regardless if it compares or is copied. Otherwise $sccs is not set and the
+> defconfig is not found correctly.
 
-v2 adds a small tweak here: add an empty line at the end of the comment 
-which separates it better from the rest of the recipe.
+Actually, looking at this more today, and this morning in my testing.
+This shouldn't be necessary .. it doesn't hurt anything (well, actually
+it could end up with two defconfigs in the variable, but that also
+should be ok).
 
-Alex
+> 
+> Part of
+> [YOCTO #12162]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/classes/kernel-yocto.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 1d447951c49..98ec78fb768 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -110,8 +110,8 @@ do_kernel_metadata() {
+>   				fi
+>   			else
+>   				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
+> -				sccs="${WORKDIR}/defconfig"
+>   			fi
+> +			sccs="${WORKDIR}/defconfig"
+
+The test that was protecting this assignment is:
+
+    if [ -f "${WORKDIR}/defconfig" ]; then
+
+and then:
+
+   cmp "${WORKDIR}/defconfig" 
+"${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}"
+
+The only way that a defconfig can be in ${WORKDIR}/defconfig by
+the time this runs, is if the fetcher puts it there. Which means
+it is on the SRC_URI and comes from the recipe writer's layer.
+
+There is existing code that already picks this up and adds it
+to the configuration queue:
+
+         sccs="$sccs ${@" ".join(find_sccs(d))}"
+
+So that defconfig, is already going to be picked up directly
+from the SRC_URI.
+
+Bruce
+
+
+>   		else
+>   			bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
+>   		fi
+> 
+
 
