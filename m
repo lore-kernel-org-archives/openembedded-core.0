@@ -1,27 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C666B60685
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E8077EFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 06:47:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Nov 2017 22:47:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,471,1505804400"; d="scan'208";a="10871725"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2017 22:47:03 -0800
-To: zhengrq <zhengrq.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-References: <1511932233-21738-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b825822d-713c-d31a-e071-bf0733555040@linux.intel.com>
-Date: Wed, 29 Nov 2017 08:47:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Wed, 29 Nov 2017 07:15:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAT7FMGU005470
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Nov 2017 23:15:22 -0800
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 28 Nov 2017 23:15:16 -0800
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Nov 2017 14:54:18 +0800
+Message-ID: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 2.0.1
 MIME-Version: 1.0
-In-Reply-To: <1511932233-21738-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Subject: Re: [PATCH] libyui
+Subject: [PATCH] gmp: depends on flex-native to fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,16 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 06:47:03 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Nov 2017 07:15:21 -0000
+Content-Type: text/plain
 
-On 11/29/2017 07:10 AM, zhengrq wrote:
-> Add a new recipe libyui.
+fix below parallel building issue:
+configure:27365: result: flex
+configure:27403: flex conftest.l
+.../sysroots/x86_64-linux/usr/bin/flex.real: No such file or directory
+configure:27407: $? = 127
+configure:27409: checking lex output file root
+configure:27420: error: cannot find output from flex; giving up
 
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ meta/recipes-support/gmp/gmp.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Add why? What does it do? Why should it be in oe-core?
+diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+index abac8cf..1b35eaa 100644
+--- a/meta/recipes-support/gmp/gmp.inc
++++ b/meta/recipes-support/gmp/gmp.inc
+@@ -10,3 +10,5 @@ PACKAGECONFIG[readline] = "--with-readline=yes,--with-readline=no,readline"
+ 
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
++
++DEPENDS = "flex-native"
+-- 
+2.0.1
 
-Alex
 
