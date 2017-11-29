@@ -1,21 +1,27 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2841B6FFD7
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 081F36FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 16:26:36 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2017 08:26:37 -0800
+	Wed, 29 Nov 2017 16:30:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Nov 2017 08:30:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,474,1508828400"; d="scan'208";a="182004261"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga006.fm.intel.com with ESMTP; 29 Nov 2017 08:26:37 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Nov 2017 08:26:13 -0800
-Message-Id: <20171129162613.102550-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] image-buildinfo.bbclass: include IMAGE related variables
+X-IronPort-AV: E=Sophos;i="5.45,338,1508828400"; d="scan'208";a="11047497"
+Received: from swold-mobl2.jf.intel.com ([10.24.8.93])
+	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2017 08:30:51 -0800
+Message-ID: <1511973051.2714.120.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 29 Nov 2017 08:30:51 -0800
+In-Reply-To: <2b2306eb-7a97-b1e1-918b-4a47438ecad2@windriver.com>
+References: <20171129032818.2545-1-sgw@linux.intel.com>
+	<2b2306eb-7a97-b1e1-918b-4a47438ecad2@windriver.com>
+X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,51 +34,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 16:26:37 -0000
+X-List-Received-Date: Wed, 29 Nov 2017 16:30:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Wed, 2017-11-29 at 09:23 -0500, Bruce Ashfield wrote:
+> On 11/28/2017 10:28 PM, Saul Wold wrote:
+> > When using KBUILD_DEFCONFIG, $sccs should be set to the
+> > $WORKDIR/defconfig
+> > regardless if it compares or is copied. Otherwise $sccs is not set
+> > and the
+> > defconfig is not found correctly.
+> 
+> Actually, looking at this more today, and this morning in my testing.
+> This shouldn't be necessary .. it doesn't hurt anything (well,
+> actually
+> it could end up with two defconfigs in the variable, but that also
+> should be ok).
+> 
+Ok, I understand, it's in find_sccs() where if you have "defconfig" in
+the SRC_URI then with my change you could end up with two defconfigs.
 
-These variables provide additional information (image related) targeted
-for QA image verification. Now, target /etc/build looks like:
+The problem I saw was if one just sets KBUILD_DEFCONFIG and does not
+set any config info on the SRC_URI then it's possible for $sccs to be
+empty, which was bad.
 
-    root@qemux86:~# cat /etc/build
-    -----------------------
-    Build Configuration:  |
-    -----------------------
-    DISTRO = poky
-    DISTRO_VERSION = 2.4+snapshot-20171129
-    IMAGE_NAME = core-image-minimal-qemux86-20171129162018
-    IMAGE_OVERHEAD_FACTOR = 1.3
-    IMAGE_ROOTFS_EXTRA_SPACE = 0
-    IMAGE_PKGTYPE = rpm
-    -----------------------
-    Layer Revisions:      |
-    -----------------------
-    meta              = master:72867393fe2004ab9f0ee23eb09a975c82938b9e -- modified
-    meta-poky         = master:72867393fe2004ab9f0ee23eb09a975c82938b9e -- modified
-    meta-yocto-bsp    = master:72867393fe2004ab9f0ee23eb09a975c82938b9e -- modified
+Maybe a cleaning of multiple "defconfig" entries on $sccs is needed?
 
-[YOCTO #10503]
+Sau!
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/classes/image-buildinfo.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
-index 213fb9cf9b..308fcc630b 100644
---- a/meta/classes/image-buildinfo.bbclass
-+++ b/meta/classes/image-buildinfo.bbclass
-@@ -10,7 +10,7 @@
- #
- 
- # Desired variables to display 
--IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION"
-+IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION IMAGE_NAME IMAGE_OVERHEAD_FACTOR IMAGE_ROOTFS_EXTRA_SPACE IMAGE_PKGTYPE"
- 
- # Desired location of the output file in the image.
- IMAGE_BUILDINFO_FILE ??= "${sysconfdir}/build"
--- 
-2.12.3
-
+> > 
+> > Part of
+> > [YOCTO #12162]
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> >   meta/classes/kernel-yocto.bbclass | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/kernel-yocto.bbclass
+> > b/meta/classes/kernel-yocto.bbclass
+> > index 1d447951c49..98ec78fb768 100644
+> > --- a/meta/classes/kernel-yocto.bbclass
+> > +++ b/meta/classes/kernel-yocto.bbclass
+> > @@ -110,8 +110,8 @@ do_kernel_metadata() {
+> >   				fi
+> >   			else
+> >   				cp -f
+> > ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
+> > -				sccs="${WORKDIR}/defconfig"
+> >   			fi
+> > +			sccs="${WORKDIR}/defconfig"
+> 
+> The test that was protecting this assignment is:
+> 
+>     if [ -f "${WORKDIR}/defconfig" ]; then
+> 
+> and then:
+> 
+>    cmp "${WORKDIR}/defconfig" 
+> "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}"
+> 
+> The only way that a defconfig can be in ${WORKDIR}/defconfig by
+> the time this runs, is if the fetcher puts it there. Which means
+> it is on the SRC_URI and comes from the recipe writer's layer.
+> 
+> There is existing code that already picks this up and adds it
+> to the configuration queue:
+> 
+>          sccs="$sccs ${@" ".join(find_sccs(d))}"
+> 
+> So that defconfig, is already going to be picked up directly
+> from the SRC_URI.
+> 
+> Bruce
+> 
+> 
+> >   		else
+> >   			bbfatal "A KBUILD_DEFCONFIG
+> > '${KBUILD_DEFCONFIG}' was specified, but not present in the source
+> > tree"
+> >   		fi
+> > 
+> 
+> 
 
