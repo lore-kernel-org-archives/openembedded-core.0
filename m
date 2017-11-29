@@ -1,26 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B1D560116
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 63AE577EA8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 03:28:35 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Nov 2017 19:28:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,470,1505804400"; 
-   d="scan'208";a="7354124"
-Received: from jskaggs5-mobl7.amr.corp.intel.com (HELO
-	swold-mobl2.amr.intel.com) ([10.252.195.141])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2017 19:28:35 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, bruce.ashfield@windriver.com
-Date: Tue, 28 Nov 2017 19:28:18 -0800
-Message-Id: <20171129032818.2545-2-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <20171129032818.2545-1-sgw@linux.intel.com>
+	Wed, 29 Nov 2017 03:46:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAT3kftp019655
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 28 Nov 2017 19:46:41 -0800 (PST)
+Received: from server.local (128.224.21.180) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 28 Nov 2017 19:46:40 -0800
+To: Saul Wold <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
 References: <20171129032818.2545-1-sgw@linux.intel.com>
-Subject: [PATCH 2/2] kernel-yocto: Stop the build if defconfig is missing
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <3ad9c2bf-f486-4062-6d8c-70ce3779b39b@windriver.com>
+Date: Tue, 28 Nov 2017 22:46:40 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20171129032818.2545-1-sgw@linux.intel.com>
+Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 03:28:35 -0000
+X-List-Received-Date: Wed, 29 Nov 2017 03:46:42 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The bberror does not stop the build correctly, this should be a
-bbfatal_log to ensure the failure correctly stops the build and logs
-the failure.
+Let me take both these into my queue for some extra testing.
 
-Part of
-[YOCTO #12162]
+I have some other changes that could interact with them.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/kernel-yocto.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But they do look fine to me .. I'd just like to test them and
+put them in my pull request.
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 98ec78fb768..2edf0fd1578 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -146,7 +146,7 @@ do_kernel_metadata() {
- 	if [ -z "$bsp_definition" ]; then
- 		echo "$sccs" | grep -q defconfig
- 		if [ $? -ne 0 ]; then
--			bberror "Could not locate BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
-+			bbfatal_log "Could not locate BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
- 		fi
- 	fi
- 	meta_dir=$(kgit --meta)
--- 
-2.13.6
+Bruce
+
+On 2017-11-28 10:28 PM, Saul Wold wrote:
+> When using KBUILD_DEFCONFIG, $sccs should be set to the $WORKDIR/defconfig
+> regardless if it compares or is copied. Otherwise $sccs is not set and the
+> defconfig is not found correctly.
+> 
+> Part of
+> [YOCTO #12162]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/classes/kernel-yocto.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 1d447951c49..98ec78fb768 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -110,8 +110,8 @@ do_kernel_metadata() {
+>   				fi
+>   			else
+>   				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
+> -				sccs="${WORKDIR}/defconfig"
+>   			fi
+> +			sccs="${WORKDIR}/defconfig"
+>   		else
+>   			bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
+>   		fi
+> 
 
 
