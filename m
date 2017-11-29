@@ -1,51 +1,32 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 113A86612D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BE277CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 18:03:08 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	vATI2ZVu003159; Wed, 29 Nov 2017 12:03:09 -0600
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2egpecqrkn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 29 Nov 2017 12:03:09 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod2.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
-	vATI37cG023592
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Wed, 29 Nov 2017 12:03:07 -0600
-Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 29 Nov 2017 12:03:07 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 29 Nov 2017 12:03:07 -0600
-Received: from weregild.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Wed, 29 Nov 2017 12:03:07 -0600
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: <seebs@seebs.net>, <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Nov 2017 12:02:40 -0600
-Message-ID: <20171129180242.29308-3-rich.tollerton@ni.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20171129180242.29308-1-rich.tollerton@ni.com>
-References: <20171129180242.29308-1-rich.tollerton@ni.com>
+	Wed, 29 Nov 2017 18:13:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vATIDhqk021535
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 29 Nov 2017 10:13:44 -0800
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 29 Nov 2017 10:13:43 -0800
+To: Saul Wold <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <20171129032818.2545-1-sgw@linux.intel.com>
+	<2b2306eb-7a97-b1e1-918b-4a47438ecad2@windriver.com>
+	<1511973051.2714.120.camel@linux.intel.com>
+	<f4f037ff-fcde-a801-ec0d-4068fae961e2@windriver.com>
+	<1511977937.2714.137.camel@linux.intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <5a974b15-a273-636c-6424-b74a747276ff@windriver.com>
+Date: Wed, 29 Nov 2017 13:13:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-11-29_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1709140000 definitions=main-1711290233
-Subject: [PATCH][PSEUDO 2/4] test-cp-setuid.sh: add
+In-Reply-To: <1511977937.2714.137.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +39,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 18:03:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Nov 2017 18:13:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-New test to verify that special bits including setuid are preserved
-under `cp -Rp`. This is a regression test of [YOCTO #12379]. Without a
-recently committed fix, this test will fail on coreutils 8.24 and later.
+On 11/29/2017 12:52 PM, Saul Wold wrote:
+> On Wed, 2017-11-29 at 11:56 -0500, Bruce Ashfield wrote:
+>> On 11/29/2017 11:30 AM, Saul Wold wrote:
+>>> On Wed, 2017-11-29 at 09:23 -0500, Bruce Ashfield wrote:
+>>>> On 11/28/2017 10:28 PM, Saul Wold wrote:
+>>>>> When using KBUILD_DEFCONFIG, $sccs should be set to the
+>>>>> $WORKDIR/defconfig
+>>>>> regardless if it compares or is copied. Otherwise $sccs is not
+>>>>> set
+>>>>> and the
+>>>>> defconfig is not found correctly.
+>>>>
+>>>> Actually, looking at this more today, and this morning in my
+>>>> testing.
+>>>> This shouldn't be necessary .. it doesn't hurt anything (well,
+>>>> actually
+>>>> it could end up with two defconfigs in the variable, but that
+>>>> also
+>>>> should be ok).
+>>>>
+>>>
+>>> Ok, I understand, it's in find_sccs() where if you have "defconfig"
+>>> in
+>>> the SRC_URI then with my change you could end up with two
+>>> defconfigs.
+>>>
+>>> The problem I saw was if one just sets KBUILD_DEFCONFIG and does
+>>> not
+>>> set any config info on the SRC_URI then it's possible for $sccs to
+>>> be
+>>> empty, which was bad.
+>>
+>> I took a look at the conditions again, and I can't see that
+>> path. But that doesn't mean it isn't there, is this a configuration
+>> that I can build and see myself ?
+>>
+> Set KBUILD_DEFCONFIG to some kernel defconfig, ensure SRC_URI does not
+> have any defconfig, .scc or .cfg files.  Build once that will populate
+> the $WORKDIR/defconfig with vai the else path of the first if and the
+> cp path in the do_kernel_metadata() code.  Build a second time and the
+> $WORKDIR/defconfig exists now and the first part of the if with the cmp
+> will occur and the defconfig will not be found because $sccs does not
+> get set in the original code when the cmp is equal.
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
- test/test-cp-setuid.sh | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100755 test/test-cp-setuid.sh
+That's the ticket .. I didn't think of a 2nd pass through the
+build.
 
-diff --git a/test/test-cp-setuid.sh b/test/test-cp-setuid.sh
-new file mode 100755
-index 0000000..cdb2cd3
---- /dev/null
-+++ b/test/test-cp-setuid.sh
-@@ -0,0 +1,23 @@
-+#!/bin/bash
-+set -e
-+
-+# Verify that special bits (setuid/setgid/sticky) are preserved.
-+#
-+# Return vals:
-+#
-+#                 2 - Incorrect permissions
-+# All other nonzero - Unexpected command error
-+#                 0 - Pass
-+
-+trap "rm -rf d1 d2" EXIT
-+
-+mkdir d1
-+chmod 7777 d1
-+cp -Rp d1 d2
-+perms=`ls -od d1 d2 | cut -c 1-10 | uniq`
-+if [ "$perms" != drwsrwsrwt ]; then
-+	exit 2
-+fi
-+
-+
-+exit 0
--- 
-2.14.1
+So with that extra assignment + a duplicate removal, it should
+be safe for all the paths.
+
+Did you want to send a v2, or did you want me to make that tweak?
+
+Either way, I'll continue testing here.
+
+Bruce
+
+> 
+> Sau!
+> 
+>>>
+>>> Maybe a cleaning of multiple "defconfig" entries on $sccs is
+>>> needed?
+>>>
+>>
+>> Yah, regardless of my above statement, it certainly wouldn't hurt
+>> and would be a good safeguard, since two defconfigs would trigger
+>> a M x N configuration audit of options (where M and N could be
+>> in the thousands) .. and hence, take a long time.
+>>
+>> Bruce
+>>
+>>> Sau!
+>>>
+>>>
+>>>>>
+>>>>> Part of
+>>>>> [YOCTO #12162]
+>>>>>
+>>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>>>> ---
+>>>>>     meta/classes/kernel-yocto.bbclass | 2 +-
+>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/meta/classes/kernel-yocto.bbclass
+>>>>> b/meta/classes/kernel-yocto.bbclass
+>>>>> index 1d447951c49..98ec78fb768 100644
+>>>>> --- a/meta/classes/kernel-yocto.bbclass
+>>>>> +++ b/meta/classes/kernel-yocto.bbclass
+>>>>> @@ -110,8 +110,8 @@ do_kernel_metadata() {
+>>>>>     				fi
+>>>>>     			else
+>>>>>     				cp -f
+>>>>> ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}
+>>>>> ${WORKDIR}/defconfig
+>>>>> -				sccs="${WORKDIR}/defconfig"
+>>>>>     			fi
+>>>>> +			sccs="${WORKDIR}/defconfig"
+>>>>
+>>>> The test that was protecting this assignment is:
+>>>>
+>>>>       if [ -f "${WORKDIR}/defconfig" ]; then
+>>>>
+>>>> and then:
+>>>>
+>>>>      cmp "${WORKDIR}/defconfig"
+>>>> "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}"
+>>>>
+>>>> The only way that a defconfig can be in ${WORKDIR}/defconfig by
+>>>> the time this runs, is if the fetcher puts it there. Which means
+>>>> it is on the SRC_URI and comes from the recipe writer's layer.
+>>>>
+>>>> There is existing code that already picks this up and adds it
+>>>> to the configuration queue:
+>>>>
+>>>>            sccs="$sccs ${@" ".join(find_sccs(d))}"
+>>>>
+>>>> So that defconfig, is already going to be picked up directly
+>>>> from the SRC_URI.
+>>>>
+>>>> Bruce
+>>>>
+>>>>
+>>>>>     		else
+>>>>>     			bbfatal "A KBUILD_DEFCONFIG
+>>>>> '${KBUILD_DEFCONFIG}' was specified, but not present in the
+>>>>> source
+>>>>> tree"
+>>>>>     		fi
+>>>>>
+>>>>
+>>>>
+>>
+>>
 
 
