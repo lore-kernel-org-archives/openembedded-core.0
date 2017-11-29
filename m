@@ -1,30 +1,48 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A53F1600BC
+Return-Path: <rich.tollerton@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id A54BC77D16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 17:52:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2017 09:52:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,338,1508828400"; 
-   d="scan'208";a="8541831"
-Received: from swold-mobl2.jf.intel.com ([10.24.8.93])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2017 09:52:17 -0800
-Message-ID: <1511977937.2714.137.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
-	openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 29 Nov 2017 09:52:17 -0800
-In-Reply-To: <f4f037ff-fcde-a801-ec0d-4068fae961e2@windriver.com>
-References: <20171129032818.2545-1-sgw@linux.intel.com>
-	<2b2306eb-7a97-b1e1-918b-4a47438ecad2@windriver.com>
-	<1511973051.2714.120.camel@linux.intel.com>
-	<f4f037ff-fcde-a801-ec0d-4068fae961e2@windriver.com>
-X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
+	Wed, 29 Nov 2017 18:03:07 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
+	vATI2how028847; Wed, 29 Nov 2017 12:03:08 -0600
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2egpkyqqfw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 29 Nov 2017 12:03:08 -0600
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod3.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
+	vATI371b017586
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Wed, 29 Nov 2017 12:03:07 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 29 Nov 2017 12:03:07 -0600
+Received: from weregild.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 29 Nov 2017 12:03:07 -0600
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: <seebs@seebs.net>, <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Nov 2017 12:02:39 -0600
+Message-ID: <20171129180242.29308-2-rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20171129180242.29308-1-rich.tollerton@ni.com>
+References: <20171129180242.29308-1-rich.tollerton@ni.com>
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-11-29_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1709140000 definitions=main-1711290233
+Subject: [PATCH][PSEUDO 1/4] linux/xattr/pseudo_wrappers.c: Preserve special bits on acl set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,127 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 17:52:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Nov 2017 18:03:07 -0000
+Content-Type: text/plain
 
-On Wed, 2017-11-29 at 11:56 -0500, Bruce Ashfield wrote:
-> On 11/29/2017 11:30 AM, Saul Wold wrote:
-> > On Wed, 2017-11-29 at 09:23 -0500, Bruce Ashfield wrote:
-> > > On 11/28/2017 10:28 PM, Saul Wold wrote:
-> > > > When using KBUILD_DEFCONFIG, $sccs should be set to the
-> > > > $WORKDIR/defconfig
-> > > > regardless if it compares or is copied. Otherwise $sccs is not
-> > > > set
-> > > > and the
-> > > > defconfig is not found correctly.
-> > > 
-> > > Actually, looking at this more today, and this morning in my
-> > > testing.
-> > > This shouldn't be necessary .. it doesn't hurt anything (well,
-> > > actually
-> > > it could end up with two defconfigs in the variable, but that
-> > > also
-> > > should be ok).
-> > > 
-> > 
-> > Ok, I understand, it's in find_sccs() where if you have "defconfig"
-> > in
-> > the SRC_URI then with my change you could end up with two
-> > defconfigs.
-> > 
-> > The problem I saw was if one just sets KBUILD_DEFCONFIG and does
-> > not
-> > set any config info on the SRC_URI then it's possible for $sccs to
-> > be
-> > empty, which was bad.
-> 
-> I took a look at the conditions again, and I can't see that
-> path. But that doesn't mean it isn't there, is this a configuration
-> that I can build and see myself ?
-> 
-Set KBUILD_DEFCONFIG to some kernel defconfig, ensure SRC_URI does not
-have any defconfig, .scc or .cfg files.  Build once that will populate
-the $WORKDIR/defconfig with vai the else path of the first if and the
-cp path in the do_kernel_metadata() code.  Build a second time and the
-$WORKDIR/defconfig exists now and the first part of the if with the cmp
-will occur and the defconfig will not be found because $sccs does not
-get set in the original code when the cmp is equal.
+Recently (2015) coreutils cp -Rp changed its behavior such that chmod()
+is followed by setxattr(); previously it was the other way around. This
+broke pseudo when a copied directory has one of the special
+bits (setuid, setgid, sticky) set; the special bit wound up getting
+removed.
 
-Sau!
+Root cause is that ACLs never included special bits in the first place,
+so we need to merge them back in ourselves.
 
-> > 
-> > Maybe a cleaning of multiple "defconfig" entries on $sccs is
-> > needed?
-> > 
-> 
-> Yah, regardless of my above statement, it certainly wouldn't hurt
-> and would be a good safeguard, since two defconfigs would trigger
-> a M x N configuration audit of options (where M and N could be
-> in the thousands) .. and hence, take a long time.
-> 
-> Bruce
-> 
-> > Sau!
-> > 
-> > 
-> > > > 
-> > > > Part of
-> > > > [YOCTO #12162]
-> > > > 
-> > > > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > > > ---
-> > > >    meta/classes/kernel-yocto.bbclass | 2 +-
-> > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/meta/classes/kernel-yocto.bbclass
-> > > > b/meta/classes/kernel-yocto.bbclass
-> > > > index 1d447951c49..98ec78fb768 100644
-> > > > --- a/meta/classes/kernel-yocto.bbclass
-> > > > +++ b/meta/classes/kernel-yocto.bbclass
-> > > > @@ -110,8 +110,8 @@ do_kernel_metadata() {
-> > > >    				fi
-> > > >    			else
-> > > >    				cp -f
-> > > > ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}
-> > > > ${WORKDIR}/defconfig
-> > > > -				sccs="${WORKDIR}/defconfig"
-> > > >    			fi
-> > > > +			sccs="${WORKDIR}/defconfig"
-> > > 
-> > > The test that was protecting this assignment is:
-> > > 
-> > >      if [ -f "${WORKDIR}/defconfig" ]; then
-> > > 
-> > > and then:
-> > > 
-> > >     cmp "${WORKDIR}/defconfig"
-> > > "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}"
-> > > 
-> > > The only way that a defconfig can be in ${WORKDIR}/defconfig by
-> > > the time this runs, is if the fetcher puts it there. Which means
-> > > it is on the SRC_URI and comes from the recipe writer's layer.
-> > > 
-> > > There is existing code that already picks this up and adds it
-> > > to the configuration queue:
-> > > 
-> > >           sccs="$sccs ${@" ".join(find_sccs(d))}"
-> > > 
-> > > So that defconfig, is already going to be picked up directly
-> > > from the SRC_URI.
-> > > 
-> > > Bruce
-> > > 
-> > > 
-> > > >    		else
-> > > >    			bbfatal "A KBUILD_DEFCONFIG
-> > > > '${KBUILD_DEFCONFIG}' was specified, but not present in the
-> > > > source
-> > > > tree"
-> > > >    		fi
-> > > > 
-> > > 
-> > > 
-> 
-> 
+[YOCTO #12379]
+
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ ports/linux/xattr/pseudo_wrappers.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/ports/linux/xattr/pseudo_wrappers.c b/ports/linux/xattr/pseudo_wrappers.c
+index d69d53e..1c228a2 100644
+--- a/ports/linux/xattr/pseudo_wrappers.c
++++ b/ports/linux/xattr/pseudo_wrappers.c
+@@ -97,6 +97,21 @@ posix_permissions(const acl_header *header, int entries, int *extra, int *mode)
+ 	return 0;
+ }
+ 
++static int get_special_bits(const char *path, int fd) {
++	int rc;
++	struct stat64 buf;
++	if (path) {
++		rc = lstat64(path, &buf);
++	} else {
++		rc = fstat64(fd, &buf);
++	}
++	if (rc == -1) {
++		return rc;
++	}
++
++	return buf.st_mode & (S_ISUID | S_ISGID | S_ISVTX);
++}
++
+ #define RC_AND_BUF \
+ 	int rc; \
+ 	PSEUDO_STATBUF buf; \
+@@ -172,6 +187,10 @@ static int shared_setxattr(const char *path, int fd, const char *name, const voi
+ 		int entries = (size - sizeof(acl_header)) / sizeof(acl_entry);
+ 		int res = posix_permissions(value, entries, &extra, &mode);
+ 		if (res == 0) {
++			/* POSIX ACLs don't actually include
++			 * setuid/setgid/sticky bit. We need to add those back
++			 * in ourselves. */
++			mode |= get_special_bits(path, fd);
+ 			pseudo_debug(PDBGF_XATTR, "posix_acl_access translated to mode %04o. Remaining attribute(s): %d.\n",
+ 				mode, extra);
+ 			buf.st_mode = mode;
+-- 
+2.14.1
+
 
