@@ -1,28 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 63AE577EA8
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id F28D465D35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 03:46:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAT3kftp019655
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 Nov 2017 19:46:41 -0800 (PST)
-Received: from server.local (128.224.21.180) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 28 Nov 2017 19:46:40 -0800
-To: Saul Wold <sgw@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <20171129032818.2545-1-sgw@linux.intel.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <3ad9c2bf-f486-4062-6d8c-70ce3779b39b@windriver.com>
-Date: Tue, 28 Nov 2017 22:46:40 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.4.0
+	Wed, 29 Nov 2017 05:11:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="30566771"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 29 Nov 2017 13:11:04 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 21C15487F167
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Nov 2017 13:11:05 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.116) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 29 Nov 2017 13:11:04 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Nov 2017 13:10:33 +0800
+Message-ID: <1511932233-21738-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20171129032818.2545-1-sgw@linux.intel.com>
-Subject: Re: [PATCH 1/2] kernel-yocto: ensure sccs variable is set when using KBUILD_DEFCONFIG
+X-Originating-IP: [10.167.225.116]
+X-yoursite-MailScanner-ID: 21C15487F167.A4935
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libyui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Nov 2017 03:46:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Nov 2017 05:11:06 -0000
+Content-Type: text/plain
 
-Let me take both these into my queue for some extra testing.
+Add a new recipe libyui.
 
-I have some other changes that could interact with them.
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-graphics/libyui/libyui_git.bb | 36 ++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/recipes-graphics/libyui/libyui_git.bb
 
-But they do look fine to me .. I'd just like to test them and
-put them in my pull request.
+diff --git a/meta/recipes-graphics/libyui/libyui_git.bb b/meta/recipes-graphics/libyui/libyui_git.bb
+new file mode 100644
+index 0000000..3edb0c6
+--- /dev/null
++++ b/meta/recipes-graphics/libyui/libyui_git.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "Libyui is a widget abstraction library providing Qt, GTK and ncurses frontends."
++LICENSE = "LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING.gpl-3;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.lgpl-2.1;md5=4fbd65380cdd255951079008b364516c \
++                    file://COPYING.lgpl-3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
++                   "
++
++SRC_URI = "git://github.com/libyui/libyui.git \
++           "
++
++PV = "3.3.3+git"
++SRCREV = "f4ccea39f6b6f37eabd0a4df49db5f9bcb3c013a"
++
++S = "${WORKDIR}/git"
++
++inherit cmake gettext pkgconfig
++
++DEPENDS += "boost"
++
++BBCLASSEXTEND = "nativesdk"
++
++RDEPENDS_${PN} += "boost"
++
++do_configure_prepend () {
++        cp ${S}/buildtools/CMakeLists.common ${S}/CMakeLists.txt
++}
++
++do_install_append () {
++        rm -rf ${D}${datadir}/libyui
++        if [ ${libdir} = "/usr/lib" ]; then
++            mv ${D}/usr/lib64 ${D}/usr/lib
++        fi
++}
++
++FILES_${PN}-dev = "${libdir}/* ${includedir}/yui*"
++
+-- 
+2.7.4
 
-Bruce
 
-On 2017-11-28 10:28 PM, Saul Wold wrote:
-> When using KBUILD_DEFCONFIG, $sccs should be set to the $WORKDIR/defconfig
-> regardless if it compares or is copied. Otherwise $sccs is not set and the
-> defconfig is not found correctly.
-> 
-> Part of
-> [YOCTO #12162]
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/classes/kernel-yocto.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index 1d447951c49..98ec78fb768 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -110,8 +110,8 @@ do_kernel_metadata() {
->   				fi
->   			else
->   				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
-> -				sccs="${WORKDIR}/defconfig"
->   			fi
-> +			sccs="${WORKDIR}/defconfig"
->   		else
->   			bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
->   		fi
-> 
 
 
