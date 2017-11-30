@@ -1,48 +1,47 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D13578448
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B96E78258
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 16:20:56 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id 9so14049087wme.4
+	Thu, 30 Nov 2017 16:29:14 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l141so14155179wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 08:20:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=hBtqIP0KDjlvss+TrlqRt5i6HKsIT5p34QoyYHy8jCY=;
-	b=Fyfd34GP6tFvH1H+h5LysyqpXVlZ4XqdhBUXvAE6J49UZADGdc2e2ud9jI2M8K1bq+
-	HsjRJ/DGO1iJo5t95VKKrLHh9A6D3z+PCz1GTf1eokaoqql2HxHK07kS9+sWndnUPF9F
-	kKG8dkVVKq5HNFqo+Y3XdpoHCCt+adqoR0EO0=
+	Thu, 30 Nov 2017 08:29:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=zSuG4EFLMQmkWgfR5Xqzk1MKgSH+WtaYeHXGW+17Rq8=;
+	b=IWVu7THmbGI7m+Ic/L1+hdg6BKAnzbKf2pTt5aKxBVIGWlj1QuyvqWhn95uKUulO4t
+	0QT+3wSXs9BxgjEo6yWumpxcyeQfKVQ5EX3xnpLwMHUDENbxFBtJ51RQNqKK8037r3Sx
+	W3hMh2EzE9sLtboc3TeVIMo0E6FFlY3AjkAfyDV2spOjGGl0yEeqHQfHkmYqOXzeAzY6
+	j55Hv/JgNr2aF11YDIpApM2Wp3MSqO2TuM9pclSEaic4ExMXBhld1Ni2V71ExdphbTsq
+	0Qhf4ULNiJ/UvVzfyfW3iX6OyCIbgiKrWckYL9ZJWHoqXKz/IMOLrHH67OY2GCev1Cib
+	HsCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=hBtqIP0KDjlvss+TrlqRt5i6HKsIT5p34QoyYHy8jCY=;
-	b=msp7DE1Vt9tCPI25LIeXuG/0CwI7eT0isWDsJdAQznCABQStLjpgsrJ6WBIY2ZxcFm
-	uDPyHIK5QY8+drP/Al0uA9dyYNd+OjtsK/VnQE+uVcVa1bmDfAkUVF44j0Gqkq8dLqw3
-	rUoyrocz1asVB/9ekSn6FpPSXqP69rPN4oE7CVM+QbJsKlL6xV3x//sRt5wpV0ccLD4R
-	BrBjJyMeBXQNW0+MGLrRSWnXc7mfe6BNonjUOHZfQIoP8QO8+boCg5LhKwo6albwfSHX
-	Q6qSElgnfzjOVPXwyD8y2Wvb0DnZgDG1L9N4e3C8wmkz5YvebmWuZwjjp3tHW373zX0i
-	xIcg==
-X-Gm-Message-State: AJaThX5f88k9uFM65gb66cmP7OOh0+skhvds6nM8ZIwL6sdJpubFN67C
-	LaPqwUQqcLlXeyTavNdojkYtNVfYV/daJxYT/LCIgQ==
-X-Google-Smtp-Source: AGs4zMa6hY8bKkVeyg9kiZhLXrPo0xsy9eY61nwRhCu2TVJwWpWL0UrDy09DwlQI0puI9dskOci9yjjBMB0rTHwiaEA=
-X-Received: by 10.28.69.8 with SMTP id s8mr1036585wma.65.1512058856970; Thu,
-	30 Nov 2017 08:20:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.173.42 with HTTP; Thu, 30 Nov 2017 08:20:36 -0800 (PST)
-In-Reply-To: <CAP71WjyFa=7NAAOZC5mJPvWMB5eiJoq=UBn0p3ODP603hWE74A@mail.gmail.com>
-References: <20171108110409.19900-1-nicolas.dechesne@linaro.org>
-	<03bbafa0-af61-6f17-44d5-0e3b91219e0b@gmail.com>
-	<CAP71WjyFa=7NAAOZC5mJPvWMB5eiJoq=UBn0p3ODP603hWE74A@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 30 Nov 2017 17:20:36 +0100
-Message-ID: <CAP71WjxxCE1FpDBohsLMvMUHO1jSESyDiztMsEjJ2LH4QUQG6w@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>, ed.bartosh@linux.intel.com
-Cc: =?UTF-8?Q?Artur_M=C4=85drzak?= <artur@madrzak.eu>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][PATCH] wic: add 'part-name' argument for naming GPT partitions
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=zSuG4EFLMQmkWgfR5Xqzk1MKgSH+WtaYeHXGW+17Rq8=;
+	b=SMh0exwDhVyDfRQbTGBIN0LK221CmZPIb13zX+fDA6cv8AwbHlP+uj/pNTEfof2264
+	7Yj5CQKdB0mPbRjSjr+WRJtSbhX5v41LfEPUrp0F3hFoep++inMYMG/vhpYkV3ZV//aS
+	rP0jVs5oaz2wvBfMK1XSgpPKIwPiVfnzGl1aLHZgC1HuVDa1PCFv/rCm2hxyKe8mXkBm
+	QfizLQ4PWigh2eVVmXPn2ASy+l8Vo2x2sLQ1+w9GAS2Xkt9WqP+T9vbtf9Z7UNYN0z0I
+	HdAH9yiZxwA/OeQw8ov8cRyprXjD9jQLupv7+ZAc1OiU0hB3m6N49aat/rrqP9i7MvUD
+	S3XQ==
+X-Gm-Message-State: AJaThX6AsGxaNtnidesz46bMnftWdPHfRVL9KSHwx2s1c3rEAxEzU/C2
+	J3dVmoei+13pg0C2e9S4LId9MlWh
+X-Google-Smtp-Source: AGs4zMYsyJZnRH+oFLlOwCWm9QcNJvnPrLw068SxNknH6wFRpamMfnrFozOxYAsYKMvFc9DfPI+QnA==
+X-Received: by 10.28.111.15 with SMTP id k15mr2473338wmc.139.1512059354847;
+	Thu, 30 Nov 2017 08:29:14 -0800 (PST)
+Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
+	by smtp.gmail.com with ESMTPSA id
+	o22sm6859068wrb.40.2017.11.30.08.29.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 30 Nov 2017 08:29:13 -0800 (PST)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Nov 2017 10:28:57 -0600
+Message-Id: <20171130162857.24082-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] python3: fix multilib in distutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,127 +54,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 16:20:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Nov 2017 16:29:14 -0000
 
-On Wed, Nov 8, 2017 at 4:48 PM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> On Wed, Nov 8, 2017 at 4:46 PM, akuster808 <akuster808@gmail.com> wrote:
->>
->>
->> On 11/08/2017 03:04 AM, Nicolas Dechesne wrote:
->>> From: Artur M=C4=85drzak <artur@madrzak.eu>
->>>
->>> The WIC's 'part' can now give a name for GPT partition in WKS file.
->>> It's similar to '--label', but is naming partintions instead file syste=
-ms.
->>> It's required by some bootloaders to partitions have specified names.
->>>
->>> Backport from master, without it WIC cannot be used on Qualcomm based m=
-achines.
->> This is adding new functionality to a stable release.  What other
->> machines need this to work?
->
-> that's one way to look at it. I am looking at it as "this patch fixes
-> WIC for my board" ;)
->
-> More seriously.. +Ed , who indicated the patch was a good target for
-> backport on the list already.
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-back on this topic. Any chance to get this WIC patch into rocko?
+Update the multilib patch to also use sys.lib in distutils.
 
->
->>
->> - armin
->>>
->>> Signed-off-by: Artur M=C4=85drzak <artur@madrzak.eu>
->>> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> (cherry picked from commit 9b60e3466ed7cff0cea10815851eb1304002eb52)
->>> ---
->>>  scripts/lib/wic/help.py                  |  2 ++
->>>  scripts/lib/wic/ksparser.py              |  1 +
->>>  scripts/lib/wic/partition.py             |  1 +
->>>  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
->>>  4 files changed, 15 insertions(+)
->>>
->>> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
->>> index bd9c62e2e8..2ac45e052e 100644
->>> --- a/scripts/lib/wic/help.py
->>> +++ b/scripts/lib/wic/help.py
->>> @@ -970,6 +970,8 @@ DESCRIPTION
->>>                              This option cannot be used with --fixed-si=
-ze
->>>                              option.
->>>
->>> +         --part-name: This option is specific to wic. It specifies nam=
-e for GPT partitions.
->>> +
->>>           --part-type: This option is specific to wic. It specifies par=
-tition
->>>                        type GUID for GPT partitions.
->>>                        List of partition type GUIDS can be found here:
->>> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
->>> index 99b66eebc5..7850e81d2f 100644
->>> --- a/scripts/lib/wic/ksparser.py
->>> +++ b/scripts/lib/wic/ksparser.py
->>> @@ -144,6 +144,7 @@ class KickStart():
->>>          part.add_argument('--no-table', action=3D'store_true')
->>>          part.add_argument('--ondisk', '--ondrive', dest=3D'disk', defa=
-ult=3D'sda')
->>>          part.add_argument("--overhead-factor", type=3Doverheadtype)
->>> +        part.add_argument('--part-name')
->>>          part.add_argument('--part-type')
->>>          part.add_argument('--rootfs-dir')
->>>
->>> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.p=
-y
->>> index b623bb9e6d..66e61ba70c 100644
->>> --- a/scripts/lib/wic/partition.py
->>> +++ b/scripts/lib/wic/partition.py
->>> @@ -51,6 +51,7 @@ class Partition():
->>>          self.no_table =3D args.no_table
->>>          self.num =3D None
->>>          self.overhead_factor =3D args.overhead_factor
->>> +        self.part_name =3D args.part_name
->>>          self.part_type =3D args.part_type
->>>          self.rootfs_dir =3D args.rootfs_dir
->>>          self.size =3D args.size
->>> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic=
-/plugins/imager/direct.py
->>> index 60317eed22..bdb8385620 100644
->>> --- a/scripts/lib/wic/plugins/imager/direct.py
->>> +++ b/scripts/lib/wic/plugins/imager/direct.py
->>> @@ -366,6 +366,10 @@ class PartitionedImage():
->>>          for num in range(len(self.partitions)):
->>>              part =3D self.partitions[num]
->>>
->>> +            if self.ptable_format =3D=3D 'msdos' and part.part_name:
->>> +                raise WicError("setting custom partition name is not "=
- \
->>> +                               "implemented for msdos partitions")
->>> +
->>>              if self.ptable_format =3D=3D 'msdos' and part.part_type:
->>>                  # The --part-type can also be implemented for MBR part=
-itions,
->>>                  # in which case it would map to the 1-byte "partition =
-type"
->>> @@ -519,6 +523,13 @@ class PartitionedImage():
->>>              self._create_partition(self.path, part.type,
->>>                                     parted_fs_type, part.start, part.si=
-ze_sec)
->>>
->>> +            if part.part_name:
->>> +                logger.debug("partition %d: set name to %s",
->>> +                             part.num, part.part_name)
->>> +                exec_native_cmd("sgdisk --change-name=3D%d:%s %s" % \
->>> +                                         (part.num, part.part_name,
->>> +                                          self.path), self.native_sysr=
-oot)
->>> +
->>>              if part.part_type:
->>>                  logger.debug("partition %d: set type UID to %s",
->>>                               part.num, part.part_type)
->>
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/recipes-devtools/python/python3-native_3.5.3.bb    |  2 +-
+ .../12-distutils-prefix-is-inside-staging-area.patch    | 10 +++++-----
+ .../python/python3/python-3.3-multilib.patch            | 17 ++++++++++++++++-
+ 3 files changed, 22 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+index 8cd9c88a821..da67801a05d 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+@@ -5,7 +5,6 @@ PYTHON_MAJMIN = "3.5"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+-file://12-distutils-prefix-is-inside-staging-area.patch \
+ file://python-config.patch \
+ file://0001-cross-compile-support.patch \
+ file://030-fixup-include-dirs.patch \
+@@ -14,6 +13,7 @@ file://080-distutils-dont_adjust_files.patch \
+ file://130-readline-setup.patch \
+ file://150-fix-setupterm.patch \
+ file://python-3.3-multilib.patch \
++file://12-distutils-prefix-is-inside-staging-area.patch \
+ file://03-fix-tkinter-detection.patch \
+ file://avoid_warning_about_tkinter.patch \
+ file://shutil-follow-symlink-fix.patch \
+diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
+index c53ec0cfc85..57aca2e76f2 100644
+--- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
+@@ -18,7 +18,7 @@ Upstream-Status: Inappropriate [embedded specific]
+  1 file changed, 8 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+-index 573724d..390c485 100644
++index 217ec94c37..a55e722fed 100644
+ --- a/Lib/distutils/sysconfig.py
+ +++ b/Lib/distutils/sysconfig.py
+ @@ -84,7 +84,9 @@ def get_python_inc(plat_specific=0, prefix=None):
+@@ -43,12 +43,12 @@ index 573724d..390c485 100644
+      if prefix is None:
+          if standard_lib:
+              prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
+-@@ -133,7 +139,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
++@@ -132,7 +138,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
++             prefix = plat_specific and EXEC_PREFIX or PREFIX
+  
+      if os.name == "posix":
+-         libpython = os.path.join(prefix,
+--                                 "lib", "python" + get_python_version())
+-+                                 lib_basename, "python" + get_python_version())
++-        libpython = os.path.join(prefix, sys.lib, "python" + get_python_version())
+++        libpython = os.path.join(prefix, lib_basename, "python" + get_python_version())
+          if standard_lib:
+              return libpython
+          else:
+diff --git a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
+index 08c4403cbfa..dd44aa63782 100644
+--- a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
++++ b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
+@@ -13,6 +13,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+ ---
+  Include/pythonrun.h              |  3 +++
+  Lib/distutils/command/install.py |  4 +++-
++ Lib/distutils/sysconfig.py       |  3 +--
+  Lib/pydoc.py                     |  2 +-
+  Lib/site.py                      |  4 ++--
+  Lib/sysconfig.py                 | 18 +++++++++---------
+@@ -23,7 +24,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+  Python/sysmodule.c               |  4 ++++
+  configure.ac                     | 35 +++++++++++++++++++++++++++++++++++
+  setup.py                         |  9 ++++-----
+- 12 files changed, 97 insertions(+), 23 deletions(-)
++ 13 files changed, 98 insertions(+), 25 deletions(-)
+ 
+ diff --git a/Include/pythonrun.h b/Include/pythonrun.h
+ index 9c2e813..2f79cb6 100644
+@@ -61,6 +62,20 @@ index 67db007..b46b45b 100644
+          'headers': '$base/include/python$py_version_short$abiflags/$dist_name',
+          'scripts': '$base/bin',
+          'data'   : '$base',
++diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
++index 573724ddd7..217ec94c37 100644
++--- a/Lib/distutils/sysconfig.py
+++++ b/Lib/distutils/sysconfig.py
++@@ -132,8 +132,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
++             prefix = plat_specific and EXEC_PREFIX or PREFIX
++ 
++     if os.name == "posix":
++-        libpython = os.path.join(prefix,
++-                                 "lib", "python" + get_python_version())
+++        libpython = os.path.join(prefix, sys.lib, "python" + get_python_version())
++         if standard_lib:
++             return libpython
++         else:
+ diff --git a/Lib/pydoc.py b/Lib/pydoc.py
+ index 3ca08c9..6528730 100755
+ --- a/Lib/pydoc.py
+-- 
+2.14.1
+
 
