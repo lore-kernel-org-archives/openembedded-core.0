@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B0A62784F4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 824A578434
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 01:45:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAU1jqoK014253
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 17:45:52 -0800 (PST)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 29 Nov 2017 17:45:51 -0800
+	Thu, 30 Nov 2017 02:23:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAU2NnB8022099
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Nov 2017 18:23:49 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 29 Nov 2017 18:23:43 -0800
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Nov 2017 09:45:15 +0800
-Message-ID: <917550ac335cd0af547d301f41605d8de6678d19.1512006081.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1512006081.git.liezhi.yang@windriver.com>
-References: <cover.1512006081.git.liezhi.yang@windriver.com>
+Message-ID: <7f75c29b-312b-2047-c002-a6c45b4b132b@windriver.com>
+Date: Thu, 30 Nov 2017 10:23:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] sqlite3: use 1024 for MAX_PATHNAM
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: About auto-upgrade-helper's enhancement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 01:45:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Nov 2017 02:23:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The 512 is a little small when len(TMPDIR) == 410, it would be failed when
-do_rootfs, use 1024 to fix problem:
 
-Fixed when len(TMPDIR) == 410:
-$ bitbake core-image-minimal
-[snip]
-"tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/lib/python3.5/site-packages/dnf/yum/history.py", line 799, in _get_cursor
-    self._conn = sqlite.connect(self._db_file)
-sqlite3.OperationalError: unable to open database file
+Hi Anibal and Paul,
 
-[YOCTO #12374]
+I tried auto-upgrade-helper, it is very helpful when upgrade recipes.
+I'd like to make some enhancements to make it can be easily used by the
+maintainer (recipe upgrader) himself:
+1) Don't send email when maintainer uses it, for example, when I want to
+    upgrade "strace", I don't need it send email to anyone.
+2) Use git's user.name and user.email in git commit when not send email,
+    we need let the maintainer take responsible for it.
+3) Do the commit on the recipes when the upgrade is succeed, currently,
+    it keeps the commit when failed, but removed it when succeed.
+4) Make upgradehelper.py can accept multiple recipes as args.
+5) It's a small tool and helpful when upgrade recipes, can we move it into
+    oe-core/scripts, please ?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../0001-sqlite3.c-use-1024-MAX_PATHNAME.patch     | 37 ++++++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.21.0.bb      |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch
-
-diff --git a/meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch b/meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch
-new file mode 100644
-index 0000000..f000477
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch
-@@ -0,0 +1,37 @@
-+From 9f63bdd623a851c6f4af6d1259161d5d47d94bb3 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 22 Nov 2017 15:23:24 +0800
-+Subject: [PATCH] sqlite3.c: use 1024 for MAX_PATHNAME
-+
-+The 512 is a little small when build in deep directory, e.g., it would be
-+failed to run when oe-core's TMPDIR == 410, use 1024 to fix problem.
-+
-+Fixed:
-+[snip]
-+"/usr/lib/python3.5/site-packages/dnf/yum/history.py", line 799, in _get_cursor
-+    self._conn = sqlite.connect(self._db_file)
-+sqlite3.OperationalError: unable to open database file
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ sqlite3.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 4ec1271..31edaf8 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -30379,7 +30379,7 @@ SQLITE_PRIVATE const char *sqlite3OpcodeName(int i){
-+ /*
-+ ** Maximum supported path-length.
-+ */
-+-#define MAX_PATHNAME 512
-++#define MAX_PATHNAME 1024
-+ 
-+ /*
-+ ** Maximum supported symbolic links
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.21.0.bb b/meta/recipes-support/sqlite/sqlite3_3.21.0.bb
-index 1d51733..33f41e5 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.21.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.21.0.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- 
- SRC_URI = "\
-   http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+  file://0001-sqlite3.c-use-1024-MAX_PATHNAME.patch \
-   "
- SRC_URI[md5sum] = "7913de4c3126ba3c24689cb7a199ea31"
- SRC_URI[sha256sum] = "d7dd516775005ad87a57f428b6f86afd206cb341722927f104d3f0cf65fbbbe3"
 -- 
-2.7.4
+Thanks
 
+Robert
 
