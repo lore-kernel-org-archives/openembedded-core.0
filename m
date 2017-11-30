@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 84AB2784E2
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1A3784E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 01:45:47 +0000 (UTC)
+	Thu, 30 Nov 2017 01:45:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAU1jnJh021961
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAU1joJC031835
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Nov 2017 17:45:49 -0800 (PST)
+	Wed, 29 Nov 2017 17:45:50 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 29 Nov 2017 17:45:47 -0800
+	14.3.361.1; Wed, 29 Nov 2017 17:45:49 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Nov 2017 09:45:13 +0800
-Message-ID: <d59d7504408b53c4f51fb89f50eb1739333698b1.1512006081.git.liezhi.yang@windriver.com>
+Date: Thu, 30 Nov 2017 09:45:14 +0800
+Message-ID: <f8f2799d5b4c51969c904a7a09b75caae1020b31.1512006081.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1512006081.git.liezhi.yang@windriver.com>
 References: <cover.1512006081.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] ninja: fix for llvm build when len(TMPDIR) == 410
+Subject: [PATCH 4/5] webkitgtk: fix compile error when len(TMPDIR) == 410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 01:45:47 -0000
+X-List-Received-Date: Thu, 30 Nov 2017 01:45:49 -0000
 Content-Type: text/plain
 
-It is used for saving path components, 30 is a little small, use 100.
+One of the gcc command line was too long (longer than 160,000 characters) when
+len(TMPDIR) == 410, so there was an "Argument list too long" error:
+$ bitbake webkitgtk
+i586-poky-linux-g++: error trying to exec [snip] execv: Argument list too long
 
-Fixed when build llvm:
-ninja: fatal: path has too many components
+The cmake doesn't support relative path, so we have to edit flags.make to fix
+the problem:
+- Replace -I${RECIPE_SYSROOT} with -I=
+- Replace "-I${S}/path1/in/S -I ${S}/path2/in/S" with
+  "-iprefix ${S} -iwithprefixbefore /path1/in/S -iwithprefixbefore /path2/in/S"
 
-[YOCTO #12347]
+Now the length is less than 25,000.
+
+[YOCTO #12362]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...src-util.cc-use-larger-kMaxPathComponents.patch | 33 ++++++++++++++++++++++
- meta/recipes-devtools/ninja/ninja_1.7.2.bb         |  5 +++-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch
+ meta/recipes-sato/webkit/webkitgtk_2.16.6.bb | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch b/meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch
-new file mode 100644
-index 0000000..64cac7b
---- /dev/null
-+++ b/meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch
-@@ -0,0 +1,33 @@
-+From 04534ec915e08f59b66bf6044290faeea4610394 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 15 Nov 2017 16:01:01 +0800
-+Subject: [PATCH] src/util.cc: use larger kMaxPathComponents
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
+index 0f126cb..3ff5425 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
+@@ -117,3 +117,30 @@ ARM_INSTRUCTION_SET_armv7ve = "thumb"
+ # Segmentation fault
+ GI_DATA_ENABLED_armv7a = "False"
+ GI_DATA_ENABLED_armv7ve = "False"
 +
-+It is used for saving path components, 30 is a little small, use 100.
++do_configure[postfuncs] += 'shorter_flags_make'
 +
-+Fixed when build llvm:
-+ninja: fatal: path has too many components
++python shorter_flags_make() {
++    recipe_sysroot = d.getVar('RECIPE_SYSROOT')
++    for root, dirs, files in os.walk(d.getVar('B')):
++        for flags_make in files:
++            if flags_make == 'flags.make':
++                # To fix build error when len(TMPDIR) == 410:
++                # - Replace -I${RECIPE_SYSROOT} with -I=
++                # - Replace "-I${S}/path1/in/S -I ${S}/path2/in/S" with
++                #   "-iprefix ${S} -iwithprefixbefore /path1/in/S -iwithprefixbefore /path2/in/S"
++                flags_make = os.path.join(root, flags_make)
++                new_lines = []
++                with open(flags_make, 'r') as f:
++                    for line in f.readlines():
++                        if line.startswith('CXX_INCLUDES = ') or line.startswith('C_INCLUDES = '):
++                            line = line.replace('-I%s' % recipe_sysroot, '-I=')
++                            line = line.replace('CXX_INCLUDES =', 'CXX_INCLUDES = -iprefix %s/ ' % d.getVar('S'))
++                            line = line.replace('C_INCLUDES =', 'C_INCLUDES = -iprefix %s/ ' % d.getVar('S'))
++                            line = line.replace('-I%s' % d.getVar('S'), '-iwithprefixbefore ')
++                        new_lines.append(line)
 +
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ src/util.cc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/util.cc b/src/util.cc
-+index e31fd1f..f84a12e 100644
-+--- a/src/util.cc
-++++ b/src/util.cc
-+@@ -125,7 +125,7 @@ bool CanonicalizePath(char* path, size_t* len, unsigned int* slash_bits,
-+     return false;
-+   }
-+ 
-+-  const int kMaxPathComponents = 30;
-++  const int kMaxPathComponents = 100;
-+   char* components[kMaxPathComponents];
-+   int component_count = 0;
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/ninja/ninja_1.7.2.bb b/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-index 4d3b272..0ef2ea0 100644
---- a/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-@@ -7,7 +7,10 @@ DEPENDS = "re2c-native ninja-native"
- 
- SRCREV = "717b7b4a31db6027207588c0fb89c3ead384747b"
- 
--SRC_URI = "git://github.com/martine/ninja.git;branch=release"
-+SRC_URI = "git://github.com/martine/ninja.git;branch=release \
-+           file://0001-src-util.cc-use-larger-kMaxPathComponents.patch \
-+"
-+
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- S = "${WORKDIR}/git"
++                with open(flags_make, 'w') as f:
++                        for line in new_lines:
++                            f.write(line)
++}
 -- 
 2.7.4
 
