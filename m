@@ -1,47 +1,51 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B96E78258
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B9892785A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 16:29:14 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l141so14155179wmg.1
+	Thu, 30 Nov 2017 16:47:15 +0000 (UTC)
+Received: by mail-vk0-f47.google.com with SMTP id s197so3804147vkh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 08:29:15 -0800 (PST)
+	Thu, 30 Nov 2017 08:47:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=zSuG4EFLMQmkWgfR5Xqzk1MKgSH+WtaYeHXGW+17Rq8=;
-	b=IWVu7THmbGI7m+Ic/L1+hdg6BKAnzbKf2pTt5aKxBVIGWlj1QuyvqWhn95uKUulO4t
-	0QT+3wSXs9BxgjEo6yWumpxcyeQfKVQ5EX3xnpLwMHUDENbxFBtJ51RQNqKK8037r3Sx
-	W3hMh2EzE9sLtboc3TeVIMo0E6FFlY3AjkAfyDV2spOjGGl0yEeqHQfHkmYqOXzeAzY6
-	j55Hv/JgNr2aF11YDIpApM2Wp3MSqO2TuM9pclSEaic4ExMXBhld1Ni2V71ExdphbTsq
-	0Qhf4ULNiJ/UvVzfyfW3iX6OyCIbgiKrWckYL9ZJWHoqXKz/IMOLrHH67OY2GCev1Cib
-	HsCA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=u/28qFlMGE1IW2eDJyL+wUi0ms58r+lKfpsReztPntM=;
+	b=q40Vd3ViD7PMKc22UryQOxZUB+/pSeSgmSF2e58ImSEKoYSgCcZJwkbei7wqjy6XzO
+	orAKk5q6sifPKsOREONQtV4f0weyflkXREuWPcjAMuCR5jZrbo/5RWVg8p07Mk/mZx0U
+	1eT5oKoMVzpucoEoPa/pXs13YqLKO2gatNjjEmwXVG0Pu2O4FFQnxJAHbD4JGE9tY20n
+	Mv6vHkBbB707VN+SZRIqi7FXlB5bfQpsKOkJ/AqairzelLLkdTh+q/aN6dV26y6QxqB2
+	bBawRvtQ4Ch3Ck/zAjXdECquEYOQQezlgoNjBGOHy4AFt5DLP/JQ5P+/MtKN8lfwLkrD
+	GqrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=zSuG4EFLMQmkWgfR5Xqzk1MKgSH+WtaYeHXGW+17Rq8=;
-	b=SMh0exwDhVyDfRQbTGBIN0LK221CmZPIb13zX+fDA6cv8AwbHlP+uj/pNTEfof2264
-	7Yj5CQKdB0mPbRjSjr+WRJtSbhX5v41LfEPUrp0F3hFoep++inMYMG/vhpYkV3ZV//aS
-	rP0jVs5oaz2wvBfMK1XSgpPKIwPiVfnzGl1aLHZgC1HuVDa1PCFv/rCm2hxyKe8mXkBm
-	QfizLQ4PWigh2eVVmXPn2ASy+l8Vo2x2sLQ1+w9GAS2Xkt9WqP+T9vbtf9Z7UNYN0z0I
-	HdAH9yiZxwA/OeQw8ov8cRyprXjD9jQLupv7+ZAc1OiU0hB3m6N49aat/rrqP9i7MvUD
-	S3XQ==
-X-Gm-Message-State: AJaThX6AsGxaNtnidesz46bMnftWdPHfRVL9KSHwx2s1c3rEAxEzU/C2
-	J3dVmoei+13pg0C2e9S4LId9MlWh
-X-Google-Smtp-Source: AGs4zMYsyJZnRH+oFLlOwCWm9QcNJvnPrLw068SxNknH6wFRpamMfnrFozOxYAsYKMvFc9DfPI+QnA==
-X-Received: by 10.28.111.15 with SMTP id k15mr2473338wmc.139.1512059354847;
-	Thu, 30 Nov 2017 08:29:14 -0800 (PST)
-Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
-	by smtp.gmail.com with ESMTPSA id
-	o22sm6859068wrb.40.2017.11.30.08.29.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 30 Nov 2017 08:29:13 -0800 (PST)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Nov 2017 10:28:57 -0600
-Message-Id: <20171130162857.24082-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] python3: fix multilib in distutils
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=u/28qFlMGE1IW2eDJyL+wUi0ms58r+lKfpsReztPntM=;
+	b=WjL2/XgixHklcu88uc/Kncq7zfYmmOmXvFt7t7SE8FFcXWbzp+VSzUCFN2nvMb/Yks
+	rRokV0/buCA80lo2WzVMRgfqEgJXP/l/1FW32IclIpArCxbpDv+xQ4DHFJgKNqUOoVad
+	6kFX1exZxGBCvsxuOWljqhVuB9bjVv3cYJsomb6eKZEzGZiWYiZgCtzSoLWq3WsHU5IC
+	PowRy0La3uhjln0xiYkwGgWzwaummOSta5U2Gld20hkJgY7h1Mw2gjfnezXF1NlTYLim
+	NyFPqOlT5HskIQchBXYXw8FuMIqtkDaDkM3gzFOTWrtO2gCZNABPYwHkvOzFM46zfrJX
+	/Ssg==
+X-Gm-Message-State: AKGB3mKc4170ntiqn2ji4sQS5wzAxrraLVDykwAc5VHFctIhHukqhCtu
+	D2HnGldOlmPZD5cPe/pJ3uqZ4o0kpoSReywo1KQ=
+X-Google-Smtp-Source: AGs4zMb5fvv1VY9HWgbYjSaZyr373FYMauQfs2EIifGULStcBuN347s9CXPr4qIvjyGzKoesByjytymRYP9YJWEO+Yk=
+X-Received: by 10.31.41.138 with SMTP id p132mr2387774vkp.21.1512060436545;
+	Thu, 30 Nov 2017 08:47:16 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.72.130 with HTTP; Thu, 30 Nov 2017 08:46:56 -0800 (PST)
+In-Reply-To: <CAJTo0LYVTGCuJNAhC+WW8t62yMEp337Pibav0Em3ULtS61U=1Q@mail.gmail.com>
+References: <cover.1477448814.git.hongxu.jia@windriver.com>
+	<f1a7d03a68bf628db677027d48281c55f2b8dfba.1477448814.git.hongxu.jia@windriver.com>
+	<CABcZANms469xJTfjSuRbmZpjJFBMKrsoJZ_zeHzSvgtjakPLcw@mail.gmail.com>
+	<CAJTo0LYVTGCuJNAhC+WW8t62yMEp337Pibav0Em3ULtS61U=1Q@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 30 Nov 2017 09:46:56 -0700
+Message-ID: <CABcZANkXy_6hrDtOdjStUSqLpZ78=GJN5qL9aGAtWUZzS5HXOA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] fontcache: fix fonts postinst failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,112 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 16:29:14 -0000
+X-List-Received-Date: Thu, 30 Nov 2017 16:47:15 -0000
+Content-Type: multipart/alternative; boundary="001a113ef980330519055f3601e9"
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+--001a113ef980330519055f3601e9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update the multilib patch to also use sys.lib in distutils.
+On Mon, Nov 27, 2017 at 9:03 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-devtools/python/python3-native_3.5.3.bb    |  2 +-
- .../12-distutils-prefix-is-inside-staging-area.patch    | 10 +++++-----
- .../python/python3/python-3.3-multilib.patch            | 17 ++++++++++++++++-
- 3 files changed, 22 insertions(+), 7 deletions(-)
+> Ah, that would be why I have this in a local branch:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/
+> commit/?h=3Dross/allarch
+>
+> I rediscovered this on Friday...  personally I think my solution is bette=
+r
+> as it's global instead of needing to be worked around in each place where
+> this can happen, but am open to debate on this.
+>
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-index 8cd9c88a821..da67801a05d 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-@@ -5,7 +5,6 @@ PYTHON_MAJMIN = "3.5"
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
--file://12-distutils-prefix-is-inside-staging-area.patch \
- file://python-config.patch \
- file://0001-cross-compile-support.patch \
- file://030-fixup-include-dirs.patch \
-@@ -14,6 +13,7 @@ file://080-distutils-dont_adjust_files.patch \
- file://130-readline-setup.patch \
- file://150-fix-setupterm.patch \
- file://python-3.3-multilib.patch \
-+file://12-distutils-prefix-is-inside-staging-area.patch \
- file://03-fix-tkinter-detection.patch \
- file://avoid_warning_about_tkinter.patch \
- file://shutil-follow-symlink-fix.patch \
-diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-index c53ec0cfc85..57aca2e76f2 100644
---- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-@@ -18,7 +18,7 @@ Upstream-Status: Inappropriate [embedded specific]
-  1 file changed, 8 insertions(+), 2 deletions(-)
- 
- diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
--index 573724d..390c485 100644
-+index 217ec94c37..a55e722fed 100644
- --- a/Lib/distutils/sysconfig.py
- +++ b/Lib/distutils/sysconfig.py
- @@ -84,7 +84,9 @@ def get_python_inc(plat_specific=0, prefix=None):
-@@ -43,12 +43,12 @@ index 573724d..390c485 100644
-      if prefix is None:
-          if standard_lib:
-              prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
--@@ -133,7 +139,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+@@ -132,7 +138,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+             prefix = plat_specific and EXEC_PREFIX or PREFIX
-  
-      if os.name == "posix":
--         libpython = os.path.join(prefix,
---                                 "lib", "python" + get_python_version())
--+                                 lib_basename, "python" + get_python_version())
-+-        libpython = os.path.join(prefix, sys.lib, "python" + get_python_version())
-++        libpython = os.path.join(prefix, lib_basename, "python" + get_python_version())
-          if standard_lib:
-              return libpython
-          else:
-diff --git a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-index 08c4403cbfa..dd44aa63782 100644
---- a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-+++ b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-@@ -13,6 +13,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
- ---
-  Include/pythonrun.h              |  3 +++
-  Lib/distutils/command/install.py |  4 +++-
-+ Lib/distutils/sysconfig.py       |  3 +--
-  Lib/pydoc.py                     |  2 +-
-  Lib/site.py                      |  4 ++--
-  Lib/sysconfig.py                 | 18 +++++++++---------
-@@ -23,7 +24,7 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-  Python/sysmodule.c               |  4 ++++
-  configure.ac                     | 35 +++++++++++++++++++++++++++++++++++
-  setup.py                         |  9 ++++-----
-- 12 files changed, 97 insertions(+), 23 deletions(-)
-+ 13 files changed, 98 insertions(+), 25 deletions(-)
- 
- diff --git a/Include/pythonrun.h b/Include/pythonrun.h
- index 9c2e813..2f79cb6 100644
-@@ -61,6 +62,20 @@ index 67db007..b46b45b 100644
-          'headers': '$base/include/python$py_version_short$abiflags/$dist_name',
-          'scripts': '$base/bin',
-          'data'   : '$base',
-+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-+index 573724ddd7..217ec94c37 100644
-+--- a/Lib/distutils/sysconfig.py
-++++ b/Lib/distutils/sysconfig.py
-+@@ -132,8 +132,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+             prefix = plat_specific and EXEC_PREFIX or PREFIX
-+ 
-+     if os.name == "posix":
-+-        libpython = os.path.join(prefix,
-+-                                 "lib", "python" + get_python_version())
-++        libpython = os.path.join(prefix, sys.lib, "python" + get_python_version())
-+         if standard_lib:
-+             return libpython
-+         else:
- diff --git a/Lib/pydoc.py b/Lib/pydoc.py
- index 3ca08c9..6528730 100755
- --- a/Lib/pydoc.py
--- 
-2.14.1
+Agreed, yours does seem cleaner, as long as there aren=E2=80=99t unintended
+consequences. I can=E2=80=99t say I=E2=80=99m clear on the issues relating =
+to allarch
+sharing amongst multilib configurations.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--001a113ef980330519055f3601e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, Nov 27, 2017 at 9:03 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
+>Ah, that would be why I have this in a local branch:<div><br></div><div><a=
+ href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=
+=3Dross/allarch" target=3D"_blank">http://git.yoctoproject.org/<wbr>cgit/cg=
+it.cgi/poky-contrib/<wbr>commit/?h=3Dross/allarch</a><br></div><div><br></d=
+iv><div>I rediscovered this on Friday... =C2=A0personally I think my soluti=
+on is better as it&#39;s global instead of needing to be worked around in e=
+ach place where this can happen, but am open to debate on this.</div></div>=
+</blockquote><div><br></div><div>Agreed, yours does seem cleaner, as long a=
+s there aren=E2=80=99t unintended consequences. I can=E2=80=99t say I=E2=80=
+=99m clear on the issues relating to allarch sharing amongst multilib confi=
+gurations.</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Lar=
+son<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
+rus<br>Senior Software Engineer, Mentor Graphics</div></div></div></div>
+</div></div>
+
+--001a113ef980330519055f3601e9--
