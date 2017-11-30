@@ -1,44 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C362460777
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AEB1784DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 21:52:01 +0000 (UTC)
-Received: by mail-pg0-f52.google.com with SMTP id y6so3565759pgp.4
+	Thu, 30 Nov 2017 22:59:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id 9so509499wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 13:52:03 -0800 (PST)
+	Thu, 30 Nov 2017 14:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5k59ch1oduhjbyKX8TtngR1UzuA+KALGdb4ibzF1vko=;
-	b=kt04eUx7SJUDBD2YHqi+dYwMTzjVbIQaRa0dJtziSA7aygEYaqhRuNM49ZstWog4Bx
-	I0EA5bCBEX6PDxokVttGgzyuhJYokI86r6vCjH3xKoLIg3naj5cfV0XgLI8AllkFJdz2
-	d0Rg8Ja4yIiDawkIEUUQu45XPoZEWEncORQXo5CdnWVI1UjFAlUIUHIuWfSnnupzuzY2
-	Q1sboRu8sZBZG/RjCLellcvkha+YmaxyrArQD1sxQG0N+yJ8csSZsa+A5gNfbcJ7oQCD
-	Vbi0OmDsO8i1DT94G7XPzMlJqPrzOEpXEhc1GVTXke8o1kOoAnQa0MTQS0qMZzBi+w/Z
-	V9wA==
+	:cc; bh=trSD/BZUrXfugQHbiVxR1+Q7Tryrv68b9R7TYJxiuSM=;
+	b=K2W5BqR0BFAlZXT9D3nwMOZInp6u+QHjCM53jp2kBWrjn3mXNabZfKBX9ZBevSZycT
+	CpZCpD8eYDJg22SGfG2muAQS7TNUNzv02LONgSc6SMiRNtE07DZC52cwABEeeYv3ufvi
+	/OCLPsIRpLnjGU9PeJKv/I6s2ZXGeIDz3m41Btos1wJ7g3wNTckmWrwvw93T5g0JGZrU
+	f6RcPc+gCjNa9BZaSVnZrOs9S1t0Vy9M175Aj+W8woD346Gsgo2GQnlbtHyvtZSk5v+t
+	QLx6n3iE0Du1rZAVYcInbybCqYaOBMbVIu4Z+554uRIe965edx7z1EznPACSp9vGWxPz
+	qFGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=5k59ch1oduhjbyKX8TtngR1UzuA+KALGdb4ibzF1vko=;
-	b=joqpl02yWa6dvArgw1g/gcdK/8GjcrJLgoJNuE7F7n07iXvN57XTMtXhTySeJfadCH
-	KsmzdapE3DHQOy+s28KXh0hRCBJ0ZHqW/YgWfV2703htDRPOI1ILhRVq4hfkqlnjGwfv
-	KCMEztANT2vDWHDwVaWSSB2NLufO/WP9bxgHp6O8U/fxuwQ9mbMD27YMuXFZh38dxhxM
-	qnlBXBqbg+cyk4cfUhDZ0anevpvj/xk2+anh7iglCbZlZhZ8iu4YVsiQw8jXXoaUYidV
-	49qoZ+Se3R4eX71ywUI7NVa1Bb242rfARSJdWYGCUgGz3J92raD7MllSti4g8wtrzXJl
-	doNA==
-X-Gm-Message-State: AJaThX66Acc80wYP0+tFe/joMYuvSnan0iSPAfB6Lu10X2eXqmMyRUAU
-	xnNnb8vNRcph5QYn9C7NCVWkFXr19OSm/oP14qA=
-X-Google-Smtp-Source: AGs4zMb8+rdWKaaMrCP47e+UQbpBWlcJCDhM5B9TFcauwWFZqMUflOZnwbd2T63qlUKX3KwA09qimufnHRt9Byx9t70=
-X-Received: by 10.99.160.96 with SMTP id u32mr3709719pgn.25.1512078722793;
-	Thu, 30 Nov 2017 13:52:02 -0800 (PST)
+	bh=trSD/BZUrXfugQHbiVxR1+Q7Tryrv68b9R7TYJxiuSM=;
+	b=ZOOUPwrykE5YeIzqjF3tLUEtVvKpC9za7Cpdmb+Lqj6rPbzMzd2TyDWnA9GqvWXzVa
+	KQvDxJaRB7XupV/rUU6V8//ZJw7jH7fx+Nzi1H6tpHqECwEW8Ss30BDnzFU1cXd2O4j3
+	y3AiHec5t/plOP1TrCidFRR46neRND5NLlvMrrdNu1tTlj2Rrl56rwa05KJNhSL1A6Ch
+	kEQ2ep9hsyXdQZpRkv81ECA4AY9rRCp3CYrhzI3CoS5EHmlKVsfialbgC1ajkkYffnIv
+	s/O7UwEK1UHqrpl/epfuE3hY7ka/FEjbaguXVlANeoQX4DcKAZM8prg2CW+YXXuW98vA
+	tIXQ==
+X-Gm-Message-State: AJaThX555qsG4TsayqZc+nxntlrFKAdf+FTN6vtnhB1UW8mV3J7U8nJC
+	NYHggNhhGFVy4wjh49mJFvgwOko+GlHAwV5rokQ=
+X-Google-Smtp-Source: AGs4zMYghFwS7/xiaPAhfmq+k6XnhlyikwL1dVv6BgYKL/gZI0mCboLLdQ+9ed5MRe8nYHl80OuYePeyLfkWF4HZJFI=
+X-Received: by 10.28.31.137 with SMTP id f131mr2893173wmf.110.1512082761745;
+	Thu, 30 Nov 2017 14:59:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.159.15 with HTTP; Thu, 30 Nov 2017 13:51:32 -0800 (PST)
-In-Reply-To: <1512073240-3830-1-git-send-email-armccurdy@gmail.com>
+Received: by 10.223.133.68 with HTTP; Thu, 30 Nov 2017 14:59:21 -0800 (PST)
+In-Reply-To: <CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
 References: <1512073240-3830-1-git-send-email-armccurdy@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 30 Nov 2017 13:51:32 -0800
-Message-ID: <CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 30 Nov 2017 14:59:21 -0800
+Message-ID: <CAJ86T=VX0up-q-CSOafSno14+frTM3NxzwngffCkggMOTd6vCA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] musl: prevent errors if do_install is run more than once
@@ -54,44 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 21:52:01 -0000
+X-List-Received-Date: Thu, 30 Nov 2017 22:59:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 30, 2017 at 12:20 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-core/musl/musl_git.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+On Thu, Nov 30, 2017 at 1:51 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Nov 30, 2017 at 12:20 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-core/musl/musl_git.bb | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+>> index 932c9a2..db26b4f 100644
+>> --- a/meta/recipes-core/musl/musl_git.bb
+>> +++ b/meta/recipes-core/musl/musl_git.bb
+>> @@ -57,10 +57,11 @@ do_install() {
+>>         oe_runmake install DESTDIR='${D}'
+>>
+>>         install -d ${D}${bindir}
+>> +       rm -f ${D}${bindir}/ldd
 >
-> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-> index 932c9a2..db26b4f 100644
-> --- a/meta/recipes-core/musl/musl_git.bb
-> +++ b/meta/recipes-core/musl/musl_git.bb
-> @@ -57,10 +57,11 @@ do_install() {
->         oe_runmake install DESTDIR='${D}'
->
->         install -d ${D}${bindir}
-> +       rm -f ${D}${bindir}/ldd
+> Doesn't lnr take care of removing old file ?
 
-Doesn't lnr take care of removing old file ?
+Apparently not:
 
->         lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
->         for l in crypt dl m pthread resolv rt util xnet
->         do
-> -               ln -s libc.so ${D}${libdir}/lib$l.so
-> +               ln -sf libc.so ${D}${libdir}/lib$l.so
-
-this is ok
-
->         done
->  }
->
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  $ touch foo
+  $ lnr xxx foo
+  Traceback (most recent call last):
+    File "/.../openembedded-core/scripts/lnr", line 21, in <module>
+      os.symlink(target, linkname)
+  FileExistsError: [Errno 17] File exists: 'xxx' -> 'foo'
 
