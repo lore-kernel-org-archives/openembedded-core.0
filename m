@@ -1,24 +1,48 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A085C784E6
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D13578448
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 16:18:11 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Nov 2017 08:18:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,341,1508828400"; d="scan'208";a="182457781"
-Received: from jgperezc-mobl1.zpn.intel.com ([10.219.4.139])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Nov 2017 08:18:12 -0800
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Nov 2017 10:23:02 -0600
-Message-Id: <20171130162302.26034-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <a5107f4d-40b4-27c4-bfd9-70f18e06901b@linux.intel.com>
-References: <a5107f4d-40b4-27c4-bfd9-70f18e06901b@linux.intel.com>
+	Thu, 30 Nov 2017 16:20:56 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id 9so14049087wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Nov 2017 08:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=hBtqIP0KDjlvss+TrlqRt5i6HKsIT5p34QoyYHy8jCY=;
+	b=Fyfd34GP6tFvH1H+h5LysyqpXVlZ4XqdhBUXvAE6J49UZADGdc2e2ud9jI2M8K1bq+
+	HsjRJ/DGO1iJo5t95VKKrLHh9A6D3z+PCz1GTf1eokaoqql2HxHK07kS9+sWndnUPF9F
+	kKG8dkVVKq5HNFqo+Y3XdpoHCCt+adqoR0EO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=hBtqIP0KDjlvss+TrlqRt5i6HKsIT5p34QoyYHy8jCY=;
+	b=msp7DE1Vt9tCPI25LIeXuG/0CwI7eT0isWDsJdAQznCABQStLjpgsrJ6WBIY2ZxcFm
+	uDPyHIK5QY8+drP/Al0uA9dyYNd+OjtsK/VnQE+uVcVa1bmDfAkUVF44j0Gqkq8dLqw3
+	rUoyrocz1asVB/9ekSn6FpPSXqP69rPN4oE7CVM+QbJsKlL6xV3x//sRt5wpV0ccLD4R
+	BrBjJyMeBXQNW0+MGLrRSWnXc7mfe6BNonjUOHZfQIoP8QO8+boCg5LhKwo6albwfSHX
+	Q6qSElgnfzjOVPXwyD8y2Wvb0DnZgDG1L9N4e3C8wmkz5YvebmWuZwjjp3tHW373zX0i
+	xIcg==
+X-Gm-Message-State: AJaThX5f88k9uFM65gb66cmP7OOh0+skhvds6nM8ZIwL6sdJpubFN67C
+	LaPqwUQqcLlXeyTavNdojkYtNVfYV/daJxYT/LCIgQ==
+X-Google-Smtp-Source: AGs4zMa6hY8bKkVeyg9kiZhLXrPo0xsy9eY61nwRhCu2TVJwWpWL0UrDy09DwlQI0puI9dskOci9yjjBMB0rTHwiaEA=
+X-Received: by 10.28.69.8 with SMTP id s8mr1036585wma.65.1512058856970; Thu,
+	30 Nov 2017 08:20:56 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v5] runtime/dnf: Add new dnf test cases
+Received: by 10.223.173.42 with HTTP; Thu, 30 Nov 2017 08:20:36 -0800 (PST)
+In-Reply-To: <CAP71WjyFa=7NAAOZC5mJPvWMB5eiJoq=UBn0p3ODP603hWE74A@mail.gmail.com>
+References: <20171108110409.19900-1-nicolas.dechesne@linaro.org>
+	<03bbafa0-af61-6f17-44d5-0e3b91219e0b@gmail.com>
+	<CAP71WjyFa=7NAAOZC5mJPvWMB5eiJoq=UBn0p3ODP603hWE74A@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 30 Nov 2017 17:20:36 +0100
+Message-ID: <CAP71WjxxCE1FpDBohsLMvMUHO1jSESyDiztMsEjJ2LH4QUQG6w@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>, ed.bartosh@linux.intel.com
+Cc: =?UTF-8?Q?Artur_M=C4=85drzak?= <artur@madrzak.eu>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [rocko][PATCH] wic: add 'part-name' argument for naming GPT partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,99 +55,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 16:18:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Nov 2017 16:20:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+On Wed, Nov 8, 2017 at 4:48 PM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> On Wed, Nov 8, 2017 at 4:46 PM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>
+>> On 11/08/2017 03:04 AM, Nicolas Dechesne wrote:
+>>> From: Artur M=C4=85drzak <artur@madrzak.eu>
+>>>
+>>> The WIC's 'part' can now give a name for GPT partition in WKS file.
+>>> It's similar to '--label', but is naming partintions instead file syste=
+ms.
+>>> It's required by some bootloaders to partitions have specified names.
+>>>
+>>> Backport from master, without it WIC cannot be used on Qualcomm based m=
+achines.
+>> This is adding new functionality to a stable release.  What other
+>> machines need this to work?
+>
+> that's one way to look at it. I am looking at it as "this patch fixes
+> WIC for my board" ;)
+>
+> More seriously.. +Ed , who indicated the patch was a good target for
+> backport on the list already.
 
-Add test cases to test “exclude” and “installroot“ options, also modify
-the logic of filtering packages on the feed to have all the packages
-needed by the tests.
+back on this topic. Any chance to get this WIC patch into rocko?
 
-[YOCTO #10744]
-
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
----
- meta/classes/testimage.bbclass     | 11 ++++++++---
- meta/lib/oeqa/runtime/cases/dnf.py | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 45bb2bda3b8..c1588da0fd8 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -329,6 +329,7 @@ def create_index(arg):
-     return None
- 
- def create_rpm_index(d):
-+    import glob
-     # Index RPMs
-     rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo_c")
-     index_cmds = []
-@@ -345,9 +346,13 @@ def create_rpm_index(d):
-         lf = bb.utils.lockfile(lockfilename, False)
-         oe.path.copyhardlinktree(rpm_dir, idx_path)
-         # Full indexes overload a 256MB image so reduce the number of rpms
--        # in the feed. Filter to r* since we use the run-postinst packages and
--        # this leaves some allarch and machine arch packages too.
--        bb.utils.remove(idx_path + "*/[a-qs-z]*.rpm")
-+        # in the feed by filtering to specific packages needed by the tests.
-+        package_list = glob.glob(idx_path + "*/*.rpm")
-+
-+        for pkg in package_list:
-+            if not os.path.basename(pkg).startswith(("rpm", "run-postinsts", "busybox", "bash", "update-alternatives", "libc6", "curl")):
-+                bb.utils.remove(pkg)
-+
-         bb.utils.unlockfile(lf)
-         cmd = '%s --update -q %s' % (rpm_createrepo, idx_path)
- 
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index 2f87296b4e0..020e025de4e 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -120,4 +120,40 @@ class DnfRepoTest(DnfTest):
-     def test_dnf_reinstall(self):
-         self.dnf_with_repo('reinstall -y run-postinsts-dev')
- 
-+    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1771)
-+    def test_dnf_installroot(self):
-+        rootpath = '/home/root/chroot/test'
-+        #Copy necessary files to avoid errors with not yet installed tools on
-+        #installroot directory.
-+        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
-+        self.target.run('mkdir -p %s/bin' % rootpath, 1500)
-+        #Handle different architectures lib dirs
-+        self.target.run('mkdir -p %s/lib' % rootpath, 1500)
-+        self.target.run('mkdir -p %s/libx32' % rootpath, 1500)
-+        self.target.run('cp /lib/libtinfo.so.5 %s/lib' % rootpath, 1500)
-+        self.target.run('cp /libx32/libtinfo.so.5 %s/libx32' % rootpath, 1500)
-+        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
-+        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
-+        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
-+        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
-+        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
-+        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
- 
-+    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @OETestID(1772)
-+    def test_dnf_exclude(self):
-+        excludepkg = 'curl-dev'
-+        self.dnf_with_repo('install -y curl*')
-+        self.dnf('list %s' % excludepkg, 0)
-+        #Avoid remove dependencies to skip some errors on different archs and images
-+        self.dnf_with_repo('remove --setopt=clean_requirements_on_remove=0 -y curl*')
-+        #check curl-dev is not installed adter removing all curl occurrences
-+        status, output = self.target.run('dnf list --installed | grep %s'% excludepkg, 1500)
-+        self.assertEqual(1, status, "%s was not removed,  is listed as installed"%excludepkg)
-+        self.dnf_with_repo('install -y --exclude=%s curl*' % excludepkg)
-+        #check curl-dev is not installed after being excluded
-+        status, output = self.target.run('dnf list --installed | grep %s'% excludepkg , 1500)
-+        self.assertEqual(1, status, "%s was not excluded, is listed as installed"%excludepkg)
--- 
-2.11.0
-
+>
+>>
+>> - armin
+>>>
+>>> Signed-off-by: Artur M=C4=85drzak <artur@madrzak.eu>
+>>> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> (cherry picked from commit 9b60e3466ed7cff0cea10815851eb1304002eb52)
+>>> ---
+>>>  scripts/lib/wic/help.py                  |  2 ++
+>>>  scripts/lib/wic/ksparser.py              |  1 +
+>>>  scripts/lib/wic/partition.py             |  1 +
+>>>  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
+>>>  4 files changed, 15 insertions(+)
+>>>
+>>> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+>>> index bd9c62e2e8..2ac45e052e 100644
+>>> --- a/scripts/lib/wic/help.py
+>>> +++ b/scripts/lib/wic/help.py
+>>> @@ -970,6 +970,8 @@ DESCRIPTION
+>>>                              This option cannot be used with --fixed-si=
+ze
+>>>                              option.
+>>>
+>>> +         --part-name: This option is specific to wic. It specifies nam=
+e for GPT partitions.
+>>> +
+>>>           --part-type: This option is specific to wic. It specifies par=
+tition
+>>>                        type GUID for GPT partitions.
+>>>                        List of partition type GUIDS can be found here:
+>>> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+>>> index 99b66eebc5..7850e81d2f 100644
+>>> --- a/scripts/lib/wic/ksparser.py
+>>> +++ b/scripts/lib/wic/ksparser.py
+>>> @@ -144,6 +144,7 @@ class KickStart():
+>>>          part.add_argument('--no-table', action=3D'store_true')
+>>>          part.add_argument('--ondisk', '--ondrive', dest=3D'disk', defa=
+ult=3D'sda')
+>>>          part.add_argument("--overhead-factor", type=3Doverheadtype)
+>>> +        part.add_argument('--part-name')
+>>>          part.add_argument('--part-type')
+>>>          part.add_argument('--rootfs-dir')
+>>>
+>>> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.p=
+y
+>>> index b623bb9e6d..66e61ba70c 100644
+>>> --- a/scripts/lib/wic/partition.py
+>>> +++ b/scripts/lib/wic/partition.py
+>>> @@ -51,6 +51,7 @@ class Partition():
+>>>          self.no_table =3D args.no_table
+>>>          self.num =3D None
+>>>          self.overhead_factor =3D args.overhead_factor
+>>> +        self.part_name =3D args.part_name
+>>>          self.part_type =3D args.part_type
+>>>          self.rootfs_dir =3D args.rootfs_dir
+>>>          self.size =3D args.size
+>>> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic=
+/plugins/imager/direct.py
+>>> index 60317eed22..bdb8385620 100644
+>>> --- a/scripts/lib/wic/plugins/imager/direct.py
+>>> +++ b/scripts/lib/wic/plugins/imager/direct.py
+>>> @@ -366,6 +366,10 @@ class PartitionedImage():
+>>>          for num in range(len(self.partitions)):
+>>>              part =3D self.partitions[num]
+>>>
+>>> +            if self.ptable_format =3D=3D 'msdos' and part.part_name:
+>>> +                raise WicError("setting custom partition name is not "=
+ \
+>>> +                               "implemented for msdos partitions")
+>>> +
+>>>              if self.ptable_format =3D=3D 'msdos' and part.part_type:
+>>>                  # The --part-type can also be implemented for MBR part=
+itions,
+>>>                  # in which case it would map to the 1-byte "partition =
+type"
+>>> @@ -519,6 +523,13 @@ class PartitionedImage():
+>>>              self._create_partition(self.path, part.type,
+>>>                                     parted_fs_type, part.start, part.si=
+ze_sec)
+>>>
+>>> +            if part.part_name:
+>>> +                logger.debug("partition %d: set name to %s",
+>>> +                             part.num, part.part_name)
+>>> +                exec_native_cmd("sgdisk --change-name=3D%d:%s %s" % \
+>>> +                                         (part.num, part.part_name,
+>>> +                                          self.path), self.native_sysr=
+oot)
+>>> +
+>>>              if part.part_type:
+>>>                  logger.debug("partition %d: set type UID to %s",
+>>>                               part.num, part.part_type)
+>>
 
