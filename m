@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D28EA719A8
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BB0AE78447
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 10:58:10 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id d14so7078257ioc.5
+	Thu, 30 Nov 2017 10:59:06 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id f140so11567141wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 02:58:12 -0800 (PST)
+	Thu, 30 Nov 2017 02:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=I2Ym+HmzEkkZXOKKXm41ZqRIUjH2hXksv5iLIjuR2oM=;
-	b=z4l5xb3igCMUJzYWRHSuNFlzhc+rDXfZh1LCoN+9Ge8xutmyiE8smMXzpq7jJoSVV5
-	FXuoWZhTjGS973ZqznKxeSXjrpvcTx+FqjriC0n6zjA+hCKeZDQXVW+8HpHPf7KOX3jC
-	VRi5HF7vP3lg20ZDm+U3GPYE91qtCf+H2jhqyii9iC67ttCk0EjT3AOsp9QLe8TzrwT2
-	m8QjsC66p35PYvEIm3+F+qtebgXWrLOMoREF/vQdVj57wGemfeUtsXEsa1oJ1AZL/dtn
-	XumCcrZ9vsHR+73F/5n/zvrqZBqMWXQ3tCmMqfGu/EuemQOrO9jyGKO8ZeGArAiyxk+F
-	dd5Q==
+	h=from:to:subject:date:message-id;
+	bh=0Qwewi1v/NsuO1IH3ZSslEbPjqdIApDRUg3qIupXKVc=;
+	b=iMAFWwgLtyLCevkbiQ69EJ+rIM7DUl/qnk/X58OfG17EccMWz360hQRISQOTz9Gv6/
+	u/WG8Q2RkAnrFrED0TguDpXJWPdA6S72bN2MqiVwvq1cuFX+eZ7c04tWbjwjr8dst69m
+	mrA9g6N3cPnnG0AV/1euMubfTJmXAkr3iTxK7cdYPJVEPgnZEHa0v7Xa/Qk1AZ3htle6
+	usvgQW1svTMXbhvbdyFyy7DP9pLxKZvkXT5MbScs3eFlOg8fNQjEqUYAGICzAJVcaq8k
+	xaBDOCQznP7ZhFByo9bz13Vfu4/XWyhoXjRt3jlGBWI3aQ9saW0fsLlFWqo83drKtj9i
+	99aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=I2Ym+HmzEkkZXOKKXm41ZqRIUjH2hXksv5iLIjuR2oM=;
-	b=U/o3Hmmxzdqoi0pgL8U9Ryvw7x1sagRy194UYqT9cmtihzPAQpzVSAyHZFd0UL5dhR
-	h85BU3JyiiihscfDrvG1FpTa+JJts6n7E1ehbn4VDPbSF0dBG0NTdxLw3gcrMluUOViu
-	0KNwHr9SfVmthB5mRCDX+pIyMgOjVL/TViNGlmqkmeaWHJRpnIWbmhUXN63taSjTNO9H
-	UMv+l/BION069TfwYsSAA8pFBDTXlG2dbiWc4uwdZiTX90hLap7SEUGCbZ6hRx+OAtnf
-	veFTyG9R1cn3sVtrmSjU5HO9+nIOPDgSyfkN/415UZTl2v/oVmNvJEBQWSJRNyS0kfNO
-	kGUA==
-X-Gm-Message-State: AJaThX7/1axe9oFJfeFASeCLqN7V8GueshfRUFHOGbxTASse6Ts55FoH
-	ummC+W1+sD3m4tq5pp3aDsQdOVtIEMquI0S+enux1w==
-X-Google-Smtp-Source: AGs4zMZCCuS1icBs2S0IT0i0c9HvSiC8d0qRy84oMTB0VIJG4QZ+kL3/Pj//tGNF8XonXIPWnV76ZLpkVuUmGVMGOLg=
-X-Received: by 10.107.32.18 with SMTP id g18mr7053711iog.227.1512039491799;
-	Thu, 30 Nov 2017 02:58:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.171.134 with HTTP; Thu, 30 Nov 2017 02:57:51 -0800 (PST)
-In-Reply-To: <09182bb829b79804f26ee1a0eb83115cb6cef51f.1510642397.git.liezhi.yang@windriver.com>
-References: <cover.1510642397.git.liezhi.yang@windriver.com>
-	<09182bb829b79804f26ee1a0eb83115cb6cef51f.1510642397.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Nov 2017 10:57:51 +0000
-Message-ID: <CAJTo0LYSpB_HSXqRKE_ytqEoDNfFdYhm4pJ4WJj534voMSX-UA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] targetcontrol.py: make QEMU_USE_KVM = "1" work
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0Qwewi1v/NsuO1IH3ZSslEbPjqdIApDRUg3qIupXKVc=;
+	b=Tk6PvGycb3LhN7h1+EcdeBc5MLY7rbNdo5z3pUiqEKhjIetKzgfMepQVRzCa22HPDE
+	+EL58yLUS+1xsrBOCAjE77+68uPKmzrZJUZFEukpGtflinXM+OEO4NPmJKJ4t5V3YHTQ
+	FIcCpBoC5BkOqRZCT51jlrW0OjISWsNcI11Hnpyl0Skcb4584y3qY/KwzwoNqeM2mPNU
+	Ggf8KqD6nR+77LgoutsFtH1zKHn/iY9k2/Z22vHQ2us1FA0sHiHfH6X80uCtI/xnrMh2
+	Hw7UFMd5M4Tp6BGvX/ron+cooIX341tbXog3soW9obsR5wNm4AB/Na2LAQ6h91wECKdf
+	oujw==
+X-Gm-Message-State: AJaThX4FJNfNurvvxOtvDC2vC1PEbRE1fhWP6DSJJYGPFbwclYjOS5Y/
+	eL82S2hBW27t4SKIiAsgrRxX3blL
+X-Google-Smtp-Source: AGs4zMa2i3PhHwVGUYsAOPywJOyjPdb64uS1SPnWjBASuhCtWAlygDrUL028fZ47v8Z+MdA1+T7d9g==
+X-Received: by 10.28.90.65 with SMTP id o62mr1490019wmb.16.1512039547230;
+	Thu, 30 Nov 2017 02:59:07 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	l140sm8879287wma.5.2017.11.30.02.59.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Nov 2017 02:59:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Nov 2017 10:59:04 +0000
+Message-Id: <20171130105904.32364-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] lib/oe/utils: remove param_bool()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,167 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Nov 2017 10:58:11 -0000
-Content-Type: multipart/alternative; boundary="001a1141b498cbc1ef055f312018"
+X-List-Received-Date: Thu, 30 Nov 2017 10:59:07 -0000
 
---001a1141b498cbc1ef055f312018
-Content-Type: text/plain; charset="UTF-8"
+This function is not used by any classes or recipes that I can find, so lets
+delete it.
 
-There are two neater ways of doing this:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/utils.py | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-1) oe.types.boolean() which handles all the common aliases for true or
-false.
-2)bitbake typed variables.  Do QEMU_USE_KVM[type]="boolean" where it gets a
-default value, and then use oe.data.typed_value('QEMU_USE_KVM', d) to get
-the value.
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 643ab78df7a..1897c5faea0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -86,17 +86,6 @@ def str_filter_out(f, str, d):
+     from re import match
+     return " ".join([x for x in str.split() if not match(f, x, 0)])
+ 
+-def param_bool(cfg, field, dflt = None):
+-    """Lookup <field> in <cfg> map and convert it to a boolean; take
+-    <dflt> when this <field> does not exist"""
+-    value = cfg.get(field, dflt)
+-    strvalue = str(value).lower()
+-    if strvalue in ('yes', 'y', 'true', 't', '1'):
+-        return True
+-    elif strvalue in ('no', 'n', 'false', 'f', '0'):
+-        return False
+-    raise ValueError("invalid value for boolean parameter '%s': '%s'" % (field, value))
+-
+ def build_depends_string(depends, task):
+     """Append a taskname to a string of dependencies as used by the [depends] flag"""
+     return " ".join(dep + ":" + task for dep in depends.split())
+-- 
+2.11.0
 
-Both ways move the actual value parsing to dedicated code so its less error
-prone and more consistent.
 
-Ross
-
-On 14 November 2017 at 06:57, Robert Yang <liezhi.yang@windriver.com> wrote:
-
-> It only could be set to "True", which was not common in oe, e.g.:
-> * Works
-> QEMU_USE_KVM = "True"
->
-> * Didn't work, this would surprise user.
-> QEMU_USE_KVM = "1"
->
-> Make it work with both 1 and True now, the "True" is for compatibility.
->
-> [YOCTO #12343]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/testimage.bbclass | 2 +-
->  meta/lib/oeqa/targetcontrol.py | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.
-> bbclass
-> index 45bb2bd..66b4baf 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -215,7 +215,7 @@ def testimage_main(d):
->      # Get use_kvm
->      qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->      if qemu_use_kvm and \
-> -       (qemu_use_kvm == 'True' and 'x86' in machine or \
-> +       (qemu_use_kvm in ('True', '1') and 'x86' in machine or \
->          d.getVar('MACHINE') in qemu_use_kvm.split()):
->          kvm = True
->      else:
-> diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.
-> py
-> index f63936c..1625569 100644
-> --- a/meta/lib/oeqa/targetcontrol.py
-> +++ b/meta/lib/oeqa/targetcontrol.py
-> @@ -107,7 +107,7 @@ class QemuTarget(BaseTarget):
->          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
->          qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->          if qemu_use_kvm and \
-> -           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
-> +           (qemu_use_kvm in ("True", "1") and "x86" in
-> d.getVar("MACHINE") or \
->              d.getVar("MACHINE") in qemu_use_kvm.split()):
->              use_kvm = True
->          else:
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a1141b498cbc1ef055f312018
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">There are two neater ways of do=
-ing this:</div><br>1) oe.types.boolean() which handles all the common alias=
-es for true or false.<div>2)bitbake typed variables.=C2=A0 Do QEMU_USE_KVM[=
-type]=3D&quot;boolean&quot; where it gets a default value, and then use oe.=
-data.typed_value(&#39;QEMU_USE_KVM&#39;, d) to get the value.</div><div><br=
-></div><div>Both ways move the actual value parsing to dedicated code so it=
-s less error prone and more consistent.</div><div><br></div><div>Ross</div>=
-<div><br><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 14 Novemb=
-er 2017 at 06:57, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezh=
-i.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rg=
-b(204,204,204);padding-left:1ex">It only could be set to &quot;True&quot;, =
-which was not common in oe, e.g.:<br>
-* Works<br>
-QEMU_USE_KVM =3D &quot;True&quot;<br>
-<br>
-* Didn&#39;t work, this would surprise user.<br>
-QEMU_USE_KVM =3D &quot;1&quot;<br>
-<br>
-Make it work with both 1 and True now, the &quot;True&quot; is for compatib=
-ility.<br>
-<br>
-[YOCTO #12343]<br>
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/testimage.bbclass | 2 +-<br>
-=C2=A0meta/lib/oeqa/targetcontrol.py | 2 +-<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/classes/testimage.<wbr>bbclass b/meta/classes/testimage.<=
-wbr>bbclass<br>
-index 45bb2bd..66b4baf 100644<br>
---- a/meta/classes/testimage.<wbr>bbclass<br>
-+++ b/meta/classes/testimage.<wbr>bbclass<br>
-@@ -215,7 +215,7 @@ def testimage_main(d):<br>
-=C2=A0 =C2=A0 =C2=A0# Get use_kvm<br>
-=C2=A0 =C2=A0 =C2=A0qemu_use_kvm =3D d.getVar(&quot;QEMU_USE_KVM&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0if qemu_use_kvm and \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0(qemu_use_kvm =3D=3D &#39;True&#39; and &#39;x8=
-6&#39; in machine or \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0(qemu_use_kvm in (&#39;True&#39;, &#39;1&#39;) =
-and &#39;x86&#39; in machine or \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&#39;MACHINE&#39;) in qemu_use_k=
-vm.split()):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kvm =3D True<br>
-=C2=A0 =C2=A0 =C2=A0else:<br>
-diff --git a/meta/lib/oeqa/targetcontrol.<wbr>py b/meta/lib/oeqa/targetcont=
-rol.<wbr>py<br>
-index f63936c..1625569 100644<br>
---- a/meta/lib/oeqa/targetcontrol.<wbr>py<br>
-+++ b/meta/lib/oeqa/targetcontrol.<wbr>py<br>
-@@ -107,7 +107,7 @@ class QemuTarget(BaseTarget):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dump_dir =3D d.getVar(&quot;TESTIMAGE_DUM=
-P_DIR&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_use_kvm =3D d.getVar(&quot;QEMU_USE_=
-KVM&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if qemu_use_kvm and \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(qemu_use_kvm =3D=3D &quot;True&q=
-uot; and &quot;x86&quot; in d.getVar(&quot;MACHINE&quot;) or \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(qemu_use_kvm in (&quot;True&quot=
-;, &quot;1&quot;) and &quot;x86&quot; in d.getVar(&quot;MACHINE&quot;) or \=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&quot;MACHINE&quot=
-;) in qemu_use_kvm.split()):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0use_kvm =3D True<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-<span class=3D"gmail-HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div></div></div>
-
---001a1141b498cbc1ef055f312018--
