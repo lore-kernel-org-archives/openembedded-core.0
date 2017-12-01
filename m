@@ -1,42 +1,47 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F133E786AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E594678687
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 13:05:38 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id b184so12980170qkc.13
+	Fri,  1 Dec 2017 13:44:44 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id g75so3658760wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 05:05:40 -0800 (PST)
+	Fri, 01 Dec 2017 05:44:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=YL86+NltbDmpzCt0haBpZ4bN3+Y08zrCcdH4NBAqW28=;
+	b=efky/MGFGdAP3PbkpBy/g2D//6WdYcGicT3TyDYxM3hq/JIQyocB8UsLLCnCRJq9BV
+	mR7NGZWLtMgmGJ5kiwnKLQ2ibDYmwWnrtsoH1N0LB1npNY/gkVKefhGS93T2uAAug3gX
+	PHeu64YAAhHyU+DCAMgOrEWQdR8sRThfELL52I/UHTP6VO6KZtkEli5QQmZWQHpLtzOk
+	G+53GpLRD+B0oJ+1mgqgEEzUJ5GzlvYA9JL2ofwsMPK1ejE/Z2+LipcGklAOYA1fHA6q
+	GnIqMHpfkSpmQDzzUSzaXlebtKWB6Qva8OlufEw8WpfZr1nFR+e0Lx1GJwfziEM3KaQ0
+	kp2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=GLDNGKDVWGQQsePSsbBl8aNIz1CITsdR0xRv6fuKab4=;
-	b=mAbww9asK7GuDGsK6wmD2C0APrwrqJeIEgoWLHG7eNDO5CjOReIFQfj1EBrSDvNgvz
-	Kizqrz+DVVveekEIy91a6UB2dsXWoGBQUK/W0A2Y5nUSjQp4S2A/qPYVd64dWUl2k+zH
-	FW1pd6kYdURvcuhYTQCh1EqpGM9iIyMFRzDS78QC3BUd5j3unPN/EYwFa0tGmebw58wC
-	qOhPO7KQardzjj9MW6oKtzLCqzCNYYwKt7D4tZIRX76Bpen3KX5/2nBqL2sL7iQmIX5j
-	UqkWrw6nMm2bbP160qiAyzyQyPK/YQIdcZKaNIgFHwq5i7lvguIreJ/9+pj0Xa7CAa7X
-	5D4Q==
-X-Gm-Message-State: AKGB3mJCOj8dFJZGOOHEo2ogW5AN5jF28wEh+vaxv+e51LeG0eG9FmpY
-	tIqeFoyLh0PbWCa9pNd50aU1cg==
-X-Google-Smtp-Source: AGs4zMa2NJ854HV2Zs6ijWUKuacI/llZ+J5+80Rxix75hh3gQFxedFbbeJEebkm5px/TjDD2Fezi0g==
-X-Received: by 10.55.215.67 with SMTP id m64mr7679560qki.91.1512133539445;
-	Fri, 01 Dec 2017 05:05:39 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	d184sm4670934qka.15.2017.12.01.05.05.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 01 Dec 2017 05:05:38 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 01 Dec 2017 11:05:33 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  1 Dec 2017 11:05:32 -0200
-Message-Id: <20171201130532.21749-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.15.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] initramfs-framework: Add exec module
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=YL86+NltbDmpzCt0haBpZ4bN3+Y08zrCcdH4NBAqW28=;
+	b=ckYKZXkqZXn6L3NRvu81sMTEhaHGMDu1ACNlnylr18S5xhYx6wsl+Q9OXK4bDv5Pr1
+	85R6R572vmjt+cW9neeistZReKPO7touPK633t7pEEimam6ayBn1Vmo8qooGj5izukKJ
+	ac4feBroNpbQ2EZS9L78eaN1y48aHVbpPyHIF6yrR1CQp0nz36LasVbQYY3eLxX8ISE7
+	QlWA3JaQ0mz5evL6I/NNs6slvRcmJe0jxdA6J4j0HNOGZTKYHYD+uOKu78SN9qXQUyP8
+	E2zfTpo+CvzyvHhD4naAXSwivEKBAymoi06k/LBscHiyyuLHX3ljR8yDToyffiXD54Gq
+	LOeA==
+X-Gm-Message-State: AKGB3mI+WGFGZcwqY8gxKGZHrNu61/PSL06lCEjKJ8rQfwPla4uAhfFb
+	75S2s+lDxuiYcdJEv/WqKnsjgFmI
+X-Google-Smtp-Source: AGs4zMbCdCVGcQHPYJA8TDmjKLQprKpXL3UfFWwbG8u30wxaQfOabJjNfmaKx7Ve6DKPpYu/OFYdsw==
+X-Received: by 10.28.211.211 with SMTP id k202mr1170521wmg.113.1512135885391; 
+	Fri, 01 Dec 2017 05:44:45 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 189sm1260563wmu.3.2017.12.01.05.44.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Dec 2017 05:44:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Dec 2017 13:44:41 +0000
+Message-Id: <20171201134441.28470-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] xserver-xf86-config: remove last trace of 10-preload-modules.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,97 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 13:05:39 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 13:44:45 -0000
 
-This new module allow for easy execution of external scripts or
-applications. It runs anything found in /exec.d directory in order and
-in case of no scripts to be available, it opens a shell.
+This file has been removed but the CONFFILES assignment for it wasn't.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
+ meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
- .../initrdscripts/initramfs-framework/exec         | 29 ++++++++++++++++++++++
- .../initrdscripts/initramfs-framework_1.0.bb       |  9 +++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/exec
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/exec b/meta/recipes-core/initrdscripts/initramfs-framework/exec
-new file mode 100644
-index 0000000000..a8e2432bb6
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/exec
-@@ -0,0 +1,29 @@
-+#!/bin/sh
-+# Copyright (C) 2017 O.S. Systems Software LTDA.
-+# Licensed on MIT
-+
-+EXEC_DIR=/exec.d  # place to look for modules
-+
-+exec_enabled() {
-+	return 0
-+}
-+
-+exec_run() {
-+	if [ ! -d $EXEC_DIR ]; then
-+		msg "No contents to exec in $EXEC_DIR. Starting shell ..."
-+		sh
-+	fi
-+
-+	# Load and run modules
-+	for m in $EXEC_DIR/*; do
-+		# Skip backup files
-+		if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
-+			continue
-+		fi
-+
-+		debug "Starting $m"
-+
-+		# process module
-+		./$m
-+	done
-+}
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 2afc37ee75..75d965f069 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -8,6 +8,7 @@ PR = "r4"
- inherit allarch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index 4c442bc7123..5420b7d23e5 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+@@ -10,7 +10,6 @@ SRC_URI = "file://xorg.conf"
+ S = "${WORKDIR}"
  
- SRC_URI = "file://init \
-+           file://exec \
-            file://rootfs \
-            file://finish \
-            file://mdev \
-@@ -26,6 +27,9 @@ do_install() {
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
+ CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
+-CONFFILES_${PN}_append_libc-musl = " ${sysconfdir}/X11/xorg.conf.d/10-preload-modules.conf"
  
-+	# exec
-+    install -m 0755 ${WORKDIR}/exec ${D}/init.d/89-exec
-+
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
- 
-@@ -45,6 +49,7 @@ do_install() {
- }
- 
- PACKAGES = "${PN}-base \
-+            initramfs-module-exec \
-             initramfs-module-mdev \
-             initramfs-module-udev \
-             initramfs-module-e2fs \
-@@ -62,6 +67,10 @@ FILES_${PN}-base = "/init /init.d/99-finish /dev"
- # and mounts the rootfs. Then 90-rootfs will proceed immediately.
- RRECOMMENDS_${PN}-base += "initramfs-module-rootfs"
- 
-+SUMMARY_initramfs-module-exec = "initramfs support for easy execution of applications"
-+RDEPENDS_initramfs-module-exec = "${PN}-base"
-+FILES_initramfs-module-exec = "/init.d/89-exec"
-+
- SUMMARY_initramfs-module-mdev = "initramfs support for mdev"
- RDEPENDS_initramfs-module-mdev = "${PN}-base busybox-mdev"
- FILES_initramfs-module-mdev = "/init.d/01-mdev"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ ALLOW_EMPTY_${PN} = "1"
 -- 
-2.15.0
+2.11.0
 
 
