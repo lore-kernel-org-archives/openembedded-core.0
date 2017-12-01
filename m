@@ -1,45 +1,42 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DA347786C1
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F133E786AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 13:03:19 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id d66so13032734qkg.1
+	Fri,  1 Dec 2017 13:05:38 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id b184so12980170qkc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 05:03:21 -0800 (PST)
+	Fri, 01 Dec 2017 05:05:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=IqfTcZkEAPvAoD1wKAgUwpRxMe0hpky57s6yF4iMtEg=;
-	b=Of1YMj8zcpCy3WhPyWLX1KhK0W3J47K/JeFgso7ryiSu7SKOhlp9VLxrA+M3/r6o9w
-	Y1RoedvCuVOCGaIwffcvvoaqLUOyETqUpzvbcUmd8xyFRv4Sil++eEtixv6luqLqK+m1
-	gt07+vNvPeckDD0z/HBlkHmFAiHFXyGWiRlQSYkJBwRo37dco5W/5M1d8v5H9623yybd
-	a75Lm9v8WUe7mvBd0u+G2R/mFDWv3NTy7VvlVEFUBOBR5j5iEg6EpV2rHHaBP1Tn6I/o
-	RBl20hNRgrmgcGoP2BlEVjvAHbAau+SoyslKRIk3+tn+oszn6D5GXWWh6+WaSZUukO2J
-	1UMg==
-X-Gm-Message-State: AKGB3mIKBdDuI5Dafi0kCbx2gKAvhpq9OvuJlNkVBno1SuNHBuPxT2/s
-	OpTSvF45wXtzFKCGRbyK7+xDxA==
-X-Google-Smtp-Source: AGs4zMYrFKxl9oVhLV47GDJ1R/ehCjQLfREOo2Np+N6NHERk5F7mXO//JbPxEqxnAeLPGUocZ+fTsw==
-X-Received: by 10.55.19.93 with SMTP id d90mr7149058qkh.271.1512133400740;
-	Fri, 01 Dec 2017 05:03:20 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=GLDNGKDVWGQQsePSsbBl8aNIz1CITsdR0xRv6fuKab4=;
+	b=mAbww9asK7GuDGsK6wmD2C0APrwrqJeIEgoWLHG7eNDO5CjOReIFQfj1EBrSDvNgvz
+	Kizqrz+DVVveekEIy91a6UB2dsXWoGBQUK/W0A2Y5nUSjQp4S2A/qPYVd64dWUl2k+zH
+	FW1pd6kYdURvcuhYTQCh1EqpGM9iIyMFRzDS78QC3BUd5j3unPN/EYwFa0tGmebw58wC
+	qOhPO7KQardzjj9MW6oKtzLCqzCNYYwKt7D4tZIRX76Bpen3KX5/2nBqL2sL7iQmIX5j
+	UqkWrw6nMm2bbP160qiAyzyQyPK/YQIdcZKaNIgFHwq5i7lvguIreJ/9+pj0Xa7CAa7X
+	5D4Q==
+X-Gm-Message-State: AKGB3mJCOj8dFJZGOOHEo2ogW5AN5jF28wEh+vaxv+e51LeG0eG9FmpY
+	tIqeFoyLh0PbWCa9pNd50aU1cg==
+X-Google-Smtp-Source: AGs4zMa2NJ854HV2Zs6ijWUKuacI/llZ+J5+80Rxix75hh3gQFxedFbbeJEebkm5px/TjDD2Fezi0g==
+X-Received: by 10.55.215.67 with SMTP id m64mr7679560qki.91.1512133539445;
+	Fri, 01 Dec 2017 05:05:39 -0800 (PST)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	e204sm4531081qkb.25.2017.12.01.05.03.17
+	d184sm4670934qka.15.2017.12.01.05.05.35
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 01 Dec 2017 05:03:19 -0800 (PST)
+	Fri, 01 Dec 2017 05:05:38 -0800 (PST)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 01 Dec 2017 11:03:12 -0200
+	Fri, 01 Dec 2017 11:05:33 -0200
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  1 Dec 2017 11:02:54 -0200
-Message-Id: <20171201130254.21305-3-otavio@ossystems.com.br>
+Date: Fri,  1 Dec 2017 11:05:32 -0200
+Message-Id: <20171201130532.21749-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171201130254.21305-1-otavio@ossystems.com.br>
-References: <20171201130254.21305-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 3/3] grub: Move grub-editenv packaging to grub2.inc
+Subject: [PATCH] initramfs-framework: Add exec module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +49,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 13:03:20 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 13:05:39 -0000
 
-The editenv utility must be available on grub and grub-efi so we
-better have it inside the grub2.inc file to avoid the duplication of
-metadata.
+This new module allow for easy execution of external scripts or
+applications. It runs anything found in /exec.d directory in order and
+in case of no scripts to be available, it opens a shell.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v2: None
+ .../initrdscripts/initramfs-framework/exec         | 29 ++++++++++++++++++++++
+ .../initrdscripts/initramfs-framework_1.0.bb       |  9 +++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/exec
 
- meta/recipes-bsp/grub/grub2.inc    | 6 ++++++
- meta/recipes-bsp/grub/grub_2.02.bb | 6 +-----
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index a56fbe7bf8..28f96bb162 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -70,3 +70,9 @@ do_configure_prepend() {
- # grub and grub-efi's sysroot/${datadir}/grub/grub-mkconfig_lib are
- # conflicted, remove it since no one uses it.
- SYSROOT_DIRS_BLACKLIST += "${datadir}/grub/grub-mkconfig_lib"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/exec b/meta/recipes-core/initrdscripts/initramfs-framework/exec
+new file mode 100644
+index 0000000000..a8e2432bb6
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/exec
+@@ -0,0 +1,29 @@
++#!/bin/sh
++# Copyright (C) 2017 O.S. Systems Software LTDA.
++# Licensed on MIT
 +
-+PACKAGES =+ "${PN}-editenv"
++EXEC_DIR=/exec.d  # place to look for modules
 +
-+FILES_${PN}-editenv = "${bindir}/grub-editenv"
-+RDEPENDS_${PN} += "${PN}-editenv"
-+RDEPENDS_${PN}_class-native = ""
-diff --git a/meta/recipes-bsp/grub/grub_2.02.bb b/meta/recipes-bsp/grub/grub_2.02.bb
-index b8055e7537..3e61f6a16d 100644
---- a/meta/recipes-bsp/grub/grub_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub_2.02.bb
-@@ -1,10 +1,6 @@
- require grub2.inc
++exec_enabled() {
++	return 0
++}
++
++exec_run() {
++	if [ ! -d $EXEC_DIR ]; then
++		msg "No contents to exec in $EXEC_DIR. Starting shell ..."
++		sh
++	fi
++
++	# Load and run modules
++	for m in $EXEC_DIR/*; do
++		# Skip backup files
++		if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
++			continue
++		fi
++
++		debug "Starting $m"
++
++		# process module
++		./$m
++	done
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 2afc37ee75..75d965f069 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -8,6 +8,7 @@ PR = "r4"
+ inherit allarch
  
--RDEPENDS_${PN} = "diffutils freetype grub-editenv"
--
--PACKAGES =+ "grub-editenv"
--
--FILES_grub-editenv = "${bindir}/grub-editenv"
-+RDEPENDS_${PN} += "diffutils freetype"
+ SRC_URI = "file://init \
++           file://exec \
+            file://rootfs \
+            file://finish \
+            file://mdev \
+@@ -26,6 +27,9 @@ do_install() {
+     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
+     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
  
- do_install_append () {
-     install -d ${D}${sysconfdir}/grub.d
++	# exec
++    install -m 0755 ${WORKDIR}/exec ${D}/init.d/89-exec
++
+     # mdev
+     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
+ 
+@@ -45,6 +49,7 @@ do_install() {
+ }
+ 
+ PACKAGES = "${PN}-base \
++            initramfs-module-exec \
+             initramfs-module-mdev \
+             initramfs-module-udev \
+             initramfs-module-e2fs \
+@@ -62,6 +67,10 @@ FILES_${PN}-base = "/init /init.d/99-finish /dev"
+ # and mounts the rootfs. Then 90-rootfs will proceed immediately.
+ RRECOMMENDS_${PN}-base += "initramfs-module-rootfs"
+ 
++SUMMARY_initramfs-module-exec = "initramfs support for easy execution of applications"
++RDEPENDS_initramfs-module-exec = "${PN}-base"
++FILES_initramfs-module-exec = "/init.d/89-exec"
++
+ SUMMARY_initramfs-module-mdev = "initramfs support for mdev"
+ RDEPENDS_initramfs-module-mdev = "${PN}-base busybox-mdev"
+ FILES_initramfs-module-mdev = "/init.d/01-mdev"
 -- 
 2.15.0
 
