@@ -1,31 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 257DE782CE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C98078685
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 09:49:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Dec 2017 01:49:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,344,1508828400"; d="scan'208";a="11806007"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 01 Dec 2017 01:49:01 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1512006081.git.liezhi.yang@windriver.com>
-	<f8f2799d5b4c51969c904a7a09b75caae1020b31.1512006081.git.liezhi.yang@windriver.com>
-	<bddd691d-b200-a99a-9909-99ab33da7adb@linux.intel.com>
-	<8d0f0ec4-82a6-c63e-2fac-e012e9ee2ec5@windriver.com>
-	<93b6acc4-61a1-1c41-a092-e3580a33f1b9@linux.intel.com>
-Message-ID: <335280c8-345e-e1c9-9960-ce599eeef52f@linux.intel.com>
-Date: Fri, 1 Dec 2017 11:49:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Fri,  1 Dec 2017 11:07:59 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id u62so2043404ita.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Dec 2017 03:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lRroVeZidQGIND3qlGuv8uprQbwd6Gu9DmHLainSfWE=;
+	b=x4/UEpgkQL7SeEh598idPsRkzj40Snv9YrzKZQutZlj4CiPaptafAyiJiXPDppvKMu
+	VF4uCa3+w8YQcdN0gw3mrWqvyNm03TVYwAHrQxrejSinLX1DYxF6DU+8auVPW3/eXhGJ
+	5PKVrxtx+JorTcoh5znxg7aYaHPsdLbzphxMBeIhsDDx3/olSj/FSgupFDYcOvr/baqp
+	ESVsa0L7HJfbugaVzx1NKIYaygET5N7AcQBvTiqooKa7F7k53CAAfQcYD4xoDSxl6ne7
+	B+6zo5/x2ZXlFTto9Y7GC8nGANzWbJwKfwmg+tZ0NFnZwr0qKbvmlXlCp54X+Otz0Yql
+	fekg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lRroVeZidQGIND3qlGuv8uprQbwd6Gu9DmHLainSfWE=;
+	b=JgCjpQBJJT+qwUuxG3QgauIZvIP29ZcFtMJ7UGlA7GkUZQujeFYU8DH7XBKzs10wyH
+	ttvLowO0tK0WA2N7ZdbQPgpZpZXn6fYKW5rVNFJ3zAczUPhanFgPdeYhUXec5c1ALq4s
+	qlpXi3sbzF/ZG5fVV7ONXF9re16eGdBg8CUdmrsPJbCPw00RWiYBvukO8Ic9T3Zu6Oe3
+	3lDkSL5WVrDBnwePdWyWB1aW5M7428X9BDizXUmYWdxCdc2U7OZoAd5uQf9jEDY9/cMU
+	UVS6/8IpkeTTo07HYkZPIhdI3T8UsNwuhMuciNN8jRUYI6MANds5Ygh0nXl2iZRtl6ip
+	7+xw==
+X-Gm-Message-State: AKGB3mITjQ1MZdiIFG/vhPw+hLz+2bwhzmDkHcwV60YNZ1TutD69p42/
+	GQ5VNI1SJdLkWFeQIodlXJnsDVFVtJQRIBhD/n3HTA==
+X-Google-Smtp-Source: AGs4zMYkR00td5A4aqg9tazPkeetaCRTF2sSLsPzq8Igwwsz+MBKZfg9y1g5RVW/pE1Xc2ioKtKPk5fc7bp6Ihgye7E=
+X-Received: by 10.36.120.11 with SMTP id p11mr1345278itc.10.1512126480635;
+	Fri, 01 Dec 2017 03:08:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <93b6acc4-61a1-1c41-a092-e3580a33f1b9@linux.intel.com>
-Subject: Re: [PATCH 4/5] webkitgtk: fix compile error when len(TMPDIR) == 410
+Received: by 10.107.171.134 with HTTP; Fri, 1 Dec 2017 03:07:40 -0800 (PST)
+In-Reply-To: <CAJ86T=VX0up-q-CSOafSno14+frTM3NxzwngffCkggMOTd6vCA@mail.gmail.com>
+References: <1512073240-3830-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
+	<CAJ86T=VX0up-q-CSOafSno14+frTM3NxzwngffCkggMOTd6vCA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Dec 2017 11:07:40 +0000
+Message-ID: <CAJTo0Lb4VsORo9110=Q8JSgQytcfoHpsRRSTWiJJ_BiPfYxvvA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: prevent errors if do_install is run more than once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +58,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 09:49:01 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Dec 2017 11:07:59 -0000
+Content-Type: multipart/alternative; boundary="001a114a9b5ebbefa7055f4561c6"
 
-On 12/01/2017 10:26 AM, Alexander Kanavin wrote:
-> On 12/01/2017 03:46 AM, Robert Yang wrote:
->> The flags.make is generated by cmake, and as I said in the commit 
->> message:
->>
->> "The cmake doesn't support relative path, so we have to edit 
->> flags.make to fix
->> the problem"
->>
->> I'm not familiar with cmake, please let me know if there is a way to make
->> it generate a relative path in flags.make.
-> 
-> I'll try to find out how it happens, and will get back to you.
+--001a114a9b5ebbefa7055f4561c6
+Content-Type: text/plain; charset="UTF-8"
 
-Sadly, looks like you are right. Cmake will prepend a full path to every 
-include directory, even if they're specified as relative in CmakeLists.txt.
+Extend lnr to have a --force option?
 
-As this is a common problem, should it go to cmake.bbclass perhaps?
+Ross
 
+On 30 November 2017 at 22:59, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Alex
+> On Thu, Nov 30, 2017 at 1:51 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > On Thu, Nov 30, 2017 at 12:20 PM, Andre McCurdy <armccurdy@gmail.com>
+> wrote:
+> >> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> >> ---
+> >>  meta/recipes-core/musl/musl_git.bb | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/recipes-core/musl/musl_git.bb
+> b/meta/recipes-core/musl/musl_git.bb
+> >> index 932c9a2..db26b4f 100644
+> >> --- a/meta/recipes-core/musl/musl_git.bb
+> >> +++ b/meta/recipes-core/musl/musl_git.bb
+> >> @@ -57,10 +57,11 @@ do_install() {
+> >>         oe_runmake install DESTDIR='${D}'
+> >>
+> >>         install -d ${D}${bindir}
+> >> +       rm -f ${D}${bindir}/ldd
+> >
+> > Doesn't lnr take care of removing old file ?
+>
+> Apparently not:
+>
+>   $ touch foo
+>   $ lnr xxx foo
+>   Traceback (most recent call last):
+>     File "/.../openembedded-core/scripts/lnr", line 21, in <module>
+>       os.symlink(target, linkname)
+>   FileExistsError: [Errno 17] File exists: 'xxx' -> 'foo'
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a114a9b5ebbefa7055f4561c6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Extend lnr to have a --force option?</div><div><br></=
+div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail=
+_quote">On 30 November 2017 at 22:59, Andre McCurdy <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, Nov 30, 20=
+17 at 1:51 PM, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt; wrote:<br>
+<span class=3D"">&gt; On Thu, Nov 30, 2017 at 12:20 PM, Andre McCurdy &lt;<=
+a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br=
+>
+&gt;&gt; Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail=
+.com">armccurdy@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D=
+"noreferrer" target=3D"_blank">musl_<wbr>git.bb</a> | 3 ++-<br>
+&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-core/musl/<a href=3D"http://musl_git.bb"=
+ rel=3D"noreferrer" target=3D"_blank">musl_<wbr>git.bb</a> b/meta/recipes-c=
+ore/musl/<a href=3D"http://musl_git.bb" rel=3D"noreferrer" target=3D"_blank=
+">musl_<wbr>git.bb</a><br>
+&gt;&gt; index 932c9a2..db26b4f 100644<br>
+&gt;&gt; --- a/meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D=
+"noreferrer" target=3D"_blank">musl_<wbr>git.bb</a><br>
+&gt;&gt; +++ b/meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D=
+"noreferrer" target=3D"_blank">musl_<wbr>git.bb</a><br>
+&gt;&gt; @@ -57,10 +57,11 @@ do_install() {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake install DESTDIR=3D&#39=
+;${D}&#39;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${bindir}<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${D}${bindir}/ldd<br>
+&gt;<br>
+</span>&gt; Doesn&#39;t lnr take care of removing old file ?<br>
+<br>
+Apparently not:<br>
+<br>
+=C2=A0 $ touch foo<br>
+=C2=A0 $ lnr xxx foo<br>
+=C2=A0 Traceback (most recent call last):<br>
+=C2=A0 =C2=A0 File &quot;/.../openembedded-core/<wbr>scripts/lnr&quot;, lin=
+e 21, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 os.symlink(target, linkname)<br>
+=C2=A0 FileExistsError: [Errno 17] File exists: &#39;xxx&#39; -&gt; &#39;fo=
+o&#39;<br>
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a114a9b5ebbefa7055f4561c6--
