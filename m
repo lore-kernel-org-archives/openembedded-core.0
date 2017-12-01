@@ -1,30 +1,47 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C3878709
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 276AC786EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 22:05:08 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Dec 2017 14:05:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,347,1508828400"; d="scan'208,217";a="8566548"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 01 Dec 2017 14:05:10 -0800
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-	<20171114220340.28764-1-california.l.sullivan@intel.com>
-	<CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <3adad65e-6eca-190f-5a71-7cd509bbd3f9@intel.com>
-Date: Fri, 1 Dec 2017 14:05:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Fri,  1 Dec 2017 22:07:47 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id f9so5727520wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Dec 2017 14:07:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=zxOAvBsGXVj/I9InF3DZYPV3kU77f+sSP0O5UIL7RTY=;
+	b=Ijj3OpQMUGizWZzr/7p+0ZHRlz0/zQYdLCQ7W+eoGX630Zf4frcNTqVJMCfpeZH9wv
+	zJFo3G2Y8pEMN8sBxtuTzEvufQafswYfqVAuUm0MZXQW/mmfPR4lHKKu4xQ8efk+oAJy
+	7r3X8TEPplWpesHLJT0E9ycpmHDBwVNYI7jtXWR0P1EioXxmOUSSOy9dP/xMfSDTgXjY
+	dEnEEY0CvumCmNQUgnpMH4CIBmNdnRlwE0COaWx5kJrofgegYAInpdIr+SjBkKL8pXrh
+	nMwZy0lNhnnX3VoaAHKu8Nks+CfKfUoqZg0r7rq5h4ECuTYtMGkO8wkUQMPQZkrK7+wN
+	Wsdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=zxOAvBsGXVj/I9InF3DZYPV3kU77f+sSP0O5UIL7RTY=;
+	b=RqTEX5wPWPHsawQvdVeg6h3n5yfxw0cDwLKQ4RLT06Ve6JhGywQIgHN3gsAUGEbzAx
+	P2upmrHln5Jo64d0XNDNXfzl3Yv7LKnomZHACFcNN1Ev/CJ9XYj6YO50J/hX+odX7EyN
+	lDNahbzbbYWZkbAqcasg8jA9jilfk3iI02Oohnks9XFlEoUpJJSBGKn9FqAQx6UNYVI7
+	I+OotE4Dnt+i3F6NYsFpKOA8I0kI5YuHqbJrnPhbsNnw0W0/zMrs0tk2Uf5KktOyBPkn
+	KZiq3db2rPw4R74zq3dB1Dtk6M/diYKG7k+y+emw9lxZ0MoTsBoerfD7Z+dmFU2z04b3
+	3q5A==
+X-Gm-Message-State: AJaThX79fWERUyBJTSaA/qAku00JNKGidrC7gJZffwOJXiOQRMelOeC9
+	+8R/8esEdNkdM33whCw2wldHYAp75+SSErW/Q10=
+X-Google-Smtp-Source: AGs4zMZ7lwits+c1ubRPENmc2NFmaq590c3YQT5AGW3kK5+jkP7oELeem5WGwC2tm/nChXjTSYJE1v3EVTaxJBWBjQs=
+X-Received: by 10.28.55.201 with SMTP id e192mr364395wma.1.1512166068588; Fri,
+	01 Dec 2017 14:07:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
-Cc: "Wold, Saul" <saul.wold@intel.com>, henry.bruce@intel.com,
-	Patches and discussions about the oe-core layer
+Received: by 10.28.122.19 with HTTP; Fri, 1 Dec 2017 14:07:48 -0800 (PST)
+In-Reply-To: <20171201220258.2785.92203@do.openembedded.org>
+References: <20171114212050.15881-1-california.l.sullivan@intel.com>
+	<20171201220258.2785.92203@do.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 1 Dec 2017 23:07:48 +0100
+Message-ID: <CA+chaQcDrNUp_fE2a+JpkBOgAKAzA+e8SMKMqRGMpcD7jrLvGA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3 V2] initramfs-framework: add install module
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGluaXRyYW1mcy1mcmFtZXdvcmsgaW5zdGFsbGF0aW9uIGltcHJvdmVtZW50cyAocmV2NCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,307 +54,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 22:05:09 -0000
-Content-Type: multipart/alternative;
-	boundary="------------384A23853D935CF644BE61D7"
-Content-Language: en-US
+X-List-Received-Date: Fri, 01 Dec 2017 22:07:48 -0000
+Content-Type: multipart/alternative; boundary="001a114416165c21ef055f4e99e2"
 
---------------384A23853D935CF644BE61D7
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a114416165c21ef055f4e99e2
+Content-Type: text/plain; charset="UTF-8"
 
-My bad. I was using initramfs-module-install-efi as a template when I 
-shouldn't have.
+Is it trying to apply whole series (including the 2 patches which were
+already merged to master and actually introduced the issue I was trying to
+fix)?
 
-I see you already sent a patch addressing the issue. Looks good, and 
-thanks for that.
+Does it mean that I cannot send a fix into the e-mail thread where the
+issue was introduced and discussed?
 
----
-Cal
+Regards,
 
-On 12/01/2017 01:01 PM, Martin Jansa wrote:
-> Why does it inherit allarch when it depends on TUNE_PKGARCH grub and 
-> other packages?
+On Fri, Dec 1, 2017 at 11:02 PM, Patchwork <
+patchwork@patchwork.openembedded.org> wrote:
+
+> == Series Details ==
 >
-> Also it should repect the restrictions which are in grub recipe:
+> Series: initramfs-framework installation improvements (rev4)
+> Revision: 4
+> URL   : https://patchwork.openembedded.org/series/9783/
+> State : failure
 >
-> COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-> COMPATIBLE_HOST_armv7a = 'null'
-> COMPATIBLE_HOST_armv7ve = 'null'
+> == Summary ==
 >
-> because without it it adds new ERROR to "bitbake world":
-> ERROR: Nothing RPROVIDES 'grub' (but 
-> oe-core/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb 
-> <http://initramfs-module-install_1.0.bb> RDEPENDS on or otherwise 
-> requires it)
-> grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in 
-> COMPATIBLE_HOST)
-> grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in 
-> COMPATIBLE_HOST)
-> NOTE: Runtime target 'grub' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['grub']
-> ERROR: Required build target 'meta-world-pkgdata' has no buildable 
-> providers.
 >
-> On Tue, Nov 14, 2017 at 11:03 PM, California Sullivan 
-> <california.l.sullivan@intel.com 
-> <mailto:california.l.sullivan@intel.com>> wrote:
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
 >
->     The non-EFI counterpart for installation was previously missing for
->     initramfs-framework. This simply puts the normal install script in the
->     correct location for initramfs-framework to make use of it.
 >
->     Signed-off-by: California Sullivan
->     <california.l.sullivan@intel.com
->     <mailto:california.l.sullivan@intel.com>>
->     ---
->     V2 changes:
->     * Add the module's dependencies to
->     SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, since
->       its dependencies changing don't matter in regards building the
->     package.
->     * PR = "r1" since its a new recipe.
 >
->      meta/conf/layer.conf                                 |  4 ++++
->      .../initrdscripts/initramfs-module-install_1.0.bb
->     <http://initramfs-module-install_1.0.bb>   | 20 ++++++++++++++++++++
->      2 files changed, 24 insertions(+)
->      create mode 100644
->     meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
->     <http://initramfs-module-install_1.0.bb>
+> * Issue             Series does not apply on top of target branch
+> [test_series_merge_on_head]
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at addf309165)
 >
->     diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->     index 0342324..6782058 100644
->     --- a/meta/conf/layer.conf
->     +++ b/meta/conf/layer.conf
->     @@ -57,6 +57,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->        initramfs-module-install-efi->e2fsprogs \
->        initramfs-module-install-efi->parted \
->        initramfs-module-install-efi->util-linux \
->     +  initramfs-module-install->e2fsprogs \
->     +  initramfs-module-install->grub \
->     +  initramfs-module-install->parted \
->     +  initramfs-module-install->util-linux \
->        liberation-fonts->fontconfig \
->        cantarell-fonts->fontconfig \
->        gnome-icon-theme->librsvg \
->     diff --git
->     a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
->     <http://initramfs-module-install_1.0.bb>
->     b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
->     <http://initramfs-module-install_1.0.bb>
->     new file mode 100644
->     index 0000000..ce7f165
->     --- /dev/null
->     +++
->     b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
->     <http://initramfs-module-install_1.0.bb>
->     @@ -0,0 +1,20 @@
->     +SUMMARY = "initramfs-framework module for installation option"
->     +LICENSE = "MIT"
->     +LIC_FILES_CHKSUM =
->     "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->     +RDEPENDS_${PN} = "initramfs-framework-base grub parted
->     e2fsprogs-mke2fs util-linux-blkid"
->     +
->     +PR = "r1"
->     +
->     +inherit allarch
->     +
->     +FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
->     +SRC_URI = "file://init-install.sh"
->     +
->     +S = "${WORKDIR}"
->     +
->     +do_install() {
->     +    install -d ${D}/init.d
->     +    install -m 0755 ${WORKDIR}/init-install.sh ${D}/init.d/install.sh
->     +}
->     +
->     +FILES_${PN} = "/init.d/install.sh"
->     --
->     2.9.5
 >
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your
+> concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a
+> new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+>
+> ---
+> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_
+> Guidelines
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 >
 >
 
+--001a114416165c21ef055f4e99e2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------384A23853D935CF644BE61D7
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+<div dir=3D"ltr">Is it trying to apply whole series (including the 2 patche=
+s which were already merged to master and actually introduced the issue I w=
+as trying to fix)?<div><br></div><div>Does it mean that I cannot send a fix=
+ into the e-mail thread where the issue was introduced and discussed?</div>=
+<div><br></div><div>Regards,</div></div><div class=3D"gmail_extra"><br><div=
+ class=3D"gmail_quote">On Fri, Dec 1, 2017 at 11:02 PM, Patchwork <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" target=
+=3D"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<br><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
+<br>
+Series: initramfs-framework installation improvements (rev4)<br>
+Revision: 4<br>
+URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/9783=
+/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedded=
+.org/series/9783/</a><br>
+State : failure<br>
+<br>
+=3D=3D Summary =3D=3D<br>
+<br>
+<br>
+Thank you for submitting this patch series to OpenEmbedded Core. This is<br=
+>
+an automated response. Several tests have been executed on the proposed<br>
+series by patchtest resulting in the following failures:<br>
+<br>
+<br>
+<br>
+* Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does not appl=
+y on top of target branch [test_series_merge_on_head]<br>
+=C2=A0 Suggested fix=C2=A0 =C2=A0 Rebase your series on top of targeted bra=
+nch<br>
+=C2=A0 Targeted branch=C2=A0 master (currently at addf309165)<br>
+<br>
+<br>
+<br>
+If you believe any of these test results are incorrect, please reply to the=
+<br>
+mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.org">o=
+penembedded-core@lists.<wbr>openembedded.org</a>) raising your concerns.<br=
+>
+Otherwise we would appreciate you correcting the issues and submitting a ne=
+w<br>
+version of the patchset if applicable. Please ensure you add/increment the<=
+br>
+version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] =
+-&gt;<br>
+[PATCH v3] -&gt; ...).<br>
+<br>
+---<br>
+Guidelines:=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.openembedded.org/wiki=
+/Commit_Patch_Message_Guidelines" rel=3D"noreferrer" target=3D"_blank">http=
+s://www.openembedded.org/<wbr>wiki/Commit_Patch_Message_<wbr>Guidelines</a>=
+<br>
+Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/patcht=
+est" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.org/<wbr>=
+cgit/cgit.cgi/patchtest</a><br>
+Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/=
+cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git.yoct=
+oproject.org/<wbr>cgit/cgit.cgi/patchtest-oe</a><br>
+<br>
+</blockquote></div><br></div>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <tt>My bad. I was using initramfs-module-install-efi as a template
-      when I shouldn't have.<br>
-      <br>
-      I see you already sent a patch addressing the issue. Looks good,
-      and thanks for that.<br>
-      <br>
-      ---<br>
-      Cal<br>
-    </tt><br>
-    <div class="moz-cite-prefix">On 12/01/2017 01:01 PM, Martin Jansa
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">Why does it inherit allarch when it depends on
-        TUNE_PKGARCH grub and other packages?
-        <div><br>
-        </div>
-        <div>Also it should repect the restrictions which are in grub
-          recipe:</div>
-        <div>
-          <div><br>
-          </div>
-          <div>COMPATIBLE_HOST =
-            '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'</div>
-          <div>COMPATIBLE_HOST_armv7a = 'null'</div>
-          <div>COMPATIBLE_HOST_armv7ve = 'null'</div>
-        </div>
-        <div><br>
-        </div>
-        <div>because without it it adds new ERROR to "bitbake world":</div>
-        <div>
-          <div>ERROR: Nothing RPROVIDES 'grub' (but
-            oe-core/meta/recipes-core/initrdscripts/<a
-              href="http://initramfs-module-install_1.0.bb"
-              moz-do-not-send="true">initramfs-module-install_1.0.bb</a>
-            RDEPENDS on or otherwise requires it)</div>
-          <div>grub was skipped: incompatible with host
-            arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)</div>
-          <div>grub was skipped: incompatible with host
-            arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)</div>
-          <div>NOTE: Runtime target 'grub' is unbuildable, removing...</div>
-          <div>Missing or unbuildable dependency chain was: ['grub']</div>
-          <div>ERROR: Required build target 'meta-world-pkgdata' has no
-            buildable providers.</div>
-        </div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Tue, Nov 14, 2017 at 11:03 PM,
-          California Sullivan <span dir="ltr">&lt;<a
-              href="mailto:california.l.sullivan@intel.com"
-              target="_blank" moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
-              class="">The non-EFI counterpart for installation was
-              previously missing for<br>
-              initramfs-framework. This simply puts the normal install
-              script in the<br>
-              correct location for initramfs-framework to make use of
-              it.<br>
-              <br>
-            </span><span class="">Signed-off-by: California Sullivan
-              &lt;<a href="mailto:california.l.sullivan@intel.com"
-                moz-do-not-send="true">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
-              ---<br>
-            </span>V2 changes:<br>
-            * Add the module's dependencies to
-            SIGGEN_EXCLUDE_SAFE_RECIPE_<wbr>DEPS, since<br>
-              its dependencies changing don't matter in regards building
-            the package.<br>
-            * PR = "r1" since its a new recipe.<br>
-            <br>
-             meta/conf/layer.conf                                 |  4
-            ++++<br>
-             .../initrdscripts/<a
-              href="http://initramfs-module-install_1.0.bb"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">initramfs-<wbr>module-install_1.0.bb</a> 
-              | 20 ++++++++++++++++++++<br>
-             2 files changed, 24 insertions(+)<br>
-             create mode 100644 meta/recipes-core/<wbr>initrdscripts/<a
-              href="http://initramfs-module-install_1.0.bb"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">initramfs-<wbr>module-install_1.0.bb</a><br>
-            <br>
-            diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf<br>
-            index 0342324..6782058 100644<br>
-            --- a/meta/conf/layer.conf<br>
-            +++ b/meta/conf/layer.conf<br>
-            @@ -57,6 +57,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_<wbr>DEPS += "
-            \<br>
-               initramfs-module-install-efi-&gt;<wbr>e2fsprogs \<br>
-               initramfs-module-install-efi-&gt;<wbr>parted \<br>
-               initramfs-module-install-efi-&gt;<wbr>util-linux \<br>
-            +  initramfs-module-install-&gt;<wbr>e2fsprogs \<br>
-            +  initramfs-module-install-&gt;grub \<br>
-            +  initramfs-module-install-&gt;<wbr>parted \<br>
-            +  initramfs-module-install-&gt;<wbr>util-linux \<br>
-               liberation-fonts-&gt;fontconfig \<br>
-               cantarell-fonts-&gt;fontconfig \<br>
-               gnome-icon-theme-&gt;librsvg \<br>
-            <span class="">diff --git a/meta/recipes-core/<wbr>initrdscripts/<a
-                href="http://initramfs-module-install_1.0.bb"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">initramfs-<wbr>module-install_1.0.bb</a>
-              b/meta/recipes-core/<wbr>initrdscripts/<a
-                href="http://initramfs-module-install_1.0.bb"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">initramfs-<wbr>module-install_1.0.bb</a><br>
-              new file mode 100644<br>
-            </span>index 0000000..ce7f165<br>
-            <span class="">--- /dev/null<br>
-              +++ b/meta/recipes-core/<wbr>initrdscripts/<a
-                href="http://initramfs-module-install_1.0.bb"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">initramfs-<wbr>module-install_1.0.bb</a><br>
-              @@ -0,0 +1,20 @@<br>
-              +SUMMARY = "initramfs-framework module for installation
-              option"<br>
-              +LICENSE = "MIT"<br>
-              +LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://$">file://$</a>{COREBASE}/meta/<wbr>COPYING.MIT;md5=<wbr>3da9cfbcb788c80a0384361b4de204<wbr>20"<br>
-              +RDEPENDS_${PN} = "initramfs-framework-base grub parted
-              e2fsprogs-mke2fs util-linux-blkid"<br>
-              +<br>
-            </span>+PR = "r1"<br>
-            <div class="HOEnZb">
-              <div class="h5">+<br>
-                +inherit allarch<br>
-                +<br>
-                +FILESEXTRAPATHS_prepend := "${THISDIR}/files:"<br>
-                +SRC_URI = <a class="moz-txt-link-rfc2396E" href="file://init-install.sh">"file://init-install.sh"</a><br>
-                +<br>
-                +S = "${WORKDIR}"<br>
-                +<br>
-                +do_install() {<br>
-                +    install -d ${D}/init.d<br>
-                +    install -m 0755 ${WORKDIR}/init-install.sh
-                ${D}/init.d/install.sh<br>
-                +}<br>
-                +<br>
-                +FILES_${PN} = "/init.d/install.sh"<br>
-                --<br>
-                2.9.5<br>
-                <br>
-                --<br>
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                <a
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank"
-                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </div>
-            </div>
-          </blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------384A23853D935CF644BE61D7--
+--001a114416165c21ef055f4e99e2--
