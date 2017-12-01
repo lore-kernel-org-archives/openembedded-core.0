@@ -1,49 +1,49 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F137786D7
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 399A471A1A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 15:59:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 63AFD187F4
+	Fri,  1 Dec 2017 16:01:46 +0000 (UTC)
+Received: by mail-ua0-f179.google.com with SMTP id j14so8287391uag.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:46 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id utXkEmVzeFzc
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:42 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 03F4518828
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:42 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E75BE1A0BA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCA181A0B9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id D047A2430;
-	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id B7EEE9C0AE; Fri,  1 Dec 2017 16:50:41 +0100 (CET)
-From: Olof Johansson <olof.johansson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Dec 2017 16:50:21 +0100
-Message-Id: <20171201155024.3002-3-olofjn@axis.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20171201155024.3002-1-olofjn@axis.com>
-References: <20171201155024.3002-1-olofjn@axis.com>
-X-TM-AS-GCONF: 00
-Cc: Olof Johansson <olofjn@axis.com>
-Subject: [PATCH 2/5] package.bbclass: Make use of common is_elf function
+	Fri, 01 Dec 2017 08:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=axHbbJWrB6Z2wMPibgyEreXo5dggiS2tEtnI0gJj1M0=;
+	b=aRXJhtKhIClNgWIyt5ECogjxkEUSpVAWDYT7hfKddisevFupzbCjljnL+s8E6auzYO
+	S7IReBmVC4XeKPm4ddtDGCw7ilId0iFk3zObvh0zFN9WkVr+SqtbsUyUO0ivk/aRbX2C
+	bFfHszsDmjMxUxo11QCZCZuLni6K0R/HBHKdY8AEEZBJi0E9Ieogt2SibRKe5QiEn5of
+	LS91u9iU6MMMdWKj16gA0JctrsVXBt5JwXxtmgR8bPgD0PzcaJY90w4i6yFa2xZcl/V6
+	QdLiz2KtawO4ehfLpSSqhSSzyhPYP1LhtH+myndCyAWohw1f7PTjggq9uyZaA8S0qZz4
+	lCgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=axHbbJWrB6Z2wMPibgyEreXo5dggiS2tEtnI0gJj1M0=;
+	b=KD3BN1DA3HfrDA2ovu3sieTb+B5lTxHLfb11PXDQ/7/Avh4nzEVDPoxjTPFwa768JF
+	78ZK8RssthEO89x0AJr0cpbYwklGEqq8DvCR3RQBsjY6sykXzauBg6dXdpyYzWKYJEcA
+	9P5oL8Y6xqeTBj7KevTf9k4kkUfyb5Rhiow1aSgOyiYwgtEVz/bAKTLfcxkFj4sqiMCH
+	7V7mxBwhWO3nfNUlVbYAuCfeB5z5x0cPNtGzLUQnCHKDMNbjO8neaUBxIZ3caHm9vT8i
+	EDU1JK/7IJFWiZdZe0z0pORT9XLG/kTdu7sDanJAA1expiKz2o/FLep9c5gijq8apPy9
+	YypQ==
+X-Gm-Message-State: AKGB3mIVVhUdNADeJ9WxhgmE8At4TQRZAK0uLWm2znbb2CPU0O3Knpae
+	yMHqCJOyYZ0zJ+3CbB034cxCr05ynqfdG1AK5PlQ8w==
+X-Google-Smtp-Source: AGs4zMYucsWlJACynR0zsfNyAFCHqC8Y5/mJDWPkR4K8xMfGZWUQWbpMVjNBJoq7IRDUnRO7wYe5sHoIi6MFJoMo5Nw=
+X-Received: by 10.176.16.67 with SMTP id g3mr5622798uab.109.1512144107922;
+	Fri, 01 Dec 2017 08:01:47 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1512111404.git.dengke.du@windriver.com>
+	<43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
+	<CAMKF1sq-VPxdRuKcpbvfK74GRnTk5mNwthuYj6S92bXCdPuF3Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sq-VPxdRuKcpbvfK74GRnTk5mNwthuYj6S92bXCdPuF3Q@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 01 Dec 2017 16:01:37 +0000
+Message-ID: <CANx9H-DT97H1kJDMRzmHQh9CZB5GFw4y-_vj8D8y=ZZ+f1Mmhw@mail.gmail.com>
+To: "dengke.du@windriver.com" <dengke.du@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ltp: add runtime depends ltp-staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +56,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 15:59:09 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 16:01:47 -0000
+Content-Type: multipart/alternative; boundary="f403045e1d5866eae8055f497c4f"
 
-The isELF and is_elf function share a common ancestry, but have
-diverged. Let's use the implementation from oe.package.
+--f403045e1d5866eae8055f497c4f
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Olof Johansson <olofjn@axis.com>
----
- meta/classes/package.bbclass | 40 +++++++++-------------------------------
- 1 file changed, 9 insertions(+), 31 deletions(-)
+On Fri, Dec 1, 2017 at 6:52 AM Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2053d46395..f65596126d 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -857,6 +857,12 @@ python fixup_perms () {
- 
- python split_and_strip_files () {
-     import stat, errno
-+    import oe.package
-+
-+    def is_elf(path):
-+        return oe.package.is_elf(
-+            path, lambda msg: package_qa_handle_error("split-strip", msg, d)
-+        )
- 
-     dvar = d.getVar('PKGD')
-     pn = d.getVar('PN')
-@@ -892,34 +898,6 @@ python split_and_strip_files () {
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-     bb.utils.remove(sourcefile)
- 
--    # Return type (bits):
--    # 0 - not elf
--    # 1 - ELF
--    # 2 - stripped
--    # 4 - executable
--    # 8 - shared library
--    # 16 - kernel module
--    def isELF(path):
--        type = 0
--        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
--
--        if ret:
--            msg = "split_and_strip_files: 'file %s' failed" % path
--            package_qa_handle_error("split-strip", msg, d)
--            return type
--
--        # Not stripped
--        if "ELF" in result:
--            type |= 1
--            if "not stripped" not in result:
--                type |= 2
--            if "executable" in result:
--                type |= 4
--            if "shared" in result:
--                type |= 8
--        return type
--
--
-     #
-     # First lets figure out all of the files we may have to process ... do this only once!
-     #
-@@ -961,14 +939,14 @@ python split_and_strip_files () {
-                     # If it's a symlink, and points to an ELF file, we capture the readlink target
-                     if cpath.islink(file):
-                         target = os.readlink(file)
--                        if isELF(ltarget):
--                            #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
-+                        if is_elf(ltarget):
-+                            #bb.note("Sym: %s (%d)" % (ltarget, is_elf(ltarget)))
-                             symlinks[file] = target
-                         continue
- 
-                     # It's a file (or hardlink), not a link
-                     # ...but is it ELF, and is it already stripped?
--                    elf_file = isELF(file)
-+                    elf_file = is_elf(file)
-                     if elf_file & 1:
-                         if elf_file & 2:
-                             if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
--- 
-2.11.0
+> On Thu, Nov 30, 2017 at 10:58 PM, Dengke Du <dengke.du@windriver.com>
+> wrote:
+> > The test case nm01 depends on /opt/ltp/testcases/data/nm01/lib.a in
+> > ltp-staticdev package.
+> >
+>
+> perhaps its better to create a packaging exception to include this static
+> library to be packaged into ${PN}
+>
+> > Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> > ---
+> >  meta/recipes-extended/ltp/ltp_20170929.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb
+> b/meta/recipes-extended/ltp/ltp_20170929.bb
+> > index 93a59b3..6fd280c 100644
+> > --- a/meta/recipes-extended/ltp/ltp_20170929.bb
+> > +++ b/meta/recipes-extended/ltp/ltp_20170929.bb
+> > @@ -108,6 +108,7 @@ RDEPENDS_${PN} = "\
+> >  FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a
+> /opt/ltp/testcases/data/nm01/lib.a"
+> >
+> >  FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/*
+> /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/*
+> /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/*
+> /opt/ltp/testcases/open_posix_testsuite/*
+> /opt/ltp/testcases/open_posix_testsuite/conformance/*
+> /opt/ltp/testcases/open_posix_testsuite/Documentation/*
+> /opt/ltp/testcases/open_posix_testsuite/functional/*
+> /opt/ltp/testcases/open_posix_testsuite/include/*
+> /opt/ltp/testcases/open_posix_testsuite/scripts/*
+> /opt/ltp/testcases/open_posix_testsuite/stress/*
+> /opt/ltp/testcases/open_posix_testsuite/tools/*"
+> > +RDEPENDES_${PN} += "${PN}-staticdev"
+>
 
+Typo in RDEPENDS
+Please make sure you test patches before submitting. This could not have
+worked as intended.
 
+>
+> >  # Avoid generated binaries stripping. Otherwise some of the ltp tests
+> such as ldd01 & nm01 fails
+> >  INHIBIT_PACKAGE_STRIP = "1"
+> > --
+> > 2.8.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--f403045e1d5866eae8055f497c4f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Dec 1, 2017 =
+at 6:52 AM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">On Thu, Nov 30, 2017 at 10:58 PM, Dengke Du &lt;<a href=3D"mailto:dengk=
+e.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>&gt; wrote=
+:<br>
+&gt; The test case nm01 depends on /opt/ltp/testcases/data/nm01/lib.a in<br=
+>
+&gt; ltp-staticdev package.<br>
+&gt;<br>
+<br>
+perhaps its better to create a packaging exception to include this static<b=
+r>
+library to be packaged into ${PN}<br>
+<br>
+&gt; Signed-off-by: Dengke Du &lt;<a href=3D"mailto:dengke.du@windriver.com=
+" target=3D"_blank">dengke.du@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-extended/ltp/<a href=3D"http://ltp_20170929.bb" rel=
+=3D"noreferrer" target=3D"_blank">ltp_20170929.bb</a> | 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170929.=
+bb" rel=3D"noreferrer" target=3D"_blank">ltp_20170929.bb</a> b/meta/recipes=
+-extended/ltp/<a href=3D"http://ltp_20170929.bb" rel=3D"noreferrer" target=
+=3D"_blank">ltp_20170929.bb</a><br>
+&gt; index 93a59b3..6fd280c 100644<br>
+&gt; --- a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170929.bb" rel=
+=3D"noreferrer" target=3D"_blank">ltp_20170929.bb</a><br>
+&gt; +++ b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170929.bb" rel=
+=3D"noreferrer" target=3D"_blank">ltp_20170929.bb</a><br>
+&gt; @@ -108,6 +108,7 @@ RDEPENDS_${PN} =3D &quot;\<br>
+&gt;=C2=A0 FILES_${PN}-staticdev +=3D &quot;/opt/ltp/lib/libmem.a /opt/ltp/=
+testcases/data/nm01/lib.a&quot;<br>
+&gt;<br>
+&gt;=C2=A0 FILES_${PN} +=3D &quot;/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/sc=
+enario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /op=
+t/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/test=
+cases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_test=
+suite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* =
+/opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_p=
+osix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /=
+opt/ltp/testcases/open_posix_testsuite/tools/*&quot;<br>
+&gt; +RDEPENDES_${PN} +=3D &quot;${PN}-staticdev&quot;<br>
+</blockquote><div dir=3D"auto"><br></div></div></div></div><div><div><div c=
+lass=3D"gmail_quote"><div dir=3D"auto">Typo in RDEPENDS</div><div dir=3D"au=
+to">Please make sure you test patches before submitting. This could not hav=
+e worked as intended.</div></div></div></div><div><div><div class=3D"gmail_=
+quote"><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">&gt;<br>
+&gt;=C2=A0 # Avoid generated binaries stripping. Otherwise some of the ltp =
+tests such as ldd01 &amp; nm01 fails<br>
+&gt;=C2=A0 INHIBIT_PACKAGE_STRIP =3D &quot;1&quot;<br>
+&gt; --<br>
+&gt; 2.8.1<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div></div>
+
+--f403045e1d5866eae8055f497c4f--
