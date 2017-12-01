@@ -1,50 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E0DE71AD1
+Return-Path: <olof.johansson@axis.com>
+X-Greylist: delayed 505 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 01 Dec 2017 15:59:07 UTC
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 244A2786D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 14:51:54 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id y89so4746074pfk.0
+	Fri,  1 Dec 2017 15:59:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D5FDE18836
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 06:51:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=oCaYguOAg99Jdx2ZPdLReC3kQ4C3NPJ9QxowpLuIYPs=;
-	b=qpmemQC1i3OZWWFi4MQNWN2vj/q5H4n2cR9NjUv83ODuXjwawWBpsiEBLVeFyt4pIN
-	wO+aUs5D4Jk0xY33hu4TwdccGrKB2iqqdJjenUao4QYKBM1Yoyed/SCzXgKqXJqyOh2p
-	uEb7fF2Jp4jSufamdOxMUROxLBlsZVdnRaJMFjmKQlMTf9biHLlm1HRUt8WdzULzHjkk
-	8n40+YtxAgvmZygLrLODLvd/snB06U4XBPEfBI8z2q+UU3v77cxh1dfkfReEwDMGqT2D
-	qLIP+XGkJcY4IvbTpMW37jnKJg9LZR/F/vPSjRdJcYwf3SpSrDdxf0jXGgTfZTXz9yBB
-	dGRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=oCaYguOAg99Jdx2ZPdLReC3kQ4C3NPJ9QxowpLuIYPs=;
-	b=dUjFefNDhPwOEyFtZCTTfzkWYntyk6S6NRtwcm+MvTnmLbe/BTJJNzMDO0ZyYUazvP
-	6W/pNRJETfQjq8IET5AHiukrKEERsRGPYnVoSPs9jCuBMRon/pqAJ0J75BezehrsO7dw
-	LUdfrTPMZkFQHw99q56aUOPolo7422Qolqea2Rq5+a4RCxKw2Wgtyk4eAwH3V2EE1/Kh
-	FbDP7dl9rFDosczV9VZ2kRGVTeUqjJWHJLdjh/rQw8xFjmmVeEPihDvuZsetAfUCVpoO
-	16I27UNwPj/NroUAKNXjDNjjw00L4a5umGIhhDIK3mn+piKnJcEjQD7VeMbmezcjMGk3
-	MjSw==
-X-Gm-Message-State: AJaThX79+KCd1DYPMdfdnqlHx+nJB2+o0jwErqJOp9IUhrx4bFyBU0d3
-	DwMSlPfeyDMxiA32b7NjYg2u7aoHSPyibYjFypk=
-X-Google-Smtp-Source: AGs4zMaYV/bkiipdSrKimSdNqU/KMnMaOFK1V3ndhjMhMR42ZpGSEDIyPnkfTafb1JwdISRd1APKIxHz0iVCvpwsKyg=
-X-Received: by 10.99.109.2 with SMTP id i2mr6213037pgc.269.1512139916374; Fri,
-	01 Dec 2017 06:51:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.159.15 with HTTP; Fri, 1 Dec 2017 06:51:25 -0800 (PST)
-In-Reply-To: <43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
-References: <cover.1512111404.git.dengke.du@windriver.com>
-	<43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Dec 2017 06:51:25 -0800
-Message-ID: <CAMKF1sq-VPxdRuKcpbvfK74GRnTk5mNwthuYj6S92bXCdPuF3Q@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ltp: add runtime depends ltp-staticdev
+	Fri,  1 Dec 2017 16:50:43 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 4Tk2IN3veCoc
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Dec 2017 16:50:42 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 1816B1882D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Dec 2017 16:50:42 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 080011A0B9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Dec 2017 16:50:42 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F0CF71A0BB
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by seth.se.axis.com (Postfix) with ESMTP id E4DEB2430;
+	Fri,  1 Dec 2017 16:50:41 +0100 (CET)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id CE5949C0AD; Fri,  1 Dec 2017 16:50:41 +0100 (CET)
+From: Olof Johansson <olof.johansson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Dec 2017 16:50:22 +0100
+Message-Id: <20171201155024.3002-4-olofjn@axis.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20171201155024.3002-1-olofjn@axis.com>
+References: <20171201155024.3002-1-olofjn@axis.com>
+X-TM-AS-GCONF: 00
+Cc: Olof Johansson <olofjn@axis.com>
+Subject: [PATCH 3/5] lib/oe/package.py: is_elf: Don't let filename influence filetype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 14:51:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Dec 2017 15:59:08 -0000
 
-On Thu, Nov 30, 2017 at 10:58 PM, Dengke Du <dengke.du@windriver.com> wrote=
-:
-> The test case nm01 depends on /opt/ltp/testcases/data/nm01/lib.a in
-> ltp-staticdev package.
->
+The is_elf function is simply looking for the substring ELF in the
+output from file. But file, by default, prefixes the outut with the
+filename. If the filename containts the substring ELF anywhere, is_elf
+would identify it as a ELF.
 
-perhaps its better to create a packaging exception to include this static
-library to be packaged into ${PN}
+The --brief (or -b) flag of GNU's file utility makes file not prepend
+filename to the output.
 
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ---
->  meta/recipes-extended/ltp/ltp_20170929.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-ext=
-ended/ltp/ltp_20170929.bb
-> index 93a59b3..6fd280c 100644
-> --- a/meta/recipes-extended/ltp/ltp_20170929.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20170929.bb
-> @@ -108,6 +108,7 @@ RDEPENDS_${PN} =3D "\
->  FILES_${PN}-staticdev +=3D "/opt/ltp/lib/libmem.a /opt/ltp/testcases/dat=
-a/nm01/lib.a"
->
->  FILES_${PN} +=3D "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups=
-/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscr=
-ipts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_po=
-six_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documen=
-tation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/test=
-cases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuit=
-e/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testc=
-ases/open_posix_testsuite/tools/*"
-> +RDEPENDES_${PN} +=3D "${PN}-staticdev"
->
->  # Avoid generated binaries stripping. Otherwise some of the ltp tests su=
-ch as ldd01 & nm01 fails
->  INHIBIT_PACKAGE_STRIP =3D "1"
-> --
-> 2.8.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Olof Johansson <olofjn@axis.com>
+---
+ meta/lib/oe/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index f1f9333e0f..eab94feb91 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -78,7 +78,7 @@ def is_elf(path, on_error=_is_elf_error):
+     A return value of 0 means that the file is not an ELF file.
+     """
+     ret, result = oe.utils.getstatusoutput(
+-        "file \"%s\"" % path.replace("\"", "\\\""))
++        "file -b \"%s\"" % path.replace("\"", "\\\""))
+ 
+     if ret:
+         error_cb('"file %s" failed')
+-- 
+2.11.0
+
 
