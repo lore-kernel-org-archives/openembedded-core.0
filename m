@@ -1,26 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1128E7869C
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF9471C54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 06:58:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB16w5xY008757
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Nov 2017 22:58:06 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 30 Nov 2017 22:58:05 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Dec 2017 01:58:02 -0500
-Message-ID: <43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1512111404.git.dengke.du@windriver.com>
-References: <cover.1512111404.git.dengke.du@windriver.com>
+	Fri,  1 Dec 2017 08:24:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Dec 2017 00:24:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,344,1508828400"; d="scan'208";a="11782640"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 01 Dec 2017 00:24:33 -0800
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1512006081.git.liezhi.yang@windriver.com>
+	<12c2694b20a9198d2d4f02100ced3dbdc1351f75.1512006081.git.liezhi.yang@windriver.com>
+	<3d8f8bf0-84a6-d9bf-6540-3cc09196fb1a@linux.intel.com>
+	<b644f3d2-de4f-186d-241e-4b3a69bfe23b@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <af30d73d-787a-3b42-9659-a9980e8bf86d@linux.intel.com>
+Date: Fri, 1 Dec 2017 10:25:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ltp: add runtime depends ltp-staticdev
+In-Reply-To: <b644f3d2-de4f-186d-241e-4b3a69bfe23b@windriver.com>
+Subject: Re: [PATCH 1/5] go-native: fix PATH issue when len(TMPDIR) == 410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +37,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 06:58:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Dec 2017 08:24:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The test case nm01 depends on /opt/ltp/testcases/data/nm01/lib.a in
-ltp-staticdev package.
+On 12/01/2017 03:40 AM, Robert Yang wrote:
+> So I don't think that it is worth to use malloc here, the similar to 2 3 5.
+> And we had used a few similar ways to fix this kinds of issues before.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-extended/ltp/ltp_20170929.bb | 1 +
- 1 file changed, 1 insertion(+)
+Okay, that's fair. If there is an upper limit defined somewhere else 
+(kernel, glibc) and upstream doesn't mind taking the fix, then I'm fine 
+with it.
 
-diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20170929.bb
-index 93a59b3..6fd280c 100644
---- a/meta/recipes-extended/ltp/ltp_20170929.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170929.bb
-@@ -108,6 +108,7 @@ RDEPENDS_${PN} = "\
- FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
- 
- FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*"
-+RDEPENDES_${PN} += "${PN}-staticdev"
- 
- # Avoid generated binaries stripping. Otherwise some of the ltp tests such as ldd01 & nm01 fails
- INHIBIT_PACKAGE_STRIP = "1"
--- 
-2.8.1
 
+Alex
 
