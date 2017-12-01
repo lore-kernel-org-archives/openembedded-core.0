@@ -1,30 +1,51 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A472784E6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2558871BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 17:43:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB1HhWNR024419
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 1 Dec 2017 09:43:32 -0800
-Received: from soho-mhatle-m.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 1 Dec 2017 09:43:31 -0800
-To: Olof Johansson <olof.johansson@axis.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20171201155024.3002-1-olofjn@axis.com>
-	<20171201155024.3002-6-olofjn@axis.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <7bb6a35d-19ac-1b50-46c1-e0395a0fee61@windriver.com>
-Date: Fri, 1 Dec 2017 11:43:30 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.4.0
+	Fri,  1 Dec 2017 19:30:15 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id k61so11201629wrc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Dec 2017 11:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gXWeMIa0gnlKkXBrBumvH1fKuFVVbtGGj2BRGbIyZag=;
+	b=DRbzdKyIUp8hpQbnYGivceR1S0VcJpVbsrsbNhK1PBLsajNM5BIrguDx7Bfe4nZOPP
+	1NCr15Hpk8R0PzA7xTCrh0mmbp7VNydw1NmBeYpRZ8+pWTF+8kGEF7v6sgI9NNIJuia+
+	HGJpC3WlPCivqdEMvqWJe8w/3I7EA1RT2Fie/UbBaWCF2WBD3/6xMTESYJZZHaCboqco
+	4YaMvtsep2GsXsO6h01aQNZJ6SHs3LP7yzdpE8mi4uVSU5L/DdW7Cw4foYeLYxRecBo9
+	KdM6oXykxyoOlpg2vTBr6ldS+tlUwUxnbrcHX3JR9ceLZJn1CZD9jzn1p83ClLH4V4le
+	J4WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gXWeMIa0gnlKkXBrBumvH1fKuFVVbtGGj2BRGbIyZag=;
+	b=AK1cGNa+rW+JtPg7ItagmQgZRkIT5ilEu7bXkcaySt0LcweKHIFAZnyKEdWs72Tt1O
+	spWUTu6OSuKJcQoGuuLjES8Wplm5RDLHaWHUR05I13HX/zcTiyKgm/EFc8ZXdPJqtoLi
+	ebKr+90ZF+Hem+fcLE71uY2yZg+aspOpaOjzA56tpgED4B6qPL/Z9SkcHiWj641rKjiB
+	eommTrhis/Y4mu0awddMvwLgHelHruOmlbFVUgoJt3qK7XsCZKJcF4DeMxrezrSF4pxQ
+	h7j/yGBGYxUeCJQvwnoTJgghinMW1dXLJQiT8UHyiept3IfuEIvrRQm5pMW1gJK212NG
+	mtBw==
+X-Gm-Message-State: AJaThX5OjKfYtFz0qLBO9F8TP0BfOKk7q6NTHCV3LgV//848yhKomHR0
+	YvdU3KKoqyfpdGrkGCXSNifogCIF52pRaSKbnC8=
+X-Google-Smtp-Source: AGs4zMbnmiCTqJvIgzSt2uaDgXQVnBVbw3JcaCWFX7wFJ8iodrDnjLzIaPSGWIf0rwn6pz0giaq/nGREZqe2Gopeb0A=
+X-Received: by 10.223.176.194 with SMTP id j2mr5950392wra.62.1512156616744;
+	Fri, 01 Dec 2017 11:30:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20171201155024.3002-6-olofjn@axis.com>
-Cc: Olof Johansson <olofjn@axis.com>
-Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
+Received: by 10.223.133.68 with HTTP; Fri, 1 Dec 2017 11:30:15 -0800 (PST)
+In-Reply-To: <CAJTo0Lb4VsORo9110=Q8JSgQytcfoHpsRRSTWiJJ_BiPfYxvvA@mail.gmail.com>
+References: <1512073240-3830-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
+	<CAJ86T=VX0up-q-CSOafSno14+frTM3NxzwngffCkggMOTd6vCA@mail.gmail.com>
+	<CAJTo0Lb4VsORo9110=Q8JSgQytcfoHpsRRSTWiJJ_BiPfYxvvA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 1 Dec 2017 11:30:15 -0800
+Message-ID: <CAJ86T=UsiK40aCLw-4KeY3LdOCHKXw_r-h2NTwAG7QjA5kQfJQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: prevent errors if do_install is run more than once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,70 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 17:43:37 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Dec 2017 19:30:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/1/17 9:50 AM, Olof Johansson wrote:
-> Avoid matching substrings that are picked up from paths, for instance.
-> Do this by anchoring the tokens we look for (e.g "executable" or "not
-> stripped") with whitespace and punctuation.
-> 
-> Submitted with this patch series is a change that adds the use of
-> --brief to file. This removes the path prefix to the output, but the
-> path can still be included in shebang lines (which file will report as
-> something like "a /foo/bar/baz.py script").
-> 
-> Signed-off-by: Olof Johansson <olofjn@axis.com>
-> ---
->  meta/lib/oe/package.py | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index 976d2ef36c..2bd771cfc5 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -84,17 +84,17 @@ def is_elf(path, on_error=_is_elf_error):
->          error_cb('"file %s" failed')
->          return
->  
-> -    if not "ELF" in result:
-> +    if not result.startswith("ELF "):
->          return 0
->  
->      exec_type = 1
-> -    if "not stripped" not in result:
-> +    if ", not stripped" not in result:
+On Fri, Dec 1, 2017 at 3:07 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Extend lnr to have a --force option?
 
-The original implementation did not include the ',' options because different
-versions of file (as well as different architectures) would return different
-strings.
+Is there ever a case where we want lnr to fail if the target already exists?
 
-They all contains the same information, but order and inclusion of ',' changed
-regularly.
+There are plenty of existing examples in oe-core where rm is run
+before lnr (and in the cases where it's not, it's perhaps just a bug
+or an oversight).
 
-So I would caution that for this to check out a wide variety of host systems and
-architectures would need to be verified.  (It's very possible that all modern
-systems now conform to a single standard...)
-
-(The rest of the serious looks like a very good improvement, and I've got no
-further comments on that.)
-
---Mark
-
->          exec_type |= 2
-> -    if "executable" in result:
-> +    if " executable, " in result:
->          exec_type |= 4
-> -    if "shared" in result:
-> +    if " shared object, " in result:
->          exec_type |= 8
-> -    if "relocatable" in result and is_kernel_module(path):
-> +    if "relocatable, " in result and is_kernel_module(path):
->          exec_type |= 16
->      return exec_type
->  
-> 
-
+So I think either leave the v1 patch as-is and run rm before lnr in
+musl do_install as we already do elsewhere, or update lnr so that it
+unconditionally removes any pre-existing target?
 
