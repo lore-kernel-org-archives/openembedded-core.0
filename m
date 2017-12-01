@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E594678687
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E0DE71AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 13:44:44 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g75so3658760wme.0
+	Fri,  1 Dec 2017 14:51:54 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id y89so4746074pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 05:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=YL86+NltbDmpzCt0haBpZ4bN3+Y08zrCcdH4NBAqW28=;
-	b=efky/MGFGdAP3PbkpBy/g2D//6WdYcGicT3TyDYxM3hq/JIQyocB8UsLLCnCRJq9BV
-	mR7NGZWLtMgmGJ5kiwnKLQ2ibDYmwWnrtsoH1N0LB1npNY/gkVKefhGS93T2uAAug3gX
-	PHeu64YAAhHyU+DCAMgOrEWQdR8sRThfELL52I/UHTP6VO6KZtkEli5QQmZWQHpLtzOk
-	G+53GpLRD+B0oJ+1mgqgEEzUJ5GzlvYA9JL2ofwsMPK1ejE/Z2+LipcGklAOYA1fHA6q
-	GnIqMHpfkSpmQDzzUSzaXlebtKWB6Qva8OlufEw8WpfZr1nFR+e0Lx1GJwfziEM3KaQ0
-	kp2g==
+	Fri, 01 Dec 2017 06:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=oCaYguOAg99Jdx2ZPdLReC3kQ4C3NPJ9QxowpLuIYPs=;
+	b=qpmemQC1i3OZWWFi4MQNWN2vj/q5H4n2cR9NjUv83ODuXjwawWBpsiEBLVeFyt4pIN
+	wO+aUs5D4Jk0xY33hu4TwdccGrKB2iqqdJjenUao4QYKBM1Yoyed/SCzXgKqXJqyOh2p
+	uEb7fF2Jp4jSufamdOxMUROxLBlsZVdnRaJMFjmKQlMTf9biHLlm1HRUt8WdzULzHjkk
+	8n40+YtxAgvmZygLrLODLvd/snB06U4XBPEfBI8z2q+UU3v77cxh1dfkfReEwDMGqT2D
+	qLIP+XGkJcY4IvbTpMW37jnKJg9LZR/F/vPSjRdJcYwf3SpSrDdxf0jXGgTfZTXz9yBB
+	dGRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=YL86+NltbDmpzCt0haBpZ4bN3+Y08zrCcdH4NBAqW28=;
-	b=ckYKZXkqZXn6L3NRvu81sMTEhaHGMDu1ACNlnylr18S5xhYx6wsl+Q9OXK4bDv5Pr1
-	85R6R572vmjt+cW9neeistZReKPO7touPK633t7pEEimam6ayBn1Vmo8qooGj5izukKJ
-	ac4feBroNpbQ2EZS9L78eaN1y48aHVbpPyHIF6yrR1CQp0nz36LasVbQYY3eLxX8ISE7
-	QlWA3JaQ0mz5evL6I/NNs6slvRcmJe0jxdA6J4j0HNOGZTKYHYD+uOKu78SN9qXQUyP8
-	E2zfTpo+CvzyvHhD4naAXSwivEKBAymoi06k/LBscHiyyuLHX3ljR8yDToyffiXD54Gq
-	LOeA==
-X-Gm-Message-State: AKGB3mI+WGFGZcwqY8gxKGZHrNu61/PSL06lCEjKJ8rQfwPla4uAhfFb
-	75S2s+lDxuiYcdJEv/WqKnsjgFmI
-X-Google-Smtp-Source: AGs4zMbCdCVGcQHPYJA8TDmjKLQprKpXL3UfFWwbG8u30wxaQfOabJjNfmaKx7Ve6DKPpYu/OFYdsw==
-X-Received: by 10.28.211.211 with SMTP id k202mr1170521wmg.113.1512135885391; 
-	Fri, 01 Dec 2017 05:44:45 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 189sm1260563wmu.3.2017.12.01.05.44.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Dec 2017 05:44:44 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Dec 2017 13:44:41 +0000
-Message-Id: <20171201134441.28470-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] xserver-xf86-config: remove last trace of 10-preload-modules.conf
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=oCaYguOAg99Jdx2ZPdLReC3kQ4C3NPJ9QxowpLuIYPs=;
+	b=dUjFefNDhPwOEyFtZCTTfzkWYntyk6S6NRtwcm+MvTnmLbe/BTJJNzMDO0ZyYUazvP
+	6W/pNRJETfQjq8IET5AHiukrKEERsRGPYnVoSPs9jCuBMRon/pqAJ0J75BezehrsO7dw
+	LUdfrTPMZkFQHw99q56aUOPolo7422Qolqea2Rq5+a4RCxKw2Wgtyk4eAwH3V2EE1/Kh
+	FbDP7dl9rFDosczV9VZ2kRGVTeUqjJWHJLdjh/rQw8xFjmmVeEPihDvuZsetAfUCVpoO
+	16I27UNwPj/NroUAKNXjDNjjw00L4a5umGIhhDIK3mn+piKnJcEjQD7VeMbmezcjMGk3
+	MjSw==
+X-Gm-Message-State: AJaThX79+KCd1DYPMdfdnqlHx+nJB2+o0jwErqJOp9IUhrx4bFyBU0d3
+	DwMSlPfeyDMxiA32b7NjYg2u7aoHSPyibYjFypk=
+X-Google-Smtp-Source: AGs4zMaYV/bkiipdSrKimSdNqU/KMnMaOFK1V3ndhjMhMR42ZpGSEDIyPnkfTafb1JwdISRd1APKIxHz0iVCvpwsKyg=
+X-Received: by 10.99.109.2 with SMTP id i2mr6213037pgc.269.1512139916374; Fri,
+	01 Dec 2017 06:51:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.159.15 with HTTP; Fri, 1 Dec 2017 06:51:25 -0800 (PST)
+In-Reply-To: <43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
+References: <cover.1512111404.git.dengke.du@windriver.com>
+	<43d0b786bf6dc1ae091ddb6c5c590880cadcc6fe.1512111404.git.dengke.du@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Dec 2017 06:51:25 -0800
+Message-ID: <CAMKF1sq-VPxdRuKcpbvfK74GRnTk5mNwthuYj6S92bXCdPuF3Q@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ltp: add runtime depends ltp-staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,28 +57,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 13:44:45 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 14:51:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This file has been removed but the CONFFILES assignment for it wasn't.
+On Thu, Nov 30, 2017 at 10:58 PM, Dengke Du <dengke.du@windriver.com> wrote=
+:
+> The test case nm01 depends on /opt/ltp/testcases/data/nm01/lib.a in
+> ltp-staticdev package.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 1 -
- 1 file changed, 1 deletion(-)
+perhaps its better to create a packaging exception to include this static
+library to be packaged into ${PN}
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index 4c442bc7123..5420b7d23e5 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -10,7 +10,6 @@ SRC_URI = "file://xorg.conf"
- S = "${WORKDIR}"
- 
- CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
--CONFFILES_${PN}_append_libc-musl = " ${sysconfdir}/X11/xorg.conf.d/10-preload-modules.conf"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- ALLOW_EMPTY_${PN} = "1"
--- 
-2.11.0
-
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>  meta/recipes-extended/ltp/ltp_20170929.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-ext=
+ended/ltp/ltp_20170929.bb
+> index 93a59b3..6fd280c 100644
+> --- a/meta/recipes-extended/ltp/ltp_20170929.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20170929.bb
+> @@ -108,6 +108,7 @@ RDEPENDS_${PN} =3D "\
+>  FILES_${PN}-staticdev +=3D "/opt/ltp/lib/libmem.a /opt/ltp/testcases/dat=
+a/nm01/lib.a"
+>
+>  FILES_${PN} +=3D "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups=
+/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscr=
+ipts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_po=
+six_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documen=
+tation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/test=
+cases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuit=
+e/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testc=
+ases/open_posix_testsuite/tools/*"
+> +RDEPENDES_${PN} +=3D "${PN}-staticdev"
+>
+>  # Avoid generated binaries stripping. Otherwise some of the ltp tests su=
+ch as ldd01 & nm01 fails
+>  INHIBIT_PACKAGE_STRIP =3D "1"
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
