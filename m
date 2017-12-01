@@ -1,50 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C7FE771AB5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DC393786F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 21:53:25 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id y21so11481417wrc.1
+	Fri,  1 Dec 2017 21:53:34 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id k15so5028377pgr.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 13:53:27 -0800 (PST)
+	Fri, 01 Dec 2017 13:53:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5833CwuyS2hQltZ/odLxRfmnCMxW7Eg3KC7janJ7klE=;
-	b=bswb0tHpchinQNPgJH5IoD7qZ+pkut0jSyLFH+c918JT1JYMb6htYCRziGKC/bed9u
-	gyS9k5N+LRqsxvyWEinq/pC037EHHNaHEfAbutoRWl1eZU1/SrxA5k0dV7hQl1Ry/UaN
-	jywQS6VbwtPdOV4XVSr/rNxTOB4bKCiUzCQtWBqdTXBO7QaD2xffJHA7Y4Z/9Z7x0Fp4
-	TvazokaQ2Txkt0oOk9ghZJ/iuO9Ph0Qe1ZMO45A8r//3Sn5O7Ohumy1Pv+RMorRKkq89
-	EOcD+VzvwlPQH8nIuhy6cDrqpREpEHDuf3+vYrDbl7tPyfwIxL/edD9hzejXyRxQzcFr
-	FH8A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=86H1ns8SteuIYS8KomTNu+6YBA5EY3I3agw6aw6Tyvs=;
+	b=crGH5frb2zKAdZ+h08bYtl06EkP/vDvbu9PF0qzTlwfn9ysWT0W+ZIGziOMjfIi+eX
+	WILuIMsED+1z5ztGr8AuIYgX3GY7H8YV8JLMcTC4z3jk/PhrBvYjgGr45oDJ2a9/9A8k
+	/EYjdq3ED63LaIHQTyEPv7cFLI8y4NTjsFEtCLPr++H0ml0B2lirmOLNFM0Mu76hDVfB
+	Y6oy4MOIfCDfpacdorRuQ4HtT+66lFs0rhHPt4GV01dlYi/ueiDnVTXq/v14UKEEqFBC
+	9+8Aq57meE5vIBGz9c8GB/+i7CatcjVrjTVfPpDC7FsGbSu1warIAhlPT+l+XhF36XRx
+	Qs/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=5833CwuyS2hQltZ/odLxRfmnCMxW7Eg3KC7janJ7klE=;
-	b=Xwj/PHmFVhkkWKyslvKwRaZF6IqX7rLii9Xya+nRxQphZwGiF1w9Gt+0HxWHb49JHq
-	5MsHzV1E361RimfRlETatv1SjbqrofuNSE1Z6nlWEv/qc5gVTMgh5ht9Lmp/X3r7Mubo
-	eUvm0oQifX+4hKjV6u/wci2TDOREiWeMaKKxiWhtgLl8HNGdIxO3lsm8TW+zC8SkUxrt
-	eLoDa/O1jGQ6YCiKdDHQNMH85GRHbPtgWLdMOswEMhZEZIs9wyVXEAzkkAERTrILUaoB
-	nqAYLKsBU8RoRj/ej5KU2yJuoj9m6JPDYcaU+0hkvOkTAPZ0j4NsCGc8UvlyM19QEQS5
-	GLNQ==
-X-Gm-Message-State: AJaThX7IO82LFBqRRe6FJdLL3TOVFwvsmzybxhzNRSb4y4h64llmOmY2
-	2UDgfv6JJBFTZfMiw6d8Qacffw==
-X-Google-Smtp-Source: AGs4zMYo/nwFCRYpLvv0+PRXnOvRGcnPfA+0QVcb5ySvX2sKh0QbDYnLkzX5plnMqWI/zcPI0NNSEA==
-X-Received: by 10.223.188.81 with SMTP id a17mr6766027wrh.146.1512165206316;
-	Fri, 01 Dec 2017 13:53:26 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	x133sm2344729wmd.44.2017.12.01.13.53.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Dec 2017 13:53:24 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Dec 2017 21:53:21 +0000
-Message-Id: <1512165201-51-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
-References: <CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
-Subject: [PATCH] initramfs-module-install: Remove allarch and FILESEXTRAPATHS
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=86H1ns8SteuIYS8KomTNu+6YBA5EY3I3agw6aw6Tyvs=;
+	b=L0Z7a2EL6JpL0CPURs1TTVD4Z0xWb7aLj4Gk94V+qJWynob4bQSbbnLtFVXZcSECo5
+	2R8ayORrs4TddhsUih8VaQhu2b2jxgVVX5n6jQDFDJb0SKNBCvhrbSiadYVx5PDcYKvY
+	oKSnnuneHcbBOdUTOpeBYPZP0lYm0zBCX9mXcU4HevcJ343F9EksJs9a4iL5Jv2aTB10
+	SIosVTMratolBuCSr3Zozd/X6CzsLkDnvdsK3YZOGK4IkD62UQckt/Rc+D4XfVnsJhMp
+	CfpEWgaL9UcilOoPTrld3sx/GareFy2TbdpY6Loyso9ICepziwSWPoPC7Isx6omhKQaP
+	YVAQ==
+X-Gm-Message-State: AJaThX5k5YVRwNIQkAKR/d4aQYYkvslvGC+rA2vObZ6kAvVlkZYrcxR5
+	ahCLM7suu5PRSjjiaR0+xsEPnTAXlS4oBsbqG3w=
+X-Google-Smtp-Source: AGs4zMZt72pjT5PxJdsQQA6sbloJPs2NO+vtwv1RarnmwhQlBnVFOIaEae+W/4lmmjnGEWWJ3u2W+vL/6MvMwe0F9Jw=
+X-Received: by 10.98.104.194 with SMTP id d185mr11696930pfc.155.1512165215933; 
+	Fri, 01 Dec 2017 13:53:35 -0800 (PST)
+MIME-Version: 1.0
+References: <1512073240-3830-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1soVy677jtDR5GNF-x7MdxVM7H=QhONKiZrgw9GgZp74=g@mail.gmail.com>
+	<CAJ86T=VX0up-q-CSOafSno14+frTM3NxzwngffCkggMOTd6vCA@mail.gmail.com>
+	<CAJTo0Lb4VsORo9110=Q8JSgQytcfoHpsRRSTWiJJ_BiPfYxvvA@mail.gmail.com>
+	<CAJ86T=UsiK40aCLw-4KeY3LdOCHKXw_r-h2NTwAG7QjA5kQfJQ@mail.gmail.com>
+	<CAMKF1sowNmwhq__dZdYmV8RCuBpyLJKKAenkacLjE7jTR1WAUw@mail.gmail.com>
+	<CAEsOVNfMjeT=4zTcO-WcN0VyY_c1326U7qmEPXSuo4+=ukKJHw@mail.gmail.com>
+In-Reply-To: <CAEsOVNfMjeT=4zTcO-WcN0VyY_c1326U7qmEPXSuo4+=ukKJHw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 01 Dec 2017 21:53:24 +0000
+Message-ID: <CAMKF1spG5cEidsuRkMSDB_XAEvMPtu0Xt2HRP_-1fPRG-nwWjA@mail.gmail.com>
+To: Matthew McClintock <msm-oss@mcclintock.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: prevent errors if do_install is run more than once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +59,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 21:53:26 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 21:53:36 -0000
+Content-Type: multipart/alternative; boundary="94eb2c11aff8899bf9055f4e665a"
 
-* files is already included in default FILESPATH
-* it cannot inherit allarch as it RDEPENDS on bunch of TUNE_PKGARCH packages
-* use the same COMPATIBLE_HOST restrictions as grub has to prevent ERRORs in
-  bitbake world
-  ERROR: Nothing RPROVIDES 'grub' (but oe-core/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb RDEPENDS on or otherwise requires it)
-  grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  NOTE: Runtime target 'grub' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['grub']
-  ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+--94eb2c11aff8899bf9055f4e665a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../initrdscripts/initramfs-module-install-efi_1.0.bb             | 3 ---
- meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb   | 8 +++++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+On Fri, Dec 1, 2017 at 1:22 PM Matthew McClintock <msm-oss@mcclintock.net>
+wrote:
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index 24b53a8..1e7f76f 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -5,9 +5,6 @@ RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools ut
- 
- PR = "r4"
- 
--inherit allarch
--
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
- SRC_URI = "file://init-install-efi.sh"
- 
- S = "${WORKDIR}"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-index ce7f165..02b69f3 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -3,11 +3,13 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
- 
--PR = "r1"
-+# The same restriction as grub
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-+COMPATIBLE_HOST_armv7a = 'null'
-+COMPATIBLE_HOST_armv7ve = 'null'
- 
--inherit allarch
-+PR = "r1"
- 
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
- SRC_URI = "file://init-install.sh"
- 
- S = "${WORKDIR}"
--- 
-2.7.4
+> On Fri, Dec 1, 2017 at 2:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > On Fri, Dec 1, 2017 at 11:30 AM, Andre McCurdy <armccurdy@gmail.com>
+> wrote:
+> >> On Fri, Dec 1, 2017 at 3:07 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> >>> Extend lnr to have a --force option?
+> >>
+> >> Is there ever a case where we want lnr to fail if the target already
+> exists?
+> >>
+> >> There are plenty of existing examples in oe-core where rm is run
+> >> before lnr (and in the cases where it's not, it's perhaps just a bug
+> >> or an oversight).
+> >>
+> >> So I think either leave the v1 patch as-is and run rm before lnr in
+> >> musl do_install as we already do elsewhere, or update lnr so that it
+> >> unconditionally removes any pre-existing target?
+> >
+> > I like Ross'es suggestion to modify lnr implementation as an
+> > independent patch and
+> > rebase your patch on top. Maybe a cleanup later to remove all rm cmds
+> > that are used
+> > before lnr
+>
+> Do we keep the lnr filename? Change to ln-python and add -r and -f?
+>
+> The above question wasn't answered. Should we just always force it and
+> emit a WARNING if it's being replaced?
 
 
+It=E2=80=99s should force replace it yes a note about replacing an existing=
+ file if
+any is fine
+
+>
+>
+> -M
+>
+
+--94eb2c11aff8899bf9055f4e665a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Dec 1, 2017 a=
+t 1:22 PM Matthew McClintock &lt;<a href=3D"mailto:msm-oss@mcclintock.net">=
+msm-oss@mcclintock.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">On Fri, Dec 1, 2017 at 2:13 PM, Khem Raj &lt;<a href=3D"mailto:raj.khem@=
+gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; On Fri, Dec 1, 2017 at 11:30 AM, Andre McCurdy &lt;<a href=3D"mailto:a=
+rmccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt; wrote:<br=
+>
+&gt;&gt; On Fri, Dec 1, 2017 at 3:07 AM, Burton, Ross &lt;<a href=3D"mailto=
+:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wro=
+te:<br>
+&gt;&gt;&gt; Extend lnr to have a --force option?<br>
+&gt;&gt;<br>
+&gt;&gt; Is there ever a case where we want lnr to fail if the target alrea=
+dy exists?<br>
+&gt;&gt;<br>
+&gt;&gt; There are plenty of existing examples in oe-core where rm is run<b=
+r>
+&gt;&gt; before lnr (and in the cases where it&#39;s not, it&#39;s perhaps =
+just a bug<br>
+&gt;&gt; or an oversight).<br>
+&gt;&gt;<br>
+&gt;&gt; So I think either leave the v1 patch as-is and run rm before lnr i=
+n<br>
+&gt;&gt; musl do_install as we already do elsewhere, or update lnr so that =
+it<br>
+&gt;&gt; unconditionally removes any pre-existing target?<br>
+&gt;<br>
+&gt; I like Ross&#39;es suggestion to modify lnr implementation as an<br>
+&gt; independent patch and<br>
+&gt; rebase your patch on top. Maybe a cleanup later to remove all rm cmds<=
+br>
+&gt; that are used<br>
+&gt; before lnr<br>
+<br>
+Do we keep the lnr filename? Change to ln-python and add -r and -f?<br>
+<br>
+The above question wasn&#39;t answered. Should we just always force it and<=
+br>
+emit a WARNING if it&#39;s being replaced?</blockquote><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">It=E2=80=99s should force replace it yes a note a=
+bout replacing an existing file if any is fine=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><br>
+<br>
+-M<br>
+</blockquote></div></div>
+
+--94eb2c11aff8899bf9055f4e665a--
