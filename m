@@ -1,48 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 85D3778416
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ED65878416
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Dec 2017 00:31:38 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id z34so11752159wrz.10
+	Sat,  2 Dec 2017 00:37:41 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id s66so11738072wrc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 16:31:39 -0800 (PST)
+	Fri, 01 Dec 2017 16:37:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bfG+wUtYap4ja4RpLCcjY+Svs8O7yStruLuqZKkp7L8=;
-	b=szfjQ9LZwmU5DJ0FZ8VC/2a4hDgMhvMcgrTds1Bw4q+Gi+c120L4+ySk5xWp//Ni4H
-	9UJlYIwlfgDbJ0znVEMguN4bq2ihFRtiBLVVKqV9doMXjnwi0JgI7oG3mo0zN76D2Tam
-	p4bjyMt9QnoNNaxFIUJ0b3xZM9GFDJgcHbGKS1zhffBbg9bVT0//jqPzQ53HLMEcgb9C
-	nolUjAcBi5p93XTIiwc2hbhn4uGiAwzTGc92pcfCyHhsZVwaMKpjl7OK0khgFumPz+q0
-	XG0GCJEqN+8dePko9d/3wWxMB/34ivzt1s6RAdbOXPkZD7nvsOQIMMI/nj5sJKCixSOX
-	JjRQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=g3LkhP7QZKHbKIstKRYQ7nubt79ldby2Gyfep7Pma2o=;
+	b=Mpm77+EqQVHKjvMvMfiGJPLu1P3T84wQah+zO7B4gKTI6FDrVux8kHHqtRCkKIzuyJ
+	Rj8H5n4tRtO2THSh/KVhDFpXJHdyBIqbouJjb3vuzK9G/ZTfpNPglKn91DFUcCuqc5BY
+	gHxc+ildx/5cuUZwAfkbpF7p86XGEpfDhjJbp1quwGRgZbmKsC6qKkw+aOaF21V7qT6N
+	LjHMVawIt9fsaVzGgp6R5aI2ZVxXl4lobuz3vedF1hSxyLXsNKsbYoQDTU4s7bSXuLkP
+	A1cHNCr5uof6cXk0kZwca/LzKA6mWHJ/Mq7qbmAtfD0Xkgv50GSEF9gMsQJiayJJiQxC
+	gMVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bfG+wUtYap4ja4RpLCcjY+Svs8O7yStruLuqZKkp7L8=;
-	b=SctnsJ+4RGr+OnUKf4/522ynF20qqlMamCSOedvM7nAioex/Us3ECPsOlGeI9RJbtA
-	v8mf/pLZQb9yKi+SzAKYZCF0F8Q5yxnr1c09K+V0vCo5iYCfroMf6WEIGip5FLH7JZIV
-	laMNvUjCAWAypEq/BCJuLfUg40vZZI5sxQDLsuM0u17WYoTFrCyHcJKOpyvWHLia7gv3
-	J4M6Oa7tDMQcxn4YEj9cRyPjMfqMGRHfy7ZpNTJ0PLHl7SEWhapnlh1TzYoRZWyK81Yo
-	zY18UQIDBwAZ2Yfpyy9gCn6QtAi56K0YTCgxP+d5b2Gt2bhK4vOntH5HUNV7HA3eyuP2
-	i2RQ==
-X-Gm-Message-State: AJaThX4L2T+Y45RlRkMHPCq/ZSnwvkYVJsShNgbm0aLD/zUkOmgm4IGl
-	Y/V1o8STGFP5BH7sgNHBa99PYuy/0Pcz7PticwI=
-X-Google-Smtp-Source: AGs4zMZGRAFBiU7jNfT+dIIsEPyb8bsW9kXWCRfi6NUjAl5QbesO0R9yPEWOvZzU6cgD8M7Ha24uYFNszYNpqHLhWD8=
-X-Received: by 10.223.173.67 with SMTP id p61mr6098238wrc.226.1512174699143;
-	Fri, 01 Dec 2017 16:31:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Fri, 1 Dec 2017 16:31:38 -0800 (PST)
-In-Reply-To: <826373113902dd8d6284ec49a2ea2076c7e298c0.1510192517.git.raj.khem@gmail.com>
-References: <cover.1510192517.git.raj.khem@gmail.com>
-	<826373113902dd8d6284ec49a2ea2076c7e298c0.1510192517.git.raj.khem@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 1 Dec 2017 16:31:38 -0800
-Message-ID: <CAJ86T=VKWCdmAXRMV8dqSnQS=MdHX=H3odPHKtydB6SCEFyrMQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] musl: Update to 1.1.18
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=g3LkhP7QZKHbKIstKRYQ7nubt79ldby2Gyfep7Pma2o=;
+	b=cQieY7zB57TJHQA0Nr9sN8vhBxgn2K6L9qOOD+VCKVyH5vzuPrfZvgSs5IwkQqX66Q
+	B75t6rU4zSck8S9H8VWOduSseAA8U/77rzS+4tjEAR1aKyNvhClWb0und2b3wHC1b5kV
+	xD6UzoNh7zrUegWxSR60+NAjhy5/CA3aI/tUWsJ6KuaT4PrM33edbTaxpy1/fykMSnjF
+	cXKoqM6Fo+4aEk16AdcKLanEVnoWLCTiLmaoEo32J3v+Ma7ouTBTYSsOH0tmsmOXcu1C
+	wItyxsOjzvGKBB2jL2bmAiGYNFsjrJcX7hQlB3vIfgrnWyiQ3ETTn+C+vnR61jBwNtGL
+	tkZQ==
+X-Gm-Message-State: AJaThX6tc7DfPRtKIGhK2hBTQeiRgftptcodE2iZmyEVMXij8Ao9VMTT
+	KG/esm62SUpSg2zXQqrbNlsY3g==
+X-Google-Smtp-Source: AGs4zMZ58cNM3OXS65D6S0YUA1SBhniXMHaG5ArDskQRFTO/cAfc8jBr/q21wR9DCao10lX4QLv4Nw==
+X-Received: by 10.223.150.118 with SMTP id c51mr6292090wra.202.1512175062655; 
+	Fri, 01 Dec 2017 16:37:42 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	q13sm5997879wrg.97.2017.12.01.16.37.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Dec 2017 16:37:41 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Dec 2017 00:37:37 +0000
+Message-Id: <1512175057-78-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20161018011619.31677-1-raj.khem@gmail.com>
+References: <20161018011619.31677-1-raj.khem@gmail.com>
+Subject: [morty][RESEND][PATCH] gnutls_3.5.3.bb: Fix native build on distro with kernel < 3.4.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Dec 2017 00:31:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 02 Dec 2017 00:37:42 -0000
 
-On Wed, Nov 8, 2017 at 5:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Rich Felker (9):
->       fix access by setjmp and longjmp to __hwcap on arm built as thumb2
->       for executing init array functions, use function type with prototype
->       fix read-after-free type error in pthread_detach
->       fix incorrect base name offset from nftw when pathname ends in slash(es)
->       in dns parsing callback, enforce MAXADDRS to preclude overflow
->       release 1.1.17
->       fix regression in glob with literal . or .. path component
->       fix build regression on ARM for ISA levels less than v5
->       release 1.1.18
->
-> Szabolcs Nagy (1):
->       math: rewrite fma with mostly int arithmetics
->
-> Will Dietz (1):
->       posix_spawn: use larger stack to cover worst-case in execvpe
+From: Khem Raj <raj.khem@gmail.com>
 
-With the version of musl currently included in rocko, various apps
-(including bash) segfault at startup when compiled as Thumb2. The "fix
-access by setjmp and longjmp to __hwcap on arm built as thumb2" commit
-from musl 1.1.18 fixes that.
+When using distros which use old kernels gnutls fails to build
+due to missing SYS_getrandom, therefore we need to check for this
+before using it.
+Fixes errorr e.g.
 
-However the other changes in musl 1.1.18 look pretty useful too, so
-unless there's strong objection, I'd like to suggest aligning rocko
-with the musl 1.1.18 release. ie cherry-picking the following two
-commits from oe-core master to rocko:
+| ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c: In function 'have_getrandom':
+| ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c:59:42: error: 'SYS_getrandom' undeclared (first use in this function)
+|  #  define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
 
-  c3f0a70 musl: Update to 1.1.18
-  3953c54 musl: Update to latest
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../gnutls/gnutls/check_SYS_getrandom.patch        | 35 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb        |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
 
+diff --git a/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
+new file mode 100644
+index 0000000..535c22a
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
+@@ -0,0 +1,35 @@
++From f26c3979ab0325edb2e410d287bc501cf00e0ac0 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@redhat.com>
++Date: Mon, 22 Aug 2016 16:32:34 +0200
++Subject: [PATCH] rnd-linux: added check for SYS_getrandom being defined
++
++This allows to compile the getrandom() code in old Linux systems
++which do not have the system call defined.
++---
++
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ lib/nettle/rnd-linux.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/lib/nettle/rnd-linux.c b/lib/nettle/rnd-linux.c
++index d7f07a6..7a24d05 100644
++--- a/lib/nettle/rnd-linux.c
+++++ b/lib/nettle/rnd-linux.c
++@@ -56,7 +56,11 @@ static dev_t _gnutls_urandom_fd_rdev = 0;
++ # else
++ #  include <sys/syscall.h>
++ #  undef getrandom
++-#  define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
+++#  if defined(SYS_getrandom)
+++#   define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
+++#  else
+++#   define getrandom(dst,s,flags) -1
+++#  endif
++ # endif
++ 
++ static unsigned have_getrandom(void)
++--
++libgit2 0.24.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+index b2dbb07..0400588 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+             file://0001-Use-correct-include-dir-with-minitasn.patch \
++            file://check_SYS_getrandom.patch \
+             file://CVE-2016-7444.patch \
+            "
+ SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
+-- 
+2.7.4
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/musl/musl_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-> index 671de326fb..932c9a27a0 100644
-> --- a/meta/recipes-core/musl/musl_git.bb
-> +++ b/meta/recipes-core/musl/musl_git.bb
-> @@ -3,9 +3,9 @@
->
->  require musl.inc
->
-> -SRCREV = "48be5b6313d7b827acf555769e93b389fa9f6307"
-> +SRCREV = "eb03bde2f24582874cb72b56c7811bf51da0c817"
->
-> -PV = "1.1.16+git${SRCPV}"
-> +PV = "1.1.18+git${SRCPV}"
->
->  # mirror is at git://github.com/kraj/musl.git
->
-> --
-> 2.15.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
