@@ -1,47 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 276AC786EA
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 85D3778416
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Dec 2017 22:07:47 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id f9so5727520wmh.0
+	Sat,  2 Dec 2017 00:31:38 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id z34so11752159wrz.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 14:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=zxOAvBsGXVj/I9InF3DZYPV3kU77f+sSP0O5UIL7RTY=;
-	b=Ijj3OpQMUGizWZzr/7p+0ZHRlz0/zQYdLCQ7W+eoGX630Zf4frcNTqVJMCfpeZH9wv
-	zJFo3G2Y8pEMN8sBxtuTzEvufQafswYfqVAuUm0MZXQW/mmfPR4lHKKu4xQ8efk+oAJy
-	7r3X8TEPplWpesHLJT0E9ycpmHDBwVNYI7jtXWR0P1EioXxmOUSSOy9dP/xMfSDTgXjY
-	dEnEEY0CvumCmNQUgnpMH4CIBmNdnRlwE0COaWx5kJrofgegYAInpdIr+SjBkKL8pXrh
-	nMwZy0lNhnnX3VoaAHKu8Nks+CfKfUoqZg0r7rq5h4ECuTYtMGkO8wkUQMPQZkrK7+wN
-	Wsdw==
+	Fri, 01 Dec 2017 16:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bfG+wUtYap4ja4RpLCcjY+Svs8O7yStruLuqZKkp7L8=;
+	b=szfjQ9LZwmU5DJ0FZ8VC/2a4hDgMhvMcgrTds1Bw4q+Gi+c120L4+ySk5xWp//Ni4H
+	9UJlYIwlfgDbJ0znVEMguN4bq2ihFRtiBLVVKqV9doMXjnwi0JgI7oG3mo0zN76D2Tam
+	p4bjyMt9QnoNNaxFIUJ0b3xZM9GFDJgcHbGKS1zhffBbg9bVT0//jqPzQ53HLMEcgb9C
+	nolUjAcBi5p93XTIiwc2hbhn4uGiAwzTGc92pcfCyHhsZVwaMKpjl7OK0khgFumPz+q0
+	XG0GCJEqN+8dePko9d/3wWxMB/34ivzt1s6RAdbOXPkZD7nvsOQIMMI/nj5sJKCixSOX
+	JjRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
+	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=zxOAvBsGXVj/I9InF3DZYPV3kU77f+sSP0O5UIL7RTY=;
-	b=RqTEX5wPWPHsawQvdVeg6h3n5yfxw0cDwLKQ4RLT06Ve6JhGywQIgHN3gsAUGEbzAx
-	P2upmrHln5Jo64d0XNDNXfzl3Yv7LKnomZHACFcNN1Ev/CJ9XYj6YO50J/hX+odX7EyN
-	lDNahbzbbYWZkbAqcasg8jA9jilfk3iI02Oohnks9XFlEoUpJJSBGKn9FqAQx6UNYVI7
-	I+OotE4Dnt+i3F6NYsFpKOA8I0kI5YuHqbJrnPhbsNnw0W0/zMrs0tk2Uf5KktOyBPkn
-	KZiq3db2rPw4R74zq3dB1Dtk6M/diYKG7k+y+emw9lxZ0MoTsBoerfD7Z+dmFU2z04b3
-	3q5A==
-X-Gm-Message-State: AJaThX79fWERUyBJTSaA/qAku00JNKGidrC7gJZffwOJXiOQRMelOeC9
-	+8R/8esEdNkdM33whCw2wldHYAp75+SSErW/Q10=
-X-Google-Smtp-Source: AGs4zMZ7lwits+c1ubRPENmc2NFmaq590c3YQT5AGW3kK5+jkP7oELeem5WGwC2tm/nChXjTSYJE1v3EVTaxJBWBjQs=
-X-Received: by 10.28.55.201 with SMTP id e192mr364395wma.1.1512166068588; Fri,
-	01 Dec 2017 14:07:48 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=bfG+wUtYap4ja4RpLCcjY+Svs8O7yStruLuqZKkp7L8=;
+	b=SctnsJ+4RGr+OnUKf4/522ynF20qqlMamCSOedvM7nAioex/Us3ECPsOlGeI9RJbtA
+	v8mf/pLZQb9yKi+SzAKYZCF0F8Q5yxnr1c09K+V0vCo5iYCfroMf6WEIGip5FLH7JZIV
+	laMNvUjCAWAypEq/BCJuLfUg40vZZI5sxQDLsuM0u17WYoTFrCyHcJKOpyvWHLia7gv3
+	J4M6Oa7tDMQcxn4YEj9cRyPjMfqMGRHfy7ZpNTJ0PLHl7SEWhapnlh1TzYoRZWyK81Yo
+	zY18UQIDBwAZ2Yfpyy9gCn6QtAi56K0YTCgxP+d5b2Gt2bhK4vOntH5HUNV7HA3eyuP2
+	i2RQ==
+X-Gm-Message-State: AJaThX4L2T+Y45RlRkMHPCq/ZSnwvkYVJsShNgbm0aLD/zUkOmgm4IGl
+	Y/V1o8STGFP5BH7sgNHBa99PYuy/0Pcz7PticwI=
+X-Google-Smtp-Source: AGs4zMZGRAFBiU7jNfT+dIIsEPyb8bsW9kXWCRfi6NUjAl5QbesO0R9yPEWOvZzU6cgD8M7Ha24uYFNszYNpqHLhWD8=
+X-Received: by 10.223.173.67 with SMTP id p61mr6098238wrc.226.1512174699143;
+	Fri, 01 Dec 2017 16:31:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.122.19 with HTTP; Fri, 1 Dec 2017 14:07:48 -0800 (PST)
-In-Reply-To: <20171201220258.2785.92203@do.openembedded.org>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-	<20171201220258.2785.92203@do.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 1 Dec 2017 23:07:48 +0100
-Message-ID: <CA+chaQcDrNUp_fE2a+JpkBOgAKAzA+e8SMKMqRGMpcD7jrLvGA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGluaXRyYW1mcy1mcmFtZXdvcmsgaW5zdGFsbGF0aW9uIGltcHJvdmVtZW50cyAocmV2NCk=?=
+Received: by 10.223.133.68 with HTTP; Fri, 1 Dec 2017 16:31:38 -0800 (PST)
+In-Reply-To: <826373113902dd8d6284ec49a2ea2076c7e298c0.1510192517.git.raj.khem@gmail.com>
+References: <cover.1510192517.git.raj.khem@gmail.com>
+	<826373113902dd8d6284ec49a2ea2076c7e298c0.1510192517.git.raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 1 Dec 2017 16:31:38 -0800
+Message-ID: <CAJ86T=VKWCdmAXRMV8dqSnQS=MdHX=H3odPHKtydB6SCEFyrMQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] musl: Update to 1.1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,129 +55,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Dec 2017 22:07:48 -0000
-Content-Type: multipart/alternative; boundary="001a114416165c21ef055f4e99e2"
-
---001a114416165c21ef055f4e99e2
+X-List-Received-Date: Sat, 02 Dec 2017 00:31:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Is it trying to apply whole series (including the 2 patches which were
-already merged to master and actually introduced the issue I was trying to
-fix)?
+On Wed, Nov 8, 2017 at 5:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Rich Felker (9):
+>       fix access by setjmp and longjmp to __hwcap on arm built as thumb2
+>       for executing init array functions, use function type with prototype
+>       fix read-after-free type error in pthread_detach
+>       fix incorrect base name offset from nftw when pathname ends in slash(es)
+>       in dns parsing callback, enforce MAXADDRS to preclude overflow
+>       release 1.1.17
+>       fix regression in glob with literal . or .. path component
+>       fix build regression on ARM for ISA levels less than v5
+>       release 1.1.18
+>
+> Szabolcs Nagy (1):
+>       math: rewrite fma with mostly int arithmetics
+>
+> Will Dietz (1):
+>       posix_spawn: use larger stack to cover worst-case in execvpe
 
-Does it mean that I cannot send a fix into the e-mail thread where the
-issue was introduced and discussed?
+With the version of musl currently included in rocko, various apps
+(including bash) segfault at startup when compiled as Thumb2. The "fix
+access by setjmp and longjmp to __hwcap on arm built as thumb2" commit
+from musl 1.1.18 fixes that.
 
-Regards,
+However the other changes in musl 1.1.18 look pretty useful too, so
+unless there's strong objection, I'd like to suggest aligning rocko
+with the musl 1.1.18 release. ie cherry-picking the following two
+commits from oe-core master to rocko:
 
-On Fri, Dec 1, 2017 at 11:02 PM, Patchwork <
-patchwork@patchwork.openembedded.org> wrote:
+  c3f0a70 musl: Update to 1.1.18
+  3953c54 musl: Update to latest
 
-> == Series Details ==
->
-> Series: initramfs-framework installation improvements (rev4)
-> Revision: 4
-> URL   : https://patchwork.openembedded.org/series/9783/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head]
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at addf309165)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_
-> Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>  meta/recipes-core/musl/musl_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 671de326fb..932c9a27a0 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -3,9 +3,9 @@
 >
+>  require musl.inc
+>
+> -SRCREV = "48be5b6313d7b827acf555769e93b389fa9f6307"
+> +SRCREV = "eb03bde2f24582874cb72b56c7811bf51da0c817"
+>
+> -PV = "1.1.16+git${SRCPV}"
+> +PV = "1.1.18+git${SRCPV}"
+>
+>  # mirror is at git://github.com/kraj/musl.git
+>
+> --
+> 2.15.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a114416165c21ef055f4e99e2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Is it trying to apply whole series (including the 2 patche=
-s which were already merged to master and actually introduced the issue I w=
-as trying to fix)?<div><br></div><div>Does it mean that I cannot send a fix=
- into the e-mail thread where the issue was introduced and discussed?</div>=
-<div><br></div><div>Regards,</div></div><div class=3D"gmail_extra"><br><div=
- class=3D"gmail_quote">On Fri, Dec 1, 2017 at 11:02 PM, Patchwork <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" target=
-=3D"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
-<br>
-Series: initramfs-framework installation improvements (rev4)<br>
-Revision: 4<br>
-URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/9783=
-/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedded=
-.org/series/9783/</a><br>
-State : failure<br>
-<br>
-=3D=3D Summary =3D=3D<br>
-<br>
-<br>
-Thank you for submitting this patch series to OpenEmbedded Core. This is<br=
->
-an automated response. Several tests have been executed on the proposed<br>
-series by patchtest resulting in the following failures:<br>
-<br>
-<br>
-<br>
-* Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does not appl=
-y on top of target branch [test_series_merge_on_head]<br>
-=C2=A0 Suggested fix=C2=A0 =C2=A0 Rebase your series on top of targeted bra=
-nch<br>
-=C2=A0 Targeted branch=C2=A0 master (currently at addf309165)<br>
-<br>
-<br>
-<br>
-If you believe any of these test results are incorrect, please reply to the=
-<br>
-mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.org">o=
-penembedded-core@lists.<wbr>openembedded.org</a>) raising your concerns.<br=
->
-Otherwise we would appreciate you correcting the issues and submitting a ne=
-w<br>
-version of the patchset if applicable. Please ensure you add/increment the<=
-br>
-version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] =
--&gt;<br>
-[PATCH v3] -&gt; ...).<br>
-<br>
----<br>
-Guidelines:=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.openembedded.org/wiki=
-/Commit_Patch_Message_Guidelines" rel=3D"noreferrer" target=3D"_blank">http=
-s://www.openembedded.org/<wbr>wiki/Commit_Patch_Message_<wbr>Guidelines</a>=
-<br>
-Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/patcht=
-est" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.org/<wbr>=
-cgit/cgit.cgi/patchtest</a><br>
-Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/=
-cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git.yoct=
-oproject.org/<wbr>cgit/cgit.cgi/patchtest-oe</a><br>
-<br>
-</blockquote></div><br></div>
-
---001a114416165c21ef055f4e99e2--
