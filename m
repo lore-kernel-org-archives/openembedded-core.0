@@ -1,49 +1,61 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 936D278416
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 364A67859E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Dec 2017 00:41:02 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id 64so5999360wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Dec 2017 16:41:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BKaJXLlKHCS25JbkwxK1rxx9w+K0FefCM2AZGAMnpWM=;
-	b=hZuCJ3tw4G/gb442+TG6vOGFmQUnPDQPuZ1f3Pav/Yc159xuE96S3n1EKC6GxP2uPk
-	rSTQa3zLL8XXGXEn2jsvEMvicKSWa5cn9Tmo60Q+pw3YsV2hm0s+aVP1utevh6BvOM/b
-	4JQ8b8jMhyPSVsG54Rz/MXre8o7CwWEbOvdmY+P/olGgDikuAicIwU+FZIXIhv75Izgj
-	dVCLSwVUYJk56jp+3KUSLqiE6I9KDg6t5gRch0jljH+Xe36oOB7o2wVXZxhj+Y268kPx
-	nqeiPsnrKyiIfsjktP9T+KQ9SJLXvPJ+c9aIDbpeH575xTrMCxTc3YDslsKn+Q2qosYQ
-	CnEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BKaJXLlKHCS25JbkwxK1rxx9w+K0FefCM2AZGAMnpWM=;
-	b=h1nb+Xl27pf87jmpLWcfN8KYiZKZbI4OnqY8ZIJezf9vAJoOxNtHqaSW+u7yoOICjH
-	/g2Sa56UjkTwRJIF1v8CidWOZF4EGdCCVYQeYJOUpLRHMv5MTqWlySY1ZDJFae/GtiGi
-	n0aYIOpQWxuYiwZZDOoikpa9CcrYz+/Tc3kpTtvpJB+RcXTN7Wc/xrqvwf6N6RaALFAZ
-	4QKVKkn+76QWlfI9s8G63gYJgDDHTlagvLGbeAUaM3JXqkCEQ68FgrnTNDT+cFCyf4++
-	/W5+vyRGczg7TRjMoFmnOfvTkK1NgcgbzoRfI1bbGUE7pVtF+mz64oC5WCSrLt6uegXS
-	Kp4A==
-X-Gm-Message-State: AKGB3mItoQdc21V6J+q0HSZSPBgbZytcmARZ5qupU/l32y9H2QT2wxHZ
-	uXwEoYdwgQtcXH4Cu5kNptUUaNYgI9QcOSjZB8A=
-X-Google-Smtp-Source: AGs4zMbBWB62SQ/5bF+AF0QJ89icEZLBVxN3JjvvRDXgiEvnhseu+m/pX918yQt+1m7Qrucq176WwAcPIDsztcaYXiU=
-X-Received: by 10.28.199.75 with SMTP id x72mr2221222wmf.87.1512175263518;
-	Fri, 01 Dec 2017 16:41:03 -0800 (PST)
+	Sat,  2 Dec 2017 04:31:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 622661883E;
+	Sat,  2 Dec 2017 05:31:41 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id PrP9dl1LdI0T; Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 5EF6D18827;
+	Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4CF4F1E081;
+	Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4149C1E080;
+	Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id 34DA22434;
+	Sat,  2 Dec 2017 05:31:39 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Sat, 2 Dec 2017 05:31:39 +0100
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Sat, 2 Dec 2017 05:31:38 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Sat, 2 Dec 2017 05:31:38 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+Thread-Topic: [OE-core] backfill mechanism
+Thread-Index: AdNf+226ORa9l6NuR/SCoUcn6/NVXgCdG+0AACEMu4ACAP5h8A==
+Date: Sat, 2 Dec 2017 04:31:38 +0000
+Message-ID: <42a722fffcbc4a0687983cda67842af4@XBOX02.axis.com>
+References: <007BD92917A2324FA403BCF9A464CF84CF45536D@ALA-MBC.corp.ad.wrs.com>,
+	<CAJ86T=Ub5KJK6nEUCDithboripFosi2w_f5JifOwEaq7LH4keg@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF4569D8@ALA-MBC.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Fri, 1 Dec 2017 16:41:03 -0800 (PST)
-In-Reply-To: <CAMKF1srPGiyC3YfwyZBKW7+Ttm037dCoOg8D9i=m3qq04Og1_w@mail.gmail.com>
-References: <cover.1510192517.git.raj.khem@gmail.com>
-	<826373113902dd8d6284ec49a2ea2076c7e298c0.1510192517.git.raj.khem@gmail.com>
-	<CAJ86T=VKWCdmAXRMV8dqSnQS=MdHX=H3odPHKtydB6SCEFyrMQ@mail.gmail.com>
-	<CAMKF1srPGiyC3YfwyZBKW7+Ttm037dCoOg8D9i=m3qq04Og1_w@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 1 Dec 2017 16:41:03 -0800
-Message-ID: <CAJ86T=Wegev0YRi8DNvUwJ4ry+BP=UY_tiQce9TEqmHu6Q+O_Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] musl: Update to 1.1.18
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: backfill mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,77 +68,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Dec 2017 00:41:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 02 Dec 2017 04:31:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 1, 2017 at 4:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Dec 1, 2017 at 4:31 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Wed, Nov 8, 2017 at 5:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> Rich Felker (9):
->>>       fix access by setjmp and longjmp to __hwcap on arm built as thumb2
->>>       for executing init array functions, use function type with prototype
->>>       fix read-after-free type error in pthread_detach
->>>       fix incorrect base name offset from nftw when pathname ends in slash(es)
->>>       in dns parsing callback, enforce MAXADDRS to preclude overflow
->>>       release 1.1.17
->>>       fix regression in glob with literal . or .. path component
->>>       fix build regression on ARM for ISA levels less than v5
->>>       release 1.1.18
->>>
->>> Szabolcs Nagy (1):
->>>       math: rewrite fma with mostly int arithmetics
->>>
->>> Will Dietz (1):
->>>       posix_spawn: use larger stack to cover worst-case in execvpe
->>
->> With the version of musl currently included in rocko, various apps
->> (including bash) segfault at startup when compiled as Thumb2. The "fix
->> access by setjmp and longjmp to __hwcap on arm built as thumb2" commit
->> from musl 1.1.18 fixes that.
->>
->> However the other changes in musl 1.1.18 look pretty useful too, so
->> unless there's strong objection, I'd like to suggest aligning rocko
->> with the musl 1.1.18 release. ie cherry-picking the following two
->> commits from oe-core master to rocko:
->>
->>   c3f0a70 musl: Update to 1.1.18
->>   3953c54 musl: Update to latest
->
-> It seems good to me. Please send a pull and CC Armin
+Be careful with the _remove operator in common configuration files.=20
+Once it has been used there is absolutely no way of getting the=20
+removed value back in, for testing or for real.=20
 
-Armin, please consider the following two commits for rocko:
+E.g., if you were to change the:
 
-  c3f0a70 musl: Update to 1.1.18
-  3953c54 musl: Update to latest
+DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
 
->>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/recipes-core/musl/musl_git.bb | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
->>> index 671de326fb..932c9a27a0 100644
->>> --- a/meta/recipes-core/musl/musl_git.bb
->>> +++ b/meta/recipes-core/musl/musl_git.bb
->>> @@ -3,9 +3,9 @@
->>>
->>>  require musl.inc
->>>
->>> -SRCREV = "48be5b6313d7b827acf555769e93b389fa9f6307"
->>> +SRCREV = "eb03bde2f24582874cb72b56c7811bf51da0c817"
->>>
->>> -PV = "1.1.16+git${SRCPV}"
->>> +PV = "1.1.18+git${SRCPV}"
->>>
->>>  # mirror is at git://github.com/kraj/musl.git
->>>
->>> --
->>> 2.15.0
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+in poky-tiny.conf to:=20
+
+DISTRO_FEATURES_remove =3D "sysvinit"
+
+then it would be impossible to use the poky-tiny distro in a=20
+configuration where you also would like to enable sysvinit.
+
+Also, after having looked at the Git history for when the backfill=20
+feature was implemented, I do not think DISTRO_FEATURES_remove will=20
+work, for the same reason DISTRO_FEATURES_append is not used to add=20
+the backfilled values (the first implementation actually did use=20
+_append). The reason it was changed is because the _append (and=20
+_remove) are evaluated too late. I.e., code like this that use a=20
+conditional based on DISTRO_FEATURES to do inherit would not=20
+work as intended for a backfilled value:
+
+inherit ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'systemd', =
+d)}
+
+A better solution for how to replace the backfill considered=20
+mechanism would be to use individual variables for the backfilled=20
+values. E.g., the current definition in bitbake.conf:
+
+MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"=20
+
+could be replaced with something like:
+
+MACHINE_FEATURES_BACKFILL =3D " \
+    ${MACHINE_FEATURES_BACKFILL_qemu-usermode} \
+    ${MACHINE_FEATURES_BACKFILL_rtc} \
+"
+MACHINE_FEATURES_BACKFILL_qemu-usermode =3D "qemu-usermode"
+MACHINE_FEATURES_BACKFILL_rtc =3D "rtc"
+
+Then to do the equivalent of:
+
+MACHINE_FEATURES_BACKFILL_CONSIDERED +=3D "rtc"
+
+one would instead do:
+
+MACHINE_FEATURES_BACKFILL_rtc =3D ""
+
+Alternatively one could use variable flags:
+
+MACHINE_FEATURES_BACKFILL[qemu-usermode] =3D "1"
+MACHINE_FEATURES_BACKFILL[rtc] =3D "1"
+
+and then simply set it to 0 if one does not want a feature:
+
+MACHINE_FEATURES_BACKFILL[rtc] =3D "0"
+
+That would of course take a little bit of Python code to=20
+convert the variable flags into actual features:
+
+MACHINE_FEATURES_BACKFILL =3D "${@' '.join(sorted(key for key in d.getVarFl=
+ags('MACHINE_FEATURES_BACKFILL').keys() if d.getVarFlag('MACHINE_FEATURES_B=
+ACKFILL', key) =3D=3D '1'))}"
+
+(By explicitly testing for "1" we also avoid converting=20
+MACHINE_FEATURES_BACKFILL[doc] into a feature.)
+
+I also have a hunch that something like this would be needed:
+
+MACHINE_FEATURES_BACKFILL[vardepvalue] =3D "${MACHINE_FEATURES_BACKFILL}"
+
+which probably leads to recursion unless the key "vardepvalue" is=20
+explicitly avoided in the if test above. Meh...
+
+//Peter
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Slater, Joseph
+> Sent: den 21 november 2017 20:11
+> To: Andre McCurdy <armccurdy@gmail.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] backfill mechanism
+>=20
+> The problem is that when backfilling is done, TUNE_FEATURES, etc, all
+> have values associated with the base arch, not the current multilib.
+> The "generic" solution, below, should work, although I would still use
+> overrides when available.
+>=20
+> Beyond what actually works, if the special backfill processing can be
+> eliminated and regular constructs used I think that would be desirable.
+>=20
+> Joe
+> ________________________________________
+> From: Andre McCurdy [armccurdy@gmail.com]
+> Sent: Monday, November 20, 2017 7:24 PM
+> To: Slater, Joseph
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] backfill mechanism
+>=20
+> On Fri, Nov 17, 2017 at 3:32 PM, Slater, Joseph
+> <joe.slater@windriver.com> wrote:
+> > The backfill mechanism is not compatible with multilib.
+>=20
+> Did anyone ever explain why?
+>=20
+> > This could possibly
+> > be fixed, but the backfill_considered functionality is also obscure,
+> so I
+> > think in at least the machine related .inc files we should replace
+> lines
+> > like
+> >
+> > MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D "
+> > ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '',
+> d)}"
+> >
+> > with lines like
+> >
+> > MACHINE_FEATURES_remove_mipsarchn32 =3D " qemu-usermode"
+>=20
+> That only works for TUNE_FEATURES which happen to have a corresponding
+> over-ride, so may not be a generic solution. Does something like:
+>=20
+>   MACHINE_FEATURES_remove =3D "${@bb.utils.contains('TUNE_FEATURES',
+> 'n32', 'qemu-usermode', '', d)}"
+>=20
+> work for multilib?
+>=20
+> > There are two advantages:  the second line works for multilib, and it
+> is far
+> > more readable.
+> >
+> > Joe
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
