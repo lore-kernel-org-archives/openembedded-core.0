@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 214A06060F
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E31571D97
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:42:14 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id m11so11555939iti.1
+	Mon,  4 Dec 2017 12:37:01 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id f190so6208466ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Dec 2017 03:42:16 -0800 (PST)
+	Mon, 04 Dec 2017 04:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=P1aT8gb3DpdnIqkk3lXG58/BZuiieC/99tLQbDts300=;
-	b=YYyl1WcCGarIW5niEQRlo6m7j4PeKgsXZEiaBJI1pIlJuiZgWKw+210Mcc0jqM26ui
-	cvN1zkBRpf7I68kSFJquuz3EsRXdAQOBOG9Mr7XcScEELhfxWf8x1vJbKcPrjP996RuA
-	i/eJO6toU75iDR4q8ETEkF4OCY5JMAUgVhWjJRICB3Wo2ljAcNnD322veYd5MdWaZses
-	sCb7CvFHRIho24NzuqVwFZZ8cAR6+fj+wDj66xI5fTJUQwGu6jpLyeIP1QLhKKPYzbIW
-	fMNf+T5GcVgmgoqPKmn6ZCDgRhdJY0wxJ/M6pEPEYnWFKQ4Q+t5LLffcHFwFPmRd4FEd
-	Vv5Q==
+	:cc; bh=AwwWt0ihEzntjJikB8csepnSiUn5CZOOap3OUiUZ56Y=;
+	b=OwrWY2Ko+JdysJbG5njLlX17mG/O/RsqB5UJOlUJWKvU6PhcJ7L7kPK9H2j5L/jwh0
+	42YBAL1pqeqd1CmkvpGFasNm3uEZEWSmrz+JgEyQ4ZP6KQcLAfTWFbqun1rKAUPi+U1J
+	wM+jKGWL+muIirgy3eHlEYguVZ/GAPxJJxnDxI2kz7Z9Uz2Y3VhcwxqyvEH0JCi5i2lH
+	ynsBahDyUjemokZcypIP8pEJQHDL08fFVyS6yWSu96rue9vqNVhX7S0HrPEGgSK7ovbg
+	BcVuCfV2u8/0dYOXJOELPfj7KWX9lNO8UpwEWmhHpXgPtJVzC8AwVuywdcdXTo1P0BzH
+	hBkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=P1aT8gb3DpdnIqkk3lXG58/BZuiieC/99tLQbDts300=;
-	b=sQBhBzqtxKs+PNsRzCuR0K+Sne2sWAfxVBIy8NmavtQKppWMO8617LTzGXdy4hoKRB
-	GIfVGDphk6hN3m+/MfymYPtdxQNmiMSmwl2QHHtRehkUfNn5o0GtHn3p4uy+OEHqHsZC
-	tL6IvLdkUjKzaCdzXcLXq0YT83nrZJogerJ3wWtg1TSkgDfNQn3R0n2E7ebc3OnbbKKq
-	J9iYJ45RCtW92OaNpsd3y0+JvhBSp2gDev8VpRtnI+TTJyT+a+BzQ17lkfRjQpvkuZyl
-	Cx0Q1b+qxDDBjmmP4CFCCpnmjql185hDf+g9J6eKvMF1/qUMRFxnFTo1rVtcp7y/NEK4
-	Y2Xg==
-X-Gm-Message-State: AKGB3mLxezATYTU6sHfE5zzYWyLRBFV1Q6gY4g6AwH0ChNJWeVYEPyS7
-	qETKxKa5u1C2+m53XvWDyWq6s280aPzAHNdth6/P9w==
-X-Google-Smtp-Source: AGs4zMZVQP0ohyf14dC3W5EI1MCKQ92raCpAr7F2Ih+kCU73GCjOo1u0MMS1liU6r7jGyxv4WiGbLH76VyU0uK63P0w=
-X-Received: by 10.36.80.148 with SMTP id m142mr13195711itb.6.1512387736288;
-	Mon, 04 Dec 2017 03:42:16 -0800 (PST)
+	bh=AwwWt0ihEzntjJikB8csepnSiUn5CZOOap3OUiUZ56Y=;
+	b=ADRER5mCVmU9anrNdgelEEjUudWEmyynry2eDRyEb1s+xdQGeuGVMW9vbeASySnlVj
+	QIANvQnuw1FVzL8/4Kpdla5cfA/1GGY0L7VoPUUyFJTQXhhy2q7CnX1/5Q+rkrT2yPnH
+	VDTgdUnFfYMZcJ0Qqxjxwi4a8zP6qQ8BA/16Sq73OaYMWcvVWgiziWEWTlpzPlZk1rEt
+	Vd/9mz4L4Uh1S27ohZL5VjBLsMhjwyFCLn6XJiOKmqhP+WAbXDzRNi+LNyQR6ZCT10RG
+	sAmKVmlO2mJYzzcuKFvqhvYzoebG+9CI6n+Hj4cYITGKKosLuBxJ89yo5fcsYPvC//Ks
+	RaIg==
+X-Gm-Message-State: AKGB3mIVxMDlcLPoZHDpaQUZen41Sj3I37HYc7WZbad2EAdaD5PY64tm
+	LrQ6x80KRVG7w0diyTMzjju0pOeT66XcDMS5ZklxVQ==
+X-Google-Smtp-Source: AGs4zMZnLQda+VlOQ2UlICMajZarmfedWY4UOj43tGMOKbZ+ayeu597KHTO/lAObAMzNFBCTENCNq8KSxKwKrYTvMlk=
+X-Received: by 10.36.93.5 with SMTP id w5mr13170150ita.124.1512391022671; Mon,
+	04 Dec 2017 04:37:02 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.134 with HTTP; Mon, 4 Dec 2017 03:41:55 -0800 (PST)
-In-Reply-To: <CAJ86T=V85wNuQdpS1PjoTQORM8xzMPWo-0pNpBaiXkGpxr=wKg@mail.gmail.com>
-References: <1509141048-32541-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=WSqJysxG6mBxbKnKpsp9TaFN=gfWGv0k7joF5LVU--XQ@mail.gmail.com>
-	<CAJ86T=V85wNuQdpS1PjoTQORM8xzMPWo-0pNpBaiXkGpxr=wKg@mail.gmail.com>
+Received: by 10.107.171.134 with HTTP; Mon, 4 Dec 2017 04:36:42 -0800 (PST)
+In-Reply-To: <20171201155024.3002-6-olofjn@axis.com>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Dec 2017 11:41:55 +0000
-Message-ID: <CAJTo0LZMZx=qS7XwpzwCP58LQ=hn2JO4zpVW4Owfjzj0P1t7wg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: set more conservative default for IMAGE_FSTYPES_DEBUGFS
+Date: Mon, 4 Dec 2017 12:36:42 +0000
+Message-ID: <CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
+To: Olof Johansson <olof.johansson@axis.com>
+Cc: Olof Johansson <olofjn@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 11:42:15 -0000
-Content-Type: multipart/alternative; boundary="001a114387b8c8eead055f823503"
+X-List-Received-Date: Mon, 04 Dec 2017 12:37:01 -0000
+Content-Type: multipart/alternative; boundary="001a1143f14cab1493055f82f9f9"
 
---001a114387b8c8eead055f823503
+--001a1143f14cab1493055f82f9f9
 Content-Type: text/plain; charset="UTF-8"
 
-Nope its queued now.  You'll have noticed from the status reports we've
-been holding back on merging whilst trying to stabilise the autobuilders.
+You might be interested in some of the patches I've got sitting in
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=ross/mutb
+specifically around "Add new ELF parser".  This adds a fully-featured
+Python ELF parser to lib/oe which could be used to inspect the binaries the
+way file does, but without having to call and parse the output of file.
 
 Ross
 
-On 1 December 2017 at 19:45, Andre McCurdy <armccurdy@gmail.com> wrote:
+On 1 December 2017 at 15:50, Olof Johansson <olof.johansson@axis.com> wrote:
 
-> On Tue, Nov 7, 2017 at 2:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> > On Fri, Oct 27, 2017 at 2:50 PM, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> >> Setting IMAGE_FSTYPES_DEBUGFS to the same value as IMAGE_FSTYPES can
-> >> lead to creating a large number of DEBUGFS filesystem images, many of
-> >> which may not make much sense (or may not even be buildable).
-> >
-> > Ping.
+> Avoid matching substrings that are picked up from paths, for instance.
+> Do this by anchoring the tokens we look for (e.g "executable" or "not
+> stripped") with whitespace and punctuation.
 >
-> Ping again. Any issues with this change?
+> Submitted with this patch series is a change that adds the use of
+> --brief to file. This removes the path prefix to the output, but the
+> path can still be included in shebang lines (which file will report as
+> something like "a /foo/bar/baz.py script").
 >
-> >> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> >> ---
-> >>  meta/conf/bitbake.conf | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> >> index 9696273..15feb57 100644
-> >> --- a/meta/conf/bitbake.conf
-> >> +++ b/meta/conf/bitbake.conf
-> >> @@ -757,7 +757,7 @@ require conf/sanity.conf
-> >>  DL_DIR ?= "${TOPDIR}/downloads"
-> >>  SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
-> >>  IMAGE_FSTYPES ?= "tar.gz"
-> >> -IMAGE_FSTYPES_DEBUGFS ?= "${IMAGE_FSTYPES}"
-> >> +IMAGE_FSTYPES_DEBUGFS ?= "tar.gz"
-> >>
-> >>  INITRAMFS_FSTYPES ?= "cpio.gz"
-> >>  # The maximum size in Kbytes for the generated initramfs image size.
-> >> --
-> >> 1.9.1
-> >>
+> Signed-off-by: Olof Johansson <olofjn@axis.com>
+> ---
+>  meta/lib/oe/package.py | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 976d2ef36c..2bd771cfc5 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -84,17 +84,17 @@ def is_elf(path, on_error=_is_elf_error):
+>          error_cb('"file %s" failed')
+>          return
+>
+> -    if not "ELF" in result:
+> +    if not result.startswith("ELF "):
+>          return 0
+>
+>      exec_type = 1
+> -    if "not stripped" not in result:
+> +    if ", not stripped" not in result:
+>          exec_type |= 2
+> -    if "executable" in result:
+> +    if " executable, " in result:
+>          exec_type |= 4
+> -    if "shared" in result:
+> +    if " shared object, " in result:
+>          exec_type |= 8
+> -    if "relocatable" in result and is_kernel_module(path):
+> +    if "relocatable, " in result and is_kernel_module(path):
+>          exec_type |= 16
+>      return exec_type
+>
+> --
+> 2.11.0
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -109,55 +124,71 @@ On 1 December 2017 at 19:45, Andre McCurdy <armccurdy@gmail.com> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---001a114387b8c8eead055f823503
+--001a1143f14cab1493055f82f9f9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Nope its queued now.=C2=A0 You&#39;ll have noticed from th=
-e status reports we&#39;ve been holding back on merging whilst trying to st=
-abilise the autobuilders.<div><br></div><div>Ross</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 1 December 2017 at 19:45, An=
-dre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" ta=
-rget=3D"_blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><span class=3D"">On Tue, Nov 7, 2017 at 2:35 PM, Andre McC=
-urdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt;=
- wrote:<br>
-&gt; On Fri, Oct 27, 2017 at 2:50 PM, Andre McCurdy &lt;<a href=3D"mailto:a=
-rmccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; Setting IMAGE_FSTYPES_DEBUGFS to the same value as IMAGE_FSTYPES c=
-an<br>
-&gt;&gt; lead to creating a large number of DEBUGFS filesystem images, many=
- of<br>
-&gt;&gt; which may not make much sense (or may not even be buildable).<br>
-&gt;<br>
-&gt; Ping.<br>
+<div dir=3D"ltr">You might be interested in some of the patches I&#39;ve go=
+t sitting in=C2=A0<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky=
+-contrib/log/?h=3Dross/mutb">http://git.yoctoproject.org/cgit/cgit.cgi/poky=
+-contrib/log/?h=3Dross/mutb</a> specifically around &quot;Add new ELF parse=
+r&quot;.=C2=A0 This adds a fully-featured Python ELF parser to lib/oe which=
+ could be used to inspect the binaries the way file does, but without havin=
+g to call and parse the output of file.<div><br></div><div>Ross</div></div>=
+<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 1 December 201=
+7 at 15:50, Olof Johansson <span dir=3D"ltr">&lt;<a href=3D"mailto:olof.joh=
+ansson@axis.com" target=3D"_blank">olof.johansson@axis.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Avoid matching substrings that are =
+picked up from paths, for instance.<br>
+Do this by anchoring the tokens we look for (e.g &quot;executable&quot; or =
+&quot;not<br>
+stripped&quot;) with whitespace and punctuation.<br>
 <br>
-</span>Ping again. Any issues with this change?<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;&gt; Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail=
-.com">armccurdy@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/conf/bitbake.conf | 2 +-<br>
-&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-&gt;&gt; index 9696273..15feb57 100644<br>
-&gt;&gt; --- a/meta/conf/bitbake.conf<br>
-&gt;&gt; +++ b/meta/conf/bitbake.conf<br>
-&gt;&gt; @@ -757,7 +757,7 @@ require conf/sanity.conf<br>
-&gt;&gt;=C2=A0 DL_DIR ?=3D &quot;${TOPDIR}/downloads&quot;<br>
-&gt;&gt;=C2=A0 SSTATE_DIR ?=3D &quot;${TOPDIR}/sstate-cache&quot;<br>
-&gt;&gt;=C2=A0 IMAGE_FSTYPES ?=3D &quot;tar.gz&quot;<br>
-&gt;&gt; -IMAGE_FSTYPES_DEBUGFS ?=3D &quot;${IMAGE_FSTYPES}&quot;<br>
-&gt;&gt; +IMAGE_FSTYPES_DEBUGFS ?=3D &quot;tar.gz&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 INITRAMFS_FSTYPES ?=3D &quot;cpio.gz&quot;<br>
-&gt;&gt;=C2=A0 # The maximum size in Kbytes for the generated initramfs ima=
-ge size.<br>
-&gt;&gt; --<br>
-&gt;&gt; 1.9.1<br>
-&gt;&gt;<br>
+Submitted with this patch series is a change that adds the use of<br>
+--brief to file. This removes the path prefix to the output, but the<br>
+path can still be included in shebang lines (which file will report as<br>
+something like &quot;a /foo/bar/baz.py script&quot;).<br>
+<br>
+Signed-off-by: Olof Johansson &lt;<a href=3D"mailto:olofjn@axis.com">olofjn=
+@axis.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oe/package.py | 10 +++++-----<br>
+=C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py<br>
+index 976d2ef36c..2bd771cfc5 100644<br>
+--- a/meta/lib/oe/package.py<br>
++++ b/meta/lib/oe/package.py<br>
+@@ -84,17 +84,17 @@ def is_elf(path, on_error=3D_is_elf_error):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_cb(&#39;&quot;file %s&quot; failed&=
+#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+<br>
+-=C2=A0 =C2=A0 if not &quot;ELF&quot; in result:<br>
++=C2=A0 =C2=A0 if not result.startswith(&quot;ELF &quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0exec_type =3D 1<br>
+-=C2=A0 =C2=A0 if &quot;not stripped&quot; not in result:<br>
++=C2=A0 =C2=A0 if &quot;, not stripped&quot; not in result:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_type |=3D 2<br>
+-=C2=A0 =C2=A0 if &quot;executable&quot; in result:<br>
++=C2=A0 =C2=A0 if &quot; executable, &quot; in result:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_type |=3D 4<br>
+-=C2=A0 =C2=A0 if &quot;shared&quot; in result:<br>
++=C2=A0 =C2=A0 if &quot; shared object, &quot; in result:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_type |=3D 8<br>
+-=C2=A0 =C2=A0 if &quot;relocatable&quot; in result and is_kernel_module(pa=
+th):<br>
++=C2=A0 =C2=A0 if &quot;relocatable, &quot; in result and is_kernel_module(=
+path):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_type |=3D 16<br>
+=C2=A0 =C2=A0 =C2=A0return exec_type<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.11.0<br>
+<br>
 --<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
@@ -166,6 +197,6 @@ re@lists.<wbr>openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+</font></span></blockquote></div><br></div>
 
---001a114387b8c8eead055f823503--
+--001a1143f14cab1493055f82f9f9--
