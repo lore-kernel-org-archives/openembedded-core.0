@@ -1,53 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FB9B78438
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 214A06060F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 10:59:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 08770182E3
+	Mon,  4 Dec 2017 11:42:14 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id m11so11555939iti.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:24 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 1bqMcBBZGIJu
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:23 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 1EBF018292
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:23 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DFF661E080
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:22 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D4D9B1E066
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:22 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:22 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id C91AD2706
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 11:59:22 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id vB4AxIZT013026
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Dec 2017 11:59:18 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id vB4AxI1L013025
-	for openembedded-core@lists.openembedded.org;
-	Mon, 4 Dec 2017 11:59:18 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Dec 2017 11:59:17 +0100
-Message-Id: <20171204105917.12985-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2] libbsd: Make it build with GCC 5.0 and older
+	Mon, 04 Dec 2017 03:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=P1aT8gb3DpdnIqkk3lXG58/BZuiieC/99tLQbDts300=;
+	b=YYyl1WcCGarIW5niEQRlo6m7j4PeKgsXZEiaBJI1pIlJuiZgWKw+210Mcc0jqM26ui
+	cvN1zkBRpf7I68kSFJquuz3EsRXdAQOBOG9Mr7XcScEELhfxWf8x1vJbKcPrjP996RuA
+	i/eJO6toU75iDR4q8ETEkF4OCY5JMAUgVhWjJRICB3Wo2ljAcNnD322veYd5MdWaZses
+	sCb7CvFHRIho24NzuqVwFZZ8cAR6+fj+wDj66xI5fTJUQwGu6jpLyeIP1QLhKKPYzbIW
+	fMNf+T5GcVgmgoqPKmn6ZCDgRhdJY0wxJ/M6pEPEYnWFKQ4Q+t5LLffcHFwFPmRd4FEd
+	Vv5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=P1aT8gb3DpdnIqkk3lXG58/BZuiieC/99tLQbDts300=;
+	b=sQBhBzqtxKs+PNsRzCuR0K+Sne2sWAfxVBIy8NmavtQKppWMO8617LTzGXdy4hoKRB
+	GIfVGDphk6hN3m+/MfymYPtdxQNmiMSmwl2QHHtRehkUfNn5o0GtHn3p4uy+OEHqHsZC
+	tL6IvLdkUjKzaCdzXcLXq0YT83nrZJogerJ3wWtg1TSkgDfNQn3R0n2E7ebc3OnbbKKq
+	J9iYJ45RCtW92OaNpsd3y0+JvhBSp2gDev8VpRtnI+TTJyT+a+BzQ17lkfRjQpvkuZyl
+	Cx0Q1b+qxDDBjmmP4CFCCpnmjql185hDf+g9J6eKvMF1/qUMRFxnFTo1rVtcp7y/NEK4
+	Y2Xg==
+X-Gm-Message-State: AKGB3mLxezATYTU6sHfE5zzYWyLRBFV1Q6gY4g6AwH0ChNJWeVYEPyS7
+	qETKxKa5u1C2+m53XvWDyWq6s280aPzAHNdth6/P9w==
+X-Google-Smtp-Source: AGs4zMZVQP0ohyf14dC3W5EI1MCKQ92raCpAr7F2Ih+kCU73GCjOo1u0MMS1liU6r7jGyxv4WiGbLH76VyU0uK63P0w=
+X-Received: by 10.36.80.148 with SMTP id m142mr13195711itb.6.1512387736288;
+	Mon, 04 Dec 2017 03:42:16 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.171.134 with HTTP; Mon, 4 Dec 2017 03:41:55 -0800 (PST)
+In-Reply-To: <CAJ86T=V85wNuQdpS1PjoTQORM8xzMPWo-0pNpBaiXkGpxr=wKg@mail.gmail.com>
+References: <1509141048-32541-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=WSqJysxG6mBxbKnKpsp9TaFN=gfWGv0k7joF5LVU--XQ@mail.gmail.com>
+	<CAJ86T=V85wNuQdpS1PjoTQORM8xzMPWo-0pNpBaiXkGpxr=wKg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Dec 2017 11:41:55 +0000
+Message-ID: <CAJTo0LZMZx=qS7XwpzwCP58LQ=hn2JO4zpVW4Owfjzj0P1t7wg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: set more conservative default for IMAGE_FSTYPES_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,70 +57,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 10:59:23 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 11:42:15 -0000
+Content-Type: multipart/alternative; boundary="001a114387b8c8eead055f823503"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+--001a114387b8c8eead055f823503
+Content-Type: text/plain; charset="UTF-8"
 
-This hit us when building master and Rocko with GCC 4.7.2...
+Nope its queued now.  You'll have noticed from the status reports we've
+been holding back on merging whilst trying to stabilise the autobuilders.
 
-PATCHv2: Added a Signed-off-by to the patch.
+Ross
 
- ...r-older-GCCs-not-supporting-__has_include.patch | 31 ++++++++++++++++++++++
- meta/recipes-support/libbsd/libbsd_0.8.6.bb        |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
+On 1 December 2017 at 19:45, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch b/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
-new file mode 100644
-index 0000000000..d13732bdaf
---- /dev/null
-+++ b/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
-@@ -0,0 +1,31 @@
-+From 2fbf47ce9b64f4e07be223bc2870348a68f19d86 Mon Sep 17 00:00:00 2001
-+From: Adam Lackorzynski <adam@l4re.org>
-+Date: Sat, 21 Oct 2017 23:08:31 +0200
-+Subject: [PATCH] Fix for older GCCs not supporting __has_include*
-+
-+Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=103396]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ include/bsd/sys/cdefs.h | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/include/bsd/sys/cdefs.h b/include/bsd/sys/cdefs.h
-+index 044f221..b4c8f30 100644
-+--- a/include/bsd/sys/cdefs.h
-++++ b/include/bsd/sys/cdefs.h
-+@@ -25,10 +25,10 @@
-+  */
-+ 
-+ #ifndef __has_include
-+-#define __has_include 1
-++#define __has_include(x) 1
-+ #endif
-+ #ifndef __has_include_next
-+-#define __has_include_next 1
-++#define __has_include_next(x) 1
-+ #endif
-+ 
-+ #ifdef LIBBSD_OVERLAY
-+-- 
-+2.12.0
-+
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.6.bb b/meta/recipes-support/libbsd/libbsd_0.8.6.bb
-index 182543fd42..c88517f5b5 100644
---- a/meta/recipes-support/libbsd/libbsd_0.8.6.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.6.bb
-@@ -36,6 +36,7 @@ SECTION = "libs"
- SRC_URI = " \
-     http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-     file://0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch \
-+    file://0001-Fix-for-older-GCCs-not-supporting-__has_include.patch \
- "
- SRC_URI_append_libc-musl  = " \
-     file://0001-Replace-__BEGIN_DECLS-and-__END_DECLS.patch \
--- 
-2.12.0
+> On Tue, Nov 7, 2017 at 2:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> > On Fri, Oct 27, 2017 at 2:50 PM, Andre McCurdy <armccurdy@gmail.com>
+> wrote:
+> >> Setting IMAGE_FSTYPES_DEBUGFS to the same value as IMAGE_FSTYPES can
+> >> lead to creating a large number of DEBUGFS filesystem images, many of
+> >> which may not make much sense (or may not even be buildable).
+> >
+> > Ping.
+>
+> Ping again. Any issues with this change?
+>
+> >> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> >> ---
+> >>  meta/conf/bitbake.conf | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> >> index 9696273..15feb57 100644
+> >> --- a/meta/conf/bitbake.conf
+> >> +++ b/meta/conf/bitbake.conf
+> >> @@ -757,7 +757,7 @@ require conf/sanity.conf
+> >>  DL_DIR ?= "${TOPDIR}/downloads"
+> >>  SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+> >>  IMAGE_FSTYPES ?= "tar.gz"
+> >> -IMAGE_FSTYPES_DEBUGFS ?= "${IMAGE_FSTYPES}"
+> >> +IMAGE_FSTYPES_DEBUGFS ?= "tar.gz"
+> >>
+> >>  INITRAMFS_FSTYPES ?= "cpio.gz"
+> >>  # The maximum size in Kbytes for the generated initramfs image size.
+> >> --
+> >> 1.9.1
+> >>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a114387b8c8eead055f823503
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Nope its queued now.=C2=A0 You&#39;ll have noticed from th=
+e status reports we&#39;ve been holding back on merging whilst trying to st=
+abilise the autobuilders.<div><br></div><div>Ross</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 1 December 2017 at 19:45, An=
+dre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" ta=
+rget=3D"_blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><span class=3D"">On Tue, Nov 7, 2017 at 2:35 PM, Andre McC=
+urdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt;=
+ wrote:<br>
+&gt; On Fri, Oct 27, 2017 at 2:50 PM, Andre McCurdy &lt;<a href=3D"mailto:a=
+rmccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; Setting IMAGE_FSTYPES_DEBUGFS to the same value as IMAGE_FSTYPES c=
+an<br>
+&gt;&gt; lead to creating a large number of DEBUGFS filesystem images, many=
+ of<br>
+&gt;&gt; which may not make much sense (or may not even be buildable).<br>
+&gt;<br>
+&gt; Ping.<br>
+<br>
+</span>Ping again. Any issues with this change?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;&gt; Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail=
+.com">armccurdy@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/conf/bitbake.conf | 2 +-<br>
+&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+&gt;&gt; index 9696273..15feb57 100644<br>
+&gt;&gt; --- a/meta/conf/bitbake.conf<br>
+&gt;&gt; +++ b/meta/conf/bitbake.conf<br>
+&gt;&gt; @@ -757,7 +757,7 @@ require conf/sanity.conf<br>
+&gt;&gt;=C2=A0 DL_DIR ?=3D &quot;${TOPDIR}/downloads&quot;<br>
+&gt;&gt;=C2=A0 SSTATE_DIR ?=3D &quot;${TOPDIR}/sstate-cache&quot;<br>
+&gt;&gt;=C2=A0 IMAGE_FSTYPES ?=3D &quot;tar.gz&quot;<br>
+&gt;&gt; -IMAGE_FSTYPES_DEBUGFS ?=3D &quot;${IMAGE_FSTYPES}&quot;<br>
+&gt;&gt; +IMAGE_FSTYPES_DEBUGFS ?=3D &quot;tar.gz&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 INITRAMFS_FSTYPES ?=3D &quot;cpio.gz&quot;<br>
+&gt;&gt;=C2=A0 # The maximum size in Kbytes for the generated initramfs ima=
+ge size.<br>
+&gt;&gt; --<br>
+&gt;&gt; 1.9.1<br>
+&gt;&gt;<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a114387b8c8eead055f823503--
