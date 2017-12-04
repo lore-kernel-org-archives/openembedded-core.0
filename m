@@ -1,31 +1,53 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B59D78684
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C35D260745
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Dec 2017 05:58:42 +0000 (UTC)
+	Mon,  4 Dec 2017 00:01:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 442A520B35;
-	Sun,  3 Dec 2017 05:58:43 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id tE6FdYIsPW0b; Sun,  3 Dec 2017 05:58:43 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 24D01208BC;
-	Sun,  3 Dec 2017 05:58:42 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 8A816162742;
-	Sun,  3 Dec 2017 00:58:41 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+	by bastet.se.axis.com (Postfix) with ESMTP id E1430182D1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id IbPRPe9ifaWT
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:03 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id F208118092
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:02 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D55E31A058
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:02 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C7F7F1A040
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:02 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:02 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id BC2E926B8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 01:01:02 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id vB400w2l024469
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Dec 2017 01:00:58 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id vB400wrP024445
+	for openembedded-core@lists.openembedded.org;
+	Mon, 4 Dec 2017 01:00:58 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Dec 2017 00:58:40 -0500
-Message-Id: <1512280720-112423-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] wayland-protocols: update to 1.12
+Date: Mon,  4 Dec 2017 01:00:55 +0100
+Message-Id: <20171204000055.23297-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] libbsd: Make it build with GCC 5.0 and older
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Dec 2017 05:58:43 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 00:01:05 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../wayland/{wayland-protocols_1.11.bb => wayland-protocols_1.12.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.11.bb => wayland-protocols_1.12.bb} (85%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.11.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.12.bb
-similarity index 85%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.11.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.12.bb
-index 26b0094..ef1d857 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.11.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.12.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
- 
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            "
--SRC_URI[md5sum] = "8d0338556d77ad86d7fca84ff086af88"
--SRC_URI[sha256sum] = "3afcee1d51c5b1d70b59da790c9830b354236324b19b2b7af9683bd3b7be6804"
-+SRC_URI[md5sum] = "ac83c4704003323b6bd5a1b91fb1be53"
-+SRC_URI[sha256sum] = "3b19e8a9e1e19474756a7069db23b90ca9b8ebb438448c6063b4a7fc89b7c8b2"
- 
- inherit allarch autotools pkgconfig
- 
+This hit us when building master and Rocko with GCC 4.7.2...
+
+ ...r-older-GCCs-not-supporting-__has_include.patch | 30 ++++++++++++++++++++++
+ meta/recipes-support/libbsd/libbsd_0.8.6.bb        |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
+
+diff --git a/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch b/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
+new file mode 100644
+index 0000000000..4cc8936dd7
+--- /dev/null
++++ b/meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
+@@ -0,0 +1,30 @@
++From 2fbf47ce9b64f4e07be223bc2870348a68f19d86 Mon Sep 17 00:00:00 2001
++From: Adam Lackorzynski <adam@l4re.org>
++Date: Sat, 21 Oct 2017 23:08:31 +0200
++Subject: [PATCH] Fix for older GCCs not supporting __has_include*
++
++Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=103396]
++---
++ include/bsd/sys/cdefs.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/include/bsd/sys/cdefs.h b/include/bsd/sys/cdefs.h
++index 044f221..b4c8f30 100644
++--- a/include/bsd/sys/cdefs.h
+++++ b/include/bsd/sys/cdefs.h
++@@ -25,10 +25,10 @@
++  */
++ 
++ #ifndef __has_include
++-#define __has_include 1
+++#define __has_include(x) 1
++ #endif
++ #ifndef __has_include_next
++-#define __has_include_next 1
+++#define __has_include_next(x) 1
++ #endif
++ 
++ #ifdef LIBBSD_OVERLAY
++-- 
++2.12.0
++
+diff --git a/meta/recipes-support/libbsd/libbsd_0.8.6.bb b/meta/recipes-support/libbsd/libbsd_0.8.6.bb
+index 182543fd42..c88517f5b5 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.8.6.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.8.6.bb
+@@ -36,6 +36,7 @@ SECTION = "libs"
+ SRC_URI = " \
+     http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+     file://0001-src-libbsd-overlay.pc.in-Set-Cflags-to-use-I-instead.patch \
++    file://0001-Fix-for-older-GCCs-not-supporting-__has_include.patch \
+ "
+ SRC_URI_append_libc-musl  = " \
+     file://0001-Replace-__BEGIN_DECLS-and-__END_DECLS.patch \
 -- 
-2.7.4
+2.12.0
 
 
