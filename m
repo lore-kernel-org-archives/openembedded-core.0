@@ -1,16 +1,16 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8314C7860F
+	by mail.openembedded.org (Postfix) with ESMTP id 10B7378678
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 17:43:53 +0000 (UTC)
+	Mon,  4 Dec 2017 17:46:14 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB4Hhqtt022542
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB4HkEqn022871
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Dec 2017 09:43:52 -0800 (PST)
+	Mon, 4 Dec 2017 09:46:14 -0800 (PST)
 Received: from server.local (128.224.21.208) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 4 Dec 2017 09:43:40 -0800
+	Mon, 4 Dec 2017 09:46:14 -0800
 To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
 	<raj.khem@gmail.com>
 References: <cover.1512401707.git.bruce.ashfield@windriver.com>
@@ -19,8 +19,8 @@ References: <cover.1512401707.git.bruce.ashfield@windriver.com>
 	<ad367df7-795c-20c9-eef3-436f12038f97@windriver.com>
 	<1512409179.862.212.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <0c894d04-7262-727f-8a64-63939359feb2@windriver.com>
-Date: Mon, 4 Dec 2017 12:43:39 -0500
+Message-ID: <7f2d5178-671a-033b-26f1-aee270b9607b@windriver.com>
+Date: Mon, 4 Dec 2017 12:46:13 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
 	Gecko/20100101 Thunderbird/52.5.0
 MIME-Version: 1.0
@@ -40,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 17:43:53 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 17:46:15 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -68,22 +68,11 @@ On 2017-12-04 12:39 PM, Richard Purdie wrote:
 > Just for reference this is pretty bad for performance as it delays the
 > kernel compile until some substantial parts of userspace build.
 > 
-
-On a second look, I can likely turn off the target part, if someone
-wants it, they can always install the package (or it could be a
-rdepends).
-
-I'll amend the commit and leave it on that branch with just the
-DEPENDS on the -native version.
-
 > Is ORC_UNWINDER useful and commonly used?
 
-The upstream kernel commit turned it on by default, I turned it off in
-the kernel-cache, but I wanted to make sure the dependency was
-in place.
-
-The commit series from Josh Poimboeuf all lead to it being on as
-the default choice (even with a slight overhead).
+One other thought I had was that this could be a distro feature
+toggle, versus an arch feature. i.e. if you want the more
+accurate stack unwinding in a debug build.
 
 Bruce
 
