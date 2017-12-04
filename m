@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 83DFB7858B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 501CF78568
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 10:24:18 +0000 (UTC)
+	Mon,  4 Dec 2017 10:24:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB4AOJO8010835
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB4AOLEQ025375
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Dec 2017 02:24:20 -0800
+	Mon, 4 Dec 2017 02:24:21 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 4 Dec 2017 02:24:19 -0800
+	14.3.361.1; Mon, 4 Dec 2017 02:24:20 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Dec 2017 18:25:36 +0800
-Message-ID: <6738f34a7fff628636b703f8534af6feb55b099d.1512383059.git.Qi.Chen@windriver.com>
+Date: Mon, 4 Dec 2017 18:25:37 +0800
+Message-ID: <ea2ba0a0f3b3b660be59b28ead48ec4cc49ea81b.1512383059.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1512383059.git.Qi.Chen@windriver.com>
 References: <cover.1512383059.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] coreutils: upgrade to 8.28
+Subject: [PATCH 3/3] coreutils: add PACKAGECONFIG for single-binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 10:24:19 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 10:24:20 -0000
 Content-Type: text/plain
+
+Add PACKAGECONFIG for single-binray. Disable it by default.
+
+When enabled, there would only be one binary file /usr/bin/coreutils, other
+files like 'ls' are text files containing contents like:
+
+  #!/usr/bin/coreutils --coreutils-prog-shebang=ls
+
+And the size of the rpm package reduces from 849K to 519K.
+
+Default to disable this option to keep the traditional behaviour.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../coreutils/{coreutils_8.27.bb => coreutils_8.28.bb}            | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-core/coreutils/{coreutils_8.27.bb => coreutils_8.28.bb} (95%)
+ meta/recipes-core/coreutils/coreutils_8.28.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.27.bb b/meta/recipes-core/coreutils/coreutils_8.28.bb
-similarity index 95%
-rename from meta/recipes-core/coreutils/coreutils_8.27.bb
-rename to meta/recipes-core/coreutils/coreutils_8.28.bb
-index ea8740a..0543ceb 100644
---- a/meta/recipes-core/coreutils/coreutils_8.27.bb
+diff --git a/meta/recipes-core/coreutils/coreutils_8.28.bb b/meta/recipes-core/coreutils/coreutils_8.28.bb
+index 0543ceb..d55dbe1 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.28.bb
 +++ b/meta/recipes-core/coreutils/coreutils_8.28.bb
-@@ -23,10 +23,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
-           "
+@@ -45,6 +45,7 @@ PACKAGECONFIG_class-native ??= "xattr"
+ #
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
+ PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
++PACKAGECONFIG[single-binary] = "--enable-single-binary,--disable-single-binary,,"
  
--SRC_URI[tarball.md5sum] = "502795792c212932365e077946d353ae"
--SRC_URI[tarball.sha256sum] = "8891d349ee87b9ff7870f52b6d9312a9db672d2439d289bc57084771ca21656b"
--SRC_URI[manpages.md5sum] = "1b31a688d06764e0e94aa20b7ea08222"
--SRC_URI[manpages.sha256sum] = "1f615819e9167646c731636b6c5ecbe79837e82a18666bacc82c3fb1dfcfaea3"
-+SRC_URI[tarball.md5sum] = "e7cb20d0572cc40d9f47ede6454406d1"
-+SRC_URI[tarball.sha256sum] = "1117b1a16039ddd84d51a9923948307cfa28c2cea03d1a2438742253df0a0c65"
-+SRC_URI[manpages.md5sum] = "3a7c626aad1c9077f254e5c2553a2f60"
-+SRC_URI[manpages.sha256sum] = "d72c3fa79ae328a4fd1107102e8946755aa2e908044e1efcf1e71ef206dca042"
- 
- EXTRA_OECONF_class-native = "--without-gmp"
- EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
+ # [ df mktemp base64 gets a special treatment and is not included in this
+ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname du \
 -- 
 1.9.1
 
