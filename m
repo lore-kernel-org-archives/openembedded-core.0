@@ -1,48 +1,48 @@
 Return-Path: <taborskikrzysztof@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5838D786BA
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 58AFE78678
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 18:09:52 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id x20so20236643lff.1
+	Mon,  4 Dec 2017 18:16:47 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id f13so20190254lff.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Dec 2017 10:09:54 -0800 (PST)
+	Mon, 04 Dec 2017 10:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=crdGaBFrCLbuUjZJbp90SP02mnIOaZJ9Rj3aUo69tT4=;
-	b=rbSfL57j46qcnWg0BkMJJE1urbdgoGBbEB9cBdJB7QHXs/+7TsaJY0UFDrUKDDbEDb
-	YfJFkHmCH+LzTiBnz3JJW4RAux267Yf+6vGDc6iQl3y3FJUHG9LUfOaYUSw086to02+I
-	3tEoPqZsq7mofENpnkk5l1weOmnMx2F55wBNEDBwaXqkFZW5/U9ugThFtmTKHRbsuZJe
-	hWoWSwl4bPW/9bAhtAc9twCEuNZjRGIYGbXoD3aMrF0+GBZX2bU2Aro1HKv0iTMkx8xK
-	GNiyymJeEaJ3k7VasLarE6442lBfXHb3+uCvVcSZMhdPEWJyShnX+jj2b2GvpWstnHJ/
-	CoIQ==
+	bh=H0N4hc5hLVnvqz87S/CIwS4/oDPd/TAizTaF8JQu22U=;
+	b=nvSVAf0jj/a/qKgptZtDiPSnjs6zfI4BycW32j5LZV30r+566i9VuEiAzYClH6bDQM
+	kV0x7wQzdw3KupQ8NKyr8RZZI7HEdb1WZ1/Jh4S0VwVe4CxKrgkYV3wiakCDcnL0+pVT
+	8Oo/98jAS/6pZEWQgX16MDL19zc5EE69eAV2LhwXrYTfKkctOmQvqL8jfxpb/bTcanPI
+	gukkOUvnLSNjVroWBXLklu39P3NR8jmbTsjpRDdGr3lGWpeDA6jqDw8QKiT31JDHcOkC
+	cOxTJAoIpykyCD7NoPtk07vljNFimTP/0WHKxnB96buYEeUuge2TVk5n1tS966d9M0kz
+	+w1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=crdGaBFrCLbuUjZJbp90SP02mnIOaZJ9Rj3aUo69tT4=;
-	b=ZBFy5f+zmhi11TWc/BB5kGdy87otf8gUGxO2fsQJtKRVZhWGBhJ07xEpVen40k8P4Y
-	EqayYdR4GazynZ1igg1X2FrXtKAgoaTtEBIarOepBcEn4yN9c7Y0eFOdQ/Ehwoywrd+P
-	AFa26dmP3ke8Wl1DgmRTK1pSyxc6v8uoVe9Douss1Xu6UUNC4zFpJHiIAHrvtWbIAFlO
-	WGlg/7S07a9wyD/cDniRiJgn5OLFs9URtgtf0OufcQ/OeFr2dNZ+eMtDRBUZxwYV2sn1
-	Q8N/xpKYwaIPPJY8ovf5UKRU1pJsFriNBRGZTQfPDBEeL/bH2xdHGtwOPCj4pRXfgf/M
-	iMGg==
-X-Gm-Message-State: AJaThX4kt9roiFoECVeZBE8jellV0PclG4Zu5j6/im7/I4J2ov1tDBR6
-	k9epo2G/c0IUj6YO79qCXFpE3Q==
-X-Google-Smtp-Source: AGs4zMYoMTIZGgsLE/c1rZ3RhP73ru4HdrFh5UY8IEcGynUZyUSHztjfaRYh/maQWgtmcGgLIYIGXA==
-X-Received: by 10.25.31.146 with SMTP id f140mr7420357lff.156.1512410993493;
-	Mon, 04 Dec 2017 10:09:53 -0800 (PST)
+	bh=H0N4hc5hLVnvqz87S/CIwS4/oDPd/TAizTaF8JQu22U=;
+	b=bgEJ7x3UlB+i8xjQ82Y+O4CRzefo/dPfAY1STTzqeqcK3o1WbR3zWIC0rTsJuJyYyo
+	HEhPizYNeu5kuIMTGbzK0zJUCloYuIjaK8hL2Uh21oycEPwef9XE8rbJEdus2Nr81+qj
+	ZFQXH6jtscD5PgryFUxKVhTWfGnpMInAe2Q9OIxLv7pLOrFZLCKDnanL2vOVu4j3Zxmd
+	dP0IDSQCnUbvCPoDdWFsL8AWrk0mRePctJbUECJa35pHIyULrOqLYtmucRw4ZalGpKij
+	N8BhZyVKcMvdf9iEO37Cy3EowarklrH4PlPhURTud9D+eMj/7k3TfT6w5lrdwxeFf+bx
+	uxRQ==
+X-Gm-Message-State: AJaThX79CDrRI9hE9wrV9p2TfC3ENS29iq/2PDDV7kT9rfekNiAGLGTg
+	yBeLjMYpgTU36v1LCKMCQgz3GA==
+X-Google-Smtp-Source: AGs4zMYF2kM3rmzzn/r4jt5fQ0C/wTaTRj1CStz3vd/C1hAivvkEa1LA8dvd+jo09s3z6VR4aUXmJw==
+X-Received: by 10.46.43.139 with SMTP id r11mr9407050ljr.159.1512411408644;
+	Mon, 04 Dec 2017 10:16:48 -0800 (PST)
 Received: from localhost.localdomain (89-64-58-213.dynamic.chello.pl.
-	[89.64.58.213]) by smtp.gmail.com with ESMTPSA id
-	f82sm2536014lfg.15.2017.12.04.10.09.51
+	[89.64.58.213])
+	by smtp.gmail.com with ESMTPSA id 14sm2536964lfy.96.2017.12.04.10.16.46
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Dec 2017 10:09:52 -0800 (PST)
+	Mon, 04 Dec 2017 10:16:47 -0800 (PST)
 From: Krzysztof Taborski <taborskikrzysztof@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Dec 2017 19:09:44 +0100
-Message-Id: <20171204180944.31139-1-taborskikrzysztof@gmail.com>
+Date: Mon,  4 Dec 2017 19:16:40 +0100
+Message-Id: <20171204181640.31225-1-taborskikrzysztof@gmail.com>
 X-Mailer: git-send-email 2.13.6
 Cc: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-Subject: [PATCH] perl: native modules will not trigger build perl for target.
+Subject: [PATCH v2] perl: native modules will not trigger build perl for target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,12 +55,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 18:09:53 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 18:16:48 -0000
 
 Currently building perl-native modules triggers
 build perl for target due to PACKAGES_DYNAMIC regex.
 
-This commits fix will cause, that perl native modules will
+This commit will cause, that perl native modules will
 trigger perl-native build.
 
 Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
