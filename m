@@ -1,42 +1,32 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E70C787EA
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F732786B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 18:53:39 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id d4so23449718qtj.5
+	Mon,  4 Dec 2017 19:22:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB4JMpt5013315
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Dec 2017 10:53:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=svbKReOkBiVRFJuUS7C3hZhw9ImoVUcxjQCScU1XmbY=;
-	b=HjP/UKa7hZEq78rEUteD2rZTH0tIRlcmSDIR9un4lFInk2RTpma3J5cDm4AWqVOS69
-	diDmCP7MFdCNilOqS2ZCOmysUjRLIunZeDMRFmKvUeM+ch0QbXowkzl63U74qo/7JCU3
-	vExEVN97tSAquo4xCSV9RVFz605/Yb3yTDGLyelrNKdvddhalWTHt5RhI4KrUSoL3QiA
-	QurthuHyERooNfptmS7J2hjl1r7kpY2TViRwRTnWZ3obb9pugdeyQ9IzrViWtdtDVs6M
-	g5KkmA/cBWKlv1MLk0uDEFtwC/yEr2kpNC8i174Nghi0XQqvuaa54cWoNNYANMwe9a7+
-	dAkw==
-X-Gm-Message-State: AKGB3mIOf+jiC7UV1tgxXhwhUWshKIgFZR0buEr7nOr4DJf+Xny+RyWy
-	kv2kFfN0ZS+hY5Klx+iP384SHg==
-X-Google-Smtp-Source: AGs4zMY+WWG/cLPXo2DrZxTPb0j+A8ZxXg43roFC0w5c02BI2+jzeO5LLib0jsfUhMkVK94c9CTCwA==
-X-Received: by 10.200.23.221 with SMTP id r29mr1410qtk.27.1512413620131;
-	Mon, 04 Dec 2017 10:53:40 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	s18sm7510981qtc.25.2017.12.04.10.53.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Dec 2017 10:53:39 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 04 Dec 2017 16:53:31 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  4 Dec 2017 16:53:31 -0200
-Message-Id: <20171204185331.24131-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.15.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade to 17.2.6 stable release
+	Mon, 4 Dec 2017 11:22:51 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.234) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 4 Dec 2017 11:22:50 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
+	<7bb6a35d-19ac-1b50-46c1-e0395a0fee61@windriver.com>
+	<20171201211328.enhdinuar24niey7@axis.com>
+	<20171204100028.d4nljjgntdlrcccg@axis.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <7c32a38a-bd10-0a0c-8544-44f5bc9122df@windriver.com>
+Date: Mon, 4 Dec 2017 13:22:50 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <20171204100028.d4nljjgntdlrcccg@axis.com>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 18:53:39 -0000
+X-List-Received-Date: Mon, 04 Dec 2017 19:22:50 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This upgrades the recipe to 17.2.6 bugfix release.
+On 12/4/17 4:00 AM, Olof Johansson wrote:
+> On 17-12-01 22:13 +0100, Olof Johansson wrote:
+>> On 17-12-01 11:43 -0600, Mark Hatle wrote:
+>>> The original implementation did not include the ',' options because different
+>>> versions of file (as well as different architectures) would return different
+>>> strings.
+>>>
+>>> They all contains the same information, but order and inclusion of ',' changed
+>>> regularly.
+>>>
+>>> So I would caution that for this to check out a wide variety of host systems and
+>>> architectures would need to be verified.  (It's very possible that all modern
+>>> systems now conform to a single standard...)
+>>
+>> I was a little bit worried about this, thanks, this is useful
+>> feedback. Perhaps dropping the "," while still retaining the
+>> whitespace delimitation could be enough, and still work with a
+>> variety of file implementations?
+> 
+> Reading more about this, I was wrong in calling it GNU file, I
+> don't know where I got that from. It actually seems to be only
+> one prevalent implementation, one written by Ian Darwin [0]:
 
-The changes can be seen at:
+I'm thinking back to RHEL 4-ish era, Ubuntu, Debian, Arch, Gentoo, etc.  We were
+getting a mix/match of different results depending on the age of the 'file'
+application being used, and even the magic file associated with it.
 
-https://www.mesa3d.org/relnotes/17.2.6.html
+All of the information was present, but the order of certain elements changed
+from arch to arch, and as I mentioned before the ',' bit was not always present.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+It's possible that all modern file based systems are now using the same sources
+and magic, but it was definitely not true in the past.
 
- meta/recipes-graphics/mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb} (88%)
+--Mark
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb b/meta/recipes-graphics/mesa/mesa-gl_17.2.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.2.6.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.2.5.bb b/meta/recipes-graphics/mesa/mesa_17.2.6.bb
-similarity index 88%
-rename from meta/recipes-graphics/mesa/mesa_17.2.5.bb
-rename to meta/recipes-graphics/mesa/mesa_17.2.6.bb
-index a111df216b..fc3ac75f7e 100644
---- a/meta/recipes-graphics/mesa/mesa_17.2.5.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.2.6.bb
-@@ -12,8 +12,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
-            "
- 
--SRC_URI[md5sum] = "ba649f82a066f710aa23655254a83eb8"
--SRC_URI[sha256sum] = "7f7f914b7b9ea0b15f2d9d01a4375e311b0e90e55683b8e8a67ce8691eb1070f"
-+SRC_URI[md5sum] = "862f2b7e2a08554570b192a89f723b6f"
-+SRC_URI[sha256sum] = "6ad85224620330be26ab68c8fc78381b12b38b610ade2db8716b38faaa8f30de"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.15.1
+>> Who's using it?
+>>
+>>    Most known BSD distributions (FreeBSD, NetBSD, Darwin/Mac OS X, etc)
+>>    Every known Linux distribution
+> 
+> Could you elaborate on the portability issues you've seen?
+> 
+> 
+> 0: http://www.darwinsys.com/file/
+> 
 
 
