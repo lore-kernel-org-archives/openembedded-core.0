@@ -1,28 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 444896007A
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF0C60721
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 15:14:14 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2017 07:14:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,359,1508828400"; d="scan'208";a="183823602"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by fmsmga006.fm.intel.com with ESMTP; 04 Dec 2017 07:14:16 -0800
-Date: Mon, 4 Dec 2017 09:23:59 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20171204092359.0bef0632@lsandov1-mobl2.zpn.intel.com>
-In-Reply-To: <CA+chaQcDrNUp_fE2a+JpkBOgAKAzA+e8SMKMqRGMpcD7jrLvGA@mail.gmail.com>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-	<20171201220258.2785.92203@do.openembedded.org>
-	<CA+chaQcDrNUp_fE2a+JpkBOgAKAzA+e8SMKMqRGMpcD7jrLvGA@mail.gmail.com>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+	Mon,  4 Dec 2017 15:30:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4B7321830E;
+	Mon,  4 Dec 2017 16:30:05 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id gQ_KR-AZUPYd; Mon,  4 Dec 2017 16:30:02 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 10681182EC;
+	Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 964731E083;
+	Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8AE3A1E082;
+	Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by seth.se.axis.com (Postfix) with ESMTP id 7E1BF3325;
+	Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 7194C9C0AD; Mon,  4 Dec 2017 16:30:01 +0100 (CET)
+Date: Mon, 4 Dec 2017 16:30:01 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171204153001.enqgfe27iapaoftl@axis.com>
+Mail-Followup-To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
+	<CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGluaXRyYW1mcy1mcmFtZXdvcmsgaW5zdGFsbGF0aW9uIGltcHJvdmVtZW50cyAocmV2NCk=?=
+In-Reply-To: <CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +55,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 15:14:15 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Dec 2017 15:30:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 1 Dec 2017 23:07:48 +0100
-Martin Jansa <martin.jansa@gmail.com> wrote:
+On 17-12-04 12:36 +0000, Burton, Ross wrote:
+> You might be interested in some of the patches I've got sitting in
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=ross/mutb
+> specifically around "Add new ELF parser".  This adds a fully-featured
+> Python ELF parser to lib/oe which could be used to inspect the binaries the
+> way file does, but without having to call and parse the output of file.
 
-> Is it trying to apply whole series (including the 2 patches which were
-> already merged to master and actually introduced the issue I was trying to
-> fix)?
-> 
-> Does it mean that I cannot send a fix into the e-mail thread where the
-> issue was introduced and discussed?
+Oh, that's awesome. Please disregard v1 of my patch series, and
+I'll try to adapt package.bbclass and lib/oe/package.py to make
+use of your changes and see what happens. Thanks!
 
-I do not the answer but I can tell you about the fail check: patchtest is pretty dummy in this check, it simply does git apply --check <your series.mbox> so you need to base on master's HEAD.
-
-
-> 
-> Regards,
-> 
-> On Fri, Dec 1, 2017 at 11:02 PM, Patchwork <
-> patchwork@patchwork.openembedded.org> wrote:  
-> 
-> > == Series Details ==
-> >
-> > Series: initramfs-framework installation improvements (rev4)
-> > Revision: 4
-> > URL   : https://patchwork.openembedded.org/series/9783/
-> > State : failure
-> >
-> > == Summary ==
-> >
-> >
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series by patchtest resulting in the following failures:
-> >
-> >
-> >
-> > * Issue             Series does not apply on top of target branch
-> > [test_series_merge_on_head]
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at addf309165)
-> >
-> >
-> >
-> > If you believe any of these test results are incorrect, please reply to the
-> > mailing list (openembedded-core@lists.openembedded.org) raising your
-> > concerns.
-> > Otherwise we would appreciate you correcting the issues and submitting a
-> > new
-> > version of the patchset if applicable. Please ensure you add/increment the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> > [PATCH v3] -> ...).
-> >
-> > ---
-> > Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_
-> > Guidelines
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> >
-> >  
+-- 
+olofjn
 
