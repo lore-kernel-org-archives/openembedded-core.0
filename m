@@ -1,26 +1,52 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D4C78557
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 31C7078415
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Dec 2017 09:22:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB49M6XZ009224
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon,  4 Dec 2017 09:34:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id A1261182C9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Dec 2017 01:22:07 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 4 Dec 2017 01:22:06 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Dec 2017 04:22:03 -0500
-Message-ID: <780e50cda84e1dd85643cf9db9e18723ed1cd6bf.1512379098.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1512379098.git.dengke.du@windriver.com>
-References: <cover.1512379098.git.dengke.du@windriver.com>
+	Mon,  4 Dec 2017 10:34:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id diNUsDDzd_HR
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:04 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 204A2180E5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:04 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0280E1E081
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:04 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EAFF31E080
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:03 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:03 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by seth.se.axis.com (Postfix) with ESMTP id DE88F26D0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Dec 2017 10:34:03 +0100 (CET)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id C87739C0AD; Mon,  4 Dec 2017 10:34:03 +0100 (CET)
+Date: Mon, 4 Dec 2017 10:34:03 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20171204093403.fc5ench24fpcu6ke@axis.com>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-2-olofjn@axis.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] ltp: remove ltp-staticdev package
+In-Reply-To: <20171201155024.3002-2-olofjn@axis.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 1/5] lib/oe/package.py: Expose is_elf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Dec 2017 09:22:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Dec 2017 09:34:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The nm01 testcase runtime depends on a static library, and ltp-staticdev
-package is entirely pointless, so remove it and add the static libraries
-to ltp main package and skip the "staticdev" checks.
+On 17-12-01 16:50 +0100, Olof Johansson wrote:
+> is_elf/isELF had copies in both staging.bbclass and package.bbclass.
+> After recent refactoring in staging.bbclass (involving breaking out the
+> isELF function to is_elf in lib/oe/package.py), the implementions
+> diverged. It would be beneficial to make everybody use this one
+> implementation, so let's expose it here for others to use.
+...
+> +def is_elf(path, on_error=_is_elf_error):
+...
+> +    :param on_error: callable, gets called when an error occurs.
+> +                     the callback takes a message parameter. A
+> +                     default error handler is provided that prints
+> +                     the message with 'bb.error'.
+> +
+...
+> +    """
+...
+> +    if ret:
+> +        error_cb('"file %s" failed')
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-extended/ltp/ltp_20170929.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+This should be on_error, not error_cb, sorry! Will fix in v2,
+together with not assuming "," in file output, as suggested by
+Mark.
 
-diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20170929.bb
-index 8a870b3..aaa7c93 100644
---- a/meta/recipes-extended/ltp/ltp_20170929.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170929.bb
-@@ -106,15 +106,13 @@ RDEPENDS_${PN} = "\
-     which \
- "
- 
--FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a /opt/ltp/testcases/data/nm01/lib.a"
--
--FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*"
-+FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/* /opt/ltp/testcases/data/nm01/lib.a /opt/ltp/lib/libmem.a"
- 
- # Avoid generated binaries stripping. Otherwise some of the ltp tests such as ldd01 & nm01 fails
- INHIBIT_PACKAGE_STRIP = "1"
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- # However, test_arch_stripped is already stripped, so...
--INSANE_SKIP_${PN} += "already-stripped"
-+INSANE_SKIP_${PN} += "already-stripped staticdev"
- 
- # Avoid file dependency scans, as LTP checks for things that may or may not
- # exist on the running system.  For instance it has specific checks for
 -- 
-2.8.1
-
+olofjn
 
