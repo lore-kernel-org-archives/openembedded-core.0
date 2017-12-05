@@ -1,22 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A285978296
+	by mail.openembedded.org (Postfix) with ESMTP id C3AF3786DD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  5 Dec 2017 12:57:14 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2017 04:57:15 -0800
+	05 Dec 2017 04:57:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252099868"
+X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252099873"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:14 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:15 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 14:57:34 +0200
-Message-Id: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  5 Dec 2017 14:57:35 +0200
+Message-Id: <f9f81bf1c98d712290f2d0b6f41ee47de1a8eec1.1512478515.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
-MIME-Version: 1.0
-Subject: [PATCH 00/13] A rollup of not yet merged patches
+In-Reply-To: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
+References: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/13] package.bbclass: replace rpm/debugedit with dwarfsrcfiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,114 +31,237 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Dec 2017 12:57:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-I've rebased all the patches sent previously and not yet merged, and rolled
-them into a single patchset. Psmisc's gettext issue in the previous update patch
-should now be fixed.
+Debugedit provided by rpm 4.14 is rewriting binaries in-place, and was
+found to produce broken output at least for grub:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-November/143989.html
 
-The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
+A replacement utility was suggested via private mail:
+https://lists.fedorahosted.org/archives/list/elfutils-devel@lists.fedorahosted.org/message/VZP4G5N2ELYZEDAB3QYLXYHDGX4WMCUF/
 
-  lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
-
-Alexander Kanavin (13):
-  package.bbclass: replace rpm/debugedit with dwarfsrcfiles
-  rpm: update to 4.14.0
-  rpm: upstream version is now known
-  libdnf: update to 0.11.1
-  librepo: update to 1.8.1
-  dnf: update to 2.7.5
-  gobject-introspection: update to 1.54.1
-  webkitgtk: update to 2.18.3
-  psmisc: update to 23.0
-  ffmpeg: update to 3.4
-  devtool: add a 'latest-version' command
-  devtool: provide useful defaults for version/commit when upgrading
-    recipes
-  devtool: add license checksum change handling to 'devtool upgrade'
-
- meta/classes/package.bbclass                       |  29 +++-
- ...eck-conf.releasever-instead-of-releasever.patch |  31 ----
- ...Corretly-install-tmpfiles.d-configuration.patch |   7 +-
- ...hardcode-etc-and-systemd-unit-directories.patch |   9 +-
- ...005-Do-not-prepend-installroot-to-logdir.patch} |  14 +-
- ...-set-PYTHON_INSTALL_DIR-by-running-python.patch |   9 +-
- .../dnf/0030-Run-python-scripts-using-env.patch    |  11 +-
- .../dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb}             |  10 +-
- .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 +++
- .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111 +++++++++++++
- ...ers-for-both-libsolv-and-libsolvext-libdn.patch |  11 +-
- ...-variables-with-pkg-config-cmake-s-own-mo.patch |  11 +-
- .../libdnf/{libdnf_0.9.3.bb => libdnf_0.11.1.bb}   |   2 +-
- ...ly-set-the-library-installation-directory.patch |  28 ----
- ...to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch |  49 ++++--
- ...-race-when-deleting-temporary-directories.patch |  41 -----
- ...rrect-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch |  40 -----
- .../librepo/{librepo_git.bb => librepo_1.8.1.bb}   |   6 +-
- ...N_ABI-when-searching-for-python-libraries.patch |  30 ----
- ...code-lib-rpm-as-the-installation-path-for.patch |  20 +--
- .../files/0001-Fix-build-with-musl-C-library.patch |  66 +++-----
- ...alue-cannot-be-reset-issue-a-notice-inste.patch |  31 ----
- ...c-remove-static-local-variables-from-buil.patch |  54 +++---
- ...ire-that-ELF-binaries-are-executable-to-b.patch |  11 +-
- ...onditional-to-access-_docdir-in-macros.in.patch |  36 ----
- .../0013-Add-a-new-option-alldeps-to-rpmdeps.patch |  17 +-
- .../rpm/{rpm_git.bb => rpm_4.14.0.bb}              |   9 +-
- ...001-Typo-in-fuser-makes-M-on-all-the-time.patch |  46 ------
- .../files/0002-Include-limits.h-for-PATH_MAX.patch |  29 ----
- meta/recipes-extended/psmisc/psmisc.inc            |   9 +
- ...-create-src-directory-before-attempting-t.patch |  30 ++++
- meta/recipes-extended/psmisc/psmisc_22.21.bb       |  12 --
- meta/recipes-extended/psmisc/psmisc_23.0.bb        |  10 ++
- ...n_1.52.1.bb => gobject-introspection_1.54.1.bb} |   7 +-
- .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    |  44 -----
- .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |   8 +-
- .../webkitgtk/0001-Fix-build-with-musl.patch       |  77 +++++++++
- ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch |  23 +--
- ...c-settings-so-that-gtkdoc-generation-work.patch |  21 +--
- ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 182 ++++++++-------------
- ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  24 +--
- .../detect-atomics-during-configure.patch          |  26 ++-
- meta/recipes-sato/webkit/webkitgtk/gcc7.patch      |  23 ---
- .../recipes-sato/webkit/webkitgtk/musl-fixes.patch |  48 ------
- .../webkit/webkitgtk/ppc-musl-fix.patch            |  26 ---
- .../{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb}   |  13 +-
- scripts/lib/devtool/upgrade.py                     | 117 ++++++++++++-
- 47 files changed, 688 insertions(+), 802 deletions(-)
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
- rename meta/recipes-devtools/dnf/dnf/{0001-Do-not-prepend-installroot-to-logdir.patch => 0005-Do-not-prepend-installroot-to-logdir.patch} (67%)
- rename meta/recipes-devtools/dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb} (92%)
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/package.bbclass                       |  29 ++++--
+ .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 ++++
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111 +++++++++++++++++++++
+ 3 files changed, 156 insertions(+), 6 deletions(-)
  create mode 100644 meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
  create mode 100644 meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
- rename meta/recipes-devtools/libdnf/{libdnf_0.9.3.bb => libdnf_0.11.1.bb} (95%)
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
- rename meta/recipes-devtools/librepo/{librepo_git.bb => librepo_1.8.1.bb} (68%)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
- rename meta/recipes-devtools/rpm/{rpm_git.bb => rpm_4.14.0.bb} (92%)
- delete mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
- delete mode 100644 meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
- create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Makefile.am-create-src-directory-before-attempting-t.patch
- delete mode 100644 meta/recipes-extended/psmisc/psmisc_22.21.bb
- create mode 100644 meta/recipes-extended/psmisc/psmisc_23.0.bb
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.52.1.bb => gobject-introspection_1.54.1.bb} (97%)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/gcc7.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/musl-fixes.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb} (93%)
 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2053d46395a..7dc759699f4 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -52,7 +52,8 @@ LOCALE_SECTION ?= ''
+ ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
+ 
+ # rpm is used for the per-file dependency identification
+-PACKAGE_DEPENDS += "rpm-native"
++# dwarfsrcfiles is used to determine the list of debug source files
++PACKAGE_DEPENDS += "rpm-native dwarfsrcfiles-native"
+ 
+ 
+ # If your postinstall can execute at rootfs creation time rather than on
+@@ -334,6 +335,16 @@ def checkbuildpath(file, d):
+ 
+     return False
+ 
++def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
++    debugfiles = {}
++
++    for line in dwarfsrcfiles_output.splitlines():
++        if line.startswith("\t"):
++            debugfiles[os.path.normpath(line.split()[0])] = ""
++
++    return debugfiles.keys()
++
++
+ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+     # Function to split a single file into two components, one is the stripped
+     # target system binary, the other contains any debugging information. The
+@@ -345,7 +356,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+ 
+     dvar = d.getVar('PKGD')
+     objcopy = d.getVar("OBJCOPY")
+-    debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/debugedit")
+ 
+     # We ignore kernel modules, we don't generate debug info files.
+     if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
+@@ -359,10 +369,18 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+ 
+     # We need to extract the debug src information here...
+     if debugsrcdir:
+-        cmd = "'%s' -i -l '%s' '%s'" % (debugedit, sourcefile, file)
++        cmd = "'dwarfsrcfiles' '%s'" % (file)
+         (retval, output) = oe.utils.getstatusoutput(cmd)
+-        if retval:
+-            bb.fatal("debugedit failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++        # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
++        if retval != 0 and retval != 255:
++            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++
++        debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
++        # filenames are null-separated - this is an artefact of the previous use
++        # of rpm's debugedit, which was writing them out that way, and the code elsewhere
++        # is still assuming that.
++        debuglistoutput = '\0'.join(debugsources) + '\0'
++        open(sourcefile, 'a').write(debuglistoutput)
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+@@ -393,7 +411,6 @@ def copydebugsources(debugsrcdir, d):
+         dvar = d.getVar('PKGD')
+         strip = d.getVar("STRIP")
+         objcopy = d.getVar("OBJCOPY")
+-        debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
+         workdir = d.getVar("WORKDIR")
+         workparentdir = os.path.dirname(os.path.dirname(workdir))
+         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
+diff --git a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+new file mode 100644
+index 00000000000..c59a006edae
+--- /dev/null
++++ b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+@@ -0,0 +1,22 @@
++SUMMARY = "A small utility for printing debig source file locations embedded in binaries"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://../dwarfsrcfiles.c;md5=31483894e453a77acbb67847565f1b5c;beginline=1;endline=8"
++
++SRC_URI = "file://dwarfsrcfiles.c"
++BBCLASSEXTEND = "native"
++DEPENDS = "elfutils"
++DEPENDS_append_libc-musl = " argp-standalone"
++
++do_compile () {
++	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw
++}
++
++do_compile_libc-musl () {
++	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw -largp 
++}
++
++do_install () {
++	install -d ${D}${bindir}
++	install -t ${D}${bindir} dwarfsrcfiles
++}
++
+diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+new file mode 100644
+index 00000000000..af7af524ebe
+--- /dev/null
++++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+@@ -0,0 +1,111 @@
++// dwarfsrcfiles.c - Get source files associated with the dwarf in a elf file.
++// gcc -Wall -g -O2 -lelf -ldw -o dwarfsrcfiles dwarfsrcfiles.c 
++//
++// Copyright (C) 2011, Mark Wielaard <mjw@redhat.com>
++//
++// This file is free software.  You can redistribute it and/or modify
++// it under the terms of the GNU General Public License (GPL); either
++// version 2, or (at your option) any later version.
++
++#include <argp.h>
++#include <stdio.h>
++
++#include <dwarf.h>
++#include <elfutils/libdw.h>
++#include <elfutils/libdwfl.h>
++
++static int
++process_cu (Dwarf_Die *cu_die)
++{
++  Dwarf_Attribute attr;
++  const char *name;
++  const char *dir = NULL;
++  
++  Dwarf_Files *files;
++  size_t n;
++  int i;
++  
++  if (dwarf_tag (cu_die) != DW_TAG_compile_unit)
++    {
++      fprintf (stderr, "DIE isn't a compile unit");
++      return -1;
++    }
++  
++  if (dwarf_attr (cu_die, DW_AT_name, &attr) == NULL)
++    {
++      fprintf(stderr, "CU doesn't have a DW_AT_name");
++      return -1;
++    }
++  
++  name = dwarf_formstring (&attr);
++  if (name == NULL)
++    {
++      fprintf(stderr, "Couldn't get DW_AT_name as string, %s",
++	     dwarf_errmsg (-1));
++      return -1;
++    }
++  
++  if (dwarf_attr (cu_die, DW_AT_comp_dir, &attr) != NULL)
++    {
++      dir = dwarf_formstring (&attr);
++      if (dir == NULL)
++	{
++	  fprintf(stderr, "Couldn't get DW_AT_comp_die as string, %s",
++		 dwarf_errmsg (-1));
++	  return -1;
++	}
++    }
++  
++  if (dir == NULL)
++    printf ("%s\n", name);
++  else
++    printf ("%s/%s\n", dir, name);
++  
++  if (dwarf_getsrcfiles (cu_die, &files, &n) != 0)
++    {
++      fprintf(stderr, "Couldn't get CU file table, %s",
++	     dwarf_errmsg (-1));
++      return -1;
++    }
++  
++  for (i = 1; i < n; i++)
++    {
++      const char *file = dwarf_filesrc (files, i, NULL, NULL);
++      if (dir != NULL && file[0] != '/')
++	printf ("\t%s/%s\n", dir, file);
++      else
++	printf ("\t%s\n", file);
++    }
++  
++  return 0;
++}
++
++int
++main (int argc, char **argv)
++{
++  char* args[3];
++  int res = 0;
++  Dwfl *dwfl;
++  Dwarf_Addr bias;
++  
++  if (argc != 2)
++    fprintf(stderr, "Usage %s <file>", argv[0]);
++  
++  // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
++  // dwfl argp parser to open the file for us and get our Dwfl. Useful
++  // in case argument is an ET_REL file (like kernel modules). libdwfl
++  // will fix up relocations for us.
++  args[0] = argv[0];
++  args[1] = "-e";
++  args[2] = argv[1];
++  
++  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
++  
++  Dwarf_Die *cu = NULL;
++  while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
++    res |= process_cu (cu);
++  
++  dwfl_end (dwfl);
++
++  return res;
++}
 -- 
 2.15.0
 
