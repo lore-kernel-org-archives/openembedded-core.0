@@ -1,51 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 254027870E
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B6AE07872C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 14:18:58 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id x49so438538wrb.13
+	Tue,  5 Dec 2017 14:19:00 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id r78so1575306wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Dec 2017 06:19:00 -0800 (PST)
+	Tue, 05 Dec 2017 06:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Lt3rpkVxIGb+ymVva+T044tnKL08RLeRWLuNgoEUh+k=;
-	b=udYzHtAscNDNgTxILfb3HCSXQnEAlvggs9+UXtoq7yy1bbpH5odCV1HJT5yLfVk2x7
-	igM6KmG2IQp3Pt9ONzy4lgOAxowQukNuXordOtOAob4lpkENI3q0IbQ0CoMVQ3R14fE7
-	q3ECG2UYrcaHoFpeW8ZZpVuLnzGVlpXRPJVGeSr+VsVGXUV/MADjfacLGdLjrLP2MbDT
-	DBbrdf2rp9NH/XXYgIpjPCwB199bI0LKYPtg6Lp0Bijk+oFvLhTaLcXDdWG8Joxwvphu
-	JHGpokIGXl9Lg8PvnGrdnWlQQGkNtwAjPHqCicNFr8laFoIYr4bdINW+w5NXL8U44Ecc
-	BkKA==
+	bh=Rq/1l2SJUZGbwmpAqjUd2nis43z9YSQshWC5wo7x40Y=;
+	b=YNCBZrD4HzHkZpCJsWOmvtp3ihZF6m5lF8NZrEYTJFXJ/Z8c86XLULicHV6e30J0Pf
+	y4iJ5OEazKvVDtIW6v/66eFwARdFuu/z1+wgUBLzL0hOkZZCbbjBVqWG4cmpIwnj2+NA
+	S9xGs29k5p35KbTOfgk5ge6bTMhI9e8Hur+RtBiqwqpb7ptKA4XlFJicqGvkb1HFCziM
+	fblrmRmhEPJqaDUVO/kifISjkE9u8EZaklB9tx6fjG8JO4fK/V0icFgX9QX6lbMXAGhl
+	Ra/RcE0V4qB2vGVhjZF9Ae4WahPj4iVS4DzQ7nbJuu8x5bGbKa3BSLKrwcQj4H4qzsG9
+	gAqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Lt3rpkVxIGb+ymVva+T044tnKL08RLeRWLuNgoEUh+k=;
-	b=JyofZOrXE83kqoAxlDf4/Z7zzR3nauTTmriRbLfRVR4BWcXKddcUuWNVWeGHbKo5DN
-	/6AIcgH6yXjY3oMMsrfowOZFNiKUCxt04EdRwJuSZWwFZ7CWM4m9Z7xnbCFozZuqfaYg
-	imf6EOdaRE8Mx4HGqLEZzmctDa07fliwVI4IOASzeFHsFP5vloloQgJO98LsFT2R51tv
-	JueHfbXwk7K52il48HyoEtffCv+xfPcxHypRnX619k9PbVXI/u5lMxi2oSSrE0cgEKqI
-	PPD4M9LJsiTuf/TFvCD0VhXtaGC/HYFrFApbp9fDXkp9BeXcJ0+vw4ol8JJr+f05oyeI
-	6D/g==
-X-Gm-Message-State: AKGB3mLYFaP2LfIgMdHBpsPqxYe7scOUq1XO0i5oQigmikOToBCxY70c
-	delhf9nBsX60Z7JsMzKd2THXRaBj
-X-Google-Smtp-Source: AGs4zMY6t+1yRnrdwdUWNNUk9lLE5ugIuQwGaCjiXqI0DXJxYtntxt/sxKjZ9MwkU+iF4wUNd35JAg==
-X-Received: by 10.223.180.69 with SMTP id v5mr2662028wrd.193.1512483539528;
-	Tue, 05 Dec 2017 06:18:59 -0800 (PST)
+	bh=Rq/1l2SJUZGbwmpAqjUd2nis43z9YSQshWC5wo7x40Y=;
+	b=WeIp1fNzJ8QTxzdE577IVK/ynF0u66Yz2q1NNff8XmdwimXvJYcTPcLI5gqJW/7ll3
+	R4AvhjGNssL2u09Mc1Qz8oQPuCPO0lB/BxdZT0r+LN2dqO4eA3Rd2tREJU6pfiq+SeMg
+	OveD1cOp/1VDR1XmVP4e7R7G1gMFiq5dh6k/qx4CrerKLeYoCe0XYFYoieHFm9W36Zpm
+	85AVoVIn9t+ULPdo3mZmfpMSTYkSN9LmxXXv4njAjYhT85lpzP6czQf1At7dng51EOiD
+	drrYLvywmzRRxO0S/4+jH1VIcmc4K1pqVXs4z5chXQGgKjJtqYQ0/R0hy2DzrwMKKjZ6
+	qqGQ==
+X-Gm-Message-State: AKGB3mJCykLlgNx6/WN87kHKb8ayNRGfLRT2dTNNEEepZnsUFB1KEX0c
+	CtnE4zij5Bvdp1eXoyzKcZbrQvAW
+X-Google-Smtp-Source: AGs4zMb4UcJKr2KPcjKrjvLDJFTFP7Jemkv7eFMnBak/VbQjcacsDySjiKRo9+9s+byEtQVRk2VTKg==
+X-Received: by 10.28.148.195 with SMTP id w186mr4470920wmd.33.1512483541230;
+	Tue, 05 Dec 2017 06:19:01 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 34sm301178wra.39.2017.12.05.06.18.58
+	by smtp.gmail.com with ESMTPSA id 34sm301178wra.39.2017.12.05.06.18.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Dec 2017 06:18:58 -0800 (PST)
+	Tue, 05 Dec 2017 06:18:59 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 14:18:47 +0000
-Message-Id: <20171205141848.24825-3-ross.burton@intel.com>
+Date: Tue,  5 Dec 2017 14:18:48 +0000
+Message-Id: <20171205141848.24825-4-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20171205141848.24825-1-ross.burton@intel.com>
 References: <20171205141848.24825-1-ross.burton@intel.com>
-Subject: [PATCH 3/4] xserver-xorg: remove redundant Wayland patch
+Subject: [PATCH 4/4] gstreamer1.0-plugins-bad: remove redundant Wayland patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 14:18:59 -0000
+X-List-Received-Date: Tue, 05 Dec 2017 14:19:01 -0000
 
 The installation path and wayland-scanner location problems in Wayland were
 resolved in "wayland: Fix installation patch issue" (oe-core 14c0d99) which made
@@ -66,67 +65,67 @@ the WAYLAND_PROTOCOLS_SYSROOT_DIR workaround redundant.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...c-Fix-wayland-scanner-and-protocols-locat.patch | 38 ----------------------
- .../xorg-xserver/xserver-xorg_1.19.5.bb            |  1 -
+ ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch | 38 ----------------------
+ .../gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb   |  1 -
  2 files changed, 39 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
 deleted file mode 100644
-index eafd07a5f19..00000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+index 48d93ab284b..00000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
 +++ /dev/null
 @@ -1,38 +0,0 @@
--From 963428f914c42270d3312d4f0c0840565521534e Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Wed, 16 Nov 2016 00:41:51 +0200
--Subject: [PATCH 2/2] configure.ac: Fix wayland-scanner and protocols locations
+-From 7c8f68c5428380b930579dc9ef27c853264448fd Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 15 May 2017 15:06:11 +0300
+-Subject: [PATCH] Prepend PKG_CONFIG_SYSROOT_DIR to pkg-config output
 -
--We want to use the wayland-scanner in path (native sysroot)
--instead of using pkg-config which gives us target paths.
+-In cross environment we have to prepend the sysroot to the path found by
+-pkgconfig since the path returned from pkgconfig does not have sysroot prefixed
+-it ends up using the files from host system. If build host has wayland installed
+-the build will succeed but if you dont have wayland-protocols installed on build
+-host then it wont find the files on build host
 -
--The protocols paths on the other hand need to be prefixed with the
--(allarch) sysroot because, again, pkg-config gives us target paths.
+-This should work ok with non sysrooted builds too since
+-in those cases PKG_CONFIG_SYSROOT_DIR will be empty
 -
--Upstream-Status: Inappropriate [embedded specific]
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ----
-- configure.ac | 6 ++----
-- 1 file changed, 2 insertions(+), 4 deletions(-)
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
 -diff --git a/configure.ac b/configure.ac
--index 58f1567..383a7df 100644
+-index e307be6..83cdeb0 100644
 ---- a/configure.ac
 -+++ b/configure.ac
--@@ -2525,11 +2525,9 @@ if test "x$XWAYLAND" = xyes; then
-- 		AC_MSG_ERROR([Xwayland requires CLOCK_MONOTONIC support.])
-- 	fi
-- 
---	WAYLAND_PREFIX=`$PKG_CONFIG --variable=prefix wayland-client`
---	AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner],,
---		     [${WAYLAND_PREFIX}/bin$PATH_SEPARATOR$PATH])
--+	AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
-- 
---	AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
--+	AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, ${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
-- fi
-- 
-- 
+-@@ -2272,7 +2272,7 @@ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], wayland , [
+-   PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0 libdrm >= 2.4.55 wayland-protocols >= 1.4, [
+-     if test "x$wayland_scanner" != "x"; then
+-       HAVE_WAYLAND="yes"
+--      AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
+-+      AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, ${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
+-     else
+-       AC_MSG_RESULT([wayland-scanner is required to build the wayland plugin])
+-       HAVE_WAYLAND="no"
 --- 
--2.1.4
+-2.4.0
 -
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
-index c9530315179..398eb817dbb 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
-@@ -2,7 +2,6 @@ require xserver-xorg.inc
- 
- SRC_URI += "file://musl-arm-inb-outb.patch \
-             file://0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch \
--            file://0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch \
-             file://0003-modesetting-Fix-16-bit-depth-bpp-mode.patch \
-             file://0003-Remove-check-for-useSIGIO-option.patch \
-             "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb
+index cbba01cbfb3..0380580335c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb
+@@ -12,7 +12,6 @@ SRC_URI = " \
+     file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
+     file://0009-glimagesink-Downrank-to-marginal.patch \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+-    file://0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch \
+     file://link-with-libvchostif.patch \
+     file://0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch \
+     file://0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch \
 -- 
 2.11.0
 
