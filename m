@@ -1,29 +1,22 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E11786EE
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A285978296
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 11:51:52 +0000 (UTC)
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2017 03:51:52 -0800
+	Tue,  5 Dec 2017 12:57:14 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Dec 2017 04:57:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,363,1508828400"; 
-   d="scan'208";a="258861"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga008.fm.intel.com with ESMTP; 05 Dec 2017 03:51:53 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id F12BC5803D4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 03:51:52 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252099868"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:14 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 13:51:46 +0200
-Message-Id: <1512474706-9286-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1512474706-9286-1-git-send-email-maxin.john@intel.com>
-References: <1512474706-9286-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/3] libunistring: upgrade to 0.9.8
+Date: Tue,  5 Dec 2017 14:57:34 +0200
+Message-Id: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.0
+MIME-Version: 1.0
+Subject: [PATCH 00/13] A rollup of not yet merged patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,124 +29,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 11:51:52 -0000
+X-List-Received-Date: Tue, 05 Dec 2017 12:57:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Refreshed the following patch:
-        iconv-m4-remove-the-test-to-convert-euc-jp.patch
+I've rebased all the patches sent previously and not yet merged, and rolled
+them into a single patchset. Psmisc's gettext issue in the previous update patch
+should now be fixed.
 
-No change in license as update in License Checksum is due
-to change in Copyright years.
+The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...conv-m4-remove-the-test-to-convert-euc-jp.patch | 56 ++++++++++++++--------
- ...libunistring_0.9.7.bb => libunistring_0.9.8.bb} |  6 +--
- 2 files changed, 39 insertions(+), 23 deletions(-)
- rename meta/recipes-support/libunistring/{libunistring_0.9.7.bb => libunistring_0.9.8.bb} (85%)
+  lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
 
-diff --git a/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-index d448916..9e8ce22 100644
---- a/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-+++ b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-@@ -1,6 +1,6 @@
--From 8d99a368615656a835f5502326afd31cec2cebfe Mon Sep 17 00:00:00 2001
-+From 30562065ba9e4c238e76100b5f9f0c5add0e635b Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
--Date: Mon, 16 Sep 2013 18:16:12 +0800
-+Date: Tue, 5 Dec 2017 09:30:36 +0200
- Subject: [PATCH] remove the test to convert euc-jp
- 
- Remove the test "Test against HP-UX 11.11 bug:
-@@ -13,28 +13,44 @@ Upstream-Status: Inappropriate [OE specific]
- 
- Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
- ---
-- gnulib-m4/iconv.m4 |   11 -----------
-- 1 files changed, 0 insertions(+), 11 deletions(-)
-+---
-+ gnulib-m4/iconv.m4 | 23 -----------------------
-+ 1 file changed, 23 deletions(-)
- 
--Index: libunistring-0.9.4/gnulib-m4/iconv.m4
--===================================================================
----- libunistring-0.9.4.orig/gnulib-m4/iconv.m4	2014-11-03 17:41:29.755011917 +0000
--+++ libunistring-0.9.4/gnulib-m4/iconv.m4	2014-11-03 17:43:03.795014480 +0000
--@@ -159,17 +159,6 @@
-+diff --git a/gnulib-m4/iconv.m4 b/gnulib-m4/iconv.m4
-+index b33ecd0..73b6aa1 100644
-+--- a/gnulib-m4/iconv.m4
-++++ b/gnulib-m4/iconv.m4
-+@@ -165,29 +165,6 @@ AC_DEFUN([AM_ICONV_LINK],
-        }
-    }
-  #endif
- -  /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
- -     provided.  */
---  if (/* Try standardized names.  */
---      iconv_open ("UTF-8", "EUC-JP") == (iconv_t)(-1)
---      /* Try IRIX, OSF/1 names.  */
---      && iconv_open ("UTF-8", "eucJP") == (iconv_t)(-1)
---      /* Try AIX names.  */
---      && iconv_open ("UTF-8", "IBM-eucJP") == (iconv_t)(-1)
---      /* Try HP-UX names.  */
---      && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
---    result |= 16;
-+-  {
-+-    /* Try standardized names.  */
-+-    iconv_t cd1 = iconv_open ("UTF-8", "EUC-JP");
-+-    /* Try IRIX, OSF/1 names.  */
-+-    iconv_t cd2 = iconv_open ("UTF-8", "eucJP");
-+-    /* Try AIX names.  */
-+-    iconv_t cd3 = iconv_open ("UTF-8", "IBM-eucJP");
-+-    /* Try HP-UX names.  */
-+-    iconv_t cd4 = iconv_open ("utf8", "eucJP");
-+-    if (cd1 == (iconv_t)(-1) && cd2 == (iconv_t)(-1)
-+-        && cd3 == (iconv_t)(-1) && cd4 == (iconv_t)(-1))
-+-      result |= 16;
-+-    if (cd1 != (iconv_t)(-1))
-+-      iconv_close (cd1);
-+-    if (cd2 != (iconv_t)(-1))
-+-      iconv_close (cd2);
-+-    if (cd3 != (iconv_t)(-1))
-+-      iconv_close (cd3);
-+-    if (cd4 != (iconv_t)(-1))
-+-      iconv_close (cd4);
-+-  }
-    return result;
-- }]])],
--         [am_cv_func_iconv_works=yes],
-+ ]])],
-+           [am_cv_func_iconv_works=yes], ,
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-support/libunistring/libunistring_0.9.7.bb b/meta/recipes-support/libunistring/libunistring_0.9.8.bb
-similarity index 85%
-rename from meta/recipes-support/libunistring/libunistring_0.9.7.bb
-rename to meta/recipes-support/libunistring/libunistring_0.9.8.bb
-index f77a210..4000e54 100644
---- a/meta/recipes-support/libunistring/libunistring_0.9.7.bb
-+++ b/meta/recipes-support/libunistring/libunistring_0.9.8.bb
-@@ -16,15 +16,15 @@ SECTION = "devel"
- LICENSE = "LGPLv3+ | GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                     file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
--                    file://doc/libunistring.texi;md5=b86c9fd7acaac623017239640631912c \
-+                    file://doc/libunistring.texi;md5=0db7ee008b43bde817ca41b69e691e44 \
-                    "
- 
- SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
-            file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
- "
--SRC_URI[md5sum] = "8e663454aa372181ee8e46edaa3ba4c8"
--SRC_URI[sha256sum] = "9ce081cbee1951b55597b30e7030bda9d7b2f034ef901a135ff3a020be5a41e5"
-+SRC_URI[md5sum] = "e255167c83d96defe159c3299737e72c"
-+SRC_URI[sha256sum] = "b792f2bd05d0fa7b339e39e353da7232b2e514e0db2cf5ed95beeff3feb53cf5"
- 
- inherit autotools texinfo
- BBCLASSEXTEND = "native nativesdk"
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (13):
+  package.bbclass: replace rpm/debugedit with dwarfsrcfiles
+  rpm: update to 4.14.0
+  rpm: upstream version is now known
+  libdnf: update to 0.11.1
+  librepo: update to 1.8.1
+  dnf: update to 2.7.5
+  gobject-introspection: update to 1.54.1
+  webkitgtk: update to 2.18.3
+  psmisc: update to 23.0
+  ffmpeg: update to 3.4
+  devtool: add a 'latest-version' command
+  devtool: provide useful defaults for version/commit when upgrading
+    recipes
+  devtool: add license checksum change handling to 'devtool upgrade'
+
+ meta/classes/package.bbclass                       |  29 +++-
+ ...eck-conf.releasever-instead-of-releasever.patch |  31 ----
+ ...Corretly-install-tmpfiles.d-configuration.patch |   7 +-
+ ...hardcode-etc-and-systemd-unit-directories.patch |   9 +-
+ ...005-Do-not-prepend-installroot-to-logdir.patch} |  14 +-
+ ...-set-PYTHON_INSTALL_DIR-by-running-python.patch |   9 +-
+ .../dnf/0030-Run-python-scripts-using-env.patch    |  11 +-
+ .../dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb}             |  10 +-
+ .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 +++
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111 +++++++++++++
+ ...ers-for-both-libsolv-and-libsolvext-libdn.patch |  11 +-
+ ...-variables-with-pkg-config-cmake-s-own-mo.patch |  11 +-
+ .../libdnf/{libdnf_0.9.3.bb => libdnf_0.11.1.bb}   |   2 +-
+ ...ly-set-the-library-installation-directory.patch |  28 ----
+ ...to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch |  49 ++++--
+ ...-race-when-deleting-temporary-directories.patch |  41 -----
+ ...rrect-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch |  40 -----
+ .../librepo/{librepo_git.bb => librepo_1.8.1.bb}   |   6 +-
+ ...N_ABI-when-searching-for-python-libraries.patch |  30 ----
+ ...code-lib-rpm-as-the-installation-path-for.patch |  20 +--
+ .../files/0001-Fix-build-with-musl-C-library.patch |  66 +++-----
+ ...alue-cannot-be-reset-issue-a-notice-inste.patch |  31 ----
+ ...c-remove-static-local-variables-from-buil.patch |  54 +++---
+ ...ire-that-ELF-binaries-are-executable-to-b.patch |  11 +-
+ ...onditional-to-access-_docdir-in-macros.in.patch |  36 ----
+ .../0013-Add-a-new-option-alldeps-to-rpmdeps.patch |  17 +-
+ .../rpm/{rpm_git.bb => rpm_4.14.0.bb}              |   9 +-
+ ...001-Typo-in-fuser-makes-M-on-all-the-time.patch |  46 ------
+ .../files/0002-Include-limits.h-for-PATH_MAX.patch |  29 ----
+ meta/recipes-extended/psmisc/psmisc.inc            |   9 +
+ ...-create-src-directory-before-attempting-t.patch |  30 ++++
+ meta/recipes-extended/psmisc/psmisc_22.21.bb       |  12 --
+ meta/recipes-extended/psmisc/psmisc_23.0.bb        |  10 ++
+ ...n_1.52.1.bb => gobject-introspection_1.54.1.bb} |   7 +-
+ .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    |  44 -----
+ .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |   8 +-
+ .../webkitgtk/0001-Fix-build-with-musl.patch       |  77 +++++++++
+ ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch |  23 +--
+ ...c-settings-so-that-gtkdoc-generation-work.patch |  21 +--
+ ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 182 ++++++++-------------
+ ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  24 +--
+ .../detect-atomics-during-configure.patch          |  26 ++-
+ meta/recipes-sato/webkit/webkitgtk/gcc7.patch      |  23 ---
+ .../recipes-sato/webkit/webkitgtk/musl-fixes.patch |  48 ------
+ .../webkit/webkitgtk/ppc-musl-fix.patch            |  26 ---
+ .../{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb}   |  13 +-
+ scripts/lib/devtool/upgrade.py                     | 117 ++++++++++++-
+ 47 files changed, 688 insertions(+), 802 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
+ rename meta/recipes-devtools/dnf/dnf/{0001-Do-not-prepend-installroot-to-logdir.patch => 0005-Do-not-prepend-installroot-to-logdir.patch} (67%)
+ rename meta/recipes-devtools/dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb} (92%)
+ create mode 100644 meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+ create mode 100644 meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+ rename meta/recipes-devtools/libdnf/{libdnf_0.9.3.bb => libdnf_0.11.1.bb} (95%)
+ delete mode 100644 meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
+ delete mode 100644 meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
+ delete mode 100644 meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
+ rename meta/recipes-devtools/librepo/{librepo_git.bb => librepo_1.8.1.bb} (68%)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
+ rename meta/recipes-devtools/rpm/{rpm_git.bb => rpm_4.14.0.bb} (92%)
+ delete mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+ delete mode 100644 meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
+ create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Makefile.am-create-src-directory-before-attempting-t.patch
+ delete mode 100644 meta/recipes-extended/psmisc/psmisc_22.21.bb
+ create mode 100644 meta/recipes-extended/psmisc/psmisc_23.0.bb
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.52.1.bb => gobject-introspection_1.54.1.bb} (97%)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/gcc7.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/musl-fixes.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb} (93%)
+
 -- 
-2.4.0
+2.15.0
 
 
