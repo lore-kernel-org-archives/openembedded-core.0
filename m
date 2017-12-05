@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD26786F8
+	by mail.openembedded.org (Postfix) with ESMTP id 685EF786F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 12:57:25 +0000 (UTC)
+	Tue,  5 Dec 2017 12:57:26 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2017 04:57:27 -0800
+	05 Dec 2017 04:57:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252099989"
+X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252100005"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:26 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:27 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 14:57:45 +0200
-Message-Id: <ed1b8f1086e1653f5bb4704a1cb052c6cf194b4d.1512478515.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  5 Dec 2017 14:57:46 +0200
+Message-Id: <7e354f162f9550d96c0fba7b33f22be043a413fb.1512478515.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
 References: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 11/13] devtool: add a 'latest-version' command
+Subject: [PATCH 12/13] devtool: provide useful defaults for version/commit when upgrading recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,72 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 12:57:25 -0000
+X-List-Received-Date: Tue, 05 Dec 2017 12:57:26 -0000
 
-This command queries the upstream server for what the latest release is and prints
-the output; it is a much neater way to find out these things than fumbling with distrodata,
-'bitbake -c checkpkg' and awkward to read csv output in a file.
-
-Examples:
-
-python3 (tarballs):
-NOTE: Current version: 3.5.3
-NOTE: Latest version: 3.6.3
-
-rpm (git):
-NOTE: Current version: 4.13.90
-NOTE: Latest version: 4.14.0
-NOTE: Latest version's commit: da3720f62e57648fb1dc2a632744d38866139971
-
-puzzles (git without version tags):
-NOTE: Latest commit: ee8ea9b9785964694cb2b3ad77c3fb2460f49510
+Specifically, 'devtool upgrade' will use the latest upstream release if available
+or latest commit if upstream never makes releases.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ scripts/lib/devtool/upgrade.py | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index f6141bfdc38..445e0642460 100644
+index 445e0642460..28fbdaee357 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -498,6 +498,26 @@ def upgrade(args, config, basepath, workspace):
-         tinfoil.shutdown()
-     return 0
+@@ -433,8 +433,6 @@ def upgrade(args, config, basepath, workspace):
  
-+def latest_version(args, config, basepath, workspace):
-+    """Entry point for the devtool 'latest_version' subcommand"""
-+    tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
-+    try:
-+        rd = parse_recipe(config, tinfoil, args.recipename, True)
-+        if not rd:
-+            return 1
-+        version_info = oe.recipeutils.get_recipe_upstream_version(rd)
-+        # "new-commits-available" is an indication that upstream never issues version tags
-+        if not version_info['version'].endswith("new-commits-available"):
-+            logger.info("Current version: {}".format(version_info['current_version']))
-+            logger.info("Latest version: {}".format(version_info['version']))
+     if args.recipename in workspace:
+         raise DevtoolError("recipe %s is already in your workspace" % args.recipename)
+-    if not args.version and not args.srcrev:
+-        raise DevtoolError("You must provide a version using the --version/-V option, or for recipes that fetch from an SCM such as git, the --srcrev/-S option")
+     if args.srcbranch and not args.srcrev:
+         raise DevtoolError("If you specify --srcbranch/-B then you must use --srcrev/-S to specify the revision" % args.recipename)
+ 
+@@ -457,6 +455,16 @@ def upgrade(args, config, basepath, workspace):
+         else:
+             srctree = standard.get_default_srctree(config, pn)
+ 
++        # try to automatically discover latest version and revision if not provided on command line
++        if not args.version and not args.srcrev:
++            version_info = oe.recipeutils.get_recipe_upstream_version(rd)
++            if version_info['version'] and not version_info['version'].endswith("new-commits-available"):
++                args.version = version_info['version']
 +            if version_info['revision']:
-+                logger.info("Latest version's commit: {}".format(version_info['revision']))
-+        else:
-+            logger.info("Latest commit: {}".format(version_info['revision']))
-+    finally:
-+        tinfoil.shutdown()
-+    return 0
++                args.srcrev = version_info['revision']
++        if not args.version and not args.srcrev:
++            raise DevtoolError("Automatic discovery of latest version/revision failed - you must provide a version using the --version/-V option, or for recipes that fetch from an SCM such as git, the --srcrev/-S option.")
 +
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
- 
-@@ -519,3 +539,9 @@ def register_commands(subparsers, context):
-     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
-     parser_upgrade.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
-     parser_upgrade.set_defaults(func=upgrade, fixed_setup=context.fixed_setup)
-+
-+    parser_latest_version = subparsers.add_parser('latest-version', help='Report the latest version of an existing recipe',
-+                                                  description='Queries the upstream server for what the latest upstream release is (for git, tags are checked, for tarballs, a list of them is obtained, and one with the highest version number is reported)',
-+                                                  group='info')
-+    parser_latest_version.add_argument('recipename', help='Name of recipe to query (just name - no version, path or extension)')
-+    parser_latest_version.set_defaults(func=latest_version)
+         standard._check_compatible_recipe(pn, rd)
+         old_srcrev = rd.getVar('SRCREV')
+         if old_srcrev == 'INVALID':
+@@ -528,8 +536,8 @@ def register_commands(subparsers, context):
+                                            group='starting')
+     parser_upgrade.add_argument('recipename', help='Name of recipe to upgrade (just name - no version, path or extension)')
+     parser_upgrade.add_argument('srctree',  nargs='?', help='Path to where to extract the source tree. If not specified, a subdirectory of %s will be used.' % defsrctree)
+-    parser_upgrade.add_argument('--version', '-V', help='Version to upgrade to (PV)')
+-    parser_upgrade.add_argument('--srcrev', '-S', help='Source revision to upgrade to (required if fetching from an SCM such as git)')
++    parser_upgrade.add_argument('--version', '-V', help='Version to upgrade to (PV). If omitted, latest upstream version will be determined and used, if possible.')
++    parser_upgrade.add_argument('--srcrev', '-S', help='Source revision to upgrade to (useful when fetching from an SCM such as git)')
+     parser_upgrade.add_argument('--srcbranch', '-B', help='Branch in source repository containing the revision to use (if fetching from an SCM such as git)')
+     parser_upgrade.add_argument('--branch', '-b', default="devtool", help='Name for new development branch to checkout (default "%(default)s")')
+     parser_upgrade.add_argument('--no-patch', action="store_true", help='Do not apply patches from the recipe to the new source code')
 -- 
 2.15.0
 
