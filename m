@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 435547870E
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 254027870E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 14:18:57 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id z34so444443wrz.10
+	Tue,  5 Dec 2017 14:18:58 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id x49so438538wrb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Dec 2017 06:18:59 -0800 (PST)
+	Tue, 05 Dec 2017 06:19:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=N9k3r0y3ki+pcUQQ4T6lajMQcKe1QUUjojsk/j4HVg4=;
-	b=rCN2ksJ3vq14TxnMzRYfTYZcnVB32bVwiiMj8tVhVzVneZKSvkKlbOT3P/F2ByVxDl
-	38i1qhMlfxxrsMtWoiqj1dqjEwKLuDptpQfXU+RGW77aWdPKhP9QqKFakWn2iJPngrQu
-	qMaM9Dp/KcJGkeHi/NMjGLTwrv27lqQzRT1efpVBKLRME/NUQ0UQAQEFO1sp3FWSb0At
-	7moapvo4eHCL8ZPQIG2lL0crzleJRnF8iBlsHogG8kwI5xXpE6AyRG8azm7uYjoPeY29
-	6Hl3E7C3sE/08yzROusz0O0b4fHaBFbaLS3unw/+GSZZIZ6ypPO7JscOjoYtyW08s5X0
-	Slgg==
+	bh=Lt3rpkVxIGb+ymVva+T044tnKL08RLeRWLuNgoEUh+k=;
+	b=udYzHtAscNDNgTxILfb3HCSXQnEAlvggs9+UXtoq7yy1bbpH5odCV1HJT5yLfVk2x7
+	igM6KmG2IQp3Pt9ONzy4lgOAxowQukNuXordOtOAob4lpkENI3q0IbQ0CoMVQ3R14fE7
+	q3ECG2UYrcaHoFpeW8ZZpVuLnzGVlpXRPJVGeSr+VsVGXUV/MADjfacLGdLjrLP2MbDT
+	DBbrdf2rp9NH/XXYgIpjPCwB199bI0LKYPtg6Lp0Bijk+oFvLhTaLcXDdWG8Joxwvphu
+	JHGpokIGXl9Lg8PvnGrdnWlQQGkNtwAjPHqCicNFr8laFoIYr4bdINW+w5NXL8U44Ecc
+	BkKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=N9k3r0y3ki+pcUQQ4T6lajMQcKe1QUUjojsk/j4HVg4=;
-	b=RUJyhfYMJI4AMc03lbCKvRRuv8CYxL+XdMFuy+cFoQO1r9wvGnT0fiXaZLJyO7YXNz
-	uLeBTZvp4kmGl2R+ZX5YrWXuXji9EPHdNZU7MzqpwB+wJe9Fac3Eizi4sBytCb9IUGyU
-	Ol+vXarnWJ5VSL2KmLYnPeZiVC0sF1O39py/w11SEruwIEFtItOPz2JlJFjOzCwT/U1d
-	eFMk40Zk1uP8/m9ajKwkPpT80gyGlaNGzCfHs3OxVS9erl5nyYwyaojtawqvY/wZB+QZ
-	zHnzpxCgtEFmOa8Afbojug2zpGFDHMLf+g6890A4STqqH5PtTeEDBbi3TwSyvvzza30m
-	/OeQ==
-X-Gm-Message-State: AJaThX5SBufoPJPm1ubMnmzuymyhbg0K2fhw/ac3NYM9tdIijbUrU/a5
-	0loDoexabiTSV3HMpY9u/oZP5UX+
-X-Google-Smtp-Source: AGs4zMZhJmva0cwqMHBVIJgCQjowFL9IefqFLE5PcWwOSW+qQKbjXaZyTzn/7ut0ju+Qr0fEZ1xRSQ==
-X-Received: by 10.223.129.247 with SMTP id 110mr15530866wra.208.1512483538470; 
-	Tue, 05 Dec 2017 06:18:58 -0800 (PST)
+	bh=Lt3rpkVxIGb+ymVva+T044tnKL08RLeRWLuNgoEUh+k=;
+	b=JyofZOrXE83kqoAxlDf4/Z7zzR3nauTTmriRbLfRVR4BWcXKddcUuWNVWeGHbKo5DN
+	/6AIcgH6yXjY3oMMsrfowOZFNiKUCxt04EdRwJuSZWwFZ7CWM4m9Z7xnbCFozZuqfaYg
+	imf6EOdaRE8Mx4HGqLEZzmctDa07fliwVI4IOASzeFHsFP5vloloQgJO98LsFT2R51tv
+	JueHfbXwk7K52il48HyoEtffCv+xfPcxHypRnX619k9PbVXI/u5lMxi2oSSrE0cgEKqI
+	PPD4M9LJsiTuf/TFvCD0VhXtaGC/HYFrFApbp9fDXkp9BeXcJ0+vw4ol8JJr+f05oyeI
+	6D/g==
+X-Gm-Message-State: AKGB3mLYFaP2LfIgMdHBpsPqxYe7scOUq1XO0i5oQigmikOToBCxY70c
+	delhf9nBsX60Z7JsMzKd2THXRaBj
+X-Google-Smtp-Source: AGs4zMY6t+1yRnrdwdUWNNUk9lLE5ugIuQwGaCjiXqI0DXJxYtntxt/sxKjZ9MwkU+iF4wUNd35JAg==
+X-Received: by 10.223.180.69 with SMTP id v5mr2662028wrd.193.1512483539528;
+	Tue, 05 Dec 2017 06:18:59 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 34sm301178wra.39.2017.12.05.06.18.57
+	by smtp.gmail.com with ESMTPSA id 34sm301178wra.39.2017.12.05.06.18.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Dec 2017 06:18:57 -0800 (PST)
+	Tue, 05 Dec 2017 06:18:58 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 14:18:46 +0000
-Message-Id: <20171205141848.24825-2-ross.burton@intel.com>
+Date: Tue,  5 Dec 2017 14:18:47 +0000
+Message-Id: <20171205141848.24825-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20171205141848.24825-1-ross.burton@intel.com>
 References: <20171205141848.24825-1-ross.burton@intel.com>
-Subject: [PATCH 2/4] gtk+3: remove redundant Wayland patch
+Subject: [PATCH 3/4] xserver-xorg: remove redundant Wayland patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 14:18:58 -0000
+X-List-Received-Date: Tue, 05 Dec 2017 14:18:59 -0000
 
 The installation path and wayland-scanner location problems in Wayland were
 resolved in "wayland: Fix installation patch issue" (oe-core 14c0d99) which made
@@ -66,65 +66,67 @@ the WAYLAND_PROTOCOLS_SYSROOT_DIR workaround redundant.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...4-configure.ac-Fix-wayland-protocols-path.patch | 36 ----------------------
- meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb           |  1 -
- 2 files changed, 37 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch
+ ...c-Fix-wayland-scanner-and-protocols-locat.patch | 38 ----------------------
+ .../xorg-xserver/xserver-xorg_1.19.5.bb            |  1 -
+ 2 files changed, 39 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch b/meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
 deleted file mode 100644
-index aca55ceaf49..00000000000
---- a/meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch
+index eafd07a5f19..00000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--From 34f4d3928e8206a89b0a601bdf79d6194b3cc77e Mon Sep 17 00:00:00 2001
+@@ -1,38 +0,0 @@
+-From 963428f914c42270d3312d4f0c0840565521534e Mon Sep 17 00:00:00 2001
 -From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Thu, 9 Jun 2016 11:21:36 +0300
--Subject: [PATCH 4/4] configure.ac: Fix wayland-protocols path
+-Date: Wed, 16 Nov 2016 00:41:51 +0200
+-Subject: [PATCH 2/2] configure.ac: Fix wayland-scanner and protocols locations
 -
--The wayland-protocols directory is used during build: Fix the path
--to point to sysroot specified in recipe.
+-We want to use the wayland-scanner in path (native sysroot)
+-instead of using pkg-config which gives us target paths.
 -
--Normally PKG_CONFIG_SYSROOT_DIR could be used in configure.ac but that
--breaks multilib gtk+ as it would point to multilib sysroot when the
--(allarch) wayland-protocols is actually in the machine sysroot.
+-The protocols paths on the other hand need to be prefixed with the
+-(allarch) sysroot because, again, pkg-config gives us target paths.
 -
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 -Upstream-Status: Inappropriate [embedded specific]
--
 -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- configure.ac | 6 ++----
+- 1 file changed, 2 insertions(+), 4 deletions(-)
 -
 -diff --git a/configure.ac b/configure.ac
--index 00bf544..5515915 100644
+-index 58f1567..383a7df 100644
 ---- a/configure.ac
 -+++ b/configure.ac
--@@ -465,7 +465,7 @@ fi
-- if test "$enable_wayland_backend" = "yes"; then
--   # For the cairo image backend
--   cairo_backends="$cairo_backends cairo"
---  AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
--+  AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, ${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
--   GDK_BACKENDS="$GDK_BACKENDS wayland"
--   GDK_WINDOWING="$GDK_WINDOWING
-- #define GDK_WINDOWING_WAYLAND"
+-@@ -2525,11 +2525,9 @@ if test "x$XWAYLAND" = xyes; then
+- 		AC_MSG_ERROR([Xwayland requires CLOCK_MONOTONIC support.])
+- 	fi
+- 
+--	WAYLAND_PREFIX=`$PKG_CONFIG --variable=prefix wayland-client`
+--	AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner],,
+--		     [${WAYLAND_PREFIX}/bin$PATH_SEPARATOR$PATH])
+-+	AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
+- 
+--	AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
+-+	AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, ${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
+- fi
+- 
+- 
 --- 
--2.12.0
+-2.1.4
 -
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb b/meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb
-index 02eca3f5cbd..ac0a9b715f3 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb
-@@ -6,7 +6,6 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0001-Hardcoded-libtool.patch \
-            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
-            file://0003-Add-disable-opengl-configure-option.patch \
--           file://0004-configure.ac-Fix-wayland-protocols-path.patch \
-           "
- SRC_URI[md5sum] = "b782a15b7b5b2005a1ce4647fb002a49"
- SRC_URI[sha256sum] = "cbb16e4cfc928ab8f5f22f7290616f95f6ebc8c97cc724a2007b07ced833592b"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
+index c9530315179..398eb817dbb 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.5.bb
+@@ -2,7 +2,6 @@ require xserver-xorg.inc
+ 
+ SRC_URI += "file://musl-arm-inb-outb.patch \
+             file://0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch \
+-            file://0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch \
+             file://0003-modesetting-Fix-16-bit-depth-bpp-mode.patch \
+             file://0003-Remove-check-for-useSIGIO-option.patch \
+             "
 -- 
 2.11.0
 
