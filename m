@@ -1,53 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 777086025F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BEA786D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 13:30:57 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id x49so265258wrb.13
+	Tue,  5 Dec 2017 14:18:56 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id f140so1556981wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Dec 2017 05:30:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=B5JWrw5Y8MWQFMW/WoT+H6E+zUM/L6A9Hgr8P6+Yb4k=;
-	b=VugSdPQyGnMHg9O4XkiGaJTkFOhYvm+lxcjuHX6bV3G2YtHEiLW1Rvhem0s8LGedV7
-	XXX4Z49VQnAZWaE02278vI29p2fDV1ISKxxmOn9WkJPr5IhEDwEyponBRwW+BPM1Qg0c
-	uMDXtIw+MiY1sWHpKGQqRR+PxenuXNM7ax22ViqGumCrhZ/UfnTSffy+gHDcSiVx+07j
-	13IlQgbH0zHEBGFYoU+aCFe+4HHVeEmSREYTlxh9nKUa6wC+daX1Q0a5FyOqNB09UDqO
-	+rbSp/bJudJJv9d2VI+vCWDHE17yhtpCafC37uIDFuBCpKh7T2aQVskRX5xcQYpDYnda
-	vbhA==
+	Tue, 05 Dec 2017 06:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=EEr5+HK/e5XaWpT/KSWNIFcng7vCL9/ZvWZ3Nf7blI0=;
+	b=xyOfq29Jf7ueoPRSU0cYaAVSUu+gFfeOH7VOVsP6G1hZNUcKSAT8kjLFsiuPy+KOI3
+	ys0bq7w6XlHV7sZajlt8KQt5jh1zyv9Yszj5OKZlRQ4H4tZ0EMo5+XLg1UWd/m976viI
+	ia3ir2XUIbeyn5gYPvl8iTwljHfmzwwRfOZjzSI8t3dMndgbUWLwLY4LGGoBFYpMxnUZ
+	S1wfDmUkFDgfORGxQppaKrQswGkK/pDrDqWxLqQ9j2EFTuc2U4boWNZeXQQBtaxgzH5Q
+	f8DF181qwKmjYrjfAkn0KgmqTXWGVVZY/CJvVUj0CLzUwaQH7m0ifEEQ/h+e3zezMUEE
+	KW3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=B5JWrw5Y8MWQFMW/WoT+H6E+zUM/L6A9Hgr8P6+Yb4k=;
-	b=IPSKqDiDloWYbPfjZlz1lXvqA80z5aSD75fbYC1jP2VifYvhjaOj0fLfmPopaArUIe
-	GC2uyAqtol02QQ+YYozh3CYirSNTrCVow9xWHXMr2E8QZHZFsqy/ZgMG0J5VtGOcIov6
-	1dCzsAu6TWIiGYs5hMQHhtTfMirnwj2M5eJqgVPtVEf+ZRjkQ06wwoWVbr6YOozKhtuv
-	duOD2QRyQ9keOMFPvSuA9MyuExNS52WII++F0hHi17XXuFzUBRdjWmgQdQEv3NDsEdNG
-	up5taB71FASNEUdceOuPcPIckffPkk7jlLXxkWQPpARbo/KBVXFlNeGjAnlGP/igM3q7
-	7u4A==
-X-Gm-Message-State: AJaThX6y2XI0Qzi3463rmScChpY9haVcxs1T61k5OIWbqnobQ/3EeeTW
-	mQ1mwxUHKnAx4HediOi+C4A=
-X-Google-Smtp-Source: AGs4zMYi7ZxPLsVJcYM9zntdaWQ2wPIbi6r18fwXTCPGYNW9M25+3ATroCxYYc8vRvFaiAryiH/8Hw==
-X-Received: by 10.223.158.203 with SMTP id b11mr15696874wrf.256.1512480658119; 
-	Tue, 05 Dec 2017 05:30:58 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id d23sm469449wma.48.2017.12.05.05.30.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Dec 2017 05:30:57 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 5 Dec 2017 14:31:02 +0100
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20171205133102.GB4220@jama>
-References: <cover.1512256681.git.akuster@mvista.com>
-MIME-Version: 1.0
-In-Reply-To: <cover.1512256681.git.akuster@mvista.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 000/131] Rocko-next pull request
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EEr5+HK/e5XaWpT/KSWNIFcng7vCL9/ZvWZ3Nf7blI0=;
+	b=LGm/ESRIvN5KRQ8I1g4eJ73E40OzmwN3oMqUfhul7xBVW1JMyanj8yabStJ56s9HNi
+	5PIF3KmZnL0Cpso4Lrh1vR1PlkuRaOZK1jX4liCc7zHV9KrZ899LdM1RcovrBG16pAor
+	LLSa1FOPUQ+By3WTmIx/RuufNhnW7n4fri9nSSyJ2//e5ptVrmmlY4I29FyEWGmHYRS1
+	HNvL8V4VwVJRWJrKxZlaj4DVSxs0c5/Fn/MHapOLMy0+UHgskZU5uGQMGI2gBKDFhM7H
+	k64FK5lhTEkk9meIbhSfp1po0Dm2XlvDDB9Bfv9YkMlyToH3LMZ4fPXOyK4q7wZjzvOt
+	QT1Q==
+X-Gm-Message-State: AKGB3mIqo9/c+vnkh0JLzVW6DuQ4/0x6qYiZTTqlIWOdgpdkguabE4um
+	IhDttc+WPFdbTXEToF+QO47aaERO
+X-Google-Smtp-Source: AGs4zMbCjtUEvQRPy9r5WekAHHhzk86kdjyFsehR1F6RHg9TROnT6Vf1jYFGTh96yXAe03+EF7Ea6w==
+X-Received: by 10.28.70.131 with SMTP id t125mr6314097wma.92.1512483537307;
+	Tue, 05 Dec 2017 06:18:57 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 34sm301178wra.39.2017.12.05.06.18.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Dec 2017 06:18:56 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Dec 2017 14:18:45 +0000
+Message-Id: <20171205141848.24825-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/4] weston: remove patch that isn't applied anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 13:30:57 -0000
-X-Groupsio-MsgNum: 105873
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 Dec 2017 14:18:57 -0000
 
---OwLcNYc0lM97+oe1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch was removed from SRC_URI in the Weston 3.0 upgrade (148920f) but the
+patch wasn't deleted.
 
-On Sat, Dec 02, 2017 at 03:19:39PM -0800, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
->=20
-> conver letter only.
->=20
-> please concider these changes for Rocko next.
-> Clean AB build.
->=20
->   go: Fix build with PIE on musl
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...1-configure.ac-Fix-wayland-protocols-path.patch | 29 ----------------------
+ 1 file changed, 29 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
 
-Is this change (or similar one) needed in master branch?
+diff --git a/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch b/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
+deleted file mode 100644
+index 5f4d79c38c2..00000000000
+--- a/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 1cfc1434a5d385a74de593ec7601674dba39e2fe Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Wed, 11 May 2016 16:16:30 +0300
+-Subject: [PATCH] configure.ac: Fix wayland-protocols path
+-
+-The wayland-protocols directory is used during build: Fix the path
+-to point to sysroot specified in recipe.
+-
+-Normally PKG_CONFIG_SYSROOT_DIR could be used in configure.ac but that
+-breaks multilib weston as it would point to multilib sysroot when the
+-(allarch) wayland-protocols is actually in the machine sysroot.
+-
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Inappropriate [embedded specific]
+----
+- configure.ac |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -187,7 +187,7 @@ PKG_CHECK_MODULES(LIBINPUT_BACKEND, [lib
+- PKG_CHECK_MODULES(COMPOSITOR, [$COMPOSITOR_MODULES])
+- 
+- PKG_CHECK_MODULES(WAYLAND_PROTOCOLS, [wayland-protocols >= 1.7],
+--		  [ac_wayland_protocols_pkgdatadir=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
+-+		  [ac_wayland_protocols_pkgdatadir=${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
+- AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, $ac_wayland_protocols_pkgdatadir)
+- 
+- AC_ARG_ENABLE(wayland-compositor, [  --enable-wayland-compositor],,
+-- 
+2.11.0
 
-master is using newer version of go-dep since:
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools?=
-id=3D0fff29b79f7763223d2fe3ebafd315d030ef6e8f
 
-so maybe this change doesn't apply there or isn't really needed, I've
-noticed only because with rocko I'm now seeing:
-ERROR: QA Issue: ELF binary 'work/qemux86-oe-linux/go-dep/0.3.0-r0/packages=
--split/go-dep/usr/bin/dep' has relocations in .text
-and I don't see this in builds with master branch.
-
-Regards,
-
---OwLcNYc0lM97+oe1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWiaflAAKCRA3VSO3ZXaA
-HCkoAJ46HA50h8qCWpDAo38D4fBb6ICKXwCdEfZfCkHP9j0m6se73BmJN7y2has=
-=rmkw
------END PGP SIGNATURE-----
-
---OwLcNYc0lM97+oe1--
