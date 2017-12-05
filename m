@@ -1,24 +1,53 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F6C97872E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 777086025F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 12:57:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2017 04:57:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,364,1508828400"; d="scan'208";a="1252100007"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2017 04:57:28 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 14:57:47 +0200
-Message-Id: <223e09da353bab91748ffefa830e9dbf7c7e0537.1512478515.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
-References: <cover.1512478515.git.alexander.kanavin@linux.intel.com>
+	Tue,  5 Dec 2017 13:30:57 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id x49so265258wrb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Dec 2017 05:30:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=B5JWrw5Y8MWQFMW/WoT+H6E+zUM/L6A9Hgr8P6+Yb4k=;
+	b=VugSdPQyGnMHg9O4XkiGaJTkFOhYvm+lxcjuHX6bV3G2YtHEiLW1Rvhem0s8LGedV7
+	XXX4Z49VQnAZWaE02278vI29p2fDV1ISKxxmOn9WkJPr5IhEDwEyponBRwW+BPM1Qg0c
+	uMDXtIw+MiY1sWHpKGQqRR+PxenuXNM7ax22ViqGumCrhZ/UfnTSffy+gHDcSiVx+07j
+	13IlQgbH0zHEBGFYoU+aCFe+4HHVeEmSREYTlxh9nKUa6wC+daX1Q0a5FyOqNB09UDqO
+	+rbSp/bJudJJv9d2VI+vCWDHE17yhtpCafC37uIDFuBCpKh7T2aQVskRX5xcQYpDYnda
+	vbhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=B5JWrw5Y8MWQFMW/WoT+H6E+zUM/L6A9Hgr8P6+Yb4k=;
+	b=IPSKqDiDloWYbPfjZlz1lXvqA80z5aSD75fbYC1jP2VifYvhjaOj0fLfmPopaArUIe
+	GC2uyAqtol02QQ+YYozh3CYirSNTrCVow9xWHXMr2E8QZHZFsqy/ZgMG0J5VtGOcIov6
+	1dCzsAu6TWIiGYs5hMQHhtTfMirnwj2M5eJqgVPtVEf+ZRjkQ06wwoWVbr6YOozKhtuv
+	duOD2QRyQ9keOMFPvSuA9MyuExNS52WII++F0hHi17XXuFzUBRdjWmgQdQEv3NDsEdNG
+	up5taB71FASNEUdceOuPcPIckffPkk7jlLXxkWQPpARbo/KBVXFlNeGjAnlGP/igM3q7
+	7u4A==
+X-Gm-Message-State: AJaThX6y2XI0Qzi3463rmScChpY9haVcxs1T61k5OIWbqnobQ/3EeeTW
+	mQ1mwxUHKnAx4HediOi+C4A=
+X-Google-Smtp-Source: AGs4zMYi7ZxPLsVJcYM9zntdaWQ2wPIbi6r18fwXTCPGYNW9M25+3ATroCxYYc8vRvFaiAryiH/8Hw==
+X-Received: by 10.223.158.203 with SMTP id b11mr15696874wrf.256.1512480658119; 
+	Tue, 05 Dec 2017 05:30:58 -0800 (PST)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id d23sm469449wma.48.2017.12.05.05.30.56
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 05 Dec 2017 05:30:57 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 5 Dec 2017 14:31:02 +0100
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20171205133102.GB4220@jama>
+References: <cover.1512256681.git.akuster@mvista.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/13] devtool: add license checksum change handling to 'devtool upgrade'
+In-Reply-To: <cover.1512256681.git.akuster@mvista.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 000/131] Rocko-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,177 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 12:57:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Dec 2017 13:30:57 -0000
+X-Groupsio-MsgNum: 105873
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
+Content-Disposition: inline
 
-Specifically, 'devtool upgrade' will now do these things:
+--OwLcNYc0lM97+oe1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) determine if any of the license checksums need updating; if so,
-write the new checksums into the LIC_FILES_CHKSUM value in the recipe
-that is written to the workspace;
+On Sat, Dec 02, 2017 at 03:19:39PM -0800, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+>=20
+> conver letter only.
+>=20
+> please concider these changes for Rocko next.
+> Clean AB build.
+>=20
+>   go: Fix build with PIE on musl
 
-2) print a notice to the standard output:
+Is this change (or similar one) needed in master branch?
 
-NOTE: New recipe is /home/ak/development/poky/build/workspace/recipes/puzzles/puzzles_git.bb
-NOTE: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+master is using newer version of go-dep since:
+http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools?=
+id=3D0fff29b79f7763223d2fe3ebafd315d030ef6e8f
 
-3) and the cool part: devtool will create a diff of the old and new licenses,
-and write the diff into the workspace recipe as a comment, like this:
+so maybe this change doesn't apply there or isn't really needed, I've
+noticed only because with rocko I'm now seeing:
+ERROR: QA Issue: ELF binary 'work/qemux86-oe-linux/go-dep/0.3.0-r0/packages=
+-split/go-dep/usr/bin/dep' has relocations in .text
+and I don't see this in builds with master branch.
 
-======
- FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
- The following is the difference between the old and the new license text.
- Please update the LICENSE value if needed, and summarize the changes in
- the commit message via 'License-checksum-change:' tag.
- (example: 'License-checksum-change: copyright years updated.')
+Regards,
 
- The changes:
+--OwLcNYc0lM97+oe1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
- --- LICENCE
- +++ LICENCE
- @@ -1,8 +1,9 @@
-  This software is copyright (c) 2004-2014 Simon Tatham.
+-----BEGIN PGP SIGNATURE-----
 
-  Portions copyright Richard Boulton, James Harvey, Mike Pinna, Jonas
- -Klker, Dariusz Olszewski, Michael Schierl, Lambros Lambrou, Bernd
- -Schmidt, Steffen Bauer, Lennard Sprong and Rogier Goossens.
- +Kölker, Dariusz Olszewski, Michael Schierl, Lambros Lambrou, Bernd
- +Schmidt, Steffen Bauer, Lennard Sprong, Rogier Goossens and Michael
- +Quevillon.
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWiaflAAKCRA3VSO3ZXaA
+HCkoAJ46HA50h8qCWpDAo38D4fBb6ICKXwCdEfZfCkHP9j0m6se73BmJN7y2has=
+=rmkw
+-----END PGP SIGNATURE-----
 
-  Permission is hereby granted, free of charge, to any person
-  obtaining a copy of this software and associated documentation files
-
-======
-
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- scripts/lib/devtool/upgrade.py | 75 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 73 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 28fbdaee357..7de9ab5c2db 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -291,7 +291,26 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
- 
-     return (rev, md5, sha256, srcbranch, srcsubdir_rel)
- 
--def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd):
-+def _add_license_diff_to_recipe(path, diff):
-+    notice_text = """# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-checksum-change:' tag.
-+# (example: 'License-checksum-change: copyright years updated.')
-+#
-+# The changes:
-+#
-+"""
-+    commented_diff = "\n".join(["# {}".format(l) for l in diff.split('\n')])
-+    with open(path, 'rb') as f:
-+        orig_content = f.read()
-+    with open(path, 'wb') as f:
-+        f.write(notice_text.encode())
-+        f.write(commented_diff.encode())
-+        f.write("\n#\n\n".encode())
-+        f.write(orig_content)
-+
-+def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd, license_diff, new_licenses):
-     """Creates the new recipe under workspace"""
- 
-     bpn = rd.getVar('BPN')
-@@ -400,6 +419,11 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
-             else:
-                 logger.info('Source subdirectory has changed, updating S value')
- 
-+    if license_diff:
-+        newlicchksum = " ".join(["file://{};md5={}".format(l["path"], l["actual_md5"]) + (";beginline={}".format(l["beginline"]) if l["beginline"] else "") + (";endline={}".format(l["endline"]) if l["endline"] else "") for l in new_licenses])
-+        newvalues["LIC_FILES_CHKSUM"] = newlicchksum
-+        _add_license_diff_to_recipe(fullpath, license_diff)
-+
-     rd = tinfoil.parse_recipe_file(fullpath, False)
-     oe.recipeutils.patch_recipe(rd, fullpath, newvalues)
- 
-@@ -427,6 +451,47 @@ def _check_git_config():
-     if configerr:
-         raise DevtoolError('Your git configuration is incomplete which will prevent rebases from working:\n' + '\n'.join(configerr))
- 
-+def _extract_licenses(srcpath, recipe_licenses):
-+    licenses = []
-+    for url in recipe_licenses.split():
-+        license = {}
-+        (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-+        license['path'] = path
-+        license['md5'] = parm.get('md5', '')
-+        license['beginline'], license['endline'] = 0, 0
-+        if 'beginline' in parm:
-+            license['beginline'] = int(parm['beginline'])
-+        if 'endline' in parm:
-+            license['endline'] = int(parm['endline'])
-+        license['text'] = []
-+        with open(os.path.join(srcpath, path), 'rb') as f:
-+            import hashlib
-+            actual_md5 = hashlib.md5()
-+            lineno = 0
-+            for line in f:
-+                lineno += 1
-+                if (lineno >= license['beginline']) and ((lineno <= license['endline']) or not license['endline']):
-+                    license['text'].append(line.decode(errors='ignore'))
-+                    actual_md5.update(line)
-+        license['actual_md5'] = actual_md5.hexdigest()
-+        licenses.append(license)
-+    return licenses
-+
-+def _generate_license_diff(old_licenses, new_licenses):
-+    need_diff = False
-+    for l in new_licenses:
-+        if l['md5'] != l['actual_md5']:
-+            need_diff = True
-+            break
-+    if need_diff == False:
-+        return None
-+
-+    import difflib
-+    diff = ''
-+    for old, new in zip(old_licenses, new_licenses):
-+        for line in difflib.unified_diff(old['text'], new['text'], old['path'], new['path']):
-+            diff = diff + line
-+    return diff
- 
- def upgrade(args, config, basepath, workspace):
-     """Entry point for the devtool 'upgrade' subcommand"""
-@@ -480,14 +545,18 @@ def upgrade(args, config, basepath, workspace):
-             check_prerelease_version(args.version, 'devtool upgrade')
- 
-         rf = None
-+        license_diff = None
-         try:
-             logger.info('Extracting current version source...')
-             rev1, srcsubdir1 = standard._extract_source(srctree, False, 'devtool-orig', False, config, basepath, workspace, args.fixed_setup, rd, tinfoil, no_overrides=args.no_overrides)
-+            old_licenses = _extract_licenses(srctree, rd.getVar('LIC_FILES_CHKSUM'))
-             logger.info('Extracting upgraded version source...')
-             rev2, md5, sha256, srcbranch, srcsubdir2 = _extract_new_source(args.version, srctree, args.no_patch,
-                                                     args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                                     tinfoil, rd)
--            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd)
-+            new_licenses = _extract_licenses(srctree, rd.getVar('LIC_FILES_CHKSUM'))
-+            license_diff = _generate_license_diff(old_licenses, new_licenses)
-+            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses)
-         except bb.process.CmdError as e:
-             _upgrade_error(e, rf, srctree)
-         except DevtoolError as e:
-@@ -502,6 +571,8 @@ def upgrade(args, config, basepath, workspace):
- 
-         logger.info('Upgraded source extracted to %s' % srctree)
-         logger.info('New recipe is %s' % rf)
-+        if license_diff:
-+            logger.info('License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.')
-     finally:
-         tinfoil.shutdown()
-     return 0
--- 
-2.15.0
-
-
+--OwLcNYc0lM97+oe1--
