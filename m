@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8108A7869E;
-	Tue,  5 Dec 2017 17:02:58 +0000 (UTC)
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BCEBA783AE
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue,  5 Dec 2017 17:51:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB5HpIcV026088
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 5 Dec 2017 09:51:18 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 5 Dec 2017 09:51:17 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Dec 2017 09:51:15 -0800
+Message-ID: <20171205175116.91943-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: =?UTF-8?q?No=C3=A9=20Rubinstein?= <noe.rubinstein@gmail.com>
-Date: Tue, 05 Dec 2017 17:03:00 -0000
-Message-ID: <20171205170300.2787.7356@do.openembedded.org>
-References: <20171205163033.15194-1-noe.rubinstein@softbankrobotics.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171205163033.15194-1-noe.rubinstein@softbankrobotics.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IHdhcm5pbmcgZm9yIG5hdGl2ZXNkayBkaXN0dXRpbHMgcmVjaXBlcw==?=
+Subject: [ PATCH 0/1 ] ovmf: Fix build failure for PARALLEL_MAKE with no space
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +31,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 17:02:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Dec 2017 17:51:17 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Please consider for master and the rocko branch.  It is a simple build
+fix reported by someone using PARALLEL_MAKE = "-j4" instead of PARALLEL_MAKE = "-j 4".
 
-Series: Fix warning for nativesdk distutils recipes
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10080/
-State : failure
+It is the only package that we have hit so far that exhibits this kind of failure
+so it seems it would be best to just fix it.  :-)
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            Fix warning for nativesdk distutils recipes
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-* Patch            Fix warning for nativesdk distutils recipes
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Thanks,
+Jason.
 
