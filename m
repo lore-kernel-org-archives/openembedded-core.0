@@ -1,50 +1,44 @@
-Return-Path: <limon.anibal@gmail.com>
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A995478416
+Return-Path: <msm-oss@mcclintock.net>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AAB878679
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 22:00:42 +0000 (UTC)
-Received: by mail-ot0-f174.google.com with SMTP id y10so4697741otg.10
+	Wed,  6 Dec 2017 22:53:26 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id j124so3159274pfc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Dec 2017 14:00:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MUOoRRsl9OIynCjrZoNOq1jOGBVUYcAdvDxDtbJeqPE=;
-	b=K9Nn47ZNSuuFUsAWM4dfBYLwjLFhb6oHf+HD5uSTMXKi3N8U3KShzIe3l004+mWkSG
-	DyCV1WGIZ2uehnO9nXp4UpcRo/LHRWVUoPU594cFZFU5jry3T8WSkSjfjDGSk7ULcSX6
-	JSalTfAzUwHZolSR/T+bbKk+BYfzBVX1atu9SgT+EbiShxBb1aUqH+00A98z7qGj4+91
-	ckmXIZ5FfEy2yIBHdnqr4qBFZZpVRiNwWinrZpo7LSUN4oUY61og4DgxirccAyy8opW+
-	HBkA7bqxLqemEc0hwkE2opntssB7MuRh3hhOOMfOOY6e+3A9Equ7E7rmlsqt8M6GCrdJ
-	Vrog==
+	Wed, 06 Dec 2017 14:53:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google; h=from:to:subject:date:message-id;
+	bh=PldKEHvR9YmQtWimMASDN+HW7feZ62l9FNrnjhxbuQg=;
+	b=L2+wW40D/lAtjQSvIsob513KEMFJfiH3dp7VzDT5ILUFrMP8CCUZSJCOGaYLq7pbv9
+	txh3CmPYVtyaxFuUqxbJgZQdvXcAFHCnQ8hzMDptCZ5Zz32/YC8nYeh4KLBLneQtOUUd
+	oRaBHZpOuuKTvxaE+/ulv8UBtWY+GL8iD4lCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MUOoRRsl9OIynCjrZoNOq1jOGBVUYcAdvDxDtbJeqPE=;
-	b=Fws8L25J/IbZtLGSCVGfD0aGbijfHNNCO+I8aSVEHjhvxAcp3C3CwiwfzGsI4LvQ8p
-	96zTLWRREeA1/cmAP8mTOLh8fuGkWZ7jwGKIlLeCLZ9zO0VoppjNvV3Q5A2n9wpg8kW8
-	QYu2ZttysX3aOlf0+CMugTT9tBfWUTP7O8tDhbaXwgDmLFqg/7zIG/SvoVpQAm5Wkxhg
-	LBZ2o2BeLeFPD92c69SwADV2iNpPgFl6eOKAdx9fX/qDVKrKdiNkcOz4zGEomdXgl9oD
-	HUrqkr5ix0bL2RkVmKWQwrgi20HZhYk7YoBH3rJxZh6sSKwUlDt1td0m3TGMBLrLfAnv
-	esvA==
-X-Gm-Message-State: AJaThX5mqXA7Q6R+IK4VQUk1LKbmgz2in8TE1gxa3UOLtWXIzp1HP/vO
-	da3kDkVFDua71IkqiLC3poCrIL7p
-X-Google-Smtp-Source: AGs4zMYaapklww42bpkqwGbleiiyPPLQmXrDbgvjofNgvUybupX0zYGgD8yQdCG84dIBkkzfaANfjQ==
-X-Received: by 10.157.52.150 with SMTP id g22mr23681562otc.345.1512597642887; 
-	Wed, 06 Dec 2017 14:00:42 -0800 (PST)
-Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
-	by smtp.gmail.com with ESMTPSA id c125sm14011oia.50.2017.12.06.14.00.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Dec 2017 14:00:41 -0800 (PST)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PldKEHvR9YmQtWimMASDN+HW7feZ62l9FNrnjhxbuQg=;
+	b=rne9YMmZXbk8nFBYY94tyj9ojPveFyqjCAjEzWsH1lbM/DtvFoVtkjbG+2YNUrGJjS
+	X5qd4PngCLFsOJ0Nig7qtchTYDn8LgqOmm9WgggzDJa8+7LSNdCDuKP6OSeqtQ5bIEwJ
+	BNzCdGeMbs0JSKqI+F4ZfKMr2U4B0YAR7UyShVr1sr+P/wOei/v3qASqG9RxCGDywU6T
+	p9eLmDyOaKPErgRkPVrEV0djZm6J9pSxc3aAaenx/Sw1ihgSBsqy6ThUa392hk1dtF/e
+	twZLSlTpllcH5Sav+ea9kXnllAw3GUU02eYfL0EtcriXAR4nmz9Z4gww95KUFhRHhw3U
+	fomw==
+X-Gm-Message-State: AJaThX7C6IyJVM3bc62lMVnXCVBTFTAe7irKPLjHwzMnOK00RbJ9HCKx
+	BcFtqqxYK/PoPrMJKI7IUNUFL/JA
+X-Google-Smtp-Source: AGs4zMasqYgus/tC7sX7QpAxGl5UK/KMMgPU4zbPMzSn3BobMiZDOtGtQy1acDyCSqb2kyNbHwcNFw==
+X-Received: by 10.99.125.81 with SMTP id m17mr22202800pgn.279.1512600802648;
+	Wed, 06 Dec 2017 14:53:22 -0800 (PST)
+Received: from c4.lgirdk.com ([4.16.80.118]) by smtp.gmail.com with ESMTPSA id
+	c79sm6278999pfj.49.2017.12.06.14.53.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Dec 2017 14:53:22 -0800 (PST)
+From: Matthew McClintock <msm-oss@mcclintock.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Dec 2017 16:00:37 -0600
-Message-Id: <20171206220037.32335-1-limon.anibal@gmail.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCHv2] recipes-multimedia/gstreamer: Add gst-validate recipe
+Date: Wed,  6 Dec 2017 14:53:18 -0800
+Message-Id: <20171206225318.1269-1-msm-oss@mcclintock.net>
+X-Mailer: git-send-email 2.14.1
+Subject: [pyro][PATCH] staging.bbclass: handle postinst-useradd-* fixmes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +51,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 22:00:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Dec 2017 22:53:26 -0000
 
-From: Aníbal Limón <anibal.limon@linaro.org>
+From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 
-The gst-validate is a tool to run integration tests of Gstreamer
-components [1].
+After 02457ef7f600ce954874e2d11e74b1c6daaa3bfc, PSEUDO for
+postinst-useradd-* scripts get to use only one PSEUDO_LOCALSTATEDIR
+which is set under recipes ${WORKDIR}.
 
-This tool can be used along with gst-integration-testsuites (scenarios
-and media) [2] to test Gstreamer components on the target device.
+When the those scripts are run in a clean build environment that
+is built from the sstate (populate_sysroot_setscene run for
+postinst-useradd-* providers), pseudo fails to run because it cannot
+access the PSEUDO_LOCALSTATEDIR (recipe ${WORKDIR}s do not exist).
+This triggers a sysroot staging error.
 
-An example of test using gst-integration-testsuites:
+Previously, the PSEUDO_LOCALSTATEDIR setting in useradd.bbclass
+worked because the RSS sstate/staging logic automagically processed
+${STAGING_DIR_TARGET} in postinst-useradd-* scripts to point under
+the sysroot being built.
 
-$ gst-validate-launcher --sync # get [2] uses git and git-annex
-$ gst-validate-launcher
+The fix uses the same fixme processing by adding PSEUDO_LOCALSTATEDIR
+variable to it. Furthermore, LOGFIFO is added to be able to use
+the logging fifo of the recipe that actually runs postinst-useradd-*.
 
-or
-
-$ gst-validate-launcher -nd # needs xserver-xorg-xvfb to run wo DISPLAY
-
-[1]
-https://blogs.gnome.org/tsaunier/2014/04/21/gst-validate-a-suite-of-tools-to-run-integration-tests-for-gstreamer-2/
-[2] https://cgit.freedesktop.org/gstreamer/gst-integration-testsuites
-
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gstreamer/gst-validate_1.12.3.bb                 | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+ meta/classes/staging.bbclass | 2 +-
+ meta/classes/useradd.bbclass | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
-new file mode 100644
-index 0000000000..47f4a260f8
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "Gstreamer validation tool"
-+DESCRIPTION = "A Tool to test GStreamer components"
-+HOMEPAGE = "https://gstreamer.freedesktop.org/releases/gst-validate/1.12.3.html"
-+SECTION = "multimedia"
-+
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
-+
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PN}/${PN}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "623edc479a1e5c1e76bd7e1cf8393253"
-+SRC_URI[sha256sum] = "5139949d20274fdd702492438eeab2c9e55aa82f60aca17db27ebd3faf08489e"
-+
-+DEPENDS = "json-glib glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
-+
-+# to use non display mode in gst-validate-launcher
-+RDEPENDS_${PN} = "xserver-xorg-xvfb" 
-+
-+FILES_${PN} += "${datadir}/gstreamer-1.0/* ${libdir}/gst-validate-launcher/* ${libdir}/gstreamer-1.0/*"
-+
-+inherit pkgconfig gettext autotools gobject-introspection gtk-doc
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index a90cf43c94..984051d6aa 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -249,7 +249,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
+     if not fixme:
+         return
+     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
+-    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR']:
++    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
+         fixme_path = d.getVar(fixmevar)
+         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+     bb.debug(2, cmd)
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 0f51e5522b..0f551b50f3 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -133,9 +133,10 @@ useradd_sysroot () {
+ }
+ 
+ # The export of PSEUDO in useradd_sysroot() above contains references to
+-# ${COMPONENTS_DIR}. These need to be handled when restoring
++# ${COMPONENTS_DIR} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
++# shell functions use ${LOGFIFO}. These need to be handled when restoring
+ # postinst-useradd-${PN} from the sstate cache.
+-EXTRA_STAGING_FIXMES += "COMPONENTS_DIR"
++EXTRA_STAGING_FIXMES += "COMPONENTS_DIR PSEUDO_LOCALSTATEDIR LOGFIFO"
+ 
+ python useradd_sysroot_sstate () {
+     task = d.getVar("BB_CURRENTTASK")
 -- 
-2.11.0
+2.14.1
 
 
