@@ -1,47 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 74E207841A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F64E7866F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 01:35:25 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id o2so1517070pgc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Dec 2017 17:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
-	b=GmnqGyBanP3YWxCwOBcSmw8O2Ty1fpB1IORu256ujXpeYyVm/tY1pIdUMapfSdRtil
-	ca9AQGBP4WHNJ0PCl8vYGbU0oRuVS9hXZv/UiKg/3JBOqrv8u15y1/5VWp5IzkzKVyXD
-	v3J42feoS/jV0p1U3bKf7WQSANeONQCPsyhhXusQOrfQcg4xW8cHemBOLV16b6Ft5O+t
-	pzQUVXqJ/jIdfwNw525s5NgMbyQTegeDdUtKhrQhPVUhYbM4NruqlW9w/Ym7AjkfhR3+
-	nsC3UYKpQzFXrKcfSDs46uxO7ZA81MCC0CwkJAz7lR9c25HHEDj0p7l63v9xi6umr0Es
-	iy5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
-	b=TxgIgL/VWvImGpjp1mAvOLPAC3lq+Ly/GB9NZfVwRWvHSEzR1YFylngCEq3cjFbVg3
-	3uiDDIAMynq+D1DGUcfzy0SkPgJ9ij2AGQeiOTYpI/ILRmOgnaRsnWKnL1rTz5qpVbnI
-	nK30mrhqgv85qYvILLFmx+945HObGQNVZ+YioxTB7VJfWIxU/84eAWlRDgFi91w+sBKD
-	EqJFJzOtbv7PSuBhFA0MH5WL56nKWkjNFkJ2k53nZqzg6o5tnT6JOilaCyBsQx34PnBT
-	/+VWvN2L3G7G9jNK9AeBxup6ERXblt5wWW56WC6sRX3BuN/6F+8sAfSGMpGkMmN74Jsj
-	KnMw==
-X-Gm-Message-State: AJaThX7K4ONo2ehzu26B7VdnV5v0FXgHh5uVSBZcA+8fpVxGbMir4JpB
-	Doyf2yBxzxpu9MNycr+n8YwYmw==
-X-Google-Smtp-Source: AGs4zMaBSU5NMbiyifY2fRYTnowquDDS0gFPlGYLc95+Ls7jJz7DumbNEu1ZTJdHSO/cuFIYMl0vfQ==
-X-Received: by 10.101.77.210 with SMTP id q18mr15364031pgt.145.1512524126894; 
-	Tue, 05 Dec 2017 17:35:26 -0800 (PST)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	t84sm1673958pfe.160.2017.12.05.17.35.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 05 Dec 2017 17:35:25 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Dec 2017 17:35:20 -0800
-Message-Id: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+	Wed,  6 Dec 2017 01:36:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB61a1Qx004552
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 5 Dec 2017 17:36:01 -0800
+Received: from [128.224.162.167] (128.224.162.167) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 5 Dec 2017 17:36:01 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1512383059.git.Qi.Chen@windriver.com>
+	<6738f34a7fff628636b703f8534af6feb55b099d.1512383059.git.Qi.Chen@windriver.com>
+	<CAJTo0LaWUqqkY+cv6jScjgpDoEqPttyhZnKQZOYW4=D6DEsDQA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <a2f40484-749f-72af-4ef8-b8a5a1e8edb2@windriver.com>
+Date: Wed, 6 Dec 2017 09:37:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaWUqqkY+cv6jScjgpDoEqPttyhZnKQZOYW4=D6DEsDQA@mail.gmail.com>
+X-Originating-IP: [128.224.162.167]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] coreutils: upgrade to 8.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +37,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 01:35:26 -0000
+X-List-Received-Date: Wed, 06 Dec 2017 01:36:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------9EA335A97840EC9410434838"
 
-From: Ming Liu <liu.ming50@gmail.com>
+--------------9EA335A97840EC9410434838
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
-the default terminal, when I run any of the tasks:
-bitbake busybox -c menuconfig/devshell/devpyshell
-bitbake virtual/kernel -c menuconfig/devshell/devpyshell
-
-I got a error as follows:
-"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
-
-Seems the environment of the process calling Popen is not passed to the
-child process, this behaviour is a known issue in Python bug tracker:
-http://bugs.python.org/issue8557
-
-It could be fixed by using an absolute path instead per test.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/lib/oe/terminal.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 3c8ef59..df4c75b 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -67,7 +67,7 @@ class Gnome(XTerminal):
-         import tempfile
-         pidfile = tempfile.NamedTemporaryFile(delete = False).name
-         try:
--            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
-+            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
-             XTerminal.__init__(self, sh_cmd, title, env, d)
-             while os.stat(pidfile).st_size <= 0:
-                 continue
--- 
-1.9.1
+On 12/05/2017 07:38 PM, Burton, Ross wrote:
+> Looks like this fails on hosts with older makeinfo:
+>
+> http://errors.yoctoproject.org/Errors/Details/160224/
+>
+> Ross
+>
 
 
+I'll find a CentOS7 host and try to reproduce and fix this problem.
+
+Best Regards,
+Chen Qi
+
+> On 4 December 2017 at 10:25, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
+>     <mailto:Qi.Chen@windriver.com>>
+>     ---
+>      .../coreutils/{coreutils_8.27.bb <http://coreutils_8.27.bb> =>
+>     coreutils_8.28.bb <http://coreutils_8.28.bb>}         | 8 ++++----
+>      1 file changed, 4 insertions(+), 4 deletions(-)
+>      rename meta/recipes-core/coreutils/{coreutils_8.27.bb
+>     <http://coreutils_8.27.bb> => coreutils_8.28.bb
+>     <http://coreutils_8.28.bb>} (95%)
+>
+>     diff --git a/meta/recipes-core/coreutils/coreutils_8.27.bb
+>     <http://coreutils_8.27.bb>
+>     b/meta/recipes-core/coreutils/coreutils_8.28.bb
+>     <http://coreutils_8.28.bb>
+>     similarity index 95%
+>     rename from meta/recipes-core/coreutils/coreutils_8.27.bb
+>     <http://coreutils_8.27.bb>
+>     rename to meta/recipes-core/coreutils/coreutils_8.28.bb
+>     <http://coreutils_8.28.bb>
+>     index ea8740a..0543ceb 100644
+>     --- a/meta/recipes-core/coreutils/coreutils_8.27.bb
+>     <http://coreutils_8.27.bb>
+>     +++ b/meta/recipes-core/coreutils/coreutils_8.28.bb
+>     <http://coreutils_8.28.bb>
+>     @@ -23,10 +23,10 @@ SRC_URI =
+>     "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
+>                 file://0001-local.mk-fix-cross-compiling-problem.patch \
+>                "
+>
+>     -SRC_URI[tarball.md5sum] = "502795792c212932365e077946d353ae"
+>     -SRC_URI[tarball.sha256sum] =
+>     "8891d349ee87b9ff7870f52b6d9312a9db672d2439d289bc57084771ca21656b"
+>     -SRC_URI[manpages.md5sum] = "1b31a688d06764e0e94aa20b7ea08222"
+>     -SRC_URI[manpages.sha256sum] =
+>     "1f615819e9167646c731636b6c5ecbe79837e82a18666bacc82c3fb1dfcfaea3"
+>     +SRC_URI[tarball.md5sum] = "e7cb20d0572cc40d9f47ede6454406d1"
+>     +SRC_URI[tarball.sha256sum] =
+>     "1117b1a16039ddd84d51a9923948307cfa28c2cea03d1a2438742253df0a0c65"
+>     +SRC_URI[manpages.md5sum] = "3a7c626aad1c9077f254e5c2553a2f60"
+>     +SRC_URI[manpages.sha256sum] =
+>     "d72c3fa79ae328a4fd1107102e8946755aa2e908044e1efcf1e71ef206dca042"
+>
+>      EXTRA_OECONF_class-native = "--without-gmp"
+>      EXTRA_OECONF_class-target = "--enable-install-program=arch
+>     --libexecdir=${libdir}"
+>     --
+>     1.9.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+
+
+--------------9EA335A97840EC9410434838
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 12/05/2017 07:38 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaWUqqkY+cv6jScjgpDoEqPttyhZnKQZOYW4=D6DEsDQA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">Looks like this fails on hosts with older makeinfo:
+        <div><br>
+        </div>
+        <div><a moz-do-not-send="true"
+            href="http://errors.yoctoproject.org/Errors/Details/160224/">http://errors.yoctoproject.org/Errors/Details/160224/</a><br>
+        </div>
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    I'll find a CentOS7 host and try to reproduce and fix this problem.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaWUqqkY+cv6jScjgpDoEqPttyhZnKQZOYW4=D6DEsDQA@mail.gmail.com"
+      type="cite">
+      <div class="gmail_extra">
+        <div class="gmail_quote">On 4 December 2017 at 10:25, Chen Qi <span
+            dir="ltr">&lt;<a moz-do-not-send="true"
+              href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by:
+            Chen Qi &lt;<a moz-do-not-send="true"
+              href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
+            ---<br>
+             .../coreutils/{<a moz-do-not-send="true"
+              href="http://coreutils_8.27.bb" rel="noreferrer"
+              target="_blank">coreutils_8.27.<wbr>bb</a> =&gt; <a
+              moz-do-not-send="true" href="http://coreutils_8.28.bb"
+              rel="noreferrer" target="_blank">coreutils_8.28.bb</a>}   
+                    | 8 ++++----<br>
+             1 file changed, 4 insertions(+), 4 deletions(-)<br>
+             rename meta/recipes-core/coreutils/{<a
+              moz-do-not-send="true" href="http://coreutils_8.27.bb"
+              rel="noreferrer" target="_blank">c<wbr>oreutils_8.27.bb</a>
+            =&gt; <a moz-do-not-send="true"
+              href="http://coreutils_8.28.bb" rel="noreferrer"
+              target="_blank">coreutils_8.28.bb</a>} (95%)<br>
+            <br>
+            diff --git a/meta/recipes-core/coreutils/<a
+              moz-do-not-send="true" href="http://coreutils_8.27.bb"
+              rel="noreferrer" target="_blank"><wbr>coreutils_8.27.bb</a>
+            b/meta/recipes-core/coreutils/<a moz-do-not-send="true"
+              href="http://coreutils_8.28.bb" rel="noreferrer"
+              target="_blank"><wbr>coreutils_8.28.bb</a><br>
+            similarity index 95%<br>
+            rename from meta/recipes-core/coreutils/<a
+              moz-do-not-send="true" href="http://coreutils_8.27.bb"
+              rel="noreferrer" target="_blank">co<wbr>reutils_8.27.bb</a><br>
+            rename to meta/recipes-core/coreutils/<a
+              moz-do-not-send="true" href="http://coreutils_8.28.bb"
+              rel="noreferrer" target="_blank">co<wbr>reutils_8.28.bb</a><br>
+            index ea8740a..0543ceb 100644<br>
+            --- a/meta/recipes-core/coreutils/<a moz-do-not-send="true"
+              href="http://coreutils_8.27.bb" rel="noreferrer"
+              target="_blank"><wbr>coreutils_8.27.bb</a><br>
+            +++ b/meta/recipes-core/coreutils/<a moz-do-not-send="true"
+              href="http://coreutils_8.28.bb" rel="noreferrer"
+              target="_blank"><wbr>coreutils_8.28.bb</a><br>
+            @@ -23,10 +23,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}<wbr>.tar.xz;name=tarball
+            \<br>
+                        <a class="moz-txt-link-freetext" href="file://0001-local.mk-fix">file://0001-local.mk-fix</a>-<wbr>cross-compiling-problem.patch
+            \<br>
+                       "<br>
+            <br>
+            -SRC_URI[tarball.md5sum] = "<wbr>502795792c212932365e077946d353<wbr>ae"<br>
+            -SRC_URI[tarball.sha256sum] = "<wbr>8891d349ee87b9ff7870f52b6d9312<wbr>a9db672d2439d289bc57084771ca21<wbr>656b"<br>
+            -SRC_URI[manpages.md5sum] = "<wbr>1b31a688d06764e0e94aa20b7ea082<wbr>22"<br>
+            -SRC_URI[manpages.sha256sum] = "<wbr>1f615819e9167646c731636b6c5ecb<wbr>e79837e82a18666bacc82c3fb1dfcf<wbr>aea3"<br>
+            +SRC_URI[tarball.md5sum] = "<wbr>e7cb20d0572cc40d9f47ede6454406<wbr>d1"<br>
+            +SRC_URI[tarball.sha256sum] = "<wbr>1117b1a16039ddd84d51a992394830<wbr>7cfa28c2cea03d1a2438742253df0a<wbr>0c65"<br>
+            +SRC_URI[manpages.md5sum] = "<wbr>3a7c626aad1c9077f254e5c2553a2f<wbr>60"<br>
+            +SRC_URI[manpages.sha256sum] = "<wbr>d72c3fa79ae328a4fd1107102e8946<wbr>755aa2e908044e1efcf1e71ef206dc<wbr>a042"<br>
+            <br>
+             EXTRA_OECONF_class-native = "--without-gmp"<br>
+             EXTRA_OECONF_class-target = "--enable-install-program=arch
+            --libexecdir=${libdir}"<br>
+            <span class="HOEnZb"><font color="#888888">--<br>
+                1.9.1<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a moz-do-not-send="true"
+                  href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a moz-do-not-send="true"
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </font></span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------9EA335A97840EC9410434838--
