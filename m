@@ -1,29 +1,47 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F093960103
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E207841A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Dec 2017 23:53:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB5Nr3fu029127
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Dec 2017 15:53:03 -0800 (PST)
-Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 5 Dec 2017 15:53:01 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1511849598-21661-1-git-send-email-yi.zhao@windriver.com>
-	<CAJTo0LY4jzykDKeZtD7Z7qqr1JQz36K97E6dvzr0ZXBGeDEbjg@mail.gmail.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <74d7650c-ca45-c292-b443-583ec7fc27da@windriver.com>
-Date: Wed, 6 Dec 2017 07:51:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY4jzykDKeZtD7Z7qqr1JQz36K97E6dvzr0ZXBGeDEbjg@mail.gmail.com>
-X-Originating-IP: [128.224.162.134]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] icu: fix libicudata corruption on big endian system
+	Wed,  6 Dec 2017 01:35:25 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id o2so1517070pgc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Dec 2017 17:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
+	b=GmnqGyBanP3YWxCwOBcSmw8O2Ty1fpB1IORu256ujXpeYyVm/tY1pIdUMapfSdRtil
+	ca9AQGBP4WHNJ0PCl8vYGbU0oRuVS9hXZv/UiKg/3JBOqrv8u15y1/5VWp5IzkzKVyXD
+	v3J42feoS/jV0p1U3bKf7WQSANeONQCPsyhhXusQOrfQcg4xW8cHemBOLV16b6Ft5O+t
+	pzQUVXqJ/jIdfwNw525s5NgMbyQTegeDdUtKhrQhPVUhYbM4NruqlW9w/Ym7AjkfhR3+
+	nsC3UYKpQzFXrKcfSDs46uxO7ZA81MCC0CwkJAz7lR9c25HHEDj0p7l63v9xi6umr0Es
+	iy5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=N7I7SMcLLVZgtgX4XLKt10WOZ7Rx7TkzZVT6iDDlunA=;
+	b=TxgIgL/VWvImGpjp1mAvOLPAC3lq+Ly/GB9NZfVwRWvHSEzR1YFylngCEq3cjFbVg3
+	3uiDDIAMynq+D1DGUcfzy0SkPgJ9ij2AGQeiOTYpI/ILRmOgnaRsnWKnL1rTz5qpVbnI
+	nK30mrhqgv85qYvILLFmx+945HObGQNVZ+YioxTB7VJfWIxU/84eAWlRDgFi91w+sBKD
+	EqJFJzOtbv7PSuBhFA0MH5WL56nKWkjNFkJ2k53nZqzg6o5tnT6JOilaCyBsQx34PnBT
+	/+VWvN2L3G7G9jNK9AeBxup6ERXblt5wWW56WC6sRX3BuN/6F+8sAfSGMpGkMmN74Jsj
+	KnMw==
+X-Gm-Message-State: AJaThX7K4ONo2ehzu26B7VdnV5v0FXgHh5uVSBZcA+8fpVxGbMir4JpB
+	Doyf2yBxzxpu9MNycr+n8YwYmw==
+X-Google-Smtp-Source: AGs4zMaBSU5NMbiyifY2fRYTnowquDDS0gFPlGYLc95+Ls7jJz7DumbNEu1ZTJdHSO/cuFIYMl0vfQ==
+X-Received: by 10.101.77.210 with SMTP id q18mr15364031pgt.145.1512524126894; 
+	Tue, 05 Dec 2017 17:35:26 -0800 (PST)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	t84sm1673958pfe.160.2017.12.05.17.35.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Dec 2017 17:35:25 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Dec 2017 17:35:20 -0800
+Message-Id: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,152 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Dec 2017 23:53:08 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F913B2BE2CE7A22EFABAF243"
-Content-Language: en-US
+X-List-Received-Date: Wed, 06 Dec 2017 01:35:26 -0000
 
---------------F913B2BE2CE7A22EFABAF243
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Ming Liu <liu.ming50@gmail.com>
 
+A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
+the default terminal, when I run any of the tasks:
+bitbake busybox -c menuconfig/devshell/devpyshell
+bitbake virtual/kernel -c menuconfig/devshell/devpyshell
 
-I had sent V2 patch to fix this issue.
+I got a error as follows:
+"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
 
+Seems the environment of the process calling Popen is not passed to the
+child process, this behaviour is a known issue in Python bug tracker:
+http://bugs.python.org/issue8557
 
-//Yi
+It could be fixed by using an absolute path instead per test.
 
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-在 2017年12月05日 19:44, Burton, Ross 写道:
-> On 28 November 2017 at 06:13, Yi Zhao <yi.zhao@windriver.com 
-> <mailto:yi.zhao@windriver.com>> wrote:
->
->     ICU library libicudata is created with a wrong endianness if the host
->     and target have different endianness. (e.g. build ICU for qemuppc on
->     x86-64 host)
->     See upstream bug report:
->     http://bugs.icu-project.org/trac/ticket/11758
->     <http://bugs.icu-project.org/trac/ticket/11758>
->
->     The discussion in oe-core mailing list:
->     https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg65155.html
->     <https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg65155.html>
->
->     The root cause is the native pkgdata can not generate correct icu data
->     for different endianness. By default, this data is built into the
->     shared
->     library libicudata that would cause it corrupt. But ICU also provides
->     additional options for loading the data. With option
->     --with-data-packaging=archive, ICU outputs a single icudt.dat file
->     which
->     can be loaded by the library.
->     See document: http://userguide.icu-project.org/icudata
->     <http://userguide.icu-project.org/icudata>
->
->     So for big endian system, we can use the separated data file which
->     re-generates by icupkg and set the correct ICU_DATA environment
->     variable
->     to make sure the library can load the data without problems.
->
->
-> Fails on various builds on the AB:
->
-> icupkg: unable to open input file 
-> "TOPDIR/tmp/work/ppc7400-poky-linux/icu/60.1-r0/icu/source/data/in/icudt59l.dat" 
->
->
-> http://errors.yoctoproject.org/Errors/Latest/?filter=%20icu:%20do_install&type=failure
->
-> Ross
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 3c8ef59..df4c75b 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -67,7 +67,7 @@ class Gnome(XTerminal):
+         import tempfile
+         pidfile = tempfile.NamedTemporaryFile(delete = False).name
+         try:
+-            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
++            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
+             XTerminal.__init__(self, sh_cmd, title, env, d)
+             while os.stat(pidfile).st_size <= 0:
+                 continue
+-- 
+1.9.1
 
 
---------------F913B2BE2CE7A22EFABAF243
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <p>I had sent V2 patch to fix this issue.</p>
-    <p><br>
-    </p>
-    <p>//Yi<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">在 2017年12月05日 19:44, Burton, Ross 写道:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LY4jzykDKeZtD7Z7qqr1JQz36K97E6dvzr0ZXBGeDEbjg@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">On 28 November 2017 at 06:13, Yi Zhao <span
-          dir="ltr">&lt;<a href="mailto:yi.zhao@windriver.com"
-            target="_blank" moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;</span>
-        wrote:<br>
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">ICU
-              library libicudata is created with a wrong endianness if
-              the host<br>
-              and target have different endianness. (e.g. build ICU for
-              qemuppc on<br>
-              x86-64 host)<br>
-              See upstream bug report: <a
-                href="http://bugs.icu-project.org/trac/ticket/11758"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://bugs.icu-project.org/<wbr>trac/ticket/11758</a><br>
-              <br>
-              The discussion in oe-core mailing list:<br>
-              <a
-href="https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg65155.html"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">https://www.mail-archive.com/<wbr>openembedded-core@lists.<wbr>openembedded.org/msg65155.html</a><br>
-              <br>
-              The root cause is the native pkgdata can not generate
-              correct icu data<br>
-              for different endianness. By default, this data is built
-              into the shared<br>
-              library libicudata that would cause it corrupt. But ICU
-              also provides<br>
-              additional options for loading the data. With option<br>
-              --with-data-packaging=archive, ICU outputs a single
-              icudt.dat file which<br>
-              can be loaded by the library.<br>
-              See document: <a
-                href="http://userguide.icu-project.org/icudata"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://userguide.icu-project.<wbr>org/icudata</a><br>
-              <br>
-              So for big endian system, we can use the separated data
-              file which<br>
-              re-generates by icupkg and set the correct ICU_DATA
-              environment variable<br>
-              to make sure the library can load the data without
-              problems.<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Fails on various builds on the AB:</div>
-            <div><br>
-              icupkg: unable to open input file
-"TOPDIR/tmp/work/ppc7400-poky-linux/icu/60.1-r0/icu/source/data/in/icudt59l.dat" <br>
-            </div>
-            <div><br>
-            </div>
-            <div><a
-href="http://errors.yoctoproject.org/Errors/Latest/?filter=%20icu:%20do_install&amp;type=failure"
-                moz-do-not-send="true">http://errors.yoctoproject.org/Errors/Latest/?filter=%20icu:%20do_install&amp;type=failure</a><br>
-            </div>
-            <div><br>
-            </div>
-            <div>Ross</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F913B2BE2CE7A22EFABAF243--
