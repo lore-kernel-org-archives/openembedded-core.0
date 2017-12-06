@@ -1,18 +1,52 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AB3F6FFD8;
-	Wed,  6 Dec 2017 20:00:52 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 369F778416
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Dec 2017 21:38:46 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id b5so9890770itc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Dec 2017 13:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=Mb30wXt0cB6zEGWCpluD04nvVcccdM4Xndfk0xqYeVQ=;
+	b=yLDD+mDxe84GoIerUjeDmGAmkZ5eMT7g7sRprhaJEO8dwV2z/Z/RiNQnbu+KzB7huO
+	xPODuo3t+E6CsrScrbJvTFVZY6KNG8U0rlmFUTtKcOUZXRsY3rlbEOcaMs+0fFqIw9Aq
+	jsuJx94syckW8JePUxPFZvV+fIsesFcVbNPWDWl3cpJM3Ra6WGNnJkc//FEg9GT7eSFT
+	nt4KR0bfrTZPseVP6hpXakLzyg5gNy4ZusWd9oWgqOGaFVrYo/jkvvHGgVnLqdqbPpV6
+	HDZUGT9fvtBX66xXWfMItanZlNQlHoqjGGD1hImpEaPn4c/T4msV2x17fvJsQGwBrGOy
+	A1Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=Mb30wXt0cB6zEGWCpluD04nvVcccdM4Xndfk0xqYeVQ=;
+	b=R5DvxIkvD5yu8ZxtEIGWdXFf7/hbR/EHaLQz3zSifRLG2SWVhF0X4U9yir3C24sUbA
+	9AaoO7+xNz5/bL4kKS1GLsZC02xEqQGuPbVlehfZhOUQcija7ZUtY8Ah2b5tZ5d425G4
+	jObwvQZ2IeE9/BTrQtxF2diEDPBGZ1/bReILrFWxa1NU+zoeDdicMdERq7dAUWg0fG5Z
+	wzOohM4EiB+VPYMVlnnIYKerLalM2+OyV6ySWrTqdNogJhbHYmcJvXPyyw9gsDexTUxh
+	m3HQUk8D7NXccN0P/sXWs6Y5PNB6ufun6DUSIMfH7V6rZJHxE9ZqEUX0+HgtbShc/ehb
+	Crtg==
+X-Gm-Message-State: AKGB3mLZdpWYd+AFIQOl1WrBhsqqxU9YAEbQ8NgnILxghpoFmDYHjh9A
+	sYJtga00jWKDhg/fDIrZH94HTBvO8ucr7kG2BmzUNxOH
+X-Google-Smtp-Source: AGs4zMaBOemgPYTojGgzsvU6lpJxfZJbBdNN9mWsiUK2vYH1CVrN1hRRglAZ3lb6agdlW0LeZ1e6MD+ViGOU7R/yx+Y=
+X-Received: by 10.36.162.65 with SMTP id o1mr24105216iti.85.1512596327875;
+	Wed, 06 Dec 2017 13:38:47 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 06 Dec 2017 20:00:54 -0000
-Message-ID: <20171206200054.2786.51668@do.openembedded.org>
-References: <20171206194628.1901-1-JPEWhacker@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171206194628.1901-1-JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZTogSW5jbHVkZSBsb2NhbGVfdC5o?=
+Received: by 10.107.137.195 with HTTP; Wed, 6 Dec 2017 13:38:27 -0800 (PST)
+In-Reply-To: <CAJTo0LamaocQdf-kAKHw-0OZs7ZZ4uMfV598cJiJxFV+R=PaBA@mail.gmail.com>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
+	<CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
+	<20171204153001.enqgfe27iapaoftl@axis.com>
+	<CAJTo0LamaocQdf-kAKHw-0OZs7ZZ4uMfV598cJiJxFV+R=PaBA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 Dec 2017 21:38:27 +0000
+Message-ID: <CAJTo0LYemQ16EavmwCLa4PYZQHbg12BSDgiCEZomx1YSRV7Rwg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	Olof Johansson <olof.johansson@axis.com>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +59,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 20:00:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Dec 2017 21:38:47 -0000
+Content-Type: multipart/alternative; boundary="f403045fbd84cffab0055fb2c65f"
 
-== Series Details ==
+--f403045fbd84cffab0055fb2c65f
+Content-Type: text/plain; charset="UTF-8"
 
-Series: cross-localedef-native: Include locale_t.h
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10101/
-State : failure
+If you are looking at this then you'll want to pull my branch again as I
+just pushed a few fixes to make ARM binaries actually work.
 
-== Summary ==
+Also, a prototype "is this binary stripped" function would be:
 
+elf = oe.elf.Elf.from_file(sys.argv[1])
+for h in elf.header.section_headers:
+    if h.type == oe.elf.Elf.ShType.progbits and h.name == ".debug_info":
+        return False
+return True
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+If you're not working on this yet, please say, as I'll probably have a look
+this week.
 
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch)
-
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why 0001-Include-locale_t.h-compatibility-header.patch is inappropriate
-  Current          Upstream-Status: Inappropriate
-  Standard format  Upstream-Status: Inappropriate [reason]
+Ross
 
 
+On 4 December 2017 at 15:33, Burton, Ross <ross.burton@intel.com> wrote:
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+> On 4 December 2017 at 15:30, Olof Johansson <olof.johansson@axis.com>
+> wrote:
+>
+>> On 17-12-04 12:36 +0000, Burton, Ross wrote:
+>> > You might be interested in some of the patches I've got sitting in
+>> > http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=ross/mutb
+>> > specifically around "Add new ELF parser".  This adds a fully-featured
+>> > Python ELF parser to lib/oe which could be used to inspect the binaries
+>> the
+>> > way file does, but without having to call and parse the output of file.
+>>
+>> Oh, that's awesome. Please disregard v1 of my patch series, and
+>> I'll try to adapt package.bbclass and lib/oe/package.py to make
+>> use of your changes and see what happens. Thanks!
+>>
+>
+> Hopefully to get what you want out of it doesn't involve too much pain...
+>
+> I still need to finish the series of to get it ready for merging, but I've
+> just pushed a new branch ross/elf to poky-contrib which has just the
+> patches.  As I clean it up I'll force push there, so feel free to
+> track/rebase/send improvements.
+>
+> Ross
+>
 
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+--f403045fbd84cffab0055fb2c65f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">If you are looking at this then you&#39;ll want to pull my=
+ branch again as I just pushed a few fixes to make ARM binaries actually wo=
+rk.<div><br></div><div>Also, a prototype &quot;is this binary stripped&quot=
+; function would be:</div><div><br></div><div><div>elf =3D oe.elf.Elf.from_=
+file(sys.argv[1])<br></div><div>for h in elf.header.section_headers:</div><=
+div>=C2=A0 =C2=A0 if h.type =3D=3D oe.elf.Elf.ShType.progbits and <a href=
+=3D"http://h.name">h.name</a> =3D=3D &quot;.debug_info&quot;:</div><div>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return False</div><div>return True</div></div><div=
+><br></div><div>If you&#39;re not working on this yet, please say, as I&#39=
+;ll probably have a look this week.</div><div><br></div><div>Ross</div><div=
+><br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 December 2017 at 15:33, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><span c=
+lass=3D"">On 4 December 2017 at 15:30, Olof Johansson <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:olof.johansson@axis.com" target=3D"_blank">olof.johansso=
+n@axis.com</a>&gt;</span> wrote:<br></span><div class=3D"gmail_extra"><div =
+class=3D"gmail_quote"><span class=3D""><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span=
+>On 17-12-04 12:36 +0000, Burton, Ross wrote:<br>
+&gt; You might be interested in some of the patches I&#39;ve got sitting in=
+<br>
+&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/=
+?h=3Dross/mutb" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoprojec=
+t.org/cg<wbr>it/cgit.cgi/poky-contrib/log/?<wbr>h=3Dross/mutb</a><br>
+&gt; specifically around &quot;Add new ELF parser&quot;.=C2=A0 This adds a =
+fully-featured<br>
+&gt; Python ELF parser to lib/oe which could be used to inspect the binarie=
+s the<br>
+&gt; way file does, but without having to call and parse the output of file=
+.<br>
+<br>
+</span>Oh, that&#39;s awesome. Please disregard v1 of my patch series, and<=
+br>
+I&#39;ll try to adapt package.bbclass and lib/oe/package.py to make<br>
+use of your changes and see what happens. Thanks!<br></blockquote><div><br>=
+</div></span><div>Hopefully to get what you want out of it doesn&#39;t invo=
+lve too much pain...</div><div><br></div><div>I still need to finish the se=
+ries of to get it ready for merging, but I&#39;ve just pushed a new branch =
+ross/elf to poky-contrib which has just the patches.=C2=A0 As I clean it up=
+ I&#39;ll force push there, so feel free to track/rebase/send improvements.=
+</div><span class=3D"HOEnZb"><font color=3D"#888888"><div><br></div><div>Ro=
+ss=C2=A0</div></font></span></div></div></div>
+</blockquote></div><br></div>
 
+--f403045fbd84cffab0055fb2c65f--
