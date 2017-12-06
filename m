@@ -1,48 +1,49 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C01786D9
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E121D7871D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 09:43:31 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id k134so1973249pga.3
+	Wed,  6 Dec 2017 09:43:59 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id d23so2031192pfe.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Dec 2017 01:43:33 -0800 (PST)
+	Wed, 06 Dec 2017 01:44:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:from:to:cc:subject:mime-version
 	:content-transfer-encoding;
-	bh=HizPG0ODRk8k61i8nXY5JY00pzDixq7lJkay95kPpkE=;
-	b=JLzbo/kSTgmQFRFYSQD1uw+N2jAjGWXeQW/cw77Z0lTRWDBRZck5Btnx5JQpTlkRcL
-	FtYaBeM6SPDbzEn+ksQbMM7PXkM6LG6UXKg3/d2b9jFijDazfeJ3rcGM4wx71P52avU2
-	JxLFbx6aRxRQdd/zPkJWZtMV1AR25q7IQ8M3GGQcBnS34o+0CEGqShs/LTDCJMO0SiNf
-	nRzEqQeFknyiVtRxIQK6CiGapLzdA9/20/menQIS5kEJQKMMA9poSo194mKpD+7sgEOS
-	rKe4xTcV0T9+ApBAlnSElvJvmM32XM+RkrA7MsJIdubPMyvvN6/NtY8iQs3YZU5J+Afx
-	LljQ==
+	bh=tbkD0w/JENDgtXS3Z0rmSd6Wivts1Z2VUsVBwnoI9uU=;
+	b=D7KWfUdfHJZjCiasCjiCA+D3PS3KWQF+CTbYrCaZ2TKqV6SnICyTj4B5JwV7paFfmp
+	It0a+U6TD1DgHtukCLICcKaJjxyajEXw/CxjE9dMZwLzreC3DhQd6+1wn8bipPpiQO4+
+	sDYXsrrV8UJdShMp8R55r2jYK5dfUhyBtZcxE+m5g4usvyAJQD9ORfJXxR+QTHnp+1eC
+	uNJtV6awWiFJmeKSQmvFmrVNddkozWxSP7BnpRL4la5Ou0vkRBzoazmUP/ucUZ5en8a9
+	Jq+amoQh6csFoVIRMU+AbEGZ2aaOduLvULQMizMnXZsr3uGkvy7+O3SDvAZn2thalr/5
+	AOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
 	:content-transfer-encoding;
-	bh=HizPG0ODRk8k61i8nXY5JY00pzDixq7lJkay95kPpkE=;
-	b=QNheKmd1efHKRHNf+/4DGplPGuu0TU4zTjknGizVDYmdsBTfcwCF6Kvf/ETx88nn59
-	RaP+wBvkoXzotEVn3EWOMS14s+vFGR73gg/ncwdmCzEAow8Aj4fYslQ2cPAvwFBTEuqm
-	OVYWEdSfbUwVMEGurf9mAg8ZXM2+G3tbCeVgRnxN1p8O3lqEGz30ZZmZM0ZioR6A47WB
-	+A/3FWEYFEd8zWoInSvCW8mREd/ujgW6Qx0iyCUYbdT2aEv4MaAMA9vl5j1LFhp19jcH
-	fORPETBj6c0mVKFQCuhdxNRTQhOSHCwBoTrsBqD4lyPaPoDNjjGuQIuXWbczyGsMUlfn
-	SpMw==
-X-Gm-Message-State: AKGB3mKoqsAhLUDAmXmjxy04uGiU6g3M/ZA9TiIP0Tt14k482VITKgFm
-	+0i1K85JSGiJPbhHERmDPDwBr7PJTSU=
-X-Google-Smtp-Source: AGs4zMbiDPsg9etyK3wNYFUHGmk5Jy2OCyaxMMR2k4KD37b39T49gQPu47FEbiwbYdDGBmZd/byEew==
-X-Received: by 10.98.38.66 with SMTP id m63mr2213904pfm.0.1512553413068;
-	Wed, 06 Dec 2017 01:43:33 -0800 (PST)
+	bh=tbkD0w/JENDgtXS3Z0rmSd6Wivts1Z2VUsVBwnoI9uU=;
+	b=aBlsgIgc7yw7vvufDn/0evfBGSpW04pj0Ve/uWnnJfxIntq02kNKcBR8SnjY/oxmeG
+	hoSx6di+srPnm6JF0HzM7vFwDGhCQQFgOCr30aDhOkZazBwXIkZV2qi2qmVnXt0TQtIN
+	EVvgxjJDg2n0yFVZSWFgJiNGW1r5aVy2MX1EDtsTqG5bc9FNAeXZSq02kbC+HDkQYFKB
+	ZOgsqYP9pO/cqw7RTMIOISoQ5SH7/C4T44qWlx7GF8Gn17PLORCiRMSjEsaeQFRT2D5O
+	VzpnI1ThoAN9BITb54fyTtPn5XlCSGGZclLwI9An8S9oClCaWc9UQT+iWDHTg31vEeXH
+	Ml2A==
+X-Gm-Message-State: AJaThX6Qa43Ov5weLOqz+2QS+/yLDCk601YvZJGp1V1caxcflPlLNy36
+	z9HsxUOnUhSYr5fdfOVM1dejKaNMHbU=
+X-Google-Smtp-Source: AGs4zMY4e5+ch3vZb1kNRsGIdmq7ELhqzbvBOfazPIvPFUpAhpFcrypDqH6Hi8egCalVtvTsFu0PzQ==
+X-Received: by 10.99.106.67 with SMTP id f64mr18751344pgc.453.1512553440959;
+	Wed, 06 Dec 2017 01:44:00 -0800 (PST)
 Received: from [127.0.1.1] ([58.165.131.151]) by smtp.gmail.com with ESMTPSA id
-	j62sm3222339pgc.35.2017.12.06.01.43.31
+	x15sm3554094pfh.27.2017.12.06.01.43.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Dec 2017 01:43:32 -0800 (PST)
-Date: Wed, 06 Dec 2017 19:43:28 +1000
-Message-Id: <20171206094328.23072-1-nathan@nathanrossi.com>
+	Wed, 06 Dec 2017 01:44:00 -0800 (PST)
+Date: Wed, 06 Dec 2017 19:43:56 +1000
+Message-Id: <20171206094356.23202-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH] packagegroup-core-sdk: Disable SANITIZERS for MicroBlaze
+Subject: [PATCH] packagegroup-core-tools-testapps: kexec does not support MicroBlaze
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 09:43:32 -0000
+X-List-Received-Date: Wed, 06 Dec 2017 09:44:00 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-The libasan and libubsan sanitizers are not available for MicroBlaze.
-Follow the overriding of the SANITIZERS variable as done for other
-architectures to remove these from the packagegroup when targeting
-MicroBlaze.
+The kexec-tools do not currently support MicroBlaze, override the
+KEXECTOOLS variable to disable the inclusion of these tools in the
+packagegroup.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index af0ce2013e..393f0d3d13 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -28,6 +28,7 @@ RDEPENDS_packagegroup-core-sdk = "\
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index 317097854f..0d2da86613 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -10,9 +10,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
- SANITIZERS = "libasan-dev libubsan-dev"
- SANITIZERS_aarch64 = ""
-+SANITIZERS_microblaze = ""
- SANITIZERS_mipsarch = ""
- SANITIZERS_nios2 = ""
- SANITIZERS_powerpc64 = ""
+ inherit packagegroup
+ 
+-# kexec-tools doesn't work on e5500-64b and nios2 yet
++# kexec-tools doesn't work on e5500-64b, microblaze and nios2 yet
+ KEXECTOOLS ?= "kexec"
+ KEXECTOOLS_e5500-64b ?= ""
++KEXECTOOLS_microblaze ?= ""
+ KEXECTOOLS_nios2 ?= ""
+ 
+ X11GLTOOLS = "\
 -- 
 2.15.0
 
