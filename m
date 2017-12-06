@@ -1,24 +1,48 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B07E784E0
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 38E4E7855C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 19:27:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB6JRPX2010135
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  6 Dec 2017 19:47:25 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id u62so9151613ita.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Dec 2017 11:27:25 -0800 (PST)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 6 Dec 2017 11:27:18 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Dec 2017 11:27:18 -0800
-Message-ID: <20171206192718.242138-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: fix segfault when terminating systemd --test
+	Wed, 06 Dec 2017 11:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=oSzMNz8/eGS2WNkbz3FP36Ghw0ScyKjJTD8LZem5If0=;
+	b=rRKyHUzLLeyU6EC0zYitRJ/YGzMbhXcrlqDCHg6qvH9XKO4XLplrWhBBOSWuoR7oet
+	Ee4iqLcAnYjl0SpJp5/bwgP3WdZbKcWP9EKOwQbcGfXXoVuMSOyX+ecP2upDGni7SLD9
+	hs7sUXg9slnoNZRRXgWk2offM9qyy+MMbb1lDlc6cfkcbzhCVThSCKgiM37itZaj6bMp
+	JwcMESejWhyr2SsXr6OWkemfypeMq3rSLByJtYPGAqZOJctdFelKFBR+vS45UA5bwgn8
+	d2tznOyiwimXjqTm7KpmuA9bMBcFcp1P6KgqA4vfSGViE0TZy+Wc3NuWmBlBYFMkGX9K
+	0Ctw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oSzMNz8/eGS2WNkbz3FP36Ghw0ScyKjJTD8LZem5If0=;
+	b=T6Fjb6dzWomVY5QqcfSkcQTdsGVkujlNOkZhX3FrZ01+0/EA0HiEsIYQWsNZ+FDETz
+	TVt0qp7aeH6AcKCm9tAqkyoxltJxJSBP9ipHGznQP8XYvp8lcOOiPvIqvUVmx033XSJg
+	/P6QszRKL5E/Ce0aeS7Gkvsn0DucY4Ywv9+Ites5BmCNE+QZ7xZ6PubBEUpzMKIp4YJ2
+	/jIWLtDVc/qH7w9vno5W909Y8e9P41H1U/dvCFp57BzMWMkcpNa+G8IkKMdnkhwd8dGg
+	bgt6xa+K9sQOdn3VTMhORZ2Yn/okAYrTsJdhtiSIfyDnl2Oh0p91Dm5yyaJo4pPooIOB
+	5cuA==
+X-Gm-Message-State: AJaThX7Cx/peqrjGbKTeVl+UzPXqaODWXLn5x09uYr/JAS+XSyWX+A/k
+	NOXrqX1VvQJSZsLYmbnQH4LPcI1t
+X-Google-Smtp-Source: AGs4zMYO8F34vRKB2BhIeciqh60sr8UWvo50LJJkLskkhQbAdcxHLIbOiLRUejrvDdzNOs4llj6bWw==
+X-Received: by 10.107.174.222 with SMTP id n91mr33480184ioo.43.1512589646875; 
+	Wed, 06 Dec 2017 11:47:26 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	d14sm1862283itj.11.2017.12.06.11.47.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 06 Dec 2017 11:47:26 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Dec 2017 13:46:28 -0600
+Message-Id: <20171206194628.1901-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [morty][PATCH] cross-localedef-native: Include locale_t.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,279 +55,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 19:27:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Dec 2017 19:47:26 -0000
 
-Currently, if "systemd --test" is not allowed to complete
-sending output, it will segfault.
+Newer versions of glibc (2.26) moved the struct locale definition from
+xlocale.h to bits/types/locale_t.h. For compatibility with build hosts
+using this version of glibc, include this header.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+See f0be25b6336db7492e47d2e8e72eb8af53b5506d in glibc
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- ...te-presets-after-generators-have-run-6526.patch |  69 +++++++++
- ...any-initialization-steps-when-running-in-.patch | 163 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_234.bb           |   2 +
- 3 files changed, 234 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
+ .../glibc/cross-localedef-native_2.24.bb           |  1 +
+ ...1-Include-locale_t.h-compatibility-header.patch | 27 ++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch b/meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+index d4cccedb43a..4a77eee2c9b 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+@@ -36,6 +36,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0023-eglibc-Install-PIC-archives.patch \
+            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
++           file://0001-Include-locale_t.h-compatibility-header.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+ #
+diff --git a/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch b/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
 new file mode 100644
-index 0000000..df100e5
+index 00000000000..634f8d86441
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
-@@ -0,0 +1,69 @@
-+From 28dd66ecfce743b1ea9046c7bb501e0fcaeff724 Mon Sep 17 00:00:00 2001
-+From: Luca Bruno <luca.bruno@coreos.com>
-+Date: Sun, 6 Aug 2017 13:24:24 +0000
-+Subject: [PATCH] core: evaluate presets after generators have run (#6526)
++++ b/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
+@@ -0,0 +1,27 @@
++From abfeb0cf4e3261a66a7a23abc9aed33c034c850d Mon Sep 17 00:00:00 2001
++From: Joshua Watt <Joshua.Watt@garmin.com>
++Date: Wed, 6 Dec 2017 13:26:19 -0600
++Subject: [PATCH] Include locale_t.h compatibility header
 +
-+This commit moves the first-boot system preset-settings evaluation out
-+of main and into the manager startup logic itself. Notably, it reverses
-+the order between generators and presets evaluation, so that any changes
-+performed by first-boot generators are taken into the account by presets
-+logic.
++Newer versions of glibc (since 2.26) moved the locale typedefs from
++xlocale.h to bits/types/locale_t.h. Create a compatibility header for
++these newer versions of glibc
 +
-+After this change, units created by a generator can be enabled as part
-+of a preset.
++See f0be25b6336db7492e47d2e8e72eb8af53b5506d in glibc
 +
-+Upstream-Status: Backport
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++Upstream-Status: Inappropriate
 +---
-+ src/core/main.c    | 12 ++----------
-+ src/core/manager.c |  8 ++++++++
-+ 2 files changed, 10 insertions(+), 10 deletions(-)
++ locale/bits/types/locale_t.h | 1 +
++ 1 file changed, 1 insertion(+)
++ create mode 100644 locale/bits/types/locale_t.h
 +
-+diff --git a/src/core/main.c b/src/core/main.c
-+index dfedc3d..11ac9cf 100644
-+--- a/src/core/main.c
-++++ b/src/core/main.c
-+@@ -1809,18 +1809,10 @@ int main(int argc, char *argv[]) {
-+                 if (prctl(PR_SET_CHILD_SUBREAPER, 1) < 0)
-+                         log_warning_errno(errno, "Failed to make us a subreaper: %m");
-+ 
-+-        if (arg_system) {
-++        if (arg_system)
-++                /* Bump up RLIMIT_NOFILE for systemd itself */
-+                 (void) bump_rlimit_nofile(&saved_rlimit_nofile);
-+ 
-+-                if (empty_etc) {
-+-                        r = unit_file_preset_all(UNIT_FILE_SYSTEM, 0, NULL, UNIT_FILE_PRESET_ENABLE_ONLY, NULL, 0);
-+-                        if (r < 0)
-+-                                log_full_errno(r == -EEXIST ? LOG_NOTICE : LOG_WARNING, r, "Failed to populate /etc with preset unit settings, ignoring: %m");
-+-                        else
-+-                                log_info("Populated /etc with preset unit settings.");
-+-                }
-+-        }
-+-
-+         r = manager_new(arg_system ? UNIT_FILE_SYSTEM : UNIT_FILE_USER, arg_action == ACTION_TEST, &m);
-+         if (r < 0) {
-+                 log_emergency_errno(r, "Failed to allocate manager object: %m");
-+diff --git a/src/core/manager.c b/src/core/manager.c
-+index 1aadb70..fb5e2b5 100644
-+--- a/src/core/manager.c
-++++ b/src/core/manager.c
-+@@ -1328,6 +1328,14 @@ int manager_startup(Manager *m, FILE *serialization, FDSet *fds) {
-+         if (r < 0)
-+                 return r;
-+ 
-++        if (m->first_boot && m->unit_file_scope == UNIT_FILE_SYSTEM) {
-++                q = unit_file_preset_all(UNIT_FILE_SYSTEM, 0, NULL, UNIT_FILE_PRESET_ENABLE_ONLY, NULL, 0);
-++                if (q < 0)
-++                        log_full_errno(q == -EEXIST ? LOG_NOTICE : LOG_WARNING, q, "Failed to populate /etc with preset unit settings, ignoring: %m");
-++                else
-++                        log_info("Populated /etc with preset unit settings.");
-++        }
-++
-+         lookup_paths_reduce(&m->lookup_paths);
-+         manager_build_unit_path_cache(m);
-+ 
++diff --git a/locale/bits/types/locale_t.h b/locale/bits/types/locale_t.h
++new file mode 100644
++index 0000000000..b519a6c5f8
++--- /dev/null
+++++ b/locale/bits/types/locale_t.h
++@@ -0,0 +1 @@
+++#include <xlocale.h>
 +-- 
-+2.10.2
++2.14.3
 +
-diff --git a/meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch b/meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
-new file mode 100644
-index 0000000..a033b04
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
-@@ -0,0 +1,163 @@
-+From dea374e898a749a0474b72b2015cca9009b1432b Mon Sep 17 00:00:00 2001
-+From: Lennart Poettering <lennart@poettering.net>
-+Date: Wed, 13 Sep 2017 10:31:40 +0200
-+Subject: [PATCH] main: skip many initialization steps when running in --test
-+ mode
-+
-+Most importantly, don't collect open socket activation fds when in
-+--test mode. This specifically created a problem because we invoke
-+pager_open() beforehand (which these days makes copies of the original
-+stdout/stderr in order to be able to restore them when the pager goes
-+away) and we might mistakenly the fd copies it creates as socket
-+activation fds.
-+
-+Fixes: #6383
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ src/core/main.c | 108 +++++++++++++++++++++++++++++---------------------------
-+ 1 file changed, 56 insertions(+), 52 deletions(-)
-+
-+diff --git a/src/core/main.c b/src/core/main.c
-+index 11ac9cf..d1a53a5 100644
-+--- a/src/core/main.c
-++++ b/src/core/main.c
-+@@ -1679,20 +1679,22 @@ int main(int argc, char *argv[]) {
-+         log_close();
-+ 
-+         /* Remember open file descriptors for later deserialization */
-+-        r = fdset_new_fill(&fds);
-+-        if (r < 0) {
-+-                log_emergency_errno(r, "Failed to allocate fd set: %m");
-+-                error_message = "Failed to allocate fd set";
-+-                goto finish;
-+-        } else
-+-                fdset_cloexec(fds, true);
-++        if (arg_action == ACTION_RUN) {
-++                r = fdset_new_fill(&fds);
-++                if (r < 0) {
-++                        log_emergency_errno(r, "Failed to allocate fd set: %m");
-++                        error_message = "Failed to allocate fd set";
-++                        goto finish;
-++                } else
-++                        fdset_cloexec(fds, true);
-+ 
-+-        if (arg_serialization)
-+-                assert_se(fdset_remove(fds, fileno(arg_serialization)) >= 0);
-++                if (arg_serialization)
-++                        assert_se(fdset_remove(fds, fileno(arg_serialization)) >= 0);
-+ 
-+-        if (arg_system)
-+-                /* Become a session leader if we aren't one yet. */
-+-                setsid();
-++                if (arg_system)
-++                        /* Become a session leader if we aren't one yet. */
-++                        setsid();
-++        }
-+ 
-+         /* Move out of the way, so that we won't block unmounts */
-+         assert_se(chdir("/") == 0);
-+@@ -1762,56 +1764,58 @@ int main(int argc, char *argv[]) {
-+                           arg_action == ACTION_TEST ? " test" : "", getuid(), t);
-+         }
-+ 
-+-        if (arg_system && !skip_setup) {
-+-                if (arg_show_status > 0)
-+-                        status_welcome();
-++        if (arg_action == ACTION_RUN) {
-++                if (arg_system && !skip_setup) {
-++                        if (arg_show_status > 0)
-++                                status_welcome();
-+ 
-+-                hostname_setup();
-+-                machine_id_setup(NULL, arg_machine_id, NULL);
-+-                loopback_setup();
-+-                bump_unix_max_dgram_qlen();
-++                        hostname_setup();
-++                        machine_id_setup(NULL, arg_machine_id, NULL);
-++                        loopback_setup();
-++                        bump_unix_max_dgram_qlen();
-+ 
-+-                test_usr();
-+-        }
-++                        test_usr();
-++                }
-+ 
-+-        if (arg_system && arg_runtime_watchdog > 0 && arg_runtime_watchdog != USEC_INFINITY)
-+-                watchdog_set_timeout(&arg_runtime_watchdog);
-++                if (arg_system && arg_runtime_watchdog > 0 && arg_runtime_watchdog != USEC_INFINITY)
-++                        watchdog_set_timeout(&arg_runtime_watchdog);
-+ 
-+-        if (arg_timer_slack_nsec != NSEC_INFINITY)
-+-                if (prctl(PR_SET_TIMERSLACK, arg_timer_slack_nsec) < 0)
-+-                        log_error_errno(errno, "Failed to adjust timer slack: %m");
-++                if (arg_timer_slack_nsec != NSEC_INFINITY)
-++                        if (prctl(PR_SET_TIMERSLACK, arg_timer_slack_nsec) < 0)
-++                                log_error_errno(errno, "Failed to adjust timer slack: %m");
-+ 
-+-        if (arg_system && !cap_test_all(arg_capability_bounding_set)) {
-+-                r = capability_bounding_set_drop_usermode(arg_capability_bounding_set);
-+-                if (r < 0) {
-+-                        log_emergency_errno(r, "Failed to drop capability bounding set of usermode helpers: %m");
-+-                        error_message = "Failed to drop capability bounding set of usermode helpers";
-+-                        goto finish;
-+-                }
-+-                r = capability_bounding_set_drop(arg_capability_bounding_set, true);
-+-                if (r < 0) {
-+-                        log_emergency_errno(r, "Failed to drop capability bounding set: %m");
-+-                        error_message = "Failed to drop capability bounding set";
-+-                        goto finish;
-++                if (arg_system && !cap_test_all(arg_capability_bounding_set)) {
-++                        r = capability_bounding_set_drop_usermode(arg_capability_bounding_set);
-++                        if (r < 0) {
-++                                log_emergency_errno(r, "Failed to drop capability bounding set of usermode helpers: %m");
-++                                error_message = "Failed to drop capability bounding set of usermode helpers";
-++                                goto finish;
-++                        }
-++                        r = capability_bounding_set_drop(arg_capability_bounding_set, true);
-++                        if (r < 0) {
-++                                log_emergency_errno(r, "Failed to drop capability bounding set: %m");
-++                                error_message = "Failed to drop capability bounding set";
-++                                goto finish;
-++                        }
-+                 }
-+-        }
-+ 
-+-        if (arg_syscall_archs) {
-+-                r = enforce_syscall_archs(arg_syscall_archs);
-+-                if (r < 0) {
-+-                        error_message = "Failed to set syscall architectures";
-+-                        goto finish;
-++                if (arg_syscall_archs) {
-++                        r = enforce_syscall_archs(arg_syscall_archs);
-++                        if (r < 0) {
-++                                error_message = "Failed to set syscall architectures";
-++                                goto finish;
-++                        }
-+                 }
-+-        }
-+ 
-+-        if (!arg_system)
-+-                /* Become reaper of our children */
-+-                if (prctl(PR_SET_CHILD_SUBREAPER, 1) < 0)
-+-                        log_warning_errno(errno, "Failed to make us a subreaper: %m");
-++                if (!arg_system)
-++                        /* Become reaper of our children */
-++                        if (prctl(PR_SET_CHILD_SUBREAPER, 1) < 0)
-++                                log_warning_errno(errno, "Failed to make us a subreaper: %m");
-+ 
-+-        if (arg_system)
-+-                /* Bump up RLIMIT_NOFILE for systemd itself */
-+-                (void) bump_rlimit_nofile(&saved_rlimit_nofile);
-++                if (arg_system)
-++                        /* Bump up RLIMIT_NOFILE for systemd itself */
-++                        (void) bump_rlimit_nofile(&saved_rlimit_nofile);
-++        }
-+ 
-+         r = manager_new(arg_system ? UNIT_FILE_SYSTEM : UNIT_FILE_USER, arg_action == ACTION_TEST, &m);
-+         if (r < 0) {
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index 765daf2..778b868 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -42,6 +42,8 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch \
-            file://0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch \
-            file://0001-Use-uintmax_t-for-handling-rlim_t.patch \
-+           file://0001-core-evaluate-presets-after-generators-have-run-6526.patch \
-+           file://0001-main-skip-many-initialization-steps-when-running-in-.patch \
-            "
- SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
 -- 
-2.7.4
+2.14.3
 
 
