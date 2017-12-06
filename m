@@ -1,47 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CA5926011B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D21AF60750
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 12:19:51 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id r78so6887963wme.5
+	Wed,  6 Dec 2017 14:59:30 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id h1so4195368wre.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Dec 2017 04:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=szQajVLNKMQbdjq0WCbGOdUz1t0Y7+dLv2bsxUsENHs=;
-	b=axhXt/nJ36uWqvKsVZujnCxOi6AN7Iy9QALxtqc2+89RVHRJJrnXM1iPnkvWQ8kdKi
-	MM4BV70QPmpxYifBSdhrrCqcP+V/kn+Yy5U815WnNYVOJpxp74jqAdTO8yueocu5QdHK
-	axtujIXdTkwnrqyDZacsFSyhMSEj3f18ORr55JWMkcpcWZ+9BsHkwAaluq8dGR3K5Nv7
-	+PjN1ISO4hJTHRjpwvWYa8jCViIKcx7AVV5K9MFsVJoMcbIDKdIJRr241Z6l+oPh/GcB
-	2U+KgtOpihrkaspTNRZGQwyW9t2tlCz/AtXO/aZfU02KhoUgJJFIa3YMdZuF6s577Qp2
-	eF0A==
+	Wed, 06 Dec 2017 06:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Xmvu3xz7nFKb/QzFq8JETEIcTBS2Qkl1KYF32mPUaCA=;
+	b=cN4MtxMWMlfjI5tfJrhxLRfAIFyOZd1gmzrHNPDv1L+ddEwA5XDdEVpqb/z60E7Z45
+	caUdvzQRq+zrWeMYM92Px8dEz5ZIOeP+MvVMIBoGixPVxmQdxlO+f0k7N1iMW4AepD95
+	TkKN/TcxsE9jblj4+jjDJKgUeGV3d7MNNQWFbNaCXyaIYOl5gxWkV2iYqHpvXViLBbHT
+	FgOBZYcRxDIoxyMZ2W3dszl3rzJ9h0rX1b56SEcvRxF57Unr7xgBojL7Sv/xAQ45vu1G
+	ZroC/XRV71o2pBlVE0l6dImT5GvXBOEXwc2tsW5M6NuXfSRXYRdvpLK5mzYTELzpp5Xi
+	cjzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=szQajVLNKMQbdjq0WCbGOdUz1t0Y7+dLv2bsxUsENHs=;
-	b=UTrsu/x0/Bd6wipyTbkwH7UrR1PQiqnh79719h89R/JxB1aDtImjYE3UcvqYnhtTO0
-	B75tuiAB15oh0BED+rl0om8YraS0pnXFDFxemmxq3dRBUSZLrVWS4cjb9H1+0Gt4x3Qt
-	XKE/+PvBokQZTQrfBWARYCYrtNsi19Q69/DEJIz+6fSw4xq3KVdj5OxLadzmRnvMDy36
-	xQyFwCUMMP9Fn4KVSckcTUa132zYzdewBy185eB5d0bztwfoWjX6wy80fH2p7cdPFvHB
-	s5uaSLR+VfZyO9sru9plHjyZ6i4uUuI3S3zeIdMLoBp0JKGD1reKH/kIWmDnmgaHRfDj
-	FLwg==
-X-Gm-Message-State: AKGB3mKw2jPDJIYgBq70RZoNxIBVy7xUCkCyS5wA+m8LLLfn6HROjb5V
-	RwS4FmQFQWUFu4b6ZCoev0G11GT51USswiyEkBI=
-X-Google-Smtp-Source: AGs4zMbXBLDYUH63CeZmW3/A+pS7WzF4Yz6Qc0CSHN+Fb2uxQhF1TvpXwCl+qbhqESKdTEW2LitACZPqhZiEno6AIbg=
-X-Received: by 10.28.103.68 with SMTP id b65mr8905933wmc.117.1512562792414;
-	Wed, 06 Dec 2017 04:19:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.122.19 with HTTP; Wed, 6 Dec 2017 04:19:51 -0800 (PST)
-In-Reply-To: <CAP9ODKq14eNanqVJpXDyRdtr=fd_W5_7r6MhjAztVmg5FGbn7g@mail.gmail.com>
-References: <CAP9ODKq14eNanqVJpXDyRdtr=fd_W5_7r6MhjAztVmg5FGbn7g@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 6 Dec 2017 13:19:51 +0100
-Message-ID: <CA+chaQd+T_OnX9vCYC+Qud_mm13tn8u796DZ0RuaUT42xWubWg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko] Go fixups
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Xmvu3xz7nFKb/QzFq8JETEIcTBS2Qkl1KYF32mPUaCA=;
+	b=ZA4lf05s6/SWh+Qzlf9jZ8vHcFEiyWLK3RO1PIMc1dkbN7G9rS0E2SpX1rM9+36GoW
+	SC1wF2zatYMg4cFjg0DYGpdiYbNSQO2E7KIX3yf+S/nDB2TW9winxC12myEqwNJMTy3A
+	PcsabVrCSCNfpmhBHrVoYcxM4n9ydlbrF8TQADWbdnNAI67vnOvfWqABpuYVZnljD9Y0
+	n/xzqfrovS/ZKUcIu9b5tSPHQeteBlYpBnIHYaIxrGHnlPNrgdEic6bmQOPd4u5eT/px
+	737Rk6GXAwRq/j1opsNFCDK1A2nL8jhQm/dvxw7gCA5VG8qkQH8QEo6NJmS0J2ybRiHZ
+	OGJQ==
+X-Gm-Message-State: AJaThX4ze1Rl/7l1i+rpGmKemX3Mk5StvrrfkDfCFPU2fZFnZ2MlZuIG
+	pIrbtEPNqTChYMBpkKgmuouUdADD
+X-Google-Smtp-Source: AGs4zMZlIp5AHUjDSVVn3YQB53x7tGoICXz+nrg7Cym5RwX06LT5lgHwwTgC8YeAL1kwYaSQnGN6zA==
+X-Received: by 10.223.134.1 with SMTP id 1mr19685435wrv.213.1512572371293;
+	Wed, 06 Dec 2017 06:59:31 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 187sm551043wmu.19.2017.12.06.06.59.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Dec 2017 06:59:30 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Dec 2017 14:59:27 +0000
+Message-Id: <20171206145928.5497-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] libxslt: use HTTP instead of FTP in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,86 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 12:19:52 -0000
-Content-Type: multipart/alternative; boundary="001a114b2faaf143f9055faaf706"
+X-List-Received-Date: Wed, 06 Dec 2017 14:59:31 -0000
 
---001a114b2faaf143f9055faaf706
-Content-Type: text/plain; charset="UTF-8"
+FTP isn't as reliable as HTTP.
 
-Thanks,
+[ YOCTO #12398 ]
 
-this will most likely fix the issue I've reported earlier in:
-http://lists.openembedded.org/pipermail/openembedded-core/2017-December/145278.html
-as well.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.32.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Dec 6, 2017 at 12:28 PM, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.32.bb b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+index e8b1409d79b..b8951ab3a8b 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.32.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
+ 
+-SRC_URI = "ftp://xmlsoft.org/libxslt/libxslt-${PV}.tar.gz \
++SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            "
+ 
+-- 
+2.11.0
 
-> Hello Armin,
->
-> There was one patch which was mistakenly forgotten on rocko-next, and
-> ended being merged. It ended being reworked in master and I did the
-> needed backports/revert in our repo[1].
->
-> 1. https://github.com/OSSystems/oe-core/compare/rocko...rocko-next
->
-> Please consider applying those soon as rocko is currently with a
-> broken Go toolchain.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a114b2faaf143f9055faaf706
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks,<div><br></div><div>this will most likely fix the i=
-ssue I&#39;ve reported earlier in:</div><div><a href=3D"http://lists.openem=
-bedded.org/pipermail/openembedded-core/2017-December/145278.html">http://li=
-sts.openembedded.org/pipermail/openembedded-core/2017-December/145278.html<=
-/a><br></div><div>as well.</div></div><div class=3D"gmail_extra"><br><div c=
-lass=3D"gmail_quote">On Wed, Dec 6, 2017 at 12:28 PM, Otavio Salvador <span=
- dir=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=
-=3D"_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">Hello Armin,<br>
-<br>
-There was one patch which was mistakenly forgotten on rocko-next, and<br>
-ended being merged. It ended being reworked in master and I did the<br>
-needed backports/revert in our repo[1].<br>
-<br>
-1. <a href=3D"https://github.com/OSSystems/oe-core/compare/rocko...rocko-ne=
-xt" rel=3D"noreferrer" target=3D"_blank">https://github.com/OSSystems/<wbr>=
-oe-core/compare/rocko...rocko-<wbr>next</a><br>
-<br>
-Please consider applying those soon as rocko is currently with a<br>
-broken Go toolchain.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile:=
- +1 (347) 903-9750<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a114b2faaf143f9055faaf706--
