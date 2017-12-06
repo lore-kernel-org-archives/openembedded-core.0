@@ -1,53 +1,31 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 727E778741
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EFDC07874D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 10:02:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 19438180A2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id ogjOtkwTz2Zj
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:52 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2D6AA18105
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:52 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 150961E087
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:52 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 09E8D1E083
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:52 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:51 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id F2350290E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 11:02:51 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id vB6A2lRF022954
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Dec 2017 11:02:47 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id vB6A2lCK022952
-	for openembedded-core@lists.openembedded.org;
-	Wed, 6 Dec 2017 11:02:47 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Dec 2017 11:02:46 +0100
-Message-Id: <20171206100246.22911-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] iptables: Split the iptables modules into separate packages
+	Wed,  6 Dec 2017 10:03:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB6A3I22003544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 6 Dec 2017 02:03:18 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 6 Dec 2017 02:03:17 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1512104695.git.liezhi.yang@windriver.com>
+	<2b4e2875e667df753c33418eefc437d9d0da6216.1512104695.git.liezhi.yang@windriver.com>
+	<CAJTo0LZV1bVDcebUx=oDBhtZi-xCH5Cv+pFyxFYD0eeJ7=PJ6A@mail.gmail.com>
+	<0c0d8839-930b-4124-bab8-58e33274c8af@windriver.com>
+	<efad492f-551d-1f89-5160-e889b35a9162@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <a77eee56-b016-23d2-f271-7c0486c2f194@windriver.com>
+Date: Wed, 6 Dec 2017 18:02:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <efad492f-551d-1f89-5160-e889b35a9162@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1 V2] targetcontrol.py: use oe.types.boolean for QEMU_USE_KVM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,91 +38,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 10:02:52 -0000
+X-List-Received-Date: Wed, 06 Dec 2017 10:03:20 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-By splitting the iptables modules into separate packages it is
-possible to pick and choose the modules to install and thereby reduce
-the total size of the installed modules.
+Hi Ross,
 
-Backwards compatibility is maintained by adding a recommendation of
-iptables-modules, which is a meta package that depends on all the
-generated packages.
+On 12/06/2017 11:11 AM, Robert Yang wrote:
+> 
+> 
+> On 12/06/2017 09:37 AM, Robert Yang wrote:
+>>
+>> On 12/06/2017 12:10 AM, Burton, Ross wrote:
+>>> On 1 December 2017 at 05:13, Robert Yang <liezhi.yang@windriver.com 
+>>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>>
+>>>     So that both QEMU_USE_KVM = "True" and "1" will work.
+>>>
+>>>     [YOCTO #12343]
+>>>
+>>>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
+>>>     <mailto:liezhi.yang@windriver.com>>
+>>>     ---
+>>>       meta/classes/testimage.bbclass | 2 +-
+>>>       meta/lib/oeqa/targetcontrol.py | 2 +-
+>>>       2 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>>     diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+>>>     index 45bb2bd..7260ad4 100644
+>>>     --- a/meta/classes/testimage.bbclass
+>>>     +++ b/meta/classes/testimage.bbclass
+>>>     @@ -215,7 +215,7 @@ def testimage_main(d):
+>>>           # Get use_kvm
+>>>           qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+>>>           if qemu_use_kvm and \
+>>>     -       (qemu_use_kvm == 'True' and 'x86' in machine or \
+>>>     +       (oe.types.boolean(qemu_use_kvm) and 'x86' in machine or \
+>>>               d.getVar('MACHINE') in qemu_use_kvm.split()):
+>>>               kvm = True
+>>>           else:
+>>>     diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+>>>     index f63936c..3fc3870 100644
+>>>     --- a/meta/lib/oeqa/targetcontrol.py
+>>>     +++ b/meta/lib/oeqa/targetcontrol.py
+>>>     @@ -107,7 +107,7 @@ class QemuTarget(BaseTarget):
+>>>               dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+>>>               qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+>>>               if qemu_use_kvm and \
+>>>     -           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
+>>>     +           (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE")
+>>>     or \
+>>>                   d.getVar("MACHINE") in qemu_use_kvm.split()):
+>>>                   use_kvm = True
+>>>               else:
+>>>
+>>>
+>>> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/665/steps/Running%20oe-selftest/logs/stdio 
+>>>
+>>>
+>>>    File 
+>>> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/targetcontrol.py", 
+>>> line 110, in __init__
+>>>      (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE") or \
+>>> UnboundLocalError: local variable 'oe' referenced before assignment
+>>
+>> Sorry, I had tried testimage and oe-selftest before and just now locally,
+>> didn't see this error, need more investigations.
+> 
+> I can reproduce it now:
+> 
+> Add QEMU_USE_KVM = "1" to con/local.conf
+> $ oe-selftest  -r devtool.DevtoolTests.test_devtool_deploy_target
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+I fixed it in the repo:
 
-In our case we could save more than 1 MB by removing modules we do not
-use.
 
- meta/recipes-extended/iptables/iptables_1.6.1.bb | 43 +++++++++++++++++-------
- 1 file changed, 30 insertions(+), 13 deletions(-)
+   git://git.openembedded.org/openembedded-core-contrib rbt/use_qemu
+   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/use_qemu
 
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-index b37c55a64e..b6e6cbe8a3 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-@@ -7,17 +7,6 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
-                     file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc"
- 
--RRECOMMENDS_${PN} = "kernel-module-x-tables \
--                     kernel-module-ip-tables \
--                     kernel-module-iptable-filter \
--                     kernel-module-iptable-nat \
--                     kernel-module-nf-defrag-ipv4 \
--                     kernel-module-nf-conntrack \
--                     kernel-module-nf-conntrack-ipv4 \
--                     kernel-module-nf-nat \
--                     kernel-module-ipt-masquerade"
--FILES_${PN} =+ "${libdir}/xtables/ ${datadir}/xtables"
--
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-@@ -30,8 +19,8 @@ SRC_URI[sha256sum] = "0fc2d7bd5d7be11311726466789d4c65fb4c8e096c9182b56ce9744086
- 
- inherit autotools pkgconfig
- 
--EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
--               "
-+EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+Robert Yang (1):
+   targetcontrol.py: use oe.types.boolean for QEMU_USE_KVM
+
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 45bb2bd..7260ad4 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -215,7 +215,7 @@ def testimage_main(d):
+      # Get use_kvm
+      qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+      if qemu_use_kvm and \
+-       (qemu_use_kvm == 'True' and 'x86' in machine or \
++       (oe.types.boolean(qemu_use_kvm) and 'x86' in machine or \
+          d.getVar('MACHINE') in qemu_use_kvm.split()):
+          kvm = True
+      else:
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index f63936c..59a9c35 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -91,6 +91,8 @@ class QemuTarget(BaseTarget):
+
+      def __init__(self, d, logger, image_fstype=None):
+
++        import oe.types
 +
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- 
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-@@ -47,3 +36,31 @@ do_configure_prepend() {
- 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
- 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
- }
-+
-+PACKAGES += "${PN}-modules"
-+PACKAGES_DYNAMIC += "^${PN}-module-.*"
-+
-+python populate_packages_prepend() {
-+    modules = do_split_packages(d, '${libdir}/xtables', 'lib(.*)\.so$', '${PN}-module-%s', '${PN} module %s', extra_depends='')
-+    if modules:
-+        metapkg = d.getVar('PN') + '-modules'
-+        d.appendVar('RDEPENDS_' + metapkg, ' ' + ' '.join(modules))
-+}
-+
-+FILES_${PN} += "${datadir}/xtables"
-+
-+ALLOW_EMPTY_${PN}-modules = "1"
-+
-+RDEPENDS_${PN} = "iptables-module-xt-standard"
-+RRECOMMENDS_${PN} = " \
-+    ${PN}-modules \
-+    kernel-module-x-tables \
-+    kernel-module-ip-tables \
-+    kernel-module-iptable-filter \
-+    kernel-module-iptable-nat \
-+    kernel-module-nf-defrag-ipv4 \
-+    kernel-module-nf-conntrack \
-+    kernel-module-nf-conntrack-ipv4 \
-+    kernel-module-nf-nat \
-+    kernel-module-ipt-masquerade \
-+"
--- 
-2.12.0
+          super(QemuTarget, self).__init__(d, logger)
 
+          self.rootfs = ''
+@@ -107,7 +109,7 @@ class QemuTarget(BaseTarget):
+          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+          qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+          if qemu_use_kvm and \
+-           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
++           (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE") or \
+              d.getVar("MACHINE") in qemu_use_kvm.split()):
+              use_kvm = True
+          else:
+
+// Robert
+
+> 
+> // Robert
+> 
+>>
+>> // Robert
+>>
+>>>
+>>> Ross
 
