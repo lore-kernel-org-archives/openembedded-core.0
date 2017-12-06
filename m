@@ -1,29 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A888786EE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E0CE71A82
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 08:27:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB68R8KP002871
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Dec 2017 00:27:08 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 6 Dec 2017 00:27:07 -0800
-To: "GUAN Ben (ST-FIR/ENG1-Zhu)" <Ben.Guan@cn.bosch.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <86cb51797fed46e7a8fc40606f317a2c@SGPMBX1024.APAC.bosch.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <8cf29333-cb70-d1a4-01ec-13a092beff3c@windriver.com>
-Date: Wed, 6 Dec 2017 16:26:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <86cb51797fed46e7a8fc40606f317a2c@SGPMBX1024.APAC.bosch.com>
-Cc: "Jonas Mark \(ST-FIR/ENG1\)" <Mark.Jonas@de.bosch.com>
-Subject: Re: How to add group for multiple recipes
+	Wed,  6 Dec 2017 09:36:49 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k61so3152788wrc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Dec 2017 01:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=u0TVapY77dfARRlfNWw5ygryib/2N8kEAEplfsyoK08=;
+	b=QcIqkEtOuufSb6WxkER7mKcnh5PN/TdQ8MwlsZ/qRRYkH9cSn0fqtRTiDjQlo50J2R
+	HlhLh5BqalEFXyL2mWtBcGT02nyQei7DKgyOWJOOpYe0F3X/0S1iJZqVVkSy9UagVFPG
+	03Frnj0clAjOorE2tNiziROBGE/25lYJsN2/wL370jb72rydw9kOsY/pipNsixyOQJFV
+	RsrmsB2lryZBIkAJfBpegfwifKAztI577EfeP1s8EPlGM3vcpTbwSO9ZjYdksj9fa9HY
+	zei8ao7rJGFpe8lbzjFqTWQZwvkCXL/RxZJBQ23IQ90zDMaP52ccxch5zdg1xfmM5l8+
+	lNaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=u0TVapY77dfARRlfNWw5ygryib/2N8kEAEplfsyoK08=;
+	b=J4MwE8SZrfYReadxEJkt6+1Iu1/sf6y1fe7ekRB+VYs1pW/owfMlFqbimnwpfb4js+
+	18idqd5Qf+OktMjhgrC1PY+9mVkR1N29SJhEdPeNx+L65p478Ijxrz3Gt7tLZdBLtQz3
+	2dYFXU7vmEgVzwC7P68Xm3u6mlM4UIF9T40OGgp01tyBn7KnaldWT2gqu2sxYT9i5DPS
+	RXfkaISd3Cdrvcm6hDYLsY8w7WfAO1ZdVt7CnvX/jtzFdYSJvijmRLFgjhp2F5yQj6AQ
+	9dEYtSwqHSeslzo6qDSMzW7yHjhj0zAQiMBP6tDM73QGcyXLTeySZKWv53/7Q4fg3aSV
+	q9Cg==
+X-Gm-Message-State: AKGB3mKDNomkyw6LFPRFW8ipBkbA6EAMU2n+4wPPPCxHGdmMoExzWTkK
+	gCp0vIKoIN6DISpwOsUoh74+5yg=
+X-Google-Smtp-Source: AGs4zMZAddjD3dnTB+d6zRgCTyfXEBrisRbGweVpPqkbjJUjvEGSKyf/0Ot1+HzIgmqq17zZl6eGFA==
+X-Received: by 10.223.200.138 with SMTP id k10mr2400275wrh.222.1512553010860; 
+	Wed, 06 Dec 2017 01:36:50 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p54BD5190.dip0.t-ipconnect.de.
+	[84.189.81.144])
+	by smtp.gmail.com with ESMTPSA id a5sm2364260wra.87.2017.12.06.01.36.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Dec 2017 01:36:50 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Dec 2017 10:36:46 +0100
+Message-Id: <cover.4ddd15858ebb94110d175c9765f74daa1d0d74a8.1512552961.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/1] qemu: use upstream swtpm support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 08:27:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Dec 2017 09:36:50 -0000
 
-Hi Ben,
+This aligns TPM support in OE with the approach accepted and merged
+upstream.
 
-On 12/06/2017 04:12 PM, GUAN Ben (ST-FIR/ENG1-Zhu) wrote:
-> Hello,
-> 
-> In oe-core, there are some default groups provided by recipe "base-passwd". Any other recipes could refer to these groups when they want to create a new user.
-> 
-> Now we have a requirement: there are several recipes which create their own users, and they shall belongs to a common group. How could we add this group? It seems that groups or users created in a recipe are only visible to the same recipe. Other recipes cannot refer to them (e.g. using chown/chgrp).
-> 
-> We already tried to add a recipe which only generates the group and added this to DEPENDS of the other recipes. But it seem as if the group was not generated in time. When the other recipes ran, the group was not there. But the final image contained the group.
+An update for swtpm in meta-security was already sent
+("[meta-security][PATCH 1/1] swtpm/libtpm: update to latest master").
 
-What's the error, please ? Where did you check the group ? If you have added the
-the recipe to another's DEPENDS, then the group should be in another recipe's
-recipe-sysroot.
+Patrick Ohly (1):
+  qemu: use upstream swtpm support
 
-// Robert
+ meta/recipes-devtools/qemu/qemu/0001-Provide-support-for-the-CUSE-TPM.patch                     |  870 +-----------------------------------------------------------
+ meta/recipes-devtools/qemu/qemu/0001-tpm-Clean-up-driver-registration-lookup.patch              |  154 ++++++++++-
+ meta/recipes-devtools/qemu/qemu/0002-Introduce-condition-to-notify-waiters-of-completed-c.patch |   86 +------
+ meta/recipes-devtools/qemu/qemu/0002-tpm-Clean-up-model-registration-lookup.patch               |  121 ++++++++-
+ meta/recipes-devtools/qemu/qemu/0003-Introduce-condition-in-TPM-backend-for-notification.patch  |   79 +-----
+ meta/recipes-devtools/qemu/qemu/0003-tpm-backend-Remove-unneeded-member-variable-from-bac.patch |   75 +++++-
+ meta/recipes-devtools/qemu/qemu/0004-Add-support-for-VM-suspend-resume-for-TPM-TIS-v2.9.patch   |  719 +-------------------------------------------------
+ meta/recipes-devtools/qemu/qemu/0004-tpm-backend-Move-thread-handling-inside-TPMBackend.patch   |  417 ++++++++++++++++++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0005-tpm-backend-Initialize-and-free-data-members-in-it-s.patch |  185 +++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0006-tpm-backend-Made-few-interface-methods-optional.patch      |  284 +++++++++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0007-tpm-backend-Add-new-api-to-read-backend-TpmInfo.patch      |  293 ++++++++++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0008-tpm-backend-Move-realloc_buffer-implementation-to-tp.patch |  140 ++++++++++-
+ meta/recipes-devtools/qemu/qemu/0009-tpm-passthrough-move-reusable-code-to-utils.patch          |  182 ++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0010-tpm-Added-support-for-TPM-emulator.patch                   | 1059 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ meta/recipes-devtools/qemu/qemu/0011-tpm-Move-tpm_cleanup-to-right-place.patch                  |   43 +++-
+ meta/recipes-devtools/qemu/qemu/0012-tpm-Use-EMSGSIZE-instead-of-EBADMSG-to-compile-on-Op.patch |   67 +++++-
+ meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch               |  227 +++++++++++++++-
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb                                                       |   17 +-
+ 18 files changed, 3260 insertions(+), 1758 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-Provide-support-for-the-CUSE-TPM.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-tpm-Clean-up-driver-registration-lookup.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0002-Introduce-condition-to-notify-waiters-of-completed-c.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-tpm-Clean-up-model-registration-lookup.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0003-Introduce-condition-in-TPM-backend-for-notification.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0003-tpm-backend-Remove-unneeded-member-variable-from-bac.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0004-Add-support-for-VM-suspend-resume-for-TPM-TIS-v2.9.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0004-tpm-backend-Move-thread-handling-inside-TPMBackend.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0005-tpm-backend-Initialize-and-free-data-members-in-it-s.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0006-tpm-backend-Made-few-interface-methods-optional.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0007-tpm-backend-Add-new-api-to-read-backend-TpmInfo.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0008-tpm-backend-Move-realloc_buffer-implementation-to-tp.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0009-tpm-passthrough-move-reusable-code-to-utils.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0010-tpm-Added-support-for-TPM-emulator.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0011-tpm-Move-tpm_cleanup-to-right-place.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0012-tpm-Use-EMSGSIZE-instead-of-EBADMSG-to-compile-on-Op.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
 
-> 
-> Best regards
-> 
-> Ben GUAN
-> ST-FIR/ENG1-Zhu
-> 
+base-commit: 3b413a80578caacd9a7f405f3c51a3921d78a60d
+-- 
+git-series 0.9.1
 
