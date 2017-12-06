@@ -1,30 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B0117858B
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BF6E271AC5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 03:11:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB63BPwU029881
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Dec 2017 19:11:25 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 5 Dec 2017 19:11:24 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1512104695.git.liezhi.yang@windriver.com>
-	<2b4e2875e667df753c33418eefc437d9d0da6216.1512104695.git.liezhi.yang@windriver.com>
-	<CAJTo0LZV1bVDcebUx=oDBhtZi-xCH5Cv+pFyxFYD0eeJ7=PJ6A@mail.gmail.com>
-	<0c0d8839-930b-4124-bab8-58e33274c8af@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <efad492f-551d-1f89-5160-e889b35a9162@windriver.com>
-Date: Wed, 6 Dec 2017 11:11:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <0c0d8839-930b-4124-bab8-58e33274c8af@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1 V2] targetcontrol.py: use oe.types.boolean for QEMU_USE_KVM
+	Wed,  6 Dec 2017 03:56:38 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id g130so21515827wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Dec 2017 19:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=4MvCKQYgvAQK5BRfBEe8TAcIr5qJaRQQAGkhLcA2Wcw=;
+	b=oLhZ505rPzTJEdhoN3tQXIhyuenodQzKQkJAuLcJwjX2PJYO996AAFxFyXJj+3ecZY
+	f3n1jZe0sXniRseTPv/FviKotwwYolmBMVN2M8zPbB6WH/FY7USXF9GNmso7xOuj6Bmf
+	qOT8Ae0MNDCOfXXUqubvJnc/m+BtlT0BwfXevNpsUxSCrc3WbsZXRbczbjMEBfYRD0Ph
+	Fv5xT1N+8IDHl8aAaCiK/McFuMj5DBQw5h0hG6G+A91MYFgBSgYwVZFkPlihZBzhw7LF
+	Yrf3Jjd50R7MOXzCnMSH+a7lYtje/omCWxKKTVV6HvxIGbBkra8XOsxI3XM9jUciqv8r
+	khQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4MvCKQYgvAQK5BRfBEe8TAcIr5qJaRQQAGkhLcA2Wcw=;
+	b=t7dmuhJZjWfyjlzVcpuSp+Jz0QVHosA4/X3Gc4LfFLBdPDvQjaZxlXG9NuBmnFfgrB
+	tMwGgzIxzQ+hHkDr5YrNz7EwE6ETTp9dmp73sArbg0j4J0HnaVplRTSYAxKiSr8woCD/
+	VCJ/Aq3ptw2tcrKMa3DIR1Odqwbwt+ZqOdeTxPAkeXDW3Xs65luUvDF1cHaBaxUovbgw
+	DnqWyWJ5MPWAQESuti1X0qYqHCGNV7FbJ5aD9OvLtbFztXv/gDVmCQGSoms8avW8NoPB
+	OMnUTFJ0STMQp9zYgFuPhsd8e3fMEzarvP8gemAuOXhbUyF2m4XoKa6suxRdDlJU8a8+
+	omyg==
+X-Gm-Message-State: AJaThX6+gf4lLY6mlKd8/r7baZpgJ+P00kvI/EIXvCuxYojaANjT+dMQ
+	vxQrTtHL7SeslIE6D7+PIpWiLQ==
+X-Google-Smtp-Source: AGs4zMaeFAsHmO0RrDFhIV5fxI1QNMy2GH5/4RGaoMjAOTogtQsZCVhAkVTytpdmZHAhj0drKa36Ig==
+X-Received: by 10.80.204.152 with SMTP id q24mr38536376edi.108.1512532599062; 
+	Tue, 05 Dec 2017 19:56:39 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58])
+	by smtp.gmail.com with ESMTPSA id c2sm773605edi.66.2017.12.05.19.56.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Dec 2017 19:56:38 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Dec 2017 04:54:31 +0100
+Message-Id: <1512532471-15979-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] toolchain-shar-relocate.sh: let $relocate control the entire script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,81 +54,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 03:11:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Dec 2017 03:56:39 -0000
 
+From: Ming Liu <liu.ming50@gmail.com>
 
+There is a series of checking/substituting being processed in this
+script, I would like them to be controlled together by $relocate which
+make more sense from my point of view rather than it only controls
+relocate_sdk.sh. And another reason why we need this fix, is that
+sometimes we do not install nativesdk ld-linux.so or other nativesdk
+packages if we not want do relocate, which can save some space and
+reduce build time for us, but in that case the SDK installer will fail
+on some sanity checks without this fix.
 
-On 12/06/2017 09:37 AM, Robert Yang wrote:
-> 
-> On 12/06/2017 12:10 AM, Burton, Ross wrote:
->> On 1 December 2017 at 05:13, Robert Yang <liezhi.yang@windriver.com 
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>     So that both QEMU_USE_KVM = "True" and "1" will work.
->>
->>     [YOCTO #12343]
->>
->>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->>     <mailto:liezhi.yang@windriver.com>>
->>     ---
->>       meta/classes/testimage.bbclass | 2 +-
->>       meta/lib/oeqa/targetcontrol.py | 2 +-
->>       2 files changed, 2 insertions(+), 2 deletions(-)
->>
->>     diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
->>     index 45bb2bd..7260ad4 100644
->>     --- a/meta/classes/testimage.bbclass
->>     +++ b/meta/classes/testimage.bbclass
->>     @@ -215,7 +215,7 @@ def testimage_main(d):
->>           # Get use_kvm
->>           qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->>           if qemu_use_kvm and \
->>     -       (qemu_use_kvm == 'True' and 'x86' in machine or \
->>     +       (oe.types.boolean(qemu_use_kvm) and 'x86' in machine or \
->>               d.getVar('MACHINE') in qemu_use_kvm.split()):
->>               kvm = True
->>           else:
->>     diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
->>     index f63936c..3fc3870 100644
->>     --- a/meta/lib/oeqa/targetcontrol.py
->>     +++ b/meta/lib/oeqa/targetcontrol.py
->>     @@ -107,7 +107,7 @@ class QemuTarget(BaseTarget):
->>               dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
->>               qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->>               if qemu_use_kvm and \
->>     -           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
->>     +           (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE")
->>     or \
->>                   d.getVar("MACHINE") in qemu_use_kvm.split()):
->>                   use_kvm = True
->>               else:
->>
->>
->> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/665/steps/Running%20oe-selftest/logs/stdio 
->>
->>
->>    File 
->> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/targetcontrol.py", 
->> line 110, in __init__
->>      (oe.types.boolean(qemu_use_kvm) and "x86" in d.getVar("MACHINE") or \
->> UnboundLocalError: local variable 'oe' referenced before assignment
-> 
-> Sorry, I had tried testimage and oe-selftest before and just now locally,
-> didn't see this error, need more investigations.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/files/toolchain-shar-relocate.sh | 101 +++++++++++++++++-----------------
+ 1 file changed, 50 insertions(+), 51 deletions(-)
 
-I can reproduce it now:
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index e3c1001..04e7582 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -1,28 +1,29 @@
+-if ! xargs --version > /dev/null 2>&1; then
+-	echo "xargs is required by the relocation script, please install it first. Abort!"
+-	exit 1
+-fi
++if [ $relocate = 1 ] ; then
++    if ! xargs --version > /dev/null 2>&1; then
++        echo "xargs is required by the relocation script, please install it first. Abort!"
++        exit 1
++    fi
+ 
+-# fix dynamic loader paths in all ELF SDK binaries
+-native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
+-dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+-if [ "$dl_path" = "" ] ; then
+-	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+-	exit 1
+-fi
+-executable_files=$($SUDO_EXEC find $native_sysroot -type f \
+-	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
+-if [ "x$executable_files" = "x" ]; then
+-   echo "SDK relocate failed, could not get executalbe files"
+-   exit 1
+-fi
++    # fix dynamic loader paths in all ELF SDK binaries
++    native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
++    dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
++    if [ "$dl_path" = "" ] ; then
++        echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
++        exit 1
++    fi
++    executable_files=$($SUDO_EXEC find $native_sysroot -type f \
++        \( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
++    if [ "x$executable_files" = "x" ]; then
++       echo "SDK relocate failed, could not get executalbe files"
++       exit 1
++    fi
+ 
+-tdir=`mktemp -d`
+-if [ x$tdir = x ] ; then
+-   echo "SDK relocate failed, could not create a temporary directory"
+-   exit 1
+-fi
+-cat <<EOF >> $tdir/relocate_sdk.sh
++    tdir=`mktemp -d`
++    if [ x$tdir = x ] ; then
++       echo "SDK relocate failed, could not create a temporary directory"
++       exit 1
++    fi
++    cat <<EOF >> $tdir/relocate_sdk.sh
+ #!/bin/sh
+ for py in python python2 python3
+ do
+@@ -39,22 +40,20 @@ fi
+ \${PYTHON} ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+ EOF
+ 
+-$SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
+-$SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
+-rm -rf $tdir
+-if [ $relocate = 1 ] ; then
+-	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
+-	if [ $? -ne 0 ]; then
+-		echo "SDK could not be set up. Relocate script failed. Abort!"
+-		exit 1
+-	fi
+-fi
++    $SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
++    $SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
++    rm -rf $tdir
++    $SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
++    if [ $? -ne 0 ]; then
++        echo "SDK could not be set up. Relocate script failed. Abort!"
++        exit 1
++    fi
+ 
+-# replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc.
+-# replace the host perl with SDK perl.
+-for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
+-	$SUDO_EXEC find $replace -type f
+-done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
++    # replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc.
++    # replace the host perl with SDK perl.
++    for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
++        $SUDO_EXEC find $replace -type f
++    done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
+     awk -F':' '{printf "\"%s\"\n", $1}' | \
+     grep -Ev "$target_sdk_dir/(environment-setup-*|relocate_sdk*|${0##*/})" | \
+     xargs -n100 $SUDO_EXEC sed -i \
+@@ -62,18 +61,18 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
+         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
+         -e "s: /usr/bin/perl: /usr/bin/env perl:g"
+ 
+-if [ $? -ne 0 ]; then
+-	echo "Failed to replace perl. Relocate script failed. Abort!"
+-	exit 1
+-fi
+-
+-# change all symlinks pointing to @SDKPATH@
+-for l in $($SUDO_EXEC find $native_sysroot -type l); do
+-	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+-	if [ $? -ne 0 ]; then
+-		echo "Failed to setup symlinks. Relocate script failed. Abort!"
+-		exit 1
++    if [ $? -ne 0 ]; then
++        echo "Failed to replace perl. Relocate script failed. Abort!"
++        exit 1
+     fi
+-done
+ 
+-echo done
++    # change all symlinks pointing to @SDKPATH@
++    for l in $($SUDO_EXEC find $native_sysroot -type l); do
++        $SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
++        if [ $? -ne 0 ]; then
++            echo "Failed to setup symlinks. Relocate script failed. Abort!"
++            exit 1
++        fi
++    done
++    echo done
++fi
+-- 
+2.7.4
 
-Add QEMU_USE_KVM = "1" to con/local.conf
-$ oe-selftest  -r devtool.DevtoolTests.test_devtool_deploy_target
-
-// Robert
-
-> 
-> // Robert
-> 
->>
->> Ross
 
