@@ -1,26 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC2B786D7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AEDB7841C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 02:46:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vB62kmSk000910
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Dec 2017 18:46:48 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 5 Dec 2017 18:46:47 -0800
+	Wed,  6 Dec 2017 02:54:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB62sbsv006389
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 5 Dec 2017 18:54:37 -0800
+Received: from [128.224.162.151] (128.224.162.151) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 5 Dec 2017 18:54:37 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 5 Dec 2017 21:46:44 -0500
-Message-ID: <1512528404-110242-2-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1512528404-110242-1-git-send-email-hongxu.jia@windriver.com>
 References: <1512528404-110242-1-git-send-email-hongxu.jia@windriver.com>
+Message-ID: <0bc94a28-0fda-49ed-f8c8-76f314efb6de@windriver.com>
+Date: Wed, 6 Dec 2017 10:57:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
+In-Reply-To: <1512528404-110242-1-git-send-email-hongxu.jia@windriver.com>
 Cc: bruce.ashfield@windriver.com
-Subject: [PATCH 2/2] scripts/runqemu: fix qemumips64 with 512M RAM caused kernel panic
+Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +34,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 02:46:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Dec 2017 02:54:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------604FB0418E7D788569A6D4FB"
+Content-Language: en-US
 
-$ runqemu qemumips64 core-image-minimal nographic qemuparams="-m 512"
+--------------604FB0418E7D788569A6D4FB
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 2017年12月06日 10:46, Hongxu Jia wrote:
+> OE uses qemumips to simulate a Malta board by default.
+>
+> As upstream qemu introduced:
+> https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
+>
+> The Malta board can support up to 2GiB of RAM which should
+> be able to boot a Linux kernel built with CONFIG_HIGHMEM
+> enabled and passing "-m 2048" to QEMU and appending the
+> following kernel parameters:
+
+Hi Ross,
+
+I have sent another fix to linux-yocto to enable CONFIG_HIGHMEM
+for qemumips (mti-malta32).
+
+//Hongxu
+
+> ...
+> mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
+> ...
+>
+> But the following commit in kernel broke above mem=X@Y setting
+> which added the memory as reserved memory area.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
+> ...
+> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
+> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
+> Date:   Wed Nov 23 14:43:49 2016 +0100
+>
+>      MIPS: fix mem=X@Y commandline processing
+> ...
+>
+> So remove `mem=*' to disable user-defined physical RAM map
+> which let kernel itself caculates memory ranges.
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   scripts/runqemu | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index f2b4b3c..0ae2f85 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -658,7 +658,10 @@ class BaseConfig(object):
+>               logger.info('QB_MEM is not set, use 512M by default')
+>               self.set('QB_MEM', '-m 512')
+>   
+> -        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
+> +        mach = self.get('MACHINE')
+> +        if mach != 'qemumips':
+> +            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
+> +
+>           self.qemu_opt_script += ' %s' % self.get('QB_MEM')
+>   
+>       def check_tcpserial(self):
+
+
+
+--------------604FB0418E7D788569A6D4FB
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2017年12月06日 10:46, Hongxu Jia wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:1512528404-110242-1-git-send-email-hongxu.jia@windriver.com">
+      <pre wrap="">OE uses qemumips to simulate a Malta board by default.
+
+As upstream qemu introduced:
+<a class="moz-txt-link-freetext" href="https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b">https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b</a>
+
+The Malta board can support up to 2GiB of RAM which should
+be able to boot a Linux kernel built with CONFIG_HIGHMEM
+enabled and passing "-m 2048" to QEMU and appending the
+following kernel parameters:</pre>
+    </blockquote>
+    <br>
+    Hi Ross, <br>
+    <br>
+    I have sent another fix to linux-yocto to enable CONFIG_HIGHMEM<br>
+    for qemumips (<span style="color: rgb(51, 51, 51); font-family:
+      Arial, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">mti-malta32</span>).<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:1512528404-110242-1-git-send-email-hongxu.jia@windriver.com">
+      <pre wrap="">
 ...
-[    0.000000] Call Trace:
-[    0.000000] [<ffffffff801268c0>] clear_page+0x0/0x128
-[    0.000000] [<ffffffff80238158>] get_page_from_freelist+0xab8/0xc00
-[    0.000000] [<ffffffff80238964>] __alloc_pages_nodemask+0xdc/0xf68
-[    0.000000] [<ffffffff80239808>] __get_free_pages+0x18/0x70
-[    0.000000] [<ffffffff80122a4c>] setup_zero_pages+0x1c/0xb8
-[    0.000000] [<ffffffff80c7c998>] mem_init+0x54/0xa0
-[    0.000000] [<ffffffff80c74904>] start_kernel+0x204/0x4d8
-[    0.000000] [<ffffffff8091dfb0>] kernel_entry+0x0/0x40
-[    0.000000] Code: 02002025  1000f8d9  8e634d7c <34860f80> cc9e0000
-cc9e0020  cc9e0040  cc9e0060  cc9e0080
-[    0.000000]
-[    0.000000] ---[ end trace 0000000000000000 ]---
-[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task!
+mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
 ...
 
-Remove `mem=*' to disable user-defined physical RAM map which
-let kernel itself caculates memory ranges.
+But the following commit in kernel broke above mem=X@Y setting
+which added the memory as reserved memory area.
+<a class="moz-txt-link-freetext" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411</a>
+...
+commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
+Author: Marcin Nowakowski <a class="moz-txt-link-rfc2396E" href="mailto:marcin.nowakowski@imgtec.com">&lt;marcin.nowakowski@imgtec.com&gt;</a>
+Date:   Wed Nov 23 14:43:49 2016 +0100
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+    MIPS: fix mem=X@Y commandline processing
+...
+
+So remove `mem=*' to disable user-defined physical RAM map
+which let kernel itself caculates memory ranges.
+
+Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 0ae2f85..0c90ca7 100755
+index f2b4b3c..0ae2f85 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -659,7 +659,7 @@ class BaseConfig(object):
+@@ -658,7 +658,10 @@ class BaseConfig(object):
+             logger.info('QB_MEM is not set, use 512M by default')
              self.set('QB_MEM', '-m 512')
  
-         mach = self.get('MACHINE')
--        if mach != 'qemumips':
-+        if mach != 'qemumips' and mach != 'qemumips64':
-             self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
- 
+-        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
++        mach = self.get('MACHINE')
++        if mach != 'qemumips':
++            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
++
          self.qemu_opt_script += ' %s' % self.get('QB_MEM')
--- 
-2.8.1
+ 
+     def check_tcpserial(self):
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
 
-
+--------------604FB0418E7D788569A6D4FB--
