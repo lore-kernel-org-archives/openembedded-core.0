@@ -1,26 +1,23 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D0478679
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E5AF171994
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 02:35:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vB72ZOCp007176
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Dec 2017 18:35:24 -0800
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 6 Dec 2017 18:35:24 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Dec 2017 10:33:28 +0800
-Message-ID: <a590f7d1cd73422e5f2b8c7c40ed1404e6c45539.1512613370.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1512613370.git.jackie.huang@windriver.com>
-References: <cover.1512613370.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] features_backfill: fix for multilib
+	Thu,  7 Dec 2017 03:37:12 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Dec 2017 19:37:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,370,1508828400"; d="scan'208";a="10268619"
+Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.intel.com)
+	([10.254.34.148])
+	by orsmga003.jf.intel.com with ESMTP; 06 Dec 2017 19:37:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed,  6 Dec 2017 19:37:10 -0800
+Message-Id: <20171207033710.5571-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH] image_types: btrfs use sparse file creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 02:35:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Dec 2017 03:37:13 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+This will speed up file creation and still allow the btrfs tools to
+create a full btrfs image.  This is similar to what we do for ext234
+FS types.
 
-The backfilling feature doesn't work for multilib,
-
-e.g. build with:
-MACHINE = "qemumips64"
-MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-MULTILIBS = "multilib:libn32"
-DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-require conf/multilib.conf
-
-And we have backfill_considered in machine/include/mips/arch-mips.inc:
-MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
-
-For libn32 builds, 'qemu-usermode' is not expected but it still
-presents in MACHINE_FEATURES.
-
-To fix the issue:
-* Change the oe.utils.features_backfill to always compare with the
-  original features(before backfilled), so we can run the function
-  multiple times when needed.
-
-* run oe.utils.features_backfill at the end of multilib_virtclass_handler
-  to update the backfilled features to ensure it's correct for multilib.
-
-[YOCTO #12373]
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/multilib.bbclass | 4 ++++
- meta/lib/oe/utils.py          | 9 +++++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 816f54e..589ee37 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -77,6 +77,10 @@ python multilib_virtclass_handler () {
-     if newtune:
-         e.data.setVar("DEFAULTTUNE", newtune)
-         e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
-+
-+    # Update the backfilled features after DEFAULTTUNE changed
-+    oe.utils.features_backfill("DISTRO_FEATURES", e.data)
-+    oe.utils.features_backfill("MACHINE_FEATURES", e.data)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index aaba1073a08..ce7699d9b60 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -104,7 +104,7 @@ IMAGE_CMD_btrfs () {
+ 		size=${MIN_BTRFS_SIZE}
+ 		bbwarn "Rootfs size is too small for BTRFS. Filesystem will be extended to ${size}K"
+ 	fi
+-	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs count=${size} bs=1024
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs seek=${size} count=0 bs=1024
+ 	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
  }
  
- addhandler multilib_virtclass_handler
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 1897c5f..371acd0 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -107,13 +107,18 @@ def features_backfill(var,d):
-     backfill = (d.getVar(var+"_BACKFILL") or "").split()
-     considered = (d.getVar(var+"_BACKFILL_CONSIDERED") or "").split()
- 
-+    features_original = (d.getVar(var + "_ORIGINAL") or "").split()
-+    if not features_original:
-+        features_original = features
-+        d.setVar(var + "_ORIGINAL", " ".join(features_original))
-+
-     addfeatures = []
-     for feature in backfill:
--        if feature not in features and feature not in considered:
-+        if feature not in features_original and feature not in considered:
-             addfeatures.append(feature)
- 
-     if addfeatures:
--        d.appendVar(var, " " + " ".join(addfeatures))
-+        d.setVar(var, " ".join(features_original) + " " + " ".join(addfeatures))
- 
- def all_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
 -- 
-1.9.1
+2.13.6
 
 
