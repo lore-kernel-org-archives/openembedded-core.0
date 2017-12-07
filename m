@@ -1,21 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E5AF171994
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B7C771994
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 03:37:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Dec 2017 19:37:13 -0800
+	Thu,  7 Dec 2017 03:46:36 +0000 (UTC)
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Dec 2017 19:46:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,370,1508828400"; d="scan'208";a="10268619"
+X-IronPort-AV: E=Sophos;i="5.45,370,1508828400"; 
+   d="scan'208";a="533400"
 Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.intel.com)
 	([10.254.34.148])
-	by orsmga003.jf.intel.com with ESMTP; 06 Dec 2017 19:37:13 -0800
+	by fmsmga007.fm.intel.com with ESMTP; 06 Dec 2017 19:46:38 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Wed,  6 Dec 2017 19:37:10 -0800
-Message-Id: <20171207033710.5571-1-sgw@linux.intel.com>
+Date: Wed,  6 Dec 2017 19:46:35 -0800
+Message-Id: <20171207034635.7353-1-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 Subject: [PATCH] image_types: btrfs use sparse file creation
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 03:37:13 -0000
+X-List-Received-Date: Thu, 07 Dec 2017 03:46:37 -0000
 
 This will speed up file creation and still allow the btrfs tools to
 create a full btrfs image.  This is similar to what we do for ext234
