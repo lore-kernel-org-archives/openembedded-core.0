@@ -1,47 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 909266010B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E2F6278200
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 19:21:14 +0000 (UTC)
-Received: by mail-pg0-f51.google.com with SMTP id j9so5119873pgc.11
+	Thu,  7 Dec 2017 19:27:16 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r78so15040050wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Dec 2017 11:21:16 -0800 (PST)
+	Thu, 07 Dec 2017 11:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Nh1grVcW6xT1WiMn2U3wede9AvCdAw2U0SMQGk60KS4=;
-	b=D88iMKi6MSKHgxFFq7oMwO/9LgUhJ1XVLDwU0jQJe8omcWXGfYxktn9ZzkhvNKPc43
-	l15hSqJmZApk07U/aCkpzEykYI1LiDrMkDzafBKpWX+Y9j9vSLA9BU2wdam2E0ffshkT
-	xHIPuNlXn7SMr1xPHr7BTfrmb5J9yxYTT2gHc8aTKqYASA859WMKocEgHtdeNYNF7WIi
-	xy1ymfle0DRtY+uiBwnUpydvrXa5eB6VRYW75VoCcpEZD/748mcSGQAs+NsIQ8+RiFsZ
-	P8Jo+CmO6m7fM/IoWd7LNbKeMZFiU55O7S7lT9Pg80fox2M4y9uP2+EBWjR5l48i3JGK
-	96+w==
+	:cc; bh=CsQ9rxzBslqN0aCXjnQF0JRkEj11YYi3FGEYVIe9HPQ=;
+	b=Q99Z8MuXSk3miuQsisnHJBk1FXg8ViKJf1khe51lF+9J+q9mkdYV59ZUf+dkduhl9K
+	eFG9KQLj3sirPZxO9gnURGrbPARce6AyfOmc6PINpXvYJbX3Tyy/yA/YVOYbMPuIlEvr
+	x9Q49ob30ZyKBIcryf614pdoF0Zg8oK8CXKYVwIdvCRzATkRu7JY7jve9fuFi3JBe4hW
+	7BAzLj8M3XI3XtHxQS0JWwE/RDvoNT24bl9Zzpaac6RPRMiGM9IZ6E2vzZagMLUNYB/Q
+	Db2BPohD0RkxnyKc0OUCy5BlVk9ppJOXBN3CSijOgpGtCsA+Ws8oaceCbfGwqbkxHxAo
+	Y/UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Nh1grVcW6xT1WiMn2U3wede9AvCdAw2U0SMQGk60KS4=;
-	b=oktorC+lMAD2XgQxnlObO7M4UL+726/MphIG+lOo33kfIkn0WImAoq5+AJqPCSBoHa
-	1UrKvMRVlu26jwmtiqqpIvCuTXJ4NkXeqdCdU1Lgeprvh7yO63f3U/hLzlchI0qdm+qj
-	HoxdBFUD152eLnKx9c+GaiL82i++pFJ8J09KYURl8cyeQpHyTOMhdNEQYgd0W2lUPvMX
-	Jw0A8KbAXoM9RSIvF56t+3GhiGGJa+yu1NEIqJE2ENrXJWDnPoJXs8XthqV5K59dbkCX
-	im62QtvJKbB8nC5qREWuOrLeBOSG0EhKSa8dnAKH4Wt+MSjPWxwfuhuxFiwsRSHdZJZs
-	gItw==
-X-Gm-Message-State: AKGB3mJeR3j0EbggjkM4mMhUmG3CgcZoXf4wuT8HU8UkYhdC/yQg3vY2
-	v0siRWOL2eT9GtHlk//Z2Vc3sgGZyIcva/p741U=
-X-Google-Smtp-Source: AGs4zMZ5wiNfK82KXU3AJesJYYcSxoNETaZ1j61lFL5+XhtrwhCxcH+JX/Lhx6b0uvaZiRR7Sq0IQBlAo4w997ej+hs=
-X-Received: by 10.159.252.68 with SMTP id t4mr10416579plz.423.1512674475262;
-	Thu, 07 Dec 2017 11:21:15 -0800 (PST)
+	bh=CsQ9rxzBslqN0aCXjnQF0JRkEj11YYi3FGEYVIe9HPQ=;
+	b=JxHrbx1hw5UTd9HuRnJWgdCjOP1U69+kOw6JOOWsP08T86PJKxtlrHuzL2MaGdqKga
+	TpuoLl9ozGBoqUIWtLmdqsII+DXSFAfDHF/px+DTdyBqZtfmKlo8EjgYIn2HwvWF1Nyb
+	owsrK1a/mZP8kj4nOmZcOr3fkeUSAMehhpBlFDExAQeY+fZQWk2L8+nEkHjR6MVU2O1g
+	Cn+8NTBe/RUKhW/vqKyVNq+Iq9QHYpP6WmYPlSqtvra93HKVeNBXo0wWaZ20y1zojz8u
+	Gwqf60tRQIQZfgrkxBcT3uU0W6tyPgs/Bc+DDtAGGsiJfvafEncsJn/4yNu4UCeqMD9I
+	fMug==
+X-Gm-Message-State: AKGB3mJlB3eqHocDJq8JfqTIarO3iI+IB1o+6vUtFn6Dmwer0DdRsAIg
+	1u14+Nal+d5OtHXR2ViVJFnXH+r1skDmAAQ0iLx4jQ==
+X-Google-Smtp-Source: AGs4zMaxL7L96x0TNGzVSBCKn0ij7pdLjIkWh6ia3RtgEKyQCyv4fgGkZb9NfsXVK+cYSpt7eyfK0dp6RVQQFIeYPEQ=
+X-Received: by 10.28.199.75 with SMTP id x72mr1904977wmf.87.1512674837620;
+	Thu, 07 Dec 2017 11:27:17 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.159.15 with HTTP; Thu, 7 Dec 2017 11:20:44 -0800 (PST)
-In-Reply-To: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
-References: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Dec 2017 11:20:44 -0800
-Message-ID: <CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel.bbclass do_sizecheck behaviour changes
+Received: by 10.223.133.68 with HTTP; Thu, 7 Dec 2017 11:27:17 -0800 (PST)
+In-Reply-To: <9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
+	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 7 Dec 2017 11:27:17 -0800
+Message-ID: <CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +54,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 19:21:14 -0000
+X-List-Received-Date: Thu, 07 Dec 2017 19:27:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 7, 2017 at 8:15 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> I discovered today that our kernel size check has been ineffective since we
-> took 7384d2831c713ac5999aca83c312154dc15cec56 from 2014 which changed the
-> units for KERNEL_IMAGE_MAXSIZE from bytes to kilobytes.
->
-> However whilst fixing that, I also noticed that
-> 849b67b2e4820564b5e5c9bd4bb293c44351c5f3 in 2016 changed the consequences
-> of exceeding the size from being fatal to merely a warning.
->
-> This second change in behaviour wasn't described in the commit message, so
-> I'm not sure whether it was intentional. I can believe that when generating
-> multiple kernel image types it may not be essential that they all fit, but
-> I don't really know what the use case for the feature is.
->
-> I could fix this by adding to kernel.bbclass something like:
->
->  KERNEL_IMAGE_MAXSIZE_CONSEQUENCE ?= "warn"
->
-> and then using it when delivering the bad news so that recipes can override
-> it if they wish.
->
-> Alternatively, I could treat the error as being fatal if none of the kernel
-> images fit within the required size. This would degenerate to the old
-> behaviour automatically if KERNEL_IMAGETYPES contains only one entry.
->
-> Does one of these solutions appeal, or is there another even better
-> solution?
->
+On Fri, Nov 17, 2017 at 4:02 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> +
+> +MESON_HOST_ENDIAN = "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be', 'big', 'little', d)}"
 
-I think default should be a warning with a possibility to be turned
-into an error
-if user wishes too. I think if you are generating multiple kernel types then you
-will use all of them somewhere, so I would say if the size of one of
-them excedes
-the set limit them break the build.
+SITEINFO_ENDIANNESS returns the endianness of the target, not the
+host. Perhaps this is just a confusingly named variable though? (it
+doesn't make much sense to expect the user to tell the build system
+what endianness it's running on, the build system should be able to
+determine that on it's own).
 
-> Thanks.
->
-> Mike.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'big', 'little', d)}"
+
+This won't work for all targets (e.g. PowerPC is big endian but
+doesn't include "bigendian" in TUNE_FEATURES). To determine the
+endianness of the target, use SITEINFO_ENDIANNESS instead.
 
