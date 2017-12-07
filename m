@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 47E7477F34;
-	Thu,  7 Dec 2017 18:30:52 +0000 (UTC)
+Return-Path: <california.l.sullivan@intel.com>
+X-Greylist: delayed 979 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 07 Dec 2017 18:37:29 UTC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BDBB77F34
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Dec 2017 18:37:29 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Dec 2017 10:19:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,373,1508828400"; d="scan'208";a="182252516"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga005.jf.intel.com with ESMTP; 07 Dec 2017 10:19:11 -0800
+To: openembedded-core@lists.openembedded.org
+References: <20171121214703.11109-1-california.l.sullivan@intel.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <c787ba10-43f1-0e9b-e22f-192d19ff2f58@intel.com>
+Date: Thu, 7 Dec 2017 10:19:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 07 Dec 2017 18:30:54 -0000
-Message-ID: <20171207183054.2787.59836@do.openembedded.org>
-References: <20171206194628.1901-1-JPEWhacker@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171206194628.1901-1-JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZTogSW5jbHVkZSBsb2NhbGVfdC5oIChyZXYyKQ==?=
+In-Reply-To: <20171121214703.11109-1-california.l.sullivan@intel.com>
+Subject: Re: [PATCH 1/2] init-install: fix grub-install command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 18:30:52 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 07 Dec 2017 18:37:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-== Series Details ==
+Hi Armin,
 
-Series: cross-localedef-native: Include locale_t.h (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/10101/
-State : failure
+This is also suitable for Rocko. Please add it to your backport queue 
+when you can.
 
-== Summary ==
+Its in master here: 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=0b8460e2ce9f9a4ea8de8497fbb65b91cb69b8e0
 
+Thanks,
+Cal
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  morty (currently at 4e9bb9ab2e)
-
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why 0001-Include-locale_t.h-compatibility-header.patch is inappropriate
-  Current          Upstream-Status: Inappropriate compatibility with newer host glibc
-  Standard format  Upstream-Status: Inappropriate [reason]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+On 11/21/2017 01:47 PM, California Sullivan wrote:
+> The grub_version variable was calling 'grub-install -v' (verbose) instead
+> of 'grub-install -V' (version) causing unexpected failures.
+>
+> Fixes bug [YOCTO #12111].
+>
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+>   meta/recipes-core/initrdscripts/files/init-install.sh | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+> index 572613e..1cac806 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+> @@ -132,7 +132,7 @@ fi
+>   
+>   disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+>   
+> -grub_version=$(grub-install -v|sed 's/.* \([0-9]\).*/\1/')
+> +grub_version=$(grub-install -V|sed 's/.* \([0-9]\).*/\1/')
+>   
+>   if [ $grub_version -eq 0 ] ; then
+>       bios_boot_size=0
 
 
