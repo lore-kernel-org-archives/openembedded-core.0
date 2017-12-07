@@ -1,28 +1,18 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 743967859F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 18:13:55 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Dec 2017 10:13:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,373,1508828400"; d="scan'208";a="182251044"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 07 Dec 2017 10:13:57 -0800
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, akuster808@gmail.com
-References: <CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
-	<1512165201-51-1-git-send-email-Martin.Jansa@gmail.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <af2b02f4-2f8b-4db1-e448-2d9755eec4b4@intel.com>
-Date: Thu, 7 Dec 2017 10:13:57 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 47E7477F34;
+	Thu,  7 Dec 2017 18:30:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1512165201-51-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: Re: [PATCH] initramfs-module-install: Remove allarch and FILESEXTRAPATHS
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 07 Dec 2017 18:30:54 -0000
+Message-ID: <20171207183054.2787.59836@do.openembedded.org>
+References: <20171206194628.1901-1-JPEWhacker@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171206194628.1901-1-JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZTogSW5jbHVkZSBsb2NhbGVfdC5oIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 18:13:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 07 Dec 2017 18:30:52 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
-Ack'd.
+== Series Details ==
 
-We need this in master so it can be backported to rocko along with my 
-patches.
+Series: cross-localedef-native: Include locale_t.h (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/10101/
+State : failure
 
-Thanks,
-Cal
+== Summary ==
 
-On 12/01/2017 01:53 PM, Martin Jansa wrote:
-> * files is already included in default FILESPATH
-> * it cannot inherit allarch as it RDEPENDS on bunch of TUNE_PKGARCH packages
-> * use the same COMPATIBLE_HOST restrictions as grub has to prevent ERRORs in
->    bitbake world
->    ERROR: Nothing RPROVIDES 'grub' (but oe-core/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb RDEPENDS on or otherwise requires it)
->    grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
->    grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
->    NOTE: Runtime target 'grub' is unbuildable, removing...
->    Missing or unbuildable dependency chain was: ['grub']
->    ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->   .../initrdscripts/initramfs-module-install-efi_1.0.bb             | 3 ---
->   meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb   | 8 +++++---
->   2 files changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-> index 24b53a8..1e7f76f 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-> @@ -5,9 +5,6 @@ RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools ut
->   
->   PR = "r4"
->   
-> -inherit allarch
-> -
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
->   SRC_URI = "file://init-install-efi.sh"
->   
->   S = "${WORKDIR}"
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-> index ce7f165..02b69f3 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-> @@ -3,11 +3,13 @@ LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->   RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
->   
-> -PR = "r1"
-> +# The same restriction as grub
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-> +COMPATIBLE_HOST_armv7a = 'null'
-> +COMPATIBLE_HOST_armv7ve = 'null'
->   
-> -inherit allarch
-> +PR = "r1"
->   
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
->   SRC_URI = "file://init-install.sh"
->   
->   S = "${WORKDIR}"
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  morty (currently at 4e9bb9ab2e)
+
+* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
+  Suggested fix    Include a brief reason why 0001-Include-locale_t.h-compatibility-header.patch is inappropriate
+  Current          Upstream-Status: Inappropriate compatibility with newer host glibc
+  Standard format  Upstream-Status: Inappropriate [reason]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
