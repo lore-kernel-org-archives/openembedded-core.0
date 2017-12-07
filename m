@@ -1,44 +1,43 @@
-Return-Path: <msm-oss@mcclintock.net>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AAB878679
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id AD67160778
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Dec 2017 22:53:26 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id j124so3159274pfc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Dec 2017 14:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mcclintock.net; s=google; h=from:to:subject:date:message-id;
-	bh=PldKEHvR9YmQtWimMASDN+HW7feZ62l9FNrnjhxbuQg=;
-	b=L2+wW40D/lAtjQSvIsob513KEMFJfiH3dp7VzDT5ILUFrMP8CCUZSJCOGaYLq7pbv9
-	txh3CmPYVtyaxFuUqxbJgZQdvXcAFHCnQ8hzMDptCZ5Zz32/YC8nYeh4KLBLneQtOUUd
-	oRaBHZpOuuKTvxaE+/ulv8UBtWY+GL8iD4lCQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PldKEHvR9YmQtWimMASDN+HW7feZ62l9FNrnjhxbuQg=;
-	b=rne9YMmZXbk8nFBYY94tyj9ojPveFyqjCAjEzWsH1lbM/DtvFoVtkjbG+2YNUrGJjS
-	X5qd4PngCLFsOJ0Nig7qtchTYDn8LgqOmm9WgggzDJa8+7LSNdCDuKP6OSeqtQ5bIEwJ
-	BNzCdGeMbs0JSKqI+F4ZfKMr2U4B0YAR7UyShVr1sr+P/wOei/v3qASqG9RxCGDywU6T
-	p9eLmDyOaKPErgRkPVrEV0djZm6J9pSxc3aAaenx/Sw1ihgSBsqy6ThUa392hk1dtF/e
-	twZLSlTpllcH5Sav+ea9kXnllAw3GUU02eYfL0EtcriXAR4nmz9Z4gww95KUFhRHhw3U
-	fomw==
-X-Gm-Message-State: AJaThX7C6IyJVM3bc62lMVnXCVBTFTAe7irKPLjHwzMnOK00RbJ9HCKx
-	BcFtqqxYK/PoPrMJKI7IUNUFL/JA
-X-Google-Smtp-Source: AGs4zMasqYgus/tC7sX7QpAxGl5UK/KMMgPU4zbPMzSn3BobMiZDOtGtQy1acDyCSqb2kyNbHwcNFw==
-X-Received: by 10.99.125.81 with SMTP id m17mr22202800pgn.279.1512600802648;
-	Wed, 06 Dec 2017 14:53:22 -0800 (PST)
-Received: from c4.lgirdk.com ([4.16.80.118]) by smtp.gmail.com with ESMTPSA id
-	c79sm6278999pfj.49.2017.12.06.14.53.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Dec 2017 14:53:22 -0800 (PST)
-From: Matthew McClintock <msm-oss@mcclintock.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Dec 2017 14:53:18 -0800
-Message-Id: <20171206225318.1269-1-msm-oss@mcclintock.net>
-X-Mailer: git-send-email 2.14.1
-Subject: [pyro][PATCH] staging.bbclass: handle postinst-useradd-* fixmes
+	Thu,  7 Dec 2017 01:26:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208,217";a="30784726"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2017 09:26:42 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2F58E486A785;
+	Thu,  7 Dec 2017 09:26:42 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0361.001; Thu, 7 Dec 2017 09:26:41 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libyui
+Thread-Index: AQHTaNB03T/drIUTQUK2Znhg9gu0fqMqZB8AgAgR4BCAAARRAIAEqLNA
+Date: Thu, 7 Dec 2017 01:26:40 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF732EEA5691@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1511932233-21738-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<b825822d-713c-d31a-e071-bf0733555040@linux.intel.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF732EEA4D08@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CAJTo0LYNCDPA89HsgcoZqjoqF2OBuKDGGXA8pDgC9jGsgtwQ8g@mail.gmail.com>
+In-Reply-To: <CAJTo0LYNCDPA89HsgcoZqjoqF2OBuKDGGXA8pDgC9jGsgtwQ8g@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.116]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 2F58E486A785.A5C72
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libyui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,67 +50,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Dec 2017 22:53:26 -0000
+X-List-Received-Date: Thu, 07 Dec 2017 01:26:45 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA5691G08CNEXMBPEKD01_"
 
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA5691G08CNEXMBPEKD01_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-After 02457ef7f600ce954874e2d11e74b1c6daaa3bfc, PSEUDO for
-postinst-useradd-* scripts get to use only one PSEUDO_LOCALSTATEDIR
-which is set under recipes ${WORKDIR}.
+SGkgUm9zcyENCiAgICAgICAgIFdoZXJlIHNob3VsZCBJIHB1dCB0aGlzIHJl
+Y2lwZT8NCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tDQpaaGVuZyBSdW9xaW4NCk5hbmppbmcgRnVqaXRzdSBO
+YW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCkFERFIuOiBO
+by42IFdlbnpodSBSb2FkLCBTb2Z0d2FyZSBBdmVudWUsDQogICAgICAgTmFu
+amluZywgMjEwMDEyLCBDaGluYQ0KTUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5m
+dWppc3R1LmNvbQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
+LmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBNb25kYXksIERlY2VtYmVyIDA0
+LCAyMDE3IDY6MTcgUE0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYg
+PHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NCkNjOiBBbGV4YW5kZXIg
+S2FuYXZpbiA8YWxleGFuZGVyLmthbmF2aW5AbGludXguaW50ZWwuY29tPjsg
+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGxpYnl1aQ0KDQpBZ2Fpbiwg
+aXQgc291bmRzIGxpa2UgdGhpcyBzaG91bGQgYmUgaW4gYW5vdGhlciBsYXll
+ci4NCg0KUm9zcw0KDQpPbiA0IERlY2VtYmVyIDIwMTcgYXQgMDI6MDEsIFpo
+ZW5nLCBSdW9xaW4gPHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbTxtYWls
+dG86emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQpIaSBB
+bGV4Og0KICAgSSBhdHRlbmQgdG8gbWFrZSBkbmZkcmFnb3JhKHdoaWNoIGlz
+IGEgZ3VpIGZvciBkbmYpIHVzZWQgaW4gb2UtY29yZSwgYW5kIGxpYnl1aSBp
+cyB0aGUgZGVwZW5kIG9mIGRuZmRyYWdvcmEuDQoNCi0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpaaGVuZyBS
+dW9xaW4NCk5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBD
+by4sIEx0ZC4oRk5TVCkNCkFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0
+d2FyZSBBdmVudWUsDQogICAgICAgTmFuamluZywgMjEwMDEyLCBDaGluYQ0K
+TUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbTxtYWlsdG86emhl
+bmdycS5mbnN0QGNuLmZ1amlzdHUuY29tPg0KDQoNCi0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQpGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiBbbWFpbHRv
+OmFsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbTxtYWlsdG86YWxl
+eGFuZGVyLmthbmF2aW5AbGludXguaW50ZWwuY29tPl0NClNlbnQ6IFdlZG5l
+c2RheSwgTm92ZW1iZXIgMjksIDIwMTcgMjo0OCBQTQ0KVG86IFpoZW5nLCBS
+dW9xaW4v6YORIOiLpemSpiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29t
+PG1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+Pjsgb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86b3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBsaWJ5dWkNCg0KT24gMTEvMjkv
+MjAxNyAwNzoxMCBBTSwgemhlbmdycSB3cm90ZToNCj4gQWRkIGEgbmV3IHJl
+Y2lwZSBsaWJ5dWkuDQoNCg0KQWRkIHdoeT8gV2hhdCBkb2VzIGl0IGRvPyBX
+aHkgc2hvdWxkIGl0IGJlIGluIG9lLWNvcmU/DQoNCkFsZXgNCg0KDQoNCg0K
+LS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRw
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29w
+ZW5lbWJlZGRlZC1jb3JlDQoNCgoK
 
-When the those scripts are run in a clean build environment that
-is built from the sstate (populate_sysroot_setscene run for
-postinst-useradd-* providers), pseudo fails to run because it cannot
-access the PSEUDO_LOCALSTATEDIR (recipe ${WORKDIR}s do not exist).
-This triggers a sysroot staging error.
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA5691G08CNEXMBPEKD01_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Previously, the PSEUDO_LOCALSTATEDIR setting in useradd.bbclass
-worked because the RSS sstate/staging logic automagically processed
-${STAGING_DIR_TARGET} in postinst-useradd-* scripts to point under
-the sysroot being built.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
+dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
+bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
+dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
+a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVt
+YWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsN
+Cglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjoj
+MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4
+cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
+O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
+dDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
+di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
+dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
+dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtl
+bmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
+b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
+PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0K
+PC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9ImJsdWUiIHZsaW5r
+PSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5IaTwvc3Bhbj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OiMxRjQ5N0QiPg0KPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIj5Sb3NzITxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
+IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7DQo8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiPiZuYnNwO1doZXJl
+IHNob3VsZCBJIHB1dCB0aGlzIHJlY2lwZT88L3NwYW4+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OiMxRjQ5N0QiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzFGNDk3RCI+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlpoZW5nIFJ1
+b3FpbjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
+Y29sb3I6IzFGNDk3RCI+TmFuamluZyBGdWppdHN1IE5hbmRhIFNvZnR3YXJl
+IFRlY2guIENvLiwgTHRkLihGTlNUKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
+ZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QUREUi46IE5vLjYg
+V2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSw8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBOYW5qaW5nLCAyMTAw
+MTIsIENoaW5hPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEIj5NQUlMIDogemhlbmdycS5mbnN0QGNuLmZ1
+amlzdHUuY29tPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRv
+biwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4N
+CjxiPlNlbnQ6PC9iPiBNb25kYXksIERlY2VtYmVyIDA0LCAyMDE3IDY6MTcg
+UE08YnI+DQo8Yj5Ubzo8L2I+IFpoZW5nLCBSdW9xaW4vPC9zcGFuPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7pg5E8L3NwYW4+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdCI+6Iul6ZKmPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVT
+IiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7emhlbmdycS5mbnN0QGNu
+LmZ1aml0c3UuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gQWxleGFuZGVyIEth
+bmF2aW4gJmx0O2FsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbSZn
+dDs7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8
+YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGxp
+Ynl1aTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPkFnYWluLCBpdCBzb3VuZHMgbGlrZSB0aGlzIHNob3VsZCBi
+ZSBpbiBhbm90aGVyIGxheWVyLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+
+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPlJvc3M8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9uIDQgRGVjZW1iZXIgMjAx
+NyBhdCAwMjowMSwgWmhlbmcsIFJ1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRv
+OnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsi
+PnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3Jk
+ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRp
+bmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2lu
+LXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJFTi1VUyI+SGkgQWxleDo8YnI+DQombmJzcDsgJm5ic3A7SSBhdHRlbmQg
+dG8gbWFrZSBkbmZkcmFnb3JhKHdoaWNoIGlzIGEgZ3VpIGZvciBkbmYpIHVz
+ZWQgaW4gb2UtY29yZSwgYW5kIGxpYnl1aSBpcyB0aGUgZGVwZW5kIG9mIGRu
+ZmRyYWdvcmEuPGJyPg0KPGJyPg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+DQpaaGVuZyBSdW9xaW48
+YnI+DQpOYW5qaW5nIEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28u
+LCBMdGQuKEZOU1QpPGJyPg0KQUREUi46IE5vLjYgV2Vuemh1IFJvYWQsIFNv
+ZnR3YXJlIEF2ZW51ZSw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDtOYW5qaW5nLCAyMTAwMTIsIENoaW5hPGJyPg0KTUFJTCA6IDxhIGhyZWY9
+Im1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXN0dS5jb20iPnpoZW5ncnEu
+Zm5zdEBjbi5mdWppc3R1LmNvbTwvYT48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLVVTIj48YnI+DQo8YnI+DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
+LS0tLTxicj4NCkZyb206IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86PGEg
+aHJlZj0ibWFpbHRvOmFsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNv
+bSI+YWxleGFuZGVyLmthbmF2aW5AbGludXguaW50ZWwuY29tPC9hPl08YnI+
+DQpTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI5LCAyMDE3IDI6NDggUE08
+YnI+DQpUbzogWmhlbmcsIFJ1b3Fpbi88L3NwYW4+6YORIOiLpemSpjxzcGFu
+IGxhbmc9IkVOLVVTIj4gJmx0OzxhIGhyZWY9Im1haWx0bzp6aGVuZ3JxLmZu
+c3RAY24uZnVqaXRzdS5jb20iPnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNv
+bTwvYT4mZ3Q7Ow0KPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PGJyPg0KU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0hdIGxpYnl1aTxicj4NCjxicj4NCk9uIDExLzI5LzIw
+MTcgMDc6MTAgQU0sIHpoZW5ncnEgd3JvdGU6PGJyPg0KJmd0OyBBZGQgYSBu
+ZXcgcmVjaXBlIGxpYnl1aS48YnI+DQo8YnI+DQo8YnI+DQpBZGQgd2h5PyBX
+aGF0IGRvZXMgaXQgZG8/IFdoeSBzaG91bGQgaXQgYmUgaW4gb2UtY29yZT88
+YnI+DQo8YnI+DQpBbGV4PGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0K
+LS08YnI+DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXzxicj4NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlz
+dDxicj4NCjxhIGhyZWY9Im1haWx0bzpPcGVuZW1iZWRkZWQtY29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCjxhIGhyZWY9Imh0dHA6Ly9saXN0
+cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVk
+ZGVkLWNvcmUiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3Jl
+PC9hPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-The fix uses the same fixme processing by adding PSEUDO_LOCALSTATEDIR
-variable to it. Furthermore, LOGFIFO is added to be able to use
-the logging fifo of the recipe that actually runs postinst-useradd-*.
-
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/staging.bbclass | 2 +-
- meta/classes/useradd.bbclass | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index a90cf43c94..984051d6aa 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -249,7 +249,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
-     if not fixme:
-         return
-     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
--    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR']:
-+    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
-         fixme_path = d.getVar(fixmevar)
-         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
-     bb.debug(2, cmd)
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 0f51e5522b..0f551b50f3 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -133,9 +133,10 @@ useradd_sysroot () {
- }
- 
- # The export of PSEUDO in useradd_sysroot() above contains references to
--# ${COMPONENTS_DIR}. These need to be handled when restoring
-+# ${COMPONENTS_DIR} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
-+# shell functions use ${LOGFIFO}. These need to be handled when restoring
- # postinst-useradd-${PN} from the sstate cache.
--EXTRA_STAGING_FIXMES += "COMPONENTS_DIR"
-+EXTRA_STAGING_FIXMES += "COMPONENTS_DIR PSEUDO_LOCALSTATEDIR LOGFIFO"
- 
- python useradd_sysroot_sstate () {
-     task = d.getVar("BB_CURRENTTASK")
--- 
-2.14.1
-
-
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF732EEA5691G08CNEXMBPEKD01_--
