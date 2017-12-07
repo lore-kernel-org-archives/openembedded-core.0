@@ -1,27 +1,47 @@
-Return-Path: <california.l.sullivan@intel.com>
-X-Greylist: delayed 979 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 07 Dec 2017 18:37:29 UTC
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BDBB77F34
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 909266010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 18:37:29 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Dec 2017 10:19:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,373,1508828400"; d="scan'208";a="182252516"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 07 Dec 2017 10:19:11 -0800
-To: openembedded-core@lists.openembedded.org
-References: <20171121214703.11109-1-california.l.sullivan@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <c787ba10-43f1-0e9b-e22f-192d19ff2f58@intel.com>
-Date: Thu, 7 Dec 2017 10:19:11 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thu,  7 Dec 2017 19:21:14 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id j9so5119873pgc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Dec 2017 11:21:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Nh1grVcW6xT1WiMn2U3wede9AvCdAw2U0SMQGk60KS4=;
+	b=D88iMKi6MSKHgxFFq7oMwO/9LgUhJ1XVLDwU0jQJe8omcWXGfYxktn9ZzkhvNKPc43
+	l15hSqJmZApk07U/aCkpzEykYI1LiDrMkDzafBKpWX+Y9j9vSLA9BU2wdam2E0ffshkT
+	xHIPuNlXn7SMr1xPHr7BTfrmb5J9yxYTT2gHc8aTKqYASA859WMKocEgHtdeNYNF7WIi
+	xy1ymfle0DRtY+uiBwnUpydvrXa5eB6VRYW75VoCcpEZD/748mcSGQAs+NsIQ8+RiFsZ
+	P8Jo+CmO6m7fM/IoWd7LNbKeMZFiU55O7S7lT9Pg80fox2M4y9uP2+EBWjR5l48i3JGK
+	96+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Nh1grVcW6xT1WiMn2U3wede9AvCdAw2U0SMQGk60KS4=;
+	b=oktorC+lMAD2XgQxnlObO7M4UL+726/MphIG+lOo33kfIkn0WImAoq5+AJqPCSBoHa
+	1UrKvMRVlu26jwmtiqqpIvCuTXJ4NkXeqdCdU1Lgeprvh7yO63f3U/hLzlchI0qdm+qj
+	HoxdBFUD152eLnKx9c+GaiL82i++pFJ8J09KYURl8cyeQpHyTOMhdNEQYgd0W2lUPvMX
+	Jw0A8KbAXoM9RSIvF56t+3GhiGGJa+yu1NEIqJE2ENrXJWDnPoJXs8XthqV5K59dbkCX
+	im62QtvJKbB8nC5qREWuOrLeBOSG0EhKSa8dnAKH4Wt+MSjPWxwfuhuxFiwsRSHdZJZs
+	gItw==
+X-Gm-Message-State: AKGB3mJeR3j0EbggjkM4mMhUmG3CgcZoXf4wuT8HU8UkYhdC/yQg3vY2
+	v0siRWOL2eT9GtHlk//Z2Vc3sgGZyIcva/p741U=
+X-Google-Smtp-Source: AGs4zMZ5wiNfK82KXU3AJesJYYcSxoNETaZ1j61lFL5+XhtrwhCxcH+JX/Lhx6b0uvaZiRR7Sq0IQBlAo4w997ej+hs=
+X-Received: by 10.159.252.68 with SMTP id t4mr10416579plz.423.1512674475262;
+	Thu, 07 Dec 2017 11:21:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20171121214703.11109-1-california.l.sullivan@intel.com>
-Subject: Re: [PATCH 1/2] init-install: fix grub-install command
+Received: by 10.100.159.15 with HTTP; Thu, 7 Dec 2017 11:20:44 -0800 (PST)
+In-Reply-To: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
+References: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Dec 2017 11:20:44 -0800
+Message-ID: <CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernel.bbclass do_sizecheck behaviour changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,45 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 18:37:30 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 07 Dec 2017 19:21:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Armin,
-
-This is also suitable for Rocko. Please add it to your backport queue 
-when you can.
-
-Its in master here: 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=0b8460e2ce9f9a4ea8de8497fbb65b91cb69b8e0
-
-Thanks,
-Cal
-
-On 11/21/2017 01:47 PM, California Sullivan wrote:
-> The grub_version variable was calling 'grub-install -v' (verbose) instead
-> of 'grub-install -V' (version) causing unexpected failures.
+On Thu, Dec 7, 2017 at 8:15 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> I discovered today that our kernel size check has been ineffective since we
+> took 7384d2831c713ac5999aca83c312154dc15cec56 from 2014 which changed the
+> units for KERNEL_IMAGE_MAXSIZE from bytes to kilobytes.
 >
-> Fixes bug [YOCTO #12111].
+> However whilst fixing that, I also noticed that
+> 849b67b2e4820564b5e5c9bd4bb293c44351c5f3 in 2016 changed the consequences
+> of exceeding the size from being fatal to merely a warning.
 >
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->   meta/recipes-core/initrdscripts/files/init-install.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> This second change in behaviour wasn't described in the commit message, so
+> I'm not sure whether it was intentional. I can believe that when generating
+> multiple kernel image types it may not be essential that they all fit, but
+> I don't really know what the use case for the feature is.
 >
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index 572613e..1cac806 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -132,7 +132,7 @@ fi
->   
->   disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
->   
-> -grub_version=$(grub-install -v|sed 's/.* \([0-9]\).*/\1/')
-> +grub_version=$(grub-install -V|sed 's/.* \([0-9]\).*/\1/')
->   
->   if [ $grub_version -eq 0 ] ; then
->       bios_boot_size=0
+> I could fix this by adding to kernel.bbclass something like:
+>
+>  KERNEL_IMAGE_MAXSIZE_CONSEQUENCE ?= "warn"
+>
+> and then using it when delivering the bad news so that recipes can override
+> it if they wish.
+>
+> Alternatively, I could treat the error as being fatal if none of the kernel
+> images fit within the required size. This would degenerate to the old
+> behaviour automatically if KERNEL_IMAGETYPES contains only one entry.
+>
+> Does one of these solutions appeal, or is there another even better
+> solution?
+>
 
+I think default should be a warning with a possibility to be turned
+into an error
+if user wishes too. I think if you are generating multiple kernel types then you
+will use all of them somewhere, so I would say if the size of one of
+them excedes
+the set limit them break the build.
+
+> Thanks.
+>
+> Mike.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
