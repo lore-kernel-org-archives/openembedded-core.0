@@ -1,51 +1,28 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6640471957
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 743967859F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 18:13:19 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id z6so16878492iti.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Dec 2017 10:13:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CUMtYCr3RWWEdJcFTUvOR0k3Sdwg5JQKIgIiQvkih6Y=;
-	b=BZXN1p7ZHbs/QszLqVxUgdOGzS9S06Er6TNVfM4QIEW1mM1GZns/tco0rOEmWeyPQs
-	DBfiSXIqWSDGjgy0YDYKHTPiWpcb2HCpNyHlleyHOWI8BjnX7r4h8XPFvi2L9YMlWN+W
-	Wplz38lXbbmAyt5UxIN5c/UlJv7L0J9vqo7hxSnlTBMI96DuIcdzOApCUL4ye2CC0mkG
-	Brw9IcJUxRnSo1Emnm6uszqkJAlH4WDpM/0Lehvfc2HH4B+xNEbPcF9IKwamTnIyOPod
-	/wC+V+7BTrlnKMPFSRSMWYrV16f1Bk/p9USPhcFOLJvxnC/qAUyya3K9ZdG2O9w6zY5L
-	Hz6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=CUMtYCr3RWWEdJcFTUvOR0k3Sdwg5JQKIgIiQvkih6Y=;
-	b=PjP20FYU8wXctzyHL78VN7gghRlNFOLql2nhhDzjYeJ3VxJEngslVMHQuLbCb6eqrA
-	qhmdq0oyIQiDLWdO6KsuKtnzd4iHv7v7VADT9JiAy31r6oH4DAIu4vr97x+HPP/e6am4
-	povJeCh4JGkcGZD1JGptRF976+DitXxL6nmQOcqQtT2td1unI/ym5qL8uF5cgITQ/lLy
-	ohyDGb3wV7u+3FkAoPNNeA4mC+W9Ml/SSzDSAONOh3MaY7qWCoszyuBJwvBDvc6ZJApE
-	UXw8jCkVoVp/XUzv2FS0/LmUfbbXNK9Qr8J0KrMskntxVagB62+i2qwQGjYrJwwM5Ut5
-	k7ow==
-X-Gm-Message-State: AKGB3mItDYw8u8d388PBAroRtKamhFds6Dm6coWih3EeK/4+5s65Qwqj
-	ruptYq1oOxjzB7a3LQLwXqq/DU2Y
-X-Google-Smtp-Source: AGs4zMbIGScFgFEz9i/F/n1HJN+66PALcPgkSadEk0r4vTCk2CvxIeR8r/4ZXng+b/NGAHEeY8oZ4A==
-X-Received: by 10.107.88.9 with SMTP id m9mr7646423iob.68.1512670399954;
-	Thu, 07 Dec 2017 10:13:19 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	i133sm373097itf.1.2017.12.07.10.13.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 07 Dec 2017 10:13:19 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Dec 2017 12:13:09 -0600
-Message-Id: <20171207181309.8895-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20171206194628.1901-1-JPEWhacker@gmail.com>
-References: <20171206194628.1901-1-JPEWhacker@gmail.com>
-Subject: [morty][PATCH v2] cross-localedef-native: Include locale_t.h
+	Thu,  7 Dec 2017 18:13:55 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Dec 2017 10:13:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,373,1508828400"; d="scan'208";a="182251044"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga005.jf.intel.com with ESMTP; 07 Dec 2017 10:13:57 -0800
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, akuster808@gmail.com
+References: <CA+chaQe+qJCwz3dyYh51Pr8Gum5L0wt3VDqrTxs+a36cbOyzYQ@mail.gmail.com>
+	<1512165201-51-1-git-send-email-Martin.Jansa@gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <af2b02f4-2f8b-4db1-e448-2d9755eec4b4@intel.com>
+Date: Thu, 7 Dec 2017 10:13:57 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <1512165201-51-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: Re: [PATCH] initramfs-module-install: Remove allarch and FILESEXTRAPATHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 18:13:20 -0000
+X-List-Received-Date: Thu, 07 Dec 2017 18:13:56 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Newer versions of glibc (2.26) moved the struct locale definition from
-xlocale.h to bits/types/locale_t.h. For compatibility with build hosts
-using this version of glibc, include this header.
+Ack'd.
 
-See f0be25b6336db7492e47d2e8e72eb8af53b5506d in glibc
+We need this in master so it can be backported to rocko along with my 
+patches.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- .../glibc/cross-localedef-native_2.24.bb           |  1 +
- ...1-Include-locale_t.h-compatibility-header.patch | 28 ++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
+Thanks,
+Cal
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-index d4cccedb43a..4a77eee2c9b 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-@@ -36,6 +36,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-eglibc-Install-PIC-archives.patch \
-            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
-            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-+           file://0001-Include-locale_t.h-compatibility-header.patch \
- "
- # Makes for a rather long rev (22 characters), but...
- #
-diff --git a/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch b/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
-new file mode 100644
-index 00000000000..af8a5d61608
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-Include-locale_t.h-compatibility-header.patch
-@@ -0,0 +1,28 @@
-+From abfeb0cf4e3261a66a7a23abc9aed33c034c850d Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <JPEWhacker@gmail.com>
-+Date: Wed, 6 Dec 2017 13:26:19 -0600
-+Subject: [PATCH] Include locale_t.h compatibility header
-+
-+Newer versions of glibc (since 2.26) moved the locale typedefs from
-+xlocale.h to bits/types/locale_t.h. Create a compatibility header for
-+these newer versions of glibc
-+
-+See f0be25b6336db7492e47d2e8e72eb8af53b5506d in glibc
-+
-+Upstream-Status: Inappropriate compatibility with newer host glibc
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+---
-+ locale/bits/types/locale_t.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+ create mode 100644 locale/bits/types/locale_t.h
-+
-+diff --git a/locale/bits/types/locale_t.h b/locale/bits/types/locale_t.h
-+new file mode 100644
-+index 0000000000..b519a6c5f8
-+--- /dev/null
-++++ b/locale/bits/types/locale_t.h
-+@@ -0,0 +1 @@
-++#include <xlocale.h>
-+-- 
-+2.14.3
-+
--- 
-2.14.3
+On 12/01/2017 01:53 PM, Martin Jansa wrote:
+> * files is already included in default FILESPATH
+> * it cannot inherit allarch as it RDEPENDS on bunch of TUNE_PKGARCH packages
+> * use the same COMPATIBLE_HOST restrictions as grub has to prevent ERRORs in
+>    bitbake world
+>    ERROR: Nothing RPROVIDES 'grub' (but oe-core/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb RDEPENDS on or otherwise requires it)
+>    grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
+>    grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
+>    NOTE: Runtime target 'grub' is unbuildable, removing...
+>    Missing or unbuildable dependency chain was: ['grub']
+>    ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>   .../initrdscripts/initramfs-module-install-efi_1.0.bb             | 3 ---
+>   meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb   | 8 +++++---
+>   2 files changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+> index 24b53a8..1e7f76f 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+> @@ -5,9 +5,6 @@ RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools ut
+>   
+>   PR = "r4"
+>   
+> -inherit allarch
+> -
+> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+>   SRC_URI = "file://init-install-efi.sh"
+>   
+>   S = "${WORKDIR}"
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+> index ce7f165..02b69f3 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+> @@ -3,11 +3,13 @@ LICENSE = "MIT"
+>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>   RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
+>   
+> -PR = "r1"
+> +# The same restriction as grub
+> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
+> +COMPATIBLE_HOST_armv7a = 'null'
+> +COMPATIBLE_HOST_armv7ve = 'null'
+>   
+> -inherit allarch
+> +PR = "r1"
+>   
+> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+>   SRC_URI = "file://init-install.sh"
+>   
+>   S = "${WORKDIR}"
 
 
