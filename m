@@ -1,49 +1,36 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F7DA78200
+Return-Path: <gael.portay@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 74FA4605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 19:44:11 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id f140so14810529wmd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Dec 2017 11:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0Ff6Lv2gp9ibVCXKhX+c7SbjTCrR+KcsaXY1CXNWupU=;
-	b=ayll4y1P0MFEGzPxvimfVywRb3RSBY1lzfMWirHBnXcDQdG8HCgC/cU4yZG5ZBNzri
-	Tkr1rgaqO0WKoNfEdl2z9jXAORuoroeG127FXWCuhqSX/ipKFwEtJhLEeSZji22dAWqs
-	SfEGDowUhAEn9LDETYE/yWFFfhZj0veeJ7m9RcnvXiYcdLaoSd+rJRLW60WjlRFTuuX2
-	VFzmRTU0AwtO36DxFV71xytGFll58VqYxKOBwceVX4wKz7UzpomUBIHNwV2sOdjJugc3
-	T3ds4D08YVIz/G3A4mwqLWUpyWE3YRyLhvVPRIc3PTV1zE5qD2f3uzbeCs6EYRsvvJBt
-	Tvjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0Ff6Lv2gp9ibVCXKhX+c7SbjTCrR+KcsaXY1CXNWupU=;
-	b=tchbpnoBjX3CBpUYaeSueNdSBBiR0WdbwVR+qO709HwC6U5Ub2Jvzh/7WVbvBRRmf7
-	u4UjVYLKO58c5eEH6RyvNngWoGunzW4ASnxDp2OypPQsRK8RU63++knOrkOdeHIMj1H3
-	fQdH2lWgbx5ZGjx+6LRn8/mkCd9esv+pSGInOczF14OryI2LVZBzu3vAa6zOk1DYK7n0
-	0rfrxC3jEsk/7I8Gt++Lnre4iV0UQGRuHr8SrqmfDb8d/THUWd2hgrnSpc+OAjHmEVEx
-	PUXlJ6qf34qdaZCmMuiXkzdiHhuqdShOu3eyY9n5qlrbowB4XrHOlV4J0q4uh+2tHEZv
-	7pBg==
-X-Gm-Message-State: AKGB3mL8s5Lbw93PjP9VtN9uldM5KJrRq2rth7u9LK8mIGicY2MLfZYn
-	Aymw1YE9309+rXGn/rtdoHtzKD/luyFLIlAwyFE=
-X-Google-Smtp-Source: AGs4zMa21gWhLnxpr65xgGdMGcUHpnW1aC6FIKxrZOuWa2K4KYcAv1y2OiJWh2uTX2/XmJ13tDQhjQ5jakMj7dOu5TU=
-X-Received: by 10.28.147.8 with SMTP id v8mr2451527wmd.136.1512675853041; Thu,
-	07 Dec 2017 11:44:13 -0800 (PST)
+	Thu,  7 Dec 2017 21:15:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id CE6D09C1BB3;
+	Thu,  7 Dec 2017 16:15:32 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id rZMsd9fS9Wla; Thu,  7 Dec 2017 16:15:32 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 451209C2F43;
+	Thu,  7 Dec 2017 16:15:32 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id DHUhPMxh8UFf; Thu,  7 Dec 2017 16:15:32 -0500 (EST)
+Received: from archlinux.mtl.sfl (unknown [192.168.50.172])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 182199C1BB3;
+	Thu,  7 Dec 2017 16:15:32 -0500 (EST)
+From: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org,
+	Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu,  7 Dec 2017 16:16:10 -0500
+Message-Id: <20171207211610.19158-1-gael.portay@savoirfairelinux.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Thu, 7 Dec 2017 11:44:12 -0800 (PST)
-In-Reply-To: <CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
-References: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
-	<CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 7 Dec 2017 11:44:12 -0800
-Message-ID: <CAJ86T=VzQrqQPa4OB_SgyhYGg_ySp9UgBLeRuY1XLCXYgNbtjA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Mike Crowe <mac@mcrowe.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel.bbclass do_sizecheck behaviour changes
+Cc: Ash Charles <ash.charles@savoirfairelinux.com>
+Subject: [PATCH 1/1] package_manager.py: fix opkg custom config path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 19:44:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Dec 2017 21:15:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 7, 2017 at 11:20 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Dec 7, 2017 at 8:15 AM, Mike Crowe <mac@mcrowe.com> wrote:
->> I discovered today that our kernel size check has been ineffective since we
->> took 7384d2831c713ac5999aca83c312154dc15cec56 from 2014 which changed the
->> units for KERNEL_IMAGE_MAXSIZE from bytes to kilobytes.
->>
->> However whilst fixing that, I also noticed that
->> 849b67b2e4820564b5e5c9bd4bb293c44351c5f3 in 2016 changed the consequences
->> of exceeding the size from being fatal to merely a warning.
->>
->> This second change in behaviour wasn't described in the commit message, so
->> I'm not sure whether it was intentional. I can believe that when generating
->> multiple kernel image types it may not be essential that they all fit, but
->> I don't really know what the use case for the feature is.
->>
->> I could fix this by adding to kernel.bbclass something like:
->>
->>  KERNEL_IMAGE_MAXSIZE_CONSEQUENCE ?= "warn"
->>
->> and then using it when delivering the bad news so that recipes can override
->> it if they wish.
->>
->> Alternatively, I could treat the error as being fatal if none of the kernel
->> images fit within the required size. This would degenerate to the old
->> behaviour automatically if KERNEL_IMAGETYPES contains only one entry.
+The opkg custom config feature has moved to the package_manager python
+module. This feature is broken since commit 19c538f57c.
 
-That sounds like a good solution.
+The python function os.path.join joins path components. If a component
+is an absolute path, all previous components are thrown away.
 
->> Does one of these solutions appeal, or is there another even better
->> solution?
->
-> I think default should be a warning with a possibility to be turned
-> into an error
-> if user wishes too. I think if you are generating multiple kernel types then you
-> will use all of them somewhere, so I would say if the size of one of
-> them excedes
-> the set limit them break the build.
+The sysconfdir variable is an absolute path component. It causes the
+leading target rootfs component to be removed. As a result, the
+package-manager module tries to write in the real root filesystem
+instead of the temporary work directory for the rootfs image.
 
-The size limit for an uncompressed kernel vs a compressed kernel is
-going to be quite different, so defining one size limit and applying
-it to all images doesn't seem logical.
+This fixes the issue by prepending the target rootfs component using the
+string concatenation operator when the file is opened (without using
+os.path module).
+
+Cc: Ash Charles <ash.charles@savoirfairelinux.com>
+Signed-off-by: Ga=C3=ABl PORTAY <gael.portay@savoirfairelinux.com>
+---
+ meta/lib/oe/package_manager.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager=
+.py
+index 6cbb61fd84..ac29593f88 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -953,12 +953,11 @@ class OpkgPM(OpkgDpkgPM):
+             """
+             if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") !=3D "":
+                 for arch in self.pkg_archs.split():
+-                    cfg_file_name =3D os.path.join(self.target_rootfs,
+-                                                 self.d.getVar("sysconfd=
+ir"),
++                    cfg_file_name =3D os.path.join(self.d.getVar("syscon=
+fdir", True),
+                                                  "opkg",
+                                                  "local-%s-feed.conf" % =
+arch)
+=20
+-                    with open(cfg_file_name, "w+") as cfg_file:
++                    with open(self.target_rootfs + cfg_file_name, "w+") =
+as cfg_file:
+                         cfg_file.write("src/gz local-%s %s/%s" %
+                                        (arch,
+                                         self.d.getVar('FEED_DEPLOYDIR_BA=
+SE_URI'),
+--=20
+2.15.0
+
 
