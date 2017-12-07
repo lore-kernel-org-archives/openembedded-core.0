@@ -1,53 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2891B78555
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC3347858B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 14:50:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4F61A1844F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:11 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 7m_8-cBxKQKj
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id E2BA618430
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CDDFD1E095
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C29341E089
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id B6BD42A65
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 15:50:09 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id vB7Eo95L022035
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Dec 2017 15:50:09 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id vB7Eo9Sc022034
-	for openembedded-core@lists.openembedded.org;
-	Thu, 7 Dec 2017 15:50:09 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Dec 2017 15:50:08 +0100
-Message-Id: <20171207145008.21993-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] sstate.bbclass: Add progress bars when removing from the sysroots
+	Thu,  7 Dec 2017 14:59:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB7ExGco013731
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Dec 2017 06:59:17 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.234) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 7 Dec 2017 06:59:16 -0800
+To: <jackie.huang@windriver.com>, <openembedded-core@lists.openembedded.org>, 
+	Armin Kuster <akuster808@gmail.com>
+References: <cover.1512613370.git.jackie.huang@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5343d5cf-94cc-9e56-68d8-e5d096a1f712@windriver.com>
+Date: Thu, 7 Dec 2017 08:59:15 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1512613370.git.jackie.huang@windriver.com>
+Subject: [rocko] Re: [PATCH 0/1] features_backfill: fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,87 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 14:50:11 -0000
+X-List-Received-Date: Thu, 07 Dec 2017 14:59:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-If there are many recipes that should be cleaned out from the
-sysroots, it can actually take some time. This adds a progress bar to
-give a visual clue that the clean up is actually progressing.
+Armin, assuming there are no concerns raised in review and this is integrated
+into master, we'd like to get this backported to Rocko as well.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/sstate.bbclass | 36 ++++++++++++++++++++++--------------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+(I believe the patch can be applied as-is.)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index e30fbe1280..6e41b56861 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -845,7 +845,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-                 missed.append(task)
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass
--            bb.event.fire(bb.event.ProcessProgress("Checking sstate mirror object availability", len(tasklist) - thread_worker.tasks.qsize()), d)
-+            bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
- 
-         tasklist = []
-         for task in range(len(sq_fn)):
-@@ -856,7 +856,8 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             tasklist.append((task, sstatefile))
- 
-         if tasklist:
--            bb.event.fire(bb.event.ProcessStarted("Checking sstate mirror object availability", len(tasklist)), d)
-+            msg = "Checking sstate mirror object availability"
-+            bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
- 
-             import multiprocessing
-             nproc = min(multiprocessing.cpu_count(), len(tasklist))
-@@ -870,7 +871,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             pool.wait_completion()
-             bb.event.disable_threadlock()
- 
--            bb.event.fire(bb.event.ProcessFinished("Checking sstate mirror object availability"), d)
-+            bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
-     inheritlist = d.getVar("INHERIT")
-     if "toaster" in inheritlist:
-@@ -1038,18 +1039,25 @@ python sstate_eventhandler2() {
-                         seen.append(stamp)
- 
-         if toremove:
--            bb.note("There are %d recipes to be removed from sysroot %s, removing..." % (len(toremove), a))
-+            msg = "Removing %d recipes from the %s sysroot" % (len(toremove), a)
-+            bb.event.fire(bb.event.ProcessStarted(msg, len(toremove)), d)
-+
-+            removed = 0
-+            for r in toremove:
-+                (stamp, manifest, workdir) = r.split()
-+                for m in glob.glob(manifest + ".*"):
-+                    if m.endswith(".postrm"):
-+                        continue
-+                    sstate_clean_manifest(m, d)
-+                bb.utils.remove(stamp + "*")
-+                if removeworkdir:
-+                    bb.utils.remove(workdir, recurse = True)
-+                lines.remove(r)
-+                removed = removed + 1
-+                bb.event.fire(bb.event.ProcessProgress(msg, removed), d)
-+
-+            bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
--        for r in toremove:
--            (stamp, manifest, workdir) = r.split()
--            for m in glob.glob(manifest + ".*"):
--                if m.endswith(".postrm"):
--                    continue
--                sstate_clean_manifest(m, d)
--            bb.utils.remove(stamp + "*")
--            if removeworkdir:
--                bb.utils.remove(workdir, recurse = True)
--            lines.remove(r)
-         with open(i, "w") as f:
-             for l in lines:
-                 f.write(l)
--- 
-2.12.0
+Thanks!
+--Mark
+
+On 12/6/17 8:33 PM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+> 
+> Tested with:
+> 
+> 1) local.conf:
+> MACHINE = "qemumips64"
+> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+> MULTILIBS = "multilib:libn32"
+> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+> require conf/multilib.conf
+> 
+> 2) run bitbake -e to check the features:
+> 
+> $ bitbake -e libn32-gobject-introspection | grep '^MACHINE_FEATURES'
+> 
+> (before the fix)
+> MACHINE_FEATURES="alsa bluetooth usbgadget screen rtc qemu-usermode"
+> MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
+> MACHINE_FEATURES_BACKFILL_CONSIDERED=" qemu-usermode"
+> 
+> (after the fix)
+> MACHINE_FEATURES="alsa bluetooth usbgadget screen rtc"
+> MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
+> MACHINE_FEATURES_BACKFILL_CONSIDERED=" qemu-usermode"
+> MACHINE_FEATURES_ORIGINAL="alsa bluetooth usbgadget screen"
+> 
+> 3) world build:
+> 
+> $ bitbake world
+> 
+> builds without error.
+> 
+> 
+> --
+> The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
+> 
+>   lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib.git jhuang0/d_backfill_multilib_171207_0
+>   http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_backfill_multilib_171207_0
+> 
+> Jackie Huang (1):
+>   features_backfill: fix for multilib
+> 
+>  meta/classes/multilib.bbclass | 4 ++++
+>  meta/lib/oe/utils.py          | 9 +++++++--
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+> 
 
 
