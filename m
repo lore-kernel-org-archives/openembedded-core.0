@@ -1,28 +1,56 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AC3347858B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 70ADC78594
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Dec 2017 14:59:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB7ExGco013731
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 Dec 2017 06:59:17 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.234) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 7 Dec 2017 06:59:16 -0800
-To: <jackie.huang@windriver.com>, <openembedded-core@lists.openembedded.org>, 
-	Armin Kuster <akuster808@gmail.com>
-References: <cover.1512613370.git.jackie.huang@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <5343d5cf-94cc-9e56-68d8-e5d096a1f712@windriver.com>
-Date: Thu, 7 Dec 2017 08:59:15 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.5.0
+	Thu,  7 Dec 2017 15:06:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1B6D518430;
+	Thu,  7 Dec 2017 16:06:11 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Jn0vS4eFh1Sc; Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 5814C1844F;
+	Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3D8651A077;
+	Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3244D1A075;
+	Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 2655A2A88;
+	Thu,  7 Dec 2017 16:06:09 +0100 (CET)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Thu, 7 Dec 2017 16:06:08 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Thu, 7 Dec 2017 16:06:08 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 1/9] meson: add a recipe and class from meta-oe
+Thread-Index: AQHTX5wBKGGyIgUpQUyB1iJT3ucRsqM4GZpg
+Date: Thu, 7 Dec 2017 15:06:08 +0000
+Message-ID: <b3867bfb39444851865a5d7db3046e55@XBOX02.axis.com>
+References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
+	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <cover.1512613370.git.jackie.huang@windriver.com>
-Subject: [rocko] Re: [PATCH 0/1] features_backfill: fix for multilib
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,69 +63,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Dec 2017 14:59:16 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 07 Dec 2017 15:06:10 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Armin, assuming there are no concerns raised in review and this is integrated
-into master, we'd like to get this backported to Rocko as well.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-bounces@lists.openembedded.org] On Behalf Of Alexander Kanavin
+> Sent: den 17 november 2017 13:03
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/9] meson: add a recipe and class from meta-oe
+>=20
+> The original recipe has been provided and improved by:
+>=20
+> Ross Burton <ross.burton@intel.com>
+> Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> Adam C. Foltzer <acfoltzer@galois.com>
+> Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Linus Svensson <linussn@axis.com>
+>=20
+> I have added  patches to fix up gtk-doc and
+> gobject-introspection in cross-compilation environments,
+> and also change the order of linker arguments to replicate
+> autotools more closely (and fix linking errors in some corner
+> cases).
+>=20
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/classes/meson.bbclass                         | 107 +++++++++++++++=
+++++
+>  ...s-move-cross_args-in-front-of-output_args.patch |  30 ++++++
+>  ...ix-issues-that-arise-when-cross-compiling.patch | 113 +++++++++++++++=
+++++++
+>  ...rospection-determine-g-ir-scanner-and-g-i.patch |  41 ++++++++
+>  meta/recipes-devtools/meson/meson_0.43.0.bb        |  20 ++++
+>  5 files changed, 311 insertions(+)
+>  create mode 100644 meta/classes/meson.bbclass
+>  create mode 100644 meta/recipes-devtools/meson/meson/0001-Linker-rules-m=
+ove-cross_args-in-front-of-output_args.patch
+>  create mode 100644 meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-iss=
+ues-that-arise-when-cross-compiling.patch
+>  create mode 100644 meta/recipes-devtools/meson/meson/0002-gobject-intros=
+pection-determine-g-ir-scanner-and-g-i.patch
+>  create mode 100644 meta/recipes-devtools/meson/meson_0.43.0.bb
+>=20
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> new file mode 100644
+> index 00000000000..64553cd8f3d
+> --- /dev/null
+> +++ b/meta/classes/meson.bbclass
+> @@ -0,0 +1,107 @@
+> +inherit python3native
+> +
+> +DEPENDS_append =3D " meson-native ninja-native"
+> +
+> +# As Meson enforces out-of-tree builds we can just use cleandirs
+> +B =3D "${WORKDIR}/build"
+> +do_configure[cleandirs] =3D "${B}"
+> +
+> +# Where the meson.build build configuration is
+> +MESON_SOURCEPATH =3D "${S}"
+> +
+> +# These variables in the environment override meson's *native* tools set=
+tings.
+> +# We have to unset them, so that meson doesn't pick up the cross tools a=
+nd
+> +# use them for native builds.
+> +unset CC
+> +unset CXX
+> +unset AR
+> +
+> +def noprefix(var, d):
+> +    return d.getVar(var, True).replace(d.getVar('prefix', True) + '/', '=
+', 1)
 
-(I believe the patch can be applied as-is.)
+Remove the True argument to d.getVar().
 
-Thanks!
---Mark
+> +
+> +MESONOPTS =3D " --prefix ${prefix} \
+> +              --bindir ${@noprefix('bindir', d)} \
+> +              --sbindir ${@noprefix('sbindir', d)} \
+> +              --datadir ${@noprefix('datadir', d)} \
+> +              --libdir ${@noprefix('libdir', d)} \
+> +              --libexecdir ${@noprefix('libexecdir', d)} \
+> +              --includedir ${@noprefix('includedir', d)} \
+> +              --mandir ${@noprefix('mandir', d)} \
+> +              --infodir ${@noprefix('infodir', d)} \
+> +              --sysconfdir ${sysconfdir} \
+> +              --localstatedir ${localstatedir} \
+> +              --sharedstatedir ${sharedstatedir}"
+> +
+> +MESON_C_ARGS =3D "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+> +MESON_LINK_ARGS =3D "${MESON_C_ARGS} ${LDFLAGS}"
+> +
+> +MESON_HOST_ENDIAN =3D "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be',=
+'big', 'little', d)}"
+> +MESON_TARGET_ENDIAN =3D "${@bb.utils.contains('TUNE_FEATURES', 'bigendia=
+n', 'big', 'little', d)}"
+> +
+> +EXTRA_OEMESON +=3D "${PACKAGECONFIG_CONFARGS}"
+> +
+> +MESON_CROSS_FILE =3D ""
+> +MESON_CROSS_FILE_class-target =3D "--cross-file ${WORKDIR}/meson.cross"
+> +
+> +def meson_array(var, d):
+> +    return "', '".join(d.getVar(var, True).split()).join(("'", "'"))
 
-On 12/6/17 8:33 PM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
-> 
-> Tested with:
-> 
-> 1) local.conf:
-> MACHINE = "qemumips64"
-> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-> MULTILIBS = "multilib:libn32"
-> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-> require conf/multilib.conf
-> 
-> 2) run bitbake -e to check the features:
-> 
-> $ bitbake -e libn32-gobject-introspection | grep '^MACHINE_FEATURES'
-> 
-> (before the fix)
-> MACHINE_FEATURES="alsa bluetooth usbgadget screen rtc qemu-usermode"
-> MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
-> MACHINE_FEATURES_BACKFILL_CONSIDERED=" qemu-usermode"
-> 
-> (after the fix)
-> MACHINE_FEATURES="alsa bluetooth usbgadget screen rtc"
-> MACHINE_FEATURES_BACKFILL="rtc qemu-usermode"
-> MACHINE_FEATURES_BACKFILL_CONSIDERED=" qemu-usermode"
-> MACHINE_FEATURES_ORIGINAL="alsa bluetooth usbgadget screen"
-> 
-> 3) world build:
-> 
-> $ bitbake world
-> 
-> builds without error.
-> 
-> 
-> --
-> The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
-> 
->   lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib.git jhuang0/d_backfill_multilib_171207_0
->   http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_backfill_multilib_171207_0
-> 
-> Jackie Huang (1):
->   features_backfill: fix for multilib
-> 
->  meta/classes/multilib.bbclass | 4 ++++
->  meta/lib/oe/utils.py          | 9 +++++++--
->  2 files changed, 11 insertions(+), 2 deletions(-)
-> 
+Remove True here as well.
+
+//Peter
 
 
