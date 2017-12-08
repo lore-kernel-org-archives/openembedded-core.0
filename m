@@ -1,48 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FC8782A6
+Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D60C37838B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 19:36:31 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id n138so4924534wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Dec 2017 11:36:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=u+T5nRT4f8ALBY21rFvo7bb8h8p1W5WMyLHG3Y8hCsc=;
-	b=atFrZNnSXPbJW9nR/KzfjJjtJR6CZ0LHcAoqNXb38UvkOJgpwzQ+VaO2jQAVOeLcbI
-	4j2SbspqoCt1l4AeSRkAQszacmYOA+Ll63NSMcxAHgFK94mF97xdQh/lXfiCzoNmygYW
-	KiGrhI56kqdGGNSuBFPW1wOUdEOcLML/w/wSFzdD0raNH45FzDGwJb+9gwmuUaZlC18F
-	ueSdtvM/cNJ1JEQjM2y+Bm8g5Z9Rs8L55TV9jy7folLD2UDdy0x2SJs/IJEcpBiVVWFe
-	vxbDN+lDMtwyYnginWKypjGgNzM5rYVMayv8aatUhx8OKMh+KKEyfBx0z998JV8kF46B
-	JIRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=u+T5nRT4f8ALBY21rFvo7bb8h8p1W5WMyLHG3Y8hCsc=;
-	b=a9iRRCN9lkB06q+1xlLTw6RcsKt/YFCN2ceSh6NBsCqM+0G5zvHKamxp35i5Fq4YlF
-	Ent3kOu4BG2B2FYbPeH65nESrDIp6WuQqj+23qb1V51lsgljmSLIssteLekTtCSWonEv
-	xrzpIirkRQYaplXYjbunen2ejUbWb+8Y79v4Dt4AelDR+DLZmV77dTG1rYFPZdJEBvka
-	fpRjdhsNt6fKPva01KKcLUdaP4IuB4e21GClhyvvbrxsoO4+8R353TMUmGYeYNcc5anZ
-	QYNRIHUGSWPJqxGICMcRs3DwReNycKVRxMYRIoKSjqFaLpto9518YqZMcbNITzNk+HaJ
-	mPAA==
-X-Gm-Message-State: AKGB3mIr6xc9BN7+8MA4/bUEaqZePBt0HjW9MkZxDCqG5z2Cgn7hv9n7
-	6Cel1e1ssyuCcn/Gq5ULX8XPIDPy3UDWrDDEhHc=
-X-Google-Smtp-Source: AGs4zMbhbF/7B/iOLtrMex/DwCRGQ4ImpVvyEzaj2RWZL/w5A4eaUW+PKKuWT+Xih8HieVbOof5Ru9ufVTqjY1JXum4=
-X-Received: by 10.28.31.137 with SMTP id f131mr4366968wmf.110.1512761792592;
-	Fri, 08 Dec 2017 11:36:32 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Fri, 8 Dec 2017 11:36:32 -0800 (PST)
-In-Reply-To: <e03ac54c-11c9-2546-a622-c21169979cc5@windriver.com>
-References: <1510293271-32407-1-git-send-email-armccurdy@gmail.com>
-	<e03ac54c-11c9-2546-a622-c21169979cc5@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 8 Dec 2017 11:36:32 -0800
-Message-ID: <CAJ86T=UFGsp0-TDdS8WAEOwr1Xc8aUH0DYv3qh21LcV6TDKxaA@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: create wheel sysuser group offline
+	Fri,  8 Dec 2017 21:04:00 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Dec 2017 13:04:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,379,1508828400"; 
+   d="scan'208";a="1234775"
+Received: from jairdeje-mobl1.zpn.intel.com ([10.219.4.135])
+	by orsmga007.jf.intel.com with ESMTP; 08 Dec 2017 13:04:00 -0800
+From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Dec 2017 15:03:55 -0600
+Message-Id: <cover.1512765610.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+X-Mailer: git-send-email 2.7.5
+Subject: [PATCH V4 0/2] imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 19:36:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Dec 2017 21:04:01 -0000
 
-On Thu, Dec 7, 2017 at 10:44 PM, Yi Zhao <yi.zhao@windriver.com> wrote:
-> =E5=9C=A8 2017=E5=B9=B411=E6=9C=8810=E6=97=A5 13:54, Andre McCurdy =E5=86=
-=99=E9=81=93:
->>
->> The default systemd-tmpfiles config file expects to be able to create
->> files etc belonging to the wheel system group. Currently the wheel
->> group is created at run time by systemd-sysusers, but that doesn't
->> happen if systemd-sysusers is disabled (as it currently is by default
->> when building with musl libc).
->
-> For sysvinit, we follow the Debian rule which doesn't have wheel group in
-> the system. Should we have to break this rule for systemd? Is this necess=
-ary
-> to use this group in systemd?
+Patch to add a testcase for IMAGE_GEN_DEBUGFS variable. Checks if debug filesystem
+was created.
 
-The default systemd-tmpfiles config file expects to be able to create
-files etc belonging to the wheel system group. Unless we patch or
-over-ride the default systemd-tmpfiles config file to change that then
-yes, the wheel group appears to be necessary for systemd.
+Changed on V4:
+
+- Rebased with master.
+- Added id to tests missing it.
+
+The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
+
+  lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jairglez/ImageGenDebugfs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jairglez/ImageGenDebugfs
+
+Humberto Ibarra (1):
+  imagefeatures.py: Added testcase to track IMAGE_GEN_DEBUGFS
+
+Jair Gonzalez (1):
+  imagefeatures.py: Add id to tests missing it
+
+ meta/lib/oeqa/selftest/cases/imagefeatures.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+-- 
+2.7.5
+
 
