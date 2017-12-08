@@ -1,52 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B693A6FFC7
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5775F71ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 22:24:16 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id x49so12070289wrb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Dec 2017 14:24:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=doscUx/Ho/v3A7bxMrklgCrZxnXeJAKGGPohK9jYKks=;
-	b=iWR44+g/VR2SiEFRIIl0itrM8LmEV9f4LTX8aJxFN/+0yCxWluc86gY6oxY2GrYbPS
-	o3xj4/MkzHdDvwYpNWxt2hqLPY9hDdDA5NqSMrKf0E3Yy/j2dubBnCBtZnxcHnMK3OnP
-	9A4HyYLF7BM5n27n7yC2eOYL+SxPlZoyJSgbq/YHxxZBYmogUrV8+jS/ijb4RtmLtlv7
-	jFP5+zxua1+kpKHDsgsCB8LgAEib18lFAOsI/TWHNyMW3w6XLpMF7gSP040DJGX7yToC
-	V+e44oeWuCj0kX2CH5CtpuiBCP1mPbqigkKkTpW2P3mEmW4jK9tZPGObgs3pmu9Sj4eH
-	z7/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=doscUx/Ho/v3A7bxMrklgCrZxnXeJAKGGPohK9jYKks=;
-	b=du1k4IxdOvqDtaXjuKqca0wrVmhDw6hltrn2VbeQJh4ZipCZpjP1cBEPBFlR3aNRGq
-	JSj4t683rDv0Fvn9WsPg3h6/5jW+HkYaB4q2W0/gDolN3pQ4GXcH1z/rXwhlwmcSMEuE
-	xamj5Lm2hgAI13KlUnzA91gbqBG+MhrdD+/vbOrS2bhjXAkEyVmB+YMOrJwKxcEIbVon
-	rkZu1ML1mXrKfBoHEmllv0E3H38K4Vq5AFz6W9C+dYZ9VXi48K7sBfHNaoKpNHleQ8MG
-	x5yO6wrXJhPIq1nMf5s9PkcZZCJkHjc/s4UNb9Qc3fDRrcBCd2Qwd6Cdv1BMBxiQ478I
-	6TXg==
-X-Gm-Message-State: AJaThX71l0nxvt9v/jzZW9qfKL3Scd52Z+e7+GTSj5VI3yu8EHgULX2q
-	iABCfgC798Hq94ubT00o/STwnfzeN7Trwi1Kp04=
-X-Google-Smtp-Source: AGs4zMazcbGCxAYEj39p8uONwMMnD5ChHD7kjTDHpe2wpnbQh5ssehBkD13td8oh5h7+I/eopLQ4CtsnGyX8DhcoA+w=
-X-Received: by 10.223.176.194 with SMTP id j2mr26082909wra.62.1512771857567;
-	Fri, 08 Dec 2017 14:24:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.133.68 with HTTP; Fri, 8 Dec 2017 14:24:17 -0800 (PST)
-In-Reply-To: <CAMKF1srhviBz5_Y9Gsn=Db2y9wCJ8HN96+FjBci+XA3m1R-Pwg@mail.gmail.com>
-References: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
-	<CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
-	<CAJ86T=VzQrqQPa4OB_SgyhYGg_ySp9UgBLeRuY1XLCXYgNbtjA@mail.gmail.com>
-	<CAMKF1srhviBz5_Y9Gsn=Db2y9wCJ8HN96+FjBci+XA3m1R-Pwg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 8 Dec 2017 14:24:17 -0800
-Message-ID: <CAJ86T=XLobz3tiBOf+JqAt3JBV=o4HqUVBJwkjY0VR9LCDWNyQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Mike Crowe <mac@mcrowe.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel.bbclass do_sizecheck behaviour changes
+	Fri,  8 Dec 2017 22:45:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Dec 2017 14:45:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,379,1508828400"; 
+   d="scan'208";a="1306905"
+Received: from wrath.jf.intel.com ([10.54.70.11])
+	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:45:41 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Dec 2017 14:45:12 -0800
+Message-Id: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH v2 00/19] python improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +31,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 22:24:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Dec 2017 22:45:40 -0000
 
-On Fri, Dec 8, 2017 at 1:34 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> The size limit for an uncompressed kernel vs a compressed kernel is
->> going to be quite different, so defining one size limit and applying
->> it to all images doesn't seem logical.
->
-> I was hoping that we are talking about deployed kernels here compressed
-> sizes can vary widely too
->
-> So may be we can have a hook to define which image types should be monitored
-> and what the limits are for individual type
+This patchset combines Alejandro Hernandez' new python packaging as
+well as adding Derek Straka's pypi.bbclass from meta-python.
 
-We could do a lot of things and add a lot of complexity. However based
-on the fact that the simplest test has been broken for some time and
-no-one noticed, the evidence is that the kernel image size check isn't
-a widely used feature (and the kernel image size check with multiple
-kernel image types even less so, if at all) and so probably shouldn't
-be the focus of our efforts.
+The commits which delete the old manifests will fail git send-email, so
+this series must be pulled from git.
+
+The pypi.bbclass added to meta-python by Derek Straka significantly
+simplifies python module packaging and has utility outside of just
+the meta-python layer. Most notably, it knows how to generate the
+SRC_URI, S, UPSTREAM_CHECK_URI and UPSTREAM_CHECK_REGEX variables
+given a PYPI_PACKAGE. For special cases where PYPI_PACKAGE is not
+guessable from the BPN, the value can be set in your recipe. For
+special cases where the upstream source is not bundled as a .tar.gz,
+the PYPI_PACKAGE_EXT can be set in your recipe. Providing python2 and
+python3 packaging is also simplified by putting most of the common
+content into .inc files. Note that it is strongly recommend to use
+PYTHON_PN to dynamically set "python-" vs. "python3-" prefix for your
+DEPENDS and RDEPENDS needs. This often moves everything but the
+"requires python-foo.inc" and "include setuptools*" lines in your
+python recipes to the common .inc file. Much simpler maintenance.
+
+This patch series adds runpy to the new json-style python-*-manifests, 
+which allows you to run, for example "python -m pip" from the command
+line. It also adds a couple dependencies that were silently breaking
+python packages at runtime.
+
+This series modifies all the recipes in recipes-devtools/python which
+had a SRC_URI pointing to "pythonhosted" to use the pypi.bbclass. Where
+it made sense, the "python-" and "python3-" specific files were simplified,
+putting the common content into the .inc file.
+
+Finally, this series upgrades python-scons and python*-setuptools to the
+latest versions.
+
+The following changes since commit 4469acdf1d0338220f3fe2ecb5e079eea6fda375:
+
+  lib/oe/utils: remove param_bool() (2017-12-02 11:25:34 +0000)
+
+are available in the git repository at:
+
+  git://push.yoctoproject.org/poky-contrib timo/pypi-v2
+
+Alejandro Hernandez (5):
+  python: Restructure python packaging and replace it with autopackaging
+  python3: Restructure python3 packaging and replace it with
+    autopackaging
+  python3: fix RDEPENDS on several recipes, due to non-existent python3
+    packages
+  hwlatdetect: fix RDEPENDS to avoid QA failures
+  python-scons: Remove python-importlib dependency
+
+Tim Orling (14):
+  pypi.bbclass: bring in from meta-python
+  python2 create_manifest.py: fix trailing whitespace in json
+  python*-manifest.json: add dependencies, runpy
+  python*-setuptools: upgrade to 38.2.3; use pypi.bbclass; improvements
+  python3-pip: use pypi.bbclass
+  python-nose: use pypi.bbclass
+  python-six: use pypi.bbclass
+  python-async: use pypi.bbclass
+  python-mako: use pypi.bbclass
+  python-smmap: use pypi.bbclass
+  python-gitdb: use pypi.bbclass
+  python-git: use pypi.bbclass
+  python3-iniparse: use pypi.bbclass
+  python-scons: upgrade to 3.0.1; use pypi.bbclass
+
+ meta/classes/pypi.bbclass                          |   26 +
+ meta/conf/documentation.conf                       |    3 +
+ meta/recipes-core/libxml/libxml2_2.9.7.bb          |    2 +-
+ .../bootchart2/bootchart2_0.14.8.bb                |    2 +-
+ meta/recipes-devtools/dnf/dnf_2.6.3.bb             |   26 +-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |    4 +-
+ .../opkg-utils/opkg-utils_0.3.5.bb                 |    2 +-
+ .../python-numpy/python3-numpy_1.13.3.bb           |    2 -
+ .../python/python-2.7-manifest.inc                 |  287 -----
+ .../python/python-3.5-manifest.inc                 |  283 -----
+ meta/recipes-devtools/python/python-async.inc      |    5 +-
+ meta/recipes-devtools/python/python-git.inc        |   23 +-
+ meta/recipes-devtools/python/python-gitdb.inc      |   16 +-
+ meta/recipes-devtools/python/python-mako.inc       |   14 +-
+ .../python/python-native-3.5-manifest.inc          |   10 -
+ .../python/python-native_2.7.13.bb                 |   24 +-
+ meta/recipes-devtools/python/python-nose.inc       |   18 +
+ meta/recipes-devtools/python/python-nose_1.3.7.bb  |   25 +-
+ ...ative_3.0.0.bb => python-scons-native_3.0.1.bb} |    0
+ ...onscript-Support-python2-print-statements.patch |   38 -
+ meta/recipes-devtools/python/python-scons_3.0.0.bb |   28 -
+ meta/recipes-devtools/python/python-scons_3.0.1.bb |   18 +
+ meta/recipes-devtools/python/python-setuptools.inc |   39 +-
+ .../python/python-setuptools_36.5.0.bb             |   38 -
+ .../python/python-setuptools_38.2.3.bb             |    9 +
+ meta/recipes-devtools/python/python-six.inc        |    8 +-
+ meta/recipes-devtools/python/python-smmap.inc      |    9 +-
+ .../python/python/create_manifest2.py              |  277 +++++
+ .../python/python/get_module_deps2.py              |  112 ++
+ .../python/python/python2-manifest.json            | 1044 ++++++++++++++++++
+ .../python/python/sitecustomize.py                 |    8 -
+ .../recipes-devtools/python/python3-async_0.6.2.bb |    3 -
+ meta/recipes-devtools/python/python3-git_2.1.7.bb  |    4 -
+ .../recipes-devtools/python/python3-gitdb_0.6.4.bb |    4 -
+ .../python/python3-iniparse_0.4.bb                 |   11 +-
+ meta/recipes-devtools/python/python3-mako_1.0.7.bb |    9 -
+ .../python/python3-native_3.5.3.bb                 |   30 +-
+ meta/recipes-devtools/python/python3-nose_1.3.7.bb |   24 +-
+ meta/recipes-devtools/python/python3-pip_9.0.1.bb  |   15 +-
+ .../python/python3-pygobject_3.26.0.bb             |    2 +-
+ .../python/python3-setuptools_36.5.0.bb            |   38 -
+ .../python/python3-setuptools_38.2.3.bb            |    6 +
+ meta/recipes-devtools/python/python3-six_1.11.0.bb |    4 +-
+ .../recipes-devtools/python/python3-smmap_0.9.0.bb |    2 -
+ .../python/python3/create_manifest3.py             |  321 ++++++
+ .../python/python3/get_module_deps3.py             |  146 +++
+ .../python/python3/python3-manifest.json           | 1130 ++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.3.bb      |   83 +-
+ meta/recipes-devtools/python/python_2.7.13.bb      |   80 +-
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb         |    4 +-
+ meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb        |    2 +-
+ meta/recipes-rt/rt-tests/rt-tests_1.1.bb           |    2 +-
+ scripts/contrib/python/generate-manifest-2.7.py    |  421 --------
+ scripts/contrib/python/generate-manifest-3.5.py    |  433 --------
+ 55 files changed, 3443 insertions(+), 1733 deletions(-)
+ create mode 100644 meta/classes/pypi.bbclass
+ delete mode 100644 meta/recipes-devtools/python/python-2.7-manifest.inc
+ delete mode 100644 meta/recipes-devtools/python/python-3.5-manifest.inc
+ delete mode 100644 meta/recipes-devtools/python/python-native-3.5-manifest.inc
+ create mode 100644 meta/recipes-devtools/python/python-nose.inc
+ rename meta/recipes-devtools/python/{python-scons-native_3.0.0.bb => python-scons-native_3.0.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/python/python-scons/SConscript-Support-python2-print-statements.patch
+ delete mode 100644 meta/recipes-devtools/python/python-scons_3.0.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-scons_3.0.1.bb
+ delete mode 100644 meta/recipes-devtools/python/python-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-setuptools_38.2.3.bb
+ create mode 100644 meta/recipes-devtools/python/python/create_manifest2.py
+ create mode 100644 meta/recipes-devtools/python/python/get_module_deps2.py
+ create mode 100644 meta/recipes-devtools/python/python/python2-manifest.json
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools_38.2.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3/create_manifest3.py
+ create mode 100644 meta/recipes-devtools/python/python3/get_module_deps3.py
+ create mode 100644 meta/recipes-devtools/python/python3/python3-manifest.json
+ delete mode 100755 scripts/contrib/python/generate-manifest-2.7.py
+ delete mode 100755 scripts/contrib/python/generate-manifest-3.5.py
+
+-- 
+2.13.6
+
 
