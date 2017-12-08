@@ -1,49 +1,47 @@
-Return-Path: <Ben.Guan@cn.bosch.com>
-Received: from smtp6-v.fe.bosch.de (smtp6-v.fe.bosch.de [139.15.237.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 942936060F
+Return-Path: <gyulkkajo@gmail.com>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7696E71951
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 03:14:57 +0000 (UTC)
-Received: from vsmta11.fe.internet.bosch.com (unknown [10.4.98.51])
-	by imta24.fe.bosch.de (Postfix) with ESMTP id 06189D80217;
-	Fri,  8 Dec 2017 04:12:19 +0100 (CET)
-Received: from FE-MBX2039.de.bosch.com (vsgw23.fe.internet.bosch.com
-	[10.4.98.23])
-	by vsmta11.fe.internet.bosch.com (Postfix) with ESMTP id A78202380470; 
-	Fri,  8 Dec 2017 04:14:58 +0100 (CET)
-Received: from SGPMBX1024.APAC.bosch.com (10.187.56.74) by
-	FE-MBX2039.de.bosch.com (10.3.231.49) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.1.1034.26; Fri, 8 Dec 2017 04:14:57 +0100
-Received: from SGPMBX1024.APAC.bosch.com ([fe80::cc15:fcae:2d92:acc0]) by
-	SGPMBX1024.APAC.bosch.com ([fe80::cc15:fcae:2d92:acc0%17]) with mapi id
-	15.00.1236.000; Fri, 8 Dec 2017 11:14:55 +0800
-From: "GUAN Ben (ST-FIR/ENG1-Zhu)" <Ben.Guan@cn.bosch.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] How to add group for multiple recipes
-Thread-Index: AdNuaevA+9tqv6t3Tdqly4iy1vT6o///fe8A//ytITA=
-Date: Fri, 8 Dec 2017 03:14:55 +0000
-Message-ID: <d1248e8e019d4cd8bb41b83bedc47031@SGPMBX1024.APAC.bosch.com>
-References: <86cb51797fed46e7a8fc40606f317a2c@SGPMBX1024.APAC.bosch.com>
-	<8cf29333-cb70-d1a4-01ec-13a092beff3c@windriver.com>
-In-Reply-To: <8cf29333-cb70-d1a4-01ec-13a092beff3c@windriver.com>
-Accept-Language: en-US, en-SG
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.54.142.76]
-MIME-Version: 1.0
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1679-8.0.0.1202-23514.006
-X-TMASE-MatchedRID: HXSqh3WYKftlx7C8em/tVlu4M/xm4KZedAB35LoCrtT1yiN1CBWeTXfh
-	tJyQegT+RFsqph676uDJNNpJtRbyHfnVY0DWsTq3XP5rFAucBUEjkrgJ37Rqjw1xyQQ/F/PYwgR
-	bAo3t3pXlGURVqJwV2yDPvaiz6uw78fXsZfWEfGRCnGIuUMP0VcMdI0UcXEHzS4KPPiCB23BRwH
-	fcraIOlFEi/iSm23WqCrIa8v3SvtdjDV//SvkH3khwlOfYeSqxE+VNlwE+VkWbKItl61J/yfmS+
-	aPr0Ve8SXhbxZVQ5H+OhzOa6g8KrcRMpYO2uPJZypk7eCBOAr5Y2N1nE8Af650mbxCowfLht7NQ
-	8njf8m8=
-Cc: "Jonas Mark \(ST-FIR/ENG1\)" <Mark.Jonas@de.bosch.com>
-Subject: Re: How to add group for multiple recipes
+	Fri,  8 Dec 2017 04:54:14 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id j124so6428626pfc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Dec 2017 20:54:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=K6piQT0pcVtdXE3KgjCepEXYzx73UtSRNsmTkRtDUZs=;
+	b=WF6mw7/bget85afkyZdzNf1FT87vaxaSt3D8Lw46siH9ygNMwZOrbv4FiJnbvl0PB4
+	ajQ20TFKdMeOJjEd7H5e3+R858rtPbTslu4hao9PkGKgrTX53AIX/eXMNjhN8rYoe3c0
+	pzSkfr/1C5N+w9HMTY9wD2WEyN/tlawIAfeWi+3UXXN/IKeH35eIBUFQwe/ts1o7UVfo
+	p7Di7BOzD7FkHorHCq053qiCzEtbTVkLxOT1/4HnoPahY3Crv2r4K8VS0HVx7E+mlKvc
+	v1y98wxnn+wf8RhREpgVAeDAVKVKfEEyBUtB2Rn0IIoJgg6xQs9QXDrSrPNSyzvuNVzR
+	tWOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=K6piQT0pcVtdXE3KgjCepEXYzx73UtSRNsmTkRtDUZs=;
+	b=TfvXdouMCDCFfA9HdUmOJ7qstfb5q/atey3wAxx9nTzSAoQO1oMj6X647NlBWsCG3/
+	vlT3OizZRgRQleAAolzHGJAn/TsdH9KO4XBxvYjzAeHCt9pH6qdAg7mH6uR4+JoXMr7x
+	dyx6ZYURwqxN85Cv8+t1NvDrXdsUilhl3cTS6bZ/Yy0cBP2uGViRtI6HHW//ZLJmtKrU
+	Xto/kviMR+SusQSHEhHTXPRrChetAsq+cmfj/3MTeiODV8rSWh1mKeGC53F99ucbQ5qh
+	8zlm+xBXPEU62RffvlaN/BPPydZtHwe23BfEbJCylkNkGHs6G6m3FqsQkgbsIBh01wbK
+	+aBA==
+X-Gm-Message-State: AJaThX4VSa36y8k9wWnyCELPEFeuR6DoKdjitiN5WZPQN0dWswQ6gmGC
+	DimHItrSf5gRzs0PxYhzt3B9R/ax
+X-Google-Smtp-Source: AGs4zMbHFznch5Fh9FtMo9AqMf/MKwbdJtJNf8FG7q4EC+KPlYDOIKOfr2haPsBpQnjKR7lxqTwrow==
+X-Received: by 10.99.167.6 with SMTP id d6mr27669915pgf.100.1512708855128;
+	Thu, 07 Dec 2017 20:54:15 -0800 (PST)
+Received: from localhost.localdomain ([175.193.196.217])
+	by smtp.gmail.com with ESMTPSA id
+	t1sm11549904pgs.13.2017.12.07.20.54.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Dec 2017 20:54:13 -0800 (PST)
+From: Changhee Han <gyulkkajo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Dec 2017 13:54:00 +0900
+Message-Id: <1512708840-8351-1-git-send-email-gyulkkajo@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] package.py: Add STRIP_OPTS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +54,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 03:14:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Dec 2017 04:54:14 -0000
 
-SGkgUm9iZXJ0LA0KDQpJIGhhZCB0cmllZCB3aGF0IHNhaWQgYmVmb3JlIGFuZCBmYWlsZWQgdG8g
-bWFrZSBpdCB3b3JrLiBBbmQgSSByZXRyaWVkIHRoaXMgc29sdXRpb24gYWZ0ZXIgSSBnb3QgaW5m
-b3JtYXRpb24gZnJvbSB5b3UuIEl0IHdvcmtzIHBlcmZlY3RseSBub3cuIFRoYW5rIHlvdSENCg0K
-QmVzdCByZWdhcmRzDQoNCkJlbiBHVUFODQpTVC1GSVIvRU5HMS1aaHUgIA0KDQotLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUm9iZXJ0IFlhbmcgW21haWx0bzpsaWV6aGkueWFuZ0B3
-aW5kcml2ZXIuY29tXSANClNlbnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgMDYsIDIwMTcgNDoyNyBQ
-TQ0KVG86IEdVQU4gQmVuIChTVC1GSVIvRU5HMS1aaHUpIDxCZW4uR3VhbkBjbi5ib3NjaC5jb20+
-OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpDYzogSm9uYXMgTWFy
-ayAoU1QtRklSL0VORzEpIDxNYXJrLkpvbmFzQGRlLmJvc2NoLmNvbT4NClN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gSG93IHRvIGFkZCBncm91cCBmb3IgbXVsdGlwbGUgcmVjaXBlcw0KDQpIaSBCZW4s
-DQoNCk9uIDEyLzA2LzIwMTcgMDQ6MTIgUE0sIEdVQU4gQmVuIChTVC1GSVIvRU5HMS1aaHUpIHdy
-b3RlOg0KPiBIZWxsbywNCj4gDQo+IEluIG9lLWNvcmUsIHRoZXJlIGFyZSBzb21lIGRlZmF1bHQg
-Z3JvdXBzIHByb3ZpZGVkIGJ5IHJlY2lwZSAiYmFzZS1wYXNzd2QiLiBBbnkgb3RoZXIgcmVjaXBl
-cyBjb3VsZCByZWZlciB0byB0aGVzZSBncm91cHMgd2hlbiB0aGV5IHdhbnQgdG8gY3JlYXRlIGEg
-bmV3IHVzZXIuDQo+IA0KPiBOb3cgd2UgaGF2ZSBhIHJlcXVpcmVtZW50OiB0aGVyZSBhcmUgc2V2
-ZXJhbCByZWNpcGVzIHdoaWNoIGNyZWF0ZSB0aGVpciBvd24gdXNlcnMsIGFuZCB0aGV5IHNoYWxs
-IGJlbG9uZ3MgdG8gYSBjb21tb24gZ3JvdXAuIEhvdyBjb3VsZCB3ZSBhZGQgdGhpcyBncm91cD8g
-SXQgc2VlbXMgdGhhdCBncm91cHMgb3IgdXNlcnMgY3JlYXRlZCBpbiBhIHJlY2lwZSBhcmUgb25s
-eSB2aXNpYmxlIHRvIHRoZSBzYW1lIHJlY2lwZS4gT3RoZXIgcmVjaXBlcyBjYW5ub3QgcmVmZXIg
-dG8gdGhlbSAoZS5nLiB1c2luZyBjaG93bi9jaGdycCkuDQo+IA0KPiBXZSBhbHJlYWR5IHRyaWVk
-IHRvIGFkZCBhIHJlY2lwZSB3aGljaCBvbmx5IGdlbmVyYXRlcyB0aGUgZ3JvdXAgYW5kIGFkZGVk
-IHRoaXMgdG8gREVQRU5EUyBvZiB0aGUgb3RoZXIgcmVjaXBlcy4gQnV0IGl0IHNlZW0gYXMgaWYg
-dGhlIGdyb3VwIHdhcyBub3QgZ2VuZXJhdGVkIGluIHRpbWUuIFdoZW4gdGhlIG90aGVyIHJlY2lw
-ZXMgcmFuLCB0aGUgZ3JvdXAgd2FzIG5vdCB0aGVyZS4gQnV0IHRoZSBmaW5hbCBpbWFnZSBjb250
-YWluZWQgdGhlIGdyb3VwLg0KDQpXaGF0J3MgdGhlIGVycm9yLCBwbGVhc2UgPyBXaGVyZSBkaWQg
-eW91IGNoZWNrIHRoZSBncm91cCA/IElmIHlvdSBoYXZlIGFkZGVkIHRoZQ0KdGhlIHJlY2lwZSB0
-byBhbm90aGVyJ3MgREVQRU5EUywgdGhlbiB0aGUgZ3JvdXAgc2hvdWxkIGJlIGluIGFub3RoZXIg
-cmVjaXBlJ3MNCnJlY2lwZS1zeXNyb290Lg0KDQovLyBSb2JlcnQNCg0KPiANCj4gQmVzdCByZWdh
-cmRzDQo+IA0KPiBCZW4gR1VBTg0KPiBTVC1GSVIvRU5HMS1aaHUNCj4gDQo=
+STRIP_OPTS variable is added to put extra options for strip command during
+do_package. This helps to discard symbols or sections selectively.
+
+For example, it can be used like below:
+
+STRIP_OPTS_pn-somepackage = "--strip-debug --keep-file-symbols"
+
+It preserves a symbol table on a binary. This is useful especialy for
+an embedded system which has limited resources because a size of *-dbg
+package is too huge to be installed to the target. Instead of it,
+preserving the symbol table is lightweight and enough to track where a
+problem comes from.
+
+Signed-off-by: Changhee Han <gyulkkajo@gmail.com>
+---
+ meta/classes/package.bbclass | 6 ++++--
+ meta/classes/staging.bbclass | 3 ++-
+ meta/conf/documentation.conf | 1 +
+ meta/lib/oe/package.py       | 8 +++++---
+ 4 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2053d46..1933e93 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1066,12 +1066,14 @@ python split_and_strip_files () {
+     if (d.getVar('INHIBIT_PACKAGE_STRIP') != '1'):
+         strip = d.getVar("STRIP")
+         sfiles = []
++        opts = d.getVar("STRIP_OPTS") or ''
++
+         for file in elffiles:
+             elf_file = int(elffiles[file])
+             #bb.note("Strip %s" % file)
+-            sfiles.append((file, elf_file, strip))
++            sfiles.append((file, elf_file, strip, opts))
+         for f in kernmods:
+-            sfiles.append((f, 16, strip))
++            sfiles.append((f, 16, strip, opts))
+ 
+         oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+ 
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index c479bd9..51be462 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -78,8 +78,9 @@ python sysroot_strip () {
+     base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir"))
+     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split()
+     strip_cmd = d.getVar("STRIP")
++    strip_opts = d.getVar("STRIP_OPTS") or ''
+ 
+-    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir,
++    oe.package.strip_execs(pn, dstdir, strip_cmd, strip_opts, libdir, base_libdir,
+                            qa_already_stripped=qa_already_stripped)
+ }
+ 
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index a55e283..802bad4 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -392,6 +392,7 @@ SSTATE_MIRRORS[doc] = "Configures the OpenEmbedded build system to search other
+ STAGING_KERNEL_DIR[doc] = "The directory with kernel headers that are required to build out-of-tree modules."
+ STAMP[doc] = "Specifies the base path used to create recipe stamp files. The path to an actual stamp file is constructed by evaluating this string and then appending additional information."
+ STAMPS_DIR[doc] = "Specifies the base directory in which the OpenEmbedded build system places stamps."
++STRIP_OPTS[doc] = "Additional options to add strip command during do_package."
+ SUMMARY[doc] = "The short (80 characters or less) summary of the binary package for packaging systems such as opkg, rpm or dpkg. By default, SUMMARY is used to define the DESCRIPTION variable if DESCRIPTION is not set in the recipe."
+ SVNDIR[doc] = "The directory where Subversion checkouts will be stored."
+ SYSLINUX_DEFAULT_CONSOLE[doc] = "Specifies the kernel boot default console."
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 1e5c3aa..84bd8ba 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -10,7 +10,7 @@ def runstrip(arg):
+ 
+     import stat, subprocess
+ 
+-    (file, elftype, strip) = arg
++    (file, elftype, strip, opts) = arg
+ 
+     newmode = None
+     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
+@@ -31,6 +31,7 @@ def runstrip(arg):
+     elif elftype & 8 or elftype & 4:
+         stripcmd.extend(["--remove-section=.comment", "--remove-section=.note"])
+ 
++    stripcmd.extend(opts.split())
+     stripcmd.append(file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
+ 
+@@ -45,12 +46,13 @@ def runstrip(arg):
+     return
+ 
+ 
+-def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=False):
++def strip_execs(pn, dstdir, strip_cmd, strip_opts, libdir, base_libdir, qa_already_stripped=False):
+     """
+     Strip executable code (like executables, shared libraries) _in_place_
+     - Based on sysroot_strip in staging.bbclass
+     :param dstdir: directory in which to strip files
+     :param strip_cmd: Strip command (usually ${STRIP})
++    :param strip_opts: Strip options
+     :param libdir: ${libdir} - strip .so files in this directory
+     :param base_libdir: ${base_libdir} - strip .so files in this directory
+     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
+@@ -148,7 +150,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=
+     sfiles = []
+     for file in elffiles:
+         elf_file = int(elffiles[file])
+-        sfiles.append((file, elf_file, strip_cmd))
++        sfiles.append((file, elf_file, strip_cmd, strip_opts))
+ 
+     oe.utils.multiprocess_exec(sfiles, runstrip)
+ 
+-- 
+2.1.4
+
 
