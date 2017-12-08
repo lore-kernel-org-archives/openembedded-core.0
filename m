@@ -1,52 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 52A57786E1
+Return-Path: <taborskikrzysztof@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E9F7F786C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 17:18:08 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id v105so11473689wrc.3
+	Fri,  8 Dec 2017 17:46:41 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id f206so4353707wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Dec 2017 09:18:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=CB6WYvq4loAOabWHofasYjWTWc/I15WFo77jtuO4RLE=;
-	b=LTLir020+GbSRmc7KhwPUezEhthLQRFymaMB6A888TXOH87FBmGloO/nac5n4IjFFF
-	rQ+bf/zsg6avl5Zp4Ae5qZDOWcUPUiGbPUy9EQ2xITvWOgw7bX5Qv3/VLF8KYgJ3SBEg
-	FmUJDgiQKlIHm8sEPbtdY9zGfSv5uzfKy6iuqK6CKllWQtX1gnt1jZ6AS47WXVC0r/ki
-	d9v+/e6/DHO6cIzptZHlDEEch06tvqeKbEFkRihaH2PQIRNM+nPsVjc8pkvxlepIoRtt
-	hznRdd+57RF47YcpCbBgq9N4sIETc1O1YgnuMZX73Th/J9G8cIbGqmyWJCnas/awijOZ
-	Z42w==
+	Fri, 08 Dec 2017 09:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:references:in-reply-to:subject:date:message-id:mime-version
+	:content-transfer-encoding:thread-index:content-language;
+	bh=SRnpQFJezftGc8L7ebtzhGBl+VBkylUFFxO0S4v6JYs=;
+	b=Us/K6l4tTYYv4QyOF0dwA71T6b/6ps7nVHZ+x/bsHwAS3cty+qCd3nFGjvFbSckIq5
+	v/p4pldfVaXQMkFkz8HZgspbsVk3W1xgng+uP3fWphr01CvMhV8mj5jZXqL8LVAVkiD1
+	RH2xZ2Kof/POgte1m86Q7JJB2pyIpVn2NmuF9KkOzEo9BVDuMbMfKNIknHR8yHU6S/yY
+	dCE6TjTpSe60MayLFhiXIez75RdPv/GgoHAVQRlXymPAGAvilI2gvCqu4C9/bMm4yTY5
+	GzupdK/myBs9zKUyvRXJsq4lJ+r7JyZGMxjGlQ5CW0nJsyHxYJ3VtAfLomoa7IWnT1ec
+	egsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=CB6WYvq4loAOabWHofasYjWTWc/I15WFo77jtuO4RLE=;
-	b=fewNTCApaFMNofB89be3m4yj35mwa9kgMtWYZiHi9eQpWaqPge8A7Rkq5YMdwoWr8/
-	7NMQjiLLDymowOoCwYDAmJPGoXyz+ELk+dXe8jz0czwXsx7E+MaKXmGSqZz15HOInA4t
-	VQaM+jC434oO7EeCwtpxHusePwv6coqpsFUj/Em59i2w+TbyYhUe+PHukHWAuihlmDbD
-	YWRSxCgClrqmqeNOvBjxeL9FoXO8SpK3w3h3ij8JP1ek/4/W1ZZXcwMohC2u/1SjZbG7
-	sNugOfuoDB9iuymcq7s/hMBjHx+N3Olr87dLmdCEqS2rKWeBf7wz+OXfeqpOY9fe6bBO
-	AUDw==
-X-Gm-Message-State: AJaThX5cX5cmYzdKS1I1b72OvNfffN8n7nld2aY/6hLOq8I0GPOQ2i2K
-	5V3lI3jDT94WQgmsQELFfs0Q2lO4
-X-Google-Smtp-Source: AGs4zMYxFLILE+DL2pI0tWHHGL5tlkfgDOjkOTxPylirPFEW9jVh+DQPq0mChk9pT42mA2SDs53y/w==
-X-Received: by 10.223.179.209 with SMTP id x17mr28190513wrd.145.1512753489185; 
-	Fri, 08 Dec 2017 09:18:09 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:from:to:references:in-reply-to:subject:date
+	:message-id:mime-version:content-transfer-encoding:thread-index
+	:content-language;
+	bh=SRnpQFJezftGc8L7ebtzhGBl+VBkylUFFxO0S4v6JYs=;
+	b=FsLGx+hxMn6uegu3WBWjurlkM672+czAZA173EA0xlI4+p2+ylJAkvGW81+NBRkdGF
+	s3OjJx3i4qXdb9vk3F7QZH/RPiIP4VeQIyPiN/r830G93OlaxpHdpGupJK5+FoM43Ycf
+	IJsVvjVpiV24z0dH2XUnhnmSDxHXjM9IAaAWJ31jyI9u20hfC/grhdN/lNctqDSUJ3pN
+	cVlKRK1i0I6MH6suti+tfEnF17t2bGpF3b7AfRi+Z/r0SS+PTlDiQPGHauTM1wpVfP4z
+	B9K/szjmrmPJhmrtt5qP3EFky2Gsv1dag4n142N9DaD9vC4bW6KP0uI201RL9ABp+1C7
+	vQwA==
+X-Gm-Message-State: AKGB3mKEtmowjVt6qR0T1fwdb+yulG/NCFRiyHVUIjKRjXT3kDGVOHim
+	RNjRP9w4xMmZQ5Mh1d1OoIXBgQ==
+X-Google-Smtp-Source: AGs4zMbCALIUc3Z5QJZqwGnf1E5zGHSuVRnqiuw5iC+tpM8ycOqxw+zGW2H9G8JBcaEiXVGhVXpJaQ==
+X-Received: by 10.28.191.3 with SMTP id p3mr4393238wmf.81.1512755202451;
+	Fri, 08 Dec 2017 09:46:42 -0800 (PST)
+Received: from KrzysiekPC ([2a02:a317:e242:9880:9570:a4e3:8fb5:27a9])
 	by smtp.gmail.com with ESMTPSA id
-	y84sm2019945wmg.39.2017.12.08.09.18.08
+	d18sm9837657wrd.54.2017.12.08.09.46.40
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Dec 2017 09:18:08 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Dec 2017 17:18:03 +0000
-Message-Id: <20171208171803.26848-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20171208171803.26848-1-ross.burton@intel.com>
-References: <20171208171803.26848-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] minicom: recommend lrzsz
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 08 Dec 2017 09:46:41 -0800 (PST)
+From: "Krzysztof Taborski" <taborskikrzysztof@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <20171204181640.31225-1-taborskikrzysztof@gmail.com>
+In-Reply-To: <20171204181640.31225-1-taborskikrzysztof@gmail.com>
+Date: Fri, 8 Dec 2017 18:46:42 +0100
+Message-ID: <00b101d3704c$8297acc0$87c70640$@gmail.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQGg2WR2E9OWH46s7KQbCRFgkDZQQKOe5dXw
+Subject: Re: [PATCH v2] perl: native modules will not trigger build perl for target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +61,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 17:18:09 -0000
+X-List-Received-Date: Fri, 08 Dec 2017 17:46:42 -0000
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Language: pl
 
-minicom calls out to lrzsz to peform X/Y/ZMODEM transfers, so add a recommends.
+Hello,
+I would like to request feedback about my patch.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Br,
+Krzysztof Taborski
+
+-----Original Message-----
+From: Krzysztof Taborski [mailto:taborskikrzysztof@gmail.com] 
+Sent: Monday, December 04, 2017 7:17 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Krzysztof Taborski
+Subject: [OE-core][PATCH v2] perl: native modules will not trigger build
+perl for target.
+
+Currently building perl-native modules triggers build perl for target due to
+PACKAGES_DYNAMIC regex.
+
+This commit will cause, that perl native modules will trigger perl-native
+build.
+
+Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
 ---
- meta/recipes-extended/minicom/minicom_2.7.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
+ meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-index 1a31a872d6b..e6afe2b6555 100644
---- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-@@ -27,3 +27,4 @@ do_install() {
- 	for d in doc extras man lib src; do make -C $d DESTDIR=${D} install; done
- }
+diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+index 48113f05a9..a81dc4d703 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+@@ -134,3 +134,5 @@ EOF
  
-+RRECOMMENDS_${PN} += "lrzsz"
--- 
-2.11.0
+ # Fix the path in sstate
+ SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
++PACKAGES_DYNAMIC_class-native += "^perl-module-.*native$"
++
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
+b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index 6b27b22d22..3dc7805da9 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -323,7 +323,7 @@ python split_perl_packages () {
+     d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))  }
+ 
+-PACKAGES_DYNAMIC += "^perl-module-.*"
++PACKAGES_DYNAMIC += "^perl-module-.*(?<!\-native)$"
+ PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
+ 
+ RPROVIDES_perl-lib = "perl-lib"
+--
+2.13.6
+
 
 
