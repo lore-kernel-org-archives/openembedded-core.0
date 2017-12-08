@@ -1,26 +1,26 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 145AE7873D
+	by mail.openembedded.org (Postfix) with ESMTP id 0986E786EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 22:46:00 +0000 (UTC)
+	Fri,  8 Dec 2017 22:46:01 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Dec 2017 14:46:01 -0800
+	08 Dec 2017 14:46:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,379,1508828400"; 
-   d="scan'208";a="1306971"
+   d="scan'208";a="1306981"
 Received: from wrath.jf.intel.com ([10.54.70.11])
-	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:46:01 -0800
+	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:46:02 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Dec 2017 14:45:24 -0800
-Message-Id: <9ae171ddc5b7f3d8b8a022be73f031588728b0dc.1512765771.git.timothy.t.orling@linux.intel.com>
+Date: Fri,  8 Dec 2017 14:45:25 -0800
+Message-Id: <49e0bf7522943a9da4687710cd2d3cc9178ce389.1512765771.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
 References: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v2 12/19] python-six: use pypi.bbclass
+Subject: [PATCH v2 13/19] python-async: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 22:46:00 -0000
+X-List-Received-Date: Fri, 08 Dec 2017 22:46:01 -0000
 
-* Simplify python3-six by using pypi.bbclass
-  - Use PYTHON_PN in .inc to avoid duplication in RDEPENDS
+* Simplify by using pypi.bbclass
+* Use PYTHON_PN for RDEPENDS in .inc to avoid duplication
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-six.inc        | 8 +++-----
- meta/recipes-devtools/python/python3-six_1.11.0.bb | 4 +---
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/python/python-async.inc       | 5 ++---
+ meta/recipes-devtools/python/python3-async_0.6.2.bb | 3 ---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
-index f9e7d6429d0..aeac7e7e9fc 100644
---- a/meta/recipes-devtools/python/python-six.inc
-+++ b/meta/recipes-devtools/python/python-six.inc
-@@ -4,13 +4,11 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=35cec5bf04dd0820d0a18533ea7c774a"
+diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
+index 2c5cb4d1916..56e9592ac02 100644
+--- a/meta/recipes-devtools/python/python-async.inc
++++ b/meta/recipes-devtools/python/python-async.inc
+@@ -4,12 +4,11 @@ SECTION = "devel/python"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/s/six/six-${PV}.tar.gz"
- SRC_URI[md5sum] = "d12789f9baf7e9fb2524c0c64f1773f8"
- SRC_URI[sha256sum] = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/a/async/async-${PV}.tar.gz"
+ SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
+ SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
  
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/six/"
--UPSTREAM_CHECK_REGEX = "/six/(?P<pver>(\d+[\.\-_]*)+)"
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
 +inherit pypi
  
--BBCLASSEXTEND = "native nativesdk"
-+RDEPENDS_${PN} += "${PYTHON_PN}-io"
+-S = "${WORKDIR}/async-${PV}"
++RDEPENDS_${PN} += "${PYTHON_PN}-threading"
  
--S = "${WORKDIR}/six-${PV}"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-six_1.11.0.bb b/meta/recipes-devtools/python/python3-six_1.11.0.bb
-index 38a47b77ddf..9c41f947625 100644
---- a/meta/recipes-devtools/python/python3-six_1.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-six_1.11.0.bb
-@@ -1,4 +1,2 @@
--inherit setuptools3
- require python-six.inc
+ BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb b/meta/recipes-devtools/python/python3-async_0.6.2.bb
+index f45781c44f8..e62b21fcaef 100644
+--- a/meta/recipes-devtools/python/python3-async_0.6.2.bb
++++ b/meta/recipes-devtools/python/python3-async_0.6.2.bb
+@@ -1,6 +1,3 @@
+ require python-async.inc
+ 
+ inherit setuptools3
 -
--RDEPENDS_${PN} += "python3-io"
-+inherit setuptools3
+-RDEPENDS_${PN} += "python3-threading"
+-
 -- 
 2.13.6
 
