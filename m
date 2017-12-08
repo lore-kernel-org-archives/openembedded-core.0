@@ -1,26 +1,26 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0986E786EA
+	by mail.openembedded.org (Postfix) with ESMTP id 1D009787D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Dec 2017 22:46:01 +0000 (UTC)
+	Fri,  8 Dec 2017 22:46:02 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Dec 2017 14:46:02 -0800
+	08 Dec 2017 14:46:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,379,1508828400"; 
-   d="scan'208";a="1306981"
+   d="scan'208";a="1306997"
 Received: from wrath.jf.intel.com ([10.54.70.11])
-	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:46:02 -0800
+	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:46:03 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Dec 2017 14:45:25 -0800
-Message-Id: <49e0bf7522943a9da4687710cd2d3cc9178ce389.1512765771.git.timothy.t.orling@linux.intel.com>
+Date: Fri,  8 Dec 2017 14:45:26 -0800
+Message-Id: <2dd4792241d9f03830607c8099dc740dceebbb69.1512765771.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
 References: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v2 13/19] python-async: use pypi.bbclass
+Subject: [PATCH v2 14/19] python-mako: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 22:46:01 -0000
+X-List-Received-Date: Fri, 08 Dec 2017 22:46:02 -0000
 
-* Simplify by using pypi.bbclass
-* Use PYTHON_PN for RDEPENDS in .inc to avoid duplication
+* Simplify python3-mako by using pypi.bbclass
+* Avoid duplication by using PYTHON_PN in .inc
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-async.inc       | 5 ++---
- meta/recipes-devtools/python/python3-async_0.6.2.bb | 3 ---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/python/python-mako.inc       | 14 +++++++++-----
+ meta/recipes-devtools/python/python3-mako_1.0.7.bb |  9 ---------
+ 2 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
-index 2c5cb4d1916..56e9592ac02 100644
---- a/meta/recipes-devtools/python/python-async.inc
-+++ b/meta/recipes-devtools/python/python-async.inc
-@@ -4,12 +4,11 @@ SECTION = "devel/python"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
+diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
+index 1c83af6a239..7adae6161e8 100644
+--- a/meta/recipes-devtools/python/python-mako.inc
++++ b/meta/recipes-devtools/python/python-mako.inc
+@@ -4,13 +4,17 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/a/async/async-${PV}.tar.gz"
- SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
- SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
- 
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
++PYPI_PACKAGE = "Mako"
++
 +inherit pypi
  
--S = "${WORKDIR}/async-${PV}"
-+RDEPENDS_${PN} += "${PYTHON_PN}-threading"
+ SRC_URI[md5sum] = "5836cc997b1b773ef389bf6629c30e65"
+ SRC_URI[sha256sum] = "4e02fde57bd4abb5ec400181e4c314f56ac3e49ba4fb8b0d50bba18cb27d25ae"
  
- BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-index f45781c44f8..e62b21fcaef 100644
---- a/meta/recipes-devtools/python/python3-async_0.6.2.bb
-+++ b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-@@ -1,6 +1,3 @@
- require python-async.inc
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
+-UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/Mako-${PV}"
++RDEPENDS_${PN}_class-target += " \
++  ${PYTHON_PN}-html \
++  ${PYTHON_PN}-netclient \
++  ${PYTHON_PN}-threading \
++  "
  
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.0.7.bb b/meta/recipes-devtools/python/python3-mako_1.0.7.bb
+index 2b50ffd08ad..156d4f16829 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.0.7.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.0.7.bb
+@@ -1,11 +1,2 @@
+ require python-mako.inc
+-
  inherit setuptools3
 -
--RDEPENDS_${PN} += "python3-threading"
+-RDEPENDS_${PN} = "python3-threading \
+-                  python3-netclient \
+-                  python3-html \
+-"
+-RDEPENDS_${PN}_class-native = ""
 -
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 2.13.6
 
