@@ -1,26 +1,26 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 28D3A7875D
+	by mail.openembedded.org (Postfix) with ESMTP id EF71E78766
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Dec 2017 22:45:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Dec 2017 14:45:57 -0800
+	08 Dec 2017 14:45:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,379,1508828400"; 
-   d="scan'208";a="1306956"
+   d="scan'208";a="1306959"
 Received: from wrath.jf.intel.com ([10.54.70.11])
-	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:45:57 -0800
+	by orsmga008.jf.intel.com with ESMTP; 08 Dec 2017 14:45:58 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Dec 2017 14:45:20 -0800
-Message-Id: <ce3bfbb49e5713418eabe26bf5ae79e18eef2cc3.1512765771.git.timothy.t.orling@linux.intel.com>
+Date: Fri,  8 Dec 2017 14:45:21 -0800
+Message-Id: <8fce55b8a30b760a26d7fda712db02ef2b9c5a81.1512765771.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
 References: <cover.1512765771.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v2 08/19] python*-manifest.json: add dependencies, runpy
+Subject: [PATCH v2 09/19] python*-setuptools: upgrade to 38.2.3; use pypi.bbclass; improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,1849 +33,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Dec 2017 22:45:56 -0000
+X-List-Received-Date: Fri, 08 Dec 2017 22:45:57 -0000
 
-* runpy allows running modules/scripts with 'python -m foo'
-  - create explicit python2 and 3 packages rather than the
-    misc catchall
-* python3-setuptools and html.parser RDEPENDS on _markupbase
-  - add to python3-core rather than misc catchall
-* pip3 RDEPENDS on plistlib, http.client
-  - already packaged in python2, add to python3
-  - add http/ to -netclient
-* "pip3 install" RDEPENDS on encodingds.idna
-  - encodings.idna packaged in -core, but missing:
-    - stringprep (move from -codecs to -core)
-    - unicodedata (move from -codecs to -core)
+* Simplify python- and python3-setuptools with pypi.bbclass
+* inherit setuptools rather than distutils
+* Consolidate common settings in python-setuptools.inc
+  - use PYTHON_PN variable to eliminate duplication
+  - python3-setuptools had RDEPENDS on _markupbase
+    - prior commit it added to -core rather than -misc catchall
+  - installer no longer creates setuptools.pth, drop fixes
+  - easy_install script is installed in /usr/bin/, add --script-dir
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python/python2-manifest.json            | 1295 ++++++++++----------
- .../python/python3/python3-manifest.json           |   41 +-
- 2 files changed, 690 insertions(+), 646 deletions(-)
+ meta/recipes-devtools/python/python-setuptools.inc | 39 ++++++++++++++++++----
+ .../python/python-setuptools_36.5.0.bb             | 38 ---------------------
+ .../python/python-setuptools_38.2.3.bb             |  9 +++++
+ .../python/python3-setuptools_36.5.0.bb            | 35 -------------------
+ .../python/python3-setuptools_38.2.3.bb            |  6 ++++
+ 5 files changed, 48 insertions(+), 79 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-setuptools_38.2.3.bb
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools_38.2.3.bb
 
-diff --git a/meta/recipes-devtools/python/python/python2-manifest.json b/meta/recipes-devtools/python/python/python2-manifest.json
-index 2e325971556..a0321ee7d06 100644
---- a/meta/recipes-devtools/python/python/python2-manifest.json
-+++ b/meta/recipes-devtools/python/python/python2-manifest.json
-@@ -1,1033 +1,1044 @@
- {
-     "2to3": {
-         "files": [
--            "${bindir}/2to3", 
-+            "${bindir}/2to3",
-             "${libdir}/python2.7/lib2to3"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python automated Python 2 to 3 code translator"
--    }, 
-+    },
-     "argparse": {
-         "files": [
-             "${libdir}/python2.7/argparse.py"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
--            "lang", 
-+            "codecs",
-+            "core",
-+            "lang",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python command line argument parser"
--    }, 
-+    },
-     "audio": {
-         "files": [
--            "${libdir}/python2.7/audiodev.py", 
--            "${libdir}/python2.7/chunk.py", 
--            "${libdir}/python2.7/lib-dynload/audioop.so", 
--            "${libdir}/python2.7/lib-dynload/ossaudiodev.so", 
--            "${libdir}/python2.7/sndhdr.py", 
--            "${libdir}/python2.7/sunau.py", 
--            "${libdir}/python2.7/sunaudio.py", 
--            "${libdir}/python2.7/toaiff.py", 
-+            "${libdir}/python2.7/audiodev.py",
-+            "${libdir}/python2.7/chunk.py",
-+            "${libdir}/python2.7/lib-dynload/audioop.so",
-+            "${libdir}/python2.7/lib-dynload/ossaudiodev.so",
-+            "${libdir}/python2.7/sndhdr.py",
-+            "${libdir}/python2.7/sunau.py",
-+            "${libdir}/python2.7/sunaudio.py",
-+            "${libdir}/python2.7/toaiff.py",
-             "${libdir}/python2.7/wave.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "crypt", 
--            "fcntl", 
--            "io", 
-+            "core",
-+            "crypt",
-+            "fcntl",
-+            "io",
-             "math"
--        ], 
-+        ],
-         "summary": "Python Audio Handling"
--    }, 
-+    },
-     "bsddb": {
-         "files": [
--            "${libdir}/python2.7/bsddb", 
-+            "${libdir}/python2.7/bsddb",
-             "${libdir}/python2.7/lib-dynload/_bsddb.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python bindings for the Berkeley Database"
--    }, 
-+    },
-     "codecs": {
-         "files": [
--            "${libdir}/python2.7/gettext.py", 
--            "${libdir}/python2.7/lib-dynload/_codecs_cn.so", 
--            "${libdir}/python2.7/lib-dynload/_codecs_hk.so", 
--            "${libdir}/python2.7/lib-dynload/_codecs_iso2022.so", 
--            "${libdir}/python2.7/lib-dynload/_codecs_jp.so", 
--            "${libdir}/python2.7/lib-dynload/_codecs_kr.so", 
--            "${libdir}/python2.7/lib-dynload/_codecs_tw.so", 
--            "${libdir}/python2.7/lib-dynload/_multibytecodec.so", 
--            "${libdir}/python2.7/lib-dynload/unicodedata.so", 
--            "${libdir}/python2.7/locale.py", 
--            "${libdir}/python2.7/stringprep.py", 
-+            "${libdir}/python2.7/gettext.py",
-+            "${libdir}/python2.7/lib-dynload/_codecs_cn.so",
-+            "${libdir}/python2.7/lib-dynload/_codecs_hk.so",
-+            "${libdir}/python2.7/lib-dynload/_codecs_iso2022.so",
-+            "${libdir}/python2.7/lib-dynload/_codecs_jp.so",
-+            "${libdir}/python2.7/lib-dynload/_codecs_kr.so",
-+            "${libdir}/python2.7/lib-dynload/_codecs_tw.so",
-+            "${libdir}/python2.7/lib-dynload/_multibytecodec.so",
-+            "${libdir}/python2.7/lib-dynload/unicodedata.so",
-+            "${libdir}/python2.7/locale.py",
-+            "${libdir}/python2.7/stringprep.py",
-             "${libdir}/python2.7/xdrlib.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
-+            "core",
-+            "io",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python codec"
--    }, 
-+    },
-     "compile": {
-         "files": [
--            "${libdir}/python2.7/compileall.py", 
-+            "${libdir}/python2.7/compileall.py",
-             "${libdir}/python2.7/py_compile.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python bytecode compilation support"
--    }, 
-+    },
-     "compiler": {
-         "files": [
-             "${libdir}/python2.7/compiler"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
-+            "core",
-+            "io",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python compiler support"
--    }, 
-+    },
-     "compression": {
-         "files": [
--            "${libdir}/python2.7/gzip.py", 
--            "${libdir}/python2.7/lib-dynload/bz2.so", 
--            "${libdir}/python2.7/tarfile.py", 
-+            "${libdir}/python2.7/gzip.py",
-+            "${libdir}/python2.7/lib-dynload/bz2.so",
-+            "${libdir}/python2.7/tarfile.py",
-             "${libdir}/python2.7/zipfile.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
--            "shell", 
--            "unixadmin", 
-+            "core",
-+            "io",
-+            "shell",
-+            "unixadmin",
-             "zlib"
--        ], 
-+        ],
-         "summary": "Python high-level compression support"
--    }, 
-+    },
-     "contextlib": {
-         "files": [
-             "${libdir}/python2.7/contextlib.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python utilities for with-statementcontexts."
--    }, 
-+    },
-     "core": {
-         "files": [
--            "${bindir}/python*", 
--            "${includedir}/python2.7/pyconfig*.h", 
--            "${libdir}/python2.7/ConfigParser.py", 
--            "${libdir}/python2.7/UserDict.py", 
--            "${libdir}/python2.7/UserList.py", 
--            "${libdir}/python2.7/UserString.py", 
--            "${libdir}/python2.7/__future__.py", 
--            "${libdir}/python2.7/_abcoll.py", 
--            "${libdir}/python2.7/_sysconfigdata.py", 
--            "${libdir}/python2.7/_weakrefset.py", 
--            "${libdir}/python2.7/abc.py", 
--            "${libdir}/python2.7/ast.py", 
--            "${libdir}/python2.7/atexit.py", 
--            "${libdir}/python2.7/codecs.py", 
--            "${libdir}/python2.7/collections.py", 
--            "${libdir}/python2.7/copy.py", 
--            "${libdir}/python2.7/copy_reg.py", 
--            "${libdir}/python2.7/encodings", 
--            "${libdir}/python2.7/encodings/aliases.py", 
--            "${libdir}/python2.7/encodings/utf_8.py", 
--            "${libdir}/python2.7/genericpath.py", 
--            "${libdir}/python2.7/getopt.py", 
--            "${libdir}/python2.7/heapq.py", 
--            "${libdir}/python2.7/importlib", 
--            "${libdir}/python2.7/keyword.py", 
--            "${libdir}/python2.7/lib-dynload/_collections.so", 
--            "${libdir}/python2.7/lib-dynload/_heapq.so", 
--            "${libdir}/python2.7/lib-dynload/_locale.so", 
--            "${libdir}/python2.7/lib-dynload/_struct.so", 
--            "${libdir}/python2.7/lib-dynload/binascii.so", 
--            "${libdir}/python2.7/lib-dynload/itertools.so", 
--            "${libdir}/python2.7/lib-dynload/operator.so", 
--            "${libdir}/python2.7/lib-dynload/readline.so", 
--            "${libdir}/python2.7/lib-dynload/strop.so", 
--            "${libdir}/python2.7/lib-dynload/time.so", 
--            "${libdir}/python2.7/lib-dynload/xreadlines.so", 
--            "${libdir}/python2.7/linecache.py", 
--            "${libdir}/python2.7/new.py", 
--            "${libdir}/python2.7/os.py", 
--            "${libdir}/python2.7/platform.py", 
--            "${libdir}/python2.7/posixpath.py", 
--            "${libdir}/python2.7/re.py", 
--            "${libdir}/python2.7/rlcompleter.py", 
--            "${libdir}/python2.7/site.py", 
--            "${libdir}/python2.7/sitecustomize.py", 
--            "${libdir}/python2.7/sre_compile.py", 
--            "${libdir}/python2.7/sre_constants.py", 
--            "${libdir}/python2.7/sre_parse.py", 
--            "${libdir}/python2.7/stat.py", 
--            "${libdir}/python2.7/string.py", 
--            "${libdir}/python2.7/struct.py", 
--            "${libdir}/python2.7/sysconfig.py", 
--            "${libdir}/python2.7/traceback.py", 
--            "${libdir}/python2.7/types.py", 
--            "${libdir}/python2.7/warnings.py", 
-+            "${bindir}/python*",
-+            "${includedir}/python2.7/pyconfig*.h",
-+            "${libdir}/python2.7/ConfigParser.py",
-+            "${libdir}/python2.7/UserDict.py",
-+            "${libdir}/python2.7/UserList.py",
-+            "${libdir}/python2.7/UserString.py",
-+            "${libdir}/python2.7/__future__.py",
-+            "${libdir}/python2.7/_abcoll.py",
-+            "${libdir}/python2.7/_sysconfigdata.py",
-+            "${libdir}/python2.7/_weakrefset.py",
-+            "${libdir}/python2.7/abc.py",
-+            "${libdir}/python2.7/ast.py",
-+            "${libdir}/python2.7/atexit.py",
-+            "${libdir}/python2.7/codecs.py",
-+            "${libdir}/python2.7/collections.py",
-+            "${libdir}/python2.7/copy.py",
-+            "${libdir}/python2.7/copy_reg.py",
-+            "${libdir}/python2.7/encodings",
-+            "${libdir}/python2.7/encodings/aliases.py",
-+            "${libdir}/python2.7/encodings/utf_8.py",
-+            "${libdir}/python2.7/genericpath.py",
-+            "${libdir}/python2.7/getopt.py",
-+            "${libdir}/python2.7/heapq.py",
-+            "${libdir}/python2.7/importlib",
-+            "${libdir}/python2.7/keyword.py",
-+            "${libdir}/python2.7/lib-dynload/_collections.so",
-+            "${libdir}/python2.7/lib-dynload/_heapq.so",
-+            "${libdir}/python2.7/lib-dynload/_locale.so",
-+            "${libdir}/python2.7/lib-dynload/_struct.so",
-+            "${libdir}/python2.7/lib-dynload/binascii.so",
-+            "${libdir}/python2.7/lib-dynload/itertools.so",
-+            "${libdir}/python2.7/lib-dynload/operator.so",
-+            "${libdir}/python2.7/lib-dynload/readline.so",
-+            "${libdir}/python2.7/lib-dynload/strop.so",
-+            "${libdir}/python2.7/lib-dynload/time.so",
-+            "${libdir}/python2.7/lib-dynload/xreadlines.so",
-+            "${libdir}/python2.7/linecache.py",
-+            "${libdir}/python2.7/new.py",
-+            "${libdir}/python2.7/os.py",
-+            "${libdir}/python2.7/platform.py",
-+            "${libdir}/python2.7/posixpath.py",
-+            "${libdir}/python2.7/re.py",
-+            "${libdir}/python2.7/rlcompleter.py",
-+            "${libdir}/python2.7/site.py",
-+            "${libdir}/python2.7/sitecustomize.py",
-+            "${libdir}/python2.7/sre_compile.py",
-+            "${libdir}/python2.7/sre_constants.py",
-+            "${libdir}/python2.7/sre_parse.py",
-+            "${libdir}/python2.7/stat.py",
-+            "${libdir}/python2.7/string.py",
-+            "${libdir}/python2.7/struct.py",
-+            "${libdir}/python2.7/sysconfig.py",
-+            "${libdir}/python2.7/traceback.py",
-+            "${libdir}/python2.7/types.py",
-+            "${libdir}/python2.7/warnings.py",
-             "${libdir}/python2.7/weakref.py"
--        ], 
--        "rdepends": [], 
-+        ],
-+        "rdepends": [],
-         "summary": "Python interpreter and core modules"
--    }, 
-+    },
-     "crypt": {
-         "files": [
--            "${libdir}/python2.7/hashlib.py", 
--            "${libdir}/python2.7/lib-dynload/_hashlib.so", 
--            "${libdir}/python2.7/lib-dynload/crypt.so", 
--            "${libdir}/python2.7/md5.py", 
-+            "${libdir}/python2.7/hashlib.py",
-+            "${libdir}/python2.7/lib-dynload/_hashlib.so",
-+            "${libdir}/python2.7/lib-dynload/crypt.so",
-+            "${libdir}/python2.7/md5.py",
-             "${libdir}/python2.7/sha.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python basic cryptographic and hashing support"
--    }, 
-+    },
-     "ctypes": {
-         "files": [
--            "${libdir}/python2.7/ctypes", 
--            "${libdir}/python2.7/lib-dynload/_ctypes.so", 
-+            "${libdir}/python2.7/ctypes",
-+            "${libdir}/python2.7/lib-dynload/_ctypes.so",
-             "${libdir}/python2.7/lib-dynload/_ctypes_test.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python C types support"
--    }, 
-+    },
-     "curses": {
-         "files": [
--            "${libdir}/python2.7/curses", 
--            "${libdir}/python2.7/lib-dynload/_curses.so", 
-+            "${libdir}/python2.7/curses",
-+            "${libdir}/python2.7/lib-dynload/_curses.so",
-             "${libdir}/python2.7/lib-dynload/_curses_panel.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python curses support"
--    }, 
-+    },
-     "datetime": {
-         "files": [
--            "${libdir}/python2.7/_strptime.py", 
--            "${libdir}/python2.7/calendar.py", 
-+            "${libdir}/python2.7/_strptime.py",
-+            "${libdir}/python2.7/calendar.py",
-             "${libdir}/python2.7/lib-dynload/datetime.so"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
-+            "codecs",
-+            "core",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python calendar and time support"
--    }, 
-+    },
-     "db": {
-         "files": [
--            "${libdir}/python2.7/anydbm.py", 
--            "${libdir}/python2.7/dbhash.py", 
--            "${libdir}/python2.7/dumbdbm.py", 
--            "${libdir}/python2.7/lib-dynload/dbm.so", 
-+            "${libdir}/python2.7/anydbm.py",
-+            "${libdir}/python2.7/dbhash.py",
-+            "${libdir}/python2.7/dumbdbm.py",
-+            "${libdir}/python2.7/lib-dynload/dbm.so",
-             "${libdir}/python2.7/whichdb.py"
--        ], 
-+        ],
-         "rdepends": [
--            "bsddb", 
--            "core", 
-+            "bsddb",
-+            "core",
-             "gdbm"
--        ], 
-+        ],
-         "summary": "Python file-based database support"
--    }, 
-+    },
-     "debugger": {
-         "files": [
--            "${libdir}/python2.7/bdb.py", 
-+            "${libdir}/python2.7/bdb.py",
-             "${libdir}/python2.7/pdb.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
--            "lang", 
--            "pprint", 
-+            "core",
-+            "io",
-+            "lang",
-+            "pprint",
-             "shell"
--        ], 
-+        ],
-         "summary": "Python debugger"
--    }, 
-+    },
-     "dev": {
-         "files": [
--            "${base_libdir}/*.a", 
--            "${base_libdir}/*.o", 
--            "${datadir}/aclocal", 
--            "${datadir}/pkgconfig", 
--            "${includedir}", 
--            "${libdir}/*.a", 
--            "${libdir}/*.la", 
--            "${libdir}/*.o", 
--            "${libdir}/lib*${SOLIBSDEV}", 
--            "${libdir}/pkgconfig", 
-+            "${base_libdir}/*.a",
-+            "${base_libdir}/*.o",
-+            "${datadir}/aclocal",
-+            "${datadir}/pkgconfig",
-+            "${includedir}",
-+            "${libdir}/*.a",
-+            "${libdir}/*.la",
-+            "${libdir}/*.o",
-+            "${libdir}/lib*${SOLIBSDEV}",
-+            "${libdir}/pkgconfig",
-             "${libdir}/python2.7/config/Makefile"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python development package"
--    }, 
-+    },
-     "difflib": {
-         "files": [
-             "${libdir}/python2.7/difflib.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python helpers for computing deltas between objects"
--    }, 
-+    },
-     "distutils": {
-         "files": [
--            "${libdir}/python2.7/config", 
-+            "${libdir}/python2.7/config",
-             "${libdir}/python2.7/distutils"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python Distribution Utilities"
--    }, 
-+    },
-     "distutils-staticdev": {
-         "files": [
-             "${libdir}/python2.7/config/lib*.a"
--        ], 
-+        ],
-         "rdepends": [
-             "distutils"
--        ], 
-+        ],
-         "summary": "Python distribution utilities (static libraries)"
--    }, 
-+    },
-     "doctest": {
-         "files": [
-             "${libdir}/python2.7/doctest.py"
--        ], 
--        "rdepends": [
--            "core", 
--            "crypt", 
--            "debugger", 
--            "difflib", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "pprint", 
--            "shell", 
-+        ],
-+        "rdepends": [
-+            "core",
-+            "crypt",
-+            "debugger",
-+            "difflib",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "pprint",
-+            "shell",
-             "unittest"
--        ], 
-+        ],
-         "summary": "Python framework for running examples in docstrings"
--    }, 
-+    },
-     "email": {
-         "files": [
--            "${libdir}/python2.7/email", 
-+            "${libdir}/python2.7/email",
-             "${libdir}/python2.7/imaplib.py"
--        ], 
--        "rdepends": [
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "netclient", 
--            "pickle", 
--            "subprocess", 
-+        ],
-+        "rdepends": [
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "netclient",
-+            "pickle",
-+            "subprocess",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python email support"
--    }, 
-+    },
-     "fcntl": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/fcntl.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python's fcntl interface"
--    }, 
-+    },
-     "gdbm": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/gdbm.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python GNU database support"
--    }, 
-+    },
-     "hotshot": {
-         "files": [
--            "${libdir}/python2.7/hotshot", 
-+            "${libdir}/python2.7/hotshot",
-             "${libdir}/python2.7/lib-dynload/_hotshot.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python hotshot performance profiler"
--    }, 
-+    },
-     "html": {
-         "files": [
--            "${libdir}/python2.7/HTMLParser.py", 
--            "${libdir}/python2.7/formatter.py", 
--            "${libdir}/python2.7/htmlentitydefs.py", 
--            "${libdir}/python2.7/htmllib.py", 
--            "${libdir}/python2.7/markupbase.py", 
-+            "${libdir}/python2.7/HTMLParser.py",
-+            "${libdir}/python2.7/formatter.py",
-+            "${libdir}/python2.7/htmlentitydefs.py",
-+            "${libdir}/python2.7/htmllib.py",
-+            "${libdir}/python2.7/markupbase.py",
-             "${libdir}/python2.7/sgmllib.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python HTML processing support"
--    }, 
-+    },
-     "idle": {
-         "files": [
--            "${bindir}/idle", 
-+            "${bindir}/idle",
-             "${libdir}/python2.7/idlelib"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python Integrated Development Environment"
--    }, 
-+    },
-     "image": {
-         "files": [
--            "${libdir}/python2.7/colorsys.py", 
-+            "${libdir}/python2.7/colorsys.py",
-             "${libdir}/python2.7/imghdr.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python graphical image handling"
--    }, 
-+    },
-     "io": {
-         "files": [
--            "${libdir}/python2.7/StringIO.py", 
--            "${libdir}/python2.7/_pyio.py", 
--            "${libdir}/python2.7/io.py", 
--            "${libdir}/python2.7/lib-dynload/_io.so", 
--            "${libdir}/python2.7/lib-dynload/_socket.so", 
--            "${libdir}/python2.7/lib-dynload/_ssl.so", 
--            "${libdir}/python2.7/lib-dynload/cStringIO.so", 
--            "${libdir}/python2.7/lib-dynload/select.so", 
--            "${libdir}/python2.7/lib-dynload/termios.so", 
--            "${libdir}/python2.7/pipes.py", 
--            "${libdir}/python2.7/socket.py", 
--            "${libdir}/python2.7/ssl.py", 
-+            "${libdir}/python2.7/StringIO.py",
-+            "${libdir}/python2.7/_pyio.py",
-+            "${libdir}/python2.7/io.py",
-+            "${libdir}/python2.7/lib-dynload/_io.so",
-+            "${libdir}/python2.7/lib-dynload/_socket.so",
-+            "${libdir}/python2.7/lib-dynload/_ssl.so",
-+            "${libdir}/python2.7/lib-dynload/cStringIO.so",
-+            "${libdir}/python2.7/lib-dynload/select.so",
-+            "${libdir}/python2.7/lib-dynload/termios.so",
-+            "${libdir}/python2.7/pipes.py",
-+            "${libdir}/python2.7/socket.py",
-+            "${libdir}/python2.7/ssl.py",
-             "${libdir}/python2.7/tempfile.py"
--        ], 
--        "rdepends": [
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "fcntl", 
--            "lang", 
--            "math", 
--            "netclient", 
-+        ],
-+        "rdepends": [
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "fcntl",
-+            "lang",
-+            "math",
-+            "netclient",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python low-level I/O"
--    }, 
-+    },
-     "json": {
-         "files": [
--            "${libdir}/python2.7/json", 
-+            "${libdir}/python2.7/json",
-             "${libdir}/python2.7/lib-dynload/_json.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python JSON support"
--    }, 
-+    },
-     "lang": {
-         "files": [
--            "${libdir}/python2.7/bisect.py", 
--            "${libdir}/python2.7/code.py", 
--            "${libdir}/python2.7/codeop.py", 
--            "${libdir}/python2.7/dis.py", 
--            "${libdir}/python2.7/functools.py", 
--            "${libdir}/python2.7/inspect.py", 
--            "${libdir}/python2.7/lib-dynload/_bisect.so", 
--            "${libdir}/python2.7/lib-dynload/_functools.so", 
--            "${libdir}/python2.7/lib-dynload/array.so", 
--            "${libdir}/python2.7/lib-dynload/parser.so", 
--            "${libdir}/python2.7/opcode.py", 
--            "${libdir}/python2.7/repr.py", 
--            "${libdir}/python2.7/symbol.py", 
--            "${libdir}/python2.7/token.py", 
-+            "${libdir}/python2.7/bisect.py",
-+            "${libdir}/python2.7/code.py",
-+            "${libdir}/python2.7/codeop.py",
-+            "${libdir}/python2.7/dis.py",
-+            "${libdir}/python2.7/functools.py",
-+            "${libdir}/python2.7/inspect.py",
-+            "${libdir}/python2.7/lib-dynload/_bisect.so",
-+            "${libdir}/python2.7/lib-dynload/_functools.so",
-+            "${libdir}/python2.7/lib-dynload/array.so",
-+            "${libdir}/python2.7/lib-dynload/parser.so",
-+            "${libdir}/python2.7/opcode.py",
-+            "${libdir}/python2.7/repr.py",
-+            "${libdir}/python2.7/symbol.py",
-+            "${libdir}/python2.7/token.py",
-             "${libdir}/python2.7/tokenize.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python low-level language support"
--    }, 
-+    },
-     "logging": {
-         "files": [
-             "${libdir}/python2.7/logging"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
-+            "core",
-+            "io",
-             "threading"
--        ], 
-+        ],
-         "summary": "Python logging support"
--    }, 
-+    },
-     "mailbox": {
-         "files": [
-             "${libdir}/python2.7/mailbox.py"
--        ], 
--        "rdepends": [
--            "codecs", 
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "datetime", 
--            "email", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "mime", 
--            "netclient", 
-+        ],
-+        "rdepends": [
-+            "codecs",
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "datetime",
-+            "email",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "mime",
-+            "netclient",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python mailbox format support"
--    }, 
-+    },
-     "math": {
-         "files": [
--            "${libdir}/python2.7/lib-dynload/_random.so", 
--            "${libdir}/python2.7/lib-dynload/cmath.so", 
--            "${libdir}/python2.7/lib-dynload/math.so", 
--            "${libdir}/python2.7/random.py", 
-+            "${libdir}/python2.7/lib-dynload/_random.so",
-+            "${libdir}/python2.7/lib-dynload/cmath.so",
-+            "${libdir}/python2.7/lib-dynload/math.so",
-+            "${libdir}/python2.7/random.py",
-             "${libdir}/python2.7/sets.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "crypt"
--        ], 
-+        ],
-         "summary": "Python math support"
--    }, 
-+    },
-     "mime": {
-         "files": [
--            "${libdir}/python2.7/MimeWriter.py", 
--            "${libdir}/python2.7/mimetools.py", 
--            "${libdir}/python2.7/mimetypes.py", 
--            "${libdir}/python2.7/quopri.py", 
--            "${libdir}/python2.7/rfc822.py", 
-+            "${libdir}/python2.7/MimeWriter.py",
-+            "${libdir}/python2.7/mimetools.py",
-+            "${libdir}/python2.7/mimetypes.py",
-+            "${libdir}/python2.7/quopri.py",
-+            "${libdir}/python2.7/rfc822.py",
-             "${libdir}/python2.7/uu.py"
--        ], 
--        "rdepends": [
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "netclient", 
-+        ],
-+        "rdepends": [
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "netclient",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python MIME handling APIs"
--    }, 
-+    },
-     "mmap": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/mmap.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python memory-mapped file support"
--    }, 
-+    },
-     "modules": {
--        "files": [], 
--        "rdepends": [
--            "2to3", 
--            "argparse", 
--            "audio", 
--            "bsddb", 
--            "codecs", 
--            "compile", 
--            "compiler", 
--            "compression", 
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "ctypes", 
--            "curses", 
--            "datetime", 
--            "db", 
--            "debugger", 
--            "difflib", 
--            "distutils", 
--            "doctest", 
--            "email", 
--            "fcntl", 
--            "gdbm", 
--            "hotshot", 
--            "html", 
--            "idle", 
--            "image", 
--            "io", 
--            "json", 
--            "lang", 
--            "logging", 
--            "mailbox", 
--            "math", 
--            "mime", 
--            "mmap", 
--            "multiprocessing", 
--            "netclient", 
--            "netserver", 
--            "numbers", 
--            "pickle", 
--            "pkgutil", 
--            "plistlib", 
--            "pprint", 
--            "profile", 
--            "pydoc", 
--            "re", 
--            "resource", 
--            "robotparser", 
--            "shell", 
--            "smtpd", 
--            "sqlite3", 
--            "sqlite3", 
--            "stringold", 
--            "subprocess", 
--            "syslog", 
--            "terminal", 
--            "tests", 
--            "textutils", 
--            "threading", 
--            "tkinter", 
--            "unittest", 
--            "unixadmin", 
--            "xml", 
--            "xmlrpc", 
-+        "files": [],
-+        "rdepends": [
-+            "2to3",
-+            "argparse",
-+            "audio",
-+            "bsddb",
-+            "codecs",
-+            "compile",
-+            "compiler",
-+            "compression",
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "ctypes",
-+            "curses",
-+            "datetime",
-+            "db",
-+            "debugger",
-+            "difflib",
-+            "distutils",
-+            "doctest",
-+            "email",
-+            "fcntl",
-+            "gdbm",
-+            "hotshot",
-+            "html",
-+            "idle",
-+            "image",
-+            "io",
-+            "json",
-+            "lang",
-+            "logging",
-+            "mailbox",
-+            "math",
-+            "mime",
-+            "mmap",
-+            "multiprocessing",
-+            "netclient",
-+            "netserver",
-+            "numbers",
-+            "pickle",
-+            "pkgutil",
-+            "plistlib",
-+            "pprint",
-+            "profile",
-+            "pydoc",
-+            "re",
-+            "resource",
-+            "robotparser",
-+	    "runpy",
-+            "shell",
-+            "smtpd",
-+            "sqlite3",
-+            "sqlite3",
-+            "stringold",
-+            "subprocess",
-+            "syslog",
-+            "terminal",
-+            "tests",
-+            "textutils",
-+            "threading",
-+            "tkinter",
-+            "unittest",
-+            "unixadmin",
-+            "xml",
-+            "xmlrpc",
-             "zlib"
--        ], 
-+        ],
-         "summary": "All Python modules"
--    }, 
-+    },
-     "multiprocessing": {
-         "files": [
--            "${libdir}/python2.7/lib-dynload/_multiprocessing.so", 
-+            "${libdir}/python2.7/lib-dynload/_multiprocessing.so",
-             "${libdir}/python2.7/multiprocessing"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "fcntl", 
--            "io", 
--            "pickle", 
--            "subprocess", 
-+            "core",
-+            "fcntl",
-+            "io",
-+            "pickle",
-+            "subprocess",
-             "threading"
--        ], 
-+        ],
-         "summary": "Python multiprocessing support"
--    }, 
-+    },
-     "netclient": {
-         "files": [
--            "${libdir}/python2.7/Cookie.py", 
--            "${libdir}/python2.7/_LWPCookieJar.py", 
--            "${libdir}/python2.7/_MozillaCookieJar.py", 
--            "${libdir}/python2.7/base64.py", 
--            "${libdir}/python2.7/cookielib.py", 
--            "${libdir}/python2.7/ftplib.py", 
--            "${libdir}/python2.7/hmac.py", 
--            "${libdir}/python2.7/httplib.py", 
--            "${libdir}/python2.7/nntplib.py", 
--            "${libdir}/python2.7/poplib.py", 
--            "${libdir}/python2.7/smtplib.py", 
--            "${libdir}/python2.7/telnetlib.py", 
--            "${libdir}/python2.7/urllib.py", 
--            "${libdir}/python2.7/urllib2.py", 
--            "${libdir}/python2.7/urlparse.py", 
-+            "${libdir}/python2.7/Cookie.py",
-+            "${libdir}/python2.7/_LWPCookieJar.py",
-+            "${libdir}/python2.7/_MozillaCookieJar.py",
-+            "${libdir}/python2.7/base64.py",
-+            "${libdir}/python2.7/cookielib.py",
-+            "${libdir}/python2.7/ftplib.py",
-+            "${libdir}/python2.7/hmac.py",
-+            "${libdir}/python2.7/httplib.py",
-+            "${libdir}/python2.7/nntplib.py",
-+            "${libdir}/python2.7/poplib.py",
-+            "${libdir}/python2.7/smtplib.py",
-+            "${libdir}/python2.7/telnetlib.py",
-+            "${libdir}/python2.7/urllib.py",
-+            "${libdir}/python2.7/urllib2.py",
-+            "${libdir}/python2.7/urlparse.py",
-             "${libdir}/python2.7/uuid.py"
--        ], 
--        "rdepends": [
--            "codecs", 
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "ctypes", 
--            "datetime", 
--            "email", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "mime", 
--            "pickle", 
--            "subprocess", 
--            "textutils", 
-+        ],
-+        "rdepends": [
-+            "codecs",
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "ctypes",
-+            "datetime",
-+            "email",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "mime",
-+            "pickle",
-+            "subprocess",
-+            "textutils",
-             "threading"
--        ], 
-+        ],
-         "summary": "Python Internet Protocol clients"
--    }, 
-+    },
-     "netserver": {
-         "files": [
--            "${libdir}/python2.7/BaseHTTPServer.py", 
--            "${libdir}/python2.7/CGIHTTPServer.py", 
--            "${libdir}/python2.7/SimpleHTTPServer.py", 
--            "${libdir}/python2.7/SocketServer.py", 
-+            "${libdir}/python2.7/BaseHTTPServer.py",
-+            "${libdir}/python2.7/CGIHTTPServer.py",
-+            "${libdir}/python2.7/SimpleHTTPServer.py",
-+            "${libdir}/python2.7/SocketServer.py",
-             "${libdir}/python2.7/cgi.py"
--        ], 
--        "rdepends": [
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "mime", 
--            "netclient", 
--            "shell", 
--            "textutils", 
--            "threading", 
-+        ],
-+        "rdepends": [
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "mime",
-+            "netclient",
-+            "shell",
-+            "textutils",
-+            "threading",
-             "unixadmin"
--        ], 
-+        ],
-         "summary": "Python Internet Protocol servers"
--    }, 
-+    },
-     "numbers": {
-         "files": [
--            "${libdir}/python2.7/decimal.py", 
--            "${libdir}/python2.7/fractions.py", 
-+            "${libdir}/python2.7/decimal.py",
-+            "${libdir}/python2.7/fractions.py",
-             "${libdir}/python2.7/numbers.py"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
--            "lang", 
--            "math", 
-+            "codecs",
-+            "core",
-+            "lang",
-+            "math",
-             "threading"
--        ], 
-+        ],
-         "summary": "Python number APIs"
--    }, 
-+    },
-     "pickle": {
-         "files": [
--            "${libdir}/python2.7/lib-dynload/cPickle.so", 
--            "${libdir}/python2.7/pickle.py", 
--            "${libdir}/python2.7/pickletools.py", 
-+            "${libdir}/python2.7/lib-dynload/cPickle.so",
-+            "${libdir}/python2.7/pickle.py",
-+            "${libdir}/python2.7/pickletools.py",
-             "${libdir}/python2.7/shelve.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "io"
--        ], 
-+        ],
-         "summary": "Python serialisation/persistence support"
--    }, 
-+    },
-     "pkgutil": {
-         "files": [
-             "${libdir}/python2.7/pkgutil.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python package extension utility support"
--    }, 
-+    },
-     "plistlib": {
-         "files": [
-             "${libdir}/python2.7/plistlib.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "datetime", 
-+            "core",
-+            "datetime",
-             "io"
--        ], 
-+        ],
-         "summary": "Generate and parse Mac OS X .plist files"
--    }, 
-+    },
-     "pprint": {
-         "files": [
-             "${libdir}/python2.7/pprint.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "io"
--        ], 
-+        ],
-         "summary": "Python pretty-print support"
--    }, 
-+    },
-     "profile": {
-         "files": [
--            "${libdir}/python2.7/cProfile.py", 
--            "${libdir}/python2.7/lib-dynload/_lsprof.so", 
--            "${libdir}/python2.7/profile.py", 
-+            "${libdir}/python2.7/cProfile.py",
-+            "${libdir}/python2.7/lib-dynload/_lsprof.so",
-+            "${libdir}/python2.7/profile.py",
-             "${libdir}/python2.7/pstats.py"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
--            "lang", 
--            "resource", 
-+            "codecs",
-+            "core",
-+            "lang",
-+            "resource",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python basic performance profiling support"
--    }, 
-+    },
-     "pydoc": {
-         "files": [
--            "${bindir}/pydoc", 
--            "${libdir}/python2.7/pydoc.py", 
-+            "${bindir}/pydoc",
-+            "${libdir}/python2.7/pydoc.py",
-             "${libdir}/python2.7/pydoc_data"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
--            "lang", 
-+            "codecs",
-+            "core",
-+            "lang",
-             "pkgutil"
--        ], 
-+        ],
-         "summary": "Python interactive help support"
--    }, 
-+    },
-     "re": {
-         "files": [
-             "${libdir}/python2.7/sre.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python Regular Expression APIs"
--    }, 
-+    },
-     "resource": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/resource.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python resource control interface"
--    }, 
-+    },
-     "robotparser": {
-         "files": [
-             "${libdir}/python2.7/robotparser.py"
--        ], 
-+        ],
-         "rdepends": [
--            "contextlib", 
--            "core", 
--            "io", 
--            "lang", 
--            "netclient", 
-+            "contextlib",
-+            "core",
-+            "io",
-+            "lang",
-+            "netclient",
-             "textutils"
--        ], 
-+        ],
-         "summary": "Python robots.txt parser"
--    }, 
-+    },
-+    "runpy": {
-+        "files": [
-+            "${libdir}/python2.7/runpy.py"
-+        ],
-+        "rdepends": [
-+            "core",
-+            "pkgutil"
-+        ],
-+        "summary": "Python helper for locating/executing scripts in module namespace"
-+    },
-     "shell": {
-         "files": [
--            "${libdir}/python2.7/cmd.py", 
--            "${libdir}/python2.7/commands.py", 
--            "${libdir}/python2.7/dircache.py", 
--            "${libdir}/python2.7/fnmatch.py", 
--            "${libdir}/python2.7/glob.py", 
--            "${libdir}/python2.7/popen2.py", 
--            "${libdir}/python2.7/shlex.py", 
-+            "${libdir}/python2.7/cmd.py",
-+            "${libdir}/python2.7/commands.py",
-+            "${libdir}/python2.7/dircache.py",
-+            "${libdir}/python2.7/fnmatch.py",
-+            "${libdir}/python2.7/glob.py",
-+            "${libdir}/python2.7/popen2.py",
-+            "${libdir}/python2.7/shlex.py",
-             "${libdir}/python2.7/shutil.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "io", 
-+            "core",
-+            "io",
-             "unixadmin"
--        ], 
-+        ],
-         "summary": "Python shell-like functionality"
--    }, 
-+    },
-     "smtpd": {
-         "files": [
--            "${bindir}/smtpd.py", 
--            "${libdir}/python2.7/asynchat.py", 
--            "${libdir}/python2.7/asyncore.py", 
-+            "${bindir}/smtpd.py",
-+            "${libdir}/python2.7/asynchat.py",
-+            "${libdir}/python2.7/asyncore.py",
-             "${libdir}/python2.7/smtpd.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "fcntl", 
--            "io", 
-+            "core",
-+            "fcntl",
-+            "io",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python Simple Mail Transport Daemon"
--    }, 
-+    },
-     "sqlite3": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/_sqlite3.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python Sqlite3 database support"
--    }, 
-+    },
-     "sqlite3-tests": {
-         "files": [
-             "${libdir}/python2.7/sqlite3/test"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "tests"
--        ], 
-+        ],
-         "summary": "Python Sqlite3 database support tests"
--    }, 
-+    },
-     "stringold": {
-         "files": [
-             "${libdir}/python2.7/stringold.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python string APIs [deprecated]"
--    }, 
-+    },
-     "subprocess": {
-         "files": [
-             "${libdir}/python2.7/subprocess.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "fcntl", 
--            "io", 
-+            "core",
-+            "fcntl",
-+            "io",
-             "pickle"
--        ], 
-+        ],
-         "summary": "Python subprocess support"
--    }, 
-+    },
-     "syslog": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/syslog.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python syslog interface"
--    }, 
-+    },
-     "terminal": {
-         "files": [
--            "${libdir}/python2.7/pty.py", 
-+            "${libdir}/python2.7/pty.py",
-             "${libdir}/python2.7/tty.py"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "io"
--        ], 
-+        ],
-         "summary": "Python terminal controlling support"
--    }, 
-+    },
-     "tests": {
-         "files": [
-             "${libdir}/python2.7/test"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python tests"
--    }, 
-+    },
-     "textutils": {
-         "files": [
--            "${libdir}/python2.7/csv.py", 
--            "${libdir}/python2.7/lib-dynload/_csv.so", 
--            "${libdir}/python2.7/optparse.py", 
-+            "${libdir}/python2.7/csv.py",
-+            "${libdir}/python2.7/lib-dynload/_csv.so",
-+            "${libdir}/python2.7/optparse.py",
-             "${libdir}/python2.7/textwrap.py"
--        ], 
-+        ],
-         "rdepends": [
--            "codecs", 
--            "core", 
--            "io", 
-+            "codecs",
-+            "core",
-+            "io",
-             "lang"
--        ], 
-+        ],
-         "summary": "Python option parsin"
--    }, 
-+    },
-     "threading": {
-         "files": [
--            "${libdir}/python2.7/Queue.py", 
--            "${libdir}/python2.7/_threading_local.py", 
--            "${libdir}/python2.7/dummy_thread.py", 
--            "${libdir}/python2.7/dummy_threading.py", 
--            "${libdir}/python2.7/mutex.py", 
-+            "${libdir}/python2.7/Queue.py",
-+            "${libdir}/python2.7/_threading_local.py",
-+            "${libdir}/python2.7/dummy_thread.py",
-+            "${libdir}/python2.7/dummy_threading.py",
-+            "${libdir}/python2.7/mutex.py",
-             "${libdir}/python2.7/threading.py"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python threading & synchronization support"
--    }, 
-+    },
-     "tkinter": {
-         "files": [
-             "${libdir}/python2.7/lib-tk"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python Tcl/Tk bindings"
--    }, 
-+    },
-     "unittest": {
-         "files": [
-             "${libdir}/python2.7/unittest"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
--            "difflib", 
--            "io", 
--            "lang", 
--            "pprint", 
-+            "core",
-+            "difflib",
-+            "io",
-+            "lang",
-+            "pprint",
-             "shell"
--        ], 
-+        ],
-         "summary": "Python unit testing framework"
--    }, 
-+    },
-     "unixadmin": {
-         "files": [
--            "${libdir}/python2.7/getpass.py", 
--            "${libdir}/python2.7/lib-dynload/grp.so", 
-+            "${libdir}/python2.7/getpass.py",
-+            "${libdir}/python2.7/lib-dynload/grp.so",
-             "${libdir}/python2.7/lib-dynload/nis.so"
--        ], 
-+        ],
-         "rdepends": [
--            "core", 
-+            "core",
-             "io"
--        ], 
-+        ],
-         "summary": "Python Unix administration support"
--    }, 
-+    },
-     "xml": {
-         "files": [
--            "${libdir}/python2.7/lib-dynload/_elementtree.so", 
--            "${libdir}/python2.7/lib-dynload/pyexpat.so", 
-+            "${libdir}/python2.7/lib-dynload/_elementtree.so",
-+            "${libdir}/python2.7/lib-dynload/pyexpat.so",
-             "${libdir}/python2.7/xml"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python basic XML support"
--    }, 
-+    },
-     "xmlrpc": {
-         "files": [
--            "${libdir}/python2.7/DocXMLRPCServer.py", 
-+            "${libdir}/python2.7/DocXMLRPCServer.py",
-             "${libdir}/python2.7/SimpleXMLRPCServer.py"
--        ], 
--        "rdepends": [
--            "codecs", 
--            "compression", 
--            "contextlib", 
--            "core", 
--            "crypt", 
--            "datetime", 
--            "fcntl", 
--            "io", 
--            "lang", 
--            "math", 
--            "mime", 
--            "netclient", 
--            "netserver", 
--            "pkgutil", 
--            "pydoc", 
--            "textutils", 
--            "threading", 
--            "xml", 
-+        ],
-+        "rdepends": [
-+            "codecs",
-+            "compression",
-+            "contextlib",
-+            "core",
-+            "crypt",
-+            "datetime",
-+            "fcntl",
-+            "io",
-+            "lang",
-+            "math",
-+            "mime",
-+            "netclient",
-+            "netserver",
-+            "pkgutil",
-+            "pydoc",
-+            "textutils",
-+            "threading",
-+            "xml",
-             "zlib"
--        ], 
-+        ],
-         "summary": "Python XML-RPC support"
--    }, 
-+    },
-     "zlib": {
-         "files": [
-             "${libdir}/python2.7/lib-dynload/zlib.so"
--        ], 
-+        ],
-         "rdepends": [
-             "core"
--        ], 
-+        ],
-         "summary": "Python zlib compression support"
-     }
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 1eae0b6174d..dcabd4c9288 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -5,17 +5,44 @@ LICENSE = "MIT"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=9a33897f1bca1160d7aad3835152e158"
+ 
+-SRCNAME = "setuptools"
++PYPI_PACKAGE_EXT = "zip"
+ 
+-SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.zip"
++SRC_URI[md5sum] = "0ae64455d276ff864b40aca9c06ea7c1"
++SRC_URI[sha256sum] = "63c394084de7d11bbbec59a4f9a9a6bab10209657c615e76ef62ae25cea39288"
+ 
+-SRC_URI[md5sum] = "704f500dd55f4bd0be905444f3ba892c"
+-SRC_URI[sha256sum] = "ce2007c1cea3359870b80657d634253a0765b0c7dc5a988d77ba803fc86f2c64"
++inherit pypi
+ 
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
++DEPENDS += "${PYTHON_PN}"
++DEPENDS_class-native += "${PYTHON_PN}-native"
++DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
+ 
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
++DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR} \
++                           --script-dir=${bindir}"
++
++RDEPENDS_${PN}_class-native = "\
++  ${PYTHON_PN}-distutils \
++  ${PYTHON_PN}-compression \
++"
++RDEPENDS_${PN} = "\
++  ${PYTHON_PN}-compile \
++  ${PYTHON_PN}-compression \
++  ${PYTHON_PN}-ctypes \
++  ${PYTHON_PN}-distutils \
++  ${PYTHON_PN}-email \
++  ${PYTHON_PN}-html \
++  ${PYTHON_PN}-netserver \
++  ${PYTHON_PN}-numbers \
++  ${PYTHON_PN}-pkgutil \
++  ${PYTHON_PN}-plistlib \
++  ${PYTHON_PN}-shell \
++  ${PYTHON_PN}-stringold \
++  ${PYTHON_PN}-threading \
++  ${PYTHON_PN}-unittest \
++  ${PYTHON_PN}-xml \
++"
+ 
+ do_install_prepend() {
+     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+ }
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-setuptools_36.5.0.bb b/meta/recipes-devtools/python/python-setuptools_36.5.0.bb
+deleted file mode 100644
+index 526474c7ea5..00000000000
+--- a/meta/recipes-devtools/python/python-setuptools_36.5.0.bb
++++ /dev/null
+@@ -1,38 +0,0 @@
+-require python-setuptools.inc
+-
+-PROVIDES = "python-distribute"
+-
+-DEPENDS += "python"
+-DEPENDS_class-native += "python-native"
+-
+-inherit distutils
+-
+-DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
+-
+-RDEPENDS_${PN} = "\
+-  python-stringold \
+-  python-email \
+-  python-shell \
+-  python-distutils \
+-  python-compression \
+-  python-pkgutil \
+-  python-plistlib \
+-  python-numbers \
+-  python-html \
+-  python-netserver \
+-  python-ctypes \
+-  python-subprocess \
+-  python-unittest \
+-  python-compile \
+-"
+-
+-RDEPENDS_${PN}_class-native = "\
+-  python-distutils \
+-  python-compression \
+-"
+-
+-RREPLACES_${PN} = "python-distribute"
+-RPROVIDES_${PN} = "python-distribute"
+-RCONFLICTS_${PN} = "python-distribute"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-setuptools_38.2.3.bb b/meta/recipes-devtools/python/python-setuptools_38.2.3.bb
+new file mode 100644
+index 00000000000..cf9440495bd
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-setuptools_38.2.3.bb
+@@ -0,0 +1,9 @@
++require python-setuptools.inc
++
++PROVIDES = "python-distribute"
++
++inherit setuptools
++
++RREPLACES_${PN} = "python-distribute"
++RPROVIDES_${PN} = "python-distribute"
++RCONFLICTS_${PN} = "python-distribute"
+diff --git a/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
+deleted file mode 100644
+index dab8ad89b01..00000000000
+--- a/meta/recipes-devtools/python/python3-setuptools_36.5.0.bb
++++ /dev/null
+@@ -1,35 +0,0 @@
+-require python-setuptools.inc
+-
+-DEPENDS += "python3"
+-DEPENDS_class-native += "python3-native"
+-DEPENDS_class-nativesdk += "nativesdk-python3"
+-
+-inherit distutils3
+-
+-DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
+-
+-# The installer puts the wrong path in the setuptools.pth file.  Correct it.
+-do_install_append() {
+-    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+-    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
+-    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
 -}
-\ No newline at end of file
+-
+-RDEPENDS_${PN}_class-native = "\
+-  python3-distutils \
+-  python3-compression \
+-"
+-RDEPENDS_${PN} = "\
+-  python3-ctypes \
+-  python3-distutils \
+-  python3-email \
+-  python3-numbers \
+-  python3-compression \
+-  python3-shell \
+-  python3-pkgutil \
+-  python3-threading \
+-  python3-misc \
+-  python3-unittest \
+-  python3-xml \
+-"
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-setuptools_38.2.3.bb b/meta/recipes-devtools/python/python3-setuptools_38.2.3.bb
+new file mode 100644
+index 00000000000..0dc1ed86227
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools_38.2.3.bb
+@@ -0,0 +1,6 @@
++require python-setuptools.inc
++inherit setuptools3
++
++do_install_append() {
++    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
 +}
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 1843e185eed..72d95d84841 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -55,13 +55,10 @@
-     },
-     "codecs": {
-         "cached": [
--            "${libdir}/python3.5/__pycache__/stringprep.*.pyc",
-             "${libdir}/python3.5/__pycache__/xdrlib.*.pyc"
-         ],
-         "files": [
-             "${libdir}/python3.5/lib-dynload/_multibytecodec.*.so",
--            "${libdir}/python3.5/lib-dynload/unicodedata.*.so",
--            "${libdir}/python3.5/stringprep.py",
-             "${libdir}/python3.5/xdrlib.py"
-         ],
-         "rdepends": [
-@@ -127,6 +124,7 @@
-             "${libdir}/python3.5/__pycache__/__future__.*.pyc",
-             "${libdir}/python3.5/__pycache__/_bootlocale.*.pyc",
-             "${libdir}/python3.5/__pycache__/_collections_abc.*.pyc",
-+            "${libdir}/python3.5/__pycache__/_markupbase.*.pyc",
-             "${libdir}/python3.5/__pycache__/_sitebuiltins.*.pyc",
-             "${libdir}/python3.5/__pycache__/_sysconfigdata.*.pyc",
-             "${libdir}/python3.5/__pycache__/_weakrefset.*.pyc",
-@@ -171,6 +169,7 @@
-             "${libdir}/python3.5/__pycache__/sre_constants.*.pyc",
-             "${libdir}/python3.5/__pycache__/sre_parse.*.pyc",
-             "${libdir}/python3.5/__pycache__/stat.*.pyc",
-+            "${libdir}/python3.5/__pycache__/stringprep.*.pyc",
-             "${libdir}/python3.5/__pycache__/struct.*.pyc",
-             "${libdir}/python3.5/__pycache__/subprocess.*.pyc",
-             "${libdir}/python3.5/__pycache__/symbol.*.pyc",
-@@ -208,6 +207,7 @@
-             "${libdir}/python3.5/_abcoll.py",
-             "${libdir}/python3.5/_bootlocale.py",
-             "${libdir}/python3.5/_collections_abc.py",
-+            "${libdir}/python3.5/_markupbase.py",
-             "${libdir}/python3.5/_sitebuiltins.py",
-             "${libdir}/python3.5/_sysconfigdata.py",
-             "${libdir}/python3.5/_weakrefset.py",
-@@ -263,6 +263,7 @@
-             "${libdir}/python3.5/lib-dynload/readline.*.so",
-             "${libdir}/python3.5/lib-dynload/select.*.so",
-             "${libdir}/python3.5/lib-dynload/time.*.so",
-+            "${libdir}/python3.5/lib-dynload/unicodedata.*.so",
-             "${libdir}/python3.5/lib-dynload/xreadlines.*.so",
-             "${libdir}/python3.5/linecache.py",
-             "${libdir}/python3.5/locale.py",
-@@ -283,6 +284,7 @@
-             "${libdir}/python3.5/sre_constants.py",
-             "${libdir}/python3.5/sre_parse.py",
-             "${libdir}/python3.5/stat.py",
-+            "${libdir}/python3.5/stringprep.py",
-             "${libdir}/python3.5/struct.py",
-             "${libdir}/python3.5/subprocess.py",
-             "${libdir}/python3.5/symbol.py",
-@@ -679,10 +681,12 @@
-             "numbers",
-             "pickle",
-             "pkgutil",
-+            "plistlib",
-             "pprint",
-             "profile",
-             "pydoc",
-             "resource",
-+            "runpy",
-             "shell",
-             "smtpd",
-             "sqlite3",
-@@ -728,6 +732,8 @@
-             "${libdir}/python3.5/base64.py",
-             "${libdir}/python3.5/ftplib.py",
-             "${libdir}/python3.5/hmac.py",
-+            "${libdir}/python3.5/http",
-+            "${libdir}/python3.5/http/__pycache__",
-             "${libdir}/python3.5/mimetypes.py",
-             "${libdir}/python3.5/nntplib.py",
-             "${libdir}/python3.5/poplib.py",
-@@ -827,6 +833,20 @@
-         ],
-         "summary": "Python package extension utility support"
-     },
-+    "plistlib": {
-+        "cached": [
-+            "${libdir}/python3.5/__pycache__/plistlib.*.pyc"
-+        ],
-+        "files": [
-+            "${libdir}/python3.5/plistlib.py"
-+        ],
-+        "rdepends": [
-+            "core",
-+            "datetime",
-+            "xml"
-+        ],
-+        "summary": "Generate and parse Mac OS X .plist files"
-+    },
-     "pprint": {
-         "cached": [
-             "${libdir}/python3.5/__pycache__/pprint.*.pyc"
-@@ -836,7 +856,7 @@
-         ],
-         "rdepends": [
-             "core"
--       ], 
-+        ],
-         "summary": "Python pretty-print support"
-     },
-     "profile": {
-@@ -882,6 +902,19 @@
-         ],
-         "summary": "Python resource control interface"
-     },
-+    "runpy": {
-+        "cached": [
-+            "${libdir}/python3.5/__pycache__/runpy.*.pyc"
-+        ],
-+        "files": [
-+            "${libdir}/python3.5/runpy.py"
-+        ],
-+        "rdepends": [
-+            "core",
-+            "pkgutil"
-+        ],
-+        "summary": "Python helper for locating/executing scripts in module namespace"
-+    },
-     "shell": {
-         "cached": [
-             "${libdir}/python3.5/__pycache__/cmd.*.pyc",
 -- 
 2.13.6
 
