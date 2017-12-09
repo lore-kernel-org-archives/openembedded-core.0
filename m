@@ -1,49 +1,24 @@
-Return-Path: <bill.randle@gmail.com>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A0776069C
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 97C3971A70
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Dec 2017 03:29:14 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id h9so10733798oti.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Dec 2017 19:29:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=I81JEBEo1BY05r0MZwbmXEbONpZa0n5DmFSaGeGGPnM=;
-	b=jKXqNYDEbpmDkElpDbShl6i8CBMchAWYkrz1s72+C4gavy4Nwnfr71yf5UUfc6yTCz
-	o8vF+/3tFfXhrxHSuN7FBGLzy7zl5HlrwkFCsUeRgHsXg3mYNurK65cxflqZsauzOrn2
-	2+KYCjvf1+GkphZBhAMnE94c5R0dWbUip5UBR4au0SaH6WRYsxU10c9OmiJamM5coHSv
-	TXFFoVbmBayZGDictpNUkdi2vE1XPuW39/cm4mB3E4GIGpJsgZsC5UWMTHswN39ieza2
-	sb8JAT1twOH6hGchLkdUMOzrGT2//1Pp84s7NijJzt4cSIN4X2Vom4TPy7uCK52nVTM+
-	ekMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=I81JEBEo1BY05r0MZwbmXEbONpZa0n5DmFSaGeGGPnM=;
-	b=r/xIQXzu5cv3lMTY1pSpfgTdj1rwBLxKiz3xI2yMr8QyUWjK8kVKEPFpj7pYlGYmkM
-	oSiQQj7iahMnGJ8P55QFJ00AOa85UCRCqXvulLYkxrKVFSG6x6ZUUCn0l4VFUSFG/C17
-	Ov7kwrpQspUdZWhezoD5v90LouuA6JsGjz0VdxsKpqzwX+rKxiJOp3gVB8vfYWDD64Lt
-	HRtxqOcMnXBK8+buf/k9j7pa4wKQ8x454uew5JLif78PIsL2DEeo+eaGA0BXH0jHNgVm
-	BhCPd4m7V2F/7DMh0eW+zBGvpEO5QqifiD4b+rd/LluebvBqAQvVF2/XolNqLCY4c/pg
-	0FPg==
-X-Gm-Message-State: AJaThX52IFbizjy7Z7CeCa8MB9+PC6Y2HJ9xbxkfHj5He1qMYFxocpn2
-	52nGottJYiWPbs6PBGg3Dg4/oPMzEctKARLTovM=
-X-Google-Smtp-Source: AGs4zMaEPLPsj8vwF4pf3TMYraEGTHrFlWuzZt4ROjYrTzDvrOnI4e0jUl32TwlnKyiFoVyQaxESyj0wGbiZeWNGZcI=
-X-Received: by 10.157.46.86 with SMTP id c22mr26911528otd.213.1512790155894;
-	Fri, 08 Dec 2017 19:29:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.202.221.194 with HTTP; Fri, 8 Dec 2017 19:29:15 -0800 (PST)
-In-Reply-To: <1512755197.19417.115.camel@linuxfoundation.org>
-References: <20171208164454.7802-1-ross.burton@intel.com>
-	<CAJTo0La3_94Rg1LXJ9N81Ss4yoFvm3b3unJ5xt6-wc4p4-BFyQ@mail.gmail.com>
-	<1512755197.19417.115.camel@linuxfoundation.org>
-From: Bill Randle <bill.randle@gmail.com>
-Date: Fri, 8 Dec 2017 19:29:15 -0800
-Message-ID: <CA+n--H8LH9EtqS667sGtFiPiAWoLm5JtG2syN_MvVvoY_ckhpg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lrzsz: remove
+	Sat,  9 Dec 2017 11:06:51 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vB9B6otO023401
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 9 Dec 2017 11:06:51 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1eNcy2-0007MO-C8; Sat, 09 Dec 2017 11:06:50 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  9 Dec 2017 11:06:46 +0000
+Message-Id: <1512817607-28253-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/2] [morty] uninative: Handle futex hangs caused by glibc version mismatches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Dec 2017 03:29:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 09 Dec 2017 11:06:53 -0000
 
-On Fri, Dec 8, 2017 at 9:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2017-12-08 at 17:05 +0000, Burton, Ross wrote:
->> I've had people from the past
->
-> What are you suggesting? ;-)
->
->>  suggest that this is still useful for deeply embedded environments
->> where a serial line is the only form of communication, so I'm
->> retracting this and will instead clean up dependencies so it doesn't
->> end up in all images.
->
-> To be clear, if you have a device you're doing board bringup on and
-> serial works but network doesn't this does provide a useful way to get
-> files in/out. That isn't an entirely unknown situation for OE users. It
-> would also potentially allow us to improve the serial test runner used
-> by poky-tiny.
->
+We've been seeing hangs in smart on the autobuilders where it hangs in
+pthread futex calls. It appears to happen when some components are
+installed from sstate (which use the interpreter from uninative)
+and other components are built natively (and use the host's interpreter).
 
-I agree. Please don't drop this. On a previous project (FPGA based
-co-processor board), x/y/zmodem was the only way to transfer files to
-the target since it did not have a network interface at all - just
-serial.
+Its primarily affecting software which uses shared memory with futexs in
+for locking purposes (which bdb does called from librpm from smart).
 
-    -Bill
+This isn't an issue in pyro and rocko and beyond since they use recipe
+specific sysroots which included a change to always change to the
+uninative interpreter. We could backport those changes but they're
+fairly invasive changes to the sstate code. This patch is a more
+minimal change which ensures binaries are always using the uninative
+interpreter regardless of whether they're built locally or installed
+from sstate.
+
+This is only an issue if you're using an sstate mirror and hosts
+with a variety of different libc versions. It has only become an issue
+on recent libc versions where there was clearly some forwards compatibility
+issue introduced.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/uninative.bbclass | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 9754669..241ca74 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -91,6 +91,7 @@ def enable_uninative(d):
+         bb.debug(2, "Enabling uninative")
+         d.setVar("NATIVELSBSTRING", "universal%s" % oe.utils.host_gcc_version(d))
+         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
++        d.setVar("EXTRAINSTALLFUNCS_class-native", "uninative_relocate")
+         d.prependVar("PATH", "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
+ 
+ python uninative_changeinterp () {
+@@ -128,3 +129,20 @@ python uninative_changeinterp () {
+                 bb.fatal("'%s' failed with exit code %d and the following output:\n%s" %
+                          (e.cmd, e.returncode, e.output))
+ }
++
++# In morty we have a problem since files can come from sstate or be built locally. Mixing interpreters
++# for local vs. sstate objects can result in hard to debug futex hangs in shared memory regions (e.g.
++# from smart/rpm/libdb).
++# To resolve this, relocate natively build binaries too. This fix isn't needed post morty since RSS
++# always uses uninative interpreter manipulations for code path simplicity.
++EXTRAINSTALLFUNCS = ""
++do_install[vardepsexclude] = "uninative_relocate"
++do_install[postfuncs] += "${EXTRAINSTALLFUNCS}"
++
++python uninative_relocate () {
++    # (re)Use uninative_changeinterp() to change the interpreter in files in ${D}
++    orig = d.getVar('SSTATE_INSTDIR', False)
++    d.setVar('SSTATE_INSTDIR', "${D}")
++    bb.build.exec_func("uninative_changeinterp", d)
++    d.setVar('SSTATE_INSTDIR', orig)
++}
+-- 
+2.7.4
+
 
