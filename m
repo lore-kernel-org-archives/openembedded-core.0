@@ -1,20 +1,21 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 952876011F
+	by mail.openembedded.org (Postfix) with ESMTP id 02036787DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Dec 2017 16:57:54 +0000 (UTC)
+	Sat,  9 Dec 2017 17:17:58 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vB9GvmUx005228
+	vB9HHrED006134
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 9 Dec 2017 16:57:51 GMT
-Message-ID: <1512838668.19417.119.camel@linuxfoundation.org>
+	verify=NOT); Sat, 9 Dec 2017 17:17:55 GMT
+Message-ID: <1512839873.19417.120.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: "Maxin B. John" <maxin.john@intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Sat, 09 Dec 2017 16:57:48 +0000
-In-Reply-To: <1512652937-15773-1-git-send-email-maxin.john@intel.com>
+Date: Sat, 09 Dec 2017 17:17:53 +0000
+In-Reply-To: <1512838668.19417.119.camel@linuxfoundation.org>
 References: <1512652937-15773-1-git-send-email-maxin.john@intel.com>
+	<1512838668.19417.119.camel@linuxfoundation.org>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
@@ -32,30 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Dec 2017 16:57:56 -0000
+X-List-Received-Date: Sat, 09 Dec 2017 17:17:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-12-07 at 15:22 +0200, Maxin B. John wrote:
-> Update the SRC_URI to point to kernel.org location where
-> i2c-tools is hosted these days.
+On Sat, 2017-12-09 at 16:57 +0000, Richard Purdie wrote:
+> On Thu, 2017-12-07 at 15:22 +0200, Maxin B. John wrote:
+> > 
+> > Update the SRC_URI to point to kernel.org location where
+> > i2c-tools is hosted these days.
+> > 
+> > Remove Modules.mk since it was used for deprecated binaries
+> > (eepromer, eeprom)
+> > 
+> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > ---
+> >  meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ----------
+> > --
+> > ----------
+> >  .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 14 ++---
+> >  2 files changed, 5 insertions(+), 81 deletions(-)
+> >  delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
+> >  rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-
+> > tools_4.0.bb} (64%)
+> Fails on musl sadly:
 > 
-> Remove Modules.mk since it was used for deprecated binaries
-> (eepromer, eeprom)
-> 
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ------------
-> ----------
->  .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 14 ++---
->  2 files changed, 5 insertions(+), 81 deletions(-)
->  delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
->  rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-
-> tools_4.0.bb} (64%)
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/643/steps/B
+> uildImages/logs/stdio
 
-Fails on musl sadly:
+and on glibc qemux86-64:
 
-https://autobuilder.yocto.io/builders/nightly-musl/builds/643/steps/BuildImages/logs/stdio
+https://autobuilder.yocto.io/builders/nightly-world/builds/622
+
+Build race?
 
 Cheers,
 
