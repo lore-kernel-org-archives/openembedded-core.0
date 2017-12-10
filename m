@@ -1,26 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 02036787DA
+	by mail.openembedded.org (Postfix) with ESMTP id C7BF877F90
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Dec 2017 17:17:58 +0000 (UTC)
+	Sun, 10 Dec 2017 12:32:51 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vB9HHrED006134
+	vBACWkbv001052
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 9 Dec 2017 17:17:55 GMT
-Message-ID: <1512839873.19417.120.camel@linuxfoundation.org>
+	verify=NOT); Sun, 10 Dec 2017 12:32:48 GMT
+Message-ID: <1512909166.19417.134.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Maxin B. John" <maxin.john@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 09 Dec 2017 17:17:53 +0000
-In-Reply-To: <1512838668.19417.119.camel@linuxfoundation.org>
-References: <1512652937-15773-1-git-send-email-maxin.john@intel.com>
-	<1512838668.19417.119.camel@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Sun, 10 Dec 2017 12:32:46 +0000
+In-Reply-To: <cover.1512401707.git.bruce.ashfield@windriver.com>
+References: <cover.1512401707.git.bruce.ashfield@windriver.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH] i2c-tools: upgrade to 4.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/8] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Dec 2017 17:17:59 -0000
+X-List-Received-Date: Sun, 10 Dec 2017 12:32:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sat, 2017-12-09 at 16:57 +0000, Richard Purdie wrote:
-> On Thu, 2017-12-07 at 15:22 +0200, Maxin B. John wrote:
-> > 
-> > Update the SRC_URI to point to kernel.org location where
-> > i2c-tools is hosted these days.
-> > 
-> > Remove Modules.mk since it was used for deprecated binaries
-> > (eepromer, eeprom)
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ----------
-> > --
-> > ----------
-> >  .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 14 ++---
-> >  2 files changed, 5 insertions(+), 81 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
-> >  rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-
-> > tools_4.0.bb} (64%)
-> Fails on musl sadly:
+On Mon, 2017-12-04 at 10:39 -0500, Bruce Ashfield wrote:
+> Here is the latest set of kernel updates and bug fixes to the kernel-
+> yocto
+> build.
 > 
-> https://autobuilder.yocto.io/builders/nightly-musl/builds/643/steps/B
-> uildImages/logs/stdio
+> The 4.9 and 4.12 updates are routine -stable updates. I realize we
+> are
+> still fighting some boot/hang issues with 4.12, but I didn't see any
+> new issues with the 4.12 updates, so I included them in this pull
+> request.
+> 
+> I've also included Saul's in-tree defconfig fixes + one additional
+> patch
+> of my own.
+> 
+> I also bump linux-yocto-dev to 4.15-rcX, which brought in some build
+> issues due to x86 ORC_UNWINDER changes, and ssl cert generation. I've
+> added the new dependencies directly in the linux-yocto-dev recipe,
+> but
+> they will very likely have to move lower into the stack over time.
+> 
+> I have some additional, structural changes that are coming shortly,
+> but I'm traveling for the next 5 days and will send them when I
+> return.
 
-and on glibc qemux86-64:
+I tried this series, minus the -dev kernel change in -next and we see:
 
-https://autobuilder.yocto.io/builders/nightly-world/builds/622
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/676/steps/Running%20oe-selftest/logs/stdio
 
-Build race?
+The duplicate logging bug makes it hard to read but the key takeaway is:
+
+2017-12-09 10:49:53,667 - oe-selftest - INFO - Ran 317 tests in 14099.939s
+2017-12-09 10:49:53,667 - oe-selftest - INFO -  (failures=16, skipped=1)
+
+I can reproduce easily with:
+
+oe-selftest -r runqemu.RunqemuTests.test_boot_deploy
+
+which fails locally too. If I revert "linux-yocto/4.12: update to
+v4.12.16" it works.
+
+The test checks if it can login over the serial port so I'm guessing
+some serial driver either got turned off or regressed?
 
 Cheers,
 
 Richard
+
+
 
