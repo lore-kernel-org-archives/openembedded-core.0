@@ -1,34 +1,51 @@
-Return-Path: <prvs=5113892fe=Martin.Hundeboll@prevas.dk>
-Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
-	by mail.openembedded.org (Postfix) with ESMTP id A137978698
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A148278735
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 07:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=2006; q=dns/txt;
-	s=ironport1; t=1512976370; x=1544512370;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=7qR90tcqmHWn3hmv/1PF3fcuETUUq/q2dr7k6cSV01Q=;
-	b=ccW178dMyIcczE+pgdztxfVdIPN5OOLn8SQMYxcb2zlPj6VRD4v7+LXY
-	8CyNcRLTdlMuYaZHvBqm0R3zr5kXtecH0WaE6xGNDSjMCA4rnUN0pMCkO
-	/MiIZ4W5XtE7EHxoTtBYGf0++RYaZ7Dgnv8kJoRsGbWULLJKTfxwseayV E=;
-X-IronPort-AV: E=Sophos;i="5.45,391,1508796000"; 
-   d="scan'208";a="2938842"
-Received: from vmprevas4.prevas.se (HELO smtp.prevas.se) ([172.16.8.104])
-	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Dec 2017 08:12:48 +0100
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.104)
-	with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 11 Dec 2017 08:12:48 +0100
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-To: OE-core <openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>
-Date: Mon, 11 Dec 2017 08:12:42 +0100
-Message-ID: <20171211071242.5675-1-mnhu@prevas.dk>
-X-Mailer: git-send-email 2.15.1
+	Mon, 11 Dec 2017 08:55:05 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id n138so12880301wmg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Dec 2017 00:55:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=jofgHTLCnZnFhJi7XJyCZJ20UzVGvEvB/izKzJBFm4c=;
+	b=PBlTkQfhJCXsS07RLg6R/dukXMtw4LpSOrpXB6lavZliWUYBuJNDE60v9ZKIJVrrtk
+	CF7T1b0z27pzCJ6+R9+mdzW10Sl5kzJAqDAiXl8SUXB3OmOoHqkaqAOsvuZdFg9vWTyw
+	L77iOT8NoKtk3P5z6swfExMa5o69tHt40Dv6Yt3S8ga0puGPToDWrVK1HCGGX0iRizGG
+	y6kQziljeWmrkvnMENZododlX+a8SRWSgB0og5w9fsB/4Iyw36hsRATnA8xT1NyieNeI
+	/++qI/AV55h0ewPF+tMbS/wLwgoaZy8dKamBlR4poHAvRpN5EEMMaP1CsBvuXB2ZQgtW
+	22bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=jofgHTLCnZnFhJi7XJyCZJ20UzVGvEvB/izKzJBFm4c=;
+	b=tCus2MUqfw1cSQu1s/0Q0pm41b5KbNsStsOe6PySNTxhi2uyFPUvOQDJRZLvZdd0W6
+	A4HJvnMy7XZUSiD3Evg1AcYiMMsp1UrWsAB8cmxjcK/iEhMLSkeYCxFMz/ztLiotd4Sq
+	DEZTwWhrbag8onyg5dXqv1qugyxM5WEE1e4Uz/SYze8a8zNKx6FPTMdNOeH54CeOhBOo
+	psEWdQYwoe9pZ2Hfz0v9GIhbWaPmhseCWtrRTAhPrHbIb2jeOKqdSuTD4EfYPkkzByB3
+	+AkL/J4kUMCpmNaBizN66RxwnUBe0z/dHe1B9Q7NRULdJTuf7ENrzI2weOGF8wI//SzI
+	vgmA==
+X-Gm-Message-State: AKGB3mKZVfTzlDOCyejLSg3m9NiBtdRAm3psdOPaxefLpUCoyykHonLg
+	fDpuj3pdzTHav70Ni0umJLUDKK5Tn5mWXPhnAplcyQ==
+X-Google-Smtp-Source: ACJfBos4UGVwgAvPDmgo7oEazFrvY9Uh80uzN/1BRs0QYG+H3Z8tntOqe4U6HMaE5n2m1aUSDK0fyGXQF0XzWuSrNaM=
+X-Received: by 10.28.71.5 with SMTP id u5mr96737wma.84.1512982506308; Mon, 11
+	Dec 2017 00:55:06 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH][rocko] wic: support filesystem label for rawcopy
+Received: by 10.223.199.199 with HTTP; Mon, 11 Dec 2017 00:55:05 -0800 (PST)
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Mon, 11 Dec 2017 08:55:05 +0000
+Message-ID: <CAPyrkgwxYUBGb4wLa83Bcm5dRDFh0m7X3o0tZx9sCYy2PEZV=A@mail.gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>, 
+	Yocto Project <yocto@yoctoproject.org>
+Subject: OpenEmbedded stand at FOSDEM 2018
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,66 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 07:12:49 -0000
+X-List-Received-Date: Mon, 11 Dec 2017 08:55:06 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-The '--label' argument should work for '--source rawcopy' as it does for
-'--source rootfs', so add a method in RawCopyPlugin to update the label
-on the temporary filesystem images.
+Hi all,
 
-Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
+We've got confirmation for an OpenEmbedded stand at FOSDEM 2018! We're
+in the AW building as usual, you can see the full list of stands and
+location details here: https://fosdem.org/2018/stands/
 
-Hi Armin,
+What we need:
 
-Please consider this for Rocko.
+* People to help out on the stand and chat about the project. If
+you're going to FOSDEM and don't know many people in the OE project
+this is a great way to get to know some. Even if you can only help out
+for an hour or two this would be much appreciated!
 
-Thanks
+* Device/product demos which show off the features of OE. We only have
+one table this year so please let us know if you're bringing hardware,
+that way we can make sure everything fits. Preference will go to
+hobbyist projects as this is FOSDEM but we're happy with commercial
+projects as long as they're not an explicit sales pitch.
 
- scripts/lib/wic/plugins/source/rawcopy.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+* Build system demo. I really want us to show off toaster again as
+that got a lot of interest last time we demo'd it at FOSDEM.
+Unfortunately I'm on holiday before FOSDEM and I'm not travelling
+directly from home so I'll be unable to bring something to run this
+demo on. So if someone could bring a laptop or mini-PC/monitor/etc to
+run a build system demo on that would be excellent. If not I'll see if
+I can get something shipped to Brussels.
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 424ed26ed6..e86398ac8f 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -32,6 +32,25 @@ class RawCopyPlugin(SourcePlugin):
- 
-     name = 'rawcopy'
- 
-+    @staticmethod
-+    def do_image_label(fstype, dst, label):
-+        if fstype.startswith('ext'):
-+            cmd = 'tune2fs -L %s %s' % (label, dst)
-+        elif fstype in ('msdos', 'vfat'):
-+            cmd = 'dosfslabel %s %s' % (dst, label)
-+        elif fstype == 'btrfs':
-+            cmd = 'btrfs filesystem label %s %s' % (dst, label)
-+        elif fstype == 'swap':
-+            cmd = 'mkswap -L %s %s' % (label, dst)
-+        elif fstype == 'squashfs':
-+            raise WicError("It's not possible to update a squashfs "
-+                           "filesystem label '%s'" % (label))
-+        else:
-+            raise WicError("Cannot update filesystem label: "
-+                           "Unknown fstype: '%s'" % (fstype))
-+
-+        exec_cmd(cmd)
-+
-     @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-@@ -66,4 +85,7 @@ class RawCopyPlugin(SourcePlugin):
-         if filesize > part.size:
-             part.size = filesize
- 
-+        if part.label:
-+            RawCopyPlugin.do_image_label(part.fstype, dst, part.label)
-+
-         part.source_file = dst
--- 
-2.15.1
+I've created a wiki page here:
+https://www.openembedded.org/wiki/FOSDEM_2018. Please add to this if
+you're planning to bring anything or just attend.
 
+Look forward to seeing many of you in Feb :)
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
 
