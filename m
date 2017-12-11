@@ -1,63 +1,37 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 75D0178688
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 11 Dec 2017 01:20:35 UTC
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 646C0782ED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 00:53:45 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id w131so10583104oiw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Dec 2017 16:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=f+Ajds8jv3Hm/JK4FsvnB/FgmSfMzfgNWzOt7+4Yu7o=;
-	b=s+JFkzyiksK0Dq/atEZJ2E6VBqFJ/qxOIs+jDJuuXvt5nQ+OTQCXLO4NtgUR8qRWX1
-	zhHbwaIlSd/jt/QsXkQnH3DYlWdqa4kadAM35adVG0X4VsOqfis7dKEPqJNCa83nNobQ
-	6ifxs6dGwcRrKHl4xO6gu7+qBrrH/h3AW3J2yrO44gIW/2hjtZmVF8Sn/QzFzs9TZvL+
-	FxtkIpK10+DFf+wbPw62/lUawK9Wut/XeYK9Xf15LJ5UEFqfoDy2BVK9Va9isLdeN6cZ
-	dWUYxz/c6TGcs3Hv4F5yJnrjhsyJHdeJJXUE7MEX9oXCUiz02dlQ4zN56DSsXOB9g9PP
-	OPDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=f+Ajds8jv3Hm/JK4FsvnB/FgmSfMzfgNWzOt7+4Yu7o=;
-	b=gVVN5WblvPInf78WAWTCxLO5QDemn8FCQvj2Taua7SNcSZAh0N/EM9JkK+OBmhI7g+
-	cAgs12ZWSm4m0dLXWTkcgHB6Cdp1egU5f251a+b36NFwk1Hrtv4Bia3briLYxQhwAL0Y
-	WMZ+bF6A6VSh3UYPRW2sCsAeIw8ny/JEshE3afcp/ERXKmIeQwo0ZQs0Jj6CWQDH9Kkw
-	0MfgIH7JEboaCft5SicHUEvDNkKpQI1p7qK8U0+cCXIgwWefLFVbTgShO2CqOG4G9w2B
-	Kx1e9xc312w+PKMWi8KVMxxDqa6QP1x64t+10BlvlvzVI6lPk1oz3GU8bXYH/vzGSK6r
-	4hUQ==
-X-Gm-Message-State: AJaThX6NSKWruhZoM1Eg76E1AeKbcrS5kJhmVIH2MZOlGemKFnLev2NO
-	Ex28jrjTi/5tBaUX8eJu0NVUMb7p
-X-Google-Smtp-Source: AGs4zMaRAahnrOu+v9L9+KgSnxqH54guRm/f3zLFiBVZcELw2XnZSMpDpwMYmesFLHCb4rDmB8fIBQ==
-X-Received: by 10.202.64.65 with SMTP id n62mr31425789oia.110.1512953626090;
-	Sun, 10 Dec 2017 16:53:46 -0800 (PST)
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com.
-	[209.85.218.47]) by smtp.gmail.com with ESMTPSA id
-	u65sm5706203oia.46.2017.12.10.16.53.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Dec 2017 16:53:45 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f47.google.com with SMTP id w131so10583076oiw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Dec 2017 16:53:44 -0800 (PST)
-X-Received: by 10.202.215.85 with SMTP id o82mr28178904oig.166.1512953624324; 
-	Sun, 10 Dec 2017 16:53:44 -0800 (PST)
+	Mon, 11 Dec 2017 01:20:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Dec 2017 17:11:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,391,1508828400"; d="scan'208";a="10773130"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Dec 2017 17:11:01 -0800
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.108]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.76]) with mapi id
+	14.03.0319.002; Mon, 11 Dec 2017 09:11:00 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] recipetool: create: fix conflict between
+	SRCREV and tag
+Thread-Index: AQHTchznWawB06VW3ky6aqblVa033w==
+Date: Mon, 11 Dec 2017 01:10:59 +0000
+Message-ID: <85FBA9CE-6DE1-480F-8A3F-3556868DCE2E@intel.com>
+References: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.17.16]
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Sun, 10 Dec 2017 16:53:43 -0800 (PST)
-In-Reply-To: <20171209024546.16918-2-kexin.hao@windriver.com>
-References: <20171209024546.16918-1-kexin.hao@windriver.com>
-	<20171209024546.16918-2-kexin.hao@windriver.com>
-Date: Sun, 10 Dec 2017 22:53:43 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqdYcwwz0U2FG_LQ7cX2JpsX3bQ5q-Mnn2-x7b7xfDaqg@mail.gmail.com>
-Message-ID: <CAP9ODKqdYcwwz0U2FG_LQ7cX2JpsX3bQ5q-Mnn2-x7b7xfDaqg@mail.gmail.com>
-To: Kevin Hao <kexin.hao@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] wic: plugins: rawcopy: Add support to download the raw image from a http server
+Subject: Re: [PATCH] recipetool: create: fix conflict between SRCREV and tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,28 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 00:53:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Dec 2017 01:20:36 -0000
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <16D0B231E6B6594A8F40C2E9DC351443@intel.com>
+Content-Transfer-Encoding: base64
 
-On Sat, Dec 9, 2017 at 12:45 AM, Kevin Hao <kexin.hao@windriver.com> wrote:
-> Some firmwares are critical for the basic functions of the board, and may
-> be used by the bootloader. Due to the license issue, we can't integrate
-> it. But we do need it when creating a booting image by using WIC.
-> So add the support for the WIC to download a raw file from http
-> server and write it to a specific part. In order to restrict the
-> downloading behaviour, we introduce a "WKS_ALLOW_DOWNLOAD" variable and
-> only do the downloading when this variable is set.
->
-> Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-
-This does not make much sense.
-
-It does not allow to be downloaded? so build system can download it
-and use it as a normal artifact. Adding another source way seems
-controversial.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+UGluZyBhZ2Fpbi4NCkkgbm90aWNlZCB0aGF0IGl0IHdhcyBvbiBtdXQyIDIgd2Vla3MgYWdvLiBJ
+IHRoaW5rIHRoaXMgd2FzIGRyb3BwZWQgc29tZWhvdyBhdCB0aGF0IHBvaW50LiBNYXkgSSBrbm93
+IHdoYXQgSSBjYW4gZG8gaW4gb3JkZXIgdG8gbWFrZSBpdCBpbnRvIE0xIGN5Y2xlPw0KDQpUaGFu
+a3MsDQpSZWJlY2NhDQoNCg0KT24gMTUvMTEvMjAxNywgMTA6MDAgQU0sICJvcGVuZW1iZWRkZWQt
+Y29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgb24gYmVoYWxmIG9mIENoYW5nIFJl
+YmVjY2EgU3dlZSBGdW4iIDxvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgb24gYmVoYWxmIG9mIHJlYmVjY2Euc3dlZS5mdW4uY2hhbmdAaW50ZWwuY29tPiB3
+cm90ZToNCg0KICAgIElmIHlvdSBzcGVjaWZ5ICd0YWc9JyBmb3IgYSBnaXQgVVJMIGFuZCBwYXNz
+ZWQgdG8gcmVjaXBldG9vbCBjcmVhdGUsIHlvdQ0KICAgIHdpbGwgZ2V0IGludG8gQml0YmFrZSBl
+eHBhbnNpb24gZXJyb3Igc2hvd24gYmVsb3c6DQogICAgDQogICAgLS0tLS0gc25pcCAtLS0tLQ0K
+ICAgICQgZGV2dG9vbCBhZGQgLS12ZXJzaW9uIDIuNC4yIG1iZWR0bHMgImdpdDovL2dpdGh1Yi5j
+b20vQVJNbWJlZC9tYmVkdGxzO3RhZz1tYmVkdGxzLTIuNC4yIg0KICAgIC4uLg0KICAgIGJiLmRh
+dGFfc21hcnQuRXhwYW5zaW9uRXJyb3I6IEZhaWx1cmUgZXhwYW5kaW5nIHZhcmlhYmxlIFNSQ1BW
+LCBleHByZXNzaW9uIHdhcyAke0BiYi5mZXRjaDIuZ2V0X3NyY3JldihkKX0gd2hpY2ggdHJpZ2dl
+cmVkIGV4Y2VwdGlvbiBGZXRjaEVycm9yOiBGZXRjaGVyIGZhaWx1cmU6IENvbmZsaWN0aW5nIHJl
+dmlzaW9ucyAoYWJlY2NiOWRiZDdlMTlhZTkxYWM1MGUxZWRkMzgwMzExMWM1ZjliNiBmcm9tIFNS
+Q1JFViBhbmQgbWJlZHRscy0yLjQuMiBmcm9tIHRoZSB1cmwpIGZvdW5kLCBwbGVhc2Ugc3BlY2lm
+eSBvbmUgdmFsaWQgdmFsdWUNCiAgICAtLS0tLSBzbmlwIC0tLS0tDQogICAgDQogICAgQXNzdW1p
+bmcgdGhlIHRhZyBpcyB2YWxpZCwgd2Ugc2hvdWxkIGdldCB0aGUgdGFnIGNvbW1pdCBoYXNoIGFu
+ZA0KICAgIGRyb3AgdGhlIHVzYWdlIG9mICd0YWc9JyBmcm9tIFNSQ19VUkkuIEJ5IHVzaW5nIGEg
+Y29tbWl0IGhhc2gNCiAgICBjb3JyZXNwb25kaW5nIHRvIHRoZSB0YWcgd2lsbCBwcmV2ZW50IGJp
+dGJha2UgZnJvbSBhY2Nlc3NpbmcNCiAgICByZW1vdGUgcmVwb3NpdG9yeSBpbiBvcmRlciB0byBl
+eHBhbmQgU1JDUFYuDQogICAgDQogICAgU2lnbmVkLW9mZi1ieTogQ2hhbmcgUmViZWNjYSBTd2Vl
+IEZ1biA8cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5jb20+DQogICAgLS0tDQogICAgIHNj
+cmlwdHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlLnB5IHwgOCArKysrLS0tLQ0KICAgICAxIGZpbGUg
+Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KICAgIA0KICAgIGRpZmYg
+LS1naXQgYS9zY3JpcHRzL2xpYi9yZWNpcGV0b29sL2NyZWF0ZS5weSBiL3NjcmlwdHMvbGliL3Jl
+Y2lwZXRvb2wvY3JlYXRlLnB5DQogICAgaW5kZXggNTRlN2U4NS4uMmZjOWUwYSAxMDA2NDQNCiAg
+ICAtLS0gYS9zY3JpcHRzL2xpYi9yZWNpcGV0b29sL2NyZWF0ZS5weQ0KICAgICsrKyBiL3Njcmlw
+dHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlLnB5DQogICAgQEAgLTQ4MCw3ICs0ODAsNiBAQCBkZWYg
+Y3JlYXRlX3JlY2lwZShhcmdzKToNCiAgICAgICAgICAgICBpZiB0YWc6DQogICAgICAgICAgICAg
+ICAgICMgS2VlcCBhIGNvcHkgb2YgdGFnIGFuZCBhcHBlbmQgbm9icmFuY2g9MSB0aGVuIHJlbW92
+ZSB0YWcgZnJvbSBVUkwuDQogICAgICAgICAgICAgICAgICMgQml0YmFrZSBmZXRjaGVyIHVuYWJs
+ZSB0byBmZXRjaCB3aGVuIHtBVVRPUkVWfSBhbmQgdGFnIGlzIHNldCBhdCB0aGUgc2FtZSB0aW1l
+Lg0KICAgIC0gICAgICAgICAgICAjIFdlIHdpbGwgcmUtaW50cm9kdWNlIHRhZyBhcmd1bWVudCBh
+ZnRlciBiaXRiYWtlIGZldGNoZXIgcHJvY2VzcyBpcyBjb21wbGV0ZS4NCiAgICAgICAgICAgICAg
+ICAgc3RvcmVUYWdOYW1lID0gcGFyYW1zWyd0YWcnXQ0KICAgICAgICAgICAgICAgICBwYXJhbXNb
+J25vYnJhbmNoJ10gPSAnMScNCiAgICAgICAgICAgICAgICAgZGVsIHBhcmFtc1sndGFnJ10NCiAg
+ICBAQCAtNTUyLDEzICs1NTEsMTEgQEAgZGVmIGNyZWF0ZV9yZWNpcGUoYXJncyk6DQogICAgIA0K
+ICAgICAgICAgICAgICMgU2luY2Ugd2UgbWlnaHQgaGF2ZSBhIHZhbHVlIGluIHNyY2JyYW5jaCwg
+d2UgbmVlZCB0bw0KICAgICAgICAgICAgICMgcmVjb250cnVjdCB0aGUgc3JjdXJpIHRvIGluY2x1
+ZGUgJ2JyYW5jaCcgaW4gcGFyYW1zLg0KICAgICsgICAgICAgIHNjaGVtZSwgbmV0d29yaywgcGF0
+aCwgdXNlciwgcGFzc3dkLCBwYXJhbXMgPSBiYi5mZXRjaDIuZGVjb2RldXJsKHNyY3VyaSkNCiAg
+ICAgICAgICAgICBpZiBzcmNicmFuY2g6DQogICAgLSAgICAgICAgICAgIHNjaGVtZSwgbmV0d29y
+aywgcGF0aCwgdXNlciwgcGFzc3dkLCBwYXJhbXMgPSBiYi5mZXRjaDIuZGVjb2RldXJsKHNyY3Vy
+aSkNCiAgICAgICAgICAgICAgICAgcGFyYW1zWydicmFuY2gnXSA9IHNyY2JyYW5jaA0KICAgIC0g
+ICAgICAgICAgICBzcmN1cmkgPSBiYi5mZXRjaDIuZW5jb2RldXJsKChzY2hlbWUsIG5ldHdvcmss
+IHBhdGgsIHVzZXIsIHBhc3N3ZCwgcGFyYW1zKSkNCiAgICAgDQogICAgICAgICAgICAgaWYgc3Rv
+cmVUYWdOYW1lIGFuZCBzY2hlbWUgaW4gWydnaXQnLCAnZ2l0c20nXToNCiAgICAtICAgICAgICAg
+ICAgIyBSZS1pbnRyb2R1Y2VkIHRhZyB2YXJpYWJsZSBmcm9tIHN0b3JlVGFnTmFtZQ0KICAgICAg
+ICAgICAgICAgICAjIENoZWNrIHNyY3JldiB1c2luZyB0YWcgYW5kIGNoZWNrIHZhbGlkaXR5IG9m
+IHRoZSB0YWcNCiAgICAgICAgICAgICAgICAgY21kID0gKCdnaXQgcmV2LXBhcnNlIC0tdmVyaWZ5
+ICVzJyAlIChzdG9yZVRhZ05hbWUpKQ0KICAgICAgICAgICAgICAgICB0cnk6DQogICAgQEAgLTU2
+OCw2ICs1NjUsOSBAQCBkZWYgY3JlYXRlX3JlY2lwZShhcmdzKToNCiAgICAgICAgICAgICAgICAg
+ICAgIGxvZ2dlci5lcnJvcihzdHIoZXJyKSkNCiAgICAgICAgICAgICAgICAgICAgIGxvZ2dlci5l
+cnJvcigiUG9zc2libHkgd3JvbmcgdGFnIG5hbWUgaXMgcHJvdmlkZWQiKQ0KICAgICAgICAgICAg
+ICAgICAgICAgc3lzLmV4aXQoMSkNCiAgICArICAgICAgICAgICAgIyBEcm9wIHRhZyBmcm9tIHNy
+Y3VyaSBhcyBpdCB3aWxsIGhhdmUgY29uZmxpY3RzIHdpdGggU1JDUkVWIGR1cmluZyByZWNpcGUg
+cGFyc2UuDQogICAgKyAgICAgICAgICAgIGRlbCBwYXJhbXNbJ3RhZyddDQogICAgKyAgICAgICAg
+c3JjdXJpID0gYmIuZmV0Y2gyLmVuY29kZXVybCgoc2NoZW1lLCBuZXR3b3JrLCBwYXRoLCB1c2Vy
+LCBwYXNzd2QsIHBhcmFtcykpDQogICAgIA0KICAgICAgICAgICAgIGlmIG9zLnBhdGguZXhpc3Rz
+KG9zLnBhdGguam9pbihzcmN0cmVlLCAnLmdpdG1vZHVsZXMnKSkgYW5kIHNyY3VyaS5zdGFydHN3
+aXRoKCdnaXQ6Ly8nKToNCiAgICAgICAgICAgICAgICAgc3JjdXJpID0gJ2dpdHNtOi8vJyArIHNy
+Y3VyaVs2Ol0NCiAgICAtLSANCiAgICAyLjcuNA0KICAgIA0KICAgIC0tIA0KICAgIF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQogICAgT3BlbmVtYmVkZGVk
+LWNvcmUgbWFpbGluZyBsaXN0DQogICAgT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KICAgIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCiAgICANCg0K
 
