@@ -1,30 +1,34 @@
-Return-Path: <Kexin.Hao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A82571D9F
+Return-Path: <prvs=5113892fe=Martin.Hundeboll@prevas.dk>
+Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
+	by mail.openembedded.org (Postfix) with ESMTP id A137978698
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 05:26:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBB5QrVi016802
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Dec 2017 21:26:53 -0800 (PST)
-Received: from pek-khao-d1 (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Sun, 10 Dec 2017 21:26:52 -0800
-Date: Mon, 11 Dec 2017 13:30:39 +0800
-From: Kevin Hao <kexin.hao@windriver.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-ID: <20171211053039.GC5051@pek-khao-d1>
-References: <20171209024546.16918-1-kexin.hao@windriver.com>
-	<20171209024546.16918-2-kexin.hao@windriver.com>
-	<CAP9ODKqdYcwwz0U2FG_LQ7cX2JpsX3bQ5q-Mnn2-x7b7xfDaqg@mail.gmail.com>
+	Mon, 11 Dec 2017 07:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=2006; q=dns/txt;
+	s=ironport1; t=1512976370; x=1544512370;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=7qR90tcqmHWn3hmv/1PF3fcuETUUq/q2dr7k6cSV01Q=;
+	b=ccW178dMyIcczE+pgdztxfVdIPN5OOLn8SQMYxcb2zlPj6VRD4v7+LXY
+	8CyNcRLTdlMuYaZHvBqm0R3zr5kXtecH0WaE6xGNDSjMCA4rnUN0pMCkO
+	/MiIZ4W5XtE7EHxoTtBYGf0++RYaZ7Dgnv8kJoRsGbWULLJKTfxwseayV E=;
+X-IronPort-AV: E=Sophos;i="5.45,391,1508796000"; 
+   d="scan'208";a="2938842"
+Received: from vmprevas4.prevas.se (HELO smtp.prevas.se) ([172.16.8.104])
+	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Dec 2017 08:12:48 +0100
+Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.104)
+	with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 11 Dec 2017 08:12:48 +0100
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+To: OE-core <openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+Date: Mon, 11 Dec 2017 08:12:42 +0100
+Message-ID: <20171211071242.5675-1-mnhu@prevas.dk>
+X-Mailer: git-send-email 2.15.1
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqdYcwwz0U2FG_LQ7cX2JpsX3bQ5q-Mnn2-x7b7xfDaqg@mail.gmail.com>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-X-Originating-IP: [147.11.105.121]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] wic: plugins: rawcopy: Add support to download the raw image from a http server
+X-Originating-IP: [172.16.8.31]
+Subject: [PATCH][rocko] wic: support filesystem label for rawcopy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +41,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 05:26:53 -0000
-X-Groupsio-MsgNum: 106055
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jy6Sn24JjFx/iggw"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 11 Dec 2017 07:12:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---jy6Sn24JjFx/iggw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The '--label' argument should work for '--source rawcopy' as it does for
+'--source rootfs', so add a method in RawCopyPlugin to update the label
+on the temporary filesystem images.
 
-On Sun, Dec 10, 2017 at 10:53:43PM -0200, Otavio Salvador wrote:
-> On Sat, Dec 9, 2017 at 12:45 AM, Kevin Hao <kexin.hao@windriver.com> wrot=
-e:
-> > Some firmwares are critical for the basic functions of the board, and m=
-ay
-> > be used by the bootloader. Due to the license issue, we can't integrate
-> > it. But we do need it when creating a booting image by using WIC.
-> > So add the support for the WIC to download a raw file from http
-> > server and write it to a specific part. In order to restrict the
-> > downloading behaviour, we introduce a "WKS_ALLOW_DOWNLOAD" variable and
-> > only do the downloading when this variable is set.
-> >
-> > Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
->=20
-> This does not make much sense.
->=20
-> It does not allow to be downloaded? so build system can download it
-> and use it as a normal artifact.=20
+Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
 
-In some cases, it doesn't make sense to do so. Because:
-a) These firmwares are just raw binary files, they don't need any build or
-   process. They are only useful when we try to create a bootable image.
-b) There firmwares may be licensed under a proprietary license. We may not
-   integrate them to a fully open source build system. But we do want to pr=
-ovide
-   an easy way for the customer to build a bootable image.
+Hi Armin,
 
-Thanks,
-Kevin
+Please consider this for Rocko.
 
->Adding another source way seems
-> controversial.
->=20
-> --=20
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Thanks
 
---jy6Sn24JjFx/iggw
-Content-Type: application/pgp-signature; name="signature.asc"
+ scripts/lib/wic/plugins/source/rawcopy.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index 424ed26ed6..e86398ac8f 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -32,6 +32,25 @@ class RawCopyPlugin(SourcePlugin):
+ 
+     name = 'rawcopy'
+ 
++    @staticmethod
++    def do_image_label(fstype, dst, label):
++        if fstype.startswith('ext'):
++            cmd = 'tune2fs -L %s %s' % (label, dst)
++        elif fstype in ('msdos', 'vfat'):
++            cmd = 'dosfslabel %s %s' % (dst, label)
++        elif fstype == 'btrfs':
++            cmd = 'btrfs filesystem label %s %s' % (dst, label)
++        elif fstype == 'swap':
++            cmd = 'mkswap -L %s %s' % (label, dst)
++        elif fstype == 'squashfs':
++            raise WicError("It's not possible to update a squashfs "
++                           "filesystem label '%s'" % (label))
++        else:
++            raise WicError("Cannot update filesystem label: "
++                           "Unknown fstype: '%s'" % (fstype))
++
++        exec_cmd(cmd)
++
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+@@ -66,4 +85,7 @@ class RawCopyPlugin(SourcePlugin):
+         if filesize > part.size:
+             part.size = filesize
+ 
++        if part.label:
++            RawCopyPlugin.do_image_label(part.fstype, dst, part.label)
++
+         part.source_file = dst
+-- 
+2.15.1
 
-iQEcBAEBCAAGBQJaLhf/AAoJEJNY7TDerrFx9qUH/A/oKtzRms+hn2A9R4A/4kfI
-+HYZzgCCkF/aeJ+IuybY45SX0Sj7R3lvv44U24MnAAv3kqKCd7NDDDheEn88NhMK
-TyMIJt6CEwetKMrl+MXYEGnGKU0AMaa1gv0Z1ZgV92mmR/Pb00eAAqJ9nu3KWBrj
-l29q3sMe4CjJ0ZpdVCwSrIivz+y78hDmjDoxqS+rQEfUb7AJph4OYL2DnXX8sSKe
-0aKlU4ayesC4mUtt6zV3wTu26wnjtzQShFh5p6xrt6m1tTWDPgbCf7gVlVGeGKuq
-1sWCKXj9DkfBUPL+lhzqvhnHPFhcmb8tNPIoKXGffalXiXjMv0rprBNVZQvNHtk=
-=1pvr
------END PGP SIGNATURE-----
 
---jy6Sn24JjFx/iggw--
