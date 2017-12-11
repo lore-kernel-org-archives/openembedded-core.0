@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
 	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D7E5678711
+	by mail.openembedded.org (Postfix) with ESMTP id 189987864B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 13:32:09 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id r6so15728650itr.3
+	Mon, 11 Dec 2017 13:45:45 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id f190so15799847ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 05:32:11 -0800 (PST)
+	Mon, 11 Dec 2017 05:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZWFPthiaw5p6LyYOhVfNMmeku5BrB3btipSPI+tYmGk=;
-	b=vN/nQYk5JH3hujJZq7kexzmeN7EvzKl7qCO50Ii/ouxNSndpgwF4iGyXAXcQYRqImu
-	4NW6en8gZ1W7d3kGd6kF6w1pIuCLTxoN6/nO8rwUyZZJr6LJzorITAjPSJno97Nwf6JV
-	ySzYfanFXTIOdMJYneP2160hIVH4W9nXh38fTMa0oAm4jGPmFYJAILOg+5MGz8oYBBAk
-	xMAnyM7GqjghPUCAEge53IbTwYFwqDdusUZ7wjENEZSolNXG0Sihw1Lz9mT7bew2/B80
-	fczeOvs9tbXtRhSu8fvxONig5fyZ//YlnoRDewJdgfzoiIaFBB89aJw2GBeB8LANllFv
-	/OqQ==
+	:cc; bh=448d5hENdMphTRbZr5h26ncZDnw106xtd+7nnMpg2Jw=;
+	b=cxWMDQkYIE4iEbFzagTR7kFud7Q0mxuUEI9efiKvWvstS7hYqJRs9qurX26lDGT0y+
+	V1uvKlZWbgFsaD8z+Bd2+P0g7+wZpPuCBn/aMyThzHnDp+XMtivXA8p2ywEM7QMmzeBW
+	6wCiumLnGsfNnrlHmFE2elb/TaLpQE4K7gUb1eopMHD65rRtnRcZvjcY3lvbRyctaKew
+	XBr9V25J0vUs6FcXLmJa5AkavTs939Jb/DX0v7znY1EK/3z31G13N9v/tnXKn95G+kqq
+	76ZspOx5Jzeoz+X4SP/+oKq97ku9YsuTRrhosQe4hZQUZBIHehLXnegH16CYSPHsWhnl
+	Y62A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ZWFPthiaw5p6LyYOhVfNMmeku5BrB3btipSPI+tYmGk=;
-	b=mBMQnjBQ1+iIzzEcDZvnAAhBtqrIEI7bHbLS55kPB06MUUKQFMphvNp3AhpcvAT/Eh
-	JqDKEbBhNwtjqnedCoClPL2JiYjDF2Aajm77nToX8O0OYBGHcGMxX3lSXfyzar75Ipz+
-	4RekB79ohK7FplOVw99EKHLNvjWK4xEMOVfn1kWGAxlXd2iBVlPv9JFrfs0N/3BYi9uX
-	6392GD+tGgZehYTXpD08B73QtQi05v/Zy1u0dXvqiYlUMqfOdSRAoNb9YKGXSAeFv/Zu
-	O+F8r76toHXwJvrsRxls9C8r2MMHr8Loo/jX5a0ac+tpFJr3CiRu4KChS01LEshFmSkF
-	ehXA==
-X-Gm-Message-State: AKGB3mK/CYYX9NF2UAM5troTTbhMYQhEJrLcZds21JSYDwTfjWmW3KFe
-	hlROcgn9AmCGnljbEU6emkV7eVh7lfBT6vespsmjsQ==
-X-Google-Smtp-Source: ACJfBosLTb1uO6n4Yut/9nzhJooRiLT9yeM/+3vupCPCUyns8ONP3bJTjqCWw3H2EHdnoY0xSTMEFiglafWYrtbZ5eQ=
-X-Received: by 10.107.146.195 with SMTP id u186mr509375iod.37.1512999130765;
-	Mon, 11 Dec 2017 05:32:10 -0800 (PST)
+	bh=448d5hENdMphTRbZr5h26ncZDnw106xtd+7nnMpg2Jw=;
+	b=aKJuYRKsMFc5AwQA3h1ZEj+uKXEvrTZzbAR9ysfzIqS/ZvMYuwhVEIYYZPoAWJGEBL
+	RN8GObTnv+fXVNYsGrEWKCblWVDfcDJ9wsbCNgwLbedxoyEcgLnxcHZyWvEFnQVb8BI9
+	7dtuoBMjnSE3sQ+lqgHgmByfh4eZQ3qSj80KhyzXyyKIdo+S1FHswdDeM1f0k/9UIS4f
+	bG+6G7bkco7LSpCjoVXcQC1QBevuRnKRv2ZLGCgR50sK764mqayDryxnjzWWsa6WRq6p
+	bWNtcdljiKenyfwy6byzg+Plm1cTEStkt/IN7Ad/AsecIQKvjlwXyN/Tm9F0qng/jRhX
+	yASw==
+X-Gm-Message-State: AKGB3mI2PXevE6IU7M5x1JTf2Wbc6OLagRRliuIDZg5gHTfAeRrsICy8
+	F2MkbdhLBIooWYl7LzAOzOgXfIViWeE2Tc8Z4mG1Kw==
+X-Google-Smtp-Source: ACJfBouv2BrxEUVDSChCWBpt6mHYkZK8Go1hnLJDpLWFZCFrn73fmvsrp5ugtKmv+/58GCveqwWZq3Nb08T8H7yh8JQ=
+X-Received: by 10.36.93.5 with SMTP id w5mr1040942ita.124.1512999947044; Mon,
+	11 Dec 2017 05:45:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.137.195 with HTTP; Mon, 11 Dec 2017 05:31:50 -0800 (PST)
-In-Reply-To: <85FBA9CE-6DE1-480F-8A3F-3556868DCE2E@intel.com>
-References: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-	<85FBA9CE-6DE1-480F-8A3F-3556868DCE2E@intel.com>
+Received: by 10.107.137.195 with HTTP; Mon, 11 Dec 2017 05:45:26 -0800 (PST)
+In-Reply-To: <20171211095149.ywhejbets5loutnv@mcrowe.com>
+References: <20171112163923.19517-1-mac@mcrowe.com>
+	<CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
+	<20171211095149.ywhejbets5loutnv@mcrowe.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Dec 2017 13:31:50 +0000
-Message-ID: <CAJTo0LYo3b6GiMLchtNJRKoRY30osdD8XL=kC5xf1KQrYQPKtQ@mail.gmail.com>
-To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipetool: create: fix conflict between SRCREV and tag
+Date: Mon, 11 Dec 2017 13:45:26 +0000
+Message-ID: <CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,117 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 13:32:10 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0553b2bc32a60560108fcd"
+X-List-Received-Date: Mon, 11 Dec 2017 13:45:46 -0000
+Content-Type: multipart/alternative; boundary="001a1143f14c63a051056010c029"
 
---94eb2c0553b2bc32a60560108fcd
+--001a1143f14c63a051056010c029
 Content-Type: text/plain; charset="UTF-8"
 
-I think there were selftest failures and I removed it to see what happened,
-added back again now.
+It was implicated in some build failures.  I'll re-add it and try again.
 
 Ross
 
-On 11 December 2017 at 01:10, Chang, Rebecca Swee Fun <
-rebecca.swee.fun.chang@intel.com> wrote:
+On 11 December 2017 at 09:51, Mike Crowe <mac@mcrowe.com> wrote:
 
-> Ping again.
-> I noticed that it was on mut2 2 weeks ago. I think this was dropped
-> somehow at that point. May I know what I can do in order to make it into M1
-> cycle?
+> On Monday 13 November 2017 at 15:15:35 -0200, Otavio Salvador wrote:
+> > On Sun, Nov 12, 2017 at 2:39 PM, Mike Crowe <mac@mcrowe.com> wrote:
+> > > With meta-micro, ${prefix} is the empty string. This means that
+> > > CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths starting
+> with
+> > > many instances of "../", presumably due to os.path.relpath attempting
+> to
+> > > find its way to the current directory.
+> > >
+> > > Let's avoid this by ensuring that the root path always ends in a
+> slash. If
+> > > it already ends in a slash then adding another one shouldn't cause any
+> > > problems.
+> > >
+> > > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> >
+> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 >
-> Thanks,
-> Rebecca
+> Patch ID: 145709
 >
+> It doesn't look like this change has landed, even on master-next. Has it
+> fallen through the cracks?
 >
-> On 15/11/2017, 10:00 AM, "openembedded-core-bounces@lists.openembedded.org
-> on behalf of Chang Rebecca Swee Fun" <openembedded-core-bounces@
-> lists.openembedded.org on behalf of rebecca.swee.fun.chang@intel.com>
-> wrote:
+> Thanks.
 >
->     If you specify 'tag=' for a git URL and passed to recipetool create,
-> you
->     will get into Bitbake expansion error shown below:
->
->     ----- snip -----
->     $ devtool add --version 2.4.2 mbedtls "git://github.com/ARMmbed/
-> mbedtls;tag=mbedtls-2.4.2"
->     ...
->     bb.data_smart.ExpansionError: Failure expanding variable SRCPV,
-> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception
-> FetchError: Fetcher failure: Conflicting revisions (
-> abeccb9dbd7e19ae91ac50e1edd3803111c5f9b6 from SRCREV and mbedtls-2.4.2
-> from the url) found, please specify one valid value
->     ----- snip -----
->
->     Assuming the tag is valid, we should get the tag commit hash and
->     drop the usage of 'tag=' from SRC_URI. By using a commit hash
->     corresponding to the tag will prevent bitbake from accessing
->     remote repository in order to expand SRCPV.
->
->     Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.
-> com>
->     ---
->      scripts/lib/recipetool/create.py | 8 ++++----
->      1 file changed, 4 insertions(+), 4 deletions(-)
->
->     diff --git a/scripts/lib/recipetool/create.py
-> b/scripts/lib/recipetool/create.py
->     index 54e7e85..2fc9e0a 100644
->     --- a/scripts/lib/recipetool/create.py
->     +++ b/scripts/lib/recipetool/create.py
->     @@ -480,7 +480,6 @@ def create_recipe(args):
->              if tag:
->                  # Keep a copy of tag and append nobranch=1 then remove
-> tag from URL.
->                  # Bitbake fetcher unable to fetch when {AUTOREV} and tag
-> is set at the same time.
->     -            # We will re-introduce tag argument after bitbake fetcher
-> process is complete.
->                  storeTagName = params['tag']
->                  params['nobranch'] = '1'
->                  del params['tag']
->     @@ -552,13 +551,11 @@ def create_recipe(args):
->
->              # Since we might have a value in srcbranch, we need to
->              # recontruct the srcuri to include 'branch' in params.
->     +        scheme, network, path, user, passwd, params =
-> bb.fetch2.decodeurl(srcuri)
->              if srcbranch:
->     -            scheme, network, path, user, passwd, params =
-> bb.fetch2.decodeurl(srcuri)
->                  params['branch'] = srcbranch
->     -            srcuri = bb.fetch2.encodeurl((scheme, network, path,
-> user, passwd, params))
->
->              if storeTagName and scheme in ['git', 'gitsm']:
->     -            # Re-introduced tag variable from storeTagName
->                  # Check srcrev using tag and check validity of the tag
->                  cmd = ('git rev-parse --verify %s' % (storeTagName))
->                  try:
->     @@ -568,6 +565,9 @@ def create_recipe(args):
->                      logger.error(str(err))
->                      logger.error("Possibly wrong tag name is provided")
->                      sys.exit(1)
->     +            # Drop tag from srcuri as it will have conflicts with
-> SRCREV during recipe parse.
->     +            del params['tag']
->     +        srcuri = bb.fetch2.encodeurl((scheme, network, path, user,
-> passwd, params))
->
->              if os.path.exists(os.path.join(srctree, '.gitmodules')) and
-> srcuri.startswith('git://'):
->                  srcuri = 'gitsm://' + srcuri[6:]
->     --
->     2.7.4
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+> Mike.
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -174,142 +104,50 @@ rebecca.swee.fun.chang@intel.com> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---94eb2c0553b2bc32a60560108fcd
+--001a1143f14c63a051056010c029
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think there were selftest failures and I removed it to s=
-ee what happened, added back again now.<div><br></div><div>Ross</div></div>=
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 11 December 20=
-17 at 01:10, Chang, Rebecca Swee Fun <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:rebecca.swee.fun.chang@intel.com" target=3D"_blank">rebecca.swee.fun.chan=
-g@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Ping ag=
-ain.<br>
-I noticed that it was on mut2 2 weeks ago. I think this was dropped somehow=
- at that point. May I know what I can do in order to make it into M1 cycle?=
+<div dir=3D"ltr">It was implicated in some build failures.=C2=A0 I&#39;ll r=
+e-add it and try again.<div><br></div><div>Ross</div></div><div class=3D"gm=
+ail_extra"><br><div class=3D"gmail_quote">On 11 December 2017 at 09:51, Mik=
+e Crowe <span dir=3D"ltr">&lt;<a href=3D"mailto:mac@mcrowe.com" target=3D"_=
+blank">mac@mcrowe.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><span class=3D"">On Monday 13 November 2017 at 15:15:35 -0200, Otavio Sa=
+lvador wrote:<br>
+&gt; On Sun, Nov 12, 2017 at 2:39 PM, Mike Crowe &lt;<a href=3D"mailto:mac@=
+mcrowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
+&gt; &gt; With meta-micro, ${prefix} is the empty string. This means that<b=
+r>
+&gt; &gt; CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths sta=
+rting with<br>
+&gt; &gt; many instances of &quot;../&quot;, presumably due to os.path.relp=
+ath attempting to<br>
+&gt; &gt; find its way to the current directory.<br>
+&gt; &gt;<br>
+&gt; &gt; Let&#39;s avoid this by ensuring that the root path always ends i=
+n a slash. If<br>
+&gt; &gt; it already ends in a slash then adding another one shouldn&#39;t =
+cause any<br>
+&gt; &gt; problems.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Mike Crowe &lt;<a href=3D"mailto:mac@mcrowe.com">m=
+ac@mcrowe.com</a>&gt;<br>
+&gt;<br>
+&gt; Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.=
+com.br">otavio@ossystems.com.br</a>&gt;<br>
 <br>
+</span>Patch ID: 145709<br>
 <br>
-Thanks,<br>
-Rebecca<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
+It doesn&#39;t look like this change has landed, even on master-next. Has i=
+t<br>
+fallen through the cracks?<br>
 <br>
-On 15/11/2017, 10:00 AM, &quot;<a href=3D"mailto:openembedded-core-bounces@=
-lists.openembedded.org">openembedded-core-bounces@<wbr>lists.openembedded.o=
-rg</a> on behalf of Chang Rebecca Swee Fun&quot; &lt;<a href=3D"mailto:open=
-embedded-core-bounces@lists.openembedded.org">openembedded-core-bounces@<wb=
-r>lists.openembedded.org</a> on behalf of <a href=3D"mailto:rebecca.swee.fu=
-n.chang@intel.com">rebecca.swee.fun.chang@intel.<wbr>com</a>&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 If you specify &#39;tag=3D&#39; for a git URL and passed to r=
-ecipetool create, you<br>
-=C2=A0 =C2=A0 will get into Bitbake expansion error shown below:<br>
-<br>
-=C2=A0 =C2=A0 ----- snip -----<br>
-=C2=A0 =C2=A0 $ devtool add --version 2.4.2 mbedtls &quot;git://<a href=3D"=
-http://github.com/ARMmbed/mbedtls;tag=3Dmbedtls-2.4.2" rel=3D"noreferrer" t=
-arget=3D"_blank">github.com/ARMmbed/<wbr>mbedtls;tag=3Dmbedtls-2.4.2</a>&qu=
-ot;<br>
-=C2=A0 =C2=A0 ...<br>
-=C2=A0 =C2=A0 bb.data_smart.ExpansionError: Failure expanding variable SRCP=
-V, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception Fet=
-chError: Fetcher failure: Conflicting revisions (<wbr>abeccb9dbd7e19ae91ac5=
-0e1edd380<wbr>3111c5f9b6 from SRCREV and mbedtls-2.4.2 from the url) found,=
- please specify one valid value<br>
-=C2=A0 =C2=A0 ----- snip -----<br>
-<br>
-=C2=A0 =C2=A0 Assuming the tag is valid, we should get the tag commit hash =
-and<br>
-=C2=A0 =C2=A0 drop the usage of &#39;tag=3D&#39; from SRC_URI. By using a c=
-ommit hash<br>
-=C2=A0 =C2=A0 corresponding to the tag will prevent bitbake from accessing<=
-br>
-=C2=A0 =C2=A0 remote repository in order to expand SRCPV.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Chang Rebecca Swee Fun &lt;<a href=3D"mailto:r=
-ebecca.swee.fun.chang@intel.com">rebecca.swee.fun.chang@intel.<wbr>com</a>&=
-gt;<br>
-=C2=A0 =C2=A0 ---<br>
-=C2=A0 =C2=A0 =C2=A0scripts/lib/recipetool/create.<wbr>py | 8 ++++----<br>
-=C2=A0 =C2=A0 =C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
-<br>
-=C2=A0 =C2=A0 diff --git a/scripts/lib/recipetool/<wbr>create.py b/scripts/=
-lib/recipetool/<wbr>create.py<br>
-=C2=A0 =C2=A0 index 54e7e85..2fc9e0a 100644<br>
-=C2=A0 =C2=A0 --- a/scripts/lib/recipetool/<wbr>create.py<br>
-=C2=A0 =C2=A0 +++ b/scripts/lib/recipetool/<wbr>create.py<br>
-=C2=A0 =C2=A0 @@ -480,7 +480,6 @@ def create_recipe(args):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if tag:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Keep a copy=
- of tag and append nobranch=3D1 then remove tag from URL.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Bitbake fet=
-cher unable to fetch when {AUTOREV} and tag is set at the same time.<br>
-=C2=A0 =C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # We will re-intro=
-duce tag argument after bitbake fetcher process is complete.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0storeTagName =
-=3D params[&#39;tag&#39;]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0params[&#39;n=
-obranch&#39;] =3D &#39;1&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0del params[&#=
-39;tag&#39;]<br>
-=C2=A0 =C2=A0 @@ -552,13 +551,11 @@ def create_recipe(args):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Since we might have a val=
-ue in srcbranch, we need to<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# recontruct the srcuri to =
-include &#39;branch&#39; in params.<br>
-=C2=A0 =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 scheme, network, path, user, pas=
-swd, params =3D bb.fetch2.decodeurl(srcuri)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if srcbranch:<br>
-=C2=A0 =C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 scheme, network, p=
-ath, user, passwd, params =3D bb.fetch2.decodeurl(srcuri)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0params[&#39;b=
-ranch&#39;] =3D srcbranch<br>
-=C2=A0 =C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcuri =3D bb.fetc=
-h2.encodeurl((scheme, network, path, user, passwd, params))<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if storeTagName and scheme =
-in [&#39;git&#39;, &#39;gitsm&#39;]:<br>
-=C2=A0 =C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Re-introduced ta=
-g variable from storeTagName<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Check srcre=
-v using tag and check validity of the tag<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D (&#39=
-;git rev-parse --verify %s&#39; % (storeTagName))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-=C2=A0 =C2=A0 @@ -568,6 +565,9 @@ def create_recipe(args):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0logger.error(str(err))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0logger.error(&quot;Possibly wrong tag name is provided&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0sys.exit(1)<br>
-=C2=A0 =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Drop tag from sr=
-curi as it will have conflicts with SRCREV during recipe parse.<br>
-=C2=A0 =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 del params[&#39;ta=
-g&#39;]<br>
-=C2=A0 =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcuri =3D bb.fetch2.encodeurl((=
-scheme, network, path, user, passwd, params))<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists(os.path.j=
-oin(<wbr>srctree, &#39;.gitmodules&#39;)) and srcuri.startswith(&#39;git://=
-&#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcuri =3D &#=
-39;gitsm://&#39; + srcuri[6:]<br>
-=C2=A0 =C2=A0 --<br>
-=C2=A0 =C2=A0 2.7.4<br>
-<br>
-=C2=A0 =C2=A0 --<br>
-=C2=A0 =C2=A0 ______________________________<wbr>_________________<br>
-=C2=A0 =C2=A0 Openembedded-core mailing list<br>
-=C2=A0 =C2=A0 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">O=
-penembedded-core@lists.<wbr>openembedded.org</a><br>
-=C2=A0 =C2=A0 <a href=3D"http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembed=
-ded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-<br>
-<br>
---<br>
+Thanks.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Mike.<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5">--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
@@ -319,4 +157,4 @@ re@lists.<wbr>openembedded.org</a><br>
 ailman/listinfo/openembedded-<wbr>core</a><br>
 </div></div></blockquote></div><br></div>
 
---94eb2c0553b2bc32a60560108fcd--
+--001a1143f14c63a051056010c029--
