@@ -1,37 +1,25 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 11 Dec 2017 01:20:35 UTC
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 646C0782ED
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A9BE7864F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 01:20:35 +0000 (UTC)
+	Mon, 11 Dec 2017 02:44:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Dec 2017 17:11:01 -0800
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Dec 2017 18:45:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,391,1508828400"; d="scan'208";a="10773130"
-Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Dec 2017 17:11:01 -0800
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.108]) by
-	KMSMSX153.gar.corp.intel.com ([169.254.5.76]) with mapi id
-	14.03.0319.002; Mon, 11 Dec 2017 09:11:00 +0800
-From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] recipetool: create: fix conflict between
-	SRCREV and tag
-Thread-Index: AQHTchznWawB06VW3ky6aqblVa033w==
-Date: Mon, 11 Dec 2017 01:10:59 +0000
-Message-ID: <85FBA9CE-6DE1-480F-8A3F-3556868DCE2E@intel.com>
-References: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-In-Reply-To: <1510711273-102914-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.17.16]
-MIME-Version: 1.0
-Subject: Re: [PATCH] recipetool: create: fix conflict between SRCREV and tag
+X-IronPort-AV: E=Sophos;i="5.45,391,1508828400"; 
+   d="scan'208";a="1424714"
+Received: from madhukar-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.65.170])
+	by fmsmga007.fm.intel.com with ESMTP; 10 Dec 2017 18:44:57 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Dec 2017 15:44:19 +1300
+Message-Id: <cover.1512960174.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+Subject: [PATCH 0/1] swig: add patch to support Node.js 7+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,78 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 01:20:36 -0000
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <16D0B231E6B6594A8F40C2E9DC351443@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 11 Dec 2017 02:45:00 -0000
 
-UGluZyBhZ2Fpbi4NCkkgbm90aWNlZCB0aGF0IGl0IHdhcyBvbiBtdXQyIDIgd2Vla3MgYWdvLiBJ
-IHRoaW5rIHRoaXMgd2FzIGRyb3BwZWQgc29tZWhvdyBhdCB0aGF0IHBvaW50LiBNYXkgSSBrbm93
-IHdoYXQgSSBjYW4gZG8gaW4gb3JkZXIgdG8gbWFrZSBpdCBpbnRvIE0xIGN5Y2xlPw0KDQpUaGFu
-a3MsDQpSZWJlY2NhDQoNCg0KT24gMTUvMTEvMjAxNywgMTA6MDAgQU0sICJvcGVuZW1iZWRkZWQt
-Y29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgb24gYmVoYWxmIG9mIENoYW5nIFJl
-YmVjY2EgU3dlZSBGdW4iIDxvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcgb24gYmVoYWxmIG9mIHJlYmVjY2Euc3dlZS5mdW4uY2hhbmdAaW50ZWwuY29tPiB3
-cm90ZToNCg0KICAgIElmIHlvdSBzcGVjaWZ5ICd0YWc9JyBmb3IgYSBnaXQgVVJMIGFuZCBwYXNz
-ZWQgdG8gcmVjaXBldG9vbCBjcmVhdGUsIHlvdQ0KICAgIHdpbGwgZ2V0IGludG8gQml0YmFrZSBl
-eHBhbnNpb24gZXJyb3Igc2hvd24gYmVsb3c6DQogICAgDQogICAgLS0tLS0gc25pcCAtLS0tLQ0K
-ICAgICQgZGV2dG9vbCBhZGQgLS12ZXJzaW9uIDIuNC4yIG1iZWR0bHMgImdpdDovL2dpdGh1Yi5j
-b20vQVJNbWJlZC9tYmVkdGxzO3RhZz1tYmVkdGxzLTIuNC4yIg0KICAgIC4uLg0KICAgIGJiLmRh
-dGFfc21hcnQuRXhwYW5zaW9uRXJyb3I6IEZhaWx1cmUgZXhwYW5kaW5nIHZhcmlhYmxlIFNSQ1BW
-LCBleHByZXNzaW9uIHdhcyAke0BiYi5mZXRjaDIuZ2V0X3NyY3JldihkKX0gd2hpY2ggdHJpZ2dl
-cmVkIGV4Y2VwdGlvbiBGZXRjaEVycm9yOiBGZXRjaGVyIGZhaWx1cmU6IENvbmZsaWN0aW5nIHJl
-dmlzaW9ucyAoYWJlY2NiOWRiZDdlMTlhZTkxYWM1MGUxZWRkMzgwMzExMWM1ZjliNiBmcm9tIFNS
-Q1JFViBhbmQgbWJlZHRscy0yLjQuMiBmcm9tIHRoZSB1cmwpIGZvdW5kLCBwbGVhc2Ugc3BlY2lm
-eSBvbmUgdmFsaWQgdmFsdWUNCiAgICAtLS0tLSBzbmlwIC0tLS0tDQogICAgDQogICAgQXNzdW1p
-bmcgdGhlIHRhZyBpcyB2YWxpZCwgd2Ugc2hvdWxkIGdldCB0aGUgdGFnIGNvbW1pdCBoYXNoIGFu
-ZA0KICAgIGRyb3AgdGhlIHVzYWdlIG9mICd0YWc9JyBmcm9tIFNSQ19VUkkuIEJ5IHVzaW5nIGEg
-Y29tbWl0IGhhc2gNCiAgICBjb3JyZXNwb25kaW5nIHRvIHRoZSB0YWcgd2lsbCBwcmV2ZW50IGJp
-dGJha2UgZnJvbSBhY2Nlc3NpbmcNCiAgICByZW1vdGUgcmVwb3NpdG9yeSBpbiBvcmRlciB0byBl
-eHBhbmQgU1JDUFYuDQogICAgDQogICAgU2lnbmVkLW9mZi1ieTogQ2hhbmcgUmViZWNjYSBTd2Vl
-IEZ1biA8cmViZWNjYS5zd2VlLmZ1bi5jaGFuZ0BpbnRlbC5jb20+DQogICAgLS0tDQogICAgIHNj
-cmlwdHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlLnB5IHwgOCArKysrLS0tLQ0KICAgICAxIGZpbGUg
-Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KICAgIA0KICAgIGRpZmYg
-LS1naXQgYS9zY3JpcHRzL2xpYi9yZWNpcGV0b29sL2NyZWF0ZS5weSBiL3NjcmlwdHMvbGliL3Jl
-Y2lwZXRvb2wvY3JlYXRlLnB5DQogICAgaW5kZXggNTRlN2U4NS4uMmZjOWUwYSAxMDA2NDQNCiAg
-ICAtLS0gYS9zY3JpcHRzL2xpYi9yZWNpcGV0b29sL2NyZWF0ZS5weQ0KICAgICsrKyBiL3Njcmlw
-dHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlLnB5DQogICAgQEAgLTQ4MCw3ICs0ODAsNiBAQCBkZWYg
-Y3JlYXRlX3JlY2lwZShhcmdzKToNCiAgICAgICAgICAgICBpZiB0YWc6DQogICAgICAgICAgICAg
-ICAgICMgS2VlcCBhIGNvcHkgb2YgdGFnIGFuZCBhcHBlbmQgbm9icmFuY2g9MSB0aGVuIHJlbW92
-ZSB0YWcgZnJvbSBVUkwuDQogICAgICAgICAgICAgICAgICMgQml0YmFrZSBmZXRjaGVyIHVuYWJs
-ZSB0byBmZXRjaCB3aGVuIHtBVVRPUkVWfSBhbmQgdGFnIGlzIHNldCBhdCB0aGUgc2FtZSB0aW1l
-Lg0KICAgIC0gICAgICAgICAgICAjIFdlIHdpbGwgcmUtaW50cm9kdWNlIHRhZyBhcmd1bWVudCBh
-ZnRlciBiaXRiYWtlIGZldGNoZXIgcHJvY2VzcyBpcyBjb21wbGV0ZS4NCiAgICAgICAgICAgICAg
-ICAgc3RvcmVUYWdOYW1lID0gcGFyYW1zWyd0YWcnXQ0KICAgICAgICAgICAgICAgICBwYXJhbXNb
-J25vYnJhbmNoJ10gPSAnMScNCiAgICAgICAgICAgICAgICAgZGVsIHBhcmFtc1sndGFnJ10NCiAg
-ICBAQCAtNTUyLDEzICs1NTEsMTEgQEAgZGVmIGNyZWF0ZV9yZWNpcGUoYXJncyk6DQogICAgIA0K
-ICAgICAgICAgICAgICMgU2luY2Ugd2UgbWlnaHQgaGF2ZSBhIHZhbHVlIGluIHNyY2JyYW5jaCwg
-d2UgbmVlZCB0bw0KICAgICAgICAgICAgICMgcmVjb250cnVjdCB0aGUgc3JjdXJpIHRvIGluY2x1
-ZGUgJ2JyYW5jaCcgaW4gcGFyYW1zLg0KICAgICsgICAgICAgIHNjaGVtZSwgbmV0d29yaywgcGF0
-aCwgdXNlciwgcGFzc3dkLCBwYXJhbXMgPSBiYi5mZXRjaDIuZGVjb2RldXJsKHNyY3VyaSkNCiAg
-ICAgICAgICAgICBpZiBzcmNicmFuY2g6DQogICAgLSAgICAgICAgICAgIHNjaGVtZSwgbmV0d29y
-aywgcGF0aCwgdXNlciwgcGFzc3dkLCBwYXJhbXMgPSBiYi5mZXRjaDIuZGVjb2RldXJsKHNyY3Vy
-aSkNCiAgICAgICAgICAgICAgICAgcGFyYW1zWydicmFuY2gnXSA9IHNyY2JyYW5jaA0KICAgIC0g
-ICAgICAgICAgICBzcmN1cmkgPSBiYi5mZXRjaDIuZW5jb2RldXJsKChzY2hlbWUsIG5ldHdvcmss
-IHBhdGgsIHVzZXIsIHBhc3N3ZCwgcGFyYW1zKSkNCiAgICAgDQogICAgICAgICAgICAgaWYgc3Rv
-cmVUYWdOYW1lIGFuZCBzY2hlbWUgaW4gWydnaXQnLCAnZ2l0c20nXToNCiAgICAtICAgICAgICAg
-ICAgIyBSZS1pbnRyb2R1Y2VkIHRhZyB2YXJpYWJsZSBmcm9tIHN0b3JlVGFnTmFtZQ0KICAgICAg
-ICAgICAgICAgICAjIENoZWNrIHNyY3JldiB1c2luZyB0YWcgYW5kIGNoZWNrIHZhbGlkaXR5IG9m
-IHRoZSB0YWcNCiAgICAgICAgICAgICAgICAgY21kID0gKCdnaXQgcmV2LXBhcnNlIC0tdmVyaWZ5
-ICVzJyAlIChzdG9yZVRhZ05hbWUpKQ0KICAgICAgICAgICAgICAgICB0cnk6DQogICAgQEAgLTU2
-OCw2ICs1NjUsOSBAQCBkZWYgY3JlYXRlX3JlY2lwZShhcmdzKToNCiAgICAgICAgICAgICAgICAg
-ICAgIGxvZ2dlci5lcnJvcihzdHIoZXJyKSkNCiAgICAgICAgICAgICAgICAgICAgIGxvZ2dlci5l
-cnJvcigiUG9zc2libHkgd3JvbmcgdGFnIG5hbWUgaXMgcHJvdmlkZWQiKQ0KICAgICAgICAgICAg
-ICAgICAgICAgc3lzLmV4aXQoMSkNCiAgICArICAgICAgICAgICAgIyBEcm9wIHRhZyBmcm9tIHNy
-Y3VyaSBhcyBpdCB3aWxsIGhhdmUgY29uZmxpY3RzIHdpdGggU1JDUkVWIGR1cmluZyByZWNpcGUg
-cGFyc2UuDQogICAgKyAgICAgICAgICAgIGRlbCBwYXJhbXNbJ3RhZyddDQogICAgKyAgICAgICAg
-c3JjdXJpID0gYmIuZmV0Y2gyLmVuY29kZXVybCgoc2NoZW1lLCBuZXR3b3JrLCBwYXRoLCB1c2Vy
-LCBwYXNzd2QsIHBhcmFtcykpDQogICAgIA0KICAgICAgICAgICAgIGlmIG9zLnBhdGguZXhpc3Rz
-KG9zLnBhdGguam9pbihzcmN0cmVlLCAnLmdpdG1vZHVsZXMnKSkgYW5kIHNyY3VyaS5zdGFydHN3
-aXRoKCdnaXQ6Ly8nKToNCiAgICAgICAgICAgICAgICAgc3JjdXJpID0gJ2dpdHNtOi8vJyArIHNy
-Y3VyaVs2Ol0NCiAgICAtLSANCiAgICAyLjcuNA0KICAgIA0KICAgIC0tIA0KICAgIF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQogICAgT3BlbmVtYmVkZGVk
-LWNvcmUgbWFpbGluZyBsaXN0DQogICAgT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KICAgIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCiAgICANCg0K
+The following changes since commit ced4ac760926ce43a937dad2be3b873b1beec6aa:
+
+  multilib_global: Handle PREFERRED_RPROVIDER (2017-12-10 22:45:13 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/swig-nodejs-7
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/swig-nodejs-7
+
+Paul Eggleton (1):
+  swig: add patch to support Node.js 7+
+
+ .../0001-Add-Node-7.x-aka-V8-5.2-support.patch     | 330 +++++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb          |   1 +
+ 2 files changed, 331 insertions(+)
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
+
+-- 
+2.9.5
+
 
