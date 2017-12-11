@@ -1,51 +1,51 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A148278735
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A973E71B86
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 08:55:05 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id n138so12880301wmg.2
+	Mon, 11 Dec 2017 09:49:55 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id f206so12825289wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 00:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=jofgHTLCnZnFhJi7XJyCZJ20UzVGvEvB/izKzJBFm4c=;
-	b=PBlTkQfhJCXsS07RLg6R/dukXMtw4LpSOrpXB6lavZliWUYBuJNDE60v9ZKIJVrrtk
-	CF7T1b0z27pzCJ6+R9+mdzW10Sl5kzJAqDAiXl8SUXB3OmOoHqkaqAOsvuZdFg9vWTyw
-	L77iOT8NoKtk3P5z6swfExMa5o69tHt40Dv6Yt3S8ga0puGPToDWrVK1HCGGX0iRizGG
-	y6kQziljeWmrkvnMENZododlX+a8SRWSgB0og5w9fsB/4Iyw36hsRATnA8xT1NyieNeI
-	/++qI/AV55h0ewPF+tMbS/wLwgoaZy8dKamBlR4poHAvRpN5EEMMaP1CsBvuXB2ZQgtW
-	22bQ==
+	Mon, 11 Dec 2017 01:49:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JH8fTPhpepQv9YWXS25RQanN4gi2JSXoylEECFivjBk=;
+	b=PX8j6N9DP/nKTRmILs6M0xNwuwidqCo4mGK80772QnDvoO+IWXw9uRY1sWCIU9Z8yb
+	ZEhoVBhVsqdsXhuApvNa8/31YDX4vIt6OG4rE5LT2RFmuCvSeRS0LBi2jCiY49VFh7AB
+	3OzPsyps3cyn8u4frZ6nAUmLO5aYxRvRF7Al9Mm990GFA70s24wYJ2AA6uDR/KY3w02j
+	vwEVVRPB55wxQRdFasha3iunoHlvASGacoF19WKERNJaOOst0vqAwkd55IA84WoDkx2v
+	qaDylaFlUkzpVtNHw3aegkhkO46aV8oCI4w2FOVCXDP6O6ERmD86I3DJQbG53+SDflOc
+	7/Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=jofgHTLCnZnFhJi7XJyCZJ20UzVGvEvB/izKzJBFm4c=;
-	b=tCus2MUqfw1cSQu1s/0Q0pm41b5KbNsStsOe6PySNTxhi2uyFPUvOQDJRZLvZdd0W6
-	A4HJvnMy7XZUSiD3Evg1AcYiMMsp1UrWsAB8cmxjcK/iEhMLSkeYCxFMz/ztLiotd4Sq
-	DEZTwWhrbag8onyg5dXqv1qugyxM5WEE1e4Uz/SYze8a8zNKx6FPTMdNOeH54CeOhBOo
-	psEWdQYwoe9pZ2Hfz0v9GIhbWaPmhseCWtrRTAhPrHbIb2jeOKqdSuTD4EfYPkkzByB3
-	+AkL/J4kUMCpmNaBizN66RxwnUBe0z/dHe1B9Q7NRULdJTuf7ENrzI2weOGF8wI//SzI
-	vgmA==
-X-Gm-Message-State: AKGB3mKZVfTzlDOCyejLSg3m9NiBtdRAm3psdOPaxefLpUCoyykHonLg
-	fDpuj3pdzTHav70Ni0umJLUDKK5Tn5mWXPhnAplcyQ==
-X-Google-Smtp-Source: ACJfBos4UGVwgAvPDmgo7oEazFrvY9Uh80uzN/1BRs0QYG+H3Z8tntOqe4U6HMaE5n2m1aUSDK0fyGXQF0XzWuSrNaM=
-X-Received: by 10.28.71.5 with SMTP id u5mr96737wma.84.1512982506308; Mon, 11
-	Dec 2017 00:55:06 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JH8fTPhpepQv9YWXS25RQanN4gi2JSXoylEECFivjBk=;
+	b=jWC0vQANdq5hIWXJF3kXpEoLV2S4HtTHfan8psB+5TBS8Zv3PmLuLoiVZqQNt0gJYX
+	B51JiYPrAz8eXa/bfeqCaTU9KEPYTzFuYn6c4UgWlqMYUhPzY9cDsQyT0Fscs/KrDK00
+	awAPgQYDu4ZxoFz+v/7pi3rJaim8T2Edc34/82rNP7XxgoFbsnPeU6o6solvBZc4rPzx
+	hmuXCAbzMwjIBp+6hLxP97LLPX1gSFoQT9xx2VdK0LDP8HUT+kSW9GU/YbjHF8T2qMe5
+	7feybbJTO1Rf/7xy95T0as8eBlV/ZOtgaqN80Gv9UprcaSxe3MY5aojCiYq+TIN9liVH
+	b7Pg==
+X-Gm-Message-State: AKGB3mL5m2MrqQdCzSP0WXfC7RBPXhVpwLd8oZthjgRkyBULxzvmiad7
+	WkMZSHOhekCG9nw/JmhqT7jDon0DJBbnqZvvI/Y=
+X-Google-Smtp-Source: ACJfBovPH1f8yjSBdbGZnVXJ2jQDHCQpumR8ZHp+cwJtNK+/N8+YD2TJQNuPKPp+Jth1fne3nplYSNeyFUp65b6WOnk=
+X-Received: by 10.80.166.222 with SMTP id f30mr306981edc.278.1512985796325;
+	Mon, 11 Dec 2017 01:49:56 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.199.199 with HTTP; Mon, 11 Dec 2017 00:55:05 -0800 (PST)
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Mon, 11 Dec 2017 08:55:05 +0000
-Message-ID: <CAPyrkgwxYUBGb4wLa83Bcm5dRDFh0m7X3o0tZx9sCYy2PEZV=A@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, 
-	Yocto Project <yocto@yoctoproject.org>
-Subject: OpenEmbedded stand at FOSDEM 2018
+Received: by 10.80.178.38 with HTTP; Mon, 11 Dec 2017 01:49:55 -0800 (PST)
+In-Reply-To: <CAJ86T=XLobz3tiBOf+JqAt3JBV=o4HqUVBJwkjY0VR9LCDWNyQ@mail.gmail.com>
+References: <20171207161555.uqbdyctwj7qljnto@mcrowe.com>
+	<CAMKF1soDvWpqpUaZQcPoVA_0_NFXh_UB6vJ5QTb=ZKhtX+L3XQ@mail.gmail.com>
+	<CAJ86T=VzQrqQPa4OB_SgyhYGg_ySp9UgBLeRuY1XLCXYgNbtjA@mail.gmail.com>
+	<CAMKF1srhviBz5_Y9Gsn=Db2y9wCJ8HN96+FjBci+XA3m1R-Pwg@mail.gmail.com>
+	<CAJ86T=XLobz3tiBOf+JqAt3JBV=o4HqUVBJwkjY0VR9LCDWNyQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Mon, 11 Dec 2017 10:49:55 +0100
+Message-ID: <CAAQYJAvcyJ_OpXSRZiaEBga04BArR+=DKpiZbFQ3L-3EVVKkhw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>
+Subject: Re: kernel.bbclass do_sizecheck behaviour changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +58,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 08:55:06 -0000
+X-List-Received-Date: Mon, 11 Dec 2017 09:49:55 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Fri, Dec 8, 2017 at 11:24 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Fri, Dec 8, 2017 at 1:34 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> The size limit for an uncompressed kernel vs a compressed kernel is
+>>> going to be quite different, so defining one size limit and applying
+>>> it to all images doesn't seem logical.
+>>
+>> I was hoping that we are talking about deployed kernels here compressed
+>> sizes can vary widely too
+>>
+>> So may be we can have a hook to define which image types should be monitored
+>> and what the limits are for individual type
+>
+> We could do a lot of things and add a lot of complexity. However based
+> on the fact that the simplest test has been broken for some time and
+> no-one noticed, the evidence is that the kernel image size check isn't
+> a widely used feature (and the kernel image size check with multiple
+> kernel image types even less so, if at all) and so probably shouldn't
+> be the focus of our efforts.
+> --
 
-We've got confirmation for an OpenEmbedded stand at FOSDEM 2018! We're
-in the AW building as usual, you can see the full list of stands and
-location details here: https://fosdem.org/2018/stands/
 
-What we need:
+Hi,
 
-* People to help out on the stand and chat about the project. If
-you're going to FOSDEM and don't know many people in the OE project
-this is a great way to get to know some. Even if you can only help out
-for an hour or two this would be much appreciated!
+we use do_sizecheck since oe-classic and noticed the change thus
+patched our kernel recipe back in 2014.
+So no, it has not been broken for long in the actively maintained layers ;).
+See
+http://cgit.openembedded.org/meta-handheld/commit/recipes-kernel/linux?id=e51a0c84c65651a646ac701a411f724c0ed583a6
 
-* Device/product demos which show off the features of OE. We only have
-one table this year so please let us know if you're bringing hardware,
-that way we can make sure everything fits. Preference will go to
-hobbyist projects as this is FOSDEM but we're happy with commercial
-projects as long as they're not an explicit sales pitch.
+We do build only one type (zImage) so is preferable to have the test
+fail if size exceeds, not just a warning.
 
-* Build system demo. I really want us to show off toaster again as
-that got a lot of interest last time we demo'd it at FOSDEM.
-Unfortunately I'm on holiday before FOSDEM and I'm not travelling
-directly from home so I'll be unable to bring something to run this
-demo on. So if someone could bring a laptop or mini-PC/monitor/etc to
-run a build system demo on that would be excellent. If not I'll see if
-I can get something shipped to Brussels.
+Besides, I am annoyed by the related change for the creation of
+different image types in case of errors: I do build ubifs images and
+if the size exceeds the eraseblocks of the device and mkufbifs fails
+then the other images types are not deployed (tar.gz, ext3, ...).
+I plan to fix this somehow, it wasn't like that originally.
 
-I've created a wiki page here:
-https://www.openembedded.org/wiki/FOSDEM_2018. Please add to this if
-you're planning to bring anything or just attend.
+Cheers
+Andrea
 
-Look forward to seeing many of you in Feb :)
 
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
