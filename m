@@ -1,53 +1,67 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B097858F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f182.google.com (mail-ot0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B688760068
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 17:09:50 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id 68so17434858ite.4
+	Mon, 11 Dec 2017 17:15:46 +0000 (UTC)
+Received: by mail-ot0-f182.google.com with SMTP id 103so15351665otj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 09:09:52 -0800 (PST)
+	Mon, 11 Dec 2017 09:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M52aOw4S/ZkR6Qp8YRFqQxtsO64lUoXZlin/Ns3tBe8=;
-	b=aw4Ok9x3KT5Jxj85VoyysmVJvBwhkFYBKRQ1goHFznM6bpDD7HYtvQFkbFRvTnyjRJ
-	gCeF9xZPFWG/3tzAzjA3+F+D+HMp/ZB8xfLf+kchUafrAM3mVpkhPqbfxECQPEoG8cmz
-	qbPpoMECK80em6mOg40wghn1GGS5j1CGvlpIEN5lEvKI1w7pLcYrDs1qKuJlr2i73ulI
-	l7WYocy4quVl0BNfcdKj3979lH7fPHAxTmBjlRbJsTr63lMai3zuSXy32Te8occ+5f+3
-	sEsqFV8JbM1uv4UlJWyrGglmePeBhw2uhIuJ7Be6bN0WWLhkkrebb3y+slgxCeg5bpOx
-	zjLQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=GguETzkFd5nagCi3GtR92/B7ABW7kbDfUz2EH9eBRbc=;
+	b=qfLtyBPTUlHoaUlH/hcCwDiUF0MMetXVMluROvl/ewsUJsazSTy2DaNnhMryLoNR+2
+	hmLpUDX38fw2Oq+QMax4lxWT/oLs6KXvMl9h2jR5d/79Yz+sfJGHydHUCOT+V0xVs64F
+	I5kJ6S9CEDfZ2t8GOejQXK+Q+lm+exnDFKttm/lacdMjIoYV81ZsLH7YuegHwN3r+y/z
+	nTrGr02qUXQ5fGVakq1z/jWuognddvEb6J2FhhheYksqNsOjvekSgMZ/oYilSxSmXMpq
+	egxINSieu3xR95knXXbcGOWM4fGXQCaqJ01LaZhXS3d5+/rEknq7DYKL9+IyZl24+zxB
+	3qaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=M52aOw4S/ZkR6Qp8YRFqQxtsO64lUoXZlin/Ns3tBe8=;
-	b=Hj3r/keRBRlOu8hDK4pdghvrtP7xAVDpooW/P7CUqLoHo/tDQNkCH5y7BmbHMTYodE
-	KQ6Qr7K6kzgj/c0XkZxMpLxiPjfBJ0KHPJOlGicIPD5x4qBs1w8ouX+Yd6DtaGyrug3b
-	Rsu4V11w55RF8aRVoC+9xzl2JxI4KyR75FQPwYHRWyX0kGc8aXM22/xXq9D3s3eNKHjX
-	7YeyrLwxIVi/AUPwZpTIPIl2ualWPB+PAQWd/IODhZO6U/VCplht1Q5F6GcJA8kRtr4i
-	MUZE6hIcnkbq1GjXQmwpN/3ir8jwueyKlVlx4PL1D7kh6Giz4OAeMLcwb1LA3h0oL4Im
-	SS/w==
-X-Gm-Message-State: AKGB3mKNCBtWNy8HtR5+WU22/AVJ+C6XO5ctqv1nMqPX3JYwNxlH6vUT
-	TYm/5o2zagZ3WFTTuM8JidWGbhnku0IhBoJYXqHl0A==
-X-Google-Smtp-Source: ACJfBosoUyS4KauH2Bwtf215ht6jo96gn/nz9gJegvIj3ksikjbSVxNIfkRz1kXdcHPQgG21PXjEkIE5TvE9YfxvS3s=
-X-Received: by 10.107.146.195 with SMTP id u186mr1457102iod.37.1513012192322; 
-	Mon, 11 Dec 2017 09:09:52 -0800 (PST)
+	bh=GguETzkFd5nagCi3GtR92/B7ABW7kbDfUz2EH9eBRbc=;
+	b=cTRr0eTkRqNR4SLklR8aMXjTJv8oDsU90Tr3XJMmXdFgr+i2YWE1j0bEX8XHG9wHCs
+	XUJzFjOEtzkNYv9iRmCPKgu4iMp2k+t3oSOZ6LPrPqAp3EDErgD9bwehZPcIE4kjhJkZ
+	W15NjMGXPf88vXzY8RGBq+qo9Qtwb9vG3Putprgkdx/AdoFY7fdp5Q2dmXvmzzSuyqsn
+	JNa6MObgXM/kmCM/92dIZ0Yv07E/HgDDZuO+XZV9G+yfc7SMJFVhEv2hu14hiWvoQcuR
+	GmAj+c0KXrs77FLG0mjZ7YelKn3vtrxVyweVO2oXjWVnP/wzkoXXaVo6SSMNLA4EklKp
+	mx1g==
+X-Gm-Message-State: AKGB3mI+Zur5kfZCsQvEIanpIy4W+l+9yWM+IHw7gpNqV753l9B7GyQw
+	hz+Lg7dGeYIrSvbeNQaJhm61W+Su
+X-Google-Smtp-Source: ACJfBotEtlSOVkI2bIDsvBkNSgR1Hw6oEb/dagFBK+mQ4UoHGaR6pn7itTLBYCnGZxZC0WXkjNabug==
+X-Received: by 10.157.10.110 with SMTP id 101mr1006158otg.138.1513012547548;
+	Mon, 11 Dec 2017 09:15:47 -0800 (PST)
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com.
+	[209.85.218.52])
+	by smtp.gmail.com with ESMTPSA id m9sm6923443otc.52.2017.12.11.09.15.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Dec 2017 09:15:46 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f52.google.com with SMTP id o64so12086300oia.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Dec 2017 09:15:46 -0800 (PST)
+X-Received: by 10.202.83.131 with SMTP id h125mr912115oib.329.1513012545729;
+	Mon, 11 Dec 2017 09:15:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.137.195 with HTTP; Mon, 11 Dec 2017 09:09:31 -0800 (PST)
-In-Reply-To: <1513006625.9676.9.camel@gmail.com>
+Received: by 10.157.17.210 with HTTP; Mon, 11 Dec 2017 09:15:44 -0800 (PST)
+In-Reply-To: <CAJTo0LbVUE-Z84U59edVmmHu34kvNTZv+urwJAHpgBrXA96p=w@mail.gmail.com>
 References: <20171211135720.38714-1-stefan@agner.ch>
 	<CAJTo0LbSDm6j6yPUavimgqegidvZMQ6eY=VV2=P2oERUtU-1qA@mail.gmail.com>
 	<1b5588ed9cdad157c4129eb45d2a0fe0@agner.ch>
 	<CAJTo0LY5BR=kgukiW6LAjonzidsC-h0gerwxKcA-3Qqvydniuw@mail.gmail.com>
 	<1513006338.9676.5.camel@gmail.com> <1513006625.9676.9.camel@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Dec 2017 17:09:31 +0000
-Message-ID: <CAJTo0LbVUE-Z84U59edVmmHu34kvNTZv+urwJAHpgBrXA96p=w@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
+	<CAJTo0LbVUE-Z84U59edVmmHu34kvNTZv+urwJAHpgBrXA96p=w@mail.gmail.com>
+Date: Mon, 11 Dec 2017 15:15:44 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoD9daGh83bwhLLzEW_7r+i65pH7hm4NwymD_+2LU6bMA@mail.gmail.com>
+Message-ID: <CAP9ODKoD9daGh83bwhLLzEW_7r+i65pH7hm4NwymD_+2LU6bMA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
 	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	Stefan Agner <stefan.agner@toradex.com>
 Subject: Re: [PATCH] waf.bbclass: explicitly pass libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,49 +75,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 17:09:51 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0553b243eb8a0560139a67"
-
---94eb2c0553b243eb8a0560139a67
+X-List-Received-Date: Mon, 11 Dec 2017 17:15:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 11 December 2017 at 15:37, Joshua Watt <jpewhacker@gmail.com> wrote:
-
-> Vanilla waf only supports --prefix, --libdir, and --bindir. Anything else
-> is a result of loading the gnu_dirs tool, which not all projects are
-> required to do.
+On Mon, Dec 11, 2017 at 3:09 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 11 December 2017 at 15:37, Joshua Watt <jpewhacker@gmail.com> wrote:
+>>
+>> Vanilla waf only supports --prefix, --libdir, and --bindir. Anything else
+>> is a result of loading the gnu_dirs tool, which not all projects are
+>> required to do.
+>>
+>>
+>> Sorry, hit send too soo: waf (at least version 2.0) also errors out on
+>> unknown options. I think the three I listed are the only ones we can do
+>> generically. There might be some way to easily adding the rest if you know
+>> waf is loading gnu_dirs
 >
 >
-> Sorry, hit send too soo: waf (at least version 2.0) also errors out on
-> unknown options. I think the three I listed are the only ones we can do
-> generically. There might be some way to easily adding the rest if you know
-> waf is loading gnu_dirs
->
+> One option would be for waf.bbclass to check if WAF_USES_GNU_DIRS is set
+> (defaulting to 0) and pass the full set of path options automatically.
 
-One option would be for waf.bbclass to check if WAF_USES_GNU_DIRS is set
-(defaulting to 0) and pass the full set of path options automatically.
+Possible. But passing the standard ones solve 99% of the issues.
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---94eb2c0553b243eb8a0560139a67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 11 December 2017 at 15:37, Joshua Watt <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@=
-gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div><div><div class=3D"h5"><b=
-lockquote type=3D"cite" style=3D"margin:0 0 0 .8ex;border-left:2px #729fcf =
-solid;padding-left:1ex"><div>Vanilla waf only supports --prefix, --libdir, =
-and --bindir. Anything else is a result of loading the gnu_dirs tool, which=
- not all projects are required to do.</div></blockquote><div><br></div></di=
-v></div><div>Sorry, hit send too soo: waf (at least version 2.0) also error=
-s out on unknown options. I think the three I listed are the only ones we c=
-an do generically. There might be some way to easily adding the rest if you=
- know waf is loading gnu_dirs</div></div></blockquote><div><br></div><div>O=
-ne option would be for waf.bbclass to check if WAF_USES_GNU_DIRS is set (de=
-faulting to 0) and pass the full set of path options automatically.</div><d=
-iv><br></div><div>Ross</div></div></div></div>
-
---94eb2c0553b243eb8a0560139a67--
