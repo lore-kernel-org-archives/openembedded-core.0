@@ -1,22 +1,29 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 376637870D
+	by mail.openembedded.org (Postfix) with ESMTP id BCC2D786E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 14:06:29 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id B1FDC5C0988;
-	Mon, 11 Dec 2017 15:00:32 +0100 (CET)
+	Mon, 11 Dec 2017 14:21:36 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id EE0865C0988;
+	Mon, 11 Dec 2017 15:15:38 +0100 (CET)
+MIME-Version: 1.0
+Date: Mon, 11 Dec 2017 15:16:44 +0100
 From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Dec 2017 15:06:28 +0100
-Message-Id: <20171211140628.39111-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LbSDm6j6yPUavimgqegidvZMQ6eY=VV2=P2oERUtU-1qA@mail.gmail.com>
+References: <20171211135720.38714-1-stefan@agner.ch>
+	<CAJTo0LbSDm6j6yPUavimgqegidvZMQ6eY=VV2=P2oERUtU-1qA@mail.gmail.com>
+Message-ID: <1b5588ed9cdad157c4129eb45d2a0fe0@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1513000832; bh=NQ0sPZ0Tk8RHvfEAcNKEVqWWJA8z+HWiak/Vlp1Gfto=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=HU1VSl4YSPTAg6K3SjEdwBN3bAUo4Zn9Y/fhfqZexkWq5Rbg71ofgToc6VufxhPmkPrEjk6T5Cs8aEPKfE/E+y8MVurNXK+WaaCQ6nDsSUSjpzicrDyLUw4t+uHycVnJKNCospCq5ltFzUeCrsnyR40AQGdRR4fsxfs8bOb+ytk=
-Cc: Stefan Agner <stefan.agner@toradex.com>, otavio@ossystems.com.br
-Subject: [rocko][PATCH] waf.bbclass: explicitly pass libdir
+	t=1513001738; bh=fvmoPxtbTyU0NGtJCkBbj69KaGGTeb9ByVAGwfdqKt8=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=iJnQpB7tYIIc7oAaVvxQ1aQfL4oyuutidaxpZf2rGFfcQw2Tm0BEouK9miH0DsEz84L85ZBPot9uel4UH5r8fmAosJCjBbj/7ttAhE551TQkgqpK0szOj7qz70PqQCfQCfWFjDFE1nyAQFiiAVD7KIesPRIg+XPzXEnfXcqCpeo=
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Stefan Agner <stefan.agner@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] waf.bbclass: explicitly pass libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +36,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 14:06:30 -0000
+X-List-Received-Date: Mon, 11 Dec 2017 14:21:37 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On 2017-12-11 15:01, Burton, Ross wrote:
 
-On some build hosts distros (e.g. Fedora 26) waf tries to be
-smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
-This obviously is not what we want for 32-bit targets and usually
-fails in the do_package phase:
-  WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed but not shipped in any package:
-    /usr/lib64/libgstimxcommon.so.0
+> On 11 December 2017 at 13:57, Stefan Agner <stefan@agner.ch> wrote:
+> 
+>> From: Stefan Agner <stefan.agner@toradex.com>
+>> 
+>> On some build hosts distros (e.g. Fedora 26) waf tries to be
+>> smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
+>> This obviously is not what we want for 32-bit targets and usually
+>> fails in the do_package phase:
+>> WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed but not shipped in any package:
+>> /usr/lib64/libgstimxcommon.so.0
+>> 
+>> Explicitly pass libdir to waf reliably resolves the issue.
+> 
+> What happens if the wscript doesn't recognise --libdir, does it silently ignore it or throw an error? 
 
-Explicitly pass libdir to waf reliably resolves the issue.
+Hm, isn't this a "base" option which is always supported?
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/classes/waf.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> If waf supports prefix and libdir and doesn't error on unknown options, does it also support datadir/sysconfdir and so on?  We should pass as much as possible.  The gnu_dirs module suggests yes, so you could copy what autotools passes. 
+> 
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index c4698e910a..43b3f098ac 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -26,7 +26,7 @@ def get_waf_parallel_make(d):
-     return ""
- 
- waf_do_configure() {
--	${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
-+	${S}/waf configure --prefix=${prefix} --libdir=${libdir} ${EXTRA_OECONF}
- }
- 
- waf_do_compile()  {
--- 
-2.13.6
+There are a bunch of others. But most seem to derive from PREFIX, which
+we set...
 
+  Installation prefix:                                                  
+                                                                   
+    By default, "waf install" will put the files in "/usr/local/bin",
+"/usr/local/lib" etc. An installation prefix other than               
+    "/usr/local" can be given using "--prefix", for example
+"--prefix=$HOME"                                                        
+       
+                                                                        
+                                                                   
+    --prefix=PREFIX     installation prefix [default: '/usr/local/']  
+    --destdir=DESTDIR   installation root [default: '']               
+    --exec-prefix=EXEC_PREFIX      
+                        installation prefix for binaries [PREFIX] 
+
+  Installation directories:        
+    --bindir=BINDIR     user commands [EXEC_PREFIX/bin]               
+    --sbindir=SBINDIR   system binaries [EXEC_PREFIX/sbin]            
+    --libexecdir=LIBEXECDIR        
+                        program-specific binaries [EXEC_PREFIX/libexec] 
+                                                                   
+    --sysconfdir=SYSCONFDIR        
+                        host-specific configuration [PREFIX/etc]      
+    --sharedstatedir=SHAREDSTATEDIR                                   
+                        architecture-independent variable data
+[PREFIX/com]                                                            
+    
+    --localstatedir=LOCALSTATEDIR  
+                        variable data [PREFIX/var]                    
+    --libdir=LIBDIR     object code libraries [EXEC_PREFIX/lib64]     
+    --includedir=INCLUDEDIR        
+                        header files [PREFIX/include]                 
+    --oldincludedir=OLDINCLUDEDIR  
+                        header files for non-GCC compilers
+[/usr/include]                                                          
+        
+    --datarootdir=DATAROOTDIR      
+                        architecture-independent data root
+[PREFIX/share]                                                          
+        
+    --datadir=DATADIR   architecture-independent data [DATAROOTDIR]   
+    --infodir=INFODIR   GNU "info" documentation [DATAROOTDIR/info]   
+    --localedir=LOCALEDIR          
+                        locale-dependent data [DATAROOTDIR/locale]    
+    --mandir=MANDIR     manual pages [DATAROOTDIR/man]                
+    --docdir=DOCDIR     documentation root [DATAROOTDIR/doc/PACKAGE]  
+    --htmldir=HTMLDIR   HTML documentation [DOCDIR]                   
+    --dvidir=DVIDIR     DVI documentation [DOCDIR]                    
+    --pdfdir=PDFDIR     PDF documentation [DOCDIR]                    
+    --psdir=PSDIR       PostScript documentation [DOCDIR]   
+
+--
+Stefan
 
