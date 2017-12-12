@@ -1,38 +1,26 @@
-Return-Path: <amber.n.elliot@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EBD37838B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 93AC578848
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Dec 2017 21:59:47 +0000 (UTC)
+	Tue, 12 Dec 2017 00:32:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Dec 2017 13:59:49 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Dec 2017 16:32:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,393,1508828400"; 
-	d="scan'208,217";a="157855667"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga004.jf.intel.com with ESMTP; 11 Dec 2017 13:59:49 -0800
-Received: from orsmsx102.amr.corp.intel.com ([169.254.3.72]) by
-	ORSMSX109.amr.corp.intel.com ([169.254.11.160]) with mapi id
-	14.03.0319.002; Mon, 11 Dec 2017 13:59:48 -0800
-From: "Elliot, Amber N" <amber.n.elliot@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/1] wic: argparse now used for help
-	functionality
-Thread-Index: AQHTcstcaa2MJfTySk695JK+X+wayw==
-Date: Mon, 11 Dec 2017 21:59:48 +0000
-Message-ID: <DF4DD566-13DE-4324-8322-B380172CC34E@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/f.18.0.160709
-x-originating-ip: [10.254.188.242]
-MIME-Version: 1.0
-Cc: "Wold, Saul" <saul.wold@intel.com>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: [PATCH 0/1] wic: argparse now used for help functionality
+   d="scan'208";a="2042590"
+Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.intel.com)
+	([10.254.41.228])
+	by orsmga006.jf.intel.com with ESMTP; 11 Dec 2017 16:32:05 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 11 Dec 2017 16:31:58 -0800
+Message-Id: <20171212003202.4209-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH v2 0/4] Remove ELF Image Type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,131 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Dec 2017 21:59:48 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_DF4DD56613DE43248322B380172CC34Eintelcom_"
+X-List-Received-Date: Tue, 12 Dec 2017 00:32:04 -0000
 
---_000_DF4DD56613DE43248322B380172CC34Eintelcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The ELF Image type is not currently used any more by the
+coreboot project which was the original creator of this
+image type along with the mkelfimage tool.  The tool was
+removed from the coreboot repo back in 2014 and has no 
+updates.  Each time binutils changes, the mkelfimage tool
+breaks and requires a patch to the convert.bin.c special
+header file.
 
-DQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDU4ZTA1MDIwZTA5OTcxZjA1ZWZm
-Yjc5ZjhmMWViMjAxMmRmNGYwZGI6DQoNCg0KICBiaXRiYWtlOiBwcm92aWRlcnM6IEZpeCBkZXRl
-cm1pbmlzbSBpc3N1ZSAoMjAxNy0xMi0xMCAyMjo0NToyMSArMDAwMCkNCg0KDQphcmUgYXZhaWxh
-YmxlIGluIHRoZSBnaXQgcmVwb3NpdG9yeSBhdDoNCg0KDQogIGdpdDovL3B1c2gueW9jdG9wcm9q
-ZWN0Lm9yZy9wb2t5LWNvbnRyaWIgYW5lbGxpb3QvYnVnMTIyMDUNCg0KDQphbmVsbGlvdCAoMSk6
-DQoNCiAgd2ljOiBhcmdwYXJzZSBub3cgdXNlZCBmb3IgaGVscCBmdW5jdGlvbmFsaXR5Lg0KDQoN
-CiBzY3JpcHRzL2xpYi93aWMvZW5naW5lLnB5IHwgICA4NyArKystDQoNCiBzY3JpcHRzL2xpYi93
-aWMvaGVscC5weSAgIHwgMTA3MiArKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCg0KIHNjcmlwdHMvd2ljICAgICAgICAgICAgICAgfCAgMTY5ICsrKy0tLS0NCg0K
-IDMgZmlsZXMgY2hhbmdlZCwgMjQzIGluc2VydGlvbnMoKyksIDEwODUgZGVsZXRpb25zKC0pDQoN
-Cg0KLS0NCg0KMi43LjQNCg0K
+v2: Added patch to switch out which recipe devtool tests with GIT
+    - reorder patch set to hopefully address bisecting issues.
 
---_000_DF4DD56613DE43248322B380172CC34Eintelcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <C1580C66E6DEED439DB27D5CB970CC23@intel.com>
-Content-Transfer-Encoding: base64
+Saul Wold (4):
+  devtool QA: switch which git recipe is used
+  oeqa/qemu: remove elf image type
+  image_types: Remove ELF type
+  mkelfimage: Remove un-needed recipe
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IHN0eWxlPSJ3b3JkLXdy
-YXA6IGJyZWFrLXdvcmQ7IC13ZWJraXQtbmJzcC1tb2RlOiBzcGFjZTsgLXdlYmtpdC1saW5lLWJy
-ZWFrOiBhZnRlci13aGl0ZS1zcGFjZTsgY29sb3I6IHJnYigwLCAwLCAwKTsgZm9udC1zaXplOiAx
-NHB4OyBmb250LWZhbWlseTogQ2FsaWJyaSwgc2Fucy1zZXJpZjsiPg0KPGRpdj4NCjxwIHN0eWxl
-PSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBsaW5lLWhlaWdodDogbm9ybWFsOyBmb250
-LWZhbWlseTogTWVubG87IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPg0K
-PGJyPg0KPC9wPg0KPHAgc3R5bGU9Im1hcmdpbjogMHB4OyBmb250LXNpemU6IDExcHg7IGxpbmUt
-aGVpZ2h0OiBub3JtYWw7IGZvbnQtZmFtaWx5OiBNZW5sbzsgYmFja2dyb3VuZC1jb2xvcjogcmdi
-KDI1NSwgMjU1LCAyNTUpOyI+DQo8c3BhbiBzdHlsZT0iZm9udC12YXJpYW50LWxpZ2F0dXJlczog
-bm8tY29tbW9uLWxpZ2F0dXJlcyI+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA1
-OGUwNTAyMGUwOTk3MWYwNWVmZmI3OWY4ZjFlYjIwMTJkZjRmMGRiOjwvc3Bhbj48L3A+DQo8cCBz
-dHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6IG5vcm1hbDsg
-Zm9udC1mYW1pbHk6IE1lbmxvOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7
-IG1pbi1oZWlnaHQ6IDEzcHg7Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVz
-OiBuby1jb21tb24tbGlnYXR1cmVzIj48L3NwYW4+PGJyPg0KPC9wPg0KPHAgc3R5bGU9Im1hcmdp
-bjogMHB4OyBmb250LXNpemU6IDExcHg7IGxpbmUtaGVpZ2h0OiBub3JtYWw7IGZvbnQtZmFtaWx5
-OiBNZW5sbzsgY29sb3I6IHJnYig4MiwgNDgsIDIyNSk7IGJhY2tncm91bmQtY29sb3I6IHJnYigy
-NTUsIDI1NSwgMjU1KTsiPg0KPHNwYW4gc3R5bGU9ImZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5v
-LWNvbW1vbi1saWdhdHVyZXMiPjxiPiZuYnNwOyBiaXRiYWtlOiBwcm92aWRlcnM6IEZpeCBkZXRl
-cm1pbmlzbSBpc3N1ZSAoMjAxNy0xMi0xMCAyMjo0NToyMSAmIzQzOzAwMDApPC9iPjwvc3Bhbj48
-L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6
-IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1lbmxvOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAy
-NTUsIDI1NSk7IG1pbi1oZWlnaHQ6IDEzcHg7Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQt
-bGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj48L3NwYW4+PGJyPg0KPC9wPg0KPHAgc3R5
-bGU9Im1hcmdpbjogMHB4OyBmb250LXNpemU6IDExcHg7IGxpbmUtaGVpZ2h0OiBub3JtYWw7IGZv
-bnQtZmFtaWx5OiBNZW5sbzsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+
-DQo8c3BhbiBzdHlsZT0iZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm8tY29tbW9uLWxpZ2F0dXJl
-cyI+YXJlIGF2YWlsYWJsZSBpbiB0aGUgZ2l0IHJlcG9zaXRvcnkgYXQ6PC9zcGFuPjwvcD4NCjxw
-IHN0eWxlPSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBsaW5lLWhlaWdodDogbm9ybWFs
-OyBmb250LWZhbWlseTogTWVubG87IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1
-KTsgbWluLWhlaWdodDogMTNweDsiPg0KPHNwYW4gc3R5bGU9ImZvbnQtdmFyaWFudC1saWdhdHVy
-ZXM6IG5vLWNvbW1vbi1saWdhdHVyZXMiPjwvc3Bhbj48YnI+DQo8L3A+DQo8cCBzdHlsZT0ibWFy
-Z2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6IG5vcm1hbDsgZm9udC1mYW1p
-bHk6IE1lbmxvOyBjb2xvcjogcmdiKDgyLCA0OCwgMjI1KTsgYmFja2dyb3VuZC1jb2xvcjogcmdi
-KDI1NSwgMjU1LCAyNTUpOyI+DQo8c3BhbiBzdHlsZT0iZm9udC12YXJpYW50LWxpZ2F0dXJlczog
-bm8tY29tbW9uLWxpZ2F0dXJlcyI+PGI+Jm5ic3A7IGdpdDovL3B1c2gueW9jdG9wcm9qZWN0Lm9y
-Zy9wb2t5LWNvbnRyaWIgYW5lbGxpb3QvYnVnMTIyMDU8L2I+PC9zcGFuPjwvcD4NCjxwIHN0eWxl
-PSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBsaW5lLWhlaWdodDogbm9ybWFsOyBmb250
-LWZhbWlseTogTWVubG87IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgbWlu
-LWhlaWdodDogMTNweDsiPg0KPHNwYW4gc3R5bGU9ImZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5v
-LWNvbW1vbi1saWdhdHVyZXMiPjwvc3Bhbj48YnI+DQo8L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAw
-cHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1l
-bmxvOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij4NCjxzcGFuIHN0eWxl
-PSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj5hbmVsbGlvdCAo
-MSk6PC9zcGFuPjwvcD4NCjxwIHN0eWxlPSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBs
-aW5lLWhlaWdodDogbm9ybWFsOyBmb250LWZhbWlseTogTWVubG87IGNvbG9yOiByZ2IoODIsIDQ4
-LCAyMjUpOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij4NCjxzcGFuIHN0
-eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj48Yj4mbmJz
-cDsgd2ljOiBhcmdwYXJzZSBub3cgdXNlZCBmb3IgaGVscCBmdW5jdGlvbmFsaXR5LjwvYj48L3Nw
-YW4+PC9wPg0KPHAgc3R5bGU9Im1hcmdpbjogMHB4OyBmb250LXNpemU6IDExcHg7IGxpbmUtaGVp
-Z2h0OiBub3JtYWw7IGZvbnQtZmFtaWx5OiBNZW5sbzsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1
-NSwgMjU1LCAyNTUpOyBtaW4taGVpZ2h0OiAxM3B4OyI+DQo8c3BhbiBzdHlsZT0iZm9udC12YXJp
-YW50LWxpZ2F0dXJlczogbm8tY29tbW9uLWxpZ2F0dXJlcyI+PC9zcGFuPjxicj4NCjwvcD4NCjxw
-IHN0eWxlPSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBsaW5lLWhlaWdodDogbm9ybWFs
-OyBmb250LWZhbWlseTogTWVubG87IGNvbG9yOiByZ2IoODIsIDQ4LCAyMjUpOyBiYWNrZ3JvdW5k
-LWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQt
-bGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj48Yj4mbmJzcDtzY3JpcHRzL2xpYi93aWMv
-ZW5naW5lLnB5IHwgJm5ic3A7IDg3ICYjNDM7JiM0MzsmIzQzOy08L2I+PC9zcGFuPjwvcD4NCjxw
-IHN0eWxlPSJtYXJnaW46IDBweDsgZm9udC1zaXplOiAxMXB4OyBsaW5lLWhlaWdodDogbm9ybWFs
-OyBmb250LWZhbWlseTogTWVubG87IGNvbG9yOiByZ2IoODIsIDQ4LCAyMjUpOyBiYWNrZ3JvdW5k
-LWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQt
-bGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj48Yj4mbmJzcDtzY3JpcHRzL2xpYi93aWMv
-aGVscC5weSAmbmJzcDsgfCAxMDcyICYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzstLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPC9iPjwvc3Bhbj48L3A+DQo8cCBzdHlsZT0i
-bWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6IG5vcm1hbDsgZm9udC1m
-YW1pbHk6IE1lbmxvOyBjb2xvcjogcmdiKDgyLCA0OCwgMjI1KTsgYmFja2dyb3VuZC1jb2xvcjog
-cmdiKDI1NSwgMjU1LCAyNTUpOyI+DQo8c3BhbiBzdHlsZT0iZm9udC12YXJpYW50LWxpZ2F0dXJl
-czogbm8tY29tbW9uLWxpZ2F0dXJlcyI+PGI+Jm5ic3A7c2NyaXB0cy93aWM8L2I+PC9zcGFuPjxz
-cGFuIHN0eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzOyBj
-b2xvcjogIzAwMDAwMCI+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOw0KPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1j
-b21tb24tbGlnYXR1cmVzIj48Yj58Jm5ic3A7IDE2OSAmIzQzOyYjNDM7JiM0MzstLS0tPC9iPjwv
-c3Bhbj48L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1o
-ZWlnaHQ6IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1lbmxvOyBjb2xvcjogcmdiKDgyLCA0OCwgMjI1
-KTsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+DQo8c3BhbiBzdHlsZT0i
-Zm9udC12YXJpYW50LWxpZ2F0dXJlczogbm8tY29tbW9uLWxpZ2F0dXJlcyI+PGI+Jm5ic3A7MyBm
-aWxlcyBjaGFuZ2VkLCAyNDMgaW5zZXJ0aW9ucygmIzQzOyksIDEwODUgZGVsZXRpb25zKC0pPC9i
-Pjwvc3Bhbj48L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGlu
-ZS1oZWlnaHQ6IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1lbmxvOyBiYWNrZ3JvdW5kLWNvbG9yOiBy
-Z2IoMjU1LCAyNTUsIDI1NSk7IG1pbi1oZWlnaHQ6IDEzcHg7Ij4NCjxzcGFuIHN0eWxlPSJmb250
-LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1cmVzIj48L3NwYW4+PGJyPg0KPC9w
-Pg0KPHAgc3R5bGU9Im1hcmdpbjogMHB4OyBmb250LXNpemU6IDExcHg7IGxpbmUtaGVpZ2h0OiBu
-b3JtYWw7IGZvbnQtZmFtaWx5OiBNZW5sbzsgY29sb3I6IHJnYigxOTUsIDU1LCAzMik7IGJhY2tn
-cm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPg0KPHNwYW4gc3R5bGU9ImZvbnQtdmFy
-aWFudC1saWdhdHVyZXM6IG5vLWNvbW1vbi1saWdhdHVyZXMiPjxiPi0tJm5ic3A7PC9iPjwvc3Bh
-bj48L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAwcHg7IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWln
-aHQ6IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1lbmxvOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1
-LCAyNTUsIDI1NSk7Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1j
-b21tb24tbGlnYXR1cmVzIj4yLjcuNDwvc3Bhbj48L3A+DQo8cCBzdHlsZT0ibWFyZ2luOiAwcHg7
-IGZvbnQtc2l6ZTogMTFweDsgbGluZS1oZWlnaHQ6IG5vcm1hbDsgZm9udC1mYW1pbHk6IE1lbmxv
-OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1pbi1oZWlnaHQ6IDEzcHg7
-Ij4NCjxzcGFuIHN0eWxlPSJmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBuby1jb21tb24tbGlnYXR1
-cmVzIj48L3NwYW4+PGJyPg0KPC9wPg0KPC9kaXY+DQo8c3BhbiBpZD0iT0xLX1NSQ19CT0RZX1NF
-Q1RJT04iPjxzcGFuIHN0eWxlPSJtc28tYm9va21hcms6X01haWxPcmlnaW5hbEJvZHkiPg0KPGRp
-dj4NCjxkaXYgc3R5bGU9IndvcmQtd3JhcDogYnJlYWstd29yZDsgLXdlYmtpdC1uYnNwLW1vZGU6
-IHNwYWNlOyAtd2Via2l0LWxpbmUtYnJlYWs6IGFmdGVyLXdoaXRlLXNwYWNlOyBjb2xvcjogcmdi
-KDAsIDAsIDApOyBmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiBDYWxpYnJpLCBzYW5zLXNl
-cmlmOyI+DQo8ZGl2Pg0KPGRpdiBpZD0iIj48L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
-Cjwvc3Bhbj48L3NwYW4+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+ meta/classes/image_types.bbclass                   |  13 -
+ meta/lib/oeqa/core/target/qemu.py                  |   2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py            |   6 +-
+ .../mkelfimage/mkelfimage/convert.bin.c            | 348 ---------------------
+ .../mkelfimage/mkelfimage/cross-compile.patch      | 106 -------
+ .../mkelfimage/fix-makefile-to-find-libz.patch     |  33 --
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  48 ---
+ 7 files changed, 4 insertions(+), 552 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/convert.bin.c
+ delete mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
+ delete mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch
+ delete mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
 
---_000_DF4DD56613DE43248322B380172CC34Eintelcom_--
+-- 
+2.13.6
+
+
