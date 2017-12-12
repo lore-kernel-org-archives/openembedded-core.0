@@ -1,65 +1,53 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 13C6B78866
+Return-Path: <limon.anibal@gmail.com>
+Received: from mail-ot0-f169.google.com (mail-ot0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id BD8367887D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 16:42:30 +0000 (UTC)
-Received: by mail-ot0-f176.google.com with SMTP id e74so18314223ote.7
+	Tue, 12 Dec 2017 17:11:18 +0000 (UTC)
+Received: by mail-ot0-f169.google.com with SMTP id h9so18423296oti.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 08:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=UXWkaF5qh2/wfue9W/cTPGmJeAxaybSk/pTMHZGcHKs=;
-	b=HomY9d4VcjJRR/7WiWN8UOHE8CPl+KTwWf6dpI/gEaH6I8KjxYf5JeBWOJD/wCCrO0
-	/10F+a9OK9/OS7SoBBTPXHIWa3OXzBHmuvWbKzBsC7bqjg4ujdZT5OsXVUoPVdbiFyoL
-	wa0oJteFcq+vBEZhu2vAbEImIbFbmyo4hKWzXPUDI1h3sFxj2zLI1cy9K0OWMZhoiTWH
-	ratpKNpmjHDmDwq3HgMi1m3ZWrCrQ3aHo4ZseU4jiORK5XVFWDqiJgsg/Jq2++VOwj5X
-	o2p5DekULWV/YGzYU1jD7S1FVQYMHI216XKN3PHK5GVqpy34rUl6Z/L3hvXgpAxNW5c+
-	feHg==
+	Tue, 12 Dec 2017 09:11:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=buU0OdRDj3qMsipm+KQlUPptsTZJdwlbpAS+S1tk6J0=;
+	b=Dlz5fR4vJWIc0AzD4Fh0+vF8f06/RyuOqgHGpxlzPXvOMkzphHzHDe5dlUJhNsKeeD
+	iwjw9CYphO3ockzi+uoUySbu0y1Y5I3udphlu9UoOM+aJmpuviQf4qjjRMXP1kk/vv6m
+	MIijibhE5PFw+G9zTDL2m22f6J9/Zxauxp4QyUgho7cy4FBl5/OIa3Xc+AGtzon6BqU0
+	zwm0FyW+vwS6w62Xp0sepjbBuqSnMEJZpVo/YyR7Um41njYpaXc1HgS44ZW1oXjeQ1i8
+	R2PGqofy0acUpFwV8cYcLWMwuAOM9WWsskdxxJ6CbYU9hKFBTKSrzmUTKxOL3z1/tLjs
+	ArTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=UXWkaF5qh2/wfue9W/cTPGmJeAxaybSk/pTMHZGcHKs=;
-	b=LDFe+kyBKUpTVj7HhU+I2J4mkB4HZjVE3CBS2gFSJgvjUj8BfCzQBo6yGvgEJWn+TP
-	YOQbYfEMYc/qdU7/Xdxww35+zJ+eKAARC06ZR4QyDm17WV2K/6EzRTn2Zz2HWAYF3ZpM
-	e8jTVPSaFVjuLVfDdyEw4JvHStBuACirLfLu2LIUHf6nn48voEdK9Nu9NzCY5Zw+Nv92
-	jy+azICnSevEr1y+O9auXBh4HW6BVrZWFJfbhSiMiaxfjhxkYyifZ8xmspgVntctUkAE
-	FzFWlNqb2JefMubzRBVhn/Mk1CB4bQcnkUZRMojzPsuewYQTkZd+tBicwEe2R7cuE1HX
-	OX/g==
-X-Gm-Message-State: AKGB3mIp88bkiqIQaL4jfWjs84Nnq2eUlBoynQ0iAzlvInHUSjIWGtTO
-	E2X88iUfYwTd/KRUMf5BybonXQkP
-X-Google-Smtp-Source: ACJfBouKvDOgHDU4MKZHScVqVLhMhU33tc+y4SSl9KWvivtSHJfR3VaBdT+gKugjIy3hZ6eUEiy7KQ==
-X-Received: by 10.157.41.10 with SMTP id d10mr4327357otb.284.1513096951716;
-	Tue, 12 Dec 2017 08:42:31 -0800 (PST)
-Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com.
-	[74.125.82.175]) by smtp.gmail.com with ESMTPSA id
-	d68sm7835958oic.57.2017.12.12.08.42.30
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=buU0OdRDj3qMsipm+KQlUPptsTZJdwlbpAS+S1tk6J0=;
+	b=qPRe0ZSAZIFmzkUbkWJd4Ol5yezVowJjibn6yt9xZuU0cmOmedTxw0hahvNQrXsPPR
+	1iSHXsoni3uVypYtU1kvqoCZhdXvkQaRBDsWs5ErPDp3DVeBcF5oALSR5OSPahG+ogjv
+	MmNvDHoWn0CFiIQIWSMJ6Fvfgpp1WMUpzkraSLqisUQoW7wlkdqjq1LgTZilowc8OhLA
+	y6W2Jtv/feegCpnAOKvWBcRfoQdUlX8eYeIAjbU8gnH03yK0JHfNI2aIrtfCodaU1cCB
+	2yQGdw15MMUbhaPSZeuK96I+EDN8ltR9VNYqU5bKMgwCXRs0xCEkobEv+LK964RLy7Q0
+	qADw==
+X-Gm-Message-State: AKGB3mKTwg1F4nGcpoHdKoKaDNxKnPKtEIFrR1mr02CcDvNYXTdI0yKD
+	uR5zxS0ZFola4oD1yND3HohqY8Gn
+X-Google-Smtp-Source: ACJfBovyj9rFXq1QTe5NErXcAglKI0rkzD39tmNjVkJ31g2P/dtbR7z9wK0/DsB4JGLIXCFY/KgqBg==
+X-Received: by 10.157.82.153 with SMTP id f25mr3778257oth.97.1513098679320;
+	Tue, 12 Dec 2017 09:11:19 -0800 (PST)
+Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	by smtp.gmail.com with ESMTPSA id
+	u65sm7418674oia.46.2017.12.12.09.11.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Dec 2017 08:42:30 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f175.google.com with SMTP id d5so18305275oti.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 08:42:30 -0800 (PST)
-X-Received: by 10.157.80.13 with SMTP id a13mr3676480oth.370.1513096950206;
-	Tue, 12 Dec 2017 08:42:30 -0800 (PST)
+	Tue, 12 Dec 2017 09:11:18 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Dec 2017 11:11:14 -0600
+Message-Id: <20171212171114.15534-1-limon.anibal@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 12 Dec 2017 08:42:29 -0800 (PST)
-In-Reply-To: <CA+_AqivtiNwbdU8mjYpEj_PiccuuJroxJXbyOgb_xoRaa7SBKQ@mail.gmail.com>
-References: <20171206220037.32335-1-limon.anibal@gmail.com>
-	<CAJTo0LYYn+FvwjH-DJc2GCraLRV=9uC3YX7WNXF82ZeFJtLrZw@mail.gmail.com>
-	<CAP9ODKossF0X1FUyxk5HY4z_dSSpo47rkWUDRP2CzeE45k6eig@mail.gmail.com>
-	<CA+_AqivtiNwbdU8mjYpEj_PiccuuJroxJXbyOgb_xoRaa7SBKQ@mail.gmail.com>
-Date: Tue, 12 Dec 2017 14:42:29 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrSdCEbcCpqpvpV7yKxyA6VWNob9oCz5xFUZC7_PXsVGw@mail.gmail.com>
-Message-ID: <CAP9ODKrSdCEbcCpqpvpV7yKxyA6VWNob9oCz5xFUZC7_PXsVGw@mail.gmail.com>
-To: Anibal Limon <anibal.limon@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] recipes-multimedia/gstreamer: Add gst-validate recipe
+Cc: oss.burton@intel.com,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>,
+	otavio.salvador@ossystems.com.br
+Subject: [PATCHv3] recipes-multimedia/gstreamer: Add gst-validate recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,51 +60,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 16:42:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Dec 2017 17:11:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 12, 2017 at 1:51 PM, Anibal Limon <anibal.limon@linaro.org> wro=
-te:
->
->
-> On 12 December 2017 at 06:50, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> On Tue, Dec 12, 2017 at 10:23 AM, Burton, Ross <ross.burton@intel.com>
->> wrote:
->> > On 6 December 2017 at 22:00, An=C3=ADbal Lim=C3=B3n <limon.anibal@gmai=
-l.com>
->> > wrote:
->> >>
->> >> +SRC_URI =3D
->> >> "https://gstreamer.freedesktop.org/src/${PN}/${PN}-${PV}.tar.xz"
->> >
->> >
->> > ERROR: lib32-gst-validate-1.12.3-r0 do_fetch: Fetcher failure for URL:
->> >
->> > 'https://gstreamer.freedesktop.org/src/lib32-gst-validate/lib32-gst-va=
-lidate-1.12.3.tar.xz'.
->> > Unable to fetch URL from any source.
->> >
->> > You need to use BPN not PN, but use ${BP} instead of of BPN-PV.
->>
->> Also, it should rdepends on git and git-annex no?
->
->
->
-> Yes, i can add the git dependency but git-annex depends on haskell that w=
-e
-> don't have a recipe to build.
->
-> You can copy/populate the gst-integration-testsuites from other source or
-> create/use other test suites.
+From: Aníbal Limón <anibal.limon@linaro.org>
 
-Would be possible to populate a package? so we'd depend on git-annex
-on host for it?
+The gst-validate is a tool to run integration tests of Gstreamer
+components [1].
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+This tool can be used along with gst-integration-testsuites (scenarios
+and media) [2] to test Gstreamer components on the target device.
+
+An example of test using gst-integration-testsuites:
+
+$ gst-validate-launcher --sync # get [2] uses git and git-annex
+$ gst-validate-launcher
+
+or
+
+$ gst-validate-launcher -nd # needs xserver-xorg-xvfb to run wo DISPLAY
+
+[1]
+https://blogs.gnome.org/tsaunier/2014/04/21/gst-validate-a-suite-of-tools-to-run-integration-tests-for-gstreamer-2/
+[2] https://cgit.freedesktop.org/gstreamer/gst-integration-testsuites
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ .../gstreamer/gst-validate_1.12.3.bb                   | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+new file mode 100644
+index 0000000000..8f5437641f
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.12.3.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Gstreamer validation tool"
++DESCRIPTION = "A Tool to test GStreamer components"
++HOMEPAGE = "https://gstreamer.freedesktop.org/releases/gst-validate/1.12.3.html"
++SECTION = "multimedia"
++
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
++
++SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz"
++SRC_URI[md5sum] = "623edc479a1e5c1e76bd7e1cf8393253"
++SRC_URI[sha256sum] = "5139949d20274fdd702492438eeab2c9e55aa82f60aca17db27ebd3faf08489e"
++
++DEPENDS = "json-glib glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
++RRECOMMENDS_${PN} = "git"
++
++FILES_${PN} += "${datadir}/gstreamer-1.0/* ${libdir}/gst-validate-launcher/* ${libdir}/gstreamer-1.0/*"
++
++inherit pkgconfig gettext autotools gobject-introspection gtk-doc
+-- 
+2.11.0
+
 
