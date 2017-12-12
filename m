@@ -1,64 +1,34 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CB8417198F
+Return-Path: <alexander.kanavin@linux.intel.com>
+X-Greylist: delayed 474 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 12 Dec 2017 13:16:52 UTC
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BE1860069
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 12:50:29 +0000 (UTC)
-Received: by mail-ot0-f178.google.com with SMTP id y10so17654820otg.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 04:50:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=04ghePNQGw9egE8hHe3xd25oo76Xg1Gn/dp4YvUMafs=;
-	b=lgkXi9v5x3uEhwYzBswUERAkZfnvQW3Uah4I4cX4LJmfi8axw5eJkoYCHC2T/doJnR
-	KGNTfuJhHqAouWHh5UVljydhMM3hcQwumiV05MRsMwCF0SBEBmWyOKW6kv/kNp7DWNhU
-	UM73ofjsTrU2t2fHQDGIYbEtKflmKE5AVaPB2vC7JxhE09F3aZZupE2GwLC8tthJqbIQ
-	TohoXdok7fjeIvlVdkL16/2fdB1DUQGbHHyzOpe/DDGGJYOH31puRyDagMy37qZzVCYl
-	0DPrNWJ8h3JfotXO5s7jE8y7hPfYRbiVmXeyDGbB/09uE/vTW3gFW8ux9GuQHMmTDxMN
-	ZCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=04ghePNQGw9egE8hHe3xd25oo76Xg1Gn/dp4YvUMafs=;
-	b=Cr/FJhVgKQkrWbEkbUCJgg6JvA582cKhCxsk1Ivf7/2HC/J9NRP33T+cxxZi0452qs
-	XBZspAX/MCJo7X0RJN/AGTk7d8w3pUlD45mkIfEWccm6/gBzD1PpZnVk65xAkQv1cnwl
-	sfQdLNLd2xFhbKGaNAl+3uJ6LXy1XKM2TULfQxz7PkaamtFV5ane3vJRH5AeVzalznpG
-	6GZAng5dxAqz4Qru1+PhEwHp2osB4u+/+3aCAqZeZKKktGGBLqtAM97sZ8ENc32CrIkV
-	px2tUhEK4WeEhX9fw6L31hxCmF6+Yiz5VXn6ba+A40fQ2IH5PISCbnDlTQIHGGmK83x1
-	L1rA==
-X-Gm-Message-State: AKGB3mJ1bc4v+27jB5kmK4OTbTYVOTPvte6ksGHyi0+nspPSBdSgL3q6
-	VNsYaphcsyAF90KFqHuOeVJtsn7f
-X-Google-Smtp-Source: ACJfBouTh7ROAfY61FJzjzP0gaQwnGesRhkc4XbdGv0oX2rSv8CY5C8//NB2YUg8tPHWW9UTUA9eqQ==
-X-Received: by 10.157.39.230 with SMTP id c93mr3312587otb.176.1513083030385;
-	Tue, 12 Dec 2017 04:50:30 -0800 (PST)
-Received: from mail-ot0-f177.google.com (mail-ot0-f177.google.com.
-	[74.125.82.177])
-	by smtp.gmail.com with ESMTPSA id 68sm7652296oik.1.2017.12.12.04.50.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Dec 2017 04:50:29 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f177.google.com with SMTP id d5so17653956oti.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 04:50:29 -0800 (PST)
-X-Received: by 10.157.80.13 with SMTP id a13mr2981830oth.370.1513083028686;
-	Tue, 12 Dec 2017 04:50:28 -0800 (PST)
+	Tue, 12 Dec 2017 13:16:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Dec 2017 05:16:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,395,1508828400"; 
+   d="scan'208";a="1907886"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 12 Dec 2017 05:16:52 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Maxin B. John" <maxin.john@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1512652937-15773-1-git-send-email-maxin.john@intel.com>
+	<1512838668.19417.119.camel@linuxfoundation.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <138e4beb-949a-01f3-ed52-58b70a896ff8@linux.intel.com>
+Date: Tue, 12 Dec 2017 15:17:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Received: by 10.157.17.210 with HTTP; Tue, 12 Dec 2017 04:50:28 -0800 (PST)
-In-Reply-To: <CAJTo0LYYn+FvwjH-DJc2GCraLRV=9uC3YX7WNXF82ZeFJtLrZw@mail.gmail.com>
-References: <20171206220037.32335-1-limon.anibal@gmail.com>
-	<CAJTo0LYYn+FvwjH-DJc2GCraLRV=9uC3YX7WNXF82ZeFJtLrZw@mail.gmail.com>
-Date: Tue, 12 Dec 2017 10:50:28 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKossF0X1FUyxk5HY4z_dSSpo47rkWUDRP2CzeE45k6eig@mail.gmail.com>
-Message-ID: <CAP9ODKossF0X1FUyxk5HY4z_dSSpo47rkWUDRP2CzeE45k6eig@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
-Subject: Re: [PATCHv2] recipes-multimedia/gstreamer: Add gst-validate recipe
+In-Reply-To: <1512838668.19417.119.camel@linuxfoundation.org>
+Subject: Re: [PATCH] i2c-tools: upgrade to 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,30 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 12:50:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Dec 2017 13:16:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 12, 2017 at 10:23 AM, Burton, Ross <ross.burton@intel.com> wrot=
-e:
-> On 6 December 2017 at 22:00, An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.c=
-om> wrote:
->>
->> +SRC_URI =3D
->> "https://gstreamer.freedesktop.org/src/${PN}/${PN}-${PV}.tar.xz"
->
->
-> ERROR: lib32-gst-validate-1.12.3-r0 do_fetch: Fetcher failure for URL:
-> 'https://gstreamer.freedesktop.org/src/lib32-gst-validate/lib32-gst-valid=
-ate-1.12.3.tar.xz'.
-> Unable to fetch URL from any source.
->
-> You need to use BPN not PN, but use ${BP} instead of of BPN-PV.
+On 12/09/2017 06:57 PM, Richard Purdie wrote:
 
-Also, it should rdepends on git and git-annex no?
+> Fails on musl sadly:
+> 
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/643/steps/BuildImages/logs/stdio
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+musl is a notorious source of failures discovered late (e.g. on AB) and 
+resulting patch friction. I'll add a musl build test to AUH, and once 
+AUH is ready for consumption we should steer people towards using it - 
+particularly when they send patches that break on musl :)
+
+Alex
 
