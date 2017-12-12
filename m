@@ -1,50 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5982378882
+	by mail.openembedded.org (Postfix) with ESMTP id F108C78882
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 17:19:58 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id f12so13849203pgo.5
+	Tue, 12 Dec 2017 17:23:23 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id o2so13851908pgc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 09:20:00 -0800 (PST)
+	Tue, 12 Dec 2017 09:23:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PplP1YMtnV/c+VMednTREqlEkrhKd3g2V56ogT46jyA=;
-	b=RT9CUHuRfbMutk5s1ucqH+PnMEVkL7l9MjTzD4GTOgGlWIJXwSRs3n23vJsVJbbrE4
-	kVkwjOXxCxMcCjG19veZ+YUNKGXaUYhcPtF2Nvr4GVCj8tCF2xg4iM/uxYQUiCCTiC7y
-	XUv3tBQESEZS6ce/krkyewxIyjyKPair+Wr/Xw/prD8tSzBJ2Z0QmpiU9iZ4oXrsFAUu
-	h7keovgMsZwTVKxSUlYlCy24rZ4UMCrv1LGgI0GOxVwDKYDr9T1JhiWkMwIERuS2kLdA
-	fr8XJdeCKtvEX+iPGAylhbIjfPDBBwI/8lK7/EgNT22iR0NOST7yEyaUUfDJxFdj6CCC
-	QsUg==
+	h=from:to:cc:subject:date:message-id;
+	bh=GIrf01GXBNeBTYc4uAgfFmzi9sgcyuGV5hTl7MOxUeg=;
+	b=X9vLJctUu7PQzgidGe5496PodF/x6fDSog3NyjQyn+mahybZNEkf5FxMME0r/g4GcC
+	AuCOgZdLlJhXRr28OWkhCsH6fiD59GbjUq/vzePLbI5Yt+I6uB3hLALti60cYgTSBzZ3
+	zJEUqPFDWzEfVf+tlXaigfRvTnvcz5VPTiQbatRl2i4wSJFSCFJSzf9hO+dDVH3UCYG4
+	vWSOcrxNiLwfbOuaroWlXabBKe0npuVZfe9zh+F2xlTb+SgwpYouLfQSPy4yTrkEsfCw
+	AqG0uJkjxO16OZz9PGfoR+XdV47FWKSBzgPt7A6ZRJK82SG3WIdbUuOdllHSspEfXrMz
+	LuOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PplP1YMtnV/c+VMednTREqlEkrhKd3g2V56ogT46jyA=;
-	b=W9p9fxom2l2zY41UW9o8x6sHyAZaaPtyDAKkxSWr3YaZ4L2lBwAGQewW7ZiVMHITWO
-	jQzA8ezftR2iu50wnChZ0Nk8Utk5AAOIAcJmbVxasiQ4EoldAnqzBoic0EYehe8B8ftB
-	1NbGyxYnCMyIx77UyKScDmETvsmonB9bspruzfr5+j+cozrcnod9wVOFfcxczXDY2N43
-	PVQ94Sq7f0ZLvZsY9XdVUrxAUUoVPWAxcls/ceNiykWFvCIozc4WO5jo9kQM8kKJJUzM
-	h/In4AkiYkya8hAu0Ep7IbPFHb8uT/Ii9fjRJh6wpR8KeT0Stk7DbpptIv0w0Ue/z9PC
-	GaRw==
-X-Gm-Message-State: AKGB3mLfU2pK97WooreizAaH6FEqL/db3OEG0Eg5ovzuXJF892wjkMLh
-	00A5IqN1L5/7zeKX5HE8/4ymGGQ5k714Z4+z/Zw=
-X-Google-Smtp-Source: ACJfBovKkZevyIQR7m8/EFWqBjEkIKQMCXIyvufj3DN5ZtshkAYfpzBJeCVHUg/6Lw0wou+oQqrkySLi6hD2MMSoUxs=
-X-Received: by 10.101.74.136 with SMTP id b8mr2678300pgu.341.1513099200492;
-	Tue, 12 Dec 2017 09:20:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.159.15 with HTTP; Tue, 12 Dec 2017 09:19:29 -0800 (PST)
-In-Reply-To: <CAJTo0LY5HZfqBbtoVNjOYVsLOwtUvNjiyrRJcJuCxh8s43CDCg@mail.gmail.com>
-References: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
-	<CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
-	<CAAQYJAt+B0Lx9OOiczpc8sQjk=pR3X2-rT2GnpPF=dJW4hrLNQ@mail.gmail.com>
-	<CAJTo0LY5HZfqBbtoVNjOYVsLOwtUvNjiyrRJcJuCxh8s43CDCg@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=GIrf01GXBNeBTYc4uAgfFmzi9sgcyuGV5hTl7MOxUeg=;
+	b=aGYvDQ2m834INiAukE7xrs0xKJLks+YUH+5vBJtQHt/oaup90UrEKRvAOJhxL1/VUS
+	fXoMu+8a/WZQuuQ/CNrFnIzcjVaMPl0Z0XCauZNCll7UWNWKhHlAYEgxXF/Y+RwldKrM
+	hMO6V6oCJjoOqEe3cCDTKXQzi2qqcp17n6znRJ+4jaDGp9UqyKBtHdUpASXUNEe+q65t
+	zRwsC25Dfv6fKyfd/o3s5i/H+OPOObcusdZ/itvQo64l8Sf70hQ9MFKPETPBXwpoD0C7
+	ASWdZF2xOi1WwK8AOM0ktxJpHJtU7C377UnVbo/a6qGVuUJ4E1P1groIpeoTqeSwOA+r
+	AntA==
+X-Gm-Message-State: AKGB3mLUg3eKNRSV0nFUGmdgVo7b2Lsvb1xZbY9l7aLeItAXDB+3nGQP
+	kiQfwZGKzuMOUhpbVGS+idBjCA==
+X-Google-Smtp-Source: ACJfBovoJFS7s92KsLqbb8o4KRt0IsSdZ+CCjVfUq7cORUUj9FWvQcOryLsJ2wZ2AAHEpLeYq//bxg==
+X-Received: by 10.84.129.197 with SMTP id b63mr2956526plb.278.1513099405053;
+	Tue, 12 Dec 2017 09:23:25 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:8880:466c::c579])
+	by smtp.gmail.com with ESMTPSA id
+	k197sm18790329pga.42.2017.12.12.09.23.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Dec 2017 09:23:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Dec 2017 09:19:29 -0800
-Message-ID: <CAMKF1srfxJHWfUWe2mh4zs_OC9X1oN0FfHZcxqRHS-=8pjpq-Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] musl: use arm instruction set for armv4 and armv5
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Dec 2017 09:23:09 -0800
+Message-Id: <20171212172317.601-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.15.1
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 1/9] binutils: update to 2.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 17:19:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Dec 2017 17:23:24 -0000
 
-On Tue, Dec 12, 2017 at 9:15 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Just to make it clear I'm waiting on Andrea or Khem to ping the right patch.
->
+From: Armin Kuster <akuster@mvista.com>
 
-I will resend them today
+update to 2.29.1 to fix the following missing CVEs:
 
-> Ross
->
-> On 12 December 2017 at 15:23, Andrea Adami <andrea.adami@gmail.com> wrote:
->>
->> Hello,
->>
->> musl 1.18 recipe is still failing.
->> Please apply one of the a.m. patches, thanks
->>
->> Andrea
->>
->> On Wed, Nov 15, 2017 at 4:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> > On Tue, Nov 14, 2017 at 1:44 PM, Andrea Adami <andrea.adami@gmail.com>
->> > wrote:
->> >> thumb1 is not supported with musl.
->> >>
->> >> Fixes: [YOCTO #12336]
->> >>
->> >> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->> >> ---
->> >>  meta/recipes-core/musl/musl.inc | 4 ++++
->> >>  1 file changed, 4 insertions(+)
->> >>
->> >> diff --git a/meta/recipes-core/musl/musl.inc
->> >> b/meta/recipes-core/musl/musl.inc
->> >> index 56c9d7f..b4b0de9 100644
->> >> --- a/meta/recipes-core/musl/musl.inc
->> >> +++ b/meta/recipes-core/musl/musl.inc
->> >> @@ -26,3 +26,7 @@ INSANE_SKIP_${PN} = "dev-so"
->> >>  # Doesn't compile in MIPS16e mode due to use of hand-written
->> >>  # assembly
->> >>  MIPS_INSTRUCTION_SET = "mips"
->> >> +
->> >> +# Doesn't support thumb1
->> >> +ARM_INSTRUCTION_SET_armv4 = "arm"
->> >> +ARM_INSTRUCTION_SET_armv5 = "arm"
->> >
->> > Ah I submitted a parallel fix that was sitting on my branch.
->> > is that fine ?
->> >
->> >> --
->> >> 2.7.4
->> >>
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+CVE-2017-15939, CVE-2017-15938, CVE-2017-15225, CVE-2017-15025,
+CVE-2017-15024, CVE-2017-15023, CVE-2017-15022, CVE-2017-15021,
+CVE-2017-15020, CVE-2017-14974, CVE-2017-14940, CVE-2017-14939,
+CVE-2017-14938, CVE-2017-14934, CVE-2017-14933, CVE-2017-14932,
+CVE-2017-14930, CVE-2017-14745, CVE-2017-14729, CVE-2017-14529,
+CVE-2017-14333, CVE-2017-14130, CVE-2017-14129, CVE-2017-14128,
+CVE-2017-13757, CVE-2017-13716, CVE-2017-13710, CVE-2017-12967,
+CVE-2017-12799, CVE-2017-12459, CVE-2017-12458, CVE-2017-12457,
+CVE-2017-12456, CVE-2017-12455, CVE-2017-12454, CVE-2017-12453,
+CVE-2017-12452, CVE-2017-12451, CVE-2017-12450, CVE-2017-12449,
+CVE-2017-12448
+
+see Changelogs for additional information
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../binutils/{binutils-2.29.inc => binutils-2.29.1.inc}                 | 2 +-
+ ...inutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} | 0
+ .../binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb}       | 0
+ .../binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} | 0
+ meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} | 0
+ 5 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/binutils/{binutils-2.29.inc => binutils-2.29.1.inc} (97%)
+ rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} (100%)
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.29.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
+similarity index 97%
+rename from meta/recipes-devtools/binutils/binutils-2.29.inc
+rename to meta/recipes-devtools/binutils/binutils-2.29.1.inc
+index 27d46eb088..d92bbbce5d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.29.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
+@@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+-SRCREV = "37e991bb143ca2106330bcdc625590d53838b7a1"
++SRCREV = "90276f15379d380761fc499da2ba24cfb3c12a94"
+ SRC_URI = "\
+      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
+      file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb
+rename to meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
+diff --git a/meta/recipes-devtools/binutils/binutils-cross_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/binutils/binutils-cross_2.29.bb
+rename to meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
+diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb
+rename to meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
+diff --git a/meta/recipes-devtools/binutils/binutils_2.29.bb b/meta/recipes-devtools/binutils/binutils_2.29.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/binutils/binutils_2.29.bb
+rename to meta/recipes-devtools/binutils/binutils_2.29.1.bb
+-- 
+2.15.1
+
 
