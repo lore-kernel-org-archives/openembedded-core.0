@@ -1,30 +1,48 @@
-Return-Path: <sgw@linux.intel.com>
-X-Greylist: delayed 573 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 12 Dec 2017 15:21:47 UTC
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id C41EA719A7
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 72633719A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 15:21:47 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Dec 2017 07:12:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,395,1508828400"; d="scan'208";a="17609829"
-Received: from swold-mobl2.jf.intel.com ([10.254.41.228])
-	by orsmga002.jf.intel.com with ESMTP; 12 Dec 2017 07:12:15 -0800
-Message-ID: <1513091535.24181.82.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Dec 2017 07:12:15 -0800
-In-Reply-To: <CAJTo0LYhgbpRWEB6pjvBdtf1Qo1Sg8tqx8UherUfg2MsVFxyhg@mail.gmail.com>
-References: <20171205230006.22740-1-sgw@linux.intel.com>
-	<CAJTo0LYhgbpRWEB6pjvBdtf1Qo1Sg8tqx8UherUfg2MsVFxyhg@mail.gmail.com>
-X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: Use full mrproper to clean
+	Tue, 12 Dec 2017 15:23:40 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 9so21347302wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Dec 2017 07:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TtOqVVtdpYsMj8J1ZArfsmPoVIa3l+n17IpwIUONgG4=;
+	b=RD2Sj5UKmtPMlc6P6RgZcPGm6/YU6M+zYJbhlaAZCVEMkNrlJPUgvwo0iQg7eGYsLw
+	x09qDzt9ZrwVbjiteXc/GVIkfomlS9ISSUSKz8YDbpksHpy3zemkzQdPNRk1tKY1SFRF
+	HGmoDwDIPTQ0ewtWm492i5thMg8f+fOMl2E+WXNx6yd/OEmGCqaZp1mipz7T6GLKpuA0
+	DE9cBK4eo+6+B0eEUSwCdSR+nVd361HsWNoapY6XHl/Br2NF0t4c0aib+Qm3A1jKkT2e
+	JC568+g42tfSqmepIgbevZ3aZ7B1FYsBQBUfP4NXMwaEX2SDN+0Al9ziOFU42aIbeHGG
+	ZB0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TtOqVVtdpYsMj8J1ZArfsmPoVIa3l+n17IpwIUONgG4=;
+	b=gGpzpgngqlDzCAdDFodSLEvj2HYX70w0NtB+K/pD12V4Ta8XMbpT6hzC2ecN5J9F8Q
+	eaFhs9nVWGIyIOzoGmTAQZ3Z3GN72Qkswz4BXlsjzVJR9vtI+qhXbVag2fgo9prjIhQQ
+	llFfPAlb1m57myVx01KLSS9yfi3IXmLcCrdwqET0YwZRBvyfKsupK9cBkk/Bhl/IubVX
+	Z4alx1q6v2sra8WNLCOED0geBQ8L+MscUktCAdetNX/2PGrtLeOUf9d/2Ia8YFviyyc0
+	kVH6VZrg5C9LrbdqQHUpndrXTJAIevDZzIa4dGx9AWooLGfw3pOO80NLU0Bq+6ZqIuny
+	ZI5g==
+X-Gm-Message-State: AKGB3mLtLSNIiUwLiGJiMOSCSfcWFUtFHzUO0Gx2yWAR182peNgkKGRH
+	q9LtldMEbWhXA+bmE+jB1J1ECQhGv5lXJ7Xqy44=
+X-Google-Smtp-Source: ACJfBotN6YbBs537vdVwfaVJbDEAMJqh2sLvh/MajgdFrX/sLhxjbGrzPqNa5yr46OyFe+WL3Xm/QHkiv2vxcgeGFRk=
+X-Received: by 10.80.166.222 with SMTP id f30mr3379372edc.278.1513092221147;
+	Tue, 12 Dec 2017 07:23:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.80.178.38 with HTTP; Tue, 12 Dec 2017 07:23:40 -0800 (PST)
+In-Reply-To: <CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
+References: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
+	<CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Tue, 12 Dec 2017 16:23:40 +0100
+Message-ID: <CAAQYJAt+B0Lx9OOiczpc8sQjk=pR3X2-rT2GnpPF=dJW4hrLNQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: use arm instruction set for armv4 and armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,69 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 15:21:48 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 15:23:40 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2017-12-12 at 11:57 +0000, Burton, Ross wrote:
-> This breaks some of the sanity tests, which build a kernel module:
-> 
-> https://autobuilder.yocto.io/builders/nightly-x86-64/builds/664
-> 
-Interesting, I did a local build of a kernel module as well as a full
-build of the kernel with out failure, I will investigate the oe-
-selftest failure.
+Hello,
 
-Sau!
+musl 1.18 recipe is still failing.
+Please apply one of the a.m. patches, thanks
 
-> Ross
-> 
-> On 5 December 2017 at 23:00, Saul Wold <sgw@linux.intel.com> wrote:
-> > By using the full mrproper clean target it also removes some
-> > generated files
-> > that are not required on the target to build. It also helps to fix
-> > reprodudible
-> > builds as the generated files could have different permissions
-> > causing the
-> > check to fail.
-> > 
-> > Tested with building and booting kernel from source on the target
-> > 
-> > [YOCTO #12137]
-> > 
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> >  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > index c1b5b7786d7..d925a33aeb1 100644
-> > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> > @@ -52,7 +52,7 @@ do_install() {
-> >          # The main build artifacts. We clean the directory to
-> > avoid QA errors on mismatched
-> >          # architecture (since scripts and helpers are native
-> > format).
-> >          KBUILD_OUTPUT="$kerneldir"
-> > -        oe_runmake -C $kerneldir CC="${KERNEL_CC}"
-> > LD="${KERNEL_LD}" clean _mrproper_scripts
-> > +        oe_runmake -C $kerneldir CC="${KERNEL_CC}"
-> > LD="${KERNEL_LD}" clean mrproper
-> >          # make clean generates an absolute path symlink called
-> > "source"
-> >          # in $kerneldir points to $kerneldir, which doesn't make
-> > any
-> >          # sense, so remove it.
-> > --
-> > 2.13.6
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+Andrea
+
+On Wed, Nov 15, 2017 at 4:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Nov 14, 2017 at 1:44 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
+>> thumb1 is not supported with musl.
+>>
+>> Fixes: [YOCTO #12336]
+>>
+>> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>> ---
+>>  meta/recipes-core/musl/musl.inc | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+>> index 56c9d7f..b4b0de9 100644
+>> --- a/meta/recipes-core/musl/musl.inc
+>> +++ b/meta/recipes-core/musl/musl.inc
+>> @@ -26,3 +26,7 @@ INSANE_SKIP_${PN} = "dev-so"
+>>  # Doesn't compile in MIPS16e mode due to use of hand-written
+>>  # assembly
+>>  MIPS_INSTRUCTION_SET = "mips"
+>> +
+>> +# Doesn't support thumb1
+>> +ARM_INSTRUCTION_SET_armv4 = "arm"
+>> +ARM_INSTRUCTION_SET_armv5 = "arm"
+>
+> Ah I submitted a parallel fix that was sitting on my branch.
+> is that fine ?
+>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
