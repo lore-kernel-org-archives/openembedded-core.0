@@ -1,42 +1,28 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C122F783BD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 37079784E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 08:55:10 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id g130so16504546wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 00:55:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Aalpw3y6+bCce6Zvr6jyAb7NLKp0qXow4+zbeam5zt0=;
-	b=hGHly9e6TtsRNzEdJmFeOzZM9B/PVonGPiNQU4sFd8887F40J3A4iO+00R1KtaBPzc
-	Zb0Jf15FIqUhuOJhEBbN2/2fPBNWI5knX49BcHbubTclgY4nYRyRjSH/LLKj36ZOZBYY
-	NoJYfI/ERJUsA62xi8aow6shCHYsbYfTXaCAPkXVz4rmFghY5Jl7Oz77MaUZVBLKKyy+
-	3JfHVf/6dDo2hUsEUG8jxYVKCVSRXk5NbLH0r/gk8tnTGaRyOberXzBk3o+Lm12HWpTB
-	mQa4r1RVbO2/mv8LrkSlWCzsHh3Cx/3tjqQsiaSSdL3Pw49AV0+mA2ctN789iB7isMUA
-	VxIg==
-X-Gm-Message-State: AKGB3mK26WnzXK64mvpnyu3URnrDR1yljod+y84aZep+eWZSkVP5sm8x
-	vPzYlmCWAT8r/R8RD2mnokJWewcN
-X-Google-Smtp-Source: ACJfBosF9nt6wjd7Au3ccPwqHudXxiOn385y1He8fT0pHdB+imcy1GqTey5lqGT3goMzftcZYQfnZQ==
-X-Received: by 10.80.133.193 with SMTP id q1mr1853191edh.50.1513068911177;
-	Tue, 12 Dec 2017 00:55:11 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	p47sm8109034edc.30.2017.12.12.00.55.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 12 Dec 2017 00:55:09 -0800 (PST)
-Message-ID: <1513068908.30397.2.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Dec 2017 08:55:08 +0000
-In-Reply-To: <20171212024917.14550-1-allenwild93@gmail.com>
-References: <20171212024917.14550-1-allenwild93@gmail.com>
-X-Mailer: Evolution 3.26.2-1 
+	Tue, 12 Dec 2017 09:22:33 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vBC9MWYH013011
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 12 Dec 2017 09:22:34 GMT
+Message-ID: <1513070552.19417.153.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Bai, Haiqing" <Haiqing.Bai@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Dec 2017 09:22:32 +0000
+In-Reply-To: <C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
+References: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
+	<1512946109.19417.136.camel@linuxfoundation.org>
+	<C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
-Subject: Re: [PATCH] syslinux: always use the BFD linker
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] gmp: depends on flex-native to fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,25 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 08:55:11 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 09:22:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2017-12-11 at 21:49 -0500, Allen Wild wrote:
-> Syslinux compiles successfully with Gold, but at runtime Isolinux fails
-> to boot, getting stuck at the version screen without loading the menu.
-> Forcing the BFD linker fixes this.
-> 
-> To future-proof, use an inline python replace rather than duplicating
-> the definition of LD in bitbake.conf
+Let me make this simpler. Which release of the project did you see this
+issue with?
 
-Hm, other recipes that have this need typically simply do:
-
-LDFLAGS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
-
-Would a similar approach work here, too? Instead of this big change.
+I believe this issue would only occur with morty and early, pyro, rocko
+and master are not affected.
 
 Cheers,
-Andre'
+
+Richard
+
+On Tue, 2017-12-12 at 07:13 +0000, Bai, Haiqing wrote:
+> Comments below. thanks
+> 
+> -----Original Message-----
+> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org] 
+> Sent: 2017年12月11日 6:48
+> To: Bai, Haiqing; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] gmp: depends on flex-native to fix
+> parallel building issue
+> 
+> On Wed, 2017-11-29 at 14:54 +0800, Haiqing Bai wrote:
+> > 
+> > fix below parallel building issue:
+> > configure:27365: result: flex
+> > configure:27403: flex conftest.l
+> > .../sysroots/x86_64-linux/usr/bin/flex.real: No such file or
+> > directory
+> > configure:27407: $? = 127
+> > configure:27409: checking lex output file root
+> > configure:27420: error: cannot find output from flex; giving up
+> > 
+> > Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+> > ---
+> >  meta/recipes-support/gmp/gmp.inc | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes- 
+> > support/gmp/gmp.inc index abac8cf..1b35eaa 100644
+> > --- a/meta/recipes-support/gmp/gmp.inc
+> > +++ b/meta/recipes-support/gmp/gmp.inc
+> > @@ -10,3 +10,5 @@ PACKAGECONFIG[readline] = "--with-readline=yes, 
+> > --with-readline=no,readline"
+> >  
+> >  ARM_INSTRUCTION_SET_armv4 = "arm"
+> >  ARM_INSTRUCTION_SET_armv5 = "arm"
+> > +
+> > +DEPENDS = "flex-native"
+> With recipe specific sysroots this should now be deterministic. The
+> log above suggests you were not using recipe specific sysroots? This
+> would therefore only be applicable to morty and earlier?
+> [This issue is founded on x86-64 building,  but it does not mean it
+> is only related with x86.  Actually this is caused by the defect of
+> the traditional probe mechanism of 'configure',  the package
+> configure
+> script try to probe whether has package 'flex' , then some optional
+> actions will be done by it.  In this issue,  when this probe
+> happens,   /usr/bin/flex exists but '/usr/bin/flex.real' has not
+> created for the
+> parallel building,  then configure reports the error and exits from
+> building.   Since there are no atomic guarantee for the package
+> output during parallel building, so here add this depends]
+> 
+> Cheers,
+> 
+> Richard
 > 
 
