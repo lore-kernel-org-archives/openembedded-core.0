@@ -1,6 +1,6 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 95BB478854
+	by mail.openembedded.org (Postfix) with ESMTP id ACBBB78856
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Dec 2017 05:04:31 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	11 Dec 2017 21:04:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240465"
+X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240467"
 Received: from chiron.jf.intel.com ([10.7.159.61])
 	by orsmga001.jf.intel.com with ESMTP; 11 Dec 2017 21:04:32 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Dec 2017 21:04:13 -0800
-Message-Id: <bec56e2630c446873f4f2d1e6558453b9b426734.1513054233.git.timothy.t.orling@linux.intel.com>
+Date: Mon, 11 Dec 2017 21:04:15 -0800
+Message-Id: <3d14f6b0cd9461ff8e3fd1193ab61beef28c5574.1513054233.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
 References: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v3 08/14] python-async: use pypi.bbclass
+Subject: [PATCH v3 10/14] python-smmap: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +34,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Dec 2017 05:04:31 -0000
 
-* Simplify by using pypi.bbclass
-* Use PYTHON_PN for RDEPENDS in .inc to avoid duplication
+* Simpify python3-smmap using pypi.bbclass
+* Consolidate common content in .inc
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-async.inc       | 7 +++----
- meta/recipes-devtools/python/python3-async_0.6.2.bb | 6 +-----
- 2 files changed, 4 insertions(+), 9 deletions(-)
+ meta/recipes-devtools/python/python-smmap.inc       | 12 ++++++------
+ meta/recipes-devtools/python/python3-smmap_0.9.0.bb |  5 +----
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
-index 2c5cb4d191..0874667e0c 100644
---- a/meta/recipes-devtools/python/python-async.inc
-+++ b/meta/recipes-devtools/python/python-async.inc
-@@ -4,12 +4,11 @@ SECTION = "devel/python"
+diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python-smmap.inc
+index d67e6b5412..32438350c1 100644
+--- a/meta/recipes-devtools/python/python-smmap.inc
++++ b/meta/recipes-devtools/python/python-smmap.inc
+@@ -7,13 +7,13 @@ SECTION = "devel/python"
  LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/a/async/async-${PV}.tar.gz"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
 +inherit pypi
 +
- SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
- SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
+ SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
+ SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
  
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
+-UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
 -
--S = "${WORKDIR}/async-${PV}"
-+RDEPENDS_${PN} += "${PYTHON_PN}-threading ${PYTHON_PN}-lang"
- 
+-S = "${WORKDIR}/smmap-${PV}"
+-
++RDEPENDS_${PN} += "${PYTHON_PN}-codecs \
++                   ${PYTHON_PN}-lang \
++                   ${PYTHON_PN}-mmap \
++"
  BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-index 54a30f5498..0da5fdecdc 100644
---- a/meta/recipes-devtools/python/python3-async_0.6.2.bb
-+++ b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-@@ -1,6 +1,2 @@
--require python-async.inc
+diff --git a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+index 9f8a26d79e..e87b8df8c5 100644
+--- a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
++++ b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+@@ -1,5 +1,2 @@
+-require python-smmap.inc
 -
  inherit setuptools3
 -
--RDEPENDS_${PN} += "python3-threading python3-lang"
--
-+require python-async.inc
+-RDEPENDS_${PN} += "python3-codecs python3-mmap python3-lang"
++require python-smmap.inc
 -- 
 2.14.3
 
