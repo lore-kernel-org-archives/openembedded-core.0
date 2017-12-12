@@ -1,6 +1,6 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D792278854
+	by mail.openembedded.org (Postfix) with ESMTP id ED3EC78856
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Dec 2017 05:04:31 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	11 Dec 2017 21:04:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240468"
+X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240464"
 Received: from chiron.jf.intel.com ([10.7.159.61])
 	by orsmga001.jf.intel.com with ESMTP; 11 Dec 2017 21:04:32 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Dec 2017 21:04:16 -0800
-Message-Id: <64c2fa6d972b786f77a4f564e25133a27c762f5d.1513054233.git.timothy.t.orling@linux.intel.com>
+Date: Mon, 11 Dec 2017 21:04:12 -0800
+Message-Id: <e0f8b36c81ec0ff24d5da0e4910d7305e0e4efc7.1513054233.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
 References: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v3 11/14] python-gitdb: use pypi.bbclass
+Subject: [PATCH v3 07/14] python-six: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,57 +34,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Dec 2017 05:04:32 -0000
 
-* Simplify python3-gitdb using pypi.bbclass
-* Consolidate common content in .inc
+* Simplify python3-six by using pypi.bbclass
+  - Use PYTHON_PN in .inc to avoid duplication in RDEPENDS
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-gitdb.inc       | 15 +++++++++++----
- meta/recipes-devtools/python/python3-gitdb_0.6.4.bb |  7 +------
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ meta/recipes-devtools/python/python-six.inc        | 8 +++-----
+ meta/recipes-devtools/python/python3-six_1.11.0.bb | 2 --
+ 2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
-index 08193fbf25..5fa8885eb9 100644
---- a/meta/recipes-devtools/python/python-gitdb.inc
-+++ b/meta/recipes-devtools/python/python-gitdb.inc
-@@ -4,13 +4,20 @@ SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
+diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
+index f9e7d6429d..c77498457d 100644
+--- a/meta/recipes-devtools/python/python-six.inc
++++ b/meta/recipes-devtools/python/python-six.inc
+@@ -4,13 +4,11 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=35cec5bf04dd0820d0a18533ea7c774a"
  
--SRC_URI = "https://files.pythonhosted.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/s/six/six-${PV}.tar.gz"
+ SRC_URI[md5sum] = "d12789f9baf7e9fb2524c0c64f1773f8"
+ SRC_URI[sha256sum] = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
+ 
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/six/"
+-UPSTREAM_CHECK_REGEX = "/six/(?P<pver>(\d+[\.\-_]*)+)"
 +inherit pypi
  
- SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
- SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
+-BBCLASSEXTEND = "native nativesdk"
++RDEPENDS_${PN} = "${PYTHON_PN}-io"
  
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/gitdb/"
+-S = "${WORKDIR}/six-${PV}"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-six_1.11.0.bb b/meta/recipes-devtools/python/python3-six_1.11.0.bb
+index 38a47b77dd..8795313bec 100644
+--- a/meta/recipes-devtools/python/python3-six_1.11.0.bb
++++ b/meta/recipes-devtools/python/python3-six_1.11.0.bb
+@@ -1,4 +1,2 @@
+ inherit setuptools3
+ require python-six.inc
 -
--S = "${WORKDIR}/gitdb-${PV}"
-+DEPENDS = "${PYTHON_PN}-async ${PYTHON_PN}-smmap"
- 
-+RDEPENDS_${PN} += "${PYTHON_PN}-async \
-+                   ${PYTHON_PN}-compression \
-+                   ${PYTHON_PN}-crypt \
-+                   ${PYTHON_PN}-io \
-+                   ${PYTHON_PN}-lang \
-+                   ${PYTHON_PN}-mmap \
-+                   ${PYTHON_PN}-shell \
-+                   ${PYTHON_PN}-smmap \
-+"
- BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
-index 80d9d469af..e46a438757 100644
---- a/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
-+++ b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
-@@ -1,7 +1,2 @@
--require python-gitdb.inc
--
--DEPENDS = "python3-async python3-smmap"
--
- inherit distutils3
--
--RDEPENDS_${PN} += "python3-smmap python3-async python3-mmap python3-lang python3-io python3-shell python3-crypt python3-compression"
-+require python-gitdb.inc
+-RDEPENDS_${PN} += "python3-io"
 -- 
 2.14.3
 
