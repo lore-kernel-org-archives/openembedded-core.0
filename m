@@ -1,25 +1,25 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3EC78856
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA44787C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 05:04:31 +0000 (UTC)
+	Tue, 12 Dec 2017 05:04:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	11 Dec 2017 21:04:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240464"
+X-IronPort-AV: E=Sophos;i="5.45,394,1508828400"; d="scan'208";a="15240463"
 Received: from chiron.jf.intel.com ([10.7.159.61])
 	by orsmga001.jf.intel.com with ESMTP; 11 Dec 2017 21:04:32 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Dec 2017 21:04:12 -0800
-Message-Id: <e0f8b36c81ec0ff24d5da0e4910d7305e0e4efc7.1513054233.git.timothy.t.orling@linux.intel.com>
+Date: Mon, 11 Dec 2017 21:04:11 -0800
+Message-Id: <a7bb8795a315ea95f0bb0e99210861168534e14c.1513054233.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
 References: <cover.1513054233.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH v3 07/14] python-six: use pypi.bbclass
+Subject: [PATCH v3 06/14] python-nose: use pypi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,45 +34,107 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Dec 2017 05:04:32 -0000
 
-* Simplify python3-six by using pypi.bbclass
-  - Use PYTHON_PN in .inc to avoid duplication in RDEPENDS
+* Simplify python- and python3-nose by using pypi.bbclass
+* Consolidate common content in python-nose.inc
+  - Avoid duplication by using PYTHON_PN variable
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-six.inc        | 8 +++-----
- meta/recipes-devtools/python/python3-six_1.11.0.bb | 2 --
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/python/python-nose.inc       | 18 ++++++++++++++++
+ meta/recipes-devtools/python/python-nose_1.3.7.bb  | 25 +---------------------
+ meta/recipes-devtools/python/python3-nose_1.3.7.bb | 24 +--------------------
+ 3 files changed, 20 insertions(+), 47 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-nose.inc
 
-diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
-index f9e7d6429d..c77498457d 100644
---- a/meta/recipes-devtools/python/python-six.inc
-+++ b/meta/recipes-devtools/python/python-six.inc
-@@ -4,13 +4,11 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=35cec5bf04dd0820d0a18533ea7c774a"
- 
--SRC_URI = "https://files.pythonhosted.org/packages/source/s/six/six-${PV}.tar.gz"
- SRC_URI[md5sum] = "d12789f9baf7e9fb2524c0c64f1773f8"
- SRC_URI[sha256sum] = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
- 
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/six/"
--UPSTREAM_CHECK_REGEX = "/six/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python-nose.inc b/meta/recipes-devtools/python/python-nose.inc
+new file mode 100644
+index 0000000000..ccec68a0e1
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-nose.inc
+@@ -0,0 +1,18 @@
++SUMMARY = "Extends Python unittest to make testing easier"
++HOMEPAGE = "http://readthedocs.org/docs/nose/"
++DESCRIPTION = "nose extends the test loading and running features of unittest, \
++making it easier to write, find and run tests."
++SECTION = "devel/python"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://lgpl.txt;md5=a6f89e2100d9b6cdffcea4f398e37343"
++
++SRC_URI[md5sum] = "4d3ad0ff07b61373d2cefc89c5d0b20b"
++SRC_URI[sha256sum] = "f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"
++
 +inherit pypi
- 
--BBCLASSEXTEND = "native nativesdk"
-+RDEPENDS_${PN} = "${PYTHON_PN}-io"
- 
--S = "${WORKDIR}/six-${PV}"
++
++RDEPENDS_${PN} = "\
++  ${PYTHON_PN}-unittest \
++  "
++
 +BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-six_1.11.0.bb b/meta/recipes-devtools/python/python3-six_1.11.0.bb
-index 38a47b77dd..8795313bec 100644
---- a/meta/recipes-devtools/python/python3-six_1.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-six_1.11.0.bb
-@@ -1,4 +1,2 @@
- inherit setuptools3
- require python-six.inc
+diff --git a/meta/recipes-devtools/python/python-nose_1.3.7.bb b/meta/recipes-devtools/python/python-nose_1.3.7.bb
+index 9b3509cafb..6d69d2d62e 100644
+--- a/meta/recipes-devtools/python/python-nose_1.3.7.bb
++++ b/meta/recipes-devtools/python/python-nose_1.3.7.bb
+@@ -1,25 +1,2 @@
+-SUMMARY = "Extends Python unittest to make testing easier"
+-HOMEPAGE = "http://readthedocs.org/docs/nose/"
+-DESCRIPTION = "nose extends the test loading and running features of unittest, \
+-making it easier to write, find and run tests."
+-SECTION = "devel/python"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://lgpl.txt;md5=a6f89e2100d9b6cdffcea4f398e37343"
 -
--RDEPENDS_${PN} += "python3-io"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/n/nose/nose-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "4d3ad0ff07b61373d2cefc89c5d0b20b"
+-SRC_URI[sha256sum] = "f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"
+-
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/nose/"
+-UPSTREAM_CHECK_REGEX = "/nose/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/nose-${PV}"
+-
+ inherit setuptools
+-
+-RDEPENDS_${PN} = "\
+-  python-unittest \
+-  "
+-
+-BBCLASSEXTEND = "native nativesdk"
++require python-nose.inc
+diff --git a/meta/recipes-devtools/python/python3-nose_1.3.7.bb b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
+index 1e2ff74f57..8bc1f49835 100644
+--- a/meta/recipes-devtools/python/python3-nose_1.3.7.bb
++++ b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
+@@ -1,28 +1,6 @@
+-SUMMARY = "Extends Python unittest to make testing easier"
+-DESCRIPTION = "nose extends the test loading and running features of unittest, \
+-making it easier to write, find and run tests."
+-SECTION = "devel/python"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://lgpl.txt;md5=a6f89e2100d9b6cdffcea4f398e37343"
+-
+-SRC_URI = "https://files.pythonhosted.org/packages/source/n/nose/nose-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "4d3ad0ff07b61373d2cefc89c5d0b20b"
+-SRC_URI[sha256sum] = "f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"
+-
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/nose/"
+-UPSTREAM_CHECK_REGEX = "/nose/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/nose-${PV}"
+-
+ inherit setuptools3
++require python-nose.inc
+ 
+ do_install_append() {
+     mv ${D}${bindir}/nosetests ${D}${bindir}/nosetests3
+ }
+-
+-RDEPENDS_${PN}_class-target = "\
+-  python3-unittest \
+-  "
+-
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 2.14.3
 
