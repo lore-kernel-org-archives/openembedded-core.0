@@ -1,23 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id C4CE378873
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 7354F60069
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 13:18:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Dec 2017 05:08:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,395,1508828400"; d="scan'208";a="183535973"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 12 Dec 2017 05:08:58 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Tue, 12 Dec 2017 13:27:58 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 8A6B75C1007;
+	Tue, 12 Dec 2017 14:21:59 +0100 (CET)
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Dec 2017 15:09:40 +0200
-Message-Id: <20171212130941.9220-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.0
-Subject: [PATCH 1/2] maintainers.inc: add an entry for dwarfsrcfiles
+Date: Tue, 12 Dec 2017 14:27:55 +0100
+Message-Id: <20171212132755.30556-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513084919; bh=9M9oY2h4BJ6/o7MFX1sbXH442Hx3k4bjTG2A+/LNbH0=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=FRKyj1c/qBKZuTwogNBrR5+Kih6AEX8wFDV7PgN5/2jY+zC8OzTZ66G5wFANoxGkbmqjm+JUfE2l524LI+aogBzDhvhDXZ0QtDtM+zbvkT3W6YZrUoUwrcKtzvubiej8N/TYkRRE51TcMwxr3OIEQRL71buGwPQ4hwESm+SbpFI=
+Cc: Stefan Agner <stefan.agner@toradex.com>, otavio@ossystems.com.br
+Subject: [PATCH v2] waf.bbclass: explicitly pass bindir and libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 13:18:26 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 13:27:58 -0000
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+From: Stefan Agner <stefan.agner@toradex.com>
+
+On some build hosts distros (e.g. Fedora 26) waf tries to be
+smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
+This obviously is not what we want for 32-bit targets and usually
+fails in the do_package phase:
+  WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed but not shipped in any package:
+    /usr/lib64/libgstimxcommon.so.0
+
+Waf knows prefix, bindir and libdir as default options. Explicitly
+pass those three.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- meta/conf/distro/include/maintainers.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/waf.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 856a6b763bf..9e5dbe17269 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -151,6 +151,7 @@ RECIPE_MAINTAINER_pn-dri2proto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-dri3proto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alexander.kanavin@intel.com>"
-+RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-eee-acpi-scripts = "Alexander Kanavin <alexander.kanavin@intel.com>"
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index c4698e910a..d0de6fe729 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -26,7 +26,7 @@ def get_waf_parallel_make(d):
+     return ""
+ 
+ waf_do_configure() {
+-	${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
++	${S}/waf configure --prefix=${prefix} --bindir=${bindir} --libdir=${libdir} ${EXTRA_OECONF}
+ }
+ 
+ waf_do_compile()  {
 -- 
-2.15.0
+2.13.6
 
 
