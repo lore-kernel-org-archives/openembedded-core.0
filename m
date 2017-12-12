@@ -1,28 +1,58 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 37079784E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 231E07848D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 09:22:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vBC9MWYH013011
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 12 Dec 2017 09:22:34 GMT
-Message-ID: <1513070552.19417.153.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Bai, Haiqing" <Haiqing.Bai@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Dec 2017 09:22:32 +0000
-In-Reply-To: <C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
-References: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
-	<1512946109.19417.136.camel@linuxfoundation.org>
-	<C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] gmp: depends on flex-native to fix parallel building issue
+	Tue, 12 Dec 2017 10:59:12 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id d16so23339820itj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Dec 2017 02:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=C7KStK+tzbOsVJVaLaIuPdP9N5QLRgoknV36cWovoNY=;
+	b=0baQe2xBeXtB8gKgWbr2r4efXkfAJdLwaabh42QIvo3Ux8hVxDxuAEgu7yp8+7Z1bt
+	n/hFa8VaskBBvXOBIIWhaLZ3LiKbw52/Yrr8TNiqwy2KVDrqBXxEvn2ybLBncuDd1+uG
+	18yE7DXMWan0DpOWWDO3R3rLUp8HLCTh03ZnLwvM15e3EyMYV2ckIEeIF8kj2Aum2+Dp
+	3GiBjCKWrFXaIIsiyAHnZhMW+ipL0rVvrtGa8LNSuUNw5patsCFkhgCelXTDwjb8pam8
+	ODSG4UIXUK6c5ZtOc9kGEvDFd5bAdseOgzPoToqXq6bGKLqt2hTazRpFKcVkv0iOYow0
+	ZPZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=C7KStK+tzbOsVJVaLaIuPdP9N5QLRgoknV36cWovoNY=;
+	b=plhv9rXo8+UHaJYBHDxyvxMRmgw4xV/KxPi+FuOE4PGru5u7K4Nxw6uJFJ5oO9VMNp
+	NCrdCOwYiIbWLQoMt3XQ+yGZJgKUf2olksQLcz1nniN+KklHbNmji1nFy76gx16xHCB6
+	hFIUxdBtE5ppxevd+niikG/0hrQpMX7I//GI40VErj+FYTlqKhKSyxatcAAJ7jETV5HD
+	vRnfg3VOiCoP7wN83LU2nFkeYiqTkqQ2PIXFuNJ7vKBKl1F1+gTs/nkPAhCx04KgwN10
+	6VKDq37/cIPhfFAzs+rSi7rh79lm0nftXDcIH4URH53B8V1+/AKavOQm2k0FS8sG6B35
+	e5Cw==
+X-Gm-Message-State: AKGB3mK12WqqwBHWdy7iuH9auXDGPo1otrVoeKaaxux8t7BO2U4gEJFO
+	a4W/XT0wIeHhf7b/OH8IH6afLVjW90PxCMIKIX68aQ==
+X-Google-Smtp-Source: ACJfBovfgnZyJ9HYQ6GfUrjyIr24mhiPcpW4UKEupOKYKsA/nWRthvfM6MyE6A/P9vk2yfdvrtY+RfRzGt+0aoZXyt4=
+X-Received: by 10.107.180.18 with SMTP id d18mr4670691iof.52.1513076354049;
+	Tue, 12 Dec 2017 02:59:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.137.195 with HTTP; Tue, 12 Dec 2017 02:58:53 -0800 (PST)
+In-Reply-To: <cde7f929023e7d027409f771c6376765@agner.ch>
+References: <20171211135720.38714-1-stefan@agner.ch>
+	<CAJTo0LbSDm6j6yPUavimgqegidvZMQ6eY=VV2=P2oERUtU-1qA@mail.gmail.com>
+	<1b5588ed9cdad157c4129eb45d2a0fe0@agner.ch>
+	<CAJTo0LY5BR=kgukiW6LAjonzidsC-h0gerwxKcA-3Qqvydniuw@mail.gmail.com>
+	<1513006338.9676.5.camel@gmail.com> <1513006625.9676.9.camel@gmail.com>
+	<CAJTo0LbVUE-Z84U59edVmmHu34kvNTZv+urwJAHpgBrXA96p=w@mail.gmail.com>
+	<CAP9ODKoD9daGh83bwhLLzEW_7r+i65pH7hm4NwymD_+2LU6bMA@mail.gmail.com>
+	<cde7f929023e7d027409f771c6376765@agner.ch>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Dec 2017 10:58:53 +0000
+Message-ID: <CAJTo0LZ0S0HkiyyoDQpFqhEdN-wbTRpqSDCwXuS1DA7zopJAmQ@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] waf.bbclass: explicitly pass libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +65,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 09:22:34 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 10:59:13 -0000
+Content-Type: multipart/alternative; boundary="94eb2c06f0fc9a06090560228ad4"
+
+--94eb2c06f0fc9a06090560228ad4
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-Let me make this simpler. Which release of the project did you see this
-issue with?
+On 12 December 2017 at 07:48, Stefan Agner <stefan@agner.ch> wrote:
 
-I believe this issue would only occur with morty and early, pyro, rocko
-and master are not affected.
+> On 2017-12-11 18:15, Otavio Salvador wrote:
+> > On Mon, Dec 11, 2017 at 3:09 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> >> On 11 December 2017 at 15:37, Joshua Watt <jpewhacker@gmail.com> wrote:
+> >>>
+> >>> Vanilla waf only supports --prefix, --libdir, and --bindir. Anything
+> else
+> >>> is a result of loading the gnu_dirs tool, which not all projects are
+> >>> required to do.
+> >>>
+> >>>
+> >>> Sorry, hit send too soo: waf (at least version 2.0) also errors out on
+> >>> unknown options. I think the three I listed are the only ones we can do
+> >>> generically. There might be some way to easily adding the rest if you
+> know
+> >>> waf is loading gnu_dirs
+> >>
+> >>
+> >> One option would be for waf.bbclass to check if WAF_USES_GNU_DIRS is set
+> >> (defaulting to 0) and pass the full set of path options automatically.
+> >
+> > Possible. But passing the standard ones solve 99% of the issues.
+> >
+>
+> I am with Otavio here. Also, adding the standard ones and adding the
+> additional GNU_DIRS would best be done in two independent patches
+> anyway. For now I'd rather prefer to only add the standard ones.
+>
 
-Cheers,
+Fine by me.  Will there be a v2 adding --bindir?
 
-Richard
+Ross
 
-On Tue, 2017-12-12 at 07:13 +0000, Bai, Haiqing wrote:
-> Comments below. thanks
-> 
-> -----Original Message-----
-> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org] 
-> Sent: 2017年12月11日 6:48
-> To: Bai, Haiqing; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] gmp: depends on flex-native to fix
-> parallel building issue
-> 
-> On Wed, 2017-11-29 at 14:54 +0800, Haiqing Bai wrote:
-> > 
-> > fix below parallel building issue:
-> > configure:27365: result: flex
-> > configure:27403: flex conftest.l
-> > .../sysroots/x86_64-linux/usr/bin/flex.real: No such file or
-> > directory
-> > configure:27407: $? = 127
-> > configure:27409: checking lex output file root
-> > configure:27420: error: cannot find output from flex; giving up
-> > 
-> > Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
-> > ---
-> >  meta/recipes-support/gmp/gmp.inc | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes- 
-> > support/gmp/gmp.inc index abac8cf..1b35eaa 100644
-> > --- a/meta/recipes-support/gmp/gmp.inc
-> > +++ b/meta/recipes-support/gmp/gmp.inc
-> > @@ -10,3 +10,5 @@ PACKAGECONFIG[readline] = "--with-readline=yes, 
-> > --with-readline=no,readline"
-> >  
-> >  ARM_INSTRUCTION_SET_armv4 = "arm"
-> >  ARM_INSTRUCTION_SET_armv5 = "arm"
-> > +
-> > +DEPENDS = "flex-native"
-> With recipe specific sysroots this should now be deterministic. The
-> log above suggests you were not using recipe specific sysroots? This
-> would therefore only be applicable to morty and earlier?
-> [This issue is founded on x86-64 building,  but it does not mean it
-> is only related with x86.  Actually this is caused by the defect of
-> the traditional probe mechanism of 'configure',  the package
-> configure
-> script try to probe whether has package 'flex' , then some optional
-> actions will be done by it.  In this issue,  when this probe
-> happens,   /usr/bin/flex exists but '/usr/bin/flex.real' has not
-> created for the
-> parallel building,  then configure reports the error and exits from
-> building.   Since there are no atomic guarantee for the package
-> output during parallel building, so here add this depends]
-> 
-> Cheers,
-> 
-> Richard
-> 
+--94eb2c06f0fc9a06090560228ad4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 12 December 2017 at 07:48, Stefan Agner <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:stefan@agner.ch" target=3D"_blank">stefan@agner.ch=
+</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_qu=
+ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><span class=3D"">On 2017-12-11 18:15, O=
+tavio Salvador wrote:<br>
+&gt; On Mon, Dec 11, 2017 at 3:09 PM, Burton, Ross &lt;<a href=3D"mailto:ro=
+ss.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;&gt; On 11 December 2017 at 15:37, Joshua Watt &lt;<a href=3D"mailto:jp=
+ewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Vanilla waf only supports --prefix, --libdir, and --bindir. An=
+ything else<br>
+&gt;&gt;&gt; is a result of loading the gnu_dirs tool, which not all projec=
+ts are<br>
+&gt;&gt;&gt; required to do.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Sorry, hit send too soo: waf (at least version 2.0) also error=
+s out on<br>
+&gt;&gt;&gt; unknown options. I think the three I listed are the only ones =
+we can do<br>
+&gt;&gt;&gt; generically. There might be some way to easily adding the rest=
+ if you know<br>
+&gt;&gt;&gt; waf is loading gnu_dirs<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; One option would be for waf.bbclass to check if WAF_USES_GNU_DIRS =
+is set<br>
+&gt;&gt; (defaulting to 0) and pass the full set of path options automatica=
+lly.<br>
+&gt;<br>
+&gt; Possible. But passing the standard ones solve 99% of the issues.<br>
+&gt;<br>
+<br>
+</span>I am with Otavio here. Also, adding the standard ones and adding the=
+<br>
+additional GNU_DIRS would best be done in two independent patches<br>
+anyway. For now I&#39;d rather prefer to only add the standard ones.<br></b=
+lockquote><div><br></div><div>Fine by me.=C2=A0 Will there be a v2 adding -=
+-bindir?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--94eb2c06f0fc9a06090560228ad4--
