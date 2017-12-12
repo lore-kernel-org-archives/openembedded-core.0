@@ -1,48 +1,51 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 72633719A7
+Return-Path: <limon.anibal@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7137F787CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 15:23:40 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 9so21347302wme.4
+	Tue, 12 Dec 2017 15:38:21 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id w131so14265660oiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 07:23:41 -0800 (PST)
+	Tue, 12 Dec 2017 07:38:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TtOqVVtdpYsMj8J1ZArfsmPoVIa3l+n17IpwIUONgG4=;
-	b=RD2Sj5UKmtPMlc6P6RgZcPGm6/YU6M+zYJbhlaAZCVEMkNrlJPUgvwo0iQg7eGYsLw
-	x09qDzt9ZrwVbjiteXc/GVIkfomlS9ISSUSKz8YDbpksHpy3zemkzQdPNRk1tKY1SFRF
-	HGmoDwDIPTQ0ewtWm492i5thMg8f+fOMl2E+WXNx6yd/OEmGCqaZp1mipz7T6GLKpuA0
-	DE9cBK4eo+6+B0eEUSwCdSR+nVd361HsWNoapY6XHl/Br2NF0t4c0aib+Qm3A1jKkT2e
-	JC568+g42tfSqmepIgbevZ3aZ7B1FYsBQBUfP4NXMwaEX2SDN+0Al9ziOFU42aIbeHGG
-	ZB0A==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=VkC8aVLF4atmyxDScjEFFcxhEhXPkvuYnFIts9pu2Jo=;
+	b=EdUxxbpyBxnYywT1iL6t5skeTC6xzNVGPxmZJe+6REJC7gwbTpwTl3uqxfWgnsDgiL
+	nRagm23JdoZnxodtFGvHMCKe2viC19V02jYjVlN/Fw1TkL5L+U2ycifAwScTIggUc58O
+	wE4WlS23AwUd9ctGEeN7HxtmwQ1nG30JihzR4G6AUek8zM01G/qmy2gIJymfwTMut4jq
+	vh0hEeBTySjFYbHvDTSFUhHw6mWTxhiTQ4qCsmqHWF+82EYsF4iqLKcw7uDwLzB3iiRi
+	OOOI8UaghSFRhc2EGZsGN7JS0SKLLCx1fiCN8Ftb0EmKViUeBqSL8zbPap48fFH8+dmA
+	Vhhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TtOqVVtdpYsMj8J1ZArfsmPoVIa3l+n17IpwIUONgG4=;
-	b=gGpzpgngqlDzCAdDFodSLEvj2HYX70w0NtB+K/pD12V4Ta8XMbpT6hzC2ecN5J9F8Q
-	eaFhs9nVWGIyIOzoGmTAQZ3Z3GN72Qkswz4BXlsjzVJR9vtI+qhXbVag2fgo9prjIhQQ
-	llFfPAlb1m57myVx01KLSS9yfi3IXmLcCrdwqET0YwZRBvyfKsupK9cBkk/Bhl/IubVX
-	Z4alx1q6v2sra8WNLCOED0geBQ8L+MscUktCAdetNX/2PGrtLeOUf9d/2Ia8YFviyyc0
-	kVH6VZrg5C9LrbdqQHUpndrXTJAIevDZzIa4dGx9AWooLGfw3pOO80NLU0Bq+6ZqIuny
-	ZI5g==
-X-Gm-Message-State: AKGB3mLtLSNIiUwLiGJiMOSCSfcWFUtFHzUO0Gx2yWAR182peNgkKGRH
-	q9LtldMEbWhXA+bmE+jB1J1ECQhGv5lXJ7Xqy44=
-X-Google-Smtp-Source: ACJfBotN6YbBs537vdVwfaVJbDEAMJqh2sLvh/MajgdFrX/sLhxjbGrzPqNa5yr46OyFe+WL3Xm/QHkiv2vxcgeGFRk=
-X-Received: by 10.80.166.222 with SMTP id f30mr3379372edc.278.1513092221147;
-	Tue, 12 Dec 2017 07:23:41 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=VkC8aVLF4atmyxDScjEFFcxhEhXPkvuYnFIts9pu2Jo=;
+	b=p0LVTjJhKI9u9aaj6tY+LjxfDI0z/GIx3VV7hJFhXXcQJkDjX4X00dPh08Ao2HCs2s
+	VhIcuI0lTxuCXtERdXJGT+KhD4iJquxiWgYfylLn3GhCtstv45hEe/VSaqCux0oGn5UD
+	0Mk1BZLFyepe96MN4H2HVmU2IogJL6Lo2NCAgo4rjLnKudnt6BTLGOmdpHB7p8LplAca
+	u/22/3LjmFk1Z/SWjb/s6tjRByxFIeWtJJc7zYzgRJ3ZA5icaAobaCQ9PPN+fMysay7U
+	HxCNLGOhF2SAKKgVe3hwIEq1aC/wxLm5PSYOwDi2A3ezCJIaUQXD7mR7qVDahUozzDly
+	mqjQ==
+X-Gm-Message-State: AKGB3mKnJvnQ2W5RcAvZqbNgjyQJS1I9gtryKXJtkz9ZzxvY/NXlGTN3
+	Kzk7gRafZQ3e5PRzd+5mergiPw==
+X-Google-Smtp-Source: ACJfBou9nzio3o7YnbZ4G9vAcPUBkd46rl7bYgt9/CFDPORqC54nkY+HOgW6x+XCC9+/eUeHJg53Yw==
+X-Received: by 10.202.114.22 with SMTP id p22mr3419079oic.327.1513093102019;
+	Tue, 12 Dec 2017 07:38:22 -0800 (PST)
+Received: from blackbox.Home (187-177-61-29.dynamic.axtel.net. [187.177.61.29])
+	by smtp.gmail.com with ESMTPSA id
+	u19sm8073737otu.41.2017.12.12.07.38.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Dec 2017 07:38:20 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Dec 2017 09:38:17 -0600
+Message-Id: <20171212153817.23905-1-limon.anibal@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.80.178.38 with HTTP; Tue, 12 Dec 2017 07:23:40 -0800 (PST)
-In-Reply-To: <CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
-References: <1510695882-31186-1-git-send-email-andrea.adami@gmail.com>
-	<CAMKF1sp+6mEW8r65fDELAR=SO3oPcgv4Bx0s0ROaS=4euUum9w@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Tue, 12 Dec 2017 16:23:40 +0100
-Message-ID: <CAAQYJAt+B0Lx9OOiczpc8sQjk=pR3X2-rT2GnpPF=dJW4hrLNQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] musl: use arm instruction set for armv4 and armv5
+Cc: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCH] ptest-runner: Upgrade to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 15:23:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Dec 2017 15:38:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Aníbal Limón <anibal.limon@linaro.org>
 
-musl 1.18 recipe is still failing.
-Please apply one of the a.m. patches, thanks
+Contains fixes,
 
-Andrea
+- timeout option missing the argument option ":" to getopt
+- utils.c: Prefer monotonic clock to calculate elapsed time
+- Add support to avoid load/run twice a run_ptest script
 
-On Wed, Nov 15, 2017 at 4:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Nov 14, 2017 at 1:44 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
->> thumb1 is not supported with musl.
->>
->> Fixes: [YOCTO #12336]
->>
->> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->> ---
->>  meta/recipes-core/musl/musl.inc | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
->> index 56c9d7f..b4b0de9 100644
->> --- a/meta/recipes-core/musl/musl.inc
->> +++ b/meta/recipes-core/musl/musl.inc
->> @@ -26,3 +26,7 @@ INSANE_SKIP_${PN} = "dev-so"
->>  # Doesn't compile in MIPS16e mode due to use of hand-written
->>  # assembly
->>  MIPS_INSTRUCTION_SET = "mips"
->> +
->> +# Doesn't support thumb1
->> +ARM_INSTRUCTION_SET_armv4 = "arm"
->> +ARM_INSTRUCTION_SET_armv5 = "arm"
->
-> Ah I submitted a parallel fix that was sitting on my branch.
-> is that fine ?
->
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ .../ptest-runner/{ptest-runner_2.1.bb => ptest-runner_2.1.1.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.1.bb => ptest-runner_2.1.1.bb} (89%)
+
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.1.1.bb
+similarity index 89%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.1.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.1.1.bb
+index 71c1dabee4..e5b71c0f01 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.1.1.bb
+@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "8a93832dad621535e90aa8e1fb74ae5ba743fc3e"
+-PV = "2.1+git${SRCPV}"
++SRCREV = "16413d71cc06b02a6d859c35a017cc49b88283f7"
++PV = "2.1.1+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+ S = "${WORKDIR}/git"
+-- 
+2.11.0
+
 
