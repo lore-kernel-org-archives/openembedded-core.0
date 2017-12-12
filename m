@@ -1,34 +1,35 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C7AAE787CA
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D62787B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 07:13:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBC7DLif015230
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 11 Dec 2017 23:13:21 -0800
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.47]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Mon, 11 Dec 2017 23:13:20 -0800
-From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] gmp: depends on flex-native to fix parallel
-	building issue
-Thread-Index: AQHTcgkHuOync75SXUuUF7sziNr0L6M/R05A
-Date: Tue, 12 Dec 2017 07:13:20 +0000
-Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
-References: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
-	<1512946109.19417.136.camel@linuxfoundation.org>
-In-Reply-To: <1512946109.19417.136.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.79]
+	Tue, 12 Dec 2017 07:53:51 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id AC54B5C1878;
+	Tue, 12 Dec 2017 08:47:52 +0100 (CET)
 MIME-Version: 1.0
-Subject: Re: [PATCH] gmp: depends on flex-native to fix parallel building issue
+Date: Tue, 12 Dec 2017 08:48:58 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, "Burton, Ross"
+	<ross.burton@intel.com>
+In-Reply-To: <CAP9ODKoD9daGh83bwhLLzEW_7r+i65pH7hm4NwymD_+2LU6bMA@mail.gmail.com>
+References: <20171211135720.38714-1-stefan@agner.ch>
+	<CAJTo0LbSDm6j6yPUavimgqegidvZMQ6eY=VV2=P2oERUtU-1qA@mail.gmail.com>
+	<1b5588ed9cdad157c4129eb45d2a0fe0@agner.ch>
+	<CAJTo0LY5BR=kgukiW6LAjonzidsC-h0gerwxKcA-3Qqvydniuw@mail.gmail.com>
+	<1513006338.9676.5.camel@gmail.com> <1513006625.9676.9.camel@gmail.com>
+	<CAJTo0LbVUE-Z84U59edVmmHu34kvNTZv+urwJAHpgBrXA96p=w@mail.gmail.com>
+	<CAP9ODKoD9daGh83bwhLLzEW_7r+i65pH7hm4NwymD_+2LU6bMA@mail.gmail.com>
+Message-ID: <cde7f929023e7d027409f771c6376765@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513064872; bh=r3sJFNmy/lKTDzg0z8iZ9NNufWG5p/uAd4LjfWIhDYA=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=GnKOTOO5YmhmpDlXBkvXPkYXC5T+i4tHhRPNScDXX5WsY3W6fdwzwNKHTKXi+N/oo88pR0jdcibZdp8QenQV/M1Ud0pl2zZfQdxBF14uC/VvUlJtFQz+Ei4BPvmdycJlt0wG7lku+z+NCba8bK/2Y9u13nTW++p5p4wiU1BJJrQ=
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] waf.bbclass: explicitly pass libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 07:13:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 12 Dec 2017 07:53:52 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-DQpDb21tZW50cyBiZWxvdy4gdGhhbmtzDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpG
-cm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
-bi5vcmddIA0KU2VudDogMjAxN+W5tDEy5pyIMTHml6UgNjo0OA0KVG86IEJhaSwgSGFpcWluZzsg
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0hdIGdtcDogZGVwZW5kcyBvbiBmbGV4LW5hdGl2ZSB0byBmaXggcGFyYWxs
-ZWwgYnVpbGRpbmcgaXNzdWUNCg0KT24gV2VkLCAyMDE3LTExLTI5IGF0IDE0OjU0ICswODAwLCBI
-YWlxaW5nIEJhaSB3cm90ZToNCj4gZml4IGJlbG93IHBhcmFsbGVsIGJ1aWxkaW5nIGlzc3VlOg0K
-PiBjb25maWd1cmU6MjczNjU6IHJlc3VsdDogZmxleA0KPiBjb25maWd1cmU6Mjc0MDM6IGZsZXgg
-Y29uZnRlc3QubA0KPiAuLi4vc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9iaW4vZmxleC5yZWFs
-OiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5DQo+IGNvbmZpZ3VyZToyNzQwNzogJD8gPSAxMjcN
-Cj4gY29uZmlndXJlOjI3NDA5OiBjaGVja2luZyBsZXggb3V0cHV0IGZpbGUgcm9vdA0KPiBjb25m
-aWd1cmU6Mjc0MjA6IGVycm9yOiBjYW5ub3QgZmluZCBvdXRwdXQgZnJvbSBmbGV4OyBnaXZpbmcg
-dXANCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhhaXFpbmcgQmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2
-ZXIuY29tPg0KPiAtLS0NCj4gwqBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wLmluYyB8IDIg
-KysNCj4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21wL2dtcC5pbmMgYi9tZXRhL3JlY2lwZXMtIA0KPiBz
-dXBwb3J0L2dtcC9nbXAuaW5jIGluZGV4IGFiYWM4Y2YuLjFiMzVlYWEgMTAwNjQ0DQo+IC0tLSBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXAuaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2dtcC9nbXAuaW5jDQo+IEBAIC0xMCwzICsxMCw1IEBAIFBBQ0tBR0VDT05GSUdbcmVh
-ZGxpbmVdID0gIi0td2l0aC1yZWFkbGluZT15ZXMsIA0KPiAtLXdpdGgtcmVhZGxpbmU9bm8scmVh
-ZGxpbmUiDQo+IMKgDQo+IMKgQVJNX0lOU1RSVUNUSU9OX1NFVF9hcm12NCA9ICJhcm0iDQo+IMKg
-QVJNX0lOU1RSVUNUSU9OX1NFVF9hcm12NSA9ICJhcm0iDQo+ICsNCj4gK0RFUEVORFMgPSAiZmxl
-eC1uYXRpdmUiDQoNCldpdGggcmVjaXBlIHNwZWNpZmljIHN5c3Jvb3RzIHRoaXMgc2hvdWxkIG5v
-dyBiZSBkZXRlcm1pbmlzdGljLiBUaGUgbG9nIGFib3ZlIHN1Z2dlc3RzIHlvdSB3ZXJlIG5vdCB1
-c2luZyByZWNpcGUgc3BlY2lmaWMgc3lzcm9vdHM/IFRoaXMgd291bGQgdGhlcmVmb3JlIG9ubHkg
-YmUgYXBwbGljYWJsZSB0byBtb3J0eSBhbmQgZWFybGllcj8NCltUaGlzIGlzc3VlIGlzIGZvdW5k
-ZWQgb24geDg2LTY0IGJ1aWxkaW5nLCAgYnV0IGl0IGRvZXMgbm90IG1lYW4gaXQgaXMgb25seSBy
-ZWxhdGVkIHdpdGggeDg2LiAgQWN0dWFsbHkgdGhpcyBpcyBjYXVzZWQgYnkgdGhlIGRlZmVjdCBv
-ZiB0aGUgdHJhZGl0aW9uYWwgcHJvYmUgbWVjaGFuaXNtIG9mICdjb25maWd1cmUnLCAgdGhlIHBh
-Y2thZ2UgY29uZmlndXJlDQpzY3JpcHQgdHJ5IHRvIHByb2JlIHdoZXRoZXIgaGFzIHBhY2thZ2Ug
-J2ZsZXgnICwgdGhlbiBzb21lIG9wdGlvbmFsIGFjdGlvbnMgd2lsbCBiZSBkb25lIGJ5IGl0LiAg
-SW4gdGhpcyBpc3N1ZSwgIHdoZW4gdGhpcyBwcm9iZSBoYXBwZW5zLCAgIC91c3IvYmluL2ZsZXgg
-ZXhpc3RzIGJ1dCAnL3Vzci9iaW4vZmxleC5yZWFsJyBoYXMgbm90IGNyZWF0ZWQgZm9yIHRoZQ0K
-cGFyYWxsZWwgYnVpbGRpbmcsICB0aGVuIGNvbmZpZ3VyZSByZXBvcnRzIHRoZSBlcnJvciBhbmQg
-ZXhpdHMgZnJvbSBidWlsZGluZy4gICBTaW5jZSB0aGVyZSBhcmUgbm8gYXRvbWljIGd1YXJhbnRl
-ZSBmb3IgdGhlIHBhY2thZ2Ugb3V0cHV0IGR1cmluZyBwYXJhbGxlbCBidWlsZGluZywgc28gaGVy
-ZSBhZGQgdGhpcyBkZXBlbmRzXQ0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg==
+On 2017-12-11 18:15, Otavio Salvador wrote:
+> On Mon, Dec 11, 2017 at 3:09 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 11 December 2017 at 15:37, Joshua Watt <jpewhacker@gmail.com> wrote:
+>>>
+>>> Vanilla waf only supports --prefix, --libdir, and --bindir. Anything else
+>>> is a result of loading the gnu_dirs tool, which not all projects are
+>>> required to do.
+>>>
+>>>
+>>> Sorry, hit send too soo: waf (at least version 2.0) also errors out on
+>>> unknown options. I think the three I listed are the only ones we can do
+>>> generically. There might be some way to easily adding the rest if you know
+>>> waf is loading gnu_dirs
+>>
+>>
+>> One option would be for waf.bbclass to check if WAF_USES_GNU_DIRS is set
+>> (defaulting to 0) and pass the full set of path options automatically.
+> 
+> Possible. But passing the standard ones solve 99% of the issues.
+> 
+
+I am with Otavio here. Also, adding the standard ones and adding the
+additional GNU_DIRS would best be done in two independent patches
+anyway. For now I'd rather prefer to only add the standard ones.
+
+--
+Stefan
 
