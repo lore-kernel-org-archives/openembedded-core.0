@@ -1,27 +1,28 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B2BA787AE
+	by mail.openembedded.org (Postfix) with ESMTP id CEB3D787AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 14:08:37 +0000 (UTC)
+	Tue, 12 Dec 2017 14:14:04 +0000 (UTC)
 Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 465395C3977;
-	Tue, 12 Dec 2017 15:02:38 +0100 (CET)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id F0D725C1007;
+	Tue, 12 Dec 2017 15:08:05 +0100 (CET)
 MIME-Version: 1.0
-Date: Tue, 12 Dec 2017 15:03:44 +0100
+Date: Tue, 12 Dec 2017 15:09:11 +0100
 From: Stefan Agner <stefan@agner.ch>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LaPCqFQ9asGmRUpEZ4G146GT42j0xQvMVpsW3xOeddN4Q@mail.gmail.com>
+To: Vincent Prince <vincent.prince.fr@gmail.com>
+In-Reply-To: <CAB2nKc9iYxkAU7UQSLk0t5_9T2XhyuGcCe7mH5xhDtTvQNDF_g@mail.gmail.com>
 References: <20171212132755.30556-1-stefan@agner.ch>
 	<CAJTo0LaPCqFQ9asGmRUpEZ4G146GT42j0xQvMVpsW3xOeddN4Q@mail.gmail.com>
-Message-ID: <abb98b6343d1fe28ec45a0243cc5ec1d@agner.ch>
+	<CAB2nKc9iYxkAU7UQSLk0t5_9T2XhyuGcCe7mH5xhDtTvQNDF_g@mail.gmail.com>
+Message-ID: <083c7f03bbe7fcaa4cef3ad62c954ed7@agner.ch>
 X-Sender: stefan@agner.ch
 User-Agent: Roundcube Webmail/1.2.5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1513087358; bh=OsKYa8ha9QgrfjICD+aSaWsz7ylXmnevKGWlby/x+I0=;
+	t=1513087686; bh=rbNYpvX0yJUpSeOd5bgY6QLakYeU3115Xi8++d67aDI=;
 	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
-	b=QI05jE7WhOKggumjjEx7OHZo1YBXD1nwIhyqhJfsKNLZiS53XV++0zev+jkPsH8ltCu0x/22TdmQQ3kCHb7c4wATJh9tWsSlv+h+KLXKB41PM3X1SpBA4U0ahV4+/7OYZVMDy82GasFGTj2NAP4q0twMRTO3ZN9w8kiTli/jhsU=
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Stefan Agner <stefan.agner@toradex.com>,
+	b=N2T+YqKeiCFoB6zYGlBnJq0FPdqQZix4LCO0oyaS6SIz+zAKxzH7ssx1I3Zq9yYVJpMFhNw92MRpTZBbfKXkiQV7g2cJSjt9Jjr+bGnS0OCnB5Hk9Ib9Q7SImA76v8tqtSH5eKkS6644Mur/i5edv0/47Qxm6nHsjmkNQjrsJr4=
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] waf.bbclass: explicitly pass bindir and libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,23 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 14:08:37 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 14:14:05 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2017-12-12 15:00, Burton, Ross wrote:
+On 2017-12-12 15:06, Vincent Prince wrote:
 
+> Hi Ross, 
+> 
+> Does it fail with V1?
+
+The waf version which comes with eglinfo says it will fail: 
+
+  configure options: 
+    -o OUT, --out=OUT   build dir for the project 
+    -t TOP, --top=TOP   src dir for the project 
+    --prefix=PREFIX     installation prefix [default: '/usr/local/'] 
+    --download          try to download the tools if missing 
+..
+
+No libdir to be seen.
+
+--
+Stefan
+
+> Best regards, 
+> Vincent 
+> 
+> 2017-12-12 15:00 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
+> 
 > On 12 December 2017 at 13:27, Stefan Agner <stefan@agner.ch> wrote:
 > 
->> On some build hosts distros (e.g. Fedora 26) waf tries to be
->> smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
->> This obviously is not what we want for 32-bit targets and usually
->> fails in the do_package phase:
->> WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed but not shipped in any package:
->> /usr/lib64/libgstimxcommon.so.0
->> 
->> Waf knows prefix, bindir and libdir as default options. Explicitly
->> pass those three.
+> On some build hosts distros (e.g. Fedora 26) waf tries to be
+> smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
+> This obviously is not what we want for 32-bit targets and usually
+> fails in the do_package phase:
+> WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed but not shipped in any package:
+> /usr/lib64/libgstimxcommon.so.0
+> 
+> Waf knows prefix, bindir and libdir as default options. Explicitly
+> pass those three. 
 > 
 > Obviously not. 
 > 
@@ -77,14 +101,10 @@ On 2017-12-12 15:00, Burton, Ross wrote:
 > | 
 > | waf: error: no such option: --bindir 
 > 
-
-Hm, eglinfo seems to come with a old waf version, 1.7.8 to be specific.
-
-It seems bindir/libdir got added in 1.8 series:
-https://github.com/waf-project/waf/blob/waf-1.8/waflib/Options.py
-
-Make version specific variables?
-
---
-Stefan
+> Ross  
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
