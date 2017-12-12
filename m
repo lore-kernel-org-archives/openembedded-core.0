@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 63014788A1
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C905C7889F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 17:23:29 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id j4so13866366pgp.1
+	Tue, 12 Dec 2017 17:23:30 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id f12so13856235pgo.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Dec 2017 09:23:31 -0800 (PST)
+	Tue, 12 Dec 2017 09:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7lEg7zwywMoXzzyfmIK0VJN/YPpjS8MTjyjy3mm8/Go=;
-	b=f8hhFGK2sXkzGZQP46NxUiRksKdSBTC/NXmfzRzQj6Pf/4dnX5b67Q/I0R5/JUV2Ij
-	ghKXIAMdGNwUE9YnLZCl1n9K5FVmOistnCDPQm2GslPjmGLxvVNvNwP4Ixc5sjanc327
-	Kb9ExZFgzsvmF9nzNNhTYj5B0fNJP/z8sd+EtNfypHuNtdayaYIFsDD8j82fQX+um3bm
-	nw6z9bP84U8hTDNvwjkWnNg0fWs7/Ohav7DmSDbgDGw7BMgv/NOybLMXRWiFoIKi1LUn
-	qV53hUBl74eyL6p89SEweOKtoOuO0CRqZ3sw0UC7nDrvocOGUOIYHevMGGWPjtSpeI69
-	krIg==
+	bh=ju77SGLQhbRdYlSQBWQ2GVKh+kwM04uIkJFkWW7J640=;
+	b=c3qIituEysRTOsaxo4qgfvPyskN35BN6ICI9cDDC9yxth9DVPu78qTqDnpDp+tYojy
+	svQkeMrX77S48+aB2xLlk7R9wcQbrPsSb/m9y9UvSYQA35FtX4aaXIsJLGShgatsiL5u
+	XCAS9atPWtt/PMFmFpruGhDV3p0TtjvctPQXwyAc0Ev0fjAWJou2qzOWBokZFnmVu5lx
+	ZOIitRTKN/N46zvxj0qlk+kqZMIrrQiDIKj7RHvgNnoCYX3meyxe/D09Ez2Fwh6GYtLq
+	8FzHzdbyhXWy9poLltmFztEzgmgHFROKqvknyYcnDQSlbWOGfUWdlkQdCopGGzvedTtt
+	Ahdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7lEg7zwywMoXzzyfmIK0VJN/YPpjS8MTjyjy3mm8/Go=;
-	b=GsAbFVXk2coutjQtsi0/QfRy1FupolXwyoW/O3IMEy2NghE5MCRkVobO2X9SSd4Zxx
-	hafadOGllnj9/+SESQmOk+jjDZ2M7r+rYzcqxSwyKDZshFONQGcgPZurYxpK6+ChxFmR
-	aipdMFBwIl5f2s+tekCkw5r2HmFwyxNcrhx5csc+uYe4n4BEV0Wlf3tCTAK8CFPH+tNs
-	GDFQMl+88yxVO1x/aZYtpIZ4AhsB+Iy7hEuQOpBtIiw9R8nTRI/prxAae1sadVRdzHZx
-	gLFVJzXF1WvaMZx5+Xo9KbegrZAkWxcHYTii4U0exlZTym4t3Xz8BY9NCIAePQqAqEkH
-	Qi0Q==
-X-Gm-Message-State: AKGB3mJQKfd312aBHBgwEWwRx/2H3Xrzlr1LCeEkxXuok2FugWXT59PK
-	ka8NWHJDKj9OOkfps/+CZu1ebQ==
-X-Google-Smtp-Source: ACJfBosj1SU3SHJk4cuxYsjxfZ4wZgjM11vnTNX/6beiEWM0UHcap7/3l/LdNv0GtcSSR1wHZ8hICg==
-X-Received: by 10.99.119.67 with SMTP id s64mr2613397pgc.390.1513099410804;
-	Tue, 12 Dec 2017 09:23:30 -0800 (PST)
+	bh=ju77SGLQhbRdYlSQBWQ2GVKh+kwM04uIkJFkWW7J640=;
+	b=cTw/Tk7HVpmOl+EvdVeGvpVAEx+Y3N/gLVLuk2W4pk3HWaOGusxz/gydExFzzQzK1f
+	gzVSJTpqaZJSkstOaFzQx8VEYqT4MQTKC33j+Lr4jm/HNPDGRU54ckEdLn1WmwLiye7H
+	74E3QWnSUSssl9MPUteA0xpgbtLQbZEF72qV1lnX02Badb+HAfgIzBFbqxiFTFelq6hK
+	FNpqNjY90oMVRn6HRr1PVP1Df9EYwV3RyLRW43t7GZZwH9rSPDgR3Zxk3T0qbBB7oYFr
+	rf0nRG0MF7jKn+RzS9FbfxKS8+u3XdxL29E14SkilIr68w7uUrzk7SatPrX3V96cVmgl
+	yL0g==
+X-Gm-Message-State: AKGB3mKldltcg+zdGzgzQd65HJufj9sVYwekP0PcA9VOweF6oabCc4R5
+	s3tgJo+5Zrt2nSOffOrFWVOdGg==
+X-Google-Smtp-Source: ACJfBotYtuc2JQp5sEiusEGk1jUO8pjSTsuMZSNZguFdRkFGTPr6tmRwaA5LbDIb1vxXXCYFFY1TNg==
+X-Received: by 10.99.186.70 with SMTP id l6mr2620518pgu.253.1513099411771;
+	Tue, 12 Dec 2017 09:23:31 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8880:466c::c579])
 	by smtp.gmail.com with ESMTPSA id
-	k197sm18790329pga.42.2017.12.12.09.23.29
+	k197sm18790329pga.42.2017.12.12.09.23.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Dec 2017 09:23:30 -0800 (PST)
+	Tue, 12 Dec 2017 09:23:31 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Dec 2017 09:23:13 -0800
-Message-Id: <20171212172317.601-5-raj.khem@gmail.com>
+Date: Tue, 12 Dec 2017 09:23:14 -0800
+Message-Id: <20171212172317.601-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20171212172317.601-1-raj.khem@gmail.com>
 References: <20171212172317.601-1-raj.khem@gmail.com>
-Subject: [PATCH 5/9] musl: Disable thumb1 ISA
+Subject: [PATCH 6/9] musl: Update to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Dec 2017 17:23:29 -0000
+X-List-Received-Date: Tue, 12 Dec 2017 17:23:31 -0000
 
-From: Andrea Adami <andrea.adami@gmail.com>
+These commits are added
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=eb03bde2f24582874cb72b56c7811bf51da0c817..4000b0107ddd7fe733fa31d4f078c6fcd35851d6
 
-thumb1 is unsupported see http://www.openwall.com/lists/musl/2017/10/20/10
+Key fix for malloc
+https://git.musl-libc.org/cgit/musl/commit/?id=a71b46cfd289aa0ff829fc9a436c59c398f8326d
 
-Fix
-[YOCTO #12336]
-
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index 56c9d7fe17..9af1172ae0 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -26,3 +26,8 @@ INSANE_SKIP_${PN} = "dev-so"
- # Doesn't compile in MIPS16e mode due to use of hand-written
- # assembly
- MIPS_INSTRUCTION_SET = "mips"
-+
-+# thumb1 is unsupported
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 932c9a27a0..edfaa07eee 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "eb03bde2f24582874cb72b56c7811bf51da0c817"
++SRCREV = "4000b0107ddd7fe733fa31d4f078c6fcd35851d6"
+ 
+ PV = "1.1.18+git${SRCPV}"
+ 
 -- 
 2.15.1
 
