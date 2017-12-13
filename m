@@ -1,29 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 566D17887A
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id D85057874E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 17:46:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2017 09:46:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,397,1508828400"; d="scan'208";a="186382085"
-Received: from iechin-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.249.76.136])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Dec 2017 09:46:53 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 14 Dec 2017 06:46:50 +1300
-Message-ID: <6448477.1AR2tBDtHh@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <9f22104c-91c0-750b-0a57-dee30d779d47@linux.intel.com>
-References: <cover.1512438000.git.paul.eggleton@linux.intel.com>
-	<9f22104c-91c0-750b-0a57-dee30d779d47@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12] devtool improvements
+	Wed, 13 Dec 2017 18:06:27 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 285355C3A6A;
+	Wed, 13 Dec 2017 19:00:26 +0100 (CET)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Dec 2017 19:06:24 +0100
+Message-Id: <20171213180624.30839-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513188026; bh=p2i8iR5QUWL2OykjlHeR0OYl/C44BxXYAwbzvxi5iqk=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=GqgqhrHNL7e897YM0jZm3BBLTDr0nNW6S0a6H2S4kp/OeYZl0hwNmq8msSTD2cati5W2fxk81xLvHLY9uPABUuxmGct4i3mNYFUvcQCpH97EcKzECjbnl7VdfaJ3uAvQ/1ToRmdKA22RV8/hEPtRmQW1uEVDg4Wu3vCdU97DkBo=
+Cc: Stefan Agner <stefan.agner@toradex.com>, muhammad_shakeel@mentor.com
+Subject: [RFC] opkg: avoid running postinst scripts twice when using systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +29,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 17:46:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 13 Dec 2017 18:06:28 -0000
 
-Hi Alex,
+From: Stefan Agner <stefan.agner@toradex.com>
 
-On Thursday, 14 December 2017 3:53:22 AM NZDT Alexander Kanavin wrote:
-> On 12/05/2017 03:41 AM, Paul Eggleton wrote:
-> > A set of improvements for devtool, mostly aimed at improving the
-> > handling of recipes that fetch multiple source trees (i.e. have multiple
-> > tarballs or repositories in SRC_URI), with a couple of other fixes
-> > thrown in.
-> 
-> Unfortunately, this badly breaks 'devtool upgrade':
-> 
-> ======
-> ak@kanavin-desktop:~/development/poky/build$ devtool upgrade openssl -V 
-> 1.0.2n
-> .....
-> WARNING: This recipe fetches more than one source tree. Each source tree 
-> will be tracked in a separate git repository.
-> NOTE: Extracting upgraded version source...
-> ERROR: Execution of 'git checkout devtool-base -b devtool-1.0.2n' failed 
-> with exit code 128:
-> fatal: 'devtool-base' is not a commit and a branch 'devtool-1.0.2n' 
-> cannot be created from it
-> =====
-> 
-> I would strongly request that this patchset not be merged into master 
-> until the issue is resolved.
+OpenEmbedded has a built-in mechanism to run postinst scripts offline
+at build time or, if necessary, on first boot (delayed execution). If
+the latter is the case and systemd is in use, two services end up
+doing the same thing:
+- opkg-configure.service starts "opkg configure" which in turn parses
+  /var/lib/opkg/status and runs the postinst scripts stored in
+  /var/lib/opkg/info/.
+- run-postinsts.service starts "/usr/sbin/run-postinsts" which runs
+  postinst scripts stored in /etc/ipk-postinsts/. Those scripts get
+  prepared by meta/lib/oe/rootfs.py (see also _save_postinsts of the
+  OpkgRootfs class)
 
-That's interesting - the devtool upgrade tests apparently passed so clearly we 
-have a hole in our tests. I will look into it.
+This can be seen when using a distro using ipk and systemd, then
+installing opkg-keyrings and enable package management. The resulting
+rootfs has both services and will run opkg-keyrings.postinst twice.
 
-Cheers,
-Paul
+Moreover, because the two services have similar dependency, they
+typically get executed almost at the same time:
+  Dec 13 14:47:25 colibri-imx6 systemd[1]: Starting Opkg first boot configure...
+  ...
+  Dec 13 14:47:25 colibri-imx6 systemd[1]: Starting Run pending postinsts...
 
+This leads to executions of the same postinst scripts racing with each
+other! In practise update-alternative has been proven to be suspectable
+to such races.
 
+Get rid of the opkg service to avoid dupplicate postinst execution.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/recipes-devtools/opkg/opkg/opkg-configure.service | 17 -----------------
+ meta/recipes-devtools/opkg/opkg_0.3.5.bb               | 13 -------------
+ 2 files changed, 30 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/opkg-configure.service
+
+diff --git a/meta/recipes-devtools/opkg/opkg/opkg-configure.service b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
+deleted file mode 100644
+index 432c3ddc28..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/opkg-configure.service
++++ /dev/null
+@@ -1,17 +0,0 @@
+-[Unit]
+-Description=Opkg first boot configure
+-DefaultDependencies=no
+-After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+-Before=sysinit.target
+-
+-[Service]
+-Type=oneshot
+-EnvironmentFile=-@SYSCONFDIR@/default/postinst
+-ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/opkg configure > $LOGFILE 2>&1; else @BINDIR@/opkg configure; fi"
+-ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable opkg-configure.service
+-StandardOutput=syslog
+-RemainAfterExit=No
+-
+-[Install]
+-WantedBy=basic.target
+-WantedBy=sysinit.target
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.5.bb b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
+index 3e511b6bb6..fb36e8b866 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.5.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
+@@ -22,8 +22,6 @@ SRC_URI[sha256sum] = "734bc21dea11262113fa86b928d09812618b3966f352350cf916a6ae0d
+ 
+ inherit autotools pkgconfig systemd
+ 
+-SYSTEMD_SERVICE_${PN} = "opkg-configure.service"
+-
+ target_localstatedir := "${localstatedir}"
+ OPKGLIBDIR = "${target_localstatedir}/lib"
+ 
+@@ -46,16 +44,6 @@ do_install_append () {
+ 
+ 	# We need to create the lock directory
+ 	install -d ${D}${OPKGLIBDIR}/opkg
+-
+-	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
+-		install -d ${D}${systemd_unitdir}/system
+-		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
+-		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-			-e 's,@BINDIR@,${bindir},g' \
+-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
+-			${D}${systemd_unitdir}/system/opkg-configure.service
+-	fi
+ }
+ 
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config libarchive"
+@@ -68,7 +56,6 @@ RPROVIDES_${PN} = "opkg-collateral"
+ PACKAGES =+ "libopkg"
+ 
+ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+-FILES_${PN} += "${systemd_unitdir}/system/"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
+2.13.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
