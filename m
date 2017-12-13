@@ -1,50 +1,51 @@
 Return-Path: <trini@konsulko.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 890766025F
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 57E777887C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 14:30:19 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id e2so3911065qti.0
+	Wed, 13 Dec 2017 14:30:31 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id b184so2156488qkc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 06:30:21 -0800 (PST)
+	Wed, 13 Dec 2017 06:30:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=3L+W0LAspmjisbfCSeuby48Q1yJwGA8/V82xrTZZYak=;
-	b=Na3u0TlNH/MRd7F1rrQEI6ObejkhS77mKirHTBQ3IvtLc6Eu8UvsCdDrOdYyWBwnYh
-	RAqTzkhbO04mKnIerNRLfzxvveECLw/ezBG/GTrU2L9gEdjvFFkxa8m4MBAGgTOri5l/
-	kgttebV4sNBaL+XmQuPFvVh/j4bQ0+jM6lSD8=
+	bh=s3b439GybIPg2Sem4pUAVvrIKlQFW5T7DiN4gtBUvFo=;
+	b=gwtjhICX2wKuzt4ccbs+VfoENNqNBJNJQ2n9btPYoN4i6Bq6ymfbcm4kYhqlvKFctr
+	AaE7juj8m1QXOe9BKzPgdO3rYSFKLDqQlkf0oxdlV3bfV81ItMPZeWXNsCDO74B03970
+	pEhyo6dymQxUkGsP/FJ4S1Pa6lUN0EIWhhFGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=3L+W0LAspmjisbfCSeuby48Q1yJwGA8/V82xrTZZYak=;
-	b=JghxFkwknk/FB6sKqGUudCXJWGkXjpQgTrEPaULhwzdqik/lSNRsaFwqph14nf3nsi
-	VpSFEfIldMJ8Xu1FzzLhniV6213QGBOozuhbXdR33p1m10CxunHooKrYVoGbFesq0g1J
-	d7d8BVPBpJQFfItO9dcjz1K10wztrKgqw0Kar53/RL10D43i7tu5CBKawhGSMNkF+HLW
-	WUSNP5THyrrMTrBjjGc2Y1jTU1dwEdIneUln6cGvwIRXY10Sb/cg9wZz/WfHaAW+/+fZ
-	CMBGUM10pg8P2HkBJQs1tJaPuqkBRrsRM4mq7bAAw+wo+d4zX8Kkj0iA6xjWaiDSYCkg
-	J4TA==
-X-Gm-Message-State: AKGB3mKxiO6tYxTmqcK7vZbAKtZa88hzovtFLfnCSBXAi/SNaIcLUtWT
-	MoU67fdjhl9kFM8rOFZAYUq8bg==
-X-Google-Smtp-Source: ACJfBouKK8sGi9nitDy+8VIgkHMSTRWjwGQqdEH66/EEOT5BinkSbdpoDhZ8bimNRvMCmKPUCf5ctQ==
-X-Received: by 10.200.4.130 with SMTP id s2mr11304029qtg.170.1513175420673;
-	Wed, 13 Dec 2017 06:30:20 -0800 (PST)
+	bh=s3b439GybIPg2Sem4pUAVvrIKlQFW5T7DiN4gtBUvFo=;
+	b=RXclf45a1Z0PNTun7FBCY2DCSI4fErOtYukeUpAXZuHBKev//5qwoIUClBXsptd6E1
+	Oj+dYCRA+g0s2enA86YiulY+ZDeqSzOYJzdi0ED106MtvqTu094AArTwYIfl+9u9augy
+	VoIuYwCM4JvgCUSac4mF7al4e26s+Z1lIiULDXM71KCO/56CyBx0jEVmGHh3hIKb4wNS
+	5crkL9LYyJgAippUBwKIzJdGYrRilTxY81neMebwtGO0DUQ8RyuYz670JHFr8b8bRQvt
+	8qjyb6j0AfwW5EkNk2JcDmYjmIrnMMrX0uH8J+Xq5/SWV0c79tgcHoqSGiEG7tvORQnB
+	q6BA==
+X-Gm-Message-State: AKGB3mKHaff/+kBW4MwXH0W8nX7KhauGMRInY/p8QrOg74nbYWDm0FGr
+	T5UDZHMelpRG0ZznqrbXx3DYow==
+X-Google-Smtp-Source: ACJfBouCiJm95MfmKsMyrRK4y/noyDn7zim/SDo2A/6sEP+2z7eBAeQXYxM3hNImnD1h+haChtEkUA==
+X-Received: by 10.55.25.22 with SMTP id k22mr10130937qkh.120.1513175432349;
+	Wed, 13 Dec 2017 06:30:32 -0800 (PST)
 Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
 	by smtp.gmail.com with ESMTPSA id
-	o65sm1043925qka.86.2017.12.13.06.30.19
+	i35sm1094401qte.96.2017.12.13.06.30.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Dec 2017 06:30:20 -0800 (PST)
-Date: Wed, 13 Dec 2017 09:30:18 -0500
+	Wed, 13 Dec 2017 06:30:31 -0800 (PST)
+Date: Wed, 13 Dec 2017 09:30:30 -0500
 From: Tom Rini <trini@konsulko.com>
 To: Kristian Amlie <kristian.amlie@northern.tech>
-Message-ID: <20171213143018.GR372@bill-the-cat>
+Message-ID: <20171213143030.GS372@bill-the-cat>
 References: <1513171550-25534-1-git-send-email-kristian.amlie@northern.tech>
+	<1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
 MIME-Version: 1.0
-In-Reply-To: <1513171550-25534-1-git-send-email-kristian.amlie@northern.tech>
+In-Reply-To: <1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot-fw-utils: Fix broken makefile in v2017.11.
+Subject: Re: [PATCH v2] u-boot-fw-utils: Fix broken makefile in v2017.11.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,14 +58,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 14:30:19 -0000
+X-List-Received-Date: Wed, 13 Dec 2017 14:30:31 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Dec 13, 2017 at 02:25:50PM +0100, Kristian Amlie wrote:
+On Wed, Dec 13, 2017 at 03:03:27PM +0100, Kristian Amlie wrote:
 
 > See the patch for details. This patch has already been applied
 > upstream, but we need it for v2017.11.
+> 
+> Upstream-Status: Accepted [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
 > 
 > Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
 
