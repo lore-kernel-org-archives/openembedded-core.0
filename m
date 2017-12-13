@@ -1,36 +1,62 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E79278093
+Return-Path: <tobias.hagelborn@axis.com>
+X-Greylist: delayed 408 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 13 Dec 2017 10:39:03 UTC
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F3CB7824D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 07:24:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBD7OPco020842
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Dec 2017 23:24:25 -0800 (PST)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.47]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Tue, 12 Dec 2017 23:24:24 -0800
-From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] gmp: depends on flex-native to fix parallel
-	building issue
-Thread-Index: AQHTcgkHuOync75SXUuUF7sziNr0L6M/R05AgACwNgCAAOlJ8A==
-Date: Wed, 13 Dec 2017 07:24:24 +0000
-Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9CEF087D4@ALA-MBD.corp.ad.wrs.com>
-References: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
-	<1512946109.19417.136.camel@linuxfoundation.org>
-	<C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
-	<1513070552.19417.153.camel@linuxfoundation.org>
-In-Reply-To: <1513070552.19417.153.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.79]
+	Wed, 13 Dec 2017 10:39:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 01926183AF
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:16 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id bK07s--NDWkz
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 54439180EA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 401F51E06E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3517C1E06C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 294CDCB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 11:32:15 +0100 (CET)
+Received: from [10.94.62.1] (10.0.5.60) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Wed, 13 Dec 2017 11:32:14 +0100
+To: <openembedded-core@lists.openembedded.org>
+References: <1499405543-3127-1-git-send-email-tobiasha@axis.com>
+	<2d1bb10c-e13c-79d0-4e0e-bd5aa5d99a42@axis.com>
+	<CAJ86T=Vfoe5e86OokE3j9dY8Lc0s4A1OAZPwo318mYdFiKTYdA@mail.gmail.com>
+	<0fa15a09e9554731a800e4e771e25ab9@XBOX02.axis.com>
+	<CAJ86T=XX0-pkH-4jRMq1o3pJbz-iwGcksGuR7oZHkaYgn86new@mail.gmail.com>
+	<e986d856398445c89fa14558da885793@XBOX02.axis.com>
+	<90ef5ca5-9697-773a-3281-68a5683cbc95@windriver.com>
+From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+Message-ID: <5e59842c-6ff8-5599-2957-3195d869c496@axis.com>
+Date: Wed, 13 Dec 2017 11:32:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] gmp: depends on flex-native to fix parallel building issue
+In-Reply-To: <90ef5ca5-9697-773a-3281-68a5683cbc95@windriver.com>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX02.axis.com (10.0.5.16)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH v2 0/2] Make source code browsable locally - devtool srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +69,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 07:24:25 -0000
+X-List-Received-Date: Wed, 13 Dec 2017 10:39:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-WWVzLCBzaXIsICBJIGRpZCBub3QgcmVwcm9kdWNlIHRoaXMgb24gbWFzdGVyLiAgRXZlbiBvbiBt
-b3J0eSwgSSBvbmx5IHNhdw0KdHdpY2UuICBNYXliZSB3ZSBjYW4gaG9sZCBvbiB0aGlzIGFuZCBs
-ZXQgbWUga2VlcCBtb25pdG9yaW5nLiAgVGhhbmtzLg0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4
-Zm91bmRhdGlvbi5vcmddIA0KU2VudDogMjAxN+W5tDEy5pyIMTLml6UgMTc6MjMNClRvOiBCYWks
-IEhhaXFpbmc7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnbXA6IGRlcGVuZHMgb24gZmxleC1uYXRpdmUgdG8g
-Zml4IHBhcmFsbGVsIGJ1aWxkaW5nIGlzc3VlDQoNCkxldCBtZSBtYWtlIHRoaXMgc2ltcGxlci4g
-V2hpY2ggcmVsZWFzZSBvZiB0aGUgcHJvamVjdCBkaWQgeW91IHNlZSB0aGlzIGlzc3VlIHdpdGg/
-DQoNCkkgYmVsaWV2ZSB0aGlzIGlzc3VlIHdvdWxkIG9ubHkgb2NjdXIgd2l0aCBtb3J0eSBhbmQg
-ZWFybHksIHB5cm8sIHJvY2tvIGFuZCBtYXN0ZXIgYXJlIG5vdCBhZmZlY3RlZC4NCg0KQ2hlZXJz
-LA0KDQpSaWNoYXJkDQoNCk9uIFR1ZSwgMjAxNy0xMi0xMiBhdCAwNzoxMyArMDAwMCwgQmFpLCBI
-YWlxaW5nIHdyb3RlOg0KPiBDb21tZW50cyBiZWxvdy4gdGhhbmtzDQo+IA0KPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IDIwMTflubQxMuaciDEx5pelIDY6
-NDgNCj4gVG86IEJhaSwgSGFpcWluZzsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ21wOiBkZXBlbmRzIG9u
-IGZsZXgtbmF0aXZlIHRvIGZpeCANCj4gcGFyYWxsZWwgYnVpbGRpbmcgaXNzdWUNCj4gDQo+IE9u
-IFdlZCwgMjAxNy0xMS0yOSBhdCAxNDo1NCArMDgwMCwgSGFpcWluZyBCYWkgd3JvdGU6DQo+ID4g
-DQo+ID4gZml4IGJlbG93IHBhcmFsbGVsIGJ1aWxkaW5nIGlzc3VlOg0KPiA+IGNvbmZpZ3VyZToy
-NzM2NTogcmVzdWx0OiBmbGV4DQo+ID4gY29uZmlndXJlOjI3NDAzOiBmbGV4IGNvbmZ0ZXN0LmwN
-Cj4gPiAuLi4vc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9iaW4vZmxleC5yZWFsOiBObyBzdWNo
-IGZpbGUgb3IgDQo+ID4gZGlyZWN0b3J5DQo+ID4gY29uZmlndXJlOjI3NDA3OiAkPyA9IDEyNw0K
-PiA+IGNvbmZpZ3VyZToyNzQwOTogY2hlY2tpbmcgbGV4IG91dHB1dCBmaWxlIHJvb3QNCj4gPiBj
-b25maWd1cmU6Mjc0MjA6IGVycm9yOiBjYW5ub3QgZmluZCBvdXRwdXQgZnJvbSBmbGV4OyBnaXZp
-bmcgdXANCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBIYWlxaW5nIEJhaSA8SGFpcWluZy5CYWlA
-d2luZHJpdmVyLmNvbT4NCj4gPiAtLS0NCj4gPiDCoG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9n
-bXAuaW5jIHwgMiArKw0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KPiA+
-IA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wLmluYyBiL21l
-dGEvcmVjaXBlcy0gDQo+ID4gc3VwcG9ydC9nbXAvZ21wLmluYyBpbmRleCBhYmFjOGNmLi4xYjM1
-ZWFhIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXAuaW5jDQo+
-ID4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21wL2dtcC5pbmMNCj4gPiBAQCAtMTAsMyAr
-MTAsNSBAQCBQQUNLQUdFQ09ORklHW3JlYWRsaW5lXSA9ICItLXdpdGgtcmVhZGxpbmU9eWVzLCAN
-Cj4gPiAtLXdpdGgtcmVhZGxpbmU9bm8scmVhZGxpbmUiDQo+ID4gwqANCj4gPiDCoEFSTV9JTlNU
-UlVDVElPTl9TRVRfYXJtdjQgPSAiYXJtIg0KPiA+IMKgQVJNX0lOU1RSVUNUSU9OX1NFVF9hcm12
-NSA9ICJhcm0iDQo+ID4gKw0KPiA+ICtERVBFTkRTID0gImZsZXgtbmF0aXZlIg0KPiBXaXRoIHJl
-Y2lwZSBzcGVjaWZpYyBzeXNyb290cyB0aGlzIHNob3VsZCBub3cgYmUgZGV0ZXJtaW5pc3RpYy4g
-VGhlIA0KPiBsb2cgYWJvdmUgc3VnZ2VzdHMgeW91IHdlcmUgbm90IHVzaW5nIHJlY2lwZSBzcGVj
-aWZpYyBzeXNyb290cz8gVGhpcyANCj4gd291bGQgdGhlcmVmb3JlIG9ubHkgYmUgYXBwbGljYWJs
-ZSB0byBtb3J0eSBhbmQgZWFybGllcj8NCj4gW1RoaXMgaXNzdWUgaXMgZm91bmRlZCBvbiB4ODYt
-NjQgYnVpbGRpbmcswqDCoGJ1dCBpdCBkb2VzIG5vdCBtZWFuIGl0IGlzIA0KPiBvbmx5IHJlbGF0
-ZWQgd2l0aCB4ODYuwqDCoEFjdHVhbGx5IHRoaXMgaXMgY2F1c2VkIGJ5IHRoZSBkZWZlY3Qgb2Yg
-dGhlIA0KPiB0cmFkaXRpb25hbCBwcm9iZSBtZWNoYW5pc20gb2YgJ2NvbmZpZ3VyZScswqDCoHRo
-ZSBwYWNrYWdlIGNvbmZpZ3VyZSANCj4gc2NyaXB0IHRyeSB0byBwcm9iZSB3aGV0aGVyIGhhcyBw
-YWNrYWdlICdmbGV4JyAsIHRoZW4gc29tZSBvcHRpb25hbCANCj4gYWN0aW9ucyB3aWxsIGJlIGRv
-bmUgYnkgaXQuwqDCoEluIHRoaXMgaXNzdWUswqDCoHdoZW4gdGhpcyBwcm9iZSBoYXBwZW5zLMKg
-wqDCoA0KPiAvdXNyL2Jpbi9mbGV4IGV4aXN0cyBidXQgJy91c3IvYmluL2ZsZXgucmVhbCcgaGFz
-IG5vdCBjcmVhdGVkIGZvciB0aGUgDQo+IHBhcmFsbGVsIGJ1aWxkaW5nLMKgwqB0aGVuIGNvbmZp
-Z3VyZSByZXBvcnRzIHRoZSBlcnJvciBhbmQgZXhpdHMgZnJvbSANCj4gYnVpbGRpbmcuwqDCoMKg
-U2luY2UgdGhlcmUgYXJlIG5vIGF0b21pYyBndWFyYW50ZWUgZm9yIHRoZSBwYWNrYWdlIG91dHB1
-dCANCj4gZHVyaW5nIHBhcmFsbGVsIGJ1aWxkaW5nLCBzbyBoZXJlIGFkZCB0aGlzIGRlcGVuZHNd
-DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQo+IA0K
+On 09/05/2017 02:10 PM, Randy MacLeod wrote:
+> On 2017-09-01 08:00 AM, Peter Kjellerstedt wrote:
+>> Well, the most common request we've gotten from the developers is that
+>> they want to be able to search through all the sources, e.g., to find
+>> out where a particular function is used. The tmp directory does not
+>> lend itself very well to this, given that it also contains all build
+>> trees, applied patches and other meta information that bitbake needs.
+>> Thus the idea for the parallel tree with only the source references.
+>>
+>> //Peter
+> 
+> A shadow tree of links to the source is "mostly harmless" to experts
+> and useful for newbies and code browsers as you explained.
+> 
+> The src dir should be under tmp/src though since anything
+> that can be regenerated shouldn't be in the top level
+> project directory.
+
+I'll fix that: tmp/srctree
+
+> 
+> We don't pay that much (enough?) attention to the SECTION tag
+> and something like half of the oe-core recicpes doen't
+> have one. I suppose this feature would encourage us to
+> fix that.
+> 
+> Have you run your script with meta-openembedded and other layers?
+
+I've run it with core-image-minimal and core-image-sato.
+(I do not think they pull anything in from meta-openembedded)
+
+
+A new patchset  will soon be available.
+
+
+//Tobias
 
