@@ -1,54 +1,51 @@
-Return-Path: <tobias.hagelborn@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BCA678863
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E83C77F90
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 10:53:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 50439183B0
+	Wed, 13 Dec 2017 11:53:22 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id f190so3259800ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:59 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id ixbzA2-ZhltK
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 55198183AF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3F5A51E06E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3432A1E06C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 288D0DBE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 11:53:56 +0100 (CET)
-Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
-	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 13 Dec 2017 11:53:55 +0100
-From: Tobias Hagelborn <tobias.hagelborn@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Dec 2017 11:53:17 +0100
-Message-ID: <1513162397-21000-3-git-send-email-tobiasha@axis.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1513162397-21000-1-git-send-email-tobiasha@axis.com>
-References: <1513162397-21000-1-git-send-email-tobiasha@axis.com>
+	Wed, 13 Dec 2017 03:53:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6qtDVXyvHZtk8PbvwLtywvBoRLnSAvTbSUltXOOh+WQ=;
+	b=GZxdx3Flp1Y38X423aXUGJQptzfGh/PpKLeqcThq4LKcZzyS4Ye4tGT6uWTB4f7MQT
+	wS8LbppS+cpximq6g9LBBbAZ0ZaAKjFZd7pnW5tIeNPRqqKURsOLVGDTqz9XVha2nqu3
+	1fFe23sHBhOVbnL1mFSrxsq9dQ9+m05DxqBizV2bOez2ST/wdACTcZCtX/JcKDlrMeQB
+	A6IhnSdL43DrM2w+zUe0DQ4K1PXPosH/UuDQUZMr+bqd5NQ0u5Gax6gRLIsSSC6Tks5i
+	I4IoTn9D2FRYc5rzCNsBp4IlOpyofoyBJMjW2wN1b9OMdalWwKrFWC5w3HquRnFB70C9
+	TO2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6qtDVXyvHZtk8PbvwLtywvBoRLnSAvTbSUltXOOh+WQ=;
+	b=SGE28vFZf9MtwyOPQPy5Hr52MTn2C/wdAp+Khj44qoJk9THO5nk12OXjVL7LXzsdcr
+	NQWE9sRE+yza5s2FY9qy7/DiGhbKTtex+FaG0fHx1hjfFZTJKIpGG2CGwbNyVt0eRTFH
+	rsrYAdeIxSfiIyuEa8CYV/6dhm8rHB6iUAimlwVQARqdl+ZTNH4ePlXtOGIUTODucDSx
+	Xu/YtlXR9eMwMAiuAsF+fnhzu8ZnDZGfbvlbzWeo3mT84Jfp+lkbezGXj2/C2Fn5pYo9
+	um2T2RmlNB0ZsQITHNiTtP5f5isikRjplCAgUg3xfDQKoI6AAxeSCrdK6pS7xMsE5AnB
+	ZoBg==
+X-Gm-Message-State: AKGB3mIXumuLxiJq3SnP312RgGk1qKk5kODcIwiSev1TEUsVLwR9ZcTs
+	9ULBfElmo//V+aqUoEwke+9J+yAtZXyOspGn/sSLQg==
+X-Google-Smtp-Source: ACJfBosrRW9pwoNX5I2+yqZNlAEgVyChnr1uucLriv4yHemRRAHQFKpeGyXd2kuK/ULj903lIwHNuTZRgJd5YVVUBfE=
+X-Received: by 10.36.93.5 with SMTP id w5mr2554159ita.124.1513166003907; Wed,
+	13 Dec 2017 03:53:23 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX02.axis.com (10.0.5.16)
-X-TM-AS-GCONF: 00
-Cc: Tobias Hagelborn <tobiasha@axis.com>
-Subject: [PATCH v3 2/2] devtool: srctree: New command for setting up browsable source-code
+Received: by 10.107.137.195 with HTTP; Wed, 13 Dec 2017 03:53:03 -0800 (PST)
+In-Reply-To: <CAN33hf9ntsO=MfoRExd==qHBTV5h0tgkAZqZTzr9R-yQK5ZcUQ@mail.gmail.com>
+References: <20171212024917.14550-1-allenwild93@gmail.com>
+	<1513068908.30397.2.camel@andred.net>
+	<CAN33hf_0Y1=fCKmFYeCCZdVcEGyMjeUZHSkMzMiZP0z1VC5jmA@mail.gmail.com>
+	<CAN33hf9ntsO=MfoRExd==qHBTV5h0tgkAZqZTzr9R-yQK5ZcUQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Dec 2017 11:53:03 +0000
+Message-ID: <CAJTo0LaCuoNPtTeKGqcvCsCMHqvLNq3w0U-RvhSg-dM-dmitTg@mail.gmail.com>
+To: Allen Wild <allenwild93@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] syslinux: always use the BFD linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,116 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 10:53:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Dec 2017 11:53:23 -0000
+Content-Type: multipart/alternative; boundary="001a1143f14c265fe70560376aa1"
 
-Setup a directory tree for source code according to section name.
-(if known).
+--001a1143f14c265fe70560376aa1
+Content-Type: text/plain; charset="UTF-8"
 
-This tree is intended for code browsing ONLY.
-If source is moved, for instance with devtool modify,
-this command should be rerun to be up-to-date with that move.
+On 13 December 2017 at 02:42, Allen Wild <allenwild93@gmail.com> wrote:
 
-Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
----
- scripts/lib/devtool/srctree.py | 87 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 scripts/lib/devtool/srctree.py
+> Oops, forgot mail the list when sending my first reply.
+>
+> I tried appending LDFLAGS, but it doesn't work for syslinux. It's
+> during do_install, not do_compile, that $(LD) is called directly to
+> link libutil.elf, libcom32.elf, libgpl.elf, and ldlinux.elf.
+>
 
-diff --git a/scripts/lib/devtool/srctree.py b/scripts/lib/devtool/srctree.py
-new file mode 100644
-index 0000000..f32088e
---- /dev/null
-+++ b/scripts/lib/devtool/srctree.py
-@@ -0,0 +1,87 @@
-+# Development tool - srctree command plugin
-+#
-+# Copyright (C) 2016-2017 Axis Communications AB
-+# Author: Tobias Hagelborn <tobias.hagelborn@axis.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+
-+"""Devtool srctree plugin"""
-+
-+import os
-+import logging
-+import tempfile
-+import bb
-+
-+from devtool import exec_build_env_command
-+
-+logger = logging.getLogger('devtool')
-+
-+
-+def _create_conf_file(values, conf_file=None):
-+    """ Create bitbake config for use with srctree devtool command """
-+    if not conf_file:
-+        _, conf_file = tempfile.mkstemp(suffix='.conf')
-+    elif not os.path.exists(os.path.dirname(conf_file)):
-+        logger.debug("Creating folder %s", os.path.dirname(conf_file))
-+        bb.utils.mkdirhier(os.path.dirname(conf_file))
-+    if values:
-+        with open(conf_file, 'w') as f:
-+            for key, value in values.items():
-+                f.write('%s = "%s"\n' % (key, value))
-+    return conf_file
-+
-+
-+#pylint: disable=unused-argument
-+def srctree(args, config, basepath, workspace):
-+    """Entry point for the devtool 'srctree' subcommand"""
-+
-+    values = {}
-+    if args.destination:
-+        values['SRCTREE_DIR'] = os.path.abspath(args.destination)
-+        logger.info('Setting up srctree in: %s', values['SRCTREE_DIR'])
-+    if args.verbose:
-+        values['SRCTREE_VERBOSE'] = "1"
-+    conf_file = _create_conf_file(values)
-+
-+    with open(conf_file, 'a') as f:
-+        f.write('INHERIT += "srctree"\n')
-+
-+    workdir = basepath
-+    exec_build_env_command(
-+        config.init_path, workdir,
-+        'bitbake -k -R %s -c srctree_all %s' % (conf_file, ' '.join(args.recipename)),
-+        watch=True)
-+    os.unlink(conf_file)
-+
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from this plugin"""
-+    parser_search = subparsers.add_parser(
-+        'srctree',
-+        help='Setup a directory tree for source code browsing',
-+        description='Setup a directory tree for source code according to section name (if known). '
-+                    'This tree is intended for code browsing ONLY. '
-+                    'If source is moved, for instance with devtool modify, '
-+                    'this command should be rerun to be up-to-date with that move. '
-+                    'Please read the README file that is created together with '
-+                    'the source tree for more information.')
-+    parser_search.add_argument('recipename', nargs='+',
-+                               help='Recipe to use. Multiple recipes are accepted. '
-+                               'Example: core-image-minimal')
-+    parser_search.add_argument('-D', '--destination',
-+                               help='Destination root folder. Default: ${TMPDIR}/srctree.')
-+    parser_search.add_argument('-v', '--verbose', action="store_true",
-+                               help='Be more verbose.')
-+    parser_search.set_defaults(func=srctree)
--- 
-2.1.4
+That's a terrible implementation of "install" and it should be using
+LDFLAGS, so that's an upstreamable patch.  As Andre says, adding the flag
+to LD directly should work.
 
+Ross
 
+--001a1143f14c265fe70560376aa1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 13 December 2017 at 02:42, Allen Wild <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:allenwild93@gmail.com" target=3D"_blank">allenwild93=
+@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">Oops, forgot mail the list =
+when sending my first reply.<br>
+<br>
+I tried appending LDFLAGS, but it doesn&#39;t work for syslinux. It&#39;s<b=
+r>
+during do_install, not do_compile, that $(LD) is called directly to<br>
+link libutil.elf, libcom32.elf, libgpl.elf, and ldlinux.elf.<br></blockquot=
+e><div><br></div><div>That&#39;s a terrible implementation of &quot;install=
+&quot; and it should be using LDFLAGS, so that&#39;s an upstreamable patch.=
+=C2=A0 As Andre says, adding the flag to LD directly should work.</div><div=
+><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a1143f14c265fe70560376aa1--
