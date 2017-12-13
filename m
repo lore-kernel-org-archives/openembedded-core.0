@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AED56025F
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B9609606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 14:40:54 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id b5so4049673itc.3
+	Wed, 13 Dec 2017 14:52:33 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id x204so2927868lfa.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 06:40:56 -0800 (PST)
+	Wed, 13 Dec 2017 06:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=taGTMNRNz+FNkSA1CY+9W8WSYRu+JUM+o0ezBlIbO3g=;
-	b=ms6uEr5aKGGelbQrlhZoPlQbQiKKYgKACpYNJx5Koo55nOvfGbYuWaqyUh9skE9T8q
-	yscZHqcwsT0wehzO4ZLEexOSXnl6rSzRE8Rg4atGnixgTWwYvMfijQ+W3Dh+cjGfJWqG
-	TDRat7M5zwzcQdFenUq0ZuP3jvosANPQtGmF38YTE460zaYeO75rLfGsxr5q8oWl0OT2
-	jRPVXEXBTlbAYl+W4+9oQPsSZ6b19inQL3iGKbs9RrkZkWRkDE+ApvVQ5bVZiH/EWAyT
-	wSUcGHWh+4aVtVlgk9UQGK4dBzDEdYf0aM8Pk1LqTsU0FrAEZK8pRhhbIpvv+THDv+2I
-	ZBnQ==
+	d=northern.tech; s=google;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Sv6mC5FAd22vwVhnmqra7edwDRuwthXB6qBpciu8Y/E=;
+	b=VDzRGuogUiabKtw8W9xu5k/06sS9DVMyS9O92qS61zd+ZjgAujVkgb2Yv5W4nF2ACE
+	zNL++d3A00zgEgvHabhx4V4obC/tRf424CBJ6/2m6IWw3lHB8UkgxBImU3/o7pOtaKRe
+	RpsrQ4Tlgurfh6VZ8b3CZvKjHTKuZPLCuKG+k8EM5Wt1xc7wg4tUTr0MoWoQQaXkDi0U
+	z9fp4Duiiw0JXEyLnskz7p2ymvs6kbUDOhH8Umxww+FT3Ha4ixXnIbzxIsnGAldqeWTs
+	bCXFHtXn0+8XgnaGdriaSKCrZEmwY3f2z7V/a20aFbnbgyNTG1oAKN7MH1A3OwemNvEk
+	Zsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=taGTMNRNz+FNkSA1CY+9W8WSYRu+JUM+o0ezBlIbO3g=;
-	b=ORyXT3WYsCjqI4vg8AkFWhT1TcSYrD9MTt5rFRpgZjrZUq9LSVpIApWzG2qcDpeVF1
-	94yDOqKgz4WhcK7Nzlu05kuW8a/lftrybAkunWJXPbKoacZUb65cUO+VJ5DAlW3XcXaI
-	isnLtigwIITADA6BZ7oH+64gEZdqjcCRnuzpqU0CHCe+LemiH403xBsrwhr/gDlVAqXw
-	vSfnLXDozUHXE5xhfqc8TAJQjKqsu+Omk7kqEjAfTMeDRrNHT3eHk59SwQIrzoDSvygv
-	6sKFyZYyFvXSJN3cFpB5SF7L88WOO+8+Be8ZcG+1MgOEzerBStqPyUMBljd7D59snhnj
-	gLKw==
-X-Gm-Message-State: AKGB3mK+GPOWU5QfSIYJOomAb4EjOYoKewTHaJa+k1ktSsKl8J09z2bD
-	1wWj+KoT5ZOXAf4n0K74wcxLf4Nr3zsAHHZtHqFTBw==
-X-Google-Smtp-Source: ACJfBouWZqRD9qAta+42fNCQ94fZq2OnlVs6Fa87HqwDaA3md7qOg5QBHULfylzvcdQUk3RPShgQwAFkT/068domEkA=
-X-Received: by 10.36.162.65 with SMTP id o1mr3136584iti.85.1513176055525; Wed,
-	13 Dec 2017 06:40:55 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.137.195 with HTTP; Wed, 13 Dec 2017 06:40:34 -0800 (PST)
-In-Reply-To: <20171128155527.GH3587@bill-the-cat>
-References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
-	<1510934900-22044-5-git-send-email-trini@konsulko.com>
-	<CAJTo0LbsO5iYxo5W9GRn-CMNpY+oyky9emUO69RTRvo6-D8ATg@mail.gmail.com>
-	<20171124153611.GD3587@bill-the-cat>
-	<20171128155527.GH3587@bill-the-cat>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Dec 2017 14:40:34 +0000
-Message-ID: <CAJTo0LaOB_=4EPi=k+HCf=sqYAfrw+5J_cqQ-MFmTtC24EZtRA@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Sv6mC5FAd22vwVhnmqra7edwDRuwthXB6qBpciu8Y/E=;
+	b=XVXVmWHjFDrej22o7Jx2RPgkwIN3x3rC6YmVTT8peYsE3+zJkqgA5b/LG4/0BQ0Erl
+	7i1WHjAFKpuLXDJBI2WQns+UUaFamp1USrErSIUXlCkKQAVFirJdStKDcKObBM7Rq20O
+	zvaslMKt7PVOGuPb5bbJ+NIhAVgSjfCTVmSamfv8V0N5eaWgH2Qf46ReNJcbLg2WioBY
+	Z4WhjSJOClASlCqeEjTACxfocYHNXtMSa7Hv7Tt6YSgZKVbN9nkGPlLNzqT8WWdYzIxj
+	rQ2l0+I9qDtv/wqItHUkft8tmUnybV2hk9MraLjZ/JX90XLyJws0PVFZRDqb7e75o59n
+	kVfA==
+X-Gm-Message-State: AKGB3mIJbNPAHsTwqKJJIemKnH4stzV3JKUCO4B33ehQjNytbfHluxk1
+	VPg/7GkVomen8Xb1QYE8zO/dntbmRgI=
+X-Google-Smtp-Source: ACJfBou56AslFztYcE25a6fczGZN8DNOMuBvIZYwtaBTKr1DaZtkUPjMHwtiomNpHVTXtlKn4nTF8Q==
+X-Received: by 10.46.43.65 with SMTP id q62mr1604545lje.56.1513176752552;
+	Wed, 13 Dec 2017 06:52:32 -0800 (PST)
+Received: from localhost.localdomain ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	p21sm305402ljb.85.2017.12.13.06.52.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 13 Dec 2017 06:52:31 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@northern.tech>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Dec 2017 15:52:29 +0100
+Message-Id: <1513176749-28928-1-git-send-email-kristian.amlie@northern.tech>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
+References: <1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
+Cc: Tom Rini <trini@konsulko.com>
+Subject: [PATCH v3] u-boot-fw-utils: Fix broken makefile in v2017.11.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,220 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 14:40:54 -0000
-Content-Type: multipart/alternative; boundary="f403045fbd8445ccc5056039c158"
+X-List-Received-Date: Wed, 13 Dec 2017 14:52:35 -0000
 
---f403045fbd8445ccc5056039c158
-Content-Type: text/plain; charset="UTF-8"
+See the patch for details. This patch has already been applied
+upstream, but we need it for v2017.11.
 
-I finally made it break locally, with MACHINE=qemux86 and using sysvinit
-instead of systemd.  Basically, a pristine poky local.conf.  I've not dug
-into it beyond that, or why it passes with systemd.
+Upstream-Status: Accepted [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
 
-Ross
+Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
+---
+ .../u-boot/files/v2017.11-fw-utils-build-fix.patch | 41 ++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc  |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
 
-On 28 November 2017 at 15:55, Tom Rini <trini@konsulko.com> wrote:
+diff --git a/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch b/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
+new file mode 100644
+index 0000000..6aadae4
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
+@@ -0,0 +1,41 @@
++From 2d3078f3c0bd0656dadf6341888d608c0fe921ea Mon Sep 17 00:00:00 2001
++From: Stefan Agner <stefan.agner@toradex.com>
++Date: Tue, 14 Nov 2017 15:47:18 +0100
++Subject: [PATCH 1/1] envtools: make sure version/timestamp header file are
++ available
++
++With commit 84d46e7e8948 ("tools: env: allow to print U-Boot version")
++the fw_env utilities need the version.h header file. Building only
++the envtools in a pristine build directory will fail due to missing
++header files.
++
++Make sure the header files are a dependency of the envtools target.
++
++Fixes: 84d46e7e8948 ("tools: env: allow to print U-Boot version")
++Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
++Tested-by: Peter Robinson <pbrobinson@gmail.com>
++Reviewed-by: Simon Glass <sjg@chromium.org>
++
++Upstream-Status: Accepted [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
++
++Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 61fd973..f8c66a2 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -1447,7 +1447,7 @@ checkarmreloc: u-boot
++ 		false; \
++ 	fi
++ 
++-envtools: scripts_basic
+++envtools: scripts_basic $(version_h) $(timestamp_h)
++ 	$(Q)$(MAKE) $(build)=tools/env
++ 
++ tools-only: scripts_basic $(version_h) $(timestamp_h)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
+index bfdf1a0..65f1228 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
+@@ -12,6 +12,7 @@ SRCREV = "c253573f3e269fd9a24ee6684d87dd91106018a5"
+ SRC_URI = "git://git.denx.de/u-boot.git \
+     file://MPC8315ERDB-enable-DHCP.patch \
+     file://10m50-update-device-tree.patch \
++    file://v2017.11-fw-utils-build-fix.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
 
-> On Fri, Nov 24, 2017 at 10:36:11AM -0500, Tom Rini wrote:
-> > On Fri, Nov 24, 2017 at 03:28:21PM +0000, Burton, Ross wrote:
-> > > Still fails on the autobuilder though:
-> > >
-> > > 2017-11-24 03:33:51,694 - oe-selftest - INFO - FAIL: test_qemu
-> (wic.Wic)
-> > > 2017-11-24 03:33:51,694 - oe-selftest - INFO -
-> > > ----------------------------------------------------------------------
-> > > 2017-11-24 03:33:51,694 - oe-selftest - INFO - Traceback (most recent
-> call
-> > > last):
-> > >   File
-> > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
-> nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
-> > > line 32, in wrapped_f
-> > >     return func(*args, **kwargs)
-> > >   File
-> > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
-> nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-> > > line 58, in wrapped_f
-> > >     return func(*args, **kwargs)
-> > >   File
-> > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
-> nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-> > > line 639, in test_qemu
-> > >     self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2
-> /\r\n/dev/sda3
-> > > /mnt\r\n/dev/sda4 /uuid')
-> > > AssertionError: '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt' !=
-> > > '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid'
-> > > - /dev/root /
-> > >   /dev/sda1 /boot
-> > > + /dev/sda2 /
-> > > - /dev/sda3 /mnt+ /dev/sda3 /mnt
-> > > ?               ++
-> > > + /dev/sda4 /uuid
-> >
-> > Erm, that doesn't make any sense:
-> >
-> > > > --- a/meta/lib/oeqa/selftest/cases/wic.py
-> > > > +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> > > > @@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0
-> > > --fstype=ext4 --exclude-path bin/ --r
-> > > >          self.assertEqual(0, bitbake('wic-image-minimal').status)
-> > > >          self.remove_config(config)
-> > > >
-> > > > -        with runqemu('wic-image-minimal', ssh=False) as qemu:
-> > > > -            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
-> > > > +        with runqemu('wic-image-minimal', ssh=False,
-> > > runqemuparams="nographic") as qemu:
-> >
-> > ... I'll v2 since disabling graphics was a local thing, oops.
-> >
-> > > > +            cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
-> > > > +            status, output = qemu.run_serial(cmd)
-> > > > +            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2
-> > > /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
-> > > > +            cmd = "grep UUID= /etc/fstab"
-> > > >              status, output = qemu.run_serial(cmd)
-> > > >              self.assertEqual(1, status, 'Failed to run command
-> "%s": %s'
-> > > % (cmd, output))
-> > > > -            self.assertEqual(output, '/dev/root /\r\n/dev/sda1
-> > > /boot\r\n/dev/sda3 /mnt')
-> > > > +            self.assertEqual(output,
-> > > 'UUID=2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\
-> tdefaults\t0\t0')
-> >
-> > We no longer want to match the string you've got showing up, and the
-> > string you have showing up says that /uuid wasn't mounted either.
-> >
-> > Can you check the sources in the autobuilder please and make sure the
-> > whole series got applied correctly?  Thanks!
->
-> Have you had a chance to look at this?  It's really confusing as the
-> test output is basically the wic-minimal-image without the change that's
-> included in this patch having been applied (it's 3 partitions).  Thanks!
->
-> --
-> Tom
->
 
---f403045fbd8445ccc5056039c158
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I finally made it break locally, with MACHINE=3Dqemux86 an=
-d using sysvinit instead of systemd.=C2=A0 Basically, a pristine poky local=
-.conf.=C2=A0 I&#39;ve not dug into it beyond that, or why it passes with sy=
-stemd.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><d=
-iv class=3D"gmail_quote">On 28 November 2017 at 15:55, Tom Rini <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:trini@konsulko.com" target=3D"_blank">trini@=
-konsulko.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div c=
-lass=3D"HOEnZb"><div class=3D"h5">On Fri, Nov 24, 2017 at 10:36:11AM -0500,=
- Tom Rini wrote:<br>
-&gt; On Fri, Nov 24, 2017 at 03:28:21PM +0000, Burton, Ross wrote:<br>
-&gt; &gt; Still fails on the autobuilder though:<br>
-&gt; &gt;<br>
-&gt; &gt; 2017-11-24 03:33:51,694 - oe-selftest - INFO - FAIL: test_qemu (w=
-ic.Wic)<br>
-&gt; &gt; 2017-11-24 03:33:51,694 - oe-selftest - INFO -<br>
-&gt; &gt; ------------------------------<wbr>------------------------------=
-<wbr>----------<br>
-&gt; &gt; 2017-11-24 03:33:51,694 - oe-selftest - INFO - Traceback (most re=
-cent call<br>
-&gt; &gt; last):<br>
-&gt; &gt;=C2=A0 =C2=A0File<br>
-&gt; &gt; &quot;/home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>ni=
-ghtly-oe-selftest/build/<wbr>meta/lib/oeqa/core/decorator/_<wbr>_init__.py&=
-quot;,<br>
-&gt; &gt; line 32, in wrapped_f<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0return func(*args, **kwargs)<br>
-&gt; &gt;=C2=A0 =C2=A0File<br>
-&gt; &gt; &quot;/home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>ni=
-ghtly-oe-selftest/build/<wbr>meta/lib/oeqa/selftest/cases/<wbr>wic.py&quot;=
-,<br>
-&gt; &gt; line 58, in wrapped_f<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0return func(*args, **kwargs)<br>
-&gt; &gt;=C2=A0 =C2=A0File<br>
-&gt; &gt; &quot;/home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>ni=
-ghtly-oe-selftest/build/<wbr>meta/lib/oeqa/selftest/cases/<wbr>wic.py&quot;=
-,<br>
-&gt; &gt; line 639, in test_qemu<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0self.assertEqual(output, &#39;/dev/sda1 /boot\=
-r\n/dev/sda2 /\r\n/dev/sda3<br>
-&gt; &gt; /mnt\r\n/dev/sda4 /uuid&#39;)<br>
-&gt; &gt; AssertionError: &#39;/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 =
-/mnt&#39; !=3D<br>
-&gt; &gt; &#39;/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda=
-4 /uuid&#39;<br>
-&gt; &gt; - /dev/root /<br>
-&gt; &gt;=C2=A0 =C2=A0/dev/sda1 /boot<br>
-&gt; &gt; + /dev/sda2 /<br>
-&gt; &gt; - /dev/sda3 /mnt+ /dev/sda3 /mnt<br>
-&gt; &gt; ?=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0++<br>
-&gt; &gt; + /dev/sda4 /uuid<br>
-&gt;<br>
-&gt; Erm, that doesn&#39;t make any sense:<br>
-&gt;<br>
-&gt; &gt; &gt; --- a/meta/lib/oeqa/selftest/<wbr>cases/wic.py<br>
-&gt; &gt; &gt; +++ b/meta/lib/oeqa/selftest/<wbr>cases/wic.py<br>
-&gt; &gt; &gt; @@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmc=
-blk0<br>
-&gt; &gt; --fstype=3Dext4 --exclude-path bin/ --r<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(0, bitbak=
-e(&#39;wic-image-minimal&#39;).<wbr>status)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.remove_config(config)=
-<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 with runqemu(&#39;wic-image-min=
-imal&#39;, ssh=3DFalse) as qemu:<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;mou=
-nt |grep &#39;^/dev/&#39; | cut -f1,3 -d &#39; &#39;&quot;<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with runqemu(&#39;wic-image-min=
-imal&#39;, ssh=3DFalse,<br>
-&gt; &gt; runqemuparams=3D&quot;nographic&quot;) as qemu:<br>
-&gt;<br>
-&gt; ... I&#39;ll v2 since disabling graphics was a local thing, oops.<br>
-&gt;<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;mou=
-nt |grep &#39;^/dev/&#39; | cut -f1,3 -d &#39; &#39; | sort&quot;<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =
-=3D qemu.run_serial(cmd)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(=
-output, &#39;/dev/sda1 /boot\r\n/dev/sda2<br>
-&gt; &gt; /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid&#39;)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;gre=
-p UUID=3D /etc/fstab&quot;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, outp=
-ut =3D qemu.run_serial(cmd)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertE=
-qual(1, status, &#39;Failed to run command &quot;%s&quot;: %s&#39;<br>
-&gt; &gt; % (cmd, output))<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(=
-output, &#39;/dev/root /\r\n/dev/sda1<br>
-&gt; &gt; /boot\r\n/dev/sda3 /mnt&#39;)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(=
-output,<br>
-&gt; &gt; &#39;UUID=3D2c71ef06-a81d-4735-9d3a-<wbr>379b69c6bdba\t/uuid\text=
-4\<wbr>tdefaults\t0\t0&#39;)<br>
-&gt;<br>
-&gt; We no longer want to match the string you&#39;ve got showing up, and t=
-he<br>
-&gt; string you have showing up says that /uuid wasn&#39;t mounted either.<=
-br>
-&gt;<br>
-&gt; Can you check the sources in the autobuilder please and make sure the<=
-br>
-&gt; whole series got applied correctly?=C2=A0 Thanks!<br>
-<br>
-</div></div>Have you had a chance to look at this?=C2=A0 It&#39;s really co=
-nfusing as the<br>
-test output is basically the wic-minimal-image without the change that&#39;=
-s<br>
-included in this patch having been applied (it&#39;s 3 partitions).=C2=A0 T=
-hanks!<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Tom<br>
-</font></span></blockquote></div><br></div>
-
---f403045fbd8445ccc5056039c158--
