@@ -1,34 +1,50 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B15860190
+Return-Path: <trini@konsulko.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 890766025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 14:25:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBDEPXOj026227
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Dec 2017 06:25:33 -0800 (PST)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 13 Dec 2017 06:25:33 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1513168490.19417.183.camel@linuxfoundation.org>
-	<694b540b-1fc8-0388-5419-01c6e3f100c6@windriver.com>
-	<1513173904.16507.1.camel@linuxfoundation.org>
-	<85f7c521-01c4-7870-0f57-7ca217fce8e3@windriver.com>
-	<1513174448.16507.8.camel@linuxfoundation.org>
-	<9c348b48-b93c-f1b4-9ab5-707c3af2a947@windriver.com>
-	<CAJTo0LYJ5X8QHgbggatAdMpPPH0Oj0m27TPEE1qBpO6N5fCH+A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <2bc45227-f190-3777-88e0-470862598c1b@windriver.com>
-Date: Wed, 13 Dec 2017 09:25:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Wed, 13 Dec 2017 14:30:19 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id e2so3911065qti.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 06:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=3L+W0LAspmjisbfCSeuby48Q1yJwGA8/V82xrTZZYak=;
+	b=Na3u0TlNH/MRd7F1rrQEI6ObejkhS77mKirHTBQ3IvtLc6Eu8UvsCdDrOdYyWBwnYh
+	RAqTzkhbO04mKnIerNRLfzxvveECLw/ezBG/GTrU2L9gEdjvFFkxa8m4MBAGgTOri5l/
+	kgttebV4sNBaL+XmQuPFvVh/j4bQ0+jM6lSD8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=3L+W0LAspmjisbfCSeuby48Q1yJwGA8/V82xrTZZYak=;
+	b=JghxFkwknk/FB6sKqGUudCXJWGkXjpQgTrEPaULhwzdqik/lSNRsaFwqph14nf3nsi
+	VpSFEfIldMJ8Xu1FzzLhniV6213QGBOozuhbXdR33p1m10CxunHooKrYVoGbFesq0g1J
+	d7d8BVPBpJQFfItO9dcjz1K10wztrKgqw0Kar53/RL10D43i7tu5CBKawhGSMNkF+HLW
+	WUSNP5THyrrMTrBjjGc2Y1jTU1dwEdIneUln6cGvwIRXY10Sb/cg9wZz/WfHaAW+/+fZ
+	CMBGUM10pg8P2HkBJQs1tJaPuqkBRrsRM4mq7bAAw+wo+d4zX8Kkj0iA6xjWaiDSYCkg
+	J4TA==
+X-Gm-Message-State: AKGB3mKxiO6tYxTmqcK7vZbAKtZa88hzovtFLfnCSBXAi/SNaIcLUtWT
+	MoU67fdjhl9kFM8rOFZAYUq8bg==
+X-Google-Smtp-Source: ACJfBouKK8sGi9nitDy+8VIgkHMSTRWjwGQqdEH66/EEOT5BinkSbdpoDhZ8bimNRvMCmKPUCf5ctQ==
+X-Received: by 10.200.4.130 with SMTP id s2mr11304029qtg.170.1513175420673;
+	Wed, 13 Dec 2017 06:30:20 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	o65sm1043925qka.86.2017.12.13.06.30.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Dec 2017 06:30:20 -0800 (PST)
+Date: Wed, 13 Dec 2017 09:30:18 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Kristian Amlie <kristian.amlie@northern.tech>
+Message-ID: <20171213143018.GR372@bill-the-cat>
+References: <1513171550-25534-1-git-send-email-kristian.amlie@northern.tech>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYJ5X8QHgbggatAdMpPPH0Oj0m27TPEE1qBpO6N5fCH+A@mail.gmail.com>
-Cc: "Lock, Joshua" <joshua.g.lock@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Fix for the APIC hangs in qemux86-64
+In-Reply-To: <1513171550-25534-1-git-send-email-kristian.amlie@northern.tech>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot-fw-utils: Fix broken makefile in v2017.11.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +57,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 14:25:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 13 Dec 2017 14:30:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/13/2017 09:24 AM, Burton, Ross wrote:
-> On 13 December 2017 at 14:17, Bruce Ashfield 
-> <bruce.ashfield@windriver.com <mailto:bruce.ashfield@windriver.com>> wrote:
+On Wed, Dec 13, 2017 at 02:25:50PM +0100, Kristian Amlie wrote:
+
+> See the patch for details. This patch has already been applied
+> upstream, but we need it for v2017.11.
 > 
->     yow-bashfiel-d4 [/home/bruc...poky/build]> oe-selftest -r
->     runqemu.RunqemuTests.test_boot_deploy
->     Traceback (most recent call last):
->        File "/home/bruce/poky/scripts/oe-selftest", line 43, in <module>
->          from oeqa.utils import load_test_components
->     ImportError: bad magic number in 'oeqa': b'\x03\xf3\r\n'
-> 
-> 
-> You've been switching between master and a pre-py3 branch, and Python is 
-> stupid so the py3 binary is trying to run py2 compiled binaries.
+> Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
 
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-Yah. My build directory is three years old :D
-
-> 
-> find poky -name \*.pyc -delete will fix it.
-
-Thanks. I'd have *never* come up with that!!!
-
-Bruce
-
-> 
-> Ross
-
+-- 
+Tom
 
