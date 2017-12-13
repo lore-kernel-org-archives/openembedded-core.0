@@ -1,26 +1,51 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A9177786BC
+Return-Path: <trini@konsulko.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C6CA71A30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 21:31:41 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2017 13:31:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,398,1508828400"; d="scan'208";a="12082175"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga003.jf.intel.com with ESMTP; 13 Dec 2017 13:31:42 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Dec 2017 13:31:14 -0800
-Message-Id: <1513200676-59900-3-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1513200676-59900-1-git-send-email-juro.bystricky@intel.com>
-References: <1513200676-59900-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH 2/4] kernel.bbclass: use class compiler-options
+	Wed, 13 Dec 2017 22:56:29 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id b184so4093357qkc.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 14:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=vw91kpMGovsYxlTaa1IyyzMCGox8LyRQ7FF3375qtDw=;
+	b=Tt0do4MkHiwnUr30EUcO7Lbu7/uR0RCexsy8OJGbHoC9Aowy65EgcJik/Tyu5KRJCe
+	ugrmrZL3Nu+y+P8q7ZGW5IaRqdsJpmearXDP2GuuktcHX1A3EahB812K/+hA+stJPY4x
+	DsV8Mm7vB72jlMIT/I7g4cCwqY5jPUCeLZvuk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=vw91kpMGovsYxlTaa1IyyzMCGox8LyRQ7FF3375qtDw=;
+	b=lbw4JZCArhgud86cqAwMvkbzXg2yni/6oHUdG6/brEV7yHeoYKhtiNUZLIVX9r2Jgi
+	Vlz4rhIEPYUjmbiP5QtWio2zsvBQBbFmjjymkjWKRFJVlZOwOBrdPfMnwWDRGB1cTJfQ
+	9JSvZvaUmLVOlLrxMAOB1LOCpXy3gus2K/JgbnxkdNm7bpCrw3RJ1YLnB29C5sAL+GDR
+	93wTHJzju0qdkLb7/2oR2CP+xKXNj3vOBj55mfIyUiD1d2J/665F8kIykSrZ0VNR3syZ
+	8V1qeO8DMqmFd6JJf4QDiw3Ahe5iTrit8bdKr+jZUQIAIXP44s11BX/R9vzYRIxu7c/+
+	yVUg==
+X-Gm-Message-State: AKGB3mIvncN7fr0cX5bqW9ujrcuqrumPN/Rl+PrBnFPF6YMXXb7NrbZy
+	c7i3YZyce5NOXyHBzlKP0i8I8g==
+X-Google-Smtp-Source: ACJfBossaKI2qFAeIhsknwqvZayJHMl8cP4i7GC/Ynf7de29wKWOJb4YMNtgpGh64WM9BcX2xo8nCg==
+X-Received: by 10.55.214.25 with SMTP id t25mr8989889qki.43.1513205791118;
+	Wed, 13 Dec 2017 14:56:31 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	y23sm1708564qtj.24.2017.12.13.14.56.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Dec 2017 14:56:30 -0800 (PST)
+Date: Wed, 13 Dec 2017 17:56:28 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Kristian Amlie <kristian.amlie@northern.tech>
+Message-ID: <20171213225628.GV372@bill-the-cat>
+References: <1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
+	<1513176749-28928-1-git-send-email-kristian.amlie@northern.tech>
+MIME-Version: 1.0
+In-Reply-To: <1513176749-28928-1-git-send-email-kristian.amlie@northern.tech>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] u-boot-fw-utils: Fix broken makefile in v2017.11.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 21:31:42 -0000
+X-List-Received-Date: Wed, 13 Dec 2017 22:56:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We use gcc option "-ffile-prefix-map" if available.
-Remove the local code that detects the availability of this
-compiler option (get_cc_option) and use a more generic code
-imported from compiler-option.bbclass.
+On Wed, Dec 13, 2017 at 03:52:29PM +0100, Kristian Amlie wrote:
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/kernel.bbclass | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+> See the patch for details. This patch has already been applied
+> upstream, but we need it for v2017.11.
+> 
+> Upstream-Status: Accepted [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
+> 
+> Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 7ef4f47..32730b1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,4 +1,4 @@
--inherit linux-kernel-base kernel-module-split
-+inherit linux-kernel-base kernel-module-split compiler-options
- 
- PROVIDES += "virtual/kernel"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
-@@ -244,15 +244,6 @@ python do_devshell_prepend () {
- 
- addtask bundle_initramfs after do_install before do_deploy
- 
--get_cc_option () {
--		# Check if KERNEL_CC supports the option "file-prefix-map".
--		# This option allows us to build images with __FILE__ values that do not
--		# contain the host build path.
--		if ${KERNEL_CC} -Q --help=joined | grep -q "\-ffile-prefix-map=<old=new>"; then
--			echo "-ffile-prefix-map=${S}=/kernel-source/"
--		fi
--}
--
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-@@ -287,7 +278,7 @@ kernel_do_compile() {
- 		copy_initramfs
- 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
- 	fi
--	cc_extra=$(get_cc_option)
-+	cc_extra=$(file_prefix_map_option_supported ${KERNEL_CC})
- 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
- 		oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
- 	done
-@@ -301,7 +292,7 @@ kernel_do_compile() {
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
--		cc_extra=$(get_cc_option)
-+		cc_extra=$(file_prefix_map_option_supported ${KERNEL_CC})
- 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
- 
- 		# Module.symvers gets updated during the 
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
 -- 
-2.7.4
-
+Tom
 
