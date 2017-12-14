@@ -1,17 +1,20 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D1D078296
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A670178296
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 16:51:09 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 1C3ED5C3A2B;
-	Thu, 14 Dec 2017 17:45:08 +0100 (CET)
-MIME-Version: 1.0
-Date: Thu, 14 Dec 2017 17:46:14 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	jussi.kukkonen@intel.com
-In-Reply-To: <eb8c0e61-9433-2d83-ab23-eed945b476df@linux.intel.com>
+	Thu, 14 Dec 2017 16:58:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Dec 2017 08:58:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,400,1508828400"; 
+   d="scan'208";a="2731842"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga007.jf.intel.com with ESMTP; 14 Dec 2017 08:58:42 -0800
+To: Stefan Agner <stefan@agner.ch>
 References: <20171213180624.30839-1-stefan@agner.ch>
 	<cce87fc26f1e975fe9ee6d9321bbb870@agner.ch>
 	<56bd3e44-1478-9095-4fef-3f7453b7ec94@linux.intel.com>
@@ -23,13 +26,14 @@ References: <20171213180624.30839-1-stefan@agner.ch>
 	<dbdaea03-62b9-3437-5da4-897b633f813d@linux.intel.com>
 	<d74719f7fc9f92cfdc443720915252e5@agner.ch>
 	<eb8c0e61-9433-2d83-ab23-eed945b476df@linux.intel.com>
-Message-ID: <c7efc74858b05a59105bd21fb6669e48@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.2.5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1513269908; bh=ZG3nyDd4F8otEXAqGKhspeOy7hfBjdSqJLp5r7lsB3Q=;
-	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
-	b=DyZicVwGigajm+gyfQzvsEVolraOZ7d8taNn39zlVmhIbOzCtgQfUAMkA2qAgbdr2hTn7/1F222hADdYj9gsaqCvfmKDYlSyR35Uu0TwZ51/kMtRO8RkIznxYwOHsojJLr6sRAgfs5mPi/fIIZ6cfCjXrDD3BVOV9f7MUqh7u/8=
+	<c7efc74858b05a59105bd21fb6669e48@agner.ch>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <2ddf3fe7-20f3-87e0-969d-a0ed83cf9256@linux.intel.com>
+Date: Thu, 14 Dec 2017 18:59:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <c7efc74858b05a59105bd21fb6669e48@agner.ch>
 Cc: Stefan Agner <stefan.agner@toradex.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [RFC] opkg: avoid running postinst scripts twice when using systemd
@@ -45,154 +49,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 16:51:10 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 14 Dec 2017 16:58:42 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 2017-12-14 16:14, Alexander Kanavin wrote:
-> On 12/14/2017 04:57 PM, Stefan Agner wrote:
->> On 2017-12-14 15:55, Alexander Kanavin wrote:
->>> On 12/14/2017 04:41 PM, Stefan Agner wrote:
->>>
->>>> I think removing the Opkg first boot systemd service (as the initial
->>>> patch does) is the correct first step.
->>>>
->>>> However, it currently still leads to a second copy of the postinst
->>>> scripts in /etc if package management is enabled.
->>>> I am pretty sure that adding if delayed_postinsts and not
->>>> runtime_pkgmanage: should resolve the problem for ipk/deb fully: With
->>>> that run-postinsts will run "opkg configure"/"dpkg --configure -a"
->>>> respectively when package management is installed, and those command
->>>> will run all postinst correctly.
->>>
->>> Why is the second copy a problem? Can you elaborate? Don't describe
->>> the fix, describe the issue.
->>>
->>>  From what I can see, run-postinsts will execute opkg configure if opkg
->>> is available, or run the scripts directly if opkg is not available -
->>> which is fine. Why do you need to avoid saving the scripts in /etc if
->>> opkg is installed?
->>
->> No, it will call the scripts in /etc/*-postinsts (it bails out of the
->> for loop if the post inst dir is there...)
-> 
-> Let's look at the code. Can you point out what the faulty code path is?
-> 
-> # the order of this list is important, do not change!
-> backend_list="rpm deb ipk"
-> 
-> pm_installed=false
-> 
-> for pm in $backend_list; do
->         pi_dir="#SYSCONFDIR#/$pm-postinsts"
-> 
->         if [ ! -d $pi_dir ]; then
->                 continue
->         fi
+On 12/14/2017 06:46 PM, Stefan Agner wrote:
+
+> Suggestion:
+> - Still remove systemd opkg service as proposed, since run-postinsts
+> gets run with systemd and should/will handle package manager just fine
+
+Yes.
+
+> - Change run-postinsts to behave sane: Detect package management by
+> checking /var/lib/dpkg/status and /var/lib/opkg/status only (remove the
+> if [ ! -d $pi_dir ]; then continue; fi...)
+
+Maybe; you need to explain this carefully in the commit message.
+
+> - Stop deploying /etc/*-postinsts when package management is installed
+
+Probably not; rpm does not have a facility for 'delayed postinst 
+execution' the way dpkg/opkg do, and this would create more confusion 
+and special-casing than achieve any real improvement imo.
+
+Jussi left Intel several months ago.
 
 
-I need to admit that parts of my testing was using morty, and I looked
-at the code which was on that platform.
-
-That logic got changed... It used to looked like that in morty:
-http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts?h=morty#n16
-
-The change has been made due to the same issue I mentioned above:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10478
-
-
-So yes, it actually works right now. The systemd service still seems
-superfluous though, since run-postinsts does the opkg configure.
-
-
-But then, digging a bit deeper, I come to following findings:
-IMHO, Jussi came to the wrong conclusion that the break is the bug
-(Comment #4 in the above bug). The "break" was intentionally: The
-intention was to let run-postinsts handle the scripts *always* if there
-were script in the rootfs.
-
-And a little bit earlier meta/lib/oe/rootfs.py did exectly what I
-proposed:
-http://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootfs.py?id=b198a189228648057c3be7d068598f50841b3bf9#n131
-
--> It only installed postinst if package management was disabled and
-delayed postinsts were necessary.
-
-I think the order of events was that the removing with package
-management got broken with this commit:
-http://git.openembedded.org/openembedded-core/commit/meta/lib/oe/rootfs.py?id=5aae19959a443c6ac4b0feef10715c8acf3c6376
-
-Judging from the commit log that was not intentionally.
-
-So from then on, we installed /etc/*-postinsts even when using package
-management...
-
-At that lead to the the issue #10478, which fixed the issue at
-runtime...
-
-
-Anyway, I think it is not sensible to deploy scripts we just delete on
-first boot when we could have not deployed them in first place!
-
-Also, we rely on some scripts in /etc/*-postinsts to be present to call
-the package manager, although the package manger has no direct relation
-to those scripts...
-
-
-Suggestion:
-- Still remove systemd opkg service as proposed, since run-postinsts
-gets run with systemd and should/will handle package manager just fine
-- Change run-postinsts to behave sane: Detect package management by
-checking /var/lib/dpkg/status and /var/lib/opkg/status only (remove the
-if [ ! -d $pi_dir ]; then continue; fi...)
-- Stop deploying /etc/*-postinsts when package management is installed
-
---
-Stefan
-
-
-> 
->         # found the package manager, it has postinsts
->         case $pm in
->                 "deb")
->                         if [ -s "#LOCALSTATEDIR#/lib/dpkg/status" ]; then
->                                 pm_installed=true
->                         fi
->                         ;;
-> 
->                 "ipk")
->                         if [ -s "#LOCALSTATEDIR#/lib/opkg/status" ]; then
->                                 pm_installed=true
->                         fi
->                         ;;
->         esac
->         break
-> done
-> 
-> ....
-> 
-> if $pm_installed; then
->         case $pm in
->                 "ipk")
->                         eval opkg configure $append_log
->                         ;;
-> 
->                 "deb")
->                         eval dpkg --configure -a $append_log
->                         ;;
->         esac
-> else
->         exec_postinst_scriptlets
-> fi
-> 
-> # since all postinstalls executed successfully, remove the
-> postinstalls directory
-> # and the rcS.d link
-> if [ $remove_pi_dir = 1 ]; then
->         rm -rf $pi_dir
->         remove_rcsd_link
-> fi
-> 
-> 
-> Alex
+Alex
 
