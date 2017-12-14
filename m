@@ -1,47 +1,46 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B6D078678
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B60D78784
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 00:27:01 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id k134so2241276pga.3
+	Thu, 14 Dec 2017 01:00:37 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id b18so2286441pgv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 16:27:03 -0800 (PST)
+	Wed, 13 Dec 2017 17:00:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=249ryGpOz+Jy9T6SkXpg7QGjW0jfHm67bFGuJr/8apY=;
-	b=up3jvBae5uy58zZBdtesazhSM/UX7sC+233FudPIDzChjBfOxE+lTdGD4ZbYvsohNw
-	+MaDtGYgmlXj8jBFSlyepIKD7m+NU48sKhCNnWNcOfVTMXcdunMtK3XGML0aZijffXne
-	cu6Kw9BbxyawQ/N+UeUEhlHF64DokHBkZ5vr7oYTirXGNJMrqKN7lOqojmos/+hdDVX4
-	xgYgmvxTQlyIbHEG1pXIBEqavMsmLoysQxnY48RCO4ippNfSM1SfqwXEpysB+AMOYDmn
-	ztGZ42R/SkCZYwwqvCFAt2lfFshAmNamU5FZVFGCqxlMjAjl6vZ4HycaaEv+B9XwsHXt
-	ttjA==
+	bh=YwV3OqdQwn+/7hZ5YW/miTnCwLtViXvmsGyqAlXyLpQ=;
+	b=CRGJWfSEI2nLjhYLgmO6RXJIj2h7WaizxBn4HHh6BPl94/zCGjz9YnVZHXibOhFUpm
+	IPu1HkyIbyhDZY05iYilQf2YJ6OBEiullEBrd2jWKL9SHfb5/5HjhpyoHpOqhyFgzwfn
+	SNlLf3aYtEZmCXC+zTJRxuEBxfb0WaG1bFh6OMNiN+B0djusnJwja4byQ7Ilp2pz6KIs
+	my/rZanx+XyAanIhx8eMKmWC1jem07k809oBHUA3e/U268Qn/sf9dje3JK5hd1I37ZuC
+	kBVBaugqWxs6WVzs0gFbIgkyrFlEueCCDSx44+xht0fSmBIRG69zhahCXmEATtIj42AT
+	pQ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=249ryGpOz+Jy9T6SkXpg7QGjW0jfHm67bFGuJr/8apY=;
-	b=j7FfR3/d88nQksur9xA1i1zx/G8aqmtfmJ8dRYL+tBUPD5A2R+FEsCCn4ODF/koC6K
-	3ayWSUitkP3LXFO9+aZrfosvzmvzlUusw9hiZKWqLnIUM3qgoRTYMCo0cQgeL32/K2vo
-	KuvdK8q5b3nh5FkMvKIj7ulmeTbZL67Yy4emiRgxtsXfQO22e+vwayN61QLw/srJpLfK
-	+CiRbca3JSz8yIePvj1/e1nYVs4rCXD4rw7BCk1UlhUsqQ09tRPhUV7DnDomPuAIQZm8
-	IpAFMSOP7p2XkRly9YUxtJCfRC7aMJOUUYWl1SpiRQJkP45La28BAsCAS17r7kKqDv6P
-	MR2g==
-X-Gm-Message-State: AKGB3mKQ717Vbw2G9IsMp3R1UcPsUJzuw5a2deDvZIO6tEpLxA/B4x08
-	176mLn4t0HZuR0ceEqPHKZOG0g==
-X-Google-Smtp-Source: ACJfBoutpOEGR1qPm03uis+T2DYW5NPpbpPAH/I2PslYGMeXLOSEqCWFn+22Fe56M28kzU+r1CUolg==
-X-Received: by 10.84.133.67 with SMTP id 61mr3022509plf.20.1513211222982;
-	Wed, 13 Dec 2017 16:27:02 -0800 (PST)
-Received: from ip-172-31-1-64.ap-northeast-2.compute.internal
-	(ec2-13-124-121-69.ap-northeast-2.compute.amazonaws.com.
-	[13.124.121.69])
-	by smtp.gmail.com with ESMTPSA id b8sm5124989pff.26.2017.12.13.16.27.01
+	bh=YwV3OqdQwn+/7hZ5YW/miTnCwLtViXvmsGyqAlXyLpQ=;
+	b=U4gdpaDRGvfdyichsaBmr35PlydzIjD6HvZ2ZRmFiz/HwHdhSD1SRNJD0TLLpGu0qQ
+	BT4X313DzyZdMNv7PSeR39G/ohKurrKB/LOIFdBmTuc6SsKhH8RQmijWJbNIKqlv6umc
+	dDwlC9S5DdSJ5LOwgR1dXgiuN0IHo8xMGGh8n7fpIiyHsuQyKOEoU+SASBtFh7gi1c2B
+	wogglQhm8ByjC1IReH53f9UL32IEVJqYBzidQs5G4AdoHsreEH3zDRlrbic23a+wJErE
+	SUEu+PyVKY1DV75kQVGri0pcZ3Xg9N1Ude8aIbfUynyazmIYyQtc0cqoNxgiPFrH1JFI
+	R2WA==
+X-Gm-Message-State: AKGB3mL0X3Nz0e5A83YN+K0fRmJ81cWPZEwlQsgf1x3lntGfHaqYkpAK
+	DQbP42zXn3mYHuWFIddhmcCYmw==
+X-Google-Smtp-Source: ACJfBouxjgJQXvJ5cRMYVLMjvRzIZI/TIjjmBjW7PwNc+rDtGLCSoSVLhIg/NONjJD7YDzYlS38q0w==
+X-Received: by 10.101.97.173 with SMTP id i13mr6879773pgv.449.1513213238757;
+	Wed, 13 Dec 2017 17:00:38 -0800 (PST)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	x21sm5460451pfi.174.2017.12.13.17.00.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Dec 2017 16:27:02 -0800 (PST)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
+	Wed, 13 Dec 2017 17:00:37 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Dec 2017 00:26:50 +0000
-Message-Id: <1513211210-73090-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] iproute2: 4.13.0 -> 4.14.1
+Date: Wed, 13 Dec 2017 17:00:31 -0800
+Message-Id: <1513213231-16818-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [morty][PATCH] cmake: avoid configure failures if CFLAGS contains -Wstrict-prototypes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +53,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 00:27:02 -0000
+X-List-Received-Date: Thu, 14 Dec 2017 01:00:38 -0000
 
-- This release features JSON output for many commands and greater
-  support of offloading to hardware.
-
-- Config is changed to config.mk
-
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit 0c89b010ce2e426f55ac7c6f94befef988913834)
 ---
- meta/recipes-connectivity/iproute2/iproute2.inc                   | 2 +-
- .../iproute2/0001-libc-compat.h-add-musl-workaround.patch         | 8 ++++----
- .../iproute2/{iproute2_4.13.0.bb => iproute2_4.14.1.bb}           | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_4.13.0.bb => iproute2_4.14.1.bb} (75%)
+ meta/recipes-devtools/cmake/cmake.inc              |  1 +
+ ...void-gcc-warnings-with-Wstrict-prototypes.patch | 42 ++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index a578eb3..b404eed 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -21,7 +21,7 @@ EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/ipr
- do_configure_append () {
-     sh configure ${STAGING_INCDIR}
-     # Explicitly disable ATM support
--    sed -i -e '/TC_CONFIG_ATM/d' Config
-+    sed -i -e '/TC_CONFIG_ATM/d' config.mk
- }
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 4fcb0b1..821bb81 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -14,6 +14,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV', True).split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://support-oe-qt4-tools-names.patch \
+            file://qt4-fail-silent.patch \
++           file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
+            "
  
- do_install () {
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-index 3d324c9..50c4bfb 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-@@ -15,13 +15,13 @@ https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-work
- Signed-off-by: Baruch Siach <baruch@tkos.co.il>
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
- ---
-- include/linux/libc-compat.h | 4 +++-
-+ include/uapi/linux/libc-compat.h | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
--diff --git a/include/linux/libc-compat.h b/include/linux/libc-compat.h
-+diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
- index f38571d..30f0b67 100644
----- a/include/linux/libc-compat.h
--+++ b/include/linux/libc-compat.h
-+--- a/include/uapi/linux/libc-compat.h
-++++ b/include/uapi/linux/libc-compat.h
- @@ -49,10 +49,12 @@
-  #define _LIBC_COMPAT_H
-  
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb
-similarity index 75%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb
-index 32bf0d5..81e2e4a 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb
-@@ -7,8 +7,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-ip-Remove-unneed-header.patch \
-           "
- 
--SRC_URI[md5sum] = "69dc9e3ece3296890278f0de478330c8"
--SRC_URI[sha256sum] = "9cfb81edf8c8509e03daa77cf62aead01c4a827132f6c506578f94cc19415c50"
-+SRC_URI[md5sum] = "1075423d7029e02a8f23ed4f42b7e372"
-+SRC_URI[sha256sum] = "d43ac068afcc350a448f4581b6e292331ef7e4e7aa746e34981582d5fdb10067"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ SRC_URI[md5sum] = "d6dd661380adacdb12f41b926ec99545"
+diff --git a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+new file mode 100644
+index 0000000..8b8d480
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+@@ -0,0 +1,42 @@
++From 4bc17345c01ea467099e28c7df30c23ace9e7811 Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Fri, 14 Oct 2016 16:26:58 -0700
++Subject: [PATCH] CheckFunctionExists.c: avoid gcc warnings with
++ -Wstrict-prototypes
++
++Avoid warnings (and therefore build failures etc) if a user happens
++to add -Wstrict-prototypes to CFLAGS.
++
++ | $ gcc --version
++ | gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
++ |
++ | $ gcc -Wstrict-prototypes -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -o foo.o -c Modules/CheckFunctionExists.c
++ | Modules/CheckFunctionExists.c:7:3: error: function declaration isn't a prototype [-Werror=strict-prototypes]
++ |    CHECK_FUNCTION_EXISTS();
++ |    ^
++ | cc1: all warnings being treated as errors
++ |
++
++Upstream-Status: Pending
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ Modules/CheckFunctionExists.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Modules/CheckFunctionExists.c b/Modules/CheckFunctionExists.c
++index 2304000..224e340 100644
++--- a/Modules/CheckFunctionExists.c
+++++ b/Modules/CheckFunctionExists.c
++@@ -4,7 +4,7 @@
++ extern "C"
++ #endif
++   char
++-  CHECK_FUNCTION_EXISTS();
+++  CHECK_FUNCTION_EXISTS(void);
++ #ifdef __CLASSIC_C__
++ int main()
++ {
++-- 
++1.9.1
++
 -- 
-2.7.4
+1.9.1
 
 
