@@ -1,42 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B8AF971C54
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6374D71C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 11:18:17 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id x204so6183976lfa.11
+	Thu, 14 Dec 2017 12:26:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBECQU32025771
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 03:18:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=cv1AwMQrjiYTCz9Wd8Z9MUiUFp7IeVnqudF8mtQB3xg=;
-	b=KsqX+ppJ2gGXJwVuoEqfs3CZxmHEafkXCk/PV3UeuE76vpWhjwW2zML8xf+K6piuXa
-	umgy0YNMx0IEthGrjV+pqcn3mTUwdUhimwPiBdZOv1LNZswjlPkvmTBxMpesTM72AWwc
-	VT4fvfKcBJcsLAnSGrSgyHlUCD+DhbDd6PBEPK1c8X4qlzCdYRPyPtYoFzRNMWqcLYVp
-	DBskweJdD456pVr647PaujOOaKyiZFT38VOjp+FOodXJLG/dC8AGcd+vh5ewliGJixox
-	nNwmBSPveFMEKZit2pSdN/aEvK7Cr7yM6MfoBKWWp3T7sciKNbi/abp3e1gCDnW/qKcC
-	Ynug==
-X-Gm-Message-State: AKGB3mK2LC6YdiGm2TZOvKB4FpuDOo5jcCU08h/W9J/vDuFfxs/BlUNq
-	2U5JCry11j79zhpVB9NAZwwauIv7
-X-Google-Smtp-Source: ACJfBovwqwyWMNiHgtECgDm91Nh9pPv4wprRpNin/u2fCpZH0QPN+oTQZYZPFuCCX36/z9GqQIbZHQ==
-X-Received: by 10.46.75.1 with SMTP id y1mr3602576lja.141.1513250298007;
-	Thu, 14 Dec 2017 03:18:18 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 19sm723723ljx.58.2017.12.14.03.18.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Dec 2017 03:18:17 -0800 (PST)
-Message-ID: <1513250295.30397.73.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Dec 2017 11:18:15 +0000
-In-Reply-To: <1513218231-12626-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-References: <1513218231-12626-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-X-Mailer: Evolution 3.26.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] Fix build issues with fitimage
+	Thu, 14 Dec 2017 04:26:30 -0800
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 14 Dec 2017 04:26:29 -0800
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Dec 2017 14:26:28 +0200
+Message-ID: <20171214122628.95611-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.10.2
+MIME-Version: 1.0
+Subject: [PATCH] openssl-nativesdk: Fix "can't open config file" warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,18 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 11:18:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Dec 2017 12:26:29 -0000
+Content-Type: text/plain
 
-On Wed, 2017-12-13 at 18:23 -0800, Manjukumar Matha wrote:
-> While building fitimage with initramfs bundle using INITRAMFS_IMAGE and
-> INITRAMFS_IMAGE_BUNDLE = "1", we have few failures
+When SDK is not installed in the default location, openssl will not be 
+able to find the the openssl.cnf config file:
 
-Nothing against these patches, but what is the use-case to do that? Why
-don't you just disable INITRAMFS_IMAGE_BUNDLE?
+"WARNING: can't open config file: XXXX/usr/lib/ssl/openssl.cnf"
 
-Cheers,
-Andre'
+To fix this, we need to provide the environment variable $OPENSSL_CONF 
+pointing to the correct config file location.
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ .../openssl/openssl/environment.d-openssl.sh                  |  1 +
+ meta/recipes-connectivity/openssl/openssl10.inc               |  7 +++++++
+ meta/recipes-connectivity/openssl/openssl_1.0.2m.bb           |  5 +++++
+ meta/recipes-connectivity/openssl/openssl_1.1.0g.bb           | 11 +++++++++++
+ 4 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+new file mode 100644
+index 0000000..b9cc24a
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+@@ -0,0 +1 @@
++export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
+diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+index 4697755..71e80f1 100644
+--- a/meta/recipes-connectivity/openssl/openssl10.inc
++++ b/meta/recipes-connectivity/openssl/openssl10.inc
+@@ -271,5 +271,12 @@ do_install_append_class-native() {
+ 	    OPENSSL_ENGINES=${libdir}/ssl/engines
+ }
+ 
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+index 9270f52..fcb627a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+@@ -44,6 +44,11 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch  \
+             file://0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch \
+             "
++
++SRC_URI_append_class-nativesdk = " \
++    file://environment.d-openssl.sh \
++   "
++
+ SRC_URI[md5sum] = "10e9e37f492094b9ef296f68f24a7666"
+ SRC_URI[sha256sum] = "8c6ff15ec6b319b50788f42c7abc2890c08ba5a1cdcd3810eb9092deada37b0f"
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
+index 53f397a..0d4c90f 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
+@@ -21,6 +21,10 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch \
+           "
+ 
++SRC_URI_append_class-nativesdk = " \
++    file://environment.d-openssl.sh \
++   "
++
+ S = "${WORKDIR}/openssl-${PV}"
+ 
+ inherit lib_package multilib_header ptest
+@@ -143,6 +147,13 @@ do_install_append_class-native () {
+         sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+ }
+ 
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ do_install_ptest() {
+         cp -r * ${D}${PTEST_PATH}
+ 
+-- 
+2.10.2
 
 
