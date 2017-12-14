@@ -1,34 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF9C17814B
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C29671B69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 15:00:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBEF0TTZ029501
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 14 Dec 2017 07:00:29 -0800
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 14 Dec 2017 07:00:29 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1513168490.19417.183.camel@linuxfoundation.org>
-	<694b540b-1fc8-0388-5419-01c6e3f100c6@windriver.com>
-	<1513173904.16507.1.camel@linuxfoundation.org>
-	<85f7c521-01c4-7870-0f57-7ca217fce8e3@windriver.com>
-	<1513174448.16507.8.camel@linuxfoundation.org>
-	<2df34489-8c8f-bd76-3972-7ab648aeffee@windriver.com>
-	<1513209861.16507.15.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <bb702844-1776-7ab9-aec9-0acc2c720585@windriver.com>
-Date: Thu, 14 Dec 2017 10:00:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Thu, 14 Dec 2017 15:02:41 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9129D5C188A;
+	Thu, 14 Dec 2017 15:56:40 +0100 (CET)
 MIME-Version: 1.0
-In-Reply-To: <1513209861.16507.15.camel@linuxfoundation.org>
-Cc: "Lock, Joshua" <joshua.g.lock@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Fix for the APIC hangs in qemux86-64
+Date: Thu, 14 Dec 2017 15:57:47 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <dbdaea03-62b9-3437-5da4-897b633f813d@linux.intel.com>
+References: <20171213180624.30839-1-stefan@agner.ch>
+	<cce87fc26f1e975fe9ee6d9321bbb870@agner.ch>
+	<56bd3e44-1478-9095-4fef-3f7453b7ec94@linux.intel.com>
+	<a2a011e2de41685295946b44f13102f4@agner.ch>
+	<74fb0f2c-574b-56be-1bba-6b859ee07029@linux.intel.com>
+	<d31c5759f38e450334b7762afb5e7496@agner.ch>
+	<2e3178d0-c6eb-97f8-c524-bcee54091397@linux.intel.com>
+	<37d7ff0a6470bb60cf62d73585b3c3f8@agner.ch>
+	<dbdaea03-62b9-3437-5da4-897b633f813d@linux.intel.com>
+Message-ID: <d74719f7fc9f92cfdc443720915252e5@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513263400; bh=x9p16sckh8yPzVURNMrh91QTFDwGP9g9H4n517jAN+U=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=sOjJWU9TwoQ1kGgxLdqfaTRxMfXxiRjoM6u9xXCAuziJfmuq9hyCS5PBCLZhYM7uhptrFDLm/yA99vuh9esqQEFtMQYHZvq1Cdy+yoGsvL6yGR801obJt0v99ynFEDOpPm0IfPXUAlvUlfZ5KVrIYTe0LGF9wDXz/LH+9GpCKd0=
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] opkg: avoid running postinst scripts twice when using systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,129 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 15:00:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 14 Dec 2017 15:02:42 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 12/13/2017 07:04 PM, Richard Purdie wrote:
-> On Wed, 2017-12-13 at 19:01 -0500, Bruce Ashfield wrote:
->> On 2017-12-13 9:14 AM, Richard Purdie wrote:
->>>
->>> On Wed, 2017-12-13 at 09:07 -0500, Bruce Ashfield wrote:
->>>>
->>>> On 12/13/2017 09:05 AM, Richard Purdie wrote:
->>>>>
->>>>>
->>>>> On Wed, 2017-12-13 at 08:38 -0500, Bruce Ashfield wrote:
->>>>>>
->>>>>>
->>>>>> On 12/13/2017 07:34 AM, Richard Purdie wrote:
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> Hi Bruce,
->>>>>>>
->>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
->>>>>>>
->>>>>>> We've root caused the hangs we're seeing in qemux86-64 on
->>>>>>> our
->>>>>>> autobuilder workers. We've identified a commit on 4.15-rc3
->>>>>>> which
->>>>>>> fixes
->>>>>>> the issue but backporting it to the autobuilder's host
->>>>>>> kernels
->>>>>>> will
->>>>>>> be
->>>>>>> a pain.
->>>>>>>
->>>>>>> As a workaround I'd like to enable x2apic on qemux86-64.
->>>>>>> Since
->>>>>>> that
->>>>>>> works via MSRs it avoids the problem.
->>>>>>>
->>>>>>> Would it be a big issue to set CONFIG_X86_X2APIC=y for
->>>>>>> qemux86-
->>>>>>> 64?
->>>>>> Nope. No big deal at all. I've used the same config i the
->>>>>> past
->>>>>> when doing work with rt-KVM, so I know it well.
->>>>>>
->>>>>> I'll prep a commit, and send it along as part of a rebased
->>>>>> set
->>>>>> of kernel patches.
->>>>> Thanks, much appreciated.
->>>>>
->>>>> Did we get to the bottom of the 4.12 selftest failures?
->>>>>
->>>> Not yet no. I was distracted for a day, but need to learn how
->>>> to run them myself. I was able to log in via serial in my normal
->>>> boot flow, so that didn't get me anywhere.
->>>>
->>>> Is the selftest HOWO in the yocto docs ? I'll google it up this
->>>> morning.
->>> No HOWTO but I did give you the command. In a poky checkout run:
->>>
->>> oe-selftest -r runqemu.RunqemuTests.test_boot_deploy
->>>
->>> which runs a single test that fails (setup DL_DIR/SSTATE_MIRRORS
->>> first
->>> to speed it up a bit).
->>>
->>> It may tell you to clear SANITY_TESTED_DISTROS, I think it auto
->>> adds
->>> meta-selftest now. You may also need to set DISPLAY to something
->>> (e.g.
->>> a dummy vncserver).
->>>
->> With the cleanup that Ross gave me, I'm now able to see the issue.
->>
->> I'll start debugging on Thursday.
->>
->> One additional question: what's the right way to find the logs of
->> that
->> run ?
->>
->> I'm getting a bit of noise from:
->>
->> ----------------
->>        0155:            else:
->> Exception: FileNotFoundError: [Errno 2] No such file or directory:
->> '/home/bruce/poky/build/tmp/sysroots-components/x86_64/python3-
->> native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
->> 1.pyc'
->> ->
->> '/home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
->> r0/recipe-sysroot-
->> native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
->> 1.pyc'
->>
->> ERROR: gnu-efi-3.0.6-r0 do_package: Function failed:
->> extend_recipe_sysroot
->> ERROR: Logfile of failure stored in:
->> /home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
->> r0/temp/log.do_package.10495
+On 2017-12-14 15:55, Alexander Kanavin wrote:
+> On 12/14/2017 04:41 PM, Stefan Agner wrote:
 > 
-> You've deleted pyc files from python itself which is bad. I'd
-> cleansstate python-native and rebuilt it to fix that. Ross meant onto
-> to run it on the poky meta directory...
+>> I think removing the Opkg first boot systemd service (as the initial
+>> patch does) is the correct first step.
+>>
+>> However, it currently still leads to a second copy of the postinst
+>> scripts in /etc if package management is enabled.
+>> I am pretty sure that adding if delayed_postinsts and not
+>> runtime_pkgmanage: should resolve the problem for ipk/deb fully: With
+>> that run-postinsts will run "opkg configure"/"dpkg --configure -a"
+>> respectively when package management is installed, and those command
+>> will run all postinst correctly.
 > 
-
-I'm fully up and running now. I did a boot last night, and did
-see a failure in the selftest.
-
-I then booted it manually (runqemu directly), logged in .. and now
-I'm seeing passing selftests. grr.
-
-https://pastebin.com/iA0vxrmD
-https://pastebin.com/ved4xvbQ
-
-Bruce
-
-> Cheers,
+> Why is the second copy a problem? Can you elaborate? Don't describe
+> the fix, describe the issue.
 > 
-> Richard
-> 
-> 
+> From what I can see, run-postinsts will execute opkg configure if opkg
+> is available, or run the scripts directly if opkg is not available -
+> which is fine. Why do you need to avoid saving the scripts in /etc if
+> opkg is installed?
 
+No, it will call the scripts in /etc/*-postinsts (it bails out of the
+for loop if the post inst dir is there...)
+
+Then opkg status file still shows the packages as just "unpacked". When
+running the package manager (e.g. to install an unrelated package) opkg
+starts to handle the postinst again...
+
+Rather than updating the package managers database etc I rather feel we
+should just not do the OE specific postinst if package management can
+handle it.
+
+--
+Stefan
 
