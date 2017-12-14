@@ -1,20 +1,16 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2950971D79
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 5597B71C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 17:27:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Dec 2017 09:27:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,400,1508828400"; 
-   d="scan'208";a="2738876"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga007.jf.intel.com with ESMTP; 14 Dec 2017 09:27:26 -0800
-To: Stefan Agner <stefan@agner.ch>
+	Thu, 14 Dec 2017 17:45:20 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 15CAB5C3A3C;
+	Thu, 14 Dec 2017 18:39:19 +0100 (CET)
+MIME-Version: 1.0
+Date: Thu, 14 Dec 2017 18:40:25 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <84080427-d60b-6527-b0f4-938fae379559@linux.intel.com>
 References: <20171213180624.30839-1-stefan@agner.ch>
 	<cce87fc26f1e975fe9ee6d9321bbb870@agner.ch>
 	<56bd3e44-1478-9095-4fef-3f7453b7ec94@linux.intel.com>
@@ -29,13 +25,14 @@ References: <20171213180624.30839-1-stefan@agner.ch>
 	<c7efc74858b05a59105bd21fb6669e48@agner.ch>
 	<2ddf3fe7-20f3-87e0-969d-a0ed83cf9256@linux.intel.com>
 	<4a6b7a11117ca59fa8b5ffd60c889387@agner.ch>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <84080427-d60b-6527-b0f4-938fae379559@linux.intel.com>
-Date: Thu, 14 Dec 2017 19:28:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <4a6b7a11117ca59fa8b5ffd60c889387@agner.ch>
+	<84080427-d60b-6527-b0f4-938fae379559@linux.intel.com>
+Message-ID: <b0d062d27983acc3d7ec40061b661699@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.2.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513273159; bh=/uCimoZ8juUhdBnWqqhon9e6E/ngeoEtSceOvahx8V0=;
+	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+	b=wZ7uGMSBM/7SlGa3fF6ZCxNRwGLXCRnYH9h2yFUM//LK+bL9EsUr2rjIgesKjcMCnt0mTIGxjCodV4BcM6RnynK4euyuFwBduQ1JolNlJ6eSnCZRKlywlhKfA8JquZd/KY4/a8Xvlnt9BWWFKvaSvmdl6o7VbcSehJ1tSH11GFw=
 Cc: Stefan Agner <stefan.agner@toradex.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [RFC] opkg: avoid running postinst scripts twice when using systemd
@@ -51,39 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 17:27:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 14 Dec 2017 17:45:21 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 12/14/2017 07:16 PM, Stefan Agner wrote:
-
-> Are you sure that rpm has no such facility? Maybe there is some other
-> mechanism around...
-
-You are welcome to find it. rpm does not distinguish between unpacking 
-and configuring steps, and just does everything in a single installation 
-step.
-
-> If rpm really does not handle it, would mean that delayed postinst would
-> have been broken back when we did not ship /etc/*-postinsts:
-> http://git.openembedded.org/openembedded-core/commit/meta/lib/oe/rootfs.py?id=5aae19959a443c6ac4b0feef10715c8acf3c6376
-
-Rpm had a special way to save postinstall scripts (due to the same 
-problem I described just above), and still does, which means 
-_save_postinsts() did (and does) nothing in rpm case.
-
-> If there is special case handling needed it is not particularly nice due
-> to the additional condition.
+On 2017-12-14 18:28, Alexander Kanavin wrote:
+> On 12/14/2017 07:16 PM, Stefan Agner wrote:
 > 
-> But IMHO still better, it can easily be explained in rootfs.py with a
-> comment like:
+>> Are you sure that rpm has no such facility? Maybe there is some other
+>> mechanism around...
 > 
->      # deb/ipk package management is able to handle postinsts on first
-> boot.
+> You are welcome to find it. rpm does not distinguish between unpacking
+> and configuring steps, and just does everything in a single
+> installation step.
+> 
+>> If rpm really does not handle it, would mean that delayed postinst would
+>> have been broken back when we did not ship /etc/*-postinsts:
+>> http://git.openembedded.org/openembedded-core/commit/meta/lib/oe/rootfs.py?id=5aae19959a443c6ac4b0feef10715c8acf3c6376
+> 
+> Rpm had a special way to save postinstall scripts (due to the same
+> problem I described just above), and still does, which means
+> _save_postinsts() did (and does) nothing in rpm case.
+> 
 
-Please no; the class in question is the generic Rootfs(), and I do not 
-want to add packagemanager-specific clauses there.
+Oh, I see, well that simplifies it, doesn't it? E.g.
 
-Alex
+    # If package managers support postinsts and the package manager is
+present on the
+    # rootfs, then it will handle postinsts just fine, no need to deploy
+scripts again.
+    if delayed_postinsts and not runtime_pkgmanage:
+        self._save_postinsts()
+
+And with that it will be as it used to be before the above commit, and
+the way it should be.
+
+--
+Stefan
+
+>> If there is special case handling needed it is not particularly nice due
+>> to the additional condition.
+>>
+>> But IMHO still better, it can easily be explained in rootfs.py with a
+>> comment like:
+>>
+>>      # deb/ipk package management is able to handle postinsts on first
+>> boot.
+> 
+> Please no; the class in question is the generic Rootfs(), and I do not
+> want to add packagemanager-specific clauses there.
+> 
+> Alex
 
