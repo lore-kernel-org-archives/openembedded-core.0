@@ -1,47 +1,54 @@
-Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 17C9B77BEB
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5626871C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 13:56:46 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id p139so11619712itb.1
+	Thu, 14 Dec 2017 13:59:51 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id r78so11528673wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 05:56:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xKBCKvGV/RHPkKo+qjVbwIig5ygcgoFFQRjf9N8PDx4=;
-	b=Vx+x8NBA8NLxrULSmJOAF18PbVmC01iIjUNsHkXSLTy3E63WWtvWIWApRImV/6pH3s
-	tmUWhaPFmv+2n8V8lyQ3UaIgJMGUOCCHlQZPYtTy0gntRUJW97DGpwDdi97U+aiJLgGZ
-	rIPEpewk2MOJ3x8QKwIDxlg39w2w2ADk0SuZ0QXvCLUNFDyERgEss+bMrMP/lP6yhw0S
-	hZjFYgWj5nWQIpOMsKPp8tFOdRhG+qKaJSM+rj+0W5mlzpXNSQtjdcBHQnzTr60hzr8R
-	KGYPJCe7Bd6/it/X9JxFeEwuZUMA7BbSVoxNeeRfM2bpoKKqyjxH2G6/8mnPIF0cqQ7q
-	VhRg==
+	Thu, 14 Dec 2017 05:59:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:from:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=A71oC90L/3jaT4QLgwXyuGTmq8TEbc+RvQJaJw9TrK0=;
+	b=eHeIl1KvcZEl7OVI7hVDCRh+u0GPTMs3X6FhQRon4m19W8bTeOyOijk+pA6b4PD/dM
+	xJBzA+UeFh08DvpNGiEIJxK6SSh5vlKXlmwABCXUy+bJxP3LLCrQUXysNrMSxZWxhZCH
+	A70zmjQHp93ZbbK8l5RB7BHZ31KmUv1zqwfK2PXFy5WklmOtSCQhcpuoW8NEo2uohAoh
+	8jnq/bAo5RxiqHidwDBQhHnvCcCwopy5K+8cDbaY+PDWCzlF4oYImdqOm6mHRhqe1l8J
+	FJzktSrs3b6F7pQTPx/i9+1FvHlhSv43ZbwQhIC39dUioxMMe/3N5Z7gkxo5NIp5x2W/
+	ehNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xKBCKvGV/RHPkKo+qjVbwIig5ygcgoFFQRjf9N8PDx4=;
-	b=mdwcH7ApE5DqGCWPIR4S36vbLReEsB2i+l/MWZBo8aCsKMFuwO+xNLsdtCc5g9+RlN
-	6u4F2xuIFGhUc34z0rhpg3d+9bGuXodmln0XVq49GfKz8zxscG0JlhmsmsAQKJ9gx2oh
-	Cp+Fy5f0bJL5koHxnI9gwlHau4FYSd79xM7Ptxri+7kD8QW1X2dFm5pPJ8r1U4m9mQjq
-	mbgqBPTKZJvG3unvV4rHP7vN6RVK1N0+zvKgJztRf2Lhe3UnjZuSu9PiW27fYp2wRPhJ
-	LN8ZpwlagOqIpubQacdy8d0KtPzlOF7Gz0+FAHxgW+Q0v7/pK9m0O88EiRBxQ19fJnTT
-	qnVQ==
-X-Gm-Message-State: AKGB3mIK0LAfO/30adEpTXkYZJ8iOBk7Pv9KKi2Owxl2tt/SeCEzbqTi
-	U16QENwPbfAuvV9UxmlOknSzlrp6oPHp9daSluI=
-X-Google-Smtp-Source: ACJfBosMGwEFARqbJREEn7SdVbArH7zpU9iXfir5nuMl0drP+GYk/N+JTCG7gWpKRNrUzd88HF8tcuX+B1x3k4x78qQ=
-X-Received: by 10.107.48.197 with SMTP id w188mr7421927iow.301.1513259808044; 
-	Thu, 14 Dec 2017 05:56:48 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.2.90.200 with HTTP; Thu, 14 Dec 2017 05:56:27 -0800 (PST)
-In-Reply-To: <266c426e-ed0c-6fbb-842c-01962b9ef71b@dresearch-fe.de>
+	h=x-gm-message-state:subject:from:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=A71oC90L/3jaT4QLgwXyuGTmq8TEbc+RvQJaJw9TrK0=;
+	b=DPDl046c4UyMlOy53+oBF+vbpm+eKPDxmz+fp1NoabfgjRMYYoBZvINQFqR+8h7twa
+	2CBluffqWxBOpn7lCWufHd5rEL4daciw6iEsbu3rbcfs6rUQNjbQ2hfKWlKTY4iev5vb
+	HQW4oyOXRfSqwoJvLHLHgPVdUwSu9nuDcRPs1LDY4YP7IXUkTKj3ZhMdFu4AyLOor1ob
+	yEaV8pUlzgYqHCFgCV6tcCHEZMVhfddfwpwFuFHbeTIBEAxeNdIHU3M5VmWwDTF2KBM3
+	p9On7cH9OqVdXLmLZ9RVxKkvBCZZeNjG6GhO5GZrdhSvz2VgGfEt3IWhM4dOTx9/7KiK
+	BJpg==
+X-Gm-Message-State: AKGB3mKAa1kWgZW4LmE+aZ9krVmBx3st7BmVkCye2xyejZ4U+/0AbBLI
+	y/cENMvoKCb/jJ7sO1Yi27iiVuCE
+X-Google-Smtp-Source: ACJfBotLsNld7HEqCIFSYPXlAYO/VW7EEhu3MlfAcd9v+zPTyq8kG0bBm3081ny1VQC/vI0/sTvlpg==
+X-Received: by 10.80.192.5 with SMTP id r5mr12610534edb.138.1513259992915;
+	Thu, 14 Dec 2017 05:59:52 -0800 (PST)
+Received: from ?IPv6:2003:a:31:4300::46? ([2003:a:31:4300::46])
+	by smtp.googlemail.com with ESMTPSA id
+	a52sm3810459eda.92.2017.12.14.05.59.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Dec 2017 05:59:51 -0800 (PST)
+From: Steffen Sledz <sledz@dresearch-fe.de>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
 References: <266c426e-ed0c-6fbb-842c-01962b9ef71b@dresearch-fe.de>
-From: Vincent Prince <vincent.prince.fr@gmail.com>
-Date: Thu, 14 Dec 2017 14:56:27 +0100
-Message-ID: <CAB2nKc8FEm+5g4EJP3PZwa=7+9d7iFu6cFQOoUph+vDPTmKZhA@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: How to fix file-rdes QA error for /usr/bin/python?
+Message-ID: <1fb96ec5-b96e-5790-9020-4f4501184e5d@dresearch-fe.de>
+Date: Thu, 14 Dec 2017 14:59:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <266c426e-ed0c-6fbb-842c-01962b9ef71b@dresearch-fe.de>
+Subject: Re: How to fix file-rdes QA error for /usr/bin/python or /bin/bash?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,111 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 13:56:47 -0000
-Content-Type: multipart/alternative; boundary="001a11444bfa4fb97005604d41b0"
+X-List-Received-Date: Thu, 14 Dec 2017 13:59:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 
---001a11444bfa4fb97005604d41b0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Steffen,
-
-I maybe wrong but foo.py should start with
-#!/usr/bin/env python
-
-instead of
-#!/usr/bin/python
-
-Best regards,
-Vincent
-
-
-
-2017-12-14 14:34 GMT+01:00 Steffen Sledz <sledz@dresearch-fe.de>:
-
-> With rocko some builds are rejected because of the following package QA
-> error (formerly it was just a warning).
->
->  ERROR: foo-1_gitrAUTOINC+2595b80a79-r17 do_package_qa: QA Issue:
-> /..../foo.py contained in package foo requires /usr/bin/python, but no
-> providers found in RDEPENDS_for? [file-rdeps]
->
+On 14.12.2017 14:34, Steffen Sledz wrote:
+> With rocko some builds are rejected because of the following package QA error (formerly it was just a warning).
+> 
+>  ERROR: foo-1_gitrAUTOINC+2595b80a79-r17 do_package_qa: QA Issue: /..../foo.py contained in package foo requires /usr/bin/python, but no providers found in RDEPENDS_for? [file-rdeps]
+> 
 > But the recipe still contains an rdep for python in recipe foo_git.bb
->
->  RDEPENDS_{PN} +=3D " ... python "
->
-> I assume the problem is that /usr/bin/python is not provided by any
-> package but is just a symlink (created via u-a?).
->
+> 
+>  RDEPENDS_{PN} += " ... python "
+> 
+> I assume the problem is that /usr/bin/python is not provided by any package but is just a symlink (created via u-a?).
+> 
 > How can/should this be fixed?
->
-> --
-> DResearch Fahrzeugelektronik GmbH
-> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-> Fax: +49 30 515932-299
-> Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Weber, Werner M=C3=B6gle;
-> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-> Ust.-IDNr. DE273952058
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a11444bfa4fb97005604d41b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Steffen,=C2=A0</div><div><br></div><div>I maybe wrong=
- but foo.py should start with=C2=A0</div><div>#!/usr/bin/env python=C2=A0=
-=C2=A0</div><div><br></div><div>instead of=C2=A0</div><div>#!<span style=3D=
-"font-size:12.8px">/usr/bin/python</span></div><div><span style=3D"font-siz=
-e:12.8px"><br></span></div><div><span style=3D"font-size:12.8px">Best regar=
-ds,</span></div><div><span style=3D"font-size:12.8px">Vincent</span></div><=
-div><span style=3D"font-size:12.8px"><br></span></div><div><span style=3D"f=
-ont-size:12.8px"><br></span></div></div><div class=3D"gmail_extra"><br><div=
- class=3D"gmail_quote">2017-12-14 14:34 GMT+01:00 Steffen Sledz <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:sledz@dresearch-fe.de" target=3D"_blank">sle=
-dz@dresearch-fe.de</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">With r=
-ocko some builds are rejected because of the following package QA error (fo=
-rmerly it was just a warning).<br>
-<br>
-=C2=A0ERROR: foo-1_gitrAUTOINC+2595b80a79-<wbr>r17 do_package_qa: QA Issue:=
- /..../foo.py contained in package foo requires /usr/bin/python, but no pro=
-viders found in RDEPENDS_for? [file-rdeps]<br>
-<br>
-But the recipe still contains an rdep for python in recipe <a href=3D"http:=
-//foo_git.bb" rel=3D"noreferrer" target=3D"_blank">foo_git.bb</a><br>
-<br>
-=C2=A0RDEPENDS_{PN} +=3D &quot; ... python &quot;<br>
-<br>
-I assume the problem is that /usr/bin/python is not provided by any package=
- but is just a symlink (created via u-a?).<br>
-<br>
-How can/should this be fixed?<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-DResearch Fahrzeugelektronik GmbH<br>
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany<br>
-Tel: <a href=3D"tel:%2B49%2030%20515932-237" value=3D"+4930515932237">+49 3=
-0 515932-237</a> mailto:<a href=3D"mailto:sledz@dresearch-fe.de">sledz@dres=
-earch-fe.de</a><br>
-Fax: <a href=3D"tel:%2B49%2030%20515932-299" value=3D"+4930515932299">+49 3=
-0 515932-299</a><br>
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Weber, Werner M=C3=B6gle;<br>
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;<br>
-Ust.-IDNr. DE273952058<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+BTW: Same problem with /bin/bash dependencies. :(
 
---001a11444bfa4fb97005604d41b0--
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
+
