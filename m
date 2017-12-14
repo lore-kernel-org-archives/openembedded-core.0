@@ -1,46 +1,34 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B60D78784
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E8D8478744
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 01:00:37 +0000 (UTC)
-Received: by mail-pg0-f50.google.com with SMTP id b18so2286441pgv.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 17:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=YwV3OqdQwn+/7hZ5YW/miTnCwLtViXvmsGyqAlXyLpQ=;
-	b=CRGJWfSEI2nLjhYLgmO6RXJIj2h7WaizxBn4HHh6BPl94/zCGjz9YnVZHXibOhFUpm
-	IPu1HkyIbyhDZY05iYilQf2YJ6OBEiullEBrd2jWKL9SHfb5/5HjhpyoHpOqhyFgzwfn
-	SNlLf3aYtEZmCXC+zTJRxuEBxfb0WaG1bFh6OMNiN+B0djusnJwja4byQ7Ilp2pz6KIs
-	my/rZanx+XyAanIhx8eMKmWC1jem07k809oBHUA3e/U268Qn/sf9dje3JK5hd1I37ZuC
-	kBVBaugqWxs6WVzs0gFbIgkyrFlEueCCDSx44+xht0fSmBIRG69zhahCXmEATtIj42AT
-	pQ4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YwV3OqdQwn+/7hZ5YW/miTnCwLtViXvmsGyqAlXyLpQ=;
-	b=U4gdpaDRGvfdyichsaBmr35PlydzIjD6HvZ2ZRmFiz/HwHdhSD1SRNJD0TLLpGu0qQ
-	BT4X313DzyZdMNv7PSeR39G/ohKurrKB/LOIFdBmTuc6SsKhH8RQmijWJbNIKqlv6umc
-	dDwlC9S5DdSJ5LOwgR1dXgiuN0IHo8xMGGh8n7fpIiyHsuQyKOEoU+SASBtFh7gi1c2B
-	wogglQhm8ByjC1IReH53f9UL32IEVJqYBzidQs5G4AdoHsreEH3zDRlrbic23a+wJErE
-	SUEu+PyVKY1DV75kQVGri0pcZ3Xg9N1Ude8aIbfUynyazmIYyQtc0cqoNxgiPFrH1JFI
-	R2WA==
-X-Gm-Message-State: AKGB3mL0X3Nz0e5A83YN+K0fRmJ81cWPZEwlQsgf1x3lntGfHaqYkpAK
-	DQbP42zXn3mYHuWFIddhmcCYmw==
-X-Google-Smtp-Source: ACJfBouxjgJQXvJ5cRMYVLMjvRzIZI/TIjjmBjW7PwNc+rDtGLCSoSVLhIg/NONjJD7YDzYlS38q0w==
-X-Received: by 10.101.97.173 with SMTP id i13mr6879773pgv.449.1513213238757;
-	Wed, 13 Dec 2017 17:00:38 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	x21sm5460451pfi.174.2017.12.13.17.00.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Dec 2017 17:00:37 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Dec 2017 17:00:31 -0800
-Message-Id: <1513213231-16818-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [morty][PATCH] cmake: avoid configure failures if CFLAGS contains -Wstrict-prototypes
+	Thu, 14 Dec 2017 01:12:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBE1CGiD020918
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Dec 2017 17:12:16 -0800 (PST)
+Received: from server.local (128.224.21.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 13 Dec 2017 17:12:15 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1513168490.19417.183.camel@linuxfoundation.org>
+	<694b540b-1fc8-0388-5419-01c6e3f100c6@windriver.com>
+	<1513173904.16507.1.camel@linuxfoundation.org>
+	<85f7c521-01c4-7870-0f57-7ca217fce8e3@windriver.com>
+	<1513174448.16507.8.camel@linuxfoundation.org>
+	<2df34489-8c8f-bd76-3972-7ab648aeffee@windriver.com>
+	<1513209861.16507.15.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <9159806a-8e45-f7f2-2421-fda03c45de67@windriver.com>
+Date: Wed, 13 Dec 2017 20:12:14 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <1513209861.16507.15.camel@linuxfoundation.org>
+Cc: "Lock, Joshua" <joshua.g.lock@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Fix for the APIC hangs in qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,78 +41,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 01:00:38 -0000
+X-List-Received-Date: Thu, 14 Dec 2017 01:12:17 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 0c89b010ce2e426f55ac7c6f94befef988913834)
----
- meta/recipes-devtools/cmake/cmake.inc              |  1 +
- ...void-gcc-warnings-with-Wstrict-prototypes.patch | 42 ++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+On 2017-12-13 7:04 PM, Richard Purdie wrote:
+> On Wed, 2017-12-13 at 19:01 -0500, Bruce Ashfield wrote:
+>> On 2017-12-13 9:14 AM, Richard Purdie wrote:
+>>>
+>>> On Wed, 2017-12-13 at 09:07 -0500, Bruce Ashfield wrote:
+>>>>
+>>>> On 12/13/2017 09:05 AM, Richard Purdie wrote:
+>>>>>
+>>>>>
+>>>>> On Wed, 2017-12-13 at 08:38 -0500, Bruce Ashfield wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 12/13/2017 07:34 AM, Richard Purdie wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> Hi Bruce,
+>>>>>>>
+>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
+>>>>>>>
+>>>>>>> We've root caused the hangs we're seeing in qemux86-64 on
+>>>>>>> our
+>>>>>>> autobuilder workers. We've identified a commit on 4.15-rc3
+>>>>>>> which
+>>>>>>> fixes
+>>>>>>> the issue but backporting it to the autobuilder's host
+>>>>>>> kernels
+>>>>>>> will
+>>>>>>> be
+>>>>>>> a pain.
+>>>>>>>
+>>>>>>> As a workaround I'd like to enable x2apic on qemux86-64.
+>>>>>>> Since
+>>>>>>> that
+>>>>>>> works via MSRs it avoids the problem.
+>>>>>>>
+>>>>>>> Would it be a big issue to set CONFIG_X86_X2APIC=y for
+>>>>>>> qemux86-
+>>>>>>> 64?
+>>>>>> Nope. No big deal at all. I've used the same config i the
+>>>>>> past
+>>>>>> when doing work with rt-KVM, so I know it well.
+>>>>>>
+>>>>>> I'll prep a commit, and send it along as part of a rebased
+>>>>>> set
+>>>>>> of kernel patches.
+>>>>> Thanks, much appreciated.
+>>>>>
+>>>>> Did we get to the bottom of the 4.12 selftest failures?
+>>>>>
+>>>> Not yet no. I was distracted for a day, but need to learn how
+>>>> to run them myself. I was able to log in via serial in my normal
+>>>> boot flow, so that didn't get me anywhere.
+>>>>
+>>>> Is the selftest HOWO in the yocto docs ? I'll google it up this
+>>>> morning.
+>>> No HOWTO but I did give you the command. In a poky checkout run:
+>>>
+>>> oe-selftest -r runqemu.RunqemuTests.test_boot_deploy
+>>>
+>>> which runs a single test that fails (setup DL_DIR/SSTATE_MIRRORS
+>>> first
+>>> to speed it up a bit).
+>>>
+>>> It may tell you to clear SANITY_TESTED_DISTROS, I think it auto
+>>> adds
+>>> meta-selftest now. You may also need to set DISPLAY to something
+>>> (e.g.
+>>> a dummy vncserver).
+>>>
+>> With the cleanup that Ross gave me, I'm now able to see the issue.
+>>
+>> I'll start debugging on Thursday.
+>>
+>> One additional question: what's the right way to find the logs of
+>> that
+>> run ?
+>>
+>> I'm getting a bit of noise from:
+>>
+>> ----------------
+>>        0155:            else:
+>> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+>> '/home/bruce/poky/build/tmp/sysroots-components/x86_64/python3-
+>> native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
+>> 1.pyc'
+>> ->
+>> '/home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
+>> r0/recipe-sysroot-
+>> native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
+>> 1.pyc'
+>>
+>> ERROR: gnu-efi-3.0.6-r0 do_package: Function failed:
+>> extend_recipe_sysroot
+>> ERROR: Logfile of failure stored in:
+>> /home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
+>> r0/temp/log.do_package.10495
+> 
+> You've deleted pyc files from python itself which is bad. I'd
+> cleansstate python-native and rebuilt it to fix that. Ross meant onto
+> to run it on the poky meta directory...
+> 
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 4fcb0b1..821bb81 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -14,6 +14,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV', True).split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://support-oe-qt4-tools-names.patch \
-            file://qt4-fail-silent.patch \
-+           file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
-            "
- 
- SRC_URI[md5sum] = "d6dd661380adacdb12f41b926ec99545"
-diff --git a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
-new file mode 100644
-index 0000000..8b8d480
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
-@@ -0,0 +1,42 @@
-+From 4bc17345c01ea467099e28c7df30c23ace9e7811 Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Fri, 14 Oct 2016 16:26:58 -0700
-+Subject: [PATCH] CheckFunctionExists.c: avoid gcc warnings with
-+ -Wstrict-prototypes
-+
-+Avoid warnings (and therefore build failures etc) if a user happens
-+to add -Wstrict-prototypes to CFLAGS.
-+
-+ | $ gcc --version
-+ | gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
-+ |
-+ | $ gcc -Wstrict-prototypes -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -o foo.o -c Modules/CheckFunctionExists.c
-+ | Modules/CheckFunctionExists.c:7:3: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-+ |    CHECK_FUNCTION_EXISTS();
-+ |    ^
-+ | cc1: all warnings being treated as errors
-+ |
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ Modules/CheckFunctionExists.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Modules/CheckFunctionExists.c b/Modules/CheckFunctionExists.c
-+index 2304000..224e340 100644
-+--- a/Modules/CheckFunctionExists.c
-++++ b/Modules/CheckFunctionExists.c
-+@@ -4,7 +4,7 @@
-+ extern "C"
-+ #endif
-+   char
-+-  CHECK_FUNCTION_EXISTS();
-++  CHECK_FUNCTION_EXISTS(void);
-+ #ifdef __CLASSIC_C__
-+ int main()
-+ {
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+Is this what I should expect for the error ?
+
+It looked like qemu timed out, but that is probably just the log
+in issue, correct ?
+
+A manual log into the same image worked!
+
+Bruce
+
+-------------------
+32105  3290 python3 /home/bruce/poky/scripts/oe-selftest -r 
+runqemu.RunqemuTests.test_boot_deploy
+32520 32105 /bin/sh -c runqemu nographic 
+/home/bruce/poky/build/tmp/deploy/images/qemux86-64 tcpserial=51081 
+bootparams="console=tty1 console=ttyS0,115200n8 printk.time=1" 
+qemuparams="-serial tcp:127.0.0.1:44545 -pidfile pidfile_32105"
+32521 32520 python3 /home/bruce/poky/scripts/runqemu nographic 
+/home/bruce/poky/build/tmp/deploy/images/qemux86-64 tcpserial=51081 
+bootparams=console=tty1 console=ttyS0,115200n8 printk.time=1 
+qemuparams=-serial tcp:127.0.0.1:44545 -pidfile pidfile_32105
+32522 32105 python3 /home/bruce/poky/scripts/oe-selftest -r 
+runqemu.RunqemuTests.test_boot_deploy
+32527 32521 /bin/sh -c sudo /home/bruce/poky/scripts/runqemu-ifup 1000 
+1000 
+/home/bruce/poky/build/tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin
+32528 32527 sudo /home/bruce/poky/scripts/runqemu-ifup 1000 1000 
+/home/bruce/poky/build/tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin
+32529     2 [kworker/u8:1]
+32530 32105 ps axww -o pid,ppid,command
+
+Qemu ended unexpectedly, dump data from host is in 
+/tmp/oe-saved-tests/201712131950_qemu
+Sending SIGTERM to runqemu
+Sending SIGKILL to runqemu
+Output from runqemu:
+runqemu - INFO - Continuing with the following parameters:
+
+runqemu - INFO - Setting up tap interface under sudo
+
+----------------------------------------------------------------------
+2017-12-13 19:52:57,550 - oe-selftest - INFO - Ran 1 test in 257.941s
+2017-12-13 19:52:57,550 - oe-selftest - INFO - FAILED
+2017-12-13 19:52:57,550 - oe-selftest - INFO -  (errors=1)
+2017-12-13 19:52:57,550 - oe-selftest - INFO - RESULTS:
+2017-12-13 19:52:57,551 - oe-selftest - INFO - RESULTS - 
+runqemu.RunqemuTests.test_boot_deploy - Testcase 2007: ERROR
+2017-12-13 19:52:57,551 - oe-selftest - INFO - SUMMARY:
+2017-12-13 19:52:57,551 - oe-selftest - INFO - oe-selftest () - Ran 1 
+test in 257.946s
+2017-12-13 19:52:57,551 - oe-selftest - INFO - oe-selftest - FAIL - 
+Required tests failed
+
+
+> Cheers,
+> 
+> Richard
+> 
+> 
 
 
