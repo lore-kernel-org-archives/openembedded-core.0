@@ -1,42 +1,42 @@
 Return-Path: <tom.rini@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8188760043
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 89A5978879
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 03:20:32 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id a71so4665477qkc.9
+	Thu, 14 Dec 2017 03:20:33 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id i40so6360974qti.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 19:20:33 -0800 (PST)
+	Wed, 13 Dec 2017 19:20:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=tK9CWjcII7SoJu0V2lJH9I81EDE4TCLuGslrZKT+V2w=;
-	b=uhX2m2knMap6bJEBIWAs5Ro7D3vMCNOeqLrpebw5ih3ya9uQp9DPZWjYL6zUT22sO/
-	UrgGpYbe7+U7nbynKqDFkOh9kZOaa13rDvF+//GZP4lcGs3ijNlhoduyzY/1PPn3Z46T
-	rWTnDhPQvumwBRv5/w3bJTIH7abj43cRRnTUvw6KTILWLoGbDar4ikCGNX1pw9sCwBci
-	6eJHvdc+kMRXizO875n9rrQDeQhWpessdFdFuBKaYbsJ9lOGIORF1gHaUnUkZy/dgri4
-	DNENTlLe+W3KKjQ9C+Ty0flnub6tFGyZj2/AOFbdL1tUbFUNbgqO83F2OkRRaDRu/NCe
-	wfQQ==
-X-Gm-Message-State: AKGB3mL0RPwqyNNlNK7HX/CxUBzdOojkbm7h06KZSNLpf3A9F9IaW4lq
-	EReKXlk1RWHyxNOA6lxHYt85
-X-Google-Smtp-Source: ACJfBotp/Huh7rgIcduqgcy0GNQO0bNerrF+DlVmfly3d1qzfqAA87NiVj/kyiknvOgRQD/tRWWvtA==
-X-Received: by 10.55.158.6 with SMTP id h6mr13177546qke.355.1513221633301;
-	Wed, 13 Dec 2017 19:20:33 -0800 (PST)
+	bh=HK7ZQoUKvjoUT6uOYql5pgA82rHphYmdbWLfUgJrz3w=;
+	b=GMNZLkR5MSvDFlgKsZ5Yo23MkZ40FsyZgRFshWLNcA3QwSqJWLsCuvQdHdfVoaocto
+	Sk7H910mT51BTcSJy0xox6dnuHbDu6Q0BRkZKEQRi0mnpFzhABnjz0K+vLjj6fbIfxzq
+	D4Z1DQ7DTFUxBw8wIm/PKxSpdcIBGEniwFsk8n7u+0hTe7tW1L1Op7pu4AEjCv7inR2J
+	e191kdLJ7QtYN4YKRIM3OYEOE3WCYziNU02tFFTaN0qCni6CbO0aFNlj8IMg6EtbeTTr
+	iwFEcFXX/GzDc8BM0zGEmLNIFWCL04OTeh4OdrkmSyGsdrnY8MB61x5Hw7A5CfpQomRV
+	/JJQ==
+X-Gm-Message-State: AKGB3mIpE0bFV0UAImXV7/U2EGlCKKgQtNmIsZEtUoNtZWsFL2UiAmBA
+	zz3nLb2CEZuE6TItbQrpDH2A
+X-Google-Smtp-Source: ACJfBov0vUh9+lz8N7BM8f9s5NHVASaYXCkPUsGF8wmIIIRioTIqwStSuynLUfHUW2BsVlaloRPdDA==
+X-Received: by 10.200.48.144 with SMTP id v16mr14599526qta.244.1513221634264; 
+	Wed, 13 Dec 2017 19:20:34 -0800 (PST)
 Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
 	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	s43sm2001533qta.49.2017.12.13.19.20.32
+	s43sm2001533qta.49.2017.12.13.19.20.33
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Dec 2017 19:20:32 -0800 (PST)
+	Wed, 13 Dec 2017 19:20:33 -0800 (PST)
 From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Dec 2017 22:20:23 -0500
-Message-Id: <1513221626-18805-2-git-send-email-trini@konsulko.com>
+Date: Wed, 13 Dec 2017 22:20:24 -0500
+Message-Id: <1513221626-18805-3-git-send-email-trini@konsulko.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1513221626-18805-1-git-send-email-trini@konsulko.com>
 References: <1513221626-18805-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv4 1/4] wic: kparser.py: Check for SquashFS and use-uuid
+Subject: [PATCHv4 2/4] wic: partition.py: Update comments slightly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,32 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 03:20:32 -0000
+X-List-Received-Date: Thu, 14 Dec 2017 03:20:33 -0000
 
-The SquashFS filesystem does not support UUIDs so make this combination
-be an error.
+First, we support squashfs as root, so mention that.  Second, the btrfs
+rootfs creation function had a copy/paste of the previous function
+comment, remove the irrelevant line.
 
 Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- scripts/lib/wic/ksparser.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/lib/wic/partition.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 7850e81d2f37..4fb6868531df 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -195,6 +195,11 @@ class KickStart():
-                         raise KickStartError('%s:%d: %s' % \
-                                              (confpath, lineno, err))
-                     if line.startswith('part'):
-+                        # SquashFS does not support UUID
-+                        if parsed.fstype == 'squashfs' and parsed.use_uuid:
-+                            err = "%s:%d: SquashFS does not support UUID" \
-+                                  % (confpath, lineno)
-+                            raise KickStartError(err)
-                         # using ArgumentParser one cannot easily tell if option
-                         # was passed as argument, if said option has a default
-                         # value; --overhead-factor/--extra-space cannot be used
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 66e61ba70c93..87312383378a 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -202,7 +202,7 @@ class Partition():
+         Prepare content for a rootfs partition i.e. create a partition
+         and fill it from a /rootfs dir.
+ 
+-        Currently handles ext2/3/4, btrfs and vfat.
++        Currently handles ext2/3/4, btrfs, vfat and squashfs.
+         """
+         p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
+         p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+@@ -275,8 +275,6 @@ class Partition():
+                              native_sysroot, pseudo):
+         """
+         Prepare content for a btrfs rootfs partition.
+-
+-        Currently handles ext2/3/4 and btrfs.
+         """
+         du_cmd = "du -ks %s" % rootfs_dir
+         out = exec_cmd(du_cmd)
 -- 
 2.7.4
 
