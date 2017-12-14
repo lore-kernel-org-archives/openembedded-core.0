@@ -1,127 +1,56 @@
-Return-Path: <MANJUKUM@xilinx.com>
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam03on0073.outbound.protection.outlook.com [104.47.42.73])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C0F78872
+Return-Path: <trini@konsulko.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 31CDE71C0F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 02:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=KfcZ13diTtFNTrzUrlryqqB+zeTAEilXHWsQmGcNYPs=;
-	b=uHowsACGgG/mFmrMPkMvO2Y/QnjVcACTSZsiCyV8c0/CltUF64laBYgNhffUWiSF+YE0U73tHPvMSrRxtIm6t7lqDovigtMGqtJdMYKGHDENRB1KsDtMSF4xoATO5CzBEgVwo4+zfgscAlShQ1mZMcFHyMRFxOn6HuBagQ6Djx0=
-Received: from BN6PR02CA0036.namprd02.prod.outlook.com (10.173.146.150) by
-	BN6PR02MB3377.namprd02.prod.outlook.com (10.161.152.165) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.302.9; Thu, 14 Dec 2017 02:24:06 +0000
-Received: from SN1NAM02FT021.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e44::206) by BN6PR02CA0036.outlook.office365.com
-	(2603:10b6:404:5f::22) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.302.9 via
-	Frontend Transport; Thu, 14 Dec 2017 02:24:06 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	SN1NAM02FT021.mail.protection.outlook.com (10.152.72.144) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.302.6
-	via Frontend Transport; Thu, 14 Dec 2017 02:24:05 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:48447
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1ePJBt-0003yI-33 for openembedded-core@lists.openembedded.org;
-	Wed, 13 Dec 2017 18:24:05 -0800
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1ePJBt-0005UJ-0q for openembedded-core@lists.openembedded.org;
-	Wed, 13 Dec 2017 18:24:05 -0800
-Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	vBE2NrPr005332; Wed, 13 Dec 2017 18:23:53 -0800
-Received: from [172.19.2.216] (helo=xsjmanjukum50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1ePJBh-0005QW-Gs; Wed, 13 Dec 2017 18:23:53 -0800
-From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Dec 2017 18:23:49 -0800
-Message-ID: <1513218231-12626-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23526.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(396003)(376002)(346002)(39860400002)(2980300002)(438002)(199004)(189003)(81166006)(6666003)(81156014)(8676002)(2351001)(107886003)(106466001)(50466002)(8936002)(59450400001)(50226002)(5660300001)(106002)(2906002)(47776003)(478600001)(16586007)(9786002)(72206003)(48376002)(36386004)(51416003)(77096006)(6916009)(4326008)(7696005)(63266004)(316002)(36756003)(356003)(305945005)(107986001)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR02MB3377; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com;
-	A:1; MX:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; SN1NAM02FT021;
-	1:2Qixt+e80hKfPB3pRuhDj0LJHBxRjlJgxAE85GjHar0OV5o+GWjQxXjYUgyPJlVx0/clwkPYGoYidErxXfLc5rbp4W+rlg2qquyRLHL7WYwhW7F7/On+7sK5lxccV9cy
+	Thu, 14 Dec 2017 02:45:16 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id g10so6263563qtj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Dec 2017 18:45:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=O2fey/y5qLZf5biKDniMwW6vq3baZB44e1AIKtshZKg=;
+	b=P+ft8JzSnh0QmvG6oVjAo1MUjwRCY8my3e3iiNjFIJqo2TEFc/Hn2Oq4+AKhaPE3AK
+	+vTzFqK4QLDOywSqIDUCBYdpyoNbIAj5EUbt2TGyJHeGi8fHEVe9ZDqdf8zZpme28UvM
+	WNsbx2uhumhTvgRtUPCZsbfEw4kxUYj4HYDSQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=O2fey/y5qLZf5biKDniMwW6vq3baZB44e1AIKtshZKg=;
+	b=VsY2JYOhy/pbTqydScNVWEBj/LvyY6/EJvKn7+7rXlrKm6Mw0THUemvVa9yT3VDKat
+	uFY+BI7I7l/oDHUglGX66pikOOF8ROf1OAhlO41QzZUBiGWx+Nu0iuutQ0WQXuuex6ln
+	wSUxdO4DJiasnCbftHmez2Ya821DLJYdEuziqX9l3snt1LvFKLzumnj6Yd96wBRk73L6
+	nvQ7MMUZdSx5kCjSDcEyxdruuSFK1a0Q0ib64RFYUPWQHxQZ2GiKtugIlIv8bqutQmOi
+	r0tvUkVFHbAoLh7SdwKdGmi7fv2P3QVB5iurS6WluwCJlvDNfQqR4fRS2o9CoNf9GFOm
+	q0aA==
+X-Gm-Message-State: AKGB3mIbiHSQyJDgIOS/4d84Udv9FEpwmjTAtpXQK6eu7IbQKcEycDki
+	7uwzDGdPTZx0DgjKbORul9/Iig==
+X-Google-Smtp-Source: ACJfBouDu/rKdPUES+NQ7t3HKlCTerE4l/qavpebAcyCVU3E6VIvggaZFOtMSB69pGePieMV82fWuA==
+X-Received: by 10.200.63.140 with SMTP id d12mr14789659qtk.253.1513219517111; 
+	Wed, 13 Dec 2017 18:45:17 -0800 (PST)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	i23sm1876451qke.88.2017.12.13.18.45.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Dec 2017 18:45:16 -0800 (PST)
+Date: Wed, 13 Dec 2017 21:45:13 -0500
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Ed Bartosh <ed.bartosh@linux.intel.com>
+Message-ID: <20171214024513.GJ372@bill-the-cat>
+References: <1510934900-22044-1-git-send-email-trini@konsulko.com>
+	<1510934900-22044-5-git-send-email-trini@konsulko.com>
+	<CAJTo0LbsO5iYxo5W9GRn-CMNpY+oyky9emUO69RTRvo6-D8ATg@mail.gmail.com>
+	<20171124153611.GD3587@bill-the-cat>
+	<20171128155527.GH3587@bill-the-cat>
+	<CAJTo0LaOB_=4EPi=k+HCf=sqYAfrw+5J_cqQ-MFmTtC24EZtRA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ea2f79e-2f3f-4d09-df15-08d54299bfe0
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(4534020)(4602075)(4627115)(201703031133081)(201702281549075)(5600026)(4604075)(4608076)(2017052603307);
-	SRVR:BN6PR02MB3377; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3377;
-	3:SVS/9iR7Vz678G4oiVUBjUjj3xGpPVRqJsyCxDvNWMA64tt7Lzqvl30bWKsSk50J4LRhwZ4/AV7I9+96jqlpFcXfgaheuvOyTViHQmqIALIWhQX1iENK7L0rMrmlKE91q57a9KrL4hjntNVO52ilIZkgLpURhMU1JWXPQueSjEiRzTv+q3kAa9Zhh5mjRAE0GCUzbLVAGMEVPTWxbMbcApd6suG+OjibpRMuWaQjsXLcv6pksxYJTrxeLrEPws3ftGInYG6u5LE1f8TPjbANQ8Vj0gdR/CUuVMNhx7c7qJTufgGMt4nPuC75YbRtnSg8EqCJ+Q5Hkvt/7jg6lk5psrJqx8DW41+8KotlkbAb7RM=;
-	25:pdDpNIoocS6nsew0wIsMr+eZ1TBitGFXSgl9byRzWtHJ4qA2tmqSs1Exyu9Pnmep67j7G6Jp5IQVWNDoWs2ftP3wLSu0Oot3UEWTUZby5scOJoa5P4i8/+cHgSfNz/I3Y1esZzzNmBWcqXW59hKg5oSdu7XMQftoFKKJiB0Pg9sgablGXLMVhaa0po7QbgZFqsLv1DX1mQJmBghfjhT5dbBZpTs4H7+IQsn1J5N0ToPOLi12/IbzWAwqf5j2oaS0e+u9IGEZzSrFcp/nhEtmUywZMmfIhM8y/yfuN0NEmFIekZE46L3y+HfHnVA4lVGDWxSrAFxVa0SVg017yOhYyw==
-X-MS-TrafficTypeDiagnostic: BN6PR02MB3377:
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3377;
-	31:OOjbWTag8f/qjEX6PpTGFyzOsV44iVb2SCW7imuKgKPIeEmvV+SOk84Bew8+ZKB1cEzGK40DhIlwnhUlr0WPqvZ3rSWgAovs8NAWlHJGS7S2XxI179Rq81RCsJe1sgpwix1wJnTXf8c2TKtzHZdR0t2EE2pYQ3DyJ9js/BWm8zaucFaRQkkuMoGYY/EyauTv6V1la0C9tGHzPPax2/+X1C66cFF8Ksb86xgJsQa1uTY=;
-	20:zLLq/UwUNPffkEG3bfw7+IDKESeasVLxCYRP+lMhm3xjXFp8KskuB1/tLYUFfiPWzhHLm76RQQo0egx7uRoPJCtZNFSFEcd9zDc5v2D1XQsBoSDhJQDVAEOtyo0mxF1FGSJ9OKLNaBPsSlt3PvjWifN2npBt1uDeo7JNztgyCcyUOaqt8e6qLbhwQOClMOu1VOhl9tTfuXrdyoE6wPxf9BaM4S0lC7JGNVRXlIbgWPoa+qtgSx/cbYN1kKw36ZieGnO02pCfVzVCis8abhIayNM1X0Utca8zMZ5dpuOWK3JPsdqRmx0RRPAZRjEoeCF/6hs0R0O8/X6xRboGsXVvCzozJq1MQ8VHc4zBmb8Yqg1AjZukQlFtmGoySvwYeNzMt8fzVHAAhpwVFnhPF7TRVXW/YFEus8V5vIHzcVu1DUG8rVSFjw+MInUaBMoVKHkkqTU5e707Wfv7QOOgRyhnccqKJjGhNS84BlejUOme4fxddG2T5RwlkKvPUMksjm+U
-X-Microsoft-Antispam-PRVS: <BN6PR02MB337702C527163FDAE2698C6AB90A0@BN6PR02MB3377.namprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040450)(2401047)(8121501046)(5005006)(93006095)(93004095)(3002001)(3231023)(10201501046)(6055026)(6041248)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123560025)(20161123558100)(20161123555025)(20161123564025)(20161123562025)(6072148)(201708071742011);
-	SRVR:BN6PR02MB3377; BCL:0; PCL:0;
-	RULEID:(100000803101)(100110400095); SRVR:BN6PR02MB3377; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3377;
-	4:NGI1MNI4e4lQeYMGsxFcI/PgQuWuM1lAee9kNhDKHRFT1wn7OhQ5Xn9kq/2Z/wROqI+9C81D0ucsBzGptQ91P2wQ9TShJF2MbBdWrHZB6YJWyGFQ2SUwYtg5l8/NC4Q4ZIhcUTn5E2TGy7vlCNNengKCbmDX3kTIjbTwtKQeU1qetsbzkLXWOFFtFwuLy6+BNHAoCxd2Ow6qMQ4vTuXLCtY7iw7yOGkK/hFKoDAYPD83FTrKYqzxG9TpGPvOuNnNEIcEtJtmIVeoI+t4nlnR5w==
-X-Forefront-PRVS: 05214FD68E
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN6PR02MB3377;
-	23:Aaec3D68g3ryr7w7HEJ7+xKbfWdmJ9lggRHMWChtl?=
-	=?us-ascii?Q?k/gaYcwVQfvjHbnqZcwiT1U3SbElQk/lzHKXL1hYZ12pisQhFGkXq59t0pAd?=
-	=?us-ascii?Q?Ai85mE/zE96aQeMoDTRYgh+rR7R18l0x3smI1TQEipFrAf2BlHZhy3tCaAJi?=
-	=?us-ascii?Q?nkdQbSS0uDhoErsvsGkagnPCIQ/fO0OgFEG3QivfbqtN/REuHNLG+wkhj8U8?=
-	=?us-ascii?Q?is8DHvKfpDV+gzRUu2sw1UfTlBbfuebcFX6L9VLYyK3/ot2xPOCO5Wr7b9Ks?=
-	=?us-ascii?Q?UKQssb8mYM6nHUnfgSQLw5+uAFaCfNNz0BiM1XMJ/NUwKC1rx5SUOzaS4/Tl?=
-	=?us-ascii?Q?FRuvXT8uir3wIl++V+sxSrfDFajt2l9mznz3AdBX6COexBEi5P1kD4A1+QU4?=
-	=?us-ascii?Q?btok4eeF+iGv7Nvl+DH9qjmPAzMRFURNUK7nKbPessnzd2Rzk/wXlDru/k2B?=
-	=?us-ascii?Q?miU16NnhnQ0DeFl8FiKJWxUI8+e9siI4bk1coQsAEUwclIJTVNY3WYLvthJg?=
-	=?us-ascii?Q?jJuVvHM0KK3CbtxznP/5Bn0R2rXn2fezZerwPHwnbIT3m0aEdH5l4FUbhFRZ?=
-	=?us-ascii?Q?cTUSYOsfBUgdBW+m1FeVIfP84uLPIK1VDLdhTkKe9kms8r41ViBo9KPw/gTh?=
-	=?us-ascii?Q?N1dU3j/oO0A9NblvdVAF3v5u9EeY4G7ZMyAI4ngE2ntkW2Py/4afOE2AmTer?=
-	=?us-ascii?Q?gM4iUMzFFuhUvL582kxGbepF+3+a31y9ePliHNs/zP0sIB3fpeyHvSs343eM?=
-	=?us-ascii?Q?VidVWsTVIR1UxPD48ROQ+Zhxbe49msNQBmer7rh8YcjTp3Kr89PjE85JhXa7?=
-	=?us-ascii?Q?EW/DNJtYDX/HO4tjpijyPAH2DEQLHJoFqsp8kpDJYEDK5hHyZWz9kliEHmNe?=
-	=?us-ascii?Q?Bpbefxn/T6Pr/7yA5IRRIFl7zVs/kVm22CN84uPKQXVDoPiJC/g19olYl2Fe?=
-	=?us-ascii?Q?oKGZdXzW54YLEMbqvimWY2kRG5l/vW8IedNS4Wwuw=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3377;
-	6:JvJ442nW7+/Hy3zt/HrN6R+yxMIXG7S6B7OOJLzeyssUmor9+1EZhCMKLg0WMLJfwqsV+uAr4MDhDmr7H1wqSD7mPfwtsfKYwYCUtLW1FqN5HWcRodPFpcxIGaMQrfaKsi9tILes9WWqUNh0Hn+t5gLCDlJaDe4LZxLCl4zaPmAmfBQiOsKbIj2RZkrokl1tZlZ1Bl/7IYLz2sS8JjNNvxp7BbnY/iFeMPbIVJr0PBfIEDsxVZIO35WoxzLS2D6N2tUXx05ewFmIc1Ea0sOt6ETMQLN5zQvfpWqjBWdnSNLtOJVFWNpTN7hcqTWUbafDpumN59frAGvc9rnZ7QmIzPgwp7+2Tv35kU6X2Dn54bk=;
-	5:OnlBDUELaHG5bGqT20UVZu8o/zl0LZHpkwIa0L6mwdaBB4Jc4gIJ4N1oLhFQPLjF8k7VUTqw++w6LVyWuY0IrlXpOERjisBISlAfQ1nkKiiA9CjGA22QhyTa2LmeWyCKYyb7BJqwPgp0X4nePNnZbMMGCqgz8INsIbiSC1jueZI=;
-	24:vOhW2TXqF4SWAcJjt6YQvFmARQP9iNScR8yca8C8vtzqonaO+FceRsQzV9u3d1fANKo54+Tew7/Uo7hvUenk0ZKElvTEEr157EQnQoxOnjw=;
-	7:LP9EZXGiVRC59CfIr+0eGnmZasEbEbSN9bqxg69/JeTbQ5/NH2VFr20C0+LuPvyOPj+I717aUZgSVz/O6pvP8eNDLpz1/ks8nlXYWsQrT7B/5z0v5RsMh3DqIiJv4fr2IqzGPUrrQyBGAZ/jyeB8jWZSZ0JTzNSJ5vZEEd7WQvYCxuF1dSlW7JTT8enBnKM3LBifEE2jm2wBC04wYNRakOzDK4hw22X7PPzWx8Ae+WEBJ4kWJq0uq/y3+LZ0bwJR
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2017 02:24:05.8158 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ea2f79e-2f3f-4d09-df15-08d54299bfe0
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB3377
-Subject: [PATCH 0/2] Fix build issues with fitimage
+In-Reply-To: <CAJTo0LaOB_=4EPi=k+HCf=sqYAfrw+5J_cqQ-MFmTtC24EZtRA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 4/4] meta-selftest: wic: Add test for --use-uuid / --fsuuid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -134,36 +63,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 02:38:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Dec 2017 02:45:16 -0000
+X-Groupsio-MsgNum: 106232
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="E0LdhqWfziiBVv4P"
+Content-Disposition: inline
 
-While building fitimage with initramfs bundle using INITRAMFS_IMAGE and
-INITRAMFS_IMAGE_BUNDLE = "1", we have few failures
+--E0LdhqWfziiBVv4P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-do_bundle_initramfs fails first stating the below error
+On Wed, Dec 13, 2017 at 02:40:34PM +0000, Burton, Ross wrote:
 
-|   CHK     include/generated/compile.h
-|   CHK     kernel/config_data.h
-| mv: cannot stat 'arch/arm64/boot/fitImage': No such file or directory
+> I finally made it break locally, with MACHINE=3Dqemux86 and using sysvinit
+> instead of systemd.  Basically, a pristine poky local.conf.  I've not dug
+> into it beyond that, or why it passes with systemd.
 
-and later in do_deploy
+I found it, and, erm, ugh?  Here's what appears to be a systemd vs
+sysvinit difference.  With systemd, if you have an fstab entry and the
+mount point doesn't exist, it will get made.  So an entry of /uuid (a
+very non-HFS and just made up directory) the mount happens.  With
+sysvinit, no, the mount fails.  That's why the test fails.
 
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_deploy
-| install: cannot stat 'arch/arm64/boot/fitImage': No such file or directory
+My gut reaction is that no, it's not wic's job to ensure that the
+underlying filesystems have all mount points and I should just re-do the
+test to use /mnt instead of /uuid, for the UUID test mount point.
 
-This series fixes both the above issues 
+>=20
+> Ross
+>=20
+> On 28 November 2017 at 15:55, Tom Rini <trini@konsulko.com> wrote:
+>=20
+> > On Fri, Nov 24, 2017 at 10:36:11AM -0500, Tom Rini wrote:
+> > > On Fri, Nov 24, 2017 at 03:28:21PM +0000, Burton, Ross wrote:
+> > > > Still fails on the autobuilder though:
+> > > >
+> > > > 2017-11-24 03:33:51,694 - oe-selftest - INFO - FAIL: test_qemu
+> > (wic.Wic)
+> > > > 2017-11-24 03:33:51,694 - oe-selftest - INFO -
+> > > > -------------------------------------------------------------------=
+---
+> > > > 2017-11-24 03:33:51,694 - oe-selftest - INFO - Traceback (most rece=
+nt
+> > call
+> > > > last):
+> > > >   File
+> > > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
+> > nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
+> > > > line 32, in wrapped_f
+> > > >     return func(*args, **kwargs)
+> > > >   File
+> > > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
+> > nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
+> > > > line 58, in wrapped_f
+> > > >     return func(*args, **kwargs)
+> > > >   File
+> > > > "/home/pokybuild/yocto-autobuilder/yocto-worker/
+> > nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
+> > > > line 639, in test_qemu
+> > > >     self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2
+> > /\r\n/dev/sda3
+> > > > /mnt\r\n/dev/sda4 /uuid')
+> > > > AssertionError: '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt' =
+!=3D
+> > > > '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uui=
+d'
+> > > > - /dev/root /
+> > > >   /dev/sda1 /boot
+> > > > + /dev/sda2 /
+> > > > - /dev/sda3 /mnt+ /dev/sda3 /mnt
+> > > > ?               ++
+> > > > + /dev/sda4 /uuid
+> > >
+> > > Erm, that doesn't make any sense:
+> > >
+> > > > > --- a/meta/lib/oeqa/selftest/cases/wic.py
+> > > > > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> > > > > @@ -633,11 +633,14 @@ part /etc --source rootfs --ondisk mmcblk0
+> > > > --fstype=3Dext4 --exclude-path bin/ --r
+> > > > >          self.assertEqual(0, bitbake('wic-image-minimal').status)
+> > > > >          self.remove_config(config)
+> > > > >
+> > > > > -        with runqemu('wic-image-minimal', ssh=3DFalse) as qemu:
+> > > > > -            cmd =3D "mount |grep '^/dev/' | cut -f1,3 -d ' '"
+> > > > > +        with runqemu('wic-image-minimal', ssh=3DFalse,
+> > > > runqemuparams=3D"nographic") as qemu:
+> > >
+> > > ... I'll v2 since disabling graphics was a local thing, oops.
+> > >
+> > > > > +            cmd =3D "mount |grep '^/dev/' | cut -f1,3 -d ' ' | s=
+ort"
+> > > > > +            status, output =3D qemu.run_serial(cmd)
+> > > > > +            self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sd=
+a2
+> > > > /\r\n/dev/sda3 /mnt\r\n/dev/sda4 /uuid')
+> > > > > +            cmd =3D "grep UUID=3D /etc/fstab"
+> > > > >              status, output =3D qemu.run_serial(cmd)
+> > > > >              self.assertEqual(1, status, 'Failed to run command
+> > "%s": %s'
+> > > > % (cmd, output))
+> > > > > -            self.assertEqual(output, '/dev/root /\r\n/dev/sda1
+> > > > /boot\r\n/dev/sda3 /mnt')
+> > > > > +            self.assertEqual(output,
+> > > > 'UUID=3D2c71ef06-a81d-4735-9d3a-379b69c6bdba\t/uuid\text4\
+> > tdefaults\t0\t0')
+> > >
+> > > We no longer want to match the string you've got showing up, and the
+> > > string you have showing up says that /uuid wasn't mounted either.
+> > >
+> > > Can you check the sources in the autobuilder please and make sure the
+> > > whole series got applied correctly?  Thanks!
+> >
+> > Have you had a chance to look at this?  It's really confusing as the
+> > test output is basically the wic-minimal-image without the change that's
+> > included in this patch having been applied (it's 3 partitions).  Thanks!
+> >
+> > --
+> > Tom
+> >
 
-Manjukumar Matha (1):
-  kernel.bbclass: Fix fitimage deploy errors
-
-Thomas Perrot (1):
-  kernel.bbclass: Fix fitimage build failure
-
- meta/classes/kernel.bbclass | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
-
--- 
-2.7.4
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+--=20
+Tom
+
+--E0LdhqWfziiBVv4P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJaMeW5AAoJEIf59jXTHXZSa1oQAJgj66WZVCEOcgpTnXFYSlLC
+RSCeYIp59dFweA2FrTeumpiqTWP5H4wtCMGQbCnZ/OlHKh50r5pUtcsu44S64X97
+e+U1JJ6+2oNKNDuNAV2x5aKzsaDNUcm8aK8ld1y/s6/rn++tKaV4dkn4g+9vnAaG
+ZVXwbbU1iTIw6SPmuCgF8Vk0pDHPK+zvJFNPZCq7i2ZBQB8ZegJzNSFXywluntsd
+FY66gtVdapl9/e6bgWuFSg0dvutyMrCG65OwSANkMdtDGa8C6yGaWLAQYbQkeJha
+rUfJltyE7TXqEUYeyoWAX8b+h4BxBuAsqzW0wMNI2U8JR3LD2hrOocLMuN57OdNr
+h29zqSXu+bNFMmdnW4RQOV4Q6YXcaioqzsMpJ6ObpG89pQLERLvooeJK2WexjJyd
+lYDGdGLtQBHf1vHvVsExQdbt4lenBqNzi52iGyvebuO6DRQzVvV618nbJ/REbnq8
+9Mk43pOD77SULLGN2XkfvktfU3tV4KH+Dx4qpZyock3xuDHmWiw9+VAmQRvpxDdf
+7gmT/6KbaNpOLjg3Zim76ktV1JMxppYFp6ILAZzCHElK1d9fdLmU4+R0+hkZIhsu
+oPM8kE7Dd6FPlWUJaea14M1Pw2lU5tTpgo0LNwpGdsuPCR+vedErEi5921gIyPnp
+lep+v3XX68292iHWb4vs
+=T10t
+-----END PGP SIGNATURE-----
+
+--E0LdhqWfziiBVv4P--
