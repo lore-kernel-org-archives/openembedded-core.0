@@ -1,51 +1,32 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6CA71A30
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BCA0078855
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 22:56:29 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id b184so4093357qkc.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Dec 2017 14:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=vw91kpMGovsYxlTaa1IyyzMCGox8LyRQ7FF3375qtDw=;
-	b=Tt0do4MkHiwnUr30EUcO7Lbu7/uR0RCexsy8OJGbHoC9Aowy65EgcJik/Tyu5KRJCe
-	ugrmrZL3Nu+y+P8q7ZGW5IaRqdsJpmearXDP2GuuktcHX1A3EahB812K/+hA+stJPY4x
-	DsV8Mm7vB72jlMIT/I7g4cCwqY5jPUCeLZvuk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=vw91kpMGovsYxlTaa1IyyzMCGox8LyRQ7FF3375qtDw=;
-	b=lbw4JZCArhgud86cqAwMvkbzXg2yni/6oHUdG6/brEV7yHeoYKhtiNUZLIVX9r2Jgi
-	Vlz4rhIEPYUjmbiP5QtWio2zsvBQBbFmjjymkjWKRFJVlZOwOBrdPfMnwWDRGB1cTJfQ
-	9JSvZvaUmLVOlLrxMAOB1LOCpXy3gus2K/JgbnxkdNm7bpCrw3RJ1YLnB29C5sAL+GDR
-	93wTHJzju0qdkLb7/2oR2CP+xKXNj3vOBj55mfIyUiD1d2J/665F8kIykSrZ0VNR3syZ
-	8V1qeO8DMqmFd6JJf4QDiw3Ahe5iTrit8bdKr+jZUQIAIXP44s11BX/R9vzYRIxu7c/+
-	yVUg==
-X-Gm-Message-State: AKGB3mIvncN7fr0cX5bqW9ujrcuqrumPN/Rl+PrBnFPF6YMXXb7NrbZy
-	c7i3YZyce5NOXyHBzlKP0i8I8g==
-X-Google-Smtp-Source: ACJfBossaKI2qFAeIhsknwqvZayJHMl8cP4i7GC/Ynf7de29wKWOJb4YMNtgpGh64WM9BcX2xo8nCg==
-X-Received: by 10.55.214.25 with SMTP id t25mr8989889qki.43.1513205791118;
-	Wed, 13 Dec 2017 14:56:31 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	y23sm1708564qtj.24.2017.12.13.14.56.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Dec 2017 14:56:30 -0800 (PST)
-Date: Wed, 13 Dec 2017 17:56:28 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Kristian Amlie <kristian.amlie@northern.tech>
-Message-ID: <20171213225628.GV372@bill-the-cat>
-References: <1513173807-26292-1-git-send-email-kristian.amlie@northern.tech>
-	<1513176749-28928-1-git-send-email-kristian.amlie@northern.tech>
+	Thu, 14 Dec 2017 00:01:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBE01AhY015365
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Dec 2017 16:01:10 -0800 (PST)
+Received: from server.local (128.224.21.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 13 Dec 2017 16:01:09 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1513168490.19417.183.camel@linuxfoundation.org>
+	<694b540b-1fc8-0388-5419-01c6e3f100c6@windriver.com>
+	<1513173904.16507.1.camel@linuxfoundation.org>
+	<85f7c521-01c4-7870-0f57-7ca217fce8e3@windriver.com>
+	<1513174448.16507.8.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <2df34489-8c8f-bd76-3972-7ab648aeffee@windriver.com>
+Date: Wed, 13 Dec 2017 19:01:08 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <1513176749-28928-1-git-send-email-kristian.amlie@northern.tech>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] u-boot-fw-utils: Fix broken makefile in v2017.11.
+In-Reply-To: <1513174448.16507.8.camel@linuxfoundation.org>
+Cc: "Lock, Joshua" <joshua.g.lock@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Fix for the APIC hangs in qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,21 +39,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Dec 2017 22:56:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 14 Dec 2017 00:01:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 13, 2017 at 03:52:29PM +0100, Kristian Amlie wrote:
-
-> See the patch for details. This patch has already been applied
-> upstream, but we need it for v2017.11.
+On 2017-12-13 9:14 AM, Richard Purdie wrote:
+> On Wed, 2017-12-13 at 09:07 -0500, Bruce Ashfield wrote:
+>> On 12/13/2017 09:05 AM, Richard Purdie wrote:
+>>>
+>>> On Wed, 2017-12-13 at 08:38 -0500, Bruce Ashfield wrote:
+>>>>
+>>>> On 12/13/2017 07:34 AM, Richard Purdie wrote:
+>>>>>
+>>>>>
+>>>>> Hi Bruce,
+>>>>>
+>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
+>>>>>
+>>>>> We've root caused the hangs we're seeing in qemux86-64 on our
+>>>>> autobuilder workers. We've identified a commit on 4.15-rc3
+>>>>> which
+>>>>> fixes
+>>>>> the issue but backporting it to the autobuilder's host kernels
+>>>>> will
+>>>>> be
+>>>>> a pain.
+>>>>>
+>>>>> As a workaround I'd like to enable x2apic on qemux86-64. Since
+>>>>> that
+>>>>> works via MSRs it avoids the problem.
+>>>>>
+>>>>> Would it be a big issue to set CONFIG_X86_X2APIC=y for qemux86-
+>>>>> 64?
+>>>> Nope. No big deal at all. I've used the same config i the past
+>>>> when doing work with rt-KVM, so I know it well.
+>>>>
+>>>> I'll prep a commit, and send it along as part of a rebased set
+>>>> of kernel patches.
+>>> Thanks, much appreciated.
+>>>
+>>> Did we get to the bottom of the 4.12 selftest failures?
+>>>
+>> Not yet no. I was distracted for a day, but need to learn how
+>> to run them myself. I was able to log in via serial in my normal
+>> boot flow, so that didn't get me anywhere.
+>>
+>> Is the selftest HOWO in the yocto docs ? I'll google it up this
+>> morning.
 > 
-> Upstream-Status: Accepted [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
+> No HOWTO but I did give you the command. In a poky checkout run:
 > 
-> Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
+> oe-selftest -r runqemu.RunqemuTests.test_boot_deploy
+> 
+> which runs a single test that fails (setup DL_DIR/SSTATE_MIRRORS first
+> to speed it up a bit).
+> 
+> It may tell you to clear SANITY_TESTED_DISTROS, I think it auto adds
+> meta-selftest now. You may also need to set DISPLAY to something (e.g.
+> a dummy vncserver).
+> 
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+With the cleanup that Ross gave me, I'm now able to see the issue.
 
--- 
-Tom
+I'll start debugging on Thursday.
+
+One additional question: what's the right way to find the logs of that
+run ?
+
+I'm getting a bit of noise from:
+
+----------------
+      0155:            else:
+Exception: FileNotFoundError: [Errno 2] No such file or directory: 
+'/home/bruce/poky/build/tmp/sysroots-components/x86_64/python3-native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-1.pyc' 
+-> 
+'/home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-r0/recipe-sysroot-native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-1.pyc'
+
+ERROR: gnu-efi-3.0.6-r0 do_package: Function failed: extend_recipe_sysroot
+ERROR: Logfile of failure stored in: 
+/home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-r0/temp/log.do_package.10495
+
+--------------
+
+So I'm not seeing where to find it.
+
+Bruce
+
+> Not sure what is different about the serial qemu is using verses your
+> own tests...
+> 
+>>   > We may also need to backport the defconfig change back to the older
+>>   > releases so we don't get the hangs in those builds either...
+>>   Not a problem either. I'll prepare several.>
+> 
+> Thanks!
+> 
+> Cheers,
+> 
+> Richard
+>>
+
 
