@@ -1,32 +1,44 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B89260616
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E383060616
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 15:26:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Dec 2017 07:26:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,405,1508828400"; 
-   d="scan'208";a="2995810"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga007.jf.intel.com with ESMTP; 15 Dec 2017 07:26:33 -0800
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-References: <20171116174541.3081-1-ricardo.ribalda@gmail.com>
-	<db49b730-240f-3d14-3fd0-31e109bd2ee2@linux.intel.com>
-	<CAPybu_28ZvnJTjd1KiNx375+kfh1c+q=y65paJYDeHpJyd5qew@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <784b237e-8cad-d450-5d23-32adc961110a@linux.intel.com>
-Date: Fri, 15 Dec 2017 17:27:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAPybu_28ZvnJTjd1KiNx375+kfh1c+q=y65paJYDeHpJyd5qew@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] meson: Port pkgconfig-native patch to 0.43.0
+	Fri, 15 Dec 2017 15:29:53 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id t8so18174345wmc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 07:29:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=s3GO6GJp9EZrdF1yTzt/2W64okqvD4886uRqPTdNfcI=;
+	b=RaA4e7vTQirBLb5p/2zC5uazPDE6nMLCPy1xQFOZPvlqvebo5X9OxhOUurtmU/2jS7
+	FPHYkkyCVIlO8OpNt2yLkykJT7ZeJietZ5ELJQBLO8eSk3hxlutpUeo5249E1HY+/V1W
+	TTDxZFEwz88nj9mi/Ab355CNVDEc4ufZUBuawaLZ2T/+SrFQ+WiCv+w76BvZTfvrCFGF
+	JA60X5i7Y9v/xLa0ugz5Tj0rx8veuZzbl08d1/Ci05VHGSiomzk+2FgfiI8O/kDqPELE
+	TUNjSIfi7oQixrH3CUx0DYG5VAeKTfYKDH+gHwIgJlNNQiD0AENkktgVMt04VZmPQjeO
+	e48g==
+X-Gm-Message-State: AKGB3mLZP330NDbz/xuuvIjwgQ/oXEBAA32WHngGX/3ua2wAlBjVaFQd
+	YHG3S0J+AcBmwOs/+r7s2m2TFoOU
+X-Google-Smtp-Source: ACJfBotYZx2EwbDRyvNhlkCNdJHlArGP4/UV849NgWd8BqI48QANkCKXZwm/aLrN2JCEUG1PvZNybw==
+X-Received: by 10.80.173.56 with SMTP id y53mr17426314edc.202.1513351794250;
+	Fri, 15 Dec 2017 07:29:54 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	e25sm5690309edc.64.2017.12.15.07.29.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 15 Dec 2017 07:29:53 -0800 (PST)
+Message-ID: <1513351792.21903.53.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Dec 2017 15:29:52 +0000
+In-Reply-To: <CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
+References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
+	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+	<CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
+X-Mailer: Evolution 3.26.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +51,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 15:26:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 15 Dec 2017 15:29:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/16/2017 07:57 PM, Ricardo Ribalda Delgado wrote:
-
->>> +Some libraries, like QT, have pre-processors that convert their input
->>> +files into something that the cross-compiler can process. We find the
->>> +path of those pre-processors via pkg-config-native instead of
->>> +pkg-config.
->>> +
->>> +This path forces the use of pkg-config-native for host_bins arguments.
->>> +
->>> +There are some discussions upstream to merge this patch, but I presonaly
->>> believe
->>> +that is is OE only.
->>> https://github.com/mesonbuild/meson/issues/1849#issuecomment-303730323
->>
->>
->> Does the snippet from Martin's patch that I just commented on solve this
->> issue in a much simpler way?
+On Thu, 2017-12-07 at 11:27 -0800, Andre McCurdy wrote:
+> On Fri, Nov 17, 2017 at 4:02 AM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+> > +
+> > +MESON_HOST_ENDIAN = "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be',
+> > 'big', 'little', d)}"
 > 
-> I am afraid not. We need to call pkg-config for getting the -libs
-> -cflags, et all, and pkg-config-native for --host_bins We cannot use
-> the same pkg-config for all unfortunatelly.
+> SITEINFO_ENDIANNESS returns the endianness of the target, not the
+> host.
 
-Unfortunately, the same patch needs to be ported again to 0.44.0, as the 
-changes upstream made are non-trivial. Can you do that please?
+Isn't the host what you call target? When cross-compiling, the host machine
+normally refers to the system where the built programs will be run, and
+target machine to where the a compiler will run, in case a compiler is being
+(cross-)compiled.
 
-Alex
+${MESON_HOST_ENDIAN} is used inside the [host_machine] statement, so this
+looks right.
+
+> [...]
+
+> 
+> > +MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES',
+> > 'bigendian', 'big', 'little', d)}"
+> 
+> This won't work for all targets (e.g. PowerPC is big endian but
+> doesn't include "bigendian" in TUNE_FEATURES). To determine the
+> endianness of the target, use SITEINFO_ENDIANNESS instead.
+
+${MESON_TARGET_ENDIAN} is used inside a [target_machine] statement, though.
+Not sure about the naming and intention here...
+
+
+Cheers,
+Andre'
+
 
