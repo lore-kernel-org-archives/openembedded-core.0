@@ -1,47 +1,34 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EBFD78802
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id D6BAD719B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Dec 2017 18:03:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Dec 2017 10:03:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,400,1508828400"; 
-   d="scan'208";a="2747116"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga007.jf.intel.com with ESMTP; 14 Dec 2017 10:03:42 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: Stefan Agner <stefan@agner.ch>
-References: <20171213180624.30839-1-stefan@agner.ch>
-	<cce87fc26f1e975fe9ee6d9321bbb870@agner.ch>
-	<56bd3e44-1478-9095-4fef-3f7453b7ec94@linux.intel.com>
-	<a2a011e2de41685295946b44f13102f4@agner.ch>
-	<74fb0f2c-574b-56be-1bba-6b859ee07029@linux.intel.com>
-	<d31c5759f38e450334b7762afb5e7496@agner.ch>
-	<2e3178d0-c6eb-97f8-c524-bcee54091397@linux.intel.com>
-	<37d7ff0a6470bb60cf62d73585b3c3f8@agner.ch>
-	<dbdaea03-62b9-3437-5da4-897b633f813d@linux.intel.com>
-	<d74719f7fc9f92cfdc443720915252e5@agner.ch>
-	<eb8c0e61-9433-2d83-ab23-eed945b476df@linux.intel.com>
-	<c7efc74858b05a59105bd21fb6669e48@agner.ch>
-	<2ddf3fe7-20f3-87e0-969d-a0ed83cf9256@linux.intel.com>
-	<4a6b7a11117ca59fa8b5ffd60c889387@agner.ch>
-	<84080427-d60b-6527-b0f4-938fae379559@linux.intel.com>
-	<b0d062d27983acc3d7ec40061b661699@agner.ch>
-	<d86099aa-2449-6afd-38a9-8bc3270f3e35@linux.intel.com>
-Message-ID: <129da6c9-63f8-c660-ec6c-d6b9ba28e480@linux.intel.com>
-Date: Thu, 14 Dec 2017 20:04:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Fri, 15 Dec 2017 00:18:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E19CE20AD6;
+	Fri, 15 Dec 2017 00:18:08 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id STrRN24Ab0CS; Fri, 15 Dec 2017 00:18:08 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C1ACC20567;
+	Fri, 15 Dec 2017 00:18:07 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 52FF61631EC; Thu, 14 Dec 2017 19:18:07 -0500 (EST)
+Date: Thu, 14 Dec 2017 19:18:07 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+Message-ID: <20171215001807.GH9221@denix.org>
+References: <1513218231-12626-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<1513250295.30397.73.camel@andred.net>
 MIME-Version: 1.0
-In-Reply-To: <d86099aa-2449-6afd-38a9-8bc3270f3e35@linux.intel.com>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] opkg: avoid running postinst scripts twice when using systemd
+In-Reply-To: <1513250295.30397.73.camel@andred.net>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Fix build issues with fitimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Dec 2017 18:03:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 15 Dec 2017 00:18:08 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On 12/14/2017 07:49 PM, Alexander Kanavin wrote:
-> On 12/14/2017 07:40 PM, Stefan Agner wrote:
+On Thu, Dec 14, 2017 at 11:18:15AM +0000, Andr� Draszik wrote:
+> On Wed, 2017-12-13 at 18:23 -0800, Manjukumar Matha wrote:
+> > While building fitimage with initramfs bundle using INITRAMFS_IMAGE and
+> > INITRAMFS_IMAGE_BUNDLE = "1", we have few failures
 > 
->> Oh, I see, well that simplifies it, doesn't it? E.g.
->>
->>      # If package managers support postinsts and the package manager is
->> present on the
->>      # rootfs, then it will handle postinsts just fine, no need to deploy
->> scripts again.
->>      if delayed_postinsts and not runtime_pkgmanage:
->>          self._save_postinsts()
->>
->> And with that it will be as it used to be before the above commit, and
->> the way it should be.
-> 
-> Sorry, but no. You are making an implicit assumption about how rpmrootfs 
-> child class behaves here, which is not a good thing to do in a parent 
-> class.
+> Nothing against these patches, but what is the use-case to do that? Why
+> don't you just disable INITRAMFS_IMAGE_BUNDLE?
 
-What you *can* do however is move the "and not runtime_pkgmanage" check 
-into the child classes for opkg and dpkg. I'm fine with that.
++1 here
 
-Alex
+Also, I don't think this is the first revision of the patch here, so please 
+specify [PATCH vX] accordingly, with log of changes between revisions.
+
+-- 
+Denys
 
