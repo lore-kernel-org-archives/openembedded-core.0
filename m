@@ -1,26 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 100A678840
+	by mail.openembedded.org (Postfix) with ESMTP id 1B85A78825
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 16:06:11 +0000 (UTC)
+	Fri, 15 Dec 2017 16:06:12 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Dec 2017 08:06:12 -0800
+	15 Dec 2017 08:06:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,405,1508828400"; 
-   d="scan'208";a="3118141"
+   d="scan'208";a="3118148"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 15 Dec 2017 08:06:12 -0800
+	by orsmga006.jf.intel.com with ESMTP; 15 Dec 2017 08:06:13 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Dec 2017 18:06:48 +0200
-Message-Id: <0a3f80b658a984aed690a23d4e60282455bc3c7a.1513353879.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 15 Dec 2017 18:06:49 +0200
+Message-Id: <8aae80d847b7374b3e41ff19ecc0d18fb45ac120.1513353879.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
 References: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 7/8] gst-player: Upgrade, rename to gst-examples
+Subject: [PATCH 8/8] meson: export native env only for native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,148 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 16:06:11 -0000
+X-List-Received-Date: Fri, 15 Dec 2017 16:06:12 -0000
 
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+From: Martin Kelly <mkelly@xevo.com>
 
-Switch to using current repository, switch to meson (following
-upstream), rename the recipe like upstream.
+Although the meson crossfile should take care of setting the right cross
+environment for a target build, meson slurps any set CFLAGS, CXXFLAGS,
+LDFLAGS, and CPPFLAGS from the environment and injects them into the
+build (see mesonbuild/environment.py:get_args_from_envvars for details).
 
-Add a patch to install the player binaries.
+This means that we are seeing native CFLAGS, CXXFLAGS, LDFLAGS, and
+CPPFLAGS in the target build, which is wrong and causes build failures
+when target and native have libraries in common (the linker gets
+confused and bails).
 
+That said, we *do* need to set certain vars for all builds so that meson
+can find the right build tools. Without this, meson will fail during its
+sanity checking step because it will determine the build tools to be
+unrunnable since they output target instead of native artifacts.
+
+The solution to all of this is to set CC, CXX, LD, and AR globally to
+the native tools while setting the other native vars *only* for the
+native build. For target builds, these vars will get overridden by the
+cross file as we expect.
+
+Signed-off-by: Martin Kelly <mkelly@xevo.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../packagegroup-core-tools-testapps.bb            |  2 +-
- .../0001-Make-player-examples-installable.patch    | 39 ++++++++++++++++++++++
- .../gst-player.desktop                             |  0
- .../{gst-player_git.bb => gst-examples_git.bb}     | 18 +++++-----
- .../packagegroups/packagegroup-core-x11-sato.bb    |  2 +-
- 5 files changed, 49 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
- rename meta/recipes-multimedia/gstreamer/{gst-player => gst-examples}/gst-player.desktop (100%)
- rename meta/recipes-multimedia/gstreamer/{gst-player_git.bb => gst-examples_git.bb} (65%)
+ meta/classes/meson.bbclass | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index 317097854f2..3cf84c56ed7 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -25,7 +25,7 @@ X11GLTOOLS = "\
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 5953b5d698c..b72e5207abc 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -9,13 +9,6 @@ do_configure[cleandirs] = "${B}"
+ # Where the meson.build build configuration is
+ MESON_SOURCEPATH = "${S}"
  
- X11TOOLS = "\
-     fstests \
--    gst-player \
-+    gst-examples \
-     x11perf \
-     xrestop \
-     xwininfo \
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-new file mode 100644
-index 00000000000..0338bad1c03
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-@@ -0,0 +1,39 @@
-+From 755f6dab07565aca7b6aefacad8be65de364ff75 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Thu, 17 Aug 2017 11:07:02 +0300
-+Subject: [PATCH] Make player examples installable
+-# These variables in the environment override meson's *native* tools settings.
+-# We have to unset them, so that meson doesn't pick up the cross tools and
+-# use them for native builds.
+-unset CC
+-unset CXX
+-unset AR
+-
+ def noprefix(var, d):
+     return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
+ 
+@@ -92,6 +85,18 @@ meson_do_configure() {
+     fi
+ }
+ 
++meson_do_configure_prepend_class-target() {
++    # Set these so that meson uses the native tools for its build sanity tests,
++    # which require executables to be runnable. The cross file will still
++    # override these for the target build. Note that we do *not* set CFLAGS,
++    # LDFLAGS, etc. as they will be slurped in by meson and applied to the
++    # target build, causing errors.
++    export CC="${BUILD_CC}"
++    export CXX="${BUILD_CXX}"
++    export LD="${BUILD_LD}"
++    export AR="${BUILD_AR}"
++}
 +
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Denied [Upstream considers these code examples, for now a least]
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=777827
-+---
-+ playback/player/gst-play/meson.build | 1 +
-+ playback/player/gtk/meson.build      | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/playback/player/gst-play/meson.build b/playback/player/gst-play/meson.build
-+index 719b55b..a56fe13 100644
-+--- a/playback/player/gst-play/meson.build
-++++ b/playback/player/gst-play/meson.build
-+@@ -8,5 +8,6 @@ executable('gst-play',
-+     ['gst-play.c',
-+      'gst-play-kb.c',
-+      'gst-play-kb.h'],
-++    install: true,
-+     dependencies : [gst_dep, gstplayer_dep, m_dep])
-+ 
-+diff --git a/playback/player/gtk/meson.build b/playback/player/gtk/meson.build
-+index 08aae4f..671a65d 100644
-+--- a/playback/player/gtk/meson.build
-++++ b/playback/player/gtk/meson.build
-+@@ -18,5 +18,6 @@ executable('gtk-play',
-+       gtk_play_resources,
-+      'gtk-video-renderer.h',
-+      'gtk-video-renderer.c'],
-++    install: true,
-+     dependencies : [glib_dep, gobject_dep, gmodule_dep, gst_dep, gsttag_dep, gstplayer_dep, gtk_dep, x11_dep])
-+ 
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-similarity index 100%
-rename from meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
-rename to meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-similarity index 65%
-rename from meta/recipes-multimedia/gstreamer/gst-player_git.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-index ee11e2ba10d..8891328b078 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-@@ -1,25 +1,23 @@
--SUMMARY = "GStreamer playback helper library and examples"
-+SUMMARY = "GStreamer examples (including gtk-play, gst-play)"
- LICENSE = "LGPL-2.0+"
--LIC_FILES_CHKSUM = "file://gtk/gtk-play.c;beginline=1;endline=20;md5=f8c72dae3d36823ec716a9ebcae593b9"
-+LIC_FILES_CHKSUM = "file://playback/player/gtk/gtk-play.c;beginline=1;endline=20;md5=f8c72dae3d36823ec716a9ebcae593b9"
- 
- DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gtk+3 glib-2.0-native"
- 
--SRC_URI = "git://github.com/sdroege/gst-player.git \
-+SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-examples \
-+           file://0001-Make-player-examples-installable.patch \
-            file://gst-player.desktop"
- 
--SRCREV = "ee3c226c82767a089743e4e06058743e67f73cdb"
-+SRCREV = "e88c04ff34cf56984e62a524a0bcc16ab51b282d"
- PV = "0.0.1+git${SRCPV}"
- UPSTREAM_CHECK_COMMITS = "1"
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig distro_features_check
-+inherit meson pkgconfig distro_features_check
- 
--ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
--do_configure_prepend() {
--	touch ${S}/ChangeLog
--}
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
- do_install_append() {
- 	install -m 0644 -D ${WORKDIR}/gst-player.desktop ${D}${datadir}/applications/gst-player.desktop
-@@ -31,4 +29,4 @@ RRECOMMENDS_${PN} = "gstreamer1.0-plugins-base-meta \
-                      gstreamer1.0-plugins-bad-meta \
-                       ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-libav", "", d)} \
-                      ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
--RPROVIDES_${PN} += "${PN}-bin"
-+RPROVIDES_${PN} += "gst-player gst-player-bin"
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 97cced7cc34..224428ddda5 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -46,7 +46,7 @@ WEB ?= ""
- SUMMARY_${PN}-apps = "Sato desktop - applications"
- RDEPENDS_${PN}-apps = "\
-     l3afpad \
--    gst-player \
-+    gst-examples \
-     matchbox-terminal \
-     sato-screenshot \
-     ${FILEMANAGER} \
+ meson_do_configure_prepend_class-native() {
+     export PKG_CONFIG="pkg-config-native"
+ }
 -- 
 2.15.0
 
