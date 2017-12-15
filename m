@@ -1,32 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id C4E8478295
+Return-Path: <00moses.alexander00@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E8B08787F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 16:13:00 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Dec 2017 08:13:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,405,1508828400"; 
-   d="scan'208";a="3006316"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga007.jf.intel.com with ESMTP; 15 Dec 2017 08:13:01 -0800
+	Fri, 15 Dec 2017 19:30:32 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id g53so8960115wra.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 11:30:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=yL6FDExIDrSJskpS5mjOscmqGGLr9jw+i7HoHgo8/Lg=;
+	b=kqw6lQ2ugoQrHGzzu/lGtwHsppfV9SSOMH+R1rdK4Pxk1iHLz53Vpsw3kg6rIadvde
+	85ztrLQFx1DJKzhtHNGKbVyNz84Nkjh+VuVWb0IssM19OWM9VGbyCYqlcx12w9RyaI9i
+	eEfdNeiY9E/J8axzkcQ7zxJViF9gA1dfkNwIq/8vd80AI8enus15m8cXSDGWygF/6HhS
+	HlgvLVYmM9feIsH9c797QK6pvEMRmSi2Mdxr4pMk+aKvJpdoXs2EpXRGMiB2Mu+owPOU
+	9hY5qF3JoHLsu7yzodMHETt5C8gdatFJnfDN3yTSi/Oulb92+UGDpfiCGbsBCYtyeiIH
+	Jqzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yL6FDExIDrSJskpS5mjOscmqGGLr9jw+i7HoHgo8/Lg=;
+	b=REnbZo3Nn7gFb0YEDU89oKDhwM/Bcuy1iTIYXqPaijD2HNEmmKgHY97TFqoDa282Jh
+	SKbDFNqnuBse8DJ8jfJZJolcMGvi1TYb0UFB4MVrfoJ45dUketJHZwKeL3OTnyG7mS0O
+	6JNMisNE6BFBjWPjjU+XpTmL6eFeLAeYcx5F3xZllrnbs5ScJqyHlZlXExe4H5a+VgEL
+	s9sBF8F0wGvgEALYYE+X9Ca1EbZNBmEv2gM6iouY7nQqY7a7Q5LIFkTTU/1YG+VSnaKh
+	UnfJoovYcJrvWpwBTfDMeF8bAyNaXF/VWTH1o5g9SmL0u9MW5AbCv5LTNXp9tP0W5IoV
+	qhZQ==
+X-Gm-Message-State: AKGB3mLK9+l8HPTu5xaRuKxU6kImmrOJIAZTSb149MPRcSHngSx/i4fE
+	x5+SpJuUIFxbqt70tyba8iVefg==
+X-Google-Smtp-Source: ACJfBov3/du6GPRoM2bet/mE4jPCHo8c46jsb4rMFiyNkEOaf16TSp0zcf2ou3BQ1yXwpGXxDVwxng==
+X-Received: by 10.223.190.9 with SMTP id n9mr11079352wrh.46.1513366233201;
+	Fri, 15 Dec 2017 11:30:33 -0800 (PST)
+Received: from nodezero.t.hu (51B6B6DE.dsl.pool.telekom.hu. [81.182.182.222])
+	by smtp.gmail.com with ESMTPSA id
+	g78sm6592821wmc.30.2017.12.15.11.30.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Dec 2017 11:30:32 -0800 (PST)
+From: Alexandru Moise <00moses.alexander00@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
-	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
-	<CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
-	<1513351792.21903.53.camel@andred.net> <5A33F1E3.8020205@axis.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <10feac00-4a57-76f7-9633-7afb234e581b@linux.intel.com>
-Date: Fri, 15 Dec 2017 18:13:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <5A33F1E3.8020205@axis.com>
-Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
+Date: Fri, 15 Dec 2017 20:30:26 +0100
+Message-Id: <20171215193026.19273-1-00moses.alexander00@gmail.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] sysklogd: update Makefile for PPC e500v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,22 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 16:13:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Dec 2017 19:30:33 -0000
 
-On 12/15/2017 06:01 PM, Linus Svensson wrote:
->  From mesonbuild.com:
-> target machine is the machine on which the compiled binary's output will 
-> run
-> (this is only meaningful for programs such as compilers that, when run,
-> produce object code for a different CPU than what the program is being 
-> run on)
+Previous patch doesn't apply cleanly anymore, just replace it with
+ported patch.
 
-Guys... you are arguing over nothing. As I said, endianness definition 
-is not used anywhere in meson, although it's required to be present in 
-the config. The latest patchset sets it to a bogus value :)
+Signed-off-by: Alexandru Moise <00moses.alexander00@gmail.com>
+---
+ .../sysklogd/files/no-vectorization.patch          | 32 ++++++++++++++--------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
-Alex
+diff --git a/meta/recipes-extended/sysklogd/files/no-vectorization.patch b/meta/recipes-extended/sysklogd/files/no-vectorization.patch
+index c1cc042c9c..76f60e54b1 100644
+--- a/meta/recipes-extended/sysklogd/files/no-vectorization.patch
++++ b/meta/recipes-extended/sysklogd/files/no-vectorization.patch
+@@ -1,20 +1,30 @@
+-Upstream-Status: Inappropriate
++From 9f17a051a77923fabfd831e946f5d919e452a86f Mon Sep 17 00:00:00 2001
++From: Alexandru Moise <00moses.alexander00@gmail.com>
++Date: Fri, 15 Dec 2017 20:19:38 +0100
++Subject: [PATCH] sysklogd: no vectorization
+ 
+ The compiler should not be generating vectorized instructions on this target.
+ This is a work around until I can determine why this is occuring on this
+-particular recipe
++particular recipe.
+ 
+-Index: sysklogd-1.5/Makefile
+-===================================================================
+---- sysklogd-1.5.orig/Makefile
+-+++ sysklogd-1.5/Makefile
+-@@ -20,7 +20,8 @@
+- CC= gcc
++Signed-off-by: Alexandru Moise <00moses.alexander00@gmail.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index af699d2..cb3ff41 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -19,7 +19,7 @@
++ 
+  #SKFLAGS= -g -DSYSV -Wall
+  #LDFLAGS= -g
+--SKFLAGS= $(RPM_OPT_FLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce
+-+SKFLAGS= $(RPM_OPT_FLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce \
+-+	-fno-tree-vectorize
++-SKFLAGS = $(CFLAGS) $(CPPFLAGS) -DSYSV -Wall -fno-strength-reduce
+++SKFLAGS = $(CFLAGS) $(CPPFLAGS) -DSYSV -Wall -fno-strength-reduce -fno-tree-vectorize
+  # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+  # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+  # $(shell getconf LFS_SKFLAGS)
++-- 
++2.15.1
++
+-- 
+2.15.1
+
 
