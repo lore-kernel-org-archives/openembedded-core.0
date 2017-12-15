@@ -1,26 +1,59 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B85A78825
+Return-Path: <linus.svensson@axis.com>
+X-Greylist: delayed 470 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 15 Dec 2017 16:09:35 UTC
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 09C2B78824
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 16:06:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Dec 2017 08:06:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,405,1508828400"; 
-   d="scan'208";a="3118148"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 15 Dec 2017 08:06:13 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Dec 2017 18:06:49 +0200
-Message-Id: <8aae80d847b7374b3e41ff19ecc0d18fb45ac120.1513353879.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
-References: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 8/8] meson: export native env only for native build
+	Fri, 15 Dec 2017 16:09:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4B79518454
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:44 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id OlhaGerGrYsY
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 9CBAD18440
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 83E9D1E074
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 78FD51E05C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 6DAB42FFC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Dec 2017 17:01:43 +0100 (CET)
+Received: from [10.94.48.1] (10.0.5.60) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Fri, 15 Dec 2017 17:01:41 +0100
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
+	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
+	<CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
+	<1513351792.21903.53.camel@andred.net>
+From: Linus Svensson <linus.svensson@axis.com>
+Message-ID: <5A33F1E3.8020205@axis.com>
+Date: Fri, 15 Dec 2017 17:01:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <1513351792.21903.53.camel@andred.net>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX03.axis.com (10.0.5.17)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +66,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 16:06:12 -0000
+X-List-Received-Date: Fri, 15 Dec 2017 16:09:36 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Martin Kelly <mkelly@xevo.com>
+On 12/15/2017 04:29 PM, André Draszik wrote:
+> On Thu, 2017-12-07 at 11:27 -0800, Andre McCurdy wrote:
+>>> +MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES',
+>>> 'bigendian', 'big', 'little', d)}"
+>> This won't work for all targets (e.g. PowerPC is big endian but
+>> doesn't include "bigendian" in TUNE_FEATURES). To determine the
+>> endianness of the target, use SITEINFO_ENDIANNESS instead.
+> ${MESON_TARGET_ENDIAN} is used inside a [target_machine] statement, though.
+> Not sure about the naming and intention here...
+meson define host,target and build the same way as autotools do.
+meson will fetch information about the build machine from the environment
+and host/target is specified in the cross-file. The intention with this
+statement is to specify the endianness for the target system. Is that
+information available in oe?
 
-Although the meson crossfile should take care of setting the right cross
-environment for a target build, meson slurps any set CFLAGS, CXXFLAGS,
-LDFLAGS, and CPPFLAGS from the environment and injects them into the
-build (see mesonbuild/environment.py:get_args_from_envvars for details).
+ From mesonbuild.com:
+target machine is the machine on which the compiled binary's output will run
+(this is only meaningful for programs such as compilers that, when run,
+produce object code for a different CPU than what the program is being 
+run on)
 
-This means that we are seeing native CFLAGS, CXXFLAGS, LDFLAGS, and
-CPPFLAGS in the target build, which is wrong and causes build failures
-when target and native have libraries in common (the linker gets
-confused and bails).
-
-That said, we *do* need to set certain vars for all builds so that meson
-can find the right build tools. Without this, meson will fail during its
-sanity checking step because it will determine the build tools to be
-unrunnable since they output target instead of native artifacts.
-
-The solution to all of this is to set CC, CXX, LD, and AR globally to
-the native tools while setting the other native vars *only* for the
-native build. For target builds, these vars will get overridden by the
-cross file as we expect.
-
-Signed-off-by: Martin Kelly <mkelly@xevo.com>
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/meson.bbclass | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 5953b5d698c..b72e5207abc 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -9,13 +9,6 @@ do_configure[cleandirs] = "${B}"
- # Where the meson.build build configuration is
- MESON_SOURCEPATH = "${S}"
- 
--# These variables in the environment override meson's *native* tools settings.
--# We have to unset them, so that meson doesn't pick up the cross tools and
--# use them for native builds.
--unset CC
--unset CXX
--unset AR
--
- def noprefix(var, d):
-     return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
- 
-@@ -92,6 +85,18 @@ meson_do_configure() {
-     fi
- }
- 
-+meson_do_configure_prepend_class-target() {
-+    # Set these so that meson uses the native tools for its build sanity tests,
-+    # which require executables to be runnable. The cross file will still
-+    # override these for the target build. Note that we do *not* set CFLAGS,
-+    # LDFLAGS, etc. as they will be slurped in by meson and applied to the
-+    # target build, causing errors.
-+    export CC="${BUILD_CC}"
-+    export CXX="${BUILD_CXX}"
-+    export LD="${BUILD_LD}"
-+    export AR="${BUILD_AR}"
-+}
-+
- meson_do_configure_prepend_class-native() {
-     export PKG_CONFIG="pkg-config-native"
- }
--- 
-2.15.0
-
+/Linus
 
