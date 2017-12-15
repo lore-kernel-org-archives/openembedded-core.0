@@ -1,54 +1,56 @@
-Return-Path: <kristian.amlie@northern.tech>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CD0797882D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A186072F42
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 08:51:04 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id 6so1103665lfa.6
+	Fri, 15 Dec 2017 12:34:26 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id r6so18613682itr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 00:51:06 -0800 (PST)
+	Fri, 15 Dec 2017 04:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qG4A4l2+l3Vb/4aka4TBIqgFrlgLJSQVjNQ4BDG99Hs=;
-	b=XbrEsz+1MOYClR4wiCIegBjE/kW77sHuNx4bFhotvZXDDFv98RpmxxMnp38mroT8Bl
-	a5vd7VbkoLttv7Av7IhMBhR0URiyEwWvX9Jmdiy9h9iTx+wMNwNF8S1mLO39On/+wSQC
-	JyMSztgtp1YIFs2cYXdqpp6nPvQwYq0eHQZQG6TX0yY45nDxV5s4tpaR9Te+T/8atxv2
-	sHmCsOblYt2kTf2gxfYvZXs4UW3SZpbUhbcHFjYkrn+Pd4HYAp4ZOA4ILuZu6wjVvnK9
-	bXYOt7FysjCD76nXaioafWhl1Vwq+sXBwBqE9rjZplbLy355U8mzc1a2PAViaFP1MIW5
-	21Zg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V3pYWbF2+487lHsG7eqOfnU4weiEwSPM5A6RRXFdbmM=;
+	b=SxPDM2goq5tAEkzS3+kf19gDiPhk1YD4Jvvxnagpv9RPA9sM/L6yRZ3Uc1U+DBdnLs
+	X2P/s1hcibmlBUR8Ozv5omBi9YwFGh2E2W1ZugFfF0tIStQYZAVB1R4sMcu0r0U3uW7e
+	f2JoLEWhfmKnqgOTLWbXuthl/J0uqMexDDpQcf5g6EfVVP6QvbffDCNLBvisqPHjq0i9
+	Rc/pPN3WGChg3sxuqWtc48SqIvJieg7GE8O6sQu0T4TlIsH6mSIhdkiaosS/5tMpdf67
+	FDwVid/gzSZQDcefYqV9Brl2zRsaXklrO8CwD344OTddIM3Tzkc86AlNaem+11EOu9Me
+	dXdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=qG4A4l2+l3Vb/4aka4TBIqgFrlgLJSQVjNQ4BDG99Hs=;
-	b=o+Lw7mdCLYFPO8GNMri15jZ4O6+Q2wC74jI/oG+o4RK7FZ4gcqL/q0HHO+SJjfnpYR
-	237XW3y+hRJ0ADpJJ7vJhyLfL2ZfKLUjiyP7b8UMwg0jn3AWQfR3MxzgFia4yMdFXfz/
-	bXg0S7TWq3iF5/zYccSIVgI1QcsLwCwisXy43Ty/1MEsi+fxsDe5cbH7kRNIoH3ZdTyL
-	uUOuzQ0Q1DyfxOxFlHG/bI4F2UJ4MDeynI6SCCit96PL05R7ttsXMx/Uv6AEkBjkoTgc
-	ThMIjsJV7xbuiErz1hVs8ivdhzdVqfJyeUWAJm7wlWAoDwqAvSuGlmAp29NSub4kKHsc
-	a0/A==
-X-Gm-Message-State: AKGB3mL8bqnq1XTYbHKU2/FJXKEnltJYUsghB3mA6ABAAq/WEvDjEYT5
-	ZwrMRlC8s35tseGnIb03rIr1yx4m2iY=
-X-Google-Smtp-Source: ACJfBosxBbyLkaPNp22HO5vaebLYEQSYYRpEDzhbTKZyIzDGXWlA/mgmlWjogUijZW9u1KOOWjXWRQ==
-X-Received: by 10.25.201.87 with SMTP id z84mr5356435lff.62.1513327865041;
-	Fri, 15 Dec 2017 00:51:05 -0800 (PST)
-Received: from localhost.localdomain ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	r66sm1249354lfe.48.2017.12.15.00.51.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 Dec 2017 00:51:04 -0800 (PST)
-From: Kristian Amlie <kristian.amlie@northern.tech>
-To: openembedded-core@lists.openembedded.org,
-	Denys Dmytriyenko <denis@denix.org>
-Date: Fri, 15 Dec 2017 09:50:52 +0100
-Message-Id: <1513327852-23896-2-git-send-email-kristian.amlie@northern.tech>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1513327852-23896-1-git-send-email-kristian.amlie@northern.tech>
-References: <CAP9ODKqOpuhz-EOTY8bMj-x7s4gr7wY=FY_WhjwXpCgB0c7dnQ@mail.gmail.com>
-	<1513327852-23896-1-git-send-email-kristian.amlie@northern.tech>
-Cc: Tom Rini <trini@konsulko.com>
-Subject: [PATCH v4] u-boot-fw-utils: Fix broken makefile in v2017.11.
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V3pYWbF2+487lHsG7eqOfnU4weiEwSPM5A6RRXFdbmM=;
+	b=UlOHHNRV6RzvWskY/aYXFvutfDbAkjumSztHQgF5BK6J8JLs2/b8IwVUrx8JS7c656
+	l/XyHioXKyRyQ3zxB7w/MPnCDWVRpeYqPJeFB9kkIUnHxiY75DMLxyMp9ybdB4oMg591
+	JY+tY7lJF9yHrSR2y0uTBmwpDwrpAv8qL8uTJjwQ+DNlsZfUyh9TDW7r1olhTZKJD6kS
+	5KsxLR+IwQKBsOZG68x1k30boMaHxqiNvl/NsZNhcvZycKqmyev8jeCw027MF8OH0tF8
+	2f684Ly5BV9rF3iwUyyJJeOD0MpKHAtjR5+E2JRRln2YamSGMtp48sPtr/+XM1DF8yU9
+	WfKQ==
+X-Gm-Message-State: AKGB3mJBAc4v95Nrmx5396TH+OrTk2hIHi0jaiMd3CWYR4/mu+kReNJu
+	UMk/y9CzAeINSPJgut/Z/hE8JNrdRIdmgnU4tmwcPQ==
+X-Google-Smtp-Source: ACJfBot9on+p+qP59sdZcKrVxNmMLgHvofEkKfRNxi2v4+pYcp1cSlgt03Z/ORqX6mGXjP0Sd803Re3ryG1zJLRJ/a8=
+X-Received: by 10.36.120.11 with SMTP id p11mr7859246itc.10.1513341267563;
+	Fri, 15 Dec 2017 04:34:27 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.59.10 with HTTP; Fri, 15 Dec 2017 04:34:06 -0800 (PST)
+In-Reply-To: <1513209861.16507.15.camel@linuxfoundation.org>
+References: <1513168490.19417.183.camel@linuxfoundation.org>
+	<694b540b-1fc8-0388-5419-01c6e3f100c6@windriver.com>
+	<1513173904.16507.1.camel@linuxfoundation.org>
+	<85f7c521-01c4-7870-0f57-7ca217fce8e3@windriver.com>
+	<1513174448.16507.8.camel@linuxfoundation.org>
+	<2df34489-8c8f-bd76-3972-7ab648aeffee@windriver.com>
+	<1513209861.16507.15.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 15 Dec 2017 12:34:06 +0000
+Message-ID: <CAJTo0Lb7KXLe+RBxcHHF0HBeQOTH1HmnUhkDY--9ib4CMBdZww@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>, "Lock,
+	Joshua" <joshua.g.lock@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Fix for the APIC hangs in qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,78 +63,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 08:51:05 -0000
+X-List-Received-Date: Fri, 15 Dec 2017 12:34:26 -0000
+Content-Type: multipart/alternative; boundary="001a114a9b5ead753e0560603820"
 
-See the patch for details. This patch has already been applied
-upstream, but we need it for v2017.11.
+--001a114a9b5ead753e0560603820
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
----
- .../u-boot/files/v2017.11-fw-utils-build-fix.patch | 41 ++++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc  |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
+Whoops.  Maybe I should have been clearer... Sorry!
 
-diff --git a/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch b/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
-new file mode 100644
-index 0000000..2a8dd1e
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/v2017.11-fw-utils-build-fix.patch
-@@ -0,0 +1,41 @@
-+From 8ff69a3f4db024ece80b89cf23ca9f7e6f0fba58 Mon Sep 17 00:00:00 2001
-+From: Stefan Agner <stefan.agner@toradex.com>
-+Date: Tue, 14 Nov 2017 15:47:18 +0100
-+Subject: [PATCH 1/1] envtools: make sure version/timestamp header file are
-+ available
-+
-+With commit 84d46e7e8948 ("tools: env: allow to print U-Boot version")
-+the fw_env utilities need the version.h header file. Building only
-+the envtools in a pristine build directory will fail due to missing
-+header files.
-+
-+Make sure the header files are a dependency of the envtools target.
-+
-+Fixes: 84d46e7e8948 ("tools: env: allow to print U-Boot version")
-+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-+Tested-by: Peter Robinson <pbrobinson@gmail.com>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
-+
-+Upstream-Status: Backport [http://git.denx.de/?p=u-boot.git;a=commit;h=ded84f90a1066eef5f34daa4539273de64f7b811]
-+
-+Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 61fd973..f8c66a2 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1447,7 +1447,7 @@ checkarmreloc: u-boot
-+ 		false; \
-+ 	fi
-+ 
-+-envtools: scripts_basic
-++envtools: scripts_basic $(version_h) $(timestamp_h)
-+ 	$(Q)$(MAKE) $(build)=tools/env
-+ 
-+ tools-only: scripts_basic $(version_h) $(timestamp_h)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-index bfdf1a0..65f1228 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.11.inc
-@@ -12,6 +12,7 @@ SRCREV = "c253573f3e269fd9a24ee6684d87dd91106018a5"
- SRC_URI = "git://git.denx.de/u-boot.git \
-     file://MPC8315ERDB-enable-DHCP.patch \
-     file://10m50-update-device-tree.patch \
-+    file://v2017.11-fw-utils-build-fix.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Ross
 
+On 14 December 2017 at 00:04, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+> On Wed, 2017-12-13 at 19:01 -0500, Bruce Ashfield wrote:
+> > On 2017-12-13 9:14 AM, Richard Purdie wrote:
+> > >
+> > > On Wed, 2017-12-13 at 09:07 -0500, Bruce Ashfield wrote:
+> > > >
+> > > > On 12/13/2017 09:05 AM, Richard Purdie wrote:
+> > > > >
+> > > > >
+> > > > > On Wed, 2017-12-13 at 08:38 -0500, Bruce Ashfield wrote:
+> > > > > >
+> > > > > >
+> > > > > > On 12/13/2017 07:34 AM, Richard Purdie wrote:
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > > Hi Bruce,
+> > > > > > >
+> > > > > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=12301
+> > > > > > >
+> > > > > > > We've root caused the hangs we're seeing in qemux86-64 on
+> > > > > > > our
+> > > > > > > autobuilder workers. We've identified a commit on 4.15-rc3
+> > > > > > > which
+> > > > > > > fixes
+> > > > > > > the issue but backporting it to the autobuilder's host
+> > > > > > > kernels
+> > > > > > > will
+> > > > > > > be
+> > > > > > > a pain.
+> > > > > > >
+> > > > > > > As a workaround I'd like to enable x2apic on qemux86-64.
+> > > > > > > Since
+> > > > > > > that
+> > > > > > > works via MSRs it avoids the problem.
+> > > > > > >
+> > > > > > > Would it be a big issue to set CONFIG_X86_X2APIC=y for
+> > > > > > > qemux86-
+> > > > > > > 64?
+> > > > > > Nope. No big deal at all. I've used the same config i the
+> > > > > > past
+> > > > > > when doing work with rt-KVM, so I know it well.
+> > > > > >
+> > > > > > I'll prep a commit, and send it along as part of a rebased
+> > > > > > set
+> > > > > > of kernel patches.
+> > > > > Thanks, much appreciated.
+> > > > >
+> > > > > Did we get to the bottom of the 4.12 selftest failures?
+> > > > >
+> > > > Not yet no. I was distracted for a day, but need to learn how
+> > > > to run them myself. I was able to log in via serial in my normal
+> > > > boot flow, so that didn't get me anywhere.
+> > > >
+> > > > Is the selftest HOWO in the yocto docs ? I'll google it up this
+> > > > morning.
+> > > No HOWTO but I did give you the command. In a poky checkout run:
+> > >
+> > > oe-selftest -r runqemu.RunqemuTests.test_boot_deploy
+> > >
+> > > which runs a single test that fails (setup DL_DIR/SSTATE_MIRRORS
+> > > first
+> > > to speed it up a bit).
+> > >
+> > > It may tell you to clear SANITY_TESTED_DISTROS, I think it auto
+> > > adds
+> > > meta-selftest now. You may also need to set DISPLAY to something
+> > > (e.g.
+> > > a dummy vncserver).
+> > >
+> > With the cleanup that Ross gave me, I'm now able to see the issue.
+> >
+> > I'll start debugging on Thursday.
+> >
+> > One additional question: what's the right way to find the logs of
+> > that
+> > run ?
+> >
+> > I'm getting a bit of noise from:
+> >
+> > ----------------
+> >       0155:            else:
+> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> > '/home/bruce/poky/build/tmp/sysroots-components/x86_64/python3-
+> > native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
+> > 1.pyc'
+> > ->
+> > '/home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
+> > r0/recipe-sysroot-
+> > native/usr/lib/python3.5/sqlite3/__pycache__/dump.cpython-35.opt-
+> > 1.pyc'
+> >
+> > ERROR: gnu-efi-3.0.6-r0 do_package: Function failed:
+> > extend_recipe_sysroot
+> > ERROR: Logfile of failure stored in:
+> > /home/bruce/poky/build/tmp/work/core2-64-poky-linux/gnu-efi/3.0.6-
+> > r0/temp/log.do_package.10495
+>
+> You've deleted pyc files from python itself which is bad. I'd
+> cleansstate python-native and rebuilt it to fix that. Ross meant onto
+> to run it on the poky meta directory...
+>
+> Cheers,
+>
+> Richard
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a114a9b5ead753e0560603820
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Whoops.=C2=A0 Maybe I should have been clearer... Sorry!<d=
+iv><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On 14 December 2017 at 00:04, Richard Purdie <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Wed, 2017-=
+12-13 at 19:01 -0500, Bruce Ashfield wrote:<br>
+&gt; On 2017-12-13 9:14 AM, Richard Purdie wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Wed, 2017-12-13 at 09:07 -0500, Bruce Ashfield wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On 12/13/2017 09:05 AM, Richard Purdie wrote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; On Wed, 2017-12-13 at 08:38 -0500, Bruce Ashfield wrote=
+:<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; On 12/13/2017 07:34 AM, Richard Purdie wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; Hi Bruce,<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"https://bugzilla.yoctoproject.org/=
+show_bug.cgi?id=3D12301" rel=3D"noreferrer" target=3D"_blank">https://bugzi=
+lla.yoctoproject.<wbr>org/show_bug.cgi?id=3D12301</a><br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; We&#39;ve root caused the hangs we&#39;re see=
+ing in qemux86-64 on<br>
+&gt; &gt; &gt; &gt; &gt; &gt; our<br>
+&gt; &gt; &gt; &gt; &gt; &gt; autobuilder workers. We&#39;ve identified a c=
+ommit on 4.15-rc3<br>
+&gt; &gt; &gt; &gt; &gt; &gt; which<br>
+&gt; &gt; &gt; &gt; &gt; &gt; fixes<br>
+&gt; &gt; &gt; &gt; &gt; &gt; the issue but backporting it to the autobuild=
+er&#39;s host<br>
+&gt; &gt; &gt; &gt; &gt; &gt; kernels<br>
+&gt; &gt; &gt; &gt; &gt; &gt; will<br>
+&gt; &gt; &gt; &gt; &gt; &gt; be<br>
+&gt; &gt; &gt; &gt; &gt; &gt; a pain.<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; As a workaround I&#39;d like to enable x2apic=
+ on qemux86-64.<br>
+&gt; &gt; &gt; &gt; &gt; &gt; Since<br>
+&gt; &gt; &gt; &gt; &gt; &gt; that<br>
+&gt; &gt; &gt; &gt; &gt; &gt; works via MSRs it avoids the problem.<br>
+&gt; &gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; Would it be a big issue to set CONFIG_X86_X2A=
+PIC=3Dy for<br>
+&gt; &gt; &gt; &gt; &gt; &gt; qemux86-<br>
+&gt; &gt; &gt; &gt; &gt; &gt; 64?<br>
+&gt; &gt; &gt; &gt; &gt; Nope. No big deal at all. I&#39;ve used the same c=
+onfig i the<br>
+&gt; &gt; &gt; &gt; &gt; past<br>
+&gt; &gt; &gt; &gt; &gt; when doing work with rt-KVM, so I know it well.<br=
+>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; I&#39;ll prep a commit, and send it along as part =
+of a rebased<br>
+&gt; &gt; &gt; &gt; &gt; set<br>
+&gt; &gt; &gt; &gt; &gt; of kernel patches.<br>
+&gt; &gt; &gt; &gt; Thanks, much appreciated.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Did we get to the bottom of the 4.12 selftest failures?=
+<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; Not yet no. I was distracted for a day, but need to learn ho=
+w<br>
+&gt; &gt; &gt; to run them myself. I was able to log in via serial in my no=
+rmal<br>
+&gt; &gt; &gt; boot flow, so that didn&#39;t get me anywhere.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Is the selftest HOWO in the yocto docs ? I&#39;ll google it =
+up this<br>
+&gt; &gt; &gt; morning.<br>
+&gt; &gt; No HOWTO but I did give you the command. In a poky checkout run:<=
+br>
+&gt; &gt;<br>
+&gt; &gt; oe-selftest -r runqemu.RunqemuTests.test_<wbr>boot_deploy<br>
+&gt; &gt;<br>
+&gt; &gt; which runs a single test that fails (setup DL_DIR/SSTATE_MIRRORS<=
+br>
+&gt; &gt; first<br>
+&gt; &gt; to speed it up a bit).<br>
+&gt; &gt;<br>
+&gt; &gt; It may tell you to clear SANITY_TESTED_DISTROS, I think it auto<b=
+r>
+&gt; &gt; adds<br>
+&gt; &gt; meta-selftest now. You may also need to set DISPLAY to something<=
+br>
+&gt; &gt; (e.g.<br>
+&gt; &gt; a dummy vncserver).<br>
+&gt; &gt;<br>
+&gt; With the cleanup that Ross gave me, I&#39;m now able to see the issue.=
+<br>
+&gt;<br>
+&gt; I&#39;ll start debugging on Thursday.<br>
+&gt;<br>
+&gt; One additional question: what&#39;s the right way to find the logs of<=
+br>
+&gt; that<br>
+&gt; run ?<br>
+&gt;<br>
+&gt; I&#39;m getting a bit of noise from:<br>
+&gt;<br>
+&gt; ----------------<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00155:=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else:<br>
+&gt; Exception: FileNotFoundError: [Errno 2] No such file or directory:=C2=
+=A0<br>
+&gt; &#39;/home/bruce/poky/build/tmp/<wbr>sysroots-components/x86_64/<wbr>p=
+ython3-<br>
+&gt; native/usr/lib/python3.5/<wbr>sqlite3/__pycache__/dump.<wbr>cpython-35=
+.opt-<br>
+&gt; 1.pyc&#39;=C2=A0<br>
+&gt; -&gt;=C2=A0<br>
+&gt; &#39;/home/bruce/poky/build/tmp/<wbr>work/core2-64-poky-linux/gnu-<wbr=
+>efi/3.0.6-<br>
+&gt; r0/recipe-sysroot-<br>
+&gt; native/usr/lib/python3.5/<wbr>sqlite3/__pycache__/dump.<wbr>cpython-35=
+.opt-<br>
+&gt; 1.pyc&#39;<br>
+&gt;<br>
+&gt; ERROR: gnu-efi-3.0.6-r0 do_package: Function failed:<br>
+&gt; extend_recipe_sysroot<br>
+&gt; ERROR: Logfile of failure stored in:=C2=A0<br>
+&gt; /home/bruce/poky/build/tmp/<wbr>work/core2-64-poky-linux/gnu-<wbr>efi/=
+3.0.6-<br>
+&gt; r0/temp/log.do_package.10495<br>
+<br>
+</div></div>You&#39;ve deleted pyc files from python itself which is bad. I=
+&#39;d<br>
+cleansstate python-native and rebuilt it to fix that. Ross meant onto<br>
+to run it on the poky meta directory...<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a114a9b5ead753e0560603820--
