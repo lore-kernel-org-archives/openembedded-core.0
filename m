@@ -1,26 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E94A78802
+	by mail.openembedded.org (Postfix) with ESMTP id 86ED27883F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 16:06:05 +0000 (UTC)
+	Fri, 15 Dec 2017 16:06:06 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Dec 2017 08:06:07 -0800
+	15 Dec 2017 08:06:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,405,1508828400"; 
-   d="scan'208";a="3118109"
+   d="scan'208";a="3118114"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 15 Dec 2017 08:06:06 -0800
+	by orsmga006.jf.intel.com with ESMTP; 15 Dec 2017 08:06:07 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Dec 2017 18:06:43 +0200
-Message-Id: <22e09c8b7deafb85cc264fbb8a0dd0a7021c8609.1513353879.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 15 Dec 2017 18:06:44 +0200
+Message-Id: <8d36e4bd615ed56d4401d064feae723647e898a7.1513353879.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
 References: <cover.1513353879.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/8] gnomebase.bbclass: split into autotools and meson versions
+Subject: [PATCH 3/8] json-glib: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 16:06:05 -0000
+X-List-Received-Date: Fri, 15 Dec 2017 16:06:06 -0000
 
-gnomebase.bbclass unfortunately hardcodes the autotools inherit,
-so we have to introduce gnomebase-nobuildsystem.bbclass where
-the common bits between autotools and meson classes can be placed.
+Note that meson flags for gobject introspection and gtk-doc
+appear to be non-standardized; going forward we should devise
+a common way to deal with it.
+
+gettext inherit is removed, as there is no equivalent functionality
+in meson; NLS bits are always built and installed.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/gnomebase-meson.bbclass         |  1 +
- meta/classes/gnomebase-nobuildsystem.bbclass | 27 +++++++++++++++++++++++++
- meta/classes/gnomebase.bbclass               | 30 +---------------------------
- 3 files changed, 29 insertions(+), 29 deletions(-)
- create mode 100644 meta/classes/gnomebase-meson.bbclass
- create mode 100644 meta/classes/gnomebase-nobuildsystem.bbclass
+ ...ble-gobject-introspection-when-cross-comp.patch | 32 ++++++++++++++++++++++
+ meta/recipes-gnome/json-glib/json-glib_1.2.8.bb    | 23 ++++++++++++++--
+ 2 files changed, 53 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
 
-diff --git a/meta/classes/gnomebase-meson.bbclass b/meta/classes/gnomebase-meson.bbclass
+diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
 new file mode 100644
-index 00000000000..6cb97397572
+index 00000000000..849bb9d3165
 --- /dev/null
-+++ b/meta/classes/gnomebase-meson.bbclass
-@@ -0,0 +1 @@
-+inherit meson gnomebase-nobuildsystem
-diff --git a/meta/classes/gnomebase-nobuildsystem.bbclass b/meta/classes/gnomebase-nobuildsystem.bbclass
-new file mode 100644
-index 00000000000..2ea7367a83a
---- /dev/null
-+++ b/meta/classes/gnomebase-nobuildsystem.bbclass
-@@ -0,0 +1,27 @@
-+def gnome_verdir(v):
-+    return oe.utils.trim_version(v, 2)
++++ b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+@@ -0,0 +1,32 @@
++From 293452c963188666dae99521294f09a0cf9582e2 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 4 Aug 2017 16:01:11 +0300
++Subject: [PATCH] Do not disable gobject introspection when cross-compiling.
 +
-+GNOME_COMPRESS_TYPE ?= "xz"
-+SECTION ?= "x11/gnome"
-+GNOMEBN ?= "${BPN}"
-+SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
++Introspection does work fine for instance in Open Embedded,
++one of the most prominent cross-compilation frameworks
++(through qemu emulating target hardware), so let the user
++decide if he wants the feature or not.
 +
-+FILES_${PN} += "${datadir}/application-registry  \
-+                ${datadir}/mime-info \
-+                ${datadir}/mime/packages \
-+                ${datadir}/mime/application \
-+                ${datadir}/gnome-2.0 \
-+                ${datadir}/polkit* \
-+                ${datadir}/GConf \
-+                ${datadir}/glib-2.0/schemas \
-+                ${datadir}/appdata \
-+                ${datadir}/icons \
-+"
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+FILES_${PN}-doc += "${datadir}/devhelp"
++diff --git a/meson.build b/meson.build
++index 43cbfd9..8a32f26 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -147,7 +147,7 @@ root_dir = include_directories('.')
++ 
++ gnome = import('gnome')
++ gir = find_program('g-ir-scanner', required: false)
++-build_gir = gir.found() and not meson.is_cross_build() and not get_option('disable_introspection')
+++build_gir = gir.found() and not get_option('disable_introspection')
++ 
++ subdir('json-glib')
++ 
++-- 
++2.13.2
++
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+index 2c5d3817ba7..c53611b0257 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+@@ -10,11 +10,30 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ DEPENDS = "glib-2.0"
+ 
++SRC_URI_append = " \
++           file://0001-Do-not-disable-gobject-introspection-when-cross-comp.patch \
++           "
+ SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
+ SRC_URI[archive.sha256sum] = "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
+ 
+-inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
++inherit gnomebase-meson lib_package gobject-introspection gtk-doc manpages
+ 
+-PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
++GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
++GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
++
++GI_ENABLE_FLAG = "-Ddisable_introspection=false"
++GI_DISABLE_FLAG = "-Ddisable_introspection=true"
++
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
++                                                                                    '${GTKDOC_DISABLE_FLAG}', d)} "
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
++                                                                                    '${GI_DISABLE_FLAG}', d)} "
++
++PACKAGECONFIG[manpages] = "-Denable-man=true, -Denable-man=false, libxslt-native xmlto-native"
 +
 +do_install_append() {
-+	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
-+	rm -rf ${D}${localstatedir}/scrollkeeper/*
-+	rm -f ${D}${datadir}/applications/*.cache
++    # FIXME: these need to be provided via ptest
++    rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
 +}
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index 4ccc8e07814..84756aea1ec 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -1,29 +1 @@
--def gnome_verdir(v):
--    return oe.utils.trim_version(v, 2)
--
--GNOME_COMPRESS_TYPE ?= "xz"
--SECTION ?= "x11/gnome"
--GNOMEBN ?= "${BPN}"
--SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
--
--FILES_${PN} += "${datadir}/application-registry  \
--                ${datadir}/mime-info \
--                ${datadir}/mime/packages \
--                ${datadir}/mime/application \
--                ${datadir}/gnome-2.0 \
--                ${datadir}/polkit* \
--                ${datadir}/GConf \
--                ${datadir}/glib-2.0/schemas \
--                ${datadir}/appdata \
--                ${datadir}/icons \
--"
--
--FILES_${PN}-doc += "${datadir}/devhelp"
--
--inherit autotools pkgconfig
--
--do_install_append() {
--	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
--	rm -rf ${D}${localstatedir}/scrollkeeper/*
--	rm -f ${D}${datadir}/applications/*.cache
--}
-+inherit autotools pkgconfig gnomebase-nobuildsystem
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.15.0
 
