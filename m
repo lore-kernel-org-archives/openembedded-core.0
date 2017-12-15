@@ -1,44 +1,50 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E383060616
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DD6DC6076F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 15:29:53 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id t8so18174345wmc.3
+	Fri, 15 Dec 2017 15:51:12 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id r143so10926102lfe.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Dec 2017 07:29:55 -0800 (PST)
+	Fri, 15 Dec 2017 07:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V7ztleKYZvPzdpC51IGBWtZSqOeoik8t98Bbvp4JV9U=;
+	b=TusckdkqC6Gilwk93WyS+mO4RfS1KvwP3dwQj0reXDsgBFUByV4Uwet1e9oIHLwZGX
+	g4yT7HInCzMpPpKJW3b4tZwBek3hNl/v6tvgGvynJhMHRyd4w+JxNG316xqNK3uLSBoy
+	GUQ6c93Q/1fy+urA0uPGitbiHiOlEQeuDS2p8spKdtjHTtfeWvQptTErYrLiG2YP2/5l
+	ljIuLSbkSr6WH0Z/3qyhbmLOwvT4Id7KV/qW8zlLH2ug3R2r3uXfEzG+QZAbIrJWnGGl
+	aoOPAL0wxAmbg7+bTI+ZuL+swOsieS1VW1SlqZnDjN/nF3vn8tzVxQVhfPY5RhdD3UyU
+	1Sgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=s3GO6GJp9EZrdF1yTzt/2W64okqvD4886uRqPTdNfcI=;
-	b=RaA4e7vTQirBLb5p/2zC5uazPDE6nMLCPy1xQFOZPvlqvebo5X9OxhOUurtmU/2jS7
-	FPHYkkyCVIlO8OpNt2yLkykJT7ZeJietZ5ELJQBLO8eSk3hxlutpUeo5249E1HY+/V1W
-	TTDxZFEwz88nj9mi/Ab355CNVDEc4ufZUBuawaLZ2T/+SrFQ+WiCv+w76BvZTfvrCFGF
-	JA60X5i7Y9v/xLa0ugz5Tj0rx8veuZzbl08d1/Ci05VHGSiomzk+2FgfiI8O/kDqPELE
-	TUNjSIfi7oQixrH3CUx0DYG5VAeKTfYKDH+gHwIgJlNNQiD0AENkktgVMt04VZmPQjeO
-	e48g==
-X-Gm-Message-State: AKGB3mLZP330NDbz/xuuvIjwgQ/oXEBAA32WHngGX/3ua2wAlBjVaFQd
-	YHG3S0J+AcBmwOs/+r7s2m2TFoOU
-X-Google-Smtp-Source: ACJfBotYZx2EwbDRyvNhlkCNdJHlArGP4/UV849NgWd8BqI48QANkCKXZwm/aLrN2JCEUG1PvZNybw==
-X-Received: by 10.80.173.56 with SMTP id y53mr17426314edc.202.1513351794250;
-	Fri, 15 Dec 2017 07:29:54 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	e25sm5690309edc.64.2017.12.15.07.29.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 15 Dec 2017 07:29:53 -0800 (PST)
-Message-ID: <1513351792.21903.53.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Dec 2017 15:29:52 +0000
-In-Reply-To: <CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
-References: <cover.1510920094.git.alexander.kanavin@linux.intel.com>
-	<9f035d6ed0e27ff91e41b67dab0ae852e96c8232.1510920094.git.alexander.kanavin@linux.intel.com>
-	<CAJ86T=Xk+1sKXvfq3EfEwOuwfuPDeW72G0GSdQtqgTKieLH3JQ@mail.gmail.com>
-X-Mailer: Evolution 3.26.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/9] meson: add a recipe and class from meta-oe
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V7ztleKYZvPzdpC51IGBWtZSqOeoik8t98Bbvp4JV9U=;
+	b=iGW/C2F/nH52RNiC7ZRoK1L8AgBgXpfwx/8X3F2WFjoOve+2wW6DED+2erwc5nfisV
+	tICEiRHaEGR/nmNFFQeHNaDi3ttL6Tw5bJHxtDFVgVnjwWLEYYYlnM217y9hxRs1y2F1
+	WTjiQ2LLzHJLI9QsrTWDHBMKS9ex91DM/Ra5Dh2WaEJ2t12ghveMTAHDdMTdvwSs4j8k
+	eeWKSPWn0oNzZsOg0JXBw7clnToU/k01gFIIQAhCz1jFqP8Pi0AhYEpWHvTW8EDy58/V
+	Jc4PbyCRxmMSraoLEVtzFtCzJLK4sGJYjGjBmCDFm7D6Zv+YtW6acOtdkDte+olWcXKK
+	MQwQ==
+X-Gm-Message-State: AKGB3mLjEdHRUFfRiNv3ECAiBhl9+iW5Vk4w3pRIu5DmfL+LIyCpNIbI
+	HU4e4SHKBQExY7/EGTLnvZ82f+jd7fUNXpCsJcU=
+X-Google-Smtp-Source: ACJfBovkLey0gid5B2tZ2qnVQZSIJmP6GG9xxcNqBIEm4zpzuQyK+sSFJdshEXRY5dGnSQmPYiHDAmamyl4GPtTspCg=
+X-Received: by 10.46.64.76 with SMTP id n73mr6475190lja.33.1513353073487; Fri,
+	15 Dec 2017 07:51:13 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.25.143.11 with HTTP; Fri, 15 Dec 2017 07:50:52 -0800 (PST)
+In-Reply-To: <784b237e-8cad-d450-5d23-32adc961110a@linux.intel.com>
+References: <20171116174541.3081-1-ricardo.ribalda@gmail.com>
+	<db49b730-240f-3d14-3fd0-31e109bd2ee2@linux.intel.com>
+	<CAPybu_28ZvnJTjd1KiNx375+kfh1c+q=y65paJYDeHpJyd5qew@mail.gmail.com>
+	<784b237e-8cad-d450-5d23-32adc961110a@linux.intel.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Fri, 15 Dec 2017 16:50:52 +0100
+Message-ID: <CAPybu_1+eRCMvWgCBX4wGMysv9OS7bvZTCF+H1p3cjkUQcmkpg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] meson: Port pkgconfig-native patch to 0.43.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Dec 2017 15:29:54 -0000
+X-List-Received-Date: Fri, 15 Dec 2017 15:51:13 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-12-07 at 11:27 -0800, Andre McCurdy wrote:
-> On Fri, Nov 17, 2017 at 4:02 AM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
-> > +
-> > +MESON_HOST_ENDIAN = "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be',
-> > 'big', 'little', d)}"
-> 
-> SITEINFO_ENDIANNESS returns the endianness of the target, not the
-> host.
+On Fri, Dec 15, 2017 at 4:27 PM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 11/16/2017 07:57 PM, Ricardo Ribalda Delgado wrote:
+>
+>>>> +Some libraries, like QT, have pre-processors that convert their input
+>>>> +files into something that the cross-compiler can process. We find the
+>>>> +path of those pre-processors via pkg-config-native instead of
+>>>> +pkg-config.
+>>>> +
+>>>> +This path forces the use of pkg-config-native for host_bins arguments.
+>>>> +
+>>>> +There are some discussions upstream to merge this patch, but I
+>>>> presonaly
+>>>> believe
+>>>> +that is is OE only.
+>>>> https://github.com/mesonbuild/meson/issues/1849#issuecomment-303730323
+>>>
+>>>
+>>>
+>>> Does the snippet from Martin's patch that I just commented on solve this
+>>> issue in a much simpler way?
+>>
+>>
+>> I am afraid not. We need to call pkg-config for getting the -libs
+>> -cflags, et all, and pkg-config-native for --host_bins We cannot use
+>> the same pkg-config for all unfortunatelly.
+>
+>
+> Unfortunately, the same patch needs to be ported again to 0.44.0, as the
+> changes upstream made are non-trivial. Can you do that please?
 
-Isn't the host what you call target? When cross-compiling, the host machine
-normally refers to the system where the built programs will be run, and
-target machine to where the a compiler will run, in case a compiler is being
-(cross-)compiled.
+Sure,
 
-${MESON_HOST_ENDIAN} is used inside the [host_machine] statement, so this
-looks right.
+can you wait til monday? I have all my test tools setup in the office
 
-> [...]
-
-> 
-> > +MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES',
-> > 'bigendian', 'big', 'little', d)}"
-> 
-> This won't work for all targets (e.g. PowerPC is big endian but
-> doesn't include "bigendian" in TUNE_FEATURES). To determine the
-> endianness of the target, use SITEINFO_ENDIANNESS instead.
-
-${MESON_TARGET_ENDIAN} is used inside a [target_machine] statement, though.
-Not sure about the naming and intention here...
+>
+> Alex
 
 
-Cheers,
-Andre'
 
+-- 
+Ricardo Ribalda
 
