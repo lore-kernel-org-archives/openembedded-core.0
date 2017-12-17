@@ -1,54 +1,48 @@
-Return-Path: <wildman279@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E23060777
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AB71E71A8E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Dec 2017 18:57:04 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id m20so657320lfi.6
+	Sun, 17 Dec 2017 16:34:40 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id e14so8226132pgr.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Dec 2017 10:57:06 -0800 (PST)
+	Sun, 17 Dec 2017 08:34:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=yptSU1R1BZ27dyllyOD2RiyefSgWhJkjmahTCfa+I1Q=;
-	b=rYTALX1xeMEM7hPtOzDlt1JjNcMGGk7gQKAY9hFUTZgOveAVNkS35gVpdyNb9WiGNs
-	s3PiLGWl+TU3q900+w8NAZeIVlLyANf+4xIPtTnaJaHX0wy5/eIrBdRbOSUJGm0I/1Hm
-	0KqvMs8huoq9FJzdszM978squ5yYVaRF/hICrKvgNBU776PKdH+r6HoveJI3fHHwGwPJ
-	QkXOoagwPHDlYceUR+A0lsD0TJejM8X4fd6mwQYOphKH23cCgeOSCeUsk9ofhjKmYjNm
-	VkuoKWn50+/mqPWLFDqPZVZ0SHBTDx5dnxzBpwJSRS1DGYbyov1Reg5TPowh8T0j4rfE
-	tSKg==
+	h=from:to:subject:date:message-id;
+	bh=Uqw7LV7IqkQNApDe8b1PRsS52vtnc5L80Nu+QVMNcZE=;
+	b=pE52Hi7Fw5wqZIpmb9B2m6YZKcb0oyybbx0oqTeXU4KBOkG596f68RYAljcj0T1J22
+	D7gqo9dn9tSeE/eITwlEpj/kNTO+FWisd9QkkTmcyO8qEstXqkhMvV525QV4z5gYNfGs
+	RabQI2DKcal082vjV8lXKBC0pJOLCEcslBkIsXYkrElz8NcsbT/0wnRxJeCX82+KwSfq
+	6cb0eZ+7nTpg0cTdVIn3zFFSnU3xfgke+WJc2wE4U3m0eEe6N+R4Ja7JPogewCLM6Bo/
+	8Oy0Vr2uUB5dveifi61FVuMPlWltQVDIqX0ClQtvaZfZrmJtfRUzkNwuzPy4WkYSAfjj
+	OAtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=yptSU1R1BZ27dyllyOD2RiyefSgWhJkjmahTCfa+I1Q=;
-	b=mVPdKcxmMFNVJWaNYQ90ZL5EVqpC1ckUacVg02My4P9NPJuKGzrEtPVdh7FiT+EF9e
-	tT1y4ks4Ntkkeh191jPTLV6ltGcqXhB/KYY1WrEkhw3V1IIdIOAhwX2vjaPcC2gC7uw7
-	QSwas4IVbJYWoEE0Gz+5/DDuGe5cBj4EuwpQ6VEdi78b6GiG5FrXYGVXpq8ISVL8cPvN
-	+a8U7ONVGmR/m0cooFSfqCdsyX6l6jVCz/C5oocPntYdJ5mjV2WWQ4UfaRVZBQ7o/pT+
-	Z/YthdBEmRtevqk2b8kaynl0vnxiryKmamA+rd9Vqb60QauOiqHq3Vcjp7f1ib0q8b2N
-	S9xg==
-X-Gm-Message-State: AKGB3mKPtiIx+5XezgtNq7wKuUSaAhx9Hjb6TlWmbeIGocKVCRVlK+lC
-	N5R3r7B270e99aEZIcIDaTDShvOCMxbksbFiDZk=
-X-Google-Smtp-Source: ACJfBothMcergEKPr1ZKA3YnW3vw6024jK71woC+fLIb2j6QoQS7OhSLwNEStPIcVP42DRrRCiHzdnCsWTYCB+va+eg=
-X-Received: by 10.46.89.129 with SMTP id g1mr8800479ljf.12.1513450625592; Sat,
-	16 Dec 2017 10:57:05 -0800 (PST)
-MIME-Version: 1.0
-Sender: wildman279@gmail.com
-Received: by 10.179.26.109 with HTTP; Sat, 16 Dec 2017 10:57:05 -0800 (PST)
-In-Reply-To: <CAJTo0LaCuoNPtTeKGqcvCsCMHqvLNq3w0U-RvhSg-dM-dmitTg@mail.gmail.com>
-References: <20171212024917.14550-1-allenwild93@gmail.com>
-	<1513068908.30397.2.camel@andred.net>
-	<CAN33hf_0Y1=fCKmFYeCCZdVcEGyMjeUZHSkMzMiZP0z1VC5jmA@mail.gmail.com>
-	<CAN33hf9ntsO=MfoRExd==qHBTV5h0tgkAZqZTzr9R-yQK5ZcUQ@mail.gmail.com>
-	<CAJTo0LaCuoNPtTeKGqcvCsCMHqvLNq3w0U-RvhSg-dM-dmitTg@mail.gmail.com>
-From: Allen Wild <allenwild93@gmail.com>
-Date: Sat, 16 Dec 2017 13:57:05 -0500
-X-Google-Sender-Auth: yb9krZLWx-5crNZtlBpbYuEyMjk
-Message-ID: <CAN33hf9qNwzWRRayMQ-t_PqEceGZJpULEP-_UBUe-1xnbYJAUw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] syslinux: always use the BFD linker
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Uqw7LV7IqkQNApDe8b1PRsS52vtnc5L80Nu+QVMNcZE=;
+	b=msQNgngFP27lgZSaoEuJ2/ABWBFwLRq7jp0aAtrXWNOmdhS7XWqasShxPKLB9AfWPO
+	9fzjVt0csWC531I0pf9rS9vretrXEfG6xrHrtZD7znU93ICg+FJV0OmTuvTsP5zs+6wX
+	sQzAfqP764aHsBo4+REdlhmYzeEJD5XBesa4+b1h7qFw0zzDn+HAbuzw2rMQ75OCi5hS
+	RGZZVtullQSmMAu185m2h+xM7/uxE9qwZ0fqQ1udjgBFKFbR926mdbCnm9NOiD/1woO1
+	AZksXSJLRuGb8iRbyD7tFx2GXkT9hZoj23Hq0u1V7NqGkuIbBbH0Sj7Ca2+vC+JK+VFS
+	0ZAQ==
+X-Gm-Message-State: AKGB3mI751kfz/WR7cvrWU84Q5wn54Y9quJPUru2gYpP7YPZpJxTir3B
+	19l4LXuBUJG8ySdIEj0802PhZQ==
+X-Google-Smtp-Source: ACJfBovdRNar7+dl1tCvHJ714LChqsYD3AlAQHExC3S+NimWJxUj+Z57suLGyhw2UMHkLwfHcGV9bQ==
+X-Received: by 10.99.186.1 with SMTP id k1mr1866301pgf.356.1513528481743;
+	Sun, 17 Dec 2017 08:34:41 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:35e6:5321:54f2:87e6])
+	by smtp.gmail.com with ESMTPSA id
+	t202sm18393035pgb.75.2017.12.17.08.34.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 17 Dec 2017 08:34:41 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 17 Dec 2017 08:34:29 -0800
+Message-Id: <cover.1513527416.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/8] Consolidated package updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,112 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Dec 2017 18:57:05 -0000
-Content-Type: multipart/alternative; boundary="001a114b37e0ec7195056079ae93"
+X-List-Received-Date: Sun, 17 Dec 2017 16:34:40 -0000
 
---001a114b37e0ec7195056079ae93
-Content-Type: text/plain; charset="UTF-8"
+From: Armin Kuster <akuster@mvista.com>
 
->   LD='${LD} -fuse-ld=bfd"
+Conver letter only
 
-This doesn't work because the -fuse-ld option is only relevant when using
-gcc as a wrapper for the linker.  The Makefile calls x86_64-oe-linux-ld
-directly (which is a hardlink of x86_64-oe-linux-ld.gold or
-x86_64-oe-linux-ld.bfd) so when the linker starts up it's already Gold,
-rather than letting gcc call ld automatically.
+The following changes since commit cf5c44ac611c2c2657e6fd3c1f723bcb20b812dd:
 
-Syslinux calls LD directly to use a custom linker script and avoids linking
-with system libraries (not uncommon for bare-metal programs like a
-bootloader). The -nostdlib gcc option can be used to get the same effect
-when linking with gcc as a wrapper, but doing that involves patching many
-syslinux makefiles to prefix LDFLAGS options with -Wl.
+  python-scons: upgrade to v3.0.1; use pypi.bbclass (2017-12-13 13:59:46 +0000)
 
-I have a working version of a patch that does this (19 changes in 15
-makefiles), I can submit it here after some more testing if others think
-it's an acceptable fix. I ignored the EFI targets for now, but such a patch
-could be upstreamed after updating and testing the EFI code too.
+are available in the git repository at:
 
->That's a terrible implementation of "install"
+  git://git.openembedded.org/openembedded-core-contrib akuster/master-updates
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=akuster/master-updates
 
-I agree, and I think that the fact that libgpl.elf and ldlinux.elf are
-getting rebuilt at all means the current recipe violates upstream's "don't
-recompile the bootloader itself" wishes in doc/distrib.txt. The tarball we
-use includes shipped versions of those elf files and a bunch of c32 files,
-but for some reason make is deciding to rebuild them from source when we
-run make install. I haven't been able to determine why that's the case.
+Armin Kuster (8):
+  nss: update to 3.34.1
+  pinentry: update to 1.1.0
+  libassuan: update to 2.5.1
+  libxfont: update 1.5.4 with sec fix
+  libxfont2: update to 2.0.3 with sec fix
+  libxcursor: update to 1.1.15 plus sec fixes
+  kexec-tools: update to 2.0.16 and simplify
+  bind: Update to 9.11.2
 
-Allen
+ .../bind/bind/dont-test-on-host.patch              | 13 ++--
+ .../bind/{bind_9.10.6.bb => bind_9.11.2.bb}        | 10 +--
+ .../{libxcursor_1.1.14.bb => libxcursor_1.1.15.bb} |  4 +-
+ .../{libxfont2_2.0.2.bb => libxfont2_2.0.3.bb}     |  4 +-
+ .../{libxfont_1.5.3.bb => libxfont_1.5.4.bb}       |  4 +-
+ meta/recipes-kernel/kexec/kexec-tools.inc          | 38 ----------
+ ...kexec-tools_2.0.15.bb => kexec-tools_2.0.16.bb} | 84 +++++++++++++++-------
+ .../{libassuan_2.4.4.bb => libassuan_2.5.1.bb}     |  4 +-
+ .../nss/{nss_3.34.bb => nss_3.34.1.bb}             |  4 +-
+ .../gpg-error_pkconf.patch                         |  0
+ .../libassuan_pkgconf.patch                        |  0
+ .../{pinentry_1.0.0.bb => pinentry_1.1.0.bb}       |  4 +-
+ 12 files changed, 84 insertions(+), 85 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.11.2.bb} (92%)
+ rename meta/recipes-graphics/xorg-lib/{libxcursor_1.1.14.bb => libxcursor_1.1.15.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{libxfont2_2.0.2.bb => libxfont2_2.0.3.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{libxfont_1.5.3.bb => libxfont_1.5.4.bb} (81%)
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools.inc
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.15.bb => kexec-tools_2.0.16.bb} (44%)
+ rename meta/recipes-support/libassuan/{libassuan_2.4.4.bb => libassuan_2.5.1.bb} (88%)
+ rename meta/recipes-support/nss/{nss_3.34.bb => nss_3.34.1.bb} (98%)
+ rename meta/recipes-support/pinentry/{pinentry-1.0.0 => pinentry-1.1.0}/gpg-error_pkconf.patch (100%)
+ rename meta/recipes-support/pinentry/{pinentry-1.0.0 => pinentry-1.1.0}/libassuan_pkgconf.patch (100%)
+ rename meta/recipes-support/pinentry/{pinentry_1.0.0.bb => pinentry_1.1.0.bb} (90%)
 
-On Wed, Dec 13, 2017 at 6:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
+-- 
+2.7.4
 
-> On 13 December 2017 at 02:42, Allen Wild <allenwild93@gmail.com> wrote:
->
->> Oops, forgot mail the list when sending my first reply.
->>
->> I tried appending LDFLAGS, but it doesn't work for syslinux. It's
->> during do_install, not do_compile, that $(LD) is called directly to
->> link libutil.elf, libcom32.elf, libgpl.elf, and ldlinux.elf.
->>
->
-> That's a terrible implementation of "install" and it should be using
-> LDFLAGS, so that's an upstreamable patch.  As Andre says, adding the flag
-> to LD directly should work.
->
-> Ross
->
 
---001a114b37e0ec7195056079ae93
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div><div>&gt; =C2=A0 LD=3D&#39;${LD} -fuse-ld=
-=3Dbfd&quot;<br><br></div>This doesn&#39;t work=20
-because the -fuse-ld option is only relevant when using gcc as a wrapper
- for the linker.=C2=A0 The Makefile calls x86_64-oe-linux-ld directly (whic=
-h=20
-is a hardlink of x86_64-oe-linux-ld.gold or x86_64-oe-linux-ld.bfd) so when=
- the linker starts up=20
-it&#39;s already Gold, rather than letting gcc call ld automatically.</div>=
-<div><br></div>Syslinux
- calls LD directly to use a custom linker script and avoids linking with=20
-system libraries (not uncommon for bare-metal programs like a=20
-bootloader). The -nostdlib gcc option can be used to get the same effect=20
-when linking with gcc as a wrapper, but doing that involves patching many s=
-yslinux makefiles to prefix LDFLAGS options with -Wl.</div><div><br></div><=
-div>I have a working version of a patch that does this (19 changes in 15 ma=
-kefiles), I can submit it here after some more testing if others think it&#=
-39;s an acceptable fix. I ignored the EFI targets for now, but such a patch=
- could be upstreamed after updating and testing the EFI code too.<br></div>=
-<div><br></div><div>&gt;That&#39;s a terrible implementation of &quot;insta=
-ll&quot;<br></div><br></div>I agree, and I think that the fact that libgpl.=
-elf and ldlinux.elf are getting rebuilt at all means the current recipe vio=
-lates upstream&#39;s &quot;don&#39;t recompile the bootloader itself&quot; =
-wishes in doc/distrib.txt. The tarball we use includes shipped versions of =
-those elf files and a bunch of c32 files, but for some reason make is decid=
-ing to rebuild them from source when we run make install. I haven&#39;t bee=
-n able to determine why that&#39;s the case.<br><div><div><br></div><div>Al=
-len<br></div><div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->On Wed, Dec 13, 2017 at 6:53 AM, Burton, Ross <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-<div dir=3D"ltr"><span class=3D"gmail-">On 13 December 2017 at 02:42, Allen=
- Wild <span dir=3D"ltr">&lt;<a href=3D"mailto:allenwild93@gmail.com" target=
-=3D"_blank">allenwild93@gmail.com</a>&gt;</span> wrote:<br></span><div clas=
-s=3D"gmail_extra"><div class=3D"gmail_quote"><span class=3D"gmail-"><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Oops, forgot mail the list when =
-sending my first reply.<br>
-<br>
-I tried appending LDFLAGS, but it doesn&#39;t work for syslinux. It&#39;s<b=
-r>
-during do_install, not do_compile, that $(LD) is called directly to<br>
-link libutil.elf, libcom32.elf, libgpl.elf, and ldlinux.elf.<br></blockquot=
-e><div><br></div></span><div>That&#39;s a terrible implementation of &quot;=
-install&quot; and it should be using LDFLAGS, so that&#39;s an upstreamable=
- patch.=C2=A0 As Andre says, adding the flag to LD directly should work.</d=
-iv><span class=3D"gmail-HOEnZb"><font color=3D"#888888"><div><br></div><div=
->Ross=C2=A0</div></font></span></div></div></div>
-</blockquote></div><br></div></div></div></div>
-
---001a114b37e0ec7195056079ae93--
