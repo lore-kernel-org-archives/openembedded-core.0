@@ -1,52 +1,21 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 093F171C42
+Return-Path: <martyn.welch@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ABDA71C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 14:26:38 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id r143so17948436lfe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 06:26:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WwFB/+TUGbZP498k2OVPKIZVzqLM5b6yX8/DPLBVBJ0=;
-	b=J8wluoGq4qEuEWSEmJWsz2ajMP0yxOaTRGRL49eSWYii8iE4CSnERtwyimirncTlN6
-	ze6kzWNTNkC9Lhfmhog7Tx0pXYNyGlZHzHCkKac0a0OMQ0TdEUWPOzaiJQ8j7hnVq582
-	Z9IovIDkagTFmyF6p+H6h/lSVDTC7MIY0oHLsSRywQR35+3TpHhL8/FE42iLg+O6WFrs
-	usHASXAuDz4LE1QCcpWO5TjnibC/sfhA0Z0a1AlviOh9E65SLuAglvzXkYXoL+E6HS4S
-	inppXeq3kENobSE/NyEIn5MolMDoW5H5GRrFUxhco+u/YKiWxB28bm+yA+CrWkeRF24n
-	74SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WwFB/+TUGbZP498k2OVPKIZVzqLM5b6yX8/DPLBVBJ0=;
-	b=PW9sUakEK9V8OZifZFSTNgpFlshpigFpY721NEYSEpsRqNVVIogjRNNVQtUvqy/hQJ
-	LzZXXBCvMu0iyhvBsYD12gsjYnAuoH3RILmVntoUko8qcrH0i+63lLi2jbsPW+TPe4Ca
-	q2UrVMnayJ00IamXDv3LO79FINfnvj4A464BS82vxouOYaSdqvORVpu3z3p9Xql9/uY3
-	SkMdAMIfIj5POnT4/F90UnmVC5kji5U/EUR+T0a9uaQMpp5jfUDI+BsqyzLBQiliEzDc
-	ApprrDAEcmAIaJP9iBPiloP7rscGWvtsqVdcS2Fe0EeCmZG1D7r4PnXFnVrtniHqKrE/
-	7o9Q==
-X-Gm-Message-State: AKGB3mKU+GXtcBBBtn0+AN9enYFpzazaulaEoEJBCEsR1q+0eDTw7hAZ
-	SlfupwcRpxmbVpeiueLsaPJda8Y34tUtIRSMczIKau/m
-X-Google-Smtp-Source: ACJfBotTTiJqcZcCkKsjkdbJ82fVefHBEnoXaOIIPrBH23iBblVE0p8Ui8Mi7qLVGR15v+40ZZ1B4jumzomkeLOWOVY=
-X-Received: by 10.46.64.76 with SMTP id n73mr24139lja.33.1513607199639; Mon,
-	18 Dec 2017 06:26:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.25.228.202 with HTTP; Mon, 18 Dec 2017 06:26:18 -0800 (PST)
-In-Reply-To: <d718b91c-ae1e-0171-3eb1-527ceadff383@linux.intel.com>
-References: <20171116174541.3081-1-ricardo.ribalda@gmail.com>
-	<db49b730-240f-3d14-3fd0-31e109bd2ee2@linux.intel.com>
-	<CAPybu_28ZvnJTjd1KiNx375+kfh1c+q=y65paJYDeHpJyd5qew@mail.gmail.com>
-	<784b237e-8cad-d450-5d23-32adc961110a@linux.intel.com>
-	<CAPybu_1+eRCMvWgCBX4wGMysv9OS7bvZTCF+H1p3cjkUQcmkpg@mail.gmail.com>
-	<d718b91c-ae1e-0171-3eb1-527ceadff383@linux.intel.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 18 Dec 2017 15:26:18 +0100
-Message-ID: <CAPybu_1oc+5yPRoXkG1QYqsvvf8NbQrCH0BHZW4kLi6BM-RKLQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] meson: Port pkgconfig-native patch to 0.43.0
+	Mon, 18 Dec 2017 14:29:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: martyn) with ESMTPSA id 4E21826067B
+Message-ID: <1513607380.28676.0.camel@collabora.co.uk>
+From: Martyn Welch <martyn.welch@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Dec 2017 14:29:40 +0000
+In-Reply-To: <1511810927-22695-1-git-send-email-martyn.welch@collabora.co.uk>
+References: <1511810927-22695-1-git-send-email-martyn.welch@collabora.co.uk>
+Organization: Collabora Ltd
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: [PATCH v5 1/2] image.bbclass: add prohibited-paths QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +28,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 14:26:39 -0000
+X-List-Received-Date: Mon, 18 Dec 2017 14:29:42 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello
+This doesn't seem to be applied yet. Is there something else that is
+needed?
 
-On Fri, Dec 15, 2017 at 4:54 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 12/15/2017 05:50 PM, Ricardo Ribalda Delgado wrote:
->
->>> Unfortunately, the same patch needs to be ported again to 0.44.0, as the
->>> changes upstream made are non-trivial. Can you do that please?
->>
->>
->> Sure,
->>
->> can you wait til monday? I have all my test tools setup in the office
->
->
-> Yes, sure. In a moment I'll publish a new patchset that introduces meson
-> 0.44 and drops your previous 0.43-compatible version of the patch, and then
-> you can rebase on top of that and send to the list.
-Sent
+Martyn
 
-Feel free to include it to your patchset if you need a v6
+On Mon, 2017-11-27 at 19:28 +0000, Martyn Welch wrote:
+> Sometimes we wish to ensure that files or directories are not installed
+> somewhere that may prove detrimental to the operation of the system. For
+> example, this may be the case if files are placed in a directory that is
+> utilised as a mount point at run time, thus making them inaccessible once
+> when the mount point is being utilised.
+> 
+> Implement the prohibited paths QA test, which enables such locations to be
+> specified in a "IMAGE_QA_PROHIBITED_PATHS" variable. This implementation
+> allows for a colon separated list of paths to be provided. Shell style
+> wildcards can be used.
+> 
+> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
+> ---
+> Changes since v1:
+>  - Correcting author and SOB.
+> 
+> Changes since v2:
+>  - Reimplemented as image rather than package level QA test.
+>  - Changed variable from PROHIBITED_PATH to PROHIBITED_PATHS to better
+>    reflect its use.
+> 
+> Changes since v3:
+>  - Rename variable to IMAGE_QA_PROHIBITED_PATHS.
+>  - Use str.startswith().
+>  - Simplify if statement.
+> 
+> Changes since v4:
+>  - Move QA test to new class "image-insane.bbclass".
+> 
+>  meta/classes/image-insane.bbclass | 20 ++++++++++++++++++++
+>  meta/classes/image.bbclass        |  1 +
+>  2 files changed, 21 insertions(+)
+>  create mode 100644 meta/classes/image-insane.bbclass
+> 
+> diff --git a/meta/classes/image-insane.bbclass b/meta/classes/image-insane.bbclass
+> new file mode 100644
+> index 0000000..29935cf
+> --- /dev/null
+> +++ b/meta/classes/image-insane.bbclass
+> @@ -0,0 +1,20 @@
+> +python image_check_prohibited_paths () {
+> +    import glob
+> +    from oe.utils import ImageQAFailed
+> +
+> +    rootfs = d.getVar('IMAGE_ROOTFS')
+> +
+> +    path = (d.getVar('IMAGE_QA_PROHIBITED_PATHS') or "")
+> +    if path != "":
+> +        for p in path.split(':'):
+> +            if not p.startswith('/'):
+> +                raise ImageQAFailed("IMAGE_QA_PROHIBITED_PATHS \"%s\" must be an absolute path" % p, image_check_prohibited_paths)
+> +
+> +            match = glob.glob("%s%s" % (rootfs, p))
+> +            if match:
+> +                loc = ", ".join(item.replace(rootfs, '') for item in match)
+> +                raise ImageQAFailed("Match(es) for IMAGE_QA_PROHIBITED_PATHS \"%s\": %s" % (p, loc), image_check_prohibited_paths)
+> +}
+> +
+> +IMAGE_QA_COMMANDS += "image_check_prohibited_paths"
+> +
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index d93de02..8b45abb 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -1,4 +1,5 @@
+>  inherit rootfs_${IMAGE_PKGTYPE}
+> +inherit image-insane
+>  
+>  # Only Linux SDKs support populate_sdk_ext, fall back to populate_sdk_base
+>  # in the non-Linux SDK_OS case, such as mingw32
 
-Regards!
 
->
-> Going forward, maybe you should convince upstream to take it after all...
-
-:), sure
-
->
-> Alex
-
-
-
--- 
-Ricardo Ribalda
 
