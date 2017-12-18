@@ -1,56 +1,57 @@
-Return-Path: <asselsm@gmail.com>
-Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E2771C7A;
-	Mon, 18 Dec 2017 16:56:31 +0000 (UTC)
-Received: by mail-yb0-f195.google.com with SMTP id r4so11512838ybd.12;
-	Mon, 18 Dec 2017 08:56:33 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f45.google.com (mail-pl0-f45.google.com
+	[209.85.160.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0519C77BD2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Dec 2017 17:11:29 +0000 (UTC)
+Received: by mail-pl0-f45.google.com with SMTP id s10so5180269plj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Dec 2017 09:11:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fSXQcpNz4o/WLBFWK/Bbn9QMGLR6p7GsgT/3gL9KsWU=;
-	b=p8N2QdjpJpcsILuwj8hWCOk+EQ0G4pA5f69eYIFqtF2GamDCIj+X8Axvj1lys1Cs6t
-	/AArUswAjEe8ZdQIfgHjZfkoq9YR/HfXkV+zF6jPzV5o6MtwcMjvACKk/THB3HnrOQKB
-	SCPaof7hQUIvMpjdLKMjr6MtL9CMAg5pNFEJZq2s5ZbkqeJGEsS4zbLPyEs5xPU+L7Tw
-	w7sAO+Xd20t/dxA0m/aJwCw8v9rVZgBHfZmoEJhdMrOoXQm/NN59/6tJPDg6ltXrJpK0
-	PnFtZm7xBkhsT1k/Y8uv9IcTXz8raPYZ85MVpaUSDugB4t4ziOgos2aQbDJcrJ/fEPK7
-	rLRQ==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=0O7qk0aPkxtITdK+uXxoDM7270GcwDOR2Tnn9RD4f+k=;
+	b=AIsQo0WZZpP9rxUlYespzC+x6r7+/SUmkjpnr+//v9s+ZIcZttNY37MT5j9XpLuGtB
+	HQOqP+EQ2rICD9XFeHmokrAf9bYe3bL8TcdH31mYjWvxlr/wfeIrN1PPkhPYHooCvo5L
+	CkBPdJH+ez1+k2aG1UMrtKTxbGxafh9SCCZjH1c61/rJJeGUfbeNMSh4OGi/+QWwOWs9
+	TrWXIudPxO3t1UeDtn/5X9qxsIvHqOmPwGCcd6ZZvgMwr2sJkEFu9VsjNcE1iAklHove
+	c4Pu5H4+Srz/E2+ES8c5GCOiQYqoVZ798fn4EFk+Q+LAkf+t+9GlBNmgTsWZ7OBGfjaW
+	0XUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=fSXQcpNz4o/WLBFWK/Bbn9QMGLR6p7GsgT/3gL9KsWU=;
-	b=ESyll3pUYFsEnnKotR9DEhH3zerhuAbW+h5TogPzpbDDyLRlW3sypE/oehE/GInP3g
-	rpZbARZFsUNyO83wxj50+pw+TCsDEef199f2/xY6tEfEqoNE89lkLqHANJjm0fIrh0Th
-	XG33gFXozxPYx53bCwp747bNV6DS45OLB0n9d7CgjxDbfW24x97fDWKyY5q1bmiThTd4
-	uTgB3b3VphBNlW5UcTicIq1hJPQNvVZMPeSp9aTVZqk9f0dqIkVFxgmGtYBj1tL4cK5N
-	qP7/dCZIiTSIHyiOdTAg7cxuJQOQZT4Oxm00NOA4FO2iO+bY+aB4DZ414gj3+f7hDL5f
-	LzFQ==
-X-Gm-Message-State: AKGB3mJoiRhRky3E3RuGpeB2Z79XIrbLrBOpA05b0efrokQa21Rp32SO
-	HWdcK8X8xVfRSxd8Cr7+T20jsoHyY7+AFAQc7Kg=
-X-Google-Smtp-Source: ACJfBotnPLJkubc0s99F4v7FMuZ4xX7gmRhr//O0/ZUXQD+c8x5P+lg6kdziqSiIcs/oAiuHw0/J2wNjncglcisB+ko=
-X-Received: by 10.37.244.82 with SMTP id p18mr353560ybe.6.1513616192789; Mon,
-	18 Dec 2017 08:56:32 -0800 (PST)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=0O7qk0aPkxtITdK+uXxoDM7270GcwDOR2Tnn9RD4f+k=;
+	b=rJ7cQxerJMnr/nSYgwdx9HqlMPgCwqn3eh46+ePFtPPY35hIATmTYaL5U+xlqMzSk7
+	jxVmWM8IuFs0ePhCouodKF17/CSAZ07EFIu7zwCXzjPH5u2ulpkpqb+HULYUGaCuyJSk
+	lOIYmus//ju81QrbHi47wFFjzWzzhIbnxwrgwdE05hSI3UWEGRs7jFZpLV03jfxNmpPs
+	KNvKId3r2nJhg7hwClPrRUIX2psaNxRcfmvzSWqpyvNhQ2qbF6FKo3X/ez2VW9DZBUNZ
+	8aSrsdK7nyJhnkuzMWqfp8UnF610lUzMXvwrq/ubM/9mgAlMDwXa4acCcqVOSJKZaqXW
+	y3YA==
+X-Gm-Message-State: AKGB3mK5eT0shRN5VHeCv+JZs3umQ0WhfSAIkbkhnnPk4GcstaPu+p0y
+	O/lV3Yy7SWAMHJYakW1r+f7s5g==
+X-Google-Smtp-Source: ACJfBotL3vyI0PwmRcDxAIbLITQydHi8In+Syw7cNFIpri2jRnY8BlXMwRlrHYGFNjMMT4IWQcvNGw==
+X-Received: by 10.159.241.133 with SMTP id s5mr405514plr.40.1513617090861;
+	Mon, 18 Dec 2017 09:11:30 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:e55e:48fe:ac14:e30f?
+	([2601:202:4000:1184:e55e:48fe:ac14:e30f])
+	by smtp.gmail.com with ESMTPSA id
+	b20sm22757174pgn.91.2017.12.18.09.11.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Dec 2017 09:11:30 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
+References: <cover.1513527416.git.akuster@mvista.com>
+	<1f6d1fa417f9a7128168b0ad934f4ae75a8198e3.1513527416.git.akuster@mvista.com>
+	<CAJTo0Lb6JfFMJAH7_1Sph-VwhJ_6aD=-YXtWBfBSH8GWMT8Hcw@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <e900fa4c-708c-a59c-8638-ba26ec754272@gmail.com>
+Date: Mon, 18 Dec 2017 09:11:29 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Reply-To: mark.asselstine@windriver.com
-Sender: asselsm@gmail.com
-Received: by 10.37.189.69 with HTTP; Mon, 18 Dec 2017 08:56:32 -0800 (PST)
-In-Reply-To: <711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
-References: <1512414044-1012-1-git-send-email-mark.asselstine@windriver.com>
-	<CADNbA1qnmF3-MKo=fqQQeWEedE5A-wzkUkCgdCNArOePjMaXQw@mail.gmail.com>
-	<CAPuovEKdqQP35XwP3bgBrE4EFbM2LwpHrHzxF3my9qaWfAaCbA@mail.gmail.com>
-	<CABcZANku-aE5a69GpJxXmd2F0+uYVhiRZB3Uut7F2RG1e3R9EA@mail.gmail.com>
-	<CAPuovEJNf=qefXX6wKJGaH+HkM6aan49AgVQ3TEWVWPSCn3cNw@mail.gmail.com>
-	<711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Mon, 18 Dec 2017 11:56:32 -0500
-X-Google-Sender-Auth: 7KDeyj1Kob7xAfUSkbXGKF4_03k
-Message-ID: <CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [meta-python][PATCH] python-pyroute2: uprev to v0.4.21 (from 0.3.22)
+In-Reply-To: <CAJTo0Lb6JfFMJAH7_1Sph-VwhJ_6aD=-YXtWBfBSH8GWMT8Hcw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] bind: Update to 9.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +64,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 16:56:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Dec 2017 17:11:30 -0000
+Content-Type: multipart/alternative;
+	boundary="------------C8717301AD58B2FE19257C49"
+Content-Language: en-US
 
-On Mon, Dec 18, 2017 at 11:37 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 12/18/2017 06:15 PM, Mark Asselstine wrote:
->>
->> On Mon, Dec 18, 2017 at 10:36 AM, Christopher Larson <kergoth@gmail.com>
->> wrote:
->>>
->>> All our python recipes should be explicitly listing the python module
->>> packages they require. No python module recipes should be depending on
->>> python-modules or python3-modules, but explicitly what they require.
->>
->>
->> This is a giant PITA for little gain in my opinion. The typical python
->> 'vehicles' to define dependencies, things like setup.py, requires.txt,
->> requirements.txt..., never bother to list stdlibs. These are standard
->> libs that are just expected to be there. If a system is being
->> installed with only select python modules it will behave differently
->> than python found on any other system violating the rule of least
->> surprise. On top of this most of these modules are ~40K in size and
->> there are roughly 60 in the stdlib so the size gain in installing a
->> few vs. all of them is extremely negligible. All of this seems to add
->> way more work and churn that outweighs any real benefit.
->
->
-> I tend to agree with this. Add also the situation that the yocto project
-> needs to upgrade oe-core to python 3.6 as soon as possible, and to 3.7 soon
-> after, no one has enough time to do this rather non-trivial job, and I'm
-> beginning to wonder if the best way out is to remove the module splitting
-> altogether, and write a clean, simple and maintainable python3 recipe from
-> scratch with minimal amount of custom patching and hopefully no write-only
-> hacks.
->
-> Alex
+--------------C8717301AD58B2FE19257C49
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Alex for the support. To get a better idea as to what the size
-delta is I took the installed sizes from a rootfs logfile and the
-total size for all modules (python2.7) is 6.5M python-misc is almost
-2M of this and python-codecs contributing over 0.5M. The savings will
-never be the full 6.5M as there will always be python-lang and some
-other modules needed. There was a time where 32M restrictions existed
-are some systems but are we really seeing devices with these
-restrictions any more? what about exploring not shipping the pyc
-files? I would much rather see this than imposing so much work and
-churn for very little gain. Anyways, maybe this isn't the best forum
-for this and it should be brought up to the architecture group.
 
-Mark
+
+On 12/18/2017 07:05 AM, Burton, Ross wrote:
+> On 17 December 2017 at 16:34, Armin Kuster <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     From: Armin Kuster <akuster@mvista.com <mailto:akuster@mvista.com>>=
 
 >
-> --
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+>     New License (mpl-2.0) and LICESE file.
+>
+>     New features in bind 9.11
+>     see:
+>     https://www.isc.org/wp-content/uploads/2016/09/BIND9.11NewFeatures.=
+pdf
+>     <https://www.isc.org/wp-content/uploads/2016/09/BIND9.11NewFeatures=
+=2Epdf>
+>
+>     add zlib PACKAGECONF
+>
+>
+> packages/corei7-64-poky-linux/bind/bind-doc: FILELIST: removed
+> "/usr/share/man/man8/dnssec-checkds.8
+> /usr/share/man/man8/dnssec-coverage.8", added "/usr/share/man/man1/mdig=
+=2E1"
+>
+> I see you're removing those binaries from a sed, so have they been
+> removed entirely?=C2=A0 Are they somewhere else, or just disabled?
 
+=C2=A0hmm, let me double check. I know there where no longer there.
+
+>
+> packages/corei7-64-poky-linux/bind/bind: FILELIST: removed
+> "/usr/lib/python3.5/site-packages/isc/__pycache__/dnskey.cpython-35.pyc=
+
+> /usr/lib/python3.5/site-packages/isc/__pycache__/coverage.cpython-35.py=
+c
+> /usr/lib/python3.5/site-packages/isc/eventlist.py
+> /usr/lib/python3.5/site-packages/isc/keyevent.py
+> /usr/lib/python3.5/site-packages/isc-1.0-py3.5.egg-info
+> /usr/lib/python3.5/site-packages/isc/__pycache__/eventlist.cpython-35.p=
+yc
+> /usr/lib/python3.5/site-packages/isc/keydict.py
+> /usr/lib/python3.5/site-packages/isc/__pycache__/keyzone.cpython-35.pyc=
+
+> /usr/lib/python3.5/site-packages/isc/__pycache__/keydict.cpython-35.pyc=
+
+> /usr/lib/python3.5/site-packages/isc/__pycache__/checkds.cpython-35.pyc=
+
+> /usr/lib/python3.5/site-packages/isc/checkds.py
+> /usr/sbin/dnssec-coverage
+> /usr/lib/python3.5/site-packages/isc/keyzone.py
+> /usr/lib/python3.5/site-packages/isc/__init__.py
+> /usr/lib/python3.5/site-packages/isc/__pycache__/utils.cpython-35.pyc
+> /usr/sbin/dnssec-checkds
+> /usr/lib/python3.5/site-packages/isc/__pycache__/keyevent.cpython-35.py=
+c
+> /usr/lib/python3.5/site-packages/isc/__pycache__/__init__.cpython-35.py=
+c
+> /usr/lib/python3.5/site-packages/isc/dnskey.py
+> /usr/lib/python3.5/site-packages/isc/coverage.py
+> /usr/lib/python3.5/site-packages/isc/utils.py", added "/usr/bin/mdig"
+>
+> All the Python bindings have disappeared, is this intentional?
+
+hmm.. let me check.
+
+- armin
+>
+> Ross=C2=A0
+
+
+--------------C8717301AD58B2FE19257C49
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 12/18/2017 07:05 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lb6JfFMJAH7_1Sph-VwhJ_6aD=-YXtWBfBSH8GWMT8Hcw@mail.gmail.com">
+      <div dir="ltr">On 17 December 2017 at 16:34, Armin Kuster <span
+          dir="ltr">&lt;<a href="mailto:akuster808@gmail.com"
+            target="_blank" moz-do-not-send="true">akuster808@gmail.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">From:
+              Armin Kuster &lt;<a href="mailto:akuster@mvista.com"
+                moz-do-not-send="true">akuster@mvista.com</a>&gt;<br>
+              <br>
+              New License (mpl-2.0) and LICESE file.<br>
+              <br>
+              New features in bind 9.11<br>
+              see: <a
+href="https://www.isc.org/wp-content/uploads/2016/09/BIND9.11NewFeatures.pdf"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">https://www.isc.org/wp-<wbr>content/uploads/2016/09/BIND9.<wbr>11NewFeatures.pdf</a><br>
+              <br>
+              add zlib PACKAGECONF<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>packages/corei7-64-poky-linux/bind/bind-doc: FILELIST:
+              removed "/usr/share/man/man8/dnssec-checkds.8
+              /usr/share/man/man8/dnssec-coverage.8", added
+              "/usr/share/man/man1/mdig.1"</div>
+            <div><br>
+            </div>
+            <div>I see you're removing those binaries from a sed, so
+              have they been removed entirely?  Are they somewhere else,
+              or just disabled?</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+     hmm, let me double check. I know there where no longer there.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lb6JfFMJAH7_1Sph-VwhJ_6aD=-YXtWBfBSH8GWMT8Hcw@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>packages/corei7-64-poky-linux/bind/bind: FILELIST:
+              removed
+              "/usr/lib/python3.5/site-packages/isc/__pycache__/dnskey.cpython-35.pyc
+/usr/lib/python3.5/site-packages/isc/__pycache__/coverage.cpython-35.pyc
+              /usr/lib/python3.5/site-packages/isc/eventlist.py
+              /usr/lib/python3.5/site-packages/isc/keyevent.py
+              /usr/lib/python3.5/site-packages/isc-1.0-py3.5.egg-info
+/usr/lib/python3.5/site-packages/isc/__pycache__/eventlist.cpython-35.pyc
+              /usr/lib/python3.5/site-packages/isc/keydict.py
+              /usr/lib/python3.5/site-packages/isc/__pycache__/keyzone.cpython-35.pyc
+/usr/lib/python3.5/site-packages/isc/__pycache__/keydict.cpython-35.pyc
+/usr/lib/python3.5/site-packages/isc/__pycache__/checkds.cpython-35.pyc
+              /usr/lib/python3.5/site-packages/isc/checkds.py
+              /usr/sbin/dnssec-coverage
+              /usr/lib/python3.5/site-packages/isc/keyzone.py
+              /usr/lib/python3.5/site-packages/isc/__init__.py
+              /usr/lib/python3.5/site-packages/isc/__pycache__/utils.cpython-35.pyc
+              /usr/sbin/dnssec-checkds
+              /usr/lib/python3.5/site-packages/isc/__pycache__/keyevent.cpython-35.pyc
+/usr/lib/python3.5/site-packages/isc/__pycache__/__init__.cpython-35.pyc
+              /usr/lib/python3.5/site-packages/isc/dnskey.py
+              /usr/lib/python3.5/site-packages/isc/coverage.py
+              /usr/lib/python3.5/site-packages/isc/utils.py", added
+              "/usr/bin/mdig"</div>
+            <div><br>
+            </div>
+            <div>All the Python bindings have disappeared, is this
+              intentional?</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    hmm.. let me check. <br>
+    <br>
+    - armin<br>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lb6JfFMJAH7_1Sph-VwhJ_6aD=-YXtWBfBSH8GWMT8Hcw@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------C8717301AD58B2FE19257C49--
