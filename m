@@ -1,31 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D297071C71
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E9C6271C71
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 15:16:35 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Mon, 18 Dec 2017 15:21:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Dec 2017 07:16:36 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Dec 2017 07:21:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,422,1508828400"; 
-   d="scan'208";a="2728896"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2017 07:16:35 -0800
-Date: Mon, 18 Dec 2017 17:16:13 +0200
+   d="scan'208";a="3789765"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga006.jf.intel.com with ESMTP; 18 Dec 2017 07:21:51 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 3FD57580329
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Dec 2017 07:21:51 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20171218151613.GA24438@mbabyjoh-desk.ger.corp.intel.com>
-References: <1512652937-15773-1-git-send-email-maxin.john@intel.com>
-	<1512838668.19417.119.camel@linuxfoundation.org>
-	<1512839873.19417.120.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1512839873.19417.120.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] i2c-tools: upgrade to 4.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Dec 2017 17:22:23 +0200
+Message-Id: <1513610543-1942-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] i2c-tools: upgrade to 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,55 +36,302 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 15:16:35 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Dec 2017 15:21:51 -0000
 
-Hi RP,
+Update the SRC_URI to point to kernel.org location where
+i2c-tools is hosted these days.
 
-On Sat, Dec 09, 2017 at 05:17:53PM +0000, Richard Purdie wrote:
-> On Sat, 2017-12-09 at 16:57 +0000, Richard Purdie wrote:
-> > On Thu, 2017-12-07 at 15:22 +0200, Maxin B. John wrote:
-> > > 
-> > > Update the SRC_URI to point to kernel.org location where
-> > > i2c-tools is hosted these days.
-> > > 
-> > > Remove Modules.mk since it was used for deprecated binaries
-> > > (eepromer, eeprom)
-> > > 
-> > > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > > ---
-> > >  meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ----------
-> > > --
-> > > ----------
-> > >  .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 14 ++---
-> > >  2 files changed, 5 insertions(+), 81 deletions(-)
-> > >  delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
-> > >  rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-
-> > > tools_4.0.bb} (64%)
-> > Fails on musl sadly:
-> > 
-> > https://autobuilder.yocto.io/builders/nightly-musl/builds/643/steps/B
-> > uildImages/logs/stdio
-> 
-> and on glibc qemux86-64:
-> 
-> https://autobuilder.yocto.io/builders/nightly-world/builds/622
+Remove Modules.mk since it was used for deprecated binaries
+(eepromer, eeprom)
 
-Sorry for the delay in reply. 
+Added the following patches to fix races during build:
+        a) 0001-tools-Module.mk-Add-missing-dependencies.patch
+        b) 0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
+        c) 0001-lib-Module.mk-Add-missing-dependencies.patch
 
-> Build race?
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...s-eeprog-Module.mk-Add-missing-dependency.patch | 31 ++++++++++
+ ...01-lib-Module.mk-Add-missing-dependencies.patch | 36 +++++++++++
+ ...-tools-Module.mk-Add-missing-dependencies.patch | 69 +++++++++++++++++++++
+ meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ----------------------
+ .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 16 ++---
+ 5 files changed, 144 insertions(+), 80 deletions(-)
+ create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
+ create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
+ create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
+ delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
+ rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb} (62%)
 
-Exactly! . It was partly fixed in upstream recently. Will include those fixes and
-send a v2 soon.
+diff --git a/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch b/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
+new file mode 100644
+index 0000000..2c9877d
+--- /dev/null
++++ b/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
+@@ -0,0 +1,31 @@
++From 01674fefe3bd24fd93412fbb3eb4e85fe70c80aa Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Mon, 18 Dec 2017 16:01:39 +0200
++Subject: [PATCH] i2c-tools: eeprog/Module.mk: Add missing dependency
++
++Absence of this dependency caused parallel build to run into a race
++and break.
++
++Upstream-Status: Submitted
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ eeprog/Module.mk | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/eeprog/Module.mk b/eeprog/Module.mk
++index 9d36869..d215855 100644
++--- a/eeprog/Module.mk
+++++ b/eeprog/Module.mk
++@@ -20,7 +20,7 @@ EEPROG_TARGETS	:= eeprog
++ # Programs
++ #
++ 
++-$(EEPROG_DIR)/eeprog: $(EEPROG_DIR)/eeprog.o $(EEPROG_DIR)/24cXX.o
+++$(EEPROG_DIR)/eeprog: $(EEPROG_DIR)/eeprog.o $(EEPROG_DIR)/24cXX.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(EEPROG_LDFLAGS)
++ 
++ #
++-- 
++2.4.0
++
+diff --git a/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch b/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
+new file mode 100644
+index 0000000..a86a1cb
+--- /dev/null
++++ b/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
+@@ -0,0 +1,36 @@
++From a6a59693066fd8da81f7107479df3e32a129247d Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Wed, 6 Dec 2017 09:55:04 +0100
++Subject: [PATCH] lib/Module.mk: Add missing dependencies
++
++The lib symlinks lacked a dependency to the actual library file, so
++parallel builds could run into a race and break.
++
++Upstream-Status: Backport
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ lib/Module.mk | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/lib/Module.mk b/lib/Module.mk
++index 432a051..fd2c8c4 100644
++--- a/lib/Module.mk
+++++ b/lib/Module.mk
++@@ -42,11 +42,11 @@ endif
++ $(LIB_DIR)/$(LIB_SHLIBNAME): $(LIB_DIR)/smbus.o
++ 	$(CC) -shared $(LDFLAGS) -Wl,--version-script=$(LIB_DIR)/libi2c.map -Wl,-soname,$(LIB_SHSONAME) -o $@ $^ -lc
++ 
++-$(LIB_DIR)/$(LIB_SHSONAME):
+++$(LIB_DIR)/$(LIB_SHSONAME): $(LIB_DIR)/$(LIB_SHLIBNAME)
++ 	$(RM) $@
++ 	$(LN) $(LIB_SHLIBNAME) $@
++ 
++-$(LIB_DIR)/$(LIB_SHBASENAME):
+++$(LIB_DIR)/$(LIB_SHBASENAME): $(LIB_DIR)/$(LIB_SHLIBNAME)
++ 	$(RM) $@
++ 	$(LN) $(LIB_SHLIBNAME) $@
++ 
++-- 
++2.4.0
++
+diff --git a/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch b/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
+new file mode 100644
+index 0000000..e47c02a
+--- /dev/null
++++ b/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
+@@ -0,0 +1,69 @@
++From 08b0d67ba7eceb862cb17f52eb1911e9579726ea Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Thu, 14 Dec 2017 08:52:26 +0100
++Subject: [PATCH] tools/Module.mk: Add missing dependencies
++
++Better build the library before building the tools which link against
++it, otherwise parallel builds could run into a race and break.
++
++Upstream-Status: Backport
++
++Signed-off-by: Jean Delvare <jdelvare@suse.de>
++Tested-by: Angelo Compagnucci <angelo@amarulasolutions.com>
++Acked-by: Angelo Compagnucci <angelo@amarulasolutions.com>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ lib/Module.mk   |  7 +++++++
++ tools/Module.mk | 10 +++++-----
++ 2 files changed, 12 insertions(+), 5 deletions(-)
++
++diff --git a/lib/Module.mk b/lib/Module.mk
++index 8a58f5b..67afe91 100644
++--- a/lib/Module.mk
+++++ b/lib/Module.mk
++@@ -37,6 +37,13 @@ ifeq ($(BUILD_STATIC_LIB),1)
++ LIB_TARGETS	+= $(LIB_STLIBNAME)
++ endif
++ 
+++# Library file to link against (static or dynamic)
+++ifeq ($(USE_STATIC_LIB),1)
+++LIB_DEPS	:= $(LIB_DIR)/$(LIB_STLIBNAME)
+++else
+++LIB_DEPS	:= $(LIB_DIR)/$(LIB_SHBASENAME)
+++endif
+++
++ #
++ # Libraries
++ #
++diff --git a/tools/Module.mk b/tools/Module.mk
++index 6421a23..609de7a 100644
++--- a/tools/Module.mk
+++++ b/tools/Module.mk
++@@ -24,19 +24,19 @@ TOOLS_TARGETS	:= i2cdetect i2cdump i2cset i2cget i2ctransfer
++ # Programs
++ #
++ 
++-$(TOOLS_DIR)/i2cdetect: $(TOOLS_DIR)/i2cdetect.o $(TOOLS_DIR)/i2cbusses.o
+++$(TOOLS_DIR)/i2cdetect: $(TOOLS_DIR)/i2cdetect.o $(TOOLS_DIR)/i2cbusses.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
++ 
++-$(TOOLS_DIR)/i2cdump: $(TOOLS_DIR)/i2cdump.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
+++$(TOOLS_DIR)/i2cdump: $(TOOLS_DIR)/i2cdump.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
++ 
++-$(TOOLS_DIR)/i2cset: $(TOOLS_DIR)/i2cset.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
+++$(TOOLS_DIR)/i2cset: $(TOOLS_DIR)/i2cset.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
++ 
++-$(TOOLS_DIR)/i2cget: $(TOOLS_DIR)/i2cget.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
+++$(TOOLS_DIR)/i2cget: $(TOOLS_DIR)/i2cget.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
++ 
++-$(TOOLS_DIR)/i2ctransfer: $(TOOLS_DIR)/i2ctransfer.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
+++$(TOOLS_DIR)/i2ctransfer: $(TOOLS_DIR)/i2ctransfer.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
++ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
++ 
++ #
++-- 
++2.4.0
++
+diff --git a/meta/recipes-devtools/i2c-tools/files/Module.mk b/meta/recipes-devtools/i2c-tools/files/Module.mk
+deleted file mode 100644
+index fcaf72f..0000000
+--- a/meta/recipes-devtools/i2c-tools/files/Module.mk
++++ /dev/null
+@@ -1,72 +0,0 @@
+-# EEPROMER
+-#
+-# Licensed under the GNU General Public License.
+-
+-EEPROMER_DIR	:= eepromer
+-
+-EEPROMER_CFLAGS	:= -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
+-		   -Wcast-align -Wwrite-strings -Wnested-externs -Winline \
+-		   -W -Wundef -Wmissing-prototypes -Iinclude
+-
+-EEPROMER_TARGETS	:= eepromer eeprom eeprog
+-
+-#
+-# Programs
+-#
+-
+-$(EEPROMER_DIR)/eepromer: $(EEPROMER_DIR)/eepromer.o
+-	$(CC) $(LDFLAGS) -o $@ $^
+-
+-$(EEPROMER_DIR)/eeprom: $(EEPROMER_DIR)/eeprom.o
+-	$(CC) $(LDFLAGS) -o $@ $^
+-
+-$(EEPROMER_DIR)/eeprog: $(EEPROMER_DIR)/eeprog.o $(EEPROMER_DIR)/24cXX.o 
+-	$(CC) $(LDFLAGS) -o $@ $^
+-
+-#
+-# Objects
+-#
+-
+-$(EEPROMER_DIR)/eepromer.o: $(EEPROMER_DIR)/eepromer.c
+-	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
+-
+-$(EEPROMER_DIR)/eeprom.o: $(EEPROMER_DIR)/eeprom.c
+-	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
+-
+-$(EEPROMER_DIR)/eeprog.o: $(EEPROMER_DIR)/eeprog.c
+-	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
+-
+-$(EEPROMER_DIR)/24cXX.o: $(EEPROMER_DIR)/24cXX.c
+-	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
+-
+-#
+-# Commands
+-#
+-
+-all-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
+-
+-strip-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
+-	strip $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
+-
+-clean-eepromer:
+-	$(RM) $(addprefix $(EEPROMER_DIR)/,*.o $(EEPROMER_TARGETS))
+-
+-install-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
+-	$(INSTALL_DIR) $(DESTDIR)$(sbindir) $(DESTDIR)$(man8dir)
+-	for program in $(EEPROMER_TARGETS) ; do \
+-	$(INSTALL_PROGRAM) $(EEPROMER_DIR)/$$program $(DESTDIR)$(sbindir) ; done
+-
+-uninstall-eepromer:
+-	for program in $(EEPROMER_TARGETS) ; do \
+-	$(RM) $(DESTDIR)$(sbindir)/$$program ; \
+-	$(RM) $(DESTDIR)$(man8dir)/$$program.8 ; done
+-
+-all: all-eepromer
+-
+-strip: strip-eepromer
+-
+-clean: clean-eepromer
+-
+-install: install-eepromer
+-
+-uninstall: uninstall-eepromer
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
+similarity index 62%
+rename from meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
+rename to meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
+index 45d3d6d..bf6ff79 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
+@@ -4,20 +4,20 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.bz2 \
+-           file://Module.mk \
++SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
++           file://0001-lib-Module.mk-Add-missing-dependencies.patch \
++           file://0001-tools-Module.mk-Add-missing-dependencies.patch \
++           file://0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch \
+ "
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/i/i2c-tools/"
+-UPSTREAM_CHECK_REGEX = "i2c-tools_(?P<pver>.+)\.orig"
+-SRC_URI[md5sum] = "7104a1043d11a5e2c7b131614eb1b962"
+-SRC_URI[sha256sum] = "db5e69f2e2a6e3aa2ecdfe6a5f490b149c504468770f58921c8c5b8a7860a441"
++
++SRC_URI[md5sum] = "d92a288d70f306d3895e3a7e9c14c9aa"
++SRC_URI[sha256sum] = "5b60daf6f011de0acb61de57dba62f2054bb39f19961d67e0c91610f071ca403"
+ 
+ inherit autotools-brokensep
+ 
+ do_compile_prepend() {
+-    cp ${WORKDIR}/Module.mk ${S}/eepromer/
+     sed -i 's#/usr/local#/usr#' ${S}/Makefile
+-    echo "include eepromer/Module.mk" >> ${S}/Makefile
++    echo "include eeprog/Module.mk" >> ${S}/Makefile
+ }
+ 
+ do_install_append() {
+-- 
+2.4.0
 
-https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/commit/?id=a6a59693066fd8da81f7107479df3e32a129247d
-https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/commit/?id=08b0d67ba7eceb862cb17f52eb1911e9579726ea
-
-> Cheers,
-> Richard
-
-Best Regards,
-Maxin
 
