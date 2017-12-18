@@ -1,24 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A01A771C69
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8527171C69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 15:59:43 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Dec 2017 07:59:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,422,1508828400"; 
-   d="scan'208";a="3766087"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 18 Dec 2017 07:59:42 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Mon, 18 Dec 2017 16:03:41 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b76so30423491wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Dec 2017 08:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OuVaHvQOrEuId3iGU3uMISQ+Ew5ZhIuo1ZHfxgx7jZQ=;
+	b=jXXBsnt4zEGbVTAJAW/fTRt9bjEKZNZdmGwphzWrvxIqJGJc5JBDzDKaQ2nmPklRCl
+	YyiJWXoS+erJT9eT1yVJYbLpf4Vyw7eNfu/9hcnKoITSR79AbaBoCHCG86PB4jl60Ykh
+	cmE+LpJgzDBjBovcZ0GBcRxe4aawsCkT3oFcOFTL6aoB7uWI796AwuM9MPe8A415og4n
+	+sAc44BcXr6YJENbt9+6dfrwuNX/vtinJHmgrYdf1oK2XkZDi6+JOxggrgslTMuniF4v
+	N/S8aqTrFPqTE5rtw5xsNrpyrZULFqcc09RRmH8cBPAb/6Wr/A+ZvmPdcLZpZuuH6/V5
+	QJKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OuVaHvQOrEuId3iGU3uMISQ+Ew5ZhIuo1ZHfxgx7jZQ=;
+	b=Bl4bejpEGz7b3auw1i0OxjGsPnGalWOozDWImUX7Cg/b5jZHSF145STwTjWOkDEQDD
+	dbihg2JWk3LV37231AkSM4Ipoz9hl9uS/2Q2oAXfKE9iWmSMDxR8DvePa3tr8wKUqonm
+	QPV262JXXm2z/gTfikktgVWbLq/jY7Q4ANaWZymrYKiY6KFEgMP2YLQgZ0AH1bVjxbh+
+	VKbyALz7pQv8Ur8GZasdutiDtOUQQ0k4M1R3Gd5mpTV/upz1pJD33K9cfNVpLhZv5b9S
+	F4XKd1gU2VQnOFB+zyDRtxsdyHE5Iq3wPsBj2M/p2rnII6U+C7oc4FXoFmpplDNjaCom
+	lmqg==
+X-Gm-Message-State: AKGB3mL9U96foSKBdFlL2TIF1/39WIQmIfrUuaDMXHtw5Q7XqobPxx6r
+	PuHHnPCDTc6e3I6E0jeGLG8Es2+A
+X-Google-Smtp-Source: ACJfBot/0feFZLLx8Odte9KYWyUANbgSaR/Bm0PLhJR+tkvctNpHvM1drswOuUk64BLrxuR1OauUQQ==
+X-Received: by 10.28.167.22 with SMTP id q22mr163910wme.52.1513613021515;
+	Mon, 18 Dec 2017 08:03:41 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	d17sm5375055wrc.14.2017.12.18.08.03.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Dec 2017 08:03:40 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Dec 2017 18:00:28 +0200
-Message-Id: <20171218160028.6673-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] rpm: update to 4.14.0
+Date: Mon, 18 Dec 2017 16:03:36 +0000
+Message-Id: <cover.1513612975.git.ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH 00/49] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,697 +58,439 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 15:59:43 -0000
+X-List-Received-Date: Mon, 18 Dec 2017 16:03:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Previously oe-core had a development snapshot of rpm, it's better to update
-to something more stable.
+Hi,
 
-Removed patches:
-0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
-(upstream is using pkg-config)
-0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
-(functionality has been moved to a plugin, we disable plugins
-for rpm-native)
-0012-Use-conditional-to-access-_docdir-in-macros.in.patch
-(merged upstream)
+Another batch of patches from the list which have passed autobuilder testing and
+review.
 
-Changed patches:
-0001-Fix-build-with-musl-C-library.patch
-(one previous musl issue has been resolved upstream; another has been added)
+Ross
 
-Rest of the patches are trivial rebases.
+The following changes since commit d6b6508e0be4452eb285495403b73fa9fcf51e3e:
 
-Update the signing oe-selftest so that the reference output matches
-the upstream changes.
+  temp disable inode checking on sstate (2017-12-13 14:02:02 +0000)
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/signing.py            |  2 +-
- ...N_ABI-when-searching-for-python-libraries.patch | 30 ----------
- ...code-lib-rpm-as-the-installation-path-for.patch | 20 +++----
- .../files/0001-Fix-build-with-musl-C-library.patch | 66 +++++++---------------
- ...alue-cannot-be-reset-issue-a-notice-inste.patch | 31 ----------
- ...c-remove-static-local-variables-from-buil.patch | 54 +++++++++---------
- ...ire-that-ELF-binaries-are-executable-to-b.patch | 11 ++--
- ...onditional-to-access-_docdir-in-macros.in.patch | 36 ------------
- .../0013-Add-a-new-option-alldeps-to-rpmdeps.patch | 17 +++---
- .../rpm/{rpm_git.bb => rpm_4.14.0.bb}              |  8 +--
- 10 files changed, 76 insertions(+), 199 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
- rename meta/recipes-devtools/rpm/{rpm_git.bb => rpm_4.14.0.bb} (93%)
+are available in the git repository at:
 
-diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
-index b3d1a8292ec..a750cfc7b28 100644
---- a/meta/lib/oeqa/selftest/cases/signing.py
-+++ b/meta/lib/oeqa/selftest/cases/signing.py
-@@ -87,7 +87,7 @@ class Signing(OESelftestTestCase):
-         ret = runCmd('%s/rpmkeys --define "_dbpath %s" --checksig %s' %
-                      (staging_bindir_native, rpmdb, pkg_deploy))
-         # tmp/deploy/rpm/i586/ed-1.9-r0.i586.rpm: rsa sha1 md5 OK
--        self.assertIn('rsa sha1 (md5) pgp md5 OK', ret.output, 'Package signed incorrectly.')
-+        self.assertIn('digests signatures OK', ret.output, 'Package signed incorrectly.')
-         shutil.rmtree(rpmdb)
- 
-         #Check that an image can be built from signed packages
-diff --git a/meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch b/meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
-deleted file mode 100644
-index b809332f217..00000000000
---- a/meta/recipes-devtools/rpm/files/0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 36cf0ff26ece53e529e8b4f2d2f09acd8794b055 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 24 Mar 2017 15:35:47 +0200
--Subject: [PATCH] Add PYTHON_ABI when searching for python libraries.
--
--It has a value of 'm' when using Python3, and so without it
--configure will not find the libraries.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 9c58467c1..a506ec819 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -642,7 +642,7 @@ AS_IF([test "$enable_python" = yes],[
--       ])
--     CPPFLAGS="$save_CPPFLAGS"
--     save_LIBS="$LIBS"
---    AC_SEARCH_LIBS([Py_Main],[python${PYTHON_VERSION} python],[
--+    AC_SEARCH_LIBS([Py_Main],[python${PYTHON_VERSION}${PYTHON_ABI} python],[
--       WITH_PYTHON_LIB="$ac_res"
--     ],[AC_MSG_ERROR([missing python library])
--     ])
---- 
--2.11.0
--
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 1f61acaf431..d7b1145bc5b 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,10 +1,10 @@
--From d82691b8d58201dd03e30585daacd8ffd1556ae2 Mon Sep 17 00:00:00 2001
-+From 2b1a3f900f15034943fc41661eaab41bcc0d4d84 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
--Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-+Subject: [PATCH 06/15] Do not hardcode "lib/rpm" as the installation path for
-  default configuration and macros.
- 
--Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/263]
-+Upstream-Status: Denied [https://github.com/rpm-software-management/rpm/pull/263]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 4f3be8770..92ffd3d68 100644
-+index 373d69484..c04a2e8d1 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -875,7 +875,7 @@ else
-+@@ -1038,7 +1038,7 @@ else
-      usrprefix=$prefix
-  fi
-  
-@@ -27,10 +27,10 @@ index 4f3be8770..92ffd3d68 100644
-  
-  AC_SUBST(OBJDUMP)
- diff --git a/macros.in b/macros.in
--index c6d5a6b03..84ae25275 100644
-+index 3f8dbba61..da4812540 100644
- --- a/macros.in
- +++ b/macros.in
--@@ -877,7 +877,7 @@ package or when debugging this package.\
-+@@ -954,7 +954,7 @@ package or when debugging this package.\
-  %_sharedstatedir	%{_prefix}/com
-  %_localstatedir		%{_prefix}/var
-  %_lib			lib
-@@ -40,7 +40,7 @@ index c6d5a6b03..84ae25275 100644
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
- diff --git a/rpm.am b/rpm.am
--index 1f43ad8a0..6854ff6ba 100644
-+index f0df0202f..37205a5eb 100644
- --- a/rpm.am
- +++ b/rpm.am
- @@ -1,10 +1,10 @@
-@@ -55,7 +55,7 @@ index 1f43ad8a0..6854ff6ba 100644
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 7:0:0
-+ rpm_version_info = 8:0:0
- -- 
--2.11.0
-+2.14.2
- 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-index edf9ec08940..0b1d6298a94 100644
---- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-@@ -1,24 +1,21 @@
--From 211c2d11200e6657132c52e7ac68f8c118231262 Mon Sep 17 00:00:00 2001
-+From d076de030deb9cafd9b2e82be5d506cebdefad0b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 14:43:21 +0200
--Subject: [PATCH] Fix build with musl C library.
-+Subject: [PATCH 1/9] Fix build with musl C library.
- 
--Upstream-Status: Inappropriate [problem already solved in master branch]
-+Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
--
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- configure.ac        | 3 ++-
-- misc/Makefile.am    | 3 +--
-- misc/rpmxprogname.c | 3 +--
-- 3 files changed, 4 insertions(+), 5 deletions(-)
-+ configure.ac       | 3 ++-
-+ rpmio/digest_nss.c | 1 +
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 92ffd3d68..9c58467c1 100644
-+index c04a2e8d1..c9d9ac16d 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -229,6 +229,7 @@ AC_SEARCH_LIBS(dlopen, [dl])
-+@@ -255,6 +255,7 @@ AC_SEARCH_LIBS(dlopen, [dl])
-  # Check for libelf library. Prefer external, otherwise none.
-  WITH_LIBELF_LIB=
-  AC_CHECK_HEADER([libelf.h])
-@@ -26,7 +23,7 @@ index 92ffd3d68..9c58467c1 100644
-  AC_CHECK_HEADERS([gelf.h], [
-  	AC_CHECK_LIB(elf, gelf_getvernaux, [
-  	    AC_DEFINE(HAVE_LIBELF, 1, [Define to 1 if you have the 'elf' library (-lelf).])
--@@ -237,7 +238,7 @@ AC_CHECK_HEADERS([gelf.h], [
-+@@ -263,7 +264,7 @@ AC_CHECK_HEADERS([gelf.h], [
-  	])
-  ])
-  AC_SUBST(WITH_LIBELF_LIB)
-@@ -35,40 +32,17 @@ index 92ffd3d68..9c58467c1 100644
-  
-  AC_CHECK_HEADERS([dwarf.h], [
-    WITH_LIBDWARF=yes
--diff --git a/misc/Makefile.am b/misc/Makefile.am
--index 8bf0093d9..b9db3d31a 100644
----- a/misc/Makefile.am
--+++ b/misc/Makefile.am
--@@ -5,10 +5,9 @@ AM_CPPFLAGS += -I$(top_srcdir)/misc
-- 
-- EXTRA_DIST = \
-- 	fnmatch.c	fnmatch.h \
---	rpmxprogname.c	rpmxprogname.h \
-- 	stpcpy.c	stpncpy.c
-- 
-- noinst_LTLIBRARIES = libmisc.la
-- 
---libmisc_la_SOURCES = fts.c fts.h
--+libmisc_la_SOURCES = fts.c fts.h rpmxprogname.c rpmxprogname.h
-- libmisc_la_LIBADD = @LTLIBOBJS@
--diff --git a/misc/rpmxprogname.c b/misc/rpmxprogname.c
--index f89600613..e94625ea8 100644
----- a/misc/rpmxprogname.c
--+++ b/misc/rpmxprogname.c
--@@ -13,7 +13,7 @@ char *_rpmxgetprogname(void)
-- {
--   const char *empty = "";
-- 
---  if (_rpmxprognam != NULL) /* never return NULL string */
--+  if (_rpmxprogname != NULL) /* never return NULL string */
--     return _rpmxprogname;
--   else
--     return empty;
--@@ -30,4 +30,3 @@ void _rpmxsetprogname(const char *pn)
--   }
-- }
-+diff --git a/rpmio/digest_nss.c b/rpmio/digest_nss.c
-+index 992d9acf6..e11920e3e 100644
-+--- a/rpmio/digest_nss.c
-++++ b/rpmio/digest_nss.c
-+@@ -1,5 +1,6 @@
-+ #include "system.h"
-  
---#endif /* _RPMXPROGNAME_H */
-++#include <signal.h>
-+ #include <pthread.h>
-+ #include <nss.h>
-+ #include <sechash.h>
- -- 
--2.11.0
-+2.14.2
- 
-diff --git a/meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch b/meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
-deleted file mode 100644
-index 9648cac7c9b..00000000000
---- a/meta/recipes-devtools/rpm/files/0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From d42ece6fa15b98d7f9221b90b85b78631df2c0a0 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 14 Feb 2017 13:51:19 +0200
--Subject: [PATCH] When nice value cannot be reset, issue a notice instead of a
-- warning
--
--Otherwise build logs on the autobuilder get very clutter, as it
--doesn't allow the nice value to be reset for some reason.
--
--Upstream-Status: Inappropriate [oe specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- lib/rpmscript.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/rpmscript.c b/lib/rpmscript.c
--index 5e1e99906..3975aead8 100644
----- a/lib/rpmscript.c
--+++ b/lib/rpmscript.c
--@@ -347,7 +347,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
--         int ret;
--         ret = setpriority(PRIO_PROCESS, 0, 0);
--         if (ret == -1) {
---            rpmlog(RPMLOG_WARNING, _("Unable to reset nice value: %s"),
--+            rpmlog(RPMLOG_NOTICE, _("Unable to reset nice value: %s\n"),
--                 strerror(errno));
--         }
-- 
---- 
--2.11.0
--
-diff --git a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-index 64a5651f7e1..8989dcebd1e 100644
---- a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-+++ b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-@@ -1,7 +1,7 @@
--From ec305795a302d226343e69031ff2024dfcde69c0 Mon Sep 17 00:00:00 2001
-+From 8ce9fbab2990609bdace457e146160334e931c89 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 8 Jun 2017 17:08:09 +0300
--Subject: [PATCH 3/3] build/pack.c: remove static local variables from
-+Subject: [PATCH 14/15] build/pack.c: remove static local variables from
-  buildHost() and getBuildTime()
- 
- Their use is causing difficult to diagnoze data races when building multiple
-@@ -11,8 +11,8 @@ difficult to reason about code.
- Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
--
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  build/build.c             | 54 ++++++++++++++++++++++++++++--
-  build/pack.c              | 84 +++++++++--------------------------------------
-@@ -20,7 +20,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 74 insertions(+), 72 deletions(-)
- 
- diff --git a/build/build.c b/build/build.c
--index 5f99c8db7..09a1311c5 100644
-+index 81152e53e..6001f9e52 100644
- --- a/build/build.c
- +++ b/build/build.c
- @@ -6,6 +6,8 @@
-@@ -83,7 +83,7 @@ index 5f99c8db7..09a1311c5 100644
-  /**
-   */
-  static rpmRC doRmSource(rpmSpec spec)
--@@ -203,6 +249,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-+@@ -201,6 +247,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-      rpmRC rc = RPMRC_OK;
-      int test = (what & RPMBUILD_NOBUILD);
-      char *cookie = buildArgs->cookie ? xstrdup(buildArgs->cookie) : NULL;
-@@ -93,7 +93,7 @@ index 5f99c8db7..09a1311c5 100644
-  
-      if (rpmExpandNumeric("%{?source_date_epoch_from_changelog}") &&
-  	getenv("SOURCE_DATE_EPOCH") == NULL) {
--@@ -271,11 +320,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-+@@ -269,11 +318,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-  		goto exit;
-  
-  	if (((what & RPMBUILD_PACKAGESOURCE) && !test) &&
-@@ -107,7 +107,7 @@ index 5f99c8db7..09a1311c5 100644
-  		goto exit;
-  	
-  	if ((what & RPMBUILD_CLEAN) &&
--@@ -295,6 +344,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-+@@ -293,6 +342,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
-  	(void) unlink(spec->specFile);
-  
-  exit:
-@@ -116,7 +116,7 @@ index 5f99c8db7..09a1311c5 100644
-      spec->rootDir = NULL;
-      if (rc != RPMRC_OK && rpmlogGetNrecs() > 0) {
- diff --git a/build/pack.c b/build/pack.c
--index ed5b9ab4e..62427065a 100644
-+index df15876ff..17a4b0905 100644
- --- a/build/pack.c
- +++ b/build/pack.c
- @@ -6,8 +6,6 @@
-@@ -128,7 +128,7 @@ index ed5b9ab4e..62427065a 100644
-  #include <sys/wait.h>
-  
-  #include <rpm/rpmlib.h>			/* RPMSIGTAG*, rpmReadPackageFile */
--@@ -151,57 +149,6 @@ exit:
-+@@ -152,57 +150,6 @@ exit:
-      return rc;
-  }
-  
-@@ -186,9 +186,9 @@ index ed5b9ab4e..62427065a 100644
-  static rpmRC processScriptFiles(rpmSpec spec, Package pkg)
-  {
-      struct TriggerFileEntry *p;
--@@ -308,7 +255,8 @@ static int haveRichDep(Package pkg)
-- }
-- 
-+@@ -476,7 +423,8 @@ exit:
-+  * order to how the RPM format is laid on disk.
-+  */
-  static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
- -		      const char *fileName, char **cookie)
- +		      const char *fileName, char **cookie,
-@@ -196,7 +196,7 @@ index ed5b9ab4e..62427065a 100644
-  {
-      FD_t fd = NULL;
-      char * rpmio_flags = NULL;
--@@ -397,7 +345,7 @@ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
-+@@ -500,7 +448,7 @@ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
-  
-      /* Create and add the cookie */
-      if (cookie) {
-@@ -204,8 +204,8 @@ index ed5b9ab4e..62427065a 100644
- +	rasprintf(cookie, "%s %d", buildHost, buildTime);
-  	headerPutString(pkg->header, RPMTAG_COOKIE, *cookie);
-      }
--     
--@@ -546,7 +494,7 @@ static rpmRC checkPackages(char *pkgcheck)
-+ 
-+@@ -641,7 +589,7 @@ static rpmRC checkPackages(char *pkgcheck)
-      return RPMRC_OK;
-  }
-  
-@@ -214,7 +214,7 @@ index ed5b9ab4e..62427065a 100644
-  {
-  	const char *errorString;
-  	rpmRC rc = RPMRC_OK;
--@@ -565,8 +513,8 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-+@@ -660,8 +608,8 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-  	headerCopyTags(spec->packages->header, pkg->header, copyTags);
-  	
-  	headerPutString(pkg->header, RPMTAG_RPMVERSION, VERSION);
-@@ -225,7 +225,7 @@ index ed5b9ab4e..62427065a 100644
-  
-  	if (spec->sourcePkgId != NULL) {
-  	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
--@@ -604,7 +552,7 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-+@@ -699,7 +647,7 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-  	    free(binRpm);
-  	}
-  
-@@ -234,7 +234,7 @@ index ed5b9ab4e..62427065a 100644
-  	if (rc == RPMRC_OK) {
-  	    /* Do check each written package if enabled */
-  	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
--@@ -624,7 +572,7 @@ struct binaryPackageTaskData
-+@@ -719,7 +667,7 @@ struct binaryPackageTaskData
-      struct binaryPackageTaskData *next;
-  };
-  
-@@ -243,7 +243,7 @@ index ed5b9ab4e..62427065a 100644
-  {
-      struct binaryPackageTaskData *tasks = NULL;
-      struct binaryPackageTaskData *task = NULL;
--@@ -636,7 +584,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
-+@@ -731,7 +679,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
-          if (pkg == spec->packages) {
-              // the first package needs to be processed ahead of others, as they copy
-              // changelog data from it, and so otherwise data races would happen
-@@ -252,7 +252,7 @@ index ed5b9ab4e..62427065a 100644
-              rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
-              tasks = task;
-          }
--@@ -653,7 +601,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
-+@@ -748,7 +696,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
-          if (task != tasks)
-          #pragma omp task
-          {
-@@ -261,7 +261,7 @@ index ed5b9ab4e..62427065a 100644
-              rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
-          }
-      }
--@@ -671,11 +619,11 @@ static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
-+@@ -766,11 +714,11 @@ static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
-      }
-  }
-  
-@@ -275,7 +275,7 @@ index ed5b9ab4e..62427065a 100644
-  
-      for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
-          if (task->result == RPMRC_OK) {
--@@ -702,22 +650,22 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-+@@ -797,7 +745,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-      return RPMRC_OK;
-  }
-  
-@@ -284,6 +284,7 @@ index ed5b9ab4e..62427065a 100644
-  {
-      Package sourcePkg = spec->sourcePackage;
-      rpmRC rc;
-+@@ -805,8 +753,8 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
-  
-      /* Add some cruft */
-      headerPutString(sourcePkg->header, RPMTAG_RPMVERSION, VERSION);
-@@ -291,9 +292,10 @@ index ed5b9ab4e..62427065a 100644
- -    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
- +    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost);
- +    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
-+     headerPutUint32(sourcePkg->header, RPMTAG_SOURCEPACKAGE, &one, 1);
-  
-      /* XXX this should be %_srpmdir */
--     {	char *fn = rpmGetPath("%{_srcrpmdir}/", spec->sourceRpmName,NULL);
-+@@ -814,7 +762,7 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
-  	char *pkgcheck = rpmExpand("%{?_build_pkgcheck_srpm} ", fn, NULL);
-  
-  	spec->sourcePkgId = NULL;
-@@ -303,10 +305,10 @@ index ed5b9ab4e..62427065a 100644
-  	/* Do check SRPM package if enabled */
-  	if (rc == RPMRC_OK && pkgcheck[0] != ' ') {
- diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h
--index 8351a6a34..797337ca7 100644
-+index 439b7d3b5..07e8338ad 100644
- --- a/build/rpmbuild_internal.h
- +++ b/build/rpmbuild_internal.h
--@@ -408,19 +408,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuildPkgFlags pkgFlags);
-+@@ -427,19 +427,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuildPkgFlags pkgFlags);
-   * @param spec		spec file control structure
-   * @param cookie	build identifier "cookie" or NULL
-   * @param cheating	was build shortcircuited?
-@@ -333,5 +335,5 @@ index 8351a6a34..797337ca7 100644
-  RPM_GNUC_INTERNAL
-  int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,
- -- 
--2.11.0
-+2.14.2
- 
-diff --git a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-index c910a478eea..4ac5c38f063 100644
---- a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-+++ b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-@@ -1,7 +1,7 @@
--From d65d6e8760afbd7f70b22a1f3297a037bc475fea Mon Sep 17 00:00:00 2001
-+From 5141d50d7b3d3c209a22c53deedb4ceef014401d Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Mon, 15 May 2017 10:21:08 +0200
--Subject: [PATCH 11/13] Do not require that ELF binaries are executable to be
-+Subject: [PATCH 09/15] Do not require that ELF binaries are executable to be
-  identifiable
- 
- There is nothing that requires, e.g., a DSO to be executable, but it
-@@ -14,19 +14,20 @@ or not.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+
- ---
-  fileattrs/elf.attr | 1 -
-  1 file changed, 1 deletion(-)
- 
- diff --git a/fileattrs/elf.attr b/fileattrs/elf.attr
--index 595b33e09..bac52649d 100644
-+index 5805dd0ee..3516f309d 100644
- --- a/fileattrs/elf.attr
- +++ b/fileattrs/elf.attr
- @@ -1,4 +1,3 @@
-  %__elf_provides		%{_rpmconfigdir}/elfdeps --provides %{?__filter_GLIBC_PRIVATE:--filter-private}
-  %__elf_requires		%{_rpmconfigdir}/elfdeps --requires %{?__filter_GLIBC_PRIVATE:--filter-private}
-- %__elf_magic		^(setuid )?(setgid )?(sticky )?ELF (32|64)-bit.*$
-+ %__elf_magic		^(setuid,? )?(setgid,? )?(sticky )?ELF (32|64)-bit.*$
- -%__elf_flags		exeonly
- -- 
--2.12.0
-+2.14.2
- 
-diff --git a/meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch b/meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
-deleted file mode 100644
-index 996da90d43d..00000000000
---- a/meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 77808db4036dc4a012c47aca36255549ed764a6a Mon Sep 17 00:00:00 2001
--From: Peter Kjellerstedt <pkj@axis.com>
--Date: Tue, 16 May 2017 10:58:18 +0200
--Subject: [PATCH 12/13] Use conditional to access %{_docdir} in macros.in
--
--This avoids the following warning:
--
--warning: Ignoring invalid regex %{_docdir}
--
--when runing `rpmdeps -R <file>`, since %{_docdir} is only defined when
--parsing a spec file (in parseSpec()).
--
--Upstream-Status: Accepted [https://github.com/rpm-software-management/rpm/pull/216]
--Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-----
-- macros.in | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/macros.in b/macros.in
--index 84ae25275..cca67a500 100644
----- a/macros.in
--+++ b/macros.in
--@@ -200,8 +200,8 @@ package or when debugging this package.\
-- # Their purpouse is to set up global filtering for all packages. If you need
-- # to set up specific filtering for your package use %__requires_exclude_from
-- # and %__provides_exclude_from instead.
---%__global_requires_exclude_from		%{_docdir}
---%__global_provides_exclude_from		%{_docdir}
--+%__global_requires_exclude_from		%{?_docdir:%{_docdir}}
--+%__global_provides_exclude_from		%{?_docdir:%{_docdir}}
-- 
-- #	The path to the gzip executable (legacy, use %{__gzip} instead).
-- %_gzipbin		%{__gzip}
---- 
--2.12.0
--
-diff --git a/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch b/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
-index faaf62960c1..d84e8b54d8d 100644
---- a/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
-+++ b/meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
-@@ -1,7 +1,7 @@
--From 3bf20a6116ae3e1a5a3a6907bee7e881b17efb2f Mon Sep 17 00:00:00 2001
-+From ef9f8c17c3e5c35d3b55db9ca76b0fa0d6336421 Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Mon, 15 May 2017 11:23:26 +0200
--Subject: [PATCH 13/13] Add a new option --alldeps to rpmdeps
-+Subject: [PATCH 10/15] Add a new option --alldeps to rpmdeps
- 
- This will send the output from rpmfcPrint() to stdout. This is an
- alternative to using the --rpmfcdebug option, which will send the same
-@@ -12,6 +12,7 @@ output options, e.g., --requires, without affecting their output.
- 
- Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/220]
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+
- ---
-  build/rpmfc.c   | 27 ++++++++++++++-------------
-  build/rpmfc.h   |  1 -
-@@ -19,10 +20,10 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-  3 files changed, 39 insertions(+), 33 deletions(-)
- 
- diff --git a/build/rpmfc.c b/build/rpmfc.c
--index c8e2f876a..44f1cdc9a 100644
-+index b8aea76d0..d04ffb297 100644
- --- a/build/rpmfc.c
- +++ b/build/rpmfc.c
--@@ -732,7 +732,6 @@ static rpm_color_t rpmfcColor(const char * fmstr)
-+@@ -692,7 +692,6 @@ static rpm_color_t rpmfcColor(const char * fmstr)
-  
-  void rpmfcPrint(const char * msg, rpmfc fc, FILE * fp)
-  {
-@@ -30,7 +31,7 @@ index c8e2f876a..44f1cdc9a 100644
-      int ndx;
-      int dx;
-      int fx;
--@@ -744,21 +743,23 @@ void rpmfcPrint(const char * msg, rpmfc fc, FILE * fp)
-+@@ -704,21 +703,23 @@ void rpmfcPrint(const char * msg, rpmfc fc, FILE * fp)
-  
-      if (fc)
-      for (fx = 0; fx < fc->nfiles; fx++) {
-@@ -79,7 +80,7 @@ index dae8ea5b1..3d87b31cf 100644
-   * @param fc		file classifier
-   * @param fp		output file handle (NULL for stderr)
- diff --git a/tools/rpmdeps.c b/tools/rpmdeps.c
--index a414b6343..f260a38c4 100644
-+index 419befce1..f260a38c4 100644
- --- a/tools/rpmdeps.c
- +++ b/tools/rpmdeps.c
- @@ -23,6 +23,8 @@ static int print_conflicts;
-@@ -105,7 +106,7 @@ index a414b6343..f260a38c4 100644
-  	goto exit;
-  
- -    if (_rpmfc_debug)
---	rpmfcPrint(buf, fc, NULL);
-+-	rpmfcPrint(NULL, fc, NULL);
- -
- -    if (print_provides)
- -	rpmdsPrint(NULL, rpmfcProvides(fc), stdout);
-@@ -148,5 +149,5 @@ index a414b6343..f260a38c4 100644
-      ec = 0;
-  
- -- 
--2.12.0
-+2.14.2
- 
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_4.14.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/rpm/rpm_git.bb
-rename to meta/recipes-devtools/rpm/rpm_4.14.0.bb
-index 57b9c2d6acc..e4e9c3e6341 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.0.bb
-@@ -24,19 +24,16 @@ HOMEPAGE = "http://www.rpm.org"
- LICENSE = "GPL-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5259151d26ff18e78023450a5ac8d96"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm \
-+SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-            file://0001-Do-not-read-config-files-from-HOME.patch \
-            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
-            file://0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch \
-            file://0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch \
--           file://0001-When-nice-value-cannot-be-reset-issue-a-notice-inste.patch \
-            file://0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch \
-            file://0001-Fix-build-with-musl-C-library.patch \
-            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
--           file://0001-Add-PYTHON_ABI-when-searching-for-python-libraries.patch \
-            file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
--           file://0012-Use-conditional-to-access-_docdir-in-macros.in.patch \
-            file://0013-Add-a-new-option-alldeps-to-rpmdeps.patch \
-            file://0001-Split-binary-package-building-into-a-separate-functi.patch \
-            file://0002-Run-binary-package-creation-via-thread-pools.patch \
-@@ -45,9 +42,8 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
-            file://0001-perl-disable-auto-reqs.patch \
-            "
- 
--PV = "4.13.90+git${SRCPV}"
- PE = "1"
--SRCREV = "a8e51b3bb05c6acb1d9b2e3d34f859ddda1677be"
-+SRCREV = "da3720f62e57648fb1dc2a632744d38866139971"
- 
- S = "${WORKDIR}/git"
- 
+  git://git.yoctoproject.org/poky-contrib ross/mut
+
+for you to fetch changes up to f64e867d1ff5e559a96f44fac8a2434ad2643502:
+
+  meta-selftest: wic: Add test for --use-uuid / --fsuuid (2017-12-16 00:21:42 +0000)
+
+----------------------------------------------------------------
+Alejandro Hernandez (4):
+      busybox: Add mkfs.EXT2 support on poky-tiny
+      linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+      linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.12
+      linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+
+Alexander Kanavin (9):
+      gobject-introspection: update to 1.54.1
+      webkitgtk: update to 2.18.3
+      psmisc: update to 23.0
+      ffmpeg: update to 3.4
+      devtool: add a 'latest-version' command
+      devtool: provide useful defaults for version/commit when upgrading recipes
+      devtool: add license checksum change handling to 'devtool upgrade'
+      maintainers.inc: add an entry for dwarfsrcfiles
+      maintainers.inc: add an entry for pkgconf
+
+Chang Rebecca Swee Fun (1):
+      recipetool: create: fix conflict between SRCREV and tag
+
+Chen Qi (4):
+      coreutils: upgrade to 8.28
+      coreutils: add PACKAGECONFIG for single-binary
+      dbus: upgrade to 1.12.2
+      dbus-test: upgrade to 1.12.2
+
+Jackie Huang (1):
+      glib-2.0: fix for non-utf8 encoded files
+
+Jason Wessel (2):
+      ovmf: Fix build failure for PARALLEL_MAKE with no space
+      libgfortran: Work around libbacktrace build failures
+
+Joe Slater (1):
+      systemd: fix segfault when terminating systemd --test
+
+Kevin Hao (1):
+      meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86 BSPs
+
+Maxin B. John (3):
+      mc: upgrade to 4.8.20
+      orc: upgrade to 0.4.28
+      libunistring: upgrade to 0.9.8
+
+Nathan Rossi (5):
+      prelink_git.bb: Update recipe to newest commit
+      autoconf: Override config.guess/.sub in source tree
+      packagegroup-core-sdk: Disable SANITIZERS for MicroBlaze
+      packagegroup-core-tools-testapps: kexec does not support MicroBlaze
+      conf/machine/include/microblaze: Add MicroBlaze architecture includes
+
+Otavio Salvador (1):
+      mesa: Upgrade to 17.2.6 stable release
+
+Paul Eggleton (1):
+      swig: add patch to support Node.js 7+
+
+Robert Yang (1):
+      targetcontrol.py: use oe.types.boolean for QEMU_USE_KVM
+
+Ross Burton (8):
+      knotty: use unicode block characters for progress bars
+      weston: remove patch that isn't applied anymore
+      gtk+3: remove redundant Wayland patch
+      xserver-xorg: remove redundant Wayland patch
+      gstreamer1.0-plugins-bad: remove redundant Wayland patch
+      libxslt: use HTTP instead of FTP in SRC_URI
+      libxslt: remove inappropriate patch
+      packagegroups: don't mention lrzsz explicity
+
+Saul Wold (2):
+      image_types: btrfs use sparse file creation
+      image.bbclass: Add additional bb.debug to help track 12304
+
+Tom Rini (4):
+      wic: kparser.py: Check for SquashFS and use-uuid
+      wic: partition.py: Update comments slightly
+      wic: Introduce --fsuuid and have --use-uuid make use of UUID too
+      meta-selftest: wic: Add test for --use-uuid / --fsuuid
+
+Yi Zhao (1):
+      icu: fix libicudata corruption on big endian system
+
+ bitbake/lib/bb/ui/knotty.py                        |   4 +-
+ .../busybox/busybox/poky-tiny/defconfig            |   2 +-
+ .../recipes-test/images/wic-image-minimal.wks      |   1 +
+ .../recipes-kernel/linux/linux-yocto_4.12.bbappend |  20 +-
+ .../recipes-kernel/linux/linux-yocto_4.4.bbappend  |  20 +-
+ .../recipes-kernel/linux/linux-yocto_4.9.bbappend  |  20 +-
+ meta/classes/image.bbclass                         |  28 +-
+ meta/classes/image_types.bbclass                   |   2 +-
+ meta/classes/testimage.bbclass                     |   2 +-
+ meta/conf/distro/include/maintainers.inc           |   2 +
+ .../machine/include/microblaze/arch-microblaze.inc |  53 ++++
+ .../include/microblaze/feature-microblaze-math.inc |  33 +++
+ .../microblaze/feature-microblaze-versions.inc     |  67 +++++
+ meta/conf/machine/include/tune-microblaze.inc      |   8 +
+ meta/lib/oeqa/selftest/cases/wic.py                |   7 +-
+ meta/lib/oeqa/targetcontrol.py                     |   4 +-
+ ...c-fix-Up-field-of-realpath-usage-examples.patch |  40 +++
+ .../{coreutils_8.27.bb => coreutils_8.28.bb}       |  10 +-
+ .../{dbus-test_1.10.20.bb => dbus-test_1.12.2.bb}  |   4 +-
+ meta/recipes-core/dbus/dbus/os-test.patch          |  35 ---
+ .../dbus/{dbus_1.10.20.bb => dbus_1.12.2.bb}       |  12 +-
+ .../glib-mkenums-replace-and-warn-decoding.patch   | 104 +++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.54.2.bb      |   1 +
+ meta/recipes-core/ovmf/ovmf_git.bb                 |   2 +-
+ .../packagegroups/packagegroup-base.bb             |   3 +-
+ .../packagegroups/packagegroup-core-sdk.bb         |   1 +
+ .../packagegroup-core-tools-testapps.bb            |   4 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   1 -
+ ...te-presets-after-generators-have-run-6526.patch |  69 +++++
+ ...any-initialization-steps-when-running-in-.patch | 163 ++++++++++
+ meta/recipes-core/systemd/systemd_234.bb           |   2 +
+ meta/recipes-devtools/autoconf/autoconf.inc        |   4 +
+ meta/recipes-devtools/gcc/libgfortran.inc          |   7 +
+ .../orc/{orc_0.4.27.bb => orc_0.4.28.bb}           |   4 +-
+ meta/recipes-devtools/prelink/prelink_git.bb       |   2 +-
+ .../0001-Add-Node-7.x-aka-V8-5.2-support.patch     | 330 +++++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb          |   1 +
+ ...3697-tty_init-unify-curses-initialization.patch |  66 -----
+ .../mc/{mc_4.8.19.bb => mc_4.8.20.bb}              |   5 +-
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 -
+ ...001-Typo-in-fuser-makes-M-on-all-the-time.patch |  46 ---
+ .../files/0002-Include-limits.h-for-PATH_MAX.patch |  29 --
+ meta/recipes-extended/psmisc/psmisc.inc            |   9 +
+ ...-create-src-directory-before-attempting-t.patch |  30 ++
+ meta/recipes-extended/psmisc/psmisc_22.21.bb       |  12 -
+ meta/recipes-extended/psmisc/psmisc_23.0.bb        |  10 +
+ ...n_1.52.1.bb => gobject-introspection_1.54.1.bb} |   7 +-
+ ...4-configure.ac-Fix-wayland-protocols-path.patch |  36 ---
+ meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb           |   1 -
+ .../mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb}  |   0
+ .../mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb}        |   4 +-
+ ...1-configure.ac-Fix-wayland-protocols-path.patch |  29 --
+ ...c-Fix-wayland-scanner-and-protocols-locat.patch |  38 ---
+ .../xorg-xserver/xserver-xorg_1.19.5.bb            |   1 -
+ .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    |  44 ---
+ .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |   8 +-
+ ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch |  38 ---
+ .../gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb   |   1 -
+ .../webkitgtk/0001-Fix-build-with-musl.patch       |  77 +++++
+ ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch |  23 +-
+ ...c-settings-so-that-gtkdoc-generation-work.patch |  21 +-
+ ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 182 +++++-------
+ ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  24 +-
+ .../detect-atomics-during-configure.patch          |  26 +-
+ meta/recipes-sato/webkit/webkitgtk/gcc7.patch      |  23 --
+ .../recipes-sato/webkit/webkitgtk/musl-fixes.patch |  48 ---
+ .../webkit/webkitgtk/ppc-musl-fix.patch            |  26 --
+ .../{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb}   |  13 +-
+ meta/recipes-support/icu/icu.inc                   |  13 +
+ ...conv-m4-remove-the-test-to-convert-euc-jp.patch |  56 ++--
+ ...libunistring_0.9.7.bb => libunistring_0.9.8.bb} |   6 +-
+ .../libxslt/libxslt/pkgconfig_fix.patch            |  24 --
+ meta/recipes-support/libxslt/libxslt_1.1.32.bb     |   5 +-
+ scripts/lib/devtool/upgrade.py                     | 117 +++++++-
+ scripts/lib/recipetool/create.py                   |   8 +-
+ scripts/lib/wic/help.py                            |  10 +-
+ scripts/lib/wic/ksparser.py                        |   6 +
+ scripts/lib/wic/partition.py                       |  36 +--
+ scripts/lib/wic/plugins/imager/direct.py           |  17 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |   3 +-
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |   3 +-
+ 81 files changed, 1465 insertions(+), 789 deletions(-)
+ create mode 100644 meta/conf/machine/include/microblaze/arch-microblaze.inc
+ create mode 100644 meta/conf/machine/include/microblaze/feature-microblaze-math.inc
+ create mode 100644 meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+ create mode 100644 meta/conf/machine/include/tune-microblaze.inc
+ create mode 100644 meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.27.bb => coreutils_8.28.bb} (93%)
+ rename meta/recipes-core/dbus/{dbus-test_1.10.20.bb => dbus-test_1.12.2.bb} (93%)
+ delete mode 100644 meta/recipes-core/dbus/dbus/os-test.patch
+ rename meta/recipes-core/dbus/{dbus_1.10.20.bb => dbus_1.12.2.bb} (93%)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-mkenums-replace-and-warn-decoding.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
+ rename meta/recipes-devtools/orc/{orc_0.4.27.bb => orc_0.4.28.bb} (84%)
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
+ delete mode 100644 meta/recipes-extended/mc/files/0002-Ticket-3697-tty_init-unify-curses-initialization.patch
+ rename meta/recipes-extended/mc/{mc_4.8.19.bb => mc_4.8.20.bb} (90%)
+ delete mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+ delete mode 100644 meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
+ create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Makefile.am-create-src-directory-before-attempting-t.patch
+ delete mode 100644 meta/recipes-extended/psmisc/psmisc_22.21.bb
+ create mode 100644 meta/recipes-extended/psmisc/psmisc_23.0.bb
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.52.1.bb => gobject-introspection_1.54.1.bb} (97%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/gcc7.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/musl-fixes.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb} (93%)
+ rename meta/recipes-support/libunistring/{libunistring_0.9.7.bb => libunistring_0.9.8.bb} (85%)
+ delete mode 100644 meta/recipes-support/libxslt/libxslt/pkgconfig_fix.patch
+
+Alejandro Hernandez (4):
+  busybox: Add mkfs.EXT2 support on poky-tiny
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.12
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+
+Alexander Kanavin (9):
+  gobject-introspection: update to 1.54.1
+  webkitgtk: update to 2.18.3
+  psmisc: update to 23.0
+  ffmpeg: update to 3.4
+  devtool: add a 'latest-version' command
+  devtool: provide useful defaults for version/commit when upgrading
+    recipes
+  devtool: add license checksum change handling to 'devtool upgrade'
+  maintainers.inc: add an entry for dwarfsrcfiles
+  maintainers.inc: add an entry for pkgconf
+
+Chang Rebecca Swee Fun (1):
+  recipetool: create: fix conflict between SRCREV and tag
+
+Chen Qi (4):
+  coreutils: upgrade to 8.28
+  coreutils: add PACKAGECONFIG for single-binary
+  dbus: upgrade to 1.12.2
+  dbus-test: upgrade to 1.12.2
+
+Jackie Huang (1):
+  glib-2.0: fix for non-utf8 encoded files
+
+Jason Wessel (2):
+  ovmf: Fix build failure for PARALLEL_MAKE with no space
+  libgfortran: Work around libbacktrace build failures
+
+Joe Slater (1):
+  systemd: fix segfault when terminating systemd --test
+
+Kevin Hao (1):
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+
+Maxin B. John (3):
+  mc: upgrade to 4.8.20
+  orc: upgrade to 0.4.28
+  libunistring: upgrade to 0.9.8
+
+Nathan Rossi (5):
+  prelink_git.bb: Update recipe to newest commit
+  autoconf: Override config.guess/.sub in source tree
+  packagegroup-core-sdk: Disable SANITIZERS for MicroBlaze
+  packagegroup-core-tools-testapps: kexec does not support MicroBlaze
+  conf/machine/include/microblaze: Add MicroBlaze architecture includes
+
+Otavio Salvador (1):
+  mesa: Upgrade to 17.2.6 stable release
+
+Paul Eggleton (1):
+  swig: add patch to support Node.js 7+
+
+Robert Yang (1):
+  targetcontrol.py: use oe.types.boolean for QEMU_USE_KVM
+
+Ross Burton (8):
+  knotty: use unicode block characters for progress bars
+  weston: remove patch that isn't applied anymore
+  gtk+3: remove redundant Wayland patch
+  xserver-xorg: remove redundant Wayland patch
+  gstreamer1.0-plugins-bad: remove redundant Wayland patch
+  libxslt: use HTTP instead of FTP in SRC_URI
+  libxslt: remove inappropriate patch
+  packagegroups: don't mention lrzsz explicity
+
+Saul Wold (2):
+  image_types: btrfs use sparse file creation
+  image.bbclass: Add additional bb.debug to help track 12304
+
+Tom Rini (4):
+  wic: kparser.py: Check for SquashFS and use-uuid
+  wic: partition.py: Update comments slightly
+  wic: Introduce --fsuuid and have --use-uuid make use of UUID too
+  meta-selftest: wic: Add test for --use-uuid / --fsuuid
+
+Yi Zhao (1):
+  icu: fix libicudata corruption on big endian system
+
+ bitbake/lib/bb/ui/knotty.py                        |   4 +-
+ .../busybox/busybox/poky-tiny/defconfig            |   2 +-
+ .../recipes-test/images/wic-image-minimal.wks      |   1 +
+ .../recipes-kernel/linux/linux-yocto_4.12.bbappend |  20 +-
+ .../recipes-kernel/linux/linux-yocto_4.4.bbappend  |  20 +-
+ .../recipes-kernel/linux/linux-yocto_4.9.bbappend  |  20 +-
+ meta/classes/image.bbclass                         |  28 +-
+ meta/classes/image_types.bbclass                   |   2 +-
+ meta/classes/testimage.bbclass                     |   2 +-
+ meta/conf/distro/include/maintainers.inc           |   2 +
+ .../machine/include/microblaze/arch-microblaze.inc |  53 ++++
+ .../include/microblaze/feature-microblaze-math.inc |  33 +++
+ .../microblaze/feature-microblaze-versions.inc     |  67 +++++
+ meta/conf/machine/include/tune-microblaze.inc      |   8 +
+ meta/lib/oeqa/selftest/cases/wic.py                |   7 +-
+ meta/lib/oeqa/targetcontrol.py                     |   4 +-
+ ...c-fix-Up-field-of-realpath-usage-examples.patch |  40 +++
+ .../{coreutils_8.27.bb => coreutils_8.28.bb}       |  10 +-
+ .../{dbus-test_1.10.20.bb => dbus-test_1.12.2.bb}  |   4 +-
+ meta/recipes-core/dbus/dbus/os-test.patch          |  35 ---
+ .../dbus/{dbus_1.10.20.bb => dbus_1.12.2.bb}       |  12 +-
+ .../glib-mkenums-replace-and-warn-decoding.patch   | 104 +++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.54.2.bb      |   1 +
+ meta/recipes-core/ovmf/ovmf_git.bb                 |   2 +-
+ .../packagegroups/packagegroup-base.bb             |   3 +-
+ .../packagegroups/packagegroup-core-sdk.bb         |   1 +
+ .../packagegroup-core-tools-testapps.bb            |   4 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   1 -
+ ...te-presets-after-generators-have-run-6526.patch |  69 +++++
+ ...any-initialization-steps-when-running-in-.patch | 163 ++++++++++
+ meta/recipes-core/systemd/systemd_234.bb           |   2 +
+ meta/recipes-devtools/autoconf/autoconf.inc        |   4 +
+ meta/recipes-devtools/gcc/libgfortran.inc          |   7 +
+ .../orc/{orc_0.4.27.bb => orc_0.4.28.bb}           |   4 +-
+ meta/recipes-devtools/prelink/prelink_git.bb       |   2 +-
+ .../0001-Add-Node-7.x-aka-V8-5.2-support.patch     | 330 +++++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb          |   1 +
+ ...3697-tty_init-unify-curses-initialization.patch |  66 -----
+ .../mc/{mc_4.8.19.bb => mc_4.8.20.bb}              |   5 +-
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 -
+ ...001-Typo-in-fuser-makes-M-on-all-the-time.patch |  46 ---
+ .../files/0002-Include-limits.h-for-PATH_MAX.patch |  29 --
+ meta/recipes-extended/psmisc/psmisc.inc            |   9 +
+ ...-create-src-directory-before-attempting-t.patch |  30 ++
+ meta/recipes-extended/psmisc/psmisc_22.21.bb       |  12 -
+ meta/recipes-extended/psmisc/psmisc_23.0.bb        |  10 +
+ ...n_1.52.1.bb => gobject-introspection_1.54.1.bb} |   7 +-
+ ...4-configure.ac-Fix-wayland-protocols-path.patch |  36 ---
+ meta/recipes-gnome/gtk+/gtk+3_3.22.24.bb           |   1 -
+ .../mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb}  |   0
+ .../mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb}        |   4 +-
+ ...1-configure.ac-Fix-wayland-protocols-path.patch |  29 --
+ ...c-Fix-wayland-scanner-and-protocols-locat.patch |  38 ---
+ .../xorg-xserver/xserver-xorg_1.19.5.bb            |   1 -
+ .../ffmpeg/ffmpeg/0001-build-fix-for-mips.patch    |  44 ---
+ .../ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb}      |   8 +-
+ ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch |  38 ---
+ .../gstreamer/gstreamer1.0-plugins-bad_1.12.3.bb   |   1 -
+ .../webkitgtk/0001-Fix-build-with-musl.patch       |  77 +++++
+ ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch |  23 +-
+ ...c-settings-so-that-gtkdoc-generation-work.patch |  21 +-
+ ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 182 +++++-------
+ ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  24 +-
+ .../detect-atomics-during-configure.patch          |  26 +-
+ meta/recipes-sato/webkit/webkitgtk/gcc7.patch      |  23 --
+ .../recipes-sato/webkit/webkitgtk/musl-fixes.patch |  48 ---
+ .../webkit/webkitgtk/ppc-musl-fix.patch            |  26 --
+ .../{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb}   |  13 +-
+ meta/recipes-support/icu/icu.inc                   |  13 +
+ ...conv-m4-remove-the-test-to-convert-euc-jp.patch |  56 ++--
+ ...libunistring_0.9.7.bb => libunistring_0.9.8.bb} |   6 +-
+ .../libxslt/libxslt/pkgconfig_fix.patch            |  24 --
+ meta/recipes-support/libxslt/libxslt_1.1.32.bb     |   5 +-
+ scripts/lib/devtool/upgrade.py                     | 117 +++++++-
+ scripts/lib/recipetool/create.py                   |   8 +-
+ scripts/lib/wic/help.py                            |  10 +-
+ scripts/lib/wic/ksparser.py                        |   6 +
+ scripts/lib/wic/partition.py                       |  36 +--
+ scripts/lib/wic/plugins/imager/direct.py           |  17 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |   3 +-
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |   3 +-
+ 81 files changed, 1465 insertions(+), 789 deletions(-)
+ create mode 100644 meta/conf/machine/include/microblaze/arch-microblaze.inc
+ create mode 100644 meta/conf/machine/include/microblaze/feature-microblaze-math.inc
+ create mode 100644 meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+ create mode 100644 meta/conf/machine/include/tune-microblaze.inc
+ create mode 100644 meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.27.bb => coreutils_8.28.bb} (93%)
+ rename meta/recipes-core/dbus/{dbus-test_1.10.20.bb => dbus-test_1.12.2.bb} (93%)
+ delete mode 100644 meta/recipes-core/dbus/dbus/os-test.patch
+ rename meta/recipes-core/dbus/{dbus_1.10.20.bb => dbus_1.12.2.bb} (93%)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-mkenums-replace-and-warn-decoding.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
+ rename meta/recipes-devtools/orc/{orc_0.4.27.bb => orc_0.4.28.bb} (84%)
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Add-Node-7.x-aka-V8-5.2-support.patch
+ delete mode 100644 meta/recipes-extended/mc/files/0002-Ticket-3697-tty_init-unify-curses-initialization.patch
+ rename meta/recipes-extended/mc/{mc_4.8.19.bb => mc_4.8.20.bb} (90%)
+ delete mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+ delete mode 100644 meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
+ create mode 100644 meta/recipes-extended/psmisc/psmisc/0001-Makefile.am-create-src-directory-before-attempting-t.patch
+ delete mode 100644 meta/recipes-extended/psmisc/psmisc_22.21.bb
+ create mode 100644 meta/recipes-extended/psmisc/psmisc_23.0.bb
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.52.1.bb => gobject-introspection_1.54.1.bb} (97%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/0004-configure.ac-Fix-wayland-protocols-path.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.2.5.bb => mesa-gl_17.2.6.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.2.5.bb => mesa_17.2.6.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-build-fix-for-mips.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/gcc7.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/musl-fixes.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.16.6.bb => webkitgtk_2.18.3.bb} (93%)
+ rename meta/recipes-support/libunistring/{libunistring_0.9.7.bb => libunistring_0.9.8.bb} (85%)
+ delete mode 100644 meta/recipes-support/libxslt/libxslt/pkgconfig_fix.patch
+
 -- 
-2.15.0
+2.11.0
 
 
