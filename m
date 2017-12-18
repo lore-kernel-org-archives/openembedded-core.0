@@ -1,47 +1,41 @@
-Return-Path: <taborskikrzysztof@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 2498A71B32
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DA70071B48
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 15:51:06 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id i11so30099545wmf.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 07:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=vE1hNSMQhJM4PfUKcLOkgdhGSAUb+SUShjtR3n/TqXo=;
-	b=mUXj1MHLfY8LejintH/RsKhs3cHnpdn0uZqifpWsa1a/Fg67xZhyafnlx/oqzf8eTD
-	LEMZYMG+pi76wkW1rOLqqf5MJuVQraB0W6GYewmLHYDXkf0reIrYmQOo6uhtxMPdW+8D
-	pExXnhpiX++8T4v1elkPylQ78oHxi+afzmJn8Wef0JfhmfzJbgWQyBBiOz9kqj0nBF0c
-	DCaPwMCKhb9gHGWOVgtc1X7oaFAytUFWz6nQFh0wZwjaecONYg0d6eT9Vn5hBapSyMXe
-	eC3q6734FDENI5IgnmsZVpO/79HkxomZDBFwlhvEsBsN2d9oqX54YAFEjiwDkjyYYlTg
-	3dzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=vE1hNSMQhJM4PfUKcLOkgdhGSAUb+SUShjtR3n/TqXo=;
-	b=l450sFzwgIyisnP4Zs1iLCIbFmewo1Va/pMe4wfJrQ6OkMppRzT5MRBU3Izz6I2PlT
-	Oajl2QljMjawr9QONHU6YDDHUJgnSq26GQ187i1UwcuALyIB4wvmkiB82e4KtBGbL9LE
-	ziTVjfkuyik9BRPVsO0pJErh4QaG0aaA3zMv0/vVv7pVgYRYk1j6rDfsfXVtdQD+el7/
-	cd9fcLj7a5MfALd10h6FeLr6hWfTPUDOI4Lo+RrPoAYDwVg5Y+GahArIf9is1khM6qP8
-	ujGxBPl+klgksQ7qFOhsCwsXlBIjP90sWNxz8gTrS8knH6EbK1J207W+uT33uU0CId1O
-	2KOA==
-X-Gm-Message-State: AKGB3mLJkFQNEbP3NrwDQTdLlqTrr/DKwJdG6NTEZKZ2Op7lvj4Xk5pN
-	IUQg7Xy8RS6bT6NsasabrABatcNuSHjtkErf7wM=
-X-Google-Smtp-Source: ACJfBovuMqhsA+KkkMhUXVj+02OAvAaINLZMG/sk59qdH2d/uOzwQYi30dGcYz4TRDIVYebIvV0Cb48ZmP/UaluNrXM=
-X-Received: by 10.28.191.3 with SMTP id p3mr58513wmf.81.1513612267505; Mon, 18
-	Dec 2017 07:51:07 -0800 (PST)
+	Mon, 18 Dec 2017 15:52:03 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Dec 2017 07:52:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,422,1508828400"; 
+	d="scan'208,217";a="159790473"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by orsmga004.jf.intel.com with ESMTP; 18 Dec 2017 07:52:04 -0800
+Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
+	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 18 Dec 2017 07:52:04 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.120]) by
+	fmsmsx156.amr.corp.intel.com ([169.254.13.91]) with mapi id
+	14.03.0319.002; Mon, 18 Dec 2017 07:52:03 -0800
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: =?Windows-1252?Q?Yocto_Project_Status_WW51=9217?=
+Thread-Index: AdN4F9nr/13I5G8/Sa+R/j1O1FptxA==
+Date: Mon, 18 Dec 2017 15:52:02 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.108]
+x-ctpclassification: CTP_IC
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjkwYmE0ZGMtMDE0MS00NjZiLWIzNzUtNDczYTY2ODIyY2U2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6Ik5WWWVkc1RrQzBmd1ZjSlN3R0xTZzlVXC8xNTNNcjZwbVwvcVcra2ZcLzluQ2c9In0=
 MIME-Version: 1.0
-Received: by 10.28.105.70 with HTTP; Mon, 18 Dec 2017 07:51:06 -0800 (PST)
-In-Reply-To: <CAFmD+WESsG-ebvx_AmDOpisQFaP3_DzvrWr8dF9j88=5V7GBDg@mail.gmail.com>
-References: <20171204181640.31225-1-taborskikrzysztof@gmail.com>
-	<00b201d3704c$8357c870$8a075950$@gmail.com>
-	<CAFmD+WESsG-ebvx_AmDOpisQFaP3_DzvrWr8dF9j88=5V7GBDg@mail.gmail.com>
-From: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-Date: Mon, 18 Dec 2017 16:51:06 +0100
-Message-ID: <CAFmD+WGeSMG8ZOQnRrjWfN7To6fMbwGS3M2q7Q=8Jf3+hA-ZsA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] perl: native modules will not trigger build perl for target.
+Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1c1MeKAmTE3?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,188 +48,576 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 15:51:07 -0000
-Content-Type: multipart/alternative; boundary="001a114e2a8e8850cf05609f5142"
+X-List-Received-Date: Mon, 18 Dec 2017 15:52:04 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72fmsmsx111amrcor_"
 
---001a114e2a8e8850cf05609f5142
-Content-Type: text/plain; charset="UTF-8"
-
-ping
-
-2017-12-12 9:34 GMT+01:00 Krzysztof Taborski <taborskikrzysztof@gmail.com>:
-
-> kindly reminder
->
-> 2017-12-08 18:46 GMT+01:00 Krzysztof Taborski <taborskikrzysztof@gmail.com
-> >:
->
->> Hello,
->> I would like to request feedback about my patch.
->>
->> Br,
->> Krzysztof Taborski
->>
->> -----Original Message-----
->> From: Krzysztof Taborski [mailto:taborskikrzysztof@gmail.com]
->> Sent: Monday, December 04, 2017 7:17 PM
->> To: openembedded-core@lists.openembedded.org
->> Cc: Krzysztof Taborski
->> Subject: [OE-core][PATCH v2] perl: native modules will not trigger build
->> perl for target.
->>
->> Currently building perl-native modules triggers build perl for target due
->> to PACKAGES_DYNAMIC regex.
->>
->> This commit will cause, that perl native modules will trigger perl-native
->> build.
->>
->> Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
->> ---
->>  meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
->>  meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
->>  2 files changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->> b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->> index 48113f05a9..a81dc4d703 100644
->> --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->> +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->> @@ -134,3 +134,5 @@ EOF
->>
->>  # Fix the path in sstate
->>  SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
->> +PACKAGES_DYNAMIC_class-native += "^perl-module-.*native$"
->> +
->> diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
->> b/meta/recipes-devtools/perl/perl_5.24.1.bb
->> index 6b27b22d22..3dc7805da9 100644
->> --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
->> @@ -323,7 +323,7 @@ python split_perl_packages () {
->>      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
->> }
->>
->> -PACKAGES_DYNAMIC += "^perl-module-.*"
->> +PACKAGES_DYNAMIC += "^perl-module-.*(?<!\-native)$"
->>  PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
->>
->>  RPROVIDES_perl-lib = "perl-lib"
->> --
->> 2.13.6
->>
->>
->
->
-> --
-> Pozdrawiam,
-> Krzysiek Taborski
->
-
-
-
--- 
-Pozdrawiam,
-Krzysiek Taborski
-
---001a114e2a8e8850cf05609f5142
-Content-Type: text/html; charset="UTF-8"
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72fmsmsx111amrcor_
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">ping</div><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote">2017-12-12 9:34 GMT+01:00 Krzysztof Taborski <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:taborskikrzysztof@gmail.com" target=3D"_blank">taborski=
-krzysztof@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-dir=3D"ltr">kindly reminder<br></div><div class=3D"gmail_extra"><div><div c=
-lass=3D"h5"><br><div class=3D"gmail_quote">2017-12-08 18:46 GMT+01:00 Krzys=
-ztof Taborski <span dir=3D"ltr">&lt;<a href=3D"mailto:taborskikrzysztof@gma=
-il.com" target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;</span>:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">Hello,<br>
-I would like to request feedback about my patch.<br>
-<br>
-Br,<br>
-Krzysztof Taborski<br>
-<div class=3D"m_897606133491491596HOEnZb"><div class=3D"m_89760613349149159=
-6h5"><br>
------Original Message-----<br>
-From: Krzysztof Taborski [mailto:<a href=3D"mailto:taborskikrzysztof@gmail.=
-com" target=3D"_blank">taborskikrzysztof@gmai<wbr>l.com</a>]<br>
-Sent: Monday, December 04, 2017 7:17 PM<br>
-To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
-blank">openembedded-core@lists.openem<wbr>bedded.org</a><br>
-Cc: Krzysztof Taborski<br>
-Subject: [OE-core][PATCH v2] perl: native modules will not trigger build<br=
->
-perl for target.<br>
-<br>
-Currently building perl-native modules triggers build perl for target due<b=
-r>
-to PACKAGES_DYNAMIC regex.<br>
-<br>
-This commit will cause, that perl native modules will trigger perl-native<b=
-r>
-build.<br>
-<br>
-Signed-off-by: Krzysztof Taborski &lt;<a href=3D"mailto:taborskikrzysztof@g=
-mail.com" target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">pe<wbr>rl-native_5.24.1.bb</a> | 2 ++<b=
-r>
-=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">pe<wbr>rl_5.24.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 2 +-<br>
-=C2=A02 files changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><b=
-r>
-b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-index 48113f05a9..a81dc4d703 100644<br>
---- a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-+++ b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-@@ -134,3 +134,5 @@ EOF<br>
-<br>
-=C2=A0# Fix the path in sstate<br>
-=C2=A0SSTATE_SCAN_FILES +=3D &quot;*.pm *.pod *.h *.pl *.sh&quot;<br>
-+PACKAGES_DYNAMIC_class-native +=3D &quot;^perl-module-.*native$&quot;<br>
-+<br>
-diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"noref=
-errer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-index 6b27b22d22..3dc7805da9 100644<br>
---- a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-+++ b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-@@ -323,7 +323,7 @@ python split_perl_packages () {<br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(d.expand(&quot;RRECOMMEND<wbr>S_${PN}-modules&=
-quot;), &#39; &#39;.join(packages))<br>
-}<br>
-<br>
--PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*&quot;<br>
-+PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*(?&lt;!\-native)$<wbr>&quot;<br=
->
-=C2=A0PACKAGES_DYNAMIC_class-native<wbr>sdk +=3D &quot;^nativesdk-perl-modu=
-le-.*&quot;<br>
-<br>
-=C2=A0RPROVIDES_perl-lib =3D &quot;perl-lib&quot;<br>
---<br>
-2.13.6<br>
-<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div></div><=
-/div><span class=3D"HOEnZb"><font color=3D"#888888">-- <br><div class=3D"m_=
-897606133491491596gmail_signature" data-smartmail=3D"gmail_signature"><div =
-dir=3D"ltr">Pozdrawiam,<div>Krzysiek Taborski</div></div></div>
-</font></span></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Po=
-zdrawiam,<div>Krzysiek Taborski</div></div></div>
-</div>
+Current Dev Position: YP 2.5 M2 development
 
---001a114e2a8e8850cf05609f5142--
+Next Deadline: YP 2.5 M2 cut off of 1/15/18
+
+
+SWAT team rotation: Stephano -> Maxin on Dec. 15, 2017.
+
+SWAT team rotation: Maxin -> Cal on Dec. 22, 2017.
+
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+
+
+Key Status/Updates:
+
+=B7        The QA of YP 2.5 M1 rc1 is just starting.  See: https://wiki.yoc=
+toproject.org/wiki/2.5_QA_Status
+
+=B7        The QA of YP 2.4.1 rc1 is about 80% complete.  See: https://wiki=
+.yoctoproject.org/wiki/2.4_QA_Status. We are having some issues with the ec=
+lipse plugin testing.
+
+=B7        The QA of YP 2.3.3 rc1 is about 3% complete. See: https://wiki.y=
+octoproject.org/wiki/2.3_QA_Status
+
+=B7        YP 2.2.3 rc1 has been built and is queued to begin QA when the Q=
+A team has bandwidth.
+
+=B7        We have finally tracked down the qemux86-64 kvm apic hang to an =
+issue in the host kernel. We have a mitigation plan in mind but that is blo=
+cked on finding another separate bug causing selftest failures when upgradi=
+ng the guest kernel.
+
+=B7        We have identified further intermittent bugs in various releases=
+ which we=92re continuing to look into (including gpg memory allocation iss=
+ues on pyro, sstate writing races in morty, further occurrences of the inod=
+e count issues with our NAS on the autobuilder).
+
+
+Planned upcoming dot releases:
+
+YP 2.4.1 (Rocko) rc1 is in QA.  See https://wiki.yoctoproject.org/wiki/2.4_=
+QA_Status.
+
+YP 2.2.3 (Morty) rc1 is in QA.  See https://wiki.yoctoproject.org/wiki/2.3_=
+QA_Status.
+
+YP 2.3.3 (Pyro) is built and pending QA.  When work begins see https://wiki=
+.yoctoproject.org/wiki/2.2_QA_Status
+
+
+Key YP 2.5 Dates are:
+
+YP 2.5 M1 release of 12/15/17 (Will be later this month.)
+
+YP 2.5 M2 cut off of 1/15/18
+
+YP 2.5 M2 release of 1/26/18
+
+YP 2.5 M3 cut off of 2/19/18
+
+YP 2.5 M3 release of 3/2/18
+
+YP 2.5 M4 cut off of 4/2/18
+
+YP 2.5 M4 release of 4/27/18
+
+
+Tracking Metrics:
+
+            WDD 2719 (last week 2690)
+
+(https://wiki.yoctoproject.org/charts/combo.html)
+
+
+Key Status Links for YP:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.5_Status
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Schedule
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Features
+
+[If anyone has suggestions for other information you=92d like to see on thi=
+s weekly status update, let us know!]
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+=95   Work Telephone:        (503) 712-0534
+=95    Cell:                              (208) 244-4460
+=95 Email:                            stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72fmsmsx111amrcor_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p
+	{mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.apple-tab-span
+	{mso-style-name:apple-tab-span;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:30110071;
+	mso-list-template-ids:1183329664;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:2065715532;
+	mso-list-template-ids:1035004592;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
+on: YP 2.5 M2 development</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
+2.5 M2 cut off of 1/15/18</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Stephano -&gt; Maxin on Dec. 15, 2017.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Maxin -&gt; Cal on Dec. 22, 2017.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
+.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
+/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
+:</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">The QA of YP 2.5 M1 rc1 is just s=
+tarting. &nbsp;See:
+<a href=3D"https://wiki.yoctoproject.org/wiki/2.5_QA_Status"><span style=3D=
+"color:#1155CC">https://wiki.yoctoproject.org/wiki/2.5_QA_Status</span></a>=
+<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">The QA of YP 2.4.1 rc1 is about 8=
+0% complete. &nbsp;See:
+<a href=3D"https://wiki.yoctoproject.org/wiki/2.4_QA_Status"><span style=3D=
+"color:#1155CC">https://wiki.yoctoproject.org/wiki/2.4_QA_Status</span></a>=
+. We are having some issues with the eclipse plugin testing.<o:p></o:p></sp=
+an></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">The QA of YP 2.3.3 rc1 is about 3=
+% complete. See:
+<a href=3D"https://wiki.yoctoproject.org/wiki/2.3_QA_Status"><span style=3D=
+"color:#1155CC">https://wiki.yoctoproject.org/wiki/2.3_QA_Status</span></a>=
+<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">YP 2.2.3 rc1 has been built and i=
+s queued to begin QA when the QA team has bandwidth.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">We have finally tracked down the =
+qemux86-64 kvm apic hang to an issue in the host kernel. We have a mitigati=
+on plan in mind but that is blocked on finding
+ another separate bug causing selftest failures when upgrading the guest ke=
+rnel.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">We have identified further interm=
+ittent bugs in various releases which we=92re continuing to look into (incl=
+uding gpg memory allocation issues on pyro, sstate
+ writing races in morty, further occurrences of the inode count issues with=
+ our NAS on the autobuilder).<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Planned upcoming d=
+ot releases:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4.1 (Rocko) r=
+c1 is in QA. &nbsp;See
+</span><a href=3D"https://wiki.yoctoproject.org/wiki/2.4_QA_Status"><span s=
+tyle=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#11=
+55CC">https://wiki.yoctoproject.org/wiki/2.4_QA_Status</span></a><span styl=
+e=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"=
+>.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.3 (Morty) r=
+c1 is in QA. &nbsp;See
+</span><a href=3D"https://wiki.yoctoproject.org/wiki/2.3_QA_Status"><span s=
+tyle=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#11=
+55CC">https://wiki.yoctoproject.org/wiki/2.3_QA_Status</span></a><span styl=
+e=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"=
+>.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.3 (Pyro) is=
+ built and pending QA. &nbsp;When work begins see
+</span><a href=3D"https://wiki.yoctoproject.org/wiki/2.2_QA_Status"><span s=
+tyle=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#11=
+55CC">https://wiki.yoctoproject.org/wiki/2.2_QA_Status</span></a><o:p></o:p=
+></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.5 Dates a=
+re:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M1 release =
+of 12/15/17 (Will be later this month.)</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 cut off =
+of 1/15/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 release =
+of 1/26/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 cut off =
+of 2/19/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 release =
+of 3/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 cut off =
+of 4/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 release =
+of 4/27/18</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
+/span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
+"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
+color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;
+</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
+,sans-serif;color:black">WDD 2719 (last week 2690)</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
+=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
+ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
+.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
+octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:black">)</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
+or YP:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Project_v2.5_Status"><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v2.5_Status</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Schedule"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Schedule</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Features"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Features</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
+gestions for other information you=92d like to see on this weekly status up=
+date, let us know!]</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black">Thanks,</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span=
+></u></span><span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;A=
+rial&quot;,sans-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72fmsmsx111amrcor_--
