@@ -1,51 +1,47 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-X-Greylist: delayed 300 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 18 Dec 2017 20:22:25 UTC
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id F173678087
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E2F94781F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 20:22:25 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1513628547; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=TlT8DV6lEbciyXkU3uMwGxWhs+c2de1Wn7AIWUK0Quw=;
-	b=KipFHELzeXIbA2nOmK6ZX7rJmsNm0bWv1I8SEmCkusMb/EGT2+tYGElQTvRgJwRXZ+9hl8Qt
-	ZCcrxQ6AAV/ifV+uEJG4YZbALH4qIO1/V73eDed+8G087/3wRdgbkwcYYPB7PlNY0kaDbIWP
-	AZ0Ek2opnef062wTA5AHXHBjW+8=
-X-Mailgun-Sending-Ip: 104.130.122.4
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-Sender: derek@asterius.io
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mxa.mailgun.org with ESMTP id 5a382256.7f8506e057f0-smtp-out-n02;
-	Mon, 18 Dec 2017 20:17:26 -0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id r184so12245384qke.8;
-	Mon, 18 Dec 2017 12:17:26 -0800 (PST)
-X-Gm-Message-State: AKGB3mK2rGsks0ztrcv+xm6SL+atDV6jAt8uEBaM4CD2z/isLozdQ2YZ
-	TR5q3/2JHaTDd8lLh6wMwW6o0JEmykrVEdTfxBE=
-X-Google-Smtp-Source: ACJfBosFYZ1C+jtreLxTtDGD3rl3fdDW0Vgd3jlHeh73EQBw+N1MMtiuctQRPsnJqCCOq4cn79i8516Nzot4QO7z3Hg=
-X-Received: by 10.55.191.1 with SMTP id p1mr1465742qkf.152.1513628246281; Mon,
-	18 Dec 2017 12:17:26 -0800 (PST)
+	Mon, 18 Dec 2017 20:26:32 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id 9so185384wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Dec 2017 12:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bcxgwzlBLtoOfnHKOeNjICq6rqpAtCyihoDGC9hYRsc=;
+	b=Hy3t1IWZq3a3Qr8PrhK3dkjgQ8HGXl7+WwgjXlQGRhypz6pTNdOzZdndZ1eU9niLs6
+	WzOUAnzStjE/4YT6jGrI0PkFfdPo47ga+374pv/AZO7KoZt7bKLtm7fjUhPiOmZrnk8c
+	LKZCZcTXxAxT7PxPuXDTSuJvjEkn1njgdYhTJgSQsC7r2DlQCUmTVidqqbkr652HcfJG
+	sFtcyqcjBDShT3optHe60IW/0y/Eu8IlI3LfcKZPUGI8GEY7zBl358Hd+v8VmSPvVtAS
+	/Q+aezxTNfQXJsDjqmLaxIvw8oCIK98BFagS/+GtASKYz5eU+SWCen367i65iYtSHOfh
+	wlcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bcxgwzlBLtoOfnHKOeNjICq6rqpAtCyihoDGC9hYRsc=;
+	b=Dpq59ZvGOVnVQAjiOA92Pa31VqRyWizoZuyzj4+meYcvW3ZNDGIuQPNu+mjy7F5BWz
+	G0ESwE7BbjnxOVqtphanK2l3D6SHrHm5h/vJ5HbPwLUnVsP89bdJoQ6H0vj0DkKI2kxG
+	w5mhwNzP60Qq+XhH0IFqUoD1GO7xg5sUfdkuJi71p0qdL2YAi7h8IvXDXwDP+WJ/uDPU
+	N9kcguLe9bMQnyCn5Gtvlyu3PKwDZ2da68FPUfYrpI7pG627HWxTIz3zyvUwXrK1CNue
+	4Kd4yi36qRC6491kQhlVPbLthIVrp1r/ltVx7l1tn59rrYKauUxsSaKbSQem8EUcZHce
+	/grg==
+X-Gm-Message-State: AKGB3mLZgwEugWVmiUlnR+hd7sgoPUes2Jngz5iiW+rhsGE77bPf/kGq
+	koA8CuoMw+ZVjV81onzVlti9XkwwxyZd3wSVdZI=
+X-Google-Smtp-Source: ACJfBosuCgRwyWRGlVByXh+KKAUh79ObCKIMvc29INCxwRkdbk5k0GwPGM2IEEbo4zqFmi4+CYBDhIB623ouNP96YVg=
+X-Received: by 10.28.172.202 with SMTP id v193mr525743wme.10.1513628793552;
+	Mon, 18 Dec 2017 12:26:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.21.177 with HTTP; Mon, 18 Dec 2017 12:17:25 -0800 (PST)
-In-Reply-To: <CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
-References: <1512414044-1012-1-git-send-email-mark.asselstine@windriver.com>
-	<CADNbA1qnmF3-MKo=fqQQeWEedE5A-wzkUkCgdCNArOePjMaXQw@mail.gmail.com>
-	<CAPuovEKdqQP35XwP3bgBrE4EFbM2LwpHrHzxF3my9qaWfAaCbA@mail.gmail.com>
-	<CABcZANku-aE5a69GpJxXmd2F0+uYVhiRZB3Uut7F2RG1e3R9EA@mail.gmail.com>
-	<CAPuovEJNf=qefXX6wKJGaH+HkM6aan49AgVQ3TEWVWPSCn3cNw@mail.gmail.com>
-	<711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
-	<CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Mon, 18 Dec 2017 15:17:25 -0500
-X-Gmail-Original-Message-ID: <CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
-Message-ID: <CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [meta-python][PATCH] python-pyroute2: uprev to v0.4.21 (from 0.3.22)
+Received: by 10.223.184.47 with HTTP; Mon, 18 Dec 2017 12:26:32 -0800 (PST)
+In-Reply-To: <20171218174347.92919-2-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20171218174347.92919-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20171218174347.92919-2-leonardo.sandoval.gonzalez@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 18 Dec 2017 12:26:32 -0800
+Message-ID: <CAJ86T=XEeM364CYatGqTi6K-zJyXkghOg1rMXb4ORQdUDJf=gQ@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] parallel-oe-selftest.sh: runs oe-selftest in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,201 +54,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 20:22:26 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0437b0f1138c0560a309a2"
-
---94eb2c0437b0f1138c0560a309a2
+X-List-Received-Date: Mon, 18 Dec 2017 20:26:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I have several customers who have optimized for space and would like to see
-the capability maintained unless core removes the ability to split python
-packages out.  They also remove the *.py files in favor of *.pyo files (via
-a custom packaging mechanism).  I have automated tests that go through the
-module importing on each of the meta-python packages to ensure it works on
-minimal python installations.  When other contributors don't do provide
-that functionality, I either catch it when I do package update or when it
-breaks for one of my customers.  I'm fine if you don't want to perform the
-checks yourself and it breaks my use case with missing dependencies, but I
-would prefer that you don't remove the dependencies that are currently in
-place.  Thanks.
-
--Derek
-
-On Mon, Dec 18, 2017 at 11:56 AM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
-
-> On Mon, Dec 18, 2017 at 11:37 AM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
-> > On 12/18/2017 06:15 PM, Mark Asselstine wrote:
-> >>
-> >> On Mon, Dec 18, 2017 at 10:36 AM, Christopher Larson <kergoth@gmail.com
-> >
-> >> wrote:
-> >>>
-> >>> All our python recipes should be explicitly listing the python module
-> >>> packages they require. No python module recipes should be depending on
-> >>> python-modules or python3-modules, but explicitly what they require.
-> >>
-> >>
-> >> This is a giant PITA for little gain in my opinion. The typical python
-> >> 'vehicles' to define dependencies, things like setup.py, requires.txt,
-> >> requirements.txt..., never bother to list stdlibs. These are standard
-> >> libs that are just expected to be there. If a system is being
-> >> installed with only select python modules it will behave differently
-> >> than python found on any other system violating the rule of least
-> >> surprise. On top of this most of these modules are ~40K in size and
-> >> there are roughly 60 in the stdlib so the size gain in installing a
-> >> few vs. all of them is extremely negligible. All of this seems to add
-> >> way more work and churn that outweighs any real benefit.
-> >
-> >
-> > I tend to agree with this. Add also the situation that the yocto project
-> > needs to upgrade oe-core to python 3.6 as soon as possible, and to 3.7
-> soon
-> > after, no one has enough time to do this rather non-trivial job, and I'm
-> > beginning to wonder if the best way out is to remove the module splitting
-> > altogether, and write a clean, simple and maintainable python3 recipe
-> from
-> > scratch with minimal amount of custom patching and hopefully no
-> write-only
-> > hacks.
-> >
-> > Alex
+On Mon, Dec 18, 2017 at 9:43 AM,
+<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 >
-> Thanks Alex for the support. To get a better idea as to what the size
-> delta is I took the installed sizes from a rootfs logfile and the
-> total size for all modules (python2.7) is 6.5M python-misc is almost
-> 2M of this and python-codecs contributing over 0.5M. The savings will
-> never be the full 6.5M as there will always be python-lang and some
-> other modules needed. There was a time where 32M restrictions existed
-> are some systems but are we really seeing devices with these
-> restrictions any more? what about exploring not shipping the pyc
-> files? I would much rather see this than imposing so much work and
-> churn for very little gain. Anyways, maybe this isn't the best forum
-> for this and it should be brought up to the architecture group.
+> Parallelize oe-selftest execution using GNU/Parallel: for each test
+> defined, a job will be launched and at any time at maximun of jobs will
+
+Typo.
+
+> be executing (defaults to 4).
 >
-> Mark
+> 1. Run all modules
 >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-devel mailing list
-> > Openembedded-devel@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+>     parallel-oe-selftest.sh
+>
+> 2. Run certaing modules and print results in order (see parallel man page for
+
+Typo.
+
+> more info)
+>
+>     parallel-oe-selftest.sh wic bblayers
+>
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> ---
+>  scripts/contrib/parallel-oe-selftest.sh | 80 +++++++++++++++++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100755 scripts/contrib/parallel-oe-selftest.sh
+>
+> diff --git a/scripts/contrib/parallel-oe-selftest.sh b/scripts/contrib/parallel-oe-selftest.sh
+> new file mode 100755
+> index 0000000000..b2690f34fd
+> --- /dev/null
+> +++ b/scripts/contrib/parallel-oe-selftest.sh
+> @@ -0,0 +1,80 @@
+> +#!/bin/sh
+> +
+> +# paralell-oe-selftest: executes oe-selftest in 'parallel'. The tests (modules, clases or test methods, same
+
+Two typos.
+
+> +# as oe-selftest --run-tests) to be executed can be piped to this script; if this is not the case, all modules
+> +# are executed
+> +#
+> +# Copyright (c) 2013-2017 Intel Corporation
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License version 2 as
+> +# published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License along
+> +# with this program; if not, write to the Free Software Foundation, Inc.,
+> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+> +#
+> +
+> +# Before anything else, check oe-core environment
+> +if [ -z "$BUILDDIR" ]; then
+> +    echo "Please initialize the OE-Core environment through oe-init-build-env script"
+> +    exit 1
+> +fi
+> +
+> +usage() {
+> +CMD=$(basename $0)
+> +cat <<EOM
+> +Usage: $CMD [-h] [-j jobs] [test1 test2 ..]
+> +  -j jobs             Number of jobs to be running concurrently
+> +  -h                  Display this help message
+> +
+> + Examples:
+> +   # run all found testcases
+> +   $CMD
+> +
+> +   # just run wic and bblayers
+> +   $CMD wic bblayers
+> +
+> +EOM
+> +}
+> +
+> +JOBS=4
+> +# Parse and validate arguments
+> +while getopts "hj:" OPT; do
+> +       case $OPT in
+> +       j)
+> +               JOBS="$OPTARG"
+> +               ;;
+> +       h)
+> +               usage
+> +               exit 0
+> +               ;;
+> +       --)
+> +               shift
+> +               break
+> +               ;;
+> +       esac
+> +done
+> +
+> +
+> +shift "$((OPTIND - 1))"
+> +TESTCASES="$@"
+> +
+> +# Parallelization is done through GNU/Paralell, so it must be present in host machine
+
+Typo.
+
+> +which parallel 2>&1 >/dev/null || { echo "Please install GNU/Parallel"; exit 1; }
+> +
+> +# no test cases given, running all found
+> +if [ -z "$TESTCASES" ]; then
+> +    TESTCASES="$(oe-selftest -m | awk '{ print $NF } ' | grep -v ':')"
+> +fi
+> +
+> +if [ -z "$TESTCASES" ]; then
+> +    echo $TESTCASES | time parallel --keep-order --progress --jobs $JOBS oe-selftest -r
+
+Since $TESTCASES is an empty variable here, why echo it?
+
+> +else
+> +    time parallel -d ' ' --keep-order --progress --jobs $JOBS oe-selftest -r ::: $TESTCASES
+> +fi
+> --
+> 2.12.3
+>
 > --
 > _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
->
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---94eb2c0437b0f1138c0560a309a2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I have several customers who have optimized for space and =
-would like to see the capability maintained unless core removes the ability=
- to split python packages out.=C2=A0 They also remove the *.py files in fav=
-or of *.pyo files (via a custom packaging mechanism).=C2=A0 I have automate=
-d tests that go through the module importing on each of the meta-python pac=
-kages to ensure it works on minimal python installations.=C2=A0 When other =
-contributors don&#39;t do provide that functionality, I either catch it whe=
-n I do package update or when it breaks for one of my customers.=C2=A0 I&#3=
-9;m fine if you don&#39;t want to perform the checks yourself and it breaks=
- my use case with missing dependencies, but I would prefer that you don&#39=
-;t remove the dependencies that are currently in place.=C2=A0 Thanks.<div><=
-br></div><div>-Derek</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On Mon, Dec 18, 2017 at 11:56 AM, Mark Asselstine <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_b=
-lank">mark.asselstine@windriver.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Mon, Dec 18, 20=
-17 at 11:37 AM, Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@=
-linux.<wbr>intel.com</a>&gt; wrote:<br>
-&gt; On 12/18/2017 06:15 PM, Mark Asselstine wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Mon, Dec 18, 2017 at 10:36 AM, Christopher Larson &lt;<a href=
-=3D"mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt;<br>
-&gt;&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; All our python recipes should be explicitly listing the python=
- module<br>
-&gt;&gt;&gt; packages they require. No python module recipes should be depe=
-nding on<br>
-&gt;&gt;&gt; python-modules or python3-modules, but explicitly what they re=
-quire.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; This is a giant PITA for little gain in my opinion. The typical py=
-thon<br>
-&gt;&gt; &#39;vehicles&#39; to define dependencies, things like setup.py, r=
-equires.txt,<br>
-&gt;&gt; requirements.txt..., never bother to list stdlibs. These are stand=
-ard<br>
-&gt;&gt; libs that are just expected to be there. If a system is being<br>
-&gt;&gt; installed with only select python modules it will behave different=
-ly<br>
-&gt;&gt; than python found on any other system violating the rule of least<=
-br>
-&gt;&gt; surprise. On top of this most of these modules are ~40K in size an=
-d<br>
-&gt;&gt; there are roughly 60 in the stdlib so the size gain in installing =
-a<br>
-&gt;&gt; few vs. all of them is extremely negligible. All of this seems to =
-add<br>
-&gt;&gt; way more work and churn that outweighs any real benefit.<br>
-&gt;<br>
-&gt;<br>
-&gt; I tend to agree with this. Add also the situation that the yocto proje=
-ct<br>
-&gt; needs to upgrade oe-core to python 3.6 as soon as possible, and to 3.7=
- soon<br>
-&gt; after, no one has enough time to do this rather non-trivial job, and I=
-&#39;m<br>
-&gt; beginning to wonder if the best way out is to remove the module splitt=
-ing<br>
-&gt; altogether, and write a clean, simple and maintainable python3 recipe =
-from<br>
-&gt; scratch with minimal amount of custom patching and hopefully no write-=
-only<br>
-&gt; hacks.<br>
-&gt;<br>
-&gt; Alex<br>
-<br>
-</div></div>Thanks Alex for the support. To get a better idea as to what th=
-e size<br>
-delta is I took the installed sizes from a rootfs logfile and the<br>
-total size for all modules (python2.7) is 6.5M python-misc is almost<br>
-2M of this and python-codecs contributing over 0.5M. The savings will<br>
-never be the full 6.5M as there will always be python-lang and some<br>
-other modules needed. There was a time where 32M restrictions existed<br>
-are some systems but are we really seeing devices with these<br>
-restrictions any more? what about exploring not shipping the pyc<br>
-files? I would much rather see this than imposing so much work and<br>
-churn for very little gain. Anyways, maybe this isn&#39;t the best forum<br=
->
-for this and it should be brought up to the architecture group.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Mark<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-devel mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembed=
-ded-devel@lists.<wbr>openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--devel" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/=
-<wbr>mailman/listinfo/openembedded-<wbr>devel</a><br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-devel mailing list<br>
-<a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembedded-d=
-evel@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-deve=
-l" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>=
-mailman/listinfo/openembedded-<wbr>devel</a><br>
-</div></div></blockquote></div><br></div>
-
---94eb2c0437b0f1138c0560a309a2--
