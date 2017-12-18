@@ -1,24 +1,51 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C98D277BEB
+Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
+X-Greylist: delayed 300 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Dec 2017 20:22:25 UTC
+Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
+	[104.130.122.4])
+	by mail.openembedded.org (Postfix) with ESMTP id F173678087
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Dec 2017 17:43:49 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Dec 2017 09:43:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,422,1508828400"; 
-   d="scan'208";a="3707872"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga007.jf.intel.com with ESMTP; 18 Dec 2017 09:43:50 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Dec 2017 09:43:46 -0800
-Message-Id: <20171218174347.92919-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH v2 1/2] scripts/oe-selftest: isolate oe-selftest execution
+	Mon, 18 Dec 2017 20:22:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
+	s=mailo; t=1513628547; h=Content-Type: Cc: To: Subject: Message-ID:
+	Date: From: References: In-Reply-To: MIME-Version: Sender;
+	bh=TlT8DV6lEbciyXkU3uMwGxWhs+c2de1Wn7AIWUK0Quw=;
+	b=KipFHELzeXIbA2nOmK6ZX7rJmsNm0bWv1I8SEmCkusMb/EGT2+tYGElQTvRgJwRXZ+9hl8Qt
+	ZCcrxQ6AAV/ifV+uEJG4YZbALH4qIO1/V73eDed+8G087/3wRdgbkwcYYPB7PlNY0kaDbIWP
+	AZ0Ek2opnef062wTA5AHXHBjW+8=
+X-Mailgun-Sending-Ip: 104.130.122.4
+X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
+Sender: derek@asterius.io
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mxa.mailgun.org with ESMTP id 5a382256.7f8506e057f0-smtp-out-n02;
+	Mon, 18 Dec 2017 20:17:26 -0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id r184so12245384qke.8;
+	Mon, 18 Dec 2017 12:17:26 -0800 (PST)
+X-Gm-Message-State: AKGB3mK2rGsks0ztrcv+xm6SL+atDV6jAt8uEBaM4CD2z/isLozdQ2YZ
+	TR5q3/2JHaTDd8lLh6wMwW6o0JEmykrVEdTfxBE=
+X-Google-Smtp-Source: ACJfBosFYZ1C+jtreLxTtDGD3rl3fdDW0Vgd3jlHeh73EQBw+N1MMtiuctQRPsnJqCCOq4cn79i8516Nzot4QO7z3Hg=
+X-Received: by 10.55.191.1 with SMTP id p1mr1465742qkf.152.1513628246281; Mon,
+	18 Dec 2017 12:17:26 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.21.177 with HTTP; Mon, 18 Dec 2017 12:17:25 -0800 (PST)
+In-Reply-To: <CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
+References: <1512414044-1012-1-git-send-email-mark.asselstine@windriver.com>
+	<CADNbA1qnmF3-MKo=fqQQeWEedE5A-wzkUkCgdCNArOePjMaXQw@mail.gmail.com>
+	<CAPuovEKdqQP35XwP3bgBrE4EFbM2LwpHrHzxF3my9qaWfAaCbA@mail.gmail.com>
+	<CABcZANku-aE5a69GpJxXmd2F0+uYVhiRZB3Uut7F2RG1e3R9EA@mail.gmail.com>
+	<CAPuovEJNf=qefXX6wKJGaH+HkM6aan49AgVQ3TEWVWPSCn3cNw@mail.gmail.com>
+	<711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
+	<CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
+From: Derek Straka <derek@asterius.io>
+Date: Mon, 18 Dec 2017 15:17:25 -0500
+X-Gmail-Original-Message-ID: <CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
+Message-ID: <CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [meta-python][PATCH] python-pyroute2: uprev to v0.4.21 (from 0.3.22)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,244 +58,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Dec 2017 17:43:50 -0000
+X-List-Received-Date: Mon, 18 Dec 2017 20:22:26 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0437b0f1138c0560a309a2"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--94eb2c0437b0f1138c0560a309a2
+Content-Type: text/plain; charset="UTF-8"
 
-The main idea is to isolate the oe-selftest execution so neither the current
-build directory, configuration nor environment is use when executing the
-selftests.
+I have several customers who have optimized for space and would like to see
+the capability maintained unless core removes the ability to split python
+packages out.  They also remove the *.py files in favor of *.pyo files (via
+a custom packaging mechanism).  I have automated tests that go through the
+module importing on each of the meta-python packages to ensure it works on
+minimal python installations.  When other contributors don't do provide
+that functionality, I either catch it when I do package update or when it
+breaks for one of my customers.  I'm fine if you don't want to perform the
+checks yourself and it breaks my use case with missing dependencies, but I
+would prefer that you don't remove the dependencies that are currently in
+place.  Thanks.
 
-The approach uses 'oe-selftest' as a wrapper scripts with once all isolation
-setup is done, it calls 'scripts/lib/oe-selftest-internal',
-the latter is exactly what it is used to be oe-selftest. By isolation in this
-context, we mean the following: creation of a unique directory (base on PID),
-re-initializes the environment (re-sources oe-init-build-env)
-and finally launches the the internal oe-selftest script.
+-Derek
 
-The new build directory (created by oe-init-build-env, on top of the isolated dir)
-has the same configuration data (local.conf, auto.conf, site.conf) as the
-current one. Also, the variables DL_DIR and SSTATE_DIR are passed to
-the new environment, effectively reusing these two directories and not impacting
-performance.
+On Mon, Dec 18, 2017 at 11:56 AM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
-This new wrapper allows to launch multiple 'oe-selftest -r XXX' jobs, each
-running a certain module/class/unittest, easily allowing tools like GNU parallel
-to run jobs in parallel (see scripts/contrib/parallel-oe-selftest.sh)
+> On Mon, Dec 18, 2017 at 11:37 AM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+> > On 12/18/2017 06:15 PM, Mark Asselstine wrote:
+> >>
+> >> On Mon, Dec 18, 2017 at 10:36 AM, Christopher Larson <kergoth@gmail.com
+> >
+> >> wrote:
+> >>>
+> >>> All our python recipes should be explicitly listing the python module
+> >>> packages they require. No python module recipes should be depending on
+> >>> python-modules or python3-modules, but explicitly what they require.
+> >>
+> >>
+> >> This is a giant PITA for little gain in my opinion. The typical python
+> >> 'vehicles' to define dependencies, things like setup.py, requires.txt,
+> >> requirements.txt..., never bother to list stdlibs. These are standard
+> >> libs that are just expected to be there. If a system is being
+> >> installed with only select python modules it will behave differently
+> >> than python found on any other system violating the rule of least
+> >> surprise. On top of this most of these modules are ~40K in size and
+> >> there are roughly 60 in the stdlib so the size gain in installing a
+> >> few vs. all of them is extremely negligible. All of this seems to add
+> >> way more work and churn that outweighs any real benefit.
+> >
+> >
+> > I tend to agree with this. Add also the situation that the yocto project
+> > needs to upgrade oe-core to python 3.6 as soon as possible, and to 3.7
+> soon
+> > after, no one has enough time to do this rather non-trivial job, and I'm
+> > beginning to wonder if the best way out is to remove the module splitting
+> > altogether, and write a clean, simple and maintainable python3 recipe
+> from
+> > scratch with minimal amount of custom patching and hopefully no
+> write-only
+> > hacks.
+> >
+> > Alex
+>
+> Thanks Alex for the support. To get a better idea as to what the size
+> delta is I took the installed sizes from a rootfs logfile and the
+> total size for all modules (python2.7) is 6.5M python-misc is almost
+> 2M of this and python-codecs contributing over 0.5M. The savings will
+> never be the full 6.5M as there will always be python-lang and some
+> other modules needed. There was a time where 32M restrictions existed
+> are some systems but are we really seeing devices with these
+> restrictions any more? what about exploring not shipping the pyc
+> files? I would much rather see this than imposing so much work and
+> churn for very little gain. Anyways, maybe this isn't the best forum
+> for this and it should be brought up to the architecture group.
+>
+> Mark
+>
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-devel mailing list
+> > Openembedded-devel@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+>
 
-[YOCTO #11429]
+--94eb2c0437b0f1138c0560a309a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- scripts/lib/oe-selftest-internal | 75 +++++++++++++++++++++++++++++++
- scripts/oe-selftest              | 97 ++++++++++++++++++++--------------------
- 2 files changed, 124 insertions(+), 48 deletions(-)
- create mode 100755 scripts/lib/oe-selftest-internal
+<div dir=3D"ltr">I have several customers who have optimized for space and =
+would like to see the capability maintained unless core removes the ability=
+ to split python packages out.=C2=A0 They also remove the *.py files in fav=
+or of *.pyo files (via a custom packaging mechanism).=C2=A0 I have automate=
+d tests that go through the module importing on each of the meta-python pac=
+kages to ensure it works on minimal python installations.=C2=A0 When other =
+contributors don&#39;t do provide that functionality, I either catch it whe=
+n I do package update or when it breaks for one of my customers.=C2=A0 I&#3=
+9;m fine if you don&#39;t want to perform the checks yourself and it breaks=
+ my use case with missing dependencies, but I would prefer that you don&#39=
+;t remove the dependencies that are currently in place.=C2=A0 Thanks.<div><=
+br></div><div>-Derek</div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On Mon, Dec 18, 2017 at 11:56 AM, Mark Asselstine <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_b=
+lank">mark.asselstine@windriver.com</a>&gt;</span> wrote:<br><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Mon, Dec 18, 20=
+17 at 11:37 AM, Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@=
+linux.<wbr>intel.com</a>&gt; wrote:<br>
+&gt; On 12/18/2017 06:15 PM, Mark Asselstine wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Dec 18, 2017 at 10:36 AM, Christopher Larson &lt;<a href=
+=3D"mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt;<br>
+&gt;&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; All our python recipes should be explicitly listing the python=
+ module<br>
+&gt;&gt;&gt; packages they require. No python module recipes should be depe=
+nding on<br>
+&gt;&gt;&gt; python-modules or python3-modules, but explicitly what they re=
+quire.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; This is a giant PITA for little gain in my opinion. The typical py=
+thon<br>
+&gt;&gt; &#39;vehicles&#39; to define dependencies, things like setup.py, r=
+equires.txt,<br>
+&gt;&gt; requirements.txt..., never bother to list stdlibs. These are stand=
+ard<br>
+&gt;&gt; libs that are just expected to be there. If a system is being<br>
+&gt;&gt; installed with only select python modules it will behave different=
+ly<br>
+&gt;&gt; than python found on any other system violating the rule of least<=
+br>
+&gt;&gt; surprise. On top of this most of these modules are ~40K in size an=
+d<br>
+&gt;&gt; there are roughly 60 in the stdlib so the size gain in installing =
+a<br>
+&gt;&gt; few vs. all of them is extremely negligible. All of this seems to =
+add<br>
+&gt;&gt; way more work and churn that outweighs any real benefit.<br>
+&gt;<br>
+&gt;<br>
+&gt; I tend to agree with this. Add also the situation that the yocto proje=
+ct<br>
+&gt; needs to upgrade oe-core to python 3.6 as soon as possible, and to 3.7=
+ soon<br>
+&gt; after, no one has enough time to do this rather non-trivial job, and I=
+&#39;m<br>
+&gt; beginning to wonder if the best way out is to remove the module splitt=
+ing<br>
+&gt; altogether, and write a clean, simple and maintainable python3 recipe =
+from<br>
+&gt; scratch with minimal amount of custom patching and hopefully no write-=
+only<br>
+&gt; hacks.<br>
+&gt;<br>
+&gt; Alex<br>
+<br>
+</div></div>Thanks Alex for the support. To get a better idea as to what th=
+e size<br>
+delta is I took the installed sizes from a rootfs logfile and the<br>
+total size for all modules (python2.7) is 6.5M python-misc is almost<br>
+2M of this and python-codecs contributing over 0.5M. The savings will<br>
+never be the full 6.5M as there will always be python-lang and some<br>
+other modules needed. There was a time where 32M restrictions existed<br>
+are some systems but are we really seeing devices with these<br>
+restrictions any more? what about exploring not shipping the pyc<br>
+files? I would much rather see this than imposing so much work and<br>
+churn for very little gain. Anyways, maybe this isn&#39;t the best forum<br=
+>
+for this and it should be brought up to the architecture group.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Mark<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-devel mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembed=
+ded-devel@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-devel" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/=
+<wbr>mailman/listinfo/openembedded-<wbr>devel</a><br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-devel mailing list<br>
+<a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembedded-d=
+evel@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-deve=
+l" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>=
+mailman/listinfo/openembedded-<wbr>devel</a><br>
+</div></div></blockquote></div><br></div>
 
-diff --git a/scripts/lib/oe-selftest-internal b/scripts/lib/oe-selftest-internal
-new file mode 100755
-index 0000000000..cff2906763
---- /dev/null
-+++ b/scripts/lib/oe-selftest-internal
-@@ -0,0 +1,75 @@
-+#!/usr/bin/env python3
-+
-+# Copyright (c) 2013-2017 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+# DESCRIPTION
-+# This script runs tests defined in meta/lib/oeqa/selftest/
-+# It's purpose is to automate the testing of different bitbake tools.
-+# To use it you just need to source your build environment setup script and
-+# add the meta-selftest layer to your BBLAYERS.
-+# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
-+# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
-+# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
-+
-+
-+
-+import os
-+import sys
-+import argparse
-+import logging
-+
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+lib_path = scripts_path + '/lib'
-+sys.path = sys.path + [lib_path]
-+import argparse_oe
-+import scriptutils
-+import scriptpath
-+scriptpath.add_oe_lib_path()
-+scriptpath.add_bitbake_lib_path()
-+
-+from oeqa.utils import load_test_components
-+from oeqa.core.exception import OEQAPreRun
-+
-+logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-+
-+def main():
-+    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
-+    parser = argparse_oe.ArgumentParser(prog='oe-selftest', description=description)
-+
-+    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
-+    comp.register_commands(logger, parser)
-+
-+    try:
-+        args = parser.parse_args()
-+        results = args.func(logger, args)
-+        ret = 0 if results.wasSuccessful() else 1
-+    except SystemExit as err:
-+        if err.code != 0:
-+            raise err
-+        ret = err.code
-+    except OEQAPreRun as pr:
-+        ret = 1
-+
-+    return ret
-+
-+if __name__ == '__main__':
-+    try:
-+        ret = main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+        traceback.print_exc()
-+    sys.exit(ret)
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 1bf860a415..30bc797605 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -1,5 +1,7 @@
--#!/usr/bin/env python3
-+#!/bin/sh
- 
-+# scripts/oe-selftest: calls oe-selftest-internal in a isolated environment
-+#
- # Copyright (c) 2013-2017 Intel Corporation
- #
- # This program is free software; you can redistribute it and/or modify
-@@ -14,62 +16,61 @@
- # You should have received a copy of the GNU General Public License along
- # with this program; if not, write to the Free Software Foundation, Inc.,
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+# Description: this script can be seen as a simple wrapper for scripts/lib/oe-selftest-internal,
-+# however before calling the latter, it prepares the environment so that it runs
-+# in a separate and unique build directory. With this idea,  multiple oe-selftest can
-+# be launched simultaneously, reducing significantly the execution times.
- 
--# DESCRIPTION
--# This script runs tests defined in meta/lib/oeqa/selftest/
--# It's purpose is to automate the testing of different bitbake tools.
--# To use it you just need to source your build environment setup script and
--# add the meta-selftest layer to your BBLAYERS.
--# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
--# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
--# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
-+# Before anything else, check oe-core environment and quit if this has not been set
-+if [ -z "$BUILDDIR" ]; then
-+    echo "Please initialize the OE-Core environment through oe-init-build-env script"
-+    exit 1
-+fi
- 
-+# Variable definitions
-+ORIGBUILDDIR="$BUILDDIR"
-+OESELFTESTSCRIPTDIR="$(which oe-selftest)"
-+SCRIPTSDIR="$(dirname $OESELFTESTSCRIPTDIR)"
-+OECOREDIR="$(dirname $SCRIPTSDIR)"
- 
-+# oe-selftest-$$ related
-+OESELFTESTDIR="$ORIGBUILDDIR/oe-selftest-$$"
-+OESELFTESTBUILDDIR="$OESELFTESTDIR/build"
- 
--import os
--import sys
--import argparse
--import logging
-+ADDTESTS="$(echo "$@"  | egrep '\-\-run\-all\-tests|\-a')"
-+SOMETESTS="$(echo "$@" | egrep '\-\-run\-tests|\-r')"
-+SKIPTESTS="$(echo "$@" | egrep '\-\-skip\-test|\-R')"
-+# Run the desired non-execution command, no need to isolate the environment
-+if [ -z "${ADDTESTS}${SOMETESTS}${SKIPTESTS}" ]; then
-+    if [ -z "$@" ]; then
-+	$SCRIPTSDIR/lib/oe-selftest-internal -h
-+    else
-+	$SCRIPTSDIR/lib/oe-selftest-internal "$@"
-+    fi
-+    exit 0
-+fi
- 
--scripts_path = os.path.dirname(os.path.realpath(__file__))
--lib_path = scripts_path + '/lib'
--sys.path = sys.path + [lib_path]
--import argparse_oe
--import scriptutils
--import scriptpath
--scriptpath.add_oe_lib_path()
--scriptpath.add_bitbake_lib_path()
-+# Create isolated directories (build, build/conf and layers)
-+mkdir -p $OESELFTESTDIR $OESELFTESTBUILDDIR/conf $OESELFTESTLAYERSDIR
- 
--from oeqa.utils import load_test_components
--from oeqa.core.exception import OEQAPreRun
-+# Populate the new build/conf, bblayers.conf will be touch latter to reflect new layer structure
-+cp $ORIGBUILDDIR/conf/*.conf $OESELFTESTBUILDDIR/conf
- 
--logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-+# respect current DL_DIR and SSTATE_DIR
-+for var in DL_DIR SSTATE_DIR; do
-+    echo  "$(bitbake -e | grep ^$var)" >> $OESELFTESTDIR/site.conf
-+done
- 
--def main():
--    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
--    parser = argparse_oe.ArgumentParser(description=description)
-+# Reinitialized environment with new metadata and templateconf environement
-+. $OECOREDIR/oe-init-build-env $OESELFTESTBUILDDIR
- 
--    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
--    comp.register_commands(logger, parser)
-+# Execute the tests throught oe-selftest-internal
-+$OECOREDIR/scripts/lib/oe-selftest-internal "$@"
- 
--    try:
--        args = parser.parse_args()
--        results = args.func(logger, args)
--        ret = 0 if results.wasSuccessful() else 1
--    except SystemExit as err:
--        if err.code != 0:
--            raise err
--        ret = err.code
--    except OEQAPreRun as pr:
--        ret = 1
-+OESELFTESTRC="$?"
- 
--    return ret
-+# Echo working folder
-+echo -e "\nAll work done under $OESELFTESTDIR\n"
- 
--if __name__ == '__main__':
--    try:
--        ret = main()
--    except Exception:
--        ret = 1
--        import traceback
--        traceback.print_exc()
--    sys.exit(ret)
-+exit $OESELFTESTRC
--- 
-2.12.3
-
-
+--94eb2c0437b0f1138c0560a309a2--
