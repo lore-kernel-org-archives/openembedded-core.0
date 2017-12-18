@@ -1,52 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E141781CE
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A20C26007A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Dec 2017 16:34:47 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id n13so3355256plp.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Dec 2017 08:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=4+rRMLcQGxOwI+laSHk+PDzMeZuTWgBeTh2j9p4fCu0=;
-	b=A04PMXqWs/P3tT3qz9HK19xpXqdDPia56n/OTENGEF2VcFUD5hn/PhyNA9QswofXYE
-	t/I156oBHL9n27OfqvMRQ1CjnVk5TxQ7D/xWmDF+a0BYBRvp9GswROyCwHpdQbT26BTE
-	lDrdqfuQE6o6Gr9iVBzCt2rCfu0QGCWmbP5uR/+Dbc3ycsLlrzQDf7RQOIMyIqLXjWF1
-	GN5FgKkB8BnXiflZNzDEPhlq5qjNVUbeql7xUEsl8KA0QR0ferX2txDTm7TcbhEwhjkG
-	T9xuugJljaBWF2lNXlNMGB0abrBNZmEI6raUyN8z/lQELzqm/mSN2fONnhPMiisCqy3Y
-	E8Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=4+rRMLcQGxOwI+laSHk+PDzMeZuTWgBeTh2j9p4fCu0=;
-	b=P7s1OAzqwwN7UhGUloff0aJ3idRvOr5LS5QMjYEcWiAbnNfw6hwq4yq7Lu0tZF9f/W
-	+xmVaoPYZD+SpWoc8E2VwI6xS9F+qGtbCdl0z+BVlMdPtbkl2jB9WI+DQGdszNhICO3/
-	vbiG4iq8WOJHU/uJqbKIFe8rnbM/yoqJAxWjniOVt+nHQ6kfECzk5VbJNk4TdfngR0Bc
-	DhB55tgd4gkWqZr1WlFtTyniKIehbL65eNXX2vG4MTyRiiCDioV2uqpdZQ2n6oToNCQp
-	sxeDBDh3T64kotuwsAeHHB1aa5W+ADt7732wtXNMp5MJMOryKTqUdTby6shRzd1RFRsA
-	uYjA==
-X-Gm-Message-State: AKGB3mKEnxqZYnVq5qkhhFpM6ckYqFy5K733l7Q3HwoAZHRmThDKp9bM
-	JUfe4OYp30A8Yo7vJXcpvLA=
-X-Google-Smtp-Source: ACJfBot1YvIjvL+7okFneVnYLLAodUWNMCsAAvpwPdkwFCgZ5/8clBA3HJmLL7ugPH/pSDWj51NSzQ==
-X-Received: by 10.84.168.198 with SMTP id f64mr19972641plb.324.1513528488843; 
-	Sun, 17 Dec 2017 08:34:48 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:35e6:5321:54f2:87e6])
-	by smtp.gmail.com with ESMTPSA id
-	t202sm18393035pgb.75.2017.12.17.08.34.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Dec 2017 08:34:48 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 17 Dec 2017 08:34:37 -0800
-Message-Id: <1f6d1fa417f9a7128168b0ad934f4ae75a8198e3.1513527416.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1513527416.git.akuster@mvista.com>
-References: <cover.1513527416.git.akuster@mvista.com>
-Subject: [PATCH 8/8] bind: Update to 9.11.2
+	Mon, 18 Dec 2017 11:06:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 38A55182CB;
+	Mon, 18 Dec 2017 12:06:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id AVXqMq25l8hv; Mon, 18 Dec 2017 12:06:03 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 46A8118300;
+	Mon, 18 Dec 2017 12:06:03 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 02E051E077;
+	Mon, 18 Dec 2017 12:06:03 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EB3101E05C;
+	Mon, 18 Dec 2017 12:06:02 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon, 18 Dec 2017 12:06:02 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id DE2001726;
+	Mon, 18 Dec 2017 12:06:02 +0100 (CET)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id C93B19C0AD; Mon, 18 Dec 2017 12:06:02 +0100 (CET)
+Date: Mon, 18 Dec 2017 12:06:02 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171218110602.ppicezmskdv5emkq@axis.com>
+Mail-Followup-To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
+	<CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
+	<20171204153001.enqgfe27iapaoftl@axis.com>
+	<CAJTo0LamaocQdf-kAKHw-0OZs7ZZ4uMfV598cJiJxFV+R=PaBA@mail.gmail.com>
+	<CAJTo0LYemQ16EavmwCLa4PYZQHbg12BSDgiCEZomx1YSRV7Rwg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYemQ16EavmwCLa4PYZQHbg12BSDgiCEZomx1YSRV7Rwg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,99 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Dec 2017 16:34:47 -0000
+X-List-Received-Date: Mon, 18 Dec 2017 11:06:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Armin Kuster <akuster@mvista.com>
+On 17-12-06 21:38 +0000, Burton, Ross wrote:
+> If you are looking at this then you'll want to pull my branch again as I
+> just pushed a few fixes to make ARM binaries actually work.
+> 
+> Also, a prototype "is this binary stripped" function would be:
+> 
+> elf = oe.elf.Elf.from_file(sys.argv[1])
+> for h in elf.header.section_headers:
+>     if h.type == oe.elf.Elf.ShType.progbits and h.name == ".debug_info":
+>         return False
+> return True
+> 
+> If you're not working on this yet, please say, as I'll probably have a look
+> this week.
 
-New License (mpl-2.0) and LICESE file.
+I'm so sorry, I missed your email; I am, but maybe not as quickly
+as you are able to(?). My is_stripped looks kind of like yours,
+but without the ShType.progbits. Thanks for the suggestion! I
+were able to hackishly integrate the Elf class it with
+staging.bbclass and package.bbclass.
 
-New features in bind 9.11
-see: https://www.isc.org/wp-content/uploads/2016/09/BIND9.11NewFeatures.pdf
+I did have a couple of questions; if I were to add an is_stripped
+method, would that fit best in the Elf class itself or in some
+wrapper?  Would renaming the elf class to "ElfParser" class make
+more sense, and have an ELF class that wraps it? I can publish a
+draft somewhere later today.
 
-add zlib PACKAGECONF
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-connectivity/bind/bind/dont-test-on-host.patch | 13 ++++++++-----
- .../bind/{bind_9.10.6.bb => bind_9.11.2.bb}                 | 10 +++++-----
- 2 files changed, 13 insertions(+), 10 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.11.2.bb} (92%)
-
-diff --git a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
-index b02ecb1..7fbd1f5 100644
---- a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
-+++ b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
-@@ -2,16 +2,19 @@ Upstream-Status: Pending
- 
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
--Index: bind-9.9.5/bin/Makefile.in
-+refactored for 9.11
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+Index: bind-9.11.2/bin/Makefile.in
- ===================================================================
----- bind-9.9.5.orig/bin/Makefile.in
--+++ bind-9.9.5/bin/Makefile.in
--@@ -19,7 +19,7 @@ srcdir =	@srcdir@
-+--- bind-9.11.2.orig/bin/Makefile.in
-++++ bind-9.11.2/bin/Makefile.in
-+@@ -10,7 +10,7 @@ srcdir =	@srcdir@
-  VPATH =		@srcdir@
-  top_srcdir =	@top_srcdir@
-  
- -SUBDIRS =	named rndc dig delv dnssec tools tests nsupdate \
- +SUBDIRS =	named rndc dig delv dnssec tools nsupdate \
-- 		check confgen @PYTHON_TOOLS@ @PKCS11_TOOLS@
-+ 		check confgen @NZD_TOOLS@ @PYTHON_TOOLS@ @PKCS11_TOOLS@
-  TARGETS =
-  
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.11.2.bb
-similarity index 92%
-rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.2.bb
-index 8b8835b..0bbc4df 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.2.bb
-@@ -2,8 +2,8 @@ SUMMARY = "ISC Internet Domain Name Server"
- HOMEPAGE = "http://www.isc.org/sw/bind/"
- SECTION = "console/network"
- 
--LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
-+LICENSE = "ISC & MPL-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f27a50d2e878867827842f2c60e30bfc"
- 
- DEPENDS = "openssl libcap"
- 
-@@ -23,8 +23,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://use-python3-and-fix-install-lib-path.patch \
-            "
- 
--SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
--SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
-+SRC_URI[md5sum] = "efca7e5a63a07efba264da9be2fbb57f"
-+SRC_URI[sha256sum] = "7f46ad8620f7c3b0ac375d7a5211b15677708fda84ce25d7aeb7222fe2e3c77a"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
-@@ -48,6 +48,7 @@ PACKAGECONFIG[httpstats] = "--with-libxml2,--without-libxml2,libxml2"
- PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
- PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
- PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-randomdev=/dev/random,,"
-+PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/.., --without-zlib, zlib, zlib"
- 
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system --home ${localstatedir}/cache/bind --no-create-home \
-@@ -88,7 +89,6 @@ do_install_append() {
- 	install -d "${D}${sysconfdir}/init.d"
- 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
- 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
--	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
- 
- 	# Install systemd related files
- 	install -d ${D}${sbindir}
+Thanks your work!
 -- 
-2.7.4
-
+olofjn
 
