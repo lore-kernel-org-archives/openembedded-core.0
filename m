@@ -1,24 +1,51 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A86D719B1
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A5C8471A92
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 22:12:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Dec 2017 14:12:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; 
-   d="scan'208";a="4152021"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga008.jf.intel.com with ESMTP; 19 Dec 2017 14:12:39 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:12:34 -0800
-Message-Id: <20171219221234.21699-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] core-image-minimal-initramfs: use initramfs-framework for initialization
+	Tue, 19 Dec 2017 22:14:03 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r78so6505778wme.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Dec 2017 14:14:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TrGhDOGgDJfzJXxdvLc7dfsV1IWCvxmL/HmNZJsIlXs=;
+	b=srPC8vs15np/haGWepdtYNBpWw8kmNn+eOf5mRmH9zRuJoQMxQwEa7OdYd3IcQQE7q
+	egPJiqqUgffYfEN8Y9sXmet66L4Muv9QtWfB8SFPOM3vCcI4j2pwcNugsdvrFe3MUfhr
+	thuim4MyWhqnTqicMye5cpeSzpEImDzEVkdZRKhWDntuXxLiUxQPqx7wmdkErtinShIF
+	ijkDo/Tz8x7ZPGBAAHOM5PxKgblLLTerXkXD5K0UqTsmUa57fvkdJhvWPV8DR+dKsbVz
+	zcfi8JTrDghg6asKVLpEQFINb161dNFzVqH/drzaH5PZna8B3jSMGPoGxaDvp8JEsbH4
+	gC6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TrGhDOGgDJfzJXxdvLc7dfsV1IWCvxmL/HmNZJsIlXs=;
+	b=qon7efnkMlMwR4PUQMWVQg72ZukRcXWPYyfZk3G9O/fDoNtkqJVHBxt+aNgTb7ZF2d
+	uxtIWy1IaPMQkmGGBLcm9gE/PSFP/2OB3trWQf6UBNXJb2kJN0pMsVA2yCwQtfsCgmFT
+	+x0wTkMExkdjmy7q750UaNtboqGpIv1EntDpTmy4uOPY3f6Gwrn6Y0q42MKCvaL48fQM
+	xLlIWLP/H6xv/AttOgaanUfEVyYfP1k2/8X2kTHAnZDfhb691CW46fPvJfv5sNw/VXyh
+	SuBy3IdCjOrvAxUEaMTU1YaORA5yIS93blz0CWcSltcMtx6g3MbLgpMn6ww+FBvXzm4f
+	/Smg==
+X-Gm-Message-State: AKGB3mJOIw8JoGdlScqMpvt5O9oP/ivP8Y5FC1TjYLoRTPF5aHMvV0q4
+	kFORHM10kmI4gEx4OvbHbHxGrbWd1tMNsrogbaA=
+X-Google-Smtp-Source: ACJfBougmoMqSybsMPofAq0Wow9jECtG0NuZQKDG2+fYnQ19vDzEvrzBtVhpjUfr2vNLOTW6aR+FAwaXZGpSryjeZ0U=
+X-Received: by 10.28.172.202 with SMTP id v193mr5346354wme.10.1513721644441;
+	Tue, 19 Dec 2017 14:14:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.184.47 with HTTP; Tue, 19 Dec 2017 14:14:03 -0800 (PST)
+In-Reply-To: <20171219220638.GR14220@bill-the-cat>
+References: <20171219201148.19828-1-sgw@linux.intel.com>
+	<20171219205438.GN14220@bill-the-cat>
+	<CAJ86T=Vkj_5FEWTheHJrH_N0nucHo9yW0MANMoevgUFwnswQ-w@mail.gmail.com>
+	<20171219212050.GP14220@bill-the-cat>
+	<CAJTo0LYRX7xJzvGNJoNWztCAdWZB=pKfFfjKsaPSA9J=WtfEPA@mail.gmail.com>
+	<20171219220638.GR14220@bill-the-cat>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 19 Dec 2017 14:14:03 -0800
+Message-ID: <CAJ86T=WDyE8ikOvrTeS+ZYwhOOb+-Bwykp5oWrMTk+5E-fRRKg@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: preserve rootfs if mkext234fs() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 22:12:38 -0000
+X-List-Received-Date: Tue, 19 Dec 2017 22:14:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-initramfs-framework is more modular and expandable. This change was
-proposed in commit 28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e
-"core-image-minimal-initramfs: use initramfs-framework by default" but
-reverted due to the selftests runqemu.RunqemuTests.test_boot_machine_iso
-and runqemu.RunqemuTests.test_boot_deploy_hddimg failing. Since then,
-the kinks have been worked out, and missing functionality that had been
-missed (non-EFI installation module) has been added.
+On Tue, Dec 19, 2017 at 2:06 PM, Tom Rini <trini@konsulko.com> wrote:
+> On Tue, Dec 19, 2017 at 10:04:29PM +0000, Burton, Ross wrote:
+>>
+>> I suspect this will just hang in master-next and never merge into master.
+>
+> That sounds good.  And I suppose at this point, it would be pretty
+> likely to not, too.  Maybe in the future we want a tag in the commit
+> message or something to make it clear it's not for merging to master
+> itself?
 
-Since the PACKAGE_INSTALL variable was getting so long with all these
-individual modules getting added, I also introduced a new
-INITRAMFS_SCRIPTS variable to the core-image-minimal-initramfs recipe.
-This variable makes the recipe look much cleaner, and also allows easier
-replacement or additions to the scripts.
+The previous two rounds of debug for this issue are already in master,
+so I expect this will get merged to master too... and then all be
+reverted once the underlying bug is resolved.
 
-Fixes [YOCTO #10987].
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 5794a25952a..a9ba91bd310 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,15 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+INITRAMFS_SCRIPTS ?= "\
-+                      initramfs-framework-base \
-+                      initramfs-module-setup-live \
-+                      initramfs-module-udev \
-+                      initramfs-module-install \
-+                      initramfs-module-install-efi \
-+                     "
-+
-+PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
--- 
-2.14.3
-
+Personally I think occasionally adding some debug to the master branch
+between releases is OK.
 
