@@ -1,61 +1,24 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D3E4678439
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E4D6778312
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 18:20:11 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id p31so10901965ota.4
+	Tue, 19 Dec 2017 19:07:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBJJ7TPq007520
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 10:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=h0s6aKb1qt44Ah9F6ah6QZNzH9qHUHbSQ/oCkCy0vlM=;
-	b=QwpKJ/bYpR1O79qv4UZ5ymoLRhTvl3xM3ACstbv2EDPIwNmUXv50ijaQ5yKZGAU6LL
-	qIQhb2LDn7TN32tEPSot4R+EkM5Mi/3yJGeFyeTSjC8ZL3pTa7AKDxP4fT5xhaSD97cd
-	S5fDs9di4eQZC+yVvpcf+piJNblb9pt8chPufZ5++DCMuoR6rdC28DR7bMFV8t5b+lOP
-	+Mw9dM8U6wQu8IkN9uO5/RFFpe7p1/utYtKC9oLDddMslWYtfudvc78mGRLsM80XoeYi
-	Md/RJ3byCwwZgJahrT1Ej3icQCR4ddEPK4sD2uxhQCr1VU2bQ7guzj1kpv39dPPEqjWk
-	SfUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=h0s6aKb1qt44Ah9F6ah6QZNzH9qHUHbSQ/oCkCy0vlM=;
-	b=UceEIm9GJliuvyLPfU45H5AEnq7rt4ButFw0O3Ihixu7pdlu8THVJ8lX+iOJoN7M5e
-	uq92A8hWmDjB4XZVElXFuCWM9XIc0yZBAPiGAnoZqicxXMY+rDiJtmc02ZQHUqhQ+uam
-	/SzEi1MVt24MmH9nCHIYsD9nxkhpVn8uicUmqNVDyzYCzzyh3qLIXz5NLQEVv/7HIbRM
-	RNTfekKnYGRIxJQRHLiNHChGYzRrgEggxuz3UK/CEqUpRMmHEYSxfowJ0WDim7nPP2M8
-	IkT0aNCUnLF8GB5ID6qydKriUPg39p3hiwBPBHJGIeIz91rpRWvxhdCgJr0SXMYmdKCG
-	NA1g==
-X-Gm-Message-State: AKGB3mIo3o8VX9pC3Q5cPfpc6QfUUhvVO9ACQ+/SYHQu+9miXZMwWfxV
-	uH3cXfP3ypQvggP0LqPiNQRouj0M
-X-Google-Smtp-Source: ACJfBosVyeaJ8bz8B7ogqP6uPViHyPUsesfW79BImb6M+EiJ3fievFx+KfpdRUbSQZjfFr4kftA1UQ==
-X-Received: by 10.157.40.168 with SMTP id s37mr2935382ota.159.1513707612458;
-	Tue, 19 Dec 2017 10:20:12 -0800 (PST)
-Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com.
-	[74.125.82.178])
-	by smtp.gmail.com with ESMTPSA id q8sm398376otc.33.2017.12.19.10.20.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Dec 2017 10:20:11 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f178.google.com with SMTP id d44so8005242otd.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 10:20:10 -0800 (PST)
-X-Received: by 10.157.14.215 with SMTP id 81mr2813182otj.284.1513707610410;
-	Tue, 19 Dec 2017 10:20:10 -0800 (PST)
+	Tue, 19 Dec 2017 11:07:29 -0800
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 19 Dec 2017 11:07:28 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Dec 2017 11:07:28 -0800
+Message-ID: <20171219190728.133823-1-jslater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Received: by 10.157.41.233 with HTTP; Tue, 19 Dec 2017 10:20:09 -0800 (PST)
-In-Reply-To: <20171219181423.32539-1-otavio@ossystems.com.br>
-References: <20171219181423.32539-1-otavio@ossystems.com.br>
-Date: Tue, 19 Dec 2017 16:20:09 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqWMkofCJ3UrnBCRjYbVLBreVw1cm=o_NbGi1oAD3Rfdw@mail.gmail.com>
-Message-ID: <CAP9ODKqWMkofCJ3UrnBCRjYbVLBreVw1cm=o_NbGi1oAD3Rfdw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] image_types_wic.bbclass: Ensure '-c image_wic' works
+Subject: [PATCH 1/1] testsdk: add ability to search for multilib packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,34 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 18:20:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Dec 2017 19:07:29 -0000
+Content-Type: text/plain
 
-On Tue, Dec 19, 2017 at 4:14 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> The 'wic' image may use files which has been deployed (e.g in
-> do_deploy) for some partitions that may need to be copied in a
-> specific partition or filesystem (e.g a bootloader).
->
-> When using 'bitbake <image> -c image_wic', from a clean build, the
-> contents of do_deploy must also be available so we need to ensure all
-> do_deploy of the image dependencies has been complete.
->
-> Reported-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+We search for packages related to the sdk environment
+being used for a test.
 
-This patch needs to be applied on:
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/lib/oeqa/sdk/cases/buildgalculator.py |  7 ++++---
+ meta/lib/oeqa/sdk/context.py               | 15 +++++++++++++--
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
- - master
- - rocko
- - pyro
- - morty
- - krogoth
-
-It is an annoying bug that has a simple fix.
-
+diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+index 780afcc..8518b15 100644
+--- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
++++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+@@ -8,9 +8,10 @@ class GalculatorTest(OESDKTestCase):
+ 
+     @classmethod
+     def setUpClass(self):
+-        if not (self.tc.hasTargetPackage("gtk\+3") or\
+-                self.tc.hasTargetPackage("libgtk-3.0")):
+-            raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
++        # search for the multilib package per sdk_env
++        if not (self.tc.hasPrefixedTargetPackage("gtk\+3") or
++                self.tc.hasPrefixedTargetPackage("libgtk-3.0")):
++            raise unittest.SkipTest("GalculatorTest class: SDK doesn't support gtk+3")
+ 
+     def test_galculator(self):
+         dl_dir = self.td.get('DL_DIR', None)
+diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
+index b3d7c75..291be1e 100644
+--- a/meta/lib/oeqa/sdk/context.py
++++ b/meta/lib/oeqa/sdk/context.py
+@@ -22,8 +22,9 @@ class OESDKTestContext(OETestContextThreaded):
+         self.host_pkg_manifest = host_pkg_manifest
+ 
+     def _hasPackage(self, manifest, pkg):
+-        for host_pkg in manifest.keys():
+-            if re.search(pkg, host_pkg):
++        pat = re.compile(pkg)
++        for s in manifest.keys():
++            if pat.search(s):
+                 return True
+         return False
+ 
+@@ -33,6 +34,16 @@ class OESDKTestContext(OETestContextThreaded):
+     def hasTargetPackage(self, pkg):
+         return self._hasPackage(self.target_pkg_manifest, pkg)
+ 
++    def hasPrefixedTargetPackage(self, pkg):
++        # extract multilib from environment script name
++        try:
++            p = re.match(".*(lib.?[36][24]-)linux-?", self.sdk_env).group(1) + pkg
++        except:
++            p = pkg
++
++        # bb.warn("Searching for multilib pkg %s" % (p))
++        return self.hasTargetPackage(p)
++
+ class OESDKTestContextExecutor(OETestContextExecutor):
+     _context_class = OESDKTestContext
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.4
+
 
