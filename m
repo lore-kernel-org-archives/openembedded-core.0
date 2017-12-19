@@ -1,29 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 99DE960557
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3BF97826C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 10:26:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Dec 2017 02:26:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,426,1508828400"; 
-   d="scan'208";a="4045445"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga006.jf.intel.com with ESMTP; 19 Dec 2017 02:26:35 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 22DDE580329
+	Tue, 19 Dec 2017 10:39:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBJAdSJ6017649
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 02:26:34 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 12:27:09 +0200
-Message-Id: <1513679229-13845-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v3] i2c-tools: upgrade to 4.0
+	Tue, 19 Dec 2017 02:39:28 -0800 (PST)
+Received: from no3.corp.ad.wrs.com (128.224.125.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 19 Dec 2017 02:39:27 -0800
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Dec 2017 12:39:12 +0200
+Message-ID: <1513679952-12639-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] qemu: CVE-2017-17381
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,311 +31,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 10:26:34 -0000
+X-List-Received-Date: Tue, 19 Dec 2017 10:39:28 -0000
+Content-Type: text/plain
 
-Update the SRC_URI to point to kernel.org location where
-i2c-tools is hosted these days.
+The Virtio Vring implementation in QEMU allows local OS guest users to
+cause a denial of service (divide-by-zero error and QEMU process crash)
+by unsetting vring alignment while updating Virtio rings.
 
-Remove Modules.mk since it was used for deprecated binaries
-(eepromer, eeprom)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2017-17381
 
-Added the following patches to fix races during build:
-        a) 0001-tools-Module.mk-Add-missing-dependencies.patch
-        b) 0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
-        c) 0001-lib-Module.mk-Add-missing-dependencies.patch
+Upstream patch:
+https://git.qemu.org/?p=qemu.git;a=commitdiff;h=758ead31c7e17bf17a9ef2e0ca1c3e86ab296b43
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
 ---
- ...s-eeprog-Module.mk-Add-missing-dependency.patch | 31 ++++++++++
- ...01-lib-Module.mk-Add-missing-dependencies.patch | 36 +++++++++++
- ...-tools-Module.mk-Add-missing-dependencies.patch | 69 +++++++++++++++++++++
- meta/recipes-devtools/i2c-tools/files/Module.mk    | 72 ----------------------
- .../{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb}       | 21 ++++---
- 5 files changed, 148 insertions(+), 81 deletions(-)
- create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
- create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
- create mode 100644 meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
- delete mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
- rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.2.bb => i2c-tools_4.0.bb} (52%)
+ .../qemu/qemu/CVE-2017-17381.patch                 | 72 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.10.1.bb          |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-17381.patch
 
-diff --git a/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch b/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-17381.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-17381.patch
 new file mode 100644
-index 0000000..04174d3
+index 0000000..416771c
 --- /dev/null
-+++ b/meta/recipes-devtools/i2c-tools/files/0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch
-@@ -0,0 +1,31 @@
-+From 01674fefe3bd24fd93412fbb3eb4e85fe70c80aa Mon Sep 17 00:00:00 2001
-+From: "Maxin B. John" <maxin.john@intel.com>
-+Date: Mon, 18 Dec 2017 16:01:39 +0200
-+Subject: [PATCH] i2c-tools: eeprog/Module.mk: Add missing dependency
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-17381.patch
+@@ -0,0 +1,72 @@
++From 758ead31c7e17bf17a9ef2e0ca1c3e86ab296b43 Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Wed, 29 Nov 2017 23:14:27 +0530
++Subject: [PATCH] virtio: check VirtQueue Vring object is set
 +
-+Absence of this dependency caused parallel build to run into a race
-+and break.
-+
-+Upstream-Status: Submitted [ https://marc.info/?l=linux-i2c&m=151360627824942&w=2 ]
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ eeprog/Module.mk | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/eeprog/Module.mk b/eeprog/Module.mk
-+index 9d36869..d215855 100644
-+--- a/eeprog/Module.mk
-++++ b/eeprog/Module.mk
-+@@ -20,7 +20,7 @@ EEPROG_TARGETS	:= eeprog
-+ # Programs
-+ #
-+ 
-+-$(EEPROG_DIR)/eeprog: $(EEPROG_DIR)/eeprog.o $(EEPROG_DIR)/24cXX.o
-++$(EEPROG_DIR)/eeprog: $(EEPROG_DIR)/eeprog.o $(EEPROG_DIR)/24cXX.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(EEPROG_LDFLAGS)
-+ 
-+ #
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch b/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
-new file mode 100644
-index 0000000..a86a1cb
---- /dev/null
-+++ b/meta/recipes-devtools/i2c-tools/files/0001-lib-Module.mk-Add-missing-dependencies.patch
-@@ -0,0 +1,36 @@
-+From a6a59693066fd8da81f7107479df3e32a129247d Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Wed, 6 Dec 2017 09:55:04 +0100
-+Subject: [PATCH] lib/Module.mk: Add missing dependencies
-+
-+The lib symlinks lacked a dependency to the actual library file, so
-+parallel builds could run into a race and break.
++A guest could attempt to use an uninitialised VirtQueue object
++or unset Vring.align leading to a arithmetic exception. Add check
++to avoid it.
 +
 +Upstream-Status: Backport
++CVE: CVE-2017-17381
 +
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
++Reported-by: Zhangboxian <zhangboxian@huawei.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
++Reviewed-by: Cornelia Huck <cohuck@redhat.com>
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
 +---
-+ lib/Module.mk | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ hw/virtio/virtio.c | 14 +++++++++++---
++ 1 file changed, 11 insertions(+), 3 deletions(-)
 +
-+diff --git a/lib/Module.mk b/lib/Module.mk
-+index 432a051..fd2c8c4 100644
-+--- a/lib/Module.mk
-++++ b/lib/Module.mk
-+@@ -42,11 +42,11 @@ endif
-+ $(LIB_DIR)/$(LIB_SHLIBNAME): $(LIB_DIR)/smbus.o
-+ 	$(CC) -shared $(LDFLAGS) -Wl,--version-script=$(LIB_DIR)/libi2c.map -Wl,-soname,$(LIB_SHSONAME) -o $@ $^ -lc
++diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
++index 703e672..ad564b0 100644
++--- a/hw/virtio/virtio.c
+++++ b/hw/virtio/virtio.c
++@@ -182,7 +182,7 @@ void virtio_queue_update_rings(VirtIODevice *vdev, int n)
++ {
++     VRing *vring = &vdev->vq[n].vring;
 + 
-+-$(LIB_DIR)/$(LIB_SHSONAME):
-++$(LIB_DIR)/$(LIB_SHSONAME): $(LIB_DIR)/$(LIB_SHLIBNAME)
-+ 	$(RM) $@
-+ 	$(LN) $(LIB_SHLIBNAME) $@
++-    if (!vring->desc) {
+++    if (!vring->num || !vring->desc || !vring->align) {
++         /* not yet setup -> nothing to do */
++         return;
++     }
++@@ -1414,6 +1414,9 @@ void virtio_config_modern_writel(VirtIODevice *vdev,
 + 
-+-$(LIB_DIR)/$(LIB_SHBASENAME):
-++$(LIB_DIR)/$(LIB_SHBASENAME): $(LIB_DIR)/$(LIB_SHLIBNAME)
-+ 	$(RM) $@
-+ 	$(LN) $(LIB_SHLIBNAME) $@
++ void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr)
++ {
+++    if (!vdev->vq[n].vring.num) {
+++        return;
+++    }
++     vdev->vq[n].vring.desc = addr;
++     virtio_queue_update_rings(vdev, n);
++ }
++@@ -1426,6 +1429,9 @@ hwaddr virtio_queue_get_addr(VirtIODevice *vdev, int n)
++ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
++                             hwaddr avail, hwaddr used)
++ {
+++    if (!vdev->vq[n].vring.num) {
+++        return;
+++    }
++     vdev->vq[n].vring.desc = desc;
++     vdev->vq[n].vring.avail = avail;
++     vdev->vq[n].vring.used = used;
++@@ -1494,8 +1500,10 @@ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align)
++      */
++     assert(k->has_variable_vring_alignment);
 + 
++-    vdev->vq[n].vring.align = align;
++-    virtio_queue_update_rings(vdev, n);
+++    if (align) {
+++        vdev->vq[n].vring.align = align;
+++        virtio_queue_update_rings(vdev, n);
+++    }
++ }
++ 
++ static bool virtio_queue_notify_aio_vq(VirtQueue *vq)
 +-- 
-+2.4.0
++2.10.2
 +
-diff --git a/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch b/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
-new file mode 100644
-index 0000000..e47c02a
---- /dev/null
-+++ b/meta/recipes-devtools/i2c-tools/files/0001-tools-Module.mk-Add-missing-dependencies.patch
-@@ -0,0 +1,69 @@
-+From 08b0d67ba7eceb862cb17f52eb1911e9579726ea Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Thu, 14 Dec 2017 08:52:26 +0100
-+Subject: [PATCH] tools/Module.mk: Add missing dependencies
-+
-+Better build the library before building the tools which link against
-+it, otherwise parallel builds could run into a race and break.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Tested-by: Angelo Compagnucci <angelo@amarulasolutions.com>
-+Acked-by: Angelo Compagnucci <angelo@amarulasolutions.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ lib/Module.mk   |  7 +++++++
-+ tools/Module.mk | 10 +++++-----
-+ 2 files changed, 12 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/Module.mk b/lib/Module.mk
-+index 8a58f5b..67afe91 100644
-+--- a/lib/Module.mk
-++++ b/lib/Module.mk
-+@@ -37,6 +37,13 @@ ifeq ($(BUILD_STATIC_LIB),1)
-+ LIB_TARGETS	+= $(LIB_STLIBNAME)
-+ endif
-+ 
-++# Library file to link against (static or dynamic)
-++ifeq ($(USE_STATIC_LIB),1)
-++LIB_DEPS	:= $(LIB_DIR)/$(LIB_STLIBNAME)
-++else
-++LIB_DEPS	:= $(LIB_DIR)/$(LIB_SHBASENAME)
-++endif
-++
-+ #
-+ # Libraries
-+ #
-+diff --git a/tools/Module.mk b/tools/Module.mk
-+index 6421a23..609de7a 100644
-+--- a/tools/Module.mk
-++++ b/tools/Module.mk
-+@@ -24,19 +24,19 @@ TOOLS_TARGETS	:= i2cdetect i2cdump i2cset i2cget i2ctransfer
-+ # Programs
-+ #
-+ 
-+-$(TOOLS_DIR)/i2cdetect: $(TOOLS_DIR)/i2cdetect.o $(TOOLS_DIR)/i2cbusses.o
-++$(TOOLS_DIR)/i2cdetect: $(TOOLS_DIR)/i2cdetect.o $(TOOLS_DIR)/i2cbusses.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
-+ 
-+-$(TOOLS_DIR)/i2cdump: $(TOOLS_DIR)/i2cdump.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
-++$(TOOLS_DIR)/i2cdump: $(TOOLS_DIR)/i2cdump.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
-+ 
-+-$(TOOLS_DIR)/i2cset: $(TOOLS_DIR)/i2cset.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
-++$(TOOLS_DIR)/i2cset: $(TOOLS_DIR)/i2cset.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
-+ 
-+-$(TOOLS_DIR)/i2cget: $(TOOLS_DIR)/i2cget.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
-++$(TOOLS_DIR)/i2cget: $(TOOLS_DIR)/i2cget.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
-+ 
-+-$(TOOLS_DIR)/i2ctransfer: $(TOOLS_DIR)/i2ctransfer.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
-++$(TOOLS_DIR)/i2ctransfer: $(TOOLS_DIR)/i2ctransfer.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o $(LIB_DEPS)
-+ 	$(CC) $(LDFLAGS) -o $@ $^ $(TOOLS_LDFLAGS)
-+ 
-+ #
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-devtools/i2c-tools/files/Module.mk b/meta/recipes-devtools/i2c-tools/files/Module.mk
-deleted file mode 100644
-index fcaf72f..0000000
---- a/meta/recipes-devtools/i2c-tools/files/Module.mk
-+++ /dev/null
-@@ -1,72 +0,0 @@
--# EEPROMER
--#
--# Licensed under the GNU General Public License.
--
--EEPROMER_DIR	:= eepromer
--
--EEPROMER_CFLAGS	:= -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
--		   -Wcast-align -Wwrite-strings -Wnested-externs -Winline \
--		   -W -Wundef -Wmissing-prototypes -Iinclude
--
--EEPROMER_TARGETS	:= eepromer eeprom eeprog
--
--#
--# Programs
--#
--
--$(EEPROMER_DIR)/eepromer: $(EEPROMER_DIR)/eepromer.o
--	$(CC) $(LDFLAGS) -o $@ $^
--
--$(EEPROMER_DIR)/eeprom: $(EEPROMER_DIR)/eeprom.o
--	$(CC) $(LDFLAGS) -o $@ $^
--
--$(EEPROMER_DIR)/eeprog: $(EEPROMER_DIR)/eeprog.o $(EEPROMER_DIR)/24cXX.o 
--	$(CC) $(LDFLAGS) -o $@ $^
--
--#
--# Objects
--#
--
--$(EEPROMER_DIR)/eepromer.o: $(EEPROMER_DIR)/eepromer.c
--	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
--
--$(EEPROMER_DIR)/eeprom.o: $(EEPROMER_DIR)/eeprom.c
--	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
--
--$(EEPROMER_DIR)/eeprog.o: $(EEPROMER_DIR)/eeprog.c
--	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
--
--$(EEPROMER_DIR)/24cXX.o: $(EEPROMER_DIR)/24cXX.c
--	$(CC) $(CFLAGS) $(EEPROMER_CFLAGS) -c $< -o $@
--
--#
--# Commands
--#
--
--all-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
--
--strip-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
--	strip $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
--
--clean-eepromer:
--	$(RM) $(addprefix $(EEPROMER_DIR)/,*.o $(EEPROMER_TARGETS))
--
--install-eepromer: $(addprefix $(EEPROMER_DIR)/,$(EEPROMER_TARGETS))
--	$(INSTALL_DIR) $(DESTDIR)$(sbindir) $(DESTDIR)$(man8dir)
--	for program in $(EEPROMER_TARGETS) ; do \
--	$(INSTALL_PROGRAM) $(EEPROMER_DIR)/$$program $(DESTDIR)$(sbindir) ; done
--
--uninstall-eepromer:
--	for program in $(EEPROMER_TARGETS) ; do \
--	$(RM) $(DESTDIR)$(sbindir)/$$program ; \
--	$(RM) $(DESTDIR)$(man8dir)/$$program.8 ; done
--
--all: all-eepromer
--
--strip: strip-eepromer
--
--clean: clean-eepromer
--
--install: install-eepromer
--
--uninstall: uninstall-eepromer
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
-similarity index 52%
-rename from meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
-rename to meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
-index 45d3d6d..e936fd7 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.0.bb
-@@ -4,20 +4,20 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.1.bb b/meta/recipes-devtools/qemu/qemu_2.10.1.bb
+index 71cc74e..6c2dd58 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.1.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://chardev-connect-socket-to-a-spawned-command.patch \
+            file://apic-fixup-fallthrough-to-PIC.patch \
+            file://ppc_locking.patch \
++           file://CVE-2017-17381.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
--SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.bz2 \
--           file://Module.mk \
-+SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
-+           file://0001-lib-Module.mk-Add-missing-dependencies.patch \
-+           file://0001-tools-Module.mk-Add-missing-dependencies.patch \
-+           file://0001-i2c-tools-eeprog-Module.mk-Add-missing-dependency.patch \
- "
--UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/i/i2c-tools/"
--UPSTREAM_CHECK_REGEX = "i2c-tools_(?P<pver>.+)\.orig"
--SRC_URI[md5sum] = "7104a1043d11a5e2c7b131614eb1b962"
--SRC_URI[sha256sum] = "db5e69f2e2a6e3aa2ecdfe6a5f490b149c504468770f58921c8c5b8a7860a441"
-+
-+SRC_URI[md5sum] = "d92a288d70f306d3895e3a7e9c14c9aa"
-+SRC_URI[sha256sum] = "5b60daf6f011de0acb61de57dba62f2054bb39f19961d67e0c91610f071ca403"
- 
- inherit autotools-brokensep
- 
- do_compile_prepend() {
--    cp ${WORKDIR}/Module.mk ${S}/eepromer/
-     sed -i 's#/usr/local#/usr#' ${S}/Makefile
--    echo "include eepromer/Module.mk" >> ${S}/Makefile
-+    echo "include eeprog/Module.mk" >> ${S}/Makefile
- }
- 
- do_install_append() {
-@@ -33,4 +33,7 @@ FILES_${PN}-misc = "${sbindir}/i2c-stub-from-dump \
-                         ${bindir}/decode-dimms \
-                         ${bindir}/decode-vaio \
-                        "
--RDEPENDS_${PN}-misc = "${PN} perl"
-+RDEPENDS_${PN}-misc = "${PN} perl perl-module-posix \
-+                       perl-module-constant perl-module-file-basename \
-+                       perl-module-fcntl perl-module-strict perl-module-vars \
-+                      "
 -- 
-2.4.0
+2.10.2
 
 
