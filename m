@@ -1,24 +1,25 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E4D6778312
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DDDBB7807D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 19:07:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBJJ7TPq007520
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 11:07:29 -0800
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 19 Dec 2017 11:07:28 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Dec 2017 11:07:28 -0800
-Message-ID: <20171219190728.133823-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] testsdk: add ability to search for multilib packages
+	Tue, 19 Dec 2017 20:11:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Dec 2017 12:11:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="188186025"
+Received: from swold-mobl2.jf.intel.com ([10.24.8.185])
+	by fmsmga005.fm.intel.com with ESMTP; 19 Dec 2017 12:11:48 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, ross.burton@intel.com,
+	liezhi.yang@windriver.com
+Date: Tue, 19 Dec 2017 12:11:48 -0800
+Message-Id: <20171219201148.19828-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH] image_types: preserve rootfs if mkext234fs() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 19:07:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Dec 2017 20:11:48 -0000
 
-We search for packages related to the sdk environment
-being used for a test.
+We have seen more failures, but have not been able to directly reproduce
+it maybe svaing the rootfs and it contains some content that is tripping
+up the e2fsprogs mkfs.ext4 populate_rootfs() function
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oeqa/sdk/cases/buildgalculator.py |  7 ++++---
- meta/lib/oeqa/sdk/context.py               | 15 +++++++++++++--
- 2 files changed, 17 insertions(+), 5 deletions(-)
+ meta/classes/image_types.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index 780afcc..8518b15 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -8,9 +8,10 @@ class GalculatorTest(OESDKTestCase):
- 
-     @classmethod
-     def setUpClass(self):
--        if not (self.tc.hasTargetPackage("gtk\+3") or\
--                self.tc.hasTargetPackage("libgtk-3.0")):
--            raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
-+        # search for the multilib package per sdk_env
-+        if not (self.tc.hasPrefixedTargetPackage("gtk\+3") or
-+                self.tc.hasPrefixedTargetPackage("libgtk-3.0")):
-+            raise unittest.SkipTest("GalculatorTest class: SDK doesn't support gtk+3")
- 
-     def test_galculator(self):
-         dl_dir = self.td.get('DL_DIR', None)
-diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
-index b3d7c75..291be1e 100644
---- a/meta/lib/oeqa/sdk/context.py
-+++ b/meta/lib/oeqa/sdk/context.py
-@@ -22,8 +22,9 @@ class OESDKTestContext(OETestContextThreaded):
-         self.host_pkg_manifest = host_pkg_manifest
- 
-     def _hasPackage(self, manifest, pkg):
--        for host_pkg in manifest.keys():
--            if re.search(pkg, host_pkg):
-+        pat = re.compile(pkg)
-+        for s in manifest.keys():
-+            if pat.search(s):
-                 return True
-         return False
- 
-@@ -33,6 +34,16 @@ class OESDKTestContext(OETestContextThreaded):
-     def hasTargetPackage(self, pkg):
-         return self._hasPackage(self.target_pkg_manifest, pkg)
- 
-+    def hasPrefixedTargetPackage(self, pkg):
-+        # extract multilib from environment script name
-+        try:
-+            p = re.match(".*(lib.?[36][24]-)linux-?", self.sdk_env).group(1) + pkg
-+        except:
-+            p = pkg
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9188bed4197..6b4f39ed274 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -86,9 +86,14 @@ oe_mkext234fs () {
+ 	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+ 	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+ 	bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+-	bbdebug 1 "Actual Partion size: `ls -s ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
++	bbdebug 1 "Actual Partion size: `ls -l ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+ 	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}"
+ 	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
++	if [ $? -ne 0 ]; then
++		tmp_saved_rootfs=`mktemp -d -p /tmp saved_rootfs.XXXXX`
++		cp -r ${IMAGE_ROOTFS} $tmp_saved_rootfs
++	fi
 +
-+        # bb.warn("Searching for multilib pkg %s" % (p))
-+        return self.hasTargetPackage(p)
-+
- class OESDKTestContextExecutor(OETestContextExecutor):
-     _context_class = OESDKTestContext
- 
+ 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
+ 	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype || [ $? -le 3 ]
+ }
 -- 
-2.7.4
+2.13.6
 
 
