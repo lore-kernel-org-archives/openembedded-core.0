@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id EF81D78679
+	by mail.openembedded.org (Postfix) with ESMTP id ED19778698
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Dec 2017 22:58:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Dec 2017 14:58:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433596"
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433581"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 14:58:36 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:58:29 -0800
-Message-Id: <20171219225831.22587-17-california.l.sullivan@intel.com>
+Date: Tue, 19 Dec 2017 14:58:24 -0800
+Message-Id: <20171219225831.22587-12-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
 References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Subject: [PATCH RFC 16/18] systemd-boot*.bbclass: Don't use vmlinuz
+Subject: [PATCH RFC 11/18] wic: add wks file to make use of new bootfs functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,48 +34,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Dec 2017 22:58:39 -0000
 
-We can't guarantee vmlinuz anymore. Use KERNEL_IMAGETYPE instead.
+With the postprocess command and installation into /boot/ in place, we
+can use wic to create an EFI-compatible image without it having any
+knowledge of the kernel or bootloader.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/systemd-boot-cfg.bbclass | 6 +++++-
- meta/classes/systemd-boot.bbclass     | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
 
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 46eeae126ae..360c86cbd34 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -1,3 +1,5 @@
-+KERNEL_IMAGETYPE ??= "bzImage"
-+
- SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
-@@ -52,7 +54,9 @@ python build_efi_cfg() {
-         localdata.setVar('OVERRIDES', label + ':' + overrides)
- 
-         entrycfg.write('title %s\n' % label)
--        entrycfg.write('linux /vmlinuz\n')
-+
-+        kernel = localdata.getVar("KERNEL_IMAGETYPE")
-+        entrycfg.write('linux /%s\n' % kernel)
- 
-         append = localdata.getVar('APPEND')
-         initrd = localdata.getVar('INITRD')
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 14538fe2d7a..3cd6811a6ce 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -45,7 +45,7 @@ efi_iso_populate() {
-         mkdir -p ${EFIIMGDIR}/${EFIDIR}
-         cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/vmlinuz ${EFIIMGDIR}
-+        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
-         EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-         echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-         if [ -f "$iso_dir/initrd" ] ; then
+diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+new file mode 100644
+index 00000000000..c9d7aa5761e
+--- /dev/null
++++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+@@ -0,0 +1,6 @@
++# based off of refkit's refkit-directdisk.wks.in kickstart template
++# uses the image's boot directory to populate a vfat boot partition,
++# which works with EFI.
++bootloader --ptable gpt
++part /boot --source rootfs --rootfs-dir=${IMAGE_BOOTFS} --fstype=vfat --label msdos --active --align 1024 --use-uuid
++part / --source rootfs --fstype=ext4 --label root --align 1024 --uuid ${DISK_SIGNATURE_UUID}
 -- 
 2.14.3
 
