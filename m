@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 60BE478679
+	by mail.openembedded.org (Postfix) with ESMTP id 799357867C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Dec 2017 22:58:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Dec 2017 14:58:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433602"
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433572"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 14:58:36 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:58:31 -0800
-Message-Id: <20171219225831.22587-19-california.l.sullivan@intel.com>
+Date: Tue, 19 Dec 2017 14:58:21 -0800
+Message-Id: <20171219225831.22587-9-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
 References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Subject: [PATCH RFC 18/18] packagegroup-core-boot: add kernel for EFI systems
+Subject: [PATCH RFC 08/18] packagegroup-core-boot: add bootloader to EFI systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +34,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Dec 2017 22:58:38 -0000
 
-Previously this wasn't needed because the kernel was added at image
-creation time to the boot partition. Now that the boot partition is
-created from the /boot/ partition of the rootfs, it needs to be
-installed there.
+Since the bootloader is now installed instead of added at image creation
+time, this is necessary for booting.
+
+Also set the default to grub-efi. This is done because a default of
+grub-efi is already used by live-vm-common.bbclass, and in the event
+that EFI_PROVIDER isn't defined errors would occur.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 0fcb8ba9193..76cd7fc4ebf 100644
+index 04bc0f2b693..0fcb8ba9193 100644
 --- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
 +++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -37,7 +37,7 @@ RDEPENDS_${PN} = "\
+@@ -23,6 +23,8 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ 
++EFI_PROVIDER ??= "grub-efi"
++
+ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+@@ -35,6 +37,7 @@ RDEPENDS_${PN} = "\
      ${VIRTUAL-RUNTIME_base-utils} \
      ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
      ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
--    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)} \
-+    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} kernel", "", d)} \
++    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)} \
      netbase \
      ${VIRTUAL-RUNTIME_login_manager} \
      ${VIRTUAL-RUNTIME_init_manager} \
