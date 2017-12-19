@@ -1,55 +1,49 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AA2F7842F
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C110784DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 14:02:18 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1513692140; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=tlvqrve3mrK8wzQYRMxmrc1soHtED/+jOVRvMS0z5W4=;
-	b=abuhJULdpTbz6rXiigO2eMdJt0eSzJhLP+lRihNynQRaPmbfy9A0a/1eFBUkgsnzpDQ8xTAh
-	N2527XBQoMa6E7Zs557rLkRtiIgzLvTL4Hz7gUwZ/PeQKXeBUogUBOBeSpRNjp8WxevTpvPl
-	DasCvy7x/TDYQVBGty0/wb3aN2o=
-X-Mailgun-Sending-Ip: 104.130.122.4
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-Sender: derek@asterius.io
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mxa.mailgun.org with ESMTP id 5a391bec.7fec94b93870-smtp-out-n02;
-	Tue, 19 Dec 2017 14:02:20 -0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id d66so22599437qkg.1;
-	Tue, 19 Dec 2017 06:02:19 -0800 (PST)
-X-Gm-Message-State: AKGB3mLlc2udvtM2LALS/2Rh0ArAejkUhw3aS0mCZjCctqzNTqYdKZt8
-	1WaQ8ZPUsvRrHKjR1OKs4a87edOMVQTEjc6xWW4=
-X-Google-Smtp-Source: ACJfBov4OP2cx62hmt4IZKHjVJKtN0NLZi/9M9BGQaNIbBG4H7xnLwema65hxjw2atccEYD8b4vs84cc9eF0L7Ir7w8=
-X-Received: by 10.55.153.194 with SMTP id b185mr1692428qke.230.1513692139150; 
-	Tue, 19 Dec 2017 06:02:19 -0800 (PST)
+	Tue, 19 Dec 2017 14:19:41 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id u84so401470lff.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Dec 2017 06:19:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZporPqvbTZRmE6lwwV1GJOX6ZW3r5sb4JMKkZbKbcF8=;
+	b=jMQ/iL0NozN2wCRblCyJMCNlNPExqvB+EbPpGn32fKppnpdEofa/eNWDPWX4wCH9hU
+	qNy1bWuBZd9Vd+WKGuzMalqrOLKEjaXN5d7TohCeXeE8kzJsC22JolBCvYP93HeUJqRI
+	qd8zzFXtojCPj0xDxTrP2UBC3a0/Eg/+uH0VyRXyW/v4nFPJNWvVtqOf0LBJaFMfMZcs
+	Z9IzNvLn5SUmD55pQHCMw3FAbWpdDMjNNBgHTc1iov4wPl+wH2BMZTDAFtrGEILhlSHd
+	hZwfVBymu8RDFiPBqRvxwgrXcM+eVB4vvXkJy7ah6DIr+lDqLUsz2LQGVHOkHZ29qoQ9
+	lvnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZporPqvbTZRmE6lwwV1GJOX6ZW3r5sb4JMKkZbKbcF8=;
+	b=uC8Svbh/Cf3furRH8WyV5hGux9Ej439zj5h7qVyw+4Cm86eHNSnF8yMAMeG3+l3yTS
+	iHHcQRKoRI77JM7WfyozMAWG6wqwSgFfxTUjIFE+wHMe6xq7iS89gSIiWdLc8BHbLHip
+	hDr9aitn+ODOr3/Os3OO1eCrYchJpZkP4a8YGZPwM+Z8/89qeFAJDQvBNNfhtQW72kUq
+	tBL8Fy3mehvZPrRaBCNveVwFkYFowdvvI3+OI53gqjNpPgle/FGFTydNq9ivpzLDZoj7
+	tC4Gh7SkoU5m4bbm+FOT+ZRtANF65tF5I0uPmwrmj6qe1UZDhmRpTVam0V0U5MdoCBSv
+	dvXA==
+X-Gm-Message-State: AKGB3mK/JsQMmhl2MkdrvNCbOsF28VnNrBxbriVJ6xzVIhRuhW7/jR5f
+	4TaS/LKeLUy5zdMUb/qB0KcnpVpoSpdo3Od1hc4=
+X-Google-Smtp-Source: ACJfBoskLzHo7ENEp58IJCMM1YN+SKFWyCgtYUFjaHihTdoqo74jRhRTiDky4XSEKhvOpjNdvOXA+G/foVZw0AOAnkg=
+X-Received: by 10.46.1.205 with SMTP id f74mr2331378lji.16.1513693182398; Tue,
+	19 Dec 2017 06:19:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.21.177 with HTTP; Tue, 19 Dec 2017 06:02:18 -0800 (PST)
-In-Reply-To: <CAJTo0LZ0e2iX84X_cOKxi9ziu9EgapG9_4MOKkPBEhKE=teCzg@mail.gmail.com>
-References: <1512414044-1012-1-git-send-email-mark.asselstine@windriver.com>
-	<CADNbA1qnmF3-MKo=fqQQeWEedE5A-wzkUkCgdCNArOePjMaXQw@mail.gmail.com>
-	<CAPuovEKdqQP35XwP3bgBrE4EFbM2LwpHrHzxF3my9qaWfAaCbA@mail.gmail.com>
-	<CABcZANku-aE5a69GpJxXmd2F0+uYVhiRZB3Uut7F2RG1e3R9EA@mail.gmail.com>
-	<CAPuovEJNf=qefXX6wKJGaH+HkM6aan49AgVQ3TEWVWPSCn3cNw@mail.gmail.com>
-	<711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
-	<CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
-	<CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
-	<20171218210256.GQ27580@vctlabs.com>
-	<2bc1c40c-3f63-7311-b8a3-81bd05ea474f@linux.intel.com>
-	<CADNbA1oCH=x1SoZn-pb50bZabf+rurd1w_o7D9P9FM4u=FXXsQ@mail.gmail.com>
-	<32cbea3c-5275-cd8e-e7ef-7654e1e94bfa@linux.intel.com>
-	<CADNbA1rNAafn+pUCuWJQ0AgrtwJpB4EUNfF7M1czOqVag7TL8Q@mail.gmail.com>
-	<CAJTo0LZ0e2iX84X_cOKxi9ziu9EgapG9_4MOKkPBEhKE=teCzg@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Tue, 19 Dec 2017 09:02:18 -0500
-X-Gmail-Original-Message-ID: <CADNbA1pLbXO=Wqz_M6LD801YgR266n=5tndBgSqZz49g-hQdsQ@mail.gmail.com>
-Message-ID: <CADNbA1pLbXO=Wqz_M6LD801YgR266n=5tndBgSqZz49g-hQdsQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] splitting python's standard library
+Received: by 10.25.228.202 with HTTP; Tue, 19 Dec 2017 06:19:21 -0800 (PST)
+In-Reply-To: <1513681725.16507.62.camel@linuxfoundation.org>
+References: <20171212172317.601-1-raj.khem@gmail.com>
+	<20171212172317.601-8-raj.khem@gmail.com>
+	<1513681725.16507.62.camel@linuxfoundation.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 19 Dec 2017 15:19:21 +0100
+Message-ID: <CAPybu_3y6Cu8keZJOYzJ3DQA9=jLHQ=d8w7fwugZoisCbpZW1g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/9] gcc-7.2: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,54 +56,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 14:02:19 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07d53040ea6a0560b1eaa0"
-
---94eb2c07d53040ea6a0560b1eaa0
+X-List-Received-Date: Tue, 19 Dec 2017 14:19:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the heads up.  I'll pull the changeset into my testing branch
-and touch up all the meta-python recipes to remove the now non-existent
-packages.
+Hi Richard
 
-On Tue, Dec 19, 2017 at 8:43 AM, Burton, Ross <ross.burton@intel.com> wrote:
+My target is a X86_64 camera, and I have only tried with it.
 
-> On 19 December 2017 at 13:23, Derek Straka <derek@asterius.io> wrote:
->
->> Cool.  Works for me.  Thanks.
+On Tue, Dec 19, 2017 at 12:08 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2017-12-12 at 09:23 -0800, Khem Raj wrote:
+>> From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 >>
+>> Without this patch libbacktrace cannot be included/link during
+>> libgfortran build.
+>>
+>> libbtool: link: cannot find the library
+>> `../libbacktrace/libbacktrace.la'
+>> or unhandled argument `../libbacktrace/libbacktrace.la
+>>
+>> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
+>>  .../gcc/gcc-7.2/0051-Fix-gfortran-build.patch      | 53
+>> ++++++++++++++++++++++
+>>  2 files changed, 54 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-
+>> gfortran-build.patch
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-
+>> devtools/gcc/gcc-7.2.inc
+>> index 1d40cba731..baf98aeba8 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
+>> @@ -75,6 +75,7 @@ SRC_URI = "\
+>>             file://0048-gcc-Enable-static-PIE.patch \
+>>             file://fix-segmentation-fault-precompiled-hdr.patch \
+>>             file://0050-RISC-V-Handle-non-legitimate-address-in-
+>> riscv_legiti.patch \
+>> +           file://0051-Fix-gfortran-build.patch \
+>>             ${BACKPORTS} \
+>>  "
+>>  BACKPORTS = "\
+>> diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-
+>> build.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-
+>> build.patch
+>> new file mode 100644
+>> index 0000000000..a71b6b0bee
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
+>> @@ -0,0 +1,53 @@
+>> +Without this patch libbacktrace cannot be included/link during
+>> +libgfortran build.
+>> +
+>> +libbtool: link: cannot find the library
+>> `../libbacktrace/libbacktrace.la'
+>> +or unhandled argument `../libbacktrace/libbacktrace.la'
+>> +
+>> +Upstream-Status: Inappropriate [OE specific]
+>> +Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>> +
+>> +diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
+>> +index 2857af5943f9..e07760069a3c 100644
+>> +--- a/libgfortran/Makefile.am
+>> ++++ b/libgfortran/Makefile.am
+>> +@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
+>> + toolexeclib_DATA = libgfortran.spec
+>> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
+>> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#'
+>> $(srcdir)/libtool-version` \
+>> +-    $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la
+>> \
+>> ++    $(LTLDFLAGS) $(LIBQUADLIB)
+>> ../../libbacktrace/libbacktrace.la \
+>> +     $(HWCAP_LDFLAGS) \
+>> +     -lm $(extra_ldflags_libgfortran) \
+>> +     $(version_arg) -Wc,-shared-libgcc
+>> +@@ -64,7 +64,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io
+>> -I$(srcdir)/$(MULTISRCTOP)../gcc \
+>> +           -I$(MULTIBUILDTOP)../libgcc \
+>> +           -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
+>> +           -I$(MULTIBUILDTOP)../libbacktrace \
+>> +-          -I../libbacktrace
+>> ++          -I../../libbacktrace
+>> +
+>> + # Fortran rules for complex multiplication and division
+>> + AM_CFLAGS += -fcx-fortran-rules
+>> +diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
+>> +index 05b183dcadb0..c9e0280e412c 100644
+>> +--- a/libgfortran/Makefile.in
+>> ++++ b/libgfortran/Makefile.in
+>> +@@ -581,7 +581,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
+>> + toolexeclib_DATA = libgfortran.spec
+>> + libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
+>> + libgfortran_la_LDFLAGS = -version-info `grep -v '^\#'
+>> $(srcdir)/libtool-version` \
+>> +-    $(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la
+>> \
+>> ++    $(LTLDFLAGS) $(LIBQUADLIB)
+>> ../../libbacktrace/libbacktrace.la \
+>> +     $(HWCAP_LDFLAGS) \
+>> +     -lm $(extra_ldflags_libgfortran) \
+>> +     $(version_arg) -Wc,-shared-libgcc
+>> +@@ -602,7 +602,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io
+>> -I$(srcdir)/$(MULTISRCTOP)../gcc \
+>> +           -I$(MULTIBUILDTOP)../libgcc \
+>> +           -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
+>> +           -I$(MULTIBUILDTOP)../libbacktrace \
+>> +-          -I../libbacktrace
+>> ++          -I../../libbacktrace
+>> +
+>> + gfor_io_src = io/size_from_kind.c $(am__append_2)
+>> + gfor_io_headers = \
 >
-> There's an epic patch on the list which I'm reviewing right now that
-> drastically changes how the core Python library is packaged.  If you'd like
-> to have a look, the almost-final (my bandaid fixes need to be squashed) is
-> at poky-contrib:ross/py.
+> Did you try this for something other than x86_64? I think this won't
+> work when cross compiling and host != target.
 >
-> Ross
+> I do have a better fix which might work in mind...
+>
+> Cheers,
+>
+> Richard
 >
 
---94eb2c07d53040ea6a0560b1eaa0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks for the heads up.=C2=A0 I&#39;ll pull the changeset=
- into my testing branch and touch up all the meta-python recipes to remove =
-the now non-existent packages.</div><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote">On Tue, Dec 19, 2017 at 8:43 AM, Burton, Ross <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ros=
-s.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div dir=3D"ltr"><span class=3D"">On 19 December 2017 at 13:23, Derek Strak=
-a <span dir=3D"ltr">&lt;<a href=3D"mailto:derek@asterius.io" target=3D"_bla=
-nk">derek@asterius.io</a>&gt;</span> wrote:<br></span><div class=3D"gmail_e=
-xtra"><div class=3D"gmail_quote"><span class=3D""><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">Cool.=C2=A0 Works for me.=C2=A0 Thanks.<br></blockquote><div><br></di=
-v></span><div>There&#39;s an epic patch on the list which I&#39;m reviewing=
- right now that drastically changes how the core Python library is packaged=
-.=C2=A0 If you&#39;d like to have a look, the almost-final (my bandaid fixe=
-s need to be squashed) is at poky-contrib:ross/py.</div><span class=3D"HOEn=
-Zb"><font color=3D"#888888"><div><br></div><div>Ross=C2=A0</div></font></sp=
-an></div></div></div>
-</blockquote></div><br></div>
 
---94eb2c07d53040ea6a0560b1eaa0--
+-- 
+Ricardo Ribalda
+
