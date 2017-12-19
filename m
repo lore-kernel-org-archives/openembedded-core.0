@@ -1,50 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7014C71AC5
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B387571AC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 22:02:32 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id w127so15182645iow.11
+	Tue, 19 Dec 2017 22:04:48 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id f190so4533690ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 14:02:33 -0800 (PST)
+	Tue, 19 Dec 2017 14:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NDxfyZzXa5vu1KNNc2/G/rYqtiUu2HYJEM0AuUtLWbI=;
-	b=lw/UOxfDijs3fh2ZdHdDOAxU7RGYSrv9F7eEcNMpukIs9UskdaddMTl18Tk84xPSGd
-	jGpwR40WxpNrap79CCQ7nl1dUilRIire+FFgawyqXaC3r8/DYnk6zq4ErkkqvaQUgpdo
-	D9ZdSbSBYccPJW6usrkExXEHL0kR3PB6pqVEsao00zASvMucMOtHWs0P5Kjoe3K54PYW
-	uGUXDfNr9vtxIGD6uZ+l8wkBQlCBckyPTMcbIinQYp3ndUE0oHeAGRAJXAcEaXXVCV3E
-	Squ7O4gIrllRgtI4f4wdHt7/9tZL6r06px7/mlMkSgLmy/+9pddxJLU31ZePbNV3s+J8
-	hYVA==
+	:cc; bh=o4fFuIKTezT4WZmrqR0H+LWZpA97+Gy88uUsfd37FjE=;
+	b=lN628P50atOcU4GzU3bfU0p4PBMLok1paeNiSQluPP7yUV0cJwyU6z01qDdJ/4KUIe
+	bL8lMJID3YvDGoQ/HE5yJvHCWrnV/PRnRIRvh8RybdKsJH9kVlwrPviUj3nac+Rev1BM
+	DLERqVKk3rv0lcpLqZcSpVWmLK5mqxvT50st7vMCeYWKDXvJzrM9acKbbEMg590A/eCa
+	Zu9ZyWwOpMSkrJqDmoAYHY3ZuMdq6o/EYwWaJn7dftuiNBuwinbCqh4/kcic+CaG5TI4
+	LrQq5sYljm9m9AOGARnRaW4FRtQPhfY+PcSmaW/PZF/w1SHZLU7ReZzsMu+9yHW86kbx
+	gTWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NDxfyZzXa5vu1KNNc2/G/rYqtiUu2HYJEM0AuUtLWbI=;
-	b=Qc/1L8hf12/u8ivG7ISh/d+PQvfa5Y+ZpUwsBgT7TGBnxUjySb1Rdqj5jROLGbwICp
-	9AIQC+Xw81qH9QyjGCI59Hbg69153IXHOPhUqmGup6zstJ/bAsNyggsgs5rLJetWG7Sy
-	DyURyTAks9tasMl9ZDWtxNtgxHhjc00IRILRq1YXNZWYQzmfhoK18Y9yIfqMGWV2aTLc
-	46wf+zjJV/pzDEQ8LYO38pWJnKULd33TdNP7QO2UKpepbgcMCocjZ+zAVMvKowmQMuL9
-	bPcaiVUg8LsyNssxBBTe8RxD0BVuFqrkFU7V2VAW0LhB7bt/eUjXF2LApcuNt7S1uUf/
-	T8Bg==
-X-Gm-Message-State: AKGB3mLTe5iC5FmYY3VDDTVEopN/+ujCBgUv5asLH34eols1KOQcSZbu
-	IR0XYi9OhaQR53Sfgh0+FNEQKkYlmUWgQqnIH1fyDQ==
-X-Google-Smtp-Source: ACJfBov9i/9iISnYowhXBCIg5wTbolfXED+9nzSKXINfxvckSgGR30wv9MFsERPPpDc2DWvyu9jsW3E4TCXxHSDSn9I=
-X-Received: by 10.107.146.9 with SMTP id u9mr4570429iod.37.1513720953572; Tue,
-	19 Dec 2017 14:02:33 -0800 (PST)
+	bh=o4fFuIKTezT4WZmrqR0H+LWZpA97+Gy88uUsfd37FjE=;
+	b=GfkRS8QeJRNRlYJ5zU2pamB+HPnle+CHazQcfZoJiwBRVcCSf58kGaohYLS311MBDa
+	FM9M4awdL6xHpuZksLkHbarM2ZasPBkz4THRLKnrlXjepOcvzB8fGKzUsxRVUxIPfM/C
+	2fLQkoo8/voDmzSUERd9T9WaZo93f+QGYwNPLk39qPWBJ50I+SUlj21Dv1S4+QdehtRe
+	u9jJ4f5kZUIu7sQNjpWISILFF/SyIBsDH7ld4pzZ9qie+NgRJUmAGyu323GIFOkNgpPc
+	liQ0Z0QnQcMda4nW1pIZJs+sRBIT0HgGDnWgf4Qna5OInhgl8w9mhLazOILfJTtsQJoa
+	xOsQ==
+X-Gm-Message-State: AKGB3mI0cILwRoE5ndlsmVpYL97KF3IyeBhfmvFrzmWEGjkch8k+zTro
+	G8b0dHRXFJ40htooJKS1FJkzlnFkc6GDG347eWR3Pw==
+X-Google-Smtp-Source: ACJfBovP3e9fRWJC2LyXKuarzhPm5TxODzZ99rliD9GFcDvIi70jU21rk2+gjG4GSYUx1LvNFAlm+lYa8ruX0wfPwrY=
+X-Received: by 10.36.93.5 with SMTP id w5mr5171094ita.124.1513721089647; Tue,
+	19 Dec 2017 14:04:49 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.141.20 with HTTP; Tue, 19 Dec 2017 14:02:13 -0800 (PST)
-In-Reply-To: <BL2PR02MB21635E15F53E8D190D70AD01B90F0@BL2PR02MB2163.namprd02.prod.outlook.com>
-References: <1513189598-9420-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<BL2PR02MB21635E15F53E8D190D70AD01B90F0@BL2PR02MB2163.namprd02.prod.outlook.com>
+Received: by 10.107.141.20 with HTTP; Tue, 19 Dec 2017 14:04:29 -0800 (PST)
+In-Reply-To: <20171219212050.GP14220@bill-the-cat>
+References: <20171219201148.19828-1-sgw@linux.intel.com>
+	<20171219205438.GN14220@bill-the-cat>
+	<CAJ86T=Vkj_5FEWTheHJrH_N0nucHo9yW0MANMoevgUFwnswQ-w@mail.gmail.com>
+	<20171219212050.GP14220@bill-the-cat>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Dec 2017 22:02:13 +0000
-Message-ID: <CAJTo0LZD7BvXHsvmUaF9r+-j02o6uHN_gRSo+NT5F5xkSs9fQg@mail.gmail.com>
-To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: Fix bad image type replacement for aarch64
+Date: Tue, 19 Dec 2017 22:04:29 +0000
+Message-ID: <CAJTo0LYRX7xJzvGNJoNWztCAdWZB=pKfFfjKsaPSA9J=WtfEPA@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: preserve rootfs if mkext234fs() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,170 +58,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 22:02:32 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05b10aba3ec00560b89f91"
+X-List-Received-Date: Tue, 19 Dec 2017 22:04:48 -0000
+Content-Type: multipart/alternative; boundary="001a1143f14cd67bc30560b8a7d8"
 
---94eb2c05b10aba3ec00560b89f91
+--001a1143f14cd67bc30560b8a7d8
 Content-Type: text/plain; charset="UTF-8"
 
-This is queued in ross/mut2 and should be in master shortly, although as
-it's almost the Christmas holidays here it may be in the new year.
+On 19 December 2017 at 21:20, Tom Rini <trini@konsulko.com> wrote:
+
+> On Tue, Dec 19, 2017 at 01:19:09PM -0800, Andre McCurdy wrote:
+> > On Tue, Dec 19, 2017 at 12:54 PM, Tom Rini <trini@konsulko.com> wrote:
+> > > On Tue, Dec 19, 2017 at 12:11:48PM -0800, Saul Wold wrote:
+> > >> We have seen more failures, but have not been able to directly
+> reproduce
+> > >> it maybe svaing the rootfs and it contains some content that is
+> tripping
+> > >> up the e2fsprogs mkfs.ext4 populate_rootfs() function
+> > >>
+> > >> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > >> ---
+> > >>  meta/classes/image_types.bbclass | 7 ++++++-
+> > >>  1 file changed, 6 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> > >> index 9188bed4197..6b4f39ed274 100644
+> > >> --- a/meta/classes/image_types.bbclass
+> > >> +++ b/meta/classes/image_types.bbclass
+> > >> @@ -86,9 +86,14 @@ oe_mkext234fs () {
+> > >>       bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_
+> NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+> > >>       dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_
+> NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+> > >>       bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+> > >> -     bbdebug 1 "Actual Partion size: `ls -s
+> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+> > >> +     bbdebug 1 "Actual Partion size: `ls -l
+> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+> > >>       bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd
+> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d
+> ${IMAGE_ROOTFS}"
+> > >>       mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype
+> -d ${IMAGE_ROOTFS}
+> > >> +     if [ $? -ne 0 ]; then
+> > >> +             tmp_saved_rootfs=`mktemp -d -p /tmp saved_rootfs.XXXXX`
+> > >> +             cp -r ${IMAGE_ROOTFS} $tmp_saved_rootfs
+> > >> +     fi
+> > >
+> > > Wouldn't it be better to just fail on error here, rather than dump
+> stuff
+> > > to /tmp ?
+> >
+> > It already does fail with an error. Saving the state is temporary
+> > additional debug to help understand why.
+> >
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=12304
+>
+> So the problem is with the autobuilder where everything else gets blown
+> away.  That's fine, this is an autobuilder specific work-around, not a
+> general purpose patch and shouldn't be in mainline, would be my point.
+>
+
+I suspect this will just hang in master-next and never merge into master.
 
 Ross
 
-On 19 December 2017 at 21:34, Manjukumar Harthikote Matha <
-MANJUKUM@xilinx.com> wrote:
-
-> Ping?
->
-> Any reason for this being in pending status? Please let me know
->
-> Thanks,
-> Manju
->
-> > -----Original Message-----
-> > From: Manjukumar Matha [mailto:manjukumar.harthikote-matha@xilinx.com]
-> > Sent: Wednesday, December 13, 2017 10:27 AM
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Thomas Perrot <thomas.perrot@tupi.fr>; Manjukumar Harthikote Matha
-> > <MANJUKUM@xilinx.com>
-> > Subject: [OE-core][PATCH] kernel-fitimage: Fix bad image type
-> replacement for
-> > aarch64
-> >
-> > From: Thomas Perrot <thomas.perrot@tupi.fr>
-> >
-> > When using kernel-fitimage class with aarch64, the image type has to be
-> Image not
-> > zImage.  This patch fixes the bad image type replacement for
-> > aarch64
-> >
-> > Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
-> > Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> > ---
-> >  meta/classes/kernel-fitimage.bbclass | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
-> > fitimage.bbclass
-> > index 179185b..9baf399 100644
-> > --- a/meta/classes/kernel-fitimage.bbclass
-> > +++ b/meta/classes/kernel-fitimage.bbclass
-> > @@ -7,9 +7,12 @@ python __anonymous () {
-> >          depends = "%s u-boot-mkimage-native dtc-native" % depends
-> >          d.setVar("DEPENDS", depends)
-> >
-> > -        if d.getVar("UBOOT_ARCH") == "mips":
-> > +        uarch = d.getVar("UBOOT_ARCH")
-> > +        if uarch == "arm64":
-> > +            replacementtype = "Image"
-> > +        elif uarch == "mips":
-> >              replacementtype = "vmlinuz.bin"
-> > -        elif d.getVar("UBOOT_ARCH") == "x86":
-> > +        elif uarch == "x86":
-> >              replacementtype = "bzImage"
-> >          else:
-> >              replacementtype = "zImage"
-> > --
-> > 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---94eb2c05b10aba3ec00560b89f91
+--001a1143f14cd67bc30560b8a7d8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This is queued in ross/mut2 and should be in master shortl=
-y, although as it&#39;s almost the Christmas holidays here it may be in the=
- new year.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><b=
-r><div class=3D"gmail_quote">On 19 December 2017 at 21:34, Manjukumar Harth=
-ikote Matha <span dir=3D"ltr">&lt;<a href=3D"mailto:MANJUKUM@xilinx.com" ta=
-rget=3D"_blank">MANJUKUM@xilinx.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">Ping?<br>
-<br>
-Any reason for this being in pending status? Please let me know<br>
-<br>
-Thanks,<br>
-Manju<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; -----Original Message-----<br>
-&gt; From: Manjukumar Matha [mailto:<a href=3D"mailto:manjukumar.harthikote=
--matha@xilinx.com">manjukumar.harthikote-<wbr>matha@xilinx.com</a>]<br>
-&gt; Sent: Wednesday, December 13, 2017 10:27 AM<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
-bedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; Cc: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@tupi.fr">thomas.=
-perrot@tupi.fr</a>&gt;; Manjukumar Harthikote Matha<br>
-&gt; &lt;<a href=3D"mailto:MANJUKUM@xilinx.com">MANJUKUM@xilinx.com</a>&gt;=
-<br>
-&gt; Subject: [OE-core][PATCH] kernel-fitimage: Fix bad image type replacem=
-ent for<br>
-&gt; aarch64<br>
+<div dir=3D"ltr">On 19 December 2017 at 21:20, Tom Rini <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:trini@konsulko.com" target=3D"_blank">trini@konsulko.c=
+om</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_=
+quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h=
+5">On Tue, Dec 19, 2017 at 01:19:09PM -0800, Andre McCurdy wrote:<br>
+&gt; On Tue, Dec 19, 2017 at 12:54 PM, Tom Rini &lt;<a href=3D"mailto:trini=
+@konsulko.com">trini@konsulko.com</a>&gt; wrote:<br>
+&gt; &gt; On Tue, Dec 19, 2017 at 12:11:48PM -0800, Saul Wold wrote:<br>
+&gt; &gt;&gt; We have seen more failures, but have not been able to directl=
+y reproduce<br>
+&gt; &gt;&gt; it maybe svaing the rootfs and it contains some content that =
+is tripping<br>
+&gt; &gt;&gt; up the e2fsprogs mkfs.ext4 populate_rootfs() function<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.inte=
+l.com">sgw@linux.intel.com</a>&gt;<br>
+&gt; &gt;&gt; ---<br>
+&gt; &gt;&gt;=C2=A0 meta/classes/image_types.<wbr>bbclass | 7 ++++++-<br>
+&gt; &gt;&gt;=C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; diff --git a/meta/classes/image_types.<wbr>bbclass b/meta/cla=
+sses/image_types.<wbr>bbclass<br>
+&gt; &gt;&gt; index 9188bed4197..6b4f39ed274 100644<br>
+&gt; &gt;&gt; --- a/meta/classes/image_types.<wbr>bbclass<br>
+&gt; &gt;&gt; +++ b/meta/classes/image_types.<wbr>bbclass<br>
+&gt; &gt;&gt; @@ -86,9 +86,14 @@ oe_mkext234fs () {<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bbdebug 1 Executing &quot;dd if=3D/=
+dev/zero of=3D${IMGDEPLOYDIR}/${IMAGE_<wbr>NAME}${IMAGE_NAME_SUFFIX}.$<wbr>=
+fstype seek=3D$ROOTFS_SIZE count=3D$COUNT bs=3D1024&quot;<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0dd if=3D/dev/zero of=3D${IMGDEPLOYD=
+IR}/${IMAGE_<wbr>NAME}${IMAGE_NAME_SUFFIX}.$<wbr>fstype seek=3D$ROOTFS_SIZE=
+ count=3D$COUNT bs=3D1024<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bbdebug 1 &quot;Actual Rootfs size:=
+=C2=A0 `du -s ${IMAGE_ROOTFS}`&quot;<br>
+&gt; &gt;&gt; -=C2=A0 =C2=A0 =C2=A0bbdebug 1 &quot;Actual Partion size: `ls=
+ -s ${IMGDEPLOYDIR}/${IMAGE_NAME}$<wbr>{IMAGE_NAME_SUFFIX}.$fstype`&quot;<b=
+r>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0bbdebug 1 &quot;Actual Partion size: `ls=
+ -l ${IMGDEPLOYDIR}/${IMAGE_NAME}$<wbr>{IMAGE_NAME_SUFFIX}.$fstype`&quot;<b=
+r>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bbdebug 1 Executing &quot;mkfs.$fst=
+ype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}$<wbr>{IMAGE_NAME_SUFFI=
+X}.$fstype -d ${IMAGE_ROOTFS}&quot;<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mkfs.$fstype -F $extra_imagecmd ${I=
+MGDEPLOYDIR}/${IMAGE_NAME}$<wbr>{IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOT=
+FS}<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]; then<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tmp_saved_ro=
+otfs=3D`mktemp -d -p /tmp saved_rootfs.XXXXX`<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${IMAG=
+E_ROOTFS} $tmp_saved_rootfs<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt;<br>
+&gt; &gt; Wouldn&#39;t it be better to just fail on error here, rather than=
+ dump stuff<br>
+&gt; &gt; to /tmp ?<br>
 &gt;<br>
-&gt; From: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@tupi.fr">thoma=
-s.perrot@tupi.fr</a>&gt;<br>
+&gt; It already does fail with an error. Saving the state is temporary<br>
+&gt; additional debug to help understand why.<br>
 &gt;<br>
-&gt; When using kernel-fitimage class with aarch64, the image type has to b=
-e Image not<br>
-&gt; zImage.=C2=A0 This patch fixes the bad image type replacement for<br>
-&gt; aarch64<br>
-&gt;<br>
-&gt; Signed-off-by: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@tupi.=
-fr">thomas.perrot@tupi.fr</a>&gt;<br>
-&gt; Signed-off-by: Manjukumar Matha &lt;<a href=3D"mailto:manjukumar.harth=
-ikote-matha@xilinx.com">manjukumar.harthikote-matha@<wbr>xilinx.com</a>&gt;=
+&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12304" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.<wbr>org=
+/show_bug.cgi?id=3D12304</a><br>
 <br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-fitimage.<wbr>bbclass | 7 +++++--<br>
-&gt;=C2=A0 1 file changed, 5 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/kernel-<wbr>fitimage.bbclass b/meta/classes/=
-kernel-<br>
-&gt; fitimage.bbclass<br>
-&gt; index 179185b..9baf399 100644<br>
-&gt; --- a/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; +++ b/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; @@ -7,9 +7,12 @@ python __anonymous () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depends =3D &quot;%s u-boot-mkimage-=
-native dtc-native&quot; % depends<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;DEPENDS&quot;, depend=
-s)<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;UBOOT_ARCH&quot;) =3D=
-=3D &quot;mips&quot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uarch =3D d.getVar(&quot;UBOOT_ARCH&quot;=
-)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if uarch =3D=3D &quot;arm64&quot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &quot;I=
-mage&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif uarch =3D=3D &quot;mips&quot;:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &q=
-uot;vmlinuz.bin&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif d.getVar(&quot;UBOOT_ARCH&quot;) =3D=
-=3D &quot;x86&quot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif uarch =3D=3D &quot;x86&quot;:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &q=
-uot;bzImage&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &q=
-uot;zImage&quot;<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+</div></div>So the problem is with the autobuilder where everything else ge=
+ts blown<br>
+away.=C2=A0 That&#39;s fine, this is an autobuilder specific work-around, n=
+ot a<br>
+general purpose patch and shouldn&#39;t be in mainline, would be my point.<=
+br></blockquote><div><br></div><div>I suspect this will just hang in master=
+-next and never merge into master.</div><div><br></div><div>Ross=C2=A0</div=
+></div></div></div>
 
---94eb2c05b10aba3ec00560b89f91--
+--001a1143f14cd67bc30560b8a7d8--
