@@ -1,52 +1,24 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AE91665CC6
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DB3F71BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 21:20:52 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id k19so25941686qtj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 13:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Gmid7q2WLo1zn1jH4v6vQgSEkzJVC3w3UyoFoMF9fJk=;
-	b=h6p3rrcSejuRDBnNxV9GeHUGok56NmbYepaz1HLT3ivlswbPSTnsLgFphjsMPgbUbE
-	wzRdSgBZZGDepIbUh7WTAVEl2h43aRYB1felyFJRgveDWXmRJGihy/ubuGtAc/YVeU9Z
-	nDSUtGUZVs3cPE6qS3R4GX9BkE9qbQhjW6/84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Gmid7q2WLo1zn1jH4v6vQgSEkzJVC3w3UyoFoMF9fJk=;
-	b=fMod8aBErp1s/Z8QNoUoI9InWsTeWVqHnTyBR+8nuL3tYp8s9VoZ/a+SAqquWOV9oz
-	C4wW+YO4+bIligK/Og+ON3H1NasKLih0XlOgKZzyNDxKmLFEGL1eOVfU63nEhw3pajWv
-	7XvsQA0fGnZXjSQt2R/Lelp0xKctyFGXguZAdh2COD3CaCQzYVDt7xiCDtjkmV8xfHQm
-	VLHDZJ/y4f0QOtZq1KFrqcBfm148W1NYUdruub7faKD+rXYOsmGIWTNT4TX09SBZXtwa
-	fVIaMmRHQlR4wJGWHfGL26VoJCF4RODQtiwMuERAxUDeIHOZiGc/bW9rGWtT9KIiv+Q4
-	E1qg==
-X-Gm-Message-State: AKGB3mKWcBCPjnxLlmH8/grxW8G+fQcSA/H6ittoKdC7XML2dXyh8ix8
-	XCC6QznNWjmkZ394YpIx+V7Sog==
-X-Google-Smtp-Source: ACJfBovKHdTOiaTx8afDpUiG0Y32zUdAgoqyOFvu6gSAA6F1rQqwkKosmLJjc20PP+AryWwf9W6f6Q==
-X-Received: by 10.200.45.36 with SMTP id n33mr7482832qta.335.1513718453403;
-	Tue, 19 Dec 2017 13:20:53 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	o24sm10311151qkl.22.2017.12.19.13.20.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Dec 2017 13:20:52 -0800 (PST)
-Date: Tue, 19 Dec 2017 16:20:50 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20171219212050.GP14220@bill-the-cat>
-References: <20171219201148.19828-1-sgw@linux.intel.com>
-	<20171219205438.GN14220@bill-the-cat>
-	<CAJ86T=Vkj_5FEWTheHJrH_N0nucHo9yW0MANMoevgUFwnswQ-w@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Vkj_5FEWTheHJrH_N0nucHo9yW0MANMoevgUFwnswQ-w@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: preserve rootfs if mkext234fs() fails
+	Tue, 19 Dec 2017 21:26:41 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9C84C5C3ACD;
+	Tue, 19 Dec 2017 22:20:32 +0100 (CET)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Dec 2017 22:26:37 +0100
+Message-Id: <20171219212639.1553-2-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+In-Reply-To: <20171219212639.1553-1-stefan@agner.ch>
+References: <20171219212639.1553-1-stefan@agner.ch>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1513718432; bh=xg5Z4Rpbk6ZzcGjx9gWqx0TL+ccrYzWzmVr8bal33Ps=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
+	b=QjAEe4nn00avFGxb4HjLitXVj7IXsqHVKfnkWTvYlpfQJcXXm7lR6dCFlvl9lL8uNxvNxRhrzTn2mHe19MytD1vJZECMtxw7+T1AeoBTlmfTsLwts/cD1hR/h+VOiSrG7wluthXMdxQf83rRzvKxYvkRRLc3mJ1XWcEoe4lwgwY=
+Cc: Stefan Agner <stefan.agner@toradex.com>, otavio@ossystems.com.br
+Subject: [rocko][PATCH v3 2/4] openssl10: fix runtime errors with Thumb2 when using binutils 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,90 +31,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 21:20:52 -0000
-X-Groupsio-MsgNum: 106394
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bNOIqPvWVsuhXMpy"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Dec 2017 21:26:42 -0000
 
---bNOIqPvWVsuhXMpy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Stefan Agner <stefan.agner@toradex.com>
 
-On Tue, Dec 19, 2017 at 01:19:09PM -0800, Andre McCurdy wrote:
-> On Tue, Dec 19, 2017 at 12:54 PM, Tom Rini <trini@konsulko.com> wrote:
-> > On Tue, Dec 19, 2017 at 12:11:48PM -0800, Saul Wold wrote:
-> >> We have seen more failures, but have not been able to directly reprodu=
-ce
-> >> it maybe svaing the rootfs and it contains some content that is trippi=
-ng
-> >> up the e2fsprogs mkfs.ext4 populate_rootfs() function
-> >>
-> >> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >> ---
-> >>  meta/classes/image_types.bbclass | 7 ++++++-
-> >>  1 file changed, 6 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_typ=
-es.bbclass
-> >> index 9188bed4197..6b4f39ed274 100644
-> >> --- a/meta/classes/image_types.bbclass
-> >> +++ b/meta/classes/image_types.bbclass
-> >> @@ -86,9 +86,14 @@ oe_mkext234fs () {
-> >>       bbdebug 1 Executing "dd if=3D/dev/zero of=3D${IMGDEPLOYDIR}/${IM=
-AGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=3D$ROOTFS_SIZE count=3D$COUNT bs=
-=3D1024"
-> >>       dd if=3D/dev/zero of=3D${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME=
-_SUFFIX}.$fstype seek=3D$ROOTFS_SIZE count=3D$COUNT bs=3D1024
-> >>       bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
-> >> -     bbdebug 1 "Actual Partion size: `ls -s ${IMGDEPLOYDIR}/${IMAGE_N=
-AME}${IMAGE_NAME_SUFFIX}.$fstype`"
-> >> +     bbdebug 1 "Actual Partion size: `ls -l ${IMGDEPLOYDIR}/${IMAGE_N=
-AME}${IMAGE_NAME_SUFFIX}.$fstype`"
-> >>       bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOY=
-DIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}"
-> >>       mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${I=
-MAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
-> >> +     if [ $? -ne 0 ]; then
-> >> +             tmp_saved_rootfs=3D`mktemp -d -p /tmp saved_rootfs.XXXXX`
-> >> +             cp -r ${IMAGE_ROOTFS} $tmp_saved_rootfs
-> >> +     fi
-> >
-> > Wouldn't it be better to just fail on error here, rather than dump stuff
-> > to /tmp ?
->=20
-> It already does fail with an error. Saving the state is temporary
-> additional debug to help understand why.
->=20
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12304
+When compiling OpenSSL with binutils 2.29 for ARM with Thumb2 enabled
+crashes and unexpected behavior occurs. E.g. connecting to a OpenSSH
+server using the affected binary fails with:
+  ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: incorrect signature
 
-So the problem is with the autobuilder where everything else gets blown
-away.  That's fine, this is an autobuilder specific work-around, not a
-general purpose patch and shouldn't be in mainline, would be my point.
+Backport upstream bugfix:
+https://github.com/openssl/openssl/issues/4659
 
---=20
-Tom
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ ...saes-armv7-sha256-armv4-.pl-make-it-work-.patch | 100 +++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2m.bb |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
 
---bNOIqPvWVsuhXMpy
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
+new file mode 100644
+index 0000000000..2ce0320c49
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch
+@@ -0,0 +1,100 @@
++From d1d6c69b6fd25e71dbae67fad17b2c7737f6b2dc Mon Sep 17 00:00:00 2001
++From: Andy Polyakov <appro@openssl.org>
++Date: Sun, 5 Nov 2017 17:08:16 +0100
++Subject: [PATCH] {aes-armv4|bsaes-armv7|sha256-armv4}.pl: make it work with
++ binutils-2.29
++
++It's not clear if it's a feature or bug, but binutils-2.29[.1]
++interprets 'adr' instruction with Thumb2 code reference differently,
++in a way that affects calculation of addresses of constants' tables.
++
++Upstream-Status: Backport
++
++Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
++Reviewed-by: Kurt Roeckx <kurt@roeckx.be>
++Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
++(Merged from https://github.com/openssl/openssl/pull/4673)
++---
++ crypto/aes/asm/aes-armv4.pl    | 6 +++---
++ crypto/aes/asm/bsaes-armv7.pl  | 6 +++---
++ crypto/sha/asm/sha256-armv4.pl | 2 +-
++ 3 files changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
++index 4f8917089f..c1b5e352d7 100644
++--- a/crypto/aes/asm/aes-armv4.pl
+++++ b/crypto/aes/asm/aes-armv4.pl
++@@ -184,7 +184,7 @@ AES_encrypt:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_encrypt
++ #else
++-	adr	r3,AES_encrypt
+++	adr	r3,.
++ #endif
++ 	stmdb   sp!,{r1,r4-r12,lr}
++ 	mov	$rounds,r0		@ inp
++@@ -430,7 +430,7 @@ _armv4_AES_set_encrypt_key:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_set_encrypt_key
++ #else
++-	adr	r3,private_AES_set_encrypt_key
+++	adr	r3,.
++ #endif
++ 	teq	r0,#0
++ #if __ARM_ARCH__>=7
++@@ -952,7 +952,7 @@ AES_decrypt:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ AES_decrypt
++ #else
++-	adr	r3,AES_decrypt
+++	adr	r3,.
++ #endif
++ 	stmdb   sp!,{r1,r4-r12,lr}
++ 	mov	$rounds,r0		@ inp
++diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
++index 70b3f9656f..ec66b0502a 100644
++--- a/crypto/aes/asm/bsaes-armv7.pl
+++++ b/crypto/aes/asm/bsaes-armv7.pl
++@@ -724,7 +724,7 @@ $code.=<<___;
++ .type	_bsaes_decrypt8,%function
++ .align	4
++ _bsaes_decrypt8:
++-	adr	$const,_bsaes_decrypt8
+++	adr	$const,.
++ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++ 	add	$const,$const,#.LM0ISR-_bsaes_decrypt8
++ 
++@@ -819,7 +819,7 @@ _bsaes_const:
++ .type	_bsaes_encrypt8,%function
++ .align	4
++ _bsaes_encrypt8:
++-	adr	$const,_bsaes_encrypt8
+++	adr	$const,.
++ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++ 	sub	$const,$const,#_bsaes_encrypt8-.LM0SR
++ 
++@@ -923,7 +923,7 @@ $code.=<<___;
++ .type	_bsaes_key_convert,%function
++ .align	4
++ _bsaes_key_convert:
++-	adr	$const,_bsaes_key_convert
+++	adr	$const,.
++ 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
++ 	sub	$const,$const,#_bsaes_key_convert-.LM0
++ 	vld1.8	{@XMM[15]}, [$inp]!		@ load round 1 key
++diff --git a/crypto/sha/asm/sha256-armv4.pl b/crypto/sha/asm/sha256-armv4.pl
++index 4fee74d832..750216eb42 100644
++--- a/crypto/sha/asm/sha256-armv4.pl
+++++ b/crypto/sha/asm/sha256-armv4.pl
++@@ -205,7 +205,7 @@ sha256_block_data_order:
++ #if __ARM_ARCH__<7
++ 	sub	r3,pc,#8		@ sha256_block_data_order
++ #else
++-	adr	r3,sha256_block_data_order
+++	adr	r3,.
++ #endif
++ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
++ 	ldr	r12,.LOPENSSL_armcap
++-- 
++2.15.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+index 04763ac346..9270f52bc6 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+@@ -42,6 +42,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+             file://Use-SHA256-not-MD5-as-default-digest.patch \
+             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch  \
++            file://0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch \
+             "
+ SRC_URI[md5sum] = "10e9e37f492094b9ef296f68f24a7666"
+ SRC_URI[sha256sum] = "8c6ff15ec6b319b50788f42c7abc2890c08ba5a1cdcd3810eb9092deada37b0f"
+-- 
+2.13.6
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iQIcBAEBAgAGBQJaOYKyAAoJEIf59jXTHXZSM8cQAK6VnYqPSnIwhchGJ+iTbxEW
-gusQ3M0kb9p4o/7OXI4hVlf30+oBf4fU50pP8rHGaBiWTyEIYAdefQiwsrxkE2ww
-q0zh0wte8+zaNjOewvTzwCdONfUvxUTtYXDRk80y1ox27KFTKD+ei3vKjS7j7BUZ
-MsZjzHql7vBtNZmaE2w20IvuOiC3a1lG9jC1vgyLlKHzHUvGksx6mpsGFXKbOjuV
-iDvylke84YenA+SmowEfhGWj4g6EyxGMkmhC16oVI2rlUhLPfthrSSLwMwiALqDv
-KdSEiWARmVcoJAuQTCtij8pUqUgeDNBHw6rLW6CZEMtZmDaQ1ZichA8XDyp2LFNC
-DZxhTlcne5aUmQGj4c13mb//NJfeLaKlvU5Lk8novR+3umC8V/q15RhE5chX7Yy+
-dTHKYtojUox0BU9F+dqceQeoof7NWH8tkIWiqkcfVM3aCzU6RUo/zA6KbUP8Cp+r
-JIIkibZzEySf12qU36cibqDe0DAKpf78KDDSToaNKTxR8P1MwHPLNfFMc8go1ssl
-hkwA3Mu5KoHf5SqxLrRPy6bqCPH0eHw7gRFq1InsY7D5BNFQVCXImnKOgNhbVTpA
-AYp7sAbIjYLpJBgSjQiNaKNw70nrGm+iFYWzA3REG5oNtIXQblvk+Lgxp+H2HZyJ
-AjjQMvMeBfMjJ5SviYaN
-=wZzL
------END PGP SIGNATURE-----
-
---bNOIqPvWVsuhXMpy--
