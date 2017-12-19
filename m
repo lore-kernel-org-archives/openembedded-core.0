@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A2AB60851
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8E560851
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 14:34:20 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id t8so4081220wmc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 06:34:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=lyXyujkjWPmGfYwoSBVMwKxN85KvHqbfrECSLlMYvRI=;
-	b=qy7zSXiYk9t04Lto20aV9CFH20c1uys4bFp2Rgyncx3ZwqJxOelley3ar4HV50zvLU
-	UeXt0CAxk5XTyYs6Zd7DVoYMrZkszd9WPU9y2NX+f2yunhjnZBgQIyrzMdrlEr9Qatcr
-	x8GPXJ/8X6B+LEJToOwRtg2avhPdMq0KmN8Na261LB9PkTdfCxaDeFOgRghUdhYDhbcs
-	wnn/Ns9hhPYS4Hz+nNKMZEEeaUutiEJipndCkLIB6Wqe8v2ORiNvr2Cv8Esximi2PYwJ
-	hvlx3mLpSQjUYiiP4Inzadme6eTI1zIz0IxWRXSj4p4YrLcz9mE/hccOlWGwxtMHZgF1
-	NnMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lyXyujkjWPmGfYwoSBVMwKxN85KvHqbfrECSLlMYvRI=;
-	b=Kdh1AQceNaMK07lPaQMJbP61BXnEE42wUb6wD80M/yBivNQeziyvu95rgDop/6h/X2
-	Qn48QEU4I/nb+GedCe+Eo9AxV0xGadpS+lV8qQAjiKc0TZieyS78QFWnJtOY33ok29sS
-	CBgJr2ha83kVQeD+CJkZQH9Vh9q3yqMZSCE3DWxoNyoTY0jHB/IGW7/JVE5vzjIKe3ap
-	Pdp24TM/0H+yQDz80IBiCRHCDKClhfrjyrqjG1op99kIa2Fys7PVlYxBqGdWzKGzjLOD
-	bAhuEH+wLGNIyavwzaDoRsC3z0MrPquS+GoZ8NkaUiDsIjSuUvFrDceqvMfnOhZToZkD
-	XHsQ==
-X-Gm-Message-State: AKGB3mLxF+0HhkCOdaiDX3ffPUToUpBuDJLhmy+1EwcvN/dt9lnW3B+4
-	dn0dictGkkNhfxbPmR/LB1mrHUel
-X-Google-Smtp-Source: ACJfBou7pOdCRl92njLi4Pe4hmyIJjX6SvYbCap4sx4E+i/CFo+6t5foMmZM4EdSCTR/M+ekxcmlMg==
-X-Received: by 10.28.94.75 with SMTP id s72mr4056405wmb.112.1513694061732;
-	Tue, 19 Dec 2017 06:34:21 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id l1sm968828wmh.13.2017.12.19.06.34.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Dec 2017 06:34:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:34:18 +0000
-Message-Id: <20171219143418.30054-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] machine/include/qemu.inc: update RDEPENDS to match kernel naming
+	Tue, 19 Dec 2017 14:35:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Dec 2017 06:35:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,427,1508828400"; 
+   d="scan'208";a="3949770"
+Received: from $_hostname.zpn.intel.com (HELO lsandov1-mobl2.zpn.intel.com)
+	([10.219.128.134])
+	by orsmga007.jf.intel.com with ESMTP; 19 Dec 2017 06:35:40 -0800
+Date: Tue, 19 Dec 2017 08:45:14 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20171219084514.4d359635@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <CAJ86T=XEeM364CYatGqTi6K-zJyXkghOg1rMXb4ORQdUDJf=gQ@mail.gmail.com>
+References: <20171218174347.92919-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20171218174347.92919-2-leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJ86T=XEeM364CYatGqTi6K-zJyXkghOg1rMXb4ORQdUDJf=gQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] parallel-oe-selftest.sh: runs oe-selftest in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +38,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 14:34:21 -0000
+X-List-Received-Date: Tue, 19 Dec 2017 14:35:40 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The kernel class now sets RDEPENDS_${KERNEL_PACKAGE_NAME}-base so this include
-needs to do the same, otherwise bitbake emits a warning and the kernel isn't
-removed.
+On Mon, 18 Dec 2017 12:26:32 -0800
+Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/machine/include/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Mon, Dec 18, 2017 at 9:43 AM,
+> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+> > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> >
+> > Parallelize oe-selftest execution using GNU/Parallel: for each test
+> > defined, a job will be launched and at any time at maximun of jobs will  
+> 
+> Typo.
+> 
+> > be executing (defaults to 4).
+> >
+> > 1. Run all modules
+> >
+> >     parallel-oe-selftest.sh
+> >
+> > 2. Run certaing modules and print results in order (see parallel man page for  
+> 
+> Typo.
+> 
+> > more info)
+> >
+> >     parallel-oe-selftest.sh wic bblayers
+> >
+> > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> > ---
+> >  scripts/contrib/parallel-oe-selftest.sh | 80 +++++++++++++++++++++++++++++++++
+> >  1 file changed, 80 insertions(+)
+> >  create mode 100755 scripts/contrib/parallel-oe-selftest.sh
+> >
+> > diff --git a/scripts/contrib/parallel-oe-selftest.sh b/scripts/contrib/parallel-oe-selftest.sh
+> > new file mode 100755
+> > index 0000000000..b2690f34fd
+> > --- /dev/null
+> > +++ b/scripts/contrib/parallel-oe-selftest.sh
+> > @@ -0,0 +1,80 @@
+> > +#!/bin/sh
+> > +
+> > +# paralell-oe-selftest: executes oe-selftest in 'parallel'. The tests (modules, clases or test methods, same  
+> 
+> Two typos.
+> 
+> > +# as oe-selftest --run-tests) to be executed can be piped to this script; if this is not the case, all modules
+> > +# are executed
+> > +#
+> > +# Copyright (c) 2013-2017 Intel Corporation
+> > +#
+> > +# This program is free software; you can redistribute it and/or modify
+> > +# it under the terms of the GNU General Public License version 2 as
+> > +# published by the Free Software Foundation.
+> > +#
+> > +# This program is distributed in the hope that it will be useful,
+> > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > +# GNU General Public License for more details.
+> > +#
+> > +# You should have received a copy of the GNU General Public License along
+> > +# with this program; if not, write to the Free Software Foundation, Inc.,
+> > +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+> > +#
+> > +
+> > +# Before anything else, check oe-core environment
+> > +if [ -z "$BUILDDIR" ]; then
+> > +    echo "Please initialize the OE-Core environment through oe-init-build-env script"
+> > +    exit 1
+> > +fi
+> > +
+> > +usage() {
+> > +CMD=$(basename $0)
+> > +cat <<EOM
+> > +Usage: $CMD [-h] [-j jobs] [test1 test2 ..]
+> > +  -j jobs             Number of jobs to be running concurrently
+> > +  -h                  Display this help message
+> > +
+> > + Examples:
+> > +   # run all found testcases
+> > +   $CMD
+> > +
+> > +   # just run wic and bblayers
+> > +   $CMD wic bblayers
+> > +
+> > +EOM
+> > +}
+> > +
+> > +JOBS=4
+> > +# Parse and validate arguments
+> > +while getopts "hj:" OPT; do
+> > +       case $OPT in
+> > +       j)
+> > +               JOBS="$OPTARG"
+> > +               ;;
+> > +       h)
+> > +               usage
+> > +               exit 0
+> > +               ;;
+> > +       --)
+> > +               shift
+> > +               break
+> > +               ;;
+> > +       esac
+> > +done
+> > +
+> > +
+> > +shift "$((OPTIND - 1))"
+> > +TESTCASES="$@"
+> > +
+> > +# Parallelization is done through GNU/Paralell, so it must be present in host machine  
+> 
+> Typo.
+> 
+> > +which parallel 2>&1 >/dev/null || { echo "Please install GNU/Parallel"; exit 1; }
+> > +
+> > +# no test cases given, running all found
+> > +if [ -z "$TESTCASES" ]; then
+> > +    TESTCASES="$(oe-selftest -m | awk '{ print $NF } ' | grep -v ':')"
+> > +fi
+> > +
+> > +if [ -z "$TESTCASES" ]; then
+> > +    echo $TESTCASES | time parallel --keep-order --progress --jobs $JOBS oe-selftest -r  
+> 
+> Since $TESTCASES is an empty variable here, why echo it?
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 25d8ec62164..aa332fecc2c 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -16,7 +16,7 @@ MACHINEOVERRIDES =. "qemuall:"
- IMAGE_FSTYPES += "tar.bz2 ext4"
- 
- # Don't include kernels in standard images
--RDEPENDS_kernel-base = ""
-+RDEPENDS_${KERNEL_PACKAGE_NAME}-base = ""
- 
- # Use a common kernel recipe for all QEMU machines
- PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
--- 
-2.11.0
+you are right. Sending a v3. also, I will enable my flyspell-mode in emacs!
 
+Leo
+
+> 
+> > +else
+> > +    time parallel -d ' ' --keep-order --progress --jobs $JOBS oe-selftest -r ::: $TESTCASES
+> > +fi
+> > --
+> > 2.12.3
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
 
