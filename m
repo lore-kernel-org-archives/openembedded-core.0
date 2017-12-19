@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B0EC78684
+	by mail.openembedded.org (Postfix) with ESMTP id 60BE478679
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Dec 2017 22:58:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Dec 2017 14:58:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433578"
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433602"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 14:58:36 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:58:23 -0800
-Message-Id: <20171219225831.22587-11-california.l.sullivan@intel.com>
+Date: Tue, 19 Dec 2017 14:58:31 -0800
+Message-Id: <20171219225831.22587-19-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
 References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Subject: [PATCH RFC 10/18] grub-efi*.bbclass: don't reference vmlinuz
+Subject: [PATCH RFC 18/18] packagegroup-core-boot: add kernel for EFI systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Dec 2017 22:58:38 -0000
 
-Rather than renaming the kernel to vmlinuz and assuming the name is
-vmlinuz in the grub.cfg, copy to ${KERNEL_IMAGETYPE} and also use that
-value in the grub.cfg file.
+Previously this wasn't needed because the kernel was added at image
+creation time to the boot partition. Now that the boot partition is
+created from the /boot/ partition of the rootfs, it needs to be
+installed there.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/grub-efi-cfg.bbclass | 4 +++-
- meta/classes/grub-efi.bbclass     | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index 730323c72e6..85173c91fc3 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -22,6 +22,7 @@ GRUB_CFG_LIVE = "${S}/grub_live.cfg"
- GRUB_TIMEOUT ?= "10"
- #FIXME: build this from the machine config
- GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
-+KERNEL_IMAGETYPE ??= "bzImage"
- 
- EFIDIR = "/EFI/BOOT"
- GRUB_ROOT ?= "${ROOT}"
-@@ -97,7 +98,8 @@ python build_efi_cfg() {
-             lb = label
-             if label == "install":
-                 lb = "install-efi"
--            cfgfile.write('linux /vmlinuz LABEL=%s' % (lb))
-+            kernel = localdata.getVar('KERNEL_IMAGETYPE')
-+            cfgfile.write('linux /%s LABEL=%s' % (kernel, lb))
- 
-             cfgfile.write(' %s' % replace_rootfs_uuid(d, root))
- 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 4b5704c19cc..90badc03a0e 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -26,7 +26,7 @@ efi_iso_populate() {
- 	# Build a EFI directory to create efi.img
- 	mkdir -p ${EFIIMGDIR}/${EFIDIR}
- 	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
--	cp $iso_dir/vmlinuz ${EFIIMGDIR}
-+	cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
- 	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
- 	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" > ${EFIIMGDIR}/startup.nsh
- 	if [ -f "$iso_dir/initrd" ] ; then
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 0fcb8ba9193..76cd7fc4ebf 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -37,7 +37,7 @@ RDEPENDS_${PN} = "\
+     ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+-    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)} \
++    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} kernel", "", d)} \
+     netbase \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
 -- 
 2.14.3
 
