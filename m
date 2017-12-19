@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D33B578679
+	by mail.openembedded.org (Postfix) with ESMTP id EACA27867C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Dec 2017 22:58:37 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	19 Dec 2017 14:58:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433575"
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="17433593"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 14:58:36 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:58:22 -0800
-Message-Id: <20171219225831.22587-10-california.l.sullivan@intel.com>
+Date: Tue, 19 Dec 2017 14:58:28 -0800
+Message-Id: <20171219225831.22587-16-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
 References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Subject: [PATCH RFC 09/18] live-vm-common.bbclass: Don't use vmlinuz or VM_DEFAULT_KERNEL
+Subject: [PATCH RFC 15/18] systemd: add systemd-bootconf recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +34,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Dec 2017 22:58:38 -0000
 
-I can't find VM_DEFAULT_KERNEL used anywhere else, and we should not be
-statically installing the kernel as vmlinuz.
+Reuses our systemd-boot-cfg bbclass to generate systemd-boot
+configuration files.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/live-vm-common.bbclass | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd-bootconf_1.00.bb
 
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
-index e1d8b1843b6..714d6d4788c 100644
---- a/meta/classes/live-vm-common.bbclass
-+++ b/meta/classes/live-vm-common.bbclass
-@@ -33,18 +33,17 @@ inherit ${EFI_CLASS}
- inherit ${PCBIOS_CLASS}
- 
- KERNEL_IMAGETYPE ??= "bzImage"
--VM_DEFAULT_KERNEL ??= "${KERNEL_IMAGETYPE}"
- 
- populate_kernel() {
- 	dest=$1
- 	install -d $dest
- 
- 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	bbnote "Trying to install ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} as $dest/vmlinuz"
--	if [ -e ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} ]; then
--		install -m 0644 ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} $dest/vmlinuz
-+	bbnote "Trying to install ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} as $dest/${KERNEL_IMAGETYPE}"
-+	if [ -e ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} ]; then
-+		install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} $dest/${KERNEL_IMAGETYPE}
- 	else
--		bbwarn "${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} doesn't exist"
-+		bbwarn "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} doesn't exist"
- 	fi
- 
- 	# initrd is made of concatenation of multiple filesystem images
+diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+new file mode 100644
+index 00000000000..3ea7548f29a
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+@@ -0,0 +1,31 @@
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++RPROVIDES_${PN} += "virtual/systemd-bootconf"
++
++inherit allarch
++
++S = "${WORKDIR}"
++
++LABELS = "boot"
++
++APPEND_append = " root=PARTUUID=${DISK_SIGNATURE_UUID}"
++
++do_configure[vardeps] += "APPEND LABELS DISK_SIGNATURE_UUID"
++
++python do_configure() {
++    bb.build.exec_func('build_efi_cfg', d)
++}
++
++do_install() {
++	install -d ${D}/boot
++	install -d ${D}/boot/loader
++	install -d ${D}/boot/loader/entries
++	install -m 0744 loader.conf ${D}/boot/loader/
++        rm loader.conf
++        install -m 077 *.conf ${D}/boot/loader/entries/
++}
++
++FILES_${PN} = "/boot/loader/* /boot/loader/entries/*"
++
++inherit systemd-boot-cfg
 -- 
 2.14.3
 
