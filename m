@@ -1,23 +1,42 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 05BEF78289
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AA84B78289
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 17:13:17 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Dec 2017 09:13:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,427,1508828400"; d="scan'208";a="17350534"
-Received: from jlock-mobl3.ger.corp.intel.com ([10.252.19.196])
-	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 09:13:17 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 17:13:12 +0000
-Message-Id: <20171219171312.12176-1-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] oeqa/selftest/cases/wic: update OETestID decorator for test_qemu
+	Tue, 19 Dec 2017 17:17:13 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id j137so5590530qke.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Dec 2017 09:17:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=xYtTTG4rGorHnM/wpLd7wDo+YoiXaPuIT+F07vzFu2I=;
+	b=ifyYjd8PyyAOrpbwBxXWUHd155YygGGzXiA8J7tIx6AsG5p/T2E+l1kEnTixixoAOv
+	25FIlT2uv1jv5ehx+Wiaj53TGGv8dNQSut1CwE2yHXKTd6/aOvwCMZnfu63aWwnEtHbR
+	fksoeLIljehvDjJB9FSbb/dE6nRdUauwuNxmJh7nUf6rMxE+HkTnPgmW3mPRGYlHvid3
+	2TnbxgSetzkrCbRdwmJ9u4ylCmZVrPFk3Tcl8DFfgjxG/8SR6wV7qK2ZYufA8BauSJEy
+	znuleu7R58pXzXWCitwji7nAGJfSMRTcbB8NAugrH68vGdSUsdKSe5VAi01tT7Ap0CmR
+	/NZw==
+X-Gm-Message-State: AKGB3mJmZLJjx/kq/E+7mvwUGwh/eduAyKjLRw/dLXmkeqXL+cPXEK1a
+	HtO2f7RvQBnLotGzEgdwvwjKeA==
+X-Google-Smtp-Source: ACJfBosnv5j1DhcI5uZQ4zDROTVjnQ6c2LVIhPIaR2GeOIqLSHM/jEdaV7VNQxtWSrnL95bmc0LOzQ==
+X-Received: by 10.55.217.82 with SMTP id u79mr6084702qki.42.1513703834273;
+	Tue, 19 Dec 2017 09:17:14 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	l62sm4352613qkh.63.2017.12.19.09.17.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 19 Dec 2017 09:17:13 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 19 Dec 2017 15:17:07 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Dec 2017 15:17:06 -0200
+Message-Id: <20171219171706.396-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.15.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] image_types_wic.bbclass: Ensure '-c image_wic' works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,30 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 17:13:18 -0000
+X-List-Received-Date: Tue, 19 Dec 2017 17:17:13 -0000
 
-Test case ID 1422 is not correct for this issue, the correct test
-case ID for test_qemu is 1424.
+The 'wic' image may use files which has been deployed (e.g in
+do_deploy) for some partitions that may need to be copied in a
+specific partition or filesystem (e.g a bootloader).
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+When using 'bitbake <image> -c image_wic', from a clean build, the
+contents of do_deploy must also be available so we need to ensure all
+do_build of the image dependencies has been complete.
+
+Reported-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index ccbc82ed9b4..b84466d9aef 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -623,7 +623,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             self.assertTrue(os.path.islink(path))
-             self.assertTrue(os.path.isfile(os.path.realpath(path)))
+ meta/classes/image_types_wic.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 222ae00433..4d7305a3a3 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -41,6 +41,9 @@ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+ do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
  
--    @OETestID(1422)
-+    @OETestID(1424)
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_qemu(self):
-         """Test wic-image-minimal under qemu"""
++# We ensure all artfacts are deployed (e.g virtual/bootloader)
++do_image_wic[recrdeptask] += "do_build"
++
+ WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
 -- 
-2.14.3
+2.15.1
 
 
