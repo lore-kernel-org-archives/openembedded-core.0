@@ -1,19 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A04AA78489
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 06C577857A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 23:03:02 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Sullivan, California L <california.l.sullivan@intel.com>
-Date: Tue, 19 Dec 2017 23:03:04 -0000
-Message-ID: <20171219230304.2786.89837@do.openembedded.org>
+	Tue, 19 Dec 2017 23:16:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Dec 2017 15:16:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="13714570"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 19 Dec 2017 15:16:07 -0800
+To: openembedded-core@lists.openembedded.org
 References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <170b4aa2-5822-4813-5902-007271136ff1@intel.com>
+Date: Tue, 19 Dec 2017 15:16:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
 In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRUZJIGJvb3QgcGFydGl0aW9uIGltcHJvdmVtZW50cw==?=
+Subject: Re: [PATCH RFC 00/18] EFI boot partition improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,41 +34,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 23:03:02 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 19 Dec 2017 23:16:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-== Series Details ==
+I forgot to mention, my contrib branch with these and a few additional 
+WIPs can be found here:
 
-Series: EFI boot partition improvements
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10262/
-State : failure
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Thanks,
+Cal
 
 
-
-* Issue             SUMMARY is missing in newly added recipe [test_summary_presence] 
-  Suggested fix    Specify the variable SUMMARY in grub-bootconf
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+On 12/19/2017 02:58 PM, California Sullivan wrote:
+> First, note that this is based on top of Haris' multiple kernels patch:
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-November/144031.html
+>
+> Currently, the boot partition of an EFI system is entirely controlled by
+> image creation. Either done entirely through wic, or one of the
+> bootloader bbclasses. This is rather bad since it makes it very
+> difficult to add additional items to the boot partition, such as
+> alternative kernels, bootloaders, or other utilities, and since its not
+> package controlled its hard to update.
+>
+> The goal of these changes is to have the boot partition built through
+> packages instead. We accomplish this by installing everything to /boot,
+> and using the contents of /boot to create the partition. This required
+> changes to several bootloaders, the kernel recipe, one new
+> rootfs-postcommand to avoid data duplication, and a new .wks file to
+> make use of the new functionality.
+>
+> Legacy hddimg, iso images, and wic images should be mostly unchanged,
+> and their functionality is preserved. The only change they received is
+> the kernel is now installed as ${KERNEL_IMAGETYPE} instead of hardcoded
+> as vmlinuz, and their bootloader configs have been updated to reflect
+> that.
+>
+> This is still a WIP, but I wanted to get some eyes and feedback on it.
+> Here are some known issues that I've ran into, and am still working on:
+> * fs-uuid (DISK_SIGNATURE_UUID) seems to have issues when changing MACHINE
+>    types, and the image can get an old uuid when building from sstate
+> * init-install.sh hasn't been updated to support multiple kernels, and
+>    still uses hardcoded vmlinuz (broken)
+> * the boot partition is vfat, which doesn't support symlinks, so the
+>    symlink from the long kernel name to bzImage turns into a copy.
+>
+> I fully expect this to take several iterations to get right, so please
+> any feedback is welcome.
+>
+> Thanks,
+> Cal
+>
+> California Sullivan (18):
+>    fs-uuid.bbclass: rewrite get_fs_uuid function
+>    image.bbclass: Add fs-uuid bbclass
+>    grub-efi.bbclass: split out configuration portion
+>    grub: create recipe for configuration
+>    grub-efi: install to /boot/
+>    grub-efi: if installed and EFI_PROVIDER, install as bootx64 or
+>      bootia32
+>    rootfs-postcommands: add rootfs postprocess command to avoid /boot/
+>      duplication
+>    packagegroup-core-boot: add bootloader to EFI systems
+>    live-vm-common.bbclass: Don't use vmlinuz or VM_DEFAULT_KERNEL
+>    grub-efi*.bbclass: don't reference vmlinuz
+>    wic: add wks file to make use of new bootfs functionality
+>    init-install-efi.sh: Update to support installing multiple kernels
+>    syslinux.bbclass: don't use vmlinuz
+>    systemd-boot.bbclass: break out configuration creation
+>    systemd: add systemd-bootconf recipe
+>    systemd-boot*.bbclass: Don't use vmlinuz
+>    systemd-boot: add package that installs to boot
+>    packagegroup-core-boot: add kernel for EFI systems
+>
+>   meta/classes/fs-uuid.bbclass                       |  32 ++++--
+>   .../{grub-efi.bbclass => grub-efi-cfg.bbclass}     |  44 +-------
+>   meta/classes/grub-efi.bbclass                      | 124 +--------------------
+>   meta/classes/image.bbclass                         |   3 +
+>   meta/classes/live-vm-common.bbclass                |   9 +-
+>   meta/classes/rootfs-postcommands.bbclass           |  19 ++++
+>   meta/classes/syslinux.bbclass                      |   4 +-
+>   meta/classes/systemd-boot-cfg.bbclass              |  75 +++++++++++++
+>   meta/classes/systemd-boot.bbclass                  |  72 +-----------
+>   meta/recipes-bsp/grub/grub-bootconf_1.00.bb        |  30 +++++
+>   meta/recipes-bsp/grub/grub-efi_2.02.bb             |  41 +++++--
+>   .../initrdscripts/files/init-install-efi.sh        |  15 ++-
+>   .../packagegroups/packagegroup-core-boot.bb        |   3 +
+>   meta/recipes-core/systemd/systemd-boot_234.bb      |  28 ++++-
+>   meta/recipes-core/systemd/systemd-bootconf_1.00.bb |  31 ++++++
+>   scripts/lib/wic/canned-wks/efi-bootdisk.wks.in     |   6 +
+>   16 files changed, 269 insertions(+), 267 deletions(-)
+>   copy meta/classes/{grub-efi.bbclass => grub-efi-cfg.bbclass} (74%)
+>   create mode 100644 meta/classes/systemd-boot-cfg.bbclass
+>   create mode 100644 meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+>   create mode 100644 meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+>   create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+>
 
 
