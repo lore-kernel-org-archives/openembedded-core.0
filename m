@@ -1,22 +1,40 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DB917841B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 13:09:59 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id A42B85C39DD;
-	Tue, 19 Dec 2017 14:03:49 +0100 (CET)
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Dec 2017 14:09:50 +0100
-Message-Id: <20171219130950.36548-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1513688629; bh=tCV5/D8j88KBsryDPp0jAvslfwRhXM2Gystc0LbJySo=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=sn4ypGTC50992GNtGYUgo6YILvCeoSPnGwjbHAlvZoqs6C3bjJs3hJWHOO+H7A1PkKe+PesVhUdujmcUULjO7Wbuc5lEkp+a0adw5q8Gf9b7MnXp56kLm0IIf17t4PWzrqyTO56pm3CaZfTySha+PM71lLyVRmtEZep6Hz5CLhc=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH] busybox: udhcpc: fix IPv6 support when using udhcpc
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A44A36093A;
+	Tue, 19 Dec 2017 13:17:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Dec 2017 05:17:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,426,1508828400"; d="scan'208";a="17287488"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2017 05:17:45 -0800
+To: Derek Straka <derek@asterius.io>
+References: <1512414044-1012-1-git-send-email-mark.asselstine@windriver.com>
+	<CADNbA1qnmF3-MKo=fqQQeWEedE5A-wzkUkCgdCNArOePjMaXQw@mail.gmail.com>
+	<CAPuovEKdqQP35XwP3bgBrE4EFbM2LwpHrHzxF3my9qaWfAaCbA@mail.gmail.com>
+	<CABcZANku-aE5a69GpJxXmd2F0+uYVhiRZB3Uut7F2RG1e3R9EA@mail.gmail.com>
+	<CAPuovEJNf=qefXX6wKJGaH+HkM6aan49AgVQ3TEWVWPSCn3cNw@mail.gmail.com>
+	<711527ad-77fa-947f-2186-1d7835e1783e@linux.intel.com>
+	<CAPuovE+yd0kA_MmT4GuqXgvNDASsKLszL4uiypKDSa31icwgXg@mail.gmail.com>
+	<CADNbA1psOtOeCcsLaSM4VWJV5PXqe=HmE9BuxcR4UYkJp5Erdw@mail.gmail.com>
+	<20171218210256.GQ27580@vctlabs.com>
+	<2bc1c40c-3f63-7311-b8a3-81bd05ea474f@linux.intel.com>
+	<CADNbA1oCH=x1SoZn-pb50bZabf+rurd1w_o7D9P9FM4u=FXXsQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <32cbea3c-5275-cd8e-e7ef-7654e1e94bfa@linux.intel.com>
+Date: Tue, 19 Dec 2017 15:12:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CADNbA1oCH=x1SoZn-pb50bZabf+rurd1w_o7D9P9FM4u=FXXsQ@mail.gmail.com>
+Cc: "S. Lockwood-Childs" <sjl@vctlabs.com>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: splitting python's standard library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 13:09:59 -0000
+X-List-Received-Date: Tue, 19 Dec 2017 13:17:46 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On 12/19/2017 02:31 PM, Derek Straka wrote:
+> Well, I've been able to do it just fine for the majority of packages in 
+> meta-python by myself.  Since I contribute the majority of the patches 
+> and maintain the layer, I want this capability maintained in 
+> meta-python.  If you plan on removing that functionality in oe-core, I'd 
+> like to have the opportunity to maintain the python recipes there as 
+> well rather than have a feature unilaterally removed.  I don't consider 
+> it a burden and my customers find it valuable to split things out.
 
-The udhcpc script calls ip addr flush .. which flushes addresses
-of any address family, including IPv6. However, busybox udhcpc is
-IPv4 only and should not influence IPv6 addressing. Hence use ip
-addr flush with family constrait.
+If you're able to take over the maintenance of oe-core's python 
+packages, then that's great and much appreciated! I'll send a patch that 
+assigns them to you in a moment.
 
-The script particularly broke IPv6 SLAAC: Typically when udhcpc
-calls the script the kernel already assigned the IPv6 link-local
-address. The flush removes the link-local IPv6 address again and
-prohibits proper IPv6 operation such as SLAAC since neighbor
-discovery protocol relies on IPv6 link-local addressing.
-
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/recipes-core/busybox/files/simple.script | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-index 6ed0293525..8b5eb53633 100644
---- a/meta/recipes-core/busybox/files/simple.script
-+++ b/meta/recipes-core/busybox/files/simple.script
-@@ -28,7 +28,7 @@ case "$1" in
- 		fi
- 		if ! root_is_nfs ; then
-                         if [ $have_bin_ip -eq 1 ]; then
--                                /SBIN_DIR/ip addr flush dev $interface
-+                                /SBIN_DIR/ip -4 addr flush dev $interface
-                                 /SBIN_DIR/ip link set dev $interface up
-                         else
-                                 /SBIN_DIR/ifconfig $interface 0.0.0.0
--- 
-2.13.6
-
+Alex
 
