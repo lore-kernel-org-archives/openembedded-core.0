@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 72C41783DE;
-	Wed, 20 Dec 2017 08:32:55 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Date: Wed, 20 Dec 2017 08:32:57 -0000
-Message-ID: <20171220083257.2783.71303@do.openembedded.org>
-References: <1513757451-829-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1513757451-829-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6Q1ZFLTIwMTctMTc0MjY=?=
+Return-Path: <n.merinov@inango-systems.com>
+Received: from main-1.inango.com (main-1.inango-systems.com [5.189.174.2])
+	by mail.openembedded.org (Postfix) with ESMTP id B324171A30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Dec 2017 09:00:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by main-1.inango.com (Postfix) with ESMTP id 9FCF845BBCC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Dec 2017 11:00:21 +0200 (IST)
+X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
+Received: from main-1.inango.com ([127.0.0.1])
+	by localhost (main-1.inango.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zGJhOGrtIWZR; Wed, 20 Dec 2017 11:00:18 +0200 (IST)
+Received: from nmerinov.inango-sw (unknown [194.60.247.123])
+	by main-1.inango.com (Postfix) with ESMTPSA id 78CE145BB5A;
+	Wed, 20 Dec 2017 11:00:18 +0200 (IST)
+From: Nikolay Merinov <n.merinov@inango-systems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Dec 2017 14:00:02 +0500
+Message-Id: <20171220090002.32459-1-n.merinov@inango-systems.com>
+X-Mailer: git-send-email 2.15.0
+In-Reply-To: <4c9642c6-7d91-f1b5-a399-5f9e264fa1d6@linux.intel.com>
+References: <4c9642c6-7d91-f1b5-a399-5f9e264fa1d6@linux.intel.com>
+Subject: [PATCH v2] sudo: provide sudo paths through EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 08:32:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Dec 2017 09:00:21 -0000
 
-== Series Details ==
+Configure script for a sudo utility trying to figure out "vardir",
+"iologdir", "rundir" and "logpath" from directory structure on build
+machine. If none of a standart paths present on a build machine then
+variables will be set to empty string and sudo build will fail with
+"Installed but not shipped" error.
 
-Series: glibc:CVE-2017-17426
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10268/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 978472c586)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-extended/sudo/sudo_1.8.21p2.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
+index acd0025abc..cb1646359e 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
+@@ -17,6 +17,10 @@ EXTRA_OECONF += " \
+              ac_cv_type_rsize_t=no \
+              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
+              ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-tmpfiles.d=${libdir}/tmpfiles.d', '--disable-tmpfiles.d', d)} \
++	     --with-vardir=${localstatedir}/lib/sudo \
++	     --with-iologdir=${localstatedir}/log/sudo-io \
++	     --with-rundir=${localstatedir}/run/sudo \
++	     --with-logpath=${localstatedir}/log/sudo.log \
+              "
+ 
+ do_install_append () {
+-- 
+2.14.1
 
 
