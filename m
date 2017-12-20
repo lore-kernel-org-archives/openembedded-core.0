@@ -1,32 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E939783F7
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CDB0C60766
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 20:16:46 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Dec 2017 12:16:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,433,1508828400"; 
-   d="scan'208";a="4124475"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 20 Dec 2017 12:16:47 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20171220154511.12364-1-alexander.kanavin@linux.intel.com>
-	<20171220154511.12364-3-alexander.kanavin@linux.intel.com>
-	<CAJTo0Lbj3Qr888ai7c9jG84_gLyt9A5Uu-PzbtBMNqD2fq8cKg@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <9aab6e2c-eb38-efa2-d191-7d7b3e03b1f7@linux.intel.com>
-Date: Wed, 20 Dec 2017 22:11:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbj3Qr888ai7c9jG84_gLyt9A5Uu-PzbtBMNqD2fq8cKg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] runtime/cases/ptest.py: fail when ptests fail on target
+	Wed, 20 Dec 2017 21:41:20 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id u19so13079144pfa.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Dec 2017 13:41:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=tg3/Unlz7HD1cN7qzzgFKgu7O3mGJLx4k7nZT6Y/M8s=;
+	b=ckJVzDj3i5JPqbClwmHaOkRuJQXBkzZNBvuEvtptyZ+VXWbRGEMjQ3S/Yv1gimpWcD
+	HEakRQptMVExGU1sGwa4fXb26vBn1FDmeCd5premUUH3xU7IkgHiSvA4sujMYlsOMygd
+	9P6FoKNbQdbbYZaAeYnbstOY522EB5Rh1CZmh3pxdBeHMgj1UZsXMCBrBWTLTrvKHK+L
+	KPHqqPCiBLsF3AHx99QYSCA3HAlV5MNrsWjlVoWPQ+8NZOiB2yqukIxw6kESoPOw3+Db
+	Hn32z8x2MzxJs47JjBMsg8WE724fOROb0/62pwNMeT6m55swlLIGSze3a/bazCWawRjP
+	ifkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tg3/Unlz7HD1cN7qzzgFKgu7O3mGJLx4k7nZT6Y/M8s=;
+	b=JRC8uKSSutGT+eqT44pmlDPix5Ab1Lub4aTXqTwuqHYJfvVw5UhFsWsd4ttgJ0SOOI
+	TrD7VWoIqi7HKpffuRkzfhZCe0mDQAn/P9heQbRwBMDJVqxIOXjvDb0TIMIRhC8CMUFK
+	C3+y8xfGbvsOgDjBH+KL5zA9xvv0NEZdrUSV14XBn+bdhb4XIpjgJfHM62L44dLZ58Zb
+	OKRW5HDR/AMv53/OaQSEqCgtSl8gHjzFYmvWRgYQ71fjs96CFtonLCjIexmJwH8WArds
+	t2q509aHyFPofwMNppgV4YuNc9TozPRCxPYQTBv6GzkO/azvQfKFSmL5b6L7+7OYeYFI
+	8Zng==
+X-Gm-Message-State: AKGB3mIboPw/mWQaOTJfr0FBzNbcYoHqpb+zwTGe/nMy1i2Jk4nyL2OK
+	4v7worPj8B4xXDDQw9M3M9XrkQ==
+X-Google-Smtp-Source: ACJfBouOw3v3kE+6cEBoaZWQjiUJ3pdSF8x87OYQ6+vUMg7M7+XQhSeQW8YehS90ow/1XId56f+zMg==
+X-Received: by 10.101.90.199 with SMTP id d7mr7391319pgt.265.1513806081468;
+	Wed, 20 Dec 2017 13:41:21 -0800 (PST)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	i186sm33789296pfg.178.2017.12.20.13.41.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Dec 2017 13:41:20 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Dec 2017 13:41:12 -0800
+Message-Id: <1513806072-324-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] systemd: drop obsolete workaround for ARM + gcc 5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 20:16:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Dec 2017 21:41:21 -0000
 
-On 12/20/2017 07:23 PM, Burton, Ross wrote:
-> So the context was that so many ptests were failing that the test 
-> couldn't be done automatically and expected to succeed. Bugs were filed 
-> and the problem chipped away at, but last I looked it wasn't in a state 
-> to be enabled.
-> 
-> If a core-image-sato passes with ptests enabled then that's great, but 
-> I'll be surprised if it does!
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-It doesn't. In fact, it never finishes, because bluez ptest hangs 
-forever. That shouldn't be a problem though, because ptests are not 
-included by default in any of the standard images, and so the test is 
-simply skipped (see patch 1 of 3). The point of this patch is to 
-eliminate misleading passing behaviour when people do include ptests - 
-either for everything in their image or for specific packages they 
-maintain, and want, for example, to check for regressions on version 
-upgrades.
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 778b868..9a10a31 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -183,9 +183,6 @@ EXTRA_OECONF = " \
+ # per the systemd README, define VALGRIND=1 to run under valgrind
+ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', '', d)}"
+ 
+-# disable problematic GCC 5.2 optimizations [YOCTO #8291]
+-FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
+-
+ COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
+ COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
+ COMPILER_RANLIB ?= "${HOST_PREFIX}gcc-ranlib"
+-- 
+1.9.1
 
-Alex
 
