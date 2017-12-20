@@ -1,54 +1,29 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F7371A36
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A1687785B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 11:05:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5D230183B8;
-	Wed, 20 Dec 2017 12:05:12 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 9-ab1MlJ1-_3; Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4BE4A18383;
-	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 370FC1A058;
-	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2B9F91A069;
-	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 1F05718F9;
-	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id EBD6B9C0AD; Wed, 20 Dec 2017 12:05:09 +0100 (CET)
-Date: Wed, 20 Dec 2017 12:05:09 +0100
-From: Olof Johansson <olof.johansson@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171220110509.tg5amoi3fafimafx@axis.com>
-Mail-Followup-To: "Burton, Ross" <ross.burton@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <20171201155024.3002-1-olofjn@axis.com>
-	<20171201155024.3002-6-olofjn@axis.com>
-	<CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
-	<20171204153001.enqgfe27iapaoftl@axis.com>
-	<CAJTo0LamaocQdf-kAKHw-0OZs7ZZ4uMfV598cJiJxFV+R=PaBA@mail.gmail.com>
-	<CAJTo0LYemQ16EavmwCLa4PYZQHbg12BSDgiCEZomx1YSRV7Rwg@mail.gmail.com>
-	<20171218110602.ppicezmskdv5emkq@axis.com>
-	<CAJTo0LaHRrqqXp6S5oni-mGVnBZvUYX68VUQd8EsemyLV3rM9g@mail.gmail.com>
-	<CAJTo0LY5CfVtFwiFHU476GrOU2y2WCb6r+tH+wkL1ecqAQJbEQ@mail.gmail.com>
+	Wed, 20 Dec 2017 11:34:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Dec 2017 03:34:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,431,1508828400"; d="scan'208";a="17576819"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2017 03:34:35 -0800
+To: California Sullivan <california.l.sullivan@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171219225831.22587-1-california.l.sullivan@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <6c55c79f-e43d-7d81-2df5-0658603e2bd1@linux.intel.com>
+Date: Wed, 20 Dec 2017 13:29:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY5CfVtFwiFHU476GrOU2y2WCb6r+tH+wkL1ecqAQJbEQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-TM-AS-GCONF: 00
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
+In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
+Subject: Re: [PATCH RFC 00/18] EFI boot partition improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 11:05:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Dec 2017 11:34:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On 17-12-18 12:00 +0000, Burton, Ross wrote:
-> Just pushed ross/elf with this change.  The next obvious step is to turn
-> lib/oe/qa.py into a new lib/oe/elf.py which has a better API and includes
-> the stripped function.
+On 12/20/2017 12:58 AM, California Sullivan wrote:
+> Currently, the boot partition of an EFI system is entirely controlled by
+> image creation. Either done entirely through wic, or one of the
+> bootloader bbclasses. This is rather bad since it makes it very
+> difficult to add additional items to the boot partition, such as
+> alternative kernels, bootloaders, or other utilities, and since its not
+> package controlled its hard to update.
 
-Great; I've adapted my changes on top of yours and tested it a
-bit. I've published what I have on github for now, if you want to
-take a look. Is this along the lines of what you want?
+How are you planning to have this documented? You probably need to 
+review the yocto manuals and see what needs to be changed or newly written.
 
- https://github.com/olof/poky-contrib/compare/olof/elf
- https://github.com/olof/poky-contrib/compare/ross/elf...olof/elf
-
-(Let me know if you prefer me to send it as draft patches to the
-list instead.)
-
-(Btw, I didn't know about Kaitai before, but I like the idea of
-declarative binary parsing a lot :))
-
--- 
-olofjn
+Alex
 
