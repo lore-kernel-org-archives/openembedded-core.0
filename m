@@ -1,27 +1,26 @@
-Return-Path: <n.merinov@inango-systems.com>
-Received: from main-1.inango.com (main-1.inango-systems.com [5.189.174.2])
-	by mail.openembedded.org (Postfix) with ESMTP id B324171A30
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FEA578433
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 09:00:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by main-1.inango.com (Postfix) with ESMTP id 9FCF845BBCC
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 11:00:21 +0200 (IST)
-X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
-Received: from main-1.inango.com ([127.0.0.1])
-	by localhost (main-1.inango.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zGJhOGrtIWZR; Wed, 20 Dec 2017 11:00:18 +0200 (IST)
-Received: from nmerinov.inango-sw (unknown [194.60.247.123])
-	by main-1.inango.com (Postfix) with ESMTPSA id 78CE145BB5A;
-	Wed, 20 Dec 2017 11:00:18 +0200 (IST)
-From: Nikolay Merinov <n.merinov@inango-systems.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Dec 2017 14:00:02 +0500
-Message-Id: <20171220090002.32459-1-n.merinov@inango-systems.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <4c9642c6-7d91-f1b5-a399-5f9e264fa1d6@linux.intel.com>
-References: <4c9642c6-7d91-f1b5-a399-5f9e264fa1d6@linux.intel.com>
-Subject: [PATCH v2] sudo: provide sudo paths through EXTRA_OECONF
+	Wed, 20 Dec 2017 09:51:15 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vBK9p8mW030713
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 20 Dec 2017 09:51:09 GMT
+Message-ID: <1513763468.16507.71.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Rini <trini@konsulko.com>, Saul Wold <sgw@linux.intel.com>
+Date: Wed, 20 Dec 2017 09:51:08 +0000
+In-Reply-To: <20171219205438.GN14220@bill-the-cat>
+References: <20171219201148.19828-1-sgw@linux.intel.com>
+	<20171219205438.GN14220@bill-the-cat>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types: preserve rootfs if mkext234fs() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 09:00:21 -0000
+X-List-Received-Date: Wed, 20 Dec 2017 09:51:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Configure script for a sudo utility trying to figure out "vardir",
-"iologdir", "rundir" and "logpath" from directory structure on build
-machine. If none of a standart paths present on a build machine then
-variables will be set to empty string and sudo build will fail with
-"Installed but not shipped" error.
+On Tue, 2017-12-19 at 15:54 -0500, Tom Rini wrote:
+> On Tue, Dec 19, 2017 at 12:11:48PM -0800, Saul Wold wrote:
+> > 
+> > We have seen more failures, but have not been able to directly
+> > reproduce
+> > it maybe svaing the rootfs and it contains some content that is
+> > tripping
+> > up the e2fsprogs mkfs.ext4 populate_rootfs() function
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> >  meta/classes/image_types.bbclass | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/image_types.bbclass
+> > b/meta/classes/image_types.bbclass
+> > index 9188bed4197..6b4f39ed274 100644
+> > --- a/meta/classes/image_types.bbclass
+> > +++ b/meta/classes/image_types.bbclass
+> > @@ -86,9 +86,14 @@ oe_mkext234fs () {
+> >  	bbdebug 1 Executing "dd if=/dev/zero
+> > of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype
+> > seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+> >  	dd if=/dev/zero
+> > of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype
+> > seek=$ROOTFS_SIZE count=$COUNT bs=1024
+> >  	bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+> > -	bbdebug 1 "Actual Partion size: `ls -s
+> > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+> > +	bbdebug 1 "Actual Partion size: `ls -l
+> > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+> >  	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd
+> > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d
+> > ${IMAGE_ROOTFS}"
+> >  	mkfs.$fstype -F $extra_imagecmd
+> > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d
+> > ${IMAGE_ROOTFS}
+> > +	if [ $? -ne 0 ]; then
+> > +		tmp_saved_rootfs=`mktemp -d -p /tmp
+> > saved_rootfs.XXXXX`
+> > +		cp -r ${IMAGE_ROOTFS} $tmp_saved_rootfs
+> > +	fi
+> Wouldn't it be better to just fail on error here, rather than dump
+> stuff to /tmp ?
 
-Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
----
- meta/recipes-extended/sudo/sudo_1.8.21p2.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+We have a problem with a recurring issue where the image generation
+code is failing in the eSDK selftests. The eSDK selftests run a
+completely separate build which then gets cleaned up. I'm not entirely
+sure the best way to handle this but that is why Saul is proposing
+this.
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-index acd0025abc..cb1646359e 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-@@ -17,6 +17,10 @@ EXTRA_OECONF += " \
-              ac_cv_type_rsize_t=no \
-              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
-              ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-tmpfiles.d=${libdir}/tmpfiles.d', '--disable-tmpfiles.d', d)} \
-+	     --with-vardir=${localstatedir}/lib/sudo \
-+	     --with-iologdir=${localstatedir}/log/sudo-io \
-+	     --with-rundir=${localstatedir}/run/sudo \
-+	     --with-logpath=${localstatedir}/log/sudo.log \
-              "
- 
- do_install_append () {
--- 
-2.14.1
+It may be an idea to detect the failing selftest and then stop the
+cleanup in that case. That is going to be fairly invasive on the
+selftest code though.
+
+I may just pull this into master-next (but not master) so at least if
+it fails there we have better debugging. We are struggling to get to
+the bottom of the issue :(.
+
+Cheers,
+
+Richard
 
 
