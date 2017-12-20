@@ -1,34 +1,54 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE8E60079
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 12F7371A36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 10:28:23 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id RbbqeyhIF2du7Rbbre02cD; Wed, 20 Dec 2017 10:28:24 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=a6FAzQaF c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=ocR9PWop10UA:10 a=g4rX16vBREq7J-sRCDUA:9
-	a=CjuIK1q_8ugA:10 a=8387nF9mEzIA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1eRbbq-00079o-Hz; Wed, 20 Dec 2017 10:28:22 +0000
-Date: Wed, 20 Dec 2017 10:28:22 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Wed, 20 Dec 2017 11:05:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5D230183B8;
+	Wed, 20 Dec 2017 12:05:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 9-ab1MlJ1-_3; Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4BE4A18383;
+	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 370FC1A058;
+	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2B9F91A069;
+	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 1F05718F9;
+	Wed, 20 Dec 2017 12:05:10 +0100 (CET)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id EBD6B9C0AD; Wed, 20 Dec 2017 12:05:09 +0100 (CET)
+Date: Wed, 20 Dec 2017 12:05:09 +0100
+From: Olof Johansson <olof.johansson@axis.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
-References: <20171112163923.19517-1-mac@mcrowe.com>
-	<CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
-	<20171211095149.ywhejbets5loutnv@mcrowe.com>
-	<CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
+Message-ID: <20171220110509.tg5amoi3fafimafx@axis.com>
+Mail-Followup-To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <20171201155024.3002-1-olofjn@axis.com>
+	<20171201155024.3002-6-olofjn@axis.com>
+	<CAJTo0LbrTAEyXgB=RxQNcjUObG-cEMfwMxdPXW22GZuc3YTCOQ@mail.gmail.com>
+	<20171204153001.enqgfe27iapaoftl@axis.com>
+	<CAJTo0LamaocQdf-kAKHw-0OZs7ZZ4uMfV598cJiJxFV+R=PaBA@mail.gmail.com>
+	<CAJTo0LYemQ16EavmwCLa4PYZQHbg12BSDgiCEZomx1YSRV7Rwg@mail.gmail.com>
+	<20171218110602.ppicezmskdv5emkq@axis.com>
+	<CAJTo0LaHRrqqXp6S5oni-mGVnBZvUYX68VUQd8EsemyLV3rM9g@mail.gmail.com>
+	<CAJTo0LY5CfVtFwiFHU476GrOU2y2WCb6r+tH+wkL1ecqAQJbEQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
+In-Reply-To: <CAJTo0LY5CfVtFwiFHU476GrOU2y2WCb6r+tH+wkL1ecqAQJbEQ@mail.gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfBfA1L76xIElkWr5JPa2nCQb69fEEQ63xMH+Ty0QQJxWonvC8KtRqj5j4rMPtGeLDTd9480EwNNVUv9JAPjWSa8NKH4NrrPT1o0p9o2PkPH3nbxkGpkI
-	482t6H7M0IQfmA4FCsXTVVfjc6dASMR2svchG9WkN+1Fa2xRAN0uGe3T
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] lib/oe/package.py: is_elf: Make it less prone to false positives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,18 +61,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 10:28:24 -0000
+X-List-Received-Date: Wed, 20 Dec 2017 11:05:12 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Monday 11 December 2017 at 13:45:26 +0000, Burton, Ross wrote:
-> It was implicated in some build failures.  I'll re-add it and try again.
+On 17-12-18 12:00 +0000, Burton, Ross wrote:
+> Just pushed ross/elf with this change.  The next obvious step is to turn
+> lib/oe/qa.py into a new lib/oe/elf.py which has a better API and includes
+> the stripped function.
 
-Thanks. Are the new results in? I had a poke about on autobuilder.yocto.io
-but couldn't work out how to tell which builds this commit was included in.
-Build 719 did not appear to include it.
+Great; I've adapted my changes on top of yours and tested it a
+bit. I've published what I have on github for now, if you want to
+take a look. Is this along the lines of what you want?
 
-Thanks.
+ https://github.com/olof/poky-contrib/compare/olof/elf
+ https://github.com/olof/poky-contrib/compare/ross/elf...olof/elf
 
-Mike.
+(Let me know if you prefer me to send it as draft patches to the
+list instead.)
+
+(Btw, I didn't know about Kaitai before, but I like the idea of
+declarative binary parsing a lot :))
+
+-- 
+olofjn
 
