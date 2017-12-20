@@ -1,27 +1,32 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 444787863A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B69BC78672
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 01:50:00 +0000 (UTC)
+	Wed, 20 Dec 2017 01:51:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBK1o1nY017782
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 19 Dec 2017 17:50:01 -0800
-Received: from [128.224.162.151] (128.224.162.151) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 19 Dec 2017 17:50:00 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-References: <1512528404-110242-1-git-send-email-hongxu.jia@windriver.com>
-Message-ID: <8a6e557b-b2bb-28bd-05ef-63ef209bc9ae@windriver.com>
-Date: Wed, 20 Dec 2017 09:53:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBK1p0R5003071
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Dec 2017 17:51:00 -0800 (PST)
+Received: from [128.224.162.167] (128.224.162.167) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 19 Dec 2017 17:51:00 -0800
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1513612975.git.ross.burton@intel.com>
+	<CADkTA4NgB4VWEi+F+dQqzQ8pYWWbG8DFRQX9ZLs13t1Q2O52zw@mail.gmail.com>
+	<a2058b89-3ede-0a13-32bd-bc8b0efe0630@windriver.com>
+	<CADkTA4MpC_2UQVwv+wcKOJe_U2_vMLP2K5tCJgCuJ+iJxmuX0w@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <ec4cc81e-bc20-019e-53a5-64b1397c5bbd@windriver.com>
+Date: Wed, 20 Dec 2017 09:52:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1512528404-110242-1-git-send-email-hongxu.jia@windriver.com>
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
+In-Reply-To: <CADkTA4MpC_2UQVwv+wcKOJe_U2_vMLP2K5tCJgCuJ+iJxmuX0w@mail.gmail.com>
+X-Originating-IP: [128.224.162.167]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/49] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,64 +39,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 01:50:01 -0000
+X-List-Received-Date: Wed, 20 Dec 2017 01:51:00 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Ping Ross
+On 12/19/2017 10:33 PM, Bruce Ashfield wrote:
+> On Tue, Dec 19, 2017 at 12:23 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+>> On 12/19/2017 12:45 PM, Bruce Ashfield wrote:
+>>> On Mon, Dec 18, 2017 at 11:03 AM, Ross Burton <ross.burton@intel.com>
+>>> wrote:
+>>>> Hi,
+>>>>
+>>>> Another batch of patches from the list which have passed autobuilder
+>>>> testing and
+>>>> review.
+>>>>
+>>>> Ross
+>>>>
+>>>> The following changes since commit
+>>>> d6b6508e0be4452eb285495403b73fa9fcf51e3e:
+>>>>
+>>>>     temp disable inode checking on sstate (2017-12-13 14:02:02 +0000)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>     git://git.yoctoproject.org/poky-contrib ross/mut
+>>>>
+>>>> for you to fetch changes up to f64e867d1ff5e559a96f44fac8a2434ad2643502:
+>>>>
+>>>>     meta-selftest: wic: Add test for --use-uuid / --fsuuid (2017-12-16
+>>>> 00:21:42 +0000)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Alejandro Hernandez (4):
+>>>>         busybox: Add mkfs.EXT2 support on poky-tiny
+>>>>         linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+>>>>         linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.12
+>>>>         linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+>>>>
+>>>> Alexander Kanavin (9):
+>>>>         gobject-introspection: update to 1.54.1
+>>>>         webkitgtk: update to 2.18.3
+>>>>         psmisc: update to 23.0
+>>>>         ffmpeg: update to 3.4
+>>>>         devtool: add a 'latest-version' command
+>>>>         devtool: provide useful defaults for version/commit when upgrading
+>>>> recipes
+>>>>         devtool: add license checksum change handling to 'devtool upgrade'
+>>>>         maintainers.inc: add an entry for dwarfsrcfiles
+>>>>         maintainers.inc: add an entry for pkgconf
+>>>>
+>>>> Chang Rebecca Swee Fun (1):
+>>>>         recipetool: create: fix conflict between SRCREV and tag
+>>>>
+>>>> Chen Qi (4):
+>>>>         coreutils: upgrade to 8.28
+>>>>         coreutils: add PACKAGECONFIG for single-binary
+>>>>         dbus: upgrade to 1.12.2
+>>>>         dbus-test: upgrade to 1.12.2
+>>>
+>>> Anyone else seeing dbus blow up during configure after this update ?
+>>>
+>>> --------------------------------
+>>> Initialising tasks: 100%
+>>>
+>>> |########################################################################################################################################|
+>>> Time: 0:00:00
+>>>
+>>> NOTE: Executing SetScene Tasks
+>>>
+>>> NOTE: Executing RunQueue Tasks
+>>>
+>>> ERROR: dbus-native-1.12.2-r0 do_configure: autoreconf execution failed.
+>>>
+>>> ERROR: dbus-native-1.12.2-r0 do_configure: Function failed:
+>>> do_configure (log file is located at
+>>>
+>>> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/temp/log.do_configure.30425)
+>>>
+>>> ERROR: Logfile of failure stored in:
+>>>
+>>> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/temp/log.do_configure.30425
+>>>
+>>> Log data follows:
+>>>
+>>> | DEBUG: Executing shell function autotools_preconfigure
+>>>
+>>> | DEBUG: Shell function autotools_preconfigure finished
+>>>
+>>> | DEBUG: Executing python function autotools_aclocals
+>>>
+>>> | DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+>>> 'bit-64', 'x86_64-linux', 'common']
+>>>
+>>> | DEBUG: Python function autotools_aclocals finished
+>>>
+>>> | DEBUG: Executing shell function do_configure
+>>>
+>>> | automake (GNU automake) 1.15.1
+>>>
+>>> | Copyright (C) 2017 Free Software Foundation, Inc.
+>>>
+>>> | License GPLv2+: GNU GPL version 2 or later
+>>> <http://gnu.org/licenses/gpl-2.0.html>
+>>>
+>>> | This is free software: you are free to change and redistribute it.
+>>>
+>>> | There is NO WARRANTY, to the extent permitted by law.
+>>>
+>>> |
+>>>
+>>> | Written by Tom Tromey <tromey@redhat.com>
+>>>
+>>> |        and Alexandre Duret-Lutz <adl@gnu.org>.
+>>>
+>>>
+>>> <snip>
+>>>
+>>> | autoreconf: running:
+>>>
+>>> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/recipe-sysroot-native/usr/bin/autoconf
+>>>
+>>> --include=/home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/dbus-1.12.2/m4/
+>>> --force
+>>>
+>>> | configure.ac:95: error: Unexpanded AX_ macro found. Please install
+>>> GNU autoconf-archive
+>>>
+>>> |       If this token and others are legitimate, please use
+>>> m4_pattern_allow.
+>>>
+>>> |       See the Autoconf documentation.
+>>>
+>>> | configure.ac:374: error: Unexpanded AX_ macro found. Please install
+>>> GNU autoconf-archive
+>>>
+>>> | autoreconf:
+>>> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/recipe-sysroot-native/usr/bin/autoconf
+>>> failed with exit status: 1
+>>>
+>>> | ERROR: autoreconf execution failed.
+>>>
+>>> | WARNING: exit code 1 from a shell command.
+>>>
+>>> | ERROR: Function failed: do_configure (log file is located at
+>>>
+>>> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0/temp/log.do_configure.30425)
+>>>
+>>> ERROR: Task
+>>> (virtual:native:/home/bruce/poky/meta/recipes-core/dbus/dbus_1.12.2.bb:do_configure)
+>>> failed with exit code '1'
+>>>
+>>> NOTE: Tasks Summary: Attempted 458 tasks of which 451 didn't need to
+>>> be rerun and 1 failed.
+>>>
+>>> --------------------------------
+>>>
+>>> Is there something I should have cleaned besides dbus and dbus-native
+>>> ? This is a
+>>> build directory that I've been using for ages (if that makes a
+>>> difference).
+>>>
+>>> Reverting the uprev of the dbus packages, fixed my build.
+>>>
+>>> Bruce
+>>>
+>>>
+>> Hi Bruce,
+>>
+>> I also encountered similar problem when I was upgrading dbus. The problem
+>> has been solved by adding 'autoconf-archive' to DEPENDS.
+>>
+>> configure.ac:374 means macro AX_CODE_COVERAGE.
+>> For now, I can find it in recipe-sysroot-native of dbus-native. See below.
+>>
+>> ~/poky/build-systemd/tmp/work/x86_64-linux/dbus-native/1.12.2-r0 [1] $ grep
+>> -rw AX_CODE_COVERAGE recipe-sysroot-native/
+>> recipe-sysroot-native/usr/share/aclocal/ax_code_coverage.m4:#
+>> AX_CODE_COVERAGE()
+>> recipe-sysroot-native/usr/share/aclocal/ax_code_coverage.m4:#
+>> AX_CODE_COVERAGE
+>> recipe-sysroot-native/usr/share/aclocal/ax_code_coverage.m4:AC_DEFUN([AX_CODE_COVERAGE],[
+>>
+>> ~/poky/build-systemd/tmp/work/x86_64-linux/dbus-native/1.12.2-r0 [1] $ grep
+>> ax_code_coverage.m4
+>> recipe-sysroot-native/installeddeps/autoconf-archive-native
+>> recipe-sysroot-native/usr/share/aclocal/ax_code_coverage.m4
+>>
+>> Could you please help check if autoconf-archive-native is in DEPENDS of
+>> dbus-native? And also the above files available in recipe-sysroot-native of
+>> dbus-native?
+> I removed my revert of the upgrade, and it definitely blew up again
+> (in the same way). Here's
+> the things you wanted me to check:
+>
+> yow-bashfiel-d4 [/home/bruc.../1.12.2-r0]> pwd
+> /home/bruce/poky/build/tmp/work/x86_64-linux/dbus-native/1.12.2-r0
+> yow-bashfiel-d4 [/home/bruc.../1.12.2-r0]> grep -rw AX_CODE_COVERAGE
+> recipe-sysroot-native/
+>
+> So that AC define isn't in my native sysroot.
+>
+> As for the depends, do you mean dumping it from bitbake, or just
+> reading the recipe ?
+> (I'm thinking bitbake, since anyone could read the recipe), but for
+> completeness sake, the
+> recipe has:
+>
+> DEPENDS = "expat virtual/libintl autoconf-archive"
+> RDEPENDS_dbus_class-native = ""
+> RDEPENDS_dbus_class-nativesdk = ""
+>
+> And from bitbake -e on dbus-native:
+>
+> DEPENDS="pkgconfig-native autoconf-native automake-native
+> libtool-native gnu-config-native gettext-minimal-native expat-native
+> virtual/libintl-native autoconf-archive-native"
+>
+> ... but yet, I still fail to configure.
+>
+> Bruce
+>
 
-//Hongxu
+Hi Bruce,
 
-On 2017年12月06日 10:46, Hongxu Jia wrote:
-> OE uses qemumips to simulate a Malta board by default.
->
-> As upstream qemu introduced:
-> https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
->
-> The Malta board can support up to 2GiB of RAM which should
-> be able to boot a Linux kernel built with CONFIG_HIGHMEM
-> enabled and passing "-m 2048" to QEMU and appending the
-> following kernel parameters:
-> ...
-> mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
-> ...
->
-> But the following commit in kernel broke above mem=X@Y setting
-> which added the memory as reserved memory area.
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> ...
-> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
-> Date:   Wed Nov 23 14:43:49 2016 +0100
->
->      MIPS: fix mem=X@Y commandline processing
-> ...
->
-> So remove `mem=*' to disable user-defined physical RAM map
-> which let kernel itself caculates memory ranges.
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   scripts/runqemu | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index f2b4b3c..0ae2f85 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -658,7 +658,10 @@ class BaseConfig(object):
->               logger.info('QB_MEM is not set, use 512M by default')
->               self.set('QB_MEM', '-m 512')
->   
-> -        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-> +        mach = self.get('MACHINE')
-> +        if mach != 'qemumips':
-> +            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-> +
->           self.qemu_opt_script += ' %s' % self.get('QB_MEM')
->   
->       def check_tcpserial(self):
+That is strange. After thinking for quite a while, my best guess is that 
+you might be using an old meta-openembedded repo. If this is not the 
+case, then I must get the environment for further investigation.
 
+The autoconf-archive recipe was in meta-openembedded repo and was later 
+moved to oe-core.
+I found a commit in meta-openembedded's commit history that might be 
+related to this problem.
+
+commit 449030b1b920a0ee12a63e2655744db559303778
+Author: Zhixiong Chi <zhixiong.chi@windriver.com>
+Date:   Wed Apr 19 14:28:35 2017 +0800
+
+     autoconf-archive: drop m4files confliction with gnome-common
+
+     Delete the conflicting m4files with gnome-common to avoid the 
+confliction,
+     and the two m4 files will be installed by gnome-common that comes from
+     oe-core, then set rdepends to gnome-common.
+
+     Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Note that this commit adds a patch to autoconf-archive which removes two 
+m4 files.
+
++-M4FILES="m4_esyscmd([echo -n m4/*.m4])"
+++M4FILES="m4_esyscmd([echo -n m4/*.m4 | sed -e 
+'s:m4/ax_code_coverage.m4 ::g'|sed -e 's:m4/ax_check_enable_debug.m4 ::g'])"
+
+And the two errors you encountered are related to these two files.
+
+configure.ac:95: error: Unexpanded AX_ macro found.
+
+It's this one. AX_CHECK_ENABLE_DEBUG([$enable_developer])
+
+configure.ac:374: error: Unexpanded AX_ macro found.
+
+It's this one. AX_CODE_COVERAGE
+
+If this is not the case, give me the environment personally if 
+convenient, and I'll find out why.
+
+Best Regards,
+Chen Qi
+
+
+>> Best Regards,
+>> Chen Qi
+>
+>
 
 
