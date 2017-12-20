@@ -1,30 +1,38 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A71E478278
+Return-Path: <prvs=520e85a88=Martin.Hundeboll@prevas.dk>
+Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
+	by mail.openembedded.org (Postfix) with ESMTP id AF10071A74
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 06:32:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBK6X0RW007939
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Dec 2017 22:33:00 -0800 (PST)
-Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 19 Dec 2017 22:32:59 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1513300719-10186-1-git-send-email-yi.zhao@windriver.com>
-	<1513300719-10186-2-git-send-email-yi.zhao@windriver.com>
-	<CAJTo0Lb-=cwFZpFmnmxVnT+4nqM0U5L5zaLtFjum2u7fbBkAJQ@mail.gmail.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <7dcacc40-a871-1c66-60f9-500040e0358d@windriver.com>
-Date: Wed, 20 Dec 2017 14:31:04 +0800
+	Wed, 20 Dec 2017 08:00:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=3127; q=dns/txt;
+	s=ironport2; t=1513756834; x=1545292834;
+	h=from:subject:to:references:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=UDpWQ7VpQbkCxF4mA2JXnGxWGY4rWq+M3ml6EGqaRJU=;
+	b=XowFtftAetDuCGAljD0+jCCiheUp1a22hymTF5QpWh27yJlHDHyDMKzf
+	ebuLKswzwE3PBjZ60zYwTlaZtP7XMxf5OxyZg0yLeoWljXIfwcdGy0QHm
+	aVxkfa5CFPzqe9b37FhRutdeP0SnOsvp7jSjo1WjAIhva9dGuC6UOjSIL g=;
+X-IronPort-AV: E=Sophos;i="5.45,430,1508796000"; 
+   d="scan'208";a="2832612"
+Received: from vmprevas4.prevas.se (HELO smtp.prevas.se) ([172.16.8.104])
+	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Dec 2017 09:00:33 +0100
+Received: from [172.16.11.15] (172.16.8.31) by smtp.prevas.se (172.16.8.104)
+	with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 20 Dec 2017 09:00:33 +0100
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
+To: California Sullivan <california.l.sullivan@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20171219225831.22587-1-california.l.sullivan@intel.com>
+	<20171219225831.22587-2-california.l.sullivan@intel.com>
+Message-ID: <24658eec-63d5-ee07-4fe0-96b9c31d45f4@prevas.dk>
+Date: Wed, 20 Dec 2017 09:00:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb-=cwFZpFmnmxVnT+4nqM0U5L5zaLtFjum2u7fbBkAJQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.134]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] hdparm: replace stat with coreutils as runtime dependency
+In-Reply-To: <20171219225831.22587-2-california.l.sullivan@intel.com>
+X-Originating-IP: [172.16.8.31]
+Subject: Re: [PATCH RFC 01/18] fs-uuid.bbclass: rewrite get_fs_uuid function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,302 +45,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Dec 2017 06:32:59 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F4C43051BDEBC80143A9678A"
-Content-Language: en-US
-
---------------F4C43051BDEBC80143A9678A
+X-List-Received-Date: Wed, 20 Dec 2017 08:00:33 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Hi Ross,
+Hi,
 
+On 2017-12-19 23:58, California Sullivan wrote:
+> I couldn't find anywhere it was being used, and in trying to use it it
+> just spit out an error.
+> 
+> It now generates a random UUID and puts it in the deploy dir for
+> consumption.
+> 
+> Also use DISK_SIGNATURE_UUID for the replacement function, since that
+> is user-overridable.
+> 
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+>   meta/classes/fs-uuid.bbclass | 32 ++++++++++++++++++++++----------
+>   1 file changed, 22 insertions(+), 10 deletions(-)
+> 
+> diff --git a/meta/classes/fs-uuid.bbclass b/meta/classes/fs-uuid.bbclass
+> index 9b53dfba7ab..5a96054294e 100644
+> --- a/meta/classes/fs-uuid.bbclass
+> +++ b/meta/classes/fs-uuid.bbclass
+> @@ -1,16 +1,26 @@
+> +inherit deploy
+> +
+>   # Extract UUID from ${ROOTFS}, which must have been built
+>   # by the time that this function gets called. Only works
+>   # on ext file systems and depends on tune2fs.
+>   def get_rootfs_uuid(d):
+> -    import subprocess
+> -    rootfs = d.getVar('ROOTFS')
+> -    output = subprocess.check_output(['tune2fs', '-l', rootfs])
+> -    for line in output.split('\n'):
+> -        if line.startswith('Filesystem UUID:'):
+> -            uuid = line.split()[-1]
+> -            bb.note('UUID of %s: %s' % (rootfs, uuid))
+> -            return uuid
+> -    bb.fatal('Could not determine filesystem UUID of %s' % rootfs)
+> +    import os
+> +    import uuid
+> +    deploydir = d.getVar('DEPLOY_DIR_IMAGE')
+> +    bootfs_uuid_file = deploydir + "/bootfs-uuid"
 
-在 2017年12月18日 21:02, Burton, Ross 写道:
-> Does it really need coreutils stat, or is busybox's stat sufficient?
+Maybe use a default assigned class variable here instead of the 
+hard-coded "bootfs-uuid". The class is named "get_rootfs_uuid", so I 
+would expect it to handle multiple cases.
 
-It uses "--format" option with stat, but busybox.stat doesn't support 
-this option that would cause an error:
-# stat --format="%04D" /
-stat: unrecognized option '--format=%04D'
+> +    uuid_str = "deadbeef-dead-beef-dead-beefdeadbeef"
+> +    if d.getVar('BUILD_REPRODUCIBLE_BINARIES', True) != "1":
+> +        if os.path.exists(bootfs_uuid_file):
+> +            with open(bootfs_uuid_file, "r+") as file:
+> +                uuid_str = file.read()
+> +        else:
+> +            # deploydir might not exist yet...creating it here could be bad?
+> +            if not os.path.exists(deploydir):
+> +                os.makedirs(deploydir)
+> +            uuid_str = str(uuid.uuid4())
+> +            with open(bootfs_uuid_file, "w") as file:
+> +                file.write(uuid_str)
+> +    return uuid_str
+>   
+>   # Replace the special <<uuid-of-rootfs>> inside a string (like the
+>   # root= APPEND string in a syslinux.cfg or systemd-boot entry) with the
+> @@ -19,6 +29,8 @@ def get_rootfs_uuid(d):
+>   def replace_rootfs_uuid(d, string):
+>       UUID_PLACEHOLDER = '<<uuid-of-rootfs>>'
+>       if UUID_PLACEHOLDER in string:
+> -        uuid = get_rootfs_uuid(d)
+> +        uuid = d.getVar('DISK_SIGNATURE_UUID', True)
+>           string = string.replace(UUID_PLACEHOLDER, uuid)
+>       return string
+> +
+> +DISK_SIGNATURE_UUID ?= "${@get_rootfs_uuid(d)}"
+> 
 
-So we still need coreutils stat.
+-- 
+MARTIN HUNDEBØLL, Prevas A/S
+Software Developer
 
+Hedeager 3, DK-8200 Aarhus N
+Phone +45 87438070
+Mobile +45 25562438
+Martin.Hundeboll@prevas.dk
+www.prevas.com
 
-Regards,
-Yi
->
-> Ross
->
-> On 15 December 2017 at 01:18, Yi Zhao <yi.zhao@windriver.com 
-> <mailto:yi.zhao@windriver.com>> wrote:
->
->     Currently only hdparm specifies stat as runtime dependency in oe-core.
->     But the stat hasn't any update since 2002. Replace it with
->     coreutils as
->     runtime dependency since coreutils also provides stat program. Then we
->     can drop the stat recipe totally.
->
->     Also add a patch to fix stat path in wiper.sh.
->
->     Signed-off-by: Yi Zhao <yi.zhao@windriver.com
->     <mailto:yi.zhao@windriver.com>>
->     ---
->      .../hdparm/hdparm/wiper.sh-fix-stat-path.patch     | 38
->     ++++++++++++++++++++++
->      meta/recipes-extended/hdparm/hdparm_9.52.bb
->     <http://hdparm_9.52.bb>       |  6 ++--
->      2 files changed, 42 insertions(+), 2 deletions(-)
->      create mode 100644
->     meta/recipes-extended/hdparm/hdparm/wiper.sh-fix-stat-path.patch
->
->     diff --git
->     a/meta/recipes-extended/hdparm/hdparm/wiper.sh-fix-stat-path.patch
->     b/meta/recipes-extended/hdparm/hdparm/wiper.sh-fix-stat-path.patch
->     new file mode 100644
->     index 0000000..4af1b61
->     --- /dev/null
->     +++ b/meta/recipes-extended/hdparm/hdparm/wiper.sh-fix-stat-path.patch
->     @@ -0,0 +1,38 @@
->     +From e233006ee212109d2a1401dac37a9a851cc493d8 Mon Sep 17 00:00:00
->     2001
->     +From: Yi Zhao <yi.zhao@windriver.com <mailto:yi.zhao@windriver.com>>
->     +Date: Thu, 14 Dec 2017 15:23:47 +0800
->     +Subject: [PATCH] wiper.sh: fix stat path
->     +
->     +Fix the stat path for OE.
->     +
->     +Upstream-Status: Inappropriate [OE specific]
->     +
->     +Signed-off-by: Yi Zhao <yi.zhao@windriver.com
->     <mailto:yi.zhao@windriver.com>>
->     +---
->     + wiper/wiper.sh | 3 +--
->     + 1 file changed, 1 insertion(+), 2 deletions(-)
->     +
->     +diff --git a/wiper/wiper.sh b/wiper/wiper.sh
->     +index 79eddc8..9ef2840 100755
->     +--- a/wiper/wiper.sh
->     ++++ b/wiper/wiper.sh
->     +@@ -97,7 +97,6 @@ function find_prog(){
->     + hash -r  ## Refresh bash's cached PATH entries
->     + HDPARM=`find_prog /sbin/hdparm`       || exit 1
->     + FIND=`find_prog /usr/bin/find`        || exit 1
->     +-STAT=`find_prog /usr/bin/stat`        || exit 1
->     + GAWK=`find_prog /usr/bin/gawk`        || exit 1
->     + BLKID=`find_prog /sbin/blkid` || exit 1
->     + GREP=`find_prog /bin/grep`    || exit 1
->     +@@ -105,7 +104,7 @@ ID=`find_prog /usr/bin/id` || exit 1
->     + LS=`find_prog /bin/ls`                || exit 1
->     + DF=`find_prog /bin/df`                || exit 1
->     + RM=`find_prog /bin/rm`                || exit 1
->     +-STAT=`find_prog /usr/bin/stat`        || exit 1
->     ++STAT=`find_prog /bin/stat`    || exit 1
->     +
->     + [ $verbose -gt 1 ] && HDPARM="$HDPARM --verbose"
->     +
->     +--
->     +2.7.4
->     +
->     diff --git a/meta/recipes-extended/hdparm/hdparm_9.52.bb
->     <http://hdparm_9.52.bb>
->     b/meta/recipes-extended/hdparm/hdparm_9.52.bb <http://hdparm_9.52.bb>
->     index 49fdc94..13cfb3f 100644
->     --- a/meta/recipes-extended/hdparm/hdparm_9.52.bb
->     <http://hdparm_9.52.bb>
->     +++ b/meta/recipes-extended/hdparm/hdparm_9.52.bb
->     <http://hdparm_9.52.bb>
->     @@ -19,9 +19,11 @@ PACKAGES =+ "wiper"
->
->      FILES_wiper = "${bindir}/wiper.sh"
->
->     -RDEPENDS_wiper = "bash gawk stat"
->     +RDEPENDS_wiper = "bash gawk coreutils"
->
->     -SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz"
->     +SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz \
->     +           file://wiper.sh-fix-stat-path.patch \
->     +          "
->
->      SRC_URI[md5sum] = "410539d0bf3cc247181594581edbfb53"
->      SRC_URI[sha256sum] =
->     "c3429cd423e271fa565bf584598fd751dd2e773bb7199a592b06b5a61cec4fb6"
->     --
->     2.7.4
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
-
-
---------------F4C43051BDEBC80143A9678A
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Hi Ross,<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">在 2017年12月18日 21:02, Burton, Ross 写道:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb-=cwFZpFmnmxVnT+4nqM0U5L5zaLtFjum2u7fbBkAJQ@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">Does it really need coreutils stat, or is busybox's
-        stat sufficient?</div>
-    </blockquote>
-    <br>
-    It uses "--format" option with stat, but busybox.stat doesn't
-    support this option that would cause an error:<br>
-    # stat --format="%04D" /<br>
-    stat: unrecognized option '--format=%04D'<br>
-    <br>
-    So we still need coreutils stat.<br>
-    <br>
-    <br>
-    Regards,<br>
-    Yi<br>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb-=cwFZpFmnmxVnT+4nqM0U5L5zaLtFjum2u7fbBkAJQ@mail.gmail.com">
-      <div dir="ltr">
-        <div><br>
-        </div>
-        <div>Ross</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On 15 December 2017 at 01:18, Yi Zhao <span
-            dir="ltr">&lt;<a href="mailto:yi.zhao@windriver.com"
-              target="_blank" moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">Currently
-            only hdparm specifies stat as runtime dependency in oe-core.<br>
-            But the stat hasn't any update since 2002. Replace it with
-            coreutils as<br>
-            runtime dependency since coreutils also provides stat
-            program. Then we<br>
-            can drop the stat recipe totally.<br>
-            <br>
-            Also add a patch to fix stat path in wiper.sh.<br>
-            <br>
-            Signed-off-by: Yi Zhao &lt;<a
-              href="mailto:yi.zhao@windriver.com" moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;<br>
-            ---<br>
-             .../hdparm/hdparm/wiper.sh-<wbr>fix-stat-path.patch     |
-            38 ++++++++++++++++++++++<br>
-             meta/recipes-extended/hdparm/<a
-              href="http://hdparm_9.52.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">h<wbr>dparm_9.52.bb</a> 
-                  |  6 ++--<br>
-             2 files changed, 42 insertions(+), 2 deletions(-)<br>
-             create mode 100644 meta/recipes-extended/hdparm/<wbr>hdparm/wiper.sh-fix-stat-path.<wbr>patch<br>
-            <br>
-            diff --git a/meta/recipes-extended/<wbr>hdparm/hdparm/wiper.sh-fix-<wbr>stat-path.patch
-            b/meta/recipes-extended/<wbr>hdparm/hdparm/wiper.sh-fix-<wbr>stat-path.patch<br>
-            new file mode 100644<br>
-            index 0000000..4af1b61<br>
-            --- /dev/null<br>
-            +++ b/meta/recipes-extended/<wbr>hdparm/hdparm/wiper.sh-fix-<wbr>stat-path.patch<br>
-            @@ -0,0 +1,38 @@<br>
-            +From e233006ee212109d2a1401dac37a9a<wbr>851cc493d8 Mon Sep
-            17 00:00:00 2001<br>
-            +From: Yi Zhao &lt;<a href="mailto:yi.zhao@windriver.com"
-              moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;<br>
-            +Date: Thu, 14 Dec 2017 15:23:47 +0800<br>
-            +Subject: [PATCH] wiper.sh: fix stat path<br>
-            +<br>
-            +Fix the stat path for OE.<br>
-            +<br>
-            +Upstream-Status: Inappropriate [OE specific]<br>
-            +<br>
-            +Signed-off-by: Yi Zhao &lt;<a
-              href="mailto:yi.zhao@windriver.com" moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;<br>
-            +---<br>
-            + wiper/wiper.sh | 3 +--<br>
-            + 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-            +<br>
-            +diff --git a/wiper/wiper.sh b/wiper/wiper.sh<br>
-            +index 79eddc8..9ef2840 100755<br>
-            +--- a/wiper/wiper.sh<br>
-            ++++ b/wiper/wiper.sh<br>
-            +@@ -97,7 +97,6 @@ function find_prog(){<br>
-            + hash -r  ## Refresh bash's cached PATH entries<br>
-            + HDPARM=`find_prog /sbin/hdparm`       || exit 1<br>
-            + FIND=`find_prog /usr/bin/find`        || exit 1<br>
-            +-STAT=`find_prog /usr/bin/stat`        || exit 1<br>
-            + GAWK=`find_prog /usr/bin/gawk`        || exit 1<br>
-            + BLKID=`find_prog /sbin/blkid` || exit 1<br>
-            + GREP=`find_prog /bin/grep`    || exit 1<br>
-            +@@ -105,7 +104,7 @@ ID=`find_prog /usr/bin/id` || exit 1<br>
-            + LS=`find_prog /bin/ls`                || exit 1<br>
-            + DF=`find_prog /bin/df`                || exit 1<br>
-            + RM=`find_prog /bin/rm`                || exit 1<br>
-            +-STAT=`find_prog /usr/bin/stat`        || exit 1<br>
-            ++STAT=`find_prog /bin/stat`    || exit 1<br>
-            +<br>
-            + [ $verbose -gt 1 ] &amp;&amp; HDPARM="$HDPARM --verbose"<br>
-            +<br>
-            +--<br>
-            +2.7.4<br>
-            +<br>
-            diff --git a/meta/recipes-extended/<wbr>hdparm/<a
-              href="http://hdparm_9.52.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hdparm_9.52.bb</a>
-            b/meta/recipes-extended/<wbr>hdparm/<a
-              href="http://hdparm_9.52.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hdparm_9.52.bb</a><br>
-            index 49fdc94..13cfb3f 100644<br>
-            --- a/meta/recipes-extended/<wbr>hdparm/<a
-              href="http://hdparm_9.52.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hdparm_9.52.bb</a><br>
-            +++ b/meta/recipes-extended/<wbr>hdparm/<a
-              href="http://hdparm_9.52.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hdparm_9.52.bb</a><br>
-            @@ -19,9 +19,11 @@ PACKAGES =+ "wiper"<br>
-            <br>
-             FILES_wiper = "${bindir}/wiper.sh"<br>
-            <br>
-            -RDEPENDS_wiper = "bash gawk stat"<br>
-            +RDEPENDS_wiper = "bash gawk coreutils"<br>
-            <br>
-            -SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/<wbr>${BP}.tar.gz"<br>
-            +SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/<wbr>${BP}.tar.gz \<br>
-            +           <a class="moz-txt-link-freetext" href="file://wiper.sh-fix-stat-path">file://wiper.sh-fix-stat-path</a>.<wbr>patch \<br>
-            +          "<br>
-            <br>
-             SRC_URI[md5sum] = "<wbr>410539d0bf3cc247181594581edbfb<wbr>53"<br>
-             SRC_URI[sha256sum] = "<wbr>c3429cd423e271fa565bf584598fd7<wbr>51dd2e773bb7199a592b06b5a61cec<wbr>4fb6"<br>
-            <span class="HOEnZb"><font color="#888888">--<br>
-                2.7.4<br>
-                <br>
-                --<br>
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                <a
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank"
-                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </font></span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F4C43051BDEBC80143A9678A--
