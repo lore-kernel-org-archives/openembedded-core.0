@@ -1,27 +1,28 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 06C577857A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A14071BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Dec 2017 23:16:06 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Dec 2017 15:16:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,428,1508828400"; d="scan'208";a="13714570"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 19 Dec 2017 15:16:07 -0800
-To: openembedded-core@lists.openembedded.org
-References: <20171219225831.22587-1-california.l.sullivan@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <170b4aa2-5822-4813-5902-007271136ff1@intel.com>
-Date: Tue, 19 Dec 2017 15:16:07 -0800
+	Wed, 20 Dec 2017 01:27:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBK1RE1r006269
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Dec 2017 17:27:15 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 19 Dec 2017 17:27:14 -0800
+To: Saul Wold <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+References: <20171219201148.19828-1-sgw@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <3e085ad9-c646-fa38-f03c-db46c0dd7354@windriver.com>
+Date: Wed, 20 Dec 2017 09:26:35 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <20171219225831.22587-1-california.l.sullivan@intel.com>
-Subject: Re: [PATCH RFC 00/18] EFI boot partition improvements
+In-Reply-To: <20171219201148.19828-1-sgw@linux.intel.com>
+Subject: Re: [PATCH] image_types: preserve rootfs if mkext234fs() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,103 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Dec 2017 23:16:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Dec 2017 01:27:15 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-I forgot to mention, my contrib branch with these and a few additional 
-WIPs can be found here:
+Hi Saul,
 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation
+On 12/20/2017 04:11 AM, Saul Wold wrote:
+> We have seen more failures, but have not been able to directly reproduce
+> it maybe svaing the rootfs and it contains some content that is tripping
 
-Thanks,
-Cal
+s/svaing/saving/.
 
 
-On 12/19/2017 02:58 PM, California Sullivan wrote:
-> First, note that this is based on top of Haris' multiple kernels patch:
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-November/144031.html
->
-> Currently, the boot partition of an EFI system is entirely controlled by
-> image creation. Either done entirely through wic, or one of the
-> bootloader bbclasses. This is rather bad since it makes it very
-> difficult to add additional items to the boot partition, such as
-> alternative kernels, bootloaders, or other utilities, and since its not
-> package controlled its hard to update.
->
-> The goal of these changes is to have the boot partition built through
-> packages instead. We accomplish this by installing everything to /boot,
-> and using the contents of /boot to create the partition. This required
-> changes to several bootloaders, the kernel recipe, one new
-> rootfs-postcommand to avoid data duplication, and a new .wks file to
-> make use of the new functionality.
->
-> Legacy hddimg, iso images, and wic images should be mostly unchanged,
-> and their functionality is preserved. The only change they received is
-> the kernel is now installed as ${KERNEL_IMAGETYPE} instead of hardcoded
-> as vmlinuz, and their bootloader configs have been updated to reflect
-> that.
->
-> This is still a WIP, but I wanted to get some eyes and feedback on it.
-> Here are some known issues that I've ran into, and am still working on:
-> * fs-uuid (DISK_SIGNATURE_UUID) seems to have issues when changing MACHINE
->    types, and the image can get an old uuid when building from sstate
-> * init-install.sh hasn't been updated to support multiple kernels, and
->    still uses hardcoded vmlinuz (broken)
-> * the boot partition is vfat, which doesn't support symlinks, so the
->    symlink from the long kernel name to bzImage turns into a copy.
->
-> I fully expect this to take several iterations to get right, so please
-> any feedback is welcome.
->
-> Thanks,
-> Cal
->
-> California Sullivan (18):
->    fs-uuid.bbclass: rewrite get_fs_uuid function
->    image.bbclass: Add fs-uuid bbclass
->    grub-efi.bbclass: split out configuration portion
->    grub: create recipe for configuration
->    grub-efi: install to /boot/
->    grub-efi: if installed and EFI_PROVIDER, install as bootx64 or
->      bootia32
->    rootfs-postcommands: add rootfs postprocess command to avoid /boot/
->      duplication
->    packagegroup-core-boot: add bootloader to EFI systems
->    live-vm-common.bbclass: Don't use vmlinuz or VM_DEFAULT_KERNEL
->    grub-efi*.bbclass: don't reference vmlinuz
->    wic: add wks file to make use of new bootfs functionality
->    init-install-efi.sh: Update to support installing multiple kernels
->    syslinux.bbclass: don't use vmlinuz
->    systemd-boot.bbclass: break out configuration creation
->    systemd: add systemd-bootconf recipe
->    systemd-boot*.bbclass: Don't use vmlinuz
->    systemd-boot: add package that installs to boot
->    packagegroup-core-boot: add kernel for EFI systems
->
->   meta/classes/fs-uuid.bbclass                       |  32 ++++--
->   .../{grub-efi.bbclass => grub-efi-cfg.bbclass}     |  44 +-------
->   meta/classes/grub-efi.bbclass                      | 124 +--------------------
->   meta/classes/image.bbclass                         |   3 +
->   meta/classes/live-vm-common.bbclass                |   9 +-
->   meta/classes/rootfs-postcommands.bbclass           |  19 ++++
->   meta/classes/syslinux.bbclass                      |   4 +-
->   meta/classes/systemd-boot-cfg.bbclass              |  75 +++++++++++++
->   meta/classes/systemd-boot.bbclass                  |  72 +-----------
->   meta/recipes-bsp/grub/grub-bootconf_1.00.bb        |  30 +++++
->   meta/recipes-bsp/grub/grub-efi_2.02.bb             |  41 +++++--
->   .../initrdscripts/files/init-install-efi.sh        |  15 ++-
->   .../packagegroups/packagegroup-core-boot.bb        |   3 +
->   meta/recipes-core/systemd/systemd-boot_234.bb      |  28 ++++-
->   meta/recipes-core/systemd/systemd-bootconf_1.00.bb |  31 ++++++
->   scripts/lib/wic/canned-wks/efi-bootdisk.wks.in     |   6 +
->   16 files changed, 269 insertions(+), 267 deletions(-)
->   copy meta/classes/{grub-efi.bbclass => grub-efi-cfg.bbclass} (74%)
->   create mode 100644 meta/classes/systemd-boot-cfg.bbclass
->   create mode 100644 meta/recipes-bsp/grub/grub-bootconf_1.00.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-bootconf_1.00.bb
->   create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
->
+> up the e2fsprogs mkfs.ext4 populate_rootfs() function
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/classes/image_types.bbclass | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 9188bed4197..6b4f39ed274 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -86,9 +86,14 @@ oe_mkext234fs () {
+>   	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+>   	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+>   	bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+> -	bbdebug 1 "Actual Partion size: `ls -s ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+> +	bbdebug 1 "Actual Partion size: `ls -l ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+>   	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}"
+>   	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
+> +	if [ $? -ne 0 ]; then
+> +		tmp_saved_rootfs=`mktemp -d -p /tmp saved_rootfs.XXXXX`
+> +		cp -r ${IMAGE_ROOTFS} $tmp_saved_rootfs
 
+Maybe save to ${WORKDIR}/tmp rather than /tmp ?
+
+// Robert
+
+> +	fi
+> +
+>   	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
+>   	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype || [ $? -le 3 ]
+>   }
+> 
 
