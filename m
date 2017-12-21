@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 39AAE77E88
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC50378733
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 02:02:27 +0000 (UTC)
+	Thu, 21 Dec 2017 02:02:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBL22Tkj020519
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBL22U8P012672
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Dec 2017 18:02:29 -0800
+	Wed, 20 Dec 2017 18:02:31 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 20 Dec 2017 18:02:28 -0800
+	14.3.361.1; Wed, 20 Dec 2017 18:02:30 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Dec 2017 10:02:20 +0800
-Message-ID: <cover.1513821698.git.liezhi.yang@windriver.com>
+Date: Thu, 21 Dec 2017 10:02:21 +0800
+Message-ID: <6bed2ead820cbb22462e458b49c82c71ece0ff85.1513821698.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1513821698.git.liezhi.yang@windriver.com>
+References: <cover.1513821698.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] fix for oeqa/core/loader.py and image_types.bbclass
+Subject: [PATCH 1/2] oeqa/core/loader.py: fix re for module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 02:02:28 -0000
+X-List-Received-Date: Thu, 21 Dec 2017 02:02:30 -0000
 Content-Type: text/plain
 
-The following changes since commit 978472c58629d1448399207873bbead96b27102e:
+Fixed:
+$ oe-selftest -r eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
+Traceback (most recent call last):
+[snip]
+  File "/workspace2/lyang1/poky/meta/lib/oeqa/core/loader.py", line 49, in _built_modules_dict
+    module_name, class_name, test_name = m.groups()
+AttributeError: 'NoneType' object has no attribute 'groups'
 
-  image.bbclass: Add additional bb.debug to help track 12304 (2017-12-18 18:02:12 +0000)
+The old code assumed the arg should be:
+module.Class.test
 
-are available in the git repository at:
+Note about the module and Class, the lower and upper cases matters, which can't
+handle the testcases like eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
+and gotoolchain.oeGoToolchainSelfTest.test_go_dep_build. Use a new re to fix
+the problem, now all of the following commmands can work:
+$ oe-selftest -r eSDK
+$ oe-selftest -r eSDK.oeSDKExtSelfTest
+$ oe-selftest -r eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/2fixes
+[YOCTO #12438]
 
-Robert Yang (2):
-  oeqa/core/loader.py: fix re for module
-  image_types.bbclass: use stat to get sparse file's size
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oeqa/core/loader.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- meta/classes/image_types.bbclass | 2 +-
- meta/lib/oeqa/core/loader.py     | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index 975a081..25078ba 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -41,9 +41,10 @@ def _built_modules_dict(modules):
+         return modules_dict
+ 
+     for module in modules:
+-        # Assumption: package and module names do not contain upper case
+-        # characters, whereas class names do
+-        m = re.match(r'^([^A-Z]+)(?:\.([A-Z][^.]*)(?:\.([^.]+))?)?$', module)
++        # The format is module.class.test, while .class and .test is optional.
++        m = re.match(r'([^\.]+)(?:\.([^\.]+))?(?:\.([^\.]*))?', module)
++        if not m:
++            raise OEQATestNotFound("Not found %s in loaded test cases" % module)
+ 
+         module_name, class_name, test_name = m.groups()
+ 
 -- 
 2.7.4
 
