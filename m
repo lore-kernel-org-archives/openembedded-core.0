@@ -1,27 +1,24 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B06A3785AD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39AAE77E88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 00:56:41 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Dec 2017 16:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,434,1508828400"; 
-   d="scan'208";a="4472582"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga008.jf.intel.com with ESMTP; 20 Dec 2017 16:56:43 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Dec 2017 16:56:37 -0800
-Message-Id: <20171221005637.34163-7-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20171221005637.34163-1-california.l.sullivan@intel.com>
-References: <20171221005637.34163-1-california.l.sullivan@intel.com>
-Cc: akuster@mvista.com
-Subject: [rocko][PATCH 6/6] install*.sh: add short sleep after parted commands
+	Thu, 21 Dec 2017 02:02:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBL22Tkj020519
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Dec 2017 18:02:29 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 20 Dec 2017 18:02:28 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Dec 2017 10:02:20 +0800
+Message-ID: <cover.1513821698.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/2] fix for oeqa/core/loader.py and image_types.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 00:56:41 -0000
+X-List-Received-Date: Thu, 21 Dec 2017 02:02:28 -0000
+Content-Type: text/plain
 
-I wasn't able to install to my Optane SSD due to the following error:
+The following changes since commit 978472c58629d1448399207873bbead96b27102e:
 
-Formatting /dev/nvme0n1p1 to vfat...
-mkfs.fat 4.1 (2017-01-24)
-mkfs.vfat: unable to open /dev/nvme0n1p1: No such file or directory
-Target install-efi failed
+  image.bbclass: Add additional bb.debug to help track 12304 (2017-12-18 18:02:12 +0000)
 
-A couple lines later I see:
+are available in the git repository at:
 
-[    10.265401]  nvme0n1: p1 p2 p3
+  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/2fixes
 
-Then looking at the device itself after booting from a USB stick:
+Robert Yang (2):
+  oeqa/core/loader.py: fix re for module
+  image_types.bbclass: use stat to get sparse file's size
 
-root@intel-corei7-64: ~# ls /dev/nvme0n1*
-/dev/nvme0n1 /dev/nvme0n1p1 /dev/nvme0n1p2 /dev/nvme0n1p3
+ meta/classes/image_types.bbclass | 2 +-
+ meta/lib/oeqa/core/loader.py     | 7 ++++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-So it looks like the parted commands return before the device node is
-actually created.
-
-Work around this issue by waiting for device nodes for a short duration.
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 9daafd49b448122e35d67a1637ce2212793a4dc5)
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 7 +++++++
- meta/recipes-core/initrdscripts/files/init-install.sh     | 7 +++++++
- 2 files changed, 14 insertions(+)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 5ad3a60c05..706418fa9c 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -186,6 +186,13 @@ parted ${device} mkpart swap linux-swap $swap_start 100%
- 
- parted ${device} print
- 
-+echo "Waiting for device nodes..."
-+C=0
-+while [ $C -ne 3 ] && [ ! -e $bootfs  -o ! -e $rootfs -o ! -e $swap ]; do
-+    C=$(( C + 1 ))
-+    sleep 1
-+done
-+
- echo "Formatting $bootfs to vfat..."
- mkfs.vfat $bootfs
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 1cac8064a2..dade059c8f 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -211,6 +211,13 @@ parted ${device} mkpart $pname linux-swap $swap_start 100%
- 
- parted ${device} print
- 
-+echo "Waiting for device nodes..."
-+C=0
-+while [ $C -ne 3 ] && [ ! -e $bootfs  -o ! -e $rootfs -o ! -e $swap ]; do
-+    C=$(( C + 1 ))
-+    sleep 1
-+done
-+
- echo "Formatting $bootfs to ext3..."
- mkfs.ext3 $bootfs
- 
 -- 
-2.14.3
+2.7.4
 
 
