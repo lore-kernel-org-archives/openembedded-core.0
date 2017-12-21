@@ -1,26 +1,55 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 355157887F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BAF147887B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 15:49:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBLFnWd0012721
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Dec 2017 07:49:32 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 21 Dec 2017 07:49:31 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 21 Dec 2017 10:49:20 -0500
-Message-ID: <1ce378384cee638fe01733737af0a76c40ef2c2c.1513871125.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1513871125.git.bruce.ashfield@windriver.com>
-References: <cover.1513871125.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] linux-yocto/4.12: CQM and kmemleak fixes
+	Thu, 21 Dec 2017 19:39:30 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id 64so17826456wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Dec 2017 11:39:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=nt+QvaGftNqlKKl8verbhxL4hPEaI84Zpdua/PpmN6Y=;
+	b=0N7+FFDJ+LoZv42LB+UDKqD1ZLcQvB0wNwv1twupRsGq9mRzgPxEODBsOPQqwttnpb
+	+AKcm/S6bV5kTh1RbZfbpIFnbqT1rPbAduklJ6dckPOZ+LMKI8dDuq7ByWdSgEdfcLDs
+	L+t5AgpZd1y3j8cpUjoX7cAQP9pT0ahVVKN0c3XP3spM3p43LNzTBcm3hpjDRR4B20f9
+	GvBbmCTgBWJPl4GwWRdIo0iVnbYIXLYL2inz7G5Xj1cWQNRd6Hx2YIrP+kBkDYoiMB8Z
+	AFwCI5k+EpTGI6bTloSd8yTLmRuV7xF8E43eJ0VKtPEKurhSrKn+tQGatOD2UqlYDXF+
+	IfIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=nt+QvaGftNqlKKl8verbhxL4hPEaI84Zpdua/PpmN6Y=;
+	b=NjVGNVPgAxhSaNAqKgNcabIEf3yLIMFzBQH054hKX25/LMSrQ3orvVkOSMvszGajC8
+	k8EPekWIsLeE1b3UK4VuAuWO81FvtCktF72zTUPXhrljaA55mcoFt7+2tLs0Hp24sEAq
+	yONlaCDiE3Q7opMFjvNGj2yCskNcBA2vNH6liX4bx01Zj3EQ+t1oi/QHGvcx9N15Ot6y
+	7jcKzOcYD2VBqRyATFZE+YlqG4WGtHib1JG6wgizvb12Zu46RhSQlf0eI77Ft+m1B3sb
+	mFOGYQaXBSY9x/t8BNUDw2VkPnQK9woWmm0ipmtivNKaRRgLqYDQmCCSh0KBNPEGRpaP
+	uvSA==
+X-Gm-Message-State: AKGB3mL5z19T2LrKwOG4sYiKtAYAEJO78iHGlVIGYhN/cbcTw6+EE+Xo
+	0k59jf/fSBOd2jvnUBnJ9FqMDw==
+X-Google-Smtp-Source: ACJfBoubxFhLOB3BRgqq7BdVfMARzkdqhonNJgc5mrZIdkWFNkLb9K0ojuPts9/sPXfHH4BIXvhcpw==
+X-Received: by 10.80.147.14 with SMTP id m14mr11689480eda.121.1513885171424;
+	Thu, 21 Dec 2017 11:39:31 -0800 (PST)
+Received: from [172.20.0.85] ([185.47.135.167])
+	by smtp.gmail.com with ESMTPSA id
+	e29sm18180281edd.44.2017.12.21.11.39.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Dec 2017 11:39:30 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 11.2 \(3445.5.20\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20171219212639.1553-2-stefan@agner.ch>
+Date: Thu, 21 Dec 2017 20:39:28 +0100
+Message-Id: <0534E037-D174-4FA3-9C02-8CB9B0A03728@dominion.thruhere.net>
+References: <20171219212639.1553-1-stefan@agner.ch>
+	<20171219212639.1553-2-stefan@agner.ch>
+To: Stefan Agner <stefan@agner.ch>
+X-Mailer: Apple Mail (2.3445.5.20)
+Cc: otavio@ossystems.com.br, Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [rocko][PATCH v3 2/4] openssl10: fix runtime errors with Thumb2 when using binutils 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +62,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 15:49:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Dec 2017 19:39:31 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Integrating the following commits for kmemleak fixes and CQM
-backports:
 
-   58fe84d691a mm: kmemleak: treat vm_struct as alternative reference to vmalloc'ed objects
-   5babb9c8f695 mm: kmemleak: factor object reference updating out of scan_block()
-   8c22ef5ee138 mm: kmemleak: slightly reduce the size of some structures on 64-bit architectures
-   7ea6b560ef4c netfilter: conntrack: do not enable connection tracking unless needed
-   4fdf0a5a0863 netfilter: nf_ct_dccp/sctp: fix memory leak after netns cleanup
-   85385ffd1e9b netfilter: move table iteration out of netns exit paths
-   c95b3f8e1cbc netfilter: conntrack: add nf_ct_iterate_destroy
-   753c83b98a1e netfilter: conntrack: don't call iter for non-confirmed conntracks
-   bcf21cba7fd5 netfilter: conntrack: rename nf_ct_iterate_cleanup
-   f5c3a4c19075 perf/x86/intel/uncore: Fix missing marker for skx_uncore_cha_extra_regs
-   c44ebea2f116 perf/x86/intel/uncore: Fix SKX CHA event extra regs
-   1d70f7feb408 perf/x86/intel/uncore: Remove invalid Skylake server CHA filter field
-   eb3059e9e0ea perf/x86/intel/uncore: Fix Skylake server CHA LLC_LOOKUP event umask
-   3514c02c7bff perf/x86/intel/uncore: Fix Skylake server PCU PMU event format
-   804530f02515 perf/x86/intel/uncore: Fix Skylake UPI PMU event masks
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 16 ++++++++--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+> Op 19 dec. 2017, om 22:26 heeft Stefan Agner <stefan@agner.ch> het =
+volgende geschreven:
+>=20
+> From: Stefan Agner <stefan.agner@toradex.com>
+>=20
+> When compiling OpenSSL with binutils 2.29 for ARM with Thumb2 enabled
+> crashes and unexpected behavior occurs. E.g. connecting to a OpenSSH
+> server using the affected binary fails with:
+>  ssh_dispatch_run_fatal: Connection to 192.168.10.171 port 22: =
+incorrect signature
+>=20
+> Backport upstream bugfix:
+> https://github.com/openssl/openssl/issues/4659
+>=20
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index 7fe078b17a40..25f3963c74d3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "8f6a2f93758166ef40e56f907a067801fee88d75"
-+SRCREV_machine ?= "8dd0b4d434394e5293702c729164b424f2da6b57"
- SRCREV_meta ?= "b66a4f9730339b3c0c4af1db03dd26da71e419d5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index 784efc07f42f..5f2118712d6f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.12.18"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
-+SRCREV_machine ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
- SRCREV_meta ?= "b66a4f9730339b3c0c4af1db03dd26da71e419d5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index 771c8b262c16..2911d14c1b64 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "d293ce5ce9097c2a269cabed7ae6fcc66f92af09"
--SRCREV_machine_qemuarm64 ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
--SRCREV_machine_qemumips ?= "3bac03d93aa8eda49cae6563ba13996460dffd4f"
--SRCREV_machine_qemuppc ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
--SRCREV_machine_qemux86 ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
--SRCREV_machine_qemux86-64 ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
--SRCREV_machine_qemumips64 ?= "8c0a56e5a553ac3a985949ae8d0fc35d54779756"
--SRCREV_machine ?= "79394be8305b3c3ba2d6711ae48e08bf015fbae9"
-+SRCREV_machine_qemuarm ?= "01295fb92f5b47c5ebdadd63497cc1f964a873ff"
-+SRCREV_machine_qemuarm64 ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
-+SRCREV_machine_qemumips ?= "674e17014797e9b085474eb6fef5bd6193a43218"
-+SRCREV_machine_qemuppc ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
-+SRCREV_machine_qemux86 ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
-+SRCREV_machine_qemux86-64 ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
-+SRCREV_machine_qemumips64 ?= "aea1b0ab4353dfdb326f40a913006261e37d2834"
-+SRCREV_machine ?= "558fe84d691abbb8c8f5e149aa29ef4a478d0128"
- SRCREV_meta ?= "b66a4f9730339b3c0c4af1db03dd26da71e419d5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
--- 
-2.5.0
+Tested-by: Koen Kooi <koen@dominion.thruhere.net>
+
+
+> ---
+> ...saes-armv7-sha256-armv4-.pl-make-it-work-.patch | 100 =
++++++++++++++++++++++
+> .../recipes-connectivity/openssl/openssl_1.0.2m.bb |   1 +
+> 2 files changed, 101 insertions(+)
+> create mode 100644 =
+meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-armv=
+7-sha256-armv4-.pl-make-it-work-.patch
+>=20
+> diff --git =
+a/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-ar=
+mv7-sha256-armv4-.pl-make-it-work-.patch =
+b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-ar=
+mv7-sha256-armv4-.pl-make-it-work-.patch
+> new file mode 100644
+> index 0000000000..2ce0320c49
+> --- /dev/null
+> +++ =
+b/meta/recipes-connectivity/openssl/openssl-1.0.2m/0001-aes-armv4-bsaes-ar=
+mv7-sha256-armv4-.pl-make-it-work-.patch
+> @@ -0,0 +1,100 @@
+> +=46rom d1d6c69b6fd25e71dbae67fad17b2c7737f6b2dc Mon Sep 17 00:00:00 =
+2001
+> +From: Andy Polyakov <appro@openssl.org>
+> +Date: Sun, 5 Nov 2017 17:08:16 +0100
+> +Subject: [PATCH] {aes-armv4|bsaes-armv7|sha256-armv4}.pl: make it =
+work with
+> + binutils-2.29
+> +
+> +It's not clear if it's a feature or bug, but binutils-2.29[.1]
+> +interprets 'adr' instruction with Thumb2 code reference differently,
+> +in a way that affects calculation of addresses of constants' tables.
+> +
+> +Upstream-Status: Backport
+> +
+> +Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> +Reviewed-by: Kurt Roeckx <kurt@roeckx.be>
+> +Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> +(Merged from https://github.com/openssl/openssl/pull/4673)
+> +---
+> + crypto/aes/asm/aes-armv4.pl    | 6 +++---
+> + crypto/aes/asm/bsaes-armv7.pl  | 6 +++---
+> + crypto/sha/asm/sha256-armv4.pl | 2 +-
+> + 3 files changed, 7 insertions(+), 7 deletions(-)
+> +
+> +diff --git a/crypto/aes/asm/aes-armv4.pl =
+b/crypto/aes/asm/aes-armv4.pl
+> +index 4f8917089f..c1b5e352d7 100644
+> +--- a/crypto/aes/asm/aes-armv4.pl
+> ++++ b/crypto/aes/asm/aes-armv4.pl
+> +@@ -184,7 +184,7 @@ AES_encrypt:
+> + #if __ARM_ARCH__<7
+> + 	sub	r3,pc,#8		@ AES_encrypt
+> + #else
+> +-	adr	r3,AES_encrypt
+> ++	adr	r3,.
+> + #endif
+> + 	stmdb   sp!,{r1,r4-r12,lr}
+> + 	mov	$rounds,r0		@ inp
+> +@@ -430,7 +430,7 @@ _armv4_AES_set_encrypt_key:
+> + #if __ARM_ARCH__<7
+> + 	sub	r3,pc,#8		@ AES_set_encrypt_key
+> + #else
+> +-	adr	r3,private_AES_set_encrypt_key
+> ++	adr	r3,.
+> + #endif
+> + 	teq	r0,#0
+> + #if __ARM_ARCH__>=3D7
+> +@@ -952,7 +952,7 @@ AES_decrypt:
+> + #if __ARM_ARCH__<7
+> + 	sub	r3,pc,#8		@ AES_decrypt
+> + #else
+> +-	adr	r3,AES_decrypt
+> ++	adr	r3,.
+> + #endif
+> + 	stmdb   sp!,{r1,r4-r12,lr}
+> + 	mov	$rounds,r0		@ inp
+> +diff --git a/crypto/aes/asm/bsaes-armv7.pl =
+b/crypto/aes/asm/bsaes-armv7.pl
+> +index 70b3f9656f..ec66b0502a 100644
+> +--- a/crypto/aes/asm/bsaes-armv7.pl
+> ++++ b/crypto/aes/asm/bsaes-armv7.pl
+> +@@ -724,7 +724,7 @@ $code.=3D<<___;
+> + .type	_bsaes_decrypt8,%function
+> + .align	4
+> + _bsaes_decrypt8:
+> +-	adr	$const,_bsaes_decrypt8
+> ++	adr	$const,.
+> + 	vldmia	$key!, {@XMM[9]}		@ round 0 key
+> + 	add	$const,$const,#.LM0ISR-_bsaes_decrypt8
+> +=20
+> +@@ -819,7 +819,7 @@ _bsaes_const:
+> + .type	_bsaes_encrypt8,%function
+> + .align	4
+> + _bsaes_encrypt8:
+> +-	adr	$const,_bsaes_encrypt8
+> ++	adr	$const,.
+> + 	vldmia	$key!, {@XMM[9]}		@ round 0 key
+> + 	sub	$const,$const,#_bsaes_encrypt8-.LM0SR
+> +=20
+> +@@ -923,7 +923,7 @@ $code.=3D<<___;
+> + .type	_bsaes_key_convert,%function
+> + .align	4
+> + _bsaes_key_convert:
+> +-	adr	$const,_bsaes_key_convert
+> ++	adr	$const,.
+> + 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
+> + 	sub	$const,$const,#_bsaes_key_convert-.LM0
+> + 	vld1.8	{@XMM[15]}, [$inp]!		@ load round 1 key
+> +diff --git a/crypto/sha/asm/sha256-armv4.pl =
+b/crypto/sha/asm/sha256-armv4.pl
+> +index 4fee74d832..750216eb42 100644
+> +--- a/crypto/sha/asm/sha256-armv4.pl
+> ++++ b/crypto/sha/asm/sha256-armv4.pl
+> +@@ -205,7 +205,7 @@ sha256_block_data_order:
+> + #if __ARM_ARCH__<7
+> + 	sub	r3,pc,#8		@ sha256_block_data_order
+> + #else
+> +-	adr	r3,sha256_block_data_order
+> ++	adr	r3,.
+> + #endif
+> + #if __ARM_MAX_ARCH__>=3D7 && !defined(__KERNEL__)
+> + 	ldr	r12,.LOPENSSL_armcap
+> +--=20
+> +2.15.0
+> +
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb =
+b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+> index 04763ac346..9270f52bc6 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2m.bb
+> @@ -42,6 +42,7 @@ SRC_URI +=3D =
+"file://find.pl;subdir=3Dopenssl-${PV}/util/ \
+>             file://Use-SHA256-not-MD5-as-default-digest.patch \
+>             =
+file://0001-Fix-build-with-clang-using-external-assembler.patch \
+>             =
+file://0001-openssl-force-soft-link-to-avoid-rare-race.patch  \
+> +            =
+file://0001-aes-armv4-bsaes-armv7-sha256-armv4-.pl-make-it-work-.patch \
+>             "
+> SRC_URI[md5sum] =3D "10e9e37f492094b9ef296f68f24a7666"
+> SRC_URI[sha256sum] =3D =
+"8c6ff15ec6b319b50788f42c7abc2890c08ba5a1cdcd3810eb9092deada37b0f"
+> --=20
+> 2.13.6
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
 
 
