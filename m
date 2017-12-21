@@ -1,50 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 32FE0787F1
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 123CF78844
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 14:18:08 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id 87so17036377ior.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 06:18:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wF32/LnFvVa8jLr3SA66dkrT4NfvyUkOQAFccvxsoxs=;
-	b=xgK1QN9PWYk6Z7Y7ctaezrhqWXB+aQGbxEwnUkE2g0XJNbI9oz1iMNzZANylM4zgL8
-	8XbWRqJCi0BS6pJMvoembPrzQButlg3TkPDyBDwD9ROnLSXY6jG30hI297sR6NpurXkV
-	55EmVb3g10awRosPiyfuil9/cHA+H9TMDQXfriF27dPm5Wm6CvJn+lLiKbGMhNjfOHiD
-	Q82elgyMBEDwFX0ZjCPPQZb/SBWqOepbp9LrqHGly3gSK5zW1z54vviROePu5aXTXmlL
-	OvaWJ2VHbu4kcLPzuludO+F5ToUqVVvMaDQr0teJefBckJQYSYeS+AOVkYyjp7A68fPB
-	ZrZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wF32/LnFvVa8jLr3SA66dkrT4NfvyUkOQAFccvxsoxs=;
-	b=sAK/dCENkfOe+IID6mNWmtcszD1WtcaHAq9vyTjOFVnfx7V/seIJ+wQXTYL0s1tosf
-	6Ogl7efwtwOoxMSA1KfCrn4Cp0CvvErhsURb4Wbwme2cyIsNaIaT8RDnfROUmZvGFs+V
-	xoe+ateFCusL8mMbkXcacQtytZTBc2GAj9MfgYUFjM2YYIcoPAdjk3ah1Bdr9OPoKwR4
-	eHnGrApjzIM/GaNJ3O9fHGv+VOWUEujFz9bAW6Hj6B3HAd6wjU42UZGzcDk+0UAGZ2xl
-	S1hqxQ7XxTK0/U2b695TV8vAvpUIDYVeSnI7ODQDb4loglIYYiSlVwLOS96TPQf8xZXU
-	oRmQ==
-X-Gm-Message-State: AKGB3mKZZJTnoO354/rRRKY1LE5lU8jwUv2AsHIb3tFFaRYmQQ9vZORg
-	Hjyl26wq7wgO6ISmAHEkbyVQNhFfKMLCnwj41Gc8dA==
-X-Google-Smtp-Source: ACJfBovLz3dCujtMmhGW3XxzFcWunYC059NHIQsNIZV1XlvRpPF28+QQmjM8kr3bPm4Zkom31wvdd9IqdmkmVrPG1t4=
-X-Received: by 10.107.7.152 with SMTP id g24mr9046582ioi.227.1513865890458;
-	Thu, 21 Dec 2017 06:18:10 -0800 (PST)
+	Thu, 21 Dec 2017 15:49:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBLFnLmj007279
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 21 Dec 2017 07:49:21 -0800
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 21 Dec 2017 07:49:20 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 21 Dec 2017 10:49:11 -0500
+Message-ID: <cover.1513871125.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Received: by 10.107.34.140 with HTTP; Thu, 21 Dec 2017 06:17:49 -0800 (PST)
-In-Reply-To: <2c33a5f2-26ae-3050-86f8-62a41d5ec593@windriver.com>
-References: <cover.1513831180.git.liezhi.yang@windriver.com>
-	<65382db74f44d0296de2ccc3e5f67bef740e8422.1513831180.git.liezhi.yang@windriver.com>
-	<2c33a5f2-26ae-3050-86f8-62a41d5ec593@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Dec 2017 14:17:49 +0000
-Message-ID: <CAJTo0LY0Vtu7phJ_pxZc-cOH8ozbkerRuVWG_TW3KQse_gUVWg@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: fix PACKAGECONFIG for lz4
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/9] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 14:18:10 -0000
-Content-Type: multipart/alternative; boundary="001a113f3cfea397ed0560da5e6f"
+X-List-Received-Date: Thu, 21 Dec 2017 15:49:22 -0000
+Content-Type: text/plain
 
---001a113f3cfea397ed0560da5e6f
-Content-Type: text/plain; charset="UTF-8"
+Here is my current queue of linux-yocto* patches. Some are repeats from previous
+sends, but are included for completeness sake.
 
-On 21 December 2017 at 05:55, ChenQi <Qi.Chen@windriver.com> wrote:
+I have some other changes to send, but given that I'm out of the office for the
+next week and a half, I'll hold on those workflow changes until I'm back to
+normal hours.
 
-> The problem seems to be that the lz4 packaging problem.
-> lz4-ptest is packages as liblz4 and is installed instead of the lz4
-> package.
->
+I've also re-submitted the linux-yocto-dev + new kernel dependencies change,
+anyone using 4.15+ will start running into these dependencies, so I'd like
+to get the baseline work on it into the tree and tweak from there.
 
-So that's because lz4-ptest ships a copy of the build tree (so has a
-liblz5.so.*) and is before lz4 in PACKAGES.
+Cheers,
 
-I've got a patch here to remove the ptest bits from lz4 as shipping an
-entire build tree isn't a good idea, and will look at fixing debian.bbclass
-so it doesn't consider libraries outside of $libdir et al.
+Bruce
 
-Ross
+The following changes since commit a2fee27d0a622cd9a40c5a6661b70fee4ec4bf9f:
 
---001a113f3cfea397ed0560da5e6f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  oeqa/selftest/cases/wic: update OETestID decorator for test_qemu (2017-12-21 10:21:00 +0000)
 
-<div dir=3D"ltr">On 21 December 2017 at 05:55, ChenQi <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriv=
-er.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">The problem seems to be that the =
-lz4 packaging problem.<br>
-lz4-ptest is packages as liblz4 and is installed instead of the lz4 package=
-.<br></blockquote><div><br></div><div>So that&#39;s because lz4-ptest ships=
- a copy of the build tree (so has a liblz5.so.*) and is before lz4 in PACKA=
-GES.</div><div><br></div><div>I&#39;ve got a patch here to remove the ptest=
- bits from lz4 as shipping an entire build tree isn&#39;t a good idea, and =
-will look at fixing debian.bbclass so it doesn&#39;t consider libraries out=
-side of $libdir et al.</div><div><br></div><div>Ross=C2=A0</div></div></div=
-></div>
+are available in the git repository at:
 
---001a113f3cfea397ed0560da5e6f--
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  linux-yocto/4.12: update to v4.12.16
+  linux-yocto/4.12: bug fixes and VRF feature addition
+  linux-yocto/4.12: ipv4 stable backport and config changes
+  linux-yocto/4.x: configuration updates
+  linux-yocto/4.12: bug fixes and feature backports
+  linux-yocto/4.12: update to v.4.12.18
+  linux-yocto-dev: update to v4.15+
+  linux-yocto/4.12: common-pc*: enable X2APIC by default
+  linux-yocto/4.12: CQM and kmemleak fixes
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  5 ++++-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       |  2 +-
+ 10 files changed, 27 insertions(+), 24 deletions(-)
+
+-- 
+2.5.0
+
+
