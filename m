@@ -1,24 +1,25 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE651788A0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B70A9788BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 21:23:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBLLNJCm015497
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 13:23:19 -0800
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 21 Dec 2017 13:23:19 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Dec 2017 13:23:18 -0800
-Message-ID: <20171221212318.242658-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] liberation-fonts: do not inherit allarch
+	Thu, 21 Dec 2017 22:28:31 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	vBLMSTSI009668
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 21 Dec 2017 22:28:31 GMT
+Message-ID: <1513895309.16507.97.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joe Slater <jslater@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 21 Dec 2017 22:28:29 +0000
+In-Reply-To: <20171221212318.242658-1-jslater@windriver.com>
+References: <20171221212318.242658-1-jslater@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/1] liberation-fonts: do not inherit allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +32,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 21:23:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Dec 2017 22:28:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The fontcache class performs post-installation cache
-updating and needs target architecture information.
+On Thu, 2017-12-21 at 13:23 -0800, Joe Slater wrote:
+> The fontcache class performs post-installation cache
+> updating and needs target architecture information.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Can you expand a bit on this? Do you mean that the postinstalls written
+into the packages are arch specific? Can we stop the scripts being arch
+specific?
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-index 412da48..5e8ba93 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-@@ -10,7 +10,10 @@ LICENSE = "OFL-1.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f96db970a9a46c5369142b99f530366b"
- PE = "1"
- 
--inherit allarch fontcache
-+# The fonts are arch independent, but fontcache is not!
-+# Do not inherit allarch.
-+#
-+inherit fontcache
- 
- FONT_PACKAGES = "${PN}"
- 
--- 
-2.7.4
+Cheers,
 
+Richard
 
