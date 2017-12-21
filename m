@@ -1,26 +1,25 @@
-Return-Path: <m.hoffmann@cartelsol.com>
-X-Greylist: delayed 11788 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 21 Dec 2017 00:51:10 UTC
-Received: from ms-10.1blu.de (ms-10.1blu.de [178.254.4.101])
-	by mail.openembedded.org (Postfix) with ESMTP id 09AB178679
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 818597867B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 00:51:10 +0000 (UTC)
-Received: from [80.153.115.6] (helo=[10.17.123.139])
-	by ms-10.1blu.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.86_2) (envelope-from <m.hoffmann@cartelsol.com>)
-	id 1eRm0h-00035B-TF for openembedded-core@lists.openembedded.org;
-	Wed, 20 Dec 2017 22:34:43 +0100
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Marcus Hoffmann <m.hoffmann@cartelsol.com>
-Message-ID: <b4cc53ff-9653-a90e-92de-1e59f9dbbce8@cartelsol.com>
-Date: Wed, 20 Dec 2017 22:34:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-X-Con-Id: 239684
-X-Con-U: 0-mhoffmann
-X-Originating-IP: 80.153.115.6
-Subject: systemd PACKAGECONFIG = "lz4" leads to broken init
+	Thu, 21 Dec 2017 00:56:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Dec 2017 16:56:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,434,1508828400"; 
+   d="scan'208";a="4472560"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga008.jf.intel.com with ESMTP; 20 Dec 2017 16:56:40 -0800
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Dec 2017 16:56:31 -0800
+Message-Id: <20171221005637.34163-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Cc: akuster@mvista.com
+Subject: [rocko][PATCH 0/6] backport installer fixes for rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 00:51:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Dec 2017 00:56:39 -0000
 
-Dear all,
+Hi Armin,
 
-when building poky with
+I know you're aware of these, but I don't see them in
+contrib/stable/rocko-next anymore, so I just wanted to make sure they're
+still going in.
 
-PACKAGECONFIG_append_pn-systemd = "lz4"
+These fix bugs [YOCTO #12111] and [YOCTO #12346].
 
-in local.conf and
-DISTRO_FEATURES_append = " systemd"
-VIRTUAL-RUNTIME_init_manager = "systemd"
-in bblayers.conf, init (=systemd) can't start because of a missing lz4
-library:
+If you already have them queued somewhere else, sorry for the noise!
 
-/sbin/init: error while loading shared libraries: liblz4.so.1: cannot
-open shared object file: No such file or directory
+Thanks,
+Cal
 
-Best wishes,
-Marcus Hoffmann
+California Sullivan (5):
+  initramfs-module-install-efi: point to original copy and delete new
+    file
+  initramfs-module-install-efi: update summary
+  initramfs-framework: add install module
+  init-install: fix grub-install command
+  install*.sh: add short sleep after parted commands
+
+Martin Jansa (1):
+  initramfs-module-install: Remove allarch and FILESEXTRAPATHS
+
+ meta/conf/layer.conf                               |   4 +
+ .../initrdscripts/files/init-install-efi.sh        |   7 +
+ .../initrdscripts/files/init-install.sh            |   9 +-
+ .../initramfs-framework/install-efi.sh             | 276 ---------------------
+ .../initramfs-module-install-efi_1.0.bb            |   9 +-
+ .../initrdscripts/initramfs-module-install_1.0.bb  |  22 ++
+ 6 files changed, 44 insertions(+), 283 deletions(-)
+ delete mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/install-efi.sh
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+
+-- 
+2.14.3
+
 
