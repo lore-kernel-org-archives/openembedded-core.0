@@ -1,8 +1,8 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 98167785AD
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF06785AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 00:56:40 +0000 (UTC)
+	Thu, 21 Dec 2017 00:56:41 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
@@ -10,18 +10,18 @@ Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	20 Dec 2017 16:56:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,434,1508828400"; 
-   d="scan'208";a="4472575"
+   d="scan'208";a="4472579"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga008.jf.intel.com with ESMTP; 20 Dec 2017 16:56:42 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Dec 2017 16:56:35 -0800
-Message-Id: <20171221005637.34163-5-california.l.sullivan@intel.com>
+Date: Wed, 20 Dec 2017 16:56:36 -0800
+Message-Id: <20171221005637.34163-6-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20171221005637.34163-1-california.l.sullivan@intel.com>
 References: <20171221005637.34163-1-california.l.sullivan@intel.com>
 Cc: akuster@mvista.com
-Subject: [rocko][PATCH 4/6] initramfs-module-install: Remove allarch and FILESEXTRAPATHS
+Subject: [rocko][PATCH 5/6] init-install: fix grub-install command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Dec 2017 00:56:40 -0000
+X-List-Received-Date: Thu, 21 Dec 2017 00:56:41 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+The grub_version variable was calling 'grub-install -v' (verbose) instead
+of 'grub-install -V' (version) causing unexpected failures.
 
-* files is already included in default FILESPATH
-* it cannot inherit allarch as it RDEPENDS on bunch of TUNE_PKGARCH packages
-* use the same COMPATIBLE_HOST restrictions as grub has to prevent ERRORs in
-  bitbake world
-  ERROR: Nothing RPROVIDES 'grub' (but oe-core/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb RDEPENDS on or otherwise requires it)
-  grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  grub was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  NOTE: Runtime target 'grub' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['grub']
-  ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+Fixes bug [YOCTO #12111].
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit ecad98a0ffe41d8cc8890d16be09e4b604a1e192)
+(cherry picked from commit 38dcbd96e82b1c40576a0514f053266429dca5d1)
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- .../initrdscripts/initramfs-module-install-efi_1.0.bb             | 3 ---
- meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb   | 8 +++++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ meta/recipes-core/initrdscripts/files/init-install.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index 24b53a8498..1e7f76fd56 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -5,9 +5,6 @@ RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools ut
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 572613ecd4..1cac8064a2 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -132,7 +132,7 @@ fi
  
- PR = "r4"
+ disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
  
--inherit allarch
--
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
- SRC_URI = "file://init-install-efi.sh"
+-grub_version=$(grub-install -v|sed 's/.* \([0-9]\).*/\1/')
++grub_version=$(grub-install -V|sed 's/.* \([0-9]\).*/\1/')
  
- S = "${WORKDIR}"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-index ce7f165bfe..02b69f37a4 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -3,11 +3,13 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
- 
--PR = "r1"
-+# The same restriction as grub
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-+COMPATIBLE_HOST_armv7a = 'null'
-+COMPATIBLE_HOST_armv7ve = 'null'
- 
--inherit allarch
-+PR = "r1"
- 
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
- SRC_URI = "file://init-install.sh"
- 
- S = "${WORKDIR}"
+ if [ $grub_version -eq 0 ] ; then
+     bios_boot_size=0
 -- 
 2.14.3
 
