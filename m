@@ -1,39 +1,28 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A0D71974
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 501F978355
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 17:19:23 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id b132so5554767qkc.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 09:19:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6hWdb3bxh7zCyqv7tzbfTp6ve1YDw2+1nK2UyoT9MLQ=;
-	b=VHeXyMlYtbV9Gdgz8H7zUNE0HE6DhedIpUrNKPsOOzP3uvn98BzlZCDt/o3BHhcv57
-	x4v3HvgmgUray3CJcJcT+4/esk12/yK1AFtjbiybcjUN2Ck+SNNGi+yt8eJt+spV4J2K
-	y/9klT1Xa2XCCF4mJRy8aEtPkkPXY58DnvKvBICxCqAOiuwKrC2yq1SjZ5YWg6kU57tJ
-	LXanlzJyhvzjdYCcLpUTtng1nmtPiYszPKlh81NzXWwnj3snO5a22XUFe/ePHdAVlplF
-	NS7MEpob1GriQg5z2po4aE1gXPqB569bobFm6zkEPhpCPEmunasXl+9nC0CBx25kLEKq
-	23ow==
-X-Gm-Message-State: AKGB3mKA1OGwIFCtr2wT1GwmsaEQuQZxgPOBtKDXi7+KeVcYyb3pG0SU
-	YhF49LfqixQjy6UcTY7qxTM51MZH
-X-Google-Smtp-Source: ACJfBosRXT7LHS+ssXVuRLDe1QAd7BwZ7/naqMCK81u6tCWlO9onQXv113JFAYRMD9At/F9XqmYkRg==
-X-Received: by 10.55.126.198 with SMTP id z189mr21120817qkc.100.1513963164547; 
-	Fri, 22 Dec 2017 09:19:24 -0800 (PST)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id
-	s4sm14202372qkd.66.2017.12.22.09.19.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Dec 2017 09:19:23 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Dec 2017 12:19:17 -0500
-Message-Id: <1513963157-11174-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Cc: Derek Straka <derek@asterius.io>
-Subject: [PATCH] python3-pygobject: update to 3.26.1
+	Fri, 22 Dec 2017 18:23:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBMINqNj012528
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 22 Dec 2017 10:23:52 -0800
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 22 Dec 2017 10:23:51 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72@fmsmsx111.amr.corp.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <6d876c01-b89f-0c00-6c3b-a0245da3d5b6@windriver.com>
+Date: Fri, 22 Dec 2017 13:23:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71FFA72@fmsmsx111.amr.corp.intel.com>
+X-Originating-IP: [172.25.44.3]
+Cc: "Purdie, Richard" <richard.purdie@intel.com>
+Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNTHigJkxNw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Dec 2017 17:19:24 -0000
+X-List-Received-Date: Fri, 22 Dec 2017 18:23:52 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-Update to the latest stable release
+On 2017-12-18 10:52 AM, Jolley, Stephen K wrote:
+> Current Dev Position: YP 2.5 M2 development
+> 
+> Next Deadline: YP 2.5 M2 cut off of 1/15/18
+> 
+> SWAT team rotation: Stephano -> Maxin on Dec. 15, 2017.
+> 
+> SWAT team rotation: Maxin -> Cal on Dec. 22, 2017.
+> 
+> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+> 
+> Key Status/Updates:
+> 
+> ·The QA of YP 2.5 M1 rc1 is just starting.  See: 
+> https://wiki.yoctoproject.org/wiki/2.5_QA_Status
+> 
+> ·The QA of YP 2.4.1 rc1 is about 80% complete.  See: 
+> https://wiki.yoctoproject.org/wiki/2.4_QA_Status. We are having some 
+> issues with the eclipse plugin testing.
+> 
+> ·The QA of YP 2.3.3 rc1 is about 3% complete. See: 
+> https://wiki.yoctoproject.org/wiki/2.3_QA_Status
+> 
+> ·YP 2.2.3 rc1 has been built and is queued to begin QA when the QA team 
+> has bandwidth.
+> 
+> ·We have finally tracked down the qemux86-64 kvm apic hang to an issue 
+> in the host kernel. We have a mitigation plan in mind but that is 
+> blocked on finding another separate bug causing selftest failures when 
+> upgrading the guest kernel.
+> 
+> ·We have identified further intermittent bugs in various releases which 
+> we’re continuing to look into (including gpg memory allocation issues on 
+> pyro, sstate writing races in morty, further occurrences of the inode 
+> count issues with our NAS on the autobuilder).
 
-Tested in qemux86-64 running core-image-minimal
+If any of the new problems prove to be difficult to debug, please
+reply with the defect ID so that people can read the background
+and perhaps help out in some way.
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- .../{python3-pygobject_3.26.0.bb => python3-pygobject_3.26.1.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.26.0.bb => python3-pygobject_3.26.1.bb} (86%)
-
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.26.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.26.1.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-pygobject_3.26.0.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.26.1.bb
-index f368e6c..0405b44 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.26.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.26.1.bb
-@@ -12,8 +12,8 @@ SRC_URI = " \
-     http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
- "
- 
--SRC_URI[md5sum] = "1c1719b1798cc8bf1cb97777c41c83d1"
--SRC_URI[sha256sum] = "7411acd600c8cb6f00d2125afa23303f2104e59b83e0a4963288dbecc3b029fa"
-+SRC_URI[md5sum] = "d898fc768ebec7a9ed4e4270c6fabfde"
-+SRC_URI[sha256sum] = "f5577b9b9c70cabb9a60d81b855d488b767c66f867432e7fb64aa7269b04d1a9"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
+WR used to use a single large NAS for our build cluster 3+ years ago.
+While it worked to first order, there was a background of mysterious
+errors. We switch to local disks and pushing logs/status to
+a centralized git repo and we've been happy with that choice.
 -- 
-2.7.4
-
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
