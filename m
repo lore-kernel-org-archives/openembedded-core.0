@@ -1,29 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D0E9786E9
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E1DF1788C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 02:00:20 +0000 (UTC)
+	Fri, 22 Dec 2017 02:08:50 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBM20ItF001431
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Dec 2017 18:00:19 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 21 Dec 2017 18:00:06 -0800
-To: Marcus Hoffmann <m.hoffmann@cartelsol.com>
-References: <b4cc53ff-9653-a90e-92de-1e59f9dbbce8@cartelsol.com>
-	<6a6ceee7-bf43-70ab-72bb-c10f299ca149@windriver.com>
-	<b3556d63-e844-a2cb-2e42-a9732ad68477@cartelsol.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <645b551f-c2dd-6e50-4d00-2293cc7195d0@windriver.com>
-Date: Fri, 22 Dec 2017 10:00:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBM28pAR022018
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Dec 2017 18:08:51 -0800
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Thu, 21 Dec 2017 18:08:39 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+Thread-Index: AQHTU6XbDhJwwAOIpEihfeLlRZsSNKNO65Yg
+Date: Fri, 22 Dec 2017 02:08:37 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566B9AEB@ALA-MBC.corp.ad.wrs.com>
+References: <cover.1509604697.git.jackie.huang@windriver.com>
+In-Reply-To: <cover.1509604697.git.jackie.huang@windriver.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.100]
 MIME-Version: 1.0
-In-Reply-To: <b3556d63-e844-a2cb-2e42-a9732ad68477@cartelsol.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: systemd PACKAGECONFIG = "lz4" leads to broken init
+Subject: Re: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Dec 2017 02:00:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 22 Dec 2017 02:08:51 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Marcus,
 
-This fix isn't correct, please see Ross' reply to:
+Ping, I didn't see any objection on this, but it's not merged yet, do I mis=
+s anything?
 
-[OE-core] [PATCH 0/1] systemd: fix PACKAGECONFIG for lz4
+Thanks,
+Jackie
 
-// Robert
-
-On 12/21/2017 09:26 PM, Marcus Hoffmann wrote:
-> Hey Robert,
-> 
-> thanks for the patch. I'd like to understand how this fixes the problem
-> or probably more genrally how the PACKAGECONFIG thing works internally.
-> 
-> Can someone give me a pointer on where to look? It seems a bit like
-> magic just adding "lz4" twice at the end :-).
-> 
-> Kind regards,
-> Marcus
-> 
-> On 21.12.2017 05:40, Robert Yang wrote:
->> Hi Marcus,
->>
->> I think that the following patch can fix the problem:
->>
->> The following changes since commit
->> 978472c58629d1448399207873bbead96b27102e:
->>
->>    image.bbclass: Add additional bb.debug to help track 12304 (2017-12-18
->> 18:02:12 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib rbt/systemd_lz4
->>   
->> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/systemd_lz4
->>
->>
->> Robert Yang (1):
->>    systemd: fix PACKAGECONFIG for lz4
->>
->> // Robert
->>
->> On 12/21/2017 05:34 AM, Marcus Hoffmann wrote:
->>> Dear all,
->>>
->>> when building poky with
->>>
->>> PACKAGECONFIG_append_pn-systemd = "lz4"
->>>
->>> in local.conf and
->>> DISTRO_FEATURES_append = " systemd"
->>> VIRTUAL-RUNTIME_init_manager = "systemd"
->>> in bblayers.conf, init (=systemd) can't start because of a missing lz4
->>> library:
->>>
->>> /sbin/init: error while loading shared libraries: liblz4.so.1: cannot
->>> open shared object file: No such file or directory
->>>
->>> Best wishes,
->>> Marcus Hoffmann
->>>
-> 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> jackie.huang@windriver.com
+> Sent: Thursday, November 02, 2017 14:41
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+>=20
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> v2 comments:
+> Add a note for external toolchain in the commit log.
+>=20
+> --
+> The following changes since commit
+> 514a808f21c37b6ad704ce397bb2740ecc9a93bc:
+>=20
+>   ref-manual: Updates to "Image Generation" section. (2017-10-30 15:55:08
+> +0000)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib.git jhuang0/d_nscd_171102_0
+>   http://git.pokylinux.org/cgit.cgi//log/?h=3Djhuang0/d_nscd_171102_0
+>=20
+> Jackie Huang (2):
+>   glibc: re-package for libnss-db
+>   glibc/nscd: do not cache for netgroup by default
+>=20
+>  meta/recipes-core/glibc/glibc-package.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> --
+> 2.11.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
