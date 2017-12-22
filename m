@@ -1,48 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 692AC78900
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B62EB788C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 23:37:02 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id 9so24349177wme.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 15:37:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=qbcVkrNibyAthCrvTgJsqcJ5pXLpqJSxbZoF9lwn2mc=;
-	b=FuSKVksq6x3eiZRJCGCwOT8qJX+ua+fLyFAX4en2XDzqo+RKL5Zps2u3jPs50ZDi8A
-	Nf41sjnyF/q+stjzAk+mGpjPDOBTWp5I8nnZT6lwixMJF+OyN0FUGjvZM8srfFzkVIqi
-	oow5ihAvcptozU/xEFY3AFok1DnV8ND9pdIG2DIfiVzEQACDYM1xfGBuc/WeT++foPSO
-	Z5k5OJpC+RKXB7wCvCEo3h73jDgpXlj1fM8FpBnoHGnyRtFt7+7UiaOW4Pui6XYRAqS+
-	JePqXtEBo+JNVKbnS2uwrtwzzWdZMZMJ8B0mueHhgRS1ZUKhvpfDdQQem9KDuY+4sCYe
-	5icw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qbcVkrNibyAthCrvTgJsqcJ5pXLpqJSxbZoF9lwn2mc=;
-	b=WEk/j0v/f5mDcsPcJckG9tk+RYD2ukovB2DsXhgW13rtvSqZ5vqyPHiSFExQl6e3aU
-	FUjHXxKyz9kHfwSL15WDf2TbfmhkBg3D8gx6X/Cw4PVOQQM+6zX+ETWJqdKka1U1IP7u
-	O06HqvJp5rNjNOcPMRejjmeOMOOQE02ALRdglMLni8y3WWX4NXMRQNHomsAUzJKmbLBE
-	FUfSPylkLCUNMBKhvCKvCG/mv8qVhuHgg+Naex2AgQAI5voBBaRW00YZm7IZxfWF4bmk
-	6ToDmYch1XH0HiAz9zIf4ypROjYb1MWAEQbP8mb6hL9e6Pj4GhtPASljm9D4cZt4Nzs8
-	/N0A==
-X-Gm-Message-State: AKGB3mIMGktqBSaXAKOr+s60SM3K5/vcUscgiH/RqjY/szQX7u6Qr2jJ
-	R9A4wdtJDCv8t+AUi2an6nzKi9L8
-X-Google-Smtp-Source: ACJfBosIe9ELBqIBj134ezCJHsoqCYWXeEKGnhcnfSOOMQCFiLSZCttmewmUwylo0wgXFyYOM57xTA==
-X-Received: by 10.28.168.88 with SMTP id r85mr13916289wme.63.1513985822893;
-	Fri, 22 Dec 2017 15:37:02 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	y42sm26864699wrc.96.2017.12.22.15.37.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Dec 2017 15:37:01 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Dec 2017 23:36:59 +0000
-Message-Id: <20171222233659.6615-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] rm_work: remove debugging statements
+	Fri, 22 Dec 2017 23:50:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBMNoS0S019742
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 22 Dec 2017 15:50:28 -0800
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Fri, 22 Dec 2017 15:50:27 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "BURTON, ROSS"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] liberation-fonts: do not
+	inherit allarch
+Thread-Index: AQHTeqHs/2cOO7TH702yWxiplkuaAaNO5uWA//+PSxCAARnrgIAAea5X
+Date: Fri, 22 Dec 2017 23:50:27 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84D87A2239@ALA-MBC.corp.ad.wrs.com>
+References: <20171221212318.242658-1-jslater@windriver.com>
+	<1513895309.16507.97.camel@linuxfoundation.org>
+	<007BD92917A2324FA403BCF9A464CF84D87A1EE0@ALA-MBC.corp.ad.wrs.com>,
+	<d3dc9e70-694e-5b41-1583-fa8b18bdc6f4@linux.intel.com>
+In-Reply-To: <d3dc9e70-694e-5b41-1583-fa8b18bdc6f4@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.117.215]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] liberation-fonts: do not inherit allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Dec 2017 23:37:02 -0000
+X-List-Received-Date: Fri, 22 Dec 2017 23:50:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/rm_work.bbclass | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 59180829abf..31d99e4554a 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -183,8 +183,6 @@ python inject_rm_work() {
-         # work in the recipe itself.
-         # In practice, addtask() here merely updates the dependencies.
-         bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
--        if "initial" in pn:
--            bb.warn(pn + "2: " + " ".join(deps))
- 
-     # Always update do_build_without_rm_work dependencies.
-     bb.build.addtask('do_build_without_rm_work', '', ' '.join(deps), d)
--- 
-2.11.0
-
+I tried the patch to the allarch class and the problem does away.    Joe=0A=
+________________________________________=0A=
+From: Alexander Kanavin [alexander.kanavin@linux.intel.com]=0A=
+Sent: Friday, December 22, 2017 12:34 AM=0A=
+To: Slater, Joseph; Richard Purdie; openembedded-core@lists.openembedded.or=
+g; BURTON, ROSS=0A=
+Subject: Re: [OE-core] [oe-core][PATCH 1/1] liberation-fonts: do not inheri=
+t allarch=0A=
+=0A=
+On 12/22/2017 02:00 AM, Slater, Joseph wrote:=0A=
+> A number of postinstall's run target binaries, whether on the host or=0A=
+> target.  This means they invoke qemu on the host and try to tell it=0A=
+> where bits are.  I think it might not be necessary to pass explicit=0A=
+> information about library locations to qemu, but that is the way it=0A=
+> is done, and that information is arch dependent.  It might well be=0A=
+> the case that "confusion" occurs only when multilib is enabled, but=0A=
+> the point is that it does happen.=0A=
+=0A=
+I think Ross had a different patch to deal with the multilib-qemu libray=0A=
+confusion, so this might not yet be necessary.=0A=
+=0A=
+Also, if this needs to be fixed, you need to fix it everywhere -=0A=
+cantarell-fonts, adwaita-icon-theme, etc. etc.=0A=
+=0A=
+Alex=0A=
 
