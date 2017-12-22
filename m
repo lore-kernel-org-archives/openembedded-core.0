@@ -1,32 +1,35 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1DF1788C2
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 43E8B78855
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Dec 2017 02:08:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBM28pAR022018
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Dec 2017 18:08:51 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Thu, 21 Dec 2017 18:08:39 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
-Thread-Index: AQHTU6XbDhJwwAOIpEihfeLlRZsSNKNO65Yg
-Date: Fri, 22 Dec 2017 02:08:37 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566B9AEB@ALA-MBC.corp.ad.wrs.com>
-References: <cover.1509604697.git.jackie.huang@windriver.com>
-In-Reply-To: <cover.1509604697.git.jackie.huang@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.100]
+	Fri, 22 Dec 2017 08:39:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Dec 2017 00:39:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,440,1508828400"; 
+   d="scan'208";a="4533299"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 22 Dec 2017 00:39:36 -0800
+To: "Slater, Joseph" <joe.slater@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20171221212318.242658-1-jslater@windriver.com>
+	<1513895309.16507.97.camel@linuxfoundation.org>
+	<007BD92917A2324FA403BCF9A464CF84D87A1EE0@ALA-MBC.corp.ad.wrs.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d3dc9e70-694e-5b41-1583-fa8b18bdc6f4@linux.intel.com>
+Date: Fri, 22 Dec 2017 10:34:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84D87A1EE0@ALA-MBC.corp.ad.wrs.com>
+Subject: Re: [PATCH 1/1] liberation-fonts: do not inherit allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,56 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Dec 2017 02:08:51 -0000
+X-List-Received-Date: Fri, 22 Dec 2017 08:39:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
+On 12/22/2017 02:00 AM, Slater, Joseph wrote:
+> A number of postinstall's run target binaries, whether on the host or
+> target.  This means they invoke qemu on the host and try to tell it
+> where bits are.  I think it might not be necessary to pass explicit
+> information about library locations to qemu, but that is the way it
+> is done, and that information is arch dependent.  It might well be
+> the case that "confusion" occurs only when multilib is enabled, but
+> the point is that it does happen.
 
-Ping, I didn't see any objection on this, but it's not merged yet, do I mis=
-s anything?
+I think Ross had a different patch to deal with the multilib-qemu libray 
+confusion, so this might not yet be necessary.
 
-Thanks,
-Jackie
+Also, if this needs to be fixed, you need to fix it everywhere - 
+cantarell-fonts, adwaita-icon-theme, etc. etc.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> jackie.huang@windriver.com
-> Sent: Thursday, November 02, 2017 14:41
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
->=20
-> From: Jackie Huang <jackie.huang@windriver.com>
->=20
-> v2 comments:
-> Add a note for external toolchain in the commit log.
->=20
-> --
-> The following changes since commit
-> 514a808f21c37b6ad704ce397bb2740ecc9a93bc:
->=20
->   ref-manual: Updates to "Image Generation" section. (2017-10-30 15:55:08
-> +0000)
->=20
-> are available in the git repository at:
->=20
->   git://git.pokylinux.org/poky-contrib.git jhuang0/d_nscd_171102_0
->   http://git.pokylinux.org/cgit.cgi//log/?h=3Djhuang0/d_nscd_171102_0
->=20
-> Jackie Huang (2):
->   glibc: re-package for libnss-db
->   glibc/nscd: do not cache for netgroup by default
->=20
->  meta/recipes-core/glibc/glibc-package.inc | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> --
-> 2.11.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
