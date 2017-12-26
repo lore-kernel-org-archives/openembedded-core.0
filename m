@@ -1,38 +1,26 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5097E7857D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA29783DE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Dec 2017 18:05:33 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id i40so43215627qti.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Dec 2017 10:05:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=57JZJbdMMHrVSb4kpOjrJPSjvVJBMK5YFvKxL2yYz1U=;
-	b=f28JujzmM/HO13r8MDvcI8I9I+WHvXhL686+XQ3P6Tn79sYo+vFJbnwv4lhyiGzM9c
-	J2PzSqGtMRlYFZdni/jYJTl5IfizhkPR5ZbHQR0//Tt4YOttT3cGJbdJbuZ1wPR6W+Dm
-	lQB7viS+Oo99E7BE1ctvAVatIx+cAqfEyys7ehxvNlNJyliPtDFjy5kO7sG4RoOsupqi
-	apPBzXKjpYu76RJlwWsDXS+1p0L4Y8ueS5RRqsLZDkoiL2+mQ5D3oyVMnRJS6xHBe7+t
-	7MjpN7l4L3yTurhk76INHPnl2MjraYvhOdTvV7kAkvNCJZX2dY0sbUSO8bXRqpDnx4jL
-	GD7w==
-X-Gm-Message-State: AKGB3mKiCFbfsdgVsEP5Yuc/AsgN9IR48jTSdreMjsHrTnokYFzLKVzi
-	itX3oZzyr/b2Etyxp25QN7ObNhoz
-X-Google-Smtp-Source: ACJfBovdc4DIHpq0RQV0Ifdf5TowG3E84lpPWZ5QirSbdRm8kxxlC6/C1H4b+zscgIN9lrwrPlXq3g==
-X-Received: by 10.200.27.129 with SMTP id z1mr32509089qtj.259.1514225135010;
-	Mon, 25 Dec 2017 10:05:35 -0800 (PST)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id c2sm1407359qkf.39.2017.12.25.10.05.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Dec 2017 10:05:34 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Dec 2017 13:05:23 -0500
-Message-Id: <1514225123-17800-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Cc: Derek Straka <derek@asterius.io>
-Subject: [PATCH] python*-setuptools: update to 38.2.5
+	Tue, 26 Dec 2017 02:25:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBQ2PGZu018044
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 25 Dec 2017 18:25:16 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 25 Dec 2017 18:25:16 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1510275834.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <e3cd51b0-6912-c231-95ce-e074f771fd78@windriver.com>
+Date: Tue, 26 Dec 2017 10:25:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 00/23] Fixes for multilib and eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,45 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Dec 2017 18:05:34 -0000
+X-List-Received-Date: Tue, 26 Dec 2017 02:25:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Update the python{3}-setuptools to the latest stable version
+Hello,
 
-Tested on the qemu with core-image-minimal
+Any comments on this, please ?
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
- .../{python-setuptools_38.2.4.bb => python-setuptools_38.2.5.bb}      | 0
- .../{python3-setuptools_38.2.4.bb => python3-setuptools_38.2.5.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_38.2.4.bb => python-setuptools_38.2.5.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_38.2.4.bb => python3-setuptools_38.2.5.bb} (100%)
+// Robert
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index d28a60c..d6eeeba 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
- 
- inherit pypi
- 
--SRC_URI[md5sum] = "e8e05d4f8162c9341e1089c80f742f64"
--SRC_URI[sha256sum] = "9c671a6291a5b1171fb9da81665eb4f9625c7dbddc613d82abdc6002a4bce896"
-+SRC_URI[md5sum] = "abfd02fba07b381c3a9682a32d765cc6"
-+SRC_URI[sha256sum] = "b080f276cc868670540b2c03cee06cc14d2faf9da7bec0f15058d1b402c94507"
- 
- DEPENDS += "${PYTHON_PN}"
- DEPENDS_class-native += "${PYTHON_PN}-native"
-diff --git a/meta/recipes-devtools/python/python-setuptools_38.2.4.bb b/meta/recipes-devtools/python/python-setuptools_38.2.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_38.2.4.bb
-rename to meta/recipes-devtools/python/python-setuptools_38.2.5.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_38.2.4.bb b/meta/recipes-devtools/python/python3-setuptools_38.2.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_38.2.4.bb
-rename to meta/recipes-devtools/python/python3-setuptools_38.2.5.bb
--- 
-2.7.4
-
+On 11/10/2017 02:27 PM, Robert Yang wrote:
+> The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
+> 
+>    maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
+> 
+> are available in the git repository at:
+> 
+>    git://git.openembedded.org/openembedded-core-contrib rbt/multilib_sdk
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib_sdk
+> 
+> Robert Yang (23):
+>    staging.bbclass: make subprocess.check_output() capture stderr
+>    testsdk.bbclass: add a newline after own-mirrors
+>    populate_sdk_ext.bbclass: don't rename layers when failed
+>    oe/copy_buildsystem.py: make sure layer exists
+>    staging.bbclass: fix for multilib
+>    populate_sdk_ext.bbclass: fix for multilib
+>    sstate.bbclass: sstate_hardcode_path(): fix for multilib
+>    staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+>    staging.bbclass: print searched manifest when not found
+>    staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+>    image.bbclass: remove depmodwrapper-cross from DEPENDS
+>    package_manager.py: print running dnf command
+>    package_manager.py: reverse archs correctly
+>    package_manager.py: remove obsolete MULTILIB_ARCHS
+>    multilib.bbclass: remove unneeded bb.data.inherits_class()
+>    multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
+>    multilib.bbclass: remove invalid PACKAGE_INSTALL
+>    multilib_global.bbclass: fix indent
+>    volatile-binds: use PN to replace hardcode name
+>    multilib.bbclass: extend allarch recipes
+>    toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+>      image
+>    populate_sdk_ext.bbclass: disable for multilib image
+>    populate_sdk_ext.bbclass: remove the try...finally
+> 
+>   meta/classes/allarch.bbclass                       |   3 -
+>   meta/classes/image.bbclass                         |   2 +-
+>   meta/classes/multilib.bbclass                      |   8 -
+>   meta/classes/multilib_global.bbclass               |   6 +-
+>   meta/classes/package.bbclass                       |   9 --
+>   meta/classes/populate_sdk_ext.bbclass              | 161 +++++++++++++--------
+>   meta/classes/sstate.bbclass                        |   6 +-
+>   meta/classes/staging.bbclass                       |  46 +++++-
+>   meta/classes/testsdk.bbclass                       |   5 +-
+>   meta/classes/toolchain-scripts.bbclass             |   6 +
+>   meta/lib/oe/copy_buildsystem.py                    |   2 +-
+>   meta/lib/oe/package_manager.py                     |  55 ++++++-
+>   meta/recipes-core/volatile-binds/volatile-binds.bb |   2 +-
+>   13 files changed, 207 insertions(+), 104 deletions(-)
+> 
 
