@@ -1,26 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA29783DE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C5696011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Dec 2017 02:25:17 +0000 (UTC)
+	Tue, 26 Dec 2017 02:37:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vBQ2PGZu018044
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 25 Dec 2017 18:25:16 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vBQ2bDBK006173
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Dec 2017 18:37:14 -0800 (PST)
 Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 25 Dec 2017 18:25:16 -0800
+	14.3.361.1; Mon, 25 Dec 2017 18:37:13 -0800
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1510275834.git.liezhi.yang@windriver.com>
+References: <cover.1513821698.git.liezhi.yang@windriver.com>
+	<6bed2ead820cbb22462e458b49c82c71ece0ff85.1513821698.git.liezhi.yang@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <e3cd51b0-6912-c231-95ce-e074f771fd78@windriver.com>
-Date: Tue, 26 Dec 2017 10:25:17 +0800
+Message-ID: <3fb4c571-65e0-6ddc-2a95-a31c261a5fc4@windriver.com>
+Date: Tue, 26 Dec 2017 10:37:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 00/23] Fixes for multilib and eSDK
+In-Reply-To: <6bed2ead820cbb22462e458b49c82c71ece0ff85.1513821698.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/2] oeqa/core/loader.py: fix re for module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Dec 2017 02:25:18 -0000
+X-List-Received-Date: Tue, 26 Dec 2017 02:37:13 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hello,
 
-Any comments on this, please ?
+Please drop patch 1/2 since Leo has sent patch for it:
+
+core/loader.py: fix regex to include all available test cases
 
 // Robert
 
-On 11/10/2017 02:27 PM, Robert Yang wrote:
-> The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
+On 12/21/2017 10:02 AM, Robert Yang wrote:
+> Fixed:
+> $ oe-selftest -r eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
+> Traceback (most recent call last):
+> [snip]
+>    File "/workspace2/lyang1/poky/meta/lib/oeqa/core/loader.py", line 49, in _built_modules_dict
+>      module_name, class_name, test_name = m.groups()
+> AttributeError: 'NoneType' object has no attribute 'groups'
 > 
->    maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
+> The old code assumed the arg should be:
+> module.Class.test
 > 
-> are available in the git repository at:
+> Note about the module and Class, the lower and upper cases matters, which can't
+> handle the testcases like eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
+> and gotoolchain.oeGoToolchainSelfTest.test_go_dep_build. Use a new re to fix
+> the problem, now all of the following commmands can work:
+> $ oe-selftest -r eSDK
+> $ oe-selftest -r eSDK.oeSDKExtSelfTest
+> $ oe-selftest -r eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds
 > 
->    git://git.openembedded.org/openembedded-core-contrib rbt/multilib_sdk
->    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib_sdk
+> [YOCTO #12438]
 > 
-> Robert Yang (23):
->    staging.bbclass: make subprocess.check_output() capture stderr
->    testsdk.bbclass: add a newline after own-mirrors
->    populate_sdk_ext.bbclass: don't rename layers when failed
->    oe/copy_buildsystem.py: make sure layer exists
->    staging.bbclass: fix for multilib
->    populate_sdk_ext.bbclass: fix for multilib
->    sstate.bbclass: sstate_hardcode_path(): fix for multilib
->    staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
->    staging.bbclass: print searched manifest when not found
->    staging.bbclass: extend_recipe_sysroot(): search multilib manifest
->    image.bbclass: remove depmodwrapper-cross from DEPENDS
->    package_manager.py: print running dnf command
->    package_manager.py: reverse archs correctly
->    package_manager.py: remove obsolete MULTILIB_ARCHS
->    multilib.bbclass: remove unneeded bb.data.inherits_class()
->    multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
->    multilib.bbclass: remove invalid PACKAGE_INSTALL
->    multilib_global.bbclass: fix indent
->    volatile-binds: use PN to replace hardcode name
->    multilib.bbclass: extend allarch recipes
->    toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
->      image
->    populate_sdk_ext.bbclass: disable for multilib image
->    populate_sdk_ext.bbclass: remove the try...finally
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/lib/oeqa/core/loader.py | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
 > 
->   meta/classes/allarch.bbclass                       |   3 -
->   meta/classes/image.bbclass                         |   2 +-
->   meta/classes/multilib.bbclass                      |   8 -
->   meta/classes/multilib_global.bbclass               |   6 +-
->   meta/classes/package.bbclass                       |   9 --
->   meta/classes/populate_sdk_ext.bbclass              | 161 +++++++++++++--------
->   meta/classes/sstate.bbclass                        |   6 +-
->   meta/classes/staging.bbclass                       |  46 +++++-
->   meta/classes/testsdk.bbclass                       |   5 +-
->   meta/classes/toolchain-scripts.bbclass             |   6 +
->   meta/lib/oe/copy_buildsystem.py                    |   2 +-
->   meta/lib/oe/package_manager.py                     |  55 ++++++-
->   meta/recipes-core/volatile-binds/volatile-binds.bb |   2 +-
->   13 files changed, 207 insertions(+), 104 deletions(-)
+> diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+> index 975a081..25078ba 100644
+> --- a/meta/lib/oeqa/core/loader.py
+> +++ b/meta/lib/oeqa/core/loader.py
+> @@ -41,9 +41,10 @@ def _built_modules_dict(modules):
+>           return modules_dict
+>   
+>       for module in modules:
+> -        # Assumption: package and module names do not contain upper case
+> -        # characters, whereas class names do
+> -        m = re.match(r'^([^A-Z]+)(?:\.([A-Z][^.]*)(?:\.([^.]+))?)?$', module)
+> +        # The format is module.class.test, while .class and .test is optional.
+> +        m = re.match(r'([^\.]+)(?:\.([^\.]+))?(?:\.([^\.]*))?', module)
+> +        if not m:
+> +            raise OEQATestNotFound("Not found %s in loaded test cases" % module)
+>   
+>           module_name, class_name, test_name = m.groups()
+>   
 > 
 
