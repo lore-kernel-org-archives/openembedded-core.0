@@ -1,30 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id CC37273123
+Return-Path: <Jibin.Xu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D7E9765C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Dec 2017 11:20:21 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="33090785"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 27 Dec 2017 19:20:23 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8321648AE9FD
+	Thu, 28 Dec 2017 02:21:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBS2LmeX000044
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Dec 2017 19:20:21 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Wed, 27 Dec 2017 19:20:21 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+	Wed, 27 Dec 2017 18:21:49 -0800 (PST)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 27 Dec 2017 18:21:48 -0800
+From: Jibin Xu <jibin.xu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Dec 2017 19:20:25 +0800
-Message-ID: <1514373625-2928-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Date: Wed, 27 Dec 2017 18:21:26 -0800
+Message-ID: <20171228022126.219745-1-jibin.xu@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: 8321648AE9FD.A557D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] at-spi2-core: 2.26.0 -> 2.26.2
+Subject: [PATCH] fontcache : fix build warning when using quemu usermode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Dec 2017 11:20:22 -0000
+X-List-Received-Date: Thu, 28 Dec 2017 02:21:49 -0000
 Content-Type: text/plain
 
-Upgrade at-spi2-core from 2.26.0 to 2.26.2.
+fontcache uses quemu usermode by default, but some architecture
+such as Intel skylake does not support qemu usermode, this can
+lead to a build warning as below:
+"WARNING: The postinstall intercept hook 'update_font_cache' failed".
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Add a judgement of qemu usermode to fix the build warning.
+
+Signed-off-by: Jibin Xu <jibin.xu@windriver.com>
 ---
- .../atk/{at-spi2-core_2.26.0.bb => at-spi2-core_2.26.2.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.26.0.bb => at-spi2-core_2.26.2.bb} (88%)
+ meta/classes/fontcache.bbclass | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.26.0.bb b/meta/recipes-support/atk/at-spi2-core_2.26.2.bb
-similarity index 88%
-rename from meta/recipes-support/atk/at-spi2-core_2.26.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.26.2.bb
-index 6818854..521ee3b 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.26.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.26.2.bb
-@@ -9,8 +9,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-build-Add-with-systemduserunitdir.patch \
-            "
- 
--SRC_URI[md5sum] = "ef3de25da46da8f650915205eb7e1a33"
--SRC_URI[sha256sum] = "511568a65fda11fdd5ba5d4adfd48d5d76810d0e6ba4f7460f1b2ec0dbbbc337"
-+SRC_URI[md5sum] = "4a042e4c801fdb793788b749eab21485"
-+SRC_URI[sha256sum] = "c80e0cdf5e3d713400315b63c7deffa561032a6c37289211d8afcfaa267c2615"
- 
- DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst"
- 
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index e76331131e..3eb868fa08 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -17,13 +17,17 @@ FONTCONFIG_CACHE_PARAMS ?= "-v"
+ FONTCONFIG_CACHE_ENV ?= "FC_DEBUG=1"
+ fontcache_common() {
+ if [ -n "$D" ] ; then
+-	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
+-		'bindir="${bindir}"' \
+-		'libdir="${libdir}"' \
+-		'base_libdir="${base_libdir}"' \
+-		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
+-		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
+-		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
++	if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
++		$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
++			'bindir="${bindir}"' \
++			'libdir="${libdir}"' \
++			'base_libdir="${base_libdir}"' \
++			'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
++			'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
++			'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
++	else
++		exit 1
++	fi
+ else
+ 	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
+ fi
 -- 
-2.7.4
-
-
+2.13.0
 
 
