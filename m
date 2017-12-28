@@ -1,24 +1,30 @@
-Return-Path: <Jibin.Xu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0091071C71
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 18674605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Dec 2017 02:36:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBS2a81m000074
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 28 Dec 2017 05:19:36 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="33256722"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 Dec 2017 13:19:36 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id AB58F48AE9FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Dec 2017 18:36:09 -0800 (PST)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 27 Dec 2017 18:36:08 -0800
-From: Jibin Xu <jibin.xu@windriver.com>
+	Thu, 28 Dec 2017 13:19:32 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Thu, 28 Dec 2017 13:19:32 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Dec 2017 18:36:04 -0800
-Message-ID: <20171228023604.79205-1-jibin.xu@windriver.com>
-X-Mailer: git-send-email 2.13.0
+Date: Thu, 28 Dec 2017 13:19:35 +0800
+Message-ID: <1514438375-4227-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] gio-module-cache : fix build warning when using qemu usermode
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: AB58F48AE9FD.AB147
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [rocko] [PATCH] glibc:CVE-2017-17426
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +37,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Dec 2017 02:36:08 -0000
+X-List-Received-Date: Thu, 28 Dec 2017 05:19:37 -0000
 Content-Type: text/plain
 
-gio-module-cache uses qemu usermode by default, but some architecture
-such as Intel skylake does not support qemu usermode, this can
-lead to a build warning as below:
-"WARNING: The postinstall intercept hook 'update_gio_module_cache' failed".
+Fix the CVE-2017-17426.
 
-Add a judgement of qemu usermode to fix the build warning.
-
-Signed-off-by: Jibin Xu <jibin.xu@windriver.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/classes/gio-module-cache.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ ...-overflow-in-malloc-when-tcache-is-enable.patch | 49 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.26.bb              |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
 
-diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-module-cache.bbclass
-index a8190b7b89..f211bad743 100644
---- a/meta/classes/gio-module-cache.bbclass
-+++ b/meta/classes/gio-module-cache.bbclass
-@@ -5,12 +5,16 @@ GIO_MODULE_PACKAGES ??= "${PN}"
+diff --git a/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch b/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
+new file mode 100644
+index 0000000..fb52be5
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
+@@ -0,0 +1,49 @@
++From 34697694e8a93b325b18f25f7dcded55d6baeaf6 Mon Sep 17 00:00:00 2001
++From: Arjun Shankar <arjun@redhat.com>
++Date: Thu, 30 Nov 2017 13:31:45 +0100
++Subject: [PATCH] Fix integer overflow in malloc when tcache is enabled [BZ
++ #22375]
++
++When the per-thread cache is enabled, __libc_malloc uses request2size (which
++does not perform an overflow check) to calculate the chunk size from the
++requested allocation size. This leads to an integer overflow causing malloc
++to incorrectly return the last successfully allocated block when called with
++a very large size argument (close to SIZE_MAX).
++
++This commit uses checked_request2size instead, removing the overflow.
++---
++ ChangeLog       | 6 ++++++
++ malloc/malloc.c | 3 ++-
++ 2 files changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index b55ed22..888f9fb 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,9 @@
+++2017-11-30  Arjun Shankar  <arjun@redhat.com>
+++
+++	[BZ #22375]
+++	* malloc/malloc.c (__libc_malloc): Use checked_request2size
+++	instead of request2size.
+++
++ 2017-08-02  Siddhesh Poyarekar  <siddhesh@sourceware.org>
++ 
++ 	* sysdeps/sparc/sparc32/sparcv9/fpu/multiarch/s_llrint.S
++diff --git a/malloc/malloc.c b/malloc/malloc.c
++index 79f0e9e..0c9e074 100644
++--- a/malloc/malloc.c
+++++ b/malloc/malloc.c
++@@ -3050,7 +3050,8 @@ __libc_malloc (size_t bytes)
++     return (*hook)(bytes, RETURN_ADDRESS (0));
++ #if USE_TCACHE
++   /* int_free also calls request2size, be careful to not pad twice.  */
++-  size_t tbytes = request2size (bytes);
+++  size_t tbytes;
+++  checked_request2size (bytes, tbytes);
++   size_t tc_idx = csize2tidx (tbytes);
++ 
++   MAYBE_INIT_TCACHE ();
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
+index 135ec4f..d314316 100644
+--- a/meta/recipes-core/glibc/glibc_2.26.bb
++++ b/meta/recipes-core/glibc/glibc_2.26.bb
+@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
+            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
+            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
++           file://0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch\
+ "
  
- gio_module_cache_common() {
- if [ "x$D" != "x" ]; then
--    $INTERCEPT_DIR/postinst_intercept update_gio_module_cache ${PKG} \
-+    if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
-+        $INTERCEPT_DIR/postinst_intercept update_gio_module_cache ${PKG} \
-             mlprefix=${MLPREFIX} \
-             binprefix=${MLPREFIX} \
-             libdir=${libdir} \
-             base_libdir=${base_libdir} \
-             bindir=${bindir}
-+    else
-+        exit 1
-+    fi
- else
-     ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modules/
- fi
+ NATIVESDKFIXES ?= ""
 -- 
-2.13.0
+2.7.4
+
+
 
 
