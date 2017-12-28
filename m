@@ -1,30 +1,18 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 18674605BA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Dec 2017 05:19:36 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="33256722"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 28 Dec 2017 13:19:36 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id AB58F48AE9FD
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Dec 2017 13:19:32 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Thu, 28 Dec 2017 13:19:32 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Dec 2017 13:19:35 +0800
-Message-ID: <1514438375-4227-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id ABECD77E93;
+	Thu, 28 Dec 2017 05:34:16 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: AB58F48AE9FD.AB147
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [rocko] [PATCH] glibc:CVE-2017-17426
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Thu, 28 Dec 2017 05:34:18 -0000
+Message-ID: <20171228053418.2784.96424@do.openembedded.org>
+References: <1514438375-4227-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1514438375-4227-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6Q1ZFLTIwMTctMTc0MjYgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,88 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Dec 2017 05:19:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Dec 2017 05:34:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Fix the CVE-2017-17426.
+== Series Details ==
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Series: glibc:CVE-2017-17426 (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/10268/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...-overflow-in-malloc-when-tcache-is-enable.patch | 49 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.26.bb              |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch b/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
-new file mode 100644
-index 0000000..fb52be5
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch
-@@ -0,0 +1,49 @@
-+From 34697694e8a93b325b18f25f7dcded55d6baeaf6 Mon Sep 17 00:00:00 2001
-+From: Arjun Shankar <arjun@redhat.com>
-+Date: Thu, 30 Nov 2017 13:31:45 +0100
-+Subject: [PATCH] Fix integer overflow in malloc when tcache is enabled [BZ
-+ #22375]
-+
-+When the per-thread cache is enabled, __libc_malloc uses request2size (which
-+does not perform an overflow check) to calculate the chunk size from the
-+requested allocation size. This leads to an integer overflow causing malloc
-+to incorrectly return the last successfully allocated block when called with
-+a very large size argument (close to SIZE_MAX).
-+
-+This commit uses checked_request2size instead, removing the overflow.
-+---
-+ ChangeLog       | 6 ++++++
-+ malloc/malloc.c | 3 ++-
-+ 2 files changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/ChangeLog b/ChangeLog
-+index b55ed22..888f9fb 100644
-+--- a/ChangeLog
-++++ b/ChangeLog
-+@@ -1,3 +1,9 @@
-++2017-11-30  Arjun Shankar  <arjun@redhat.com>
-++
-++	[BZ #22375]
-++	* malloc/malloc.c (__libc_malloc): Use checked_request2size
-++	instead of request2size.
-++
-+ 2017-08-02  Siddhesh Poyarekar  <siddhesh@sourceware.org>
-+ 
-+ 	* sysdeps/sparc/sparc32/sparcv9/fpu/multiarch/s_llrint.S
-+diff --git a/malloc/malloc.c b/malloc/malloc.c
-+index 79f0e9e..0c9e074 100644
-+--- a/malloc/malloc.c
-++++ b/malloc/malloc.c
-+@@ -3050,7 +3050,8 @@ __libc_malloc (size_t bytes)
-+     return (*hook)(bytes, RETURN_ADDRESS (0));
-+ #if USE_TCACHE
-+   /* int_free also calls request2size, be careful to not pad twice.  */
-+-  size_t tbytes = request2size (bytes);
-++  size_t tbytes;
-++  checked_request2size (bytes, tbytes);
-+   size_t tc_idx = csize2tidx (tbytes);
-+ 
-+   MAYBE_INIT_TCACHE ();
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-index 135ec4f..d314316 100644
---- a/meta/recipes-core/glibc/glibc_2.26.bb
-+++ b/meta/recipes-core/glibc/glibc_2.26.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
-            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
-            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-+           file://0029-Fix-integer-overflow-in-malloc-when-tcache-is-enable.patch\
- "
- 
- NATIVESDKFIXES ?= ""
--- 
-2.7.4
-
-
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
