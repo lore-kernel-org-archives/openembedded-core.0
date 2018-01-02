@@ -1,24 +1,25 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A7A36059E
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A2F4600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 06:13:06 +0000 (UTC)
+	Tue,  2 Jan 2018 07:59:08 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jan 2018 22:13:07 -0800
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Jan 2018 23:59:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,495,1508828400"; 
-   d="scan'208";a="6649303"
-Received: from anujm-desk.png.intel.com ([172.30.199.130])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jan 2018 22:13:06 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jan 2018 14:12:59 +0800
-Message-Id: <1514873579-8409-1-git-send-email-anuj.mittal@intel.com>
+X-IronPort-AV: E=Sophos;i="5.45,495,1508828400"; d="scan'208";a="191692681"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga006.fm.intel.com with ESMTP; 01 Jan 2018 23:59:08 -0800
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  2 Jan 2018 15:53:42 +0800
+Message-Id: <7be6b80b88787b971ce9d5031dbe79b5e085e238.1514344225.git.rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] acpica: fix build with x32
+In-Reply-To: <cover.1514344225.git.rebecca.swee.fun.chang@intel.com>
+References: <cover.1514344225.git.rebecca.swee.fun.chang@intel.com>
+Subject: [PATCH 1/1] sanity.bbclass: remove obsolete bblayers.conf updater code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +32,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 06:13:06 -0000
+X-List-Received-Date: Tue, 02 Jan 2018 07:59:08 -0000
 
-Make sure architecture dependent defines are correct for x32 by
-checking for both ILP32 and x86_64.
+The code in sanity.bbclass was executed for all distros, regardsless
+whether they use the same numbering of bblayers.conf.sample as
+OE-core.
 
-Fixes [YOCTO #12123]
+The is problematic for distros which tracks their own LCONF_VERSION,
+once they reach the 5 to 7 (inclusive) number range, the code from
+sanity.bbclass kicks in and automatically updates the version to that
+number without actually changing anything else in bblayers.conf, which
+leaves the developer out-of-sync with bblayers.conf.sample.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>wq
+We removed the automatic updater code blob and that will resolves the
+issue of out-of-sync bblayers.conf. It will now notify users when
+bblayers.conf is not valid and he needs to perform a manual update.
+
+[YOCTO #11683]
+
+Suggested-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- meta/recipes-extended/acpica/acpica_20170303.bb    |  1 +
- ...Linux-add-support-for-X32-ABI-compilation.patch | 31 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
+ meta/classes/sanity.bbclass | 100 +-------------------------------------------
+ 1 file changed, 1 insertion(+), 99 deletions(-)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20170303.bb b/meta/recipes-extended/acpica/acpica_20170303.bb
-index 8e914cd..4c0f366 100644
---- a/meta/recipes-extended/acpica/acpica_20170303.bb
-+++ b/meta/recipes-extended/acpica/acpica_20170303.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
-     file://no-werror.patch \
-     file://rename-yy_scan_string-manually.patch \
-     file://manipulate-fds-instead-of-FILE.patch;striplevel=2 \
-+    file://0001-Linux-add-support-for-X32-ABI-compilation.patch \
-     "
- SRC_URI[md5sum] = "48ef4314fb4ffdd0c96f14dcf20544e1"
- SRC_URI[sha256sum] = "b2d81e84107ac9a02be86ea43cbea7afa8fd4b4150270bc88c2d4c9fea0b8aad"
-diff --git a/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch b/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
-new file mode 100644
-index 0000000..df74200
---- /dev/null
-+++ b/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
-@@ -0,0 +1,31 @@
-+From d22241efc0708c9799f17a20eabb52a48d6d6ea1 Mon Sep 17 00:00:00 2001
-+From: Anuj Mittal <anuj.mittal@intel.com>
-+Date: Tue, 2 Jan 2018 12:35:32 +0800
-+Subject: [PATCH] Linux: add support for X32 ABI compilation
-+
-+X32 follows ILP32 model. Check for ILP32 as well when checking for
-+x86_64 to ensure the defines are correct for X32 ABI.
-+
-+Upstream-Status: Submitted [https://github.com/acpica/acpica/pull/348]
-+
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ source/include/platform/aclinux.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/source/include/platform/aclinux.h b/source/include/platform/aclinux.h
-+index 75b1d82..6b8ff73 100644
-+--- a/source/include/platform/aclinux.h
-++++ b/source/include/platform/aclinux.h
-+@@ -315,7 +315,7 @@
-+ #define ACPI_FLUSH_CPU_CACHE()
-+ #define ACPI_CAST_PTHREAD_T(Pthread) ((ACPI_THREAD_ID) (Pthread))
-+ 
-+-#if defined(__ia64__)    || defined(__x86_64__) ||\
-++#if defined(__ia64__)    || (defined(__x86_64__) && !defined(__ILP32__)) ||\
-+     defined(__aarch64__) || defined(__PPC64__) ||\
-+     defined(__s390x__)
-+ #define ACPI_MACHINE_WIDTH          64
-+-- 
-+2.7.4
-+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index d0f507e0..70d652f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -5,26 +5,6 @@
+ SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
+     gzip gawk chrpath wget cpio perl file which"
+ 
+-def bblayers_conf_file(d):
+-    return os.path.join(d.getVar('TOPDIR'), 'conf/bblayers.conf')
+-
+-def sanity_conf_read(fn):
+-    with open(fn, 'r') as f:
+-        lines = f.readlines()
+-    return lines
+-
+-def sanity_conf_find_line(pattern, lines):
+-    import re
+-    return next(((index, line)
+-        for index, line in enumerate(lines)
+-        if re.search(pattern, line)), (None, None))
+-
+-def sanity_conf_update(fn, lines, version_var_name, new_version):
+-    index, line = sanity_conf_find_line(r"^%s" % version_var_name, lines)
+-    lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
+-    with open(fn, "w") as f:
+-        f.write(''.join(lines))
+-
+ # Functions added to this variable MUST throw a NotImplementedError exception unless 
+ # they successfully changed the config version in the config file. Exceptions
+ # are used since exec_func doesn't handle return values.
+@@ -78,7 +58,7 @@ is a good way to visualise the changes."""
+ 
+ SANITY_BBLAYERCONF_SAMPLE ?= "${COREBASE}/meta*/conf/bblayers.conf.sample"
+ python oecore_update_bblayers() {
+-    # bblayers.conf is out of date, so see if we can resolve that
++    # Check if we are using a valid bblayers.conf
+ 
+     current_lconf = int(d.getVar('LCONF_VERSION'))
+     lconf_version = int(d.getVar('LAYER_CONF_VERSION'))
+@@ -90,84 +70,6 @@ Please compare your file against bblayers.conf.sample and merge any changes befo
+ is a good way to visualise the changes."""
+     failmsg = d.expand(failmsg)
+ 
+-    if not current_lconf:
+-        raise NotImplementedError(failmsg)
+-
+-    lines = []
+-
+-    if current_lconf < 4:
+-        raise NotImplementedError(failmsg)
+-
+-    bblayers_fn = bblayers_conf_file(d)
+-    lines = sanity_conf_read(bblayers_fn)
+-
+-    if current_lconf == 4 and lconf_version > 4:
+-        topdir_var = '$' + '{TOPDIR}'
+-        index, bbpath_line = sanity_conf_find_line('BBPATH', lines)
+-        if bbpath_line:
+-            start = bbpath_line.find('"')
+-            if start != -1 and (len(bbpath_line) != (start + 1)):
+-                if bbpath_line[start + 1] == '"':
+-                    lines[index] = (bbpath_line[:start + 1] +
+-                                    topdir_var + bbpath_line[start + 1:])
+-                else:
+-                    if not topdir_var in bbpath_line:
+-                        lines[index] = (bbpath_line[:start + 1] +
+-                                    topdir_var + ':' + bbpath_line[start + 1:])
+-            else:
+-                raise NotImplementedError(failmsg)
+-        else:
+-            index, bbfiles_line = sanity_conf_find_line('BBFILES', lines)
+-            if bbfiles_line:
+-                lines.insert(index, 'BBPATH = "' + topdir_var + '"\n')
+-            else:
+-                raise NotImplementedError(failmsg)
+-
+-        current_lconf += 1
+-        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
+-        bb.note("Your conf/bblayers.conf has been automatically updated.")
+-        return
+-
+-    elif current_lconf == 5 and lconf_version > 5:
+-        # Null update, to avoid issues with people switching between poky and other distros
+-        current_lconf = 6
+-        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
+-        bb.note("Your conf/bblayers.conf has been automatically updated.")
+-        return
+-
+-        status.addresult()
+-
+-    elif current_lconf == 6 and lconf_version > 6:
+-        # Handle rename of meta-yocto -> meta-poky
+-        # This marks the start of separate version numbers but code is needed in OE-Core
+-        # for the migration, one last time.
+-        layers = d.getVar('BBLAYERS').split()
+-        layers = [ os.path.basename(path) for path in layers ]
+-        if 'meta-yocto' in layers:
+-            found = False
+-            while True:
+-                index, meta_yocto_line = sanity_conf_find_line(r'.*meta-yocto[\'"\s\n]', lines)
+-                if meta_yocto_line:
+-                    lines[index] = meta_yocto_line.replace('meta-yocto', 'meta-poky')
+-                    found = True
+-                else:
+-                    break
+-            if not found:
+-                raise NotImplementedError(failmsg)
+-            index, meta_yocto_line = sanity_conf_find_line('LCONF_VERSION.*\n', lines)
+-            if meta_yocto_line:
+-                lines[index] = 'POKY_BBLAYERS_CONF_VERSION = "1"\n'
+-            else:
+-                raise NotImplementedError(failmsg)
+-            with open(bblayers_fn, "w") as f:
+-                f.write(''.join(lines))
+-            bb.note("Your conf/bblayers.conf has been automatically updated.")
+-            return
+-        current_lconf += 1
+-        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
+-        bb.note("Your conf/bblayers.conf has been automatically updated.")
+-        return
+-
+     raise NotImplementedError(failmsg)
+ }
+ 
 -- 
 2.7.4
 
