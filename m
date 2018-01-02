@@ -1,24 +1,28 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3846871B27
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 20:00:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w02K0ohL032255
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Jan 2018 12:00:50 -0800
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 2 Jan 2018 12:00:49 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Jan 2018 12:00:49 -0800
-Message-ID: <20180102200049.44793-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] allarch: do not set baselib
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 201B471B86;
+	Tue,  2 Jan 2018 22:42:21 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w02MgKld004071
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 2 Jan 2018 22:42:21 GMT
+Message-ID: <1514932940.5525.98.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org, Kristian Amlie
+	<kristian.amlie@northern.tech>
+Date: Tue, 02 Jan 2018 22:42:20 +0000
+In-Reply-To: <20180102191559.GA4180@localhost>
+References: <151491408002.12536.9555639223209873731@git.openembedded.org>
+	<20180102172800.BCD4523561F@git.openembedded.org>
+	<20180102191559.GA4180@localhost>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 13/44: u-boot-fw-utils: Fix broken makefile in v2017.11.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 20:00:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Jan 2018 22:42:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-postinstall scripts may run target binaries and need to know
-where shared libraries are.
+On Tue, 2018-01-02 at 20:15 +0100, Martin Jansa wrote:
+> On Tue, Jan 02, 2018 at 05:28:13PM +0000, git@git.openembedded.org
+> wrote:
+> > 
+> > This is an automated email from the git hooks/post-receive script.
+> > 
+> > rpurdie pushed a commit to branch master
+> > in repository openembedded-core.
+> Looks like older version of this patch was merged.
+> 
+> This version https://patchwork.openembedded.org/patch/146668/
+> 
+> adds the Upstream-Status from the commit message to the .patch file
+> where it belongs.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/classes/allarch.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Sorry, well spotted!
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 51ba509..3749328 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -11,9 +11,8 @@ python () {
-         # No need for virtual/libc or a cross compiler
-         d.setVar("INHIBIT_DEFAULT_DEPS","1")
- 
--        # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
--        # naming anyway
--        d.setVar("baselib", "lib")
-+        # Set these to a common set of values, we shouldn't be using them other than for WORKDIR directory
-+        # naming anyway.  Do not set baselib because postinstall may need to know where shared libraries are.
-         d.setVar("TARGET_ARCH", "allarch")
-         d.setVar("TARGET_OS", "linux")
-         d.setVar("TARGET_CC_ARCH", "none")
--- 
-2.7.4
+I've queued a fixup in master-next, thanks.
 
+Richard
 
