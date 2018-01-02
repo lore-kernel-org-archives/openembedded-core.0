@@ -1,33 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C55086E671
+Return-Path: <maxin.john@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id E2AB4605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 12:52:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+	Tue,  2 Jan 2018 12:55:58 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jan 2018 04:52:44 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jan 2018 04:55:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; 
-   d="scan'208";a="6845317"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 02 Jan 2018 04:52:43 -0800
-To: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; d="scan'208";a="16888810"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by orsmga003.jf.intel.com with ESMTP; 02 Jan 2018 04:55:58 -0800
+Date: Tue, 2 Jan 2018 14:57:06 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20180102125705.GB36465@mbabyjoh-desk.ger.corp.intel.com>
 References: <1514896905-36107-1-git-send-email-maxin.john@intel.com>
-	<1514896905-36107-4-git-send-email-maxin.john@intel.com>
-	<f52987a9-8c90-af1f-62f2-554ce4aa58e1@linux.intel.com>
-	<20180102125215.GA36465@mbabyjoh-desk.ger.corp.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <05a79c81-8946-3fc1-48d3-7b4f2073a1de@linux.intel.com>
-Date: Tue, 2 Jan 2018 14:47:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	<1514896905-36107-2-git-send-email-maxin.john@intel.com>
+	<fa80eafb-c805-25cf-d47d-cdb2837135e8@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20180102125215.GA36465@mbabyjoh-desk.ger.corp.intel.com>
+In-Reply-To: <fa80eafb-c805-25cf-d47d-cdb2837135e8@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] pkgconf: upgrade to 1.3.90
+Subject: Re: [PATCH 2/4] libatomic-ops: upgrade to 7.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,26 +37,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 12:52:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jan 2018 12:55:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 01/02/2018 02:52 PM, Maxin B. John wrote:
-> Hi Alex,
+Hi,
+
+On Tue, Jan 02, 2018 at 02:42:13PM +0200, Alexander Kanavin wrote:
+> On 01/02/2018 02:41 PM, Maxin B. John wrote:
+> >+UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases/"
+> >+SRC_URI = "git://github.com/ivmai/libatomic_ops;branch=${SRCBRANCH}"
 > 
-> On Tue, Jan 02, 2018 at 02:38:54PM +0200, Alexander Kanavin wrote:
->> On 01/02/2018 02:41 PM, Maxin B. John wrote:
->>> 1.3.7 -> 1.3.90
->>
->> 1.3.90 is a pre-release tag for 1.4.0, can be seen here:
->>
->> https://github.com/pkgconf/pkgconf/blob/master/NEWS
-> 
-> Thanks. In that case, we can wait till they officially release 1.4.0.
+> I don't think UPSTREAM_CHECK_URI has any effect when fetching from git, why
+> was it added?
 
-You can practice your regex skills meanwhile, and exclude tags that have 
-9<other-digits> in the minor version part.
+It was added as there was a change in SRC_URI with branch info. Thanks for the 
+review. I will remove that part.
 
-Alex
+> Alex
+Best Regards,
+Maxin
 
