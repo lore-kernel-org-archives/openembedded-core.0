@@ -1,25 +1,41 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A2F4600EA
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F72771951
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 07:59:08 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Jan 2018 23:59:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,495,1508828400"; d="scan'208";a="191692681"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga006.fm.intel.com with ESMTP; 01 Jan 2018 23:59:08 -0800
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  2 Jan 2018 15:53:42 +0800
-Message-Id: <7be6b80b88787b971ce9d5031dbe79b5e085e238.1514344225.git.rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1514344225.git.rebecca.swee.fun.chang@intel.com>
-References: <cover.1514344225.git.rebecca.swee.fun.chang@intel.com>
-Subject: [PATCH 1/1] sanity.bbclass: remove obsolete bblayers.conf updater code
+	Tue,  2 Jan 2018 08:45:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="33807922"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Jan 2018 16:45:39 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 81B8348AEA0A;
+	Tue,  2 Jan 2018 16:45:39 +0800 (CST)
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([169.254.1.181]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0361.001; Tue, 2 Jan 2018 16:45:42 +0800
+From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [rocko] [PATCH] glibc:CVE-2017-17426
+Thread-Index: AQHTf5txUfc0u7cVdkq2KiebMZEA8qNayFeAgAWC4iA=
+Date: Tue, 2 Jan 2018 08:45:37 +0000
+Message-ID: <97F7C8E70D26E94FA7E05578493F65C63B5900CE@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <1514438375-4227-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<19404760-e3b8-aaf5-3ff8-4d22398cb4e4@gmail.com>
+In-Reply-To: <19404760-e3b8-aaf5-3ff8-4d22398cb4e4@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.125]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 81B8348AEA0A.AAD02
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [rocko] [PATCH] glibc:CVE-2017-17426
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,156 +48,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 07:59:08 -0000
+X-List-Received-Date: Tue, 02 Jan 2018 08:45:41 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The code in sanity.bbclass was executed for all distros, regardsless
-whether they use the same numbering of bblayers.conf.sample as
-OE-core.
-
-The is problematic for distros which tracks their own LCONF_VERSION,
-once they reach the 5 to 7 (inclusive) number range, the code from
-sanity.bbclass kicks in and automatically updates the version to that
-number without actually changing anything else in bblayers.conf, which
-leaves the developer out-of-sync with bblayers.conf.sample.
-
-We removed the automatic updater code blob and that will resolves the
-issue of out-of-sync bblayers.conf. It will now notify users when
-bblayers.conf is not valid and he needs to perform a manual update.
-
-[YOCTO #11683]
-
-Suggested-by: Patrick Ohly <patrick.ohly@intel.com>
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
----
- meta/classes/sanity.bbclass | 100 +-------------------------------------------
- 1 file changed, 1 insertion(+), 99 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index d0f507e0..70d652f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -5,26 +5,6 @@
- SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
-     gzip gawk chrpath wget cpio perl file which"
- 
--def bblayers_conf_file(d):
--    return os.path.join(d.getVar('TOPDIR'), 'conf/bblayers.conf')
--
--def sanity_conf_read(fn):
--    with open(fn, 'r') as f:
--        lines = f.readlines()
--    return lines
--
--def sanity_conf_find_line(pattern, lines):
--    import re
--    return next(((index, line)
--        for index, line in enumerate(lines)
--        if re.search(pattern, line)), (None, None))
--
--def sanity_conf_update(fn, lines, version_var_name, new_version):
--    index, line = sanity_conf_find_line(r"^%s" % version_var_name, lines)
--    lines[index] = '%s = "%d"\n' % (version_var_name, new_version)
--    with open(fn, "w") as f:
--        f.write(''.join(lines))
--
- # Functions added to this variable MUST throw a NotImplementedError exception unless 
- # they successfully changed the config version in the config file. Exceptions
- # are used since exec_func doesn't handle return values.
-@@ -78,7 +58,7 @@ is a good way to visualise the changes."""
- 
- SANITY_BBLAYERCONF_SAMPLE ?= "${COREBASE}/meta*/conf/bblayers.conf.sample"
- python oecore_update_bblayers() {
--    # bblayers.conf is out of date, so see if we can resolve that
-+    # Check if we are using a valid bblayers.conf
- 
-     current_lconf = int(d.getVar('LCONF_VERSION'))
-     lconf_version = int(d.getVar('LAYER_CONF_VERSION'))
-@@ -90,84 +70,6 @@ Please compare your file against bblayers.conf.sample and merge any changes befo
- is a good way to visualise the changes."""
-     failmsg = d.expand(failmsg)
- 
--    if not current_lconf:
--        raise NotImplementedError(failmsg)
--
--    lines = []
--
--    if current_lconf < 4:
--        raise NotImplementedError(failmsg)
--
--    bblayers_fn = bblayers_conf_file(d)
--    lines = sanity_conf_read(bblayers_fn)
--
--    if current_lconf == 4 and lconf_version > 4:
--        topdir_var = '$' + '{TOPDIR}'
--        index, bbpath_line = sanity_conf_find_line('BBPATH', lines)
--        if bbpath_line:
--            start = bbpath_line.find('"')
--            if start != -1 and (len(bbpath_line) != (start + 1)):
--                if bbpath_line[start + 1] == '"':
--                    lines[index] = (bbpath_line[:start + 1] +
--                                    topdir_var + bbpath_line[start + 1:])
--                else:
--                    if not topdir_var in bbpath_line:
--                        lines[index] = (bbpath_line[:start + 1] +
--                                    topdir_var + ':' + bbpath_line[start + 1:])
--            else:
--                raise NotImplementedError(failmsg)
--        else:
--            index, bbfiles_line = sanity_conf_find_line('BBFILES', lines)
--            if bbfiles_line:
--                lines.insert(index, 'BBPATH = "' + topdir_var + '"\n')
--            else:
--                raise NotImplementedError(failmsg)
--
--        current_lconf += 1
--        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
--        bb.note("Your conf/bblayers.conf has been automatically updated.")
--        return
--
--    elif current_lconf == 5 and lconf_version > 5:
--        # Null update, to avoid issues with people switching between poky and other distros
--        current_lconf = 6
--        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
--        bb.note("Your conf/bblayers.conf has been automatically updated.")
--        return
--
--        status.addresult()
--
--    elif current_lconf == 6 and lconf_version > 6:
--        # Handle rename of meta-yocto -> meta-poky
--        # This marks the start of separate version numbers but code is needed in OE-Core
--        # for the migration, one last time.
--        layers = d.getVar('BBLAYERS').split()
--        layers = [ os.path.basename(path) for path in layers ]
--        if 'meta-yocto' in layers:
--            found = False
--            while True:
--                index, meta_yocto_line = sanity_conf_find_line(r'.*meta-yocto[\'"\s\n]', lines)
--                if meta_yocto_line:
--                    lines[index] = meta_yocto_line.replace('meta-yocto', 'meta-poky')
--                    found = True
--                else:
--                    break
--            if not found:
--                raise NotImplementedError(failmsg)
--            index, meta_yocto_line = sanity_conf_find_line('LCONF_VERSION.*\n', lines)
--            if meta_yocto_line:
--                lines[index] = 'POKY_BBLAYERS_CONF_VERSION = "1"\n'
--            else:
--                raise NotImplementedError(failmsg)
--            with open(bblayers_fn, "w") as f:
--                f.write(''.join(lines))
--            bb.note("Your conf/bblayers.conf has been automatically updated.")
--            return
--        current_lconf += 1
--        sanity_conf_update(bblayers_fn, lines, 'LCONF_VERSION', current_lconf)
--        bb.note("Your conf/bblayers.conf has been automatically updated.")
--        return
--
-     raise NotImplementedError(failmsg)
- }
- 
--- 
-2.7.4
-
+VGhpcyBwYXRjaCBmaXhlcyBpbiByb2Nrby4NCg0KaHVhbmdxeQ0KDQo+IC0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IGFrdXN0ZXI4MDgg
+W21haWx0bzpha3VzdGVyODA4QGdtYWlsLmNvbV0NCj4gU2VudDogU2F0dXJk
+YXksIERlY2VtYmVyIDMwLCAyMDE3IDEyOjMwIFBNDQo+IFRvOiBIdWFuZywg
+UWl5dSA8aHVhbmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPjsNCj4gb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtyb2Nrb10gW1BBVENIXSBnbGliYzpDVkUtMjAx
+Ny0xNzQyNg0KPiANCj4gDQo+IA0KPiBPbiAxMi8yNy8yMDE3IDA5OjE5IFBN
+LCBIdWFuZyBRaXl1IHdyb3RlOg0KPiA+IEZpeCB0aGUgQ1ZFLTIwMTctMTc0
+MjYuDQo+IA0KPiBJcyB0aGlzIGZpeCBpbiBtYXN0ZXI/DQo+IA0KPiAtIGFy
+bWluDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBIdWFuZyBRaXl1IDxodWFu
+Z3F5LmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi1v
+dmVyZmxvdy1pbi1tYWxsb2Mtd2hlbi10Y2FjaGUtaXMtZW5hYmxlLnBhdGNo
+IHwgNDkNCj4gKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICBtZXRhL3Jl
+Y2lwZXMtY29yZS9nbGliYy9nbGliY18yLjI2LmJiICAgICAgICAgICAgICB8
+ICAxICsNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA1MCBpbnNlcnRpb25zKCsp
+DQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IG1ldGEvcmVjaXBlcy1j
+b3JlL2dsaWJjL2dsaWJjLzAwMjktRml4LWludGVnZXItb3ZlcmZsb3ctaW4t
+bWFsbG9jLXdoZW4NCj4gPiAtdGNhY2hlLWlzLWVuYWJsZS5wYXRjaA0KPiA+
+DQo+ID4gZGlmZiAtLWdpdA0KPiA+IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
+YmMvZ2xpYmMvMDAyOS1GaXgtaW50ZWdlci1vdmVyZmxvdy1pbi1tYWxsb2Mt
+d2gNCj4gPiBlbi10Y2FjaGUtaXMtZW5hYmxlLnBhdGNoDQo+ID4gYi9tZXRh
+L3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy8wMDI5LUZpeC1pbnRlZ2VyLW92
+ZXJmbG93LWluLW1hbGxvYy13aA0KPiA+IGVuLXRjYWNoZS1pcy1lbmFibGUu
+cGF0Y2gNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAw
+MDAwMDAuLmZiNTJiZTUNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAyOS1GaXgtaW50ZWdl
+ci1vdmVyZmxvdy1pbi1tYWxsbw0KPiA+ICsrKyBjLXdoZW4tdGNhY2hlLWlz
+LWVuYWJsZS5wYXRjaA0KPiA+IEBAIC0wLDAgKzEsNDkgQEANCj4gPiArRnJv
+bSAzNDY5NzY5NGU4YTkzYjMyNWIxOGYyNWY3ZGNkZWQ1NWQ2YmFlYWY2IE1v
+biBTZXAgMTcgMDA6MDA6MDANCj4gPiArMjAwMQ0KPiA+ICtGcm9tOiBBcmp1
+biBTaGFua2FyIDxhcmp1bkByZWRoYXQuY29tPg0KPiA+ICtEYXRlOiBUaHUs
+IDMwIE5vdiAyMDE3IDEzOjMxOjQ1ICswMTAwDQo+ID4gK1N1YmplY3Q6IFtQ
+QVRDSF0gRml4IGludGVnZXIgb3ZlcmZsb3cgaW4gbWFsbG9jIHdoZW4gdGNh
+Y2hlIGlzDQo+ID4gK2VuYWJsZWQgW0JaICAjMjIzNzVdDQo+ID4gKw0KPiA+
+ICtXaGVuIHRoZSBwZXItdGhyZWFkIGNhY2hlIGlzIGVuYWJsZWQsIF9fbGli
+Y19tYWxsb2MgdXNlcyByZXF1ZXN0MnNpemUNCj4gPiArKHdoaWNoIGRvZXMg
+bm90IHBlcmZvcm0gYW4gb3ZlcmZsb3cgY2hlY2spIHRvIGNhbGN1bGF0ZSB0
+aGUgY2h1bmsNCj4gPiArc2l6ZSBmcm9tIHRoZSByZXF1ZXN0ZWQgYWxsb2Nh
+dGlvbiBzaXplLiBUaGlzIGxlYWRzIHRvIGFuIGludGVnZXINCj4gPiArb3Zl
+cmZsb3cgY2F1c2luZyBtYWxsb2MgdG8gaW5jb3JyZWN0bHkgcmV0dXJuIHRo
+ZSBsYXN0IHN1Y2Nlc3NmdWxseQ0KPiA+ICthbGxvY2F0ZWQgYmxvY2sgd2hl
+biBjYWxsZWQgd2l0aCBhIHZlcnkgbGFyZ2Ugc2l6ZSBhcmd1bWVudCAoY2xv
+c2UgdG8NCj4gU0laRV9NQVgpLg0KPiA+ICsNCj4gPiArVGhpcyBjb21taXQg
+dXNlcyBjaGVja2VkX3JlcXVlc3Qyc2l6ZSBpbnN0ZWFkLCByZW1vdmluZyB0
+aGUgb3ZlcmZsb3cuDQo+ID4gKy0tLQ0KPiA+ICsgQ2hhbmdlTG9nICAgICAg
+IHwgNiArKysrKysNCj4gPiArIG1hbGxvYy9tYWxsb2MuYyB8IDMgKystDQo+
+ID4gKyAyIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBhL0NoYW5nZUxvZyBi
+L0NoYW5nZUxvZw0KPiA+ICtpbmRleCBiNTVlZDIyLi44ODhmOWZiIDEwMDY0
+NA0KPiA+ICstLS0gYS9DaGFuZ2VMb2cNCj4gPiArKysrIGIvQ2hhbmdlTG9n
+DQo+ID4gK0BAIC0xLDMgKzEsOSBAQA0KPiA+ICsrMjAxNy0xMS0zMCAgQXJq
+dW4gU2hhbmthciAgPGFyanVuQHJlZGhhdC5jb20+DQo+ID4gKysNCj4gPiAr
+KwlbQlogIzIyMzc1XQ0KPiA+ICsrCSogbWFsbG9jL21hbGxvYy5jIChfX2xp
+YmNfbWFsbG9jKTogVXNlIGNoZWNrZWRfcmVxdWVzdDJzaXplDQo+ID4gKysJ
+aW5zdGVhZCBvZiByZXF1ZXN0MnNpemUuDQo+ID4gKysNCj4gPiArIDIwMTct
+MDgtMDIgIFNpZGRoZXNoIFBveWFyZWthciAgPHNpZGRoZXNoQHNvdXJjZXdh
+cmUub3JnPg0KPiA+ICsNCj4gPiArIAkqIHN5c2RlcHMvc3BhcmMvc3BhcmMz
+Mi9zcGFyY3Y5L2ZwdS9tdWx0aWFyY2gvc19sbHJpbnQuUw0KPiA+ICtkaWZm
+IC0tZ2l0IGEvbWFsbG9jL21hbGxvYy5jIGIvbWFsbG9jL21hbGxvYy5jIGlu
+ZGV4IDc5ZjBlOWUuLjBjOWUwNzQNCj4gPiArMTAwNjQ0DQo+ID4gKy0tLSBh
+L21hbGxvYy9tYWxsb2MuYw0KPiA+ICsrKysgYi9tYWxsb2MvbWFsbG9jLmMN
+Cj4gPiArQEAgLTMwNTAsNyArMzA1MCw4IEBAIF9fbGliY19tYWxsb2MgKHNp
+emVfdCBieXRlcykNCj4gPiArICAgICByZXR1cm4gKCpob29rKShieXRlcywg
+UkVUVVJOX0FERFJFU1MgKDApKTsgICNpZiBVU0VfVENBQ0hFDQo+ID4gKyAg
+IC8qIGludF9mcmVlIGFsc28gY2FsbHMgcmVxdWVzdDJzaXplLCBiZSBjYXJl
+ZnVsIHRvIG5vdCBwYWQgdHdpY2UuDQo+ID4gKyovDQo+ID4gKy0gIHNpemVf
+dCB0Ynl0ZXMgPSByZXF1ZXN0MnNpemUgKGJ5dGVzKTsNCj4gPiArKyAgc2l6
+ZV90IHRieXRlczsNCj4gPiArKyAgY2hlY2tlZF9yZXF1ZXN0MnNpemUgKGJ5
+dGVzLCB0Ynl0ZXMpOw0KPiA+ICsgICBzaXplX3QgdGNfaWR4ID0gY3NpemUy
+dGlkeCAodGJ5dGVzKTsNCj4gPiArDQo+ID4gKyAgIE1BWUJFX0lOSVRfVENB
+Q0hFICgpOw0KPiA+ICstLQ0KPiA+ICsyLjcuNA0KPiA+ICsNCj4gPiBkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmNfMi4yNi5i
+Yg0KPiA+IGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmNfMi4yNi5i
+Yg0KPiA+IGluZGV4IDEzNWVjNGYuLmQzMTQzMTYgMTAwNjQ0DQo+ID4gLS0t
+IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmNfMi4yNi5iYg0KPiA+
+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjXzIuMjYuYmIN
+Cj4gPiBAQCAtNDMsNiArNDMsNyBAQCBTUkNfVVJJID0NCj4gIiR7R0xJQkNf
+R0lUX1VSSX07YnJhbmNoPSR7U1JDQlJBTkNIfTtuYW1lPWdsaWJjIFwNCj4g
+Pg0KPiBmaWxlOi8vMDAyNi1hc3NlcnQtU3VwcHJlc3MtcGVkYW50aWMtd2Fy
+bmluZy1jYXVzZWQtYnktc3RhdGVtZW50LnBhdGNoIFwNCj4gPiAgICAgICAg
+ICAgICBmaWxlOi8vMDAyNy1nbGliYy1yZXNldC1kbC1sb2FkLXdyaXRlLWxv
+Y2stYWZ0ZXItZm9ya2luZy5wYXRjaCBcDQo+ID4gICAgICAgICAgICAgZmls
+ZTovLzAwMjgtQnVnLTQ1NzgtYWRkLWxkLnNvLWxvY2std2hpbGUtZm9yay5w
+YXRjaCBcDQo+ID4gKw0KPiA+ICsgZmlsZTovLzAwMjktRml4LWludGVnZXIt
+b3ZlcmZsb3ctaW4tbWFsbG9jLXdoZW4tdGNhY2hlLWlzLWVuYWJsZS5wYXQN
+Cj4gPiArIGNoXA0KPiA+ICAiDQo+ID4NCj4gPiAgTkFUSVZFU0RLRklYRVMg
+Pz0gIiINCj4gDQo+IA0KDQoKCg==
 
