@@ -1,30 +1,31 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3965C6FFD4
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2124B71957
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Jan 2018 12:40:51 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jan 2018 04:40:52 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jan 2018 04:40:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; d="scan'208";a="17479037"
+X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; 
+   d="scan'208";a="6843537"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jan 2018 04:40:52 -0800
+	by fmsmga008.fm.intel.com with ESMTP; 02 Jan 2018 04:40:53 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 771E15802D8
+	by linux.intel.com (Postfix) with ESMTP id 853C95802D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 04:40:51 -0800 (PST)
+	Tue,  2 Jan 2018 04:40:52 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jan 2018 14:41:43 +0200
-Message-Id: <1514896905-36107-2-git-send-email-maxin.john@intel.com>
+Date: Tue,  2 Jan 2018 14:41:44 +0200
+Message-Id: <1514896905-36107-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1514896905-36107-1-git-send-email-maxin.john@intel.com>
 References: <1514896905-36107-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/4] libatomic-ops: upgrade to 7.6.2
+Subject: [PATCH 3/4] libjpeg-turbo: upgrade to 1.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,117 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 12:40:51 -0000
+X-List-Received-Date: Tue, 02 Jan 2018 12:40:52 -0000
 
-7.6.0 -> 7.6.2
+1.5.2 -> 1.5.3
 
-Remove unused patch:
-        0001-Add-initial-nios2-architecture-support.patch
+No change in license. Updates in License Checksums are due to change
+in Copyright years.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ...01-Add-initial-nios2-architecture-support.patch | 70 ----------------------
- ...batomic-ops_7.6.0.bb => libatomic-ops_7.6.2.bb} |  6 +-
- 2 files changed, 4 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
- rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.0.bb => libatomic-ops_7.6.2.bb} (68%)
+ .../jpeg/{libjpeg-turbo_1.5.2.bb => libjpeg-turbo_1.5.3.bb}       | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_1.5.2.bb => libjpeg-turbo_1.5.3.bb} (87%)
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch b/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
-deleted file mode 100644
-index c051075..0000000
---- a/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 4b005ee56898309e8afba9b3c48cf94f0f5f78e4 Mon Sep 17 00:00:00 2001
--From: Marek Vasut <marex@denx.de>
--Date: Tue, 15 Mar 2016 10:09:26 +0300
--Subject: [PATCH] Add initial nios2 architecture support
--
--* src/Makefile.am (nobase_private_HEADERS): Add nios2.h.
--* src/atomic_ops.h: Include nios2.h if __nios2__.
--* src/atomic_ops/sysdeps/gcc/nios2.h: New file.
--
--Signed-off-by: Marek Vasut <marex@denx.de>
--Upstream-Status: Backport [ https://github.com/ivmai/libatomic_ops.git 4b005ee56898309e8afba9b3c48cf94f0f5f78e4 ]
-----
-- src/Makefile.am                    |  1 +
-- src/atomic_ops.h                   |  3 +++
-- src/atomic_ops/sysdeps/gcc/nios2.h | 17 +++++++++++++++++
-- 3 files changed, 21 insertions(+)
-- create mode 100644 src/atomic_ops/sysdeps/gcc/nios2.h
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index fc09b27..d463427 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -79,6 +79,7 @@ nobase_private_HEADERS = atomic_ops/ao_version.h \
--           atomic_ops/sysdeps/gcc/ia64.h \
--           atomic_ops/sysdeps/gcc/m68k.h \
--           atomic_ops/sysdeps/gcc/mips.h \
--+          atomic_ops/sysdeps/gcc/nios2.h \
--           atomic_ops/sysdeps/gcc/powerpc.h \
--           atomic_ops/sysdeps/gcc/s390.h \
--           atomic_ops/sysdeps/gcc/sh.h \
--diff --git a/src/atomic_ops.h b/src/atomic_ops.h
--index 33fe00e..ec02ba4 100644
----- a/src/atomic_ops.h
--+++ b/src/atomic_ops.h
--@@ -262,6 +262,9 @@
-- # if defined(__m68k__)
-- #   include "atomic_ops/sysdeps/gcc/m68k.h"
-- # endif /* __m68k__ */
--+# if defined(__nios2__)
--+#   include "atomic_ops/sysdeps/gcc/nios2.h"
--+# endif /* __nios2__ */
-- # if defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) \
--      || defined(__powerpc64__) || defined(__ppc64__)
-- #   include "atomic_ops/sysdeps/gcc/powerpc.h"
--diff --git a/src/atomic_ops/sysdeps/gcc/nios2.h b/src/atomic_ops/sysdeps/gcc/nios2.h
--new file mode 100644
--index 0000000..f402cbb
----- /dev/null
--+++ b/src/atomic_ops/sysdeps/gcc/nios2.h
--@@ -0,0 +1,17 @@
--+/*
--+ * Copyright (C) 2016 Marek Vasut <marex@denx.de>
--+ *
--+ * THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED
--+ * OR IMPLIED. ANY USE IS AT YOUR OWN RISK.
--+ *
--+ * Permission is hereby granted to use or copy this program
--+ * for any purpose, provided the above notices are retained on all copies.
--+ * Permission to modify the code and to distribute modified code is granted,
--+ * provided the above notices are retained, and a notice that the code was
--+ * modified is included with the above copyright notice.
--+ */
--+
--+#include "../test_and_set_t_is_ao_t.h"
--+#include "generic.h"
--+
--+#define AO_T_IS_INT
---- 
--2.7.0
--
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
-similarity index 68%
-rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
-rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
-index 4463d86..fff8fe2 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
-@@ -7,9 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
- 		   "
- PV .= "+git${SRCPV}"
-+SRCBRANCH ?= "release-7_6"
-+UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases/"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+similarity index 87%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+index 58646d3..8809f2c 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+@@ -3,17 +3,17 @@ DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructi
+ HOMEPAGE = "http://libjpeg-turbo.org/"
  
--SRCREV = "73c60c5ef1ed370111549ee5aab6d4020ba70ed4"
--SRC_URI = "git://github.com/ivmai/libatomic_ops"
-+SRCREV = "5ae4b4aeea2baf13752d07e3038c47f70f06dcac"
-+SRC_URI = "git://github.com/ivmai/libatomic_ops;branch=${SRCBRANCH}"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a1271f2 \
++LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=8184bcc7c4ac7b9edc6a7bc00f231d0b \
+                     file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
+-                    file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
++                    file://djpeg.c;endline=11;md5=c59e19811c006cb38f82d6477134d314 \
+ "
+ DEPENDS_append_x86-64_class-target = " nasm-native"
+ DEPENDS_append_x86_class-target    = " nasm-native"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "6b4923e297a7eaa255f08511017a8818"
+-SRC_URI[sha256sum] = "9098943b270388727ae61de82adec73cf9f0dbb240b3bc8b172595ebf405b528"
++SRC_URI[md5sum] = "7c82f0f6a3130ec06b8a4d0b321cbca3"
++SRC_URI[sha256sum] = "b24890e2bb46e12e72a79f7e965f409f4e16466d00e1dd15d93d73ee6b592523"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
 -- 
 2.4.0
