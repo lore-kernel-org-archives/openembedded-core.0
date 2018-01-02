@@ -1,30 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E2AB4605BA
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 64172605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jan 2018 12:55:58 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Tue,  2 Jan 2018 13:13:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jan 2018 04:55:59 -0800
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jan 2018 05:13:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; d="scan'208";a="16888810"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga003.jf.intel.com with ESMTP; 02 Jan 2018 04:55:58 -0800
-Date: Tue, 2 Jan 2018 14:57:06 +0200
+X-IronPort-AV: E=Sophos;i="5.45,497,1508828400"; 
+   d="scan'208";a="7249205"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga007.jf.intel.com with ESMTP; 02 Jan 2018 05:13:52 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 8DACA580319
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Jan 2018 05:13:51 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20180102125705.GB36465@mbabyjoh-desk.ger.corp.intel.com>
-References: <1514896905-36107-1-git-send-email-maxin.john@intel.com>
-	<1514896905-36107-2-git-send-email-maxin.john@intel.com>
-	<fa80eafb-c805-25cf-d47d-cdb2837135e8@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <fa80eafb-c805-25cf-d47d-cdb2837135e8@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] libatomic-ops: upgrade to 7.6.2
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Jan 2018 15:14:55 +0200
+Message-Id: <1514898895-44287-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] libatomic-ops: upgrade to 7.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +36,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jan 2018 12:55:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Jan 2018 13:13:51 -0000
 
-Hi,
+7.6.0 -> 7.6.2
 
-On Tue, Jan 02, 2018 at 02:42:13PM +0200, Alexander Kanavin wrote:
-> On 01/02/2018 02:41 PM, Maxin B. John wrote:
-> >+UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases/"
-> >+SRC_URI = "git://github.com/ivmai/libatomic_ops;branch=${SRCBRANCH}"
-> 
-> I don't think UPSTREAM_CHECK_URI has any effect when fetching from git, why
-> was it added?
+Remove unused patch:
+        0001-Add-initial-nios2-architecture-support.patch
 
-It was added as there was a change in SRC_URI with branch info. Thanks for the 
-review. I will remove that part.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+Changes since V1:
+    Removed UPSTREAM_CHECK_URI which has no effect while fetching from git repo
+---
+ ...01-Add-initial-nios2-architecture-support.patch | 70 ----------------------
+ ...batomic-ops_7.6.0.bb => libatomic-ops_7.6.2.bb} |  5 +-
+ 2 files changed, 3 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.0.bb => libatomic-ops_7.6.2.bb} (76%)
 
-> Alex
-Best Regards,
-Maxin
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch b/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
+deleted file mode 100644
+index c051075..0000000
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops/0001-Add-initial-nios2-architecture-support.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 4b005ee56898309e8afba9b3c48cf94f0f5f78e4 Mon Sep 17 00:00:00 2001
+-From: Marek Vasut <marex@denx.de>
+-Date: Tue, 15 Mar 2016 10:09:26 +0300
+-Subject: [PATCH] Add initial nios2 architecture support
+-
+-* src/Makefile.am (nobase_private_HEADERS): Add nios2.h.
+-* src/atomic_ops.h: Include nios2.h if __nios2__.
+-* src/atomic_ops/sysdeps/gcc/nios2.h: New file.
+-
+-Signed-off-by: Marek Vasut <marex@denx.de>
+-Upstream-Status: Backport [ https://github.com/ivmai/libatomic_ops.git 4b005ee56898309e8afba9b3c48cf94f0f5f78e4 ]
+----
+- src/Makefile.am                    |  1 +
+- src/atomic_ops.h                   |  3 +++
+- src/atomic_ops/sysdeps/gcc/nios2.h | 17 +++++++++++++++++
+- 3 files changed, 21 insertions(+)
+- create mode 100644 src/atomic_ops/sysdeps/gcc/nios2.h
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index fc09b27..d463427 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -79,6 +79,7 @@ nobase_private_HEADERS = atomic_ops/ao_version.h \
+-           atomic_ops/sysdeps/gcc/ia64.h \
+-           atomic_ops/sysdeps/gcc/m68k.h \
+-           atomic_ops/sysdeps/gcc/mips.h \
+-+          atomic_ops/sysdeps/gcc/nios2.h \
+-           atomic_ops/sysdeps/gcc/powerpc.h \
+-           atomic_ops/sysdeps/gcc/s390.h \
+-           atomic_ops/sysdeps/gcc/sh.h \
+-diff --git a/src/atomic_ops.h b/src/atomic_ops.h
+-index 33fe00e..ec02ba4 100644
+---- a/src/atomic_ops.h
+-+++ b/src/atomic_ops.h
+-@@ -262,6 +262,9 @@
+- # if defined(__m68k__)
+- #   include "atomic_ops/sysdeps/gcc/m68k.h"
+- # endif /* __m68k__ */
+-+# if defined(__nios2__)
+-+#   include "atomic_ops/sysdeps/gcc/nios2.h"
+-+# endif /* __nios2__ */
+- # if defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) \
+-      || defined(__powerpc64__) || defined(__ppc64__)
+- #   include "atomic_ops/sysdeps/gcc/powerpc.h"
+-diff --git a/src/atomic_ops/sysdeps/gcc/nios2.h b/src/atomic_ops/sysdeps/gcc/nios2.h
+-new file mode 100644
+-index 0000000..f402cbb
+---- /dev/null
+-+++ b/src/atomic_ops/sysdeps/gcc/nios2.h
+-@@ -0,0 +1,17 @@
+-+/*
+-+ * Copyright (C) 2016 Marek Vasut <marex@denx.de>
+-+ *
+-+ * THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED
+-+ * OR IMPLIED. ANY USE IS AT YOUR OWN RISK.
+-+ *
+-+ * Permission is hereby granted to use or copy this program
+-+ * for any purpose, provided the above notices are retained on all copies.
+-+ * Permission to modify the code and to distribute modified code is granted,
+-+ * provided the above notices are retained, and a notice that the code was
+-+ * modified is included with the above copyright notice.
+-+ */
+-+
+-+#include "../test_and_set_t_is_ao_t.h"
+-+#include "generic.h"
+-+
+-+#define AO_T_IS_INT
+--- 
+-2.7.0
+-
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
+similarity index 76%
+rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
+rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
+index 4463d86..f7b4163 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.0.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.2.bb
+@@ -7,9 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
+ 		   "
+ PV .= "+git${SRCPV}"
++SRCBRANCH ?= "release-7_6"
+ 
+-SRCREV = "73c60c5ef1ed370111549ee5aab6d4020ba70ed4"
+-SRC_URI = "git://github.com/ivmai/libatomic_ops"
++SRCREV = "5ae4b4aeea2baf13752d07e3038c47f70f06dcac"
++SRC_URI = "git://github.com/ivmai/libatomic_ops;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.4.0
+
 
