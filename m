@@ -1,28 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 65F666093E
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D592781DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jan 2018 14:19:58 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w03EJw6S020204
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 3 Jan 2018 14:19:59 GMT
-Message-ID: <1514989197.5525.147.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 03 Jan 2018 14:19:57 +0000
-In-Reply-To: <8555d421-668e-a2ba-d405-4ef01ee2f3f4@windriver.com>
-References: <cover.1513133105.git.liezhi.yang@windriver.com>
-	<e911950fbee39af9c5889c41872f2f77f94cc9c1.1513133105.git.liezhi.yang@windriver.com>
-	<1514983400.5525.137.camel@linuxfoundation.org>
-	<8555d421-668e-a2ba-d405-4ef01ee2f3f4@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 2/2] image-live.bbclass: remove MLPREFIX from syslinux
+	Wed,  3 Jan 2018 14:47:50 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id b76so3131817wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jan 2018 06:47:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=1UdmsqLukuVdEZ7qTxlJJp8oG2bKnbu3stWANeqSLLI=;
+	b=BT0Gv0TxfrgNIPfgkzcN02ccJwjs/tcYSAnt7LpJuiv+hNhVs9TP1wIqfgllBOHYbJ
+	jms0qG1eI5PfBT+fefimKN0O40NcvZaRqg1a3bCehGpZmp00l8QrQ/91YtY2tjBEiTPY
+	m1YKdRbqdER8iQ5QVFqmc7qOtaLMtvLVR8H7yynBLflp9PIUshfk5wleb/VPUjhsARRe
+	L1NEa4TNeWqrhN84vPVHUgQ2d/R3ypHPVL6SPG0nsdPZiasRr8ZT38bLBtC7FbDb47wn
+	ODV8jrH3B4U/mCADOPVZNTzx+bEyrBR1BVHARmshSHXSrf5X+SFmZHVTl8FYm5OYlZkH
+	NAJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=1UdmsqLukuVdEZ7qTxlJJp8oG2bKnbu3stWANeqSLLI=;
+	b=Gysv0KThek/BrOcWLfBIJyFmVPi6BNd43tBP6/rmYbHWtnZvm9HZox4oXdNglAIqNn
+	yzwKL0bTB/26f5E2fp6YnDIikcaACUOOdG6YYbDntcYubX7kNPCtm4A14ApHT718RA7B
+	q41+mho3kYcXRqwHMrYKP2n+xeZvpbqAjq3L0wgBfazlfse8YRmIClXfSxlgIa/j8g7Z
+	ybb7WEcUQcEVqjUcJAIIEG3HNMA7Wck38EGOODKpv6SQgAraifFg9zVbXbE9yYeu6KtY
+	wyl/1Wyhjd/wYHKKunZlT6jUbxv23TpBntDqvfDb68keFD3d80emsO8rR/kR9gdZBoGv
+	ZvhA==
+X-Gm-Message-State: AKGB3mJs8s2g5/DE8Ug9RVS6xL8E15Mc79r+BPegfJqikAzph+FIjcGL
+	fzh1Cme1gUqAn1BhUMgg5gz+2wNKnqao6X2HHfzgktla
+X-Google-Smtp-Source: ACJfBosIWSn5L+ngjXd85hM5gnXuAKUDpRdfq6v1XGHDSfz65drjjQ+hb1r2/iJem+KGZSndZY/55uwZsgQlVgNit1M=
+X-Received: by 10.28.156.10 with SMTP id f10mr1782855wme.128.1514990871665;
+	Wed, 03 Jan 2018 06:47:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.182.79 with HTTP; Wed, 3 Jan 2018 06:47:51 -0800 (PST)
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Wed, 3 Jan 2018 14:47:51 +0000
+Message-ID: <CAPyrkgxupO+=0+bmA=+JO+zs=t_i=Pm06GJyRFvYfTb5sXjSBA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, 
+	openembedded-members@lists.openembedded.org, yocto <yocto@yoctoproject.org>
+Subject: Slideshow for FOSDEM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jan 2018 14:19:59 -0000
+X-List-Received-Date: Wed, 03 Jan 2018 14:47:51 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2018-01-03 at 21:56 +0800, Robert Yang wrote:
-> > Also, there are some things which never make sense as a multilib,
-> > the
-> > kernel is one example and I'm starting to wonder if syslinux would
-> > be
-> > another. In the kernel (and kernel module) case we'd provide all
-> > the
-> > libX variants from the same recipe, we may want to do that for
-> > syslinux.
-> I think that syslinux is different from kernel, 64bit kernel can
-> provide 32bit kernel via kernel config, but syslinux can't (except
-> these non arch files).
+Hi all,
 
-Think about this differently. The system can ever only boot one single
-kernel. The image can have several different multilibs running at once
-in different userspace processes but there can only ever be one running
-kernel.
+As we've only got one table at FOSDEM this year we're not going to
+have space for as many bits of hardware as usual. I'd still like us to
+show off the project and what people are building with OpenEmbedded &
+Yocto Project though. Given the limited space I think the best way to
+do this would be to put a slideshow on my laptop.
 
-How that kernel is configured is obviously important but the key thing
-is there can only be one running.
+I've made a start on this here:
+https://docs.google.com/presentation/d/1KYxhsxO-8GxhAreE0GKnTOCPdY6_4uXYIEp=
+6Lc55MB8/edit?usp=3Dsharing
 
-The bootloader is similar in that you likely only ever want one and I
-suspect syslinux is similar.
+I've made this publicly editable so please feel free to add slides for
+any OE features you want to show off and any projects (professional or
+hobbyist) built with OE. If anyone can add a slide on project history
+that would also be great. I'd also like a slide on the latest release
+and the new features added. Photos of hardware projects using OE and
+features like Toaster would be especially welcome!
 
-Also, don't confuse this with multi-boot or multi partition systems
-where there could be a "main" and a "backup" kernel. In those cases
-there would only ever be one running at once.
+I'll give this a final edit before FOSDEM and the put it on rotation
+on a laptop at the stand. Hopefully it will be useful for future
+events as well.
 
-> > It may be we can't avoid the multiple compiler issue and the
-> > current
-> > codebase may not do so, I think currently we can avoid multiple
-> > glibc
-> > though.
-> I'm not sure about a problem on this, should lib32-image can run
-> 64bit programs or not ? If yes, then kernel should be 64bit, and we
-> can't avoid building 64bit compilers. And I'm leaning to yes since we
-> call it multilib, the pure 32bit image which can't run 64bit programs
-> can't be called multilib.
+Thanks all,
 
-That is a configuration issue for the multilib you select. In general,
-yes you'd want a 64 bit kernel.
-
-> I did a rough search on why glibc is built, when bitbake lib32-image, 
-> it is because:
-> 
-> 64 bit kernel -> gcc-cross-x86_64 -> virtual/${TARGET_PREFIX}libc-
-> for-gcc,
-> and the TARGET_PREFIX is x86_64 when building gcc-cross-x86_64,
-> While the virtual/x86_64-poky-linux-libc-for-gcc is provided by
-> glibc.
-> 
-> I tried to remove the depends, both "bitbake gcc-cross-x86_64" and
-> "bitbake linux-yocto" can be built, but other recipes such as quilt
-> would be failed:
-
-I find it interesting that gcc-cross-x86_64 would build without glibc.
-If that really is the case we may be able to speed up our compiler
-bootstrap so that could be worth investigating further.
-
-Its not surprising that libgcc won't build without glibc though.
-Perhaps gcc-cross works since we split out the build of libgcc?
-
-> > collect2: error: ld returned 1 exit status
-> > Makefile:978: recipe for target 'libgcc_s.so' failed
-> And move virtual/${TARGET_PREFIX}libc-for-gcc to BASE_DEFAULT_DEPS
-> can't make it work either, so it seems that we can't avoid building
-> glibc.
-
-No, I'd forgotten that gcc-cross depends on glibc. Based on the above
-there may still be some optimisation we can make here.
-
-In the back of my mind, I'm concious that one x86 cross compiler should
-be able to work for 32 and 64 bit too, its just the compiler options
-and libgcc etc. would need to be generated for both...
-
-> > Regardless, I do think this needs a little more thought, we also
-> > need
-> > better multiple test cases as we're not catching issues like this. 
-> > think this needs to be revisited along with your outstanding
-> > multilib
-> > patch series which I haven't found the time to review yet (sorry).
-> That's all right, I'm very glad to make mutilib work well, including
-> adding test cases for them. It is nearly broken after changed from
-> smart + rpm5 to dnf + rpm4, those patches fixed the problem.
-
-Agreed, its important and on my list of things to review, I've just had
-to focus on getting build testing working properly and now I can try
-and clear some of the patch backlog.
-
-Cheers,
-
-Richard
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
 
