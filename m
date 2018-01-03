@@ -1,23 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 042787833C
+	by mail.openembedded.org (Postfix) with ESMTP id CFA8A7833C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jan 2018 21:56:18 +0000 (UTC)
+	Wed,  3 Jan 2018 22:00:25 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w03LuAaT018572
+	w03LwLTh018725
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 3 Jan 2018 21:56:11 GMT
-Message-ID: <1515016570.5525.171.camel@linuxfoundation.org>
+	verify=NOT); Wed, 3 Jan 2018 21:58:22 GMT
+Message-ID: <1515016700.5525.173.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Joe Slater
-	<jslater@windriver.com>, openembedded-core@lists.openembedded.org, "Burton,
-	Ross" <ross.burton@intel.com>
-Date: Wed, 03 Jan 2018 21:56:10 +0000
-In-Reply-To: <e3528177-a042-0ac5-2a06-6cb9b279fd89@linux.intel.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "BURTON, ROSS"
+	<ross.burton@intel.com>
+Date: Wed, 03 Jan 2018 21:58:20 +0000
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84D87A7007@ALA-MBC.corp.ad.wrs.com>
 References: <20180102200049.44793-1-jslater@windriver.com>
 	<1514933138.5525.101.camel@linuxfoundation.org>
 	<e3528177-a042-0ac5-2a06-6cb9b279fd89@linux.intel.com>
+	<007BD92917A2324FA403BCF9A464CF84D87A7007@ALA-MBC.corp.ad.wrs.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
@@ -35,35 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jan 2018 21:56:20 -0000
+X-List-Received-Date: Wed, 03 Jan 2018 22:00:26 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-01-03 at 10:43 +0200, Alexander Kanavin wrote:
-> On 01/03/2018 12:45 AM, Richard Purdie wrote:
-> > 
-> > Sorry, but I don't think this can work :/.
-> > 
-> > Do the sstate sig selftests pass with this change?
-> > 
-> > I appreciate this will make some things "work" but it will mean
-> > that
-> > allarch packages rebuild for each architecture or multilib and that
-> > isn't right either.
-> > 
-> > So we need a better solution here. Why do we need libdir paths to
-> > run
-> > binaries anyway? Is this a libexec issue? Perhaps the things in
-> > question shouldn't be allarch?
->
-> I think Ross has spent some time developing a fix for this same
-> issue, perhaps he can chime in?
+On Wed, 2018-01-03 at 21:46 +0000, Slater, Joseph wrote:
+> Currently, we do have to provide qemuwrapper with
+> LD_LIBRARY_PATH.  We could hard-code all possible paths into that and
+> not use ${libdir} and ${base_libdir}.  (I tried it and it works.)  We
+> could also create a couple of new variables, like
+> original_base_libdir, that don't get clobbered by allarch.   Maybe
+> qemuwrapper should be smart enough to compute LD_LIBRARY_PATH...
 
-I think he did, I think I also pointed him at the sstate signature
-tests and that caused some problems. Ross may be able to elaborate
-more...
+I suspect somehow we therefore need to decouple qemuwrapper from the
+target packages and just ensure that a separate script is available in
+PATH when the rootfs is generated?
+
+The rootfs should know which multilibs are enabled and be able to
+generate the wrapper correctly?
 
 Cheers,
 
 Richard
+
 
