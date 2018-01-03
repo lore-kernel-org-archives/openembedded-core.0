@@ -1,23 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 247046E630
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 22BAB78267
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jan 2018 15:24:05 +0000 (UTC)
+	Wed,  3 Jan 2018 16:59:09 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Jan 2018 07:24:07 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Jan 2018 08:59:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,501,1508828400"; d="scan'208";a="17847335"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2018 07:24:05 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jan 2018 17:24:04 +0200
-Message-Id: <20180103152404.30045-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] gobject-introspection: do not export LD_LIBRARY_PATH prior to running qemu
+X-IronPort-AV: E=Sophos;i="5.45,501,1508828400"; d="scan'208";a="23957134"
+Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jan 2018 08:59:10 -0800
+Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
+	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 3 Jan 2018 08:59:10 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.15]) by
+	ORSMSX163.amr.corp.intel.com ([169.254.9.51]) with mapi id
+	14.03.0319.002; Wed, 3 Jan 2018 08:59:10 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 1/1] rpm_4.14.0: clamp timestamps by default
+Thread-Index: AQHThB/BxdJqQeJhbkKjdvsYagJqOKNiXNqA///+ktA=
+Date: Wed, 3 Jan 2018 16:59:09 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6404A265A@ORSMSX112.amr.corp.intel.com>
+References: <1514934973-80578-1-git-send-email-juro.bystricky@intel.com>
+	<1514934973-80578-2-git-send-email-juro.bystricky@intel.com>
+	<fc0ebed5-abd0-9926-3c57-6443d7f22241@linux.intel.com>
+In-Reply-To: <fc0ebed5-abd0-9926-3c57-6443d7f22241@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTg2N2ZlMmMtNDE2Ny00YmIwLWFkYTQtNzljNDIyYjE5YTcxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiIwMG5HTm82WDcwWFBwOUFDNFg0VHk4UytxVGhoSTg0dmF6NVE4eHY0aldidm04MnI3NTJCdkRDbzQ4a0cxbkpMIn0=
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH 1/1] rpm_4.14.0: clamp timestamps by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,162 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jan 2018 15:24:06 -0000
+X-List-Received-Date: Wed, 03 Jan 2018 16:59:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Latest g-i upstream adds target paths to this variable which breaks
-qemu in various confusing ways.
-
-Instead, the list of target library paths is exported to GIR_EXTRA_LIBS_PATH,
-so that it can be picked up automatically by the qemu wrapper script
-and given to qemu (manually setting this variable from various recipes
-will be removed in a different patch).
-
-Also, re-enable parts of g-i on mips64, as it is the same issue.
-
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...01-giscanner-add-a-lib-dirs-envvar-option.patch | 73 ++++++++++++++++++++++
- .../gobject-introspection_1.54.1.bb                |  3 +-
- meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |  4 --
- .../gstreamer/gstreamer1.0-plugins.inc             |  3 -
- .../gstreamer/gstreamer1.0-rtsp-server.inc         |  2 -
- 5 files changed, 75 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-new file mode 100644
-index 00000000000..e1776bc9b40
---- /dev/null
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-@@ -0,0 +1,73 @@
-+From a02076fe916ade6c3f78f6d35072ec53482e9446 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 3 Jan 2018 17:02:01 +0200
-+Subject: [PATCH] giscanner: add a --lib-dirs-envvar option
-+
-+By default LD_LIBRARY_PATH is set to the list of target library paths;
-+this breaks down in cross-compilation environment, as we need to run a
-+native emulation wrapper rather than the target binary itself. This patch
-+allows exporting those paths to a different environment variable
-+which can be picked up and used by the wrapper.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ giscanner/ccompiler.py   | 6 ++++--
-+ giscanner/dumper.py      | 3 ++-
-+ giscanner/scannermain.py | 3 +++
-+ 3 files changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/giscanner/ccompiler.py b/giscanner/ccompiler.py
-+index 29de0ee..e969337 100644
-+--- a/giscanner/ccompiler.py
-++++ b/giscanner/ccompiler.py
-+@@ -109,14 +109,16 @@ class CCompiler(object):
-+ 
-+             self._cflags_no_deprecation_warnings = "-Wno-deprecated-declarations"
-+ 
-+-    def get_internal_link_flags(self, args, libtool, libraries, extra_libraries, libpaths):
-++    def get_internal_link_flags(self, args, libtool, libraries, extra_libraries, libpaths, lib_dirs_envvar):
-+         # An "internal" link is where the library to be introspected
-+         # is being built in the current directory.
-+ 
-+         runtime_path_envvar = []
-+         runtime_paths = []
-+ 
-+-        if self.check_is_msvc():
-++        if lib_dirs_envvar:
-++            runtime_path_envvar = [lib_dirs_envvar]
-++        elif self.check_is_msvc():
-+             runtime_path_envvar = ['LIB', 'PATH']
-+         else:
-+             runtime_path_envvar = ['LD_LIBRARY_PATH']
-+diff --git a/giscanner/dumper.py b/giscanner/dumper.py
-+index 7f77bd2..db96df6 100644
-+--- a/giscanner/dumper.py
-++++ b/giscanner/dumper.py
-+@@ -259,7 +259,8 @@ class DumpCompiler(object):
-+                                                    libtool,
-+                                                    self._options.libraries,
-+                                                    self._options.extra_libraries,
-+-                                                   self._options.library_paths)
-++                                                   self._options.library_paths,
-++                                                   self._options.lib_dirs_envvar)
-+             args.extend(pkg_config_libs)
-+ 
-+         else:
-+diff --git a/giscanner/scannermain.py b/giscanner/scannermain.py
-+index 38a45c1..b603850 100755
-+--- a/giscanner/scannermain.py
-++++ b/giscanner/scannermain.py
-+@@ -130,6 +130,9 @@ def _get_option_parser():
-+     parser.add_option("", "--use-ldd-wrapper",
-+                       action="store", dest="ldd_wrapper", default=None,
-+                       help="wrapper to use instead of ldd (useful when cross-compiling)")
-++    parser.add_option("", "--lib-dirs-envvar",
-++                      action="store", dest="lib_dirs_envvar", default=None,
-++                      help="environment variable to write a list of library directories to (for running the transient binary), instead of standard LD_LIBRARY_PATH")
-+     parser.add_option("", "--program-arg",
-+                       action="append", dest="program_args", default=[],
-+                       help="extra arguments to program")
-+-- 
-+2.15.1
-+
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb
-index 156dac7ca78..85c8001dea8 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/1.54/${BPN}-${PV}.tar.xz \
-            file://0003-giscanner-add-use-binary-wrapper-option.patch \
-            file://0004-giscanner-add-a-use-ldd-wrapper-option.patch \
-            file://0005-Prefix-pkg-config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch \
-+           file://0001-giscanner-add-a-lib-dirs-envvar-option.patch \
-            "
- SRC_URI[md5sum] = "126c29e4d54adbed2ed4e2b04483de41"
- SRC_URI[sha256sum] = "b88ded5e5f064ab58a93aadecd6d58db2ec9d970648534c63807d4f9a7bb877e"
-@@ -71,7 +72,7 @@ EOF
- # This prevents g-ir-scanner from writing cache data to $HOME
- export GI_SCANNER_DISABLE_CACHE=1
- 
--g-ir-scanner --use-binary-wrapper=${STAGING_BINDIR}/g-ir-scanner-qemuwrapper --use-ldd-wrapper=${STAGING_BINDIR}/g-ir-scanner-lddwrapper --add-include-path=${STAGING_DATADIR}/gir-1.0 "\$@"
-+g-ir-scanner --lib-dirs-envvar=GIR_EXTRA_LIBS_PATH --use-binary-wrapper=${STAGING_BINDIR}/g-ir-scanner-qemuwrapper --use-ldd-wrapper=${STAGING_BINDIR}/g-ir-scanner-lddwrapper --add-include-path=${STAGING_DATADIR}/gir-1.0 "\$@"
- EOF
-         chmod +x ${B}/g-ir-scanner-wrapper
- 
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-index 26ae91c4847..4c877982b74 100644
---- a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-@@ -15,7 +15,3 @@ PACKAGES  =+ "${PN}-examples"
- FILES_${PN}          += "${libdir}/gstreamer-1.0/lib*.so"
- FILES_${PN}-dev      += "${libdir}/gstreamer-1.0/*.la"
- FILES_${PN}-examples  = "${bindir}/video-player ${bindir}/video-sink"
--
--# Needs to be disable due to a dependency on gstreamer-plugins introspection files
--EXTRA_OECONF_append_mips64 = " --disable-introspection "
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index c40d3989119..3f6d4c37038 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -49,6 +49,3 @@ patch_gtk_doc_makefiles() {
- do_configure[prefuncs] += " delete_pkg_m4_file patch_gtk_doc_makefiles"
- 
- PACKAGES_DYNAMIC = "^${PN}-.*"
--
--# qemu-mips64: error while loading shared libraries: .../recipe-sysroot/usr/lib/libgthread-2.0.so.0: ELF file data encoding not little-endian
--EXTRA_OECONF_append_mips64 = " --disable-introspection "
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-index 68173ce7d94..7191f9892d7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-@@ -36,5 +36,3 @@ patch_gtk_doc_makefiles() {
- 
- do_configure[prefuncs] += " delete_pkg_m4_file patch_gtk_doc_makefiles"
- 
--# Needs to be disable due to a dependency on gstreamer-plugins introspection files
--EXTRA_OECONF_append_mips64 = " --disable-introspection "
--- 
-2.15.1
-
+PiBJJ20gbm90IHN1cmUgSSB1bmRlcnN0YW5kIHRoZSBuZWNlc3NpdHkgb2YgdGhpcy4gV2hhdCBt
+YXR0ZXJzIGZvcg0KPiByZXByb2R1Y2liaWxpdHkgaXMgdGhhdCBycG1zIGluc3RhbGwgdGhlIHNh
+bWUgZmlsZXM7IHdoeSBpcyBpdCBpbXBvcnRhbnQNCj4gdGhhdCB0aGUgcnBtIGZpbGUgaXRzZWxm
+IGhhcyBleGFjdGx5IHNhbWUgYnVpbGQgdGltZSBhbmQgaXMgb3RoZXJ3aXNlDQo+IGlkZW50aWNh
+bCBiaXQgYnkgYml0Pw0KPiANCg0KVGhlcmUgaXMgYWN0dWFsbHkgYSBkZW1hbmQgZm9yIGJpbmFy
+eSByZXByb2R1Y2libGUgcGFja2FnZXMuDQpTZWUgZm9yIGV4YW1wbGUgaHR0cHM6Ly93aWtpLmRl
+Ymlhbi5vcmcvUmVwcm9kdWNpYmxlQnVpbGRzL0Fib3V0DQpEZWJpYW4gcGFja2FnZXMgYWxyZWFk
+eSBjbGFtcCB0aW1lc3RhbXBzIGJ5IGRlZmF1bHQuIEkgYW0gbm90IGV2ZW4gc3VyZSB5b3UgY2Fu
+IGRpc2FibGUgdGhpcyANCihzaG9ydCBvZiB1bnNldHRpbmcgU09VUkNFX0NPREVfRVBPQ0gpLiBU
+aGUgc2FtZSBmdW5jdGlvbmFsaXR5IGV4aXN0cyBmb3IgUlBNIHBhY2thZ2VzLA0KZXhjZXB0IGl0
+IGlzIG5vdCB0aGUgZGVmYXVsdCBiZWhhdmlvci4NCg0KPiBBIHRlY2huaWNhbGl0eTogZG8gbm90
+IHBhdGNoIG1uYWNyb3MuaW4sIHNldCB0aGUgbWFjcm8gZGlyZWN0bHkgZnJvbQ0KPiBwYWNrYWdl
+X3JwbS5iYmNsYXNzLg0KPg0KDQpZZXMsIEkgY29uc2lkZXJlZCB0aGlzIChzZWUgdGhlIFtwYXRj
+aCAwLzFdKS4gSSBjaG9zZSB0byBwYXRjaCBtYWNyb3MuaW4gaW4gdGhlIA0KcmVjaXBlIHJwbV80
+LjE0LjAgaW5zdGVhZCBiZWNhdXNlIHRoZSBuZXcgbWFjcm8gaXMgaW50cm9kdWNlZCBpbiBSUE0g
+NC4xNC4wLiANCkkgYXNzdW1lZCB3ZSBkaWQgbm90IHdhbnQgdG8gaGF2ZSBSUE0gdmVyc2lvbiBk
+ZXBlbmRlbmNpZXMgaW4gcGFja2FnZV9ycG0uYmJjbGFzcy4gDQpCdXQgSSBoYXZlIG5vIHN0cm9u
+ZyBmZWVsaW5ncyByZWdhcmRpbmcgdGhpcywgSSBhbSBwcmV0dHkgc3VyZSB0aGUgbmV3IG1hY3Jv
+IGlzIGhlcmUNCnRvIHN0YXkgaW4gdGhlIGZ1dHVyZSBhbmQgaXQgaXMgdW5saWtlbHkgYW55b25l
+IHdvdWxkIHdhbnQgdG8gdXNlIGEgcHJlLTQuMTQuMCANCnZlcnNpb24gb2YgUlBNIGVpdGhlci4g
+SWYgeW91IHRoaW5rIHBhdGNoaW5nIHBhY2thZ2VfcnBtLmJiY2xhc3MgbWFrZXMgbW9yZSBzZW5z
+ZSwNCkkgY2FuIHNlbmQgaW4gYW5vdGhlciBwYXRjaC4NCiANCkp1cm8NCg==
 
