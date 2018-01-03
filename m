@@ -1,32 +1,36 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1312A6067D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BFB071A70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jan 2018 21:35:39 +0000 (UTC)
+	Wed,  3 Jan 2018 21:46:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w03LZd94007138
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 3 Jan 2018 13:35:40 -0800 (PST)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 3 Jan 2018 13:35:39 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Bai, Haiqing"
-	<Haiqing.Bai@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1511938459-22871-1-git-send-email-Haiqing.Bai@windriver.com>
-	<1512946109.19417.136.camel@linuxfoundation.org>
-	<C2A454FDE6C23F41BD5011E2458C46C9CEF081F1@ALA-MBD.corp.ad.wrs.com>
-	<1513070552.19417.153.camel@linuxfoundation.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <ebbe74ac-1574-3793-7ff8-eba517c5578c@windriver.com>
-Date: Wed, 3 Jan 2018 16:35:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w03LkjW9003932
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 3 Jan 2018 13:46:45 -0800
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Wed, 3 Jan 2018 13:46:45 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "BURTON, ROSS"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] allarch: do not set baselib
+Thread-Index: AQHThARjR6grYLgFPUa4zUtmTfLc3aNhtOQAgACm6YCAAFH4YA==
+Date: Wed, 3 Jan 2018 21:46:44 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84D87A7007@ALA-MBC.corp.ad.wrs.com>
+References: <20180102200049.44793-1-jslater@windriver.com>
+	<1514933138.5525.101.camel@linuxfoundation.org>
+	<e3528177-a042-0ac5-2a06-6cb9b279fd89@linux.intel.com>
+In-Reply-To: <e3528177-a042-0ac5-2a06-6cb9b279fd89@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.157.209]
 MIME-Version: 1.0
-In-Reply-To: <1513070552.19417.153.camel@linuxfoundation.org>
-X-Originating-IP: [172.25.44.3]
-Subject: Re: [PATCH] gmp: depends on flex-native to fix parallel building issue
+Subject: Re: [PATCH 1/1] allarch: do not set baselib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,110 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jan 2018 21:35:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Jan 2018 21:46:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2017-12-12 04:22 AM, Richard Purdie wrote:
-> Let me make this simpler. Which release of the project did you see this
-> issue with?
-> 
-> I believe this issue would only occur with morty and early, pyro, rocko
-> and master are not affected.
-
-I expect I'm missing an undocumented recipe rule here but...
-
-
-Yes, the race seems to only occur on morty and earlier, but
-the dependency is real and not yet listed explicitly in the recipe.
-
-  $ grep flex tmp/work/i586-poky-linux/gmp/6.1.2-r0/temp/log.do_configure
-    checking for flex... flex
-
-It's resolved transitively through:
-    gmp -> something -> binutils-cross-foo -> flex-native
-
-I was on the fence about whether to be explicit or to rely on
-most/all recipes pulling in binutils-cross-foo via default
-rules. In looking at the guidance in 4.3.9 Dependencies:
- 
-http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#new-dependencies
-and briefly checking out LLVM's lld loader recipe where it seems
-that flex-native might not be needed so it's best to be explicit.
-
-Unless there's an objection, Bai will re-submit the simple
-fix with an updated commit log. If anyone has time, they
-can check if the LLVM lld build really does NOT pull in flex-native
-and if not, then add explicit dependencies as required.
-
-../Randy
-
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> On Tue, 2017-12-12 at 07:13 +0000, Bai, Haiqing wrote:
->> Comments below. thanks
->>
->> -----Original Message-----
->> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
->> Sent: 2017年12月11日 6:48
->> To: Bai, Haiqing; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH] gmp: depends on flex-native to fix
->> parallel building issue
->>
->> On Wed, 2017-11-29 at 14:54 +0800, Haiqing Bai wrote:
->>>
->>> fix below parallel building issue:
->>> configure:27365: result: flex
->>> configure:27403: flex conftest.l
->>> .../sysroots/x86_64-linux/usr/bin/flex.real: No such file or
->>> directory
->>> configure:27407: $? = 127
->>> configure:27409: checking lex output file root
->>> configure:27420: error: cannot find output from flex; giving up
->>>
->>> Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
->>> ---
->>>   meta/recipes-support/gmp/gmp.inc | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-
->>> support/gmp/gmp.inc index abac8cf..1b35eaa 100644
->>> --- a/meta/recipes-support/gmp/gmp.inc
->>> +++ b/meta/recipes-support/gmp/gmp.inc
->>> @@ -10,3 +10,5 @@ PACKAGECONFIG[readline] = "--with-readline=yes,
->>> --with-readline=no,readline"
->>>   
->>>   ARM_INSTRUCTION_SET_armv4 = "arm"
->>>   ARM_INSTRUCTION_SET_armv5 = "arm"
->>> +
->>> +DEPENDS = "flex-native"
->> With recipe specific sysroots this should now be deterministic. The
->> log above suggests you were not using recipe specific sysroots? This
->> would therefore only be applicable to morty and earlier?
->> [This issue is founded on x86-64 building,  but it does not mean it
->> is only related with x86.  Actually this is caused by the defect of
->> the traditional probe mechanism of 'configure',  the package
->> configure
->> script try to probe whether has package 'flex' , then some optional
->> actions will be done by it.  In this issue,  when this probe
->> happens,   /usr/bin/flex exists but '/usr/bin/flex.real' has not
->> created for the
->> parallel building,  then configure reports the error and exits from
->> building.   Since there are no atomic guarantee for the package
->> output during parallel building, so here add this depends]
->>
->> Cheers,
->>
->> Richard
->>
-
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+Q3VycmVudGx5LCB3ZSBkbyBoYXZlIHRvIHByb3ZpZGUgcWVtdXdyYXBwZXIgd2l0aCBMRF9MSUJS
+QVJZX1BBVEguICBXZSBjb3VsZCBoYXJkLWNvZGUgYWxsIHBvc3NpYmxlIHBhdGhzIGludG8gdGhh
+dCBhbmQgbm90IHVzZSAke2xpYmRpcn0gYW5kICR7YmFzZV9saWJkaXJ9LiAgKEkgdHJpZWQgaXQg
+YW5kIGl0IHdvcmtzLikgIFdlIGNvdWxkIGFsc28gY3JlYXRlIGEgY291cGxlIG9mIG5ldyB2YXJp
+YWJsZXMsIGxpa2Ugb3JpZ2luYWxfYmFzZV9saWJkaXIsIHRoYXQgZG9uJ3QgZ2V0IGNsb2JiZXJl
+ZCBieSBhbGxhcmNoLiAgIE1heWJlIHFlbXV3cmFwcGVyIHNob3VsZCBiZSBzbWFydCBlbm91Z2gg
+dG8gY29tcHV0ZSBMRF9MSUJSQVJZX1BBVEguLi4NCg0KSm9lDQoNCi0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQpGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiBbbWFpbHRvOmFsZXhhbmRlci5rYW5h
+dmluQGxpbnV4LmludGVsLmNvbV0gDQpTZW50OiBXZWRuZXNkYXksIEphbnVhcnkgMDMsIDIwMTgg
+MTI6NDMgQU0NClRvOiBSaWNoYXJkIFB1cmRpZTsgU2xhdGVyLCBKb3NlcGg7IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IEJVUlRPTiwgUk9TUw0KU3ViamVjdDogUmU6
+IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFUQ0ggMS8xXSBhbGxhcmNoOiBkbyBub3Qgc2V0IGJhc2Vs
+aWINCg0KT24gMDEvMDMvMjAxOCAxMjo0NSBBTSwgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+IFNv
+cnJ5LCBidXQgSSBkb24ndCB0aGluayB0aGlzIGNhbiB3b3JrIDovLg0KPiANCj4gRG8gdGhlIHNz
+dGF0ZSBzaWcgc2VsZnRlc3RzIHBhc3Mgd2l0aCB0aGlzIGNoYW5nZT8NCj4gDQo+IEkgYXBwcmVj
+aWF0ZSB0aGlzIHdpbGwgbWFrZSBzb21lIHRoaW5ncyAid29yayIgYnV0IGl0IHdpbGwgbWVhbiB0
+aGF0IA0KPiBhbGxhcmNoIHBhY2thZ2VzIHJlYnVpbGQgZm9yIGVhY2ggYXJjaGl0ZWN0dXJlIG9y
+IG11bHRpbGliIGFuZCB0aGF0IA0KPiBpc24ndCByaWdodCBlaXRoZXIuDQo+IA0KPiBTbyB3ZSBu
+ZWVkIGEgYmV0dGVyIHNvbHV0aW9uIGhlcmUuIFdoeSBkbyB3ZSBuZWVkIGxpYmRpciBwYXRocyB0
+byBydW4gDQo+IGJpbmFyaWVzIGFueXdheT8gSXMgdGhpcyBhIGxpYmV4ZWMgaXNzdWU/IFBlcmhh
+cHMgdGhlIHRoaW5ncyBpbiANCj4gcXVlc3Rpb24gc2hvdWxkbid0IGJlIGFsbGFyY2g/DQoNCkkg
+dGhpbmsgUm9zcyBoYXMgc3BlbnQgc29tZSB0aW1lIGRldmVsb3BpbmcgYSBmaXggZm9yIHRoaXMg
+c2FtZSBpc3N1ZSwgcGVyaGFwcyBoZSBjYW4gY2hpbWUgaW4/DQoNCkFsZXgNCg==
 
