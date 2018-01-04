@@ -1,26 +1,35 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 56224785E0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 399BA783AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 12:13:49 +0000 (UTC)
+	Thu,  4 Jan 2018 12:16:06 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jan 2018 04:13:51 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jan 2018 04:16:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.45,507,1508828400"; 
-   d="scan'208";a="8420309"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 04 Jan 2018 04:13:49 -0800
+   d="scan'208";a="7996629"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 04 Jan 2018 04:16:07 -0800
+To: "Bystricky, Juro" <juro.bystricky@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1514934973-80578-1-git-send-email-juro.bystricky@intel.com>
+	<1514934973-80578-2-git-send-email-juro.bystricky@intel.com>
+	<fc0ebed5-abd0-9926-3c57-6443d7f22241@linux.intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B6404A265A@ORSMSX112.amr.corp.intel.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jan 2018 14:13:46 +0200
-Message-Id: <20180104121346.18976-3-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20180104121346.18976-1-alexander.kanavin@linux.intel.com>
-References: <20180104121346.18976-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCHv3 3/3] runtime/cases/ptest.py: fail when ptests fail on target
+Message-ID: <dc3dfbcc-cfea-5c51-007a-b352a3ed0036@linux.intel.com>
+Date: Thu, 4 Jan 2018 14:16:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6404A265A@ORSMSX112.amr.corp.intel.com>
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH 1/1] rpm_4.14.0: clamp timestamps by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 12:13:49 -0000
+X-List-Received-Date: Thu, 04 Jan 2018 12:16:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-That's the whole point isn't it? Previously this testcase succeeded
-even if some of the underlying on-target tests failed; the only way
-to find out if anything was wrong was to manually inspect the logs.
+On 01/03/2018 06:59 PM, Bystricky, Juro wrote:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oeqa/runtime/cases/ptest.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+>> A technicality: do not patch mnacros.in, set the macro directly from
+>> package_rpm.bbclass.
+>>
+> 
+> Yes, I considered this (see the [patch 0/1]). I chose to patch macros.in in the
+> recipe rpm_4.14.0 instead because the new macro is introduced in RPM 4.14.0.
+> I assumed we did not want to have RPM version dependencies in package_rpm.bbclass.
+> But I have no strong feelings regarding this, I am pretty sure the new macro is here
+> to stay in the future and it is unlikely anyone would want to use a pre-4.14.0
+> version of RPM either. If you think patching package_rpm.bbclass makes more sense,
+> I can send in another patch.
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index a2b6ffdfe11..f60a433d590 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -83,3 +83,11 @@ class PtestRunnerTest(OERuntimeTestCase):
-             # Remove the old link to create a new one
-             os.remove(ptest_log_dir_link)
-         os.symlink(os.path.basename(ptest_log_dir), ptest_log_dir_link)
-+
-+        failed_tests = {}
-+        for section in parse_result.result_dict:
-+            failed_testcases = [ test for test, result in parse_result.result_dict[section] if result == 'fail' ]
-+            if failed_testcases:
-+                failed_tests[section] = failed_testcases
-+
-+        self.assertFalse(failed_tests, msg = "Failed ptests: %s" %(str(failed_tests)))
--- 
-2.15.1
+Yes please. Setting configuration options at runtime is always 
+preferable to patching the upstream source code, for maintainability 
+reasons. We are already drowning in patches.
 
+Alex
 
