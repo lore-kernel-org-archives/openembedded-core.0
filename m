@@ -1,26 +1,18 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CEAE478699
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 12:56:21 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w04CuLHY007256
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 4 Jan 2018 12:56:22 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eX54H-0006NO-5Y; Thu, 04 Jan 2018 12:56:21 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jan 2018 12:56:14 +0000
-Message-Id: <1515070574-24435-2-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1515070574-24435-1-git-send-email-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 927D8784DC;
+	Thu,  4 Jan 2018 13:02:55 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 04 Jan 2018 13:02:57 -0000
+Message-ID: <20180104130257.2785.56443@do.openembedded.org>
 References: <1515070574-24435-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 2/2] site/common: Allow ac_cv_path_SED to be overridden
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1515070574-24435-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWxzOiBNYWtlIGdldF9tdWx0aWxpYl9kYXRhcy4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 12:56:22 -0000
+X-List-Received-Date: Thu, 04 Jan 2018 13:02:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-There are tools in the wild where we need this to be a full path, even
-if that doesn't make sense in most other cases due to libtool issues.
-Allow those cases to override the default value as currently its near
-impossible to do so.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "utils: Make get_multilib_datas..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10388/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 65652f419a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/site/common | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/site/common b/meta/site/common
-index 5ccc14f..ff55232 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -18,4 +18,4 @@ shadow_cv_passwd_dir=${bindir}
- # python: deactivate a runtime check for ipv6-support in python >=2.7.1 that fails when cross-compiling
- ac_cv_buggy_getaddrinfo=no
- 
--ac_cv_path_SED=sed
-+ac_cv_path_SED=${ac_cv_path_SED=sed}
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
