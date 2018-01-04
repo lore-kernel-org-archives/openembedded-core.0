@@ -1,25 +1,25 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C9CF4786A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E97FA7017B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 22:56:46 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jan 2018 14:56:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,316,1511856000"; d="scan'208";a="192490905"
-Received: from wrath.jf.intel.com ([10.54.70.11])
-	by fmsmga006.fm.intel.com with ESMTP; 04 Jan 2018 14:56:48 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jan 2018 14:56:44 -0800
-Message-Id: <56c24dd22e765a999ab918a1f98f09cfb62a235b.1515106194.git.timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <cover.1515106194.git.timothy.t.orling@linux.intel.com>
-References: <cover.1515106194.git.timothy.t.orling@linux.intel.com>
-Subject: [rocko][PATCH 1/1] python[3]-setuptools: inherit setuptools
+	Thu,  4 Jan 2018 23:08:58 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w04N8q3S020372
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 4 Jan 2018 23:08:54 GMT
+Message-ID: <1515107332.30291.21.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 04 Jan 2018 23:08:52 +0000
+In-Reply-To: <519437989588d44d130890dce1285d796e3382ad.1515051241.git.Qi.Chen@windriver.com>
+References: <cover.1515051241.git.Qi.Chen@windriver.com>
+	<519437989588d44d130890dce1285d796e3382ad.1515051241.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/1] coreutils: upgrade to 8.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 22:56:46 -0000
+X-List-Received-Date: Thu, 04 Jan 2018 23:08:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* distutils[3].bbclass was not including pkg_resources module
-* Drop uneeded DISTUTILS_INSTALL_ARGS as setuptools[3].bbclass provides it
+On Thu, 2018-01-04 at 15:35 +0800, Chen Qi wrote:
+> * ls.c license checksum is changed, but the license remains the same.
+> 
+> * The new version provides native manual page support, there's no
+>   need to download extra manual page from gentoo site.
+> 
+> * man-decouple-manpages-from-build.patch is removed, as new version
+>   has manual page support in environment lacking of perl.
+> 
+> * hostname is explicitly enabled to keep the same with previous
+> recipe's
+>   behaviour.
+> 
+> * ALTERNATIVE_XXX settings for lbracket.1 are removed as there's no
+> such
+>   file.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../man-decouple-manpages-from-build.patch         | 27 ------------
+> ----------
+>  .../{coreutils_8.28.bb => coreutils_8.29.bb}       | 24 +++++-------
+> -------
+>  2 files changed, 6 insertions(+), 45 deletions(-)
+>  delete mode 100644 meta/recipes-core/coreutils/coreutils/man-
+> decouple-manpages-from-build.patch
+>  rename meta/recipes-core/coreutils/{coreutils_8.28.bb =>
+> coreutils_8.29.bb} (80%)
 
-Fixes [YOCTO #12148]
+Sorry, doesn't build:
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- meta/recipes-devtools/python/python-setuptools_36.2.7.bb  | 4 +---
- meta/recipes-devtools/python/python3-setuptools_36.2.7.bb | 7 +------
- 2 files changed, 2 insertions(+), 9 deletions(-)
+https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/678/steps/BuildImages/logs/stdio
 
-diff --git a/meta/recipes-devtools/python/python-setuptools_36.2.7.bb b/meta/recipes-devtools/python/python-setuptools_36.2.7.bb
-index 526474c7ea5..0efacc137af 100644
---- a/meta/recipes-devtools/python/python-setuptools_36.2.7.bb
-+++ b/meta/recipes-devtools/python/python-setuptools_36.2.7.bb
-@@ -5,9 +5,7 @@ PROVIDES = "python-distribute"
- DEPENDS += "python"
- DEPENDS_class-native += "python-native"
- 
--inherit distutils
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
-+inherit setuptools
- 
- RDEPENDS_${PN} = "\
-   python-stringold \
-diff --git a/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb b/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-index 63f241809e0..a7bca974026 100644
---- a/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-@@ -4,15 +4,10 @@ DEPENDS += "python3"
- DEPENDS_class-native += "python3-native"
- DEPENDS_class-nativesdk += "nativesdk-python3"
- 
--inherit distutils3
-+inherit setuptools3
- 
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--# The installer puts the wrong path in the setuptools.pth file.  Correct it.
- do_install_append() {
--    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-     mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
--    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
- }
- 
- RDEPENDS_${PN}_class-native = "\
--- 
-2.13.6
+Cheers,
 
+Richard
 
