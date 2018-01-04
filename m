@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DDE378672;
-	Thu,  4 Jan 2018 12:32:56 +0000 (UTC)
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 01953785EE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Jan 2018 12:35:41 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jan 2018 04:35:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,507,1508828400"; 
+   d="scan'208";a="8001269"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 04 Jan 2018 04:35:40 -0800
+To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20171221130434.24427-1-alexander.kanavin@linux.intel.com>
+	<20171221130434.24427-3-alexander.kanavin@linux.intel.com>
+	<1aa9a048-6797-333a-957a-9d28314a7143@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <6b035e9d-568d-6ba5-44b6-504a57f0aa7f@linux.intel.com>
+Date: Thu, 4 Jan 2018 14:35:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 04 Jan 2018 12:32:58 -0000
-Message-ID: <20180104123258.2783.31978@do.openembedded.org>
-References: <20180104121346.18976-1-alexander.kanavin@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180104121346.18976-1-alexander.kanavin@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2M10gcnVudGltZS9jYXNlcy9wdGVzdC5weTogZC4uLiIgYW5kIDIgbW9yZQ==?=
+In-Reply-To: <1aa9a048-6797-333a-957a-9d28314a7143@windriver.com>
+Subject: Re: [PATCH 3/9] json-glib: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 12:32:56 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 04 Jan 2018 12:35:42 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 01/04/2018 10:40 AM, ChenQi wrote:
+> I got the following do_compile failure when I was building json-glib for 
+> qemux86-64.
+> 
+> 
+> | FileNotFoundError: [Errno 2] No such file or directory: 
+> '/buildarea2/chenqi/poky/build-systemd/tmp/work/core2-64-poky-linux/json-glib/1.2.8-r0/build/tmp-introspect27wkly7i/Json-1.0' 
+> 
 
-Series: "[v3] runtime/cases/ptest.py: d..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10387/
-State : failure
+I just tried qemux86-64, it works for me. Is it something in your local 
+setup? Can you take this branch and check it locally?
 
-== Summary ==
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/meson
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [v3,1/3] runtime/cases/ptest.py: do not require ptest-pkgs in IMAGE_FEATURES; run only when ptest-runner is availalble; 
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 110 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Alex
 
