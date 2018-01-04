@@ -1,31 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 930B578285
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3C27845A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 11:13:30 +0000 (UTC)
+	Thu,  4 Jan 2018 11:38:33 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w04BDUfw001193
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w04BcYFC014567
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Jan 2018 03:13:30 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 4 Jan 2018 03:13:29 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1513133105.git.liezhi.yang@windriver.com>
-	<e911950fbee39af9c5889c41872f2f77f94cc9c1.1513133105.git.liezhi.yang@windriver.com>
-	<1514983400.5525.137.camel@linuxfoundation.org>
-	<8555d421-668e-a2ba-d405-4ef01ee2f3f4@windriver.com>
-	<1514989197.5525.147.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ad266515-4055-77cc-70b8-8a1240cf1e90@windriver.com>
-Date: Thu, 4 Jan 2018 19:13:47 +0800
+	Thu, 4 Jan 2018 03:38:34 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 4 Jan 2018 03:38:32 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>, =?UTF-8?Q?Jos=c3=a9_Bollo?=
+	<jobol@nonadev.net>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+From: wenzong fan <wenzong.fan@windriver.com>
+Message-ID: <d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
+Date: Thu, 4 Jan 2018 19:39:56 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <1514989197.5525.147.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] image-live.bbclass: remove MLPREFIX from syslinux
+In-Reply-To: <1515062493.10775.21.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,116 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 11:13:30 -0000
+X-List-Received-Date: Thu, 04 Jan 2018 11:38:33 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 
-Hi RP,
 
-Thanks for the reply.
 
-On 01/03/2018 10:19 PM, Richard Purdie wrote:
-> On Wed, 2018-01-03 at 21:56 +0800, Robert Yang wrote:
->>> Also, there are some things which never make sense as a multilib,
->>> the
->>> kernel is one example and I'm starting to wonder if syslinux would
->>> be
->>> another. In the kernel (and kernel module) case we'd provide all
->>> the
->>> libX variants from the same recipe, we may want to do that for
->>> syslinux.
->> I think that syslinux is different from kernel, 64bit kernel can
->> provide 32bit kernel via kernel config, but syslinux can't (except
->> these non arch files).
-> 
-> Think about this differently. The system can ever only boot one single
-> kernel. The image can have several different multilibs running at once
-> in different userspace processes but there can only ever be one running
-> kernel.
-> 
-> How that kernel is configured is obviously important but the key thing
-> is there can only be one running.
-> 
-> The bootloader is similar in that you likely only ever want one and I
-> suspect syslinux is similar.
-
-Makes sense, I will work on it.
-
-> 
-> Also, don't confuse this with multi-boot or multi partition systems
-> where there could be a "main" and a "backup" kernel. In those cases
-> there would only ever be one running at once.
-> 
->>> It may be we can't avoid the multiple compiler issue and the
->>> current
->>> codebase may not do so, I think currently we can avoid multiple
->>> glibc
->>> though.
->> I'm not sure about a problem on this, should lib32-image can run
->> 64bit programs or not ? If yes, then kernel should be 64bit, and we
->> can't avoid building 64bit compilers. And I'm leaning to yes since we
->> call it multilib, the pure 32bit image which can't run 64bit programs
->> can't be called multilib.
-> 
-> That is a configuration issue for the multilib you select. In general,
-> yes you'd want a 64 bit kernel.
-> 
->> I did a rough search on why glibc is built, when bitbake lib32-image,
->> it is because:
+On 01/04/2018 06:41 PM, Patrick Ohly wrote:
+> On Thu, 2018-01-04 at 11:18 +0100, José Bollo wrote:
+>>> Do you agree to move the patch to Smack specific layer? Such as
+>>> meta-security?
 >>
->> 64 bit kernel -> gcc-cross-x86_64 -> virtual/${TARGET_PREFIX}libc-
->> for-gcc,
->> and the TARGET_PREFIX is x86_64 when building gcc-cross-x86_64,
->> While the virtual/x86_64-poky-linux-libc-for-gcc is provided by
->> glibc.
->>
->> I tried to remove the depends, both "bitbake gcc-cross-x86_64" and
->> "bitbake linux-yocto" can be built, but other recipes such as quilt
->> would be failed:
+>> I agree.
 > 
-> I find it interesting that gcc-cross-x86_64 would build without glibc.
-> If that really is the case we may be able to speed up our compiler
-> bootstrap so that could be worth investigating further.
+> Layers like meta-security should not modify recipes from other layers,
+> at least not by default. That would violate the "Yocto Compatible 2.0"
+> rules.
 > 
-> Its not surprising that libgcc won't build without glibc though.
-> Perhaps gcc-cross works since we split out the build of libgcc?
+> Besides, it would be harder to maintain in a separate layer - for the
+> maintainer of that layer.
 > 
->>> collect2: error: ld returned 1 exit status
->>> Makefile:978: recipe for target 'libgcc_s.so' failed
->> And move virtual/${TARGET_PREFIX}libc-for-gcc to BASE_DEFAULT_DEPS
->> can't make it work either, so it seems that we can't avoid building
->> glibc.
+> I still think this patch belong into OE-core, even though it is then
+> more work for the OE-core maintainer.
 > 
-> No, I'd forgotten that gcc-cross depends on glibc. Based on the above
-> there may still be some optimisation we can make here.
-> 
-> In the back of my mind, I'm concious that one x86 cross compiler should
-> be able to work for 32 and 64 bit too, its just the compiler options
-> and libgcc etc. would need to be generated for both...
 
-Build one toolchain for both x86 32 and 64 is possible, I'd like to work
-on it if it is worth.
+If so, I think we should wrapper the logic with:
 
-// Robert
++#if defined(WITH_ATTR) && !defined(WITH_SELINUX)
++      attr_copy_file (def_template, user_home, NULL, NULL);
++#endif
 
-> 
->>> Regardless, I do think this needs a little more thought, we also
->>> need
->>> better multiple test cases as we're not catching issues like this.
->>> think this needs to be revisited along with your outstanding
->>> multilib
->>> patch series which I haven't found the time to review yet (sorry).
->> That's all right, I'm very glad to make mutilib work well, including
->> adding test cases for them. It is nearly broken after changed from
->> smart + rpm5 to dnf + rpm4, those patches fixed the problem.
-> 
-> Agreed, its important and on my list of things to review, I've just had
-> to focus on getting build testing working properly and now I can try
-> and clear some of the patch backlog.
-> 
-> Cheers,
-> 
-> Richard
-> 
+Or just add a new condition like WITH_SMACK or something.
+
+Thanks
+Wenzong
+
 
