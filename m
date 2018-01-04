@@ -1,60 +1,24 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0742D78439
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3654C784DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 06:31:10 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id f206so1440040wmf.5
+	Thu,  4 Jan 2018 07:27:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w047RI5M017098
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jan 2018 22:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
-	h=subject:from:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=D//yILybmuih31lMQ+IesThw5eqdOq8nYLFQwhVTtv4=;
-	b=Yi1r3TGS+cgX6B2fPDx+uCjA2mvHyCGDGdJA62xK6at8Xc6CpwscjT29T98MoSDIiv
-	0ASlx7RlZR4+ZF8orL3painnoI8PbM4pWttsJ9WJW+6VJqM1Ka27f1wtdyWSdw6TYIMC
-	zbaJxVxGwUrpJkLkA+scntHENwPetr4RP4zDujjiEB6RyCMfi69QzejqHeDdzJRK5sZU
-	1k9NZN+QYvodClA7VyK49nzkPCkTnpTmm8C2O5OsMFeC5xiVvFVFjubwOycWr32sdzV5
-	nknbANBK1t7x2sC57+pZvJy3ATrOYQEe7ZUfcET4+4qQrMxe5f/zEvHO0BZtiqA6sBwU
-	PCSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=D//yILybmuih31lMQ+IesThw5eqdOq8nYLFQwhVTtv4=;
-	b=ezwJc+hdnfCV53MKt19wvZMdG7cEiB3txhV9j3QNs8wkbZ6PWhZC6wTf2iNLDWa6Q0
-	JIQ+6ZAUyxqZqSPszhzH7vFBgeEUx+nj3YVxfFCbXOSiJjyJVS1sNvlGntI8tGotgFNd
-	u5NR9Bllq3exhBbwFKkO0Z/PCKEDKSter7cI9hKb7LsfH/DthSZpv4oCTN7R2UXZt2sW
-	Kk1QgKn8bAJ3ubetTtizhrZDj5BVI6uO1MneBBlHU5MqzWI0EEITCTqyyN9IlpSHNqgY
-	hVcwGSyw5JirbAMRdJN7TC7D1NOoYju/E8NHrOSwU7DiUXkIRwCf4IOYk496vz9udTde
-	jzgg==
-X-Gm-Message-State: AKGB3mK14UucuJe6lBpxuzBs2qiBQq0wI4ZwtRIG6MN//ufHYzBjZKgq
-	9sZtZkQRiB0NGBlSvbHPVlgbRw==
-X-Google-Smtp-Source: ACJfBotvPnaHHotW2YMF0ZAcPas8YWHCHjnBHVgQJoazoB7xRqs0eJoUk6H/oZHyf/XtIkbhmKGw7g==
-X-Received: by 10.80.164.241 with SMTP id x46mr5891946edb.247.1515047471721;
-	Wed, 03 Jan 2018 22:31:11 -0800 (PST)
-Received: from ?IPv6:2003:a:31:4300::46? ([2003:a:31:4300::46])
-	by smtp.googlemail.com with ESMTPSA id
-	j27sm1680130eda.59.2018.01.03.22.31.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Jan 2018 22:31:10 -0800 (PST)
-From: Steffen Sledz <sledz@dresearch-fe.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <460be213-a6c9-59fa-f8e3-d3f7e6232ca4@dresearch-fe.de>
-	<CAJTo0LaHXJMMNg8VmqFNne_8rgEV9TER5saUzUXudRgvzggWNw@mail.gmail.com>
-	<6d1905cf-26d2-49cf-d0bb-248cbf4a071d@dresearch-fe.de>
-	<CAJTo0LYWwMnj4Wb6JC1y7uw4ZrPv6=SynfkSc0TU0dwi9Dezjw@mail.gmail.com>
-	<8926eabe-78fe-dfaa-d123-5d4ed39e0001@dresearch-fe.de>
-Message-ID: <9d1c1e79-5eab-941c-0d30-314f9df51de1@dresearch-fe.de>
-Date: Thu, 4 Jan 2018 07:31:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Wed, 3 Jan 2018 23:27:18 -0800
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 3 Jan 2018 23:27:05 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Jan 2018 15:06:16 +0800
+Message-ID: <20180104070616.21334-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <8926eabe-78fe-dfaa-d123-5d4ed39e0001@dresearch-fe.de>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: MS Windows machine?
+Subject: [PATCH] systemd: fix udev-hwdb warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,25 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 06:31:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jan 2018 07:27:17 -0000
+Content-Type: text/plain
 
-On 21.12.2017 14:00, Steffen Sledz wrote:
-> On 21.12.2017 12:39, Burton, Ross wrote:
->> If you want to build for a Windows target then that should be possible but
->> nobody as far as I'm aware has made the work public.  meta-mingw will
->> contain most of the changes needed as that does build Windows binaries.
-> 
-> That's exactly what we like to to.
-> 
-> So has anyone tried this before?
-> 
-> What else would be needed to build e.g. for MACHINE=i686-mingw32?
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Is someone able to create a machine definition for this? I'm not really familiar with this job.
+* Add qemu usermode checking for udev-hwdb as
+  udev-hwdb uses quemu usermode by default, but
+  some architecture such as Intel skylake doesn't
+  support qemu usermode and can result a build
+  warning as below:
+  | warning: %post(udev-hwdb-1:234-r0.skylake_64) scriptlet failed, exit status 1
 
-Steffen
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 9a10a31881..64596b7563 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -619,9 +619,13 @@ pkg_prerm_${PN} () {
+ PACKAGE_WRITE_DEPS += "qemu-native"
+ pkg_postinst_udev-hwdb () {
+ 	if test -n "$D"; then
+-		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
++		if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
++			${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+ 			--root $D
+-		chown root:root $D${sysconfdir}/udev/hwdb.bin
++			chown root:root $D${sysconfdir}/udev/hwdb.bin
++		else
++			exit 1
++		fi
+ 	else
+ 		udevadm hwdb --update
+ 	fi
+-- 
+2.11.0
 
 
