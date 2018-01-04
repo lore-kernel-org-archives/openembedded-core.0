@@ -1,38 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 901B460191
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 398B1600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 17:24:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w04HOjKq030902
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 4 Jan 2018 09:24:45 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Thu, 4 Jan 2018 09:24:44 -0800
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "BURTON, ROSS"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] allarch: do not set baselib
-Thread-Index: AQHThARjR6grYLgFPUa4zUtmTfLc3aNhtOQAgACm6YCAAFH4YIAAjD0AgAC62nU=
-Date: Thu, 4 Jan 2018 17:24:44 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84D87A84C4@ALA-MBC.corp.ad.wrs.com>
-References: <20180102200049.44793-1-jslater@windriver.com>
-	<1514933138.5525.101.camel@linuxfoundation.org>
-	<e3528177-a042-0ac5-2a06-6cb9b279fd89@linux.intel.com>
-	<007BD92917A2324FA403BCF9A464CF84D87A7007@ALA-MBC.corp.ad.wrs.com>,
-	<1515016700.5525.173.camel@linuxfoundation.org>
-In-Reply-To: <1515016700.5525.173.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.117.226]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] allarch: do not set baselib
+	Thu,  4 Jan 2018 20:01:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jan 2018 12:01:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,315,1511856000"; d="scan'208";a="21470716"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2018 12:01:17 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jan 2018 12:01:13 -0800
+Message-Id: <1515096073-16860-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH v2] package_rpm.bbclass: clamp timestamps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 17:24:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Jan 2018 20:01:16 -0000
 
-We should change fontcache.bbclass to not pass libdir, etc, to the update_f=
-ont_cache script, since the environment will be set when the script execute=
-s.=0A=
-=0A=
-That would solve the original problem, but it leaves the general problem of=
- matching LD_LIBRARY_PATH for postinstall intercepts to the multilib for wh=
-ich the target binaries they run were compiled.  Or, of generating a LD_LIB=
-RARY_PATH containing all possible paths for the rootfs being constructed.=
-=0A=
-=0A=
-Joe=0A=
-________________________________________=0A=
-From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
-Sent: Wednesday, January 03, 2018 1:58 PM=0A=
-To: Slater, Joseph; Alexander Kanavin; openembedded-core@lists.openembedded=
-.org; BURTON, ROSS=0A=
-Subject: Re: [OE-core] [oe-core][PATCH 1/1] allarch: do not set baselib=0A=
-=0A=
-On Wed, 2018-01-03 at 21:46 +0000, Slater, Joseph wrote:=0A=
-> Currently, we do have to provide qemuwrapper with=0A=
-> LD_LIBRARY_PATH.  We could hard-code all possible paths into that and=0A=
-> not use ${libdir} and ${base_libdir}.  (I tried it and it works.)  We=0A=
-> could also create a couple of new variables, like=0A=
-> original_base_libdir, that don't get clobbered by allarch.   Maybe=0A=
-> qemuwrapper should be smart enough to compute LD_LIBRARY_PATH...=0A=
-=0A=
-I suspect somehow we therefore need to decouple qemuwrapper from the=0A=
-target packages and just ensure that a separate script is available in=0A=
-PATH when the rootfs is generated?=0A=
-=0A=
-The rootfs should know which multilibs are enabled and be able to=0A=
-generate the wrapper correctly?=0A=
-=0A=
-Cheers,=0A=
-=0A=
-Richard=0A=
-=0A=
+Improve binary reproducibility of RPM packages.
+Ensure timestamps in RPM packages are not later than the value
+of SOURCE_DATE_EPOCH. If SOURCE_DATE_EPOCH is not set,
+timestamps are not clamped.
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/package_rpm.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 1deaf83..b08608c 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -668,6 +668,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_build_id_links none'"
+     cmd = cmd + " --define '_binary_payload w6T.xzdio'"
+     cmd = cmd + " --define '_source_payload w6T.xzdio'"
++    cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
+     if perfiledeps:
+         cmd = cmd + " --define '__find_requires " + outdepends + "'"
+         cmd = cmd + " --define '__find_provides " + outprovides + "'"
+-- 
+2.7.4
+
 
