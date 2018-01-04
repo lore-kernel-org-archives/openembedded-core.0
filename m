@@ -1,34 +1,26 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF2B770057
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 60A9A60851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 01:31:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w041VstX009630
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 3 Jan 2018 17:31:57 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Wed, 3 Jan 2018 17:31:52 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
-Thread-Index: AQHTU6XbDhJwwAOIpEihfeLlRZsSNKNO65YggBQn1oCAADd+sA==
-Date: Thu, 4 Jan 2018 01:31:51 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566C6D76@ALA-MBC.corp.ad.wrs.com>
-References: <cover.1509604697.git.jackie.huang@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AA01566B9AEB@ALA-MBC.corp.ad.wrs.com>
-	<1514987639.5525.138.camel@linuxfoundation.org>
-In-Reply-To: <1514987639.5525.138.camel@linuxfoundation.org>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.163.136]
+	Thu,  4 Jan 2018 02:33:57 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Jan 2018 18:33:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.45,505,1508828400"; d="scan'208";a="192075816"
+Received: from anujm-desk.png.intel.com ([172.30.199.130])
+	by fmsmga005.fm.intel.com with ESMTP; 03 Jan 2018 18:33:54 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jan 2018 10:33:47 +0800
+Message-Id: <1515033227-23673-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1514526211-19408-1-git-send-email-anuj.mittal@intel.com>
+References: <1514526211-19408-1-git-send-email-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+Subject: [PATCH v2] gdb: fix build with x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +33,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 01:31:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 04 Jan 2018 02:33:57 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBXZWRu
-ZXNkYXksIEphbnVhcnkgMDMsIDIwMTggMjE6NTQNCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSk7
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6
-IFtPRS1jb3JlXSBbUEFUQ0ggMC8yIHYyXSBnbGliYzogZml4ZXMgZm9yIG5zY2QgYW5kIGxpYm5z
-cy1kYg0KPiANCj4gT24gRnJpLCAyMDE3LTEyLTIyIGF0IDAyOjA4ICswMDAwLCBIdWFuZywgSmll
-IChKYWNraWUpIHdyb3RlOg0KPiA+IFBpbmcsIEkgZGlkbid0IHNlZSBhbnkgb2JqZWN0aW9uIG9u
-IHRoaXMsIGJ1dCBpdCdzIG5vdCBtZXJnZWQgeWV0LCBkbw0KPiA+IEkgbWlzcyBhbnl0aGluZz8N
-Cj4gDQo+IFdoZW4gd2UgdGVzdCBpdCB3ZSBzZWU6DQo+IA0KPiBXQVJOSU5HOiBnbGliYy0yLjI2
-LXIwIGRvX3BhY2thZ2U6IGdsaWJjLWV4dHJhLW5zcy0yLjI2IHdhcyByZWdpc3RlcmVkIGFzDQo+
-IHNobGliIHByb3ZpZGVyIGZvciBsaWJuc3NfZGIuc28uMiwgY2hhbmdpbmcgaXQgdG8gbGlibnNz
-LWRiLTIuMjYgYmVjYXVzZSBpdCB3YXMNCj4gYnVpbHQgbGF0ZXINCg0KU29ycnksIGJ1dCBJIGhh
-dmVuJ3Qgc2VlbiB0aGlzIHdhcm5pbmcgaW4gb3VyIGJ1aWxkcyBhZnRlciB0aGlzIHBhdGNoIG1l
-cmdlZCBpbiBvdXIgDQpsb2NhbCBicmFuY2ggZm9yIHR3byB3ZWVrcy4gTWF5YmUgd2UgbWlzc2Vk
-IHNvbWUgY2FzZXMgaW4gb3VyIHRlc3QgYnVpbGRzLCBzbw0KY291bGQgeW91IHNob3cgbWUgaG93
-IHRvIHJlcHJvZHVjZSBpdD8gVGhhbmtzIQ0KDQpUaGlzIHBhdGNoIGlzIHNpbXBseSByZS1wYWNr
-YWdlIGxpYm5zc19kYi5zbyogZnJvbSBnbGliYy1leHRyYS1uc3MgaW50byBsaWJuc3MtZGIsDQpJ
-IGRvbid0IHVuZGVyc3RhbmQgd2h5IGxpYm5zc19kYi5zbyogaXMgc3RpbGwgcHJvdmlkZWQgYnkg
-Ym90aCBvZiB0aGVtLCBkaWQgSSBtaXNzDQphbnl0aGluZyB3aGVuIEkgZG8gYSByZS1wYWNrYWdp
-bmcgZm9yIGEgcmVjaXBlPw0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiANCj4gc28gaXQgbG9va3Mg
-bGlrZSB5b3Ugc3dhcHBlZCBvbmUgcmFjZSBmb3IgYW5vdGhlcj8NCj4gDQo+IENoZWVycywNCj4g
-DQo+IFJpY2hhcmQNCg==
+When compiling gdb for x32, it fails with errors:
+
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c: In function 'const target_desc* get_ipa_tdesc(int)':
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:184:10: error: 'X86_TDESC_AVX512' was not declared in this scope
+|     case X86_TDESC_AVX512:
+|          ^~~~~~~~~~~~~~~~
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:184:10: note: suggested alternative: 'X86_TDESC_AVX'
+|     case X86_TDESC_AVX512:
+|          ^~~~~~~~~~~~~~~~
+|          X86_TDESC_AVX
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:185:14: error: 'tdesc_x32_avx512_linux' was not declared in this scope
+|       return tdesc_x32_avx512_linux;
+|              ^~~~~~~~~~~~~~~~~~~~~~
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:185:14: note: suggested alternative: 'tdesc_x32_avx_linux'
+|       return tdesc_x32_avx512_linux;
+|              ^~~~~~~~~~~~~~~~~~~~~~
+|              tdesc_x32_avx_linux
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c: In function 'void initialize_low_tracepoint()':
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:282:3: error: 'init_registers_x32_avx512_linux' was not declared in this scope
+|   init_registers_x32_avx512_linux ();
+|   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|../../../gdb-8.0/gdb/gdbserver/linux-amd64-ipa.c:282:3: note: suggested alternative: 'init_registers_x32_avx_linux'
+|   init_registers_x32_avx512_linux ();
+|   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|   init_registers_x32_avx_linux
+
+Backport:
+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=f02fd7745d003d65fd3b981618e07b874b721d79
+
+Fixes [YOCTO #12120]
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-devtools/gdb/gdb-8.0.1.inc            |   1 +
+ .../gdb/0012-Unbreak-GDBserver-build-for-x32.patch | 101 +++++++++++++++++++++
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
+
+diff --git a/meta/recipes-devtools/gdb/gdb-8.0.1.inc b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+index 04a1c80..83c08e5 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.0.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+@@ -16,6 +16,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0009-Change-order-of-CFLAGS.patch \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+            file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
++           file://0012-Unbreak-GDBserver-build-for-x32.patch \
+ "
+ SRC_URI[md5sum] = "48cac527e6f3018b865ece021e9723ac"
+ SRC_URI[sha256sum] = "3dbd5f93e36ba2815ad0efab030dcd0c7b211d7b353a40a53f4c02d7d56295e3"
+diff --git a/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch b/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
+new file mode 100644
+index 0000000..18a3ce3
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
+@@ -0,0 +1,101 @@
++From 3e1e401053ea5f02a9e9c65abddd31a03baa1bd1 Mon Sep 17 00:00:00 2001
++From: Yao Qi <yao.qi@linaro.org>
++Date: Fri, 29 Dec 2017 12:57:25 +0800
++Subject: [PATCH] Unbreak GDBserver build for x32
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++When I verify my target description changes, I build GDB and GDBserver for
++x32, but it failed.
++
++/../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c
++../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c: In function ‘const target_desc* get_ipa_tdesc(int)’:
++../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:184:10: error: ‘X86_TDESC_AVX512’ was not declared in this scope
++     case X86_TDESC_AVX512:
++          ^
++../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:185:14: error: ‘tdesc_x32_avx512_linux’ was not declared in this scope
++       return tdesc_x32_avx512_linux;
++              ^
++../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c: In function ‘void initialize_low_tracepoint()’:
++../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:282:36: error: ‘init_registers_x32_avx512_linux’ was not declared in this scope
++   init_registers_x32_avx512_linux ();
++                                    ^
++
++ipa_x32_linux_regobj use to be there, but removed by
++22049425ce40324139be82d9a6ec518c46b65815 by mistake.
++
++gdb/gdbserver:
++
++2017-08-04  Yao Qi  <yao.qi@linaro.org>
++
++        * configure.srv (ipa_x32_linux_regobj): New.
++        * linux-amd64-ipa.c (get_ipa_tdesc): Use X86_TDESC_AVX_AVX512
++        instead of X86_TDESC_AVX512.
++        (initialize_low_tracepoint): Call
++        init_registers_x32_avx_avx512_linux.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=f02fd7745d003d65fd3b981618e07b874b721d79]
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ ChangeLog                       | 8 ++++++++
++ gdb/gdbserver/configure.srv     | 1 +
++ gdb/gdbserver/linux-amd64-ipa.c | 6 +++---
++ 3 files changed, 12 insertions(+), 3 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index 4ac2d63..b5b8228 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,11 @@
+++ 2017-08-04  Yao Qi  <yao.qi@linaro.org>
+++
+++	* configure.srv (ipa_x32_linux_regobj): New.
+++	* linux-amd64-ipa.c (get_ipa_tdesc): Use X86_TDESC_AVX_AVX512
+++	instead of X86_TDESC_AVX512.
+++	(initialize_low_tracepoint): Call
+++	init_registers_x32_avx_avx512_linux.
+++
++ 2017-04-13  Andrew Jenner  <andrew@codesourcery.com>
++ 
++ 	* config.sub: Sync with master version in config project.
++diff --git a/gdb/gdbserver/configure.srv b/gdb/gdbserver/configure.srv
++index d00d9e2..56951c8 100644
++--- a/gdb/gdbserver/configure.srv
+++++ b/gdb/gdbserver/configure.srv
++@@ -31,6 +31,7 @@ srv_amd64_linux_regobj="amd64-linux.o amd64-avx-linux.o amd64-avx-avx512-linux.o
++ 
++ ipa_i386_linux_regobj="i386-linux-ipa.o i386-avx-linux-ipa.o  i386-avx-mpx-linux-ipa.o i386-avx-avx512-linux-ipa.o i386-avx-mpx-avx512-pku-linux-ipa.o i386-mpx-linux-ipa.o i386-mmx-linux-ipa.o"
++ ipa_amd64_linux_regobj="amd64-linux-ipa.o amd64-avx-linux-ipa.o amd64-avx-mpx-linux-ipa.o amd64-avx-avx512-linux-ipa.o amd64-avx-mpx-avx512-pku-linux-ipa.o amd64-mpx-linux-ipa.o"
+++ipa_x32_linux_regobj="x32-linux-ipa.o x32-avx-linux-ipa.o x32-avx-avx512-linux-ipa.o"
++ ipa_ppc_linux_regobj="powerpc-32l-ipa.o powerpc-altivec32l-ipa.o powerpc-cell32l-ipa.o powerpc-vsx32l-ipa.o powerpc-isa205-32l-ipa.o powerpc-isa205-altivec32l-ipa.o powerpc-isa205-vsx32l-ipa.o powerpc-e500l-ipa.o powerpc-64l-ipa.o powerpc-altivec64l-ipa.o powerpc-cell64l-ipa.o powerpc-vsx64l-ipa.o powerpc-isa205-64l-ipa.o powerpc-isa205-altivec64l-ipa.o powerpc-isa205-vsx64l-ipa.o"
++ 
++ srv_i386_32bit_xmlfiles="i386/32bit-core.xml i386/32bit-sse.xml i386/32bit-avx.xml i386/32bit-avx512.xml i386/32bit-mpx.xml i386/32bit-pkeys.xml"
++diff --git a/gdb/gdbserver/linux-amd64-ipa.c b/gdb/gdbserver/linux-amd64-ipa.c
++index 67f36c2..683339b 100644
++--- a/gdb/gdbserver/linux-amd64-ipa.c
+++++ b/gdb/gdbserver/linux-amd64-ipa.c
++@@ -181,8 +181,8 @@ get_ipa_tdesc (int idx)
++       return tdesc_x32_linux;
++     case X86_TDESC_AVX:
++       return tdesc_x32_avx_linux;
++-    case X86_TDESC_AVX512:
++-      return tdesc_x32_avx512_linux;
+++    case X86_TDESC_AVX_AVX512:
+++      return tdesc_x32_avx_avx512_linux;
++     default:
++       break;
++     }
++@@ -279,7 +279,7 @@ initialize_low_tracepoint (void)
++ #if defined __ILP32__
++   init_registers_x32_linux ();
++   init_registers_x32_avx_linux ();
++-  init_registers_x32_avx512_linux ();
+++  init_registers_x32_avx_avx512_linux ();
++ #else
++   init_registers_amd64_linux ();
++   init_registers_amd64_avx_linux ();
++-- 
++2.7.4
++
+-- 
+2.7.4
+
 
