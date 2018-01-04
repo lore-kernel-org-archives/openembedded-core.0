@@ -1,48 +1,48 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BBAF78672;
-	Thu,  4 Jan 2018 13:22:55 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id v187so558382ywc.2;
-	Thu, 04 Jan 2018 05:22:57 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 40FB078694
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Jan 2018 13:58:21 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id c5so1976764qkg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Jan 2018 05:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=umhAv1cjADcVjy6XP8TmP0M0h1Qs+R40NeYgzNSENdY=;
-	b=Oc4g91spIkY4vDN3bj1UByJDSKBUL4RXUU6Noy53kQBaZE22NbEDWl8Le06FlEcBRL
-	EIebQv7GvUszB9+RQ8GVecrJ0zp2cE+KYYXUqbYSzK6HDVnnwU5PYtq8mSKjyaOZ8P1u
-	TmmFGwESPM2Tavcg+Zx1x6xCPq0joWvkmC4IayGBI39o1Q84hhxgADi00a2R8kI1p17H
-	VEDdOFn70roIJQBPplLPKII/rloDWkeHwTGqL2oSpIMXBUlK/zVWdWEvtLnKx046VPgy
-	1cJxxwpv0WKwwJr0tEKpNFqoJX3g79BDe3XBl1hp7xkq6m0hoYUSiwruDp/sDOrRAdY2
-	036A==
+	:cc; bh=/W7ZJQ27WE1XQlJIAuHmInheetYCtc3YomW1HxAqk4k=;
+	b=gJOgG7lm8Cd31A8HUi9hIqDqw7IQxwKliOb1dZ6FE0swd8g1OeG5AmIj80YQ+FJpLw
+	u3E/ACwPN/oNPXMyW8VGFZN9EaSR18orCcDk8mNVtG3tNf15ElWHiSGNR/snTAbB3EkC
+	2DuuXrMSaffd3rztbXEQM20J/sY7K3hidDBV/XDLtm26uu4n04RCmWJen3Fzx3R73lxb
+	OJwhTgeNT9v9LbTntTFe4322tFGqueBXwqevU6IL/9yzY/uXEPnX41wjFy9eU2jRrMCD
+	XE+Y0UxxImfO0sQ9QbiTVhR0ynU+Hj5nFVXe7/8+K/4sZtBHk+zKuFVTyRa1bojt9xnx
+	r23g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=umhAv1cjADcVjy6XP8TmP0M0h1Qs+R40NeYgzNSENdY=;
-	b=Sd6TY1oLzl9bnmSCkAeR12aiZs1JJrhbhFjgXgZGG3xRBBvIB6rZs8LvQRCQzkWNYF
-	zyU35DPC3vhEagM2w9rt+8CLWH6h77IwxG/ZZbUG5rcEGKcP52KLaV9UxtcxXGxRJJWD
-	xqCsZfSqgkJSiFq6QpYL9EfKuX4KR/m/rJL0NdF9zbfst4WxkQ+YJi/vkc+igQaM6dG5
-	vuzrZjmj6St7u6UF1Zf3O7CYBBqZ0JcpUzEB7P5UpkD1XHmDY6NPuqYQifqGZw6ngGl+
-	SnlSgBi4TQxWq9Lb87WcFh3tOKaE/2kGxE5uwDEUNTfcjiiz9D1EmofVxp0DgGtNv7d8
-	MKHg==
-X-Gm-Message-State: AKGB3mIbhbZD0N5JbVJ+Bot3OcdQ7Uq1Uy//yHMPpL7F1n89qNkep/yu
-	rvW5M7qSGW/XyMcO9vHxQ6uZ7/Qa1fvFO96TKbI=
-X-Google-Smtp-Source: ACJfBotLSN5ehnMSqVwVGai520hLRaeJp1K/zaQPhmVqmSAIK42KT0PZzhJK4OJ7aQKEzVZJFEoBQ72rl31Tijt225M=
-X-Received: by 10.13.242.6 with SMTP id b6mr4059142ywf.254.1515072176308; Thu,
-	04 Jan 2018 05:22:56 -0800 (PST)
+	bh=/W7ZJQ27WE1XQlJIAuHmInheetYCtc3YomW1HxAqk4k=;
+	b=j/Z413GWl2miN8m6pK4zUwHiTlszqEx3IJW9dSynuK5Vr2RyP/87q87qHRqTHd0bzC
+	gh6uA09yXgO8HhKPMrT/UU0Ae7/i+xcEjyJoBJBIZ9FRhb3oaB7u+xVZlT/FeXfs97K5
+	IA/WX9B5nkl6ojhLSzx5roj9q2Ro+e1vKQd6vbe/QEZDtijs2IRt2p8+wdClkguoodiY
+	ICmU5jDSBGWTXBzBYt9PmPyuM53pS+1zYTDEfXLps8rj+X7wE2QIWTtMN2ST+ProQnRF
+	Gbqs63LynM2bysBT9XbSeI58x7bJrdQjplIOs7bhZimuap5PIXbGwU2Fm12wcYFjZD43
+	kZiA==
+X-Gm-Message-State: AKGB3mLgsIPz86Lvy91pIiJiPtO6ri++fiyjjYHZymmtuViSe/JFaBdE
+	v1dglOwmQPQGN4hur1AkoLIBm0ab6Vg29wvVW4Y=
+X-Google-Smtp-Source: ACJfBot/q/cvHZ+fO++L7q2qA+rGSkq1y4EqzYvO76/x9bH6pyZpj9TV0z260qIMc3iJLugPQVcn9vWX/Ma2+vCO+qg=
+X-Received: by 10.233.221.194 with SMTP id r185mr6038590qkf.141.1515074303150; 
+	Thu, 04 Jan 2018 05:58:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.37.130.136 with HTTP; Thu, 4 Jan 2018 05:22:55 -0800 (PST)
-In-Reply-To: <1a0bbfc2-7b0a-c347-23eb-7cb1087ffb33@balister.org>
-References: <CAPyrkgxupO+=0+bmA=+JO+zs=t_i=Pm06GJyRFvYfTb5sXjSBA@mail.gmail.com>
-	<1a0bbfc2-7b0a-c347-23eb-7cb1087ffb33@balister.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 4 Jan 2018 14:22:55 +0100
-Message-ID: <CALbNGRSz59HjuPX3=TLxxVoJEPrKnSmYMZu9RBf0YnCKU_SJOQ@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: yocto <yocto@yoctoproject.org>, openembedded-members@lists.openembedded.org,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Slideshow for FOSDEM
+Received: by 10.12.182.96 with HTTP; Thu, 4 Jan 2018 05:58:22 -0800 (PST)
+In-Reply-To: <1515053647-10815-1-git-send-email-zhe.he@windriver.com>
+References: <1515053647-10815-1-git-send-email-zhe.he@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 4 Jan 2018 08:58:22 -0500
+Message-ID: <CADkTA4NqH3ErPkd=z5xQ3crd3esy+8DWnWxLyvdj=ViRM3nFDQ@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Add paravirt_kvm support for qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,108 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 13:22:55 -0000
-Content-Type: multipart/alternative; boundary="94eb2c035a38e0c6ee0561f33a1c"
-
---94eb2c035a38e0c6ee0561f33a1c
+X-List-Received-Date: Thu, 04 Jan 2018 13:58:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 3, 2018 at 6:29 PM, Philip Balister <philip@balister.org> wrote:
+Make sure to cc' me on any changes to linux-yocto*
 
-> On 01/03/2018 09:47 AM, Paul Barker wrote:
-> > Hi all,
-> >
-> > As we've only got one table at FOSDEM this year we're not going to
-> > have space for as many bits of hardware as usual. I'd still like us to
-> > show off the project and what people are building with OpenEmbedded &
-> > Yocto Project though. Given the limited space I think the best way to
-> > do this would be to put a slideshow on my laptop.
-> >
-> > I've made a start on this here:
-> > https://docs.google.com/presentation/d/1KYxhsxO-8GxhAreE0GKnTOCPdY6_
-> 4uXYIEp6Lc55MB8/edit?usp=sharing
-> >
-> > I've made this publicly editable so please feel free to add slides for
-> > any OE features you want to show off and any projects (professional or
-> > hobbyist) built with OE. If anyone can add a slide on project history
-> > that would also be great. I'd also like a slide on the latest release
-> > and the new features added. Photos of hardware projects using OE and
-> > features like Toaster would be especially welcome!
-> >
-> > I'll give this a final edit before FOSDEM and the put it on rotation
-> > on a laptop at the stand. Hopefully it will be useful for future
-> > events as well.
+Ross (or whoever else), I'll pick this up as part of my next consolidated pull,
+no need to do anything with it.
+
+Bruce
+
+On Thu, Jan 4, 2018 at 3:14 AM,  <zhe.he@windriver.com> wrote:
+> From: He Zhe <zhe.he@windriver.com>
 >
-> Can we build a small board with a largish screen so we can run the show
-> on a device running an image built by OpenEmbedded?
+> This feature includes paravirtualized KVM guest support.
 >
-> Philip
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Hi,
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+> index ed65f77..ebfed3e 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+> @@ -35,4 +35,4 @@ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/ta
+>  KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+>  KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>  KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-currently I am putting together something like a
-'diy-rpi-notebook-on-tripod' - WIP no photos yet. Would like to put a music
-keyboard in front of it. Area required 1-2 square meters - no table
-required. Is such thing accepted / of interest?
 
-Andreas
 
---94eb2c035a38e0c6ee0561f33a1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Jan 3, 2018 at 6:29 PM, Philip Balister <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:philip@balister.org" target=3D"_blank">philip@balister.org</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><span=
- class=3D"gmail-">On 01/03/2018 09:47 AM, Paul Barker wrote:<br>
-&gt; Hi all,<br>
-&gt;<br>
-&gt; As we&#39;ve only got one table at FOSDEM this year we&#39;re not goin=
-g to<br>
-&gt; have space for as many bits of hardware as usual. I&#39;d still like u=
-s to<br>
-&gt; show off the project and what people are building with OpenEmbedded &a=
-mp;<br>
-&gt; Yocto Project though. Given the limited space I think the best way to<=
-br>
-&gt; do this would be to put a slideshow on my laptop.<br>
-&gt;<br>
-&gt; I&#39;ve made a start on this here:<br>
-&gt; <a href=3D"https://docs.google.com/presentation/d/1KYxhsxO-8GxhAreE0GK=
-nTOCPdY6_4uXYIEp6Lc55MB8/edit?usp=3Dsharing" rel=3D"noreferrer" target=3D"_=
-blank">https://docs.google.com/<wbr>presentation/d/1KYxhsxO-<wbr>8GxhAreE0G=
-KnTOCPdY6_<wbr>4uXYIEp6Lc55MB8/edit?usp=3D<wbr>sharing</a><br>
-&gt;<br>
-&gt; I&#39;ve made this publicly editable so please feel free to add slides=
- for<br>
-&gt; any OE features you want to show off and any projects (professional or=
-<br>
-&gt; hobbyist) built with OE. If anyone can add a slide on project history<=
-br>
-&gt; that would also be great. I&#39;d also like a slide on the latest rele=
-ase<br>
-&gt; and the new features added. Photos of hardware projects using OE and<b=
-r>
-&gt; features like Toaster would be especially welcome!<br>
-&gt;<br>
-&gt; I&#39;ll give this a final edit before FOSDEM and the put it on rotati=
-on<br>
-&gt; on a laptop at the stand. Hopefully it will be useful for future<br>
-&gt; events as well.<br>
-<br>
-</span>Can we build a small board with a largish screen so we can run the s=
-how<br>
-on a device running an image built by OpenEmbedded?<br>
-<br>
-Philip<br>
-<br></blockquote></div>Hi,<div class=3D"gmail_extra"><br></div>currently
- I am putting together something like a &#39;diy-rpi-notebook-on-tripod&#39=
-; - WIP no photos yet. Would=20
-like to put a music keyboard in front of it. Area required 1-2 square=20
-meters - no table required. Is such thing accepted / of interest?</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Andreas<br></di=
-v></div>
-
---94eb2c035a38e0c6ee0561f33a1c--
