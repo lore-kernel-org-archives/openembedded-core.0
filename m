@@ -1,26 +1,31 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E696D787D0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 13:58:48 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jan 2018 05:58:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.45,507,1508828400"; 
-   d="scan'208";a="7369702"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 04 Jan 2018 05:58:49 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jan 2018 15:58:45 +0200
-Message-Id: <20180104135845.10717-4-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20180104135845.10717-1-alexander.kanavin@linux.intel.com>
-References: <20180104135845.10717-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/4] gobject-introspection: correct the --lib-dirs-envvar patch
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8266E7780D;
+	Thu,  4 Jan 2018 14:39:59 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w04EdsRG015078
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 4 Jan 2018 14:39:56 GMT
+Message-ID: <1515076794.5525.196.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steffen Sledz <sledz@dresearch-fe.de>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Thu, 04 Jan 2018 14:39:54 +0000
+In-Reply-To: <9d1c1e79-5eab-941c-0d30-314f9df51de1@dresearch-fe.de>
+References: <460be213-a6c9-59fa-f8e3-d3f7e6232ca4@dresearch-fe.de>
+	<CAJTo0LaHXJMMNg8VmqFNne_8rgEV9TER5saUzUXudRgvzggWNw@mail.gmail.com>
+	<6d1905cf-26d2-49cf-d0bb-248cbf4a071d@dresearch-fe.de>
+	<CAJTo0LYWwMnj4Wb6JC1y7uw4ZrPv6=SynfkSc0TU0dwi9Dezjw@mail.gmail.com>
+	<8926eabe-78fe-dfaa-d123-5d4ed39e0001@dresearch-fe.de>
+	<9d1c1e79-5eab-941c-0d30-314f9df51de1@dresearch-fe.de>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: MS Windows machine?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 13:58:49 -0000
+X-List-Received-Date: Thu, 04 Jan 2018 14:40:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The first version introduced a new branch in if-else statement, and so
-discarded the actions in the branch taken previously. This seemed
-to have no adverse effect for now, but let's do it right.
+On Thu, 2018-01-04 at 07:31 +0100, Steffen Sledz wrote:
+> On 21.12.2017 14:00, Steffen Sledz wrote:
+> > 
+> > On 21.12.2017 12:39, Burton, Ross wrote:
+> > > 
+> > > If you want to build for a Windows target then that should be
+> > > possible but
+> > > nobody as far as I'm aware has made the work public.  meta-mingw
+> > > will
+> > > contain most of the changes needed as that does build Windows
+> > > binaries.
+> > That's exactly what we like to to.
+> > 
+> > So has anyone tried this before?
+> > 
+> > What else would be needed to build e.g. for MACHINE=i686-mingw32?
+> Is someone able to create a machine definition for this? I'm not
+> really familiar with this job.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...01-giscanner-add-a-lib-dirs-envvar-option.patch | 26 +++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+In basic terms, you need a machine which:
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-index e1776bc9b40..4ec527dcc0f 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-@@ -1,4 +1,4 @@
--From a02076fe916ade6c3f78f6d35072ec53482e9446 Mon Sep 17 00:00:00 2001
-+From e48f1e18f5ea41656f0ba10fe61d69d2604b0064 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 3 Jan 2018 17:02:01 +0200
- Subject: [PATCH] giscanner: add a --lib-dirs-envvar option
-@@ -11,17 +11,18 @@ which can be picked up and used by the wrapper.
- 
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-- giscanner/ccompiler.py   | 6 ++++--
-+ giscanner/ccompiler.py   | 4 ++--
-  giscanner/dumper.py      | 3 ++-
-  giscanner/scannermain.py | 3 +++
-- 3 files changed, 9 insertions(+), 3 deletions(-)
-+ 3 files changed, 7 insertions(+), 3 deletions(-)
- 
- diff --git a/giscanner/ccompiler.py b/giscanner/ccompiler.py
--index 29de0ee..e969337 100644
-+index 29de0ee..928eae8 100644
- --- a/giscanner/ccompiler.py
- +++ b/giscanner/ccompiler.py
--@@ -109,14 +109,16 @@ class CCompiler(object):
-+@@ -109,7 +109,7 @@ class CCompiler(object):
-  
-              self._cflags_no_deprecation_warnings = "-Wno-deprecated-declarations"
-  
-@@ -30,16 +31,15 @@ index 29de0ee..e969337 100644
-          # An "internal" link is where the library to be introspected
-          # is being built in the current directory.
-  
--         runtime_path_envvar = []
--         runtime_paths = []
-- 
---        if self.check_is_msvc():
--+        if lib_dirs_envvar:
--+            runtime_path_envvar = [lib_dirs_envvar]
--+        elif self.check_is_msvc():
-+@@ -119,7 +119,7 @@ class CCompiler(object):
-+         if self.check_is_msvc():
-              runtime_path_envvar = ['LIB', 'PATH']
-          else:
--             runtime_path_envvar = ['LD_LIBRARY_PATH']
-+-            runtime_path_envvar = ['LD_LIBRARY_PATH']
-++            runtime_path_envvar = ['LD_LIBRARY_PATH'] if not lib_dirs_envvar else [lib_dirs_envvar]
-+             # Search the current directory first
-+             # (This flag is not supported nor needed for Visual C++)
-+             args.append('-L.')
- diff --git a/giscanner/dumper.py b/giscanner/dumper.py
- index 7f77bd2..db96df6 100644
- --- a/giscanner/dumper.py
--- 
-2.15.1
+* Sets TARGET_ARCH to the right thing (i686 or x86_64)
+* Sets TARGET_OS to mingw32
 
+and then some distro config which sets up the toolchain when mingw is
+the target os to the values like meta-mingw/conf/machine-sdk/i686-
+mingw32.conf sets.
+
+You'd need need to look through the bbappends which are in meta-mingw
+and add them to the appropriate pieces you need for target binaries
+rather than sdk binaries.
+
+I did once do this for darwin so it is possible, I've never tried it
+for windows though.
+
+Cheers,
+
+Richard
 
