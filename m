@@ -1,25 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B9E16787DE
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 15:25:12 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w05FPBda009532
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 5 Jan 2018 15:25:12 GMT
-Message-ID: <1515165911.30291.31.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Daniel Schultz <d.schultz@phytec.de>,
-	Openembedded-core@lists.openembedded.org
-Date: Fri, 05 Jan 2018 15:25:11 +0000
-In-Reply-To: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
-References: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [RFC] cryptodev: Fix build errors with v4.11
+Return-Path: <s.mueller-klieser@phytec.de>
+X-Greylist: delayed 397 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Jan 2018 15:38:35 UTC
+Received: from root.phytec.de (mail.microcatalog.org.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 37080786E7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jan 2018 15:38:35 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id EFFD0A0023E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jan 2018 16:32:00 +0100 (CET)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2018010516315911-21705 ;
+	Fri, 5 Jan 2018 16:31:59 +0100 
+From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 5 Jan 2018 16:31:54 +0100
+Message-Id: <1515166314-34823-1-git-send-email-s.mueller-klieser@phytec.de>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 05.01.2018 16:31:59,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 05.01.2018 16:31:59
+X-TNEFEvaluated: 1
+Subject: [PATCH] libpcre2: add packages for 16-bit and 32-bit code unit support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,25 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 15:25:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jan 2018 15:38:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2018-01-05 at 15:37 +0100, Daniel Schultz wrote:
-> Commit message from the included patch:
-> "Linux kernel has added -Werror=designated-init around 4.11
-> (c834f0e8a8b)
-> triggering build errors with gcc 5 and 6 (but not with gcc 4)"
-> 
-> Backport from https://github.com/cryptodev-linux/cryptodev-linux
-> Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
-> 
-> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+The packages loosely follow the debian package names. In that way more
+projects, e.g. Qt5 for 16-bit, are able use system libraries. This does
+not change the existing default package.
 
-I'm a little puzzled. Which release is this against? We're using
-kernels newer than 4.11 so why aren't things breaking?
+Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+---
+ meta/recipes-support/libpcre/libpcre2=5F10.30.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Cheers,
+diff --git a/meta/recipes-support/libpcre/libpcre2=5F10.30.bb b/meta/recipe=
+s-support/libpcre/libpcre2=5F10.30.bb
+index a7df055..46c2d63 100644
+--- a/meta/recipes-support/libpcre/libpcre2=5F10.30.bb
++++ b/meta/recipes-support/libpcre/libpcre2=5F10.30.bb
+@@ -33,8 +33,9 @@ EXTRA=5FOECONF =3D "\
+     --enable-rebuild-chartables \
+     --with-link-size=3D2 \
+     --with-match-limit=3D10000000 \
++    --enable-pcre2-16 \
++    --enable-pcre2-32 \
+ "
+-
+ # Set LINK=5FSIZE in BUILD=5FCFLAGS given that the autotools bbclass use i=
+t to
+ # set CFLAGS=5FFOR=5FBUILD, required for the libpcre build.
+ BUILD=5FCFLAGS =3D+ "-DLINK=5FSIZE=3D2 -I${B}/src"
+@@ -43,13 +44,15 @@ CXXFLAGS=5Fappend=5Fpowerpc =3D " -lstdc++"
+=20
+ export CCLD=5FFOR=5FBUILD =3D"${BUILD=5FCCLD}"
+=20
+-PACKAGES =3D+ "pcre2grep pcre2grep-doc pcre2test pcre2test-doc"
++PACKAGES =3D+ "libpcre2-16 libpcre2-32 pcre2grep pcre2grep-doc pcre2test p=
+cre2test-doc"
+=20
+ SUMMARY=5Fpcre2grep =3D "grep utility that uses perl 5 compatible regexes"
+ SUMMARY=5Fpcre2grep-doc =3D "grep utility that uses perl 5 compatible rege=
+xes - docs"
+ SUMMARY=5Fpcre2test =3D "program for testing Perl-comatible regular expres=
+sions"
+ SUMMARY=5Fpcre2test-doc =3D "program for testing Perl-comatible regular ex=
+pressions - docs"
+=20
++FILES=5Flibpcre2-16 =3D "${libdir}/libpcre2-16.so.*"
++FILES=5Flibpcre2-32 =3D "${libdir}/libpcre2-32.so.*"
+ FILES=5Fpcre2grep =3D "${bindir}/pcre2grep"
+ FILES=5Fpcre2grep-doc =3D "${mandir}/man1/pcre2grep.1"
+ FILES=5Fpcre2test =3D "${bindir}/pcre2test"
+--=20
+2.7.4
 
-Richard
 
