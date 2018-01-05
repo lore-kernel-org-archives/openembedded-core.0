@@ -1,48 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id ECE41787E9
+Return-Path: <alistair23@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AFD678816
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 18:41:15 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id 14so6704122iou.2
+	Fri,  5 Jan 2018 19:16:00 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r78so4248736wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jan 2018 10:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 05 Jan 2018 11:16:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=utJfigOkSopRWO87d3ovKv/qJhOU9O+odtNEy1rbrWo=;
-	b=mDCJz29JuAZJZ9ay9rGsuGN4EuYL63xvNiTHVYgvWSgT456dVCEO1iGTeqzPaWq+Bk
-	35lfkMhaJFOoFwuK838ZfY5vcFtFL6AWEEGUf3FaXXHzBoAz7zsuDh8Ps2iqW8hSfCGB
-	yfXkwtb5EVq9UbH1cIxs1G+xwKWv070v3is543u7+2QbL0DHQkjgb/4ygPXLC69sDL+P
-	MoXKQuuiFMJEmjUFqiEqnf+dr640YwS9BQT3F9nu++TwhaAm/d+edoCu4TbQD4zdCnJ/
-	VQdEVKvMsUTAnn4ZRJIPRmUbxq7o+heHSmI0B3v66BbKW8/BolQzG49ZiDSeDTH6LNqC
-	T7Fw==
+	:cc:content-transfer-encoding;
+	bh=CRt4wIwCSYCI3W7eZh685Gtg2IYjkCJVFRV0p+nb29Q=;
+	b=QADoq2l/Y+pDni18/WhNn6hvrYwmEWF3ODyUtREvP9aj/6PIiejJs7l9yK+ArTGkxw
+	BZLEoYgiYH3tN5XHSqXlE9SK+qR4w0oXVxhcZSAvDd249dmhhgumbSzDO53F+jFYIy2j
+	LVkAH3otmHB3/CFygx2ZkM5syPMGTEcul5ZP0xO6eluymXnr87T9FX7aCrQ21Wc4iR3E
+	dVAu5SM8sDE2we4Im5+GtDrvh4Mp9OjAbbhUUHURAnq8kZOICTHk2TN0nQFttuJ/mowd
+	vIAm94bro8a7QwaSKUMQVgz+F8cHjEjAHe1W+LjpfxI4vL2FpbpNxCHIpPELTBD1BGQa
+	6FKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=utJfigOkSopRWO87d3ovKv/qJhOU9O+odtNEy1rbrWo=;
-	b=QHfPA/Lx9vzDTLs5RMgsOlrliXKnjLJCzU32pga6jyux66NqlOWmGankHKsEb4E2V6
-	nGbhJsLE7l9fqXU11i+gIW7zd2amTX8bik8l9rfU74PJS/k3NhaFbasKYigMWgLI/BWw
-	ArRshl4OZi9ogCjt0jxph4qC2xLJEAKc1U6oCyI8UzH/gYKhSSxAAU8nFk/FdfglAYAr
-	OZZQ2HrvLyHxbAvIkXerl729B+IzBg6Gm2MB9zsW6ydW3OOe3UrSZ3XjgWc8K9eJgxjL
-	DjBrsAKVS/8HHfhk25rDlQ1HHsw3LRsDATqWqZzOheEObuKljteP/710LuUDre6ufISJ
-	6vHA==
-X-Gm-Message-State: AKwxytewOmLTsvT5j1o3KspyPVysUyh1uA/RQJtF8KMRQsIFhjL9KoUq
-	g6ZXJm36akWkgi7z9FCqavaU9sLF4kWLboqA2KUhwae6
-X-Google-Smtp-Source: ACJfBouYbjqqUhn4bTd2JN4q+lIq7VSvPqJMxb7YKKyMgUJM2vjt59fjmPPH4JhhV0Pr8U5bAJuesPZpjFZN1dE22VE=
-X-Received: by 10.107.9.232 with SMTP id 101mr4010134ioj.52.1515177676939;
-	Fri, 05 Jan 2018 10:41:16 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=CRt4wIwCSYCI3W7eZh685Gtg2IYjkCJVFRV0p+nb29Q=;
+	b=WOqjQDfM7Tg+xFQ6wqKg/um2/7a1wxeWWUaFu4233W6KvLd7FBgJheCT2naqwLAx05
+	hPj5P9ECqZVuYBokVOyO1LSpA4zZHNeiLir/bGxijMgx78WFbDc3bLic+s2VSwHnICF3
+	saKpJDSu9rD1/WypGP8mwCkioHQBr6G6pbsykMBYEoKin8s79CvevRkxhFW5P34G91JR
+	7ma0DIqzGFE9giIwmhxKkVoHWl5v9ZmlrN5W9+kMyvMFSPqFpLPoMhRGO4V3Fzr2Nh4c
+	/RCtYw4GoCGyhqTU9mYKxsmCOMcs2PFybF+MbBEGHVEvdIXpvBMl7VoUfUj9i/AG07DB
+	t5rg==
+X-Gm-Message-State: AKGB3mJL5AoFP6c2SqxmM/4zp/IY/6NpEuAsc0DzsKHzNd5/sXP8djot
+	R2up4i41Jqp5j5Eift5P7sSOkvTRMvb3nGetp7k=
+X-Google-Smtp-Source: ACJfBovKZTlrW4BlWvVzGWgU5wAsSEYzzuPuD6q/iWczr10IwzFpjM0iTVt5tkIKsdtnD4Xz//By+0JjINszB5VETpg=
+X-Received: by 10.28.231.8 with SMTP id e8mr2922682wmh.16.1515179761425; Fri,
+	05 Jan 2018 11:16:01 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.34.133 with HTTP; Fri, 5 Jan 2018 10:40:56 -0800 (PST)
-In-Reply-To: <20171227100158.xjmons3d6qo5xfqp@quelle.benny.de>
-References: <20171227100158.xjmons3d6qo5xfqp@quelle.benny.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Jan 2018 18:40:56 +0000
-Message-ID: <CAJTo0LZQSoPOvpStEUZohgVdEaY91Z+yU9JOAZvH45YWfab0uQ@mail.gmail.com>
-To: Benjamin Hagemann <benny@benny.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: licence of enigma2-plugin-extensions-pictureplayer
+Received: by 10.28.164.69 with HTTP; Fri, 5 Jan 2018 11:15:30 -0800 (PST)
+In-Reply-To: <1515055530.5525.176.camel@linuxfoundation.org>
+References: <20171221215634.26019-1-alistair.francis@xilinx.com>
+	<CAKmqyKO0DpoCCzDzoJf9WELTE0fcE7rRS279xbLLPVV5bvff6A@mail.gmail.com>
+	<1515055530.5525.176.camel@linuxfoundation.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 5 Jan 2018 11:15:30 -0800
+Message-ID: <CAKmqyKMGTAJuocNKid-mnSAg-bbtoaTH7ih8JjsA-DP5aRYHdA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: vineethchowz.chowdary@xilinx.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] receipes-devtools: QEMU: Bump to version 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,69 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 18:41:16 -0000
-Content-Type: multipart/alternative; boundary="001a113ecdbe34d20f05620bcbb8"
-
---001a113ecdbe34d20f05620bcbb8
+X-List-Received-Date: Fri, 05 Jan 2018 19:16:01 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-No it's not, but I googled it for you and https://github.com/libo/Enigma2
-suggests that GPLv2 is the license.
-
-Ross
-
-On 27 December 2017 at 10:01, Benjamin Hagemann <benny@benny.de> wrote:
-
-> Hello,
->
-> this mailinglist is maintainer of the enigma2-plugin-extensions-pictureplayer,
-> right?
-> Under which licence is this plugin released?
->
-> Thank you.
->
-> --
-> Kind regards,
->
->         Benny
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a113ecdbe34d20f05620bcbb8
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">No it&#39;s not, but I googled it for you and <a href=3D"h=
-ttps://github.com/libo/Enigma2">https://github.com/libo/Enigma2</a> suggest=
-s that GPLv2 is the license.<div><br></div><div>Ross</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 27 December 2017 at 10:0=
-1, Benjamin Hagemann <span dir=3D"ltr">&lt;<a href=3D"mailto:benny@benny.de=
-" target=3D"_blank">benny@benny.de</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">Hello,<br>
-<br>
-this mailinglist is maintainer of the enigma2-plugin-extensions-<wbr>pictur=
-eplayer, right?<br>
-Under which licence is this plugin released?<br>
-<br>
-Thank you.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Kind regards,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Benny<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+On Thu, Jan 4, 2018 at 12:45 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2018-01-02 at 14:58 -0800, Alistair Francis wrote:
+>> On Thu, Dec 21, 2017 at 1:56 PM, Alistair Francis
+>> <alistair.francis@xilinx.com> wrote:
+>> >
+>> > Use the latest QEMU release 2.11. Remove all patches that are no
+>> > longer
+>> > required as they have been merged into the 2.11 releaese. One patch
+>> > had
+>> > to be updated to apply to thet 2.11 tree.
+>> >
+>> > Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>> Ping!
+>>
+>
+> I ran the qemu upgrade in some builds and both hang in nightly-musl
+> whilst trying to build webkitgtk:
+>
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/688/steps/Build=
+Images/logs/stdiohttps://autobuilder.yocto.io/builders/nightly-musl/builds/=
+687/steps/BuildImages/logs/stdio
+>
+> Given all the stability issues we've had recently and the trouble I've
+> had getting stable builds, this issue is going to have to be resolved
+> before we can take this upgrade.
+>
+> FWIW they're hanging in qemu user mode:
+>
+> run.do_compile.=E2=94=80=E2=94=80=E2=94=80cmake=E2=94=80=E2=94=80=E2=94=
+=80make=E2=94=80=E2=94=80=E2=94=80make=E2=94=80=E2=94=80=E2=94=80make=E2=94=
+=80=E2=94=80=E2=94=80sh=E2=94=80=E2=94=80=E2=94=80g-ir-scanner-wr=E2=94=80=
+=E2=94=80=E2=94=80python3=E2=94=80=E2=94=80=E2=94=80g-ir-scanner-qe=E2=94=
+=80=E2=94=80=E2=94=80qemu-i386=E2=94=80=E2=94=80=E2=94=802*[{qemu-i386}]
 
---001a113ecdbe34d20f05620bcbb8--
+Hmm...
+
+I don't see any hangs. With master webkitgk fails to build with a
+missing header fil (GL/gl.h) and with this patch I still see the
+problem.
+
+Do you have an easy way to reproduce this hang?
+
+Alistair
+
+>
+> Cheers,
+>
+> Richard
+
