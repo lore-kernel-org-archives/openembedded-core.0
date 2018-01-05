@@ -1,30 +1,24 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-X-Greylist: delayed 397 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 05 Jan 2018 15:38:35 UTC
-Received: from root.phytec.de (mail.microcatalog.org.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 37080786E7
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 474D07874D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 15:38:35 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id EFFD0A0023E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 16:32:00 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2018010516315911-21705 ;
-	Fri, 5 Jan 2018 16:31:59 +0100 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+	Fri,  5 Jan 2018 15:53:43 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jan 2018 07:53:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,318,1511856000"; 
+   d="scan'208";a="7657691"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 05 Jan 2018 07:53:43 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 5 Jan 2018 16:31:54 +0100
-Message-Id: <1515166314-34823-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 05.01.2018 16:31:59,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 05.01.2018 16:31:59
-X-TNEFEvaluated: 1
-Subject: [PATCH] libpcre2: add packages for 16-bit and 32-bit code unit support
+Date: Fri,  5 Jan 2018 17:53:40 +0200
+Message-Id: <20180105155341.13893-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH 1/2] maintainers.inc: add missing entries for gst-validate, gst-examples and meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 15:38:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Jan 2018 15:53:44 -0000
 
-The packages loosely follow the debian package names. In that way more
-projects, e.g. Qt5 for 16-bit, are able use system libraries. This does
-not change the existing default package.
-
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/libpcre/libpcre2=5F10.30.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2=5F10.30.bb b/meta/recipe=
-s-support/libpcre/libpcre2=5F10.30.bb
-index a7df055..46c2d63 100644
---- a/meta/recipes-support/libpcre/libpcre2=5F10.30.bb
-+++ b/meta/recipes-support/libpcre/libpcre2=5F10.30.bb
-@@ -33,8 +33,9 @@ EXTRA=5FOECONF =3D "\
-     --enable-rebuild-chartables \
-     --with-link-size=3D2 \
-     --with-match-limit=3D10000000 \
-+    --enable-pcre2-16 \
-+    --enable-pcre2-32 \
- "
--
- # Set LINK=5FSIZE in BUILD=5FCFLAGS given that the autotools bbclass use i=
-t to
- # set CFLAGS=5FFOR=5FBUILD, required for the libpcre build.
- BUILD=5FCFLAGS =3D+ "-DLINK=5FSIZE=3D2 -I${B}/src"
-@@ -43,13 +44,15 @@ CXXFLAGS=5Fappend=5Fpowerpc =3D " -lstdc++"
-=20
- export CCLD=5FFOR=5FBUILD =3D"${BUILD=5FCCLD}"
-=20
--PACKAGES =3D+ "pcre2grep pcre2grep-doc pcre2test pcre2test-doc"
-+PACKAGES =3D+ "libpcre2-16 libpcre2-32 pcre2grep pcre2grep-doc pcre2test p=
-cre2test-doc"
-=20
- SUMMARY=5Fpcre2grep =3D "grep utility that uses perl 5 compatible regexes"
- SUMMARY=5Fpcre2grep-doc =3D "grep utility that uses perl 5 compatible rege=
-xes - docs"
- SUMMARY=5Fpcre2test =3D "program for testing Perl-comatible regular expres=
-sions"
- SUMMARY=5Fpcre2test-doc =3D "program for testing Perl-comatible regular ex=
-pressions - docs"
-=20
-+FILES=5Flibpcre2-16 =3D "${libdir}/libpcre2-16.so.*"
-+FILES=5Flibpcre2-32 =3D "${libdir}/libpcre2-32.so.*"
- FILES=5Fpcre2grep =3D "${bindir}/pcre2grep"
- FILES=5Fpcre2grep-doc =3D "${mandir}/man1/pcre2grep.1"
- FILES=5Fpcre2test =3D "${bindir}/pcre2test"
---=20
-2.7.4
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 4fb7cd32813..bc9c7b0d8d1 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -237,7 +237,8 @@ RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-grub = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-grub-efi = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-gsettings-desktop-schemas = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+-RECIPE_MAINTAINER_pn-gst-player = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
++RECIPE_MAINTAINER_pn-gst-examples = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-gst-validate = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-gstreamer1.0 = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-gstreamer1.0-libav = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-gstreamer1.0-omx = "Maxin B. John <maxin.john@intel.com>"
+@@ -498,6 +499,7 @@ RECIPE_MAINTAINER_pn-menu-cache = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-mesa = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-mesa-demos = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-mesa-gl = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
++RECIPE_MAINTAINER_pn-meson = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-meta-environment = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-meta-environment-extsdk = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-meta-extsdk-toolchain = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+-- 
+2.15.1
 
 
