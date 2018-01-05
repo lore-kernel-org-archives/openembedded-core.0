@@ -1,32 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CB17785B8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 14:57:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jan 2018 06:57:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,318,1511856000"; 
-   d="scan'208";a="8347356"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 05 Jan 2018 06:57:27 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
-	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
-	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
-Date: Fri, 5 Jan 2018 16:57:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B9E16787DE
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jan 2018 15:25:12 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w05FPBda009532
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 5 Jan 2018 15:25:12 GMT
+Message-ID: <1515165911.30291.31.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Daniel Schultz <d.schultz@phytec.de>,
+	Openembedded-core@lists.openembedded.org
+Date: Fri, 05 Jan 2018 15:25:11 +0000
+In-Reply-To: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
+References: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [RFC] cryptodev: Fix build errors with v4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,22 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 14:57:27 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Jan 2018 15:25:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 01/05/2018 01:47 PM, Burton, Ross wrote:
-> Do we even need gnomebase-meson with this?  I can see a future where 
-> GNOME is entirely Meson and then we could just switch the default 
-> GNOMEBASEBUILDCLASS from autotools to meson.
+On Fri, 2018-01-05 at 15:37 +0100, Daniel Schultz wrote:
+> Commit message from the included patch:
+> "Linux kernel has added -Werror=designated-init around 4.11
+> (c834f0e8a8b)
+> triggering build errors with gcc 5 and 6 (but not with gcc 4)"
 > 
-> (prior art being the tarball compression type)
+> Backport from https://github.com/cryptodev-linux/cryptodev-linux
+> Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
+> 
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 
+I'm a little puzzled. Which release is this against? We're using
+kernels newer than 4.11 so why aren't things breaking?
 
-I'm fine with this. Just so everyone else knows: RP has actually made 
-the change already, and merged everything to master, so the YP supports 
-meson as a first class citizen now.
+Cheers,
 
-Alex
+Richard
 
