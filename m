@@ -1,30 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 66F827864F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id ECE41787E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 18:20:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jan 2018 10:21:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,319,1511856000"; 
-   d="scan'208";a="8391896"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 05 Jan 2018 10:20:59 -0800
-To: Ovidiu Panait <ovidiu.panait@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180105173723.275865-1-ovidiu.panait@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <d78802e1-2909-8df3-2961-713a8c91e26e@linux.intel.com>
-Date: Fri, 5 Jan 2018 20:21:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Fri,  5 Jan 2018 18:41:15 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id 14so6704122iou.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jan 2018 10:41:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=utJfigOkSopRWO87d3ovKv/qJhOU9O+odtNEy1rbrWo=;
+	b=mDCJz29JuAZJZ9ay9rGsuGN4EuYL63xvNiTHVYgvWSgT456dVCEO1iGTeqzPaWq+Bk
+	35lfkMhaJFOoFwuK838ZfY5vcFtFL6AWEEGUf3FaXXHzBoAz7zsuDh8Ps2iqW8hSfCGB
+	yfXkwtb5EVq9UbH1cIxs1G+xwKWv070v3is543u7+2QbL0DHQkjgb/4ygPXLC69sDL+P
+	MoXKQuuiFMJEmjUFqiEqnf+dr640YwS9BQT3F9nu++TwhaAm/d+edoCu4TbQD4zdCnJ/
+	VQdEVKvMsUTAnn4ZRJIPRmUbxq7o+heHSmI0B3v66BbKW8/BolQzG49ZiDSeDTH6LNqC
+	T7Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=utJfigOkSopRWO87d3ovKv/qJhOU9O+odtNEy1rbrWo=;
+	b=QHfPA/Lx9vzDTLs5RMgsOlrliXKnjLJCzU32pga6jyux66NqlOWmGankHKsEb4E2V6
+	nGbhJsLE7l9fqXU11i+gIW7zd2amTX8bik8l9rfU74PJS/k3NhaFbasKYigMWgLI/BWw
+	ArRshl4OZi9ogCjt0jxph4qC2xLJEAKc1U6oCyI8UzH/gYKhSSxAAU8nFk/FdfglAYAr
+	OZZQ2HrvLyHxbAvIkXerl729B+IzBg6Gm2MB9zsW6ydW3OOe3UrSZ3XjgWc8K9eJgxjL
+	DjBrsAKVS/8HHfhk25rDlQ1HHsw3LRsDATqWqZzOheEObuKljteP/710LuUDre6ufISJ
+	6vHA==
+X-Gm-Message-State: AKwxytewOmLTsvT5j1o3KspyPVysUyh1uA/RQJtF8KMRQsIFhjL9KoUq
+	g6ZXJm36akWkgi7z9FCqavaU9sLF4kWLboqA2KUhwae6
+X-Google-Smtp-Source: ACJfBouYbjqqUhn4bTd2JN4q+lIq7VSvPqJMxb7YKKyMgUJM2vjt59fjmPPH4JhhV0Pr8U5bAJuesPZpjFZN1dE22VE=
+X-Received: by 10.107.9.232 with SMTP id 101mr4010134ioj.52.1515177676939;
+	Fri, 05 Jan 2018 10:41:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20180105173723.275865-1-ovidiu.panait@windriver.com>
-Subject: Re: [PATCH] python: Fix CVE-2017-1000158
+Received: by 10.107.34.133 with HTTP; Fri, 5 Jan 2018 10:40:56 -0800 (PST)
+In-Reply-To: <20171227100158.xjmons3d6qo5xfqp@quelle.benny.de>
+References: <20171227100158.xjmons3d6qo5xfqp@quelle.benny.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Jan 2018 18:40:56 +0000
+Message-ID: <CAJTo0LZQSoPOvpStEUZohgVdEaY91Z+yU9JOAZvH45YWfab0uQ@mail.gmail.com>
+To: Benjamin Hagemann <benny@benny.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: licence of enigma2-plugin-extensions-pictureplayer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,26 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 18:21:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jan 2018 18:41:16 -0000
+Content-Type: multipart/alternative; boundary="001a113ecdbe34d20f05620bcbb8"
 
-On 01/05/2018 07:37 PM, Ovidiu Panait wrote:
-> CPython (aka Python) up to 2.7.13 is vulnerable to an integer overflow in
-> the PyString_DecodeEscape function in stringobject.c, resulting in
-> heap-based buffer overflow (and possible arbitrary code execution).
+--001a113ecdbe34d20f05620bcbb8
+Content-Type: text/plain; charset="UTF-8"
 
-What about python 3.x that this patch also touches?
+No it's not, but I googled it for you and https://github.com/libo/Enigma2
+suggests that GPLv2 is the license.
 
-> Upstream patches:
-> https://github.com/python/cpython/commit/c3c9db89273fabc62ea1b48389d9a3000c1c03ae
-> https://github.com/python/cpython/commit/fd8614c5c5466a14a945db5b059c10c0fb8f76d9
-> 
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2017-1000158
+Ross
 
-Can you update the recipes to 2.7.14 and 3.5.4 instead please?
+On 27 December 2017 at 10:01, Benjamin Hagemann <benny@benny.de> wrote:
 
-Alex
+> Hello,
+>
+> this mailinglist is maintainer of the enigma2-plugin-extensions-pictureplayer,
+> right?
+> Under which licence is this plugin released?
+>
+> Thank you.
+>
+> --
+> Kind regards,
+>
+>         Benny
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a113ecdbe34d20f05620bcbb8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">No it&#39;s not, but I googled it for you and <a href=3D"h=
+ttps://github.com/libo/Enigma2">https://github.com/libo/Enigma2</a> suggest=
+s that GPLv2 is the license.<div><br></div><div>Ross</div></div><div class=
+=3D"gmail_extra"><br><div class=3D"gmail_quote">On 27 December 2017 at 10:0=
+1, Benjamin Hagemann <span dir=3D"ltr">&lt;<a href=3D"mailto:benny@benny.de=
+" target=3D"_blank">benny@benny.de</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">Hello,<br>
+<br>
+this mailinglist is maintainer of the enigma2-plugin-extensions-<wbr>pictur=
+eplayer, right?<br>
+Under which licence is this plugin released?<br>
+<br>
+Thank you.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Kind regards,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Benny<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a113ecdbe34d20f05620bcbb8--
