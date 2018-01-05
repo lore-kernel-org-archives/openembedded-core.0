@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B9AF178816
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CE94F7880B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 13:06:17 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 9so2334573wme.4
+	Fri,  5 Jan 2018 13:06:23 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id o15so4285415wrf.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jan 2018 05:06:19 -0800 (PST)
+	Fri, 05 Jan 2018 05:06:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=o4KW4/+scupakW/UKwlQZct77GZyITlV+FX1UeriWEA=;
-	b=afejZvzDWduqADKz5XqcVug9q5GwpBJwmCvdVTJVPb0yZMciJeltdbnj4YWEmB8cD5
-	ql9GxhZO7VqQvtjd+iTSUJl8GNCJdVhwHUYmYt6+duXpuComgaG9kRoPyFNlKQYB03e6
-	Gvq1RDkvqYZH71FASNbEbu546I5EFD6rzAwyRiytYVBS14SVg9RLPDxteo2RiCgOIDR6
-	iKG7YjX0FHLmM1QwXHsOuxEgRoV1oZNCrV1FoMY65DYEHbXkE/PuwUORD8wlEsb6sJAt
-	C5gGINJaQHz3gLi+OEgVq2Mn8ScRmYqTDOkhGdPHIAC3VORzSDc4xrnUsEZQOLPfCWXS
-	vpbQ==
+	bh=IjAQKyXTfNBfix4UnCsjWKNRnGYa6Gl+eCH923/iGd0=;
+	b=Qe0xy+MS2RkXKOzjybwJMgxN+TdFXnWGWDwdNzpbY5TBlpfoNBPfJxnNKaJ2+Jixet
+	rUDKYPEQtpzLLURO2Ww1+0/5qOps6lzmclsbfy4dtNiy3LjnPd/SECyzLuG+MQ4OYT6a
+	Tb2QCgbL2S68kBLFJGd3ekux7jczHeYuFCJB1Na3OrmlvwNZrjqcAVPEpQQ03nP6jRkJ
+	dRSbStWpbtmtC5BNduqjWW13Lia78FgXGuBAioqknuZKL60D86YA3+P0WdZY8D8FIYrg
+	bHCNBQSoJ/A15I+fdISVXh6DpBJU3qFO7NM1BLW7nl1xxeejk6h26K47nl0zop5vHVNU
+	BRlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=o4KW4/+scupakW/UKwlQZct77GZyITlV+FX1UeriWEA=;
-	b=WPnS6r7lAIl+9bW6K7uA3inCXI/5siG9HOt/VXUedkbW5vUXz3X0kVJBDxGE8aKOC9
-	VGUo6NkxTpmM9xWgBIBmDLRO4cnMrbFKSUX9OG/ePGe0l1GvRJ7D5e7nDHetgDfybWX6
-	X2DyyfjnD4t31XgGEf+9qlgmHiFo4tOIf4U0PSWCZnPLuDlSJa40LLc/mVsiPokQPTcB
-	dh0W7Ru1sRjcibI2liky0z149wR2TxLErpPHWfINh7p8U0/CWvF1Cgv3wMVSVJrCy941
-	c99A8+mq0G2iSVomMBR4V9zv4PSbNbleGoTi4gJCrug6ufanZNkzs6cd2xZ+8xatQdK4
-	1EMw==
-X-Gm-Message-State: AKGB3mKLWJx7BVhTCwowqUlis9LODqIv+MOuYD0vamOt2rqiCiZmyRs4
-	xITqhi1c86NOKOfZErXhzV+W35N8
-X-Google-Smtp-Source: ACJfBouNS8ThbXggeyqSOZYYTCVj9YR46EO4FQwXLW6tqYW/N7SM3+B8tpFlMWZ9GpiueC3VLPA5og==
-X-Received: by 10.28.163.3 with SMTP id m3mr2494904wme.139.1515157578262;
-	Fri, 05 Jan 2018 05:06:18 -0800 (PST)
+	bh=IjAQKyXTfNBfix4UnCsjWKNRnGYa6Gl+eCH923/iGd0=;
+	b=n4vcBR32jiSIcLJCr+MTwd8NX4dRoVTYVMbtBlWsnUDj0E9gZYG5elZTA02CokSYTT
+	k6FPWsGrT6qeHvowkCltQJ1WqBOXDSzVQyClhe4tOmtYKSYjJ+OJqQ+1ARP7Iu/sUFbe
+	qj6ErKVRbSkGBDeuErM5pr7vrobtmiN6bWOk2IGiErQm5Fp4zr8pWDGJITgl09emkz2/
+	NA4LqJlDAFEGSFNknvsQVJmIR+PjpBxGHaiBdd8KvZdX7XWYF73eZEL5pMFGysM4k2he
+	AszGSqT8l1q2dwjqht94jZnoZTtEkuM/Em6gJApWZS9o5EmmRfEiZ8EUnU57LFZqArcW
+	5+xQ==
+X-Gm-Message-State: AKGB3mLyqgLawTxoL2YrwsMsGrTdxZ3/69CPqsqwFZzPh/iKoA8Rs4dE
+	Z1x56zDqSil/YlJx0mnzkODLpe1s
+X-Google-Smtp-Source: ACJfBos/kHdRFtbWI+v/CDlYOs/KiUs2XgdgtLk5sysKyFlj7GpCLxkOUFdVwL3a+xkfbJiZHiM34w==
+X-Received: by 10.223.175.119 with SMTP id z110mr2602477wrc.51.1515157584369; 
+	Fri, 05 Jan 2018 05:06:24 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 15sm7745021wrt.18.2018.01.05.05.06.17
+	by smtp.gmail.com with ESMTPSA id e7sm4650559wrd.82.2018.01.05.05.06.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Jan 2018 05:06:17 -0800 (PST)
+	Fri, 05 Jan 2018 05:06:23 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jan 2018 13:06:16 +0000
-Message-Id: <20180105130616.5294-1-ross.burton@intel.com>
+Date: Fri,  5 Jan 2018 13:06:22 +0000
+Message-Id: <20180105130622.5357-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] lz4: remove ptest changes
+Subject: [PATCH] debian.bbclass: add a note when a package is renamed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 13:06:17 -0000
+X-List-Received-Date: Fri, 05 Jan 2018 13:06:24 -0000
 
-This recipe installs the test suite by copying the entire build tree into
-/usr/share/ptest, which is both wasteful and breaks packaging as lz4-ptest then
-gets renamed by debian.bbclass to liblz4.
+To make it easier to debug problems with renaming caused by debian.bbclass,
+explicitly log when packages are renamed.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/lz4/lz4_1.7.4.bb | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ meta/classes/debian.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/lz4/lz4_1.7.4.bb b/meta/recipes-support/lz4/lz4_1.7.4.bb
-index 9e86985d699..86a1ab9ab95 100644
---- a/meta/recipes-support/lz4/lz4_1.7.4.bb
-+++ b/meta/recipes-support/lz4/lz4_1.7.4.bb
-@@ -17,19 +17,11 @@ SRC_URI = "git://github.com/lz4/lz4.git \
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
+index 8124558b819..5cdbf360dcb 100644
+--- a/meta/classes/debian.bbclass
++++ b/meta/classes/debian.bbclass
+@@ -120,6 +120,7 @@ python debian_package_name_hook () {
+                         if not newpkg.find(mlpre) == 0:
+                             newpkg = mlpre + newpkg
+                     if newpkg != pkg:
++                        bb.note("debian: renaming %s to %s" % (pkg, newpkg))
+                         d.setVar('PKG_' + pkg, newpkg)
+                         add_rprovides(pkg, d)
+         else:
+@@ -138,4 +139,3 @@ python debian_package_name_hook () {
+ EXPORT_FUNCTIONS package_name_hook
  
- S = "${WORKDIR}/git"
--inherit ptest
- 
--EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}" 
-+EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
- 
- do_install() {
- 	oe_runmake install
- }
- 
--do_install_ptest () {
--	install -d ${D}${PTEST_PATH}/testsuite
--	cp -rf ${S}/* ${D}${PTEST_PATH}/testsuite
--}
+ DEBIAN_NAMES = "1"
 -
--RDEPENDS_${PN}-ptest += "make python3"
--
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
