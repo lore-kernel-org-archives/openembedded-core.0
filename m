@@ -1,25 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E97FA7017B
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8309C783DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jan 2018 23:08:58 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w04N8q3S020372
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 4 Jan 2018 23:08:54 GMT
-Message-ID: <1515107332.30291.21.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 04 Jan 2018 23:08:52 +0000
-In-Reply-To: <519437989588d44d130890dce1285d796e3382ad.1515051241.git.Qi.Chen@windriver.com>
-References: <cover.1515051241.git.Qi.Chen@windriver.com>
-	<519437989588d44d130890dce1285d796e3382ad.1515051241.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/1] coreutils: upgrade to 8.29
+	Fri,  5 Jan 2018 01:07:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0517DiR029912
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 Jan 2018 17:07:13 -0800 (PST)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Thu, 4 Jan 2018 17:07:13 -0800
+From: "Fan, Wenzong" <Wenzong.Fan@windriver.com>
+To: "OHLY, PATRICK" <patrick.ohly@intel.com>, =?iso-8859-1?Q?Jos=E9_Bollo?=
+	<jobol@nonadev.net>
+Thread-Topic: [OE-core] [PATCH] shadow: 'useradd' copies root's extended
+	attributes
+Thread-Index: AQHThT4var3dRteTFUSk0mP+bI09yKNkBlcAgAAGdYCAABBQAIAAAwwAgABW5K0=
+Date: Fri, 5 Jan 2018 01:07:12 +0000
+Message-ID: <7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>,
+	<1515066650.10775.24.camel@intel.com>
+In-Reply-To: <1515066650.10775.24.camel@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.17.212]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +50,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jan 2018 23:08:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Jan 2018 01:07:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2018-01-04 at 15:35 +0800, Chen Qi wrote:
-> * ls.c license checksum is changed, but the license remains the same.
-> 
-> * The new version provides native manual page support, there's no
->   need to download extra manual page from gentoo site.
-> 
-> * man-decouple-manpages-from-build.patch is removed, as new version
->   has manual page support in environment lacking of perl.
-> 
-> * hostname is explicitly enabled to keep the same with previous
-> recipe's
->   behaviour.
-> 
-> * ALTERNATIVE_XXX settings for lbracket.1 are removed as there's no
-> such
->   file.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../man-decouple-manpages-from-build.patch         | 27 ------------
-> ----------
->  .../{coreutils_8.28.bb => coreutils_8.29.bb}       | 24 +++++-------
-> -------
->  2 files changed, 6 insertions(+), 45 deletions(-)
->  delete mode 100644 meta/recipes-core/coreutils/coreutils/man-
-> decouple-manpages-from-build.patch
->  rename meta/recipes-core/coreutils/{coreutils_8.28.bb =>
-> coreutils_8.29.bb} (80%)
-
-Sorry, doesn't build:
-
-https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/678/steps/BuildImages/logs/stdio
-
-Cheers,
-
-Richard
+It works and will override the labels of home dir that SELinux applied, tha=
+t's the issue.=0A=
+=0A=
+For SELinux enabled system, the user's home dir should have lavel 'user_hom=
+e_dir_t' instead of 'etc_t', it prevents users from creating files in their=
+ home dir.=0A=
+=0A=
+Thanks=0A=
+Wenzong=0A=
+________________________________________=0A=
+From: Patrick Ohly [patrick.ohly@intel.com]=0A=
+Sent: Thursday, January 04, 2018 7:50 PM=0A=
+To: Fan, Wenzong; Jos=E9 Bollo=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] shadow: 'useradd' copies root's extended att=
+ributes=0A=
+=0A=
+On Thu, 2018-01-04 at 19:39 +0800, wenzong fan wrote:=0A=
+> If so, I think we should wrapper the logic with:=0A=
+>=0A=
+> +#if defined(WITH_ATTR) && !defined(WITH_SELINUX)=0A=
+> +      attr_copy_file (def_template, user_home, NULL, NULL);=0A=
+> +#endif=0A=
+=0A=
+Does attr_copy_file fail when SELinux is active? In other words, why=0A=
+should it be disabled when using SELinux?=0A=
+=0A=
+File capabilities are also stored in xattrs. It might be relevant to=0A=
+copy those when using SELinux. Or do I miss something?=0A=
+=0A=
+--=0A=
+Best Regards, Patrick Ohly=0A=
+=0A=
+The content of this message is my personal opinion only and although=0A=
+I am an employee of Intel, the statements I make here in no way=0A=
+represent Intel's position on the issue, nor am I authorized to speak=0A=
+on behalf of Intel on this matter.=0A=
+=0A=
+=0A=
 
