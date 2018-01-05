@@ -1,26 +1,33 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BBA0B7881D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 16:11:28 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w05GBRgc013062
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 5 Jan 2018 16:11:28 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eXUad-0007Os-Sq; Fri, 05 Jan 2018 16:11:27 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jan 2018 16:11:26 +0000
-Message-Id: <1515168686-28402-2-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1515168686-28402-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1515168686-28402-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 2/2] bitbake.conf: Set AUTOREV to have a vardepvalue
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB82785B8
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jan 2018 16:32:48 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 800A6A0024F;
+	Fri,  5 Jan 2018 17:32:50 +0100 (CET)
+Received: from [172.16.25.155] ([172.16.25.155])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2018010517324881-21996 ;
+	Fri, 5 Jan 2018 17:32:48 +0100 
+From: Daniel Schultz <d.schultz@phytec.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Openembedded-core@lists.openembedded.org
+References: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
+	<1515165911.30291.31.camel@linuxfoundation.org>
+	<1785cd4d-f6a9-36cb-4c53-91cd1baa1c60@phytec.de>
+Message-ID: <fc7d407a-b851-59d6-c44a-ee9bf4cafe77@phytec.de>
+Date: Fri, 5 Jan 2018 17:33:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <1785cd4d-f6a9-36cb-4c53-91cd1baa1c60@phytec.de>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 05.01.2018 17:32:48,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 05.01.2018 17:32:48
+X-TNEFEvaluated: 1
+Subject: Re: [RFC] cryptodev: Fix build errors with v4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,99 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 16:11:30 -0000
+X-List-Received-Date: Fri, 05 Jan 2018 16:32:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-If you have a recipe which does not include SRCPV in PV but does set
-SRCREV = "${AUTOREV}" and you run do_fetch, then change the repo to a
-new commit then run do_unpack, do_unpack will fail since the new commit
-doesn't exist in the repo that was fetched.
+Cryptodev only breaks with 4.13 and 4.14.
+4.12 builds successfully with and without this patch.
 
-The problem is the revision chosen is not represented in the do_fetch
-task hash. It if were, the fetch would rerun first and the commit would be
-present. It works when PV includes SRCPV since that does contain the chosen
-commit from the AUTOREV.
+Daniel
 
-The solution is to include the SRCPV value into the representation of AUTOREV
-used for checksum calculation purposes.
+On 01/05/2018 04:59 PM, Daniel Schultz wrote:
+> Hi,
+>
+> On 01/05/2018 04:25 PM, Richard Purdie wrote:
+>> On Fri, 2018-01-05 at 15:37 +0100, Daniel Schultz wrote:
+>>> Commit message from the included patch:
+>>> "Linux kernel has added -Werror=3Ddesignated-init around 4.11
+>>> (c834f0e8a8b)
+>>> triggering build errors with gcc 5 and 6 (but not with gcc 4)"
+>>>
+>>> Backport from https://github.com/cryptodev-linux/cryptodev-linux
+>>> Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
+>>>
+>>> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+>> I'm a little puzzled. Which release is this against? We're using
+>> kernels newer than 4.11 so why aren't things breaking?
+> I use rocko and a v4.14 kernel.
+>
+> Your right. The kernel patch was accepted in march.
+> I will build again with v4.12 and 13.
+>
 
-Add a selftest for this issue.
+--=20
+Mit freundlichen Gr=C3=BC=C3=9Fen,
+With best regards,
+   Daniel Schultz
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf                      |  1 +
- meta/lib/oeqa/selftest/cases/sstatetests.py | 38 ++++++++++++++++++++++++++++-
- 2 files changed, 38 insertions(+), 1 deletion(-)
+- Entwicklung -
+Tel.: 	+49 6131 92 21 457
+d.schultz@phytec.de
+www.phytec.de
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 15feb57..93afb13 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -663,6 +663,7 @@ FETCHCMD_hg = "/usr/bin/env hg"
- SRCDATE = "${DATE}"
- SRCREV ??= "INVALID"
- AUTOREV = "${@bb.fetch2.get_autorev(d)}"
-+AUTOREV[vardepvalue] = "${SRCPV}"
- # Set Dynamically in base.bbclass
- # SRCPV = "${@bb.fetch2.get_srcrev(d)}"
- SRCPV[vardepvalue] = "${SRCPV}"
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 4790088..6735694 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -2,15 +2,51 @@ import os
- import shutil
- import glob
- import subprocess
-+import tempfile
- 
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer, create_temp_layer
- from oeqa.selftest.cases.sstate import SStateBase
- from oeqa.core.decorator.oeid import OETestID
- 
- import bb.siggen
- 
- class SStateTests(SStateBase):
-+    def test_autorev_sstate_works(self):
-+        # Test that a git repository which changes is correctly handled by SRCREV = ${AUTOREV}
-+        # when PV does not contain SRCPV
-+
-+        tempdir = tempfile.mkdtemp(prefix='oeqa')
-+        self.track_for_cleanup(tempdir)
-+        create_temp_layer(tempdir, 'selftestrecipetool')
-+        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % tempdir)
-+        runCmd('bitbake-layers add-layer %s' % tempdir)
-+
-+        # Use dbus-wait as a local git repo we can add a commit between two builds in
-+        pn = 'dbus-wait'
-+        srcrev = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
-+        url = 'git://git.yoctoproject.org/dbus-wait'
-+        result = runCmd('git clone %s noname' % url, cwd=tempdir)
-+        srcdir = os.path.join(tempdir, 'noname')
-+        result = runCmd('git reset --hard %s' % srcrev, cwd=srcdir)
-+        self.assertTrue(os.path.isfile(os.path.join(srcdir, 'configure.ac')), 'Unable to find configure script in source directory')
-+
-+        recipefile = os.path.join(tempdir, "recipes-test", "dbus-wait-test", 'dbus-wait-test_git.bb')
-+        os.makedirs(os.path.dirname(recipefile))
-+        srcuri = 'git://' + srcdir + ';protocol=file'
-+        result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri])
-+        self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
-+
-+        with open(recipefile, 'a') as f:
-+            f.write('SRCREV = "${AUTOREV}"\n')
-+            f.write('PV = "1.0"\n')
-+
-+        bitbake("dbus-wait-test -c fetch")
-+        with open(os.path.join(srcdir, "bar.txt"), "w") as f:
-+            f.write("foo")
-+        result = runCmd('git add bar.txt; git commit -asm "add bar"', cwd=srcdir)
-+        bitbake("dbus-wait-test -c unpack")
-+
- 
-     # Test sstate files creation and their location
-     def run_test_sstate_creation(self, targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True, should_pass=True):
--- 
-2.7.4
+Sie finden uns auch auf: Facebook, LinkedIn, Xing, YouTube
+
+PHYTEC Messtechnik GmbH | Robert-Koch-Str. 39 | 55129 Mainz, Germany
+Gesch=C3=A4ftsf=C3=BChrer: Dipl.-Ing. Michael Mitezki, Dipl.-Ing. Bodo Hube=
+r |
+Handelsregister Mainz HRB 4656 | Finanzamt Mainz-Mitte | St.Nr. 266500608,
+DE 149059855
+This E-Mail may contain confidential or privileged information. If you are
+not the intended recipient (or have received this E-Mail in error) please
+notify the sender immediately and destroy this E-Mail. Any unauthorized
+copying, disclosure or distribution of the material in this E-Mail is
+strictly forbidden.
 
 
