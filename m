@@ -1,33 +1,48 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EB82785B8
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jan 2018 16:32:48 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 800A6A0024F;
-	Fri,  5 Jan 2018 17:32:50 +0100 (CET)
-Received: from [172.16.25.155] ([172.16.25.155])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2018010517324881-21996 ;
-	Fri, 5 Jan 2018 17:32:48 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Openembedded-core@lists.openembedded.org
-References: <1515163072-18559-1-git-send-email-d.schultz@phytec.de>
-	<1515165911.30291.31.camel@linuxfoundation.org>
-	<1785cd4d-f6a9-36cb-4c53-91cd1baa1c60@phytec.de>
-Message-ID: <fc7d407a-b851-59d6-c44a-ee9bf4cafe77@phytec.de>
-Date: Fri, 5 Jan 2018 17:33:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <1785cd4d-f6a9-36cb-4c53-91cd1baa1c60@phytec.de>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 05.01.2018 17:32:48,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 05.01.2018 17:32:48
-X-TNEFEvaluated: 1
-Subject: Re: [RFC] cryptodev: Fix build errors with v4.11
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A85437864F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jan 2018 17:16:10 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id l41so4897037wre.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jan 2018 09:16:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ym6qI2SinROfhjqmu5dJ6vRbwD7Z5f6h9xmErq7BbQw=;
+	b=0i87ixG3GE9yRkG46yRsrkrjqVMFLNuTpLWCCIfUUv3dNF70AwwB35WEFEQFDzRyEk
+	fq+1PNvR2/78gBHyMuE4cVYdBjt3ai2T2TSADPEU727Afb3Qwoe8j0qgO7hMdaxeruc+
+	KTvpozS4+564OiFwH1LmbpzcID6mHj3KFTgzrwV76f0xC1+Hq20yzKniZftj13DDOqL3
+	Im6JflRSXYifM1nWm2Ug8jiOWwzEcKQ+DisesbFNZv5b66pu2g7WRkd8fbXW/wDhNGQW
+	kJsCVEOMtAavqtUBvHSv2K19zcNA/CwPFQ2HBttLHE1d73I4rGItkPGbKNyqOphhG3Mf
+	3Z+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ym6qI2SinROfhjqmu5dJ6vRbwD7Z5f6h9xmErq7BbQw=;
+	b=F0SGiePf0XEcY4zIZkum6aqCrG0R7GghxtbjqHzmudxNWvC+csbj6WK1Urae0V+qIB
+	139mmZvuomgymdFBc02vIj+VGaSrZUERvfOWhCppw7lQmOs7Aee7WL3KRBVQlIgXIxes
+	xu43tx8bwrjvBh3Jo+xu2UdwQ0sQTKzbspv4IvvzW+tn2MWHf5ZFG4+Oqzq5rUrNjP+i
+	dx3nhp+5fMLD3HAPFxMtnE/YYhzpvzTNNuSFm3dWLszpECxfxESvIbwYU64llldthYYk
+	N7TPCEUcqVCNDN/UFFKx80ijBNASZxBDvin08P5Ak3DKcbgNL8WZryT3OdXHNc23C2ye
+	Cq7A==
+X-Gm-Message-State: AKGB3mKWo14mwpg5UOAgbbsFkG0cdmd3ZYNAnpV+vXNRqs8thj7A1+08
+	YGEUGgSPWpwlTHMqtQPzUl3+Tkcd
+X-Google-Smtp-Source: ACJfBotzCess/mhE+Bh3LQsGiZOt24AI9e91ZVG47fQRtzoZaWVLF88/NgGQPuO4xFYKAG4IhVhPVg==
+X-Received: by 10.223.165.84 with SMTP id j20mr3345215wrb.278.1515172571204;
+	Fri, 05 Jan 2018 09:16:11 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id r9sm3950196wrg.74.2018.01.05.09.16.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Jan 2018 09:16:10 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jan 2018 17:16:08 +0000
+Message-Id: <20180105171608.24806-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] psmisc: improve autopoint-enabling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,59 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jan 2018 16:32:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Jan 2018 17:16:11 -0000
 
-Cryptodev only breaks with 4.13 and 4.14.
-4.12 builds successfully with and without this patch.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/psmisc/psmisc.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Daniel
-
-On 01/05/2018 04:59 PM, Daniel Schultz wrote:
-> Hi,
->
-> On 01/05/2018 04:25 PM, Richard Purdie wrote:
->> On Fri, 2018-01-05 at 15:37 +0100, Daniel Schultz wrote:
->>> Commit message from the included patch:
->>> "Linux kernel has added -Werror=3Ddesignated-init around 4.11
->>> (c834f0e8a8b)
->>> triggering build errors with gcc 5 and 6 (but not with gcc 4)"
->>>
->>> Backport from https://github.com/cryptodev-linux/cryptodev-linux
->>> Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
->>>
->>> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
->> I'm a little puzzled. Which release is this against? We're using
->> kernels newer than 4.11 so why aren't things breaking?
-> I use rocko and a v4.14 kernel.
->
-> Your right. The kernel patch was accepted in march.
-> I will build again with v4.12 and 13.
->
-
---=20
-Mit freundlichen Gr=C3=BC=C3=9Fen,
-With best regards,
-   Daniel Schultz
-
-- Entwicklung -
-Tel.: 	+49 6131 92 21 457
-d.schultz@phytec.de
-www.phytec.de
-
-Sie finden uns auch auf: Facebook, LinkedIn, Xing, YouTube
-
-PHYTEC Messtechnik GmbH | Robert-Koch-Str. 39 | 55129 Mainz, Germany
-Gesch=C3=A4ftsf=C3=BChrer: Dipl.-Ing. Michael Mitezki, Dipl.-Ing. Bodo Hube=
-r |
-Handelsregister Mainz HRB 4656 | Finanzamt Mainz-Mitte | St.Nr. 266500608,
-DE 149059855
-This E-Mail may contain confidential or privileged information. If you are
-not the intended recipient (or have received this E-Mail in error) please
-notify the sender immediately and destroy this E-Mail. Any unauthorized
-copying, disclosure or distribution of the material in this E-Mail is
-strictly forbidden.
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 527a1d590f3..82ef947709a 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -18,8 +18,8 @@ inherit autotools gettext
+ 
+ # Upstream has a custom autogen.sh which invokes po/update-potfiles as they 
+ # don't ship a po/POTFILES.in (which is silly).  Without that file gettext 
+-#doesn't believe po/ is a gettext directory and won't generate po/Makefile.
+-EXTRA_AUTORECONF=""
++# doesn't believe po/ is a gettext directory and won't generate po/Makefile.
++EXTRA_AUTORECONF_remove = "--exclude=autopoint"
+ do_configure_prepend() {
+     ( cd ${S} && po/update-potfiles )
+ }
+-- 
+2.11.0
 
 
