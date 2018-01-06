@@ -1,55 +1,37 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 63F64788F5
+Return-Path: <mac@mcrowe.com>
+Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EFEA788CE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 20:09:29 +0000 (UTC)
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 01/06/2018 3:07:30 PM
-X-Note: SecureTide Build: 12/19/2017 1:37:44 PM UTC (2.6.27.2)
-X-Note: Filtered by 10.238.11.162
-X-Note-AR-Scan: None - PIPE
-Received: by relay.appriver.com (CommuniGate Pro PIPE 6.1.7)
-	with PIPE id 274977370; Sat, 06 Jan 2018 15:07:30 -0500
-Received: from [213.210.30.29] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
-	with ESMTPS id 274977349; Sat, 06 Jan 2018 15:07:28 -0500
-Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1eXumT-000Foa-Rg; Sat, 06 Jan 2018 20:09:25 +0000
-Received: from mac by chuckie with local (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1eXumT-00020X-R7; Sat, 06 Jan 2018 20:09:25 +0000
+	Sat,  6 Jan 2018 20:16:24 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id Xut8ekcIj2du7Xut9e7aUS; Sat, 06 Jan 2018 20:16:24 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.2 cv=a6FAzQaF c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=RgaUWeydRksA:10 a=Q4-j1AaZAAAA:8
+	a=78k4m6g3H3Zv34P6iF8A:9
+	a=CjuIK1q_8ugA:10 a=N8Rd8igiEnUA:10 a=8387nF9mEzIA:10
+	a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1eXut8-0000kv-7F; Sat, 06 Jan 2018 20:16:18 +0000
+Date: Sat, 6 Jan 2018 20:16:18 +0000
 From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Jan 2018 20:09:02 +0000
-Message-Id: <20180106200903.7624-6-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180106200903.7624-1-mac@mcrowe.com>
-References: <20180106200903.7624-1-mac@mcrowe.com>
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 01/06/2018 3:07:28 PM
-X-Note: SecureTide Build: 12/19/2017 1:37:44 PM UTC (2.6.27.2)
-X-Note: Filtered by 10.238.11.162
-X-Policy: brightsign.biz
-X-Primary: brightsign.biz@brightsign.biz
-X-Virus-Scan: V-
-X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-29/SG:1 1/6/2018 3:07:08 PM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.551021 p=-0.942857 Source Normal
-X-Signature-Violations: 0-0-0-2526-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G293 G294 G295 G296 G300 G301 G433 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH 5/6] libical: Rely on cmake.bbclass to put cmake package files in dev package
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180106201618.ktj64aparfs47yjv@mcrowe.com>
+References: <20171112163923.19517-1-mac@mcrowe.com>
+	<CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
+	<20171211095149.ywhejbets5loutnv@mcrowe.com>
+	<CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
+	<20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfFfB6rzN+dLgbcuCEHHPdpY53iiDTRprA0nfMPwSI447rgjkSZgo1L1mytkrPtTODdvEpRBjHjxy3t+BKQNHucqsuxUkDjhtaCCfSyg6kr/Cl0kmf0JY
+	xX7/HSkY/LPltZgTRrTllRxsUMOTg+PpNKj452BNAYlH2wTzpZl+7q2M
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,28 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 20:09:29 -0000
+X-List-Received-Date: Sat, 06 Jan 2018 20:16:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-cmake.bbclass now ensures that ${libdir}/cmake ends up in the dev package,
-so this recipe doesn't need to do so itself.
+https://patchwork.openembedded.org/patch/145709/
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/recipes-support/libical/libical_2.0.0.bb | 2 --
- 1 file changed, 2 deletions(-)
+On Wednesday 20 December 2017 at 10:28:22 +0000, Mike Crowe wrote:
+> On Monday 11 December 2017 at 13:45:26 +0000, Burton, Ross wrote:
+> > It was implicated in some build failures.  I'll re-add it and try again.
+> 
+> Thanks. Are the new results in? I had a poke about on autobuilder.yocto.io
+> but couldn't work out how to tell which builds this commit was included in.
+> Build 719 did not appear to include it.
 
-diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-index d4fe868eb4..dcc21cc16e 100644
---- a/meta/recipes-support/libical/libical_2.0.0.bb
-+++ b/meta/recipes-support/libical/libical_2.0.0.bb
-@@ -17,5 +17,3 @@ SRC_URI[sha256sum] = "654c11f759c19237be39f6ad401d917e5a05f36f1736385ed958e60cf2
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- 
- inherit cmake pkgconfig
--
--FILES_${PN}-dev += "${libdir}/cmake/*"
--- 
-2.11.0
+Any more news?
 
+Thanks.
 
+Mike.
 
