@@ -1,30 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D9E9178857
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 30A8A7883C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 08:31:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="34927423"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Jan 2018 16:31:39 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 28382486A77F
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 16:31:37 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Sat, 6 Jan 2018 16:31:36 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 6 Jan 2018 16:31:55 +0800
-Message-ID: <1515227515-18557-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	Sat,  6 Jan 2018 10:05:35 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w06A5YDK027243
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 6 Jan 2018 10:05:35 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1eXlM6-0002Ma-I7; Sat, 06 Jan 2018 10:05:34 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  6 Jan 2018 10:05:33 +0000
+Message-Id: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: 28382486A77F.A52BA
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] bjam-native: 1.65.1 -> 1.66.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] local.conf.sample: Weakly set BB_DISKMON_DIRS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 08:31:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 06 Jan 2018 10:05:36 -0000
 
-1.Upgrade bjam-native form 1.65.1 to 1.66.0
-2.Upgrade boost form 1.65.1 to 1.66.0
+For various reasons we need to be able to set and override this from
+auto.conf on our test infrastructure. We have tried forcing the variable
+but this then breaks other selftests. In the interests of not complicating
+things further and needing to modify the tests across releases, weaken
+the default assignment.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../boost/{bjam-native_1.65.1.bb => bjam-native_1.66.0.bb}            | 0
- meta/recipes-support/boost/{boost-1.65.1.inc => boost-1.66.0.inc}     | 4 ++--
- meta/recipes-support/boost/{boost_1.65.1.bb => boost_1.66.0.bb}       | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/boost/{bjam-native_1.65.1.bb => bjam-native_1.66.0.bb} (100%)
- rename meta/recipes-support/boost/{boost-1.65.1.inc => boost-1.66.0.inc} (85%)
- rename meta/recipes-support/boost/{boost_1.65.1.bb => boost_1.66.0.bb} (100%)
+ meta/conf/local.conf.sample | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/bjam-native_1.65.1.bb b/meta/recipes-support/boost/bjam-native_1.66.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/bjam-native_1.65.1.bb
-rename to meta/recipes-support/boost/bjam-native_1.66.0.bb
-diff --git a/meta/recipes-support/boost/boost-1.65.1.inc b/meta/recipes-support/boost/boost-1.66.0.inc
-similarity index 85%
-rename from meta/recipes-support/boost/boost-1.65.1.inc
-rename to meta/recipes-support/boost/boost-1.66.0.inc
-index f0ca88c..fe2b863 100644
---- a/meta/recipes-support/boost/boost-1.65.1.inc
-+++ b/meta/recipes-support/boost/boost-1.66.0.inc
-@@ -12,8 +12,8 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
--SRC_URI[md5sum] = "41d7542ce40e171f3f7982aff008ff0d"
--SRC_URI[sha256sum] = "9807a5d16566c57fd74fb522764e0b134a8bbe6b6e8967b83afefd30dcd3be81"
-+SRC_URI[md5sum] = "b2dfbd6c717be4a7bb2d88018eaccf75"
-+SRC_URI[sha256sum] = "5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost_1.65.1.bb b/meta/recipes-support/boost/boost_1.66.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.65.1.bb
-rename to meta/recipes-support/boost/boost_1.66.0.bb
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index b754853..742f249 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -168,7 +168,7 @@ PATCHRESOLVE = "noop"
+ # files and damages the build in ways which may not be easily recoverable.
+ # It's necesary to monitor /tmp, if there is no space left the build will fail
+ # with very exotic errors.
+-BB_DISKMON_DIRS = "\
++BB_DISKMON_DIRS ??= "\
+     STOPTASKS,${TMPDIR},1G,100K \
+     STOPTASKS,${DL_DIR},1G,100K \
+     STOPTASKS,${SSTATE_DIR},1G,100K \
 -- 
 2.7.4
-
-
 
 
