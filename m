@@ -1,24 +1,31 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 30A8A7883C
+	by mail.openembedded.org (Postfix) with ESMTP id B83A778887
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 10:05:35 +0000 (UTC)
+	Sat,  6 Jan 2018 10:15:32 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w06A5YDK027243
+	w06AFVlD028383
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 6 Jan 2018 10:05:35 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eXlM6-0002Ma-I7; Sat, 06 Jan 2018 10:05:34 +0000
+	verify=NOT); Sat, 6 Jan 2018 10:15:32 GMT
+Message-ID: <1515233731.29722.20.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Jan 2018 10:05:33 +0000
-Message-Id: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
+To: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 06 Jan 2018 10:15:31 +0000
+In-Reply-To: <CAKmqyKO8P6uYTLxDM4xAFCxHA7+Hi9xkTqabJ1FSeGfLRXZpOQ@mail.gmail.com>
+References: <20171221215634.26019-1-alistair.francis@xilinx.com>
+	<CAKmqyKO0DpoCCzDzoJf9WELTE0fcE7rRS279xbLLPVV5bvff6A@mail.gmail.com>
+	<1515055530.5525.176.camel@linuxfoundation.org>
+	<CAKmqyKMGTAJuocNKid-mnSAg-bbtoaTH7ih8JjsA-DP5aRYHdA@mail.gmail.com>
+	<1515198127.29722.16.camel@linuxfoundation.org>
+	<CAKmqyKO8P6uYTLxDM4xAFCxHA7+Hi9xkTqabJ1FSeGfLRXZpOQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH] local.conf.sample: Weakly set BB_DISKMON_DIRS
+Cc: vineethchowz.chowdary@xilinx.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] receipes-devtools: QEMU: Bump to version 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 10:05:36 -0000
+X-List-Received-Date: Sat, 06 Jan 2018 10:15:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-For various reasons we need to be able to set and override this from
-auto.conf on our test infrastructure. We have tried forcing the variable
-but this then breaks other selftests. In the interests of not complicating
-things further and needing to modify the tests across releases, weaken
-the default assignment.
+On Fri, 2018-01-05 at 18:18 -0800, Alistair Francis wrote:
+> On Fri, Jan 5, 2018 at 4:22 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > > Do you have an easy way to reproduce this hang?
+> > Was this a musl build you tried to reproduce in?
+> Ah, it was not. I'll have to figure out how to do a musl build next
+> week and try again.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/local.conf.sample | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+TCLIBC="musl"
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index b754853..742f249 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -168,7 +168,7 @@ PATCHRESOLVE = "noop"
- # files and damages the build in ways which may not be easily recoverable.
- # It's necesary to monitor /tmp, if there is no space left the build will fail
- # with very exotic errors.
--BB_DISKMON_DIRS = "\
-+BB_DISKMON_DIRS ??= "\
-     STOPTASKS,${TMPDIR},1G,100K \
-     STOPTASKS,${DL_DIR},1G,100K \
-     STOPTASKS,${SSTATE_DIR},1G,100K \
--- 
-2.7.4
+Cheers,
+
+Richard
+
 
 
