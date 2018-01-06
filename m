@@ -1,53 +1,30 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 25DD47882D
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C8CA5600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 02:19:02 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id w107so5775501wrb.9
+	Sat,  6 Jan 2018 08:31:27 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="34927422"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Jan 2018 16:31:27 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 5B489486A77F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jan 2018 18:19:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=pHfMrhMFRuyYcSnGzFrMubQmeUxGCWK8vuUq8/QgPIo=;
-	b=aapeGg5tgrcmb9xXbmQRL20ZnXfANXsh9Fq3c+ZAhIo6mkImoeHTaMHcppPhc8tySi
-	5MnYoTNbDCH2D8jWeNhbC9SFdt7j9Qhm4iqNU9VcozpnQpt8582mTtouA+2Kv7Wsddz1
-	VQIqwSEpP7OUiKwFoBpUPPBl1yjk5A3cZa0NGPZerPm3tCJpLmZPhN11vFKY/F0W1Zii
-	a7pYKrJSy46K+WVe0TYurbiUwjVrlV+PYEH2ZkWFncmnv44mEu9by/GqJoArjpPOBMI/
-	KkI4/Yx55eotgu5HLOXWpVoA0YVGAhvARBjlKcclfxeZOw/vz4CgCsCdvPeN4lsX6ZQJ
-	hVLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=pHfMrhMFRuyYcSnGzFrMubQmeUxGCWK8vuUq8/QgPIo=;
-	b=g/AD1cmC4sMZhIXD3oMoyGx8pTZ/KW/WuWdj1qYTuULgWqVtOMQA+xD/8/tKNRBIXF
-	/NdORBZPNLBstocGisD1X7m0VHtAm20xzDwiIk+X8oPY2OWmgRlsuzDF5nN6fuBFSeIO
-	Xt7zcGo17fDXf4TXeY9vftmv8iwZklUYwTSRKH5keil7JZlooaFLe5XzDhVVFd/VXPFk
-	3UlCfS4w7N4Ygn0bvmvZ5cs/kzngJymZnPZUVY41s8OhaZvgQ9Ww/M7n1KNXo0lfhEMh
-	vipBSPzSFkdk2lIi9bWUnig9juIFj7suyVJuySaUChhmTqzOI7733cbFOSHCHEdnQTPm
-	howA==
-X-Gm-Message-State: AKGB3mKtTUuLfEUPJ6iNurhYiWSajzXWshURzy2kowrd3J6KxZix6YoX
-	0p/e1QjA8IiZJMP/S2fFw68bkbiCJ5IyMMvzxs8=
-X-Google-Smtp-Source: ACJfBovlVrVybU+jRa77+hpv1l2g69OW7rEMpwfdQmSurDXzHvNvLlZAt03By4Te7Hrn5jrLO8ozS/JSm1ht8mTGBRY=
-X-Received: by 10.223.197.69 with SMTP id s5mr4642912wrf.96.1515205144043;
-	Fri, 05 Jan 2018 18:19:04 -0800 (PST)
+	Sat,  6 Jan 2018 16:31:24 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Sat, 6 Jan 2018 16:31:23 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 6 Jan 2018 16:31:41 +0800
+Message-ID: <1515227501-18514-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.28.164.69 with HTTP; Fri, 5 Jan 2018 18:18:33 -0800 (PST)
-In-Reply-To: <1515198127.29722.16.camel@linuxfoundation.org>
-References: <20171221215634.26019-1-alistair.francis@xilinx.com>
-	<CAKmqyKO0DpoCCzDzoJf9WELTE0fcE7rRS279xbLLPVV5bvff6A@mail.gmail.com>
-	<1515055530.5525.176.camel@linuxfoundation.org>
-	<CAKmqyKMGTAJuocNKid-mnSAg-bbtoaTH7ih8JjsA-DP5aRYHdA@mail.gmail.com>
-	<1515198127.29722.16.camel@linuxfoundation.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 5 Jan 2018 18:18:33 -0800
-Message-ID: <CAKmqyKO8P6uYTLxDM4xAFCxHA7+Hi9xkTqabJ1FSeGfLRXZpOQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: vineethchowz.chowdary@xilinx.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] receipes-devtools: QEMU: Bump to version 2.11.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 5B489486A77F.A6C6F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] blktrace: 1.1.0+gitX -> 1.2.0+gitX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 02:19:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 06 Jan 2018 08:31:28 -0000
+Content-Type: text/plain
 
-On Fri, Jan 5, 2018 at 4:22 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2018-01-05 at 11:15 -0800, Alistair Francis wrote:
->> On Thu, Jan 4, 2018 at 12:45 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > I ran the qemu upgrade in some builds and both hang in nightly-musl
->> > whilst trying to build webkitgtk:
->> >
->> > https://autobuilder.yocto.io/builders/nightly-musl/builds/688/steps
->> > /BuildImages/logs/stdiohttps://autobuilder.yocto.io/builders/nightl
->> > y-musl/builds/687/steps/BuildImages/logs/stdio
->> >
->> > Given all the stability issues we've had recently and the trouble
->> > I've
->> > had getting stable builds, this issue is going to have to be
->> > resolved
->> > before we can take this upgrade.
->> >
->> > FWIW they're hanging in qemu user mode:
->> >
->> > run.do_compile.=E2=94=80=E2=94=80=E2=94=80cmake=E2=94=80=E2=94=80=E2=
-=94=80make=E2=94=80=E2=94=80=E2=94=80make=E2=94=80=E2=94=80=E2=94=80make=E2=
-=94=80=E2=94=80=E2=94=80sh=E2=94=80=E2=94=80=E2=94=80g-ir-scanner-
->> > wr=E2=94=80=E2=94=80=E2=94=80python3=E2=94=80=E2=94=80=E2=94=80g-ir-sc=
-anner-qe=E2=94=80=E2=94=80=E2=94=80qemu-i386=E2=94=80=E2=94=80=E2=94=802*[{=
-qemu-i386}]
->> Hmm...
->>
->> I don't see any hangs. With master webkitgk fails to build with a
->> missing header fil (GL/gl.h) and with this patch I still see the
->> problem.
->>
->> Do you have an easy way to reproduce this hang?
->
-> Was this a musl build you tried to reproduce in?
+1.Upgrade blktrace form 1.1.0+gitX to 1.2.0+gitX
+2.Delete 0001-include-sys-types.h-for-dev_t-definition.patch, since it is integrated upstream.
 
-Ah, it was not. I'll have to figure out how to do a musl build next
-week and try again.
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ ...-include-sys-types.h-for-dev_t-definition.patch | 30 ----------------------
+ meta/recipes-kernel/blktrace/blktrace_git.bb       |  3 +--
+ 2 files changed, 1 insertion(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
 
-Alistair
+diff --git a/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch b/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
+deleted file mode 100644
+index a4b7157..0000000
+--- a/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 6b5bbdfaac7f216fe8a02c4cf29e5eb2aee5a409 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 15 Sep 2015 00:01:00 +0000
+-Subject: [PATCH] include sys/types.h for dev_t definition
+-
+-Avoids the build failures when sys/types.h does not get included
+-indirectly through other headers.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- blktrace.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/blktrace.h b/blktrace.h
+-index 380aec7..944fc08 100644
+---- a/blktrace.h
+-+++ b/blktrace.h
+-@@ -5,6 +5,7 @@
+- #include <limits.h>
+- #include <byteswap.h>
+- #include <endian.h>
+-+#include <sys/types.h>
+- 
+- #include "blktrace_api.h"
+- #include "rbtree.h"
+--- 
+-2.5.2
+-
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index 770575f..814cb6c 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -7,11 +7,10 @@ DEPENDS = "libaio"
+ 
+ SRCREV = "43fc870ce04e963def45dfc0d1ed4ea21ef10d4b"
+ 
+-PV = "1.1.0+git${SRCPV}"
++PV = "1.2.0+git${SRCPV}"
+ 
+ SRC_URI = "git://git.kernel.dk/blktrace.git \
+            file://ldflags.patch \
+-           file://0001-include-sys-types.h-for-dev_t-definition.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
 
->
-> Cheers,
->
-> Richard
+
+
 
