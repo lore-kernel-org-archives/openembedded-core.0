@@ -1,31 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B83A778887
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 10:15:32 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w06AFVlD028383
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 6 Jan 2018 10:15:32 GMT
-Message-ID: <1515233731.29722.20.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 06 Jan 2018 10:15:31 +0000
-In-Reply-To: <CAKmqyKO8P6uYTLxDM4xAFCxHA7+Hi9xkTqabJ1FSeGfLRXZpOQ@mail.gmail.com>
-References: <20171221215634.26019-1-alistair.francis@xilinx.com>
-	<CAKmqyKO0DpoCCzDzoJf9WELTE0fcE7rRS279xbLLPVV5bvff6A@mail.gmail.com>
-	<1515055530.5525.176.camel@linuxfoundation.org>
-	<CAKmqyKMGTAJuocNKid-mnSAg-bbtoaTH7ih8JjsA-DP5aRYHdA@mail.gmail.com>
-	<1515198127.29722.16.camel@linuxfoundation.org>
-	<CAKmqyKO8P6uYTLxDM4xAFCxHA7+Hi9xkTqabJ1FSeGfLRXZpOQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: vineethchowz.chowdary@xilinx.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] receipes-devtools: QEMU: Bump to version 2.11.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D48578848;
+	Sat,  6 Jan 2018 10:32:56 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sat, 06 Jan 2018 10:32:58 -0000
+Message-ID: <20180106103258.2785.89808@do.openembedded.org>
+References: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbG9jYWwuY29uZi5zYW1wbGU6IFdlYWtseSBzZXQgQkJfRElTS01PTl9ESVJT?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,23 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 10:15:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 06 Jan 2018 10:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-01-05 at 18:18 -0800, Alistair Francis wrote:
-> On Fri, Jan 5, 2018 at 4:22 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > Do you have an easy way to reproduce this hang?
-> > Was this a musl build you tried to reproduce in?
-> Ah, it was not. I'll have to figure out how to do a musl build next
-> week and try again.
+== Series Details ==
 
-TCLIBC="musl"
+Series: local.conf.sample: Weakly set BB_DISKMON_DIRS
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10421/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
 
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 038d7270ae)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
