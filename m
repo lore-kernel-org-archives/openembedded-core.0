@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D48578848;
-	Sat,  6 Jan 2018 10:32:56 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
+Return-Path: <Zhangle.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3660C788D5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  6 Jan 2018 15:02:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w06F2D1D007749
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 6 Jan 2018 07:02:13 -0800 (PST)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Sat, 6 Jan 2018 07:02:13 -0800
+From: "Yang, Zhangle (Eric)" <Zhangle.Yang@windriver.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 06 Jan 2018 10:32:58 -0000
-Message-ID: <20180106103258.2785.89808@do.openembedded.org>
-References: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1515233133-9046-1-git-send-email-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbG9jYWwuY29uZi5zYW1wbGU6IFdlYWtseSBzZXQgQkJfRElTS01PTl9ESVJT?=
+Thread-Topic: [OE-core] [PATCH] receipes-devtools: QEMU: Bump to version 2.11.0
+Thread-Index: AdOG/1VNu1JMrA/PDkmpZ+M84ClysQ==
+Date: Sat, 6 Jan 2018 15:02:13 +0000
+Message-ID: <8FCD629C0BBCE94983EF9844F70B15D20128D8122A@ALA-MBC.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+MIME-Version: 1.0
+Cc: "vineethchowz.chowdary@xilinx.com" <vineethchowz.chowdary@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] receipes-devtools: QEMU: Bump to version	2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +36,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 10:32:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: local.conf.sample: Weakly set BB_DISKMON_DIRS
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10421/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 038d7270ae)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+X-List-Received-Date: Sat, 06 Jan 2018 15:02:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
