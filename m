@@ -1,39 +1,47 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A0DEB788D0
+	by mail.openembedded.org (Postfix) with ESMTP id 2E0D478956
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 19:38:24 +0000 (UTC)
+	Sun,  7 Jan 2018 19:38:25 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3zF7xF3MZxz1qrN3;
-	Sun,  7 Jan 2018 20:38:25 +0100 (CET)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3zF7xH09Pjz1qrjb;
+	Sun,  7 Jan 2018 20:38:27 +0100 (CET)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3zF7xF382kz26T1p;
-	Sun,  7 Jan 2018 20:38:25 +0100 (CET)
+	by mail.m-online.net (Postfix) with ESMTP id 3zF7xG71Wpz26T1q;
+	Sun,  7 Jan 2018 20:38:26 +0100 (CET)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
 	port 10024)
-	with ESMTP id Akx4Krd4T-Zu; Sun,  7 Jan 2018 20:38:24 +0100 (CET)
-X-Auth-Info: Edmy2OciIBN0Rdkqqdlpo12w67kHLORyqK07TTWlY5c=
+	with ESMTP id B_P4kxpCZl0S; Sun,  7 Jan 2018 20:38:26 +0100 (CET)
+X-Auth-Info: QQJ+fR+K9UfqZmMiXE2iWLvQIrogSiL5oMRY0LeIogo=
 Received: from [IPv6:::1] (unknown [195.140.253.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sun,  7 Jan 2018 20:38:24 +0100 (CET)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
+	Sun,  7 Jan 2018 20:38:26 +0100 (CET)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <20180107161920.30937-1-marex@denx.de>
-	<3cdba2e1-94df-32fd-0138-a6fa533ec165@linux.intel.com>
-	<233b2ff5-22a9-f378-98d9-fb833f5cc848@denx.de>
-	<878f3830-3b43-cdd4-aa06-e237db4d0af0@linux.intel.com>
+	<20180107161920.30937-2-marex@denx.de>
+	<CADkTA4MH4EL42iL=BXRKy8y0Gp_bwOarpXiBEPrvCSygOuT4oQ@mail.gmail.com>
+	<db5ad1b0-0994-0ce9-79df-39a1704b1072@denx.de>
+	<CADkTA4NL=2rzVUfwimQhON00xFMy2UwrQ63vjmR_4QBGHNn1EA@mail.gmail.com>
+	<2c1c48a3-5355-b3eb-fab0-765a007b8475@denx.de>
+	<CADkTA4NAvZVW_dNbOi_2OgyNxkQXDj9XJtbDpSztXSfaYRxP=Q@mail.gmail.com>
+	<1999cffb-3890-2271-3938-ba2be97b135d@denx.de>
+	<CADkTA4OQNJWyMn8tj7m8nEOjeH4M5V729uU+OBerKe5V+ns2VA@mail.gmail.com>
+	<5ba2da95-dbe0-b65b-e2e9-8e8fff030d96@denx.de>
+	<CADkTA4N2=CgDZYqsvP07KN9hK_P-ts91PkazBOTLiDk2n+rFSw@mail.gmail.com>
 From: Marek Vasut <marex@denx.de>
-Message-ID: <d011189c-e264-8bf8-3193-58edc3eb4ebc@denx.de>
-Date: Sun, 7 Jan 2018 20:37:40 +0100
+Message-ID: <8e46c4ae-79e7-4013-fd22-9988b4a34af4@denx.de>
+Date: Sun, 7 Jan 2018 20:38:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <878f3830-3b43-cdd4-aa06-e237db4d0af0@linux.intel.com>
-Subject: Re: [PATCH 1/2] xenomai: Add xenomai recipe
+In-Reply-To: <CADkTA4N2=CgDZYqsvP07KN9hK_P-ts91PkazBOTLiDk2n+rFSw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel: Add optional patch_xenomai task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,46 +54,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 19:38:24 -0000
+X-List-Received-Date: Sun, 07 Jan 2018 19:38:26 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 01/07/2018 08:27 PM, Alexander Kanavin wrote:
-> On 01/07/2018 07:55 PM, Marek Vasut wrote:
->>>> Add recipe for the xenomai. This recipe is used twice, once to build
->>>> the xenomai userspace components and again to patch the kernel with
->>>> the cobalt core. Therefore, the xenomai sources are installed into
->>>> work-shared rather then work to make them accessible to the kernel
->>>> recipe, which triggers the patching.
+On 01/07/2018 08:00 PM, Bruce Ashfield wrote:
+> On Sun, Jan 7, 2018 at 1:57 PM, Marek Vasut <marex@denx.de> wrote:
+>> On 01/07/2018 07:55 PM, Bruce Ashfield wrote:
+>>> On Sun, Jan 7, 2018 at 1:49 PM, Marek Vasut <marex@denx.de> wrote:
+>>>> On 01/07/2018 06:55 PM, Bruce Ashfield wrote:
+>>>>> On Sun, Jan 7, 2018 at 12:53 PM, Marek Vasut <marex@denx.de> wrote:
+>>>>>> On 01/07/2018 05:42 PM, Bruce Ashfield wrote:
+>>>>>>> On Sun, Jan 7, 2018 at 11:38 AM, Marek Vasut <marex@denx.de> wrote:
+>>>>>>>> On 01/07/2018 05:37 PM, Bruce Ashfield wrote:
+>>>>>>>>> On Sun, Jan 7, 2018 at 11:19 AM, Marek Vasut <marex@denx.de> wrote:
+>>>>>>>>>> Add additional task, do_patch_xenomai, inserted between do_patch and
+>>>>>>>>>> do_configure tasks. This task applies the cobalt patch to the kernel
+>>>>>>>>>> sources for a specific machine. This is disabled by default, so use
+>>>>>>>>>> PACKAGECONFIG[xenomai] of the kernel package to enable the patching.
+>>>>>>>>>>
+>>>>>>>>>> You will also need a kernel recipe for a kernel version with ipipe
+>>>>>>>>>> patch applied.
+>>>>>>>>>
+>>>>>>>>> This doesn't make any sense to me.
+>>>>>>>>>
+>>>>>>>>> Why on earth would this be in kernel.bbclass ? and part of a xenomai
+>>>>>>>>> recipe ?
+>>>>>>>> Do you have a better suggestion how to make this easily available for
+>>>>>>>> every kernel recipe ?
+>>>>>>>
+>>>>>>> There's no need to make it available for every kernel recipe. If someone
+>>>>>>> wants to build xenomai, they need to have a specific kernel recipe and
+>>>>>>> configuration to make it work. By providing that patch and allowing it to
+>>>>>>> be applied to any kernel doesn't mean it will actually work .. so you aren't
+>>>>>>> doing anyone any favours.
+>>>>>>>
+>>>>>>> The same thing could be said for the -rt patch, aufs, etc, any patch could
+>>>>>>> be made available for any kernel, but they aren't, since they will either fail
+>>>>>>> to patch, or won't work at runtime.
+>>>>>> We actually have a -rt patch available in the kernel recipes, so why not
+>>>>>> xenomai patch ?
+>>>>>
+>>>>> As a separate recipe, not as something in a common bbclass, which implies
+>>>>> that it applies and works everywhere.
+>>>>>
+>>>>> Anyone that is trying to apply -rt against a generic kernel .. is very mistaken.
+>>>>
+>>>> So I should pull this into linux-*-xenomai , just like the rt patch does?
 >>>
->>> What is xenomai? What is a 'cobalt core'? What do they do and who would
->>> want to use them? Please do explain that in the commit message.
->>
->> I guess the link in the xenomai recipe explains it, details are here:
->> http://xenomai.org/installing-xenomai-3-x/
-> 
-> I need to clarify: all of these questions need to be answered in the
-> context of oe-core. Essentially, you need to explain why the recipe
-> should be in oe-core and not in its own layer.
-
-Same rationale as for having linux-*-rt with preempt-rt patch.
-
->>>> +SUMMARY = "Xenomai 3 userspace libraries"
->>>> +DESCRIPTION = "Xenomai 3 userspace libraries"
+>>> Yep.
 >>>
->>> ... and here - description cannot be the same as the summary.
->>
->> So do I remove one of them or what's the difference really ?
+>>> But how it is maintained is a RP question, oe-core has a set of reference kernel
+>>> versions, and those reference kernels have a similar set of functionality across
+>>> architectures, are actively maintained and all get the same fixes at
+>>> the same time.
+>>>
+>>> (and I just realized that RP isn't copied on this thread anymore, so I'm adding
+>>> him).
+>>>
+>>> If we introduce something like this, I'd argue that it needs to follow the same
+>>> kernel versions to be consistent with the other oe-core references.
+>>>
+>>> That is a question for the steering committee and the architecture mailing list.
+>>>
+>>> So while that happens, why not just put this in a meta-xenomai for the time
+>>> being and once all the details have been hammered out, it could merge.
+>> That's fine by me, although the main feedback I'm currently interested
+>> in is whether this has any chance of getting included in oe-core and if
+>> there are some other big issues with this .
 > 
-> Same as the difference between commit summary and commit message.
-> Description usually spans several lines, and provides fully formed
-> sentences that explain what the software provided by the recipe does.
+> There has been interest in this in the past, which is why I've gone down the
+> route of getting things up and running myself.
 > 
-> Also, an update to maintainers.inc would be appreciated, when adding new
-> recipes.
+> The real feedback and feasibility would be in those other forums, but if done
+> right, I don't see why not myself.
 
-Fine
+OK fine, so let's see.
 
 -- 
 Best regards,
