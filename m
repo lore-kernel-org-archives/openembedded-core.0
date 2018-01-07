@@ -1,30 +1,37 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C48A3786B2
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 527 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 07 Jan 2018 16:28:15 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EA42F77FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 12:19:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Jan 2018 04:19:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,325,1511856000"; 
-   d="scan'208";a="8769231"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 07 Jan 2018 04:19:26 -0800
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-References: <1515227515-18557-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <55c68d8f-261f-5406-77c0-d59365a754e4@linux.intel.com>
-Date: Sun, 7 Jan 2018 14:19:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <1515227515-18557-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Subject: Re: [PATCH] [PATCH] bjam-native: 1.65.1 -> 1.66.0
+	Sun,  7 Jan 2018 16:28:15 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3zF3Wk3Wbtz1qsT8;
+	Sun,  7 Jan 2018 17:19:30 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3zF3Wk3LHkz1qqkJ;
+	Sun,  7 Jan 2018 17:19:30 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id m1XzldDDSeq2; Sun,  7 Jan 2018 17:19:29 +0100 (CET)
+X-Auth-Info: fj95381edU06h62ZD/qU7MVlozwOXZZAkdyDJ3JEuJo=
+Received: from kurokawa.lan (ip-86-49-107-50.net.upcbroadband.cz
+	[86.49.107.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Sun,  7 Jan 2018 17:19:29 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Jan 2018 17:19:20 +0100
+Message-Id: <20180107161920.30937-2-marex@denx.de>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180107161920.30937-1-marex@denx.de>
+References: <20180107161920.30937-1-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 2/2] kernel: Add optional patch_xenomai task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,17 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 12:19:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 07 Jan 2018 16:28:16 -0000
 
-On 01/06/2018 10:31 AM, Huang Qiyu wrote:
-> 1.Upgrade bjam-native form 1.65.1 to 1.66.0
-> 2.Upgrade boost form 1.65.1 to 1.66.0
+Add additional task, do_patch_xenomai, inserted between do_patch and
+do_configure tasks. This task applies the cobalt patch to the kernel
+sources for a specific machine. This is disabled by default, so use
+PACKAGECONFIG[xenomai] of the kernel package to enable the patching.
 
-bjam is the build tool for boost that's packaged with it, so the patch 
-should really be titled 'boost: update etc.'
+You will also need a kernel recipe for a kernel version with ipipe
+patch applied.
 
-Alex
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/kernel.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f7b612f84f..70fc39086c 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -481,6 +481,22 @@ do_shared_workdir () {
+ 	fi
+ }
+ 
++PACKAGECONFIG[xenomai] = ",,"
++
++do_patch_xenomai[depends] += "${@bb.utils.contains('PACKAGECONFIG', 'xenomai', 'xenomai:do_patch', '', d)}"
++do_patch_xenomai() {
++	set +e
++	cd ${S}
++
++	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xenomai', 'yes', 'no', d)}" = "yes" ]; then
++		${TMPDIR}/work-shared/${MACHINE}/xenomai-source/scripts/prepare-kernel.sh \
++			--arch=${TARGET_ARCH} \
++			--linux=${STAGING_KERNEL_DIR} ;
++	fi
++}
++
++addtask patch_xenomai before do_configure after do_patch
++
+ # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+ sysroot_stage_all () {
+ 	:
+-- 
+2.11.0
+
 
