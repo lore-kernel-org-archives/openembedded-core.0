@@ -1,56 +1,48 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C696F78940
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C16878924
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 18:24:51 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id u25so4394574pfg.5
+	Sun,  7 Jan 2018 18:49:07 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id i5so4084481pgq.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Jan 2018 10:24:53 -0800 (PST)
+	Sun, 07 Jan 2018 10:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=+3MjmjR4qiJx/ZnnA+zp4ww6OGRGOQaM7CIUdjQPxsM=;
-	b=VMjSoLfIDXmoCmfN0gReaNnVW2h3IA+ym+mAcpjFQNGP8FZ5LLYD2JTAR/HONk4mL/
-	n5UVoj7do46nfB6hNVGmYlhJRBXRTsnS7AZugRMGPnhYRScZEHXKKgq0SVZcRH74l4NJ
-	5m8eozO9Wl9RUcm5xzohTE4HlaKiR6k2olCuasMymtiBCHYgXm1Fgr989BbkraEw7WiO
-	WqhAI7+bcYq659fFBflNoFtj66MthruebEHHV/63eGEQe+66/CSpmoTZf0N1nxtpVWjz
-	pehMmBjMIybG/WdPKi0UkyjTW22B1JJJiAs/03T4wxOI8Bex4U0UP6pT4ZVlzisrhTu9
-	uYXw==
+	h=from:to:subject:date:message-id;
+	bh=ZOqK8G7W7PC3YhDa3yJ+9ADkkKRoJ4pvvqJQFTpwFEI=;
+	b=XSbL4M4qIlQnsZ+YdvcXix3M58vcrX+ghuz37h97c2iF+JFRsEn6oPnnIq7Ea3G3XS
+	G5eb9zF1lcFo8vz4yaMhC1a69bCI+9Q5sfeppotyZFIDdXG/x1pT6ONXC6ufmjzIQK40
+	NyxD3RonfCAhfrHey2ufJPllBNcGfYMBEBcyzW3Pdl7nEIXvth+YRV03510XLUXpbEca
+	JmqyzI35hy3g9vpbsRCu058U0NOjjZb8ksInBvoXRjldUV3Vk+1zJXhmN17Ns0+9WSjA
+	230t9gdLZG6Bf2uDmQIGwjD9tv66uzUjPu8exiBRk+qbKH1UeCVuLOHgvQnO9PlBDwYC
+	bavw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=+3MjmjR4qiJx/ZnnA+zp4ww6OGRGOQaM7CIUdjQPxsM=;
-	b=HKbq9JE3rLMc5woI+DqzfX6vDfX1eg7BSZiVkSmd43CfNju7usbapgjPV4elDy0aBb
-	uHSNQ1UAon2JkXuQtalm/vHZpTU/K5dA0g39Ica0AqrOl0ESGxQ7DtZHMc76CUyVfM39
-	5denGpZGooUkHsotTKwppQ6/q7udAOVLipgDKTeA5ULZCKSXdniOnobSH+lbg0eOHhjp
-	WiI8Z5/vYTkSNjFES8+xrTXnl9oVlF74r95Z4rpodvEuX8WEDOOMWZeh6ffxmfZlCG+3
-	oVWWteftuNGqzhlFTsJt8Unp3O+9d6nkdxl68nJVgWYj5a3TBqNqE0Xxxsi4VoODGY9K
-	jocw==
-X-Gm-Message-State: AKGB3mKZOds8oabxVnmgKAHEHc5DU3Wqs2nKO+Wl4OXfbRBNwa/PYwmi
-	LDEyg0M60RtHgoWuePxLtKE=
-X-Google-Smtp-Source: ACJfBovSiuillzvaFRRhGMtZzb+djult+1fnfd8Lys/RUAScga708fuOpZgVyFsFMfypI2yb1cXLUg==
-X-Received: by 10.84.149.168 with SMTP id m37mr9439880pla.353.1515349493234;
-	Sun, 07 Jan 2018 10:24:53 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:d3a:c846:b190:ee80?
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ZOqK8G7W7PC3YhDa3yJ+9ADkkKRoJ4pvvqJQFTpwFEI=;
+	b=pJXhGXDgZokGo8vd14XG7K7DlaLyo/UCHkQ8H+ZYy42V5KWbGsSz5C16/58tbj7/Sb
+	+bNsgoJRR1Q3Fhyu3KxBFhCmbSijlvlawcIwZg/ve6iGZu4LEn1gRsmSX8kjvXgoLK6k
+	wbk8Qm3D5M5Z3QrFk+GbDSUo2Cqc55QSBVBfS/YiIuzhQLvUUjo34alhenU9nqDyF52q
+	Dgw84ooZARfE5MWFozyo9W9bBj0tbAyhyyWux4aVaaYsyi6U9wlV1zKykKdQz/inGJSp
+	EeL6DaSYxy00G4mf4D5NNxyGNK9Ym17G6PViGzqtUny4uT8uyhEpMqQoK01YRblNZAgq
+	fZyQ==
+X-Gm-Message-State: AKGB3mLnnf4HVEK5tH1ozNGkdEx67rKdOzsyPgJFrpMjeEiP1EWkbPfD
+	CGiNdjy9sj4HtzAWczd0O8U=
+X-Google-Smtp-Source: ACJfBosHbCLhOBJDQ+DVvfA8O7OTh1CANZyDOQHrOh4qLqDbNrBmS4Y/WbHq+8vi41XlQI4Cb0w0+g==
+X-Received: by 10.84.253.129 with SMTP id a1mr5819490plm.218.1515350948613;
+	Sun, 07 Jan 2018 10:49:08 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:d3a:c846:b190:ee80])
 	by smtp.gmail.com with ESMTPSA id
-	m11sm19070218pgt.56.2018.01.07.10.24.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Jan 2018 10:24:52 -0800 (PST)
-To: Ruslan Ruslichenko <rruslich@cisco.com>,
+	r77sm23618823pfa.78.2018.01.07.10.49.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 07 Jan 2018 10:49:08 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-References: <1513605052-9357-1-git-send-email-rruslich@cisco.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <fe004779-60af-f45c-acba-aba427d3d9d6@gmail.com>
-Date: Sun, 7 Jan 2018 10:24:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <1513605052-9357-1-git-send-email-rruslich@cisco.com>
-Subject: Re: [morty][PATCH 1/7] acpid.inc: set CVE_PRODUCT to acpid2
+Date: Sun,  7 Jan 2018 10:48:57 -0800
+Message-Id: <1515350939-18246-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [ROCKO][PATCH 0/2] Update to version in master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,45 +55,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 18:24:51 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 07 Jan 2018 18:49:07 -0000
 
-This set is now in morty.
+The main reason for the backport to Rocko is to pick up two CVE's:
+CVE-2017-13080 and CVE-2017-13081
 
-Thanks,
+Otavio Salvador (1):
+  linux-firmware: Bump to bf04291 revision
 
-Armin
+Saul Wold (1):
+  linux-firmware: Split out the QAT firmware
 
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-On 12/18/2017 05:50 AM, Ruslan Ruslichenko wrote:
-> From: Mikko Rapeli <mikko.rapeli@bmw.de>
->
-> It is used in NVD database for CVE's like:
->
-> https://nvd.nist.gov/vuln/detail/CVE-2011-4578
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> (cherry picked from commit 966052df79df0f68565ebc40887170322d3f85b8)
-> Signed-off-by: Ruslan Ruslichenko <rruslich@cisco.com>
-> ---
->  meta/recipes-bsp/acpid/acpid.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-> index 12ec19b..766ed4f 100644
-> --- a/meta/recipes-bsp/acpid/acpid.inc
-> +++ b/meta/recipes-bsp/acpid/acpid.inc
-> @@ -9,6 +9,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/acpid2/acpid-${PV}.tar.xz \
->             file://acpid.service \
->            "
->  
-> +CVE_PRODUCT = "acpid2"
-> +
->  inherit autotools update-rc.d systemd
->  
->  INITSCRIPT_NAME = "acpid"
+-- 
+2.7.4
 
 
