@@ -1,37 +1,25 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EFEA788CE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B20416067D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jan 2018 20:16:24 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id Xut8ekcIj2du7Xut9e7aUS; Sat, 06 Jan 2018 20:16:24 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=a6FAzQaF c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=RgaUWeydRksA:10 a=Q4-j1AaZAAAA:8
-	a=78k4m6g3H3Zv34P6iF8A:9
-	a=CjuIK1q_8ugA:10 a=N8Rd8igiEnUA:10 a=8387nF9mEzIA:10
-	a=9H3Qd4_ONW2Ztcrla5EB:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1eXut8-0000kv-7F; Sat, 06 Jan 2018 20:16:18 +0000
-Date: Sat, 6 Jan 2018 20:16:18 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180106201618.ktj64aparfs47yjv@mcrowe.com>
-References: <20171112163923.19517-1-mac@mcrowe.com>
-	<CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
-	<20171211095149.ywhejbets5loutnv@mcrowe.com>
-	<CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
-	<20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
-MIME-Version: 1.0
-In-Reply-To: <20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfFfB6rzN+dLgbcuCEHHPdpY53iiDTRprA0nfMPwSI447rgjkSZgo1L1mytkrPtTODdvEpRBjHjxy3t+BKQNHucqsuxUkDjhtaCCfSyg6kr/Cl0kmf0JY
-	xX7/HSkY/LPltZgTRrTllRxsUMOTg+PpNKj452BNAYlH2wTzpZl+7q2M
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
+	Sun,  7 Jan 2018 09:42:23 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w079gI2s008809
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 7 Jan 2018 09:42:19 GMT
+Message-ID: <1515318138.29722.24.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 07 Jan 2018 09:42:18 +0000
+In-Reply-To: <1515227515-18557-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1515227515-18557-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] [PATCH] bjam-native: 1.65.1 -> 1.66.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jan 2018 20:16:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 07 Jan 2018 09:42:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-https://patchwork.openembedded.org/patch/145709/
-
-On Wednesday 20 December 2017 at 10:28:22 +0000, Mike Crowe wrote:
-> On Monday 11 December 2017 at 13:45:26 +0000, Burton, Ross wrote:
-> > It was implicated in some build failures.  I'll re-add it and try again.
+On Sat, 2018-01-06 at 16:31 +0800, Huang Qiyu wrote:
+> 1.Upgrade bjam-native form 1.65.1 to 1.66.0
+> 2.Upgrade boost form 1.65.1 to 1.66.0
 > 
-> Thanks. Are the new results in? I had a poke about on autobuilder.yocto.io
-> but couldn't work out how to tell which builds this commit was included in.
-> Build 719 did not appear to include it.
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 
-Any more news?
+https://autobuilder.yocto.io/builders/nightly-musl/builds/700/steps/BuildImages/logs/stdio
 
-Thanks.
+Applying patch 0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+patching file tools/build/src/tools/gcc.jam
+Hunk #1 FAILED at 1068.
+1 out of 1 hunk FAILED -- rejects in file tools/build/src/tools/gcc.jam
+Patch 0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch does not apply (enforce with -f)
 
-Mike.
+Along with around 30 other occurrences of a similar error. Does make me
+wonder how that was tested?
+
+Cheers,
+
+Richard
 
