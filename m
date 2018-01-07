@@ -1,53 +1,55 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EB32F780BD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CA8678913
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 17:55:20 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id l12so11343866qke.13
+	Sun,  7 Jan 2018 18:24:18 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id 23so1720829pfp.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Jan 2018 09:55:22 -0800 (PST)
+	Sun, 07 Jan 2018 10:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KA14MKmb/fmhLUewU64k90kANijLiRj5ywDKBDjyy4A=;
-	b=iVeWxLq9Qv5Ns31VPieMHRJTKxjLk2jNqEjb6xFj2Sx00wa7qfvwPDzsBs1wLAcHtE
-	JzF3JFnfpkojaAjeGL8heTsaYzjtwOB4AyCUmZA51BwdmtEQU7qGZtkXeV4Cbva24o7e
-	Mzd9Rr22ZwURk/xVuCXcO713gCt3YCgnsbnOr5jZzvP6Gf6jFdYEA6jRwW40gu+3BY2y
-	R8H/H4VFentjL6fgam+i8fGjHcsG/D9SvZ0Tlp5QVYZM80R9dCosOtdc6B56UmhPXNXF
-	0x0XKK6Ugl9K+dtzroXEDwPMqsPci1GfzZBz36osb84EHwHKYf1tdTROx1brVpvl3Yf3
-	ql0g==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=kJTxUcQzIebVRbFkqiEbERPl5dmn1L0BXFXgmhE8Kaw=;
+	b=MfNz2zPCLvBHOadIxvio964W+nn4gijXAKXAD0hL06ADskpMiXEL4bi/kuMCsqhOVB
+	yfZyIuDRZuadoJcZzAmVHgZBolu6Bey/6oWNNj94Y9YK65tqer7w+Wc6FtVBocb/ngNN
+	NSmUjMfQ7rnUMt9lGVw4rBBBX7NHShzBKS4IE+PiaGInwp6rrCf+Sr7RQfMfhoTin16A
+	yGTVGTHKeHqgKl9tnacKy+9C7ZIlz7Wjs4xA3lSU1Fva0nqj39YzDpedyRpPZYa6WpLo
+	DhZAHuzu8NhDrZmZIJUSP1212WS7Xuu3H+7yAw6f1cVN2kbxktLApaONcd+8C7b2aTSH
+	k6bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KA14MKmb/fmhLUewU64k90kANijLiRj5ywDKBDjyy4A=;
-	b=fPv/jj4Sok/pcGNEoWlgXQRwVi54ioRRCiHMACP+aRBDlAD3kS9p31CVH4ix/zs+UL
-	vdib6iXHvHKI05/yMHNr6OhdVJ6aRgLMbfPcguCbZPawuNjOOJlVAs6Wm3kQNfeyLro8
-	+QLpIUIEJN/tN/aVx9OdWKUs3hmHbuwxIF2aJCqQX2S8lznOoaEeuoH963N8DhpFrDeb
-	Bi1cLmmgrYPN5O09ru8Kcn2Cm9FsgCTiE7r4atMkVlfXoFu+JBo6tvzgztvQWTlV9bln
-	kSPLgsE9zm85xfuwTDkCJmaUJgmHs4h0Z+8CuMLHi30ltHnsg/0qst34g5gxWVdRAvHx
-	hMhQ==
-X-Gm-Message-State: AKwxyte3Bqo+xP2niUt7OXPzw7yEz7FjQDbNtRenvEunEiWwGbd+7iVc
-	1d3jBvOH8kuigTlLNmoYQDtJ/IcPjRsqQNSvgC5aOQ==
-X-Google-Smtp-Source: ACJfBosF7nZvr6iBjksMt8t15c0rRLrEqh1YOvuN17tUg2TPo00klc4oUwarA/ePUKwQFdh/72ca8loLeB+UtI5e+Mg=
-X-Received: by 10.55.203.92 with SMTP id d89mr12028256qkj.218.1515347721690;
-	Sun, 07 Jan 2018 09:55:21 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=kJTxUcQzIebVRbFkqiEbERPl5dmn1L0BXFXgmhE8Kaw=;
+	b=DCriQqH1ugdBOf++fJ/KVUwv9hJjssxOiLLaVBL+0515hY2Km1HzsPQi4t4nf8JJau
+	3tif1urujJVSwvZvggH9odtpLey7SjKoUfteDPYyW0lqTsI3brrFfP4B/3UPvXqqNF2L
+	QasQG1z3rnUgMPyhJG0NQHCGx9gRqDcJMZICtLF4z9h65427ARIh9XCkC5y0Z6nVTpCM
+	ZcrBLX3M+4A+9vmXqRY9ZLHsQUDQQ7G+gQa4BRiMkStOYxBfR5yfmu0ZDcbmGFcd34HL
+	74u+U3zbi0RL6UtJ01bnAcOQWBwZDMa34rhn71x7ftP8umXN+UNOFSKXiRCzYdoOyhEi
+	Gh2w==
+X-Gm-Message-State: AKGB3mLcJme+oRp/6Y0uZvwZhEUg31izOtudLwavDijh/usEQeyhZz4J
+	+7jYL1hILmG4DN4DuRW0lwM6IA==
+X-Google-Smtp-Source: ACJfBovoL2TnU/CwgI8YhCJJ5bn6zKPHeVeTr/PRBmng0rkPUQq2/SnPXrLp7lGLlarn0weq26mmQg==
+X-Received: by 10.98.144.19 with SMTP id a19mr8588205pfe.139.1515349459742;
+	Sun, 07 Jan 2018 10:24:19 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:d3a:c846:b190:ee80?
+	([2601:202:4000:1184:d3a:c846:b190:ee80])
+	by smtp.gmail.com with ESMTPSA id l8sm4088984pgc.58.2018.01.07.10.24.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 07 Jan 2018 10:24:18 -0800 (PST)
+To: Andre McCurdy <armccurdy@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1513213231-16818-1-git-send-email-armccurdy@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d99adaab-fc5d-bb99-139a-3eb84ff0b9b6@gmail.com>
+Date: Sun, 7 Jan 2018 10:24:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Received: by 10.12.182.96 with HTTP; Sun, 7 Jan 2018 09:55:21 -0800 (PST)
-In-Reply-To: <2c1c48a3-5355-b3eb-fab0-765a007b8475@denx.de>
-References: <20180107161920.30937-1-marex@denx.de>
-	<20180107161920.30937-2-marex@denx.de>
-	<CADkTA4MH4EL42iL=BXRKy8y0Gp_bwOarpXiBEPrvCSygOuT4oQ@mail.gmail.com>
-	<db5ad1b0-0994-0ce9-79df-39a1704b1072@denx.de>
-	<CADkTA4NL=2rzVUfwimQhON00xFMy2UwrQ63vjmR_4QBGHNn1EA@mail.gmail.com>
-	<2c1c48a3-5355-b3eb-fab0-765a007b8475@denx.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 7 Jan 2018 12:55:21 -0500
-Message-ID: <CADkTA4NAvZVW_dNbOi_2OgyNxkQXDj9XJtbDpSztXSfaYRxP=Q@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel: Add optional patch_xenomai task
+In-Reply-To: <1513213231-16818-1-git-send-email-armccurdy@gmail.com>
+Subject: Re: [morty][PATCH] cmake: avoid configure failures if CFLAGS contains -Wstrict-prototypes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,56 +62,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 17:55:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 07 Jan 2018 18:24:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sun, Jan 7, 2018 at 12:53 PM, Marek Vasut <marex@denx.de> wrote:
-> On 01/07/2018 05:42 PM, Bruce Ashfield wrote:
->> On Sun, Jan 7, 2018 at 11:38 AM, Marek Vasut <marex@denx.de> wrote:
->>> On 01/07/2018 05:37 PM, Bruce Ashfield wrote:
->>>> On Sun, Jan 7, 2018 at 11:19 AM, Marek Vasut <marex@denx.de> wrote:
->>>>> Add additional task, do_patch_xenomai, inserted between do_patch and
->>>>> do_configure tasks. This task applies the cobalt patch to the kernel
->>>>> sources for a specific machine. This is disabled by default, so use
->>>>> PACKAGECONFIG[xenomai] of the kernel package to enable the patching.
->>>>>
->>>>> You will also need a kernel recipe for a kernel version with ipipe
->>>>> patch applied.
->>>>
->>>> This doesn't make any sense to me.
->>>>
->>>> Why on earth would this be in kernel.bbclass ? and part of a xenomai
->>>> recipe ?
->>> Do you have a better suggestion how to make this easily available for
->>> every kernel recipe ?
->>
->> There's no need to make it available for every kernel recipe. If someone
->> wants to build xenomai, they need to have a specific kernel recipe and
->> configuration to make it work. By providing that patch and allowing it to
->> be applied to any kernel doesn't mean it will actually work .. so you aren't
->> doing anyone any favours.
->>
->> The same thing could be said for the -rt patch, aufs, etc, any patch could
->> be made available for any kernel, but they aren't, since they will either fail
->> to patch, or won't work at runtime.
-> We actually have a -rt patch available in the kernel recipes, so why not
-> xenomai patch ?
+this in now in morty
 
-As a separate recipe, not as something in a common bbclass, which implies
-that it applies and works everywhere.
+thanks,
 
-Anyone that is trying to apply -rt against a generic kernel .. is very mistaken.
+Armin
 
-Bruce
 
+On 12/13/2017 05:00 PM, Andre McCurdy wrote:
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry picked from commit 0c89b010ce2e426f55ac7c6f94befef988913834)
+> ---
+>  meta/recipes-devtools/cmake/cmake.inc              |  1 +
+>  ...void-gcc-warnings-with-Wstrict-prototypes.patch | 42 ++++++++++++++++++++++
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
 >
-> --
-> Best regards,
-> Marek Vasut
+> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+> index 4fcb0b1..821bb81 100644
+> --- a/meta/recipes-devtools/cmake/cmake.inc
+> +++ b/meta/recipes-devtools/cmake/cmake.inc
+> @@ -14,6 +14,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV', True).split('.')[0:2])}"
+>  SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+>             file://support-oe-qt4-tools-names.patch \
+>             file://qt4-fail-silent.patch \
+> +           file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "d6dd661380adacdb12f41b926ec99545"
+> diff --git a/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+> new file mode 100644
+> index 0000000..8b8d480
+> --- /dev/null
+> +++ b/meta/recipes-devtools/cmake/cmake/avoid-gcc-warnings-with-Wstrict-prototypes.patch
+> @@ -0,0 +1,42 @@
+> +From 4bc17345c01ea467099e28c7df30c23ace9e7811 Mon Sep 17 00:00:00 2001
+> +From: Andre McCurdy <armccurdy@gmail.com>
+> +Date: Fri, 14 Oct 2016 16:26:58 -0700
+> +Subject: [PATCH] CheckFunctionExists.c: avoid gcc warnings with
+> + -Wstrict-prototypes
+> +
+> +Avoid warnings (and therefore build failures etc) if a user happens
+> +to add -Wstrict-prototypes to CFLAGS.
+> +
+> + | $ gcc --version
+> + | gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+> + |
+> + | $ gcc -Wstrict-prototypes -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -o foo.o -c Modules/CheckFunctionExists.c
+> + | Modules/CheckFunctionExists.c:7:3: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+> + |    CHECK_FUNCTION_EXISTS();
+> + |    ^
+> + | cc1: all warnings being treated as errors
+> + |
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> +---
+> + Modules/CheckFunctionExists.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Modules/CheckFunctionExists.c b/Modules/CheckFunctionExists.c
+> +index 2304000..224e340 100644
+> +--- a/Modules/CheckFunctionExists.c
+> ++++ b/Modules/CheckFunctionExists.c
+> +@@ -4,7 +4,7 @@
+> + extern "C"
+> + #endif
+> +   char
+> +-  CHECK_FUNCTION_EXISTS();
+> ++  CHECK_FUNCTION_EXISTS(void);
+> + #ifdef __CLASSIC_C__
+> + int main()
+> + {
+> +-- 
+> +1.9.1
+> +
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
