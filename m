@@ -1,33 +1,49 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id EB83C78757
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E99F78757
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 16:28:15 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3zF3Wj1LTYz1qsT4;
-	Sun,  7 Jan 2018 17:19:29 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3zF3Wj17l0z1qqkJ;
-	Sun,  7 Jan 2018 17:19:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id okocLZBJIHjl; Sun,  7 Jan 2018 17:19:28 +0100 (CET)
-X-Auth-Info: Ilw++KV/83SqwYS5d1hmhZqv4ydm7UDOhIOYKp7QtBQ=
-Received: from kurokawa.lan (ip-86-49-107-50.net.upcbroadband.cz
-	[86.49.107.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sun,  7 Jan 2018 17:19:28 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Jan 2018 17:19:19 +0100
-Message-Id: <20180107161920.30937-1-marex@denx.de>
-X-Mailer: git-send-email 2.11.0
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 1/2] xenomai: Add xenomai recipe
+	Sun,  7 Jan 2018 16:37:38 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id i17so7169333qke.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 07 Jan 2018 08:37:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=NSvsXVpj0+bo4wLY8RD0sPW8vLoIsy5cVxQ3b5w4s5o=;
+	b=NxgtcA4AMqQE532oEi7aVlkd8+/ZkVd9hQgQkA14zZqthabQozjErWaTcIPJtsApFe
+	5Q953ZviFfAbJSxZOmMevUyb5SKJ+XiaM6bft5BUqmKjE9DSJWimGO79clh95zxV5nPL
+	FH1mkgWhkv4q6VG9V89erKfyCMhpllfM1W8D2BYe1+AxfIZRwajy41rUQl8X3g5xaLS9
+	+Xx6QtC5a77Xs+cE2CaPhr9hFymGA5v9Yc3VqSKOXv9QZ5QLgqfWY5NxjX20hBzpESod
+	y0HC0eXiZTI4Weact2uGcUXc3RVNFRMt7cQtKTlPobAa4iR+UhFyqarDIMseMiT3Dkr4
+	ISUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=NSvsXVpj0+bo4wLY8RD0sPW8vLoIsy5cVxQ3b5w4s5o=;
+	b=Rj8iT4U1zNliCajA8irL5FZiUz1PL3bF/6zMVhsYHURQwqX76aJDlwkjdR0QwxPB6f
+	3LlfQ5m6B6kOSDPaPclXUTas7ctz8o/Y7/yUV9evGsX6T5nzjz1MkMIK3qCh0FrHSFhc
+	t94/8mkEu3RBO2HfJ+Nox659L/HM8SqtdmPaElz3D/GX/tK6jWtS/NaZ8SvW/8Hku8F3
+	pFt9G6/U8F7hjsq5BS3lMRE7gzC1kZoLO2omhXKDbT28I97mGlHEEgpjH+WhR056gOGA
+	EjIgPvIYgMfujqz/7PSjSqvCrLvQQEHREjP9l9dEjT5oIiguuVDXNHXB7f2IfNhi+t3S
+	osBQ==
+X-Gm-Message-State: AKGB3mKUjxDPC1/G+H1ecp/FORrZBe/Lz7F0KI+wUhUuBA1nMqYO0w1X
+	y6sYzDruEbaUBLQRod4oyLIzuVE8OLo9GhpUUyA5xw==
+X-Google-Smtp-Source: ACJfBovi3UNIuhrh8wVhaIdK2QDBFqPSsmBDM+PVEVLl0MGuhq8sYV9nb7kNALEQY046AxLb/A2Kfa7n6pFrKC76lVI=
+X-Received: by 10.55.191.65 with SMTP id p62mr11685673qkf.265.1515343059863;
+	Sun, 07 Jan 2018 08:37:39 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.12.182.96 with HTTP; Sun, 7 Jan 2018 08:37:39 -0800 (PST)
+In-Reply-To: <20180107161920.30937-2-marex@denx.de>
+References: <20180107161920.30937-1-marex@denx.de>
+	<20180107161920.30937-2-marex@denx.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 7 Jan 2018 11:37:39 -0500
+Message-ID: <CADkTA4MH4EL42iL=BXRKy8y0Gp_bwOarpXiBEPrvCSygOuT4oQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel: Add optional patch_xenomai task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,82 +56,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 16:28:16 -0000
+X-List-Received-Date: Sun, 07 Jan 2018 16:37:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Add recipe for the xenomai. This recipe is used twice, once to build
-the xenomai userspace components and again to patch the kernel with
-the cobalt core. Therefore, the xenomai sources are installed into
-work-shared rather then work to make them accessible to the kernel
-recipe, which triggers the patching.
+On Sun, Jan 7, 2018 at 11:19 AM, Marek Vasut <marex@denx.de> wrote:
+> Add additional task, do_patch_xenomai, inserted between do_patch and
+> do_configure tasks. This task applies the cobalt patch to the kernel
+> sources for a specific machine. This is disabled by default, so use
+> PACKAGECONFIG[xenomai] of the kernel package to enable the patching.
+>
+> You will also need a kernel recipe for a kernel version with ipipe
+> patch applied.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-kernel/xenomai/xenomai_git.bb | 54 ++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
- create mode 100644 meta/recipes-kernel/xenomai/xenomai_git.bb
+This doesn't make any sense to me.
 
-diff --git a/meta/recipes-kernel/xenomai/xenomai_git.bb b/meta/recipes-kernel/xenomai/xenomai_git.bb
-new file mode 100644
-index 0000000000..98b371dbda
---- /dev/null
-+++ b/meta/recipes-kernel/xenomai/xenomai_git.bb
-@@ -0,0 +1,54 @@
-+SUMMARY = "Xenomai 3 userspace libraries"
-+DESCRIPTION = "Xenomai 3 userspace libraries"
-+HOMEPAGE = "http://www.xenomai.org/"
-+SECTION = "libs"
-+LICENSE = "GPLv2 & LGPLv2.1"
-+LIC_FILES_CHKSUM = " \
-+	file://include/COPYING;md5=79ed705ccb9481bf9e7026b99f4e2b0e \
-+	file://kernel/cobalt/COPYING;md5=073dc31ccb2ebed70db54f1e8aeb4c33 \
-+	file://kernel/cobalt/posix/COPYING;md5=073dc31ccb2ebed70db54f1e8aeb4c33 \
-+	file://kernel/cobalt/rtdm/COPYING;md5=c99f6e66e37d1cb50ad8be4f5be2ea5d \
-+	file://lib/alchemy/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/analogy/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/boilerplate/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/cobalt/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/copperplate/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/psos/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/smokey/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/trank/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	file://lib/vxworks/COPYING;md5=68ad62c64cc6c620126241fd429e68fe \
-+	"
-+
-+RDEPENDS_${PN} = "libgcc"
-+
-+SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=stable-3.0.x"
-+SRCREV="cbc6b87bed0fe7d6d932d943fc8ca0fb49bb5b71"
-+
-+S = "${TMPDIR}/work-shared/${MACHINE}/xenomai-source"
-+B = "${WORKDIR}/build"
-+
-+inherit autotools pkgconfig
-+
-+EXTRA_OECONF = "--includedir=${includedir}/${PN} --with-demodir=${bindir}"
-+
-+do_unpack_extra() {
-+	rmdir ${S}
-+	mv ${WORKDIR}/git ${S}
-+}
-+addtask unpack_extra after do_unpack before do_patch
-+
-+do_install_append() {
-+	rmdir ${D}/dev
-+}
-+
-+PACKAGES =+ "${PN}-demo"
-+FILES_${PN} += " \
-+	${libdir}/cobalt.wrappers ${libdir}/modechk.wrappers \
-+	${libdir}/dynlist.ld \
-+	"
-+FILES_${PN}-demo = " \
-+	${bindir}/altency ${bindir}/bufp-label ${bindir}/bufp-readwrite \
-+	${bindir}/can_rtt ${bindir}/cross-link ${bindir}/cyclictest \
-+	${bindir}/eth_p_all ${bindir}/iddp-label ${bindir}/iddp-sendrecv \
-+	${bindir}/xddp-echo ${bindir}/xddp-label ${bindir}/xddp-stream \
-+	"
+Why on earth would this be in kernel.bbclass ? and part of a xenomai
+recipe ?
+
+Bruce
+
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/kernel.bbclass | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index f7b612f84f..70fc39086c 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -481,6 +481,22 @@ do_shared_workdir () {
+>         fi
+>  }
+>
+> +PACKAGECONFIG[xenomai] = ",,"
+> +
+> +do_patch_xenomai[depends] += "${@bb.utils.contains('PACKAGECONFIG', 'xenomai', 'xenomai:do_patch', '', d)}"
+> +do_patch_xenomai() {
+> +       set +e
+> +       cd ${S}
+> +
+> +       if [ "${@bb.utils.contains('PACKAGECONFIG', 'xenomai', 'yes', 'no', d)}" = "yes" ]; then
+> +               ${TMPDIR}/work-shared/${MACHINE}/xenomai-source/scripts/prepare-kernel.sh \
+> +                       --arch=${TARGET_ARCH} \
+> +                       --linux=${STAGING_KERNEL_DIR} ;
+> +       fi
+> +}
+> +
+> +addtask patch_xenomai before do_configure after do_patch
+> +
+>  # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+>  sysroot_stage_all () {
+>         :
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-2.11.0
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
