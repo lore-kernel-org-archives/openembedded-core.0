@@ -1,24 +1,29 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DFB3778757
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 78FAB7016E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jan 2018 17:00:50 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w07H0ntP027621
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 7 Jan 2018 17:00:50 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eYEJV-000154-Bl; Sun, 07 Jan 2018 17:00:49 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Jan 2018 17:00:48 +0000
-Message-Id: <1515344448-4116-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] libunwind: Disable documentation explicitly
+	Sun,  7 Jan 2018 17:17:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Jan 2018 09:17:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,326,1511856000"; 
+   d="scan'208";a="8813044"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 07 Jan 2018 09:17:03 -0800
+To: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+References: <20180107161920.30937-1-marex@denx.de>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <3cdba2e1-94df-32fd-0138-a6fa533ec165@linux.intel.com>
+Date: Sun, 7 Jan 2018 19:17:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20180107161920.30937-1-marex@denx.de>
+Subject: Re: [PATCH 1/2] xenomai: Add xenomai recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jan 2018 17:00:51 -0000
+X-List-Received-Date: Sun, 07 Jan 2018 17:17:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-We don't have latex2man in HOSTTOOLs so documentaion is never built but this
-dependency does cause problems on older releases like morty, pre-HOSTTOOLS.
-Document the configuration explicitly in master.
+On 01/07/2018 06:19 PM, Marek Vasut wrote:
+> Add recipe for the xenomai. This recipe is used twice, once to build
+> the xenomai userspace components and again to patch the kernel with
+> the cobalt core. Therefore, the xenomai sources are installed into
+> work-shared rather then work to make them accessible to the kernel
+> recipe, which triggers the patching.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/libunwind/libunwind.inc | 1 +
- 1 file changed, 1 insertion(+)
+What is xenomai? What is a 'cobalt core'? What do they do and who would 
+want to use them? Please do explain that in the commit message.
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index fc33786..31c3df1 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -9,6 +9,7 @@ inherit autotools
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lzma] = "--enable-minidebuginfo,--disable-minidebuginfo,xz"
-+PACKAGECONFIG[latexdocs] = "--enable-documentaiton, --disable-documentation, latex2man-native"
- 
- EXTRA_OECONF_arm = "--enable-debug-frame"
- EXTRA_OECONF_aarch64 = "--enable-debug-frame"
--- 
-2.7.4
+> +SUMMARY = "Xenomai 3 userspace libraries"
+> +DESCRIPTION = "Xenomai 3 userspace libraries"
 
+... and here - description cannot be the same as the summary.
+
+Alex
 
