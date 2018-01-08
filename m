@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D687278959;
-	Mon,  8 Jan 2018 10:04:25 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 08 Jan 2018 10:04:27 -0000
-Message-ID: <20180108100427.2786.77137@do.openembedded.org>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D28987875C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Jan 2018 10:12:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w08AC4Vr021225
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Jan 2018 02:12:04 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 8 Jan 2018 02:12:03 -0800
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1515403603.git.liezhi.yang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1515403603.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4ZXMgZm9yIG11bHRpbGliIGFuZCBlU0RLIChyZXYyKQ==?=
+	<20180108100427.2786.77137@do.openembedded.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <01ec016e-ca08-6aa9-9b11-0f7b358740fa@windriver.com>
+Date: Mon, 8 Jan 2018 18:12:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <20180108100427.2786.77137@do.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEZpeGVzIGZvciBtdWx0aWxpYiBhbmQgZVNESyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jan 2018 10:04:26 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 08 Jan 2018 10:12:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Sorry, I added the SOB and updated in the repo.
 
-Series: Fixes for multilib and eSDK (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/9702/
-State : failure
+// Robert
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [11/12] multilib.bbclass: deltask populate_sdk and populate_sdk_ext
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+On 01/08/2018 06:04 PM, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: Fixes for multilib and eSDK (rev2)
+> Revision: 2
+> URL   : https://patchwork.openembedded.org/series/9702/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Patch            [11/12] multilib.bbclass: deltask populate_sdk and populate_sdk_ext
+>   Issue             Patch is missing Signed-off-by [test_signed_off_by_presence]
+>    Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> 
 
