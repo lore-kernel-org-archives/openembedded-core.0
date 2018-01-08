@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id ACB0978985
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CCB478961
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jan 2018 16:00:51 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id o15so11251504wrf.12
+	Mon,  8 Jan 2018 16:00:52 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id i11so15117517wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jan 2018 08:00:53 -0800 (PST)
+	Mon, 08 Jan 2018 08:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XIzMjsHImPm2A5dgFalIj+AQgtSVrakOIhqqYcRarRU=;
-	b=ND4NiPR7x0dhQQ0+dXnkCRtReaN2oD/Koi5KZ1Pd7T2tYRDdDYQrVNxJCc3Vixgxk5
-	xuuaLM63hrya/lSz11oZIfb6NG8jT7hGI3ryYtf/YcYYcu7xsxwzy9Jkds2XenRml5jg
-	2mqlbbng8VfJ7acEOsFaRYvMwaHvrPHywBsVOl5c0QjK2xYFAEOorVpaVKiwpB4ZPpza
-	d2CY4dKf7EWi0urFHZr2H6gUZ8kIA0lXI+QIZqQ0+Dx33eytE30LtSdrBUtPAutRro+M
-	HaS2hoATQU67D6DT7eptoffRkdIX9JyOP402xRJBdQgxUuqPs7DCops8IdJnNRwdq7Zs
-	7X2g==
+	bh=wOGndAp9hCXz4Kr3Krk4mCVWnT+TocDrs2H/Fexunh4=;
+	b=s3CkrIsrwqHcUL/F3YTqdKXFRaU1PaxZTJ1vkMtpcWFDnEABtpQuXk7f9tRLctgj9t
+	ih5NiUBKWyDJNTMq5TIDgqms12sP3OIo8cXUEogQ7WSGd6tBqGp2E3Xl6aU/g8IAOJeM
+	B1YdXQ5/HbrIC1JHeOZLzG8iHN9JxOtK42EsgZjRVRvz+GHEYq/DuRGOqhSJbzcaphMV
+	gpAwCKdvFLDB68QXsvEc5Y01LxwmJ5HyKPcMBlUBMF8l0bFKswiTwzuY6NjqBUqRejbg
+	hN4i0wlAbs+N9WXzJo9pjEkwEkj3wd86i4CT+BGxegTVs1tRHLS4dzey4xVo2fuuLK5W
+	8fLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XIzMjsHImPm2A5dgFalIj+AQgtSVrakOIhqqYcRarRU=;
-	b=ESU1kQihDpkQvKlIaNxpsEi/O9gizKDo1sp9OvtjKYLS9K0UEwKtZvNCb/NWol+tSt
-	GNvaTXs590cfp9/l7sIXIleeB6lViIvsgsxafWXvQJ+t22KNox3DDqIE64XmFgA91m9f
-	YIM8kMUjXbHtcmmMUvRia3NotPu7zjNy5TqUChQMxUnhLgLHDDitAjUTIXNC8cV1Iwzs
-	8Ia3lPx3fWIzFWnR3reFU+o57+fkPC4Iv1YLo5mxwiqBgmY7klX8xqxw2045Qsht7wfo
-	Kb2qrCs2t3KXsIu0Ck5Pr6ewllwcjSbYA11mdsVYtxfOALAuURqaIMS513Cl2gU0Ija9
-	9+fQ==
-X-Gm-Message-State: AKGB3mLa7m8aYBoDXU2nZZ4lwxJxeMOmEeZdtt5v2W8+oiNp1z0NJG9U
-	eqGsR4CG8dNbsgMwWD9CKj9S5QWT
-X-Google-Smtp-Source: ACJfBou01erMZeavslyiE4cnTMVMyIgiwH+ivzwVrhvQFzZ6Ha2BWCj1VC0WI4Bhz+2/YuVs/9D4dQ==
-X-Received: by 10.223.139.78 with SMTP id v14mr10568071wra.136.1515427248565; 
-	Mon, 08 Jan 2018 08:00:48 -0800 (PST)
+	bh=wOGndAp9hCXz4Kr3Krk4mCVWnT+TocDrs2H/Fexunh4=;
+	b=r2xDQJIrT7s11hyqttAzqMUXROxtzMDxx424iOAmCxPigDqQ+LSUi6Se+nYWAuka00
+	GinZ8LKVH0Vc9dugX1OfEhVu2w51NjBWqy7lwvN/g+bpvgULQG4V/bHPfCtCSRnhdzN3
+	EPYWBzYsfrVdeqY3DRj8urTo/JIheQtO9TG51t4pgvr2ZDQQglVBDY2CAhs3W7SjDqlf
+	vbaZj4bVagg2qocFbPPG5zBDoeU0qCUt746l5suThhM2OmSxsFdy3x1jAOPfYtiLeXRh
+	YxKznuYx3hEQ7IOyuZ2R1eTJSbjDIl9jDIZ+oFoMireYS2m18508sl26dGnYi8rcnRGk
+	q1Wg==
+X-Gm-Message-State: AKGB3mLXvfUKycQiw01XyGtTukePn0BDVUHl07QaANHZarkKjrNDGNlY
+	XkNMhjsV1/+b2OMwwJdEdCkYU/r6
+X-Google-Smtp-Source: ACJfBovlF2e5wlHAndVP0QWQ/Y7CRWofXB/d1wMpa/VH6uio7Y3iA8AelThC14zVDo+UFmkW7QUdEw==
+X-Received: by 10.28.22.67 with SMTP id 64mr9300368wmw.28.1515427253506;
+	Mon, 08 Jan 2018 08:00:53 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	b15sm11386658wrh.5.2018.01.08.08.00.47
+	b15sm11386658wrh.5.2018.01.08.08.00.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Jan 2018 08:00:47 -0800 (PST)
+	Mon, 08 Jan 2018 08:00:52 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Jan 2018 16:00:17 +0000
-Message-Id: <20180108160021.4715-5-ross.burton@intel.com>
+Date: Mon,  8 Jan 2018 16:00:20 +0000
+Message-Id: <20180108160021.4715-8-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180108160021.4715-1-ross.burton@intel.com>
 References: <20180108160021.4715-1-ross.burton@intel.com>
-Subject: [PATCH 5/9] native/cross: remove redundant DEPENDS_GETTEXT assignment
+Subject: [PATCH 8/9] libcroco: enable nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jan 2018 16:00:52 -0000
-
-DEPENDS_GETTEXT defaults to gettext-native, so there's no need to set it again
-in these classes.
+X-List-Received-Date: Mon, 08 Jan 2018 16:00:53 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/cross.bbclass  | 2 --
- meta/classes/native.bbclass | 2 --
- 2 files changed, 4 deletions(-)
+ meta/recipes-support/libcroco/libcroco_0.6.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index e9fafed7835..4e85cab2d19 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -41,8 +41,6 @@ LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE}"
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+index b0af75919b9..465ed15916f 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
  
- TOOLCHAIN_OPTIONS = ""
+ SECTION = "x11/utils"
+ DEPENDS = "glib-2.0 libxml2 zlib"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ EXTRA_OECONF += "--enable-Bsymbolic=auto"
  
--DEPENDS_GETTEXT = "gettext-native"
--
- # This class encodes staging paths into its scripts data so can only be
- # reused if we manipulate the paths.
- SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 9c434dce83e..a911f2aebdb 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -52,8 +52,6 @@ STAGING_BINDIR_CROSS = "${STAGING_BINDIR_NATIVE}"
- # native pkg doesn't need the TOOLCHAIN_OPTIONS.
- TOOLCHAIN_OPTIONS = ""
- 
--DEPENDS_GETTEXT = "gettext-native"
--
- # Don't build ptest natively
- PTEST_ENABLED = "0"
- 
+ BINCONFIG = "${bindir}/croco-0.6-config"
 -- 
 2.11.0
 
