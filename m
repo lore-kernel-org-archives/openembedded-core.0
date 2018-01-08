@@ -1,27 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 62EA378971
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41D2F7894A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jan 2018 08:44:13 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w088i5NQ008413
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 8 Jan 2018 08:44:06 GMT
-Message-ID: <1515401045.29722.45.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 08 Jan 2018 08:44:05 +0000
-In-Reply-To: <1515344359-82351-2-git-send-email-juro.bystricky@intel.com>
-References: <1515344359-82351-1-git-send-email-juro.bystricky@intel.com>
-	<1515344359-82351-2-git-send-email-juro.bystricky@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: jurobystricky@hotmail.com
-Subject: Re: [PATCH 2/2] icu-dev: improve reproducibility
+	Mon,  8 Jan 2018 09:32:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w089WuZW009473
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Jan 2018 01:32:57 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 8 Jan 2018 01:32:56 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jan 2018 17:32:57 +0800
+Message-ID: <cover.1515403603.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 00/12 V2] Fixes for multilib and eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jan 2018 08:44:14 -0000
+X-List-Received-Date: Mon, 08 Jan 2018 09:32:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2018-01-07 at 08:59 -0800, Juro Bystricky wrote:
-> Remove all build host references from several distributed files:
-> Makefile.inc, icu-config, pkgdata.inc
-> 
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-support/icu/icu.inc | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-
-> support/icu/icu.inc
-> index 5cf7b11..c41ea8a 100644
-> --- a/meta/recipes-support/icu/icu.inc
-> +++ b/meta/recipes-support/icu/icu.inc
-> @@ -64,6 +64,14 @@ do_install_append_class-target() {
->          rm -f
-> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->          icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat
-> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->      fi
-> +	
-> +	# Remove build host references...
-> +	sed -i  \
-> +	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-> +	    -e 's|${DEBUG_PREFIX_MAP}||g' \
-> +	    -e 's:${HOSTTOOLS_DIR}/::g' \
-> +	    ${D}/usr/bin/icu-config
-> ${D}/usr/lib/icu/${PV}/Makefile.inc \
-> +	    ${D}/usr/lib/icu/${PV}/pkgdata.inc
->  }
->  
->  PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+* V2
+  + Drop already merged patches
 
-Hardcoded /usr/lib?
+  + Fix RP's comments:
+    - deltask populate_sdk and populate_sdk_ext for multilib
+    - Drop "image.bbclass: remove depmodwrapper-cross from DEPENDS"
+    - sstate.bbclass: sstate_hardcode_path(): fix for multilib
+      > fix the grep command
 
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/703/steps/BuildImages_2/logs/stdio
+* V1
+  - Initial version
 
-Cheers,
+// Robert
 
-Richard
+The following changes since commit e9dfe7eb7f61b909ae7d034e80cfbebc1fad018b:
+
+  icu-dbg: improve reproducibility (2018-01-08 08:45:33 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib oem1
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=oem1
+
+Robert Yang (12):
+  staging.bbclass: fix for multilib
+  populate_sdk_ext.bbclass: fix for multilib
+  sstate.bbclass: sstate_hardcode_path(): fix for multilib
+  staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+  staging.bbclass: print searched manifest when not found
+  staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+  package_manager.py: reverse archs correctly
+  multilib.bbclass: remove invalid PACKAGE_INSTALL
+  multilib.bbclass: extend allarch recipes
+  toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+    image
+  multilib.bbclass: deltask populate_sdk and populate_sdk_ext
+  populate_sdk_ext.bbclass: remove the try...finally
+
+ meta/classes/allarch.bbclass           |   3 -
+ meta/classes/multilib.bbclass          |   8 +-
+ meta/classes/multilib_global.bbclass   |   4 +-
+ meta/classes/package.bbclass           |   9 ---
+ meta/classes/populate_sdk_ext.bbclass  | 142 +++++++++++++++++++--------------
+ meta/classes/sstate.bbclass            |   8 +-
+ meta/classes/staging.bbclass           |  40 +++++++++-
+ meta/classes/toolchain-scripts.bbclass |   6 ++
+ meta/lib/oe/package_manager.py         |  57 +++++++++++--
+ 9 files changed, 186 insertions(+), 91 deletions(-)
+
+-- 
+2.7.4
 
 
