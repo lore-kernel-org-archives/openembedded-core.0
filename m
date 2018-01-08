@@ -1,51 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6A278980
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jan 2018 16:00:53 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n138so15027133wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jan 2018 08:00:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=CRb6O5ZASxr5XGVlJUyJexsUIrIaojKHRGxDol/9t9A=;
-	b=TWaDl3yqel9LaIe8eRdJaLpHp7P5qJD8hgaOTULISlXJ1MWKjo23h6aedQ+XBhyLNn
-	DHc2toY3KzeyiIf9a91Lg7x2lyPcm8UlwhGeun24SCPoDq4LHyZprsea//e3A382/Iop
-	9gRjj3yhf/lZz6vlbyXk0oYzIfTHY/V03A2XFp5nNOq5I+Yhmxz1RsGqzxo+2QGnSxk2
-	i1rL/snMz1P1CF5bPA6Ml3GFpZfK/f2+Vtowdbih887YZ5XLhR/q/IFf47VP+yzX0z2h
-	6VTlKktqD1UTDozdf34pBo2nCeRINTau+vJbmUlkP9Khv14aNqdYBbdy8SmYYj3rxh5v
-	wzUw==
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E364788A1;
+	Mon,  8 Jan 2018 16:01:46 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id r8so10412365qke.6;
+	Mon, 08 Jan 2018 08:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MEwkl84lWIgjitaF0ESDw2rBsVUPlwF37A9m7Gg5Feo=;
+	b=mhNC8Du2WJGzwWHwGnwBQF0yy9tAbD9ygE6lYsQEhM3r27N2ZIbGu0BsT8mr3vPric
+	mNPLCfjD3oPmJGh8GT7a4PkyUSiyMNnvflO/aIvwNAsYMezcdLsnD+OzlSvy5ApwprDt
+	GQ9gmoMfpUu2s9oF4dGv7Kbw3V97wGO46lne6srZyqbqHHo/aHjZjF3tqrhNybByc6rq
+	kP1v/6JmMH9qJoMWdbFvfh2kiY/7pkY2m6ca8GaSb8Hho//LMfluAezDHNA5wM6aCXnA
+	KiyfG0LUmbew12u7/M+EIIYERyuFWCb58TIMHZfma5rOkePHtYBcXa1qnSKHWl8WC7ox
+	8IlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=CRb6O5ZASxr5XGVlJUyJexsUIrIaojKHRGxDol/9t9A=;
-	b=kvlPgEuQZ47sHEeZKkVBElU3DBCAZqRT/sAi2wHOQh8fkd1DFrzJ3cHs+SL/Mz0gGO
-	rAtijc+tF6tTic+1UGLHRdRXjIYw8DqxdI4i0R6ynZCJnnDGoyJXW+RPW+BH8VORlOIv
-	q6Sa+nm38jaZWjP0O0JT+0YhdRiI5ki22r8a+zVBMt8bm1o+7lu/QLUG3K/4hFGhCGzU
-	7cQfL82V3nrMY4tilL7dgXV/3rRKGK2TkAkT0P+IP4W3AbMBoQAu44ZSTMTEewrqnzxh
-	uHEvf3DnBC6mVtZmipdGDHETB0uHEF3BFfPecQxQmbMlqocFlMFeJ5CTYDyzH3ZU/Apa
-	PF0Q==
-X-Gm-Message-State: AKGB3mJfx//6mEQhEGQrK6UIiOWmmoLgdw8kDMDhUjfKt6MDVBKKhu5c
-	+q1qoO3E0xxIvqqKS8a2ERJdRpop
-X-Google-Smtp-Source: ACJfBotRDS4sucVOsFJB5NqfRM8K1gPYYP1GQUyx0E3zLOJblQArF/Ge33/WoV7HeiJYrf2k5Td7gg==
-X-Received: by 10.28.105.193 with SMTP id z62mr9575851wmh.136.1515427254436;
-	Mon, 08 Jan 2018 08:00:54 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b15sm11386658wrh.5.2018.01.08.08.00.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Jan 2018 08:00:53 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Jan 2018 16:00:21 +0000
-Message-Id: <20180108160021.4715-9-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180108160021.4715-1-ross.burton@intel.com>
-References: <20180108160021.4715-1-ross.burton@intel.com>
-Subject: [PATCH 9/9] gettext: rationalise optional dependencies
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MEwkl84lWIgjitaF0ESDw2rBsVUPlwF37A9m7Gg5Feo=;
+	b=A0V7sVQ9vcaJpX+VKgKSXPswEEARrZk8KUJPADwd1rDWyHdTmB7UgcKxW4feYJu337
+	NRPh3n0JSn7XlyMktmpRkzx/8TyLOXcXFqdUlxV8BtE8HpNMXPAAdWzhEbw2cDXsWmaN
+	ORFMDeZUXj2Az5iVvrq/c1xu/TkyOi0KxeCQ1w4YPdrqQuUpjrd5n+24bgRlI87BlC4H
+	sX8BKx2P90ax4zbCklz5JqCFxEQjlQv8QayNYq/09ISIWC/Up739w9mxHmiMMwSx33gl
+	6ssd9HbU6RE+TQZiPXk/L+1Cth3ca7kn4SKk9x+SpqhSpXXQOkhbDzVojEYu5bvEf47h
+	xzxA==
+X-Gm-Message-State: AKwxytcexSkTTGXFo0A4ZVc8YmxkT14JO7O6dKORi0oUoQDMpgQTdKbo
+	cYu6uVJ0udVml0EkJCW6/l0i2qzJTzDBHX2yZl0=
+X-Google-Smtp-Source: ACJfBounI1O3Aqp97h+ToqVq4Tb52sjAswMREYw5FixJC6wvZX6o0Hy2bKCIyQ9gX2rqoc7DEThNMAqWZUlwli5thdA=
+X-Received: by 10.55.200.148 with SMTP id t20mr16379486qkl.141.1515427307711; 
+	Mon, 08 Jan 2018 08:01:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.12.182.96 with HTTP; Mon, 8 Jan 2018 08:01:47 -0800 (PST)
+In-Reply-To: <161986bc-e04c-3cdd-c744-5cebff1d4fb7@gmail.com>
+References: <161986bc-e04c-3cdd-c744-5cebff1d4fb7@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 8 Jan 2018 11:01:47 -0500
+Message-ID: <CADkTA4M_b8e3d3bRCE+jY44F_atCy6ej51wdVEmFKE5y12nKVA@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto vrs K.O kernel, wireguard go Boom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,64 +54,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jan 2018 16:00:54 -0000
+X-List-Received-Date: Mon, 08 Jan 2018 16:01:48 -0000
+Content-Type: multipart/alternative; boundary="001a1146f7e25bf2a0056245ea03"
 
-gettext has optional dependencies on libxml2, glib, libcroco and libunistring.
-If they're not available then gettext will use internal copies, but it can also
-use system libraries.
+--001a1146f7e25bf2a0056245ea03
+Content-Type: text/plain; charset="UTF-8"
 
-For gettext-native continue to use the internal copies to get this building
-sooner rather than later, but for target use the system shared libraries.
+On Mon, Jan 8, 2018 at 10:08 AM, akuster808 <akuster808@gmail.com> wrote:
 
-Also gettext 0.19.7 onwards swapped expat for libxm2, so remove the build
-dependency on expat.
+> Hello,
+>
+> Wireguard in meta-networking is failing do to compat.h issues on newer
+> kernels. I have updated the package and it fixed  my problem on 4.14 K.O
+> kernel. Now I build it with the Yocko 4.12 and it fails. It wont fail with
+> a 4.12 K.O kernel. The is one commit that was backported from 4.13 K.O to
+> yocto 4.12 which is causing the issue.
+>
+> random: add get_random_{bytes,u32,u64,int,long,once}_wait family
+>
+> 6e4990d8d226e1861a5a2b632cf93bc70feab3af
+> <http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.12/commit/include/linux/random.h?h=standard/base&id=6e4990d8d226e1861a5a2b632cf93bc70feab3af>
+>
+>
+>
+If you try the 4.9 kernel, does it also have issues ? Either way, it is
+likely just a -stable
+fix that hasn't made it into our 4.12 maintenance cycle yet, and that is
+something we
+can fix by adding anything that is required to get things building again.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/gettext/gettext_0.19.8.1.bb | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+But knowing the 4.9 status would be a good data point, since I have more
+-stable
+updates queued (and not sent). So if it blows up, and then doesn't with
+AUTOREV,
+we have a small set of commits to look at.
 
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index 46ea68ff5b5..25ff601a6be 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -8,7 +8,7 @@ SECTION = "libs"
- LICENSE = "GPLv3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--DEPENDS = "gettext-native virtual/libiconv expat"
-+DEPENDS = "gettext-native virtual/libiconv"
- DEPENDS_class-native = "gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
- PROVIDES_class-native = "virtual/gettext-native"
-@@ -33,18 +33,22 @@ EXTRA_OECONF += "--without-lispdir \
-                  --disable-native-java \
-                  --disable-openmp \
-                  --disable-acl \
--                 --with-included-glib \
-                  --without-emacs \
-                  --without-cvs \
-                  --without-git \
--                 --with-included-libxml \
--                 --with-included-libcroco \
--                 --with-included-libunistring \
-                 "
- EXTRA_OECONF_append_class-target = " \
-                  --with-bisonlocaledir=${datadir}/locale \
- "
- 
-+PACKAGECONFIG ??= "croco glib libxml libunistring"
-+PACKAGECONFIG_class-native = ""
-+
-+PACKAGECONFIG[croco] = "--without-included-libcroco,--with-included-libcroco,libcroco"
-+PACKAGECONFIG[glib] = "--without-included-glib,--with-included-glib,glib-2.0"
-+PACKAGECONFIG[libxml] = "--without-included-libxml,--with-included-libxml,libxml2"
-+PACKAGECONFIG[libunistring] = "--without-included-libunistring,--with-included-libunistring,libunistring"
-+
- acpaths = '-I ${S}/gettext-runtime/m4 \
-            -I ${S}/gettext-tools/m4'
- 
+Bruce
+
+
+>
+>  I know Yocto is maintaining the 4.12 beyond the K.O release process so I
+> don't know if this a kernel bug or if I need to come up with some other
+> solution.
+>
+>
+> regards,
+> Armin
+>
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+
 -- 
-2.11.0
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a1146f7e25bf2a0056245ea03
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, Jan 8, 2018 at 10:08 AM, akuster808 <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+ =20
+
+   =20
+ =20
+  <div text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>Hello,</p>
+    <p>Wireguard in meta-networking is failing do to compat.h issues on
+      newer kernels. I have updated the package and it fixed=C2=A0 my probl=
+em
+      on 4.14 K.O kernel. Now I build it with the Yocko 4.12 and it
+      fails. It wont fail with a 4.12 K.O kernel. The is one commit that
+      was backported from 4.13 K.O to yocto 4.12 which is causing the
+      issue.<br>
+    </p>
+    <p>random: add get_random_{bytes,u32,u64,int,<wbr>long,once}_wait famil=
+y</p>
+    <table summary=3D"commit info" class=3D"m_-8118685174776223369commit-in=
+fo">
+      <tbody>
+        <tr>
+          <th><br>
+          </th>
+          <td colspan=3D"2" class=3D"m_-8118685174776223369sha1"><a href=3D=
+"http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-4.12/commit/include/=
+linux/random.h?h=3Dstandard/base&amp;id=3D6e4990d8d226e1861a5a2b632cf93bc70=
+feab3af" target=3D"_blank">6e4990d8d226e1861a5a2b632cf93b<wbr>c70feab3af</a=
+></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <table summary=3D"commit info" class=3D"m_-8118685174776223369commit-in=
+fo">
+      <tbody>
+        <tr>
+          <th><br>
+          </th>
+          <td colspan=3D"2" class=3D"m_-8118685174776223369sha1"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table></div></blockquote><div><br></div><div>If you try the 4.9 kerne=
+l, does it also have issues ? Either way, it is likely just a -stable</div>=
+<div>fix that hasn&#39;t made it into our 4.12 maintenance cycle yet, and t=
+hat is something we</div><div>can fix by adding anything that is required t=
+o get things building again.</div><div><br></div><div>But knowing the 4.9 s=
+tatus would be a good data point, since I have more -stable=C2=A0</div><div=
+>updates queued (and not sent). So if it blows up, and then doesn&#39;t wit=
+h AUTOREV,</div><div>we have a small set of commits to look at.</div><div><=
+br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <br>
+    =C2=A0I know Yocto is maintaining the 4.12 beyond the K.O release proce=
+ss
+    so I don&#39;t know if this a kernel bug or if I need to come up with
+    some other solution.<br>
+    <br>
+    <br>
+    regards,<br>
+    Armin<br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
+ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
+not follow the NULL pointer, for chaos and madness await thee at its end&qu=
+ot;</div>
+</div></div>
+
+--001a1146f7e25bf2a0056245ea03--
