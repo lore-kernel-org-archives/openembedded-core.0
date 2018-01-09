@@ -1,50 +1,50 @@
-Return-Path: <nirbheek.chauhan@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6502E78087
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C0DC4783C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 10:07:13 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id w188so17949346iod.10
+	Tue,  9 Jan 2018 10:20:00 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id t63so18012636iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jan 2018 02:07:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 09 Jan 2018 02:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pUMw6qlE5wsZvB8zgFPpxVQGoTFEqDF80bzZtMWZXwM=;
-	b=l3Y1w/oBFKnF1l7/vRrecozbmHf59+jmIvKvUOi0rf8Syli5FTyCRaq52Kx7F2f+qM
-	/Fg1DBfjPLMkz1XzWnEoPu0VtKEZT0eJ4tl+wzdJDjykttxp9tj4Wfifd+EIwKQ0tw//
-	GyLpTl+WUuyay7+rFnIkmbB3ExsUX3cY96fRPSVu5amBNHqSOg7dd71KiyUxtuLY5elK
-	i1jL7MuN8+rf603/0EhyJX7FekAyXNCd49Pb0gGwgNvl1jGwqFZN3lLyPkBYrf/oDtn7
-	5teQbYeKoOui64Yc8Np40gOsBgRd64BrGgGeIUZv7Z2Io7afQWXODyPmW2bSKsRLtPuD
-	vEGg==
+	:cc; bh=ainlTqPZnJpwAxOGKM6Pv2veGiXRcZ+7RxPKQ/jHz7M=;
+	b=JLdTFzJ8oiHYcPIlpuzO28MPcFjFMF68TqfifLTWwVcbOK6Wv6gC9PWJtQA5MPPL6X
+	cvue9Yubnh8mhpYovFYSh5bY5d3bob+KtMTf4yB6ahecr3h5nMwJwOKEw7wI/0+t7+Ia
+	FB5q0NhMZyOMcDt9Q3GbEq8rT/eaH7eEuR/yBd7voszUAsqUUNF+j+KAvMQT8datWm/C
+	lDCBw1aDx+9eB8bEOS4A9iHiC21MxqGOsCfgtHrBOeSKyZq4vmjRnBX3lc+kn8JwUlZ7
+	y4S/BEkwD81WmLKp1x0QPcbvbQ+seq4EByWb7CdYKDFt1XURNpCGWMclNTTENgWEqDUm
+	TVuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=pUMw6qlE5wsZvB8zgFPpxVQGoTFEqDF80bzZtMWZXwM=;
-	b=d8b478IzZrFTa0VaxWdessw7c78Rc/YAlhuSMnLpVzsJHri4UfkhCBDW7LFfpVHRdI
-	ZCtfaGyb8mJ88Tr3uWEJR2LCD9Na1nfJph1en94T6Y3GU+qzIj6aCVUVAhmlvC7L5khH
-	G+pwdtR8Vudw0jKjwAKGWTACup6kDautR9L+ReqwqzjRCPhHCev2mmzInI3yKqa5I3R6
-	KQAA2YlOYMrHJOKRfgBaNf60gVh4g/nrEZ6R4Pp29JL1IJHpnvi3vuj/fAg/graXJEMl
-	PAPX4m33TJtKBRWOX4jcaspuH5RQi4U0VBN+MnwIgoYfEFijnKDZWrs1bayyd/OChKAy
-	KyLA==
-X-Gm-Message-State: AKwxytc3VE+O62yFN1ZAl2gyIei9fFjiQXcwtbDCGm0oLTVAKO+MSii6
-	3LBjgA5FTYOq0XGgGcal5xn82DDzOx7Ed2tzfLo=
-X-Google-Smtp-Source: ACJfBour8xnIkxiqVhkgSH41WCJjgWlr8JY9wSrMSjjczhSdyJIp3eV52Qy9kiZZYR89r6JCUvwA7hxbBL1ryV6qEzY=
-X-Received: by 10.107.201.208 with SMTP id z199mr14615639iof.74.1515492435435; 
-	Tue, 09 Jan 2018 02:07:15 -0800 (PST)
+	bh=ainlTqPZnJpwAxOGKM6Pv2veGiXRcZ+7RxPKQ/jHz7M=;
+	b=DTEO/XTWjEcKBoozP6Awzy5EUsrTdYc+Y9aulZRA8g0FTc6zSrScNdZsRi3abA+o++
+	ycIHoOulhz8XIqWBwu0m5ID6af07Oegz8xK8yMyy0ShsRSr6oZwYzAsVjI4au1xwM8NL
+	VdB/UtgmUHhNj8Em1l8SH9AUKjRK2TKyqU30TdJiaM8uaPa7YZ/isJVUKn8zdW1BWxEt
+	mYCO01dVTUnz3x6GcBKe0W3b9336Tybf/FMtwId4BxrDr9AjV3oeN4Dt1DMLtNVZkoXK
+	jo239cC8aTAgnnZwl/PzAfOD+Z1wr2fk0DBkZUVQoyBIanl4OE7T44vzSPf/2Jc0Mgu5
+	Ivdw==
+X-Gm-Message-State: AKGB3mK2fjT7dmyOxwQ2aRfes4//vER0tOLkVN/X5y2AoQ0y8KM6W/mx
+	1OVKCNpKt7eMwA/4TTmVQ5pkcP5IjGLvnRLGfhpTHQ==
+X-Google-Smtp-Source: ACJfBoupLrGhP7T+Qyu/5FSTqrVQ4S8FqOT7VHJWL5YfkHWwPPpk/EGprra4RM49Ct891GDRWAFpIYYcRmM+Ji6bRkw=
+X-Received: by 10.107.186.139 with SMTP id k133mr14084967iof.208.1515493201794;
+	Tue, 09 Jan 2018 02:20:01 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.20.194 with HTTP; Tue, 9 Jan 2018 02:06:54 -0800 (PST)
-In-Reply-To: <CADqQcK4-=Q3mvKJfhjHbJEUYeTiGq3c7dCAR3E=w+ktr+_7RyA@mail.gmail.com>
-References: <2ce0ac68-4ef4-41f5-c931-81990ecd1d03@xevo.com>
-	<CADqQcK4-=Q3mvKJfhjHbJEUYeTiGq3c7dCAR3E=w+ktr+_7RyA@mail.gmail.com>
-From: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
-Date: Tue, 9 Jan 2018 15:36:54 +0530
-Message-ID: <CADqQcK6VA46LEmCymx9OT_+JWcLPX56PmW4mzLzh_8eLgG2UAQ@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Jussi Pakkanen <jpakkane@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with meson in SDK with cross-file
+Received: by 10.107.147.193 with HTTP; Tue, 9 Jan 2018 02:19:41 -0800 (PST)
+In-Reply-To: <d4370891-2188-4ad0-5abe-1aec68beeed0@linux.intel.com>
+References: <20180108160021.4715-1-ross.burton@intel.com>
+	<20180108160021.4715-7-ross.burton@intel.com>
+	<d4370891-2188-4ad0-5abe-1aec68beeed0@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jan 2018 10:19:41 +0000
+Message-ID: <CAJTo0LbfsUq1QWR4Xmu-1HBV9Z6w_vyku9XcKgLTAGEoy8+3Bw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/9] avahi: remove explicit avahi-dev RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 10:07:14 -0000
+X-List-Received-Date: Tue, 09 Jan 2018 10:20:00 -0000
+Content-Type: multipart/alternative; boundary="94eb2c07077af3f2bd0562554113"
+
+--94eb2c07077af3f2bd0562554113
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 9, 2018 at 3:20 PM, Nirbheek Chauhan
-<nirbheek.chauhan@gmail.com> wrote:
->> If we want to setup a cross-file to use these arguments, we would have to
->> generate the cross-file on-the-fly (not good).
+On 9 January 2018 at 09:01, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> On 01/08/2018 06:00 PM, Ross Burton wrote:
 >
-> Out of interest, why is that not good? That is precisely what Gentoo
-> does and it has to solve the same problems here that Yocto is facing.
+> -RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev
+>> glib-2.0-dev update-rc.d-dev"
+>> -RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
+>> -
+>> -RRECOMMENDS_avahi-dev[nodeprrecs] = "1"
+>> -
+>>
+>
+> Cool, I was wondering about the necessity of this stuff.
+>
+> Thanks for cleaning up, we can also perhaps look into splitting
+> gettext-native recipe into a sane set of parts, and use them in a carefully
+> targeted way, rather than the current -minimal-native approach, which is
+> hackish.
 >
 
-To expand on this, the reason why meson requires a cross file for
-cross-compilation is because we allow build files to use both native
-and cross compilers within the same build. This is quite useful when
-you want to build a tool (or generator) as part of the project that
-you then use to build/generate other things that are used in the cross
-build.
+ross/gettext is slowly heading in that direction.
 
-That workflow is really difficult or impossible in Autotools and
-CMake, but it's a surprisingly common use-case.
+Ross
 
-Generating cross files is quite easy since they're INI files[1]. If
-you use the same toolchain for the entire build, you only need to
-generate it once.
+--94eb2c07077af3f2bd0562554113
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-1. https://docs.python.org/3/library/configparser.html
+<div dir=3D"ltr">On 9 January 2018 at 09:01, Alexander Kanavin <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_b=
+lank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<span class=3D"">On 01/08/2018 06:00 PM, Ross Burton wrote:<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+-RRECOMMENDS_avahi-dev =3D &quot;expat-dev libcap-dev libdaemon-dev dbus-de=
+v glib-2.0-dev update-rc.d-dev&quot;<br>
+-RRECOMMENDS_avahi-dev_append_<wbr>libc-glibc =3D &quot; gettext-dev&quot;<=
+br>
+-<br>
+-RRECOMMENDS_avahi-dev[nodeprr<wbr>ecs] =3D &quot;1&quot;<br>
+-<br>
+</blockquote>
+<br></span>
+Cool, I was wondering about the necessity of this stuff.<br>
+<br>
+Thanks for cleaning up, we can also perhaps look into splitting gettext-nat=
+ive recipe into a sane set of parts, and use them in a carefully targeted w=
+ay, rather than the current -minimal-native approach, which is hackish.<br>=
+</blockquote><div><br></div><div>ross/gettext is slowly heading in that dir=
+ection.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-Cheers,
-Nirbheek
-
+--94eb2c07077af3f2bd0562554113--
