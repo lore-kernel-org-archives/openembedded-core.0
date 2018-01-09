@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C1F878936
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AD9C57896E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 01:37:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w091blP8028361
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jan 2018 17:37:47 -0800 (PST)
-Received: from [128.224.162.167] (128.224.162.167) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 8 Jan 2018 17:37:46 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1515051241.git.Qi.Chen@windriver.com>
-	<519437989588d44d130890dce1285d796e3382ad.1515051241.git.Qi.Chen@windriver.com>
-	<1515107332.30291.21.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <3678a983-8ef6-b312-4eb3-da86c7e948dc@windriver.com>
-Date: Tue, 9 Jan 2018 09:40:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue,  9 Jan 2018 01:37:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w091budH008399
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Jan 2018 17:37:58 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 8 Jan 2018 17:37:54 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Jan 2018 09:40:08 +0800
+Message-ID: <cover.1515461823.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1515107332.30291.21.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.167]
-Subject: Re: [PATCH 1/1] coreutils: upgrade to 8.29
+Subject: [PATCH V2 0/1] coreutils: upgrade to 8.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 01:37:48 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jan 2018 01:37:58 -0000
+Content-Type: text/plain
 
-On 01/05/2018 07:08 AM, Richard Purdie wrote:
-> On Thu, 2018-01-04 at 15:35 +0800, Chen Qi wrote:
->> * ls.c license checksum is changed, but the license remains the same.
->>
->> * The new version provides native manual page support, there's no
->>    need to download extra manual page from gentoo site.
->>
->> * man-decouple-manpages-from-build.patch is removed, as new version
->>    has manual page support in environment lacking of perl.
->>
->> * hostname is explicitly enabled to keep the same with previous
->> recipe's
->>    behaviour.
->>
->> * ALTERNATIVE_XXX settings for lbracket.1 are removed as there's no
->> such
->>    file.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../man-decouple-manpages-from-build.patch         | 27 ------------
->> ----------
->>   .../{coreutils_8.28.bb => coreutils_8.29.bb}       | 24 +++++-------
->> -------
->>   2 files changed, 6 insertions(+), 45 deletions(-)
->>   delete mode 100644 meta/recipes-core/coreutils/coreutils/man-
->> decouple-manpages-from-build.patch
->>   rename meta/recipes-core/coreutils/{coreutils_8.28.bb =>
->> coreutils_8.29.bb} (80%)
-> Sorry, doesn't build:
->
-> https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/678/steps/BuildImages/logs/stdio
->
-> Cheers,
->
-> Richard
->
+Changes in V2:
+* Drop the backported patch 0001-doc-fix-Up-field-of-realpath-usage-examples.
+  This fixes do_compile failure on opensuse.
 
-Sorry for my carelessness.
+The following changes since commit 205cfd702190026e64eed9cae27c05ff62d1637e:
 
-I've reproduced the problem on opensuse and fixed it.
+  bitbake: fetch2/__init__: Disable pseudo in runfetchcmd() (2018-01-08 08:48:54 +0000)
 
-V2 has been sent, which has been tested on Fedora, Ubuntu and opensuse 
-for all qemu archs and for both glibc and musl.
+are available in the git repository at:
 
-Best Regards,
-Chen Qi
+  git://git.pokylinux.org/poky-contrib ChenQi/coreutils-8.29
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/coreutils-8.29
+
+Chen Qi (1):
+  coreutils: upgrade to 8.29
+
+ ...c-fix-Up-field-of-realpath-usage-examples.patch | 40 ----------------------
+ .../man-decouple-manpages-from-build.patch         | 27 ---------------
+ .../{coreutils_8.28.bb => coreutils_8.29.bb}       | 25 ++++----------
+ 3 files changed, 6 insertions(+), 86 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/man-decouple-manpages-from-build.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.28.bb => coreutils_8.29.bb} (79%)
+
+-- 
+1.9.1
+
 
