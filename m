@@ -1,31 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EE8788C0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DC05F788C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 22:24:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id CB24320AB9;
-	Tue,  9 Jan 2018 22:24:23 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id L51QVI2InQRW; Tue,  9 Jan 2018 22:24:23 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AA32C2087C;
-	Tue,  9 Jan 2018 22:24:22 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 363CA16325D;
-	Tue,  9 Jan 2018 17:24:22 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jan 2018 17:24:21 -0500
-Message-Id: <1515536661-51529-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+	Tue,  9 Jan 2018 23:12:49 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w09NBu2D027703
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 9 Jan 2018 23:11:57 GMT
+Message-ID: <1515539516.29722.106.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 09 Jan 2018 23:11:56 +0000
+In-Reply-To: <1515536661-51529-1-git-send-email-denis@denix.org>
+References: <1515536661-51529-1-git-send-email-denis@denix.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
 Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] at: explicitly depend on bison-native for deterministic builds
+Subject: Re: [PATCH] at: explicitly depend on bison-native for deterministic builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 22:24:23 -0000
+X-List-Received-Date: Tue, 09 Jan 2018 23:12:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Tue, 2018-01-09 at 17:24 -0500, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+> 
+> Usually bison-native gets into sysroot through indirect dependencies,
+> even with RSS. But when bison-native is not in sysroot, due to
+> different
+> system config,
 
-Usually bison-native gets into sysroot through indirect dependencies,
-even with RSS. But when bison-native is not in sysroot, due to different
-system config, it falls back to using "yacc" instead and fails like this:
+Any idea what that "different system config" is?
 
-| yacc -d parsetime.y
-| make: yacc: Command not found
-| Makefile:82: recipe for target 'y.tab.c' failed
-| make: *** [y.tab.c] Error 127
+I get worried about things like this and would like to understand it a
+little better...
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/recipes-extended/at/at_3.1.20.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-extended/at/at_3.1.20.bb b/meta/recipes-extended/at/at_3.1.20.bb
-index 9b537ee..8fe3b43 100644
---- a/meta/recipes-extended/at/at_3.1.20.bb
-+++ b/meta/recipes-extended/at/at_3.1.20.bb
-@@ -5,7 +5,7 @@ the system load levels drop to a particular level."
- SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
--DEPENDS = "flex flex-native \
-+DEPENDS = "flex flex-native bison-native \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- RDEPENDS_${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)} \
--- 
-2.7.4
+Richard
+
 
 
