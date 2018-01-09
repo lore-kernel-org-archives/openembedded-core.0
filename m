@@ -1,33 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 003EE7824F
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DCB7578872
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 09:05:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Jan 2018 01:05:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,334,1511856000"; 
-   d="scan'208";a="9287412"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 09 Jan 2018 01:05:42 -0800
-To: Martin Kelly <mkelly@xevo.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Jussi Pakkanen <jpakkane@gmail.com>,
-	Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
-References: <2ce0ac68-4ef4-41f5-c931-81990ecd1d03@xevo.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ee65ca42-3632-8f67-4615-dffd816823fe@linux.intel.com>
-Date: Tue, 9 Jan 2018 11:05:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Tue,  9 Jan 2018 09:44:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w099ip72013826
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Jan 2018 01:44:52 -0800 (PST)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 9 Jan 2018 01:44:51 -0800
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Jan 2018 17:43:54 +0800
+Message-ID: <1515491034-206803-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <2ce0ac68-4ef4-41f5-c931-81990ecd1d03@xevo.com>
-Subject: Re: Issues with meson in cross-compiling environment
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH] terminal.bbclass: use SHELL to interpret the init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,23 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 09:05:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jan 2018 09:44:51 -0000
+Content-Type: text/plain
 
-On 01/09/2018 01:51 AM, Martin Kelly wrote:
+/bin/sh was used to interpret the init script of the new terminal, below
+issue occurs when SHELL="/bin/bash" and /bin/sh is linked to /bin/dash:
+function foobar { echo foobar; };
+export -f foobar
+bitbake -c devshell virtual/kernel
+Then the devshell fails to be started because "export -f xxx" is wrong
+for dash.
 
-> Recently, we got meson added to OE-core as part of Yocto (thanks 
-> Alexander Kanavin!).
-As a part of that integration, we've had to add a few patches that fix 
-problems specific to cross-compilation. You can see them here:
+So start the new terminal using SHELL to interpret the init srcipt,
+which can solve the issue caused by the difference between SHELL and
+/bin/sh.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/meson/meson
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ meta/classes/terminal.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'd really like to have them merged upstream, so if you're generally in 
-favor, I'll submit them (or you can simply take them directly).
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index a27e10c..c8e1b2f 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -25,7 +25,7 @@ def emit_terminal_func(command, envdata, d):
+     bb.utils.mkdirhier(os.path.dirname(runfile))
+ 
+     with open(runfile, 'w') as script:
+-        script.write('#!/bin/sh -e\n')
++        script.write('#!%s -e\n' % (d.getVar('SHELL')))
+         bb.data.emit_func(cmd_func, script, envdata)
+         script.write(cmd_func)
+         script.write("\n")
+-- 
+1.9.1
 
-
-Alex
 
