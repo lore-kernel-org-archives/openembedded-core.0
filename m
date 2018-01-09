@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C383B7017B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CF90A788E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 15:48:21 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id z48so8847147wrz.6
+	Tue,  9 Jan 2018 15:54:38 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id g1so3491910wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jan 2018 07:48:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=3kI+Vxf4TCG1vgoeKx+JMSKbNRNnTx/vYZfUrt9pcqc=;
-	b=SakK1Ovw51TtulMFV9A+rXqN2eZiZi6dfWfnLbSbfgEjSowFdYIqGRkpepMuLnauD4
-	XvarBY7XbyuFXuhGRD0D/1bC2q65u3aL19rqZuwMYBBaMUm+7gIAlq43fvuYAczA1N9v
-	TUzaE0T9yHs9pQhSM7eN7RdujibehvEbpg5qO2lPmAT8kB0NeMzueFiN8sjIdUUY4Icz
-	Cq+gIm85EaZQ8NjfItRzKlPykzLsh03h5teE3is5OMmLlBjvDLwdoQmKN21VEda+twJo
-	E91fT7MshFDojlxx3Ft61Hd6oHKzQDHjIJ17xyVJBYlk+TNpo6AooYUX7D1vc0Szp3Kw
-	5i4A==
+	Tue, 09 Jan 2018 07:54:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=E4M1VQTjcmXdM1eARTFR2DYXZK+jwJxHaHlIOm3Sdvc=;
+	b=tirUzbYKB8XOl0hdsAfO/f8It25uO6eRopFLPIWBPcOH5ac+5gn7PDZ7IBFGqoav6j
+	sY+kIk0n6SepzIQHQMbpNy0uT6Fp74QlIaoRVkiCl8uJhPw/jcTZuAo0pGEtsxcm5Nj6
+	U0JACrSz+JVgGsz0hLJHptg1N7YfffA3LPZdb7TicYs4VOYYRLhpByFIH5Wa3574qXyW
+	ysRVptWuHGVsNIbvwlYr3+hNRHifhxsceNk+o+UTCyiSWZ0pc0AIt+4kOH1uHmIwewkk
+	sCgzZNfl2vu0j6Nm5LqNd6I0WRLKk26A//JwQjg5tzLu6ezRA6BcD1FGcSD7L6AmjuGe
+	j7ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3kI+Vxf4TCG1vgoeKx+JMSKbNRNnTx/vYZfUrt9pcqc=;
-	b=uZZICGoTRduFpM4bBE27vCht3uVEtJdF74mRs4WXBabiCM30QqeQQkIwMYqqJwVShP
-	AkRFeNKQs6VJkuaVWBmj+vKE287AHGJJ1tgxJh8OzEwTXJs1sLws5ef6Dgd+MnC2Mto+
-	LdWtjWLW+KG0ICFUvqCbIHCmCRWui3Xf+p5kp8ex3cozskeOMJVyAHUobdIV1aUYDHbo
-	G999tiCw1vMXhsxjHF5uLsha/FQnATMpWuTtTA30hR3pgzVdK1EwXWwYU2rPlOb9+9ll
-	ImubcFqnl2JnDeM2kuDPfMgBVXYa50FA4b9pENg/Z9rkKash63b2sMStW2sAqE8u51LY
-	ZrbQ==
-X-Gm-Message-State: AKGB3mLBiNhMPMap3MKzObG7JufkNksRvFPn3NJHEdbRRwp10RhEqriF
-	vixo/uA0lCszIcjTQfMEEYIOlgkm
-X-Google-Smtp-Source: ACJfBouVK99rPV216efP8f5COLuplyL/owMmcXbFuwC+x1oY5+A05z7oR7HFBaddDffqj83CT/2FLQ==
-X-Received: by 10.223.181.2 with SMTP id a2mr14620959wrd.90.1515512901990;
-	Tue, 09 Jan 2018 07:48:21 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=E4M1VQTjcmXdM1eARTFR2DYXZK+jwJxHaHlIOm3Sdvc=;
+	b=A3gMvd0h3bY+5ny5qjFXWahbt2oC+i2oSE4OL5BaQsMMcQ9voPimGFwm22RzZSE5bi
+	DcgwxCIxMVNp+IPSLSgZmWTacO1H99Q9Ts0ipa/Qh3BcGuv/ba+l29F/gLImb4RKkHoB
+	5EdCgb3y/CjnidF4NDBy0E7Cq0bG8F6tKTCu8t6Aa3PoxqY+3Sz/wadkaOuyxlBqvPLs
+	48SEw64JeJquKvYhtL1k1IRSFy7YYihDWS3qFJ1h1g64f9RK9BC2XM6e1HGfaxH+O9NL
+	FapAsmZzvNy/vFpeh9oSRBiIpeEPyixRrRaB3s+JqILxeBFNCzW36MhTTWpYplYQfLT7
+	dnew==
+X-Gm-Message-State: AKwxytffswi/EZezenhcq9l1FjGKkmyxQB8w9iilJ4Shp/LEVzaqWkpt
+	HgBRVXY2zqwiWp1YUAZUAh3VHNfe
+X-Google-Smtp-Source: ACJfBotP8XdjoPHSDm2Nv+flVNadGwzj8fN9uiR9rMiNfppTnJi0tLcbQInKok/L1crU/ZnW2oACVw==
+X-Received: by 10.28.21.12 with SMTP id 12mr8107896wmv.125.1515513279282;
+	Tue, 09 Jan 2018 07:54:39 -0800 (PST)
+Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
 	by smtp.gmail.com with ESMTPSA id
-	g60sm18970898wrd.92.2018.01.09.07.48.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Jan 2018 07:48:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	s20sm1840094wma.45.2018.01.09.07.54.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Jan 2018 07:54:37 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jan 2018 15:48:18 +0000
-Message-Id: <20180109154818.27025-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] glib-2.0: rationalise build dependencies
+Date: Tue,  9 Jan 2018 20:54:18 +0500
+Message-Id: <20180109155418.32151-1-kergoth@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] meson.bbclass: use HOST_CC_ARCH, not TARGET_CC_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 15:48:22 -0000
+X-List-Received-Date: Tue, 09 Jan 2018 15:54:40 -0000
 
-nativesdk-glib-2.0 doesn't build-depend on nativesdk-gettext, but all variations
-need to depend on gettext-native as they need msgfmt (so gettext-minimal-native
-isn't an option).
+From: Christopher Larson <chris_larson@mentor.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Using TARGET_CC_ARCH is inconsistent with CC, which uses HOST_CC_ARCH, and the
+rest of meson.bbclass, which uses HOST_PREFIX, HOST_OS, etc.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ meta/classes/meson.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index cfeb48a5368..8aada5cea7a 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -3,7 +3,7 @@ DESCRIPTION = "GLib is a general-purpose utility library, which provides many us
- HOMEPAGE = "https://developer.gnome.org/glib/"
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index b72e5207abc..4a4c51f8402 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -25,7 +25,7 @@ MESONOPTS = " --prefix ${prefix} \
+               --localstatedir ${localstatedir} \
+               --sharedstatedir ${sharedstatedir}"
  
- # pcre is under BSD;
--# docs/reference/COPYING is with a 'public domai'-like license!
-+# docs/reference/COPYING is with a 'public domain'-like license!
- LICENSE = "LGPLv2.1+ & BSD & PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://glib/glib.h;beginline=4;endline=17;md5=b88abb7f3ad09607e71cb9d530155906 \
-@@ -19,10 +19,12 @@ CVE_PRODUCT = "glib"
+-MESON_C_ARGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++MESON_C_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ MESON_LINK_ARGS = "${MESON_C_ARGS} ${LDFLAGS}"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--DEPENDS = "virtual/libiconv libffi zlib glib-2.0-native"
--DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' dbus', '', d)}"
--DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
--DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib glib-2.0-native"
-+DEPENDS = "glib-2.0-native \
-+           gettext-native \
-+           virtual/libiconv \
-+           libffi \
-+           zlib \
-+           ${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus', '', d)}"
- 
- PACKAGES += "${PN}-codegen ${PN}-utils"
- 
+ # both are required but not used by meson
 -- 
-2.11.0
+2.11.1
 
 
