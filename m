@@ -1,52 +1,47 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AD9E784D2
+Return-Path: <dogukan.ergun@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A0D0787DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 11:43:33 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id b76so20202819wmg.1
+	Tue,  9 Jan 2018 12:40:52 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id p6so13966668wrd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jan 2018 03:43:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=vAhOp5v/rhm6KWOxpNEBpYHwHMU3HhuU/wwmw4erJXY=;
-	b=bgKYpqhF+QOXsQPP2pQ3H4bK+0x6pyhZMSQOKE0vgTwduowVQWWtOBXba1a/NVmU7Z
-	8xTFOU3b3plflpA5JnPlDzV4dUeQ+XVQtcV+XkJ5NV+DdHnVBI7foa2YVgg1ee6fj2mW
-	WiXqDiXqF2koowHgJ8vprsl/Ub8tRnT/i151UZnz+zL8hY74+V3tgUbPCxXmGdWo9/u7
-	wnB6Tbht2h2SnnOQ3wjtxnLlH+1pmIPS9ZGjn8koQbT0/RoUWlw+L0YRQpja0XUhiRsX
-	QcihwEYtHzuJVr/AbMQrdW7fGP67wSZvrrhCxbmi1zhMykvxugmYSRnqc9JjSCj+VggF
-	83DA==
+	Tue, 09 Jan 2018 04:40:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=eEyeGOWyc2dX2ptB7lxoPPoKO36k/0568ZYV0vYE5u4=;
+	b=VNmvVhzF3qCbRf6eecuMrQGYdpWkDGBygVt/I6ornCd37NEP0tbjXpe98C2dMKh0x9
+	7cff44IWb5VRJXRHzyiP4GxKva8C3/FrguXIY/YA/4nIV51LhYehATQPq1P/bqFW2x9u
+	+rJzM23EXfLW5Y8B+neUHYsidh/GzCjD7U8jzpFV5qRo1Eno2vsWnnh+A3jctRBgRIM9
+	Wexy4u2gnRjmzl91g2mzuek8FbfOdh6rvS9iRjjjVJrKVONrgvmAaKDi0808/wRzhtyX
+	nFJWWIpc7fIiy9fs/y0qmKin7ANoO5k0WyaGOLLRJhkgkl+UJpiZDPMw+x/u9iACmvm0
+	aUmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=vAhOp5v/rhm6KWOxpNEBpYHwHMU3HhuU/wwmw4erJXY=;
-	b=De1z7lA597csbzwsPrcPrcIqxMYf+q9DCV0LAlWs5zTfkkBerryYjpc/dwtRWJaQKn
-	FtlZO5/JwHavEIvrkeWfkGli1F09kZv6jOnF47Xq1IetSKIjvZkSPcZRO8NObZjYDEJz
-	p2U+NQTt9Ig5Z9pRN7LiRow70EcYvdL/RaaX4O/qV8q0M/E+BKwvF5m72gFtvRahYcQO
-	xTEzClRvLScWcVRtvbUQjGWeGXovEIvjWa0iPIgb6OzIZhn3pc9BZ/skBeSjovR6jIXI
-	A3yzjsJO7FTjBRqw2X7Uxxp7Ee0bAtZ+VwZpKW1xwdMwHGbXcK/AhUH0hb4PZy7WP5YV
-	maiA==
-X-Gm-Message-State: AKGB3mJctO6x/z+XhhQ+hDE/gdsKqwKTjk2ii0zmEWaFQNSEu5xGQ9wM
-	V34Q5akyMAwWNy6DN74xru1yFVD9GzAbVTRdWuEvCg==
-X-Google-Smtp-Source: ACJfBos/nnSKwrJI0AX+rnQ9MN6rkjVSZPJ5jjgyw4bfNbbvzJSlvNY6VfjOlqiFx3X+IDskF0rM7Is/Wzmm51oaj48=
-X-Received: by 10.28.45.83 with SMTP id t80mr11405498wmt.90.1515498213986;
-	Tue, 09 Jan 2018 03:43:33 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.182.79 with HTTP; Tue, 9 Jan 2018 03:43:33 -0800 (PST)
-In-Reply-To: <CALbNGRSz59HjuPX3=TLxxVoJEPrKnSmYMZu9RBf0YnCKU_SJOQ@mail.gmail.com>
-References: <CAPyrkgxupO+=0+bmA=+JO+zs=t_i=Pm06GJyRFvYfTb5sXjSBA@mail.gmail.com>
-	<1a0bbfc2-7b0a-c347-23eb-7cb1087ffb33@balister.org>
-	<CALbNGRSz59HjuPX3=TLxxVoJEPrKnSmYMZu9RBf0YnCKU_SJOQ@mail.gmail.com>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Tue, 9 Jan 2018 11:43:33 +0000
-Message-ID: <CAPyrkgxymZishKFSi3L4b3ms71_82kx_p_w4z2DJm6S3s99Hug@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: openembedded-members@lists.openembedded.org, yocto <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Slideshow for FOSDEM
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eEyeGOWyc2dX2ptB7lxoPPoKO36k/0568ZYV0vYE5u4=;
+	b=dDiqjtWIZWzYbItIThX6C8BExOWmJpLH2J0pj5cot1vAseQnmlLjSCvGpjP6lscw5t
+	ookvno1tf8CApDbO0H/Gy55yEZSsBSwUf7Ih2Fdf80lZMN9XqIC80jF5Tz6ony5xzdP0
+	to0wbKv76V0UWvmGloZ5h3kVKKZalO9aPSPnxzBkvT9/ccNVhGmzvKbU11G8/OiDQhmw
+	wmFTPvHEpiWoTBhDRmp2EDQWUss9Nu/ie5XtBLQuFkYJPdJ45c9/+bd6AU+pdN0bS72Q
+	xmJrm/o2BJymztqkwmSBroMz9MgLl7Xun0+8bO4KqCqTqkmzedzQK8kEV/hSU6c2VqcX
+	y/iQ==
+X-Gm-Message-State: AKGB3mIF9Spxeuz0nQgXji9ZpZWrz9/m0RD/hA89OPnbxiJ0sCOqIO6C
+	oGIN3ZjjfkqIM4AZ+7SrPxyC3wZS
+X-Google-Smtp-Source: ACJfBov5qzTgtnXSWDiJby0zWE2hUZteZuKrRQeEQQfqpTIqBlz5m+ITzO5ADfBDn6RJexteNfvK9g==
+X-Received: by 10.223.198.1 with SMTP id n1mr11961178wrg.153.1515501653519;
+	Tue, 09 Jan 2018 04:40:53 -0800 (PST)
+Received: from localhost.localdomain ([81.214.38.25])
+	by smtp.gmail.com with ESMTPSA id
+	q13sm9366314wrg.68.2018.01.09.04.40.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Jan 2018 04:40:52 -0800 (PST)
+From: Dogukan Ergun <dogukan.ergun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jan 2018 15:40:21 +0300
+Message-Id: <1515501621-13380-1-git-send-email-dogukan.ergun@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic: if we can't get from ioctl, try from os.stat()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,64 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 11:43:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Jan 2018 12:40:53 -0000
 
-On Thu, Jan 4, 2018 at 1:22 PM, Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
-> On Wed, Jan 3, 2018 at 6:29 PM, Philip Balister <philip@balister.org> wro=
-te:
->>
->> On 01/03/2018 09:47 AM, Paul Barker wrote:
->> > Hi all,
->> >
->> > As we've only got one table at FOSDEM this year we're not going to
->> > have space for as many bits of hardware as usual. I'd still like us to
->> > show off the project and what people are building with OpenEmbedded &
->> > Yocto Project though. Given the limited space I think the best way to
->> > do this would be to put a slideshow on my laptop.
->> >
->> > I've made a start on this here:
->> >
->> > https://docs.google.com/presentation/d/1KYxhsxO-8GxhAreE0GKnTOCPdY6_4u=
-XYIEp6Lc55MB8/edit?usp=3Dsharing
->> >
->> > I've made this publicly editable so please feel free to add slides for
->> > any OE features you want to show off and any projects (professional or
->> > hobbyist) built with OE. If anyone can add a slide on project history
->> > that would also be great. I'd also like a slide on the latest release
->> > and the new features added. Photos of hardware projects using OE and
->> > features like Toaster would be especially welcome!
->> >
->> > I'll give this a final edit before FOSDEM and the put it on rotation
->> > on a laptop at the stand. Hopefully it will be useful for future
->> > events as well.
->>
->> Can we build a small board with a largish screen so we can run the show
->> on a device running an image built by OpenEmbedded?
->>
->> Philip
->>
-> Hi,
->
-> currently I am putting together something like a
-> 'diy-rpi-notebook-on-tripod' - WIP no photos yet. Would like to put a mus=
-ic
-> keyboard in front of it. Area required 1-2 square meters - no table
-> required. Is such thing accepted / of interest?
->
-> Andreas
+Under some conditions, ioctl FIGETBSZ can't return real value.
+We can try to use fallback via os.stat() to get block size.
 
-Sadly I think we won't have space for this. We'll have one table and
-likely tables for other projects on both sides of us.
+Source of the patch: https://github.com/intel/bmap-tools/commit/17365f4fe9089df7ee9800a2a0ced177ec4798a4#diff-7c3551da8e9821c1b4ea133c74968c0f
 
-You're welcome to bring the setup along anyway but I can't guarantee
-we'll be able to fit it in.
+Signed-off-by: Dogukan Ergun <dogukan.ergun@gmail.com>
+---
+ scripts/lib/wic/filemap.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Thanks,
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 1f1aacc..46ced79 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -41,7 +41,15 @@ def get_block_size(file_obj):
+     # Get the block size of the host file-system for the image file by calling
+     # the FIGETBSZ ioctl (number 2).
+     binary_data = ioctl(file_obj, 2, struct.pack('I', 0))
+-    return struct.unpack('I', binary_data)[0]
++    bsize = struct.unpack('I', binary_data)[0]
++    if not bsize:
++        import os
++        stat = os.fstat(file_obj.fileno())
++        if hasattr(stat, 'st_blksize'):
++            bsize = stat.st_blksize
++        else:
++            raise IOError("Unable to determine block size")
++    return bsize
+ 
+ class ErrorNotSupp(Exception):
+     """
+-- 
+2.7.4
 
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
 
