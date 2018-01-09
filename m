@@ -1,47 +1,66 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CF90A788E8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DB55788B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 15:54:38 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id g1so3491910wmg.2
+	Tue,  9 Jan 2018 17:01:48 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id y82so21124886wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jan 2018 07:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=E4M1VQTjcmXdM1eARTFR2DYXZK+jwJxHaHlIOm3Sdvc=;
-	b=tirUzbYKB8XOl0hdsAfO/f8It25uO6eRopFLPIWBPcOH5ac+5gn7PDZ7IBFGqoav6j
-	sY+kIk0n6SepzIQHQMbpNy0uT6Fp74QlIaoRVkiCl8uJhPw/jcTZuAo0pGEtsxcm5Nj6
-	U0JACrSz+JVgGsz0hLJHptg1N7YfffA3LPZdb7TicYs4VOYYRLhpByFIH5Wa3574qXyW
-	ysRVptWuHGVsNIbvwlYr3+hNRHifhxsceNk+o+UTCyiSWZ0pc0AIt+4kOH1uHmIwewkk
-	sCgzZNfl2vu0j6Nm5LqNd6I0WRLKk26A//JwQjg5tzLu6ezRA6BcD1FGcSD7L6AmjuGe
-	j7ow==
+	Tue, 09 Jan 2018 09:01:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=G02gK3tKgrM7bmKkTCkSutSYTgUsmHHMRPv28J0iH2U=;
+	b=WBKKwdql+Yfbv3qV4qzveSuwKD4/BteqwtqUs9eOIaA5zcBQUGxH1DK+EdnK8uK2gm
+	43ZlrL1kabPUNMag/Bzy3mw8XlrPQu4MlW2l/dTY7IxUCsFNOrpcNY27wd5eogmFsLTJ
+	2EPlqB5J2w1c/dTEWt6jo775MEg1wfkX5GgQbV4Ntybu0k17NahNayvFsgj3f4A0GX8Y
+	pJG7qsKrtTI0sjJ9uIi7d+6X6fqPk4sdfbm5/nhxy4YKm+5QaIEb8n1uIAhmbmWxCebq
+	+LmGZKb3aGTqSjTS6wGQbIcVXgWxyX0eTC6FPKciXvoMaVmtPYYAm20+Ztm+BGNVadTV
+	irgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=E4M1VQTjcmXdM1eARTFR2DYXZK+jwJxHaHlIOm3Sdvc=;
-	b=A3gMvd0h3bY+5ny5qjFXWahbt2oC+i2oSE4OL5BaQsMMcQ9voPimGFwm22RzZSE5bi
-	DcgwxCIxMVNp+IPSLSgZmWTacO1H99Q9Ts0ipa/Qh3BcGuv/ba+l29F/gLImb4RKkHoB
-	5EdCgb3y/CjnidF4NDBy0E7Cq0bG8F6tKTCu8t6Aa3PoxqY+3Sz/wadkaOuyxlBqvPLs
-	48SEw64JeJquKvYhtL1k1IRSFy7YYihDWS3qFJ1h1g64f9RK9BC2XM6e1HGfaxH+O9NL
-	FapAsmZzvNy/vFpeh9oSRBiIpeEPyixRrRaB3s+JqILxeBFNCzW36MhTTWpYplYQfLT7
-	dnew==
-X-Gm-Message-State: AKwxytffswi/EZezenhcq9l1FjGKkmyxQB8w9iilJ4Shp/LEVzaqWkpt
-	HgBRVXY2zqwiWp1YUAZUAh3VHNfe
-X-Google-Smtp-Source: ACJfBotP8XdjoPHSDm2Nv+flVNadGwzj8fN9uiR9rMiNfppTnJi0tLcbQInKok/L1crU/ZnW2oACVw==
-X-Received: by 10.28.21.12 with SMTP id 12mr8107896wmv.125.1515513279282;
-	Tue, 09 Jan 2018 07:54:39 -0800 (PST)
-Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=G02gK3tKgrM7bmKkTCkSutSYTgUsmHHMRPv28J0iH2U=;
+	b=uBayZBiFbX8VX2RcOVnFDSX0X39uW5LRLmegT4gIk0aOpGyhg6I91ZpCEK+jD++QJ8
+	QC7I1NYrm2dKEKVvKplcGrGb/cFuXp/Ji4yKG1y3eVsuXGcCYVHuva1V9H1KhSjq0l5V
+	9XLwj5gmkE9qeufczNBOcGVO1ccWFzM6IeixAiuRdz7VBUQ+rsxecp7sTlyiYBk2qsjz
+	rqk7S4oHO2yJEmsjxS5NCsVd+Pu14X3ng3AklJWX8QjDh7zXjvPKtuK+5nBtDkZPXjq5
+	PVsvJ3PfL3wWCSyEEN8cmeokM09chUjB3gf6sObHgtqwzncqGODZHTktYg7ahbHbeohU
+	2Z1Q==
+X-Gm-Message-State: AKGB3mI+aF+h6NIWUj7s9B8gayGNSLxx9WrWmU/9Un9EPjQctbe5O3nP
+	y8AM+EWUPYnVSZUYiz/O4k8W
+X-Google-Smtp-Source: ACJfBosaqYkU18J8FfqOcTE4uBkCdLBTfAEvsLaIRtKlOayeUKqyvVe0YNShiFNgZ+/dTC/Nu4aItg==
+X-Received: by 10.28.21.66 with SMTP id 63mr13481460wmv.44.1515517309343;
+	Tue, 09 Jan 2018 09:01:49 -0800 (PST)
+Received: from pohly-mobl1 (p54BD55C5.dip0.t-ipconnect.de. [84.189.85.197])
 	by smtp.gmail.com with ESMTPSA id
-	s20sm1840094wma.45.2018.01.09.07.54.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Jan 2018 07:54:37 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jan 2018 20:54:18 +0500
-Message-Id: <20180109155418.32151-1-kergoth@gmail.com>
-X-Mailer: git-send-email 2.11.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] meson.bbclass: use HOST_CC_ARCH, not TARGET_CC_ARCH
+	x10sm13728382wmf.44.2018.01.09.09.01.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 09 Jan 2018 09:01:48 -0800 (PST)
+Message-ID: <1515517307.6718.17.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Fan, Wenzong" <Wenzong.Fan@windriver.com>, =?ISO-8859-1?Q?Jos=E9?=
+	Bollo <jobol@nonadev.net>
+Date: Tue, 09 Jan 2018 18:01:47 +0100
+In-Reply-To: <7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
+	,<1515066650.10775.24.camel@intel.com>
+	<7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +73,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 15:54:40 -0000
+X-List-Received-Date: Tue, 09 Jan 2018 17:01:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Fri, 2018-01-05 at 01:07 +0000, Fan, Wenzong wrote:
+> It works and will override the labels of home dir that SELinux
+> applied, that's the issue.
+> 
+> For SELinux enabled system, the user's home dir should have lavel
+> 'user_home_dir_t' instead of 'etc_t', it prevents users from creating
+> files in their home dir.
 
-Using TARGET_CC_ARCH is inconsistent with CC, which uses HOST_CC_ARCH, and the
-rest of meson.bbclass, which uses HOST_PREFIX, HOST_OS, etc.
+Sounds like the "copy xattr" function needs to become a bit smarter: it
+needs to understand some of the semantic involved and skip those
+SELinux xattrs that are always meant to be set dynamically by the
+running kernel.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/meson.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Wenzong, which xattrs are those? Do you agree with the proposed
+solution?
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index b72e5207abc..4a4c51f8402 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -25,7 +25,7 @@ MESONOPTS = " --prefix ${prefix} \
-               --localstatedir ${localstatedir} \
-               --sharedstatedir ${sharedstatedir}"
- 
--MESON_C_ARGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+MESON_C_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
- MESON_LINK_ARGS = "${MESON_C_ARGS} ${LDFLAGS}"
- 
- # both are required but not used by meson
+Jose, can you look into updating your patch accordingly?
+
 -- 
-2.11.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
