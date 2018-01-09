@@ -1,49 +1,18 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DB55788B1
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F3F63788F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 17:01:48 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y82so21124886wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jan 2018 09:01:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=G02gK3tKgrM7bmKkTCkSutSYTgUsmHHMRPv28J0iH2U=;
-	b=WBKKwdql+Yfbv3qV4qzveSuwKD4/BteqwtqUs9eOIaA5zcBQUGxH1DK+EdnK8uK2gm
-	43ZlrL1kabPUNMag/Bzy3mw8XlrPQu4MlW2l/dTY7IxUCsFNOrpcNY27wd5eogmFsLTJ
-	2EPlqB5J2w1c/dTEWt6jo775MEg1wfkX5GgQbV4Ntybu0k17NahNayvFsgj3f4A0GX8Y
-	pJG7qsKrtTI0sjJ9uIi7d+6X6fqPk4sdfbm5/nhxy4YKm+5QaIEb8n1uIAhmbmWxCebq
-	+LmGZKb3aGTqSjTS6wGQbIcVXgWxyX0eTC6FPKciXvoMaVmtPYYAm20+Ztm+BGNVadTV
-	irgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=G02gK3tKgrM7bmKkTCkSutSYTgUsmHHMRPv28J0iH2U=;
-	b=uBayZBiFbX8VX2RcOVnFDSX0X39uW5LRLmegT4gIk0aOpGyhg6I91ZpCEK+jD++QJ8
-	QC7I1NYrm2dKEKVvKplcGrGb/cFuXp/Ji4yKG1y3eVsuXGcCYVHuva1V9H1KhSjq0l5V
-	9XLwj5gmkE9qeufczNBOcGVO1ccWFzM6IeixAiuRdz7VBUQ+rsxecp7sTlyiYBk2qsjz
-	rqk7S4oHO2yJEmsjxS5NCsVd+Pu14X3ng3AklJWX8QjDh7zXjvPKtuK+5nBtDkZPXjq5
-	PVsvJ3PfL3wWCSyEEN8cmeokM09chUjB3gf6sObHgtqwzncqGODZHTktYg7ahbHbeohU
-	2Z1Q==
-X-Gm-Message-State: AKGB3mI+aF+h6NIWUj7s9B8gayGNSLxx9WrWmU/9Un9EPjQctbe5O3nP
-	y8AM+EWUPYnVSZUYiz/O4k8W
-X-Google-Smtp-Source: ACJfBosaqYkU18J8FfqOcTE4uBkCdLBTfAEvsLaIRtKlOayeUKqyvVe0YNShiFNgZ+/dTC/Nu4aItg==
-X-Received: by 10.28.21.66 with SMTP id 63mr13481460wmv.44.1515517309343;
-	Tue, 09 Jan 2018 09:01:49 -0800 (PST)
-Received: from pohly-mobl1 (p54BD55C5.dip0.t-ipconnect.de. [84.189.85.197])
-	by smtp.gmail.com with ESMTPSA id
-	x10sm13728382wmf.44.2018.01.09.09.01.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 09 Jan 2018 09:01:48 -0800 (PST)
-Message-ID: <1515517307.6718.17.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Fan, Wenzong" <Wenzong.Fan@windriver.com>, =?ISO-8859-1?Q?Jos=E9?=
-	Bollo <jobol@nonadev.net>
-Date: Tue, 09 Jan 2018 18:01:47 +0100
-In-Reply-To: <7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+	Tue,  9 Jan 2018 17:51:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w09Hp2OK009055
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Jan 2018 09:51:02 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 9 Jan 2018 09:51:01 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>, =?UTF-8?Q?Jos=c3=a9_Bollo?=
+	<jobol@nonadev.net>, wenzong fan <wenzong.fan@windriver.com>
 References: <20170309140706.19814-1-jobol@nonadev.net>
 	<1489075674.7785.368.camel@intel.com>
 	<20170309174815.056bc5a2@d-jobol.iot.bzh>
@@ -52,14 +21,15 @@ References: <20170309140706.19814-1-jobol@nonadev.net>
 	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
 	<20180104111826.5c8f9036@d-jobol.iot.bzh>
 	<1515062493.10775.21.camel@intel.com>
-	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
-	,<1515066650.10775.24.camel@intel.com>
-	<7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <0f571a17-21c2-7d3d-96eb-cabf261af289@windriver.com>
+Date: Tue, 9 Jan 2018 11:51:00 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <1515062493.10775.21.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -73,35 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 17:01:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jan 2018 17:51:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2018-01-05 at 01:07 +0000, Fan, Wenzong wrote:
-> It works and will override the labels of home dir that SELinux
-> applied, that's the issue.
+On 1/4/18 4:41 AM, Patrick Ohly wrote:
+> On Thu, 2018-01-04 at 11:18 +0100, José Bollo wrote:
+>>> Do you agree to move the patch to Smack specific layer? Such as 
+>>> meta-security?
+>>
+>> I agree.
 > 
-> For SELinux enabled system, the user's home dir should have lavel
-> 'user_home_dir_t' instead of 'etc_t', it prevents users from creating
-> files in their home dir.
+> Layers like meta-security should not modify recipes from other layers,
+> at least not by default. That would violate the "Yocto Compatible 2.0"
+> rules.
 
-Sounds like the "copy xattr" function needs to become a bit smarter: it
-needs to understand some of the semantic involved and skip those
-SELinux xattrs that are always meant to be set dynamically by the
-running kernel.
+You can modify (bbappend) to an existing recipe.  You can't change the behavior
+(specifically the md5sum) of the function though, unless that new functionality
+is enabled.)
 
-Wenzong, which xattrs are those? Do you agree with the proposed
-solution?
+This is why we added an 'selinux' distro_feature.  The selinux layer does not
+modify behavior (via bbappend) unless selinux distro is enabled.
 
-Jose, can you look into updating your patch accordingly?
+'smack' should be able to do the same thing, with a similar distro feature.
 
--- 
-Best Regards, Patrick Ohly
+--Mark
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+> Besides, it would be harder to maintain in a separate layer - for the
+> maintainer of that layer.
+> 
+> I still think this patch belong into OE-core, even though it is then
+> more work for the OE-core maintainer.
+> 
 
 
