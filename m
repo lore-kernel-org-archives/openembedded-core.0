@@ -1,30 +1,31 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DC25378917
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BBB07824F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 07:45:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="35026367"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 Jan 2018 15:45:29 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id BC336486A76D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 15:45:29 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Tue, 9 Jan 2018 15:45:26 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jan 2018 15:45:52 +0800
-Message-ID: <1515483952-23282-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Tue,  9 Jan 2018 09:01:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jan 2018 01:01:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,334,1511856000"; 
+   d="scan'208";a="9286210"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 09 Jan 2018 01:01:39 -0800
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180108160021.4715-1-ross.burton@intel.com>
+	<20180108160021.4715-7-ross.burton@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d4370891-2188-4ad0-5abe-1aec68beeed0@linux.intel.com>
+Date: Tue, 9 Jan 2018 11:01:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: BC336486A76D.A7283
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] bluez5: 5.47 -> 5.48
+In-Reply-To: <20180108160021.4715-7-ross.burton@intel.com>
+Subject: Re: [PATCH 7/9] avahi: remove explicit avahi-dev RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 07:45:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jan 2018 09:01:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Upgrade bluez5 form 5.47 to 5.48
+On 01/08/2018 06:00 PM, Ross Burton wrote:
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-connectivity/bluez5/{bluez5_5.47.bb => bluez5_5.48.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.47.bb => bluez5_5.48.bb} (91%)
+> -RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
+> -RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
+> -
+> -RRECOMMENDS_avahi-dev[nodeprrecs] = "1"
+> -
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.47.bb b/meta/recipes-connectivity/bluez5/bluez5_5.48.bb
-similarity index 91%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.47.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.48.bb
-index 49666f2..84a6cd2 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.47.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.48.bb
-@@ -2,8 +2,8 @@ require bluez5.inc
- 
- REQUIRED_DISTRO_FEATURES = "bluez5"
- 
--SRC_URI[md5sum] = "783e15f65e70cdb8f721c659e140dd56"
--SRC_URI[sha256sum] = "cf75bf7cd5d564f21cc4a2bd01d5c39ce425397335fd47d9bbe43af0a58342c8"
-+SRC_URI[md5sum] = "c9c853f3c90564cabec75ab35106c355"
-+SRC_URI[sha256sum] = "b9a8723072ef66bae7ec301c774902ebcb444c9c5b149b5a199e60a1ba970e90"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
--- 
-2.7.4
+Cool, I was wondering about the necessity of this stuff.
+
+Thanks for cleaning up, we can also perhaps look into splitting 
+gettext-native recipe into a sane set of parts, and use them in a 
+carefully targeted way, rather than the current -minimal-native 
+approach, which is hackish.
 
 
-
+Alex
 
