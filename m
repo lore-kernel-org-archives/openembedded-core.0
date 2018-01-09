@@ -1,26 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A42C78950
+Return-Path: <ricardo@opensourcefoundries.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CD698788C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jan 2018 01:37:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w091c0EF028374
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Jan 2018 01:41:41 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id a16so16039889qtj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Jan 2018 17:38:01 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 8 Jan 2018 17:38:00 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jan 2018 09:40:09 +0800
-Message-ID: <a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1515461823.git.Qi.Chen@windriver.com>
-References: <cover.1515461823.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 1/1] coreutils: upgrade to 8.29
+	Mon, 08 Jan 2018 17:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Naa8wqHTfpEp2oprirHPkLx55ymwT3Zag1qUU1OZoAQ=;
+	b=fpYlgQT327Z1SxO0Iqv9NlPjei9lB4y8N6MNfCDKQZlrDI+79Epw2ib+bsB97JoLgE
+	o2cansmkR2QaQxUFdvHdItedsEHkYwbvMEPiYdCTUoqyMqkKE6pZwARS8yqXVp9hcRCH
+	e2bM9WkqVTmjx+Fi6c9tcH1MAVSvHw85+HqbeSPoVRDMgGfr/4iAXkfJwYLP0BHkYdsK
+	gtEvM579m2X4Iq9ol0WrwQtIbcnM8z5lq9c1Cji3qfQMaCNbM0UpzUlYOBpv35J1vm36
+	oDtNpSEO3v5qubAeFYatQ0Ercs/Ty8dcVgTgX4vM++YBtdlQCPFubRbnfy00FiaipAaI
+	G0rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Naa8wqHTfpEp2oprirHPkLx55ymwT3Zag1qUU1OZoAQ=;
+	b=RaOD3Q28+UYkR5sG/3YoL6QLDgZMo7crRntJzlGDaW+agWpVmZSxgfbMnyBwBhWsx1
+	Vxi8GrhnWYOdg6LbXirOVgW1BgGocS37YSGTBXMl6Gb4GZzi0pUZbYr9tzxh7HvpFUOV
+	4/4ZId9Tiy4/v57Qozvphl2MfwO+wpD8GlQee3jttVrO37EQVgUyvWV9DNM8MnCnYkXd
+	4u4XcbWe7iLC18HNLKe5UtAh+LtaRKp9rj8Kn5uYiKjImeNu+L8Jyc7kdv7xni27To9F
+	TjDeR67i+Yjt9WeCsG0TyRAQL1PrOIqLbraoSiE1oBrxuIgC39AZ5peAKCv76o8bDxC9
+	f+lA==
+X-Gm-Message-State: AKwxytdUuUVIT4NAaMYccatvmbjoOTmETGLUBy50RajWwA9+f6cC/Fif
+	tDkRWwV/keuuyLteiJqPZjURUqmzdg==
+X-Google-Smtp-Source: ACJfBotNlGpyO4HFOb+UimFYE8tbSof8c9zKicanj3eJkIgfB+CzWAgEA6YVpVawwbAZsGSXzEs0eg==
+X-Received: by 10.200.112.75 with SMTP id y11mr1822156qtm.295.1515462102394;
+	Mon, 08 Jan 2018 17:41:42 -0800 (PST)
+Received: from localhost.localdomain ([189.4.104.170])
+	by smtp.gmail.com with ESMTPSA id
+	y65sm8567857qke.24.2018.01.08.17.41.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Jan 2018 17:41:41 -0800 (PST)
+From: Ricardo Salveti <ricardo@opensourcefoundries.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jan 2018 23:41:36 -0200
+Message-Id: <1515462096-3795-1-git-send-email-ricardo@opensourcefoundries.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kernel.bbclass: remove bashism in kernel_do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,190 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 01:37:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jan 2018 01:41:42 -0000
 
-* ls.c license checksum is changed, but the license remains the same.
+possible bashism in run.do_install line 163 (should be 'b = a'):
+if [ "kernel" == "kernel" ]; then
 
-* The backported patch 0001-doc-fix-Up-field-of-realpath-usage-examples.patch
-  is dropped.
+Fixes "[: kernel: unexpected operator" when not using bash by default,
+which causes the default kernel image link to not be created.
 
-* The new version provides native manual page support, there's no
-  need to download extra manual page from gentoo site.
-
-* man-decouple-manpages-from-build.patch is removed, as new version
-  has manual page support in environment lacking of perl.
-
-* hostname is explicitly enabled to keep the same with previous recipe's
-  behaviour.
-
-* ALTERNATIVE_XXX settings for lbracket.1 are removed as there's no such
-  file.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
 ---
- ...c-fix-Up-field-of-realpath-usage-examples.patch | 40 ----------------------
- .../man-decouple-manpages-from-build.patch         | 27 ---------------
- .../{coreutils_8.28.bb => coreutils_8.29.bb}       | 25 ++++----------
- 3 files changed, 6 insertions(+), 86 deletions(-)
- delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
- delete mode 100644 meta/recipes-core/coreutils/coreutils/man-decouple-manpages-from-build.patch
- rename meta/recipes-core/coreutils/{coreutils_8.28.bb => coreutils_8.29.bb} (79%)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch b/meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
-deleted file mode 100644
-index d763842..0000000
---- a/meta/recipes-core/coreutils/coreutils/0001-doc-fix-Up-field-of-realpath-usage-examples.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From e83f10c48309b722570dc53a22deb355433f8cbc Mon Sep 17 00:00:00 2001
--From: Bernhard Voelker <mail@bernhard-voelker.de>
--Date: Tue, 5 Sep 2017 00:20:01 +0200
--Subject: [PATCH] doc: fix "Up" field of realpath usage examples
--
--Older versions of 'makeinfo' choke on a missing reference:
--
--  ./doc/coreutils.texi:14177: `Realpath usage examples' has no Up field\
--  (perhaps incorrect sectioning?).
--  makeinfo: Removing output file `doc/coreutils.info' due to errors; \
--  use --force to preserve.
--
--* doc/coreutils.texi (realpath invocation): Add a menu referencing
--the usage examples - introduced in v8.27-91-g7449f0d.
--
--Upstream-Status: Backport
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- doc/coreutils.texi | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/doc/coreutils.texi b/doc/coreutils.texi
--index 70e2b76..d374b4a 100644
----- a/doc/coreutils.texi
--+++ b/doc/coreutils.texi
--@@ -14175,6 +14175,10 @@ Exit status:
-- 1 otherwise.
-- @end display
-- 
--+@menu
--+* Realpath usage examples::              Realpath usage examples.
--+@end menu
--+
-- 
-- @node Realpath usage examples
-- @subsection Realpath usage examples
---- 
--2.1.0
--
-diff --git a/meta/recipes-core/coreutils/coreutils/man-decouple-manpages-from-build.patch b/meta/recipes-core/coreutils/coreutils/man-decouple-manpages-from-build.patch
-deleted file mode 100644
-index 3c896a1..0000000
---- a/meta/recipes-core/coreutils/coreutils/man-decouple-manpages-from-build.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From b4d258629f090066783c3b4c91b40f63b9d0a296 Mon Sep 17 00:00:00 2001
--From: Paul Gortmaker <paul.gortmaker@windriver.com>
--Date: Sun, 8 Feb 2015 16:51:57 -0500
--Subject: [PATCH] man: decouple manpages from build
--
--The use of "help2man" doesn't work at all for cross compile, in
--addition to the extra requirement of perl it adds.
--
--Just decouple the manpages from the build in order to pave the way for
--importing prebuilt manpages that can be used in a cross build situation.
--
--Upstream-Status: Inappropriate [upstream doesn't care about x-compile case.]
--Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
--
--diff --git a/Makefile.am b/Makefile.am
--index fb4af27..7576b2c 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -214,5 +214,4 @@ AM_CPPFLAGS = -Ilib -I$(top_srcdir)/lib -Isrc -I$(top_srcdir)/src
-- include $(top_srcdir)/lib/local.mk
-- include $(top_srcdir)/src/local.mk
-- include $(top_srcdir)/doc/local.mk
---include $(top_srcdir)/man/local.mk
-- include $(top_srcdir)/tests/local.mk
---- 
--2.2.2
--
-diff --git a/meta/recipes-core/coreutils/coreutils_8.28.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
-similarity index 79%
-rename from meta/recipes-core/coreutils/coreutils_8.28.bb
-rename to meta/recipes-core/coreutils/coreutils_8.29.bb
-index 8a9e80c..8df8802 100644
---- a/meta/recipes-core/coreutils/coreutils_8.28.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
-@@ -6,31 +6,26 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
- BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
--                    file://src/ls.c;beginline=5;endline=16;md5=38b79785ca88537b75871782a2a3c6b8"
-+                    file://src/ls.c;beginline=1;endline=15;md5=1c3f9411e1842a062ce5ce9210beee0e"
- DEPENDS = "gmp libcap"
- DEPENDS_class-native = ""
- 
- inherit autotools gettext texinfo
- 
--SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
--           http://distfiles.gentoo.org/distfiles/${BP}-man.tar.xz;name=manpages \
--           file://man-decouple-manpages-from-build.patch \
-+SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
-            file://fix-selinux-flask.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-uname-report-processor-and-hardware-correctly.patch \
-            file://disable-ls-output-quoting.patch \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
--           file://0001-doc-fix-Up-field-of-realpath-usage-examples.patch \
-           "
- 
--SRC_URI[tarball.md5sum] = "e7cb20d0572cc40d9f47ede6454406d1"
--SRC_URI[tarball.sha256sum] = "1117b1a16039ddd84d51a9923948307cfa28c2cea03d1a2438742253df0a0c65"
--SRC_URI[manpages.md5sum] = "3a7c626aad1c9077f254e5c2553a2f60"
--SRC_URI[manpages.sha256sum] = "d72c3fa79ae328a4fd1107102e8946755aa2e908044e1efcf1e71ef206dca042"
-+SRC_URI[md5sum] = "960cfe75a42c9907c71439f8eb436303"
-+SRC_URI[sha256sum] = "92d0fa1c311cacefa89853bdb53c62f4110cdfda3820346b59cbd098f40f955e"
- 
- EXTRA_OECONF_class-native = "--without-gmp"
--EXTRA_OECONF_class-target = "--enable-install-program=arch --libexecdir=${libdir}"
-+EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
- EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch"
- 
- # acl and xattr are not default features
-@@ -95,20 +90,13 @@ do_install_append() {
- 	# in update-alternatives to fail, therefore use lbracket - the name used
- 	# for the actual source file.
- 	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
--
--	# prebuilt man pages
--	install -d ${D}/${mandir}/man1
--	install -t ${D}/${mandir}/man1 ${S}/man/*.1
--	# prebuilt man pages don't do a separate man page for [ vs test.
--	# see comment above r.e. sed and update-alternatives
--	cp -R --no-dereference --preserve=mode,links -v ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
- }
- 
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base64 mktemp df"
--ALTERNATIVE_${PN}-doc = "base64.1 mktemp.1 df.1 lbracket.1 groups.1 kill.1 uptime.1 stat.1  hostname.1"
-+ALTERNATIVE_${PN}-doc = "base64.1 mktemp.1 df.1 groups.1 kill.1 uptime.1 stat.1  hostname.1"
- 
- ALTERNATIVE_LINK_NAME[hostname.1] = "${mandir}/man1/hostname.1"
- 
-@@ -126,7 +114,6 @@ ALTERNATIVE_LINK_NAME[df.1] = "${mandir}/man1/df.1"
- 
- ALTERNATIVE_LINK_NAME[lbracket] = "${bindir}/["
- ALTERNATIVE_TARGET[lbracket] = "${bindir}/lbracket.${BPN}"
--ALTERNATIVE_LINK_NAME[lbracket.1] = "${mandir}/man1/lbracket.1"
- 
- ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
- ALTERNATIVE_LINK_NAME[uptime.1] = "${mandir}/man1/uptime.1"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f7b612f..c42f85c 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -363,7 +363,7 @@ kernel_do_install() {
+ 	install -d ${D}/boot
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+ 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
+-		if [ "${KERNEL_PACKAGE_NAME}" == "kernel" ]; then
++		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
+ 			ln -sf ${type}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${type}
+ 		fi
+ 	done
 -- 
-1.9.1
+2.7.4
 
 
