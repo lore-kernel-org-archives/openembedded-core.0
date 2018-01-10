@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 13E0D7882C
+	by mail.openembedded.org (Postfix) with ESMTP id 6CEE278842
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 12:27:38 +0000 (UTC)
+	Wed, 10 Jan 2018 12:27:39 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jan 2018 04:27:39 -0800
+	10 Jan 2018 04:27:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,340,1511856000"; d="scan'208";a="18133580"
+X-IronPort-AV: E=Sophos;i="5.46,340,1511856000"; d="scan'208";a="18133595"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jan 2018 04:27:38 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jan 2018 04:27:40 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jan 2018 14:27:40 +0200
-Message-Id: <20180110122742.1226-2-alexander.kanavin@linux.intel.com>
+Date: Wed, 10 Jan 2018 14:27:41 +0200
+Message-Id: <20180110122742.1226-3-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180110122742.1226-1-alexander.kanavin@linux.intel.com>
 References: <20180110122742.1226-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/4] gnupg: upgrade to 2.2.4
+Subject: [PATCH 3/4] gnupg: enable native version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 12:27:38 -0000
+X-List-Received-Date: Wed, 10 Jan 2018 12:27:39 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.2.0.bb => gnupg_2.2.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.0.bb => gnupg_2.2.4.bb} (91%)
+ meta/recipes-support/gnupg/gnupg_2.2.4.bb       | 2 ++
+ meta/recipes-support/libksba/libksba_1.3.5.bb   | 2 ++
+ meta/recipes-support/npth/npth_1.5.bb           | 2 ++
+ meta/recipes-support/pinentry/pinentry_1.1.0.bb | 2 ++
+ 4 files changed, 8 insertions(+)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.0.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-similarity index 91%
-rename from meta/recipes-support/gnupg/gnupg_2.2.0.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.4.bb
-index 0176dddad24..e9f19ca8140 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.0.bb
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
+index e9f19ca8140..e15bcf298ac 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
 +++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-@@ -16,8 +16,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-           "
+@@ -44,3 +44,5 @@ do_install_append() {
+ PACKAGECONFIG ??= "gnutls"
+ PACKAGECONFIG[gnutls] = "--enable-gnutls, --disable-gnutls, gnutls"
+ PACKAGECONFIG[sqlite3] = "--enable-sqlite, --disable-sqlite, sqlite3"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/libksba/libksba_1.3.5.bb b/meta/recipes-support/libksba/libksba_1.3.5.bb
+index 36b66705634..a7ea53fed02 100644
+--- a/meta/recipes-support/libksba/libksba_1.3.5.bb
++++ b/meta/recipes-support/libksba/libksba_1.3.5.bb
+@@ -24,3 +24,5 @@ do_configure_prepend () {
+ 	# Else these could be used in preference to those in aclocal-copy
+ 	rm -f ${S}/m4/gpg-error.m4
+ }
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/npth/npth_1.5.bb b/meta/recipes-support/npth/npth_1.5.bb
+index 54de70c5c08..e7db6ae1b4b 100644
+--- a/meta/recipes-support/npth/npth_1.5.bb
++++ b/meta/recipes-support/npth/npth_1.5.bb
+@@ -19,3 +19,5 @@ inherit autotools binconfig-disabled
  
--SRC_URI[md5sum] = "789f16949fae2d003d387f49e9da4b74"
--SRC_URI[sha256sum] = "d4514a0be0f7a1ff263193330019eb4b53c82f0f5e230af3c14df371271a45e6"
-+SRC_URI[md5sum] = "709e5af5bba84d251c520222e720972f"
-+SRC_URI[sha256sum] = "401a3e64780fdfa6d7670de0880aa5c9d589b3db7a7098979d7606cec546f2ec"
+ FILES_${PN} = "${libdir}/libnpth.so.*"
+ FILES_${PN}-dev += "${bindir}/npth-config"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/pinentry/pinentry_1.1.0.bb b/meta/recipes-support/pinentry/pinentry_1.1.0.bb
+index 3b77709ffb5..1eaa261f75a 100644
+--- a/meta/recipes-support/pinentry/pinentry_1.1.0.bb
++++ b/meta/recipes-support/pinentry/pinentry_1.1.0.bb
+@@ -34,3 +34,5 @@ PACKAGECONFIG[gtk2] = "--enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ gli
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ #To use libsecret, add meta-gnome
+ PACKAGECONFIG[secret] = "--enable-libsecret, --disable-libsecret, libsecret"
++
++BBCLASSEXTEND = "native"
 -- 
 2.15.1
 
