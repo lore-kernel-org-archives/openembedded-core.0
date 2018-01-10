@@ -1,44 +1,33 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 71B3A787DB
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 193207883C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 19:20:05 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id z12so143156qkf.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 11:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=CZ9FodG8YDNvMsP8x87tp2RVleEbsILs9a6858mU4VA=;
-	b=ALy9XesdnK2BQfv40y0k89i3CiFfEniap6IHTSjaHll00qNu4vysL8+ECPgapmJa0u
-	Y/0EauTj0e8OqGZ0a3HoIIGLBTaiNWwWeNPx5w63Si2vK1dc3hhhb8jV/HvZS9SKLkIq
-	G42VeaQr2glXQ2j2ETNnUKz8dqOysI/zZtxdvwd7MKcZx0ovRk05vgMPYNAGDf28I8jv
-	wJio+SY0pHL1feeZi3ZR24lHhDJUJgF9G5EHwIb1x+v60Cz6XDq95fMu0flYgjKs8D6E
-	erRkByZIDShmQ39KKiym0Xv3fNsddNxM3CZ/yELodz95CQrpZLqwAAX15w8UcTPCCZsK
-	LD3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=CZ9FodG8YDNvMsP8x87tp2RVleEbsILs9a6858mU4VA=;
-	b=AYcAB26lWZQg1XY7oIe2nB3h4TcvrZTIJiR45RFyKq3UI3g19hmKFQecRkVUmpyG7/
-	uJd881fVLRM9AEdzQZL0xPjLPy2NuWEbIshuO/BgMIdME8aHGxKa8dXqTQB/B9jU8Znt
-	cx2QT2tFmGqAwqGnEqMOpqdFiSNipvpf+JtC9xuo5oCGsLWsYAuRKo/M0ItSXMJdqXKz
-	oTNYuiYkxEoCy4lbOqh8a+TZw9z6Lzyn5U0IzGRzJubxsxqj3itdJv8/BORLonhZKwgZ
-	x+YA9UkkT2ut8lOFETXrkuwMAOzc2WpC8KgdbrYjoTWi/sWckM7LoV+PxkAkEDXeaX7k
-	yy1g==
-X-Gm-Message-State: AKwxytftGNQtcoRuQyT7fBctXKNUTDFLB7SPIMkhfk4+puGRQBFcNcaq
-	dji//CFaVIiXVGZzPGC8EDNVd4uMWWhhWyc121phDfcw
-X-Google-Smtp-Source: ACJfBosYJSwjlFAW/tFRMXEFQaU+5vlra1It0LWPD+oilVdsrQMNxjGlMGfzzl5DeoiTRubFICNUraxfdx/w21c6hpo=
-X-Received: by 10.55.119.68 with SMTP id s65mr26693116qkc.357.1515612006117;
-	Wed, 10 Jan 2018 11:20:06 -0800 (PST)
+	Wed, 10 Jan 2018 20:14:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DB20720B35;
+	Wed, 10 Jan 2018 20:14:19 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id lUUhbo1Gm-ZO; Wed, 10 Jan 2018 20:14:19 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BCAE020481;
+	Wed, 10 Jan 2018 20:14:18 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 8136E16325E; Wed, 10 Jan 2018 15:14:18 -0500 (EST)
+Date: Wed, 10 Jan 2018 15:14:18 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20180110201418.GI9657@denix.org>
+References: <1515569943-89393-1-git-send-email-denis@denix.org>
 MIME-Version: 1.0
-Received: by 10.140.84.232 with HTTP; Wed, 10 Jan 2018 11:20:05 -0800 (PST)
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Wed, 10 Jan 2018 14:20:05 -0500
-Message-ID: <CAHUNapSrfg-6Tx5iL__ymHj6GdkLhSNnuG095Oi+Gsf4Ft9kfQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: uriparser
+In-Reply-To: <1515569943-89393-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [RFC][PATCH] gcc: add flex-native explicit dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,31 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 19:20:05 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05ff563df636056270eb3c"
+X-List-Received-Date: Wed, 10 Jan 2018 20:14:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---94eb2c05ff563df636056270eb3c
-Content-Type: text/plain; charset="UTF-8"
+Oh, this is against rocko, which should be fine for RFC, but I'll rebase for 
+master soon...
 
-Hi Martin,
 
-Any chance the uriparser recipe from meta-luneui (
-https://layers.openembedded.org/layerindex/recipe/32523/) could be added to
-openembedded-core (or meta-openembedded?). It's also now needed for the git
-version of tpm2-tss in meta-measured.
+On Wed, Jan 10, 2018 at 02:39:03AM -0500, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+> 
+> It seems flex is required to build gcc:
+> 
+> | .../work-shared/gcc-7.2.0-r0/gcc-7.2.0/missing: line 81: flex: command not found
+> | WARNING: 'flex' is missing on your system.
+> |          You should only need it if you modified a '.l' file.
+> |          You may want to install the Fast Lexical Analyzer package:
+> |          <http://flex.sourceforge.net/>
+> | Makefile:2799: recipe for target 'gengtype-lex.c' failed
+> | make[1]: [gengtype-lex.c] Error 127 (ignored)
+> 
+> Normally this is handled indirectly throught binutils-cross dependency
+> pulling in flex-native implicitly. For deterministic builds, this should
+> be specified explicitly.
+> 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+> RFC: Not sure if versioned .inc is the best place to spefice DEPENDS on flex-native
+> 
+>  meta/recipes-devtools/gcc/gcc-6.3.inc | 2 +-
+>  meta/recipes-devtools/gcc/gcc-7.2.inc | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
+> index e569e02..39aca13 100644
+> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
+> @@ -10,7 +10,7 @@ BINV = "6.3.0"
+>  
+>  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.3:${FILE_DIRNAME}/gcc-6.3/backport:"
+>  
+> -DEPENDS =+ "mpfr gmp libmpc zlib"
+> +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+>  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+>  
+>  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
+> diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
+> index 1d40cba..d1fb6de 100644
+> --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
+> @@ -10,7 +10,7 @@ BINV = "7.2.0"
+>  
+>  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-7.2/backport:"
+>  
+> -DEPENDS =+ "mpfr gmp libmpc zlib"
+> +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+>  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+>  
+>  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Best regards,
-     Trevor
-
---94eb2c05ff563df636056270eb3c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div>Hi Martin,<br><br></div>Any chance the urip=
-arser recipe from meta-luneui (<a href=3D"https://layers.openembedded.org/l=
-ayerindex/recipe/32523/">https://layers.openembedded.org/layerindex/recipe/=
-32523/</a>) could be added to openembedded-core (or meta-openembedded?). It=
-&#39;s also now needed for the git version of tpm2-tss in meta-measured.<br=
-><br></div>Best regards,<br></div>=C2=A0=C2=A0=C2=A0=C2=A0 Trevor<br></div>
-
---94eb2c05ff563df636056270eb3c--
