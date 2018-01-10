@@ -1,42 +1,113 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D65857017B
+Return-Path: <mkelly@xevo.com>
+X-Greylist: delayed 151454 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 10 Jan 2018 18:11:27 UTC
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-bl2nam02on0044.outbound.protection.outlook.com [104.47.38.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B9824784DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 17:31:38 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id u76so5068405qku.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 09:31:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=N87yZufEOeWEoI1S3qvJz+fbddwY5+OtOKSywZgo09k=;
-	b=qWp+ocXCTt5AeFLMLsc46dMjSIMoF3NJE94V5aoH8mIlILmNKH3i9yW3FwUvMrO2fX
-	x9kUafNTGXVme3SzxYJlXqLuVQZKcGiy2OeOGLRgGjBccN0mBmtzv51Wv8d4RxxAyDBW
-	RizsfNIoje6L4EhH+bJvpsJipOoN1SmMwmIGFGVcpm8CGpgif2I0AI9VHy+ukiX7uIrZ
-	bOxgxpE24YyRxyLj21t/W18yRd/cPUpdVIGadY/bZ0kvmYheEuy7wAMcl9fHQXbPkrP5
-	+SYhpfQ2wsqqQy5jF8o/h1O5SxNFa/uKVwopsSMQrKQTBfxjV/xJceDheIou/4sLlMw4
-	idiQ==
-X-Gm-Message-State: AKwxyteSWANXs/ywI5Tu7KgiNxFqnKAPbYMr23mqXQFAGvPx/5UdJC2f
-	0gfRTJkQ/GlQkf0YP1JPdMvk6A==
-X-Google-Smtp-Source: ACJfBoteqZwPrnC2AgDMt8eZdVPPMOZLQtQGS+aoHbHR0hCH8ZqGh2CXUg6j3Dza6bVyd0gTjlYKnA==
-X-Received: by 10.55.133.2 with SMTP id h2mr27380027qkd.329.1515605499343;
-	Wed, 10 Jan 2018 09:31:39 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	p7sm10869042qkd.57.2018.01.10.09.31.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 10 Jan 2018 09:31:38 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 10 Jan 2018 15:31:31 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jan 2018 15:31:29 -0200
-Message-Id: <20180110173129.25574-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.15.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] linux-firmware: Bump revision to 65b1c68c
+	Wed, 10 Jan 2018 18:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=uW1WocUqCRnfHFXCW2N6eYDV6E5bOpZH9UXmzroH0Lk=;
+	b=xC7P6NPDhcZMwZNkqZnzD1hT8wvunjRkmwAq0ZLCaJaJu0NsxhIoXPYl2p6VAjzsCIEusjP6SXpirIZQSdGBew0QUwUuthzn+sk7PQ4EDdiaJMaS70C0I/Tgng5eJdvC79DbcT+YO26CiIDYP+F9h2wQkdVsy2RAYI0F3zKFUh0=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+Received: from [192.168.0.3] (71.35.165.30) by
+	MWHPR0101MB2941.prod.exchangelabs.com (10.174.168.141) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.386.5; Wed, 10 Jan 2018 17:55:48 +0000
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
+	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
+	<0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
+From: Martin Kelly <mkelly@xevo.com>
+Message-ID: <64c07649-f0df-9acc-fbf3-e8f6a52db9f1@xevo.com>
+Date: Wed, 10 Jan 2018 09:55:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
+X-Originating-IP: [71.35.165.30]
+X-ClientProxiedBy: CY4PR20CA0014.namprd20.prod.outlook.com (10.173.116.152) To
+	MWHPR0101MB2941.prod.exchangelabs.com (10.174.168.141)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89575fe1-25c9-4ef1-2c94-08d5585361fd
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(4534020)(4602075)(4627115)(201703031133081)(201702281549075)(5600026)(4604075)(2017052603307)(7153060)(7193020);
+	SRVR:MWHPR0101MB2941; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	3:7fAN8SgNolDXSPEDviFTIsrxsBq8Yjf9LqWjaBgAMOKiTPKzaTgOhx1GVSscdgzjtIghA22HenYifW9rbePhAFMrQmt7lG/jQCGgx6PdS60pGqY5Hm+ULkp/0cxunUfkwU4emLBZCZWXOqDYwmpxf0/Coz13x9lKttFJdj2iLeKas8s2InAxYaZx/9PLqLhdAVT19pYDT5k1RmvEs3bgscOW1iRnxmg1JrtOjLa67UbKC86B5V4t/smWNwJOHkpa;
+	25:Y14hDn9Vk//G6aJU8I0KxfaiR0lF40J1Z/LSYiinkZYQjitygoOAHH9WEy9dzyhP+h+12Flg1FTrla5L3UQ0J27QV5ZDzext+9l1SqlIV6w37hVbSTpJaPmmNN/rYxV99oIB3cdtmQXoeNPtk7DHNIjZJ+PcMrA1IExI+iIX/64z+vaw2TYDotkn47OZz3dE36M7qCMST1bGTb0r6ej601rayoVSjiE+kD1MPpM4cLW9jUZ0oaajksacw9UTMT2PX5jr31L5oFvkfxrx35nx0L+xv3UbwYOMxkZmQ1N6Ns2Di69ExVLv6U6lTPC/06DtK70izmB3EprSWJdi8ypxvQ==;
+	31:Ctmt3D7ItHS+8BK3dzhDqCDgYHDwstcHtijWYY6Q2nX7VzBmpHZbjQkawDmPlbm0H9QPvBfO8HkwUF2iynkVtsmoPjG1jkCIBzKPuXoZ1mqfBAuNpvnD3aXzt2L9IJ7CY05XjmQO1NAyH9/n0eF+aUQzYHIV+f16a1Eh0vg/l7U5CQJCH7MhTUqlyWUBIJ/DtwCTUX+rVCLieU0eSkUsqCYCsD9qlN4weK1U2nmgmZ0=
+X-MS-TrafficTypeDiagnostic: MWHPR0101MB2941:
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	20:48P35j71Uk7eJuJS65nO69BwQvyf+giC9jhr+muOWCxDrwvZ/t9RO7J/zvFaea5we5sXlDVZ+zu7I7sxvI9KWVm+RMDLcmEUNo39ju1xPN7Go4gQDNbLrNIrHwrVPESt1ppkQnUwmaVWCFixk+gFUX1Ie/k1JkKTJccmO/GUsGD1LMOQbSPoISLVsw+bl3UNvF+LFbljRXDiOQDhVwlPHY1FH+KPCeZCbFE4+vrK3LvqlX2bjZPafhbsU7KH+ncC/afy5ipjEq6RXBlnyTVUrYuUENdpWgZdzONL0Ix2wDuIudrsGDy2lUcBJ1LCIuykbdzTKrxeV7sHXV+llXE+zA2d79ocFZntZVtEF7Vvun0KDaovGRmvXwZA1srtqA0zNEG84Egxqt+zDxUi39Mb/6K/Hg1vV6SYVTe1kI4RT1M=;
+	4:P5R1nlOkMdZSjn68jLf6qamoZzfE2NHak/q/6SGIFlFVJI8KgvsD3F7Iy4MfE1BLPvxSArgGhEYMPtT84vK1XFanFPdap3vtgL37Acl+jPwZJA96K0VgQtZP8gH9EdZ0LrOmHWJwNBfdXLGa8ldVF0LwhNIoopzTbq9E9p4SrkBCtku5yEgoCn5p6XSatSqetoER10VfwiHCX5xp+eZ5WcP/WLPtvZIfne5x0ZdWwoWjjP16/e4wTWH6WYzx9FKUacEo68bKhG7fLAglf07+qg==
+X-Microsoft-Antispam-PRVS: <MWHPR0101MB294114788DC06849B90356F0AB110@MWHPR0101MB2941.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040470)(2401047)(8121501046)(5005006)(93006095)(93001095)(3002001)(10201501046)(3231023)(944501075)(6041268)(20161123564045)(20161123560045)(20161123558120)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
+	SRVR:MWHPR0101MB2941; BCL:0; PCL:0;
+	RULEID:(100000803101)(100110400095); SRVR:MWHPR0101MB2941; 
+X-Forefront-PRVS: 0548586081
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(6049001)(39850400004)(366004)(39380400002)(346002)(376002)(396003)(24454002)(199004)(189003)(31686004)(16526018)(47776003)(117156002)(16576012)(58126008)(316002)(81166006)(50466002)(65956001)(81156014)(110136005)(8936002)(66066001)(83506002)(65806001)(93886005)(64126003)(68736007)(36756003)(25786009)(478600001)(86362001)(6246003)(6486002)(90366009)(7736002)(105586002)(106356001)(305945005)(77096006)(386003)(52116002)(23676004)(5660300001)(53936002)(2906002)(4326008)(2950100002)(6116002)(31696002)(3846002)(65826007)(6666003)(2870700001)(52146003)(229853002)(97736004)(2486003)(53546011)(67846002)(8676002)(76176011);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0101MB2941; H:[192.168.0.3];
+	FPR:; SPF:None; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtNV0hQUjAxMDFNQjI5NDE7MjM6M3BPemthT3RsTDBaQ1p2Vkx3b2tUeWlz?=
+	=?utf-8?B?VldxelFLV2M1NGRIb0ljMDJ5WmRlSDhQamJPOHZPd0wrWWlzcWZoazZ0ZWNi?=
+	=?utf-8?B?bU9CYUNVVUpEa091UHlmVDlMUDE0V0V5VUJycDJUYURHVTlVeEdsakloYXBM?=
+	=?utf-8?B?Y0FNRloreTIrbEVQbDhKTVBSeXIxV3Nienh4Q1pvSUFnVnVHdHhqamxQR1ZT?=
+	=?utf-8?B?MndQektEM1NtajVrcjh2dTFSTFd4L01iMFltVVVSRi9jQzFyZE1YSFAzRU8z?=
+	=?utf-8?B?ZXR4WTk5dmF5SnZ5Y1RvVmJrbDcyMGVNS2lDcXJ1OWlSTzhNWFBNM29KbWRx?=
+	=?utf-8?B?ZlFCWTRheTZzaG1WcXJlWVRNSGJpOGRNSDlYelU0MEJ0MU5mWGlCRE1hWVBt?=
+	=?utf-8?B?QXpHNEVjVS9zRzdRVm1jZXJLOURWbWhyMGUvZks5RlNFeGRBRy9DSGRlbGJJ?=
+	=?utf-8?B?b25KdkVpTjdtVjdRaGRHbmRqaDRFR29Ddzc5dHVtWjQrTk9GMkZDQm9Ud3FN?=
+	=?utf-8?B?dEVVa0QwR05KZUx4S0FrRXRPZnhpR0NIWFRlSWVwNk05TkNGQXRrVkIzS2xi?=
+	=?utf-8?B?d28wRWdQMnY3U2plcGVpa0VDQXc1d2NiUFljclV3dVhVV2VhRHpWZUtXTnky?=
+	=?utf-8?B?Z0dDMjJQRkVJSkRJb3lxYWJNc1NXcjM0RU13WXhrU3p1c295RHRKMThodjkw?=
+	=?utf-8?B?VHM1VHI5dy9XekhDcHRuQlREWC9ENFpLVzBMQWZyR0ZnMmtRdUZTRkt5TFEv?=
+	=?utf-8?B?N1ZFZkovMzU3ejZsMUhnSlpQMGVDYUtuaTJPeC9RUHJzbzkyNkwxb2FlVm9i?=
+	=?utf-8?B?TGlIS21RMlIyVjhEM0F0QWhEQTB5TDZoWld2cmtDeVA5VFMyWnJwRkRPTG9X?=
+	=?utf-8?B?WkhGaUpNSzBPQjBLRUt2Y21tNXhDamg3dkY5ZnNDSDJyYVhtMmpTYzJHcVNV?=
+	=?utf-8?B?MEpaNlZ6bHFjcGZCTXQ5MktKckxBdE1wc1hHcjVJU2htV2dmdGtsV3IzSnho?=
+	=?utf-8?B?RkNpaDlhUWRkTFpDdXZseWlmeGN6UFVkNlp5WEVGMEI1ZGY2a2gwb1k5RCtP?=
+	=?utf-8?B?dnZkbmYwQW5xY21NNFl6bzErL0lUd2RtTVlnYnhzMExJNGQ2N0V1MDFvUTN3?=
+	=?utf-8?B?T2Y4WXYzdVdXbCtHdFRtTlNOaEc1QTFrelR1bWM0T0l2aUNjRStnQ1VLWnBh?=
+	=?utf-8?B?T2xETzBqUmxMOTRMTzladDlUQS9RWGs4Q0FIamtCNGNyWjZJcFRQeG9iRTRv?=
+	=?utf-8?B?Y1J2S3BZY0xVZGhDeHdkeGFQMHlhMlY4b3hINGs3L1hlZlVkU3drNEpqbmxz?=
+	=?utf-8?B?OXpJaTk0UlNXNHljeFFyZEVLU0dub0ZtUHlWTGpyRDgvOFdTQUVmNndia0N6?=
+	=?utf-8?B?bmhwRCtiNnNRd283TTJ1K2RHZy9nK3g5VDJHNDV6c0VCZW5URHE5alBjazdF?=
+	=?utf-8?B?MnlrcUxBei9Tc2hzZTh2a2hEZHJUeUVzelpENWtwaVJDcHQwMEtvaEVUMlNT?=
+	=?utf-8?B?YUhtR21zc2lMYnV0RFVjWXBja3JrckRHSHZsM3lqaURmd2szY3l4c1R3em1n?=
+	=?utf-8?B?THRqbm02cmN0ZE0zQTE2NHBrTHM3blgvSVdoVFNWcnNkSEFxWktUSUZIbCtn?=
+	=?utf-8?B?S0dPV3MvUGV0U240RTlQQTM2Snc2YlFYaHlYUkVYTklocGlqNWJFZDM3Umlh?=
+	=?utf-8?B?SHYyMkxyenhsL1VnWG43QUJLcnNVZnZUZGVtK2EyaVVsaXFtaktyU3NLV0JM?=
+	=?utf-8?B?VkVTWHY4OEhDMEVLOWwrQ3dNREN2WGZEN2RwT2tMU1EydHp3Lyttc1NPZFc3?=
+	=?utf-8?B?and5OVZhOWtIdVhQRW05MUIzMFlyUkNoQXJPZ2RZRE1uWkZaSlZucnVVWDIr?=
+	=?utf-8?B?dFpZeGRkc3lCTXdyUk84YXg1ZitRb2NTSGRiSzNEN3VsN2cxbmRBVjJlNGVU?=
+	=?utf-8?Q?ZpWQnKD4iCokTXyeiNuc+XALiM8/EW8Q=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	6:WEBnpjkMr2akUvG1fe4urE4ZUzLFeBV/ofIPft9GSM36rMSsYyFH+CwD+VZl8g74LYKohytsNq1TsGtPPbVLN2lEKxjkA4dtyTSBW23KQmrni9N99gdD65+3+b6AtgQzFkFClqe9ZcDj6kMSPPvUAhba5z5ZaskTUO0WNBQoTc0yPIy+0xT1fpqUtK4o2/pJ8ibQGEc52CSpMFdnJZT02xi8VqGvQvJpc2nrwaqE8C8kJJ9gwXUXxNhrg5xsElGTyybThCRdIuUgz/JCf7GJiEBa3KZ6+N2KS5VMm2TsgvL1IwwquaeDCe6iyE+R/CmSLDxkT4xoA1X5Hx07Kll2Ni0N+JEiiyObI+wcLGNTdbg=;
+	5:Q1pbhe2E/k9VtgfX8ZZaoZkOiSelq47mba5lTqcUrJBUZsoVWRJxd5WOY1QutV9PLOHX/buSNjLIYwcselrvxZEjQpTARh9sRo1albTXppQihja+FPdaonLMPYgXK8G2aQ0HtFA8caWowA9apyGKKnUjUgY6XQbLUiWNwkXEuAk=;
+	24:egsJtcis2AryyvTwSat1Aol3zhgvPlbrOpQz626FapSsIhYRfr6rhlK+bVGJLOJAy9/Rpc55yiPP8nItsAayvJYYAiDQjnyK/vCGEMAUduc=;
+	7:zNgrkokmS0fkcrAJuISTPXuS5+kR3hXxBEp6QtooGRZO1zefMrZN3FV1z8uu3Xzsm9VQCR5bZtmPMjJ+Zsnq7ijGcroy64EyzGCu/JEbqr+d5fYXdMr/VOk2qIAOQ6SLpr0PNnitqgmf0HFQWfBmn7Et7UYtiLLvPqsQIP+odY0A0mHJT3415ABwePJKMwf7IT3wOAUeAXIKCiBTO6JNS7HvYf6XXqjCnQHmU9rAxk+WnU3XWnXiU2c9gijT7+6u
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2018 17:55:48.9492 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89575fe1-25c9-4ef1-2c94-08d5585361fd
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2941
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,106 +120,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 17:31:39 -0000
+X-List-Received-Date: Wed, 10 Jan 2018 18:11:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-The bump includes following changes:
+On 01/05/2018 06:57 AM, Alexander Kanavin wrote:
+> On 01/05/2018 01:47 PM, Burton, Ross wrote:
+>> Do we even need gnomebase-meson with this?  I can see a future where 
+>> GNOME is entirely Meson and then we could just switch the default 
+>> GNOMEBASEBUILDCLASS from autotools to meson.
+>>
+>> (prior art being the tarball compression type)
+> 
+> 
+> I'm fine with this. Just so everyone else knows: RP has actually made 
+> the change already, and merged everything to master, so the YP supports 
+> meson as a first class citizen now.
+> 
+> Alex
 
-65b1c68 wl18xx: update firmware file 8.9.0.0.76
-8650396 wl127x/wl128x: update firmwares
-2eefafb rtlwifi: rtl8723de: Add firmware for new driver/device
-4a77cab linux-firmware: DMC firmware for cannonlake v1.07
-2567e09 nvidia: add GP108 signed firmware
-2451bb2 linux-firmware: liquidio: add v1.7.0 vswitch firmware
-7f93c9d brcm: add CYW4373 firmwares and Cypress license file
-fdee922 linux-firmware: Update firmware patch for Intel Bluetooth 8260
-9a843a1 linux-firmware: Update firmware file for Intel Bluetooth 8265
-97339b3 linux-firmware: Add firmware file for Intel Bluetooth 9260
-db9964e linux-firmware: Add firmware file for Intel Bluetooth 9560
-e4252cf Revert commits a42f895, c113d33, 041aff8, 73d13b5
-a42f895 linux-firmware: Update firmware patch for Intel Bluetooth 8260
-c113d33 linux-firmware: Update firmware file for Intel Bluetooth 8265
-041aff8 linux-firmware: Add firmware file for Intel Bluetooth 9260
-73d13b5 linux-firmware: Add firmware file for Intel Bluetooth 9560
-30946b9 amdgpu: add firmware for Raven
-71a4800 amdgpu: update vega10 vce firmware
-89c6211 linux-firmware: intel: Add Cannonlake audio firmware
-b39260f nfp: add firmware for tc-flower
-c752e24 nfp: change firmware directory layout
-00a92a3 nfp: update firmware for Agilio CX SmartNICs
-02d857e linux-firmware: DMC firmware for skylake v1.27
-17e6288 brcm: update firmware for bcm4358
-1841cec brcm: update firmware for bcm4356
-b3f4e74 brcm: update firmware for bcm4354
-cd86989 brcm: introduce firmware for bcm43430 revision 0
-5ee46c2 brcm: update firmware for bcm4339
-8e864c2 Mellanox: Add new mlxsw_spectrum firmware 13.1530.152
-fd45000 WHENCE: Add missing entry for mlxsw_spectrum firmware
-7f9bbc7 WHENCE: Fix typo in entry for iwlwifi-8265-34.ucode
-284de20 s2255drv: f2255usb: firmware version 1.2.8
-7c705a4 amdgpu: add new CP firmware for polaris chips
-5582ca4 qed: Add firmware 8.33.1.0
-e721933 qcom: add venus firmware files for v4.2
-f36a8e2 qcom: add firmware files for Adreno a530
-85313b4 iwlwifi: add firmware version 34 for new 9000 series
-6c161c5 linux-firmware: liquidio: update firmware to v1.7.0
-b964279 linux-firmware: intel: Update Geminilake audio firmware
-c4276b6 iwlwifi: add firmware version 33 for new 9000 series
-5a05332 iwlwifi: add new firmware version 34 for 8000C and 8265
-1a5fd94 iwlwifi: update firmwares for 3160, 3168, 7260, 7265 and 7265D
-796c912 iwlwifi: update firmwares for 3160, 3168, 7265D, 8000C and 8265
-1156e62 linux-firmware: DMC firmware for kabylake v1.04
-db3e185 linux-firmware: update Marvell PCIe-USB8997 firmware image
-de81715 linux-firmware: GuC firmware for kabylake v9.39
-434e712 linux-firmware: GuC firmware for Broxton v9.29
-0aebd9f linux-firmware: GuC firmware for Skylake v9.33
-de5b4c2 linux-firmware/i915: Add Cannonlake DMC version 1.06
-8e7c787 linux-firmware/i915: Add Geminilake DMC version 1.04
-e0494e9 linux-firmware: update Marvell PCIe-USB8997 firmware image
-11db131 linux-firmware: update Marvell PCIe-USB8897-A2 firmware image
-
-Included in those changes, two license checksums has been changed:
-
- - LICENCE.Netronome: minimal change dropping a word in license name;
- - WHENCE: adjustments due the new firmware versions;
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 8433308a86..b194a59ecb 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -90,7 +90,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
-     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
-     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
--    file://LICENCE.Netronome;md5=cd2a3e6effe3cdf42731575b8e9477ed \
-+    file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
-     file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
-     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
-     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
-@@ -116,7 +116,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=038edbc9e744171d8b6235e0224028ba \
-+    file://WHENCE;md5=99d352987a7e29460bcf9b26d146a95a \
- "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -178,7 +178,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
--SRCREV = "bf04291309d3169c0ad3b8db52564235bbd08e30"
-+SRCREV = "65b1c68c63f974d72610db38dfae49861117cae2"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
--- 
-2.15.1
-
+Technically I'd call it a 0.9-class citizen, as the SDK doesn't work yet 
+:), but still a whole lot better than 0.
 
