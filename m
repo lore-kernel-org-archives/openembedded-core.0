@@ -1,26 +1,63 @@
-Return-Path: <michael.blaettler@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 538B8788BA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BEAB9788CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 09:51:58 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w0A9pxhJ007321
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Wed, 10 Jan 2018 11:15:19 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id f206so26266900wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 10:51:59 +0100
-Received: from dev.vm6.ccp.siemens.com ([139.22.116.206])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w0A9pwFJ001202;
-	Wed, 10 Jan 2018 10:51:58 +0100
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 830A1330A964;
-	Wed, 10 Jan 2018 10:51:42 +0100 (CET)
-From: =?UTF-8?q?Michael=20Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jan 2018 10:51:24 +0100
-Message-Id: <20180110095124.29753-1-michael.blaettler@siemens.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH v2] package.bbclass: variable to influence link style
+	Wed, 10 Jan 2018 03:15:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=bJTGnxYSzmQtL5tkb9xHviLQHRt7tHxGWxI8s3qHObo=;
+	b=XbZ4+3EPihVeGyRM+PRdkjOlz3QDaTAkNwWR5u5YXOGDZpwkT24dLBLLxdefra6JUP
+	gDiBwktmrqNi/z4QJl+rFi/RGTu7gx0ec/sB/Sl9ZcXJBWAeko0THLclGl8//uDBLAyp
+	Ti1LEEwFLYuQ5zINzV4QDCJ7FM5yzuVGPX3xNBxxWtTDk9Wiy3YSj+NyqoujbXiMbDNE
+	H0oa+oEgt7epSYtLnArvEYVOgpiz7rpmIhCitMPQK60DqAZWihxKyqU7vOQP1kYrKnCm
+	aRoKO4xtZ/breYIgqcUBUbvUDxa+YesUhFpK6JpDLg4gJMq71omoqYbYAKvnNFWKbPrA
+	ZVhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=bJTGnxYSzmQtL5tkb9xHviLQHRt7tHxGWxI8s3qHObo=;
+	b=kyjMybgOd03SsD/TQsGbCtblA6YZMIy4BwGna0PSg+JMRBayZ3tYTFkpcP9AKpWiAZ
+	efE2iSxEfWuZha13JX4D217YO7PUfPPrur7xr5GPBOOeKGwwrzSu+W+0d6AXsWR6nbn9
+	nrJLKdpoC4kyZGh7lrisXMnRF/b0LVZ2tVDi/kOClr4RX/76tIb5+BH0HlVfeHanfYAS
+	r7WCHJ8+4rwbqTyxniy05yLU7dnaJ82vuVEvpjI1vdwCXBBUAEWrYcKTGHGLMXhJWFoK
+	nXcLs4bLKtt/g/+QaiVSk1pCcnD0YQljAgeUSSS8QI6ejTM4G54syIbqk/GbE/q5zhah
+	nBPw==
+X-Gm-Message-State: AKGB3mKKELmf7jhzp7ocmMvANkoRkN71ISUHPHXuhuWhc+ztfzWB7eeq
+	sBgRTmnI9/8AXJr/wIm6OeSh
+X-Google-Smtp-Source: ACJfBovQPwCx2RGcxh11lWkbSVeTF8exoEXll9V5PxL5g1KxqhTyJDJ9zWMgorgtd96iMGUClAXymw==
+X-Received: by 10.28.144.7 with SMTP id s7mr15402529wmd.89.1515582920523;
+	Wed, 10 Jan 2018 03:15:20 -0800 (PST)
+Received: from pohly-mobl1 (p54BD55C5.dip0.t-ipconnect.de. [84.189.85.197])
+	by smtp.gmail.com with ESMTPSA id
+	r9sm15974664wrg.74.2018.01.10.03.15.19
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 10 Jan 2018 03:15:19 -0800 (PST)
+Message-ID: <1515582919.6718.21.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>, =?ISO-8859-1?Q?Jos=E9?= Bollo
+	<jobol@nonadev.net>, wenzong fan <wenzong.fan@windriver.com>
+Date: Wed, 10 Jan 2018 12:15:19 +0100
+In-Reply-To: <0f571a17-21c2-7d3d-96eb-cabf261af289@windriver.com>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+	<0f571a17-21c2-7d3d-96eb-cabf261af289@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,204 +70,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 09:51:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Jan 2018 11:15:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-When using separate debug file, gdb needs to match the debug file and
-the binary. To match them, there can either be a .gnu_debuglink section
-in the binary or a build-id embedded in the debug file and binary.
-Until now, only the debuglink option was available. The problem with the
-debuglink is, that it contains a checksum of the debug information.
-Since the debug information depends on build path and many other things
-reproducible binaries were not possible. The build-id can be set via
-compiler flag and can be generated from ${PF} or other variables to
-ensure reproducibility.
+On Tue, 2018-01-09 at 11:51 -0600, Mark Hatle wrote:
+> On 1/4/18 4:41 AM, Patrick Ohly wrote:
+> > On Thu, 2018-01-04 at 11:18 +0100, José Bollo wrote:
+> > > > Do you agree to move the patch to Smack specific layer? Such
+> > > > as 
+> > > > meta-security?
+> > > 
+> > > I agree.
+> > 
+> > Layers like meta-security should not modify recipes from other
+> > layers,
+> > at least not by default. That would violate the "Yocto Compatible
+> > 2.0"
+> > rules.
+> 
+> You can modify (bbappend) to an existing recipe.  You can't change
+> the behavior
+> (specifically the md5sum) of the function though, unless that new
+> functionality
+> is enabled.)
 
-This commit introduces a new variable PACKAGE_DEBUG_SPLIT_LINK_STYLE
-which specifies the link option between debug infos and binary. If
-build-id is uesed as link option, the id can be defined with the
-BUILD_ID variable.
+That's what I meant with "by default".
 
-Signed-off-by: Michael Blättler <michael.blaettler@siemens.com>
----
- meta/classes/insane.bbclass           | 41 +++++++++++++++++++++++++++++++++++
- meta/classes/package.bbclass          | 21 +++++++++++++-----
- meta/conf/bitbake.conf                |  9 +++++++-
- meta/recipes-bsp/u-boot/u-boot.inc    |  3 +++
- meta/recipes-core/glibc/glibc_2.26.bb |  4 ++++
- 5 files changed, 71 insertions(+), 7 deletions(-)
+> 'smack' should be able to do the same thing, with a similar distro
+> feature.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 7407b29f86..4e20a6056e 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -17,6 +17,8 @@
- #  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
- #   files under exec_prefix
- #  -Check if the package name is upper case
-+#  -Ensure GDB can link the debug information with the binary by the
-+#   specified linkstyle.
- 
- QA_SANE = "True"
- 
-@@ -28,6 +30,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             pn-overrides infodir build-deps \
-             unknown-configure-option symlink-to-sysroot multilib \
-             invalid-packageconfig host-user-contaminated uppercase-pn \
-+            debug-linkstyle \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -514,6 +517,44 @@ def package_qa_hash_style(path, name, d, elf, messages):
-     if has_syms and not sane:
-         package_qa_add_message(messages, "ldflags", "No GNU_HASH in the elf binary: '%s'" % path)
- 
-+QAPATHTEST[debug-linkstyle] = "package_qa_debug_split_link_style"
-+def package_qa_debug_split_link_style(path, name, d, elf, messages):
-+    """
-+    Check if the binary has the correct symbol for GDB to link debug information
-+    to its corresponding binary.
-+    """
-+
-+    # Skip if elf file is an object file or static library or if the debug information
-+    # is not splited.
-+    if not elf or not elf.isDynamic() or d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') == '1':
-+        return
-+
-+    if os.path.islink(path):
-+        return
-+
-+    link_style = d.getVar('PACKAGE_DEBUG_SPLIT_LINK_STYLE')
-+
-+    check_debuglink = True
-+    if path.find(".debug") != -1:
-+        check_debuglink = False  # do not check for debuglink in debug binaries
-+
-+    section_headers = elf.run_objdump("-h", d)
-+
-+    has_buildid = False
-+    has_debuglink = False
-+    for header in section_headers.split("\n"):
-+        has_buildid |= ".note.gnu.build-id" in header
-+        has_debuglink |= ".gnu_debuglink" in header
-+
-+    if link_style == "build-id":
-+        sane = has_buildid and not has_debuglink
-+    elif link_style == "both":
-+        sane = has_buildid and (has_debuglink or not check_debuglink)
-+    else:
-+        sane = (has_debuglink or not check_debuglink)
-+
-+    if not sane:
-+        package_qa_add_message(messages, "debug-linkstyle", "No or invalid link type in: '%s'" % path)
- 
- QAPATHTEST[buildpaths] = "package_qa_check_buildpaths"
- def package_qa_check_buildpaths(path, name, d, elf, messages):
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 7dc759699f..41b50c199d 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -345,7 +345,7 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
-     return debugfiles.keys()
- 
- 
--def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
-+def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, create_debuglink, d):
-     # Function to split a single file into two components, one is the stripped
-     # target system binary, the other contains any debugging information. The
-     # two files are linked to reference each other.
-@@ -390,10 +390,11 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
-         bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
- 
-     # Set the debuglink to have the view of the file path on the target
--    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
--    (retval, output) = oe.utils.getstatusoutput(cmd)
--    if retval:
--        bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+    if create_debuglink:
-+        cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
-+        (retval, output) = oe.utils.getstatusoutput(cmd)
-+        if retval:
-+            bb.fatal("objcopy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
- 
-     if newmode:
-         os.chmod(file, origmode)
-@@ -906,6 +907,14 @@ python split_and_strip_files () {
-         debuglibdir = ""
-         debugsrcdir = "/usr/src/debug"
- 
-+    # Default to debuglink
-+    if d.getVar('PACKAGE_DEBUG_SPLIT_LINK_STYLE') == 'debuglink':
-+        create_debuglink = True
-+    elif d.getVar('PACKAGE_DEBUG_SPLIT_LINK_STYLE') == 'build-id':
-+        create_debuglink = False
-+    else:  # default and 'both'
-+        create_debuglink = True
-+
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-     bb.utils.remove(sourcefile)
- 
-@@ -1027,7 +1036,7 @@ python split_and_strip_files () {
-             bb.utils.mkdirhier(os.path.dirname(fpath))
-             #bb.note("Split %s -> %s" % (file, fpath))
-             # Only store off the hard link reference if we successfully split!
--            splitdebuginfo(file, fpath, debugsrcdir, sourcefile, d)
-+            splitdebuginfo(file, fpath, debugsrcdir, sourcefile, create_debuglink, d)
- 
-         # Hardlink our debug symbols to the other hardlink copies
-         for ref in inodes:
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 93afb13166..fc2f77fb54 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -578,8 +578,15 @@ LINKER_HASH_STYLE_mipsarch = "sysv"
- 
- TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE') != 'gnu']}"
- 
-+BUILD_ID ??= "sha1"
-+
-+# Enable build-id if PACKAGE_DEBUG_SPLIT_LINK_STYLE equals 'build-id' or 'both'
-+DEBUG_LINK_BUILDID ?= "${@['', '-Wl,--build-id=${BUILD_ID}']\
-+                          [d.getVar('PACKAGE_DEBUG_SPLIT_LINK_STYLE') == 'build-id' or \
-+                           d.getVar('PACKAGE_DEBUG_SPLIT_LINK_STYLE') == 'both']}"
-+
- export LDFLAGS = "${TARGET_LDFLAGS}"
--export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
-+export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${DEBUG_LINK_BUILDID}"
- #export TARGET_LDFLAGS = "-L${STAGING_DIR_TARGET}${libdir} \
- #                         -Wl,-rpath-link,${STAGING_DIR_TARGET}${libdir} \
- #                         -Wl,-O1"
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index c2bcf99840..7281a54571 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -72,6 +72,9 @@ do_compile () {
- 	unset CFLAGS
- 	unset CPPFLAGS
- 
-+	# Set LDFLAGS again in case a build-id is used to link debug files and binary
-+	export LDFLAGS="${DEBUG_LINK_BUILDID}"
-+
- 	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
- 	then
- 		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
-diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-index 04d97734b3..866e4c65ea 100644
---- a/meta/recipes-core/glibc/glibc_2.26.bb
-+++ b/meta/recipes-core/glibc/glibc_2.26.bb
-@@ -113,6 +113,10 @@ rpcsvc = "bootparam_prot.x nlm_prot.x rstat.x \
- do_compile () {
- 	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
- 	unset LDFLAGS
-+
-+	# Set LDFLAGS again in case a build-id is used to link debug files and binary
-+	export LDFLAGS="${DEBUG_LINK_BUILDID}"
-+
- 	base_do_compile
- 	(
- 		cd ${S}/sunrpc/rpcsvc
+I'm not convinced that building core components differently depending
+on such distro features is desirable, because it makes "smack" and
+"selinux" mutually exclusive. I'd prefer a solution where support for
+both can be enabled and then on the image itself the tools decide what
+to do. Whether that's always possible of course is a different
+question.
+
+In this case I think it is, by adding the exception for
+security.selinux. But I'll leave that up to you and Jose to decide.
+
 -- 
-2.11.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
