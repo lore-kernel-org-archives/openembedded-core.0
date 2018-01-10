@@ -1,35 +1,48 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BE81177E9C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F39F27884F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 13:39:47 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jan 2018 05:39:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,340,1511856000"; d="scan'208";a="192392006"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 10 Jan 2018 05:39:44 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 28588580255;
-	Wed, 10 Jan 2018 05:39:42 -0800 (PST)
-Date: Wed, 10 Jan 2018 13:58:29 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Dogukan Ergun <dogukan.ergun@gmail.com>
-Message-ID: <20180110115829.i3ff7rc2f4vyc5px@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1515504924-28160-1-git-send-email-dogukan.ergun@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1515504924-28160-1-git-send-email-dogukan.ergun@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] wic: if we can't get from ioctl, try from os.stat()
+	Wed, 10 Jan 2018 14:32:20 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 143so2374380wma.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jan 2018 06:32:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=K8SorJgVDxxsnfu3lbdIMlhzREcNOVqK7vCZm6iSiNM=;
+	b=P2kftJyJ+d60RSZHKUax+eJGvoAbgWMmOk9BwzXWKJQXgrEhDatxc/zIJeEfo9OrIt
+	UDVwKxyUhCaJem0a1VasuLJp4UxzvkgkPCS6GK5XMe4qHcZqbNwTEoip1w3dJWFl/ysx
+	yYmTWqV+bz7lySP6ySPSUrDxF5WOXZqBsOrCHouYAzehjp0tF16DHpQPzCs3ELkv/NWd
+	+EpoMIf1Ud6y8Kb5MLV1Tev4S27TSmjZn8dsn6dVyBNiGmsPjrDM8E8PvqVJEVxhcZRa
+	KTeKDjJejhD7QEaLpMgBsKhT3HF3SpE2lkEBIewYUbhYjBcsZaew4sSUFp8HI88cTn4i
+	aJ0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=K8SorJgVDxxsnfu3lbdIMlhzREcNOVqK7vCZm6iSiNM=;
+	b=U2/ZPk+1uycZgju/VvUXdMGP/eaUHZowAOqgKxPdFI2AteoVioe0lTKOIlaywnwP9R
+	JWNuBtI6VkTja81VXyuQto6Y7HhbKljJv5i+Tm+EIP9KHOPkLkp02ORPBWKyKXfj6Oh/
+	iirsEXplPuqyLP35Ge2k339BE1pFTkPaDuwUbTzL2mHoEEsewVRcZr4aQw21bfX4DpIX
+	gDeRVpHG6pPRgII3/ip0SdQSakYvXNnwirxKbyjevWCMWLUsAZP45JxYqgZrim5oN76k
+	CM8JuE8dr+vn6APCTSgJotdbcywyhSa72lY6WkOPsU41hFC5j74nhQilzyhVaaBqjaKT
+	i9wg==
+X-Gm-Message-State: AKwxytcvodUYbRoyLUwsIP1STyiYVrvvhiDwZNAYgbaa7MpVuq46GL7E
+	ANyWDRSwaQBeJtleHiJU89f0GH0H
+X-Google-Smtp-Source: ACJfBovCS7cu+CaPZJ7/4aBJzwgP245n2Mlm/XsX80seDb/7Av51cl/pYIhJIvlJarAJtB5ZpyfccQ==
+X-Received: by 10.28.30.82 with SMTP id e79mr2298747wme.6.1515594741481;
+	Wed, 10 Jan 2018 06:32:21 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	89sm16416434wrl.22.2018.01.10.06.32.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Jan 2018 06:32:20 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jan 2018 14:32:18 +0000
+Message-Id: <20180110143218.22958-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] perf: conditionalise pythonnative and perlnative inherits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,60 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 13:39:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 10 Jan 2018 14:32:21 -0000
 
-On Tue, Jan 09, 2018 at 04:35:24PM +0300, Dogukan Ergun wrote:
-> Under some conditions, ioctl FIGETBSZ can't return real value.
-> We can try to use fallback via os.stat() to get block size.
-> 
+Only inherit these classes (and so, add perl-native and python-native to
+DEPENDS) if the scripting PACKAGECONFIG is actually enabled.
 
-Thank you for the patch!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-+1
-
-
-> Source of patch:
-> https://github.com/intel/bmap-tools/commit/17365f4fe9089df7ee9800a2a0ced177ec4798a4
-> 
-> Signed-off-by: Dogukan Ergun <dogukan.ergun@gmail.com>
-> ---
->  scripts/lib/wic/filemap.py | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-> index 77e32b9..a72fa09 100644
-> --- a/scripts/lib/wic/filemap.py
-> +++ b/scripts/lib/wic/filemap.py
-> @@ -37,7 +37,15 @@ def get_block_size(file_obj):
->      # Get the block size of the host file-system for the image file by calling
->      # the FIGETBSZ ioctl (number 2).
->      binary_data = fcntl.ioctl(file_obj, 2, struct.pack('I', 0))
-> -    return struct.unpack('I', binary_data)[0]
-> +    bsize = struct.unpack('I', binary_data)[0]
-> +    if not bsize:
-> +        import os
-> +        stat = os.fstat(file_obj.fileno())
-> +        if hasattr(stat, 'st_blksize'):
-> +            bsize = stat.st_blksize
-> +        else:
-> +            raise IOError("Unable to determine block size")
-> +    return bsize
->  
->  class ErrorNotSupp(Exception):
->      """
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index bb943ecd1c5..1bad6f4e9bf 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -35,9 +35,10 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
+ 
+ PROVIDES = "virtual/perf"
+ 
+-inherit linux-kernel-base kernel-arch pythonnative
++inherit linux-kernel-base kernel-arch
+ 
+ # needed for building the tools/perf Python bindings
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'pythonnative', '', d)}
+ inherit python-dir
+ export PYTHON_SITEPACKAGES_DIR
+ 
+@@ -47,7 +48,8 @@ export WERROR = "0"
+ do_populate_lic[depends] += "virtual/kernel:do_patch"
+ 
+ # needed for building the tools/perf Perl binding
+-inherit perlnative cpan-base
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'perlnative', '', d)}
++inherit cpan-base
+ # Env var which tells perl if it should use host (no) or target (yes) settings
+ export PERLCONFIGTARGET = "${@is_target(d)}"
+ export PERL_INC = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}/CORE"
 -- 
---
-Regards,
-Ed
+2.11.0
+
 
