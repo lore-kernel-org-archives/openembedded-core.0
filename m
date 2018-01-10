@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F39F27884F
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D23E078432
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 14:32:20 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 143so2374380wma.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 06:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=K8SorJgVDxxsnfu3lbdIMlhzREcNOVqK7vCZm6iSiNM=;
-	b=P2kftJyJ+d60RSZHKUax+eJGvoAbgWMmOk9BwzXWKJQXgrEhDatxc/zIJeEfo9OrIt
-	UDVwKxyUhCaJem0a1VasuLJp4UxzvkgkPCS6GK5XMe4qHcZqbNwTEoip1w3dJWFl/ysx
-	yYmTWqV+bz7lySP6ySPSUrDxF5WOXZqBsOrCHouYAzehjp0tF16DHpQPzCs3ELkv/NWd
-	+EpoMIf1Ud6y8Kb5MLV1Tev4S27TSmjZn8dsn6dVyBNiGmsPjrDM8E8PvqVJEVxhcZRa
-	KTeKDjJejhD7QEaLpMgBsKhT3HF3SpE2lkEBIewYUbhYjBcsZaew4sSUFp8HI88cTn4i
-	aJ0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=K8SorJgVDxxsnfu3lbdIMlhzREcNOVqK7vCZm6iSiNM=;
-	b=U2/ZPk+1uycZgju/VvUXdMGP/eaUHZowAOqgKxPdFI2AteoVioe0lTKOIlaywnwP9R
-	JWNuBtI6VkTja81VXyuQto6Y7HhbKljJv5i+Tm+EIP9KHOPkLkp02ORPBWKyKXfj6Oh/
-	iirsEXplPuqyLP35Ge2k339BE1pFTkPaDuwUbTzL2mHoEEsewVRcZr4aQw21bfX4DpIX
-	gDeRVpHG6pPRgII3/ip0SdQSakYvXNnwirxKbyjevWCMWLUsAZP45JxYqgZrim5oN76k
-	CM8JuE8dr+vn6APCTSgJotdbcywyhSa72lY6WkOPsU41hFC5j74nhQilzyhVaaBqjaKT
-	i9wg==
-X-Gm-Message-State: AKwxytcvodUYbRoyLUwsIP1STyiYVrvvhiDwZNAYgbaa7MpVuq46GL7E
-	ANyWDRSwaQBeJtleHiJU89f0GH0H
-X-Google-Smtp-Source: ACJfBovCS7cu+CaPZJ7/4aBJzwgP245n2Mlm/XsX80seDb/7Av51cl/pYIhJIvlJarAJtB5ZpyfccQ==
-X-Received: by 10.28.30.82 with SMTP id e79mr2298747wme.6.1515594741481;
-	Wed, 10 Jan 2018 06:32:21 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	89sm16416434wrl.22.2018.01.10.06.32.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Jan 2018 06:32:20 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jan 2018 14:32:18 +0000
-Message-Id: <20180110143218.22958-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] perf: conditionalise pythonnative and perlnative inherits
+	Wed, 10 Jan 2018 14:51:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jan 2018 06:51:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,340,1511856000"; d="scan'208";a="165679216"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by orsmga004.jf.intel.com with ESMTP; 10 Jan 2018 06:51:54 -0800
+Date: Wed, 10 Jan 2018 09:01:45 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20180110090145.5729ba28@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <20180110122742.1226-4-alexander.kanavin@linux.intel.com>
+References: <20180110122742.1226-1-alexander.kanavin@linux.intel.com>
+	<20180110122742.1226-4-alexander.kanavin@linux.intel.com>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] gnupg: use native version for signing, rather than one provided by host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +35,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 14:32:21 -0000
+X-List-Received-Date: Wed, 10 Jan 2018 14:51:55 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Only inherit these classes (and so, add perl-native and python-native to
-DEPENDS) if the scripting PACKAGECONFIG is actually enabled.
+Great that you figure out a solution.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/perf/perf.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+So I belive we need to revert this commit:
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index bb943ecd1c5..1bad6f4e9bf 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -35,9 +35,10 @@ do_configure[depends] += "virtual/kernel:do_shared_workdir"
- 
- PROVIDES = "virtual/perf"
- 
--inherit linux-kernel-base kernel-arch pythonnative
-+inherit linux-kernel-base kernel-arch
- 
- # needed for building the tools/perf Python bindings
-+inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'pythonnative', '', d)}
- inherit python-dir
- export PYTHON_SITEPACKAGES_DIR
- 
-@@ -47,7 +48,8 @@ export WERROR = "0"
- do_populate_lic[depends] += "virtual/kernel:do_patch"
- 
- # needed for building the tools/perf Perl binding
--inherit perlnative cpan-base
-+inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'perlnative', '', d)}
-+inherit cpan-base
- # Env var which tells perl if it should use host (no) or target (yes) settings
- export PERLCONFIGTARGET = "${@is_target(d)}"
- export PERL_INC = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}/CORE"
--- 
-2.11.0
+commit 043d9ac0ae441e9a7e2ea8934bfc595a03ef9a52
+Author: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date:   Mon Sep 25 13:52:59 2017 -0700
 
+    sign_rpm.bbclass: force rpm serial signing
+    
+    Newer versions of gpg (at least 2.1.5 and 2.2.1) have issues when signing occurs in parallel
+    so (unfortunately) the signing must be done serially. Once the upstream problem is fixed,
+    this patch must be reverted, otherwise we loose all the intrinsic parallelism from
+    bitbake.
+    
+    [YOCTO #12022]
+    
+    (From OE-Core rev: 5301712f9735fcf8d3dec756772668de930e53fe)
+    
+
+
+On Wed, 10 Jan 2018 14:27:42 +0200
+Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
+
+> Using host gpg has been problematic, and particularly this removes
+> the need to serialize package creation, as long as --auto-expand-secmem
+> is passed to gpg-agent, and gnupg >= 2.2.4 is in use
+> (https://dev.gnupg.org/T3530).
+> 
+> Sadly, gpg-agent itself is single-threaded, so in the longer run
+> we might want to seek alternatives:
+> https://lwn.net/Articles/742542/
+> 
+> (a smaller issue is that rpm itself runs the gpg fronted in a serial
+> fashion, which slows down the build in cases of recipes with very
+> large amount of packages, e.g. glibc-locale)
+> 
+> Note that sstate signing and verification continues to use host
+> gpg, as depending on native gpg would create circular dependencies.
+> 
+> [YOCTO #12022]
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/classes/sign_package_feed.bbclass | 2 +-
+>  meta/classes/sign_rpm.bbclass          | 6 +-----
+>  meta/lib/oe/gpg_sign.py                | 8 ++++++--
+>  meta/recipes-core/meta/signing-keys.bb | 1 +
+>  4 files changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+> index f03c4802d06..7ff3a35a2fa 100644
+> --- a/meta/classes/sign_package_feed.bbclass
+> +++ b/meta/classes/sign_package_feed.bbclass
+> @@ -43,4 +43,4 @@ python () {
+>  }
+>  
+>  do_package_index[depends] += "signing-keys:do_deploy"
+> -do_rootfs[depends] += "signing-keys:do_populate_sysroot"
+> +do_rootfs[depends] += "signing-keys:do_populate_sysroot gnupg-native:do_populate_sysroot"
+> diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+> index 4961b03618f..64ae7ce30e3 100644
+> --- a/meta/classes/sign_rpm.bbclass
+> +++ b/meta/classes/sign_rpm.bbclass
+> @@ -68,8 +68,4 @@ python sign_rpm () {
+>  do_package_index[depends] += "signing-keys:do_deploy"
+>  do_rootfs[depends] += "signing-keys:do_populate_sysroot"
+>  
+> -# Newer versions of gpg (at least 2.1.5 and 2.2.1) have issues when signing occurs in parallel
+> -# so unfortunately the signing must be done serially. Once the upstream problem is fixed,
+> -# the following line must be removed otherwise we loose all the intrinsic parallelism from
+> -# bitbake.  For more information, check https://bugzilla.yoctoproject.org/show_bug.cgi?id=12022.
+> -do_package_write_rpm[lockfiles] += "${TMPDIR}/gpg.lock"
+> +PACKAGE_WRITE_DEPS += "gnupg-native"
+> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+> index 9cc88f020c1..b17272928fc 100644
+> --- a/meta/lib/oe/gpg_sign.py
+> +++ b/meta/lib/oe/gpg_sign.py
+> @@ -12,6 +12,7 @@ class LocalSigner(object):
+>          self.gpg_path = d.getVar('GPG_PATH')
+>          self.gpg_version = self.get_gpg_version()
+>          self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmsign")
+> +        self.gpg_agent_bin = bb.utils.which(os.getenv('PATH'), "gpg-agent")
+>  
+>      def export_pubkey(self, output_file, keyid, armor=True):
+>          """Export GPG public key to a file"""
+> @@ -31,7 +32,7 @@ class LocalSigner(object):
+>          """Sign RPM files"""
+>  
+>          cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
+> -        gpg_args = '--no-permission-warning --batch --passphrase=%s' % passphrase
+> +        gpg_args = '--no-permission-warning --batch --passphrase=%s --agent-program=%s|--auto-expand-secmem' % (passphrase, self.gpg_agent_bin)
+>          if self.gpg_version > (2,1,):
+>              gpg_args += ' --pinentry-mode=loopback'
+>          cmd += "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
+> @@ -71,6 +72,9 @@ class LocalSigner(object):
+>          if self.gpg_version > (2,1,):
+>              cmd += ['--pinentry-mode', 'loopback']
+>  
+> +        if self.gpg_agent_bin:
+> +            cmd += ["--agent-program=%s|--auto-expand-secmem" % (self.gpg_agent_bin)]
+> +
+>          cmd += [input_file]
+>  
+>          try:
+> @@ -99,7 +103,7 @@ class LocalSigner(object):
+>          import subprocess
+>          try:
+>              ver_str = subprocess.check_output((self.gpg_bin, "--version", "--no-permission-warning")).split()[2].decode("utf-8")
+> -            return tuple([int(i) for i in ver_str.split('.')])
+> +            return tuple([int(i) for i in ver_str.split("-")[0].split('.')])
+>          except subprocess.CalledProcessError as e:
+>              raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
+>  
+> diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
+> index 2c1cc3845ea..6387d90d474 100644
+> --- a/meta/recipes-core/meta/signing-keys.bb
+> +++ b/meta/recipes-core/meta/signing-keys.bb
+> @@ -41,6 +41,7 @@ python do_get_public_keys () {
+>  }
+>  do_get_public_keys[cleandirs] = "${B}"
+>  addtask get_public_keys before do_install
+> +do_get_public_keys[depends] += "gnupg-native:do_populate_sysroot"
+>  
+>  do_install () {
+>      if [ -f "${B}/rpm-key" ]; then
+> -- 
+> 2.15.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
