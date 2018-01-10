@@ -1,24 +1,40 @@
-Return-Path: <Liwei.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AD08678856
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39F2578856
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 09:43:38 +0000 (UTC)
+	Wed, 10 Jan 2018 09:45:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0A9hdJJ015348
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 01:43:39 -0800 (PST)
-Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0A9jtLM011476
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Jan 2018 01:45:55 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 10 Jan 2018 01:43:38 -0800
-From: Liwei Song <liwei.song@windriver.com>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jan 2018 04:43:36 -0500
-Message-ID: <1515577416-184197-1-git-send-email-liwei.song@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 10 Jan 2018 01:45:54 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>, =?UTF-8?Q?Jos=c3=a9_Bollo?=
+	<jobol@nonadev.net>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
+	<1515066650.10775.24.camel@intel.com>
+	<7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+	<1515517307.6718.17.camel@intel.com>
+From: wenzong fan <wenzong.fan@windriver.com>
+Message-ID: <c8acc16f-41fa-5818-79a5-78e99eaec6af@windriver.com>
+Date: Wed, 10 Jan 2018 17:50:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Subject: [PATCH] xf86-video-intel: enable graphic and audio support for CFL-S Sku
+In-Reply-To: <1515517307.6718.17.camel@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,154 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 09:43:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jan 2018 09:45:55 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Add PCI IDs for Coffeelake S Skus to enalbe Graphic and audio
-support.
 
-Signed-off-by: Liwei Song <liwei.song@windriver.com>
----
- .../0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch   | 116 +++++++++++++++++++++
- .../xorg-driver/xf86-video-intel_git.bb            |   1 +
- 2 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch
-new file mode 100644
-index 000000000000..b7ed8d40df80
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch
-@@ -0,0 +1,116 @@
-+From 96d4e8e7b8a699f0ef77fa7b210d4de5f1c703d0 Mon Sep 17 00:00:00 2001
-+From: Liwei Song <liwei.song@windriver.com>
-+Date: Wed, 22 Nov 2017 08:59:03 +0000
-+Subject: [PATCH] Add Coffeelake PCI IDs for S Skus
-+
-+Add the Coffeelake PCI IDs based on the following kernel patches:
-+
-+commit b056f8f3d6b900e8afd19f312719160346d263b4
-+Author: Anusha Srivatsa <anusha.srivatsa@intel.com>
-+Date:   Thu Jun 8 16:41:05 2017 -0700
-+
-+    drm/i915/cfl: Add Coffee Lake PCI IDs for S Skus.
-+
-+Upstream-Status: Submitted [intel-gfx@lists.freedesktop.org]
-+
-+Signed-off-by: Liwei Song <liwei.song@windriver.com>
-+---
-+ src/i915_pciids.h     |  7 +++++++
-+ src/intel_module.c    | 13 +++++++++++++
-+ src/sna/gen9_render.c | 12 ++++++++++++
-+ 3 files changed, 32 insertions(+)
-+
-+diff --git a/src/i915_pciids.h b/src/i915_pciids.h
-+index 0370f830c541..11ccfa9c047a 100644
-+--- a/src/i915_pciids.h
-++++ b/src/i915_pciids.h
-+@@ -340,4 +340,11 @@
-+ 	INTEL_VGA_DEVICE(0x3184, info), \
-+ 	INTEL_VGA_DEVICE(0x3185, info)
-+ 
-++#define INTEL_CFL_S_IDS(info) \
-++	INTEL_VGA_DEVICE(0x3E90, info), /* SRV GT1 */ \
-++	INTEL_VGA_DEVICE(0x3E93, info), /* SRV GT1 */ \
-++	INTEL_VGA_DEVICE(0x3E91, info), /* SRV GT2 */ \
-++	INTEL_VGA_DEVICE(0x3E92, info), /* SRV GT2 */ \
-++	INTEL_VGA_DEVICE(0x3E96, info)  /* SRV GT2 */
-++
-+ #endif /* _I915_PCIIDS_H */
-+diff --git a/src/intel_module.c b/src/intel_module.c
-+index 6b04857e2853..4827a67255f0 100644
-+--- a/src/intel_module.c
-++++ b/src/intel_module.c
-+@@ -138,6 +138,10 @@ static const struct intel_device_info intel_geminilake_info = {
-+ 	.gen = 0113,
-+ };
-+ 
-++static const struct intel_device_info intel_coffeelake_info = {
-++	.gen = 0114,
-++};
-++
-+ static const SymTabRec intel_chipsets[] = {
-+ 	{PCI_CHIP_I810,				"i810"},
-+ 	{PCI_CHIP_I810_DC100,			"i810-dc100"},
-+@@ -303,6 +307,13 @@ static const SymTabRec intel_chipsets[] = {
-+ 	{0x5916, "HD Graphics 620"},
-+ 	{0x591E, "HD Graphics 615"},
-+ 
-++	/*Coffeelake*/
-++	{0x3E90, "HD Graphics"},
-++	{0x3E93, "HD Graphics"},
-++	{0x3E91, "HD Graphics"},
-++	{0x3E92, "HD Graphics"},
-++	{0x3E96, "HD Graphics"},
-++
-+ 	/* When adding new identifiers, also update:
-+ 	 * 1. intel_identify()
-+ 	 * 2. man/intel.man
-+@@ -368,6 +379,8 @@ static const struct pci_id_match intel_device_match[] = {
-+ 
-+ 	INTEL_GLK_IDS(&intel_geminilake_info),
-+ 
-++	INTEL_CFL_S_IDS(&intel_coffeelake_info),
-++
-+ 	INTEL_VGA_DEVICE(PCI_MATCH_ANY, &intel_generic_info),
-+ #endif
-+ 
-+diff --git a/src/sna/gen9_render.c b/src/sna/gen9_render.c
-+index e5f12c723956..7f49052c5ec1 100644
-+--- a/src/sna/gen9_render.c
-++++ b/src/sna/gen9_render.c
-+@@ -245,6 +245,11 @@ static const struct gt_info glk_gt_info = {
-+ 	.urb = { .max_vs_entries = 320 },
-+ };
-+ 
-++static const struct gt_info cfl_gt_info = {
-++	.name = "Coffeelake (gen9)",
-++	.urb = { .max_vs_entries = 960 },
-++};
-++
-+ static bool is_skl(struct sna *sna)
-+ {
-+ 	return sna->kgem.gen == 0110;
-+@@ -265,6 +270,11 @@ static bool is_glk(struct sna *sna)
-+ 	return sna->kgem.gen == 0113;
-+ }
-+ 
-++static bool is_cfl(struct sna *sna)
-++{
-++	return sna->kgem.gen == 0114;
-++}
-++
-+ 
-+ static inline bool too_large(int width, int height)
-+ {
-+@@ -4040,6 +4050,8 @@ static bool gen9_render_setup(struct sna *sna)
-+ 		state->info = &kbl_gt_info;
-+ 	if (is_glk(sna))
-+ 		state->info = &glk_gt_info;
-++	if (is_cfl(sna))
-++		state->info = &cfl_gt_info;
-+ 
-+ 	sna_static_stream_init(&general);
-+ 
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-index 138dfddcf34a..9aff9d8c2291 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-@@ -16,6 +16,7 @@ S = "${WORKDIR}/git"
- SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-intel \
-            file://disable-x11-dri3.patch \
-            file://always_include_xorg_server.h.patch \
-+           file://0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch \
-            "
- 
- SRC_URI[md5sum] = "fa196a66e52c0c624fe5d350af7a5e7b"
--- 
-2.13.3
+On 01/10/2018 01:01 AM, Patrick Ohly wrote:
+> On Fri, 2018-01-05 at 01:07 +0000, Fan, Wenzong wrote:
+>> It works and will override the labels of home dir that SELinux
+>> applied, that's the issue.
+>>
+>> For SELinux enabled system, the user's home dir should have lavel
+>> 'user_home_dir_t' instead of 'etc_t', it prevents users from creating
+>> files in their home dir.
+> 
+> Sounds like the "copy xattr" function needs to become a bit smarter: it
+> needs to understand some of the semantic involved and skip those
+> SELinux xattrs that are always meant to be set dynamically by the
+> running kernel.
+> 
+> Wenzong, which xattrs are those? Do you agree with the proposed
+> solution?
 
+The xattr for selinux is "security.selinux":
+
+$ getfattr -n security.selinux /home/t1
+security.selinux="user_u:object_r:user_home_dir_t:s0-s15:c0.c1023"
+
+I think the "attr_copy_file()" is doing right thing, but it should be 
+used in a limited situation, such as only for Smack ...
+
+Thanks
+Wenzong
+
+> 
+> Jose, can you look into updating your patch accordingly?
+> 
 
