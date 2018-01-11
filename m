@@ -1,29 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 62EB678766
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 65BB977E92
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 15:02:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jan 2018 07:02:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,344,1511856000"; 
-   d="scan'208";a="9983175"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 11 Jan 2018 07:02:40 -0800
+	Thu, 11 Jan 2018 15:18:37 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id s13so2472074wra.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 07:18:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=/OHq5g0hmw/y+gPFsfNnXEPfOaHUSeQi81TrjR7QZlg=;
+	b=g9KEEd5p+ha0HWUF3xwIAd4oaj+I1pMXAmfzvOy9iBxsNpnoyUbMkQ+PadAsdlspvu
+	yPeN0E4Nc2k011CY+mJHboAcEyISPlG5hFqGTz99Q9EWjIF8HwiqQW2Lx1G8BI/V+jcp
+	1IE+1WjcjYz1yNOJb0G1JWIU6PMYEcaAUAE0p8Gy0tGjHlTups8l4JgkjpqK5adOd8UX
+	vTP6llD7jCc0hZF5toueSMDI8fmJWa1z055HNb43eCT/Z/pu6j1yMy+q1o1L6/2Aze0X
+	u2mJ30bFRv1GivG4RJIQ5DMqy4l9hUOVje0vaWZUVEhjvodu1WGHLLJAmHKL9D8rtuAI
+	DWAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/OHq5g0hmw/y+gPFsfNnXEPfOaHUSeQi81TrjR7QZlg=;
+	b=RvRWeMB8lM3yJ7uIMqskxv/6hft+8mO2YkmIK7tWqqF6Xh5L43btTzrTk2QgEm/h/D
+	A/c1vfO1myiMr60bcJoKEnQNouf4GdKC3fHIWSa4BNgA2dhDXd8u5bLb+/M+Af/PWc6h
+	TXwny1/bYWVDgXpTl7p2iiFOeb8gFFp0qExR432zarkhh9aEyNYpdXXkYTpIFVRxtOEh
+	qxjkGR+QGJvT7NM9jAuSZk+yCOKKdlZKRW8ZY9jCNb/6/lYIFkVs5uZGhPN0ZTj1MjDB
+	FhFvvR+fd0pitrrWAxR1C4OHptU5flxZJBS38WZWD623PIS5TJBfssSgzA/pFDe48whr
+	nOYg==
+X-Gm-Message-State: AKGB3mIx3mSepTuY134ahGzmsDq9qBb30vawg48tzJPnFJDe4mTIGVhZ
+	+/RvcihheGFhlwxhvEozJ+1HxLBG
+X-Google-Smtp-Source: ACJfBovU61GAPtVc3r+X2rzgBFr1dHxSGJBQ9O0ReRLHhXVd8uB6O0mHOrb7cq5RdeYlmmmhWeldfg==
+X-Received: by 10.223.208.206 with SMTP id z14mr21096399wrh.109.1515683917969; 
+	Thu, 11 Jan 2018 07:18:37 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	a2sm11181445wrf.56.2018.01.11.07.18.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Jan 2018 07:18:37 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <20180111150029.7237-1-alexander.kanavin@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <bff90e1d-1c48-1e64-3b88-1a321def8005@linux.intel.com>
-Date: Thu, 11 Jan 2018 17:02:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <20180111150029.7237-1-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH] webkitgtk: update to 2.18.5 (includes Spectre mitigations; see commit description)
+Date: Thu, 11 Jan 2018 15:18:34 +0000
+Message-Id: <20180111151834.4169-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] image: use du --apparent-size when calculating rootfs size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 15:02:40 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jan 2018 15:18:37 -0000
 
-On 01/11/2018 05:00 PM, Alexander Kanavin wrote:
-> This is the only available stable version with mitigation fixes for Spectre.
-> Webkit upstream developers do not port CVE fixes to earlier stable series,
-> no exception was made in this case.
+We should pass --apparent-size to du when calculating how large the rootfs is as
+otherwise we get the actual disk usage, which if the files are compressed by the
+file system (such as ZFS) may be sufficiently smaller than the space required by
+the image that construction will fail.
 
-I will now establish whether it's feasible to update currently supported 
-YP releases (rocko, pyro, morty) to this version.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/image.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-Normally we don't do it (even though that leaves dozens of webkit CVEs 
-unfixed), but this is special.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4531aa2a57a..8e763e4d543 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -534,6 +534,7 @@ def get_rootfs_size(d):
+     initramfs_maxsize = d.getVar('INITRAMFS_MAXSIZE')
+ 
+     output = subprocess.check_output(['du', '-ks',
++                                      '--apparent-size',
+                                       d.getVar('IMAGE_ROOTFS')])
+     size_kb = int(output.split()[0])
+ 
+-- 
+2.11.0
 
-Alex
 
