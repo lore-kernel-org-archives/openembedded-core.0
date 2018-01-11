@@ -1,49 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 113FB6059E
+Return-Path: <rudnik.mathias@googlemail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CE256E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 18:55:35 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y5so2346687pff.13
+	Thu, 11 Jan 2018 19:18:02 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id b76so7521637wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 10:55:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lIJq4LoxgJxxEC8Njd+lfr+j5qymSs0Fz8HgPI7mxnI=;
-	b=CIMDW3jJpVPCpketpzcdPN3yC4JyVrv9+ahP5YlakIoapazg9vYkqflyU2Jgt+t0yS
-	S53YYgvL9MVCvWzdRk+MM7H0JkPKfR/xs3JJ3CwettzgD0RY0kTB030+P3yRq0zAJybJ
-	YN27mQaX0/oKP5YU/5/+hV/2K9WOhSZFTgZTbeRzCeE/DI1KHdsgoXce2+3xVWvr74bm
-	fGlE3aOE/rXiGL1JJ3dpos6idUF2fb4KpZoIGZC32XCQFeFnube908j6c44qiT65n0tc
-	oca8ipEEB6vwnWX6jo88Pe+do/5+Bj4ijqgc635kVLjtT4L+Qk12gYNmMLdG57CrnYk/
-	CGbA==
+	Thu, 11 Jan 2018 11:18:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=from:content-transfer-encoding:mime-version:subject:message-id:date
+	:to; bh=TgtSaYgOk6hf+VfDT9u+bwALmzkKHqNbVh2klDwk5Ms=;
+	b=uy6Lx8y7Ttpp5W4oeZDS5XjPrueP2sMPkhRgfMrsTQe+T5SIC8vYNQkTj289SrHLxN
+	SJKWnkaTAsX0lQB1NKOqq3Y1fTMjhGxeY9OUM0ri7Db8Tr6V2hOA3Ism/gWcOIvXMHD8
+	0As5WwxOLzdtROCOArqJBV/68anP2DSvgP83bnO1rn7s47slxpQJgkBRWixfnDDuwf4m
+	V/ThaL0n6veCKCLfvw0ca1487IHG8Q73gtSaBPDDxABgQaH2dAsZW6fc+QUMGqNQ2u8p
+	vwCGEo3E7TbOsbM2FiRQC/qfpbWDK7dktzQKOefskSRSRavZ4fZcfnojPPBuLM7E3AJZ
+	dubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lIJq4LoxgJxxEC8Njd+lfr+j5qymSs0Fz8HgPI7mxnI=;
-	b=p4W3KMbo4iB38QW6X4Ja7V3bDemk9I8ndUkSUb5rCAbcsjhawZ5UH93AcrrOpq72Ww
-	aMc2R8uQWynD/iUS3ifhemPHh8+fG8tBpOuJUCovnjE2KyEeYzYZk/ncBnriLwX0B+1n
-	Pns4j5+Oolg9+LIYHNctH3irZ7OIa6DS/1zqK/yaiCeVTm+ozYRcfpbWU8iZv154yxva
-	OLolFoSTJVHIkM9aIznRiJaU4deeYNpEMzq0aal/1KM79L5XTTpr2gZ91LZqoBOEj4Ip
-	JWfA4aqOOlATq38U4k347MPfYVjA6NweUxIz7+VaxCINaVXnyC6K+oCoeQ0rvxaiWgbj
-	YPaA==
-X-Gm-Message-State: AKGB3mJF0LigIEneALdN40nc1dq7BjNdJi12DF/5FO1CsLYXOA3EGIOg
-	472QNaKVgkFHvstS7oiQYBPk3h1LuqyRLR9UKAo=
-X-Google-Smtp-Source: ACJfBotFmjt/1dDpX7Gf9u8Vs4pKvYSsrgBTOwpZ7sRKiK6rFK0RQtYCMBBXiDU+Oc4iSIaRTYP6MYWejiP+znlnuuI=
-X-Received: by 10.159.196.133 with SMTP id c5mr22431497plo.99.1515696937369;
-	Thu, 11 Jan 2018 10:55:37 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.159.15 with HTTP; Thu, 11 Jan 2018 10:55:06 -0800 (PST)
-In-Reply-To: <20180110172858.22739-2-ross.burton@intel.com>
-References: <20180110172858.22739-1-ross.burton@intel.com>
-	<20180110172858.22739-2-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 11 Jan 2018 10:55:06 -0800
-Message-ID: <CAMKF1sqDR_SYOQ0Wg4Vr=XeQDKrEwNh3g7F5-_3nURphFbo1Lw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gettext: rationalise optional dependencies
+	h=x-gm-message-state:from:content-transfer-encoding:mime-version
+	:subject:message-id:date:to;
+	bh=TgtSaYgOk6hf+VfDT9u+bwALmzkKHqNbVh2klDwk5Ms=;
+	b=mRDyb7h2EN4N04oQo1IxcfsmEIAFN+hCnGUGA8aHtzMOZPnoFuJert6J9936W7esQn
+	akX9qdmaV5brQkDurR87Y/TAngELwLl36eOApfoEGsaplR3RduAOcsY6B/60tkPsz+OM
+	AsyXzKGlh+OjwvDpX5EJ0RnNvnyBp5o4Ss1Lr8FtYxYWllO9gDLEYolBxAvrYs7Ocji2
+	YmRN6hPUtIUXkButQKd5+tR7EUO16bo2nPIBXnA1H93ynxQOOSEpr3UG2YmcaijOHfiH
+	eRCGzDd+9LmTHhojRR6GVDaypyCw+Yx+JjbyfqDy1E7yFDGe889V6uovnBchb14ESxaM
+	HlIQ==
+X-Gm-Message-State: AKGB3mLBtarO8HcQe3eix26nNGXdk42vSxj1nSWqo6ynJ4mZ/HM8nc2O
+	mA/1zeovYiEYUpocSjBulxg5BX+1
+X-Google-Smtp-Source: ACJfBos+yxotBG4ygXVpr5fTbFwAjSMIYWxjlFAg3dQZ1KJJ7AstjfHcROL6gjI1LYML7pPe2dYFdA==
+X-Received: by 10.80.170.200 with SMTP id r8mr31655759edc.230.1515698282972;
+	Thu, 11 Jan 2018 11:18:02 -0800 (PST)
+Received: from [192.168.0.14] (ip1f12feb4.dynamic.kabel-deutschland.de.
+	[31.18.254.180]) by smtp.googlemail.com with ESMTPSA id
+	g45sm12696388eda.88.2018.01.11.11.18.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Jan 2018 11:18:02 -0800 (PST)
+From: Mathias Rudnik <rudnik.mathias@googlemail.com>
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Message-Id: <649D7563-3FDB-40A1-A166-7DFA9E706B0D@googlemail.com>
+Date: Thu, 11 Jan 2018 20:18:02 +0100
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.3273)
+Subject: Error do_compile libepoxy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,88 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 18:55:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Jan 2018 19:18:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 10, 2018 at 9:28 AM, Ross Burton <ross.burton@intel.com> wrote:
-> gettext has optional dependencies on libxml2, glib, libcroco and libunistring.
-> If they're not available then gettext will use internal copies, but it can also
-> use system libraries.
->
-> For gettext-native and nativesdk-gettext continue to use the internal copies to
-> reduce the dependencies, but for target use the system shared libraries.
->
+Hello,
 
-Do we get any reduction in size ? if yes how much, not sure whats the defaults
-generally used by other distributions but it would nice to be using
-the default config
-options for best results.
+I am trying to build libepoxy but the do_compile tasks breaks.
+I found following error messages in the logs:
 
-> Also gettext 0.19.7 onwards swapped expat for libxm2, so remove the build
-> dependency on expat.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> index c2059e608b1..97083c0da2d 100644
-> --- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> @@ -8,7 +8,7 @@ SECTION = "libs"
->  LICENSE = "GPLv3+ & LGPL-2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->
-> -DEPENDS = "gettext-native virtual/libiconv expat"
-> +DEPENDS = "gettext-native virtual/libiconv"
->  DEPENDS_class-native = "gettext-minimal-native"
->  PROVIDES = "virtual/libintl virtual/gettext"
->  PROVIDES_class-native = "virtual/gettext-native"
-> @@ -22,8 +22,6 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
->  SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
->  SRC_URI[sha256sum] = "ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5e2364de57baa279c1c125c43"
->
-> -PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--disable-curses,ncurses,"
-> -
->  inherit autotools texinfo
->
->  EXTRA_OECONF += "--without-lispdir \
-> @@ -33,18 +31,24 @@ EXTRA_OECONF += "--without-lispdir \
->                   --disable-native-java \
->                   --disable-openmp \
->                   --disable-acl \
-> -                 --with-included-glib \
->                   --without-emacs \
->                   --without-cvs \
->                   --without-git \
-> -                 --with-included-libxml \
-> -                 --with-included-libcroco \
-> -                 --with-included-libunistring \
->                  "
->  EXTRA_OECONF_append_class-target = " \
->                   --with-bisonlocaledir=${datadir}/locale \
->  "
->
-> +PACKAGECONFIG ??= "croco glib libxml libunistring"
-> +PACKAGECONFIG_class-native = ""
-> +PACKAGECONFIG_class-nativesdk = ""
-> +
-> +PACKAGECONFIG[croco] = "--without-included-libcroco,--with-included-libcroco,libcroco"
-> +PACKAGECONFIG[glib] = "--without-included-glib,--with-included-glib,glib-2.0"
-> +PACKAGECONFIG[libxml] = "--without-included-libxml,--with-included-libxml,libxml2"
-> +PACKAGECONFIG[libunistring] = "--without-included-libunistring,--with-included-libunistring,libunistring"
-> +PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--disable-curses,ncurses,"
-> +
->  acpaths = '-I ${S}/gettext-runtime/m4 \
->             -I ${S}/gettext-tools/m4'
->
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+arm-poky-linux-gnueabi-gcc -march=3Darmv6 -mfpu=3Dvfp -mfloat-abi=3Dhard =
+-mtune=3Darm1176jzf-s -mfpu=3Dvfp =
+--sysroot=3D/hdd_gold1/mathias/git/poky/rpi-build/tmp/work/arm1176jzfshf-v=
+fp-poky-linux-gnueabi/libepoxy/1.4.3-r0/recipe-sysroot =
+'-Itest/egl_common@sta' '-Itest' '-Iinclude/epoxy' =
+'-I../libepoxy-1.4.3/test' '-Iinclude' '-I../libepoxy-1.4.3/include' =
+'-Isrc' '-I../libepoxy-1.4.3/src' '-fdiagnostics-color=3Dalways' '-pipe' =
+'-D_FILE_OFFSET_BITS=3D64' '-Wall' '-Winvalid-pch' '-std=3Dgnu99' '-O2' =
+'-g' '-O2' '-g' '-feliminate-unused-debug-types' =
+'-fdebug-prefix-map=3D/hdd_gold1/mathias/git/poky/rpi-build/tmp/work/arm11=
+76jzfshf-vfp-poky-linux-gnueabi/libepoxy/1.4.3-r0=3D/usr/src/debug/libepox=
+y/1.4.3-r0' =
+'-fdebug-prefix-map=3D/hdd_gold1/mathias/git/poky/rpi-build/tmp/work/arm11=
+76jzfshf-vfp-poky-linux-gnueabi/libepoxy/1.4.3-r0/recipe-sysroot-native=3D=
+' =
+'-fdebug-prefix-map=3D/hdd_gold1/mathias/git/poky/rpi-build/tmp/work/arm11=
+76jzfshf-vfp-poky-linux-gnueabi/libepoxy/1.4.3-r0/recipe-sysroot=3D' =
+'-lEGL' '-fPIC' '-Wpointer-arith' '-Wmissing-declarations' '-Wformat=3D2' =
+'-Wstrict-prototypes' '-Wmissing-prototypes' '-Wnested-externs' =
+'-Wbad-function-cast' '-Wold-style-definition' =
+'-Wdeclaration-after-statement' '-Wunused' '-Wuninitialized' '-Wshadow' =
+'-Wmissing-noreturn' '-Wmissing-format-attribute' '-Wredundant-decls' =
+'-Wlogical-op' '-Werror=3Dimplicit' '-Werror=3Dnonnull' =
+'-Werror=3Dinit-self' '-Werror=3Dmain' '-Werror=3Dmissing-braces' =
+'-Werror=3Dsequence-point' '-Werror=3Dreturn-type' '-Werror=3Dtrigraphs' =
+'-Werror=3Darray-bounds' '-Werror=3Dwrite-strings' '-Werror=3Daddress' =
+'-Werror=3Dint-to-pointer-cast' '-Werror=3Dpointer-to-int-cast' =
+'-fno-strict-aliasing' '-Wno-int-conversion' '-MMD' '-MQ' =
+'test/egl_common@sta/egl_common.c.o' '-MF' =
+'test/egl_common@sta/egl_common.c.o.d' -o =
+'test/egl_common@sta/egl_common.c.o' -c =
+../libepoxy-1.4.3/test/egl_common.c
+../libepoxy-1.4.3/test/egl_common.c: In function =
+'get_egl_display_or_skip':
+../libepoxy-1.4.3/test/egl_common.c:36:5: error: unknown type name =
+'Display'; did you mean 'EGLDisplay'?
+     Display *dpy =3D XOpenDisplay(NULL);
+     ^~~~~~~
+     EGLDisplay
+../libepoxy-1.4.3/test/egl_common.c:36:20: error: implicit declaration =
+of function 'XOpenDisplay'; did you mean 'eglGetDisplay'? =
+[-Werror=3Dimplicit-function-declaration]
+     Display *dpy =3D XOpenDisplay(NULL);
+                    ^~~~~~~~~~~~
+                    eglGetDisplay
+../libepoxy-1.4.3/test/egl_common.c:36:20: warning: nested extern =
+declaration of 'XOpenDisplay' [-Wnested-externs]
+cc1: some warnings being treated as errors
+
+Does anybody know what i am doing wrong?
+
+
 
