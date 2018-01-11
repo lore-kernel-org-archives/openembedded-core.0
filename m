@@ -1,37 +1,35 @@
 Return-Path: <zboszor@pr.hu>
-X-Greylist: delayed 1356 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 11 Jan 2018 15:56:47 UTC
 Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
-	by mail.openembedded.org (Postfix) with ESMTP id D136E787C1
+	by mail.openembedded.org (Postfix) with ESMTP id 0F4C478821
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 15:56:47 +0000 (UTC)
+	Thu, 11 Jan 2018 15:57:11 +0000 (UTC)
 Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
 	by frontdoor.pr.hu with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1eZers-0004Y0-FN
+	(envelope-from <zboszor@pr.hu>) id 1eZes8-0004aY-8c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Jan 2018 16:34:12 +0100
+	Thu, 11 Jan 2018 16:34:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
 	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
 	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9zgcTEuxMRYZRvxKG/apTWLVfODDqNCWYVq7l1I3sUg=;
-	b=DEgfN/+8p3xEZQdoWhgN/uQkss
-	03WcSpBvm1oz6/yJqco4h/RO0bk55oDBpVD4ZcMFNdqB2RhErd6oyux4+vqAnxbFRjVBLysG7Ik60
-	HhhqsU/bSge4eLzDmdKMNKphPa8TXHN1MVYtZYDvbOwbpgtxoOplBaE0FXbEYRKrGtxSeMgNTKG9B
-	biZj/o/+GPEV6mgNgxq90+LI3A4kaGhGj417mqX0QBO9Reogps8RcoVKJuxnA0BFTkLvuT4aGT5RU
-	MYvF8WnTTrhGYXKVrdn8lsDpiAoA6nIprd1u+UCjbwdQgj+I3KGZ214fCD7Q+J1Fo982lgmrjn83Q
-	/Qx/4Rzw==;
+	bh=lcPttSD/MsQk6vk0dzGADqq7NBqxzqExoYpkFcBsoj0=;
+	b=h02P7v1oLeu62YnLh4ScUFJc5p
+	80w5qUE8cC0w0BY9Ds4f5aGgEpi0+bBVa/YQ/J9XToP4ycuK+YVH0a6/LWQHwVBAHhJxvybEGirzh
+	nPjAZKs6GQNijGR5yI9FIq6Hsadh1ntEy/jkzvl0aX25+G2VQCQnBAZUbvE5xrwx80QpZ4lSe9liU
+	fU+BCn5YXS8eBPq5ew4C90cNt3xIoLwL/ZHqvNMXQcXAzTr8Cl5m/K7sFdEjL+fI2+dAptjNo/mwb
+	qkA6IE5TZKmdiPQM+Cv/0E0LYfwc4AI0H5dB41h7CNYncfPHmZKA46a0te3QJEBSP333I+2iRZiz+
+	YEVFTwJg==;
 Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
 	helo=s002.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
 	(envelope-from <zboszor@pr.hu>)
-	id 1eZero-0003Nn-PS; Thu, 11 Jan 2018 16:34:10 +0100
+	id 1eZes4-0003Uv-IZ; Thu, 11 Jan 2018 16:34:26 +0100
 From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jan 2018 16:33:50 +0100
-Message-Id: <20180111153350.25645-1-zboszor@pr.hu>
+Date: Thu, 11 Jan 2018 16:34:16 +0100
+Message-Id: <20180111153416.25753-1-zboszor@pr.hu>
 X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
 X-Spam-Score: 2.3 (++)
@@ -51,8 +49,8 @@ X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
 	dependant packages because the shlib records didn't contain PE,
 	only PV. [...]
 X-Scan-Signature: 8f5da0c40d649b22aaae3fc58f517802
-X-Spam-Tracer: backend.mail.pr.hu 2.3 20180111153410Z
-Subject: [PATCH] Record PE value for shlib dependencies
+X-Spam-Tracer: backend.mail.pr.hu 2.3 20180111153426Z
+Subject: [rocko][PATCH] Record PE value for shlib dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,7 +63,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 15:56:49 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 15:57:11 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -89,10 +87,10 @@ Signed-off-by: Zoltán Böszörményi <zboszor@pr.hu>
  2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 7dc759699f..966c059851 100644
+index 2053d46395..8904b8091a 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -1686,6 +1686,10 @@ python package_do_shlibs() {
+@@ -1669,6 +1669,10 @@ python package_do_shlibs() {
          if not pkgver:
              pkgver = ver
  
@@ -103,7 +101,7 @@ index 7dc759699f..966c059851 100644
          needed[pkg] = []
          sonames = list()
          renames = list()
-@@ -1714,7 +1718,7 @@ python package_do_shlibs() {
+@@ -1697,7 +1701,7 @@ python package_do_shlibs() {
                      if old_pkg != pkg:
                          bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s[0], pkg, pkgver))
                  bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s[0]))
