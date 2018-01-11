@@ -1,56 +1,47 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F4C478821
+Return-Path: <sstncr@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9066671951
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 15:57:11 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1eZes8-0004aY-8c
-	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Jan 2018 16:34:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lcPttSD/MsQk6vk0dzGADqq7NBqxzqExoYpkFcBsoj0=;
-	b=h02P7v1oLeu62YnLh4ScUFJc5p
-	80w5qUE8cC0w0BY9Ds4f5aGgEpi0+bBVa/YQ/J9XToP4ycuK+YVH0a6/LWQHwVBAHhJxvybEGirzh
-	nPjAZKs6GQNijGR5yI9FIq6Hsadh1ntEy/jkzvl0aX25+G2VQCQnBAZUbvE5xrwx80QpZ4lSe9liU
-	fU+BCn5YXS8eBPq5ew4C90cNt3xIoLwL/ZHqvNMXQcXAzTr8Cl5m/K7sFdEjL+fI2+dAptjNo/mwb
-	qkA6IE5TZKmdiPQM+Cv/0E0LYfwc4AI0H5dB41h7CNYncfPHmZKA46a0te3QJEBSP333I+2iRZiz+
-	YEVFTwJg==;
-Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
-	helo=s002.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1eZes4-0003Uv-IZ; Thu, 11 Jan 2018 16:34:26 +0100
-From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+	Thu, 11 Jan 2018 16:07:32 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id 100so2644545wrb.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 08:07:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=hix9/qtMRR6dVTgvhwOudQpQnlGRmkclA3D6+QamMSI=;
+	b=nQu4FFgwZciAFDiI0RStzt/07yIwtpYRYDNct8EMwqoAjlYVzBm1JlutyLKsESVLFy
+	u4t4fZZ+rAZ80Z03+7qO9dSp1ru+ndluT5x4wDaribpDRFfiIkAdAFAeRMM5wR9s/j0y
+	1iACCxAd5F3rsrID3dzgSiqyruy2DwwbrBma9clZgpUt0NHC8EjFEj8hPY+03XjklSlB
+	yMA95pdm+jujuC7AT9r0VA0KkLr/e2dRRtvAszvfCTYGpVTRmJMI/+Rs/ZqP9gdIybEr
+	BfpYo2zJMHj4o5HI+2RWPU1kjA8HhXFQ0owgAxzmK9TCvaDfzA9Q7qciBJyhqyzz1WhA
+	cH7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hix9/qtMRR6dVTgvhwOudQpQnlGRmkclA3D6+QamMSI=;
+	b=I8pDZ3BP/5J7vLduaMbCOWRuQBgTnMBGxLM0J9HQxBb0gwYDW0blB9r7dHkDXFZCJ3
+	uJlo+BoyTsYThTeXU5kC/5hBemmJwWK2s65KYmBtFFyRfVwik8vxjkoBQqnnW3AigRzT
+	bahfZpVHr5mQWxiz+Kw/o0VstfSRzqjEOhtCIf/eIiLmqL/sgPlwBplSqN89tUfPR+rm
+	xVTpyxuPE4DoDLgSSdbZ3B9mlS4Jy0o0b2bZXEAgOXNAOKe6FDzGfpRTO1iLFImOk894
+	IOnNtIIVCp/8R9rkBT9Gttbscrn47PldqmPYLLmpLtuMYgVlFl9jv/e35JU/6yljpnia
+	s/hw==
+X-Gm-Message-State: AKGB3mK8y0DZAve3FHXsaL86TVzG6EYQspa4Epw9rUxXqpJewonn38OQ
+	el9yJpvvrWDgXvSx/fUTJD5Fh9Ra
+X-Google-Smtp-Source: ACJfBotAr4SQRqpZpi0XOrfUJiJam21R2wPLG8yoLEdyWoXSNdJF2o57L2HMRJFfVUa5ds6+SF8OEw==
+X-Received: by 10.223.151.146 with SMTP id s18mr21425971wrb.258.1515686853831; 
+	Thu, 11 Jan 2018 08:07:33 -0800 (PST)
+Received: from ubuntu-xenial.corp.fitbit.com ([86.120.134.70])
+	by smtp.gmail.com with ESMTPSA id
+	p32sm13192986wrc.9.2018.01.11.08.07.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Jan 2018 08:07:33 -0800 (PST)
+From: Stefan Stanacar <sstncr@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jan 2018 16:34:16 +0100
-Message-Id: <20180111153416.25753-1-zboszor@pr.hu>
-X-Mailer: git-send-email 2.14.3
-MIME-Version: 1.0
-X-Spam-Score: 2.3 (++)
-X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
-	is spam.
-	pts rule name              description  (score: __SCORE__ points)
-	---- ----------------------
-	--------------------------------------------------
-	-0.2 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
-	[score: 1.0000]
-	0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-	[score: 1.0000]
-	-1.2 AWL AWL: Adjusted score from AWL reputation of From: address
-	Preview: When downgrading a package or using a substitute with lower
-	version, the way to do it is adding or increasing PE. But it didn't help
-	dependant packages because the shlib records didn't contain PE,
-	only PV. [...]
-X-Scan-Signature: 8f5da0c40d649b22aaae3fc58f517802
-X-Spam-Tracer: backend.mail.pr.hu 2.3 20180111153426Z
-Subject: [rocko][PATCH] Record PE value for shlib dependencies
+Date: Thu, 11 Jan 2018 16:07:20 +0000
+Message-Id: <1515686841-28097-1-git-send-email-sstncr@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [morty][PATCH] kernelsrc/perf: fix dependency on non existant task when using externalsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,67 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 15:57:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Jan 2018 16:07:34 -0000
 
-When downgrading a package or using a substitute with lower version,
-the way to do it is adding or increasing PE. But it didn't help
-dependant packages because the shlib records didn't contain PE, only PV.
+When externalsrc is enabled for kernel, do_patch doesn't exist since is in
+SRCTREECOVEREDTASKS, so make these depend on a real task.
 
-Let's add the PE value into these records for packages where it's set.
+Fixes:
+    ERROR: Task do_unpack in /data/yocto/poky/meta/recipes-kernel/perf/perf.bb
+    depends upon non-existent task do_patch in /data/yocto/poky/meta/recipes-kernel/linux/linux-yocto_4.8.bb
 
-The in-memory variables storing the versions use the PE:PV notation
-but the on-disk files must use something else because the : character
-is already used as field delimiter in the package.list files storing
-these shlib records. Use # instead in the files, so the file format
-doesn't change. Conversion occurs on reading/writing the package.list
-files.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@pr.hu>
+Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
 ---
- meta/classes/package.bbclass | 6 +++++-
- meta/lib/oe/package.py       | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/kernelsrc.bbclass   | 2 +-
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2053d46395..8904b8091a 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1669,6 +1669,10 @@ python package_do_shlibs() {
-         if not pkgver:
-             pkgver = ver
+diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
+index 9efd46a..ce6c999 100644
+--- a/meta/classes/kernelsrc.bbclass
++++ b/meta/classes/kernelsrc.bbclass
+@@ -1,6 +1,6 @@
+ S = "${STAGING_KERNEL_DIR}"
+ do_fetch[noexec] = "1"
+-do_unpack[depends] += "virtual/kernel:do_patch"
++do_unpack[depends] += "virtual/kernel:do_configure"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+ do_package[depends] += "virtual/kernel:do_populate_sysroot"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 03ae446..145774b 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -47,7 +47,7 @@ export PYTHON_SITEPACKAGES_DIR
+ #kernel 3.1+ supports WERROR to disable warnings as errors
+ export WERROR = "0"
  
-+        pkgpe = d.getVar('PE')
-+        if pkgpe:
-+            pkgver = pkgpe + ':' + pkgver
-+
-         needed[pkg] = []
-         sonames = list()
-         renames = list()
-@@ -1697,7 +1701,7 @@ python package_do_shlibs() {
-                     if old_pkg != pkg:
-                         bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s[0], pkg, pkgver))
-                 bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s[0]))
--                fd.write(s[0] + ':' + s[1] + ':' + s[2] + '\n')
-+                fd.write(s[0] + ':' + s[1] + ':' + s[2].replace(':', '#', 1) + '\n')
-                 if s[0] not in shlib_provider:
-                     shlib_provider[s[0]] = {}
-                 shlib_provider[s[0]][s[1]] = (pkg, pkgver)
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 1e5c3aa8e1..d19fe7312d 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -258,7 +258,7 @@ def read_shlib_providers(d):
-                     s = l.strip().split(":")
-                     if s[0] not in shlib_provider:
-                         shlib_provider[s[0]] = {}
--                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
-+                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2].replace('#', ':', 1))
-     return shlib_provider
+-do_populate_lic[depends] += "virtual/kernel:do_patch"
++do_populate_lic[depends] += "virtual/kernel:do_configure"
  
- 
+ # needed for building the tools/perf Perl binding
+ inherit perlnative cpan-base
 -- 
-2.14.3
+2.7.4
 
 
