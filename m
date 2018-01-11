@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D40578824;
-	Thu, 11 Jan 2018 16:08:22 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 655D378825;
+	Thu, 11 Jan 2018 16:08:23 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Boszormenyi Zoltan <zboszor@pr.hu>
-Date: Thu, 11 Jan 2018 16:08:23 -0000
-Message-ID: <20180111160823.2784.57573@do.openembedded.org>
-References: <20180111153350.25645-1-zboszor@pr.hu>
+Date: Thu, 11 Jan 2018 16:08:25 -0000
+Message-ID: <20180111160825.2785.81476@do.openembedded.org>
+References: <20180111153416.25753-1-zboszor@pr.hu>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20180111153350.25645-1-zboszor@pr.hu>
+In-Reply-To: <20180111153416.25753-1-zboszor@pr.hu>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVjb3JkIFBFIHZhbHVlIGZvciBzaGxpYiBkZXBlbmRlbmNpZXM=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVjb3JkIFBFIHZhbHVlIGZvciBzaGxpYiBkZXBlbmRlbmNpZXMgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 16:08:22 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 16:08:23 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Record PE value for shlib dependencies
-Revision: 1
+Series: Record PE value for shlib dependencies (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/10497/
 State : failure
 
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            Record PE value for shlib dependencies
+* Patch            [rocko] Record PE value for shlib dependencies
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
