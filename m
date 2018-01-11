@@ -1,26 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A5AB71A36
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EDA77872A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 14:42:00 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0BEfFIZ026717
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 11 Jan 2018 14:41:17 GMT
-Message-ID: <1515681675.29722.118.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jan 2018 14:41:15 +0000
-In-Reply-To: <1515640552-54778-1-git-send-email-denis@denix.org>
-References: <1515640552-54778-1-git-send-email-denis@denix.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] gcc: add flex-native explicit dependency
+	Thu, 11 Jan 2018 15:00:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jan 2018 07:00:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,344,1511856000"; d="scan'208";a="165982273"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 11 Jan 2018 07:00:21 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jan 2018 17:00:29 +0200
+Message-Id: <20180111150029.7237-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] webkitgtk: update to 2.18.5 (includes Spectre mitigations; see commit description)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 14:42:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Jan 2018 15:00:22 -0000
 
-On Wed, 2018-01-10 at 22:15 -0500, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> It seems flex is required to build gcc:
-> 
-> > 
-> > .../work-shared/gcc-7.2.0-r0/gcc-7.2.0/missing: line 81: flex:
-> > command not found
-> > WARNING: 'flex' is missing on your system.
-> >          You should only need it if you modified a '.l' file.
-> >          You may want to install the Fast Lexical Analyzer package:
-> >          <http://flex.sourceforge.net/>
-> > Makefile:2799: recipe for target 'gengtype-lex.c' failed
-> > make[1]: [gengtype-lex.c] Error 127 (ignored)
-> Normally this is handled indirectly throught binutils-cross
-> dependency
-> pulling in flex-native implicitly. For deterministic builds, this
-> should
-> be specified explicitly.
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-7.2.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-
-> devtools/gcc/gcc-7.2.inc
-> index 1d40cba..d1fb6de 100644
-> --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> @@ -10,7 +10,7 @@ BINV = "7.2.0"
->  
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-
-> 7.2/backport:"
->  
-> -DEPENDS =+ "mpfr gmp libmpc zlib"
-> +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
->  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
->  
->  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
+This is the only available stable version with mitigation fixes for Spectre.
+Webkit upstream developers do not port CVE fixes to earlier stable series,
+no exception was made in this case.
 
-Agreed, however I think we have bigger problems. I'm testing with this:
+More information:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 65f51430ee2..a5c4a73963e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -921,6 +921,13 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-     if taskdependees[task][1] == "do_stash_locale" or taskdependees[task][1] == "do_gcc_stash_builddir":
-         return True
- 
-+
-+    if taskdependees[task][1] == 'do_populate_sysroot':
-+        if taskdependees[task][0] == "flex-native" or taskdependees[task][0] == "bison-native":
-+            #bb.warn("Skipping %s" % str(taskdependees[dep]))
-+            bb.warn("Skipping")
-+            return True
-+
-     # We only need to trigger packagedata through direct dependencies
-     # but need to preserve packagedata on packagedata links
-     if taskdependees[task][1] == "do_packagedata":
+https://webkit.org/blog/8048/what-spectre-and-meltdown-mean-for-webkit/
+https://webkitgtk.org/security/WSA-2018-0001.html
+https://webkitgtk.org/2018/01/10/webkitgtk2.18.5-released.html
 
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...ak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch | 14 +++++++-------
+ .../webkit/{webkitgtk_2.18.3.bb => webkitgtk_2.18.5.bb}    |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.18.3.bb => webkitgtk_2.18.5.bb} (97%)
 
-and test results so far imply that we need:
-
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 1d40cba7317..90e4a990cb3 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -11,7 +11,7 @@ BINV = "7.2.0"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-7.2/backport:"
- 
- DEPENDS =+ "mpfr gmp libmpc zlib"
--NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-+NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
- 
- LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
- 
-
-probably in addition to your patch. I'll continue to run some test
-builds and see how much breakage the above change shows up.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch
+index e1b69b2a214..83fd5129a01 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch
+@@ -1,7 +1,7 @@
+-From 3cc0e5900515cbcedd0447e0bdf487cc8d9a0f8c Mon Sep 17 00:00:00 2001
++From 9b09974003097c9a408bbeea568996768efe705b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 11 Aug 2016 17:13:51 +0300
+-Subject: [PATCH 5/9] Tweak gtkdoc settings so that gtkdoc generation works
++Subject: [PATCH 05/10] Tweak gtkdoc settings so that gtkdoc generation works
+  under OpenEmbedded build system
+ 
+ This requires setting a few environment variables so that the transient
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 3 insertions(+), 3 deletions(-)
+ 
+ diff --git a/Source/PlatformGTK.cmake b/Source/PlatformGTK.cmake
+-index 50b5393f..7a31db51 100644
++index 50b5393..7a31db5 100644
+ --- a/Source/PlatformGTK.cmake
+ +++ b/Source/PlatformGTK.cmake
+ @@ -24,7 +24,7 @@ macro(ADD_GTKDOC_GENERATOR _stamp_name _extra_args)
+@@ -30,7 +30,7 @@ index 50b5393f..7a31db51 100644
+          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+          VERBATIM
+ diff --git a/Tools/gtk/gtkdoc.py b/Tools/gtk/gtkdoc.py
+-index 48f862a3..18240e42 100644
++index 03c8e8e..34fbaff 100644
+ --- a/Tools/gtk/gtkdoc.py
+ +++ b/Tools/gtk/gtkdoc.py
+ @@ -318,9 +318,9 @@ class GTKDoc(object):
+@@ -39,12 +39,12 @@ index 48f862a3..18240e42 100644
+              current_ld_library_path = env.get('LD_LIBRARY_PATH')
+ -            if current_ld_library_path:
+ +            if current_ld_library_path and 'RUN' not in env:
+-                 env['RUN'] = 'LD_LIBRARY_PATH="%s:%s" ' % (self.library_path, current_ld_library_path)
++                 env['LD_LIBRARY_PATH'] = '%s:%s' % (self.library_path, current_ld_library_path)
+ -            else:
+ +            elif 'RUN' not in env:
+-                 env['RUN'] = 'LD_LIBRARY_PATH="%s" ' % self.library_path
++                 env['LD_LIBRARY_PATH'] = self.library_path
+  
+          if ldflags:
+ -- 
+-2.14.1
++2.15.1
+ 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.18.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.18.5.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.18.3.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.18.5.bb
+index 4938f69b7b6..a64aee22e68 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.18.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.18.5.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-with-musl.patch \
+            "
+ 
+-SRC_URI[md5sum] = "264a22d7467deae606e42b6eb5dd65af"
+-SRC_URI[sha256sum] = "e15420e1616a6f70f321541d467af5ca285bff66b1e0fa68a01df3ccf1b18f9e"
++SRC_URI[md5sum] = "af18c2cfa00cadfd0b4d8db21cab011d"
++SRC_URI[sha256sum] = "0c6d80cc7eb5d32f8063041fa11a1a6f17a29765c2f69c6bc862cd47c2d539b8"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
+-- 
+2.15.1
 
 
