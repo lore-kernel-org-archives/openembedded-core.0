@@ -1,33 +1,28 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 193207883C
+Return-Path: <Liwei.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AD7B78863
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 20:14:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id DB20720B35;
-	Wed, 10 Jan 2018 20:14:19 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id lUUhbo1Gm-ZO; Wed, 10 Jan 2018 20:14:19 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BCAE020481;
-	Wed, 10 Jan 2018 20:14:18 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 8136E16325E; Wed, 10 Jan 2018 15:14:18 -0500 (EST)
-Date: Wed, 10 Jan 2018 15:14:18 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20180110201418.GI9657@denix.org>
-References: <1515569943-89393-1-git-send-email-denis@denix.org>
+	Thu, 11 Jan 2018 01:37:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0B1bkcu011466
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 10 Jan 2018 17:37:47 -0800
+Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 10 Jan 2018 17:37:46 -0800
+Message-ID: <5A56C097.2050804@windriver.com>
+Date: Thu, 11 Jan 2018 09:40:39 +0800
+From: Liwei Song <liwei.song@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-In-Reply-To: <1515569943-89393-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [RFC][PATCH] gcc: add flex-native explicit dependency
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, oe-core
+	<openembedded-core@lists.openembedded.org>
+References: <1515577416-184197-1-git-send-email-liwei.song@windriver.com>
+	<b0829d4f-ec52-5789-0745-ae66f3545827@linux.intel.com>
+In-Reply-To: <b0829d4f-ec52-5789-0745-ae66f3545827@linux.intel.com>
+Subject: Re: [PATCH] xf86-video-intel: enable graphic and audio support for CFL-S Sku
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,71 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jan 2018 20:14:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Oh, this is against rocko, which should be fine for RFC, but I'll rebase for 
-master soon...
+X-List-Received-Date: Thu, 11 Jan 2018 01:37:46 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
 
-On Wed, Jan 10, 2018 at 02:39:03AM -0500, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
+
+On 01/10/2018 08:43 PM, Alexander Kanavin wrote:
+> On 01/10/2018 11:43 AM, Liwei Song wrote:
 > 
-> It seems flex is required to build gcc:
+>> +Upstream-Status: Submitted [intel-gfx@lists.freedesktop.org]
 > 
-> | .../work-shared/gcc-7.2.0-r0/gcc-7.2.0/missing: line 81: flex: command not found
-> | WARNING: 'flex' is missing on your system.
-> |          You should only need it if you modified a '.l' file.
-> |          You may want to install the Fast Lexical Analyzer package:
-> |          <http://flex.sourceforge.net/>
-> | Makefile:2799: recipe for target 'gengtype-lex.c' failed
-> | make[1]: [gengtype-lex.c] Error 127 (ignored)
+> Please add a link to the actual submission post in the mailing list archive, so we can track what happened to it.
+
+Got it.
+
+Thanks,
+Liwei.
+
+
 > 
-> Normally this is handled indirectly throught binutils-cross dependency
-> pulling in flex-native implicitly. For deterministic builds, this should
-> be specified explicitly.
+> Alex
 > 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
-> RFC: Not sure if versioned .inc is the best place to spefice DEPENDS on flex-native
 > 
->  meta/recipes-devtools/gcc/gcc-6.3.inc | 2 +-
->  meta/recipes-devtools/gcc/gcc-7.2.inc | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> index e569e02..39aca13 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-> @@ -10,7 +10,7 @@ BINV = "6.3.0"
->  
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.3:${FILE_DIRNAME}/gcc-6.3/backport:"
->  
-> -DEPENDS =+ "mpfr gmp libmpc zlib"
-> +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
->  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
->  
->  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
-> diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> index 1d40cba..d1fb6de 100644
-> --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> @@ -10,7 +10,7 @@ BINV = "7.2.0"
->  
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-7.2/backport:"
->  
-> -DEPENDS =+ "mpfr gmp libmpc zlib"
-> +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
->  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
->  
->  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
