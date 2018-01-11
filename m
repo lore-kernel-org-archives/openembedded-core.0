@@ -1,119 +1,112 @@
-Return-Path: <mkelly@xevo.com>
-X-Greylist: delayed 91828 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 11 Jan 2018 19:26:18 UTC
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0066.outbound.protection.outlook.com [104.47.34.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E541E600EB
+Return-Path: <alex.stewart@ni.com>
+X-Greylist: delayed 685 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 11 Jan 2018 19:27:02 UTC
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
+	[148.163.158.57])
+	by mail.openembedded.org (Postfix) with ESMTP id 11F247885B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 19:26:18 +0000 (UTC)
+	Thu, 11 Jan 2018 19:27:02 +0000 (UTC)
+Received: from pps.filterd (m0098778.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w0BJBXYe003564 for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 13:15:39 -0600
+Received: from nam03-dm3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03lp0023.outbound.protection.outlook.com [207.46.163.23])
+	by mx0b-00010702.pphosted.com with ESMTP id 2fech189g8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 13:15:38 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	d=nio365.onmicrosoft.com; s=selector1-ni-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=AOICmEhoFztINEx+4krRKzpVnFo+bSAEDekNR2ykIeg=;
-	b=eSNe8NscqiLzZ+ZwHrIUM2WK9qA1nhtyxGC4UbOr2AXAp9bCEiaEHgz3ORG6dwVqmsdfjujZIRvcPk+gxFFbowiEJNKX5gZvjYqHLknot7Kyg8LPdbBtRkUtHRWcTP8H/rvRxxGRN9WlVXnL/z9WbJmJ6AvhQosOzY78O8w1eRY=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=mkelly@xevo.com; 
-Received: from [10.201.1.39] (65.122.179.226) by
-	CY4PR0101MB2933.prod.exchangelabs.com (10.171.223.138) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.386.5; Thu, 11 Jan 2018 19:26:19 +0000
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
-	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
-	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
-	<0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
-	<64c07649-f0df-9acc-fbf3-e8f6a52db9f1@xevo.com>
-	<1515610131.29722.112.camel@linuxfoundation.org>
-	<9a261bf7-62c9-2aa9-9fa2-d27bb6ff7653@xevo.com>
-	<83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
-	<1515692956.29722.122.camel@linuxfoundation.org>
-From: Martin Kelly <mkelly@xevo.com>
-Message-ID: <a379308d-1f84-a033-98ed-175da915f315@xevo.com>
-Date: Thu, 11 Jan 2018 11:26:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	bh=iJfCQwhchTNSQRuSJ3jAAYzAKJqVw1fjmPcbnqmzdPI=;
+	b=dlee6JveplWKvTze+hjxBwqJk/lT6SiL4ZEa8fE1yQy/tIDEgc5lwkZCzMu1XaasKtnn9CYVLAY+tD65BD64kDOfjrgyVfW3sdwDPaN9AVI0Wp+3sJ4NYqr4n3aMyJIVtKc4W2UsnDpWPPjMjWpHqg02NDGzarQZfQ/KnRwhDIA=
+Received: from rtosams.amer.corp.natinst.com (130.164.62.180) by
+	DM2PR0401MB0974.namprd04.prod.outlook.com (2a01:111:e400:3c0e::14) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.407.7;
+	Thu, 11 Jan 2018 19:15:35 +0000
+From: Alex Stewart <alex.stewart@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jan 2018 13:12:35 -0600
+Message-Id: <20180111191235.17671-1-alex.stewart@ni.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <1515692956.29722.122.camel@linuxfoundation.org>
-X-Originating-IP: [65.122.179.226]
-X-ClientProxiedBy: CY4PR20CA0014.namprd20.prod.outlook.com (10.173.116.152) To
-	CY4PR0101MB2933.prod.exchangelabs.com (10.171.223.138)
+X-Originating-IP: [130.164.62.180]
+X-ClientProxiedBy: BN6PR05CA0002.namprd05.prod.outlook.com
+	(2603:10b6:405:39::15) To DM2PR0401MB0974.namprd04.prod.outlook.com
+	(2a01:111:e400:3c0e::14)
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7eed66d1-5dbc-4d60-3ddc-08d55929310c
+X-MS-Office365-Filtering-Correlation-Id: 6bf311bb-edd6-490f-acb1-08d55927b16a
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020070)(4652020)(5600026)(4604075)(2017052603307)(7153060)(7193020);
-	SRVR:CY4PR0101MB2933; 
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
-	3:eP5gjbTZ0QbNGIkdyohOfQU49uNhsJgvmPcFZOmEVmGbCnrW6tbCgUQqKGUrzPk1um3D8g07N/zinn8LCKAlugcThPGDDtpZekRWi7trxgrdVllhF4/0jAB//1N5iRoCxC6ttuDPhjB6DB18oI1J4+IEtWrFoaDiVxm8gv5hnlCyQOhXUI3AeUBqufgru3E7qn9i2Nqqhp7ugs+lrLf59/Q9DnsNuHzerI1c5iYGRj3m22wu4mJmd75v912aMRRG;
-	25:ta7ekd/Qv2cXTHYDb/R2hQBFOGEjJ7Fn2AXcrzQ21eBtK1fPbRjI8V2uPNo2HI+rByCvMB2Kk3PzQj6oaTsktxouYbOcmv4XpFJ0m3UHIKK2iG3bZ5jvq2c+FlrcOIDDG1V1o2zSABjV4n0EYee/a3yMx1YFLx9B0oanm+mSoS6BSmIpUyoEygKSXqIxnrTMiMGh7Lymab64UdEcwV0nvgmSLA9xewbmu7JLuwNmmSbMmu+7e4VYJC28HiPynLoKEDqX3bmzCuLac5pmEmZFPZF0EjgYT5SdzaRJznDYdnlT5FRRTWlRQcamQJtbBFOQnyy290VtgLNk3ITCbjPCSw==;
-	31:XQYkRkkEJVAVcQfkC79xBeuOCVo031bEjEuDreDBhopPNH73cw+tzViuN3S+v6Y3mkEdQIz77LYw3GTAWUuGJjWrycqFZrb2t3zN39svWks9JdMr2qMAd+bK7ZWHD1rAVIJFFDJOn5egF5rY52zZ3slX1WVVnBHeE3ylfbk9b4CQn7A0130u8vKlrSEsy9jt8gocvu7a1RU3fIBTcAGD4xHR/VmG1swkofQw8mN5VYA=
-X-MS-TrafficTypeDiagnostic: CY4PR0101MB2933:
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
-	20:uX/pd/jDKZ12J6EFn+vTsYuBZhXomgmlvbbpeGB9nIr2eZ5Ixy2pLLKhorv15o3czlQxIUpdv4InKpter1OkxdmUvw6eWCoQACcM1iw4SmoHPeB3uudqEhwUjpi6iv1rVgdgAig5Er9Stbr5RYnIG899sA7WtI2QVCVLnp1kPsE7G8Vm4vLeMGioOE0wCpq8gUI6ExAcyMjLjCGpfiWvRQXsPPGqnHMJoIUTiG7sa3ic/gtsBY6AjEsZaJOg7UQQaJTK//CYA1ejfamDPXcQwcCPwUHNEMGKn0L6leGuY10ceMb79lDZ64pLrGBp1UNcIs8jlHPBBC4W3igx0xqQx2W21GD9U76lb11JXFhN0rDSVgQYC0+3BVRzxJ4TLj3YKCCzkaGKq1n42Tqh7N7PE8qZw4xngW86mO+CwUiBLtU=;
-	4:n7t8WYub3Jpd0AL+s1ul8hel3QgXLyrZNOo/Y0qr+Xaq3f+lHOcw8vFygADJja5FwiC7Vi1s8wMGYqZnGHn2Z4VRWrY0qLYEHlLTgZBGwUWjEg7q06myU61vqYHvFlQDAsYIg+U2TKlNbr14s9HUMs044l8T04waKL5wCkRLxIXjDf0HkiZvw9pmN2Tyvk414m4QUdXp8mHlF1tvewqjDX9qdO0RCnhBNA/wzTXkz+sXrnmwpOq5J2Bopanp8U2Wj5+irJRBLEf59zvwHdrKjQ==
-X-Microsoft-Antispam-PRVS: <CY4PR0101MB2933E63049FF3F1852079BECAB160@CY4PR0101MB2933.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
+	RULEID:(5600026)(4604075)(4534020)(4602075)(4627115)(201703031133081)(201702281549075)(2017052603307)(7153060)(7193020);
+	SRVR:DM2PR0401MB0974; 
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0401MB0974;
+	3:2QdiFr5YQwAorFoe/yroDanmkiQJWTwV47LTvtiYGe7nCNeZLRs85ZZcOJ72INWrv4B+QRelq7ePuxyy7dzLGUUtNg9oVOWprAwWhwSHrBvYKwJ3goDxv4TU/8sUofINJe2xDuvf1UPE8Xa54+GN7V7f+4noyLtW5GhFrAz8iFDs6H2MHGXi+fZkfnXmsUmlnvrfIt9XsePySLz4vRQM4zErbFjMQqx9Fif4UkMQc6sDYAQ5qCm73dO1AyyOGrOO;
+	25:vzQiPIGrrvE3vDreSjt19UPcHEi8hLTyu8Epx6qfM10Sroh7czLWjp9bTgulqJB5JP+e7fYHAGedrVDiSddsjQGjEEKPa2hlkdpbvLFeb4RRM+JOY+FN3uYDERxEhfnz1UTcmlnCOXYeyKeLKYVAkhh/OMbmYrh9DFyPRy9WyzZ3HyP/Ju0clETkLhYXVJD+/ejawIJmXszN77WcprNe1v90e1FIBrSsIIUC2dpJ36Muv8EWVB+JEa82s24YK1kWSpzhTxoE1n1A2pl2vLYyr9kQ1kGYGfos+hicr0MUkFC7etU04gxDcGFBUQm+ETsnWC5kI/BBhKI2HpgaqRHjSg==;
+	31:iFFtv7/pS8+WN/V8qlpXK1sN0DbdguxWBB1L3FtbgY5IJdWNguO6EFJI71023AotyGfcw3u1DtTr82mAp1GelTfvLKfagLWyV2RlN4tStQlGKn7gC79ByXKu9AUnuwk7xlJREDJBXRU7QOgbpzqJpIp/Vb7OZB/m/HDw+oUuYQekKPHp6/YCl/kPXFIolS9SsnT9+HAQUcQmeV92lcQhTH9jEJ9Dc3aPmbG3SMKDlOQ=
+X-MS-TrafficTypeDiagnostic: DM2PR0401MB0974:
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0401MB0974;
+	20:aDXRlSrbeGf/1W0jZ0IBAFADtl8EDyH1iXo9WpKLdDdHKb759weMmKcZSP1dmAZo1muhx9mqzhz5Ld6c3Gu685iDipMeSYh7XB/DUijSUCANOMsxH+K6IOi+Nnh0HPfSfk4X39q6GhzE1+i9HK4Xf+8oE5UvCzFwXJTWrHBRzH+jt8z5Ieq81+DH+XOS3HR98EqZJ+JjH3RoP0rg9x2c6EgpKgjlQ130Gfr6oSPgWptp/Uwab1WYy6E9Oy8gy7czPloBeRrePQVuxaAN8i/ujxrsHPMpJG2T8iplawFherhU+kubwKUXgA2Jyxb2NshFKEhmeFA+qRaacZF4KiThkXqauJAa7U0O8w1FSf5g7j43MZEnMrBKvJBj1U7dwt3evEU7qG556UT5w5qWY7a+4MJGSfvviUD/rxjHta8DxFTsJemOM/o4EiBYK9qIOS4CVIKZ8zntk+pE7lUybm/cY1hXk07csJK4906c1LQ9+RTt8zHvjYhGRxy6NF4Lgay5V3zFXMzE8aYuz9rX5t+GgZpxK62tfcSf9736rUqvFsQFXQeIfNYuUWOpuexFdMzk24RxlL+8PlG/EGP9Vm6ow2w7JlSnqgMEIaRpxOdZNWs=;
+	4:NBxkH5rt2pUD0CV1gKPHCLXTNZ9NQ/wiGDtXNzkBPULehbY1KmvJXjBMTLwqKVYf/BjBt6e/VAcrdoH0OXYQFtHv43CI83vM2lG8aNJ+I8RGclp+LY9pTw4U8AnqYJQpC1fSDwT+5AF/o5o0+Bnq1yziRPI/TvOOIY3DzLG5gc5xpZFKshfuEafQV/bAYO94ysZliRGTih9rkmb57I45rOr+ZMnA3H9EGEXHcX7ABCkBk0rlLT+tNCNTIlUA/IV5sxmIQXYdD6B0nt7FYK63Dz3DgL+ogj0MTTzX/OglIY+b57eMsjiYaGn+Cg0dvFiQ
+X-Microsoft-Antispam-PRVS: <DM2PR0401MB097432E2AEC1D4852AB01F48FE160@DM2PR0401MB0974.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(145744241990776);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040470)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231023)(944501134)(3002001)(6041268)(20161123562045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123558120)(6072148)(201708071742011);
-	SRVR:CY4PR0101MB2933; BCL:0; PCL:0;
-	RULEID:(100000803101)(100110400095); SRVR:CY4PR0101MB2933; 
+	RULEID:(6040470)(2401047)(8121501046)(5005006)(10201501046)(3231023)(944501075)(3002001)(93006095)(93001095)(6041268)(20161123564045)(20161123560045)(20161123558120)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
+	SRVR:DM2PR0401MB0974; BCL:0; PCL:0;
+	RULEID:(100000803101)(100110400095); SRVR:DM2PR0401MB0974; 
 X-Forefront-PRVS: 0549E6FD50
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(6049001)(376002)(366004)(39380400002)(396003)(346002)(39840400004)(377424004)(199004)(189003)(24454002)(31696002)(478600001)(76176011)(83506002)(77096006)(6486002)(2486003)(67846002)(52146003)(229853002)(23676004)(5660300001)(90366009)(65806001)(106356001)(81156014)(81166006)(386003)(2906002)(8936002)(52116002)(230700001)(4326008)(53546011)(64126003)(65956001)(8676002)(66066001)(6246003)(16526018)(305945005)(3846002)(31686004)(93886005)(50466002)(97736004)(6116002)(47776003)(316002)(86362001)(68736007)(2950100002)(65826007)(36756003)(105586002)(53936002)(7736002)(25786009)(58126008)(16576012)(6666003)(110136005);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR0101MB2933; H:[10.201.1.39];
-	FPR:; SPF:None; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: xevo.com does not designate
+	SFS:(10019020)(346002)(366004)(396003)(376002)(39380400002)(39860400002)(189003)(199004)(8676002)(8936002)(105586002)(4326008)(50226002)(305945005)(7736002)(68736007)(2361001)(81156014)(81166006)(2351001)(3846002)(36756003)(47776003)(6116002)(5660300001)(48376002)(1076002)(50466002)(106356001)(2906002)(25786009)(478600001)(386003)(59450400001)(66066001)(6916009)(51416003)(52116002)(6506007)(16586007)(316002)(16526018)(575784001)(6486002)(53936002)(86362001)(6512007)(97736004)(6306002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0401MB0974;
+	H:rtosams.amer.corp.natinst.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: ni.com does not designate
 	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTRQUjAxMDFNQjI5MzM7MjM6d2ZNbXBwSm5WcHg4YVd1d0R6cUFvdjVu?=
-	=?utf-8?B?RVhhbno2b3hSM0xXVm5zY0JYOUZhZ0tEWjNSclFMRUpZb2hzUTNrOVRzZXJm?=
-	=?utf-8?B?UUdqSDZyRWtuZVJhcXg5cVB3LzNMclI5M1Qyby9xLy9hZGNWeDdLRGt3ZFpB?=
-	=?utf-8?B?Q0l3c1lLOFNPNnZCYUFnc0FvNzZTa1RPazFPUG5sSUQwbG9nZWRWY2Z4TWo4?=
-	=?utf-8?B?WVcreGdKSjE0dW5wa2ZWa0lXM01BS3BURXBIMVAzeUl0Rm8waGswQzZSMW9O?=
-	=?utf-8?B?SVZRL05CRWhBVFU2dmVRa3Bzb3l4cXVSclNTejVjaUhDR3NJelpzeXRweGU4?=
-	=?utf-8?B?cSt0clZpbDREaE5GeXFaY0dRR3ZmNXlTY0tDcHpWd0FpS1NTTG9QRWxrWkJU?=
-	=?utf-8?B?OVhkQkRJc0JaeXlURzNldlRYSWI0aXpPYituU3N6MXIrT3pjUUx4cktSVDJK?=
-	=?utf-8?B?N0dPQWJpL013bUxJc002NW5KZ0djSXhoWTlCZXhFcXZEUzh6M2Y1blA1ZEpV?=
-	=?utf-8?B?eUQ5bVlENW9oMEtyejFWaTdLY0d2UUZka2tTRlUzRWlaa3BDY1RzL2UrVXE3?=
-	=?utf-8?B?UFlTN2hqcm5NYjlsbGFnVlB3VmFPNFQvcTl5bWhRMmp2Sks3a3NvWHp1dDBx?=
-	=?utf-8?B?d25Ud1JPTW52TzZsWnkzOHVuTFRjY3IvVzc2WC9CK2FoVFBDbGFVUVliaTl5?=
-	=?utf-8?B?WFBpei9HMGphZmo2STBUeXJSQTlIWFV3d0dQLzhqOGNwWGpzN2dua01QcFZ4?=
-	=?utf-8?B?cG9OTytoNHFoYUVCTXM3bTBBbmZma2loRFF1U0cxVmlSM1RSOTh6MGMvbzR1?=
-	=?utf-8?B?bDlyMnFpUHhGajZadmFXWHhFNXFVYlNGNUExbXZZcFdsQ0FRdzk3dVhMQTk0?=
-	=?utf-8?B?bmNTeXZ0YVhjZEg4Y08ydTBNbG92bGRVemdiUmxoUTcyS1RsSVlpclp2cjNr?=
-	=?utf-8?B?ZUJiaWczVzd1ZC9uK1VldTUwLzlNSjNxRlZYbEgzT2FML2Ywd2dHdFFuQnhC?=
-	=?utf-8?B?ellEWk5LL2NWd3M4KzdvMUYrSlM1amROVHVtVzJvUXE2aTRGSzlqb0NkR01q?=
-	=?utf-8?B?LzBVUnp4NXl4TnFtNnpudnlnZTJhNU1MMDhiczZuRWIvVXl3UTZmeDhCT05p?=
-	=?utf-8?B?LzRycG8yQVFrNndhdWhoelAvUWRKOUhhdEdrVXp5TytLUzRmN2VVY2dPK05Y?=
-	=?utf-8?B?a2M5SDVZRW5sVWt6TTdRRVkzVTlteEFhWldLR1Qwa1Joa1k2NHpkMEszR2tz?=
-	=?utf-8?B?NDA0YnZKb3NLd0J2OHhjaFNobFNZd2Y0cWxEUnA5b2hCVGF0TFRMdlMxNmVM?=
-	=?utf-8?B?bThTbUR3dmlmNzBJcHdmdk5VK0hlOTQ0YkFyNDFIMkZEbHZTU00zdE14bFhJ?=
-	=?utf-8?B?VU9MS3hHdmFDanZZMEsvKzlCQUU3dWFDT1QwdVQ5UFY0QmJhY3FkSUVqeUVv?=
-	=?utf-8?B?L2piV0dvTjhPcXRkWk85V2d5RDQ5NWtYVzV0bklDTzhPUndDdkVtZzhFT0Yy?=
-	=?utf-8?B?MmdQRmFpYkpVUWdqSGs2U29uSkQ5VnZ1QUZXZ09UNjJsc3YzQzE5ZU9TcVpX?=
-	=?utf-8?B?ZjVSWmxyV25uKzhGZDNkTU9DNzBrREh4OGl5NUdKL0w2RVhUeE0xZFhkRHNK?=
-	=?utf-8?B?Viszd2orbG9aeUZXbVhIU1JhTjRFb01LRkVLSmZTSDE3YnNDb0ZvMWdsTTNJ?=
-	=?utf-8?B?OGVtN2dpOVdHTTk1Q1YzM2hGcTNJQTJuUEo0bmhISmFiSzZ3SkhBTjJtc1k2?=
-	=?utf-8?B?QkU2VEcvOXZOMkVLMlpMbG5vajZSam5ZT3hEcGowNmYvRjRJQ3ZucmJMK2pQ?=
-	=?utf-8?B?TWIyb3VJSlBvdU8veVppSTM0aDdVdTNyQ1cvUHRvU3dqaUdUM2RUTklRNUJl?=
-	=?utf-8?B?QU9HRVNHVFdsMkdjZjU4TXdrWVBjR3FDYmlITFJZZUxiZmVpRWtVdTQxc0RB?=
-	=?utf-8?Q?X/LIRklIWKY93JE9mjI01/UGHoo9sPV8=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
-	6:mIrzkj2ddJRgIAQVZVxeNmyyKA25PH8L1ao9qZ54wNt6x2ZNum4z4Pw0kLgs/W/ljhYRIlZiFBAbm/ExVx3Fnbn+8463/IzpxR2/9+87ljoAKUz0+eTmjgDA9feXRNRGSQH+7gbgw/pz/5MAX0BwYdsdL4MqIqLzNF6pQa41UaiXVSEKevSsmvIOjs+oxmbwb1U7ZTRYpN35NaHCYaNm508nwNmRfLFaz7C793mZoEkacopINU4BAFhITVeQUlfJMBX0xx3LBpSpG0tqA3JTUtMjKrs0WbbhHbKPeIBD5ZM1eAI69Tka+4GzNiSiNmGcofgGBMSk/Un7l3jvVmTVRbOhjzlNj4XHhznwLe8oeqY=;
-	5:XwxtFE4LofIcHOGVPylxXDgSwX3j1wdxxYiqKm2d/BWq1ZCTIPChy+1L1cXNzt/l+fs+aoqEmaE0C+6eQLEVDp5mpISJIkmgVye2mZhr0SKs41y6kNa36iaRx9llt66+iw8HC0yM93s/LWNWKvLJoF4b2eCa/qbj0sx0+hzRyRk=;
-	24:BHFYyuBoQHyyzcIsAX06QBZTWmGmza07Thokx151m4qYKg1lLROGLVHszMfxyYWmnipgtdAKk/HwjBxaEeptpmwWX0iltDahM182IA9onR0=;
-	7:z0K/QEFBbXNtGtA+2/unxIJzqLMI+DnnDlXq2riS9FwqTQo105d/SJThnKkOYFiaV4CNl/tYImoWc1LEYoB8o293+4PA4tYD6/clsDbUztMdiIcN/0TG75Y4lii9/ox8q8yLF/3rh7Rvcy9dmNeiuy1q4JqSr3XGQJPbzrM6FSe7pnDavr5fkONfvtpJlrhtg2OIByZvtMS7Dzpz+eKn1Fwvf6Vw2N/n+BZIhTElEJmBO8Q0I1sDQfIimx3lHXF2
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0401MB0974;
+	23:iiKRRDNOLQvdCP8sJqBdeIVHEn9ZtObp9fmIbai?=
+	=?us-ascii?Q?A2rHfnKnKMFax+qICi0wl+0l/yliT9rOafxDBHm/2a3IcBQVgiItcB7+kEnU?=
+	=?us-ascii?Q?s7dHisevqMHzF41u2fM7kuFbKH085lcqD7qQua5SkRzgCqoBnPD5jLty94Gm?=
+	=?us-ascii?Q?bPuemEjfGYXSTE0K4h1pdlzT1OCMFEOMzq30e/G/3u1D+fStOSXNtZ8T3/j8?=
+	=?us-ascii?Q?0mAP063+cSD/QncOLqxtne3rSbwFscGFa0i+a0VEpjbr4nnniBS9npqFtJ11?=
+	=?us-ascii?Q?SkVEpUOYmMQq619ZKqKbvfhezwJbZa0DxinrNrWx0UtJ+Z9NzeZWg81Hx32+?=
+	=?us-ascii?Q?xk/cndJW4yK6YqvYE0D0M3p9oxpJTlTnr9rD5pJR2DgcIXfhIlwTDRTFhRGQ?=
+	=?us-ascii?Q?Uyjv9Q6i53mhwlIxMtAeCUR9U30REwFcQ1TvRZVgiZdO1SB3hqfv+JhQkHIY?=
+	=?us-ascii?Q?YhMxnD0+uZ/WemokFwfZwQ4CDfgSgj0m6nLcjthgvJY8y2orqrIGP6jlSjBj?=
+	=?us-ascii?Q?p4jKZERxw4IVG0+mSYhzSmRW7I1cfnhIDKRdPBtdjaGOfCpjAa+gd5GJrseR?=
+	=?us-ascii?Q?CZ4W63wqlud7a4dBs9F0tqFsPDcvd/FwMVmypv4vz2FQl5ybNBgZukiBC7hF?=
+	=?us-ascii?Q?PsGGS0o+NYhNehAnKiLHryR//JKL0Pd3imc4K4dVs4bUzKCA7XTMEH/Y3G3b?=
+	=?us-ascii?Q?t2w93V9f2TwteW5BXY7hoBBEccSk4NL2sSrTzY5TEi62hqGmRM5Vwp6YrbFE?=
+	=?us-ascii?Q?DFPo25SH6BUXltzIdnKIJRgWD5L9ZFxk1BAkV1CxVzs8njFp2/HTifJ8Mgw2?=
+	=?us-ascii?Q?mD3NLnyYzVhz+7bVQhzTyaZc6osG5A3Nfz3MZ3gSQq+mYdKe9YkQf58HIeiy?=
+	=?us-ascii?Q?Bb9ugCwaY4ziT3DE0oUyB9J0BnPslMlH0zk3rhcx5Qc1itDAe6jGBeP1pKTh?=
+	=?us-ascii?Q?JRiTM1jwDOej1qsgyjjmicTz0DIC9EOW0X8DSOBbuVesBfxQaCk7NV8vWgHP?=
+	=?us-ascii?Q?5o028MjbKlzOYBWv1tT97xciXvDkyK73jciLQeok02BFggy6xr9034/3ZPWg?=
+	=?us-ascii?Q?uRW2+yY/TFgyL2VrWguBD8ktN6qql3kjnB8MOudp9STKh5hN+YwwI0szQhmv?=
+	=?us-ascii?Q?WZBnd/QB+/Lnz9bGVpDlXZxiaF3HX6XlJ?=
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0401MB0974;
+	6:eoIf7GE1ME8vaxwce/o6K38MNvXCtcTWEG3KCZRjQdbSLgB+srz6HiWHUURUqqGrGriEiJUvE90i0KJ+EbieOrCRwq7BQoS9sq4EWs0huAnMAlgjAxXLxxrVnj1RBBNfmoAJ+jjxMwbUqA+jcFALMUlTVoFCJ9pyrKJdg59jSdMKSt4ncFf0M2vY4CLPKGUZ8m/FzZ7LH07AmEd71ep8OVy4eWt65uCAINl/6+1n4QD7GmqiA22FRpjrlmw+OIAkIwR7ssZ7yGdqG73chx7PZiPcUIerg6wKp8Vwyut174VUzSR4lU99vM8pJGis8Jehql7+6tbu25etHnfgn8rJ/fF+9IZwXl6SvNYEEdB/YU8=;
+	5:1bGmo/6M1Tshd8jiZpss5VBFINoOxMVUm9Ymgzp7aC3FHAlfbUbLUC+kgb/42ei/blSfw1sOQJ8o8kSm5yy6xPVSM/KGhRNkfsY89haCyk8j9XOuJGRTl8WMKlfZ3oKoPZABxzXfVhyxe2N7fliltXFnmA9oJvuKnPybjPaY5cI=;
+	24:KNI7SB/z1b5WsJwlk9QOm6wLRPNNkVEYLGZmAgDrWAggRKXx5szGK3WCHV6BIE+YqGiR5IXrkLc3l8VSitI2ovJl+cH0l0zDYJhdpw+Kni4=;
+	7:OlLwSd8gvq5KzXQ9olZOutZwIpWXY32B/LPPWwz12tPfjYYLE6KawMTQYEkQHYg97tRjCAK+tXiTI2rVUwEyJm2qXKv4qnfPOb+tzdGeeqOFr0kX0nAnwr7o0hjPU1JiLCZ/W3Kfzo1ucr2ncfo0egQB9qx0vN/urRIGsRqjAlfsbHzvZCuN8Su9uTSu6VI06PMPlFBdsN0zF3EXCT8ngjN9bJsiPAAyZoOCv5h4tWJTSErsyBTG367AYQTBqrQ/
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2018 19:26:19.2335 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7eed66d1-5dbc-4d60-3ddc-08d55929310c
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2018 19:15:35.4979 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bf311bb-edd6-490f-acb1-08d55927b16a
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0101MB2933
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0401MB0974
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2018-01-11_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=1 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
+	scancount=1 engine=8.0.1-1711220000 definitions=main-1801110262
+Subject: [PATCH] recipes-core: move hwclock.sh to util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -126,54 +119,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 19:26:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jan 2018 19:27:03 -0000
+Content-Type: text/plain
 
-On 01/11/2018 09:49 AM, Richard Purdie wrote:
-> On Thu, 2018-01-11 at 13:35 +0200, Alexander Kanavin wrote:
->> On 01/10/2018 09:11 PM, Martin Kelly wrote:
->>>
->>> Yes, to be clear, I'm not griping, as I'm very happy meson landed
->>> in
->>> OE-core, and I'm working on SDK support now. I have an OE-core
->>> thread
->>> going with meson upstream to get the issue fixed.
->>>
->>> To be clear though, I'm not sure it even regressed. AFAICT, it
->>> never
->>> quite worked.
->>>
->>> Where would I add SDK tests for this?
->> meta/lib/oeqa/selftest/cases is the place. Not sure what existing
->> SDK
->> tests are already there.
-> 
-> Actually, no. See:
-> 
-> $ ls meta/lib/oeqa/sdk/cases/
-> buildcpio.py
-> buildgalculator.py
-> buildlzip.py
-> gcc.py
-> perl.py
-> python.py
-> 
-> There is also "sdkext" for the eSDK.
-> 
-> You'd run these with:
-> 
-> INHERIT += "testimage"
-> 
-> and then
-> 
-> bitbake <sdk-target> -c testsdk
-> 
-> Cheers,
-> 
-> Richard
-> 
+* Move the hwclock.sh initscript from the busybox recipe to util-linux.
+  This script is generally useful for distros that get their hwclock
+  implementation from sources other than busybox and we follow debian's
+  example by providing it in util-linux.
 
-Thanks!
+:busybox/*
+* Remove the busybox-hwclock package, as it no longer has a purpose.
+* If busybox is configured to include hwclock, the busybox package will
+  RDEPEND on util-linux-hwclock-init.
+
+:util-linux/*
+* Provide the hwclock.sh script in util-linux-hwclock-init, which can be
+  pulled by any packages that depend on its functionality.
+* util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its
+  initscript.
+
+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+Acked-by: Haris Okanovic <haris.okanovic@ni.com>
+Acked-by: Adrian Ratiu <adrian.ratiu@ni.com>
+Acked-by: Ken Sharp <ken.sharp@ni.com>
+Natinst-ReviewBoard-ID: 214983, 215755
+---
+ meta/recipes-core/busybox/busybox.inc                    | 16 +++++++++-------
+ meta/recipes-core/busybox/busybox_1.27.2.bb              |  1 -
+ meta/recipes-core/util-linux/util-linux.inc              | 14 ++++++++++++--
+ .../{busybox/files => util-linux/util-linux}/hwclock.sh  |  0
+ meta/recipes-core/util-linux/util-linux_2.31.bb          |  1 +
+ 5 files changed, 22 insertions(+), 10 deletions(-)
+ rename meta/recipes-core/{busybox/files => util-linux/util-linux}/hwclock.sh (100%)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 4012f921c6..d9c3c2793b 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -20,19 +20,17 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
+ 
+ EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+ 
+-PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
++PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev"
+ 
+ FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
+ FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
+ FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfdir}/mdev/*"
+ FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
+ FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
+-FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
+ 
+-INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
++INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev"
+ 
+ INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
+-INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
+ INITSCRIPT_NAME_${PN}-mdev = "mdev"
+ INITSCRIPT_PARAMS_${PN}-mdev = "start 04 S ."
+ INITSCRIPT_NAME_${PN}-syslog = "syslog"
+@@ -276,9 +274,6 @@ do_install () {
+ 	if grep "CONFIG_UDHCPD=y" ${B}/.config; then
+ 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
+ 	fi
+-	if grep "CONFIG_HWCLOCK=y" ${B}/.config; then
+-		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+-	fi
+ 	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
+ 		install -d ${D}${sysconfdir}/udhcpc.d
+ 		install -d ${D}${datadir}/udhcpc
+@@ -377,6 +372,13 @@ python do_package_prepend () {
+     else:
+         set_alternative_vars("${sysconfdir}/busybox.links.nosuid", "${base_bindir}/busybox.nosuid")
+         set_alternative_vars("${sysconfdir}/busybox.links.suid", "${base_bindir}/busybox.suid")
++
++    # If busybox is configured to provide a hwclock implementation, add a
++    # package dependency on util-linux-hwclock-init for the
++    # /etc/init.d/hwclock.sh initscript.
++    with open(d.getVar('B', expand=True) + '/.config', 'r') as fp_conf:
++        if 'CONFIG_HWCLOCK=y' in fp_conf.read():
++            d.appendVar('RDEPENDS_busybox', ' util-linux-hwclock-init ')
+ }
+ 
+ pkg_postinst_${PN} () {
+diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
+index 6c1f4888cf..af2abadc5e 100644
+--- a/meta/recipes-core/busybox/busybox_1.27.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
+@@ -8,7 +8,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-udhcpd \
+            file://default.script \
+            file://simple.script \
+-           file://hwclock.sh \
+            file://mount.busybox \
+            file://syslog \
+            file://syslog-startup.conf \
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 248e8bee95..7f86227811 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -19,13 +19,16 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
+                     file://libblkid/COPYING;md5=fb93f01d4361069c5616327705373b16"
+ 
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+-inherit autotools gettext pkgconfig systemd update-alternatives python3-dir bash-completion ptest
++inherit autotools gettext pkgconfig systemd update-alternatives update-rc.d python3-dir bash-completion ptest
+ DEPENDS = "zlib ncurses"
+ DEPENDS_append_class-native = " lzo-native"
+ DEPENDS_append_class-nativesdk = " lzo-native"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+            "
++INITSCRIPT_PACKAGES = "${PN}-hwclock-init"
++
++INITSCRIPT_NAME_${PN}-hwclock-init = "hwclock.sh"
+ 
+ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
+              util-linux-swaponoff util-linux-losetup util-linux-umount \
+@@ -35,7 +38,9 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
+              util-linux-partx util-linux-hwclock util-linux-mountpoint \
+              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit \
+-             util-linux-ionice util-linux-switch-root"
++             util-linux-ionice util-linux-switch-root \
++             util-linux-hwclock-init \
++"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+ PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
+ 
+@@ -89,6 +94,7 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
+ FILES_util-linux-rfkill = "${base_bindir}/rfkill*"
+ FILES_util-linux-partx = "${sbindir}/partx"
+ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
++FILES_util-linux-hwclock-init = "${sysconfdir}/init.d/hwclock.sh"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
+ FILES_util-linux-runuser = "${sbindir}/runuser"
+@@ -193,6 +199,9 @@ do_install () {
+ 		# and thus prevents the operation.
+ 		ln -s su ${D}${sysconfdir}/pam.d/su-l
+ 	fi
++
++	install -d ${D}${sysconfdir}/init.d
++	install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+ }
+ 
+ # nologin causes a conflict with shadow-native
+@@ -300,6 +309,7 @@ python populate_packages_prepend() {
+ }
+ 
+ RDEPENDS_${PN}-bash-completion += "util-linux-lsblk"
++RDEPENDS_${PN}-hwclock += "util-linux-hwclock-init"
+ RDEPENDS_${PN}-ptest = "bash grep coreutils which util-linux-blkid util-linux-fsck btrfs-tools"
+ 
+ do_compile_ptest() {
+diff --git a/meta/recipes-core/busybox/files/hwclock.sh b/meta/recipes-core/util-linux/util-linux/hwclock.sh
+similarity index 100%
+rename from meta/recipes-core/busybox/files/hwclock.sh
+rename to meta/recipes-core/util-linux/util-linux/hwclock.sh
+diff --git a/meta/recipes-core/util-linux/util-linux_2.31.bb b/meta/recipes-core/util-linux/util-linux_2.31.bb
+index a83919b5ac..9d754de719 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.31.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.31.bb
+@@ -7,6 +7,7 @@ OLDHOST = ""
+ OLDHOST_class-native = "file://util-linux-native-qsort.patch"
+ 
+ SRC_URI += "file://configure-sbindir.patch \
++            file://hwclock.sh \
+             file://runuser.pamd \
+             file://runuser-l.pamd \
+             ${OLDHOST} \
+-- 
+2.11.0
+
 
