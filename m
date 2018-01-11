@@ -1,24 +1,31 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F19F787ED
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 90E02787ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 03:09:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0B39NOc017239
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jan 2018 19:09:24 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 10 Jan 2018 19:09:23 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jan 2018 11:07:06 +0800
-Message-ID: <20180111030706.18174-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] systemd: add RDEPENDS on util-linux-getopt
+	Thu, 11 Jan 2018 03:15:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 821CE20B35;
+	Thu, 11 Jan 2018 03:15:59 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Jbw9mHthjQAU; Thu, 11 Jan 2018 03:15:59 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 60CF820481;
+	Thu, 11 Jan 2018 03:15:58 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id CA2C11631FD;
+	Wed, 10 Jan 2018 22:15:57 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jan 2018 22:15:52 -0500
+Message-Id: <1515640552-54778-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] gcc: add flex-native explicit dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 03:09:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jan 2018 03:15:58 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Denys Dmytriyenko <denys@ti.com>
 
-'getopt' is needed by systemd-sysv-install, or it fails with:
-| kdump.service is not a native service, redirecting to systemd-sysv-install.
-| Executing: /lib/systemd/systemd-sysv-install enable kdump
-| /lib/systemd/systemd-sysv-install: line 15: getopt: command not found
+It seems flex is required to build gcc:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+| .../work-shared/gcc-7.2.0-r0/gcc-7.2.0/missing: line 81: flex: command not found
+| WARNING: 'flex' is missing on your system.
+|          You should only need it if you modified a '.l' file.
+|          You may want to install the Fast Lexical Analyzer package:
+|          <http://flex.sourceforge.net/>
+| Makefile:2799: recipe for target 'gengtype-lex.c' failed
+| make[1]: [gengtype-lex.c] Error 127 (ignored)
+
+Normally this is handled indirectly throught binutils-cross dependency
+pulling in flex-native implicitly. For deterministic builds, this should
+be specified explicitly.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/recipes-core/systemd/systemd_234.bb | 2 +-
+ meta/recipes-devtools/gcc/gcc-7.2.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index 4132cdf40f..5a0e4c2247 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -521,7 +521,7 @@ FILES_${PN} = " ${base_bindir}/* \
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
+index 1d40cba..d1fb6de 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
+@@ -10,7 +10,7 @@ BINV = "7.2.0"
  
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-7.2/backport:"
  
--RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV}) util-linux-agetty"
-+RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV}) util-linux-agetty util-linux-getopt"
- RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
- RDEPENDS_${PN} += "volatile-binds update-rc.d"
+-DEPENDS =+ "mpfr gmp libmpc zlib"
++DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
  
+ LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
 -- 
-2.11.0
+2.7.4
 
 
