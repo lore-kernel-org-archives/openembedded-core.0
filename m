@@ -1,32 +1,58 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 29E9F77E9C
+Return-Path: <zboszor@pr.hu>
+X-Greylist: delayed 1356 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 11 Jan 2018 15:56:47 UTC
+Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
+	by mail.openembedded.org (Postfix) with ESMTP id D136E787C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 15:44:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jan 2018 07:44:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,345,1511856000"; 
-   d="scan'208";a="9993728"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 11 Jan 2018 07:44:51 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20180111151834.4169-1-ross.burton@intel.com>
-	<ca739de3-59f6-e215-8ea5-8cbaf785cf18@linux.intel.com>
-	<CAJTo0LbQ3_XRqR=766aptjnT43-cyRfYVE-49OzAw3B3WDRfoA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7c3b43df-a3c0-753b-11a3-12d66d387d28@linux.intel.com>
-Date: Thu, 11 Jan 2018 17:45:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thu, 11 Jan 2018 15:56:47 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1eZers-0004Y0-FN
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Jan 2018 16:34:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9zgcTEuxMRYZRvxKG/apTWLVfODDqNCWYVq7l1I3sUg=;
+	b=DEgfN/+8p3xEZQdoWhgN/uQkss
+	03WcSpBvm1oz6/yJqco4h/RO0bk55oDBpVD4ZcMFNdqB2RhErd6oyux4+vqAnxbFRjVBLysG7Ik60
+	HhhqsU/bSge4eLzDmdKMNKphPa8TXHN1MVYtZYDvbOwbpgtxoOplBaE0FXbEYRKrGtxSeMgNTKG9B
+	biZj/o/+GPEV6mgNgxq90+LI3A4kaGhGj417mqX0QBO9Reogps8RcoVKJuxnA0BFTkLvuT4aGT5RU
+	MYvF8WnTTrhGYXKVrdn8lsDpiAoA6nIprd1u+UCjbwdQgj+I3KGZ214fCD7Q+J1Fo982lgmrjn83Q
+	/Qx/4Rzw==;
+Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
+	helo=s002.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1eZero-0003Nn-PS; Thu, 11 Jan 2018 16:34:10 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jan 2018 16:33:50 +0100
+Message-Id: <20180111153350.25645-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbQ3_XRqR=766aptjnT43-cyRfYVE-49OzAw3B3WDRfoA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image: use du --apparent-size when calculating rootfs size
+X-Spam-Score: 2.3 (++)
+X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
+	is spam.
+	pts rule name              description  (score: __SCORE__ points)
+	---- ----------------------
+	--------------------------------------------------
+	-0.2 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
+	[score: 1.0000]
+	0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+	[score: 1.0000]
+	-1.2 AWL AWL: Adjusted score from AWL reputation of From: address
+	Preview: When downgrading a package or using a substitute with lower
+	version, the way to do it is adding or increasing PE. But it didn't help
+	dependant packages because the shlib records didn't contain PE,
+	only PV. [...]
+X-Scan-Signature: 8f5da0c40d649b22aaae3fc58f517802
+X-Spam-Tracer: backend.mail.pr.hu 2.3 20180111153410Z
+Subject: [PATCH] Record PE value for shlib dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,22 +65,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 15:44:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 11 Jan 2018 15:56:49 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 01/11/2018 05:42 PM, Burton, Ross wrote:
+When downgrading a package or using a substitute with lower version,
+the way to do it is adding or increasing PE. But it didn't help
+dependant packages because the shlib records didn't contain PE, only PV.
 
->     Exactly same patch from Maxin caused failures previously, no?
-> 
-> 
-> Hm, I knew I remembered seeing this before, and found my patches from 
-> 2015, but didn't see the ones from Maxin.  I'll dig the archives again.
+Let's add the PE value into these records for packages where it's set.
 
-http://lists.openembedded.org/pipermail/openembedded-core/2017-November/144748.html
+The in-memory variables storing the versions use the PE:PV notation
+but the on-disk files must use something else because the : character
+is already used as field delimiter in the package.list files storing
+these shlib records. Use # instead in the files, so the file format
+doesn't change. Conversion occurs on reading/writing the package.list
+files.
 
-You're welcome :)
+Signed-off-by: Zoltán Böszörményi <zboszor@pr.hu>
+---
+ meta/classes/package.bbclass | 6 +++++-
+ meta/lib/oe/package.py       | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Alex
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7dc759699f..966c059851 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1686,6 +1686,10 @@ python package_do_shlibs() {
+         if not pkgver:
+             pkgver = ver
+ 
++        pkgpe = d.getVar('PE')
++        if pkgpe:
++            pkgver = pkgpe + ':' + pkgver
++
+         needed[pkg] = []
+         sonames = list()
+         renames = list()
+@@ -1714,7 +1718,7 @@ python package_do_shlibs() {
+                     if old_pkg != pkg:
+                         bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s[0], pkg, pkgver))
+                 bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s[0]))
+-                fd.write(s[0] + ':' + s[1] + ':' + s[2] + '\n')
++                fd.write(s[0] + ':' + s[1] + ':' + s[2].replace(':', '#', 1) + '\n')
+                 if s[0] not in shlib_provider:
+                     shlib_provider[s[0]] = {}
+                 shlib_provider[s[0]][s[1]] = (pkg, pkgver)
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 1e5c3aa8e1..d19fe7312d 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -258,7 +258,7 @@ def read_shlib_providers(d):
+                     s = l.strip().split(":")
+                     if s[0] not in shlib_provider:
+                         shlib_provider[s[0]] = {}
+-                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
++                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2].replace('#', ':', 1))
+     return shlib_provider
+ 
+ 
+-- 
+2.14.3
+
 
