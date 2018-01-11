@@ -1,113 +1,119 @@
 Return-Path: <mkelly@xevo.com>
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
-	(mail-co1nam03on0041.outbound.protection.outlook.com [104.47.40.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A017872E
+X-Greylist: delayed 91828 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 11 Jan 2018 19:26:18 UTC
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+	(mail-by2nam01on0066.outbound.protection.outlook.com [104.47.34.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E541E600EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 19:22:07 +0000 (UTC)
+	Thu, 11 Jan 2018 19:26:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=2kB/NGZBDgBs33feQCwtSKqgnMkIi43S8oRK0n/CMM8=;
-	b=NqgBBlojLcYVMnLNa6vBp7CJtzo2Q5DC4/cezKIDRc9/ZHd+IQgXeNLBNz1LePul7O6LL8hOyKUcIwhrGsYkFaVflg283bANG4IxPSpyGD/EWr1nnW06+8p6S6/D6zDwWMHd8l38oZ9oyqHPzYmsA05m9dcont+YAS8S7ESeAHk=
+	bh=AOICmEhoFztINEx+4krRKzpVnFo+bSAEDekNR2ykIeg=;
+	b=eSNe8NscqiLzZ+ZwHrIUM2WK9qA1nhtyxGC4UbOr2AXAp9bCEiaEHgz3ORG6dwVqmsdfjujZIRvcPk+gxFFbowiEJNKX5gZvjYqHLknot7Kyg8LPdbBtRkUtHRWcTP8H/rvRxxGRN9WlVXnL/z9WbJmJ6AvhQosOzY78O8w1eRY=
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=mkelly@xevo.com; 
 Received: from [10.201.1.39] (65.122.179.226) by
-	BN6PR0101MB2931.prod.exchangelabs.com (10.174.87.140) with Microsoft
+	CY4PR0101MB2933.prod.exchangelabs.com (10.171.223.138) with Microsoft
 	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.386.5; Thu, 11 Jan 2018 19:22:07 +0000
+	15.20.386.5; Thu, 11 Jan 2018 19:26:19 +0000
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
+	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
+	<0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
+	<64c07649-f0df-9acc-fbf3-e8f6a52db9f1@xevo.com>
+	<1515610131.29722.112.camel@linuxfoundation.org>
+	<9a261bf7-62c9-2aa9-9fa2-d27bb6ff7653@xevo.com>
+	<83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
+	<1515692956.29722.122.camel@linuxfoundation.org>
 From: Martin Kelly <mkelly@xevo.com>
-To: Jussi Pakkanen <jpakkane@gmail.com>
-References: <2ce0ac68-4ef4-41f5-c931-81990ecd1d03@xevo.com>
-	<CADqQcK4-=Q3mvKJfhjHbJEUYeTiGq3c7dCAR3E=w+ktr+_7RyA@mail.gmail.com>
-	<e3dda70b-e6b2-bb18-2fe0-807b5c4fed48@xevo.com>
-	<CAAjYPQ=u2U3f6DrL1KP-RkftD8P3nbASf1YUeeL0PFP6vY=hzQ@mail.gmail.com>
-	<0ca64688-6a1d-0415-537f-bf59fb8dd2a6@xevo.com>
-Message-ID: <aa0ec366-dcd4-bac2-418a-acb0f9a06709@xevo.com>
-Date: Thu, 11 Jan 2018 11:22:00 -0800
+Message-ID: <a379308d-1f84-a033-98ed-175da915f315@xevo.com>
+Date: Thu, 11 Jan 2018 11:26:13 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.5.2
 MIME-Version: 1.0
-In-Reply-To: <0ca64688-6a1d-0415-537f-bf59fb8dd2a6@xevo.com>
+In-Reply-To: <1515692956.29722.122.camel@linuxfoundation.org>
 X-Originating-IP: [65.122.179.226]
-X-ClientProxiedBy: DM5PR20CA0019.namprd20.prod.outlook.com (10.173.136.157) To
-	BN6PR0101MB2931.prod.exchangelabs.com (10.174.87.140)
+X-ClientProxiedBy: CY4PR20CA0014.namprd20.prod.outlook.com (10.173.116.152) To
+	CY4PR0101MB2933.prod.exchangelabs.com (10.171.223.138)
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: be1412ff-8ed3-4629-3b4d-08d559289b29
+X-MS-Office365-Filtering-Correlation-Id: 7eed66d1-5dbc-4d60-3ddc-08d55929310c
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(7020070)(4652020)(5600026)(4604075)(2017052603307)(7153060)(7193020);
-	SRVR:BN6PR0101MB2931; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2931;
-	3:t8/b0AapGELod3lGESoTKrUSVVI6/raJEz7JJiv7cfxR5fs81VnSpQJ6sgm2yU4TWFYYHPTG1d3FfKUC23ePtC72amHhqoiEg9ixg1AUOg33/qgZcgjndHo2SecyBF3aCQ4dhkcOa6OJzaZpBPnWfq31MBg6ud6/WPPr8BjDi3El94jzx3D99fzKxcz6kVsOSlK/csCgsqqDHxMElRbzg+cexUJYX+CuwQrotfUcUmHuX6QfZJBDa1K7MG3H55yw;
-	25:a1P8a/r6PJFhJsPfEFilL9xjlycrZomopzxMEkhMJB7F8UW9H8EZAtLx2P2Qy1NQoL9NriVFs9S8OQN6AT1mpsLXF1kGqiU/HrTtFW6auq6ums4zMA+E0EB1CezJG40+FIG4czRZu96FGXAgIw+u7tjDxJ3xNYIAOg3SPDY6fIYFRCTrhcXjjOpIpK3PT3jXY+aOqRRuLgOaFMQsIkMy50LZFqOhIk60e4UX18HmPuKxz41z+8BKI5KaGndIyKFmrL7jXYZVEdGcwapmJohYPYArdki5LNGJYCHDHTB4IjzO4p9kAnU8c+q2SZfGb4Fp0KjjtqvxGS/6jwitCzN8XQ==;
-	31:pu6XFJj+LGbseLZNF4Ju+KBQTf9AxWfPKpEjuO0XeUABz76ZJ+Rt1Eo7Pw57WtOy3Ljn05zpFIrgvBJ3vv8emWzj+Keia2Kmsu0sigNsa2pN0dW3cJUNZ7SDPTxJYMi0Xj9UmlR7UVxIW/DK+Wq+/qloLINplIbTL3sRq0jby3wNId08ni++A/Ccmo1U/0SVj94jmQWwYk8cPuZBsuzryCuo/QI7KejKr1g+SqvtoZo=
-X-MS-TrafficTypeDiagnostic: BN6PR0101MB2931:
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2931;
-	20:JhecJhDMOwj4MD6LVYeRvLGSfdruMd42k2moH36hcCkLPgvzkET9qoG+RPVr35/gADh7A0zBIETSmYIIa2nkuk3waaUot6b3YNFu7KtbgMl7hDmFeIuJFiG3PEcmxF1TvjPoZdSAPOJuPxf6Zc9dsg2WHfQ7udYtHUPVB57R5WpHFABZb/34WBhvfsXAQhRfb25CTGLQIZhEcdedJ0xLekSUu+wsxOc49zXK1oxrrXEi1wrEmfEdf+ORQR3i3Fh9L+/urhw5CZV3oJCCzO/UME6Zf5yxdqhnpzjEBrpY27pSPY8RvTyX6ylxbc5B4cViQXfYr8joXFjOn4s8etlMCmGksU3iMLdoHlby35IDKrkqPrLcBNJxIOwyquLN8k6p75qcANEZq+3Oy7411Yp+cfNq4R1AB5p/B5uHqsrvzfA=;
-	4:SjdofB1uLeMqtpDZxanaNF1NUA/wL3Fyln96Ch9V8nB7akolY5svAVV62C+iTiW/pHu4nYWSUoX4S4OCJU591tIa5+3nRs2lDVPuAfDkvBcn6wn/Mo5w0gkH54ClMkkmABjtZbW7ZJ2rDSrolLjw5RZCzeqUobYZdYB9FaGe916P6clefYnbgC3yLobxfOWncL6EHTgh/2XIKkUX4BBLngLRAubjGoTqhA9hUlCRN+JXCW7gPDh0dzD332Dd0vt/b8DzA7w7R6scEpAxIGejJQ==
-X-Microsoft-Antispam-PRVS: <BN6PR0101MB2931E73B10B62F07B8912B1AAB160@BN6PR0101MB2931.prod.exchangelabs.com>
+	SRVR:CY4PR0101MB2933; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
+	3:eP5gjbTZ0QbNGIkdyohOfQU49uNhsJgvmPcFZOmEVmGbCnrW6tbCgUQqKGUrzPk1um3D8g07N/zinn8LCKAlugcThPGDDtpZekRWi7trxgrdVllhF4/0jAB//1N5iRoCxC6ttuDPhjB6DB18oI1J4+IEtWrFoaDiVxm8gv5hnlCyQOhXUI3AeUBqufgru3E7qn9i2Nqqhp7ugs+lrLf59/Q9DnsNuHzerI1c5iYGRj3m22wu4mJmd75v912aMRRG;
+	25:ta7ekd/Qv2cXTHYDb/R2hQBFOGEjJ7Fn2AXcrzQ21eBtK1fPbRjI8V2uPNo2HI+rByCvMB2Kk3PzQj6oaTsktxouYbOcmv4XpFJ0m3UHIKK2iG3bZ5jvq2c+FlrcOIDDG1V1o2zSABjV4n0EYee/a3yMx1YFLx9B0oanm+mSoS6BSmIpUyoEygKSXqIxnrTMiMGh7Lymab64UdEcwV0nvgmSLA9xewbmu7JLuwNmmSbMmu+7e4VYJC28HiPynLoKEDqX3bmzCuLac5pmEmZFPZF0EjgYT5SdzaRJznDYdnlT5FRRTWlRQcamQJtbBFOQnyy290VtgLNk3ITCbjPCSw==;
+	31:XQYkRkkEJVAVcQfkC79xBeuOCVo031bEjEuDreDBhopPNH73cw+tzViuN3S+v6Y3mkEdQIz77LYw3GTAWUuGJjWrycqFZrb2t3zN39svWks9JdMr2qMAd+bK7ZWHD1rAVIJFFDJOn5egF5rY52zZ3slX1WVVnBHeE3ylfbk9b4CQn7A0130u8vKlrSEsy9jt8gocvu7a1RU3fIBTcAGD4xHR/VmG1swkofQw8mN5VYA=
+X-MS-TrafficTypeDiagnostic: CY4PR0101MB2933:
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
+	20:uX/pd/jDKZ12J6EFn+vTsYuBZhXomgmlvbbpeGB9nIr2eZ5Ixy2pLLKhorv15o3czlQxIUpdv4InKpter1OkxdmUvw6eWCoQACcM1iw4SmoHPeB3uudqEhwUjpi6iv1rVgdgAig5Er9Stbr5RYnIG899sA7WtI2QVCVLnp1kPsE7G8Vm4vLeMGioOE0wCpq8gUI6ExAcyMjLjCGpfiWvRQXsPPGqnHMJoIUTiG7sa3ic/gtsBY6AjEsZaJOg7UQQaJTK//CYA1ejfamDPXcQwcCPwUHNEMGKn0L6leGuY10ceMb79lDZ64pLrGBp1UNcIs8jlHPBBC4W3igx0xqQx2W21GD9U76lb11JXFhN0rDSVgQYC0+3BVRzxJ4TLj3YKCCzkaGKq1n42Tqh7N7PE8qZw4xngW86mO+CwUiBLtU=;
+	4:n7t8WYub3Jpd0AL+s1ul8hel3QgXLyrZNOo/Y0qr+Xaq3f+lHOcw8vFygADJja5FwiC7Vi1s8wMGYqZnGHn2Z4VRWrY0qLYEHlLTgZBGwUWjEg7q06myU61vqYHvFlQDAsYIg+U2TKlNbr14s9HUMs044l8T04waKL5wCkRLxIXjDf0HkiZvw9pmN2Tyvk414m4QUdXp8mHlF1tvewqjDX9qdO0RCnhBNA/wzTXkz+sXrnmwpOq5J2Bopanp8U2Wj5+irJRBLEf59zvwHdrKjQ==
+X-Microsoft-Antispam-PRVS: <CY4PR0101MB2933E63049FF3F1852079BECAB160@CY4PR0101MB2933.prod.exchangelabs.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040470)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(93001095)(3231023)(944501134)(6041268)(20161123562045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123558120)(6072148)(201708071742011);
-	SRVR:BN6PR0101MB2931; BCL:0; PCL:0;
-	RULEID:(100000803101)(100110400095); SRVR:BN6PR0101MB2931; 
+	RULEID:(6040470)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231023)(944501134)(3002001)(6041268)(20161123562045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123558120)(6072148)(201708071742011);
+	SRVR:CY4PR0101MB2933; BCL:0; PCL:0;
+	RULEID:(100000803101)(100110400095); SRVR:CY4PR0101MB2933; 
 X-Forefront-PRVS: 0549E6FD50
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(6049001)(346002)(366004)(396003)(39380400002)(39840400004)(376002)(24454002)(199004)(189003)(16526018)(31686004)(67846002)(52116002)(4326008)(25786009)(39060400002)(6666003)(6916009)(52146003)(65826007)(106356001)(23676004)(50466002)(8676002)(86362001)(53936002)(76176011)(81156014)(2486003)(31696002)(6486002)(386003)(305945005)(105586002)(1411001)(64126003)(68736007)(77096006)(2950100002)(6246003)(47776003)(53546011)(230700001)(478600001)(7736002)(3846002)(90366009)(2906002)(8936002)(316002)(229853002)(93886005)(66066001)(65806001)(6116002)(16576012)(58126008)(83506002)(97736004)(54906003)(5660300001)(65956001)(81166006)(36756003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR0101MB2931; H:[10.201.1.39];
+	SFS:(10009020)(6049001)(376002)(366004)(39380400002)(396003)(346002)(39840400004)(377424004)(199004)(189003)(24454002)(31696002)(478600001)(76176011)(83506002)(77096006)(6486002)(2486003)(67846002)(52146003)(229853002)(23676004)(5660300001)(90366009)(65806001)(106356001)(81156014)(81166006)(386003)(2906002)(8936002)(52116002)(230700001)(4326008)(53546011)(64126003)(65956001)(8676002)(66066001)(6246003)(16526018)(305945005)(3846002)(31686004)(93886005)(50466002)(97736004)(6116002)(47776003)(316002)(86362001)(68736007)(2950100002)(65826007)(36756003)(105586002)(53936002)(7736002)(25786009)(58126008)(16576012)(6666003)(110136005);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR0101MB2933; H:[10.201.1.39];
 	FPR:; SPF:None; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
 Received-SPF: None (protection.outlook.com: xevo.com does not designate
 	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTjZQUjAxMDFNQjI5MzE7MjM6aE1Ja0pKOU5JbjlPNk95Q0o2blZWaFNm?=
-	=?utf-8?B?eXMvSVptZjF2cU5qYjBvMDV1b2R6blhXQ2UvMzI2Sm5EMU9oaUJOZU12bUxP?=
-	=?utf-8?B?aXo3VExnbmVPWVJ5Sk9FLytlYm1mVlNiZW9HcWlTV0tZZjJ2Z1Z4cFdYSFor?=
-	=?utf-8?B?ejB6eHZqanppK3lSUzhPdWVoZDZXc1JzMGFJWkJWYWwzMDZVeW9RWk53MXNh?=
-	=?utf-8?B?WmtOV09jeGFTOFIvMjBjVlJ0TUgzSlVNNlBjT2dwdlp4Q2IrQnIxTXVaY0ZW?=
-	=?utf-8?B?b2RUM1FMOTRIbkEzT1AvRjdnMWNGc3hubXRMNmhvREZBbnpJYUlCS2U0Tjc2?=
-	=?utf-8?B?NEpQbGVrY20xTmc5Y2diSHRlMFpZeHRiZnBvTGlFSkI5RG9QUDVTWkRwSHJs?=
-	=?utf-8?B?Rk9mVFdwcmV5NHBDV3A0amt1RWdhYWs4VHlacXUzQ3MrTnNldUFCbmpDTFlR?=
-	=?utf-8?B?RVhKS0RjVnNjWkZodlBTNFozajE1WHZCYm93T2toVFZRS29ndnp1bkovSHRM?=
-	=?utf-8?B?SnNTT3UyVzFVTGNqeVlEelpBK0RIdW9sNTdaMlg1YnB0ZlY2cFNYTkNvaklo?=
-	=?utf-8?B?bG1OMnZvRFVaM2tNRTRjUDRRTmZxYkR1bllBVzI5TlExenBoSUk0cjZpZElS?=
-	=?utf-8?B?SmlVUm96TGxGS25rMjJLc09EcE8zM0JWMHNWUUFXY3NNYm5LMHEyZjBTK2tk?=
-	=?utf-8?B?cWVhV1ZEbEh6Y1RxOU9lUUYvVmRaSHlQelZFSGwxbVBZenhMcS9ER2k5aGhw?=
-	=?utf-8?B?VS9DdkpEb0pCcXNXWHVpd2FIWE9pWUYzOWR2dVpFYTdnbHBPbUdxOWRMcWtY?=
-	=?utf-8?B?dngxUmNwYWJuamlkalcvTkh2MTlwVWJtTTZHOVp6VlhxdnBmYjJYUUJiRG5o?=
-	=?utf-8?B?V2pCckZkYlBCeVJ3UmlIb2xvWDJPK1ZIYkc2TndGRTdDVmpFVjZwZTkvNmhm?=
-	=?utf-8?B?d0llZ2xrNVNYRHdrT2JXa1JlUlZZZDBLaERFaE45VWRXWFRxWFNzRzlkZysy?=
-	=?utf-8?B?QjJmZDNzek03VjczVXJZQlVqT3kzSVRFME44dEo1WUVFMnFZSWpMNCt6N1g0?=
-	=?utf-8?B?dmpUVUJZN3hIN3BGQ3dIWnhPTWJOS1Q4OUVSY3cxZlFjcVpZZEd0RHpxVndR?=
-	=?utf-8?B?eTBXOXdzc1VXYVlTSEFhcTdnWUVsR3Z3QTBaamMzbUM4eUlkVnBtcXBrWVNN?=
-	=?utf-8?B?V0R1cis1emM3T042MDVQNXZlaFZ4VWYvblNFQ1ZEcmZOQVpLdUl2eFEyN2ZV?=
-	=?utf-8?B?cTI0d0JUMUNuRHJVOUVmTjNqNXRMMEVxbk1XWDFsTHRkZHVQamJubEEyK1A1?=
-	=?utf-8?B?Y1laUko2UVVzVE9WMERXVTI3RTREYVBnOFM3dDNDT3FuVEhGQnhIeEJXQUdx?=
-	=?utf-8?B?c0lQMDJBV3c1SzFuWENwUzhWM1gzWHpQdGdUVVFvc3d5Y05lT0ZpYXVNaUpr?=
-	=?utf-8?B?VkpBQ2NMakRXcVBreFB2ZFNkTjZtUkdSa2duYTJ1NGtJQlBERFQySTBsRWlS?=
-	=?utf-8?B?SmRaZXN2UmtrQ282UExsNzMyOHFOOHhXcHJvcElvTXUwTDFzcGFIdm1JamVE?=
-	=?utf-8?B?QVA4ODBvbkpFSWVqcjdpZ2xQakludmhFcDNRQTlnQU10TFdoWUcrOUhtNEpW?=
-	=?utf-8?B?cHdXU29TYlB0SUQraEZJT2N4aENvaFFzcklYMUQ2elhrQ0FTUnp2c0RBSCtN?=
-	=?utf-8?B?VlUyNWY2aWlpQVpHM1BvMnJqSzhiMTVnbUlaZDNnSGw3dm9GUi9iaDZQbEg5?=
-	=?utf-8?B?WFVWTy9MQzUrVlNwbTAwYzd4RjM2M052MUU0RHBqb21GVmE0RVpId0tUaWpQ?=
-	=?utf-8?B?aWlHM0p2ZjJGdW53WEt0QmY1YW4wUnMzY3J5b2Q5T3NLdFk4VVNBVVNnSnQ1?=
-	=?utf-8?B?YU9jbUVidllBS1Q1Mlh0TzNCRk9LVklxRnBPc0FHd0RLUW9zaXNLMHd2UGtQ?=
-	=?utf-8?B?UGxyWDVrWXNSUVJDWlZ0NE40TzNDR3IzRGVhWitrQVJLRHFidmJ1OGcrektW?=
-	=?utf-8?B?bUlNUnVKQjd3dVR4S0FGU0ZDQjJSUE1VZ2h2UDVBPT0=?=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2931;
-	6:9vDyGloo0mvoMt12u66dBeZyWXfMFQE1ka5eWcyqp3eCp7oOlkpZ2dVTYQPOBrLkQ654yrJK39VCb4j4E2fC6htmyMRh6ma07fR9f5ciJWrd9MqGEd1V3yJOGfyg09WQ/YbjfCDjBPp+vEtwDt67Y9NYkyoaY+852szicyylnVGvBCPs4qAVKHE0r+DTwx+Qqovd+hrE9hV2N9Ir0CK8F0If0Sr9fUQqVGDgOfHI8t6DLjwN0QGcnr3adnBk8OKVwp5lSaZp108K3T3PAUOtpFnonXawXlmYa5DFQQ9TtLiQjO384qS5oo0v+7t2e7cuQA5bVXG0ZNnyAOcPK9fNMnLK3+0bJsslRMwDlO8A+Pk=;
-	5:W6wBxEuoxIM5SNsmjT7yfHsgh5V3y8KKA9ZJhFn0hvUlrCE6t5ylHz4CdVSvUo97y4k/XNOiCjGjxu2FsFjNpXvkSKzV5Vz4BmgPSaY7Nq05MJK8VpqD7Efy5jfAzjjDijLNGOsboxQ9jA58xrLw4Ro8t48xnrlKQ0gSirXnK1E=;
-	24:CQuC2XyXYOzlVhcO94jQppmxwYlGKbB6lY9W9tXHzMpdDkyNvkseVLbNa4mEv7vy7/lpSgX9BsFNrmWrussYRQT2dHpOpF0FHAA8SFkTILE=;
-	7:OJZvSV4HoiPYonE3qPyBPwAvEG4ZYAJltYhw+l7NIGlQPKhNiPBIhWRVMga59EJrRnlhX9VOlOzijBQ/ts3ab9fijDrGJUFnIecSozcfpf87gbLjCrW9jxgBBOkyBG7FMcL+oLRJAIqnzAxe9Zh079ZzU2Ly5Ht8WR0oTxMuW09nWSC0hBXJjvliq8PgSfx2g86RqPnbntwgPoXnNRgiweOGw/Chtk+Eq8ymVstn1OOC9yC/IYFzuVyclIAVzFhO
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTRQUjAxMDFNQjI5MzM7MjM6d2ZNbXBwSm5WcHg4YVd1d0R6cUFvdjVu?=
+	=?utf-8?B?RVhhbno2b3hSM0xXVm5zY0JYOUZhZ0tEWjNSclFMRUpZb2hzUTNrOVRzZXJm?=
+	=?utf-8?B?UUdqSDZyRWtuZVJhcXg5cVB3LzNMclI5M1Qyby9xLy9hZGNWeDdLRGt3ZFpB?=
+	=?utf-8?B?Q0l3c1lLOFNPNnZCYUFnc0FvNzZTa1RPazFPUG5sSUQwbG9nZWRWY2Z4TWo4?=
+	=?utf-8?B?WVcreGdKSjE0dW5wa2ZWa0lXM01BS3BURXBIMVAzeUl0Rm8waGswQzZSMW9O?=
+	=?utf-8?B?SVZRL05CRWhBVFU2dmVRa3Bzb3l4cXVSclNTejVjaUhDR3NJelpzeXRweGU4?=
+	=?utf-8?B?cSt0clZpbDREaE5GeXFaY0dRR3ZmNXlTY0tDcHpWd0FpS1NTTG9QRWxrWkJU?=
+	=?utf-8?B?OVhkQkRJc0JaeXlURzNldlRYSWI0aXpPYituU3N6MXIrT3pjUUx4cktSVDJK?=
+	=?utf-8?B?N0dPQWJpL013bUxJc002NW5KZ0djSXhoWTlCZXhFcXZEUzh6M2Y1blA1ZEpV?=
+	=?utf-8?B?eUQ5bVlENW9oMEtyejFWaTdLY0d2UUZka2tTRlUzRWlaa3BDY1RzL2UrVXE3?=
+	=?utf-8?B?UFlTN2hqcm5NYjlsbGFnVlB3VmFPNFQvcTl5bWhRMmp2Sks3a3NvWHp1dDBx?=
+	=?utf-8?B?d25Ud1JPTW52TzZsWnkzOHVuTFRjY3IvVzc2WC9CK2FoVFBDbGFVUVliaTl5?=
+	=?utf-8?B?WFBpei9HMGphZmo2STBUeXJSQTlIWFV3d0dQLzhqOGNwWGpzN2dua01QcFZ4?=
+	=?utf-8?B?cG9OTytoNHFoYUVCTXM3bTBBbmZma2loRFF1U0cxVmlSM1RSOTh6MGMvbzR1?=
+	=?utf-8?B?bDlyMnFpUHhGajZadmFXWHhFNXFVYlNGNUExbXZZcFdsQ0FRdzk3dVhMQTk0?=
+	=?utf-8?B?bmNTeXZ0YVhjZEg4Y08ydTBNbG92bGRVemdiUmxoUTcyS1RsSVlpclp2cjNr?=
+	=?utf-8?B?ZUJiaWczVzd1ZC9uK1VldTUwLzlNSjNxRlZYbEgzT2FML2Ywd2dHdFFuQnhC?=
+	=?utf-8?B?ellEWk5LL2NWd3M4KzdvMUYrSlM1amROVHVtVzJvUXE2aTRGSzlqb0NkR01q?=
+	=?utf-8?B?LzBVUnp4NXl4TnFtNnpudnlnZTJhNU1MMDhiczZuRWIvVXl3UTZmeDhCT05p?=
+	=?utf-8?B?LzRycG8yQVFrNndhdWhoelAvUWRKOUhhdEdrVXp5TytLUzRmN2VVY2dPK05Y?=
+	=?utf-8?B?a2M5SDVZRW5sVWt6TTdRRVkzVTlteEFhWldLR1Qwa1Joa1k2NHpkMEszR2tz?=
+	=?utf-8?B?NDA0YnZKb3NLd0J2OHhjaFNobFNZd2Y0cWxEUnA5b2hCVGF0TFRMdlMxNmVM?=
+	=?utf-8?B?bThTbUR3dmlmNzBJcHdmdk5VK0hlOTQ0YkFyNDFIMkZEbHZTU00zdE14bFhJ?=
+	=?utf-8?B?VU9MS3hHdmFDanZZMEsvKzlCQUU3dWFDT1QwdVQ5UFY0QmJhY3FkSUVqeUVv?=
+	=?utf-8?B?L2piV0dvTjhPcXRkWk85V2d5RDQ5NWtYVzV0bklDTzhPUndDdkVtZzhFT0Yy?=
+	=?utf-8?B?MmdQRmFpYkpVUWdqSGs2U29uSkQ5VnZ1QUZXZ09UNjJsc3YzQzE5ZU9TcVpX?=
+	=?utf-8?B?ZjVSWmxyV25uKzhGZDNkTU9DNzBrREh4OGl5NUdKL0w2RVhUeE0xZFhkRHNK?=
+	=?utf-8?B?Viszd2orbG9aeUZXbVhIU1JhTjRFb01LRkVLSmZTSDE3YnNDb0ZvMWdsTTNJ?=
+	=?utf-8?B?OGVtN2dpOVdHTTk1Q1YzM2hGcTNJQTJuUEo0bmhISmFiSzZ3SkhBTjJtc1k2?=
+	=?utf-8?B?QkU2VEcvOXZOMkVLMlpMbG5vajZSam5ZT3hEcGowNmYvRjRJQ3ZucmJMK2pQ?=
+	=?utf-8?B?TWIyb3VJSlBvdU8veVppSTM0aDdVdTNyQ1cvUHRvU3dqaUdUM2RUTklRNUJl?=
+	=?utf-8?B?QU9HRVNHVFdsMkdjZjU4TXdrWVBjR3FDYmlITFJZZUxiZmVpRWtVdTQxc0RB?=
+	=?utf-8?Q?X/LIRklIWKY93JE9mjI01/UGHoo9sPV8=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2933;
+	6:mIrzkj2ddJRgIAQVZVxeNmyyKA25PH8L1ao9qZ54wNt6x2ZNum4z4Pw0kLgs/W/ljhYRIlZiFBAbm/ExVx3Fnbn+8463/IzpxR2/9+87ljoAKUz0+eTmjgDA9feXRNRGSQH+7gbgw/pz/5MAX0BwYdsdL4MqIqLzNF6pQa41UaiXVSEKevSsmvIOjs+oxmbwb1U7ZTRYpN35NaHCYaNm508nwNmRfLFaz7C793mZoEkacopINU4BAFhITVeQUlfJMBX0xx3LBpSpG0tqA3JTUtMjKrs0WbbhHbKPeIBD5ZM1eAI69Tka+4GzNiSiNmGcofgGBMSk/Un7l3jvVmTVRbOhjzlNj4XHhznwLe8oeqY=;
+	5:XwxtFE4LofIcHOGVPylxXDgSwX3j1wdxxYiqKm2d/BWq1ZCTIPChy+1L1cXNzt/l+fs+aoqEmaE0C+6eQLEVDp5mpISJIkmgVye2mZhr0SKs41y6kNa36iaRx9llt66+iw8HC0yM93s/LWNWKvLJoF4b2eCa/qbj0sx0+hzRyRk=;
+	24:BHFYyuBoQHyyzcIsAX06QBZTWmGmza07Thokx151m4qYKg1lLROGLVHszMfxyYWmnipgtdAKk/HwjBxaEeptpmwWX0iltDahM182IA9onR0=;
+	7:z0K/QEFBbXNtGtA+2/unxIJzqLMI+DnnDlXq2riS9FwqTQo105d/SJThnKkOYFiaV4CNl/tYImoWc1LEYoB8o293+4PA4tYD6/clsDbUztMdiIcN/0TG75Y4lii9/ox8q8yLF/3rh7Rvcy9dmNeiuy1q4JqSr3XGQJPbzrM6FSe7pnDavr5fkONfvtpJlrhtg2OIByZvtMS7Dzpz+eKn1Fwvf6Vw2N/n+BZIhTElEJmBO8Q0I1sDQfIimx3lHXF2
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2018 19:22:07.2497 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: be1412ff-8ed3-4629-3b4d-08d559289b29
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2018 19:26:19.2335 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eed66d1-5dbc-4d60-3ddc-08d55929310c
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR0101MB2931
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with meson in SDK with cross-file
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0101MB2933
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -120,82 +126,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 19:22:09 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 19:26:19 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Khem and Alexander, could you comment on which solution is preferable 
-from an SDK standpoint? Otherwise, could you nominate someone else to do 
-so in your place? :)
-
-Here are the possible solutions proposed:
-
-- Generate meson.cross toolchain file at SDK extraction time.
-- Wrap meson with a shell script that dynamically generates a toolchain 
-file and then runs meson pointing to it.
-- Change meson to support pulling in env vars in meson.cross, and use a 
-fixed meson.cross file that references the env vars.
-
-On 01/09/2018 12:33 PM, Martin Kelly wrote:
-> On 01/09/2018 10:40 AM, Jussi Pakkanen wrote:
->> On Tue, Jan 9, 2018 at 8:20 PM, Martin Kelly <mkelly@xevo.com> wrote:
->>
->>> Note the "native C compiler" line, which directly uses $CC.
+On 01/11/2018 09:49 AM, Richard Purdie wrote:
+> On Thu, 2018-01-11 at 13:35 +0200, Alexander Kanavin wrote:
+>> On 01/10/2018 09:11 PM, Martin Kelly wrote:
 >>>
->>> I'm not sure if this is correct, but an easy way to fix the issue is to
->>> ignore $CC for internal sanity checking when a cross file is 
->>> specified. In
->>> that way, meson would probe the system and use the normal gcc for sanity
->>> checking while still using the cross file for the actual build.
->>
->> That breaks the whole reason the sanity check is there in the first
->> place. Its point is to test "is the native compiler the user has
->> specified working and capable of creating executables". If we change
->> it then that becomes "is the system default compiler (which we might
->> or might not use) working". We need to be able to support the case of
->> users defining both the cross compiler and the native compiler. So
->> something like this:
->>
->> CC=/some/native/cc meson --cross-file=mycross.txt <other options>
->>
+>>> Yes, to be clear, I'm not griping, as I'm very happy meson landed
+>>> in
+>>> OE-core, and I'm working on SDK support now. I have an OE-core
+>>> thread
+>>> going with meson upstream to get the issue fixed.
+>>>
+>>> To be clear though, I'm not sure it even regressed. AFAICT, it
+>>> never
+>>> quite worked.
+>>>
+>>> Where would I add SDK tests for this?
+>> meta/lib/oeqa/selftest/cases is the place. Not sure what existing
+>> SDK
+>> tests are already there.
 > 
-> Yeah, that makes sense. The issue here is that the OE SDK sets CC, CXX 
-> etc to point to the cross compiler, not to the native compiler, so when 
-> meson assumes it's native, things will break. I think we need a way to 
-> specify both cross and host compilers separately from the env vars. For 
-> example, if the binaries section were split in two: "host-binaries" and 
-> "target-binaries", then in the cross-file case, meson could use 
-> "host-binaries" instead of looking at CC and other vars.
+> Actually, no. See:
 > 
->>> Right now, the SDK contains fixed contents, and there is some 
->>> top-level logic
->>> for rewriting a few paths to make everything relocatable. I don't 
->>> think OE
->>> wants to inject a special-case one-time generation of the toolchain 
->>> file at SDK
->>> extraction time, as it circumvents the normal build process,
->>
->> Would it not be possible to generate the cross file when creating the
->> SDK contents originally? The only change it would need is the same
->> kind of path fixing. The setup does not really change.
->>
+> $ ls meta/lib/oeqa/sdk/cases/
+> buildcpio.py
+> buildgalculator.py
+> buildlzip.py
+> gcc.py
+> perl.py
+> python.py
 > 
-> I think it would be possible, but I'm guessing it would require some 
-> special-casing that we may not want to do. Khem probably has a better 
-> informed opinion on this than I.
+> There is also "sdkext" for the eSDK.
 > 
->>> Another approach would be to generate the toolchain file truly 
->>> "on-the-fly",
->>> such that the meson command points to a script that first generates a
->>> toolchain file based on the contents of CC, CXX, etc. and then runs 
->>> meson. I
->>> think this is a bad idea because it is complex (will definitely surprise
->>> people) and slow. It also breaks people in surprising ways when they
->>> accidentally use a meson from outside the SDK due to the PATH setup.
->>
->> This is, roughly, what Debian does currently.
->>
+> You'd run these with:
 > 
-> That's too bad :).
+> INHERIT += "testimage"
+> 
+> and then
+> 
+> bitbake <sdk-target> -c testsdk
+> 
+> Cheers,
+> 
+> Richard
+> 
+
+Thanks!
 
