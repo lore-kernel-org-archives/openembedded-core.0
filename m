@@ -1,27 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DB2C2787B5
+	by mail.openembedded.org (Postfix) with ESMTP id 27F9478830
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 17:26:53 +0000 (UTC)
+	Thu, 11 Jan 2018 17:49:24 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0BHQ40W006348
+	w0BHnG5k007842
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 11 Jan 2018 17:26:05 GMT
-Message-ID: <1515691564.29722.120.camel@linuxfoundation.org>
+	verify=NOT); Thu, 11 Jan 2018 17:49:17 GMT
+Message-ID: <1515692956.29722.122.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Thu, 11 Jan 2018 17:26:04 +0000
-In-Reply-To: <20180111150207.GJ9657@denix.org>
-References: <1515640552-54778-1-git-send-email-denis@denix.org>
-	<1515681675.29722.118.camel@linuxfoundation.org>
-	<20180111150207.GJ9657@denix.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Martin Kelly
+	<mkelly@xevo.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jan 2018 17:49:16 +0000
+In-Reply-To: <83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
+References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
+	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
+	<0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
+	<64c07649-f0df-9acc-fbf3-e8f6a52db9f1@xevo.com>
+	<1515610131.29722.112.camel@linuxfoundation.org>
+	<9a261bf7-62c9-2aa9-9fa2-d27bb6ff7653@xevo.com>
+	<83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc: add flex-native explicit dependency
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 17:26:54 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 17:49:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2018-01-11 at 10:02 -0500, Denys Dmytriyenko wrote:
-> On Thu, Jan 11, 2018 at 02:41:15PM +0000, Richard Purdie wrote:
-> > and test results so far imply that we need:
+On Thu, 2018-01-11 at 13:35 +0200, Alexander Kanavin wrote:
+> On 01/10/2018 09:11 PM, Martin Kelly wrote:
 > > 
-> > diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-
-> > devtools/gcc/gcc-7.2.inc
-> > index 1d40cba7317..90e4a990cb3 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-> > @@ -11,7 +11,7 @@ BINV = "7.2.0"
-> >  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-
-> > 7.2/backport:"
-> >  
-> >  DEPENDS =+ "mpfr gmp libmpc zlib"
-> > -NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-> > +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native
-> > flex-native"
-> >  
-> >  LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
-> >  
+> > Yes, to be clear, I'm not griping, as I'm very happy meson landed
+> > in 
+> > OE-core, and I'm working on SDK support now. I have an OE-core
+> > thread 
+> > going with meson upstream to get the issue fixed.
 > > 
-> > probably in addition to your patch. I'll continue to run some test
-> > builds and see how much breakage the above change shows up.
-> Thanks. I was building native gcc for the target, while using
-> external 
-> prebuilt cross toolchain. I first tried adding flex-native to
-> NATIVEDEPS 
-> list, but that didn't help - looks like this list is only used for
-> cross and 
-> crosssdk builds.
+> > To be clear though, I'm not sure it even regressed. AFAICT, it
+> > never 
+> > quite worked.
+> > 
+> > Where would I add SDK tests for this?
+> meta/lib/oeqa/selftest/cases is the place. Not sure what existing
+> SDK 
+> tests are already there.
 
-I'll probably take your at and perf patches, my gcc one which covers
-the cross and candadian variants and merge a change to the sstate
-dependency code which means we'll explicitly see these dependency
-issues in future. I'll queue this in -next and test.
+Actually, no. See:
+
+$ ls meta/lib/oeqa/sdk/cases/
+buildcpio.py
+buildgalculator.py
+buildlzip.py
+gcc.py
+perl.py
+python.py
+
+There is also "sdkext" for the eSDK.
+
+You'd run these with:
+
+INHERIT += "testimage"
+
+and then
+
+bitbake <sdk-target> -c testsdk
 
 Cheers,
 
 Richard
+
 
