@@ -1,49 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B075D787D0
+Return-Path: <zboszor@pr.hu>
+Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B74B7878C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 16:19:10 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id p124so5533098ite.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 08:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PD+HpdJy0eZMdT/XIGOmyQKAB/HYREsP9Uny3ynvWjY=;
-	b=SuZriFjnirFKZVYRb/cxPdrLJwq4YArFGteEsl4SP+FzJcb0B8UH0mpBy7A7lum3BT
-	gdG+Z9bbFWd1yl5W7qeMwciGhgyQx1g0IKld6TkdU959NDw+xxNXkbjRJjCuq1tDo4+r
-	hDPL5tKCzAK7/Zw9GV1baSN+ZbHJhvo6WQN+Cpge9EZDnkr9WqymsbUEEToJV5Ljx8OK
-	fMaZpl9pvVg/6Ip9iiHdn8r4i7uM3/Mn58VI331qM8yPy16M91rs5M1/KwbZCCQHAyh3
-	rRY8QWiKt0BT5OSkCMi39nDqKPn5cEeGttXPdEY67TCJfB2Tg9zZ52fMysR5sBs9BqPP
-	UiFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PD+HpdJy0eZMdT/XIGOmyQKAB/HYREsP9Uny3ynvWjY=;
-	b=eaJXvYWCPMEIEGO6hrRRM/EDy7fb9Uf3/O/vA+Y5AluaWiC90TLJ+g044erTTm3Y3N
-	1FgRS+LrD0vE0AJNsv0lg873zEOYkEla07rUGn2R/R2uGRY7191sZ8nYSg5c1jA6Hp4y
-	oBSzwH/vOv9cHaITFODPUvD0ZxkixynyJeBCpVqyRZ+4sALU59RnvWKhonac1PUBtpSl
-	Jd+ZqqivoiqR6ugSyiKWnDbPtnGRTE26ngxRhktEYVP2gwI0E5RbUTLmqb/V2IrFgJyM
-	N3G1futQxsny4vtXtQjtlyc/3Nhw2BEtuTw0j1n4wz/K1SsgZ9V6ARMNgHfqPeIgNCJQ
-	cE1w==
-X-Gm-Message-State: AKwxytfe8pt9AGZsv0qApADbxB2SO8u06PJD2ILdFL73gQeS9CoLnLge
-	7FAni5P4xOdOS2RCRTJ6Y+pdS/QRtuLnRSwZ/LsN7g==
-X-Google-Smtp-Source: ACJfBovZvMTV/UFK5W40TGRyVUikjzwVroy3BF9VeoX9cVg9zONAmBQJj74Pf8y/D0Cc5uIQlHAvN90BwX3mYcl4C44=
-X-Received: by 10.36.145.143 with SMTP id i137mr1907619ite.6.1515687551926;
-	Thu, 11 Jan 2018 08:19:11 -0800 (PST)
+	Thu, 11 Jan 2018 16:28:35 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1eZfiW-0005o5-O6
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Jan 2018 17:28:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9zgcTEuxMRYZRvxKG/apTWLVfODDqNCWYVq7l1I3sUg=;
+	b=JX+r/jWthMICXteLJxuNdy0kox
+	IwySN34dATOCWGxH5Mjj7CkcH7hMQicD62rVQFOmYHL+BJ0nZ0Ujy8qsOMpnWCb0uJnK2ngF62E0y
+	32RzY/c50YvWlNeD2h/8R4tqLXWNAnbG0qcCDkex+ZdYSgfvHc16Xz22rSYlWsobjzQc34Oam/g9Y
+	k72O7BeOTWVbDcn9zSTuDtoW3iVu8zSsTG2VglB2Lky6tCGVfmSghmKnIO2r11FisiO1RbE6CHUTt
+	1Uta/tLA7bUSaiI80guyjIpl9Z8sJczfFqdC+QusuKe7bnB86fD4tF5eluuyVMovlxIR+gk6kkw5u
+	krUmHmUg==;
+Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
+	helo=s002.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1eZfiT-0002r0-2S; Thu, 11 Jan 2018 17:28:34 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jan 2018 17:28:19 +0100
+Message-Id: <20180111162819.32465-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-Received: by 10.107.147.193 with HTTP; Thu, 11 Jan 2018 08:18:51 -0800 (PST)
-In-Reply-To: <a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
-References: <cover.1515461823.git.Qi.Chen@windriver.com>
-	<a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jan 2018 16:18:51 +0000
-Message-ID: <CAJTo0LayZCc=psjBv7QjsXNi3drktBT4wmZcXd37cVGHYbAJcg@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] coreutils: upgrade to 8.29
+X-Spam-Score: 2.3 (++)
+X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
+	is spam.
+	pts rule name              description  (score: __SCORE__ points)
+	---- ----------------------
+	--------------------------------------------------
+	-0.2 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
+	[score: 1.0000]
+	0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+	[score: 1.0000]
+	-1.2 AWL AWL: Adjusted score from AWL reputation of From: address
+	Preview: When downgrading a package or using a substitute with lower
+	version, the way to do it is adding or increasing PE. But it didn't help
+	dependant packages because the shlib records didn't contain PE,
+	only PV. [...]
+X-Scan-Signature: 8f5da0c40d649b22aaae3fc58f517802
+X-Spam-Tracer: backend.mail.pr.hu 2.3 20180111162834Z
+Subject: [PATCH] package: Record PE value for shlib dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +63,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 16:19:10 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0ef16e1f9939056282825a"
+X-List-Received-Date: Thu, 11 Jan 2018 16:28:36 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---94eb2c0ef16e1f9939056282825a
-Content-Type: text/plain; charset="UTF-8"
+When downgrading a package or using a substitute with lower version,
+the way to do it is adding or increasing PE. But it didn't help
+dependant packages because the shlib records didn't contain PE, only PV.
 
-On 9 January 2018 at 01:40, Chen Qi <Qi.Chen@windriver.com> wrote:
+Let's add the PE value into these records for packages where it's set.
 
-> * hostname is explicitly enabled to keep the same with previous recipe's
->   behaviour.
->
+The in-memory variables storing the versions use the PE:PV notation
+but the on-disk files must use something else because the : character
+is already used as field delimiter in the package.list files storing
+these shlib records. Use # instead in the files, so the file format
+doesn't change. Conversion occurs on reading/writing the package.list
+files.
 
-But buildhistory-diff:
+Signed-off-by: Zoltán Böszörményi <zboszor@pr.hu>
+---
+ meta/classes/package.bbclass | 6 +++++-
+ meta/lib/oe/package.py       | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-packages/corei7-64-poky-linux/coreutils/coreutils: FILELIST: added
-"/usr/bin/hostname"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7dc759699f..966c059851 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1686,6 +1686,10 @@ python package_do_shlibs() {
+         if not pkgver:
+             pkgver = ver
+ 
++        pkgpe = d.getVar('PE')
++        if pkgpe:
++            pkgver = pkgpe + ':' + pkgver
++
+         needed[pkg] = []
+         sonames = list()
+         renames = list()
+@@ -1714,7 +1718,7 @@ python package_do_shlibs() {
+                     if old_pkg != pkg:
+                         bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s[0], pkg, pkgver))
+                 bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s[0]))
+-                fd.write(s[0] + ':' + s[1] + ':' + s[2] + '\n')
++                fd.write(s[0] + ':' + s[1] + ':' + s[2].replace(':', '#', 1) + '\n')
+                 if s[0] not in shlib_provider:
+                     shlib_provider[s[0]] = {}
+                 shlib_provider[s[0]][s[1]] = (pkg, pkgver)
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 1e5c3aa8e1..d19fe7312d 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -258,7 +258,7 @@ def read_shlib_providers(d):
+                     s = l.strip().split(":")
+                     if s[0] not in shlib_provider:
+                         shlib_provider[s[0]] = {}
+-                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
++                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2].replace('#', ':', 1))
+     return shlib_provider
+ 
+ 
+-- 
+2.14.3
 
-So the old coreutils wasn't building hostname at all (we use /bin/hostname
-from busybox).
 
-Ross
-
---94eb2c0ef16e1f9939056282825a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 9 January 2018 at 01:40, Chen Qi <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windrive=
-r.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,=
-204,204);padding-left:1ex">* hostname is explicitly enabled to keep the sam=
-e with previous recipe&#39;s<br>
-=C2=A0 behaviour.<br></blockquote><div><br></div><div>But buildhistory-diff=
-:</div><div><br></div><div>packages/corei7-64-poky-linux/coreutils/coreutil=
-s: FILELIST: added &quot;/usr/bin/hostname&quot;</div><div><br></div><div>S=
-o the old coreutils wasn&#39;t building hostname at all (we use /bin/hostna=
-me from busybox).</div><div><br></div><div>Ross=C2=A0</div></div></div></di=
-v>
-
---94eb2c0ef16e1f9939056282825a--
