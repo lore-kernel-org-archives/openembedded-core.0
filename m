@@ -1,33 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 27F9478830
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 98E8A6059E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 17:49:24 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0BHnG5k007842
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 11 Jan 2018 17:49:17 GMT
-Message-ID: <1515692956.29722.122.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Martin Kelly
-	<mkelly@xevo.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jan 2018 17:49:16 +0000
-In-Reply-To: <83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
-References: <20180104131238.21452-1-alexander.kanavin@linux.intel.com>
-	<20180104131238.21452-2-alexander.kanavin@linux.intel.com>
-	<CAJTo0Lb4YRsAknNGhzc_dqGS7wJgFzxL_siyqQAGJ=9Wy7Cm+g@mail.gmail.com>
-	<0ff515da-6221-7074-11c9-96b1cb8380ba@linux.intel.com>
-	<64c07649-f0df-9acc-fbf3-e8f6a52db9f1@xevo.com>
-	<1515610131.29722.112.camel@linuxfoundation.org>
-	<9a261bf7-62c9-2aa9-9fa2-d27bb6ff7653@xevo.com>
-	<83efbf54-dde5-2a84-00a0-6db5fc9e7ee5@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
+	Thu, 11 Jan 2018 18:52:02 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id i196so2795483pgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 10:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=y99PpNr+qQf3vCIzsJBFBjoJ0Qy0Rq6McAfWaHQfJVE=;
+	b=mp4CSlfuyGKC0MzVjXY12ZIZuJbI0DRgJwaEcOgmgfvjiYjy/acbes7MzFuyIS7p7p
+	APQ9c/QfimDnbTohwaCAej6WyS8f56XyjxJAEWWCGK9yVNBM6CDmP49TaeXmqmn6UyZZ
+	a+Us1BBUPemfJe7XQkLi5vmL4xaVeNxccSWW5NqFCVMgTHEfjEvOEM6RCrgm/maoJx21
+	x+mmyOfwx6PFCb3CH7EF5tlR+0NTSStO5SViUHz2JEa7aAqVfVwFk0XtXzPn3nujOkzT
+	eaWX9C1M2bsutdCY3iF/r2rv87zmmxslzMlVlH+ksnmKJDi3+LQN2nhDa708STl0R5qp
+	O2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=y99PpNr+qQf3vCIzsJBFBjoJ0Qy0Rq6McAfWaHQfJVE=;
+	b=cHcFoRAe64qBAyVDxkFxdCm6ZlPgueO4wNT10Uo2qYT+iM3CbTLSTnw+DuCpIy9mH3
+	Vd2TJMjLMoCrmQrKyFGgtO3PNEaL3rAUeh7X+pqobmDYKkE7mszgEquDHOCWdYbovSLE
+	zJgju/8jHNYIeY53FpIn9Ueya95LzZAa0I5HOXit4p5rwn3w9ig/1xAVMdA+6KskrxBP
+	MubQgAumcUdyFS5T9yiWQyp9V/OFexr+z09fKnEgsByiRGb83LCoL2yHJgO1kMFLKaVc
+	ABfHZI+721kBjv5sGz0LCaWO5uKmA5yG9ShMCfSoaErKM3bTMHTqgcHgLKKtXq6bDfe7
+	sFyQ==
+X-Gm-Message-State: AKwxytcveAO/JqMQhSQbANDlGl1XVW5pWuTBWII5XmNPjmpn8PzDYKpu
+	x5CwYAoXK8E3jGHXflsBiqzz1PmBvaSDc59mD+E=
+X-Google-Smtp-Source: ACJfBovOj+KZWzLQF/6cB2L2ysepf/AcV/D8a/t3d33uCLZx7npLxFfVH6KNRP8chGCv3vcWguudQ2mG9rTnEqtF81w=
+X-Received: by 10.98.156.71 with SMTP id f68mr1556974pfe.29.1515696723724;
+	Thu, 11 Jan 2018 10:52:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.159.15 with HTTP; Thu, 11 Jan 2018 10:51:33 -0800 (PST)
+In-Reply-To: <CAHUNapSrfg-6Tx5iL__ymHj6GdkLhSNnuG095Oi+Gsf4Ft9kfQ@mail.gmail.com>
+References: <CAHUNapSrfg-6Tx5iL__ymHj6GdkLhSNnuG095Oi+Gsf4Ft9kfQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 11 Jan 2018 10:51:33 -0800
+Message-ID: <CAMKF1sp7B0FcqEuGpJFpvhMQEnjJN2VkqP17Ue9ZjxODwtFz4w@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] gnomebase-meson.bbclass: add a meson-specific version
+Subject: Re: uriparser
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 17:49:25 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 18:52:02 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2018-01-11 at 13:35 +0200, Alexander Kanavin wrote:
-> On 01/10/2018 09:11 PM, Martin Kelly wrote:
-> > 
-> > Yes, to be clear, I'm not griping, as I'm very happy meson landed
-> > in 
-> > OE-core, and I'm working on SDK support now. I have an OE-core
-> > thread 
-> > going with meson upstream to get the issue fixed.
-> > 
-> > To be clear though, I'm not sure it even regressed. AFAICT, it
-> > never 
-> > quite worked.
-> > 
-> > Where would I add SDK tests for this?
-> meta/lib/oeqa/selftest/cases is the place. Not sure what existing
-> SDK 
-> tests are already there.
+On Wed, Jan 10, 2018 at 11:20 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> Hi Martin,
+>
+> Any chance the uriparser recipe from meta-luneui
+> (https://layers.openembedded.org/layerindex/recipe/32523/) could be added to
+> openembedded-core (or meta-openembedded?). It's also now needed for the git
+> version of tpm2-tss in meta-measured.
+>
 
-Actually, no. See:
+I think meta-oe might be ok. If nothing in OE-Core needs it yet then I
+dont think it
+should be on oe-core
 
-$ ls meta/lib/oeqa/sdk/cases/
-buildcpio.py
-buildgalculator.py
-buildlzip.py
-gcc.py
-perl.py
-python.py
-
-There is also "sdkext" for the eSDK.
-
-You'd run these with:
-
-INHERIT += "testimage"
-
-and then
-
-bitbake <sdk-target> -c testsdk
-
-Cheers,
-
-Richard
-
+> Best regards,
+>      Trevor
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
