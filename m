@@ -1,25 +1,25 @@
 Return-Path: <rebecca.swee.fun.chang@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 26CEA78848
+	by mail.openembedded.org (Postfix) with ESMTP id 2126078850
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 15:00:53 +0000 (UTC)
+	Thu, 11 Jan 2018 15:00:55 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jan 2018 07:00:54 -0800
+	11 Jan 2018 07:00:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,344,1511856000"; d="scan'208";a="192927006"
+X-IronPort-AV: E=Sophos;i="5.46,344,1511856000"; d="scan'208";a="192927012"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga005.jf.intel.com with ESMTP; 11 Jan 2018 07:00:54 -0800
+	by orsmga005.jf.intel.com with ESMTP; 11 Jan 2018 07:00:56 -0800
 From: rebecca.swee.fun.chang@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jan 2018 22:55:22 +0800
-Message-Id: <a1522a87be260adb80085a624a30f87757b5eff1.1515681706.git.rebecca.swee.fun.chang@intel.com>
+Date: Thu, 11 Jan 2018 22:55:23 +0800
+Message-Id: <344f8b1262d0e890bb7549f86fc2c9ee7091268f.1515681706.git.rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <cover.1515681706.git.rebecca.swee.fun.chang@intel.com>
 References: <cover.1515681706.git.rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv2 4/5] scripts/wic: explicitly set BUILDDIR within eSDK
+Subject: [PATCHv2 5/5] classes/populate_sdk_ext: support wic in eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 15:00:53 -0000
+X-List-Received-Date: Thu, 11 Jan 2018 15:00:55 -0000
 
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 
-When we run wic within eSDK:
-$ wic create mkefidisk -e core-image-minimal
+Make 'wic' image creation tool/command available in eSDK
+environment. This would allow eSDK users to manipulate
+images within eSDK environment.
 
-ERROR: BUILDDIR not found, exiting. (Did you forget to source oe-init-build-env?)
-
-In order to figure out variable values, one must have sourced
-the OE build environment setup script. However, when we are in
-within the eSDK environment which isn't initialised like the
-normal OE build environment, we can't use wic utility with eSDK.
-
-Reference:
-https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#wic-requirements
-
-While wic ought to be fixed to be able to run without bitbake
-& native tools [YOCTO #11281], but this is a workaround to set
-BUILDDIR in the environment so that bitbake environment is setup
-for wic to build its required native tools.
+[YOCTO #12177]
 
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- scripts/wic | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/wic b/scripts/wic
-index d9bea228ad5..7392bc4e7f4 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -51,6 +51,8 @@ sdkroot = scripts_path
- if os.environ.get('SDKTARGETSYSROOT'):
-     while sdkroot != '' and sdkroot != os.sep:
-         if os.path.exists(os.path.join(sdkroot, '.devtoolbase')):
-+            # Set BUILDDIR for wic to work within eSDK
-+            os.environ['BUILDDIR'] = sdkroot
-             # .devtoolbase only exists within eSDK
-             # If found, initialize bitbake path for eSDK environment and append to PATH
-             sdkroot = os.path.join(os.path.dirname(scripts_path), 'bitbake', 'bin')
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index eabc365300a..4f7100dd7e1 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -533,7 +533,7 @@ def get_sdk_required_utilities(buildtools_fn, d):
+ 
+ install_tools() {
+ 	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}
+-	scripts="devtool recipetool oe-find-native-sysroot runqemu*"
++	scripts="devtool recipetool oe-find-native-sysroot runqemu* wic"
+ 	for script in $scripts; do
+ 		for scriptfn in `find ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath} -maxdepth 1 -executable -name "$script"`; do
+ 			lnr ${scriptfn} ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/`basename $scriptfn`
 -- 
 2.15.0
 
