@@ -1,49 +1,48 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FF5478792
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD49787AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 17:30:18 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id f3so6741188lfe.4
+	Fri, 12 Jan 2018 17:46:00 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id v74so4826994lfa.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 09:30:19 -0800 (PST)
+	Fri, 12 Jan 2018 09:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6Hcx7YXqWNTjdyrOggYLmQZPZEUI8bcRQ1IRi+NXLUY=;
-	b=FusPLARx5cxVtquN2g2A9gyLUC8e77FtutZstNk+RqonY06AYjo2vkLnHBAbAJ7v6B
-	o/ca4Iz2CJl9Khu6ONlwQaEInrBzRzkU4CfeBuw2VtQjGmFSCBzpMd0uUHSElbSiyIO1
-	iw08PS7lXvrzV1KvJLh5kq0620NadLXPHsgyw1FIoy9u8+IfwDGJyBHAABCF8J4oFrkk
-	f+6yOb6L7PN2yIyh6rJtAMB+v4/QoBSnQSVfO0Te4+iNwKCiO7E+JqbT+AEjEuy5qwNc
-	yj/ZzPiWd3Nhqm+I8Gm+v24sJn0qBWcQnJX+UJmEHE6Lb6gdKQFAo11OUjECOknMjJBK
-	7ZWg==
+	h=from:to:cc:subject:date:message-id;
+	bh=YB81Y1Z0zOwyXHqyqdqBLgKTW+bWWjcT9qWiztwoy2Y=;
+	b=nkdu1/eoHIXQNezT3LEzUqCafWYPVYoVEqpIhkk3FyTaljH+5Br/SnVIzw09JhfhLn
+	OVu880Y+nSR0lKWT3VD7GuRX6szRgVbO5KW1dp/ly/zPKbeEg+pdreMiQO154NrbhTOT
+	zcNZgPaUIo4FUF5OmwHQUsfl8r9fVltCePlt5I1+CkSeMeWmujpwp2Ojf6v1CAG/phZ2
+	L4wagSQVIzaMPnB/dPfHTQngMAkWWib3vuIDBfqh60YESBCkbQDnCdDDFh/cgUnXa9zK
+	BV6NFYpWnGo0wXfI3Ms2JA5RE4up+zjiYj7D5kVNt56u9gzrx5s3wYtMMpC5Z5ucYTYi
+	VwlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6Hcx7YXqWNTjdyrOggYLmQZPZEUI8bcRQ1IRi+NXLUY=;
-	b=rbJxGBYQFSqArNXQmwhAqc3rf5oV7M21nuAQctCSm178f7YgDVJvoM/Ds1ARk1aOs7
-	LOW1aS24576mOsg7Yq54C/t+p3gKR4X7/kuILzYwKGsypK4BG6oYzvEiD/s/VJWaJ6h1
-	3RSJ0kj838MLk5NDkoRm01BPaWfDX15aLkgOFHlgCRdkyHaNSj8oAVn6JSP4y7f4VGt/
-	amU1Z9h5qhkkV4CVdwH8n8zFjBLXUGvsBTVvHkYuw47FW+5mYT/eXLqRyzygzRMuVNSA
-	WLqtBUfqMbt5ncBtpp5ZlIVC0lvNuNKd5iqIMdTEc4aeUYNQYUzsS31biwivOln8neMo
-	jwyw==
-X-Gm-Message-State: AKGB3mJz0E8Ll9TdSlhkYai+rX7A1UVhX/E+4lnXiPWp1Pyx288cxvFI
-	Z0Rm65vjKcBrg3wmbMf/HYvtfj9pgIOBK3DNpSQ=
-X-Google-Smtp-Source: ACJfBotJk7hWq1Mt3OZirBQbqEqRtxnx8kjaoe0OCUnDfAjkfrm13b3HqDXaj8Kc7TX0woretWgktz5jc/BFWszThoA=
-X-Received: by 10.46.93.212 with SMTP id v81mr16548620lje.12.1515778218698;
-	Fri, 12 Jan 2018 09:30:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.25.201.137 with HTTP; Fri, 12 Jan 2018 09:30:17 -0800 (PST)
-In-Reply-To: <20180108160021.4715-6-ross.burton@intel.com>
-References: <20180108160021.4715-1-ross.burton@intel.com>
-	<20180108160021.4715-6-ross.burton@intel.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Fri, 12 Jan 2018 11:30:17 -0600
-Message-ID: <CACS+7ZT154sQztbhuaCXEB16UBeoEp8L=SsekOBpx5NkshH+Ag@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/9] m4: merge two .inc files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YB81Y1Z0zOwyXHqyqdqBLgKTW+bWWjcT9qWiztwoy2Y=;
+	b=s1sy5SmUMYzWkiStJH6lVH18uaSjdeqDRxoeG63+TFy8GelY/HIua5DcAf4MitKpYB
+	YgO+ZQB/4qWQu7PZ+AkfbZHPidDe+a+J4hfTYxQr/5f/oIWZuGNZXzr3qZv2nCDripTE
+	5+lknSPtPpQmVyu073lLBt6wUdmcJQ5NBrluc3WSY7qaD7+xHNQKRMNMw3Pv8oyl2wsg
+	NCLIYwsoQq9DX2Fu1BieLeuCRCP51NVwUuaqeH+1IDCw2+w/f81duswLRwLWYWI92Xnf
+	wR4QjdTlO84M2VM8c2P95bA1/oDilW8W1+1mW9gciEEZ1UAi7qiV/e0anWrVm6XPj2sp
+	AcLQ==
+X-Gm-Message-State: AKGB3mLSAsy26DpTbRPy6rbioxFlAudmEKS2XxP2uYxCqN5h89pxAI86
+	8g89SbhhIiOezuWtbqFXlipyL68=
+X-Google-Smtp-Source: ACJfBosxznUCM4WDClS7M5DRX4Br/7qFNobaGKMLuuoY0XzQ0+xeWk1+/ueE/6nSdZFWNUPXqy1TCQ==
+X-Received: by 10.46.124.13 with SMTP id x13mr15558422ljc.109.1515779160586;
+	Fri, 12 Jan 2018 09:46:00 -0800 (PST)
+Received: from localhost.localdomain (user-94-254-243-185.play-internet.pl.
+	[94.254.243.185]) by smtp.gmail.com with ESMTPSA id
+	b200sm3735525lfg.25.2018.01.12.09.45.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 12 Jan 2018 09:46:00 -0800 (PST)
+From: Paulo Neves <ptsneves@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jan 2018 18:45:54 +0100
+Message-Id: <1515779154-17898-1-git-send-email-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Paulo Neves <paulo.de_sousa_neves@nokia.com>
+Subject: [PATCH] Fix COMPATIBLE_MACHINE for -native recipe variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,96 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 17:30:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Jan 2018 17:46:00 -0000
 
-On 8 January 2018 at 10:00, Ross Burton <ross.burton@intel.com> wrote:
-> Now that oe-core only has one copy of m4, there's no need to maintain two inc
-> files.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/m4/m4-1.4.18.inc | 31 +++++++++++++++++++------------
->  meta/recipes-devtools/m4/m4.inc        | 10 ----------
->  2 files changed, 19 insertions(+), 22 deletions(-)
->  delete mode 100644 meta/recipes-devtools/m4/m4.inc
->
-> diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> index d7c86485771..7790a88d759 100644
-> --- a/meta/recipes-devtools/m4/m4-1.4.18.inc
-> +++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
-> @@ -1,22 +1,29 @@
-> -require m4.inc
-> +SUMMARY = "Traditional Unix macro processor"
-> +HOMEPAGE = "https://www.gnu.org/software/m4/m4.html"
-> +DESCRIPTION = "GNU m4 is an implementation of the traditional Unix macro processor.  It is mostly SVR4 \
-> +compatible although it has some extensions (for example, handling more than 9 positional parameters to macros). \
-> +GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
->
-> -EXTRA_OECONF += "--without-libsigsegv-prefix"
-> +inherit autotools texinfo
-> +
-> +SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
-> +           file://ac_config_links.patch \
-> +           file://remove-gets.patch \
-> +           "
-> +
-> +SRC_URI_append_class-target = "file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
+From: Paulo Neves <paulo.de_sousa_neves@nokia.com>
 
-There's no space here, so it breaks with meta-clang enabled. It only
-works right now as-is because SRC_URI ends with whitespace.
+Hello I am having a problem where I want a recipe, along
+with its -native version to only be available when allowed
+by compatible machine.
 
-I think it should be:
-SRC_URI_append_class-target = "
-file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
+In the non native case, COMPATIBLE_MACHINE is correctly
+honored. But in the -native version the COMPATIBLE_MACHINE
+is not honored because in the native.bbclass there is:
 
-> +
-> +SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
-> +SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
->
->  LICENSE = "GPLv3"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
->                     file://examples/COPYING;md5=4031593b2166d6c47cae282d944a7ede"
->
-> -SRC_URI += "file://ac_config_links.patch \
-> -            file://remove-gets.patch \
-> -           "
-> -
-> -SRC_URI_append_class-target = "\
-> -           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-> -          "
-> -
->  # Fix "Argument list too long" error when len(TMPDIR) = 410
->  acpaths = "-I ./m4"
->
-> -SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
-> -SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
-> +EXTRA_OECONF += "--without-libsigsegv-prefix"
-> +
-> +EXTRA_OEMAKE += "'infodir=${infodir}'"
-> diff --git a/meta/recipes-devtools/m4/m4.inc b/meta/recipes-devtools/m4/m4.inc
-> deleted file mode 100644
-> index 2002594e899..00000000000
-> --- a/meta/recipes-devtools/m4/m4.inc
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -SUMMARY = "Traditional Unix macro processor"
-> -HOMEPAGE = "https://www.gnu.org/software/m4/m4.html"
-> -DESCRIPTION = "GNU m4 is an implementation of the traditional Unix macro processor.  It is mostly SVR4 \
-> -compatible although it has some extensions (for example, handling more than 9 positional parameters to macros). \
-> -GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
-> -
-> -inherit autotools texinfo
-> -
-> -EXTRA_OEMAKE += "'infodir=${infodir}'"
-> -SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+MACHINEOVERRIDES = ""
+
+This change was introduced in
+d09e6d883042e5d094cd08d829327c4bbbfae135.
+While the explanation provided by the commit is accurate for
+specific case mentioned it also breaks the
+COMPATIBLE_MACHINE mechanism which relies on the
+MACHINEOVERRIDES variable.
+
+Further evidence that this was not intended is that the
+exception text is false:
+
+ERROR: Nothing PROVIDES 'x-filter-native'
+x-filter-native was skipped: incompatible with machine m1
+(not in COMPATIBLE_MACHINE)
+
+And the x-filter-native'.bb recipe header contains:
+
+COMPATIBLE_MACHINE = "^m1$"
+
+So the exception uses ${MACHINE} to report that a
+${MACHINEOVERRIDE} was not matched with the
+COMPATIBLE_MACHINE, which is a false statement.
+
+This fix attempts to correct the issue with minimal
+changes.
+
+Change-Id: If5085e4e92550b8154033dd56149eb4e358ef266
+---
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d95afb7..d1c31c2 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -488,7 +488,7 @@ python () {
+     need_machine = d.getVar('COMPATIBLE_MACHINE')
+     if need_machine:
+         import re
+-        compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
++        compat_machines = (d.getVar('MACHINEOVERRIDES') or d.getVar('MACHINE')).split(":")
+         for m in compat_machines:
+             if re.match(need_machine, m):
+                 break
+-- 
+2.7.4
+
 
