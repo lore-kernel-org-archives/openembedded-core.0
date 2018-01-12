@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 15449787AE;
-	Fri, 12 Jan 2018 18:04:22 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Paulo Neves <ptsneves@gmail.com>
-Date: Fri, 12 Jan 2018 18:04:23 -0000
-Message-ID: <20180112180423.2783.41806@do.openembedded.org>
-References: <1515779154-17898-1-git-send-email-ptsneves@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1515779154-17898-1-git-send-email-ptsneves@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IENPTVBBVElCTEVfTUFDSElORSBmb3IgLW5hdGl2ZSByZWNpcGUgdmFyaWFudHMu?=
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C8CD787C6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jan 2018 18:22:23 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id j143so6900749lfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jan 2018 10:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=BrHfUY7OwO9vF9qYbtIDEFw6+0qealb/uAkm9a8HEx0=;
+	b=oHpzmkoL9BX8xx484DsEyAWKZTSrr71aVyx81TI1sBGGv8ftigL7qdZqkRTnu+WBoa
+	IU/kix5rRaag9FrKzQ32bwHRtf257QHiFy5DNandUZRW9/nC+K4YrFT4nrdK623J465y
+	0M6z2VUpNqF4SBzLQtvv5KfnGto00IEuR1nTpyAIL3WHWXDSI+bZZTYpoUKqAwo0lZJn
+	C6rjRwmmhUqMQ4NAFr5kfmqc46UC0/viPGBWDHyqvBynxu/bkyNO+oJiaCxZm8ZdcE4T
+	k3ttWWRm20GRQJaca9iG0QVZKGQVjTxKWuZy8Gi/MqCWH5Z5wbgnfS4uCZMOl66epH9f
+	1hDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BrHfUY7OwO9vF9qYbtIDEFw6+0qealb/uAkm9a8HEx0=;
+	b=EP+5bx9uPPg1rkRqz10jYMjQ2Xm9xEU34Na1AkKS3/JCXokLT8TBgf3x5+/oVS+v17
+	QEz83MxCp+fCRstQj7xduIAD60gWAUHMCTOF8ZCJ+QQ1BajWAg86ovEE6/ISJNpRf19s
+	ioBCJ+XuOMFA55eUujEQ1aGUKfEfdwUpZX4r4YdeZmwifCAsLHkxG18WMe6u0VzxnakD
+	Cr8zDRplEjbEhisfjomskROeXC9iZeDhDbIkv7oWTi2wxtIw1zQPvtzKDJgquTG/S5nk
+	GOjfk/rMAAkyLhsQ4b8Aqm0a2Sh6n+qGh6VqR4cmBGXSOgXD1oARYIeGnxpCtmFxEEXG
+	vpKg==
+X-Gm-Message-State: AKGB3mIyqtoe6/nDmGMrPPoLzsYGEdi5LJzAXj8CRwYbj3cinmt2a8CK
+	WEfLYVix3PhWf5HpiLViNoyNX2DBzg==
+X-Google-Smtp-Source: ACJfBoumpjJjMNNmfbXJxMqUDxa65T1QZtrj7ch5oxE1DVFA0p32RZuByAnkNKKHkSl/rcqmK0YqpA==
+X-Received: by 10.46.17.11 with SMTP id f11mr16641770lje.8.1515781344346;
+	Fri, 12 Jan 2018 10:22:24 -0800 (PST)
+Received: from localhost.localdomain (user-94-254-243-185.play-internet.pl.
+	[94.254.243.185]) by smtp.gmail.com with ESMTPSA id
+	s65sm3756396lfi.76.2018.01.12.10.22.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 12 Jan 2018 10:22:23 -0800 (PST)
+From: Paulo Neves <ptsneves@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jan 2018 19:21:59 +0100
+Message-Id: <1515781319-18616-1-git-send-email-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Paulo Neves <ptsneves@gmail.com>,
+	Paulo Neves <paulo.de_sousa_neves@nokia.com>
+Subject: [PATCH v2] base.bbclass: Fix COMPATIBLE_MACHINE for -native recipe variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 18:04:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Jan 2018 18:22:24 -0000
 
-== Series Details ==
+From: Paulo Neves <paulo.de_sousa_neves@nokia.com>
 
-Series: Fix COMPATIBLE_MACHINE for -native recipe variants.
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10521/
-State : failure
+Hello I am having a problem where I want a recipe, along
+with its -native version to only be available when allowed
+by compatible machine.
 
-== Summary ==
+In the non native case, COMPATIBLE_MACHINE is correctly
+honored. But in the -native version the COMPATIBLE_MACHINE
+is not honored because in the native.bbclass there is:
 
+MACHINEOVERRIDES = ""
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+This change was introduced in
+d09e6d883042e5d094cd08d829327c4bbbfae135.
+While the explanation provided by the commit is accurate for
+specific case mentioned it also breaks the
+COMPATIBLE_MACHINE mechanism which relies on the
+MACHINEOVERRIDES variable.
 
+Further evidence that this was not intended is that the
+exception text is false:
 
+ERROR: Nothing PROVIDES 'x-filter-native'
+x-filter-native was skipped: incompatible with machine m1
+(not in COMPATIBLE_MACHINE)
 
-* Patch            Fix COMPATIBLE_MACHINE for -native recipe variants.
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+And the x-filter-native'.bb recipe header contains:
 
-* Patch            Fix COMPATIBLE_MACHINE for -native recipe variants.
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+COMPATIBLE_MACHINE = "^m1$"
 
+So the exception uses ${MACHINE} to report that a
+${MACHINEOVERRIDE} was not matched with the
+COMPATIBLE_MACHINE, which is a false statement.
 
+This fix attempts to correct the issue with minimal
+changes.
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d95afb7..d1c31c2 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -488,7 +488,7 @@ python () {
+     need_machine = d.getVar('COMPATIBLE_MACHINE')
+     if need_machine:
+         import re
+-        compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
++        compat_machines = (d.getVar('MACHINEOVERRIDES') or d.getVar('MACHINE')).split(":")
+         for m in compat_machines:
+             if re.match(need_machine, m):
+                 break
+-- 
+2.7.4
 
 
