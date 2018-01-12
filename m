@@ -1,24 +1,34 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 745DC71B69
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 52B53787E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 21:16:57 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jan 2018 13:16:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,346,1511856000"; d="scan'208";a="166070011"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga004.jf.intel.com with ESMTP; 11 Jan 2018 13:16:59 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jan 2018 13:16:57 -0800
-Message-Id: <1515705417-84500-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] qemu-2.10.1.bb: support mingw build
+	Fri, 12 Jan 2018 02:13:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0C2DD90013889
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jan 2018 18:13:13 -0800
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Thu, 11 Jan 2018 18:13:12 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>
+Thread-Topic: [OE-core] [PATCH] systemd: add RDEPENDS on util-linux-getopt
+Thread-Index: AQHTixj1hDy6XPKZrUWc05H8PLr9A6NvfFHA
+Date: Fri, 12 Jan 2018 02:13:11 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566CF55D@ALA-MBC.corp.ad.wrs.com>
+References: <20180111030706.18174-1-jackie.huang@windriver.com>
+	<fa40b5ce-5334-0f34-785d-d6ad8e978f15@windriver.com>
+In-Reply-To: <fa40b5ce-5334-0f34-785d-d6ad8e978f15@windriver.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.163.136]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: add RDEPENDS on util-linux-getopt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,133 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jan 2018 21:16:58 -0000
+X-List-Received-Date: Fri, 12 Jan 2018 02:13:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The patch chardev-connect-socket-to-a-spawned-command.patch calls
-"socketpair". This function is missing in mingw, so the patch
-needs to be modified accordingly, otherwise we end up with a broken
-mingw build.
-While it is possible to simply remove the patch on a recipe level for
-mingw platform, it makes more sense to modify the patch itself.
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- ...ardev-connect-socket-to-a-spawned-command.patch | 37 +++++++++++++++++-----
- 1 file changed, 29 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-index 49d4af2..4f85397 100644
---- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-+++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-@@ -55,10 +55,11 @@ diff --git a/chardev/char-socket.c b/chardev/char-socket.c
- index 1ae730a4..c366a02a 100644
- --- a/chardev/char-socket.c
- +++ b/chardev/char-socket.c
--@@ -854,6 +854,66 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-+@@ -854,6 +854,68 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-      return false;
-  }
-  
-++#ifndef _WIN32  
- +static void chardev_open_socket_cmd(Chardev *chr,
- +                                    const char *cmd,
- +                                    Error **errp)
-@@ -118,42 +119,51 @@ index 1ae730a4..c366a02a 100644
- +        object_unref(OBJECT(sioc));
- +    }
- +}
-++#endif
- +
-  static void qmp_chardev_open_socket(Chardev *chr,
-                                      ChardevBackend *backend,
-                                      bool *be_opened,
--@@ -861,6 +921,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
-+@@ -861,6 +923,9 @@ static void qmp_chardev_open_socket(Chardev *chr,
-  {
-      SocketChardev *s = SOCKET_CHARDEV(chr);
-      ChardevSocket *sock = backend->u.socket.data;
-++#ifndef _WIN32
- +    const char *cmd     = sock->cmd;
-++#endif
-      bool do_nodelay     = sock->has_nodelay ? sock->nodelay : false;
-      bool is_listen      = sock->has_server  ? sock->server  : true;
-      bool is_telnet      = sock->has_telnet  ? sock->telnet  : false;
--@@ -928,7 +989,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
-+@@ -928,7 +993,15 @@ static void qmp_chardev_open_socket(Chardev *chr,
-          s->reconnect_time = reconnect;
-      }
-  
- -    if (s->reconnect_time) {
-++#ifndef _WIN32
- +    if (cmd) {
- +        chardev_open_socket_cmd(chr, cmd, errp);
- +
- +        /* everything ready (or failed permanently) before we return */
- +        *be_opened = true;
--+    } else if (s->reconnect_time) {
-++    } else
-++#endif
-++	if (s->reconnect_time) {
-          sioc = qio_channel_socket_new();
-          tcp_chr_set_client_ioc_name(chr, sioc);
-          qio_channel_socket_connect_async(sioc, s->addr,
--@@ -987,11 +1053,22 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-+@@ -987,11 +1060,27 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-      const char *host = qemu_opt_get(opts, "host");
-      const char *port = qemu_opt_get(opts, "port");
-      const char *tls_creds = qemu_opt_get(opts, "tls-creds");
-++#ifndef _WIN32
- +    const char *cmd = qemu_opt_get(opts, "cmd");
-++#endif
-      SocketAddressLegacy *addr;
-      ChardevSocket *sock;
-  
-      backend->type = CHARDEV_BACKEND_KIND_SOCKET;
- -    if (!path) {
-++#ifndef _WIN32
- +    if (cmd) {
- +        /*
- +         * Here we have to ensure that no options are set which are incompatible with
-@@ -164,24 +174,35 @@ index 1ae730a4..c366a02a 100644
- +            error_setg(errp, "chardev: socket: cmd does not support any additional options");
- +            return;
- +        }
--+    } else if (!path) {
-++    } else
-++#endif
-++	if (!path) {
-          if (!host) {
-              error_setg(errp, "chardev: socket: no host given");
-              return;
--@@ -1023,13 +1100,14 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-+@@ -1023,13 +1112,24 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-      sock->has_reconnect = true;
-      sock->reconnect = reconnect;
-      sock->tls_creds = g_strdup(tls_creds);
-++#ifndef _WIN32
- +    sock->cmd = g_strdup(cmd);
-++#endif
-  
-      addr = g_new0(SocketAddressLegacy, 1);
---    if (path) {
-++#ifndef _WIN32
- +    if (path || cmd) {
-++#else
-+     if (path) {
-++#endif
-          UnixSocketAddress *q_unix;
-          addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
-          q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
- -        q_unix->path = g_strdup(path);
-++#ifndef _WIN32
- +        q_unix->path = cmd ? g_strdup_printf("cmd:%s", cmd) : g_strdup(path);
-++#else
-++	q_unix->path = g_strdup(path);
-++#endif
-      } else {
-          addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-          addr->u.inet.data = g_new(InetSocketAddress, 1);
--- 
-2.7.4
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWFjTGVvZCwgUmFuZHkN
+Cj4gU2VudDogRnJpZGF5LCBKYW51YXJ5IDEyLCAyMDE4IDA0OjE2DQo+IFRvOiBIdWFuZywgSmll
+IChKYWNraWUpOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBzeXN0ZW1kOiBhZGQgUkRFUEVORFMgb24gdXRp
+bC1saW51eC1nZXRvcHQNCj4gDQo+IE9uIDIwMTgtMDEtMTAgMTA6MDcgUE0sIGphY2tpZS5odWFu
+Z0B3aW5kcml2ZXIuY29tIHdyb3RlOg0KPiA+IEZyb206IEphY2tpZSBIdWFuZyA8amFja2llLmh1
+YW5nQHdpbmRyaXZlci5jb20+DQo+ID4NCj4gPiAnZ2V0b3B0JyBpcyBuZWVkZWQgYnkgc3lzdGVt
+ZC1zeXN2LWluc3RhbGwsIG9yIGl0IGZhaWxzIHdpdGg6DQo+ID4gfCBrZHVtcC5zZXJ2aWNlIGlz
+IG5vdCBhIG5hdGl2ZSBzZXJ2aWNlLCByZWRpcmVjdGluZyB0byBzeXN0ZW1kLXN5c3YtaW5zdGFs
+bC4NCj4gPiB8IEV4ZWN1dGluZzogL2xpYi9zeXN0ZW1kL3N5c3RlbWQtc3lzdi1pbnN0YWxsIGVu
+YWJsZSBrZHVtcA0KPiA+IHwgL2xpYi9zeXN0ZW1kL3N5c3RlbWQtc3lzdi1pbnN0YWxsOiBsaW5l
+IDE1OiBnZXRvcHQ6IGNvbW1hbmQgbm90IGZvdW5kDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBK
+YWNraWUgSHVhbmcgPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPg0KPiA+IC0tLQ0KPiA+ICAg
+bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzIzNC5iYiB8IDIgKy0NCj4gPiAgIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yMzQuYmIgYi9tZXRh
+L3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kXzIzNC5iYg0KPiA+IGluZGV4IDQxMzJj
+ZGY0MGYuLjVhMGU0YzIyNDcgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lz
+dGVtZC9zeXN0ZW1kXzIzNC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQv
+c3lzdGVtZF8yMzQuYmINCj4gPiBAQCAtNTIxLDcgKzUyMSw3IEBAIEZJTEVTXyR7UE59ID0gIiAk
+e2Jhc2VfYmluZGlyfS8qIFwNCj4gPg0KPiA+ICAgRklMRVNfJHtQTn0tZGV2ICs9ICIke2Jhc2Vf
+bGliZGlyfS9zZWN1cml0eS8qLmxhICR7ZGF0YWRpcn0vZGJ1cy0NCj4gMS9pbnRlcmZhY2VzLyAk
+e3N5c2NvbmZkaXJ9L3JwbS9tYWNyb3Muc3lzdGVtZCINCj4gPg0KPiA+IC1SREVQRU5EU18ke1BO
+fSArPSAia21vZCBkYnVzIHV0aWwtbGludXgtbW91bnQgdWRldiAoPSAke0VYVEVORFBLR1Z9KQ0K
+PiB1dGlsLWxpbnV4LWFnZXR0eSINCj4gPiArUkRFUEVORFNfJHtQTn0gKz0gImttb2QgZGJ1cyB1
+dGlsLWxpbnV4LW1vdW50IHVkZXYgKD0gJHtFWFRFTkRQS0dWfSkNCj4gdXRpbC1saW51eC1hZ2V0
+dHkgdXRpbC1saW51eC1nZXRvcHQiDQo+IA0KPiBJdCB3b3VsZCBiZSBuaWNlIHRvIG1ha2UgdGhl
+IGRlcGVuZGVuY3kgY29uZGl0aW9uYWwgb24gc3lzdGVtZCBiZWluZw0KPiBjb25maWd1cmVkIHRv
+IHN1cHBvcnQgc3lzdmluaXQgc2NyaXB0cy4NCg0KVGhlIHN5c3Zpbml0IHNjcmlwdCBpcyBhbHdh
+eXMgc3VwcG9ydGVkIGZvciBub3c6DQoNCmNvbW1pdCA5ZDI5OGQxNTYzYjNmZDVhZDU2OWY4MDZj
+YzI5NmUxMzI3OWU3Y2Y2DQpBdXRob3I6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQpE
+YXRlOiAgIFN1biBTZXAgNiAxNToyNTo0MSAyMDE1ICswMDAwDQoNCiAgICBzeXN0ZW1kOiBJbXBs
+ZW1lbnQgT0UtU3BlY2lmaWMgc3lzdGVtZC1zeXN2LWluc3RhbGwNCg0KICAgIFN1cHBvcnQgZm9y
+IGNoa2NvbmZpZyAoLS1lbmFibGUtY2hrY29uZmlnKSB3YXMgcmVtb3ZlZCBpbiBmYXZvdXIgb2YN
+CiAgICBjYWxsaW5nIGFuIGFic3RyYWN0aW9uIC9saWIvc3lzdGVtZC9zeXN0ZW1kLXN5c3YtaW5z
+dGFsbC4gVGhpcw0KICAgIG5lZWRzIHRvIGJlIGltcGxlbWVudGVkIGZvciBPRS4NCg0KICAgIFNp
+Z25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQogICAgU2lnbmVkLW9m
+Zi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+
+DQoNClNvIEkgdGhpbmsgdGhlIHVuY29uZGl0aW9uYWwgZGVwZW5kZW5jeSBpcyBuZWVkZWQgdW5s
+ZXNzIHdlIGNoYW5nZSB0aGUNCnN1cHBvcnQgZm9yIHN5c3Zpbml0IHRvIGJlIG9wdGlvbmFsIGFz
+IHdlbGwuDQoNClRoYW5rcywNCkphY2tpZQ0KPiANCj4gLi4vUmFuZHkNCj4gDQo+ID4gICBSREVQ
+RU5EU18ke1BOfSArPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLCAnc2Vy
+aWFsLWdldHR5LQ0KPiBnZW5lcmF0b3InLCAnJywgJ3N5c3RlbWQtc2VyaWFsZ2V0dHknLCBkKX0i
+DQo+ID4gICBSREVQRU5EU18ke1BOfSArPSAidm9sYXRpbGUtYmluZHMgdXBkYXRlLXJjLmQiDQo+
+ID4NCj4gPg0KPiANCj4gDQo+IC0tDQo+ICMgUmFuZHkgTWFjTGVvZC4gIFdSIExpbnV4DQo+ICMg
+V2luZCBSaXZlciBhbiBJbnRlbCBDb21wYW55DQo=
 
