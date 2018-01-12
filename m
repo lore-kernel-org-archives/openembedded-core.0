@@ -1,31 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AC27C77DCD
+	by mail.openembedded.org (Postfix) with ESMTP id EC7A078870
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 07:51:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0C7p8Yk009122
+	Fri, 12 Jan 2018 08:11:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0C8BTEM009329
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Jan 2018 23:51:08 -0800 (PST)
-Received: from [128.224.162.134] (128.224.162.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 11 Jan 2018 23:51:08 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, ChenQi
-	<Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <20171221130434.24427-1-alexander.kanavin@linux.intel.com>
-	<20171221130434.24427-3-alexander.kanavin@linux.intel.com>
-	<77edf942-1e45-d129-1af5-35809f0c94d6@windriver.com>
-	<991321f1-d190-3b20-c2c3-572bf6e5fcc5@linux.intel.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <1d60e67e-cf3a-8a2c-e8bc-52e8060e8cae@windriver.com>
-Date: Fri, 12 Jan 2018 15:49:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Fri, 12 Jan 2018 00:11:29 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 12 Jan 2018 00:11:29 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Jan 2018 03:11:21 -0500
+Message-ID: <cover.1515744181.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <991321f1-d190-3b20-c2c3-572bf6e5fcc5@linux.intel.com>
-X-Originating-IP: [128.224.162.134]
-Subject: Re: [PATCH 3/9] json-glib: convert to meson build
+Subject: [PATCH 0/6] improve reproducibility of 6 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 07:51:08 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 12 Jan 2018 08:11:29 -0000
+Content-Type: text/plain
 
-I also encountered this issue. For now, I found it only happened on 
-ubuntu 14.04.
+Fix build path issue of these recipes to improve reproducibility
 
-Looks like it invokes g-ir-scanner but not g-ir-scanner-wrapper when 
-building gir.
+Build success on qemux86-64 with multilib enabled.
 
-In build.ninja:
+//Hongxu
 
-COMMAND = 
-'/buildarea/build/tmp/work/core2-64-poky-linux/json-glib/1.2.8-r0/recipe-sysroot-native/usr/bin/g-ir-scanner' 
-...
+The following changes since commit 364f8bcfcbd04e722490f363ad36a15fb7066ba7:
 
-On ubuntu 16.04, it uses g-ir-scanner-wrapper that could work:
+  linux-firmware: Bump revision to 65b1c68c (2018-01-11 10:26:07 +0000)
 
-COMMAND = 
-/buildarea/build/tmp/work/core2-64-poky-linux/json-glib/1.2.8-r0/recipe-sysroot/usr/bin/g-ir-scanner-wrapper 
-...
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib hongxu/reproduce
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/reproduce
 
-//Yi
+Hongxu Jia (6):
+  wget: improve reproducibility
+  python-xcbgen: improve reproducibility
+  openssl/nativesdk-openssl: improve reproducibility
+  python3-core: improve reproducibility
+  python-core/python-dev: improve reproducibility
+  kbd-ptest: improve reproducibility
 
+ .../openssl/0001-improve-reproducibility.patch     | 50 ++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2m.bb | 11 ++++
+ meta/recipes-core/kbd/kbd_2.0.4.bb                 |  7 +++
+ meta/recipes-devtools/python/python3_3.5.3.bb      | 13 ++++-
+ meta/recipes-devtools/python/python_2.7.13.bb      |  7 ++-
+ meta/recipes-extended/wget/wget.inc                |  3 ++
+ .../wget/wget/0002-improve-reproducibility.patch   | 61 ++++++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.19.2.bb          |  1 +
+ meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb |  2 +-
+ 9 files changed, 152 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-improve-reproducibility.patch
+ create mode 100644 meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
 
-在 2018年01月04日 17:27, Alexander Kanavin 写道:
-> On 01/04/2018 10:51 AM, ChenQi wrote:
->>> file://0001-Do-not-disable-gobject-introspection-when-cross-comp.patch 
->>> \
->>> +           "
->>
->> I removed this patch and the compile succeeded.
->> Could you please check if this patch is really needed?
->> If it is, I think we'd better make build to succeed by default anyway.
->
-> Yes, it is really needed. Without it, introspection files will not be 
-> generated at all. I'll try to reproduce the failure.
->
-> Alex
+-- 
+2.8.1
 
 
