@@ -1,51 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 910137885D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 10:30:22 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id v30so5353256iov.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 02:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OBqwi0ED110DccN9DGG+QrD2cA28hGT4tW60NSXTJKc=;
-	b=Lp0aJ8EwLG9rMKUs5oTOmJES5fktQcKT1OXJ3KH4xmuPENWnnFtK1If+Sptlog+NEs
-	73UzkP79hs8uoYvWc3hW5u6QoO3uXkD5Sz6uRPWEcDHA1wPaZRkZ6NpN2Wepj6Il7WhC
-	ypbsQNSKZ5wrmfChv1VOrEhNJICw4yK0S5o/c6REmYpu3NS51k0YjQThDQqNW+bawce7
-	hs6N5+h8bm4oGv+nPDfw2KOqM2P/nCCaWq3nSsDz6fR/5dPnsVidvbj4kS9ytMx5tuK9
-	J92btPcZMvoWZ4SETtNfqv8Yh4KBTSYjPlwj/nhbVQfqICL2n80BMduPuy9Cq/+JUb9a
-	2Qvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OBqwi0ED110DccN9DGG+QrD2cA28hGT4tW60NSXTJKc=;
-	b=KUGB/5rEp9KKk2+R3YuYCdxNxivT0FP+L0N5YjlolCVyxh+NKzfAyyksfN5OP9NAiO
-	udYps9CwCt0DaXl46xeF92oXF7YEtm83yjpazTr7pgxXm/gI9zt/UXpqJg88wJIoCAhc
-	vfmMBYYCxGaemI1r903w7Ng+Cl5w6q5MynMJ3oJoR2Q0W/hModXvtDFq9JI5XGGXuvQf
-	JvXG/Pt33zMLaHpm+hkwEQ3eCw+guvCGQVjgg/g7Ml9to0Efh0mOACPKtaoT0C/qLJ12
-	6g0O1JEDwUPYkpPTiOOzRUMU/y9wyjm8iCKYR0AEEM473qQG//vnmBty+9fcv3HsWltX
-	FKFg==
-X-Gm-Message-State: AKwxytdP9re8gqxLOEiOuUlB6nfY9eipTVZ3QhUJEGSymz74Kl7yuofS
-	0GVMHwncBfDLeuFIEvpC7FU52Ia3PrV/S6gLQvWung==
-X-Google-Smtp-Source: ACJfBouqwC42ethO2ejmG0bvmj6Kkr+filvo+5Uxo3mPI5DyFFK89M9VJwssW5sQh8zoR/5Wrsdruy6427M/9qkO6sg=
-X-Received: by 10.107.9.154 with SMTP id 26mr7417850ioj.52.1515753023820; Fri,
-	12 Jan 2018 02:30:23 -0800 (PST)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C6FF7885D;
+	Fri, 12 Jan 2018 10:32:56 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 10.107.147.193 with HTTP; Fri, 12 Jan 2018 02:30:03 -0800 (PST)
-In-Reply-To: <CAMKF1sqDR_SYOQ0Wg4Vr=XeQDKrEwNh3g7F5-_3nURphFbo1Lw@mail.gmail.com>
-References: <20180110172858.22739-1-ross.burton@intel.com>
-	<20180110172858.22739-2-ross.burton@intel.com>
-	<CAMKF1sqDR_SYOQ0Wg4Vr=XeQDKrEwNh3g7F5-_3nURphFbo1Lw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jan 2018 10:30:03 +0000
-Message-ID: <CAJTo0LYX3QeacLQkGsLmxyYbBwL+4OSaL5r0A19K-AHX01aEGw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gettext: rationalise optional dependencies
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 12 Jan 2018 10:32:58 -0000
+Message-ID: <20180112103258.2783.4059@do.openembedded.org>
+References: <20180112100507.20531-1-nicolas.dechesne@linaro.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180112100507.20531-1-nicolas.dechesne@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgtZmlybXdhcmU6IGFkZCBwYWNrYWdpbmcgZm9yIFFDT00gZmlybXdhcmUgZm9yIEFQUTgwMTYgYW5kIEFQUTgwOTY=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 10:30:22 -0000
-Content-Type: multipart/alternative; boundary="001a113ea2b68d961a056291c066"
+X-List-Received-Date: Fri, 12 Jan 2018 10:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ea2b68d961a056291c066
-Content-Type: text/plain; charset="UTF-8"
+== Series Details ==
 
-On 11 January 2018 at 18:55, Khem Raj <raj.khem@gmail.com> wrote:
+Series: linux-firmware: add packaging for QCOM firmware for APQ8016 and APQ8096
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10509/
+State : failure
 
-> On Wed, Jan 10, 2018 at 9:28 AM, Ross Burton <ross.burton@intel.com>
-> wrote:
-> > gettext has optional dependencies on libxml2, glib, libcroco and
-> libunistring.
-> > If they're not available then gettext will use internal copies, but it
-> can also
-> > use system libraries.
-> >
-> > For gettext-native and nativesdk-gettext continue to use the internal
-> copies to
-> > reduce the dependencies, but for target use the system shared libraries.
-> >
->
-> Do we get any reduction in size ? if yes how much, not sure whats the
-> defaults
-> generally used by other distributions but it would nice to be using
-> the default config
-> options for best results.
+== Summary ==
 
 
-When using the system shared libraries the gettext package is about a
-megabyte smaller from memory, but obviously it has more deps (which is why
-I left it as a packageconfig).
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-For native, circular dependencies mean we can't use system libraries anyway.
 
-Ross
 
---001a113ea2b68d961a056291c066
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* Issue             LIC_FILES_CHKSUM changed on target linux-firmware but there was no explanation as to why in the commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Provide a reason for LIC_FILES_CHKSUM change in commit message
+  Current checksum     file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31     file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29     file://LICENSE.amd-ucode;md5=3a0de451253cc1edbf30a3c621effee3     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3     file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc     file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb     file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570     file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed     file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f     file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa     file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5     file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5     file://LICENCE.tda7706-firmware.txt;md5=835997cf5e3c131d0dddd695c7d9103e     file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f     file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca     file://WHENCE;md5=99d352987a7e29460bcf9b26d146a95a 
+  New checksum         file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31     file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29     file://LICENSE.amd-ucode;md5=3a0de451253cc1edbf30a3c621effee3     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3     file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc     file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb     file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570     file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed     file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f     file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa     file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5     file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5     file://LICENCE.tda7706-firmware.txt;md5=835997cf5e3c131d0dddd695c7d9103e     file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f     file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca     file://WHENCE;md5=99d352987a7e29460bcf9b26d146a95a 
 
-<div dir=3D"ltr">On 11 January 2018 at 18:55, Khem Raj <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
-m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed, Jan 10, 2018 =
-at 9:28 AM, Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.b=
-urton@intel.com</a>&gt; wrote:<br>
-&gt; gettext has optional dependencies on libxml2, glib, libcroco and libun=
-istring.<br>
-&gt; If they&#39;re not available then gettext will use internal copies, bu=
-t it can also<br>
-&gt; use system libraries.<br>
-&gt;<br>
-&gt; For gettext-native and nativesdk-gettext continue to use the internal =
-copies to<br>
-&gt; reduce the dependencies, but for target use the system shared librarie=
-s.<br>
-&gt;<br>
-<br>
-</span>Do we get any reduction in size ? if yes how much, not sure whats th=
-e defaults<br>
-generally used by other distributions but it would nice to be using<br>
-the default config<br>
-options for best results.</blockquote><div><br></div><div>When using the sy=
-stem shared libraries the gettext package is about a megabyte smaller from =
-memory, but obviously it has more deps (which is why I left it as a package=
-config).</div><div><br></div><div>For native, circular dependencies mean we=
- can&#39;t use system libraries anyway.</div><div><br></div><div>Ross</div>=
-</div></div></div>
 
---001a113ea2b68d961a056291c066--
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
