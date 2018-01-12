@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF5565CC7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A49E0788B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 08:11:37 +0000 (UTC)
+	Fri, 12 Jan 2018 08:11:38 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0C8BceA015241
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0C8BeeU009335
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Jan 2018 00:11:38 -0800 (PST)
+	Fri, 12 Jan 2018 00:11:40 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 12 Jan 2018 00:11:37 -0800
+	Fri, 12 Jan 2018 00:11:39 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Jan 2018 03:11:26 -0500
-Message-ID: <8c1fe6eb54d88b7dd3081b57e98f8cf3b5298045.1515744181.git.hongxu.jia@windriver.com>
+Date: Fri, 12 Jan 2018 03:11:27 -0500
+Message-ID: <00a4466559126e918f81ad9285b3c4d26fa3676d.1515744181.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1515744181.git.hongxu.jia@windriver.com>
 References: <cover.1515744181.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] python-core/python-dev: improve reproducibility
+Subject: [PATCH 6/6] kbd-ptest: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 08:11:37 -0000
+X-List-Received-Date: Fri, 12 Jan 2018 08:11:39 -0000
 Content-Type: text/plain
 
-- Remove remaining build host references from packaged files.
-  (sync with python3)
-
-- Use relative path to recompile _sysconfigdata.py
+Remove remaining build host references of ptest's Makefile.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python_2.7.13.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/kbd/kbd_2.0.4.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index 754c029..8f50509 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -140,9 +140,14 @@ py_package_preprocess () {
+diff --git a/meta/recipes-core/kbd/kbd_2.0.4.bb b/meta/recipes-core/kbd/kbd_2.0.4.bb
+index 423b47a..5937cb8 100644
+--- a/meta/recipes-core/kbd/kbd_2.0.4.bb
++++ b/meta/recipes-core/kbd/kbd_2.0.4.bb
+@@ -29,6 +29,13 @@ do_compile_ptest() {
+ do_install_ptest() {
+     install -D ${B}/tests/Makefile ${D}${PTEST_PATH}/tests/Makefile
+     sed -i -e '/Makefile:/,/^$/d' -e '/%: %.in/,/^$/d' \
++	-e 's:--sysroot=${STAGING_DIR_TARGET}::g' \
++	-e 's:${DEBUG_PREFIX_MAP}::g' \
++	-e 's:${HOSTTOOLS_DIR}/::g' \
++	-e 's:${RECIPE_SYSROOT_NATIVE}::g' \
++	-e 's:${RECIPE_SYSROOT}::g' \
++	-e 's:${S}/config/missing::g' \
++	-e 's:${WORKDIR}::g' \
+ 	-e '/libkeymap_.*_SOURCES =/d' -e '/$(EXEEXT):/,/^$/d' ${D}${PTEST_PATH}/tests/Makefile
  
- 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
- 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+		-e 's|${DEBUG_PREFIX_MAP}||g' \
-+		-e 's:${HOSTTOOLS_DIR}/::g' \
-+		-e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+		-e 's:${RECIPE_SYSROOT}::g' \
-+		-e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
--    python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
-+	(cd ${PKGD}; python -m py_compile ./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py)
- }
- 
- require python-${PYTHON_MAJMIN}-manifest.inc
+     find ${B}/tests -executable -exec install {} ${D}${PTEST_PATH}/tests \;
 -- 
 2.8.1
 
