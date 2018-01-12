@@ -1,31 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 52B53787E1
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 25CE17886B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 02:13:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0C2DD90013889
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Fri, 12 Jan 2018 02:24:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0C2Oxp9007182
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jan 2018 18:13:13 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Thu, 11 Jan 2018 18:13:12 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>
-Thread-Topic: [OE-core] [PATCH] systemd: add RDEPENDS on util-linux-getopt
-Thread-Index: AQHTixj1hDy6XPKZrUWc05H8PLr9A6NvfFHA
-Date: Fri, 12 Jan 2018 02:13:11 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566CF55D@ALA-MBC.corp.ad.wrs.com>
+	Thu, 11 Jan 2018 18:24:59 -0800 (PST)
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 11 Jan 2018 18:24:58 -0800
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
 References: <20180111030706.18174-1-jackie.huang@windriver.com>
 	<fa40b5ce-5334-0f34-785d-d6ad8e978f15@windriver.com>
-In-Reply-To: <fa40b5ce-5334-0f34-785d-d6ad8e978f15@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.163.136]
+	<1B858668EC6A94408DCA5225FDFA85AA01566CF55D@ALA-MBC.corp.ad.wrs.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <f7de17db-27f2-f102-8ae7-a9aad388c3d7@windriver.com>
+Date: Thu, 11 Jan 2018 21:24:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA01566CF55D@ALA-MBC.corp.ad.wrs.com>
+X-Originating-IP: [172.25.44.3]
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: add RDEPENDS on util-linux-getopt
@@ -41,55 +39,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 02:13:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 12 Jan 2018 02:24:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWFjTGVvZCwgUmFuZHkN
-Cj4gU2VudDogRnJpZGF5LCBKYW51YXJ5IDEyLCAyMDE4IDA0OjE2DQo+IFRvOiBIdWFuZywgSmll
-IChKYWNraWUpOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
-YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBzeXN0ZW1kOiBhZGQgUkRFUEVORFMgb24gdXRp
-bC1saW51eC1nZXRvcHQNCj4gDQo+IE9uIDIwMTgtMDEtMTAgMTA6MDcgUE0sIGphY2tpZS5odWFu
-Z0B3aW5kcml2ZXIuY29tIHdyb3RlOg0KPiA+IEZyb206IEphY2tpZSBIdWFuZyA8amFja2llLmh1
-YW5nQHdpbmRyaXZlci5jb20+DQo+ID4NCj4gPiAnZ2V0b3B0JyBpcyBuZWVkZWQgYnkgc3lzdGVt
-ZC1zeXN2LWluc3RhbGwsIG9yIGl0IGZhaWxzIHdpdGg6DQo+ID4gfCBrZHVtcC5zZXJ2aWNlIGlz
-IG5vdCBhIG5hdGl2ZSBzZXJ2aWNlLCByZWRpcmVjdGluZyB0byBzeXN0ZW1kLXN5c3YtaW5zdGFs
-bC4NCj4gPiB8IEV4ZWN1dGluZzogL2xpYi9zeXN0ZW1kL3N5c3RlbWQtc3lzdi1pbnN0YWxsIGVu
-YWJsZSBrZHVtcA0KPiA+IHwgL2xpYi9zeXN0ZW1kL3N5c3RlbWQtc3lzdi1pbnN0YWxsOiBsaW5l
-IDE1OiBnZXRvcHQ6IGNvbW1hbmQgbm90IGZvdW5kDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBK
-YWNraWUgSHVhbmcgPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPg0KPiA+IC0tLQ0KPiA+ICAg
-bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzIzNC5iYiB8IDIgKy0NCj4gPiAgIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yMzQuYmIgYi9tZXRh
-L3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kXzIzNC5iYg0KPiA+IGluZGV4IDQxMzJj
-ZGY0MGYuLjVhMGU0YzIyNDcgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lz
-dGVtZC9zeXN0ZW1kXzIzNC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQv
-c3lzdGVtZF8yMzQuYmINCj4gPiBAQCAtNTIxLDcgKzUyMSw3IEBAIEZJTEVTXyR7UE59ID0gIiAk
-e2Jhc2VfYmluZGlyfS8qIFwNCj4gPg0KPiA+ICAgRklMRVNfJHtQTn0tZGV2ICs9ICIke2Jhc2Vf
-bGliZGlyfS9zZWN1cml0eS8qLmxhICR7ZGF0YWRpcn0vZGJ1cy0NCj4gMS9pbnRlcmZhY2VzLyAk
-e3N5c2NvbmZkaXJ9L3JwbS9tYWNyb3Muc3lzdGVtZCINCj4gPg0KPiA+IC1SREVQRU5EU18ke1BO
-fSArPSAia21vZCBkYnVzIHV0aWwtbGludXgtbW91bnQgdWRldiAoPSAke0VYVEVORFBLR1Z9KQ0K
-PiB1dGlsLWxpbnV4LWFnZXR0eSINCj4gPiArUkRFUEVORFNfJHtQTn0gKz0gImttb2QgZGJ1cyB1
-dGlsLWxpbnV4LW1vdW50IHVkZXYgKD0gJHtFWFRFTkRQS0dWfSkNCj4gdXRpbC1saW51eC1hZ2V0
-dHkgdXRpbC1saW51eC1nZXRvcHQiDQo+IA0KPiBJdCB3b3VsZCBiZSBuaWNlIHRvIG1ha2UgdGhl
-IGRlcGVuZGVuY3kgY29uZGl0aW9uYWwgb24gc3lzdGVtZCBiZWluZw0KPiBjb25maWd1cmVkIHRv
-IHN1cHBvcnQgc3lzdmluaXQgc2NyaXB0cy4NCg0KVGhlIHN5c3Zpbml0IHNjcmlwdCBpcyBhbHdh
-eXMgc3VwcG9ydGVkIGZvciBub3c6DQoNCmNvbW1pdCA5ZDI5OGQxNTYzYjNmZDVhZDU2OWY4MDZj
-YzI5NmUxMzI3OWU3Y2Y2DQpBdXRob3I6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQpE
-YXRlOiAgIFN1biBTZXAgNiAxNToyNTo0MSAyMDE1ICswMDAwDQoNCiAgICBzeXN0ZW1kOiBJbXBs
-ZW1lbnQgT0UtU3BlY2lmaWMgc3lzdGVtZC1zeXN2LWluc3RhbGwNCg0KICAgIFN1cHBvcnQgZm9y
-IGNoa2NvbmZpZyAoLS1lbmFibGUtY2hrY29uZmlnKSB3YXMgcmVtb3ZlZCBpbiBmYXZvdXIgb2YN
-CiAgICBjYWxsaW5nIGFuIGFic3RyYWN0aW9uIC9saWIvc3lzdGVtZC9zeXN0ZW1kLXN5c3YtaW5z
-dGFsbC4gVGhpcw0KICAgIG5lZWRzIHRvIGJlIGltcGxlbWVudGVkIGZvciBPRS4NCg0KICAgIFNp
-Z25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQogICAgU2lnbmVkLW9m
-Zi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+
-DQoNClNvIEkgdGhpbmsgdGhlIHVuY29uZGl0aW9uYWwgZGVwZW5kZW5jeSBpcyBuZWVkZWQgdW5s
-ZXNzIHdlIGNoYW5nZSB0aGUNCnN1cHBvcnQgZm9yIHN5c3Zpbml0IHRvIGJlIG9wdGlvbmFsIGFz
-IHdlbGwuDQoNClRoYW5rcywNCkphY2tpZQ0KPiANCj4gLi4vUmFuZHkNCj4gDQo+ID4gICBSREVQ
-RU5EU18ke1BOfSArPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLCAnc2Vy
-aWFsLWdldHR5LQ0KPiBnZW5lcmF0b3InLCAnJywgJ3N5c3RlbWQtc2VyaWFsZ2V0dHknLCBkKX0i
-DQo+ID4gICBSREVQRU5EU18ke1BOfSArPSAidm9sYXRpbGUtYmluZHMgdXBkYXRlLXJjLmQiDQo+
-ID4NCj4gPg0KPiANCj4gDQo+IC0tDQo+ICMgUmFuZHkgTWFjTGVvZC4gIFdSIExpbnV4DQo+ICMg
-V2luZCBSaXZlciBhbiBJbnRlbCBDb21wYW55DQo=
+On 2018-01-11 09:13 PM, Huang, Jie (Jackie) wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: MacLeod, Randy
+>> Sent: Friday, January 12, 2018 04:16
+>> To: Huang, Jie (Jackie); openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH] systemd: add RDEPENDS on util-linux-getopt
+>>
+>> On 2018-01-10 10:07 PM, jackie.huang@windriver.com wrote:
+>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>
+>>> 'getopt' is needed by systemd-sysv-install, or it fails with:
+>>> | kdump.service is not a native service, redirecting to systemd-sysv-install.
+>>> | Executing: /lib/systemd/systemd-sysv-install enable kdump
+>>> | /lib/systemd/systemd-sysv-install: line 15: getopt: command not found
+>>>
+>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>> ---
+>>>    meta/recipes-core/systemd/systemd_234.bb | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-
+>> core/systemd/systemd_234.bb
+>>> index 4132cdf40f..5a0e4c2247 100644
+>>> --- a/meta/recipes-core/systemd/systemd_234.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_234.bb
+>>> @@ -521,7 +521,7 @@ FILES_${PN} = " ${base_bindir}/* \
+>>>
+>>>    FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-
+>> 1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>>>
+>>> -RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})
+>> util-linux-agetty"
+>>> +RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})
+>> util-linux-agetty util-linux-getopt"
+>>
+>> It would be nice to make the dependency conditional on systemd being
+>> configured to support sysvinit scripts.
+> 
+> The sysvinit script is always supported for now:
+> 
+> commit 9d298d1563b3fd5ad569f806cc296e13279e7cf6
+> Author: Khem Raj <raj.khem@gmail.com>
+> Date:   Sun Sep 6 15:25:41 2015 +0000
+> 
+>      systemd: Implement OE-Specific systemd-sysv-install
+> 
+>      Support for chkconfig (--enable-chkconfig) was removed in favour of
+>      calling an abstraction /lib/systemd/systemd-sysv-install. This
+>      needs to be implemented for OE.
+> 
+>      Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> So I think the unconditional dependency is needed unless we change the
+> support for sysvinit to be optional as well.
+
+I would like to make it configurable but you're right, it works
+properly now and the commit log would tip anyone off should we
+get around to making systemd's sysvinit support optional.
+
+Thanks,
+
+../Randy
+
+> 
+> Thanks,
+> Jackie
+>>
+>> ../Randy
+>>
+>>>    RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-
+>> generator', '', 'systemd-serialgetty', d)}"
+>>>    RDEPENDS_${PN} += "volatile-binds update-rc.d"
+>>>
+>>>
+>>
+>>
+>> --
+>> # Randy MacLeod.  WR Linux
+>> # Wind River an Intel Company
+
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
