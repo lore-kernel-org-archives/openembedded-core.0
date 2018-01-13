@@ -1,26 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D89371C1F
+Return-Path: <dariusz.pelowski@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C81F6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jan 2018 10:11:26 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0DABDVa015765
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 13 Jan 2018 10:11:14 GMT
-Message-ID: <1515838273.29722.133.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 13 Jan 2018 10:11:13 +0000
-In-Reply-To: <1515791062-54281-1-git-send-email-juro.bystricky@intel.com>
-References: <1515791062-54281-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: jurobystricky@hotmail.com
-Subject: Re: [PATCH] libc6: improve reproducibility
+	Sat, 13 Jan 2018 10:58:30 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id g72so3013708lfg.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Jan 2018 02:58:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Un4otInoiElsAPxbaXfw1Av9o0VZPegakeOEz01zQ+c=;
+	b=K85/pEGfZEqs710IijD4/TDanIlnPzgFmEjfDFvJyLwjVuWe5gOzKz10S1zwPZ6RhP
+	qvAZrqfSu0f3VafwzwGCqFbCfBLdgLrf7Cv5kHHvbFLq18TyBrP0nIxSo5NpTi/dExFC
+	9GWc4PSqvVXmvMJS31O+uHl5vFoxWdBYHKUitItiRMPO0sCaV4BoMO6mcKmnJxamWMJY
+	4HDddUi9BH35YHBm/KXCD+695uwshlYpMx/4vLz3eq77CRMj9VbQ8gkM82m/ceL0onln
+	1+1vSMt3kF9DtjBYnhenQyCdlSmOz2cpMEwvqSl06f4/MrmXedbDdijPJGlrZQcAhaEY
+	Vuag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Un4otInoiElsAPxbaXfw1Av9o0VZPegakeOEz01zQ+c=;
+	b=bxyvHoVAxmhMOGmA43619apxbsmMnoOTLB+UsxAIY2O+lyhTd82dp2DSMBci39k4XJ
+	4vNo57ADM1FgohxtxO3RhbYZp3rW7ViS5flW/xh0QFQwjS2aRTOfVjDNipw8HGBnW+LL
+	kLnbKozfU/rrDwShWU+ubc5+OsdBNcjABp0sD5LIxH1Tubyo5OwKw9csseXzopRfkATs
+	pS8+E4zfV2pkq6OeTUY2mFx/xgfmvZ0xTUlJXSAJ9dNDU3Fkut+2ZOqreMSmtV2nzx4E
+	DZWttuOpp5PMN9LxXmGGvNU072E3aXeE5+uuf8HKKVcf+LpXH3yknZthe1d5g/fYfRUq
+	dCBQ==
+X-Gm-Message-State: AKGB3mLbaSxi9MtzJqI9UXPP0kiceXocv2ssh3AFMuPqhQfnsydifVWs
+	U6eVbkb+4QrHgkx3PEriz1B6Uvkv
+X-Google-Smtp-Source: ACJfBov6BM+37Egy6ggHfjiPYXj1Yqb2hRDbIBKs5JbIL+V5B4PxfTHma+NiqouSrm0p1LiEJUDsrQ==
+X-Received: by 10.46.41.68 with SMTP id u65mr19001135lje.115.1515841111152;
+	Sat, 13 Jan 2018 02:58:31 -0800 (PST)
+Received: from duzy.lan (user-188-33-218-82.play-internet.pl. [188.33.218.82])
+	by smtp.gmail.com with ESMTPSA id
+	b65sm4585937ljb.74.2018.01.13.02.58.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 13 Jan 2018 02:58:30 -0800 (PST)
+From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Jan 2018 11:58:10 +0100
+Message-Id: <20180113105810.4136-1-dariusz.pelowski@gmail.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [meta-oe][PATCH] base.bbclass: add automatic dependency on xz-native for .deb SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jan 2018 10:11:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 13 Jan 2018 10:58:31 -0000
 
-On Fri, 2018-01-12 at 13:04 -0800, Juro Bystricky wrote:
-> Building various libraries (libc6, libc6-pic, libc6-staticdev, libc6-
-> dbg, ...)
-> can be non-deterministic because they may be built with two different
-> versions
-> of intl/plural.c. in two otherwise identical builds. We may or may
-> not re-generate
-> the file plural.c from the file plural.y, based on bison being
-> installed or not
-> and based on mtimes of those two files, as the Makefile contains:
-> 
-> plural.c: plural.y
-> 	$(BISON) $(BISONFLAGS) $@ $^
-> 
-> If the above rule does not fire, we use a "fallback" plural.c,
-> otherwise
-> we use plural.c re-generated from plural.y.
-> The fix is to always require bison to be installed and
-> unconditionally
-> re-generate plural.c. (This is achieved by touching plural.y).
-> 
-> [YOCTO #12291]
-> 
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.26.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+FetchMethod.unpack requires xz for unpacking of embedded
+data.tar.xz
 
-Hi Juro,
+Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+---
+ meta/classes/base.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Can you put a comment alongside the touch in the recipe as we're not
-going to know why we're doing this in a few years time...
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 6fe611489f..912e81e002 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -628,6 +628,10 @@ python () {
+         elif path.endswith('.rpm'):
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
+ 
++        # *.deb should DEPEND on xz-native for unpacking
++        elif path.endswith('.deb'):
++            d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
++
+     if needsrcrev:
+         d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
+ 
+-- 
+2.15.1
 
-Cheers,
-
-Richard
-
-
-> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-
-> core/glibc/glibc_2.26.bb
-> index 04d9773..4d9b23f 100644
-> --- a/meta/recipes-core/glibc/glibc_2.26.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36
-> d3209f380deb394b213 \
->        file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c78
-> 5f5d83a \
->        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
->  
-> -DEPENDS += "gperf-native"
-> +DEPENDS += "gperf-native bison-native"
->  
->  SRCREV ?= "77f921dac17c5fa99bd9e926d926c327982895f7"
->  
-> @@ -103,6 +103,7 @@ do_configure () {
->  # version check and doesn't really help with anything
->          (cd ${S} && gnu-configize) || die "failure in running gnu-
-> configize"
->          find ${S} -name "configure" | xargs touch
-> +        find ${S}/intl -name "plural.y" | xargs touch
->          CPPFLAGS="" oe_runconf
->  }
->  
 
