@@ -1,48 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CF06E606A8
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 11C08786B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jan 2018 03:46:05 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id s139so4759395vkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 19:46:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bHgVBgWxi3jrZ7OVtrD32pXdKMfaoOYrukQeosPs3Fo=;
-	b=ugh1TPrsU1C7yMMxvWULFbQtUUXpZaQLneo26OVAdZ3CY0HqoST+CulF93HF0WT1eL
-	RVxjfwqv9s/QcyTJ3J/5PUCKqXKlpJlLBo17VvVcKW1QHCqWzxrNAeaHh/uI7SqPdSsz
-	RF+9sxjJufmGYhAgyhycq6yv6rTMMXSlmhU50dxvnvb5BLc7w5AgheQbSeq95K44zC1s
-	dZqV2rgeCk5aKBrwYBti/lsLtWv4/rXYltAnWt88rGI2G6HI6s99UVF/oZYDmc1G4XCk
-	UdMfoSyJfbHfAZ2JgKfRWFeLRjk3cN4mau9NTJ8AgSNIAkBheeWyUnJMnhbqq0KMgiE5
-	ZfQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bHgVBgWxi3jrZ7OVtrD32pXdKMfaoOYrukQeosPs3Fo=;
-	b=rUrMyvTWjJ46PZSN1RCm6lC6PPfTlDENNfurF4sc+oyYp/Q/TRXD1mDRKQFHYYAzCZ
-	aDtFwymrWgUYNF1h0dVGo5qTqmSGz80GquDHEyrkbyQ2zAZV+iDqt52jLDdi4+NgAkze
-	bdcfWXTIzM95w5N/dJ5tJinSJYjh45rCpYqZd6K0zRPL6D9EoMF2g4tvS4K4pkeCP1Ia
-	QBQyAxey/FxgLkA1CaTU4y+QVULXdpA66Y8Y7UwoW1CSDf4q+j5UErLQ6w05NNp44QhG
-	bVAcLHZUdbBQ5a5xP2l+sKIrFl/cUgEXfs7/q+Evo9qPfqz35YD1X+Rn/DVnanf2HDKh
-	ZKUQ==
-X-Gm-Message-State: AKwxytdpsDKjY3nFhQtiyz8jV/jJDVhEYs97xdrsHDLSWqYT0nDMX67Z
-	+aJIF1Z10cZinsxd74o0AhIqf4tBLHoTZ/z0k/A=
-X-Google-Smtp-Source: ACJfBovrJBXxXg8ZB4rDU9cgJ+AweB59wFxTDWunE/hxiEnfYW94tIF9FPeCf4izZkNM0bNSDyPaBN1KcgJsZikRAqY=
-X-Received: by 10.31.153.76 with SMTP id b73mr24984995vke.53.1515815166653;
-	Fri, 12 Jan 2018 19:46:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.55.142 with HTTP; Fri, 12 Jan 2018 19:45:46 -0800 (PST)
-In-Reply-To: <20180112130644.21313-1-alex.stewart@ni.com>
-References: <20180112130644.21313-1-alex.stewart@ni.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Fri, 12 Jan 2018 20:45:46 -0700
-Message-ID: <CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
-To: Alex Stewart <alex.stewart@ni.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] recipes-core: move hwclock.sh to util-linux
+	Sat, 13 Jan 2018 10:02:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jan 2018 02:02:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,352,1511856000"; 
+   d="scan'208";a="9387362"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.166.180])
+	by fmsmga007.fm.intel.com with ESMTP; 13 Jan 2018 02:02:42 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Jan 2018 18:02:37 +0800
+Message-Id: <1515837757-5173-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] libxml2: fix makefile for ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,90 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jan 2018 03:46:06 -0000
-Content-Type: multipart/alternative; boundary="001a1140f6168dba2b0562a03807"
+X-List-Received-Date: Sat, 13 Jan 2018 10:02:43 -0000
 
---001a1140f6168dba2b0562a03807
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes to Makefile in latest version mean when "make -k runtests" is executed,
+it leads to errors like:
 
-On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <alex.stewart@ni.com> wrote:
+| make: *** No rule to make target 'runtest.c', needed by 'runtest.o'.
+| make: *** No rule to make target 'SAX.c', needed by 'SAX.lo'.
+| make: *** No rule to make target 'entities.c', needed by 'entities.lo'.
+| make: *** No rule to make target 'encoding.c', needed by 'encoding.lo'.
 
-> * Move the hwclock.sh initscript from the busybox recipe to util-linux.
->   This script is generally useful for distros that get their hwclock
->   implementation from sources other than busybox and we follow debian's
->   example by providing it in util-linux.
->
-> :busybox/*
-> * Remove the busybox-hwclock package, as it no longer has a purpose.
-> * If busybox is configured to include hwclock, the busybox package will
->   RDEPEND on util-linux-hwclock-init.
->
-> :util-linux/*
-> * Provide the hwclock.sh script in util-linux-hwclock-init, which can be
->   pulled by any packages that depend on its functionality.
-> * util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its
->   initscript.
->
-> Signed-off-by: Alex Stewart <alex.stewart@ni.com>
-> Acked-by: Haris Okanovic <haris.okanovic@ni.com>
-> Acked-by: Adrian Ratiu <adrian.ratiu@ni.com>
-> Acked-by: Ken Sharp <ken.sharp@ni.com>
-> Natinst-ReviewBoard-ID: 214983, 215755
->
+Make sure that we don't try to check and compile the tests again on the target.
 
-Just a note that this will slow down the build for targets that wouldn=E2=
-=80=99t
-otherwise build the util-linux recipe.
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../libxml/libxml2/fix-execution-of-ptests.patch    | 21 +++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.7.bb           |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
 
---001a1140f6168dba2b0562a03807
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
+new file mode 100644
+index 0000000..51a9e19
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
+@@ -0,0 +1,21 @@
++Make sure that Makefile doesn't try to compile these tests again
++on the target where the source dependencies won't be available.
++
++Upstream-Status: Inappropriate [cross-compile specific]
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
++Index: libxml2-2.9.7/Makefile.am
++===================================================================
++--- libxml2-2.9.7.orig/Makefile.am
+++++ libxml2-2.9.7/Makefile.am
++@@ -211,8 +211,7 @@ install-ptest:
++ 	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
++ 	$(MAKE) -C python install-ptest
++ 
++-runtests: runtest$(EXEEXT) testrecurse$(EXEEXT) testapi$(EXEEXT) \
++-          testchar$(EXEEXT) testdict$(EXEEXT) runxmlconf$(EXEEXT)
+++runtests:
++ 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
++ 	[ -d result ] || $(LN_S) $(srcdir)/result .
++ 	$(CHECKER) ./runtest$(EXEEXT) && \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.7.bb b/meta/recipes-core/libxml/libxml2_2.9.7.bb
+index 996e671..85bfeca 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.7.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.7.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://python-sitepackages-dir.patch \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
++           file://fix-execution-of-ptests.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "896608641a08b465098a40ddf51cefba"
+-- 
+2.7.4
 
-<div dir=3D"ltr">On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:alex.stewart@ni.com" target=3D"_blank">alex.ste=
-wart@ni.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">* Move the hwclock.sh inits=
-cript from the busybox recipe to util-linux.<br>
-=C2=A0 This script is generally useful for distros that get their hwclock<b=
-r>
-=C2=A0 implementation from sources other than busybox and we follow debian&=
-#39;s<br>
-=C2=A0 example by providing it in util-linux.<br>
-<br>
-:busybox/*<br>
-* Remove the busybox-hwclock package, as it no longer has a purpose.<br>
-* If busybox is configured to include hwclock, the busybox package will<br>
-=C2=A0 RDEPEND on util-linux-hwclock-init.<br>
-<br>
-:util-linux/*<br>
-* Provide the hwclock.sh script in util-linux-hwclock-init, which can be<br=
->
-=C2=A0 pulled by any packages that depend on its functionality.<br>
-* util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its<br>
-=C2=A0 initscript.<br>
-<br>
-Signed-off-by: Alex Stewart &lt;<a href=3D"mailto:alex.stewart@ni.com">alex=
-.stewart@ni.com</a>&gt;<br>
-Acked-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com">haris=
-.okanovic@ni.com</a>&gt;<br>
-Acked-by: Adrian Ratiu &lt;<a href=3D"mailto:adrian.ratiu@ni.com">adrian.ra=
-tiu@ni.com</a>&gt;<br>
-Acked-by: Ken Sharp &lt;<a href=3D"mailto:ken.sharp@ni.com">ken.sharp@ni.co=
-m</a>&gt;<br>
-Natinst-ReviewBoard-ID: 214983, 215755<br></blockquote><div><br></div><div>=
-Just a note that this will slow down the build for targets that wouldn=E2=
-=80=99t otherwise build the util-linux recipe.</div></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
-iv><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Found=
-er - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor =
-Graphics</div></div></div></div>
-</div></div>
 
---001a1140f6168dba2b0562a03807--
