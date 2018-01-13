@@ -1,46 +1,25 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADEF71B9E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DF63C78694
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jan 2018 14:09:29 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jan 2018 06:09:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,353,1511856000"; d="scan'208";a="19049111"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Jan 2018 06:09:31 -0800
-Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
-	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Sat, 13 Jan 2018 06:09:31 -0800
-Received: from fmsmsx157.amr.corp.intel.com ([169.254.14.149]) by
-	FMSMSX102.amr.corp.intel.com ([169.254.10.49]) with mapi id
-	14.03.0319.002; Sat, 13 Jan 2018 06:09:30 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] libc6: improve reproducibility
-Thread-Index: AQHTi+ju1fTBCNhxMkagqz46xhmtlKNyG/iA//+7kYA=
-Date: Sat, 13 Jan 2018 14:09:30 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6404EA9FC@FMSMSX157.amr.corp.intel.com>
-References: <1515791062-54281-1-git-send-email-juro.bystricky@intel.com>
-	<1515838273.29722.133.camel@linuxfoundation.org>
-In-Reply-To: <1515838273.29722.133.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjIxZjg1Y2UtYmUyZC00ZWJiLTlkMDMtYjU0NTY5YjdiMDJiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJyQXNCQ0lTalNmampwTW9BQ1NjK1MyZ1wvN04wWktydWtuWFV2dHBOVjFFbTNSZjk2XC9NVU0xcHhBTGNGQ1wvZjFFIn0=
-x-originating-ip: [10.1.200.107]
-MIME-Version: 1.0
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
-Subject: Re: [PATCH] libc6: improve reproducibility
+	Sat, 13 Jan 2018 14:14:57 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0DEEutr024376
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 13 Jan 2018 14:14:58 GMT
+Message-ID: <1515852896.29722.157.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joe Slater <jslater@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 13 Jan 2018 14:14:56 +0000
+In-Reply-To: <20171219190728.133823-1-jslater@windriver.com>
+References: <20171219190728.133823-1-jslater@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/1] testsdk: add ability to search for multilib packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,16 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jan 2018 14:09:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 13 Jan 2018 14:14:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-DQo+IEhpIEp1cm8sDQo+IA0KPiBDYW4geW91IHB1dCBhIGNvbW1lbnQgYWxvbmdzaWRlIHRoZSB0
-b3VjaCBpbiB0aGUgcmVjaXBlIGFzIHdlJ3JlIG5vdA0KPiBnb2luZyB0byBrbm93IHdoeSB3ZSdy
-ZSBkb2luZyB0aGlzIGluIGEgZmV3IHllYXJzIHRpbWUuLi4NCj4gDQoNClN1cmUsIG5vIHByb2Js
-ZW0uIEkgd2lsbCBzZW5kIHYyLiBCVFcsIHRoaXMgd2FzIGZpeGVkIGluIHVwc3RyZWFtIGdsaWJj
-LCBzbyB0aGUgInRvdWNoIiBsaW5lIGNhbiBiZSByZW1vdmVkIG9uY2Ugd2UgdXBncmFkZSBnbGli
-Yy4gSSB3aWxsIHB1dCB0aGlzIGluIHRoZSBjb21tZW50IGFzIHdlbGwuIChXZSBzdGlsbCBkZXBl
-bmQgb24gYmlzb24tbmF0aXZlKQ0KDQo=
+On Tue, 2017-12-19 at 11:07 -0800, Joe Slater wrote:
+> We search for packages related to the sdk environment
+> being used for a test.
+
+[...]
+> @@ -33,6 +34,16 @@ class OESDKTestContext(OETestContextThreaded):
+>      def hasTargetPackage(self, pkg):
+>          return self._hasPackage(self.target_pkg_manifest, pkg)
+>  
+> +    def hasPrefixedTargetPackage(self, pkg):
+> +        # extract multilib from environment script name
+> +        try:
+> +            p = re.match(".*(lib.?[36][24]-)linux-?",
+> self.sdk_env).group(1) + pkg
+> +        except:
+
+I'm not sure this is correct, many of the prefixes are just "lib32-"
+and there is no "linux" in there?
+
+We could really use unit tests on these functions as we're heading into
+unmaintainable spaghetti territory :(.
+
+It may also be an option to iterate the configured multilibs and search
+for each one, that way we avoid the regexp overhead?
+
+Cheers,
+
+Richard
 
