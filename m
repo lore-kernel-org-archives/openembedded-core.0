@@ -1,26 +1,24 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BC4960107
+	by mail.openembedded.org (Postfix) with ESMTP id 5CFAF606A8
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 13 Jan 2018 17:58:43 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0DHwffQ031830
+	w0DHwdJW031826
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Sat, 13 Jan 2018 17:58:42 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1eaQ4n-0004GX-B0; Sat, 13 Jan 2018 17:58:41 +0000
+	id 1eaQ4l-0004GS-Qa; Sat, 13 Jan 2018 17:58:39 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Jan 2018 17:58:38 +0000
-Message-Id: <1515866318-16353-2-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sat, 13 Jan 2018 17:58:37 +0000
+Message-Id: <1515866318-16353-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1515866318-16353-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1515866318-16353-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 2/2] cross-canadian/gettext: Drop unneeded nativesdk-gettext dependency
+Subject: [PATCH 1/2] json-glib: Add dependency on gettext-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 13 Jan 2018 17:58:45 -0000
 
-In line with the other gettext cleanups, drop the nativesdk-gettext dependency
-as it isn't needed (similarly to the previous target gettext dependencies).
+Avoids:
 
-This then means we can drop DEPENDS_GETTEXT as there are no other users.
+Meson encountered an error in file po/meson.build, line 58, column 5:
+Can not do gettext because xgettext is not installed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/cross-canadian.bbclass | 2 --
- meta/classes/gettext.bbclass        | 4 +---
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ meta/recipes-gnome/json-glib/json-glib_1.2.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index cce09c9..ee8aa61 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -123,8 +123,6 @@ LDFLAGS = "${BUILDSDK_LDFLAGS} \
-            -Wl,-rpath-link,${STAGING_LIBDIR}/.. \
-            -Wl,-rpath,${libdir}/.. "
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+index 88653ef..31912d1 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+@@ -17,7 +17,7 @@ SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
+ SRC_URI[archive.sha256sum] = "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
  
--DEPENDS_GETTEXT = "gettext-native nativesdk-gettext"
--
- #
- # We need chrpath >= 0.14 to ensure we can deal with 32 and 64 bit
- # binaries
-diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
-index da68e63..be2ef3b 100644
---- a/meta/classes/gettext.bbclass
-+++ b/meta/classes/gettext.bbclass
-@@ -3,7 +3,7 @@ def gettext_dependencies(d):
-         return ""
-     if d.getVar('USE_NLS') == 'no':
-         return "gettext-minimal-native"
--    return d.getVar('DEPENDS_GETTEXT', False)
-+    return "gettext-native"
+ GNOMEBASEBUILDCLASS = "meson"
+-inherit gnomebase lib_package gobject-introspection gtk-doc manpages
++inherit gnomebase lib_package gobject-introspection gtk-doc manpages gettext
  
- def gettext_oeconf(d):
-     if d.getVar('USE_NLS') == 'no':
-@@ -13,8 +13,6 @@ def gettext_oeconf(d):
-         return '--disable-nls'
-     return "--enable-nls"
- 
--DEPENDS_GETTEXT ??= "gettext-native"
--
- BASEDEPENDS_append = " ${@gettext_dependencies(d)}"
- EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
- 
+ GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
+ GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
 -- 
 2.7.4
 
