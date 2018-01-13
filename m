@@ -1,50 +1,48 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A819978711
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CF06E606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 22:37:22 +0000 (UTC)
-Received: by mail-wr0-f182.google.com with SMTP id e41so6218408wre.9
+	Sat, 13 Jan 2018 03:46:05 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id s139so4759395vkb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jan 2018 14:37:24 -0800 (PST)
+	Fri, 12 Jan 2018 19:46:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=2LJPBTiAdqUyMefx0fwtLSnsCvryOnyckarminOC2f0=;
-	b=UaMbxwh4I6FJ6mAKBki8ATx5whLnv8691LUUgnREE6Oa0ZUl/pdb6KhppUwczYDmjY
-	1nnFELriKjLn+eMbBskE55FtIs2UlK/X93UjwiXFI2jqm6L0yNj5bS1I1TC8Idve3Fu8
-	YSIvuRAp89NEwCnuX2EVRxl8jk5S+VJ5QTEjcu2jFwKKFEjviF6e0oWxhaiZEmORO5xH
-	0oZw45R6ft9csD36ZK0Eq1GnG3eX5acgUfm/td2VxkG+vQaSzKZvlsDTMSSZa9pwflro
-	nHVxAJz0Xr+GULlvDhaxMmbWBpQBCf6yCTV2MCcl/FyqgLcsQOXP19V7up0g0UmIaaHY
-	1P5g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bHgVBgWxi3jrZ7OVtrD32pXdKMfaoOYrukQeosPs3Fo=;
+	b=ugh1TPrsU1C7yMMxvWULFbQtUUXpZaQLneo26OVAdZ3CY0HqoST+CulF93HF0WT1eL
+	RVxjfwqv9s/QcyTJ3J/5PUCKqXKlpJlLBo17VvVcKW1QHCqWzxrNAeaHh/uI7SqPdSsz
+	RF+9sxjJufmGYhAgyhycq6yv6rTMMXSlmhU50dxvnvb5BLc7w5AgheQbSeq95K44zC1s
+	dZqV2rgeCk5aKBrwYBti/lsLtWv4/rXYltAnWt88rGI2G6HI6s99UVF/oZYDmc1G4XCk
+	UdMfoSyJfbHfAZ2JgKfRWFeLRjk3cN4mau9NTJ8AgSNIAkBheeWyUnJMnhbqq0KMgiE5
+	ZfQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=2LJPBTiAdqUyMefx0fwtLSnsCvryOnyckarminOC2f0=;
-	b=KNGcNek/ZtS2jYWGtrunTLTnMMC975mdLQcC/MDNxdKwo2V7JWpyXpvRo2dTOBVv92
-	/DS4U9ekitv/oZlnsmE6pBwGE7qQ7Xy1E8FFbfayS5dDZorlRjvHHeJSZiI9qOL7nhgV
-	/BYGhuhqMZTuNEoSD7/NcmaRCvhkBIgAOXnfYvAqqLwPr12mG/1CCWeS04PEDjh56qoy
-	ccqVl1qum6tZ579h6OFDerGAXgk4g7PzWl4j1kR2EHUUA6utBrX6ePjQF+Kl7Nsap+TR
-	W4CChQJPYbDY6/frpVPxFi0XX6zoswbC5RItQd3S2j7P9brBYvtM/5+z95dPF+ScWCcz
-	K4mA==
-X-Gm-Message-State: AKGB3mLwZ51Nn5PrfBGBXdRY0dwBrl3vdBIxhSyIKU0QY1KfcwFerwKA
-	4maQaxKaTZbb84IsM7E1J1o/nIAnjpLiy0l/zgpGWRx7
-X-Google-Smtp-Source: ACJfBosdZhN4fskgsbhoT83n+PCd1WOrWfH8i5w/RHJ159AQ3h5kZJVhZwYzalHzjau0cKWcUOkXru3eL6sm5Irv1DU=
-X-Received: by 10.223.158.144 with SMTP id a16mr26257142wrf.83.1515796643103; 
-	Fri, 12 Jan 2018 14:37:23 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bHgVBgWxi3jrZ7OVtrD32pXdKMfaoOYrukQeosPs3Fo=;
+	b=rUrMyvTWjJ46PZSN1RCm6lC6PPfTlDENNfurF4sc+oyYp/Q/TRXD1mDRKQFHYYAzCZ
+	aDtFwymrWgUYNF1h0dVGo5qTqmSGz80GquDHEyrkbyQ2zAZV+iDqt52jLDdi4+NgAkze
+	bdcfWXTIzM95w5N/dJ5tJinSJYjh45rCpYqZd6K0zRPL6D9EoMF2g4tvS4K4pkeCP1Ia
+	QBQyAxey/FxgLkA1CaTU4y+QVULXdpA66Y8Y7UwoW1CSDf4q+j5UErLQ6w05NNp44QhG
+	bVAcLHZUdbBQ5a5xP2l+sKIrFl/cUgEXfs7/q+Evo9qPfqz35YD1X+Rn/DVnanf2HDKh
+	ZKUQ==
+X-Gm-Message-State: AKwxytdpsDKjY3nFhQtiyz8jV/jJDVhEYs97xdrsHDLSWqYT0nDMX67Z
+	+aJIF1Z10cZinsxd74o0AhIqf4tBLHoTZ/z0k/A=
+X-Google-Smtp-Source: ACJfBovrJBXxXg8ZB4rDU9cgJ+AweB59wFxTDWunE/hxiEnfYW94tIF9FPeCf4izZkNM0bNSDyPaBN1KcgJsZikRAqY=
+X-Received: by 10.31.153.76 with SMTP id b73mr24984995vke.53.1515815166653;
+	Fri, 12 Jan 2018 19:46:06 -0800 (PST)
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.28.164.69 with HTTP; Fri, 12 Jan 2018 14:36:52 -0800 (PST)
-In-Reply-To: <20180112223256.2787.91128@do.openembedded.org>
-References: <20180112220906.27915-1-alistair.francis@xilinx.com>
-	<20180112223256.2787.91128@do.openembedded.org>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Fri, 12 Jan 2018 14:36:52 -0800
-X-Google-Sender-Auth: yp5WPlD2TgKRcHOA1NfL9h9KQ-w
-Message-ID: <CAKmqyKNwNFRJtTt77oc1wkRWHz24A3Pv98jmEi97fak-gaXi9g@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHJlY2VpcGVzLWRldnRvb2xzOiBRRU1VOiBCdW1wIHRvIHZlcnNpb24gMi4xMS4wIChyZXYzKQ==?=
+Received: by 10.159.55.142 with HTTP; Fri, 12 Jan 2018 19:45:46 -0800 (PST)
+In-Reply-To: <20180112130644.21313-1-alex.stewart@ni.com>
+References: <20180112130644.21313-1-alex.stewart@ni.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 12 Jan 2018 20:45:46 -0700
+Message-ID: <CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
+To: Alex Stewart <alex.stewart@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] recipes-core: move hwclock.sh to util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,85 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jan 2018 22:37:23 -0000
+X-List-Received-Date: Sat, 13 Jan 2018 03:46:06 -0000
+Content-Type: multipart/alternative; boundary="001a1140f6168dba2b0562a03807"
+
+--001a1140f6168dba2b0562a03807
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 12, 2018 at 2:32 PM, Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
-> == Series Details ==
+On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <alex.stewart@ni.com> wrote:
+
+> * Move the hwclock.sh initscript from the busybox recipe to util-linux.
+>   This script is generally useful for distros that get their hwclock
+>   implementation from sources other than busybox and we follow debian's
+>   example by providing it in util-linux.
 >
-> Series: receipes-devtools: QEMU: Bump to version 2.11.0 (rev3)
-> Revision: 3
-> URL   : https://patchwork.openembedded.org/series/10286/
-> State : failure
+> :busybox/*
+> * Remove the busybox-hwclock package, as it no longer has a purpose.
+> * If busybox is configured to include hwclock, the busybox package will
+>   RDEPEND on util-linux-hwclock-init.
 >
-> == Summary ==
+> :util-linux/*
+> * Provide the hwclock.sh script in util-linux-hwclock-init, which can be
+>   pulled by any packages that depend on its functionality.
+> * util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its
+>   initscript.
 >
+> Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+> Acked-by: Haris Okanovic <haris.okanovic@ni.com>
+> Acked-by: Adrian Ratiu <adrian.ratiu@ni.com>
+> Acked-by: Ken Sharp <ken.sharp@ni.com>
+> Natinst-ReviewBoard-ID: 214983, 215755
 >
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
+
+Just a note that this will slow down the build for targets that wouldn=E2=
+=80=99t
+otherwise build the util-linux recipe.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--001a1140f6168dba2b0562a03807
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:alex.stewart@ni.com" target=3D"_blank">alex.ste=
+wart@ni.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">* Move the hwclock.sh inits=
+cript from the busybox recipe to util-linux.<br>
+=C2=A0 This script is generally useful for distros that get their hwclock<b=
+r>
+=C2=A0 implementation from sources other than busybox and we follow debian&=
+#39;s<br>
+=C2=A0 example by providing it in util-linux.<br>
+<br>
+:busybox/*<br>
+* Remove the busybox-hwclock package, as it no longer has a purpose.<br>
+* If busybox is configured to include hwclock, the busybox package will<br>
+=C2=A0 RDEPEND on util-linux-hwclock-init.<br>
+<br>
+:util-linux/*<br>
+* Provide the hwclock.sh script in util-linux-hwclock-init, which can be<br=
 >
->
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at 4facc57238)
+=C2=A0 pulled by any packages that depend on its functionality.<br>
+* util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its<br>
+=C2=A0 initscript.<br>
+<br>
+Signed-off-by: Alex Stewart &lt;<a href=3D"mailto:alex.stewart@ni.com">alex=
+.stewart@ni.com</a>&gt;<br>
+Acked-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com">haris=
+.okanovic@ni.com</a>&gt;<br>
+Acked-by: Adrian Ratiu &lt;<a href=3D"mailto:adrian.ratiu@ni.com">adrian.ra=
+tiu@ni.com</a>&gt;<br>
+Acked-by: Ken Sharp &lt;<a href=3D"mailto:ken.sharp@ni.com">ken.sharp@ni.co=
+m</a>&gt;<br>
+Natinst-ReviewBoard-ID: 214983, 215755<br></blockquote><div><br></div><div>=
+Just a note that this will slow down the build for targets that wouldn=E2=
+=80=99t otherwise build the util-linux recipe.</div></div>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
+iv><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Found=
+er - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor =
+Graphics</div></div></div></div>
+</div></div>
 
-This is weird, it's based on this commit:
-
-commit 2fe1d126a6d439c29cc71a19173d6d477765a078 (HEAD -> alistair/qemu-2.11)
-Author: Alistair Francis <alistair.francis@xilinx.com>
-Date:   Fri Jan 12 12:33:22 2018 -0800
-
-    receipes-devtools: QEMU: Bump to version 2.11.0
-
-    Use the latest QEMU release 2.11. Remove all patches that are no longer
-    required as they have been merged into the 2.11 releaese. One patch had
-    to be updated to apply to thet 2.11 tree.
-
-    This also reverts a linux user patch to avoid webkitgtk build hangs.
-
-    Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-
-commit 4facc572380daf5b7e6294b388a657fa0a44a6f2 (origin/master,
-origin/HEAD, master)
-Author: Otavio Salvador <otavio@ossystems.com.br>
-Date:   Wed Jan 10 15:31:29 2018 -0200
-
-    linux-firmware: Bump revision to 65b1c68c
-
-    The bump includes following changes:
-
->
-> * Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format]
->   Suggested fix    Fix Upstream-Status format in Revert-linux-user-Tidy-and-enforce-reserved_va-initi.patch
->   Current          Upstream-status: Pending
->   Standard format  Upstream-Status: <Valid status>
->   Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-Missed the capital 'S'.
-
-Alistair
-
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a1140f6168dba2b0562a03807--
