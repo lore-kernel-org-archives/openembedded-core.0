@@ -1,24 +1,26 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 11C08786B2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D89371C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jan 2018 10:02:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jan 2018 02:02:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,352,1511856000"; 
-   d="scan'208";a="9387362"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.166.180])
-	by fmsmga007.fm.intel.com with ESMTP; 13 Jan 2018 02:02:42 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Jan 2018 18:02:37 +0800
-Message-Id: <1515837757-5173-1-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] libxml2: fix makefile for ptests
+	Sat, 13 Jan 2018 10:11:26 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0DABDVa015765
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 13 Jan 2018 10:11:14 GMT
+Message-ID: <1515838273.29722.133.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 13 Jan 2018 10:11:13 +0000
+In-Reply-To: <1515791062-54281-1-git-send-email-juro.bystricky@intel.com>
+References: <1515791062-54281-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: jurobystricky@hotmail.com
+Subject: Re: [PATCH] libc6: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jan 2018 10:02:43 -0000
+X-List-Received-Date: Sat, 13 Jan 2018 10:11:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Changes to Makefile in latest version mean when "make -k runtests" is executed,
-it leads to errors like:
+On Fri, 2018-01-12 at 13:04 -0800, Juro Bystricky wrote:
+> Building various libraries (libc6, libc6-pic, libc6-staticdev, libc6-
+> dbg, ...)
+> can be non-deterministic because they may be built with two different
+> versions
+> of intl/plural.c. in two otherwise identical builds. We may or may
+> not re-generate
+> the file plural.c from the file plural.y, based on bison being
+> installed or not
+> and based on mtimes of those two files, as the Makefile contains:
+> 
+> plural.c: plural.y
+> 	$(BISON) $(BISONFLAGS) $@ $^
+> 
+> If the above rule does not fire, we use a "fallback" plural.c,
+> otherwise
+> we use plural.c re-generated from plural.y.
+> The fix is to always require bison to be installed and
+> unconditionally
+> re-generate plural.c. (This is achieved by touching plural.y).
+> 
+> [YOCTO #12291]
+> 
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.26.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-| make: *** No rule to make target 'runtest.c', needed by 'runtest.o'.
-| make: *** No rule to make target 'SAX.c', needed by 'SAX.lo'.
-| make: *** No rule to make target 'entities.c', needed by 'entities.lo'.
-| make: *** No rule to make target 'encoding.c', needed by 'encoding.lo'.
+Hi Juro,
 
-Make sure that we don't try to check and compile the tests again on the target.
+Can you put a comment alongside the touch in the recipe as we're not
+going to know why we're doing this in a few years time...
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../libxml/libxml2/fix-execution-of-ptests.patch    | 21 +++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.7.bb           |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
+Cheers,
 
-diff --git a/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
-new file mode 100644
-index 0000000..51a9e19
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
-@@ -0,0 +1,21 @@
-+Make sure that Makefile doesn't try to compile these tests again
-+on the target where the source dependencies won't be available.
-+
-+Upstream-Status: Inappropriate [cross-compile specific]
-+
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+Index: libxml2-2.9.7/Makefile.am
-+===================================================================
-+--- libxml2-2.9.7.orig/Makefile.am
-++++ libxml2-2.9.7/Makefile.am
-+@@ -211,8 +211,7 @@ install-ptest:
-+ 	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
-+ 	$(MAKE) -C python install-ptest
-+ 
-+-runtests: runtest$(EXEEXT) testrecurse$(EXEEXT) testapi$(EXEEXT) \
-+-          testchar$(EXEEXT) testdict$(EXEEXT) runxmlconf$(EXEEXT)
-++runtests:
-+ 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
-+ 	[ -d result ] || $(LN_S) $(srcdir)/result .
-+ 	$(CHECKER) ./runtest$(EXEEXT) && \
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.7.bb b/meta/recipes-core/libxml/libxml2_2.9.7.bb
-index 996e671..85bfeca 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.7.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.7.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://python-sitepackages-dir.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-+           file://fix-execution-of-ptests.patch \
-            "
- 
- SRC_URI[libtar.md5sum] = "896608641a08b465098a40ddf51cefba"
--- 
-2.7.4
+Richard
 
+
+> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-
+> core/glibc/glibc_2.26.bb
+> index 04d9773..4d9b23f 100644
+> --- a/meta/recipes-core/glibc/glibc_2.26.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36
+> d3209f380deb394b213 \
+>        file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c78
+> 5f5d83a \
+>        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+>  
+> -DEPENDS += "gperf-native"
+> +DEPENDS += "gperf-native bison-native"
+>  
+>  SRCREV ?= "77f921dac17c5fa99bd9e926d926c327982895f7"
+>  
+> @@ -103,6 +103,7 @@ do_configure () {
+>  # version check and doesn't really help with anything
+>          (cd ${S} && gnu-configize) || die "failure in running gnu-
+> configize"
+>          find ${S} -name "configure" | xargs touch
+> +        find ${S}/intl -name "plural.y" | xargs touch
+>          CPPFLAGS="" oe_runconf
+>  }
+>  
 
