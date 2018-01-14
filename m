@@ -1,26 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C4078520
+	by mail.openembedded.org (Postfix) with ESMTP id 1950878735
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jan 2018 10:43:24 +0000 (UTC)
+	Sun, 14 Jan 2018 11:27:22 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0EAh5Aw027941
+	w0EBRMfG030883
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 14 Jan 2018 10:43:06 GMT
-Message-ID: <1515926585.29722.206.camel@linuxfoundation.org>
+	verify=NOT); Sun, 14 Jan 2018 11:27:23 GMT
+Message-ID: <1515929241.29722.212.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>,
-	openembedded-core@lists.openembedded.org, Stefan Stanacar
-	<sstncr@gmail.com>, "Eggleton, Paul" <paul.eggleton@intel.com>
-Date: Sun, 14 Jan 2018 10:43:05 +0000
-In-Reply-To: <20180112162442.8524-1-JPEWhacker@gmail.com>
-References: <20180112162442.8524-1-JPEWhacker@gmail.com>
+To: =?ISO-8859-1?Q?B=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@pr.hu>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 14 Jan 2018 11:27:21 +0000
+In-Reply-To: <20180112134659.5793-1-zboszor@pr.hu>
+References: <20180112134659.5793-1-zboszor@pr.hu>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH] classes/externalsrc: Don't delete tasks
+Subject: Re: [PATCH v2] package: Record PE and PR values for shlib dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jan 2018 10:43:25 -0000
+X-List-Received-Date: Sun, 14 Jan 2018 11:27:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2018-01-12 at 10:24 -0600, Joshua Watt wrote:
-> Set the noexec flag to prevent tasks from executing instead of
-> deleting
-> them. This allows inter-tasks dependencies on these tasks to still
-> function. For example, perf has the line:
+On Fri, 2018-01-12 at 14:46 +0100, Böszörményi Zoltán wrote:
+> When downgrading a package or using a substitute with lower version,
+> the way to do it is adding or increasing PE and there may be other
+> reasons to set PE.
 > 
->  do_populate_lic[depends] += "virtual/kernel:do_patch"
+> But it doesn't directly help dependant packages because the shlib
+> records only contain PV.
 > 
-> which will break if the kernel uses EXTERNALSRC and the do_patch task
-> is deleted.
+> Let's add the PE value into the shlib records for packages where
+> it's set.
 > 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/externalsrc.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/externalsrc.bbclass
-> b/meta/classes/externalsrc.bbclass
-> index 65dd13ddc1f..12046d74e17 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -102,7 +102,7 @@ python () {
->          for task in d.getVar("SRCTREECOVEREDTASKS").split():
->              if local_srcuri and task in fetch_tasks:
->                  continue
-> -            bb.build.deltask(task, d)
-> +            d.setVarFlag(task, 'noexec', '1')
->  
->          d.prependVarFlag('do_compile', 'prefuncs',
-> "externalsrc_compile_prefunc ")
->          d.prependVarFlag('do_configure', 'prefuncs',
-> "externalsrc_configure_prefunc ")
+> The in-memory variables storing the versions now use the PE:PV
+> notation but the on-disk files must use something else because
+> the : character is already used as field delimiter in the
+> package.list
+> files storing the shlib records. Use # instead in the files,
+> so the file format doesn't change. Conversion occurs on reading
+> and writing the package.list files.
 
-There are a few things I worry about with this:
+Can you explain a bit more about why/how this causes a problem?
 
-a) Its confusing for users as it will now show a fetch/unpack/patch
-task as part of the dependency tree but they won't actually run.
+PE is needed to maintain consistency of package feeds but the shlibs
+code is primarily used for build time dependency analysis to figure out
+which packages need to depend upon what and ensure runtime dependencies
+are met. I'm not sure that should care about PE.
 
-b) Dependencies for those tasks will be followed
+For PR, again its primarily for package feeds so that updates are
+detected and I'm not sure why the shlibs code should need to care about
+it.
 
-c) There has always been a bit of ambiguity about what should happen
-with task properties like cleandirs, dirs and others. Whilst these
-don't run for noexec, I have worries that somehow we'll end up wiping
-out the external source dir accidentally (e.g. with do_clean). I think
-the noexec move makes this more likely, sadly.
-
-externalsrc started out as a 30 line class back in 2012 and its now 235
-lines and getting ridiculously complicated.
-
-I'm starting to wonder if we should change the approach and have it
-modify SRC_URI and take a copy of the source. Yes, it'd be fractionally
-slower but its getting far too complex trying to handle all the corner
-cases. It was meant so developers could quickly hack/test things and
-its turning into a full development tool/workflow.
-
-I think we do need to take a step back and try and come up with a way
-to simplify it...
-
-We should also think about whether there are changes to the core which
-would make things like this easier. I do have a fairly strong belief
-that we should make the system more robust and able to handle tasks
-being missing, its now a lot better at handling that than it used to
-be. Chris as talked about a "srcready" type task and reworking the
-fetch/unpack/patch process  and I can see the reasoning for that, it
-would help here too.
-
-Not sure whether Paul has any thoughts on this as externalsrc will
-significantly impact devtool too...
+Perhaps if you explain more about the issues you're having which this
+fixes I'll better understand the problem/need.
 
 Cheers,
 
 Richard
-
-
-
 
 
