@@ -1,24 +1,26 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CFAF606A8
+	by mail.openembedded.org (Postfix) with ESMTP id CEC59786BA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jan 2018 17:58:43 +0000 (UTC)
+	Sun, 14 Jan 2018 09:09:36 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0DHwdJW031826
+	w0E99KAR025077
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 13 Jan 2018 17:58:42 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eaQ4l-0004GS-Qa; Sat, 13 Jan 2018 17:58:39 +0000
+	verify=NOT); Sun, 14 Jan 2018 09:09:24 GMT
+Message-ID: <1515920960.29722.191.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Jan 2018 17:58:37 +0000
-Message-Id: <1515866318-16353-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
+To: Amanda Brindle <amanda.r.brindle@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 14 Jan 2018 09:09:20 +0000
+In-Reply-To: <cover.1513634861.git.amanda.r.brindle@intel.com>
+References: <cover.1513634861.git.amanda.r.brindle@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 1/2] json-glib: Add dependency on gettext-native
+Cc: paul.eggleton@linux.intel.com
+Subject: Re: [PATCH 0/2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jan 2018 17:58:45 -0000
+X-List-Received-Date: Sun, 14 Jan 2018 09:09:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Avoids:
+On Mon, 2017-12-18 at 14:12 -0800, Amanda Brindle wrote:
+> The following changes since commit
+> b73e96e7f3f5d1ba3a221d99792a7a3c7ef42c21:
+> 
+>   python-scons: upgrade to v3.0.1; use pypi.bbclass (2017-12-13
+> 14:00:52 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib abrindle/rprovides
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/r
+> provides
+> 
+> Amanda Brindle (2):
+>   oe-pkgdata-util: Refactor functions for consistency
+>   oe-pkgdata-util: Add support for RPROVIDES
+> 
+>  scripts/oe-pkgdata-util | 173 +++++++++++++++++++++++++++-----------
+> ----------
+>  1 file changed, 97 insertions(+), 76 deletions(-)
 
-Meson encountered an error in file po/meson.build, line 58, column 5:
-Can not do gettext because xgettext is not installed.
+Hi Amanda,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-gnome/json-glib/json-glib_1.2.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I pulled these into master-next for testing but we saw:
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-index 88653ef..31912d1 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
-@@ -17,7 +17,7 @@ SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
- SRC_URI[archive.sha256sum] = "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
- 
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase lib_package gobject-introspection gtk-doc manpages
-+inherit gnomebase lib_package gobject-introspection gtk-doc manpages gettext
- 
- GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
- GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
--- 
-2.7.4
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/753/steps/Running%20oe-selftest/logs/stdio
 
+You can reproduce with:
+
+oe-selftest -r pkgdata.OePkgdataUtilTests
+
+Cheers,
+
+Richard
 
