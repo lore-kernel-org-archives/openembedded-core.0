@@ -1,25 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1950878735
+	by mail.openembedded.org (Postfix) with ESMTP id 142AC786B9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jan 2018 11:27:22 +0000 (UTC)
+	Sun, 14 Jan 2018 13:05:13 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0EBRMfG030883
+	w0ED5Ate002083
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 14 Jan 2018 11:27:23 GMT
-Message-ID: <1515929241.29722.212.camel@linuxfoundation.org>
+	verify=NOT); Sun, 14 Jan 2018 13:05:12 GMT
+Message-ID: <1515935110.29722.214.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?B=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@pr.hu>,
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 14 Jan 2018 11:27:21 +0000
-In-Reply-To: <20180112134659.5793-1-zboszor@pr.hu>
-References: <20180112134659.5793-1-zboszor@pr.hu>
+Date: Sun, 14 Jan 2018 13:05:10 +0000
+In-Reply-To: <20180112162002.9669-1-alexander.kanavin@linux.intel.com>
+References: <20180112162002.9669-1-alexander.kanavin@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH v2] package: Record PE and PR values for shlib dependencies
+Subject: Re: [morty][PATCH 1/2] ruby: update to 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jan 2018 11:27:23 -0000
+X-List-Received-Date: Sun, 14 Jan 2018 13:05:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-01-12 at 14:46 +0100, Böszörményi Zoltán wrote:
-> When downgrading a package or using a substitute with lower version,
-> the way to do it is adding or increasing PE and there may be other
-> reasons to set PE.
+On Fri, 2018-01-12 at 18:20 +0200, Alexander Kanavin wrote:
+> Existing version of ruby-native (2.2.5) was crashing on my machine
+> (and others' too),
+> yet a functional ruby is necessary to upgrade webkit to a version
+> that less vulnerable
+> to Spectre.
 > 
-> But it doesn't directly help dependant packages because the shlib
-> records only contain PV.
+> I've performed the update by copying the ruby recipe directory over
+> from the current
+> pyro tree; if you want to see the list of specific commits, issue
+> this command:
 > 
-> Let's add the PE value into the shlib records for packages where
-> it's set.
-> 
-> The in-memory variables storing the versions now use the PE:PV
-> notation but the on-disk files must use something else because
-> the : character is already used as field delimiter in the
-> package.list
-> files storing the shlib records. Use # instead in the files,
-> so the file format doesn't change. Conversion occurs on reading
-> and writing the package.list files.
+> git log 99656fecf4fa6e24ba49ecb7f26f893e733818a0 meta/recipes-
+> devtools/ruby
+> (up to commit e593d3aeb2ea5f08d6e0753133fe89e345b339e8)
 
-Can you explain a bit more about why/how this causes a problem?
+Fails on musl:
 
-PE is needed to maintain consistency of package feeds but the shlibs
-code is primarily used for build time dependency analysis to figure out
-which packages need to depend upon what and ensure runtime dependencies
-are met. I'm not sure that should care about PE.
+https://autobuilder.yocto.io/builders/nightly-musl/builds/719/steps/BuildImages/logs/stdio
 
-For PR, again its primarily for package feeds so that updates are
-detected and I'm not sure why the shlibs code should need to care about
-it.
-
-Perhaps if you explain more about the issues you're having which this
-fixes I'll better understand the problem/need.
+Not sure why ruby-native would fail on musl specifically so could be a
+host issue (its on fedora26).
 
 Cheers,
 
