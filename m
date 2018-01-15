@@ -1,64 +1,69 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4186378285
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB5D78683
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 16:02:16 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id 53so11033162otj.2
+	Mon, 15 Jan 2018 16:58:16 +0000 (UTC)
+Received: by mail-wr0-f177.google.com with SMTP id g21so12384553wrb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 08:02:18 -0800 (PST)
+	Mon, 15 Jan 2018 08:58:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=LQ3o33boSdew8meSSM/f4gbBZr5Ilpb3g7LFSexOJgk=;
-	b=wKQyBf8y4ZKVRTNmWUwwrGEClUrlm1dwuh0+/x41KdRfyUXvSsrooqfE/fuGk3M5qQ
-	WPfVc/NF1o6nqaZablfWCRhvuDBgzmk0M4D5OVRccqkVeGBgzY/xneGB3b6Sf6GoU0Ni
-	TA+Z3uLKxWVdKf5OoA0FnvNMwC7DWnKByh0vDaqFHFC5A8qhE0WlxQVHwS3OCTTx5q8c
-	Lzz6kOs7DZkr/nRwCryqel/QUhnu6IqaYbi3Sz6B3Kn1AYeqR+sUdJFJAPR78RgLB72o
-	2e718H1EPGC2V8JgvpWzIhZgk/ScOcr8a4UtY62TsCsXfS6TJVqknCxU3Uw9QPmZ9jWs
-	T71A==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=gz0maWONltau6uJKvA9ThND6Igzzxxek7eKp6dAm45A=;
+	b=QiobYjDkK7h29BpPybw+AcfTGYn79kTycg62EigfyvYuDpg6Yl33Ov+LTItZTOKbWd
+	KH6nmHNLQFLqX0xqn3onIQkvXdSIYfiCfeYZBxQfHLsv6R5ckH15f9cgo7r+ngRS04DN
+	nWf7BUHoyukDEIJonSGgiAi6S/G/M9/xkOuM8GMmtUc5VmiDbZr2XOZtOlIdA503Ablu
+	wsTp0LYeUAzrfO3/hUUhrAHrlo/Jnrn59OhQhi7N9NIKl+Wi90Vr6iRUS3f40UVO3OUl
+	IJGWIvRYXgd0oSpjxoADpBbanQq/weBvwNx3EwqtVtWAYmMs0bm+sVlnNrX9zrHn1Jnn
+	QAeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=LQ3o33boSdew8meSSM/f4gbBZr5Ilpb3g7LFSexOJgk=;
-	b=drJdy8Lt3GDK+hOUI6mvZeCqk57lfAdozmGuUQl8L0Kq7wPhbVyvALgzeXMHoclEE1
-	uzs97q4SwbrYuT8JnIlq63v3pvQrFS1hQInHRCGOQMQD1n2jTTkw8RWeu7FJis/M6iQa
-	14YZgMW6HbGaMr4DIUPOci+BHYHeEWBilCbZ79QWoJdnSoTulfD19qTtJKuF3bHmIANP
-	HkA5yEJbxS9J1pNvSBD6ogp2d+xxuy+c5eIafzN3dmQ0+6M39tDdE/3zU+twA4Pzbuc5
-	+9ws1hXsPD0jrbex2TbfxnIr7nZOsVREhtjOhQyBjuF6lJQt3s9vMuovDGxcPeizJCXZ
-	ErDg==
-X-Gm-Message-State: AKwxytfAfGMWHTMpO6g9iCzDvpYhFUd1D15/h8iXm57KeoEuIFfEMfER
-	4eFHHkglFPNOXprVy3/S9zfOPtQs
-X-Google-Smtp-Source: ACJfBouylJ69Jmip0t1X7rxVJaYt87yr4sCfcOALmeqt1EUAF4OTH7/w9wfTT4po4nX6IrIg+BPwow==
-X-Received: by 10.157.11.151 with SMTP id 23mr10745792oth.179.1516032137641;
-	Mon, 15 Jan 2018 08:02:17 -0800 (PST)
-Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com.
-	[74.125.82.176]) by smtp.gmail.com with ESMTPSA id
-	e64sm2836553ote.30.2018.01.15.08.02.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Jan 2018 08:02:15 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f176.google.com with SMTP id d10so11021705oti.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 08:02:15 -0800 (PST)
-X-Received: by 10.157.23.138 with SMTP id j10mr2117208otj.370.1516032134866;
-	Mon, 15 Jan 2018 08:02:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.38.102 with HTTP; Mon, 15 Jan 2018 08:02:14 -0800 (PST)
-In-Reply-To: <ce42cef0-e51a-50de-0454-02ba61667d2c@ni.com>
-References: <20180112130644.21313-1-alex.stewart@ni.com>
-	<CAP9ODKoKBNbFia_YCQB-H1J10iUoCu2ROrjCZEW7t07LWRT4cA@mail.gmail.com>
-	<ce42cef0-e51a-50de-0454-02ba61667d2c@ni.com>
-Date: Mon, 15 Jan 2018 14:02:14 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKpnfvQJ5adGMmH+a+ZJ-_ob8LYdVyQY2Y+2ycQfBEkKHw@mail.gmail.com>
-Message-ID: <CAP9ODKpnfvQJ5adGMmH+a+ZJ-_ob8LYdVyQY2Y+2ycQfBEkKHw@mail.gmail.com>
-To: Alex Stewart <alex.stewart@ni.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=gz0maWONltau6uJKvA9ThND6Igzzxxek7eKp6dAm45A=;
+	b=KVBiSTKTASl9ZjqukYLlXdge1ooQy/tmQstVGpezrMJNh37ML2GBtdB/B8zaf6cc6p
+	FN6/yBfJ1++mHSXo9mIDrgitPAAES75jPhTpc7WIPj16f2oNUfrL0LIN2HPzCSHVBboD
+	GKMJS8wljlEEd2jwC8sskCp8/f7gXNPNI4OOdWEs7BsWs2dgyYZrKwEEoUorBk96aZ5Q
+	gWRPFhJnmVEvKc9qSJEcocACSKfY74GvbH8rh5ohwpNngrWcfT151zgjlzLhf8XYEEV4
+	zSrXqtbp8zn1XjZWY4IFt6QnvhxoSD5iQ49/JrjlxrcHnr3ecIjmXwNCysmgN35g2y6B
+	Uf9g==
+X-Gm-Message-State: AKGB3mLSCrRRBRiHrq4CUxxCA1WePdxv8ISycN2rjFVlptXIKXBsOSCt
+	036G5T0tUyyxzn1Zd0iyQNtv
+X-Google-Smtp-Source: ACJfBovy5OrJyk0UlXvYBskNgTfoPQH/lo4sc0iGlV86f7mu3v+BzFsEuj5HX6sqilBAuY8a1fLoAg==
+X-Received: by 10.223.141.235 with SMTP id o98mr23933350wrb.39.1516035497142; 
+	Mon, 15 Jan 2018 08:58:17 -0800 (PST)
+Received: from pohly-mobl1 (p54BD55C5.dip0.t-ipconnect.de. [84.189.85.197])
+	by smtp.gmail.com with ESMTPSA id s19sm91793wrg.29.2018.01.15.08.58.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 15 Jan 2018 08:58:16 -0800 (PST)
+Message-ID: <1516035495.6718.25.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?Jos=E9?= Bollo <jobol@nonadev.net>, wenzong fan
+	<wenzong.fan@windriver.com>
+Date: Mon, 15 Jan 2018 17:58:15 +0100
+In-Reply-To: <20180115153346.44478168@d-jobol.iot.bzh>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+	<1489079885.7785.371.camel@intel.com>
+	<20170315090430.69b17cc1@d-jobol.iot.bzh>
+	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
+	<20180104111826.5c8f9036@d-jobol.iot.bzh>
+	<1515062493.10775.21.camel@intel.com>
+	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
+	<1515066650.10775.24.camel@intel.com>
+	<7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
+	<1515517307.6718.17.camel@intel.com>
+	<c8acc16f-41fa-5818-79a5-78e99eaec6af@windriver.com>
+	<20180115153346.44478168@d-jobol.iot.bzh>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] recipes-core: move hwclock.sh to util-linux
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,30 +76,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 16:02:17 -0000
+X-List-Received-Date: Mon, 15 Jan 2018 16:58:16 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 15, 2018 at 1:59 PM, Alex Stewart <alex.stewart@ni.com> wrote:
-> On 01/13/2018 05:48 AM, Otavio Salvador wrote:
->
->> On Fri, Jan 12, 2018 at 11:06 AM, Alex Stewart <alex.stewart@ni.com>
->> wrote:
->> As mentioned by Christopher, it will increase the build time for
->> everyone and there is real gain in this this change. If you want to
->> disable the busybox dependency then move hwclock.sh to a hwclock-init
->> package that has no standard dependencies and is allarch and make
->> busybox and util-linux to depends on it.
->
-> Either solution works for my purposes, so I'm fine breaking hwclock.sh out
-> as its own recipe. It seems degenerative to break such a small piece of
-> common-code into its own recipe, but I suppose there isn't a better solution
-> if util-linux isn't commonly built.
+On Mon, 2018-01-15 at 15:33 +0100, José Bollo wrote:
+> A possibility would be to filter the copied extended attributes. For
+> SELinux we can just tell to not copy "security" attributes. See
+> manual of the command "tar" (recent version) that has options
+> --xattrs-exclude and --xattr-include.
+> 
+> Is there a need to copy extended attributes except for Smack?
 
-Leaving it on busybox seems to be the commonly built package; moving
-to a specific package works too.
+In theory file-based capabilities. In practice those probably don't
+occur in a home directory template.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
