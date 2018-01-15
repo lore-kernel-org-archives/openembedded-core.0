@@ -1,28 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 207BF78563
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 15:27:05 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jan 2018 07:27:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,364,1511856000"; d="scan'208";a="195696326"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Jan 2018 07:27:06 -0800
-To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
-References: <20180115152254.447-1-mac@mcrowe.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <a7be2ded-586e-b5a4-c2b1-62580356cbaa@linux.intel.com>
-Date: Mon, 15 Jan 2018 17:27:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2167378685;
+	Mon, 15 Jan 2018 15:33:03 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Mon, 15 Jan 2018 15:33:04 -0000
+Message-ID: <20180115153304.2784.26925@do.openembedded.org>
+References: <20180115152254.447-1-mac@mcrowe.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <20180115152254.447-1-mac@mcrowe.com>
-Subject: Re: [PATCH] rpm: backport configure fix for multiple users/groups with ID 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnBtOiBiYWNrcG9ydCBjb25maWd1cmUgZml4IGZvciBtdWx0aXBsZSB1c2Vycy9ncm91cHMgd2l0aCBJRCAw?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,16 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 15:27:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Mon, 15 Jan 2018 15:33:03 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/15/2018 05:22 PM, Mike Crowe wrote:
-> +Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/377]
+== Series Details ==
 
-If this is merged by upstream, you should point to the commit. If you 
-merely made a submission, then the status should say Submitted.
+Series: rpm: backport configure fix for multiple users/groups with ID 0
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10544/
+State : failure
 
-Alex
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/rpm/files/0001-Make-configure-cope-with-multiple-users-groups-with-.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
