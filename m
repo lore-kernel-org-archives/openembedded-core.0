@@ -1,44 +1,53 @@
-Return-Path: <jobol@nonadev.net>
-Received: from erza.lautre.net (erza.lautre.net [80.67.160.89])
-	by mail.openembedded.org (Postfix) with ESMTP id D0B0478685
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B89778563
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 14:33:47 +0000 (UTC)
-Received: from d-jobol.iot.bzh (por56-1-78-229-206-229.fbx.proxad.net
-	[78.229.206.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by erza.lautre.net (Postfix) with ESMTPSA id 3AC508F96;
-	Mon, 15 Jan 2018 15:16:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nonadev.net;
-	s=alternc; t=1516025820;
-	bh=nzQHcGZGYdNGwm5yQvced0+LHKq46JdTHWEFUYh78Ew=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=YxF6gU2maS9TbQb+TTiGQvjEjWLPqjgW2vLIKX2Uz20jGOgNkTOxYCt4OdZLpf8Su
-	R2urla3yt7Dge7OdUYrIklXDUa2gFvE25qFJhEL+7TBnKvnSehBlDGzigFlyFJu21H
-	o7MQF7UTcrvJeVmELZJZNeeeludX0QLMfqcwfsJo=
-Date: Mon, 15 Jan 2018 15:33:46 +0100
-From: =?UTF-8?B?Sm9zw6k=?= Bollo <jobol@nonadev.net>
-To: wenzong fan <wenzong.fan@windriver.com>
-Message-ID: <20180115153346.44478168@d-jobol.iot.bzh>
-In-Reply-To: <c8acc16f-41fa-5818-79a5-78e99eaec6af@windriver.com>
-References: <20170309140706.19814-1-jobol@nonadev.net>
-	<1489075674.7785.368.camel@intel.com>
-	<20170309174815.056bc5a2@d-jobol.iot.bzh>
-	<1489079885.7785.371.camel@intel.com>
-	<20170315090430.69b17cc1@d-jobol.iot.bzh>
-	<f2f3913c-05db-c304-4cd8-45067bf98fa2@windriver.com>
-	<20180104111826.5c8f9036@d-jobol.iot.bzh>
-	<1515062493.10775.21.camel@intel.com>
-	<d85e2e6d-e7b1-8ebd-e3ce-01a26bdabbcc@windriver.com>
-	<1515066650.10775.24.camel@intel.com>
-	<7071668FA690C2448AC06FD9CFF240FD014013CF0D@ALA-MBC.corp.ad.wrs.com>
-	<1515517307.6718.17.camel@intel.com>
-	<c8acc16f-41fa-5818-79a5-78e99eaec6af@windriver.com>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
+	Mon, 15 Jan 2018 15:23:29 +0000 (UTC)
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 01/15/2018 10:20:28 AM
+X-Note: SecureTide Build: 12/19/2017 1:37:44 PM UTC (2.6.27.2)
+X-Note: Filtered by 10.238.11.162
+X-Note-AR-Scan: None - PIPE
+Received: by relay.appriver.com (CommuniGate Pro PIPE 6.1.7)
+	with PIPE id 282258119; Mon, 15 Jan 2018 10:20:28 -0500
+Received: from [213.210.30.29] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
+	with ESMTPS id 282258092; Mon, 15 Jan 2018 10:20:27 -0500
+Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1eb6bh-000FCx-6U; Mon, 15 Jan 2018 15:23:29 +0000
+Received: from mac by chuckie with local (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1eb6bh-00009V-5T; Mon, 15 Jan 2018 15:23:29 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jan 2018 15:22:54 +0000
+Message-Id: <20180115152254.447-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 01/15/2018 10:20:27 AM
+X-Note: SecureTide Build: 12/19/2017 1:37:44 PM UTC (2.6.27.2)
+X-Note: Filtered by 10.238.11.162
+X-Policy: brightsign.biz
+X-Primary: brightsign.biz@brightsign.biz
+X-Virus-Scan: V-
+X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-59/SG:1 1/15/2018 10:19:41 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.457817 p=-0.929412 Source Normal
+X-Signature-Violations: 0-0-0-6576-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G298 G299 G300 G301 G305 G306 G438 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] rpm: backport configure fix for multiple users/groups with ID 0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,67 +60,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 14:33:48 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Jan 2018 15:23:31 -0000
 
-On Wed, 10 Jan 2018 17:50:19 +0800
-wenzong fan <wenzong.fan@windriver.com> wrote:
+Backport upstream configure fix for hosts that have multiple users with UID
+0 or groups with GID 0.
 
-> On 01/10/2018 01:01 AM, Patrick Ohly wrote:
-> > On Fri, 2018-01-05 at 01:07 +0000, Fan, Wenzong wrote: =20
-> >> It works and will override the labels of home dir that SELinux
-> >> applied, that's the issue.
-> >>
-> >> For SELinux enabled system, the user's home dir should have lavel
-> >> 'user_home_dir_t' instead of 'etc_t', it prevents users from
-> >> creating files in their home dir. =20
-> >=20
-> > Sounds like the "copy xattr" function needs to become a bit
-> > smarter: it needs to understand some of the semantic involved and
-> > skip those SELinux xattrs that are always meant to be set
-> > dynamically by the running kernel.
-> >=20
-> > Wenzong, which xattrs are those? Do you agree with the proposed
-> > solution? =20
->=20
-> The xattr for selinux is "security.selinux":
->=20
-> $ getfattr -n security.selinux /home/t1
-> security.selinux=3D"user_u:object_r:user_home_dir_t:s0-s15:c0.c1023"
->=20
-> I think the "attr_copy_file()" is doing right thing, but it should be=20
-> used in a limited situation, such as only for Smack ...
->=20
-> Thanks
-> Wenzong
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ ...ure-cope-with-multiple-users-groups-with-.patch | 40 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.0.bb            |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Make-configure-cope-with-multiple-users-groups-with-.patch
 
-The LSM "SELinux" is complicated enough to change label of template
-files to label of instance files correctly. The approach with Smack is
-different and the template files embed the expected complex hierarchy
-that otherwise could only be created with a program.
+diff --git a/meta/recipes-devtools/rpm/files/0001-Make-configure-cope-with-multiple-users-groups-with-.patch b/meta/recipes-devtools/rpm/files/0001-Make-configure-cope-with-multiple-users-groups-with-.patch
+new file mode 100644
+index 0000000000..077fae3ba8
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-Make-configure-cope-with-multiple-users-groups-with-.patch
+@@ -0,0 +1,40 @@
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/377]
++
++From 68a7b60f89419e53a4bd3c412f816f0576ffd8c4 Mon Sep 17 00:00:00 2001
++From: Mike Crowe <mac@mcrowe.com>
++Date: Thu, 4 Jan 2018 14:39:51 +0000
++Subject: [PATCH] Make configure cope with multiple users/groups with ID 0
++
++If /etc/passwd contains multiple users with UID 0 then user_with_uid0 will
++contain a line feed which results in config.h containing:
++
++ #define UID_0_USER "root
++
++(i.e. without a closing quote.)
++
++The same problem occurs with /etc/group.
++
++Let's only emit the first match in each case so that there is only ever a
++single result.
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index ab8ca4f54..5259ad243 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -996,8 +996,8 @@ if test "$with_dmalloc" = yes ; then
++   LIBS="$LIBS -ldmalloc"
++ fi
++ 
++-user_with_uid0=$(awk -F: '$3==0 {print $1}' /etc/passwd)
++-group_with_gid0=$(awk -F: '$3==0 {print $1}' /etc/group)
+++user_with_uid0=$(awk -F: '$3==0 {print $1;exit}' /etc/passwd)
+++group_with_gid0=$(awk -F: '$3==0 {print $1;exit}' /etc/group)
++ AC_DEFINE_UNQUOTED([UID_0_USER],["$user_with_uid0"],[Get the user name having userid 0])
++ AC_DEFINE_UNQUOTED([GID_0_GROUP],["$group_with_gid0"],[Get the group name having groupid 0])
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.0.bb b/meta/recipes-devtools/rpm/rpm_4.14.0.bb
+index e4e9c3e634..aa2579e3bf 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.0.bb
+@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
++           file://0001-Make-configure-cope-with-multiple-users-groups-with-.patch \
+            "
+ 
+ PE = "1"
+-- 
+2.11.0
 
-A possible approach would be with smack to add a program for creating
-homes. Conversely, SELinux could consider to use template approach too
-instead of increasing its rules set (with templating splitted in two
-parts: files and "creation" rules).
 
-=46rom "man 7 xattr" we know:
- - extended attributes are namespaced
- - the fully qualified name is "namespace.attribute"
- - actual namespaces are security, system, trusted, and user
-
-A possibility would be to filter the copied extended attributes. For
-SELinux we can just tell to not copy "security" attributes. See
-manual of the command "tar" (recent version) that has options
---xattrs-exclude and --xattr-include.
-
-Is there a need to copy extended attributes except for Smack?
-
-> > Jose, can you look into updating your patch accordingly?
-
-Perhaps yes but not now because I don't now what to do.
-
-Best regards
-Jose
 
