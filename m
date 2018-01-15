@@ -1,48 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 78CA07842F
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 74A5F65D35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 19:34:54 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id c17so14227585iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 11:34:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zaI5ro9sak+S8rP1+6trU3+S9RiWw/CW429Wewky6Ts=;
-	b=cE8urwcDPJo3TPN/j6EuG5lQc4fVVsaw6IJlp4dW7vaq0qTbXxAJMq98CI3HTIDx9G
-	VIxf0gdpWzTXyttPuZrOoAu2hmX5XolTLaSr2C2L1iEvb4qERNNQtmKWfnfM5wrPl4n7
-	TJQYQieWYlb3kRZR2P/99KnmZWuVh+GtLicB0Db9jEOyoj9thZrgF1Uzx6g+Q7cj2An6
-	ZLU7bVo0ra0eufnpVtHDlJ2/JumO0FQXsMrlClSVmUoWyVGSH4oranDG1wH48ei8FtOL
-	OqULiGijB+dxycHfgPZGkquG3Yxi4y//EnycjCjDZW1EGkDBGvxMXlXnIj0RFPAAmYOA
-	XFFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zaI5ro9sak+S8rP1+6trU3+S9RiWw/CW429Wewky6Ts=;
-	b=YpTzzfOXY4EOMi2Qlay+hTac89mvutt/Jxf2mrx0hcLbYhsXNm8BTYilnuIxmumKge
-	qrKuC5ETF9If1gF6QVRqAZL8AbaLok3WqAfOrCIAIsmavtZC37EbU17rqgnxoxXEGLU8
-	fr5PZrJJQIS7ILmCds6lPKPc4Qb8R/lh387K/rXFoXKcJh35GHyKcr50MI7BKjTrEf/J
-	tN5Vw+/bwjVtxqA6WBE4FAswzKcpREoIdx3CTmW3qndqI7RjKqsP00OnTmh2cbpzGoS2
-	9hAutpQeaUCTAvyuj5aLx3mM34cqRxkJaBfz4AbaHR+aSUbSb9A0XfKSEPT5xH+RL6O0
-	xGRQ==
-X-Gm-Message-State: AKwxytcaOn+zKsaLK0T7opxqtTsw/Gh2tkLeq/TA7W4mHXlsxgxH6AKy
-	drF2eTNe+eArzn7oSTdGZS8PJ/06tGdKKva5jpyk+g==
-X-Google-Smtp-Source: ACJfBouIu8JIDF2HiOTBYdUf/CqxqpWr9cRrm2yfL8nl54GFzLEHp3PLTXXG+4g3RPpBAhzkYh52axTvf/fg/yJ2r6o=
-X-Received: by 10.107.175.8 with SMTP id y8mr6929453ioe.37.1516044895622; Mon,
-	15 Jan 2018 11:34:55 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.157.202 with HTTP; Mon, 15 Jan 2018 11:34:35 -0800 (PST)
-In-Reply-To: <20180115175321.r7sfuxibr743icio@mcrowe.com>
-References: <20180115175321.r7sfuxibr743icio@mcrowe.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jan 2018 19:34:35 +0000
-Message-ID: <CAJTo0LbcZxArSP-TRYXfNVXY9FS8hK=okbHT2p8RU+nx1Sya+g@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: glib-2.0 fails to configure with USE_NLS="no"
+	Mon, 15 Jan 2018 20:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=References:In-Reply-To:Message-Id:Date:Subject:To:From;
+	bh=xzi7YCAsvknOPZqlSYibthynzwobKBw7IzTZHa1GssA=; 
+	b=FnCnxV+W1XQrs0ReX8JBdOaWws7VYK8O4uIwHtioYBRmURBTG/PKTV/ERHQGFUhgTLChwz7FDjCBZUb8Xj1k62hv9F/VzzNRkWOXqaTa29A+93RaDFVCwwcrkcV2IsKGvc2vC8jT89mfd188u7pYzrBQkg70uJcJBLeOeso2RGPGwutGwEbpohg+O8WfL9sXutU1Mk16m3WawGVNPMOvqubQ/82XxP/W7uwmMyoQ4Aq6qHRsKwDb8ZmJ/WzaZqF8wvztOuSa7aOy7iLp1sd16FQ+OLCQnggRlc9m3aLJbzM2VwiUdFZ75dH6b8oxbo725leO4wdxW7y+JHWR3E0f7Q==;
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1ebAyi-0002U4-Ko for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jan 2018 21:03:32 +0100
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jan 2018 21:02:55 +0100
+Message-Id: <20180115200255.7926-1-clopez@igalia.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180111040858.22280-1-clopez@igalia.com>
+References: <20180111040858.22280-1-clopez@igalia.com>
+Subject: [PATCH v2] tune-i686: Add new tune for better support of 686-class CPUs.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,94 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 19:34:54 -0000
-Content-Type: multipart/alternative; boundary="001a1144a26877b1d00562d5b5c2"
+X-List-Received-Date: Mon, 15 Jan 2018 20:03:32 -0000
 
---001a1144a26877b1d00562d5b5c2
-Content-Type: text/plain; charset="UTF-8"
+There isn't currently any tune available for i686 x86 optimizations.
+The tune for i586 doesn't enable i686 specific optimizations, and the
+one for core2 enables things that won't work on a i686 CPU (like SSE3).
 
-Have a look at what just landed in master...
+Make the tune for core2 inherits from this one and move there the
+setting of X86ARCH32.
 
-Ross
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/conf/machine/include/tune-core2.inc |  7 ++-----
+ meta/conf/machine/include/tune-i686.inc  | 27 +++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 5 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-i686.inc
 
-On 15 January 2018 at 17:53, Mike Crowe <mac@mcrowe.com> wrote:
+diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
+index f4ba43fbfd..6a03466650 100644
+--- a/meta/conf/machine/include/tune-core2.inc
++++ b/meta/conf/machine/include/tune-core2.inc
+@@ -8,11 +8,8 @@
+ #
+ DEFAULTTUNE ?= "core2-32"
+ 
+-# Set x86 target arch to i686, so that glibc enables SSE optimised memcpy, etc.
+-X86ARCH32 ?= "i686"
+-
+ # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
+-require conf/machine/include/tune-i586.inc
++require conf/machine/include/tune-i686.inc
+ 
+ # Extra tune features
+ TUNEVALID[core2] = "Enable core2 specific processor optimizations"
+@@ -23,7 +20,7 @@ AVAILTUNES += "core2-32"
+ TUNE_FEATURES_tune-core2-32 = "${TUNE_FEATURES_tune-x86} core2"
+ BASE_LIB_tune-core2-32 = "lib"
+ TUNE_PKGARCH_tune-core2-32 = "core2-32"
+-PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i586} core2-32"
++PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i686} core2-32"
+ 
+ AVAILTUNES += "core2-64"
+ TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
+diff --git a/meta/conf/machine/include/tune-i686.inc b/meta/conf/machine/include/tune-i686.inc
+new file mode 100644
+index 0000000000..bdb4799209
+--- /dev/null
++++ b/meta/conf/machine/include/tune-i686.inc
+@@ -0,0 +1,27 @@
++#
++# The i686 CPU family was introduced with the Intel Pentium Pro in 1995.
++# It has as required feature flags: fpu tsc cx8 cmov.
++#
++# It is the minimum CPU required by the Debian i386 port.
++# https://lists.debian.org/debian-devel-announce/2016/05/msg00001.html
++#
++#
++
++DEFAULTTUNE ?= "i686"
++
++# Set x86 target arch to i686, so that glibc enables SSE optimised memcpy, etc.
++X86ARCH32 ?= "i686"
++
++# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
++require conf/machine/include/tune-i586.inc
++
++# Extra tune features
++TUNEVALID[i686] = "Enable i686 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'i686', ' -march=i686', '', d)}"
++
++# Extra tune selections
++AVAILTUNES += "i686"
++TUNE_FEATURES_tune-i686 = "${TUNE_FEATURES_tune-x86} i686"
++BASE_LIB_tune-i686 = "lib"
++TUNE_PKGARCH_tune-i686 = "i686"
++PACKAGE_EXTRA_ARCHS_tune-i686 = "${PACKAGE_EXTRA_ARCHS_tune-i586} i686"
+-- 
+2.11.0
 
-> If I add USE_NLS = "no" to local.conf, then glib-2.0 fails to configure:
->
-> | checking for ngettext in libc... yes
-> | checking for dgettext in libc... yes
-> | checking for bind_textdomain_codeset... (cached) yes
-> | checking for msgfmt... no
-> | configure: error:
-> | *** You must have either have gettext support in your C library, or use
-> | the
-> | *** GNU gettext library.
-> | (http://www.gnu.org/software/gettext/gettext.html)
->
-> It seems that glib-2.0 does not support --disable-nls and always requires
-> gettext.
->
-> I can avoid this error by adding gettext-native to glib-2.0's DEPENDS, but
-> I'm not sure whether this is solution would be acceptable.
->
-> Is there a better way?
->
-> Thanks.
->
-> Mike.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a1144a26877b1d00562d5b5c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Have a look at what just landed in master...<div><br></div=
-><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote">On 15 January 2018 at 17:53, Mike Crowe <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex">If I add USE_NLS =3D &quot;no&quot=
-; to local.conf, then glib-2.0 fails to configure:<br>
-<br>
-| checking for ngettext in libc... yes<br>
-| checking for dgettext in libc... yes<br>
-| checking for bind_textdomain_codeset... (cached) yes<br>
-| checking for msgfmt... no<br>
-| configure: error:<br>
-| *** You must have either have gettext support in your C library, or use<b=
-r>
-| the<br>
-| *** GNU gettext library.<br>
-| (<a href=3D"http://www.gnu.org/software/gettext/gettext.html" rel=3D"nore=
-ferrer" target=3D"_blank">http://www.gnu.org/software/<wbr>gettext/gettext.=
-html</a>)<br>
-<br>
-It seems that glib-2.0 does not support --disable-nls and always requires<b=
-r>
-gettext.<br>
-<br>
-I can avoid this error by adding gettext-native to glib-2.0&#39;s DEPENDS, =
-but<br>
-I&#39;m not sure whether this is solution would be acceptable.<br>
-<br>
-Is there a better way?<br>
-<br>
-Thanks.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Mike.<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a1144a26877b1d00562d5b5c2--
