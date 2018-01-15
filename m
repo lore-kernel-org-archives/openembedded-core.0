@@ -1,33 +1,29 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 2136C7842F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id C74A47857D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 18:14:21 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 923B5E00E0A; Mon, 15 Jan 2018 10:14:23 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 304DEE00DD1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 10:14:23 -0800 (PST)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 1D1E2440002
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 10:14:23 -0800 (PST)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+	Mon, 15 Jan 2018 18:21:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Jan 2018 10:21:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,364,1511856000"; d="scan'208";a="195769599"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 15 Jan 2018 10:21:39 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <20180115181423.1D1E2440002@auh.yoctoproject.org>
-Date: Mon, 15 Jan 2018 10:14:23 -0800 (PST)
-Subject: [AUH] Upgrade status: 2018-01-15
+References: <20180115172530.D4C50440002@auh.yoctoproject.org>
+	<52a32ba3-ed28-976f-f7a1-f296ba86918b@linux.intel.com>
+Message-ID: <ec3a3f09-6047-b703-287b-f8e837ffccc2@linux.intel.com>
+Date: Mon, 15 Jan 2018 20:21:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <52a32ba3-ed28-976f-f7a1-f296ba86918b@linux.intel.com>
+Subject: Re: [AUH] Upgrade status: 2018-01-15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,23 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 18:14:22 -0000
-Content-Type: multipart/mixed; boundary="===============5225178692169680406=="
+X-List-Received-Date: Mon, 15 Jan 2018 18:21:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---===============5225178692169680406==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On 01/15/2018 07:38 PM, Alexander Kanavin wrote:
+> On 01/15/2018 07:25 PM, alexander.kanavin@linux.intel.com wrote:
+>> Recipe upgrade statistics:
+>>
+>>      * Succeeded: 1
+>>          iso-codes, 3.77, Alexander Kanavin <alexander.kanavin@intel.com>
+> 
+> Yay!
+> 
+> Dear all, please bear with these emails, there'll be a few more. I'm now 
+> setting up AUH to run in an automated, unattended fashion; it's gonna be 
+> awesome.
 
-Recipe upgrade statistics:
+Alright. In about 10 minutes, a cron job will start that will attempt 
+upgrading *all* of oe-core recipes, and results (both successful, with 
+patches, and failures, with error messages) will be mailed to respective 
+maintainers. This will be repeated on the 15th of every odd-numbered 
+month (so six times a year).
 
-    * Succeeded: 1
-        iso-codes, 3.77, Alexander Kanavin <alexander.kanavin@intel.com>
+Please take those emails not as irritating noise, but as a polite 
+reminder to keep oe-core up-to-date. Suggestions for improvements also 
+appreciated.
 
-    TOTAL: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+(I've done my best to test this, but it may of course also fail in 
+various spectacular ways).
 
-Recipe upgrade statistics per Maintainer:
+Alex
 
-    Alexander Kanavin <alexander.kanavin: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
-
---===============5225178692169680406==--
