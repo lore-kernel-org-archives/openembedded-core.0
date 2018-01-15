@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B9E7825C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 206B97825C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 10:33:43 +0000 (UTC)
+	Mon, 15 Jan 2018 10:33:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0FAXiTW010972
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0FAXkWr023287
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 02:33:44 -0800 (PST)
+	Mon, 15 Jan 2018 02:33:46 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 15 Jan 2018 02:33:44 -0800
+	14.3.361.1; Mon, 15 Jan 2018 02:33:45 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jan 2018 18:34:03 +0800
-Message-ID: <cover.1516012306.git.liezhi.yang@windriver.com>
+Date: Mon, 15 Jan 2018 18:34:04 +0800
+Message-ID: <c0f872f3412b16d7fcf126473d8fd7749cd44814.1516012306.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1516012306.git.liezhi.yang@windriver.com>
+References: <cover.1516012306.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] scripts/oe-depends-dot: add it to handle dot files
+Subject: [PATCH 1/1] scripts/oe-depends-dot: add it to handle dot files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +33,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jan 2018 10:33:44 -0000
+X-List-Received-Date: Mon, 15 Jan 2018 10:33:46 -0000
 Content-Type: text/plain
 
-The following changes since commit 92a0513837182e2e9aa6c7d4958e495f4b5b4c47:
+Add it to handle recipe-depends.dot and task-depends.dot. E.g.:
 
-  qemu: CVE-2017-17381 (2018-01-14 09:11:28 +0000)
+* Print why rpm is built
+  $ oe-depends-dot -k rpm --why/-w recipe-depends.dot
+  Because: core-image-sato libdnf libsolv dnf
 
-are available in the git repository at:
+* Print bzip2-native's depends
+  $ oe-depends-dot -k bzip2-native --depends/-d recipe-depends.dot
+  Depends: automake-native gnu-config-native libtool-native quilt-native autoconf-native
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/oe-dot
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/oe-dot
+* Remove duplicated dependencies to reduce the size of the dot files.
+  For example, A->B, B->C, A->C, then A->C can be removed. The dot files are too
+  big, we nearly couldn't use 'dot -T' to generate pictcures for target recipes,
+  remove the duplicated dependencies makes is it possible.
+  $ bitbake core-image-sato -g
+  $ oe-depends-dot -r recipe-depends.dot
+  Saving reduced dot file to recipe-depends-reduced.dot
+  $ du -sh recipe-depends*.dot
+  608K    recipe-depends.dot
+  32K     recipe-depends-reduced.dot
 
-Robert Yang (1):
-  scripts/oe-depends-dot: add it to handle dot files
+  It has been recuded from 608K to 32K, now we can generate a picture,
+  otherwise, it is too big:
+  $ dot -Tpng recipe-depends-reduced.dot -O
 
+It also can handle task-depends.dot.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  scripts/oe-depends-dot | 121 +++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 121 insertions(+)
  create mode 100755 scripts/oe-depends-dot
 
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+new file mode 100755
+index 0000000..5cec23b
+--- /dev/null
++++ b/scripts/oe-depends-dot
+@@ -0,0 +1,121 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2018 Wind River Systems, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
++
++import os
++import sys
++import argparse
++import logging
++import re
++
++class Dot(object):
++    def __init__(self):
++        parser = argparse.ArgumentParser(
++            description="Analyse recipe-depends.dot generated by bitbake -g",
++            epilog="Use %(prog)s --help to get help")
++        parser.add_argument("dotfile",
++            help = "Specify the dotfile", nargs = 1, action='store', default='')
++        parser.add_argument("-k", "--key",
++            help = "Specify the key, e.g., recipe name",
++            action="store", default='')
++        parser.add_argument("-d", "--depends",
++            help = "Print the key's dependencies",
++            action="store_true", default=False)
++        parser.add_argument("-w", "--why",
++            help = "Print why the key is built",
++            action="store_true", default=False)
++        parser.add_argument("-r", "--remove",
++            help = "Remove duplicated dependencies to reduce the size of the dot files."
++                    " For example, A->B, B->C, A->C, then A->C can be removed.",
++            action="store_true", default=False)
++
++        self.args = parser.parse_args()
++
++        if len(sys.argv) != 3 and len(sys.argv) < 5:
++            print('ERROR: Not enough args, see --help for usage')
++
++    def main(self):
++        #print(self.args.dotfile[0])
++        # The format is {key: depends}
++        depends = {}
++        with open(self.args.dotfile[0], 'r') as f:
++            for line in f.readlines():
++                if ' -> ' not in line:
++                    continue
++                line_no_quotes = line.replace('"', '')
++                m = re.match("(.*) -> (.*)", line_no_quotes)
++                if not m:
++                    print('WARNING: Found unexpected line: %s' % line)
++                    continue
++                key = m.group(1)
++                if key == "meta-world-pkgdata":
++                    continue
++                dep = m.group(2)
++                if key in depends:
++                    if not key in depends[key]:
++                        depends[key].add(dep)
++                    else:
++                        print('WARNING: Fonud duplicated line: %s' % line)
++                else:
++                    depends[key] = set()
++                    depends[key].add(dep)
++
++        if self.args.remove:
++            reduced_depends = {}
++            for k, deps in depends.items():
++                child_deps = set()
++                added = set()
++                # Both direct and indirect depends are already in the dict, so
++                # we don't have to do this recursively.
++                for dep in deps:
++                    if dep in depends:
++                        child_deps |= depends[dep]
++
++                reduced_depends[k] = deps - child_deps
++                outfile= '%s-reduced%s' % (self.args.dotfile[0][:-4], self.args.dotfile[0][-4:])
++            with open(outfile, 'w') as f:
++                print('Saving reduced dot file to %s' % outfile)
++                f.write('digraph depends {\n')
++                for k, v in reduced_depends.items():
++                    for dep in v:
++                        f.write('"%s" -> "%s"\n' % (k, dep))
++                f.write('}\n')
++            sys.exit(0)
++
++        if self.args.key not in depends:
++            print("ERROR: Can't find key %s in %s" % (self.args.key, self.args.dotfile[0]))
++            sys.exit(1)
++
++        if self.args.depends:
++            if self.args.key in depends:
++                print('Depends: %s' % ' '.join(depends[self.args.key]))
++
++        reverse_deps = []
++        if self.args.why:
++            for k, v in depends.items():
++                if self.args.key in v and not k in reverse_deps:
++                    reverse_deps.append(k)
++            print('Because: %s' % ' '.join(reverse_deps))
++
++if __name__ == "__main__":
++    try:
++        dot = Dot()
++        ret = dot.main()
++    except Exception as esc:
++        ret = 1
++        import traceback
++        traceback.print_exc()
++    sys.exit(ret)
 -- 
 2.7.4
 
