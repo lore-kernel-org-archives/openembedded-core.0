@@ -1,23 +1,54 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 068FB78673
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F08678695
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 14:57:35 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jan 2018 06:57:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,368,1511856000"; d="scan'208";a="10824098"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 16 Jan 2018 06:57:35 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jan 2018 16:57:49 +0200
-Message-Id: <20180116145749.2064-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] gstreamer: correctly set GST_PLUGIN_SCANNER_1_0
+	Tue, 16 Jan 2018 15:06:32 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id c17so17140591iod.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jan 2018 07:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=r49mDLqimOxGDnITpt0dop7CIbror9zGsnPy6Mjzcy8=;
+	b=19wJg3ejXyfGT4zTF11DRtelf+uLytccs7CXRpVDUzVMT0KrtkqK6Vwf/hVlkKqEPC
+	o79No8gx7Wp2aLQefZk/m97UBjz6LvXAlizrnxWkPMnl+2FVltjXmC/I9mGqVsZI+hok
+	wN6pVd/BCE7rriNd47GElWvQ4+g3zo/iVWZ5xROqeKGFyK6jRy9pDi4GTqAtwS0Q5zfL
+	UNIXhzsbFAexg4TMEdDhERrKqmzvv2hMkU3ZhTbISj1GnjG5Cq5jiN/mTmLb8dLuSQzG
+	1rVnphHO4SBP98tHnOLL5xXkeqv0pFbwrat10JKRBTH22+0oSVZ5jY55oeUqS84qGw02
+	JWwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=r49mDLqimOxGDnITpt0dop7CIbror9zGsnPy6Mjzcy8=;
+	b=Jc69gqTIWClI+JUmiY/+JNbYnxFhJMrkeikYpkwm+j/pwoqnDBtp7ncc/wanSVpDLg
+	fLy8PFpHn4eDom2bk+os+xzI/DoYWmeuisq+4GN/OHW9FLeabAxjnVU6llmwo4USalfk
+	bx8KjCFop2dAIRBhrsYaU7eGhJ2wfMx292O4dM1ze43XynvVnC06XpO4/pYBcBn1MRt3
+	QRAs2cDdRZNqXIyZrWZ2NsH5U7cJUY/BdnhYwaQhFOs5bP5IF7D9keHfelaV9BYUceTC
+	2wQOUqog79gvrpx/J5BMpmVvpIV8IKeoWq16GfVxx49gOjjn7otRk2TfZ03SZqV6megM
+	uBFQ==
+X-Gm-Message-State: AKwxytefnDEjEM8S1jnn7e25vt6WtSQ6GIqha2gusEgKOzqbEObgaFB9
+	/irffegOQBaBNzUMZwvePVRJiYowXN4s/b1J0NAi+w==
+X-Google-Smtp-Source: ACJfBovyEBna5q0CwFRT5U9EsxW/kMA4lNV3gfUbAUHdKF6uJmxvDiU7CTIeAaiBRGYLvpOtcxVqr8lftwtCRmZe0Os=
+X-Received: by 10.107.133.75 with SMTP id h72mr7066854iod.227.1516115194273;
+	Tue, 16 Jan 2018 07:06:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.157.202 with HTTP; Tue, 16 Jan 2018 07:06:13 -0800 (PST)
+In-Reply-To: <20180116144729.pfwg3qs2yhbxirl4@mcrowe.com>
+References: <20180115175321.r7sfuxibr743icio@mcrowe.com>
+	<CAJTo0LbcZxArSP-TRYXfNVXY9FS8hK=okbHT2p8RU+nx1Sya+g@mail.gmail.com>
+	<20180116115516.bs5g4ngea3gz4sgr@mcrowe.com>
+	<CAJTo0LYFZqkc_KMXKjNmX4M3z0UjAjGpRLNingKsmXf7yBUmHQ@mail.gmail.com>
+	<CAJTo0LbHs0aVrvQi2RwSK=2FAe6q5nyYsu9CxDcnKrBae=f70Q@mail.gmail.com>
+	<CAJTo0LZC6AJhTs0PtbRvfHK-dqjgfZvNSdN3gXGdWksaBZOP6Q@mail.gmail.com>
+	<20180116144729.pfwg3qs2yhbxirl4@mcrowe.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Jan 2018 15:06:13 +0000
+Message-ID: <CAJTo0La_svZteH1ZXZ02_r9H7tYfe_dox9TO6sBTVF5V+CiUTw@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: glib-2.0 fails to configure with USE_NLS="no"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,76 +61,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 14:57:36 -0000
+X-List-Received-Date: Tue, 16 Jan 2018 15:06:33 -0000
+Content-Type: multipart/alternative; boundary="001a113ec5e498538a0562e61330"
 
-The order was wrong: GST_PLUGIN_SCANNER_1_0 was previously set before
-GTKDOC_EXTRA_ENVIRONMENT and so was overriden by upstream setting it
-from there. This changes the location of GST_PLUGIN_SCANNER_1_0 setting
-to come after GTKDOC_EXTRA_ENVIRONMENT.
+--001a113ec5e498538a0562e61330
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../gstreamer/files/gtk-doc-tweaks.patch           | 36 +++++++++++++++++-----
- 1 file changed, 29 insertions(+), 7 deletions(-)
+On 16 January 2018 at 14:47, Mike Crowe <mac@mcrowe.com> wrote:
 
-diff --git a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch b/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
-index 593d5bb043b..d86c78d7934 100644
---- a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
-+++ b/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
-@@ -1,3 +1,8 @@
-+From 7018ca1c4bf26c8317e7fcd2e7e4e648195f42ca Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 20 Dec 2017 13:03:03 +0000
-+Subject: [PATCH] gstreamer: use a patch instead of sed to fix gtk-doc
-+
- Patch the gtk-doc makefiles so that the qemu wrapper is used to run transient
- binaries instead of libtool wrapper or running them directly.
- 
-@@ -7,19 +12,36 @@ issues during build on x86_64.
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
----- a/common/gtk-doc.mak.orig	2017-12-20 12:43:20.586474397 +0000
--+++ b/common/gtk-doc.mak	2017-12-20 12:45:20.758874995 +0000
--@@ -8,3 +8,3 @@
-+---
-+ common/gtk-doc.mak | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/common/gtk-doc.mak b/common/gtk-doc.mak
-+index 3f83491..e5cb0d1 100644
-+--- a/common/gtk-doc.mak
-++++ b/common/gtk-doc.mak
-+@@ -6,11 +6,11 @@
-+ if GTK_DOC_USE_LIBTOOL
-+ GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-  GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
- -GTKDOC_RUN = $(LIBTOOL) --mode=execute
- +GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
-  else
--@@ -12,3 +12,3 @@
-+ GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-  GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
- -GTKDOC_RUN =
- +GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
-  endif
--@@ -99,2 +99,3 @@
-- 	    fi; \
-+ 
-+ # We set GPATH here; this gives us semantics for GNU make
-+@@ -101,6 +101,7 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
-+ 	    GST_PLUGIN_PATH_1_0=					\
-+ 	    GST_REGISTRY_1_0=doc-registry.xml				\
-+ 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
- +	    GST_PLUGIN_SCANNER_1_0="$(top_builddir)/libs/gst/helpers/gst-plugin-scanner-dummy" \
-- 	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`	\
-+ 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
-+ 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
-+ 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
-+-- 
-+2.15.1
-+
--- 
-2.15.1
+> On Tuesday 16 January 2018 at 14:04:14 +0000, Burton, Ross wrote:
+> > Another fix would be to respect USE_NLS and seed msgfmt=/bin/false
+> > appropriately.
+>
+>  CACHED_CONFIGUREVARS = "MSGFMT=/bin/false"
+>
+> appears to work, but I'm not sure whether that's what you meant.
+> Presumably it would need to be:
+>
+>  CACHED_CONFIGUREVARS = "${@base_conditional('USE_NLS', 'no',
+> 'MSGFMT=/bin/false', '')"
+>
+> or similar.
+>
+> > I'll test that later, or you can get the glory if you can
+> > send a tested patch.
+>
+> Since I'm not really sure what the consequences of doing this are, I'm not
+> sure that I want the blame that comes after the glory if I get it wrong. :)
+>
 
+Darn, my attempt at blame-shifting has failed.
 
+Well, msgfmt is only used by the glib-gettext logic (oh, and a test case, I
+suspect you've got ptest disabled?) so if NLS is disabled then all recipes
+using glib-gettext shouldn't be invoking it anyway, right?   That's my
+theory anyway...  the test case that uses it is an issue though.
+
+Ross
+
+--001a113ec5e498538a0562e61330
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 16 January 2018 at 14:47, Mike Crowe <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&=
+gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><span class=3D"">On Tuesday 16 January 2018 =
+at 14:04:14 +0000, Burton, Ross wrote:<br>
+&gt; Another fix would be to respect USE_NLS and seed msgfmt=3D/bin/false<b=
+r>
+&gt; appropriately.<br>
+<br>
+</span>=C2=A0CACHED_CONFIGUREVARS =3D &quot;MSGFMT=3D/bin/false&quot;<br>
+<br>
+appears to work, but I&#39;m not sure whether that&#39;s what you meant.<br=
+>
+Presumably it would need to be:<br>
+<br>
+=C2=A0CACHED_CONFIGUREVARS =3D &quot;${@base_conditional(&#39;USE_NLS&#39;<=
+wbr>, &#39;no&#39;, &#39;MSGFMT=3D/bin/false&#39;, &#39;&#39;)&quot;<br>
+<br>
+or similar.<br>
+<span class=3D""><br>
+&gt; I&#39;ll test that later, or you can get the glory if you can<br>
+&gt; send a tested patch.<br>
+<br>
+</span>Since I&#39;m not really sure what the consequences of doing this ar=
+e, I&#39;m not<br>
+sure that I want the blame that comes after the glory if I get it wrong. :)=
+<br></blockquote><div><br></div><div>Darn, my attempt at blame-shifting has=
+ failed.</div><div><br></div><div>Well, msgfmt is only used by the glib-get=
+text logic (oh, and a test case, I suspect you&#39;ve got ptest disabled?) =
+so if NLS is disabled then all recipes using glib-gettext shouldn&#39;t be =
+invoking it anyway, right? =C2=A0 That&#39;s my theory anyway... =C2=A0the =
+test case that uses it is an issue though.</div><div><br></div><div>Ross</d=
+iv></div></div></div>
+
+--001a113ec5e498538a0562e61330--
