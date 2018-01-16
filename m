@@ -1,51 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E2C2F78674
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C67B478645
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 13:37:58 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id e41so14856739wre.9
+	Tue, 16 Jan 2018 13:57:10 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id c17so16899105iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 05:38:00 -0800 (PST)
+	Tue, 16 Jan 2018 05:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WMa561vAFEmIQeSyuA/q8s2Nq38zkviV8ceeoxk9aeU=;
-	b=VCtpy5btivGAiAWmDam5dnYS5frAwEMh/JYEftJ/4CzG29iylnsTuzVGTMtsdTrt4B
-	IUXUxS4YnRcXn5KdfhKTjxOejdx8+GouHAdrX6+BCQSxadzg3Gvt/wzE3XiprM4y76mI
-	KrOVSb6SJXx3wBzpbKXAyYuMc3GKE/95Sn9JSkroWeirVgNyWp6keMvJmxmcW6evN3lC
-	Q7W3AHvuzqXHd1T8yXOasrvaiKf2Di2S3vt27OQnRGW1dFV4Yo5dm/4yb/P/oDgMLs+K
-	wuNX5TFpWxcQ/ilms0oHvtPwWAUadblWIfr7j9iTJrn3ymqQnjMhxv29F9B0Me3ZCZQz
-	+BGg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PkzA4f2vrq6sG9Jmb6GvA2HCh5ALB20v/Lsvvz8eXhQ=;
+	b=hrTVmdfpxywrTA3CUFTASxkO0+YjXXwpKpPR+yAlLaDV9KCYBurBxTiZPgraBhtnj6
+	VRW0sDgPaus4hByklZCrgJgy0NCzmAjFAm0DuT+4wAshXK0WUY/6to3ixfAjwRkeCREj
+	3te2brvAebILCWTxsrjiqR9ahhT+2ml7RHSZPJENpuxiLacWPN/2b7z1FeYQn10+M6Iv
+	SaCDV54S4icNcLFIdHruOkdxeL6f0CXVDTHygB7Rg6dX/neHj+TCaS5N7f8yBepBvqB3
+	PlECPrBSNA6m3+BpHjUQI7Ne4Ajl1c18fGwJSrTaItpC+OWWELxCXApYGGDNy9XAfrM7
+	6V8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=WMa561vAFEmIQeSyuA/q8s2Nq38zkviV8ceeoxk9aeU=;
-	b=onmuD9O3TZrqwHM8juj5VyYrmyaXBfCWtFftbPRIiTotutracipH95GQQS6iS216bo
-	Q0G5ejzeJgTMZqzWZ26HJffpq5VELPmR7VMu5kkUZLT14+pC1A5w83wtSdRlPusYVXQe
-	qcoDTE7t8Lid3Xi+7OTQhDUEQ3drtWezyG7dQ6A/TAIOJRu+7ln84KkOcIsxYwRFXfxC
-	YixEnk9S/70sOTdfZP1Om3gdyn+4nqWWYF4ta8aeBP5IPWDgQMtd9PX5Sab5WJaDHvxl
-	/vD/6aK6Em4UiCWBr50O44bYmE2pHzLwMSWYiuiILePMkTpIdhHy8/mh/Rqk05hmn+H1
-	KsUQ==
-X-Gm-Message-State: AKwxytc1DoHBsRfJspU1bGkkZlyIpl2S+HFWDobNxnsxezPZUteR3hAw
-	QF1BNbm7McC3wILjzyIVo4hI6RW5
-X-Google-Smtp-Source: ACJfBovFHt7jXgTFQ5w1xu6livHMZRjt46sZ2ofAL0WpXft/8b+9gs0LNYeZYNtHXKox1tVPaONDyw==
-X-Received: by 10.223.186.194 with SMTP id w2mr24059403wrg.173.1516109879841; 
-	Tue, 16 Jan 2018 05:37:59 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id f48sm462153wra.72.2018.01.16.05.37.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 Jan 2018 05:37:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jan 2018 13:37:54 +0000
-Message-Id: <20180116133754.29471-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180116133754.29471-1-ross.burton@intel.com>
-References: <20180116133754.29471-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] classes/debian: clean up process spawning
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PkzA4f2vrq6sG9Jmb6GvA2HCh5ALB20v/Lsvvz8eXhQ=;
+	b=H0z17CFhLCHZYFnnH/CeegACr5m2fqDG1OSJXE3oxM5NCgAI9nSkzhiNQiBrX5lNnm
+	EMpADfc6xpb9sSEhNOZRCIW6q4Je3u/doUUwH7/h/HD9oN6dtHPWSbBdZZWN2QQLiBeC
+	4K3pjxM+9eX6xjQobaSjAvGkn+yaet4FV320aaJNLbtyk0R2mZ6MAcVnGYwtrn+7rx6Z
+	2PhdQOu31pt6nfjaHoHiYXLwzjeRCkMlWSNP80G2JSLFLCqBUMW8zxOvW36uWMunnyh6
+	M61w1ablqmlKDJUQa5a4/UH03U4Y3v0lmmUjKiFC6pgKnvA019eAQg5kenLZfscM9idQ
+	yRMw==
+X-Gm-Message-State: AKGB3mLpg5EexRstjWS2daP7SlEfa1Ss2t5ps6sYAyoobGfKbUHGDQ3W
+	rPfKDU3QNxwoKWokwhBErnLy/NgbsmSqJWdpSlu2Cg==
+X-Google-Smtp-Source: ACJfBoslo4Ai1YEbY91t1tA4kzsq564ma5qiqHVsNYHMx5aIZLAffK1gmBfqW9tXMyzclm2hXbmo4Q67cygKqIp8EQU=
+X-Received: by 10.107.102.25 with SMTP id a25mr37525543ioc.217.1516111031935; 
+	Tue, 16 Jan 2018 05:57:11 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.157.202 with HTTP; Tue, 16 Jan 2018 05:56:51 -0800 (PST)
+In-Reply-To: <20180116115516.bs5g4ngea3gz4sgr@mcrowe.com>
+References: <20180115175321.r7sfuxibr743icio@mcrowe.com>
+	<CAJTo0LbcZxArSP-TRYXfNVXY9FS8hK=okbHT2p8RU+nx1Sya+g@mail.gmail.com>
+	<20180116115516.bs5g4ngea3gz4sgr@mcrowe.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Jan 2018 13:56:51 +0000
+Message-ID: <CAJTo0LYFZqkc_KMXKjNmX4M3z0UjAjGpRLNingKsmXf7yBUmHQ@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: glib-2.0 fails to configure with USE_NLS="no"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +57,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 13:37:59 -0000
+X-List-Received-Date: Tue, 16 Jan 2018 13:57:11 -0000
+Content-Type: multipart/alternative; boundary="089e082d07807fbe4f0562e51bcb"
 
-This code is old and was of it's time, rewrite it to use modernish (we support
-Python 3.4, so can't use subprocess.run()) subprocess and re idioms instead.
+--089e082d07807fbe4f0562e51bcb
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/debian.bbclass | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+GLib doesn't really support disable-nls, no.  I guess we need to force it
+on for target builds, as I now hack it to work without gettext for native.
 
-diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-index edc6da1ba3a..989ea8f8d28 100644
---- a/meta/classes/debian.bbclass
-+++ b/meta/classes/debian.bbclass
-@@ -25,7 +25,7 @@ python () {
- }
- 
- python debian_package_name_hook () {
--    import glob, copy, stat, errno, re, pathlib
-+    import glob, copy, stat, errno, re, pathlib, subprocess
- 
-     pkgdest = d.getVar("PKGDEST")
-     packages = d.getVar('PACKAGES')
-@@ -76,15 +76,14 @@ python debian_package_name_hook () {
-             if path in libdirs:
-                 has_libs = 1
-                 if so_re.match(os.path.basename(f)):
--                    cmd = (d.getVar('TARGET_PREFIX') or "") + "objdump -p " + f + " 2>/dev/null"
--                    fd = os.popen(cmd)
--                    lines = fd.readlines()
--                    fd.close()
--                    for l in lines:
--                        m = re.match("\s+SONAME\s+([^\s]*)", l)
--                        if m and not m.group(1) in sonames:
--                            sonames.append(m.group(1))
--
-+                    try:
-+                        cmd = [d.expand("${TARGET_PREFIX}objdump"), "-p", f]
-+                        output = subprocess.check_output(cmd).decode("utf-8")
-+                        for m in re.finditer("\s+SONAME\s+([^\s]+)", output):
-+                            if m.group(1) not in sonames:
-+                                sonames.append(m.group(1))
-+                    except subprocess.CalledProcessError:
-+                        pass
-         bb.debug(1, 'LIBNAMES: pkg %s libs %d bins %d sonames %s' % (orig_pkg, has_libs, has_bins, sonames))
-         soname = None
-         if len(sonames) == 1:
--- 
-2.11.0
+Ross
 
+On 16 January 2018 at 11:55, Mike Crowe <mac@mcrowe.com> wrote:
 
+> On 15 January 2018 at 17:53, Mike Crowe <mac@mcrowe.com> wrote:
+> >> If I add USE_NLS = "no" to local.conf, then glib-2.0 fails to configure:
+> >>
+> >> | checking for ngettext in libc... yes
+> >> | checking for dgettext in libc... yes
+> >> | checking for bind_textdomain_codeset... (cached) yes
+> >> | checking for msgfmt... no
+> >> | configure: error:
+> >> | *** You must have either have gettext support in your C library, or
+> use
+> >> | the
+> >> | *** GNU gettext library.
+> >> | (http://www.gnu.org/software/gettext/gettext.html)
+> >>
+> >> It seems that glib-2.0 does not support --disable-nls and always
+> requires
+> >> gettext.
+> >>
+> >> I can avoid this error by adding gettext-native to glib-2.0's DEPENDS,
+> but
+> >> I'm not sure whether this is solution would be acceptable.
+> >>
+> >> Is there a better way?
+>
+> On Monday 15 January 2018 at 19:34:35 +0000, Burton, Ross wrote:
+> > Have a look at what just landed in master...
+>
+> Perhaps I'm being stupid, but it looks like nothing has landed on master
+> since Sunday.
+>
+> Looking at the history, I see 1ef45d377519983df827650cd0913e0d2c8a785b ,
+> but I already had that change. Reverting it does appear to fix the problem
+> though. Is that what you meant? If not, please can you point me at the
+> commit you are referring to?
+>
+> Thanks.
+>
+> Mike.
+>
+
+--089e082d07807fbe4f0562e51bcb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">GLib doesn&#39;t really support disable-nls, no.=C2=A0 I g=
+uess we need to force it on for target builds, as I now hack it to work wit=
+hout gettext for native.<div><br></div><div>Ross</div></div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">On 16 January 2018 at 11:55, Mik=
+e Crowe <span dir=3D"ltr">&lt;<a href=3D"mailto:mac@mcrowe.com" target=3D"_=
+blank">mac@mcrowe.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><span class=3D"">On 15 January 2018 at 17:53, Mike Crowe &lt;<a href=3D"=
+mailto:mac@mcrowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
+&gt;&gt; If I add USE_NLS =3D &quot;no&quot; to local.conf, then glib-2.0 f=
+ails to configure:<br>
+&gt;&gt;<br>
+&gt;&gt; | checking for ngettext in libc... yes<br>
+&gt;&gt; | checking for dgettext in libc... yes<br>
+&gt;&gt; | checking for bind_textdomain_codeset... (cached) yes<br>
+&gt;&gt; | checking for msgfmt... no<br>
+&gt;&gt; | configure: error:<br>
+&gt;&gt; | *** You must have either have gettext support in your C library,=
+ or use<br>
+&gt;&gt; | the<br>
+&gt;&gt; | *** GNU gettext library.<br>
+&gt;&gt; | (<a href=3D"http://www.gnu.org/software/gettext/gettext.html" re=
+l=3D"noreferrer" target=3D"_blank">http://www.gnu.org/software/<wbr>gettext=
+/gettext.html</a>)<br>
+&gt;&gt;<br>
+&gt;&gt; It seems that glib-2.0 does not support --disable-nls and always r=
+equires<br>
+&gt;&gt; gettext.<br>
+&gt;&gt;<br>
+&gt;&gt; I can avoid this error by adding gettext-native to glib-2.0&#39;s =
+DEPENDS, but<br>
+&gt;&gt; I&#39;m not sure whether this is solution would be acceptable.<br>
+&gt;&gt;<br>
+&gt;&gt; Is there a better way?<br>
+<br>
+</span><span class=3D"">On Monday 15 January 2018 at 19:34:35 +0000, Burton=
+, Ross wrote:<br>
+&gt; Have a look at what just landed in master...<br>
+<br>
+</span>Perhaps I&#39;m being stupid, but it looks like nothing has landed o=
+n master<br>
+since Sunday.<br>
+<br>
+Looking at the history, I see 1ef45d377519983df827650cd0913e<wbr>0d2c8a785b=
+ ,<br>
+but I already had that change. Reverting it does appear to fix the problem<=
+br>
+though. Is that what you meant? If not, please can you point me at the<br>
+commit you are referring to?<br>
+<br>
+Thanks.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Mike.<br>
+</font></span></blockquote></div><br></div>
+
+--089e082d07807fbe4f0562e51bcb--
