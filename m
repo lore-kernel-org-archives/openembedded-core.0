@@ -1,35 +1,23 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BE5C6B6EA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 068FB78673
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 14:47:29 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id bSWPeu71i8e42bSWQe9lfU; Tue, 16 Jan 2018 14:47:31 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=do719Wo4 c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=RgaUWeydRksA:10 a=O5fH4meCk4TxctXDl7cA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1ebSWP-0001w1-Pp; Tue, 16 Jan 2018 14:47:29 +0000
-Date: Tue, 16 Jan 2018 14:47:29 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180116144729.pfwg3qs2yhbxirl4@mcrowe.com>
-References: <20180115175321.r7sfuxibr743icio@mcrowe.com>
-	<CAJTo0LbcZxArSP-TRYXfNVXY9FS8hK=okbHT2p8RU+nx1Sya+g@mail.gmail.com>
-	<20180116115516.bs5g4ngea3gz4sgr@mcrowe.com>
-	<CAJTo0LYFZqkc_KMXKjNmX4M3z0UjAjGpRLNingKsmXf7yBUmHQ@mail.gmail.com>
-	<CAJTo0LbHs0aVrvQi2RwSK=2FAe6q5nyYsu9CxDcnKrBae=f70Q@mail.gmail.com>
-	<CAJTo0LZC6AJhTs0PtbRvfHK-dqjgfZvNSdN3gXGdWksaBZOP6Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZC6AJhTs0PtbRvfHK-dqjgfZvNSdN3gXGdWksaBZOP6Q@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfAD5gMFYjUaXOWMg27J77+qA25C6CbAZNW6RS8Rv1gyOBuTASuliU9tf6pFQoHTw9KIN1fCEqJjnWWz9/xMoMS8lvwGK0m4Eo+eVALHarpw/+1UVp0Dr
-	dFX1H27+EhznR9fldVnE5RlWPARHxEqlzYI=
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: glib-2.0 fails to configure with USE_NLS="no"
+	Tue, 16 Jan 2018 14:57:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jan 2018 06:57:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,368,1511856000"; d="scan'208";a="10824098"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 16 Jan 2018 06:57:35 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jan 2018 16:57:49 +0200
+Message-Id: <20180116145749.2064-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] gstreamer: correctly set GST_PLUGIN_SCANNER_1_0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 14:47:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 16 Jan 2018 14:57:36 -0000
 
-On Tuesday 16 January 2018 at 14:04:14 +0000, Burton, Ross wrote:
-> Another fix would be to respect USE_NLS and seed msgfmt=/bin/false
-> appropriately.
+The order was wrong: GST_PLUGIN_SCANNER_1_0 was previously set before
+GTKDOC_EXTRA_ENVIRONMENT and so was overriden by upstream setting it
+from there. This changes the location of GST_PLUGIN_SCANNER_1_0 setting
+to come after GTKDOC_EXTRA_ENVIRONMENT.
 
- CACHED_CONFIGUREVARS = "MSGFMT=/bin/false"
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../gstreamer/files/gtk-doc-tweaks.patch           | 36 +++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 7 deletions(-)
 
-appears to work, but I'm not sure whether that's what you meant.
-Presumably it would need to be:
+diff --git a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch b/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
+index 593d5bb043b..d86c78d7934 100644
+--- a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
++++ b/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
+@@ -1,3 +1,8 @@
++From 7018ca1c4bf26c8317e7fcd2e7e4e648195f42ca Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Wed, 20 Dec 2017 13:03:03 +0000
++Subject: [PATCH] gstreamer: use a patch instead of sed to fix gtk-doc
++
+ Patch the gtk-doc makefiles so that the qemu wrapper is used to run transient
+ binaries instead of libtool wrapper or running them directly.
+ 
+@@ -7,19 +12,36 @@ issues during build on x86_64.
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+---- a/common/gtk-doc.mak.orig	2017-12-20 12:43:20.586474397 +0000
+-+++ b/common/gtk-doc.mak	2017-12-20 12:45:20.758874995 +0000
+-@@ -8,3 +8,3 @@
++---
++ common/gtk-doc.mak | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/common/gtk-doc.mak b/common/gtk-doc.mak
++index 3f83491..e5cb0d1 100644
++--- a/common/gtk-doc.mak
+++++ b/common/gtk-doc.mak
++@@ -6,11 +6,11 @@
++ if GTK_DOC_USE_LIBTOOL
++ GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+  GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+ -GTKDOC_RUN = $(LIBTOOL) --mode=execute
+ +GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
+  else
+-@@ -12,3 +12,3 @@
++ GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+  GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+ -GTKDOC_RUN =
+ +GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
+  endif
+-@@ -99,2 +99,3 @@
+- 	    fi; \
++ 
++ # We set GPATH here; this gives us semantics for GNU make
++@@ -101,6 +101,7 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
++ 	    GST_PLUGIN_PATH_1_0=					\
++ 	    GST_REGISTRY_1_0=doc-registry.xml				\
++ 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
+ +	    GST_PLUGIN_SCANNER_1_0="$(top_builddir)/libs/gst/helpers/gst-plugin-scanner-dummy" \
+- 	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`	\
++ 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
++ 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
++ 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
++-- 
++2.15.1
++
+-- 
+2.15.1
 
- CACHED_CONFIGUREVARS = "${@base_conditional('USE_NLS', 'no', 'MSGFMT=/bin/false', '')"
-
-or similar.
-
-> I'll test that later, or you can get the glory if you can
-> send a tested patch.
-
-Since I'm not really sure what the consequences of doing this are, I'm not
-sure that I want the blame that comes after the glory if I get it wrong. :)
-
-Thanks.
-
-Mike.
 
