@@ -1,78 +1,87 @@
-Return-Path: <alejandr@xilinx.com>
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-bl2nam02on0046.outbound.protection.outlook.com [104.47.38.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FCD97845A
+Return-Path: <zboszor@pr.hu>
+Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
+	by mail.openembedded.org (Postfix) with ESMTP id 18E98601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 07:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=Jk8LtB9vvFkm+DimCvBMK3DwJUf8mZp8rXEXjh/kOuw=;
-	b=ZCqCvbbuNM3qOwLEBBrpibjfysM6dmXXUfEsFL6vJDU4eqhv8G1pSQIO1of+0TOprGxcloCTUTPF7yV0tuQB0nUr7KRTSVe/2HgHLi8qcGxiUX0AlpAs8lB3IEFOIejyEOjCGpzxyyMvjuGg/tdEvdMUzy8+3Vtf1aqC0ONub/o=
-Received: from MWHPR0201MB3401.namprd02.prod.outlook.com (10.167.161.138) by
-	MWHPR0201MB3595.namprd02.prod.outlook.com (10.167.162.32) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.407.7; Tue, 16 Jan 2018 07:00:12 +0000
-Received: from MWHPR0201MB3401.namprd02.prod.outlook.com
-	([fe80::bca3:ef4c:ffab:e83]) by
-	MWHPR0201MB3401.namprd02.prod.outlook.com
-	([fe80::bca3:ef4c:ffab:e83%13]) with mapi id 15.20.0407.012;
-	Tue, 16 Jan 2018 07:00:11 +0000
-From: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yocto@yoctoproject.org"
-	<yocto@yoctoproject.org>, "meta-xilinx@yoctoproject.org"
-	<meta-xilinx@yoctoproject.org>
-Thread-Topic: [meta-xilinx] liblzma: Memory allocation failed on do_package_rpm
-Thread-Index: AdONyO7F0CbDbyZMTvmUCBS8jdjlFQAzpWQw
-Date: Tue, 16 Jan 2018 07:00:11 +0000
-Message-ID: <MWHPR0201MB34015DEC8B70EA929C25084EACEA0@MWHPR0201MB3401.namprd02.prod.outlook.com>
-References: <BY2PR02MB347697DA9F50BFD39015C3BB9EB0@BY2PR02MB347.namprd02.prod.outlook.com>
-In-Reply-To: <BY2PR02MB347697DA9F50BFD39015C3BB9EB0@BY2PR02MB347.namprd02.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=alejandr@xilinx.com; 
-x-originating-ip: [149.199.62.254]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; MWHPR0201MB3595;
-	7:81TBd9ijqOGhuK6GbdXkOLhP8a+lOlbsjI52aNdVNOOe2KBCDeZ1UPH2byilo7e3VNKVdSUPeGvrQmlezaZlYmH/NcsxBmD9gUAy2pKtIUJ8UshU8dmsi01RQAzagrYNaajMmx2pcmmgB0Ds2zUf2+5w83PakcQ3ObxoyCpW4URB/BJxLFnUao+Pk2iHiEq3U9CktPg1l3aqgDlpwJ3Vb8ryxUF+NkItc4Vay+cuTVr6gouSSZ3WMR320hWGhcKH
-x-ms-exchange-antispam-srfa-diagnostics: SSOS;SSOR;
-x-forefront-antispam-report: SFV:SKI; SCL:-1; SFV:NSPM;
-	SFS:(10009020)(346002)(366004)(376002)(396003)(39380400002)(39860400002)(13464003)(189003)(199004)(5890100001)(2201001)(9686003)(5660300001)(68736007)(6436002)(55016002)(25786009)(8676002)(2950100002)(81156014)(86362001)(81166006)(229853002)(26005)(97736004)(6306002)(6246003)(3846002)(8936002)(6116002)(99286004)(106356001)(5250100002)(2501003)(105586002)(2900100001)(59450400001)(3280700002)(66066001)(3660700001)(6506007)(316002)(14454004)(478600001)(966005)(305945005)(53936002)(7696005)(76176011)(53546011)(2906002)(33656002)(102836004)(110136005)(74316002)(7736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0201MB3595;
-	H:MWHPR0201MB3401.namprd02.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-x-ms-office365-filtering-correlation-id: c7760aa6-f0c1-4d44-bfad-08d55caec95a
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(3008032)(48565401081)(2017052603307)(7153060)(7193020);
-	SRVR:MWHPR0201MB3595; 
-x-ms-traffictypediagnostic: MWHPR0201MB3595:
-x-microsoft-antispam-prvs: <MWHPR0201MB35959BB0FCAB9192216FCBBBACEA0@MWHPR0201MB3595.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(264703809997249);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040470)(2401047)(5005006)(8121501046)(93006095)(93001095)(3002001)(3231023)(944501161)(10201501046)(6055026)(6041268)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123562045)(20161123560045)(6072148)(201708071742011);
-	SRVR:MWHPR0201MB3595; BCL:0; PCL:0;
-	RULEID:(100000803101)(100110400095); SRVR:MWHPR0201MB3595; 
-x-forefront-prvs: 0554B1F54F
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: q+R042iuD5sUQ5m/rahOAEwKEMQGcMjxeiTmJ562YffZjWDOQfKfmt22ST/2HetL8Zr+ivJ7QXfEeZWQSwKhAQ==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Tue, 16 Jan 2018 10:10:33 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1ebOCP-0008Ls-KZ; Tue, 16 Jan 2018 11:10:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YmDnVzpf353iScUOpeOmOXRgJInUDM4eq7iO01xvlt8=;
+	b=bc00BfTwqDzqmVVyoBZ5dWl3i6
+	OHaS44C8mFoEyLTYTRw/ENQ5v2VMyCffL2ZnptySGMkQ0eUJM1xhKvhbFn9Hr9IFRtvthtCEpzpGe
+	RiLCSPlK1COFXHKDX2yKY9Hqhae0J3IdoGy0I39ahhH+Q851ytQgCHqOfysFiO5jwZDugU7wy0T9z
+	F1oFC7IqQjyQmOn6RsYXHncDYCxH7h/MkX1z3VhtSzQC9T4/nI3gvHBfyaZe1wsF6Pen2GwMnFCh5
+	BM6TnWdqd59R4T7fyHEbxDnpc5NabHzsP6CH+ZKJ6EorPujtygfJh+FsvMWsBwjIs9dx2PdPy+bHK
+	Gp0HYpNg==;
+Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
+	helo=s002.sicom.com)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1ebOCK-0000g6-H0; Tue, 16 Jan 2018 11:10:31 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20180112134659.5793-1-zboszor@pr.hu>
+	<1515929241.29722.212.camel@linuxfoundation.org>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <41f084d6-ed15-9e5a-c084-5d2dc9911f7b@pr.hu>
+Date: Tue, 16 Jan 2018 11:10:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7760aa6-f0c1-4d44-bfad-08d55caec95a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2018 07:00:11.4088 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3595
-Subject: Re: [meta-xilinx] liblzma: Memory allocation failed on do_package_rpm
+In-Reply-To: <1515929241.29722.212.camel@linuxfoundation.org>
+X-Spam-Score: 2.3 (++)
+X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
+	is spam.
+	pts rule name              description  (score: __SCORE__ points)
+	---- ----------------------
+	--------------------------------------------------
+	-0.2 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
+	[score: 1.0000]
+	0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+	[score: 1.0000]
+	-1.2 AWL AWL: Adjusted score from AWL reputation of From: address
+	Preview: 2018-01-14 12:27 keltez__ssel, Richard Purdie __rta: > On
+	Fri, 2018-01-12 at 14:46 +0100,
+	B__sz__rm__nyi Zolt__n wrote: >> When downgrading
+	a package or using a substitute with lower version,
+	>> the way to do it is
+	adding or increasing PE and there may be other >> reasons to set PE. >>
+	>>
+	But it doesn't directly help dependant packages because the shlib >>
+	records
+	only contain PV. >> >> Let's add the PE value into the shlib records
+	for
+	packages where >> it's set. >> >> The in-memory variables storing the
+	versions
+	now use the PE:PV >> notation but the on-disk files must use something
+	else
+	because >> the : character is already used as field delimiter in the >>
+	package.list
+	>> files storing the shlib records. Use # instead in the files,
+	>> so the
+	file format doesn't change. Conversion occurs on reading >> and writing
+	the
+	package.list files. > > Can you explain a bit more about why/how this
+	causes
+	a problem? > > PE is needed to maintain consistency of package feeds
+	but
+	the shlibs > code is primarily used for build time dependency analysis
+	to
+	figure out > which packages need to depend upon what and ensure runtime
+	dependencies
+	> are met. I'm not sure that should care about PE. [...]
+X-Scan-Signature: 9a146a30ee28b718ea4c667455323329
+X-Spam-Tracer: backend.mail.pr.hu 2.3 20180116101031Z
+Subject: Re: [PATCH v2] package: Record PE and PR values for shlib dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,72 +94,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 07:15:35 -0000
+X-List-Received-Date: Tue, 16 Jan 2018 10:10:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hey Manju,
+2018-01-14 12:27 keltezéssel, Richard Purdie írta:
+> On Fri, 2018-01-12 at 14:46 +0100, Böszörményi Zoltán wrote:
+>> When downgrading a package or using a substitute with lower version,
+>> the way to do it is adding or increasing PE and there may be other
+>> reasons to set PE.
+>>
+>> But it doesn't directly help dependant packages because the shlib
+>> records only contain PV.
+>>
+>> Let's add the PE value into the shlib records for packages where
+>> it's set.
+>>
+>> The in-memory variables storing the versions now use the PE:PV
+>> notation but the on-disk files must use something else because
+>> the : character is already used as field delimiter in the
+>> package.list
+>> files storing the shlib records. Use # instead in the files,
+>> so the file format doesn't change. Conversion occurs on reading
+>> and writing the package.list files.
+> 
+> Can you explain a bit more about why/how this causes a problem?
+> 
+> PE is needed to maintain consistency of package feeds but the shlibs
+> code is primarily used for build time dependency analysis to figure out
+> which packages need to depend upon what and ensure runtime dependencies
+> are met. I'm not sure that should care about PE.
 
-I'd like to see if I can reproduce this, could you please send the the step=
-s you followed?
+See my mail about describing the use case at
+http://lists.openembedded.org/pipermail/openembedded-devel/2018-January/116291.html
 
-Thanks!
+Practically it can prevent proper dist-ugprade because
+library package dependencies can be installed later
+than binaries requiring them. If this happens, running
+any binary may crash in the pkg_postinst scriptlet.
 
-Alejandro
+My use case was the eglibc_linaro-2.19 -> glibc_2.24 transition
+but any upgrade where the package already has a PE value set
+may be in the same situation. E.g. glib-2.0 1:2.48.2 in Morty vs
+1:2.52.3 in Rocko.
 
------Original Message-----
-From: meta-xilinx-bounces@yoctoproject.org [mailto:meta-xilinx-bounces@yoct=
-oproject.org] On Behalf Of Manjukumar Harthikote Matha
-Sent: Sunday, January 14, 2018 10:20 PM
-To: openembedded-core@lists.openembedded.org; yocto@yoctoproject.org; meta-=
-xilinx@yoctoproject.org
-Subject: [meta-xilinx] liblzma: Memory allocation failed on do_package_rpm
+A bbappend file can also modify PV. In case PE is missing from
+the shlib deps, you can even end up with the same situation
+in the same distro with extra layers.
 
-All,
+> For PR, again its primarily for package feeds so that updates are
+> detected and I'm not sure why the shlibs code should need to care about
+> it.
 
-Has anybody seen this error?
+Besides PE, it is also better to always ship libraries and
+binaries from the same build, i.e. with the same PV-PR value.
 
-Finished binary package job, result 0, filename (null)
-error: create archive failed: cpio: write failed - Cannot allocate memory
-error: liblzma: Memory allocation failederror: liblzma: Memory allocation f=
-ailedFinished binary package job, result 2,
+Such an example is e.g. util-linux with util-linux-mount and
+libmount1.
 
-.......
+The above described situation may occur if a patch is backported
+that adds a new library function which is also used at the same
+time from binaries in the same patch. All without increasing
+the actual package version. This may be a rare case but I am sure
+it is not without an example in Yocto. I am not sure if a recipe
+review enforces changing PR in this case, though, but it should.
 
-RPM build errors:
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     Deprecated external dependency generator is used!
-|     liblzma: Memory allocation failed    liblzma: Memory allocation faile=
-d    liblzma: Memory allocation failed    liblzma: Memory allocation failed=
-    liblzma: Memory allocation failed    liblzma: Memory allocation failed
+> Perhaps if you explain more about the issues you're having which this
+> fixes I'll better understand the problem/need.
 
-This happens in do_package_rpm task on various recipes, coreutils/libgpg/di=
-ffutils etc.
+I think I just did.
 
-The host machine has good amount on memory, 256G to be exact. When I see th=
-e error and issue free -h command, I still see ~120G free memory available.
-This is a RHEL 7.2 machine and I am running rocko baseline.
+Automatically relying on the full [PE:]PV[-PR] (note the optional
+parts which are also done automatically in the patch) adds even
+better consistency in the repo and upgrades can be done in the
+correct order.
 
-Any reason why this would happen? Where should I look to fix this issue?
+Upgrades should even work if I just cherry-pick some upgrades
+but not all, i.e. "opkg upgrade <something-using-glib-2.0>"
+should pull the libglib-2.0_0 version it was built with which is
+not happening now because the library dependency is only (>= 2.52.3)
+in Rocko but 1:2.48.2 from Morty satisfies it.
 
-Thanks,
-Manju
-This email and any attachments are intended for the sole use of the named r=
-ecipient(s) and contain(s) confidential information that may be proprietary=
-, privileged or copyrighted under applicable law. If you are not the intend=
-ed recipient, do not read, copy, or forward this email message or any attac=
-hments. Delete this email message and any attachments immediately.
---=20
-_______________________________________________
-meta-xilinx mailing list
-meta-xilinx@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/meta-xilinx
+OPKG 0.3.x has a dist-upgrade mode and Rocko also introduced dnf,
+so I assume at some point a proper distro upgrade will get supported.
+
+Best regards,
+Zoltán Böszörményi
 
