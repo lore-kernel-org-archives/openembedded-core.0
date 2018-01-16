@@ -1,36 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 11BE671C42
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2672578674
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 06:39:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0G6bYhX020049
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Jan 2018 22:37:34 -0800 (PST)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Mon, 15 Jan 2018 22:37:34 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
-Thread-Index: AQHTU6XbDhJwwAOIpEihfeLlRZsSNKNO65YggBQn1oCAADd+sIANlq6AgAWfWmA=
-Date: Tue, 16 Jan 2018 06:37:33 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566D5804@ALA-MBC.corp.ad.wrs.com>
-References: <cover.1509604697.git.jackie.huang@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AA01566B9AEB@ALA-MBC.corp.ad.wrs.com>
-	<1514987639.5525.138.camel@linuxfoundation.org>
-	<1B858668EC6A94408DCA5225FDFA85AA01566C6D76@ALA-MBC.corp.ad.wrs.com>
-	<1515746597.29722.130.camel@linuxfoundation.org>
-In-Reply-To: <1515746597.29722.130.camel@linuxfoundation.org>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.141]
+	Tue, 16 Jan 2018 06:53:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0G6rbpS017908
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jan 2018 22:53:37 -0800
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 15 Jan 2018 22:53:36 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jan 2018 14:51:14 +0800
+Message-ID: <cover.1516084922.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+Subject: [PATCH 0/1 v3] glibc: re-package for libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,108 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 06:39:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 16 Jan 2018 06:53:36 -0000
+Content-Type: text/plain
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBGcmlk
-YXksIEphbnVhcnkgMTIsIDIwMTggMTY6NDMNCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4g
-Q2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDog
-UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8yIHYyXSBnbGliYzogZml4ZXMgZm9yIG5zY2QgYW5kIGxp
-Ym5zcy1kYg0KPiANCj4gT24gVGh1LCAyMDE4LTAxLTA0IGF0IDAxOjMxICswMDAwLCBIdWFuZywg
-SmllIChKYWNraWUpIHdyb3RlOg0KPiA+DQo+ID4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSAw
-MywgMjAxOCAyMTo1NA0KPiA+ID4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSk7IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDAvMiB2Ml0gZ2xpYmM6IGZpeGVzIGZvciBuc2NkIGFuZA0KPiA+ID4gbGlibnNz
-LWRiDQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDE3LTEyLTIyIGF0IDAyOjA4ICswMDAwLCBIdWFu
-ZywgSmllIChKYWNraWUpIHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBQaW5nLCBJIGRpZG4ndCBz
-ZWUgYW55IG9iamVjdGlvbiBvbiB0aGlzLCBidXQgaXQncyBub3QgbWVyZ2VkDQo+ID4gPiA+IHll
-dCwgZG8NCj4gPiA+ID4gSSBtaXNzIGFueXRoaW5nPw0KPiA+ID4gV2hlbiB3ZSB0ZXN0IGl0IHdl
-IHNlZToNCj4gPiA+DQo+ID4gPiBXQVJOSU5HOiBnbGliYy0yLjI2LXIwIGRvX3BhY2thZ2U6IGds
-aWJjLWV4dHJhLW5zcy0yLjI2IHdhcw0KPiA+ID4gcmVnaXN0ZXJlZCBhcw0KPiA+ID4gc2hsaWIg
-cHJvdmlkZXIgZm9yIGxpYm5zc19kYi5zby4yLCBjaGFuZ2luZyBpdCB0byBsaWJuc3MtZGItMi4y
-Ng0KPiA+ID4gYmVjYXVzZSBpdCB3YXMNCj4gPiA+IGJ1aWx0IGxhdGVyDQo+ID4gU29ycnksIGJ1
-dCBJIGhhdmVuJ3Qgc2VlbiB0aGlzIHdhcm5pbmcgaW4gb3VyIGJ1aWxkcyBhZnRlciB0aGlzIHBh
-dGNoDQo+ID4gbWVyZ2VkIGluIG91ciBsb2NhbCBicmFuY2ggZm9yIHR3byB3ZWVrcy4gTWF5YmUg
-d2UgbWlzc2VkIHNvbWUgY2FzZXMNCj4gPiBpbiBvdXIgdGVzdCBidWlsZHMsIHNvIGNvdWxkIHlv
-dSBzaG93IG1lIGhvdyB0byByZXByb2R1Y2UgaXQ/IFRoYW5rcyENCj4gPg0KPiA+IFRoaXMgcGF0
-Y2ggaXMgc2ltcGx5IHJlLXBhY2thZ2UgbGlibnNzX2RiLnNvKiBmcm9tIGdsaWJjLWV4dHJhLW5z
-cw0KPiA+IGludG8gbGlibnNzLWRiLCBJIGRvbid0IHVuZGVyc3RhbmQgd2h5IGxpYm5zc19kYi5z
-byogaXMgc3RpbGwNCj4gPiBwcm92aWRlZCBieSBib3RoIG9mIHRoZW0sIGRpZCBJIG1pc3MgYW55
-dGhpbmcgd2hlbiBJIGRvIGEgcmUtDQo+ID4gcGFja2FnaW5nIGZvciBhIHJlY2lwZT8NCj4gDQo+
-IA0KPiBJIHdhcyBhYmxlIHRvIHJlcHJvZHVjZSB0aGlzIGJ5IHN0YXJ0aW5nIHdpdGggYW4gZXhp
-c3RpbmcgYnVpbGQgd2l0aG91dA0KPiB0aGUgcGF0Y2gsIHRoZW4gYXBwbHlpbmcgdGhlIHBhdGNo
-LiBUaGUgZXJyb3Igc2hvd3Mgb25jZSBkdXJpbmcgdGhlDQo+IHJlYnVpbGQgYW5kIHRoZW4gbm90
-IGFnYWluLiBJdHMgdGhlcmVmb3JlIHByb2JhYmx5IGxlc3Mgb2YgYW4gaXNzdWUNCj4gKGJ1dCBk
-b2VzIHJhaXNlIGEgcXVlc3Rpb24gYWJvdXQgd2h5IHRoYXQgaXMgaGFwcGVuaW5nKS4NCj4gDQo+
-IFRoZSBuZXcgbWFrZSBkZXBlbmRlbmN5IGRvZXMgY2F1c2UgYW4gYWRkaXRpb25hbCBmYWlsdXJl
-IHRob3VnaDoNCg0KU29ycnksIEkgZGlkbid0IG5vdGljZWQgdGhhdCBtYWtlIGlzIGdwbHYzLiBJ
-IGNoYW5nZSB0aGUgZGVwZW5kZW5jeSB0bw0KUlNVR0dFU1RTIGFuZCB0aGUgdGVzdCBwYXNzZWQ6
-DQoNCiQgb2Utc2VsZnRlc3QgLXIgYmJ0ZXN0cy5CaXRiYWtlVGVzdHMudGVzdF9ub25fZ3BsdjMN
-CjIwMTgtMDEtMTYgMjE6MjQ6NTQsOTIwIC0gb2Utc2VsZnRlc3QgLSBXQVJOSU5HIC0gbWV0YS1z
-ZWxmdGVzdCBsYXllciBub3QgZm91bmQgaW4gQkJMQVlFUlMsIGFkZGluZyBpdA0KMjAxOC0wMS0x
-NiAyMToyNTowNSwwMTAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmcgbGF5ZXIgbGlicmFy
-aWVzOg0KMjAxOC0wMS0xNiAyMToyNTowNSwwMTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgL2J1
-aWxkYXJlYTIvamh1YW5nMC9naXQveXAvcG9reS9tZXRhL2xpYg0KMjAxOC0wMS0xNiAyMToyNTow
-NSwwMTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgL2J1aWxkYXJlYTIvamh1YW5nMC9naXQveXAv
-cG9reS9tZXRhLXlvY3RvLWJzcC9saWINCjIwMTgtMDEtMTYgMjE6MjU6MDUsMDExIC0gb2Utc2Vs
-ZnRlc3QgLSBJTkZPIC0gIC9idWlsZGFyZWEyL2podWFuZzAvZ2l0L3lwL3Bva3kvbWV0YS1zZWxm
-dGVzdC9saWINCjIwMTgtMDEtMTYgMjE6MjU6MDUsMDEyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
-UnVubmluZyBiaXRiYWtlIC1wDQoyMDE4LTAxLTE2IDIxOjI1OjEwLDU2NSAtIG9lLXNlbGZ0ZXN0
-IC0gSU5GTyAtIEFkZGluZzogImluY2x1ZGUgc2VsZnRlc3QuaW5jIiBpbiAvYnVpbGRhcmVhMi9q
-aHVhbmcwL3lwL3lfeDY0XzE4MDExMi9jb25mL2xvY2FsLmNvbmYNCjIwMTgtMDEtMTYgMjE6MjU6
-MTAsNTY2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQWRkaW5nOiAiaW5jbHVkZSBiYmxheWVycy5p
-bmMiIGluIGJibGF5ZXJzLmNvbmYNCjIwMTgtMDEtMTYgMjE6MjU6MTAsNTY2IC0gb2Utc2VsZnRl
-c3QgLSBJTkZPIC0gdGVzdF9ub25fZ3BsdjMgKGJidGVzdHMuQml0YmFrZVRlc3RzKQ0KMjAxOC0w
-MS0xNiAyMTo0NjoyMiw1MzggLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgLi4uIG9rDQoyMDE4LTAx
-LTE2IDIxOjQ2OjIyLDUzOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIC0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCjIw
-MTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmFuIDEgdGVzdCBp
-biAxMjcxLjk3NHMNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZP
-IC0gT0sNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVT
-VUxUUzoNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVT
-VUxUUyAtIGJidGVzdHMuQml0YmFrZVRlc3RzLnRlc3Rfbm9uX2dwbHYzIC0gVGVzdGNhc2UgMTEx
-OTogUEFTU0VEDQoyMDE4LTAxLTE2IDIxOjQ2OjIyLDU0MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IFNVTU1BUlk6DQoyMDE4LTAxLTE2IDIxOjQ2OjIyLDU0MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IG9lLXNlbGZ0ZXN0ICgpIC0gUmFuIDEgdGVzdCBpbiAxMjcxLjk3NXMNCjIwMTgtMDEtMTYgMjE6
-NDY6MjIsNTQwIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgLSBPSyAtIEFsbCBy
-ZXF1aXJlZCB0ZXN0cyBwYXNzZWQNCg0KVGhhbmtzLA0KSmFja2llDQoNCj4gDQo+ICQgb2Utc2Vs
-ZnRlc3QgLXIgYmJ0ZXN0cy5CaXRiYWtlVGVzdHMudGVzdF9ub25fZ3BsdjMNCj4gDQo+IDIwMTgt
-MDEtMTIgMDg6MzE6MjUsMTk2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gdGVzdF9ub25fZ3BsdjMN
-Cj4gKGJidGVzdHMuQml0YmFrZVRlc3RzKQ0KPiAyMDE4LTAxLTEyIDA4OjM0OjAyLDk0MCAtIG9l
-LXNlbGZ0ZXN0IC0gSU5GTyAtwqDCoC4uLiBGQUlMDQo+IDIwMTgtMDEtMTIgMDg6MzQ6MDIsOTQx
-IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0NCj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPT09PT0NCj4gMjAxOC0wMS0x
-MiAwODozNDowMiw5NDEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBGQUlMOiB0ZXN0X25vbl9ncGx2
-Mw0KPiAoYmJ0ZXN0cy5CaXRiYWtlVGVzdHMpDQo+IDIwMTgtMDEtMTIgMDg6MzQ6MDIsOTQxIC0g
-b2Utc2VsZnRlc3QgLSBJTkZPIC0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gMjAxOC0wMS0xMiAwODoz
-NDowMiw5NDEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNh
-bGwgbGFzdCk6DQo+IMKgIEZpbGUgIi9tZWRpYS9idWlsZDEvcG9reS9tZXRhL2xpYi9vZXFhL2Nv
-cmUvZGVjb3JhdG9yL19faW5pdF9fLnB5IiwgbGluZSAzMiwNCj4gaW4gd3JhcHBlZF9mDQo+IMKg
-wqDCoMKgcmV0dXJuIGZ1bmMoKmFyZ3MsICoqa3dhcmdzKQ0KPiDCoCBGaWxlICIvbWVkaWEvYnVp
-bGQxL3Bva3kvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9iYnRlc3RzLnB5IiwgbGluZSAy
-MzcsIGluDQo+IHRlc3Rfbm9uX2dwbHYzDQo+IMKgwqDCoMKgc2VsZi5hc3NlcnRFcXVhbChyZXN1
-bHQuc3RhdHVzLCAwLCAiQml0YmFrZSBmYWlsZWQsIGV4aXQgY29kZSAlcywgb3V0cHV0ICVzIiAl
-DQo+IChyZXN1bHQuc3RhdHVzLCByZXN1bHQub3V0cHV0KSkNCj4gQXNzZXJ0aW9uRXJyb3I6IDEg
-IT0gMCA6IEJpdGJha2UgZmFpbGVkLCBleGl0IGNvZGUgMSwgb3V0cHV0IFBhcnNpbmcgcmVjaXBl
-cy4uLmRvbmUuDQo+IFBhcnNpbmcgb2YgODI5IC5iYiBmaWxlcyBjb21wbGV0ZSAoMCBjYWNoZWQs
-IDgyOSBwYXJzZWQpLiAxMjg3IHRhcmdldHMsIDk5DQo+IHNraXBwZWQsIDAgbWFza2VkLCAwIGVy
-cm9ycy4NCj4gUmVtb3ZpbmcgMzUgcmVjaXBlcyBmcm9tIHRoZSBjb3JlMi02NCBzeXNyb290Li4u
-ZG9uZS4NCj4gUmVtb3ZpbmcgMzUgcmVjaXBlcyBmcm9tIHRoZSBxZW11eDg2LTY0IHN5c3Jvb3Qu
-Li5kb25lLg0KPiBOT1RFOiBSZXNvbHZpbmcgYW55IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRl
-bmNpZXMNCj4gRVJST1I6IE5vdGhpbmcgUlBST1ZJREVTICdtYWtlJyAoYnV0IC9tZWRpYS9idWls
-ZDEvcG9reS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvZ2xpYmMvZ2xpYmNfMi4yNi5iYiBSREVQRU5E
-UyBvbiBvciBvdGhlcndpc2UgcmVxdWlyZXMgaXQpDQo+IG1ha2Ugd2FzIHNraXBwZWQ6IGl0IGhh
-cyBhbiBpbmNvbXBhdGlibGUgbGljZW5zZTogR1BMdjMgJiBMR1BMdjINCj4gTk9URTogUnVudGlt
-ZSB0YXJnZXQgJ21ha2UnIGlzIHVuYnVpbGRhYmxlLCByZW1vdmluZy4uLg0KPiBNaXNzaW5nIG9y
-IHVuYnVpbGRhYmxlIGRlcGVuZGVuY3kgY2hhaW4gd2FzOiBbJ21ha2UnXQ0KPiBFUlJPUjogUmVx
-dWlyZWQgYnVpbGQgdGFyZ2V0ICdzZWxmdGVzdC1lZCcgaGFzIG5vIGJ1aWxkYWJsZSBwcm92aWRl
-cnMuDQo+IE1pc3Npbmcgb3IgdW5idWlsZGFibGUgZGVwZW5kZW5jeSBjaGFpbiB3YXM6IFsnc2Vs
-ZnRlc3QtZWQnLCAndmlydHVhbC9saWJjJywgJ21ha2UnXQ0KPiANCj4gDQo+IENoZWVycywNCj4g
-DQo+IFJpY2hhcmQNCg==
+From: Jackie Huang <jackie.huang@windriver.com>
+
+v3 comments:
+Change the dependency on make to RSUGGESTS.
+
+--
+The following changes since commit b9dcab772fd37ed8376a87d3194195e13ff52d10:
+
+  qemu: CVE-2017-17381 (2018-01-14 09:11:58 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib.git jhuang0/d_nscd_v3_180116_0
+  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_nscd_v3_180116_0
+
+Jackie Huang (1):
+  glibc: re-package for libnss-db
+
+ meta/recipes-core/glibc/glibc-package.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+-- 
+2.11.0
+
 
