@@ -1,25 +1,36 @@
-Return-Path: <Li.Zhou@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE41E78635
+	by mail.openembedded.org (Postfix) with ESMTP id 11BE671C42
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 05:43:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0G5hoDs019908
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 21:43:50 -0800 (PST)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 15 Jan 2018 21:43:50 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Jan 2018 13:42:52 +0800
-Message-ID: <1516081372-173265-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 16 Jan 2018 06:39:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0G6bYhX020049
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Jan 2018 22:37:34 -0800 (PST)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Mon, 15 Jan 2018 22:37:34 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+Thread-Index: AQHTU6XbDhJwwAOIpEihfeLlRZsSNKNO65YggBQn1oCAADd+sIANlq6AgAWfWmA=
+Date: Tue, 16 Jan 2018 06:37:33 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA01566D5804@ALA-MBC.corp.ad.wrs.com>
+References: <cover.1509604697.git.jackie.huang@windriver.com>
+	<1B858668EC6A94408DCA5225FDFA85AA01566B9AEB@ALA-MBC.corp.ad.wrs.com>
+	<1514987639.5525.138.camel@linuxfoundation.org>
+	<1B858668EC6A94408DCA5225FDFA85AA01566C6D76@ALA-MBC.corp.ad.wrs.com>
+	<1515746597.29722.130.camel@linuxfoundation.org>
+In-Reply-To: <1515746597.29722.130.camel@linuxfoundation.org>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.141]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] python/python3: use cc_basename to replace CC for checking compiler
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,321 +43,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 05:43:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Jan 2018 06:39:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-When working path contains "clang"/"gcc"/"icc", it might be part of $CC
-because of the "--sysroot" parameter. That could cause judgement error
-about clang/gcc/icc compilers. e.g.
-When "icc" is containded in working path, below errors are reported when
-compiling python/python3:
-x86_64-wrs-linux-gcc: error: strict: No such file or directory
-x86_64-wrs-linux-gcc: error: unrecognized command line option '-fp-model'
-
-Here use cc_basename to replace CC for checking compiler to avoid such
-kind of issue.
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...cc_basename-to-replace-CC-for-checking-co.patch | 118 ++++++++++++++++++
- ...-cc_basename-to-replace-CC-for-checking-c.patch | 136 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.3.bb      |   1 +
- meta/recipes-devtools/python/python_2.7.13.bb      |   1 +
- 4 files changed, 256 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-python-use-cc_basename-to-replace-CC-for-checking-co.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-
-diff --git a/meta/recipes-devtools/python/python/0001-python-use-cc_basename-to-replace-CC-for-checking-co.patch b/meta/recipes-devtools/python/python/0001-python-use-cc_basename-to-replace-CC-for-checking-co.patch
-new file mode 100644
-index 0000000..fae324f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-python-use-cc_basename-to-replace-CC-for-checking-co.patch
-@@ -0,0 +1,118 @@
-+From b60dea18372dabbef0ec9abf06855e209af4f53d Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Tue, 16 Jan 2018 10:31:49 +0800
-+Subject: [PATCH] python: use cc_basename to replace CC for checking compiler
-+
-+When working path contains "clang"/"gcc"/"icc", it might be part of $CC
-+because of the "--sysroot" parameter. That could cause judgement error
-+about clang/gcc/icc compilers. e.g.
-+When "icc" is containded in working path, below errors are reported when
-+compiling python:
-+x86_64-wrs-linux-gcc: error: strict: No such file or directory
-+x86_64-wrs-linux-gcc: error: unrecognized command line option '-fp-model'
-+
-+Here use cc_basename to replace CC for checking compiler to avoid such
-+kind of issue.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ configure.ac | 19 ++++++++++---------
-+ 1 file changed, 10 insertions(+), 9 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index dcf733f..f1e9a7b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -15,6 +15,7 @@ AC_CONFIG_HEADER(pyconfig.h)
-+ AC_CANONICAL_HOST
-+ AC_SUBST(build)
-+ AC_SUBST(host)
-++LT_INIT
-+ 
-+ # pybuilddir.txt will be created by --generate-posix-vars in the Makefile
-+ rm -f pybuilddir.txt
-+@@ -670,7 +671,7 @@ AC_MSG_RESULT($with_cxx_main)
-+ preset_cxx="$CXX"
-+ if test -z "$CXX"
-+ then
-+-        case "$CC" in
-++        case "$cc_basename" in
-+         gcc)    AC_PATH_TOOL(CXX, [g++], [g++], [notfound]) ;;
-+         cc)     AC_PATH_TOOL(CXX, [c++], [c++], [notfound]) ;;
-+         esac
-+@@ -743,14 +744,14 @@ rmdir CaseSensitiveTestDir
-+ 
-+ case $MACHDEP in
-+ bsdos*)
-+-    case $CC in
-++    case $cc_basename in
-+     gcc) CC="$CC -D_HAVE_BSDI";;
-+     esac;;
-+ esac
-+ 
-+ case $ac_sys_system in
-+ hp*|HP*)
-+-    case $CC in
-++    case $cc_basename in
-+     cc|*/cc) CC="$CC -Ae";;
-+     esac;;
-+ SunOS*)
-+@@ -1073,7 +1074,7 @@ then
-+         fi
-+ 
-+         # Clang also needs -fwrapv
-+-        case $CC in
-++        case $cc_basename in
-+             *clang*) WRAP="-fwrapv"
-+             ;;
-+         esac
-+@@ -1277,7 +1278,7 @@ yes)
-+ esac
-+ 
-+ # ICC needs -fp-model strict or floats behave badly
-+-case "$CC" in
-++case "$cc_basename" in
-+ *icc*)
-+     BASECFLAGS="$BASECFLAGS -fp-model strict"
-+     ;;
-+@@ -1417,7 +1418,7 @@ else
-+ fi],
-+ [AC_MSG_RESULT(no)])
-+ if test "$Py_LTO" = 'true' ; then
-+-  case $CC in
-++  case $cc_basename in
-+     *clang*)
-+       # Any changes made here should be reflected in the GCC+Darwin case below
-+       LTOFLAGS="-flto"
-+@@ -1482,7 +1483,7 @@ then
-+   fi
-+ fi
-+ LLVM_PROF_ERR=no
-+-case $CC in
-++case $cc_basename in
-+   *clang*)
-+     # Any changes made here should be reflected in the GCC+Darwin case below
-+     PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
-+@@ -2300,7 +2301,7 @@ then
-+ 		then CCSHARED="-fPIC"
-+ 		else CCSHARED="-Kpic -belf"
-+ 		fi;;
-+-	IRIX*/6*)  case $CC in
-++	IRIX*/6*)  case $cc_basename in
-+ 		   *gcc*) CCSHARED="-shared";;
-+ 		   *) CCSHARED="";;
-+ 		   esac;;
-+@@ -2344,7 +2345,7 @@ then
-+ 		then
-+ 			LINKFORSHARED="-Wl,--export-dynamic"
-+ 		fi;;
-+-	SunOS/5*) case $CC in
-++	SunOS/5*) case $cc_basename in
-+ 		  *gcc*)
-+ 		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
-+ 		    then
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-new file mode 100644
-index 0000000..39935ab
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-@@ -0,0 +1,136 @@
-+From 654a20898d70e4a56313121051258582dcec1ab6 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Tue, 16 Jan 2018 10:39:34 +0800
-+Subject: [PATCH] python3: use cc_basename to replace CC for checking compiler
-+
-+When working path contains "clang"/"gcc"/"icc", it might be part of $CC
-+because of the "--sysroot" parameter. That could cause judgement error
-+about clang/gcc/icc compilers. e.g.
-+When "icc" is containded in working path, below errors are reported when
-+compiling python3:
-+x86_64-wrs-linux-gcc: error: strict: No such file or directory
-+x86_64-wrs-linux-gcc: error: unrecognized command line option '-fp-model'
-+
-+Here use cc_basename to replace CC for checking compiler to avoid such
-+kind of issue.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ configure.ac | 23 ++++++++++++-----------
-+ 1 file changed, 12 insertions(+), 11 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index d8c2847..e487954 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -52,6 +52,7 @@ AC_CONFIG_HEADER(pyconfig.h)
-+ AC_CANONICAL_HOST
-+ AC_SUBST(build)
-+ AC_SUBST(host)
-++LT_INIT
-+ 
-+ # pybuilddir.txt will be created by --generate-posix-vars in the Makefile
-+ rm -f pybuilddir.txt
-+@@ -723,7 +724,7 @@ AC_MSG_RESULT($with_cxx_main)
-+ preset_cxx="$CXX"
-+ if test -z "$CXX"
-+ then
-+-        case "$CC" in
-++        case "$cc_basename" in
-+         gcc)    AC_PATH_TOOL(CXX, [g++], [g++], [notfound]) ;;
-+         cc)     AC_PATH_TOOL(CXX, [c++], [c++], [notfound]) ;;
-+         clang|*/clang)     AC_PATH_TOOL(CXX, [clang++], [clang++], [notfound]) ;;
-+@@ -985,14 +986,14 @@ rmdir CaseSensitiveTestDir
-+ 
-+ case $MACHDEP in
-+ bsdos*)
-+-    case $CC in
-++    case $cc_basename in
-+     gcc) CC="$CC -D_HAVE_BSDI";;
-+     esac;;
-+ esac
-+ 
-+ case $ac_sys_system in
-+ hp*|HP*)
-+-    case $CC in
-++    case $cc_basename in
-+     cc|*/cc) CC="$CC -Ae";;
-+     esac;;
-+ esac
-+@@ -1317,7 +1318,7 @@ else
-+ fi],
-+ [AC_MSG_RESULT(no)])
-+ if test "$Py_LTO" = 'true' ; then
-+-  case $CC in
-++  case $cc_basename in
-+     *clang*)
-+       # Any changes made here should be reflected in the GCC+Darwin case below
-+       LTOFLAGS="-flto"
-+@@ -1381,7 +1382,7 @@ then
-+   fi
-+ fi
-+ LLVM_PROF_ERR=no
-+-case $CC in
-++case $cc_basename in
-+   *clang*)
-+     # Any changes made here should be reflected in the GCC+Darwin case below
-+     PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
-+@@ -1458,7 +1459,7 @@ then
-+         fi
-+ 
-+         # Clang also needs -fwrapv
-+-        case $CC in
-++        case $cc_basename in
-+             *clang*) WRAP="-fwrapv"
-+             ;;
-+         esac
-+@@ -1540,7 +1541,7 @@ yes)
-+ 
-+     # ICC doesn't recognize the option, but only emits a warning
-+     ## XXX does it emit an unused result warning and can it be disabled?
-+-    case "$CC" in
-++    case "$cc_basename" in
-+     *icc*)
-+     ac_cv_disable_unused_result_warning=no
-+     ;;
-+@@ -1795,7 +1796,7 @@ yes)
-+ esac
-+ 
-+ # ICC needs -fp-model strict or floats behave badly
-+-case "$CC" in
-++case "$cc_basename" in
-+ *icc*)
-+     CFLAGS_NODIST="$CFLAGS_NODIST -fp-model strict"
-+     ;;
-+@@ -2561,7 +2562,7 @@ then
-+ 		then CCSHARED="-fPIC"
-+ 		else CCSHARED="-Kpic -belf"
-+ 		fi;;
-+-	IRIX*/6*)  case $CC in
-++	IRIX*/6*)  case $cc_basename in
-+ 		   *gcc*) CCSHARED="-shared";;
-+ 		   *) CCSHARED="";;
-+ 		   esac;;
-+@@ -2602,7 +2603,7 @@ then
-+ 		then
-+ 			LINKFORSHARED="-Wl,--export-dynamic"
-+ 		fi;;
-+-	SunOS/5*) case $CC in
-++	SunOS/5*) case $cc_basename in
-+ 		  *gcc*)
-+ 		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
-+ 		    then
-+@@ -5232,7 +5233,7 @@ if test "$have_gcc_asm_for_x87" = yes; then
-+     # Some versions of gcc miscompile inline asm:
-+     # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
-+     # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
-+-    case $CC in
-++    case $cc_basename in
-+         *gcc*)
-+             AC_MSG_CHECKING(for gcc ipa-pure-const bug)
-+             saved_cflags="$CFLAGS"
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-index 13df12f..593dc5b 100644
---- a/meta/recipes-devtools/python/python3_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -40,6 +40,7 @@ SRC_URI += "\
-             file://0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch \
-             file://Fix-29519-weakref-spewing-exceptions-during-interp-f.patch \
-             file://pass-missing-libraries-to-Extension-for-mul.patch \
-+            file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
-            "
- SRC_URI[md5sum] = "57d1f8bfbabf4f2500273fb0706e6f21"
- SRC_URI[sha256sum] = "eefe2ad6575855423ab630f5b51a8ef6e5556f774584c06beab4926f930ddbb0"
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index 8770699..ea5f8c3 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -29,6 +29,7 @@ SRC_URI += "\
-   file://Don-t-use-getentropy-on-Linux.patch \
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
-   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
-+  file://0001-python-use-cc_basename-to-replace-CC-for-checking-co.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.9.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
+W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBGcmlk
+YXksIEphbnVhcnkgMTIsIDIwMTggMTY6NDMNCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4g
+Q2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8yIHYyXSBnbGliYzogZml4ZXMgZm9yIG5zY2QgYW5kIGxp
+Ym5zcy1kYg0KPiANCj4gT24gVGh1LCAyMDE4LTAxLTA0IGF0IDAxOjMxICswMDAwLCBIdWFuZywg
+SmllIChKYWNraWUpIHdyb3RlOg0KPiA+DQo+ID4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNz
+YWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJk
+aWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSAw
+MywgMjAxOCAyMTo1NA0KPiA+ID4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSk7IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIIDAvMiB2Ml0gZ2xpYmM6IGZpeGVzIGZvciBuc2NkIGFuZA0KPiA+ID4gbGlibnNz
+LWRiDQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDE3LTEyLTIyIGF0IDAyOjA4ICswMDAwLCBIdWFu
+ZywgSmllIChKYWNraWUpIHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBQaW5nLCBJIGRpZG4ndCBz
+ZWUgYW55IG9iamVjdGlvbiBvbiB0aGlzLCBidXQgaXQncyBub3QgbWVyZ2VkDQo+ID4gPiA+IHll
+dCwgZG8NCj4gPiA+ID4gSSBtaXNzIGFueXRoaW5nPw0KPiA+ID4gV2hlbiB3ZSB0ZXN0IGl0IHdl
+IHNlZToNCj4gPiA+DQo+ID4gPiBXQVJOSU5HOiBnbGliYy0yLjI2LXIwIGRvX3BhY2thZ2U6IGds
+aWJjLWV4dHJhLW5zcy0yLjI2IHdhcw0KPiA+ID4gcmVnaXN0ZXJlZCBhcw0KPiA+ID4gc2hsaWIg
+cHJvdmlkZXIgZm9yIGxpYm5zc19kYi5zby4yLCBjaGFuZ2luZyBpdCB0byBsaWJuc3MtZGItMi4y
+Ng0KPiA+ID4gYmVjYXVzZSBpdCB3YXMNCj4gPiA+IGJ1aWx0IGxhdGVyDQo+ID4gU29ycnksIGJ1
+dCBJIGhhdmVuJ3Qgc2VlbiB0aGlzIHdhcm5pbmcgaW4gb3VyIGJ1aWxkcyBhZnRlciB0aGlzIHBh
+dGNoDQo+ID4gbWVyZ2VkIGluIG91ciBsb2NhbCBicmFuY2ggZm9yIHR3byB3ZWVrcy4gTWF5YmUg
+d2UgbWlzc2VkIHNvbWUgY2FzZXMNCj4gPiBpbiBvdXIgdGVzdCBidWlsZHMsIHNvIGNvdWxkIHlv
+dSBzaG93IG1lIGhvdyB0byByZXByb2R1Y2UgaXQ/IFRoYW5rcyENCj4gPg0KPiA+IFRoaXMgcGF0
+Y2ggaXMgc2ltcGx5IHJlLXBhY2thZ2UgbGlibnNzX2RiLnNvKiBmcm9tIGdsaWJjLWV4dHJhLW5z
+cw0KPiA+IGludG8gbGlibnNzLWRiLCBJIGRvbid0IHVuZGVyc3RhbmQgd2h5IGxpYm5zc19kYi5z
+byogaXMgc3RpbGwNCj4gPiBwcm92aWRlZCBieSBib3RoIG9mIHRoZW0sIGRpZCBJIG1pc3MgYW55
+dGhpbmcgd2hlbiBJIGRvIGEgcmUtDQo+ID4gcGFja2FnaW5nIGZvciBhIHJlY2lwZT8NCj4gDQo+
+IA0KPiBJIHdhcyBhYmxlIHRvIHJlcHJvZHVjZSB0aGlzIGJ5IHN0YXJ0aW5nIHdpdGggYW4gZXhp
+c3RpbmcgYnVpbGQgd2l0aG91dA0KPiB0aGUgcGF0Y2gsIHRoZW4gYXBwbHlpbmcgdGhlIHBhdGNo
+LiBUaGUgZXJyb3Igc2hvd3Mgb25jZSBkdXJpbmcgdGhlDQo+IHJlYnVpbGQgYW5kIHRoZW4gbm90
+IGFnYWluLiBJdHMgdGhlcmVmb3JlIHByb2JhYmx5IGxlc3Mgb2YgYW4gaXNzdWUNCj4gKGJ1dCBk
+b2VzIHJhaXNlIGEgcXVlc3Rpb24gYWJvdXQgd2h5IHRoYXQgaXMgaGFwcGVuaW5nKS4NCj4gDQo+
+IFRoZSBuZXcgbWFrZSBkZXBlbmRlbmN5IGRvZXMgY2F1c2UgYW4gYWRkaXRpb25hbCBmYWlsdXJl
+IHRob3VnaDoNCg0KU29ycnksIEkgZGlkbid0IG5vdGljZWQgdGhhdCBtYWtlIGlzIGdwbHYzLiBJ
+IGNoYW5nZSB0aGUgZGVwZW5kZW5jeSB0bw0KUlNVR0dFU1RTIGFuZCB0aGUgdGVzdCBwYXNzZWQ6
+DQoNCiQgb2Utc2VsZnRlc3QgLXIgYmJ0ZXN0cy5CaXRiYWtlVGVzdHMudGVzdF9ub25fZ3BsdjMN
+CjIwMTgtMDEtMTYgMjE6MjQ6NTQsOTIwIC0gb2Utc2VsZnRlc3QgLSBXQVJOSU5HIC0gbWV0YS1z
+ZWxmdGVzdCBsYXllciBub3QgZm91bmQgaW4gQkJMQVlFUlMsIGFkZGluZyBpdA0KMjAxOC0wMS0x
+NiAyMToyNTowNSwwMTAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmcgbGF5ZXIgbGlicmFy
+aWVzOg0KMjAxOC0wMS0xNiAyMToyNTowNSwwMTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgL2J1
+aWxkYXJlYTIvamh1YW5nMC9naXQveXAvcG9reS9tZXRhL2xpYg0KMjAxOC0wMS0xNiAyMToyNTow
+NSwwMTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgL2J1aWxkYXJlYTIvamh1YW5nMC9naXQveXAv
+cG9reS9tZXRhLXlvY3RvLWJzcC9saWINCjIwMTgtMDEtMTYgMjE6MjU6MDUsMDExIC0gb2Utc2Vs
+ZnRlc3QgLSBJTkZPIC0gIC9idWlsZGFyZWEyL2podWFuZzAvZ2l0L3lwL3Bva3kvbWV0YS1zZWxm
+dGVzdC9saWINCjIwMTgtMDEtMTYgMjE6MjU6MDUsMDEyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
+UnVubmluZyBiaXRiYWtlIC1wDQoyMDE4LTAxLTE2IDIxOjI1OjEwLDU2NSAtIG9lLXNlbGZ0ZXN0
+IC0gSU5GTyAtIEFkZGluZzogImluY2x1ZGUgc2VsZnRlc3QuaW5jIiBpbiAvYnVpbGRhcmVhMi9q
+aHVhbmcwL3lwL3lfeDY0XzE4MDExMi9jb25mL2xvY2FsLmNvbmYNCjIwMTgtMDEtMTYgMjE6MjU6
+MTAsNTY2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQWRkaW5nOiAiaW5jbHVkZSBiYmxheWVycy5p
+bmMiIGluIGJibGF5ZXJzLmNvbmYNCjIwMTgtMDEtMTYgMjE6MjU6MTAsNTY2IC0gb2Utc2VsZnRl
+c3QgLSBJTkZPIC0gdGVzdF9ub25fZ3BsdjMgKGJidGVzdHMuQml0YmFrZVRlc3RzKQ0KMjAxOC0w
+MS0xNiAyMTo0NjoyMiw1MzggLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgLi4uIG9rDQoyMDE4LTAx
+LTE2IDIxOjQ2OjIyLDUzOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIC0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCjIw
+MTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmFuIDEgdGVzdCBp
+biAxMjcxLjk3NHMNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZP
+IC0gT0sNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVT
+VUxUUzoNCjIwMTgtMDEtMTYgMjE6NDY6MjIsNTM5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVT
+VUxUUyAtIGJidGVzdHMuQml0YmFrZVRlc3RzLnRlc3Rfbm9uX2dwbHYzIC0gVGVzdGNhc2UgMTEx
+OTogUEFTU0VEDQoyMDE4LTAxLTE2IDIxOjQ2OjIyLDU0MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
+IFNVTU1BUlk6DQoyMDE4LTAxLTE2IDIxOjQ2OjIyLDU0MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
+IG9lLXNlbGZ0ZXN0ICgpIC0gUmFuIDEgdGVzdCBpbiAxMjcxLjk3NXMNCjIwMTgtMDEtMTYgMjE6
+NDY6MjIsNTQwIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgLSBPSyAtIEFsbCBy
+ZXF1aXJlZCB0ZXN0cyBwYXNzZWQNCg0KVGhhbmtzLA0KSmFja2llDQoNCj4gDQo+ICQgb2Utc2Vs
+ZnRlc3QgLXIgYmJ0ZXN0cy5CaXRiYWtlVGVzdHMudGVzdF9ub25fZ3BsdjMNCj4gDQo+IDIwMTgt
+MDEtMTIgMDg6MzE6MjUsMTk2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gdGVzdF9ub25fZ3BsdjMN
+Cj4gKGJidGVzdHMuQml0YmFrZVRlc3RzKQ0KPiAyMDE4LTAxLTEyIDA4OjM0OjAyLDk0MCAtIG9l
+LXNlbGZ0ZXN0IC0gSU5GTyAtwqDCoC4uLiBGQUlMDQo+IDIwMTgtMDEtMTIgMDg6MzQ6MDIsOTQx
+IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0NCj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPT09PT0NCj4gMjAxOC0wMS0x
+MiAwODozNDowMiw5NDEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBGQUlMOiB0ZXN0X25vbl9ncGx2
+Mw0KPiAoYmJ0ZXN0cy5CaXRiYWtlVGVzdHMpDQo+IDIwMTgtMDEtMTIgMDg6MzQ6MDIsOTQxIC0g
+b2Utc2VsZnRlc3QgLSBJTkZPIC0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gMjAxOC0wMS0xMiAwODoz
+NDowMiw5NDEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNh
+bGwgbGFzdCk6DQo+IMKgIEZpbGUgIi9tZWRpYS9idWlsZDEvcG9reS9tZXRhL2xpYi9vZXFhL2Nv
+cmUvZGVjb3JhdG9yL19faW5pdF9fLnB5IiwgbGluZSAzMiwNCj4gaW4gd3JhcHBlZF9mDQo+IMKg
+wqDCoMKgcmV0dXJuIGZ1bmMoKmFyZ3MsICoqa3dhcmdzKQ0KPiDCoCBGaWxlICIvbWVkaWEvYnVp
+bGQxL3Bva3kvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9iYnRlc3RzLnB5IiwgbGluZSAy
+MzcsIGluDQo+IHRlc3Rfbm9uX2dwbHYzDQo+IMKgwqDCoMKgc2VsZi5hc3NlcnRFcXVhbChyZXN1
+bHQuc3RhdHVzLCAwLCAiQml0YmFrZSBmYWlsZWQsIGV4aXQgY29kZSAlcywgb3V0cHV0ICVzIiAl
+DQo+IChyZXN1bHQuc3RhdHVzLCByZXN1bHQub3V0cHV0KSkNCj4gQXNzZXJ0aW9uRXJyb3I6IDEg
+IT0gMCA6IEJpdGJha2UgZmFpbGVkLCBleGl0IGNvZGUgMSwgb3V0cHV0IFBhcnNpbmcgcmVjaXBl
+cy4uLmRvbmUuDQo+IFBhcnNpbmcgb2YgODI5IC5iYiBmaWxlcyBjb21wbGV0ZSAoMCBjYWNoZWQs
+IDgyOSBwYXJzZWQpLiAxMjg3IHRhcmdldHMsIDk5DQo+IHNraXBwZWQsIDAgbWFza2VkLCAwIGVy
+cm9ycy4NCj4gUmVtb3ZpbmcgMzUgcmVjaXBlcyBmcm9tIHRoZSBjb3JlMi02NCBzeXNyb290Li4u
+ZG9uZS4NCj4gUmVtb3ZpbmcgMzUgcmVjaXBlcyBmcm9tIHRoZSBxZW11eDg2LTY0IHN5c3Jvb3Qu
+Li5kb25lLg0KPiBOT1RFOiBSZXNvbHZpbmcgYW55IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRl
+bmNpZXMNCj4gRVJST1I6IE5vdGhpbmcgUlBST1ZJREVTICdtYWtlJyAoYnV0IC9tZWRpYS9idWls
+ZDEvcG9reS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvZ2xpYmMvZ2xpYmNfMi4yNi5iYiBSREVQRU5E
+UyBvbiBvciBvdGhlcndpc2UgcmVxdWlyZXMgaXQpDQo+IG1ha2Ugd2FzIHNraXBwZWQ6IGl0IGhh
+cyBhbiBpbmNvbXBhdGlibGUgbGljZW5zZTogR1BMdjMgJiBMR1BMdjINCj4gTk9URTogUnVudGlt
+ZSB0YXJnZXQgJ21ha2UnIGlzIHVuYnVpbGRhYmxlLCByZW1vdmluZy4uLg0KPiBNaXNzaW5nIG9y
+IHVuYnVpbGRhYmxlIGRlcGVuZGVuY3kgY2hhaW4gd2FzOiBbJ21ha2UnXQ0KPiBFUlJPUjogUmVx
+dWlyZWQgYnVpbGQgdGFyZ2V0ICdzZWxmdGVzdC1lZCcgaGFzIG5vIGJ1aWxkYWJsZSBwcm92aWRl
+cnMuDQo+IE1pc3Npbmcgb3IgdW5idWlsZGFibGUgZGVwZW5kZW5jeSBjaGFpbiB3YXM6IFsnc2Vs
+ZnRlc3QtZWQnLCAndmlydHVhbC9saWJjJywgJ21ha2UnXQ0KPiANCj4gDQo+IENoZWVycywNCj4g
+DQo+IFJpY2hhcmQNCg==
 
