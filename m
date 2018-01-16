@@ -1,47 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E8AF56025E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 03:30:43 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id p1so8985452pfh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jan 2018 19:30:45 -0800 (PST)
+Return-Path: <ka6sox@gmail.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BFE617865F;
+	Tue, 16 Jan 2018 03:57:47 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id u62so3273623ita.2;
+	Mon, 15 Jan 2018 19:57:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=yyspGHehfHAxJ7nYs8ujJ/klOQDVCDSr481VGKQPp5E=;
-	b=PE2fE9QhK0kzcT6St2kqWhFUfmvRVYzMvkB7EZD5JjELpjQVO0hoIEDjXVU+RhzJZH
-	bXsYxjmSqiKwUaVg8Rg+v4R+9tk5fkRv5HPOaX6gnv6vBZ9CaDp5FLQAX8Yc3AQBa3VU
-	8tk42vvI/CAFQyKz2sdfmcblU82TXckKqhjUvY/zE9vNL9VMRdR+0qgfa3PRhAF9KmYG
-	Y+3o69hp+6sr4nhunAK50B8x28L/qcDgmYDM78RmEyCzIqkOgNZvduyNP71wE4HIHYvd
-	FwAMoqovpKaQi1ZT4R4k11LT+FMk/aNLlIqiZE/9khZzFwmxC0sTQSMWKbtKidUXHcfX
-	cvQQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=82sJ9c0xvLXvltD6fnPM4MNYoURttfjEKhqOkrOD/Dc=;
+	b=Vhw8rTVAlRNraDCLcW9THXnB8FflXwROdSaAlvcPO4+3yjvMbeiVVQkqJW2a8EFaWs
+	pOfTaglyeNIZzGJnaBFC+03MME0etCPNwurnMIB4fyRvdFPmuKYbEJhXWjuA7PaPmUjG
+	qFg9oykOyUzT5AVV1HfGpc+K4qIUtg9Kpx928LikRVIiQm8XKTxA4Ws495SDNguBVAKr
+	c+eNCbXeoNMnnsZsVvG8ZD5tM/nFYeONHAL9n0KYgAZODVqEtyQurA0C8dQNTfIBaEel
+	HeSNb82+fp+BhIf4Hajk+tXvBla0LTuIC0O40WjfiT1Hj19vD35h7p5GrxGM3hmWVFIf
+	+mDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yyspGHehfHAxJ7nYs8ujJ/klOQDVCDSr481VGKQPp5E=;
-	b=o/RGQLLc0b4bqCmnGceDpaI1eGiexsqdKNV0B/OfQTMvW/Md178sELubJeVM5usHpB
-	nQngIoBsvQeLMzty+T6qirU4CJ4Ze/WpydyWTHx0E8EX5T77QPR76sPIiTcsTSSUKeMt
-	2MYObXc1HcbRmtYwZ3T4QCtvsUObnYhmUTQ9MbElipoc8+fBQRgDQTB0J0dTBTFrRK19
-	k9TxUiuaiKT1wvUPXrzKlDsBL/TRk9BoriXvN5aRXzU0BWqobDzcYtC2gEKvbBWA+pZT
-	3KYLAsorshjsfheMBsxxhkpuuybjbdrtyCKa5pwiUJ4qRx2kBaDlrKIIR0CwKqmfy9E7
-	+P7w==
-X-Gm-Message-State: AKwxytczjoi3/zT545sEXwx8VBXZwxnaEtYNggRrFlmJVCKhHHENGV0j
-	q+6NhNdRlRpc/GW3R0FLhElyRw==
-X-Google-Smtp-Source: ACJfBouH7s3XyAyMKujp9pz0nsWe59rFzlWBdlAB0WI+DUiIQubm8+7I3P9eEkEZ+zyVbnhuQLQfBA==
-X-Received: by 10.98.144.79 with SMTP id a76mr13252513pfe.15.1516073444356;
-	Mon, 15 Jan 2018 19:30:44 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	u86sm1227303pfa.39.2018.01.15.19.30.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Jan 2018 19:30:43 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jan 2018 19:30:38 -0800
-Message-Id: <1516073438-17110-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] kernel: drop unnecessary True options from calls to getVar
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=82sJ9c0xvLXvltD6fnPM4MNYoURttfjEKhqOkrOD/Dc=;
+	b=n114AwmOFjcW6h/NqkIE3+OJr9CxLTlD2d3bXScWBxKgARFfO+Fi3G8KdRgChKEzna
+	mx24R0pBZ9/dm69r+mYm6+i9iAPZA4Q9B1PXcpa+4tW2QU6YExCXgrfhgXN51atMTyPB
+	Q3kQ2DJjGVL7F0DFsI53hGM784djiWz7AK9yxlklQP/BUIy+an2eR0Kct2RAkIPijVio
+	RflOGhwPs25iQdrJ66elYQEkR1hVuFZrQQWBBjUz+rZnN0xH7A6UqrCkTZKlGm4hQOKe
+	opt05BojUOd4yNyg8NGRCcnMiBxi/Bh34bhoRKu4W7Qm70E+urNoFjhOGdXhBA9VvJrZ
+	vaJA==
+X-Gm-Message-State: AKwxytfF23V6kuAwZZ0WkRiUi5+RdMptKmaNv26f9m4/IYitMafF9m9M
+	ZgKfJGnUAd6lhEuvTCfZ7Y7vmZSEL4g8PNXA2qA=
+X-Google-Smtp-Source: ACJfBos6kS8CuHmhi9RIrajtghoFAIQExEVDMLdhADOfgDzYdXxYPXiNWr8CzSmc/blC/P7Sq8l5ldL+KaZt5i7c6cE=
+X-Received: by 10.36.28.20 with SMTP id c20mr17135227itc.142.1516075068990;
+	Mon, 15 Jan 2018 19:57:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.36.26.5 with HTTP; Mon, 15 Jan 2018 19:57:48 -0800 (PST)
+In-Reply-To: <CAGAf8Lws8HfvDvMvdpgXyTvKaVpmf5a1UUTbBc2OrTpw=mgPNA@mail.gmail.com>
+References: <137d31ae-329e-53ff-f495-259168b787d5@balister.org>
+	<CAGAf8Lws8HfvDvMvdpgXyTvKaVpmf5a1UUTbBc2OrTpw=mgPNA@mail.gmail.com>
+From: Tom King <ka6sox@gmail.com>
+Date: Mon, 15 Jan 2018 19:57:48 -0800
+Message-ID: <CAHQecY5FEt0jMY97Cfq7tR4KAETqied0t3zfFgXw=J5YBSz53A@mail.gmail.com>
+To: Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+Subject: Re: [yocto] OpenEmbedded developer meeting Sunday before ELC in Portland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,160 +56,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 03:30:44 -0000
+X-List-Received-Date: Tue, 16 Jan 2018 03:57:48 -0000
+Content-Type: multipart/alternative; boundary="001a1144b54af0a9b90562dcbb1e"
 
-The older style calls (plus a bashism in kernel.bbclass, fixed
-separately) were introduced via the recent change to add support for
-multiple kernel packages:
+--001a1144b54af0a9b90562dcbb1e
+Content-Type: text/plain; charset="UTF-8"
 
-  http://git.openembedded.org/openembedded-core/commit/?id=6c8c899849d101fd1b86aad0b8eed05c7c785924
+What time...a number of us are headed up from SCaLE sunday morning to ELC...
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/kernel-module-split.bbclass         |  6 +++---
- meta/classes/kernel.bbclass                      | 12 ++++++------
- meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb  |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb  |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc        |  2 +-
- 7 files changed, 14 insertions(+), 14 deletions(-)
+its only about 2.5hrs to get there but early will leave a number of us late.
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 73c7f18..67ab416 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -30,7 +30,7 @@ do_install_append() {
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
- 
--KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME", True) or "kernel" }-modules"
-+KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
- 
- KERNEL_MODULE_PACKAGE_PREFIX ?= ""
- KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
-@@ -129,8 +129,8 @@ python split_kernel_module_packages () {
-            postfix = format.split('%s')[1]
-            d.setVar('RPROVIDES_' + pkg, pkg.replace(postfix, ''))
- 
--    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True) or "kernel"
--    kernel_version = d.getVar("KERNEL_VERSION", True)
-+    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME") or "kernel"
-+    kernel_version = d.getVar("KERNEL_VERSION")
- 
-     module_regex = '^(.*)\.k?o$'
- 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index c42f85c..a36f4f9 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,9 +1,9 @@
- inherit linux-kernel-base kernel-module-split
- 
- KERNEL_PACKAGE_NAME ??= "kernel"
--KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else d.getVar("KERNEL_PACKAGE_NAME", True) }"
-+KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
- 
--PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else "" }"
-+PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
- PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
- 
-@@ -37,8 +37,8 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
- KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
- 
- python __anonymous () {
--    pn = d.getVar("PN", True)
--    kpn = d.getVar("KERNEL_PACKAGE_NAME", True)
-+    pn = d.getVar("PN")
-+    kpn = d.getVar("KERNEL_PACKAGE_NAME")
- 
-     # XXX Remove this after bug 11905 is resolved
-     #  FILES_${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
-@@ -52,7 +52,7 @@ python __anonymous () {
-     # kernel recipes (I.e. where KERNEL_PACKAGE_NAME != kernel) so that they
-     # may build in parallel with the default kernel without clobbering.
-     if kpn != "kernel":
--        workdir = d.getVar("WORKDIR", True)
-+        workdir = d.getVar("WORKDIR")
-         sourceDir = os.path.join(workdir, 'kernel-source')
-         artifactsDir = os.path.join(workdir, 'kernel-build-artifacts')
-         d.setVar("STAGING_KERNEL_DIR", sourceDir)
-@@ -62,7 +62,7 @@ python __anonymous () {
-     type = d.getVar('KERNEL_IMAGETYPE') or ""
-     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-     types = d.getVar('KERNEL_IMAGETYPES') or ""
--    kname = d.getVar('KERNEL_PACKAGE_NAME', True) or "kernel"
-+    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-     if type not in types.split():
-         types = (type + ' ' + types).strip()
-     if alttype not in types.split():
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-index 40d6e4a..8938ab8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # to build multiple virtual/kernel providers, e.g. as dependency of
- # core-image-rt-sdk, core-image-rt.
- python () {
--    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index ed65f77..a89c08d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # to build multiple virtual/kernel providers, e.g. as dependency of
- # core-image-rt-sdk, core-image-rt.
- python () {
--    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index e1547e9..949d477 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # to build multiple virtual/kernel providers, e.g. as dependency of
- # core-image-rt-sdk, core-image-rt.
- python () {
--    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-index fa25629..99931b3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # to build multiple virtual/kernel providers, e.g. as dependency of
- # core-image-rt-sdk, core-image-rt.
- python () {
--    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 8a70eb5..87c0674 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -12,7 +12,7 @@ INC_PR = "r4"
- # PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
- # by the use of AUTOREV SRCREVs, which are the default for this recipe.
- python () {
--    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != d.getVar("PN"):
-         d.delVar("BB_DONT_CACHE")
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN")))
- }
--- 
-1.9.1
+T
 
+On Mon, Jan 15, 2018 at 3:41 PM, Zoran Stojsavljevic <
+zoran.stojsavljevic@gmail.com> wrote:
 
+> > March 11, 2108, Portland
+>
+> I guess, by this date yocto community will experience release 24.7 or
+> similar... If?! ;-)
+>
+> Zoran
+> _______
+>
+> On Mon, Jan 15, 2018 at 11:30 PM, Philip Balister <philip@balister.org>
+> wrote:
+>
+>> We are setting up an OpenEmbedded developer meeting on the Sunday before
+>> ELC. More information to follow, I just wanted to make sure everyone had
+>> the date before making ELC travel arrangements.
+>>
+>> March 11, 2108, Portland
+>>
+>> Philip
+>> --
+>> _______________________________________________
+>> yocto mailing list
+>> yocto@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/yocto
+>>
+>
+>
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
+>
+>
+
+--001a1144b54af0a9b90562dcbb1e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">What time...a number of us are headed up from SCaLE sunday=
+ morning to ELC...<div><br></div><div>its only about 2.5hrs to get there bu=
+t early will leave a number of us late.</div><div><br></div><div>T</div></d=
+iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Jan 15=
+, 2018 at 3:41 PM, Zoran Stojsavljevic <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:zoran.stojsavljevic@gmail.com" target=3D"_blank">zoran.stojsavljevic@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D=
+"ltr"><div><div>&gt; March 11, 2108, Portland<br><br></div>I guess, by this=
+ date yocto community will experience release 24.7 or similar... If?! ;-)<b=
+r><br></div>Zoran<br>_______<br></div><div class=3D"gmail_extra"><br><div c=
+lass=3D"gmail_quote"><span class=3D"">On Mon, Jan 15, 2018 at 11:30 PM, Phi=
+lip Balister <span dir=3D"ltr">&lt;<a href=3D"mailto:philip@balister.org" t=
+arget=3D"_blank">philip@balister.org</a>&gt;</span> wrote:<br></span><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><span class=3D"">We are setting up an OpenEmbedded=
+ developer meeting on the Sunday before<br>
+ELC. More information to follow, I just wanted to make sure everyone had<br=
+>
+the date before making ELC travel arrangements.<br>
+<br>
+March 11, 2108, Portland<br>
+</span><span class=3D"m_2291923091251816416HOEnZb"><font color=3D"#888888">=
+<br>
+Philip<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+______________________________<wbr>_________________<br>
+yocto mailing list<br>
+<a href=3D"mailto:yocto@yoctoproject.org" target=3D"_blank">yocto@yoctoproj=
+ect.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/yocto" rel=3D"noreferrer=
+" target=3D"_blank">https://lists.yoctoproject.org<wbr>/listinfo/yocto</a><=
+br>
+</font></span></font></span></blockquote></div><br></div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+yocto mailing list<br>
+<a href=3D"mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/yocto" rel=3D"noreferrer=
+" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listinfo/yocto</a><=
+br>
+<br></blockquote></div><br></div>
+
+--001a1144b54af0a9b90562dcbb1e--
