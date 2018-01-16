@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A7D978645
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 93FF871B57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 13:58:32 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id m11so11584043iti.1
+	Tue, 16 Jan 2018 14:04:33 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id 25so16890007ioj.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 05:58:34 -0800 (PST)
+	Tue, 16 Jan 2018 06:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ykA3XBTQAQoKKu/cRh53EmFrFpZdd9aP+SFxiy3hioA=;
-	b=rJLCO7XEwEenPPpCFl80zCN/8li/+hHQxsYI03uW5enoTsYZ0Jof1qABTHDVJ1O2J8
-	gfDZM6mqkc3MDMNlRPVB1NPZndj8TFIB0RtB0t/+NhKxLbIgEeqXfCxcpNWfXgAhaynH
-	GKexg1ILyQCUXzM0aBZt2k7SwvjqXvf19CJFzhjVVc2eI+GwkyLyZtQUsVb9OaxfkcdE
-	DUHNYtB2owySPyBpr52DQ9yRNiiy3ARknhdQQIOpOH4/tAKwdxCb9AJdMYrbkAYbv4iR
-	BT3UVVEaCJmqKDMUpzH2s1wxVhUE2/wIQ1x3wgU+hMPKhZsqRSM2fdtZmeOgy/RhR/6e
-	SBUQ==
+	:cc; bh=GU/6rhnhp/vxJuInOkxgdMA6Utlf7Sn9otylNWEt2ek=;
+	b=QP4+QWgBFaRV2v/EdXd9IC+Mqkr3PEW0oar3G/p+JkqulL2qtMI3VKdpnXVZCk8jJg
+	R5LW1QlLD9pZ/VcsHNhxdiJC6R1KiAyVBZUs2LxJGsn1Dhah3BdS6lmigjA/nm38oBOU
+	LRHcoI+OEsx5RFrsl6OZynzukO33CYH1nXp6IKRmN8JN9TNWDZbzXjj5UGdVGB9hbOOc
+	qmv6eozX55IyvdMDc5rEjpdYFEZAheMjQbK/HKB85DQPohUUPtvvA9ccayQn0oc6eNa6
+	3jorJVDlDH4KcBDhaDEsspqUjFaFSGvLXNRzXUjb/tRt7QqaJs/+dJH+dQznEI0QWbHz
+	z8pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ykA3XBTQAQoKKu/cRh53EmFrFpZdd9aP+SFxiy3hioA=;
-	b=bYucIayw3JoHZwzhu8lI606Sg0ppDH4T/vpwHgak1F4gPu1ThekNWAXEtc5RTbODOq
-	AdcOUc4UUVhX2klHJNN6DsdJ4LtA2NVK4047oJRfM6QRS3c6J2j9rbknTMZ68WItckRY
-	G7hCKE+SjVH5GWwK667eqfZymin0TgUd6d9NuQUo9T0XczFyD87ilkfDv8OvMX9tRzyH
-	dy3XdyyPrSFK5lgHjbKaTRX6VJArBI8PVXfuvtF+3yrtHP4xK6FfglxFTcIB7nR5EBsF
-	nYWdzYLRUpwu8Wb3+KcNFvHVSfaR+QHJuAmL1UEWCdjCmgd66GkPQImD0otC4X2sVXPh
-	2DAg==
-X-Gm-Message-State: AKwxyteUvc3koE5A4EcbIuxHzxxD2XzOM9y2BMmhD3FAQBkuaZauE0xb
-	q3Qu3SSip1WA9MUj+DEpAnLUeysQecL0PV0UsbXpDrZN
-X-Google-Smtp-Source: ACJfBoukPFBGuCkgiLTew5AjHWRGIVkweNqh32Aa/0j2kpvbnyqp+0YnCskJ3m85xVeozInjBhOkeDIc4PMfSBPiwoo=
-X-Received: by 10.36.85.206 with SMTP id e197mr11466162itb.124.1516111114156; 
-	Tue, 16 Jan 2018 05:58:34 -0800 (PST)
+	bh=GU/6rhnhp/vxJuInOkxgdMA6Utlf7Sn9otylNWEt2ek=;
+	b=VLITksf7L1vyyQUxAZaqDe1PvXELhzR6gZ4JWZKkKJG5dXEGkQXjNmfslOUz0LqCEJ
+	q9uZ6naaucCp6LTTqfnvBNTO6uSYawEZxd039t3yJXBINn8kLBfKPTIr16yT0OcC5+VV
+	LaR1H9AOFHxWbwyZE1z9Z1YF7jIh9BWp/srwXhTQj5dtAv6JeVXg2dl2y/uR24UhM7DT
+	h3ADmMUY8Nlalqhgm53e9v392gTZXjgYq3M0pNAhd8n7kQNef10OJxWGCexrelJhni4S
+	HCESVpGHqbX4Ns1UPQMqoPJqP4Ca94hBa2GBBPzqFx/pb98SR8SLA456B334JBkq1u3e
+	hyaQ==
+X-Gm-Message-State: AKwxytdCTcqHynQcnm0X+AoY71tdFdskTKBUOC//wYnyu8WVFOOFJhwb
+	twr4qByT2pQHH1ZtsVX6E24QukgK7n4T49rP9ydTpQ==
+X-Google-Smtp-Source: ACJfBou4Ct3nnePKTPT9wKvmZhv35o9tKDoMWkR5NbzsSTsP4+eoPlr972vazPpYYsjco7NAJRcMXY68Yeaqn1g9s2g=
+X-Received: by 10.107.175.8 with SMTP id y8mr9778691ioe.37.1516111474673; Tue,
+	16 Jan 2018 06:04:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.157.202 with HTTP; Tue, 16 Jan 2018 05:58:13 -0800 (PST)
-In-Reply-To: <CAJTo0LYFZqkc_KMXKjNmX4M3z0UjAjGpRLNingKsmXf7yBUmHQ@mail.gmail.com>
+Received: by 10.107.157.202 with HTTP; Tue, 16 Jan 2018 06:04:14 -0800 (PST)
+In-Reply-To: <CAJTo0LbHs0aVrvQi2RwSK=2FAe6q5nyYsu9CxDcnKrBae=f70Q@mail.gmail.com>
 References: <20180115175321.r7sfuxibr743icio@mcrowe.com>
 	<CAJTo0LbcZxArSP-TRYXfNVXY9FS8hK=okbHT2p8RU+nx1Sya+g@mail.gmail.com>
 	<20180116115516.bs5g4ngea3gz4sgr@mcrowe.com>
 	<CAJTo0LYFZqkc_KMXKjNmX4M3z0UjAjGpRLNingKsmXf7yBUmHQ@mail.gmail.com>
+	<CAJTo0LbHs0aVrvQi2RwSK=2FAe6q5nyYsu9CxDcnKrBae=f70Q@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Jan 2018 13:58:13 +0000
-Message-ID: <CAJTo0LbHs0aVrvQi2RwSK=2FAe6q5nyYsu9CxDcnKrBae=f70Q@mail.gmail.com>
+Date: Tue, 16 Jan 2018 14:04:14 +0000
+Message-ID: <CAJTo0LZC6AJhTs0PtbRvfHK-dqjgfZvNSdN3gXGdWksaBZOP6Q@mail.gmail.com>
 To: Mike Crowe <mac@mcrowe.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: glib-2.0 fails to configure with USE_NLS="no"
@@ -58,96 +59,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jan 2018 13:58:33 -0000
-Content-Type: multipart/alternative; boundary="001a113992426650540562e520e1"
+X-List-Received-Date: Tue, 16 Jan 2018 14:04:33 -0000
+Content-Type: multipart/alternative; boundary="001a1144a268e367b00562e53530"
 
---001a113992426650540562e520e1
+--001a1144a268e367b00562e53530
 Content-Type: text/plain; charset="UTF-8"
 
-I've got a local patch that does this in the glib recipe:
-
-USE_NLS_class-target = "yes"
-USE_NLS_class-nativesdk = "yes"
-
-Can you verify this fixes the problem for you?
+Another fix would be to respect USE_NLS and seed msgfmt=/bin/false
+appropriately.  I'll test that later, or you can get the glory if you can
+send a tested patch.
 
 Ross
 
-On 16 January 2018 at 13:56, Burton, Ross <ross.burton@intel.com> wrote:
+On 16 January 2018 at 13:58, Burton, Ross <ross.burton@intel.com> wrote:
 
-> GLib doesn't really support disable-nls, no.  I guess we need to force it
-> on for target builds, as I now hack it to work without gettext for native.
+> I've got a local patch that does this in the glib recipe:
+>
+> USE_NLS_class-target = "yes"
+> USE_NLS_class-nativesdk = "yes"
+>
+> Can you verify this fixes the problem for you?
 >
 > Ross
 >
-> On 16 January 2018 at 11:55, Mike Crowe <mac@mcrowe.com> wrote:
+> On 16 January 2018 at 13:56, Burton, Ross <ross.burton@intel.com> wrote:
 >
->> On 15 January 2018 at 17:53, Mike Crowe <mac@mcrowe.com> wrote:
->> >> If I add USE_NLS = "no" to local.conf, then glib-2.0 fails to
->> configure:
->> >>
->> >> | checking for ngettext in libc... yes
->> >> | checking for dgettext in libc... yes
->> >> | checking for bind_textdomain_codeset... (cached) yes
->> >> | checking for msgfmt... no
->> >> | configure: error:
->> >> | *** You must have either have gettext support in your C library, or
->> use
->> >> | the
->> >> | *** GNU gettext library.
->> >> | (http://www.gnu.org/software/gettext/gettext.html)
->> >>
->> >> It seems that glib-2.0 does not support --disable-nls and always
->> requires
->> >> gettext.
->> >>
->> >> I can avoid this error by adding gettext-native to glib-2.0's DEPENDS,
->> but
->> >> I'm not sure whether this is solution would be acceptable.
->> >>
->> >> Is there a better way?
+>> GLib doesn't really support disable-nls, no.  I guess we need to force it
+>> on for target builds, as I now hack it to work without gettext for native.
 >>
->> On Monday 15 January 2018 at 19:34:35 +0000, Burton, Ross wrote:
->> > Have a look at what just landed in master...
+>> Ross
 >>
->> Perhaps I'm being stupid, but it looks like nothing has landed on master
->> since Sunday.
+>> On 16 January 2018 at 11:55, Mike Crowe <mac@mcrowe.com> wrote:
 >>
->> Looking at the history, I see 1ef45d377519983df827650cd0913e0d2c8a785b ,
->> but I already had that change. Reverting it does appear to fix the problem
->> though. Is that what you meant? If not, please can you point me at the
->> commit you are referring to?
+>>> On 15 January 2018 at 17:53, Mike Crowe <mac@mcrowe.com> wrote:
+>>> >> If I add USE_NLS = "no" to local.conf, then glib-2.0 fails to
+>>> configure:
+>>> >>
+>>> >> | checking for ngettext in libc... yes
+>>> >> | checking for dgettext in libc... yes
+>>> >> | checking for bind_textdomain_codeset... (cached) yes
+>>> >> | checking for msgfmt... no
+>>> >> | configure: error:
+>>> >> | *** You must have either have gettext support in your C library, or
+>>> use
+>>> >> | the
+>>> >> | *** GNU gettext library.
+>>> >> | (http://www.gnu.org/software/gettext/gettext.html)
+>>> >>
+>>> >> It seems that glib-2.0 does not support --disable-nls and always
+>>> requires
+>>> >> gettext.
+>>> >>
+>>> >> I can avoid this error by adding gettext-native to glib-2.0's
+>>> DEPENDS, but
+>>> >> I'm not sure whether this is solution would be acceptable.
+>>> >>
+>>> >> Is there a better way?
+>>>
+>>> On Monday 15 January 2018 at 19:34:35 +0000, Burton, Ross wrote:
+>>> > Have a look at what just landed in master...
+>>>
+>>> Perhaps I'm being stupid, but it looks like nothing has landed on master
+>>> since Sunday.
+>>>
+>>> Looking at the history, I see 1ef45d377519983df827650cd0913e0d2c8a785b ,
+>>> but I already had that change. Reverting it does appear to fix the
+>>> problem
+>>> though. Is that what you meant? If not, please can you point me at the
+>>> commit you are referring to?
+>>>
+>>> Thanks.
+>>>
+>>> Mike.
+>>>
 >>
->> Thanks.
 >>
->> Mike.
->>
->
 >
 
---001a113992426650540562e520e1
+--001a1144a268e367b00562e53530
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I&#39;ve got a local patch that does this in the glib reci=
-pe:<div><br></div><div><div>USE_NLS_class-target =3D &quot;yes&quot;</div><=
-div>USE_NLS_class-nativesdk =3D &quot;yes&quot;</div></div><div><br></div><=
-div>Can you verify this fixes the problem for you?</div><div><br></div><div=
->Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 January 2018 at 13:56, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">GLib do=
-esn&#39;t really support disable-nls, no.=C2=A0 I guess we need to force it=
- on for target builds, as I now hack it to work without gettext for native.=
-<span class=3D"HOEnZb"><font color=3D"#888888"><div><br></div><div>Ross</di=
-v></font></span></div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D=
-"gmail_extra"><br><div class=3D"gmail_quote">On 16 January 2018 at 11:55, M=
-ike Crowe <span dir=3D"ltr">&lt;<a href=3D"mailto:mac@mcrowe.com" target=3D=
-"_blank">mac@mcrowe.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><span>On 15 January 2018 at 17:53, Mike Crowe &lt;<a href=3D"mailto:ma=
-c@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt; wrote:<br>
+<div dir=3D"ltr">Another fix would be to respect USE_NLS and seed msgfmt=3D=
+/bin/false appropriately.=C2=A0 I&#39;ll test that later, or you can get th=
+e glory if you can send a tested patch.<div><br></div><div>Ross</div></div>=
+<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 16 January 201=
+8 at 13:58, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burto=
+n@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I&#39;ve got a local pat=
+ch that does this in the glib recipe:<div><br></div><div><div>USE_NLS_class=
+-target =3D &quot;yes&quot;</div><div>USE_NLS_class-nativesdk =3D &quot;yes=
+&quot;</div></div><div><br></div><div>Can you verify this fixes the problem=
+ for you?</div><span class=3D"HOEnZb"><font color=3D"#888888"><div><br></di=
+v><div>Ross</div></font></span></div><div class=3D"HOEnZb"><div class=3D"h5=
+"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 16 January 2=
+018 at 13:56, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.bur=
+ton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">GLib doesn&#39;t reall=
+y support disable-nls, no.=C2=A0 I guess we need to force it on for target =
+builds, as I now hack it to work without gettext for native.<span class=3D"=
+m_-4115349128874631033HOEnZb"><font color=3D"#888888"><div><br></div><div>R=
+oss</div></font></span></div><div class=3D"m_-4115349128874631033HOEnZb"><d=
+iv class=3D"m_-4115349128874631033h5"><div class=3D"gmail_extra"><br><div c=
+lass=3D"gmail_quote">On 16 January 2018 at 11:55, Mike Crowe <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span>On 15 January=
+ 2018 at 17:53, Mike Crowe &lt;<a href=3D"mailto:mac@mcrowe.com" target=3D"=
+_blank">mac@mcrowe.com</a>&gt; wrote:<br>
 &gt;&gt; If I add USE_NLS =3D &quot;no&quot; to local.conf, then glib-2.0 f=
 ails to configure:<br>
 &gt;&gt;<br>
@@ -190,9 +211,11 @@ though. Is that what you meant? If not, please can you point me at the<br>
 commit you are referring to?<br>
 <br>
 Thanks.<br>
-<span class=3D"m_6609721706575190122HOEnZb"><font color=3D"#888888"><br>
+<span class=3D"m_-4115349128874631033m_6609721706575190122HOEnZb"><font col=
+or=3D"#888888"><br>
 Mike.<br>
 </font></span></blockquote></div><br></div>
 </div></div></blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
 
---001a113992426650540562e520e1--
+--001a1144a268e367b00562e53530--
