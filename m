@@ -1,26 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DA9287860E
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED7D3781DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 05:46:40 +0000 (UTC)
+	Wed, 17 Jan 2018 08:26:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0H5kgsM002414
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jan 2018 21:46:42 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 16 Jan 2018 21:46:41 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jan 2018 13:44:18 +0800
-Message-ID: <26531b875fdbb802de8ab5953e2f6967db021698.1516167783.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1516167783.git.jackie.huang@windriver.com>
-References: <cover.1516167783.git.jackie.huang@windriver.com>
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0H8Q2Ei021098
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 17 Jan 2018 00:26:04 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 17 Jan 2018 00:26:01 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Wed, 17 Jan 2018 03:25:58 -0500
+Message-ID: <1516177558-24610-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1 v2] features_backfill: fix for multilib
+Subject: [PATCH] grub/grub-efi: fix conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 05:46:41 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 08:26:05 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+While installing grub and grub-efi, there are conflict files
+in ${sysconfdir} ${datadir} ${bindir} ${sbindir}.
 
-The backfilling feature doesn't work for multilib,
+- Since all of the conflicted files are tools which is
+  common for grub and grub-efi, we split them (except
+  grub-editenv) to grub-common in grub.
 
-e.g. build with:
-MACHINE = "qemumips64"
-MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-MULTILIBS = "multilib:libn32"
-DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-require conf/multilib.conf
+- The package grub-common runtime depends grub-editenv
 
-And we have backfill_considered in machine/include/mips/arch-mips.inc:
-MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
+- The package grub-editenv runtime provides grub-efi-editenv
 
-For libn32 builds, 'qemu-usermode' is not expected but it still
-presents in MACHINE_FEATURES.
+- Remove SYSROOT_DIRS_BLACKLIST
 
-To fix the issue:
-* Change the oe.utils.features_backfill to always compare with the
-  original features(before backfilled), so we can run the function
-  multiple times when needed.
+- The recipe grub-efi does not generate the duplicated files
+  and use runtime depends grub-common to instead
 
-* run oe.utils.features_backfill at the end of multilib_virtclass_handler
-  to update the backfilled features to ensure it's correct for multilib.
+Debian and Fedora do the similar thing.
 
-[YOCTO #12373]
+Debian use a common package grub-common for both of pc bios and efi,
+and use package grub-pc-bin for pc bios, grub-efi-amd64-bin for efi.
+Both of grub-pc-bin and grub-efi-amd64-bin requires grub-common.
+https://packages.debian.org/sid/grub-common
+https://packages.debian.org/jessie/grub-pc-bin
+https://packages.debian.org/jessie/grub-efi-amd64-bin
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Fedora use a common package grub2-tools for both of pc bios and efi,
+and use package grub2 for pc bios, grub2-efi-modules for efi.
+Both of grub2 and grub2-efi-modules requires grub2-tools.
+https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-tools-2.02-0.34.fc24.x86_64.html
+https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-2.02-0.34.fc24.x86_64.html
+https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-efi-modules-2.02-0.34.fc24.x86_64.html
+
+[YOCTO #11639]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/multilib.bbclass | 4 ++++
- meta/lib/oe/utils.py          | 9 +++++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/grub/grub-efi_2.02.bb |  9 +++++----
+ meta/recipes-bsp/grub/grub2.inc        |  8 --------
+ meta/recipes-bsp/grub/grub_2.02.bb     | 14 +++++++++++++-
+ 3 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index dc0868be3e..8e2cd57eec 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -76,6 +76,10 @@ python multilib_virtclass_handler () {
-     newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
-     if newtune:
-         e.data.setVar("DEFAULTTUNE", newtune)
-+
-+    # Update the backfilled features after DEFAULTTUNE changed
-+    oe.utils.features_backfill("DISTRO_FEATURES", e.data)
-+    oe.utils.features_backfill("MACHINE_FEATURES", e.data)
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+index 128da16..112a99d 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+@@ -3,7 +3,7 @@ require grub2.inc
+ GRUBPLATFORM = "efi"
+ 
+ DEPENDS_append_class-target = " grub-efi-native"
+-RDEPENDS_${PN}_class-target = "diffutils freetype"
++RDEPENDS_${PN}_class-target = "diffutils freetype grub-common"
+ 
+ SRC_URI += " \
+            file://cfg \
+@@ -41,7 +41,9 @@ do_install_class-native() {
+ 	install -m 755 grub-mkimage ${D}${bindir}
  }
  
- addhandler multilib_virtclass_handler
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 7a79d752b6..b6c10424e7 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -107,13 +107,18 @@ def features_backfill(var,d):
-     backfill = (d.getVar(var+"_BACKFILL") or "").split()
-     considered = (d.getVar(var+"_BACKFILL_CONSIDERED") or "").split()
- 
-+    features_original = (d.getVar(var + "_ORIGINAL") or "").split()
-+    if not features_original:
-+        features_original = features
-+        d.setVar(var + "_ORIGINAL", " ".join(features_original))
+-do_install_append_class-target() {
++do_install_class-target() {
++    oe_runmake 'DESTDIR=${D}' -C grub-core install
 +
-     addfeatures = []
-     for feature in backfill:
--        if feature not in features and feature not in considered:
-+        if feature not in features_original and feature not in considered:
-             addfeatures.append(feature)
+     # Remove build host references...
+     find "${D}" -name modinfo.sh -type f -exec \
+         sed -i \
+@@ -69,8 +71,7 @@ do_deploy_class-native() {
  
-     if addfeatures:
--        d.appendVar(var, " " + " ".join(addfeatures))
-+        d.setVar(var, " ".join(features_original) + " " + " ".join(addfeatures))
+ addtask deploy after do_install before do_build
  
- def all_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
+-FILES_${PN} += "${libdir}/grub/${GRUB_TARGET}-efi \
+-                ${datadir}/grub \
++FILES_${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
+                 "
+ 
+ # 64-bit binaries are expected for the bootloader with an x32 userland
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 28f96bb..79a84e9 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -67,12 +67,4 @@ do_configure_prepend() {
+ 	${S}/autogen.sh )
+ }
+ 
+-# grub and grub-efi's sysroot/${datadir}/grub/grub-mkconfig_lib are
+-# conflicted, remove it since no one uses it.
+-SYSROOT_DIRS_BLACKLIST += "${datadir}/grub/grub-mkconfig_lib"
+-
+-PACKAGES =+ "${PN}-editenv"
+-
+-FILES_${PN}-editenv = "${bindir}/grub-editenv"
+-RDEPENDS_${PN} += "${PN}-editenv"
+ RDEPENDS_${PN}_class-native = ""
+diff --git a/meta/recipes-bsp/grub/grub_2.02.bb b/meta/recipes-bsp/grub/grub_2.02.bb
+index 3e61f6a..e097375 100644
+--- a/meta/recipes-bsp/grub/grub_2.02.bb
++++ b/meta/recipes-bsp/grub/grub_2.02.bb
+@@ -1,6 +1,18 @@
+ require grub2.inc
+ 
+-RDEPENDS_${PN} += "diffutils freetype"
++RDEPENDS_${PN}-common += "${PN}-editenv"
++RDEPENDS_${PN} += "diffutils freetype ${PN}-common"
++
++RPROVIDES_${PN}-editenv += "${PN}-efi-editenv"
++
++PACKAGES =+ "${PN}-editenv ${PN}-common"
++FILES_${PN}-editenv = "${bindir}/grub-editenv"
++FILES_${PN}-common = " \
++    ${bindir} \
++    ${sysconfdir} \
++    ${sbindir} \
++    ${datadir}/grub \
++"
+ 
+ do_install_append () {
+     install -d ${D}${sysconfdir}/grub.d
 -- 
-2.11.0
+1.8.3.1
 
 
