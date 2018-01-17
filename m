@@ -1,58 +1,92 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F2ADB78536
+Return-Path: <mkelly@xevo.com>
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-co1nam03on0053.outbound.protection.outlook.com [104.47.40.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF9C786D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 19:06:25 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id t5so5994997pfi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 11:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language;
-	bh=0ByAlVPKMxckjbFjv8+LgSw/8T+xrjm/CyxVUUVPjEI=;
-	b=j2MRX2huD7znY7+OxPyatHusbifz+CmRHvKYkEYMHMrxmkNrx9/tIbwaTx9aYvMscE
-	H1YXc3732ekSO3jOlg7uilyG/v11SxmjMcg6znoDK+Kjg3ksO0A0GSnYGHMEvvEz6XnF
-	6u4gmDcjL02UxJskwh4S8jZKakv4yD5KNKBxxTcnfLqbFYgYPg4z8IatfV+hdWtiFw7O
-	+ALB32+WLItDW1WxzaJH4ASOSy+y0X1ej95KOwsOc7/ORpqHmmzbhoyGVR8yDv6EROHl
-	z8GbHEx6DLYauxiR4SA2/pI7yEUToG4m7+UVNwabwnP0syjEpcgqJoBjSLdO4cCmx5JX
-	b38g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=0ByAlVPKMxckjbFjv8+LgSw/8T+xrjm/CyxVUUVPjEI=;
-	b=ca7NBbzWQva0FrBSdxeOIRoAnBHC1pDkRkbjZo369UBwVNOQARRJsyKfaBtV5M3oCO
-	rRu6TprLJR/RP7mjqMMQQEwBaMvBLKario+rO1zlL+Ur+CCRuMfzOs+3yeule2EX+Qki
-	bm3oJlda8jvJyOZhzx8NfMvIIgyC0RZGZ5YmM9ebyOgXiUrzGEZc01X/RvJyOMKRazbc
-	dZBFkI7mLpqhKaX3t9D20nLiylmKUCFmFF+7yoxlyXVJnLuAMuMGdMFtqAeRMyDQuiOF
-	zirtV3XKGjLcet2aq7xJF1ocVhzAUFIccCLXRUUhQ+0by8IG/O1WloltiLzuFEmMHKxl
-	moqw==
-X-Gm-Message-State: AKwxytf/hIlP+1vnOW+IL3jHRFL0GK/RWkHptfSleaWtsTmrGi5P5dw1
-	O4bVeaOPucevSt7OF3Zn48Ul2Q==
-X-Google-Smtp-Source: ACJfBos3Ge91NePKKWkE7KVQKr5ThmmDjqEnuyLT1nk0Kwp/BNkINJKgP6VLq8fdgAz+Icx875q5Mg==
-X-Received: by 10.101.68.199 with SMTP id g7mr11419683pgs.21.1516215987001;
-	Wed, 17 Jan 2018 11:06:27 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:242f:c14a:feac:fa0c?
-	([2601:202:4000:1184:242f:c14a:feac:fa0c])
-	by smtp.gmail.com with ESMTPSA id
-	d20sm9756518pfe.166.2018.01.17.11.06.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jan 2018 11:06:26 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <20161018011619.31677-1-raj.khem@gmail.com>
-	<1512175057-78-1-git-send-email-Martin.Jansa@gmail.com>
-	<CA+chaQcbgVU+=f5Yg6QrJ0fQyY4LZU3hFAs4L+gw+HVq4sk35w@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <3353088c-10d8-3e8e-3aba-178e2c4e55b3@gmail.com>
-Date: Wed, 17 Jan 2018 11:06:25 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Wed, 17 Jan 2018 19:23:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=z27FwthJT0JXvUxDWdaRD2ZYmliLGNyqgmqsnEY6wSc=;
+	b=LVLyFcN3bWCGJ9NIYaA3O+BhQzoI/djaiOQebB+PRr/rvFw050Ziq2FfzR3pF6E+NMO7gIj+FgzYb35IE/vPpKIhEhT0+C2MZWRb+Uw+b8GS+Fi6Txhm5cwgv2SHzV0QKfLtByf6l//6JwPkrUXzOFE043tIn0C0jBURd4WE6xM=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+Received: from columbia.corp.xevo.com (65.122.179.226) by
+	MWHPR0101MB2941.prod.exchangelabs.com (10.174.168.141) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.407.7; Wed, 17 Jan 2018 19:23:35 +0000
+From: Martin Kelly <mkelly@xevo.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jan 2018 11:22:55 -0800
+Message-Id: <20180117192257.12472-1-mkelly@xevo.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQcbgVU+=f5Yg6QrJ0fQyY4LZU3hFAs4L+gw+HVq4sk35w@mail.gmail.com>
-Subject: Re: [morty][RESEND][PATCH] gnutls_3.5.3.bb: Fix native build on distro with kernel < 3.4.17
+X-Originating-IP: [65.122.179.226]
+X-ClientProxiedBy: MWHPR19CA0005.namprd19.prod.outlook.com (10.173.246.143) To
+	MWHPR0101MB2941.prod.exchangelabs.com (10.174.168.141)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fc1e865a-0fab-482b-bef3-08d55ddfce18
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4604075)(2017052603307)(7153060)(7193020);
+	SRVR:MWHPR0101MB2941; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	3:kBlUVq4YUXD/EQB2KnBEEYKAg32pnIlq2dxm5beyd/ppOdTMh2GA7IxowjY+6pUjkuhPg2tMVIKZ8ueUEndBzObjzsllTG0yv8QWrd6ac8Rxzbs5lYmnIs31EVtwyfxW4XKcGY9o49EKL7dXj/udE0Wvxs8hsr5/surO9LicfJzKIAPgJsEfSGJstmfuLbO6sCEFLtlaAYnlUr729dedWO6jQ+MMJ8+NrSBenTPbFTubP0WMEos0S6UGhxZAsEM+;
+	25:Hh5ElA3Eil+2P00rmfxqvMrLaoZ2ZjjpGam8zI/qTjp/L0ICAqv2DTr+sxujlnGkz2iSJ/FAa34dIxT+uNcT/7sXKCQ0m1ZPsbHRqz0liArFBLLYsxuef+QvHy40/rQlfLqSnV/JNusvfFJW703KKm/C2G21StGiQ+GPh9wBTgEBoXihvVD8aVjumGDk2eCqtoEs+R4Pm7WzqTCMTkRQ7tsMXB5l8f3B1VK+6PNzfBkj6DuuF6nW+t4XYegV+Qu7xjPLHYJigfXibiNm+Jr6q9jRjnpbEk2VUMn0XpIxQtVSKeHEmFZnApSYHEt0udhM+bywH4UCGtY1EkSqz5W0EA==;
+	31:yiIbtmGNiBG2bJDIPZ3aeBmU5CdzwZmKaqtSHF1ivyKyjyPymE3palD/KRJuUWjEsJ4e+mSP8SgvVpWnRG/npwNGEtPKp1Ck/y0qvvmCViagj3Ir298DmQbGkjVurnkbPZV+krInCeWYqL9VGwfxZ0miys8pptR3yH9ucmjPCfXqx1nrWexJ+/XbuVtFeAYDFnrmgQA3/Var7ODVtS6NAggLNNNynEqYz3hPZL7FHnE=
+X-MS-TrafficTypeDiagnostic: MWHPR0101MB2941:
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	20:bI8E29ViK0WisuRnLuJRtVwHBztlIF4g8vfwgSGKBDDwvyoVqUTPrG3ut5HypBSRXVr2R5LUQTGV+h+m3gqRsqfgQ658Qh23rU+gkiMDvZPMinhWA3C4cY47uhUMLl7qlIGnerUXoofQLyYl/gzYuy39H0x/LkFhqRwW26mGCTAU4bIIHT+iQw86BlI9Lbv5gWzWSuAzBHyWoIu38jp4B601l9mBWb+MMUMNHjRwCc+tKu54QwC3F/xWusoN13hM0TJI82TpNVSU1cSXv6SGPHSHY/oKvYiIo029QN3kC1rVomG7Zl19gIEEwjDwVS6aafqvSkizW2SqwkPIg+ofXCwyrZ39oEvNO5Qn6rII/iQsBKt3hHBbq6sXusrMoN1QGKsU9TjGm1pVh5Exc3bJ41LUBrAIH5Ofb8CWbGpiZs8=;
+	4:G0s57Vu324q5ssKRsK9tnn4FSwdkF4qyvJBUmSy/uy1v+FRt/oRX2qtuuJtkzfXI45mk93ta6Px8+kjsM6hA0j4JE5KoHhXxxwavKvdemGQ6f9TXROn0VLm+vUXz0ymr22uRsgidHi17clt3BVKDsgwIkKhIFw2WmMSU9u4QEO35YYwYhJplpWymg2I2KohowigB94nDp5mmOoxUiMqOR1WL6xEu2Isv53DieDgCwgirCWmIV8QDb9uUFL+lIh+JBMuPkHv5JVz4WL4hK8sO+zVKIsEj26gS8iS4YkIQDKpFpo0PJj0fC4+JnbUy8m0iVqJB1PFBs2tWt6rMO8WtfA==
+X-Microsoft-Antispam-PRVS: <MWHPR0101MB2941E0CE79198BA55C634E85ABE90@MWHPR0101MB2941.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:(192374486261705)(788757137089);
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040470)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231023)(944501161)(3002001)(6041268)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123564045)(20161123560045)(20161123558120)(6072148)(201708071742011);
+	SRVR:MWHPR0101MB2941; BCL:0; PCL:0;
+	RULEID:(100000803101)(100110400095); SRVR:MWHPR0101MB2941; 
+X-Forefront-PRVS: 0555EC8317
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(39850400004)(39380400002)(366004)(396003)(376002)(346002)(199004)(189003)(16586007)(305945005)(25786009)(81166006)(16526018)(86362001)(8936002)(53936002)(107886003)(4326008)(316002)(2361001)(68736007)(97736004)(386003)(2351001)(7736002)(81156014)(6916009)(6116002)(3846002)(5660300001)(478600001)(36756003)(26005)(6666003)(2906002)(6486002)(1076002)(48376002)(106356001)(54906003)(8676002)(59450400001)(50226002)(7696005)(52116002)(66066001)(47776003)(105586002)(50466002)(51416003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0101MB2941;
+	H:columbia.corp.xevo.com; FPR:; SPF:None; PTR:InfoNoRecords; A:1;
+	MX:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR0101MB2941;
+	23:648wsDzLz7JxOZDTTIj6gsP8xYmXaavxOvndAiS?=
+	=?us-ascii?Q?EKqS8JsxXdvdvlsZjztDiBNxhA7ytc53RgbIeCjp4/1U6NIQLeFEwSpYgv2p?=
+	=?us-ascii?Q?xB4PFdGws8yjR2S5GLwEb2ZyOrHFuqF8ulKFMgIdLAUfSHmcueJNdJtCUrD2?=
+	=?us-ascii?Q?PwIM/nMdKWMe0aJSKubYQox5v0hGUBVpNqyKfmM2tiDrpBh56CMkbZQcOFEJ?=
+	=?us-ascii?Q?+QYf71n/WgK+jm4ZJBzd3ohLJcVxGeVDpRGaaKdamK5m1xvfKwGItM4lvU2Z?=
+	=?us-ascii?Q?GkPkazXUdPnyY6Z/H+MzyNQ0m+RoFmUjekBOBTghmKyX/A/P7dDWmYVlOoYI?=
+	=?us-ascii?Q?RD7Hn8yHECbkw6fSqctcFz4MZRjAxaoKGXd9L3//D1OnbCNQZxVqfx4e/5Bx?=
+	=?us-ascii?Q?XbeiXmk43DmAV5M0CDR+VeGWVPqrGIelPmu3ENJNEbMjyKIORvtooIzQ38IZ?=
+	=?us-ascii?Q?/qx5/1nL94c/ssJ9YJryQLhLhYbhUHTxMmD104RTmxWn/XeNrQ9H/h0uEn9c?=
+	=?us-ascii?Q?obpSNO2OWveMe7yNF0wQiSZSgYosSlluQYKXbn0GueIY6fA749UkxFABTClP?=
+	=?us-ascii?Q?9Fg+nWdMsEYyyw+NRl9noK7xrQzW4yFS6ML4frPZirgzMDblxshLrMyV2T5a?=
+	=?us-ascii?Q?qPqpTJ/HATDppDfn8XVlZgrvXFQuGoj0m8OVRZFf/3yyaliOIe6czs4TCL8B?=
+	=?us-ascii?Q?hwl4u7j71UpTcLEEw7cAUPIdKLPgEODIy1I9kGFe7JoPV0jO7kV8XcLemnNZ?=
+	=?us-ascii?Q?noVbc9s/aXq7eXbgzuRSCnVl09oLnfIA+LhHog6K9MTZbwieP5Bwv/C3kwsj?=
+	=?us-ascii?Q?vHRnHIzQSUleqvxoAFjHWlWDuVjHWvHYVpRvNmsBAg5Twqx1oeVl6jTzsTJP?=
+	=?us-ascii?Q?9FdmMrAaNFlJwJ8Jb1bZPaXdLydhSasx+5Q1uVztlVksSd0zD+kmr+IzqTUy?=
+	=?us-ascii?Q?HxZDDTJRppoC8nhSyjqcIaiVapS3idLP2ikihMh+6swAdnkiDUbmIyeOwnYR?=
+	=?us-ascii?Q?NwX9s19VlZoZ0PvheTZ5/o3e+2qCGkF15STzJjhQpWlmhZhLtdMFpkApIa95?=
+	=?us-ascii?Q?yrIAh+R8FEoXvB0uELwUjuklmBgqLhF0O3Zn2FVHj1PS+S4i3/bvMxSxWnoW?=
+	=?us-ascii?Q?vh6G6fCt6X7a/8LbkTgEVfpHrMvQ0bKIa?=
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2941;
+	6:+wBJV60rHE4SLrzttzgD9/A96/GlCUFvWmlqm1vm2GiUO9Pr0Klx7BMoMkt94WxqpFsvUKPbR/A3bgtkW86Sv0+DAopCPAvMvWLZnk1jKxdbsudWy1BFtjbiJ4KuNtozpVOrndJ//YIeB7yETVy7ieimatXtvYrMWSfrG+U5ySqxxDy2b8aTXjm2YRLSMqF0Xyh1vf8DUWj2dunCU8P5T1umlkSkdkQtUjouFghz9kX6wxaFy5Tx93NXWeSJpuBxIBNfZsAcokkLRiY0Dtm7tEqIk8BN4hnX8NpbU5KP51Ecw4izHdprnW2E9VIsaAbyFJJFDgKD1g0jlsamlGAH1VX+rliruJY6+fUtBRDlzp8=;
+	5:nf+NqXpfsiOMtu+nKjBtGwsucOhvkOlzgh/ibz8JKh/fTHYjOnG3lDxuy2irTrf8EEKFBNujYZfFpesD8QTwfJJdjyCkn7kdLoD0LDROIU5kwmwS9bJrKmd55SkB/VC793CMpkQ6BZXYf6loLlXmP6iJplV54PGOxF7v5+9OabA=;
+	24:tY24HT1tyywi9JIYxm14ry7zjpetqO0dcRDWYBwmVthE02EIHFATQTt3hOz5HgdTew+hX4oJkqlyw4hIpDf4vC8s6AymSeeeKFCjeILzHPU=;
+	7:g/LE6k+uwSTG191sRs4D1N/Km399AyhU4Wxym+sdLcTHF4q2nVnjQXOwqd1y0kaiSFqIVodR9SY0BTokdM7nZSOL14N1KDwF8FhpJHaCkuCn1c8FEPXjrPoVgv3gsTAxXF5kzOUe0zk8JZIkeGV/mYzMz0NJtwcnXuMhx44tZ79YrfWcCnGVIB4Cuwg4+gA31t5Bvbf//r5lVhDHiV4ycVu3a2gq5p+0abA0aqS4cwjJRiwHEYk+1/XaAyjtHl1t
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2018 19:23:35.9299 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc1e865a-0fab-482b-bef3-08d55ddfce18
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2941
+Subject: [PATCH 1/3] meson.bbclass: compile with --buildtype plain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,290 +99,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 19:06:26 -0000
-Content-Type: multipart/alternative;
-	boundary="------------03A20E1BEB979598AFFFFAE1"
-Content-Language: en-US
+X-List-Received-Date: Wed, 17 Jan 2018 19:23:36 -0000
+Content-Type: text/plain
 
---------------03A20E1BEB979598AFFFFAE1
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+OE manages all the compile flags, so we don't want meson to inject its
+own flags. Currently, it's injecting -O0 and causing build breaks when
+security flags are enabled (because _FORTIFY_SOURCE requires an
+optimized build and meson defaults to a debug -O0 build).
 
+Add --buildtype plain so meson will not add its own optimization flags.
 
+Signed-off-by: Martin Kelly <mkelly@xevo.com>
+---
+ meta/classes/meson.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 01/15/2018 12:14 AM, Martin Jansa wrote:
-> ping
->
-> On Sat, Dec 2, 2017 at 1:37 AM, Martin Jansa <martin.jansa@gmail.com
-> <mailto:martin.jansa@gmail.com>> wrote:
->
->     From: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>>
->
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 4a4c51f840..f9cee00c07 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -13,6 +13,7 @@ def noprefix(var, d):
+     return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
 
-pick up now for stagging.
-armin
->
->
->     When using distros which use old kernels gnutls fails to build
->     due to missing SYS_getrandom, therefore we need to check for this
->     before using it.
->     Fixes errorr e.g.
->
->     | ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c: In function
->     'have_getrandom':
->     | ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c:59:42: error:
->     'SYS_getrandom' undeclared (first use in this function)
->     |  #  define getrandom(dst,s,flags) syscall(SYS_getrandom,
->     (void*)dst, (size_t)s, (unsigned int)flags)
->
->     Signed-off-by: Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>>
->     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com
->     <mailto:Martin.Jansa@gmail.com>>
->     ---
->      .../gnutls/gnutls/check_SYS_getrandom.patch        | 35
->     ++++++++++++++++++++++
->      meta/recipes-support/gnutls/gnutls_3.5.3.bb
->     <http://gnutls_3.5.3.bb>        |  1 +
->      2 files changed, 36 insertions(+)
->      create mode 100644
->     meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
->
->     diff --git
->     a/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
->     b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
->     new file mode 100644
->     index 0000000..535c22a
->     --- /dev/null
->     +++ b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
->     @@ -0,0 +1,35 @@
->     +From f26c3979ab0325edb2e410d287bc501cf00e0ac0 Mon Sep 17 00:00:00
->     2001
->     +From: Nikos Mavrogiannopoulos <nmav@redhat.com
->     <mailto:nmav@redhat.com>>
->     +Date: Mon, 22 Aug 2016 16:32:34 +0200
->     +Subject: [PATCH] rnd-linux: added check for SYS_getrandom being
->     defined
->     +
->     +This allows to compile the getrandom() code in old Linux systems
->     +which do not have the system call defined.
->     +---
->     +
->     +Upstream-Status: Backport
->     +Signed-off-by: Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>>
->     +
->     + lib/nettle/rnd-linux.c | 6 +++++-
->     + 1 file changed, 5 insertions(+), 1 deletion(-)
->     +
->     +diff --git a/lib/nettle/rnd-linux.c b/lib/nettle/rnd-linux.c
->     +index d7f07a6..7a24d05 100644
->     +--- a/lib/nettle/rnd-linux.c
->     ++++ b/lib/nettle/rnd-linux.c
->     +@@ -56,7 +56,11 @@ static dev_t _gnutls_urandom_fd_rdev = 0;
->     + # else
->     + #  include <sys/syscall.h>
->     + #  undef getrandom
->     +-#  define getrandom(dst,s,flags) syscall(SYS_getrandom,
->     (void*)dst, (size_t)s, (unsigned int)flags)
->     ++#  if defined(SYS_getrandom)
->     ++#   define getrandom(dst,s,flags) syscall(SYS_getrandom,
->     (void*)dst, (size_t)s, (unsigned int)flags)
->     ++#  else
->     ++#   define getrandom(dst,s,flags) -1
->     ++#  endif
->     + # endif
->     +
->     + static unsigned have_getrandom(void)
->     +--
->     +libgit2 0.24.0
->     +
->     diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
->     <http://gnutls_3.5.3.bb>
->     b/meta/recipes-support/gnutls/gnutls_3.5.3.bb <http://gnutls_3.5.3.bb>
->     index b2dbb07..0400588 100644
->     --- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
->     <http://gnutls_3.5.3.bb>
->     +++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
->     <http://gnutls_3.5.3.bb>
->     @@ -4,6 +4,7 @@ SRC_URI +=
->     "file://correct_rpl_gettimeofday_signature.patch \
->                  file://0001-configure.ac-fix-sed-command.patch \
->                  file://use-pkg-config-to-locate-zlib.patch \
->                  file://0001-Use-correct-include-dir-with-minitasn.patch \
->     +            file://check_SYS_getrandom.patch \
->                  file://CVE-2016-7444.patch \
->                 "
->      SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
->     --
->     2.7.4
->
->
->
->
+ MESONOPTS = " --prefix ${prefix} \
++              --buildtype plain \
+               --bindir ${@noprefix('bindir', d)} \
+               --sbindir ${@noprefix('sbindir', d)} \
+               --datadir ${@noprefix('datadir', d)} \
+--
+2.11.0
 
 
---------------03A20E1BEB979598AFFFFAE1
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 01/15/2018 12:14 AM, Martin Jansa
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CA+chaQcbgVU+=f5Yg6QrJ0fQyY4LZU3hFAs4L+gw+HVq4sk35w@mail.gmail.com">
-      <div dir="ltr">ping</div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Sat, Dec 2, 2017 at 1:37 AM, Martin
-          Jansa <span dir="ltr">&lt;<a
-              href="mailto:martin.jansa@gmail.com" target="_blank"
-              moz-do-not-send="true">martin.jansa@gmail.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Khem
-            Raj &lt;<a href="mailto:raj.khem@gmail.com"
-              moz-do-not-send="true">raj.khem@gmail.com</a>&gt;<br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    pick up now for stagging.<br>
-    armin<br>
-    <blockquote type="cite"
-cite="mid:CA+chaQcbgVU+=f5Yg6QrJ0fQyY4LZU3hFAs4L+gw+HVq4sk35w@mail.gmail.com">
-      <div class="gmail_extra">
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <br>
-            When using distros which use old kernels gnutls fails to
-            build<br>
-            due to missing SYS_getrandom, therefore we need to check for
-            this<br>
-            before using it.<br>
-            Fixes errorr e.g.<br>
-            <br>
-            | ../../../gnutls-3.5.3/lib/<wbr>nettle/rnd-linux.c: In
-            function 'have_getrandom':<br>
-            | ../../../gnutls-3.5.3/lib/<wbr>nettle/rnd-linux.c:59:42:
-            error: 'SYS_getrandom' undeclared (first use in this
-            function)<br>
-            |  #  define getrandom(dst,s,flags) syscall(SYS_getrandom,
-            (void*)dst, (size_t)s, (unsigned int)flags)<br>
-            <br>
-            Signed-off-by: Khem Raj &lt;<a
-              href="mailto:raj.khem@gmail.com" moz-do-not-send="true">raj.khem@gmail.com</a>&gt;<br>
-            Signed-off-by: Martin Jansa &lt;<a
-              href="mailto:Martin.Jansa@gmail.com"
-              moz-do-not-send="true">Martin.Jansa@gmail.com</a>&gt;<br>
-            ---<br>
-             .../gnutls/gnutls/check_SYS_<wbr>getrandom.patch        |
-            35 ++++++++++++++++++++++<br>
-             meta/recipes-support/gnutls/<a
-              href="http://gnutls_3.5.3.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">gn<wbr>utls_3.5.3.bb</a> 
-                  |  1 +<br>
-             2 files changed, 36 insertions(+)<br>
-             create mode 100644 meta/recipes-support/gnutls/<wbr>gnutls/check_SYS_getrandom.<wbr>patch<br>
-            <br>
-            diff --git a/meta/recipes-support/gnutls/<wbr>gnutls/check_SYS_getrandom.<wbr>patch
-            b/meta/recipes-support/gnutls/<wbr>gnutls/check_SYS_getrandom.<wbr>patch<br>
-            new file mode 100644<br>
-            index 0000000..535c22a<br>
-            --- /dev/null<br>
-            +++ b/meta/recipes-support/gnutls/<wbr>gnutls/check_SYS_getrandom.<wbr>patch<br>
-            @@ -0,0 +1,35 @@<br>
-            +From f26c3979ab0325edb2e410d287bc50<wbr>1cf00e0ac0 Mon Sep
-            17 00:00:00 2001<br>
-            +From: Nikos Mavrogiannopoulos &lt;<a
-              href="mailto:nmav@redhat.com" moz-do-not-send="true">nmav@redhat.com</a>&gt;<br>
-            +Date: Mon, 22 Aug 2016 16:32:34 +0200<br>
-            +Subject: [PATCH] rnd-linux: added check for SYS_getrandom
-            being defined<br>
-            +<br>
-            +This allows to compile the getrandom() code in old Linux
-            systems<br>
-            +which do not have the system call defined.<br>
-            +---<br>
-            +<br>
-            +Upstream-Status: Backport<br>
-            +Signed-off-by: Khem Raj &lt;<a
-              href="mailto:raj.khem@gmail.com" moz-do-not-send="true">raj.khem@gmail.com</a>&gt;<br>
-            +<br>
-            + lib/nettle/rnd-linux.c | 6 +++++-<br>
-            + 1 file changed, 5 insertions(+), 1 deletion(-)<br>
-            +<br>
-            +diff --git a/lib/nettle/rnd-linux.c
-            b/lib/nettle/rnd-linux.c<br>
-            +index d7f07a6..7a24d05 100644<br>
-            +--- a/lib/nettle/rnd-linux.c<br>
-            ++++ b/lib/nettle/rnd-linux.c<br>
-            +@@ -56,7 +56,11 @@ static dev_t _gnutls_urandom_fd_rdev =
-            0;<br>
-            + # else<br>
-            + #  include &lt;sys/syscall.h&gt;<br>
-            + #  undef getrandom<br>
-            +-#  define getrandom(dst,s,flags) syscall(SYS_getrandom,
-            (void*)dst, (size_t)s, (unsigned int)flags)<br>
-            ++#  if defined(SYS_getrandom)<br>
-            ++#   define getrandom(dst,s,flags) syscall(SYS_getrandom,
-            (void*)dst, (size_t)s, (unsigned int)flags)<br>
-            ++#  else<br>
-            ++#   define getrandom(dst,s,flags) -1<br>
-            ++#  endif<br>
-            + # endif<br>
-            +<br>
-            + static unsigned have_getrandom(void)<br>
-            +--<br>
-            +libgit2 0.24.0<br>
-            +<br>
-            diff --git a/meta/recipes-support/gnutls/<a
-              href="http://gnutls_3.5.3.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true"><wbr>gnutls_3.5.3.bb</a>
-            b/meta/recipes-support/gnutls/<a
-              href="http://gnutls_3.5.3.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true"><wbr>gnutls_3.5.3.bb</a><br>
-            index b2dbb07..0400588 100644<br>
-            --- a/meta/recipes-support/gnutls/<a
-              href="http://gnutls_3.5.3.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true"><wbr>gnutls_3.5.3.bb</a><br>
-            +++ b/meta/recipes-support/gnutls/<a
-              href="http://gnutls_3.5.3.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true"><wbr>gnutls_3.5.3.bb</a><br>
-            @@ -4,6 +4,7 @@ SRC_URI += "<a class="moz-txt-link-freetext" href="file://correct_rpl_">file://correct_rpl_</a><wbr>gettimeofday_signature.patch
-            \<br>
-                         <a class="moz-txt-link-freetext" href="file://0001-configure.ac-fix">file://0001-configure.ac-fix</a>-<wbr>sed-command.patch
-            \<br>
-                         <a class="moz-txt-link-freetext" href="file://use-pkg-config-to">file://use-pkg-config-to</a>-<wbr>locate-zlib.patch
-            \<br>
-                         <a class="moz-txt-link-freetext" href="file://0001-Use-correct">file://0001-Use-correct</a>-<wbr>include-dir-with-minitasn.<wbr>patch
-            \<br>
-            +            <a class="moz-txt-link-freetext" href="file://check_SYS_getrandom">file://check_SYS_getrandom</a>.<wbr>patch \<br>
-                         <a class="moz-txt-link-freetext" href="file://CVE-2016-7444.patch">file://CVE-2016-7444.patch</a> \<br>
-                        "<br>
-             SRC_URI[md5sum] = "<wbr>6c2c7f40ddf52933ee3ca474cb8cb6<wbr>3c"<br>
-            <span class="HOEnZb"><font color="#888888">--<br>
-                2.7.4<br>
-                <br>
-              </font></span></blockquote>
-        </div>
-        <br>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------03A20E1BEB979598AFFFFAE1--
