@@ -1,65 +1,42 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f177.google.com (mail-ot0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9162178745
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 199C2786E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 15:48:49 +0000 (UTC)
-Received: by mail-ot0-f177.google.com with SMTP id 37so17182751otv.6
+	Wed, 17 Jan 2018 15:59:40 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id a5so22990031qkg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 07:48:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=wEl1Hlph40o8b5MIaLve7+QWgj5S2hQueQY28ZaPRbM=;
-	b=csPf968N3ULjSnBfNO5YjilhPmQ5HaqoLZvy52qiGnbcTbA10IWNVxTkV9euw5WJ2G
-	kuUGwcvXB47qlQfQJ1276ueu7FplQ8whixaXSfxnpBRbRYc5gU2XZpbGPWcbfErWZQUa
-	Srvz2q0tiyG8KdKIevD3G1/IvdOrYtHM7bXnRPFGgpFvnxbOvCidu82oniIjp8vynv1M
-	COtybsR5UvgtRiIGTj+nSUtN3sh3iVX1SCmdNl179qkYV0HVY7HyB6LiEzNZM62/I5fd
-	4PfIxIFJy2WvSCIUuPJIn4YPXiucDXbfk7U0is8b5qwI60UtgPR1HY5FrSvQVUxDZq0r
-	ZGdg==
+	Wed, 17 Jan 2018 07:59:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=wEl1Hlph40o8b5MIaLve7+QWgj5S2hQueQY28ZaPRbM=;
-	b=Vwf9GrdNAE72rRWrANs00Zr4v/bCatOnL3CRZNdP9U+aG+Y4iH5BfW0o7dfGWwBVmv
-	8awIcAAm8eTTj2BXeLXK2RoS8ptaK9JgcmHlkmfftWYLnTr0PjX3MgE5DFtr/Cvx7hg7
-	QkageZLk8uPTwUnW8hYSPyxh9aP1I/wFzDmKnWfJI3UOlk37lZt+cuaHzVtQVeJ/acaf
-	QAwX9vXZUHQZLLFq8l1Ojn4wVs1mPGt/E+s//Z+g8qeCdtcPk57g/PwcIyAU/ncceYoC
-	L39NYNZHmBZTKasWPyRj5q74C9dEjXl3/e0XCtpDcBukivUf14dUy66W6VRLpgdNkHLO
-	nwoA==
-X-Gm-Message-State: AKwxytcAN4sMo3+7EQi0pYoEwD8nuXFVrCBIqe3PaMFkhtqCSJWzaXDY
-	hvUTt25xbSNHZ3KHKoec8r8u3dwn
-X-Google-Smtp-Source: ACJfBotdqLyPfyAq5HTw2DtY2pTluaBZW+uGmFZTZ+yAECb56BmMbth9hUNZM9xSHXklnQ5n8W+w1w==
-X-Received: by 10.157.3.39 with SMTP id 36mr1495582otv.322.1516204130186;
-	Wed, 17 Jan 2018 07:48:50 -0800 (PST)
-Received: from mail-ot0-f172.google.com (mail-ot0-f172.google.com.
-	[74.125.82.172]) by smtp.gmail.com with ESMTPSA id
-	j24sm2421016otb.53.2018.01.17.07.48.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jan 2018 07:48:48 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f172.google.com with SMTP id x15so17208371ote.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 07:48:48 -0800 (PST)
-X-Received: by 10.157.37.8 with SMTP id k8mr1457716otb.392.1516204128079; Wed,
-	17 Jan 2018 07:48:48 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.38.102 with HTTP; Wed, 17 Jan 2018 07:48:47 -0800 (PST)
-In-Reply-To: <CAJTo0LasphGec2rDe0COg0JsETHjvia1f+Fg8KK6YNec7f1n8Q@mail.gmail.com>
-References: <20180117132107.3599-1-otavio@ossystems.com.br>
-	<20180117132107.3599-3-otavio@ossystems.com.br>
-	<f1ba6a43-33ec-4f5d-dfcf-950ac40a8dab@linux.intel.com>
-	<CAJTo0LasphGec2rDe0COg0JsETHjvia1f+Fg8KK6YNec7f1n8Q@mail.gmail.com>
-Date: Wed, 17 Jan 2018 13:48:47 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqyXakFMg+G2oD7ptHZr8YU4fhYoR27efO9+ejhGHG=og@mail.gmail.com>
-Message-ID: <CAP9ODKqyXakFMg+G2oD7ptHZr8YU4fhYoR27efO9+ejhGHG=og@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 3/3] cmake: upgrade 3.9.5 -> 3.10.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=OKU1HsHCrLLna9WiJQOKXd4/KMmBEC/+Zj87OuQOip4=;
+	b=XM9v6IBLeD5yHncKjhkURcsG1evUxljTlKoSgHLIYXDWqG8wSdvz848Lw37nXyL6GV
+	1Y09Tz3TD1ZTq/Jz5tjIFpgUvpJBjNNsd3V/2XksJ6dYmpkx9IyNehTpbqQm+nnbgajd
+	znSnqM8JtdJWHrz7aWL/JTVjvc55tsVinUHuwh9dbTGdgH3G7nrs6Io2hpSf93nEeHWu
+	8LAMsh+euo+nGC9Bzmy97aSLToAFfNxxj1WRfnM14srtY9gnBhTO785dm2OpWMNLTzKY
+	/+WhPj8M3c/v4FjcIL+Cx2Fd9KNpfXzaMA1/5qxRKKNlXD7lTLTS8YTRvIV/xvRucg1m
+	EyDg==
+X-Gm-Message-State: AKwxytftnOjkE0ta4iYbBmwoKRRyfua9pmCUsiBhWj4r3/gk4rDixu1W
+	W9Tu8DlzrTIv0Kb0PO5lxPpbqQ==
+X-Google-Smtp-Source: ACJfBouy0rfI+fn5xdTpVsRkOtg463tO6lCrkEN2hL8ATO8wknyY6cCbT67/8az1I6qjuPqnrH+iEw==
+X-Received: by 10.55.23.204 with SMTP id 73mr52483744qkx.156.1516204781572;
+	Wed, 17 Jan 2018 07:59:41 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	r55sm3299963qta.64.2018.01.17.07.59.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 17 Jan 2018 07:59:40 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 17 Jan 2018 13:59:34 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jan 2018 13:59:31 -0200
+Message-Id: <20180117155933.29634-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.15.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v4 1/3] libdrm: upgrade 2.4.88 -> 2.4.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,32 +49,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 15:48:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Jan 2018 15:59:41 -0000
 
-On Wed, Jan 17, 2018 at 12:25 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 17 January 2018 at 14:21, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->>
->> On 01/17/2018 03:21 PM, Otavio Salvador wrote:
->>>
->>>   ...make-native_3.9.5.bb => cmake-native_3.10.1.bb} |   0
->>>   .../cmake/{cmake_3.9.5.bb => cmake_3.10.1.bb}      |   2 +-
->>
->>
->> Can you look into merging the -native recipe into the main recipe? Is
->> there still a particular reason why they're separate? (I'm sure there was
->> some historical one :)
->
->
-> It's not very simple as cmake builds using cmake, so the native recipe is a
-> bootstrap.
+The 2.4.89 version has been released in Dec 18, 2017, and has a great
+set of features and improvements, as seen in the announcement summary:
 
-I will later merge the .inc on the ${PV} one and make the native to
-reuse the original. But this is another patch.
+,----
+| libdrm release with leasing and syncobj api updates,
+| updated amdgpu marketing ids, amdgpu tests,
+| updated uapi headers
+| etnaviv updates.
+`----
 
+The full announcement can be seen at:
+
+https://lists.freedesktop.org/archives/dri-devel/2017-December/160530.html
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+Changes in v4: None
+Changes in v3: None
+Changes in v2: None
+
+ meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} (93%)
+
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.88.bb b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.88.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.89.bb
+index 735f734295..6754a93242 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.88.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
+ 
+-SRC_URI[md5sum] = "fe4d5c77f1468ee73d0bbb30d76945d7"
+-SRC_URI[sha256sum] = "b5e55dbac2124e742e639f5b8553e8b7395863bf73dab4f77e99fe2fc25572b5"
++SRC_URI[md5sum] = "5307a147dde67ac643f6753a42b5d32c"
++SRC_URI[sha256sum] = "629f9782aabbb4809166de5f24d26fe0766055255038f16935602d89f136a02e"
+ 
+ inherit autotools pkgconfig manpages
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.15.1
+
 
