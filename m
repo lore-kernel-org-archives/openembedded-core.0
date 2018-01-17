@@ -1,24 +1,26 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3544E78745
+	by mail.openembedded.org (Postfix) with ESMTP id 329A778711
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 17 Jan 2018 15:22:33 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0HFMV46021245
+	w0HFMWIK021246
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 17 Jan 2018 15:22:32 GMT
+	verify=NOT); Wed, 17 Jan 2018 15:22:33 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1ebpXr-0004j1-Mz; Wed, 17 Jan 2018 15:22:31 +0000
+	id 1ebpXs-0004j6-66; Wed, 17 Jan 2018 15:22:32 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jan 2018 15:22:26 +0000
-Message-Id: <1516202549-18121-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed, 17 Jan 2018 15:22:27 +0000
+Message-Id: <1516202549-18121-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1516202549-18121-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1516202549-18121-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 1/4] nasm: upgrade 2.13.01 -> 2.13.02
+Subject: [PATCH 2/4] lttng-ust: upgrade 2.9.1 -> 2.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,80 +37,98 @@ X-List-Received-Date: Wed, 17 Jan 2018 15:22:34 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/nasm/nasm_2.13.01.bb | 28 ----------------------------
- meta/recipes-devtools/nasm/nasm_2.13.02.bb | 28 ++++++++++++++++++++++++++++
- 2 files changed, 28 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/nasm/nasm_2.13.01.bb
- create mode 100644 meta/recipes-devtools/nasm/nasm_2.13.02.bb
+ meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb | 37 +++++++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.9.1.bb  | 37 ---------------------------
+ 2 files changed, 37 insertions(+), 37 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.9.1.bb
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.13.01.bb b/meta/recipes-devtools/nasm/nasm_2.13.01.bb
-deleted file mode 100644
-index bf18cd6..0000000
---- a/meta/recipes-devtools/nasm/nasm_2.13.01.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "General-purpose x86 assembler"
--SECTION = "devel"
--LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
--
--SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--
--SRC_URI[md5sum] = "1f7d4662040d24351df7d6719ed4f97a"
--SRC_URI[sha256sum] = "08f97baf0a7f892128c6413cfa93b69dc5825fbbd06c70928aea028835d198fa"
--
--inherit autotools-brokensep
--
--do_configure_prepend () {
--	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
--		mv ${S}/aclocal.m4 ${S}/acinclude.m4
--	fi
--}
--
--do_install() {
--	install -d ${D}${bindir}
--	install -d ${D}${mandir}/man1
--
--	oe_runmake 'INSTALLROOT=${D}' install
--}
--
--BBCLASSEXTEND = "native"
--
--DEPENDS = "groff-native"
-diff --git a/meta/recipes-devtools/nasm/nasm_2.13.02.bb b/meta/recipes-devtools/nasm/nasm_2.13.02.bb
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb
 new file mode 100644
-index 0000000..15672ab
+index 0000000..d79a479
 --- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm_2.13.02.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "General-purpose x86 assembler"
-+SECTION = "devel"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.x"
++DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library to trace userspace codes."
++HOMEPAGE = "http://lttng.org/ust"
++BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
 +
-+SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
++LICENSE = "LGPLv2.1+ & MIT & GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
++                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
 +
-+SRC_URI[md5sum] = "f301c7ce89f28af9319edaf917365f61"
-+SRC_URI[sha256sum] = "8d3028d286be7c185ba6ae4c8a692fc5438c129b2a3ffad60cbdcedd2793bbbe"
++inherit autotools lib_package manpages
 +
-+inherit autotools-brokensep
++DEPENDS = "liburcu util-linux"
++RDEPENDS_${PN}-bin = "python3-core"
 +
-+do_configure_prepend () {
-+	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
-+		mv ${S}/aclocal.m4 ${S}/acinclude.m4
-+	fi
++# For backwards compatibility after rename
++RPROVIDES_${PN} = "lttng2-ust"
++RREPLACES_${PN} = "lttng2-ust"
++RCONFLICTS_${PN} = "lttng2-ust"
++
++PE = "2"
++
++SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
++           file://lttng-ust-doc-examples-disable.patch \
++          "
++SRC_URI[md5sum] = "4863cc2f9f0a070b42438bb646bbba06"
++SRC_URI[sha256sum] = "07cc3c0b71e7b77f1913d5b7f340a78a9af414440e4662712aef2d635b88ee9d"
++
++CVE_PRODUCT = "ust"
++
++PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
++
++do_install_append() {
++        # Patch python tools to use Python 3; they should be source compatible, but
++        # still refer to Python 2 in the shebang
++        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/lttng-gen-tp
 +}
-+
-+do_install() {
-+	install -d ${D}${bindir}
-+	install -d ${D}${mandir}/man1
-+
-+	oe_runmake 'INSTALLROOT=${D}' install
-+}
-+
-+BBCLASSEXTEND = "native"
-+
-+DEPENDS = "groff-native"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.9.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.9.1.bb
+deleted file mode 100644
+index 03da4ca..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.9.1.bb
++++ /dev/null
+@@ -1,37 +0,0 @@
+-SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.x"
+-DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library to trace userspace codes."
+-HOMEPAGE = "http://lttng.org/ust"
+-BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
+-
+-LICENSE = "LGPLv2.1+ & MIT & GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+-                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+-                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+-
+-inherit autotools lib_package manpages
+-
+-DEPENDS = "liburcu util-linux"
+-RDEPENDS_${PN}-bin = "python3-core"
+-
+-# For backwards compatibility after rename
+-RPROVIDES_${PN} = "lttng2-ust"
+-RREPLACES_${PN} = "lttng2-ust"
+-RCONFLICTS_${PN} = "lttng2-ust"
+-
+-PE = "2"
+-
+-SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+-           file://lttng-ust-doc-examples-disable.patch \
+-          "
+-SRC_URI[md5sum] = "5a5636fc3d9aa370f65b25a802a79e6e"
+-SRC_URI[sha256sum] = "b891d267cdbbbd11cf34751f66c21c4a7fdc0eec3c1b53be2c40dca073b7daa4"
+-
+-CVE_PRODUCT = "ust"
+-
+-PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+-
+-do_install_append() {
+-        # Patch python tools to use Python 3; they should be source compatible, but
+-        # still refer to Python 2 in the shebang
+-        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/lttng-gen-tp
+-}
 -- 
 2.7.4
 
