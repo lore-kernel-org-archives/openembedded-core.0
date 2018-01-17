@@ -1,18 +1,19 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 72CB7786D6;
-	Wed, 17 Jan 2018 21:05:25 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9A3997872A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jan 2018 21:05:26 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Date: Wed, 17 Jan 2018 21:05:27 -0000
-Message-ID: <20180117210527.2785.57400@do.openembedded.org>
-References: <20180117204136.21647-1-alistair.francis@xilinx.com>
+To: Sullivan, California L <california.l.sullivan@intel.com>
+Date: Wed, 17 Jan 2018 21:05:28 -0000
+Message-ID: <20180117210528.2785.33633@do.openembedded.org>
+References: <20180117205930.35857-1-california.l.sullivan@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20180117204136.21647-1-alistair.francis@xilinx.com>
+In-Reply-To: <20180117205930.35857-1-california.l.sullivan@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcmVjZWlwZXMtZGV2dG9vbHM6IFFFTVU6IEJ1bXAgdG8gdmVyc2lvbiAyLjExLjAgKHJldjUp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3J5cHRvZGV2LW1vZHVsZTogZml4IHdpdGgga2VybmVscyA0LjEzIGFuZCBuZXdlcg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +26,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 21:05:25 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 21:05:26 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: receipes-devtools: QEMU: Bump to version 2.11.0 (rev5)
-Revision: 5
-URL   : https://patchwork.openembedded.org/series/10286/
+Series: cryptodev-module: fix with kernels 4.13 and newer
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10589/
 State : failure
 
 == Summary ==
@@ -45,8 +46,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-ioctl.c-Fix-build-with-linux-4.13.patch
+  Current          Upstream-Status: backport
   Standard format  Upstream-Status: <Valid status>
   Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
