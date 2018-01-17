@@ -1,63 +1,62 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id DBEFF6093B
+Received: from mail-ot0-f177.google.com (mail-ot0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C91407864F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 16:12:46 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id n81so13484103oig.8
+	Wed, 17 Jan 2018 16:18:49 +0000 (UTC)
+Received: by mail-ot0-f177.google.com with SMTP id p16so17312740otf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 08:12:48 -0800 (PST)
+	Wed, 17 Jan 2018 08:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=1VsdQGuBL9SrUErchuAz51/63UbFJvbywdS6qakhhU4=;
-	b=x+gZxto83pjbPu29Pv5XJt2rhBRq8z4RZtsCJTnJwHYF0s1JI0qk3ogcsnGBL+c6JE
-	RwuUPNpfmZuLA0LwlBWMiAZVpQICas4stAXpbfNYBmpPoJlsfUapQUfXHlaTgXiPdrNL
-	kZus2vkmHTQBYMjvKJEs5NnRLY7CclIlCmTmTH/Hz0Q6TZLNi8/XFRXuA14sTxnuRN7p
-	uGjL5Vaxm3//mfgZUTMkbnJxs0AS9QIhZgs8FaE6XF56eS0kpxoO/CO1Q4sTPIVsQNXK
-	t8K2w9hZkjgLqOQRN82jAi+mA87UWAxk/OaimrmKjq281tlcsDynWwfrh6SMXCV9mGfw
-	R8oA==
+	:cc; bh=vBcC2GAJYaFWUDqP2VMl2X+X6zZhpDJQjFMTh0kESp4=;
+	b=WN9oh8BXrOyu/1B9qbpT0BFo6z/VJig+5LkvcvBk0R+MNJ2VShMy7Rym3SIt1RU3i6
+	NpkJ/HjEGcVTwTTi6JAK8pVX7dQRZv5+sYjJcVk3qh1G0fseVGiyw01xqrqcdFNaKh0Z
+	WqPEDv6hM6juxmb9BFIMT0lB2TrL3ox42aV9jR1Nn1l2+IOPEvEhGuwsPIexNq82PbSv
+	YT8gu+Tv7ZUWa9gUwUETEe8Q5e3tdcjMDzTGIPL4v5QXWcnb/L02A8/azEIHqaCmt7I9
+	s45shAW5QLoMrWUy7PRfmU4hY9wXRHf/zHIed+CeEG4i8ryxDaFdCRoVKlRmtIwh59S5
+	KjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=1VsdQGuBL9SrUErchuAz51/63UbFJvbywdS6qakhhU4=;
-	b=Y4qbN2Aw4EVBFe3uI14CX0M1KTnXFYDvB/ZMtipVPC3EUoHkeuFlI4edw5H+cZ6VCB
-	0kiEf/Tr/Qn2IoZ8If9cZkBe3xLo8EzYKnZZxcKdPD2malybSRhO4XT3vuOhnYANfqKt
-	MtzMyZYOU16v0QxtGA/dSix24r2YaAHwksTkRolHMXvEkzsP2yK6tGt5dY69w/FN8K+Q
-	bG+QfTwywp1yqQSJ1V57BxdOkCms03oMTHmvNjvZq+mMOdK/jLRxnxqUNfKKeSOlpkB8
-	gAAMC9LC0xKco5CiTEBk1iixrSK/cFSq5SLecbTZFRx15nGVuuq+E4sLNDHhWfQw4Hia
-	Wq+g==
-X-Gm-Message-State: AKwxytdRmB3KJy1Rs3bfAS1rCMEw9drKrK3hc1T8JRCnehUPB6nbeeQt
-	UL2NSTgmX/u3tJqUWYmWgUq0vXyC
-X-Google-Smtp-Source: ACJfBosdS8eY5CQwuL99KYZdYk1/rZ+1++/dwrXUnrY6DW88X2LQA355vr1B63kbI85kUIkiNaqD/w==
-X-Received: by 10.202.241.138 with SMTP id p132mr1387626oih.122.1516205567328; 
-	Wed, 17 Jan 2018 08:12:47 -0800 (PST)
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com.
-	[74.125.82.174]) by smtp.gmail.com with ESMTPSA id
-	t90sm2261599ota.14.2018.01.17.08.12.45
+	bh=vBcC2GAJYaFWUDqP2VMl2X+X6zZhpDJQjFMTh0kESp4=;
+	b=Cy2C+fg4OKfwPtA3t5BfQhBuJ/uVGpWnIHi7t+A50rCcIdsshBNm657+mq/mcaCscR
+	zksFJvnISxUqYeOGOWlfoRj2IihNfmdScMWLXZagKUdAFS9tCgsmK1f/iBtzehgvJVOl
+	XaoWbkVyETQXLE1m3Qui+p6snMmaXD2dED1QEB5LKxL/OJ4UuyOZ46aH0x5r+QHr9D2C
+	C56uizggOt8rMER4hV1y6QmR9fn/WVTJ34cxWQ0dMk8OouzLA/91m993VYbe7Iugmjgh
+	H1QW84R9+A1iCA9wvQjsKmbwqYRM3Hmmg0M6fGpKGnAFkGGeZPdnDrI1A2+pmdCzEHoL
+	AgMA==
+X-Gm-Message-State: AKwxytdsGAF6nZCh+vXflHXP2IzXBOdVgHT9qdmo8lkJICWLMBASZPWd
+	1xQSn1afZTD2z5qKK6eL7t31+xNa
+X-Google-Smtp-Source: ACJfBouMwFpAXnUr248kR5wE7/4Rlyhf1vJm70cWeM3i9jepG/44dLPc+LfIUKwC9DkD3LqW2eDL3A==
+X-Received: by 10.157.60.7 with SMTP id q7mr1401620otc.288.1516205930439;
+	Wed, 17 Jan 2018 08:18:50 -0800 (PST)
+Received: from mail-ot0-f169.google.com (mail-ot0-f169.google.com.
+	[74.125.82.169]) by smtp.gmail.com with ESMTPSA id
+	h124sm2036454oib.29.2018.01.17.08.18.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jan 2018 08:12:46 -0800 (PST)
+	Wed, 17 Jan 2018 08:18:49 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f174.google.com with SMTP id p36so9234523otd.10
+Received: by mail-ot0-f169.google.com with SMTP id s3so17287875otc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 08:12:45 -0800 (PST)
-X-Received: by 10.157.40.6 with SMTP id m6mr1665675otb.55.1516205565573; Wed,
-	17 Jan 2018 08:12:45 -0800 (PST)
+	Wed, 17 Jan 2018 08:18:48 -0800 (PST)
+X-Received: by 10.157.12.230 with SMTP id o35mr1591420otd.191.1516205928530;
+	Wed, 17 Jan 2018 08:18:48 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.157.38.102 with HTTP; Wed, 17 Jan 2018 08:12:44 -0800 (PST)
-In-Reply-To: <20180116132516.27653-2-ross.burton@intel.com>
-References: <20180116132516.27653-1-ross.burton@intel.com>
-	<20180116132516.27653-2-ross.burton@intel.com>
-Date: Wed, 17 Jan 2018 14:12:44 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrWTqffYr8+=bpKYD0r+gia1yOGKbYkZQ+fMS0hivTCEg@mail.gmail.com>
-Message-ID: <CAP9ODKrWTqffYr8+=bpKYD0r+gia1yOGKbYkZQ+fMS0hivTCEg@mail.gmail.com>
+Received: by 10.157.38.102 with HTTP; Wed, 17 Jan 2018 08:18:47 -0800 (PST)
+In-Reply-To: <20180116132559.27794-1-ross.burton@intel.com>
+References: <20180116132559.27794-1-ross.burton@intel.com>
+Date: Wed, 17 Jan 2018 14:18:47 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoHLrvk4=wTan8uU8nSTzy2y=uys1g=PKxM_Xn4+R+29g@mail.gmail.com>
+Message-ID: <CAP9ODKoHLrvk4=wTan8uU8nSTzy2y=uys1g=PKxM_Xn4+R+29g@mail.gmail.com>
 To: Ross Burton <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] piglit: override install target name instead of do_install
+Subject: Re: [RFC PATCH] cmake: use Ninja backend instead of Make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,19 +69,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 16:12:47 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 16:18:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Jan 16, 2018 at 11:25 AM, Ross Burton <ross.burton@intel.com> wrote:
-> Simply override the install target, instead of reimplementing do_install.
->
-> Apart from being neater, this also stops the recipe expecting that cmake is
-> using the Make backend.
+> The Ninja backend is faster than Make for large projects (takes three minutes
+> off webkitgtk:do_compile for me), so use it by default.
 >
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
+I tried to test this but it did not apply in master. Could you rebase it?
 
 -- 
 Otavio Salvador                             O.S. Systems
