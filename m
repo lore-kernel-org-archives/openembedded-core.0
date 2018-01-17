@@ -1,31 +1,23 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B41F78743
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id CB96378743
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 20:57:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0HKvSaq007047
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 17 Jan 2018 12:57:28 -0800
-Received: from [128.224.56.212] (128.224.56.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 17 Jan 2018 12:57:27 -0800
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Ross Burton
-	<ross.burton@intel.com>
-References: <20180116132559.27794-1-ross.burton@intel.com>
-	<CAP9ODKoHLrvk4=wTan8uU8nSTzy2y=uys1g=PKxM_Xn4+R+29g@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <59b242ee-84fa-72b7-6335-5238c6d8b3cd@windriver.com>
-Date: Wed, 17 Jan 2018 15:57:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoHLrvk4=wTan8uU8nSTzy2y=uys1g=PKxM_Xn4+R+29g@mail.gmail.com>
-X-Originating-IP: [128.224.56.212]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] cmake: use Ninja backend instead of Make
+	Wed, 17 Jan 2018 20:59:33 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Jan 2018 12:59:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,374,1511856000"; d="scan'208";a="10534384"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga007.jf.intel.com with ESMTP; 17 Jan 2018 12:59:35 -0800
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jan 2018 12:59:30 -0800
+Message-Id: <20180117205930.35857-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] cryptodev-module: fix with kernels 4.13 and newer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 20:57:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Jan 2018 20:59:33 -0000
 
-On 2018-01-17 11:18 AM, Otavio Salvador wrote:
-> On Tue, Jan 16, 2018 at 11:25 AM, Ross Burton <ross.burton@intel.com> wrote:
->> The Ninja backend is faster than Make for large projects (takes three minutes
->> off webkitgtk:do_compile for me), so use it by default.
->>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> 
-> I tried to test this but it did not apply in master. Could you rebase it?
-> 
+Backport a patch from upstream to address designated-init errors such
+as the following:
 
-On my 64+64 core system that is shared, it reduced a webkit compile
-from ~ 17 minutes to ~12 minutes for just the compile stage. YMMV.
+cryptodev-module/1.9-r0/cryptodev-linux-1.9/ioctl.c:1127:3: error:
+positional initialization of field in 'struct' declared with
+'designated_init' attribute [-Werror=designated-init]
+|   {0, },
+|    ^
 
-$ cat webkit-before-compile.log
-3.29user 0.50system 17:39.98elapsed 0%CPU
-   (0avgtext+0avgdata 28532maxresident)k
-0inputs+176outputs (0major+16335minor)pagefaults 0swaps
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ .../cryptodev/cryptodev-module_1.9.bb              |  1 +
+ .../0001-ioctl.c-Fix-build-with-linux-4.13.patch   | 49 ++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
 
-
-$ cat webkit-after-compile.log
-2.70user 0.47system 12:09.24elapsed 0%CPU
-    (0avgtext+0avgdata 28292maxresident)k
-0inputs+160outputs (0major+14634minor)pagefaults 0swaps
-
-I'm going to try to build world (oe-core + meta-oe + ...).
-
-
-Octavio, it's a two line change! :)
-This applied to master for me:
-
-commit 3914c66f6e7123a64ab73e2b6707452bbfd10d02
-Author: Ross Burton <ross.burton@intel.com>
-Date:   Wed Jan 17 13:09:40 2018 -0500
-
-     cmake: use Ninja backend instead of Make
-
-     The Ninja backend is faster than Make for large projects
-     (it takes three minutes off webkitgtk:do_compile for example)
-     so use it by default.
-
-     Acked-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-     Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index a4079dab0d..c46117acde 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -1,7 +1,7 @@
-  # Path to the CMake file to process.
-  OECMAKE_SOURCEPATH ??= "${S}"
-
--DEPENDS_prepend = "cmake-native "
-+DEPENDS_prepend = "cmake-native ninja-native "
-  B = "${WORKDIR}/build"
-
-  # We need to unset CCACHE otherwise cmake gets too confused
-@@ -117,7 +117,7 @@ cmake_do_configure() {
-  		oecmake_sitefile=
-  	fi
-
--	cmake \
-+	cmake -GNinja \
-  	  $oecmake_sitefile \
-  	  ${OECMAKE_SOURCEPATH} \
-  	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+index 552eb6abaae..ed6d0ecae97 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+@@ -9,6 +9,7 @@ DEPENDS += "cryptodev-linux"
+ 
+ SRC_URI += " \
+ file://0001-Disable-installing-header-file-provided-by-another-p.patch \
++file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+new file mode 100644
+index 00000000000..eccaff4f3f1
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+@@ -0,0 +1,49 @@
++From f0d69774afb27ffc62bf353465fba145e70cb85a Mon Sep 17 00:00:00 2001
++From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++Date: Mon, 4 Sep 2017 11:05:08 +0200
++Subject: [PATCH] ioctl.c: Fix build with linux 4.13
++
++Upstream-Status: backport
++
++git/ioctl.c:1127:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
++   {0, },
++    ^
++note: (near initialization for 'verbosity_ctl_dir[1]')
++git/ioctl.c:1136:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
++   {0, },
++    ^
++
++Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
++triggering build errors with gcc 5 and 6 (but not with gcc 4)
++
++Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
++---
++ ioctl.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/ioctl.c b/ioctl.c
++index 0385203..8d4a162 100644
++--- a/ioctl.c
+++++ b/ioctl.c
++@@ -1124,7 +1124,7 @@ static struct ctl_table verbosity_ctl_dir[] = {
++ 		.mode           = 0644,
++ 		.proc_handler   = proc_dointvec,
++ 	},
++-	{0, },
+++	{},
++ };
++ 
++ static struct ctl_table verbosity_ctl_root[] = {
++@@ -1133,7 +1133,7 @@ static struct ctl_table verbosity_ctl_root[] = {
++ 		.mode           = 0555,
++ 		.child          = verbosity_ctl_dir,
++ 	},
++-	{0, },
+++	{},
++ };
++ static struct ctl_table_header *verbosity_sysctl_header;
++ static int __init init_cryptodev(void)
++-- 
++2.14.3
++
 -- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+2.14.3
+
 
