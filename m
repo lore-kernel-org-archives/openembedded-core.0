@@ -1,62 +1,41 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 97EED780FA
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 619A8785E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 11:53:18 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id y141so12938225oia.0
+	Wed, 17 Jan 2018 12:24:57 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id o35so12122672qtj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 03:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=1mNsSIhJdHqrUVpy6aGWpS9qz1UEY7z64TTxu48wQTk=;
-	b=GTLoaHGgFyM80aAhOc0pKKRggYHt9qdKal2beY8p+kTPq43qIREH8bFU6Mk6VBGgwp
-	5ML/Of3KT4NGjhvz9dDY5T8e2KXxurONsORCCizG9JAvkzFEnxX6UP07CFklHQ1utLTS
-	Ufu/lVOOUVOiQgodIufBNSTOi0z4lMyjIzzQohcf/OKbVewB/ZrJtCoE/neJSMEgzABP
-	zgE5yz/SnSDE2nMHVZ2Ty5l7b4y8wWHM1f59Vb2qQG9hjTS2pHO/hpbwFoQBMPvRAnq3
-	NiEJkI5BfjPiRXBCHi+WQrkdFvy9KN7VQ+vsAMZSOTMDgm0tsdjQqZrEVrwPfTbGI1WL
-	bCoQ==
+	Wed, 17 Jan 2018 04:24:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=1mNsSIhJdHqrUVpy6aGWpS9qz1UEY7z64TTxu48wQTk=;
-	b=PLmR6BCo8UVDzStrxQ27CYxLY1iHc2Tt8CxyrDnqrMXtQ5zZk9rX1DCZypVOqkmRjJ
-	7AlywQvCYaidJzNaAolf92be1PCNDyW6uj9Mh8J8fPBY0KyDDrraXe0TSGIN4qyIYCSn
-	yTMjYAHgpVIZKbrbys9Cr7f/2iYHjySYzhSz+rGfdZ4iI01kPS9YFbCUOZwP2uLUJHgu
-	L2yJIYaFa4IZ0U4RbdT5WALQlDYmDndsscj2TQUvVHcz2EWlCuAuuwb5Au69HkW28Blc
-	eS9ijVTgUhaozwqaiAxCt4nUZ+5P2sCm/kbKa/ZquiW54DxqPixtT7QbdLEUyJdqUBaf
-	VDBw==
-X-Gm-Message-State: AKwxytfVEOKymNzTgOokdgsqwabqME+A5ec1Q7UjsBisanWMQqMRYVyz
-	f6+z3WKAo5pRUQ54OgEdXhG4VzJZ
-X-Google-Smtp-Source: ACJfBovRx396azBeHgD63CgrGDgQIfUiLSmRzn4q56qCxpaQzrAVYhDsBpggQQZnOLwaY9rBh3c31g==
-X-Received: by 10.202.82.196 with SMTP id g187mr840213oib.297.1516189999370;
-	Wed, 17 Jan 2018 03:53:19 -0800 (PST)
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
-	[209.85.218.50])
-	by smtp.gmail.com with ESMTPSA id d9sm1925544oth.51.2018.01.17.03.53.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jan 2018 03:53:18 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f50.google.com with SMTP id t8so12921724oie.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 03:53:18 -0800 (PST)
-X-Received: by 10.202.83.203 with SMTP id h194mr842852oib.329.1516189997668;
-	Wed, 17 Jan 2018 03:53:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.38.102 with HTTP; Wed, 17 Jan 2018 03:53:16 -0800 (PST)
-In-Reply-To: <CAJ86T=X=KXEZ9BxNkkKcdbwNyqwNktwjohOenKdurt9u8ZfOTA@mail.gmail.com>
-References: <20180117004018.21928440002@auh.yoctoproject.org>
-	<CAJ86T=X=KXEZ9BxNkkKcdbwNyqwNktwjohOenKdurt9u8ZfOTA@mail.gmail.com>
-Date: Wed, 17 Jan 2018 09:53:16 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKq6hf=OChy2p4OP2T=mS1ZvZ4GyzL1cvn8LuFmvyQSsxw@mail.gmail.com>
-Message-ID: <CAP9ODKq6hf=OChy2p4OP2T=mS1ZvZ4GyzL1cvn8LuFmvyQSsxw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] Upgrade status: 2018-01-16
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=jxjOVnUmAcEXyTMW5XYWy5zH93R6Yy8pv47Cl0DRZTQ=;
+	b=Ka368EQW6TaJZEhVyPpYK333cmNQylKbv1XsYBx8IXSqBO5eGo7qgrLukUgDD6Udc+
+	LTmiJGuDzFq/Y9HVWhEqfsvV/k1gvIAL33TAwrGetRVVr0v0suypAGfjdlZRhrBJOzVw
+	XHfocrKbP5+APNyQ4whmSNbU+uvqgMIQtni/t4pG7gUGJxQYwWVsYE5Fz1iDYWDNei1B
+	x0z1YYrob2GRQJJnoTU+amwa3gpseZecqyHj/euJ9wCNZk5vPxUwYkL5IeDCWeIXSqNs
+	hcM9yyMefVWIFowX5nQvYT0jKrlTbLhJDqibXXSsjLJN3TgRrvX7e3G8bmL5Hc/H31CK
+	DyZg==
+X-Gm-Message-State: AKwxytf7VS8n0S+02dJITMDz5dgEwH/tv0Og8/cec0lHVI5keK0OVYsY
+	ZJv8yBVEjOrUjs+uzG0hV/MfyQ==
+X-Google-Smtp-Source: ACJfBoswrWnTUCzX8WKeYDogSCHpuuPjTB6AudAid3/dqnwRZ3JBwM1jcVzQMFZVjDVeKOeQeT0Qyw==
+X-Received: by 10.200.54.61 with SMTP id m58mr37008374qtb.304.1516191898080;
+	Wed, 17 Jan 2018 04:24:58 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id j7sm2719786qth.31.2018.01.17.04.24.55
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 17 Jan 2018 04:24:57 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 17 Jan 2018 10:24:50 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jan 2018 10:24:47 -0200
+Message-Id: <20180117122449.8395-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.15.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/3] libdrm: upgrade 2.4.88 -> 2.4.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,39 +48,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 11:53:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Jan 2018 12:24:57 -0000
 
-On Wed, Jan 17, 2018 at 12:15 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, Jan 16, 2018 at 4:40 PM,  <auh@auh.yoctoproject.org> wrote:
->> Recipe upgrade statistics:
->> ...
->>
->>     TOTAL: attempted=120 succeeded=45(37.50%) failed=75(62.50%)
->
-> Giving these percentages to two decimal places seems a little over the top.
->
-> Perhaps the stats could be made even more readable by just giving the
-> pass rate, instead of both pass and failure rates, e.g.
->
->   xxx: attempted=120 succeeded=45 failed=75 (success rate 37%)
->
-> Sorting the lists for each category would improve readability too.
+The 2.4.89 version has been released in Dec 18, 2017, and has a great
+set of features and improvements, as seen in the announcement summary:
 
-An important aspect is to analyze the errors in the upgrade process. I
-went through all the upgrades and:
+,----
+| libdrm release with leasing and syncobj api updates,
+| updated amdgpu marketing ids, amdgpu tests,
+| updated uapi headers
+| etnaviv updates.
+`----
 
- - go-dep is confusing. It failed but I essentially bumped the SRCREV
-so I don't know why it failed
+The full announcement can be seen at:
 
- - cmake has multiple errors:
+https://lists.freedesktop.org/archives/dri-devel/2017-December/160530.html
 
-   - added checksums in cmake_${PV}.bb instead of cmake.inc
-   - removal of non-patch files by mistake
-   - did not handled the -native recipe
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
+ meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} (93%)
+
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.88.bb b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.88.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.89.bb
+index 735f734295..6754a93242 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.88.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
+ 
+-SRC_URI[md5sum] = "fe4d5c77f1468ee73d0bbb30d76945d7"
+-SRC_URI[sha256sum] = "b5e55dbac2124e742e639f5b8553e8b7395863bf73dab4f77e99fe2fc25572b5"
++SRC_URI[md5sum] = "5307a147dde67ac643f6753a42b5d32c"
++SRC_URI[sha256sum] = "629f9782aabbb4809166de5f24d26fe0766055255038f16935602d89f136a02e"
+ 
+ inherit autotools pkgconfig manpages
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.15.1
+
 
