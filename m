@@ -1,45 +1,46 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BFAB7873C
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 13FA17864F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 12:25:04 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id j185so24972034qkc.5
+	Wed, 17 Jan 2018 12:25:09 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id d18so24969367qke.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 04:25:06 -0800 (PST)
+	Wed, 17 Jan 2018 04:25:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=ZFzOe/1QcHChplIVacKoW47OTksVaUVaBYZNtVlynRc=;
-	b=RtL3BnVEjwjsIPymUfR2PvULKPkPcqU/nsa2Zixu4zn5P5/CP4RQyxEM1Xphl2GASx
-	HoJB6aUUYzvrJHypCXzDAesd7iiNSF4ov60+czEj69UynxwFwTT/8qWBCa+05IRtSlFW
-	krC/ct2p7Iqyd3wCSmc1qoqWovt+MCX73vlPc3tEXz9Tkx0UD/aml6jNjmbu4OJqGfEJ
-	nuG+HjEUcGoDadRtfF71o1p2b1JbvegklUffuV0uh51TOJG3hcuzZP2TS+CCpHpxi/5Z
-	LZuvOzMlvspa7KgP17l03S8zJ+iEKV8oNfhKXwzjwduw/Ik0eSY+2rZ2pG78vVGWXUU3
-	WpBg==
-X-Gm-Message-State: AKwxytcg/m/IRfMOOQMBQZNPVnkyfGXubQGTjZgKuPLXS2nHVrBi/egt
-	R5p5+twhGdHPqQxFLfX9rapZMw==
-X-Google-Smtp-Source: ACJfBos5Ea3JIJeDkfihZ+L5bVKGazbKEUiEWTWkqB8YKqZALgdSw1MV/4p1gYkCxoOKd+VsWyzzew==
-X-Received: by 10.55.204.81 with SMTP id r78mr59232393qki.356.1516191905257;
-	Wed, 17 Jan 2018 04:25:05 -0800 (PST)
+	:references:mime-version:organization:content-transfer-encoding;
+	bh=RxC9mLofrrOxvzsB06OtbAf9hAxbTnsg6Sa/E7MhoIY=;
+	b=nQduD6w0cHOCJyRmVBdhaKX7D65ZuWk+u+kFiqg/HdIbTIjq+udlQq5dyUtRq2OH/Q
+	0UHPlhYx8eHkunTaR+PAWZV6QMpKb2f5sxTZoo3g983Dq+iZH/RHjyVoWF+Nf99jBEJk
+	+zJECRBZ0e8l/fA+IJ0bVULxjtlpad3XQR+YEzzU1wiuuzQyWB1iBY0W4OvE7KLfKJo1
+	ZeaeKCquVUOcJHTBlbbjXwqvnZON8CS03L0EnidC+m0N0BpcEGEmFKkcdFPX8p+CCQJ3
+	6uKCJ0JdmE75uPwpIk+IRVnMDQW8xSFVmbYk9W0QtX6V7l2UnSr9FbKXqPk070qbHcVe
+	z3CQ==
+X-Gm-Message-State: AKwxytd5rV5sNryN0GCrkWkS3/JzylIQTZSq5Bf+OyHRrkR3EwjsJyNW
+	e5zHXZbWarvtZLT5m+jwllFpsg==
+X-Google-Smtp-Source: ACJfBovN9qdeLGS9jxMULaOjwqBXoTJRm1NmR2SeEE1eyNkTya2UqYS/8hWdQgX6ZO4EQ9AQkBfDZQ==
+X-Received: by 10.55.53.21 with SMTP id c21mr36592714qka.38.1516191910373;
+	Wed, 17 Jan 2018 04:25:10 -0800 (PST)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	m69sm3155110qkm.56.2018.01.17.04.25.02
+	c127sm2882508qke.78.2018.01.17.04.25.07
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Jan 2018 04:25:04 -0800 (PST)
+	Wed, 17 Jan 2018 04:25:09 -0800 (PST)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 17 Jan 2018 10:24:58 -0200
+	Wed, 17 Jan 2018 10:25:05 -0200
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jan 2018 10:24:48 -0200
-Message-Id: <20180117122449.8395-2-otavio@ossystems.com.br>
+Date: Wed, 17 Jan 2018 10:24:49 -0200
+Message-Id: <20180117122449.8395-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180117122449.8395-1-otavio@ossystems.com.br>
 References: <20180117122449.8395-1-otavio@ossystems.com.br>
+MIME-Version: 1.0
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/3] go-dep: upgrade 0.3.1 -> 0.3.2
+Subject: [PATCH 3/3] cmake: upgrade 3.9.5 -> 3.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,74 +53,422 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 12:25:04 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 12:25:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The 0.3.2 version has been released in Oct 19, 2017, and has a great
-set of features and improvements, as seen in the announcement summary:
+The 3.10.1 version has been in Dec 13, 2017, and has a great set of
+features and improvements since the last upgrade.
 
-,----
-| NEW FEATURES:
-|
-| - Add support for importing from gvt and gb. (#1149)
-| - Wildcard ignore support. (#1156)
-| - Disable SourceManager lock by setting DEPNOLOCK environment
-|   variable.  (#1206)
-| - dep ensure -no-vendor -dry-run now exits with an error when
-|   changes would have to be made to Gopkg.lock. This is useful
-|   for CI. (#1256)
-|
-| BUG FIXES:
-|
-| - gps: Fix case mismatch error with multiple dependers. (#1233)
-| - Skip broken vendor symlink rather than returning an error. (#1191)
-| - Fix status shows incorrect reason for lock mismatch when ignoring
-|   packages. (#1216)
-|
-| IMPROVEMENTS:
-|
-| - Allow dep ensure -add and -update when lock is out-of-sync. (#1225)
-| - gps: vcs: Dedupe git version list (#1212)
-| - gps: Add prune functions to gps. (#1020)
-| - gps: Skip broken vendor symlinks. (#1191)
-| - dep ensure -add now concurrently fetches the source and adds the
-|   projects. (#1218)
-| - File name case check is now performed on Gopkg.toml and Gopkg.lock.
-|   (#1114)
-| - gps: gps now supports pruning. (#1020)
-| - dep ensure -update now concurrently validates the passed project
-|   arguments. Improving performance when updating dependencies with
-|   -update. (#1175)
-| - dep status now concurrently fetches repo info. Improving status
-|   performance. (#1135)
-| - gps: Add SourceURLsForPath() to SourceManager. (#1166)
-| - gps: Include output in error. (#1180)
-`----
+The release notes of 3.10 release is available at:
 
+https://cmake.org/cmake/help/v3.10/release/3.10.html
+
+Patches updates:
+
+ - cmake-Prevent-the-detection-of-Qt5.patch: so it replaces the sed
+   command calls inside the cmake.inc
+
+ - 0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch:
+   merged upstream, so it has been removed.
+
+ - support-oe-qt4-tools-names.patch: rebased.
+
+License-checksum-change: added new contributors
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- meta/recipes-devtools/go/{go-dep_0.3.1.bb => go-dep_0.3.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/go/{go-dep_0.3.1.bb => go-dep_0.3.2.bb} (88%)
+ ...make-native_3.9.5.bb => cmake-native_3.10.1.bb} |   0
+ meta/recipes-devtools/cmake/cmake.inc              |  38 +---
+ ...e-find_program-if-find_host_program-is-no.patch |  40 ----
+ .../cmake/cmake-Prevent-the-detection-of-Qt5.patch | 215 +++++++++++++++++++++
+ .../cmake/cmake/support-oe-qt4-tools-names.patch   |  14 +-
+ .../cmake/{cmake_3.9.5.bb => cmake_3.10.1.bb}      |   0
+ 6 files changed, 230 insertions(+), 77 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.9.5.bb => cmake-native_3.10.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
+ create mode 100644 meta/recipes-devtools/cmake/cmake/cmake-Prevent-the-detection-of-Qt5.patch
+ rename meta/recipes-devtools/cmake/{cmake_3.9.5.bb => cmake_3.10.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/go/go-dep_0.3.1.bb b/meta/recipes-devtools/go/go-dep_0.3.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/go/go-dep_0.3.1.bb
-rename to meta/recipes-devtools/go/go-dep_0.3.2.bb
-index 3a404e357f..627324a1df 100644
---- a/meta/recipes-devtools/go/go-dep_0.3.1.bb
-+++ b/meta/recipes-devtools/go/go-dep_0.3.2.bb
-@@ -9,8 +9,8 @@ SRC_URI = "git://${GO_IMPORT} \
-            file://0001-Add-support-for-mips-mips64.patch;patchdir=src/github.com/golang/dep \
-           "
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.9.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.10.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.9.5.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.10.1.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 8d65ac5690..045cce3fd0 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -6,45 +6,19 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
+-                    file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
++LIC_FILES_CHKSUM = "file://Copyright.txt;md5=79b5b78197c74d5c5f9c7ccadeee4e8c \
++                    file://Source/cmake.h;md5=4494dee184212fc89c469c3acd555a14;beginline=1;endline=3 \
++                    "
  
--# Points to 0.3.1 tag
--SRCREV = "83789e236d7ff64c82ee8392005455fc1ec1983b"
-+# Points to 0.3.2 tag
-+SRCREV = "8ddfc8afb2d520d41997ebddd921b52152706c01"
+ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
  
- inherit go
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://support-oe-qt4-tools-names.patch \
+            file://qt4-fail-silent.patch \
+-           file://0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch \
++           file://cmake-Prevent-the-detection-of-Qt5.patch \
+            "
  
+-SRC_URI[md5sum] = "0922130d0e0c142a88e58c6e4fef4d7d"
+-SRC_URI[sha256sum] = "6220c1683b4e6bb8f38688fa3ffb17a7cf39f36317c2ddfdc3f12f09d086c166"
++SRC_URI[md5sum] = "9a726e5ec69618b172aa4b06d18c3998"
++SRC_URI[sha256sum] = "7be36ee24b0f5928251b644d29f5ff268330a916944ef4a75e23ba01e7573284"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+-
+-# Ugly hack to work around undefined OE_QMAKE_PATH_EXTERNAL_HOST_BINS variable
+-# and possibly missing qmake binary (qtbase-native can be removed from sysroot
+-# e.g. in order to upgrade it, even when there is target qtbase)
+-
+-# Fixes errors like this in cmake(-native).do_configure:
+-#| -- Performing Test run_pic_test - Success
+-#| CMake Error at tmp-eglibc/sysroots/qemuarm/usr/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:27 (message):
+-#|   The imported target "Qt5::Core" references the file
+-#|
+-#|      "/qmake"
+-#|
+-#|   but this file does not exist.  Possible reasons include:
+-
+-do_configure_prepend() {
+-	sed -i 's/^find_package(Qt5Core QUIET)$/#find_package(Qt5Core QUIET)/g' ${S}/Tests/RunCMake/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/Qt4And5Automoc/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Widgets QUIET NO_MODULE)/#  find_package(Qt5Widgets QUIET NO_MODULE)/g' ${S}/Tests/CMakeLists.txt
+-	sed -i 's/^find_package(Qt5Widgets QUIET)/#find_package(Qt5Widgets QUIET)/g' ${S}/Source/QtDialog/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutoUicInterface/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/CMakeLists.txt
+-	sed -i 's/^find_package(Qt5Core REQUIRED)/#find_package(Qt5Core REQUIRED)/g' ${S}/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
+-	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocRerun/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/rccDepends/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocDepends/CMakeLists.txt
+-	sed -i 's/^find_package(Qt5Widgets REQUIRED)/#find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/mocPlugin/CMakeLists.txt
+-}
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch b/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
+deleted file mode 100644
+index 9b820db009..0000000000
+--- a/meta/recipes-devtools/cmake/cmake/0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 46d25e782ebd9b6c50771b6f30433c58fae03a51 Mon Sep 17 00:00:00 2001
+-From: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+-Date: Mon, 26 Jun 2017 11:30:07 -0400
+-Subject: [PATCH] cmake: Use find_program if find_host_program is not
+- available
+-
+-CMake does not define the `find_host_program` command we've been using
+-in the cross-compiling code path.  It was provided by a widely used
+-Android toolchain file.  For compatibility, continue to use
+-`find_host_program` if available, but otherwise use just `find_program`.
+-
+-Upstream-Status: Accepted
+-[https://gitlab.kitware.com/cmake/cmake/merge_requests/1009]
+-        - Will be in 3.10
+-
+-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+----
+- Modules/FindCUDA.cmake | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/Modules/FindCUDA.cmake b/Modules/FindCUDA.cmake
+-index a4dca54..77ca351 100644
+---- a/Modules/FindCUDA.cmake
+-+++ b/Modules/FindCUDA.cmake
+-@@ -679,7 +679,11 @@ if(CMAKE_CROSSCOMPILING)
+-   # add known CUDA targetr root path to the set of directories we search for programs, libraries and headers
+-   set( CMAKE_FIND_ROOT_PATH "${CUDA_TOOLKIT_TARGET_DIR};${CMAKE_FIND_ROOT_PATH}")
+-   macro( cuda_find_host_program )
+--    find_host_program( ${ARGN} )
+-+    if (COMMAND find_host_program)
+-+      find_host_program( ${ARGN} )
+-+    else()
+-+      find_program( ${ARGN} )
+-+    endif()
+-   endmacro()
+- else()
+-   # for non-cross-compile, find_host_program == find_program and CUDA_TOOLKIT_TARGET_DIR == CUDA_TOOLKIT_ROOT_DIR
+---
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/cmake/cmake/cmake-Prevent-the-detection-of-Qt5.patch b/meta/recipes-devtools/cmake/cmake/cmake-Prevent-the-detection-of-Qt5.patch
+new file mode 100644
+index 0000000000..88b7e94741
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/cmake-Prevent-the-detection-of-Qt5.patch
+@@ -0,0 +1,215 @@
++From 875c11dbf87d1258ad7d3697a40d605d503e5673 Mon Sep 17 00:00:00 2001
++From: Otavio Salvador <otavio@ossystems.com.br>
++Date: Wed, 17 Jan 2018 10:02:14 -0200
++Subject: [PATCH] cmake: Prevent the detection of Qt5
++Organization: O.S. Systems Software LTDA.
++
++CMake doesn't have dependency on qt4/qt5, so these tests usually fail
++but still can cause undeterministic results or build failures (when
++OE_QMAKE_PATH_EXTERNAL_HOST_BINS is undefined or native qmake removed
++while running the test in cmake)
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ Source/QtDialog/CMakeLists.txt                     | 2 +-
++ Tests/CMakeLists.txt                               | 2 +-
++ Tests/Qt4And5Automoc/CMakeLists.txt                | 4 ++--
++ Tests/QtAutoUicInterface/CMakeLists.txt            | 2 +-
++ Tests/QtAutogen/CMakeLists.txt                     | 2 +-
++ Tests/QtAutogen/macosFW/CMakeLists.txt             | 2 +-
++ Tests/QtAutogen/mocDepends/CMakeLists.txt          | 2 +-
++ Tests/QtAutogenRerun/CMakeLists.txt                | 4 ++--
++ Tests/QtAutogenRerun/mocPlugin/CMakeLists.txt      | 2 +-
++ Tests/QtAutogenRerun/mocRerun/CMakeLists.txt       | 2 +-
++ Tests/QtAutogenRerun/rccDepends/CMakeLists.txt     | 2 +-
++ Tests/RunCMake/CMakeLists.txt                      | 2 +-
++ Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake | 2 +-
++ 13 files changed, 15 insertions(+), 15 deletions(-)
++
++diff --git a/Source/QtDialog/CMakeLists.txt b/Source/QtDialog/CMakeLists.txt
++index b38797bca..b5fbfc5fa 100644
++--- a/Source/QtDialog/CMakeLists.txt
+++++ b/Source/QtDialog/CMakeLists.txt
++@@ -6,7 +6,7 @@ if(POLICY CMP0020)
++   cmake_policy(SET CMP0020 NEW) # Drop when CMake >= 2.8.11 required
++ endif()
++ CMake_OPTIONAL_COMPONENT(cmake-gui)
++-find_package(Qt5Widgets QUIET)
+++#find_package(Qt5Widgets QUIET)
++ if (Qt5Widgets_FOUND)
++   include_directories(${Qt5Widgets_INCLUDE_DIRS})
++   add_definitions(${Qt5Widgets_DEFINITONS})
++diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
++index 533788a44..32ef03c55 100644
++--- a/Tests/CMakeLists.txt
+++++ b/Tests/CMakeLists.txt
++@@ -1260,7 +1260,7 @@ ${CMake_BINARY_DIR}/bin/cmake -DDIR=dev -P ${CMake_SOURCE_DIR}/Utilities/Release
++     set(CMake_TEST_Qt5 1)
++   endif()
++   if(CMake_TEST_Qt5)
++-    find_package(Qt5Widgets QUIET NO_MODULE)
+++    #find_package(Qt5Widgets QUIET NO_MODULE)
++   endif()
++   if(CMake_TEST_Qt5 AND Qt5Widgets_FOUND)
++     add_test(NAME Qt5Autogen COMMAND ${CMAKE_CTEST_COMMAND}
++diff --git a/Tests/Qt4And5Automoc/CMakeLists.txt b/Tests/Qt4And5Automoc/CMakeLists.txt
++index ad74961d9..a9dd74b15 100644
++--- a/Tests/Qt4And5Automoc/CMakeLists.txt
+++++ b/Tests/Qt4And5Automoc/CMakeLists.txt
++@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 2.8.12)
++ project(Qt4And5Automoc)
++ 
++ if (QT_REVERSE_FIND_ORDER)
++-  find_package(Qt5Core REQUIRED)
+++  #find_package(Qt5Core REQUIRED)
++   find_package(Qt4 REQUIRED)
++ else()
++   find_package(Qt4 REQUIRED)
++-  find_package(Qt5Core REQUIRED)
+++  #find_package(Qt5Core REQUIRED)
++ endif()
++ 
++ set(CMAKE_AUTOMOC ON)
++diff --git a/Tests/QtAutoUicInterface/CMakeLists.txt b/Tests/QtAutoUicInterface/CMakeLists.txt
++index a5c2d99b2..2d640e4a3 100644
++--- a/Tests/QtAutoUicInterface/CMakeLists.txt
+++++ b/Tests/QtAutoUicInterface/CMakeLists.txt
++@@ -14,7 +14,7 @@ else()
++   if (NOT QT_TEST_VERSION STREQUAL 5)
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++-  find_package(Qt5Widgets REQUIRED)
+++  #find_package(Qt5Widgets REQUIRED)
++ 
++   set(QT_CORE_TARGET Qt5::Core)
++   set(QT_GUI_TARGET Qt5::Widgets)
++diff --git a/Tests/QtAutogen/CMakeLists.txt b/Tests/QtAutogen/CMakeLists.txt
++index dff9d0c66..c6e8fc3f5 100644
++--- a/Tests/QtAutogen/CMakeLists.txt
+++++ b/Tests/QtAutogen/CMakeLists.txt
++@@ -23,7 +23,7 @@ else()
++   if (NOT QT_TEST_VERSION STREQUAL 5)
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++-  find_package(Qt5Widgets REQUIRED)
+++  #find_package(Qt5Widgets REQUIRED)
++ 
++   set(QT_QTCORE_TARGET Qt5::Core)
++ 
++diff --git a/Tests/QtAutogen/macosFW/CMakeLists.txt b/Tests/QtAutogen/macosFW/CMakeLists.txt
++index 114d9bac0..157fe0aaa 100644
++--- a/Tests/QtAutogen/macosFW/CMakeLists.txt
+++++ b/Tests/QtAutogen/macosFW/CMakeLists.txt
++@@ -1,7 +1,7 @@
++ cmake_minimum_required(VERSION 3.8)
++ project(macos-fw-test)
++ 
++-find_package(Qt5Test REQUIRED)
+++#find_package(Qt5Test REQUIRED)
++ 
++ set(CMAKE_CXX_STANDARD 11)
++ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/bin)
++diff --git a/Tests/QtAutogen/mocDepends/CMakeLists.txt b/Tests/QtAutogen/mocDepends/CMakeLists.txt
++index 8217b8dbf..86bb7bc7f 100644
++--- a/Tests/QtAutogen/mocDepends/CMakeLists.txt
+++++ b/Tests/QtAutogen/mocDepends/CMakeLists.txt
++@@ -10,7 +10,7 @@ else()
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++ 
++-  find_package(Qt5Core REQUIRED)
+++  #find_package(Qt5Core REQUIRED)
++   set(QT_CORE_TARGET Qt5::Core)
++ endif()
++ 
++diff --git a/Tests/QtAutogenRerun/CMakeLists.txt b/Tests/QtAutogenRerun/CMakeLists.txt
++index e72c1912e..d7e6884ce 100644
++--- a/Tests/QtAutogenRerun/CMakeLists.txt
+++++ b/Tests/QtAutogenRerun/CMakeLists.txt
++@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
++ cmake_policy(SET CMP0071 NEW)
++ project(QtAutogenRerun)
++ 
++-# Tell find_package(Qt5) where to find Qt.
+++# Tell #find_package(Qt5) where to find Qt.
++ if(QT_QMAKE_EXECUTABLE)
++   get_filename_component(Qt_BIN_DIR "${QT_QMAKE_EXECUTABLE}" PATH)
++   get_filename_component(Qt_PREFIX_DIR "${Qt_BIN_DIR}" PATH)
++@@ -23,7 +23,7 @@ else()
++   if (NOT QT_TEST_VERSION STREQUAL 5)
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++-  find_package(Qt5Widgets REQUIRED)
+++  #find_package(Qt5Widgets REQUIRED)
++ 
++   set(QT_QTCORE_TARGET Qt5::Core)
++ 
++diff --git a/Tests/QtAutogenRerun/mocPlugin/CMakeLists.txt b/Tests/QtAutogenRerun/mocPlugin/CMakeLists.txt
++index b7cc5e9ff..e1d109953 100644
++--- a/Tests/QtAutogenRerun/mocPlugin/CMakeLists.txt
+++++ b/Tests/QtAutogenRerun/mocPlugin/CMakeLists.txt
++@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC_DEPEND_FILTERS
++ if (NOT QT_TEST_VERSION STREQUAL 5)
++   message(SEND_ERROR "Invalid Qt version specified.")
++ endif()
++-find_package(Qt5Widgets REQUIRED)
+++#find_package(Qt5Widgets REQUIRED)
++ 
++ if(Qt5_POSITION_INDEPENDENT_CODE AND CMAKE_CXX_COMPILE_OPTIONS_PIC)
++   add_definitions(${CMAKE_CXX_COMPILE_OPTIONS_PIC})
++diff --git a/Tests/QtAutogenRerun/mocRerun/CMakeLists.txt b/Tests/QtAutogenRerun/mocRerun/CMakeLists.txt
++index bafd9cf48..43ec933d2 100644
++--- a/Tests/QtAutogenRerun/mocRerun/CMakeLists.txt
+++++ b/Tests/QtAutogenRerun/mocRerun/CMakeLists.txt
++@@ -10,7 +10,7 @@ else()
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++ 
++-  find_package(Qt5Core REQUIRED)
+++  #find_package(Qt5Core REQUIRED)
++   set(QT_CORE_TARGET Qt5::Core)
++ endif()
++ 
++diff --git a/Tests/QtAutogenRerun/rccDepends/CMakeLists.txt b/Tests/QtAutogenRerun/rccDepends/CMakeLists.txt
++index 291592e7d..40cd52868 100644
++--- a/Tests/QtAutogenRerun/rccDepends/CMakeLists.txt
+++++ b/Tests/QtAutogenRerun/rccDepends/CMakeLists.txt
++@@ -9,7 +9,7 @@ else()
++     message(SEND_ERROR "Invalid Qt version specified.")
++   endif()
++ 
++-  find_package(Qt5Core REQUIRED)
+++  #find_package(Qt5Core REQUIRED)
++   set(QT_CORE_TARGET Qt5::Core)
++ endif()
++ 
++diff --git a/Tests/RunCMake/CMakeLists.txt b/Tests/RunCMake/CMakeLists.txt
++index 29325ff0a..d30d01e78 100644
++--- a/Tests/RunCMake/CMakeLists.txt
+++++ b/Tests/RunCMake/CMakeLists.txt
++@@ -274,7 +274,7 @@ add_RunCMake_test(configure_file)
++ add_RunCMake_test(CTestTimeoutAfterMatch)
++ 
++ find_package(Qt4 QUIET)
++-find_package(Qt5Core QUIET)
+++#find_package(Qt5Core QUIET)
++ if (QT4_FOUND AND Qt5Core_FOUND AND NOT Qt5Core_VERSION VERSION_LESS 5.1.0)
++   add_RunCMake_test(IncompatibleQt)
++ endif()
++diff --git a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
++index 4fccdc418..b76e1e531 100644
++--- a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
+++++ b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
++@@ -1,6 +1,6 @@
++ 
++ find_package(Qt4 REQUIRED)
++-find_package(Qt5Core REQUIRED)
+++#find_package(Qt5Core REQUIRED)
++ 
++ add_executable(mainexe main.cpp)
++ target_link_libraries(mainexe Qt4::QtCore Qt5::Core)
++-- 
++2.15.1
++
+diff --git a/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
+index 15cbca89d8..6841554763 100644
+--- a/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
++++ b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
+@@ -1,4 +1,7 @@
+-cmake: support OpenEmbedded Qt4 tool binary names
++From 10b8b523869124d2fc8cd98d9e028c0bcffd61b1 Mon Sep 17 00:00:00 2001
++From: Otavio Salvador <otavio@ossystems.com.br>
++Date: Thu, 12 May 2011 15:36:03 +0000
++Subject: [PATCH 1/2] cmake: support OpenEmbedded Qt4 tool binary names
+ 
+ The FindQt4 module looks for Qt4 binaries to be able to gather the
+ paths used for compilation and also to be using during other processes
+@@ -15,15 +18,16 @@ The patch was slightly adapted in order to match cmake 3.2.2:
+ Instead of find_program, _find_qt4_program is now used.
+ 
+ Signed-off-by: Moritz Blume <moritz.blume@bmw-carit.de>
++
+ ---
+  Modules/FindQt4.cmake | 10 +++++-----
+  1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
+-index 11091b5..6704769 100644
++index c67d0be..0cf169b 100644
+ --- a/Modules/FindQt4.cmake
+ +++ b/Modules/FindQt4.cmake
+-@@ -522,7 +522,7 @@ endfunction()
++@@ -516,7 +516,7 @@ endfunction()
+  
+  set(QT4_INSTALLED_VERSION_TOO_OLD FALSE)
+  
+@@ -32,7 +36,7 @@ index 11091b5..6704769 100644
+  _qt4_find_qmake("${_QT4_QMAKE_NAMES}" QT_QMAKE_EXECUTABLE QTVERSION)
+  
+  if (QT_QMAKE_EXECUTABLE AND
+-@@ -1148,12 +1148,12 @@ if (QT_QMAKE_EXECUTABLE AND
++@@ -1142,12 +1142,12 @@ if (QT_QMAKE_EXECUTABLE AND
+    _find_qt4_program(QT_MOC_EXECUTABLE Qt4::moc moc-qt4 moc4 moc)
+    _find_qt4_program(QT_UIC_EXECUTABLE Qt4::uic uic-qt4 uic4 uic)
+    _find_qt4_program(QT_UIC3_EXECUTABLE Qt4::uic3 uic3)
+@@ -50,5 +54,5 @@ index 11091b5..6704769 100644
+    _find_qt4_program(QT_LINGUIST_EXECUTABLE Qt4::linguist linguist-qt4 linguist4 linguist)
+  
+ -- 
+-1.9.1
++2.7.4
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.9.5.bb b/meta/recipes-devtools/cmake/cmake_3.10.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.9.5.bb
+rename to meta/recipes-devtools/cmake/cmake_3.10.1.bb
 -- 
 2.15.1
 
