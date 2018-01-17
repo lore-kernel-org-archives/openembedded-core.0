@@ -1,49 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E119D7870F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id BC373786E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 13:16:29 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id p188so8045457ioe.12
+	Wed, 17 Jan 2018 13:21:14 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id d4so22461348qtj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 05:16:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uOwOrSUWc+u1C+oxBq2MpZ8N9eEGOT50BJI1H6oCIYw=;
-	b=EXoBhpc6Jq8xuYZfqSApznV67vmc5vjgsBhRmdfQrsOV6zuXEhUrC8WdLtnZ0P/rzD
-	xIjTK+dSZPOVXu+zTik55qV1mvSV4IXVd+nF7/BPejLMjIiNaJ26U/qVNofq3mJk+Rbd
-	oKVGUYm4FDNndFdyrOPzQvVkfcqlU+daxBlTYydk5zhEOX+eE4QJ+ZvSjedRgGrJs5K3
-	jTCazpY2dAWALJtW/Mf5RbTTbpll19pD7N3freim5RjrgKdPWJpD4XqTObhS/qHqgpoK
-	luxsZFDylNApDPt2MTlJxthtzlAn+E2SSfpPe6Lj0H8WzUSAtjffTeZtHSD8VyyyNfxH
-	etWQ==
+	Wed, 17 Jan 2018 05:21:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uOwOrSUWc+u1C+oxBq2MpZ8N9eEGOT50BJI1H6oCIYw=;
-	b=EvWLjqFYVRAgvM6qt/3pMSH3pexxHRJY8BWLFMSXG/ffWGyM6wcMS8YmX0VXhGgMHX
-	Piod7CwctgK3CxlMcsbJSh8Wu5EtcgNque4qJSE8F2WYXmE/9RWRws0oQ96nBqGeL3tb
-	yE6ECNhfLdxkc2vWeESfM0cBZHDQuMYCBnoMrhWzD3U07uV8iKpsrXKAEWgUWRkjjNV1
-	u88FF7FrbSXh2J1QmyenbAFTgzgL1YmucMjWjFO7T5c0vAJ/er6hkntKerTCsyeMl56i
-	dV2lEMbWf6guo2bK32Ipcp+U/6g8lr7/GK3v2ALo4gNiwjrt7q0LegA1bWCcZTh8+t0N
-	b8ng==
-X-Gm-Message-State: AKwxytd0kQ0DzQhO5a2MZGeOaH6HAn33yG+qn5170st0w4LZazMSsOLW
-	m+reu5zBc0HPjW+uN/JEIKjJi16qkAcsoxdpjbgiCw==
-X-Google-Smtp-Source: ACJfBov9dwYi+XYoDX5fN43uVfim4zLQBsmtrZiDbvaOuKkJHnJmIrxSi6cJ+i9SEL2WhQtZk9NUqcS9at8/E/RfcAc=
-X-Received: by 10.107.47.137 with SMTP id v9mr2876430iov.217.1516194991301;
-	Wed, 17 Jan 2018 05:16:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.157.202 with HTTP; Wed, 17 Jan 2018 05:16:10 -0800 (PST)
-In-Reply-To: <20180117131155.2297-3-otavio@ossystems.com.br>
-References: <20180117131155.2297-1-otavio@ossystems.com.br>
-	<20180117131155.2297-3-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Jan 2018 13:16:10 +0000
-Message-ID: <CAJTo0LYONEvXNkEYzanBQXseap_vG=5BA9sRbRtXsK+PdwLwHA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 3/3] cmake: upgrade 3.9.5 -> 3.10.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=G35bc95idbOb48hBL2awGMEaed5Js1WFC4TjWqWWlK4=;
+	b=jU+Dk1ntQJujYNLk3OQv/Teflin+9U8NQu7ZNiauteeB1RprDoWl7Xvs2h8X07zinW
+	weZzxMDHbV+8MX67N//ODk2vKUAouOlS+OXw3ttIblxJZpNTQQS4buPHUqREuzqRHX6e
+	zxjKeL/vT7dmA8AOyIF6KeKq2671sdeObncTjj15j7qHlhtX9iq5SBWP1UYk4weeeQGT
+	K3U0dmmMQs/AWJP3fYgxCeoyj1tRrue+WvOQucE4TzHJlY7BgkCIM1mh/DI1aco/BuSU
+	ro5MD4C4xJs+IFtxYtsFT11KNL4caHqxviW8kmwsydgDboDJMRcW39/rEu+uPYgj9D0F
+	DHmg==
+X-Gm-Message-State: AKwxytfufZlcrXh2egGB1YXQb5ZFJ5DnQOWI0V86jm+8xuQb5J1Y439C
+	74RQLAfmQ3w2lh7tJ2uMppuRdw==
+X-Google-Smtp-Source: ACJfBot7naRWhUDbbdzFud3+YFCsBVLeCo//Ry+TBWQtcoLzc4OTJKRKwQpYvWwcwiyA1608yN+3qA==
+X-Received: by 10.200.39.3 with SMTP id g3mr25365963qtg.275.1516195275729;
+	Wed, 17 Jan 2018 05:21:15 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	b62sm2826595qkg.21.2018.01.17.05.21.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 17 Jan 2018 05:21:14 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 17 Jan 2018 11:21:08 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jan 2018 11:21:05 -0200
+Message-Id: <20180117132107.3599-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.15.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v3 1/3] libdrm: upgrade 2.4.88 -> 2.4.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +49,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 13:16:30 -0000
-Content-Type: multipart/alternative; boundary="001a1136f566ddff460562f8a75f"
+X-List-Received-Date: Wed, 17 Jan 2018 13:21:14 -0000
 
---001a1136f566ddff460562f8a75f
-Content-Type: text/plain; charset="UTF-8"
+The 2.4.89 version has been released in Dec 18, 2017, and has a great
+set of features and improvements, as seen in the announcement summary:
 
-On 17 January 2018 at 13:11, Otavio Salvador <otavio@ossystems.com.br>
-wrote:
+,----
+| libdrm release with leasing and syncobj api updates,
+| updated amdgpu marketing ids, amdgpu tests,
+| updated uapi headers
+| etnaviv updates.
+`----
 
-> Changes in v2:
->  - add make-native dependency
+The full announcement can be seen at:
+
+https://lists.freedesktop.org/archives/dri-devel/2017-December/160530.html
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+Changes in v3: None
+Changes in v2: None
+
+ meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.88.bb => libdrm_2.4.89.bb} (93%)
+
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.88.bb b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.88.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.89.bb
+index 735f734295..6754a93242 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.88.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.89.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
+ 
+-SRC_URI[md5sum] = "fe4d5c77f1468ee73d0bbb30d76945d7"
+-SRC_URI[sha256sum] = "b5e55dbac2124e742e639f5b8553e8b7395863bf73dab4f77e99fe2fc25572b5"
++SRC_URI[md5sum] = "5307a147dde67ac643f6753a42b5d32c"
++SRC_URI[sha256sum] = "629f9782aabbb4809166de5f24d26fe0766055255038f16935602d89f136a02e"
+ 
+ inherit autotools pkgconfig manpages
+ 
+-- 
+2.15.1
 
 
-I can't see a dependency on make-native anywhere, and we've always relied
-on the host make so why do you need to do this?
-
-Ross
-
---001a1136f566ddff460562f8a75f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 17 January 2018 at 13:11, Otavio Salvador <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavi=
-o@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Changes in v2:<br>
-=C2=A0- add make-native dependency</blockquote><div><br></div><div>I can&#3=
-9;t see a dependency on make-native anywhere, and we&#39;ve always relied o=
-n the host make so why do you need to do this?</div><div><br></div><div>Ros=
-s</div></div></div></div>
-
---001a1136f566ddff460562f8a75f--
