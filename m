@@ -1,27 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A031D784C7
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E106A7874E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 16:41:59 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0HGfvkI030745
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 17 Jan 2018 16:41:58 GMT
-Message-ID: <1516207317.29722.286.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jan 2018 16:41:57 +0000
-In-Reply-To: <2aef8a4f-9d0b-ab44-02ea-e1ad8a4e1810@linux.intel.com>
-References: <1516202745-18231-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1516202745-18231-3-git-send-email-richard.purdie@linuxfoundation.org>
-	<2aef8a4f-9d0b-ab44-02ea-e1ad8a4e1810@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 3/4] lttng-modules: upgrade 2.9.5 -> 2.10.4
+	Wed, 17 Jan 2018 16:48:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Jan 2018 08:49:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,372,1511856000"; d="scan'208";a="196343894"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 17 Jan 2018 08:48:58 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jan 2018 18:42:59 +0200
+Message-Id: <20180117164259.2940-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] devtool: rename the suggested license change tag to 'License-Change:'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 16:42:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jan 2018 16:48:59 -0000
 
-On Wed, 2018-01-17 at 17:23 +0200, Alexander Kanavin wrote:
-> On 01/17/2018 05:25 PM, Richard Purdie wrote:
-> > 
-> > LICENSE file contains a list of files and addtional files were
-> > added to
-> > the list, license was unchanged.
-> I'd like to standardize this to a tag, and so the license change
-> text 
-> mentions a tag. Something like Otavio did:
-> 
-> License-checksum-change: added new contributors
-> 
-> The idea is to make the automatic check for this more reliable so we 
-> don't have to ask contributors to explain the license changes all the
-> time.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ scripts/lib/devtool/upgrade.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I'd suggest we use the form:
-
-License-Change: Copyright years updates
-
-which is shorter and is more similar in style to Upstream-Status: for
-example...
-
-Cheers,
-
-Richard
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 7de9ab5c2db..81bff5383a9 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -295,8 +295,8 @@ def _add_license_diff_to_recipe(path, diff):
+     notice_text = """# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
+ # The following is the difference between the old and the new license text.
+ # Please update the LICENSE value if needed, and summarize the changes in
+-# the commit message via 'License-checksum-change:' tag.
+-# (example: 'License-checksum-change: copyright years updated.')
++# the commit message via 'License-Change:' tag.
++# (example: 'License-Change: copyright years updated.')
+ #
+ # The changes:
+ #
+-- 
+2.15.1
 
 
