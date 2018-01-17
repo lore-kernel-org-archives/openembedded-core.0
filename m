@@ -1,61 +1,49 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BEEE4786E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 53692786C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 13:22:11 +0000 (UTC)
-Received: by mail-ot0-f196.google.com with SMTP id f100so4207699otf.3
+	Wed, 17 Jan 2018 13:28:57 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id c16so9169014itc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 05:22:13 -0800 (PST)
+	Wed, 17 Jan 2018 05:28:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=L2uaTxAWFTnqZ9aZd+/tNEv/j63k2kAyXBllcejdEVE=;
-	b=j7LWaWzyVXlwz3WZoVHOwNlaj8yh1PgptIIVrnVoyHfzEzvRmGpfek7ld+pjdztmxw
-	7ndpACbV/IB+xKyqFxsQEL87W1bv4feDu0NeoRxJl6Tt9yg24ak9TQzPE7WRqLJCJUjV
-	nVSrWIZUQp4kaUMS9L+CJqD1cQVThJIrCTnaIQKkqr3ICcl3OY4Tt/vWdThUukiHY6MG
-	SEku6W2TgFI24yITagZI4p4BjaSt4u0Dn5JhaCv5D4yvaNM3i4Tn4kU00GJzw0QR78JH
-	EIA1jkWuXmSS/XFR0cZGLWQqCYyuqWZuPiHCJBBhPvMyY8zV2gYqju/cv+dgT60UI5Hj
-	/edw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=smkGkbOlSDsNaRVQnaipcnx4HFsXAgBvJP1tRLpkKfY=;
+	b=FLoBa8YLPP1L4kSizGLo8n6mpteLhRrBl23g9IeNgeO1xQ5VZB+Lz5YJGcGiaGuqHM
+	RQi7w/Z+maZBs/cqkCRF5ywZQ4uIljOZeDePi6CBw7liyMeAbpoSzfKed5BFOhgo39aK
+	d/N3TUTNnJBWsF107Ixr473kulaVyjQ7xDH0nDXdsevE3ZbmZ3peKRtPWZRTQpGvOgRN
+	qRbt9W0aIYLJybYCVV4o2tIwsQQ7vDOunZD55kbhIvdXqfMGaLzVxoZ+gFen5huYSqKv
+	UNB9Sq9tMczGJIBepJfyxBdZuLQdrgp5KwzdeYbPkaPGbqoy4Dp/oQGTptpqNSo4tdhY
+	S6wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=L2uaTxAWFTnqZ9aZd+/tNEv/j63k2kAyXBllcejdEVE=;
-	b=NHwhWtFUnKuc1rcMUgJTXiSjBNbm8HQuH3rw6f9Ym6H+/GT4vXQ+JZtFHegwOZvkIO
-	VTlVTRsEvGJU0kmzZnQp346aCL7a/iM8Huri5i01PetbxHOe3Dzz8qRaPfqvk09J7jAc
-	UqXmn5ZzO9OsUB6OcBhwTWBxvH9tt9kyV1IWFwfMC4dDpGAl4ofDCUiSBs1r+S/XyQOc
-	QqUgMBUkB/Tt0ybFJ703NilXE6OhGnelHugchrI4rPTtXg4tT8RlnCsjx9Y1F9OYlf8r
-	+RQr9v3JIfn4GzNb/2EI3s6folfKS5rbGBaGWVvaXUY1Og8X0Kr0QquhidPL9dpQjxJE
-	lJ/g==
-X-Gm-Message-State: AKwxytc2eH9zo2Nemx6acafeGa8Guj6VNsPtTsC3GnO0by4vdXwkhGQD
-	9Nh/YTOsiPEK2uCqjNaOeuy2b+DD
-X-Google-Smtp-Source: ACJfBovgcht+0xTvrUbEZmpzma6bIfAi+iwQyxwVXaYVolwkiv3qu7jCoWggl82K8pwTIcx3ey7KTg==
-X-Received: by 10.157.1.236 with SMTP id e99mr1058986ote.148.1516195332415;
-	Wed, 17 Jan 2018 05:22:12 -0800 (PST)
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
-	[209.85.218.53]) by smtp.gmail.com with ESMTPSA id
-	l79sm1837275oig.41.2018.01.17.05.22.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jan 2018 05:22:11 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f53.google.com with SMTP id m65so13090570oig.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 05:22:11 -0800 (PST)
-X-Received: by 10.202.195.71 with SMTP id t68mr1094367oif.216.1516195330759;
-	Wed, 17 Jan 2018 05:22:10 -0800 (PST)
+	bh=smkGkbOlSDsNaRVQnaipcnx4HFsXAgBvJP1tRLpkKfY=;
+	b=FeOVGk9wMAOOIcqb0slt4M2Ig6NtT43prprLmKB5DKnGDXN0fd8qM5pYsbCWROvfG/
+	8ragT2H0nwnudcsVAdfcQ7ZNJUxss8dWmvA9rY0t3iC7FGc5u7Pkw0bQS7l2bxgXpcfK
+	sa2vFidxGvB27391R6MtT9hJaILOkEegKYUgQ6j3lN0xgA3PpasVeLsqe5qNufMvIgnB
+	yC8YpMbTeXbWQz7Ex/nBHT31e16g3pzpg00WdLKU74redG27bvJf9Ei55qtMDgcOKO6T
+	PYuyOeRiovaE7qPHnQlxKH9s5sDJ7D3rcqNn7yZv95GuzXKkSUQuM0Vl5euJPD+PRglK
+	AvZQ==
+X-Gm-Message-State: AKwxytcjO2xIOIWEEmor+iFqJF1N7+K6brqUM7MZHVhY4u9W8znsKogl
+	wPz/2QjmAqUlElAD2oYtaggy2c0kxo47HimoaojL1Q==
+X-Google-Smtp-Source: ACJfBoscWNc01bqXKcBdWekhtqeyEWCBDPwge2usrlKDUoQl6i6cqLhgLWf51CXIR/rkasUwWSZnmTnTowGymHYHycA=
+X-Received: by 10.36.86.20 with SMTP id o20mr3870081itb.53.1516195739394; Wed,
+	17 Jan 2018 05:28:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.157.38.102 with HTTP; Wed, 17 Jan 2018 05:22:08 -0800 (PST)
-In-Reply-To: <CAJTo0LYONEvXNkEYzanBQXseap_vG=5BA9sRbRtXsK+PdwLwHA@mail.gmail.com>
+Received: by 10.107.157.202 with HTTP; Wed, 17 Jan 2018 05:28:38 -0800 (PST)
+In-Reply-To: <CAP9ODKrpR3c2a-8rwoCQOV_RztL_SJFDDgU6qvhZwQBB-5wnWg@mail.gmail.com>
 References: <20180117131155.2297-1-otavio@ossystems.com.br>
 	<20180117131155.2297-3-otavio@ossystems.com.br>
 	<CAJTo0LYONEvXNkEYzanBQXseap_vG=5BA9sRbRtXsK+PdwLwHA@mail.gmail.com>
-Date: Wed, 17 Jan 2018 11:22:08 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrpR3c2a-8rwoCQOV_RztL_SJFDDgU6qvhZwQBB-5wnWg@mail.gmail.com>
-Message-ID: <CAP9ODKrpR3c2a-8rwoCQOV_RztL_SJFDDgU6qvhZwQBB-5wnWg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKrpR3c2a-8rwoCQOV_RztL_SJFDDgU6qvhZwQBB-5wnWg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 17 Jan 2018 13:28:38 +0000
+Message-ID: <CAJTo0LaMzcg4uWMDO8kQw2-OVuGAAAg6MF4m6E-mz4kJJRAxuw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 3/3] cmake: upgrade 3.9.5 -> 3.10.1
@@ -71,27 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 13:22:11 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 13:28:58 -0000
+Content-Type: multipart/alternative; boundary="001a1144d5ea752dfb0562f8d461"
+
+--001a1144d5ea752dfb0562f8d461
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 17, 2018 at 11:16 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 17 January 2018 at 13:11, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
->>
->> Changes in v2:
->>  - add make-native dependency
+On 17 January 2018 at 13:22, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> I believe it is looking for the utils inside sysroot now. Do you think
+> it makes sense to avoid the dependency?
 >
->
-> I can't see a dependency on make-native anywhere, and we've always relied on
-> the host make so why do you need to do this?
 
-Sorry, end not adding it to the commit. I sent a v3 including it.
+Yes, we don't need to build it as make is in HOSTTOOLS.
 
-I believe it is looking for the utils inside sysroot now. Do you think
-it makes sense to avoid the dependency?
+Can you just tell it where to find the make, or even better just tell it to
+run "make"?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+(also, I've patches to switch cmake from make to ninja)
 
+Ross
+
+--001a1144d5ea752dfb0562f8d461
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 17 January 2018 at 13:22, Otavio Salvador <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_bla=
+nk">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D=
+"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I b=
+elieve it is looking for the utils inside sysroot now. Do you think<br>
+it makes sense to avoid the dependency?<br></blockquote><div><br></div><div=
+>Yes, we don&#39;t need to build it as make is in HOSTTOOLS.</div><div><br>=
+</div><div>Can you just tell it where to find the make, or even better just=
+ tell it to run &quot;make&quot;?</div><div><br></div><div>(also, I&#39;ve =
+patches to switch cmake from make to ninja)</div><div><br></div><div>Ross=
+=C2=A0</div></div></div></div>
+
+--001a1144d5ea752dfb0562f8d461--
