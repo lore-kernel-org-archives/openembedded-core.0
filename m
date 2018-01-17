@@ -1,30 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A65C78721
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 15:29:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Jan 2018 07:29:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,372,1511856000"; d="scan'208";a="20510256"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2018 07:29:25 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1516202745-18231-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1516202745-18231-3-git-send-email-richard.purdie@linuxfoundation.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <2aef8a4f-9d0b-ab44-02ea-e1ad8a4e1810@linux.intel.com>
-Date: Wed, 17 Jan 2018 17:23:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AA1066093B;
+	Wed, 17 Jan 2018 15:35:23 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1516202745-18231-3-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH 3/4] lttng-modules: upgrade 2.9.5 -> 2.10.4
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 17 Jan 2018 15:35:25 -0000
+Message-ID: <20180117153525.2784.67723@do.openembedded.org>
+References: <1516202549-18121-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1516202549-18121-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm5hc206IHVwZ3JhZGUgMi4xMy4wMSAtPiAyLjEzLi4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,22 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 15:29:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 17 Jan 2018 15:35:23 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2018 05:25 PM, Richard Purdie wrote:
-> LICENSE file contains a list of files and addtional files were added to
-> the list, license was unchanged.
+== Series Details ==
 
-I'd like to standardize this to a tag, and so the license change text 
-mentions a tag. Something like Otavio did:
+Series: "nasm: upgrade 2.13.01 -> 2.13...." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10578/
+State : failure
 
-License-checksum-change: added new contributors
+== Summary ==
 
-The idea is to make the automatic check for this more reliable so we 
-don't have to ask contributors to explain the license changes all the time.
 
-Alex
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line        diff --git a/meta/recipes-devtools/subversion/subversion_1.9.7.bb b/meta/recipes-devtools/subversion/subversion_1.9.7.bb
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 92a0513837)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
