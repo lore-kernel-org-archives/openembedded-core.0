@@ -1,24 +1,36 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E1E071A8D
+Return-Path: <3X19gWggJAHgZiepneuvsWuik.Yki@flex--dmitriyz.bounces.google.com>
+Received: from mail-ot0-f202.google.com (mail-ot0-f202.google.com
+	[74.125.82.202])
+	by mail.openembedded.org (Postfix) with ESMTP id C4D6A787D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 07:59:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0I7xWvT015279
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 18 Jan 2018 08:48:29 +0000 (UTC)
+Received: by mail-ot0-f202.google.com with SMTP id 95so5013227otl.16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 23:59:33 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 17 Jan 2018 23:59:31 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jan 2018 23:59:32 -0800
-Message-ID: <20180118075932.108017-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 18 Jan 2018 00:48:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc;
+	bh=TBEcSeQDTTV2xcTKc4dGGkgF0noNejp7BubC3R7pTPs=;
+	b=Gwt5edZXgXO5TeF3GJrI+Yccpg5NyOcXqfmV6seLjENFzHMctg/25YdxDb2A+hgJ4c
+	zjhRthgAol+4vDW8CuxxCWhE4bdJMfwWMHj/JZDBk/bl6FWPDfKx5oQxq0oaBAnT2mEJ
+	602oXD10rku+/o9hTwlQJJWCI0GpmiKeJMbEcymKhYaqwyLk7kHGpwBgb2C/MsgjIg7M
+	1Gc7FnCmKESkIBL/9t46QzYAQpYdtixm4aiUigUx1ge7VUY5m7szUZ6GoMelxAlOXAz7
+	ddtUOnfRjYoKDtAAWnzgkUBHxBD+PUei5puOY8DwMkrRI8HksVPCYV6rZmqlErJGc/6X
+	NMPQ==
+X-Gm-Message-State: AKwxyte1tcNkm/zv80JaO4rsxLMDXZ02odGYFF3W/4BMLajI0GWkUs+G
+	EQu4DGDwYMB6Ifl5XfdCHpRbV1NOtRLVFFrQiDF5oRDrIpKZ94mswM7t0Xxk98FqKV+IgyrK/9k
+	EuJYszdwUukcHqwQhxoZesIMEvKn4gc8kvf4AJ3wYJofhmdIfvYRcA2COK42f4nFR4HxHywFHfX
+	KjL/3cNLQ4dByo/A==
+X-Google-Smtp-Source: ACJfBotAZ5Gas+DHgkrmFSnjnAhqPxv4nDP7kuGPDzDsVq9PDgOR0X/znDWzMs0sIinT4jjS6JpvVDH9NhSn7A==
 MIME-Version: 1.0
-Subject: [PATCH] libevent: fix 32bit linux regress test
+X-Received: by 10.157.12.221 with SMTP id o29mr2601048otd.46.1516265311042;
+	Thu, 18 Jan 2018 00:48:31 -0800 (PST)
+Date: Thu, 18 Jan 2018 00:48:26 -0800
+Message-Id: <20180118084826.102791-1-dmitriyz@waymo.com>
+X-Mailer: git-send-email 2.16.0.rc1.238.g530d649a79-goog
+From: Dima Zavin <dmitriyz@waymo.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pigz: specify that we runtime-provide gzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,89 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 07:59:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Jan 2018 08:48:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+Without this, nativesdk-texinfo fails to build with messages about
+nothing rproviding nativesdk-gzip. That gets pulled in
+when we add "compress_doc" to INHERIT in a distro.
 
-Fix 32bit linux regress test
-
-This patch is backported from https://github.com/libevent/libevent/commit/63c4bf78d6af3c6ff46d2e8e4b53dd9f577a9ca9
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Dima Zavin <dmitriyz@waymo.com>
 ---
- .../0001-test-fix-32bit-linux-regress.patch        | 48 ++++++++++++++++++++++
- meta/recipes-support/libevent/libevent_2.1.8.bb    |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
 
-diff --git a/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch b/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
-new file mode 100644
-index 0000000000..36d08204f7
---- /dev/null
-+++ b/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
-@@ -0,0 +1,48 @@
-+From 69a3813c513c84e02212250c3d5b8a02ecefa698 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Mon, 15 Jan 2018 08:00:33 +0000
-+Subject: [PATCH] test: fix 32bit linux regress
-+
-+This patch comes from https://github.com/libevent/libevent.git,
-+the commit is 63c4bf78d6af3c6ff46d2e8e4b53dd9f577a9ca9
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ configure.ac        | 1 +
-+ test/regress_util.c | 2 ++
-+ 2 files changed, 3 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 7528d37..e64cb1f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -663,6 +663,7 @@ AC_CHECK_SIZEOF(short)
-+ AC_CHECK_SIZEOF(size_t)
-+ AC_CHECK_SIZEOF(void *)
-+ AC_CHECK_SIZEOF(off_t)
-++AC_CHECK_SIZEOF(time_t)
-+ 
-+ AC_CHECK_TYPES([struct in6_addr, struct sockaddr_in6, sa_family_t, struct addrinfo, struct sockaddr_storage], , ,
-+ [#define _GNU_SOURCE
-+diff --git a/test/regress_util.c b/test/regress_util.c
-+index ef6a148..0c7eafb 100644
-+--- a/test/regress_util.c
-++++ b/test/regress_util.c
-+@@ -1412,10 +1412,12 @@ static struct date_rfc1123_case {
-+ 	{  1289433600, "Thu, 11 Nov 2010 00:00:00 GMT"},
-+ 	{  1323648000, "Mon, 12 Dec 2011 00:00:00 GMT"},
-+ #ifndef _WIN32
-++#if EVENT__SIZEOF_TIME_T > 4
-+ 	/** In win32 case we have max   "23:59:59 January 18, 2038, UTC" for time32 */
-+ 	{  4294967296, "Sun, 07 Feb 2106 06:28:16 GMT"} /* 2^32 */,
-+ 	/** In win32 case we have max "23:59:59, December 31, 3000, UTC" for time64 */
-+ 	{253402300799, "Fri, 31 Dec 9999 23:59:59 GMT"} /* long long future no one can imagine */,
-++#endif /* time_t != 32bit */
-+ 	{  1456704000, "Mon, 29 Feb 2016 00:00:00 GMT"} /* leap year */,
-+ #endif
-+ 	{  1435708800, "Wed, 01 Jul 2015 00:00:00 GMT"} /* leap second */,
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-support/libevent/libevent_2.1.8.bb b/meta/recipes-support/libevent/libevent_2.1.8.bb
-index 1270d627f8..83ce4644cf 100644
---- a/meta/recipes-support/libevent/libevent_2.1.8.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.8.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=17f20574c0b154d12236d5fbe964f549"
- SRC_URI = " \
-     https://github.com/libevent/libevent/releases/download/release-${PV}-stable/${BP}-stable.tar.gz \
-     file://Makefile-missing-test-dir.patch \
-+    file://0001-test-fix-32bit-linux-regress.patch \
-     file://run-ptest \
- "
+Not sure if this is the best way to fix the problem, or if I properly
+diagnosed it, but this seems to fix it.
+
+ meta/recipes-extended/pigz/pigz.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc
+index 978f905329..01b41dddff 100644
+--- a/meta/recipes-extended/pigz/pigz.inc
++++ b/meta/recipes-extended/pigz/pigz.inc
+@@ -8,6 +8,7 @@ SECTION = "console/utils"
+ LICENSE = "Zlib & Apache-2.0"
+ 
+ PROVIDES_class-native += "gzip-native"
++RPROVIDES_${PN} = "gzip"
+ 
+ DEPENDS = "zlib"
  
 -- 
-2.11.0
+2.16.0.rc1.238.g530d649a79-goog
 
 
