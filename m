@@ -1,25 +1,24 @@
-Return-Path: <Dengke.Du@windriver.com>
+Return-Path: <Haiqing.Bai@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F1109787B1
+	by mail.openembedded.org (Postfix) with ESMTP id 37CF377E93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 03:48:31 +0000 (UTC)
+	Thu, 18 Jan 2018 04:01:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0I3mWGf016319
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 17 Jan 2018 19:48:32 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 17 Jan 2018 19:48:31 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <juro.bystricky@intel.com>, <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jan 2018 22:48:28 -0500
-Message-ID: <6ac9b47678b7329d1096ccbeea51409bb0a4c820.1516247117.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1516247117.git.dengke.du@windriver.com>
-References: <cover.1516247117.git.dengke.du@windriver.com>
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0I41lQs017027
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jan 2018 20:01:47 -0800
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 17 Jan 2018 20:01:46 -0800
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jan 2018 11:41:55 +0800
+Message-ID: <1516246916-2966-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] python2-dev: improve reproducibility
+Subject: [PATCH] grep: support Perl regular expression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 03:48:32 -0000
+X-List-Received-Date: Thu, 18 Jan 2018 04:01:47 -0000
 Content-Type: text/plain
 
-oe-core has fixed it for python3, we can apply it to python2, the origin
-commit id:
+Supporting Perl regular expression is disabled with '--disable-perl-regexp'
+but the manpage of 'grep' shows the '-P' option and returns below error:
+/bin/grep.grep -o -P 'PATTERN' file
+/bin/grep.grep: support for the -P option is not compiled into this \
+               --disable-perl-regexp binary
 
-    e21723bb9b6035714268eeab5f43e2d1cb798a0d
-
-We can check it here:
-
-   http://git.openembedded.org/openembedded-core/commit/?id=e21723bb9b6035714268eeab5f43e2d1cb798a0d
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 ---
- meta/recipes-devtools/python/python_2.7.13.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/grep/grep_3.1.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index 754c029..8075204 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -140,6 +140,10 @@ py_package_preprocess () {
+diff --git a/meta/recipes-extended/grep/grep_3.1.bb b/meta/recipes-extended/grep/grep_3.1.bb
+index 05b6b93..391427f 100644
+--- a/meta/recipes-extended/grep/grep_3.1.bb
++++ b/meta/recipes-extended/grep/grep_3.1.bb
+@@ -14,8 +14,6 @@ SRC_URI[sha256sum] = "db625c7ab3bb3ee757b3926a5cfa8d9e1c3991ad24707a83dde8a5ef2b
  
- 	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
- 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+		-e 's|${DEBUG_PREFIX_MAP}||g' \
-+		-e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+		-e 's:${RECIPE_SYSROOT}::g' \
-+		-e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
-     python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ inherit autotools gettext texinfo pkgconfig
+ 
+-EXTRA_OECONF = "--disable-perl-regexp"
+-
+ # Fix "Argument list too long" error when len(TMPDIR) = 410
+ acpaths = "-I ./m4"
+ 
+@@ -36,6 +34,9 @@ do_install () {
+ 
+ inherit update-alternatives
+ 
++PACKAGECONFIG ??= "pcre"
++PACKAGECONFIG[pcre] = ",--disable-perl-regexp,libpcre"
++
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN} = "grep egrep fgrep"
 -- 
-2.8.1
+1.9.1
 
 
