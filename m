@@ -1,29 +1,66 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41D926011B
+Return-Path: <zboszor@pr.hu>
+Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F625787DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 13:31:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0IDV50c030134
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 18 Jan 2018 05:31:06 -0800
-Received: from localhost.localdomain (128.224.163.240) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 18 Jan 2018 05:31:05 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1515403603.git.liezhi.yang@windriver.com>
-	<af2c70ff-edfa-fa06-b669-3fdce584b024@windriver.com>
-	<1516274986.24502.4.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d6dc4999-8a37-d5c0-3656-8f9dde7bafd3@windriver.com>
-Date: Thu, 18 Jan 2018 21:31:37 +0800
+	Thu, 18 Jan 2018 15:02:33 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1ecBhw-000728-6e; Thu, 18 Jan 2018 16:02:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vkWienMZIf/YZ5anBaZz4MH+Q1/68QGhRkjeSvDsQIQ=;
+	b=IM9XqfgQ8BuuDywGcUsVy7+HMP
+	n8yMh6WzG2BZ5YSRlYyv4TeAe20gj3vXG5U47NhIHMcLlAT4dfB0jWF08EY2u5ce6WeOzXr5ThnnV
+	sfIcrRtVRpe+gANwtNpKDfA6MtxpAgC5bKou2KaiVR5zvZDDsRzzvKLEIr63aH93eyw4OIDhYbPOI
+	zK8CW7DdXpnTN0WUz8HrcRa6d/OlU1tUizVGXdlxAMru0QmKOmUkCON59fqz2TulAVtQiOTD2ofBP
+	ScpQEk6DSzNCIoIXzKQEuz1gAgM3FfXgQXnGsgMSNLBM9F1eJXvg8JryTCIvfj8xQXPap7EX0mNKJ
+	KFvJ6RcQ==;
+Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
+	helo=s002.sicom.com)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1ecBho-0002rB-R2; Thu, 18 Jan 2018 16:02:22 +0100
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180118123804.2465-1-ross.burton@intel.com>
+	<20180118123804.2465-2-ross.burton@intel.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <86e573b5-bf02-2046-d67c-4c696d6aec03@pr.hu>
+Date: Thu, 18 Jan 2018 16:02:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-In-Reply-To: <1516274986.24502.4.camel@linuxfoundation.org>
-Subject: Re: [PATCH 00/12 V2] Fixes for multilib and eSDK
+In-Reply-To: <20180118123804.2465-2-ross.burton@intel.com>
+X-Spam-Score: 2.3 (++)
+X-Spam-Report-Back: Spamchecker on "prspamd4.pr.hu" has DOESN'T believe this
+	is spam.
+	pts rule name              description  (score: __SCORE__ points)
+	---- ----------------------
+	--------------------------------------------------
+	-0.2 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	3.5 BAYES_99               BODY: Bayes spam probability is 99 to 100%
+	[score: 1.0000]
+	0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+	[score: 1.0000]
+	-1.1 AWL AWL: Adjusted score from AWL reputation of From: address
+	Preview: 2018-01-18 13:38 keltez_ssel, Ross Burton _rta: > This changes
+	the cmake class to use Ninja instead of Make by default. Can we still
+	use
+	"oe_runmake [-C subdir] target" with Ninja or is it considered a broken
+	build
+	and forced to use the "Unix Makefiles" generator? I have a working
+	mariadb
+	10.2.12 recipe and the native build is trimmed down to the absolute
+	necessary pieces: [...]
+X-Scan-Signature: 520b7d319569d55d657de1c7ae64b270
+X-Spam-Tracer: backend.mail.pr.hu 2.3 20180118150222Z
+Subject: Re: [PATCH 2/2] cmake: use Ninja by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,67 +73,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 13:31:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 18 Jan 2018 15:02:33 -0000
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
+2018-01-18 13:38 keltez�ssel, Ross Burton �rta:
+> This changes the cmake class to use Ninja instead of Make by default.
 
+Can we still use "oe_runmake [-C subdir] target" with Ninja or
+is it considered a broken build and forced to use the "Unix Makefiles" generator?
+I have a working mariadb 10.2.12 recipe and the native build is trimmed down
+to the absolute necessary pieces:
 
-On 01/18/2018 07:29 PM, Richard Purdie wrote:
-> On Thu, 2018-01-18 at 17:35 +0800, Robert Yang wrote:
->> Two of the patches have been merged, so I rebased others and put them
->> to:
->>
->>     git://git.openembedded.org/openembedded-core-contrib rbt/multilib
->>     http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/
->> multilib
->>
->> Robert Yang (10):
->>     staging.bbclass: fix for multilib
->>     populate_sdk_ext.bbclass: fix for multilib
->>     staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
->>     staging.bbclass: print searched manifest when not found
->>     staging.bbclass: extend_recipe_sysroot(): search multilib manifest
->>     package_manager.py: reverse archs correctly
->>     multilib.bbclass: extend allarch recipes
->>     toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
->>       image
->>     multilib.bbclass: deltask populate_sdk and populate_sdk_ext
->>     populate_sdk_ext.bbclass: remove the try...finally
+oe_runmake import_executables
+oe_runmake -C libmariadb
+
+Best regards,
+Zolt�n B�sz�rm�nyi
+
+> If a recipe is broken with Ninja then the recipe can set OECMAKE_GENERATOR="Unix
+> Makefiles" to change back to Make.
 > 
-> Just to update, I also have a set of patches which alter the manifest
-> code in staging.bbclass, I wanted to compare what we're doing and
-> likely create a combination of those patches.
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/classes/cmake.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> For the deltask commit, could you make it bb.build.deltask() only when
-> image.bbclass is inherited?
-
-Thanks, I updated it in the repo:
-
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 770863f..6a79d02 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -95,6 +95,8 @@ python __anonymous () {
-          d.setVar("LINGUAS_INSTALL", "")
-          # FIXME, we need to map this to something, not delete it!
-          d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
-+        bb.build.deltask('do_populate_sdk', d)
-+        bb.build.deltask('do_populate_sdk_ext', d)
-          return
-
-      clsextend.map_depends_variable("DEPENDS")
-
-
-But I think that there is no difference since only image recipe has
-do_populate_sdk/_ext.
-
-// Robert
-
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 74a952142ff..d60dad8d66b 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -9,7 +9,7 @@ CCACHE = ""
+>   
+>   # What CMake generator to use.
+>   # The supported options are "Unix Makefiles" or "Ninja".
+> -OECMAKE_GENERATOR ?= "Unix Makefiles"
+> +OECMAKE_GENERATOR ?= "Ninja"
+>   
+>   python() {
+>       generator = d.getVar("OECMAKE_GENERATOR")
 > 
-> Cheers,
-> 
-> Richard
-> 
+
 
