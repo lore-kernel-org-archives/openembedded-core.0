@@ -1,36 +1,27 @@
-Return-Path: <3X19gWggJAHgZiepneuvsWuik.Yki@flex--dmitriyz.bounces.google.com>
-Received: from mail-ot0-f202.google.com (mail-ot0-f202.google.com
-	[74.125.82.202])
-	by mail.openembedded.org (Postfix) with ESMTP id C4D6A787D0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BBDE5786B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 08:48:29 +0000 (UTC)
-Received: by mail-ot0-f202.google.com with SMTP id 95so5013227otl.16
+	Thu, 18 Jan 2018 09:34:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0I9Z0Sb024363
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 00:48:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc;
-	bh=TBEcSeQDTTV2xcTKc4dGGkgF0noNejp7BubC3R7pTPs=;
-	b=Gwt5edZXgXO5TeF3GJrI+Yccpg5NyOcXqfmV6seLjENFzHMctg/25YdxDb2A+hgJ4c
-	zjhRthgAol+4vDW8CuxxCWhE4bdJMfwWMHj/JZDBk/bl6FWPDfKx5oQxq0oaBAnT2mEJ
-	602oXD10rku+/o9hTwlQJJWCI0GpmiKeJMbEcymKhYaqwyLk7kHGpwBgb2C/MsgjIg7M
-	1Gc7FnCmKESkIBL/9t46QzYAQpYdtixm4aiUigUx1ge7VUY5m7szUZ6GoMelxAlOXAz7
-	ddtUOnfRjYoKDtAAWnzgkUBHxBD+PUei5puOY8DwMkrRI8HksVPCYV6rZmqlErJGc/6X
-	NMPQ==
-X-Gm-Message-State: AKwxyte1tcNkm/zv80JaO4rsxLMDXZ02odGYFF3W/4BMLajI0GWkUs+G
-	EQu4DGDwYMB6Ifl5XfdCHpRbV1NOtRLVFFrQiDF5oRDrIpKZ94mswM7t0Xxk98FqKV+IgyrK/9k
-	EuJYszdwUukcHqwQhxoZesIMEvKn4gc8kvf4AJ3wYJofhmdIfvYRcA2COK42f4nFR4HxHywFHfX
-	KjL/3cNLQ4dByo/A==
-X-Google-Smtp-Source: ACJfBotAZ5Gas+DHgkrmFSnjnAhqPxv4nDP7kuGPDzDsVq9PDgOR0X/znDWzMs0sIinT4jjS6JpvVDH9NhSn7A==
+	Thu, 18 Jan 2018 01:35:00 -0800
+Received: from localhost.localdomain (128.224.163.240) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 18 Jan 2018 01:34:59 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1515403603.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <af2c70ff-edfa-fa06-b669-3fdce584b024@windriver.com>
+Date: Thu, 18 Jan 2018 17:35:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-X-Received: by 10.157.12.221 with SMTP id o29mr2601048otd.46.1516265311042;
-	Thu, 18 Jan 2018 00:48:31 -0800 (PST)
-Date: Thu, 18 Jan 2018 00:48:26 -0800
-Message-Id: <20180118084826.102791-1-dmitriyz@waymo.com>
-X-Mailer: git-send-email 2.16.0.rc1.238.g530d649a79-goog
-From: Dima Zavin <dmitriyz@waymo.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pigz: specify that we runtime-provide gzip
+In-Reply-To: <cover.1515403603.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 00/12 V2] Fixes for multilib and eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 08:48:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Jan 2018 09:34:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Without this, nativesdk-texinfo fails to build with messages about
-nothing rproviding nativesdk-gzip. That gets pulled in
-when we add "compress_doc" to INHERIT in a distro.
+Two of the patches have been merged, so I rebased others and put them to:
 
-Signed-off-by: Dima Zavin <dmitriyz@waymo.com>
----
+   git://git.openembedded.org/openembedded-core-contrib rbt/multilib
+   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib
 
-Not sure if this is the best way to fix the problem, or if I properly
-diagnosed it, but this seems to fix it.
+Robert Yang (10):
+   staging.bbclass: fix for multilib
+   populate_sdk_ext.bbclass: fix for multilib
+   staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+   staging.bbclass: print searched manifest when not found
+   staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+   package_manager.py: reverse archs correctly
+   multilib.bbclass: extend allarch recipes
+   toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+     image
+   multilib.bbclass: deltask populate_sdk and populate_sdk_ext
+   populate_sdk_ext.bbclass: remove the try...finally
 
- meta/recipes-extended/pigz/pigz.inc | 1 +
- 1 file changed, 1 insertion(+)
+// Robert
 
-diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc
-index 978f905329..01b41dddff 100644
---- a/meta/recipes-extended/pigz/pigz.inc
-+++ b/meta/recipes-extended/pigz/pigz.inc
-@@ -8,6 +8,7 @@ SECTION = "console/utils"
- LICENSE = "Zlib & Apache-2.0"
- 
- PROVIDES_class-native += "gzip-native"
-+RPROVIDES_${PN} = "gzip"
- 
- DEPENDS = "zlib"
- 
--- 
-2.16.0.rc1.238.g530d649a79-goog
-
+On 01/08/2018 05:32 PM, Robert Yang wrote:
+> * V2
+>    + Drop already merged patches
+> 
+>    + Fix RP's comments:
+>      - deltask populate_sdk and populate_sdk_ext for multilib
+>      - Drop "image.bbclass: remove depmodwrapper-cross from DEPENDS"
+>      - sstate.bbclass: sstate_hardcode_path(): fix for multilib
+>        > fix the grep command
+> 
+> * V1
+>    - Initial version
+> 
+> // Robert
+> 
+> The following changes since commit e9dfe7eb7f61b909ae7d034e80cfbebc1fad018b:
+> 
+>    icu-dbg: improve reproducibility (2018-01-08 08:45:33 +0000)
+> 
+> are available in the git repository at:
+> 
+>    git://git.openembedded.org/openembedded-core-contrib oem1
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=oem1
+> 
+> Robert Yang (12):
+>    staging.bbclass: fix for multilib
+>    populate_sdk_ext.bbclass: fix for multilib
+>    sstate.bbclass: sstate_hardcode_path(): fix for multilib
+>    staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+>    staging.bbclass: print searched manifest when not found
+>    staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+>    package_manager.py: reverse archs correctly
+>    multilib.bbclass: remove invalid PACKAGE_INSTALL
+>    multilib.bbclass: extend allarch recipes
+>    toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+>      image
+>    multilib.bbclass: deltask populate_sdk and populate_sdk_ext
+>    populate_sdk_ext.bbclass: remove the try...finally
+> 
+>   meta/classes/allarch.bbclass           |   3 -
+>   meta/classes/multilib.bbclass          |   8 +-
+>   meta/classes/multilib_global.bbclass   |   4 +-
+>   meta/classes/package.bbclass           |   9 ---
+>   meta/classes/populate_sdk_ext.bbclass  | 142 +++++++++++++++++++--------------
+>   meta/classes/sstate.bbclass            |   8 +-
+>   meta/classes/staging.bbclass           |  40 +++++++++-
+>   meta/classes/toolchain-scripts.bbclass |   6 ++
+>   meta/lib/oe/package_manager.py         |  57 +++++++++++--
+>   9 files changed, 186 insertions(+), 91 deletions(-)
+> 
 
