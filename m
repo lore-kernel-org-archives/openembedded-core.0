@@ -1,30 +1,24 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2482787EE
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7416C787A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 16:47:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0IGlfsn008328
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Jan 2018 08:47:41 -0800 (PST)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 18 Jan 2018 08:47:41 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, Chen Qi <Qi.Chen@windriver.com>
-References: <cover.1515461823.git.Qi.Chen@windriver.com>
-	<a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
-	<CAJTo0LayZCc=psjBv7QjsXNi3drktBT4wmZcXd37cVGHYbAJcg@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <5377d8ea-0b83-a972-eece-a0dbd3129f31@windriver.com>
-Date: Thu, 18 Jan 2018 11:47:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LayZCc=psjBv7QjsXNi3drktBT4wmZcXd37cVGHYbAJcg@mail.gmail.com>
-X-Originating-IP: [172.25.44.3]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] coreutils: upgrade to 8.29
+	Thu, 18 Jan 2018 17:16:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Jan 2018 09:17:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,378,1511856000"; d="scan'208";a="11631537"
+Received: from swold-mobl2.jf.intel.com ([10.54.74.25])
+	by orsmga006.jf.intel.com with ESMTP; 18 Jan 2018 09:16:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Thu, 18 Jan 2018 09:16:59 -0800
+Message-Id: <20180118171659.14485-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] image_types: add support for modern f2fs flash filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 16:47:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Jan 2018 17:16:59 -0000
 
-On 2018-01-11 11:18 AM, Burton, Ross wrote:
-> On 9 January 2018 at 01:40, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
-> 
->     * hostname is explicitly enabled to keep the same with previous recipe's
->        behaviour.
-> 
-> 
-> But buildhistory-diff:
-> 
-> packages/corei7-64-poky-linux/coreutils/coreutils: FILELIST: added 
-> "/usr/bin/hostname"
-> 
-> So the old coreutils wasn't building hostname at all (we use 
-> /bin/hostname from busybox).
+The f2fs filesystem is a newer flash filesystem that is available in
+meta-filesystems. This needs a minimum sized blank space to operate
+in correctly.
 
-Ross,
-Are you asking Chen to package coreutils.hostname and
-use the alternatives mechanism with busybox's hostname as the default?
-(busybox hostname has annoyed me in a past life!)
+The f2fs has overprovision functionality and when building smaller
+filesystems, you actually need more space, therefore under 500M (or so)
+double the amount of space needed in order to handle the overprovision
+functions in f2fs.
 
-../Randy
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-> 
-> Ross
-> 
-> 
-
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index c736f92e58c..b17c435274e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -208,6 +208,23 @@ IMAGE_CMD_ubi () {
+ 
+ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
+ 
++MIN_F2FS_SIZE ?= "524288"
++IMAGE_CMD_f2fs () {
++        # We need to add additional smarts here form devices smaller than 1.5G
++        # Need to scale appropriately between 40M -> 1.5G as the "overprovision
++        # ratio" goes down as the device gets bigger (70% -> 4.5%), below about
++        # 500M the standard IMAGE_OVERHEAD_FACTOR does not work, so add additional
++        # space here when under 500M
++	size=${ROOTFS_SIZE}
++	if [ ${size} -lt ${MIN_F2FS_SIZE} ] ; then
++		size=${MIN_F2FS_SIZE}
++		bbwarn "Rootfs size is too small for F2FS. Filesystem will be extended to ${size}K"
++	fi
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs seek=${size} count=0 bs=1024
++	mkfs.f2fs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs
++	sload.f2fs -f ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs
++}
++
+ EXTRA_IMAGECMD = ""
+ 
+ inherit siteinfo kernel-arch
+@@ -220,6 +237,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 4096"
+ EXTRA_IMAGECMD_ext3 ?= "-i 4096"
+ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
+ EXTRA_IMAGECMD_btrfs ?= "-n 4096"
++EXTRA_IMAGECMD_f2fs ?= ""
+ 
+ do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
+ do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
+@@ -234,6 +252,7 @@ do_image_squashfs_lz4[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
+ do_image_multiubi[depends] += "mtd-utils-native:do_populate_sysroot"
++do_image_f2fs[depends] += "f2fs-tools-native:do_populate_sysroot"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+@@ -251,6 +270,7 @@ IMAGE_TYPES = " \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+     wic wic.gz wic.bz2 wic.lzma \
+     container \
++    f2fs \
+ "
+ 
+ # Compression is a special case of conversion. The old variable
 -- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+2.14.3
+
 
