@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C8755786DA
+Return-Path: <sstncr@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7754471DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 16:02:29 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id u62so14027791ita.2
+	Thu, 18 Jan 2018 16:41:09 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id f4so10826335qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 08:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 18 Jan 2018 08:41:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JRgLkdcPB4WO5cnQSbbu3mC5fp48gdOqF70xNCAL+X0=;
-	b=coSjnH+zuj+7IDkNLuYIBfUXSny1nVSQBxv5tZagpldXNaC1qWBs2n8ftrJ6/32RqH
-	Am3hvhheAEkY3GkTcLRSGVKq+zQqV43HR3sZCHj1er4Ey6OfDLk7XMDWbjww5FTZf+RB
-	RN68yxWHVz89kQyZ2enyFfsQ5TF8yM9bd47uiwp1Ngt1j8TzPduI+fkNHjML7l+gcwWp
-	VLDHnNYmG+uYSYLxm7P1V3wPTaDvrdkArIR8VGVhqRPRSafIeIviqtysNWICuoz0MFXz
-	AZAQNlpeL/Xbset5v3aPuM2H7GUHOwqC0CLyCxYP2aEydSF8NmS8DAYCja4WCTiQQPdY
-	qYlg==
+	:cc; bh=Fa2GB5bK4kiszJ1SyRMx2Z59vGVjJNuY+gHh/A3LAVM=;
+	b=BbU+3uqLtVeWlV1HM0hAWSKzymjtsuJPu5jI9yR4eydiGdJUamTOtPyJ/w/4sRUPbo
+	g7slgyfHFFKHieNQS17bkc7ehzvKYHx7ZEuGYPSkqD7P0NIYiBnOF2vnSHz2s1xC61AH
+	pgSV8ZcKqVRs6UC+8+/PEtPIyRf1mtv5SgF9sfVnTRBMvqA3Wr8hgzWneBljuLahPgfV
+	QtiPaQAu6ijvGF5PEov5ulsuTkHjP7/G0LMrahZBOBLlgPrwfE0cOgSGRj2pER0aDctZ
+	U/0fx5H8PlOwDRKScwIfQyGgU7AMZcHLR7kuhKwx1fsJ1ba0Ed4r9A/8LwCzCZkH7+sf
+	HQ3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=JRgLkdcPB4WO5cnQSbbu3mC5fp48gdOqF70xNCAL+X0=;
-	b=lRt7V59l3sRxvYnvG7jEZ/qKh+B5EmGCvMEw7VxuhS+rH537nyY/i4gxkNvZNLMRQP
-	LT0ineOX3nZgiG8OheSHNRrAphX6Rc2N3QWQTxl4ILdaiVw7SdN2rjy9YzN3Aoim236W
-	SAFC8RmvaZmOe0Nl6gmedwSYyXaTpBtkqXBkbG7mD0XqVj73iirAGaiDV25kFOlQOIia
-	ZyXG8pup/vOVp1OQFDc1ns+Si8S/AaaBF0Hhmh+9cRzJSJLw0RVdktTsgjbEEV6fVV38
-	no8w0B0vZ6b9SqOQbJIIC0FY+74tb70ynq+fNEefBMLBKay6ORV706aBhn2Q+lrA/z1F
-	y/FA==
-X-Gm-Message-State: AKwxytelm09xrSKPN+NAXrETC6WNL35fwvTPvxcL0B/lKBbz8g9e2o94
-	viGfUhV7q1HvBOr7dAHCD0DjUe1WN+Ko3Cdpipvopw==
-X-Google-Smtp-Source: ACJfBosyXuQIrmZL7Ufb94KONfHnLWwfos/l2TGhF5jxfPJhVgrS9IluBmFpnMcuNleK1dOgTH/gL5s/COY1uTVp8ss=
-X-Received: by 10.36.85.206 with SMTP id e197mr20668472itb.124.1516291350646; 
-	Thu, 18 Jan 2018 08:02:30 -0800 (PST)
+	bh=Fa2GB5bK4kiszJ1SyRMx2Z59vGVjJNuY+gHh/A3LAVM=;
+	b=LqnKCM2lMG/skB9XfmjgxV3anNcCGapRFW8o887VhzJrAlvGLyWqNV6fJVXyiTmE+R
+	devw1zrQtWtUfUuiMXHLA/upVEdS41sB3dR9rd+CbcFjoJhXErgCwe0ba7/P6nIzKaKY
+	pSn2a4Uh5xdLOEHGexWm1PCCAjGH0wkO04izLIg+kpcPXLiy0kFQwftOZHLKaYw7g3jD
+	VoSKm+mf9t5/QrZFDis8svNPfwj0b2FSaR3aA4TqD9zv7vcF6T9ANBMfwYf6CwhUHjmx
+	CwMeRa2cLYvwwDR9TO/efrGDJ475FKxwquWGWODwy9NU5acvQW5TTTMz9t87K4Y13pFW
+	U14Q==
+X-Gm-Message-State: AKwxyte/dJ023V7kFK+0zwmIeqaUGRpafStTqAaiFdAns1HQXXjta/A7
+	rIQn0jogfw68W0d7Pa3hP5dCSJTuK7z1uFwtq3E=
+X-Google-Smtp-Source: ACJfBotarnDsI57I/C0oNYGt0rH1t8W0nBPaETatZNOqAj8RKwZwDn99Cq+agftUoKB5tsdKodhRX9CO8ixGcx0Qg10=
+X-Received: by 10.55.24.16 with SMTP id j16mr64670366qkh.298.1516293670321;
+	Thu, 18 Jan 2018 08:41:10 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.157.202 with HTTP; Thu, 18 Jan 2018 08:02:09 -0800 (PST)
-In-Reply-To: <86e573b5-bf02-2046-d67c-4c696d6aec03@pr.hu>
-References: <20180118123804.2465-1-ross.burton@intel.com>
-	<20180118123804.2465-2-ross.burton@intel.com>
-	<86e573b5-bf02-2046-d67c-4c696d6aec03@pr.hu>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jan 2018 16:02:09 +0000
-Message-ID: <CAJTo0LZ4mgBK-c17_S2z_QM44VqFYkCV-w2vVucrE0V8YmhzWA@mail.gmail.com>
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cmake: use Ninja by default
+Received: by 10.200.1.6 with HTTP; Thu, 18 Jan 2018 08:41:09 -0800 (PST)
+In-Reply-To: <8270727b-0177-4b21-7235-6febe3bec51b@gmail.com>
+References: <1515686841-28097-1-git-send-email-sstncr@gmail.com>
+	<1515686841-28097-2-git-send-email-sstncr@gmail.com>
+	<8270727b-0177-4b21-7235-6febe3bec51b@gmail.com>
+From: Stefan Stanacar <sstncr@gmail.com>
+Date: Thu, 18 Jan 2018 18:41:09 +0200
+Message-ID: <CANr+NRtRWCoNHDsrGL8+WSvF=tvfCMUjvmvwm2CnphUE1hfPpA@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [morty][PATCH] kernel.bbclass: Fix symlink creation when using externalsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +56,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 16:02:30 -0000
-Content-Type: multipart/alternative; boundary="001a1139924254e57305630f1746"
+X-List-Received-Date: Thu, 18 Jan 2018 16:41:09 -0000
+Content-Type: multipart/alternative; boundary="001a114415e6984ac405630fa182"
 
---001a1139924254e57305630f1746
+--001a114415e6984ac405630fa182
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On 18 January 2018 at 15:02, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
-r@pr.hu> wrote:
+On Wed, Jan 17, 2018 at 9:04 PM, akuster808 <akuster808@gmail.com> wrote:
 
-> 2018-01-18 13:38 keltez=C3=A9ssel, Ross Burton =C3=ADrta:
 >
->> This changes the cmake class to use Ninja instead of Make by default.
->>
 >
-> Can we still use "oe_runmake [-C subdir] target" with Ninja or
-> is it considered a broken build and forced to use the "Unix Makefiles"
-> generator?
-> I have a working mariadb 10.2.12 recipe and the native build is trimmed
-> down
-> to the absolute necessary pieces:
+> On 01/11/2018 08:07 AM, Stefan Stanacar wrote:
+> > do_unpack is by default in SRCTREECOVEREDTASKS so this append can't run,
+> since
+> > this tasks gets removed by externalsrc when it's enabled.
+> >
+> > However this was hidden because externalsrc does run do_fetch and
+> do_unpack if
+> > there are type=kmeta or file:// entries in the SRC_URI value of the
+> kernel recipe.
+> > (e.g linux-yocto).
+> >
+> > Make this a separate task so that it actually gets run for kernel
+> recipes with
+> > no file:// or type=kmeta in SRC_URI.
 >
-> oe_runmake import_executables
-> oe_runmake -C libmariadb
+> Is this fixed in Master?
+>
+>
+Nope, I've sent a patch for master as well:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146355.html
+but it wasn't merged (yet?)
+
+Cheers,
+Stefan
+
+
+> - armin
+> > Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
+> > ---
+> >  meta/classes/kernel.bbclass | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index f8318b8..3eaae03 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -102,7 +102,7 @@ inherit ${KERNEL_CLASSES}
+> >  # the symlink.
+> >  do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B}
+> ${STAGING_KERNEL_BUILDDIR}"
+> >  do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B}
+> ${STAGING_KERNEL_BUILDDIR}"
+> > -base_do_unpack_append () {
+> > +python do_symlink_staging_dir () {
+> >      s = d.getVar("S", True)
+> >      if s[-1] == '/':
+> >          # drop trailing slash, so that os.symlink(kernsrc, s) doesn't
+> use s as directory name and fail
+> > @@ -119,6 +119,8 @@ base_do_unpack_append () {
+> >              shutil.move(s, kernsrc)
+> >              os.symlink(kernsrc, s)
+> >  }
+> > +addtask do_symlink_staging_dir after do_unpack before do_patch
+> do_configure
+> > +
+> >
+> >  inherit kernel-arch deploy
+> >
+>
 >
 
-Because you're doing -C I suspect you'll need to force it to use makefiles
-explicitly, but you can tell cmake what targets to build and the target
-names are universal so if you can find a way of doing that without -C then
-you can tell cmake to build the specific targets (OECMAKE_TARGET_COMPILE
-and _INSTALL)  and then the choice of generator doesn't matter.
-
-Ross
-
---001a1139924254e57305630f1746
+--001a114415e6984ac405630fa182
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 18 January 2018 at 15:02, B=C3=B6sz=C3=B6rm=C3=A9nyi Zo=
-lt=C3=A1n <span dir=3D"ltr">&lt;<a href=3D"mailto:zboszor@pr.hu" target=3D"=
-_blank">zboszor@pr.hu</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><=
-div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">2=
-018-01-18 13:38 keltez=C3=A9ssel, Ross Burton =C3=ADrta:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-This changes the cmake class to use Ninja instead of Make by default.<br>
-</blockquote>
-<br></span>
-Can we still use &quot;oe_runmake [-C subdir] target&quot; with Ninja or<br=
->
-is it considered a broken build and forced to use the &quot;Unix Makefiles&=
-quot; generator?<br>
-I have a working mariadb 10.2.12 recipe and the native build is trimmed dow=
-n<br>
-to the absolute necessary pieces:<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Jan 17, 2018 at 9:04 PM, akuster808 <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+br>
 <br>
-oe_runmake import_executables<br>
-oe_runmake -C libmariadb<br></blockquote><div><br></div><div>Because you&#3=
-9;re doing -C I suspect you&#39;ll need to force it to use makefiles explic=
-itly, but you can tell cmake what targets to build and the target names are=
- universal so if you can find a way of doing that without -C then you can t=
-ell cmake to build the specific targets (OECMAKE_TARGET_COMPILE and _INSTAL=
-L) =C2=A0and then the choice of generator doesn&#39;t matter.</div><div><br=
-></div><div>Ross=C2=A0<br></div></div></div></div>
+On 01/11/2018 08:07 AM, Stefan Stanacar wrote:<br>
+&gt; do_unpack is by default in SRCTREECOVEREDTASKS so this append can&#39;=
+t run, since<br>
+&gt; this tasks gets removed by externalsrc when it&#39;s enabled.<br>
+&gt;<br>
+&gt; However this was hidden because externalsrc does run do_fetch and do_u=
+npack if<br>
+&gt; there are type=3Dkmeta or file:// entries in the SRC_URI value of the =
+kernel recipe.<br>
+&gt; (e.g linux-yocto).<br>
+&gt;<br>
+&gt; Make this a separate task so that it actually gets run for kernel reci=
+pes with<br>
+&gt; no file:// or type=3Dkmeta in SRC_URI.<br>
+<br>
+Is this fixed in Master?<br>
+<br></blockquote><div><br></div><div>Nope, I&#39;ve sent a patch for master=
+ as well: <a href=3D"http://lists.openembedded.org/pipermail/openembedded-c=
+ore/2018-January/146355.html">http://lists.openembedded.org/pipermail/opene=
+mbedded-core/2018-January/146355.html</a> but it wasn&#39;t merged (yet?)</=
+div><div><br></div><div>Cheers,</div><div>Stefan<br></div><div>=C2=A0</div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
+- armin<br>
+&gt; Signed-off-by: Stefan Stanacar &lt;<a href=3D"mailto:sstncr@gmail.com"=
+>sstncr@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/kernel.bbclass | 4 +++-<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass=
+<br>
+&gt; index f8318b8..3eaae03 100644<br>
+&gt; --- a/meta/classes/kernel.bbclass<br>
+&gt; +++ b/meta/classes/kernel.bbclass<br>
+&gt; @@ -102,7 +102,7 @@ inherit ${KERNEL_CLASSES}<br>
+&gt;=C2=A0 # the symlink.<br>
+&gt;=C2=A0 do_unpack[cleandirs] +=3D &quot; ${S} ${STAGING_KERNEL_DIR} ${B}=
+ ${STAGING_KERNEL_BUILDDIR}&quot;<br>
+&gt;=C2=A0 do_clean[cleandirs] +=3D &quot; ${S} ${STAGING_KERNEL_DIR} ${B} =
+${STAGING_KERNEL_BUILDDIR}&quot;<br>
+&gt; -base_do_unpack_append () {<br>
+&gt; +python do_symlink_staging_dir () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 s =3D d.getVar(&quot;S&quot;, True)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if s[-1] =3D=3D &#39;/&#39;:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # drop trailing slash, so that os.sy=
+mlink(kernsrc, s) doesn&#39;t use s as directory name and fail<br>
+&gt; @@ -119,6 +119,8 @@ base_do_unpack_append () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.move(s, kernsrc=
+)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.symlink(kernsrc, s)=
+<br>
+&gt;=C2=A0 }<br>
+&gt; +addtask do_symlink_staging_dir after do_unpack before do_patch do_con=
+figure<br>
+&gt; +<br>
+&gt;<br>
+&gt;=C2=A0 inherit kernel-arch deploy<br>
+&gt;<br>
+<br>
+</blockquote></div><br></div></div>
 
---001a1139924254e57305630f1746--
+--001a114415e6984ac405630fa182--
