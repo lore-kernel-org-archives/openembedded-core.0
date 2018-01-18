@@ -1,51 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BCCFE78449
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C68DA7826D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 17:34:59 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id m11so16277527iob.2
+	Thu, 18 Jan 2018 18:04:10 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id f3so24760445wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 09:35:01 -0800 (PST)
+	Thu, 18 Jan 2018 10:04:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qx4sxQItwOfiX6Gp3NBGTYJ+6uLzCa78TakHD46D08U=;
-	b=tTsPjd5b+V7nb3acPTRg9Rf0ncGELU68ZWYdxjVkdgIMQSwx0ABad1glfzErfB0lBz
-	FJx534XUz12alLq7RJzQS0IfDsia7U09ov2emPQoUKZ2dNjkivPe/q390wXHwsD6RsF9
-	KBMlLKDDWLZBITK8teXJc9X2sVhZ+bSYH06wp/bQfF+rWz0pjpCYBlp1Ng0uLeCSoc6Q
-	dndT8qQl/4EgFExLeWL3LlBpIyE6KULjh1gD+2hVwbMh3VqejOwBspExZo5fQMMb0QeM
-	UwYQkXZdqHai7B+mRTxnpFAIydP1JrreIA11rKL85TnuVuHpxTR+dMPbllk59P1E0s8Y
-	BKKw==
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=r0NYC/+pcBfmDETBTegoJW67LS9LbDK9wZ++Auzfz5E=;
+	b=K8fC4Yndp81tbRbGr0LNSeieFMdaK/rW8rLxrWg1YKPlYlkI6iErTjZsYWtATO4RQL
+	ndrXwd0Z8nOPQN9WSay3wD9+y8qmYAa5XC0JZcHZFRtYLVNWtIElqgPsTwCdbJd6Jq/O
+	DKJ14IF6YmcgTnQRXXyPLgBZ/uyeMSwDnArVOt7N0ofZomtynjE9QickKYsTaUv0qwVN
+	cxPxqVwv4NdvsjlQgYk5DrgbmsKAmZ/mOGVDXo+cZ9U6QveWcy5dumVyD5akr+egI3fF
+	KysFPSxrRbXM78HtD1ZA0BBpsGPjfvUGfnZRhRC0/fjLTKnn0zh6c18bTwFZBl9fLvBH
+	fWcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=qx4sxQItwOfiX6Gp3NBGTYJ+6uLzCa78TakHD46D08U=;
-	b=iUMYA5Y/MjZEYsw7MeWCzgH/StgzplRum5vHbRzQlFeRiqhWwSlOTK9zax/VPa1+ab
-	i4eGNIPtCRYSU6s74ClyGaEvg8B0hTPFHCPkuOVvi+4ACfjyyavH9GTJM4IljZEgpEXR
-	65sbJqubzL0ogefxCXTOieqdz2/+EMyXL5WxIPjOH4lT+hn1XXLPYh4r51hedQDVAuOT
-	x9ruwP+aHUmmeW+A6E70ZXNSHUymzP5aLqax3SH3x9hgWmWAO0aRHl8TRmo8imwubjkz
-	RN/TDklP1BtqkCGYNwO/xgVfaX9onIzXK+vsdj+f3LAWhUc2yCwiCDDGtV3TNzNRhYaR
-	NGCA==
-X-Gm-Message-State: AKwxyteMj5mdg8Uup21bBxPK1ry1pGOgYsYaO+WNnbEz5Vx9Y8zG5931
-	usUZVwTu8tzuJDgt9oOT/QAYwjG2bw0tedvXf8HQHw==
-X-Google-Smtp-Source: ACJfBouAaY55ch0Wg1GJU2iM8w27htnNIse7uyET0psaf0pdLL7Nb76DS3m7kECsKa9AIiYA8zfxYRAcHK1/WfZOXrI=
-X-Received: by 10.107.186.86 with SMTP id k83mr15138816iof.208.1516296900793; 
-	Thu, 18 Jan 2018 09:35:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.157.202 with HTTP; Thu, 18 Jan 2018 09:34:40 -0800 (PST)
-In-Reply-To: <5377d8ea-0b83-a972-eece-a0dbd3129f31@windriver.com>
-References: <cover.1515461823.git.Qi.Chen@windriver.com>
-	<a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
-	<CAJTo0LayZCc=psjBv7QjsXNi3drktBT4wmZcXd37cVGHYbAJcg@mail.gmail.com>
-	<5377d8ea-0b83-a972-eece-a0dbd3129f31@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jan 2018 17:34:40 +0000
-Message-ID: <CAJTo0LanxcbSTOatAxbD_hn6meS1Rwkvjug_+DPryMUcW1nAQA@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] coreutils: upgrade to 8.29
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=r0NYC/+pcBfmDETBTegoJW67LS9LbDK9wZ++Auzfz5E=;
+	b=tBP841ox0TAEUZSZrGzdnrHfISS9k0eaVhPttRNNIOpTEYmMLi7EPd6HA6XkRuGp4i
+	jkVrOOfJ5JOAjNZSFv8/9UusBZivCBE6HJol0cSd8D1sKKGCqOW0+q5m+7in33yvjDsk
+	W3Jp+XJjMA+SXHbv+rWMUSDKeOTmmY83MfxeANH4NF54hKTa55IoZEMTuaKV1t4g2Sa/
+	P0ru2/Dt51lkdMk4XwEiBy/DcEDeicheHkCvRLQltLxBKkeo3vzHatKKnnqOQU85R4DP
+	UBZ9zbxOK1pncvN/4eT/bC1qI/HwHq1R8EIh3dHvdYiuDlaQVE2THSaqPQvuT4ZvNpfo
+	SlWA==
+X-Gm-Message-State: AKwxytdejHNFJ6u+K1BcigETtyBu9bI9wrW09KsQQ9Ufu/kWA5M2NoRW
+	+6XPfOtaqdbxMbSm+MuJYYevIbz1
+X-Google-Smtp-Source: ACJfBos3E8GO5suVY1Wly9pv7oM6aXObmuxBK0+X2cEWO9vnOlNK5AqtxM8Hj8er2ERX5lzKKIHs3A==
+X-Received: by 10.28.27.86 with SMTP id b83mr4146560wmb.148.1516298651419;
+	Thu, 18 Jan 2018 10:04:11 -0800 (PST)
+Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
+	by smtp.gmail.com with ESMTPSA id
+	d10sm7120443wmh.15.2018.01.18.10.04.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 18 Jan 2018 10:04:10 -0800 (PST)
+From: Paul Barker <pbarker@toganlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jan 2018 18:03:33 +0000
+Message-Id: <1516298613-28716-1-git-send-email-pbarker@toganlabs.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] openssh: Disable wtmp when using musl libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,88 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 17:34:59 -0000
-Content-Type: multipart/alternative; boundary="94eb2c076a702587d40563106254"
+X-List-Received-Date: Thu, 18 Jan 2018 18:04:11 -0000
 
---94eb2c076a702587d40563106254
-Content-Type: text/plain; charset="UTF-8"
+musl doesn't implement wtmp/utmp.
 
-On 18 January 2018 at 16:47, Randy MacLeod <randy.macleod@windriver.com>
-wrote:
+Signed-off-by: Paul Barker <pbarker@toganlabs.com>
+---
+ meta/recipes-connectivity/openssh/openssh_7.6p1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> On 2018-01-11 11:18 AM, Burton, Ross wrote:
->
->> On 9 January 2018 at 01:40, Chen Qi <Qi.Chen@windriver.com <mailto:
->> Qi.Chen@windriver.com>> wrote:
->>
->>     * hostname is explicitly enabled to keep the same with previous
->> recipe's
->>        behaviour.
->>
->>
->> But buildhistory-diff:
->>
->> packages/corei7-64-poky-linux/coreutils/coreutils: FILELIST: added
->> "/usr/bin/hostname"
->>
->> So the old coreutils wasn't building hostname at all (we use
->> /bin/hostname from busybox).
->>
->
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+index 9d940d4..a2288df 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+@@ -60,6 +60,9 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
+                 --disable-strip \
+                 "
+ 
++# musl doesn't implement wtmp/utmp
++EXTRA_OECONF_append_libc-musl = " --disable-wtmp"
++
+ # Since we do not depend on libbsd, we do not want configure to use it
+ # just because it finds libutil.h.  But, specifying --disable-libutil
+ # causes compile errors, so...
+-- 
+2.7.4
 
-> Are you asking Chen to package coreutils.hostname and
-> use the alternatives mechanism with busybox's hostname as the default?
-> (busybox hostname has annoyed me in a past life!)
->
 
-I'm not sure what I'm asking, just pointing out that the log is wrong as
-the old coreutils wasn't building a hostname binary.
-
-If someone sets base_bindir and bindir to the same directory then there
-will be a conflict, so this does need to be sorted somehow.
-
-Ross
-
---94eb2c076a702587d40563106254
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 18 January 2018 at 16:47, Randy MacLeod <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:randy.macleod@windriver.com" target=3D"_blank">ran=
-dy.macleod@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra=
-"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 2018-01-11 1=
-1:18 AM, Burton, Ross wrote:<span class=3D""><br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On 9 January 2018 at 01:40, Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver=
-.com" target=3D"_blank">Qi.Chen@windriver.com</a> &lt;mailto:<a href=3D"mai=
-lto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<=
-wbr>&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 * hostname is explicitly enabled to keep the same with previo=
-us recipe&#39;s<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 behaviour.<br>
-<br>
-<br>
-But buildhistory-diff:<br>
-<br>
-packages/corei7-64-poky-linux/<wbr>coreutils/coreutils: FILELIST: added &qu=
-ot;/usr/bin/hostname&quot;<br>
-<br>
-So the old coreutils wasn&#39;t building hostname at all (we use /bin/hostn=
-ame from busybox).<br>
-</blockquote>
-</span></blockquote><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Are you=
- asking Chen to package coreutils.hostname and<br>
-use the alternatives mechanism with busybox&#39;s hostname as the default?<=
-br>
-(busybox hostname has annoyed me in a past life!)<br></blockquote><div><br>=
-</div><div>I&#39;m not sure what I&#39;m asking, just pointing out that the=
- log is wrong as the old coreutils wasn&#39;t building a hostname binary.</=
-div><div><br></div><div>If someone sets base_bindir and bindir to the same =
-directory then there will be a conflict, so this does need to be sorted som=
-ehow.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---94eb2c076a702587d40563106254--
