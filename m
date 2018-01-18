@@ -1,22 +1,24 @@
 Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37CF377E93
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 174887876D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 04:01:46 +0000 (UTC)
+	Thu, 18 Jan 2018 04:03:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0I41lQs017027
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0I43Kfi014055
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jan 2018 20:01:47 -0800
+	Wed, 17 Jan 2018 20:03:20 -0800 (PST)
 Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 17 Jan 2018 20:01:46 -0800
+	14.3.361.1; Wed, 17 Jan 2018 20:03:20 -0800
 From: Haiqing Bai <Haiqing.Bai@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jan 2018 11:41:55 +0800
-Message-ID: <1516246916-2966-1-git-send-email-Haiqing.Bai@windriver.com>
+Date: Thu, 18 Jan 2018 11:41:56 +0800
+Message-ID: <1516246916-2966-2-git-send-email-Haiqing.Bai@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1516246916-2966-1-git-send-email-Haiqing.Bai@windriver.com>
+References: <1516246916-2966-1-git-send-email-Haiqing.Bai@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] grep: support Perl regular expression
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -31,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 04:01:47 -0000
+X-List-Received-Date: Thu, 18 Jan 2018 04:03:20 -0000
 Content-Type: text/plain
 
 Supporting Perl regular expression is disabled with '--disable-perl-regexp'
