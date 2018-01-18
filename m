@@ -1,46 +1,46 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CEE2671C9B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AF96A7852F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 19:28:49 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id f3so28114257lfe.4
+	Thu, 18 Jan 2018 20:02:26 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id x42so14894779ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 11:28:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 18 Jan 2018 12:02:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=J5ULIlYIIz33zkXeBSGKEai0JlipcEIx+uyX70rBaOo=;
-	b=mGC6lAOa72Op4v2Ukztvo8ghbZ4wYKgpucIZXpJAUtGOV5B1pkrvopeh/telw0eh5J
-	4HkD1IRkisomFfKbVBi3tuRohchkpRaGB5If3JDW+Ud0sekStyrTnJ8qro3/jkATpZPI
-	QXy8KZRuyiMsGFNU/HH3kNYaTHeTdjGxAvvKdq7HAAm9oy6RKzKlOnu7Udyg02ycGu0a
-	Al/YVWz/mEP1vMdBWTl00YTyqVBYJbpxoHXWXNiBQsey4bgWClYEcO9N1UhOHFpAECLO
-	9IQ5wP+Xb7/1XNXUCX404oOHKBEp3I+U4VQIIAYKc5oYO0eSQhm8fCYx1D5jcQXAX/Ay
-	TCeQ==
+	:cc; bh=m5nBBwfMxfUPLPPnHIQYCQQ7XKAvJf8jqzeoKgHB52U=;
+	b=LyeFX4q5sEb+Ta/j02jpxPH003xkzmBQdgVN4zQipJZmfalSKiS8hJJu06LxiIjSSM
+	rigyUt9OR7AzVrKPmzmMg32krtaHEcJ+Ui4GudMw/6v1c4vqCEtGJuSgQUaa2oqii4q1
+	jLowQce0naiLkfst9lEUU3JLxz0QxR36qvu7iBrLdtsiOMstiaAuJPQMocSnLRLtaURk
+	tYNmTMcTFm5ncDS9vJ2PyyqDyfzL3UpDB9VmYaKxnGduSp8ejSiq0AVBLhe2YLpW04/W
+	ROtd8ioTl5fAlyfY/Jtr5+QilAcsWlBISlFgGx2Wt8oLpmJSAlPnnhH7x5AvYZqrA6tf
+	c8PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=J5ULIlYIIz33zkXeBSGKEai0JlipcEIx+uyX70rBaOo=;
-	b=Pg1Vg8hLWpC+9iD6uMhNAlwJQGpjFyRNuVvK+XK1taIpr5xzZl31Sucu1ZUiOl/n1T
-	51fcg/980Q/Zb2BpVS6xZhW5N8VtQmR/xvUKuxBkCMouKjHMAT9y8N+YItHZ//YVt0le
-	bpcY6hYsRmkMMrQJbtDrAbhL3WoTkylOfjgYcifcrSSKMCvsTv2e88RUeYLcH/gcHiyE
-	U0mIwmPuNCnZR0dASX+DQNaULsVT89veS2iNRayqma8jNVaEFZVcvNCEsrHdgW898bGk
-	a95yo+4cd4pa/HaxYJG0cvBkOJdz+qAeEX86lUueDqHd5MHMvV6jza+UMVw1c235e7bv
-	Hb/Q==
-X-Gm-Message-State: AKwxytcAhNPZCJvRDalcGrWuazlpSQYOGquBItsxgdBWEjvKNqycW9Qk
-	j33xxFJTCxE+ZhvlHDuqGPF9uNelIcbXsUreYlI=
-X-Google-Smtp-Source: ACJfBosSaXpzy6cKc+mLQkEBUmTPIgoamwxi7RMON+Ra1kct/+2T1Mppz3jWxcOk0ldzOwd/exF90HM0uEQVypfBTy8=
-X-Received: by 10.46.3.9 with SMTP id 9mr19358830ljd.27.1516303730290; Thu, 18
-	Jan 2018 11:28:50 -0800 (PST)
+	bh=m5nBBwfMxfUPLPPnHIQYCQQ7XKAvJf8jqzeoKgHB52U=;
+	b=fny6Mnpl1ZOHAN/z0KvqzfRY9t0G6DbYbYcbKzYeXtci0lP6B6rhIpJ/bOKJ4fzr+1
+	8JNQtr2Grsg0db8Eno2JPqK8rIijACsZ0iH7cMIJKDlUGYKz/78rhRXvybfZUIv4ekEG
+	A/kiz2w9AQ1IEq7y6z1LSw52OeeDMKjXFPbcalWb9+t5lY3SOHROxLf8DKiome3+pda6
+	5zgpFmf76fHxwCbZzxVmwJcdpADu8el1EUL1WJQlAPtKybkDHZ+TljGqGtUmSZyqv+sP
+	kMku495L+1AxxH83l0vZ2WGJBJ2maOpj2Ep20M69x8OslqNdLzPeEuQIL6FOpTnkDGXh
+	Bozw==
+X-Gm-Message-State: AKwxytfXu9dPxeC3geIf5jjmA/JvNzchyDgTGUhiOGR2sxei8IeVvhMv
+	Gn3LMHqhiKVIKvLVRs+7e/2y2Gw0QLL1fKvV0B/VYA==
+X-Google-Smtp-Source: ACJfBotmJcIkhmgWV9osUhoKKnCxc2i4rFochoOQJp2XSi5nRhPd2rH6o7R+nS6huQ+4qptCD7a1bXPcU8A7Eds83vc=
+X-Received: by 10.36.85.206 with SMTP id e197mr21561525itb.124.1516305747188; 
+	Thu, 18 Jan 2018 12:02:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.46.0.86 with HTTP; Thu, 18 Jan 2018 11:28:19 -0800 (PST)
-In-Reply-To: <cb001244-b8fa-1425-54fa-98d65d4d43fb@linux.intel.com>
+Received: by 10.107.157.202 with HTTP; Thu, 18 Jan 2018 12:02:06 -0800 (PST)
+In-Reply-To: <20180118191245.9490-1-alistair.francis@xilinx.com>
 References: <20180118191245.9490-1-alistair.francis@xilinx.com>
-	<cb001244-b8fa-1425-54fa-98d65d4d43fb@linux.intel.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 18 Jan 2018 11:28:19 -0800
-Message-ID: <CAKmqyKNiny7U1Sdr+LtLSDOUsbENBbgWegP-hmVYTTwjKFJZ+w@mail.gmail.com>
-To: Joshua Lock <joshua.g.lock@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Jan 2018 20:02:06 +0000
+Message-ID: <CAJTo0LZBo8PT1=PUXpTVo6di2xYGZ6cA_OSj=sxyXPjZSH7cgw@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] glib-2.0: Re-add the gettext depend
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,61 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 19:28:50 -0000
+X-List-Received-Date: Thu, 18 Jan 2018 20:02:26 -0000
+Content-Type: multipart/alternative; boundary="001a113992426ec23c0563127126"
+
+--001a113992426ec23c0563127126
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 18, 2018 at 11:23 AM, Joshua Lock
-<joshua.g.lock@linux.intel.com> wrote:
->
->
-> On 18/01/18 19:12, Alistair Francis wrote:
->>
->> Commit "glib-2.0: rationalise build dependencies"
->> (8b0ca0cb54c91611213556bdb99316d5e7ac5b3b) broke mingw glib builds with
->> the following error:
->>
->> This patch fixes the issue by re-adding the gettext dependency.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
->> ---
->>   meta/recipes-core/glib-2.0/glib.inc | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/glib-2.0/glib.inc
->> b/meta/recipes-core/glib-2.0/glib.inc
->> index 354d95cfe3..e6997ae88f 100644
->> --- a/meta/recipes-core/glib-2.0/glib.inc
->> +++ b/meta/recipes-core/glib-2.0/glib.inc
->> @@ -24,6 +24,7 @@ DEPENDS = "glib-2.0-native \
->>              virtual/libiconv \
->>              libffi \
->>              zlib \
->> +           gettext \
->
->
-> If this is only required for mingw we should add it in a mingw override,
-> something like (untested):
->
-> DEPENDS_mingw32 += "gettext"
->
-> That way we:
-> a) know that it's a mingw dependency (and to test that toolchain before
-> removing)
-> b) don't bloat the DEPENDS where gettext isn't a strict requirement.
+On 18 January 2018 at 19:12, Alistair Francis <alistair.francis@xilinx.com>
+wrote:
 
-That seems fine to me, the only issue I see is that previously this
-wasn't just a mingw depend, so there could be other causes and mingw
-is just what I test.
-
-Alistair
-
+> Commit "glib-2.0: rationalise build dependencies"
+> (8b0ca0cb54c91611213556bdb99316d5e7ac5b3b) broke mingw glib builds with
+> the following error:
 >
->>              ${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus', '', d)}"
->>     PACKAGES += "${PN}-codegen ${PN}-utils"
->>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+The error is missing from the log, but is this the libintl problem?  If so
+that's what the libintl dependency a few lines up is for, the problem is in
+meta-mingw.  I submitted a patch earlier but it wasn't merged by the
+maintainer so I just pushed it myself.
+
+Ross
+
+--001a113992426ec23c0563127126
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 18 January 2018 at 19:12, Alistair Francis <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:alistair.francis@xilinx.com" target=3D"_blank">=
+alistair.francis@xilinx.com</a>&gt;</span> wrote:<br><div class=3D"gmail_ex=
+tra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Commit &quot=
+;glib-2.0: rationalise build dependencies&quot;<br>
+(<wbr>8b0ca0cb54c91611213556bdb99316<wbr>d5e7ac5b3b) broke mingw glib build=
+s with<br>
+the following error:<br></blockquote><div><br></div><div>The error is missi=
+ng from the log, but is this the libintl problem?=C2=A0 If so that&#39;s wh=
+at the libintl dependency a few lines up is for, the problem is in meta-min=
+gw.=C2=A0 I submitted a patch earlier but it wasn&#39;t merged by the maint=
+ainer so I just pushed it myself.</div><div><br></div><div>Ross=C2=A0</div>=
+</div></div></div>
+
+--001a113992426ec23c0563127126--
