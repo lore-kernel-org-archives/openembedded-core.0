@@ -1,54 +1,24 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7934F71A32;
-	Thu, 18 Jan 2018 06:05:03 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id f3so20337528wmc.1;
-	Wed, 17 Jan 2018 22:05:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=foeeyFrzAbA0bGrBWd/LR+oyEu0lRN0WX6PhKCEVV8o=;
-	b=u6sRjZ70hJ/RXLPwn7ErG2LFLHzC+iHDao1keVjOYre2MPzxdZA63uBlXa48CAR/LP
-	SUmVA19uk3VUk9VflxU3Q7o/JSuAG49uiTZ/+coePzQ4g0NKDaQS2M8PU0VEE9V5EjYN
-	Eo2KnXFZb+775djaHVLnIoyBkFJ/FEp1/VOwQur4vq0gjUVHOCvh6SbYcQ7xvGLVNZLg
-	6UeWPS21II5kzDU1sq4SrftxN7dYgVLfiv0FAMeOyO653DnxQAp+4u+rcO4f+aDaRKgA
-	ywa5BFI2iXgM0gJXzqGcqzhdiyTx05/Iv1B6IaqJzLAW1aTH9/VLR7JOvbTpPL/sFvQN
-	nkug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=foeeyFrzAbA0bGrBWd/LR+oyEu0lRN0WX6PhKCEVV8o=;
-	b=PtkmeI1M01ghk1hcV2lmuJBATo+OhdhoLPchuNYNuIqkbVk7vAd2UeOra4l0Trzqxb
-	m2Zbv5eGocSyLfBmPOTjLWr5krMacQaYR7TbJT7RoQ67FvU+Z5eef1wtIAQyaZDUFz7s
-	3Pc3svR5t3f560QralLHC0TOYQ8RAYsIqLp7PFYrgyFMsc4WQjRNXgJkCVJZrPlnH5Tj
-	oPfr66OYUWxaSg5ZQnuSKTjw5oVVfr5ckv8/c+pvLgBqlCM4jhLjOAlnugWEPzz+mrk5
-	/9lnSFvqPgyoiN8TQQuwzijrxooif5Cw9VfRjxBSx2KIDEh7z9g9ILue54rXv4zMUtH4
-	R32Q==
-X-Gm-Message-State: AKwxytdTq0V5yAiiYRXoq5DK3v3JELXziW9Y6VOgTWm415eN0nhwUQmL
-	6ylsvCf3XzzJqVcyO82DS+NUkSUlBgNzhYmA2K8=
-X-Google-Smtp-Source: ACJfBovIbJoD/qJT38/Go7qXMn5qzeKb+khmibsYPdqj3GJCaQkWlGykHrgfuQm6mUUsGA2SpcJtEg+yhNmR2lFkq3g=
-X-Received: by 10.28.154.67 with SMTP id c64mr4287142wme.125.1516255504235;
-	Wed, 17 Jan 2018 22:05:04 -0800 (PST)
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E1E071A8D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jan 2018 07:59:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0I7xWvT015279
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jan 2018 23:59:33 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 17 Jan 2018 23:59:31 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jan 2018 23:59:32 -0800
+Message-ID: <20180118075932.108017-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.223.149.145 with HTTP; Wed, 17 Jan 2018 22:04:43 -0800 (PST)
-In-Reply-To: <f94fc2c7-032a-651a-a0d2-d5860f133b6c@balister.org>
-References: <137d31ae-329e-53ff-f495-259168b787d5@balister.org>
-	<CAGAf8Lws8HfvDvMvdpgXyTvKaVpmf5a1UUTbBc2OrTpw=mgPNA@mail.gmail.com>
-	<CAHQecY5FEt0jMY97Cfq7tR4KAETqied0t3zfFgXw=J5YBSz53A@mail.gmail.com>
-	<f94fc2c7-032a-651a-a0d2-d5860f133b6c@balister.org>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Wed, 17 Jan 2018 22:04:43 -0800
-X-Google-Sender-Auth: rR4E8ZDRt7Wf5Piywj-vVtMBxU4
-Message-ID: <CA+YB3rZ2ZthR+bV0RZR-Af4q4X1OhEWo4oy9YhizVbHDnw+=ug@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>
-Subject: Re: [oe] [yocto] OpenEmbedded developer meeting Sunday before ELC in Portland
+Subject: [PATCH] libevent: fix 32bit linux regress test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,37 +31,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 06:05:04 -0000
-Content-Type: multipart/alternative; boundary="001a114b458eb80258056306bea7"
+X-List-Received-Date: Thu, 18 Jan 2018 07:59:34 -0000
+Content-Type: text/plain
 
---001a114b458eb80258056306bea7
-Content-Type: text/plain; charset="UTF-8"
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-> We know. It is painful. YP Dev Day is the Thursday after, and I suspect
-> we would lose people waiting until Friday.
->
+Fix 32bit linux regress test
 
-SCaLE doesn't usually coincide the week before ELC, so this year was just
-bad timing from the universe.
+This patch is backported from https://github.com/libevent/libevent/commit/63c4bf78d6af3c6ff46d2e8e4b53dd9f577a9ca9
 
-I propose we start with the board meeting at 9:30 and plan OEDAM to start
-at 10:30 to enable people to get there. We can have lunch late and go until
-6 if needed.
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ .../0001-test-fix-32bit-linux-regress.patch        | 48 ++++++++++++++++++++++
+ meta/recipes-support/libevent/libevent_2.1.8.bb    |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
 
---001a114b458eb80258056306bea7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch b/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
+new file mode 100644
+index 0000000000..36d08204f7
+--- /dev/null
++++ b/meta/recipes-support/libevent/libevent/0001-test-fix-32bit-linux-regress.patch
+@@ -0,0 +1,48 @@
++From 69a3813c513c84e02212250c3d5b8a02ecefa698 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Mon, 15 Jan 2018 08:00:33 +0000
++Subject: [PATCH] test: fix 32bit linux regress
++
++This patch comes from https://github.com/libevent/libevent.git,
++the commit is 63c4bf78d6af3c6ff46d2e8e4b53dd9f577a9ca9
++
++Upstream-Status: Backport
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ configure.ac        | 1 +
++ test/regress_util.c | 2 ++
++ 2 files changed, 3 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index 7528d37..e64cb1f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -663,6 +663,7 @@ AC_CHECK_SIZEOF(short)
++ AC_CHECK_SIZEOF(size_t)
++ AC_CHECK_SIZEOF(void *)
++ AC_CHECK_SIZEOF(off_t)
+++AC_CHECK_SIZEOF(time_t)
++ 
++ AC_CHECK_TYPES([struct in6_addr, struct sockaddr_in6, sa_family_t, struct addrinfo, struct sockaddr_storage], , ,
++ [#define _GNU_SOURCE
++diff --git a/test/regress_util.c b/test/regress_util.c
++index ef6a148..0c7eafb 100644
++--- a/test/regress_util.c
+++++ b/test/regress_util.c
++@@ -1412,10 +1412,12 @@ static struct date_rfc1123_case {
++ 	{  1289433600, "Thu, 11 Nov 2010 00:00:00 GMT"},
++ 	{  1323648000, "Mon, 12 Dec 2011 00:00:00 GMT"},
++ #ifndef _WIN32
+++#if EVENT__SIZEOF_TIME_T > 4
++ 	/** In win32 case we have max   "23:59:59 January 18, 2038, UTC" for time32 */
++ 	{  4294967296, "Sun, 07 Feb 2106 06:28:16 GMT"} /* 2^32 */,
++ 	/** In win32 case we have max "23:59:59, December 31, 3000, UTC" for time64 */
++ 	{253402300799, "Fri, 31 Dec 9999 23:59:59 GMT"} /* long long future no one can imagine */,
+++#endif /* time_t != 32bit */
++ 	{  1456704000, "Mon, 29 Feb 2016 00:00:00 GMT"} /* leap year */,
++ #endif
++ 	{  1435708800, "Wed, 01 Jul 2015 00:00:00 GMT"} /* leap second */,
++-- 
++2.13.3
++
+diff --git a/meta/recipes-support/libevent/libevent_2.1.8.bb b/meta/recipes-support/libevent/libevent_2.1.8.bb
+index 1270d627f8..83ce4644cf 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.8.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.8.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=17f20574c0b154d12236d5fbe964f549"
+ SRC_URI = " \
+     https://github.com/libevent/libevent/releases/download/release-${PV}-stable/${BP}-stable.tar.gz \
+     file://Makefile-missing-test-dir.patch \
++    file://0001-test-fix-32bit-linux-regress.patch \
+     file://run-ptest \
+ "
+ 
+-- 
+2.11.0
 
-<div dir=3D"ltr"><div><br></div><div class=3D"gmail_extra"><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We know. It is=
- painful. YP Dev Day is the Thursday after, and I suspect<br>
-we would lose people waiting until Friday.<br></blockquote><div><br></div>S=
-CaLE doesn&#39;t usually coincide the week before ELC, so this year was jus=
-t bad timing from the universe.=C2=A0<div><br></div><div>I propose we start=
- with the board meeting at 9:30 and plan OEDAM to start at 10:30 to enable =
-people to get there. We can have lunch late and go until 6 if needed.=C2=A0=
-<br></div><div>=C2=A0</div></div>
-</div></div>
 
---001a114b458eb80258056306bea7--
