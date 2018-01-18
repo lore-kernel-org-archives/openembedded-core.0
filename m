@@ -1,54 +1,46 @@
-Return-Path: <darknighte@darknighte.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 78E11786A2
+Return-Path: <alistair23@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A2C5C78748
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 18:16:46 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id i1so15673732qtj.8
+	Thu, 18 Jan 2018 19:17:11 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 136so14526420pgd.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 10:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=darknighte.com; s=darknighte;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=B2gzYosHFWNlEGcLtMlZhiVa109obO/2AaogLl7QclQ=;
-	b=JJOMYc3e+pKJkZKd6EqhoHqiQ1n9KTzBrupyPNGyhaOKyLdQD3nS0L5m9MKLGOmZLs
-	Y8QlrqSeTRo6aeXnA/TomiSmBx5sSoCyB70jZzB6B0rOAyNb4hLChBkDkPmYAtOBKOQ1
-	zDMraQbFxfqnt/KAYEskdVHWfsEZCsdyx+9ik=
+	Thu, 18 Jan 2018 11:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=A1ztKrvgGP9CsZKJiylcxL7pL8x3/i/4xxj3Y6FmrT4=;
+	b=O47szP4cUBrkm5ZKxLo0TWYcCvFD9URbsuqQbyvLulQWSebMHAINqrfdkYJUHvzBlI
+	Q5qXJSJCtCKs9PlMxW/P5UoPEFrbTu8W1CR1/0VGM4BUZa3HmYXkUTaiQQ6ob3ZChAfW
+	dww1jYhPUrzSEkdP8fXw8fMLxfuYjyffhIs2fbBkuTMkXvXekB6Ar9vuRAEaoBHikqYD
+	/gtuWqS9EFsS/K4YS+uhOUflSHBE3F6lCxes0y5HdVoji/5fzUE15GoE4Hibrn7ioS1x
+	JsbeuOoGjBu6Uru79VVwBhCsd6aNzaRAICkSTfEabt4TNgL5+TkRS+NNKyXJXQrsqGAG
+	yhBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=B2gzYosHFWNlEGcLtMlZhiVa109obO/2AaogLl7QclQ=;
-	b=n/MLzkryu+Qq67BpuzL+pChElsBpE1wBm1UBNuixGdG+IwicbHQe3ygo/3BJXky2QC
-	Gi0g+6ypzyBBSZ4t0/06bTYa1SWXFcsEeXBNSXqIK3qaWi+jJLSDtZo6IxlEq37nBKCX
-	vPvX9jX6H8Z53GDThZb9iPEmfDBioNhN1CJ9zaiunO55xCE4r558X9CcGEGpmrzbeHOw
-	thceW9rsslF8220/+N+K/EygC6JbwpC5SGpcXY/WyRSr6oymeEI2icYD88nhaWfJSNYb
-	kWMYC6wSHn4i/n1DcZoRqTGl1TzAMFljg1FEsjCpkBvLJLcw8Mdcn7VrLAwV1c8Kwul6
-	slNg==
-X-Gm-Message-State: AKwxyteZ3GDfpg1z22BNHrvfH9Oz6wDqqVIKQ77LP+jPxGlGjNvuM6SR
-	WY5onEXEJyZ80jJHiooLcf570sq1ioch4WLHfmTxzg==
-X-Google-Smtp-Source: ACJfBos66JoJm6cC4PqbPq6OuGHNN4+m9A9vgyON4npp6oFpaodDDUeznbqgfYY2ksJErzU9F5xJodgRW8F4iH0Ex8g=
-X-Received: by 10.200.7.133 with SMTP id l5mr8216487qth.91.1516299407307; Thu,
-	18 Jan 2018 10:16:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.12.190.142 with HTTP; Thu, 18 Jan 2018 10:16:46 -0800 (PST)
-X-Originating-IP: [47.220.159.208]
-In-Reply-To: <CA+YB3rZ2ZthR+bV0RZR-Af4q4X1OhEWo4oy9YhizVbHDnw+=ug@mail.gmail.com>
-References: <137d31ae-329e-53ff-f495-259168b787d5@balister.org>
-	<CAGAf8Lws8HfvDvMvdpgXyTvKaVpmf5a1UUTbBc2OrTpw=mgPNA@mail.gmail.com>
-	<CAHQecY5FEt0jMY97Cfq7tR4KAETqied0t3zfFgXw=J5YBSz53A@mail.gmail.com>
-	<f94fc2c7-032a-651a-a0d2-d5860f133b6c@balister.org>
-	<CA+YB3rZ2ZthR+bV0RZR-Af4q4X1OhEWo4oy9YhizVbHDnw+=ug@mail.gmail.com>
-From: darknighte <darknighte@darknighte.com>
-Date: Thu, 18 Jan 2018 12:16:46 -0600
-Message-ID: <CAKM2CVKDwg3-kTRaY87+0v5=n0MCaA34bLE4=roKwvfFGUe0Pg@mail.gmail.com>
-To: Jeff Osier-Mixon <jefro@jefro.net>
-Cc: Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>,
-	Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [yocto] OpenEmbedded developer meeting Sunday before ELC in Portland
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=A1ztKrvgGP9CsZKJiylcxL7pL8x3/i/4xxj3Y6FmrT4=;
+	b=WIWLEth7l658QpKQ8S1jxNEYAuT3RWp4Ih6OSKwdLgydhO7X5wRwPtARDfgDgtV//w
+	RDdyWh0UWAudV68CWU56v26qsin3MwTb6GvGbMrXy6QLWLS6PgJfgBU2+bwbHYwr0zP5
+	eBK/HoONrKaxBUJmi24T+RJES0xZvAwFKr1dzTBSXs/q/cvWipMtC/pD3Gv4GVPG7qSM
+	qATPowMJIWb8CgioTD9QYWR4yI1d4MNe9OWtBlnuNphPHMEOPi949vaEyZxo9Llg2HFh
+	FugKSyl3uuWi1Yfjqdfnv+gubP8+rf1VlNHA/vkMQ9yQeogGCniVJv/35JxLJSJOGqs+
+	Rkkw==
+X-Gm-Message-State: AKwxytfYB601rndvt57DG0NPTWxN7NiI6x7sgN6w7JE5d+t6QlOSQY9Q
+	7mqeQpqhqefjF8nno5WK3Bmjw7/2cA0=
+X-Google-Smtp-Source: ACJfBovLyfz4PqhXjay9VIpqCfTQcXb6GE86Depntvzue0mYfnUpHtSPK/NXv0fczDDzLpG7AfELaQ==
+X-Received: by 10.99.182.6 with SMTP id j6mr20853686pgf.221.1516303032173;
+	Thu, 18 Jan 2018 11:17:12 -0800 (PST)
+Received: from localhost ([149.199.62.254]) by smtp.gmail.com with ESMTPSA id
+	l10sm11312667pfj.6.2018.01.18.11.17.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 18 Jan 2018 11:17:11 -0800 (PST)
+Sender: Alistair Francis <alistair23@gmail.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jan 2018 11:12:45 -0800
+Message-Id: <20180118191245.9490-1-alistair.francis@xilinx.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] glib-2.0: Re-add the gettext depend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,29 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 18:16:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Jan 2018 19:17:11 -0000
 
-Jefro, That sounds like a reasonable approach to me.  +1
+Commit "glib-2.0: rationalise build dependencies"
+(8b0ca0cb54c91611213556bdb99316d5e7ac5b3b) broke mingw glib builds with
+the following error:
 
-On Thu, Jan 18, 2018 at 12:04 AM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
->
->> We know. It is painful. YP Dev Day is the Thursday after, and I suspect
->> we would lose people waiting until Friday.
->
->
-> SCaLE doesn't usually coincide the week before ELC, so this year was just
-> bad timing from the universe.
->
-> I propose we start with the board meeting at 9:30 and plan OEDAM to start at
-> 10:30 to enable people to get there. We can have lunch late and go until 6
-> if needed.
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+This patch fixes the issue by re-adding the gettext dependency.
+
+Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 354d95cfe3..e6997ae88f 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -24,6 +24,7 @@ DEPENDS = "glib-2.0-native \
+            virtual/libiconv \
+            libffi \
+            zlib \
++           gettext \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus', '', d)}"
+ 
+ PACKAGES += "${PN}-codegen ${PN}-utils"
+-- 
+2.14.1
+
 
