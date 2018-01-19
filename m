@@ -1,51 +1,27 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C94A271B1D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 777AB6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 01:06:38 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id m8so116540lfc.6
+	Fri, 19 Jan 2018 01:52:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0J1qEoh025533
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 17:06:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=CwWf0DGbq4g+01aWZqek9zDhBJsWpIuz7jWWX5v9ppQ=;
-	b=Euds3+u5KjaMrD8GIIchOQu8hX3/E0uVSH+3P7I0J7HQmcEBpy86RrqBYrGjqOUvnL
-	NDrosIeqpfJs1306LtFWGNBsp8NpDL4HuaatyQrILClyJCljdRqDuMotN8o1H1t/yUOZ
-	SJ9UYm4e1FqjQvxsa0KaaNizRPrPjSbY++b7OwFBefw0EpX8hFUCG/hBJu0sxzp/e1C7
-	99D0vp+m0sThPb+x3gxnypqgqJTH7MbdCXTanAF3SbM/+GYChHE8Q7ZYp/RDf3SWb5F2
-	qh+Tzv5Dh46EzC9fb8hEpsiD2iFkf2X623WJ+rhJnC+whnyVMLcXbLIZoZ33y/CEotUw
-	k5OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=CwWf0DGbq4g+01aWZqek9zDhBJsWpIuz7jWWX5v9ppQ=;
-	b=WLuz8aAeIHKLr78KwLPE9T4fKjAm6EkO8t3R9yZaZc/64uX1yVeteLbLkfouRqey3s
-	PYt7Mt0PuLWtrPvS6HPIKCTcLKnRfKnV9dbgPATD4wFtoeP7GQFGXVR/7D1r9YBJtkGX
-	kgG/eWiJWtZc6eP2aHcPPwXbszDlP93+Ut81bCKe+1PtIWivD15fJYJXWRTRAFP9/ld3
-	waBkYzfTLykeUwMmQPchDxCQKdHuDxOXgq0mrODwBzFFxy+U7Y5Q6QJXdGPtEbnAz+Yt
-	a2Qcz7Po8J2xt+hqzlguv0a3XqWGnasx1aiojoiW33IgY29T2xV2te1YUhgdrrN1jqUL
-	99tA==
-X-Gm-Message-State: AKwxytdwM5lqE7vdfbbqATPLiJQwEYerBMmRuw+5L29uTQfvnKTCqhgV
-	aDXbXS7YfuHrNtlkLC7b7fY5oVfDI69Puh0wqmg=
-X-Google-Smtp-Source: ACJfBovndm4zoB0pg83P319qUKNLvjiP8YfrTXRg8YnxfBnsVUvFX309zYT2OUeYgjAR9zESJZnLTPu6rSU2NM9XTKg=
-X-Received: by 10.46.18.217 with SMTP id 86mr14334227ljs.126.1516323999342;
-	Thu, 18 Jan 2018 17:06:39 -0800 (PST)
+	Thu, 18 Jan 2018 17:52:14 -0800 (PST)
+Received: from localhost.localdomain (128.224.163.240) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 18 Jan 2018 17:52:13 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1512006081.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <478e1c81-4c65-66cc-6cd6-3ed01ff9fcc9@windriver.com>
+Date: Fri, 19 Jan 2018 09:52:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.46.0.86 with HTTP; Thu, 18 Jan 2018 17:06:08 -0800 (PST)
-In-Reply-To: <CAJTo0LZBo8PT1=PUXpTVo6di2xYGZ6cA_OSj=sxyXPjZSH7cgw@mail.gmail.com>
-References: <20180118191245.9490-1-alistair.francis@xilinx.com>
-	<CAJTo0LZBo8PT1=PUXpTVo6di2xYGZ6cA_OSj=sxyXPjZSH7cgw@mail.gmail.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Thu, 18 Jan 2018 17:06:08 -0800
-X-Google-Sender-Auth: j2hLEnjLuFmiOybqygTYJHAQ7oc
-Message-ID: <CAKmqyKMTdiRXUWDTtKh59pQ58h4Rtc83Wvu+7FfGr3+r-N0avg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: Re-add the gettext depend
+In-Reply-To: <cover.1512006081.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/5] fix build when len(TMPDIR) == 410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 01:06:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Jan 2018 01:52:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 18, 2018 at 12:02 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 18 January 2018 at 19:12, Alistair Francis <alistair.francis@xilinx.com>
-> wrote:
->>
->> Commit "glib-2.0: rationalise build dependencies"
->> (8b0ca0cb54c91611213556bdb99316d5e7ac5b3b) broke mingw glib builds with
->> the following error:
->
->
-> The error is missing from the log, but is this the libintl problem?  If so
-> that's what the libintl dependency a few lines up is for, the problem is in
-> meta-mingw.  I submitted a patch earlier but it wasn't merged by the
-> maintainer so I just pushed it myself.
+ping.
 
-That is the problem, it is fixed now. Thanks for fixing that Ross.
+// Robert
 
-Alistair
-
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+On 11/30/2017 09:45 AM, Robert Yang wrote:
+> The following changes since commit 33418ed064fe9cff5b4803f09135a81d9170c189:
+> 
+>    runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:36 +0000)
+> 
+> are available in the git repository at:
+> 
+>    git://git.openembedded.org/openembedded-core-contrib rbt/long
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/long
+> 
+> Robert Yang (5):
+>    go-native: fix PATH issue when len(TMPDIR) == 410
+>    go-native: fix import error when len(TMPDIR) == 410
+>    ninja: fix for llvm build when len(TMPDIR) == 410
+>    webkitgtk: fix compile error when len(TMPDIR) == 410
+>    sqlite3: use 1024 for MAX_PATHNAM
+> 
+>   ...01-cmd-dist-unix.c-bprintf-use-larger-buf.patch | 38 ++++++++++++++++++++++
+>   .../go/files/0002-cmd-gc-go.h-NSYMB-500-1000.patch | 35 ++++++++++++++++++++
+>   meta/recipes-devtools/go/go-native.inc             |  5 ++-
+>   ...src-util.cc-use-larger-kMaxPathComponents.patch | 33 +++++++++++++++++++
+>   meta/recipes-devtools/ninja/ninja_1.7.2.bb         |  5 ++-
+>   meta/recipes-sato/webkit/webkitgtk_2.16.6.bb       | 27 +++++++++++++++
+>   .../0001-sqlite3.c-use-1024-MAX_PATHNAME.patch     | 37 +++++++++++++++++++++
+>   meta/recipes-support/sqlite/sqlite3_3.21.0.bb      |  1 +
+>   8 files changed, 179 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/go/files/0001-cmd-dist-unix.c-bprintf-use-larger-buf.patch
+>   create mode 100644 meta/recipes-devtools/go/files/0002-cmd-gc-go.h-NSYMB-500-1000.patch
+>   create mode 100644 meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch
+>   create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch
+> 
 
