@@ -1,32 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A86C67845A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 15:13:54 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jan 2018 07:13:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,381,1511856000"; d="scan'208";a="21071572"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2018 07:13:54 -0800
-To: openembedded-core@lists.openembedded.org
-References: <151627986059.9023.14010623458474127186@git.openembedded.org>
-	<20180118125101.2F92F235ED3@git.openembedded.org>
-	<CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com>
-	<CAJTo0LYJrDXkSG3zhEowg2UbFyYvoAPKKDUKoGd8qQ_yfBwCCA@mail.gmail.com>
-	<CA+chaQczyj5GwNbcPrWsUAeyGv6Lo3MCaanRNpc5dj0BD96+nA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ced1db99-56e4-584e-775a-a345197a00bf@linux.intel.com>
-Date: Fri, 19 Jan 2018 17:07:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C4D97878B;
+	Fri, 19 Jan 2018 15:32:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQczyj5GwNbcPrWsUAeyGv6Lo3MCaanRNpc5dj0BD96+nA@mail.gmail.com>
-Subject: Re: [oe-commits] [openembedded-core] 08/08: json-glib: update to 1.4.2
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Oleg Kokorin <ole2mail@mail.com>
+Date: Fri, 19 Jan 2018 15:32:58 -0000
+Message-ID: <20180119153258.2787.7080@do.openembedded.org>
+References: <1516374472-5682-1-git-send-email-ole2mail@mail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1516374472-5682-1-git-send-email-ole2mail@mail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbXRkLXV0aWxzOiByZW1vdmUgZG91YmxlIGhhc2h0YWJsZSBpdGVyYXRvciBkZWZpbml0aW9uIChyZXYzKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,16 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 15:13:54 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 19 Jan 2018 15:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/19/2018 04:06 PM, Martin Jansa wrote:
-> qemuarm, qemux86, raspberrypi3 and few more arm MACHINEs.
+== Series Details ==
 
-I just tried with qemux86 - builds fine, and the g-i files are present 
-in the packages.
+Series: mtd-utils: remove double hashtable iterator definition (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/10612/
+State : failure
 
-Alex
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 77144bc808)
+
+* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
+  Suggested fix    Include where mtd-utils-fix-hashtable_iterator.patch was submitted
+  Current          Upstream-Status: Submitted to dizzy
+  Standard format  Upstream-Status: Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
