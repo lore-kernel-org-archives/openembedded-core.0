@@ -1,48 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F52A786EA
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AFFD78715
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 11:35:57 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id b5so1818236itc.3
+	Fri, 19 Jan 2018 11:59:47 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id i186so2909311wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 03:35:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=W/BwRlrBTh+44lpEfSSFrnHOVDbhNn1T4B/bVDDQ80U=;
-	b=e0KphHRRsJPZ6rg+N/2zO/TJi4FyjQEEdX9M7dqP4HWe76Gwqx+xPUAotl/bEDp9Uz
-	mUiv4FN29Xh3CC+aism5F4BQ5qWZ9hambamrTbiJiix64PVQ1XH7skGPkIC8+QfS6jvX
-	+08F4VZ7NpOKucZX1whJG9uUlDz1leyK8mLUHpb2VIAKldK84REOsbomAkLlTg+rRi76
-	I5QL5Pwa0+tBXdKJoEbUOYXzSqzmtGP3qL6kAlMBq2WEaLfMOFDyhf1BBbtpTeDsDkGi
-	0NOv82BFiGZttFTB0LMDYA1Ktun4A/xM3IJpzhNGDx9SNnH22e3Ni/q/uJMmG7W1Wclt
-	icXA==
+	Fri, 19 Jan 2018 03:59:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=W/BwRlrBTh+44lpEfSSFrnHOVDbhNn1T4B/bVDDQ80U=;
-	b=MntHL1JI6ClQ61FWKoiMOVDdOUlQYOhKm0iFRmvHZuZkYC3I7j97qp3E8O8Vu2GHRN
-	vKtdNcJJj4rPONUG1uXQifsR6Pdpcr2rlM0ZVDNx9OjW/+i9QNQFHxS2EQdT96bgRMSB
-	YT1wQ07kNiJygX1zC1Foe6fgv+QBLN4EOScStqcVoyOP1MNyVLSyA1BF+Hg4ARNj0pkK
-	SwNJgcbPlIVydZUpClcI4da5M4RBg81jvAYr0VbX2ObzX1M17njRR97Pu4Uo+Cz82S/m
-	HR8OssiMi3jcAezIqPgatYGEiL9y8deL04oSqMO4KrhQvyySpZerlNsKAOKeaxco14wD
-	la+A==
-X-Gm-Message-State: AKwxytfEA02M0wfaZfu4inkHzyO/XwU9bhmolsZQ6foweEUBuZLTDvKX
-	705x5KklTH7jduQBhiyK+vSZ67a94QMaO06m/HQl0A==
-X-Google-Smtp-Source: ACJfBotJvHLGf+WEm7LTl1YqKgaBPbne65dG8eQqB41lCHRA4Qp8o3iwF6GDeXpoE7y25FS6HtWtxUvlgMWwUrDnlRw=
-X-Received: by 10.36.228.79 with SMTP id o76mr26318272ith.85.1516361759436;
-	Fri, 19 Jan 2018 03:35:59 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cm/CrxerKHGyOf+z+JJ5AZ9+9HJcqVY/FzZJjdFXqkU=;
+	b=tdEDoNdd68Jp4/Do4KjSu4sq8PJfhMKkt7guWEYS3OWbHt72geIk3C2+yf5aEBUaKP
+	TuX3HNdPe2dQY6Jgu78q2kkpO6X0mrn9uC3mh7KJniN7RvhhIojzY1L9XViHvwtvr1MU
+	eZEOJJpcaM2UquBdiCJjpZonyvrnrqcX6vGQlM8aUbtrGhudDDnCq2pThFpX9zaH19J3
+	8DqHdiwyPy6B/sYlEj2X4SesqKKmysDNKrqZhnShxI9aOv2Og+e6SmZGRSDWMcqg4KrN
+	dCgvdOhpGCN1WYm1f0meVVzKmhRDZ2jNG6GQDRWdmnKH64YQhJ8LGDe97Ww3y9M6EEHy
+	+3wg==
+X-Gm-Message-State: AKwxytcp5BMEB0NCfsBbviHC7SBxMl3eZaKEdiLD7gxUJQ9iSPQ51Q8v
+	XgDH1KdMZka5fADsKF+ZK9oHBKG2PQU=
+X-Google-Smtp-Source: ACJfBouv2MeyyfIIfMO/h7N9FoSiukj9R9i2J3shoYfg6UTkkHBvyHEAOut/bXxEVFwoKy0TDT7r5g==
+X-Received: by 10.80.151.137 with SMTP id e9mr12607403edb.102.1516363187918;
+	Fri, 19 Jan 2018 03:59:47 -0800 (PST)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	f11sm6042455edf.26.2018.01.19.03.59.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 Jan 2018 03:59:46 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jan 2018 11:59:45 +0000
+Message-Id: <20180119115945.16687-1-git@andred.net>
+X-Mailer: git-send-email 2.15.1
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Fri, 19 Jan 2018 03:35:39 -0800 (PST)
-In-Reply-To: <1516359976-26345-1-git-send-email-ole2mail@mail.com>
-References: <1516359976-26345-1-git-send-email-ole2mail@mail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Jan 2018 11:35:39 +0000
-Message-ID: <CAJTo0LYxWfHvpFQUGk8Qy=AG7A7=PCY6CSm4UWW_8qbCWTO5RA@mail.gmail.com>
-To: Oleg Kokorin <ole2mail@mail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: remove double hashtable iterator definition
+Subject: [PATCH][pyro] python3-native: Add python3-misc-native to RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 11:35:58 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1246da05cc7005631f7c60"
+X-List-Received-Date: Fri, 19 Jan 2018 11:59:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---94eb2c1246da05cc7005631f7c60
-Content-Type: text/plain; charset="UTF-8"
+From: Fabio Berton <fabio.berton@ossystems.com.br>
 
-On 19 January 2018 at 11:06, Oleg Kokorin <ole2mail@mail.com> wrote:
+OE-core commit 800753069f667cd1664d70b3779150c467e3b3fe remove
+RPROVIDES list to get runtime dependences from manifest file.
+python3-misc is added in python3 recipe, we need to add
+native runtime to use python3-misc with native recipes.
 
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch
-> b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-
-> hashtable_iterator.patch
-> new file mode 100644
-> index 0000000..082f3b1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-
-> hashtable_iterator.patch
-> @@ -0,0 +1,31 @@
-> +Index: setup-scripts/build/tmp-angstrom_v2014_12-glibc/work/
-> x86_64-linux/mtd-utils-native/1.5.1+gitAUTOINC+9f107132a6-
-> r0/git/mkfs.ubifs/hashtable/hashtable_itr.h
->
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 31fd20811f6d11e7ed6ac84caf776ac46cd6fb6f)
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+---
+ meta/recipes-devtools/python/python3-native_3.5.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This patch (the patch you add) needs a explanatory comment,
-upstream-status, and signed-off-by:
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+index 3f4b567278..782e2cda9f 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+@@ -79,3 +79,5 @@ do_install() {
+ 	# Tests are large and we don't need them in the native sysroot
+ 	rm ${D}${libdir}/python${PYTHON_MAJMIN}/test -rf
+ }
++
++RPROVIDES += "python3-misc-native"
+-- 
+2.15.1
 
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-Ross
-
---94eb2c1246da05cc7005631f7c60
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 19 January 2018 at 11:06, Oleg Kokorin <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:ole2mail@mail.com" target=3D"_blank">ole2mail@mail.=
-com</a>&gt;</span> wrote:<div class=3D"gmail_extra"><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,20=
-4);padding-left:1ex">
-diff --git a/meta/recipes-devtools/mtd/<wbr>mtd-utils/mtd-utils-fix-<wbr>ha=
-shtable_iterator.patch b/meta/recipes-devtools/mtd/<wbr>mtd-utils/mtd-utils=
--fix-<wbr>hashtable_iterator.patch<br>
-new file mode 100644<br>
-index 0000000..082f3b1<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/mtd/<wbr>mtd-utils/mtd-utils-fix-<wbr>hashtable=
-_iterator.patch<br>
-@@ -0,0 +1,31 @@<br>
-+Index: setup-scripts/build/tmp-<wbr>angstrom_v2014_12-glibc/work/<wbr>x86_=
-64-linux/mtd-utils-native/<wbr>1.5.1+gitAUTOINC+9f107132a6-<wbr>r0/git/mkfs=
-.ubifs/hashtable/<wbr>hashtable_itr.h<br></blockquote><div><br></div><div>T=
-his patch (the patch you add) needs a explanatory comment, upstream-status,=
- and signed-off-by:</div><div><br></div><div><a href=3D"https://www.openemb=
-edded.org/wiki/Commit_Patch_Message_Guidelines">https://www.openembedded.or=
-g/wiki/Commit_Patch_Message_Guidelines</a></div><div><br></div><div>Ross=C2=
-=A0</div></div></div></div>
-
---94eb2c1246da05cc7005631f7c60--
