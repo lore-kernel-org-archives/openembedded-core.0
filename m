@@ -1,33 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EE0378421
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EEE471AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 08:10:53 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jan 2018 00:10:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,381,1511856000"; d="scan'208";a="20993786"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2018 00:10:52 -0800
-To: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin.hundeboll@prevas.dk>,
-	Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-References: <1516331459-4093-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<1516331459-4093-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<8c9a194b-622d-659c-a1de-459cf56ab63a@linux.intel.com>
-	<f671aea7-2a8c-c2b1-b5f9-80fe42fcddd2@prevas.dk>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <d221d7d4-8605-9b93-5046-084f5d46fd4f@linux.intel.com>
-Date: Fri, 19 Jan 2018 10:04:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <f671aea7-2a8c-c2b1-b5f9-80fe42fcddd2@prevas.dk>
-Subject: Re: [PATCH] bash: 4.4 -> 4.4.12
+	Fri, 19 Jan 2018 08:34:46 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0J8YiI9031932
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 19 Jan 2018 08:34:45 GMT
+Message-ID: <1516350884.24502.15.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jan 2018 08:34:44 +0000
+In-Reply-To: <20180118171659.14485-1-sgw@linux.intel.com>
+References: <20180118171659.14485-1-sgw@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] image_types: add support for modern f2fs flash filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 08:10:54 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 19 Jan 2018 08:34:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On 01/19/2018 09:54 AM, Martin Hundebøll wrote:
-> 1.Upgrade bash from 4.4 to 4.4.12.
->>> 2.Delete bash44-001, bash44-002, bash44-003, bash44-004, bash44-005, 
->>> bash44-006, bash44-007,bash44-008, bash44-009, bash44-0010, 
->>> bash44-0011, bash44-0012, since it is integrated upstream.
->>>
->>> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
->>> ---
->>>   meta/recipes-extended/bash/bash_4.4.12.bb | 24 +++++++++++++
->>>   meta/recipes-extended/bash/bash_4.4.bb    | 60 
->>> -------------------------------
->>>   2 files changed, 24 insertions(+), 60 deletions(-)
->>
->> You need to delete the patch files too.
+On Thu, 2018-01-18 at 09:16 -0800, Saul Wold wrote:
+> The f2fs filesystem is a newer flash filesystem that is available in
+> meta-filesystems. This needs a minimum sized blank space to operate
+> in correctly.
 > 
-> The patches are fetched from GNU_MIRROR, no?
+> The f2fs has overprovision functionality and when building smaller
+> filesystems, you actually need more space, therefore under 500M (or
+> so)
+> double the amount of space needed in order to handle the
+> overprovision
+> functions in f2fs.
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/classes/image_types.bbclass | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 
-Ah, yes, that's right.
+We'll need to exclude this fs type from the test:
 
-Alex
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/762/steps/Running%20oe-selftest/logs/stdio
+
+Cheers,
+
+Richard
+
+
 
