@@ -1,54 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BC5478672
+Return-Path: <ole2mail@mail.com>
+Received: from mout.gmx.com (mout.gmx.com [74.208.4.201])
+	by mail.openembedded.org (Postfix) with ESMTP id CB53078797
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 14:12:54 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id f34so2274179ioi.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 06:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hqbNVhgZj4ggEnxPtiq7l/zS+lWfJYwPcRim9W5F5rY=;
-	b=sHKLfC37VvZ0J8OWxOGS7qfHfqBIYXVZ+639t/50oF32tM2FzERW+cIg4SMYB3d/vm
-	GQ3zMErxD3WHjCE1g0SNRFGF3lnJnyTJ7hxB7+C809ynAUBF3CsZ9B3KihHX14uOPZgg
-	VUOUqeg9qjcrLI+iFKC9TEFfIviZkCn1EajFv5B5T9IN0KZo/qJ7UoOKQrp+P0nD7V1e
-	4cDF4OHpDGUlj28Ef5vE3v/rU4n9ojG6HjQCte2Iw84mZfs6S7KZXdN0Lk/fOhkBEAyu
-	V617cI4ClJgRQOXTzNiIYWZq4Rd6oJWPaIvzMPXzJiLIxS0xvYs9bCi7ae9hMgFP6Hqn
-	luQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hqbNVhgZj4ggEnxPtiq7l/zS+lWfJYwPcRim9W5F5rY=;
-	b=l6IvOqbuYfAT6vt2OGLORc0xo3YvRlpx83TzoheXdoueiQBxS97Ey//hieuqs5BjeM
-	u2aLziYlLfambFhs/iV6grBvEkm8px8PbFtheywXL2b/bxIz8rOWuhRrQk/dccijWZH1
-	RNxTFFwz5FsrlRdLOadFbXeRF2NXp2VhSQjTwy7gjAznJn8e36wjtECHbNcA9kRoiZS9
-	iJWY4Feg4ohDacZB81EugdDOtolm8V4w5me4AwcmwtQMfhrwua77Z7dFruH9os16aLln
-	ef0DIh6ldNkG49Iguy4z4wXLhGM7Sr5ELlvJxrZhV6rXXEVHzdA368lLh3bF5xxGmyZM
-	KTIg==
-X-Gm-Message-State: AKwxytfqjYC9atHA6bxyDX7p2KX+Bd5lTocosZfB9ec+mAed58seIIKK
-	Ozgx9K7kG9cP9uByyf5FZrCaHNGCH6+bBx//r2xR5Q==
-X-Google-Smtp-Source: ACJfBotQ5hR9+94rP1emLnu4Q8lhBGE9FlFJJXbh/Wc4C7jp6JjqqZjYZywML4bZ4ZuWibbJTIaYqciUmDsUOH5qxTE=
-X-Received: by 10.107.175.8 with SMTP id y8mr22423010ioe.37.1516371175619;
-	Fri, 19 Jan 2018 06:12:55 -0800 (PST)
+	Fri, 19 Jan 2018 14:27:39 +0000 (UTC)
+Received: from [109.0.249.169] ([109.0.249.169]) by
+	3c-app-mailcom-lxa10.server.lan (via HTTP);
+	Fri, 19 Jan 2018 15:27:40 +0100
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Fri, 19 Jan 2018 06:12:35 -0800 (PST)
-In-Reply-To: <CA+chaQczyj5GwNbcPrWsUAeyGv6Lo3MCaanRNpc5dj0BD96+nA@mail.gmail.com>
-References: <151627986059.9023.14010623458474127186@git.openembedded.org>
-	<20180118125101.2F92F235ED3@git.openembedded.org>
-	<CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com>
-	<CAJTo0LYJrDXkSG3zhEowg2UbFyYvoAPKKDUKoGd8qQ_yfBwCCA@mail.gmail.com>
-	<CA+chaQczyj5GwNbcPrWsUAeyGv6Lo3MCaanRNpc5dj0BD96+nA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Jan 2018 14:12:35 +0000
-Message-ID: <CAJTo0LZu4JbmVsPFyXM-SjnFOtfU8Mcab=mzHy3aVsft6_=7mw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-commits@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 08/08: json-glib: update to 1.4.2
+Message-ID: <trinity-7807cfd5-94c9-4884-adaf-3a8c5dbecfe5-1516372060389@3c-app-mailcom-lxa10>
+From: "Oleg Kokorin" <ole2mail@mail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jan 2018 15:27:40 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20180119140254.2784.90940@do.openembedded.org>
+References: <1516370069-9287-1-git-send-email-ole2mail@mail.com>
+	<20180119140254.2784.90940@do.openembedded.org>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:FeDUU8Aeua/lOB7rJsNpxL40HsDCtjZOiKOK6xMc/4r
+	NVRDI1bPOnYqdhwERz+jKdR3le2FKThWo/v54bN1e7lsDuMcRN
+	wSygTmQlNuECOq122OPEhC0fbM7FvgEPDTrbCFpFoW/Wovkywb
+	UEdD5ll7gcV/m1rUTIXDIi6m5YDxvrl6vZ0ezpNldgEpj8799M
+	YAZpdklJmvpn1SQYMD3NUjtphbVHzmrJVG7KY4pni3EitZM2cX
+	1OV2t6HK19O8uiFk6yM6htgQ8KvKNFRcsLN1Vy5JDwKf2xFay+ bfSPIE=
+X-UI-Out-Filterresults: notjunk:1;V01:K0:72sEquITERs=:WMyuCgyOhE6rk5tP5m8Tnj
+	VNCWe15cxHqyfirmxZRVJ+3imVPxJt7v0VP1AfYSFLvdlhVyRjsJ5Xn4sxic9CAz4JdbnqGZx
+	29nP4qTnNz1xKOo1zsGfAVPZgeZ5I+ClNZKPO0P+4d/l1ZCmXXPay8cccSD0TGuH1Rn+GM1vo
+	cWHS+jzZMmX44Z/8xFrP1EPV6INzaoXSltZ8j54NR7kImB0CLwB0Lqdfa1/UrE/xInZS6HUGp
+	n2hhxLn6l+OS6lxGTq7kNRLqmullX4IYR9zhlNegXjaLzYfFkJ8A15JNXuvelRgz2d8K7Yxez
+	S14ZMZxlD5t5V7rCBaoYBD9pFUNvn7/pBuyGS97LJCMV/Ya9LRd3irQd7KIbDxkup7/oL0E6s
+	Iwh/WFrryJ+hrFwHYNMxCa1AUH1VaCEUFw1tQ7XJx8MBPdH0zHWxVzxhLQYeS6R7oiKhWz5Pv
+	xF+qIxDkiEYL7Qb3hxk4ruTjzsCWpJS8OZgtmXj6Gz9gGdBMbgV+
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgLSBkZWZlY3RpdmUgcm9ib3Q=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,32 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 14:12:54 -0000
-Content-Type: multipart/alternative; boundary="001a1144a268454bca056321ad0d"
+X-List-Received-Date: Fri, 19 Jan 2018 14:27:40 -0000
+Content-Type: text/html; charset=UTF-8
 
---001a1144a268454bca056321ad0d
-Content-Type: text/plain; charset="UTF-8"
+<html><head></head><body><div style="font-family: Verdana;font-size: 12.0px;"><div>
+<div>hello All</div>
 
-On 19 January 2018 at 14:06, Martin Jansa <martin.jansa@gmail.com> wrote:
+<div>anybody know the proper way to crack around this useless robot keeping complaining about missing Sign-Off field inside the patch file while the field is in?</div>
 
-> qemuarm, qemux86, raspberrypi3 and few more arm MACHINEs.
->
+<div>thanks</div>
 
-Can you replicate with nodistro?
+<div>Oleg</div>
 
-Ross
+<div>&nbsp;
+<div name="quote" style="margin:10px 5px 5px 10px; padding: 10px 0 10px 10px; border-left:2px solid #C3D9E5; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+<div style="margin:0 0 10px 0;"><b>Sent:</b>&nbsp;Friday, January 19, 2018 at 3:02 PM<br/>
+<b>From:</b>&nbsp;Patchwork &lt;patchwork@patchwork.openembedded.org&gt;<br/>
+<b>To:</b>&nbsp;&quot;Oleg Kokorin&quot; &lt;ole2mail@mail.com&gt;<br/>
+<b>Cc:</b>&nbsp;openembedded-core@lists.openembedded.org<br/>
+<b>Subject:</b>&nbsp;&#10007; patchtest: failure for mtd-utils: remove double hashtable iterator definition (rev2)</div>
 
---001a1144a268454bca056321ad0d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+<div name="quoted-content">== Series Details ==<br/>
+<br/>
+Series: mtd-utils: remove double hashtable iterator definition (rev2)<br/>
+Revision: 2<br/>
+URL : <a href="https://patchwork.openembedded.org/series/10612/" target="_blank">https://patchwork.openembedded.org/series/10612/</a><br/>
+State : failure<br/>
+<br/>
+== Summary ==<br/>
+<br/>
+<br/>
+Thank you for submitting this patch series to OpenEmbedded Core. This is<br/>
+an automated response. Several tests have been executed on the proposed<br/>
+series by patchtest resulting in the following failures:<br/>
+<br/>
+<br/>
+<br/>
+* Issue Series does not apply on top of target branch [test_series_merge_on_head]<br/>
+Suggested fix Rebase your series on top of targeted branch<br/>
+Targeted branch master (currently at 77144bc808)<br/>
+<br/>
+* Issue A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence]<br/>
+Suggested fix Sign off the added patch file (meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch)<br/>
+<br/>
+<br/>
+<br/>
+If you believe any of these test results are incorrect, please reply to the<br/>
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.<br/>
+Otherwise we would appreciate you correcting the issues and submitting a new<br/>
+version of the patchset if applicable. Please ensure you add/increment the<br/>
+version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2] -&gt;<br/>
+[PATCH v3] -&gt; ...).<br/>
+<br/>
+---<br/>
+Guidelines: <a href="https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines" target="_blank">https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a><br/>
+Test framework: <a href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest" target="_blank">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest</a><br/>
+Test suite: <a href="http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe" target="_blank">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe</a><br/>
+&nbsp;</div>
+</div>
+</div>
+</div></div></body></html>
 
-<div dir=3D"ltr">On 19 January 2018 at 14:06, Martin Jansa <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.ja=
-nsa@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">qemuarm, =
-qemux86, raspberrypi3 and few more arm MACHINEs.</div></blockquote><div><br=
-></div><div>Can you replicate with nodistro?</div><div><br></div><div>Ross=
-=C2=A0</div></div></div></div>
-
---001a1144a268454bca056321ad0d--
