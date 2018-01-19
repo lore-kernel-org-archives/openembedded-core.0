@@ -1,24 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF4A771F5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB927860E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 03:12:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0J3CZ41001444
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 19:12:35 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 18 Jan 2018 19:12:34 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jan 2018 11:10:12 +0800
-Message-ID: <20180119031012.2056-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Fri, 19 Jan 2018 07:28:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Jan 2018 23:28:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,380,1511856000"; d="scan'208";a="20985966"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2018 23:28:20 -0800
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+References: <1516331459-4093-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<1516331459-4093-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8c9a194b-622d-659c-a1de-459cf56ab63a@linux.intel.com>
+Date: Fri, 19 Jan 2018 09:22:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH] opkg-utils: fix the sed pattern in update-alternatives
+In-Reply-To: <1516331459-4093-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] bash: 4.4 -> 4.4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 03:12:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Jan 2018 07:28:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 01/19/2018 05:10 AM, Huang Qiyu wrote:
+> 1.Upgrade bash from 4.4 to 4.4.12.
+> 2.Delete bash44-001, bash44-002, bash44-003, bash44-004, bash44-005, bash44-006, bash44-007,bash44-008, bash44-009, bash44-0010, bash44-0011, bash44-0012, since it is integrated upstream.
+> 
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>   meta/recipes-extended/bash/bash_4.4.12.bb | 24 +++++++++++++
+>   meta/recipes-extended/bash/bash_4.4.bb    | 60 -------------------------------
+>   2 files changed, 24 insertions(+), 60 deletions(-)
 
-'\>' is to matches the end of a word, but the executable is
-not always a 'word', e.g. /usr/lib64/busybox/usr/bin/[
+You need to delete the patch files too.
 
-then such alternatives can not be removed.
-
-So change to use '\s' in the pattern since the following
-character of the $path is whitespace.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- ...ternatives-remove_alt-fix-the-sed-pattern.patch | 36 ++++++++++++++++++++++
- .../opkg-utils/opkg-utils_0.3.5.bb                 |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-remove_alt-fix-the-sed-pattern.patch
-
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-remove_alt-fix-the-sed-pattern.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-remove_alt-fix-the-sed-pattern.patch
-new file mode 100644
-index 0000000000..cca07a7d5b
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/update-alternatives-remove_alt-fix-the-sed-pattern.patch
-@@ -0,0 +1,36 @@
-+From e8b8880a281ccb0082f6cad63eb253b921f31fef Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Thu, 18 Jan 2018 17:57:08 -0800
-+Subject: [PATCH] update-alternatives: fix the sed pattern in remove_alt
-+
-+'\>' is to matches the end of a word, but the executable is
-+not always a 'word', e.g. /usr/lib64/busybox/usr/bin/[
-+
-+then such alternatives can not be removed.
-+
-+So change to use '\s' in the pattern since the following
-+character of the $path is whitespace.
-+
-+Upstream-Status: Submitted [yocto@yoctoproject.org, opkg-devel@googlegroups.com]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ update-alternatives | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/update-alternatives b/update-alternatives
-+index ffad853..ce7d66c 100644
-+--- a/update-alternatives
-++++ b/update-alternatives
-+@@ -80,7 +80,7 @@ remove_alt() {
-+ 	[ ! -f $ad/$name ] && return 0
-+ 
-+ 	path=`echo $path | protect_slashes | protect_special_character`
-+-	sed -ne "/^$path\>.*/!p" $ad/$name > $ad/$name.new
-++	sed -ne "/^$path\s.*/!p" $ad/$name > $ad/$name.new
-+ 	mv $ad/$name.new $ad/$name
-+ }
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-index 514ba7912a..53b69efe55 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-@@ -9,6 +9,7 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- 
- SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
-            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
-+           file://update-alternatives-remove_alt-fix-the-sed-pattern.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
--- 
-2.11.0
-
+Alex
 
