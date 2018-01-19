@@ -1,26 +1,18 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D156F7872C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jan 2018 23:47:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2018 15:47:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,379,1511856000"; d="scan'208";a="11278521"
-Received: from arbrindl-dev.jf.intel.com ([10.7.199.57])
-	by orsmga008.jf.intel.com with ESMTP; 18 Jan 2018 15:47:36 -0800
-From: Amanda Brindle <amanda.r.brindle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jan 2018 15:45:24 -0800
-Message-Id: <12c8206e65ab9f797d2da46eecfad7fad4aaafc2.1516318733.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1516318733.git.amanda.r.brindle@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 565577017B;
+	Fri, 19 Jan 2018 00:02:57 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Amanda Brindle <amanda.r.brindle@intel.com>
+Date: Fri, 19 Jan 2018 00:02:59 -0000
+Message-ID: <20180119000259.2786.36132@do.openembedded.org>
 References: <cover.1516318733.git.amanda.r.brindle@intel.com>
-Cc: paul.eggleton@linux.intel.com, Amanda Brindle <amanda.r.brindle@intel.com>
-Subject: [PATCH 1/1] tinfoil.py: Check if BUILDDIR exists
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1516318733.git.amanda.r.brindle@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdGluZm9pbC5weTogQ2hlY2sgaWYgQlVJTERESVIgZXhpc3Rz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jan 2018 23:47:38 -0000
+X-List-Received-Date: Fri, 19 Jan 2018 00:02:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Check if BUILDDIR exists in order to deterimine if a tinfoil using
-script is running without having called oe-init-build-env (or similar).
-If not, instruct user to initialise the build environment, and then
-error out immediately. Before, tinfoil would hang for 30s before
-erroring out.
+== Series Details ==
 
-Fixes [YOCTO #12096]
+Series: tinfoil.py: Check if BUILDDIR exists
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10609/
+State : failure
 
-Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+  Patch's path:    bitbake/lib/bb/tinfoil.py
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 6b87ad5b08)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- bitbake/lib/bb/tinfoil.py | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/bitbake/lib/bb/tinfoil.py b/bitbake/lib/bb/tinfoil.py
-index 368264f..e156b47 100644
---- a/bitbake/lib/bb/tinfoil.py
-+++ b/bitbake/lib/bb/tinfoil.py
-@@ -372,6 +372,11 @@ class Tinfoil:
-         """
-         self.quiet = quiet
- 
-+        basepath = os.environ.get('BUILDDIR')
-+        if not basepath:
-+            print("Tinfoil can only be run after initialising the build environment (e.g. by using oe-init-build-env)")
-+            sys.exit(1)
-+
-         if self.tracking:
-             extrafeatures = [bb.cooker.CookerFeatures.BASEDATASTORE_TRACKING]
-         else:
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
