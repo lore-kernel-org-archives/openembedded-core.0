@@ -1,40 +1,34 @@
-Return-Path: <v.vogelhuber@digitalendoscopy.de>
-X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 19 Jan 2018 16:08:08 UTC
-Received: from mx-relay39-hz2.antispameurope.com
-	(mx-relay39-hz2.antispameurope.com [94.100.136.239])
-	by mail.openembedded.org (Postfix) with ESMTP id DF76771AB9
+Return-Path: <ole2mail@mail.com>
+Received: from mout.gmx.com (mout.gmx.com [74.208.4.200])
+	by mail.openembedded.org (Postfix) with ESMTP id 0881F60721
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 16:08:08 +0000 (UTC)
-Received: from ptr-128.65.149.218.static.lewtelnet-access.de
-	([128.65.149.218]) by mx-relay39-hz2.antispameurope.com; 
-	Fri, 19 Jan 2018 17:01:03 +0100
-Received: from [192.168.20.187] (192.168.20.187) by srv-msx01.digitendos.de
-	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
-	Fri, 19 Jan 2018 17:00:42 +0100
-To: <openembedded-core@lists.openembedded.org>
-From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
-Message-ID: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
-Date: Fri, 19 Jan 2018 17:00:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-X-Originating-IP: [192.168.20.187]
-X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
-	srv-msx01.digitendos.de (192.168.20.14)
-X-TM-AS-Product-Ver: SMEX-11.1.0.1291-8.200.1013-23606.004
-X-TM-AS-Result: No--9.119100-8.000000-31
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
-	mx-relay39-hz2.antispameurope.com with B183FA6AC2B
-X-cloud-security-connect: ptr-128.65.149.218.static.lewtelnet-access.de[128.65.149.218],
-	TLS=1, IP=128.65.149.218
-X-cloud-security: scantime:.2780
-Subject: Question about multi rootfs UIDs when using wic
+	Fri, 19 Jan 2018 16:15:42 +0000 (UTC)
+Received: from ole2-ThinkPad-P50.encara.local.ads ([109.0.249.184]) by
+	mail.gmx.com (mrgmxus001 [74.208.5.15]) with ESMTPSA (Nemesis) id
+	0MGSQA-1eYBbj1w5Q-00DI9Y; Fri, 19 Jan 2018 17:15:43 +0100
+From: Oleg Kokorin <ole2mail@mail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jan 2018 17:15:31 +0100
+Message-Id: <1516378531-23996-1-git-send-email-ole2mail@mail.com>
+X-Mailer: git-send-email 2.7.4
+X-Provags-ID: V03:K0:WoWXc8vZJazC6pg2QTzRp6TY56zRmUP3ujwzHavlVmjvcBbAPVq
+	zl6DRFBzuosCB5XiHnAIatJSdm/EM1vzYqonQshlc4Q234BHa2IM6vxjMCVOgC+qRU3aZKt
+	r06F899gxDtWOanxXm8MDv5GYYsPJwUithrjEzWgEkt8q+lf455OG9skOkHoguD8OCwvxlj
+	8Hmz6sCQnQJDgtXAN9yfg==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:ND6m39CSHms=:wFb0bMyvpOBM9CeWBCBsMt
+	ofyPqXgRxXL9Z2ZD9WFy/3Qdrv/S+oc2Kj70vH6k86gnG2wFZW5LKbasxZcgYc9KpYWstL4dN
+	xTQHvHId0dbHwerUzwEBRnd3OapARtq8EtQVKS838EMmdwG/QSQVMa8qz74MzsFVtirOCnUl+
+	cCApXNSySWbXbC9U0YxTfXywUu3Unz5odA6XDDkMwmM5+7t5Z03XDRp2YDWpMuCZ0VxBJRKrZ
+	Tbltbt4CWgop2/7ZCoTWtQcg1xeoMIQBRPE00N/uRjkryM26nbFx09c3BR1YV9lX6UO0HPb9T
+	mvH8LnZ6W2RRBRlXV17MHrqJfb4kj16ZSX2Q3EB/sN9xbXvfypTTG0br7/2EUYzdeMYd6fMRE
+	6yC8BLb39RolAzYzUpwi4OmjP36z+lDTAzw890FotLGoPd44otObUKrrXlChf+dUZkxFD7qh8
+	/wpVRXfbU067DBKScwTvDglZ9z1Fml7w4UlZtLjjShLzzgFvMdLKKgvQYL/kN7avSfX0p7hPr
+	3/jsiRVFgW02z3fXJymWeA+H6LAGrEYAbzFAkb8O7kJKuDF5tn6KJwK+QBzMHQbjOh5IDWDo7
+	KAjqtRsI09ahMDFc2M9JcAGf/VM7qDwXHvAoFFob3YW582ZDvQJkRHNnBaG4FxMzbk+Dj/6LA
+	t793aXyVa1gGG4JaBxT4/zd5EMVGcOnA4PsW0TRvPu1dJTZLjZoBoUDZs4bIvZDzInLBv6iUj
+	IAmLME2Fygi2OK8c/rEs6OTCZzmhjqU9WDqA7fWL0PQ5HXRLYjaF5RkMuSXX6KTC+XgT9Mavi
+	NFs1yuNIk2UdaJgfBVjhr4MQnmLDQ==
+Subject: [PATCH] [PATCH v4] mtd-utils: remove double hashtable iterator definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,49 +41,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 16:08:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jan 2018 16:15:43 -0000
 
-I'm currently trying to create a multi RootFS WIC image as mentioned in
-directdisk-multi-rootfs.wks. For that I have two image recipes. One that 
-is creating only an ext4 image (image-recovery), and the second that is 
-also creating a WIC image (image-main). I used the IMAGE_FSTYPES 
-variable for that. The WKS file for the second image is integrating the 
-recovery image by specifying --rootfs-dir=image-recovery in it's part 
-description.
+hashtable_iterator_key and hashtable_iterator_value redefinition inside
+mkfs.ubifs/hashtable/hashtable_itr.h cause linker redefinition error
 
-# primary / recovery image
-part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/ 
-mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700 
---overhead-factor=1.0
-part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4 
---label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
+Signed-off-by: Oleg Kokorin <ole2mail@mail.com>
+---
+ .../mtd-utils-fix-hashtable_iterator.patch         | 58 ++++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch
 
-The UIDs of the second rootfs (image-main) are correctly set to 0 within 
-the file system when calling mkfs.ext4 during prepare_rootfs_ext. For 
-the recovery rootfs the UID is always set to my own (host) one which is 
-of course not valid for the image where that UID does not exist.
-I tried calling the mkfs.ext4 command myself from a terminal and for 
-whatever reason an image created out of the rootfs folder of the second 
-image (image-main) recipe is deployed with the correct UID 0, while the 
-rootfs folder of the first image (image-recovery) recipe always uses the 
-UID of the source folder/files.
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch
+new file mode 100644
+index 0000000..b6cf3a3
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-hashtable_iterator.patch
+@@ -0,0 +1,58 @@
++Upstream-Status: Submitted to dizzy
++
++Author: Oleg Kokorin <ole2mail@mail.com>
++Date:   Fri Jan 19 11:52:12 2018 +0100
++
++mtd-utils: remove double hashtable iterator definition
++
++hashtable_iterator_key and hashtable_iterator_value redefinition inside
++mkfs.ubifs/hashtable/hashtable_itr.h cause linker redefinition error:
++
++|   CC      mkfs.ubifs/hashtable/hashtable_itr.o
++| mkfs.ubifs/hashtable/hashtable_itr.c:42:1: error: redefinition of 'hashtable_iterator_key'
++|  hashtable_iterator_key(struct hashtable_itr *i)
++|  ^
++| In file included from mkfs.ubifs/hashtable/hashtable_itr.c:5:0:
++| mkfs.ubifs/hashtable/hashtable_itr.h:32:1: note: previous definition of 'hashtable_iterator_key' was here
++|  hashtable_iterator_key(struct hashtable_itr *i)
++|  ^
++| mkfs.ubifs/hashtable/hashtable_itr.c:46:1: error: redefinition of 'hashtable_iterator_value'
++|  hashtable_iterator_value(struct hashtable_itr *i)
++|  ^
++| In file included from mkfs.ubifs/hashtable/hashtable_itr.c:5:0:
++| mkfs.ubifs/hashtable/hashtable_itr.h:41:1: note: previous definition of 'hashtable_iterator_value' was here
++|  hashtable_iterator_value(struct hashtable_itr *i)
++
++Signed-off-by: Oleg Kokorin <ole2mail@mail.com>
++
++Index: setup-scripts/build/tmp-angstrom_v2014_12-glibc/work/x86_64-linux/mtd-utils-native/1.5.1+gitAUTOINC+9f107132a6-r0/git/mkfs.ubifs/hashtable/hashtable_itr.h
++===================================================================
++--- a/mkfs.ubifs/hashtable/hashtable_itr.h
+++++ b/mkfs.ubifs/hashtable/hashtable_itr.h
++@@ -27,22 +27,22 @@ hashtable_iterator(struct hashtable *h);
++ /*****************************************************************************/
++ /* hashtable_iterator_key
++  * - return the value of the (key,value) pair at the current position */
++-
+++/*
++ extern inline void *
++ hashtable_iterator_key(struct hashtable_itr *i)
++ {
++     return i->e->k;
++ }
++-
+++*/
++ /*****************************************************************************/
++ /* value - return the value of the (key,value) pair at the current position */
++-
+++/*
++ extern inline void *
++ hashtable_iterator_value(struct hashtable_itr *i)
++ {
++     return i->e->v;
++ }
++-
+++*/
++ /*****************************************************************************/
++ /* advance - advance the iterator to the next element
++  *           returns zero if advanced to end of table */
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 52297c6..f903a65 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -11,6 +11,7 @@ SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+ 		file://fix-armv7-neon-alignment.patch \
++		file://mtd-utils-fix-hashtable_iterator.patch \
+ "
+ 
+ PV = "1.5.1+git${SRCPV}"
+-- 
+2.7.4
 
-I search the code of e2fsprogs for the line that sets the UID and added 
-a printf in set_inode_extra. There I can see clearly that the source UID 
-for the file is 0 for the rootfs of the image-main rootfs folder while 
-it is 10000 (my own UID) for the image-recovery. I wonder how the UID of 
-the image-main rootfs folder can be zero when I don't call any command 
-with root permissions. I searched for a preparation step where the UIDs 
-are managed in the scripts folder of Yocto, but didn't found any hint 
-for the whole behavior. So while it is good that the rootfs partition of 
-the main rootfs has the UID set correctly to zero, I can't understand 
-why it happens. On the other side I can understand why the UID of the 
-recovery rootfs is set to my own one, but it stops me from booting that 
-rootfs because the UIDs of the files and folders are set to a user that 
-does not exist on the target system.
-
-Can someone please explain to me, how that UID handling is meant to be done?
 
