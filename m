@@ -1,51 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8491B7872C
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 832CC78743
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 14:01:11 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id c17so2263569iod.1
+	Fri, 19 Jan 2018 14:02:00 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id m11so2255627iob.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 06:01:13 -0800 (PST)
+	Fri, 19 Jan 2018 06:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=ryGmmzYSrblQOOpfxwf+2J3A9XTYQ1FMsWQUElGKLNg=;
-	b=GA9Jb+DSlvo5lKFSFfr8Ar21MKe/EOZjdE4m4bxhf0d8SgLx5vlaZmOIKW8f2slsKW
-	MytBhsyeBjNLTjvlobQdF3QIJXs4EU7j/Y7rN7axF/60gPzCSGPcfUrR0tBDPLEH09uZ
-	CgXPmwaEkGC+8TlCT8Kvq2N6KVRfk2gkmDgS/WED04k8I54ihuOwZSbr1zl2hMp5PMaU
-	tANTg4jfAwbvmRJIX61HSJL1zfT0lTU/qVpdMKkia/2hf4oEaEXo0+kA42Nw8fdGq4iz
-	maKebVvGu4h3fJgJlmaZ77hbPTGUIHprRMNIw8Vt3XogaFovImyRQhb0jb62qCWnxS8O
-	pXDg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=78D15/3uCX8oyugchVCoF06xcovyqNHXQjscP2CexGk=;
+	b=DNgPdSSz+v4dD5JTlafh/RukpiPTF+myMuHlkWYMOMrMo5Ftd8iYduW6zD/GwC/B18
+	FxQakvyg3tvRjYrZFGwsFS6GulU02t5MDXHUGn1Al6Z0KisjGHexX07vAuc68t6Wlrx2
+	uTDBHQmV8R/Xtjaxd+x8NSwLHEv/xHlTYMqLvuf6Q65kgywoQvLZDAcEBs8GqjTsnU5h
+	XhEz+EBHL4D2Sd4ObFV1pS6C4gqg2m9oToXx2SDy+PiQA1rlFnYhYSP1Y5XXtCjt+tb8
+	j+scuHkeLbCAfyQpJ14EN4qYl5wFXBM/YqRXcfifM6MkDFKc/9hnVOiW8jbyp/kxOOtY
+	k9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=ryGmmzYSrblQOOpfxwf+2J3A9XTYQ1FMsWQUElGKLNg=;
-	b=dswRBTDk86Qbw9wgt9XiA1tgNC9VM2vHPyULJvdxPM9QF1YaI9pCeRpcS9PojDQ/Yc
-	vhEhdFrI2ancgIEy6LYvNh80UH0CaiPDjn0cOMQu0AUi5zC2TVyXvzx9UkH2KAFNLir1
-	1TsxEcE6DmA28S0SumdaElnbmZsKA6A3GmBAERlNBJDvCKLGij+7lxWx3gK5LIxId4m3
-	mbaH9ZqIxyEu1B0sPfbxoUWknNg9WMbXkil9LzydlLAuBezmpZ6ygy1d8EAfkfZyIiAW
-	Z5tLeJhhr22FvaMDJS2Phf2R/hLn2T7x2dZATDwFcMXw2Jb/OH7T9KuVqclqbyriqbuu
-	IIhA==
-X-Gm-Message-State: AKwxytemZHq4hES2ehGv5+oof7TwmfTsIa6gpWPUXmXhHO396Uv6SFMI
-	bkVtrt81JDMEkG3LB6ez1XZ3MZsqBK+1kKaItwMGaA==
-X-Google-Smtp-Source: ACJfBouTIFnaqyAffNT0RkCUc0O+xD+e5Hh/LUhEG7FnORrVOuno60iNU29bh2vOszsx7pNVSOvrqxfmQCtfYWq76Jc=
-X-Received: by 10.107.175.8 with SMTP id y8mr22371083ioe.37.1516370473327;
-	Fri, 19 Jan 2018 06:01:13 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=78D15/3uCX8oyugchVCoF06xcovyqNHXQjscP2CexGk=;
+	b=BZpBkNPwaD7bxk/BOHikkCaFPDntZY8/XoCWk/wGJfOUJZAVNkA1Q0pZ4ZYJfAMCM4
+	ax7FMhbffe5jA13FEm1+AOmM+KDr8RH1RHHwxz35HtFysUfjQbc0sHpu8B/oQAqHUWra
+	EldfIqe/yVZaWF12TmUGIgWUw8GtlVpEnIKVtjBIySWxbpWx4nkdJDyPWq+Y+UWiEHHC
+	dO+SgStzm6k87BxtD1/c85BAyRTAAsF12+e1/ptFsUstB+olmfK4MtPMPJL7lIy1Y/+O
+	qA78oz6f5AUFe+56NH3WoLNC1vjOuHVQ2OaZS358BMrKqKfB8WH2EfNJcDUH1NHHMEpR
+	M3DQ==
+X-Gm-Message-State: AKwxytf3+mm9NCBwjlw6W6wmhh4HkD59oDjRpbtYoE1TrxKjPdtpTVgp
+	f14507c6F638VDELxKQ3s923T1GwE5//LeggXF+mPQ==
+X-Google-Smtp-Source: ACJfBou42PoMEpUf9PkdgjYCTOA3JwHWNdQJZxLFObuQ0hrDUvcBtmcbzyWCWO8pDH4t7jXKduGrMqUKM58NeXvBtC4=
+X-Received: by 10.107.32.19 with SMTP id g19mr1783575iog.217.1516370520796;
+	Fri, 19 Jan 2018 06:02:00 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Fri, 19 Jan 2018 06:00:52 -0800 (PST)
-In-Reply-To: <trinity-3e6429b4-2102-499e-ba7c-9cedaf2f9d75-1516370245496@3c-app-mailcom-lxa10>
-References: <1516359976-26345-1-git-send-email-ole2mail@mail.com>
-	<CAJTo0LYxWfHvpFQUGk8Qy=AG7A7=PCY6CSm4UWW_8qbCWTO5RA@mail.gmail.com>
-	<trinity-b50cf031-4a89-4af1-9fcc-c9caa29e98a6-1516367853822@3c-app-mailcom-lxa10>
-	<CAJTo0LYf2eQqpm534m8JMDiPa1WZCKjEqHGzk2_MZjzKWDy9pw@mail.gmail.com>
-	<trinity-3e6429b4-2102-499e-ba7c-9cedaf2f9d75-1516370245496@3c-app-mailcom-lxa10>
+Received: by 10.107.17.206 with HTTP; Fri, 19 Jan 2018 06:01:40 -0800 (PST)
+In-Reply-To: <1516370069-9287-1-git-send-email-ole2mail@mail.com>
+References: <1516370069-9287-1-git-send-email-ole2mail@mail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Jan 2018 14:00:52 +0000
-Message-ID: <CAJTo0LY9dm16=tYbBMCFN4WQgsA5pujrUgTozjaDFKu7xDtz0g@mail.gmail.com>
-To: Oleg Kokorin <ole2mail@mail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jan 2018 14:01:40 +0000
+Message-ID: <CAJTo0LbBLdJi0S+s-fRMT9b+JJZShTBgJ0kmCuMYiiK6KZp+Vw@mail.gmail.com>
+To: Oleg Kokorin <ole2mail@mail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mtd-utils: remove double hashtable iterator definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,67 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 14:01:12 -0000
-Content-Type: multipart/alternative; boundary="001a1144a268693d7005632183fc"
+X-List-Received-Date: Fri, 19 Jan 2018 14:02:00 -0000
+Content-Type: multipart/alternative; boundary="001a1141a2a43da828056321861e"
 
---001a1144a268693d7005632183fc
+--001a1141a2a43da828056321861e
 Content-Type: text/plain; charset="UTF-8"
 
-On 19 January 2018 at 13:57, Oleg Kokorin <ole2mail@mail.com> wrote:
+On 19 January 2018 at 13:54, Oleg Kokorin <ole2mail@mail.com> wrote:
 
-> I've got the points and re-sent the patch, but I'd like to add mine:
->
-> by adding complexity instead of taking care of git and specifically
-> send-email command providing necessary portions you'd like to have in patch
-> in automated manner - you are decrising number of participants
-> significantly.
+> +Upstream-Status: Pending
 >
 
-Re-adding oe-core again.
-
-How can git know that you're the original author of the patch and didn't
-just copy/paste?  How can git know that you've hacked a workaround, or
-backported a fix from upstream?
-
-I'm fine with a small barrier to contributions when it means that in five
-years time I'm not scratching my head at a patch with lost history, no
-comments, no ownership, no indication whether it's a workaround or should
-be sent upstream, wondering what it was meant to do.
-
-There are still plenty of patches like that in oe-core, where the history
-disappears into BitKeeper repositories that nobody has anymore.
+Is there a reason you're not sending this upstream?
 
 Ross
 
---001a1144a268693d7005632183fc
+--001a1141a2a43da828056321861e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 19 January 2018 at 13:57, Oleg Kokorin <span dir=3D"ltr=
+<div dir=3D"ltr">On 19 January 2018 at 13:54, Oleg Kokorin <span dir=3D"ltr=
 ">&lt;<a href=3D"mailto:ole2mail@mail.com" target=3D"_blank">ole2mail@mail.=
 com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail=
 _quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div><div style=3D"font-family:Verda=
-na;font-size:12.0px"><div>
-<div>I&#39;ve got the points and re-sent the patch, but I&#39;d like to add=
- mine:</div>
+-left:1px #ccc solid;padding-left:1ex">+Upstream-Status: Pending<br></block=
+quote><div><br></div><div>Is there a reason you&#39;re not sending this ups=
+tream?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-<div>=C2=A0</div>
-
-<div>by adding complexity instead of taking care of git and specifically se=
-nd-email command providing necessary portions you&#39;d like to have in pat=
-ch in automated manner - you are decrising=C2=A0number of participants sign=
-ificantly.</div></div></div></div></blockquote><div><br></div><div>Re-addin=
-g oe-core again.</div><div><br></div><div>How can git know that you&#39;re =
-the original author of the patch and didn&#39;t just copy/paste?=C2=A0 How =
-can git know that you&#39;ve hacked a workaround, or backported a fix from =
-upstream?</div><div><br></div><div>I&#39;m fine with a small barrier to con=
-tributions when it means that in five years time I&#39;m not scratching my =
-head at a patch with lost history, no comments, no ownership, no indication=
- whether it&#39;s a workaround or should be sent upstream, wondering what i=
-t was meant to do.</div><div><br></div><div>There are still plenty of patch=
-es like that in oe-core, where the history disappears into BitKeeper reposi=
-tories that nobody has anymore.</div><div><br></div><div>Ross</div></div></=
-div></div>
-
---001a1144a268693d7005632183fc--
+--001a1141a2a43da828056321861e--
