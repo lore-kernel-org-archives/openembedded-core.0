@@ -1,42 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F99A787AF
+Return-Path: <v.vogelhuber@digitalendoscopy.de>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 19 Jan 2018 16:08:08 UTC
+Received: from mx-relay39-hz2.antispameurope.com
+	(mx-relay39-hz2.antispameurope.com [94.100.136.239])
+	by mail.openembedded.org (Postfix) with ESMTP id DF76771AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 15:54:40 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id c2so4852951qtn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jan 2018 07:54:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=wp+SuweLgW8lWkWko+VtIYTdHQhvxPElFXj1TIsFJNs=;
-	b=MCDoKvOCk2MawS//IRw7WBZS5GW26xeRrmwhJBxFzHJTEOlwX/iMhqVgMtAOaAsvnr
-	p3Gcws1QFNMj3KeSIKBL+iPu7OZNdtS8MTU9CGAipQ/28xVBc9/9CiUCc5C9739chvop
-	XKZuhNRHumC5W2mdAunUkBH5lMkjPKND1gGitraR71tOYya894bkPlnfMewbsgEXD492
-	ZwXDXAWwwX3hyo/Yn4g9H4JYKh7nn/WjlJJUSWONp4Ah/uEIXjZrnbLiL8vhkGdYX8Uj
-	vdrHkJ7IYNXdoYGc0uX9T90LU5aA1n/Mlj9O9ynp+HxJK+l1o+WIqyTH+UjqHgd8qGvO
-	WU6w==
-X-Gm-Message-State: AKwxytcXmrVpH9C5rvvyr0juZ8y6wcjkO8EE9WhEclsun/Yj2N0822y4
-	eEl+5Tce7Byfme7SvS00Jq4KmQ==
-X-Google-Smtp-Source: ACJfBovmF6JVB6JiUR0vIh6N3Tb+nryNhMu4nyNOPaJv0x4lqkf9fNqT5p16BuYxRjDMHics9zP1/Q==
-X-Received: by 10.200.51.42 with SMTP id t39mr43626046qta.33.1516377280966;
-	Fri, 19 Jan 2018 07:54:40 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	x135sm6700499qkx.93.2018.01.19.07.54.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 19 Jan 2018 07:54:40 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 19 Jan 2018 13:54:33 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jan 2018 13:54:32 -0200
-Message-Id: <20180119155432.20848-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade 17.3.2 -> 17.3.3 release
+	Fri, 19 Jan 2018 16:08:08 +0000 (UTC)
+Received: from ptr-128.65.149.218.static.lewtelnet-access.de
+	([128.65.149.218]) by mx-relay39-hz2.antispameurope.com; 
+	Fri, 19 Jan 2018 17:01:03 +0100
+Received: from [192.168.20.187] (192.168.20.187) by srv-msx01.digitendos.de
+	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
+	Fri, 19 Jan 2018 17:00:42 +0100
+To: <openembedded-core@lists.openembedded.org>
+From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+Message-ID: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
+Date: Fri, 19 Jan 2018 17:00:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+X-Originating-IP: [192.168.20.187]
+X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
+	srv-msx01.digitendos.de (192.168.20.14)
+X-TM-AS-Product-Ver: SMEX-11.1.0.1291-8.200.1013-23606.004
+X-TM-AS-Result: No--9.119100-8.000000-31
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+	mx-relay39-hz2.antispameurope.com with B183FA6AC2B
+X-cloud-security-connect: ptr-128.65.149.218.static.lewtelnet-access.de[128.65.149.218],
+	TLS=1, IP=128.65.149.218
+X-cloud-security: scantime:.2780
+Subject: Question about multi rootfs UIDs when using wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,47 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 15:54:40 -0000
+X-List-Received-Date: Fri, 19 Jan 2018 16:08:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The 17.3.3 release, published in January 18th, 2018. It fixes a number
-of issues since 17.3.2 release.
+I'm currently trying to create a multi RootFS WIC image as mentioned in
+directdisk-multi-rootfs.wks. For that I have two image recipes. One that 
+is creating only an ext4 image (image-recovery), and the second that is 
+also creating a WIC image (image-main). I used the IMAGE_FSTYPES 
+variable for that. The WKS file for the second image is integrating the 
+recovery image by specifying --rootfs-dir=image-recovery in it's part 
+description.
 
-The release notes can be seen at:
+# primary / recovery image
+part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/ 
+mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700 
+--overhead-factor=1.0
+part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4 
+--label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
 
-  https://www.mesa3d.org/relnotes/17.3.3.html
+The UIDs of the second rootfs (image-main) are correctly set to 0 within 
+the file system when calling mkfs.ext4 during prepare_rootfs_ext. For 
+the recovery rootfs the UID is always set to my own (host) one which is 
+of course not valid for the image where that UID does not exist.
+I tried calling the mkfs.ext4 command myself from a terminal and for 
+whatever reason an image created out of the rootfs folder of the second 
+image (image-main) recipe is deployed with the correct UID 0, while the 
+rootfs folder of the first image (image-recovery) recipe always uses the 
+UID of the source folder/files.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+I search the code of e2fsprogs for the line that sets the UID and added 
+a printf in set_inode_extra. There I can see clearly that the source UID 
+for the file is 0 for the rootfs of the image-main rootfs folder while 
+it is 10000 (my own UID) for the image-recovery. I wonder how the UID of 
+the image-main rootfs folder can be zero when I don't call any command 
+with root permissions. I searched for a preparation step where the UIDs 
+are managed in the scripts folder of Yocto, but didn't found any hint 
+for the whole behavior. So while it is good that the rootfs partition of 
+the main rootfs has the UID set correctly to zero, I can't understand 
+why it happens. On the other side I can understand why the UID of the 
+recovery rootfs is set to my own one, but it stops me from booting that 
+rootfs because the UIDs of the files and folders are set to a user that 
+does not exist on the target system.
 
- meta/recipes-graphics/mesa/{mesa-gl_17.3.2.bb => mesa-gl_17.3.3.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.3.2.bb => mesa_17.3.3.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.3.2.bb => mesa-gl_17.3.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.3.2.bb => mesa_17.3.3.bb} (88%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.2.bb b/meta/recipes-graphics/mesa/mesa-gl_17.3.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.3.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.3.3.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.3.2.bb b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/mesa/mesa_17.3.2.bb
-rename to meta/recipes-graphics/mesa/mesa_17.3.3.bb
-index c2143ad32d..6e3f29a2c4 100644
---- a/meta/recipes-graphics/mesa/mesa_17.3.2.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
-@@ -12,8 +12,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-anv_icd.py-improve-reproducible-builds.patch \
-            "
- 
--SRC_URI[md5sum] = "5c59b779925f504ffd0f13c7dcd29ac6"
--SRC_URI[sha256sum] = "e2844a13f2d6f8f24bee65804a51c42d8dc6ae9c36cff7ee61d0940e796d64c6"
-+SRC_URI[md5sum] = "139b5f608b371c0d4395596162f88791"
-+SRC_URI[sha256sum] = "41bac5de0ef6adc1f41a1ec0f80c19e361298ce02fa81b5f9ba4fdca33a9379b"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.16.0
-
+Can someone please explain to me, how that UID handling is meant to be done?
 
