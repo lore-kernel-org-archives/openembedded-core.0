@@ -1,18 +1,42 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C4D97878B;
-	Fri, 19 Jan 2018 15:32:56 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Oleg Kokorin <ole2mail@mail.com>
-Date: Fri, 19 Jan 2018 15:32:58 -0000
-Message-ID: <20180119153258.2787.7080@do.openembedded.org>
-References: <1516374472-5682-1-git-send-email-ole2mail@mail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1516374472-5682-1-git-send-email-ole2mail@mail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbXRkLXV0aWxzOiByZW1vdmUgZG91YmxlIGhhc2h0YWJsZSBpdGVyYXRvciBkZWZpbml0aW9uIChyZXYzKQ==?=
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F99A787AF
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jan 2018 15:54:40 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id c2so4852951qtn.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jan 2018 07:54:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=wp+SuweLgW8lWkWko+VtIYTdHQhvxPElFXj1TIsFJNs=;
+	b=MCDoKvOCk2MawS//IRw7WBZS5GW26xeRrmwhJBxFzHJTEOlwX/iMhqVgMtAOaAsvnr
+	p3Gcws1QFNMj3KeSIKBL+iPu7OZNdtS8MTU9CGAipQ/28xVBc9/9CiUCc5C9739chvop
+	XKZuhNRHumC5W2mdAunUkBH5lMkjPKND1gGitraR71tOYya894bkPlnfMewbsgEXD492
+	ZwXDXAWwwX3hyo/Yn4g9H4JYKh7nn/WjlJJUSWONp4Ah/uEIXjZrnbLiL8vhkGdYX8Uj
+	vdrHkJ7IYNXdoYGc0uX9T90LU5aA1n/Mlj9O9ynp+HxJK+l1o+WIqyTH+UjqHgd8qGvO
+	WU6w==
+X-Gm-Message-State: AKwxytcXmrVpH9C5rvvyr0juZ8y6wcjkO8EE9WhEclsun/Yj2N0822y4
+	eEl+5Tce7Byfme7SvS00Jq4KmQ==
+X-Google-Smtp-Source: ACJfBovmF6JVB6JiUR0vIh6N3Tb+nryNhMu4nyNOPaJv0x4lqkf9fNqT5p16BuYxRjDMHics9zP1/Q==
+X-Received: by 10.200.51.42 with SMTP id t39mr43626046qta.33.1516377280966;
+	Fri, 19 Jan 2018 07:54:40 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	x135sm6700499qkx.93.2018.01.19.07.54.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 19 Jan 2018 07:54:40 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 19 Jan 2018 13:54:33 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jan 2018 13:54:32 -0200
+Message-Id: <20180119155432.20848-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade 17.3.2 -> 17.3.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jan 2018 15:32:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jan 2018 15:54:40 -0000
 
-== Series Details ==
+The 17.3.3 release, published in January 18th, 2018. It fixes a number
+of issues since 17.3.2 release.
 
-Series: mtd-utils: remove double hashtable iterator definition (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/10612/
-State : failure
+The release notes can be seen at:
 
-== Summary ==
+  https://www.mesa3d.org/relnotes/17.3.3.html
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 77144bc808)
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where mtd-utils-fix-hashtable_iterator.patch was submitted
-  Current          Upstream-Status: Submitted to dizzy
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+ meta/recipes-graphics/mesa/{mesa-gl_17.3.2.bb => mesa-gl_17.3.3.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.3.2.bb => mesa_17.3.3.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.3.2.bb => mesa-gl_17.3.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.3.2.bb => mesa_17.3.3.bb} (88%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.2.bb b/meta/recipes-graphics/mesa/mesa-gl_17.3.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.3.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.3.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.3.2.bb b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/mesa/mesa_17.3.2.bb
+rename to meta/recipes-graphics/mesa/mesa_17.3.3.bb
+index c2143ad32d..6e3f29a2c4 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.3.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
+@@ -12,8 +12,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-anv_icd.py-improve-reproducible-builds.patch \
+            "
+ 
+-SRC_URI[md5sum] = "5c59b779925f504ffd0f13c7dcd29ac6"
+-SRC_URI[sha256sum] = "e2844a13f2d6f8f24bee65804a51c42d8dc6ae9c36cff7ee61d0940e796d64c6"
++SRC_URI[md5sum] = "139b5f608b371c0d4395596162f88791"
++SRC_URI[sha256sum] = "41bac5de0ef6adc1f41a1ec0f80c19e361298ce02fa81b5f9ba4fdca33a9379b"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.16.0
 
 
