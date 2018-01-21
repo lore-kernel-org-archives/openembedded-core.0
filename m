@@ -1,26 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AC0D278757
+	by mail.openembedded.org (Postfix) with ESMTP id 03F0778766
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jan 2018 10:02:31 +0000 (UTC)
+	Sun, 21 Jan 2018 10:04:18 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0LA2Tpx031052
+	w0LA4H0x031132
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 21 Jan 2018 10:02:30 GMT
-Message-ID: <1516528949.24502.54.camel@linuxfoundation.org>
+	verify=NOT); Sun, 21 Jan 2018 10:04:19 GMT
+Message-ID: <1516529057.24502.55.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, Thomas Perrot <thomas.perrot@tupi.fr>
-Date: Sun, 21 Jan 2018 10:02:29 +0000
-In-Reply-To: <CAJ86T=Va5HE+zYpKS29jfrB3R=yqTR1vkZuxmk21Uc_qQSzr4g@mail.gmail.com>
-References: <20180117092159.19356-1-thomas.perrot@tupi.fr>
-	<CAJ86T=Va5HE+zYpKS29jfrB3R=yqTR1vkZuxmk21Uc_qQSzr4g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 21 Jan 2018 10:04:17 +0000
+In-Reply-To: <c0f872f3412b16d7fcf126473d8fd7749cd44814.1516012306.git.liezhi.yang@windriver.com>
+References: <cover.1516012306.git.liezhi.yang@windriver.com>
+	<c0f872f3412b16d7fcf126473d8fd7749cd44814.1516012306.git.liezhi.yang@windriver.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: Use KERNEL_IMAGETYPE_FOR_MAKE in do_bundle_initramfs
+Subject: Re: [PATCH 1/1] scripts/oe-depends-dot: add it to handle dot files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jan 2018 10:02:32 -0000
+X-List-Received-Date: Sun, 21 Jan 2018 10:04:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2018-01-17 at 13:31 -0800, Andre McCurdy wrote:
-> On Wed, Jan 17, 2018 at 1:21 AM, Thomas Perrot <thomas.perrot@tupi.fr
-> > wrote:
-> > 
-> > In the case of a fitImage the this step should be done on the
-> > image use to assemble the fitImage.
-> > 
-> > Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
-> > ---
-> >  meta/classes/kernel.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/kernel.bbclass
-> > b/meta/classes/kernel.bbclass
-> > index c42f85c665..ff09d4c4c7 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -231,7 +231,7 @@ do_bundle_initramfs () {
-> >                 copy_initramfs
-> >                 # Backing up kernel image relies on its
-> > type(regular file or symbolic link)
-> >                 tmp_path=""
-> > -               for type in ${KERNEL_IMAGETYPES} ; do
-> > +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> The net result of this change is to no longer backup the non-
-> initramfs
-> vmlinux.gz kernel image before creating the kernel image(s)
-> containing
-> bundled initramfs (plus some other corner cases, depending on whether
-> the legacy KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE variables are
-> used and whether or not KERNEL_IMAGETYPES contains both vmlinux and
-> vmlinux.gz or vmlinux.gz only).
+On Mon, 2018-01-15 at 18:34 +0800, Robert Yang wrote:
+> Add it to handle recipe-depends.dot and task-depends.dot. E.g.:
 > 
-> Can you explain a little how that's related to building fitImage
-> kernels?
+> * Print why rpm is built
+>   $ oe-depends-dot -k rpm --why/-w recipe-depends.dot
+>   Because: core-image-sato libdnf libsolv dnf
 > 
-> This code in do_bundle_initramfs() is extremely fragile and changes
-> may only break less well testing targets such as MIPS, so any changes
-> need to be very carefully reviewed and tested.
+> * Print bzip2-native's depends
+>   $ oe-depends-dot -k bzip2-native --depends/-d recipe-depends.dot
+>   Depends: automake-native gnu-config-native libtool-native quilt-
+> native autoconf-native
+> 
+> * Remove duplicated dependencies to reduce the size of the dot files.
+>   For example, A->B, B->C, A->C, then A->C can be removed. The dot
+> files are too
+>   big, we nearly couldn't use 'dot -T' to generate pictcures for
+> target recipes,
+>   remove the duplicated dependencies makes is it possible.
+>   $ bitbake core-image-sato -g
+>   $ oe-depends-dot -r recipe-depends.dot
+>   Saving reduced dot file to recipe-depends-reduced.dot
+>   $ du -sh recipe-depends*.dot
+>   608K    recipe-depends.dot
+>   32K     recipe-depends-reduced.dot
+> 
+>   It has been recuded from 608K to 32K, now we can generate a
+> picture,
+>   otherwise, it is too big:
+>   $ dot -Tpng recipe-depends-reduced.dot -O
+> 
+> It also can handle task-depends.dot.
 
-Actually, I think it means we need better tests.
-
-I'm seriously considering removing a lot of the stuff in kernel.bbclass
-and then rebuilding things in hopefully a cleaner way. The test for
-anything being needed would be whether our regression tests pass.
-
-I appreciate the idea will fill some with horror but there are a few
-places the code code is turning into an unmaintainable (and
-unreviewable) mess, the kernel classes are getting there :(
+I just wanted to mention that whilst I've not tried using it due to
+time constraints, I like the idea of this approach a lot, thanks
+Robert!
 
 Cheers,
 
