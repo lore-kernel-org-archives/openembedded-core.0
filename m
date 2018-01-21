@@ -1,23 +1,24 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 83BE471BB9
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E8662134
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jan 2018 09:02:35 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2018 01:02:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,390,1511856000"; d="scan'208";a="11389297"
-Received: from wrath.jf.intel.com ([10.54.70.11])
-	by orsmga007.jf.intel.com with ESMTP; 21 Jan 2018 01:02:36 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+	Sun, 21 Jan 2018 09:46:56 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0L9ktS6029674
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 21 Jan 2018 09:46:56 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1edCDH-0000H4-Do; Sun, 21 Jan 2018 09:46:55 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jan 2018 01:02:32 -0800
-Message-Id: <20180121090232.27324-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] perl: add Config_git.PL to -lib
+Date: Sun, 21 Jan 2018 09:46:54 +0000
+Message-Id: <1516528014-1010-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] populate_sdk_ext: Set cleandirs correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,29 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jan 2018 09:02:35 -0000
+X-List-Received-Date: Sun, 21 Jan 2018 09:46:57 -0000
 
-Fixes:
-Warning: failed to load Config_git.pl, something strange about this perl
+The current conflicting use of SDKDEPLOYDIR causes a race between do_populate_sdk
+and do_populate_sdk_ext potentially causing the SDK to either go missing or the
+build to fail.
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/perl/perl_5.24.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 0baf3abb60b..f13a63a80a3 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -280,6 +280,7 @@ FILES_${PN}-dev = "${libdir}/perl/${PV}/CORE"
- FILES_${PN}-lib = "${libdir}/libperl.so* \
-                    ${libdir}/perl5 \
-                    ${libdir}/perl/config.sh \
-+		   ${libdir}/perl/${PV}/Config_git.pl \
-                    ${libdir}/perl/${PV}/Config_heavy.pl \
-                    ${libdir}/perl/${PV}/Config_heavy-target.pl"
- FILES_${PN}-pod = "${libdir}/perl/${PV}/pod \
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 4f7100d..d7a0884 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -718,7 +718,7 @@ SDKEXTDEPLOYDIR = "${WORKDIR}/deploy-${PN}-populate-sdk-ext"
+ 
+ SSTATETASKS += "do_populate_sdk_ext"
+ SSTATE_SKIP_CREATION_task-populate-sdk-ext = '1'
+-do_populate_sdk_ext[cleandirs] = "${SDKDEPLOYDIR}"
++do_populate_sdk_ext[cleandirs] = "${SDKEXTDEPLOYDIR}"
+ do_populate_sdk_ext[sstate-inputdirs] = "${SDKEXTDEPLOYDIR}"
+ do_populate_sdk_ext[sstate-outputdirs] = "${SDK_DEPLOY}"
+ do_populate_sdk_ext[stamp-extra-info] = "${MACHINE}"
 -- 
-2.13.6
+2.7.4
 
 
