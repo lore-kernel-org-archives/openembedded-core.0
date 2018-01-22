@@ -1,23 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E8A7B6FFD3
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B05C671C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 14:27:19 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2018 06:27:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,396,1511856000"; d="scan'208";a="195294733"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 22 Jan 2018 06:27:14 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jan 2018 16:21:19 +0200
-Message-Id: <20180122142119.39020-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] json-glib: fix meson flags for introspection and documentation
+	Mon, 22 Jan 2018 14:36:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0MEa9Gb019922
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Jan 2018 06:36:09 -0800 (PST)
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 22 Jan 2018 06:36:08 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+References: <20180121061857.29976-1-Randy.MacLeod@windriver.com>
+	<CAP9ODKp_nHD+N_28qROJfsmWZh5AJes0iQQ0NBa0V8ABf0uaPQ@mail.gmail.com>
+	<CAJTo0LaM=DYAqBzNJ0unSNqSYjc3r513z5sQF2dCEhBM1CbK0g@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <243e564f-23a0-f92c-b4a9-04f099f4f8fa@windriver.com>
+Date: Mon, 22 Jan 2018 09:36:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaM=DYAqBzNJ0unSNqSYjc3r513z5sQF2dCEhBM1CbK0g@mail.gmail.com>
+X-Originating-IP: [172.25.44.3]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: link mesautil with pthreads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,49 +39,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 14:27:20 -0000
+X-List-Received-Date: Mon, 22 Jan 2018 14:36:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-Upstream has renamed them all, and folded manpages building
-into the overall 'docs' option.
+On 2018-01-22 06:05 AM, Burton, Ross wrote:
+> Yes 17.3.3 is in master now, so can you rebase Randy?
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-gnome/json-glib/json-glib_1.4.2.bb | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+Sure.
+../Randy
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
-index fad0a2df36d..dd67a8907bd 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
-@@ -14,21 +14,20 @@ SRC_URI[archive.md5sum] = "35107e23a7bbbc70f31c34f7b9adf1c3"
- SRC_URI[archive.sha256sum] = "2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8"
- 
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase lib_package gobject-introspection gtk-doc manpages gettext
-+inherit gnomebase lib_package gobject-introspection gtk-doc gettext
- 
--GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
--GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
-+# This builds both API docs (via gtk-doc) and manpages
-+GTKDOC_ENABLE_FLAG = "-Ddocs=true"
-+GTKDOC_DISABLE_FLAG = "-Ddocs=false"
- 
--GI_ENABLE_FLAG = "-Ddisable_introspection=false"
--GI_DISABLE_FLAG = "-Ddisable_introspection=true"
-+GI_ENABLE_FLAG = "-Dintrospection=true"
-+GI_DISABLE_FLAG = "-Dintrospection=false"
- 
- EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
- EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-                                                                                     '${GI_DISABLE_FLAG}', d)} "
- 
--PACKAGECONFIG[manpages] = "-Denable-man=true, -Denable-man=false, libxslt-native xmlto-native"
--
- do_install_append() {
-     # FIXME: these need to be provided via ptest
-     rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
+> 
+> Ross
+> 
+> On 21 January 2018 at 21:34, Otavio Salvador 
+> <otavio.salvador@ossystems.com.br 
+> <mailto:otavio.salvador@ossystems.com.br>> wrote:
+> 
+>     On Sun, Jan 21, 2018 at 4:18 AM, Randy MacLeod
+>     <Randy.MacLeod@windriver.com <mailto:Randy.MacLeod@windriver.com>>
+>     wrote:
+>     > Cherry-pick fix from mesa upstream:
+>     >    23ce168048 link mesautil with pthreads
+>     >
+>     > Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com <mailto:Randy.MacLeod@windriver.com>>
+> 
+>     Missing Upstream-Status. Also, base it on 17.3.3 recipe so we avoid
+>     another patch revision.
+> 
+>      > ---
+>      >  .../files/0001-link-mesautil-with-pthreads.patch   | 51
+>     ++++++++++++++++++++++
+>      >  meta/recipes-graphics/mesa/mesa_17.3.2.bb
+>     <http://mesa_17.3.2.bb>          |  1 +
+>      >  2 files changed, 52 insertions(+)
+>      >  create mode 100644
+>     meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+>      >
+>      > diff --git
+>     a/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+>     b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+>      > new file mode 100644
+>      > index 0000000000..193c54661b
+>      > --- /dev/null
+>      > +++
+>     b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+>      > @@ -0,0 +1,51 @@
+>      > +From 23ce168048698eeea3df6bb8c9de5be3ca4784cd Mon Sep 17
+>     00:00:00 2001
+>      > +From: Igor Gnatenko <ignatenko@redhat.com
+>     <mailto:ignatenko@redhat.com>>
+>      > +Date: Mon, 1 Jan 2018 22:49:00 +0100
+>      > +Subject: [PATCH] link mesautil with pthreads
+>      > +
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `u_thread_setname':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66:
+>     undefined reference to `pthread_setname_np'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `thrd_join':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336:
+>     undefined reference to `pthread_join'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `u_thread_create':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48:
+>     undefined reference to `pthread_sigmask'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `thrd_create':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296:
+>     undefined reference to `pthread_create'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `u_thread_create':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
+>     undefined reference to `pthread_sigmask'
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
+>     undefined reference to `pthread_sigmask'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `call_once':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96:
+>     undefined reference to `pthread_once'
+>      > +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
+>     function `u_thread_get_time_nano':
+>      >
+>     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84:
+>     undefined reference to `pthread_getcpuclockid'
+>      > +collect2: error: ld returned 1 exit status
+>      > +
+>      > +Reviewed-by: Adam Jackson <ajax@redhat.com <mailto:ajax@redhat.com>>
+>      > +Signed-off-by: Igor Gnatenko <ignatenko@redhat.com
+>     <mailto:ignatenko@redhat.com>>
+>      > +---
+>      > + src/util/Makefile.am | 2 ++
+>      > + 1 file changed, 2 insertions(+)
+>      > +
+>      > +diff --git a/src/util/Makefile.am b/src/util/Makefile.am
+>      > +index a5241ad27b..633907b9fd 100644
+>      > +--- a/src/util/Makefile.am
+>      > ++++ b/src/util/Makefile.am
+>      > +@@ -31,6 +31,7 @@ noinst_LTLIBRARIES = \
+>      > + libxmlconfig.la <http://libxmlconfig.la>
+>      > +
+>      > + AM_CPPFLAGS = \
+>      > ++      $(PTHREAD_CFLAGS) \
+>      > +       -I$(top_srcdir)/include
+>      > +
+>      > + libmesautil_la_CPPFLAGS = \
+>      > +@@ -50,6 +51,7 @@ libmesautil_la_SOURCES = \
+>      > +       $(MESA_UTIL_GENERATED_FILES)
+>      > +
+>      > + libmesautil_la_LIBADD = \
+>      > ++      $(PTHREAD_LIBS) \
+>      > +       $(CLOCK_LIB) \
+>      > +       $(ZLIB_LIBS) \
+>      > +       $(LIBATOMIC_LIBS)
+>      > +--
+>      > +2.14.3
+>      > +
+>      > diff --git a/meta/recipes-graphics/mesa/mesa_17.3.2.bb
+>     <http://mesa_17.3.2.bb> b/meta/recipes-graphics/mesa/mesa_17.3.2.bb
+>     <http://mesa_17.3.2.bb>
+>      > index 9e9b23322a..8cdcf6c84f 100644
+>      > --- a/meta/recipes-graphics/mesa/mesa_17.3.2.bb
+>     <http://mesa_17.3.2.bb>
+>      > +++ b/meta/recipes-graphics/mesa/mesa_17.3.2.bb
+>     <http://mesa_17.3.2.bb>
+>      > @@ -9,6 +9,7 @@ SRC_URI =
+>     "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz
+>     <https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz> \
+>      >             file://llvm-config-version.patch \
+>      >             file://0001-winsys-svga-drm-Include-sys-types.h.patch \
+>      >           
+>       file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+>      > +           file://0001-link-mesautil-with-pthreads.patch \
+>      >             "
+>      >
+>      >  SRC_URI[md5sum] = "5c59b779925f504ffd0f13c7dcd29ac6"
+>      > --
+>      > 2.11.0
+>      >
+>      > --
+>      > _______________________________________________
+>      > Openembedded-core mailing list
+>      > Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>      > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+> 
+>     --
+>     Otavio Salvador                             O.S. Systems
+>     http://www.ossystems.com.br http://code.ossystems.com.br
+>     Mobile: +55 (53) 9981-7854 <tel:%2B55%20%2853%29%209981-7854>       
+>          Mobile: +1 (347) 903-9750 <tel:%2B1%20%28347%29%20903-9750>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+
+
 -- 
-2.15.1
-
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
