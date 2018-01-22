@@ -1,23 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F0877DAF
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4437857D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 16:43:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2018 08:43:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,397,1511856000"; d="scan'208";a="21652273"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2018 08:43:19 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jan 2018 18:37:26 +0200
-Message-Id: <20180122163726.16636-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] gnupg: add a patch to avoid native vs. host gpg-agent clashes
+	Mon, 22 Jan 2018 16:56:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0MGuvPj000789
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jan 2018 08:56:57 -0800
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 22 Jan 2018 08:56:57 -0800
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Jan 2018 08:56:56 -0800
+Message-ID: <20180122165656.53234-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH] mesa: link mesautil with pthreads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,65 +31,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 16:43:19 -0000
+X-List-Received-Date: Mon, 22 Jan 2018 16:56:56 -0000
+Content-Type: text/plain
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cherry-pick fix from mesa upstream:
+   23ce168048 link mesautil with pthreads
+
+link mesautil with pthreads to avoid:
+
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_setname':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66: undefined reference to `pthread_setname_np'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_join':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336: undefined reference to `pthread_join'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48: undefined reference to `pthread_sigmask'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_create':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296: undefined reference to `pthread_create'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `call_once':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96: undefined reference to `pthread_once'
+../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_get_time_nano':
+/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84: undefined reference to `pthread_getcpuclockid'
+collect2: error: ld returned 1 exit status
+
+Upstream-Status: backport
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- ...c-use-a-custom-value-for-the-location-of-.patch | 30 ++++++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.2.4.bb          |  2 ++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+ .../files/0001-link-mesautil-with-pthreads.patch   | 51 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_17.3.3.bb          |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
 new file mode 100644
-index 00000000000..3e3a64df2f5
+index 0000000000..193c54661b
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -0,0 +1,30 @@
-+From 0b97148c3aad0993a9aeb088596fa63a2fec5328 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 22 Jan 2018 18:00:21 +0200
-+Subject: [PATCH] configure.ac: use a custom value for the location of
-+ gpg-agent socket in the filesystem
++++ b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+@@ -0,0 +1,51 @@
++From 23ce168048698eeea3df6bb8c9de5be3ca4784cd Mon Sep 17 00:00:00 2001
++From: Igor Gnatenko <ignatenko@redhat.com>
++Date: Mon, 1 Jan 2018 22:49:00 +0100
++Subject: [PATCH] link mesautil with pthreads
 +
-+This should avoid clashes with the host gpg-agent observed on autobuilders.
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_setname':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66: undefined reference to `pthread_setname_np'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_join':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336: undefined reference to `pthread_join'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48: undefined reference to `pthread_sigmask'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_create':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296: undefined reference to `pthread_create'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `call_once':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96: undefined reference to `pthread_once'
++../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_get_time_nano':
++/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84: undefined reference to `pthread_getcpuclockid'
++collect2: error: ld returned 1 exit status
 +
-+Upstream-Status: Inappropriate [oe-core specific, and only for -native]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++Reviewed-by: Adam Jackson <ajax@redhat.com>
++Signed-off-by: Igor Gnatenko <ignatenko@redhat.com>
 +---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/util/Makefile.am | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 382ef1d..0570d7c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1818,7 +1818,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++diff --git a/src/util/Makefile.am b/src/util/Makefile.am
++index a5241ad27b..633907b9fd 100644
++--- a/src/util/Makefile.am
+++++ b/src/util/Makefile.am
++@@ -31,6 +31,7 @@ noinst_LTLIBRARIES = \
++ 	libxmlconfig.la
 + 
-+ AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
++ AM_CPPFLAGS = \
+++	$(PTHREAD_CFLAGS) \
++ 	-I$(top_srcdir)/include
 + 
-+-AC_DEFINE_UNQUOTED(GPG_AGENT_SOCK_NAME, "S.gpg-agent",
-++AC_DEFINE_UNQUOTED(GPG_AGENT_SOCK_NAME, "S.gpg-agent.yocto-native",
-+                    [The name of the agent socket])
-+ AC_DEFINE_UNQUOTED(GPG_AGENT_EXTRA_SOCK_NAME, "S.gpg-agent.extra",
-+                    [The name of the agent socket for remote access])
++ libmesautil_la_CPPFLAGS = \
++@@ -50,6 +51,7 @@ libmesautil_la_SOURCES = \
++ 	$(MESA_UTIL_GENERATED_FILES)
++ 
++ libmesautil_la_LIBADD = \
+++	$(PTHREAD_LIBS) \
++ 	$(CLOCK_LIB) \
++ 	$(ZLIB_LIBS) \
++ 	$(LIBATOMIC_LIBS)
 +-- 
-+2.15.1
++2.14.3
 +
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-index e15bcf298ac..d3f1a8f4c4d 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
-@@ -15,6 +15,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0003-dirmngr-uses-libgpg-error.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-           "
-+SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
-+
+diff --git a/meta/recipes-graphics/mesa/mesa_17.3.3.bb b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
+index 6e3f29a2c4..623046e116 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.3.3.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
+@@ -10,6 +10,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
+            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+            file://0001-anv_icd.py-improve-reproducible-builds.patch \
++           file://0001-link-mesautil-with-pthreads.patch \
+            "
  
- SRC_URI[md5sum] = "709e5af5bba84d251c520222e720972f"
- SRC_URI[sha256sum] = "401a3e64780fdfa6d7670de0880aa5c9d589b3db7a7098979d7606cec546f2ec"
+ SRC_URI[md5sum] = "139b5f608b371c0d4395596162f88791"
 -- 
-2.15.1
+2.11.0
 
 
