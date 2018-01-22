@@ -1,50 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CD2B471AD1
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 416546025E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 16:09:23 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id 68so10275565ite.4
+	Mon, 22 Jan 2018 16:32:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0MGWtt1000322
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 08:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=e5cmsTawogWPeaGodRoh6gmAkVJaWY/JQMkwNLKFMv8=;
-	b=g1IDDwX8uzihmInvLLzDHPgajjxNazCR4Spjm0TsilO2E1UodfUFWDQz8tnxF9Ia8R
-	P1vdkHoSZd908ypAoD2QBszPc12KSirUjzhqG68COmvZgC1/C7joKvN++ID6Qy9AAQnJ
-	ziYQ3501Kv2W9FfRZLbWANZ2xIfLlWv39rogYglaTR6V7z9cyA5Sm6KcdYbSLZjoxCzQ
-	KtH2JjoifYSEL46dJFa1f6JiBoGwjN4bSOIG89v3P2FPNbReI1O3LoX/U0bpJpBqhijq
-	OzMVnVtDooegfRJojOR22CPMxvrbbNyZPHRLdj1lwr6kpfRwUzHgL7IO2e4wmuOCWsMh
-	vJLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=e5cmsTawogWPeaGodRoh6gmAkVJaWY/JQMkwNLKFMv8=;
-	b=FzGjatWRq7Oydjyb11rOErbKO7YxGQS/SO9GkM6E94KVQeWY3HlKXYpbWGjvIjvm7u
-	vOGE6wOPuK9k7AQfobVkb/W5iZAuEQl/xTAjM11Fw0eqopUwOxkB+DmxUHfl13tLaqph
-	usetNWXljalwqTPSuBkT18R++hKC+t9OJEsGDFCPgWUsnttIosD15q87DTItsYEA7KN+
-	ezbwG4PQMv4LOa6w9bYp02jWfHlZmpB1Iqm0HBQlZsMj4d0HqghfhmqMzRUZVuF0QnlQ
-	FOTqtRXVEzzBaadQ1ugAIEe8COTqJC/54hBZNouFgVIZboIbDQ28OSBA3Xzj5kgvL19G
-	+JVg==
-X-Gm-Message-State: AKwxyteGATudp7re45HWQzO6UFY+MHtZIMqzIXdv1kuq5ytvqq76i158
-	jm1KZV+Z8hDMMa8jl4x4o+Ouq8VNyiyH9l+vKik7bw==
-X-Google-Smtp-Source: AH8x227lQaZHSI4JDFGnomQ6O66Pb2n9Om6dRcxjhdQyU5f4P1CPQsUPxlnAbvBwqX+rlWLTxCHSsCNg9qZM3DsM8ZQ=
-X-Received: by 10.36.86.20 with SMTP id o20mr8879360itb.53.1516637364975; Mon,
-	22 Jan 2018 08:09:24 -0800 (PST)
+	Mon, 22 Jan 2018 08:32:55 -0800
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 22 Jan 2018 08:32:54 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20180122154442.23769-1-ross.burton@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <88adb573-a7be-6da8-38d7-b160acb4716c@windriver.com>
+Date: Mon, 22 Jan 2018 10:32:53 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.5.2
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Mon, 22 Jan 2018 08:09:04 -0800 (PST)
-In-Reply-To: <CAP9ODKqi_TL9_LVCxiiW2iXfc+=jF7OYdm-rA2puudZojYtvTA@mail.gmail.com>
-References: <20180117160330.30173-1-otavio@ossystems.com.br>
-	<CAP9ODKqi_TL9_LVCxiiW2iXfc+=jF7OYdm-rA2puudZojYtvTA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Jan 2018 16:09:04 +0000
-Message-ID: <CAJTo0LZrzh4-=Bi5F2q0N_Bk3utxihFZn51J09kM9qZngm7dXw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] cmake: upgrade 3.9.5 -> 3.10.1
+In-Reply-To: <20180122154442.23769-1-ross.burton@intel.com>
+Subject: Re: [PATCH] package_rpm: correctly handle LICENSE_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,99 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 16:09:23 -0000
-Content-Type: multipart/alternative; boundary="001a1144d5ea64bfc905635fa710"
+X-List-Received-Date: Mon, 22 Jan 2018 16:32:54 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---001a1144d5ea64bfc905635fa710
-Content-Type: text/plain; charset="UTF-8"
+On 1/22/18 9:44 AM, Ross Burton wrote:
+> RPM spec files don't distinguish between spec-level license and the primary
+> package license, so always output the License for every package (defaulting to
+> the recipe-wide license) and use LICENSE_${PN} if set for the primary package.
+> 
+> As the primary use of package_rpm is to generate built packages, this fixes the
+> license fields in the generated packages.
+> 
+> [ YOCTO #12057 ]
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/package_rpm.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index b08608c8466..3cbbd1eb537 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -382,6 +382,7 @@ python write_specfile () {
 
-Look again :)
+For the specific problem reported, this is correct.  However, it has an
+unintended side effect.  When the archiver is enabled (with SRPM support), it
+uses the same function to generate the SRPM files.  This will result in the SRPM
+not having the 'correct' "source code" license, but instead will end up having
+the license of the first package.
 
-On 22 January 2018 at 16:04, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+At a minimum, we should detect this case and warn someone..  I.e.
 
-> On Wed, Jan 17, 2018 at 2:03 PM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
-> > The 3.10.1 version has been in Dec 13, 2017, and has a great set of
-> > features and improvements since the last upgrade.
-> >
-> > The release notes of 3.10 release is available at:
-> >
-> > https://cmake.org/cmake/help/v3.10/release/3.10.html
-> >
-> > Patches updates:
-> >
-> >  - cmake-Prevent-the-detection-of-Qt5.patch: so it replaces the sed
-> >    command calls inside the cmake.inc
-> >
-> >  - 0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch:
-> >    merged upstream, so it has been removed.
-> >
-> >  - support-oe-qt4-tools-names.patch: rebased.
-> >
-> > License-checksum-change: added new contributors
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Is there any reason why it didn't make master yet?
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
+>  
+>          # Gather special src/first package data
+>          if srcname == splitname:
 
---001a1144d5ea64bfc905635fa710
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and \
+   bb.data.inherits_class('archiver', d) and \
+   srclicense != splitlicense:
+	bb.warn("The SRPM produced may not have the correct overall source license in
+the LICENSE tag.  This is due to the LICENSE for the primary package and SRPM
+conflicting.)
 
-<div dir=3D"ltr">Look again :)</div><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote">On 22 January 2018 at 16:04, Otavio Salvador <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
-_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><span class=3D"">On Wed, Jan 17, 2018 at 2:03 PM, Ota=
-vio Salvador<br>
-&lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&=
-gt; wrote:<br>
-&gt; The 3.10.1 version has been in Dec 13, 2017, and has a great set of<br=
->
-&gt; features and improvements since the last upgrade.<br>
-&gt;<br>
-&gt; The release notes of 3.10 release is available at:<br>
-&gt;<br>
-&gt; <a href=3D"https://cmake.org/cmake/help/v3.10/release/3.10.html" rel=
-=3D"noreferrer" target=3D"_blank">https://cmake.org/cmake/help/<wbr>v3.10/r=
-elease/3.10.html</a><br>
-&gt;<br>
-&gt; Patches updates:<br>
-&gt;<br>
-&gt;=C2=A0 - cmake-Prevent-the-detection-<wbr>of-Qt5.patch: so it replaces =
-the sed<br>
-&gt;=C2=A0 =C2=A0 command calls inside the cmake.inc<br>
-&gt;<br>
-&gt;=C2=A0 - 0001-FindCUDA-Use-find_<wbr>program-if-find_host_program-<wbr>=
-is-no.patch:<br>
-&gt;=C2=A0 =C2=A0 merged upstream, so it has been removed.<br>
-&gt;<br>
-&gt;=C2=A0 - support-oe-qt4-tools-names.<wbr>patch: rebased.<br>
-&gt;<br>
-&gt; License-checksum-change: added new contributors<br>
-&gt; Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.=
-com.br">otavio@ossystems.com.br</a>&gt;<br>
-<br>
-</span>Is there any reason why it didn&#39;t make master yet?<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</font></span></blockquote></div><br></div>
+> +            srclicense     = splitlicense
+>              srcrdepends    = splitrdepends
+>              srcrrecommends = splitrrecommends
+>              srcrsuggests   = splitrsuggests
 
---001a1144d5ea64bfc905635fa710--
+An alternative (i -really- do not like) is to name the overall first entry as
+something like:
+
+${PN}-archiver (or src, srpm, ... etc ...)
+
+Then in the later section add ${PN} as the first %package.  I do suspect this
+will break some people's validation scripting though.  So there does not appear
+to be a clear answer how to deal with this.  (The behavior unfortunately does
+not appear to be allowed in upstream RPM.)
+
+> @@ -421,8 +422,7 @@ python write_specfile () {
+
+This hunk is absolutely correct in all cases.
+
+>              spec_preamble_bottom.append('Release: %s' % splitrelease)
+>          if srcepoch != splitepoch:
+>              spec_preamble_bottom.append('Epoch: %s' % splitepoch)
+> -        if srclicense != splitlicense:
+> -            spec_preamble_bottom.append('License: %s' % splitlicense)
+> +        spec_preamble_bottom.append('License: %s' % splitlicense)
+>          spec_preamble_bottom.append('Group: %s' % splitsection)
+>  
+>          if srccustomtagschunk != splitcustomtagschunk:
+> 
+
+
