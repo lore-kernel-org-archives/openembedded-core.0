@@ -1,27 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EC5577629
+Return-Path: <v.vogelhuber@digitalendoscopy.de>
+X-Greylist: delayed 389 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 22 Jan 2018 10:46:00 UTC
+Received: from mx-relay21-hz1.antispameurope.com
+	(mx-relay21-hz1.antispameurope.com [94.100.132.221])
+	by mail.openembedded.org (Postfix) with ESMTP id EEDA573123
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 10:18:53 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w0MAGmM8024130
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 22 Jan 2018 10:16:49 GMT
-Message-ID: <1516616208.24502.100.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: anelliot <amber.n.elliot@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jan 2018 10:16:48 +0000
-In-Reply-To: <cfe77fab44ccf8ac32f4df117b729d65376e9da2.1516289668.git.amber.n.elliot@intel.com>
-References: <cover.1516289668.git.amber.n.elliot@intel.com>
-	<cfe77fab44ccf8ac32f4df117b729d65376e9da2.1516289668.git.amber.n.elliot@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH 1/1] wic: argparse now used for help functionality.
+	Mon, 22 Jan 2018 10:46:00 +0000 (UTC)
+Received: from ptr-128.65.149.218.static.lewtelnet-access.de
+	([128.65.149.218]) by mx-relay21-hz1.antispameurope.com; 
+	Mon, 22 Jan 2018 11:39:32 +0100
+Received: from [192.168.20.187] (192.168.20.187) by srv-msx01.digitendos.de
+	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
+	Mon, 22 Jan 2018 11:39:23 +0100
+From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+To: <openembedded-core@lists.openembedded.org>
+References: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
+Message-ID: <83aa6f73-2835-4b53-621b-4b9fd3b66b15@digitalendoscopy.de>
+Date: Mon, 22 Jan 2018 11:39:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
+MIME-Version: 1.0
+In-Reply-To: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
+X-Originating-IP: [192.168.20.187]
+X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
+	srv-msx01.digitendos.de (192.168.20.14)
+X-TM-AS-Product-Ver: SMEX-11.1.0.1291-8.200.1013-23612.004
+X-TM-AS-Result: No--18.286100-8.000000-31
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+	mx-relay21-hz1.antispameurope.com with 1D547100117F4
+X-cloud-security-connect: ptr-128.65.149.218.static.lewtelnet-access.de[128.65.149.218],
+	TLS=1, IP=128.65.149.218
+X-cloud-security: scantime:.1557
+Subject: Re: Question about multi rootfs UIDs when using wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +49,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 10:18:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 22 Jan 2018 10:46:01 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2018-01-18 at 07:42 -0800, anelliot wrote:
-> The wic help output formally consisted of manually created strings
-> mixed with argparse,
-> which wasunformatted and unusable. This fix cleans up the help
-> messages, rewrites help
-> functionality to use argparse, and adds functionality to show
-> information for
-> plugins (similar to canned images).
+I finally found out, what's the reason why the included recovery rootfs 
+has the wrong UIDs, while the main image has the correct one. The reason 
+seems to be the PSEUDO_LOCALSTATEDIR variable that is set to the state 
+dir of the main image in both cases.
+I debugged all the calls up to the environment setup in partition.py's 
+prepare_rootfs method where a check for an existing PSEUDO_LOCALSTATEDIR 
+environment variable is done. That seems to be the problem.
+Instead of using the correct value passed to the prepare_rootfs method, 
+an existing ENV value is used that points to the state dir of the main 
+image instead of the recovery one's. I guess the reason is that in 
+bitbake.conf the PSEUDO_LOCALSTATEDIR is set to the image currently 
+build (which is the main image and not the recovery image only 
+referenced by the main image). So because that environment variable is 
+already set, the call to mkfs.ext4 for the recovery image uses the wrong 
+PSEUDO_LOCALSTATEDIR and does not apply the correct UID.
+
+Any ideas how to fix that? I tend to just remove the patch introduced by 
+Ed Bartosh three years ago 
+(https://patchwork.openembedded.org/patch/90419/) because I don't need a 
+custom PSEUDO_PREFIX. But maybe not everyone agrees.
+
+On 19.01.2018 17:00, Volker Vogelhuber wrote:
+> I'm currently trying to create a multi RootFS WIC image as mentioned in
+> directdisk-multi-rootfs.wks. For that I have two image recipes. One that 
+> is creating only an ext4 image (image-recovery), and the second that is 
+> also creating a WIC image (image-main). I used the IMAGE_FSTYPES 
+> variable for that. The WKS file for the second image is integrating the 
+> recovery image by specifying --rootfs-dir=image-recovery in it's part 
+> description.
 > 
-> Fixes [YOCTO #12205]
+> # primary / recovery image
+> part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/ 
+> mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700 
+> --overhead-factor=1.0
+> part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4 
+> --label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
 > 
-> Signed-off-by: anelliot <amber.n.elliot@intel.com>
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py |   58 +-
->  scripts/lib/wic/engine.py           |   87 ++-
->  scripts/lib/wic/help.py             | 1080 ++++---------------------
-> ----------
->  scripts/wic                         |  168 ++----
->  4 files changed, 269 insertions(+), 1124 deletions(-)
+> The UIDs of the second rootfs (image-main) are correctly set to 0 within 
+> the file system when calling mkfs.ext4 during prepare_rootfs_ext. For 
+> the recovery rootfs the UID is always set to my own (host) one which is 
+> of course not valid for the image where that UID does not exist.
+> I tried calling the mkfs.ext4 command myself from a terminal and for 
+> whatever reason an image created out of the rootfs folder of the second 
+> image (image-main) recipe is deployed with the correct UID 0, while the 
+> rootfs folder of the first image (image-recovery) recipe always uses the 
+> UID of the source folder/files.
+> 
+> I search the code of e2fsprogs for the line that sets the UID and added 
+> a printf in set_inode_extra. There I can see clearly that the source UID 
+> for the file is 0 for the rootfs of the image-main rootfs folder while 
+> it is 10000 (my own UID) for the image-recovery. I wonder how the UID of 
+> the image-main rootfs folder can be zero when I don't call any command 
+> with root permissions. I searched for a preparation step where the UIDs 
+> are managed in the scripts folder of Yocto, but didn't found any hint 
+> for the whole behavior. So while it is good that the rootfs partition of 
+> the main rootfs has the UID set correctly to zero, I can't understand 
+> why it happens. On the other side I can understand why the UID of the 
+> recovery rootfs is set to my own one, but it stops me from booting that 
+> rootfs because the UIDs of the files and folders are set to a user that 
+> does not exist on the target system.
+> 
+> Can someone please explain to me, how that UID handling is meant to be 
+> done?
+
+-- 
 
 
-Unfortunately this is causing a selftest regression:
 
-https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/771
 
-You should be able to reproduce with:
+* *
 
-"oe-selftest -r wic.Wic.test_qemu"
+*Volker Vogelhuber* | Head of Software Design
 
-Cheers,
 
-Richard
+
+*PENTAX**Medical
+*/Excellence in Focus/
+
+
+
+*T:* // +49 (0)821 650566-18  | *F:* +49 (0)821 650566-20
+
+
+
+Hoya Corporation – Pentax Medical Division
+
+*Digital Endoscopy GmbH*
+
+Paul-Lenz-Str. 5
+
+86316 Friedberg – Germany
+
+pentaxmedical.com
+
+
+
+*Curious*about new *PENTAX*Medical products and activities?
+
+*Follow us*on our Social Media channels!
+
+
+
+   <https://www.linkedin.com/company/pentax-medical-company>
+<https://www.youtube.com/channel/UCn2Ge1Wr7YsPZQiZ25nCkuA>
+
+
+
+Handelsregister HRB 27226
+
+Amtsgericht Augsburg
+
+Geschäftsführer: Michael Drexel, Gerald Bottero
+
+_____________________________________
+
+
+
+This e-mail may contain confidential and/or privileged information. If
+you are not the intended recipient (or have received this e-mail in
+error) please notify the sender immediately and destroy this e-mail. Any
+unauthorized copying, disclosure or distribution of the material in this
+e-mail is strictly forbidden.
+
+
+
 
