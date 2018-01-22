@@ -1,28 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 416546025E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B2F0877DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 16:32:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0MGWtt1000322
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 08:32:55 -0800
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 22 Jan 2018 08:32:54 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20180122154442.23769-1-ross.burton@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <88adb573-a7be-6da8-38d7-b160acb4716c@windriver.com>
-Date: Mon, 22 Jan 2018 10:32:53 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <20180122154442.23769-1-ross.burton@intel.com>
-Subject: Re: [PATCH] package_rpm: correctly handle LICENSE_${PN}
+	Mon, 22 Jan 2018 16:43:18 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2018 08:43:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,397,1511856000"; d="scan'208";a="21652273"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2018 08:43:19 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jan 2018 18:37:26 +0200
+Message-Id: <20180122163726.16636-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] gnupg: add a patch to avoid native vs. host gpg-agent clashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 16:32:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Jan 2018 16:43:19 -0000
 
-On 1/22/18 9:44 AM, Ross Burton wrote:
-> RPM spec files don't distinguish between spec-level license and the primary
-> package license, so always output the License for every package (defaulting to
-> the recipe-wide license) and use LICENSE_${PN} if set for the primary package.
-> 
-> As the primary use of package_rpm is to generate built packages, this fixes the
-> license fields in the generated packages.
-> 
-> [ YOCTO #12057 ]
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/package_rpm.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index b08608c8466..3cbbd1eb537 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -382,6 +382,7 @@ python write_specfile () {
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...c-use-a-custom-value-for-the-location-of-.patch | 30 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.2.4.bb          |  2 ++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
 
-For the specific problem reported, this is correct.  However, it has an
-unintended side effect.  When the archiver is enabled (with SRPM support), it
-uses the same function to generate the SRPM files.  This will result in the SRPM
-not having the 'correct' "source code" license, but instead will end up having
-the license of the first package.
-
-At a minimum, we should detect this case and warn someone..  I.e.
-
->  
->          # Gather special src/first package data
->          if srcname == splitname:
-
-if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and \
-   bb.data.inherits_class('archiver', d) and \
-   srclicense != splitlicense:
-	bb.warn("The SRPM produced may not have the correct overall source license in
-the LICENSE tag.  This is due to the LICENSE for the primary package and SRPM
-conflicting.)
-
-> +            srclicense     = splitlicense
->              srcrdepends    = splitrdepends
->              srcrrecommends = splitrrecommends
->              srcrsuggests   = splitrsuggests
-
-An alternative (i -really- do not like) is to name the overall first entry as
-something like:
-
-${PN}-archiver (or src, srpm, ... etc ...)
-
-Then in the later section add ${PN} as the first %package.  I do suspect this
-will break some people's validation scripting though.  So there does not appear
-to be a clear answer how to deal with this.  (The behavior unfortunately does
-not appear to be allowed in upstream RPM.)
-
-> @@ -421,8 +422,7 @@ python write_specfile () {
-
-This hunk is absolutely correct in all cases.
-
->              spec_preamble_bottom.append('Release: %s' % splitrelease)
->          if srcepoch != splitepoch:
->              spec_preamble_bottom.append('Epoch: %s' % splitepoch)
-> -        if srclicense != splitlicense:
-> -            spec_preamble_bottom.append('License: %s' % splitlicense)
-> +        spec_preamble_bottom.append('License: %s' % splitlicense)
->          spec_preamble_bottom.append('Group: %s' % splitsection)
->  
->          if srccustomtagschunk != splitcustomtagschunk:
-> 
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+new file mode 100644
+index 00000000000..3e3a64df2f5
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -0,0 +1,30 @@
++From 0b97148c3aad0993a9aeb088596fa63a2fec5328 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 22 Jan 2018 18:00:21 +0200
++Subject: [PATCH] configure.ac: use a custom value for the location of
++ gpg-agent socket in the filesystem
++
++This should avoid clashes with the host gpg-agent observed on autobuilders.
++
++Upstream-Status: Inappropriate [oe-core specific, and only for -native]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 382ef1d..0570d7c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1818,7 +1818,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++ 
++ AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
++ 
++-AC_DEFINE_UNQUOTED(GPG_AGENT_SOCK_NAME, "S.gpg-agent",
+++AC_DEFINE_UNQUOTED(GPG_AGENT_SOCK_NAME, "S.gpg-agent.yocto-native",
++                    [The name of the agent socket])
++ AC_DEFINE_UNQUOTED(GPG_AGENT_EXTRA_SOCK_NAME, "S.gpg-agent.extra",
++                    [The name of the agent socket for remote access])
++-- 
++2.15.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.4.bb b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
+index e15bcf298ac..d3f1a8f4c4d 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.4.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.4.bb
+@@ -15,6 +15,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0003-dirmngr-uses-libgpg-error.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+           "
++SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
++
+ 
+ SRC_URI[md5sum] = "709e5af5bba84d251c520222e720972f"
+ SRC_URI[sha256sum] = "401a3e64780fdfa6d7670de0880aa5c9d589b3db7a7098979d7606cec546f2ec"
+-- 
+2.15.1
 
 
