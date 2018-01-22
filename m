@@ -1,48 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id DC38577CCC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4374D605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 19:58:43 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id c17so10733448iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 11:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ePGhJ680zHuhqLRBvwVmr3/17CEUzWS2AM6pko7HICI=;
-	b=mU47fvuGE9yb4FCyd/rvrxMSKs72zcQlZASB11OwI5oIyKqqJ0+18ZZvbzVA3tUP9D
-	KA2q/ZCXGLfiUBwY+gLnIQbSbPpDHfgGh+qeFR6i0FpLZ/d6CLEXLMT29ScLmHylTJeD
-	KUq3FEIsBsORET2hbMrPwqDJiT7TSd89QYuyK0u5pzAYg/A5CHR6Q8wN+g0L7GbZz05v
-	cf5Fp9bVUHpp+orvh2s1E/ERqvn6q66ifQuyEOccgaoz4xfL+WUTUrGlEqYQCR/eItMZ
-	tSOok+Y8JrJU0Cc5v+Lhq9/MxabV7mjhGHckRyJrjtLfYdTIZ1KWapDS8VZlFf1hnBB1
-	5NtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ePGhJ680zHuhqLRBvwVmr3/17CEUzWS2AM6pko7HICI=;
-	b=DuGK4fMrdaP/DKWyKs0Cxt1/1zFOfI+/bX1mOORu+Ab7VXeM9Q7s1X+fMsCXNpN/Zo
-	niKDXlvW0UZgXBIbvxYSwLW2ddvAkR3Q/gFayjj+7SiKCH5xemZR+ES3OYs5kTyf0zF+
-	bPLi6irEpnP5ADWCcQ9RuBycfz3TrSeJFnZvgbOE+ez2dhXPLugGiNfHYJvVitXOxSrj
-	uV/co3zeLnBQxVwULMhtLS673K7TOBxGor55H6YHAYFvh8qBqPeslG7SbYDhcodNFL5x
-	tZkeNkRLmF2QUry6jxPokbrwAbBAu7fKQa2TFdZWHk586ZLcaXlCZ8lbEPvk5nLPg0tt
-	kiyQ==
-X-Gm-Message-State: AKwxytf+yiwoyWKTngKjkiS/LvDwhtUYlRqqL9QuuApk374Ud5gq6Ts+
-	h6/fswccs1VzDZ/CKKD8i/eoAGN9a6W4DEjSzPqA0w==
-X-Google-Smtp-Source: AH8x226Mas/z8db6Avp3EVcfooLx8zT7A7/KGSbyYY6nH/iBJqBo5Z2mWxxcuZZmvBfkjUXoEmMFCG+ZlzRirrEuxMc=
-X-Received: by 10.107.175.8 with SMTP id y8mr31198ioe.37.1516651125018; Mon,
-	22 Jan 2018 11:58:45 -0800 (PST)
+	Mon, 22 Jan 2018 20:12:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2018 12:12:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,398,1511856000"; d="scan'208";a="28541847"
+Received: from cdsouzax-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.64.40])
+	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2018 12:12:15 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Amanda Brindle <amanda.r.brindle@intel.com>
+Date: Tue, 23 Jan 2018 09:12:12 +1300
+Message-ID: <2858725.vKaQ0J1YPi@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <a286dcb3d1969d0baf2c620dab2a4d7904ed9d56.1516313803.git.amanda.r.brindle@intel.com>
+References: <cover.1516313803.git.amanda.r.brindle@intel.com>
+	<a286dcb3d1969d0baf2c620dab2a4d7904ed9d56.1516313803.git.amanda.r.brindle@intel.com>
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Mon, 22 Jan 2018 11:58:24 -0800 (PST)
-In-Reply-To: <20180118084826.102791-1-dmitriyz@waymo.com>
-References: <20180118084826.102791-1-dmitriyz@waymo.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Jan 2018 19:58:24 +0000
-Message-ID: <CAJTo0LZiiwa2nM2b9r1eF1hikLPcPq5Zzdh71nhxDkyG7NLyOA@mail.gmail.com>
-To: Dima Zavin <dmitriyz@waymo.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pigz: specify that we runtime-provide gzip
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/2] oe-pkgdata-util: Refactor functions for consistency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,104 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 19:58:44 -0000
-Content-Type: multipart/alternative; boundary="001a1144a2688e2582056362dba8"
+X-List-Received-Date: Mon, 22 Jan 2018 20:12:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1144a2688e2582056362dba8
-Content-Type: text/plain; charset="UTF-8"
+Hi Amanda,
 
-Rejecting as pigz is not compatible with gzip, I'm ripping out this
-provides right now.
-
-Ross
-
-On 18 January 2018 at 08:48, Dima Zavin <dmitriyz@waymo.com> wrote:
-
-> Without this, nativesdk-texinfo fails to build with messages about
-> nothing rproviding nativesdk-gzip. That gets pulled in
-> when we add "compress_doc" to INHERIT in a distro.
->
-> Signed-off-by: Dima Zavin <dmitriyz@waymo.com>
+On Friday, 19 January 2018 12:18:27 PM NZDT Amanda Brindle wrote:
+> Refactor functions lookup_recipe and package_info to be consistent with
+> list_pkg_files. Print the appropriate information as soon as it's found,
+> rather than storing it in a mappings variable and wait to print after
+> searching all packages.
+> 
+> Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
 > ---
->
-> Not sure if this is the best way to fix the problem, or if I properly
-> diagnosed it, but this seems to fix it.
->
->  meta/recipes-extended/pigz/pigz.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-extended/pigz/pigz.inc
-> b/meta/recipes-extended/pigz/pigz.inc
-> index 978f905329..01b41dddff 100644
-> --- a/meta/recipes-extended/pigz/pigz.inc
-> +++ b/meta/recipes-extended/pigz/pigz.inc
-> @@ -8,6 +8,7 @@ SECTION = "console/utils"
->  LICENSE = "Zlib & Apache-2.0"
->
->  PROVIDES_class-native += "gzip-native"
-> +RPROVIDES_${PN} = "gzip"
->
->  DEPENDS = "zlib"
->
-> --
-> 2.16.0.rc1.238.g530d649a79-goog
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>  scripts/oe-pkgdata-util | 107 ++++++++++++++++++++++--------------------------
+>  1 file changed, 48 insertions(+), 59 deletions(-)
+> 
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index c6fba56..e4ccf30 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -257,25 +257,22 @@ def lookup_recipe(args):
+>      for pkgitem in args.pkg:
+>          pkgs.extend(pkgitem.split())
+>  
+> -    mappings = defaultdict(list)
+>      for pkg in pkgs:
+> -        pkgfile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
+> -        if os.path.exists(pkgfile):
+> -            with open(pkgfile, 'r') as f:
+> +        pkgdatafile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
+> +        if os.path.exists(pkgdatafile):
+> +            with open(pkgdatafile, 'r') as f:
+> +                found = False
+>                  for line in f:
+> -                    fields = line.rstrip().split(': ')
+> -                    if fields[0] == 'PN':
+> -                        mappings[pkg].append(fields[1])
+> +                    if line.startswith('PN'):
+> +                        print("\t%s" % line.split(':', 1)[1].strip())
+> +                        found = True
 
---001a1144a2688e2582056362dba8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I don't think we want to do this. What if we started writing out some PN<something> 
+variable to the file? This will erroneously match it. We should split by : as the
+previous code did and compare the actual field name, or at minimum add ':' to the
+end of each check string. The same goes for the similar changes later on in the
+patch.
 
-<div dir=3D"ltr">Rejecting as pigz is not compatible with gzip, I&#39;m rip=
-ping out this provides right now.<div><br></div><div>Ross</div></div><div c=
-lass=3D"gmail_extra"><br><div class=3D"gmail_quote">On 18 January 2018 at 0=
-8:48, Dima Zavin <span dir=3D"ltr">&lt;<a href=3D"mailto:dmitriyz@waymo.com=
-" target=3D"_blank">dmitriyz@waymo.com</a>&gt;</span> wrote:<br><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">Without this, nativesdk-texinfo fails to build with mes=
-sages about<br>
-nothing rproviding nativesdk-gzip. That gets pulled in<br>
-when we add &quot;compress_doc&quot; to INHERIT in a distro.<br>
-<br>
-Signed-off-by: Dima Zavin &lt;<a href=3D"mailto:dmitriyz@waymo.com">dmitriy=
-z@waymo.com</a>&gt;<br>
----<br>
-<br>
-Not sure if this is the best way to fix the problem, or if I properly<br>
-diagnosed it, but this seems to fix it.<br>
-<br>
-=C2=A0meta/recipes-extended/pigz/<wbr>pigz.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-extended/pigz/<wbr>pigz.inc b/meta/recipes-extend=
-ed/pigz/<wbr>pigz.inc<br>
-index 978f905329..01b41dddff 100644<br>
---- a/meta/recipes-extended/pigz/<wbr>pigz.inc<br>
-+++ b/meta/recipes-extended/pigz/<wbr>pigz.inc<br>
-@@ -8,6 +8,7 @@ SECTION =3D &quot;console/utils&quot;<br>
-=C2=A0LICENSE =3D &quot;Zlib &amp; Apache-2.0&quot;<br>
-<br>
-=C2=A0PROVIDES_class-native +=3D &quot;gzip-native&quot;<br>
-+RPROVIDES_${PN} =3D &quot;gzip&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;zlib&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.16.0.rc1.238.g530d649a79-<wbr>goog<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+Cheers,
+Paul
 
---001a1144a2688e2582056362dba8--
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
