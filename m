@@ -1,29 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D31F78555
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC7471AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 19:19:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0MJJaW8004292
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 22 Jan 2018 11:19:37 -0800
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 22 Jan 2018 11:19:35 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20180122165656.53234-1-Randy.MacLeod@windriver.com>
-	<CAJTo0LbS=RKZjUMjByxmv88Us-3n_21GSKuSzY5CjhwSkrop3w@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <096b46d0-97d4-5a8b-5cee-0f62c9ab61a2@windriver.com>
-Date: Mon, 22 Jan 2018 14:19:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Mon, 22 Jan 2018 19:21:13 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id v123so19018697wmd.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jan 2018 11:21:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LUxyJN/gBusKdEgs0NFPBk9MvBU5M+TPvrjolZayIak=;
+	b=cFbAtxoLIAt9A5nW6riMM7YKWvgTCgu3xZILh+Rf8Gd12RI0KI2dnHHU3S0P91UqaD
+	m/F0C36TykOD2AmpknrnLY8ezbDeX7Y+kxdAV/S+EUZn3qVQRmTKJEOU4AsvAGaOv7G0
+	/oHZdccVAejPs+wifbgp8tvLRXZElZG5liYqfp4gxuxBGgcrWeKcaGDg7OSbvwDl38aM
+	X0FKCUA+hiGUusadl9fbevFBfB+JX/PlxBypnynLkRut2kk4XFKztdALkfytfNAPsLsM
+	shJ4cMb0SkmidxRg0/CP4LvCeMp3cP/eIBa/YHL8f0Ut+dE5I2AFvMaYPvTdh0M9tt9R
+	8syQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LUxyJN/gBusKdEgs0NFPBk9MvBU5M+TPvrjolZayIak=;
+	b=PvpX6s7U4kBzdy1LRSvBtfj9lOtT3WoPCcEYnJt+p92oG66c7Rod8pxCsn4pGmhe3s
+	R3CE6LKE1Gipfo44zTJkDkHCRsFubAWtSxxLwcW3He/GQqpdO63y5F+91tdY/rujG/j4
+	GQl0RqunWNqDlopwN7vXHxx9RArt/LiKyu7j37Zq7SipqijOvXtiKu7j/WRyMjPoaSWY
+	0mHXzZa6Zq5pLbEas9q7T2/1l3x0RoPT6Fdypgmuv5fhg8qp6pSZVEWCMZzUXRbu1i/O
+	CO7Vs7XTZWpkKGYPJwt4xMfFoYp5V6SeD6lJ+Iv0jQ/TsyiYWJH7TbzSj3NcVgDlBi8y
+	Nq3g==
+X-Gm-Message-State: AKwxytdDbEqUJDXJ/c1s9ArZzgyNFyxG2mL9I6Ham+bdeLWQ8vEg9czB
+	Fes7qOSMcP+j/PjxLYmqnWluv+UdSO5WTdOaxPg=
+X-Google-Smtp-Source: AH8x227DxiNZPsLMl3nysw3VRyYeSN1B9fbRe/QsqC7HaIw6FuwPV4SbJaEp5GwYOvwIW2kAZsVaRw48QQX3Gor1yz8=
+X-Received: by 10.28.247.25 with SMTP id v25mr6592282wmh.10.1516648874206;
+	Mon, 22 Jan 2018 11:21:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbS=RKZjUMjByxmv88Us-3n_21GSKuSzY5CjhwSkrop3w@mail.gmail.com>
-X-Originating-IP: [172.25.44.3]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: link mesautil with pthreads
+Received: by 10.223.144.129 with HTTP; Mon, 22 Jan 2018 11:21:13 -0800 (PST)
+In-Reply-To: <1516528949.24502.54.camel@linuxfoundation.org>
+References: <20180117092159.19356-1-thomas.perrot@tupi.fr>
+	<CAJ86T=Va5HE+zYpKS29jfrB3R=yqTR1vkZuxmk21Uc_qQSzr4g@mail.gmail.com>
+	<1516528949.24502.54.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 22 Jan 2018 11:21:13 -0800
+Message-ID: <CAJ86T=WdZc_6QpUHFFznsZNYdTNYw7Mz2E7M40V=-JuRg4JJDg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Use KERNEL_IMAGETYPE_FOR_MAKE in do_bundle_initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,190 +55,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 19:19:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Jan 2018 19:21:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018-01-22 12:16 PM, Burton, Ross wrote:
-> Upstream-Status tag needs to be in the patch you add, not the commit 
-> message.
-> 
-> Ross
+On Sun, Jan 21, 2018 at 2:02 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2018-01-17 at 13:31 -0800, Andre McCurdy wrote:
+>> On Wed, Jan 17, 2018 at 1:21 AM, Thomas Perrot <thomas.perrot@tupi.fr
+>> > wrote:
+>> >
+>> > In the case of a fitImage the this step should be done on the
+>> > image use to assemble the fitImage.
+>> >
+>> > Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
+>> > ---
+>> >  meta/classes/kernel.bbclass | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/classes/kernel.bbclass
+>> > b/meta/classes/kernel.bbclass
+>> > index c42f85c665..ff09d4c4c7 100644
+>> > --- a/meta/classes/kernel.bbclass
+>> > +++ b/meta/classes/kernel.bbclass
+>> > @@ -231,7 +231,7 @@ do_bundle_initramfs () {
+>> >                 copy_initramfs
+>> >                 # Backing up kernel image relies on its
+>> > type(regular file or symbolic link)
+>> >                 tmp_path=""
+>> > -               for type in ${KERNEL_IMAGETYPES} ; do
+>> > +               for type in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+>> The net result of this change is to no longer backup the non-
+>> initramfs
+>> vmlinux.gz kernel image before creating the kernel image(s)
+>> containing
+>> bundled initramfs (plus some other corner cases, depending on whether
+>> the legacy KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE variables are
+>> used and whether or not KERNEL_IMAGETYPES contains both vmlinux and
+>> vmlinux.gz or vmlinux.gz only).
+>>
+>> Can you explain a little how that's related to building fitImage
+>> kernels?
+>>
+>> This code in do_bundle_initramfs() is extremely fragile and changes
+>> may only break less well testing targets such as MIPS, so any changes
+>> need to be very carefully reviewed and tested.
+>
+> Actually, I think it means we need better tests.
 
-Picky, picky! :)
+Yes. This bug was spotted via code review though (unfortunately too
+late to prevent the change being merged to master...).
 
-Done.
-
-
-Next patch, I'll see if local patchtest check works now.
-Last time I tried using it, it was busted.
-
-../Randy
-
-> 
-> On 22 January 2018 at 16:56, Randy MacLeod <Randy.MacLeod@windriver.com 
-> <mailto:Randy.MacLeod@windriver.com>> wrote:
-> 
->     Cherry-pick fix from mesa upstream:
->         23ce168048 link mesautil with pthreads
-> 
->     link mesautil with pthreads to avoid:
-> 
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_setname':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66:
->     undefined reference to `pthread_setname_np'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `thrd_join':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336:
->     undefined reference to `pthread_join'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_create':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48:
->     undefined reference to `pthread_sigmask'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `thrd_create':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296:
->     undefined reference to `pthread_create'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_create':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
->     undefined reference to `pthread_sigmask'
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
->     undefined reference to `pthread_sigmask'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `call_once':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96:
->     undefined reference to `pthread_once'
->     ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_get_time_nano':
->     /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84:
->     undefined reference to `pthread_getcpuclockid'
->     collect2: error: ld returned 1 exit status
-> 
->     Upstream-Status: backport
-> 
->     Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com
->     <mailto:Randy.MacLeod@windriver.com>>
->     ---
->       .../files/0001-link-mesautil-with-pthreads.patch   | 51
->     ++++++++++++++++++++++
->       meta/recipes-graphics/mesa/mesa_17.3.3.bb <http://mesa_17.3.3.bb> 
->              |  1 +
->       2 files changed, 52 insertions(+)
->       create mode 100644
->     meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
-> 
->     diff --git
->     a/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
->     b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
->     new file mode 100644
->     index 0000000000..193c54661b
->     --- /dev/null
->     +++
->     b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
->     @@ -0,0 +1,51 @@
->     +From 23ce168048698eeea3df6bb8c9de5be3ca4784cd Mon Sep 17 00:00:00 2001
->     +From: Igor Gnatenko <ignatenko@redhat.com
->     <mailto:ignatenko@redhat.com>>
->     +Date: Mon, 1 Jan 2018 22:49:00 +0100
->     +Subject: [PATCH] link mesautil with pthreads
->     +
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_setname':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66:
->     undefined reference to `pthread_setname_np'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `thrd_join':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336:
->     undefined reference to `pthread_join'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_create':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48:
->     undefined reference to `pthread_sigmask'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `thrd_create':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296:
->     undefined reference to `pthread_create'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_create':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
->     undefined reference to `pthread_sigmask'
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50:
->     undefined reference to `pthread_sigmask'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `call_once':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96:
->     undefined reference to `pthread_once'
->     +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In
->     function `u_thread_get_time_nano':
->     +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84:
->     undefined reference to `pthread_getcpuclockid'
->     +collect2: error: ld returned 1 exit status
->     +
->     +Reviewed-by: Adam Jackson <ajax@redhat.com <mailto:ajax@redhat.com>>
->     +Signed-off-by: Igor Gnatenko <ignatenko@redhat.com
->     <mailto:ignatenko@redhat.com>>
->     +---
->     + src/util/Makefile.am | 2 ++
->     + 1 file changed, 2 insertions(+)
->     +
->     +diff --git a/src/util/Makefile.am b/src/util/Makefile.am
->     +index a5241ad27b..633907b9fd 100644
->     +--- a/src/util/Makefile.am
->     ++++ b/src/util/Makefile.am
->     +@@ -31,6 +31,7 @@ noinst_LTLIBRARIES = \
->     + libxmlconfig.la <http://libxmlconfig.la>
->     +
->     + AM_CPPFLAGS = \
->     ++      $(PTHREAD_CFLAGS) \
->     +       -I$(top_srcdir)/include
->     +
->     + libmesautil_la_CPPFLAGS = \
->     +@@ -50,6 +51,7 @@ libmesautil_la_SOURCES = \
->     +       $(MESA_UTIL_GENERATED_FILES)
->     +
->     + libmesautil_la_LIBADD = \
->     ++      $(PTHREAD_LIBS) \
->     +       $(CLOCK_LIB) \
->     +       $(ZLIB_LIBS) \
->     +       $(LIBATOMIC_LIBS)
->     +--
->     +2.14.3
->     +
->     diff --git a/meta/recipes-graphics/mesa/mesa_17.3.3.bb
->     <http://mesa_17.3.3.bb> b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
->     <http://mesa_17.3.3.bb>
->     index 6e3f29a2c4..623046e116 100644
->     --- a/meta/recipes-graphics/mesa/mesa_17.3.3.bb <http://mesa_17.3.3.bb>
->     +++ b/meta/recipes-graphics/mesa/mesa_17.3.3.bb <http://mesa_17.3.3.bb>
->     @@ -10,6 +10,7 @@ SRC_URI =
->     "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz
->     <https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz> \
->                  file://0001-winsys-svga-drm-Include-sys-types.h.patch \
->                 
->     file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
->                  file://0001-anv_icd.py-improve-reproducible-builds.patch \
->     +           file://0001-link-mesautil-with-pthreads.patch \
->                  "
-> 
->       SRC_URI[md5sum] = "139b5f608b371c0d4395596162f88791"
->     --
->     2.11.0
-> 
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-> 
-> 
-
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+> I'm seriously considering removing a lot of the stuff in kernel.bbclass
+> and then rebuilding things in hopefully a cleaner way. The test for
+> anything being needed would be whether our regression tests pass.
+>
+> I appreciate the idea will fill some with horror but there are a few
+> places the code code is turning into an unmaintainable (and
+> unreviewable) mess, the kernel classes are getting there :(
+>
+> Cheers,
+>
+> Richard
 
