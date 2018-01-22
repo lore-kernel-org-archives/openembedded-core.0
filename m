@@ -1,34 +1,27 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF0276FF0E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EC5577629
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 09:06:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0M96RJY021294
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 01:06:27 -0800
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.62]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Mon, 22 Jan 2018 01:06:26 -0800
-From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] grep: support Perl regular expression
-Thread-Index: AQHTkBEY87M2jA/EqkCl+JKrDfvpCaN5gowAgAJsNwCAA68VEA==
-Date: Mon, 22 Jan 2018 09:06:26 +0000
-Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9D8229C8F@ALA-MBC.corp.ad.wrs.com>
-References: <1516246916-2966-1-git-send-email-Haiqing.Bai@windriver.com>
-	<1516246916-2966-2-git-send-email-Haiqing.Bai@windriver.com>
-	<CAJTo0LagHV+d1CBiQuabonCRYYTrV5ui0+D6G=eSWdp_nDgRAA@mail.gmail.com>
-In-Reply-To: <CAJTo0LagHV+d1CBiQuabonCRYYTrV5ui0+D6G=eSWdp_nDgRAA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.212]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grep: support Perl regular expression
+	Mon, 22 Jan 2018 10:18:53 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0MAGmM8024130
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 22 Jan 2018 10:16:49 GMT
+Message-ID: <1516616208.24502.100.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: anelliot <amber.n.elliot@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jan 2018 10:16:48 +0000
+In-Reply-To: <cfe77fab44ccf8ac32f4df117b729d65376e9da2.1516289668.git.amber.n.elliot@intel.com>
+References: <cover.1516289668.git.amber.n.elliot@intel.com>
+	<cfe77fab44ccf8ac32f4df117b729d65376e9da2.1516289668.git.amber.n.elliot@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: paul.eggleton@linux.intel.com
+Subject: Re: [PATCH 1/1] wic: argparse now used for help functionality.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,101 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 09:06:25 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_C2A454FDE6C23F41BD5011E2458C46C9D8229C8FALAMBCcorpadwrs_"
+X-List-Received-Date: Mon, 22 Jan 2018 10:18:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---_000_C2A454FDE6C23F41BD5011E2458C46C9D8229C8FALAMBCcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, 2018-01-18 at 07:42 -0800, anelliot wrote:
+> The wic help output formally consisted of manually created strings
+> mixed with argparse,
+> which wasunformatted and unusable. This fix cleans up the help
+> messages, rewrites help
+> functionality to use argparse, and adds functionality to show
+> information for
+> plugins (similar to canned images).
+> 
+> Fixes [YOCTO #12205]
+> 
+> Signed-off-by: anelliot <amber.n.elliot@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/wic.py |   58 +-
+>  scripts/lib/wic/engine.py           |   87 ++-
+>  scripts/lib/wic/help.py             | 1080 ++++---------------------
+> ----------
+>  scripts/wic                         |  168 ++----
+>  4 files changed, 269 insertions(+), 1124 deletions(-)
 
-VGhhbmtzIHlvdXIgcmV2aWV3IGFuZCBJIHdpbGwgc2VuZCBvdXQgdGhlIFYyIHJldmlldyByZXF1
-ZXN0IGFjY29yZGluZyB3aXRoIHlvdXIgc3VnZ2VzdGlvbnMuDQoNCkZyb206IEJ1cnRvbiwgUm9z
-cyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IDIwMTjlubQx5pyIMjDml6Ug
-MDo0Mg0KVG86IEJhaSwgSGFpcWluZw0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIXSBncmVwOiBzdXBwb3J0IFBlcmwgcmVndWxhciBleHByZXNzaW9uDQoNCk9uIDE4
-IEphbnVhcnkgMjAxOCBhdCAwMzo0MSwgSGFpcWluZyBCYWkgPEhhaXFpbmcuQmFpQHdpbmRyaXZl
-ci5jb208bWFpbHRvOkhhaXFpbmcuQmFpQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCitQQUNLQUdF
-Q09ORklHW3BjcmVdID0gIiwtLWRpc2FibGUtcGVybC1yZWdleHAsbGlicGNyZSINCg0KRm9yIGNs
-YXJpdHkgYW5kIGVuc3VyZSBjb25zaXN0ZW50IGJlaGF2aW91ciBpZiB0aGUgZGVmYXVsdHMgY2hh
-bmdlLCB0aGlzIHNob3VsZCBhbHNvIGJlIHBhc3NpbmcgLS1lbmFibGUtcGVybC1yZWdleHAuDQoN
-ClJvc3MNCg==
 
---_000_C2A454FDE6C23F41BD5011E2458C46C9D8229C8FALAMBCcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Unfortunately this is causing a selftest regression:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBj
-bTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAu
-MHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHls
-ZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQi
-IHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+
-PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0
-IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFk
-Pg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBj
-bGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MgeW91ciByZXZpZXcgYW5kIEkgd2ls
-bCBzZW5kIG91dCB0aGUgVjIgcmV2aWV3IHJlcXVlc3QgYWNjb3JkaW5nIHdpdGggeW91ciBzdWdn
-ZXN0aW9ucy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250
-LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRv
-biwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9i
-PiAyMDE4PC9zcGFuPjxzcGFuIGxhbmc9IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtm
-b250LWZhbWlseTrlrovkvZMiPuW5tDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
-dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
-MTwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1m
-YW1pbHk65a6L5L2TIj7mnIg8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPjIwPC9z
-cGFuPjxzcGFuIGxhbmc9IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWls
-eTrlrovkvZMiPuaXpTwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZh
-bWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+DQogMDo0Mjxi
-cj4NCjxiPlRvOjwvYj4gQmFpLCBIYWlxaW5nPGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0K
-PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBncmVwOiBzdXBwb3J0IFBlcmwg
-cmVndWxhciBleHByZXNzaW9uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-T24gMTggSmFudWFyeSAyMDE4IGF0IDAzOjQxLCBIYWlxaW5nIEJhaSAmbHQ7PGEgaHJlZj0ibWFp
-bHRvOkhhaXFpbmcuQmFpQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5IYWlxaW5nLkJh
-aUB3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRp
-dj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0ND
-Q0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFy
-Z2luLXJpZ2h0OjBjbSI+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7
-UEFDS0FHRUNPTkZJR1twY3JlXSA9ICZxdW90OywtLWRpc2FibGUtcGVybC1yZWdleHAsbGlicGNy
-ZSZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkZvciBjbGFyaXR5IGFuZCBlbnN1cmUgY29uc2lz
-dGVudCBiZWhhdmlvdXIgaWYgdGhlIGRlZmF1bHRzIGNoYW5nZSwgdGhpcyBzaG91bGQgYWxzbyBi
-ZSBwYXNzaW5nIC0tZW5hYmxlLXBlcmwtcmVnZXhwLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzJm5ic3A7PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/771
 
---_000_C2A454FDE6C23F41BD5011E2458C46C9D8229C8FALAMBCcorpadwrs_--
+You should be able to reproduce with:
+
+"oe-selftest -r wic.Wic.test_qemu"
+
+Cheers,
+
+Richard
+
