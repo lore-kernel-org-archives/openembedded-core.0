@@ -1,47 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 42CF678687
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8489477FEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 13:05:42 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b21so16687958wme.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 05:05:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=IVEuhK0WORcRuh3mIdRvJB9vYbHSfyGNz37RKi0IQSs=;
-	b=ax778wvVLmGLZKoIjDBeYzhw8YJVGnlrd9SJwuTmY/2S1RSYfJMZwiLpE2PfadlGZI
-	0K+DuIlcFvj9xhz1S51UZhIm+qPve/2/8br5NeeWeI1x+1ASnVFzyxqFmfLaBHthzbL+
-	ip6guS0YzgPgYn667qmHEh8LwUQ2gRNraDR1xbDSTsaqA8MgizvC4QB9aTnE6rNBs/L3
-	KGY7PlG/vBrLN4nvwKjRx4aSgiVk2pnUkqHjnnuVpobYbAt6bh2DYEZYHIl1QvmCIHLR
-	9fOOtGh33TXfiV7e1iOm9/0tb4KOybTlYIFiDanHREMhsKYFcsWEnegjW9UuMJMK4c27
-	Ya8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=IVEuhK0WORcRuh3mIdRvJB9vYbHSfyGNz37RKi0IQSs=;
-	b=pG1i7k87NiOwY9ITE5+ZJLnnFJzgiNA5vZlEuJVqsHDXWK6pdUavFndI4NXkXEzH3f
-	YKb/QGI6oq0dfdKFcoD3LPtFyvUYIbkJ+ixDN19iQcBujNKqAoQc/FV1wXzG/V1C1e/A
-	VjKGjTZWKbKLAV+hj++aeMEineh6wpIDKfwhiIbP5VPh/LzIsW3X5AjpU1YC9MrZoZuV
-	2AEke/PZ//v1KXKDUnvKiCaxcHy6PHduaSydRFOq5uSYfEGaXJgt8qOg83FGBwL3irMg
-	0y6VWhUVbVZBS/YuGa/3MTs3xywx32hpCC4cqmN+2kvjR4uprciSY7pKAbyPErHaiH9P
-	MTRQ==
-X-Gm-Message-State: AKwxytfiRqFYOSoBMcqEoI+Ow2DX8oBGeqJ28QmOucZ+aZm8rvflwDPL
-	BK/CZ2VF6QDthcOotTRFyQK6xduU
-X-Google-Smtp-Source: AH8x224mpZrQRGVqubbBJh+WHmW+RKK8Tpt9ArrU85qXKnKlioF9aSeBK2U8N8/GXP0+CjHRdC902Q==
-X-Received: by 10.28.180.4 with SMTP id d4mr5771821wmf.13.1516626343519;
-	Mon, 22 Jan 2018 05:05:43 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id e6sm8950862wra.41.2018.01.22.05.05.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Jan 2018 05:05:42 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jan 2018 13:05:39 +0000
-Message-Id: <20180122130539.16319-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] buildhistory_analysis: colourise more output
+	Mon, 22 Jan 2018 13:39:33 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2018 05:39:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,396,1511856000"; d="scan'208";a="21613295"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2018 05:39:33 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <151627986059.9023.14010623458474127186@git.openembedded.org>
+	<20180118125101.2F92F235ED3@git.openembedded.org>
+	<CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com>
+	<CAJTo0LYJrDXkSG3zhEowg2UbFyYvoAPKKDUKoGd8qQ_yfBwCCA@mail.gmail.com>
+	<CA+chaQczyj5GwNbcPrWsUAeyGv6Lo3MCaanRNpc5dj0BD96+nA@mail.gmail.com>
+	<ced1db99-56e4-584e-775a-a345197a00bf@linux.intel.com>
+	<CA+chaQcum56vWjDunvXB-iWHV097SyLUiQusOVwgTkisPzQOTA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <61b45636-ba1a-92d4-1932-1084db0a54e0@linux.intel.com>
+Date: Mon, 22 Jan 2018 15:33:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CA+chaQcum56vWjDunvXB-iWHV097SyLUiQusOVwgTkisPzQOTA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 08/08: json-glib: update to 1.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 13:05:43 -0000
+X-List-Received-Date: Mon, 22 Jan 2018 13:39:33 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/buildhistory_analysis.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 01/19/2018 07:59 PM, Martin Jansa wrote:
+> I have gobject-introspection-data in DISTRO_FEATURES_BACKFILL_CONSIDERED.
+> 
+> I am able to reproduce this with nodistro after adding:
+> DISTRO_FEATURES_remove = "gobject-introspection-data"
+> or the same to DISTRO_FEATURES_BACKFILL_CONSIDERED.
+> 
+> This one is with require conf/distro/include/security_flags.inc
+> http://errors.yoctoproject.org/Errors/Details/164873/ 
+> <http://errors.yoctoproject.org/Errors/Details/164873/>
+> 
+> this one is without security_flags.inc:
+> http://errors.yoctoproject.org/Errors/Details/164874/
+> 
+> The older version was building fine with gobject-introspection disabled.
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index c05841b804c..6c0bca8d05d 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -124,10 +124,10 @@ class ChangeRecord:
-             lines = []
-             if renamed_dirs:
-                 for dfrom, dto in renamed_dirs:
--                    lines.append('directory renamed %s -> %s' % (dfrom, dto))
-+                    lines.append('directory renamed {colour_remove}{}{colour_default} -> {colour_add}{}{colour_default}'.format(dfrom, dto, **colours))
-             if removed or added:
-                 if removed and not bitems:
--                    lines.append('removed all items "%s"' % ' '.join(removed))
-+                    lines.append('removed all items "{colour_remove}{}{colour_default}"'.format(' '.join(removed), **colours))
-                 else:
-                     if removed:
-                         lines.append('removed "{colour_remove}{value}{colour_default}"'.format(value=' '.join(removed), **colours))
--- 
-2.11.0
+Upstream has renamed all the configuration options, and then renamed 
+them again. At the same time, meson stays quiet about configuration 
+options that don't exist, and so we don't have an automatic way to catch 
+such regressions.
+
+https://github.com/GNOME/json-glib/commits/master/meson_options.txt
+
+I'll fix the recipe.
+
+
+Alex
 
 
