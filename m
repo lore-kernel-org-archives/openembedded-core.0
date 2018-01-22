@@ -1,23 +1,23 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BAE3783C6
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB436FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 04:31:43 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2018 20:31:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,395,1511856000"; d="scan'208";a="197458494"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga005.fm.intel.com with ESMTP; 21 Jan 2018 20:31:43 -0800
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Jan 2018 12:26:22 +0800
-Message-Id: <1516595182-50325-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
+	Mon, 22 Jan 2018 09:06:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0M96Pcr021291
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 22 Jan 2018 01:06:25 -0800
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 22 Jan 2018 01:06:12 -0800
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 22 Jan 2018 16:46:10 +0800
+Message-ID: <1516610771-13845-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [V2][PATCH] grep: support Perl regular expression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,195 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jan 2018 04:31:44 -0000
+X-List-Received-Date: Mon, 22 Jan 2018 09:06:25 -0000
+Content-Type: text/plain
 
-wic is now available in the eSDK. Adding test cases to test
-wic utility within eSDK.
+Supporting Perl regular expression is disabled with '--disable-perl-regexp'
+but the manpage of 'grep' shows the '-P' option and returns below error:
+"/bin/grep.grep -o -P 'PATTERN' file
+ /bin/grep.grep: support for the -P option is not compiled into this \
+               --disable-perl-regexp binary"
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 ---
- meta/lib/oeqa/sdkext/cases/wic.py | 171 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 171 insertions(+)
- create mode 100644 meta/lib/oeqa/sdkext/cases/wic.py
+ meta/recipes-extended/grep/grep_3.1.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdkext/cases/wic.py b/meta/lib/oeqa/sdkext/cases/wic.py
-new file mode 100644
-index 0000000..221a290
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/cases/wic.py
-@@ -0,0 +1,171 @@
-+import os
-+import sys
-+import shutil
-+import unittest
+diff --git a/meta/recipes-extended/grep/grep_3.1.bb b/meta/recipes-extended/grep/grep_3.1.bb
+index 05b6b93..71810dc 100644
+--- a/meta/recipes-extended/grep/grep_3.1.bb
++++ b/meta/recipes-extended/grep/grep_3.1.bb
+@@ -14,8 +14,6 @@ SRC_URI[sha256sum] = "db625c7ab3bb3ee757b3926a5cfa8d9e1c3991ad24707a83dde8a5ef2b
+ 
+ inherit autotools gettext texinfo pkgconfig
+ 
+-EXTRA_OECONF = "--disable-perl-regexp"
+-
+ # Fix "Argument list too long" error when len(TMPDIR) = 410
+ acpaths = "-I ./m4"
+ 
+@@ -36,6 +34,9 @@ do_install () {
+ 
+ inherit update-alternatives
+ 
++PACKAGECONFIG ??= "pcre"
++PACKAGECONFIG[pcre] = "--enable-perl-regexp,--disable-perl-regexp,libpcre"
 +
-+from glob import glob
-+
-+from oeqa.sdkext.case import OESDKExtTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.utils.commands import runCmd
-+
-+
-+class WicTest(OESDKExtTestCase):
-+    """Wic test within eSDK."""
-+
-+    testdir = "/var/tmp/wic.test.sdkext/"
-+    outfile = "/var/tmp/wic.test.sdkext/output.txt"
-+
-+    @OETestID(1963)
-+    def test_wic_location(self):
-+        """Check whether wic is run within eSDK sysroot"""
-+        output = self._run("which wic")
-+        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
-+            msg="Seems that wic isn't the eSDK one : %s" % output)
-+
-+    def _exec_wic_cmd(self, cmd):
-+        """Wrapper to execute wic command and check status"""
-+        status = runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.sdk_env, cmd)).status
-+        self.assertEqual(0, status)
-+
-+    def _exec_devtool_build(self):
-+        """Wrapper to build image as pre-requisite for wic"""
-+        cmd = "devtool build-image"
-+        runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.sdk_env, cmd))
-+
-+    def _get_img_type(self):
-+        """Wrapper to get SDK target for image creation"""
-+        # Get sdk_targets from devtool.conf
-+        conf_file = self.tc.sdk_dir + "conf/devtool.conf"
-+        with open (conf_file, 'r') as in_file:
-+             for line in in_file:
-+                if 'sdk_targets' in line:
-+                    image = line.split()
-+                    for img_name in image:
-+                        if img_name.startswith('core-image'):
-+                            break
-+        return img_name
-+
-+    def _get_line_count(self):
-+        count = 0
-+        with open (self.outfile, 'r') as output:
-+            count = sum(1 for line in output if line.rstrip('\n'))
-+        return count
-+
-+    @OETestID(1964)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_version(self):
-+        cmd = "wic --version"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1965)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help(self):
-+        cmd = "wic --help"
-+        self._exec_wic_cmd(cmd)
-+        cmd = "wic -h"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1966)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_create_help(self):
-+        cmd = "wic create --help"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1967)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_list_help(self):
-+        cmd = "wic list --help"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1968)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help_create(self):
-+        cmd = "wic help create"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1969)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help_list(self):
-+        cmd = "wic help list"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1970)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help_overview(self):
-+        cmd = "wic help overview"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1971)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help_plugins(self):
-+        cmd = "wic help plugins"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1972)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_help_kickstart(self):
-+        cmd = "wic help kickstart"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1973)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_list_images(self):
-+        cmd = "wic list images"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1974)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_list_src_plugins(self):
-+        cmd = "wic list source-plugins"
-+        self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1976)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_listed_images_help(self):
-+        cmd = "wic list images"
-+        output = runCmd("cd %s; %s" % (self.tc.sdk_dir, cmd)).output
-+        imagelist = [line.split()[0] for line in output.splitlines()]
-+        for img in imagelist:
-+            cmd = "wic list %s help" % img
-+            self._exec_wic_cmd(cmd)
-+
-+    @OETestID(1977)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_unsupported_subcommand(self):
-+        self.assertNotEqual(0, runCmd('wic unsupported', ignore_status=True).status)
-+
-+    @OETestID(1978)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_no_subcommand(self):
-+        self.assertEqual(1, runCmd('wic', ignore_status=True).status)
-+
-+    @OETestID(1979)
-+    @OETestDepends(['test_wic_location'])
-+    def test_wic_mkefidisk_image(self):
-+        self._exec_devtool_build()
-+        image = self._get_img_type()
-+        cmd = "wic create mkefidisk --image-name %s -o %s" % (image, self.testdir)
-+        self._exec_wic_cmd(cmd)
-+        self.assertEqual(1, len(glob(self.testdir + "mkefidisk-*.direct")))
-+
-+    @OETestID(1980)
-+    @OETestDepends(['test_wic_location', 'test_wic_mkefidisk_image'])
-+    def test_wic_ls(self):
-+        images = glob(self.testdir + "mkefidisk-*.direct")
-+        self.assertEqual(1, len(images))
-+
-+        # list partition
-+        cmd = "wic ls %s > %s" % (images[0], self.outfile)
-+        self._exec_wic_cmd(cmd)
-+        count = self._get_line_count()
-+        self.assertEqual(4, count)
-+
-+        # list directory content of the first partition
-+        cmd = "wic ls %s:1 > %s" % (images[0], self.outfile)
-+        self._exec_wic_cmd(cmd)
-+        count = self._get_line_count()
-+        self.assertEqual(7, count)
-+        # clean up testdir
-+        shutil.rmtree(self.testdir)
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN} = "grep egrep fgrep"
 -- 
-2.7.4
+1.9.1
 
 
