@@ -1,48 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B69D178771
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 935FD78741
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 15:55:09 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id w17so559363pgv.6
+	Tue, 23 Jan 2018 16:01:18 +0000 (UTC)
+Received: by mail-qt0-f173.google.com with SMTP id a27so2542631qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 07:55:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Pj18Osoz/xNS8zTdZEqvaVfPLjWQyw8eomrWT3BQe2g=;
-	b=fq7R/FqIiQagebGVMH9J2AdPfrGoajKhpDv0fk93WmPO9VR3jsnbBAfQIg+TCoPmvu
-	Aeh5UQSiOkXgBajCPJXuN74Wyd54iE1OXEW82MqzsTMWZVf01OiIUREm9eL7ZJCdvii4
-	ioNiPCor+3MlnhNLszBn6UN1lHg7H3340574QsSgS9aJN3Hb0ZzQsSy79Qewkasuynmh
-	VfdL0j7LzMrVdbCwf7z6GPG+/sGEVEAe48p/1OokRjkGQqqm2F8iJvVb4ZLXB0UMFPQQ
-	d2Vp0qhaHccxNM3074bis98P2P1NcGjdoXWzpBn7XJ2KWklO9Tp0Z8dHov9uvFDiPhGY
-	A2Og==
+	Tue, 23 Jan 2018 08:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=ti3D8xh08AG6CSUvHHB8XsI0rharh9hbR8cmf7vI76M=;
+	b=LfvIBXzpq2Nb2wnLdeSKD9/C9RdMNjZBG8xd3hhTauklq7jTCD0V+PiU3voTyOlNiy
+	hC8Pb8ov/x79APhNuv0qFTDpNe3yAN53kRD4JYk1bZtvdqckselbtjxvs54gL+WtBoN5
+	WzTje79C8joPVf6sSPqzVQ/MyQm4rV5wp3e4uxTsk/kAA+Dee/uhi7xQx4i4mPjVUeCo
+	0fF2IiqtKKPV/968WM5CxViIglm7Zi0a284kRM/UKn0BEszOBE3OUcsUw3HzjBLSFhPa
+	y4u9yLcg3OUwZuPMuD1PTBXr5pH+DvwInhnNDk5/ach+at5mxkNxuRd77DhZDqsPIo5Q
+	TS+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Pj18Osoz/xNS8zTdZEqvaVfPLjWQyw8eomrWT3BQe2g=;
-	b=gvB7WkUDrKTH4FbUzXHny3ZDzaWKa5GWPyYeDrzQAKb8Ceke8hVjgzxuOYaLlYXzXH
-	R689TuzrT1uvSWD8mmi8/cQIboghnPL8p0zc5cMThGGZmcb2WF2vqnbzhG8m8W5ydsFV
-	YovxoYJW4Is68QY8XYzQ7QtALmeSRM37sVt3OpI8lhfwnzEA4Edb4NhLaYjeef3MJfv0
-	SsZP1WQr65/Y6hJz1NIQHsvGrKoZuvC2lYr+iMj476rDx8eR1pY5c85gPZQWSaazuelM
-	R0/BK/M6u7zf5OOH4bhqeAzRi+U1AHJLnaO5LmVT52ybJJXqbx1SbPbWeTI/nsCDuhEO
-	BolQ==
-X-Gm-Message-State: AKwxytdg5sAJxxGI3zMgKAK7raJOSTAVSCZ98KvocwpC2C2+VLf205so
-	rYODyntXTS2VLEbNu0mxMUxbtNLGRKf2u70bfbs=
-X-Google-Smtp-Source: AH8x2259i4QjrjLLIaDCUJZeM5r30VmfQ+MfwNpQsLBaWgh4wCQ36LA7ZQLrFmgRa3EVNQW6IHQeWgjZqOvRr5LHUYY=
-X-Received: by 10.99.111.68 with SMTP id k65mr9200123pgc.446.1516722910595;
-	Tue, 23 Jan 2018 07:55:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Tue, 23 Jan 2018 07:54:40 -0800 (PST)
-In-Reply-To: <1516661989-26346-1-git-send-email-juro.bystricky@intel.com>
-References: <1516661989-26346-1-git-send-email-juro.bystricky@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 Jan 2018 09:54:40 -0600
-Message-ID: <CAMKF1spfw=Z6UJRM6x5GD7bUs=yJdTe2YbDT3n4naBM-0_N6+w@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libc6: improve reproducibility
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=ti3D8xh08AG6CSUvHHB8XsI0rharh9hbR8cmf7vI76M=;
+	b=KtRjtj9mxd+7lmuK/7OrwrRqSm5PPVawcq28gSIAENJc0SBDxNmMJWC8tUjD3EXInZ
+	Tzlt3dUf7cTY10EXKp89VRfCzccmPYLvIVbUJAFMsDFD3hNVVW7sD8wG2F2EYoCfxc6+
+	41L9Bv1FICjlAmKLxvGqw7JGYzxvxyz07wIg/hOaJ5EOt/ZVXtN4eoqs5+O4qnSPWOGn
+	gpaNpy7GtG8Zf1gpb35U1baEAb0m1uYWvfiF8QUa/OaQ8AS92cW7zGRIiUISQ1ycmA4B
+	UJVtLoEbSfIB2onsIAI3HArguWnrWpoW3K2BwS3ohguVmpyokWmvhWZfheyKl9OMUeF6
+	Gavw==
+X-Gm-Message-State: AKwxytdoW5244kuP5DNAP5Q37my/dh+q9LCpzEA5xZsQAUMiwFbIN7dr
+	g9sXbamQ+n0VnCOH92Vjti5tSpNU
+X-Google-Smtp-Source: AH8x226vbiJPjLCRQjfxkjPIkkGulH812B8lpCueGBxF5IEErEnGZckx3wzMduHN8unSzSDwa4f7Rg==
+X-Received: by 10.55.21.1 with SMTP id f1mr3951945qkh.135.1516723279390;
+	Tue, 23 Jan 2018 08:01:19 -0800 (PST)
+Received: from centrium.lab.ossystems ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id g1sm524404qta.46.2018.01.23.08.01.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Jan 2018 08:01:17 -0800 (PST)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jan 2018 14:01:00 -0200
+Message-Id: <20180123160100.20345-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.14.2
+Organization: O.S. Systems Software LTDA.
+Subject: [rocko][PATCH] libepoxy: Fix build break for EGL_CAST dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,65 +55,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 15:55:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 23 Jan 2018 16:01:18 -0000
 
-On Mon, Jan 22, 2018 at 4:59 PM, Juro Bystricky
-<juro.bystricky@intel.com> wrote:
-> Building various libraries (libc6, libc6-pic, libc6-staticdev, libc6-dbg, ...)
-> can be non-deterministic because they may be built with two different versions
-> of intl/plural.c. in two otherwise identical builds. We may or may not re-generate
-> the file plural.c from the file plural.y, based on bison being installed or not
-> and based on mtimes of those two files, as the Makefile contains:
->
-> plural.c: plural.y
->         $(BISON) $(BISONFLAGS) $@ $^
->
-> If the above rule does not fire, we use a "fallback" plural.c, otherwise
-> we use plural.c re-generated from plural.y.
-> The fix is to always require bison to be installed and unconditionally
-> re-generate plural.c. (This is achieved by touching plural.y).
->
-> [YOCTO #12291]
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
-2.27 will be there for next release. So I wonder if we should just wait.
+This is a backport [1] to fix the following build error:
 
->
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.26.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-> index 04d9773..0ee5bdb 100644
-> --- a/meta/recipes-core/glibc/glibc_2.26.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
->        file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
->        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
->
-> -DEPENDS += "gperf-native"
-> +DEPENDS += "gperf-native bison-native"
->
->  SRCREV ?= "77f921dac17c5fa99bd9e926d926c327982895f7"
->
-> @@ -103,6 +103,10 @@ do_configure () {
->  # version check and doesn't really help with anything
->          (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
->          find ${S} -name "configure" | xargs touch
-> +        # "plural.c" may or may not get regenerated from "plural.y" so we
-> +        # touch "plural.y" to make sure it does. (This should not be needed
-> +        # for glibc version 2.26+)
-> +        find ${S}/intl -name "plural.y" | xargs touch
->          CPPFLAGS="" oe_runconf
->  }
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+| In file included from /home/r60874/upstream/xwayland/tmp/work/armv7at2hf-neon-mx6qdl-fslc-linux-gnueabi/gtk+3/3.22.17-r0/recipe-sysroot/usr/include/epoxy/egl.h:46:0,
+|                  from ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.h:32,
+|                  from ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c:24:
+| ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c: In function 'gdk_wayland_gl_context_realize':
+| ../../../gtk+-3.22.17/gdk/wayland/gdkglcontext-wayland.c:179:43: error: expected expression before 'EGLContext'
+|                                          : EGL_NO_CONTEXT,
+|                                            ^
+
+[1] https://github.com/anholt/libepoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit b468e28194be39f6d6a2084bb51773c45253d5f7)
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../Add-fallback-definition-for-EGL-CAST.patch     | 33 ++++++++++++++++++++++
+ meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb   |  3 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
+
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
+new file mode 100644
+index 0000000000..b9297257dc
+--- /dev/null
++++ b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
+@@ -0,0 +1,33 @@
++Add fallback definition for EGL_CAST
++
++The EGL API update from d11104f introduced a dependency on the
++EGL_CAST() macro, provided by an updated eglplatform.h. Given that we
++don't provide eglplatform.h, add a fallback definition for if we're
++building against Mesa 17.0.x or similar.
++
++https://bugs.gentoo.org/show_bug.cgi?id=623926
++
++Upstream-Status: Backport [https://github.com/anholt/libepoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8]
++
++Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
++
++Index: libepoxy-1.4.3/src/gen_dispatch.py
++===================================================================
++--- libepoxy-1.4.3.orig/src/gen_dispatch.py	2017-06-06 04:24:13.000000000 -0500
+++++ libepoxy-1.4.3/src/gen_dispatch.py	2017-11-06 12:45:43.594966473 -0600
++@@ -491,6 +491,15 @@
++             self.outln('#include "epoxy/gl.h"')
++             if self.target == "egl":
++                 self.outln('#include "EGL/eglplatform.h"')
+++                # Account for older eglplatform.h, which doesn't define
+++                # the EGL_CAST macro.
+++                self.outln('#ifndef EGL_CAST')
+++                self.outln('#if defined(__cplusplus)')
+++                self.outln('#define EGL_CAST(type, value) (static_cast<type>(value))')
+++                self.outln('#else')
+++                self.outln('#define EGL_CAST(type, value) ((type) (value))')
+++                self.outln('#endif')
+++                self.outln('#endif')
++         else:
++             # Add some ridiculous inttypes.h redefinitions that are
++             # from khrplatform.h and not included in the XML.  We
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+index c8b398f176..0172322b92 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+@@ -5,7 +5,8 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+ 
+-SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz"
++SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
++           file://Add-fallback-definition-for-EGL-CAST.patch"
+ SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
+ SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8bc7fb2fda074478e329b063c1f872b826f6"
+ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+-- 
+2.14.2
+
 
