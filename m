@@ -1,41 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
 Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
 	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C4287847B
+	by mail.openembedded.org (Postfix) with ESMTP id 27973787C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 16:56:32 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id d54so3020306qtd.4
+	Tue, 23 Jan 2018 16:56:40 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id d8so3045409qtm.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 08:56:34 -0800 (PST)
+	Tue, 23 Jan 2018 08:56:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=icxMqzHyBL90OsxPWpUutqkqHTeln/VtV4OSnj0tcns=;
-	b=eHoAV95FR/bP1/N+8zBy4gwO2mP62gICcBgDE7CC1Go9RsdfiVrQk3JYfuoZP+rDTv
-	K8vqoYwoaJeBIREUAOAaNXBMJfbCsFFv1alirLvA2B8kHIIkZxGxmGQX15sptokBzVrc
-	D3thhogF4rWGTnASdEU0fNM5fTe/ZhhZLuX2SK0d9clv1Hx6oY52VeixRFxUUM1WAqXb
-	GVn28Tos4M6z084RpV1WhOLMjIzm4Nx5WglxSE85lUbFW+TiuA+azpTWDW4MazKiuLie
-	SPuAP0C3ktkX0qJatGIlFRRhktIts9++CeAolQluupLZBuQA0NgJYUIe08rh9BMvqWHF
-	4CUw==
-X-Gm-Message-State: AKwxytcKpwJzpHzewyqZrHxnn0OCf1VO87lRvOgPlKNONN/DGX/OWPWg
-	H7vGQURpfBduiSP434uvDMt51A==
-X-Google-Smtp-Source: AH8x225VpQtAyx5UBFd/qhdP9ah+e89ovZKIP9U+i93y3B23Pq3LhbekHseC5I3VQnT6ak6v0fjLkg==
-X-Received: by 10.55.126.132 with SMTP id z126mr4570710qkc.276.1516726594091; 
-	Tue, 23 Jan 2018 08:56:34 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=pnejBcsZn96fUHe37uldp7e4Dc0h20aXEEsl5p4k0GA=;
+	b=ii1punvh0dlogoQ7IaT4vTlaSYaZffnf0j6iZv5vpD7Uo0oekVAMROCFZPKOoW+khW
+	DhFXX0Qrfla7FGZfOmWLRRY36Yk+dDAme6O+OqBEU/fSIyBksEezW5hBqrCFav8/Nt/U
+	0MTFjg84XOpq2AZKhdo7z8uhMAUdgzradR4Ji7hiJlnFvAfqXt0lVLln3QTrPkKUVjim
+	ntcHd1kqdqYP1AqjYfsywrXZjUi5L3o73blySaCFveyGTg52wxYP8urYA94TIwgQDAth
+	p/4Yu/5iIUazFALN5KdrzkD04nX8JIt5HKwZLckkmkCQwt3IfdjJkctq2UwYWJfiiA1M
+	r0qA==
+X-Gm-Message-State: AKwxyte9zpxGd6I/lCaubOPmmdvy2usdUaR+itMrfNw1Ajf5t4JfBRJl
+	JlOuKBLa1O0ljvasn1NwXY0Dkg==
+X-Google-Smtp-Source: AH8x2245OVNR33bNZlfgPG09lyJQ38MUe8kJ5yliz2jvlsRw7o10aK48wW8Nqr0S8OSvMmhpWndanA==
+X-Received: by 10.200.29.2 with SMTP id d2mr4423830qtl.246.1516726601982;
+	Tue, 23 Jan 2018 08:56:41 -0800 (PST)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id t90sm531545qtd.42.2018.01.23.08.56.31
+	by smtp.gmail.com with ESMTPSA id
+	u79sm12225202qkl.45.2018.01.23.08.56.38
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 23 Jan 2018 08:56:33 -0800 (PST)
+	Tue, 23 Jan 2018 08:56:41 -0800 (PST)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 23 Jan 2018 14:56:26 -0200
+	Tue, 23 Jan 2018 14:56:34 -0200
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Jan 2018 14:56:17 -0200
-Message-Id: <20180123165625.7352-1-otavio@ossystems.com.br>
+Date: Tue, 23 Jan 2018 14:56:18 -0200
+Message-Id: <20180123165625.7352-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.16.1
+In-Reply-To: <20180123165625.7352-1-otavio@ossystems.com.br>
+References: <20180123165625.7352-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [rocko-backport PATCH 0/8] Rocko backport
+Subject: [rocko-backport PATCH 1/8] uninative.bbclass: Fix broken symlink issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,44 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 16:56:33 -0000
+X-List-Received-Date: Tue, 23 Jan 2018 16:56:41 -0000
 
-Those are the commits we think that should be backported
-to rocko.
+From: Mark Hatle <mark.hatle@windriver.com>
 
-Those are fixes or minor improvements which does make sense
-to backport and has high impact for our customers.
+If two builds are sharing the same DL_DIR, and the uninative file is local
+to a layer.  When the first build gets to uninative it creates the link local
+to itself, and subsequent users can use the same link.  However if that first
+build then is deleted from the disk, the symlink is no longer valid (broken).
 
-If there is any incompatible change, please let us know.
+We need to update the system to detect this case, and use the model
+implemented by the bitbke fetch2 code.  Look for a broken link, remove it,
+then try to create the link and ignore an exception if it already exists
+(since we just unlinked any bad one).
 
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bfd9664edad7044b5da53fc33b8d0f6508f00950)
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Mark Hatle (1):
-  uninative.bbclass: Fix broken symlink issue
+ meta/classes/uninative.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Otavio Salvador (5):
-  image_types_wic.bbclass: Ensure '-c image_wic' works
-  libarchive: Enable xz and lzo by default
-  grub-efi: Rework GRUB_BUILTIN variable as it is too long
-  grub-efi: Add loadenv and test as default built-in
-  grub: Move grub-editenv packaging to grub2.inc
-
-Richard Purdie (1):
-  grub-efi: Fix DEPENDS
-
-Tom Hochstein (1):
-  libepoxy: Fix build break for EGL_CAST dependency
-
- meta/classes/image_types_wic.bbclass               |  3 ++
- meta/classes/uninative.bbclass                     | 12 ++++++++
- meta/recipes-bsp/grub/grub-efi_2.02.bb             |  5 ++--
- meta/recipes-bsp/grub/grub2.inc                    |  6 ++++
- meta/recipes-bsp/grub/grub_2.02.bb                 |  6 +---
- .../libarchive/libarchive_3.3.2.bb                 |  2 +-
- .../Add-fallback-definition-for-EGL-CAST.patch     | 33 ++++++++++++++++++++++
- meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb   |  3 +-
- 8 files changed, 61 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
-
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index a410647328..670efa9f05 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -63,7 +63,19 @@ python uninative_event_fetchloader() {
+             fetcher.download()
+             localpath = fetcher.localpath(srcuri)
+             if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
++                # Follow the symlink behavior from the bitbake fetch2.
++                # This will cover the case where an existing symlink is broken
++                # as well as if there are two processes trying to create it
++                # at the same time.
++                if os.path.islink(tarballpath):
++                    # Broken symbolic link
++                    os.unlink(tarballpath)
++
++                # Deal with two processes trying to make symlink at once
++                try:
+                     os.symlink(localpath, tarballpath)
++                except FileExistsError:
++                    pass
+ 
+         cmd = d.expand("\
+ mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
 -- 
 2.16.1
 
