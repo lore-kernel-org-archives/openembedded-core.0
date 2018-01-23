@@ -1,45 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 27973787C0
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EAB6E787BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 16:56:40 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id d8so3045409qtm.0
+	Tue, 23 Jan 2018 16:56:46 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id d8so3046208qtm.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 08:56:42 -0800 (PST)
+	Tue, 23 Jan 2018 08:56:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=pnejBcsZn96fUHe37uldp7e4Dc0h20aXEEsl5p4k0GA=;
-	b=ii1punvh0dlogoQ7IaT4vTlaSYaZffnf0j6iZv5vpD7Uo0oekVAMROCFZPKOoW+khW
-	DhFXX0Qrfla7FGZfOmWLRRY36Yk+dDAme6O+OqBEU/fSIyBksEezW5hBqrCFav8/Nt/U
-	0MTFjg84XOpq2AZKhdo7z8uhMAUdgzradR4Ji7hiJlnFvAfqXt0lVLln3QTrPkKUVjim
-	ntcHd1kqdqYP1AqjYfsywrXZjUi5L3o73blySaCFveyGTg52wxYP8urYA94TIwgQDAth
-	p/4Yu/5iIUazFALN5KdrzkD04nX8JIt5HKwZLckkmkCQwt3IfdjJkctq2UwYWJfiiA1M
-	r0qA==
-X-Gm-Message-State: AKwxyte9zpxGd6I/lCaubOPmmdvy2usdUaR+itMrfNw1Ajf5t4JfBRJl
-	JlOuKBLa1O0ljvasn1NwXY0Dkg==
-X-Google-Smtp-Source: AH8x2245OVNR33bNZlfgPG09lyJQ38MUe8kJ5yliz2jvlsRw7o10aK48wW8Nqr0S8OSvMmhpWndanA==
-X-Received: by 10.200.29.2 with SMTP id d2mr4423830qtl.246.1516726601982;
-	Tue, 23 Jan 2018 08:56:41 -0800 (PST)
+	bh=vJP5fhszq7gvvYyAtfFW60RyO2hLZroZ4PAwc8agaeM=;
+	b=gR1dtTlnNHcex1MRjAOyFyiNkeUUInSpiH5hgyLGwxW+wLvyV3FRWQN2tKj2/AHdxm
+	+X8R8y8BOj2NnN6IjtyqV4dMxsbUl3xRxrxcJscOAM138AUqrtjRwacU0MTdaAB/c2IS
+	Mwne8F5etATgckqmx6uj/vU4NquZB+xBtlVRTNbZn1Vao2j3btCWMOw2M60K4FylH1VT
+	rgGVO918MxYntqy7v2yeYND8LeEu+8cBwkP72VZVcBee0mFyy1PrquGZU5OW0kYDDoAx
+	AvnXGZf/9dUDChwVSH5D3sCs1KLdKfVnrgEgHeYjFpDE3MSsnTOITWRRnjvmuJgCpj6O
+	jT0w==
+X-Gm-Message-State: AKwxytfn7OQXo17/K6puLXe+wI3SWfjkqQUL7Uslih3RxEMn9GisojAn
+	iJTHS+pHPx+xNedrqt4iphcVnw==
+X-Google-Smtp-Source: AH8x225eAIQdakQ4DrCu9cXSdVSfEsSm/CLMdpqcKWwL75GP6mtR1fK/S78DawCo8d6qfjf6IciQqg==
+X-Received: by 10.55.75.216 with SMTP id y207mr4458905qka.7.1516726607550;
+	Tue, 23 Jan 2018 08:56:47 -0800 (PST)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	u79sm12225202qkl.45.2018.01.23.08.56.38
+	n81sm12766222qki.68.2018.01.23.08.56.44
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 23 Jan 2018 08:56:41 -0800 (PST)
+	Tue, 23 Jan 2018 08:56:46 -0800 (PST)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 23 Jan 2018 14:56:34 -0200
+	Tue, 23 Jan 2018 14:56:42 -0200
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Jan 2018 14:56:18 -0200
-Message-Id: <20180123165625.7352-2-otavio@ossystems.com.br>
+Date: Tue, 23 Jan 2018 14:56:19 -0200
+Message-Id: <20180123165625.7352-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180123165625.7352-1-otavio@ossystems.com.br>
 References: <20180123165625.7352-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [rocko-backport PATCH 1/8] uninative.bbclass: Fix broken symlink issue
+Subject: [rocko-backport PATCH 2/8] image_types_wic.bbclass: Ensure '-c image_wic' works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,53 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 16:56:41 -0000
+X-List-Received-Date: Tue, 23 Jan 2018 16:56:47 -0000
 
-From: Mark Hatle <mark.hatle@windriver.com>
+The 'wic' image may use files which has been deployed (e.g in
+do_deploy) for some partitions that may need to be copied in a
+specific partition or filesystem (e.g a bootloader).
 
-If two builds are sharing the same DL_DIR, and the uninative file is local
-to a layer.  When the first build gets to uninative it creates the link local
-to itself, and subsequent users can use the same link.  However if that first
-build then is deleted from the disk, the symlink is no longer valid (broken).
+When using 'bitbake <image> -c image_wic', from a clean build, the
+contents of do_deploy must also be available so we need to ensure all
+do_deploy of the image dependencies has been complete.
 
-We need to update the system to detect this case, and use the model
-implemented by the bitbke fetch2 code.  Look for a broken link, remove it,
-then try to create the link and ignore an exception if it already exists
-(since we just unlinked any bad one).
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bfd9664edad7044b5da53fc33b8d0f6508f00950)
+Reported-by: Fabio Berton <fabio.berton@ossystems.com.br>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f387c28640cbb209b8a8ed5734b21c754d9f7663)
 ---
 
- meta/classes/uninative.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/classes/image_types_wic.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index a410647328..670efa9f05 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -63,7 +63,19 @@ python uninative_event_fetchloader() {
-             fetcher.download()
-             localpath = fetcher.localpath(srcuri)
-             if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
-+                # Follow the symlink behavior from the bitbake fetch2.
-+                # This will cover the case where an existing symlink is broken
-+                # as well as if there are two processes trying to create it
-+                # at the same time.
-+                if os.path.islink(tarballpath):
-+                    # Broken symbolic link
-+                    os.unlink(tarballpath)
-+
-+                # Deal with two processes trying to make symlink at once
-+                try:
-                     os.symlink(localpath, tarballpath)
-+                except FileExistsError:
-+                    pass
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 222ae00433..dcf620cee0 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -41,6 +41,9 @@ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+ do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
  
-         cmd = d.expand("\
- mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
++# We ensure all artfacts are deployed (e.g virtual/bootloader)
++do_image_wic[recrdeptask] += "do_deploy"
++
+ WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
 -- 
 2.16.1
 
