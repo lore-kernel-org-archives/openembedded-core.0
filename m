@@ -1,62 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CC97A785D3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 26B3F7822B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 01:37:43 +0000 (UTC)
-Received: by mail-ot0-f180.google.com with SMTP id p36so9315450otd.10
+	Tue, 23 Jan 2018 13:12:16 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id y5so274623pff.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 17:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=JTvbuAlz0PqpWfjzO3lUVJXVtoE4AoJJooj0OKI+oGM=;
-	b=mkiF5svgbVPomkQJEhprUX88MBAtPY8Tc/a51RYri8HonHaZcclMZ5N8rwLRsHLpqG
-	miEmdO8mbShrnY5/QuRrjTi34hrgb+7E4MHUEd+PSSx5/fsv2+2I7neeDPH4myxiNA26
-	law2Z1imFcJN8qrXdaf1Laz1tBVwIaH2mrg/7uYFv282jQpFVlKNUxWx5mMYjNtFY/F7
-	WwYbpOGQ5dysPibMCw+3wXLT0yUnAnm4JfsUhyUPkIpf0QqUPLDv7tJegPNr7V2N0XuU
-	4DZCxoueaXD2uOtNW3o72BUtM1KPOa1rYo3x2oSqqbrdxfPnCTeEv8y1HnV2/jMCAnAk
-	ZE/w==
+	Tue, 23 Jan 2018 05:12:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=brw7F6NqVHyGhgTiq5UfzTXIpA2zdra+Q7xPZ1PJx/g=;
+	b=NNvswxkJmM6Sk2Yktqr45QIF5EKq5mNnUgmkLP+nIEj6vaCw5DClQJrxHySh+Y9CcD
+	Ps4ExQUdgp1fHqNLE1l+Dkn938Q6HmhEJweqLC4PoUyztVTgiK4Tso6FXZ1YyaC/xshT
+	tmzXXdvcX3bgwDwofNkLfy1M8y9e7bRkbVroUX3eUc0zdAFib6Skl/VL5Fmtl8QL9qe6
+	S3Fwa1S5w8TFXERQb3Tvx2O2yK6wuvUWy8O2fOvL2D2zsBOXxhqP+alUa02HERjxVAxU
+	bjL/dFBMCl6W4IXE6xinqu/CuihoO94GoL2J5twhcf/s5uRFWzHOWFalJiTpKRNnKwR4
+	1N1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JTvbuAlz0PqpWfjzO3lUVJXVtoE4AoJJooj0OKI+oGM=;
-	b=A6chvmHJ8vyueptEXgmUEWAr/QUZAMVzh3JMrzJXS9BoQuCHwrkSnTPyzvWbBaNRUA
-	5z7p2tcqEty64YMexxaA28lDCB8nsmsAu4FFkBmwAg7+smCwPoyEs00m/L9QK5VJj/C2
-	wlyC83PjYNRF8rIaHpwp/eYWpWIbMdttZm7qyTvXAYvlMKn1PmIkbraWyEvGHaeKHPhB
-	7miIox+orb9nAZgRJtoftZhzq7NgGFR4pSQSVERc2aqO8csHSZ9ZB7iXt9xqogyi1VYG
-	83pVlgw3xuHP2fPw9C12FuQn4FJvLsgs4u4256Oqu+GVzwxWrhQC55XcKTYUfjr8HckU
-	WwMA==
-X-Gm-Message-State: AKwxytfcZGLve0OEl291EbgEcgmWCdlTVaJPolT2THCQr8afQAVlGbOc
-	Jz1aOwPC5MPB5DEYDOJuY9UeL+7q
-X-Google-Smtp-Source: AH8x225l1hguGySeRUgRhU3FLYB/DNHb3cI40w3q4hYqBzHXgzaVUW92s/0Iva1qo7C7TSsNnv/+Cg==
-X-Received: by 10.157.50.132 with SMTP id u4mr6279569otb.1.1516671464181;
-	Mon, 22 Jan 2018 17:37:44 -0800 (PST)
-Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com.
-	[74.125.82.180])
-	by smtp.gmail.com with ESMTPSA id b9sm704771oii.21.2018.01.22.17.37.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Jan 2018 17:37:42 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f180.google.com with SMTP id d9so9307985oth.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jan 2018 17:37:42 -0800 (PST)
-X-Received: by 10.157.7.164 with SMTP id 33mr5425499oto.276.1516671462318;
-	Mon, 22 Jan 2018 17:37:42 -0800 (PST)
+	bh=brw7F6NqVHyGhgTiq5UfzTXIpA2zdra+Q7xPZ1PJx/g=;
+	b=EeUAqll3POY0A6itdnLvIo62gAEQrbrKdRpq0Jc2AyHaiQBktyr3OG4LPj16/CoOhO
+	8s5DirOkmD5VvkXDEPd1nhapzkOydlqDYc+8QOFc2yxvvUi9vOnpa5NbHRweGO+6JJT4
+	T2qFpaQHVkRU03svZubHVs/VIkPZiqQblLdoDR0mGNjG9Pv8LHZDPHzDZvOso2y0Nz5S
+	Xu+QfP4zyaZl+mO25aKFs9d6H8U/daxrs9C/ZUKgyn7iaIkAq/4027xFQtdUv6skvF2j
+	hFHWD1nQcNKmNk0eAmPJs2AK81Kba8v0Eyx33bD1hQjiiHc0iQf5D2tcbqwMCq+Paftn
+	q+Fw==
+X-Gm-Message-State: AKwxyteQS6TQ53WhJ6p9SWEP7p4pfz2gQYK5Fv2LNzRBf9Cqx/7fEAaz
+	ng31P8fF5wrW+oTbhn67OS7VX86nEPyiDoocYtY=
+X-Google-Smtp-Source: AH8x224TOV42eoOf3CIFgUK3fbwqbPhc/8b8UlpRWxea10ERRrAehjdjGcQnGgwleA0C0gQbaiT/jQtwl80HOA68CK4=
+X-Received: by 10.99.181.13 with SMTP id y13mr4387026pge.196.1516713138324;
+	Tue, 23 Jan 2018 05:12:18 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.157.16.35 with HTTP; Mon, 22 Jan 2018 17:37:39 -0800 (PST)
-In-Reply-To: <20180122165656.53234-1-Randy.MacLeod@windriver.com>
-References: <20180122165656.53234-1-Randy.MacLeod@windriver.com>
-Date: Mon, 22 Jan 2018 23:37:39 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqPg-+GWKDwMDV7H7Db9XtKfXRyk2GUnZsyKnbOmkGYhQ@mail.gmail.com>
-Message-ID: <CAP9ODKqPg-+GWKDwMDV7H7Db9XtKfXRyk2GUnZsyKnbOmkGYhQ@mail.gmail.com>
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: link mesautil with pthreads
+References: <1516667706-44706-1-git-send-email-juro.bystricky@intel.com>
+In-Reply-To: <1516667706-44706-1-git-send-email-juro.bystricky@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 23 Jan 2018 13:12:07 +0000
+Message-ID: <CAMKF1soJseyFgHpj9EntbhE1PDuB7YFgN3UKdS5u-p1FNedp_w@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: jurobystricky@hotmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] glibc-locale.inc: avoid duplicate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,126 +53,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 01:37:44 -0000
+X-List-Received-Date: Tue, 23 Jan 2018 13:12:17 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1bec64d60bc20563714b67"
+
+--94eb2c1bec64d60bc20563714b67
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 22, 2018 at 2:56 PM, Randy MacLeod
-<Randy.MacLeod@windriver.com> wrote:
-> Cherry-pick fix from mesa upstream:
->    23ce168048 link mesautil with pthreads
->
-> link mesautil with pthreads to avoid:
->
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_setname':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66: undefined reference to `pthread_setname_np'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_join':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336: undefined reference to `pthread_join'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48: undefined reference to `pthread_sigmask'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_create':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296: undefined reference to `pthread_create'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `call_once':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96: undefined reference to `pthread_once'
-> ../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_get_time_nano':
-> /builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84: undefined reference to `pthread_getcpuclockid'
-> collect2: error: ld returned 1 exit status
->
-> Upstream-Status: backport
+On Mon, Jan 22, 2018 at 6:34 PM Juro Bystricky <juro.bystricky@intel.com>
+wrote:
 
-This goes in the patch file.
+> PACKAGES_DYNAMIC contained an identical set of packages twice.
+> I suspect this was a result of global search/replace when moving
+> recipes from eglibc to glibc long time ago.
 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+
+Looks ok to apply
+
+>
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 > ---
->  .../files/0001-link-mesautil-with-pthreads.patch   | 51 ++++++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa_17.3.3.bb          |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
+>  meta/recipes-core/glibc/glibc-locale.inc | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
-> new file mode 100644
-> index 0000000000..193c54661b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/files/0001-link-mesautil-with-pthreads.patch
-> @@ -0,0 +1,51 @@
-> +From 23ce168048698eeea3df6bb8c9de5be3ca4784cd Mon Sep 17 00:00:00 2001
-> +From: Igor Gnatenko <ignatenko@redhat.com>
-> +Date: Mon, 1 Jan 2018 22:49:00 +0100
-> +Subject: [PATCH] link mesautil with pthreads
-> +
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_setname':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:66: undefined reference to `pthread_setname_np'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_join':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:336: undefined reference to `pthread_join'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:48: undefined reference to `pthread_sigmask'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `thrd_create':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:296: undefined reference to `pthread_create'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_create':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:50: undefined reference to `pthread_sigmask'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `call_once':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../include/c11/threads_posix.h:96: undefined reference to `pthread_once'
-> +../../src/util/.libs/libmesautil.a(libmesautil_la-u_queue.o): In function `u_thread_get_time_nano':
-> +/builddir/build/BUILD/mesa-17.3.1/src/util/../../src/util/u_thread.h:84: undefined reference to `pthread_getcpuclockid'
-> +collect2: error: ld returned 1 exit status
-> +
-> +Reviewed-by: Adam Jackson <ajax@redhat.com>
-> +Signed-off-by: Igor Gnatenko <ignatenko@redhat.com>
-> +---
-> + src/util/Makefile.am | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/src/util/Makefile.am b/src/util/Makefile.am
-> +index a5241ad27b..633907b9fd 100644
-> +--- a/src/util/Makefile.am
-> ++++ b/src/util/Makefile.am
-> +@@ -31,6 +31,7 @@ noinst_LTLIBRARIES = \
-> +       libxmlconfig.la
-> +
-> + AM_CPPFLAGS = \
-> ++      $(PTHREAD_CFLAGS) \
-> +       -I$(top_srcdir)/include
-> +
-> + libmesautil_la_CPPFLAGS = \
-> +@@ -50,6 +51,7 @@ libmesautil_la_SOURCES = \
-> +       $(MESA_UTIL_GENERATED_FILES)
-> +
-> + libmesautil_la_LIBADD = \
-> ++      $(PTHREAD_LIBS) \
-> +       $(CLOCK_LIB) \
-> +       $(ZLIB_LIBS) \
-> +       $(LIBATOMIC_LIBS)
-> +--
-> +2.14.3
-> +
-> diff --git a/meta/recipes-graphics/mesa/mesa_17.3.3.bb b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
-> index 6e3f29a2c4..623046e116 100644
-> --- a/meta/recipes-graphics/mesa/mesa_17.3.3.bb
-> +++ b/meta/recipes-graphics/mesa/mesa_17.3.3.bb
-> @@ -10,6 +10,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0001-winsys-svga-drm-Include-sys-types.h.patch \
->             file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
->             file://0001-anv_icd.py-improve-reproducible-builds.patch \
-> +           file://0001-link-mesautil-with-pthreads.patch \
->             "
+> diff --git a/meta/recipes-core/glibc/glibc-locale.inc
+> b/meta/recipes-core/glibc/glibc-locale.inc
+> index 1a629fc..b3cb10b 100644
+> --- a/meta/recipes-core/glibc/glibc-locale.inc
+> +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> @@ -39,7 +39,6 @@ PACKAGES = "localedef ${PN}-dbg"
 >
->  SRC_URI[md5sum] = "139b5f608b371c0d4395596162f88791"
+>  PACKAGES_DYNAMIC = "^locale-base-.* \
+>                      ^glibc-gconv-.* ^glibc-charmap-.*
+> ^glibc-localedata-.* ^glibc-binary-localedata-.* \
+> -                    ^glibc-gconv-.*  ^glibc-charmap-.*
+> ^glibc-localedata-.*  ^glibc-binary-localedata-.* \
+>                      ^${MLPREFIX}glibc-gconv$"
+>
+>  # Create a glibc-binaries package
 > --
-> 2.11.0
+> 2.7.4
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--94eb2c1bec64d60bc20563714b67
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Mon, Jan 22, 2018 =
+at 6:34 PM Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com">j=
+uro.bystricky@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">PACKAGES_DYNAMIC contained an identical set of packages twice.<br>
+I suspect this was a result of global search/replace when moving<br>
+recipes from eglibc to glibc long time ago.</blockquote><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Looks ok to apply</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><br>
+<br>
+Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.co=
+m" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/glibc/glibc-locale.inc | 1 -<br>
+=C2=A01 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/g=
+libc/glibc-locale.inc<br>
+index 1a629fc..b3cb10b 100644<br>
+--- a/meta/recipes-core/glibc/glibc-locale.inc<br>
++++ b/meta/recipes-core/glibc/glibc-locale.inc<br>
+@@ -39,7 +39,6 @@ PACKAGES =3D &quot;localedef ${PN}-dbg&quot;<br>
+<br>
+=C2=A0PACKAGES_DYNAMIC =3D &quot;^locale-base-.* \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0^glibc-gconv-.* ^glibc-charmap-.* ^glibc-localedata-.* ^glibc-binary-loc=
+aledata-.* \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^gli=
+bc-gconv-.*=C2=A0 ^glibc-charmap-.*=C2=A0 ^glibc-localedata-.*=C2=A0 ^glibc=
+-binary-localedata-.* \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0^${MLPREFIX}glibc-gconv$&quot;<br>
+<br>
+=C2=A0# Create a glibc-binaries package<br>
+--<br>
+2.7.4<br>
+<br>
+</blockquote></div></div>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--94eb2c1bec64d60bc20563714b67--
