@@ -1,30 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 96CEF7867B
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BCA67875B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 14:04:08 +0000 (UTC)
+	Tue, 23 Jan 2018 14:04:09 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Jan 2018 06:04:09 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Jan 2018 06:04:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,401,1511856000"; d="scan'208";a="13509592"
+X-IronPort-AV: E=Sophos;i="5.46,401,1511856000"; d="scan'208";a="25668488"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2018 06:04:09 -0800
+	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2018 06:04:10 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id EF22C5800D3
+	by linux.intel.com (Postfix) with ESMTP id 05B9C5800D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 06:04:08 -0800 (PST)
+	Tue, 23 Jan 2018 06:04:09 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jan 2018 16:05:41 +0200
-Message-Id: <1516716352-32735-2-git-send-email-maxin.john@intel.com>
+Date: Tue, 23 Jan 2018 16:05:42 +0200
+Message-Id: <1516716352-32735-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1516716352-32735-1-git-send-email-maxin.john@intel.com>
 References: <1516716352-32735-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 01/12] freetype: upgrade to version 2.9
+Subject: [PATCH 02/12] libsoup-2.4: upgrade to version 2.61.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 14:04:08 -0000
+X-List-Received-Date: Tue, 23 Jan 2018 14:04:09 -0000
 
-2.8.1 -> 2.9
-
-Change in LIC_FILES_CHKSUM is due to change of URL www.freetype.org
-from http to https.
+2.60.2 -> 2.61.2
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../freetype/{freetype_2.8.1.bb => freetype_2.9.bb}                 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/freetype/{freetype_2.8.1.bb => freetype_2.9.bb} (89%)
+ .../libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.61.2.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.61.2.bb} (89%)
 
-diff --git a/meta/recipes-graphics/freetype/freetype_2.8.1.bb b/meta/recipes-graphics/freetype/freetype_2.9.bb
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.61.2.bb
 similarity index 89%
-rename from meta/recipes-graphics/freetype/freetype_2.8.1.bb
-rename to meta/recipes-graphics/freetype/freetype_2.9.bb
-index e035375..da05916 100644
---- a/meta/recipes-graphics/freetype/freetype_2.8.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.9.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.61.2.bb
+index abc7bdb..9414278 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.61.2.bb
+@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- LICENSE = "FreeType | GPLv2+"
- LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1 \
--                    file://docs/FTL.TXT;md5=13b25413274c9b3b09b63e4028216ff4 \
-+                    file://docs/FTL.TXT;md5=9f37b4e6afa3fef9dba8932b16bd3f97 \
-                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
-@@ -18,8 +18,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
- UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[md5sum] = "9c49831b62c4bf18cdb81c86ac6516fd"
+-SRC_URI[sha256sum] = "7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01"
++SRC_URI[md5sum] = "cf70001a73925a0f12b5b34b91c68923"
++SRC_URI[sha256sum] = "fe786a9d0a59454bd59f5d3198b9aea5f6518adda36561e7d31461bf7f791785"
  
--SRC_URI[md5sum] = "bf0a210b6fe781228fa0e4a80691a521"
--SRC_URI[sha256sum] = "e5435f02e02d2b87bb8e4efdcaa14b1f78c9cf3ab1ed80f94b6382fb6acc7d78"
-+SRC_URI[md5sum] = "513c403c110016fdc7e537216a642b1d"
-+SRC_URI[sha256sum] = "e6ffba3c8cef93f557d1f767d7bc3dee860ac7a3aaff588a521e081bc36f4c8a"
- 
- inherit autotools pkgconfig binconfig-disabled multilib_header
+ S = "${WORKDIR}/libsoup-${PV}"
  
 -- 
 2.4.0
