@@ -1,45 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C3C5F7827D
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1025178744
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 20:16:27 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id f3so4352817wmc.1
+	Tue, 23 Jan 2018 20:25:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id v123so4350450wmd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 12:16:29 -0800 (PST)
+	Tue, 23 Jan 2018 12:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=d/AsVQYfioKdJ//QjI7cmgxYJqLc2kGr89pkGd/xE0Y=;
-	b=XhTHrm6umKlzKPRwLE+cnMyEFuU7oiBDkL+0mjKUTVnAWvYz4Fy9+9Z35hr3UIpzMS
-	nbFuE9Oxpj+eoYpRUyuNXdiUD7sfijNMlMXVcKqWnOr/ZRdKUTD6W9kU4W2MnuyxfPRh
-	wj1Hk0d7T1pqdDQciauntpf0mFoTRVkd5IhAdiiqkINCCkLsT8J/b0Hf4MhH44dDgzWp
-	UR/m5K6nheBlVNQHQT/0YersCO7/z8xyHtOBh1RXn11Hq+Zi/7zrGXT6PCsWrZKJ4d+q
-	6wfP91CSjqq/VlOwy9XIfOotrQdVFWw9N2KUJ1bdlm7aWzvkBQcE69RGWNuloZvs7ZN8
-	fYDA==
+	:cc; bh=RqJEGmFB4xV6TtXtgOAZacCm8zdzRLl0SmsydHMA0/E=;
+	b=d+BlHBZVcoHexClXolN8S3yxI1DOqQ3a7p5JpmXdb5FDHnFyaUgRR0ps/1ffhG+2uS
+	EQ9qIi5s3v4fPOgovIjAO3ZvYv7G8neA4GGh6Wb5aqSqPRrDdQVvwjdqh4giUo3zvKr6
+	9gDlc0JXwAaPlL7kWh782/73vpkQLkkJ6o9RRHnCqdoaPAarU0cONQSSJqbWbyzCWfD3
+	zFVqwTtSunO5m5Ea9JyvEPFpd+sgKVFPMbL96+idJt3LlB3f93/IylpYQUIS3NYJ/+zB
+	Pr6dGANW4T1la3G07mUxFWEvbgA7do7yxee+Aq6dBnqAeuaaGjirTvicDlEweojIoLx1
+	S2dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=d/AsVQYfioKdJ//QjI7cmgxYJqLc2kGr89pkGd/xE0Y=;
-	b=USWJWEr6mzOi+zeuUH1iC3Q7nA4csbgzrT9y8nPx6YgEpjNrH9G1buOToWQ+HhfUVz
-	ArXsTlXb2Rz50JKmT/nQCud48InFP7ZVrgYVwrepi+72u0hhwkO6NMsD4ZI07/aamS7T
-	DUxYvr1SVFIR05qe+IbgYJYaJQqP15AZ714anCqqYayh3iuis06iG4+WDyWntY+byU4X
-	F+anoUA1LZnYhW8nEVdWfKr5H25GDi4ZbZICK6B/eQb/fq0HD0jkmBZfjAKVG5c+Ioor
-	eAbXnbYqHbiOMEJk9qknHcenGvgsvNpLiXhpRslqqpjBfpu2OxIyIkoQDVrzMyy6TT6K
-	GZCg==
-X-Gm-Message-State: AKwxytcWXxbI6fyucTb4NK4l6bL+jRZNtQpA/gKh6fwS94P3wAwswVve
-	b27fYpTOwLk4L49lr6qghJQ4sGc2JLfJrW6X/mQ=
-X-Google-Smtp-Source: AH8x227vhSkimBYQyXa7R+1j9Vx7BpMjL0N02BBTUzkPmxgcJDQFbBOKsRPklkhb0mG+7pw52zUozdgwwgDSGZpto9o=
-X-Received: by 10.28.53.130 with SMTP id c124mr2597843wma.110.1516738588292;
-	Tue, 23 Jan 2018 12:16:28 -0800 (PST)
+	bh=RqJEGmFB4xV6TtXtgOAZacCm8zdzRLl0SmsydHMA0/E=;
+	b=NRfplhUFY6RMGul2Tt9iUv3C0B54Uw1RrkBX44YcWHjqC9zJHQIr4GcDo+3x7EvuLy
+	U5Quzj6mezYmNNzRuSDl/WJxiMuJOxZP6ZGU2QrFppjQUz6esqSV52QNHH+djSksDt27
+	nbmd4LQonrSy8WeZQYqhwk5el+XE+DaiZxVn8wt8NNvlgtDY83BSZGrW00WcEpNmO9dD
+	wwk+n1UFM0icT15X8TKLmEeInT0kTJSSm1WX8BsYcbaCU3OoYWQwo/TV6p5AZnxIUHqu
+	vQWETaKxbgHed3uc6ICZVjCg5/Uq+UyuGntQEQRkOvMCQXeL+RTnsSQmytoWJ2IXUaza
+	gf3g==
+X-Gm-Message-State: AKwxytfV/S6e/8OBNowLT/LSQ+dhwahCdgiwWVb80LHsEchxc5JhJGoj
+	qS7oglzFo1RgNPQYFOz00xNG5//odImKWCVKrr0=
+X-Google-Smtp-Source: AH8x226wyOWXRNrVKJ5dUwbnhSxL69vPm6+phGlNLEBZBTydpWuipIrm+AY5ROgv5XvIm94IGt2cMhrAftrXy+Qq+5w=
+X-Received: by 10.28.232.72 with SMTP id f69mr2635726wmh.110.1516739112554;
+	Tue, 23 Jan 2018 12:25:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.144.129 with HTTP; Tue, 23 Jan 2018 12:16:27 -0800 (PST)
-In-Reply-To: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
-References: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
+Received: by 10.223.144.129 with HTTP; Tue, 23 Jan 2018 12:25:12 -0800 (PST)
+In-Reply-To: <1512524359-16132-1-git-send-email-armccurdy@gmail.com>
+References: <1512524359-16132-1-git-send-email-armccurdy@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 23 Jan 2018 12:16:27 -0800
-Message-ID: <CAJ86T=WiHB_6J8Rj0YXv7MTqu7xBgLFt9+09W+UsEjKd-PoyAA@mail.gmail.com>
+Date: Tue, 23 Jan 2018 12:25:12 -0800
+Message-ID: <CAJ86T=U=fT8tTyRPDEzk78U2qxOXB7CW=R39TOCJfwfcLwxfTQ@mail.gmail.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+Subject: Re: [rocko][PATCH] bind: move libraries to own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,49 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 20:16:28 -0000
+X-List-Received-Date: Tue, 23 Jan 2018 20:25:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 5, 2017 at 5:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
+On Tue, Dec 5, 2017 at 5:39 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> From: "andreas.kling@peiker-cee.de" <andreas.kling@peiker-cee.de>
 >
-> A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
-> the default terminal, when I run any of the tasks:
-> bitbake busybox -c menuconfig/devshell/devpyshell
-> bitbake virtual/kernel -c menuconfig/devshell/devpyshell
->
-> I got a error as follows:
-> "Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
->
-> Seems the environment of the process calling Popen is not passed to the
-> child process, this behaviour is a known issue in Python bug tracker:
-> http://bugs.python.org/issue8557
->
-> It could be fixed by using an absolute path instead per test.
+> Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry picked from commit d74ebc91388941295a2321a295cdb06ee87fc38b)
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 
 Ping.
 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
->  meta/lib/oe/terminal.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-connectivity/bind/bind_9.10.5-P3.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 3c8ef59..df4c75b 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -67,7 +67,7 @@ class Gnome(XTerminal):
->          import tempfile
->          pidfile = tempfile.NamedTemporaryFile(delete = False).name
->          try:
-> -            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
-> +            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
->              XTerminal.__init__(self, sh_cmd, title, env, d)
->              while os.stat(pidfile).st_size <= 0:
->                  continue
+> diff --git a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+> index 13724a8..8309302 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+> @@ -67,6 +67,9 @@ FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
+>  FILES_${PN}-dev += "${bindir}/isc-config.h"
+>  FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
+>
+> +PACKAGE_BEFORE_PN += "${PN}-libs"
+> +FILES_${PN}-libs = "${libdir}/*.so*"
+> +
+>  do_install_prepend() {
+>         # clean host path in isc-config.sh before the hardlink created
+>         # by "make install":
 > --
 > 1.9.1
 >
