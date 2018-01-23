@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A53546093A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B69D178771
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 15:28:38 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id m11so1324835iob.2
+	Tue, 23 Jan 2018 15:55:09 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id w17so559363pgv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 07:28:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 23 Jan 2018 07:55:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=J7080xE7PHLwisS+VvkAYEMqT3PwVnLmNk3giZaX7OM=;
-	b=BN1I7OP5Or0Gz3UHHcQslg2534+NYp5Adz9KFkZ5fhhLPwOwB3Xyry9IhMkV8F/3DN
-	k/tewmC3ToNfAeNm8KGmge+Anc0pAhGQoVWG/w52sk1MdW1aaAVb5VlVyW6UvekUPMSN
-	E9p056T7mhwuB69onPTe+my1ds95kbg1WVAC/GteHnzCH8ftVQnyha7i9/AFw0HS6H0G
-	8iK0jrzk63viT+Gfa1MB++x1gxJYKqPQiVS1Trc9OYtHKDBga0SdQX+J1PwRXUuFxbEd
-	+/gxQEQC7u0rowCzSxLjdFjsgAKzraxa52egfoSHPjUrtKZI2BgdRZ9fyWQy4793M++H
-	ogTQ==
+	:cc; bh=Pj18Osoz/xNS8zTdZEqvaVfPLjWQyw8eomrWT3BQe2g=;
+	b=fq7R/FqIiQagebGVMH9J2AdPfrGoajKhpDv0fk93WmPO9VR3jsnbBAfQIg+TCoPmvu
+	Aeh5UQSiOkXgBajCPJXuN74Wyd54iE1OXEW82MqzsTMWZVf01OiIUREm9eL7ZJCdvii4
+	ioNiPCor+3MlnhNLszBn6UN1lHg7H3340574QsSgS9aJN3Hb0ZzQsSy79Qewkasuynmh
+	VfdL0j7LzMrVdbCwf7z6GPG+/sGEVEAe48p/1OokRjkGQqqm2F8iJvVb4ZLXB0UMFPQQ
+	d2Vp0qhaHccxNM3074bis98P2P1NcGjdoXWzpBn7XJ2KWklO9Tp0Z8dHov9uvFDiPhGY
+	A2Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=J7080xE7PHLwisS+VvkAYEMqT3PwVnLmNk3giZaX7OM=;
-	b=dEiWhMpCd9yNL/zV/fc2g4bYh1+QeRFFq4SZTIgKjPQvELuw5OECXEDyaarx70AxOS
-	Kw748/S/LTF/TDNmZcZxRlIMe/+ZHifG++/w57hlmB0tfE8ulX0M43ZXAKmWQKd//Tcw
-	/JVqJVQMr+OsBNr9BmGj41EJukhKiaOXovrDaD4jhmzNzFt7yREVgSXdd/2uq7mItszt
-	iei15d9s8dg2NHurjb+cgerpwFSBwdCd2TIXcpvxIznhzdonatyfTZlRVJQi/BV4RRAn
-	/5zSAXkEAhUZnG9sX2B0EKbiAeAxBX6Gb1gidbQ6h0qFqm342mTCz6cbmdWFu4wm9Ugk
-	5t0g==
-X-Gm-Message-State: AKwxytfci8Kr1m6dpMzW3YwJjs9GzaXqjb2TqGZBTOhs5VeOkXB5Jhzs
-	EI+b1h5OPZzCOBegXKi8RBkOJuhzBLMF+E14VjyQsA==
-X-Google-Smtp-Source: AH8x224ZISwCp140U0uEBhE2DgLGuiXsKr5CzjJk7d19DKVYxNOFWOR5qU5sNdE4efIw3tm4b/gyDufJv2GwkwhjDas=
-X-Received: by 10.107.175.8 with SMTP id y8mr4086710ioe.37.1516721319900; Tue,
-	23 Jan 2018 07:28:39 -0800 (PST)
+	bh=Pj18Osoz/xNS8zTdZEqvaVfPLjWQyw8eomrWT3BQe2g=;
+	b=gvB7WkUDrKTH4FbUzXHny3ZDzaWKa5GWPyYeDrzQAKb8Ceke8hVjgzxuOYaLlYXzXH
+	R689TuzrT1uvSWD8mmi8/cQIboghnPL8p0zc5cMThGGZmcb2WF2vqnbzhG8m8W5ydsFV
+	YovxoYJW4Is68QY8XYzQ7QtALmeSRM37sVt3OpI8lhfwnzEA4Edb4NhLaYjeef3MJfv0
+	SsZP1WQr65/Y6hJz1NIQHsvGrKoZuvC2lYr+iMj476rDx8eR1pY5c85gPZQWSaazuelM
+	R0/BK/M6u7zf5OOH4bhqeAzRi+U1AHJLnaO5LmVT52ybJJXqbx1SbPbWeTI/nsCDuhEO
+	BolQ==
+X-Gm-Message-State: AKwxytdg5sAJxxGI3zMgKAK7raJOSTAVSCZ98KvocwpC2C2+VLf205so
+	rYODyntXTS2VLEbNu0mxMUxbtNLGRKf2u70bfbs=
+X-Google-Smtp-Source: AH8x2259i4QjrjLLIaDCUJZeM5r30VmfQ+MfwNpQsLBaWgh4wCQ36LA7ZQLrFmgRa3EVNQW6IHQeWgjZqOvRr5LHUYY=
+X-Received: by 10.99.111.68 with SMTP id k65mr9200123pgc.446.1516722910595;
+	Tue, 23 Jan 2018 07:55:10 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Tue, 23 Jan 2018 07:28:19 -0800 (PST)
-In-Reply-To: <88adb573-a7be-6da8-38d7-b160acb4716c@windriver.com>
-References: <20180122154442.23769-1-ross.burton@intel.com>
-	<88adb573-a7be-6da8-38d7-b160acb4716c@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jan 2018 15:28:19 +0000
-Message-ID: <CAJTo0LYHogXbdwAdO3c_teSSFrSG8oSszLEbo6ySrYr9oQsCGg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_rpm: correctly handle LICENSE_${PN}
+Received: by 10.100.161.170 with HTTP; Tue, 23 Jan 2018 07:54:40 -0800 (PST)
+In-Reply-To: <1516661989-26346-1-git-send-email-juro.bystricky@intel.com>
+References: <1516661989-26346-1-git-send-email-juro.bystricky@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 23 Jan 2018 09:54:40 -0600
+Message-ID: <CAMKF1spfw=Z6UJRM6x5GD7bUs=yJdTe2YbDT3n4naBM-0_N6+w@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libc6: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +55,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jan 2018 15:28:38 -0000
-Content-Type: multipart/alternative; boundary="001a1144a2687f0c2405637333bb"
-
---001a1144a2687f0c2405637333bb
+X-List-Received-Date: Tue, 23 Jan 2018 15:55:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 22 January 2018 at 16:32, Mark Hatle <mark.hatle@windriver.com> wrote:
-
-> An alternative (i -really- do not like) is to name the overall first entry
-> as
-> something like:
+On Mon, Jan 22, 2018 at 4:59 PM, Juro Bystricky
+<juro.bystricky@intel.com> wrote:
+> Building various libraries (libc6, libc6-pic, libc6-staticdev, libc6-dbg, ...)
+> can be non-deterministic because they may be built with two different versions
+> of intl/plural.c. in two otherwise identical builds. We may or may not re-generate
+> the file plural.c from the file plural.y, based on bison being installed or not
+> and based on mtimes of those two files, as the Makefile contains:
 >
+> plural.c: plural.y
+>         $(BISON) $(BISONFLAGS) $@ $^
+>
+> If the above rule does not fire, we use a "fallback" plural.c, otherwise
+> we use plural.c re-generated from plural.y.
+> The fix is to always require bison to be installed and unconditionally
+> re-generate plural.c. (This is achieved by touching plural.y).
+>
+> [YOCTO #12291]
 
-I agree that's not a realistic alternative.  I'll send a V2 with the
-warning added.
+2.27 will be there for next release. So I wonder if we should just wait.
 
-Thanks,
-Ross
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.26.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
+> index 04d9773..0ee5bdb 100644
+> --- a/meta/recipes-core/glibc/glibc_2.26.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+>        file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+>        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+>
+> -DEPENDS += "gperf-native"
+> +DEPENDS += "gperf-native bison-native"
+>
+>  SRCREV ?= "77f921dac17c5fa99bd9e926d926c327982895f7"
+>
+> @@ -103,6 +103,10 @@ do_configure () {
+>  # version check and doesn't really help with anything
+>          (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
+>          find ${S} -name "configure" | xargs touch
+> +        # "plural.c" may or may not get regenerated from "plural.y" so we
+> +        # touch "plural.y" to make sure it does. (This should not be needed
+> +        # for glibc version 2.26+)
+> +        find ${S}/intl -name "plural.y" | xargs touch
+>          CPPFLAGS="" oe_runconf
+>  }
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1144a2687f0c2405637333bb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 22 January 2018 at 16:32, Mark Hatle <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatl=
-e@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
-ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">An alternative (i -reall=
-y- do not like) is to name the overall first entry as<br>
-something like:<br></blockquote><div><br></div><div>I agree that&#39;s not =
-a realistic alternative.=C2=A0 I&#39;ll send a V2 with the warning added.</=
-div><div><br></div><div>Thanks,</div><div>Ross</div></div></div></div>
-
---001a1144a2687f0c2405637333bb--
