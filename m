@@ -1,41 +1,23 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 042DC78674
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C40AC60068
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 20:39:20 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id c2so13783659qtn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 12:39:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=58bvZlegQhd6E67cSzWSSr3OmqQy1q7lMtuXbaSnJF0=;
-	b=laHVJ5uLG04dET16aqrAsKos3ChDlkm8c4vYQlD/emqK0lWmLYNARs29xpgucB78S+
-	tDQ7KoPTAMlQbpw0i7e9fzdWVNnNYtwYxm8p2coi3RwCWFNkq+gkcB3DhdcwuGf5k61X
-	Ri+DE4sWbtuRbRo3TQvRXFlsdvQPMVPJRXLNsRz6IxZYpmwCthAyWnpbQYsApFkVeti/
-	D33Obstn6bjWXaH66df8FNqLvPkqlhBbBvUK4pghy5w+Gxdk0Fil4M0Zn9Hqg7avyVR4
-	HCgAPZWHcSz+pjYoKEOgpZAv0tfxlKdVbIOLXaGPxmIMZzkD/DEgH/TaAGojfjQKiB0N
-	r+Fg==
-X-Gm-Message-State: AKwxytfklQUpeBJa6NBXcYMcM5EfMs0C9oevWXANIk8x+0HOW8mQpX/Z
-	RxBSsRVO/ib8PfKyayqv28Yk5Q==
-X-Google-Smtp-Source: AH8x226+dzExBJuSDajc9ad11Mk52ebdj/thZrOW3mMZJhOO5szzxFgX3Num6ckwjQzpvOC2QqP6qw==
-X-Received: by 10.200.81.154 with SMTP id c26mr12175149qtn.129.1516826361787; 
-	Wed, 24 Jan 2018 12:39:21 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id j19sm2821226qtc.1.2018.01.24.12.39.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 24 Jan 2018 12:39:20 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 24 Jan 2018 18:39:13 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jan 2018 18:39:11 -0200
-Message-Id: <20180124203911.18352-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] package_rpm.bbclass: Fix matching of architecture independent packages
+	Thu, 25 Jan 2018 02:01:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2018 18:01:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,409,1511856000"; d="scan'208";a="24531877"
+Received: from echidna.jf.intel.com ([10.54.77.42])
+	by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2018 18:01:40 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Jan 2018 10:49:38 -0800
+Message-Id: <1516819778-59257-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oe-selftest: meta_ide: add test for meta-ide-support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,56 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 20:39:21 -0000
+X-List-Received-Date: Thu, 25 Jan 2018 02:01:39 -0000
 
-OE-Core changes the architecture independent RPM packages to use
-"noarch" instead of "all". This change has been included in the commit
-below:
+QA team were testing meta-ide-support manually. Add automated
+tests to test that bibtake meta-ide-support will create the
+toolchain and environment setup script. Also test that after
+using environment setup script, one can compile c program.
 
-,----
-| commit 341810aff923ace6b1cc1e15e19383c4f8773b51
-| Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-| Date:   Mon Jan 9 16:37:28 2017 +0200
-|
-|     package_rpm.bbclass: make architecture-independent .rpm packages
-|     "noarch" instead of "all"
-|
-|     Too many places in dnf/rpm4 stack make that assumption; let's not
-|     fight against it.
-|
-|     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-`----
-
-This is causing problems with machines that has "all" inside the
-machine name.
-
-Reported-by: Alexandru Palalau <ioan-alexandru.palalau@nxp.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
+ meta/lib/oeqa/selftest/cases/meta_ide.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/meta_ide.py
 
- meta/classes/package_rpm.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 3cbbd1eb53..7829beabb5 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -646,9 +646,13 @@ python do_package_rpm () {
-     rpmbuild = d.getVar('RPMBUILD')
-     targetsys = d.getVar('TARGET_SYS')
-     targetvendor = d.getVar('HOST_VENDOR')
+diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
+new file mode 100644
+index 0000000..1c1c5ab
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
+@@ -0,0 +1,31 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
++import tempfile
++import shutil
 +
-     # Too many places in dnf stack assume that arch-independent packages are "noarch".
-     # Let's not fight against this.
--    package_arch = (d.getVar('PACKAGE_ARCH') or "").replace("-", "_").replace("all", "noarch")
-+    package_arch = (d.getVar('PACKAGE_ARCH') or "").replace("-", "_")
-+    if package_arch == "all":
-+        package_arch = "noarch"
++class MetaIDE(OESelftestTestCase):
 +
-     sdkpkgsuffix = (d.getVar('SDKPKGSUFFIX') or "nativesdk").replace("-", "_")
-     d.setVar('PACKAGE_ARCH_EXTEND', package_arch)
-     pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}')
++    @classmethod
++    def setUpClass(cls):
++        super(MetaIDE, cls).setUpClass()
++        bitbake('meta-ide-support')
++        bb_vars = get_bb_vars(['MULTIMACH_TARGET_SYS', 'TMPDIR', 'COREBASE'])
++        cls.environment_script = 'environment-setup-%s' % bb_vars['MULTIMACH_TARGET_SYS']
++        cls.tmpdir = bb_vars['TMPDIR']
++        cls.environment_script_path = '%s/%s' % (cls.tmpdir, cls.environment_script)
++        cls.corebasedir = bb_vars['COREBASE']
++        cls.tmpdir_metaideQA = tempfile.mkdtemp(prefix='metaide')
++
++    @classmethod
++    def tearDownClass(cls):
++        shutil.rmtree(cls.tmpdir_metaideQA, ignore_errors=True)
++        super(MetaIDE, cls).tearDownClass()
++
++    def test_meta_ide_had_installed_meta_ide_support(self):
++        self.assertExists(self.environment_script_path)
++
++    def test_meta_ide_can_compiled_cprogram(self):
++        runCmd('cp %s/test.c %s' % (self.tc.files_dir, self.tmpdir_metaideQA))
++        runCmd("cd %s; . %s; $CC test.c -lm" % (self.tmpdir_metaideQA, self.environment_script_path))
++        compiled_file = '%s/a.out' % self.tmpdir_metaideQA
++        self.assertExists(compiled_file)
 -- 
-2.16.1
+2.7.4
 
 
