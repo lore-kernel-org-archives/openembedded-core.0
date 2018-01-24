@@ -1,50 +1,28 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C97C771AB3
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C987786BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 12:59:42 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id c6so2974857pfi.8
+	Wed, 24 Jan 2018 13:50:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2018 05:50:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,407,1511856000"; d="scan'208";a="12823197"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2018 05:50:47 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 68493580385
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 04:59:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=rOeOmZwkeqI6B4q2SsVoMup6OPN1qiIKzaZVAR+AV10=;
-	b=cr4N6r6HkwrARXWIQBukF1c19DbbJ3CgZdb1CRZvv8KVmN3DfIV22si+p7MzAw1F7o
-	RPy9i5VkZnD0WfneadiQXT7yyURmIH85nbK9mcvvhrmBMWP+fN92etmcexJWxedPA9HR
-	RIZlIEjun8m3YEZs58e0s7HTKgGUUptoBKt2gr7lcSyOAMqqaVOLLQAjvgXM8bzdU8OY
-	PvhS7pYGT29sQLS5DfN2LCau4OHQq3FoiGWzcbUzWFd3u/6Lu2VOhEMM0nUggP6W5ioi
-	b/8eE5ener+ZVGuN4GflzkOXGaX+8S+xMH0G/luZQ/MAOi6K7B1zPCYqO95a76HfYnRU
-	PJ6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=rOeOmZwkeqI6B4q2SsVoMup6OPN1qiIKzaZVAR+AV10=;
-	b=F3TLsqOB4O7XaqP7NCdCt/jyANA2ZyTT5mTE6se6GpnlKzh7AlJd+V2yGC7G5REq1X
-	99wnnkR9sf9fgjNxeKLIIWHW7HLhkhB3sjcNhB6DgtU+YQCwLwLNsudi01g+ECQKsY+a
-	03adTrPgCSgkmSkYIrei0XAFGILngjxMlRf6RfAYz3ANDouOENiUCmy6FmihR7CFTYqP
-	ENtLsneI59oHkldJDaJJ7LsguSZHJUwB0B6Up6DUrzMPceO/ub8zfW4e0Ddwj3Ir9PCn
-	+NrNUqvK3hdDM7nTPR/homodtmiXGnfwGwxkyUSGmdLy7bAFsnVshoDeYFbdO8BGyWdu
-	scLA==
-X-Gm-Message-State: AKwxytdNth5cp2TDdppy9a0IYFusbcginQ67hQokYgNfRrm+I2qxwT+l
-	V+7KnFTfiys1oe2iV2vnyuGzAtqLeIk=
-X-Google-Smtp-Source: AH8x2246BnrOsZeKYihGvn/0kXdFUS3dZvcwvq41BWsZfjPJOjbvXp6U88cnkbQT1yE6E9JJERSsWw==
-X-Received: by 2002:a17:902:1e5:: with SMTP id
-	b92-v6mr8027925plb.144.1516798783564; 
-	Wed, 24 Jan 2018 04:59:43 -0800 (PST)
-Received: from [127.0.1.1] ([121.223.19.215]) by smtp.gmail.com with ESMTPSA id
-	14sm10959538pfn.125.2018.01.24.04.59.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Jan 2018 04:59:42 -0800 (PST)
-Date: Wed, 24 Jan 2018 22:59:28 +1000
-Message-Id: <20180124125928.17702-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
+	Wed, 24 Jan 2018 05:50:46 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-MIME-Version: 1.0
-Subject: [PATCH v2] busybox.inc: Add sanity check to test if the suid binary provides sh
+Date: Wed, 24 Jan 2018 15:52:31 +0200
+Message-Id: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/3] libsoup-2.4: upgrade to version 2.60.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 12:59:42 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Jan 2018 13:50:46 -0000
 
-Add a sanity check during the do_compile task to fail if the suid
-busybox provides /bin/sh. This is considered as a hard fail since not
-only is providing sh as suid problematic for security reasons but also
-because the sh configured for suid is less functional than the nosuid
-configured sh and breaks a number of required features (e.g. 64-bit
-test).
+2.60.2 -> 2.60.3
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
-Changes in v2:
- * Rebase on master
----
- meta/recipes-core/busybox/busybox.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.60.3.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.60.3.bb} (89%)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 4012f921c6..157aea3968 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -183,6 +183,12 @@ do_compile() {
- 			oe_runmake busybox.links
- 			mv busybox.links busybox.links.$s
- 		done
-+
-+		# hard fail if sh is being linked to the suid busybox (detects bug 10346)
-+		if grep -q -x "/bin/sh" busybox.links.suid; then
-+			bbfatal "busybox suid binary incorrectly provides /bin/sh"
-+		fi
-+
- 		# copy .config.orig back to .config, because the install process may check this file
- 		cp .config.orig .config
- 		# cleanup
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
+similarity index 89%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
+index abc7bdb..e2e7ff4 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
+@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "9c49831b62c4bf18cdb81c86ac6516fd"
+-SRC_URI[sha256sum] = "7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01"
++SRC_URI[md5sum] = "4cf8937d161d3dd71a65f1684e317824"
++SRC_URI[sha256sum] = "1b0dc762f23abe4e0d29b77370e539fd35f31d8e8e0318d6ddccff395be68a22"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
 -- 
-2.15.1
+2.4.0
 
 
