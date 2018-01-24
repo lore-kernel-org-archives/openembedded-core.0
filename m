@@ -1,52 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A21CB719AF
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6935A786EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 00:43:05 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id s5so1129931wra.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jan 2018 16:43:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YfrBhFggH7FKMAdnHuzO9BV5JiTdHKBfw7Eo6nG2bIQ=;
-	b=oNSh9i7kHuiJMOMg8vguVtKiRCKTfn85KPCCSAflBe9mcRZqrF34E+CjzyFIHMogEk
-	z/ZOLeJPpMENwzRaxq84Unjyd4H0ftEl+7ppS2cHJNLe9Co5/SH8Qv3aq+IvVTxl9q+y
-	VQHszvqTSg8ov5MHZtXt8z05AshZGSWiFxIn+g6/OaL4TrA0XIm1H9IUuLXWTc57SA/K
-	bDd5+zNVjMjRYi+GqeEMCdMOK2FCE5nNHo+C3r1A/9IYBmz0t7GwC+2Oxb9rEGrpxMoZ
-	soLdqtSF5hTwQlrSJuaVFHKmKjZMP2x/ix9OHHQn5jrUNtShhi0DtvAhOPVu2FBJDQrw
-	KCiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YfrBhFggH7FKMAdnHuzO9BV5JiTdHKBfw7Eo6nG2bIQ=;
-	b=glimLKBwPUvp+ER+jEUZSAVztl6oXNWrzuPg2p9VUhY77oxYrPm8b/iUK2x85pD6hv
-	9m6zgoIuFdv07IeFoRmi6LIwaKIPl54xZ20HKXwp6bjymDm6d9OG5qV8isCUG5wGNwWa
-	sVpEVeoHCG0QPhujdP9EPbJn7BjiG4+1wiYJJIUv8XE1IT22E5bQafGwV4/ip0Yrp3WK
-	9tzFvTMWZp53HAQyt5XED7VRVa0uNf8Va0JUvVSjzZgE0VV9vYD6vg2SmEUt++G02VTe
-	6OhxoEoravbRT5WgJu+RhkVFVt9zN/0aW6w1aq3k3muiy/Yfe0qBeAjJJ5p7rfO8U0KI
-	6D5Q==
-X-Gm-Message-State: AKwxytfvKAtfwfg35AcsTHLTPieyrc1HT4r54V4g7JSd93DohJGsoQZ9
-	3Kvn72WIfeAznDGlUuE5V7n/W9pIzexeJ8gCdAo=
-X-Google-Smtp-Source: AH8x227REdKMVglMbLOn7xPrEv9lgpLxxj4a8d8ePpWfu5ziVQJo+ZICbuzgqsKaVRbkNuaAiM3O7O6FAlIj3N7FhY4=
-X-Received: by 10.223.177.158 with SMTP id q30mr3977184wra.206.1516754585166; 
-	Tue, 23 Jan 2018 16:43:05 -0800 (PST)
+	Wed, 24 Jan 2018 02:27:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0O2RucB017025
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 23 Jan 2018 18:27:56 -0800
+Received: from [128.224.163.220] (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 23 Jan 2018 18:27:55 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <151627986059.9023.14010623458474127186@git.openembedded.org>
+	<20180118125101.2F92F235ED3@git.openembedded.org>
+	<CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <070341c4-d323-07ef-58e9-78b8e9c9908a@windriver.com>
+Date: Wed, 24 Jan 2018 10:26:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Tue, 23 Jan 2018 16:43:04 -0800 (PST)
-In-Reply-To: <CAJTo0LbZPBO35euq168ehRu6DDvnP5HAr1WQyvoftVK9A8eRRw@mail.gmail.com>
-References: <CA+chaQfVFtq0jLTjr5K1stUyA=BgbSk_cCZ3vi7RJa77FxzJ8g@mail.gmail.com>
-	<20180122105205.434-1-Martin.Jansa@gmail.com>
-	<CAJTo0LZ09e3Z6k82FLJsER26j5eVnF9uug65JGheA=e6DKuM-w@mail.gmail.com>
-	<CAJTo0La0ew7AZt5pCM5Qgyud=cUFgHsya_6h=63rp3bqsHiMnw@mail.gmail.com>
-	<CA+chaQeBaSJ+RfoLoaC7ajnFo1UPA_0XhXVinCODf0o1movBPA@mail.gmail.com>
-	<CAJTo0LbZPBO35euq168ehRu6DDvnP5HAr1WQyvoftVK9A8eRRw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 24 Jan 2018 01:43:04 +0100
-Message-ID: <CA+chaQeMChXg4c0BH1q58WNU2BEjMvVTjZn_TA8hBna7fzMV4A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gettext: fix PACKAGECONFIGs
+In-Reply-To: <CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.220]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 08/08: json-glib: update to 1.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,330 +38,363 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 00:43:06 -0000
-Content-Type: multipart/alternative; boundary="f403045ec41e42a82905637af29f"
+X-List-Received-Date: Wed, 24 Jan 2018 02:27:58 -0000
+Content-Type: multipart/alternative;
+	boundary="------------E5B6FF1E3E3B7B33E91C5A29"
+Content-Language: en-US
 
---f403045ec41e42a82905637af29f
-Content-Type: text/plain; charset="UTF-8"
+--------------E5B6FF1E3E3B7B33E91C5A29
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks, this version built for me on that system where it was failing
-before (I haven't tried to rebuild world, just gettext).
 
-On Wed, Jan 24, 2018 at 12:09 AM, Burton, Ross <ross.burton@intel.com>
-wrote:
 
-> Yeah, I managed to typo.  Latest ross/mut has a new version.
+在 2018年01月19日 21:58, Martin Jansa 写道:
+> It fails here since this upgrade, maybe the 
+> 0001-Do-not-disable-gobject-introspection-when-cross-comp.patch is 
+> still useful and wasn't completely merged upstream?
 >
-> Ross
+> FAILED: json-glib/Json-1.0.typelib
+> json-glib/1.4.2-r0/recipe-sysroot/usr/bin/g-ir-compiler-wrapper 
+> json-glib/Json-1.0.gir --output json-glib/Json-1.0.typelib
+> Could not find GIR file 'GObject-2.0.gir'; check XDG_DATA_DIRS or use 
+> --includedir
+> error parsing file json-glib/Json-1.0.gir: Failed to parse included 
+> gir GObject-2.0
+> If the above error message is about missing .so libraries, then 
+> setting up GIR_EXTRA_LIBS_PATH in the recipe should help.
+> (typically like this: GIR_EXTRA_LIBS_PATH="${B}/something/.libs" )
+> ninja: build stopped: subcommand failed.
+> WARNING: exit code 1 from a shell command.
+
+Hi  Martin,
+
+I still can not reproduced it.  Could you tell me which layers include, 
+the DISTRO set and the build machine OS ?
+
+Thanks,
+Yi
+
+
 >
-> On 23 January 2018 at 22:29, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, Jan 18, 2018 at 1:51 PM, <git@git.openembedded.org 
+> <mailto:git@git.openembedded.org>> wrote:
 >
->> The
->> --without-included-libunistring=
->> change there
->>
->> -PACKAGECONFIG[libunistring] = "--without-included-libunistri
->> ng,--with-included-libunistring,libunistring"
->> +PACKAGECONFIG[libunistring] = "--without-included-libunistri
->> ng=${STAGING_LIBDIR}/..,--with-included-libunistring,libunistring"
->>
->> looks really strange and indeed it fails:
->>
->> | configure: error: invalid package name: included-libunistring=/OE/BUIL
->> D/work/qemux86-oe-linux/gettext/0.19.8.1-r0/recipe-sysroot/usr/lib/..
->>
->> After removing this part and keeping only the added .patch I got the same
->> error as before:
->> ERROR: gettext-0.19.8.1-r0 do_configure: This autoconf log indicates
->> errors, it looked at host include and/or library paths while determining
->> system capabilities.
->> Rerun configure task after fixing this.
->>
->> 0.19.8.1-r0/build/gettext-tools/config.log:cc1: warning: include
->> location "/usr/include/glib-2.0" is unsafe for cross-compilation
->> [-Wpoison-system-directories]
->>
->>
->>
->> On Tue, Jan 23, 2018 at 1:58 AM, Burton, Ross <ross.burton@intel.com>
->> wrote:
->>
->>> Hi Martin,
->>>
->>> I've a patch at the top of poky-contrib:ross/mut which hopefully fixes
->>> this.  It's a bit more invasive than I'd like but this is gettext and I'm
->>> still at least partially sane, so that's a win as far as I'm concerned.
->>>
->>> I've a build running now but touching gettext causes a rebuild of the
->>> world so I'm going to bed whist it runs.  Would you be able to test it in
->>> your environment too?
->>>
->>> Cheers,
->>> Ross
->>>
->>> On 22 January 2018 at 19:46, Burton, Ross <ross.burton@intel.com> wrote:
->>>
->>>> This is causing QA errors:
->>>>
->>>> ERROR: gettext-0.19.8.1-r0 do_package_qa: QA Issue: gettext:
->>>> /work/corei7-64-poky-linux/gettext/0.19.8.1-r0/packages-spli
->>>> t/gettext/usr/lib/gettext/hostname contains probably-redundant RPATH
->>>> /usr/lib/../lib
->>>> gettext: /work/corei7-64-poky-linux/gettext/0.19.8.1-r0/packages-spli
->>>> t/gettext/usr/lib/gettext/urlget contains probably-redundant RPATH
->>>> /usr/lib/../lib
->>>> gettext: /work/corei7-64-poky-linux/gettext/0.19.8.1-r0/packages-spli
->>>> t/gettext/usr/lib/gettext/cldr-plurals contains probably-redundant
->>>> RPATH /usr/lib/../lib
->>>> gettext: /work/corei7-64-poky-linux/gettext/0.19.8.1-r0/packages-spli
->>>> t/gettext/usr/bin/recode-sr-latin contains probably-redundant RPATH
->>>> /usr/lib/../lib [useless-rpaths]
->>>>
->>>> Ross
->>>>
->>>> On 22 January 2018 at 10:52, Martin Jansa <martin.jansa@gmail.com>
->>>> wrote:
->>>>
->>>>> * add --with-*-prefix variables to prevent configure trying to search
->>>>> in host paths
->>>>> * fixes:
->>>>>   ERROR: This autoconf log indicates errors, it looked at host include
->>>>> and/or library paths while determining system capabilities.
->>>>>   gettext/0.19.8.1-r0/build/gettext-tools/config.log:cc1: warning:
->>>>> include location /usr/include/glib-2.0 is unsafe for cross-compilation
->>>>> [-Wpoison-system-directories]
->>>>>
->>>>> * not sure if it's worth adding other prefixes for curses related
->>>>> PACKAGECONFIG
->>>>>   PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${ST
->>>>> AGING_LIBDIR}/..,--disable-curses,ncurses,"
->>>>>
->>>>>   --with-libncurses-prefix[=DIR]  search for PACKLIBS in DIR/include
->>>>> and DIR/lib
->>>>>   --without-libncurses-prefix     don't search for PACKLIBS in
->>>>> includedir and libdir
->>>>>   --with-libxcurses-prefix[=DIR]  search for PACKLIBS in DIR/include
->>>>> and DIR/lib
->>>>>   --without-libxcurses-prefix     don't search for PACKLIBS in
->>>>> includedir and libdir
->>>>>   --with-libcurses-prefix[=DIR]  search for PACKLIBS in DIR/include
->>>>> and DIR/lib
->>>>>   --without-libcurses-prefix     don't search for PACKLIBS in
->>>>> includedir and libdir
->>>>>
->>>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>>>> ---
->>>>>  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 8 ++++----
->>>>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
->>>>> b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
->>>>> index 97083c0da2..8a8a34cca8 100644
->>>>> --- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
->>>>> +++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
->>>>> @@ -43,10 +43,10 @@ PACKAGECONFIG ??= "croco glib libxml libunistring"
->>>>>  PACKAGECONFIG_class-native = ""
->>>>>  PACKAGECONFIG_class-nativesdk = ""
->>>>>
->>>>> -PACKAGECONFIG[croco] = "--without-included-libcroco,-
->>>>> -with-included-libcroco,libcroco"
->>>>> -PACKAGECONFIG[glib] = "--without-included-glib,--wit
->>>>> h-included-glib,glib-2.0"
->>>>> -PACKAGECONFIG[libxml] = "--without-included-libxml,--w
->>>>> ith-included-libxml,libxml2"
->>>>> -PACKAGECONFIG[libunistring] = "--without-included-libunistri
->>>>> ng,--with-included-libunistring,libunistring"
->>>>> +PACKAGECONFIG[croco] = "--with-libcroco-0.6-prefix=${STAGING_LIBDIR}/..
->>>>> --without-included-libcroco,--with-included-libcroco,libcroco"
->>>>> +PACKAGECONFIG[glib] = "--with-libglib-2.0-prefix=${STAGING_LIBDIR}/..
->>>>> --without-included-glib,--with-included-glib,glib-2.0"
->>>>> +PACKAGECONFIG[libxml] = "--with-libxml2-prefix=${STAGING_LIBDIR}/..
->>>>> --without-included-libxml,--with-included-libxml,libxml2"
->>>>> +PACKAGECONFIG[libunistring] = "--with-libunistring-prefix=${STAGING_LIBDIR}/..
->>>>> --without-included-libunistring,--with-included-libunistring
->>>>> ,libunistring"
->>>>>  PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${ST
->>>>> AGING_LIBDIR}/..,--disable-curses,ncurses,"
->>>>>
->>>>>  acpaths = '-I ${S}/gettext-runtime/m4 \
->>>>> --
->>>>> 2.15.1
->>>>>
->>>>> --
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>>
->>>>
->>>>
->>>
->>
+>     This is an automated email from the git hooks/post-receive script.
+>
+>     rpurdie pushed a commit to branch master
+>     in repository openembedded-core.
+>
+>     commit 6b87ad5b08004554f08d2f68027908956f3795e1
+>     Author: Yi Zhao <yi.zhao@windriver.com <mailto:yi.zhao@windriver.com>>
+>     AuthorDate: Tue Jan 16 08:32:33 2018 +0800
+>
+>         json-glib: update to 1.4.2
+>
+>         Drop
+>     0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+>         since it has been fixed upstream.
+>
+>         Signed-off-by: Yi Zhao <yi.zhao@windriver.com
+>     <mailto:yi.zhao@windriver.com>>
+>         Signed-off-by: Richard Purdie
+>     <richard.purdie@linuxfoundation.org
+>     <mailto:richard.purdie@linuxfoundation.org>>
+>     ---
+>      ...ble-gobject-introspection-when-cross-comp.patch | 32
+>     ----------------------
+>      .../{json-glib_1.2.8.bb <http://json-glib_1.2.8.bb> =>
+>     json-glib_1.4.2.bb <http://json-glib_1.4.2.bb>}    |  7 ++---
+>      2 files changed, 2 insertions(+), 37 deletions(-)
+>
+>     diff --git
+>     a/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+>     b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+>     deleted file mode 100644
+>     index 849bb9d..0000000
+>     ---
+>     a/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+>     +++ /dev/null
+>     @@ -1,32 +0,0 @@
+>     -From 293452c963188666dae99521294f09a0cf9582e2 Mon Sep 17 00:00:00
+>     2001
+>     -From: Alexander Kanavin <alex.kanavin@gmail.com
+>     <mailto:alex.kanavin@gmail.com>>
+>     -Date: Fri, 4 Aug 2017 16:01:11 +0300
+>     -Subject: [PATCH] Do not disable gobject introspection when
+>     cross-compiling.
+>     -
+>     -Introspection does work fine for instance in Open Embedded,
+>     -one of the most prominent cross-compilation frameworks
+>     -(through qemu emulating target hardware), so let the user
+>     -decide if he wants the feature or not.
+>     -
+>     -Upstream-Status: Pending
+>     -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com
+>     <mailto:alex.kanavin@gmail.com>>
+>     ----
+>     - meson.build | 2 +-
+>     - 1 file changed, 1 insertion(+), 1 deletion(-)
+>     -
+>     -diff --git a/meson.build b/meson.build
+>     -index 43cbfd9..8a32f26 100644
+>     ---- a/meson.build
+>     -+++ b/meson.build
+>     -@@ -147,7 +147,7 @@ root_dir = include_directories('.')
+>     -
+>     - gnome = import('gnome')
+>     - gir = find_program('g-ir-scanner', required: false)
+>     --build_gir = gir.found() and not meson.is_cross_build() and not
+>     get_option('disable_introspection')
+>     -+build_gir = gir.found() and not get_option('disable_introspection')
+>     -
+>     - subdir('json-glib')
+>     -
+>     ---
+>     -2.13.2
+>     -
+>     diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+>     <http://json-glib_1.2.8.bb>
+>     b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
+>     <http://json-glib_1.4.2.bb>
+>     similarity index 84%
+>     rename from meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+>     <http://json-glib_1.2.8.bb>
+>     rename to meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
+>     <http://json-glib_1.4.2.bb>
+>     index 31912d1..fad0a2d 100644
+>     --- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+>     <http://json-glib_1.2.8.bb>
+>     +++ b/meta/recipes-gnome/json-glib/json-glib_1.4.2.bb
+>     <http://json-glib_1.4.2.bb>
+>     @@ -10,11 +10,8 @@ LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+>
+>      DEPENDS = "glib-2.0"
+>
+>     -SRC_URI_append = " \
+>     -         
+>      file://0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+>     \
+>     -           "
+>     -SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
+>     -SRC_URI[archive.sha256sum] =
+>     "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
+>     +SRC_URI[archive.md5sum] = "35107e23a7bbbc70f31c34f7b9adf1c3"
+>     +SRC_URI[archive.sha256sum] =
+>     "2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8"
+>
+>      GNOMEBASEBUILDCLASS = "meson"
+>      inherit gnomebase lib_package gobject-introspection gtk-doc
+>     manpages gettext
+>
+>     --
+>     To stop receiving notification emails like this one, please contact
+>     the administrator of this repository.
+>     --
+>     _______________________________________________
+>     Openembedded-commits mailing list
+>     Openembedded-commits@lists.openembedded.org
+>     <mailto:Openembedded-commits@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-commits>
+>
 >
 
---f403045ec41e42a82905637af29f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks, this version built for me on that system where it =
-was failing before (I haven&#39;t tried to rebuild world, just gettext).</d=
-iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jan 24=
-, 2018 at 12:09 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ro=
-ss.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Yeah, I managed =
-to typo.=C2=A0 Latest ross/mut has a new version.<span class=3D"HOEnZb"><fo=
-nt color=3D"#888888"><div><br></div><div>Ross</div></font></span></div><div=
- class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote">On 23 January 2018 at 22:29, Martin Jansa <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.=
-jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v dir=3D"ltr"><div>The=C2=A0</div><div>--without-included-libunistrin<wbr>g=
-=3D</div><div>change there</div><div><div><br></div><div>-PACKAGECONFIG[lib=
-unistring] =3D &quot;--without-included-libunistri<wbr>ng,--with-included-l=
-ibunistrin<wbr>g,libunistring&quot;</div><div>+PACKAGECONFIG[libunistring] =
-=3D &quot;--without-included-libunistri<wbr>ng=3D${STAGING_LIBDIR}/..,--wit=
-h<wbr>-included-libunistring,libunis<wbr>tring&quot;</div></div><div><br></=
-div><div>looks really strange and indeed it fails:<br></div><div><br></div>=
-<div>| configure: error: invalid package name: included-libunistring=3D/OE/=
-BUIL<wbr>D/work/qemux86-oe-linux/gettex<wbr>t/0.19.8.1-r0/recipe-sysroot/u<=
-wbr>sr/lib/..</div><div><br></div><div>After removing this part and keeping=
- only the added .patch I got the same error as before:</div><div><div>ERROR=
-: gettext-0.19.8.1-r0 do_configure: This autoconf log indicates errors, it =
-looked at host include and/or library paths while determining system capabi=
-lities.</div><div>Rerun configure task after fixing this.</div></div><span>=
-<div><br></div><div><div>0.19.8.1-r0/build/gettext-tool<wbr>s/config.log:cc=
-1: warning: include location &quot;/usr/include/glib-2.0&quot; is unsafe fo=
-r cross-compilation [-Wpoison-system-directories]</div></div><div><br></div=
-><div><br></div></span></div><div class=3D"m_1016999681615440584HOEnZb"><di=
-v class=3D"m_1016999681615440584h5"><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote">On Tue, Jan 23, 2018 at 1:58 AM, Burton, Ross <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ros=
-s.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div dir=3D"ltr">Hi Martin,<div><br></div><div>I&#39;ve a patch at the top =
-of poky-contrib:ross/mut which hopefully fixes this.=C2=A0 It&#39;s a bit m=
-ore invasive than I&#39;d like but this is gettext and I&#39;m still at lea=
-st partially sane, so that&#39;s a win as far as I&#39;m concerned.<div><br=
-></div><div>I&#39;ve a build running now but touching gettext causes a rebu=
-ild of the world so I&#39;m going to bed whist it runs.=C2=A0 Would you be =
-able to test it in your environment too?</div><div><br></div><div>Cheers,</=
-div><div>Ross</div></div></div><div class=3D"m_1016999681615440584m_8308011=
-28156425176HOEnZb"><div class=3D"m_1016999681615440584m_830801128156425176h=
-5"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 22 January =
-2018 at 19:46, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.bu=
-rton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">This is causing QA er=
-rors:<div><br></div><div><div>ERROR: gettext-0.19.8.1-r0 do_package_qa: QA =
-Issue: gettext: /work/corei7-64-poky-linux/get<wbr>text/0.19.8.1-r0/package=
-s-spli<wbr>t/gettext/usr/lib/gettext/host<wbr>name contains probably-redund=
-ant RPATH /usr/lib/../lib</div><div>gettext: /work/corei7-64-poky-linux/get=
-<wbr>text/0.19.8.1-r0/packages-spli<wbr>t/gettext/usr/lib/gettext/urlg<wbr>=
-et contains probably-redundant RPATH /usr/lib/../lib</div><div>gettext: /wo=
-rk/corei7-64-poky-linux/get<wbr>text/0.19.8.1-r0/packages-spli<wbr>t/gettex=
-t/usr/lib/gettext/cldr<wbr>-plurals contains probably-redundant RPATH /usr/=
-lib/../lib</div><div>gettext: /work/corei7-64-poky-linux/get<wbr>text/0.19.=
-8.1-r0/packages-spli<wbr>t/gettext/usr/bin/recode-sr-la<wbr>tin contains pr=
-obably-redundant RPATH /usr/lib/../lib [useless-rpaths]</div></div><span cl=
-ass=3D"m_1016999681615440584m_830801128156425176m_5579754552523759691HOEnZb=
-"><font color=3D"#888888"><div><br></div><div>Ross</div></font></span></div=
-><div class=3D"m_1016999681615440584m_830801128156425176m_55797545525237596=
-91HOEnZb"><div class=3D"m_1016999681615440584m_830801128156425176m_55797545=
-52523759691h5"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
- 22 January 2018 at 10:52, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">* add --with-*-prefix va=
-riables to prevent configure trying to search in host paths<br>
-* fixes:<br>
-=C2=A0 ERROR: This autoconf log indicates errors, it looked at host include=
- and/or library paths while determining system capabilities.<br>
-=C2=A0 gettext/0.19.8.1-r0/build/gett<wbr>ext-tools/config.log:cc1: warning=
-: include location /usr/include/glib-2.0 is unsafe for cross-compilation [-=
-Wpoison-system-directories]<br>
-<br>
-* not sure if it&#39;s worth adding other prefixes for curses related PACKA=
-GECONFIG<br>
-=C2=A0 PACKAGECONFIG[msgcat-curses] =3D &quot;--with-libncurses-prefix=3D${=
-ST<wbr>AGING_LIBDIR}/..,--disable-cur<wbr>ses,ncurses,&quot;<br>
-<br>
-=C2=A0 --with-libncurses-prefix[=3DDIR]<wbr>=C2=A0 search for PACKLIBS in D=
-IR/include and DIR/lib<br>
-=C2=A0 --without-libncurses-prefix=C2=A0 =C2=A0 =C2=A0don&#39;t search for =
-PACKLIBS in includedir and libdir<br>
-=C2=A0 --with-libxcurses-prefix[=3DDIR]<wbr>=C2=A0 search for PACKLIBS in D=
-IR/include and DIR/lib<br>
-=C2=A0 --without-libxcurses-prefix=C2=A0 =C2=A0 =C2=A0don&#39;t search for =
-PACKLIBS in includedir and libdir<br>
-=C2=A0 --with-libcurses-prefix[=3DDIR]=C2=A0 search for PACKLIBS in DIR/inc=
-lude and DIR/lib<br>
-=C2=A0 --without-libcurses-prefix=C2=A0 =C2=A0 =C2=A0don&#39;t search for P=
-ACKLIBS in includedir and libdir<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
-arget=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">get<wbr>text_0.19.8.1.bb</a> | 8 ++++----=
-<br>
-=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">ge<wbr>ttext_0.19.8.1.bb</a> b/meta=
-/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.bb" rel=3D"norefer=
-rer" target=3D"_blank">ge<wbr>ttext_0.19.8.1.bb</a><br>
-index 97083c0da2..8a8a34cca8 100644<br>
---- a/meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">ge<wbr>ttext_0.19.8.1.bb</a><br>
-+++ b/meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">ge<wbr>ttext_0.19.8.1.bb</a><br>
-@@ -43,10 +43,10 @@ PACKAGECONFIG ??=3D &quot;croco glib libxml libunistrin=
-g&quot;<br>
-=C2=A0PACKAGECONFIG_class-native =3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG_class-nativesdk =3D &quot;&quot;<br>
-<br>
--PACKAGECONFIG[croco] =3D &quot;--without-included-libcroco,-<wbr>-with-inc=
-luded-libcroco,libcro<wbr>co&quot;<br>
--PACKAGECONFIG[glib] =3D &quot;--without-included-glib,--wit<wbr>h-included=
--glib,glib-2.0&quot;<br>
--PACKAGECONFIG[libxml] =3D &quot;--without-included-libxml,--w<wbr>ith-incl=
-uded-libxml,libxml2&quot;<br>
--PACKAGECONFIG[libunistring] =3D &quot;--without-included-libunistri<wbr>ng=
-,--with-included-libunistrin<wbr>g,libunistring&quot;<br>
-+PACKAGECONFIG[croco] =3D &quot;--with-libcroco-0.6-prefix=3D${<wbr>STAGING=
-_LIBDIR}/.. --without-included-libcroco,--<wbr>with-included-libcroco,libcr=
-oc<wbr>o&quot;<br>
-+PACKAGECONFIG[glib] =3D &quot;--with-libglib-2.0-prefix=3D${S<wbr>TAGING_L=
-IBDIR}/.. --without-included-glib,--with<wbr>-included-glib,glib-2.0&quot;<=
-br>
-+PACKAGECONFIG[libxml] =3D &quot;--with-libxml2-prefix=3D${STAGI<wbr>NG_LIB=
-DIR}/.. --without-included-libxml,--wi<wbr>th-included-libxml,libxml2&quot;=
-<br>
-+PACKAGECONFIG[libunistring] =3D &quot;--with-libunistring-prefix=3D${<wbr>=
-STAGING_LIBDIR}/.. --without-included-libunistrin<wbr>g,--with-included-lib=
-unistring<wbr>,libunistring&quot;<br>
-=C2=A0PACKAGECONFIG[msgcat-curses] =3D &quot;--with-libncurses-prefix=3D${S=
-T<wbr>AGING_LIBDIR}/..,--disable-cur<wbr>ses,ncurses,&quot;<br>
-<br>
-=C2=A0acpaths =3D &#39;-I ${S}/gettext-runtime/m4 \<br>
-<span class=3D"m_1016999681615440584m_830801128156425176m_55797545525237596=
-91m_2205246036956529460HOEnZb"><font color=3D"#888888">--<br>
-2.15.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
+--------------E5B6FF1E3E3B7B33E91C5A29
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---f403045ec41e42a82905637af29f--
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">在 2018年01月19日 21:58, Martin Jansa 写道:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div>It fails here since this upgrade, maybe the <span
+            style="font-size:12.8px">0001-Do-not-disable-</span><wbr
+            style="font-size:12.8px"><span style="font-size:12.8px">gobject-introspection-when-</span><wbr
+            style="font-size:12.8px"><span style="font-size:12.8px">cross-comp.patch
+            is still useful and wasn't completely merged upstream?</span></div>
+        <div><span style="font-size:12.8px"><br>
+          </span></div>
+        <div>FAILED: json-glib/Json-1.0.typelib </div>
+        <div>json-glib/1.4.2-r0/recipe-sysroot/usr/bin/g-ir-compiler-wrapper
+          json-glib/Json-1.0.gir --output json-glib/Json-1.0.typelib</div>
+        <div>Could not find GIR file 'GObject-2.0.gir'; check
+          XDG_DATA_DIRS or use --includedir</div>
+        <div>error parsing file json-glib/Json-1.0.gir: Failed to parse
+          included gir GObject-2.0</div>
+        <div>If the above error message is about missing .so libraries,
+          then setting up GIR_EXTRA_LIBS_PATH in the recipe should help.</div>
+        <div>(typically like this:
+          GIR_EXTRA_LIBS_PATH="${B}/something/.libs" )</div>
+        <div>ninja: build stopped: subcommand failed.</div>
+        <div>WARNING: exit code 1 from a shell command.</div>
+      </div>
+    </blockquote>
+    <br>
+    Hi  Martin,<br>
+    <br>
+    I still can not reproduced it.  Could you tell me which layers
+    include, the DISTRO set and the build machine OS ?<br>
+    <br>
+    Thanks,<br>
+    Yi<br>
+    <br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQeG05c0KXRoFMrb_=rh3C+MMJuMFWvQjtuyedFXg-PdMQ@mail.gmail.com">
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On Thu, Jan 18, 2018 at 1:51 PM, <span
+            dir="ltr">&lt;<a href="mailto:git@git.openembedded.org"
+              target="_blank" moz-do-not-send="true">git@git.openembedded.org</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">This is an
+            automated email from the git hooks/post-receive script.<br>
+            <br>
+            rpurdie pushed a commit to branch master<br>
+            in repository openembedded-core.<br>
+            <br>
+            commit 6b87ad5b08004554f08d2f68027908<wbr>956f3795e1<br>
+            Author: Yi Zhao &lt;<a href="mailto:yi.zhao@windriver.com"
+              moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;<br>
+            AuthorDate: Tue Jan 16 08:32:33 2018 +0800<br>
+            <br>
+                json-glib: update to 1.4.2<br>
+            <br>
+                Drop 0001-Do-not-disable-gobject-<wbr>introspection-when-cross-comp.<wbr>patch<br>
+                since it has been fixed upstream.<br>
+            <br>
+                Signed-off-by: Yi Zhao &lt;<a
+              href="mailto:yi.zhao@windriver.com" moz-do-not-send="true">yi.zhao@windriver.com</a>&gt;<br>
+                Signed-off-by: Richard Purdie &lt;<a
+              href="mailto:richard.purdie@linuxfoundation.org"
+              moz-do-not-send="true">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<br>
+            ---<br>
+             ...ble-gobject-introspection-<wbr>when-cross-comp.patch |
+            32 ----------------------<br>
+             .../{<a href="http://json-glib_1.2.8.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.2.8.bb</a>
+            =&gt; <a href="http://json-glib_1.4.2.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.4.2.bb</a>} 
+               |  7 ++---<br>
+             2 files changed, 2 insertions(+), 37 deletions(-)<br>
+            <br>
+            diff --git a/meta/recipes-gnome/json-<wbr>glib/json-glib/0001-Do-not-<wbr>disable-gobject-introspection-<wbr>when-cross-comp.patch
+            b/meta/recipes-gnome/json-<wbr>glib/json-glib/0001-Do-not-<wbr>disable-gobject-introspection-<wbr>when-cross-comp.patch<br>
+            deleted file mode 100644<br>
+            index 849bb9d..0000000<br>
+            --- a/meta/recipes-gnome/json-<wbr>glib/json-glib/0001-Do-not-<wbr>disable-gobject-introspection-<wbr>when-cross-comp.patch<br>
+            +++ /dev/null<br>
+            @@ -1,32 +0,0 @@<br>
+            -From 293452c963188666dae99521294f09<wbr>a0cf9582e2 Mon Sep
+            17 00:00:00 2001<br>
+            -From: Alexander Kanavin &lt;<a
+              href="mailto:alex.kanavin@gmail.com"
+              moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt;<br>
+            -Date: Fri, 4 Aug 2017 16:01:11 +0300<br>
+            -Subject: [PATCH] Do not disable gobject introspection when
+            cross-compiling.<br>
+            -<br>
+            -Introspection does work fine for instance in Open Embedded,<br>
+            -one of the most prominent cross-compilation frameworks<br>
+            -(through qemu emulating target hardware), so let the user<br>
+            -decide if he wants the feature or not.<br>
+            -<br>
+            -Upstream-Status: Pending<br>
+            -Signed-off-by: Alexander Kanavin &lt;<a
+              href="mailto:alex.kanavin@gmail.com"
+              moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt;<br>
+            ----<br>
+            - meson.build | 2 +-<br>
+            - 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+            -<br>
+            -diff --git a/meson.build b/meson.build<br>
+            -index 43cbfd9..8a32f26 100644<br>
+            ---- a/meson.build<br>
+            -+++ b/meson.build<br>
+            -@@ -147,7 +147,7 @@ root_dir = include_directories('.')<br>
+            -<br>
+            - gnome = import('gnome')<br>
+            - gir = find_program('g-ir-scanner', required: false)<br>
+            --build_gir = gir.found() and not meson.is_cross_build() and
+            not get_option('disable_<wbr>introspection')<br>
+            -+build_gir = gir.found() and not get_option('disable_<wbr>introspection')<br>
+            -<br>
+            - subdir('json-glib')<br>
+            -<br>
+            ---<br>
+            -2.13.2<br>
+            -<br>
+            diff --git a/meta/recipes-gnome/json-<wbr>glib/<a
+              href="http://json-glib_1.2.8.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.2.8.bb</a>
+            b/meta/recipes-gnome/json-<wbr>glib/<a
+              href="http://json-glib_1.4.2.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.4.2.bb</a><br>
+            similarity index 84%<br>
+            rename from meta/recipes-gnome/json-glib/<a
+              href="http://json-glib_1.2.8.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">j<wbr>son-glib_1.2.8.bb</a><br>
+            rename to meta/recipes-gnome/json-glib/<a
+              href="http://json-glib_1.4.2.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">j<wbr>son-glib_1.4.2.bb</a><br>
+            index 31912d1..fad0a2d 100644<br>
+            --- a/meta/recipes-gnome/json-<wbr>glib/<a
+              href="http://json-glib_1.2.8.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.2.8.bb</a><br>
+            +++ b/meta/recipes-gnome/json-<wbr>glib/<a
+              href="http://json-glib_1.4.2.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">json-glib_1.4.2.bb</a><br>
+            @@ -10,11 +10,8 @@ LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://COPYING;md5=">file://COPYING;md5=</a><wbr>7fbc338309ac38fefcd64b04bb903e<wbr>34"<br>
+            <br>
+             DEPENDS = "glib-2.0"<br>
+            <br>
+            -SRC_URI_append = " \<br>
+            -           <a class="moz-txt-link-freetext" href="file://0001-Do-not-disable">file://0001-Do-not-disable</a>-<wbr>gobject-introspection-when-<wbr>cross-comp.patch
+            \<br>
+            -           "<br>
+            -SRC_URI[archive.md5sum] = "<wbr>ff31e7d0594df44318e12facda3d08<wbr>6e"<br>
+            -SRC_URI[archive.sha256sum] = "<wbr>fd55a9037d39e7a10f0db64309f5f0<wbr>265fa32ec962bf85066087b83a2807<wbr>f40a"<br>
+            +SRC_URI[archive.md5sum] = "<wbr>35107e23a7bbbc70f31c34f7b9adf1<wbr>c3"<br>
+            +SRC_URI[archive.sha256sum] = "<wbr>2d7709a44749c7318599a6829322e0<wbr>81915bdc73f5be5045882ed120bb68<wbr>6dc8"<br>
+            <br>
+             GNOMEBASEBUILDCLASS = "meson"<br>
+             inherit gnomebase lib_package gobject-introspection gtk-doc
+            manpages gettext<br>
+            <span class="HOEnZb"><font color="#888888"><br>
+                --<br>
+                To stop receiving notification emails like this one,
+                please contact<br>
+                the administrator of this repository.<br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-commits mailing list<br>
+                <a
+                  href="mailto:Openembedded-commits@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-commits@lists.<wbr>openembedded.org</a><br>
+                <a
+href="http://lists.openembedded.org/mailman/listinfo/openembedded-commits"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>commits</a><br>
+              </font></span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------E5B6FF1E3E3B7B33E91C5A29--
