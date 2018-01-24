@@ -1,18 +1,50 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F1B786E1;
-	Wed, 24 Jan 2018 11:02:56 +0000 (UTC)
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C97C771AB3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jan 2018 12:59:42 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id c6so2974857pfi.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jan 2018 04:59:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=rOeOmZwkeqI6B4q2SsVoMup6OPN1qiIKzaZVAR+AV10=;
+	b=cr4N6r6HkwrARXWIQBukF1c19DbbJ3CgZdb1CRZvv8KVmN3DfIV22si+p7MzAw1F7o
+	RPy9i5VkZnD0WfneadiQXT7yyURmIH85nbK9mcvvhrmBMWP+fN92etmcexJWxedPA9HR
+	RIZlIEjun8m3YEZs58e0s7HTKgGUUptoBKt2gr7lcSyOAMqqaVOLLQAjvgXM8bzdU8OY
+	PvhS7pYGT29sQLS5DfN2LCau4OHQq3FoiGWzcbUzWFd3u/6Lu2VOhEMM0nUggP6W5ioi
+	b/8eE5ener+ZVGuN4GflzkOXGaX+8S+xMH0G/luZQ/MAOi6K7B1zPCYqO95a76HfYnRU
+	PJ6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=rOeOmZwkeqI6B4q2SsVoMup6OPN1qiIKzaZVAR+AV10=;
+	b=F3TLsqOB4O7XaqP7NCdCt/jyANA2ZyTT5mTE6se6GpnlKzh7AlJd+V2yGC7G5REq1X
+	99wnnkR9sf9fgjNxeKLIIWHW7HLhkhB3sjcNhB6DgtU+YQCwLwLNsudi01g+ECQKsY+a
+	03adTrPgCSgkmSkYIrei0XAFGILngjxMlRf6RfAYz3ANDouOENiUCmy6FmihR7CFTYqP
+	ENtLsneI59oHkldJDaJJ7LsguSZHJUwB0B6Up6DUrzMPceO/ub8zfW4e0Ddwj3Ir9PCn
+	+NrNUqvK3hdDM7nTPR/homodtmiXGnfwGwxkyUSGmdLy7bAFsnVshoDeYFbdO8BGyWdu
+	scLA==
+X-Gm-Message-State: AKwxytdNth5cp2TDdppy9a0IYFusbcginQ67hQokYgNfRrm+I2qxwT+l
+	V+7KnFTfiys1oe2iV2vnyuGzAtqLeIk=
+X-Google-Smtp-Source: AH8x2246BnrOsZeKYihGvn/0kXdFUS3dZvcwvq41BWsZfjPJOjbvXp6U88cnkbQT1yE6E9JJERSsWw==
+X-Received: by 2002:a17:902:1e5:: with SMTP id
+	b92-v6mr8027925plb.144.1516798783564; 
+	Wed, 24 Jan 2018 04:59:43 -0800 (PST)
+Received: from [127.0.1.1] ([121.223.19.215]) by smtp.gmail.com with ESMTPSA id
+	14sm10959538pfn.125.2018.01.24.04.59.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 24 Jan 2018 04:59:42 -0800 (PST)
+Date: Wed, 24 Jan 2018 22:59:28 +1000
+Message-Id: <20180124125928.17702-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hains van den Bosch <hainsvdbosch@ziggo.nl>
-Date: Wed, 24 Jan 2018 11:02:58 -0000
-Message-ID: <20180124110258.5994.13524@do.openembedded.org>
-References: <20180124100855.4551-1-hainsvdbosch@ziggo.nl>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180124100855.4551-1-hainsvdbosch@ziggo.nl>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW9lXSBzbWJuZXRmczogdXBkYXRlIHRvIC4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: [PATCH v2] busybox.inc: Add sanity check to test if the suid binary provides sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 11:02:56 -0000
+X-List-Received-Date: Wed, 24 Jan 2018 12:59:42 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Add a sanity check during the do_compile task to fail if the suid
+busybox provides /bin/sh. This is considered as a hard fail since not
+only is providing sh as suid problematic for security reasons but also
+because the sh configured for suid is less functional than the nosuid
+configured sh and breaks a number of required features (e.g. 64-bit
+test).
 
-Series: "[meta-oe] smbnetfs: update to ..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10675/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe,1/2] smbnetfs: update to version 0.6.1
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe,1/2) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 5e5569c962)
-
-* Patch            [meta-oe,1/2] smbnetfs: update to version 0.6.1
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Changes in v2:
+ * Rebase on master
+---
+ meta/recipes-core/busybox/busybox.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 4012f921c6..157aea3968 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -183,6 +183,12 @@ do_compile() {
+ 			oe_runmake busybox.links
+ 			mv busybox.links busybox.links.$s
+ 		done
++
++		# hard fail if sh is being linked to the suid busybox (detects bug 10346)
++		if grep -q -x "/bin/sh" busybox.links.suid; then
++			bbfatal "busybox suid binary incorrectly provides /bin/sh"
++		fi
++
+ 		# copy .config.orig back to .config, because the install process may check this file
+ 		cp .config.orig .config
+ 		# cleanup
+-- 
+2.15.1
 
 
