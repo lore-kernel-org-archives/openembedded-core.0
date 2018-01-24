@@ -1,30 +1,52 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A29C27874E
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
+	[209.85.128.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A80577869E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 13:50:53 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 05:50:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,407,1511856000"; d="scan'208";a="29115268"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2018 05:50:48 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 7DF1F5801D0
+	Wed, 24 Jan 2018 14:27:57 +0000 (UTC)
+Received: by mail-wr0-f175.google.com with SMTP id v15so4231486wrb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 05:50:47 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 24 Jan 2018 06:27:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MeT9F01Y2xV49zuqH/z88BJkrDMRpW+uWce2gCHRHs4=;
+	b=BpbWO0SE6koLIRw8jBYgm4vXjvhaNQWc57qruT2QwOjVBamAEJZYT7YOquUXdoUPSY
+	xH1/oc9fTuzE/yhXGZ3ZajECPKFtIYlbcGFXGDF5Qj4kSYEE592LIA1qGqYA7+ZRRFwt
+	wKlowiVwhyNkJ3v1DLPELIG8R+BDfiYcst9fgJLaWu7vwfvkHQSLal710M6OESQMfnCW
+	7GIAniVfRbDSvYwyiwhYj5pKD07Hlslqcj9J/5IGP0aXUXLt/+eN33U08UbaANHcGAvR
+	q7xkfSGxwVVEZRIYbVs7wjrt6J265jIv+YhjxJxo4Ud3rx7DMAXrbrSlpiPAMSX+CE3Y
+	H8TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MeT9F01Y2xV49zuqH/z88BJkrDMRpW+uWce2gCHRHs4=;
+	b=R4y+MlSdNLob+IYNGN7JnQTzk1eq1Gngd0zRaRAA8wTlUl03NOFrgThy7/i+DBl8wm
+	0PNYXjnewZZtIp2noxmVkrWIiYAweBs/lVpmT/BJu8z4DWGXtK34E7v2bvRBERq1m1Gf
+	HDZJEHmfk5vQkSS7AmjPb3tilTJdCD7RfoctzgavVazrKxh2X+uM1YMPzet94RQvoE8I
+	g+eifBD+PHHOLB6jFyT9/2Ee+PXJWkSVw465IQFbEfL6GJxlXk7SZRhtzbv1K34skvDi
+	eXiA2+yw95yuBm+nLUDYEeNs8OmFihXj/N5taLMO224ozwKTWdXszLglYI1ilAA+lxF/
+	ofCg==
+X-Gm-Message-State: AKwxytemxK48xDZqqqwGUaisID2RnDQ0t0+ovWxtyyvnHorgy3DDO+Cu
+	llBd4b2oz6eva4xSF3e60WXtNw==
+X-Google-Smtp-Source: AH8x224u9QHB3jC1Slqojv2ubsbJrqgTUNJThDQRn+2Tm2/XeFbenTve1ZijmdzEFbj9H6G3NGNEbw==
+X-Received: by 10.223.166.248 with SMTP id t111mr6255823wrc.248.1516804077990; 
+	Wed, 24 Jan 2018 06:27:57 -0800 (PST)
+Received: from mueller-a-nb-linux.zera.local
+	(ip-88-152-110-191.hsi03.unitymediagroup.de. [88.152.110.191])
+	by smtp.gmail.com with ESMTPSA id
+	g60sm4833725wrd.92.2018.01.24.06.27.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Jan 2018 06:27:57 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jan 2018 15:52:32 +0200
-Message-Id: <1516801953-19706-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
-References: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/3] pango: upgrade to version 1.40.14
+Date: Wed, 24 Jan 2018 15:27:49 +0100
+Message-Id: <20180124142749.11330-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.14.3
+MIME-Version: 1.0
+Subject: [PATCH] librsvg-gtk package: add gdk-pixbuf-bin RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 13:50:54 -0000
+X-List-Received-Date: Wed, 24 Jan 2018 14:27:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Upgrading to stable version 1.40.14
+librsvg-gtk installs /usr/share/thumbnailers/librsvg.thumbnailer which contains
+TryExec and Exec for gdk-pixbuf-thumbnailer which is installed by
+gdk-pixbuf-bin.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Fixes the following message in systemd-journal:
+
+raspberrypi3 org.freedesktop.thumbnails.Thumbnailer1[494]: Registered thumbailer /usr/bin/gdk-pixbuf-thumbnailer -s %s %u %o
+raspberrypi3 org.freedesktop.thumbnails.Thumbnailer1[494]: error: The metadata does not have a thumbnail property
+raspberrypi3 org.freedesktop.thumbnails.Thumbnailer1[494]: error: The metadata does not have a thumbnail property
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/recipes-graphics/pango/{pango_1.40.12.bb => pango_1.40.14.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/pango/{pango_1.40.12.bb => pango_1.40.14.bb} (92%)
+ meta/recipes-gnome/librsvg/librsvg_2.40.19.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.40.12.bb b/meta/recipes-graphics/pango/pango_1.40.14.bb
-similarity index 92%
-rename from meta/recipes-graphics/pango/pango_1.40.12.bb
-rename to meta/recipes-graphics/pango/pango_1.40.14.bb
-index cbad9a9..3bd9c64 100644
---- a/meta/recipes-graphics/pango/pango_1.40.12.bb
-+++ b/meta/recipes-graphics/pango/pango_1.40.14.bb
-@@ -17,8 +17,8 @@ SRC_URI += "file://run-ptest \
-             file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
-             file://0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch \
- "
--SRC_URI[archive.sha256sum] = "75f1a9a8e4e2b28cbc078b50c1fa927ee4ded994d1ade97c5603e2d1f3161cfc"
--SRC_URI[archive.md5sum] = "9aae7dd5ecc1c2ade4e6951b85004cee"
-+SRC_URI[archive.md5sum] = "18d7eb8d52e7e445e733c109ddaa7b78"
-+SRC_URI[archive.sha256sum] = "90af1beaa7bf9e4c52db29ec251ec4fd0a8f2cc185d521ad1f88d01b3a6a17e3"
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
+index 6aeeb6b5fd..fe00371e37 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
+@@ -40,5 +40,6 @@ FILES_rsvg = "${bindir}/rsvg* \
+ 	      ${datadir}/themes"
+ FILES_librsvg-gtk = "${libdir}/gdk-pixbuf-2.0/*/*/*.so \
+                      ${datadir}/thumbnailers/librsvg.thumbnailer"
++RRECOMMENDS_librsvg-gtk = "gdk-pixbuf-bin"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz"
- 
+ PIXBUF_PACKAGES = "librsvg-gtk"
 -- 
-2.4.0
+2.14.3
 
 
