@@ -1,31 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 70C0F6FFD8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 042DC78674
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 20:16:19 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 12:16:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,409,1511856000"; d="scan'208";a="22305513"
-Received: from meazahar-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.249.66.253])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jan 2018 12:16:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Date: Thu, 25 Jan 2018 09:16:14 +1300
-Message-ID: <2339727.dy8ZIkzkI5@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <b1d6d959-203c-b5b8-8442-12cc1e670a35@xilinx.com>
-References: <151648753376.31338.5162580593839986526@git.openembedded.org>
-	<2335819.HfQnGk64D5@peggleto-mobl.ger.corp.intel.com>
-	<b1d6d959-203c-b5b8-8442-12cc1e670a35@xilinx.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 01/06: python: Restructure python packaging and replace it with autopackaging
+	Wed, 24 Jan 2018 20:39:20 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id c2so13783659qtn.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jan 2018 12:39:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=58bvZlegQhd6E67cSzWSSr3OmqQy1q7lMtuXbaSnJF0=;
+	b=laHVJ5uLG04dET16aqrAsKos3ChDlkm8c4vYQlD/emqK0lWmLYNARs29xpgucB78S+
+	tDQ7KoPTAMlQbpw0i7e9fzdWVNnNYtwYxm8p2coi3RwCWFNkq+gkcB3DhdcwuGf5k61X
+	Ri+DE4sWbtuRbRo3TQvRXFlsdvQPMVPJRXLNsRz6IxZYpmwCthAyWnpbQYsApFkVeti/
+	D33Obstn6bjWXaH66df8FNqLvPkqlhBbBvUK4pghy5w+Gxdk0Fil4M0Zn9Hqg7avyVR4
+	HCgAPZWHcSz+pjYoKEOgpZAv0tfxlKdVbIOLXaGPxmIMZzkD/DEgH/TaAGojfjQKiB0N
+	r+Fg==
+X-Gm-Message-State: AKwxytfklQUpeBJa6NBXcYMcM5EfMs0C9oevWXANIk8x+0HOW8mQpX/Z
+	RxBSsRVO/ib8PfKyayqv28Yk5Q==
+X-Google-Smtp-Source: AH8x226+dzExBJuSDajc9ad11Mk52ebdj/thZrOW3mMZJhOO5szzxFgX3Num6ckwjQzpvOC2QqP6qw==
+X-Received: by 10.200.81.154 with SMTP id c26mr12175149qtn.129.1516826361787; 
+	Wed, 24 Jan 2018 12:39:21 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id j19sm2821226qtc.1.2018.01.24.12.39.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Jan 2018 12:39:20 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 24 Jan 2018 18:39:13 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Jan 2018 18:39:11 -0200
+Message-Id: <20180124203911.18352-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] package_rpm.bbclass: Fix matching of architecture independent packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +48,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 20:16:20 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 24 Jan 2018 20:39:21 -0000
 
-On Tuesday, 23 January 2018 11:48:21 AM NZDT Alejandro Enedino Hernandez 
-Samaniego wrote:
-> On 01/22/2018 12:28 PM, Paul Eggleton wrote:
-> > It seems to me we need to do one of two things:
-> >
-> > A) Add explicit RPROVIDES so that the core package provides these things
-> > for compatibility with existing recipes
-> >
-> > or
-> >
-> > B) Add something to the migration guide to explain what users need to do
-> > in order to fix their recipes after this change - the staging area for
-> > these is on the wiki (doesn't have to be fully fleshed out, just the bare
-> > details would be sufficient) 
-> > https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
+OE-Core changes the architecture independent RPM packages to use
+"noarch" instead of "all". This change has been included in the commit
+below:
 
-> I'd rather go with B) if thats ok, since the actual dependencies are 
-> being met and basically deleting the dependency for which its 
-> complaining from RDEPENDS would fix things.
+,----
+| commit 341810aff923ace6b1cc1e15e19383c4f8773b51
+| Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+| Date:   Mon Jan 9 16:37:28 2017 +0200
+|
+|     package_rpm.bbclass: make architecture-independent .rpm packages
+|     "noarch" instead of "all"
+|
+|     Too many places in dnf/rpm4 stack make that assumption; let's not
+|     fight against it.
+|
+|     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+`----
 
-OK, sounds good to me.
+This is causing problems with machines that has "all" inside the
+machine name.
 
-> > Could you please take care of this?
->
-> Sure, I can do this!
+Reported-by: Alexandru Palalau <ioan-alexandru.palalau@nxp.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Thanks!
+ meta/classes/package_rpm.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
--Paul
-
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 3cbbd1eb53..7829beabb5 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -646,9 +646,13 @@ python do_package_rpm () {
+     rpmbuild = d.getVar('RPMBUILD')
+     targetsys = d.getVar('TARGET_SYS')
+     targetvendor = d.getVar('HOST_VENDOR')
++
+     # Too many places in dnf stack assume that arch-independent packages are "noarch".
+     # Let's not fight against this.
+-    package_arch = (d.getVar('PACKAGE_ARCH') or "").replace("-", "_").replace("all", "noarch")
++    package_arch = (d.getVar('PACKAGE_ARCH') or "").replace("-", "_")
++    if package_arch == "all":
++        package_arch = "noarch"
++
+     sdkpkgsuffix = (d.getVar('SDKPKGSUFFIX') or "nativesdk").replace("-", "_")
+     d.setVar('PACKAGE_ARCH_EXTEND', package_arch)
+     pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}')
 -- 
+2.16.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
