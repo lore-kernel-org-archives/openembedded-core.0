@@ -1,30 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 695D87856A
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B894C786DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 09:00:07 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+	Wed, 24 Jan 2018 09:24:00 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 01:00:08 -0800
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2018 01:24:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,406,1511856000"; d="scan'208";a="21908314"
+X-IronPort-AV: E=Sophos;i="5.46,406,1511856000"; d="scan'208";a="21912271"
 Received: from mbabyjoh-desk.fi.intel.com (HELO
 	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga003.jf.intel.com with ESMTP; 24 Jan 2018 01:00:06 -0800
-Date: Wed, 24 Jan 2018 11:01:58 +0200
+	by orsmga003.jf.intel.com with ESMTP; 24 Jan 2018 01:24:00 -0800
+Date: Wed, 24 Jan 2018 11:25:51 +0200
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20180124090157.GA29810@mbabyjoh-desk.ger.corp.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180124092551.GB29810@mbabyjoh-desk.ger.corp.intel.com>
 References: <1516716352-32735-1-git-send-email-maxin.john@intel.com>
-	<3c471c16-697f-df89-4d46-6d7d763244b2@linux.intel.com>
+	<1516716352-32735-3-git-send-email-maxin.john@intel.com>
+	<CAJTo0Lb145RP1phZNzOYTbXpufyOwPmnDLDT7u_drSU3fvoUrQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <3c471c16-697f-df89-4d46-6d7d763244b2@linux.intel.com>
+In-Reply-To: <CAJTo0Lb145RP1phZNzOYTbXpufyOwPmnDLDT7u_drSU3fvoUrQ@mail.gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12] package upgrades
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/12] libsoup-2.4: upgrade to version 2.61.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 09:00:07 -0000
+X-List-Received-Date: Wed, 24 Jan 2018 09:24:00 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alex,
+Hi Ross,
 
-On Tue, Jan 23, 2018 at 04:06:11PM +0200, Alexander Kanavin wrote:
-> On 01/23/2018 04:05 PM, Maxin B. John wrote:
-> >Package upgrades including gtk+3
-> 
-> Btw, do give it a try to run AUH locally (without sending emails to anyone).
+On Tue, Jan 23, 2018 at 02:44:55PM +0000, Burton, Ross wrote:
+>Nope, this inherit upstream-version-is-even so this is a development snapshot.
+>
 
-No, I didn't try to run AUH locally.
+Missed that point. Thanks!
 
-> Making local runs easy was one of my goals. You can give it a list of things
-> to update on the command line, if you don't want it to go over all of
-> oe-core, and it will test builds with musl and strange architectures etc.
-> Now that you have also jku's packages, it should really help.
+Will send the fixed one soon.
 
-It looks like a very helpful tool. I am going to use it for next set of upgrades.
+>Ross
 
-Notes:
-
-Eventhough README in AUH is a good starting point, couldn't locate a quick-start
-documentation in the wiki or official documentation. It will be useful. 
-
-Link: https://git.yoctoproject.org/cgit/cgit.cgi/auto-upgrade-helper/tree/README
-
-> Alex
-
-Thanks and Regards,
+Best Regards,
 Maxin
 
