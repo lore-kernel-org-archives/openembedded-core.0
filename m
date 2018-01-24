@@ -1,28 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C987786BD
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 72325786D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 13:50:45 +0000 (UTC)
+	Wed, 24 Jan 2018 13:50:47 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 05:50:47 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2018 05:50:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,407,1511856000"; d="scan'208";a="12823197"
+X-IronPort-AV: E=Sophos;i="5.46,407,1511856000"; d="scan'208";a="21965685"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2018 05:50:47 -0800
+	by orsmga003.jf.intel.com with ESMTP; 24 Jan 2018 05:50:49 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 68493580385
+	by linux.intel.com (Postfix) with ESMTP id 95057580385
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jan 2018 05:50:46 -0800 (PST)
+	Wed, 24 Jan 2018 05:50:48 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jan 2018 15:52:31 +0200
-Message-Id: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
+Date: Wed, 24 Jan 2018 15:52:33 +0200
+Message-Id: <1516801953-19706-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/3] libsoup-2.4: upgrade to version 2.60.3
+In-Reply-To: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
+References: <1516801953-19706-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 3/3] screen: upgrade to version 4.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jan 2018 13:50:46 -0000
+X-List-Received-Date: Wed, 24 Jan 2018 13:50:48 -0000
 
-2.60.2 -> 2.60.3
+4.6.1 -> 4.6.2
+
+As suggested by AUH
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.60.3.bb}          | 4 ++--
+ meta/recipes-extended/screen/{screen_4.6.1.bb => screen_4.6.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.60.2.bb => libsoup-2.4_2.60.3.bb} (89%)
+ rename meta/recipes-extended/screen/{screen_4.6.1.bb => screen_4.6.2.bb} (93%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
-similarity index 89%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
-index abc7bdb..e2e7ff4 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.60.3.bb
-@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-extended/screen/screen_4.6.1.bb b/meta/recipes-extended/screen/screen_4.6.2.bb
+similarity index 93%
+rename from meta/recipes-extended/screen/screen_4.6.1.bb
+rename to meta/recipes-extended/screen/screen_4.6.2.bb
+index bcd83a2..7a33c31 100644
+--- a/meta/recipes-extended/screen/screen_4.6.1.bb
++++ b/meta/recipes-extended/screen/screen_4.6.2.bb
+@@ -26,8 +26,8 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-configure.ac-fix-configure-failed-while-build-dir-ha.patch \
+           "
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[md5sum] = "132c893aabfaf2020074790215c8cacd"
+-SRC_URI[sha256sum] = "aba9af66cb626155d6abce4703f45cce0e30a5114a368bd6387c966cbbbb7c64"
++SRC_URI[md5sum] = "a0f529d3333b128dfaa324d978ba73a8"
++SRC_URI[sha256sum] = "1b6922520e6a0ce5e28768d620b0f640a6631397f95ccb043b70b91bb503fa3a"
  
--SRC_URI[md5sum] = "9c49831b62c4bf18cdb81c86ac6516fd"
--SRC_URI[sha256sum] = "7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01"
-+SRC_URI[md5sum] = "4cf8937d161d3dd71a65f1684e317824"
-+SRC_URI[sha256sum] = "1b0dc762f23abe4e0d29b77370e539fd35f31d8e8e0318d6ddccff395be68a22"
- 
- S = "${WORKDIR}/libsoup-${PV}"
+ inherit autotools texinfo
  
 -- 
 2.4.0
