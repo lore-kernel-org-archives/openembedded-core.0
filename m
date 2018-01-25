@@ -1,29 +1,24 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6457671AD1
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 76668601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 20:26:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jan 2018 12:26:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,413,1511856000"; d="scan'208";a="22347562"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 25 Jan 2018 12:26:03 -0800
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180125031227.18327-1-california.l.sullivan@intel.com>
-	<e66c755a-c1d1-0e73-d18f-f8836139fb85@windriver.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <79e06ad2-33aa-ce1d-dcc6-75c3e929efa1@intel.com>
-Date: Thu, 25 Jan 2018 12:26:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thu, 25 Jan 2018 20:44:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0PKioIU024632
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jan 2018 12:44:50 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 25 Jan 2018 12:44:50 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Jan 2018 12:44:49 -0800
+Message-ID: <20180125204449.32748-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <e66c755a-c1d1-0e73-d18f-f8836139fb85@windriver.com>
-Subject: Re: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
+Subject: [PATCH 1/1] rng-tools: modify 'read error' message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,91 +31,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 20:26:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 25 Jan 2018 20:44:49 -0000
+Content-Type: text/plain
 
+Expand messages output if entropy data cannot
+be read.
 
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../rng-tools/rng-tools/read_error_msg.patch       | 98 ++++++++++++++++++++++
+ meta/recipes-support/rng-tools/rng-tools_5.bb      |  1 +
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/read_error_msg.patch
 
-On 01/25/2018 06:21 AM, Bruce Ashfield wrote:
-> On 01/24/2018 10:12 PM, California Sullivan wrote:
->> Kernel v4.14 and newer contain the following in their Makefile:
->>
->> HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
->> HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
->>
->> This breaks our menuconfig, because it can no longer find ncurses if its
->> not on the host machine. This can be seen in linux-yocto-dev, for
->> example:
->>
->> [clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
->>
->>    GEN     ./Makefile
->>    HOSTLD  scripts/kconfig/mconf
->> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
->> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
->> collect2: error: ld returned 1 exit status
->> make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
->> make[2]: *** 
->> [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei7-64/kernel-source/Makefile:504: 
->> menuconfig] Error 2
->> make[1]: *** [Makefile:146: sub-make] Error 2
->> make: *** [Makefile:24: __sub-make] Error 2
->> Command failed.
->> Press any key to continue...
->
-> Does this fix still require a kernel patch ? I was trying to test
-> it out here, and may have messed up the steps.
->
-> If I remove ncurses-dev from my builder, I'm not able to get a
-> working menuconfig no matter what combination of this patch
-> applied (or not) or my menuconfig patch applied (or not).
->
-> I can say that having this applied didn't break my menuconfig,
-> but I wasn't able to fully test.
->
-> Should I expect a builder without ncurses-dev + just this patch
-> to be able to run menuconfig ?
-We still need the patch "menuconfig,check-lxdiaglog.sh: Allow 
-specification of ncurses location", as seen here: 
-https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-dev/commit/?h=standard/base&id=26911f4ada6374ff3f0b7f98364b7a93756a180b
-
-Two separate fixes in the same area unfortunately.
-
-Locally I am doing 'bitbake linux-yocto-dev -c menuconfig' and I am 
-getting a working menuconfig with my patch, and no ncurses-dev(el) 
-installed on my host machine. If you're not, I worry that there might be 
-more host contamination that we haven't discovered.
-
-Could you share the errors you're hitting?
-
-Thanks,
-Cal
-
->
-> Bruce
->
->>
->> Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
->> 'make menuconfig' command.
->>
->> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->> ---
->>   meta/classes/kernel.bbclass | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 2f6eca382e9..e4df1531c19 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
->>     inherit cml1
->>   +KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
->> +
->>   EXPORT_FUNCTIONS do_compile do_install do_configure
->>     # kernel-base becomes kernel-${KERNEL_VERSION}
->>
->
+diff --git a/meta/recipes-support/rng-tools/rng-tools/read_error_msg.patch b/meta/recipes-support/rng-tools/rng-tools/read_error_msg.patch
+new file mode 100644
+index 0000000..8aa13bf
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/read_error_msg.patch
+@@ -0,0 +1,98 @@
++rng-tools: modify 'read error' message
++
++Make the 'read error' message more descriptive.
++
++Copied from https://bugzilla.redhat.com/attachment.cgi?id=1295857
++and modified in one place to apply successfully.  Error message during
++bootstrap modified to show device name.
++
++Upstream-Status: pending
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++--- a/rngd.c
+++++ b/rngd.c
++@@ -247,8 +247,11 @@ static void do_loop(int random_step)
++ 				continue;	/* failed, no work */
++ 
++ 			retval = iter->xread(buf, sizeof buf, iter);
++-			if (retval)
+++			if (retval) {
+++				message(LOG_DAEMON|LOG_ERR,
+++					"Error reading from entropy source\n");
++ 				continue;	/* failed, no work */
+++			}
++ 
++ 			work_done = true;
++ 
++--- a/rngd_entsource.c
+++++ b/rngd_entsource.c
++@@ -63,10 +63,8 @@ int xread(void *buf, size_t size, struct
++ 		size -= r;
++ 	}
++ 
++-	if (size) {
++-		message(LOG_DAEMON|LOG_ERR, "read error\n");
+++	if (size)
++ 		return -1;
++-	}
++ 	return 0;
++ }
++ 
++@@ -152,7 +150,7 @@ error_out:
++ }
++ 
++ /* Initialize entropy source */
++-static int discard_initial_data(struct rng *ent_src)
+++static int discard_initial_data(struct rng *ent_src, int *buf)
++ {
++ 	/* Trash 32 bits of what is probably stale (non-random)
++ 	 * initial state from the RNG.  For Intel's, 8 bits would
++@@ -164,10 +162,12 @@ static int discard_initial_data(struct r
++ 	xread(tempbuf, sizeof(tempbuf), ent_src);
++ 
++ 	/* Return 32 bits of bootstrap data */
++-	xread(tempbuf, sizeof(tempbuf), ent_src);
+++	if (xread(tempbuf, sizeof(tempbuf), ent_src) != 0)
+++		return -1;
++ 
++-	return tempbuf[0] | (tempbuf[1] << 8) |
+++	*buf = tempbuf[0] | (tempbuf[1] << 8) |
++ 		(tempbuf[2] << 16) | (tempbuf[3] << 24);
+++	return 0;
++ }
++ 
++ /*
++@@ -175,6 +175,8 @@ static int discard_initial_data(struct r
++  */
++ int init_entropy_source(struct rng *ent_src)
++ {
+++	int bootstrap;
+++
++ 	ent_src->rng_fd = open(ent_src->rng_name, O_RDONLY);
++ 	if (ent_src->rng_fd == -1) {
++ 		return 1;
++@@ -182,7 +184,11 @@ int init_entropy_source(struct rng *ent_
++ 	src_list_add(ent_src);
++ 	/* Bootstrap FIPS tests */
++ 	ent_src->fipsctx = malloc(sizeof(fips_ctx_t));
++-	fips_init(ent_src->fipsctx, discard_initial_data(ent_src));
+++	if (discard_initial_data(ent_src, &bootstrap) != 0) {
+++		message(LOG_ERR|LOG_INFO, "Read failure in %s during bootstrap\n",ent_src->rng_name);
+++		return 1;
+++	}
+++	fips_init(ent_src->fipsctx, bootstrap);
++ 	return 0;
++ }
++ 
++--- a/rngtest.c
+++++ b/rngtest.c
++@@ -335,6 +335,7 @@ static int discard_initial_data(void)
++ 
++ 	return tempbuf[0] | (tempbuf[1] << 8) |
++ 		(tempbuf[2] << 16) | (tempbuf[3] << 24);
+++
++ }
++ 
++ static void do_rng_fips_test_loop( void )
+diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
+index 4a66bed..b3c9fd9 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_5.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
+@@ -7,6 +7,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/${BP}.tar.gz \
+            file://0002-Add-argument-to-control-the-libargp-dependency.patch \
+            file://underquote.patch \
+            file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
++           file://read_error_msg.patch \
+            file://init \
+            file://default \
+            file://rngd.service \
+-- 
+2.7.4
 
 
