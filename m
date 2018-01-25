@@ -1,49 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C6217787DA
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 409C8787E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 16:33:43 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id r19so5382410pgn.1
+	Thu, 25 Jan 2018 16:33:44 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id b25so6128125pfd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 08:33:45 -0800 (PST)
+	Thu, 25 Jan 2018 08:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=so1KR6KVMUchrX9LmFEX+Bky17V7OuDrIrYoLs8Axi8=;
-	b=XMX3R9Upehdj5IK/e0Ps9PKeC56XSUt6IT71DBdZFyYPz75WLC6szpnUwPpG/jnY8P
-	q9s+bZBeu3U8HDQVtx/uvFl4RxNxlMaIHGiI6Uv3nW3bb+VOpgwySp/NpRu4OXFexOhb
-	wD8OygzBnbjHjmBcGOuKA2F72c4mROH7lfZ8PTyuH3n3TR2RGiwRHHQn3uYMJM/jnAAa
-	uAGK4owR3+8RGJUYcVFL4yBeJpXOQ5Q6/ww+f+qQld5+byTdyRFHxpH4ZicGnsLfOxwu
-	WD8plKII1E5cilR+zufwIoWAbVFnmeX2bM2NI7fT4YWKxhIFvgmfl7j5deo7SguqJRPx
-	M5eQ==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=WOFgMH3bC6D0FhNWy8PYJUTE51HvK+/SeDrKgCJHcwY=;
+	b=mlIb7jCKwrvubUbb8kSAMXNu05zBIwiifGybTObBu3013ZCMVNzpirZKz6gxWb+Hmq
+	UGXl0TNjvnc9HTOTiQjQJUjaxzvZmd9IQ3Zdsd005X7QHs8+OfYR/Tdli73Kc8PG0UlA
+	Eld1HE1wdfwO1axoxTKDlh6aSUGLAZHmpI1D1e9/MtnHRf2uJGuB2Zr2cOZY7QfIA7f4
+	rQ2Yf5YvjX5LQZnHQ0FinfKoqWmGoZYyorqEACiZuZR2z+OYL8QdTdgObdn5PICOEgHa
+	M0N9B7TnlM1R8pyVnSxsmPs0o8cMax1FtqBNT+s06D/bVzZfSuWVGH8fa63AmNg1EMPm
+	qt0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=so1KR6KVMUchrX9LmFEX+Bky17V7OuDrIrYoLs8Axi8=;
-	b=fc0ByTDXxrhu4zpwli0JA8K5Yqxojy3aBdDWLk35hQyuG96YfTL4+ICwStWRw0lHA2
-	wOiaXS+qlB1W6Eql0NirAo4pmXCwn7FrKiWBg9RQOx8jEXuhSP1QspE820zgeZmaGoru
-	OuHS4wU1uisFbSZ/1dirDswIoT4SEmYeJsOwAE2oBYbVaHssjPrBes0hZiipojGMLdKO
-	ZFCTxYYaBjx+CCaBwdzU4kQoJGA0lIl3kBQIefOJIiSZHf2n3v9Hp7+Ywbiv8mvokwwV
-	CWogG8DZtCpmNfKI7aRZLnLc5kN8+XZEQnsKjFis5s4aZTYiCE92yHqfaDkl7kT7knxR
-	ZGhQ==
-X-Gm-Message-State: AKwxytd3revs0agk+uO3w16DESLx6eN+CuDlV2maY3KclSkFPZPz7fYe
-	8mhA6PVh5Tst3dUKimBL3Oc=
-X-Google-Smtp-Source: AH8x224lWNtHsxK52iMCwtNbsW4jkohs2ncX0uWhdAaGxkjBDKG+YP90EMn30kdLS0ffFA1TkFbzDA==
-X-Received: by 2002:a17:902:68c5:: with SMTP id
-	x5-v6mr11900013plm.80.1516898025151; 
-	Thu, 25 Jan 2018 08:33:45 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=WOFgMH3bC6D0FhNWy8PYJUTE51HvK+/SeDrKgCJHcwY=;
+	b=ik1TFmDfLYr+HYX/g4x5EMS56A9ThaRtKKISXLKgR2tif0UyoSVlevIzDBqZQdAw0s
+	Xe+PjCxQRp3D7Yv//qqR4Xh8RjzGX4mm+3W4Ih+pifjiCtZYH7r/A+f1i0qB8iEy0I1M
+	Id1aqtXrcUFMqV0r63C6JZgBxUcpJ4MY8hxYCw+om9yNI1MJS3yocXL7igWcnI6tOt2E
+	u1p8Geek/ZZLgo+ONZqlR7bR+KVbNeEoeBHFCpjWrnqSQcNiXrz6Fg7pemKJ5aM9prRd
+	qEjE5eQZP5WbR5A4K6Lp217EiUStqq/g/s4szKm8AyQHE3GqKZdJEe7LBzGN615q9uYm
+	W8NQ==
+X-Gm-Message-State: AKwxytcEUqmePnNEd6NMr4u5omEsHgmpDLVkB4xayc0MV3sQnEmKt2Fj
+	6cGc6/DXzESbwlkLFZGO9/E=
+X-Google-Smtp-Source: AH8x227bU+74sbXxLL75ICdGYqxxvuheKbGIyaYbMw2AF7cE4WBgOtYNlRFphtnio6imtIKgfpw0/A==
+X-Received: by 10.98.105.199 with SMTP id e190mr16321790pfc.233.1516898026251; 
+	Thu, 25 Jan 2018 08:33:46 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:e8f5:e813:6261:124d])
 	by smtp.gmail.com with ESMTPSA id
-	g2sm7738478pfh.134.2018.01.25.08.33.43
+	g2sm7738478pfh.134.2018.01.25.08.33.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Jan 2018 08:33:44 -0800 (PST)
+	Thu, 25 Jan 2018 08:33:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jan 2018 08:33:42 -0800
-Message-Id: <1516898023-1986-1-git-send-email-akuster808@gmail.com>
+Date: Thu, 25 Jan 2018 08:33:43 -0800
+Message-Id: <1516898023-1986-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] tzcode: update to 2018c
+In-Reply-To: <1516898023-1986-1-git-send-email-akuster808@gmail.com>
+References: <1516898023-1986-1-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/2] tzdata: update to 2018c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,76 +61,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 16:33:43 -0000
+X-List-Received-Date: Thu, 25 Jan 2018 16:33:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-removed patches now included in update.
+The 2018c release of the tz code and data is available. It follows on the 2018a and 2018b releases, which were published but were not announced until now, due to problems discovered late in their release processes. 2018a had a build-failure typo, and 2018a and 2018b both had problems with ICU and Java, downstream packages which do not support a feature (negative DST offsets) used in 2018a and 2018b. The typo has been fixed, and data changes using negative DST offsets have been reverted pending development of a mechanism to export data to platforms lacking support for such data.
 
-The 2018a through 2018c releases reflect the following changes, which were either circulated on the tz mailing list or are relatively minor technical or administrative changes. This announcement has merged the set of changes made by the three releases, to make it easier to see the difference between 2017c and 2018c; please see the 2018c NEWS file for more details about intermediate versions.
+  Briefly:
+  São Tomé and Príncipe switched from +00 to +01.
+  Brazil's DST will now start on November's first Sunday.
+  Use Debian-style installation locations, instead of 4.3BSD-style.
+  New zic option -t.
 
-Release 2018c - 2018-01-22 23:00:44 -0800
-Release 2018b - 2018-01-17 23:24:48 -0800
-Release 2018a - 2018-01-12 22:29:21 -0800
+  Changes to past and future time stamps
 
-Changes to code
+    São Tomé and Príncipe switched from +00 to +01 on 2018-01-01 at
+    01:00.  (Thanks to Steffen Thorsen and Michael Deckers.)
 
-    zic has a new option -t FILE that specifies the location of the
-    file that determines local time when TZ is unset. The default for
-    this location can be configured via the new TZDEFAULT makefile
-    macro, which defaults to /etc/localtime.
+  Changes to future time stamps
 
-    Diagnostics and commentary now distinguish UT from UTC more
-    carefully; see theory.html for more information about UT vs UTC.
+    Starting in 2018 southern Brazil will begin DST on November's
+    first Sunday instead of October's third Sunday. (Thanks to
+    Steffen Thorsen.)
 
-    zic has been ported to GCC 8's -Wstringop-truncation option.
-    (Problem reported by Martin Sebor.)
+  Changes to past time stamps
 
-  Changes to documentation and commentary
+    Japanese DST transitions (1948-1951) were Sundays at 00:00, not
+    Saturdays or Sundays at 02:00.  (Thanks to Takayuki Nikai.)
 
-    The zic man page now documents the longstanding behavior that
-    times and years can be out of the usual range, with negative times
-    counting backwards from midnight and with year 0 preceding year 1.
-    (Problem reported by Michael Deckers.)
+    A discrepancy of 4 s in timestamps before 1931 in South Sudan has
+    been corrected.  The 'backzone' and 'zone.tab' files did not agree
+    with the 'africa' and 'zone1970.tab' files.  (Problem reported by
+    Michael Deckers.)
 
-    The theory.html file now mentions the POSIX limit of six chars
-    per abbreviation, and lists alphabetic abbreviations used.
+    The abbreviation invented for Bolivia Summer Time (1931-2) is now
+    BST instead of BOST, to be more consistent with the convention
+    used for Latvian Summer Time (1918-9) and for British Summer Time.
 
-    The files tz-art.htm and tz-link.htm have been renamed to
-    tz-art.html and tz-link.html, respectively, for consistency with
-    other file names and to simplify web server configuration.
+  Changes to build procedure
+
+    The default installation locations have been changed to mostly
+    match Debian circa 2017, instead of being designed as an add-on to
+    4.3BSD circa 1986.  This affects the Makefile macros TOPDIR,
+    TZDIR, MANDIR, and LIBDIR.  New Makefile macros TZDEFAULT, USRDIR,
+    USRSHAREDIR, BINDIR, ZDUMPDIR, and ZICDIR let installers tailor
+    locations more precisely.  (This responds to suggestions from
+    Brian Inglis and from Steve Summit.)
+
+    The default installation procedure no longer creates the
+    backward-compatibility link US/Pacific-New, which causes
+    confusion during user setup (e.g., see Debian bug 815200).
+    Use 'make BACKWARD="backward pacificnew"' to create the link
+    anyway, for now.  Eventually we plan to remove the link entirely.
+
+    tzdata.zi now contains a version-number comment.
+    (Suggested by Tom Lane.)
+
+    The Makefile now quotes values like BACKWARD more carefully when
+    passing them to the shell.  (Problem reported by Zefram.)
+
+    Builders no longer need to specify -DHAVE_SNPRINTF on platforms
+    that have snprintf and use pre-C99 compilers. (Problem reported
+    by Jon Skeet.)
+
+    The build procedure now works around mawk 1.3.3's lack of support
+    for character class expressions.  (Problem reported by Ohyama.)
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../tzcode/{tzcode-native_2017c.bb => tzcode-native_2018c.bb} | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2017c.bb => tzcode-native_2018c.bb} (63%)
+ meta/recipes-extended/tzdata/{tzdata_2017c.bb => tzdata_2018c.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2017c.bb => tzdata_2018c.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017c.bb b/meta/recipes-extended/tzcode/tzcode-native_2018c.bb
-similarity index 63%
-rename from meta/recipes-extended/tzcode/tzcode-native_2017c.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2018c.bb
-index aeaef72..85e9b70 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2017c.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2018c.bb
-@@ -7,15 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
--           file://0001-Fix-Makefile-quoting-bug.patch \
--           file://0002-Port-zdump-to-C90-snprintf.patch"
-+           "
- 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2017c.bb b/meta/recipes-extended/tzdata/tzdata_2018c.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2017c.bb
+rename to meta/recipes-extended/tzdata/tzdata_2018c.bb
+index 9e5b929..ff5ec1c 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2017c.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2018c.bb
+@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
  UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
--SRC_URI[tzcode.md5sum] = "2fe6986231db5182c61d565021a0cd7b"
--SRC_URI[tzcode.sha256sum] = "81e8b4bc23e60906640c266bbff3789661e22f0fa29fe61b96ec7c2816c079b7"
 -SRC_URI[tzdata.md5sum] = "1e751e7e08f8b68530674f04619d894d"
 -SRC_URI[tzdata.sha256sum] = "d6543f92a929826318e2f44ff3a7611ce5f565a43e10250b42599d0ba4cbd90b"
-+SRC_URI[tzcode.md5sum] = "e6e0d4b2ce3fa6906f303157bed2612e"
-+SRC_URI[tzcode.sha256sum] = "31fa7fc0f94a6ff2d6bc878c0a35e8ab8b5aa0e8b01445a1d4a8f14777d0e665"
 +SRC_URI[tzdata.md5sum] = "c412b1531adef1be7a645ab734f86acc"
 +SRC_URI[tzdata.sha256sum] = "2825c3e4b7ef520f24d393bcc02942f9762ffd3e7fc9b23850789ed8f22933f6"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.7.4
