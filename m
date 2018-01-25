@@ -1,58 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 87B3F787C9
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E959C7852C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 18:43:17 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y5so6404327pff.13
+	Thu, 25 Jan 2018 20:00:28 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id y5so6557359pff.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 10:43:19 -0800 (PST)
+	Thu, 25 Jan 2018 12:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=mfriUtYfIJjzUTIMdgxZPIQKoR0EY6UXMlnKXitJYbU=;
-	b=DRytkhMjmkzrbNVaqd+jQOIK/ZtP+tTMIroLBj+rQYzLsCC1Qogujlm99Ehgh19c23
-	Fu1NH34mOAvH0nu8vFGF3zaVMN/veVw83lDKEiDt+2AkNKBGaZk1Z4sjfDa5AOELhTIc
-	DbmtUq9sUV2HejYlbskGSk+P2dnGeA164MGPc8TuYIuNHXt62oFNkyLuVw5J4rGPRRW3
-	OlJXWJ4sYz6POySFO28PYZX3TIe2If+P9/JaPt8TzqHL2QkR+T9HV6IvZ7Zp5ZOhsYbZ
-	PvFdw3vcmEgsED4/MeMwiEjsGTRk23sEMRe7FQI62ahBCPuM3gNAMLApZEoqlJrtHmhm
-	gvYA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nqfMLH42z72mRbdyppagcLcASyQiBpy3YR+VSt9ULfE=;
+	b=r03+uJgGFj2TdG/4nBYQa+oxy8CBPv0UJedQmnKnYE7dcTxPbq7ATKTh/f4Vv+oymu
+	R7IgXeUh6mpUQdDWsqgGPwkMBB4ehyQ6xsC74XWrU1ufG1SYPqR8+8oe8k9q8gFEWN6E
+	qLQ8xWlgRWWArmEsdNMql+n7ZiVNUs6tYW+SG/hVFCWLs9nMtqb9vXL2NTnO3k2/Wx2Y
+	VV1RrfYLqh4iG5oq9rqw9O+2Cy2KbT92mi7JuYyuU4TsVyN1D7D0H9gMW20M6cmDIhDb
+	gBXi9sztmljqHsiS6fiaV5rM8QMTQ1GFo3bgXd87Y7aSbNYWU79PqwKBQflHSyPxShWm
+	fFgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=mfriUtYfIJjzUTIMdgxZPIQKoR0EY6UXMlnKXitJYbU=;
-	b=BO1IPdn9lyIoCWG7g1S4FAhoWnqp5Jn999Ie3Wzvv2KSM2p9HyBvp4msLFJDf9GA30
-	yDSszNsiJrSbXKlDul9nJy35nli7jKaj3uzZCmw5mTl3MKjh41NC2NSy9VAhqxB+PBKC
-	UV0wrERAn74271s84jVXvBEDjIJNJcEiO5f7kBEEbtVpvULmbRLUUIEW2Vqq5wAM+dH9
-	sIr4rtHKtE1+fTmK8T9G21LjJ+s8SX3mEFvYHEHiMbn/tKtQlY/R2gKAWXZvypyapITr
-	WFvv+jx9OAqiShpmBhqzduWvyK7yEV1ty7pfeDj7AnXweRUL3/V9+h4WIucRzozJ5ZL4
-	lnCg==
-X-Gm-Message-State: AKwxytdnmeUtYbEMFpFOaL5qbea+KPUWTKjeitVrZJQjLk+iooJEdKkt
-	o/kYr1uSo4+lEDT0A5P+j851AZg6
-X-Google-Smtp-Source: AH8x2260kPKDfT3HX8/zcBHuJiNTpW+nl48ptIuoJfetiTf3abj0ym6fK0hGEXyVopQzg06PoCEsxQ==
-X-Received: by 2002:a17:902:2cc1:: with SMTP id
-	n59-v6mr11829260plb.153.1516905799264; 
-	Thu, 25 Jan 2018 10:43:19 -0800 (PST)
-Received: from ?IPv6:2601:646:8880:466c:c139:8d30:e308:8c2a?
-	([2601:646:8880:466c:c139:8d30:e308:8c2a])
-	by smtp.gmail.com with ESMTPSA id
-	w63sm17330764pfa.173.2018.01.25.10.43.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jan 2018 10:43:18 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20180112130644.21313-1-alex.stewart@ni.com>
-	<CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <8fc59c03-627a-78f3-70c7-cbcb97f90c60@gmail.com>
-Date: Thu, 25 Jan 2018 10:43:16 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
-	Gecko/20100101 Thunderbird/58.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nqfMLH42z72mRbdyppagcLcASyQiBpy3YR+VSt9ULfE=;
+	b=gzjnnfRRYI4dTQXsav5ABPzff3g15fjJ53aOo7LLBzYO5Txdot1MQeXHWdY3V4QjXI
+	pD1k5HKTM41A1FpbH9voUKfb/b+jys7meT+WysJxFhr3qdO7G/AGp41nWzm5hMJ6hyCC
+	ZdyxsXOI5V84IJsdD1t+m3IONxSQO9lHEcFz8gYMO4sKIkk7+7Ql9TkQ/p00mJd6C6BT
+	fZAvv5MjYDZ0amfBOvsoE4WgUShmABKsYGj1z+A7Fz0LnHCmBZt3HN2kYzaPxrdASwth
+	Gz1JTkEnvAqRGKkeZNIg991FITkMEvAO3dp9nuaIQMjBXrCkcBXqDdvexALQuxyUVZWq
+	+78g==
+X-Gm-Message-State: AKwxytdg93dHR26KQUDRMAEPI+eJLjs1PKpWQm6F5sec6CyurM6Vvs7d
+	yCo9B/bnGGPd1BwBHqv7zRJh5SLQQ/3HC1RmgbM=
+X-Google-Smtp-Source: AH8x226bkTCEN5UoeYRJELpsNqOs6vjMpD8petPTOFhiisDK3DhIjINBRnJne8gcdSjlNb/JySThy7rQs0xtzviFVPQ=
+X-Received: by 2002:a17:902:bd82:: with SMTP id
+	q2-v6mr2786208pls.339.1516910425242; 
+	Thu, 25 Jan 2018 12:00:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
-Subject: Re: [PATCH v2] recipes-core: move hwclock.sh to util-linux
+Received: by 10.100.161.170 with HTTP; Thu, 25 Jan 2018 11:59:54 -0800 (PST)
+In-Reply-To: <1515935110.29722.214.camel@linuxfoundation.org>
+References: <20180112162002.9669-1-alexander.kanavin@linux.intel.com>
+	<1515935110.29722.214.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 Jan 2018 11:59:54 -0800
+Message-ID: <CAMKF1srvnbwA9_ZOzxy8QaeCa6_CVOEE2J1H4mMVitMN-T96ig@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH 1/2] ruby: update to 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,51 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 18:43:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 25 Jan 2018 20:00:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/12/18 7:45 PM, Christopher Larson wrote:
-> On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <alex.stewart@ni.com
-> <mailto:alex.stewart@ni.com>> wrote:
-> 
->     * Move the hwclock.sh initscript from the busybox recipe to util-linux.
->       This script is generally useful for distros that get their hwclock
->       implementation from sources other than busybox and we follow debian's
->       example by providing it in util-linux.
-> 
->     :busybox/*
->     * Remove the busybox-hwclock package, as it no longer has a purpose.
->     * If busybox is configured to include hwclock, the busybox package will
->       RDEPEND on util-linux-hwclock-init.
-> 
->     :util-linux/*
->     * Provide the hwclock.sh script in util-linux-hwclock-init, which can be
->       pulled by any packages that depend on its functionality.
->     * util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its
->       initscript.
-> 
->     Signed-off-by: Alex Stewart <alex.stewart@ni.com
->     <mailto:alex.stewart@ni.com>>
->     Acked-by: Haris Okanovic <haris.okanovic@ni.com
->     <mailto:haris.okanovic@ni.com>>
->     Acked-by: Adrian Ratiu <adrian.ratiu@ni.com
->     <mailto:adrian.ratiu@ni.com>>
->     Acked-by: Ken Sharp <ken.sharp@ni.com <mailto:ken.sharp@ni.com>>
->     Natinst-ReviewBoard-ID: 214983, 215755
-> 
-> 
-> Just a note that this will slow down the build for targets that wouldn’t
-> otherwise build the util-linux recipe.
+On Sun, Jan 14, 2018 at 5:05 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2018-01-12 at 18:20 +0200, Alexander Kanavin wrote:
+>> Existing version of ruby-native (2.2.5) was crashing on my machine
+>> (and others' too),
+>> yet a functional ruby is necessary to upgrade webkit to a version
+>> that less vulnerable
+>> to Spectre.
+>>
+>> I've performed the update by copying the ruby recipe directory over
+>> from the current
+>> pyro tree; if you want to see the list of specific commits, issue
+>> this command:
+>>
+>> git log 99656fecf4fa6e24ba49ecb7f26f893e733818a0 meta/recipes-
+>> devtools/ruby
+>> (up to commit e593d3aeb2ea5f08d6e0753133fe89e345b339e8)
+>
+> Fails on musl:
+>
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/719/steps/BuildImages/logs/stdio
+>
+> Not sure why ruby-native would fail on musl specifically so could be a
+> host issue (its on fedora26).
+>
 
-there is initscripts recipes, perhaps thats a better place for this.
+perhaps there is a mix of modules from host and target.?
 
-> -- 
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
-> 
-
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
