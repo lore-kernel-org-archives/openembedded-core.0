@@ -1,54 +1,38 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 409C8787E5
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A8AA60721
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 16:33:44 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id b25so6128125pfd.9
+	Thu, 25 Jan 2018 16:59:45 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id x27so20859267qtm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 08:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=WOFgMH3bC6D0FhNWy8PYJUTE51HvK+/SeDrKgCJHcwY=;
-	b=mlIb7jCKwrvubUbb8kSAMXNu05zBIwiifGybTObBu3013ZCMVNzpirZKz6gxWb+Hmq
-	UGXl0TNjvnc9HTOTiQjQJUjaxzvZmd9IQ3Zdsd005X7QHs8+OfYR/Tdli73Kc8PG0UlA
-	Eld1HE1wdfwO1axoxTKDlh6aSUGLAZHmpI1D1e9/MtnHRf2uJGuB2Zr2cOZY7QfIA7f4
-	rQ2Yf5YvjX5LQZnHQ0FinfKoqWmGoZYyorqEACiZuZR2z+OYL8QdTdgObdn5PICOEgHa
-	M0N9B7TnlM1R8pyVnSxsmPs0o8cMax1FtqBNT+s06D/bVzZfSuWVGH8fa63AmNg1EMPm
-	qt0Q==
+	Thu, 25 Jan 2018 08:59:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=WOFgMH3bC6D0FhNWy8PYJUTE51HvK+/SeDrKgCJHcwY=;
-	b=ik1TFmDfLYr+HYX/g4x5EMS56A9ThaRtKKISXLKgR2tif0UyoSVlevIzDBqZQdAw0s
-	Xe+PjCxQRp3D7Yv//qqR4Xh8RjzGX4mm+3W4Ih+pifjiCtZYH7r/A+f1i0qB8iEy0I1M
-	Id1aqtXrcUFMqV0r63C6JZgBxUcpJ4MY8hxYCw+om9yNI1MJS3yocXL7igWcnI6tOt2E
-	u1p8Geek/ZZLgo+ONZqlR7bR+KVbNeEoeBHFCpjWrnqSQcNiXrz6Fg7pemKJ5aM9prRd
-	qEjE5eQZP5WbR5A4K6Lp217EiUStqq/g/s4szKm8AyQHE3GqKZdJEe7LBzGN615q9uYm
-	W8NQ==
-X-Gm-Message-State: AKwxytcEUqmePnNEd6NMr4u5omEsHgmpDLVkB4xayc0MV3sQnEmKt2Fj
-	6cGc6/DXzESbwlkLFZGO9/E=
-X-Google-Smtp-Source: AH8x227bU+74sbXxLL75ICdGYqxxvuheKbGIyaYbMw2AF7cE4WBgOtYNlRFphtnio6imtIKgfpw0/A==
-X-Received: by 10.98.105.199 with SMTP id e190mr16321790pfc.233.1516898026251; 
-	Thu, 25 Jan 2018 08:33:46 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:e8f5:e813:6261:124d])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cOPspwxOePlwe7ryHviE6xnurlL/temk6iCX6kgtLzU=;
+	b=S74Q9Ji92ePxFrMChpELT4wsfmPlj/az8esHldPVxqHaqnskKCfeMr/p/h1zF914in
+	HUIKx9zSRH4lwKpG0ve8rkVJ6e9OE17opPPwH5JyuUK3YoqcXU7SCZHv8hXfN6XJSkFw
+	/CaOrJ+7ToNDI+mOzIm44ED2gODuhblqZzc8m72Ay7SsYn9ZKcCV7Meddtm4aJeULLQV
+	8U/JgRNcoZug0vGajV4AZZ2ETmtZPYut3JDk8Q6LTjOM/LEGSGsMwbx3A9691h5oXqNX
+	KksmIGPGaKj5geF+sBFDufjwP29xwPUF3u9entTD91GDS8Y9rxhKU7A6b/O0c8GbXgXX
+	XDuA==
+X-Gm-Message-State: AKwxytdhKusvSRi4GakgyaWSrQc0DBzJsibAAbOn1w7aa88EahmUQdct
+	3XXzPuFGazBFDiEdiJ9tg0wCajcC
+X-Google-Smtp-Source: AH8x225O4OtQwqKJ3FWfChyty3JM+InfILYcNDeYU6CfbH208L4bCwfQdWxcqm5Z/5ramP34ov8XWA==
+X-Received: by 10.200.51.225 with SMTP id d30mr17833265qtb.338.1516899586156; 
+	Thu, 25 Jan 2018 08:59:46 -0800 (PST)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
 	by smtp.gmail.com with ESMTPSA id
-	g2sm7738478pfh.134.2018.01.25.08.33.45
+	m82sm2087153qki.81.2018.01.25.08.59.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Jan 2018 08:33:45 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jan 2018 08:33:43 -0800
-Message-Id: <1516898023-1986-2-git-send-email-akuster808@gmail.com>
+	Thu, 25 Jan 2018 08:59:45 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jan 2018 11:59:29 -0500
+Message-Id: <1516899569-21048-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1516898023-1986-1-git-send-email-akuster808@gmail.com>
-References: <1516898023-1986-1-git-send-email-akuster808@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] tzdata: update to 2018c
+Subject: [PATCH] python3-manifest: add the _pydecimal files to the numbers package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,96 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 16:33:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 25 Jan 2018 16:59:46 -0000
 
-The 2018c release of the tz code and data is available. It follows on the 2018a and 2018b releases, which were published but were not announced until now, due to problems discovered late in their release processes. 2018a had a build-failure typo, and 2018a and 2018b both had problems with ICU and Java, downstream packages which do not support a feature (negative DST offsets) used in 2018a and 2018b. The typo has been fixed, and data changes using negative DST offsets have been reverted pending development of a mechanism to export data to platforms lacking support for such data.
+The _pydecimal files are required to use the numbers package
+and downstream packages are currently required to add a RDEPENDS
+on python3-misc to avoid an import error
 
-  Briefly:
-  São Tomé and Príncipe switched from +00 to +01.
-  Brazil's DST will now start on November's first Sunday.
-  Use Debian-style installation locations, instead of 4.3BSD-style.
-  New zic option -t.
-
-  Changes to past and future time stamps
-
-    São Tomé and Príncipe switched from +00 to +01 on 2018-01-01 at
-    01:00.  (Thanks to Steffen Thorsen and Michael Deckers.)
-
-  Changes to future time stamps
-
-    Starting in 2018 southern Brazil will begin DST on November's
-    first Sunday instead of October's third Sunday. (Thanks to
-    Steffen Thorsen.)
-
-  Changes to past time stamps
-
-    Japanese DST transitions (1948-1951) were Sundays at 00:00, not
-    Saturdays or Sundays at 02:00.  (Thanks to Takayuki Nikai.)
-
-    A discrepancy of 4 s in timestamps before 1931 in South Sudan has
-    been corrected.  The 'backzone' and 'zone.tab' files did not agree
-    with the 'africa' and 'zone1970.tab' files.  (Problem reported by
-    Michael Deckers.)
-
-    The abbreviation invented for Bolivia Summer Time (1931-2) is now
-    BST instead of BOST, to be more consistent with the convention
-    used for Latvian Summer Time (1918-9) and for British Summer Time.
-
-  Changes to build procedure
-
-    The default installation locations have been changed to mostly
-    match Debian circa 2017, instead of being designed as an add-on to
-    4.3BSD circa 1986.  This affects the Makefile macros TOPDIR,
-    TZDIR, MANDIR, and LIBDIR.  New Makefile macros TZDEFAULT, USRDIR,
-    USRSHAREDIR, BINDIR, ZDUMPDIR, and ZICDIR let installers tailor
-    locations more precisely.  (This responds to suggestions from
-    Brian Inglis and from Steve Summit.)
-
-    The default installation procedure no longer creates the
-    backward-compatibility link US/Pacific-New, which causes
-    confusion during user setup (e.g., see Debian bug 815200).
-    Use 'make BACKWARD="backward pacificnew"' to create the link
-    anyway, for now.  Eventually we plan to remove the link entirely.
-
-    tzdata.zi now contains a version-number comment.
-    (Suggested by Tom Lane.)
-
-    The Makefile now quotes values like BACKWARD more carefully when
-    passing them to the shell.  (Problem reported by Zefram.)
-
-    Builders no longer need to specify -DHAVE_SNPRINTF on platforms
-    that have snprintf and use pre-C99 compilers. (Problem reported
-    by Jon Skeet.)
-
-    The build procedure now works around mawk 1.3.3's lack of support
-    for character class expressions.  (Problem reported by Ohyama.)
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- meta/recipes-extended/tzdata/{tzdata_2017c.bb => tzdata_2018c.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2017c.bb => tzdata_2018c.bb} (98%)
+ meta/recipes-devtools/python/python3/python3-manifest.json | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2017c.bb b/meta/recipes-extended/tzdata/tzdata_2018c.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2017c.bb
-rename to meta/recipes-extended/tzdata/tzdata_2018c.bb
-index 9e5b929..ff5ec1c 100644
---- a/meta/recipes-extended/tzdata/tzdata_2017c.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2018c.bb
-@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzdata.md5sum] = "1e751e7e08f8b68530674f04619d894d"
--SRC_URI[tzdata.sha256sum] = "d6543f92a929826318e2f44ff3a7611ce5f565a43e10250b42599d0ba4cbd90b"
-+SRC_URI[tzdata.md5sum] = "c412b1531adef1be7a645ab734f86acc"
-+SRC_URI[tzdata.sha256sum] = "2825c3e4b7ef520f24d393bcc02942f9762ffd3e7fc9b23850789ed8f22933f6"
- 
- inherit allarch
- 
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index ef9826f..5b7b70b 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -799,13 +799,15 @@
+         "cached": [
+             "${libdir}/python3.5/__pycache__/decimal.*.pyc",
+             "${libdir}/python3.5/__pycache__/fractions.*.pyc",
+-            "${libdir}/python3.5/__pycache__/numbers.*.pyc"
++            "${libdir}/python3.5/__pycache__/numbers.*.pyc",
++            "${libdir}/python3.5/__pycache__/_pydecimal.*.pyc"
+         ],
+         "files": [
+             "${libdir}/python3.5/decimal.py",
+             "${libdir}/python3.5/fractions.py",
+             "${libdir}/python3.5/lib-dynload/_decimal.*.so",
+-            "${libdir}/python3.5/numbers.py"
++            "${libdir}/python3.5/numbers.py",
++            "${libdir}/python3.5/_pydecimal.py"
+         ],
+         "rdepends": [
+             "core"
+@@ -1137,4 +1139,4 @@
+         ],
+         "summary": "Python XML-RPC support"
+     }
+-}
+\ No newline at end of file
++}
 -- 
 2.7.4
 
