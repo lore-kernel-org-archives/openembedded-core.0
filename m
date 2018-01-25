@@ -1,47 +1,23 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E0C60607A5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 12C0B60069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 14:56:11 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 141so15351155wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 06:56:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kHNjzeTePFum2x88Z2OJr/me28tzr6Ye9a3glP5fN5g=;
-	b=EMuvw3lQaMBsKZ16pl0ZICq/o2aT+fuRxNH5TE+7rTk6CgHk1mF4ph+Ckn9p92jJT1
-	AIGe391jGNOJr2utP8/0KmMkdp2BpmxoHayP2k9zNRN2aItNM/x2c7GkDGU3k8gIw2Ea
-	CU15LMgYK9aSdQT1sZR85KfCOD/sBKCBlUm7FI+J+yvcqFe6hbcwamR2RWWc+alwjohV
-	+Sm4fupLlDRbdnhujcvf99MymOdgfJBwdEuGl8HbOUCTI0tPicsLPY5ga7ZXM5hHWIUq
-	dVh03Vv2+8HGJuzNqOd4xG7AVMTGeFgFo8/3rf9szz6aPGeO4H3sw4pCgvrJXrmlamxl
-	QfFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kHNjzeTePFum2x88Z2OJr/me28tzr6Ye9a3glP5fN5g=;
-	b=VrUU54pjsxvS1l5ck5SOEXmCxgf30S0GAx3b3SBw12k0xbGk2dvyNbL55xosPB/P0u
-	kld600Yw2R6rKXBVJYqKvKITiAl0kAdHj8e47oV8gl35/DNFQ04lqt6Yq/Z4n9TKb423
-	PA7JD/m0b1cU7uIjG0/TL/N7eo5RUVquoU8VAO8vvNZ8hS0jqHQhJVY1IqWMuBHjE2aj
-	FSZV86BEOFi15wD07JoaZQHkGmwLzQhoYzBcH9LnnvRVWGH/V+n5MPG0SzMtJjw++137
-	Rd8kdP65V6JqFU6mLWhNh8B5aqHMa3aaQ4Kn2asjU4qOj1i/UUb1p6P9nKWg/MIlNpLf
-	Tabw==
-X-Gm-Message-State: AKwxytdLJ4X8Dasi1GNS9TAUtRHLByE4jLzpNZ2A32fw3voXKG2tdr+N
-	9IizUHsHSo98TYY7ESbWHzx30w==
-X-Google-Smtp-Source: AH8x224krci9tFdQSIxE2M1DUqcMecGx2JGnUmHwtCm3OwkVYd39bVlSV7ged0+tc0mJJfAvGi230w==
-X-Received: by 10.80.231.6 with SMTP id a6mr19936273edn.240.1516892172343;
-	Thu, 25 Jan 2018 06:56:12 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([123.125.90.58]) by smtp.gmail.com with ESMTPSA id
-	a38sm1414500edf.97.2018.01.25.06.56.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Jan 2018 06:56:11 -0800 (PST)
-From: liu.ming50@gmail.com
+	Thu, 25 Jan 2018 16:26:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Jan 2018 08:26:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,412,1511856000"; d="scan'208";a="198779095"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 25 Jan 2018 08:26:11 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jan 2018 15:53:31 +0100
-Message-Id: <1516892011-5420-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] net-tools: change a '=' to '+='
+Date: Thu, 25 Jan 2018 18:20:11 +0200
+Message-Id: <20180125162011.6673-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] gstreamer1.0: add a patch to further fix up the documentation generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 14:56:12 -0000
+X-List-Received-Date: Thu, 25 Jan 2018 16:26:12 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+Gstreamer would attempt to launch gst-plugin-scanner binary installed on the host
+if the target binary was failing (and it does, intentionally, fail in our case). Most
+of the time the host binary is absent, and so this has no effect, but sometimes
+it's present, and so the whole thing (running under qemu) fails.
 
-This avoids other do_patch dependencies being overridden.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...inloader.c-when-env-var-is-set-do-not-fal.patch | 35 ++++++++++++++++++++++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
 
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 69c9af3..5657fd8 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -37,7 +37,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
+diff --git a/meta/recipes-multimedia/gstreamer/files/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch b/meta/recipes-multimedia/gstreamer/files/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+new file mode 100644
+index 00000000000..67a872cddb9
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+@@ -0,0 +1,35 @@
++From a1d7c582392c8bc87fa9411af77b20e011944357 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 25 Jan 2018 17:55:02 +0200
++Subject: [PATCH] gst/gstpluginloader.c: when env var is set do not fall
++ through to system plugin scanner
++
++If we set a custom GST_PLUGIN_SCANNER env var, then we probably want to use that and only that.
++
++Falling through to the one installed on the system is problamatic in cross-compilation
++environemnts, regardless of whether one pointed to by the env var succeeded or failed.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gst/gstpluginloader.c | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/gst/gstpluginloader.c b/gst/gstpluginloader.c
++index 430829d..3a75731 100644
++--- a/gst/gstpluginloader.c
+++++ b/gst/gstpluginloader.c
++@@ -471,9 +471,7 @@ gst_plugin_loader_spawn (GstPluginLoader * loader)
++     helper_bin = g_strdup (env);
++     res = gst_plugin_loader_try_helper (loader, helper_bin);
++     g_free (helper_bin);
++-  }
++-
++-  if (!res) {
+++  } else {
++     GST_LOG ("Trying installed plugin scanner");
++ 
++ #ifdef G_OS_WIN32
++-- 
++2.15.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index f523ef59f93..c2df1f32583 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -17,6 +17,7 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ SRC_URI_append = " \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+     file://gtk-doc-tweaks.patch \
++    file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+ "
  
- inherit gettext
- 
--do_patch[depends] = "quilt-native:do_populate_sysroot"
-+do_patch[depends] += "quilt-native:do_populate_sysroot"
- 
- # The Makefile is lame, no parallel build
- PARALLEL_MAKE = ""
+ PACKAGECONFIG ??= ""
 -- 
-2.7.4
+2.15.1
 
 
