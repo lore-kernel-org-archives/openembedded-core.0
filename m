@@ -1,31 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 21B0971DD2
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6524160939
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 07:15:31 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 23:15:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,409,1511856000"; d="scan'208";a="22419110"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jan 2018 23:15:32 -0800
-To: "Maxin B. John" <maxin.john@intel.com>
-References: <1516716352-32735-1-git-send-email-maxin.john@intel.com>
-	<3c471c16-697f-df89-4d46-6d7d763244b2@linux.intel.com>
-	<20180124090157.GA29810@mbabyjoh-desk.ger.corp.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <29996dd0-cbbc-9b7e-799b-b952b2b514bc@linux.intel.com>
-Date: Thu, 25 Jan 2018 09:09:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thu, 25 Jan 2018 08:13:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="35916928"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Jan 2018 16:13:03 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 71AAF48AEA1E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jan 2018 16:13:02 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Thu, 25 Jan 2018 16:13:01 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Jan 2018 16:13:15 +0800
+Message-ID: <1516867995-13801-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180124090157.GA29810@mbabyjoh-desk.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12] package upgrades
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 71AAF48AEA1E.A9553
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] hdparm: 9.52 -> 9.53
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,19 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 07:15:32 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jan 2018 08:13:07 -0000
+Content-Type: text/plain
 
-On 01/24/2018 11:01 AM, Maxin B. John wrote:
-> Eventhough README in AUH is a good starting point, couldn't locate a quick-start
-> documentation in the wiki or official documentation. It will be useful.
+Upgrade hdparm from 9.52 to 9.53.
 
-Absolutely. So can you write that please as you set it up and make it 
-work? I'm not the best person perhaps, as I know AUH inside out, and I'm 
-not able to see what first-time users see. I can then edit for technical 
-correctness and caveats etc.
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/hdparm/{hdparm_9.52.bb => hdparm_9.53.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/hdparm/{hdparm_9.52.bb => hdparm_9.53.bb} (90%)
 
-Alex
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.52.bb b/meta/recipes-extended/hdparm/hdparm_9.53.bb
+similarity index 90%
+rename from meta/recipes-extended/hdparm/hdparm_9.52.bb
+rename to meta/recipes-extended/hdparm/hdparm_9.53.bb
+index 13cfb3f..4c3ec5c 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.52.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.53.bb
+@@ -25,8 +25,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz \
+            file://wiper.sh-fix-stat-path.patch \
+           "
+ 
+-SRC_URI[md5sum] = "410539d0bf3cc247181594581edbfb53"
+-SRC_URI[sha256sum] = "c3429cd423e271fa565bf584598fd751dd2e773bb7199a592b06b5a61cec4fb6"
++SRC_URI[md5sum] = "1e54b52e0c8cb79389d4d47eacba411d"
++SRC_URI[sha256sum] = "2673f591df6916c6a1faec07069a7eb1cb8ee307615a615d808192fb0c0265e5"
+ 
+ EXTRA_OEMAKE = 'STRIP="echo" LDFLAGS="${LDFLAGS}"'
+ 
+-- 
+2.7.4
+
+
+
 
