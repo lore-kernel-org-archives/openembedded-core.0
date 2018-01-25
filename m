@@ -1,27 +1,47 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C59F6FFA4
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E0C60607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 14:21:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0PELumv002920
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 25 Jan 2018 06:21:56 -0800
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 25 Jan 2018 06:21:56 -0800
-To: California Sullivan <california.l.sullivan@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180125031227.18327-1-california.l.sullivan@intel.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <e66c755a-c1d1-0e73-d18f-f8836139fb85@windriver.com>
-Date: Thu, 25 Jan 2018 09:21:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
-MIME-Version: 1.0
-In-Reply-To: <20180125031227.18327-1-california.l.sullivan@intel.com>
-Subject: Re: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
+	Thu, 25 Jan 2018 14:56:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 141so15351155wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jan 2018 06:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=kHNjzeTePFum2x88Z2OJr/me28tzr6Ye9a3glP5fN5g=;
+	b=EMuvw3lQaMBsKZ16pl0ZICq/o2aT+fuRxNH5TE+7rTk6CgHk1mF4ph+Ckn9p92jJT1
+	AIGe391jGNOJr2utP8/0KmMkdp2BpmxoHayP2k9zNRN2aItNM/x2c7GkDGU3k8gIw2Ea
+	CU15LMgYK9aSdQT1sZR85KfCOD/sBKCBlUm7FI+J+yvcqFe6hbcwamR2RWWc+alwjohV
+	+Sm4fupLlDRbdnhujcvf99MymOdgfJBwdEuGl8HbOUCTI0tPicsLPY5ga7ZXM5hHWIUq
+	dVh03Vv2+8HGJuzNqOd4xG7AVMTGeFgFo8/3rf9szz6aPGeO4H3sw4pCgvrJXrmlamxl
+	QfFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kHNjzeTePFum2x88Z2OJr/me28tzr6Ye9a3glP5fN5g=;
+	b=VrUU54pjsxvS1l5ck5SOEXmCxgf30S0GAx3b3SBw12k0xbGk2dvyNbL55xosPB/P0u
+	kld600Yw2R6rKXBVJYqKvKITiAl0kAdHj8e47oV8gl35/DNFQ04lqt6Yq/Z4n9TKb423
+	PA7JD/m0b1cU7uIjG0/TL/N7eo5RUVquoU8VAO8vvNZ8hS0jqHQhJVY1IqWMuBHjE2aj
+	FSZV86BEOFi15wD07JoaZQHkGmwLzQhoYzBcH9LnnvRVWGH/V+n5MPG0SzMtJjw++137
+	Rd8kdP65V6JqFU6mLWhNh8B5aqHMa3aaQ4Kn2asjU4qOj1i/UUb1p6P9nKWg/MIlNpLf
+	Tabw==
+X-Gm-Message-State: AKwxytdLJ4X8Dasi1GNS9TAUtRHLByE4jLzpNZ2A32fw3voXKG2tdr+N
+	9IizUHsHSo98TYY7ESbWHzx30w==
+X-Google-Smtp-Source: AH8x224krci9tFdQSIxE2M1DUqcMecGx2JGnUmHwtCm3OwkVYd39bVlSV7ged0+tc0mJJfAvGi230w==
+X-Received: by 10.80.231.6 with SMTP id a6mr19936273edn.240.1516892172343;
+	Thu, 25 Jan 2018 06:56:12 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58]) by smtp.gmail.com with ESMTPSA id
+	a38sm1414500edf.97.2018.01.25.06.56.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 Jan 2018 06:56:11 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jan 2018 15:53:31 +0100
+Message-Id: <1516892011-5420-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] net-tools: change a '=' to '+='
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 14:21:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jan 2018 14:56:12 -0000
 
-On 01/24/2018 10:12 PM, California Sullivan wrote:
-> Kernel v4.14 and newer contain the following in their Makefile:
-> 
-> HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
-> HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
-> 
-> This breaks our menuconfig, because it can no longer find ncurses if its
-> not on the host machine. This can be seen in linux-yocto-dev, for
-> example:
-> 
-> [clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
-> 
->    GEN     ./Makefile
->    HOSTLD  scripts/kconfig/mconf
-> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
-> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
-> collect2: error: ld returned 1 exit status
-> make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
-> make[2]: *** [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei7-64/kernel-source/Makefile:504: menuconfig] Error 2
-> make[1]: *** [Makefile:146: sub-make] Error 2
-> make: *** [Makefile:24: __sub-make] Error 2
-> Command failed.
-> Press any key to continue...
+From: Ming Liu <liu.ming50@gmail.com>
 
-Does this fix still require a kernel patch ? I was trying to test
-it out here, and may have messed up the steps.
+This avoids other do_patch dependencies being overridden.
 
-If I remove ncurses-dev from my builder, I'm not able to get a
-working menuconfig no matter what combination of this patch
-applied (or not) or my menuconfig patch applied (or not).
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can say that having this applied didn't break my menuconfig,
-but I wasn't able to fully test.
-
-Should I expect a builder without ncurses-dev + just this patch
-to be able to run menuconfig ?
-
-Bruce
-
-> 
-> Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
-> 'make menuconfig' command.
-> 
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->   meta/classes/kernel.bbclass | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 2f6eca382e9..e4df1531c19 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
->   
->   inherit cml1
->   
-> +KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-> +
->   EXPORT_FUNCTIONS do_compile do_install do_configure
->   
->   # kernel-base becomes kernel-${KERNEL_VERSION}
-> 
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 69c9af3..5657fd8 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -37,7 +37,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/net-tools/"
+ 
+ inherit gettext
+ 
+-do_patch[depends] = "quilt-native:do_populate_sysroot"
++do_patch[depends] += "quilt-native:do_populate_sysroot"
+ 
+ # The Makefile is lame, no parallel build
+ PARALLEL_MAKE = ""
+-- 
+2.7.4
 
 
