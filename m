@@ -1,23 +1,24 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C40AC60068
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BB69600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 02:01:39 +0000 (UTC)
+	Thu, 25 Jan 2018 03:12:28 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jan 2018 18:01:40 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2018 19:12:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,409,1511856000"; d="scan'208";a="24531877"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2018 18:01:40 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+X-IronPort-AV: E=Sophos;i="5.46,409,1511856000"; d="scan'208";a="13292498"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga006.jf.intel.com with ESMTP; 24 Jan 2018 19:12:30 -0800
+From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jan 2018 10:49:38 -0800
-Message-Id: <1516819778-59257-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oe-selftest: meta_ide: add test for meta-ide-support
+Date: Wed, 24 Jan 2018 19:12:27 -0800
+Message-Id: <20180125031227.18327-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 02:01:39 -0000
+X-List-Received-Date: Thu, 25 Jan 2018 03:12:29 -0000
 
-QA team were testing meta-ide-support manually. Add automated
-tests to test that bibtake meta-ide-support will create the
-toolchain and environment setup script. Also test that after
-using environment setup script, one can compile c program.
+Kernel v4.14 and newer contain the following in their Makefile:
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
+HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
+
+This breaks our menuconfig, because it can no longer find ncurses if its
+not on the host machine. This can be seen in linux-yocto-dev, for
+example:
+
+[clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
+
+  GEN     ./Makefile
+  HOSTLD  scripts/kconfig/mconf
+/home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
+/home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
+collect2: error: ld returned 1 exit status
+make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
+make[2]: *** [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei7-64/kernel-source/Makefile:504: menuconfig] Error 2
+make[1]: *** [Makefile:146: sub-make] Error 2
+make: *** [Makefile:24: __sub-make] Error 2
+Command failed.
+Press any key to continue...
+
+Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
+'make menuconfig' command.
+
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/meta_ide.py | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/meta_ide.py
+ meta/classes/kernel.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-new file mode 100644
-index 0000000..1c1c5ab
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-@@ -0,0 +1,31 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
-+import tempfile
-+import shutil
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 2f6eca382e9..e4df1531c19 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
+ 
+ inherit cml1
+ 
++KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
 +
-+class MetaIDE(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super(MetaIDE, cls).setUpClass()
-+        bitbake('meta-ide-support')
-+        bb_vars = get_bb_vars(['MULTIMACH_TARGET_SYS', 'TMPDIR', 'COREBASE'])
-+        cls.environment_script = 'environment-setup-%s' % bb_vars['MULTIMACH_TARGET_SYS']
-+        cls.tmpdir = bb_vars['TMPDIR']
-+        cls.environment_script_path = '%s/%s' % (cls.tmpdir, cls.environment_script)
-+        cls.corebasedir = bb_vars['COREBASE']
-+        cls.tmpdir_metaideQA = tempfile.mkdtemp(prefix='metaide')
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        shutil.rmtree(cls.tmpdir_metaideQA, ignore_errors=True)
-+        super(MetaIDE, cls).tearDownClass()
-+
-+    def test_meta_ide_had_installed_meta_ide_support(self):
-+        self.assertExists(self.environment_script_path)
-+
-+    def test_meta_ide_can_compiled_cprogram(self):
-+        runCmd('cp %s/test.c %s' % (self.tc.files_dir, self.tmpdir_metaideQA))
-+        runCmd("cd %s; . %s; $CC test.c -lm" % (self.tmpdir_metaideQA, self.environment_script_path))
-+        compiled_file = '%s/a.out' % self.tmpdir_metaideQA
-+        self.assertExists(compiled_file)
+ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
 -- 
-2.7.4
+2.14.3
 
 
