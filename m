@@ -1,48 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B30C76FF7F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B3F787C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 17:13:28 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id v71so16296288wmv.2
+	Thu, 25 Jan 2018 18:43:17 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id y5so6404327pff.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 09:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=GrcPQMFS8LS2tvKnrwhQm9YZ3MtEosN/rWbKU8J+zaE=;
-	b=GTdUHp8bYOPWw5yUINLQAaVuDavgmPhAbxqnr/WGtFloALIzjszybuhZtH/TwuY4kp
-	cX1FghzDZ8ZwXhV1rSZUsJxl6sIaEu87bDDggXwUPsyfDRkytQD0k0madS8DzzsGKaDv
-	ejuXqhfyQLUU5T8WCERvVeQ724aCl3NZXxQa7Bzy/Rh9chnvKFcDZwQkhv+KUeueoqCy
-	DDYTNp1ofK3IOZgiHp9rGCkDfSvzKZA7o62K5y/A+sdNvISLaEXs/YD4p7q/RZZi7vun
-	1+mwvP5bsFhE4wEPkPW6irA3Z7viUC8TKicq618JO9n2tT93RHRabGEbnJ/wNrzWw8dH
-	O5/w==
+	Thu, 25 Jan 2018 10:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=mfriUtYfIJjzUTIMdgxZPIQKoR0EY6UXMlnKXitJYbU=;
+	b=DRytkhMjmkzrbNVaqd+jQOIK/ZtP+tTMIroLBj+rQYzLsCC1Qogujlm99Ehgh19c23
+	Fu1NH34mOAvH0nu8vFGF3zaVMN/veVw83lDKEiDt+2AkNKBGaZk1Z4sjfDa5AOELhTIc
+	DbmtUq9sUV2HejYlbskGSk+P2dnGeA164MGPc8TuYIuNHXt62oFNkyLuVw5J4rGPRRW3
+	OlJXWJ4sYz6POySFO28PYZX3TIe2If+P9/JaPt8TzqHL2QkR+T9HV6IvZ7Zp5ZOhsYbZ
+	PvFdw3vcmEgsED4/MeMwiEjsGTRk23sEMRe7FQI62ahBCPuM3gNAMLApZEoqlJrtHmhm
+	gvYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GrcPQMFS8LS2tvKnrwhQm9YZ3MtEosN/rWbKU8J+zaE=;
-	b=Q+fL2B47SsYingLFzUkRhkWQF4jmfN31v3Fs48iKoX4M+L/vxhhu5tU98wN6XO7csd
-	XOHuZ276Tfz1GOYSftvss596ar3T0ffiU0A41VwXHep7ikFAwRwMHHIUJOd1mZyd/zU6
-	Y0A2av9aU1g7lw1K2iOL+5bZSIyVhV9g5a5lcmjMx+k8xAeGVGGXWcH7RWkUtyf7fRne
-	+P78SeisTjJ8DD2/qkD5h7pEcfUuqs0FO5ysFpzfm3F/VHkRc8saL99sRc81x63Wv9aq
-	n/ynofTwZZFBXkIA4nY6Cj96v16M/kwYOZ+eV9n0M24C3i8VxjJqxva80qNwSOMYq2q0
-	WKnA==
-X-Gm-Message-State: AKwxytdFC3E08txI4wglnrBUNQMi1DCbJsqr1XpeZDAVHupvAXXmMNXI
-	bN/sMRjfN/rCyeWMedmG7ZnINy/u
-X-Google-Smtp-Source: AH8x226pGQzSUBlRMTny7sfzLjtbIVzFT4tDhbE41RKRHMTQ50w0fQDoueR7HjV7odzNJIrhAz9C5Q==
-X-Received: by 10.28.37.5 with SMTP id l5mr8552801wml.133.1516900409170;
-	Thu, 25 Jan 2018 09:13:29 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=mfriUtYfIJjzUTIMdgxZPIQKoR0EY6UXMlnKXitJYbU=;
+	b=BO1IPdn9lyIoCWG7g1S4FAhoWnqp5Jn999Ie3Wzvv2KSM2p9HyBvp4msLFJDf9GA30
+	yDSszNsiJrSbXKlDul9nJy35nli7jKaj3uzZCmw5mTl3MKjh41NC2NSy9VAhqxB+PBKC
+	UV0wrERAn74271s84jVXvBEDjIJNJcEiO5f7kBEEbtVpvULmbRLUUIEW2Vqq5wAM+dH9
+	sIr4rtHKtE1+fTmK8T9G21LjJ+s8SX3mEFvYHEHiMbn/tKtQlY/R2gKAWXZvypyapITr
+	WFvv+jx9OAqiShpmBhqzduWvyK7yEV1ty7pfeDj7AnXweRUL3/V9+h4WIucRzozJ5ZL4
+	lnCg==
+X-Gm-Message-State: AKwxytdnmeUtYbEMFpFOaL5qbea+KPUWTKjeitVrZJQjLk+iooJEdKkt
+	o/kYr1uSo4+lEDT0A5P+j851AZg6
+X-Google-Smtp-Source: AH8x2260kPKDfT3HX8/zcBHuJiNTpW+nl48ptIuoJfetiTf3abj0ym6fK0hGEXyVopQzg06PoCEsxQ==
+X-Received: by 2002:a17:902:2cc1:: with SMTP id
+	n59-v6mr11829260plb.153.1516905799264; 
+	Thu, 25 Jan 2018 10:43:19 -0800 (PST)
+Received: from ?IPv6:2601:646:8880:466c:c139:8d30:e308:8c2a?
+	([2601:646:8880:466c:c139:8d30:e308:8c2a])
 	by smtp.gmail.com with ESMTPSA id
-	k125sm2355044wmd.48.2018.01.25.09.13.27
+	w63sm17330764pfa.173.2018.01.25.10.43.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jan 2018 09:13:28 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 25 Jan 2018 10:43:18 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jan 2018 17:13:25 +0000
-Message-Id: <20180125171325.12289-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] archiver: don't require that images are built using RPM to build SRPMs
+References: <20180112130644.21313-1-alex.stewart@ni.com>
+	<CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <8fc59c03-627a-78f3-70c7-cbcb97f90c60@gmail.com>
+Date: Thu, 25 Jan 2018 10:43:16 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
+	Gecko/20100101 Thunderbird/58.0
+MIME-Version: 1.0
+In-Reply-To: <CABcZANms2fcX1rmeY_vGsCmMcxhicCKEtDs0mOaX8uCt=8fgLA@mail.gmail.com>
+Subject: Re: [PATCH v2] recipes-core: move hwclock.sh to util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +65,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 17:13:28 -0000
+X-List-Received-Date: Thu, 25 Jan 2018 18:43:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-The requirement for images being built using RPM is too strict to have access to
-the RPM functions, simply checking that package_rpm is in PACKAGE_CLASSES is
-sufficient.
+On 1/12/18 7:45 PM, Christopher Larson wrote:
+> On Fri, Jan 12, 2018 at 6:06 AM, Alex Stewart <alex.stewart@ni.com
+> <mailto:alex.stewart@ni.com>> wrote:
+> 
+>     * Move the hwclock.sh initscript from the busybox recipe to util-linux.
+>       This script is generally useful for distros that get their hwclock
+>       implementation from sources other than busybox and we follow debian's
+>       example by providing it in util-linux.
+> 
+>     :busybox/*
+>     * Remove the busybox-hwclock package, as it no longer has a purpose.
+>     * If busybox is configured to include hwclock, the busybox package will
+>       RDEPEND on util-linux-hwclock-init.
+> 
+>     :util-linux/*
+>     * Provide the hwclock.sh script in util-linux-hwclock-init, which can be
+>       pulled by any packages that depend on its functionality.
+>     * util-linux-hwclock RDEPENDS on util-linux-hwclock-init for its
+>       initscript.
+> 
+>     Signed-off-by: Alex Stewart <alex.stewart@ni.com
+>     <mailto:alex.stewart@ni.com>>
+>     Acked-by: Haris Okanovic <haris.okanovic@ni.com
+>     <mailto:haris.okanovic@ni.com>>
+>     Acked-by: Adrian Ratiu <adrian.ratiu@ni.com
+>     <mailto:adrian.ratiu@ni.com>>
+>     Acked-by: Ken Sharp <ken.sharp@ni.com <mailto:ken.sharp@ni.com>>
+>     Natinst-ReviewBoard-ID: 214983, 215755
+> 
+> 
+> Just a note that this will slow down the build for targets that wouldn’t
+> otherwise build the util-linux recipe.
 
-Also fail if SRPMs are requested but package_rpm isn't enabled, instead of
-silently not doing what we were asked.
+there is initscripts recipes, perhaps thats a better place for this.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/archiver.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index ec80ad47a40..0a9c5c16403 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -114,10 +114,9 @@ python () {
-     if ar_recipe == "1":
-         d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_recipe' % pn)
- 
--    # Output the srpm package
--    ar_srpm = d.getVarFlag('ARCHIVER_MODE', 'srpm')
--    if ar_srpm == "1":
--        if d.getVar('PACKAGES') != '' and d.getVar('IMAGE_PKGTYPE') == 'rpm':
-+    # Output the SRPM package
-+    if d.getVarFlag('ARCHIVER_MODE', 'srpm') == "1" and d.getVar('PACKAGES'):
-+        if "package_rpm" in d.getVar('PACKAGE_CLASSES'):
-             d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_package_write_rpm' % pn)
-             if ar_dumpdata == "1":
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_dumpdata' % pn)
-@@ -129,6 +128,8 @@ python () {
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_ar_patched' % pn)
-             elif ar_src == "configured":
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_ar_configured' % pn)
-+        else:
-+            bb.fatal("ARCHIVER_MODE[srpm] needs package_rpm in PACKAGE_CLASSES")
- }
- 
- # Take all the sources for a recipe and puts them in WORKDIR/archiver-work/.
--- 
-2.11.0
+> -- 
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Senior Software Engineer, Mentor Graphics
+> 
 
 
