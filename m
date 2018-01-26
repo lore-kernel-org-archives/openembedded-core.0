@@ -1,32 +1,32 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F42A787BA
+	by mail.openembedded.org (Postfix) with ESMTP id 805E178787
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 09:00:00 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36021536"
+	Fri, 26 Jan 2018 09:00:01 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36021535"
 Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 26 Jan 2018 17:00:02 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7E5F149F19B1
+	by cn.fujitsu.com (Postfix) with ESMTP id 6BAD349F19B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 16:59:59 +0800 (CST)
+	Fri, 26 Jan 2018 16:59:58 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.125) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 26 Jan 2018 16:59:58 +0800
+	Server (TLS) id 14.3.361.1; Fri, 26 Jan 2018 16:59:57 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jan 2018 17:00:10 +0800
-Message-ID: <1516957210-15531-4-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Fri, 26 Jan 2018 17:00:09 +0800
+Message-ID: <1516957210-15531-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1516957210-15531-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 References: <1516957210-15531-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: 7E5F149F19B1.A903B
+X-yoursite-MailScanner-ID: 6BAD349F19B0.A8D70
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] man-pages: 4.11 -> 4.14
+Subject: [PATCH] lsbinitscripts: 9.72 -> 9.79
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 09:00:01 -0000
+X-List-Received-Date: Fri, 26 Jan 2018 09:00:03 -0000
 Content-Type: text/plain
 
-1.Upgrade man-pages from 4.11 to 4.14.
-2.Update the checksum of LIC_FILES_CHKSUM, since README has been changed.
+1.Upgrade lsbinitscripts from 9.72 to 9.79.
+2.Modify functions.patch, since the data has been changed.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- .../man-pages/{man-pages_4.11.bb => man-pages_4.14.bb}              | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_4.11.bb => man-pages_4.14.bb} (79%)
+ meta/recipes-extended/lsb/lsbinitscripts/functions.patch            | 2 +-
+ .../lsb/{lsbinitscripts_9.72.bb => lsbinitscripts_9.79.bb}          | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.72.bb => lsbinitscripts_9.79.bb} (73%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_4.11.bb b/meta/recipes-extended/man-pages/man-pages_4.14.bb
-similarity index 79%
-rename from meta/recipes-extended/man-pages/man-pages_4.11.bb
-rename to meta/recipes-extended/man-pages/man-pages_4.14.bb
-index a3077a9..f8bd090 100644
---- a/meta/recipes-extended/man-pages/man-pages_4.11.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_4.14.bb
-@@ -4,11 +4,11 @@ SECTION = "console/utils"
- HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
- LICENSE = "GPLv2+"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
+index 9c58d90..41231ea 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
++++ b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
+@@ -22,7 +22,7 @@ index 0f627f1..a6aa092 100644
+  [ -z "${COLUMNS:-}" ] && COLUMNS=80
+  
+  if [ -z "${CONSOLETYPE:-}" ]; then
+--    if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
++-    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ]; then
+ +    if [ -c "/dev/stderr" -a -r "/dev/stderr" -a -e /sbin/consoletype ]; then
+          CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
+      else
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
+similarity index 73%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
+index 2d74a6f..4cb1a4c 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
+@@ -11,13 +11,13 @@ RCONFLICTS_${PN} = "initscripts-functions"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
  
--LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
-+LIC_FILES_CHKSUM = "file://README;md5=794f701617cc03fe50c53257660d8ec4"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.gz/sha512/b6ed38f9576e9227c2ecf047e2d60e1e872f40d51d13861b0c91dddb282f10f7e6b79706a4d1435d7a57a14a0b73a1b71541cfe44c00e8e03ef96b08de19ec32/initscripts-${PV}.tar.gz \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.gz/sha512/359c51dcb8aa0a745a3dd3bb67386f41d33eabc781ff2de9b211aab2706dd5e84e885e9e237b88a33fc6cb3e5dd1dbccf7c4ab32f288de76ca16d1118144abd4/initscripts-${PV}.tar.gz \
+            file://functions.patch;striplevel=2 \
+            file://0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch \
+           " 
  
--SRC_URI[md5sum] = "408300ed09d1ad5938070158b21da1d1"
--SRC_URI[sha256sum] = "e6db91a24e68c7c765b7b8e60f1591ed1049bc2dc3143db779eae4838b89d195"
-+SRC_URI[md5sum] = "82bd2d05c4d0dba5e7a90d39c9555197"
-+SRC_URI[sha256sum] = "aeebc6b09a11e7f7bbc98f3984fe8b8b2bde9d2f5f9dcbd4348a9e0d93704238"
+-SRC_URI[md5sum] = "d6c798f40dceb117e12126d94cb25a9a"
+-SRC_URI[sha256sum] = "1793677bdd1f7ee4cb00878ce43346196374f848a4c8e4559e086040fc7487db"
++SRC_URI[md5sum] = "9605286e0d512623a05ba892ac8d9819"
++SRC_URI[sha256sum] = "ab45fcde7f50a9a16890ac0714772bc9591117950addf68755589a85ccffb1c1"
  
- RDEPENDS_${PN} = "man"
- 
+ # Since we are only taking the patched version of functions, no need to
+ # configure or compile anything so do not execute these
 -- 
 2.7.4
 
