@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 06950786D8
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 34BC8606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 12:25:07 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id f3so20894873wmc.1
+	Fri, 26 Jan 2018 13:06:21 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id 63so616908lfv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 04:25:09 -0800 (PST)
+	Fri, 26 Jan 2018 05:06:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=6F0iQAsl/SeXvCAeptva6Cv85Za5ygvv3UdAIojksps=;
-	b=mZmMpz/mgI5RvY7tb8C63oseP3qsZccdClgueVrdotnW7C8UdVDzoVOUQh9YoLZYZa
-	JhvekkqIMogFMzm9vKsIX8+2whV80nZPt7bDPP/Ny6xaWJjjGIz2d9wGrKBRSfS4Y8m0
-	xu0cqJ2ogSHiaGM8JgHAQIYT/oU5+ksiT+YdO5DykLhQ4U1xBtNZrsHaU7vNTJeWDxrP
-	CZFdtesvICYeVWZbtshb5PPv7Lf/3sjvy2xz5XZES6klgEZ7aluZGywYgNln4a73l8A+
-	6NPe3MRHJYTW32M0OV2Y8TRH0/LRVSo6ihGhyz5lhulHG9Z7H0aoZJzzjZxrj47QZ8TN
-	g/qQ==
+	d=northern.tech; s=google; h=from:to:subject:date:message-id;
+	bh=gDwBc3bniUQDIWwU2Rj0RiQE2zJziZ1xiuKKp3IBlHw=;
+	b=T+eQBLxiPXaRlYYf1bNghrHyTPEW8iXpCbsstWn+LrUdmNDcSZ9g/p2KEz3iasLLQJ
+	aC5UWBhbjKpSdfsOnAWjNpsJMnjHAN6PFdog4BKpoFZp3breZBWG2zoLeOq664CLx+l7
+	TdDLMh2piP0Vbt9VIwVueslouGrckhBsaFQUSFYUiZwbV4/OzkgPjH6F4NAU4+VxsHV0
+	W5zkaDV4FKafaUk7t3AUtC9LVTn2TFq1ideo+ZYhqFra2lGV+S11igNc2R5zMBw2fjJS
+	ZbCiatV62gC5Y0SaFmkrgCVsRq9eVSWIa85PCuQ1Tqio3MRT9+g03ut62FX3VaR70yut
+	i+bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=6F0iQAsl/SeXvCAeptva6Cv85Za5ygvv3UdAIojksps=;
-	b=WNxGE2fu+KeiIDuaEx/Ne79QpFrZuoZJJSK2WOpGL6kBhlaiwIOYv5Pyfx5x1qvB9u
-	rWUoXadomfRvATioXSV1Vhe69Se1UGhlIcoPNBKlX0MjOzXtTl4XcaMm1ae9IYPFiLqz
-	WGrGu0+iSfPpzDfRPjoUGX5UmU+NfEXLofs7MsuQEvwEjAbrzFn2iWzSM7rwLZXrddS/
-	QqLMcZBDh9SwcjjFPCAAgYbxQSPwwb9DY5H1M8zA8cUgjCRcQ/yPlDlyjNWhi9A5pHSm
-	Z41lp6jgVhKF1qx7AT8YwWfXZFC2VpCFFT2sz4cZzrfl8QrNSpVQlY4CJ+XHL/yhLJa4
-	V7pw==
-X-Gm-Message-State: AKwxytfSqdQ4nCFwmEJkj91cp0tbFTDDnbEAUd6PLEKlHGf+W83cDHNR
-	WuUKjMTvUqY7Wurue+ssfwFkOQMQ
-X-Google-Smtp-Source: AH8x224DySgWh6hqQP8PxqLPIN7UpriM6yAAEkaJByO0UPZDxszt3zRg9IczjCQRV6dPNtdaj4Y1CA==
-X-Received: by 10.28.31.212 with SMTP id f203mr9606320wmf.122.1516969508018;
-	Fri, 26 Jan 2018 04:25:08 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	u36sm1094608wrf.63.2018.01.26.04.25.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 Jan 2018 04:25:07 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	bh=gDwBc3bniUQDIWwU2Rj0RiQE2zJziZ1xiuKKp3IBlHw=;
+	b=PVjK2595sb0vPVNph2nGGee3d354YaqhG9QhmKkC7L+T0dEFTEAyVB/Yi+n+RMEpHU
+	DH5z8eZqolBSTKc5MCKfGUZy/kMrAU++Bf7EMV9b4w+id3Q72vOyz2TaqgtBpIx8SqNs
+	29/ymE58VrbeGaOKCucsgB2Jje4ztvNPnk+IM0CX1Mcex719Bm9fsj+FcYGUhrKXY1H5
+	PxhaOCQkj192QQY2C6JTKPpEQHYATjYPZH/cn9aAbHRKwdNy+DY57b+w8ndq6GM17Jr4
+	MyNeVeIQ7qiRPiZluNsim2+8sMnqFiGhiNIgtzCr5YMFYlhE6PLJ9dSbv81KLyZ8uWyZ
+	gprQ==
+X-Gm-Message-State: AKwxytfn8ftmC8iRYstaXRFjV7gGD6X1FFn34nw9DXAwOrjLNyjm+3cI
+	/UJtK43wU8yUWXEhInEid4U+7aWzgz0=
+X-Google-Smtp-Source: AH8x2252Pbl2G6IBMDAD2eD6euNr/dbP+mvoAxrMfY/ImH9nt7+M121boJL1e64Pweuaqn5CHNiAUw==
+X-Received: by 10.25.33.70 with SMTP id h67mr7759472lfh.128.1516971982540;
+	Fri, 26 Jan 2018 05:06:22 -0800 (PST)
+Received: from localhost.localdomain ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	z20sm152618ljb.71.2018.01.26.05.06.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Jan 2018 05:06:21 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@northern.tech>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jan 2018 12:25:02 +0000
-Message-Id: <20180126122502.15930-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] python: fix parse dependencies
+Date: Fri, 26 Jan 2018 14:06:19 +0100
+Message-Id: <1516971979-31262-1-git-send-email-kristian.amlie@northern.tech>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] systemd: Make sure that resolv.conf points to writable area in R/O rootfs.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,176 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 12:25:08 -0000
+X-List-Received-Date: Fri, 26 Jan 2018 13:06:22 -0000
 
-Adding a file-checksums flag for the manifest to do_split_packages doesn't
-achieve anything as do_split_packages isn't a task.  Changing this to tha task
-do_package shows that the path is wrong, but we also know that as the manifest
-is in SRC_URI any changes to it would result in a rebuild anyway, so this line
-can be deleted.
+Normally we want systemd to populate it at runtime, but when we have a
+read-only root filesystem we can't, so do it during the build.
 
-However there is a problem of the recipe not being reparsed when it needs to be,
-if the JSON has changed.  The main bitbake process can hash the recipe and use
-stale data from the cache as it hasn't considered the manifest file changing.  This
-results in non-determinism warnings when the worker parses the recipe again and
-comes to a different hash (as the manifest has changed, so the packaging
-changed).
-
-Solve this by calling bb.parse.mark_dependency() to declare the dependency on
-the manifest.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
+Signed-off-by: Marcin Pasinski <marcin.pasinski@mender.io>
 ---
- meta/recipes-devtools/python/python3_3.5.3.bb | 45 +++++++++++++--------------
- meta/recipes-devtools/python/python_2.7.13.bb | 38 +++++++++++-----------
- 2 files changed, 39 insertions(+), 44 deletions(-)
+ meta/recipes-core/systemd/systemd_234.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-index 970ba634450..3ae0db2b8b2 100644
---- a/meta/recipes-devtools/python/python3_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -228,21 +228,22 @@ FILES_${PN}-man = "${datadir}/man"
- BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 4132cdf..7d61a53 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -273,6 +273,9 @@ do_install() {
+ 	else
+ 		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+ 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
++		if ${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'true', 'false', d)}; then
++			ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv.conf
++		fi
+ 	fi
+ 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
  
- RPROVIDES_${PN} += "${PN}-modules"
--    
+@@ -471,6 +474,12 @@ CONFFILES_${PN} = "${sysconfdir}/machine-id \
+                 ${sysconfdir}/systemd/system.conf \
+                 ${sysconfdir}/systemd/user.conf"
+ 
++FILES_MAYBE_RESOLV_CONF = "${@bb.utils.contains('PACKAGECONFIG', 'resolved', \
++                               bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', \
++                                   '${sysconfdir}/resolv.conf', \
++                                   '', d), \
++                               '', d)}"
 +
- # We want bytecode precompiled .py files (.pyc's) by default
- # but the user may set it on their own conf
--            
- INCLUDE_PYCS ?= "1"
- 
- python(){
-+    import json
- 
--    pythondir = d.getVar('THISDIR',True)
-+    filename = os.path.join(d.getVar('THISDIR'), 'python3', 'python3-manifest.json')
-+    # This python changes the datastore based on the contents of a file, so mark
-+    # that dependency.
-+    bb.parse.mark_dependency(d, filename)
- 
--    # Read JSON manifest
--    import json
--    with open(pythondir+'/python3/python3-manifest.json') as manifest_file:
-+    with open(filename) as manifest_file:
-         python_manifest=json.load(manifest_file)
--        
-+
-     include_pycs = d.getVar('INCLUDE_PYCS')
- 
-     packages = d.getVar('PACKAGES').split()
-@@ -282,28 +283,24 @@ python(){
-     d.setVar('PACKAGES', ' '.join(packages))
-     d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
- }
--do_split_packages[file-checksums] += "${THISDIR}/python/python3-manifest.json:True"
--
--
- 
- # Files needed to create a new manifest
- SRC_URI += "file://create_manifest3.py file://get_module_deps3.py file://python3-manifest.json"
- 
- do_create_manifest() {
--
--# This task should be run with every new release of Python.
--# We must ensure that PACKAGECONFIG enables everything when creating
--# a new manifest, this is to base our new manifest on a complete
--# native python build, containing all dependencies, otherwise the task
--# wont be able to find the required files.
--# e.g. BerkeleyDB is an optional build dependency so it may or may not
--# be present, we must ensure it is.
--
--cd ${WORKDIR}
--# This needs to be executed by python-native and NOT by HOST's python
--nativepython3 create_manifest3.py
--cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.json
--}                   
-+    # This task should be run with every new release of Python.
-+    # We must ensure that PACKAGECONFIG enables everything when creating
-+    # a new manifest, this is to base our new manifest on a complete
-+    # native python build, containing all dependencies, otherwise the task
-+    # wont be able to find the required files.
-+    # e.g. BerkeleyDB is an optional build dependency so it may or may not
-+    # be present, we must ensure it is.
-+
-+    cd ${WORKDIR}
-+    # This needs to be executed by python-native and NOT by HOST's python
-+    nativepython3 create_manifest3.py
-+    cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.json
-+}
- 
- # bitbake python -c create_manifest
- addtask do_create_manifest
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
-index dbafb955f90..337c7447bb6 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.13.bb
-@@ -202,12 +202,14 @@ RPROVIDES_${PN} += "${PN}-modules"
- INCLUDE_PYCS ?= "1"
- 
- python(){
-+    import json
- 
--    pythondir = d.getVar('THISDIR',True)
-+    filename = os.path.join(d.getVar('THISDIR'), 'python', 'python2-manifest.json')
-+    # This python changes the datastore based on the contents of a file, so mark
-+    # that dependency.
-+    bb.parse.mark_dependency(d, filename)
- 
--    # Read JSON manifest
--    import json
--    with open(pythondir+'/python/python2-manifest.json') as manifest_file:
-+    with open(filename) as manifest_file:
-         python_manifest=json.load(manifest_file)
- 
-     include_pycs = d.getVar('INCLUDE_PYCS')
-@@ -215,7 +217,6 @@ python(){
-     packages = d.getVar('PACKAGES').split()
-     pn = d.getVar('PN')
- 
--
-     newpackages=[]
- 
-     for key in python_manifest:
-@@ -250,25 +251,22 @@ python(){
-     d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
- }
- 
--do_split_packages[file-checksums] += "${THISDIR}/python/python2-manifest.json:True"
--
- # Files needed to create a new manifest
- SRC_URI += "file://create_manifest2.py file://get_module_deps2.py file://python2-manifest.json"
- 
- do_create_manifest() {
--
--# This task should be run with every new release of Python.
--# We must ensure that PACKAGECONFIG enables everything when creating 
--# a new manifest, this is to base our new manifest on a complete
--# native python build, containing all dependencies, otherwise the task
--# wont be able to find the required files.
--# e.g. BerkeleyDB is an optional build dependency so it may or may not
--# be present, we must ensure it is. 
--
--cd ${WORKDIR}
--# This needs to be executed by python-native and NOT by HOST's python
--nativepython create_manifest2.py
--cp python2-manifest.json.new ${THISDIR}/python/python2-manifest.json
-+    # This task should be run with every new release of Python.
-+    # We must ensure that PACKAGECONFIG enables everything when creating
-+    # a new manifest, this is to base our new manifest on a complete
-+    # native python build, containing all dependencies, otherwise the task
-+    # wont be able to find the required files.
-+    # e.g. BerkeleyDB is an optional build dependency so it may or may not
-+    # be present, we must ensure it is.
-+
-+    cd ${WORKDIR}
-+    # This needs to be executed by python-native and NOT by HOST's python
-+    nativepython create_manifest2.py
-+    cp python2-manifest.json.new ${THISDIR}/python/python2-manifest.json
- }
- 
- # bitbake python -c create_manifest
+ FILES_${PN} = " ${base_bindir}/* \
+                 ${datadir}/dbus-1/services \
+                 ${datadir}/dbus-1/system-services \
+@@ -487,6 +496,7 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${sysconfdir}/xdg/ \
+                 ${sysconfdir}/init.d/README \
+                 ${sysconfdir}/resolv-conf.systemd \
++                ${FILES_MAYBE_RESOLV_CONF} \
+                 ${rootlibexecdir}/systemd/* \
+                 ${systemd_unitdir}/* \
+                 ${base_libdir}/security/*.so \
 -- 
-2.11.0
+2.7.4
 
 
