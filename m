@@ -1,37 +1,43 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 33A6E78622
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 19:26:10 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id s3so3962644qtb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 11:26:12 -0800 (PST)
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id C3E4471A8C;
+	Fri, 26 Jan 2018 19:43:34 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id f71so3383869wmf.0;
+	Fri, 26 Jan 2018 11:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:from:date:message-id:subject:to;
+	bh=5/DblxUgbZv4jqzO/MgCj9gcvgoq75L3Hfr7cj/cUFE=;
+	b=b7wCqyVWyCx8q1DXRRoRUqKM3wfgSOo2Y9iFpiaFi5rMNK6ECmI0aePlloOZMYDETX
+	tE+3l5QpN2xHW78JBQ6JWBGiCK7NA0vOLSTNZZuT8NtemL9v6/EuSPNedT6DpMIJVW3f
+	MqKmbv6FOEepPWiF+c4FHziuB2wg7/UjzLfW1imN7Ov8alkuPza81ia5Qo+dg4ExWMX9
+	9lqGJ2euCAqk9mbdPge6acwynpcYr6gM8wpB6gn7q/CFOeF0VBS7l0Rctt0bcB5D2Z/v
+	BcCtvF2kHiaen6f0bvMHHlyEtX5NAggegwm7xyTtxdQ/E8Lyn96ntSeP2xw00Bz/zJ0a
+	bX9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XLw62shYBc61xRDVqsPrOtOvockSboGYA3cUASD9aQs=;
-	b=prsUcG2RdjyAtdasrPPDK41AAIWepmb2A25PnzsqvtNGtWy5Dc0TdzFwM2CO9Etp/0
-	QBKO3NsfeoFbH3m46kyJcqQ7Go6alIxr0zlCflLuaft5kIISoiIumDZDbjhzfBqG4wtV
-	xj8KyGV0Z3+uawxZ4KaWjqkUX0dIHHNNnjJMW7N7l3CBfN+wgPgNA3B1NjA6Y0+3XLBZ
-	h1OVvevBFL8F5yywKHfOtU2BBU2OJbYaSF+4u2GNshwx4FjGrXv7d34e0boHpPEJlGTg
-	a/1zZxKSOsjmgLrFF6wCB93APbBoNT6skxL3qG3GhduZ0KTz0QD//cJi1mycaaS8wRXm
-	Pm+A==
-X-Gm-Message-State: AKwxytfYQy9Pu+SDT7/R2hjuZjwDVPAkat/8gTLIX8BY8vCqFOQp9fJn
-	PrZOHGlzpfvpjivP7dR0zbCO50Zg
-X-Google-Smtp-Source: AH8x224jtih3rq3P+VSs66ytA/dAIAhdH6yM3bZ/K3JDzR3Wo8E0z1O8Bwxdwbjn6UQwi4zO4yGdnQ==
-X-Received: by 10.237.48.196 with SMTP id 62mr9183814qtf.39.1516994771806;
-	Fri, 26 Jan 2018 11:26:11 -0800 (PST)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id k1sm6114606qtf.96.2018.01.26.11.26.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Jan 2018 11:26:11 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jan 2018 14:25:31 -0500
-Message-Id: <1516994731-20440-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python: Upgrade both python and python-native to 2.7.14
+	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+	:to; bh=5/DblxUgbZv4jqzO/MgCj9gcvgoq75L3Hfr7cj/cUFE=;
+	b=tKh56sFHV5UqJQqQabDZEXvi+IBWpEGKLD1mLSFiRlY6GY6X1XeJJ9L0T9PA7TD1jc
+	2OQifCJeKg+hvvSRYme5ROkRiDtK2bwP3xtvWAL3lTn6LCIwT00wCUb+WI3aMlgxjqko
+	JMCeiVfh7R96S8fBbw/jRx5Abs4Q2uzDF/x+rfTErV6J55lZdxGvF2yaT2r4gUh/GeRY
+	xc1o3pRQBBa4CC8xr6QH2utfA3sONoOTxrsDHX3dgRejRj8kv5IaqdZ1ztEDsygaj7b+
+	a6e+btZ3Y5rxiiJJjLB/qfa1ZU9f+vS4z4w20NTINg5MJbTdtCoDsdQDdubHyEE0UbCd
+	Q+Wg==
+X-Gm-Message-State: AKwxytfITlT82vvdJPTeIfyx0VYYfynJGGTta73nTlWJzT7E5o6ZPAYR
+	s1iWORWm6RwzzlYh75XkZOqGDIydAECrSDi2KmaGAE26
+X-Google-Smtp-Source: AH8x224ziNvulMIy1pRRBM6ocO2lpAjlS+F28xjhSYdcLI1tE6k0gMHNb8U+hB2qPvla6L+X387xZ7NKsNIc8F3qDaE=
+X-Received: by 10.28.125.68 with SMTP id y65mr11229394wmc.106.1516995814809;
+	Fri, 26 Jan 2018 11:43:34 -0800 (PST)
+MIME-Version: 1.0
+Sender: jefro.net@gmail.com
+Received: by 10.223.134.48 with HTTP; Fri, 26 Jan 2018 11:43:14 -0800 (PST)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Fri, 26 Jan 2018 11:43:14 -0800
+X-Google-Sender-Auth: NYvLROb1uz8DhpxTSkMw-nM3MKs
+Message-ID: <CA+YB3rYK3Voqa7XgPbuuauko6MYeK4yaZMqY6bmVfn4_SBDvgA@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-members@lists.openembedded.org
+Subject: OEDAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,222 +50,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 19:26:11 -0000
+X-List-Received-Date: Fri, 26 Jan 2018 19:43:35 -0000
+Content-Type: multipart/alternative; boundary="001a1142107caae79d0563b31c61"
 
-Rebased:
-  - python/01-use-proper-tools-for-cross-build.patch
-  - python/fix-makefile-for-ptest.patch
-  - python/parallel-makeinst-create-bindir.patch
+--001a1142107caae79d0563b31c61
+Content-Type: text/plain; charset="UTF-8"
 
-Removed Upstreamed Patch:
-  - python/Don-t-use-getentropy-on-Linux.patch
+The time for ELC North America approaches fast, and many of you are
+planning travel.
 
-Updated license checksum for changes in the copyright date.  The license
-terms remain unchanged
+We have set up an OEDAM (OpenEmbedded Developers' American Meeting) on
+Sunday, March 11, the day before ELC starts. The meeting will start late to
+enable people to arrive that morning. Lunch and coffee etc are provided by
+the grace of Mentor Graphics, where the event will be held.
 
-Added an extra do_compile item to create the native pgen that no longer
-gets compiled by default
+If you are able to attend, please add your name and any agenda items you'd
+like to see on the wiki page.
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- ...on-native_2.7.13.bb => python-native_2.7.14.bb} |  6 ++++
- meta/recipes-devtools/python/python.inc            |  6 ++--
- .../01-use-proper-tools-for-cross-build.patch      | 17 +++++----
- .../python/Don-t-use-getentropy-on-Linux.patch     | 41 ----------------------
- .../python/python/fix-makefile-for-ptest.patch     |  6 ++--
- .../python/parallel-makeinst-create-bindir.patch   | 12 +++----
- .../python/{python_2.7.13.bb => python_2.7.14.bb}  |  1 -
- 7 files changed, 28 insertions(+), 61 deletions(-)
- rename meta/recipes-devtools/python/{python-native_2.7.13.bb => python-native_2.7.14.bb} (94%)
- delete mode 100644 meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
- rename meta/recipes-devtools/python/{python_2.7.13.bb => python_2.7.14.bb} (99%)
+https://www.openembedded.org/wiki/OEDAM_2018
 
-diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.14.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python-native_2.7.13.bb
-rename to meta/recipes-devtools/python/python-native_2.7.14.bb
-index 2b74003..622cb38 100644
---- a/meta/recipes-devtools/python/python-native_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.14.bb
-@@ -36,6 +36,12 @@ do_configure_append() {
- 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
- }
- 
-+# Regenerate all of the generated files
-+# This ensures that pgen and friends get created during the compile phase
-+do_compile_prepend() {
-+    oe_runmake regen-all
-+}
-+
- do_install() {
- 	oe_runmake 'DESTDIR=${D}' install
- 	install -d ${D}${bindir}/${PN}
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index b40f551..979b601 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -5,12 +5,12 @@ SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.7.py
- INC_PR = "r1"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130e4ed10d3101517eb5b9385"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de91d4eeea5930b9c3c7fa69d"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "53b43534153bb2a0363f08bae8b9d990"
--SRC_URI[sha256sum] = "35d543986882f78261f97787fd3e06274bfa6df29fac9b4a94f73930ff98f731"
-+SRC_URI[md5sum] = "1f6db41ad91d9eb0a6f0c769b8613c5b"
-+SRC_URI[sha256sum] = "71ffb26e09e78650e424929b2b457b9c912ac216576e6bd9e7d204ed03296a66"
- 
- # python recipe is actually python 2.x
- # also, exclude pre-releases for both python 2.x and 3.x
-diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
-index 366ce3e..e795a74 100644
---- a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
-+++ b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
-@@ -9,6 +9,9 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
- Rebased for python-2.7.9
- Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
- 
-+Rebased for python-2.7.14
-+Signed-off-by: Derek Straka <derek@asterius.io>
-+
- Index: Python-2.7.13/Makefile.pre.in
- ===================================================================
- --- Python-2.7.13.orig/Makefile.pre.in
-@@ -30,14 +33,14 @@ Index: Python-2.7.13/Makefile.pre.in
-  
-  # Create build directory and generate the sysconfig build-time data there.
-  # pybuilddir.txt contains the name of the build dir and is used for
--@@ -681,7 +682,7 @@ Modules/pwdmodule.o: $(srcdir)/Modules/p
-- 
-- $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
-+@@ -663,7 +663,7 @@
-+ 	# Regenerate Include/graminit.h and Python/graminit.c
-+ 	# from Grammar/Grammar using pgen
-  	@$(MKDIR_P) Include
---	$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
--+	$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
-- $(GRAMMAR_C): @GENERATED_COMMENT@ $(GRAMMAR_H)
-- 	touch $(GRAMMAR_C)
-+-	$(PGEN) $(srcdir)/Grammar/Grammar \
-++	$(HOSTPGEN) $(srcdir)/Grammar/Grammar \
-+ 		$(srcdir)/Include/graminit.h \
-+ 		$(srcdir)/Python/graminit.c
-  
- @@ -1121,27 +1122,27 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
-  			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
-diff --git a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
-deleted file mode 100644
-index 38e5377..0000000
---- a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
--
--From 905d1b30ac7cb0e31c57cec0533825c8f170b942 Mon Sep 17 00:00:00 2001
--From: Victor Stinner <victor.stinner@gmail.com>
--Date: Mon, 9 Jan 2017 11:10:41 +0100
--Subject: [PATCH] Don't use getentropy() on Linux
--
--Issue #29188: Support glibc 2.24 on Linux: don't use getentropy() function but
--read from /dev/urandom to get random bytes, for example in os.urandom().  On
--Linux, getentropy() is implemented which getrandom() is blocking mode, whereas
--os.urandom() should not block.
--
--(cherry picked from commit 2687486756721e39164fa9f597e468c35d495227)
-----
-- Python/random.c | 11 +++++++++--
-- 1 file changed, 9 insertions(+), 2 deletions(-)
--
--diff --git a/Python/random.c b/Python/random.c
--index b4bc1f3..f3f5d14 100644
----- a/Python/random.c
--+++ b/Python/random.c
--@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
-- }
-- 
-- /* Issue #25003: Don't use getentropy() on Solaris (available since
--- * Solaris 11.3), it is blocking whereas os.urandom() should not block. */
---#elif defined(HAVE_GETENTROPY) && !defined(sun)
--+   Solaris 11.3), it is blocking whereas os.urandom() should not block.
--+
--+   Issue #29188: Don't use getentropy() on Linux since the glibc 2.24
--+   implements it with the getrandom() syscall which can fail with ENOSYS,
--+   and this error is not supported in py_getentropy() and getrandom() is called
--+   with flags=0 which blocks until system urandom is initialized, which is not
--+   the desired behaviour to seed the Python hash secret nor for os.urandom():
--+   see the PEP 524 which was only implemented in Python 3.6. */
--+#elif defined(HAVE_GETENTROPY) && !defined(sun) && !defined(linux)
-- #define PY_GETENTROPY 1
-- 
-- /* Fill buffer with size pseudo-random bytes generated by getentropy().
-diff --git a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
-index 669112d..90dcd57 100644
---- a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
-+++ b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
-@@ -15,7 +15,7 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
- +TESTOPTS=	-l -v $(EXTRATESTOPTS)
-  TESTPROG=	$(srcdir)/Lib/test/regrtest.py
- -TESTPYTHON=	$(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
---test:		all platform
-+-test:		@DEF_MAKE_RULE@ platform
- -		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
- +TESTPYTHON=	$(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
- +test:		build-test
-@@ -26,8 +26,8 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
-  		-$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
-  		$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
-  
--+build-test:	all platform
-++build-test:	@DEF_MAKE_RULE@ platform
- +
-- testall:	all platform
-+ testall:	@DEF_MAKE_RULE@ platform
-  		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
-  		$(TESTPYTHON) $(srcdir)/Lib/compileall.py
-diff --git a/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch b/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
-index 951cb46..abab41e 100644
---- a/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
-+++ b/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
-@@ -8,12 +8,12 @@ Upstream-Status: Pending
- 
- --- Python-2.7.3.orig/Makefile.pre.in
- +++ Python-2.7.3/Makefile.pre.in
--@@ -1008,7 +1008,7 @@ LIBPL=		$(LIBP)/config
-+@@ -1187,7 +1187,7 @@
-  LIBPC=		$(LIBDIR)/pkgconfig
--
-- libainstall:	all python-config
-+ 
-+ libainstall:	@DEF_MAKE_RULE@ python-config
- -	@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC); \
- +	@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC) $(BINDIR); \
--	do \
--		if test ! -d $(DESTDIR)$$i; then \
--			echo "Creating directory $$i"; \
-+ 	do \
-+ 		if test ! -d $(DESTDIR)$$i; then \
-+ 			echo "Creating directory $$i"; \
-diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.14.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python_2.7.13.bb
-rename to meta/recipes-devtools/python/python_2.7.14.bb
-index dbafb95..13455ff 100644
---- a/meta/recipes-devtools/python/python_2.7.13.bb
-+++ b/meta/recipes-devtools/python/python_2.7.14.bb
-@@ -28,7 +28,6 @@ SRC_URI += "\
-   file://parallel-makeinst-create-bindir.patch \
-   file://use_sysroot_ncurses_instead_of_host.patch \
-   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
--  file://Don-t-use-getentropy-on-Linux.patch \
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
-   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
- "
+We are planning to at least webcast the meeting - ideally we will make it
+interactive remotely as well.
+
+There is also a general remote meeting set up for February 21 to discuss
+agenda items for this meeting, please feel free to join.
+
+thanks
+
 -- 
-2.7.4
+Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
 
+--001a1142107caae79d0563b31c61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>The time for ELC North America approaches fast, and m=
+any of you are planning travel. <br><br></div>We have set up an OEDAM (Open=
+Embedded Developers&#39; American Meeting) on Sunday, March 11, the day bef=
+ore ELC starts. The meeting will start late to enable people to arrive that=
+ morning. Lunch and coffee etc are provided by the grace of Mentor Graphics=
+, where the event will be held.<br><div><div><br></div><div>If you are able=
+ to attend, please add your name and any agenda items you&#39;d like to see=
+ on the wiki page.<br></div><div><br></div><div><a href=3D"https://www.open=
+embedded.org/wiki/OEDAM_2018">https://www.openembedded.org/wiki/OEDAM_2018<=
+/a></div><div><br></div><div>We are planning to at least webcast the meetin=
+g - ideally we will make it interactive remotely as well.</div><div><br></d=
+iv><div>There is also a general remote meeting set up for February 21 to di=
+scuss agenda items for this meeting, please feel free to join.</div><div><b=
+r></div><div>thanks<br clear=3D"all"></div><div><div><br>-- <br><div class=
+=3D"gmail_signature"><div dir=3D"ltr"><div>Jeff Osier-Mixon - Open Source C=
+ommunity Manager, Intel Corporation</div></div></div>
+</div></div></div></div>
+
+--001a1142107caae79d0563b31c61--
