@@ -1,28 +1,43 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.x-arc.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id ED2CF787DE
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 16:41:05 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id B57AEA0025F
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 17:41:16 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2018012617410555-108911 ;
-	Fri, 26 Jan 2018 17:41:05 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
-To: Openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jan 2018 17:41:05 +0100
-Message-Id: <1516984865-2976-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: git-send-email 2.7.4
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 26.01.2018 17:41:05,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 26.01.2018 17:41:05,
-	Serialize complete at 26.01.2018 17:41:05
-X-TNEFEvaluated: 1
-Subject: [PATCH] cryptodev: Fix build errors with v4.11
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A10B787C9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jan 2018 16:59:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Jan 2018 08:59:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,417,1511856000"; d="scan'208";a="14536953"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2018 08:59:04 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.11]) by
+	ORSMSX109.amr.corp.intel.com ([169.254.11.199]) with mapi id
+	14.03.0319.002; Fri, 26 Jan 2018 08:59:03 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] compiler-options.bbclass: provide and
+	validate options
+Thread-Index: AQHTdFnF8/Axn0uwe0e6bO3QAAdhfKOCyPiAgAPU2xA=
+Date: Fri, 26 Jan 2018 16:59:03 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B64052EBB5@ORSMSX112.amr.corp.intel.com>
+References: <1513200676-59900-1-git-send-email-juro.bystricky@intel.com>
+	<1513200676-59900-2-git-send-email-juro.bystricky@intel.com>
+	<cd2f3d6c-a67e-1cbd-ae34-0d171597d80c@gmail.com>
+In-Reply-To: <cd2f3d6c-a67e-1cbd-ae34-0d171597d80c@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWY3YjM2YWUtNmNmZC00MDQ5LWE5ZmEtNDBmOTJmMzlhYmQ1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiIzNzhENVRaMkRQUGhCbGpOUWVKTFhhcTVvTllqdDVsZGZMeVhDOW90cVwvRk9XVjFaRUJ6bCtJb1FwV2NsN05KRyJ9
+x-originating-ip: [10.22.254.138]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/4] compiler-options.bbclass: provide and validate options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,91 +50,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 16:41:07 -0000
+X-List-Received-Date: Fri, 26 Jan 2018 16:59:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Commit message from the included patch:
-"Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
-triggering build errors with gcc 5 and 6 (but not with gcc 4)"
 
-Backport from https://github.com/cryptodev-linux/cryptodev-linux
-Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-Acked-by: California Sullivan <california.l.sullivan@intel.com>
----
- .../cryptodev/cryptodev-module_1.9.bb              |  1 +
- .../0001-ioctl.c-Fix-build-with-linux-4.13.patch   | 49 ++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+> On 12/13/17 3:31 PM, Juro Bystricky wrote:
+> > As we may be using external toolchains, we cannot assume
+> > various compiler options to be valid.
+> >
+>=20
+> While looking through my backlog :),  I think the idea is fine but
+> implementation can be a bit more generic. e.g. a common function to
+> probe the compiler for a given option then adding/removing it from
+> compiler commandline.
+>=20
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-index 552eb6a..ed6d0ec 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-+++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
-@@ -9,6 +9,7 @@ DEPENDS += "cryptodev-linux"
- 
- SRC_URI += " \
- file://0001-Disable-installing-header-file-provided-by-another-p.patch \
-+file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
- "
- 
- EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
-new file mode 100644
-index 0000000..a41efac
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
-@@ -0,0 +1,49 @@
-+From f0d69774afb27ffc62bf353465fba145e70cb85a Mon Sep 17 00:00:00 2001
-+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Date: Mon, 4 Sep 2017 11:05:08 +0200
-+Subject: [PATCH] ioctl.c: Fix build with linux 4.13
-+
-+git/ioctl.c:1127:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-+   {0, },
-+    ^
-+note: (near initialization for 'verbosity_ctl_dir[1]')
-+git/ioctl.c:1136:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-+   {0, },
-+    ^
-+
-+Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
-+triggering build errors with gcc 5 and 6 (but not with gcc 4)
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
-+---
-+ ioctl.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/ioctl.c b/ioctl.c
-+index 0385203..8d4a162 100644
-+--- a/ioctl.c
-++++ b/ioctl.c
-+@@ -1124,7 +1124,7 @@ static struct ctl_table verbosity_ctl_dir[] = {
-+ 		.mode           = 0644,
-+ 		.proc_handler   = proc_dointvec,
-+ 	},
-+-	{0, },
-++	{},
-+ };
-+ 
-+ static struct ctl_table verbosity_ctl_root[] = {
-+@@ -1133,7 +1133,7 @@ static struct ctl_table verbosity_ctl_root[] = {
-+ 		.mode           = 0555,
-+ 		.child          = verbosity_ctl_dir,
-+ 	},
-+-	{0, },
-++	{},
-+ };
-+ static struct ctl_table_header *verbosity_sysctl_header;
-+ static int __init init_cryptodev(void)
-+-- 
-+2.7.4
-+
--- 
-2.7.4
+Yes, the code currently hardcodes test for --file-prefix-map and if it is s=
+upported, it uses/initializes it.
+Not sure a generic API to query gcc command line options can be done easily=
+ though. Command line options are queried via various methods, i.e.:
+${CC} -Q --help=3Dtarget
+${CC} -Q --help=3Doptimizers
+${CC} -Q --help=3Dcommon
+${CC} -Q --help=3Djoined
+...
+Generally:
 
+help=3D{common|optimizers|params|target|warnings|[^]{joined|separate|undocu=
+mented}}[,...]
+
+We could enumerate all help options, something like
+${CC} -Q --help=3Dtarget,common,optimizers,...
+
+But that seems rather costly to do for each command line argument.
+Of course, we could also pass the --help argument as an additional argument=
+ to the compiler options API to keep it a bit more efficient, but this coul=
+d become ugly real quick.
 
