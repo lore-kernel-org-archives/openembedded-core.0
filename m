@@ -1,48 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B8462784F1;
-	Fri, 26 Jan 2018 21:11:15 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id s5so1647523wra.0;
-	Fri, 26 Jan 2018 13:11:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=00p/bce09iFPy+2Z/PEMTb8rAOeDCu+t+jltQz1r6Pc=;
-	b=B1HptYUhAYiLtB3izlSEcWaPWdwplyGIMIM1IIOjfMgAA6FDlk+0gy7pH5ai78t7B9
-	PqQ+XQNnZgLZVPnKIRBg21dqLEWuOPYbj43nSaMpbF/jYpQOBOH+D623LVSBNCAfX8mZ
-	Sv7v1lH0dLG2LjxhzJfMW62fhroQ57uTtESd0x7PQkXcTxTBNA7S3Hud2/1l7rehO3np
-	r4NxS2upryVrh7EtOSARqrTD2xSPSeUVIqxbijMphXBsZhs0DKfJXXqRjDO4k/X+jAVY
-	8qyK8zsfRKSFtSb6AxJqr++aIIgVZTtoIO8zpiPPY282pUKA3SoipEzlOZP6lkTN9ONI
-	/Gqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=00p/bce09iFPy+2Z/PEMTb8rAOeDCu+t+jltQz1r6Pc=;
-	b=Iys+Nxfr2ApjTbUbTTybFiEpyubfCBCAPYQGsjLqGFvTH2HzWXVLSDYitdvd7NuhVa
-	DXFSK4dUV6UByfuDYK/FESxtSbxL4wRHcOR5A5Z/ZGisoFs3TqsxlsRPtw6TNHXQJmf7
-	rYPaAZbADe/ovNwFAHbkfllV3sVX9CO6rnBWEoG7tgDrjkK9+MWNSiFes99ZZb4ZMoay
-	nbrNn9SxllF2CgC610m4Ry/Nzn+NIq20NewJ3riti2vurNLX0ogUOcgBnetF6Ew5664Y
-	IDuZp3SN6gIfKLeS1LNv18iQL7t71HMqJKOdmEFJNdPl5wkDNhkbk1vvVy1u947deK+P
-	DieA==
-X-Gm-Message-State: AKwxyteC/6cGDdlFK7Fd9k3X6HNQzErn566sETz9cc2CQ2rKO3gR/UNx
-	B4QLLss093RQskuz5vvRZ+wfFTM0NO/ZBEWJJkmiKQ==
-X-Google-Smtp-Source: AH8x227B3k+55Lc3hHdhB+Qv34yE/UbrzxakZxAKjeZqS+Ckdz7nbHpMZXsOsda2cOWrNqr+YmsId6ijTsM+xFDzgH0=
-X-Received: by 10.223.195.78 with SMTP id e14mr12489664wrg.68.1517001076496;
-	Fri, 26 Jan 2018 13:11:16 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Fri, 26 Jan 2018 13:11:15 -0800 (PST)
-In-Reply-To: <20180126131030.94CC72362F5@git.openembedded.org>
-References: <151697222948.10795.9635543486349716912@git.openembedded.org>
-	<20180126131030.94CC72362F5@git.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 26 Jan 2018 22:11:15 +0100
-Message-ID: <CA+chaQf7JNHD_7T4B=pO0hEL=MUx+gkiteTAtEZ3=-EpQoNiNQ@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 19/24: curl: 7.54.1 -> 7.57.0
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E16877FED
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jan 2018 23:25:23 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0QNPMGp025719
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 26 Jan 2018 23:25:23 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1efDN4-0002lM-4U; Fri, 26 Jan 2018 23:25:22 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jan 2018 23:25:20 +0000
+Message-Id: <1517009120-10582-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] gcc: Upgrade 7.2 -> 7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,1171 +31,789 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 21:11:17 -0000
-Content-Type: multipart/alternative; boundary="f403045fa74649e0600563b4560e"
+X-List-Received-Date: Fri, 26 Jan 2018 23:25:25 -0000
 
---f403045fa74649e0600563b4560e
-Content-Type: text/plain; charset="UTF-8"
+The static PIE patch was updated by Juro Bystricky <juro.bystricky@intel.com>
+to work with gcc 7.3.
 
-Be aware that this upgrade might change your libcurl5 to libcurl4
+This update from the stable gcc 7 branch includes the retpoline
+functionality which is useful to assist with recent security issues.
 
-With Yocto 1.7 Dizzy we used to have libcurl5, because of
-different SIZEOF_OFF_T value.
+Two backported patches were dropped as they're included in 7.3.
 
-Then in Yocto 1.8 Fido SIZEOF_OFF_T was changed in oe-core and curl started
-to use libcurl4 again automatically.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../gcc-7.2/0001-PR-rtl-optimization-81803.patch   |  52 ------
+ .../gcc/gcc-7.2/0048-gcc-Enable-static-PIE.patch   |  37 ----
+ ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch | 194 ---------------------
+ .../gcc/{gcc-7.2.inc => gcc-7.3.inc}               |  13 +-
+ .../0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch     |   0
+ .../{gcc-7.2 => gcc-7.3}/0008-c99-snprintf.patch   |   0
+ .../0009-gcc-poison-system-directories.patch       |   6 +-
+ .../0010-gcc-poison-dir-extend.patch               |   0
+ .../0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |   0
+ .../0012-64-bit-multilib-hack.patch                |   0
+ .../0013-optional-libstdc.patch                    |   0
+ ...0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch |   0
+ .../0015-COLLECT_GCC_OPTIONS.patch                 |   0
+ ...efaults.h-in-B-instead-of-S-and-t-oe-in-B.patch |   0
+ .../0017-fortran-cross-compile-hack.patch          |   0
+ .../0018-cpp-honor-sysroot.patch                   |   0
+ .../0019-MIPS64-Default-to-N64-ABI.patch           |   0
+ ...C_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |   0
+ ...0021-gcc-Fix-argument-list-too-long-error.patch |   0
+ .../{gcc-7.2 => gcc-7.3}/0022-Disable-sdt.patch    |   0
+ .../gcc/{gcc-7.2 => gcc-7.3}/0023-libtool.patch    |   0
+ ...4-pass-fix-v4bx-to-linker-to-support-EABI.patch |   0
+ ...tilib-config-files-from-B-instead-of-usin.patch |   0
+ ...-libdir-from-.la-which-usually-points-to-.patch |   0
+ .../gcc/{gcc-7.2 => gcc-7.3}/0027-export-CPP.patch |   0
+ ...AltiVec-generation-on-powepc-linux-target.patch |   0
+ ...-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch |   0
+ ...Ensure-target-gcc-headers-can-be-included.patch |   0
+ ...-t-build-with-disable-dependency-tracking.patch |   0
+ ...h-host-directory-during-relink-if-inst_pr.patch |   0
+ ...IBS_DIR-replacement-instead-of-hardcoding.patch |   0
+ .../0034-aarch64-Add-support-for-musl-ldso.patch   |   0
+ ...ibcc1-fix-libcc1-s-install-path-and-rpath.patch |   0
+ ...-handle-sysroot-support-for-nativesdk-gcc.patch |   0
+ ...et-sysroot-gcc-version-specific-dirs-with.patch |   0
+ ...-various-_FOR_BUILD-and-related-variables.patch |   0
+ .../0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch    |   0
+ ...shared-to-link-commandline-for-musl-targe.patch |   0
+ ...c-libcpp-support-ffile-prefix-map-old-new.patch |   0
+ ...ug-prefix-map-to-replace-ffile-prefix-map.patch |   0
+ ...-fdebug-prefix-map-support-to-remap-sourc.patch |   0
+ ...44-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch |   0
+ ...bgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch |   0
+ ...e-alias-for-__cpu_indicator_init-instead-.patch |   0
+ .../0047-sync-gcc-stddef.h-with-musl.patch         |   0
+ .../gcc/gcc-7.3/0048-gcc-Enable-static-PIE.patch   |  46 +++++
+ ...le-non-legitimate-address-in-riscv_legiti.patch |   0
+ .../fix-segmentation-fault-precompiled-hdr.patch   |   0
+ meta/recipes-devtools/gcc/gcc-common.inc           |   1 +
+ ...s-canadian_7.2.bb => gcc-cross-canadian_7.3.bb} |   0
+ ...oss-initial_7.2.bb => gcc-cross-initial_7.3.bb} |   0
+ .../gcc/{gcc-cross_7.2.bb => gcc-cross_7.3.bb}     |   0
+ ...-initial_7.2.bb => gcc-crosssdk-initial_7.3.bb} |   0
+ .../{gcc-crosssdk_7.2.bb => gcc-crosssdk_7.3.bb}   |   0
+ .../gcc/{gcc-runtime_7.2.bb => gcc-runtime_7.3.bb} |   0
+ ...gcc-sanitizers_7.2.bb => gcc-sanitizers_7.3.bb} |   0
+ .../gcc/{gcc-source_7.2.bb => gcc-source_7.3.bb}   |   0
+ .../gcc/{gcc_7.2.bb => gcc_7.3.bb}                 |   0
+ ...libgcc-initial_7.2.bb => libgcc-initial_7.3.bb} |   0
+ .../gcc/{libgcc_7.2.bb => libgcc_7.3.bb}           |   0
+ .../gcc/{libgfortran_7.2.bb => libgfortran_7.3.bb} |   0
+ 61 files changed, 56 insertions(+), 293 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0001-PR-rtl-optimization-81803.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0048-gcc-Enable-static-PIE.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
+ rename meta/recipes-devtools/gcc/{gcc-7.2.inc => gcc-7.3.inc} (92%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0008-c99-snprintf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0009-gcc-poison-system-directories.patch (97%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0010-gcc-poison-dir-extend.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0012-64-bit-multilib-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0013-optional-libstdc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0015-COLLECT_GCC_OPTIONS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0016-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0017-fortran-cross-compile-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0018-cpp-honor-sysroot.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0019-MIPS64-Default-to-N64-ABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0020-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0021-gcc-Fix-argument-list-too-long-error.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0022-Disable-sdt.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0023-libtool.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0024-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0025-Use-the-multilib-config-files-from-B-instead-of-usin.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0027-export-CPP.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0030-Ensure-target-gcc-headers-can-be-included.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0033-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0034-aarch64-Add-support-for-musl-ldso.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0035-libcc1-fix-libcc1-s-install-path-and-rpath.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0036-handle-sysroot-support-for-nativesdk-gcc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0037-Search-target-sysroot-gcc-version-specific-dirs-with.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0038-Fix-various-_FOR_BUILD-and-related-variables.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0041-gcc-libcpp-support-ffile-prefix-map-old-new.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0042-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0047-sync-gcc-stddef.h-with-musl.patch (100%)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0048-gcc-Enable-static-PIE.patch
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-7.2 => gcc-7.3}/fix-segmentation-fault-precompiled-hdr.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_7.2.bb => gcc-cross-canadian_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-initial_7.2.bb => gcc-cross-initial_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_7.2.bb => gcc-cross_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk-initial_7.2.bb => gcc-crosssdk-initial_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_7.2.bb => gcc-crosssdk_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_7.2.bb => gcc-runtime_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_7.2.bb => gcc-sanitizers_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_7.2.bb => gcc-source_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc_7.2.bb => gcc_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_7.2.bb => libgcc-initial_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_7.2.bb => libgcc_7.3.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgfortran_7.2.bb => libgfortran_7.3.bb} (100%)
 
-Back then I've added simple workaround in our bbappend to keep libcurl5
-(until we can rebuild all prebuilt binaries from 3rd party vendors):
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0001-PR-rtl-optimization-81803.patch b/meta/recipes-devtools/gcc/gcc-7.2/0001-PR-rtl-optimization-81803.patch
+deleted file mode 100644
+index 292e734..0000000
+--- a/meta/recipes-devtools/gcc/gcc-7.2/0001-PR-rtl-optimization-81803.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 5cbb8e6b1122092b3eaabd4270b2f316aa40407c Mon Sep 17 00:00:00 2001
+-From: ebotcazou <ebotcazou@138bc75d-0d04-0410-961f-82ee72b054a4>
+-Date: Tue, 31 Oct 2017 18:27:52 +0000
+-Subject: [PATCH] 	PR rtl-optimization/81803 	* lra-constraints.c
+- (curr_insn_transform): Also reload the whole 	register for a strict subreg
+- no wider than a word if this is for 	a WORD_REGISTER_OPERATIONS target.
+-
+-git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@254275 138bc75d-0d04-0410-961f-82ee72b054a4
+-
+-Upstream-Status: Backport
+-
+-This patch removes changes to Changelog from the original patch upstream. This is
+-because we are backporting a patch to a stable version, making changes to Changelog,
+-especially up '* GCC 7.2.0 released.', feels a little weird.
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- gcc/lra-constraints.c | 11 ++++++++---
+- 2 files changed, 16 insertions(+), 3 deletions(-)
+-
+-diff --git a/gcc/lra-constraints.c b/gcc/lra-constraints.c
+-index a423f069836..3758409bb9c 100644
+---- a/gcc/lra-constraints.c
+-+++ b/gcc/lra-constraints.c
+-@@ -4207,8 +4207,9 @@ curr_insn_transform (bool check_only_p)
+- 	      reg = SUBREG_REG (*loc);
+- 	      byte = SUBREG_BYTE (*loc);
+- 	      if (REG_P (reg)
+--		  /* Strict_low_part requires reload the register not
+--		     the sub-register.	*/
+-+		  /* Strict_low_part requires reloading the register and not
+-+		     just the subreg.  Likewise for a strict subreg no wider
+-+		     than a word for WORD_REGISTER_OPERATIONS targets.  */
+- 		  && (curr_static_id->operand[i].strict_low
+- 		      || (!paradoxical_subreg_p (mode, GET_MODE (reg))
+- 			  && (hard_regno
+-@@ -4219,7 +4220,11 @@ curr_insn_transform (bool check_only_p)
+- 			  && (goal_alt[i] == NO_REGS
+- 			      || (simplify_subreg_regno
+- 				  (ira_class_hard_regs[goal_alt[i]][0],
+--				   GET_MODE (reg), byte, mode) >= 0)))))
+-+				   GET_MODE (reg), byte, mode) >= 0)))
+-+		      || (GET_MODE_PRECISION (mode)
+-+			  < GET_MODE_PRECISION (GET_MODE (reg))
+-+			  && GET_MODE_SIZE (GET_MODE (reg)) <= UNITS_PER_WORD
+-+			  && WORD_REGISTER_OPERATIONS)))
+- 		{
+- 		  /* An OP_INOUT is required when reloading a subreg of a
+- 		     mode wider than a word to ensure that data beyond the
+--- 
+-2.13.0
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0048-gcc-Enable-static-PIE.patch b/meta/recipes-devtools/gcc/gcc-7.2/0048-gcc-Enable-static-PIE.patch
+deleted file mode 100644
+index 879e360..0000000
+--- a/meta/recipes-devtools/gcc/gcc-7.2/0048-gcc-Enable-static-PIE.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 44ef80688b56beea85c0070840dea1e2a4e34aed Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 13 Jun 2017 12:12:52 -0700
+-Subject: [PATCH 49/49] gcc: Enable static PIE
+-
+-Static PIE support in GCC
+-see
+-https://gcc.gnu.org/ml/gcc/2015-06/msg00008.html
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gcc/config/gnu-user.h | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/gcc/config/gnu-user.h b/gcc/config/gnu-user.h
+-index 2787a3d16be..ee7b781319e 100644
+---- a/gcc/config/gnu-user.h
+-+++ b/gcc/config/gnu-user.h
+-@@ -51,10 +51,10 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+- #if defined HAVE_LD_PIE
+- #define GNU_USER_TARGET_STARTFILE_SPEC \
+-   "%{!shared: %{pg|p|profile:gcrt1.o%s;: \
+--    %{" PIE_SPEC ":Scrt1.o%s} %{" NO_PIE_SPEC ":crt1.o%s}}} \
+--   crti.o%s %{static:crtbeginT.o%s;: %{shared:crtbeginS.o%s} \
+-+    %{" PIE_SPEC ":%{static:rcrt1.o%s;:Scrt1.o%s}} %{" NO_PIE_SPEC ":crt1.o%s}}} \
+-+   crti.o%s %{shared:crtbeginS.o%s;: \
+- 	      %{" PIE_SPEC ":crtbeginS.o%s} \
+--	      %{" NO_PIE_SPEC ":crtbegin.o%s}} \
+-+	      %{" NO_PIE_SPEC ":%{static:crtbeginT.o%s;:crtbegin.o%s}}} \
+-    %{fvtable-verify=none:%s; \
+-      fvtable-verify=preinit:vtv_start_preinit.o%s; \
+-      fvtable-verify=std:vtv_start.o%s} \
+--- 
+-2.13.1
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
+deleted file mode 100644
+index 0212507..0000000
+--- a/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
++++ /dev/null
+@@ -1,194 +0,0 @@
+-From 8c18b422211878ba02503462cb22a2cc25a0a325 Mon Sep 17 00:00:00 2001
+-From: rearnsha <rearnsha@138bc75d-0d04-0410-961f-82ee72b054a4>
+-Date: Thu, 19 Oct 2017 13:14:55 +0000
+-Subject: [PATCH] [ARM] PR 82445 - suppress 32-bit aligned ldrd/strd peepholing
+- with -mno-unaligned-access
+-
+-Peephole patterns exist in the arm backend to spot load/store
+-operations to adjacent memory operations in order to convert them into
+-ldrd/strd instructions.  However, when we have strict alignment
+-enforced, then we can only do this if the accesses are known to be
+-64-bit aligned; this is unlikely to be the case for most loads.  The
+-patch adds some alignment checking to the code that validates the
+-addresses for use in the peephole patterns.  This should also fix
+-incorrect generation of ldrd/strd with unaligned accesses that could
+-previously have occurred on ARMv5e where all such operations must be
+-64-bit aligned.
+-
+-I've added some new tests as well.  In doing so I discovered that the
+-ldrd/strd peephole tests could never fail since they would match the
+-source file name in the scanned assembly as well as any instructions
+-of the intended type.  I've fixed those by tightening the scan results
+-slightly.
+-
+-gcc:
+-
+-* config/arm/arm.c (align_ok_ldrd_strd): New function.
+-(mem_ok_for_ldrd_strd): New parameter align.  Extract the alignment of the
+-mem into it.
+-(gen_operands_ldrd_strd): Validate the alignment of the accesses.
+-
+-testsuite:
+-
+-* gcc.target/arm/peep-ldrd-1.c: Tighten test scan pattern.
+-* gcc.target/arm/peep-strd-1.c: Likewise.
+-* gcc.target/arm/peep-ldrd-2.c: New test.
+-* gcc.target/arm/peep-strd-2.c: New test.
+-
+-
+-
+-git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-7-branch@253891 138bc75d-0d04-0410-961f-82ee72b054a4
+----
+-Upstream-Status: Backport
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+- gcc/ChangeLog                                      |  8 +++++++
+- gcc/config/arm/arm.c                               | 27 ++++++++++++++++++----
+- gcc/testsuite/ChangeLog                            |  8 +++++++
+- gcc/testsuite/gcc.target/arm/peep-ldrd-1.c         |  2 +-
+- .../arm/{peep-ldrd-1.c => peep-ldrd-2.c}           |  4 ++--
+- gcc/testsuite/gcc.target/arm/peep-strd-1.c         |  2 +-
+- .../arm/{peep-strd-1.c => peep-strd-2.c}           |  4 ++--
+- 7 files changed, 44 insertions(+), 11 deletions(-)
+- copy gcc/testsuite/gcc.target/arm/{peep-ldrd-1.c => peep-ldrd-2.c} (63%)
+- copy gcc/testsuite/gcc.target/arm/{peep-strd-1.c => peep-strd-2.c} (58%)
+-
+-diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
+-index 1ded0d2a17d..989957f048e 100644
+---- a/gcc/config/arm/arm.c
+-+++ b/gcc/config/arm/arm.c
+-@@ -15199,12 +15199,23 @@ operands_ok_ldrd_strd (rtx rt, rtx rt2, rtx rn, HOST_WIDE_INT offset,
+-   return true;
+- }
+- 
+-+/* Return true if a 64-bit access with alignment ALIGN and with a
+-+   constant offset OFFSET from the base pointer is permitted on this
+-+   architecture.  */
+-+static bool
+-+align_ok_ldrd_strd (HOST_WIDE_INT align, HOST_WIDE_INT offset)
+-+{
+-+  return (unaligned_access
+-+	  ? (align >= BITS_PER_WORD && (offset & 3) == 0)
+-+	  : (align >= 2 * BITS_PER_WORD && (offset & 7) == 0));
+-+}
+-+
+- /* Helper for gen_operands_ldrd_strd.  Returns true iff the memory
+-    operand MEM's address contains an immediate offset from the base
+--   register and has no side effects, in which case it sets BASE and
+--   OFFSET accordingly.  */
+-+   register and has no side effects, in which case it sets BASE,
+-+   OFFSET and ALIGN accordingly.  */
+- static bool
+--mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
+-+mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset, HOST_WIDE_INT *align)
+- {
+-   rtx addr;
+- 
+-@@ -15223,6 +15234,7 @@ mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
+-   gcc_assert (MEM_P (mem));
+- 
+-   *offset = const0_rtx;
+-+  *align = MEM_ALIGN (mem);
+- 
+-   addr = XEXP (mem, 0);
+- 
+-@@ -15263,7 +15275,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
+-                         bool const_store, bool commute)
+- {
+-   int nops = 2;
+--  HOST_WIDE_INT offsets[2], offset;
+-+  HOST_WIDE_INT offsets[2], offset, align[2];
+-   rtx base = NULL_RTX;
+-   rtx cur_base, cur_offset, tmp;
+-   int i, gap;
+-@@ -15275,7 +15287,8 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
+-      registers, and the corresponding memory offsets.  */
+-   for (i = 0; i < nops; i++)
+-     {
+--      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset))
+-+      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset,
+-+				 &align[i]))
+-         return false;
+- 
+-       if (i == 0)
+-@@ -15389,6 +15402,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
+-       /* Swap the instructions such that lower memory is accessed first.  */
+-       std::swap (operands[0], operands[1]);
+-       std::swap (operands[2], operands[3]);
+-+      std::swap (align[0], align[1]);
+-       if (const_store)
+-         std::swap (operands[4], operands[5]);
+-     }
+-@@ -15402,6 +15416,9 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
+-   if (gap != 4)
+-     return false;
+- 
+-+  if (!align_ok_ldrd_strd (align[0], offset))
+-+    return false;
+-+
+-   /* Make sure we generate legal instructions.  */
+-   if (operands_ok_ldrd_strd (operands[0], operands[1], base, offset,
+-                              false, load))
+-diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
+-index eb2b86ee7b6..d49eff6b87e 100644
+---- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
+-+++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
+-@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
+-   *p = a;
+-   return a;
+- }
+--/* { dg-final { scan-assembler "ldrd" } } */
+-+/* { dg-final { scan-assembler "ldrd\\t" } } */
+-diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
+-similarity index 63%
+-copy from gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
+-copy to gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
+-index eb2b86ee7b6..6822c2b1454 100644
+---- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
+-+++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
+-@@ -1,6 +1,6 @@
+- /* { dg-do compile } */
+- /* { dg-require-effective-target arm_prefer_ldrd_strd } */
+--/* { dg-options "-O2" }  */
+-+/* { dg-options "-O2 -mno-unaligned-access" }  */
+- int foo(int a, int b, int* p, int *q)
+- {
+-   a = p[2] + p[3];
+-@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
+-   *p = a;
+-   return a;
+- }
+--/* { dg-final { scan-assembler "ldrd" } } */
+-+/* { dg-final { scan-assembler-not "ldrd\\t" } } */
+-diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
+-index bd330769599..fe1beac7229 100644
+---- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
+-+++ b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
+-@@ -6,4 +6,4 @@ void foo(int a, int b, int* p)
+-   p[2] = a;
+-   p[3] = b;
+- }
+--/* { dg-final { scan-assembler "strd" } } */
+-+/* { dg-final { scan-assembler "strd\\t" } } */
+-diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
+-similarity index 58%
+-copy from gcc/testsuite/gcc.target/arm/peep-strd-1.c
+-copy to gcc/testsuite/gcc.target/arm/peep-strd-2.c
+-index bd330769599..bfc5ebe9eec 100644
+---- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
+-+++ b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
+-@@ -1,9 +1,9 @@
+- /* { dg-do compile } */
+- /* { dg-require-effective-target arm_prefer_ldrd_strd } */
+--/* { dg-options "-O2" }  */
+-+/* { dg-options "-O2 -mno-unaligned-access" }  */
+- void foo(int a, int b, int* p)
+- {
+-   p[2] = a;
+-   p[3] = b;
+- }
+--/* { dg-final { scan-assembler "strd" } } */
+-+/* { dg-final { scan-assembler-not "strd\\t" } } */
+--- 
+-2.15.0
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+similarity index 92%
+rename from meta/recipes-devtools/gcc/gcc-7.2.inc
+rename to meta/recipes-devtools/gcc/gcc-7.3.inc
+index f3d8a5e..efa62ea 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+@@ -2,13 +2,13 @@ require gcc-common.inc
+ 
+ # Third digit in PV should be incremented after a minor release
+ 
+-PV = "7.2.0"
++PV = "7.3.0"
+ 
+ # BINV should be incremented to a revision after a minor gcc release
+ 
+-BINV = "7.2.0"
++BINV = "7.3.0"
+ 
+-FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.2:${FILE_DIRNAME}/gcc-7.2/backport:"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-7.3:${FILE_DIRNAME}/gcc-7.3/backport:"
+ 
+ DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
+@@ -78,11 +78,10 @@ SRC_URI = "\
+            ${BACKPORTS} \
+ "
+ BACKPORTS = "\
+-           file://0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
+-           file://0001-PR-rtl-optimization-81803.patch \
+ "
+-SRC_URI[md5sum] = "ff370482573133a7fcdd96cd2f552292"
+-SRC_URI[sha256sum] = "1cf7adf8ff4b5aa49041c8734bbcf1ad18cc4c94d0029aae0f4e48841088479a"
++
++SRC_URI[md5sum] = "be2da21680f27624f3a87055c4ba5af2"
++SRC_URI[sha256sum] = "832ca6ae04636adbb430e865a1451adf6979ab44ca1c8374f61fba65645ce15c"
+ 
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-7.3/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0008-c99-snprintf.patch b/meta/recipes-devtools/gcc/gcc-7.3/0008-c99-snprintf.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0008-c99-snprintf.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0008-c99-snprintf.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0009-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc-7.3/0009-gcc-poison-system-directories.patch
+similarity index 97%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0009-gcc-poison-system-directories.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0009-gcc-poison-system-directories.patch
+index 4d4e987..fe13ed6 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.2/0009-gcc-poison-system-directories.patch
++++ b/meta/recipes-devtools/gcc/gcc-7.3/0009-gcc-poison-system-directories.patch
+@@ -138,16 +138,16 @@ index 68a558e9992..060cd7169c6 100644
+  @opindex Wfloat-equal
+  @opindex Wno-float-equal
+ diff --git a/gcc/gcc.c b/gcc/gcc.c
+-index 120c5c0792a..6315aa0dd16 100644
++index c48178f..f63d53d 100644
+ --- a/gcc/gcc.c
+ +++ b/gcc/gcc.c
+-@@ -1035,6 +1035,8 @@ proper position among the other output files.  */
++@@ -1029,6 +1029,8 @@ proper position among the other output files.  */
+     "%{fuse-ld=*:-fuse-ld=%*} " LINK_COMPRESS_DEBUG_SPEC \
+     "%X %{o*} %{e*} %{N} %{n} %{r}\
+      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!nostartfiles:%S}} \
+ +    %{Wno-poison-system-directories:--no-poison-system-directories} \
+ +    %{Werror=poison-system-directories:--error-poison-system-directories} \
+-     %{static:} %{L*} %(mfwrap) %(link_libgcc) " \
++     %{static|no-pie:} %{L*} %(mfwrap) %(link_libgcc) " \
+      VTABLE_VERIFICATION_SPEC " " SANITIZER_EARLY_SPEC " %o " CHKP_SPEC " \
+      %{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1):\
+ diff --git a/gcc/incpath.c b/gcc/incpath.c
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0010-gcc-poison-dir-extend.patch b/meta/recipes-devtools/gcc/gcc-7.3/0010-gcc-poison-dir-extend.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0010-gcc-poison-dir-extend.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0010-gcc-poison-dir-extend.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-7.3/0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0011-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0012-64-bit-multilib-hack.patch b/meta/recipes-devtools/gcc/gcc-7.3/0012-64-bit-multilib-hack.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0012-64-bit-multilib-hack.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0012-64-bit-multilib-hack.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0013-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc-7.3/0013-optional-libstdc.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0013-optional-libstdc.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0013-optional-libstdc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch b/meta/recipes-devtools/gcc/gcc-7.3/0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0014-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0015-COLLECT_GCC_OPTIONS.patch b/meta/recipes-devtools/gcc/gcc-7.3/0015-COLLECT_GCC_OPTIONS.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0015-COLLECT_GCC_OPTIONS.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0015-COLLECT_GCC_OPTIONS.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0016-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-7.3/0016-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0016-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0016-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0017-fortran-cross-compile-hack.patch b/meta/recipes-devtools/gcc/gcc-7.3/0017-fortran-cross-compile-hack.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0017-fortran-cross-compile-hack.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0017-fortran-cross-compile-hack.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0018-cpp-honor-sysroot.patch b/meta/recipes-devtools/gcc/gcc-7.3/0018-cpp-honor-sysroot.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0018-cpp-honor-sysroot.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0018-cpp-honor-sysroot.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0019-MIPS64-Default-to-N64-ABI.patch b/meta/recipes-devtools/gcc/gcc-7.3/0019-MIPS64-Default-to-N64-ABI.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0019-MIPS64-Default-to-N64-ABI.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0019-MIPS64-Default-to-N64-ABI.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0020-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc-7.3/0020-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0020-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0020-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0021-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc-7.3/0021-gcc-Fix-argument-list-too-long-error.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0021-gcc-Fix-argument-list-too-long-error.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0021-gcc-Fix-argument-list-too-long-error.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0022-Disable-sdt.patch b/meta/recipes-devtools/gcc/gcc-7.3/0022-Disable-sdt.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0022-Disable-sdt.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0022-Disable-sdt.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0023-libtool.patch b/meta/recipes-devtools/gcc/gcc-7.3/0023-libtool.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0023-libtool.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0023-libtool.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0024-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc-7.3/0024-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0024-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0024-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0025-Use-the-multilib-config-files-from-B-instead-of-usin.patch b/meta/recipes-devtools/gcc/gcc-7.3/0025-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0025-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0025-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch b/meta/recipes-devtools/gcc/gcc-7.3/0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0026-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0027-export-CPP.patch b/meta/recipes-devtools/gcc/gcc-7.3/0027-export-CPP.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0027-export-CPP.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0027-export-CPP.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-7.3/0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0028-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch b/meta/recipes-devtools/gcc/gcc-7.3/0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0029-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0030-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc-7.3/0030-Ensure-target-gcc-headers-can-be-included.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0030-Ensure-target-gcc-headers-can-be-included.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0030-Ensure-target-gcc-headers-can-be-included.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch b/meta/recipes-devtools/gcc/gcc-7.3/0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0031-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch b/meta/recipes-devtools/gcc/gcc-7.3/0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0032-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0033-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-7.3/0033-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0033-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0033-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0034-aarch64-Add-support-for-musl-ldso.patch b/meta/recipes-devtools/gcc/gcc-7.3/0034-aarch64-Add-support-for-musl-ldso.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0034-aarch64-Add-support-for-musl-ldso.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0034-aarch64-Add-support-for-musl-ldso.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0035-libcc1-fix-libcc1-s-install-path-and-rpath.patch b/meta/recipes-devtools/gcc/gcc-7.3/0035-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0035-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0035-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0036-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc-7.3/0036-handle-sysroot-support-for-nativesdk-gcc.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0036-handle-sysroot-support-for-nativesdk-gcc.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0036-handle-sysroot-support-for-nativesdk-gcc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0037-Search-target-sysroot-gcc-version-specific-dirs-with.patch b/meta/recipes-devtools/gcc/gcc-7.3/0037-Search-target-sysroot-gcc-version-specific-dirs-with.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0037-Search-target-sysroot-gcc-version-specific-dirs-with.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0037-Search-target-sysroot-gcc-version-specific-dirs-with.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0038-Fix-various-_FOR_BUILD-and-related-variables.patch b/meta/recipes-devtools/gcc/gcc-7.3/0038-Fix-various-_FOR_BUILD-and-related-variables.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0038-Fix-various-_FOR_BUILD-and-related-variables.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0038-Fix-various-_FOR_BUILD-and-related-variables.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch b/meta/recipes-devtools/gcc/gcc-7.3/0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0039-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch b/meta/recipes-devtools/gcc/gcc-7.3/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0041-gcc-libcpp-support-ffile-prefix-map-old-new.patch b/meta/recipes-devtools/gcc/gcc-7.3/0041-gcc-libcpp-support-ffile-prefix-map-old-new.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0041-gcc-libcpp-support-ffile-prefix-map-old-new.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0041-gcc-libcpp-support-ffile-prefix-map-old-new.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0042-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-7.3/0042-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0042-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0042-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch b/meta/recipes-devtools/gcc/gcc-7.3/0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch b/meta/recipes-devtools/gcc/gcc-7.3/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch b/meta/recipes-devtools/gcc/gcc-7.3/0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0047-sync-gcc-stddef.h-with-musl.patch b/meta/recipes-devtools/gcc/gcc-7.3/0047-sync-gcc-stddef.h-with-musl.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0047-sync-gcc-stddef.h-with-musl.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0047-sync-gcc-stddef.h-with-musl.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0048-gcc-Enable-static-PIE.patch b/meta/recipes-devtools/gcc/gcc-7.3/0048-gcc-Enable-static-PIE.patch
+new file mode 100644
+index 0000000..a96e913
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-7.3/0048-gcc-Enable-static-PIE.patch
+@@ -0,0 +1,46 @@
++From 44ef80688b56beea85c0070840dea1e2a4e34aed Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 13 Jun 2017 12:12:52 -0700
++Subject: [PATCH 49/49] gcc: Enable static PIE
++
++Static PIE support in GCC
++see
++https://gcc.gnu.org/ml/gcc/2015-06/msg00008.html
++
++startfiles before patch:
++ -static -> crt1.o crti.o crtbeginT.o
++ -static -PIE -> crt1.o crti.o crtbeginT.o
++ 
++after patch:
++ -static -> crt1.o crti.o crtbeginT.o
++ -static -PIE -> rcrt1.o crti.o crtbeginS.o
++ 
++Upstream-Status: Pending
++
++Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
++
++---
++ gcc/config/gnu-user.h | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/gnu-user.h b/gcc/config/gnu-user.h
++index de605b0..b035bbe 100644
++--- a/gcc/config/gnu-user.h
+++++ b/gcc/config/gnu-user.h
++@@ -52,11 +52,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ #define GNU_USER_TARGET_STARTFILE_SPEC \
++   "%{shared:; \
++      pg|p|profile:gcrt1.o%s; \
++-     static:crt1.o%s; \
+++     static: %{" PIE_SPEC ": rcrt1.o%s; :crt1.o%s}; \
++      " PIE_SPEC ":Scrt1.o%s; \
++      :crt1.o%s} \
++    crti.o%s \
++-   %{static:crtbeginT.o%s; \
+++   %{static: %{" PIE_SPEC ": crtbeginS.o%s; :crtbeginT.o%s}; \
++      shared|" PIE_SPEC ":crtbeginS.o%s; \
++      :crtbegin.o%s} \
++    %{fvtable-verify=none:%s; \
++
++2.13.1
++
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch b/meta/recipes-devtools/gcc/gcc-7.3/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/fix-segmentation-fault-precompiled-hdr.patch b/meta/recipes-devtools/gcc/gcc-7.3/fix-segmentation-fault-precompiled-hdr.patch
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-7.2/fix-segmentation-fault-precompiled-hdr.patch
+rename to meta/recipes-devtools/gcc/gcc-7.3/fix-segmentation-fault-precompiled-hdr.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index b5975b5..aa3b53e 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -105,6 +105,7 @@ gcclibdir = "${libdir}/gcc"
+ BINV = "${PV}"
+ #S = "${WORKDIR}/gcc-${PV}"
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
++
+ B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ target_includedir ?= "${includedir}"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_7.2.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross-canadian_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-cross-canadian_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_7.2.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross-initial_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-cross-initial_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_7.2.bb b/meta/recipes-devtools/gcc/gcc-cross_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-cross_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_7.2.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-crosssdk-initial_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-crosssdk-initial_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_7.2.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-crosssdk_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-crosssdk_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_7.2.bb b/meta/recipes-devtools/gcc/gcc-runtime_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-runtime_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-runtime_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_7.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-sanitizers_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-sanitizers_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-source_7.2.bb b/meta/recipes-devtools/gcc/gcc-source_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-source_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc-source_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/gcc_7.2.bb b/meta/recipes-devtools/gcc/gcc_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc_7.2.bb
+rename to meta/recipes-devtools/gcc/gcc_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial_7.2.bb b/meta/recipes-devtools/gcc/libgcc-initial_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgcc-initial_7.2.bb
+rename to meta/recipes-devtools/gcc/libgcc-initial_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc_7.2.bb b/meta/recipes-devtools/gcc/libgcc_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgcc_7.2.bb
+rename to meta/recipes-devtools/gcc/libgcc_7.3.bb
+diff --git a/meta/recipes-devtools/gcc/libgfortran_7.2.bb b/meta/recipes-devtools/gcc/libgfortran_7.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgfortran_7.2.bb
+rename to meta/recipes-devtools/gcc/libgfortran_7.3.bb
+-- 
+2.7.4
 
-# Force to use libcurl5 instead of libcurl4 (like we had with Yocto 1.7
-Dizzy)
-# The SONAME isn't bumped automatically since oe-core commit
-49c848018484827c433e1bcf9c63416640456f3e
-# which changed SIZEOF_OFF_T to 8
-EXTRA_OECONF += "--enable-soname-bump"
 
-and it was working fine until this upgrade to 7.57.0. I haven't checked yet
-why enable-soname-bump stopped working (it's still recognized by configure
-script).
-
-
-On Fri, Jan 26, 2018 at 2:10 PM, <git@git.openembedded.org> wrote:
-
-> This is an automated email from the git hooks/post-receive script.
->
-> rpurdie pushed a commit to branch master
-> in repository openembedded-core.
->
-> commit 215d5677004537fc190b5381157ac8b94db6d7e8
-> Author: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-> AuthorDate: Wed Jan 24 11:01:36 2018 +0800
->
->     curl: 7.54.1 -> 7.57.0
->
->     1.Upgrade curl from 7.54.1 to 7.57.0.
->     2.Delete CVE-2017-1000099.patch, CVE-2017-1000100.patch,
-> CVE-2017-1000101.patch, CVE-2017-1000254.patch, reproducible-mkhelp.patch,
-> since it is integrated upstream.
->     3.Remove "do_install_append()" from curl_7.57.0.bb, since
-> curl/curlbuild.h has been removed.
->
->     Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  .../curl/curl/CVE-2017-1000099.patch               |  41 ------
->  .../curl/curl/CVE-2017-1000100.patch               |  51 --------
->  .../curl/curl/CVE-2017-1000101.patch               |  99 ---------------
->  .../curl/curl/CVE-2017-1000254.patch               | 138
-> ---------------------
->  .../curl/curl/reproducible-mkhelp.patch            |  32 -----
->  .../curl/{curl_7.54.1.bb => curl_7.57.0.bb}        |  14 +--
->  6 files changed, 2 insertions(+), 373 deletions(-)
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000099.patch
-> b/meta/recipes-support/curl/curl/CVE-2017-1000099.patch
-> deleted file mode 100644
-> index 96ff1b0..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2017-1000099.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -From c9332fa5e84f24da300b42b1a931ade929d3e27d Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Tue, 1 Aug 2017 17:17:06 +0200
-> -Subject: [PATCH] file: output the correct buffer to the user
-> -
-> -Regression brought by 7c312f84ea930d8 (April 2017)
-> -
-> -CVE: CVE-2017-1000099
-> -
-> -Bug: https://curl.haxx.se/docs/adv_20170809C.html
-> -
-> -Credit to OSS-Fuzz for the discovery
-> -
-> -Upstream-Status: Backport
-> -https://github.com/curl/curl/commit/c9332fa5e84f24da300b42b1a931ad
-> e929d3e27d
-> -
-> -Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ----
-> - lib/file.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/lib/file.c b/lib/file.c
-> -index bd426eac2..666cbe75b 100644
-> ---- a/lib/file.c
-> -+++ b/lib/file.c
-> -@@ -499,11 +499,11 @@ static CURLcode file_do(struct connectdata *conn,
-> bool *done)
-> -              Curl_month[tm->tm_mon],
-> -              tm->tm_year + 1900,
-> -              tm->tm_hour,
-> -              tm->tm_min,
-> -              tm->tm_sec);
-> --    result = Curl_client_write(conn, CLIENTWRITE_BOTH, buf, 0);
-> -+    result = Curl_client_write(conn, CLIENTWRITE_BOTH, header, 0);
-> -     if(!result)
-> -       /* set the file size to make it available post transfer */
-> -       Curl_pgrsSetDownloadSize(data, expected_size);
-> -     return result;
-> -   }
-> ---
-> -2.13.3
-> -
-> diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000100.patch
-> b/meta/recipes-support/curl/curl/CVE-2017-1000100.patch
-> deleted file mode 100644
-> index f74f1dd..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2017-1000100.patch
-> +++ /dev/null
-> @@ -1,51 +0,0 @@
-> -From 358b2b131ad6c095696f20dcfa62b8305263f898 Mon Sep 17 00:00:00 2001
-> -From: Daniel Stenberg <daniel@haxx.se>
-> -Date: Tue, 1 Aug 2017 17:16:46 +0200
-> -Subject: [PATCH] tftp: reject file name lengths that don't fit
-> -
-> -... and thereby avoid telling send() to send off more bytes than the
-> -size of the buffer!
-> -
-> -CVE: CVE-2017-1000100
-> -
-> -Bug: https://curl.haxx.se/docs/adv_20170809B.html
-> -Reported-by: Even Rouault
-> -
-> -Credit to OSS-Fuzz for the discovery
-> -
-> -Upstream-Status: Backport
-> -https://github.com/curl/curl/commit/358b2b131ad6c095696f20dcfa62b8
-> 305263f898
-> -
-> -Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ----
-> - lib/tftp.c |    7 ++++++-
-> - 1 file changed, 6 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/lib/tftp.c b/lib/tftp.c
-> -index 02bd842..f6f4bce 100644
-> ---- a/lib/tftp.c
-> -+++ b/lib/tftp.c
-> -@@ -5,7 +5,7 @@
-> -  *                            | (__| |_| |  _ <| |___
-> -  *                             \___|\___/|_| \_\_____|
-> -  *
-> -- * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
-> -+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
-> -  *
-> -  * This software is licensed as described in the file COPYING, which
-> -  * you should have received as part of this distribution. The terms
-> -@@ -491,6 +491,11 @@ static CURLcode tftp_send_first(tftp_state_data_t
-> *state, tftp_event_t event)
-> -     if(result)
-> -       return result;
-> -
-> -+    if(strlen(filename) > (state->blksize - strlen(mode) - 4)) {
-> -+      failf(data, "TFTP file name too long\n");
-> -+      return CURLE_TFTP_ILLEGAL; /* too long file name field */
-> -+    }
-> -+
-> -     snprintf((char *)state->spacket.data+2,
-> -              state->blksize,
-> -              "%s%c%s%c", filename, '\0',  mode, '\0');
-> ---
-> -1.7.9.5
-> -
-> diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000101.patch
-> b/meta/recipes-support/curl/curl/CVE-2017-1000101.patch
-> deleted file mode 100644
-> index c300fff..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2017-1000101.patch
-> +++ /dev/null
-> @@ -1,99 +0,0 @@
-> -From 453e7a7a03a2cec749abd3878a48e728c515cca7 Mon Sep 17 00:00:00 2001
-> -From: Daniel Stenberg <daniel@haxx.se>
-> -Date: Tue, 1 Aug 2017 17:16:07 +0200
-> -Subject: [PATCH] glob: do not continue parsing after a strtoul() overflow
-> - range
-> -
-> -Added test 1289 to verify.
-> -
-> -CVE: CVE-2017-1000101
-> -
-> -Bug: https://curl.haxx.se/docs/adv_20170809A.html
-> -Reported-by: Brian Carpenter
-> -
-> -Upstream-Status: Backport
-> -https://github.com/curl/curl/commit/453e7a7a03a2cec749abd3878a48e7
-> 28c515cca7
-> -
-> -Rebase the tests/data/Makefile.inc changes for curl 7.54.1.
-> -
-> -Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ----
-> - src/tool_urlglob.c      |  5 ++++-
-> - tests/data/Makefile.inc |  2 +-
-> - tests/data/test1289     | 35 +++++++++++++++++++++++++++++++++++
-> - 3 files changed, 40 insertions(+), 2 deletions(-)
-> - create mode 100644 tests/data/test1289
-> -
-> -diff --git a/src/tool_urlglob.c b/src/tool_urlglob.c
-> -index 6b1ece0..d56dcd9 100644
-> ---- a/src/tool_urlglob.c
-> -+++ b/src/tool_urlglob.c
-> -@@ -273,7 +273,10 @@ static CURLcode glob_range(URLGlob *glob, char
-> **patternp,
-> -         }
-> -         errno = 0;
-> -         max_n = strtoul(pattern, &endp, 10);
-> --        if(errno || (*endp == ':')) {
-> -+        if(errno)
-> -+          /* overflow */
-> -+          endp = NULL;
-> -+        else if(*endp == ':') {
-> -           pattern = endp+1;
-> -           errno = 0;
-> -           step_n = strtoul(pattern, &endp, 10);
-> -diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-> -index 155320a..7adbee6 100644
-> ---- a/tests/data/Makefile.inc
-> -+++ b/tests/data/Makefile.inc
-> -@@ -132,7 +132,7 @@ test1252 test1253 test1254 test1255 test1256 test1257
-> test1258 test1259 \
-> - test1260 test1261 test1262 \
-> - \
-> - test1280 test1281 test1282 test1283 test1284 test1285 test1286 test1287 \
-> --test1288 \
-> -+test1288 test1289 \
-> - \
-> - test1300 test1301 test1302 test1303 test1304 test1305 test1306 test1307 \
-> - test1308 test1309 test1310 test1311 test1312 test1313 test1314 test1315 \
-> -diff --git a/tests/data/test1289 b/tests/data/test1289
-> -new file mode 100644
-> -index 0000000..d679cc0
-> ---- /dev/null
-> -+++ b/tests/data/test1289
-> -@@ -0,0 +1,35 @@
-> -+<testcase>
-> -+<info>
-> -+<keywords>
-> -+HTTP
-> -+HTTP GET
-> -+globbing
-> -+</keywords>
-> -+</info>
-> -+
-> -+#
-> -+# Server-side
-> -+<reply>
-> -+</reply>
-> -+
-> -+# Client-side
-> -+<client>
-> -+<server>
-> -+http
-> -+</server>
-> -+<name>
-> -+globbing with overflow and bad syntxx
-> -+</name>
-> -+<command>
-> -+http://ur%20[0-60000000000000000000
-> -+</command>
-> -+</client>
-> -+
-> -+# Verify data after the test has been "shot"
-> -+<verify>
-> -+# curl: (3) [globbing] bad range in column
-> -+<errorcode>
-> -+3
-> -+</errorcode>
-> -+</verify>
-> -+</testcase>
-> ---
-> -2.11.0
-> -
-> diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
-> b/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
-> deleted file mode 100644
-> index 2b0798b..0000000
-> --- a/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
-> +++ /dev/null
-> @@ -1,138 +0,0 @@
-> -From 1b2eba6f9745c064f7283e0ada8f46df9d9d6e42 Mon Sep 17 00:00:00 2001
-> -From: Li Zhou <li.zhou@windriver.com>
-> -Date: Mon, 23 Oct 2017 00:26:50 -0700
-> -Subject: [PATCH] FTP: zero terminate the entry path even on bad input
-> -
-> -... a single double quote could leave the entry path buffer without a zero
-> -terminating byte. CVE-2017-1000254
-> -
-> -Test 1152 added to verify.
-> -
-> -Reported-by: Max Dymond
-> -Bug: https://curl.haxx.se/docs/adv_20171004.html
-> -
-> -Upstream-Status: Backport
-> -CVE: CVE-2017-1000254
-> -Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> ----
-> - lib/ftp.c               |  7 ++++--
-> - tests/data/Makefile.inc |  2 ++
-> - tests/data/test1152     | 61 ++++++++++++++++++++++++++++++
-> +++++++++++++++++++
-> - 3 files changed, 68 insertions(+), 2 deletions(-)
-> - create mode 100644 tests/data/test1152
-> -
-> -diff --git a/lib/ftp.c b/lib/ftp.c
-> -index 5edec37..493dbf9 100644
-> ---- a/lib/ftp.c
-> -+++ b/lib/ftp.c
-> -@@ -2826,6 +2826,7 @@ static CURLcode ftp_statemach_act(struct
-> connectdata *conn)
-> -         const size_t buf_size = data->set.buffer_size;
-> -         char *dir;
-> -         char *store;
-> -+        bool entry_extracted = FALSE;
-> -
-> -         dir = malloc(nread + 1);
-> -         if(!dir)
-> -@@ -2857,7 +2858,7 @@ static CURLcode ftp_statemach_act(struct
-> connectdata *conn)
-> -               }
-> -               else {
-> -                 /* end of path */
-> --                *store = '\0'; /* zero terminate */
-> -+                entry_extracted = TRUE;
-> -                 break; /* get out of this loop */
-> -               }
-> -             }
-> -@@ -2866,7 +2867,9 @@ static CURLcode ftp_statemach_act(struct
-> connectdata *conn)
-> -             store++;
-> -             ptr++;
-> -           }
-> --
-> -+          *store = '\0'; /* zero terminate */
-> -+        }
-> -+        if(entry_extracted) {
-> -           /* If the path name does not look like an absolute path (i.e.:
-> it
-> -              does not start with a '/'), we probably need some
-> server-dependent
-> -              adjustments. For example, this is the case when connecting
-> to
-> -diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-> -index 7adbee6..5284654 100644
-> ---- a/tests/data/Makefile.inc
-> -+++ b/tests/data/Makefile.inc
-> -@@ -121,6 +121,8 @@ test1120 test1121 test1122 test1123 test1124 test1125
-> test1126 test1127 \
-> - test1128 test1129 test1130 test1131 test1132 test1133 test1134 test1135 \
-> - test1136 test1137 test1138 test1139 test1140 test1141 test1142 test1143 \
-> - test1144 test1145 test1146 \
-> -+test1152 \
-> -+\
-> - test1200 test1201 test1202 test1203 test1204 test1205 test1206 test1207 \
-> - test1208 test1209 test1210 test1211 test1212 test1213 test1214 test1215 \
-> - test1216 test1217 test1218 test1219 \
-> -diff --git a/tests/data/test1152 b/tests/data/test1152
-> -new file mode 100644
-> -index 0000000..aa8c0a7
-> ---- /dev/null
-> -+++ b/tests/data/test1152
-> -@@ -0,0 +1,61 @@
-> -+<testcase>
-> -+<info>
-> -+<keywords>
-> -+FTP
-> -+PASV
-> -+LIST
-> -+</keywords>
-> -+</info>
-> -+#
-> -+# Server-side
-> -+<reply>
-> -+<servercmd>
-> -+REPLY PWD 257 "just one
-> -+</servercmd>
-> -+
-> -+# When doing LIST, we get the default list output hard-coded in the test
-> -+# FTP server
-> -+<data mode="text">
-> -+total 20
-> -+drwxr-xr-x   8 98       98           512 Oct 22 13:06 .
-> -+drwxr-xr-x   8 98       98           512 Oct 22 13:06 ..
-> -+drwxr-xr-x   2 98       98           512 May  2  1996 curl-releases
-> -+-r--r--r--   1 0        1             35 Jul 16  1996 README
-> -+lrwxrwxrwx   1 0        1              7 Dec  9  1999 bin -> usr/bin
-> -+dr-xr-xr-x   2 0        1            512 Oct  1  1997 dev
-> -+drwxrwxrwx   2 98       98           512 May 29 16:04 download.html
-> -+dr-xr-xr-x   2 0        1            512 Nov 30  1995 etc
-> -+drwxrwxrwx   2 98       1            512 Oct 30 14:33 pub
-> -+dr-xr-xr-x   5 0        1            512 Oct  1  1997 usr
-> -+</data>
-> -+</reply>
-> -+
-> -+#
-> -+# Client-side
-> -+<client>
-> -+<server>
-> -+ftp
-> -+</server>
-> -+ <name>
-> -+FTP with uneven quote in PWD response
-> -+ </name>
-> -+ <command>
-> -+ftp://%HOSTIP:%FTPPORT/test-1152/
-> -+</command>
-> -+</client>
-> -+
-> -+#
-> -+# Verify data after the test has been "shot"
-> -+<verify>
-> -+<protocol>
-> -+USER anonymous
-> -+PASS ftp@example.com
-> -+PWD
-> -+CWD test-1152
-> -+EPSV
-> -+TYPE A
-> -+LIST
-> -+QUIT
-> -+</protocol>
-> -+</verify>
-> -+</testcase>
-> ---
-> -2.11.0
-> -
-> diff --git a/meta/recipes-support/curl/curl/reproducible-mkhelp.patch
-> b/meta/recipes-support/curl/curl/reproducible-mkhelp.patch
-> deleted file mode 100644
-> index 268bbeb..0000000
-> --- a/meta/recipes-support/curl/curl/reproducible-mkhelp.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From 1fe92fd3dd64c7228f6ff41e3fc16c4f2392471a Mon Sep 17 00:00:00 2001
-> -From: Juro Bystricky <juro.bystricky@intel.com>
-> -Date: Fri, 27 Oct 2017 08:28:25 -0700
-> -Subject: mkhelp.pl: support reproducible build
-> -
-> -Do not generate line with the current date, such as:
-> -
-> -* Generation time: Tue Oct-24 18:01:41 2017
-> -
-> -This will improve reproducibility. The generated string is only
-> -part of a comment, so there should be no adverse consequences.
-> -
-> -Upstream-Status: Submitted [ https://github.com/curl/curl/pull/2026 ]
-> -
-> -Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> -
-> -diff --git a/src/mkhelp.pl b/src/mkhelp.pl
-> -index 270daa2..757f024 100755
-> ---- a/src/mkhelp.pl
-> -+++ b/src/mkhelp.pl
-> -@@ -102,11 +102,9 @@ while(<READ>) {
-> - }
-> - close(READ);
-> -
-> --$now = localtime;
-> - print <<HEAD
-> - /*
-> -  * NEVER EVER edit this manually, fix the mkhelp.pl script instead!
-> -- * Generation time: $now
-> -  */
-> - #ifdef USE_MANUAL
-> - #include "tool_hugehelp.h"
-> diff --git a/meta/recipes-support/curl/curl_7.54.1.bb
-> b/meta/recipes-support/curl/curl_7.57.0.bb
-> similarity index 86%
-> rename from meta/recipes-support/curl/curl_7.54.1.bb
-> rename to meta/recipes-support/curl/curl_7.57.0.bb
-> index 58f0531..47e3d45 100644
-> --- a/meta/recipes-support/curl/curl_7.54.1.bb
-> +++ b/meta/recipes-support/curl/curl_7.57.0.bb
-> @@ -7,23 +7,16 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=
-> 3a34942f4ae3fbf1a303160714e66
->
->  SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->             file://0001-replace-krb5-config-with-pkg-config.patch \
-> -           file://CVE-2017-1000099.patch \
-> -           file://CVE-2017-1000100.patch \
-> -           file://CVE-2017-1000101.patch \
-> -           file://CVE-2017-1000254.patch \
->  "
->
-> -SRC_URI_append_class-target = " \
-> -           file://reproducible-mkhelp.patch \
-> -"
->
->  # curl likes to set -g0 in CFLAGS, so we stop it
->  # from mucking around with debug options
->  #
->  SRC_URI += " file://configure_ac.patch"
->
-> -SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
-> -SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770
-> 046249263c491fcae48df0e1a3ca8f25a0"
-> +SRC_URI[md5sum] = "dd3e22e923be17663e67f721c2aec054"
-> +SRC_URI[sha256sum] = "c92fe31a348eae079121b73884065e
-> 600c533493eb50f1f6cee9c48a3f454826"
->
->  CVE_PRODUCT = "libcurl"
->  inherit autotools pkgconfig binconfig multilib_header
-> @@ -64,9 +57,6 @@ EXTRA_OECONF = " \
->      --without-libpsl \
->  "
->
-> -do_install_append() {
-> -       oe_multilib_header curl/curlbuild.h
-> -}
->
->  do_install_append_class-target() {
->         # cleanup buildpaths from curl-config
->
-> --
-> To stop receiving notification emails like this one, please contact
-> the administrator of this repository.
-> --
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->
-
---f403045fa74649e0600563b4560e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Be aware that this upgrade might change your libcurl5 to l=
-ibcurl4<div><br></div><div>With Yocto 1.7 Dizzy we used to have libcurl5, b=
-ecause of different=C2=A0SIZEOF_OFF_T value.</div><div><br></div><div>Then =
-in Yocto 1.8 Fido SIZEOF_OFF_T was changed in oe-core and curl started to u=
-se libcurl4 again automatically.<br><div><br></div><div>Back then I&#39;ve =
-added simple workaround in our bbappend to keep libcurl5 (until we can rebu=
-ild all prebuilt binaries from 3rd party vendors):</div><div><br></div><div=
-><div># Force to use libcurl5 instead of libcurl4 (like we had with Yocto 1=
-.7 Dizzy)</div><div># The SONAME isn&#39;t bumped automatically since oe-co=
-re commit 49c848018484827c433e1bcf9c63416640456f3e</div><div># which change=
-d SIZEOF_OFF_T to 8</div><div>EXTRA_OECONF +=3D &quot;--enable-soname-bump&=
-quot;</div></div><div><br></div><div>and it was working fine until this upg=
-rade to=C2=A07.57.0. I haven&#39;t checked yet why enable-soname-bump stopp=
-ed working (it&#39;s still recognized by configure script).</div><div><br><=
-/div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri=
-, Jan 26, 2018 at 2:10 PM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:git@git=
-.openembedded.org" target=3D"_blank">git@git.openembedded.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">This is an automated email from =
-the git hooks/post-receive script.<br>
-<br>
-rpurdie pushed a commit to branch master<br>
-in repository openembedded-core.<br>
-<br>
-commit 215d5677004537fc190b5381157ac8<wbr>b94db6d7e8<br>
-Author: Huang Qiyu &lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com">huang=
-qy.fnst@cn.fujitsu.com</a>&gt;<br>
-AuthorDate: Wed Jan 24 11:01:36 2018 +0800<br>
-<br>
-=C2=A0 =C2=A0 curl: 7.54.1 -&gt; 7.57.0<br>
-<br>
-=C2=A0 =C2=A0 1.Upgrade curl from 7.54.1 to 7.57.0.<br>
-=C2=A0 =C2=A0 2.Delete CVE-2017-1000099.patch, CVE-2017-1000100.patch, CVE-=
-2017-1000101.patch, CVE-2017-1000254.patch, reproducible-mkhelp.patch, sinc=
-e it is integrated upstream.<br>
-=C2=A0 =C2=A0 3.Remove &quot;do_install_append()&quot; from <a href=3D"http=
-://curl_7.57.0.bb" rel=3D"noreferrer" target=3D"_blank">curl_7.57.0.bb</a>,=
- since curl/curlbuild.h has been removed.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Huang Qiyu &lt;<a href=3D"mailto:huangqy.fnst@=
-cn.fujitsu.com">huangqy.fnst@cn.fujitsu.com</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@=
-intel.com">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0.../curl/curl/CVE-2017-<wbr>1000099.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 41 ------<br>
-=C2=A0.../curl/curl/CVE-2017-<wbr>1000100.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 51 --------<br>
-=C2=A0.../curl/curl/CVE-2017-<wbr>1000101.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 99 ---------------<br>
-=C2=A0.../curl/curl/CVE-2017-<wbr>1000254.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 138 ---------------------<br>
-=C2=A0.../curl/curl/reproducible-<wbr>mkhelp.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 32 -----<br>
-=C2=A0.../curl/{<a href=3D"http://curl_7.54.1.bb" rel=3D"noreferrer" target=
-=3D"_blank">curl_7.54.1.bb</a> =3D&gt; <a href=3D"http://curl_7.57.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">curl_7.57.0.bb</a>}=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 14 +--<br>
-=C2=A06 files changed, 2 insertions(+), 373 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000099.patch b/m=
-eta/recipes-support/curl/<wbr>curl/CVE-2017-1000099.patch<br>
-deleted file mode 100644<br>
-index 96ff1b0..0000000<br>
---- a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000099.patch<br>
-+++ /dev/null<br>
-@@ -1,41 +0,0 @@<br>
--From c9332fa5e84f24da300b42b1a931ad<wbr>e929d3e27d Mon Sep 17 00:00:00 200=
-1<br>
--From: Even Rouault &lt;<a href=3D"mailto:even.rouault@spatialys.com">even.=
-rouault@spatialys.com</a>&gt;<br>
--Date: Tue, 1 Aug 2017 17:17:06 +0200<br>
--Subject: [PATCH] file: output the correct buffer to the user<br>
--<br>
--Regression brought by 7c312f84ea930d8 (April 2017)<br>
--<br>
--CVE: CVE-2017-1000099<br>
--<br>
--Bug: <a href=3D"https://curl.haxx.se/docs/adv_20170809C.html" rel=3D"noref=
-errer" target=3D"_blank">https://curl.haxx.se/docs/adv_<wbr>20170809C.html<=
-/a><br>
--<br>
--Credit to OSS-Fuzz for the discovery<br>
--<br>
--Upstream-Status: Backport<br>
--<a href=3D"https://github.com/curl/curl/commit/c9332fa5e84f24da300b42b1a93=
-1ade929d3e27d" rel=3D"noreferrer" target=3D"_blank">https://github.com/curl=
-/curl/<wbr>commit/<wbr>c9332fa5e84f24da300b42b1a931ad<wbr>e929d3e27d</a><br=
->
--<br>
--Signed-off-by: Wenzong Fan &lt;<a href=3D"mailto:wenzong.fan@windriver.com=
-">wenzong.fan@windriver.com</a>&gt;<br>
-----<br>
-- lib/file.c | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/lib/file.c b/lib/file.c<br>
--index bd426eac2..666cbe75b 100644<br>
----- a/lib/file.c<br>
--+++ b/lib/file.c<br>
--@@ -499,11 +499,11 @@ static CURLcode file_do(struct connectdata *conn, bo=
-ol *done)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Curl_month[tm-&gt;tm_mon]=
-,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tm-&gt;tm_year + 1900,<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tm-&gt;tm_hour,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tm-&gt;tm_min,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tm-&gt;tm_sec);<br>
---=C2=A0 =C2=A0 result =3D Curl_client_write(conn, CLIENTWRITE_BOTH, buf, 0=
-);<br>
--+=C2=A0 =C2=A0 result =3D Curl_client_write(conn, CLIENTWRITE_BOTH, header=
-, 0);<br>
--=C2=A0 =C2=A0 =C2=A0if(!result)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0/* set the file size to make it available post =
-transfer */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0Curl_pgrsSetDownloadSize(data, expected_size);<=
-br>
--=C2=A0 =C2=A0 =C2=A0return result;<br>
--=C2=A0 =C2=A0}<br>
----<br>
--2.13.3<br>
--<br>
-diff --git a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000100.patch b/m=
-eta/recipes-support/curl/<wbr>curl/CVE-2017-1000100.patch<br>
-deleted file mode 100644<br>
-index f74f1dd..0000000<br>
---- a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000100.patch<br>
-+++ /dev/null<br>
-@@ -1,51 +0,0 @@<br>
--From 358b2b131ad6c095696f20dcfa62b8<wbr>305263f898 Mon Sep 17 00:00:00 200=
-1<br>
--From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se">daniel@haxx.se=
-</a>&gt;<br>
--Date: Tue, 1 Aug 2017 17:16:46 +0200<br>
--Subject: [PATCH] tftp: reject file name lengths that don&#39;t fit<br>
--<br>
--... and thereby avoid telling send() to send off more bytes than the<br>
--size of the buffer!<br>
--<br>
--CVE: CVE-2017-1000100<br>
--<br>
--Bug: <a href=3D"https://curl.haxx.se/docs/adv_20170809B.html" rel=3D"noref=
-errer" target=3D"_blank">https://curl.haxx.se/docs/adv_<wbr>20170809B.html<=
-/a><br>
--Reported-by: Even Rouault<br>
--<br>
--Credit to OSS-Fuzz for the discovery<br>
--<br>
--Upstream-Status: Backport<br>
--<a href=3D"https://github.com/curl/curl/commit/358b2b131ad6c095696f20dcfa6=
-2b8305263f898" rel=3D"noreferrer" target=3D"_blank">https://github.com/curl=
-/curl/<wbr>commit/<wbr>358b2b131ad6c095696f20dcfa62b8<wbr>305263f898</a><br=
->
--<br>
--Signed-off-by: Wenzong Fan &lt;<a href=3D"mailto:wenzong.fan@windriver.com=
-">wenzong.fan@windriver.com</a>&gt;<br>
-----<br>
-- lib/tftp.c |=C2=A0 =C2=A0 7 ++++++-<br>
-- 1 file changed, 6 insertions(+), 1 deletion(-)<br>
--<br>
--diff --git a/lib/tftp.c b/lib/tftp.c<br>
--index 02bd842..f6f4bce 100644<br>
----- a/lib/tftp.c<br>
--+++ b/lib/tftp.c<br>
--@@ -5,7 +5,7 @@<br>
--=C2=A0 *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | (__| |_| |=C2=A0 _ &lt;| |___<br>
--=C2=A0 *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\___|\___/|_| \_\_____|<br>
--=C2=A0 *<br>
--- * Copyright (C) 1998 - 2016, Daniel Stenberg, &lt;<a href=3D"mailto:dani=
-el@haxx.se">daniel@haxx.se</a>&gt;, et al.<br>
--+ * Copyright (C) 1998 - 2017, Daniel Stenberg, &lt;<a href=3D"mailto:dani=
-el@haxx.se">daniel@haxx.se</a>&gt;, et al.<br>
--=C2=A0 *<br>
--=C2=A0 * This software is licensed as described in the file COPYING, which=
-<br>
--=C2=A0 * you should have received as part of this distribution. The terms<=
-br>
--@@ -491,6 +491,11 @@ static CURLcode tftp_send_first(tftp_state_<wbr>data_=
-t *state, tftp_event_t event)<br>
--=C2=A0 =C2=A0 =C2=A0if(result)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return result;<br>
--<br>
--+=C2=A0 =C2=A0 if(strlen(filename) &gt; (state-&gt;blksize - strlen(mode) =
-- 4)) {<br>
--+=C2=A0 =C2=A0 =C2=A0 failf(data, &quot;TFTP file name too long\n&quot;);<=
-br>
--+=C2=A0 =C2=A0 =C2=A0 return CURLE_TFTP_ILLEGAL; /* too long file name fie=
-ld */<br>
--+=C2=A0 =C2=A0 }<br>
--+<br>
--=C2=A0 =C2=A0 =C2=A0snprintf((char *)state-&gt;spacket.data+2,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;blksize,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s%c%s%c&quot;, fil=
-ename, &#39;\0&#39;,=C2=A0 mode, &#39;\0&#39;);<br>
----<br>
--1.7.9.5<br>
--<br>
-diff --git a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000101.patch b/m=
-eta/recipes-support/curl/<wbr>curl/CVE-2017-1000101.patch<br>
-deleted file mode 100644<br>
-index c300fff..0000000<br>
---- a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000101.patch<br>
-+++ /dev/null<br>
-@@ -1,99 +0,0 @@<br>
--From 453e7a7a03a2cec749abd3878a48e7<wbr>28c515cca7 Mon Sep 17 00:00:00 200=
-1<br>
--From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se">daniel@haxx.se=
-</a>&gt;<br>
--Date: Tue, 1 Aug 2017 17:16:07 +0200<br>
--Subject: [PATCH] glob: do not continue parsing after a strtoul() overflow<=
-br>
-- range<br>
--<br>
--Added test 1289 to verify.<br>
--<br>
--CVE: CVE-2017-1000101<br>
--<br>
--Bug: <a href=3D"https://curl.haxx.se/docs/adv_20170809A.html" rel=3D"noref=
-errer" target=3D"_blank">https://curl.haxx.se/docs/adv_<wbr>20170809A.html<=
-/a><br>
--Reported-by: Brian Carpenter<br>
--<br>
--Upstream-Status: Backport<br>
--<a href=3D"https://github.com/curl/curl/commit/453e7a7a03a2cec749abd3878a4=
-8e728c515cca7" rel=3D"noreferrer" target=3D"_blank">https://github.com/curl=
-/curl/<wbr>commit/<wbr>453e7a7a03a2cec749abd3878a48e7<wbr>28c515cca7</a><br=
->
--<br>
--Rebase the tests/data/Makefile.inc changes for curl 7.54.1.<br>
--<br>
--Signed-off-by: Wenzong Fan &lt;<a href=3D"mailto:wenzong.fan@windriver.com=
-">wenzong.fan@windriver.com</a>&gt;<br>
-----<br>
-- src/tool_urlglob.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++-<br>
-- tests/data/Makefile.inc |=C2=A0 2 +-<br>
-- tests/data/test1289=C2=A0 =C2=A0 =C2=A0| 35 +++++++++++++++++++++++++++++=
-+<wbr>+++++<br>
-- 3 files changed, 40 insertions(+), 2 deletions(-)<br>
-- create mode 100644 tests/data/test1289<br>
--<br>
--diff --git a/src/tool_urlglob.c b/src/tool_urlglob.c<br>
--index 6b1ece0..d56dcd9 100644<br>
----- a/src/tool_urlglob.c<br>
--+++ b/src/tool_urlglob.c<br>
--@@ -273,7 +273,10 @@ static CURLcode glob_range(URLGlob *glob, char **patt=
-ernp,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0max_n =3D strtoul(pattern, &amp;endp, 10=
-);<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 if(errno || (*endp =3D=3D &#39;:&#39;)) {<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if(errno)<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* overflow */<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 endp =3D NULL;<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else if(*endp =3D=3D &#39;:&#39;) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pattern =3D endp+1;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0step_n =3D strtoul(pattern, &amp;=
-endp, 10);<br>
--diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc<br>
--index 155320a..7adbee6 100644<br>
----- a/tests/data/Makefile.inc<br>
--+++ b/tests/data/Makefile.inc<br>
--@@ -132,7 +132,7 @@ test1252 test1253 test1254 test1255 test1256 test1257 =
-test1258 test1259 \<br>
-- test1260 test1261 test1262 \<br>
-- \<br>
-- test1280 test1281 test1282 test1283 test1284 test1285 test1286 test1287 \=
-<br>
---test1288 \<br>
--+test1288 test1289 \<br>
-- \<br>
-- test1300 test1301 test1302 test1303 test1304 test1305 test1306 test1307 \=
-<br>
-- test1308 test1309 test1310 test1311 test1312 test1313 test1314 test1315 \=
-<br>
--diff --git a/tests/data/test1289 b/tests/data/test1289<br>
--new file mode 100644<br>
--index 0000000..d679cc0<br>
----- /dev/null<br>
--+++ b/tests/data/test1289<br>
--@@ -0,0 +1,35 @@<br>
--+&lt;testcase&gt;<br>
--+&lt;info&gt;<br>
--+&lt;keywords&gt;<br>
--+HTTP<br>
--+HTTP GET<br>
--+globbing<br>
--+&lt;/keywords&gt;<br>
--+&lt;/info&gt;<br>
--+<br>
--+#<br>
--+# Server-side<br>
--+&lt;reply&gt;<br>
--+&lt;/reply&gt;<br>
--+<br>
--+# Client-side<br>
--+&lt;client&gt;<br>
--+&lt;server&gt;<br>
--+http<br>
--+&lt;/server&gt;<br>
--+&lt;name&gt;<br>
--+globbing with overflow and bad syntxx<br>
--+&lt;/name&gt;<br>
--+&lt;command&gt;<br>
--+<a href=3D"http://ur" rel=3D"noreferrer" target=3D"_blank">http://ur</a>%=
-20[0-<wbr>60000000000000000000<br>
--+&lt;/command&gt;<br>
--+&lt;/client&gt;<br>
--+<br>
--+# Verify data after the test has been &quot;shot&quot;<br>
--+&lt;verify&gt;<br>
--+# curl: (3) [globbing] bad range in column<br>
--+&lt;errorcode&gt;<br>
--+3<br>
--+&lt;/errorcode&gt;<br>
--+&lt;/verify&gt;<br>
--+&lt;/testcase&gt;<br>
----<br>
--2.11.0<br>
--<br>
-diff --git a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000254.patch b/m=
-eta/recipes-support/curl/<wbr>curl/CVE-2017-1000254.patch<br>
-deleted file mode 100644<br>
-index 2b0798b..0000000<br>
---- a/meta/recipes-support/curl/<wbr>curl/CVE-2017-1000254.patch<br>
-+++ /dev/null<br>
-@@ -1,138 +0,0 @@<br>
--From 1b2eba6f9745c064f7283e0ada8f46<wbr>df9d9d6e42 Mon Sep 17 00:00:00 200=
-1<br>
--From: Li Zhou &lt;<a href=3D"mailto:li.zhou@windriver.com">li.zhou@windriv=
-er.com</a>&gt;<br>
--Date: Mon, 23 Oct 2017 00:26:50 -0700<br>
--Subject: [PATCH] FTP: zero terminate the entry path even on bad input<br>
--<br>
--... a single double quote could leave the entry path buffer without a zero=
-<br>
--terminating byte. CVE-2017-1000254<br>
--<br>
--Test 1152 added to verify.<br>
--<br>
--Reported-by: Max Dymond<br>
--Bug: <a href=3D"https://curl.haxx.se/docs/adv_20171004.html" rel=3D"norefe=
-rrer" target=3D"_blank">https://curl.haxx.se/docs/adv_<wbr>20171004.html</a=
-><br>
--<br>
--Upstream-Status: Backport<br>
--CVE: CVE-2017-1000254<br>
--Signed-off-by: Li Zhou &lt;<a href=3D"mailto:li.zhou@windriver.com">li.zho=
-u@windriver.com</a>&gt;<br>
-----<br>
-- lib/ftp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 7=
- ++++--<br>
-- tests/data/Makefile.inc |=C2=A0 2 ++<br>
-- tests/data/test1152=C2=A0 =C2=A0 =C2=A0| 61 +++++++++++++++++++++++++++++=
-+<wbr>+++++++++++++++++++<br>
-- 3 files changed, 68 insertions(+), 2 deletions(-)<br>
-- create mode 100644 tests/data/test1152<br>
--<br>
--diff --git a/lib/ftp.c b/lib/ftp.c<br>
--index 5edec37..493dbf9 100644<br>
----- a/lib/ftp.c<br>
--+++ b/lib/ftp.c<br>
--@@ -2826,6 +2826,7 @@ static CURLcode ftp_statemach_act(struct connectdata=
- *conn)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const size_t buf_size =3D data-&gt;set.b=
-uffer_size;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *dir;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *store;<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool entry_extracted =3D FALSE;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dir =3D malloc(nread + 1);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if(!dir)<br>
--@@ -2857,7 +2858,7 @@ static CURLcode ftp_statemach_act(struct connectdata=
- *conn)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* end of pa=
-th */<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *store =3D &#39;\=
-0&#39;; /* zero terminate */<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entry_extracted =
-=3D TRUE;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break; /* ge=
-t out of this loop */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--@@ -2866,7 +2867,9 @@ static CURLcode ftp_statemach_act(struct connectdata=
- *conn)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0store++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ptr++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
---<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *store =3D &#39;\0&#39;; /* zero termi=
-nate */<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if(entry_extracted) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* If the path name does not look=
- like an absolute path (i.e.: it<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 does not start with a &#3=
-9;/&#39;), we probably need some server-dependent<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adjustments. For example,=
- this is the case when connecting to<br>
--diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc<br>
--index 7adbee6..5284654 100644<br>
----- a/tests/data/Makefile.inc<br>
--+++ b/tests/data/Makefile.inc<br>
--@@ -121,6 +121,8 @@ test1120 test1121 test1122 test1123 test1124 test1125 =
-test1126 test1127 \<br>
-- test1128 test1129 test1130 test1131 test1132 test1133 test1134 test1135 \=
-<br>
-- test1136 test1137 test1138 test1139 test1140 test1141 test1142 test1143 \=
-<br>
-- test1144 test1145 test1146 \<br>
--+test1152 \<br>
--+\<br>
-- test1200 test1201 test1202 test1203 test1204 test1205 test1206 test1207 \=
-<br>
-- test1208 test1209 test1210 test1211 test1212 test1213 test1214 test1215 \=
-<br>
-- test1216 test1217 test1218 test1219 \<br>
--diff --git a/tests/data/test1152 b/tests/data/test1152<br>
--new file mode 100644<br>
--index 0000000..aa8c0a7<br>
----- /dev/null<br>
--+++ b/tests/data/test1152<br>
--@@ -0,0 +1,61 @@<br>
--+&lt;testcase&gt;<br>
--+&lt;info&gt;<br>
--+&lt;keywords&gt;<br>
--+FTP<br>
--+PASV<br>
--+LIST<br>
--+&lt;/keywords&gt;<br>
--+&lt;/info&gt;<br>
--+#<br>
--+# Server-side<br>
--+&lt;reply&gt;<br>
--+&lt;servercmd&gt;<br>
--+REPLY PWD 257 &quot;just one<br>
--+&lt;/servercmd&gt;<br>
--+<br>
--+# When doing LIST, we get the default list output hard-coded in the test<=
-br>
--+# FTP server<br>
--+&lt;data mode=3D&quot;text&quot;&gt;<br>
--+total 20<br>
--+drwxr-xr-x=C2=A0 =C2=A08 98=C2=A0 =C2=A0 =C2=A0 =C2=A098=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0512 Oct 22 13:06 .<br>
--+drwxr-xr-x=C2=A0 =C2=A08 98=C2=A0 =C2=A0 =C2=A0 =C2=A098=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0512 Oct 22 13:06 ..<br>
--+drwxr-xr-x=C2=A0 =C2=A02 98=C2=A0 =C2=A0 =C2=A0 =C2=A098=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0512 May=C2=A0 2=C2=A0 1996 curl-releases<br>
--+-r--r--r--=C2=A0 =C2=A01 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A035 Jul 16=C2=A0 1996 README<br>
--+lrwxrwxrwx=C2=A0 =C2=A01 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 7 Dec=C2=A0 9=C2=A0 1999 bin -&gt; usr/bin<=
-br>
--+dr-xr-xr-x=C2=A0 =C2=A02 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 512 Oct=C2=A0 1=C2=A0 1997 dev<br>
--+drwxrwxrwx=C2=A0 =C2=A02 98=C2=A0 =C2=A0 =C2=A0 =C2=A098=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0512 May 29 16:04 download.html<br>
--+dr-xr-xr-x=C2=A0 =C2=A02 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 512 Nov 30=C2=A0 1995 etc<br>
--+drwxrwxrwx=C2=A0 =C2=A02 98=C2=A0 =C2=A0 =C2=A0 =C2=A01=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 512 Oct 30 14:33 pub<br>
--+dr-xr-xr-x=C2=A0 =C2=A05 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 512 Oct=C2=A0 1=C2=A0 1997 usr<br>
--+&lt;/data&gt;<br>
--+&lt;/reply&gt;<br>
--+<br>
--+#<br>
--+# Client-side<br>
--+&lt;client&gt;<br>
--+&lt;server&gt;<br>
--+ftp<br>
--+&lt;/server&gt;<br>
--+ &lt;name&gt;<br>
--+FTP with uneven quote in PWD response<br>
--+ &lt;/name&gt;<br>
--+ &lt;command&gt;<br>
--+ftp://%HOSTIP:%FTPPORT/test-<wbr>1152/<br>
--+&lt;/command&gt;<br>
--+&lt;/client&gt;<br>
--+<br>
--+#<br>
--+# Verify data after the test has been &quot;shot&quot;<br>
--+&lt;verify&gt;<br>
--+&lt;protocol&gt;<br>
--+USER anonymous<br>
--+PASS <a href=3D"mailto:ftp@example.com">ftp@example.com</a><br>
--+PWD<br>
--+CWD test-1152<br>
--+EPSV<br>
--+TYPE A<br>
--+LIST<br>
--+QUIT<br>
--+&lt;/protocol&gt;<br>
--+&lt;/verify&gt;<br>
--+&lt;/testcase&gt;<br>
----<br>
--2.11.0<br>
--<br>
-diff --git a/meta/recipes-support/curl/<wbr>curl/reproducible-mkhelp.patch =
-b/meta/recipes-support/curl/<wbr>curl/reproducible-mkhelp.patch<br>
-deleted file mode 100644<br>
-index 268bbeb..0000000<br>
---- a/meta/recipes-support/curl/<wbr>curl/reproducible-mkhelp.patch<br>
-+++ /dev/null<br>
-@@ -1,32 +0,0 @@<br>
--From 1fe92fd3dd64c7228f6ff41e3fc16c<wbr>4f2392471a Mon Sep 17 00:00:00 200=
-1<br>
--From: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com">juro.=
-bystricky@intel.com</a>&gt;<br>
--Date: Fri, 27 Oct 2017 08:28:25 -0700<br>
--Subject: <a href=3D"http://mkhelp.pl" rel=3D"noreferrer" target=3D"_blank"=
->mkhelp.pl</a>: support reproducible build<br>
--<br>
--Do not generate line with the current date, such as:<br>
--<br>
--* Generation time: Tue Oct-24 18:01:41 2017<br>
--<br>
--This will improve reproducibility. The generated string is only<br>
--part of a comment, so there should be no adverse consequences.<br>
--<br>
--Upstream-Status: Submitted [ <a href=3D"https://github.com/curl/curl/pull/=
-2026" rel=3D"noreferrer" target=3D"_blank">https://github.com/curl/curl/<wb=
-r>pull/2026</a> ]<br>
--<br>
--Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.c=
-om">juro.bystricky@intel.com</a>&gt;<br>
--<br>
--diff --git a/src/<a href=3D"http://mkhelp.pl" rel=3D"noreferrer" target=3D=
-"_blank">mkhelp.pl</a> b/src/<a href=3D"http://mkhelp.pl" rel=3D"noreferrer=
-" target=3D"_blank">mkhelp.pl</a><br>
--index 270daa2..757f024 100755<br>
----- a/src/<a href=3D"http://mkhelp.pl" rel=3D"noreferrer" target=3D"_blank=
-">mkhelp.pl</a><br>
--+++ b/src/<a href=3D"http://mkhelp.pl" rel=3D"noreferrer" target=3D"_blank=
-">mkhelp.pl</a><br>
--@@ -102,11 +102,9 @@ while(&lt;READ&gt;) {<br>
-- }<br>
-- close(READ);<br>
--<br>
---$now =3D localtime;<br>
-- print &lt;&lt;HEAD<br>
-- /*<br>
--=C2=A0 * NEVER EVER edit this manually, fix the <a href=3D"http://mkhelp.p=
-l" rel=3D"noreferrer" target=3D"_blank">mkhelp.pl</a> script instead!<br>
--- * Generation time: $now<br>
--=C2=A0 */<br>
-- #ifdef USE_MANUAL<br>
-- #include &quot;tool_hugehelp.h&quot;<br>
-diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_7.54.1.bb" re=
-l=3D"noreferrer" target=3D"_blank">cu<wbr>rl_7.54.1.bb</a> b/meta/recipes-s=
-upport/curl/<a href=3D"http://curl_7.57.0.bb" rel=3D"noreferrer" target=3D"=
-_blank">cu<wbr>rl_7.57.0.bb</a><br>
-similarity index 86%<br>
-rename from meta/recipes-support/curl/<a href=3D"http://curl_7.54.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl<wbr>_7.54.1.bb</a><br>
-rename to meta/recipes-support/curl/<a href=3D"http://curl_7.57.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl<wbr>_7.57.0.bb</a><br>
-index 58f0531..47e3d45 100644<br>
---- a/meta/recipes-support/curl/<a href=3D"http://curl_7.54.1.bb" rel=3D"no=
-referrer" target=3D"_blank">cu<wbr>rl_7.54.1.bb</a><br>
-+++ b/meta/recipes-support/curl/<a href=3D"http://curl_7.57.0.bb" rel=3D"no=
-referrer" target=3D"_blank">cu<wbr>rl_7.57.0.bb</a><br>
-@@ -7,23 +7,16 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;beginline=3D8;<=
-wbr>md5=3D<wbr>3a34942f4ae3fbf1a303160714e66<br>
-<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"http://curl.haxx.se/download/curl-${PV}.=
-tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://curl.haxx.se/download/=
-<wbr>curl-${PV}.tar.bz2</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-replace-krb5-<wbr>con=
-fig-with-pkg-config.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2017-1000099.patch \<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2017-1000100.patch \<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2017-1000101.patch \<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2017-1000254.patch \<b=
-r>
-=C2=A0&quot;<br>
-<br>
--SRC_URI_append_class-target =3D &quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://reproducible-mkhelp.<wbr>p=
-atch \<br>
--&quot;<br>
-<br>
-=C2=A0# curl likes to set -g0 in CFLAGS, so we stop it<br>
-=C2=A0# from mucking around with debug options<br>
-=C2=A0#<br>
-=C2=A0SRC_URI +=3D &quot; file://configure_ac.patch&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;<wbr>6b6eb722f512e7a24855ff084f54fe<wbr>55&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>fdfc4df2d001ee0c44ec071186e770<wbr>04624=
-9263c491fcae48df0e1a3ca8f<wbr>25a0&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>dd3e22e923be17663e67f721c2aec0<wbr>54&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>c92fe31a348eae079121b73884065e<wbr>600c5=
-33493eb50f1f6cee9c48a3f45<wbr>4826&quot;<br>
-<br>
-=C2=A0CVE_PRODUCT =3D &quot;libcurl&quot;<br>
-=C2=A0inherit autotools pkgconfig binconfig multilib_header<br>
-@@ -64,9 +57,6 @@ EXTRA_OECONF =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0--without-libpsl \<br>
-=C2=A0&quot;<br>
-<br>
--do_install_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header curl/curlbuild.h<br>
--}<br>
-<br>
-=C2=A0do_install_append_class-<wbr>target() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # cleanup buildpaths from curl-config<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-To stop receiving notification emails like this one, please contact<br>
-the administrator of this repository.<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-commits mailing list<br>
-<a href=3D"mailto:Openembedded-commits@lists.openembedded.org">Openembedded=
--commits@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-comm=
-its" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wb=
-r>mailman/listinfo/openembedded-<wbr>commits</a><br>
-</font></span></blockquote></div><br></div></div>
-
---f403045fa74649e0600563b4560e--
