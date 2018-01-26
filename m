@@ -1,48 +1,32 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C8EF786EE
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F8E478761
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 03:47:39 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id i56so955213wra.7
+	Fri, 26 Jan 2018 07:06:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36008402"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 Jan 2018 15:06:29 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 59B3849F19C0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 19:47:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lS6DIidMQ9k18UC+s5irwQBiGkbIe2Xby8Vhc5xz2lo=;
-	b=seLjztlW0bgMl0SmqNDUszBt3Wywwr633Vf8dO/2d9O8XJ+HhkBE0V3QQrjkgYGT50
-	SKXlNYZLDCppX88MQLnOnCQQ7LStUlWP1Qh9b4NFUkHQO4A2Bsv29v8/cxAhQJyQhGy1
-	vQI6AW4SpPsw7LxQbl7z+81AfDY035gIx2+PRg/c9FmLiGmwKgjsn8M6MtE/Q7+ACumL
-	V0OJCSQgdGwT8u85zd3MefVPsPceMe7zY1l/ipfg5eZ8mx27iKoYNs2uobJWgb7DLu7k
-	sy7ZzAFd2Oke8pGGF+DmRUXpiMFMWSuZCgEAznxinJzPmNS2S21SOclLhzEXpmzZVyQd
-	DvLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lS6DIidMQ9k18UC+s5irwQBiGkbIe2Xby8Vhc5xz2lo=;
-	b=c3G6ge3jLm/LIM0oBi+nSusdmlBYanoKBFoYi7gFTHrunV/lFsbY0f2hXlxQGroFVa
-	/o6fx0GbIhiz6w9zQOqbHaC+vh8ldpRjfNHRuPusBqAV73wVzU+4fj+sC9sr1xdar8YD
-	ys4CUaPPmKE3HRr8cWQFK4925WeZz9IziRWsZec8vY4ea6w9e2IW4yQYgs5HW0mK0AZu
-	ExEKSXo9CL5byM7j6ncoEQZEHb3IuBGrHTjYcZwxfUCH5WXNrlHilusgYGl2xb+uRPd9
-	06Agk1grfVQY1ZIxOcahmHHDaRsRD4XivMqHzK3gBtEklSZTjFvfoQx5e0cKhdYWivwk
-	lVkg==
-X-Gm-Message-State: AKwxytfHzgnkdSW2IDJPBPz7ansbot27W1Pxr9H8p3IiOcmYIju6DD/T
-	DqUAp6OPJDDUDUqX/Uq2Sh8zs08B/ocoJJQRfO0=
-X-Google-Smtp-Source: AH8x227g/j0y3/Clft0DqBWO0OITZSdOJ3nIMnzaCDAtjDNgyUkbhHs9KvCv8OVGOMo3R0Vzl6PvZJNJnE7RMy1PpbU=
-X-Received: by 10.223.188.18 with SMTP id s18mr9512887wrg.226.1516938460786;
-	Thu, 25 Jan 2018 19:47:40 -0800 (PST)
+	Fri, 26 Jan 2018 15:06:30 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Fri, 26 Jan 2018 15:06:29 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Jan 2018 15:06:30 +0800
+Message-ID: <1516950393-15372-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1516950393-15372-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1516950393-15372-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Received: by 10.223.144.129 with HTTP; Thu, 25 Jan 2018 19:47:40 -0800 (PST)
-In-Reply-To: <1515935110.29722.214.camel@linuxfoundation.org>
-References: <20180112162002.9669-1-alexander.kanavin@linux.intel.com>
-	<1515935110.29722.214.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 25 Jan 2018 19:47:40 -0800
-Message-ID: <CAJ86T=UUALj0bC2-SWq4itXJf5YGv6h6NS8Dqoy+YYkX2igFbQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH 1/2] ruby: update to 2.4.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 59B3849F19C0.A4CD5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] less: 527 -> 529
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 03:47:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 26 Jan 2018 07:06:31 -0000
+Content-Type: text/plain
 
-On Sun, Jan 14, 2018 at 5:05 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2018-01-12 at 18:20 +0200, Alexander Kanavin wrote:
->> Existing version of ruby-native (2.2.5) was crashing on my machine
->> (and others' too),
->> yet a functional ruby is necessary to upgrade webkit to a version
->> that less vulnerable
->> to Spectre.
->>
->> I've performed the update by copying the ruby recipe directory over
->> from the current
->> pyro tree; if you want to see the list of specific commits, issue
->> this command:
->>
->> git log 99656fecf4fa6e24ba49ecb7f26f893e733818a0 meta/recipes-
->> devtools/ruby
->> (up to commit e593d3aeb2ea5f08d6e0753133fe89e345b339e8)
->
-> Fails on musl:
->
-> https://autobuilder.yocto.io/builders/nightly-musl/builds/719/steps/BuildImages/logs/stdio
->
-> Not sure why ruby-native would fail on musl specifically so could be a
-> host issue (its on fedora26).
+Upgrade less from 527 to 529.
 
-Seems to be the same issue as:
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/less/{less_527.bb => less_529.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/less/{less_527.bb => less_529.bb} (89%)
 
-  https://bugs.ruby-lang.org/issues/13168
+diff --git a/meta/recipes-extended/less/less_527.bb b/meta/recipes-extended/less/less_529.bb
+similarity index 89%
+rename from meta/recipes-extended/less/less_527.bb
+rename to meta/recipes-extended/less/less_529.bb
+index f2d33e5..c86f754 100644
+--- a/meta/recipes-extended/less/less_527.bb
++++ b/meta/recipes-extended/less/less_529.bb
+@@ -27,8 +27,8 @@ DEPENDS = "ncurses"
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+ 	  "
+ 
+-SRC_URI[md5sum] = "1582422b9d608476345bbc049dc90f6b"
+-SRC_URI[sha256sum] = "4e302ac0435811c10866988e0c0feb6c867626cdd8444ae3428aeb9d6e538f95"
++SRC_URI[md5sum] = "32018b53a1f7319ab54349baf80e6aa8"
++SRC_URI[sha256sum] = "dba42cd4c38174b7bd0d426d8a39df2be6bcc1ec18946a4642713290f6bf9a0b"
+ 
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
+ 
+-- 
+2.7.4
+
+
+
 
