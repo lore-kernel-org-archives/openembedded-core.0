@@ -1,32 +1,32 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id E44F478761
+	by mail.openembedded.org (Postfix) with ESMTP id C2F3771B9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 07:06:33 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36008419"
+	Fri, 26 Jan 2018 08:59:56 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36021523"
 Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Jan 2018 15:06:35 +0800
+	by heian.cn.fujitsu.com with ESMTP; 26 Jan 2018 16:59:55 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id EC48449F19B1
+	by cn.fujitsu.com (Postfix) with ESMTP id 2B37F49F19B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 15:06:32 +0800 (CST)
+	Fri, 26 Jan 2018 16:59:57 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.125) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 26 Jan 2018 15:06:32 +0800
+	Server (TLS) id 14.3.361.1; Fri, 26 Jan 2018 16:59:56 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jan 2018 15:06:32 +0800
-Message-ID: <1516950393-15372-4-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Fri, 26 Jan 2018 17:00:08 +0800
+Message-ID: <1516957210-15531-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1516950393-15372-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1516950393-15372-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+In-Reply-To: <1516957210-15531-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1516957210-15531-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: EC48449F19B1.A8115
+X-yoursite-MailScanner-ID: 2B37F49F19B7.A8EAA
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH V2] blktrace: 1.1.0+gitX -> 1.2.0+gitX
+Subject: [PATCH] linux-libc-headers: 4.12 -> 4.14.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,101 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 07:06:35 -0000
+X-List-Received-Date: Fri, 26 Jan 2018 08:59:57 -0000
 Content-Type: text/plain
 
-1.Upgrade blktrace form 1.1.0+gitX to 1.2.0+gitX
-2.Delete 0001-include-sys-types.h-for-dev_t-definition.patch, since it is integrated upstream.
-3.Modify ldflags.patch, since iowatcher/Makefile has been changed.
+Upgrade linux-libc-headers from 4.12 to 4.14.13.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- ...-include-sys-types.h-for-dev_t-definition.patch | 30 ----------------------
- .../recipes-kernel/blktrace/blktrace/ldflags.patch |  6 ++---
- meta/recipes-kernel/blktrace/blktrace_git.bb       |  5 ++--
- 3 files changed, 5 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
+ .../{linux-libc-headers_4.12.bb => linux-libc-headers_4.14.13.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.12.bb => linux-libc-headers_4.14.13.bb} (71%)
 
-diff --git a/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch b/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
-deleted file mode 100644
-index a4b7157..0000000
---- a/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 6b5bbdfaac7f216fe8a02c4cf29e5eb2aee5a409 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 15 Sep 2015 00:01:00 +0000
--Subject: [PATCH] include sys/types.h for dev_t definition
--
--Avoids the build failures when sys/types.h does not get included
--indirectly through other headers.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted
--
-- blktrace.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/blktrace.h b/blktrace.h
--index 380aec7..944fc08 100644
----- a/blktrace.h
--+++ b/blktrace.h
--@@ -5,6 +5,7 @@
-- #include <limits.h>
-- #include <byteswap.h>
-- #include <endian.h>
--+#include <sys/types.h>
-- 
-- #include "blktrace_api.h"
-- #include "rbtree.h"
---- 
--2.5.2
--
-diff --git a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
-index dea1aa2..29eb0f2 100644
---- a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
-+++ b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
-@@ -90,7 +90,7 @@ Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
- +++ git/iowatcher/Makefile
- @@ -1,5 +1,6 @@
-  C      = gcc
-- CFLAGS  = -Wall -O0 -g -W
-+ CFLAGS  = -Wall -O2 -g -W -Wunused-result
- +LDFLAGS =
-  ALL_CFLAGS = $(CFLAGS) -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
-  
-@@ -99,8 +99,8 @@ Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
-  	$(CC) -o $*.o -c $(ALL_CFLAGS) $<
-  
-  iowatcher: blkparse.o plot.o main.o tracers.o mpstat.o fio.o
---	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm
--+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm $(LDFLAGS)
-+-	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm -lrt
-++	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm $(LDFLAGS) -lrt
-  
-  depend:
-  	@$(CC) -MM $(ALL_CFLAGS) *.c 1> .depend
-diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-index 770575f..663de2e 100644
---- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-@@ -5,13 +5,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.14.13.bb
+similarity index 71%
+rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb
+rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.14.13.bb
+index f0d0abf..455ad4b 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.14.13.bb
+@@ -7,5 +7,5 @@ SRC_URI_append_libc-musl = "\
+     file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
+    "
  
- DEPENDS = "libaio"
- 
--SRCREV = "43fc870ce04e963def45dfc0d1ed4ea21ef10d4b"
-+SRCREV = "cca113f2fe0759b91fd6a0e10fdcda2c28f18a7e"
- 
--PV = "1.1.0+git${SRCPV}"
-+PV = "1.2.0+git${SRCPV}"
- 
- SRC_URI = "git://git.kernel.dk/blktrace.git \
-            file://ldflags.patch \
--           file://0001-include-sys-types.h-for-dev_t-definition.patch \
- "
- 
- S = "${WORKDIR}/git"
+-SRC_URI[md5sum] = "fc454157e2d024d401a60905d6481c6b"
+-SRC_URI[sha256sum] = "a45c3becd4d08ce411c14628a949d08e2433d8cdeca92036c7013980e93858ab"
++SRC_URI[md5sum] = "4e8bb562f8fd33d5ef1feb0435ed2b02"
++SRC_URI[sha256sum] = "4ab46d1b5a0f8ef83b80760f89ae4f5c88431b19b3cf79ffa0c66d6b33e45772"
 -- 
 2.7.4
 
