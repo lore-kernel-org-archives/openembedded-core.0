@@ -1,26 +1,18 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 554A87870F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 13:59:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0QDxbbr011525
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 26 Jan 2018 05:59:37 -0800
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 26 Jan 2018 05:59:36 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 26 Jan 2018 08:59:23 -0500
-Message-ID: <f277f872c728ed18709c58e88e26a3fc81f23663.1516973739.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1516973739.git.bruce.ashfield@windriver.com>
-References: <cover.1516973739.git.bruce.ashfield@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5D6605BA;
+	Fri, 26 Jan 2018 14:32:56 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 26 Jan 2018 14:32:58 -0000
+Message-ID: <20180126143258.15542.64523@do.openembedded.org>
+References: <cover.1516973739.git.bruce.ashfield@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1516973739.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH 12/12] make-mod-scripts: change how some kernel module tools are built
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLXlvY3RvOiBjb25zb2xpZGF0ZWQgcHVsbCByZXF1ZXN0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 13:59:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jan 2018 14:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Joe Slater <jslater@windriver.com>
+== Series Details ==
 
-Remove do_make_scripts() from module-base.bbclass and put
-functionality in a recipe.  This will build the scripts only
-once instead of each time an external module is built.
+Series: kernel-yocto: consolidated pull request
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10720/
+State : failure
 
-[YOCTO #12228]
+== Summary ==
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 8485438140)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/module-base.bbclass                   | 12 +++--------
- meta/classes/module.bbclass                        |  4 ----
- .../make-mod-scripts/make-mod-scripts_1.0.bb       | 24 ++++++++++++++++++++++
- 3 files changed, 27 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-
-diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-index 6fe77c01b7ed..d6762a7dffd8 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -1,7 +1,8 @@
- inherit kernel-arch
- 
--# This is instead of DEPENDS = "virtual/kernel"
--do_configure[depends] += "virtual/kernel:do_compile_kernelmodules"
-+# We do the dependency this way because the output is not preserved
-+# in sstate, so we must force do_compile to run (once).
-+do_configure[depends] += "make-mod-scripts:do_compile"
- 
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
-@@ -18,10 +19,3 @@ KERNEL_OBJECT_SUFFIX = ".ko"
- # kernel modules are generally machine specific
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--# Function to ensure the kernel scripts are created. Expected to
--# be called before do_compile. See module.bbclass for an example.
--do_make_scripts() {
--	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
--	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
--	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
--}
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 78d1b21dbd83..e34496024434 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -1,9 +1,5 @@
- inherit module-base kernel-module-split pkgconfig
- 
--addtask make_scripts after do_prepare_recipe_sysroot before do_configure
--do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
--do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
--
- EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
- 
- MODULES_INSTALL_TARGET ?= "modules_install"
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-new file mode 100644
-index 000000000000..6645c873f015
---- /dev/null
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "Build tools needed by external modules"
-+LICENSE = "GPLv2"
-+
-+inherit kernel-arch
-+
-+S = "${WORKDIR}"
-+
-+do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
-+
-+# Build some host tools under work-shared.  CC, LD, and AR are probably
-+# not used, but this is the historical way of invoking "make scripts".
-+#
-+do_configure() {
-+	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-+	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
-+}
-+
-+
-+# There is no reason to build this on its own.
-+#
-+EXCLUDE_FROM_WORLD = "1"
-+
--- 
-2.5.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
