@@ -1,29 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 534FC7827F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 14:47:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0QEl20n028833
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Jan 2018 06:47:02 -0800 (PST)
-Received: from server.local (128.224.22.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 26 Jan 2018 06:47:02 -0800
-To: Cal Sullivan <california.l.sullivan@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180125031227.18327-1-california.l.sullivan@intel.com>
-	<e66c755a-c1d1-0e73-d18f-f8836139fb85@windriver.com>
-	<79e06ad2-33aa-ce1d-dcc6-75c3e929efa1@intel.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <adfa5678-0b2f-0504-df9b-47da5f89cad3@windriver.com>
-Date: Fri, 26 Jan 2018 09:47:01 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <79e06ad2-33aa-ce1d-dcc6-75c3e929efa1@intel.com>
-Subject: Re: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.x-arc.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id ED2CF787DE
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jan 2018 16:41:05 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id B57AEA0025F
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jan 2018 17:41:16 +0100 (CET)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2018012617410555-108911 ;
+	Fri, 26 Jan 2018 17:41:05 +0100 
+From: Daniel Schultz <d.schultz@phytec.de>
+To: Openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jan 2018 17:41:05 +0100
+Message-Id: <1516984865-2976-1-git-send-email-d.schultz@phytec.de>
+X-Mailer: git-send-email 2.7.4
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 26.01.2018 17:41:05,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 26.01.2018 17:41:05,
+	Serialize complete at 26.01.2018 17:41:05
+X-TNEFEvaluated: 1
+Subject: [PATCH] cryptodev: Fix build errors with v4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,112 +35,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 14:47:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Jan 2018 16:41:07 -0000
 
-On 2018-01-25 3:26 PM, Cal Sullivan wrote:
-> 
-> 
-> On 01/25/2018 06:21 AM, Bruce Ashfield wrote:
->> On 01/24/2018 10:12 PM, California Sullivan wrote:
->>> Kernel v4.14 and newer contain the following in their Makefile:
->>>
->>> HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
->>> HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
->>>
->>> This breaks our menuconfig, because it can no longer find ncurses if its
->>> not on the host machine. This can be seen in linux-yocto-dev, for
->>> example:
->>>
->>> [clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
->>>
->>>    GEN     ./Makefile
->>>    HOSTLD  scripts/kconfig/mconf
->>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
->>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
->>> collect2: error: ld returned 1 exit status
->>> make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
->>> make[2]: *** 
->>> [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei7-64/kernel-source/Makefile:504: 
->>> menuconfig] Error 2
->>> make[1]: *** [Makefile:146: sub-make] Error 2
->>> make: *** [Makefile:24: __sub-make] Error 2
->>> Command failed.
->>> Press any key to continue...
->>
->> Does this fix still require a kernel patch ? I was trying to test
->> it out here, and may have messed up the steps.
->>
->> If I remove ncurses-dev from my builder, I'm not able to get a
->> working menuconfig no matter what combination of this patch
->> applied (or not) or my menuconfig patch applied (or not).
->>
->> I can say that having this applied didn't break my menuconfig,
->> but I wasn't able to fully test.
->>
->> Should I expect a builder without ncurses-dev + just this patch
->> to be able to run menuconfig ?
-> We still need the patch "menuconfig,check-lxdiaglog.sh: Allow 
-> specification of ncurses location", as seen here: 
-> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-dev/commit/?h=standard/base&id=26911f4ada6374ff3f0b7f98364b7a93756a180b 
-> 
-> 
-> Two separate fixes in the same area unfortunately.
-> 
-> Locally I am doing 'bitbake linux-yocto-dev -c menuconfig' and I am 
-> getting a working menuconfig with my patch, and no ncurses-dev(el) 
-> installed on my host machine. If you're not, I worry that there might be 
-> more host contamination that we haven't discovered.
-> 
-> Could you share the errors you're hitting?
+Commit message from the included patch:
+"Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
+triggering build errors with gcc 5 and 6 (but not with gcc 4)"
 
-I retested this morning, since I was doing a lot of different things
-yesterday .. and I wanted to be sure that I had things right.
+Backport from https://github.com/cryptodev-linux/cryptodev-linux
+Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
 
-During my new tests, I can get menuconfig to launch with ncurses-dev
-removed on my builder, if I have your patch + the one I carry in
-linux-yocto.
+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+Acked-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ .../cryptodev/cryptodev-module_1.9.bb              |  1 +
+ .../0001-ioctl.c-Fix-build-with-linux-4.13.patch   | 49 ++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
 
-It was my revert of the kernel patch that was getting me into the
-"never able to build menuconfig" loop.
-
-So no issues with this change, it doesn't break anything and definitely
-lets me launch menuconfig when ncurses-dev isn't present on the builder.
-
-I'll resend that kernel patch upstream.
-
-Bruce
-
-> 
-> Thanks,
-> Cal
-> 
->>
->> Bruce
->>
->>>
->>> Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
->>> 'make menuconfig' command.
->>>
->>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->>> ---
->>>   meta/classes/kernel.bbclass | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index 2f6eca382e9..e4df1531c19 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
->>>     inherit cml1
->>>   +KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
->>> +
->>>   EXPORT_FUNCTIONS do_compile do_install do_configure
->>>     # kernel-base becomes kernel-${KERNEL_VERSION}
->>>
->>
-> 
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+index 552eb6a..ed6d0ec 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+@@ -9,6 +9,7 @@ DEPENDS += "cryptodev-linux"
+ 
+ SRC_URI += " \
+ file://0001-Disable-installing-header-file-provided-by-another-p.patch \
++file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+new file mode 100644
+index 0000000..a41efac
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
+@@ -0,0 +1,49 @@
++From f0d69774afb27ffc62bf353465fba145e70cb85a Mon Sep 17 00:00:00 2001
++From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++Date: Mon, 4 Sep 2017 11:05:08 +0200
++Subject: [PATCH] ioctl.c: Fix build with linux 4.13
++
++git/ioctl.c:1127:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
++   {0, },
++    ^
++note: (near initialization for 'verbosity_ctl_dir[1]')
++git/ioctl.c:1136:3: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
++   {0, },
++    ^
++
++Linux kernel has added -Werror=designated-init around 4.11 (c834f0e8a8b)
++triggering build errors with gcc 5 and 6 (but not with gcc 4)
++
++Upstream-Status: Backport
++
++Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++Signed-off-by: Cristian Stoica <cristian.stoica@nxp.com>
++---
++ ioctl.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/ioctl.c b/ioctl.c
++index 0385203..8d4a162 100644
++--- a/ioctl.c
+++++ b/ioctl.c
++@@ -1124,7 +1124,7 @@ static struct ctl_table verbosity_ctl_dir[] = {
++ 		.mode           = 0644,
++ 		.proc_handler   = proc_dointvec,
++ 	},
++-	{0, },
+++	{},
++ };
++ 
++ static struct ctl_table verbosity_ctl_root[] = {
++@@ -1133,7 +1133,7 @@ static struct ctl_table verbosity_ctl_root[] = {
++ 		.mode           = 0555,
++ 		.child          = verbosity_ctl_dir,
++ 	},
++-	{0, },
+++	{},
++ };
++ static struct ctl_table_header *verbosity_sysctl_header;
++ static int __init init_cryptodev(void)
++-- 
++2.7.4
++
+-- 
+2.7.4
 
 
