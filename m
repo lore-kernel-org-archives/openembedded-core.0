@@ -1,19 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CF881601F6
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA2E78520
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jan 2018 21:02:56 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Slater, Joseph <joe.slater@windriver.com>
-Date: Thu, 25 Jan 2018 21:02:58 -0000
-Message-ID: <20180125210258.15537.46154@do.openembedded.org>
-References: <20180125204449.32748-1-joe.slater@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180125204449.32748-1-joe.slater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igcm5nLXRvb2xzOiBtb2RpZnkgJ3JlYWQgZXJyb3InIG1lc3NhZ2U=?=
+	Fri, 26 Jan 2018 01:02:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Jan 2018 17:02:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,414,1511856000"; d="scan'208";a="26426737"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2018 17:02:59 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jan 2018 17:03:11 -0800
+Message-Id: <1516928591-64380-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] package_rpm.bbclass: improve reproducibility of RPM packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,44 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jan 2018 21:02:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jan 2018 01:02:58 -0000
 
-== Series Details ==
+The RPM packages contain BUILDHOST based on the current build host.
+This breaks reproducibility if the same package is build on two different hosts.
+To improve reproducible builds, we always set BUILDHOST as "reproducible".
 
-Series: rng-tools: modify 'read error' message
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10705/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in read_error_msg.patch
-  Current          Upstream-Status: pending
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/package_rpm.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index b08608c..15fed01 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -669,6 +669,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_binary_payload w6T.xzdio'"
+     cmd = cmd + " --define '_source_payload w6T.xzdio'"
+     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
++    cmd = cmd + " --define '_buildhost reproducible'"
+     if perfiledeps:
+         cmd = cmd + " --define '__find_requires " + outdepends + "'"
+         cmd = cmd + " --define '__find_provides " + outprovides + "'"
+-- 
+2.7.4
 
 
