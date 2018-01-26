@@ -1,53 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E30771A0C
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A6E78622
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 19:03:07 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id w50so1386232wrc.2
+	Fri, 26 Jan 2018 19:26:10 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id s3so3962644qtb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jan 2018 11:03:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UAWXVys08e5HK+gf0eKn7Vdec88bPKmCExQFonzO+SA=;
-	b=ub8mbTO/K+0E6A39llUJeJmRvzLzF32WJZnxltkMu0VkKrYMflBiebgWbxq54KXf0k
-	etmngW7Q4HMi3RdOTbf/vpCEFWcBYMVXICwmey+tgmLCt0Sv1usz9e3iZzLifCYUHr9m
-	YPdY9j9Sd9zs+REvtSGcrRB2n113Zic9JjPC7K+nM2KOHowU12ToGKQI4uRoyC4QIhII
-	P2wWs0b/7CtlSbxWJ8WJdgn557GL8y+kpRDKLhn6qaNVHWw6eAAOMr8+ZlSBDmzhGcz/
-	Za/pQ+bfXtnFP94ssq4DzvnSoDXVclPJT8wR+a80SU/gLjE8010cdeb028//OoDgOIQC
-	euvw==
+	Fri, 26 Jan 2018 11:26:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UAWXVys08e5HK+gf0eKn7Vdec88bPKmCExQFonzO+SA=;
-	b=EdaMIc0EW9rEsyTEVelM/+dzUAm118KXtgS5gqq0f5JqKVUCZUGPvB1LWbM8x1/h2U
-	6JpVRDtM0ZvV13lU337UA7Jv3mgRYWE5iNpgl8ZLvmAhiAjkg73nkui08Sm9qYHkr+Pr
-	wJ3Sb4tI4UeT2e+5pP2Emv5Fm8Wwr0U0TimdCJotBmgOX9YEVpbD5YEnPK1gp2KEyIfe
-	g44nG/NCQ9kX55ipVn7YSmBQCrL+Vm5eHVH73Gnd7ciXT/H9Ebmf6pVRXEgQkW2pGnAC
-	bwOQIaRjr0FjnDSvpw4Fs4W+QYO+0TCqk7543ly27mx9kPCWh1RkjTqaDyHq1v+c4Ar3
-	AA9A==
-X-Gm-Message-State: AKwxytfjF3L3OYEc9Q2wvKqzK+oN6huKTPq3x60UZ+emMXzuzVLcKUeO
-	06fikcrdkX8peUjFwwf7mn6Cpdvv7CoqM8RRfoE=
-X-Google-Smtp-Source: AH8x227rz00TQJ/oR0sltXLfRpF/jjR7jAvFIoVF2dDhy2v312qvseI/lt5jMpCWePjLQPsBBaRvrOg6mG93ndfadBE=
-X-Received: by 10.223.189.136 with SMTP id l8mr13047672wrh.58.1516993388668;
-	Fri, 26 Jan 2018 11:03:08 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Fri, 26 Jan 2018 11:03:08 -0800 (PST)
-In-Reply-To: <CA+chaQeLNdfn5piAtuXnpEsO=z=qz=Vh-=_P10xOgBw1fZPxpg@mail.gmail.com>
-References: <1490031500-38242-1-git-send-email-denis@denix.org>
-	<20170421231816.GC20419@denix.org>
-	<0fa0e630-137b-73ba-f212-0049b92e5199@gmail.com>
-	<20170516215021.GO28053@denix.org>
-	<d5b89969-7833-d1a7-8685-71468968b93f@gmail.com>
-	<CA+chaQeLNdfn5piAtuXnpEsO=z=qz=Vh-=_P10xOgBw1fZPxpg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 26 Jan 2018 20:03:08 +0100
-Message-ID: <CA+chaQfpeXTf_DwBO-KZxhphHfHzPJdV-Y9VgVnigfPCyXdO7g@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] sstate.bbclass: update .siginfo atime
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XLw62shYBc61xRDVqsPrOtOvockSboGYA3cUASD9aQs=;
+	b=prsUcG2RdjyAtdasrPPDK41AAIWepmb2A25PnzsqvtNGtWy5Dc0TdzFwM2CO9Etp/0
+	QBKO3NsfeoFbH3m46kyJcqQ7Go6alIxr0zlCflLuaft5kIISoiIumDZDbjhzfBqG4wtV
+	xj8KyGV0Z3+uawxZ4KaWjqkUX0dIHHNNnjJMW7N7l3CBfN+wgPgNA3B1NjA6Y0+3XLBZ
+	h1OVvevBFL8F5yywKHfOtU2BBU2OJbYaSF+4u2GNshwx4FjGrXv7d34e0boHpPEJlGTg
+	a/1zZxKSOsjmgLrFF6wCB93APbBoNT6skxL3qG3GhduZ0KTz0QD//cJi1mycaaS8wRXm
+	Pm+A==
+X-Gm-Message-State: AKwxytfYQy9Pu+SDT7/R2hjuZjwDVPAkat/8gTLIX8BY8vCqFOQp9fJn
+	PrZOHGlzpfvpjivP7dR0zbCO50Zg
+X-Google-Smtp-Source: AH8x224jtih3rq3P+VSs66ytA/dAIAhdH6yM3bZ/K3JDzR3Wo8E0z1O8Bwxdwbjn6UQwi4zO4yGdnQ==
+X-Received: by 10.237.48.196 with SMTP id 62mr9183814qtf.39.1516994771806;
+	Fri, 26 Jan 2018 11:26:11 -0800 (PST)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id k1sm6114606qtf.96.2018.01.26.11.26.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Jan 2018 11:26:11 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jan 2018 14:25:31 -0500
+Message-Id: <1516994731-20440-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python: Upgrade both python and python-native to 2.7.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,329 +44,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jan 2018 19:03:09 -0000
-Content-Type: multipart/alternative; boundary="089e082b0df00eec640563b28c7c"
+X-List-Received-Date: Fri, 26 Jan 2018 19:26:11 -0000
 
---089e082b0df00eec640563b28c7c
-Content-Type: text/plain; charset="UTF-8"
+Rebased:
+  - python/01-use-proper-tools-for-cross-build.patch
+  - python/fix-makefile-for-ptest.patch
+  - python/parallel-makeinst-create-bindir.patch
 
-I'm sorry to revive this old thread, but today I've noticed a bit
-surprising (to me) aspect of this.
+Removed Upstreamed Patch:
+  - python/Don-t-use-getentropy-on-Linux.patch
 
-I've recently started using sshfs to temporary share sstate-cache between
-various builders.
+Updated license checksum for changes in the copyright date.  The license
+terms remain unchanged
 
-The files on the other builder are owned by different user and the
-SSTATE_MIRROR should be used as read-only.
+Added an extra do_compile item to create the native pgen that no longer
+gets compiled by default
 
-drwxrwxr-x 1 jenkins jenkins 52K Jan 26 18:29 sshfs-mount/sstate-cache/fd/
--rw-r--r-- 1 jenkins jenkins 38K Jan 26 18:09
-sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ ...on-native_2.7.13.bb => python-native_2.7.14.bb} |  6 ++++
+ meta/recipes-devtools/python/python.inc            |  6 ++--
+ .../01-use-proper-tools-for-cross-build.patch      | 17 +++++----
+ .../python/Don-t-use-getentropy-on-Linux.patch     | 41 ----------------------
+ .../python/python/fix-makefile-for-ptest.patch     |  6 ++--
+ .../python/parallel-makeinst-create-bindir.patch   | 12 +++----
+ .../python/{python_2.7.13.bb => python_2.7.14.bb}  |  1 -
+ 7 files changed, 28 insertions(+), 61 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.13.bb => python-native_2.7.14.bb} (94%)
+ delete mode 100644 meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+ rename meta/recipes-devtools/python/{python_2.7.13.bb => python_2.7.14.bb} (99%)
 
-touch under my user fails:
-touch
-sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo
-touch: cannot touch
-'sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo':
-Permission denied
+diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.14.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python-native_2.7.13.bb
+rename to meta/recipes-devtools/python/python-native_2.7.14.bb
+index 2b74003..622cb38 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.13.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.14.bb
+@@ -36,6 +36,12 @@ do_configure_append() {
+ 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+ }
+ 
++# Regenerate all of the generated files
++# This ensures that pgen and friends get created during the compile phase
++do_compile_prepend() {
++    oe_runmake regen-all
++}
++
+ do_install() {
+ 	oe_runmake 'DESTDIR=${D}' install
+ 	install -d ${D}${bindir}/${PN}
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index b40f551..979b601 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -5,12 +5,12 @@ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+ INC_PR = "r1"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130e4ed10d3101517eb5b9385"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de91d4eeea5930b9c3c7fa69d"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "53b43534153bb2a0363f08bae8b9d990"
+-SRC_URI[sha256sum] = "35d543986882f78261f97787fd3e06274bfa6df29fac9b4a94f73930ff98f731"
++SRC_URI[md5sum] = "1f6db41ad91d9eb0a6f0c769b8613c5b"
++SRC_URI[sha256sum] = "71ffb26e09e78650e424929b2b457b9c912ac216576e6bd9e7d204ed03296a66"
+ 
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
+diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+index 366ce3e..e795a74 100644
+--- a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
++++ b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+@@ -9,6 +9,9 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ Rebased for python-2.7.9
+ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+ 
++Rebased for python-2.7.14
++Signed-off-by: Derek Straka <derek@asterius.io>
++
+ Index: Python-2.7.13/Makefile.pre.in
+ ===================================================================
+ --- Python-2.7.13.orig/Makefile.pre.in
+@@ -30,14 +33,14 @@ Index: Python-2.7.13/Makefile.pre.in
+  
+  # Create build directory and generate the sysconfig build-time data there.
+  # pybuilddir.txt contains the name of the build dir and is used for
+-@@ -681,7 +682,7 @@ Modules/pwdmodule.o: $(srcdir)/Modules/p
+- 
+- $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
++@@ -663,7 +663,7 @@
++ 	# Regenerate Include/graminit.h and Python/graminit.c
++ 	# from Grammar/Grammar using pgen
+  	@$(MKDIR_P) Include
+--	$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+-+	$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+- $(GRAMMAR_C): @GENERATED_COMMENT@ $(GRAMMAR_H)
+- 	touch $(GRAMMAR_C)
++-	$(PGEN) $(srcdir)/Grammar/Grammar \
+++	$(HOSTPGEN) $(srcdir)/Grammar/Grammar \
++ 		$(srcdir)/Include/graminit.h \
++ 		$(srcdir)/Python/graminit.c
+  
+ @@ -1121,27 +1122,27 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
+  			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
+diff --git a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+deleted file mode 100644
+index 38e5377..0000000
+--- a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Upstream-Status: Backport
+-
+-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+-
+-From 905d1b30ac7cb0e31c57cec0533825c8f170b942 Mon Sep 17 00:00:00 2001
+-From: Victor Stinner <victor.stinner@gmail.com>
+-Date: Mon, 9 Jan 2017 11:10:41 +0100
+-Subject: [PATCH] Don't use getentropy() on Linux
+-
+-Issue #29188: Support glibc 2.24 on Linux: don't use getentropy() function but
+-read from /dev/urandom to get random bytes, for example in os.urandom().  On
+-Linux, getentropy() is implemented which getrandom() is blocking mode, whereas
+-os.urandom() should not block.
+-
+-(cherry picked from commit 2687486756721e39164fa9f597e468c35d495227)
+----
+- Python/random.c | 11 +++++++++--
+- 1 file changed, 9 insertions(+), 2 deletions(-)
+-
+-diff --git a/Python/random.c b/Python/random.c
+-index b4bc1f3..f3f5d14 100644
+---- a/Python/random.c
+-+++ b/Python/random.c
+-@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
+- }
+- 
+- /* Issue #25003: Don't use getentropy() on Solaris (available since
+-- * Solaris 11.3), it is blocking whereas os.urandom() should not block. */
+--#elif defined(HAVE_GETENTROPY) && !defined(sun)
+-+   Solaris 11.3), it is blocking whereas os.urandom() should not block.
+-+
+-+   Issue #29188: Don't use getentropy() on Linux since the glibc 2.24
+-+   implements it with the getrandom() syscall which can fail with ENOSYS,
+-+   and this error is not supported in py_getentropy() and getrandom() is called
+-+   with flags=0 which blocks until system urandom is initialized, which is not
+-+   the desired behaviour to seed the Python hash secret nor for os.urandom():
+-+   see the PEP 524 which was only implemented in Python 3.6. */
+-+#elif defined(HAVE_GETENTROPY) && !defined(sun) && !defined(linux)
+- #define PY_GETENTROPY 1
+- 
+- /* Fill buffer with size pseudo-random bytes generated by getentropy().
+diff --git a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+index 669112d..90dcd57 100644
+--- a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
++++ b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+@@ -15,7 +15,7 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
+ +TESTOPTS=	-l -v $(EXTRATESTOPTS)
+  TESTPROG=	$(srcdir)/Lib/test/regrtest.py
+ -TESTPYTHON=	$(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
+--test:		all platform
++-test:		@DEF_MAKE_RULE@ platform
+ -		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
+ +TESTPYTHON=	$(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
+ +test:		build-test
+@@ -26,8 +26,8 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
+  		-$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
+  		$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
+  
+-+build-test:	all platform
+++build-test:	@DEF_MAKE_RULE@ platform
+ +
+- testall:	all platform
++ testall:	@DEF_MAKE_RULE@ platform
+  		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
+  		$(TESTPYTHON) $(srcdir)/Lib/compileall.py
+diff --git a/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch b/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
+index 951cb46..abab41e 100644
+--- a/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
++++ b/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
+@@ -8,12 +8,12 @@ Upstream-Status: Pending
+ 
+ --- Python-2.7.3.orig/Makefile.pre.in
+ +++ Python-2.7.3/Makefile.pre.in
+-@@ -1008,7 +1008,7 @@ LIBPL=		$(LIBP)/config
++@@ -1187,7 +1187,7 @@
+  LIBPC=		$(LIBDIR)/pkgconfig
+-
+- libainstall:	all python-config
++ 
++ libainstall:	@DEF_MAKE_RULE@ python-config
+ -	@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC); \
+ +	@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC) $(BINDIR); \
+-	do \
+-		if test ! -d $(DESTDIR)$$i; then \
+-			echo "Creating directory $$i"; \
++ 	do \
++ 		if test ! -d $(DESTDIR)$$i; then \
++ 			echo "Creating directory $$i"; \
+diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.14.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python_2.7.13.bb
+rename to meta/recipes-devtools/python/python_2.7.14.bb
+index dbafb95..13455ff 100644
+--- a/meta/recipes-devtools/python/python_2.7.13.bb
++++ b/meta/recipes-devtools/python/python_2.7.14.bb
+@@ -28,7 +28,6 @@ SRC_URI += "\
+   file://parallel-makeinst-create-bindir.patch \
+   file://use_sysroot_ncurses_instead_of_host.patch \
+   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
+-  file://Don-t-use-getentropy-on-Linux.patch \
+   file://pass-missing-libraries-to-Extension-for-mul.patch \
+   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+ "
+-- 
+2.7.4
 
-but test -w is successful:
-test
--w sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo
-&& echo writeable
-writeable
 
-and all setscene tasks are failing as shown e.g. in
-log.do_package_qa_setscene.22663
-DEBUG: Executing shell function sstate_unpack_package
-touch: cannot touch
-'sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo':
-Permission denied
-WARNING: exit code 1 from a shell command.
-DEBUG: Python function do_package_qa_setscene finished
-
-Anyone seeing similar issue?
-
-The simple fix for this is to use "-o ro" when mounting with sshfs, but it
-was a bit surprising to me that it didn't work OOTB.
-
-Regards,
-
-
-On Tue, Jun 13, 2017 at 8:21 AM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
-
-> Unfortunately this nice change breaks quite common scenario when
-> developers have read-only mount of sstate mirror and this touch causes all
-> _setscene tasks to fail, because they fail to update atime on symlink which
-> points to read-only mount.
->
-> Please backport the fix for this as well ASAP:
-> http://git.openembedded.org/openembedded-core/commit/meta/
-> classes/sstate.bbclass?id=b8f26c011d5ed888d85fef040bd821400d54c8fe
->
-> On Wed, May 17, 2017 at 1:05 AM, akuster808 <akuster808@gmail.com> wrote:
->
->>
->>
->> On 05/16/2017 02:50 PM, Denys Dmytriyenko wrote:
->>
->>> On Mon, Apr 24, 2017 at 09:08:55AM -0700, akuster808 wrote:
->>>
->>>> On 04/21/2017 04:18 PM, Denys Dmytriyenko wrote:
->>>>
->>>>> Ping. It's been over a month now...
->>>>>
->>>> its in my stagging since 4/1.  The AB has been failing with my
->>>> current changes.
->>>>
->>> Is morty now dead?
->>>
->>
->> No. why do you say that? I just sent a pull request over the weekend for
->> both Krogoth and Morty. Krogoth is the one heading to community supported
->> now that Pyro is out.
->>
->> this changes is in the pull request
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commi
->> t/meta/classes/sstate.bbclass?h=akuster/morty-next&id=838580
->> 431a8923bf38820f10963aca4af51f6f97
->>
->> - armin
->>
->>
->>
->>>
->>> On Mon, Mar 20, 2017 at 01:38:20PM -0400, Denys Dmytriyenko wrote:
->>>>>
->>>>>> From: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>>>>
->>>>>> .siginfo files are not being accessed from local or NFS-mounted
->>>>>> sstate mirrors when sstate package is installed, so their atime
->>>>>> is not updated. If sstate mirror is cleaned based on access time,
->>>>>> they get deleted, even though they are still being used.
->>>>>>
->>>>>> Updated atime of .siginfo symlinks with 'touch -a'. This command
->>>>>> dereferences symlinks pointing to the local mirror and updates
->>>>>> atime of the .siginfo file on the mirror.
->>>>>>
->>>>>> [YOCTO #10857]
->>>>>>
->>>>>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
->>>>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->>>>>> ---
->>>>>>   meta/classes/sstate.bbclass | 2 ++
->>>>>>   1 file changed, 2 insertions(+)
->>>>>>
->>>>>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->>>>>> index 8643f3d..4fdfcc8 100644
->>>>>> --- a/meta/classes/sstate.bbclass
->>>>>> +++ b/meta/classes/sstate.bbclass
->>>>>> @@ -724,6 +724,8 @@ python sstate_sign_package () {
->>>>>>   #
->>>>>>   sstate_unpack_package () {
->>>>>>         tar -xvzf ${SSTATE_PKG}
->>>>>> +       # update .siginfo atime on local/NFS mirror
->>>>>> +       [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
->>>>>>         # Use "! -w ||" to return true for read only files
->>>>>>         [ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->>>>>>         [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] ||
->>>>>> touch --no-dereference ${SSTATE_PKG}.sig
->>>>>> --
->>>>>> 2.7.4
->>>>>>
->>>>>> --
->>>>>> _______________________________________________
->>>>>> Openembedded-core mailing list
->>>>>> Openembedded-core@lists.openembedded.org
->>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>>>
->>>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
-
---089e082b0df00eec640563b28c7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m sorry to revive this old thread, but today I&#39;v=
-e noticed a bit surprising (to me) aspect of this.<div><br></div><div>I&#39=
-;ve recently started using sshfs to temporary share sstate-cache between va=
-rious builders.</div><div><br></div><div>The files on the other builder are=
- owned by different user and the SSTATE_MIRROR should be used as read-only.=
-</div><div><br></div><div>drwxrwxr-x 1 jenkins jenkins 52K Jan 26 18:29 ssh=
-fs-mount/sstate-cache/fd/<br></div><div>-rw-r--r-- 1 jenkins jenkins 38K Ja=
-n 26 18:09 sshfs-mount/sstate-cache/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13=
-a9949f4915ff611d5757cd18d8b4_package_qa.tgz.siginfo<br></div><div><br></div=
-><div>touch under my user fails:</div><div>touch sshfs-mount/sstate-cache/f=
-d/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_=
-qa.tgz.siginfo<br></div><div>touch: cannot touch &#39;sshfs-mount/sstate-ca=
-che/fd/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_pac=
-kage_qa.tgz.siginfo&#39;: Permission denied</div><div><br></div><div>but te=
-st -w is successful:</div><div>test -w=C2=A0sshfs-mount/sstate-cache/fd/sst=
-ate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_qa.tg=
-z.siginfo &amp;&amp; echo writeable<br></div><div>writeable</div><div><br><=
-/div><div>and all setscene tasks are failing as shown e.g. in log.do_packag=
-e_qa_setscene.22663</div><div><div>DEBUG: Executing shell function sstate_u=
-npack_package</div><div>touch: cannot touch &#39;sshfs-mount/sstate-cache/f=
-d/sstate:foo:bar:1.0:r0:MACHINE:3:fd13a9949f4915ff611d5757cd18d8b4_package_=
-qa.tgz.siginfo&#39;: Permission denied</div><div>WARNING: exit code 1 from =
-a shell command.</div><div>DEBUG: Python function do_package_qa_setscene fi=
-nished</div></div><div><br></div><div>Anyone seeing similar issue?</div><di=
-v><br></div><div>The simple fix for this is to use &quot;-o ro&quot; when m=
-ounting with sshfs, but it was a bit surprising to me that it didn&#39;t wo=
-rk OOTB.</div><div><br></div><div>Regards,</div><div><br></div></div><div c=
-lass=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, Jun 13, 2017 at=
- 8:21 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa=
-@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Unfortunately this nice =
-change breaks quite common scenario when developers have read-only mount of=
- sstate mirror and this touch causes all _setscene tasks to fail, because t=
-hey fail to update atime on symlink which points to read-only mount.<div><b=
-r></div><div>Please backport the fix for this as well ASAP:<br><div><a href=
-=3D"http://git.openembedded.org/openembedded-core/commit/meta/classes/sstat=
-e.bbclass?id=3Db8f26c011d5ed888d85fef040bd821400d54c8fe" target=3D"_blank">=
-http://git.openembedded.org/<wbr>openembedded-core/commit/meta/<wbr>classes=
-/sstate.bbclass?id=3D<wbr>b8f26c011d5ed888d85fef040bd821<wbr>400d54c8fe</a>=
-<br></div></div></div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D=
-"gmail_extra"><br><div class=3D"gmail_quote">On Wed, May 17, 2017 at 1:05 A=
-M, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailto:akuster808@gmail.com"=
- target=3D"_blank">akuster808@gmail.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><br>
-<br>
-On 05/16/2017 02:50 PM, Denys Dmytriyenko wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Mon, Apr 24, 2017 at 09:08:55AM -0700, akuster808 wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On 04/21/2017 04:18 PM, Denys Dmytriyenko wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Ping. It&#39;s been over a month now...<br>
-</blockquote>
-its in my stagging since 4/1.=C2=A0 The AB has been failing with my<br>
-current changes.<br>
-</blockquote>
-Is morty now dead?<br>
-</blockquote>
-<br>
-No. why do you say that? I just sent a pull request over the weekend for bo=
-th Krogoth and Morty. Krogoth is the one heading to community supported now=
- that Pyro is out.<br>
-<br>
-this changes is in the pull request<br>
-<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/me=
-ta/classes/sstate.bbclass?h=3Dakuster/morty-next&amp;id=3D838580431a8923bf3=
-8820f10963aca4af51f6f97" rel=3D"noreferrer" target=3D"_blank">http://git.yo=
-ctoproject.org/cg<wbr>it/cgit.cgi/poky-contrib/commi<wbr>t/meta/classes/sst=
-ate.bbclass?<wbr>h=3Dakuster/morty-next&amp;id=3D838580<wbr>431a8923bf38820=
-f10963aca4af51f<wbr>6f97</a><br>
-<br>
-- armin<br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-On Mon, Mar 20, 2017 at 01:38:20PM -0400, Denys Dmytriyenko wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com" target=
-=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;<br>
-<br>
-.siginfo files are not being accessed from local or NFS-mounted<br>
-sstate mirrors when sstate package is installed, so their atime<br>
-is not updated. If sstate mirror is cleaned based on access time,<br>
-they get deleted, even though they are still being used.<br>
-<br>
-Updated atime of .siginfo symlinks with &#39;touch -a&#39;. This command<br=
->
-dereferences symlinks pointing to the local mirror and updates<br>
-atime of the .siginfo file on the mirror.<br>
-<br>
-[YOCTO #10857]<br>
-<br>
-Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
- target=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
-Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com" target=
-=3D"_blank">denys@ti.com</a>&gt;<br>
----<br>
-=C2=A0 meta/classes/sstate.bbclass | 2 ++<br>
-=C2=A0 1 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass<br>
-index 8643f3d..4fdfcc8 100644<br>
---- a/meta/classes/sstate.bbclass<br>
-+++ b/meta/classes/sstate.bbclass<br>
-@@ -724,6 +724,8 @@ python sstate_sign_package () {<br>
-=C2=A0 #<br>
-=C2=A0 sstate_unpack_package () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tar -xvzf ${SSTATE_PKG}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# update .siginfo atime on local/NFS mirror<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -h ${SSTATE_PKG}.siginfo ] &amp;&amp; touch -=
-a ${SSTATE_PKG}.siginfo<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Use &quot;! -w ||&quot; to return true for re=
-ad only files<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ ! -w ${SSTATE_PKG} ] || touch --no-dereferenc=
-e ${SSTATE_PKG}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_P=
-KG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><span class=3D"m_-176235492198026=
-4264HOEnZb"><font color=3D"#888888"><br>
-</font></span></blockquote></blockquote><span class=3D"m_-17623549219802642=
-64HOEnZb"><font color=3D"#888888">
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></blockquote><span class=3D"m_-17623549219802642=
-64HOEnZb"><font color=3D"#888888">
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-
---089e082b0df00eec640563b28c7c--
