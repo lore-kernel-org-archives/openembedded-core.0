@@ -1,58 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 321886FFD3
+Return-Path: <francescogiancane8@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D58078093
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 19:23:30 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id y26so2012970pfi.10
+	Sat, 27 Jan 2018 19:28:02 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id 141so26687332wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 11:23:32 -0800 (PST)
+	Sat, 27 Jan 2018 11:28:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=nmiWA3wHrqJ1MU9+0LsSHJENA8wdVWTuhHQbqOdqrWw=;
-	b=VIn6RkYwp+CceeAufFLzM1dyNy6PPbnp9TlIKsdaHyTEsldgr+bQLq13Qa1cOPyF63
-	tnspbcJ5Gfs5VnjYz/66xiDVCgn/u7ADjgwq/tSHhs52rWy27rZbT2MRMydN/0OCMwWQ
-	bLbM9bhcOWT/957ErjvCOh+8p6cR70csgkS/AR6JMGeV9Z+zbPRY1U9v8fOOUixxDoXx
-	ovBBwihzm21V0xJAPKO4gbFy1ouodrmrF6xhXLNMlJI4avwQmWbLSwk+fvTB3gdmL5hd
-	TzXYp4I1S0/DxjVlhZc+5iIxvIha1WBvut+UTXDsBOvbLyyNUmxaPq+2D09o4wgVhIwU
-	UxCg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=YbUpUYuTePuB6P9bpWqgl9XkmGgd3AczftYvhtWIblk=;
+	b=r8UuEprPwqc5dqIgkKqVx+bXMKmrK9Ze2OWDenGvH+Get9fqRrHVn4d8CwqNV8sCUj
+	ILfDcS8LL2UEp3eo/AjGVhYjslGbz1uWZOVFTrhBO6VhK1WP9mhQ21jjju0OL8wsg1Vi
+	E4JWscQmFCjStbsepUNPCSXdD4tgc04H2aCiT9LXJvGpKRJV2k2M9UUOontXUeDXVw9G
+	KCS2fUoKJc8BPmtXWDs3t1BsJeh6gu1++/adR+gDM0uz2yGLflEvgGWug3ofbbSkWLik
+	2Ie5Doz2ITUkK8TxRexx94suSqx52+Tsl4o7Pc5EDo2qlzj8Jgi0RuAmE6fk15ZzEsio
+	34cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=nmiWA3wHrqJ1MU9+0LsSHJENA8wdVWTuhHQbqOdqrWw=;
-	b=D4yZ01b37E80EwE5suA9qYVj22hJ3u8ix0xthnhsGJc1DUCqX+2qQZ5Ydcl+PttLV2
-	eyvxmwql1FWriQ/sSV6WqXvYBG+eILnnsKu+DlM5g8nQ7UhMk+/E2awgrZPsLrk20EGQ
-	0Q7VlWt9dXdoMjzMyOR07TJSfzLDSMG9nK47rHcJlamN9W5gFKAHkB0gRAdWMrLlRiG0
-	sRZLNtJFypT8Aq7U6eZ6P+zdUfQcelfpS2Qej4XIPmc10EO/ixAmX3jiGgwko2kDKK5C
-	iC5p4dCuDzh8Fnl+MlRhKFyObvRbErR4vLLBfOmWcSKhbVDiiXGhsaVtjULLmdoGvBGz
-	FBkA==
-X-Gm-Message-State: AKwxytdHwe/JVkREs0KZ302NElit1EYHTQIssrbaaYIqC0Jq3kTf5rr/
-	4BurYAmzSFITVtr2UrZEVKT4A8kh
-X-Google-Smtp-Source: AH8x224JMTjuGmgio7i1+FSzNqAq869KPNzKm4Y1AKTWC+kmDO7s3McQbGHxJqLUk4bC5Nuj39ilJQ==
-X-Received: by 10.98.226.24 with SMTP id a24mr22721969pfi.192.1517081011850;
-	Sat, 27 Jan 2018 11:23:31 -0800 (PST)
-Received: from hermes.local ([2601:646:8880:466c:8cc2:eed3:a043:ef2a])
-	by smtp.gmail.com with ESMTPSA id
-	s14sm12644898pgc.36.2018.01.27.11.23.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 27 Jan 2018 11:23:31 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1516762897-11869-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<1516762897-11869-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<CAJTo0LbyRMCC5sP5vOGBGsfja9vAw7BnaAU3fKnDuNtZuCyw4A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <e83c413b-1198-33c4-937a-846e690a792b@gmail.com>
-Date: Sat, 27 Jan 2018 11:23:29 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
-	Gecko/20100101 Thunderbird/58.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=YbUpUYuTePuB6P9bpWqgl9XkmGgd3AczftYvhtWIblk=;
+	b=pTMXsCnJ/zpjkPSWwO4kTAy3C3u0Wvcq47Z6DqHwCGyyF9hGLpe0q4VAWftV9W2MMm
+	H8gIc2MgbsvFrJq1/9oKLL400x3hPsPg3OlJdODz5PNtMBlMP36fhMRaOG/DQjVcbVm3
+	50T/SK142Ss7xlUcD01g+GoV+QoTo+fvgBUa0P+cvKBWCZaSHu4mN9aPmPt3j0LUREgD
+	alQs+AlpTwB7i3YL/njMKENqpFIn/4ohszKKVSFD76irNdHneTJAx9T1MOLgJeXUobj5
+	AUH2MtBgUhtFHHymdqozV1uP6ec7xyHiLagOQfzEbdbBrKBicvWiNIP1lcg84rTwdGZ4
+	9aAA==
+X-Gm-Message-State: AKwxytegYCkn6MpRBZRsSESlhVrGj2yRk+LljeKye+YS/6r8GKiuuN4C
+	0l8MJzMqwzcMqaIKl4MeeAKQ29y5Kxec+J0UKSAf+w==
+X-Google-Smtp-Source: AH8x227YfKpS1IjkJ1xsLfftpIvIMybgXwBcxD34EYZKABLUOTwHnANn7/FHY4HckOBPkxeJacKx8o6X4gQEXhRkMdk=
+X-Received: by 10.80.146.81 with SMTP id j17mr40327011eda.205.1517081282580;
+	Sat, 27 Jan 2018 11:28:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbyRMCC5sP5vOGBGsfja9vAw7BnaAU3fKnDuNtZuCyw4A@mail.gmail.com>
-Subject: Re: [PATCH] e2fsprogs: 1.43.7 -> 1.43.8
+Received: by 10.80.143.131 with HTTP; Sat, 27 Jan 2018 11:28:01 -0800 (PST)
+Received: by 10.80.143.131 with HTTP; Sat, 27 Jan 2018 11:28:01 -0800 (PST)
+In-Reply-To: <CAEQ58sjNMVASuDU5GaSKqf3Xp6-UC_8gZZEdM-mtQ_pRFNwR8A@mail.gmail.com>
+References: <CAEQ58siiwEqY-KuFZDuCxyBOZnA2d-Bo8MFWTF9X_AGMfOxmzw@mail.gmail.com>
+	<CAEQ58sjaushTPi=PBy-ttCL9XBtsmHN-p=XjZXA1VW-_4aKZRA@mail.gmail.com>
+	<CAEQ58sje+LCZnqDykHQ_gvQoNvgCH5QFCa_k2tGfnCd__Y07Ww@mail.gmail.com>
+	<CAEQ58sgADk0b5O_7vv=Y6Ru6zX151e3pPREYY2p6fuXEOuqZ9Q@mail.gmail.com>
+	<CAEQ58sh+bBzbOxf+dv90jeAe91Pf4J30=VqT2LuFyZfnjwVoog@mail.gmail.com>
+	<CAEQ58sivWmT-mnB=zAZRhzgnQFiV3KP9aNioyKu2k2RvDyjW3A@mail.gmail.com>
+	<CAEQ58sjNMVASuDU5GaSKqf3Xp6-UC_8gZZEdM-mtQ_pRFNwR8A@mail.gmail.com>
+From: Francesco Giancane <francescogiancane8@gmail.com>
+Date: Sat, 27 Jan 2018 20:28:01 +0100
+Message-ID: <CAEQ58sjBMsMhg4a_TWiKH8Vvo7UaGodtPO1GsXCcU0fxqFSa7A@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: kernel-devsrc fails to install the rpm package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,85 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 19:23:31 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 27 Jan 2018 19:28:02 -0000
+Content-Type: multipart/alternative; boundary="f403045c28b2f197170563c702aa"
 
+--f403045c28b2f197170563c702aa
+Content-Type: text/plain; charset="UTF-8"
 
+Hi guys,
 
-On 1/24/18 9:23 AM, Burton, Ross wrote:
-> This is failing on the autobuilder:
-> 
-> ../../../git/lib/ext2fs/swapfs.c: In function 'ext2fs_swap_inode_full':
-> ../../../git/lib/ext2fs/swapfs.c:361:29: error: 'ext2_inode_large' 
-> undeclared (first use in this function)
->    EXT2FS_BUILD_BUG_ON(sizeof(ext2_inode_large) != 160);
->                               ^~~~~~~~~~~~~~~~
-> 
-> http://errors.yoctoproject.org/Errors/Details/165696/
-> 
+I am trying to build an image with kernel-devsrc in target and sdk
+(teaching purposes, no production here) but when packages are to be
+installed, bitbake fails, telling that nothing provides /bin/awk.
 
-this is seen with big-endian targets, however with glibc master its seen 
-on all systems. I have fixed this patch by adding another backported 
-patch which should fix it. The patch is here
+Looking at kernel-devsrc.spec,it seems that the requirement is added, but
+following the inheritance chain, there is no trace of this dependency in
+recipes.
 
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/glibc-2.27&id=646487a55def99cf12cf461f07d1fbb3dafc2c17
+Can someone tell me what is happening here?
 
-if you want to cherry-pick as v2, I will post it along with glibc 2.27 
-set if not done by then
+I am using rocko and building for raspberry pi3 64 bit. No other layer is
+added.
 
-> Ross
-> 
-> On 24 January 2018 at 03:01, Huang Qiyu <huangqy.fnst@cn.fujitsu.com 
-> <mailto:huangqy.fnst@cn.fujitsu.com>> wrote:
->  >
->  > Upgrade e2fsprogs from 1.43.7 to 1.43.8.
->  >
->  > Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com 
-> <mailto:huangqy.fnst@cn.fujitsu.com>>
->  > ---
->  >  .../e2fsprogs/{e2fsprogs_1.43.7.bb <http://e2fsprogs_1.43.7.bb> => 
-> e2fsprogs_1.43.8.bb <http://e2fsprogs_1.43.8.bb>}              | 2 +-
->  >  1 file changed, 1 insertion(+), 1 deletion(-)
->  >  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.7.bb 
-> <http://e2fsprogs_1.43.7.bb> => e2fsprogs_1.43.8.bb 
-> <http://e2fsprogs_1.43.8.bb>} (98%)
->  >
->  > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
-> <http://e2fsprogs_1.43.7.bb> 
-> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
-> <http://e2fsprogs_1.43.8.bb>
->  > similarity index 98%
->  > rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
-> <http://e2fsprogs_1.43.7.bb>
->  > rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
-> <http://e2fsprogs_1.43.8.bb>
->  > index 168eecf..c42260c 100644
->  > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
-> <http://e2fsprogs_1.43.7.bb>
->  > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
-> <http://e2fsprogs_1.43.8.bb>
->  > @@ -11,7 +11,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
->  >
->  >  SRC_URI_append_class-native = " 
-> file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
->  >
->  > -SRCREV = "4c5e6cd6defb83f1b35a5ef6fccd68c86874ee06"
->  > +SRCREV = "af2eac481cf426c05ae12b946396980e16c8ab19"
->  >  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->  >
->  >  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
->  > --
->  > 2.7.4
->  >
->  >
->  >
->  > --
->  > _______________________________________________
->  > Openembedded-core mailing list
->  > Openembedded-core@lists.openembedded.org 
-> <mailto:Openembedded-core@lists.openembedded.org>
->  > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+Thanks,
 
+Francesco Giancane
+
+--f403045c28b2f197170563c702aa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi guys,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"aut=
+o">I am trying to build an image with kernel-devsrc in target and sdk (teac=
+hing purposes, no production here) but when packages are to be installed, b=
+itbake fails, telling that nothing provides /bin/awk.</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto">Looking at kernel-devsrc.spec,it seems that t=
+he requirement is added, but following the inheritance chain, there is no t=
+race of this dependency in recipes.=C2=A0</div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">Can someone tell me what is happening here?=C2=A0</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">I am using rocko and building f=
+or raspberry pi3 64 bit. No other layer is added.=C2=A0</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto">Francesco Giancane=C2=A0</div></div>
+
+--f403045c28b2f197170563c702aa--
