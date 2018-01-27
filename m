@@ -1,52 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f54.google.com (mail-pl0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5013D785AD;
-	Sat, 27 Jan 2018 21:44:23 +0000 (UTC)
-Received: by mail-pl0-f54.google.com with SMTP id v3so1069911plg.3;
-	Sat, 27 Jan 2018 13:44:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:organization:message-id:date:user-agent
-	:mime-version:content-language:content-transfer-encoding;
-	bh=KoxI15wzV5vvOz3OsxB88zxrxhWESy8UlQnyFMBxUTI=;
-	b=bshYixr1Lb6V2EqSoWW7EKokQ+uDRynveAcHYFgY8FRryuMbuMqqQ4BkR0m1GGBl5j
-	8aIRyms0wTe6OXJNhTZjtvyd+BLAP4aMtjLCwrkquMSLvvtALgdB7aCGeTwZVfkeQWbO
-	nsaZRTIFZW5esJT3gp2mbXLxPl8bBberQkkPiMgvKIloHcg6UFiauT2Tvpfj/oax1FU9
-	I3TScFdFWnvKihXmxe/qLvTIuOSV3xrgR5gX58DMlQCCESu9EmgSDJYN2d69UudWSGu1
-	8uQTluDPIde5qIF4bsTETInoW2lRlNBroc0A4n2OYDMfR3mJW+BGSWOKVryXzGHAB715
-	3pCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:organization:message-id:date
-	:user-agent:mime-version:content-language:content-transfer-encoding;
-	bh=KoxI15wzV5vvOz3OsxB88zxrxhWESy8UlQnyFMBxUTI=;
-	b=pJUACvUm3R6nGGIN6DWMEc0D+uMylE97dQ/kpAovC5bENBMbV4on+wcg96zciWVWKe
-	PS/hcmttTbL966CdxgNtqk+RNHpmHj0kPdT6R/BLwNAAjGGNjIdGApGyElKPV72KOejE
-	rEHyAdEd9UQjCcNAlEIyiFZiqcWcI5UbjhVr2BgQeKH5NUYCyRAyNkpug/GiRQ7fN65c
-	kLA3OV53K0MGjaAWOf2Zzi2SkcfZ0Vzszl/XapD6QHcCAowqxabKLFWKKhSPlPT5Vbph
-	16Ghll4Yf1lgV4aeqTouh8OVkm2JcI9qM0U8Sp4ceysRpKEOdYTIYkAn8S8ARYN41hQi
-	Ha1A==
-X-Gm-Message-State: AKwxyteugYBLCJKZpKMjQh2xszFvQSkgwIp1k9JYixw8AuAIrcEUYlY/
-	Tjd7e8lWzmmEpmz++j4IvrU=
-X-Google-Smtp-Source: AH8x225Vk0hQbpThV9fhlI+YGKYCiI7LQqqSdiQsCwxtmEoXRz2ESUjJaGJzoUrr32qhOw1vj1qIjA==
-X-Received: by 2002:a17:902:8498:: with SMTP id
-	c24-v6mr17551519plo.450.1517089465474; 
-	Sat, 27 Jan 2018 13:44:25 -0800 (PST)
-Received: from hermes.local ([2601:646:8880:466c:8cc2:eed3:a043:ef2a])
-	by smtp.gmail.com with ESMTPSA id d4sm6036716pgc.58.2018.01.27.13.44.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 27 Jan 2018 13:44:24 -0800 (PST)
-To: OE-core <openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <45db0f72-d93f-ebbd-83aa-80ceaeabc083@gmail.com>
-Date: Sat, 27 Jan 2018 13:44:23 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
-	Gecko/20100101 Thunderbird/58.0
-MIME-Version: 1.0
-Subject: [RFT] Glibc 2.27
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E83AC785E1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 27 Jan 2018 23:06:38 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w0RN6b2u007310
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 27 Jan 2018 23:06:38 GMT
+Message-ID: <1517094397.756.44.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 27 Jan 2018 23:06:37 +0000
+In-Reply-To: <BY2PR02MB347BCA749C4415BE91A11E3B9E70@BY2PR02MB347.namprd02.prod.outlook.com>
+References: <1516102686.29722.267.camel@linuxfoundation.org>
+	<1517070952.756.40.camel@linuxfoundation.org>
+	<BY2PR02MB347BCA749C4415BE91A11E3B9E70@BY2PR02MB347.namprd02.prod.outlook.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: Yocto Project, Spectre and Meltdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,23 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 21:44:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Sat, 27 Jan 2018 23:06:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi All
+On Sat, 2018-01-27 at 16:59 +0000, Manjukumar Harthikote Matha wrote:
+> -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of
+> > Richard Purdie
+> > Sent: Saturday, January 27, 2018 8:36 AM
+> > To: openembedded-core <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] Yocto Project, Spectre and Meltdown
+> > 
+> > On Tue, 2018-01-16 at 11:38 +0000, Richard Purdie wrote:
+> > > 
+> > > I just wanted to give people an update on where the project
+> > > stands
+> > > with these issues.
+> > Master now contains gcc and kernel fixes (in linux-yocto). meta-
+> > yocto- bsp updates
+> > are still pending.
+> > 
+> > rocko-next also has those fixes and is undergoing testing which if
+> > it passes, will get
+> > pushed to rocko.
+> > 
+> I see that rocko-next branch is upgrading the GCC version to 7.3 from
+> 7.2 , is there a reason to do so?
+> I was under the impression that we would backport the security fixes
+> to 7.2 version.
 
-glibc 2.27 is releasing soon in few weeks. I have put together the 
-recipes for upgrade, along with fixes for some of packages that I ran 
-into here
+As Khem replied, this is the stable gcc series and gcc remapped their
+versioning scheme a while back to mean that 7.3 is a point release of
+the 7 series.
 
-http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.27
+I'm of the view that the gcc team know a lot more about which patches
+should be backported to a stable series and have a better skillset and
+knowledge base to know how to apply patches onto the older versions
+than we do. As such I believe that 7.3 is the right approach for rocko.
 
-This has gotten limited testing. I plan to put the package fixes as we 
-plough through. Please test this out in your setups and report problems 
-or fixes ( preferred ) to get various packages working on 2.27 release
+Do you have a reason to believe we should do something else?
 
-Thanks
--Khem
+Note that for pyro and earlier we will need gcc 6 patches, we are not
+upgrading 6 -> 7 on pyro since that would cause a ton of breakage.
+
+Cheers,
+
+Richard
+
 
