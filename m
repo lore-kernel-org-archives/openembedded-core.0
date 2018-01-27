@@ -1,49 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0799B787F8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 21:35:08 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id a88so2074813pfe.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 13:35:10 -0800 (PST)
+Received: from mail-pl0-f54.google.com (mail-pl0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5013D785AD;
+	Sat, 27 Jan 2018 21:44:23 +0000 (UTC)
+Received: by mail-pl0-f54.google.com with SMTP id v3so1069911plg.3;
+	Sat, 27 Jan 2018 13:44:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1fs14NuC7gPWZJhYTatjWuBGQxiEBRu/JKF1pkhap4Q=;
-	b=nkhElQaCzCo+U7p6tCMs5hOCcKUE48UTAP2FE8adcSLwazt1RVZQBQZdAtf1J3XZKe
-	flMg/aoIvYI0vT/YMT4girZDAvy5Nnanq4+/Oglcwa32CNbEibRY2B/rRXl9TMVvOtC6
-	8gMq+nZZFj5M3Dj0CnDwQsOz3/7EVdy2Rh1Nb8tD82Bus/TqPE0GPmcFEYPWTkY6JvOW
-	8OkFxSSbs53h3OIPvGH5O2fxYWvHbDXTi4h8y/PWm5cTr8v6RWTtxCNMLFhdEliMQ/fD
-	6ZaAwXWYTRkLVHCZ8xwhpHfsiGPZH9G0eAdRAJQlg8IXowyYo6IJ4D60zlXEgPXZhgxy
-	DNQg==
+	h=to:from:subject:organization:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=KoxI15wzV5vvOz3OsxB88zxrxhWESy8UlQnyFMBxUTI=;
+	b=bshYixr1Lb6V2EqSoWW7EKokQ+uDRynveAcHYFgY8FRryuMbuMqqQ4BkR0m1GGBl5j
+	8aIRyms0wTe6OXJNhTZjtvyd+BLAP4aMtjLCwrkquMSLvvtALgdB7aCGeTwZVfkeQWbO
+	nsaZRTIFZW5esJT3gp2mbXLxPl8bBberQkkPiMgvKIloHcg6UFiauT2Tvpfj/oax1FU9
+	I3TScFdFWnvKihXmxe/qLvTIuOSV3xrgR5gX58DMlQCCESu9EmgSDJYN2d69UudWSGu1
+	8uQTluDPIde5qIF4bsTETInoW2lRlNBroc0A4n2OYDMfR3mJW+BGSWOKVryXzGHAB715
+	3pCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1fs14NuC7gPWZJhYTatjWuBGQxiEBRu/JKF1pkhap4Q=;
-	b=rzAkDkt8DfBsds8Ud55Ux+a8Wz7u/T2V24HQeF25U9j4Fdmb6iVEER3PDSbM1exnd+
-	KR9bBgmejBqOp9JjksFFqDBEftmPhNb8SNc2/HZXsP904Uk01rAVW/6ejhjKAywdg0wn
-	pkFvv79uqXoVPxGGedYVHA+v9ehS5ENIokOJu5SCHV9zKBgkh1rWpC+Cb+6HVf3rFcya
-	OquVG404XrP2DZvHcyKC55UYbBB5WjU79Aor7HD37nniOaQq/XSafHgZtdSJ3wUhlu7Z
-	ulUjv8b7pNQopbXfb2YS2O0prFgQPiO3XhR2Z03hftidQ014knFQpaM4z+l/5lhzEPh9
-	phIA==
-X-Gm-Message-State: AKwxyteqAJona9LYojs1b43T2LCFSHobcA31eHr4pwR+1HYxKcOhMjPP
-	gYgm7fNlerVWvvnMp5898sHBDEeW1nqR1jvzqCk=
-X-Google-Smtp-Source: AH8x227T9YkULJ1pGkf3m7XmCo3SwKSFVSSEG9UWBuYdVj1nsmDobQZWyHcJWJFQZ5K8+PBsMRD73tdMXzBXtr3NtnA=
-X-Received: by 10.99.181.13 with SMTP id y13mr13837741pge.196.1517088910019;
-	Sat, 27 Jan 2018 13:35:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Sat, 27 Jan 2018 13:34:39 -0800 (PST)
-In-Reply-To: <BY2PR02MB347BCA749C4415BE91A11E3B9E70@BY2PR02MB347.namprd02.prod.outlook.com>
-References: <1516102686.29722.267.camel@linuxfoundation.org>
-	<1517070952.756.40.camel@linuxfoundation.org>
-	<BY2PR02MB347BCA749C4415BE91A11E3B9E70@BY2PR02MB347.namprd02.prod.outlook.com>
+	h=x-gm-message-state:to:from:subject:organization:message-id:date
+	:user-agent:mime-version:content-language:content-transfer-encoding;
+	bh=KoxI15wzV5vvOz3OsxB88zxrxhWESy8UlQnyFMBxUTI=;
+	b=pJUACvUm3R6nGGIN6DWMEc0D+uMylE97dQ/kpAovC5bENBMbV4on+wcg96zciWVWKe
+	PS/hcmttTbL966CdxgNtqk+RNHpmHj0kPdT6R/BLwNAAjGGNjIdGApGyElKPV72KOejE
+	rEHyAdEd9UQjCcNAlEIyiFZiqcWcI5UbjhVr2BgQeKH5NUYCyRAyNkpug/GiRQ7fN65c
+	kLA3OV53K0MGjaAWOf2Zzi2SkcfZ0Vzszl/XapD6QHcCAowqxabKLFWKKhSPlPT5Vbph
+	16Ghll4Yf1lgV4aeqTouh8OVkm2JcI9qM0U8Sp4ceysRpKEOdYTIYkAn8S8ARYN41hQi
+	Ha1A==
+X-Gm-Message-State: AKwxyteugYBLCJKZpKMjQh2xszFvQSkgwIp1k9JYixw8AuAIrcEUYlY/
+	Tjd7e8lWzmmEpmz++j4IvrU=
+X-Google-Smtp-Source: AH8x225Vk0hQbpThV9fhlI+YGKYCiI7LQqqSdiQsCwxtmEoXRz2ESUjJaGJzoUrr32qhOw1vj1qIjA==
+X-Received: by 2002:a17:902:8498:: with SMTP id
+	c24-v6mr17551519plo.450.1517089465474; 
+	Sat, 27 Jan 2018 13:44:25 -0800 (PST)
+Received: from hermes.local ([2601:646:8880:466c:8cc2:eed3:a043:ef2a])
+	by smtp.gmail.com with ESMTPSA id d4sm6036716pgc.58.2018.01.27.13.44.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 27 Jan 2018 13:44:24 -0800 (PST)
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 27 Jan 2018 13:34:39 -0800
-Message-ID: <CAMKF1srGc7hTUi6ypJZ2zJguoUt1T9Nv5dvUDS=EhZ9xMFD1iw@mail.gmail.com>
-To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project, Spectre and Meltdown
+Organization: HIMVIS LLC
+Message-ID: <45db0f72-d93f-ebbd-83aa-80ceaeabc083@gmail.com>
+Date: Sat, 27 Jan 2018 13:44:23 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
+	Gecko/20100101 Thunderbird/58.0
+MIME-Version: 1.0
+Subject: [RFT] Glibc 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +59,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 21:35:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 27 Jan 2018 21:44:24 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 27, 2018 at 8:59 AM, Manjukumar Harthikote Matha
-<MANJUKUM@xilinx.com> wrote:
-> Hi RP,
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Richard Purdie
->> Sent: Saturday, January 27, 2018 8:36 AM
->> To: openembedded-core <openembedded-core@lists.openembedded.org>
->> Subject: Re: [OE-core] Yocto Project, Spectre and Meltdown
->>
->> On Tue, 2018-01-16 at 11:38 +0000, Richard Purdie wrote:
->> > I just wanted to give people an update on where the project stands
->> > with these issues.
->>
->> Master now contains gcc and kernel fixes (in linux-yocto). meta-yocto- bsp updates
->> are still pending.
->>
->> rocko-next also has those fixes and is undergoing testing which if it passes, will get
->> pushed to rocko.
->>
->
-> I see that rocko-next branch is upgrading the GCC version to 7.3 from 7.2 , is there a reason to do so?
-> I was under the impression that we would backport the security fixes to 7.2 version.
->
+Hi All
 
-point releases are bugfix releases of gcc, I think you can look at it
-as cumulative bugfixes backport.
+glibc 2.27 is releasing soon in few weeks. I have put together the 
+recipes for upgrade, along with fixes for some of packages that I ran 
+into here
 
-If you are concerned about some of the fixes in this
+http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.27
 
-https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&resolution=FIXED&target_milestone=7.3
+This has gotten limited testing. I plan to put the package fixes as we 
+plough through. Please test this out in your setups and report problems 
+or fixes ( preferred ) to get various packages working on 2.27 release
 
-please let us know.
-
+Thanks
 -Khem
 
