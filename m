@@ -1,46 +1,58 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D4F0065CC6
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 321886FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 17:50:02 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id n17so1849752pgf.10
+	Sat, 27 Jan 2018 19:23:30 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y26so2012970pfi.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 09:50:04 -0800 (PST)
+	Sat, 27 Jan 2018 11:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
-	b=AASMqaXLOI7bx+KI7ixn1zVPcU+qD08y3nf+W8Ef0WvzKTRGpuogcOIM9RD8ZZVRHI
-	xIRVQ8dzGtz8XO7VgFVEHRMtKXfeWqlXADNzu9jH6N5MCqtv+XkeadSaEk46mG9ggjVc
-	EdB+HaCrSBNt3aZdK8qUjeMM2E8LAkPkyDWkIT0AAQk3zUrokT6lWWyLzaum9TkYuUC7
-	vqfciY8J2yhnDQRPlLO7YIoTKoRA+kX7/xw3Z2LN+KM+zCS6QAaS0Ftc4lfKxBXUvOBt
-	g5siMCFs4QH0N5dNWULBI3XEASJJ8/k7Few537bpjAWz2RnB9kHqQaCTQqB1nYFLMQiz
-	wB7w==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=nmiWA3wHrqJ1MU9+0LsSHJENA8wdVWTuhHQbqOdqrWw=;
+	b=VIn6RkYwp+CceeAufFLzM1dyNy6PPbnp9TlIKsdaHyTEsldgr+bQLq13Qa1cOPyF63
+	tnspbcJ5Gfs5VnjYz/66xiDVCgn/u7ADjgwq/tSHhs52rWy27rZbT2MRMydN/0OCMwWQ
+	bLbM9bhcOWT/957ErjvCOh+8p6cR70csgkS/AR6JMGeV9Z+zbPRY1U9v8fOOUixxDoXx
+	ovBBwihzm21V0xJAPKO4gbFy1ouodrmrF6xhXLNMlJI4avwQmWbLSwk+fvTB3gdmL5hd
+	TzXYp4I1S0/DxjVlhZc+5iIxvIha1WBvut+UTXDsBOvbLyyNUmxaPq+2D09o4wgVhIwU
+	UxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
-	b=iPVydJMAh94rKoBM0KvHYfqyRY6z2+2D6QnnkD791qwb67QuJpbXTKsE/o996qWaMG
-	A8b4YfNisaamcbXcz98+FCdSO2YXd1W4LfMmYuq5bqG2yqvM1c+4JSF63XVGsR+2Rsed
-	SEji708uc9VnArGogIhTPl5S2OZzf8vK6//bP5Q3maHm5DzDGDZc8pzIOKQkYS8o4fJm
-	QkDsU9mtT3revDXUyyxVoDL3UaB0M7J6U1IJpZyChirUGBJ0L6elPwLIflM0xr1vFCTL
-	Vi5hEcGtKjyhVOleS2ziRa569C1BqBCJd03nK71bZGVYG8pPcufyvf8RhNpRo1vViWMr
-	JBOQ==
-X-Gm-Message-State: AKwxytfqiLmcqYM2bhhAuR4Oday2vZ7upVusYpZHcy1b1NspZTTF65Bq
-	bPvGPJHrYQwOcAPgBOESySVOsQ==
-X-Google-Smtp-Source: AH8x226sNJbK2150GmPKgsqKA61jyGgpuIGBGRJAVmYiTPFIKDrRjB44dHVIT2ci1HcyPB8wig4Bkw==
-X-Received: by 10.101.91.140 with SMTP id i12mr17521738pgr.297.1517075403553; 
-	Sat, 27 Jan 2018 09:50:03 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:8880:466c::a8d6])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=nmiWA3wHrqJ1MU9+0LsSHJENA8wdVWTuhHQbqOdqrWw=;
+	b=D4yZ01b37E80EwE5suA9qYVj22hJ3u8ix0xthnhsGJc1DUCqX+2qQZ5Ydcl+PttLV2
+	eyvxmwql1FWriQ/sSV6WqXvYBG+eILnnsKu+DlM5g8nQ7UhMk+/E2awgrZPsLrk20EGQ
+	0Q7VlWt9dXdoMjzMyOR07TJSfzLDSMG9nK47rHcJlamN9W5gFKAHkB0gRAdWMrLlRiG0
+	sRZLNtJFypT8Aq7U6eZ6P+zdUfQcelfpS2Qej4XIPmc10EO/ixAmX3jiGgwko2kDKK5C
+	iC5p4dCuDzh8Fnl+MlRhKFyObvRbErR4vLLBfOmWcSKhbVDiiXGhsaVtjULLmdoGvBGz
+	FBkA==
+X-Gm-Message-State: AKwxytdHwe/JVkREs0KZ302NElit1EYHTQIssrbaaYIqC0Jq3kTf5rr/
+	4BurYAmzSFITVtr2UrZEVKT4A8kh
+X-Google-Smtp-Source: AH8x224JMTjuGmgio7i1+FSzNqAq869KPNzKm4Y1AKTWC+kmDO7s3McQbGHxJqLUk4bC5Nuj39ilJQ==
+X-Received: by 10.98.226.24 with SMTP id a24mr22721969pfi.192.1517081011850;
+	Sat, 27 Jan 2018 11:23:31 -0800 (PST)
+Received: from hermes.local ([2601:646:8880:466c:8cc2:eed3:a043:ef2a])
 	by smtp.gmail.com with ESMTPSA id
-	y1sm13542938pge.78.2018.01.27.09.50.02
+	s14sm12644898pgc.36.2018.01.27.11.23.30
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 27 Jan 2018 09:50:02 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Sat, 27 Jan 2018 11:23:31 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Jan 2018 09:49:55 -0800
-Message-Id: <20180127174955.39473-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.1
-Subject: [PATCH] gcc-7.3: Drop upstreamed musl cpuinfo patch
+References: <1516762897-11869-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<1516762897-11869-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<CAJTo0LbyRMCC5sP5vOGBGsfja9vAw7BnaAU3fKnDuNtZuCyw4A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <e83c413b-1198-33c4-937a-846e690a792b@gmail.com>
+Date: Sat, 27 Jan 2018 11:23:29 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
+	Gecko/20100101 Thunderbird/58.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbyRMCC5sP5vOGBGsfja9vAw7BnaAU3fKnDuNtZuCyw4A@mail.gmail.com>
+Subject: Re: [PATCH] e2fsprogs: 1.43.7 -> 1.43.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,124 +65,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 17:50:02 -0000
+X-List-Received-Date: Sat, 27 Jan 2018 19:23:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-This patch is already in gcc-7-branch
-https://github.com/gcc-mirror/gcc/commit/6e6c7fc1e15525a10f48d4f5ac2edd853e2f5cb7
 
-Thanks nsz for noticing it
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-7.3.inc              |  1 -
- ...e-alias-for-__cpu_indicator_init-instead-.patch | 85 ----------------------
- 2 files changed, 86 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+On 1/24/18 9:23 AM, Burton, Ross wrote:
+> This is failing on the autobuilder:
+> 
+> ../../../git/lib/ext2fs/swapfs.c: In function 'ext2fs_swap_inode_full':
+> ../../../git/lib/ext2fs/swapfs.c:361:29: error: 'ext2_inode_large' 
+> undeclared (first use in this function)
+>    EXT2FS_BUILD_BUG_ON(sizeof(ext2_inode_large) != 160);
+>                               ^~~~~~~~~~~~~~~~
+> 
+> http://errors.yoctoproject.org/Errors/Details/165696/
+> 
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
-index efa62eaf6a..724f9c32a0 100644
---- a/meta/recipes-devtools/gcc/gcc-7.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
-@@ -70,7 +70,6 @@ SRC_URI = "\
-            file://0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch \
-            file://0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
-            file://0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
--           file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            file://0047-sync-gcc-stddef.h-with-musl.patch \
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-deleted file mode 100644
-index f6b2829364..0000000000
---- a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--From c7bce03a625fe2215a13f520850604178103ddd7 Mon Sep 17 00:00:00 2001
--From: Szabolcs Nagy <nsz@port70.net>
--Date: Sat, 24 Oct 2015 20:09:53 +0000
--Subject: [PATCH 46/47] libgcc_s: Use alias for __cpu_indicator_init instead of
-- symver
--
--Adapter from
--
--https://gcc.gnu.org/ml/gcc-patches/2015-05/msg00899.html
--
--This fix was debated but hasnt been applied gcc upstream since
--they expect musl to support '@' in symbol versioning which is
--a sun/gnu versioning extention. This patch however avoids the
--need for the '@' symbols at all
--
--libgcc/Changelog:
--
--2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
--
--	* config/i386/cpuinfo.c (__cpu_indicator_init_local): Add.
--	(__cpu_indicator_init@GCC_4.8.0, __cpu_model@GCC_4.8.0): Remove.
--
--	* config/i386/t-linux (HOST_LIBGCC2_CFLAGS): Remove -DUSE_ELF_SYMVER.
--
--gcc/Changelog:
--
--2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
--
--	* config/i386/i386.c (ix86_expand_builtin): Make __builtin_cpu_init
--	call __cpu_indicator_init_local instead of __cpu_indicator_init.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- gcc/config/i386/i386.c       | 4 ++--
-- libgcc/config/i386/cpuinfo.c | 6 +++---
-- libgcc/config/i386/t-linux   | 2 +-
-- 3 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/gcc/config/i386/i386.c b/gcc/config/i386/i386.c
--index dec3aee0048..0452dcfcb8d 100644
----- a/gcc/config/i386/i386.c
--+++ b/gcc/config/i386/i386.c
--@@ -36918,10 +36918,10 @@ ix86_expand_builtin (tree exp, rtx target, rtx subtarget,
--     {
--     case IX86_BUILTIN_CPU_INIT:
--       {
---	/* Make it call __cpu_indicator_init in libgcc. */
--+	/* Make it call __cpu_indicator_init_local in libgcc.a. */
-- 	tree call_expr, fndecl, type;
--         type = build_function_type_list (integer_type_node, NULL_TREE); 
---	fndecl = build_fn_decl ("__cpu_indicator_init", type);
--+	fndecl = build_fn_decl ("__cpu_indicator_init_local", type);
-- 	call_expr = build_call_expr (fndecl, 0); 
-- 	return expand_expr (call_expr, target, mode, EXPAND_NORMAL);
--       }
--diff --git a/libgcc/config/i386/cpuinfo.c b/libgcc/config/i386/cpuinfo.c
--index a1dc011525f..dac5e889abf 100644
----- a/libgcc/config/i386/cpuinfo.c
--+++ b/libgcc/config/i386/cpuinfo.c
--@@ -391,7 +391,7 @@ __cpu_indicator_init (void)
--   return 0;
-- }
-- 
---#if defined SHARED && defined USE_ELF_SYMVER
---__asm__ (".symver __cpu_indicator_init, __cpu_indicator_init@GCC_4.8.0");
---__asm__ (".symver __cpu_model, __cpu_model@GCC_4.8.0");
--+#ifndef SHARED
--+int __cpu_indicator_init_local (void)
--+  __attribute__ ((weak, alias ("__cpu_indicator_init")));
-- #endif
--diff --git a/libgcc/config/i386/t-linux b/libgcc/config/i386/t-linux
--index 11bb46e0ee4..4f47f7bfa59 100644
----- a/libgcc/config/i386/t-linux
--+++ b/libgcc/config/i386/t-linux
--@@ -3,4 +3,4 @@
-- # t-slibgcc-elf-ver and t-linux
-- SHLIB_MAPFILES = libgcc-std.ver $(srcdir)/config/i386/libgcc-glibc.ver
-- 
---HOST_LIBGCC2_CFLAGS += -mlong-double-80 -DUSE_ELF_SYMVER
--+HOST_LIBGCC2_CFLAGS += -mlong-double-80
---- 
--2.12.2
--
--- 
-2.16.1
+this is seen with big-endian targets, however with glibc master its seen 
+on all systems. I have fixed this patch by adding another backported 
+patch which should fix it. The patch is here
 
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/glibc-2.27&id=646487a55def99cf12cf461f07d1fbb3dafc2c17
+
+if you want to cherry-pick as v2, I will post it along with glibc 2.27 
+set if not done by then
+
+> Ross
+> 
+> On 24 January 2018 at 03:01, Huang Qiyu <huangqy.fnst@cn.fujitsu.com 
+> <mailto:huangqy.fnst@cn.fujitsu.com>> wrote:
+>  >
+>  > Upgrade e2fsprogs from 1.43.7 to 1.43.8.
+>  >
+>  > Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com 
+> <mailto:huangqy.fnst@cn.fujitsu.com>>
+>  > ---
+>  >  .../e2fsprogs/{e2fsprogs_1.43.7.bb <http://e2fsprogs_1.43.7.bb> => 
+> e2fsprogs_1.43.8.bb <http://e2fsprogs_1.43.8.bb>}              | 2 +-
+>  >  1 file changed, 1 insertion(+), 1 deletion(-)
+>  >  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.7.bb 
+> <http://e2fsprogs_1.43.7.bb> => e2fsprogs_1.43.8.bb 
+> <http://e2fsprogs_1.43.8.bb>} (98%)
+>  >
+>  > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
+> <http://e2fsprogs_1.43.7.bb> 
+> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
+> <http://e2fsprogs_1.43.8.bb>
+>  > similarity index 98%
+>  > rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
+> <http://e2fsprogs_1.43.7.bb>
+>  > rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
+> <http://e2fsprogs_1.43.8.bb>
+>  > index 168eecf..c42260c 100644
+>  > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb 
+> <http://e2fsprogs_1.43.7.bb>
+>  > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb 
+> <http://e2fsprogs_1.43.8.bb>
+>  > @@ -11,7 +11,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+>  >
+>  >  SRC_URI_append_class-native = " 
+> file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+>  >
+>  > -SRCREV = "4c5e6cd6defb83f1b35a5ef6fccd68c86874ee06"
+>  > +SRCREV = "af2eac481cf426c05ae12b946396980e16c8ab19"
+>  >  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+>  >
+>  >  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+>  > --
+>  > 2.7.4
+>  >
+>  >
+>  >
+>  > --
+>  > _______________________________________________
+>  > Openembedded-core mailing list
+>  > Openembedded-core@lists.openembedded.org 
+> <mailto:Openembedded-core@lists.openembedded.org>
+>  > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
