@@ -1,47 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0266A78866
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0000178861
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 09:39:35 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id i186so5462167wmi.4
+	Sat, 27 Jan 2018 13:55:37 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id g1so6172991wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 01:39:37 -0800 (PST)
+	Sat, 27 Jan 2018 05:55:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=vAy/RQc4hZK2X8PWQkB/2GJIYDS5KU/cg4wU9XdtfIk=;
-	b=Zr9rAC+3FH+PQvRgU0qlFHRDT7z2YLutZJpErwjhY1GnZOk4jUpt0hwg9PDWANQ5Z8
-	4dwf/GO0hFnTYuq9I/UiP1Wnmel8LAsQzHTM0IJ2YBxiqWnYXW1Q19L+cw0W7pXEsAJX
-	Y/J3nbXi6QaVhm59NUAJrv6t9JBiVr7voE2hTp8SSEZOd5nb3qCnwQqnjL06+OJkfOHd
-	o0ci4u972UR8moHpW5hMmu0mRxwB8E3BsND0uYQSR8I/5t+erZF5cr6NYeR4xM501FXt
-	fZ8jt34u+msmPByw+SZdqDEK/W+O+zQ83VYMhKFNJiy+K7r6OXTL0cpgB27CFowQaD1I
-	dvIA==
+	bh=iY3JHmxmSDK+/QD7Rfenv1Z24PsK8UrMV1vLEUz/MJQ=;
+	b=a8l79Ue3AKaC5M4T2XZ9kbbbhgQ/3Pa3X69UeffFaIv6R1vArxG7lTbeXs6UUpkZaK
+	1MjtgKi+fA8+oJIghuqp4Jj9L/A61coqf39Qy9C2RU5tMtYX2NML0zBxHRNTBTr4Pzvr
+	K9HCG3Jg0V+K07mUj2pehOa9kUn3YWzeRtFrBqmozy02YTV15FYkd4I2iDFQI7dhhtw+
+	a91tl/xpcsUFwsPSUHevpDl1HhvfAEcVMhysLJHmBmQUzlV8MLsQCVl6un/TMFf0gAp3
+	SRBSg7f0HzBFMN0ejYtngJ2FtWTQcjfhtlQIhzZAqSIGfgCxiSo+3KD+QjzpUb64DYjA
+	2lnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vAy/RQc4hZK2X8PWQkB/2GJIYDS5KU/cg4wU9XdtfIk=;
-	b=Gl8VEDGTRcvg/OC7hoA+mt/5M0gIsAMuw74GGPBPY57NoRfIeOVqQSUWwVBTE1JGSp
-	7PUVyUsYZtDWrg7pt0Z+qf6hyeTZjsLPA1B1gFb5x+cF8QGeHKkWpzQPgl+aQIN0GUfH
-	Psa0xM1tXVyzt4/XRPJLwaJb0RngC0WBcIb5cLHazn250IQZ3jyc5zeXYju8r2ty024U
-	Pa2QLnsNsgkzVM4RM64+6SeskfOKpL1hHdRRFAmjHQWGnwkUY9Nant4yujrbwsx0/fpT
-	ARMMSiU5X1DHi/pJ9cRz0zfvIs694So2XWNkXopxNwI9ZIUzfJdMh7pF19txR4xhXFoT
-	KIHg==
-X-Gm-Message-State: AKwxytek3lW5nsuYCpPlGvs3CR0pkogJ4nrpZuggVYaS5ev6h1xu6tg8
-	8HqObINbcz3bU+FmsQjGSE1IlQ==
-X-Google-Smtp-Source: AH8x224DHjX7Oy/lgr7UvF68aSIVsH6ZdJEQ8p+ckprdqo5Rff+8jfx/ZgLGzQTqUC2mAUTl4nnJWw==
-X-Received: by 10.80.217.202 with SMTP id x10mr32281109edj.118.1517045976220; 
-	Sat, 27 Jan 2018 01:39:36 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.200.12])
-	by smtp.gmail.com with ESMTPSA id c5sm3819977ede.30.2018.01.27.01.39.33
+	bh=iY3JHmxmSDK+/QD7Rfenv1Z24PsK8UrMV1vLEUz/MJQ=;
+	b=KLZC3Hm75pVjTSAPQZkOl6aM9rfVhfSBOAOUT0dmiKidbUcHOybVmkwF282/rdV2HL
+	amjKpru+ay62Goh57omGPF+3mHBeJX5OOQdV2FYeMQ+kyJ0AGiI9Tv80k0A6NKlE4fmo
+	RBzQt8/rD+dkQ1VioJRkCDkDYc8mWwnVYUbV/3wCWs6R8oykjSKvFxaQ9YXH98LsV7C/
+	0NvuTDaWtsscdfaahR42veaUHfHDob/UUSaYaOJgjoksvuNDbTF4f9S8tJimHYo/64rM
+	KOwrwN69Z8biVHUyz2J0zClzZBkuqV2L8vYsfFBR9hbjoVNICkHkEIgyoqZCqfGMkUEz
+	db8g==
+X-Gm-Message-State: AKwxytcRWie+Mi5lg5/EUfCxTLrkrhx8pRtDEnBEUGbJt0iZPCeE3psK
+	QChdcMRvhVrJ18UzCla88Sdeyg==
+X-Google-Smtp-Source: AH8x224IafYeG6EENLdLfioZnbOyb5073/gYufRNSKuXgQ7fON+zhgove16qiyEPBNuiuSKFmszYjg==
+X-Received: by 10.80.133.33 with SMTP id 30mr39303857edr.24.1517061338142;
+	Sat, 27 Jan 2018 05:55:38 -0800 (PST)
+Received: from Saturn.local.all ([195.48.14.138])
+	by smtp.gmail.com with ESMTPSA id
+	g21sm3979356edg.88.2018.01.27.05.55.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 27 Jan 2018 01:39:35 -0800 (PST)
-From: liu.ming50@gmail.com
+	Sat, 27 Jan 2018 05:55:37 -0800 (PST)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Jan 2018 10:36:22 +0100
-Message-Id: <1517045782-21446-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] bitbake.conf: add STAMPS_DIR to BB_HASHBASE_WHITELIST
+Date: Sat, 27 Jan 2018 14:54:08 +0100
+Message-Id: <20180127135409.9369-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.13.6
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH] image_types: tar with --numeric-owner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 09:39:36 -0000
+X-List-Received-Date: Sat, 27 Jan 2018 13:55:38 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+If --numeric-owner is neither used when creating or extracting the archive
+containing the rootfs then tar tries to change the numeric uid/gid of the
+files based on user/group names of the host used to extract the archive.
 
-This allows scripts/bitbake-whatchanged to calculate the dependency
-changes correctly since it needs to set different STAMPS_DIR during
-the comparation.
+Create the archive with --numeric-owner to remove the burden of having to
+use --numeric-owner when extracting.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
- meta/conf/bitbake.conf | 2 +-
+ meta/classes/image_types.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 93afb13..01416ba 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -857,7 +857,7 @@ BB_SIGNATURE_HANDLER ?= "OEBasicHash"
- BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DIR \
-     SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
--    PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-+    STAMPS_DIR PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_NOHASHDIR LICENSE_PATH SDKPKGSUFFIX \
-     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
-     BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot DEPLOY_DIR"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index b17c435274..aeb22a2b59 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -125,7 +125,7 @@ IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+ # required when extracting, but it seems prudent to use it in both cases.
+ IMAGE_CMD_TAR ?= "tar"
+ # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
+-IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
++IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+ 
+ do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD_cpio () {
 -- 
-2.7.4
+2.13.6
 
 
