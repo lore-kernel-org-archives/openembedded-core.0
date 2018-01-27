@@ -1,55 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 435 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 27 Jan 2018 04:29:39 UTC
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E005D78875
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 57ED76612D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:29:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 914E818583
+	Sat, 27 Jan 2018 07:06:35 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 17so151979pfw.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 05:22:25 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id zgxJnGJ6Vncp
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 05:21:28 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 16D8518605
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:08 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CD2B21E082
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:07 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C23881E080
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:07 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:07 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id B43F420D1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:07 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w0R3r65U007117
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 04:53:06 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w0R3r6XM007116
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Jan 2018 04:53:06 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Fri, 26 Jan 2018 23:06:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+PTXFYJaWh1Um2uM8GWoUyGpEXL1g1WQbpK56Fd14I8=;
+	b=jTQV4FoW/nY2g71qKWQZgTGS6TA83rorCeZBTbeKeiDliQ3dqIwuZQCiuAWlf+HpBs
+	7FPBuPiZebmcpLapLBvI9JzdCEur7TzG0cJMw9F7x11phGcViTDURyDjd10HSqnRlwCG
+	x4e+QaloxyLpFDGaWkkRZiqo4x1GUDRz02YXHjvOs1ilYFcQDkK2pI9MgYZMZ2JAzhnz
+	EFuMO+hp0lZ6IOClhChmmnZ5f1W2NmXCbJBQC0k0PBAzREl9y+xhobMjVgmcEWRufKSA
+	1JdSu6rgSkScSZowx766V3ONqonpgQQfuti0tB5P4zCxeesAs4xIS39Q++EVQXIoBr5V
+	FE2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+PTXFYJaWh1Um2uM8GWoUyGpEXL1g1WQbpK56Fd14I8=;
+	b=HPOCY4zPaKdSaA1Bo23ML7o1vduBNY7qEqTPjfun2E/Qs0CfMkF5wqWE2RTwsEvful
+	fpHlEAGRAWuRuZ3MaOVYjnLLScrnm2gXQXhBYxv8GY0r8RKMhuyznkj8yQ8vD75iG1lc
+	aQr6RQdyzDSVvisk1rVQy84oq9Li5d7NR/64Tl9syUIBkXdztpaLiCvpOmZ8WTuYtlQl
+	XJf/mP11vo9AVqJ8lziUevbp+7ueBau0sRgrT7GQwNNigaiRyQHFd2RmASJ0pJ6a5JfV
+	Kj3H3qxFUpr63Is4T9V2afGe+KdrfV8kgNGBQYQK7W5XjAtMqxI/ex/P/OIPCr2OlEAt
+	+n/w==
+X-Gm-Message-State: AKwxytcpdz56l0Y1G1XG+IvVRA5gSpMRFRivOwYlBJ9VVSmZQ1RO/C0t
+	3LGcSMC9nqAkGaMKu4zGjJAy6g==
+X-Google-Smtp-Source: AH8x2258DQRg6YrextOjUH2jRwDpuotRU5qWWzV+/IrqMDXc5bOV2C3HM/xAaa01wSNym6G0ullHfg==
+X-Received: by 10.99.131.74 with SMTP id h71mr17057765pge.373.1517036797179;
+	Fri, 26 Jan 2018 23:06:37 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:8880:466c::a8d6])
+	by smtp.gmail.com with ESMTPSA id
+	206sm20360192pfy.71.2018.01.26.23.06.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Jan 2018 23:06:36 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Jan 2018 04:53:03 +0100
-Message-Id: <20180127035303.7076-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] glibc: Adapt do_install_append_aarch64() for usrmerge
+Date: Fri, 26 Jan 2018 23:06:26 -0800
+Message-Id: <20180127070626.27581-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.1
+Subject: [PATCH] meson: Adjust for clang compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,44 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jan 2018 04:29:40 -0000
+X-List-Received-Date: Sat, 27 Jan 2018 07:06:36 -0000
 
-Change hardcoded /lib to ${nonarch_base_libdir} to correctly adapt the
-code in do_install_append_aarch64() for when usrmerge is enabled in
-DISTRO_FEATURES.
+Remove hardcoding c/c++ compiler to be gcc alone, its
+possible to use clang as replacement for cross compilers
+from meta-clang, therefore set clang/clang++ if
+TOOLCHAIN = "clang"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/meson.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 817d850358..4d3dc679b4 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -114,15 +114,15 @@ do_install_append () {
- }
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 91ac652651..cd3497a802 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -40,6 +40,11 @@ EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
+ MESON_CROSS_FILE = ""
+ MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
  
- do_install_append_aarch64 () {
--	if [ "${base_libdir}" != "/lib" ] ; then
-+	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
- 		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
--		install -d ${D}/lib
-+		install -d ${D}${nonarch_base_libdir}
- 		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
--			ln -s ${@base_path_relative('/lib', '${base_libdir}')}/ld-linux-aarch64.so.1 \
--				${D}/lib/ld-linux-aarch64.so.1
-+			ln -s ${@base_path_relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
-+				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
- 		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
--			ln -s ${@base_path_relative('/lib', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
--				${D}/lib/ld-linux-aarch64_be.so.1
-+			ln -s ${@base_path_relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
-+				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
- 		fi
- 	fi
- 	do_install_armmultilib
++CCOMPILER ?= "gcc"
++CXXCOMPILER ?= "g++"
++CCOMPILER_toolchain-clang = "clang"
++CXXCOMPILER_toolchain-clang = "clang++"
++
+ def meson_array(var, d):
+     return "', '".join(d.getVar(var).split()).join(("'", "'"))
+ 
+@@ -49,8 +54,8 @@ do_write_config() {
+     # This needs to be Py to split the args into single-element lists
+     cat >${WORKDIR}/meson.cross <<EOF
+ [binaries]
+-c = '${HOST_PREFIX}gcc'
+-cpp = '${HOST_PREFIX}g++'
++c = '${HOST_PREFIX}${CCOMPILER}'
++cpp = '${HOST_PREFIX}${CXXCOMPILER}'
+ ar = '${HOST_PREFIX}ar'
+ ld = '${HOST_PREFIX}ld'
+ strip = '${HOST_PREFIX}strip'
 -- 
-2.12.0
+2.16.1
 
 
