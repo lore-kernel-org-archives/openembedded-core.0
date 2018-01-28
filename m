@@ -1,61 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F3886069C
+Return-Path: <francescogiancane8@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA9A7822B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jan 2018 00:48:13 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id g18so1204593plo.7
+	Sun, 28 Jan 2018 02:45:16 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id r71so7929942wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jan 2018 16:48:14 -0800 (PST)
+	Sat, 27 Jan 2018 18:45:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=RUxHr6eLVovOZA5RYoSYa9ggcOBCvuN2+W6SmFvAQlo=;
-	b=G7wgJAt0hF6Ir+B+kvYncd2HFrzXRpygoRrMZyd5LnqwHCiSq/qX69gN/K1AtpVFxr
-	InBGaJRmYOSIk33HPYVWMkkf7r1l64qItw0eCzrFf+6xMdlrNUqpLAGAl/oT+9iLtTag
-	IYjAeqVKRGD8RHKxjaoVQeK0HL10SyxSoa+0O5kDrjk837yVi2HQZK7QRgnmszgvKTnJ
-	mYjTv03W0qfPydSZItElNnDJHWhCK+24p5k+j4hLuOYDM70RNGyDzowY2AmcUJi3XMM/
-	gPES7BaNA7fuasi3Kh64GGjWJSb1IzepsJE8faQ0Dq+IKLht805qy9+W6FlmAyzWBblH
-	a9aA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AmSpbpQr2ByNtgoaxMVGCSMuHtF9UodaD5Tvp2yhd4o=;
+	b=YjOpJvG24GPnn1sMaBZt0VF5sTkIIQLG5F1wkhCcHRriwrzILzudcsCt4Hrg1fPVST
+	gsfTzO9nTKr2pNjZ91Uss54fp5MR7Ie73KAPd77kJUWUygjik6Y+ibl5XSmPKFX0XmT8
+	JpxcOEpMAp7J2CaB4Lo3IjDFKegA/KERqpL5AXa5OZVMmuJ2HHIrsdMfrTZMsZRs9BQD
+	iWfeHiJ3wZb/VRTZD23Rk/9QvkgN3CmrHcuPvy9fJNHDvoihDKkfZn+kh8rA1zPS91tg
+	Kei4kjoTKChsI9cfkBRTAn8aS9Tn7Eyxcy0lN0IUiEsB3bnjveI0hY5D+0dR3hmMwSIP
+	2b1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=RUxHr6eLVovOZA5RYoSYa9ggcOBCvuN2+W6SmFvAQlo=;
-	b=jJg77Fdg8+il51ZtXqnp1VVVVpW6t3UZ2SvhIfdMEOnAqcUPMIYKj2H2cdMyzCt/m6
-	Y53u4FR/usMUKUNfva8/StCEg2DnLCRSOw9vvi3iuJ+INBSQRD8WXF+DS7N7IFNkzMhY
-	NhOApYpwldvsOyd1HX+H7fyT5gCHS78Ko0nzHNefUm13g+AmLuC3wDY7hl9aGjgZfOW2
-	NisImAfaHdeRId11PuKDA8ZJDY9LxbniZwv0oyw8eVtxUk0IJSnmlC9v7x+uFt7XY/4s
-	k3WIf6JEgWbbMgRtX1jqsmYaQHZ6LfdSQey0pwtPp6//hP+kDVxBaxT823TAH42ROsg9
-	VWww==
-X-Gm-Message-State: AKwxytfa4UXI/2gHzZbnAse/OlkvKmq8DIj+WciOdcyl+TyXv6zTmsok
-	VILxKehot22bmWdBDAfnR5Q5WA==
-X-Google-Smtp-Source: AH8x227GleWmPXtIxjnAT5ToLtjsk448KSTBqQLUwJwkLEcoCj3QoUS+AASLte5gnP9h7Xb6EXC9Rw==
-X-Received: by 2002:a17:902:579d:: with SMTP id
-	l29-v6mr8885963pli.27.1517100494578; 
-	Sat, 27 Jan 2018 16:48:14 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:9caf:51c0:84fe:36ce?
-	([2601:202:4000:1184:9caf:51c0:84fe:36ce])
-	by smtp.gmail.com with ESMTPSA id
-	c1sm18706039pfa.119.2018.01.27.16.48.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 27 Jan 2018 16:48:13 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <1516102686.29722.267.camel@linuxfoundation.org>
-	<1517070952.756.40.camel@linuxfoundation.org>
-	<BY2PR02MB347BCA749C4415BE91A11E3B9E70@BY2PR02MB347.namprd02.prod.outlook.com>
-	<1517094397.756.44.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0ff82cae-aeee-ae80-76e6-3672a1180b04@gmail.com>
-Date: Sat, 27 Jan 2018 16:48:12 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AmSpbpQr2ByNtgoaxMVGCSMuHtF9UodaD5Tvp2yhd4o=;
+	b=Fu5/7/BWON8WzrWbCEuAku3plx9NrOU8+84zQtGx+T12fLWEmL42XZIYajvvXhIlNv
+	uBrEQ8ZdBcEdPHPVt9fewHMutqVDk7CtkIX4yysStTvFP3tcZhhXOsFDMujQ77sCN11e
+	cMviG3LMPfWRAYBwFxdj2tcDvj84LE65fAHSVGrwTTBvAqDqal2d6o2awn5X0VYagWTO
+	eIZfufvhdBUkjpNhw5NRZ+nO8dC/8M25EhT0QdemQnDW4FYAHRjoTAdKGSNafy8XcU16
+	BTpMUYvttaVvty2er/yWGmxqXF9z608nzABJGGwVnjZhxYHdufk/KaTS4QTfKyIUAOt3
+	Ptkw==
+X-Gm-Message-State: AKwxytev2PNouVcc3v5Jotgqt9+WeDXUpZ/tr67Id8ADruifW1nc7385
+	ESNVnKodt4OP+F6QB0PiOPmTHKTt+ojblwAJEqs=
+X-Google-Smtp-Source: AH8x227YP2madY4KBpMN4oGnMcqgChXpG+1Ors/wSJih59sH5VCd08aW2LJIsgHOmUgkxjAJTfj/ctVJCUUUHQbA9b4=
+X-Received: by 10.80.146.81 with SMTP id j17mr41399282eda.205.1517107517037;
+	Sat, 27 Jan 2018 18:45:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1517094397.756.44.camel@linuxfoundation.org>
-Subject: Re: Yocto Project, Spectre and Meltdown
+Received: by 10.80.143.131 with HTTP; Sat, 27 Jan 2018 18:45:16 -0800 (PST)
+In-Reply-To: <dc221756-d573-e60a-4f93-8792089ada1c@gmail.com>
+References: <CAEQ58siiwEqY-KuFZDuCxyBOZnA2d-Bo8MFWTF9X_AGMfOxmzw@mail.gmail.com>
+	<CAEQ58sjaushTPi=PBy-ttCL9XBtsmHN-p=XjZXA1VW-_4aKZRA@mail.gmail.com>
+	<CAEQ58sje+LCZnqDykHQ_gvQoNvgCH5QFCa_k2tGfnCd__Y07Ww@mail.gmail.com>
+	<CAEQ58sgADk0b5O_7vv=Y6Ru6zX151e3pPREYY2p6fuXEOuqZ9Q@mail.gmail.com>
+	<CAEQ58sh+bBzbOxf+dv90jeAe91Pf4J30=VqT2LuFyZfnjwVoog@mail.gmail.com>
+	<CAEQ58sivWmT-mnB=zAZRhzgnQFiV3KP9aNioyKu2k2RvDyjW3A@mail.gmail.com>
+	<CAEQ58sjNMVASuDU5GaSKqf3Xp6-UC_8gZZEdM-mtQ_pRFNwR8A@mail.gmail.com>
+	<CAEQ58sjBMsMhg4a_TWiKH8Vvo7UaGodtPO1GsXCcU0fxqFSa7A@mail.gmail.com>
+	<dc221756-d573-e60a-4f93-8792089ada1c@gmail.com>
+From: Francesco Giancane <francescogiancane8@gmail.com>
+Date: Sun, 28 Jan 2018 03:45:16 +0100
+Message-ID: <CAEQ58sgDFgf5oedxXm5PDd0L=NMzv-rLw5--YRT7crUOv-Qdyw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: kernel-devsrc fails to install the rpm package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,63 +61,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jan 2018 00:48:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 28 Jan 2018 02:45:16 -0000
+Content-Type: multipart/alternative; boundary="f403045c28b2a3a1150563cd1e62"
 
+--f403045c28b2a3a1150563cd1e62
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Khem,
 
-On 01/27/2018 03:06 PM, Richard Purdie wrote:
-> On Sat, 2018-01-27 at 16:59 +0000, Manjukumar Harthikote Matha wrote:
->> -----Original Message-----
->>> From: openembedded-core-bounces@lists.openembedded.org
->>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->>> Of
->>> Richard Purdie
->>> Sent: Saturday, January 27, 2018 8:36 AM
->>> To: openembedded-core <openembedded-core@lists.openembedded.org>
->>> Subject: Re: [OE-core] Yocto Project, Spectre and Meltdown
->>>
->>> On Tue, 2018-01-16 at 11:38 +0000, Richard Purdie wrote:
->>>> I just wanted to give people an update on where the project
->>>> stands
->>>> with these issues.
->>> Master now contains gcc and kernel fixes (in linux-yocto). meta-
->>> yocto- bsp updates
->>> are still pending.
->>>
->>> rocko-next also has those fixes and is undergoing testing which if
->>> it passes, will get
->>> pushed to rocko.
->>>
->> I see that rocko-next branch is upgrading the GCC version to 7.3 from
->> 7.2 , is there a reason to do so?
->> I was under the impression that we would backport the security fixes
->> to 7.2 version.
-> As Khem replied, this is the stable gcc series and gcc remapped their
-> versioning scheme a while back to mean that 7.3 is a point release of
-> the 7 series.
->
-> I'm of the view that the gcc team know a lot more about which patches
-> should be backported to a stable series and have a better skillset and
-> knowledge base to know how to apply patches onto the older versions
-> than we do. As such I believe that 7.3 is the right approach for rocko.
+Thank you for your reply.
 
-Agreed.
+The commit description is effectively what is happening (or at least,
+partly) in my case.
+I will get back to you as soon as the build with fresh environment
+completes.
+
+2018-01-27 20:34 GMT+01:00 Khem Raj <raj.khem@gmail.com>:
 
 >
-> Do you have a reason to believe we should do something else?
 >
-> Note that for pyro and earlier we will need gcc 6 patches, we are not
-> upgrading 6 -> 7 on pyro since that would cause a ton of breakage.
-Agreed. Currently  evaluating best  and safest approach.
+> On 1/27/18 11:28 AM, Francesco Giancane wrote:
+>
+>> Hi guys,
+>>
+>> I am trying to build an image with kernel-devsrc in target and sdk
+>> (teaching purposes, no production here) but when packages are to be
+>> installed, bitbake fails, telling that nothing provides /bin/awk.
+>>
+>> Looking at kernel-devsrc.spec,it seems that the requirement is added, but
+>> following the inheritance chain, there is no trace of this dependency in
+>> recipes.
+>>
+>> Can someone tell me what is happening here?
+>>
+>
+> perhaps you need the fixes in here
+> http://git.openembedded.org/openembedded-core/commit/?id=336
+> 0eadb719f1d3b406e6cf48d99a74fdb2f6c77
+>
+> cherry-pick it to your local rocko branch and see if it helps
+>
+>
+>
+>> I am using rocko and building for raspberry pi3 64 bit. No other layer is
+>> added.
+>>
+>> Thanks,
+>>
+>> Francesco Giancane
+>>
+>> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-- armin
->
-> Cheers,
->
-> Richard
->
+--f403045c28b2a3a1150563cd1e62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi Khem,<div><br></div><div>Thank you for your reply.</div=
+><div><br></div><div>The commit description is effectively what is happenin=
+g (or at least, partly) in my case.</div><div>I will get back to you as soo=
+n as the build with fresh environment completes.<br><div class=3D"gmail_ext=
+ra">
+<br><div class=3D"gmail_quote">2018-01-27 20:34 GMT+01:00 Khem Raj <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.k=
+hem@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
+=3D""><br>
+<br>
+On 1/27/18 11:28 AM, Francesco Giancane wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Hi guys,<br>
+<br>
+I am trying to build an image with kernel-devsrc in target and sdk (teachin=
+g purposes, no production here) but when packages are to be installed, bitb=
+ake fails, telling that nothing provides /bin/awk.<br>
+<br>
+Looking at kernel-devsrc.spec,it seems that the requirement is added, but f=
+ollowing the inheritance chain, there is no trace of this dependency in rec=
+ipes.<br>
+<br>
+Can someone tell me what is happening here?<br>
+</blockquote>
+<br></span>
+perhaps you need the fixes in here<br>
+<a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=3D3360e=
+adb719f1d3b406e6cf48d99a74fdb2f6c77" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://git.openembedded.org/op<wbr>enembedded-core/commit/?id=3D336<wbr>0ead=
+b719f1d3b406e6cf48d99a74fd<wbr>b2f6c77</a><br>
+<br>
+cherry-pick it to your local rocko branch and see if it helps<div class=3D"=
+HOEnZb"><div class=3D"h5"><br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+I am using rocko and building for raspberry pi3 64 bit. No other layer is a=
+dded.<br>
+<br>
+Thanks,<br>
+<br>
+Francesco Giancane<br>
+<br>
+</blockquote></div></div><span class=3D"HOEnZb"><font color=3D"#888888">
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div></div></div>
 
+--f403045c28b2a3a1150563cd1e62--
