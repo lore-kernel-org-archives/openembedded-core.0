@@ -1,44 +1,28 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 80553719A8
+Return-Path: <juro.bystricky@intel.com>
+X-Greylist: delayed 563 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 29 Jan 2018 22:48:53 UTC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 273D47851A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 22:26:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1517264780; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=6cf/X7d5ZP/zOKbPAkynNR8mTlRyJcNvzY1h2F7WRsk=;
-	b=byDpI/QfMQHEihHB0cLYg90d2u6S3k/iDzrBSMzeQ5fS6fiJK2KuEtyoDCZwQdREjzAibsj7
-	h0htSSPzF0+tHcErB71mScUtSBE6qNVJdiHrvTR6HEZKETXZVWGeQxNcpAC12c+eNGfsMUe7
-	DTPa/5unPX4A6ABb0plG53XMMSM=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mxa.mailgun.org with ESMTP id 5a6f9f8c.7f8c987a1f30-smtp-out-n01;
-	Mon, 29 Jan 2018 22:26:20 -0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id a5so7681532qkg.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 14:26:20 -0800 (PST)
-X-Gm-Message-State: AKwxyten5aSmsjQYpvuoZApgp57/LBTv3mpb3cz5OzgXBQgzjWW83QNW
-	DDpxCTAZ8kNG/Fbvsf+olMqhExWdgpdEIUVIaU8=
-X-Google-Smtp-Source: AH8x225AJvDEV65Fx1XcZnTi81385f2XlF0olj9/gXd+L5N2TCuRFTStlNsYysonHdQQVUFzmvXoDH5pUTsPCLlzj6I=
-X-Received: by 10.55.51.12 with SMTP id z12mr38119556qkz.152.1517264779369;
-	Mon, 29 Jan 2018 14:26:19 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.40.71 with HTTP; Mon, 29 Jan 2018 14:26:18 -0800 (PST)
-Received: by 10.140.40.71 with HTTP; Mon, 29 Jan 2018 14:26:18 -0800 (PST)
-In-Reply-To: <1517264310.3090.15.camel@linuxfoundation.org>
-References: <1517262541-8719-1-git-send-email-derek@asterius.io>
-	<1517264310.3090.15.camel@linuxfoundation.org>
-From: Derek Straka <derek@asterius.io>
-Date: Mon, 29 Jan 2018 17:26:18 -0500
-X-Gmail-Original-Message-ID: <CADNbA1ob_P9HqYfFMszuddKDsUwPU7DzeJH5gdmhgQmSQ_F9HQ@mail.gmail.com>
-Message-ID: <CADNbA1ob_P9HqYfFMszuddKDsUwPU7DzeJH5gdmhgQmSQ_F9HQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python: Upgrade both python and python-native to 2.7.14
+	Mon, 29 Jan 2018 22:48:53 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jan 2018 14:39:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,432,1511856000"; d="scan'208";a="170120212"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga004.jf.intel.com with ESMTP; 29 Jan 2018 14:39:32 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jan 2018 14:39:47 -0800
+Message-Id: <1517265587-84623-4-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1517265587-84623-1-git-send-email-juro.bystricky@intel.com>
+References: <1517265587-84623-1-git-send-email-juro.bystricky@intel.com>
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH 3/3] libcrypt: remove unused patch file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,87 +35,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 22:26:19 -0000
-Content-Type: multipart/alternative; boundary="001a1147045c34751b0563f1bc98"
+X-List-Received-Date: Mon, 29 Jan 2018 22:48:53 -0000
 
---001a1147045c34751b0563f1bc98
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ ...g-AArch32-CE-implementations-when-target-.patch | 96 ----------------------
+ 1 file changed, 96 deletions(-)
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0006-Fix-building-AArch32-CE-implementations-when-target-.patch
 
-Thanks.  Last I checked it was just in master-next.  I'll send the patch
-for the manifest once I get off the train.
+diff --git a/meta/recipes-support/libgcrypt/files/0006-Fix-building-AArch32-CE-implementations-when-target-.patch b/meta/recipes-support/libgcrypt/files/0006-Fix-building-AArch32-CE-implementations-when-target-.patch
+deleted file mode 100644
+index 65b9fd4..0000000
+--- a/meta/recipes-support/libgcrypt/files/0006-Fix-building-AArch32-CE-implementations-when-target-.patch
++++ /dev/null
+@@ -1,96 +0,0 @@
+-From 4a7aa30ae9f3ce798dd886c2f2d4164c43027748 Mon Sep 17 00:00:00 2001
+-From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-Date: Sat, 29 Jul 2017 14:34:23 +0300
+-Subject: [PATCH] Fix building AArch32 CE implementations when target is ARMv6
+- arch
+-
+-* cipher/cipher-gcm-armv8-aarch32-ce.S: Select ARMv8 architecure.
+-* cipher/rijndael-armv8-aarch32-ce.S: Ditto.
+-* cipher/sha1-armv8-aarch32-ce.S: Ditto.
+-* cipher/sha256-armv8-aarch32-ce.S: Ditto.
+-* configure.ac (gcry_cv_gcc_inline_asm_aarch32_crypto): Ditto.
+---
+-
+-Raspbian distribution defaults to ARMv6 architecture thus 'rbit'
+-instruction is not available with default compiler flags. Patch
+-adds explicit architecture selection for ARMv8 to enable 'rbit'
+-usage with ARMv8/AArch32-CE assembly implementations of SHA,
+-GHASH and AES.
+-
+-Reported-by: Chris Horry <zerbey@gmail.com>
+-Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-
+-Signed-off-by: Paul Barker <pbarker@toganlabs.com>
+-Upstream-Status: Backport
+-
+----
+- cipher/cipher-gcm-armv8-aarch32-ce.S | 1 +
+- cipher/rijndael-armv8-aarch32-ce.S   | 1 +
+- cipher/sha1-armv8-aarch32-ce.S       | 1 +
+- cipher/sha256-armv8-aarch32-ce.S     | 1 +
+- configure.ac                         | 1 +
+- 5 files changed, 5 insertions(+)
+-
+-diff --git a/cipher/cipher-gcm-armv8-aarch32-ce.S b/cipher/cipher-gcm-armv8-aarch32-ce.S
+-index b61a7871..1de66a16 100644
+---- a/cipher/cipher-gcm-armv8-aarch32-ce.S
+-+++ b/cipher/cipher-gcm-armv8-aarch32-ce.S
+-@@ -24,6 +24,7 @@
+-     defined(HAVE_GCC_INLINE_ASM_AARCH32_CRYPTO)
+- 
+- .syntax unified
+-+.arch armv8-a
+- .fpu crypto-neon-fp-armv8
+- .arm
+- 
+-diff --git a/cipher/rijndael-armv8-aarch32-ce.S b/cipher/rijndael-armv8-aarch32-ce.S
+-index f375f673..5c8fa3c0 100644
+---- a/cipher/rijndael-armv8-aarch32-ce.S
+-+++ b/cipher/rijndael-armv8-aarch32-ce.S
+-@@ -24,6 +24,7 @@
+-     defined(HAVE_GCC_INLINE_ASM_AARCH32_CRYPTO)
+- 
+- .syntax unified
+-+.arch armv8-a
+- .fpu crypto-neon-fp-armv8
+- .arm
+- 
+-diff --git a/cipher/sha1-armv8-aarch32-ce.S b/cipher/sha1-armv8-aarch32-ce.S
+-index b0bc5ffe..bf2b233b 100644
+---- a/cipher/sha1-armv8-aarch32-ce.S
+-+++ b/cipher/sha1-armv8-aarch32-ce.S
+-@@ -24,6 +24,7 @@
+-     defined(HAVE_GCC_INLINE_ASM_AARCH32_CRYPTO) && defined(USE_SHA1)
+- 
+- .syntax unified
+-+.arch armv8-a
+- .fpu crypto-neon-fp-armv8
+- .arm
+- 
+-diff --git a/cipher/sha256-armv8-aarch32-ce.S b/cipher/sha256-armv8-aarch32-ce.S
+-index 2041a237..2b17ab1b 100644
+---- a/cipher/sha256-armv8-aarch32-ce.S
+-+++ b/cipher/sha256-armv8-aarch32-ce.S
+-@@ -24,6 +24,7 @@
+-     defined(HAVE_GCC_INLINE_ASM_AARCH32_CRYPTO) && defined(USE_SHA256)
+- 
+- .syntax unified
+-+.arch armv8-a
+- .fpu crypto-neon-fp-armv8
+- .arm
+- 
+-diff --git a/configure.ac b/configure.ac
+-index 27faa7f4..66e7cd67 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1619,6 +1619,7 @@ AC_CACHE_CHECK([whether GCC inline assembler supports AArch32 Crypto Extension i
+-           AC_COMPILE_IFELSE([AC_LANG_SOURCE(
+-           [[__asm__(
+-                 ".syntax unified\n\t"
+-+                ".arch armv8-a\n\t"
+-                 ".arm\n\t"
+-                 ".fpu crypto-neon-fp-armv8\n\t"
+- 
+--- 
+-2.11.0
+-
+-- 
+2.7.4
 
-On Jan 29, 2018 5:18 PM, "Richard Purdie" <
-richard.purdie@linuxfoundation.org> wrote:
 
-> On Mon, 2018-01-29 at 16:49 -0500, Derek Straka wrote:
-> > Rebased:
-> >   - python/01-use-proper-tools-for-cross-build.patch
-> >   - python/fix-makefile-for-ptest.patch
-> >   - python/parallel-makeinst-create-bindir.patch
-> >
-> > Removed Upstreamed Patch:
-> >   - python/Don-t-use-getentropy-on-Linux.patch
-> >
-> > Updated license checksum for changes in the copyright date.  The
-> > license
-> > terms remain unchanged
-> >
-> > Added an extra do_compile item to create the native pgen that no
-> > longer
-> > gets compiled by default
-> >
-> > Update the json manifest with the latest dependency set
-> >
-> > Signed-off-by: Derek Straka <derek@asterius.io>
->
-> Your patch was merged into master so if there are tweaks they need to
-> be in a patch against master now please.
->
-> Cheers,
->
-> Richard
->
-
---001a1147045c34751b0563f1bc98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thanks.=C2=A0 Last I checked it was just in master-next.=
-=C2=A0 I&#39;ll send the patch for the manifest once I get off the train.</=
-div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Jan 29, 20=
-18 5:18 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:richard.purdie=
-@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br =
-type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 2018-01-29 at 1=
-6:49 -0500, Derek Straka wrote:<br>
-&gt; Rebased:<br>
-&gt; =C2=A0 - python/01-use-proper-tools-<wbr>for-cross-build.patch<br>
-&gt; =C2=A0 - python/fix-makefile-for-ptest.<wbr>patch<br>
-&gt; =C2=A0 - python/parallel-makeinst-<wbr>create-bindir.patch<br>
-&gt;<br>
-&gt; Removed Upstreamed Patch:<br>
-&gt; =C2=A0 - python/Don-t-use-getentropy-<wbr>on-Linux.patch<br>
-&gt;<br>
-&gt; Updated license checksum for changes in the copyright date.=C2=A0=C2=
-=A0The<br>
-&gt; license<br>
-&gt; terms remain unchanged<br>
-&gt;<br>
-&gt; Added an extra do_compile item to create the native pgen that no<br>
-&gt; longer<br>
-&gt; gets compiled by default<br>
-&gt;<br>
-&gt; Update the json manifest with the latest dependency set<br>
-&gt;<br>
-&gt; Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io">d=
-erek@asterius.io</a>&gt;<br>
-<br>
-Your patch was merged into master so if there are tweaks they need to<br>
-be in a patch against master now please.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---001a1147045c34751b0563f1bc98--
