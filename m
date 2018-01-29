@@ -1,52 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 520357884B
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A66B78678
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 17:11:23 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id g21so8036044wrb.13
+	Mon, 29 Jan 2018 17:21:24 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id d13so8418361iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 09:11:24 -0800 (PST)
+	Mon, 29 Jan 2018 09:21:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=0uUbKzEa5iDfr27lLrf5CdvomL+YKxdNQ8hx82aUjCo=;
-	b=uozktDZX/sGCak9F/XWvJUH/vDjLMHXwOFfV2NdZM8v6Om8L0vNvaq0htWPXf/bTyc
-	PsXiG6d41bSK7An+mpR2jXokE1MieBgGIKkycqAdpb6HBrMO3A02iyESkY0uFcKfkbtD
-	j630XexolVjQvFVDzJ30dctZgOCBGAXxPss52WupkiuE8kgMi5LAVOqC53pUIJgT9J8u
-	aQ286ZPvCIQh52LePKXt3+yZe6r46GHzrHJlYT+n9NzSr1fhUH1WUxJdMiz/p+vw2YBJ
-	RDpn9OO8SiE6wfIeqpDVpCDGz2uF3kS93J3CqZ9zohLScK347/MS7erZEht6F+PKgIha
-	CWlg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Eja3ZipcGTRQd1KkrXSnbNZq0On9XRU3553xnnNV3k0=;
+	b=AH1OBWk2xwQLBn/RIaUAg/oGHrqJUF4UOVOwpnwuKl8q2XbL3fbzzOkb3A1QgE8KYI
+	OgNJXe8HhUO+9DYRJ9Dg7e2gwV43bhkmf642fg7xhezziwV2RYiFy5EzjlKNKy0C1JW1
+	yEw8sVtMSYe4+bU707cM66ANQ4e59YAuuU5mX3OeL+eJG8ITWPn3FfGQxzg9HxWZciXc
+	li/eb8kp7oLRHToaP7G9LAYpIi1/BumLJP8jqh5JxPCe5Sbzj3h3Z/l3+zwOG0xOu30x
+	ts3oRgT486+j+AE9gNfOPLmdyFKC8a4vrxHSdbH7hVKFvgJ/em9b+k7sqyr4OuHzoSeE
+	WROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=0uUbKzEa5iDfr27lLrf5CdvomL+YKxdNQ8hx82aUjCo=;
-	b=cSGtIf1F9DBA0lu+XXNcXNByCSaJhE/ko0T/hM2n6XB5ixLP5YjJ2WjcBsjmdIrcg+
-	ICD/7KVeqcvdKbDShDB1IsIt2fFWjLk+rQLhedfSZeZLQoG9xn9rANUE6zGxSHS5E02/
-	mMgCtFABRtbespx2rw37h4SweIEaEB1NI2jAFnkLJeba7d+I2BtI/zBzQDt2OyOqf7Ha
-	ypy857CtAsrdO7ug9Ytd2Iv5l9AO6dUnYGdOIjFJ2/Gf3KsO0kskqjcjdETebcEq0vLw
-	tyJrDqSjvYNdoeDK27mf1hvOy/46R2rIJeCk+LqMjs7zZuP7mB8I22I3QxQD+DIE6Fy5
-	rdCA==
-X-Gm-Message-State: AKwxyteqRl7JgLRWxKSgoftXPW+mB59al90x4c9Q86zKYfBzVWtwC/Ea
-	nTA41cRD4PIm8TbeYuzjaNZqkNWQ
-X-Google-Smtp-Source: AH8x226JjS0NM0eOTDIwz4n3MWcrlD8XKOWGsbBTMPUPBrOevOIkP5rZ2CJ3XtgjU3KHIztJKgwp8g==
-X-Received: by 10.223.185.124 with SMTP id b57mr19387172wrg.13.1517245883877; 
-	Mon, 29 Jan 2018 09:11:23 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	e16sm11515244wre.5.2018.01.29.09.11.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jan 2018 09:11:23 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 17:11:11 +0000
-Message-Id: <20180129171111.14502-5-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180129171111.14502-1-ross.burton@intel.com>
-References: <20180129171111.14502-1-ross.burton@intel.com>
-Subject: [PATCH 5/5] ofono: use patch sent upstream instead of sed
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Eja3ZipcGTRQd1KkrXSnbNZq0On9XRU3553xnnNV3k0=;
+	b=ZteRocXDtlPiIQDR3UAjIfwDkkwGUnAnNTeTVuxNW7jlTgZH4SpnISJ6E+r7fE9YYg
+	lTtPAw77fmQMjM+oih9oWBig5rNJ7I+ItCDUBDNQ/wGH/VtJ5+UZA5vt5gfzKAyjpTEq
+	Jl+6agS6mAH1uZpkc/u2HOPdX58k9Vz9e8FpNNKdDmbbmWEQyWT2hf5upWGYw6GbnIwP
+	gIjfMckS2HjK/LgsTaZkofBv8NjkjIzVNwwmVVWa+LlWDIc8GqQZH0VQckqKlrJVMIPz
+	v8EY7dNNmdYdYR0Qo//Zo+aofnuElMz/IuxXbdQLy+A+/EUL9PwNUhW8sLN44C4Tx9e4
+	4XOg==
+X-Gm-Message-State: AKwxytfS40STpCkZ+v5yBA1OwOgRdzxv4dSaNhpS8rW6qz8MLxC+KXmj
+	yJW3ZbeGCN5/wnp2yP6NaQenxpQ0GwxFutLglPlxoQ==
+X-Google-Smtp-Source: AH8x227wcAQ47mhDF+WPR88jUiQWhBF9QOlk8FDuig5U9KhL4AnofqJ8dmQxlPCigvG90NCjloxdpGMW0wuOtodCwHg=
+X-Received: by 10.107.133.75 with SMTP id h72mr26232886iod.227.1517246485502; 
+	Mon, 29 Jan 2018 09:21:25 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.17.206 with HTTP; Mon, 29 Jan 2018 09:21:05 -0800 (PST)
+In-Reply-To: <20180127070626.27581-1-raj.khem@gmail.com>
+References: <20180127070626.27581-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Jan 2018 17:21:05 +0000
+Message-ID: <CAJTo0LZ=m04zzX5XunL3Ht4t=b9dAiAfwdfkARcH6nyFTL1Y1w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meson: Adjust for clang compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,80 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 17:11:23 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 17:21:24 -0000
+Content-Type: multipart/alternative; boundary="001a113ec5e4ce8f300563ed7920"
 
-Instead of using a sed to fix the hashbang in a test tool send a patch upstream
-and use that.  This way we'll notice when the patch doesn't need to be applied
-anymore.
+--001a113ec5e4ce8f300563ed7920
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/ofono/ofono.inc          |  3 ---
- .../ofono/ofono/use-python3.patch                  | 27 ++++++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.22.bb      |  1 +
- 3 files changed, 28 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/use-python3.patch
+On 27 January 2018 at 07:06, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 4443a95c2f7..0472414b199 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -26,9 +26,6 @@ SYSTEMD_SERVICE_${PN} = "ofono.service"
- do_install_append() {
-   install -d ${D}${sysconfdir}/init.d/
-   install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
--
--  # Ofono still has one test tool that refers to Python 2 in the shebang
--  sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/ofono/test/set-ddr
- }
- 
- PACKAGES =+ "${PN}-tests"
-diff --git a/meta/recipes-connectivity/ofono/ofono/use-python3.patch b/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-new file mode 100644
-index 00000000000..7b84075257a
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-@@ -0,0 +1,27 @@
-+set-ddr should use Python3 like all the other tests.
-+
-+Upstream-Status: Submitted
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 17b69cd1da4c5c5f732acb38ca1602446c567ee7 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Mon, 29 Jan 2018 11:31:25 +0000
-+Subject: [PATCH] test/setddr: use Python 3
-+
-+All the other tests use Python 3, so this should to.
-+---
-+ test/set-ddr | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/set-ddr b/test/set-ddr
-+index 5d061b95..33631f31 100755
-+--- a/test/set-ddr
-++++ b/test/set-ddr
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/python3
-+ 
-+ import sys
-+ import dbus
-+-- 
-+2.11.0
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.22.bb b/meta/recipes-connectivity/ofono/ofono_1.22.bb
-index fd7ee15af1d..e57eaa77eb9 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.22.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.22.bb
-@@ -3,6 +3,7 @@ require ofono.inc
- SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-   file://ofono \
-+  file://use-python3.patch \
- "
- SRC_URI[md5sum] = "2a683ab8e98448ad8bc5dc9868d2893e"
- SRC_URI[sha256sum] = "8e34a6696c300c9841b55e8dff640bd3096e49f5dbe55bbebaa69a71676f687e"
--- 
-2.11.0
+> Remove hardcoding c/c++ compiler to be gcc alone, its
+> possible to use clang as replacement for cross compilers
+> from meta-clang, therefore set clang/clang++ if
+> TOOLCHAIN = "clang"
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/meson.bbclass | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index 91ac652651..cd3497a802 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -40,6 +40,11 @@ EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
+>  MESON_CROSS_FILE = ""
+>  MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+>
+> +CCOMPILER ?= "gcc"
+> +CXXCOMPILER ?= "g++"
+> +CCOMPILER_toolchain-clang = "clang"
+> +CXXCOMPILER_toolchain-clang = "clang++"
+> +
+>
 
+Can we do this in bitbake.conf instead of repeating ourselves?
 
+Ross
+
+--001a113ec5e4ce8f300563ed7920
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 27 January 2018 at 07:06, Khem Raj <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
+m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">Remove hardcoding c/c++ compiler to be=
+ gcc alone, its<br>
+possible to use clang as replacement for cross compilers<br>
+from meta-clang, therefore set clang/clang++ if<br>
+TOOLCHAIN =3D &quot;clang&quot;<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/meson.bbclass | 9 +++++++--<br>
+=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass<br>
+index 91ac652651..cd3497a802 100644<br>
+--- a/meta/classes/meson.bbclass<br>
++++ b/meta/classes/meson.bbclass<br>
+@@ -40,6 +40,11 @@ EXTRA_OEMESON +=3D &quot;${PACKAGECONFIG_CONFARGS}&quot;=
+<br>
+=C2=A0MESON_CROSS_FILE =3D &quot;&quot;<br>
+=C2=A0MESON_CROSS_FILE_class-target =3D &quot;--cross-file ${WORKDIR}/meson=
+.cross&quot;<br>
+<br>
++CCOMPILER ?=3D &quot;gcc&quot;<br>
++CXXCOMPILER ?=3D &quot;g++&quot;<br>
++CCOMPILER_toolchain-clang =3D &quot;clang&quot;<br>
++CXXCOMPILER_toolchain-clang =3D &quot;clang++&quot;<br>
++<br></blockquote><div><br></div><div>Can we do this in bitbake.conf instea=
+d of repeating ourselves?</div><div><br></div><div>Ross=C2=A0</div></div></=
+div></div>
+
+--001a113ec5e4ce8f300563ed7920--
