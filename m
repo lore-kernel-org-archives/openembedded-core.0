@@ -1,100 +1,74 @@
-Return-Path: <niko.mauno@vaisala.com>
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com
-	[193.143.230.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A05078721
+Return-Path: <MANJUKUM@xilinx.com>
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+	(mail-cys01nam02on0085.outbound.protection.outlook.com
+	[104.47.37.85])
+	by mail.openembedded.org (Postfix) with ESMTP id B441578544
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 17:47:38 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GwAADTXW9ah5i0x9VbHQEBBQELAYM/g?=
-	=?us-ascii?q?U8EMwqNenSNKpoRgTgDXAqFO4MPGAEBAQEBAQEBAgECEAEBAQgNCQgoL4I4IoE?=
-	=?us-ascii?q?EMQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAwI0fQEBN?=
-	=?us-ascii?q?wGBUIodAxmZdgKLDQEBgxSDCgEBBYQmGIM8CAkBhEqDbIhFBIE4gQOFMKQZgkq?=
-	=?us-ascii?q?TEJQ0Apc1AgICAgkCEQEBB4E8H4IKMxojgnyCRhAPDIIIdow5gTQBgRYBAQE?=
-X-IPAS-Result: =?us-ascii?q?A2GwAADTXW9ah5i0x9VbHQEBBQELAYM/gU8EMwqNenSNKpo?=
-	=?us-ascii?q?RgTgDXAqFO4MPGAEBAQEBAQEBAgECEAEBAQgNCQgoL4I4IoEEMQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAwI0fQEBNwGBUIodAxmZdgK?=
-	=?us-ascii?q?LDQEBgxSDCgEBBYQmGIM8CAkBhEqDbIhFBIE4gQOFMKQZgkqTEJQ0Apc1AgICA?=
-	=?us-ascii?q?gkCEQEBB4E8H4IKMxojgnyCRhAPDIIIdow5gTQBgRYBAQE?=
-X-IronPort-AV: E=Sophos;i="5.46,432,1511820000"; d="scan'208";a="79138514"
+	Mon, 29 Jan 2018 18:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=VaisalaWorks.onmicrosoft.com; s=selector1-vaisala-com;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=udIQHCqC2C22LgNw4U/1QnysTSR/ClPdGuSGovCd1zg=;
-	b=TcBO5fvjg4RB/N0yn60jYZHqTJTzBZiUKeEB29EM0rDEZvkpKRnL1pyrZ0gwsv7OGaA2voPhuyrvweOxbZNqv1RmMPRR/pWYKAPs7sORKKxO4oWGgEGY6G+GnMDi7XvVd0dt5zUPYqTWu6+eMV50j6dkFKkFsJjnz/ePXLJcDfU=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 19:47:24 +0200
-Message-Id: <20180129174724.26768-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.11.0
+	bh=QRj11dhhr0TAp+i/hBlh3GlGw3lCz5GYGlWFRbN4Bis=;
+	b=gZL4RtL1J08S4oQFdGuZY4JpwPK+WY5IfltMAe11b/1sFkvV1eEYrgWXTQWxOrj/FtpQ9nUN5kg+zF+sRhrApWX4/9ATVuDSxfSF/H2zzk4dUOrVKq6oRbZasI1dYP3190FgH68BRDyEafa5W229Ym7FmIVrOYurYGimkxb6r8g=
+Received: from BY2PR02MB347.namprd02.prod.outlook.com (10.141.140.149) by
+	BY2PR02MB2117.namprd02.prod.outlook.com (10.166.110.139) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.444.14; Mon, 29 Jan 2018 18:04:37 +0000
+Received: from BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) by
+	BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) with mapi id
+	15.20.0428.026; Mon, 29 Jan 2018 18:04:37 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+To: Niko Mauno <niko.mauno@vaisala.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+Thread-Index: AQHTmSlH5k1h2zZ6sU+NF2lo4LVknKOLJFUw
+Date: Mon, 29 Jan 2018 18:04:37 +0000
+Message-ID: <BY2PR02MB34738EDF842CDBEF98D6A59B9E50@BY2PR02MB347.namprd02.prod.outlook.com>
+References: <20180129174724.26768-1-niko.mauno@vaisala.com>
+In-Reply-To: <20180129174724.26768-1-niko.mauno@vaisala.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [73.231.161.32]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; BY2PR02MB2117;
+	7:JP0Xrcuavn5/Pu9X0LCYyI13vWP3YOgkZuK9xAo3BIAdgJ6bGkX+/4jX4PuUT2QSvhsDnBSFzIG3WeRMI3z+eITuCOJe+v2UGSH22Z+rioYSPn5LNbD9b/8WNkYshhk2AEb72pPCGZLnEBQQYk3YsiWQqC7dNGsAdTwSzaTUK0OrSnii6pCdx1qEGEL46sRYi5hi67I3Zi/pFHjNhKZhiztb1uPYqBJMDCJDqIrsPxny8EhPwWOGKwMt8sB6LaUb
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 4e0497b2-2c36-497c-a1e3-08d56742c2ff
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(48565401081)(5600026)(4604075)(3008032)(2017052603307)(7153060)(7193020);
+	SRVR:BY2PR02MB2117; 
+x-ms-traffictypediagnostic: BY2PR02MB2117:
+x-microsoft-antispam-prvs: <BY2PR02MB21170D21D19447B77090BB57B9E50@BY2PR02MB2117.namprd02.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(150554046322364)(264703809997249)(192813158149592); 
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040501)(2401047)(5005006)(8121501046)(3002001)(10201501046)(93006095)(93001095)(3231101)(944501161)(6055026)(6041288)(20161123562045)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(6072148)(201708071742011);
+	SRVR:BY2PR02MB2117; BCL:0; PCL:0; RULEID:; SRVR:BY2PR02MB2117; 
+x-forefront-prvs: 0567A15835
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(366004)(39860400002)(39380400002)(396003)(346002)(376002)(189003)(199004)(13464003)(26005)(105586002)(33656002)(2950100002)(102836004)(14454004)(2501003)(186003)(25786009)(478600001)(77096007)(6506007)(966005)(59450400001)(6246003)(53546011)(72206003)(5660300001)(106356001)(2906002)(76176011)(7696005)(66066001)(1720100001)(97736004)(68736007)(9686003)(6436002)(3280700002)(7736002)(3660700001)(229853002)(53936002)(74316002)(6306002)(3846002)(8676002)(2900100001)(305945005)(6116002)(81166006)(81156014)(110136005)(55016002)(316002)(86362001)(99286004)(8936002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2PR02MB2117;
+	H:BY2PR02MB347.namprd02.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: 822coJCMovNmxbTZ9LKTL2v82fRJp1AedkpZAluKawKybS4xDFTdo4VV4Fkk0Tc6tlemOE7JBlcekDzXD1OPHw==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-X-Originating-IP: [193.143.230.131]
-X-ClientProxiedBy: VI1PR08CA0109.eurprd08.prod.outlook.com
-	(2603:10a6:800:d4::11) To HE1PR0601MB2539.eurprd06.prod.outlook.com
-	(2603:10a6:3:52::17)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c1258b70-8d96-441d-52d7-08d567406268
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(7021125)(4534165)(7022125)(4603075)(4627221)(201702281549075)(7048125)(7024125)(7027125)(7028125)(7023125)(5600026)(4604075)(2017052603307)(7153060)(7193020);
-	SRVR:HE1PR0601MB2539; 
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2539;
-	3:VNGoxxO5/iHe0GpUigqOJvWwBa+NSIFcuPB561BGODnB8wQOBMem6y57QXMQWBD3GgFaaUKteSHMExfCsxI9ecNhTSuS6qzECaKoCbR/GWByn/Ypjrc1LGPqla6XZ/dlgf/ZiXADZWIQZhBlUjpHy84rCwV17set2tLtLa6M9TO/lZAIdUTq+oYPcCnBFzyqISS41N8Brlc4FYX9riNm66OFhm9iypTXwSzQXC74xJ0K3tJH8XAGtlUNG0UCIjtK;
-	25:hX6FRX9MWAO63voNzAJEtIgCZHT7ZgVVLePHHkr0nHrKqKKpbfrHLSdtzU/06pUHfhohsL8lAhXNQA+egwSuck+Gui8/+RlA/dvBKZmzFawKTzw16n2PlwCqFJwQecXoMO/OipPmHU17uHVW3s+n1TA5SA5Slc9zd33NF91TELYaax4KMzmzSUp2SgV7LZQ6SHXji8zHOESI3uypDiZkW2OOMQtFwMcC4T3ABh7MI7vwNWBIqdkaK6X6PHyy3K6AJQzxQfpQwoQYL6PV49iilj2n0Dix8bjLo0U5LJuQ0lxUveDfGXdTU3y2dDVJ3dI9wK5HK/xZJJ3tleJciOLryA==;
-	31:flcOmMMen/8RtFm+85kb8QZU+/XThSg4pAgZisIzU+Tf8xpverZKr3yDxN5mifc+C8LuCYObk5pdu+2ChltlDWG8ZflooE5WTo6N3T38E+4dzLIfQUHHzCWBwAPQ85HOlIffWQvvKu/u0HEbIaGn9ntZB4P1kVuAYbAY0yGvhO2TYd0zLIiVmQ99i4WR9ABwryHk34MD0vhGT5M4VxSuY/pTLTmcmNSfjm8ux5zD2z4=
-X-MS-TrafficTypeDiagnostic: HE1PR0601MB2539:
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2539;
-	20:SKc33Y6UDJNnErstgeIqgIwmXdF4unzZ8x05qOf1qMM0qjxilaOIS/17fMsU5V/j5YF9MC3hUUzT69bvofciq3A8ci3t+pPq8DFyVYYSSkZDLXDv1kw0dawGXRKEQpmY4dGZ7oJek+UwMgIAEbBLm3v9AcyzFUfeBAor9pg+slY=;
-	4:CXwdSV+LQIZaCmvAiUFSNSXpXB9NCjuqqqDiWFrSlin5KGuXQazmLrXKu6jM2a+NjaFzxTUGKo3QELknpGutqUcT1h2lHjQnJFb5POyU3v/IFvy2S2o23xVhoGPcI5qmt6Gr0qNlcrl+XtbnB+6TphBO1PrToCYcFQVKLQZB9NYv37NnAfoNUThOaxk3biDW9HJNRog3Gd2iqKNcVasI36/WuNz9vNFOokA/keq3SmABG290QfM7W+XGvQo/gsjo39HQ9F+tO31V8O/zXbDD9ZFkHnENr7hYQKBJua5QfvWThgW3mrkwbmD2uHxiw37Z
-X-Microsoft-Antispam-PRVS: <HE1PR0601MB253974331BA8DEDF0D58553D81E50@HE1PR0601MB2539.eurprd06.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(150554046322364);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040501)(2401047)(5005006)(8121501046)(3231101)(944501161)(3002001)(10201501046)(93006095)(93001095)(6041288)(2016111802025)(20161123558120)(20161123560045)(20161123562045)(20161123564045)(6072148)(6043046)(201708071742011);
-	SRVR:HE1PR0601MB2539; BCL:0; PCL:0; RULEID:;
-	SRVR:HE1PR0601MB2539; 
-X-Forefront-PRVS: 0567A15835
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(39850400004)(376002)(396003)(366004)(346002)(39380400002)(189003)(199004)(47776003)(107886003)(2351001)(53416004)(66066001)(53936002)(97736004)(4326008)(25786009)(2361001)(68736007)(86362001)(2906002)(106356001)(36756003)(7736002)(386003)(478600001)(6486002)(7696005)(51416003)(186003)(69596002)(50226002)(3846002)(16526019)(8936002)(105586002)(6116002)(52116002)(316002)(59450400001)(1076002)(6916009)(305945005)(50466002)(16586007)(6666003)(26005)(81156014)(81166006)(5660300001)(8676002)(48376002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:HE1PR0601MB2539;
-	H:ThinkStation.vaisala.com; FPR:; SPF:None; PTR:InfoNoRecords;
-	MX:1; A:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; HE1PR0601MB2539;
-	23:kEar2GaT/AauQiFwak8qMgdkwLomRyzlPEIfjHW?=
-	=?us-ascii?Q?+m9MAwpifzk0/3NA4Rt4OsgMGuDEJ7SZDjsa1O1MCm4YS4YoMfxHNl3j2hEm?=
-	=?us-ascii?Q?OezHtc+pCiUn+Q+fqtVvmVtGrwdCmBCS7TK7ErUMjSay13Jn9MMLTM8sA4fB?=
-	=?us-ascii?Q?gZOybFo0M7Fx4+Om9Pv2tJLLSvnq9vQvNqBMrp2qOhIDevTG0WO1zCKI9n/b?=
-	=?us-ascii?Q?jV/ejdSebDt+RvrFAK1YyvkUISTCCyyDaI2MyXy7Z0PBMsF8YKNNib8yeLtT?=
-	=?us-ascii?Q?5vjfqedKi5NKsD21IhJX2zpsHIUPKlTVBmYlZlo1qgjoEysD+/un31OXqVPt?=
-	=?us-ascii?Q?6MjfGDt4U8asU8Zy/VCVieGzIDfrtfpSGHc6PGVAbLAbTyajXv4BuhCyIZ84?=
-	=?us-ascii?Q?4yAWas2XECJZ0vFO+1V/GOiYzVcsymdBx0uqb/vS85nTSryzipxqjDiSfY8M?=
-	=?us-ascii?Q?g4f1bGoI6d10FcjvgTbQCUXc0d8mboQobac2qkaqmKbhPmb5YP2SWsdl6sOL?=
-	=?us-ascii?Q?n2QLiskd/R8ZmqHHmTmc293kEbnYCXXOZdQX53jldhF4ee8nmIHkSg4gV+Lf?=
-	=?us-ascii?Q?0POVp9jbt3rgc/GepAERCanR2OIpyhFxIWoQ+UT+XASJIBdn1mwHX+hF6FdA?=
-	=?us-ascii?Q?E4ZoKstaK8BZBuUibFOnRkw9KzpFOZus7Xv1PcgCJm+FKAUnGaYvSCd+LGsE?=
-	=?us-ascii?Q?I09OnyFip/uEGkgqnl68VESUZm7c2CaEG8/e4wgvELXOLre3XsMENMAvXuc1?=
-	=?us-ascii?Q?Rjt/L3wffOygQC72uhYEhAyK0tCODB29rhZ5IkriFntB+50R+mEWQP4VYJDF?=
-	=?us-ascii?Q?KsNI+jShsDL57uHBQydRc+LCIhz/sHlApkJyZRwpuEtarOrt0Re6x2EjNxsy?=
-	=?us-ascii?Q?OSrIQMNO9Nj4erEIRGHuwtW8iEkzK6a0trUPph9FTY6j1+eRtF7GtoDvsCH6?=
-	=?us-ascii?Q?+2vIiL0YfmuCshTRyCGsGocbR1M7KRBY0lqgeruxU8Tn+vZK+EUD+VhVW7/r?=
-	=?us-ascii?Q?fjElbc8YE1KgWtcKOWjjaOC8vo9cZ+CYt808jjX8PvwiTFzzK+xmRFz4Gume?=
-	=?us-ascii?Q?O5VnkECiyBsbAEx56oqEUP9CwO6sHWAGlY7ZltBU+UCldulovLckWrICT6r3?=
-	=?us-ascii?Q?2BRaBfnci04MFv+n5x0DFN32fwqp/51AN5yYqEVOAeWxEQiRFsuML+UNapnz?=
-	=?us-ascii?Q?hVItbXGujIos/n9I=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2539;
-	6:pDoWPOlUKaijyqszhciEz5gEBphAauUUN+twhQ+mMohvfeOcIR2bLLp5ivkvGkpgO35y5yIkQ6XNOfBW1bJ4KAeGGaPsOBAe9mAlzK8AkGG/vS72cNSTygo6rnf5PL0vegq8FA2oEG+XJaygKByOpHUaZ4puBbUiylOOtglDKIeOTzDbIxuoZ4OgavRoNIUiA+4pCOgH/pPFpKxwzkeMHz1jj1Uv+G29Y889oYechgQltHSw6X0/AQXybH+htYiuH+G2iEGmbxdkLwA+oE8tpc0GF2pNeyArD4PYyTBzB3T9SwxZMoDuM3apkPbOOQoj/uwTmNs4k9N5dbfIv7SMK53lY0Jt6jKZXv0PmPpm9C0=;
-	5:ASaDMu/x2Sjerx4Q5rJpGUrmH6ct0my77F+6djLQ/vgc7IW+bgM0BHl/ZzatWdlerfBxmw+x9hv63hnj9yKvW57Wf8LEj0Ovd0Q9/k8sRbQIqUHQIpMtx0t3t478FgR7epo337xXmODWDP0VorWYkFqOGqQOMZQf9lXGjsQA+L8=;
-	24:2viFnlAdziI+lFGuFcXmA6FC2Xwhpn97pS8Miakg9zAfnqN6t7XkCXqeUnJVYSR12L89w11x1f3/gtdSkrlrNWoFhfbe7nZWr4qwRTJa8ZI=;
-	7:sltdNNTajNzI691Kzq9mbo/W9PI1TnE9wxC0/ANRtaTBE+HFnAdNZte00b5a/y6srQ3qi+DLmJs10d6QHK7H+Gh4W8TM/jTPDH8A3WlJWwejd/aFaEYj/hKwgON0Ok6Hf3zFxZE8qif49Ng2JbQIrs+Rb6zx9G86osO70Y5Xv1zZ9k3UUq9WhyMIvgvnSLG8jf1IVn73Y7pCITrrfGSU2w32HQMIBCOB2MlFn0hPW8/Lf5dh1/mBKtXU9cm7Krfp
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2018 17:47:36.5146 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1258b70-8d96-441d-52d7-08d567406268
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0601MB2539
-Cc: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e0497b2-2c36-497c-a1e3-08d56742c2ff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2018 18:04:37.8734 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR02MB2117
+Subject: Re: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,38 +81,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 17:47:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Jan 2018 18:04:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This mitigates following issues during u-boot do_compile() step --
-otherwise, if comm is not available, they are quietly ignored:
 
-  .../scripts/check-config.sh: line 33: comm: command not found
-  .../scripts/check-config.sh: line 39: comm: command not found
 
-Since 'comm' is provided by coreutils package, adding it to HOSTTOOLS
-was considered a lower impact fix compared to adding coreutils-native
-buildtime dependency to u-boot recipe.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ni=
+ko
+> Mauno
+> Sent: Monday, January 29, 2018 9:47 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Niko Mauno <niko.mauno@vaisala.com>
+> Subject: [OE-core] [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+>=20
+> This mitigates following issues during u-boot do_compile() step -- otherw=
+ise, if
+> comm is not available, they are quietly ignored:
+>=20
+>   .../scripts/check-config.sh: line 33: comm: command not found
+>   .../scripts/check-config.sh: line 39: comm: command not found
+>=20
+> Since 'comm' is provided by coreutils package, adding it to HOSTTOOLS was
+> considered a lower impact fix compared to adding coreutils-native buildti=
+me
+> dependency to u-boot recipe.
+>=20
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 93afb13166..e1d2f3c3e2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -473,7 +473,7 @@ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
- 
- # Tools needed to run builds with OE-Core
- HOSTTOOLS += " \
--    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp cp cpio \
-+    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-     cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-     head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
--- 
-2.11.0
-
+> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf index
+> 93afb13166..e1d2f3c3e2 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -473,7 +473,7 @@ HOSTTOOLS_DIR =3D "${TMPDIR}/hosttools"
+>=20
+>  # Tools needed to run builds with OE-Core  HOSTTOOLS +=3D " \
+> -    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp cp=
+ cpio \
+> +    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp
+> + comm cp cpio \
+>      cpp cut date dd diff diffstat dirname du echo egrep env expand expr =
+false \
+>      fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gz=
+ip \
+>      head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mkn=
+od \
+> --
+> 2.11.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
