@@ -1,45 +1,49 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DE0571D79
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D0BC7783C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 20:02:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1517256141; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=CXcsT5Pf29I4ARrnU3R89Q7O5xIiipvju9LNZ2nSTX4=;
-	b=cHp0eDdgbLGnlbxObutkC3L/4I/aaUNoS8y0KnrWwN4EgrIYJHVlPbJ++TbJc7+jrdUTl7yL
-	ULCgpsrk3eUW/osaMntZCdIynRDumgpgvz2AkIWXH4ryGBAUDRD1BIXPefn+Wmz26idD5gH3
-	pJq8xt4dUsbvFq88zzXfTmeKHII=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mxa.mailgun.org with ESMTP id 5a6f7dcd.7f81a460fdb0-smtp-out-n02;
-	Mon, 29 Jan 2018 20:02:21 -0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id l29so7169877qkj.8
+	Mon, 29 Jan 2018 20:04:52 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id a88so6368836pfe.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 12:02:20 -0800 (PST)
-X-Gm-Message-State: AKwxytdDBxRiD4Z+5RDW+gmYcQjszOeQV2UgEtP9a0bZ6waQIrCD2TFS
-	nFcy+vB2SPjn8qj5HiEI5dMJuah1pI0vmcwbYhA=
-X-Google-Smtp-Source: AH8x227ZiFe91jTIPRNNO2/RBHK0qW962mHocBPeCfm1x+ALS9XW2oUlCFzS3Aunqix5WFK+3DvlUy+UhpqdEMkrR3I=
-X-Received: by 10.55.79.68 with SMTP id d65mr38217014qkb.153.1517256140728;
-	Mon, 29 Jan 2018 12:02:20 -0800 (PST)
+	Mon, 29 Jan 2018 12:04:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xumyIA2EK1xBZwwqwNW5ARErIchKHOSQbITsPAW13Lc=;
+	b=uhCVHviIIF6HZa0AyQI+zL3qOj+5UbWSXeJxQWzNGLAgME+BN1r1d/QKI3LK0QYShf
+	FAbjBJ19OMznR0/M/HRvdyj97ItlXgnhzB4Df7mV4iam7BK1QFlKjiA4w7PtyfF+p2r2
+	Y4PeVHWrzRflAJJPNR62hlqKfks7Y/HtouNxFGlflix3BegIcJnpu1qUaLupFUCeUrjA
+	2rDPnBvjuRix8YzzZBGw2I7okWVXDfCr1aObc3m1cZVXJX3ODkj8CSBHsKwxdMa7E8BZ
+	4+ukNHNLBEta79ipY5x3D27sTHNPaIfIk8ntBdmByuVQsJxOfE7xoriJ4TP22kzsYXpc
+	Epig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xumyIA2EK1xBZwwqwNW5ARErIchKHOSQbITsPAW13Lc=;
+	b=PemwAQLle2gI6x9L467XOmYfQrOJZ9lrJNug+M+MMnxmdSAeaNsTcsjNNZAZUuOD24
+	mIWExgxSlpsvaF0qaZGGOkEYNZhGyXAm1Ew7gm5VzvKelY0EBnCV90LnFqMGZFatyhFP
+	9sVVP3vj5Kz5KJhSJYRGm7PUp01XybyJLzWF5RmNJA4G9EDDSIzuPS0gPgbDCk1RH5Of
+	BT/WRZSQBj5djV0FgOIXcbSVQrZbH6I26sKi3WJZkNuW2lqZRm8SP0WqpnN/kAmu2DQi
+	Uq0SCrGZgbYUCMgHEKBB2dchNysoIJ4C2LpB04iXV+8NYPpqFXYgnWvm7dM67LiousQR
+	zUkg==
+X-Gm-Message-State: AKwxytejnZzvXVLlI8iZYrC1I4woEYbBTvj6MIjIejJeK9LdyGxV2tRb
+	yGFkcshT1vmYmIsNSZz6q/XtY6yx/nTujDV/pH8=
+X-Google-Smtp-Source: AH8x2271HfNLOXUYpdY1CbIHcwmshNd4yPUAQ0pQsmjGmAUMtP7bm7YTqTdZ98s63pHkstz6a3mINJpc6kjXBCjwXMM=
+X-Received: by 2002:a17:902:27e6:: with SMTP id
+	i35-v6mr20483099plg.441.1517256293645; 
+	Mon, 29 Jan 2018 12:04:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.40.71 with HTTP; Mon, 29 Jan 2018 12:02:20 -0800 (PST)
-In-Reply-To: <CADNbA1pYtBP_HN--U3zNsVADeR-RW3+1cXhm+WGobRB6TuYv2g@mail.gmail.com>
-References: <1516994731-20440-1-git-send-email-derek@asterius.io>
-	<339ae59d-fd5e-47e1-9b4a-3fd9e5195877@xilinx.com>
-	<CADNbA1pYtBP_HN--U3zNsVADeR-RW3+1cXhm+WGobRB6TuYv2g@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Mon, 29 Jan 2018 15:02:20 -0500
-X-Gmail-Original-Message-ID: <CADNbA1rJZ0eZMcTBUdikdq854DP9GrmXZKum7p8YZZ8dk2sK8g@mail.gmail.com>
-Message-ID: <CADNbA1rJZ0eZMcTBUdikdq854DP9GrmXZKum7p8YZZ8dk2sK8g@mail.gmail.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: Upgrade both python and python-native to 2.7.14
+Received: by 10.100.161.170 with HTTP; Mon, 29 Jan 2018 12:04:23 -0800 (PST)
+In-Reply-To: <1517235557-11980-1-git-send-email-anders.roxell@linaro.org>
+References: <1517235557-11980-1-git-send-email-anders.roxell@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Jan 2018 12:04:23 -0800
+Message-ID: <CAMKF1spP_ztBTVwXOeOqZUK7TWOCHQt_wuJ9baXxHm2HhnB0mA@mail.gmail.com>
+To: Anders Roxell <anders.roxell@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: bump to release 20180118
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,662 +56,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 20:02:20 -0000
-Content-Type: multipart/alternative; boundary="001a114a97f44d2f680563efb9ed"
-
---001a114a97f44d2f680563efb9ed
+X-List-Received-Date: Mon, 29 Jan 2018 20:04:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-It looks like the .so files (specifically gdbm and bsddb) are getting
-dropped from the manifest when I run the create manifest task.  I'll have
-to take a look at why those aren't getting pulled into the dependency list.
-
-On Mon, Jan 29, 2018 at 2:49 PM, Derek Straka <derek@asterius.io> wrote:
-
-> Oh no, I did not.  I will send a v2 with an updated manifest.  Thanks for
-> catching that.
+On Mon, Jan 29, 2018 at 6:19 AM, Anders Roxell <anders.roxell@linaro.org> wrote:
+> Removed 3 patches that have been upstreamed:
+> - 0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
+> - 0037-ltp-fix-format-security-error.patch
+> - 0038-generate-reproducible-gzip.patch
 >
-> -Derek
->
-> On Mon, Jan 29, 2018 at 2:23 PM, Alejandro Enedino Hernandez Samaniego <
-> alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
->
->> Hey Derek,
->>
->>
->> Just a quick question, did you run the create manifest task along with
->> the upgrade?
->>
->>
->> Cheers,
->>
->>
->> Alejandro
->>
->>
->>
->> On 01/26/2018 11:25 AM, Derek Straka wrote:
->>
->>> Rebased:
->>>    - python/01-use-proper-tools-for-cross-build.patch
->>>    - python/fix-makefile-for-ptest.patch
->>>    - python/parallel-makeinst-create-bindir.patch
->>>
->>> Removed Upstreamed Patch:
->>>    - python/Don-t-use-getentropy-on-Linux.patch
->>>
->>> Updated license checksum for changes in the copyright date.  The license
->>> terms remain unchanged
->>>
->>> Added an extra do_compile item to create the native pgen that no longer
->>> gets compiled by default
->>>
->>> Signed-off-by: Derek Straka <derek@asterius.io>
->>> ---
->>>   ...on-native_2.7.13.bb => python-native_2.7.14.bb} |  6 ++++
->>>   meta/recipes-devtools/python/python.inc            |  6 ++--
->>>   .../01-use-proper-tools-for-cross-build.patch      | 17 +++++----
->>>   .../python/Don-t-use-getentropy-on-Linux.patch     | 41
->>> ----------------------
->>>   .../python/python/fix-makefile-for-ptest.patch     |  6 ++--
->>>   .../python/parallel-makeinst-create-bindir.patch   | 12 +++----
->>>   .../python/{python_2.7.13.bb => python_2.7.14.bb}  |  1 -
->>>   7 files changed, 28 insertions(+), 61 deletions(-)
->>>   rename meta/recipes-devtools/python/{python-native_2.7.13.bb =>
->>> python-native_2.7.14.bb} (94%)
->>>   delete mode 100644 meta/recipes-devtools/python/p
->>> ython/Don-t-use-getentropy-on-Linux.patch
->>>   rename meta/recipes-devtools/python/{python_2.7.13.bb =>
->>> python_2.7.14.bb} (99%)
->>>
->>> diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb
->>> b/meta/recipes-devtools/python/python-native_2.7.14.bb
->>> similarity index 94%
->>> rename from meta/recipes-devtools/python/python-native_2.7.13.bb
->>> rename to meta/recipes-devtools/python/python-native_2.7.14.bb
->>> index 2b74003..622cb38 100644
->>> --- a/meta/recipes-devtools/python/python-native_2.7.13.bb
->>> +++ b/meta/recipes-devtools/python/python-native_2.7.14.bb
->>> @@ -36,6 +36,12 @@ do_configure_append() {
->>>         autoreconf --verbose --install --force --exclude=autopoint
->>> ../Python-${PV}/Modules/_ctypes/libffi
->>>   }
->>>   +# Regenerate all of the generated files
->>> +# This ensures that pgen and friends get created during the compile
->>> phase
->>> +do_compile_prepend() {
->>> +    oe_runmake regen-all
->>> +}
->>> +
->>>   do_install() {
->>>         oe_runmake 'DESTDIR=${D}' install
->>>         install -d ${D}${bindir}/${PN}
->>> diff --git a/meta/recipes-devtools/python/python.inc
->>> b/meta/recipes-devtools/python/python.inc
->>> index b40f551..979b601 100644
->>> --- a/meta/recipes-devtools/python/python.inc
->>> +++ b/meta/recipes-devtools/python/python.inc
->>> @@ -5,12 +5,12 @@ SECTION = "devel/python"
->>>   # bump this on every change in contrib/python/generate-manifest-2.7.py
->>>   INC_PR = "r1"
->>>   -LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130
->>> e4ed10d3101517eb5b9385"
->>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de9
->>> 1d4eeea5930b9c3c7fa69d"
->>>     SRC_URI = "http://www.python.org/ftp/pyt
->>> hon/${PV}/Python-${PV}.tar.xz"
->>>   -SRC_URI[md5sum] = "53b43534153bb2a0363f08bae8b9d990"
->>> -SRC_URI[sha256sum] = "35d543986882f78261f97787fd3e0
->>> 6274bfa6df29fac9b4a94f73930ff98f731"
->>> +SRC_URI[md5sum] = "1f6db41ad91d9eb0a6f0c769b8613c5b"
->>> +SRC_URI[sha256sum] = "71ffb26e09e78650e424929b2b457
->>> b9c912ac216576e6bd9e7d204ed03296a66"
->>>     # python recipe is actually python 2.x
->>>   # also, exclude pre-releases for both python 2.x and 3.x
->>> diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
->>> b/meta/recipes-devtools/python/python/01-use-proper-tools-fo
->>> r-cross-build.patch
->>> index 366ce3e..e795a74 100644
->>> --- a/meta/recipes-devtools/python/python/01-use-proper-tools-fo
->>> r-cross-build.patch
->>> +++ b/meta/recipes-devtools/python/python/01-use-proper-tools-fo
->>> r-cross-build.patch
->>> @@ -9,6 +9,9 @@ Signed-off-by: Paul Eggleton <
->>> paul.eggleton@linux.intel.com>
->>>   Rebased for python-2.7.9
->>>   Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.int
->>> el.com>
->>>   +Rebased for python-2.7.14
->>> +Signed-off-by: Derek Straka <derek@asterius.io>
->>> +
->>>   Index: Python-2.7.13/Makefile.pre.in
->>>   ===================================================================
->>>   --- Python-2.7.13.orig/Makefile.pre.in
->>> @@ -30,14 +33,14 @@ Index: Python-2.7.13/Makefile.pre.in
->>>       # Create build directory and generate the sysconfig build-time
->>> data there.
->>>    # pybuilddir.txt contains the name of the build dir and is used for
->>> -@@ -681,7 +682,7 @@ Modules/pwdmodule.o: $(srcdir)/Modules/p
->>> -
->>> - $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)
->>> +@@ -663,7 +663,7 @@
->>> +       # Regenerate Include/graminit.h and Python/graminit.c
->>> +       # from Grammar/Grammar using pgen
->>>         @$(MKDIR_P) Include
->>> --      $(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
->>> -+      $(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
->>> - $(GRAMMAR_C): @GENERATED_COMMENT@ $(GRAMMAR_H)
->>> -       touch $(GRAMMAR_C)
->>> +-      $(PGEN) $(srcdir)/Grammar/Grammar \
->>> ++      $(HOSTPGEN) $(srcdir)/Grammar/Grammar \
->>> +               $(srcdir)/Include/graminit.h \
->>> +               $(srcdir)/Python/graminit.c
->>>      @@ -1121,27 +1122,27 @@ libinstall:        build_all
->>> $(srcdir)/Lib/$(PL
->>>                         $(DESTDIR)$(LIBDEST)/distutils/tests ; \
->>> diff --git a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
->>> b/meta/recipes-devtools/python/python/Don-t-use-getentropy-o
->>> n-Linux.patch
->>> deleted file mode 100644
->>> index 38e5377..0000000
->>> --- a/meta/recipes-devtools/python/python/Don-t-use-getentropy-o
->>> n-Linux.patch
->>> +++ /dev/null
->>> @@ -1,41 +0,0 @@
->>> -Upstream-Status: Backport
->>> -
->>> -Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->>> -
->>> -From 905d1b30ac7cb0e31c57cec0533825c8f170b942 Mon Sep 17 00:00:00 2001
->>> -From: Victor Stinner <victor.stinner@gmail.com>
->>> -Date: Mon, 9 Jan 2017 11:10:41 +0100
->>> -Subject: [PATCH] Don't use getentropy() on Linux
->>> -
->>> -Issue #29188: Support glibc 2.24 on Linux: don't use getentropy()
->>> function but
->>> -read from /dev/urandom to get random bytes, for example in
->>> os.urandom().  On
->>> -Linux, getentropy() is implemented which getrandom() is blocking mode,
->>> whereas
->>> -os.urandom() should not block.
->>> -
->>> -(cherry picked from commit 2687486756721e39164fa9f597e468c35d495227)
->>> ----
->>> - Python/random.c | 11 +++++++++--
->>> - 1 file changed, 9 insertions(+), 2 deletions(-)
->>> -
->>> -diff --git a/Python/random.c b/Python/random.c
->>> -index b4bc1f3..f3f5d14 100644
->>> ---- a/Python/random.c
->>> -+++ b/Python/random.c
->>> -@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t
->>> size, int raise)
->>> - }
->>> -
->>> - /* Issue #25003: Don't use getentropy() on Solaris (available since
->>> -- * Solaris 11.3), it is blocking whereas os.urandom() should not
->>> block. */
->>> --#elif defined(HAVE_GETENTROPY) && !defined(sun)
->>> -+   Solaris 11.3), it is blocking whereas os.urandom() should not block.
->>> -+
->>> -+   Issue #29188: Don't use getentropy() on Linux since the glibc 2.24
->>> -+   implements it with the getrandom() syscall which can fail with
->>> ENOSYS,
->>> -+   and this error is not supported in py_getentropy() and getrandom()
->>> is called
->>> -+   with flags=0 which blocks until system urandom is initialized,
->>> which is not
->>> -+   the desired behaviour to seed the Python hash secret nor for
->>> os.urandom():
->>> -+   see the PEP 524 which was only implemented in Python 3.6. */
->>> -+#elif defined(HAVE_GETENTROPY) && !defined(sun) && !defined(linux)
->>> - #define PY_GETENTROPY 1
->>> -
->>> - /* Fill buffer with size pseudo-random bytes generated by getentropy().
->>> diff --git a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
->>> b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
->>> index 669112d..90dcd57 100644
->>> --- a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
->>> +++ b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
->>> @@ -15,7 +15,7 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
->>>   +TESTOPTS=    -l -v $(EXTRATESTOPTS)
->>>    TESTPROG=    $(srcdir)/Lib/test/regrtest.py
->>>   -TESTPYTHON=  $(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt
->>> $(TESTPYTHONOPTS)
->>> --test:         all platform
->>> +-test:         @DEF_MAKE_RULE@ platform
->>>   -             -find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
->>>   +TESTPYTHON=  $(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt
->>> $(TESTPYTHONOPTS)
->>>   +test:                build-test
->>> @@ -26,8 +26,8 @@ diff -ruN a/Makefile.pre.in b/Makefile.pre.in
->>>                 -$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
->>>                 $(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
->>>    -+build-test:        all platform
->>> ++build-test:   @DEF_MAKE_RULE@ platform
->>>   +
->>> - testall:      all platform
->>> + testall:      @DEF_MAKE_RULE@ platform
->>>                 -find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
->>>                 $(TESTPYTHON) $(srcdir)/Lib/compileall.py
->>> diff --git a/meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
->>> b/meta/recipes-devtools/python/python/parallel-makeinst-crea
->>> te-bindir.patch
->>> index 951cb46..abab41e 100644
->>> --- a/meta/recipes-devtools/python/python/parallel-makeinst-crea
->>> te-bindir.patch
->>> +++ b/meta/recipes-devtools/python/python/parallel-makeinst-crea
->>> te-bindir.patch
->>> @@ -8,12 +8,12 @@ Upstream-Status: Pending
->>>     --- Python-2.7.3.orig/Makefile.pre.in
->>>   +++ Python-2.7.3/Makefile.pre.in
->>> -@@ -1008,7 +1008,7 @@ LIBPL=           $(LIBP)/config
->>> +@@ -1187,7 +1187,7 @@
->>>    LIBPC=               $(LIBDIR)/pkgconfig
->>> -
->>> - libainstall:  all python-config
->>> +
->>> + libainstall:  @DEF_MAKE_RULE@ python-config
->>>   -     @for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC); \
->>>   +     @for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC) $(BINDIR); \
->>> -       do \
->>> -               if test ! -d $(DESTDIR)$$i; then \
->>> -                       echo "Creating directory $$i"; \
->>> +       do \
->>> +               if test ! -d $(DESTDIR)$$i; then \
->>> +                       echo "Creating directory $$i"; \
->>> diff --git a/meta/recipes-devtools/python/python_2.7.13.bb
->>> b/meta/recipes-devtools/python/python_2.7.14.bb
->>> similarity index 99%
->>> rename from meta/recipes-devtools/python/python_2.7.13.bb
->>> rename to meta/recipes-devtools/python/python_2.7.14.bb
->>> index dbafb95..13455ff 100644
->>> --- a/meta/recipes-devtools/python/python_2.7.13.bb
->>> +++ b/meta/recipes-devtools/python/python_2.7.14.bb
->>> @@ -28,7 +28,6 @@ SRC_URI += "\
->>>     file://parallel-makeinst-create-bindir.patch \
->>>     file://use_sysroot_ncurses_instead_of_host.patch \
->>>     file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
->>> -  file://Don-t-use-getentropy-on-Linux.patch \
->>>     file://pass-missing-libraries-to-Extension-for-mul.patch \
->>>     file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
->>>   "
->>>
->>
+> Reworked path 0002-Add-knob-to-control-whether-numa-support-should-be-c.patch.
 >
 
---001a114a97f44d2f680563efb9ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I would be interested to know if you tried it on a musl target.
 
-<div dir=3D"ltr">It looks like the .so files (specifically gdbm and bsddb) =
-are getting dropped from the manifest when I run the create manifest task.=
-=C2=A0 I&#39;ll have to take a look at why those aren&#39;t getting pulled =
-into the dependency list.</div><div class=3D"gmail_extra"><br><div class=3D=
-"gmail_quote">On Mon, Jan 29, 2018 at 2:49 PM, Derek Straka <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asteriu=
-s.io</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
-r">Oh no, I did not.=C2=A0 I will send a v2 with an updated manifest.=C2=A0=
- Thanks for catching that.<span class=3D"HOEnZb"><font color=3D"#888888"><d=
-iv><br></div><div>-Derek</div></font></span></div><div class=3D"HOEnZb"><di=
-v class=3D"h5"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
- Mon, Jan 29, 2018 at 2:23 PM, Alejandro Enedino Hernandez Samaniego <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.enedino.hernandez-samaniego@xil=
-inx.com" target=3D"_blank">alejandro.enedino.hernandez-<wbr>samaniego@xilin=
-x.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hey Derek,<br=
+> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> ---
+>  ...-control-whether-numa-support-should-be-c.patch | 39 +++++++++++-----------
+>  ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch | 35 -------------------
+>  .../ltp/0037-ltp-fix-format-security-error.patch   | 36 --------------------
+>  .../ltp/ltp/0038-generate-reproducible-gzip.patch  | 20 -----------
+>  .../ltp/{ltp_20170929.bb => ltp_20180118.bb}       |  5 +--
+>  5 files changed, 21 insertions(+), 114 deletions(-)
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
+>  rename meta/recipes-extended/ltp/{ltp_20170929.bb => ltp_20180118.bb} (95%)
 >
-<br>
-<br>
-Just a quick question, did you run the create manifest task along with the =
-upgrade?<br>
-<br>
-<br>
-Cheers,<br>
-<br>
-<br>
-Alejandro<div class=3D"m_-808748226281533204HOEnZb"><div class=3D"m_-808748=
-226281533204h5"><br>
-<br>
-<br>
-On 01/26/2018 11:25 AM, Derek Straka wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Rebased:<br>
-=C2=A0 =C2=A0- python/01-use-proper-tools-for<wbr>-cross-build.patch<br>
-=C2=A0 =C2=A0- python/fix-makefile-for-ptest.<wbr>patch<br>
-=C2=A0 =C2=A0- python/parallel-makeinst-creat<wbr>e-bindir.patch<br>
-<br>
-Removed Upstreamed Patch:<br>
-=C2=A0 =C2=A0- python/Don-t-use-getentropy-on<wbr>-Linux.patch<br>
-<br>
-Updated license checksum for changes in the copyright date.=C2=A0 The licen=
-se<br>
-terms remain unchanged<br>
-<br>
-Added an extra do_compile item to create the native pgen that no longer<br>
-gets compiled by default<br>
-<br>
-Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" target=
-=3D"_blank">derek@asterius.io</a>&gt;<br>
----<br>
-=C2=A0 ...<a href=3D"http://on-native_2.7.13.bb" rel=3D"noreferrer" target=
-=3D"_blank">on-native_2.7.13.bb</a> =3D&gt; <a href=3D"http://python-native=
-_2.7.14.bb" rel=3D"noreferrer" target=3D"_blank">python-native_2.7.14.bb</a=
->} |=C2=A0 6 ++++<br>
-=C2=A0 meta/recipes-devtools/python/p<wbr>ython.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 6 ++--<br>
-=C2=A0 .../01-use-proper-tools-for-cr<wbr>oss-build.patch=C2=A0 =C2=A0 =C2=
-=A0 | 17 +++++----<br>
-=C2=A0 .../python/Don-t-use-getentrop<wbr>y-on-Linux.patch=C2=A0 =C2=A0 =C2=
-=A0| 41 ----------------------<br>
-=C2=A0 .../python/python/fix-makefile<wbr>-for-ptest.patch=C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 6 ++--<br>
-=C2=A0 .../python/parallel-makeinst-c<wbr>reate-bindir.patch=C2=A0 =C2=A0| =
-12 +++----<br>
-=C2=A0 .../python/{<a href=3D"http://python_2.7.13.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">python_2.7.13.bb</a> =3D&gt; <a href=3D"http://python_2.7.=
-14.bb" rel=3D"noreferrer" target=3D"_blank">python_2.7.14.bb</a>}=C2=A0 |=
-=C2=A0 1 -<br>
-=C2=A0 7 files changed, 28 insertions(+), 61 deletions(-)<br>
-=C2=A0 rename meta/recipes-devtools/python/{<a href=3D"http://python-native=
-_2.7.13.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python-native_2.7.13.=
-bb</a> =3D&gt; <a href=3D"http://python-native_2.7.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">python-native_2.7.14.bb</a>} (94%)<br>
-=C2=A0 delete mode 100644 meta/recipes-devtools/python/p<wbr>ython/Don-t-us=
-e-getentropy-on-<wbr>Linux.patch<br>
-=C2=A0 rename meta/recipes-devtools/python/{<a href=3D"http://python_2.7.13=
-.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python_2.7.13.bb</a> =3D&gt;=
- <a href=3D"http://python_2.7.14.bb" rel=3D"noreferrer" target=3D"_blank">p=
-ython_2.7.14.bb</a>} (99%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python-nat=
-ive_2.7.13.bb" rel=3D"noreferrer" target=3D"_blank">python-native_2.7.13.bb=
-</a> b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python-native_2.=
-7.14.bb" rel=3D"noreferrer" target=3D"_blank">python-native_2.7.14.bb</a><b=
-r>
-similarity index 94%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python-native_2.=
-7.13.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-native_2.7.13.bb<=
-/a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python-native_2.7.=
-14.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-native_2.7.14.bb</a=
-><br>
-index 2b74003..622cb38 100644<br>
---- a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python-native_2.7=
-.13.bb" rel=3D"noreferrer" target=3D"_blank">python-native_2.7.13.bb</a><br=
+> diff --git a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
+> index 9865020..31460b9 100644
+> --- a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
+> +++ b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
+> @@ -9,34 +9,35 @@ during build depending upong numa being staged or not
 >
-+++ b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python-native_2.7=
-.14.bb" rel=3D"noreferrer" target=3D"_blank">python-native_2.7.14.bb</a><br=
+>  Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+>  Upstream-Status: Pending
+>  ---
+>   m4/ltp-numa.m4 | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
 >
-@@ -36,6 +36,12 @@ do_configure_append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 autoreconf --verbose --install --force --exclud=
-e=3Dautopoint ../Python-${PV}/Modules/_ctype<wbr>s/libffi<br>
-=C2=A0 }<br>
-=C2=A0 +# Regenerate all of the generated files<br>
-+# This ensures that pgen and friends get created during the compile phase<=
-br>
-+do_compile_prepend() {<br>
-+=C2=A0 =C2=A0 oe_runmake regen-all<br>
-+}<br>
-+<br>
-=C2=A0 do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake &#39;DESTDIR=3D${D}&#39; install<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${bindir}/${PN}<br>
-diff --git a/meta/recipes-devtools/python<wbr>/python.inc b/meta/recipes-de=
-vtools/python<wbr>/python.inc<br>
-index b40f551..979b601 100644<br>
---- a/meta/recipes-devtools/python<wbr>/python.inc<br>
-+++ b/meta/recipes-devtools/python<wbr>/python.inc<br>
-@@ -5,12 +5,12 @@ SECTION =3D &quot;devel/python&quot;<br>
-=C2=A0 # bump this on every change in contrib/python/<a href=3D"http://gene=
-rate-manifest-2.7.py" rel=3D"noreferrer" target=3D"_blank">generate-manife<=
-wbr>st-2.7.py</a><br>
-=C2=A0 INC_PR =3D &quot;r1&quot;<br>
-=C2=A0 -LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D6b60258130<wbr>e4ed=
-10d3101517eb5b9385&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Df741e51de9<wbr>1d4eeea5930=
-b9c3c7fa69d&quot;<br>
-=C2=A0 =C2=A0 SRC_URI =3D &quot;<a href=3D"http://www.python.org/ftp/python=
-/$%7BPV%7D/Python-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://www.python.org/ftp/pyt<wbr>hon/${PV}/Python-${PV}.tar.xz</a>&quot;<br>
-=C2=A0 -SRC_URI[md5sum] =3D &quot;53b43534153bb2a0363f08bae8b9d<wbr>990&quo=
-t;<br>
--SRC_URI[sha256sum] =3D &quot;35d543986882f78261f97787fd3e0<wbr>6274bfa6df2=
-9fac9b4a94f73930ff9<wbr>8f731&quot;<br>
-+SRC_URI[md5sum] =3D &quot;1f6db41ad91d9eb0a6f0c769b8613<wbr>c5b&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;71ffb26e09e78650e424929b2b457<wbr>b9c912ac216=
-576e6bd9e7d204ed032<wbr>96a66&quot;<br>
-=C2=A0 =C2=A0 # python recipe is actually python 2.x<br>
-=C2=A0 # also, exclude pre-releases for both python 2.x and 3.x<br>
-diff --git a/meta/recipes-devtools/python<wbr>/python/01-use-proper-tools-f=
-o<wbr>r-cross-build.patch b/meta/recipes-devtools/python<wbr>/python/01-use=
--proper-tools-fo<wbr>r-cross-build.patch<br>
-index 366ce3e..e795a74 100644<br>
---- a/meta/recipes-devtools/python<wbr>/python/01-use-proper-tools-fo<wbr>r=
--cross-build.patch<br>
-+++ b/meta/recipes-devtools/python<wbr>/python/01-use-proper-tools-fo<wbr>r=
--cross-build.patch<br>
-@@ -9,6 +9,9 @@ Signed-off-by: Paul Eggleton &lt;<a href=3D"mailto:paul.egg=
-leton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com</a><=
-wbr>&gt;<br>
-=C2=A0 Rebased for python-2.7.9<br>
-=C2=A0 Signed-off-by: Alejandro Hernandez &lt;<a href=3D"mailto:alejandro.h=
-ernandez@linux.intel.com" target=3D"_blank">alejandro.hernandez@linux.int<w=
-br>el.com</a>&gt;<br>
-=C2=A0 +Rebased for python-2.7.14<br>
-+Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" targe=
-t=3D"_blank">derek@asterius.io</a>&gt;<br>
-+<br>
-=C2=A0 Index: Python-2.7.13/<a href=3D"http://Makefile.pre.in" rel=3D"noref=
-errer" target=3D"_blank">Makefile.pre.in</a><br>
-=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D<br>
-=C2=A0 --- Python-2.7.13.orig/<a href=3D"http://Makefile.pre.in" rel=3D"nor=
-eferrer" target=3D"_blank">Makefile.pr<wbr>e.in</a><br>
-@@ -30,14 +33,14 @@ Index: Python-2.7.13/<a href=3D"http://Makefile.pre.in"=
- rel=3D"noreferrer" target=3D"_blank">Makefile.pre.in</a><br>
-=C2=A0 =C2=A0 =C2=A0 # Create build directory and generate the sysconfig bu=
-ild-time data there.<br>
-=C2=A0 =C2=A0# pybuilddir.txt contains the name of the build dir and is use=
-d for<br>
--@@ -681,7 +682,7 @@ Modules/pwdmodule.o: $(srcdir)/Modules/p<br>
--<br>
-- $(GRAMMAR_H): @GENERATED_COMMENT@ $(GRAMMAR_INPUT) $(PGEN)<br>
-+@@ -663,7 +663,7 @@<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Regenerate Include/graminit.h and Python/gram=
-init.c<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# from Grammar/Grammar using pgen<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 @$(MKDIR_P) Include<br>
---=C2=A0 =C2=A0 =C2=A0 $(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)<b=
-r>
--+=C2=A0 =C2=A0 =C2=A0 $(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_=
-C)<br>
-- $(GRAMMAR_C): @GENERATED_COMMENT@ $(GRAMMAR_H)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0touch $(GRAMMAR_C)<br>
-+-=C2=A0 =C2=A0 =C2=A0 $(PGEN) $(srcdir)/Grammar/Grammar \<br>
-++=C2=A0 =C2=A0 =C2=A0 $(HOSTPGEN) $(srcdir)/Grammar/Grammar \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(srcdir)/Include/g=
-raminit.h \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(srcdir)/Python/gr=
-aminit.c<br>
-=C2=A0 =C2=A0 =C2=A0@@ -1121,27 +1122,27 @@ libinstall:=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 build_all $(srcdir)/Lib/$(PL<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $(DESTDIR)$(LIBDEST)/distutils<wbr>/tests ; \<br>
-diff --git a/meta/recipes-devtools/python<wbr>/python/Don-t-use-getentropy-=
-o<wbr>n-Linux.patch b/meta/recipes-devtools/python<wbr>/python/Don-t-use-ge=
-tentropy-o<wbr>n-Linux.patch<br>
-deleted file mode 100644<br>
-index 38e5377..0000000<br>
---- a/meta/recipes-devtools/python<wbr>/python/Don-t-use-getentropy-o<wbr>n=
--Linux.patch<br>
-+++ /dev/null<br>
-@@ -1,41 +0,0 @@<br>
--Upstream-Status: Backport<br>
--<br>
--Signed-off-by: Andreas Oberritter &lt;<a href=3D"mailto:obi@opendreambox.o=
-rg" target=3D"_blank">obi@opendreambox.org</a>&gt;<br>
--<br>
--From 905d1b30ac7cb0e31c57cec0533825<wbr>c8f170b942 Mon Sep 17 00:00:00 200=
-1<br>
--From: Victor Stinner &lt;<a href=3D"mailto:victor.stinner@gmail.com" targe=
-t=3D"_blank">victor.stinner@gmail.com</a>&gt;<br>
--Date: Mon, 9 Jan 2017 11:10:41 +0100<br>
--Subject: [PATCH] Don&#39;t use getentropy() on Linux<br>
--<br>
--Issue #29188: Support glibc 2.24 on Linux: don&#39;t use getentropy() func=
-tion but<br>
--read from /dev/urandom to get random bytes, for example in os.urandom().=
-=C2=A0 On<br>
--Linux, getentropy() is implemented which getrandom() is blocking mode, whe=
-reas<br>
--os.urandom() should not block.<br>
--<br>
--(cherry picked from commit 2687486756721e39164fa9f597e468<wbr>c35d495227)<=
-br>
-----<br>
-- Python/random.c | 11 +++++++++--<br>
-- 1 file changed, 9 insertions(+), 2 deletions(-)<br>
--<br>
--diff --git a/Python/random.c b/Python/random.c<br>
--index b4bc1f3..f3f5d14 100644<br>
----- a/Python/random.c<br>
--+++ b/Python/random.c<br>
--@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, i=
-nt raise)<br>
-- }<br>
--<br>
-- /* Issue #25003: Don&#39;t use getentropy() on Solaris (available since<b=
-r>
--- * Solaris 11.3), it is blocking whereas os.urandom() should not block. *=
-/<br>
---#elif defined(HAVE_GETENTROPY) &amp;&amp; !defined(sun)<br>
--+=C2=A0 =C2=A0Solaris 11.3), it is blocking whereas os.urandom() should no=
-t block.<br>
--+<br>
--+=C2=A0 =C2=A0Issue #29188: Don&#39;t use getentropy() on Linux since the =
-glibc 2.24<br>
--+=C2=A0 =C2=A0implements it with the getrandom() syscall which can fail wi=
-th ENOSYS,<br>
--+=C2=A0 =C2=A0and this error is not supported in py_getentropy() and getra=
-ndom() is called<br>
--+=C2=A0 =C2=A0with flags=3D0 which blocks until system urandom is initiali=
-zed, which is not<br>
--+=C2=A0 =C2=A0the desired behaviour to seed the Python hash secret nor for=
- os.urandom():<br>
--+=C2=A0 =C2=A0see the PEP 524 which was only implemented in Python 3.6. */=
-<br>
--+#elif defined(HAVE_GETENTROPY) &amp;&amp; !defined(sun) &amp;&amp; !defin=
-ed(linux)<br>
-- #define PY_GETENTROPY 1<br>
--<br>
-- /* Fill buffer with size pseudo-random bytes generated by getentropy().<b=
-r>
-diff --git a/meta/recipes-devtools/python<wbr>/python/fix-makefile-for-ptes=
-t<wbr>.patch b/meta/recipes-devtools/python<wbr>/python/fix-makefile-for-pt=
-est<wbr>.patch<br>
-index 669112d..90dcd57 100644<br>
---- a/meta/recipes-devtools/python<wbr>/python/fix-makefile-for-ptest<wbr>.=
-patch<br>
-+++ b/meta/recipes-devtools/python<wbr>/python/fix-makefile-for-ptest<wbr>.=
-patch<br>
-@@ -15,7 +15,7 @@ diff -ruN a/<a href=3D"http://Makefile.pre.in" rel=3D"nor=
-eferrer" target=3D"_blank">Makefile.pre.in</a> b/<a href=3D"http://Makefile=
-.pre.in" rel=3D"noreferrer" target=3D"_blank">Makefile.pre.in</a><br>
-=C2=A0 +TESTOPTS=3D=C2=A0 =C2=A0 -l -v $(EXTRATESTOPTS)<br>
-=C2=A0 =C2=A0TESTPROG=3D=C2=A0 =C2=A0 $(srcdir)/Lib/test/regrtest.py<br>
-=C2=A0 -TESTPYTHON=3D=C2=A0 $(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt $(T=
-ESTPYTHONOPTS)<br>
---test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0all platform<br>
-+-test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@DEF_MAKE_RULE@ platform<br>
-=C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-find $(srcdir)/Lib=
- -name &#39;*.py[co]&#39; -print | xargs rm -f<br>
-=C2=A0 +TESTPYTHON=3D=C2=A0 $(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt $(TES=
-TPYTHONOPTS)<br>
-=C2=A0 +test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build-=
-test<br>
-@@ -26,8 +26,8 @@ diff -ruN a/<a href=3D"http://Makefile.pre.in" rel=3D"nor=
-eferrer" target=3D"_blank">Makefile.pre.in</a> b/<a href=3D"http://Makefile=
-.pre.in" rel=3D"noreferrer" target=3D"_blank">Makefile.pre.in</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -$(TESTPYTHON) $(TE=
-STPROG) $(TESTOPTS)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTPYTHON) $(TES=
-TPROG) $(TESTOPTS)<br>
-=C2=A0 =C2=A0-+build-test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 all platform<br>
-++build-test:=C2=A0 =C2=A0@DEF_MAKE_RULE@ platform<br>
-=C2=A0 +<br>
-- testall:=C2=A0 =C2=A0 =C2=A0 all platform<br>
-+ testall:=C2=A0 =C2=A0 =C2=A0 @DEF_MAKE_RULE@ platform<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -find $(srcdir)/Lib=
- -name &#39;*.py[co]&#39; -print | xargs rm -f<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(TESTPYTHON) $(src=
-dir)/Lib/compileall.py<br>
-diff --git a/meta/recipes-devtools/python<wbr>/python/parallel-makeinst-cre=
-a<wbr>te-bindir.patch b/meta/recipes-devtools/python<wbr>/python/parallel-m=
-akeinst-crea<wbr>te-bindir.patch<br>
-index 951cb46..abab41e 100644<br>
---- a/meta/recipes-devtools/python<wbr>/python/parallel-makeinst-crea<wbr>t=
-e-bindir.patch<br>
-+++ b/meta/recipes-devtools/python<wbr>/python/parallel-makeinst-crea<wbr>t=
-e-bindir.patch<br>
-@@ -8,12 +8,12 @@ Upstream-Status: Pending<br>
-=C2=A0 =C2=A0 --- Python-2.7.3.orig/<a href=3D"http://Makefile.pre.in" rel=
-=3D"noreferrer" target=3D"_blank">Makefile.pre<wbr>.in</a><br>
-=C2=A0 +++ Python-2.7.3/<a href=3D"http://Makefile.pre.in" rel=3D"noreferre=
-r" target=3D"_blank">Makefile.pre.in</a><br>
--@@ -1008,7 +1008,7 @@ LIBPL=3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(L=
-IBP)/config<br>
-+@@ -1187,7 +1187,7 @@<br>
-=C2=A0 =C2=A0LIBPC=3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0$(LIBDIR)/pkgconfig<br>
--<br>
-- libainstall:=C2=A0 all python-config<br>
-+<br>
-+ libainstall:=C2=A0 @DEF_MAKE_RULE@ python-config<br>
-=C2=A0 -=C2=A0 =C2=A0 =C2=A0@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC); =
-\<br>
-=C2=A0 +=C2=A0 =C2=A0 =C2=A0@for i in $(LIBDIR) $(LIBP) $(LIBPL) $(LIBPC) $=
-(BINDIR); \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0do \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test ! -d $(DEST=
-DIR)$$i; then \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0echo &quot;Creating directory $$i&quot;; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0do \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test ! -d $(DEST=
-DIR)$$i; then \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0echo &quot;Creating directory $$i&quot;; \<br>
-diff --git a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python_2.7=
-.13.bb" rel=3D"noreferrer" target=3D"_blank">python_2.7.13.bb</a> b/meta/re=
-cipes-devtools/python<wbr>/<a href=3D"http://python_2.7.14.bb" rel=3D"noref=
-errer" target=3D"_blank">python_2.7.14.bb</a><br>
-similarity index 99%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python_2.7.13.bb=
-" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython_2.7.13.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python_2.7.14.bb" =
-rel=3D"noreferrer" target=3D"_blank">p<wbr>ython_2.7.14.bb</a><br>
-index dbafb95..13455ff 100644<br>
---- a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python_2.7.13.bb"=
- rel=3D"noreferrer" target=3D"_blank">python_2.7.13.bb</a><br>
-+++ b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python_2.7.14.bb"=
- rel=3D"noreferrer" target=3D"_blank">python_2.7.14.bb</a><br>
-@@ -28,7 +28,6 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 file://parallel-makeinst-creat<wbr>e-bindir.patch \<br>
-=C2=A0 =C2=A0 file://use_sysroot_ncurses_ins<wbr>tead_of_host.patch \<br>
-=C2=A0 =C2=A0 file://add-CROSSPYTHONPATH-for<wbr>-PYTHON_FOR_BUILD.patch \<=
-br>
--=C2=A0 file://Don-t-use-getentropy-on<wbr>-Linux.patch \<br>
-=C2=A0 =C2=A0 file://pass-missing-libraries-<wbr>to-Extension-for-mul.patch=
- \<br>
-=C2=A0 =C2=A0 file://support_SOURCE_DATE_EPO<wbr>CH_in_py_compile_2.7.patch=
- \<br>
-=C2=A0 &quot;<br>
-</blockquote>
-</div></div></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
+>  diff --git a/m4/ltp-numa.m4 b/m4/ltp-numa.m4
+> -index 60ae07b..ed7078d 100644
+> +index fc3383e..44cb559 100644
+>  --- a/m4/ltp-numa.m4
+>  +++ b/m4/ltp-numa.m4
+> -@@ -24,7 +24,13 @@ dnl ----------------------------
+> +@@ -24,7 +24,13 @@ dnl LTP_CHECK_SYSCALL_NUMA
+> + dnl ----------------------------
+>   dnl
+> - AC_DEFUN([LTP_CHECK_SYSCALL_NUMA],
+> - [dnl
+> --AC_CHECK_HEADERS([linux/mempolicy.h numa.h numaif.h],[
+> -+AC_MSG_CHECKING([for numa])
+> -+AC_ARG_WITH(
+> -+      [numa],
+> -+      AC_HELP_STRING([--without-numa],
+> -+      [without numa support]),
+> -+      [],
+> -+      [AC_CHECK_HEADERS([linux/mempolicy.h numa.h numaif.h],[
+> -       LTP_SYSCALL_NUMA_HEADERS=yes
+> -       AC_CHECK_LIB(numa,numa_alloc_onnode,[have_numa_alloc_onnode="yes"])
+> -       if  test "x$have_numa_alloc_onnode" = "xyes"; then
+> -@@ -48,3 +54,5 @@ if test "x$have_mpol_constants" = "xyes"; then
+> -       AC_DEFINE(HAVE_MPOL_CONSTANTS,1,[define to 1 if you have all constants required to use mbind tests])
+> - fi
+> - )])
+> + AC_DEFUN([LTP_CHECK_SYSCALL_NUMA], [
+> +-      AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
+> ++      AC_MSG_CHECKING([for numa])
+> ++      AC_ARG_WITH(
+> ++              [numa],
+> ++              AC_HELP_STRING([--without-numa],
+> ++              [without numa support]),
+> ++              [],
+> ++      [AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
+> +       AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
+> +
+> +       if test "x$have_numa_headers" != "xno"; then
+> +@@ -42,3 +48,5 @@ exit(1);
+> +               AC_DEFINE(HAVE_NUMA_V2, 1, [Define to 1 if you have libnuma and it's headers version >= 2 installed.])
+> +       fi
+> + ])
+>  +AC_MSG_RESULT([$with_numa])
+>  +])
+>  --
+> diff --git a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch b/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
+> deleted file mode 100644
+> index efa6d06..0000000
+> --- a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -From 00ba7cdd0608b1507027428f9f87b1cb9747372b Mon Sep 17 00:00:00 2001
+> -From: Dengke Du <dengke.du@windriver.com>
+> -Date: Thu, 9 Feb 2017 15:54:53 +0800
+> -Subject: [PATCH] lib: Use PTHREAD_MUTEX_RECURSIVE in place of
+> - PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP for non-glibc
+> -
+> -e.g. musl does not implement the _NP mutex types
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> -
+> -Upstream-Status: Pending
+> ----
+> - lib/tst_res.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/lib/tst_res.c b/lib/tst_res.c
+> -index 61daaeb..435224f 100644
+> ---- a/lib/tst_res.c
+> -+++ b/lib/tst_res.c
+> -@@ -79,7 +79,11 @@ int TEST_ERRNO;
+> -       assert(strlen(buf) > 0);                \
+> - } while (0)
+> -
+> -+#ifdef __GLIBC__
+> - static pthread_mutex_t tmutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+> -+#else
+> -+static pthread_mutex_t tmutex = {  PTHREAD_MUTEX_RECURSIVE };
+> -+#endif
+> -
+> - static void check_env(void);
+> - static void tst_condense(int tnum, int ttype, const char *tmesg);
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch b/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
+> deleted file mode 100644
+> index 44d6990..0000000
+> --- a/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -From 8eb3e111ae1b89e5afb249cf984d657f94da2385 Mon Sep 17 00:00:00 2001
+> -From: Dengke Du <dengke.du@windriver.com>
+> -Date: Tue, 17 Oct 2017 05:42:47 -0400
+> -Subject: [PATCH] ltp: fix format security error
+> -
+> -When enable option: -Werror=format-security, the error like:
+> -
+> -    | fcntl36.c: In function 'test_fn':
+> -    | fcntl36.c:303:2: error: format not a string literal and no format arguments [-Werror=format-security]
+> -    |   tst_res(TINFO, msg);
+> -    |   ^~~~~~~
+> -    | cc1: some warnings being treated as errors
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ----
+> - testcases/kernel/syscalls/fcntl/fcntl36.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/testcases/kernel/syscalls/fcntl/fcntl36.c b/testcases/kernel/syscalls/fcntl/fcntl36.c
+> -index 6f2eb6b..3246d13 100644
+> ---- a/testcases/kernel/syscalls/fcntl/fcntl36.c
+> -+++ b/testcases/kernel/syscalls/fcntl/fcntl36.c
+> -@@ -300,7 +300,7 @@ static void test_fn(void *f0(void *), void *f1(void *),
+> -       struct param p2[thread_cnt];
+> -       unsigned char buf[write_size];
+> -
+> --      tst_res(TINFO, msg);
+> -+      tst_res(TINFO, "%s", msg);
+> -
+> -       if (tst_fill_file(fname, 1, write_size, thread_cnt + 1))
+> -               tst_brk(TBROK, "Failed to create tst file");
+> ---
+> -2.8.1
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
+> deleted file mode 100644
+> index 0153ace..0000000
+> --- a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -Do not generate timestamps in gzipped file headers.
+> -The timestamps prevent reproducible build.
+> -
+> -Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/233]
+> -
+> -Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> -
+> -diff --git a/testcases/network/generate.sh b/testcases/network/generate.sh
+> -index 00216a6..939f792 100755
+> ---- a/testcases/network/generate.sh
+> -+++ b/testcases/network/generate.sh
+> -@@ -55,7 +55,7 @@ fi
+> - if [ ! -e "bin.sm" ] ; then
+> -       cnt=0
+> -       while [ $cnt -lt 5 ] ; do
+> --              gzip -1 -c ascii.sm >> "bin.sm"
+> -+              gzip -1 -c -n ascii.sm >> "bin.sm"
+> -               cnt=$(($cnt + 1))
+> -       done
+> - fi
+> diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+> similarity index 95%
+> rename from meta/recipes-extended/ltp/ltp_20170929.bb
+> rename to meta/recipes-extended/ltp/ltp_20180118.bb
+> index bc0ecdf..a4a2724 100644
+> --- a/meta/recipes-extended/ltp/ltp_20170929.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20180118.bb
+> @@ -21,7 +21,7 @@ DEPENDS_append_libc-musl = " fts "
+>  EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
+>  CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+>  CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+> -SRCREV = "bac930f71b1e6786ebb8a894463503d07681ef6a"
+> +SRCREV = "731cd34e682d297b207668be8b1d15320a9ac1b1"
+>
+>  SRC_URI = "git://github.com/linux-test-project/ltp.git \
+>             file://0001-add-_GNU_SOURCE-to-pec_listener.c.patch \
+> @@ -43,13 +43,10 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+>             file://0026-crash01-Define-_GNU_SOURCE.patch \
+>             file://0027-sysconf01-Use-_SC_2_C_VERSION-conditionally.patch \
+>             file://0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch \
+> -           file://0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch \
+>             file://0033-shmat1-Cover-GNU-specific-code-under-__USE_GNU.patch \
+>             file://0034-periodic_output.patch \
+>             file://0035-fix-test_proc_kill-hang.patch \
+>             file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+> -           file://0037-ltp-fix-format-security-error.patch \
+> -           file://0038-generate-reproducible-gzip.patch \
+>             file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+>             "
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a114a97f44d2f680563efb9ed--
