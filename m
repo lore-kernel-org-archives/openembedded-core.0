@@ -1,39 +1,45 @@
-Return-Path: <rbilovol@cisco.com>
-X-Greylist: delayed 591 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 29 Jan 2018 15:16:05 UTC
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 94CD6782F2
+Return-Path: <stephen.k.jolley@intel.com>
+X-Greylist: delayed 579 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 29 Jan 2018 16:10:18 UTC
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id DE448787DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 15:16:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=10147; q=dns/txt;
-	s=iport; t=1517238967; x=1518448567;
-	h=from:to:subject:date:message-id;
-	bh=O7NAbbPE4VjCB3LKqbQ+cThNBw5/wbdt0w5kqzeI9HQ=;
-	b=XxgyHyR4L2rDPh69w4izZHdOU3OiA2XtrDTcsLheZ/1fVZFFV7I3xf38
-	RaILA03LIRYoGZvw9EysDK27YHbv145aq4VWHNVSZbVFjp5J0yop7YFdC
-	Q9nFcF7Rl1XNbVSRuN5HVzf4lSuLpW5tofrDFzWDkVF3QYJ3r8h0X3QGx A=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DfAQCBN29a/xbLJq1bGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYQodSiOeI8SmCkVggIKG4gvFgEBAQEBAQEBAmsohSMBgSsDAQJ?=
-	=?us-ascii?q?+IYo1qBqKUzKEVINshGCDZQICgVeGFAWKXIdhgXWPYogYjU8CgwCRJQKXYoE8J?=
-	=?us-ascii?q?gMvgVAzGggbFYJnCYJMARuCCD83jxYBAQE?=
-X-IronPort-AV: E=Sophos;i="5.46,431,1511827200"; 
-   d="scan'208";a="1679992"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
-	([173.38.203.22])
-	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Jan 2018 15:06:14 +0000
-Received: from localhost ([10.61.197.106])
-	by aer-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id w0TF6EvB028230
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 15:06:14 GMT
-From: Ruslan Bilovol <rbilovol@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 17:06:15 +0200
-Message-Id: <1517238375-21831-1-git-send-email-rbilovol@cisco.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] recipes-kernel: add kpatch dynamic kernel patching infrastructure
+	Mon, 29 Jan 2018 16:10:18 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jan 2018 08:00:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,431,1511856000"; d="scan'208,217";a="23346611"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2018 08:00:40 -0800
+Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 29 Jan 2018 08:00:40 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.79]) by
+	fmsmsx121.amr.corp.intel.com ([169.254.6.69]) with mapi id
+	14.03.0319.002; Mon, 29 Jan 2018 08:00:39 -0800
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: =?Windows-1252?Q?Yocto_Project_Status_WW05=9218?=
+Thread-Index: AdOZGfn8ox/7fatySTa/a80BbYiugw==
+Date: Mon, 29 Jan 2018 16:00:38 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC724375F@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.107]
+x-ctpclassification: CTP_IC
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjkwYmE0ZGMtMDE0MS00NjZiLWIzNzUtNDczYTY2ODIyY2U2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJwaTlLOW53N3dtSGsyWSszTEpqcjdIbEZXMDk3czd1TGlTODcxV2M2a3l1eTZjbU42dUo3dEN4YjkrQUgwYWcxIn0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+MIME-Version: 1.0
+Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1cwNeKAmTE4?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,277 +52,540 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 15:16:06 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 16:10:19 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC724375Ffmsmsx111amrcor_"
 
-kpatch is a Linux dynamic kernel patching infrastructure
-which allows you to patch a running kernel without
-rebooting or restarting any processes
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC724375Ffmsmsx111amrcor_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Currently it is enabled and tested on x86-64 systems,
-although can be extended to PPC64 as well.
+Current Dev Position: YP 2.5 M2 development
 
-Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
----
- meta/recipes-kernel/kpatch/kpatch.inc              |  49 ++++++++++
- ...patch-build-add-cross-compilation-support.patch | 103 +++++++++++++++++++++
- ...tch-build-allow-overriding-of-distro-name.patch |  62 +++++++++++++
- meta/recipes-kernel/kpatch/kpatch_git.bb           |  11 +++
- 4 files changed, 225 insertions(+)
- create mode 100644 meta/recipes-kernel/kpatch/kpatch.inc
- create mode 100644 meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
- create mode 100644 meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
- create mode 100644 meta/recipes-kernel/kpatch/kpatch_git.bb
-
-diff --git a/meta/recipes-kernel/kpatch/kpatch.inc b/meta/recipes-kernel/kpatch/kpatch.inc
-new file mode 100644
-index 0000000..b1e73e9
---- /dev/null
-+++ b/meta/recipes-kernel/kpatch/kpatch.inc
-@@ -0,0 +1,49 @@
-+SUMMARY = "Linux dynamic kernel patching infrastructure"
-+DESCRIPTION = "kpatch is a Linux dynamic kernel patching infrastructure which allows you to patch a running kernel without rebooting or restarting any processes."
-+LICENSE = "GPLv2 & LGPLv2"
-+DEPENDS = "elfutils bash"
-+
-+SRC_URI = "git://github.com/dynup/kpatch.git;protocol=https \
-+	file://0001-kpatch-build-add-cross-compilation-support.patch \
-+	file://0002-kpatch-build-allow-overriding-of-distro-name.patch \
-+	"
-+
-+EXTRA_OEMAKE = " \
-+	PREFIX=${prefix} \
-+	BINDIR=${D}${bindir} \
-+	SBINDIR=${D}${sbindir} \
-+	LIBDIR=${D}${libdir} \
-+	MANDIR=${D}${mandir}/man1 \
-+	SYSTEMDDIR=${D}${systemd_system_unitdir} \
-+	DESTDIR=${D} \
-+	BUILDMOD=no \
-+	CC='${CC}' \
-+	"
-+
-+S = "${WORKDIR}/git"
-+
-+do_install () {
-+	oe_runmake install
-+}
-+
-+PACKAGES =+ "kpatch-build"
-+PROVIDES += "kpatch-build"
-+
-+COMPATIBLE_HOST = "(x86_64).*-linux"
-+
-+RDEPENDS_${PN} = "bash binutils"
-+RDEPENDS_kpatch-build = "bash glibc-utils"
-+
-+FILES_${PN} = " \
-+	${sbindir}/kpatch \
-+	${systemd_system_unitdir}/kpatch.service \
-+	${mandir}/man1/kpatch.1.gz \
-+	"
-+FILES_kpatch-build = " \
-+	${bindir}/kpatch-build \
-+	${libexecdir}/* \
-+	${datadir}/kpatch \
-+	${mandir}/man1/kpatch-build.1.gz \
-+	"
-+
-+SYSTEMD_SERVICE_${PN} = "kpatch.service"
-diff --git a/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
-new file mode 100644
-index 0000000..459fb21
---- /dev/null
-+++ b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
-@@ -0,0 +1,103 @@
-+From a9a80a1f4df65892a0269295ce8a64b06f2ff61d Mon Sep 17 00:00:00 2001
-+From: Ruslan Bilovol <rbilovol@cisco.com>
-+Date: Tue, 19 Dec 2017 15:59:04 +0200
-+Subject: [PATCH] kpatch-build: add cross-compilation support
-+
-+This patch introduces new option for kpatch-build
-+script "--cross-compile" which can be used for
-+specifying cross-complier prefix.
-+It allows to build live patches not only on
-+target system, but also on hosts for a target other
-+than the one on which the compiler is running
-+
-+Also removed quotes in exec lines, so it is
-+possible to pass multy-component strings like
-+"ccache x86_64-xelinux-linux-" as cross-compiler
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-+---
-+ kpatch-build/kpatch-build | 13 +++++++++++--
-+ kpatch-build/kpatch-gcc   |  4 ++--
-+ 2 files changed, 13 insertions(+), 4 deletions(-)
-+
-+diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
-+index 166ecbd..af24cc4 100755
-+--- a/kpatch-build/kpatch-build
-++++ b/kpatch-build/kpatch-build
-+@@ -195,7 +195,7 @@ gcc_version_check() {
-+ 	# gcc --version varies between distributions therefore extract version
-+ 	# by compiling a test file and compare it to vmlinux's version.
-+ 	echo 'void main(void) {}' > "$c"
-+-	out="$(gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
-++	out="$(${KPATCH_CROSS_COMPILE}gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
-+ 	gccver="$(gcc_version_from_file "$o")"
-+ 	kgccver="$(gcc_version_from_file "$VMLINUX")"
-+ 	rm -f "$c" "$o"
-+@@ -381,12 +381,14 @@ usage() {
-+ 	echo "		-d, --debug        Enable 'xtrace' and keep scratch files" >&2
-+ 	echo "		                   in <CACHEDIR>/tmp" >&2
-+ 	echo "		                   (can be specified multiple times)" >&2
-++	echo "		--cross-compile    Specify the prefix used for all executables" >&2
-++	echo "		                   used during compilation" >&2
-+ 	echo "		--skip-cleanup     Skip post-build cleanup" >&2
-+ 	echo "		--skip-gcc-check   Skip gcc version matching check" >&2
-+ 	echo "		                   (not recommended)" >&2
-+ }
-+ 
-+-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-+ 
-+ eval set -- "$options"
-+ 
-+@@ -444,6 +446,10 @@ while [[ $# -gt 0 ]]; do
-+ 			echo "DEBUG mode enabled"
-+ 		fi
-+ 		;;
-++	--cross-compile)
-++		KPATCH_CROSS_COMPILE="$2"
-++		shift
-++		;;
-+ 	--skip-cleanup)
-+ 		echo "Skipping cleanup"
-+ 		SKIPCLEANUP=1
-+@@ -691,6 +697,8 @@ if [[ $DEBUG -ge 4 ]]; then
-+ 	export KPATCH_GCC_DEBUG=1
-+ fi
-+ 
-++export KPATCH_CROSS_COMPILE
-++
-+ echo "Building original kernel"
-+ ./scripts/setlocalversion --save-scmversion || die
-+ make mrproper 2>&1 | logger || die
-+@@ -840,6 +848,7 @@ cd "$TEMPDIR/patch" || die
-+ KPATCH_BUILD="$SRCDIR" KPATCH_NAME="$MODNAME" \
-+ KBUILD_EXTRA_SYMBOLS="$KBUILD_EXTRA_SYMBOLS" \
-+ KPATCH_LDFLAGS="$KPATCH_LDFLAGS" \
-++CROSS_COMPILE="$KPATCH_CROSS_COMPILE" \
-+ 	make 2>&1 | logger || die
-+ 
-+ if ! "$KPATCH_MODULE"; then
-+diff --git a/kpatch-build/kpatch-gcc b/kpatch-build/kpatch-gcc
-+index 6ba133c..3937948 100755
-+--- a/kpatch-build/kpatch-gcc
-++++ b/kpatch-build/kpatch-gcc
-+@@ -8,7 +8,7 @@ TOOLCHAINCMD="$1"
-+ shift
-+ 
-+ if [[ -z "$KPATCH_GCC_TEMPDIR" ]]; then
-+-	exec "$TOOLCHAINCMD" "$@"
-++	exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "$@"
-+ fi
-+ 
-+ declare -a args=("$@")
-+@@ -80,4 +80,4 @@ elif [[ "$TOOLCHAINCMD" = "ld" ]] ; then
-+ 	done
-+ fi
-+ 
-+-exec "$TOOLCHAINCMD" "${args[@]}"
-++exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "${args[@]}"
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
-new file mode 100644
-index 0000000..a9d8a7f
---- /dev/null
-+++ b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
-@@ -0,0 +1,62 @@
-+From d418d716dae1e2a05131dfb42a19a4da2fc8a85d Mon Sep 17 00:00:00 2001
-+From: Ruslan Bilovol <rbilovol@cisco.com>
-+Date: Tue, 2 Jan 2018 14:50:03 +0200
-+Subject: [PATCH] kpatch-build: allow overriding of distro name
-+
-+It is sometimes useful to have ability to override
-+distro name, for example during cross-compilation
-+build when livepatch modules will be ran on the
-+target which differs from host.
-+
-+This patch adds a new --distro option which
-+implements all needed functionality
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-+---
-+ kpatch-build/kpatch-build | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
-+index af24cc4..4f9f78d 100755
-+--- a/kpatch-build/kpatch-build
-++++ b/kpatch-build/kpatch-build
-+@@ -383,12 +383,13 @@ usage() {
-+ 	echo "		                   (can be specified multiple times)" >&2
-+ 	echo "		--cross-compile    Specify the prefix used for all executables" >&2
-+ 	echo "		                   used during compilation" >&2
-++	echo "		--distro           Override distro name" >&2
-+ 	echo "		--skip-cleanup     Skip post-build cleanup" >&2
-+ 	echo "		--skip-gcc-check   Skip gcc version matching check" >&2
-+ 	echo "		                   (not recommended)" >&2
-+ }
-+ 
-+-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,distro:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-+ 
-+ eval set -- "$options"
-+ 
-+@@ -450,6 +451,10 @@ while [[ $# -gt 0 ]]; do
-+ 		KPATCH_CROSS_COMPILE="$2"
-+ 		shift
-+ 		;;
-++	--distro)
-++		DISTRO="$2"
-++		shift
-++		;;
-+ 	--skip-cleanup)
-+ 		echo "Skipping cleanup"
-+ 		SKIPCLEANUP=1
-+@@ -526,7 +531,7 @@ fi
-+ # Don't check external file.
-+ # shellcheck disable=SC1091
-+ source /etc/os-release
-+-DISTRO="$ID"
-++DISTRO="${DISTRO:-${ID}}"
-+ if [[ "$DISTRO" = fedora ]] || [[ "$DISTRO" = rhel ]] || [[ "$DISTRO" = ol ]] || [[ "$DISTRO" = centos ]]; then
-+ 	[[ -z "$VMLINUX" ]] && VMLINUX="/usr/lib/debug/lib/modules/$ARCHVERSION/vmlinux"
-+ 	[[ -e "$VMLINUX" ]] || die "kernel-debuginfo-$ARCHVERSION not installed"
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kpatch/kpatch_git.bb b/meta/recipes-kernel/kpatch/kpatch_git.bb
-new file mode 100644
-index 0000000..e495e28
---- /dev/null
-+++ b/meta/recipes-kernel/kpatch/kpatch_git.bb
-@@ -0,0 +1,11 @@
-+require kpatch.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+SRCREV = "db6efbb8c7e90d2b761272cf563047119072768f"
-+
-+PV = "0.5.0+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
+Next Deadline: YP 2.5 M2 cut off was 1/15/18
 
 
+SWAT team rotation: Ross -> Juro on Jan. 26, 2018.
+
+SWAT team rotation: Juro -> Tracy on Feb. 2, 2018.
+
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+
+
+Key Status/Updates:
+
+=B7         YP 2.5 M1 rc3 was released.
+
+=B7         Fixes for spectre and meltdown are in master and also in the ro=
+cko branches for both gcc (updated to 7.3) and linux-yocto.
+
+=B7         We will likely consolidate a few further patches (such as gener=
+icx86 and other meta-yotcto-bsp updates) and then build and QA both 2.5 M2 =
+and 2.4.2.
+
+=B7         Work on the autobuilder changes continues but means autobuilder=
+.yoctoproject.org is not being used in production (autobuilder.yocto.io aka=
+ =91the new cluster=92) is.
+
+=B7         There were a number of lock related issues with the yocto.io bu=
+ilder over the weekend which are being investigated.
+
+
+Planned upcoming dot releases:
+
+YP 2.4.2 (Rocko) will be built shortly.
+
+YP 2.3.4 (Pyro) will be built when a stable version of the spectre/meltdown=
+ patches are ready.
+
+YP 2.2.3 (Morty) rc1 is in QA, see https://wiki.yoctoproject.org/wiki/2.2_Q=
+A_Status.  This will not contain the spectre/meltdown patches as they=92re =
+not ready yet.
+
+
+Key YP 2.5 Dates are:
+
+YP 2.5 M2 cut off is past, it should be built shortly.
+
+YP 2.5 M2 release of 1/26/18
+
+YP 2.5 M3 cut off of 2/19/18
+
+YP 2.5 M3 release of 3/2/18
+
+YP 2.5 M4 cut off of 4/2/18
+
+YP 2.5 M4 release of 4/27/18
+
+
+Tracking Metrics:
+
+            WDD 2630 (last week 2657)
+
+(https://wiki.yoctoproject.org/charts/combo.html)
+
+
+Key Status Links for YP:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.5_Status
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Schedule
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Features
+
+
+[If anyone has suggestions for other information you=92d like to see on thi=
+s weekly status update, let us know!]
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+=95   Work Telephone:        (503) 712-0534
+=95    Cell:                              (208) 244-4460
+=95 Email:                            stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC724375Ffmsmsx111amrcor_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p
+	{mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.apple-tab-span
+	{mso-style-name:apple-tab-span;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:421069859;
+	mso-list-template-ids:-1502021698;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:675689286;
+	mso-list-template-ids:-1704007070;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
+on: YP 2.5 M2 development</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
+2.5 M2 cut off was 1/15/18</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Ross -&gt; Juro on Jan. 26, 2018.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Juro -&gt; Tracy on Feb. 2, 2018.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
+.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
+/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
+:</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M1 rc3 was released.
+<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">Fixes for spectre and meltdown ar=
+e in master and also in the rocko branches for both gcc (updated to 7.3) an=
+d linux-yocto.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">We will likely consolidate a few =
+further patches (such as genericx86 and other meta-yotcto-bsp updates) and =
+then build and QA both 2.5 M2 and 2.4.2.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">Work on the autobuilder changes c=
+ontinues but means autobuilder.yoctoproject.org is not being used in produc=
+tion (autobuilder.yocto.io aka =91the new cluster=92)
+ is.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">There were a number of lock relat=
+ed issues with the yocto.io builder over the weekend which are being invest=
+igated.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Planned upcoming d=
+ot releases:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4.2 (Rocko) w=
+ill be built shortly.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.4 (Pyro) wi=
+ll be built when a stable version of the spectre/meltdown patches are ready=
+.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.3 (Morty) r=
+c1 is in QA, see
+</span><a href=3D"https://wiki.yoctoproject.org/wiki/2.2_QA_Status"><span s=
+tyle=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#11=
+55CC">https://wiki.yoctoproject.org/wiki/2.2_QA_Status</span></a><span styl=
+e=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"=
+>.
+ &nbsp;This will not contain the spectre/meltdown patches as they=92re not =
+ready yet.</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.5 Dates a=
+re:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 cut off =
+is past, it should be built shortly.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 release =
+of 1/26/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 cut off =
+of 2/19/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 release =
+of 3/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 cut off =
+of 4/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 release =
+of 4/27/18</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
+/span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
+"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
+color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;
+</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
+,sans-serif;color:black">WDD 2630 (last week 2657)</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
+=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
+ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
+.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
+octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:black">)</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
+or YP:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Project_v2.5_Status"><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v2.5_Status</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Schedule"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Schedule</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Features"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Features</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
+gestions for other information you=92d like to see on this weekly status up=
+date, let us know!]</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black">Thanks,</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span=
+></u></span><span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;A=
+rial&quot;,sans-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC724375Ffmsmsx111amrcor_--
