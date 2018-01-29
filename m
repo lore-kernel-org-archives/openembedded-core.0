@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B78605BA
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 351D5786B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 03:27:15 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y26so3722911pfi.10
+	Mon, 29 Jan 2018 03:27:26 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id b25so3728279pfd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jan 2018 19:27:17 -0800 (PST)
+	Sun, 28 Jan 2018 19:27:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M6OKeYVDu3cK8IvIJmGqvm//Nb1SBfIEaqXRW4cCqyk=;
-	b=EKI4okrXhPM5eiH3fTahXnC8+Oe2ujg24x74LurTKNSeGgPyTpm4lE7ZFwTUHyNgwY
-	RNK28xwCUknjLVOIRr2oUnY755f68OP4Zgc8vM0Z1XFLtA6DjW1v0hZCVKdV7JqR92Ec
-	WMHcjFll8TZiAAGxMzkbg6PPNzdv/Zote1+0c68kRK+60zNyZEtvnUjiH87uyH+nYumQ
-	fKzoXH46ZuCkgcpr+f01Vv9X0H4A7i3XKdWHFOM/MpY/WMTokoymJcvv/EmkY/PYeEQK
-	q7OorWJ4FYtiuRLCt9MxX3lTR5YMUWezPvzd7yWXKyEmF+QH5gHkoq113gzr5Kb4GnU4
-	B39g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
+	b=TqE2UOt28dgiKg/L1jGhvoWBMru/GqPP9OE2N7cy1iJD+Vbm50OK2/Jx7hdlDLo8VD
+	vUMT1vVvLjI/jCJjBnad2MUly/cilSNs3oj07QICweQaiRIo1bwUg65ebc6dicBxFsyI
+	pfOozYij16s61abgHao903FG6E0UILf1c/pAhPDni1yYWVkragobxL1iQR3D3pExk6Hs
+	cXUUz/Abhuf2cCAsA7x7myotGQko0zI4Lw/W0zuNu7vDlzLftfTz+O4gvsHoqK00dh4M
+	XAs5gOANjinI+6KEJHtt4T27ThFFMw4LpWIBUwhsqYvQ34zwNcBXu9XJSZOhbKQYPI+o
+	SUKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M6OKeYVDu3cK8IvIJmGqvm//Nb1SBfIEaqXRW4cCqyk=;
-	b=N/QZgzN92j6DxlYKy6hSP9IGUskp64OO2jpg7PUmb5mmIiYJ4a/Tu3jNLVWSvYaQaj
-	be40VMbb0u9w9XiIFmuEVIhcteLl68FOlJ8UPSuEHIJjAKWtobElXSdHrIrJwpstJVx7
-	QHm7SY7+JGKDtQNjmKw6ctpQQunQ0xrYc0vDz//LYa9mQ1T7mwJuvTL1VcNNhLsm24WK
-	qdFe9YXM7T6aZodnRcwGA6koTzBzHvV8l35yucVcDnNFrPGcmWxcBc3+OCLA+TgYqcbk
-	7RXyq4v7nKVOazDGtDQP4o3mff4SXTSc5SZ76d65IcZyuRqyltyPLxurVbKZMxjCLosW
-	5Jpw==
-X-Gm-Message-State: AKwxyteTVBFf/YXqnlwNB9NvhPZCNzlCPPgRHJvQze/uIJTjmZ6u6bvD
-	t8bZ6y5LbV1coji2wr4ng9tqBw==
-X-Google-Smtp-Source: AH8x224BFeg9bnxdFGaZcyXaBZkg0qjTD4sB6iYzYir2bjWP8qY+q31KhMofZuO/XdfKhuIKUv1i9w==
-X-Received: by 10.101.93.142 with SMTP id f14mr14124166pgt.82.1517196436760;
-	Sun, 28 Jan 2018 19:27:16 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
+	b=KL9cXodd6Ujgnyl91x86492FlTRxXTyhF0vvQgb6KY2tqWRLiA3XIAy8m7EZUgIYsR
+	lNMbQvOKRIfKzU5sYkMjfdSgXZdfQwF7eIez1LXih0zXx3wHyhrw1EP9+ll2cbwCRuFG
+	co/eWA/e5HsERq2rEZeaNCBaRXrnMrg7QvWt431HCKih0N8MIxjqfZyEzVuCJtye5avE
+	mYLTF0aDQ/CrMjK7uf1D0X3IQkvU+hrz1S4+QwrQaEDpVX9eBK45sfmkgzTetNtEWiFH
+	YZxMoqxXHZSG9A7f/GjMubgdLAgLFuARrVOxx47ASFYoK7I/v2bt7ISGpBK/A7rOiNEX
+	cdlw==
+X-Gm-Message-State: AKwxyteDGC4Fv0hax0aCBA57bOLD7gH9j70HrU3Tj4jt4ITYOX/TXbAS
+	W+3IxqRzibEkhC7QKm4JXoTqCw==
+X-Google-Smtp-Source: AH8x227njhggAw/3w3WY0dp8aH63vV/eDzGwaz/NDsLQWaR7jRW9Q06POKAu8jLhc9xMdCHC60J4PQ==
+X-Received: by 10.101.77.208 with SMTP id q16mr19922093pgt.395.1517196448087; 
+	Sun, 28 Jan 2018 19:27:28 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8880:466c::a8d6])
 	by smtp.gmail.com with ESMTPSA id
-	u135sm16176340pgc.84.2018.01.28.19.27.15
+	y5sm29184689pfd.163.2018.01.28.19.27.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 28 Jan 2018 19:27:16 -0800 (PST)
+	Sun, 28 Jan 2018 19:27:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 28 Jan 2018 19:27:07 -0800
-Message-Id: <cover.1517196242.git.raj.khem@gmail.com>
+Date: Sun, 28 Jan 2018 19:27:12 -0800
+Message-Id: <38140252cb66052fe8ab18076b2eecc64f751d02.1517196242.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.16.1
-MIME-Version: 1.0
-Subject: [PATCH 0/8] Update to binutils 2.30, glibc 2.27 initiated fixes, musl update
+In-Reply-To: <cover.1517196242.git.raj.khem@gmail.com>
+References: <cover.1517196242.git.raj.khem@gmail.com>
+Subject: [PATCH 1/8] gcc-7.3: Drop upstreamed musl cpuinfo patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,94 +57,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 03:27:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Jan 2018 03:27:27 -0000
 
-This pull contain
+This patch is already in gcc-7-branch
+https://github.com/gcc-mirror/gcc/commit/6e6c7fc1e15525a10f48d4f5ac2edd853e2f5cb7
 
-- binutils upgrade to 2.30
-- musl update
-- Recipe fixes which will be needed for glibc 2.27
-- Drop redundant gcc patch
+Thanks nsz for noticing it
 
-The following changes since commit a4c1ede6876ad6b84ab2b3bece14bf0afdc9d6b7:
-
-  gcc: Upgrade 7.2 -> 7.3 (2018-01-26 23:24:45 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Daniel Díaz (1):
-  perl: Undefine d_libm_lib_version.
-
-Huang Qiyu (1):
-  e2fsprogs: 1.43.7 -> 1.43.8
-
-Khem Raj (6):
-  gcc-7.3: Drop upstreamed musl cpuinfo patch
-  make: Backport fixes to not assume glibc internal glob implementation
-  systemd: Fix build with glibc 2.27
-  pulseaudio: Fix build with glibc 2.27
-  musl: Update to latest master
-  binutils: Upgrade to 2.30 release
-
- meta/conf/distro/include/tcmode-default.inc        |  2 +-
- meta/recipes-core/musl/musl_git.bb                 |  2 +-
- ....c-Change-the-default-device-timeout-to-2.patch |  7 +-
- ...update-header-file-to-detect-memfd_create.patch | 28 +++++++
- ...c-Check-if-memfd_create-is-already-define.patch | 27 +++++++
- .../systemd/0003-fileio-include-sys-mman.h.patch   | 26 +++++++
- meta/recipes-core/systemd/systemd_234.bb           |  3 +
- .../{binutils-2.29.1.inc => binutils-2.30.inc}     |  2 +-
- ...n_2.29.1.bb => binutils-cross-canadian_2.30.bb} |  0
- ...tils-cross_2.29.1.bb => binutils-cross_2.30.bb} |  0
- ...rosssdk_2.29.1.bb => binutils-crosssdk_2.30.bb} |  0
- ...nutils-crosssdk-Generate-relocatable-SDKs.patch | 14 ++--
- ...oss-Do-not-generate-linker-script-directo.patch |  6 +-
- ...ure-widen-the-regexp-for-SH-architectures.patch | 14 ++--
- .../0004-Point-scripts-location-to-libdir.patch    |  8 +-
- ...te-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch | 10 +--
- .../binutils/binutils/0006-Use-libtool-2.4.patch   | 66 +++++++----------
- ...7-Add-the-armv5e-architecture-to-binutils.patch |  8 +-
- ...he-distro-compiler-point-to-the-wrong-ins.patch |  6 +-
- ...es-of-system-directories-when-cross-linki.patch | 24 +++---
- ...-rpath-in-libtool-when-sysroot-is-enabled.patch |  4 +-
- ...Change-default-emulation-for-mips64-linux.patch | 14 ++--
- .../0012-Add-support-for-Netlogic-XLP.patch        | 70 +++++++++---------
- ...ncorrect-assembling-for-ppc-wait-mnemonic.patch | 10 +--
- .../binutils/0014-Detect-64-bit-MIPS-targets.patch |  6 +-
- .../0015-sync-with-OE-libtool-changes.patch        |  4 +-
- .../{binutils_2.29.1.bb => binutils_2.30.bb}       |  0
- ...ix-build-failure-in-swapfs.c-on-big-endia.patch | 40 ++++++++++
- ...s-fix-missing-check-for-permission-denied.patch | 10 ++-
- .../{e2fsprogs_1.43.7.bb => e2fsprogs_1.43.8.bb}   |  5 +-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  meta/recipes-devtools/gcc/gcc-7.3.inc              |  1 -
  ...e-alias-for-__cpu_indicator_init-instead-.patch | 85 ----------------------
- meta/recipes-devtools/make/make.inc                |  5 +-
- ...1-glob-Do-not-assume-glibc-glob-internals.patch | 69 ++++++++++++++++++
- ...2-glob-Do-not-assume-glibc-glob-internals.patch | 38 ++++++++++
- meta/recipes-devtools/perl/perl/config.sh          |  2 +-
- ...-Check-if-memfd_create-is-already-defined.patch | 62 ++++++++++++++++
- .../pulseaudio/pulseaudio_11.1.bb                  |  3 +-
- 38 files changed, 441 insertions(+), 240 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
- rename meta/recipes-devtools/binutils/{binutils-2.29.1.inc => binutils-2.30.inc} (97%)
- rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.29.1.bb => binutils-cross-canadian_2.30.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross_2.29.1.bb => binutils-cross_2.30.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.29.1.bb => binutils-crosssdk_2.30.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils_2.29.1.bb => binutils_2.30.bb} (100%)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-build-failure-in-swapfs.c-on-big-endia.patch
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.7.bb => e2fsprogs_1.43.8.bb} (96%)
+ 2 files changed, 86 deletions(-)
  delete mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
- create mode 100644 meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
- create mode 100644 meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-Check-if-memfd_create-is-already-defined.patch
 
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+index efa62eaf6a..724f9c32a0 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+@@ -70,7 +70,6 @@ SRC_URI = "\
+            file://0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch \
+            file://0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
+            file://0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
+-           file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
+            file://0047-sync-gcc-stddef.h-with-musl.patch \
+            file://0048-gcc-Enable-static-PIE.patch \
+            file://fix-segmentation-fault-precompiled-hdr.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+deleted file mode 100644
+index f6b2829364..0000000000
+--- a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-From c7bce03a625fe2215a13f520850604178103ddd7 Mon Sep 17 00:00:00 2001
+-From: Szabolcs Nagy <nsz@port70.net>
+-Date: Sat, 24 Oct 2015 20:09:53 +0000
+-Subject: [PATCH 46/47] libgcc_s: Use alias for __cpu_indicator_init instead of
+- symver
+-
+-Adapter from
+-
+-https://gcc.gnu.org/ml/gcc-patches/2015-05/msg00899.html
+-
+-This fix was debated but hasnt been applied gcc upstream since
+-they expect musl to support '@' in symbol versioning which is
+-a sun/gnu versioning extention. This patch however avoids the
+-need for the '@' symbols at all
+-
+-libgcc/Changelog:
+-
+-2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
+-
+-	* config/i386/cpuinfo.c (__cpu_indicator_init_local): Add.
+-	(__cpu_indicator_init@GCC_4.8.0, __cpu_model@GCC_4.8.0): Remove.
+-
+-	* config/i386/t-linux (HOST_LIBGCC2_CFLAGS): Remove -DUSE_ELF_SYMVER.
+-
+-gcc/Changelog:
+-
+-2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
+-
+-	* config/i386/i386.c (ix86_expand_builtin): Make __builtin_cpu_init
+-	call __cpu_indicator_init_local instead of __cpu_indicator_init.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- gcc/config/i386/i386.c       | 4 ++--
+- libgcc/config/i386/cpuinfo.c | 6 +++---
+- libgcc/config/i386/t-linux   | 2 +-
+- 3 files changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/gcc/config/i386/i386.c b/gcc/config/i386/i386.c
+-index dec3aee0048..0452dcfcb8d 100644
+---- a/gcc/config/i386/i386.c
+-+++ b/gcc/config/i386/i386.c
+-@@ -36918,10 +36918,10 @@ ix86_expand_builtin (tree exp, rtx target, rtx subtarget,
+-     {
+-     case IX86_BUILTIN_CPU_INIT:
+-       {
+--	/* Make it call __cpu_indicator_init in libgcc. */
+-+	/* Make it call __cpu_indicator_init_local in libgcc.a. */
+- 	tree call_expr, fndecl, type;
+-         type = build_function_type_list (integer_type_node, NULL_TREE); 
+--	fndecl = build_fn_decl ("__cpu_indicator_init", type);
+-+	fndecl = build_fn_decl ("__cpu_indicator_init_local", type);
+- 	call_expr = build_call_expr (fndecl, 0); 
+- 	return expand_expr (call_expr, target, mode, EXPAND_NORMAL);
+-       }
+-diff --git a/libgcc/config/i386/cpuinfo.c b/libgcc/config/i386/cpuinfo.c
+-index a1dc011525f..dac5e889abf 100644
+---- a/libgcc/config/i386/cpuinfo.c
+-+++ b/libgcc/config/i386/cpuinfo.c
+-@@ -391,7 +391,7 @@ __cpu_indicator_init (void)
+-   return 0;
+- }
+- 
+--#if defined SHARED && defined USE_ELF_SYMVER
+--__asm__ (".symver __cpu_indicator_init, __cpu_indicator_init@GCC_4.8.0");
+--__asm__ (".symver __cpu_model, __cpu_model@GCC_4.8.0");
+-+#ifndef SHARED
+-+int __cpu_indicator_init_local (void)
+-+  __attribute__ ((weak, alias ("__cpu_indicator_init")));
+- #endif
+-diff --git a/libgcc/config/i386/t-linux b/libgcc/config/i386/t-linux
+-index 11bb46e0ee4..4f47f7bfa59 100644
+---- a/libgcc/config/i386/t-linux
+-+++ b/libgcc/config/i386/t-linux
+-@@ -3,4 +3,4 @@
+- # t-slibgcc-elf-ver and t-linux
+- SHLIB_MAPFILES = libgcc-std.ver $(srcdir)/config/i386/libgcc-glibc.ver
+- 
+--HOST_LIBGCC2_CFLAGS += -mlong-double-80 -DUSE_ELF_SYMVER
+-+HOST_LIBGCC2_CFLAGS += -mlong-double-80
+--- 
+-2.12.2
+-
 -- 
 2.16.1
 
