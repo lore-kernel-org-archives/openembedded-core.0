@@ -1,49 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1341D78667
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DA35D78685
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 18:35:49 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id b25so6119940pfd.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 10:35:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pypAm10XyFbSnV24zCA924lvk9ga0wN0du1HeKVVVBY=;
-	b=E+ImcQUzMVwjj/MfRmpKsAxrJEPHbQ5igEdnzcmlvf2PdrDQqVdnDkvgJ5YAaK0ZuU
-	VRzXJolrVndoy9C2gua6GpyZhKRtVNi3Cb3wj/yTDg2s/L8mB46pxKursmx7eqCNdUnb
-	tVnUvxF2dbQPjUDtYGjTSWm5idNF1SkWvsZzATsGxucC27CFb2HaNjYILfx6h3nVNJDc
-	O6+mM0xYB7hP6zAZA3G6lxxCCujzXj1cp38BaW/WZrJDCV1/+wlv+E7aeWLBebnwli5L
-	/yizJBF0kCyMInTw3ONyY3hqbGFSNTu+5c1PfSy3+2A4hKEVU63pZ3uNVGpcIN03GJA/
-	kbsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pypAm10XyFbSnV24zCA924lvk9ga0wN0du1HeKVVVBY=;
-	b=Thy9wipO7rowENnIfNVEPptV1575y9RfXVhqQdF77UmHVh35tOM9SfnJ6YiHE33Ces
-	BvBDew64JtqZq53RQ18NP/foZpLC0bTfSk8VrFnC2j6SdfqSGCQnk9FqwNmyc6eN2NAQ
-	5FVH7SuFk96aP7DeD8w64jTeZ/BiUvouN/MbQSm4UsdyDxR+Wj4zWHJtInvC/9CgrcED
-	zWBEQNpaFdx2Em+S+KGyY9AriBJpPAaiM7/5GfF+jNgrM34PHgNOHFivTiW/bevU1uol
-	sQfrJlytyTIlCSeRNQ4Rl7hP+tslcGN4BDQqGz8nzjxLjAqYWDU4vHxYcxMpdfMRsB4j
-	kEww==
-X-Gm-Message-State: AKwxytea3Am9LOPJFU+rqp4Q5dB/AgcCzaNAjKE3SPFOxFGpNcTpiaPS
-	/8EQms2x6RQGEh/MN8WnFHmO8vUcWHriNjY06TQ=
-X-Google-Smtp-Source: AH8x226J7Iw8VnmEBBOqxWtIaUBDH73CImhccd/SOj1IFTavAD4OiPJ5JIq4MQR4oh2bHrKdfOGhXKOm0H0MnqwIqVQ=
-X-Received: by 2002:a17:902:27e6:: with SMTP id
-	i35-v6mr20283990plg.441.1517250950722; 
-	Mon, 29 Jan 2018 10:35:50 -0800 (PST)
+	Mon, 29 Jan 2018 18:56:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id ED8A7184A9;
+	Mon, 29 Jan 2018 19:56:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id ImxD3rmSK1gG; Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id D631B18489;
+	Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B5FD41E081;
+	Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA8051E080;
+	Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 9E941E39;
+	Mon, 29 Jan 2018 19:56:29 +0100 (CET)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Mon, 29 Jan 2018 19:56:29 +0100
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Mon, 29 Jan 2018 19:56:29 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Mon, 29 Jan 2018 19:56:29 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] glibc: Adapt do_install_append_aarch64() for
+	usrmerge
+Thread-Index: AQHTmSdTILurj43YdEGDrWEoqSt0g6OLMSKw
+Date: Mon, 29 Jan 2018 18:56:29 +0000
+Message-ID: <1445e9c6b5554faea6022bc0c14e3a38@XBOX02.axis.com>
+References: <20180127035303.7076-1-pkj@axis.com>
+	<CAJTo0LZ2Yc_57pjJwiitsq+LuDcGvgkVv4sDU3v+z9Ki-5mbzg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ2Yc_57pjJwiitsq+LuDcGvgkVv4sDU3v+z9Ki-5mbzg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Mon, 29 Jan 2018 10:35:20 -0800 (PST)
-In-Reply-To: <1517238375-21831-1-git-send-email-rbilovol@cisco.com>
-References: <1517238375-21831-1-git-send-email-rbilovol@cisco.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 29 Jan 2018 10:35:20 -0800
-Message-ID: <CAMKF1sqSv0n2D4AFyxmfd860Hni_L2V0=KPBvqYYifu0ymV4zQ@mail.gmail.com>
-To: Ruslan Bilovol <rbilovol@cisco.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-kernel: add kpatch dynamic kernel patching infrastructure
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Adapt do_install_append_aarch64() for usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,288 +66,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 18:35:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 29 Jan 2018 18:56:30 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1445e9c6b5554faea6022bc0c14e3a38XBOX02axiscom_"
 
-On Mon, Jan 29, 2018 at 7:06 AM, Ruslan Bilovol <rbilovol@cisco.com> wrote:
-> kpatch is a Linux dynamic kernel patching infrastructure
-> which allows you to patch a running kernel without
-> rebooting or restarting any processes
->
-> Currently it is enabled and tested on x86-64 systems,
-> although can be extended to PPC64 as well.
->
+--_000_1445e9c6b5554faea6022bc0c14e3a38XBOX02axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-perhaps not ready for oe-core yet doesnt seem to support all core
-arches, may be meta-oe is a better place for it for now
+QXBwYXJlbnRseSB0aGlzIHdhcyBhbHJlYWR5IG1lcmdlZC4gSG93ZXZlciwgdGhlIGFzc3VtcHRp
+b24gaXMgdGhhdCAke25vbmFyY2hfYmFzZV9saWJkaXJ9IHdpbGwgZXZhbHVhdGUgdG8gL2xpYiwg
+b3Igc29tZXRoaW5nIHRoYXQgd2lsbCBiZSBhY2Nlc3NpYmxlIGFzIC9saWIuIEkuZS4sIHRoZSBk
+ZWZhdWx0IGRlZmluaXRpb24gb2YgJHtub25hcmNoX2Jhc2VfbGliZGlyfSBpcyDigJwvbGli4oCd
+IHVubGVzcyB1c3JtZXJnZSBpcyBpbiBESVNUUk9fRkVBVFVSRVMsIGluIHdoaWNoIGNhc2UgaXQg
+aXMg4oCcJHtyb290X3ByZWZpeC9saWLigJ0gKHdoaWNoIGV2YWx1YXRlcyB0byDigJwvdXNyL2xp
+YuKAnSksIGJ1dCB0aGVuIGEgc3ltYm9saWMgbGluayB3aWxsIGJlIGNyZWF0ZWQgZnJvbSDigJwv
+bGli4oCdIHRvIOKAnC91c3IvbGli4oCdLg0KDQovL1BldGVyDQoNCkZyb206IEJ1cnRvbiwgUm9z
+cyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IGRlbiAyOSBqYW51YXJpIDIw
+MTggMTg6MzMNClRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
+LmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGdsaWJjOiBBZGFwdCBkb19pbnN0
+YWxsX2FwcGVuZF9hYXJjaDY0KCkgZm9yIHVzcm1lcmdlDQoNCkhvdyBkb2VzIHRoZSBwYXRjaCBy
+ZWxhdGUgdG8gdGhlIGNvbW1lbnQgd2hpY2ggc3RhdGVzIHRoZSBBQkkgc2F5cyB0aGUgcGF0aCAq
+bXVzdCogYmUgL2xpYi8uICBJcyB0aGF0IHdyb25nPyAgSG93IGRvZXMgdGhpcyBpbnRlcmFjdCB3
+aXRoIHRoZSBtZXJnZWQgc3ltbGluayBjcmVhdGlvbiBpbiBpbWFnZS5iYmNsYXNzPyAgUGxlYXNl
+IGV4cGFuZCBvbiB0aGUgbWVzc2FnZSBzbyBpdCdzIGNsZWFyIHdoYXQgaXMgbWVhbnQgdG8gYmUg
+aGFwcGVuaW5nLg0KDQpSb3NzDQoNCk9uIDI3IEphbnVhcnkgMjAxOCBhdCAwMzo1MywgUGV0ZXIg
+S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFpbHRvOnBldGVyLmtq
+ZWxsZXJzdGVkdEBheGlzLmNvbT4+IHdyb3RlOg0KQ2hhbmdlIGhhcmRjb2RlZCAvbGliIHRvICR7
+bm9uYXJjaF9iYXNlX2xpYmRpcn0gdG8gY29ycmVjdGx5IGFkYXB0IHRoZQ0KY29kZSBpbiBkb19p
+bnN0YWxsX2FwcGVuZF9hYXJjaDY0KCkgZm9yIHdoZW4gdXNybWVyZ2UgaXMgZW5hYmxlZCBpbg0K
+RElTVFJPX0ZFQVRVUkVTLg0KDQpTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBl
+dGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
+Y29tPj4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBhY2thZ2UuaW5jIHwg
+MTIgKysrKysrLS0tLS0tDQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxl
+dGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBh
+Y2thZ2UuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5pbmMNCmlu
+ZGV4IDgxN2Q4NTAzNTguLjRkM2RjNjc5YjQgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtY29y
+ZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYw0KKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMv
+Z2xpYmMtcGFja2FnZS5pbmMNCkBAIC0xMTQsMTUgKzExNCwxNSBAQCBkb19pbnN0YWxsX2FwcGVu
+ZCAoKSB7DQogfQ0KDQogZG9faW5zdGFsbF9hcHBlbmRfYWFyY2g2NCAoKSB7DQotICAgICAgIGlm
+IFsgIiR7YmFzZV9saWJkaXJ9IiAhPSAiL2xpYiIgXSA7IHRoZW4NCisgICAgICAgaWYgWyAiJHti
+YXNlX2xpYmRpcn0iICE9ICIke25vbmFyY2hfYmFzZV9saWJkaXJ9IiBdOyB0aGVuDQogICAgICAg
+ICAgICAgICAgIyBUaGUgYWFyY2g2NCBBQkkgc2F5cyB0aGUgZHluYW1pYyBsaW5rZXIgLW11c3Qt
+IGJlIC9saWIvbGQtbGludXgtYWFyY2g2NFtfYmVdLnNvLjENCi0gICAgICAgICAgICAgICBpbnN0
+YWxsIC1kICR7RH0vbGliDQorICAgICAgICAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtub25hcmNo
+X2Jhc2VfbGliZGlyfQ0KICAgICAgICAgICAgICAgIGlmIFsgLWUgJHtEfSR7YmFzZV9saWJkaXJ9
+L2xkLWxpbnV4LWFhcmNoNjQuc28uMSBdOyB0aGVuDQotICAgICAgICAgICAgICAgICAgICAgICBs
+biAtcyAke0BiYXNlX3BhdGhfcmVsYXRpdmUoJy9saWInLCAnJHtiYXNlX2xpYmRpcn0nKX0vbGQt
+bGludXgtYWFyY2g2NC5zby4xIFwNCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJHtE
+fS9saWIvbGQtbGludXgtYWFyY2g2NC5zby4xDQorICAgICAgICAgICAgICAgICAgICAgICBsbiAt
+cyAke0BiYXNlX3BhdGhfcmVsYXRpdmUoJyR7bm9uYXJjaF9iYXNlX2xpYmRpcn0nLCAnJHtiYXNl
+X2xpYmRpcn0nKX0vbGQtbGludXgtYWFyY2g2NC5zby4xIFwNCisgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgJHtEfSR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbGQtbGludXgtYWFyY2g2NC5z
+by4xDQogICAgICAgICAgICAgICAgZWxpZiBbIC1lICR7RH0ke2Jhc2VfbGliZGlyfS9sZC1saW51
+eC1hYXJjaDY0X2JlLnNvLjEgXTsgdGhlbg0KLSAgICAgICAgICAgICAgICAgICAgICAgbG4gLXMg
+JHtAYmFzZV9wYXRoX3JlbGF0aXZlKCcvbGliJywgJyR7YmFzZV9saWJkaXJ9Jyl9L2xkLWxpbnV4
+LWFhcmNoNjRfYmUuc28uMSBcDQotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICR7RH0v
+bGliL2xkLWxpbnV4LWFhcmNoNjRfYmUuc28uMQ0KKyAgICAgICAgICAgICAgICAgICAgICAgbG4g
+LXMgJHtAYmFzZV9wYXRoX3JlbGF0aXZlKCcke25vbmFyY2hfYmFzZV9saWJkaXJ9JywgJyR7YmFz
+ZV9saWJkaXJ9Jyl9L2xkLWxpbnV4LWFhcmNoNjRfYmUuc28uMSBcDQorICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICR7RH0ke25vbmFyY2hfYmFzZV9saWJkaXJ9L2xkLWxpbnV4LWFhcmNo
+NjRfYmUuc28uMQ0KICAgICAgICAgICAgICAgIGZpDQogICAgICAgIGZpDQogICAgICAgIGRvX2lu
+c3RhbGxfYXJtbXVsdGlsaWINCi0tDQoyLjEyLjANCg0KLS0NCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxp
+c3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
 
-> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-> ---
->  meta/recipes-kernel/kpatch/kpatch.inc              |  49 ++++++++++
->  ...patch-build-add-cross-compilation-support.patch | 103 +++++++++++++++++++++
->  ...tch-build-allow-overriding-of-distro-name.patch |  62 +++++++++++++
->  meta/recipes-kernel/kpatch/kpatch_git.bb           |  11 +++
->  4 files changed, 225 insertions(+)
->  create mode 100644 meta/recipes-kernel/kpatch/kpatch.inc
->  create mode 100644 meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
->  create mode 100644 meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
->  create mode 100644 meta/recipes-kernel/kpatch/kpatch_git.bb
->
-> diff --git a/meta/recipes-kernel/kpatch/kpatch.inc b/meta/recipes-kernel/kpatch/kpatch.inc
-> new file mode 100644
-> index 0000000..b1e73e9
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kpatch/kpatch.inc
-> @@ -0,0 +1,49 @@
-> +SUMMARY = "Linux dynamic kernel patching infrastructure"
-> +DESCRIPTION = "kpatch is a Linux dynamic kernel patching infrastructure which allows you to patch a running kernel without rebooting or restarting any processes."
-> +LICENSE = "GPLv2 & LGPLv2"
-> +DEPENDS = "elfutils bash"
-> +
-> +SRC_URI = "git://github.com/dynup/kpatch.git;protocol=https \
-> +       file://0001-kpatch-build-add-cross-compilation-support.patch \
-> +       file://0002-kpatch-build-allow-overriding-of-distro-name.patch \
-> +       "
-> +
-> +EXTRA_OEMAKE = " \
-> +       PREFIX=${prefix} \
-> +       BINDIR=${D}${bindir} \
-> +       SBINDIR=${D}${sbindir} \
-> +       LIBDIR=${D}${libdir} \
-> +       MANDIR=${D}${mandir}/man1 \
-> +       SYSTEMDDIR=${D}${systemd_system_unitdir} \
-> +       DESTDIR=${D} \
-> +       BUILDMOD=no \
-> +       CC='${CC}' \
-> +       "
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +do_install () {
-> +       oe_runmake install
-> +}
-> +
-> +PACKAGES =+ "kpatch-build"
-> +PROVIDES += "kpatch-build"
-> +
-> +COMPATIBLE_HOST = "(x86_64).*-linux"
-> +
-> +RDEPENDS_${PN} = "bash binutils"
-> +RDEPENDS_kpatch-build = "bash glibc-utils"
-> +
-> +FILES_${PN} = " \
-> +       ${sbindir}/kpatch \
-> +       ${systemd_system_unitdir}/kpatch.service \
-> +       ${mandir}/man1/kpatch.1.gz \
-> +       "
-> +FILES_kpatch-build = " \
-> +       ${bindir}/kpatch-build \
-> +       ${libexecdir}/* \
-> +       ${datadir}/kpatch \
-> +       ${mandir}/man1/kpatch-build.1.gz \
-> +       "
-> +
-> +SYSTEMD_SERVICE_${PN} = "kpatch.service"
-> diff --git a/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
-> new file mode 100644
-> index 0000000..459fb21
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
-> @@ -0,0 +1,103 @@
-> +From a9a80a1f4df65892a0269295ce8a64b06f2ff61d Mon Sep 17 00:00:00 2001
-> +From: Ruslan Bilovol <rbilovol@cisco.com>
-> +Date: Tue, 19 Dec 2017 15:59:04 +0200
-> +Subject: [PATCH] kpatch-build: add cross-compilation support
-> +
-> +This patch introduces new option for kpatch-build
-> +script "--cross-compile" which can be used for
-> +specifying cross-complier prefix.
-> +It allows to build live patches not only on
-> +target system, but also on hosts for a target other
-> +than the one on which the compiler is running
-> +
-> +Also removed quotes in exec lines, so it is
-> +possible to pass multy-component strings like
-> +"ccache x86_64-xelinux-linux-" as cross-compiler
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-> +---
-> + kpatch-build/kpatch-build | 13 +++++++++++--
-> + kpatch-build/kpatch-gcc   |  4 ++--
-> + 2 files changed, 13 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
-> +index 166ecbd..af24cc4 100755
-> +--- a/kpatch-build/kpatch-build
-> ++++ b/kpatch-build/kpatch-build
-> +@@ -195,7 +195,7 @@ gcc_version_check() {
-> +       # gcc --version varies between distributions therefore extract version
-> +       # by compiling a test file and compare it to vmlinux's version.
-> +       echo 'void main(void) {}' > "$c"
-> +-      out="$(gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
-> ++      out="$(${KPATCH_CROSS_COMPILE}gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
-> +       gccver="$(gcc_version_from_file "$o")"
-> +       kgccver="$(gcc_version_from_file "$VMLINUX")"
-> +       rm -f "$c" "$o"
-> +@@ -381,12 +381,14 @@ usage() {
-> +       echo "          -d, --debug        Enable 'xtrace' and keep scratch files" >&2
-> +       echo "                             in <CACHEDIR>/tmp" >&2
-> +       echo "                             (can be specified multiple times)" >&2
-> ++      echo "          --cross-compile    Specify the prefix used for all executables" >&2
-> ++      echo "                             used during compilation" >&2
-> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
-> +       echo "          --skip-gcc-check   Skip gcc version matching check" >&2
-> +       echo "                             (not recommended)" >&2
-> + }
-> +
-> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-> +
-> + eval set -- "$options"
-> +
-> +@@ -444,6 +446,10 @@ while [[ $# -gt 0 ]]; do
-> +                       echo "DEBUG mode enabled"
-> +               fi
-> +               ;;
-> ++      --cross-compile)
-> ++              KPATCH_CROSS_COMPILE="$2"
-> ++              shift
-> ++              ;;
-> +       --skip-cleanup)
-> +               echo "Skipping cleanup"
-> +               SKIPCLEANUP=1
-> +@@ -691,6 +697,8 @@ if [[ $DEBUG -ge 4 ]]; then
-> +       export KPATCH_GCC_DEBUG=1
-> + fi
-> +
-> ++export KPATCH_CROSS_COMPILE
-> ++
-> + echo "Building original kernel"
-> + ./scripts/setlocalversion --save-scmversion || die
-> + make mrproper 2>&1 | logger || die
-> +@@ -840,6 +848,7 @@ cd "$TEMPDIR/patch" || die
-> + KPATCH_BUILD="$SRCDIR" KPATCH_NAME="$MODNAME" \
-> + KBUILD_EXTRA_SYMBOLS="$KBUILD_EXTRA_SYMBOLS" \
-> + KPATCH_LDFLAGS="$KPATCH_LDFLAGS" \
-> ++CROSS_COMPILE="$KPATCH_CROSS_COMPILE" \
-> +       make 2>&1 | logger || die
-> +
-> + if ! "$KPATCH_MODULE"; then
-> +diff --git a/kpatch-build/kpatch-gcc b/kpatch-build/kpatch-gcc
-> +index 6ba133c..3937948 100755
-> +--- a/kpatch-build/kpatch-gcc
-> ++++ b/kpatch-build/kpatch-gcc
-> +@@ -8,7 +8,7 @@ TOOLCHAINCMD="$1"
-> + shift
-> +
-> + if [[ -z "$KPATCH_GCC_TEMPDIR" ]]; then
-> +-      exec "$TOOLCHAINCMD" "$@"
-> ++      exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "$@"
-> + fi
-> +
-> + declare -a args=("$@")
-> +@@ -80,4 +80,4 @@ elif [[ "$TOOLCHAINCMD" = "ld" ]] ; then
-> +       done
-> + fi
-> +
-> +-exec "$TOOLCHAINCMD" "${args[@]}"
-> ++exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "${args[@]}"
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
-> new file mode 100644
-> index 0000000..a9d8a7f
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
-> @@ -0,0 +1,62 @@
-> +From d418d716dae1e2a05131dfb42a19a4da2fc8a85d Mon Sep 17 00:00:00 2001
-> +From: Ruslan Bilovol <rbilovol@cisco.com>
-> +Date: Tue, 2 Jan 2018 14:50:03 +0200
-> +Subject: [PATCH] kpatch-build: allow overriding of distro name
-> +
-> +It is sometimes useful to have ability to override
-> +distro name, for example during cross-compilation
-> +build when livepatch modules will be ran on the
-> +target which differs from host.
-> +
-> +This patch adds a new --distro option which
-> +implements all needed functionality
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-> +---
-> + kpatch-build/kpatch-build | 9 +++++++--
-> + 1 file changed, 7 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
-> +index af24cc4..4f9f78d 100755
-> +--- a/kpatch-build/kpatch-build
-> ++++ b/kpatch-build/kpatch-build
-> +@@ -383,12 +383,13 @@ usage() {
-> +       echo "                             (can be specified multiple times)" >&2
-> +       echo "          --cross-compile    Specify the prefix used for all executables" >&2
-> +       echo "                             used during compilation" >&2
-> ++      echo "          --distro           Override distro name" >&2
-> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
-> +       echo "          --skip-gcc-check   Skip gcc version matching check" >&2
-> +       echo "                             (not recommended)" >&2
-> + }
-> +
-> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,distro:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
-> +
-> + eval set -- "$options"
-> +
-> +@@ -450,6 +451,10 @@ while [[ $# -gt 0 ]]; do
-> +               KPATCH_CROSS_COMPILE="$2"
-> +               shift
-> +               ;;
-> ++      --distro)
-> ++              DISTRO="$2"
-> ++              shift
-> ++              ;;
-> +       --skip-cleanup)
-> +               echo "Skipping cleanup"
-> +               SKIPCLEANUP=1
-> +@@ -526,7 +531,7 @@ fi
-> + # Don't check external file.
-> + # shellcheck disable=SC1091
-> + source /etc/os-release
-> +-DISTRO="$ID"
-> ++DISTRO="${DISTRO:-${ID}}"
-> + if [[ "$DISTRO" = fedora ]] || [[ "$DISTRO" = rhel ]] || [[ "$DISTRO" = ol ]] || [[ "$DISTRO" = centos ]]; then
-> +       [[ -z "$VMLINUX" ]] && VMLINUX="/usr/lib/debug/lib/modules/$ARCHVERSION/vmlinux"
-> +       [[ -e "$VMLINUX" ]] || die "kernel-debuginfo-$ARCHVERSION not installed"
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-kernel/kpatch/kpatch_git.bb b/meta/recipes-kernel/kpatch/kpatch_git.bb
-> new file mode 100644
-> index 0000000..e495e28
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kpatch/kpatch_git.bb
-> @@ -0,0 +1,11 @@
-> +require kpatch.inc
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +
-> +SRCREV = "db6efbb8c7e90d2b761272cf563047119072768f"
-> +
-> +PV = "0.5.0+git${SRCPV}"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--_000_1445e9c6b5554faea6022bc0c14e3a38XBOX02axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
+b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
+bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
+cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
+bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90
+dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uaG9lbnpiDQoJe21zby1zdHls
+ZS1uYW1lOmhvZW56Yjt9DQpzcGFuLkVtYWlsU3R5bGUxOQ0KCXttc28tc3R5bGUtdHlwZTpwZXJz
+b25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjoj
+OTQzNjM0Ow0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5vcm1hbDsNCgl0ZXh0
+LWRlY29yYXRpb246bm9uZSBub25lO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBl
+OmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1m
+YXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4w
+cHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5X
+b3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0
+ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEw
+MjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNo
+YXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAv
+Pg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFu
+Zz0iU1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rp
+b24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29s
+b3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+QXBwYXJlbnRseSB0aGlzIHdh
+cyBhbHJlYWR5IG1lcmdlZC4gSG93ZXZlciwgdGhlIGFzc3VtcHRpb24gaXMgdGhhdCAke25vbmFy
+Y2hfYmFzZV9saWJkaXJ9IHdpbGwgZXZhbHVhdGUgdG8gL2xpYiwgb3Igc29tZXRoaW5nIHRoYXQg
+d2lsbCBiZSBhY2Nlc3NpYmxlIGFzIC9saWIuIEkuZS4sIHRoZQ0KIGRlZmF1bHQgZGVmaW5pdGlv
+biBvZiAke25vbmFyY2hfYmFzZV9saWJkaXJ9IGlzIOKAnC9saWLigJ0gdW5sZXNzIHVzcm1lcmdl
+IGlzIGluIERJU1RST19GRUFUVVJFUywgaW4gd2hpY2ggY2FzZSBpdCBpcyDigJwke3Jvb3RfcHJl
+Zml4L2xpYuKAnSAod2hpY2ggZXZhbHVhdGVzIHRvIOKAnC91c3IvbGli4oCdKSwgYnV0IHRoZW4g
+YSBzeW1ib2xpYyBsaW5rIHdpbGwgYmUgY3JlYXRlZCBmcm9tIOKAnC9saWLigJ0gdG8g4oCcL3Vz
+ci9saWLigJ0uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdl
+OkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFu
+Z3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20g
+MGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRv
+cDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48c3Bh
+biBsYW5nPSJFTi1VUyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
+bV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjkgamFudWFyaSAyMDE4IDE4OjMzPGJyPg0KPGI+
+VG86PC9iPiBQZXRlciBLamVsbGVyc3RlZHQgJmx0O3BldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
+bSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0g
+W1BBVENIXSBnbGliYzogQWRhcHQgZG9faW5zdGFsbF9hcHBlbmRfYWFyY2g2NCgpIGZvciB1c3Jt
+ZXJnZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5Ib3cgZG9lcyB0aGUgcGF0Y2ggcmVsYXRlIHRvIHRoZSBjb21tZW50IHdoaWNoIHN0YXRlcyB0
+aGUgQUJJIHNheXMgdGhlIHBhdGggKm11c3QqIGJlIC9saWIvLiZuYnNwOyBJcyB0aGF0IHdyb25n
+PyZuYnNwOyBIb3cgZG9lcyB0aGlzIGludGVyYWN0IHdpdGggdGhlIG1lcmdlZCBzeW1saW5rIGNy
+ZWF0aW9uIGluIGltYWdlLmJiY2xhc3M/Jm5ic3A7IFBsZWFzZSBleHBhbmQgb24gdGhlIG1lc3Nh
+Z2Ugc28gaXQncyBjbGVhciB3aGF0IGlzDQogbWVhbnQgdG8gYmUgaGFwcGVuaW5nLjxvOnA+PC9v
+OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAyNyBKYW51YXJ5IDIw
+MTggYXQgMDM6NTMsIFBldGVyIEtqZWxsZXJzdGVkdCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBldGVy
+LmtqZWxsZXJzdGVkdEBheGlzLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnBldGVyLmtqZWxsZXJzdGVk
+dEBheGlzLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
+Y20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPkNoYW5nZSBoYXJkY29kZWQgL2xpYiB0byAke25vbmFyY2hfYmFz
+ZV9saWJkaXJ9IHRvIGNvcnJlY3RseSBhZGFwdCB0aGU8YnI+DQpjb2RlIGluIGRvX2luc3RhbGxf
+YXBwZW5kX2FhcmNoNjQoKSBmb3Igd2hlbiB1c3JtZXJnZSBpcyBlbmFibGVkIGluPGJyPg0KRElT
+VFJPX0ZFQVRVUkVTLjxicj4NCjxicj4NClNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVk
+dCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSI+cGV0ZXIu
+a2plbGxlcnN0ZWR0QGF4aXMuY29tPC9hPiZndDs8YnI+DQotLS08YnI+DQombmJzcDttZXRhL3Jl
+Y2lwZXMtY29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYyB8IDEyICYjNDM7JiM0MzsmIzQzOyYj
+NDM7JiM0MzsmIzQzOy0tLS0tLTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlv
+bnMoJiM0MzspLCA2IGRlbGV0aW9ucygtKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtY29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYyBiL21ldGEvcmVjaXBlcy1jb3JlL2ds
+aWJjL2dsaWJjLXBhY2thZ2UuaW5jPGJyPg0KaW5kZXggODE3ZDg1MDM1OC4uNGQzZGM2NzliNCAx
+MDA2NDQ8YnI+DQotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmlu
+Yzxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBh
+Y2thZ2UuaW5jPGJyPg0KQEAgLTExNCwxNSAmIzQzOzExNCwxNSBAQCBkb19pbnN0YWxsX2FwcGVu
+ZCAoKSB7PGJyPg0KJm5ic3A7fTxicj4NCjxicj4NCiZuYnNwO2RvX2luc3RhbGxfYXBwZW5kX2Fh
+cmNoNjQgKCkgezxicj4NCi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtpZiBbICZxdW90OyR7
+YmFzZV9saWJkaXJ9JnF1b3Q7ICE9ICZxdW90Oy9saWImcXVvdDsgXSA7IHRoZW48YnI+DQomIzQz
+OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lmIFsgJnF1b3Q7JHtiYXNlX2xpYmRpcn0mcXVv
+dDsgIT0gJnF1b3Q7JHtub25hcmNoX2Jhc2VfbGliZGlyfSZxdW90OyBdOyB0aGVuPGJyPg0KJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAjIFRo
+ZSBhYXJjaDY0IEFCSSBzYXlzIHRoZSBkeW5hbWljIGxpbmtlciAtbXVzdC0gYmUgL2xpYi9sZC1s
+aW51eC1hYXJjaDY0W19iZV0uc28uMTxicj4NCi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aW5zdGFsbCAtZCAke0R9L2xpYjxicj4NCiYjNDM7
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lu
+c3RhbGwgLWQgJHtEfSR7bm9uYXJjaF9iYXNlX2xpYmRpcn08YnI+DQombmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGlmIFsgLWUgJHtEfSR7YmFz
+ZV9saWJkaXJ9L2xkLWxpbnV4LWFhcmNoNjQuc28uMSBdOyB0aGVuPGJyPg0KLSZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7bG4gLXMgJHtAYmFzZV9wYXRoX3JlbGF0aXZlKCcvbGliJywgJyR7YmFz
+ZV9saWJkaXJ9Jyl9L2xkLWxpbnV4LWFhcmNoNjQuc28uMSBcPGJyPg0KLSZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyR7RH0vbGliL2xkLWxpbnV4
+LWFhcmNoNjQuc28uMTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtsbiAtcyAk
+e0BiYXNlX3BhdGhfcmVsYXRpdmUoJyR7bm9uYXJjaF9iYXNlX2xpYmRpcn0nLCAnJHtiYXNlX2xp
+YmRpcn0nKX0vbGQtbGludXgtYWFyY2g2NC5zby4xIFw8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyR7RH0ke25vbmFyY2hfYmFz
+ZV9saWJkaXJ9L2xkLWxpbnV4LWFhcmNoNjQuc28uMTxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZWxpZiBbIC1lICR7RH0ke2Jhc2Vf
+bGliZGlyfS9sZC1saW51eC1hYXJjaDY0X2JlLnNvLjEgXTsgdGhlbjxicj4NCi0mbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwO2xuIC1zICR7QGJhc2VfcGF0aF9yZWxhdGl2ZSgnL2xpYicsICcke2Jh
+c2VfbGliZGlyfScpfS9sZC1saW51eC1hYXJjaDY0X2JlLnNvLjEgXDxicj4NCi0mbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDske0R9L2xpYi9sZC1s
+aW51eC1hYXJjaDY0X2JlLnNvLjE8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+bG4gLXMgJHtAYmFzZV9wYXRoX3JlbGF0aXZlKCcke25vbmFyY2hfYmFzZV9saWJkaXJ9JywgJyR7
+YmFzZV9saWJkaXJ9Jyl9L2xkLWxpbnV4LWFhcmNoNjRfYmUuc28uMSBcPGJyPg0KJiM0MzsmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDske0R9JHtu
+b25hcmNoX2Jhc2VfbGliZGlyfS9sZC1saW51eC1hYXJjaDY0X2JlLnNvLjE8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpPGJyPg0K
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7IGRvX2luc3RhbGxfYXJtbXVsdGlsaWI8YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj48
+c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+LS08L3NwYW4+PC9zcGFuPjxzcGFuIHN0eWxlPSJj
+b2xvcjojODg4ODg4Ij48YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj4yLjEyLjA8L3NwYW4+PGJy
+Pg0KPGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+LS08L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9
+ImhvZW56YiI+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX188
+L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGlu
+ZyBsaXN0PC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJob2VuemIiPjxhIGhyZWY9Im1haWx0bzpP
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0iaG9l
+bnpiIj48YSBocmVmPSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL29wZW5lbWJlZGRlZC1jb3JlIiB0YXJnZXQ9Il9ibGFuayI+aHR0cDovL2xpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZTwvYT48L3NwYW4+
+PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
+CjwvYm9keT4NCjwvaHRtbD4NCg==
+
+--_000_1445e9c6b5554faea6022bc0c14e3a38XBOX02axiscom_--
