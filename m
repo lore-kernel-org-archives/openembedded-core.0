@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D0CDD78842;
-	Mon, 29 Jan 2018 17:34:23 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7729B787ED
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jan 2018 17:44:51 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id b25so5965482pfd.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jan 2018 09:44:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dzb652Jp9FIul6UmOVC5x9Adube+9zoE9DnyB6OFyUI=;
+	b=CV/hO8odMMqdkEZd8RvLtYkbnBYT7T4V+qJwKhhN+PAh+5Q84OOY6w3mHmt+OVFMOg
+	RQDr78Q4mZwg3RrI2aOslViFbAmFadaNPoL4Ri+o8rrleviyR9jrPKSXhNlmCAqndfqE
+	PBcBVFyvYBVA9lrOKL2ImfxW4RkRcdMVDOOWj/VRVJnM2dWPnF5OhLNKkNi1dEpW8UUp
+	5mLIO6nWsO9KWTQ00dMY6KLvgCri4aedM8DOJTmcyz0e3Gv3wvnMlYNMrB5FEZ7IsjFC
+	NxfjstBk9vX5qb7RCtwL7rOpQfVIzQgoO4lAq/7JKZRN4iszcg52rsdwC01eX2jRNIIJ
+	aw9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dzb652Jp9FIul6UmOVC5x9Adube+9zoE9DnyB6OFyUI=;
+	b=mnWPFTms0i2YiAJEiPOSwH1yBQJLZ7AS08DnJRDU+IDh1FYm22vqXBQ93KG55Ak3wb
+	7nYP47JlCy/VgtxhgzExndHjqzTlxoRJrHNtFqlQBVz5Qe8kL3JD8E3w2O7exZFhhG1T
+	6+iCrbXGir7Fu1kz+Y6INcc/Er5FdEXivOWVbxopB92AqZsy91LYL3MQw1Rmw6Tr8Tsu
+	H85CFjOD/TcAHjw5J8W1vL/g+faKoATmi4aBFZnj7N2ZAV8WzabhmRt8VoT3KEYGmG8M
+	3hzDzJL2K+zD9aZcsnfiH9FSEB5e5LGHVqpIx+ms6khCijpxd49hR1eoxVhoRNrfNJx0
+	vZxg==
+X-Gm-Message-State: AKwxytdgZPFsbpwCo2AC4QH5wV9Bi6yG6JkNxZ3n5Va284YQ6GWKaEk3
+	tdQSVLfRgY6XJt34rLbk88K7GWaWJmHD5vMr3cY=
+X-Google-Smtp-Source: AH8x226xl5SDJKk41f424qjBR0gBiBz3jQd1/AeAi6PphCIuM7gI0lmC9i1WqVCs6yKyuj1NWTkzKHqntK2ptM3uzZA=
+X-Received: by 2002:a17:902:bd82:: with SMTP id
+	q2-v6mr13296911pls.339.1517247892530; 
+	Mon, 29 Jan 2018 09:44:52 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 29 Jan 2018 17:34:25 -0000
-Message-ID: <20180129173425.15543.32496@do.openembedded.org>
-References: <20180129171111.14502-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180129171111.14502-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9mb25vOiBvbmx5IGRlcGVuZCBvbiBweWdvYmplYy4uLiIgYW5kIDQgbW9yZQ==?=
+Received: by 10.100.161.170 with HTTP; Mon, 29 Jan 2018 09:44:22 -0800 (PST)
+In-Reply-To: <CAJTo0LZ=m04zzX5XunL3Ht4t=b9dAiAfwdfkARcH6nyFTL1Y1w@mail.gmail.com>
+References: <20180127070626.27581-1-raj.khem@gmail.com>
+	<CAJTo0LZ=m04zzX5XunL3Ht4t=b9dAiAfwdfkARcH6nyFTL1Y1w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Jan 2018 09:44:22 -0800
+Message-ID: <CAMKF1sqrT9Fd92FnVyeZ+esWEF-2NUwjow-5hv4GjQnHJ_QqqA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meson: Adjust for clang compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 17:34:24 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jan 2018 17:44:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Mon, Jan 29, 2018 at 9:21 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 27 January 2018 at 07:06, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> Remove hardcoding c/c++ compiler to be gcc alone, its
+>> possible to use clang as replacement for cross compilers
+>> from meta-clang, therefore set clang/clang++ if
+>> TOOLCHAIN = "clang"
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/classes/meson.bbclass | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+>> index 91ac652651..cd3497a802 100644
+>> --- a/meta/classes/meson.bbclass
+>> +++ b/meta/classes/meson.bbclass
+>> @@ -40,6 +40,11 @@ EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
+>>  MESON_CROSS_FILE = ""
+>>  MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+>>
+>> +CCOMPILER ?= "gcc"
+>> +CXXCOMPILER ?= "g++"
+>> +CCOMPILER_toolchain-clang = "clang"
+>> +CXXCOMPILER_toolchain-clang = "clang++"
+>> +
+>
+>
+> Can we do this in bitbake.conf instead of repeating ourselves?
 
-Series: "ofono: only depend on pygobjec..." and 4 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10753/
-State : failure
+having it in meson bbclass keeps it to meson based recipes,
+bitbake.conf is a bit too generic.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where use-python3.patch was submitted
-  Current          Upstream-Status: Submitted
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+>
+> Ross
 
