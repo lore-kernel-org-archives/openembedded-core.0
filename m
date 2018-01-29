@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA1178761
+	by mail.openembedded.org (Postfix) with ESMTP id 44EFE783FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 12:01:39 +0000 (UTC)
+	Mon, 29 Jan 2018 12:01:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Jan 2018 04:01:41 -0800
+	29 Jan 2018 04:01:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,429,1511856000"; d="scan'208";a="13895507"
+X-IronPort-AV: E=Sophos;i="5.46,429,1511856000"; d="scan'208";a="13895514"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2018 04:01:40 -0800
+	by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2018 04:01:41 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 14:01:31 +0200
-Message-Id: <5893540d185da8c98e77e71222cd7bfb83217cd7.1517227178.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 29 Jan 2018 14:01:32 +0200
+Message-Id: <e2a78fad445b727ba649e5fecb0832ab7494c6db.1517227178.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <cover.1517227178.git.alexander.kanavin@linux.intel.com>
 References: <cover.1517227178.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/7] package.bbclass: add support for pkg_postinst_ontarget()
+Subject: [PATCH 5/7] meta/lib/oe/package_manager.py: deprecate 'exit 1' as a way to defer to first boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,102 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 12:01:39 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 12:01:40 -0000
 
-This function is a convenient and more readable shortcut for situations
-when the postinst code always needs to run on target. All commands that
-cannot be executed during cross-install and can only be run on target
-should go into this function. They will only be executed on first boot
-(if package was cross-installed) or immediately during package installation
-on target.
+'exit 1' is not optimal for two reasons:
 
-Plain pkg_postinst() works as before: it is run during cross-install time,
-it can contain a request to defer to first boot, and it is also run
-during package installation on target.
+1) Code is hard to read; it is not obvious that it means 'defer what follows to first boot'.
+2) Worse, this hides actual errors in the scriptlets; there is no difference between scriptlet
+failing because it's intended to be run on target and scriptlet failing because there's a bug or
+a regression somewhere.
 
-Also fix the oeqa test for this functionality to use the new function
-where appropriate.
+The new, supported way is to place the code that has to run on target into pkg_postinst_ontarget(),
+or, if a more fine-tuned control is required, call 'postinst-intercepts defer_to_first_boot' from
+pkg_postinst() to explicitly request deferral to first boot.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta-selftest/recipes-test/postinst/postinst_1.0.bb | 14 ++------------
- meta/classes/package.bbclass                        | 20 ++++++++++++++++++++
- 2 files changed, 22 insertions(+), 12 deletions(-)
+ meta/lib/oe/package_manager.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/postinst/postinst_1.0.bb b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-index 112aa08c80f..d4bab6dcc22 100644
---- a/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-+++ b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-@@ -35,14 +35,9 @@ pkg_postinst_${PN}-rootfs () {
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2a07f0e39ad..f7e013437c9 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -604,6 +604,9 @@ class RpmPM(PackageManager):
+             if line.startswith("Non-fatal POSTIN scriptlet failure in rpm package"):
+                 failed_scriptlets_pkgnames[line.split()[-1]] = True
  
- # Depends on rootfs, delays until first boot, verifies that the rootfs file was
- # written.
--pkg_postinst_${PN}-delayed-a () {
-+pkg_postinst_ontarget_${PN}-delayed-a () {
-     set -e
++        if len(failed_scriptlets_pkgnames) > 0:
++            bb.warn("Intentionally failing postinstall scriptlets of %s to defer them to first boot is deprecated. Please place them into pkg_postinst_ontarget_${PN} ()." %(list(failed_scriptlets_pkgnames.keys())))
++            bb.warn("If deferring to first boot wasn't the intent, then scriptlet failure may mean an issue in the recipe, or a regression elsewhere.")
+         for pkg in failed_scriptlets_pkgnames.keys():
+             self.save_rpmpostinst(pkg)
  
--    if [ -n "$D" ]; then
--        echo "Delaying ${PN}-delayed-a until first boot"
--        exit 1
--    fi
--
-     if [ ! -e ${TESTDIR}/rootfs ]; then
-         echo "${PN}-delayed-a: ${TESTDIR}/rootfs not found"
-         exit 1
-@@ -53,14 +48,9 @@ pkg_postinst_${PN}-delayed-a () {
- 
- # Depends on delayed-a, delays until first boot, verifies that the delayed-a file was
- # written. This verifies the ordering between delayed postinsts.
--pkg_postinst_${PN}-delayed-b () {
-+pkg_postinst_ontarget_${PN}-delayed-b () {
-     set -e
- 
--    if [ -n "$D" ]; then
--        echo "Delaying ${PN}-delayed-b until first boot"
--        exit 1
--    fi
--
-     if [ ! -e ${TESTDIR}/delayed-a ]; then
-         echo "${PN}-delayed-b: ${TESTDIR}/delayed-a not found"
-         exit 1
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 7dc759699f4..6a7f35a3e78 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1320,6 +1320,25 @@ python emit_pkgdata() {
-     from glob import glob
-     import json
- 
-+    def process_postinst_on_target(pkg, mlprefix):
-+        defer_fragment = """
-+if [ -n "$D" ]; then
-+    $INTERCEPT_DIR/postinst_intercept delay_to_first_boot %s mlprefix=%s
-+    exit 0
-+fi
-+""" % (pkg, mlprefix)
-+
-+        postinst = d.getVar('pkg_postinst_%s' % pkg)
-+        postinst_ontarget = d.getVar('pkg_postinst_ontarget_%s' % pkg)
-+
-+        if postinst_ontarget:
-+            bb.debug(1, 'adding deferred pkg_postinst_ontarget() to pkg_postinst() for %s' % pkg)
-+            if not postinst:
-+                postinst = '#!/bin/sh\n'
-+            postinst += defer_fragment
-+            postinst += postinst_ontarget
-+            d.setVar('pkg_postinst_%s' % pkg, postinst)
-+
-     def write_if_exists(f, pkg, var):
-         def encode(str):
-             import codecs
-@@ -1415,6 +1434,7 @@ python emit_pkgdata() {
-         write_if_exists(sf, pkg, 'ALLOW_EMPTY')
-         write_if_exists(sf, pkg, 'FILES')
-         write_if_exists(sf, pkg, 'CONFFILES')
-+        process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
-         write_if_exists(sf, pkg, 'pkg_postinst')
-         write_if_exists(sf, pkg, 'pkg_postrm')
-         write_if_exists(sf, pkg, 'pkg_preinst')
 -- 
 2.15.1
 
