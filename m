@@ -1,47 +1,47 @@
 Return-Path: <sstncr@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 72B4C78817
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6EC7882D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 14:39:21 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id p1so5397475pfh.4
+	Mon, 29 Jan 2018 14:39:38 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y26so5386884pfi.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 06:39:23 -0800 (PST)
+	Mon, 29 Jan 2018 06:39:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=hix9/qtMRR6dVTgvhwOudQpQnlGRmkclA3D6+QamMSI=;
-	b=f4DJVoAPXowZQTOsu7QtvzaAS9PuXaxSgIR1iuy9D2yRwmntjaC0qgWQORGWiZtM+Z
-	OjkYPY8j8Ksn9oW2EsL3yJkpGJLTPAzr5elwcNnQmT8/xp4VJNHr5NoJ2Vz1bq6Z8aZN
-	HlfqAFEGI3KjDZGEfqcuztPtX12tbxSfkfMrXVhbMGVGuw7vjJBDPVQbYYxlZPkZcC95
-	nfFe09iXXOtTKPwAtwmWiBocrW6XE1m3vkWnnd93C+2nJflBrImoSHyFFbHryBzb7/vp
-	o9W7V7XBp4MeC4JD/ELolW4oBlIKaAmDFkfui/kyacQBVhEuplv9gJlHvRqnHb/bcIRB
-	WYvA==
+	bh=PsIhrO2IQfSnfUPFGzvlhWQKTLhLKitrnojZISQZ3CE=;
+	b=WICKEfAEEY4VI7dw9064gnQz5fbQEPxubTbv4Cc5F8wJc155RnbEYAfJDHe/1zwB33
+	6JqxIlDG49SGSYrRCvdllrPVaQymxiofOmceshKO+0x+yauHzwt2LGaY4Ewu9XTuUAiV
+	zkfJDGRFNqtfMxLiOBJ6WWhRjr2Z2+ILq1tuo7ewG02eAeEwq+xxCQvrCObY4j7PXFCt
+	TtacTEu/B/cObeVyyQxHfr8fz61qw1Zq8OP8TBp8XGPIcrKK0LVLHALZKtFIE/TcQmNY
+	yAVjJM4SxGHd1Q+cjmnrtos1+DWag+LsSmI4OaTqfj4CQI8n+aSEBSFWWp+spMPwowW6
+	7DkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hix9/qtMRR6dVTgvhwOudQpQnlGRmkclA3D6+QamMSI=;
-	b=PeuuhxmCqTgtMitTpSlD/Neh2xcd0yPuD+N30Dmgi0ANurY4oY/pLsKStz2m30XH9n
-	ivB0+vwaXHRG7QE6hjKHp+/Lhvb9zdD8y9xt8Xaxiva3w5sKJHm6FwexurekYNA8gnHD
-	OMGERggIFdeWcaH8w+WIA9cbUSG1F1fSm8lDlMiF+/+NPxCKyn3djjXDr2B/Xa8tS4yr
-	Dmm83/o3KxV80D0VCknlZ0a1miokAbhdgC7oO1HBjfZuA5ONIDuGycbPFoAPrqxc5RpN
-	j9Gw44WlzkOf6+QnkxkAC3OK0Zs6RmescRLJ4JSXQUAd3zIz+ebSmmPCjDoJkCk57f/p
-	bg6A==
-X-Gm-Message-State: AKwxyteVbPufnXRCT+afj48MqZO/W0sRrma/K9ytggPGiBDl9/AqQ1mN
-	JCvqs5l9jWUQgAQmhXh9agNHP/6E
-X-Google-Smtp-Source: AH8x226QWFj/968j5dJ2ioNe+mQJ48LUZT6+Eoi/nsQrwlVXXnhWn5hA508kMLnqN0eEqNaBJVLC6w==
-X-Received: by 10.99.65.65 with SMTP id o62mr17671174pga.392.1517236762521;
-	Mon, 29 Jan 2018 06:39:22 -0800 (PST)
+	bh=PsIhrO2IQfSnfUPFGzvlhWQKTLhLKitrnojZISQZ3CE=;
+	b=copEtyUf8iZkpYItUGlvPwk3Kc+vRj7zgq2C/kTbFGaNM26FCDBZkSgpgxlais5+Cp
+	YCikQwRK7AC8cBmRYgTBMa6Z1K53tMk2RP/8bbS17tC/iBcbGM1aHItlZi5vopA6PDYx
+	mLJkc8Y1GnzAdIbCJMy9Rsv4fpLWjcwR7+l+WhMe+sZ3pmpj9z9+4XMka4/bIIC4HsSv
+	g9fDOvvy/NZdzruLxZ/u/yTh+Rs8YfD4+Jv35Qht8sI7GHM0wn3OcMzSOli+uiKuaC3B
+	qV7EnbUDHDRutSUatJNNiB8WUT/DdwIu5WJDJIUAqg23gWKruM3x7K9rMtuSG36BZqAm
+	L2KA==
+X-Gm-Message-State: AKwxytdkQf6EufIY3WP5Gcuu2S0TYSVOkCa36MI1eQT9quLbQbIfrCxr
+	BWRZcGYhr405fEVnMyscXOyb4CLK
+X-Google-Smtp-Source: AH8x2258isNSLMH/BGFVZEmaNS+tM43exlStZBK19NNjRQGS1DMC9rDHa0Ne7VmWCzUSaaWcL0zKZA==
+X-Received: by 10.98.87.2 with SMTP id l2mr26654454pfb.46.1517236779466;
+	Mon, 29 Jan 2018 06:39:39 -0800 (PST)
 Received: from ubuntu-xenial.corp.fitbit.com ([86.120.134.70])
 	by smtp.gmail.com with ESMTPSA id
-	y18sm32692713pfa.175.2018.01.29.06.39.21
+	v9sm33072726pfj.88.2018.01.29.06.39.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 Jan 2018 06:39:22 -0800 (PST)
+	Mon, 29 Jan 2018 06:39:39 -0800 (PST)
 From: Stefan Stanacar <sstncr@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 14:39:10 +0000
-Message-Id: <1517236750-28771-1-git-send-email-sstncr@gmail.com>
+Date: Mon, 29 Jan 2018 14:39:28 +0000
+Message-Id: <1517236768-28816-1-git-send-email-sstncr@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [morty][PATCH] kernelsrc/perf: fix dependency on non existant task when using externalsrc
+Subject: [morty][PATCH] kernel.bbclass: Fix symlink creation when using externalsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 14:39:21 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 14:39:38 -0000
 
-When externalsrc is enabled for kernel, do_patch doesn't exist since is in
-SRCTREECOVEREDTASKS, so make these depend on a real task.
+do_unpack is by default in SRCTREECOVEREDTASKS so this append can't run, since
+do_unpack gets removed by when externalsrc is enabled.
 
-Fixes:
-    ERROR: Task do_unpack in /data/yocto/poky/meta/recipes-kernel/perf/perf.bb
-    depends upon non-existent task do_patch in /data/yocto/poky/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+This was hidden because externalsrc does actually run do_fetch and do_unpack if
+there are type=kmeta or file:// entries in the SRC_URI value of the kernel recipe.
+(which is the case for linux-yocto).
+
+Make this a separate task so that it actually gets run for kernel recipes with
+no file:// or type=kmeta in SRC_URI.
 
 Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
 ---
- meta/classes/kernelsrc.bbclass   | 2 +-
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
-index 9efd46a..ce6c999 100644
---- a/meta/classes/kernelsrc.bbclass
-+++ b/meta/classes/kernelsrc.bbclass
-@@ -1,6 +1,6 @@
- S = "${STAGING_KERNEL_DIR}"
- do_fetch[noexec] = "1"
--do_unpack[depends] += "virtual/kernel:do_patch"
-+do_unpack[depends] += "virtual/kernel:do_configure"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
- do_package[depends] += "virtual/kernel:do_populate_sysroot"
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 03ae446..145774b 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -47,7 +47,7 @@ export PYTHON_SITEPACKAGES_DIR
- #kernel 3.1+ supports WERROR to disable warnings as errors
- export WERROR = "0"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f8318b8..3f2d796 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -102,7 +102,7 @@ inherit ${KERNEL_CLASSES}
+ # the symlink.
+ do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+ do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+-base_do_unpack_append () {
++python do_symlink_staging_dir () {
+     s = d.getVar("S", True)
+     if s[-1] == '/':
+         # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
+@@ -119,6 +119,7 @@ base_do_unpack_append () {
+             shutil.move(s, kernsrc)
+             os.symlink(kernsrc, s)
+ }
++addtask do_symlink_staging_dir after do_unpack before do_patch do_configure
  
--do_populate_lic[depends] += "virtual/kernel:do_patch"
-+do_populate_lic[depends] += "virtual/kernel:do_configure"
+ inherit kernel-arch deploy
  
- # needed for building the tools/perf Perl binding
- inherit perlnative cpan-base
 -- 
 2.7.4
 
