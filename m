@@ -1,21 +1,18 @@
-Return-Path: <niko.mauno@vaisala.com>
-X-Greylist: delayed 588 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 29 Jan 2018 14:29:56 UTC
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com
-	[193.143.230.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 3010778815
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 14:29:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.46,431,1511820000"; d="scan'208";a="79103043"
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 16:19:20 +0200
-Message-Id: <20180129141920.16224-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.11.0
-X-OriginalArrivalTime: 29 Jan 2018 14:20:08.0870 (UTC)
-	FILETIME=[44511C60:01D3990C]
-Cc: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [meta-oe][PATCH] u-boot: Add coreutils-native to DEPENDS
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E8D5E719A4;
+	Mon, 29 Jan 2018 14:35:23 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: niko.mauno@vaisala.com
+Date: Mon, 29 Jan 2018 14:35:25 -0000
+Message-ID: <20180129143525.15543.56899@do.openembedded.org>
+References: <20180129141920.16224-1-niko.mauno@vaisala.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180129141920.16224-1-niko.mauno@vaisala.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdS1ib290OiBBZGQgY29yZXV0aWxzLW5hdGl2ZSB0byBERVBFTkRT?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 14:29:57 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 14:35:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Coreutils provides 'comm' command which is called during do_compile()
-from scripts/check-config.sh. This fixes following issues which are
-otherwise quietly ignored:
+== Series Details ==
 
-  .../scripts/check-config.sh: line 33: comm: command not found
-  .../scripts/check-config.sh: line 38: comm: command not found
+Series: u-boot: Add coreutils-native to DEPENDS
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10746/
+State : failure
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe] u-boot: Add coreutils-native to DEPENDS
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1c896b34d2)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-bsp/u-boot/u-boot_2017.01.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.01.bb b/meta/recipes-bsp/u-boot/u-boot_2017.01.bb
-index 37c21dcaa3..8b00a8d294 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2017.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2017.01.bb
-@@ -1,4 +1,4 @@
- require u-boot-common_${PV}.inc
- require u-boot.inc
- 
--DEPENDS += "bc-native dtc-native"
-+DEPENDS += "bc-native coreutils-native dtc-native"
--- 
-2.11.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
