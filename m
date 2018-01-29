@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A4B4787F8
+	by mail.openembedded.org (Postfix) with ESMTP id 2F68D78817
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 12:01:41 +0000 (UTC)
+	Mon, 29 Jan 2018 12:01:42 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	29 Jan 2018 04:01:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,429,1511856000"; d="scan'208";a="13895516"
+X-IronPort-AV: E=Sophos;i="5.46,429,1511856000"; d="scan'208";a="13895519"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2018 04:01:42 -0800
+	by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2018 04:01:43 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 14:01:33 +0200
-Message-Id: <7c89e4f571061bda2ebd99dcba560d2dd66dc72e.1517227178.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 29 Jan 2018 14:01:34 +0200
+Message-Id: <f648759f6752afb72c4e759445497142c8e7872e.1517227178.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <cover.1517227178.git.alexander.kanavin@linux.intel.com>
 References: <cover.1517227178.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 6/7] package_rpm.bbclass: run pre/post installation scriptlets using sh -e
+Subject: [PATCH 7/7] rootfs.py: change the notice about deferring scripts to first boot from warning to a note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 12:01:41 -0000
+X-List-Received-Date: Mon, 29 Jan 2018 12:01:42 -0000
 
-This allows catching errors in the scriptlets which would otherwise
-go unnoticed, e.g. this sequence:
-
-====
-bogus_command
-proper_command
-====
-
-would work just fine. Note that this patch needs all of the preceding
-patches, as otherwise running failing scriptlets with -e would defer
-them to first boot, instead of properly reporting failure and aborting
-the package installation.
+Now that the first boot deferral needs to be requested explicitly,
+it's not really something to be concerned about.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/package_rpm.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oe/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index af64ef62c58..e26b2ad6625 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -470,12 +470,12 @@ python write_specfile () {
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 8bf77aea492..bf2aea2b25a 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -303,7 +303,7 @@ class Rootfs(object, metaclass=ABCMeta):
+                     break
  
-         # Now process scriptlets
-         if splitrpreinst:
--            spec_scriptlets_bottom.append('%%pre -n %s' % splitname)
-+            spec_scriptlets_bottom.append('%%pre -n %s -p "/bin/sh -e"' % splitname)
-             spec_scriptlets_bottom.append('# %s - preinst' % splitname)
-             spec_scriptlets_bottom.append(splitrpreinst)
-             spec_scriptlets_bottom.append('')
-         if splitrpostinst:
--            spec_scriptlets_bottom.append('%%post -n %s' % splitname)
-+            spec_scriptlets_bottom.append('%%post -n %s -p "/bin/sh -e"' % splitname)
-             spec_scriptlets_bottom.append('# %s - postinst' % splitname)
-             spec_scriptlets_bottom.append(splitrpostinst)
-             spec_scriptlets_bottom.append('')
-@@ -564,12 +564,12 @@ python write_specfile () {
-     spec_preamble_top.append('')
+             if registered_pkgs is not None:
+-                bb.warn("The postinstalls for the following packages "
++                bb.note("The postinstalls for the following packages "
+                         "will be postponed for first boot: %s" %
+                         registered_pkgs)
  
-     if srcrpreinst:
--        spec_scriptlets_top.append('%pre')
-+        spec_scriptlets_top.append('%pre -p "/bin/sh -e"')
-         spec_scriptlets_top.append('# %s - preinst' % srcname)
-         spec_scriptlets_top.append(srcrpreinst)
-         spec_scriptlets_top.append('')
-     if srcrpostinst:
--        spec_scriptlets_top.append('%post')
-+        spec_scriptlets_top.append('%post -p "/bin/sh -e"')
-         spec_scriptlets_top.append('# %s - postinst' % srcname)
-         spec_scriptlets_top.append(srcrpostinst)
-         spec_scriptlets_top.append('')
 -- 
 2.15.1
 
