@@ -1,32 +1,23 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.phycard.co.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FE37606CB
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 08:29:12 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 5C0C6A002A6;
-	Mon, 29 Jan 2018 09:29:24 +0100 (CET)
-Received: from [172.16.26.80] ([172.16.26.80])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2018012909291223-113080 ;
-	Mon, 29 Jan 2018 09:29:12 +0100 
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Openembedded-core@lists.openembedded.org, akuster808@gmail.com
-References: <1516984865-2976-1-git-send-email-d.schultz@phytec.de>
-	<1517134890.3090.0.camel@linuxfoundation.org>
-From: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <aa61842b-0256-2a21-cb4a-166d9d287603@phytec.de>
-Date: Mon, 29 Jan 2018 09:30:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <1517134890.3090.0.camel@linuxfoundation.org>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 29.01.2018 09:29:12,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 29.01.2018 09:29:12
-X-TNEFEvaluated: 1
-Subject: Re: [PATCH] cryptodev: Fix build errors with v4.11
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 27C37783FB
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jan 2018 12:01:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jan 2018 04:01:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,429,1511856000"; d="scan'208";a="13895494"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2018 04:01:36 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jan 2018 14:01:27 +0200
+Message-Id: <cover.1517227178.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH 0/7] Fix first boot deferral and postinst error reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,70 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jan 2018 08:29:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Jan 2018 12:01:36 -0000
 
-ah sorry, I checked rocko-next instead of next! Thanks for applying. Can=20
-you also backport this patch to rocko, please?
+This patchset is aiming to fix long-standing problems with package post-installation
+scriptlets:
 
-Daniel
+1) The way to defer them to first boot is to issue 'exit 1'. On the other hand,
+'exit 1' is also the way to indicate an error in the script. The patches decouple
+these two things.
 
-On 01/28/2018 11:21 AM, Richard Purdie wrote:
-> On Fri, 2018-01-26 at 17:41 +0100, Daniel Schultz wrote:
->> Commit message from the included patch:
->> "Linux kernel has added -Werror=3Ddesignated-init around 4.11
->> (c834f0e8a8b)
->> triggering build errors with gcc 5 and 6 (but not with gcc 4)"
->>
->> Backport from https://github.com/cryptodev-linux/cryptodev-linux
->> Based on commit f0d69774afb27ffc62bf353465fba145e70cb85a
->>
->> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
->> Acked-by: California Sullivan <california.l.sullivan@intel.com>
->> ---
->>  =C2=A0.../cryptodev/cryptodev-module=5F1.9.bb=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|=C2=A0=C2=A01 +
->>  =C2=A0.../0001-ioctl.c-Fix-build-with-linux-4.13.patch=C2=A0=C2=A0=C2=
-=A0| 49
->> ++++++++++++++++++++++
->>  =C2=A02 files changed, 50 insertions(+)
->>  =C2=A0create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl=
-.c-
->> Fix-build-with-linux-4.13.patch
-> This merged 10 days ago:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D1e5e38f1e7f09dd12a=
-24e62142da747c760ce0c3
->
-> ?
->
-> Cheers,
->
-> Richrd
+2) Scriptlets should be executed using '-e', otherwise failing commands in
+the middle of the scriptlet will not be reported as such.
 
---=20
-Mit freundlichen Gr=C3=BC=C3=9Fen,
-With best regards,
-   Daniel Schultz
+3) The patchset also adds a convenient shortcut for deferring scriptlets to
+first boot execution:
 
-- Entwicklung -
-Tel.: 	+49 6131 92 21 457
-d.schultz@phytec.de
-www.phytec.de
+pkg_postinst_ontarget_PACKAGENAME() {
+      # Actions to carry out on the device go here
+      ....
+}
 
-Sie finden uns auch auf: Facebook, LinkedIn, Xing, YouTube
+The following changes since commit 0c537554fc2cf58a9cbfeaf39ed918c607483dce:
 
-PHYTEC Messtechnik GmbH | Robert-Koch-Str. 39 | 55129 Mainz, Germany
-Gesch=C3=A4ftsf=C3=BChrer: Dipl.-Ing. Michael Mitezki, Dipl.-Ing. Bodo Hube=
-r |
-Handelsregister Mainz HRB 4656 | Finanzamt Mainz-Mitte | St.Nr. 266500608,
-DE 149059855
-This E-Mail may contain confidential or privileged information. If you are
-not the intended recipient (or have received this E-Mail in error) please
-notify the sender immediately and destroy this E-Mail. Any unauthorized
-copying, disclosure or distribution of the material in this E-Mail is
-strictly forbidden.
+  testimage: enable gi test suite (2018-01-29 10:31:58 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/dnf-rpm4-postinst-fix
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/dnf-rpm4-postinst-fix
+
+Alexander Kanavin (7):
+  postinst_intercepts: add a delay_to_first_boot hook
+  meta/lib/oe/rootfs.py: separate first boot deferral logic into a
+    separate function
+  meta/lib/oe/rootfs.py: do not execute defer_to_first_boot when
+    processing postinst_intercept hooks
+  package.bbclass: add support for pkg_postinst_ontarget()
+  meta/lib/oe/package_manager.py: deprecate 'exit 1' as a way to defer
+    to first boot
+  package_rpm.bbclass: run pre/post installation scriptlets using sh -e
+  rootfs.py: change the notice about deferring scripts to first boot
+    from warning to a note
+
+ .../recipes-test/postinst/postinst_1.0.bb          | 14 ++------
+ meta/classes/package.bbclass                       | 20 +++++++++++
+ meta/classes/package_rpm.bbclass                   |  8 ++---
+ meta/lib/oe/package_manager.py                     |  3 ++
+ meta/lib/oe/rootfs.py                              | 39 +++++++++++++---------
+ scripts/postinst-intercepts/delay_to_first_boot    |  2 ++
+ 6 files changed, 54 insertions(+), 32 deletions(-)
+ create mode 100644 scripts/postinst-intercepts/delay_to_first_boot
+
+-- 
+2.15.1
 
 
