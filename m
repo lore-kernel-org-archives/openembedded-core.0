@@ -1,41 +1,74 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 53F1D782D9
+Return-Path: <MANJUKUM@xilinx.com>
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com
+	(mail-by2nam03on0052.outbound.protection.outlook.com [104.47.42.52])
+	by mail.openembedded.org (Postfix) with ESMTP id AAA1A71BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 16:29:22 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jan 2018 08:29:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,435,1511856000"; d="scan'208";a="23623473"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jan 2018 08:29:24 -0800
-Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Tue, 30 Jan 2018 08:29:23 -0800
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.11]) by
-	ORSMSX155.amr.corp.intel.com ([169.254.7.73]) with mapi id
-	14.03.0319.002; Tue, 30 Jan 2018 08:29:23 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
+	Tue, 30 Jan 2018 16:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=hFYjCZ00IOcz7djz6oKZ6RvLmXBgjn1VKNezk7f/OZQ=;
+	b=yIWK0uUlz6mS90YFSFEkaMQV/B1xEaiPnggCPIFGVv+3+INqcBRVbgtKatE/fVraPQqTrlNbWHHUDm2LWqSfC3Ve9ogR68a4UJuje3R9h4mZVwC6fI/eaY4Xd+xkNOIP7yaIIfct3snGvxv4Fe5p36c6J+Y6DpXti7YkulBxBko=
+Received: from BY2PR02MB347.namprd02.prod.outlook.com (10.141.140.149) by
+	BY2PR02MB267.namprd02.prod.outlook.com (10.242.236.147) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.444.14; Tue, 30 Jan 2018 16:34:05 +0000
+Received: from BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) by
+	BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) with mapi id
+	15.20.0428.026; Tue, 30 Jan 2018 16:34:05 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
 To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/3] tzcode: remove unused patch files
-Thread-Index: AQHTmVIIc/h1+FeM4kyypHC390OQ/KOMImoAgABbKICAAB20AQ==
-Date: Tue, 30 Jan 2018 16:29:23 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B640535753@ORSMSX112.amr.corp.intel.com>
-References: <1517265587-84623-1-git-send-email-juro.bystricky@intel.com>
-	<1517265587-84623-2-git-send-email-juro.bystricky@intel.com>
-	<90d6d504-1abe-43b9-b25c-008de4e96039@gmail.com>,
-	<ac3ea8c3-402e-229a-768c-7c305540b59c@gmail.com>
-In-Reply-To: <ac3ea8c3-402e-229a-768c-7c305540b59c@gmail.com>
+Thread-Topic: [OE-core] [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+Thread-Index: AQHTmSlH5k1h2zZ6sU+NF2lo4LVknKOL934AgAAIJ4CAAJzbcA==
+Date: Tue, 30 Jan 2018 16:34:05 +0000
+Message-ID: <BY2PR02MB347A0B646A0F7C24A121FDBB9E40@BY2PR02MB347.namprd02.prod.outlook.com>
+References: <20180129174724.26768-1-niko.mauno@vaisala.com>
+	<2afb5638-31ca-39fa-bf28-d305fea507c0@linux.intel.com>
+	<48a79520-c02f-2dfe-b25b-0b89beb182d6@gmail.com>
+In-Reply-To: <48a79520-c02f-2dfe-b25b-0b89beb182d6@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.41]
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [73.231.161.32]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; BY2PR02MB267;
+	7:2/Rs0RrKQZhkdnGL8elNM2PRTosrsXI6YIC7sa7TryEq2zGITHScMBc8ERZ0/JhEpTxh+qvb4eI0U0BLmEg6hArOfmaZVucKo63BERziU2k6iVJ4dzwz89V7qzw0CC483zjjv9wSIU52eAIfEhCfOicnR4k60tzmDfb/7Oix5UlibkHFfuFMfSjuqK2EnrTC4sNbek0TZeZ5LpdBAgKRGBB4jQvfHcgSot2jRY2NlPuVfs/GqWVBkCZenqEJuAVQ
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5735a413-46b7-4b30-7aa5-08d567ff479e
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(48565401081)(5600026)(4604075)(3008032)(2017052603307)(7153060)(7193020);
+	SRVR:BY2PR02MB267; 
+x-ms-traffictypediagnostic: BY2PR02MB267:
+x-microsoft-antispam-prvs: <BY2PR02MB26721BF7703B356BDBF8845B9E40@BY2PR02MB267.namprd02.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(264703809997249);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040501)(2401047)(8121501046)(5005006)(10201501046)(93006095)(93001095)(3002001)(3231101)(944501161)(6055026)(6041288)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123562045)(6072148)(201708071742011);
+	SRVR:BY2PR02MB267; BCL:0; PCL:0; RULEID:; SRVR:BY2PR02MB267; 
+x-forefront-prvs: 0568F32D91
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(346002)(366004)(376002)(39380400002)(39860400002)(396003)(13464003)(199004)(189003)(2950100002)(110136005)(25786009)(6116002)(102836004)(81166006)(2501003)(8676002)(72206003)(478600001)(81156014)(33656002)(2900100001)(316002)(26005)(6436002)(6506007)(53546011)(97736004)(5660300001)(229853002)(7696005)(186003)(55016002)(53936002)(3660700001)(99286004)(86362001)(106356001)(76176011)(105586002)(2906002)(74316002)(14454004)(6246003)(305945005)(39060400002)(68736007)(3280700002)(9686003)(77096007)(3846002)(8936002)(7736002)(66066001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2PR02MB267;
+	H:BY2PR02MB347.namprd02.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: Pv8ZSwsKS5f/AOeatV07ERrnl7p9wSKyZW1QdaR85xN2lDTGQSKis1PXK/F0GsOQu/A7X+wE+xEM12eTqIN5eg==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] tzcode: remove unused patch files
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5735a413-46b7-4b30-7aa5-08d567ff479e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2018 16:34:05.7745 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR02MB267
+Subject: Re: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,52 +81,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 16:29:23 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 16:34:09 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-=0A=
-> I wonder if we can cook up a script which can check for unused patches,=
-=0A=
-> it will be very helpful to keep the code tidy=0A=
-> perhaps it already exists and I am the only one who doesn't know=0A=
-=0A=
-This highly unoptimized Q&D script will list patches not referenced anywher=
-e=0A=
-(will barf on filenames with spaces, but typically there are none such file=
-s ):=0A=
-=0A=
-$1 =3D filoder to (recursively) check, i.e called from meta:  ./recipes-dev=
-tools=0A=
-=0A=
-#!/bin/bash=0A=
-=0A=
-findpatchesall=3D`find $1  -name '*.patch' -exec readlink -f {} \;`=0A=
-findall=3D`find -L $1 -name '*.*' -not -name "*.patch" -exec readlink -f {}=
- \;`=0A=
-=0A=
-echo "patches: $findpatchesall"=0A=
-echo "recipes: $findall"=0A=
-=0A=
-# Go through all patches and see if any file references them=0A=
-for patch in $findpatchesall=0A=
-do=0A=
-	#echo "checking $patch"=0A=
-	patch_referenced=3D"0"=0A=
-	for file1 in $findall=0A=
-	do=0A=
-	patch1=3D`basename $patch`=0A=
-	if [ -f "$file1" ]; then=0A=
-		if grep -q $patch1 "$file1"; then=0A=
-			#echo "referenced in: $file1"=0A=
-			patch_referenced=3D"1"=0A=
-		fi=0A=
-	fi=0A=
-	done=0A=
-	if [ "$patch_referenced" =3D=3D "0" ]; then=0A=
-		echo "*** $patch ***"=0A=
-    fi=0A=
-done=0A=
-=0A=
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gS2hl
+bSBSYWoNCj4gU2VudDogTW9uZGF5LCBKYW51YXJ5IDI5LCAyMDE4IDExOjA3IFBNDQo+IFRvOiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIXSBiaXRiYWtlLmNvbmY6IEFkZCBjb21tIHRvIEhPU1RUT09MUw0KPiAN
+Cj4gDQo+IA0KPiBPbiAxLzI5LzE4IDEwOjM4IFBNLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToN
+Cj4gPiBPbiAwMS8yOS8yMDE4IDA3OjQ3IFBNLCBOaWtvIE1hdW5vIHdyb3RlOg0KPiA+PiBUaGlz
+IG1pdGlnYXRlcyBmb2xsb3dpbmcgaXNzdWVzIGR1cmluZyB1LWJvb3QgZG9fY29tcGlsZSgpIHN0
+ZXAgLS0NCj4gPj4gb3RoZXJ3aXNlLCBpZiBjb21tIGlzIG5vdCBhdmFpbGFibGUsIHRoZXkgYXJl
+IHF1aWV0bHkgaWdub3JlZDoNCj4gPj4NCj4gPj4gwqDCoCAuLi4vc2NyaXB0cy9jaGVjay1jb25m
+aWcuc2g6IGxpbmUgMzM6IGNvbW06IGNvbW1hbmQgbm90IGZvdW5kDQo+ID4+IMKgwqAgLi4uL3Nj
+cmlwdHMvY2hlY2stY29uZmlnLnNoOiBsaW5lIDM5OiBjb21tOiBjb21tYW5kIG5vdCBmb3VuZA0K
+PiA+Pg0KPiA+PiBTaW5jZSAnY29tbScgaXMgcHJvdmlkZWQgYnkgY29yZXV0aWxzIHBhY2thZ2Us
+IGFkZGluZyBpdCB0byBIT1NUVE9PTFMNCj4gPj4gd2FzIGNvbnNpZGVyZWQgYSBsb3dlciBpbXBh
+Y3QgZml4IGNvbXBhcmVkIHRvIGFkZGluZyBjb3JldXRpbHMtbmF0aXZlDQo+ID4+IGJ1aWxkdGlt
+ZSBkZXBlbmRlbmN5IHRvIHUtYm9vdCByZWNpcGUuDQo+ID4NCj4gPiBJIGRpc2FncmVlLiBFeHBh
+bmRpbmcgSE9TVFRPT0xTIGp1c3QgdG8gY2F0ZXIgdG8gdGhlIG5lZWRzIG9mIGEgc2luZ2xlDQo+
+ID4gcmVjaXBlIGlzIG5vdCBvcHRpbWFsLCBJTU8uDQo+DQo+IGFsdGVybmF0aXZlIGFyZQ0KPiBi
+dWlsZCB0aW1lIGRlcCBvbiBjb3JldXRpbHMtbmF0aXZlLg0KDQpUaGlzIHdvcmtzLCB0ZXN0ZWQg
+aXQgaG93ZXZlciB1LWJvb3Qgbm93IHdpbGwgZGVwZW5kIG9uIGNvcmV1dGlscy1uYXRpdmUuDQoN
+Cj4gZml4IHVib290IHNjcmlwdCB0byBub3QgdXNlIGNvbW0NCj4gZG8gbm90IGludm9rZSBjaGVj
+ay1jb25maWcuc2ggYXQgYWxsLg0KPiANClRoaXMgbWlnaHQgbm90IGJlIGFuIG9wdGlvbiBmb3Ig
+dXMgOikNCg0KPiBub25lIG9mIHRoZW0gYXJlIGFueSBiZXR0ZXIuDQo+IA0KDQpBZ3JlZSB3aXRo
+IEtoZW0gaGVyZSwgaWYgaXQgaXMgbm90IGluIEhPU1RUT09MUywgaXQgd2lsbCB0cmlja2xlIGRv
+d24gdG8gY29yZXV0aWxzLW5hdGl2ZSB0aWxsIHUtYm9vdCBzY3JpcHQgZ2V0cyBwYXRjaGVkLiAg
+IA0KDQpUaGFua3MsDQpNYW5qdQ0K
 
