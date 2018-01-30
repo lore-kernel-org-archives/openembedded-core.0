@@ -1,19 +1,40 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AB5160053;
-	Tue, 30 Jan 2018 21:35:22 +0000 (UTC)
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF2F7883A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jan 2018 22:01:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jan 2018 14:01:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,436,1511856000"; d="scan'208";a="30731898"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jan 2018 14:01:34 -0800
+Received: from orsmsx116.amr.corp.intel.com (10.22.240.14) by
+	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Tue, 30 Jan 2018 14:01:34 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.11]) by
+	ORSMSX116.amr.corp.intel.com ([169.254.7.69]) with mapi id
+	14.03.0319.002; Tue, 30 Jan 2018 14:01:34 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "Jia, Hongxu (Wind River)" <hongxu.jia@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 4/6] python3-core: improve reproducibility
+Thread-Index: AQHTi30Fg2GRXRBSWEmGj+Mk/BcvNaONFIwT
+Date: Tue, 30 Jan 2018 22:01:33 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B640535D0D@ORSMSX112.amr.corp.intel.com>
+References: <cover.1515744181.git.hongxu.jia@windriver.com>,
+	<df3d49ef2f1fa5243b2e8d430a7edfa956cc9f8d.1515744181.git.hongxu.jia@windriver.com>
+In-Reply-To: <df3d49ef2f1fa5243b2e8d430a7edfa956cc9f8d.1515744181.git.hongxu.jia@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.41]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Date: Tue, 30 Jan 2018 21:35:24 -0000
-Message-ID: <20180130213524.15542.48984@do.openembedded.org>
-References: <1516648119-12528-1-git-send-email-alejandr@xilinx.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1516648119-12528-1-git-send-email-alejandr@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmluamE6IFVwZ3JhZGUgZnJvbSAxLjcuMiB0byBtYWpvciByZWxlYXNlIDEuOC4y?=
+Subject: Re: [PATCH 4/6] python3-core: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,42 +47,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 21:35:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jan 2018 22:01:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
-
-Series: ninja: Upgrade from 1.7.2 to major release 1.8.2
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10780/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 59c5fb3c80)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+works nicely for me=0A=
 
