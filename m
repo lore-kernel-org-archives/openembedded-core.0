@@ -1,48 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 121E97883A
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EB173783C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 17:51:23 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id y26so9767747pfi.10
+	Tue, 30 Jan 2018 20:44:01 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id y27so8210531pgc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 09:51:25 -0800 (PST)
+	Tue, 30 Jan 2018 12:44:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Jlx0cniWK1Bfk3fy+y+MjX2bw93NJCsIIS21ynvDV7Q=;
-	b=oPHNjhkAy8AyjthudM2c9Xy4Pg5htVO3kjufqbwl9xBjNxe/X+pmFaEpg8bMO1qs1a
-	NYkvo5iREk/urXw83wLLosyJdxvwFrY5CnnA+aG5amGa4QW/wVLC7NSX/y8e6QovgJZY
-	RuL6Yv7BOD5+s+0qMy10brKiE2hRcZl/riuG9vMwErkWa8vO98XPyb/NsVwG+GSVuYX1
-	XJiSZALady89O15KCkbjqFmYWYo5tzI8kJU1pv5dHuKDIV9z4PF6uowptlRybx3Yr1nJ
-	nuAYY3zpg8mqhEds8GlMIBHrF01zsABOr77/MS6nNLxq1RHDNPOCaWEB17vhxHTg9nLD
-	V9Xg==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=MJbBrV6zgm9cutU/L42uoIXUw0szP12nEgMnTh6MAhU=;
+	b=X7Oa8Iso8LLmW8R5sVVi348/8OzHI0Fw5nENvGLsUQ5WqkC8R5knCN4cgWX8CaD4Dy
+	TJpDRcJmfY1wGcP9n1l+CzHx8nlE3ivoa/ujiNu7AfCUb2aHTqgQufVzV9ug/AaYFwnf
+	/tGWa1TrJOxwpTWZU6gwuixxyPQ0GKmLB3rycta+E1wQhZxsb9lNPjSXtN2FfDNO4qWX
+	Cpgb621n8OvfXUIpP5VBAveIbZaZ+0WqtEp7aMSH4VLQmwLrKxi3JRP64CRxS0qzp7bw
+	UWflkBDl6LcQ5/2jgseDIoAbpexpaCweY6Vt/3h6haTo62gWfpXmGIW4QepCLeuMHw4h
+	2BEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Jlx0cniWK1Bfk3fy+y+MjX2bw93NJCsIIS21ynvDV7Q=;
-	b=IDHjxQlz/wqxDJSmNn8e/QswxJ4q0mRbGQgjc5o/rs45Vl5ekHHZ5DAr4X3uHZ3/nP
-	WI6mJBvQqDl0pluCBM1JaDBtrK2wlgXA4VMEmNtR5w3XrVF0jcyNJRqeCHG4pSqxbv7F
-	3Uu4T7rTfr4WbTUx8av1MOVP/3hthchem+Bg3/Y5mKBCXkcBTTdrPqRfs2RzPkOehpGW
-	QXV/6apxEYdgxnE+20YBUawkMHGV9djUfkpNF7Nt1BpzLvQuh6SlgBih+YIb2PbcXCZ3
-	bLeGbEH1AWFInNzHJVSvYgyI15i8rKGiPuQJzaj6jB/qUecRMqDo1vEEPlX/x289b9Cp
-	hpLQ==
-X-Gm-Message-State: AKwxyteQcBM8B/d3FqkN+C+5fCwx1E+27zQuhghyMu5ep3sU2p3JzKI9
-	DACu266BXr/ln7CTuOsKoMKh9e1DCMRReAkN8XE=
-X-Google-Smtp-Source: AH8x2265AIOtI+E5wC0TqXuSQ+XLovFSURVzRScxxFqtx6pWrpbDHu2YJdpwXYfTSYF+gE27XDDioSyzliRuZyN2B9A=
-X-Received: by 10.99.137.195 with SMTP id v186mr24860744pgd.25.1517334685160; 
-	Tue, 30 Jan 2018 09:51:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Tue, 30 Jan 2018 09:50:54 -0800 (PST)
-In-Reply-To: <CAJTo0La+B4-LxA1_0QzBBssNO-wq50HMeuDPyU5S3iPXQAsyKg@mail.gmail.com>
-References: <cover.1517286478.git.raj.khem@gmail.com>
-	<CAJTo0La+B4-LxA1_0QzBBssNO-wq50HMeuDPyU5S3iPXQAsyKg@mail.gmail.com>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=MJbBrV6zgm9cutU/L42uoIXUw0szP12nEgMnTh6MAhU=;
+	b=Fxwt4Mli6HfWyAsVOwEXdgqEuDM/zadxTAp2AyvVmonn9Tg9hLEg0CeJOVPrYke7T4
+	tBsLJAx1pmunodkGrxWBXVH+JeKx2NiO8Bc/KAD9MZvnSn5KJnlkUoSvQKSq8QbvgyIE
+	Lk3dk5rR8JmJULSfNVGq2z5dg3QU2HGJkiUy1S98HNo/eIX2lY2ea9QAAb0Wt3jQMOFR
+	NJv6NWdIfcmYw8ziXqbUlUHmTty2z/RG6djeOK6iizliqHt3t3ZAm6iKA42blnw1XS/c
+	1ddnHh0vGnsksV5yPhOs72MElZHdHBxHVoN5lDJPSbO/U9p+8Di+Vl5gXGP22kNep29q
+	5nuA==
+X-Gm-Message-State: AKwxytfoICf3rzsrQHWjTWRBkZSW/zODtGU0sfrsWYasF1KFljF1pEa+
+	O6zCnM7CSJOy/Kwnh2LAPZMRib5L
+X-Google-Smtp-Source: AH8x224FiGLq2fuM0zWyemspjSdK08ivkZ1bJR/pw68rJrr/tU72oAwwZ3mjQwzLezGFNzjy8wWfoA==
+X-Received: by 10.98.137.75 with SMTP id v72mr31779600pfd.189.1517345042470;
+	Tue, 30 Jan 2018 12:44:02 -0800 (PST)
+Received: from ?IPv6:2601:646:8880:466c:4c3e:ac59:6e73:b998?
+	([2601:646:8880:466c:4c3e:ac59:6e73:b998])
+	by smtp.gmail.com with ESMTPSA id
+	g77sm35925209pfk.49.2018.01.30.12.44.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Jan 2018 12:44:01 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <1517302719-838-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 Jan 2018 09:50:54 -0800
-Message-ID: <CAMKF1sqj5VjSwj7F5Jji8C7X+aiA3pVg80w6tRzgG08gk+9_9Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 0/8] Update to binutils 2.30, glibc 2.27 initiated fixes, musl update
+Message-ID: <ecada64a-7ea8-1082-d118-d5ad719eb1d4@gmail.com>
+Date: Tue, 30 Jan 2018 12:44:01 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
+	Gecko/20100101 Thunderbird/58.0
+MIME-Version: 1.0
+In-Reply-To: <1517302719-838-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] ruby: 2.4.2 -> 2.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +62,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 17:51:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 Jan 2018 20:44:02 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 30, 2018 at 4:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 30 January 2018 at 04:31, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>
->> - Add proper sign-offs and Upstream-Status as reported by patchtest
->> - Backport another fix for pulseaudio memfd issue done upstream
->
->
-> v1 was merged after v2 was sent so I just split these fixes out and they
-> just got merged as follow-up patches.  Sorry but I managed to drop your
-> authorship.
->
+On 1/30/18 12:58 AM, Huang Qiyu wrote:
+> 1.Upgrade ruby form 2.4.2 to 2.5.0.
+> 2.Update the checksum of LIC_FILES_CHKSUM.
+> 3.Delete ruby-CVE-2017-9224.patch, ruby-CVE-2017-9227.patch, ruby-CVE-2017-9229.patch, since it is integrated upstream.
+> 4.Modify ruby-CVE-2017-9226.patch, since the data has been changed.
+> 
 
-thats ok. As long as we do it for right reason :)
+it looks ok besides see below
 
-> Ross
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/ruby/ruby.inc                |  4 +-
+>  meta/recipes-devtools/ruby/ruby/extmk.patch        | 16 +++---
+>  .../ruby/ruby/ruby-CVE-2017-9224.patch             | 41 ---------------
+>  .../ruby/ruby/ruby-CVE-2017-9226.patch             | 15 ++----
+>  .../ruby/ruby/ruby-CVE-2017-9227.patch             | 32 ------------
+>  .../ruby/ruby/ruby-CVE-2017-9229.patch             | 59 ----------------------
+>  .../ruby/{ruby_2.4.2.bb => ruby_2.5.0.bb}          |  7 +--
+>  7 files changed, 16 insertions(+), 158 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
+>  delete mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9227.patch
+>  delete mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9229.patch
+>  rename meta/recipes-devtools/ruby/{ruby_2.4.2.bb => ruby_2.5.0.bb} (83%)
+> 
+> diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+> index 9a52a69..fd3911b 100644
+> --- a/meta/recipes-devtools/ruby/ruby.inc
+> +++ b/meta/recipes-devtools/ruby/ruby.inc
+> @@ -8,10 +8,10 @@ HOMEPAGE = "http://www.ruby-lang.org/"
+>  SECTION = "devel/ruby"
+>  LICENSE = "Ruby | BSD | GPLv2"
+>  LIC_FILES_CHKSUM = "\
+> -    file://COPYING;md5=8a960b08d972f43f91ae84a6f00dcbfb \
+> +    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
+
+what changed here. Please add a note in commit message.
+
+>      file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
+>      file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+> -    file://LEGAL;md5=daf349ad59dd19bd8c919171bff3c5d6 \
+> +    file://LEGAL;md5=8f871f3f03732c018a5fa9b185958231 \
+
+same as above
+
+>  "
 
