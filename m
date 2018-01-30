@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 052C778876
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 080F278876
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 04:32:03 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id t5so7622954pfi.0
+	Tue, 30 Jan 2018 04:32:05 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id r19so6271241pgn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 20:32:05 -0800 (PST)
+	Mon, 29 Jan 2018 20:32:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
-	b=H9/A7YOZGmJ3Z227Mp2VeEG4bZ+Vofq9ZHblB/YMemoHyOGTmQSEmlLPy8z9aY1Sv4
-	MTiPzP2tcvPkUT5dadWL9DBWmDaoIwTeCdLFpxtw4Y2An20+EMrb3FC03LaPANaDGCk/
-	Rlbmtm0Ld6TpB2JezaMeyrNXgPaQ1o09r3Phl08U1u0zfgW9gtEiW1dMV3rtSbNnLFlq
-	Ae8NQzq98KyFdi/VsniL3KEqJdxL6CsSORH8drrbCqgObVsYlrckLchChbTBGdNsRtEb
-	BUPVEyGezed2lMyRPP+TDkgsIRILPYNTavoWy2RuhpyRUfRRusonsKjKTonSiIe3DQZp
-	MFUw==
+	bh=Stbyk86x1RKqufvYD2JmiSod/PfkZ/qnL/gXKBKmkaY=;
+	b=tAGHhS2XeKGgGvc5ULVOd4HQndotSeTEIFXgD0ie7ZhWNCDx0JXXxTan7NDG7mL++E
+	bVNF9HP2EzJ8JvcfHfCOEf7HfnoW1dwgx7cxBXxNp3fsTf7Cix9POfZLSVW4iB2amPkO
+	JEcy7bQNqotDbAcFB0czNZ4Su9UtD2yqpPksrPc4QIujPKd8Jqh7x2cslY+3gbk09JuG
+	+aff6YM6m2uto34U1YQ/hSMWYGxELHsmPpLn2p+X9JN25AMykSPJhdLmUP6/S31LEjHU
+	RIhTurdFQ4ahJBYUeBzlUUKrDk9uAYR8Ikz5B7SFyVDM+3p2HBR1ybR4CB/aM8VvXxr3
+	1GeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=v35w854K3NhsIp8Ly+ZhhmnyOOiN37zvbzt1Q3JapV0=;
-	b=sabmw+Q7pFef5ly80KYRlwT8D6ep+LpFdvhexxJLQoFegaP3gBR3Cbs18Uc4VnLMYN
-	RL+P4OrPrMYlSlVJ3Quc5udPHui6Zmwh/YfJTTEXJ/ds+DODWjjjoB0ZjuxVTrz5wuLA
-	P4YItiKEHvBETlYnkJz8Konkx8yo6osJUFqgG8of/MujjDLWCqkzWAIx006yBtVvvsj6
-	b2zVhb3v4nx3HGA5BTqAB8N3t+LvEGH8Xb8x4unnaqqWaB030TQkB+yPZmHUMPKiIj6V
-	LAx6Ae30zWlv1VH5FgvJztY5fiM6299DqYBTYrZY5NRkKjnjJgms6ZVPJozUgPh7P+Ww
-	yb3w==
-X-Gm-Message-State: AKwxytdA2qDAymy9+N1F3fouJk/nrf5CnfdrY5Y8o5rleEOvz0KvOFrz
-	h2ik2AT824I4untp6v7IOHLSSQ==
-X-Google-Smtp-Source: AH8x227ay8KQzv7wT5C4q0c45CL99lmZtIw9oHjEO340lmlGnxbTgMS2HIq7vDC6gDGasD3LnJsnMw==
-X-Received: by 2002:a17:902:7844:: with SMTP id
-	e4-v6mr4029225pln.83.1517286725049; 
-	Mon, 29 Jan 2018 20:32:05 -0800 (PST)
+	bh=Stbyk86x1RKqufvYD2JmiSod/PfkZ/qnL/gXKBKmkaY=;
+	b=PwEF2cypeiOiOwz9O/LzCwbz8Zk/4oaQld6NxXDGpT2IfgyIRM5zfSiZf5B2fhZ4OR
+	4FCjd4flrA+plK/gU5wp5tNrPGxjGul5Fb43xwuzhWNM9TgUedfXVlR3c310H2P8zyrB
+	NdXItOQfh9YqmNqiPOPbFR+hqbf+rLwCOwtKKWPwLYttPdhIPX0VVms6F4LT7ZtL3J4n
+	CxBK/YpBix3xWBo4KuPBQgwuz38pVz3pSrMWECFLWYn+3N/wi7n1tzGiZ5XWLEi+9DIb
+	Ba/TRZdkTHxDx+gswrAhAEufIroY+JoszOEr7RP/K8ZoFfwddJSMOaSlDRDY6YIQC71I
+	OtKA==
+X-Gm-Message-State: AKwxytc99b8XWChxRjIxPcfDRt83uzWcDX+W4Y/lbczySyRMc7bU35Rg
+	u9IZbmoDznYj9sIMp0E2qzJrrQ==
+X-Google-Smtp-Source: AH8x226iKj4gSqSyLKlut9JcKRY4qhQbv7tO9Kyo0zqA1S+RRBDusyiERjx4o4r/cs/uLquY+2J4Mw==
+X-Received: by 2002:a17:902:7d96:: with SMTP id
+	a22-v6mr14575111plm.296.1517286726970; 
+	Mon, 29 Jan 2018 20:32:06 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8880:466c::a8d6])
 	by smtp.gmail.com with ESMTPSA id
-	u67sm1134233pfd.169.2018.01.29.20.32.04
+	u67sm1134233pfd.169.2018.01.29.20.32.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jan 2018 20:32:04 -0800 (PST)
+	Mon, 29 Jan 2018 20:32:05 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jan 2018 20:31:49 -0800
-Message-Id: <e3d636a6817fc50a874bf7a37245f529dcbb6a85.1517286478.git.raj.khem@gmail.com>
+Date: Mon, 29 Jan 2018 20:31:50 -0800
+Message-Id: <92a10eebd7525de6eeaa80701f4ae256500836b2.1517286478.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <cover.1517286478.git.raj.khem@gmail.com>
 References: <cover.1517286478.git.raj.khem@gmail.com>
-Subject: [PATCH 1/8] gcc-7.3: Drop upstreamed musl cpuinfo patch
+Subject: [PATCH V2 2/8] make: Backport fixes to not assume glibc internal glob implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,123 +57,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 04:32:04 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 04:32:06 -0000
 
-This patch is already in gcc-7-branch
-https://github.com/gcc-mirror/gcc/commit/6e6c7fc1e15525a10f48d4f5ac2edd853e2f5cb7
-
-Thanks nsz for noticing it
+Exposed with glibc 2.27
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-7.3.inc              |  1 -
- ...e-alias-for-__cpu_indicator_init-instead-.patch | 85 ----------------------
- 2 files changed, 86 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+ meta/recipes-devtools/make/make.inc                |  5 +-
+ ...1-glob-Do-not-assume-glibc-glob-internals.patch | 70 ++++++++++++++++++++++
+ ...2-glob-Do-not-assume-glibc-glob-internals.patch | 38 ++++++++++++
+ 3 files changed, 112 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
+ create mode 100644 meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
-index efa62eaf6a..724f9c32a0 100644
---- a/meta/recipes-devtools/gcc/gcc-7.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
-@@ -70,7 +70,6 @@ SRC_URI = "\
-            file://0043-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch \
-            file://0044-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
-            file://0045-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
--           file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            file://0047-sync-gcc-stddef.h-with-musl.patch \
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-deleted file mode 100644
-index f6b2829364..0000000000
---- a/meta/recipes-devtools/gcc/gcc-7.3/0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--From c7bce03a625fe2215a13f520850604178103ddd7 Mon Sep 17 00:00:00 2001
--From: Szabolcs Nagy <nsz@port70.net>
--Date: Sat, 24 Oct 2015 20:09:53 +0000
--Subject: [PATCH 46/47] libgcc_s: Use alias for __cpu_indicator_init instead of
-- symver
--
--Adapter from
--
--https://gcc.gnu.org/ml/gcc-patches/2015-05/msg00899.html
--
--This fix was debated but hasnt been applied gcc upstream since
--they expect musl to support '@' in symbol versioning which is
--a sun/gnu versioning extention. This patch however avoids the
--need for the '@' symbols at all
--
--libgcc/Changelog:
--
--2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
--
--	* config/i386/cpuinfo.c (__cpu_indicator_init_local): Add.
--	(__cpu_indicator_init@GCC_4.8.0, __cpu_model@GCC_4.8.0): Remove.
--
--	* config/i386/t-linux (HOST_LIBGCC2_CFLAGS): Remove -DUSE_ELF_SYMVER.
--
--gcc/Changelog:
--
--2015-05-11  Szabolcs Nagy  <szabolcs.nagy@arm.com>
--
--	* config/i386/i386.c (ix86_expand_builtin): Make __builtin_cpu_init
--	call __cpu_indicator_init_local instead of __cpu_indicator_init.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- gcc/config/i386/i386.c       | 4 ++--
-- libgcc/config/i386/cpuinfo.c | 6 +++---
-- libgcc/config/i386/t-linux   | 2 +-
-- 3 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/gcc/config/i386/i386.c b/gcc/config/i386/i386.c
--index dec3aee0048..0452dcfcb8d 100644
----- a/gcc/config/i386/i386.c
--+++ b/gcc/config/i386/i386.c
--@@ -36918,10 +36918,10 @@ ix86_expand_builtin (tree exp, rtx target, rtx subtarget,
--     {
--     case IX86_BUILTIN_CPU_INIT:
--       {
---	/* Make it call __cpu_indicator_init in libgcc. */
--+	/* Make it call __cpu_indicator_init_local in libgcc.a. */
-- 	tree call_expr, fndecl, type;
--         type = build_function_type_list (integer_type_node, NULL_TREE); 
---	fndecl = build_fn_decl ("__cpu_indicator_init", type);
--+	fndecl = build_fn_decl ("__cpu_indicator_init_local", type);
-- 	call_expr = build_call_expr (fndecl, 0); 
-- 	return expand_expr (call_expr, target, mode, EXPAND_NORMAL);
--       }
--diff --git a/libgcc/config/i386/cpuinfo.c b/libgcc/config/i386/cpuinfo.c
--index a1dc011525f..dac5e889abf 100644
----- a/libgcc/config/i386/cpuinfo.c
--+++ b/libgcc/config/i386/cpuinfo.c
--@@ -391,7 +391,7 @@ __cpu_indicator_init (void)
--   return 0;
-- }
-- 
---#if defined SHARED && defined USE_ELF_SYMVER
---__asm__ (".symver __cpu_indicator_init, __cpu_indicator_init@GCC_4.8.0");
---__asm__ (".symver __cpu_model, __cpu_model@GCC_4.8.0");
--+#ifndef SHARED
--+int __cpu_indicator_init_local (void)
--+  __attribute__ ((weak, alias ("__cpu_indicator_init")));
-- #endif
--diff --git a/libgcc/config/i386/t-linux b/libgcc/config/i386/t-linux
--index 11bb46e0ee4..4f47f7bfa59 100644
----- a/libgcc/config/i386/t-linux
--+++ b/libgcc/config/i386/t-linux
--@@ -3,4 +3,4 @@
-- # t-slibgcc-elf-ver and t-linux
-- SHLIB_MAPFILES = libgcc-std.ver $(srcdir)/config/i386/libgcc-glibc.ver
-- 
---HOST_LIBGCC2_CFLAGS += -mlong-double-80 -DUSE_ELF_SYMVER
--+HOST_LIBGCC2_CFLAGS += -mlong-double-80
---- 
--2.12.2
--
+diff --git a/meta/recipes-devtools/make/make.inc b/meta/recipes-devtools/make/make.inc
+index 849b74299c..b8905bc6d3 100644
+--- a/meta/recipes-devtools/make/make.inc
++++ b/meta/recipes-devtools/make/make.inc
+@@ -5,7 +5,10 @@ called the makefile, which lists each of the non-source files and how to compute
+ HOMEPAGE = "http://www.gnu.org/software/make/"
+ SECTION = "devel"
+ 
+-SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.bz2"
++SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.bz2 \
++           file://0001-glob-Do-not-assume-glibc-glob-internals.patch \
++           file://0002-glob-Do-not-assume-glibc-glob-internals.patch \
++           "
+ 
+ inherit autotools gettext pkgconfig texinfo
+ 
+diff --git a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
+new file mode 100644
+index 0000000000..2b6e4d40c3
+--- /dev/null
++++ b/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
+@@ -0,0 +1,70 @@
++From c90a7dda6c572f79b8e78da44b6ebf8704edef65 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Sun, 24 Sep 2017 09:12:58 -0400
++Subject: [PATCH 1/2] glob: Do not assume glibc glob internals.
++
++It has been proposed that glibc glob start using gl_lstat,
++which the API allows it to do.  GNU 'make' should not get in
++the way of this.  See:
++https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
++
++* dir.c (local_lstat): New function, like local_stat.
++(dir_setup_glob): Use it to initialize gl_lstat too, as the API
++requires.
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ dir.c | 29 +++++++++++++++++++++++++++--
++ 1 file changed, 27 insertions(+), 2 deletions(-)
++
++diff --git a/dir.c b/dir.c
++index f34bbf5..12eef30 100644
++--- a/dir.c
+++++ b/dir.c
++@@ -1299,15 +1299,40 @@ local_stat (const char *path, struct stat *buf)
++ }
++ #endif
++ 
+++/* Similarly for lstat.  */
+++#if !defined(lstat) && !defined(WINDOWS32) || defined(VMS)
+++# ifndef VMS
+++#  ifndef HAVE_SYS_STAT_H
+++int lstat (const char *path, struct stat *sbuf);
+++#  endif
+++# else
+++    /* We are done with the fake lstat.  Go back to the real lstat */
+++#   ifdef lstat
+++#     undef lstat
+++#   endif
+++# endif
+++# define local_lstat lstat
+++#elif defined(WINDOWS32)
+++/* Windows doesn't support lstat().  */
+++# define local_lstat local_stat
+++#else
+++static int
+++local_lstat (const char *path, struct stat *buf)
+++{
+++  int e;
+++  EINTRLOOP (e, lstat (path, buf));
+++  return e;
+++}
+++#endif
+++
++ void
++ dir_setup_glob (glob_t *gl)
++ {
++   gl->gl_opendir = open_dirstream;
++   gl->gl_readdir = read_dirstream;
++   gl->gl_closedir = free;
+++  gl->gl_lstat = local_lstat;
++   gl->gl_stat = local_stat;
++-  /* We don't bother setting gl_lstat, since glob never calls it.
++-     The slot is only there for compatibility with 4.4 BSD.  */
++ }
++ 
++ void
++-- 
++2.16.1
++
+diff --git a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
+new file mode 100644
+index 0000000000..d49acd9f6e
+--- /dev/null
++++ b/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
+@@ -0,0 +1,38 @@
++From 9858702dbd1e137262c06765919937660879f63c Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Sun, 24 Sep 2017 09:12:58 -0400
++Subject: [PATCH 2/2] glob: Do not assume glibc glob internals.
++
++It has been proposed that glibc glob start using gl_lstat,
++which the API allows it to do.  GNU 'make' should not get in
++the way of this.  See:
++https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
++
++* dir.c (local_lstat): New function, like local_stat.
++(dir_setup_glob): Use it to initialize gl_lstat too, as the API
++requires.
++---
++Upstream-Status: Backport
++
++ configure.ac | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 64ec870..e87901c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -399,10 +399,9 @@ AC_CACHE_CHECK([if system libc has GNU glob], [make_cv_sys_gnu_glob],
++ #include <glob.h>
++ #include <fnmatch.h>
++ 
++-#define GLOB_INTERFACE_VERSION 1
++ #if !defined _LIBC && defined __GNU_LIBRARY__ && __GNU_LIBRARY__ > 1
++ # include <gnu-versions.h>
++-# if _GNU_GLOB_INTERFACE_VERSION == GLOB_INTERFACE_VERSION
+++if _GNU_GLOB_INTERFACE_VERSION == 1 || _GNU_GLOB_INTERFACE_VERSION == 2
++    gnu glob
++ # endif
++ #endif],
++-- 
++2.16.1
++
 -- 
 2.16.1
 
