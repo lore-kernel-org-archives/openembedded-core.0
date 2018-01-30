@@ -1,37 +1,19 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3137878866
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 21:23:09 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id a27so19220604qtd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 13:23:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2zBvlV+mFSijU24Ca8h33pZD09/VK6RKLenYq4ayLCE=;
-	b=knkOfUAvdD1FFXltHWzKOEiRWdN/O7t9AzYEX/51kmiG7NKHncsw6GR6v2+pxVA5JN
-	Oe/ctmVw+O54B6wwVWmFVOSTEEpi8njE5gEMSX4MQXE2IiAnIdBKyTPlPeL6JUCSg41/
-	zsTlExbipUbDDVkKoPrYpajtDZPDRHTndToYgca7RW64wOB15Ed0aieMBFrqw1UoyCwd
-	vr/ba+EU5cYVA2Ywkw5HBNrnj4h1gdv6pOpBSuNz1weuoImhIerWNaAfMtr1l+ZXit53
-	lJ/aRBOeMkDnmOAUogn6r8Bmvp+h3FapCksvFJ3Tkncjx0fwiEI/xtyj0YiA1knmYvUO
-	OofQ==
-X-Gm-Message-State: AKwxytdav1hebE1yZiiDz2JCnKFzz4OB40tOEFDJWUEL+8Cca0PgpPsd
-	w0kTWK67jRdv2Z5rt1XTSXaSJoZp
-X-Google-Smtp-Source: AH8x226kD+ksmyo38lKdePMk7hxizHB9KrNw2W3uI4rZA1PMDmn30iIue3TG5DGpy5N/TH40sSi0jQ==
-X-Received: by 10.237.50.197 with SMTP id z63mr48165488qtd.212.1517347390683; 
-	Tue, 30 Jan 2018 13:23:10 -0800 (PST)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id l79sm167503qkh.1.2018.01.30.13.23.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Jan 2018 13:23:09 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jan 2018 16:22:56 -0500
-Message-Id: <1517347376-21882-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-pycairo: update to 1.15.6
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AB5160053;
+	Tue, 30 Jan 2018 21:35:22 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+Date: Tue, 30 Jan 2018 21:35:24 -0000
+Message-ID: <20180130213524.15542.48984@do.openembedded.org>
+References: <1516648119-12528-1-git-send-email-alejandr@xilinx.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1516648119-12528-1-git-send-email-alejandr@xilinx.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmluamE6IFVwZ3JhZGUgZnJvbSAxLjcuMiB0byBtYWpvciByZWxlYXNlIDEuOC4y?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +26,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 21:23:10 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 21:35:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Update to the latest stable release
+== Series Details ==
 
-Tested in qemux86-64 running core-image-minimal
+Series: ninja: Upgrade from 1.7.2 to major release 1.8.2
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10780/
+State : failure
 
-Signed-off-by: Derek Straka <derek@asterius.io>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 59c5fb3c80)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../python/{python3-pycairo_1.15.4.bb => python3-pycairo_1.15.6.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycairo_1.15.4.bb => python3-pycairo_1.15.6.bb} (87%)
-
-diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.4.bb b/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-pycairo_1.15.4.bb
-rename to meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-index a6c9e5a..5c3e1e6 100644
---- a/meta/recipes-devtools/python/python3-pycairo_1.15.4.bb
-+++ b/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-@@ -13,8 +13,8 @@ DEPENDS = "cairo"
- SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
- 
--SRC_URI[md5sum] = "89f04740078fb5f4e4dd92a0c4d3b537"
--SRC_URI[sha256sum] = "ee4c3068c048230e5ce74bb8994a024711129bde1af1d76e3276c7acd81c4357"
-+SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
-+SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
- 
- S = "${WORKDIR}/pycairo-${PV}"
- 
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
