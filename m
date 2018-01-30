@@ -1,50 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C5137886C
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 121E97883A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 17:50:37 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id t12so9780426pfg.2
+	Tue, 30 Jan 2018 17:51:23 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id y26so9767747pfi.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 09:50:38 -0800 (PST)
+	Tue, 30 Jan 2018 09:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kMWCanSl50weapn/LwLIwmhW0Q+20k6YHeLDiiG/ZaA=;
-	b=YivMj9DfceYnTxvzivuGN95uofTI66BHRWm0uy4/b61j/M90JlKsVwht0Xn+3PG8qi
-	kqRiW1m4lMqiOpD4o2pCpornkSQ/BJVle+TAFOQywkv4WgadNFk71wgKdWmuws07LDO0
-	bXzHhE089cbaffBWITSNT5Hvjn1qK1oCHqLHmpu3mDMpQWYaaDcnYiJGbVANlEFH0EbU
-	4LwpHhmII4p73KCQf05SeKAwQrULayP8dafyZ4TZiiqVikoU0sK92uu47cwj9xktzLfF
-	VZWyT4ieMt6eXnAY+l53yf34Z6EFT7sKixXd7HNQsGUjaoaxYkpWirQqEfes9QJPe7Fe
-	VXmw==
+	:cc; bh=Jlx0cniWK1Bfk3fy+y+MjX2bw93NJCsIIS21ynvDV7Q=;
+	b=oPHNjhkAy8AyjthudM2c9Xy4Pg5htVO3kjufqbwl9xBjNxe/X+pmFaEpg8bMO1qs1a
+	NYkvo5iREk/urXw83wLLosyJdxvwFrY5CnnA+aG5amGa4QW/wVLC7NSX/y8e6QovgJZY
+	RuL6Yv7BOD5+s+0qMy10brKiE2hRcZl/riuG9vMwErkWa8vO98XPyb/NsVwG+GSVuYX1
+	XJiSZALady89O15KCkbjqFmYWYo5tzI8kJU1pv5dHuKDIV9z4PF6uowptlRybx3Yr1nJ
+	nuAYY3zpg8mqhEds8GlMIBHrF01zsABOr77/MS6nNLxq1RHDNPOCaWEB17vhxHTg9nLD
+	V9Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=kMWCanSl50weapn/LwLIwmhW0Q+20k6YHeLDiiG/ZaA=;
-	b=QO8pistCQNmOERhvt2Ime6T74xx5LASsOH7zY82FD7I3GKZ7sMKc4RNUO6OCY3yakB
-	XfcAXn/oOG/Fkbh3meZTGcEBfQnoJ5GR6BNYmOhmPqoDTxOi04CmAP5DB8kAyi+wbhWw
-	8pdxyohADwJjTy/snwvhvpIPEuq4VbklQT2+LGXQaUo6rHPaZJ6mUSvPrGXlj1OvIN7S
-	KaWZJmxfu/kGmx+ifJL/JWF/hslwcyfskH2Y9j1e2zVgLyuykLSWRbPKuMLosqZgTLDN
-	4fsl63VPaqNTLKY6DchTaJ2gZJHrBsg6r4fm7V6teEfuVlXQ8TqEezAWKCqnWH31g52q
-	vpVg==
-X-Gm-Message-State: AKwxyteJUfgq8Sjude+Ss4iLrATnxWX2WLtu1bn4PKp2g+Qzk9ikhGiQ
-	reGJKp4Ql8YGG87zb8qUyLG7NPikTIq38+/epEQ=
-X-Google-Smtp-Source: AH8x2245UKBpf6zlpaUVmaWA9YBrQfHsrTJFypmfeZg4+eerunpWB5LohUh737IfHIr5Shk3MxOW5jTCrLtF83r5i+I=
-X-Received: by 10.101.92.74 with SMTP id v10mr16665249pgr.341.1517334638311;
-	Tue, 30 Jan 2018 09:50:38 -0800 (PST)
+	bh=Jlx0cniWK1Bfk3fy+y+MjX2bw93NJCsIIS21ynvDV7Q=;
+	b=IDHjxQlz/wqxDJSmNn8e/QswxJ4q0mRbGQgjc5o/rs45Vl5ekHHZ5DAr4X3uHZ3/nP
+	WI6mJBvQqDl0pluCBM1JaDBtrK2wlgXA4VMEmNtR5w3XrVF0jcyNJRqeCHG4pSqxbv7F
+	3Uu4T7rTfr4WbTUx8av1MOVP/3hthchem+Bg3/Y5mKBCXkcBTTdrPqRfs2RzPkOehpGW
+	QXV/6apxEYdgxnE+20YBUawkMHGV9djUfkpNF7Nt1BpzLvQuh6SlgBih+YIb2PbcXCZ3
+	bLeGbEH1AWFInNzHJVSvYgyI15i8rKGiPuQJzaj6jB/qUecRMqDo1vEEPlX/x289b9Cp
+	hpLQ==
+X-Gm-Message-State: AKwxyteQcBM8B/d3FqkN+C+5fCwx1E+27zQuhghyMu5ep3sU2p3JzKI9
+	DACu266BXr/ln7CTuOsKoMKh9e1DCMRReAkN8XE=
+X-Google-Smtp-Source: AH8x2265AIOtI+E5wC0TqXuSQ+XLovFSURVzRScxxFqtx6pWrpbDHu2YJdpwXYfTSYF+gE27XDDioSyzliRuZyN2B9A=
+X-Received: by 10.99.137.195 with SMTP id v186mr24860744pgd.25.1517334685160; 
+	Tue, 30 Jan 2018 09:51:25 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Tue, 30 Jan 2018 09:50:07 -0800 (PST)
-In-Reply-To: <517ea06f-b1d9-3e07-c1c9-94a504684052@cisco.com>
-References: <1517238375-21831-1-git-send-email-rbilovol@cisco.com>
-	<CAMKF1sqSv0n2D4AFyxmfd860Hni_L2V0=KPBvqYYifu0ymV4zQ@mail.gmail.com>
-	<517ea06f-b1d9-3e07-c1c9-94a504684052@cisco.com>
+Received: by 10.100.161.170 with HTTP; Tue, 30 Jan 2018 09:50:54 -0800 (PST)
+In-Reply-To: <CAJTo0La+B4-LxA1_0QzBBssNO-wq50HMeuDPyU5S3iPXQAsyKg@mail.gmail.com>
+References: <cover.1517286478.git.raj.khem@gmail.com>
+	<CAJTo0La+B4-LxA1_0QzBBssNO-wq50HMeuDPyU5S3iPXQAsyKg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 Jan 2018 09:50:07 -0800
-Message-ID: <CAMKF1som+VSrnZ59tpXvGZFn9+1fBmyaG8QikdsD9AGvEaa-gw@mail.gmail.com>
-To: Ruslan Bilovol <rbilovol@cisco.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-kernel: add kpatch dynamic kernel patching infrastructure
+Date: Tue, 30 Jan 2018 09:50:54 -0800
+Message-ID: <CAMKF1sqj5VjSwj7F5Jji8C7X+aiA3pVg80w6tRzgG08gk+9_9Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 0/8] Update to binutils 2.30, glibc 2.27 initiated fixes, musl update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,355 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 17:50:37 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 17:51:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 30, 2018 at 7:14 AM, Ruslan Bilovol <rbilovol@cisco.com> wrote:
-> On 01/29/2018 08:35 PM, Khem Raj wrote:
+On Tue, Jan 30, 2018 at 4:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 30 January 2018 at 04:31, Khem Raj <raj.khem@gmail.com> wrote:
 >>
->> On Mon, Jan 29, 2018 at 7:06 AM, Ruslan Bilovol <rbilovol@cisco.com>
->> wrote:
->>>
->>> kpatch is a Linux dynamic kernel patching infrastructure
->>> which allows you to patch a running kernel without
->>> rebooting or restarting any processes
->>>
->>> Currently it is enabled and tested on x86-64 systems,
->>> although can be extended to PPC64 as well.
->>>
 >>
->> perhaps not ready for oe-core yet doesnt seem to support all core
->> arches, may be meta-oe is a better place for it for now
+>> - Add proper sign-offs and Upstream-Status as reported by patchtest
+>> - Backport another fix for pulseaudio memfd issue done upstream
 >
 >
-> Do you mean this should be done because Kpatch tool itself doesn't support
-> all core arches, or because this recipe doesn't contain support of all
-> arches
-> which Kpatch support?
->
-> So to clarify support matrix, LivePatch feature in mainstream Linux
-> Kernel is available only for x86-64, PPC64 and S390 architectures;
-> patches for ARM64 support are on their way to kernel.
->
-> Kpatch tool supports only x86-64 and PPC64 architectures.
->
-> This recipe supports only x86-64 architecture because there is
-> no HW in openembedded-core for which I can build and test it.
+> v1 was merged after v2 was sent so I just split these fixes out and they
+> just got merged as follow-up patches.  Sorry but I managed to drop your
+> authorship.
 >
 
-it will be good if it worked across other arch
+thats ok. As long as we do it for right reason :)
 
-> E.g. there is QEMU machine for x86-64 but there is no for PPC64.
-> Any other way to test it?
->
-> Thanks,
-> Ruslan
->
->
->
->>
->>> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
->>> ---
->>>   meta/recipes-kernel/kpatch/kpatch.inc              |  49 ++++++++++
->>>   ...patch-build-add-cross-compilation-support.patch | 103
->>> +++++++++++++++++++++
->>>   ...tch-build-allow-overriding-of-distro-name.patch |  62 +++++++++++++
->>>   meta/recipes-kernel/kpatch/kpatch_git.bb           |  11 +++
->>>   4 files changed, 225 insertions(+)
->>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch.inc
->>>   create mode 100644
->>> meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
->>>   create mode 100644
->>> meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
->>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch_git.bb
->>>
->>> diff --git a/meta/recipes-kernel/kpatch/kpatch.inc
->>> b/meta/recipes-kernel/kpatch/kpatch.inc
->>> new file mode 100644
->>> index 0000000..b1e73e9
->>> --- /dev/null
->>> +++ b/meta/recipes-kernel/kpatch/kpatch.inc
->>> @@ -0,0 +1,49 @@
->>> +SUMMARY = "Linux dynamic kernel patching infrastructure"
->>> +DESCRIPTION = "kpatch is a Linux dynamic kernel patching infrastructure
->>> which allows you to patch a running kernel without rebooting or restarting
->>> any processes."
->>> +LICENSE = "GPLv2 & LGPLv2"
->>> +DEPENDS = "elfutils bash"
->>> +
->>> +SRC_URI = "git://github.com/dynup/kpatch.git;protocol=https \
->>> +       file://0001-kpatch-build-add-cross-compilation-support.patch \
->>> +       file://0002-kpatch-build-allow-overriding-of-distro-name.patch \
->>> +       "
->>> +
->>> +EXTRA_OEMAKE = " \
->>> +       PREFIX=${prefix} \
->>> +       BINDIR=${D}${bindir} \
->>> +       SBINDIR=${D}${sbindir} \
->>> +       LIBDIR=${D}${libdir} \
->>> +       MANDIR=${D}${mandir}/man1 \
->>> +       SYSTEMDDIR=${D}${systemd_system_unitdir} \
->>> +       DESTDIR=${D} \
->>> +       BUILDMOD=no \
->>> +       CC='${CC}' \
->>> +       "
->>> +
->>> +S = "${WORKDIR}/git"
->>> +
->>> +do_install () {
->>> +       oe_runmake install
->>> +}
->>> +
->>> +PACKAGES =+ "kpatch-build"
->>> +PROVIDES += "kpatch-build"
->>> +
->>> +COMPATIBLE_HOST = "(x86_64).*-linux"
->>> +
->>> +RDEPENDS_${PN} = "bash binutils"
->>> +RDEPENDS_kpatch-build = "bash glibc-utils"
->>> +
->>> +FILES_${PN} = " \
->>> +       ${sbindir}/kpatch \
->>> +       ${systemd_system_unitdir}/kpatch.service \
->>> +       ${mandir}/man1/kpatch.1.gz \
->>> +       "
->>> +FILES_kpatch-build = " \
->>> +       ${bindir}/kpatch-build \
->>> +       ${libexecdir}/* \
->>> +       ${datadir}/kpatch \
->>> +       ${mandir}/man1/kpatch-build.1.gz \
->>> +       "
->>> +
->>> +SYSTEMD_SERVICE_${PN} = "kpatch.service"
->>> diff --git
->>> a/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
->>> b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
->>> new file mode 100644
->>> index 0000000..459fb21
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
->>> @@ -0,0 +1,103 @@
->>> +From a9a80a1f4df65892a0269295ce8a64b06f2ff61d Mon Sep 17 00:00:00 2001
->>> +From: Ruslan Bilovol <rbilovol@cisco.com>
->>> +Date: Tue, 19 Dec 2017 15:59:04 +0200
->>> +Subject: [PATCH] kpatch-build: add cross-compilation support
->>> +
->>> +This patch introduces new option for kpatch-build
->>> +script "--cross-compile" which can be used for
->>> +specifying cross-complier prefix.
->>> +It allows to build live patches not only on
->>> +target system, but also on hosts for a target other
->>> +than the one on which the compiler is running
->>> +
->>> +Also removed quotes in exec lines, so it is
->>> +possible to pass multy-component strings like
->>> +"ccache x86_64-xelinux-linux-" as cross-compiler
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
->>> +---
->>> + kpatch-build/kpatch-build | 13 +++++++++++--
->>> + kpatch-build/kpatch-gcc   |  4 ++--
->>> + 2 files changed, 13 insertions(+), 4 deletions(-)
->>> +
->>> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
->>> +index 166ecbd..af24cc4 100755
->>> +--- a/kpatch-build/kpatch-build
->>> ++++ b/kpatch-build/kpatch-build
->>> +@@ -195,7 +195,7 @@ gcc_version_check() {
->>> +       # gcc --version varies between distributions therefore extract
->>> version
->>> +       # by compiling a test file and compare it to vmlinux's version.
->>> +       echo 'void main(void) {}' > "$c"
->>> +-      out="$(gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
->>> ++      out="$(${KPATCH_CROSS_COMPILE}gcc -c -pg -ffunction-sections -o
->>> "$o" "$c" 2>&1)"
->>> +       gccver="$(gcc_version_from_file "$o")"
->>> +       kgccver="$(gcc_version_from_file "$VMLINUX")"
->>> +       rm -f "$c" "$o"
->>> +@@ -381,12 +381,14 @@ usage() {
->>> +       echo "          -d, --debug        Enable 'xtrace' and keep
->>> scratch files" >&2
->>> +       echo "                             in <CACHEDIR>/tmp" >&2
->>> +       echo "                             (can be specified multiple
->>> times)" >&2
->>> ++      echo "          --cross-compile    Specify the prefix used for
->>> all executables" >&2
->>> ++      echo "                             used during compilation" >&2
->>> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
->>> +       echo "          --skip-gcc-check   Skip gcc version matching
->>> check" >&2
->>> +       echo "                             (not recommended)" >&2
->>> + }
->>> +
->>> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l
->>> "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,skip-gcc-check,skip-cleanup"
->>> -- "$@")" || die "getopt failed"
->>> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l
->>> "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup"
->>> -- "$@")" || die "getopt failed"
->>> +
->>> + eval set -- "$options"
->>> +
->>> +@@ -444,6 +446,10 @@ while [[ $# -gt 0 ]]; do
->>> +                       echo "DEBUG mode enabled"
->>> +               fi
->>> +               ;;
->>> ++      --cross-compile)
->>> ++              KPATCH_CROSS_COMPILE="$2"
->>> ++              shift
->>> ++              ;;
->>> +       --skip-cleanup)
->>> +               echo "Skipping cleanup"
->>> +               SKIPCLEANUP=1
->>> +@@ -691,6 +697,8 @@ if [[ $DEBUG -ge 4 ]]; then
->>> +       export KPATCH_GCC_DEBUG=1
->>> + fi
->>> +
->>> ++export KPATCH_CROSS_COMPILE
->>> ++
->>> + echo "Building original kernel"
->>> + ./scripts/setlocalversion --save-scmversion || die
->>> + make mrproper 2>&1 | logger || die
->>> +@@ -840,6 +848,7 @@ cd "$TEMPDIR/patch" || die
->>> + KPATCH_BUILD="$SRCDIR" KPATCH_NAME="$MODNAME" \
->>> + KBUILD_EXTRA_SYMBOLS="$KBUILD_EXTRA_SYMBOLS" \
->>> + KPATCH_LDFLAGS="$KPATCH_LDFLAGS" \
->>> ++CROSS_COMPILE="$KPATCH_CROSS_COMPILE" \
->>> +       make 2>&1 | logger || die
->>> +
->>> + if ! "$KPATCH_MODULE"; then
->>> +diff --git a/kpatch-build/kpatch-gcc b/kpatch-build/kpatch-gcc
->>> +index 6ba133c..3937948 100755
->>> +--- a/kpatch-build/kpatch-gcc
->>> ++++ b/kpatch-build/kpatch-gcc
->>> +@@ -8,7 +8,7 @@ TOOLCHAINCMD="$1"
->>> + shift
->>> +
->>> + if [[ -z "$KPATCH_GCC_TEMPDIR" ]]; then
->>> +-      exec "$TOOLCHAINCMD" "$@"
->>> ++      exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "$@"
->>> + fi
->>> +
->>> + declare -a args=("$@")
->>> +@@ -80,4 +80,4 @@ elif [[ "$TOOLCHAINCMD" = "ld" ]] ; then
->>> +       done
->>> + fi
->>> +
->>> +-exec "$TOOLCHAINCMD" "${args[@]}"
->>> ++exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "${args[@]}"
->>> +--
->>> +1.9.1
->>> +
->>> diff --git
->>> a/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
->>> b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
->>> new file mode 100644
->>> index 0000000..a9d8a7f
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
->>> @@ -0,0 +1,62 @@
->>> +From d418d716dae1e2a05131dfb42a19a4da2fc8a85d Mon Sep 17 00:00:00 2001
->>> +From: Ruslan Bilovol <rbilovol@cisco.com>
->>> +Date: Tue, 2 Jan 2018 14:50:03 +0200
->>> +Subject: [PATCH] kpatch-build: allow overriding of distro name
->>> +
->>> +It is sometimes useful to have ability to override
->>> +distro name, for example during cross-compilation
->>> +build when livepatch modules will be ran on the
->>> +target which differs from host.
->>> +
->>> +This patch adds a new --distro option which
->>> +implements all needed functionality
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
->>> +---
->>> + kpatch-build/kpatch-build | 9 +++++++--
->>> + 1 file changed, 7 insertions(+), 2 deletions(-)
->>> +
->>> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
->>> +index af24cc4..4f9f78d 100755
->>> +--- a/kpatch-build/kpatch-build
->>> ++++ b/kpatch-build/kpatch-build
->>> +@@ -383,12 +383,13 @@ usage() {
->>> +       echo "                             (can be specified multiple
->>> times)" >&2
->>> +       echo "          --cross-compile    Specify the prefix used for
->>> all executables" >&2
->>> +       echo "                             used during compilation" >&2
->>> ++      echo "          --distro           Override distro name" >&2
->>> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
->>> +       echo "          --skip-gcc-check   Skip gcc version matching
->>> check" >&2
->>> +       echo "                             (not recommended)" >&2
->>> + }
->>> +
->>> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l
->>> "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup"
->>> -- "$@")" || die "getopt failed"
->>> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l
->>> "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,distro:,skip-gcc-check,skip-cleanup"
->>> -- "$@")" || die "getopt failed"
->>> +
->>> + eval set -- "$options"
->>> +
->>> +@@ -450,6 +451,10 @@ while [[ $# -gt 0 ]]; do
->>> +               KPATCH_CROSS_COMPILE="$2"
->>> +               shift
->>> +               ;;
->>> ++      --distro)
->>> ++              DISTRO="$2"
->>> ++              shift
->>> ++              ;;
->>> +       --skip-cleanup)
->>> +               echo "Skipping cleanup"
->>> +               SKIPCLEANUP=1
->>> +@@ -526,7 +531,7 @@ fi
->>> + # Don't check external file.
->>> + # shellcheck disable=SC1091
->>> + source /etc/os-release
->>> +-DISTRO="$ID"
->>> ++DISTRO="${DISTRO:-${ID}}"
->>> + if [[ "$DISTRO" = fedora ]] || [[ "$DISTRO" = rhel ]] || [[ "$DISTRO" =
->>> ol ]] || [[ "$DISTRO" = centos ]]; then
->>> +       [[ -z "$VMLINUX" ]] &&
->>> VMLINUX="/usr/lib/debug/lib/modules/$ARCHVERSION/vmlinux"
->>> +       [[ -e "$VMLINUX" ]] || die "kernel-debuginfo-$ARCHVERSION not
->>> installed"
->>> +--
->>> +1.9.1
->>> +
->>> diff --git a/meta/recipes-kernel/kpatch/kpatch_git.bb
->>> b/meta/recipes-kernel/kpatch/kpatch_git.bb
->>> new file mode 100644
->>> index 0000000..e495e28
->>> --- /dev/null
->>> +++ b/meta/recipes-kernel/kpatch/kpatch_git.bb
->>> @@ -0,0 +1,11 @@
->>> +require kpatch.inc
->>> +
->>> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->>> +
->>> +SRCREV = "db6efbb8c7e90d2b761272cf563047119072768f"
->>> +
->>> +PV = "0.5.0+git${SRCPV}"
->>> +
->>> +S = "${WORKDIR}/git"
->>> +
->>> +BBCLASSEXTEND = "native nativesdk"
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+> Ross
 
