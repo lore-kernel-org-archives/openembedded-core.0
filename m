@@ -1,58 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2418A78876
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ADC878845
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 14:30:21 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id c16so812256itc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 06:30:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version; bh=DE6kXqcLidbHBqShVHlnPlxIlQVt4UK7XeAQHIo071E=;
-	b=JihbC/YC0aV9SBl3zW22A1i1OLuY9h1Uie8OTgxjSV/rcoQ7qyEWyKLrQytEPjTpL2
-	BvXr1mAfIT1MKyrhZW3m9yGxScImSyomxoFaeZYg63T0P5QVin0bP3OgpXiFRKsx3RCX
-	YWWUjWaGsSKV/BCMj8WsdltvkkwkB8UQ8Uric/UHFP4/23+Zz7+nKfd5SfCF87OncAet
-	T7IH9Yu6mVsK2bLndbQmJrD140fSmM4yAMBg6p8DAwMtOuyoHdVf3Ht/dVhtIY41LDQE
-	Ni4VFT7WqXIiyQaMWr2ZBuho8soiKNFGfPjdaoJJgHeAYAI+rnZq+bJAwT5pH0sbnln8
-	lb+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version;
-	bh=DE6kXqcLidbHBqShVHlnPlxIlQVt4UK7XeAQHIo071E=;
-	b=t0v3VBIo0ek5O2k+2og+06TB86EEGSKu3rOo7hOixti/AM5K+23ajBOb107s71MLho
-	FBUnhMjRFlDkI2ZUX1abQOjovKADXTrQajnCkze9r63mjpRp0+Yv+ejOS0V7HILDV+6w
-	jPHBIXbho6+SIemr1NZCi+W2mSf6FVsffwhy0gVUF7SZ/kdfBsrf37kNQ0lJVXyyI2FH
-	7HnmuEtoVEVLzyFhxUVKIUWPP0h6SNhlQgjVNU6/0s8oulaHIvQG3xJTIq6wLRvqCqtI
-	Bf5pVBw14aHrKyZP6g7IwbAu/aAxo72ldUlpPSe7Z05JvjsUjONZrQA7XZvJIvCdrvNS
-	fSiQ==
-X-Gm-Message-State: AKwxytefyNs/rKXiJKwDifMc5pQ70ucIKxwoaaS/5D3s5XWgiK1GrJML
-	zKWrg2+3oqBw8ivCsteQvDY=
-X-Google-Smtp-Source: AH8x227bfT1aMU266y+FwXKeDxs8ZxW0KMBY4toq2m60fMAQHJyGRBmddcfkQ5kWKy57ZRTiBSy2hw==
-X-Received: by 10.36.125.205 with SMTP id b196mr31894305itc.128.1517322623271; 
-	Tue, 30 Jan 2018 06:30:23 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	w142sm6158730ita.25.2018.01.30.06.30.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Jan 2018 06:30:22 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1517322622.31752.63.camel@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Tue, 30 Jan 2018 08:30:22 -0600
-In-Reply-To: <CA+chaQc57j=7JQx3iNHfomkjVXmZX7Lm+yLED+xzMg7uhrVa8w@mail.gmail.com>
-References: <20180130083003.39-1-Martin.Jansa@gmail.com>
-	<CAJTo0LYmP0iqbm5X50FPi80=LB+tUD90JVzYPf8uah=c0ysiew@mail.gmail.com>
-	<CA+chaQc57j=7JQx3iNHfomkjVXmZX7Lm+yLED+xzMg7uhrVa8w@mail.gmail.com>
-X-Mailer: Evolution 3.26.2 (3.26.2-1.fc27) 
-Mime-Version: 1.0
-Cc: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>,
-	Joe Slater <jslater@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] waf.bbclass: check that waf exists before trying to execute it
+	Tue, 30 Jan 2018 15:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=12726; q=dns/txt;
+	s=iport; t=1517325271; x=1518534871;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=kQeqvlFbgDJuYAKN4h+k7IyrfeItXzUZN42loLPuYVU=;
+	b=hC7ymbEZGbvstmHeWyA1mm2K+PzK9ZEN8RByNTOy2MJseo6hfG2ruuTL
+	Ngdih0Me10jGi/Av4BUkPA5EWmyIJSECigbP8wi4oyW41/fKlsN/9KzQJ
+	mGm3viGN0C9iC4YxRVMfZMgKy1aWOoTjCuT0oejN4d5lTzDKFKoeNiXve 8=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0B1AQBoinBa/xbLJq1bGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQcBAQEBAYQodSiDYIsYjxdlfJZeggIKGAuESU8CgxwUAQEBAQEBAQECayi?=
+	=?us-ascii?q?FIwEBAQMBAQEhFTYLEAsRAQIBAgECAiYCAicBIQYIBg0GAgEBiikIEKVXgieKZ?=
+	=?us-ascii?q?QEBAQEBAQEBAQEBAQEBAQEBAQEfgQ+DSINsgWgpgk82gy8BAQIBgVaDL4JlBYp?=
+	=?us-ascii?q?dh2KBdY9jiBiHNIYcgwKJK4d8jWaKAYE8NiKBUDMaCBsVPYIqCYJMARsZgW8/N?=
+	=?us-ascii?q?45tAQEB?=
+X-IronPort-AV: E=Sophos;i="5.46,435,1511827200"; 
+   d="scan'208";a="1750005"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jan 2018 15:14:27 +0000
+Received: from [10.61.81.174] (ams3-vpn-dhcp4527.cisco.com [10.61.81.174])
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w0UFERpG032396;
+	Tue, 30 Jan 2018 15:14:27 GMT
+To: Khem Raj <raj.khem@gmail.com>
+References: <1517238375-21831-1-git-send-email-rbilovol@cisco.com>
+	<CAMKF1sqSv0n2D4AFyxmfd860Hni_L2V0=KPBvqYYifu0ymV4zQ@mail.gmail.com>
+From: Ruslan Bilovol <rbilovol@cisco.com>
+Message-ID: <517ea06f-b1d9-3e07-c1c9-94a504684052@cisco.com>
+Date: Tue, 30 Jan 2018 17:14:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sqSv0n2D4AFyxmfd860Hni_L2V0=KPBvqYYifu0ymV4zQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes-kernel: add kpatch dynamic kernel patching infrastructure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,236 +53,313 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 14:30:22 -0000
-Content-Type: multipart/alternative; boundary="=-sAvC8S6rCfvhWGvOKdf7"
+X-List-Received-Date: Tue, 30 Jan 2018 15:14:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---=-sAvC8S6rCfvhWGvOKdf7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+On 01/29/2018 08:35 PM, Khem Raj wrote:
+> On Mon, Jan 29, 2018 at 7:06 AM, Ruslan Bilovol <rbilovol@cisco.com> wrote:
+>> kpatch is a Linux dynamic kernel patching infrastructure
+>> which allows you to patch a running kernel without
+>> rebooting or restarting any processes
+>>
+>> Currently it is enabled and tested on x86-64 systems,
+>> although can be extended to PPC64 as well.
+>>
+> 
+> perhaps not ready for oe-core yet doesnt seem to support all core
+> arches, may be meta-oe is a better place for it for now
 
-On Tue, 2018-01-30 at 13:26 +0100, Martin Jansa wrote:
-> +Andreas who added waf inherit in jack in:commit
-> 0f8f1973e229a0799098bc2334416fec8c608b50
-> Author: Andreas Müller <schnitzeltony@googlemail.com>
-> Date:   Sat Oct 8 12:03:32 2016 +0200
-> 
->     jack: swap to jack2
-> 
-> +Bian who added waf samba in:
-> commit 962e346df99696a10657a2ea7b2166dfaf290289
-> Author: Bian Naimeng <biannm@cn.fujitsu.com>
-> Date:   Tue Jun 16 14:18:25 2015 +0900
-> 
->     waf-samba: add new class
->     
->     waf-samba is a build system used by samba related software
-waf-samba looks very special purpose and not how I would expect a
-normal waf workflow to work at all.... maybe it shouldn't inherit from
-waf.bbclass, especially since all it is actually using is
-get_waf_parallel_make() ?
-> +Joe and Joe and who maintains samba and related recipes + meta-
-> networking
-> 
-> 
-> On Tue, Jan 30, 2018 at 1:03 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > Why would they do that?  Shouldn't it be a fatal bug if waf isn't
-> > found?
-> > On 30 January 2018 at 08:30, Martin Jansa <martin.jansa@gmail.com>
-> > wrote:
-> > > * there are some recipes like jack and other which inherit waf-
-> > > samba
-> > > 
-> > > which inherits waf, but they don't use waf for configure, strange
-> > > isn't
-> > > 
-> > > it?
-> > > 
-> > > 
-> > > 
-> > > * fixes:
-> > > 
-> > > WARNING: libldb-1.1.29-r0 do_configure: Unable to execute waf --
-> > > version, exit code 127. Assuming waf version without
-> > > bindir/libdir support.
-> > > 
-> > > WARNING: samba-4.6.7-r0 do_configure: Unable to execute waf --
-> > > version, exit code 127. Assuming waf version without
-> > > bindir/libdir support.
-> > > 
-> > > WARNING: libtalloc-2.1.9-r0 do_configure: Unable to execute waf
-> > > --version, exit code 127. Assuming waf version without
-> > > bindir/libdir
-> > > 
-> > > support.
-> > > 
-> > > WARNING: jack-1.9.10+gitAUTOINC+2d1d323505-r0 do_configure:
-> > > Unable to execute waf --version, exit code 1. Assuming waf
-> > > version without bindir/libdir support.
-> > > 
-> > > WARNING: libtevent-0.9.31-r0 do_configure: Unable to execute waf
-> > > --version, exit code 127. Assuming waf version without
-> > > bindir/libdir support.
-> > > 
-> > > WARNING: libtdb-1.3.14-r0 do_configure: Unable to execute waf --
-> > > version, exit code 127. Assuming waf version without
-> > > bindir/libdir support.
-> > > 
-> > > 
-> > > 
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > 
-> > > ---
-> > > 
-> > >  meta/classes/waf.bbclass | 3 +++
-> > > 
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > 
-> > > 
-> > > diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> > > 
-> > > index c3e744e5de..eec4d9496d 100644
-> > > 
-> > > --- a/meta/classes/waf.bbclass
-> > > 
-> > > +++ b/meta/classes/waf.bbclass
-> > > 
-> > > @@ -29,6 +29,9 @@ python waf_preconfigure() {
-> > > 
-> > >      from distutils.version import StrictVersion
-> > > 
-> > >      srcsubdir = d.getVar('S')
-> > > 
-> > >      wafbin = os.path.join(srcsubdir, 'waf')
-> > > 
-> > > +    if not os.path.isfile(wafbin):
-> > > 
-> > > +        bb.note("%s doesn't exist, cannot check whether it
-> > > supports --bindir/--libdir" % wafbin)
-> > > 
-> > > +        return
-> > > 
-> > >      status, result = oe.utils.getstatusoutput(wafbin + " --
-> > > version")
-> > > 
-> > >      if status != 0:
-> > > 
-> > >          bb.warn("Unable to execute waf --version, exit code %d.
-> > > Assuming waf version without bindir/libdir support." % status)
-> > > 
-> > > 
-> > > --
-> > > 
-> > > 2.15.1
-> > > 
-> > > 
-> > > 
-> > > --
-> > > 
-> > > _______________________________________________
-> > > 
-> > > Openembedded-core mailing list
-> > > 
-> > > Openembedded-core@lists.openembedded.org
-> > > 
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > > 
+Do you mean this should be done because Kpatch tool itself doesn't support
+all core arches, or because this recipe doesn't contain support of all arches
+which Kpatch support?
 
---=-sAvC8S6rCfvhWGvOKdf7
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+So to clarify support matrix, LivePatch feature in mainstream Linux
+Kernel is available only for x86-64, PPC64 and S390 architectures;
+patches for ARM64 support are on their way to kernel.
 
-<html><head></head><body><div>On Tue, 2018-01-30 at 13:26 +0100, Martin Jan=
-sa wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border=
--left:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr">+Andreas who add=
-ed waf inherit in jack in:<div><div>commit 0f8f1973e229a0799098bc2334416fec=
-8c608b50</div><div>Author: Andreas M=C3=BCller &lt;<a href=3D"mailto:schnit=
-zeltony@googlemail.com">schnitzeltony@googlemail.com</a>&gt;</div><div>Date=
-:&nbsp; &nbsp;Sat Oct 8 12:03:32 2016 +0200</div><div><br></div><div>&nbsp;=
- &nbsp; jack: swap to jack2</div></div><div><br></div><div>+Bian who added =
-waf samba in:</div><div><div>commit 962e346df99696a10657a2ea7b2166dfaf29028=
-9</div><div>Author: Bian Naimeng &lt;<a href=3D"mailto:biannm@cn.fujitsu.co=
-m">biannm@cn.fujitsu.com</a>&gt;</div><div>Date:&nbsp; &nbsp;Tue Jun 16 14:=
-18:25 2015 +0900</div><div><br></div><div>&nbsp; &nbsp; waf-samba: add new =
-class</div><div>&nbsp; &nbsp;&nbsp;</div><div>&nbsp; &nbsp; waf-samba is a =
-build system used by samba related software</div></div></div></blockquote><=
-div><br></div><div>waf-samba looks very special purpose and not how I would=
- expect a normal waf workflow to work at all.... maybe it shouldn't inherit=
- from waf.bbclass, especially since all it is actually using is get_waf_par=
-allel_make() ?</div><div><br></div><blockquote type=3D"cite" style=3D"margi=
-n:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div dir=3D"l=
-tr"><div><br></div><div>+Joe and Joe and who maintains samba and related re=
-cipes + meta-networking</div><div><br></div></div><div class=3D"gmail_extra=
-"><br><div class=3D"gmail_quote">On Tue, Jan 30, 2018 at 1:03 PM, Burton, R=
-oss <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
-=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote type=
-=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
--left:1ex"><div dir=3D"ltr">Why would they do that?&nbsp; Shouldn't it be a=
- fatal bug if waf isn't found?</div><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote"><div><div class=3D"h5">On 30 January 2018 at 08:30, Mart=
-in Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" ta=
-rget=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br></div></div=
-><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729=
-fcf solid;padding-left:1ex"><div><div class=3D"h5">* there are some recipes=
- like jack and other which inherit waf-samba<br>
-which inherits waf, but they don't use waf for configure, strange isn't<br>
-it?<br>
-<br>
-* fixes:<br>
-WARNING: libldb-1.1.29-r0 do_configure: Unable to execute waf --version, ex=
-it code 127. Assuming waf version without bindir/libdir support.<br>
-WARNING: samba-4.6.7-r0 do_configure: Unable to execute waf --version, exit=
- code 127. Assuming waf version without bindir/libdir support.<br>
-WARNING: libtalloc-2.1.9-r0 do_configure: Unable to execute waf --version, =
-exit code 127. Assuming waf version without bindir/libdir<br>
-support.<br>
-WARNING: jack-1.9.10+gitAUTOINC+2d1d323<wbr>505-r0 do_configure: Unable to =
-execute waf --version, exit code 1. Assuming waf version without bindir/lib=
-dir support.<br>
-WARNING: libtevent-0.9.31-r0 do_configure: Unable to execute waf --version,=
- exit code 127. Assuming waf version without bindir/libdir support.<br>
-WARNING: libtdb-1.3.14-r0 do_configure: Unable to execute waf --version, ex=
-it code 127. Assuming waf version without bindir/libdir support.<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
-arget=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-&nbsp;meta/classes/waf.bbclass | 3 +++<br>
-&nbsp;1 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass<br>
-index c3e744e5de..eec4d9496d 100644<br>
---- a/meta/classes/waf.bbclass<br>
-+++ b/meta/classes/waf.bbclass<br>
-@@ -29,6 +29,9 @@ python waf_preconfigure() {<br>
-&nbsp; &nbsp; &nbsp;from distutils.version import StrictVersion<br>
-&nbsp; &nbsp; &nbsp;srcsubdir =3D d.getVar('S')<br>
-&nbsp; &nbsp; &nbsp;wafbin =3D os.path.join(srcsubdir, 'waf')<br>
-+&nbsp; &nbsp; if not os.path.isfile(wafbin):<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; bb.note("%s doesn't exist, cannot check whethe=
-r it supports --bindir/--libdir" % wafbin)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; return<br>
-&nbsp; &nbsp; &nbsp;status, result =3D oe.utils.getstatusoutput(wafbi<wbr>n=
- + " --version")<br>
-&nbsp; &nbsp; &nbsp;if status !=3D 0:<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.warn("Unable to execute waf --version,=
- exit code %d. Assuming waf version without bindir/libdir support." % statu=
-s)<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888"><span class=3D"m=
-_7061875709844897417HOEnZb"><font color=3D"#888888">--<br>
-2.15.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></font></span></blockquote></div><br></div>
-</blockquote></div><br></div>
-</blockquote></body></html>
+Kpatch tool supports only x86-64 and PPC64 architectures.
 
---=-sAvC8S6rCfvhWGvOKdf7--
+This recipe supports only x86-64 architecture because there is
+no HW in openembedded-core for which I can build and test it.
+
+E.g. there is QEMU machine for x86-64 but there is no for PPC64.
+Any other way to test it?
+
+Thanks,
+Ruslan
+
+
+> 
+>> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+>> ---
+>>   meta/recipes-kernel/kpatch/kpatch.inc              |  49 ++++++++++
+>>   ...patch-build-add-cross-compilation-support.patch | 103 +++++++++++++++++++++
+>>   ...tch-build-allow-overriding-of-distro-name.patch |  62 +++++++++++++
+>>   meta/recipes-kernel/kpatch/kpatch_git.bb           |  11 +++
+>>   4 files changed, 225 insertions(+)
+>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch.inc
+>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
+>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
+>>   create mode 100644 meta/recipes-kernel/kpatch/kpatch_git.bb
+>>
+>> diff --git a/meta/recipes-kernel/kpatch/kpatch.inc b/meta/recipes-kernel/kpatch/kpatch.inc
+>> new file mode 100644
+>> index 0000000..b1e73e9
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kpatch/kpatch.inc
+>> @@ -0,0 +1,49 @@
+>> +SUMMARY = "Linux dynamic kernel patching infrastructure"
+>> +DESCRIPTION = "kpatch is a Linux dynamic kernel patching infrastructure which allows you to patch a running kernel without rebooting or restarting any processes."
+>> +LICENSE = "GPLv2 & LGPLv2"
+>> +DEPENDS = "elfutils bash"
+>> +
+>> +SRC_URI = "git://github.com/dynup/kpatch.git;protocol=https \
+>> +       file://0001-kpatch-build-add-cross-compilation-support.patch \
+>> +       file://0002-kpatch-build-allow-overriding-of-distro-name.patch \
+>> +       "
+>> +
+>> +EXTRA_OEMAKE = " \
+>> +       PREFIX=${prefix} \
+>> +       BINDIR=${D}${bindir} \
+>> +       SBINDIR=${D}${sbindir} \
+>> +       LIBDIR=${D}${libdir} \
+>> +       MANDIR=${D}${mandir}/man1 \
+>> +       SYSTEMDDIR=${D}${systemd_system_unitdir} \
+>> +       DESTDIR=${D} \
+>> +       BUILDMOD=no \
+>> +       CC='${CC}' \
+>> +       "
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> +do_install () {
+>> +       oe_runmake install
+>> +}
+>> +
+>> +PACKAGES =+ "kpatch-build"
+>> +PROVIDES += "kpatch-build"
+>> +
+>> +COMPATIBLE_HOST = "(x86_64).*-linux"
+>> +
+>> +RDEPENDS_${PN} = "bash binutils"
+>> +RDEPENDS_kpatch-build = "bash glibc-utils"
+>> +
+>> +FILES_${PN} = " \
+>> +       ${sbindir}/kpatch \
+>> +       ${systemd_system_unitdir}/kpatch.service \
+>> +       ${mandir}/man1/kpatch.1.gz \
+>> +       "
+>> +FILES_kpatch-build = " \
+>> +       ${bindir}/kpatch-build \
+>> +       ${libexecdir}/* \
+>> +       ${datadir}/kpatch \
+>> +       ${mandir}/man1/kpatch-build.1.gz \
+>> +       "
+>> +
+>> +SYSTEMD_SERVICE_${PN} = "kpatch.service"
+>> diff --git a/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
+>> new file mode 100644
+>> index 0000000..459fb21
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kpatch/kpatch/0001-kpatch-build-add-cross-compilation-support.patch
+>> @@ -0,0 +1,103 @@
+>> +From a9a80a1f4df65892a0269295ce8a64b06f2ff61d Mon Sep 17 00:00:00 2001
+>> +From: Ruslan Bilovol <rbilovol@cisco.com>
+>> +Date: Tue, 19 Dec 2017 15:59:04 +0200
+>> +Subject: [PATCH] kpatch-build: add cross-compilation support
+>> +
+>> +This patch introduces new option for kpatch-build
+>> +script "--cross-compile" which can be used for
+>> +specifying cross-complier prefix.
+>> +It allows to build live patches not only on
+>> +target system, but also on hosts for a target other
+>> +than the one on which the compiler is running
+>> +
+>> +Also removed quotes in exec lines, so it is
+>> +possible to pass multy-component strings like
+>> +"ccache x86_64-xelinux-linux-" as cross-compiler
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+>> +---
+>> + kpatch-build/kpatch-build | 13 +++++++++++--
+>> + kpatch-build/kpatch-gcc   |  4 ++--
+>> + 2 files changed, 13 insertions(+), 4 deletions(-)
+>> +
+>> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
+>> +index 166ecbd..af24cc4 100755
+>> +--- a/kpatch-build/kpatch-build
+>> ++++ b/kpatch-build/kpatch-build
+>> +@@ -195,7 +195,7 @@ gcc_version_check() {
+>> +       # gcc --version varies between distributions therefore extract version
+>> +       # by compiling a test file and compare it to vmlinux's version.
+>> +       echo 'void main(void) {}' > "$c"
+>> +-      out="$(gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
+>> ++      out="$(${KPATCH_CROSS_COMPILE}gcc -c -pg -ffunction-sections -o "$o" "$c" 2>&1)"
+>> +       gccver="$(gcc_version_from_file "$o")"
+>> +       kgccver="$(gcc_version_from_file "$VMLINUX")"
+>> +       rm -f "$c" "$o"
+>> +@@ -381,12 +381,14 @@ usage() {
+>> +       echo "          -d, --debug        Enable 'xtrace' and keep scratch files" >&2
+>> +       echo "                             in <CACHEDIR>/tmp" >&2
+>> +       echo "                             (can be specified multiple times)" >&2
+>> ++      echo "          --cross-compile    Specify the prefix used for all executables" >&2
+>> ++      echo "                             used during compilation" >&2
+>> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
+>> +       echo "          --skip-gcc-check   Skip gcc version matching check" >&2
+>> +       echo "                             (not recommended)" >&2
+>> + }
+>> +
+>> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
+>> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
+>> +
+>> + eval set -- "$options"
+>> +
+>> +@@ -444,6 +446,10 @@ while [[ $# -gt 0 ]]; do
+>> +                       echo "DEBUG mode enabled"
+>> +               fi
+>> +               ;;
+>> ++      --cross-compile)
+>> ++              KPATCH_CROSS_COMPILE="$2"
+>> ++              shift
+>> ++              ;;
+>> +       --skip-cleanup)
+>> +               echo "Skipping cleanup"
+>> +               SKIPCLEANUP=1
+>> +@@ -691,6 +697,8 @@ if [[ $DEBUG -ge 4 ]]; then
+>> +       export KPATCH_GCC_DEBUG=1
+>> + fi
+>> +
+>> ++export KPATCH_CROSS_COMPILE
+>> ++
+>> + echo "Building original kernel"
+>> + ./scripts/setlocalversion --save-scmversion || die
+>> + make mrproper 2>&1 | logger || die
+>> +@@ -840,6 +848,7 @@ cd "$TEMPDIR/patch" || die
+>> + KPATCH_BUILD="$SRCDIR" KPATCH_NAME="$MODNAME" \
+>> + KBUILD_EXTRA_SYMBOLS="$KBUILD_EXTRA_SYMBOLS" \
+>> + KPATCH_LDFLAGS="$KPATCH_LDFLAGS" \
+>> ++CROSS_COMPILE="$KPATCH_CROSS_COMPILE" \
+>> +       make 2>&1 | logger || die
+>> +
+>> + if ! "$KPATCH_MODULE"; then
+>> +diff --git a/kpatch-build/kpatch-gcc b/kpatch-build/kpatch-gcc
+>> +index 6ba133c..3937948 100755
+>> +--- a/kpatch-build/kpatch-gcc
+>> ++++ b/kpatch-build/kpatch-gcc
+>> +@@ -8,7 +8,7 @@ TOOLCHAINCMD="$1"
+>> + shift
+>> +
+>> + if [[ -z "$KPATCH_GCC_TEMPDIR" ]]; then
+>> +-      exec "$TOOLCHAINCMD" "$@"
+>> ++      exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "$@"
+>> + fi
+>> +
+>> + declare -a args=("$@")
+>> +@@ -80,4 +80,4 @@ elif [[ "$TOOLCHAINCMD" = "ld" ]] ; then
+>> +       done
+>> + fi
+>> +
+>> +-exec "$TOOLCHAINCMD" "${args[@]}"
+>> ++exec ${KPATCH_CROSS_COMPILE}${TOOLCHAINCMD} "${args[@]}"
+>> +--
+>> +1.9.1
+>> +
+>> diff --git a/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
+>> new file mode 100644
+>> index 0000000..a9d8a7f
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kpatch/kpatch/0002-kpatch-build-allow-overriding-of-distro-name.patch
+>> @@ -0,0 +1,62 @@
+>> +From d418d716dae1e2a05131dfb42a19a4da2fc8a85d Mon Sep 17 00:00:00 2001
+>> +From: Ruslan Bilovol <rbilovol@cisco.com>
+>> +Date: Tue, 2 Jan 2018 14:50:03 +0200
+>> +Subject: [PATCH] kpatch-build: allow overriding of distro name
+>> +
+>> +It is sometimes useful to have ability to override
+>> +distro name, for example during cross-compilation
+>> +build when livepatch modules will be ran on the
+>> +target which differs from host.
+>> +
+>> +This patch adds a new --distro option which
+>> +implements all needed functionality
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+>> +---
+>> + kpatch-build/kpatch-build | 9 +++++++--
+>> + 1 file changed, 7 insertions(+), 2 deletions(-)
+>> +
+>> +diff --git a/kpatch-build/kpatch-build b/kpatch-build/kpatch-build
+>> +index af24cc4..4f9f78d 100755
+>> +--- a/kpatch-build/kpatch-build
+>> ++++ b/kpatch-build/kpatch-build
+>> +@@ -383,12 +383,13 @@ usage() {
+>> +       echo "                             (can be specified multiple times)" >&2
+>> +       echo "          --cross-compile    Specify the prefix used for all executables" >&2
+>> +       echo "                             used during compilation" >&2
+>> ++      echo "          --distro           Override distro name" >&2
+>> +       echo "          --skip-cleanup     Skip post-build cleanup" >&2
+>> +       echo "          --skip-gcc-check   Skip gcc version matching check" >&2
+>> +       echo "                             (not recommended)" >&2
+>> + }
+>> +
+>> +-options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
+>> ++options="$(getopt -o ha:r:s:c:v:j:t:n:o:d -l "help,archversion:,sourcerpm:,sourcedir:,config:,vmlinux:,jobs:,target:,name:,output:,debug,cross-compile:,distro:,skip-gcc-check,skip-cleanup" -- "$@")" || die "getopt failed"
+>> +
+>> + eval set -- "$options"
+>> +
+>> +@@ -450,6 +451,10 @@ while [[ $# -gt 0 ]]; do
+>> +               KPATCH_CROSS_COMPILE="$2"
+>> +               shift
+>> +               ;;
+>> ++      --distro)
+>> ++              DISTRO="$2"
+>> ++              shift
+>> ++              ;;
+>> +       --skip-cleanup)
+>> +               echo "Skipping cleanup"
+>> +               SKIPCLEANUP=1
+>> +@@ -526,7 +531,7 @@ fi
+>> + # Don't check external file.
+>> + # shellcheck disable=SC1091
+>> + source /etc/os-release
+>> +-DISTRO="$ID"
+>> ++DISTRO="${DISTRO:-${ID}}"
+>> + if [[ "$DISTRO" = fedora ]] || [[ "$DISTRO" = rhel ]] || [[ "$DISTRO" = ol ]] || [[ "$DISTRO" = centos ]]; then
+>> +       [[ -z "$VMLINUX" ]] && VMLINUX="/usr/lib/debug/lib/modules/$ARCHVERSION/vmlinux"
+>> +       [[ -e "$VMLINUX" ]] || die "kernel-debuginfo-$ARCHVERSION not installed"
+>> +--
+>> +1.9.1
+>> +
+>> diff --git a/meta/recipes-kernel/kpatch/kpatch_git.bb b/meta/recipes-kernel/kpatch/kpatch_git.bb
+>> new file mode 100644
+>> index 0000000..e495e28
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kpatch/kpatch_git.bb
+>> @@ -0,0 +1,11 @@
+>> +require kpatch.inc
+>> +
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>> +
+>> +SRCREV = "db6efbb8c7e90d2b761272cf563047119072768f"
+>> +
+>> +PV = "0.5.0+git${SRCPV}"
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> +BBCLASSEXTEND = "native nativesdk"
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
