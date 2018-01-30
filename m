@@ -1,44 +1,58 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F1C7886F;
-	Tue, 30 Jan 2018 00:01:33 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id r78so37077774wme.0;
-	Mon, 29 Jan 2018 16:01:35 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE9D78862
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jan 2018 01:13:04 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id b25so7103118pfd.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jan 2018 17:13:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=QFYbhvg0Dff7aSt4jY1JTyeZEdJd2JiwvKGnKFruNOs=;
-	b=PJgRMRyseq6pq6ueSKUXSyef0LbDkY3Rr8L4uMNNNgxIC+g30axn1XgtJiQnKuKmTs
-	CiGrteJj8RZtywBCi87UjgImORv87IKNtRf3PshouSmOK5OxaEXp9GMrDlWAN8dovw26
-	Sy91hjdyMWE8/o3VOf+zbXcmsnwuGxiAg8izklTa3j0BHCwjpQaBX4qT/DPQRsbjr9LG
-	L11FrCFlvTkSDh+OxZrUaVZa7Hsv2u5Fd6bNzJy4/ynr0nlSQzY0D4h0ijRCg5EsjiCt
-	UxPz8hrMbmJIb3+Jx3yNrafF009vQNr0ey8+N9O71WdNBcgeL+Uc+OZHt8DPFmEOX3us
-	W2Ig==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=lVyqnGE+cmnTuKEOamLCCvPt9jCEkas/0C5cs1hyIAw=;
+	b=n9//tsjoiBvz0155MDLT5cSetHU2WM2x7sQA9np5Vw22bZu7CLwi94pMHYt0gQ8wNp
+	SHdqDwfTgIr+pdYOHy+iZvyk10dpbL99WqJIu/7tzq5jd5XC9yQgVBei+q5BfTuiRZD0
+	Gh3mKKy1qWn7jn0Z8o6tDzQQHe4SDjqVJuC4zfkJXVD1vYV+qWYvnlQJV+8Vx3myBT4/
+	3vyGqGGxFYPGvuZ2fFy6acm3SzLmDQKRv+IpdvJFfpgSL1ipJLZ+591KrLZzVIa2feHX
+	RwDjEztUbkMShVKVam3rN3rxdo4llcMfrQAlIb9KR/hKV/7D5jXFRrpuchLl0PpMhKRw
+	5Rmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=QFYbhvg0Dff7aSt4jY1JTyeZEdJd2JiwvKGnKFruNOs=;
-	b=FUWgPlngDI6roJXArJPuMxuBT3tRaOWg8mKt4CLEKjFrMPrYVChARVE5irpCEx4WiS
-	5MZrc+iFx+p9rqciJJVYSpepRGWwua0BsVzf8SL0uBUKBgo1BTLatHxcIkgEoOqil36+
-	Pm720C60aoe+J9+ZheZ5xglOxyiwypE960vZhaBkDTH4+dVAtKDiCmr7ejHpn60ezVcw
-	whMM16LTqyHWWwrEEJyUjumFnkyCGUSj1uiX1dm1G6ARKyvH2UyYZ2UZBL89RepKF9wE
-	bPDmGuQzDcN5jLf3RFFo0cyIgCJX57n8kCctYZTl41X6qLPPvbKUnrXr4v59jZQZn6uf
-	Psyg==
-X-Gm-Message-State: AKwxyteYUV3Kbm+tjYjQ2OQhBh46h0HgRPPJzsnGCuoMU+lH2DsRTDF0
-	bF6xEpNxWDUdkMhAzD19pB8tGMPEoqSN4HpIXOc=
-X-Google-Smtp-Source: AH8x225mpknovGRmJx6jBJHG7oJSn/vS3FpJbTnVxvTNmcNxovbEptfLfzOfatHvU41bYc7R0tKmWSs+VPD9zDEC+XA=
-X-Received: by 10.28.13.18 with SMTP id 18mr20147326wmn.112.1517270494755;
-	Mon, 29 Jan 2018 16:01:34 -0800 (PST)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=lVyqnGE+cmnTuKEOamLCCvPt9jCEkas/0C5cs1hyIAw=;
+	b=q2X+H51My0SxPcCLYhxRh3C6B0XE32j98BDdXu6hy3OUf6ek2YNorRi6AV+zK8qF+J
+	rYhH8fHwnmDvtJclIA47XxeI6rSutLuUMXJjlCwdCT5EDNmeuzuJ7RXuiwwNJpYH/0vi
+	QDLhdgUaH0ZqRULKH1oaCjOHc/Ggc14xoo6oiOw71jpYTOUCdqSMG+GdVBOtx1uuBjnE
+	B0Blfsv+inU+cJoGkQ4Elb8pbOcctmzlGlUZMnplKfhztzKvI5aoDCy32kCjMnGrk6kV
+	IbnSD8C2t1gmKTb4qZXzj4LOxRVnq8eZmBKXNbOVrLgiXJD4QUDhaCSZoBQ/9ZbQzBqw
+	wOdw==
+X-Gm-Message-State: AKwxytdtR7yQWaYgFOEQ0WLQCZE9tEjv0Z5KtxndKwN1l98tkiBIN8WH
+	ZB9xyYLKvMvmDB+u5PYdC0o=
+X-Google-Smtp-Source: AH8x227WHv8zTqPJzFBxXDLlPYmQB2KM0d3qFUBJalXWa06cTAYKSSiZYG1cWaBsTwvZKeubOSDx8w==
+X-Received: by 10.99.122.18 with SMTP id v18mr23464469pgc.128.1517274785654;
+	Mon, 29 Jan 2018 17:13:05 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:f549:7cd3:8b32:47fb?
+	([2601:202:4000:1184:f549:7cd3:8b32:47fb])
+	by smtp.gmail.com with ESMTPSA id
+	t7sm17751661pgu.77.2018.01.29.17.13.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Jan 2018 17:13:04 -0800 (PST)
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1517265587-84623-1-git-send-email-juro.bystricky@intel.com>
+	<1517265587-84623-2-git-send-email-juro.bystricky@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <90d6d504-1abe-43b9-b25c-008de4e96039@gmail.com>
+Date: Mon, 29 Jan 2018 17:13:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Mon, 29 Jan 2018 16:01:34 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 30 Jan 2018 01:01:34 +0100
-Message-ID: <CA+chaQfBm2Yc1Pb=-W-ndoT1ECuCuawa8_YRakjYEKVje_oP-Q@mail.gmail.com>
-To: Stefan Agner <stefan.agner@toradex.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-commits@lists.openembedded.org
-Subject: waf warnings in jack and samba related recipes Was: [oe-commits] [openembedded-core] 07/44: waf.bbclass: explicitly pass bindir and libdir if supported
+In-Reply-To: <1517265587-84623-2-git-send-email-juro.bystricky@intel.com>
+Cc: jurobystricky@hotmail.com
+Subject: Re: [PATCH 1/3] tzcode: remove unused patch files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,236 +65,328 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 00:01:34 -0000
-Content-Type: multipart/alternative; boundary="001a11443614de42a60563f310f2"
+X-List-Received-Date: Tue, 30 Jan 2018 01:13:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---001a11443614de42a60563f310f2
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
 
-it might be useful to check if there is ${S}/waf at all before trying to
-call it.
+On 01/29/2018 02:39 PM, Juro Bystricky wrote:
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 
-There are some recipes like jack and other which inherit waf-samba which
-inherits waf, but they don't use waf for configure, strange isn't it?
+thanks. For some reason I thought I remove all the old patches...
 
-But since this patch, there is new warning for every do_configure task,
-because there is this prefuncs waf_preconfigure causing:
-WARNING: libldb-1.1.29-r0 do_configure: Unable to execute waf --version,
-exit code 127. Assuming waf version without bindir/libdir support.
-WARNING: samba-4.6.7-r0 do_configure: Unable to execute waf --version, exit
-code 127. Assuming waf version without bindir/libdir support.
-WARNING: libtalloc-2.1.9-r0 do_configure: Unable to execute waf --version,
-exit code 127. Assuming waf version without bindir/libdir support.
-WARNING: jack-1.9.10+gitAUTOINC+2d1d323505-r0 do_configure: Unable to
-execute waf --version, exit code 1. Assuming waf version without
-bindir/libdir support.
-WARNING: libtevent-0.9.31-r0 do_configure: Unable to execute waf --version,
-exit code 127. Assuming waf version without bindir/libdir support.
-WARNING: libtdb-1.3.14-r0 do_configure: Unable to execute waf --version,
-exit code 127. Assuming waf version without bindir/libdir support.
+hmm, in any case.  Thanks again.
 
-Now when this change is also backported to rocko we should probably fix
-those recipes to prevent introducing even more warnings to stable release
-builds.
-
-Regards,
-
-On Tue, Jan 2, 2018 at 6:28 PM, <git@git.openembedded.org> wrote:
-
-> This is an automated email from the git hooks/post-receive script.
->
-> rpurdie pushed a commit to branch master
-> in repository openembedded-core.
->
-> commit 923f91d8d8606141ce218927bc943f4f4f34bcdd
-> Author: Stefan Agner <stefan.agner@toradex.com>
-> AuthorDate: Tue Dec 12 17:13:24 2017 +0100
->
->     waf.bbclass: explicitly pass bindir and libdir if supported
->
->     On some build hosts distros (e.g. Fedora 26) waf tries to be
->     smart about libdir detection and defaults to [EXEC_PREFIX/lib64].
->     This obviously is not what we want for 32-bit targets and usually
->     fails in the do_package phase:
->       WARNING: gstreamer1.0-plugins-imx-0.13.0-r0 do_package: QA Issue:
-> gstreamer1.0-plugins-imx: Files/directories were installed but not shipped
-> in any package:
->         /usr/lib64/libgstimxcommon.so.0
->         ...
->
->     Depending on version, waf knows prefix or prefix, bindir and
->     libdir as default options. Explicitly pass the right set of
->     arguments.
->
->     Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
+Armin
 > ---
->  meta/classes/waf.bbclass | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+>  .../files/0001-Fix-Makefile-quoting-bug.patch      | 174 ---------------------
+>  .../files/0002-Port-zdump-to-C90-snprintf.patch    | 115 --------------
+>  2 files changed, 289 deletions(-)
+>  delete mode 100644 meta/recipes-extended/tzcode/files/0001-Fix-Makefile-quoting-bug.patch
+>  delete mode 100644 meta/recipes-extended/tzcode/files/0002-Port-zdump-to-C90-snprintf.patch
 >
-> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> index c4698e9..acbda27 100644
-> --- a/meta/classes/waf.bbclass
-> +++ b/meta/classes/waf.bbclass
-> @@ -25,8 +25,23 @@ def get_waf_parallel_make(d):
->
->      return ""
->
-> +python waf_preconfigure() {
-> +    from distutils.version import StrictVersion
-> +    srcsubdir = d.getVar('S')
-> +    wafbin = os.path.join(srcsubdir, 'waf')
-> +    status, result = oe.utils.getstatusoutput(wafbin + " --version")
-> +    if status != 0:
-> +        bb.warn("Unable to execute waf --version, exit code %d. Assuming
-> waf version without bindir/libdir support." % status)
-> +        return
-> +    version = result.split()[1]
-> +    if StrictVersion(version) >= StrictVersion("1.8.7"):
-> +        d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir}
-> --libdir=${libdir}")
-> +}
-> +
-> +do_configure[prefuncs] += "waf_preconfigure"
-> +
->  waf_do_configure() {
-> -       ${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
-> +       ${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF}
-> ${EXTRA_OECONF}
->  }
->
->  waf_do_compile()  {
->
-> --
-> To stop receiving notification emails like this one, please contact
-> the administrator of this repository.
-> --
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->
+> diff --git a/meta/recipes-extended/tzcode/files/0001-Fix-Makefile-quoting-bug.patch b/meta/recipes-extended/tzcode/files/0001-Fix-Makefile-quoting-bug.patch
+> deleted file mode 100644
+> index e49fa09..0000000
+> --- a/meta/recipes-extended/tzcode/files/0001-Fix-Makefile-quoting-bug.patch
+> +++ /dev/null
+> @@ -1,174 +0,0 @@
+> -From b520d20b8122a783f99f088758b78d928f70ee34 Mon Sep 17 00:00:00 2001
+> -From: Paul Eggert <eggert@cs.ucla.edu>
+> -Date: Mon, 23 Oct 2017 11:42:45 -0700
+> -Subject: [PATCH] Fix Makefile quoting bug
+> -
+> -Problem with INSTALLARGS reported by Zefram in:
+> -https://mm.icann.org/pipermail/tz/2017-October/025360.html
+> -Fix similar problems too.
+> -* Makefile (ZIC_INSTALL, VALIDATE_ENV, CC, install)
+> -(INSTALL, version, INSTALLARGS, right_posix, posix_right)
+> -(check_public): Use apostrophes to prevent undesirable
+> -interpretation of names by the shell.  We still do not support
+> -directory names containing apostrophes or newlines, but this is
+> -good enough.
+> -
+> -Upstream-Status: Backport
+> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+> -
+> -* NEWS: Mention this.
+> ----
+> - Makefile | 64 ++++++++++++++++++++++++++++++++--------------------------------
+> - NEWS     |  8 ++++++++
+> - 2 files changed, 40 insertions(+), 32 deletions(-)
+> -
+> -diff --git a/Makefile b/Makefile
+> -index c92edc0..97649ca 100644
+> ---- a/Makefile
+> -+++ b/Makefile
+> -@@ -313,7 +313,7 @@ ZFLAGS=
+> - 
+> - # How to use zic to install tz binary files.
+> - 
+> --ZIC_INSTALL=	$(ZIC) -d $(DESTDIR)$(TZDIR) $(LEAPSECONDS)
+> -+ZIC_INSTALL=	$(ZIC) -d '$(DESTDIR)$(TZDIR)' $(LEAPSECONDS)
+> - 
+> - # The name of a Posix-compliant 'awk' on your system.
+> - AWK=		awk
+> -@@ -341,8 +341,8 @@ SGML_CATALOG_FILES= \
+> - VALIDATE = nsgmls
+> - VALIDATE_FLAGS = -s -B -wall -wno-unused-param
+> - VALIDATE_ENV = \
+> --  SGML_CATALOG_FILES=$(SGML_CATALOG_FILES) \
+> --  SGML_SEARCH_PATH=$(SGML_SEARCH_PATH) \
+> -+  SGML_CATALOG_FILES='$(SGML_CATALOG_FILES)' \
+> -+  SGML_SEARCH_PATH='$(SGML_SEARCH_PATH)' \
+> -   SP_CHARSET_FIXED=YES \
+> -   SP_ENCODING=UTF-8
+> - 
+> -@@ -396,7 +396,7 @@ GZIPFLAGS=	-9n
+> - #MAKE=		make
+> - 
+> - cc=		cc
+> --CC=		$(cc) -DTZDIR=\"$(TZDIR)\"
+> -+CC=		$(cc) -DTZDIR='"$(TZDIR)"'
+> - 
+> - AR=		ar
+> - 
+> -@@ -473,29 +473,29 @@ all:		tzselect yearistype zic zdump libtz.a $(TABDATA)
+> - ALL:		all date $(ENCHILADA)
+> - 
+> - install:	all $(DATA) $(REDO) $(MANS)
+> --		mkdir -p $(DESTDIR)$(ETCDIR) $(DESTDIR)$(TZDIR) \
+> --			$(DESTDIR)$(LIBDIR) \
+> --			$(DESTDIR)$(MANDIR)/man3 $(DESTDIR)$(MANDIR)/man5 \
+> --			$(DESTDIR)$(MANDIR)/man8
+> -+		mkdir -p '$(DESTDIR)$(ETCDIR)' '$(DESTDIR)$(TZDIR)' \
+> -+			'$(DESTDIR)$(LIBDIR)' \
+> -+			'$(DESTDIR)$(MANDIR)/man3' '$(DESTDIR)$(MANDIR)/man5' \
+> -+			'$(DESTDIR)$(MANDIR)/man8'
+> - 		$(ZIC_INSTALL) -l $(LOCALTIME) -p $(POSIXRULES)
+> --		cp -f $(TABDATA) $(DESTDIR)$(TZDIR)/.
+> --		cp tzselect zic zdump $(DESTDIR)$(ETCDIR)/.
+> --		cp libtz.a $(DESTDIR)$(LIBDIR)/.
+> --		$(RANLIB) $(DESTDIR)$(LIBDIR)/libtz.a
+> --		cp -f newctime.3 newtzset.3 $(DESTDIR)$(MANDIR)/man3/.
+> --		cp -f tzfile.5 $(DESTDIR)$(MANDIR)/man5/.
+> --		cp -f tzselect.8 zdump.8 zic.8 $(DESTDIR)$(MANDIR)/man8/.
+> -+		cp -f $(TABDATA) '$(DESTDIR)$(TZDIR)/.'
+> -+		cp tzselect zic zdump '$(DESTDIR)$(ETCDIR)/.'
+> -+		cp libtz.a '$(DESTDIR)$(LIBDIR)/.'
+> -+		$(RANLIB) '$(DESTDIR)$(LIBDIR)/libtz.a'
+> -+		cp -f newctime.3 newtzset.3 '$(DESTDIR)$(MANDIR)/man3/.'
+> -+		cp -f tzfile.5 '$(DESTDIR)$(MANDIR)/man5/.'
+> -+		cp -f tzselect.8 zdump.8 zic.8 '$(DESTDIR)$(MANDIR)/man8/.'
+> - 
+> - INSTALL:	ALL install date.1
+> --		mkdir -p $(DESTDIR)$(BINDIR) $(DESTDIR)$(MANDIR)/man1
+> --		cp date $(DESTDIR)$(BINDIR)/.
+> --		cp -f date.1 $(DESTDIR)$(MANDIR)/man1/.
+> -+		mkdir -p '$(DESTDIR)$(BINDIR)' '$(DESTDIR)$(MANDIR)/man1'
+> -+		cp date '$(DESTDIR)$(BINDIR)/.'
+> -+		cp -f date.1 '$(DESTDIR)$(MANDIR)/man1/.'
+> - 
+> - version:	$(VERSION_DEPS)
+> - 		{ (type git) >/dev/null 2>&1 && \
+> - 		  V=`git describe --match '[0-9][0-9][0-9][0-9][a-z]*' \
+> - 				--abbrev=7 --dirty` || \
+> --		  V=$(VERSION); } && \
+> -+		  V='$(VERSION)'; } && \
+> - 		printf '%s\n' "$$V" >$@.out
+> - 		mv $@.out $@
+> - 
+> -@@ -529,12 +529,12 @@ leapseconds:	$(LEAP_DEPS)
+> - # Arguments to pass to submakes of install_data.
+> - # They can be overridden by later submake arguments.
+> - INSTALLARGS = \
+> -- BACKWARD=$(BACKWARD) \
+> -- DESTDIR=$(DESTDIR) \
+> -+ BACKWARD='$(BACKWARD)' \
+> -+ DESTDIR='$(DESTDIR)' \
+> -  LEAPSECONDS='$(LEAPSECONDS)' \
+> -  PACKRATDATA='$(PACKRATDATA)' \
+> -- TZDIR=$(TZDIR) \
+> -- YEARISTYPE=$(YEARISTYPE) \
+> -+ TZDIR='$(TZDIR)' \
+> -+ YEARISTYPE='$(YEARISTYPE)' \
+> -  ZIC='$(ZIC)'
+> - 
+> - # 'make install_data' installs one set of tz binary files.
+> -@@ -558,16 +558,16 @@ right_only:
+> - # You must replace all of $(TZDIR) to switch from not using leap seconds
+> - # to using them, or vice versa.
+> - right_posix:	right_only
+> --		rm -fr $(DESTDIR)$(TZDIR)-leaps
+> --		ln -s $(TZDIR_BASENAME) $(DESTDIR)$(TZDIR)-leaps || \
+> --		  $(MAKE) $(INSTALLARGS) TZDIR=$(TZDIR)-leaps right_only
+> --		$(MAKE) $(INSTALLARGS) TZDIR=$(TZDIR)-posix posix_only
+> -+		rm -fr '$(DESTDIR)$(TZDIR)-leaps'
+> -+		ln -s '$(TZDIR_BASENAME)' '$(DESTDIR)$(TZDIR)-leaps' || \
+> -+		  $(MAKE) $(INSTALLARGS) TZDIR='$(TZDIR)-leaps' right_only
+> -+		$(MAKE) $(INSTALLARGS) TZDIR='$(TZDIR)-posix' posix_only
+> - 
+> - posix_right:	posix_only
+> --		rm -fr $(DESTDIR)$(TZDIR)-posix
+> --		ln -s $(TZDIR_BASENAME) $(DESTDIR)$(TZDIR)-posix || \
+> --		  $(MAKE) $(INSTALLARGS) TZDIR=$(TZDIR)-posix posix_only
+> --		$(MAKE) $(INSTALLARGS) TZDIR=$(TZDIR)-leaps right_only
+> -+		rm -fr '$(DESTDIR)$(TZDIR)-posix'
+> -+		ln -s '$(TZDIR_BASENAME)' '$(DESTDIR)$(TZDIR)-posix' || \
+> -+		  $(MAKE) $(INSTALLARGS) TZDIR='$(TZDIR)-posix' posix_only
+> -+		$(MAKE) $(INSTALLARGS) TZDIR='$(TZDIR)-leaps' right_only
+> - 
+> - # This obsolescent rule is present for backwards compatibility with
+> - # tz releases 2014g through 2015g.  It should go away eventually.
+> -@@ -764,7 +764,7 @@ set-timestamps.out: $(ENCHILADA)
+> - 
+> - check_public:
+> - 		$(MAKE) maintainer-clean
+> --		$(MAKE) "CFLAGS=$(GCC_DEBUG_FLAGS)" ALL
+> -+		$(MAKE) CFLAGS='$(GCC_DEBUG_FLAGS)' ALL
+> - 		mkdir -p public.dir
+> - 		for i in $(TDATA) tzdata.zi; do \
+> - 		  $(zic) -v -d public.dir $$i 2>&1 || exit; \
+> -diff --git a/NEWS b/NEWS
+> -index bd2bec2..75ab095 100644
+> ---- a/NEWS
+> -+++ b/NEWS
+> -@@ -1,5 +1,13 @@
+> - News for the tz database
+> - 
+> -+Unreleased, experimental changes
+> -+
+> -+  Changes to build procedure
+> -+
+> -+    The Makefile now quotes values like BACKWARD more carefully when
+> -+    passing them to the shell.  (Problem reported by Zefram.)
+> -+
+> -+
+> - Release 2017c - 2017-10-20 14:49:34 -0700
+> - 
+> -   Briefly:
+> --- 
+> -2.7.4
+> -
+> diff --git a/meta/recipes-extended/tzcode/files/0002-Port-zdump-to-C90-snprintf.patch b/meta/recipes-extended/tzcode/files/0002-Port-zdump-to-C90-snprintf.patch
+> deleted file mode 100644
+> index 87afe47..0000000
+> --- a/meta/recipes-extended/tzcode/files/0002-Port-zdump-to-C90-snprintf.patch
+> +++ /dev/null
+> @@ -1,115 +0,0 @@
+> -From e231da4fb2beb17c60b4b1a5c276366d6a6e433f Mon Sep 17 00:00:00 2001
+> -From: Paul Eggert <eggert@cs.ucla.edu>
+> -Date: Mon, 23 Oct 2017 17:58:36 -0700
+> -Subject: [PATCH] Port zdump to C90 + snprintf
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Problem reported by Jon Skeet in:
+> -https://mm.icann.org/pipermail/tz/2017-October/025362.html
+> -* NEWS: Mention this.
+> -* zdump.c (my_snprintf): New macro or function.  If a macro, it is
+> -just snprintf.  If a function, it is the same as the old snprintf
+> -static function, with an ATTRIBUTE_FORMAT to pacify modern GCC.
+> -All uses of snprintf changed to use my_snprintf.  This way,
+> -installers don’t need to specify -DHAVE_SNPRINTF if they are using
+> -a pre-C99 compiler with a library that has snprintf.
+> -
+> -Upstream-Status: Backport
+> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+> -
+> ----
+> - NEWS    |  4 ++++
+> - zdump.c | 29 ++++++++++++++++-------------
+> - 2 files changed, 20 insertions(+), 13 deletions(-)
+> -
+> -diff --git a/NEWS b/NEWS
+> -index 75ab095..dea08b8 100644
+> ---- a/NEWS
+> -+++ b/NEWS
+> -@@ -7,6 +7,10 @@ Unreleased, experimental changes
+> -     The Makefile now quotes values like BACKWARD more carefully when
+> -     passing them to the shell.  (Problem reported by Zefram.)
+> - 
+> -+    Builders no longer need to specify -DHAVE_SNPRINTF on platforms
+> -+    that have snprintf and use pre-C99 compilers.  (Problem reported
+> -+    by Jon Skeet.)
+> -+
+> - 
+> - Release 2017c - 2017-10-20 14:49:34 -0700
+> - 
+> -diff --git a/zdump.c b/zdump.c
+> -index 8e3bf3e..d4e6084 100644
+> ---- a/zdump.c
+> -+++ b/zdump.c
+> -@@ -795,12 +795,14 @@ show(timezone_t tz, char *zone, time_t t, bool v)
+> - 		abbrok(abbr(tmp), zone);
+> - }
+> - 
+> --#if !HAVE_SNPRINTF
+> -+#if HAVE_SNPRINTF
+> -+# define my_snprintf snprintf
+> -+#else
+> - # include <stdarg.h>
+> - 
+> - /* A substitute for snprintf that is good enough for zdump.  */
+> --static int
+> --snprintf(char *s, size_t size, char const *format, ...)
+> -+static int ATTRIBUTE_FORMAT((printf, 3, 4))
+> -+my_snprintf(char *s, size_t size, char const *format, ...)
+> - {
+> -   int n;
+> -   va_list args;
+> -@@ -839,10 +841,10 @@ format_local_time(char *buf, size_t size, struct tm const *tm)
+> - {
+> -   int ss = tm->tm_sec, mm = tm->tm_min, hh = tm->tm_hour;
+> -   return (ss
+> --	  ? snprintf(buf, size, "%02d:%02d:%02d", hh, mm, ss)
+> -+	  ? my_snprintf(buf, size, "%02d:%02d:%02d", hh, mm, ss)
+> - 	  : mm
+> --	  ? snprintf(buf, size, "%02d:%02d", hh, mm)
+> --	  : snprintf(buf, size, "%02d", hh));
+> -+	  ? my_snprintf(buf, size, "%02d:%02d", hh, mm)
+> -+	  : my_snprintf(buf, size, "%02d", hh));
+> - }
+> - 
+> - /* Store into BUF, of size SIZE, a formatted UTC offset for the
+> -@@ -877,10 +879,10 @@ format_utc_offset(char *buf, size_t size, struct tm const *tm, time_t t)
+> -   mm = off / 60 % 60;
+> -   hh = off / 60 / 60;
+> -   return (ss || 100 <= hh
+> --	  ? snprintf(buf, size, "%c%02ld%02d%02d", sign, hh, mm, ss)
+> -+	  ? my_snprintf(buf, size, "%c%02ld%02d%02d", sign, hh, mm, ss)
+> - 	  : mm
+> --	  ? snprintf(buf, size, "%c%02ld%02d", sign, hh, mm)
+> --	  : snprintf(buf, size, "%c%02ld", sign, hh));
+> -+	  ? my_snprintf(buf, size, "%c%02ld%02d", sign, hh, mm)
+> -+	  : my_snprintf(buf, size, "%c%02ld", sign, hh));
+> - }
+> - 
+> - /* Store into BUF (of size SIZE) a quoted string representation of P.
+> -@@ -983,15 +985,16 @@ istrftime(char *buf, size_t size, char const *time_fmt,
+> - 	    for (abp = ab; is_alpha(*abp); abp++)
+> - 	      continue;
+> - 	    len = (!*abp && *ab
+> --		   ? snprintf(b, s, "%s", ab)
+> -+		   ? my_snprintf(b, s, "%s", ab)
+> - 		   : format_quoted_string(b, s, ab));
+> - 	    if (s <= len)
+> - 	      return false;
+> - 	    b += len, s -= len;
+> - 	  }
+> --	  formatted_len = (tm->tm_isdst
+> --			   ? snprintf(b, s, &"\t\t%d"[show_abbr], tm->tm_isdst)
+> --			   : 0);
+> -+	  formatted_len
+> -+	    = (tm->tm_isdst
+> -+	       ? my_snprintf(b, s, &"\t\t%d"[show_abbr], tm->tm_isdst)
+> -+	       : 0);
+> - 	}
+> - 	break;
+> -       }
+> --- 
+> -2.7.4
+> -
 
---001a11443614de42a60563f310f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>it might be useful to check if ther=
-e is ${S}/waf at all before trying to call it.</div><div><br></div><div>The=
-re are some recipes like jack and other which inherit waf-samba which inher=
-its waf, but they don&#39;t use waf for configure, strange isn&#39;t it?</d=
-iv><div><br></div><div>But since this patch, there is new warning for every=
- do_configure task, because there is this prefuncs waf_preconfigure causing=
-:</div><div>WARNING: libldb-1.1.29-r0 do_configure: Unable to execute waf -=
--version, exit code 127. Assuming waf version without bindir/libdir support=
-.<br></div><div>WARNING: samba-4.6.7-r0 do_configure: Unable to execute waf=
- --version, exit code 127. Assuming waf version without bindir/libdir suppo=
-rt.<br></div><div>WARNING: libtalloc-2.1.9-r0 do_configure: Unable to execu=
-te waf --version, exit code 127. Assuming waf version without bindir/libdir=
- support.<br></div><div>WARNING: jack-1.9.10+gitAUTOINC+2d1d323505-r0 do_co=
-nfigure: Unable to execute waf --version, exit code 1. Assuming waf version=
- without bindir/libdir support.<br></div><div>WARNING: libtevent-0.9.31-r0 =
-do_configure: Unable to execute waf --version, exit code 127. Assuming waf =
-version without bindir/libdir support.<br></div><div>WARNING: libtdb-1.3.14=
--r0 do_configure: Unable to execute waf --version, exit code 127. Assuming =
-waf version without bindir/libdir support.<br></div><div><br></div><div>Now=
- when this change is also backported to rocko we should probably fix those =
-recipes to prevent introducing even more warnings to stable release builds.=
-</div><div><br></div><div>Regards,</div><div class=3D"gmail_extra"><br><div=
- class=3D"gmail_quote">On Tue, Jan 2, 2018 at 6:28 PM,  <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:git@git.openembedded.org" target=3D"_blank">git@git.op=
-enembedded.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This=
- is an automated email from the git hooks/post-receive script.<br>
-<br>
-rpurdie pushed a commit to branch master<br>
-in repository openembedded-core.<br>
-<br>
-commit 923f91d8d8606141ce218927bc943f<wbr>4f4f34bcdd<br>
-Author: Stefan Agner &lt;<a href=3D"mailto:stefan.agner@toradex.com">stefan=
-.agner@toradex.com</a>&gt;<br>
-AuthorDate: Tue Dec 12 17:13:24 2017 +0100<br>
-<br>
-=C2=A0 =C2=A0 waf.bbclass: explicitly pass bindir and libdir if supported<b=
-r>
-<br>
-=C2=A0 =C2=A0 On some build hosts distros (e.g. Fedora 26) waf tries to be<=
-br>
-=C2=A0 =C2=A0 smart about libdir detection and defaults to [EXEC_PREFIX/lib=
-64].<br>
-=C2=A0 =C2=A0 This obviously is not what we want for 32-bit targets and usu=
-ally<br>
-=C2=A0 =C2=A0 fails in the do_package phase:<br>
-=C2=A0 =C2=A0 =C2=A0 WARNING: gstreamer1.0-plugins-imx-0.13.<wbr>0-r0 do_pa=
-ckage: QA Issue: gstreamer1.0-plugins-imx: Files/directories were installed=
- but not shipped in any package:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib64/libgstimxcommon.so.<wbr>0<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...<br>
-<br>
-=C2=A0 =C2=A0 Depending on version, waf knows prefix or prefix, bindir and<=
-br>
-=C2=A0 =C2=A0 libdir as default options. Explicitly pass the right set of<b=
-r>
-=C2=A0 =C2=A0 arguments.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Stefan Agner &lt;<a href=3D"mailto:stefan.agne=
-r@toradex.com">stefan.agner@toradex.com</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@=
-intel.com">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/waf.bbclass | 17 ++++++++++++++++-<br>
-=C2=A01 file changed, 16 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass<br>
-index c4698e9..acbda27 100644<br>
---- a/meta/classes/waf.bbclass<br>
-+++ b/meta/classes/waf.bbclass<br>
-@@ -25,8 +25,23 @@ def get_waf_parallel_make(d):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return &quot;&quot;<br>
-<br>
-+python waf_preconfigure() {<br>
-+=C2=A0 =C2=A0 from distutils.version import StrictVersion<br>
-+=C2=A0 =C2=A0 srcsubdir =3D d.getVar(&#39;S&#39;)<br>
-+=C2=A0 =C2=A0 wafbin =3D os.path.join(srcsubdir, &#39;waf&#39;)<br>
-+=C2=A0 =C2=A0 status, result =3D oe.utils.getstatusoutput(<wbr>wafbin + &q=
-uot; --version&quot;)<br>
-+=C2=A0 =C2=A0 if status !=3D 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Unable to execute waf --version,=
- exit code %d. Assuming waf version without bindir/libdir support.&quot; % =
-status)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+=C2=A0 =C2=A0 version =3D result.split()[1]<br>
-+=C2=A0 =C2=A0 if StrictVersion(version) &gt;=3D StrictVersion(&quot;1.8.7&=
-quot;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;WAF_EXTRA_CONF&quot;, &quot;--b=
-indir=3D${bindir} --libdir=3D${libdir}&quot;)<br>
-+}<br>
-+<br>
-+do_configure[prefuncs] +=3D &quot;waf_preconfigure&quot;<br>
-+<br>
-=C2=A0waf_do_configure() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/waf configure --prefix=3D${prefix} ${EXTRA=
-_OECONF}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/waf configure --prefix=3D${prefix} ${WAF_E=
-XTRA_CONF} ${EXTRA_OECONF}<br>
-=C2=A0}<br>
-<br>
-=C2=A0waf_do_compile()=C2=A0 {<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-To stop receiving notification emails like this one, please contact<br>
-the administrator of this repository.<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-commits mailing list<br>
-<a href=3D"mailto:Openembedded-commits@lists.openembedded.org">Openembedded=
--commits@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-comm=
-its" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wb=
-r>mailman/listinfo/openembedded-<wbr>commits</a><br>
-</font></span></blockquote></div><br></div></div>
-
---001a11443614de42a60563f310f2--
