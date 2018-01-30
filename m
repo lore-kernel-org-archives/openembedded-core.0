@@ -1,46 +1,48 @@
-Return-Path: <anders.roxell@linaro.org>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BD9178865
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 063E06093D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 12:31:29 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id j16so5711727pgn.9
+	Tue, 30 Jan 2018 12:59:13 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id w14so459821itc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 04:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Tue, 30 Jan 2018 04:59:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1qHGntr2oRJ1P9Dt8UfXE3MHcKE7RfQS69LIpnx/DOE=;
-	b=X+w3V9/EQvEseYCy9tsn+9VI9vNsr8Mb+m9QjoR+XryLQG5/anaoMPhPtI3BwbaBvB
-	nSQPUDL7GQ8y2OWU6K5TxTizYsRAepkBjHBZlo4i/0cbGxtTrm6OFonvX+CP8c5uDvX0
-	UlagAT5JWdX1MF6ydpe210aq+e8JllBAlvBCs=
+	:cc; bh=qBrld9PL2ystYF8TFlRPImdxEq5oIsOFfheSLIlxE9M=;
+	b=ODKfhq+haK8uC0EJdHbJ3FaazlYtZAg/rdcBaNRSRC+X7+WMAMk0+mwv/LtXkm6tYD
+	CasDo2l1ZGwoOwavsDXsZLTaaqyMqugxlTkJuv1WPSF+1HnmK5ARK21gSsOY1gCgHAI4
+	VnZTm1jdJUMBzXDiEF+77PO3u1dQkNOFsC/eyHZJoWE9YX7dB+B0TtbnpRErnA3VqEyL
+	Q5eHPo7rKNNBAAtlWri7HR2QfQ6FBIcf5PA5P1HVxO5cIvql+Xrh6OXpujvSuZujWzcn
+	sAsjIml6YqXL8l8cV0PaIokfAkKOLIA1T5/LBLpnJdFS0ojxtPKmLjBmXNfq3FV4iutB
+	rmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=1qHGntr2oRJ1P9Dt8UfXE3MHcKE7RfQS69LIpnx/DOE=;
-	b=SMzX3P7FW/i35XCSJnZXmnA1iv43n6p/Af/gsxyd0UCDznp75921vBgK5EkwOw9qJg
-	By+vtjSkkM2ga8Xamfsw1GhNMJfOP4oW6rauI0FjETZmJbClND8Gu8Mip9yFYZlrU7VD
-	P3XNk+AIOZaMdIx0X/8u2sWNjd8m/gp3UqbyZIK26uNQyMS1HNmEompCXyUk4Rd7J/y9
-	GG8k2gXjAV99DdVBYfCHeISXqVpeFKIVbsvEFsf0CwDN1Fm58PabUWs2h1w2p4Na9a8h
-	loG2Dq62XtOOmFvTQIt45nTNnI15PcZhBEdwgNbO3zg+pouESkpPzDsEenjF0joUJ+mp
-	TpmQ==
-X-Gm-Message-State: AKwxytcVha4i54ecdfHWfbKVD5kKJmP3bOXf+6s1Ay+g48cXzOBhCIq5
-	N2dZhvaPD4MFWdxc/MyJoS6ecR7EmJxA3j1bfFyyPQ==
-X-Google-Smtp-Source: AH8x224DMUGo/Dml+vXosYILrd3ApCZrwPNk5vqRGGDlwmnkCiFw0/N3F7UVshH1fMUrVKqDwlvaxUCbLBvFKM4zVQk=
-X-Received: by 10.101.76.199 with SMTP id n7mr23663866pgt.388.1517315491176;
-	Tue, 30 Jan 2018 04:31:31 -0800 (PST)
+	bh=qBrld9PL2ystYF8TFlRPImdxEq5oIsOFfheSLIlxE9M=;
+	b=lyrhb3atYtdWE5zezVUoUVyaV045vMBUj9wn+vLk8+BNLp0XDWPBtrDcwStn1pcKCw
+	BMCbg+Ro3pwWZkjLwQ9qG36Kqh0VKESl66yUl0zrPG1Rfjh560KJkDrshJ95Qqvo4Zty
+	UJzY1on/iHYeUQm5FmFBNsIuI1hOmQvxGZ0fdFrLVs9CHj7PT4trUMUVoVre0ZTWFOdk
+	q1bHgZMs8asXQo4rM+hX30Ao4wykj4oUXdgz7S7enfGoSNaZnctB0Ff+AR7pCwhV8Wvv
+	fjAbedHDVmhQKjFHa7T1E32K/0Bu07bUar/1/8l20t0D7SxAFSmWuNjj3jCPQZqBPk7i
+	bOzA==
+X-Gm-Message-State: AKwxytebLGmuWqzjnDI1trQaqwonIkCG4LoGs/cceEVrUuJg+1RWgUQp
+	f/7lJ0u6GwgenKB/Jq3Mb5Ghj7cfk/UHpBvSq1agng==
+X-Google-Smtp-Source: AH8x226BWOHuQoTAq8hemtZx7MNVFtpAdDyjgwJirqa1qJ4rIAbLrjN2Sml9KAwq9gyLURPCCt6r00aG/6QzppxFZXg=
+X-Received: by 10.36.86.20 with SMTP id o20mr31782726itb.53.1517317155187;
+	Tue, 30 Jan 2018 04:59:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.129.137 with HTTP; Tue, 30 Jan 2018 04:31:30 -0800 (PST)
-In-Reply-To: <9e52179a-f896-3c6b-8e05-cb28553210f4@gmail.com>
-References: <1517235557-11980-1-git-send-email-anders.roxell@linaro.org>
-	<CAMKF1spP_ztBTVwXOeOqZUK7TWOCHQt_wuJ9baXxHm2HhnB0mA@mail.gmail.com>
-	<9e52179a-f896-3c6b-8e05-cb28553210f4@gmail.com>
-From: Anders Roxell <anders.roxell@linaro.org>
-Date: Tue, 30 Jan 2018 13:31:30 +0100
-Message-ID: <CADYN=9J7fxXNwdK5owrL9ENRPpv5WT2OzKvq+WV9xEbuNpxg3g@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: bump to release 20180118
+Received: by 10.107.17.206 with HTTP; Tue, 30 Jan 2018 04:58:54 -0800 (PST)
+In-Reply-To: <cover.1517286478.git.raj.khem@gmail.com>
+References: <cover.1517286478.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jan 2018 12:58:54 +0000
+Message-ID: <CAJTo0La+B4-LxA1_0QzBBssNO-wq50HMeuDPyU5S3iPXQAsyKg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 0/8] Update to binutils 2.30, glibc 2.27 initiated fixes, musl update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,252 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 12:31:30 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 12:59:14 -0000
+Content-Type: multipart/alternative; boundary="001a1144d5ea0bfa320563fdee10"
+
+--001a1144d5ea0bfa320563fdee10
 Content-Type: text/plain; charset="UTF-8"
 
-On 30 January 2018 at 02:17, akuster808 <akuster808@gmail.com> wrote:
->
->
-> On 01/29/2018 12:04 PM, Khem Raj wrote:
->> On Mon, Jan 29, 2018 at 6:19 AM, Anders Roxell <anders.roxell@linaro.org> wrote:
->>> Removed 3 patches that have been upstreamed:
->>> - 0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
->>> - 0037-ltp-fix-format-security-error.patch
->>> - 0038-generate-reproducible-gzip.patch
->>>
->>> Reworked path 0002-Add-knob-to-control-whether-numa-support-should-be-c.patch.
->>>
->> I would be interested to know if you tried it on a musl target.
-> Do we run the "CVE' tests.. this version include meltdown?
+On 30 January 2018 at 04:31, Khem Raj <raj.khem@gmail.com> wrote:
 
-How could we run those tests?
-
-Cheers,
-Anders
-
-> is this
-> include in the the QA test process?
 >
-> - armin
->>
->>> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
->>> ---
->>>  ...-control-whether-numa-support-should-be-c.patch | 39 +++++++++++-----------
->>>  ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch | 35 -------------------
->>>  .../ltp/0037-ltp-fix-format-security-error.patch   | 36 --------------------
->>>  .../ltp/ltp/0038-generate-reproducible-gzip.patch  | 20 -----------
->>>  .../ltp/{ltp_20170929.bb => ltp_20180118.bb}       |  5 +--
->>>  5 files changed, 21 insertions(+), 114 deletions(-)
->>>  delete mode 100644 meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
->>>  delete mode 100644 meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
->>>  delete mode 100644 meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
->>>  rename meta/recipes-extended/ltp/{ltp_20170929.bb => ltp_20180118.bb} (95%)
->>>
->>> diff --git a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
->>> index 9865020..31460b9 100644
->>> --- a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
->>> +++ b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
->>> @@ -9,34 +9,35 @@ during build depending upong numa being staged or not
->>>
->>>  Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->>>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> +Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
->>>  Upstream-Status: Pending
->>>  ---
->>>   m4/ltp-numa.m4 | 10 +++++++++-
->>>   1 file changed, 9 insertions(+), 1 deletion(-)
->>>
->>>  diff --git a/m4/ltp-numa.m4 b/m4/ltp-numa.m4
->>> -index 60ae07b..ed7078d 100644
->>> +index fc3383e..44cb559 100644
->>>  --- a/m4/ltp-numa.m4
->>>  +++ b/m4/ltp-numa.m4
->>> -@@ -24,7 +24,13 @@ dnl ----------------------------
->>> +@@ -24,7 +24,13 @@ dnl LTP_CHECK_SYSCALL_NUMA
->>> + dnl ----------------------------
->>>   dnl
->>> - AC_DEFUN([LTP_CHECK_SYSCALL_NUMA],
->>> - [dnl
->>> --AC_CHECK_HEADERS([linux/mempolicy.h numa.h numaif.h],[
->>> -+AC_MSG_CHECKING([for numa])
->>> -+AC_ARG_WITH(
->>> -+      [numa],
->>> -+      AC_HELP_STRING([--without-numa],
->>> -+      [without numa support]),
->>> -+      [],
->>> -+      [AC_CHECK_HEADERS([linux/mempolicy.h numa.h numaif.h],[
->>> -       LTP_SYSCALL_NUMA_HEADERS=yes
->>> -       AC_CHECK_LIB(numa,numa_alloc_onnode,[have_numa_alloc_onnode="yes"])
->>> -       if  test "x$have_numa_alloc_onnode" = "xyes"; then
->>> -@@ -48,3 +54,5 @@ if test "x$have_mpol_constants" = "xyes"; then
->>> -       AC_DEFINE(HAVE_MPOL_CONSTANTS,1,[define to 1 if you have all constants required to use mbind tests])
->>> - fi
->>> - )])
->>> + AC_DEFUN([LTP_CHECK_SYSCALL_NUMA], [
->>> +-      AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
->>> ++      AC_MSG_CHECKING([for numa])
->>> ++      AC_ARG_WITH(
->>> ++              [numa],
->>> ++              AC_HELP_STRING([--without-numa],
->>> ++              [without numa support]),
->>> ++              [],
->>> ++      [AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
->>> +       AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
->>> +
->>> +       if test "x$have_numa_headers" != "xno"; then
->>> +@@ -42,3 +48,5 @@ exit(1);
->>> +               AC_DEFINE(HAVE_NUMA_V2, 1, [Define to 1 if you have libnuma and it's headers version >= 2 installed.])
->>> +       fi
->>> + ])
->>>  +AC_MSG_RESULT([$with_numa])
->>>  +])
->>>  --
->>> diff --git a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch b/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
->>> deleted file mode 100644
->>> index efa6d06..0000000
->>> --- a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
->>> +++ /dev/null
->>> @@ -1,35 +0,0 @@
->>> -From 00ba7cdd0608b1507027428f9f87b1cb9747372b Mon Sep 17 00:00:00 2001
->>> -From: Dengke Du <dengke.du@windriver.com>
->>> -Date: Thu, 9 Feb 2017 15:54:53 +0800
->>> -Subject: [PATCH] lib: Use PTHREAD_MUTEX_RECURSIVE in place of
->>> - PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP for non-glibc
->>> -
->>> -e.g. musl does not implement the _NP mutex types
->>> -
->>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> -
->>> -Upstream-Status: Pending
->>> ----
->>> - lib/tst_res.c | 4 ++++
->>> - 1 file changed, 4 insertions(+)
->>> -
->>> -diff --git a/lib/tst_res.c b/lib/tst_res.c
->>> -index 61daaeb..435224f 100644
->>> ---- a/lib/tst_res.c
->>> -+++ b/lib/tst_res.c
->>> -@@ -79,7 +79,11 @@ int TEST_ERRNO;
->>> -       assert(strlen(buf) > 0);                \
->>> - } while (0)
->>> -
->>> -+#ifdef __GLIBC__
->>> - static pthread_mutex_t tmutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
->>> -+#else
->>> -+static pthread_mutex_t tmutex = {  PTHREAD_MUTEX_RECURSIVE };
->>> -+#endif
->>> -
->>> - static void check_env(void);
->>> - static void tst_condense(int tnum, int ttype, const char *tmesg);
->>> ---
->>> -2.7.4
->>> -
->>> diff --git a/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch b/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
->>> deleted file mode 100644
->>> index 44d6990..0000000
->>> --- a/meta/recipes-extended/ltp/ltp/0037-ltp-fix-format-security-error.patch
->>> +++ /dev/null
->>> @@ -1,36 +0,0 @@
->>> -From 8eb3e111ae1b89e5afb249cf984d657f94da2385 Mon Sep 17 00:00:00 2001
->>> -From: Dengke Du <dengke.du@windriver.com>
->>> -Date: Tue, 17 Oct 2017 05:42:47 -0400
->>> -Subject: [PATCH] ltp: fix format security error
->>> -
->>> -When enable option: -Werror=format-security, the error like:
->>> -
->>> -    | fcntl36.c: In function 'test_fn':
->>> -    | fcntl36.c:303:2: error: format not a string literal and no format arguments [-Werror=format-security]
->>> -    |   tst_res(TINFO, msg);
->>> -    |   ^~~~~~~
->>> -    | cc1: some warnings being treated as errors
->>> -
->>> -Upstream-Status: Pending
->>> -
->>> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> ----
->>> - testcases/kernel/syscalls/fcntl/fcntl36.c | 2 +-
->>> - 1 file changed, 1 insertion(+), 1 deletion(-)
->>> -
->>> -diff --git a/testcases/kernel/syscalls/fcntl/fcntl36.c b/testcases/kernel/syscalls/fcntl/fcntl36.c
->>> -index 6f2eb6b..3246d13 100644
->>> ---- a/testcases/kernel/syscalls/fcntl/fcntl36.c
->>> -+++ b/testcases/kernel/syscalls/fcntl/fcntl36.c
->>> -@@ -300,7 +300,7 @@ static void test_fn(void *f0(void *), void *f1(void *),
->>> -       struct param p2[thread_cnt];
->>> -       unsigned char buf[write_size];
->>> -
->>> --      tst_res(TINFO, msg);
->>> -+      tst_res(TINFO, "%s", msg);
->>> -
->>> -       if (tst_fill_file(fname, 1, write_size, thread_cnt + 1))
->>> -               tst_brk(TBROK, "Failed to create tst file");
->>> ---
->>> -2.8.1
->>> -
->>> diff --git a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch b/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
->>> deleted file mode 100644
->>> index 0153ace..0000000
->>> --- a/meta/recipes-extended/ltp/ltp/0038-generate-reproducible-gzip.patch
->>> +++ /dev/null
->>> @@ -1,20 +0,0 @@
->>> -Do not generate timestamps in gzipped file headers.
->>> -The timestamps prevent reproducible build.
->>> -
->>> -Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/233]
->>> -
->>> -Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
->>> -
->>> -diff --git a/testcases/network/generate.sh b/testcases/network/generate.sh
->>> -index 00216a6..939f792 100755
->>> ---- a/testcases/network/generate.sh
->>> -+++ b/testcases/network/generate.sh
->>> -@@ -55,7 +55,7 @@ fi
->>> - if [ ! -e "bin.sm" ] ; then
->>> -       cnt=0
->>> -       while [ $cnt -lt 5 ] ; do
->>> --              gzip -1 -c ascii.sm >> "bin.sm"
->>> -+              gzip -1 -c -n ascii.sm >> "bin.sm"
->>> -               cnt=$(($cnt + 1))
->>> -       done
->>> - fi
->>> diff --git a/meta/recipes-extended/ltp/ltp_20170929.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
->>> similarity index 95%
->>> rename from meta/recipes-extended/ltp/ltp_20170929.bb
->>> rename to meta/recipes-extended/ltp/ltp_20180118.bb
->>> index bc0ecdf..a4a2724 100644
->>> --- a/meta/recipes-extended/ltp/ltp_20170929.bb
->>> +++ b/meta/recipes-extended/ltp/ltp_20180118.bb
->>> @@ -21,7 +21,7 @@ DEPENDS_append_libc-musl = " fts "
->>>  EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
->>>  CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
->>>  CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
->>> -SRCREV = "bac930f71b1e6786ebb8a894463503d07681ef6a"
->>> +SRCREV = "731cd34e682d297b207668be8b1d15320a9ac1b1"
->>>
->>>  SRC_URI = "git://github.com/linux-test-project/ltp.git \
->>>             file://0001-add-_GNU_SOURCE-to-pec_listener.c.patch \
->>> @@ -43,13 +43,10 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
->>>             file://0026-crash01-Define-_GNU_SOURCE.patch \
->>>             file://0027-sysconf01-Use-_SC_2_C_VERSION-conditionally.patch \
->>>             file://0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch \
->>> -           file://0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch \
->>>             file://0033-shmat1-Cover-GNU-specific-code-under-__USE_GNU.patch \
->>>             file://0034-periodic_output.patch \
->>>             file://0035-fix-test_proc_kill-hang.patch \
->>>             file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
->>> -           file://0037-ltp-fix-format-security-error.patch \
->>> -           file://0038-generate-reproducible-gzip.patch \
->>>             file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
->>>             "
->>>
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> - Add proper sign-offs and Upstream-Status as reported by patchtest
+> - Backport another fix for pulseaudio memfd issue done upstream
 >
 
+v1 was merged after v2 was sent so I just split these fixes out and they
+just got merged as follow-up patches.  Sorry but I managed to drop your
+authorship.
+
+Ross
+
+--001a1144d5ea0bfa320563fdee10
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 30 January 2018 at 04:31, Khem Raj <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
+m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><br>
+- Add proper sign-offs and Upstream-Status as reported by patchtest<br>
+- Backport another fix for pulseaudio memfd issue done upstream<br></blockq=
+uote><div><br></div><div>v1 was merged after v2 was sent so I just split th=
+ese fixes out and they just got merged as follow-up patches.=C2=A0 Sorry bu=
+t I managed to drop your authorship.=C2=A0</div><div><br></div><div>Ross</d=
+iv></div></div></div>
+
+--001a1144d5ea0bfa320563fdee10--
