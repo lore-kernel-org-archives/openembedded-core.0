@@ -1,57 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id ECEA0783C6
+Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 766F37885F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 07:07:28 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id 196so12225269iti.5
+	Tue, 30 Jan 2018 07:09:32 +0000 (UTC)
+Received: by mail-pg0-f43.google.com with SMTP id n17so6529143pgf.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jan 2018 23:07:30 -0800 (PST)
+	Mon, 29 Jan 2018 23:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=wJT0gSLcyWwuHSJ45Mz2qX84ddC05NYRmFS1xJ1uMdA=;
-	b=rv6CmKZtoNJl/Ci7iBVEPsaYhNXmsHEXWarM16+h0p091czr2JQjrBCeRJrJ33x3gQ
-	2BDMHw8ItI7Hy5sfoGfiAt8593DLf7siIDtjz61asoHW+2VndohN1ezSc2VtIG2EDnXS
-	7X3jvfrZJ1hDU88sgibS44L8UJkUxtTaV2YuTn1XHZBg7w3jVFfF583B7FqVGLLeeZbf
-	n+s+A+js5lxD/Wy18dhsVJCjAl6DOQUljN7j+qZQqqns96bHlEibKsxQBoa6MKCthPbT
-	/8Ph9ViFMiJbGpQL0z238RMj8fxn3qt/sGtzm3uGkZ7vsMwhQhDilT+dvwB2iJGnXt5r
-	K4vQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=EE41ngeGxZtxf4i+zjGn7M1BYbHz6yKebuMnM4MqE90=;
+	b=XZfGhR9Pe9h4zgUx2mXHANUoqva5yDLClLknGbDSkx0gA3UGCT30jEoqIQcATVTt7t
+	SUfhseIBjHiGzVeSX3I3PR2Tk3Y/k6vIwsQHKmd6zr1aBbZRVstoz0l+MzbvYWmvHYVh
+	yjuAJjjaS0dNaVpfEYrDr3Wv61sFefgKXJCRxwX6PweXTDqqf4yKr368bz+YKs4O9ijK
+	z9RdOzwqLvsZOf84xPDmzO9VVHFhxVdgjZZ6L9aEKnfklUN5dC6gmQLeQD4ENxzgWZMW
+	zNCgx7JHy9XPyc7gZ5SaxomDWdhxBT+p0Chx1bfYGJ3Ure/BRtvK+D6q0HB9r1kV4156
+	GjBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=wJT0gSLcyWwuHSJ45Mz2qX84ddC05NYRmFS1xJ1uMdA=;
-	b=qsUhzOop/h1wJIO5bbrCXaqCNq3spLus6CLyLab3csuwdyCW2xmjzIJ0yZxPkz+BL+
-	wDGcc1sQOhXBCPi3z7PBUkIJnKZto8fz81KwwOJy0MvdUnplO4Wbq/1Q9H7vGEU0DrQZ
-	I6RCVu9sqqPALQhs4c68P6If8lT7q2RDC2z0+j6P66C8XBtJrr5feMxr7T6d3EhOyIMc
-	MOEUIuJD9k/haljpsrmPS0oUlz2+4MoMFtPDLKumPm74djHUejiKaPdGptjZBDfWabqW
-	FGEopzYoPTqXzzcL7F5WEW1o2cXj1DLke2grLam4Cm3Qc9axHX8GRQU3x8tC2ykrNRmu
-	FBog==
-X-Gm-Message-State: AKwxytemWXhNknJ1MYgBfAPgBdGgES4OfOFrf9xnK3K5iZnAvI1uI7Oj
-	fGFjs7El9HZ5sC4kiCj1hCT+6kTl
-X-Google-Smtp-Source: AH8x227fq3L1B6DESlgNMbe9uXYLpFXZ4ogdXxGq+qIvEEDfc+l+iv2Bx5OVUTcLetDaOo7AP1u/eg==
-X-Received: by 10.36.157.69 with SMTP id f66mr30253475itd.136.1517296049679;
-	Mon, 29 Jan 2018 23:07:29 -0800 (PST)
-Received: from hermes.local ([2601:646:8880:466c:fd41:97d0:e3d:7877])
-	by smtp.gmail.com with ESMTPSA id
-	x87sm7127402ita.32.2018.01.29.23.07.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jan 2018 23:07:29 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20180129174724.26768-1-niko.mauno@vaisala.com>
-	<2afb5638-31ca-39fa-bf28-d305fea507c0@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <48a79520-c02f-2dfe-b25b-0b89beb182d6@gmail.com>
-Date: Mon, 29 Jan 2018 23:07:27 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
-	Gecko/20100101 Thunderbird/58.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=EE41ngeGxZtxf4i+zjGn7M1BYbHz6yKebuMnM4MqE90=;
+	b=RpIJ1E9g4zNJr7/p24WWm64jgh+b63salLjBbkXKmnsp549yLQkHSTovoslzlYaW5G
+	wEfeMUNUGx6hpvgjr5yKydyz5YT9lYOaWBuc4DfmyOTubZpUt67Ctbhj77vwR2Mnk83A
+	ORzp7JFi1eeYhH5ugGnIZRJUrj2zGs6ok8NRqIkKk/LXKzS6/ynCjPm6qq3V8ozmRGPy
+	4TBgrd15AfU6Jl0ugWMu4+Mt+eGtf1SxswGExlLRNTTsah1F/yl+AO7MFbXFmLNhVboQ
+	QJKpbYDxyPnxy2xTA3P/b2Xo0rAoTrS3gz4c5OUBh2Ru6wEKkIKOJFTGgHnFvL2VKKyD
+	KTeA==
+X-Gm-Message-State: AKwxytcfmPO43sKOb6K+D+evdLYVSLnYHhBaqMc9JDMx/MwIaYl+ESNb
+	Nh62Nrfx2rYDCCZ7Wo57XqnZvpRqUMsOQhttPCg=
+X-Google-Smtp-Source: AH8x2254pXhskvFOYpsGwl0dLDGKhu/y2d73G8iH++8tCHkZzp2XKKUEcSEiLeqwCBu0XTZ1vNHjp7drgtKpnpE2Dac=
+X-Received: by 10.98.156.71 with SMTP id f68mr29667261pfe.29.1517296173424;
+	Mon, 29 Jan 2018 23:09:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2afb5638-31ca-39fa-bf28-d305fea507c0@linux.intel.com>
-Subject: Re: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+Received: by 10.100.161.170 with HTTP; Mon, 29 Jan 2018 23:09:03 -0800 (PST)
+In-Reply-To: <20180130050427.15542.79226@do.openembedded.org>
+References: <cover.1517286478.git.raj.khem@gmail.com>
+	<20180130050427.15542.79226@do.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Jan 2018 23:09:03 -0800
+Message-ID: <CAMKF1srjFo1qMX+gvvTzqeYQPon3D6TuGkU0scGHC_yu1xdGYA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVwZGF0ZSB0byBiaW51dGlscyAyLjMwLCBnbGliYyAyLjI3IGluaXRpYXRlZCBmaXhlcywgbXVzbCB1cGRhdGUgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,35 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 07:07:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Jan 2018 07:09:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, Jan 29, 2018 at 9:04 PM, Patchwork
+<patchwork@patchwork.openembedded.org> wrote:
+> == Series Details ==
+>
+> Series: Update to binutils 2.30, glibc 2.27 initiated fixes, musl update (rev2)
+> Revision: 2
+> URL   : https://patchwork.openembedded.org/series/10739/
+> State : failure
+>
+> == Summary ==
+>
+>
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+>
+>
+>
+> * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence]
+>   Suggested fix    Sign off the added patch file (meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch)
+>
 
-
-On 1/29/18 10:38 PM, Alexander Kanavin wrote:
-> On 01/29/2018 07:47 PM, Niko Mauno wrote:
->> This mitigates following issues during u-boot do_compile() step --
->> otherwise, if comm is not available, they are quietly ignored:
->>
->>    .../scripts/check-config.sh: line 33: comm: command not found
->>    .../scripts/check-config.sh: line 39: comm: command not found
->>
->> Since 'comm' is provided by coreutils package, adding it to HOSTTOOLS
->> was considered a lower impact fix compared to adding coreutils-native
->> buildtime dependency to u-boot recipe.
-> 
-> I disagree. Expanding HOSTTOOLS just to cater to the needs of a single 
-> recipe is not optimal, IMO.
-
-alternative are
-build time dep on coreutils-native.
-fix uboot script to not use comm
-do not invoke check-config.sh at all.
-
-none of them are any better.
-
-> 
-> Alex
+this has been fixed in pull branch
 
