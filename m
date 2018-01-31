@@ -1,59 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A0DD60557
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EFDE178548
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 17:21:19 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id x128so506857ite.0
+	Wed, 31 Jan 2018 17:38:00 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id x24so8156532ywj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 09:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SDjOeBFdgL7Pa7ZzVqQon52IDFVzUx2Hf19WyyBm+6c=;
-	b=ji04qtrl5fODsC1Bo7tfq0wPKuGJBXa6FThB8kcEZoJ2K9U4bYdz4Pb5mEftwT4M+7
-	xl9HNMLphEQJtIkWIJ0wcqsgMOb3rYvA+iHhBfHxSCNWNfJWzP6yzmebshByxx8VTFjV
-	HwdQEiRpE5vx2f6wIhBN3hNXBhA/JPg0W1So760TnULqlOLhTdMTxXy7C/5lNYVR5Ml2
-	7VtWHn3pJNB5UHDsR7ANQNCqAFGGss8b1zoKLK69ym26s4tRWyjs+uFjLu8fR7nQjlKI
-	gL2GUz0m9cz/Ofj74OYWw6wgWLMYfXLPqEUevfqQFm7eYl6t5AUl64tc99nv8mQu3HeQ
-	rXXg==
+	Wed, 31 Jan 2018 09:38:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SDjOeBFdgL7Pa7ZzVqQon52IDFVzUx2Hf19WyyBm+6c=;
-	b=Y7pZSfj/aiN7kHTO/cuaf5kEn/r998JLtPbAaPcdM8R0CBeTG1K/yUp1wl6s0O4UCq
-	aUkBYmyLb2QOZ17MVQAhj2f2mC47ols3gQhc+WD1/fDvVWvLROSGkw7n7mss5L/ubIuP
-	sZ4Dqm/zAP7P0taL7oyDl2UL10qjcIZkxQzLQ+KB1F8eeBVP0i3KarlKRy0uPYkCjJqj
-	BMvP+gE3/Fehz3bHD3mB3dFqjtkAIcJGjZY8LX019o5EuVBqp0r4CNwqtmxtxO44rIg0
-	YYRn6Dsy5iiNJnAFWx3woNa0c4ecQkisGqUhpwYAbFsdi64ODRM01tcsk4AZ37+meQ4D
-	+M2A==
-X-Gm-Message-State: AKwxytfdm5EqgwqpvBnjrr9t8TscG/62c75hhnjCbvVjZRwr7FtFao6d
-	RPSDxAOVE1lK1HnAa4GZwXKbCICcTsIBsWmB8jEfYw==
-X-Google-Smtp-Source: AH8x227XBRUckmy6i/m8FXdQswT/8NVibCUd/4O1NMQIHway76+UYAJTp/5qCEsjwuxg4SxbzEAsp8XLF/g/HUhYNt4=
-X-Received: by 10.36.228.197 with SMTP id o188mr15541164ith.85.1517419281437; 
-	Wed, 31 Jan 2018 09:21:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Wed, 31 Jan 2018 09:21:00 -0800 (PST)
-In-Reply-To: <CA+chaQex47NDXaeBFcFF-_fsa5QLSobP7xfavCC5d0DCoUEypA@mail.gmail.com>
-References: <20180130083003.39-1-Martin.Jansa@gmail.com>
-	<CAJTo0LYmP0iqbm5X50FPi80=LB+tUD90JVzYPf8uah=c0ysiew@mail.gmail.com>
-	<CA+chaQc57j=7JQx3iNHfomkjVXmZX7Lm+yLED+xzMg7uhrVa8w@mail.gmail.com>
-	<CALbNGRSkvxi3AWkzZcsipSspQnEjsdZ4VKwbFGRN0o9tY4G2-A@mail.gmail.com>
-	<CA+chaQdBgGX-K3fb15L6LR6f=iFZUkvb250xK5+4pjPyrYbf4w@mail.gmail.com>
-	<CA+chaQc+r5U7_W=rhKRzxaG16Lk6SYBBD=UBvdqNvbZ2N74Bjw@mail.gmail.com>
-	<1517418291.31752.85.camel@gmail.com>
-	<CA+chaQcD1Xt04c4A=1J3eNS-vd_1Bw04A0aV=oQ211ONo1ZAuQ@mail.gmail.com>
-	<CAJTo0LYe7qU66tBRbyDfWkg=PJm2aPXg5fhCVP5rp2PwbyFnfw@mail.gmail.com>
-	<CA+chaQex47NDXaeBFcFF-_fsa5QLSobP7xfavCC5d0DCoUEypA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 31 Jan 2018 17:21:00 +0000
-Message-ID: <CAJTo0LaiWzpvTv_4HNT6THjPyNqctLSac1XbJVvGJ1oZj4+tRA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Joe Slater <jslater@windriver.com>, Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH] waf.bbclass: check that waf exists before trying to execute it
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LNRsRpsvj1bFle+2e0+cV636VvCKifxLEuwN86tegC0=;
+	b=ZpKKwdalXGCfFlp8LDULd97U/t289elSXu43/bFo+YRmpdyMca4z/Dt0SeeANOIbKu
+	N5KZLbzmgDk809AxOsclAmQPSQnIbjSSDkWsWk/GWMbRiXnBPUL3T+uzjuc7p1D2w1Ju
+	Z7OtyXttejWM+TVpVKv8DeGxYJR7kyNL537E4Ffl6W6bCiPeq0nAT/TEV/tnqDqgjqgH
+	LS8Djflh5nmOiBDjs9hOHa2v3RDG2fMy8E3nDmnkf+ZDH6Ae9nKogjFI8WusUwkDGG3n
+	7S5iDk5E9BdXcV4RAF68qJyIQ0XMqfn24i/eFfxshGkgENg453akRh0yeYXnmNLi2o/v
+	3x+g==
+X-Gm-Message-State: AKwxytepXWipojvbZ4LbaWJSPyMI5ETJ8E7swHy+bUq73y9avEvrV7bJ
+	xdIXXbLl5T3NPkU2KDrSyq+C
+X-Google-Smtp-Source: AH8x226QkTx0bB4wzDJKujtp8dFKYY6Su8TuqzOMJ+m5f76+smgKNoVR7OVW1HHMUtp7zIU0hBymtA==
+X-Received: by 10.37.188.8 with SMTP id i8mr23247183ybh.404.1517420281732;
+	Wed, 31 Jan 2018 09:38:01 -0800 (PST)
+Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
+	[65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id t82sm6322132ywa.6.2018.01.31.09.38.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 31 Jan 2018 09:38:01 -0800 (PST)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jan 2018 12:37:57 -0500
+Message-Id: <1517420277-6542-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] security_flags.inc: Use SECURITY_X_LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,35 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jan 2018 17:21:20 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1253d03ee12b056415b51d"
+X-List-Received-Date: Wed, 31 Jan 2018 17:38:01 -0000
 
---94eb2c1253d03ee12b056415b51d
-Content-Type: text/plain; charset="UTF-8"
+We need to ensure that all xorg modules are linked with
+SECURITY_X_LDFLAGS to ensure that they will be able to resolve their run
+time dependencies.  Replace the incomplete list here with globs for both
+video and input modules.
 
-On 31 January 2018 at 17:19, Martin Jansa <martin.jansa@gmail.com> wrote:
+Cc: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+I admit that I'm not sure if this, or an explicit list of all of the
+modules in both oe-core (we are missing some today) and
+meta-openembedded (or per-recipe updates there) would be best.  I'm
+starting with a patch that does a glob as that will cover what we have
+today as well as in the future.
+---
+ meta/conf/distro/include/security_flags.inc | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-> But shouldn't it at least show different error message in case when
-> ${S}/waf doesn't exist and when it fails to execute it for whatever reason?
->
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 7ea1049edff8..732972e85136 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -59,12 +59,9 @@ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+ SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
+-SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
+-SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
+-SECURITY_LDFLAGS_pn-xf86-video-omap = "${SECURITY_X_LDFLAGS}"
+-SECURITY_LDFLAGS_pn-xf86-video-vesa = "${SECURITY_X_LDFLAGS}"
+-SECURITY_LDFLAGS_pn-xf86-video-vmware = "${SECURITY_X_LDFLAGS}"
++# All xorg module drivers need to be linked this way
++SECURITY_LDFLAGS_pn-xf86-video-% = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-input-% = "${SECURITY_X_LDFLAGS}"
+ SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
+ 
+ TARGET_CC_ARCH_append_pn-binutils = " ${SELECTED_OPTIMIZATION}"
+-- 
+2.7.4
 
-Sure, first thing should be to check if S/waf exists and if not, abort.
 
-Ross
-
---94eb2c1253d03ee12b056415b51d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 31 January 2018 at 17:19, Martin Jansa <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.ja=
-nsa@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">But shoul=
-dn&#39;t it at least show different error message in case when ${S}/waf doe=
-sn&#39;t exist and when it fails to execute it for whatever reason?</div></=
-blockquote><div><br></div><div>Sure, first thing should be to check if S/wa=
-f exists and if not, abort.</div><div><br></div><div>Ross=C2=A0</div></div>=
-</div></div>
-
---94eb2c1253d03ee12b056415b51d--
