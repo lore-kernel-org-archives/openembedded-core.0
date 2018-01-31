@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4F9678890
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD8D7886C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 07:48:32 +0000 (UTC)
+	Wed, 31 Jan 2018 07:48:39 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w0V7mYRm001981
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0V7mbat007557
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 23:48:34 -0800 (PST)
+	Tue, 30 Jan 2018 23:48:40 -0800
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 30 Jan 2018 23:48:33 -0800
+	Tue, 30 Jan 2018 23:48:34 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Jan 2018 02:48:14 -0500
-Message-ID: <18b7d405f0e6c16357811f088221f2bf7ac30e7d.1517383469.git.hongxu.jia@windriver.com>
+Date: Wed, 31 Jan 2018 02:48:15 -0500
+Message-ID: <2966cc751ff78de85ebac9776f78204c3cea0267.1517383469.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1517383469.git.hongxu.jia@windriver.com>
 References: <cover.1517383469.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/7] ncurses: 6.0+20170715 -> 6.0+20171125
+Subject: [PATCH 4/7] gpgme: 1.9.0 -> 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,585 +33,330 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jan 2018 07:48:32 -0000
+X-List-Received-Date: Wed, 31 Jan 2018 07:48:40 -0000
 Content-Type: text/plain
 
-- Drop backported CVE fix
+1. Disable test at build time to workaround corss-compile
+
+2. Rework patch 0002, since the following commit of upstream.
+   https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=commit;h=7309ce6f5f7c86570953a141965d4f54cd9ad9a0
+
+3. Add patch 0006 to fix build path issue to improve reproducibility
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...-2017-13729-CVE-2017-13728-CVE-2017-13731.patch | 541 ---------------------
- ...ses_6.0+20170715.bb => ncurses_6.0+20171125.bb} |   3 +-
- 2 files changed, 1 insertion(+), 543 deletions(-)
- delete mode 100644 meta/recipes-core/ncurses/files/CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch
- rename meta/recipes-core/ncurses/{ncurses_6.0+20170715.bb => ncurses_6.0+20171125.bb} (66%)
+ .../gpgme/gpgme/0001-pkgconfig.patch               | 10 ++--
+ ...python-gpg-error-config-should-not-be-use.patch | 66 +++++++++-------------
+ .../0003-Correctly-install-python-modules.patch    | 27 +++++----
+ .../gpgme/gpgme/0004-python-import.patch           |  6 +-
+ ...g-skip-all-lib-or-usr-lib-directories-in-.patch |  6 +-
+ .../gpgme/gpgme/0006-fix-build-path-issue.patch    | 38 +++++++++++++
+ .../gpgme/{gpgme_1.9.0.bb => gpgme_1.10.0.bb}      | 12 +++-
+ 7 files changed, 99 insertions(+), 66 deletions(-)
+ create mode 100644 meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+ rename meta/recipes-support/gpgme/{gpgme_1.9.0.bb => gpgme_1.10.0.bb} (88%)
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch b/meta/recipes-core/ncurses/files/CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch
-deleted file mode 100644
-index a19332c..0000000
---- a/meta/recipes-core/ncurses/files/CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch
-+++ /dev/null
-@@ -1,541 +0,0 @@
--From 4bf72cb8f1d3aa5f33c31eb817a5f0338f4aaf6f Mon Sep 17 00:00:00 2001
--From: Ovidiu Panait <ovidiu.panait@windriver.com>
--Date: Wed, 20 Sep 2017 05:02:00 +0000
--Subject: [PATCH] Import upstream patch 20170826
--
--20170826
--	+ fixes for "iterm2" (report by Leonardo Brondani Schenkel) -TD
--	+ corrected a warning from tic about keys which are the same, to skip
--	  over missing/cancelled values.
--	+ add check in tic for unnecessary use of "2" to denote a shifted
--	  special key.
--	+ improve checks in trim_sgr0, comp_parse.c and parse_entry.c, for
--	  cancelled string capabilities.
--	+ add check in _nc_parse_entry() for invalid entry name, setting the
--	  name to "invalid" to avoid problems storing entries.
--	+ add/improve checks in tic's parser to address invalid input
--	  + add a check in comp_scan.c to handle the special case where a
--	    nontext file ending with a NUL rather than newline is given to tic
--	    as input (Redhat #1484274).
--	  + allow for cancelled capabilities in _nc_save_str (Redhat #1484276).
--	  + add validity checks for "use=" target in _nc_parse_entry (Redhat
--	    #1484284).
--	  + check for invalid strings in postprocess_termcap (Redhat #1484285)
--	  + reset secondary pointers on EOF in next_char() (Redhat #1484287).
--	  + guard _nc_safe_strcpy() and _nc_safe_strcat() against calls using
--	    cancelled strings (Redhat #1484291).
--	+ correct typo in curs_memleaks.3x (Sven Joachim).
--	+ improve test/configure checks for some curses variants not based on
--	  X/Open Curses.
--	+ add options for test/configure to disable checks for form, menu and
--	  panel libraries.
--
--Upstream-Status: Backport
--CVE: CVE-2017-13732, CVE-2017-13734, CVE-2017-13730, CVE-2017-13729, CVE-2017-13728, CVE-2017-13731
-- 
--
--Author: Sven Joachim <svenjoac@gmx.de>
--Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-----
-- dist.mk                     |  4 +-
-- include/ncurses_defs        |  4 +-
-- ncurses/tinfo/alloc_entry.c |  4 +-
-- ncurses/tinfo/comp_parse.c  | 10 ++---
-- ncurses/tinfo/comp_scan.c   |  6 ++-
-- ncurses/tinfo/parse_entry.c | 91 ++++++++++++++++++++++++++++++---------------
-- ncurses/tinfo/strings.c     |  9 +++--
-- ncurses/tinfo/trim_sgr0.c   |  4 +-
-- progs/tic.c                 | 75 ++++++++++++++++++++++++++++++++++++-
-- 9 files changed, 157 insertions(+), 50 deletions(-)
--
--diff --git a/dist.mk b/dist.mk
--index 9af2699..2c70472 100644
----- a/dist.mk
--+++ b/dist.mk
--@@ -25,7 +25,7 @@
-- # use or other dealings in this Software without prior written               #
-- # authorization.                                                             #
-- ##############################################################################
---# $Id: dist.mk,v 1.1172 2017/07/13 00:15:27 tom Exp $
--+# $Id: dist.mk,v 1.1179 2017/08/20 15:33:41 tom Exp $
-- # Makefile for creating ncurses distributions.
-- #
-- # This only needs to be used directly as a makefile by developers, but
--@@ -37,7 +37,7 @@ SHELL = /bin/sh
-- # These define the major/minor/patch versions of ncurses.
-- NCURSES_MAJOR = 6
-- NCURSES_MINOR = 0
---NCURSES_PATCH = 20170715
--+NCURSES_PATCH = 20170826
-- 
-- # We don't append the patch to the version, since this only applies to releases
-- VERSION = $(NCURSES_MAJOR).$(NCURSES_MINOR)
--diff --git a/include/ncurses_defs b/include/ncurses_defs
--index e6611b7..d237db1 100644
----- a/include/ncurses_defs
--+++ b/include/ncurses_defs
--@@ -1,4 +1,4 @@
---# $Id: ncurses_defs,v 1.73 2017/06/24 14:20:57 tom Exp $
--+# $Id: ncurses_defs,v 1.75 2017/08/20 16:50:04 tom Exp $
-- ##############################################################################
-- # Copyright (c) 2000-2016,2017 Free Software Foundation, Inc.                #
-- #                                                                            #
--@@ -50,7 +50,9 @@ HAVE_BSD_STRING_H
-- HAVE_BTOWC 
-- HAVE_BUILTIN_H
-- HAVE_CHGAT	1
--+HAVE_COLOR_CONTENT	1
-- HAVE_COLOR_SET	1
--+HAVE_CURSCR	1
-- HAVE_DIRENT_H
-- HAVE_ERRNO
-- HAVE_FCNTL_H
--diff --git a/ncurses/tinfo/alloc_entry.c b/ncurses/tinfo/alloc_entry.c
--index 5de09f1..09374d6 100644
----- a/ncurses/tinfo/alloc_entry.c
--+++ b/ncurses/tinfo/alloc_entry.c
--@@ -47,7 +47,7 @@
-- 
-- #include <tic.h>
-- 
---MODULE_ID("$Id: alloc_entry.c,v 1.60 2017/06/27 23:48:55 tom Exp $")
--+MODULE_ID("$Id: alloc_entry.c,v 1.61 2017/08/25 09:09:08 tom Exp $")
-- 
-- #define ABSENT_OFFSET    -1
-- #define CANCELLED_OFFSET -2
--@@ -98,7 +98,7 @@ _nc_save_str(const char *const string)
--     size_t old_next_free = next_free;
--     size_t len;
-- 
---    if (string == 0)
--+    if (!VALID_STRING(string))
-- 	return _nc_save_str("");
--     len = strlen(string) + 1;
-- 
--diff --git a/ncurses/tinfo/comp_parse.c b/ncurses/tinfo/comp_parse.c
--index 34e6216..580d4df 100644
----- a/ncurses/tinfo/comp_parse.c
--+++ b/ncurses/tinfo/comp_parse.c
--@@ -47,7 +47,7 @@
-- 
-- #include <tic.h>
-- 
---MODULE_ID("$Id: comp_parse.c,v 1.96 2017/04/15 15:36:58 tom Exp $")
--+MODULE_ID("$Id: comp_parse.c,v 1.99 2017/08/26 16:15:50 tom Exp $")
-- 
-- static void sanity_check2(TERMTYPE2 *, bool);
-- NCURSES_IMPEXP void NCURSES_API(*_nc_check_termtype2) (TERMTYPE2 *, bool) = sanity_check2;
--@@ -510,9 +510,9 @@ static void
-- fixup_acsc(TERMTYPE2 *tp, int literal)
-- {
--     if (!literal) {
---	if (acs_chars == 0
---	    && enter_alt_charset_mode != 0
---	    && exit_alt_charset_mode != 0)
--+	if (acs_chars == ABSENT_STRING
--+	    && PRESENT(enter_alt_charset_mode)
--+	    && PRESENT(exit_alt_charset_mode))
-- 	    acs_chars = strdup(VT_ACSC);
--     }
-- }
--@@ -568,9 +568,7 @@ sanity_check2(TERMTYPE2 *tp, bool literal)
--     PAIRED(enter_xon_mode, exit_xon_mode);
--     PAIRED(enter_am_mode, exit_am_mode);
--     ANDMISSING(label_off, label_on);
---#ifdef remove_clock
--     PAIRED(display_clock, remove_clock);
---#endif
--     ANDMISSING(set_color_pair, initialize_pair);
-- }
-- 
--diff --git a/ncurses/tinfo/comp_scan.c b/ncurses/tinfo/comp_scan.c
--index 40d7f6a..b207257 100644
----- a/ncurses/tinfo/comp_scan.c
--+++ b/ncurses/tinfo/comp_scan.c
--@@ -50,7 +50,7 @@
-- #include <ctype.h>
-- #include <tic.h>
-- 
---MODULE_ID("$Id: comp_scan.c,v 1.106 2017/04/22 11:41:12 tom Exp $")
--+MODULE_ID("$Id: comp_scan.c,v 1.108 2017/08/25 22:57:21 tom Exp $")
-- 
-- /*
--  * Maximum length of string capability we'll accept before raising an error.
--@@ -168,6 +168,8 @@ next_char(void)
-- 	if (result != 0) {
-- 	    FreeAndNull(result);
-- 	    FreeAndNull(pushname);
--+	    bufptr = 0;
--+	    bufstart = 0;
-- 	    allocated = 0;
-- 	}
-- 	/*
--@@ -222,6 +224,8 @@ next_char(void)
-- 		}
-- 		if ((bufptr = bufstart) != 0) {
-- 		    used = strlen(bufptr);
--+		    if (used == 0)
--+			return (EOF);
-- 		    while (iswhite(*bufptr)) {
-- 			if (*bufptr == '\t') {
-- 			    _nc_curr_col = (_nc_curr_col | 7) + 1;
--diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
--index 3fa2f25..bbbfcb2 100644
----- a/ncurses/tinfo/parse_entry.c
--+++ b/ncurses/tinfo/parse_entry.c
--@@ -47,7 +47,7 @@
-- #include <ctype.h>
-- #include <tic.h>
-- 
---MODULE_ID("$Id: parse_entry.c,v 1.86 2017/06/28 00:53:12 tom Exp $")
--+MODULE_ID("$Id: parse_entry.c,v 1.91 2017/08/26 16:13:34 tom Exp $")
-- 
-- #ifdef LINT
-- static short const parametrized[] =
--@@ -180,6 +180,20 @@ _nc_extend_names(ENTRY * entryp, char *name, int token_type)
-- }
-- #endif /* NCURSES_XNAMES */
-- 
--+static bool
--+valid_entryname(const char *name)
--+{
--+    bool result = TRUE;
--+    int ch;
--+    while ((ch = UChar(*name++)) != '\0') {
--+	if (ch <= ' ' || ch > '~' || ch == '/') {
--+	    result = FALSE;
--+	    break;
--+	}
--+    }
--+    return result;
--+}
--+
-- /*
--  *	int
--  *	_nc_parse_entry(entry, literal, silent)
--@@ -211,6 +225,7 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
--     int token_type;
--     struct name_table_entry const *entry_ptr;
--     char *ptr, *base;
--+    const char *name;
--     bool bad_tc_usage = FALSE;
-- 
--     token_type = _nc_get_token(silent);
--@@ -261,7 +276,12 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
--      * results in the terminal type getting prematurely set to correspond
--      * to that of the next entry.
--      */
---    _nc_set_type(_nc_first_name(entryp->tterm.term_names));
--+    name = _nc_first_name(entryp->tterm.term_names);
--+    if (!valid_entryname(name)) {
--+	_nc_warning("invalid entry name \"%s\"", name);
--+	name = "invalid";
--+    }
--+    _nc_set_type(name);
-- 
--     /* check for overly-long names and aliases */
--     for (base = entryp->tterm.term_names; (ptr = strchr(base, '|')) != 0;
--@@ -283,13 +303,24 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-- 	bool is_use = (strcmp(_nc_curr_token.tk_name, "use") == 0);
-- 	bool is_tc = !is_use && (strcmp(_nc_curr_token.tk_name, "tc") == 0);
-- 	if (is_use || is_tc) {
--+	    if (!VALID_STRING(_nc_curr_token.tk_valstring)
--+		|| _nc_curr_token.tk_valstring[0] == '\0') {
--+		_nc_warning("missing name for use-clause");
--+		continue;
--+	    } else if (!valid_entryname(_nc_curr_token.tk_valstring)) {
--+		_nc_warning("invalid name for use-clause \"%s\"",
--+			    _nc_curr_token.tk_valstring);
--+		continue;
--+	    } else if (entryp->nuses >= MAX_USES) {
--+		_nc_warning("too many use-clauses, ignored \"%s\"",
--+			    _nc_curr_token.tk_valstring);
--+		continue;
--+	    }
-- 	    entryp->uses[entryp->nuses].name = _nc_save_str(_nc_curr_token.tk_valstring);
-- 	    entryp->uses[entryp->nuses].line = _nc_curr_line;
---	    if (VALID_STRING(entryp->uses[entryp->nuses].name)) {
---		entryp->nuses++;
---		if (entryp->nuses > 1 && is_tc) {
---		    BAD_TC_USAGE
---		}
--+	    entryp->nuses++;
--+	    if (entryp->nuses > 1 && is_tc) {
--+		BAD_TC_USAGE
-- 	    }
-- 	} else {
-- 	    /* normal token lookup */
--@@ -641,13 +672,6 @@ static const char C_BS[] = "\b";
-- static const char C_HT[] = "\t";
-- 
-- /*
--- * Note that WANTED and PRESENT are not simple inverses!  If a capability
--- * has been explicitly cancelled, it's not considered WANTED.
--- */
---#define WANTED(s)	((s) == ABSENT_STRING)
---#define PRESENT(s)	(((s) != ABSENT_STRING) && ((s) != CANCELLED_STRING))
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+index 14a43ee..f1997e1 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+@@ -1,7 +1,7 @@
+-From 8ae149035c97d27cd2c624704d1651806c53577e Mon Sep 17 00:00:00 2001
++From 265faf8fe0acaca2043a248a4df02b0868ffa6de Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 16 Aug 2017 02:00:08 -0400
+-Subject: [PATCH 1/5] pkgconfig
++Subject: [PATCH 1/4] pkgconfig
+ 
+ Update gpgme to use pkgconfig instead of -config files since its
+ simpler and less error prone when cross compiling.
+@@ -25,10 +25,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  create mode 100644 src/gpgme.pc.in
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 0dac6ce..6a9e507 100644
++index 6ea4bcd..2a0d528 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -866,6 +866,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
++@@ -887,6 +887,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
+                  src/versioninfo.rc
+                  src/gpgme.h)
+  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
+@@ -299,5 +299,5 @@ index 0000000..b69539f
+ +Requires: libassuan gpg-error
+ \ No newline at end of file
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+index f1f8c91..d20271e 100644
+--- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
++++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+@@ -1,29 +1,28 @@
+-From fb165c9bd96aca8c9ee3e4509c9b6e35d238ad2e Mon Sep 17 00:00:00 2001
+-From: Mark Hatle <mark.hatle@windriver.com>
+-Date: Wed, 16 Aug 2017 02:02:47 -0400
+-Subject: [PATCH 2/5] gpgme/lang/python: gpg-error-config should not be used.
++From 30f7a694cc4568ecb24f77c83a6123ed3f4075fa Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 31 Jan 2018 10:44:19 +0800
++Subject: [PATCH] gpgme/lang/python: gpg-error-config should not be used
+ 
+-gpg-error-config was modified by OE to always return an error.  So we want
+-to find an alternative way to retrieve whatever it is we need.  It turns
+-out that the system is just trying to find the path to the gpg-error.h, which
+-we can pull in from the STAGING_INC environment.
++gpg-error-config was modified by OE to always return an error.
++So we want to find an alternative way to retrieve whatever it
++is we need.
+ 
+ Upstream-Status: Inappropriate [changes are specific to OE]
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+-Rebase to 1.9.0
++Rework to 1.10.0
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+- lang/python/setup.py.in | 15 ++-------------
+- 1 file changed, 2 insertions(+), 13 deletions(-)
++ lang/python/setup.py.in | 10 +---------
++ 1 file changed, 1 insertion(+), 9 deletions(-)
+ 
+ diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
+-index bf4efa3..7c34487 100755
++index f9dda20..9f5d61f 100755
+ --- a/lang/python/setup.py.in
+ +++ b/lang/python/setup.py.in
+-@@ -24,7 +24,6 @@ import glob
++@@ -26,7 +26,6 @@ import shutil
+  import subprocess
+  
+  # Out-of-tree build of the gpg bindings.
+@@ -31,35 +30,22 @@ index bf4efa3..7c34487 100755
+  gpgme_config_flags = ["--thread=pthread"]
+  gpgme_config = ["gpgme-config"] + gpgme_config_flags
+  gpgme_h = ""
+-@@ -52,13 +51,6 @@ else:
+-     devnull = open(os.devnull, "w")
++@@ -174,14 +173,7 @@ class BuildExtFirstHack(build):
+  
+- try:
+--    subprocess.check_call(gpg_error_config + ['--version'],
+--                          stdout=devnull)
+--except:
+--    sys.exit("Could not find gpg-error-config.  " +
+--             "Please install the libgpg-error development package.")
 --
---/*
--  * This bit of legerdemain turns all the terminfo variable names into
--  * references to locations in the arrays Booleans, Numbers, and Strings ---
--  * precisely what's needed.
--@@ -672,10 +696,10 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
+--try:
+-     subprocess.check_call(gpgme_config + ['--version'],
+-                           stdout=devnull)
+- except:
+-@@ -81,12 +73,9 @@ if not (major > 1 or (major == 1 and minor >= 7)):
+- if not gpgme_h:
+-     gpgme_h = os.path.join(getconfig("prefix")[0], "include", "gpgme.h")
 - 
--     /* if there was a tc entry, assume we picked up defaults via that */
--     if (!has_base) {
---	if (WANTED(init_3string) && termcap_init2)
--+	if (WANTED(init_3string) && PRESENT(termcap_init2))
-- 	    init_3string = _nc_save_str(termcap_init2);
-- 
---	if (WANTED(reset_2string) && termcap_reset)
--+	if (WANTED(reset_2string) && PRESENT(termcap_reset))
-- 	    reset_2string = _nc_save_str(termcap_reset);
-- 
-- 	if (WANTED(carriage_return)) {
--@@ -790,7 +814,7 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-- 	if (init_tabs != 8 && init_tabs != ABSENT_NUMERIC)
-- 	    _nc_warning("hardware tabs with a width other than 8: %d", init_tabs);
-- 	else {
---	    if (tab && _nc_capcmp(tab, C_HT))
--+	    if (PRESENT(tab) && _nc_capcmp(tab, C_HT))
-- 		_nc_warning("hardware tabs with a non-^I tab string %s",
-- 			    _nc_visbuf(tab));
-- 	    else {
--@@ -867,17 +891,22 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-- 	     * The magic moment -- copy the mapped key string over,
-- 	     * stripping out padding.
-- 	     */
---	    for (dp = buf2, bp = tp->Strings[from_ptr->nte_index]; *bp; bp++) {
---		if (bp[0] == '$' && bp[1] == '<') {
---		    while (*bp && *bp != '>') {
---			++bp;
---		    }
---		} else
---		    *dp++ = *bp;
---	    }
---	    *dp = '\0';
--+	    bp = tp->Strings[from_ptr->nte_index];
--+	    if (VALID_STRING(bp)) {
--+		for (dp = buf2; *bp; bp++) {
--+		    if (bp[0] == '$' && bp[1] == '<') {
--+			while (*bp && *bp != '>') {
--+			    ++bp;
--+			}
--+		    } else
--+			*dp++ = *bp;
--+		}
--+		*dp = '\0';
-- 
---	    tp->Strings[to_ptr->nte_index] = _nc_save_str(buf2);
--+		tp->Strings[to_ptr->nte_index] = _nc_save_str(buf2);
--+	    } else {
--+		tp->Strings[to_ptr->nte_index] = bp;
--+	    }
-- 	}
-- 
-- 	/*
--@@ -886,7 +915,7 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-- 	 * got mapped to kich1 and im to kIC to avoid a collision.
-- 	 * If the description has im but not ic, hack kIC back to kich1.
-- 	 */
---	if (foundim && WANTED(key_ic) && key_sic) {
--+	if (foundim && WANTED(key_ic) && PRESENT(key_sic)) {
-- 	    key_ic = key_sic;
-- 	    key_sic = ABSENT_STRING;
-- 	}
--@@ -938,9 +967,9 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-- 	    acs_chars = _nc_save_str(buf2);
-- 	    _nc_warning("acsc string synthesized from XENIX capabilities");
-- 	}
---    } else if (acs_chars == 0
---	       && enter_alt_charset_mode != 0
---	       && exit_alt_charset_mode != 0) {
--+    } else if (acs_chars == ABSENT_STRING
--+	       && PRESENT(enter_alt_charset_mode)
--+	       && PRESENT(exit_alt_charset_mode)) {
-- 	acs_chars = _nc_save_str(VT_ACSC);
--     }
-- }
--diff --git a/ncurses/tinfo/strings.c b/ncurses/tinfo/strings.c
--index 393d8e7..10ec6c8 100644
----- a/ncurses/tinfo/strings.c
--+++ b/ncurses/tinfo/strings.c
--@@ -1,5 +1,5 @@
-- /****************************************************************************
--- * Copyright (c) 2000-2007,2012 Free Software Foundation, Inc.              *
--+ * Copyright (c) 2000-2012,2017 Free Software Foundation, Inc.              *
--  *                                                                          *
--  * Permission is hereby granted, free of charge, to any person obtaining a  *
--  * copy of this software and associated documentation files (the            *
--@@ -35,8 +35,9 @@
-- **/
-- 
-- #include <curses.priv.h>
--+#include <tic.h>
-- 
---MODULE_ID("$Id: strings.c,v 1.8 2012/02/22 22:34:31 tom Exp $")
--+MODULE_ID("$Id: strings.c,v 1.9 2017/08/26 13:16:11 tom Exp $")
-- 
-- /****************************************************************************
--  * Useful string functions (especially for mvcur)
--@@ -105,7 +106,7 @@ _nc_str_copy(string_desc * dst, string_desc * src)
-- NCURSES_EXPORT(bool)
-- _nc_safe_strcat(string_desc * dst, const char *src)
-- {
---    if (src != 0) {
--+    if (PRESENT(src)) {
-- 	size_t len = strlen(src);
-- 
-- 	if (len < dst->s_size) {
--@@ -126,7 +127,7 @@ _nc_safe_strcat(string_desc * dst, const char *src)
-- NCURSES_EXPORT(bool)
-- _nc_safe_strcpy(string_desc * dst, const char *src)
-- {
---    if (src != 0) {
--+    if (PRESENT(src)) {
-- 	size_t len = strlen(src);
-- 
-- 	if (len < dst->s_size) {
--diff --git a/ncurses/tinfo/trim_sgr0.c b/ncurses/tinfo/trim_sgr0.c
--index 4cbcb65..4d92d15 100644
----- a/ncurses/tinfo/trim_sgr0.c
--+++ b/ncurses/tinfo/trim_sgr0.c
--@@ -36,7 +36,7 @@
-- 
-- #include <tic.h>
-- 
---MODULE_ID("$Id: trim_sgr0.c,v 1.16 2017/04/05 22:33:07 tom Exp $")
--+MODULE_ID("$Id: trim_sgr0.c,v 1.17 2017/08/26 14:54:16 tom Exp $")
-- 
-- #undef CUR
-- #define CUR tp->
--@@ -263,7 +263,7 @@ _nc_trim_sgr0(TERMTYPE2 *tp)
-- 	    /*
-- 	     * If rmacs is a substring of sgr(0), remove that chunk.
-- 	     */
---	    if (exit_alt_charset_mode != 0) {
--+	    if (PRESENT(exit_alt_charset_mode)) {
-- 		TR(TRACE_DATABASE, ("scan for rmacs %s", _nc_visbuf(exit_alt_charset_mode)));
-- 		j = strlen(off);
-- 		k = strlen(exit_alt_charset_mode);
--diff --git a/progs/tic.c b/progs/tic.c
--index c5d78e5..6dd4678 100644
----- a/progs/tic.c
--+++ b/progs/tic.c
--@@ -48,7 +48,7 @@
-- #include <parametrized.h>
-- #include <transform.h>
-- 
---MODULE_ID("$Id: tic.c,v 1.233 2017/07/15 17:40:19 tom Exp $")
--+MODULE_ID("$Id: tic.c,v 1.243 2017/08/26 20:56:55 tom Exp $")
-- 
-- #define STDIN_NAME "<stdin>"
-- 
--@@ -62,6 +62,10 @@ static bool showsummary = FALSE;
-- static char **namelst = 0;
-- static const char *to_remove;
-- 
--+#if NCURSES_XNAMES
--+static bool using_extensions = FALSE;
--+#endif
--+
-- static void (*save_check_termtype) (TERMTYPE2 *, bool);
-- static void check_termtype(TERMTYPE2 *tt, bool);
-- 
--@@ -850,6 +854,7 @@ main(int argc, char *argv[])
-- 	    /* FALLTHRU */
-- 	case 'x':
-- 	    use_extended_names(TRUE);
--+	    using_extensions = TRUE;
-- 	    break;
-- #endif
-- 	default:
--@@ -2405,10 +2410,17 @@ check_conflict(TERMTYPE2 *tp)
-- 	    const char *a = given[j].value;
-- 	    bool first = TRUE;
-- 
--+	    if (!VALID_STRING(a))
--+		continue;
--+
-- 	    for (k = j + 1; given[k].keycode; k++) {
-- 		const char *b = given[k].value;
--+
--+		if (!VALID_STRING(b))
--+		    continue;
-- 		if (check[k])
-- 		    continue;
--+
-- 		if (!_nc_capcmp(a, b)) {
-- 		    check[j] = 1;
-- 		    check[k] = 1;
--@@ -2431,6 +2443,67 @@ check_conflict(TERMTYPE2 *tp)
-- 	    if (!first)
-- 		fprintf(stderr, "\n");
-- 	}
--+#if NCURSES_XNAMES
--+	if (using_extensions) {
--+	    /* *INDENT-OFF* */
--+	    static struct {
--+		const char *xcurses;
--+		const char *shifted;
--+	    } table[] = {
--+		{ "kDC",  NULL },
--+		{ "kDN",  "kind" },
--+		{ "kEND", NULL },
--+		{ "kHOM", NULL },
--+		{ "kLFT", NULL },
--+		{ "kNXT", NULL },
--+		{ "kPRV", NULL },
--+		{ "kRIT", NULL },
--+		{ "kUP",  "kri" },
--+		{ NULL,   NULL },
--+	    };
--+	    /* *INDENT-ON* */
--+
--+	    /*
--+	     * SVr4 curses defines the "xcurses" names listed above except for
--+	     * the special cases in the "shifted" column.  When using these
--+	     * names for xterm's extensions, that was confusing, and resulted
--+	     * in adding extended capabilities with "2" (shift) suffix.  This
--+	     * check warns about unnecessary use of extensions for this quirk.
--+	     */
--+	    for (j = 0; given[j].keycode; ++j) {
--+		const char *find = given[j].name;
--+		int value;
--+		char ch;
--+
--+		if (!VALID_STRING(given[j].value))
--+		    continue;
--+
--+		for (k = 0; table[k].xcurses; ++k) {
--+		    const char *test = table[k].xcurses;
--+		    size_t size = strlen(test);
--+
--+		    if (!strncmp(find, test, size) && strcmp(find, test)) {
--+			switch (sscanf(find + size, "%d%c", &value, &ch)) {
--+			case 1:
--+			    if (value == 2) {
--+				_nc_warning("expected '%s' rather than '%s'",
--+					    (table[k].shifted
--+					     ? table[k].shifted
--+					     : test), find);
--+			    } else if (value < 2 || value > 15) {
--+				_nc_warning("expected numeric 2..15 '%s'", find);
--+			    }
--+			    break;
--+			default:
--+			    _nc_warning("expected numeric suffix for '%s'", find);
--+			    break;
--+			}
--+			break;
--+		    }
--+		}
--+	    }
--+	}
--+#endif
-- 	free(given);
-- 	free(check);
--     }
---- 
--2.10.2
--
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb b/meta/recipes-core/ncurses/ncurses_6.0+20171125.bb
-similarity index 66%
-rename from meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
-rename to meta/recipes-core/ncurses/ncurses_6.0+20171125.bb
-index d1da5d1..6c4b96f 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20171125.bb
-@@ -3,10 +3,9 @@ require ncurses.inc
- SRC_URI += "file://0001-tic-hang.patch \
-             file://0002-configure-reproducible.patch \
-             file://config.cache \
--            file://CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch \
- "
- # commit id corresponds to the revision in package version
--SRCREV = "52681a6a1a18b4d6eb1a716512d0dd827bd71c87"
-+SRCREV = "5d849e836052459901cfe0b85a0b2939ff8d2b2a"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+--gpg_error_prefix = getconfig("prefix", config=gpg_error_config)[0]
+--gpg_error_h = os.path.join(gpg_error_prefix, "include", "gpg-error.h")
+-+gpg_error_h = os.path.join(os.getenv('STAGING_INCDIR'), "gpg-error.h")
+- if not os.path.exists(gpg_error_h):
+--    gpg_error_h = \
+--        glob.glob(os.path.join(gpg_error_prefix, "include",
+--                               "*", "gpg-error.h"))[0]
+-+    sys.exit("gpg_error_h not found: %s" % gpg_error_h)
++     def _generate_errors_i(self):
+  
+- print("Building python gpg module using {} and {}.".format(gpgme_h, gpg_error_h))
++-        try:
++-            subprocess.check_call(gpg_error_config + ['--version'],
++-                                  stdout=devnull)
++-        except:
++-            sys.exit("Could not find gpg-error-config.  " +
++-                     "Please install the libgpg-error development package.")
++-
++-        gpg_error_content = self._read_header("gpg-error.h", getconfig("cflags", config=gpg_error_config))
+++        gpg_error_content = self._read_header("gpg-error.h", os.environ.get('CFLAGS').split())
+  
++         filter_re = re.compile(r'GPG_ERR_[^ ]* =')
++         rewrite_re = re.compile(r' *(.*) = .*')
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+index d383311..7c9cccc 100644
+--- a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
++++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+@@ -1,7 +1,7 @@
+-From 62332eec752dd790f4dd071dfb0dbe86be377203 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 16 Aug 2017 02:05:34 -0400
+-Subject: [PATCH 3/5] Correctly install python modules
++From 93aae34ee70b8d50b31a19a65d6ac8290cb148ae Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 30 Jan 2018 15:28:49 +0800
++Subject: [PATCH 2/4] Correctly install python modules
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+@@ -9,22 +9,25 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Rebase to 1.9.0
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Rebase to 1.10.0
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+  lang/python/Makefile.am | 1 +
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index d91ead9..67f7cdc 100644
++index 8d74cbd..ce4f0a5 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+-@@ -106,6 +106,7 @@ install-exec-local:
+- 	  cd python$${VERSION}-gpg ; \
+- 	  $$PYTHON setup.py install \
+- 	  --prefix $(DESTDIR)$(prefix) \
++@@ -91,6 +91,7 @@ install-exec-local:
++ 	  --build-base="$$(basename "$${PYTHON}")-gpg" \
++ 	  install \
++ 	  --prefix "$(DESTDIR)$(prefix)" \
+ +	  --install-lib=$(DESTDIR)${pythondir} \
+- 	  --record files.txt \
+  	  --verbose ; \
+- 	  cat files.txt >> ../install_files.txt ; \
++ 	done
++ 
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme/0004-python-import.patch b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
+index 9307103..d2b039d 100644
+--- a/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
++++ b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
+@@ -1,7 +1,7 @@
+-From ccbf028eea8815d3b16d6c34b527253a6b108ec3 Mon Sep 17 00:00:00 2001
++From 32ecc3f058307060e40af86127cd226248a73c41 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 16 Aug 2017 02:06:45 -0400
+-Subject: [PATCH 4/5] python import
++Subject: [PATCH 3/4] python import
+ 
+ Don't check for output on stderr to know if an import worked, host inputrc and
+ sysroot readline can cause warnings on stderr.
+@@ -30,5 +30,5 @@ index b990d5b..318b089 100644
+  	else
+  		AC_MSG_RESULT([no])
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+index 7a6cc7b..963ae87 100644
+--- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
++++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+@@ -1,7 +1,7 @@
+-From 064ae4441e2c11329748a18157988f9e953f9752 Mon Sep 17 00:00:00 2001
++From 6dcedc4dd055af902719b1a1cb10daa935a27f58 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 13 Apr 2017 16:40:27 +0300
+-Subject: [PATCH 5/5] gpgme-config: skip all /lib* or /usr/lib* directories in
++Subject: [PATCH 4/4] gpgme-config: skip all /lib* or /usr/lib* directories in
+  output
+ 
+ The logic was not working in multilib setups which use other
+@@ -27,5 +27,5 @@ index a4d152e..8342865 100644
+                        ;;
+                    -L*|-l*)
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+new file mode 100644
+index 0000000..fda36d2
+--- /dev/null
++++ b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+@@ -0,0 +1,38 @@
++From 180a5669e4a13a550b1b0dcef1689b6c0470fe54 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 31 Jan 2018 11:01:09 +0800
++Subject: [PATCH] fix build path issue
++
++Get the "--root" directory supplied to the "install" command,
++and use it as a prefix to strip off the purported filename
++encoded in bytecode files.
++
++Since --root added, we need to tweak --prefix and --install-lib
++to use relative path.
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ lang/python/Makefile.am | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
++index ce4f0a5..5a468f1 100644
++--- a/lang/python/Makefile.am
+++++ b/lang/python/Makefile.am
++@@ -90,8 +90,9 @@ install-exec-local:
++ 	  build \
++ 	  --build-base="$$(basename "$${PYTHON}")-gpg" \
++ 	  install \
++-	  --prefix "$(DESTDIR)$(prefix)" \
++-	  --install-lib=$(DESTDIR)${pythondir} \
+++	  --root=${DESTDIR} \
+++	  --prefix "$(prefix)" \
+++	  --install-lib=${pythondir} \
++ 	  --verbose ; \
++ 	done
++ 
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/gpgme/gpgme_1.9.0.bb b/meta/recipes-support/gpgme/gpgme_1.10.0.bb
+similarity index 88%
+rename from meta/recipes-support/gpgme/gpgme_1.9.0.bb
+rename to meta/recipes-support/gpgme/gpgme_1.10.0.bb
+index 065c346..06278fc 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.9.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.10.0.bb
+@@ -16,10 +16,11 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0003-Correctly-install-python-modules.patch \
+            file://0004-python-import.patch \
+            file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch \
++           file://0006-fix-build-path-issue.patch \
+           "
+ 
+-SRC_URI[md5sum] = "1e00bb8ef04d1d05d5a0f19e143854c3"
+-SRC_URI[sha256sum] = "1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"
++SRC_URI[md5sum] = "78b1533c593478982ee2fc548260c563"
++SRC_URI[sha256sum] = "1a8fed1197c3b99c35f403066bb344a26224d292afc048cfdfc4ccd5690a0693"
+ 
+ DEPENDS = "libgpg-error libassuan"
+ RDEPENDS_${PN}-cpp += "libstdc++"
+@@ -49,7 +50,12 @@ LANGUAGES .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', ' python3', '', d
+ PYTHON_INHERIT = "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'pythonnative', '', d)}"
+ PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native', '', d)}"
+ 
+-EXTRA_OECONF += '--enable-languages="${LANGUAGES}"'
++EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
++                 --disable-gpgconf-test \
++                 --disable-gpg-test \
++                 --disable-gpgsm-test \
++                 --disable-g13-test \
++'
+ 
+ inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_INHERIT}
+ 
 -- 
 2.8.1
 
