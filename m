@@ -1,26 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B8ED57886C
+Return-Path: <alexander.kanavin@linux.intel.com>
+X-Greylist: delayed 573 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 31 Jan 2018 08:37:29 UTC
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C72D78879
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 08:34:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0V8YtZi008970
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 31 Jan 2018 00:34:58 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 31 Jan 2018 00:34:52 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Jan 2018 03:34:48 -0500
-Message-ID: <1517387688-243250-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <d077472e-a6ea-9b78-31b8-2ee5e42f5267@linux.intel.com>
-References: <d077472e-a6ea-9b78-31b8-2ee5e42f5267@linux.intel.com>
+	Wed, 31 Jan 2018 08:37:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jan 2018 00:27:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,438,1511856000"; d="scan'208";a="26876293"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2018 00:27:56 -0800
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org,
+	Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>
+References: <cover.1517383469.git.hongxu.jia@windriver.com>
+	<ec85ad1d59af3b628e885b63624f611affbfeb5e.1517383469.git.hongxu.jia@windriver.com>
+	<b9238af1-23a0-4e71-3188-c0be9f92e9f9@linux.intel.com>
+	<b96c9baf-4817-52a5-bb22-ba10f4e553f9@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d077472e-a6ea-9b78-31b8-2ee5e42f5267@linux.intel.com>
+Date: Wed, 31 Jan 2018 10:27:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH v2] pigz: 2.3.4 -> 2.4
+In-Reply-To: <b96c9baf-4817-52a5-bb22-ba10f4e553f9@windriver.com>
+Subject: Re: [PATCH 2/7] pigz: 2.3.4 -> 2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jan 2018 08:34:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 31 Jan 2018 08:37:29 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-- Update the checksum of LIC_FILES_CHKSUM, license is no
-  change, only version bump up.
-  https://github.com/madler/pigz/commit/fe822cb435622c43f491013da77b127e9fe851a9
+On 01/31/2018 10:29 AM, Hongxu Jia wrote:
+> On 2018年01月31日 16:14, Alexander Kanavin wrote:
+>> On 01/31/2018 09:48 AM, Hongxu Jia wrote:
+>>> -LIC_FILES_CHKSUM = 
+>>> "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17fce5e7534ca95" 
+>>>
+>>> +LIC_FILES_CHKSUM = 
+>>> "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21" 
+>>>
+>>
+>> Please explain what changed here?
+>>
+> 
+> No change, only version bump up
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} (86%)
+You need to mention this in the commit message.
 
-diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.4.bb
-similarity index 86%
-rename from meta/recipes-extended/pigz/pigz_2.3.4.bb
-rename to meta/recipes-extended/pigz/pigz_2.4.bb
-index 431d9bd..cb41154 100644
---- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.4.bb
-@@ -6,13 +6,13 @@ Adler, and uses the zlib and pthread libraries."
- HOMEPAGE = "http://zlib.net/pigz/"
- SECTION = "console/utils"
- LICENSE = "Zlib & Apache-2.0"
--LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17fce5e7534ca95"
-+LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21"
- 
- PROVIDES_class-native += "gzip-native"
- 
- SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
--SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
--SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
-+SRC_URI[md5sum] = "3c8a601db141d3013ef9fe5f2daaf73f"
-+SRC_URI[sha256sum] = "e228e7d18b34c4ece8d596eb6eee97bde533c6beedbb728d07d3abe90b4b1b52"
- 
- UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
- UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
--- 
-2.8.1
+I still wonder why patchtest won't tell that anymore; we changed it to 
+look for a tag, and somehow that isn't working :(
 
+Alex
 
