@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5994378883
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E71878883
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 07:48:30 +0000 (UTC)
+	Wed, 31 Jan 2018 07:48:31 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w0V7mQVr007554
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w0V7mWUU020095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jan 2018 23:48:30 -0800
+	Tue, 30 Jan 2018 23:48:32 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 30 Jan 2018 23:48:24 -0800
+	Tue, 30 Jan 2018 23:48:31 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Jan 2018 02:48:12 -0500
-Message-ID: <2529a9ac30f4d5df038e819fd4974e7b812fd1f6.1517383469.git.hongxu.jia@windriver.com>
+Date: Wed, 31 Jan 2018 02:48:13 -0500
+Message-ID: <ec85ad1d59af3b628e885b63624f611affbfeb5e.1517383469.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1517383469.git.hongxu.jia@windriver.com>
 References: <cover.1517383469.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] help2man-native: 1.47.4 -> 1.47.5
+Subject: [PATCH 2/7] pigz: 2.3.4 -> 2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +38,34 @@ Content-Type: text/plain
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../help2man/{help2man-native_1.47.4.bb => help2man-native_1.47.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.4.bb => help2man-native_1.47.5.bb} (79%)
+ meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} (86%)
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.4.bb b/meta/recipes-devtools/help2man/help2man-native_1.47.5.bb
-similarity index 79%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.4.bb
-rename to meta/recipes-devtools/help2man/help2man-native_1.47.5.bb
-index 64dc32c..2dd6d38 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.4.bb
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.47.5.bb
-@@ -6,8 +6,8 @@ DEPENDS = "autoconf-native automake-native"
+diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.4.bb
+similarity index 86%
+rename from meta/recipes-extended/pigz/pigz_2.3.4.bb
+rename to meta/recipes-extended/pigz/pigz_2.4.bb
+index 431d9bd..cb41154 100644
+--- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
++++ b/meta/recipes-extended/pigz/pigz_2.4.bb
+@@ -6,13 +6,13 @@ Adler, and uses the zlib and pthread libraries."
+ HOMEPAGE = "http://zlib.net/pigz/"
+ SECTION = "console/utils"
+ LICENSE = "Zlib & Apache-2.0"
+-LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17fce5e7534ca95"
++LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21"
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+ PROVIDES_class-native += "gzip-native"
  
--SRC_URI[md5sum] = "544aca496a7d89de3e5d99e56a2f03d3"
--SRC_URI[sha256sum] = "d4ecf697d13f14dd1a78c5995f06459bff706fd1ce593d1c02d81667c0207753"
-+SRC_URI[md5sum] = "1c886063c9e0ab463906de804596aa2f"
-+SRC_URI[sha256sum] = "7ca60b2519fdbe97f463fe2df66a6188d18b514bfd44127d985f0234ee2461b1"
+ SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
+-SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
+-SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
++SRC_URI[md5sum] = "3c8a601db141d3013ef9fe5f2daaf73f"
++SRC_URI[sha256sum] = "e228e7d18b34c4ece8d596eb6eee97bde533c6beedbb728d07d3abe90b4b1b52"
  
- inherit autotools native
- 
+ UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
+ UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
 -- 
 2.8.1
 
