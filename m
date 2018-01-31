@@ -1,32 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 481836FFED
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 14EA8700F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jan 2018 13:27:16 +0000 (UTC)
+	Wed, 31 Jan 2018 14:56:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jan 2018 05:27:18 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jan 2018 06:56:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,440,1511856000"; d="scan'208";a="26938060"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2018 05:27:17 -0800
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1517383469.git.hongxu.jia@windriver.com>
-	<2966cc751ff78de85ebac9776f78204c3cea0267.1517383469.git.hongxu.jia@windriver.com>
-	<CAJTo0LZo4a195YP24GeLY_wGj4uUEBtu2-QDXj=L594KExZV7Q@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8b00918e-df88-20ef-6d44-f3850021039d@linux.intel.com>
-Date: Wed, 31 Jan 2018 15:27:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZo4a195YP24GeLY_wGj4uUEBtu2-QDXj=L594KExZV7Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] gpgme: 1.9.0 -> 1.10.0
+X-IronPort-AV: E=Sophos;i="5.46,440,1511856000"; d="scan'208";a="27746057"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 31 Jan 2018 06:56:57 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 366EA5801AC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jan 2018 06:56:57 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jan 2018 16:58:56 +0200
+Message-Id: <1517410738-11104-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/3] libinput: upgrade to version 1.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jan 2018 13:27:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 31 Jan 2018 14:56:57 -0000
 
-On 01/31/2018 02:28 PM, Burton, Ross wrote:
-> On 31 January 2018 at 07:48, Hongxu Jia <hongxu.jia@windriver.com 
-> <mailto:hongxu.jia@windriver.com>> wrote:
-> 
->     1. Disable test at build time to workaround corss-compile
-> 
-> 
-> Looks like more tests need to be disabled:
-> 
-> | Making all in tests
-> | make[4]: Entering directory 
-> '/data/poky-tmp/master/work/corei7-64-poky-linux/gpgme/1.10.0-r0/build/lang/python/tests'
-> | echo no-force-v3-sigs > ./gpg.conf
-> | echo pinentry-program 
-> /data/poky-tmp/master/work/corei7-64-poky-linux/gpgme/1.10.0-r0/build/../gpgme-1.10.0/tests/gpg/pinentry 
->  >gpg-agent.conf
-> | gpgconf --kill all
-> | echo ignore-invalid-option agent-program >> ./gpg.conf
-> | /bin/bash: gpgconf: command not found
-....
+1.8.4 -> 1.9.4
 
-I think this set of failures in particular can be fixed by adding 
-gnupg-native to dependencies (which is better than creating yet another 
-'Inappropriate' patch that we have to carry forever).
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../wayland/{libinput_1.8.4.bb => libinput_1.9.4.bb}                 | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.8.4.bb => libinput_1.9.4.bb} (85%)
 
-I'd be however interested to see the successful build log from the 
-submitter because I'm bit puzzled how it could succeed (probably host 
-gpg was used, but I want to see details).
+diff --git a/meta/recipes-graphics/wayland/libinput_1.8.4.bb b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
+similarity index 85%
+rename from meta/recipes-graphics/wayland/libinput_1.8.4.bb
+rename to meta/recipes-graphics/wayland/libinput_1.9.4.bb
+index 8389953..2843314 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.8.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
+@@ -9,9 +9,8 @@ DEPENDS = "libevdev udev mtdev"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            "
+-
+-SRC_URI[md5sum] = "aeeb79bfe1b1cb64c939098468d350b3"
+-SRC_URI[sha256sum] = "5ad95c8db75d59f1662199df748f912b150c3294d33cd4dd592aeb1908fe9d7f"
++SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
++SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
+ 
+ inherit meson pkgconfig lib_package
+ 
+-- 
+2.4.0
 
-
-Alex
 
