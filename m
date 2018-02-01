@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D4CB786C1
+	by mail.openembedded.org (Postfix) with ESMTP id 3CF1A786C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 18:02:32 +0000 (UTC)
+	Thu,  1 Feb 2018 18:02:33 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2018 10:02:33 -0800
+	01 Feb 2018 10:02:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465235"
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465236"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:32 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:34 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 20:02:09 +0200
-Message-Id: <20180201180210.21652-19-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Feb 2018 20:02:10 +0200
+Message-Id: <20180201180210.21652-20-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
 References: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 19/20] babeltrace: update to 1.5.4
+Subject: [PATCH 20/20] libmpc: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 18:02:32 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 18:02:33 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../recipes-kernel/lttng/{babeltrace_1.5.3.bb => babeltrace_1.5.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{babeltrace_1.5.3.bb => babeltrace_1.5.4.bb} (82%)
+ meta/recipes-support/libmpc/libmpc_1.0.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.3.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.4.bb
-similarity index 82%
-rename from meta/recipes-kernel/lttng/babeltrace_1.5.3.bb
-rename to meta/recipes-kernel/lttng/babeltrace_1.5.4.bb
-index 4d81da0160d..a29402adb16 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.5.3.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.5.4.bb
-@@ -15,5 +15,5 @@ SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
+diff --git a/meta/recipes-support/libmpc/libmpc_1.0.3.bb b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
+index 4f1f5242fb1..9c8c5f643f7 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.0.3.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
+@@ -8,7 +8,7 @@ SRC_URI = "http://www.multiprecision.org/mpc/download/mpc-${PV}.tar.gz"
+ SRC_URI[md5sum] = "d6a1d5f8ddea3abd2cc3e98f58352d26"
+ SRC_URI[sha256sum] = "617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3"
  
- EXTRA_OECONF = "--disable-debug-info"
+-UPSTREAM_CHECK_URI = "http://www.multiprecision.org/index.php?prog=mpc&page=download"
++UPSTREAM_CHECK_URI = "http://www.multiprecision.org/mpc/download.html"
  
--SRC_URI[md5sum] = "0cec2745ac316649791c43f416d71ea1"
--SRC_URI[sha256sum] = "2249fee5beba657731f5d6a84c5296c6517f544bfbe7571bd1fd7af23726137c"
-+SRC_URI[md5sum] = "3e8cdafec3ac0346a389870e87bf1344"
-+SRC_URI[sha256sum] = "9643039923a0abc75a25b3d594cee0017423b57f10d2b625e96ed1e8d4891fc1"
+ S = "${WORKDIR}/mpc-${PV}"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.15.1
 
