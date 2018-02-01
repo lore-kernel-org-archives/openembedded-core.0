@@ -1,47 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B19A560110
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A28467869A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 14:23:17 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id y3so9333151wrh.3
+	Thu,  1 Feb 2018 14:34:06 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id a43so11648432wrc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 06:23:19 -0800 (PST)
+	Thu, 01 Feb 2018 06:34:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
 	bh=eUfZKEd/mSbTUclI6L8QO5sXZq6lIw42fqPsF/pLMZw=;
-	b=kxvVtgBkVTJilBOJsCKPAWnlDc4ETfttrQ3ZyCSUvSG8HMKGNals7om4T4wxS16+vG
-	oeEMccqZyk5qXn76Sq/TF3GygSVyuW8cA6xJFTowjxpSr/xZ8XpsFMVzDGgKZ/tuXb7r
-	DF5vcV17mWxzoQgqrusKEsWeQRV7Asmh8v76WXGCObCuBD6McYk8xiqL15f+iJionTr5
-	QkpZ0LZllgGiGkL4Ni0WKBMRs4PIRGXFR/Gc5XiFsFqOl9b47LHs+asfvqB0SUo/FS1O
-	yEwWu1d421poMfwLEj88atXbjXYFjdELWVIZR27O0JVk5PpFy6IDFpu+hHAB2r6y5+8I
-	O7KA==
+	b=g8s4KZ8AOCbZn4QOWEhzovn1PL6KtOCjx8Pe3VW8ZZj9JKtVj1lgfKNtey2Ktgnv05
+	a9oLI3cuyy6ZS8ezE9j00Nw1zd0I9YUyobPxzpBJfla+IP8bOtt2BC18Lj7HRlcDJ6ds
+	5mMvbW41zaUJc460UU4uys64p2UGy/AudBbZ4z65pgVmE+DInej4AdDJs3Z9YT/lngOK
+	m4LsHpydEEBBJl8aitGGDwZAZkMmq66EkO4Se5eSGdDcG3LK++gpoIdrSLeeX08KOQZL
+	8gemKe17FTgyqPGEvA8n9anjceA6OZ9k1NTcisyYrzaKHbZ3em01i4W0o2RLrMRiTSHS
+	emRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=eUfZKEd/mSbTUclI6L8QO5sXZq6lIw42fqPsF/pLMZw=;
-	b=bas6n9DrHsHzmfQSK8UJaMumbRDgVWHEdBBS3AheBoAkBSGMJIBkqHy9b2PmC7MALS
-	fY4FdNxJyLHFoEgn8OcZyCGMfdQBGUhuc6C6U7g7JmG5Ho+aKibEgGHpmPZHfdCs6JDC
-	VTKHNCs/+age6/CReXfrtMd4rYiJOitBe3b3THgILNvcKUIHSkz0P3lfix2YxCEeJ1ad
-	4JTPKaVFR64lkaWG06/ROXOwafhTE7gt4O7yZblmEXy81mgb/W0LeRH3JAZFuRTYcQNw
-	7LUV590gXX2NayfqRXvqB2MLO1cvbKFkrz6FJbsxXkJhYj/BFKcwHjZ+ivlj6ym/HFlw
-	LCBg==
-X-Gm-Message-State: AKwxytfixIvgVrLJTeEQuvG+FG0OxG/x9C0wRQkNp8z+wZ14Psti8+h2
-	mjzqpVeS86I71dbfZbbSa0Z3xg==
-X-Google-Smtp-Source: AH8x227RSOkC+R3YO3/8HlI2owA4ViwnWgfQZsl+JB+LBQW6hiHCwEoAUlA0MUlAUBBDuSckeiuHNA==
-X-Received: by 10.223.184.36 with SMTP id h33mr12788722wrf.15.1517494998441;
-	Thu, 01 Feb 2018 06:23:18 -0800 (PST)
+	b=D0vjtbf8nyKK6Jr1scfLM2j+xhLRWTnqF129Y3TP7P1Ws/QSnOb3cBWkq8Jjh7i4Yh
+	5yR7ZC0dd1A3yX0uLT511yAhF6XufnafY5ioRQ6lXkbREes+XbEdmvFqvgpDQ3SB1Fzg
+	GPYNst4rsy2Qn2OheGUFRQq1l1Je4eNlOuXYIopkzCaynnOCT6tJx5vwt3l40Pp6/Dv1
+	ZqauuEXMtInHuIcDokgOHAZykRiZnJGDjZh+zN+pWzEmfCZACHalzaA9XSfsmq2Q9HHd
+	2NwfY+A+ylmk25Td6G71/za+ZggF1H8/pBP3ffCfiqOdC43j0QSv6MYKap5yxCRts8jp
+	sJ/w==
+X-Gm-Message-State: AKwxytcDvFHGpN/mpqgbJXW1W8jbSw/vRHmUuP92Gr5l1f070IdEGGPS
+	4tS0KQeax6/vwP+hbIVdwZF7iQ==
+X-Google-Smtp-Source: AH8x224FHp4hM7Jkwpq3lyQEEt8XcKHXns+7nzAAS8OG9GCPlsAjtC4xDRXCSSiJ5qEilKGvdJr+wQ==
+X-Received: by 10.223.171.24 with SMTP id q24mr15935721wrc.206.1517495647276; 
+	Thu, 01 Feb 2018 06:34:07 -0800 (PST)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	w50sm13043620wrb.33.2018.02.01.06.23.17
+	b35sm46467188wra.13.2018.02.01.06.34.06
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Feb 2018 06:23:17 -0800 (PST)
+	Thu, 01 Feb 2018 06:34:06 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 14:23:16 +0000
-Message-Id: <20180201142316.8860-1-Martin.Jansa@gmail.com>
+Date: Thu,  1 Feb 2018 14:34:05 +0000
+Message-Id: <20180201143405.17663-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] libpam: be more script about user's sanity
+Subject: [PATCHv2] libpam: be more strict about user's sanity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 14:23:17 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 14:34:06 -0000
 
 * replace do_pam_sanity function with distro_features_check inherit
 * fixes:
