@@ -1,47 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A28467869A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 11CBB78682
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 14:34:06 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id a43so11648432wrc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 06:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=eUfZKEd/mSbTUclI6L8QO5sXZq6lIw42fqPsF/pLMZw=;
-	b=g8s4KZ8AOCbZn4QOWEhzovn1PL6KtOCjx8Pe3VW8ZZj9JKtVj1lgfKNtey2Ktgnv05
-	a9oLI3cuyy6ZS8ezE9j00Nw1zd0I9YUyobPxzpBJfla+IP8bOtt2BC18Lj7HRlcDJ6ds
-	5mMvbW41zaUJc460UU4uys64p2UGy/AudBbZ4z65pgVmE+DInej4AdDJs3Z9YT/lngOK
-	m4LsHpydEEBBJl8aitGGDwZAZkMmq66EkO4Se5eSGdDcG3LK++gpoIdrSLeeX08KOQZL
-	8gemKe17FTgyqPGEvA8n9anjceA6OZ9k1NTcisyYrzaKHbZ3em01i4W0o2RLrMRiTSHS
-	emRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eUfZKEd/mSbTUclI6L8QO5sXZq6lIw42fqPsF/pLMZw=;
-	b=D0vjtbf8nyKK6Jr1scfLM2j+xhLRWTnqF129Y3TP7P1Ws/QSnOb3cBWkq8Jjh7i4Yh
-	5yR7ZC0dd1A3yX0uLT511yAhF6XufnafY5ioRQ6lXkbREes+XbEdmvFqvgpDQ3SB1Fzg
-	GPYNst4rsy2Qn2OheGUFRQq1l1Je4eNlOuXYIopkzCaynnOCT6tJx5vwt3l40Pp6/Dv1
-	ZqauuEXMtInHuIcDokgOHAZykRiZnJGDjZh+zN+pWzEmfCZACHalzaA9XSfsmq2Q9HHd
-	2NwfY+A+ylmk25Td6G71/za+ZggF1H8/pBP3ffCfiqOdC43j0QSv6MYKap5yxCRts8jp
-	sJ/w==
-X-Gm-Message-State: AKwxytcDvFHGpN/mpqgbJXW1W8jbSw/vRHmUuP92Gr5l1f070IdEGGPS
-	4tS0KQeax6/vwP+hbIVdwZF7iQ==
-X-Google-Smtp-Source: AH8x224FHp4hM7Jkwpq3lyQEEt8XcKHXns+7nzAAS8OG9GCPlsAjtC4xDRXCSSiJ5qEilKGvdJr+wQ==
-X-Received: by 10.223.171.24 with SMTP id q24mr15935721wrc.206.1517495647276; 
-	Thu, 01 Feb 2018 06:34:07 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b35sm46467188wra.13.2018.02.01.06.34.06
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Feb 2018 06:34:06 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 14:34:05 +0000
-Message-Id: <20180201143405.17663-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCHv2] libpam: be more strict about user's sanity
+	Thu,  1 Feb 2018 14:39:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Feb 2018 06:39:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="27263189"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Feb 2018 06:39:31 -0800
+To: Mauno Niko <niko.mauno@vaisala.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20180129174724.26768-1-niko.mauno@vaisala.com>
+	<2afb5638-31ca-39fa-bf28-d305fea507c0@linux.intel.com>
+	<48a79520-c02f-2dfe-b25b-0b89beb182d6@gmail.com>
+	<32b564ff-9cad-370f-48b1-389bf69e2ffb@linux.intel.com>
+	<8812d964-49f1-b18f-751a-bcdffac028c0@vaisala.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <37022525-6de2-9522-7423-70745cd5cb62@linux.intel.com>
+Date: Thu, 1 Feb 2018 16:39:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <8812d964-49f1-b18f-751a-bcdffac028c0@vaisala.com>
+Subject: Re: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 14:34:06 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 14:39:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-* replace do_pam_sanity function with distro_features_check inherit
-* fixes:
-  WARNING: libpam-1.3.0-r5 do_pam_sanity: Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly
-  in world builds and prevents user to build libpam at all without pam
-  in DISTRO_FEATURES, I don't see any users of this which wouldn't respect
-  pam in DISTRO_FEATURES
-* only libuser is depending on libpam without respecting DISTRO_FEATURES
-* there are few recipes in meta-oe layers depending on libpam without
-  respecting DISTRO_FEATURES, I've sent patch for them:
-  samba, openwsman, pam-ssh-agent-auth, sblim-sfcb, passwdqc, python-pam, smbnetfs
-  and omxplayer in meta-raspberrypi, I've sent PR for that one:
-  https://github.com/agherzan/meta-raspberrypi/pull/192
+On 02/01/2018 01:36 PM, Mauno Niko wrote:
+>> Before we can declare that, we need to look what comm is actually used
+>> for during build, and why its absence is not a problem and doesn't cause
+>> errors.
+>>
+>> Consider also that using comm from host may break reproducibility, if
+>> absence or presence of comm on the host results in a different output
+>> from the build.
+> 
+> My patch initially did add coreutils-native to u-boot DEPENDS.
+> 
+> Should I resubmit it? (did not apply due to mismatch in recipe filename (version))
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-extended/libuser/libuser_0.62.bb | 3 +++
- meta/recipes-extended/pam/libpam_1.3.0.bb     | 7 ++-----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+RP has already merged the patch you sent, I think :)
 
-diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
-index 1765346646..7ec54eb16e 100644
---- a/meta/recipes-extended/libuser/libuser_0.62.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.62.bb
-@@ -22,6 +22,9 @@ SRC_URI[sha256sum] = "a58ff4fabb01a25043b142185a33eeea961109dd60d4b40b6a9df4fa3c
- 
- DEPENDS = "popt libpam glib-2.0 python3"
- 
-+inherit distro_features_check
-+REQUIRED_DISTRO_FEATURES = "pam"
-+
- inherit autotools gettext python3native python3-dir pkgconfig gtk-doc
- 
- EXTRA_OEMAKE = "PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
-diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-index 8f7753d001..92ab72a42f 100644
---- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-@@ -151,11 +151,8 @@ do_install() {
- 	fi
- }
- 
--python do_pam_sanity () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
--        bb.warn("Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly")
--}
--addtask pam_sanity before do_configure
-+inherit distro_features_check
-+REQUIRED_DISTRO_FEATURES = "pam"
- 
- BBCLASSEXTEND = "nativesdk native"
- 
--- 
-2.15.1
+Still, in my opinion - yes, it's better to undo the HOSTTOOLS change, 
+and add coreutils-native. But first, research a bit further for what 
+purpose comm is used during build and why its absence doesn't break it.
+
+Alex
 
 
