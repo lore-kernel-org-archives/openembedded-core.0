@@ -1,42 +1,45 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E40677866F
+Return-Path: <zboszor@pr.hu>
+Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
+	by mail.openembedded.org (Postfix) with ESMTP id AC0B878635
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 10:28:26 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id i141so18674718qke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 02:28:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=l/BJsOA2f3GbWptKZNNBGjGKjzpffN8op6uLtAG8BLM=;
-	b=FWtTKknGdUbCns7U0sYUQtCpKVylWLg4u9bcgRdso17HMuQpNPnWj7fNKodZhAowWp
-	f9LQrzZDXpOmT99Aj9ziKwfhvvrZFSfh2pFcIYzW1ukrFVgeei6APMDzdhVAGYhlXqME
-	tIZed3HZzIPorC9qr9KmsmeQ7J6hXnpVc/Pn0G7aOfJX0vdQthrn/hpYLHaIfNkqmhSL
-	saATS6KBcrTolJO87aPwbnBk2bT+UbUJZxifZ9NvecK4NEI7hW+OAP3tZ757CQ7ppcIi
-	BOGORJHvoKvsHZky2gnImXiChhaqMbMewq8uYn6uGQwgxP2XhVgzV4K2KemT8kJqo20b
-	8GbQ==
-X-Gm-Message-State: AKwxytem2GoFmwIS92fJ28Rr8GacFYNxJj7aUbWzHJbsD0URj2P0Go/I
-	ZJYQqt4MZIWVf/6VBJ8wT8yPXg==
-X-Google-Smtp-Source: AH8x227vKmBnew0KsFaXE4M8RKL5BNEY9r27sHfQCLDsq6CLVbI+XbjE7JUB50KiAntxiaHGhs1CUQ==
-X-Received: by 10.55.60.67 with SMTP id j64mr8189392qka.58.1517480907590;
-	Thu, 01 Feb 2018 02:28:27 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	y123sm12351117qka.42.2018.02.01.02.28.24
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Feb 2018 02:28:26 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 01 Feb 2018 08:28:20 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu,  1 Feb 2018 08:28:19 -0200
-Message-Id: <20180201102819.14994-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v1] glide: Add 0.13.1 version
+	Thu,  1 Feb 2018 11:32:36 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1ehD6d-0002iu-DU; Thu, 01 Feb 2018 12:32:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=0ugeAWX0DOWEn7CaHE8u+XfMeeuoT72cXzCSv5Pz+1c=;
+	b=OEd1gMB6a6Z8iyMWOGVQSDPXjv
+	VtZZU0YoUEZSgNuugM/wQrR1l4474B4Q8M5hORysrPOwpNdHV+oB7Cz9pf0AT3B8nx0rnXEuoTyNX
+	d/nq4ynkfamL+utMj0J3w6IUyNB4j6Pl54jzIY5Afm2aV1LOn13iQZSjCBH1t47i05W2f8PH6bzxU
+	oN1Y97t5IUx4t6fYxlRfehOIlczCWwxx3E2ofCYrwFK/E4pg36Q5ckA/BUY/Sok4QxzPBFmzGKacU
+	1JesfymYkwmYJxwacXTwbOgeFTxtjl9r5UVipkcPDLZ7U8hbYHVstgWTH5eylQsSpSehnP7u7uwLj
+	3TV9vAxg==;
+Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
+	helo=s002.sicom.com)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1ehD6X-0000Ct-Do; Thu, 01 Feb 2018 12:32:35 +0100
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>
+References: <20180201102819.14994-1-otavio@ossystems.com.br>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <cd674a9b-40ab-6433-c0ad-0566d4c4faa0@pr.hu>
+Date: Thu, 1 Feb 2018 12:32:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <20180201102819.14994-1-otavio@ossystems.com.br>
+X-Spam-Score: -0.4 (/)
+X-Scan-Signature: 3da8dd007c9bc004c124c5756b0fc9e5
+X-Spam-Tracer: backend.mail.pr.hu -0.4 20180201113235Z
+Subject: Duplicate package names, was Re: [PATCH v1] glide: Add 0.13.1 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +52,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 10:28:27 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 11:32:37 -0000
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Glide is a widely used Vendor Package Management for Golang,
-especially in private projects as it allows for internal repositories
-clone and other fancy things.
+Of course, this package should not be confused with the old
+3D library from Voodoo Graphics.
 
-This recipe has been originally done as part of updatehub development.
+But, this and another case that popped up today for me out of
+the blue makes it necessary to talk about the issue duplicate
+package names from completely different software.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+My case is a Node.js module, one that is called nanomsg that
+depends on the real nanomsg library.
 
-Changes in v2:
- - Add bash runtime dependency on ${PN}-ptest
+You can see where this leads, two different software would be
+using the same recipe name and we cannot add the second one,
+because the name conflict would not cause the one with the
+smaller version not built.
 
- meta/recipes-devtools/glide/glide_0.13.1.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/recipes-devtools/glide/glide_0.13.1.bb
+The node modules that are built with the help of "inherit npm"
+may want to use a "node-" prefix in their names but it would not
+work as is because npm.bbclass is using ${PN}.
 
-diff --git a/meta/recipes-devtools/glide/glide_0.13.1.bb b/meta/recipes-devtools/glide/glide_0.13.1.bb
-new file mode 100644
-index 00000000000..1a5b145cf36
---- /dev/null
-+++ b/meta/recipes-devtools/glide/glide_0.13.1.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "Vendor Package Management for Golang"
-+HOMEPAGE = "https://glide.sh"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=54905cf894f8cc416a92f4fc350c35b2"
-+
-+GO_IMPORT = "github.com/Masterminds/glide"
-+SRC_URI = "git://${GO_IMPORT}"
-+SRCREV = "67790b3dbede72cfdc54aa53be4706322c9499e0"
-+
-+inherit go
-+
-+RDEPENDS_${PN}-dev += "bash"
-+RDEPENDS_${PN}-ptest += "bash"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.16.1
+I have a patch against npm.bbclass that I am testing at the moment
+but it may be necessary to talk about this issue in general.
+
+Best regards,
+Zoltán Böszörményi
+
+2018-02-01 11:28 keltezéssel, Otavio Salvador írta:
+> Glide is a widely used Vendor Package Management for Golang,
+> especially in private projects as it allows for internal repositories
+> clone and other fancy things.
+> 
+> This recipe has been originally done as part of updatehub development.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+> Changes in v2:
+>   - Add bash runtime dependency on ${PN}-ptest
+> 
+>   meta/recipes-devtools/glide/glide_0.13.1.bb | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+>   create mode 100644 meta/recipes-devtools/glide/glide_0.13.1.bb
+> 
+> diff --git a/meta/recipes-devtools/glide/glide_0.13.1.bb b/meta/recipes-devtools/glide/glide_0.13.1.bb
+> new file mode 100644
+> index 00000000000..1a5b145cf36
+> --- /dev/null
+> +++ b/meta/recipes-devtools/glide/glide_0.13.1.bb
+> @@ -0,0 +1,15 @@
+> +SUMMARY = "Vendor Package Management for Golang"
+> +HOMEPAGE = "https://glide.sh"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=54905cf894f8cc416a92f4fc350c35b2"
+> +
+> +GO_IMPORT = "github.com/Masterminds/glide"
+> +SRC_URI = "git://${GO_IMPORT}"
+> +SRCREV = "67790b3dbede72cfdc54aa53be4706322c9499e0"
+> +
+> +inherit go
+> +
+> +RDEPENDS_${PN}-dev += "bash"
+> +RDEPENDS_${PN}-ptest += "bash"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> 
 
 
