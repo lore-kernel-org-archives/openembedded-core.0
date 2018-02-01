@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id DD4A9786C1
+	by mail.openembedded.org (Postfix) with ESMTP id 108DE786C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 18:02:24 +0000 (UTC)
+	Thu,  1 Feb 2018 18:02:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2018 10:02:26 -0800
+	01 Feb 2018 10:02:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465203"
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465207"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:25 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:26 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 20:02:03 +0200
-Message-Id: <20180201180210.21652-13-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Feb 2018 20:02:04 +0200
+Message-Id: <20180201180210.21652-14-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
 References: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 13/20] btrfs-tools: update to 4.14.1
+Subject: [PATCH 14/20] libwebp: update to 0.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 18:02:25 -0000
-
-Drop upstreamed 0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
-
-Add --disable-zstd as libzstd isn't provided in oe-core.
+X-List-Received-Date: Thu, 01 Feb 2018 18:02:26 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...ith-musl-missing-header-include-for-dev_t.patch | 26 ----------------------
- ...btrfs-tools_4.13.3.bb => btrfs-tools_4.14.1.bb} |  4 ++--
- 2 files changed, 2 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.13.3.bb => btrfs-tools_4.14.1.bb} (90%)
+ meta/recipes-multimedia/webp/{libwebp_0.6.0.bb => libwebp_0.6.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/webp/{libwebp_0.6.0.bb => libwebp_0.6.1.bb} (93%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
-deleted file mode 100644
-index 790676b9cbf..00000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From bc35c4caebb57cc8b96c30c25432b12ca8dc18d5 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 6 Oct 2017 15:03:49 +0300
--Subject: [PATCH] Fix build with musl (missing header include for dev_t).
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- convert/source-fs.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/convert/source-fs.h b/convert/source-fs.h
--index 23f3356..6fd770f 100644
----- a/convert/source-fs.h
--+++ b/convert/source-fs.h
--@@ -20,6 +20,7 @@
-- #include "kerncompat.h"
-- #include <linux/kdev_t.h>
-- #include <pthread.h>
--+#include <sys/types.h>
-- 
-- #define CONV_IMAGE_SUBVOL_OBJECTID BTRFS_FIRST_FREE_OBJECTID
-- 
---- 
--2.14.1
--
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.14.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.14.1.bb
-index 263fc657550..da76db415f3 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.14.1.bb
-@@ -14,15 +14,15 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
- DEPENDS_append_class-target = " udev"
- RDEPENDS_${PN} = "libgcc"
+diff --git a/meta/recipes-multimedia/webp/libwebp_0.6.0.bb b/meta/recipes-multimedia/webp/libwebp_0.6.1.bb
+similarity index 93%
+rename from meta/recipes-multimedia/webp/libwebp_0.6.0.bb
+rename to meta/recipes-multimedia/webp/libwebp_0.6.1.bb
+index bc565e90196..e9d4d783041 100644
+--- a/meta/recipes-multimedia/webp/libwebp_0.6.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_0.6.1.bb
+@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
  
--SRCREV = "a7a1ea0f4f2a1d6eeeb3d106e062c7f1034f16d4"
-+SRCREV = "4de1e5cd4902d588ef673f17e6ba5130aab62bf7"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-            file://0001-Makefile-build-mktables-using-native-gcc.patch \
--           file://0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch \
-            "
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[md5sum] = "19a6e926ab1721268df03161b84bb4a0"
+-SRC_URI[sha256sum] = "c928119229d4f8f35e20113ffb61f281eda267634a8dc2285af4b0ee27cf2b40"
++SRC_URI[md5sum] = "b49ce9c3e3e9acae4d91bca44bb85a72"
++SRC_URI[sha256sum] = "06503c782d9f151baa325591c3579c68ed700ffc62d4f5a32feead0ff017d8ab"
  
- inherit autotools-brokensep pkgconfig manpages
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
  
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
-+EXTRA_OECONF = " --disable-zstd"
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
- 
- do_configure_prepend() {
 -- 
 2.15.1
 
