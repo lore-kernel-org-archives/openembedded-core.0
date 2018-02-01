@@ -1,41 +1,42 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 181B060053
+Return-Path: <cshored@thecshore.com>
+Received: from mail.thecshore.com (mail.thecshore.com [144.217.14.6])
+	by mail.openembedded.org (Postfix) with ESMTP id CD5B5786A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 14:16:59 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id q6so10512486ywg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 06:17:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=N0r2CPZa4CdFxeXKeRr9ermMjOW9raeua3FjbwG+pLM=;
-	b=FaKjEC9zcX0LJe3ubc4aa+Wjq4XghVB6EVw1vkWO5ySE2mKrBh+1fXnTDuAvTEAf9N
-	tbjcyyPvfaNoNsQqsabi9mrfsf9JK0xBgy8Y2r6LFGnI89ooVl3sCqaIcyIMeXYsp+nr
-	9VrIlQ0INOmsPCgkQI/LhduPxJLlHbZT2cjr/ExZwiXGDgz/WvzB++X9fBQ6BWYkfWtu
-	wemZJTMZb6GrEbZokwfutRhEIcvzT2icdHeUUb0G7PP4cjWVZmLoKTTxbWXoYBcke6zS
-	/9OR6aqtxXNS3ODdsYQIVJOw53R7MAcYEtNI2yxwZM4K+mzKdUb7IDr8xvJL0EUrVA5K
-	wOOw==
-X-Gm-Message-State: AKwxyte1fiFNXhdH5aEIw3xJ95dzS+6kYl4OUi+s66oPwiZSLopOtp1n
-	cYqKazFiG2lUVdh7RHjNR8oH
-X-Google-Smtp-Source: AH8x224Q7OhHkv/8LiVacVihQJSaoPaY7Bs7l10+SOUEDFRb5SP3Ru3cDu8W2sBNmFyH0nNd8/KrgQ==
-X-Received: by 10.129.211.6 with SMTP id y6mr24274403ywi.168.1517494620849;
-	Thu, 01 Feb 2018 06:17:00 -0800 (PST)
-Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	z19sm7181406ywg.102.2018.02.01.06.17.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Feb 2018 06:17:00 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 09:16:56 -0500
-Message-Id: <1517494616-26067-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1517420847-7592-1-git-send-email-trini@konsulko.com>
-References: <1517420847-7592-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv3] security_flags.inc, xorg-driver-common.inc: Move SECURITY_X_LDFLAGS logic
+	Thu,  1 Feb 2018 14:17:35 +0000 (UTC)
+Received: from [10.50.1.148] (135-23-247-100.cpe.pppoe.ca [135.23.247.100])
+	by mail.thecshore.com (Postfix) with ESMTPSA id 2EA0D27B0;
+	Thu,  1 Feb 2018 09:17:36 -0500 (EST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.thecshore.com 2EA0D27B0
+Authentication-Results: mail.thecshore.com;
+	dmarc=none (p=none dis=none) header.from=thecshore.com
+Authentication-Results: mail.thecshore.com;
+	spf=fail smtp.mailfrom=cshored@thecshore.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.thecshore.com 2EA0D27B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thecshore.com;
+	s=default; t=1517494656;
+	bh=yOX6NDS7YBHWY9amalttLcNtJmfvKpXmuwxSulAZu0s=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=i8h4dT0dLTT45LSPNfxMEAPdC4xaYEEKs0ewIeL/Ca0dFfpwtRdsUao3djjIiejfv
+	QRWtK2tPnD4yyKIHWisYchGiJn1GpPZYfX2kzB7sxxuHUF8BlN5tmhIfbXqmfvfxLR
+	1OAeXnmdH9vFTqVKWRkN0iIhbgiXpnpnpSyspMy4=
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.99.2 at mail.thecshore.com
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <90ac077a-5126-fb99-0512-9a12851be994@thecshore.com>
+	<CAJTo0LY2whxu8P8u4-U9s7pn6KJZLX53x4ZJ8xH+dN2c6gciyA@mail.gmail.com>
+	<e6645328-4252-1a0b-d69c-37578461c5cf@thecshore.com>
+	<CAJTo0LZyLzYWAWcR7WUY+e9u2c=LhdqQg6WU2p8dCsB7umiv2A@mail.gmail.com>
+	<05c5c737-f5e5-8215-01b9-f6a1ef744063@thecshore.com>
+	<CAJTo0LY3xrYA4AK6OkBOCAn+CiO4PAuE9xLOmRAu9MUM3TYjwA@mail.gmail.com>
+From: "Daniel F. Dickinson" <cshored@thecshore.com>
+Message-ID: <5afe874c-31b5-65eb-0f10-939b4a271902@thecshore.com>
+Date: Thu, 1 Feb 2018 09:17:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY3xrYA4AK6OkBOCAn+CiO4PAuE9xLOmRAu9MUM3TYjwA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Adding a "tiny" DISTRO_FEATURE and having packages build smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,62 +49,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 14:17:00 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 14:17:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 
-We need to ensure that all xorg modules are linked with
-SECURITY_X_LDFLAGS to ensure that they will be able to resolve their run
-time dependencies.  The approach of listing each driver in
-security_flags.inc lets less frequently used drivers be run-time
-broken.  Move the flag logic into xorg-driver-common.inc so that all
-xorg modules from all layers will have the correct security flags used.
-
-Cc: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
-Changes in v3:
-- After reviewing fixing the drivers in meta-openembedded/meta-oe if we
-  move this logic into the common xf86 drivers inc file that all
-  layers use to correctly make these drivers, all layers will get this
-  fix for free if we move to overriding there instead.  Add a comment to
-  security_flags.inc for future reference.
-Changes in v2:
-- Oops, can't use % globbing in security_flags.inc, grabs brown paper
-  bag
----
- meta/conf/distro/include/security_flags.inc              | 8 ++------
- meta/recipes-graphics/xorg-driver/xorg-driver-common.inc | 2 ++
- 2 files changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 7ea1049edff8..49d2417a882f 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -59,12 +59,8 @@ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
- SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
--SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
--SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
--SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
--SECURITY_LDFLAGS_pn-xf86-video-omap = "${SECURITY_X_LDFLAGS}"
--SECURITY_LDFLAGS_pn-xf86-video-vesa = "${SECURITY_X_LDFLAGS}"
--SECURITY_LDFLAGS_pn-xf86-video-vmware = "${SECURITY_X_LDFLAGS}"
-+# All xorg module drivers need to be linked this way as well and are
-+# handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
- SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
- 
- TARGET_CC_ARCH_append_pn-binutils = " ${SELECTED_OPTIMIZATION}"
-diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-index fe42f11b6898..bca0aade6cb5 100644
---- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-+++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-@@ -38,3 +38,5 @@ def _add_xorg_abi_depends(d, name):
- 
-     pn = d.getVar("PN")
-     d.appendVar('RDEPENDS_' + pn, ' ' + abi)
-+
-+SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
--- 
-2.7.4
-
+On 01/02/18 09:12 AM, Burton, Ross wrote:
+> On 1 February 2018 at 14:10, Daniel F. Dickinson <cshored@thecshore.com 
+> <mailto:cshored@thecshore.com>> wrote:
+> 
+>     On 01/02/18 08:54 AM, Burton, Ross wrote:
+> 
+>         On 1 February 2018 at 13:44, Daniel F. Dickinson
+>         <cshored@thecshore.com <mailto:cshored@thecshore.com>
+>         <mailto:cshored@thecshore.com <mailto:cshored@thecshore.com>>>
+>         wrote:
+> 
+>              I guess the question is would it be useful to have a flag
+>         that chooses
+>              a 'typical' tinyness but can be overridden (I'm think here of
+>              avoiding having to specify huge numbers of PACKAGECONFIGs for a
+>              typical tiny case, when really you want most of the 'normal'
+>              tinyness with some
+>              tweaks.  What I'm think is that "tiny" really should just
+>         change the
+>              defaults for PACKAGECONFIG etc, but like the defaults can
+>         be easily
+>              overridden.
+> 
+> 
+>         Well in the idiomatic way the default would be "all the things
+>         are on", so doing a "tiny" build would be just setting
+>         PACKAGECONFIG="".
+> 
+>         When we're dealing with tiny configurations you can't really say
+>         "and this is what people will want", because that's precisely
+>         the problem: you don't know what someone else will want.
+> 
+>         Ross
+> 
+>     Fair enough.  Is there a way to distribute a set of package configs
+>     and/or package selections (can a packagegroup do packageconfig or
+>     does that need to be specified in a different scope (I'm still
+>     getting used to openembedded)).  "tiny" is a bad choice because it's
+>     too generic, but perhaps "meta-tiny-router" "meta-tiny-switch"
+>     "meta-tiny-home-device" etc would make sense as mini-layers that
+>     could take care of sane defaults for different use cases (assuming
+>     the work of splitting packages up more and appropriate tinification
+>     PACKAGECONFIGs are either submitted to the appropriate layer or
+>     bbappended in various layers)?
+> 
+> 
+> A distribution can set other recipe's PACKAGECONFIGs directly:
+> 
+> PACKAGECONFIG_pn-recipename = "foo bar"
+> 
+> And distributions are welcome to bundle groups of those into inc files 
+> for the user to pull in as required at the distro level.
+> 
+> Ross
+I wonder if it'd be useful to have some .inc's of this variety added and 
+included (commented out) in the poky-tiny distro default local.conf?
 
