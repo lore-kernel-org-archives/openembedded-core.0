@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5370877EA6
+Return-Path: <Liwei.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6A7786B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 06:20:46 +0000 (UTC)
+	Thu,  1 Feb 2018 06:40:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w116Kl2S014388
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 31 Jan 2018 22:20:47 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w116eqi7013481
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jan 2018 22:40:52 -0800 (PST)
+Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 31 Jan 2018 22:20:46 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<alexander.kanavin@linux.intel.com>, <randy.macleod@windriver.com>
-Date: Thu, 1 Feb 2018 01:20:42 -0500
-Message-ID: <1517466042-177651-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <72c0e55a-f317-aa60-0681-9be5ea41a549@windriver.com>
-References: <72c0e55a-f317-aa60-0681-9be5ea41a549@windriver.com>
+	Wed, 31 Jan 2018 22:40:51 -0800
+From: Liwei Song <liwei.song@windriver.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Feb 2018 01:40:49 -0500
+Message-ID: <20180201064049.114023-1-liwei.song@windriver.com>
+X-Mailer: git-send-email 2.13.3
 MIME-Version: 1.0
-Subject: [PATCH V3] pigz: 2.3.4 -> 2.4
+Subject: [PATCH] linux-firmware: package all ibt-17-x-x.sfi/ddc firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 06:20:47 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 06:40:52 -0000
 Content-Type: text/plain
 
-License-checksum-change: license is no change, only version bump up.
+All ibt-17-x-x.sfi/ddc firmware are use to support Intel Bluetooth 9560
+they are needed in different version of Bluetooth driver since
+4.14 kernel version.
 
-https://github.com/madler/pigz/commit/fe822cb435622c43f491013da77b127e9fe851a9
+commit b77bb7afe513 ("linux-firmware: package ibt-17-16-1 firmware")
+only package one of the ibt-17 series firmware.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+As the Bluetooth driver's update, to avoid packaging the ibt-17 firmware
+one by one, install them in one package ibt-17.
+
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
 ---
- meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/pigz/{pigz_2.3.4.bb => pigz_2.4.bb} (86%)
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.4.bb
-similarity index 86%
-rename from meta/recipes-extended/pigz/pigz_2.3.4.bb
-rename to meta/recipes-extended/pigz/pigz_2.4.bb
-index 431d9bd..cb41154 100644
---- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.4.bb
-@@ -6,13 +6,13 @@ Adler, and uses the zlib and pthread libraries."
- HOMEPAGE = "http://zlib.net/pigz/"
- SECTION = "console/utils"
- LICENSE = "Zlib & Apache-2.0"
--LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17fce5e7534ca95"
-+LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index e3ff8288c895..cc97c91fd339 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -256,7 +256,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-iwlwifi-misc \
+              ${PN}-ibt-license ${PN}-ibt ${PN}-ibt-misc \
+              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
+-             ${PN}-ibt-17-16-1 \
++             ${PN}-ibt-17 \
+              ${PN}-i915-license ${PN}-i915 \
+              ${PN}-adsp-sst-license ${PN}-adsp-sst \
+              ${PN}-bnx2-mips \
+@@ -681,7 +681,7 @@ LICENSE_${PN}-ibt-hw-37-7 = "Firmware-ibt_firmware"
+ LICENSE_${PN}-ibt-hw-37-8 = "Firmware-ibt_firmware"
+ LICENSE_${PN}-ibt-11-5    = "Firmware-ibt_firmware"
+ LICENSE_${PN}-ibt-12-16   = "Firmware-ibt_firmware"
+-LICENSE_${PN}-ibt-17-16-1 = "Firmware-ibt_firmware"
++LICENSE_${PN}-ibt-17 = "Firmware-ibt_firmware"
+ LICENSE_${PN}-ibt-misc    = "Firmware-ibt_firmware"
  
- PROVIDES_class-native += "gzip-native"
+ FILES_${PN}-ibt-license = "${nonarch_base_libdir}/firmware/LICENCE.ibt_firmware"
+@@ -689,14 +689,14 @@ FILES_${PN}-ibt-hw-37-7 = "${nonarch_base_libdir}/firmware/intel/ibt-hw-37.7*.bs
+ FILES_${PN}-ibt-hw-37-8 = "${nonarch_base_libdir}/firmware/intel/ibt-hw-37.8*.bseq"
+ FILES_${PN}-ibt-11-5    = "${nonarch_base_libdir}/firmware/intel/ibt-11-5.sfi /lib/firmware/intel/ibt-11-5.ddc"
+ FILES_${PN}-ibt-12-16   = "${nonarch_base_libdir}/firmware/intel/ibt-12-16.sfi /lib/firmware/intel/ibt-12-16.ddc"
+-FILES_${PN}-ibt-17-16-1 = "${nonarch_base_libdir}/firmware/intel/ibt-17-16-1.sfi /lib/firmware/intel/ibt-17-16-1.ddc"
++FILES_${PN}-ibt-17 = "${nonarch_base_libdir}/firmware/intel/ibt-17-*.sfi /lib/firmware/intel/ibt-17-*.ddc"
+ FILES_${PN}-ibt-misc    = "${nonarch_base_libdir}/firmware/ibt-*"
  
- SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
--SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
--SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
-+SRC_URI[md5sum] = "3c8a601db141d3013ef9fe5f2daaf73f"
-+SRC_URI[sha256sum] = "e228e7d18b34c4ece8d596eb6eee97bde533c6beedbb728d07d3abe90b4b1b52"
+ RDEPENDS_${PN}-ibt-hw-37-7 = "${PN}-ibt-license"
+ RDEPENDS_${PN}-ibt-hw-37.8 = "${PN}-ibt-license"
+ RDEPENDS_${PN}-ibt-11-5    = "${PN}-ibt-license"
+ RDEPENDS_${PN}-ibt-12-16   = "${PN}-ibt-license"
+-RDEPENDS_${PN}-ibt-17-16-1 = "${PN}-ibt-license"
++RDEPENDS_${PN}-ibt-17 = "${PN}-ibt-license"
+ RDEPENDS_${PN}-ibt-misc    = "${PN}-ibt-license"
  
- UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
- UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
+ ALLOW_EMPTY_${PN}-ibt= "1"
 -- 
-2.8.1
+2.13.3
 
 
