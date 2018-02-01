@@ -1,30 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E8A2578681
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E796FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 19:21:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2018 11:21:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="14340204"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga007.jf.intel.com with ESMTP; 01 Feb 2018 11:21:42 -0800
-To: openembedded-core@lists.openembedded.org,
-	Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
-	<20180201183307.15542.76641@do.openembedded.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <1fd8cf8d-e131-7864-201f-fa3487445640@linux.intel.com>
-Date: Thu, 1 Feb 2018 21:21:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Thu,  1 Feb 2018 19:27:21 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id u62so5598126ita.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Feb 2018 11:27:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aRQHOqgj3naMFBvS4G8TghIRZ+HjJAgF2kylVHbYQf8=;
+	b=NUqOPnIdIvMY3wIFg1uP+z3qT987kJDbgB3kMRWUMze4JNAh9CR78f1z4CyxNNN5R6
+	DQ4DVMolFghqsM20MNkZ+RRe0UdZtKkE00DVHMSZZCa7oO6etjURaKsB49CuEP/TL+mv
+	zU/c7ssmcq0+owFt/YdCsZDyuc7pY5Rds4qbzCAKPg8WcLM74E7alGYd5Yp26OnOZi09
+	sOOmc4B5RjFYJs5ZN2Gk2y8aHLPxrWLWUSuS7EzVEDbvUPun2NPQ2sSu8H2vWXvonc9h
+	Zgio0NkxZVFEUMMZGd/uQOBIB7QxGFz7sab9EzhvuEef1KIvgyvJvpqeGN7sPwO1pALE
+	IR4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aRQHOqgj3naMFBvS4G8TghIRZ+HjJAgF2kylVHbYQf8=;
+	b=CT+KdAoDDhxnu3SFA478yir+wxfowoghjTjFJhOz1Fd2jnuH3gOcBVjBd5IgOiEgwR
+	5zGUe/Yt1swANupyIYGrBh4cXv8zv/btckBv0ylDNvqHgLBJmEEBii2AXVa6tmH0Z31u
+	m8yvteO7aHP8FDbbauJRoWYidSfXu67xoNoujsNqvJR9uTvRMfqnzeFSG8NN9ylQ3vE1
+	ySG0b5gWlXTyWX+uoqzZo0K0XY0WBj7blQQWkFAynq8HDZN99B5IgwcHRSEs8MDqAcmP
+	L7wO67hyrQ8iVpuRBOlDV0GFPwxSBRIb/31bAQWEgUwV8fCx9KpH4a8pxcytzchHCu6e
+	AjqA==
+X-Gm-Message-State: AKwxytdEE7kujHhbt4OfwYTbHlsTkEbJti408IvQtVWg5ZuBAHrulZKV
+	3KuGxL5xuVR+ni6we8Yqzv1L8WdIO5TiSRJ2h1N4Ig==
+X-Google-Smtp-Source: AH8x226R7YWuUN6xaO/l1poNoyIy9kEbxi/voSCnfVp2tFR+Pwj95BUe9HDtT+gcFVYokX2z64GkUHFUL47iOnZ4Lt0=
+X-Received: by 10.36.215.69 with SMTP id y66mr41836911itg.10.1517513243199;
+	Thu, 01 Feb 2018 11:27:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20180201183307.15542.76641@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJvZS1zZWxmdGVzdDogYWRkIGEgdGVzdCBmb3IgcmUuLi4iIGFuZCAxOSBtb3Jl?=
+Received: by 10.107.17.206 with HTTP; Thu, 1 Feb 2018 11:27:02 -0800 (PST)
+In-Reply-To: <df3d49ef2f1fa5243b2e8d430a7edfa956cc9f8d.1515744181.git.hongxu.jia@windriver.com>
+References: <cover.1515744181.git.hongxu.jia@windriver.com>
+	<df3d49ef2f1fa5243b2e8d430a7edfa956cc9f8d.1515744181.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Feb 2018 19:27:02 +0000
+Message-ID: <CAJTo0LZ_Q0KGZFg1u-Noky+hhz1yDfU6axX9ZdA1Rj07fQW8ng@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] python3-core: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +56,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 19:21:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Feb 2018 19:27:22 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0afc44cda18505642b9526"
 
-On 02/01/2018 08:33 PM, Patchwork wrote:
-> * Issue             LIC_FILES_CHKSUM changed on target rpm but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned]
->    Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
->    Current checksum file://COPYING;md5=f5259151d26ff18e78023450a5ac8d96
->    New checksum     file://COPYING;md5=c0bf017c0fd1920e6158a333acabfd4a
+--94eb2c0afc44cda18505642b9526
+Content-Type: text/plain; charset="UTF-8"
 
-Actually, there is :) I just sent Leo a fix for this.
+On 12 January 2018 at 08:11, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
+> +       # Recompile _sysconfigdata after modifying it
+> +       cd ${PKGD}
+> +       ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} \
+> +            -c "from py_compile import compile;
+> compile('./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py')"
+> +       ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} \
+> +            -c "from py_compile import compile;
+> compile('./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py',
+> optimize=1)"
+> +       ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} \
+> +            -c "from py_compile import compile;
+> compile('./${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py',
+> optimize=2)"
+> +       cd -
+>
 
-> * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format]
->    Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-extended/iputils/files/0001-Fix-build-on-MUSL.patch
->    Standard format  Upstream-Status: <Valid status>
->    Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+Do we really need to generate optimise=1 and optimise=2 variants for a file
+which is just data?
 
-Fixed in branch:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+I'd suggest something like this would be neater:
 
+rm -f ${PKGD}/${libdir}/python*/__pycache__/_sysconfigdata.*
+nativepython -m py_compile ${PKGD}/${libdir}/python*/_sysconfigdata.py
 
-Alex
+Ross
 
+--94eb2c0afc44cda18505642b9526
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 12 January 2018 at 08:11, Hongxu Jia <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.ji=
+a@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0# Recompile _sysconfigdata after modifying it<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${PKGD}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${STAGING_BINDIR_NATIVE}/${<wbr>PYTHON_PN}-nati=
+ve/${PYTHON_PN} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -c &quot;from py_compile import =
+compile; compile(&#39;./${libdir}/python${<wbr>PYTHON_MAJMIN}/_sysconfigdat=
+a.<wbr>py&#39;)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${STAGING_BINDIR_NATIVE}/${<wbr>PYTHON_PN}-nati=
+ve/${PYTHON_PN} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -c &quot;from py_compile import =
+compile; compile(&#39;./${libdir}/python${<wbr>PYTHON_MAJMIN}/_sysconfigdat=
+a.<wbr>py&#39;, optimize=3D1)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${STAGING_BINDIR_NATIVE}/${<wbr>PYTHON_PN}-nati=
+ve/${PYTHON_PN} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -c &quot;from py_compile import =
+compile; compile(&#39;./${libdir}/python${<wbr>PYTHON_MAJMIN}/_sysconfigdat=
+a.<wbr>py&#39;, optimize=3D2)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd -<br></blockquote><div><br></div><div>Do we =
+really need to generate optimise=3D1 and optimise=3D2 variants for a file w=
+hich is just data?</div><div><br></div><div>I&#39;d suggest something like =
+this would be neater:</div><div><br></div><div>rm -f ${PKGD}/${libdir}/pyth=
+on*/__pycache__/_sysconfigdata.*</div><div>nativepython -m py_compile ${PKG=
+D}/${libdir}/python*/_sysconfigdata.py</div><div><br></div><div>Ross</div><=
+/div></div></div>
+
+--94eb2c0afc44cda18505642b9526--
