@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E9637864F
+	by mail.openembedded.org (Postfix) with ESMTP id 7C3E57885C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 18:02:16 +0000 (UTC)
+	Thu,  1 Feb 2018 18:02:17 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2018 10:02:18 -0800
+	01 Feb 2018 10:02:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465169"
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465173"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:17 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:18 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 20:01:56 +0200
-Message-Id: <20180201180210.21652-6-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Feb 2018 20:01:57 +0200
+Message-Id: <20180201180210.21652-7-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
 References: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/20] epiphany: update to 3.26.5.1
+Subject: [PATCH 07/20] p11-kit: take source code from official git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,177 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 18:02:16 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 18:02:17 -0000
 
-Upstream has replaced autotools with meson, so the recipe has been adjusted accordingly.
+The previous tarball URI seems to be gone.
 
-0001-bookmarks-Check-for-return-value-of-fread.patch deleted as the file was completely refactored
-
-0001-yelp.m4-drop-the-check-for-itstool.patch replaced with a patch for meson equivalent
+Also, adjust a few things to make it actually build;
+handling autotools-based projects from git checkouts is always harder
+than taking them from tarballs :-(
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{epiphany_3.24.3.bb => epiphany_3.26.5.1.bb}   | 15 ++++------
- ...bookmarks-Check-for-return-value-of-fread.patch | 32 --------------------
- .../0001-yelp.m4-drop-the-check-for-itstool.patch  | 33 ---------------------
- ...-help-meson.build-disable-the-use-of-yelp.patch | 34 ++++++++++++++++++++++
- 4 files changed, 40 insertions(+), 74 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.24.3.bb => epiphany_3.26.5.1.bb} (56%)
- delete mode 100644 meta/recipes-gnome/epiphany/files/0001-bookmarks-Check-for-return-value-of-fread.patch
- delete mode 100644 meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+ ...p-the-languages-for-which-upstream-does-n.patch | 32 ++++++++++++++++++++++
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb     | 13 ++++++---
+ 2 files changed, 41 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.24.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.26.5.1.bb
-similarity index 56%
-rename from meta/recipes-gnome/epiphany/epiphany_3.24.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.26.5.1.bb
-index c507d23ae93..eee53c6015e 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.24.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.26.5.1.bb
-@@ -6,20 +6,17 @@ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
- 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native \
- 	   glib-2.0 glib-2.0-native json-glib"
- 
-+GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch \
--            file://0001-bookmarks-Check-for-return-value-of-fread.patch \
-+SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-+           file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.md5sum] = "c0221aec6a08935e6854eaa9de9451ef"
--SRC_URI[archive.sha256sum] = "fef51676310d9f37e18c9b2d778254232eb17cccd988c2d1ecf42c7b2963a154"
-+SRC_URI[archive.md5sum] = "8c2062debde6377320596e2685bb1732"
-+SRC_URI[archive.sha256sum] = "4b2f1c48e6f50793ff205d9215add5596ab5c7ebf4cef76907868fcd5a029221"
- 
--EXTRA_OECONF += " --with-distributor-name=${DISTRO} --enable-debug=no"
--
--do_configure_prepend() {
--    sed -i -e s:help::g ${S}/Makefile.am
--}
-+EXTRA_OEMESON += " -Ddistributor_name=${DISTRO}"
- 
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
-diff --git a/meta/recipes-gnome/epiphany/files/0001-bookmarks-Check-for-return-value-of-fread.patch b/meta/recipes-gnome/epiphany/files/0001-bookmarks-Check-for-return-value-of-fread.patch
-deleted file mode 100644
-index ddcd39400c3..00000000000
---- a/meta/recipes-gnome/epiphany/files/0001-bookmarks-Check-for-return-value-of-fread.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From aa2176be32eed2578da82f34d31148f934c11c34 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 28 Jun 2017 17:03:45 -0700
--Subject: [PATCH] bookmarks: Check for return value of fread()
--
--Fixes below compiler error
--ignoring return value of 'fread', declared with attribute warn_unused_result
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/bookmarks/ephy-bookmark.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/src/bookmarks/ephy-bookmark.c b/src/bookmarks/ephy-bookmark.c
--index ff0239b..8633ce4 100644
----- a/src/bookmarks/ephy-bookmark.c
--+++ b/src/bookmarks/ephy-bookmark.c
--@@ -217,7 +217,8 @@ ephy_bookmark_init (EphyBookmark *self)
--   bytes = g_malloc (num_bytes);
-- 
--   fp = fopen ("/dev/urandom", "r");
---  fread (bytes, sizeof (guint8), num_bytes, fp);
--+  if (fread (bytes, sizeof (guint8), num_bytes, fp) != num_bytes)
--+    g_warning("Unable to read data from /dev/urandom\n");
-- 
--   self->id = g_malloc0 (ID_LEN + 1);
--   for (gsize i = 0; i < num_bytes; i++) {
---- 
--2.13.2
--
-diff --git a/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch b/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-deleted file mode 100644
-index 2585d7f7413..00000000000
---- a/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 30f03a256efe375a4d5c3a24bf4168ebf380e3ab Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 30 Jul 2015 15:13:23 +0300
--Subject: [PATCH] yelp.m4: drop the check for itstool
--
--It isn't used for anything during build, so there's no need to provide
--it as a recipe.
--
--Upstream-Status: Inappropriate [tarball-specific issue]
-----
-- m4/yelp.m4 | 6 ------
-- 1 file changed, 6 deletions(-)
--
--diff --git a/m4/yelp.m4 b/m4/yelp.m4
--index 5db847f..1b6ede4 100644
----- a/m4/yelp.m4
--+++ b/m4/yelp.m4
--@@ -27,12 +27,6 @@ AC_ARG_WITH([help-dir],
-- HELP_DIR="$with_help_dir"
-- AC_SUBST(HELP_DIR)
-- 
---AC_ARG_VAR([ITSTOOL], [Path to the `itstool` command])
---AC_CHECK_PROG([ITSTOOL], [itstool], [itstool])
---if test x"$ITSTOOL" = x; then
---  AC_MSG_ERROR([itstool not found])
---fi
---
-- AC_ARG_VAR([XMLLINT], [Path to the `xmllint` command])
-- AC_CHECK_PROG([XMLLINT], [xmllint], [xmllint])
-- if test x"$XMLLINT" = x; then
---- 
--2.1.4
--
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+diff --git a/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch b/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
 new file mode 100644
-index 00000000000..249517d8f90
+index 00000000000..2fda9dfbb89
 --- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-@@ -0,0 +1,34 @@
-+From fc314fc3a66c92fe73e1a0cea4f49d11b29e1f45 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/p11-kit/p11-kit/0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch
+@@ -0,0 +1,32 @@
++From c3aa4aae5e9f4adafd9e10d9466f1bc481e0aae6 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 31 Jan 2018 15:50:38 +0200
-+Subject: [PATCH 2/2] help/meson.build: disable the use of yelp
++Date: Wed, 31 Jan 2018 16:47:44 +0200
++Subject: [PATCH] LINGUAS: drop the languages for which upstream does not
++ supply .po files
 +
-+In particular this avoids calling itstool which oe-core doesn't provide.
++Regenerating them proved to be too painful.
++Upstream has been notified: https://github.com/p11-glue/p11-kit/issues/127
 +
-+Upstream-Status: Inappropriate [oe-core specific]
++Upstream-Status: Inappropriate [missing upstream distribution files]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ help/meson.build | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
++ po/LINGUAS | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+diff --git a/help/meson.build b/help/meson.build
-+index f720add..cbfeb1e 100644
-+--- a/help/meson.build
-++++ b/help/meson.build
-+@@ -46,8 +46,8 @@ help_linguas = [
-+   'sv'
-+ ]
-+ 
-+-gnome.yelp(meson.project_name(),
-+-  sources: help_files,
-+-  media: help_media,
-+-  languages: help_linguas,
-+-)
-++#gnome.yelp(meson.project_name(),
-++#  sources: help_files,
-++#  media: help_media,
-++#  languages: help_linguas,
-++#)
++diff --git a/po/LINGUAS b/po/LINGUAS
++index 1fc4d53..e9cc5a7 100644
++--- a/po/LINGUAS
+++++ b/po/LINGUAS
++@@ -11,9 +11,7 @@ cy
++ da
++ de
++ el
++-en@boldquot
++ en_GB
++-en@quot
++ eo
++ es
++ es_CL
 +-- 
 +2.15.1
 +
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+index 38fa09bf9aa..57798f40201 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+@@ -2,14 +2,19 @@ SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
+ 
+-inherit autotools gettext pkgconfig upstream-version-is-even gtk-doc
++inherit autotools gettext pkgconfig gtk-doc
+ 
+ DEPENDS = "libtasn1 libffi"
+ 
+-SRC_URI = "http://p11-glue.freedesktop.org/releases/${BP}.tar.gz"
+-SRC_URI[md5sum] = "4e9bea1106628ffb820bdad24a819fac"
+-SRC_URI[sha256sum] = "ef3a339fcf6aa0e32c8c23f79ba7191e57312be2bda8b24e6d121c2670539a5c"
++SRC_URI = "git://github.com/p11-glue/p11-kit \
++           file://0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch \
++           "
++SRCREV = "bfb3bd47aa48983f5349479bca598403097ff81c"
++S = "${WORKDIR}/git"
++# exclude odd minor versions, which are development releases
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+ 
++AUTOTOOLS_AUXDIR = "${S}/build/litter"
+ EXTRA_OECONF = "--without-trust-paths"
+ 
+ # This recipe does not use the standard gtk-doc m4 macros, and so the ./configure flags
 -- 
 2.15.1
 
