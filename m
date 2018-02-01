@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 74EE1786C1
+	by mail.openembedded.org (Postfix) with ESMTP id A1E5A786C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 18:02:28 +0000 (UTC)
+	Thu,  1 Feb 2018 18:02:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2018 10:02:30 -0800
+	01 Feb 2018 10:02:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465212"
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465217"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:29 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:30 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 20:02:06 +0200
-Message-Id: <20180201180210.21652-16-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Feb 2018 20:02:07 +0200
+Message-Id: <20180201180210.21652-17-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
 References: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/20] dtc: upgrade to 1.4.6
+Subject: [PATCH 17/20] ffmpeg: update to 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,96 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 18:02:28 -0000
-
-Drop upstreamed patch.
+X-List-Received-Date: Thu, 01 Feb 2018 18:02:29 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/dtc/dtc.inc                    |  1 -
- ...cks-Use-proper-format-modifier-for-size_t.patch | 43 ----------------------
- .../dtc/{dtc_1.4.5.bb => dtc_1.4.6.bb}             |  2 +-
- 3 files changed, 1 insertion(+), 45 deletions(-)
- delete mode 100644 meta/recipes-kernel/dtc/dtc/0001-checks-Use-proper-format-modifier-for-size_t.patch
- rename meta/recipes-kernel/dtc/{dtc_1.4.5.bb => dtc_1.4.6.bb} (81%)
+ meta/recipes-multimedia/ffmpeg/{ffmpeg_3.4.bb => ffmpeg_3.4.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.4.bb => ffmpeg_3.4.1.bb} (97%)
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index d259c57e8d9..925cca92fac 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -7,7 +7,6 @@ DEPENDS = "flex-native bison-native"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
-            file://make_install.patch \
--           file://0001-checks-Use-proper-format-modifier-for-size_t.patch \
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb
+index 42dbe5582f3..1837956904d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb
+@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
             "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
+-SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
++SRC_URI[md5sum] = "726212db1b8a7eff6c25a2bc2e6fa75c"
++SRC_URI[sha256sum] = "5a77278a63741efa74e26bf197b9bb09ac6381b9757391b922407210f0f991c0"
  
-diff --git a/meta/recipes-kernel/dtc/dtc/0001-checks-Use-proper-format-modifier-for-size_t.patch b/meta/recipes-kernel/dtc/dtc/0001-checks-Use-proper-format-modifier-for-size_t.patch
-deleted file mode 100644
-index cab384dd99a..00000000000
---- a/meta/recipes-kernel/dtc/dtc/0001-checks-Use-proper-format-modifier-for-size_t.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From c7a4c3817796107bb824a1f173faf90fae45396b Mon Sep 17 00:00:00 2001
--From: Thierry Reding <treding@nvidia.com>
--Date: Wed, 27 Sep 2017 15:04:09 +0200
--Subject: [PATCH] checks: Use proper format modifier for size_t
--
--The size of size_t can vary between architectures, so using %ld isn't
--going to work on 32-bit builds. Use the %zu modifier to make sure it is
--always correct.
--
--Upstream-Status: Backport
--Signed-off-by: Thierry Reding <treding@nvidia.com>
--Acked-by: Rob Herring <robh@kernel.org>
--Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- checks.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/checks.c b/checks.c
--index 902f2e3..08a3a29 100644
----- a/checks.c
--+++ b/checks.c
--@@ -972,7 +972,7 @@ static void check_property_phandle_args(struct check *c,
-- 	int cell, cellsize = 0;
-- 
-- 	if (prop->val.len % sizeof(cell_t)) {
---		FAIL(c, dti, "property '%s' size (%d) is invalid, expected multiple of %ld in node %s",
--+		FAIL(c, dti, "property '%s' size (%d) is invalid, expected multiple of %zu in node %s",
-- 		     prop->name, prop->val.len, sizeof(cell_t), node->fullpath);
-- 		return;
-- 	}
--@@ -1163,7 +1163,7 @@ static void check_interrupts_property(struct check *c,
-- 		return;
-- 
-- 	if (irq_prop->val.len % sizeof(cell_t))
---		FAIL(c, dti, "property '%s' size (%d) is invalid, expected multiple of %ld in node %s",
--+		FAIL(c, dti, "property '%s' size (%d) is invalid, expected multiple of %zu in node %s",
-- 		     irq_prop->name, irq_prop->val.len, sizeof(cell_t),
-- 		     node->fullpath);
-- 
---- 
--2.15.0
--
-diff --git a/meta/recipes-kernel/dtc/dtc_1.4.5.bb b/meta/recipes-kernel/dtc/dtc_1.4.6.bb
-similarity index 81%
-rename from meta/recipes-kernel/dtc/dtc_1.4.5.bb
-rename to meta/recipes-kernel/dtc/dtc_1.4.6.bb
-index 0e46cfbeb4f..78c57363926 100644
---- a/meta/recipes-kernel/dtc/dtc_1.4.5.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.4.6.bb
-@@ -3,7 +3,7 @@ require dtc.inc
- LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
- 
--SRCREV = "22a65c5331c22979d416738eb756b9541672e00d"
-+SRCREV = "e54388015af1fb4bf04d0bca99caba1074d9cc42"
- 
- S = "${WORKDIR}/git"
- 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
 -- 
 2.15.1
 
