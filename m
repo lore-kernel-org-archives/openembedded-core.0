@@ -1,46 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F99D78687
+Return-Path: <cshored@thecshore.com>
+X-Greylist: delayed 543 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 01 Feb 2018 13:04:09 UTC
+Received: from mail.thecshore.com (mail.thecshore.com [144.217.14.6])
+	by mail.openembedded.org (Postfix) with ESMTP id C6597783C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 12:22:20 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id t74so5489585wme.3
+	Thu,  1 Feb 2018 13:04:09 +0000 (UTC)
+Received: from [10.50.1.148] (135-23-247-100.cpe.pppoe.ca [135.23.247.100])
+	by mail.thecshore.com (Postfix) with ESMTPSA id 2310E2657
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 04:22:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=99EcbVyAwlcZ2D3tPcrfUWHKlPg0SV8QsNlGfEGasn0=;
-	b=rhUSNrfvwSRJI3vFVY+pK6z877d9rLlnWljLnfnekegPHna0QDUrtrGK5c1aVTMF0w
-	PnUcA5ilOfCRW/DsJAYKZVaJ9bfO/ECfzgInG6rrUuPOMN3hWb1Dz3EyuJpw6QOmQPqq
-	NGzF56TrsskRp6af1UXvrE3nSLSx3UV5/OzZxoT/s7EsK61fHFRI7Dv9Z7n55mV8OeCw
-	2lnh5DSd1BfeNrncZM4agLpuNbxRqKZ46QJ3Fhlvaq7CS0I9HiASomQYMMS3sDYh/7sL
-	pIy6cwLo0+g4C3P0/T2gBsc4jKt8EX14B8oIi8sYqTVKPv33cLQkwfLNP6U+qda/OydO
-	xWzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=99EcbVyAwlcZ2D3tPcrfUWHKlPg0SV8QsNlGfEGasn0=;
-	b=dJ5hZLBlVfG+ixqvyLa+SIGumEgvQNuunL0q/FDHYXcDJbQbsy6STbN4pHlvVQLrXT
-	6vqFdzKhu5s+0UVubtnhMzL5CkR8QCi2u1s97O6jbzltQ7zk6XdRJC5Dc3kOoKlXgo7p
-	SHpB2De3I3yKTBwoAaOZq489VNzI2Bl2/d/dQtvJyMQdq8zMGBgbNYIbacTxWHzJ0697
-	E5g0vvjfYP5LjrCuOYqTrzCEI+Tgw6iWjNF4lMjWMkZyTnMWtMCb42pxUDDxM6Q7dQFd
-	Biy9XJ2xUIDZ7U6pUmEqphlbFl5Qtb32fGpv44P222yAUvTyK4vuSLbxr9IEaQ2mT0X3
-	dp5g==
-X-Gm-Message-State: AKwxyteorYoy7V2qO9zBvLyKEuVTo7YLb5uZHpz20jCfbxD4fXzsXFVJ
-	C0vey/iI9D0n9H7z/nG8yes2kA==
-X-Google-Smtp-Source: AH8x2244GBW/Y8Sjt2f7zPQmiE74LoXMK0PtRJTHgnFHBPn+dRQc++p0CSdA/Db2bUQeNc8sa+wz9Q==
-X-Received: by 10.28.172.70 with SMTP id v67mr16005563wme.58.1517487740833;
-	Thu, 01 Feb 2018 04:22:20 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id b72sm2489274wmf.2.2018.02.01.04.22.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Feb 2018 04:22:19 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Thu,  1 Feb 2018 07:55:06 -0500 (EST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.thecshore.com 2310E2657
+Authentication-Results: mail.thecshore.com;
+	dmarc=none (p=none dis=none) header.from=thecshore.com
+Authentication-Results: mail.thecshore.com;
+	spf=fail smtp.mailfrom=cshored@thecshore.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.thecshore.com 2310E2657
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thecshore.com;
+	s=default; t=1517489707;
+	bh=EJnvguzzKIPdAmTaHghBsFzwQLhyGX/MhX9UEH3NhFw=;
+	h=To:From:Subject:Date:From;
+	b=E66e6fQEDR+N5o0dnOzugw3apTqkRWZjtKo058A1SjLszK3K9C6imCPuGKtoLBs+R
+	pz7gB5FYdVhfP92L/gDYeXTu6h1EW9vpNvEyB8Q+0NXJHpzhLiieHe9wQ+2/o5V+F4
+	RzYs/LKA6diiuNEgE8Fm0i6fOa7dzSyEwpkUlskE=
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.99.2 at mail.thecshore.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 12:22:18 +0000
-Message-Id: <20180201122218.4533-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [pyro][PATCH] bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
+From: "Daniel F. Dickinson" <cshored@thecshore.com>
+Message-ID: <90ac077a-5126-fb99-0512-9a12851be994@thecshore.com>
+Date: Thu, 1 Feb 2018 07:55:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+Subject: Adding a "tiny" DISTRO_FEATURE and having packages build smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 12:22:20 -0000
+X-List-Received-Date: Thu, 01 Feb 2018 13:04:09 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Hi all,
 
-Add tools required by testimage to HOSTTOOLS only when testimage is
-inherited. These tools, as described in the comment, are only required
-by the testimage task. So this change should not have negtive effect.
-This would also solve build error on hosts which miss some tool such as scp.
+I'm wondering if is doable and would be accepted to add a "tiny" 
+DISTRO_FEATURE that automatically does PACKAGECONFIG += "tiny", and
+packages which honour this make choices that build smaller editions 
+and/or create smaller binary sub-packages than default (i.e. things that 
+can be split out of build packages are, so that a -core or -base package 
+has only the minimum, and a one uses metapackages to install expected 
+packaging (so ${PN} would by default RDEPEND on ${PN}-base and other 
+sub-packages (or other recipes packages/sub-packages) that give the 
+'usual' use case for the package, but can be managed in parts for 
+systems that are quite small.
 
-Cherry-picked from rocko 8ca61a5464743ff85b6d26886112750d6ddd13e0
+Or is the splitting into sub-parts preferred anyway and patches to make 
+smaller splits would accepted relatively easily, but usually just don't 
+get done because it's more work to have more sub-packages and so it just 
+doesn't get done to the level a project like OpenWrt pieces things up, 
+and OpenEmbedded usually has more space available than a typical OpenWrt 
+device?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think PACKAGECONFIG[tiny] would really translate into different things 
+in different packages (hence the idea of having a top-level flag that
+makes it easier to do across the board rather than having to specify 
+specific flags for each recipe, except in exceptional circumstances), 
+although something like nossl should perhaps be a separate top-level 
+flag since even if you want small you probably want some kind of ssl, 
+but there may be relevant use cases where nossl would be wanted but 
+isn't just about size.  With -tiny one could perhaps emphasize the 
+choice of smaller SSL libraries like mbedtls and wolfssl (cyassl) when 
+they are an option and warn (or refuse to build) if a big library like 
+openssl can't be avoided.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2dac3a1481..f3994fc642 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -469,7 +469,7 @@ HOSTTOOLS += " \
- "
- 
- # Tools needed to run testimage runtime image testing
--HOSTTOOLS += "ip ping ps scp ssh stty"
-+HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
- 
- # Link to these if present
- HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
--- 
-2.15.1
+I think that this is needed for e.g. poky-tiny and meta-openwrt to 
+really get onto small systems.
 
+Regards,
+
+Daniel
 
