@@ -1,41 +1,48 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B4C96093A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C80878685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 13:11:31 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1ehEeM-0005sF-BV
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Feb 2018 14:11:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+YFfP8HYEeagbclgl97SxS7L7yjhnroKOeTD8ANA+6k=;
-	b=nB4beoOde/Lj5L2ktemv9TjUKf
-	z5044RsIB7Neq0buNBq5ncmGantqj552CJuQM8Bq+7zIiWngWs2L7b9quWSCOe/lVisFtJJaSe644
-	ep6mhOgr4rWZFRkpsEBoZBAwEpsrHnFluI86DmA59SIzpjpDd9oul5VV3P90VZoSKCPY00C918DNL
-	h60HkX6v4FTSpBjJVkE/bzw8HjNx1nJC0NVnSPddzZ9qSHGQSEHoVhYu+XYbobIb1Rh3uZ9EGK5+S
-	9DkyyKEEIO9h5uR6FOqJfd5QlleR+Dz4rQxlEcKSCJ4ZtPR+9PWAHqcaJN1m19QOz0CHJUWG4EF7v
-	6zjaZ8Xg==;
-Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
-	helo=s002.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1ehEeG-0006LA-CA; Thu, 01 Feb 2018 14:11:30 +0100
-From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Feb 2018 14:10:55 +0100
-Message-Id: <20180201131055.4855-1-zboszor@pr.hu>
-X-Mailer: git-send-email 2.14.3
+	Thu,  1 Feb 2018 13:38:39 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id c17so19189606iod.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Feb 2018 05:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ic+jdeMBEnfsYTW4gY2cgqNm/qf9bqDqDVfpgzow1UI=;
+	b=hLi3IOp8vKJk0F514SFfRCjcEleWG8QoUPe+2KcBpdcqHP1uHLxpVlm9TOqc/rIP/8
+	/PsgGvtzIpoAg/EaqJwZt2D1d7Ywo7qKfHaRnQ9sjU0LlVYon9yyxgaLis1x/lx28Qkk
+	54ZkOqdKO0DQ7oBJje7N/VeIdETTCNUBCWO6Uv7BnCg7G/zpvZgukhryWBxQEbUMvJvT
+	B2W4Am+cgGkuFqqmfqX6RU399MbsWyzzvZYR1kLlWsK5Swh1EGlgwe+vKBW51i5LzK75
+	RTvwWgTSjoAx5U8/FuLuKTgjKun96hctq8sapNzkv071hYguInjjHX8TTthmsA4tBdig
+	3Q8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ic+jdeMBEnfsYTW4gY2cgqNm/qf9bqDqDVfpgzow1UI=;
+	b=EOgOiuFtChLFbA7mfj5LnN2ZsOlsYAkkOAewff9EDr8eN0f+3sSPI7SVuzvSMs5Bhp
+	mPaNClk4qqXCrzAmRFfN+U2yY5XbzJSL4fUPKyThhIHvxbqByMf74pJQpZSYjDgRxwo2
+	eBoh4728mQouqNZRoSlSMoXOPBS4jYbiBdejEh82SeMZ+rTaoU61Jzw4HVMtJkVt4POT
+	GxcJIGtFO8ue2sR8cjmYMyMD2DPX9+MVgwhVka2tVKpPAlQo+HCGti2ycwmnK+GI+THB
+	54Y9vGNqR9Vt/uhMDuNao6N/CP0hDjQMfATRgcZDWHsK2uTRdhyhEVpvuhCbDsc8Y7RB
+	74jA==
+X-Gm-Message-State: AKwxytcPOHLd9CuN+vzmJDTHL9Po+h/Hi6cRvxHp4SXZK4V8x8yT3ory
+	5hspUxn3qA9RteCI2bQFiWQQgQf0IzoBS2FZAyH7ZQ==
+X-Google-Smtp-Source: AH8x2246FvSGj1+77NGCsscjUZYlS8JS2BcmY10znf0ezfSFNXNj1Cm3dlcHSGKD1zcTOHdvitzO1M+QeitmIZMzZJI=
+X-Received: by 10.107.175.8 with SMTP id y8mr38562847ioe.37.1517492321134;
+	Thu, 01 Feb 2018 05:38:41 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Score: -0.4 (/)
-X-Scan-Signature: 95b4cc0dcd527d9223de7ebc14f45880
-X-Spam-Tracer: backend.mail.pr.hu -0.4 20180201131130Z
-Subject: [PATCH] package: Record PE and PR values for shlib dependencies
+Received: by 10.107.17.206 with HTTP; Thu, 1 Feb 2018 05:38:20 -0800 (PST)
+In-Reply-To: <90ac077a-5126-fb99-0512-9a12851be994@thecshore.com>
+References: <90ac077a-5126-fb99-0512-9a12851be994@thecshore.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Feb 2018 13:38:20 +0000
+Message-ID: <CAJTo0LY2whxu8P8u4-U9s7pn6KJZLX53x4ZJ8xH+dN2c6gciyA@mail.gmail.com>
+To: "Daniel F. Dickinson" <cshored@thecshore.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Adding a "tiny" DISTRO_FEATURE and having packages build smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,218 +55,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 13:11:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 01 Feb 2018 13:38:40 -0000
+Content-Type: multipart/alternative; boundary="001a1144a268c05598056426b65e"
 
-When downgrading a package or using a substitute with lower version,
-the way to do it is adding or increasing PE and there may be other
-reasons to set PE.
+--001a1144a268c05598056426b65e
+Content-Type: text/plain; charset="UTF-8"
 
-But it doesn't directly help dependant packages because the shlib
-records only contain PV.
+On 1 February 2018 at 12:55, Daniel F. Dickinson <cshored@thecshore.com>
+wrote:
 
-Let's add the PE value into the shlib records for packages where
-it's set.
+> I'm wondering if is doable and would be accepted to add a "tiny"
+> DISTRO_FEATURE that automatically does PACKAGECONFIG += "tiny", and
+> packages which honour this make choices that build smaller editions and/or
+> create smaller binary sub-packages than default (i.e. things that can be
+> split out of build packages are, so that a -core or -base package has only
+> the minimum, and a one uses metapackages to install expected packaging (so
+> ${PN} would by default RDEPEND on ${PN}-base and other sub-packages (or
+> other recipes packages/sub-packages) that give the 'usual' use case for the
+> package, but can be managed in parts for systems that are quite small.
+>
+> Or is the splitting into sub-parts preferred anyway and patches to make
+> smaller splits would accepted relatively easily, but usually just don't get
+> done because it's more work to have more sub-packages and so it just
+> doesn't get done to the level a project like OpenWrt pieces things up, and
+> OpenEmbedded usually has more space available than a typical OpenWrt device?
+>
+> I think PACKAGECONFIG[tiny] would really translate into different things
+> in different packages (hence the idea of having a top-level flag that
+> makes it easier to do across the board rather than having to specify
+> specific flags for each recipe, except in exceptional circumstances),
+> although something like nossl should perhaps be a separate top-level flag
+> since even if you want small you probably want some kind of ssl, but there
+> may be relevant use cases where nossl would be wanted but isn't just about
+> size.  With -tiny one could perhaps emphasize the choice of smaller SSL
+> libraries like mbedtls and wolfssl (cyassl) when they are an option and
+> warn (or refuse to build) if a big library like openssl can't be avoided.
+>
 
-The in-memory variables storing the versions now use the PE:PV
-notation but the on-disk files must use something else because
-the : character is already used as field delimiter in the package.list
-files storing the shlib records. Use # instead in the files,
-so the file format doesn't change. Conversion occurs on reading
-and writing the package.list files.
+I feel that DISTRO_FEATURES=tiny is too coarse: you may want a tiny busybox
+but a fully-featured wget, or whatever.
 
-v2:
+Also PACKAGECONFIG[tiny] doesn't really explain *what* it's doing, and may
+end up doing many things at once.  Does a tiny systemd disable networkd?
+What if you want as tiny as possible, but with networkd?
 
-Also store PR in a new 4th field in the shlib records. If it's set,
-i.e. it's different from "r0" then it will also be used in the
-packages for shared library dependencies.
+Fine grained PACKAGECONFIGs and/or subpackages as appropriate are
+definitely the way forwards in my opinion.
 
-v3:
+Ross
 
-Store PE and PR in the 4th and 5th fields in the shlib records
-and use variable STRICT_PE_PR_DEPS to activate the new behavior
-to preserve compatibility with the old ways.
-The presence of STRICT_PE_PR_DEPS is used both for storing PE and
-PR in the shlib records and for setting it in the binary packages.
-This way, it can be used as a distro-wide or per-recipe setting.
+--001a1144a268c05598056426b65e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Zoltán Böszörményi <zboszor@pr.hu>
----
- meta/classes/package.bbclass | 60 +++++++++++++++++++++++++++++++++-----------
- meta/lib/oe/package.py       |  4 ++-
- 2 files changed, 48 insertions(+), 16 deletions(-)
+<div dir=3D"ltr">On 1 February 2018 at 12:55, Daniel F. Dickinson <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:cshored@thecshore.com" target=3D"_blank">csh=
+ored@thecshore.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div=
+ class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;m wondering if =
+is doable and would be accepted to add a &quot;tiny&quot; DISTRO_FEATURE th=
+at automatically does PACKAGECONFIG +=3D &quot;tiny&quot;, and<br>
+packages which honour this make choices that build smaller editions and/or =
+create smaller binary sub-packages than default (i.e. things that can be sp=
+lit out of build packages are, so that a -core or -base package has only th=
+e minimum, and a one uses metapackages to install expected packaging (so ${=
+PN} would by default RDEPEND on ${PN}-base and other sub-packages (or other=
+ recipes packages/sub-packages) that give the &#39;usual&#39; use case for =
+the package, but can be managed in parts for systems that are quite small.<=
+br>
+<br>
+Or is the splitting into sub-parts preferred anyway and patches to make sma=
+ller splits would accepted relatively easily, but usually just don&#39;t ge=
+t done because it&#39;s more work to have more sub-packages and so it just =
+doesn&#39;t get done to the level a project like OpenWrt pieces things up, =
+and OpenEmbedded usually has more space available than a typical OpenWrt de=
+vice?<br>
+<br>
+I think PACKAGECONFIG[tiny] would really translate into different things in=
+ different packages (hence the idea of having a top-level flag that<br>
+makes it easier to do across the board rather than having to specify specif=
+ic flags for each recipe, except in exceptional circumstances), although so=
+mething like nossl should perhaps be a separate top-level flag since even i=
+f you want small you probably want some kind of ssl, but there may be relev=
+ant use cases where nossl would be wanted but isn&#39;t just about size.=C2=
+=A0 With -tiny one could perhaps emphasize the choice of smaller SSL librar=
+ies like mbedtls and wolfssl (cyassl) when they are an option and warn (or =
+refuse to build) if a big library like openssl can&#39;t be avoided.<br></b=
+lockquote><div><br></div><div>I feel that DISTRO_FEATURES=3Dtiny is too coa=
+rse: you may want a tiny busybox but a fully-featured wget, or whatever.</d=
+iv><div><br></div><div>Also PACKAGECONFIG[tiny] doesn&#39;t really explain =
+*what* it&#39;s doing, and may end up doing many things at once.=C2=A0 Does=
+ a tiny systemd disable networkd? What if you want as tiny as possible, but=
+ with networkd?</div><div><br></div><div>Fine grained PACKAGECONFIGs and/or=
+ subpackages as appropriate are definitely the way forwards in my opinion.<=
+/div><div><br></div><div>Ross</div></div></div></div>
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 6a7f35a3e7..8207acd540 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1580,7 +1580,7 @@ python package_do_shlibs() {
-     # Take shared lock since we're only reading, not writing
-     lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
- 
--    def linux_so(file, needed, sonames, renames, pkgver):
-+    def linux_so(file, needed, sonames, renames, pkgver, pkgpe, pkgpr):
-         needs_ldconfig = False
-         ldir = os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
-         cmd = d.getVar('OBJDUMP') + " -p " + pipes.quote(file) + " 2>/dev/null"
-@@ -1602,7 +1602,7 @@ python package_do_shlibs() {
-             m = re.match("\s+SONAME\s+([^\s]*)", l)
-             if m:
-                 this_soname = m.group(1)
--                prov = (this_soname, ldir, pkgver)
-+                prov = (this_soname, ldir, pkgver, pkgpe, pkgpr)
-                 if not prov in sonames:
-                     # if library is private (only used by package) then do not build shlib for it
-                     if not private_libs or this_soname not in private_libs:
-@@ -1613,7 +1613,7 @@ python package_do_shlibs() {
-                     renames.append((file, os.path.join(os.path.dirname(file), this_soname)))
-         return needs_ldconfig
- 
--    def darwin_so(file, needed, sonames, renames, pkgver):
-+    def darwin_so(file, needed, sonames, renames, pkgver, pkgpe, pkgpr):
-         if not os.path.exists(file):
-             return
-         ldir = os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
-@@ -1638,7 +1638,7 @@ python package_do_shlibs() {
-             combos = get_combinations(name)
-             for combo in combos:
-                 if not combo in sonames:
--                    prov = (combo, ldir, pkgver)
-+                    prov = (combo, ldir, pkgver, pkgpe, pkgpr)
-                     sonames.append(prov)
-         if file.endswith('.dylib') or file.endswith('.so'):
-             rpath = []
-@@ -1665,13 +1665,13 @@ python package_do_shlibs() {
-                 if name and name not in needed[pkg]:
-                      needed[pkg].append((name, file, []))
- 
--    def mingw_dll(file, needed, sonames, renames, pkgver):
-+    def mingw_dll(file, needed, sonames, renames, pkgver, pkgpe, pkgpr):
-         if not os.path.exists(file):
-             return
- 
-         if file.endswith(".dll"):
-             # assume all dlls are shared objects provided by the package
--            sonames.append((os.path.basename(file), os.path.dirname(file).replace(pkgdest + "/" + pkg, ''), pkgver))
-+            sonames.append((os.path.basename(file), os.path.dirname(file).replace(pkgdest + "/" + pkg, ''), pkgver, pkgpe, pkgpr))
- 
-         if (file.endswith(".dll") or file.endswith(".exe")):
-             # use objdump to search for "DLL Name: .*\.dll"
-@@ -1706,6 +1706,24 @@ python package_do_shlibs() {
-         if not pkgver:
-             pkgver = ver
- 
-+        pkgpe = d.getVar('PE')
-+        pkgpr = d.getVar('PR')
-+        if pkgpr == 'r0':
-+           pkgpr = ''
-+
-+        strict_deps = d.getVar('STRICT_PE_PR_DEPS')
-+
-+        if strict_deps:
-+            dep_pe = pkgpe
-+            if dep_pe:
-+                dep_pe = dep_pe + ':'
-+            dep_pr = pkgpr
-+            if dep_pr:
-+               dep_pr = '-' + dep_pr
-+        else:
-+            dep_pe = ''
-+            dep_pr = ''
-+
-         needed[pkg] = []
-         sonames = list()
-         renames = list()
-@@ -1714,11 +1732,11 @@ python package_do_shlibs() {
-                 if cpath.islink(file):
-                     continue
-                 if targetos == "darwin" or targetos == "darwin8":
--                    darwin_so(file, needed, sonames, renames, pkgver)
-+                    darwin_so(file, needed, sonames, renames, pkgver, pkgpe, pkgpr)
-                 elif targetos.startswith("mingw"):
--                    mingw_dll(file, needed, sonames, renames, pkgver)
-+                    mingw_dll(file, needed, sonames, renames, pkgver, pkgpe, pkgpr)
-                 elif os.access(file, os.X_OK) or lib_re.match(file):
--                    ldconfig = linux_so(file, needed, sonames, renames, pkgver)
-+                    ldconfig = linux_so(file, needed, sonames, renames, pkgver, pkgpe, pkgpr)
-                     needs_ldconfig = needs_ldconfig or ldconfig
-         for (old, new) in renames:
-             bb.note("Renaming %s to %s" % (old, new))
-@@ -1730,14 +1748,14 @@ python package_do_shlibs() {
-             fd = open(shlibs_file, 'w')
-             for s in sonames:
-                 if s[0] in shlib_provider and s[1] in shlib_provider[s[0]]:
--                    (old_pkg, old_pkgver) = shlib_provider[s[0]][s[1]]
-+                    (old_pkg, old_pkgver, old_pkgpe, old_pkgpr) = shlib_provider[s[0]][s[1]]
-                     if old_pkg != pkg:
--                        bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s[0], pkg, pkgver))
-+                        bb.warn('%s-%s%s%s was registered as shlib provider for %s, changing it to %s-%s%s%s because it was built later' % (old_pkg, ((old_pkgpe + ':') if old_pkgpe else ''), old_pkgver, (('-' + old_pkgpr) if old_pkgpr else '' ), s[0], pkg, ((pkgpe + ':') if pkgpe else ''), pkgver, (('-' + pkgpr) if pkgpr else '')))
-                 bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s[0]))
--                fd.write(s[0] + ':' + s[1] + ':' + s[2] + '\n')
-+                fd.write(s[0] + ':' + s[1] + ':' + s[2] + ':' + s[3] + ':' + s[4] + '\n')
-                 if s[0] not in shlib_provider:
-                     shlib_provider[s[0]] = {}
--                shlib_provider[s[0]][s[1]] = (pkg, pkgver)
-+                shlib_provider[s[0]][s[1]] = (pkg, pkgver, pkgpe, pkgpr)
-             fd.close()
-         if needs_ldconfig and use_ldconfig:
-             bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
-@@ -1769,6 +1787,8 @@ python package_do_shlibs() {
-     for pkg in packages.split():
-         bb.debug(2, "calculating shlib requirements for %s" % pkg)
- 
-+        strict_deps = d.getVar('STRICT_PE_PR_DEPS')
-+
-         deps = list()
-         for n in needed[pkg]:
-             # if n is in private libraries, don't try to search provider for it
-@@ -1789,15 +1809,25 @@ python package_do_shlibs() {
-                         match = p
-                         break
-                 if match:
--                    (dep_pkg, ver_needed) = shlib_provider[n[0]][match]
-+                    (dep_pkg, ver_needed, pe_needed, pr_needed) = shlib_provider[n[0]][match]
- 
-                     bb.debug(2, '%s: Dependency %s requires package %s (used by files: %s)' % (pkg, n[0], dep_pkg, n[1]))
- 
-                     if dep_pkg == pkg:
-                         continue
- 
-+                    if strict_deps and pe_needed:
-+                        pe_needed = pe_needed + ':'
-+                    else:
-+                        pe_needed = ''
-+
-+                    if strict_deps and pr_needed and pr_needed != 'r0':
-+                        pr_needed = '-' + pr_needed
-+                    else:
-+                        pr_needed = ''
-+
-                     if ver_needed:
--                        dep = "%s (>= %s)" % (dep_pkg, ver_needed)
-+                        dep = "%s (>= %s%s%s)" % (dep_pkg, pe_needed, ver_needed, pr_needed)
-                     else:
-                         dep = dep_pkg
-                     if not dep in deps:
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 1e5c3aa8e1..fa6de34d78 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -256,9 +256,11 @@ def read_shlib_providers(d):
-                 fd.close()
-                 for l in lines:
-                     s = l.strip().split(":")
-+                    while len(s) < 5:
-+                        s.append('')
-                     if s[0] not in shlib_provider:
-                         shlib_provider[s[0]] = {}
--                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
-+                    shlib_provider[s[0]][s[1]] = (dep_pkg, s[2], s[3], s[4])
-     return shlib_provider
- 
- 
--- 
-2.14.3
-
-
+--001a1144a268c05598056426b65e--
