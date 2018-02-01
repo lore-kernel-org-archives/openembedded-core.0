@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id DFD0D786C6
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 101FF783C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 13:54:54 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id t22so19237872ioa.7
+	Thu,  1 Feb 2018 14:03:46 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id 72so19244041iom.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Feb 2018 05:54:56 -0800 (PST)
+	Thu, 01 Feb 2018 06:03:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5a2sgSDWhgCc9EI16qDc5ClYQ4C5oJ7eslOeL6tn4o4=;
-	b=ioN4G0+K6H/WanC+thiAKgla4XRf6yoHDXziZqdP7RmH6pOSdlQscbqfNKpeVqpJyv
-	WXxviTdfbYkGBY+HK9QbWfmwR6Qgo0txmXZFCIeuBGeIpszIjPf5eECMNfUav4bzEgut
-	/nmie66wdOf96hSeVzzz9Bnnkvmvfq2U17Rw3uXmk4jA6tJ7ZHko7uGtHdvQ09uBC2R6
-	TtDpKRHIKZYTCJ5Ip/QnsOVRux2u33rAr4p9vmo3RrZo1jxBYcqcoguZhq0GUBjU5IWm
-	IaqUSkBjAFmNhNXh+gVkeqIe+oB1XZWfUv6xtGYU8p6OZ94h0rnxCKn4yUCfiD0HHFOn
-	9/gw==
+	:cc; bh=qZ0oc4CQlI5RY+Es8azjZ2a+8BjBOy2mOX+POSFtRRc=;
+	b=fZ+r7Adajy5SyjAUDOd/jz5nV5lPTXSsQS4EAI/tCTSLKJWmPbINnULFPqsxM53H2T
+	wUwbmPL9V1fNRWU0tCdx1L3eefuTUN+nb3sf18HWTlb9niNjdETZeFEN57jWjfYiPS2C
+	R0OXwW2GQw5/kZja2+Z4dclQlDAbtY33jtEDSV8N/UmtBpA0cyc/NFWRvU1VBFDETpqc
+	dKq/OwVzPF7opSKd7xRoGoJyAM1YfYBpiXCxgS4ftJB9trEkVCv4emKdenK15DHqjo7Z
+	cjpn1NrNeOijGd+5eFcWJLJOOUNIYx11txTBxDekas9bHf3lTzBqTwgw82R33vcVx5Ca
+	heLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=5a2sgSDWhgCc9EI16qDc5ClYQ4C5oJ7eslOeL6tn4o4=;
-	b=NP0b+ah5L9ako6+PIlpA/7h8rr4mZb1Gyvaw6/dDT0v5W96120/wXygAJ1FmHAHsMx
-	LlwO9eq283qdJkMyr14BYuYtU3pBFbWrxh8mCJOR4a9nHV5499zNIdExRaIsIUZFn/Uy
-	jHRspNpN+spBOAXxKTnJKMMJcVgFjH8peq4cbJdFPScZvydnwHGe7H9BdiacP2eANtg3
-	ZeUihLL2mg23J5AgY8srExtAhCiV4NzZU6bG+Aeg33dMqeefYCm43XM/2GCIPWPltC8y
-	DfmfCna5IRmiOaFoqYukSJejyrIPKBy09DU2ntsrGM05MhkzyTQb/oUCrZUmWL+BmESY
-	RReA==
-X-Gm-Message-State: AKwxytcKn9sQYQf+RIVCO5gkqDDWqXcLP0YCT8CL4IpMaEbWF+sUvcxO
-	bIIdefwE+JovaqLQi2X1TuVUgFbpZqw1E7M7nTM8xw==
-X-Google-Smtp-Source: AH8x227SLxajO3idELcLZuTvfUPtOa48278nZdAWdLh2iBLjOlHhoJQMCqi4eJomycAo6hzgtQDh+cWm0/oKIqr387Y=
-X-Received: by 10.107.32.19 with SMTP id g19mr37784657iog.217.1517493295813;
-	Thu, 01 Feb 2018 05:54:55 -0800 (PST)
+	bh=qZ0oc4CQlI5RY+Es8azjZ2a+8BjBOy2mOX+POSFtRRc=;
+	b=sUj+Z7QiGOKlnGx+3FwGSFU8IjZGSm2LyVVtViwDuMb/CntkyV43sVN00G0yq5qB+G
+	RfZz+mc2Qcg09NEwkCV/cK41Jaihg4uc6R70WYRYhMd5+zXhKhOkRP7QUifY1U5wSITk
+	TwMsNoXpNQnP9EH4/IMPw8B/Q/mCw72cd+S116fem9IuEM+NDxHvZjZTG7Mb/RwX12im
+	1gcZE3Q1wUAvYuh++VUuX8DTu3QcyAvXMs5dk7ftBJxcTgnr/+/GxDRc52TwqjXW5P7c
+	oTmMo45oOfpXMbuK42s85R9SaI1GFR+d+RKWJFCJl3iwLkFTKD2YrFLJUC+VANpqplMJ
+	1bMw==
+X-Gm-Message-State: AKwxytcGg+AItM4fFP399IVhewf/YZXGNp0aXl9g6TOhdJqlslpx8iCU
+	3dULUua2DO0XCUAyHfx+4yym8VrwXZE5BOahg/4Msw==
+X-Google-Smtp-Source: AH8x226H5iAd3Rj7ebXNzT0CWmTwI5HRSevxn6Ip+qLAY9XEiOspCSsi739mIVGShUL3v+s1TaIBKe7TuqCC69O/7uQ=
+X-Received: by 10.107.186.86 with SMTP id k83mr37959650iof.208.1517493828489; 
+	Thu, 01 Feb 2018 06:03:48 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Thu, 1 Feb 2018 05:54:35 -0800 (PST)
-In-Reply-To: <e6645328-4252-1a0b-d69c-37578461c5cf@thecshore.com>
-References: <90ac077a-5126-fb99-0512-9a12851be994@thecshore.com>
-	<CAJTo0LY2whxu8P8u4-U9s7pn6KJZLX53x4ZJ8xH+dN2c6gciyA@mail.gmail.com>
-	<e6645328-4252-1a0b-d69c-37578461c5cf@thecshore.com>
+Received: by 10.107.17.206 with HTTP; Thu, 1 Feb 2018 06:03:28 -0800 (PST)
+In-Reply-To: <49611977-aff9-6e13-ab7a-0233208e49b3@intel.com>
+References: <20171219221234.21699-1-california.l.sullivan@intel.com>
+	<8686fa07-e2a8-1080-e646-7380437e7338@intel.com>
+	<49611977-aff9-6e13-ab7a-0233208e49b3@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Feb 2018 13:54:35 +0000
-Message-ID: <CAJTo0LZyLzYWAWcR7WUY+e9u2c=LhdqQg6WU2p8dCsB7umiv2A@mail.gmail.com>
-To: "Daniel F. Dickinson" <cshored@thecshore.com>
+Date: Thu, 1 Feb 2018 14:03:28 +0000
+Message-ID: <CAJTo0LZJfZMVoG_WCJYEqJvCH4aBUE1pv=i4HYZmqtTEMKkvVQ@mail.gmail.com>
+To: Cal Sullivan <california.l.sullivan@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Adding a "tiny" DISTRO_FEATURE and having packages build smaller
+Subject: Re: [PATCH] core-image-minimal-initramfs: use initramfs-framework for initialization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,55 +57,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 13:54:55 -0000
-Content-Type: multipart/alternative; boundary="001a1141a2a4d8b570056426f0c2"
+X-List-Received-Date: Thu, 01 Feb 2018 14:03:49 -0000
+Content-Type: multipart/alternative; boundary="94eb2c076a7098c70c0564271048"
 
---001a1141a2a4d8b570056426f0c2
+--94eb2c076a7098c70c0564271048
 Content-Type: text/plain; charset="UTF-8"
 
-On 1 February 2018 at 13:44, Daniel F. Dickinson <cshored@thecshore.com>
-wrote:
-
-> I guess the question is would it be useful to have a flag that chooses
-> a 'typical' tinyness but can be overridden (I'm think here of avoiding
-> having to specify huge numbers of PACKAGECONFIGs for a typical tiny case,
-> when really you want most of the 'normal' tinyness with some
-> tweaks.  What I'm think is that "tiny" really should just change the
-> defaults for PACKAGECONFIG etc, but like the defaults can be easily
-> overridden.
->
-
-Well in the idiomatic way the default would be "all the things are on", so
-doing a "tiny" build would be just setting PACKAGECONFIG="".
-
-When we're dealing with tiny configurations you can't really say "and this
-is what people will want", because that's precisely the problem: you don't
-know what someone else will want.
+Sorry, missed this.  I'll pull it into MUT and throw it at the
+autobuilder...
 
 Ross
 
---001a1141a2a4d8b570056426f0c2
+On 31 January 2018 at 22:53, Cal Sullivan <california.l.sullivan@intel.com>
+wrote:
+
+> Ping.
+>
+> ---
+> Cal
+>
+>
+> On 01/09/2018 05:00 PM, Cal Sullivan wrote:
+>
+>> Anything wrong with this? Haven't seen it hit any mut branches.
+>>
+>> Thanks,
+>> Cal
+>>
+>> On 12/19/2017 02:12 PM, California Sullivan wrote:
+>>
+>>> initramfs-framework is more modular and expandable. This change was
+>>> proposed in commit 28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e
+>>> "core-image-minimal-initramfs: use initramfs-framework by default" but
+>>> reverted due to the selftests runqemu.RunqemuTests.test_boot_machine_iso
+>>> and runqemu.RunqemuTests.test_boot_deploy_hddimg failing. Since then,
+>>> the kinks have been worked out, and missing functionality that had been
+>>> missed (non-EFI installation module) has been added.
+>>>
+>>> Since the PACKAGE_INSTALL variable was getting so long with all these
+>>> individual modules getting added, I also introduced a new
+>>> INITRAMFS_SCRIPTS variable to the core-image-minimal-initramfs recipe.
+>>> This variable makes the recipe look much cleaner, and also allows easier
+>>> replacement or additions to the scripts.
+>>>
+>>> Fixes [YOCTO #10987].
+>>>
+>>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>>> ---
+>>>   meta/recipes-core/images/core-image-minimal-initramfs.bb | 10
+>>> +++++++++-
+>>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>>> b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>>> index 5794a25952a..a9ba91bd310 100644
+>>> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>>> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>>> @@ -3,7 +3,15 @@ DESCRIPTION = "Small image capable of booting a device.
+>>> The kernel includes \
+>>>   the Minimal RAM-based Initial Root Filesystem (initramfs), which finds
+>>> the \
+>>>   first 'init' program more efficiently."
+>>>   -PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install
+>>> initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
+>>> ${ROOTFS_BOOTSTRAP_INSTALL}"
+>>> +INITRAMFS_SCRIPTS ?= "\
+>>> +                      initramfs-framework-base \
+>>> +                      initramfs-module-setup-live \
+>>> +                      initramfs-module-udev \
+>>> +                      initramfs-module-install \
+>>> +                      initramfs-module-install-efi \
+>>> +                     "
+>>> +
+>>> +PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils}
+>>> udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+>>>     # Do not pollute the initrd image with rootfs features
+>>>   IMAGE_FEATURES = ""
+>>>
+>>
+>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--94eb2c076a7098c70c0564271048
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 1 February 2018 at 13:44, Daniel F. Dickinson <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:cshored@thecshore.com" target=3D"_blank">csh=
-ored@thecshore.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I guess the question =
-is would it be useful to have a flag that chooses<br>
-a &#39;typical&#39; tinyness but can be overridden (I&#39;m think here of a=
-voiding having to specify huge numbers of PACKAGECONFIGs for a typical tiny=
- case, when really you want most of the &#39;normal&#39; tinyness with some=
+<div dir=3D"ltr">Sorry, missed this.=C2=A0 I&#39;ll pull it into MUT and th=
+row it at the autobuilder...<div><br></div><div>Ross</div></div><div class=
+=3D"gmail_extra"><br><div class=3D"gmail_quote">On 31 January 2018 at 22:53=
+, Cal Sullivan <span dir=3D"ltr">&lt;<a href=3D"mailto:california.l.sulliva=
+n@intel.com" target=3D"_blank">california.l.sullivan@intel.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Ping.<br>
 <br>
-tweaks.=C2=A0 What I&#39;m think is that &quot;tiny&quot; really should jus=
-t change the defaults for PACKAGECONFIG etc, but like the defaults can be e=
-asily overridden.<br></blockquote><div><br></div><div>Well in the idiomatic=
- way the default would be &quot;all the things are on&quot;, so doing a &qu=
-ot;tiny&quot; build would be just setting PACKAGECONFIG=3D&quot;&quot;.</di=
-v><div><br></div><div>When we&#39;re dealing with tiny configurations you c=
-an&#39;t really say &quot;and this is what people will want&quot;, because =
-that&#39;s precisely the problem: you don&#39;t know what someone else will=
- want.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+---<br>
+Cal<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+On 01/09/2018 05:00 PM, Cal Sullivan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Anything wrong with this? Haven&#39;t seen it hit any mut branches.<br>
+<br>
+Thanks,<br>
+Cal<br>
+<br>
+On 12/19/2017 02:12 PM, California Sullivan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+initramfs-framework is more modular and expandable. This change was<br>
+proposed in commit 28fc6ba761ed4a47efa7c43e7f7dff<wbr>5e2fe72b5e<br>
+&quot;core-image-minimal-initramfs: use initramfs-framework by default&quot=
+; but<br>
+reverted due to the selftests runqemu.RunqemuTests.test_boot<wbr>_machine_i=
+so<br>
+and runqemu.RunqemuTests.test_boot<wbr>_deploy_hddimg failing. Since then,<=
+br>
+the kinks have been worked out, and missing functionality that had been<br>
+missed (non-EFI installation module) has been added.<br>
+<br>
+Since the PACKAGE_INSTALL variable was getting so long with all these<br>
+individual modules getting added, I also introduced a new<br>
+INITRAMFS_SCRIPTS variable to the core-image-minimal-initramfs recipe.<br>
+This variable makes the recipe look much cleaner, and also allows easier<br=
+>
+replacement or additions to the scripts.<br>
+<br>
+Fixes [YOCTO #10987].<br>
+<br>
+Signed-off-by: California Sullivan &lt;<a href=3D"mailto:california.l.sulli=
+van@intel.com" target=3D"_blank">california.l.sullivan@intel.c<wbr>om</a>&g=
+t;<br>
+---<br>
+=C2=A0 meta/recipes-core/images/<a href=3D"http://core-image-minimal-initra=
+mfs.bb" rel=3D"noreferrer" target=3D"_blank">core-<wbr>image-minimal-initra=
+mfs.bb</a> | 10 +++++++++-<br>
+=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/images/<a href=3D"http://core-image-minimal-=
+initramfs.bb" rel=3D"noreferrer" target=3D"_blank">cor<wbr>e-image-minimal-=
+initramfs.bb</a> b/meta/recipes-core/images/<a href=3D"http://core-image-mi=
+nimal-initramfs.bb" rel=3D"noreferrer" target=3D"_blank">cor<wbr>e-image-mi=
+nimal-initramfs.bb</a><br>
+index 5794a25952a..a9ba91bd310 100644<br>
+--- a/meta/recipes-core/images/<a href=3D"http://core-image-minimal-initram=
+fs.bb" rel=3D"noreferrer" target=3D"_blank">cor<wbr>e-image-minimal-initram=
+fs.bb</a><br>
++++ b/meta/recipes-core/images/<a href=3D"http://core-image-minimal-initram=
+fs.bb" rel=3D"noreferrer" target=3D"_blank">cor<wbr>e-image-minimal-initram=
+fs.bb</a><br>
+@@ -3,7 +3,15 @@ DESCRIPTION =3D &quot;Small image capable of booting a dev=
+ice. The kernel includes \<br>
+=C2=A0 the Minimal RAM-based Initial Root Filesystem (initramfs), which fin=
+ds the \<br>
+=C2=A0 first &#39;init&#39; program more efficiently.&quot;<br>
+=C2=A0 -PACKAGE_INSTALL =3D &quot;initramfs-live-boot initramfs-live-instal=
+l initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd=
+ ${ROOTFS_BOOTSTRAP_INSTALL}&quot;<br>
++INITRAMFS_SCRIPTS ?=3D &quot;\<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initramfs-framework-=
+base \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initramfs-module-set=
+up-live \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initramfs-module-ude=
+v \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initramfs-module-ins=
+tall \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initramfs-module-ins=
+tall-efi \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;<br>
++<br>
++PACKAGE_INSTALL =3D &quot;${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-util=
+s} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}&quot;<br>
+=C2=A0 =C2=A0 # Do not pollute the initrd image with rootfs features<br>
+=C2=A0 IMAGE_FEATURES =3D &quot;&quot;<br>
+</blockquote>
+<br>
+</blockquote>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
 
---001a1141a2a4d8b570056426f0c2--
+--94eb2c076a7098c70c0564271048--
