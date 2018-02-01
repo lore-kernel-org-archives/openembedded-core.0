@@ -1,28 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C4CEE7868B
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id B53D178531
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Feb 2018 15:09:55 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w11F9qMY008883
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 1 Feb 2018 15:09:53 GMT
-Message-ID: <1517497791.3090.50.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Piotr Lewicki <piotr.lewicki@elfin.de>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Thu, 01 Feb 2018 15:09:51 +0000
-In-Reply-To: <a7dc8b5e-b277-27c7-b879-4405c1bb04ac@elfin.de>
-References: <8c548149-e116-4b1f-8bfc-86099ac32e93@elfin.de>
-	<CAJTo0Lbb8jH_uyoiD4OsBgf8xsMOdz8a1CjCkoBmKmTwF_3q+g@mail.gmail.com>
-	<a7dc8b5e-b277-27c7-b879-4405c1bb04ac@elfin.de>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: recipe using environment variable does not refresh / rebuild
+	Thu,  1 Feb 2018 18:02:12 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Feb 2018 10:02:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,444,1511856000"; d="scan'208";a="200465152"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2018 10:02:10 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Feb 2018 20:01:51 +0200
+Message-Id: <20180201180210.21652-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH 01/20] oe-selftest: add a test for recipes without maintainers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Feb 2018 15:09:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 01 Feb 2018 18:02:12 -0000
 
-On Thu, 2018-02-01 at 16:00 +0100, Piotr Lewicki wrote:
-> Hi Ross,
-> Good idea, but I'm using gitlab to perform autobuilds and I want to
-> set the variable there (the "ADD_UBOOT_TO_UPDATE" variable) so that
-> it's propagated to the image recipe.
-> I'm want to differentiate the image with and without u-boot only by
-> setting this one environment variable and without additional mangling
-> with local.conf.
-> 
-> If that's not possible- I'll use your idea with setting it in
-> local.conf, but before that I'm trying to understand- why my recipe
-> is not rebuilt?
+'bitbake -c checkpkg world' is moved to class initializer to avoid
+it being run twice in a row.
 
-It isn't rebuilt as bitbake isn't psychic!
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/cases/distrodata.py | 32 +++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-Bitbake doesn't understand what anonymous python fragments do, so it
-can't know that ADD_UBOOT_TO_UPDATE is being changed.
-
-I have a suspicion that it might rebuild, *if* it knew it had to
-reparse the recipe since it probably does know which tasks use that
-variable. It doesn't know you're poking into BB_ORIGENV which you
-really shouldn't be doing.
-
-To make this work as you'd want, you could add ADD_UBOOT_TO_UPDATE to
-BB_PRESERVE_ENV. That might be enough to cause it to re-parse each time
-you change the value and in turn, if the tasks change based on that,
-they might rebuild. I'd at least start there (and stop poking into
-BB_ORIGENV).
-
-Cheers,
-
-Richard
-
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index 12540adc7d8..dd0760cce93 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -9,6 +9,12 @@ class Distrodata(OESelftestTestCase):
+     @classmethod
+     def setUpClass(cls):
+         super(Distrodata, cls).setUpClass()
++        feature = 'INHERIT += "distrodata"\n'
++        feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
++
++        cls.write_config(cls, feature)
++        bitbake('-c checkpkg world')
++
+ 
+     @OETestID(1902)
+     def test_checkpkg(self):
+@@ -18,11 +24,6 @@ class Distrodata(OESelftestTestCase):
+         Product:     oe-core
+         Author:      Alexander Kanavin <alexander.kanavin@intel.com>
+         """
+-        feature = 'INHERIT += "distrodata"\n'
+-        feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
+-
+-        self.write_config(feature)
+-        bitbake('-c checkpkg world')
+         checkpkg_result = open(os.path.join(get_bb_var("LOG_DIR"), "checkpkg.csv")).readlines()[1:]
+         regressed_failures = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[11] == 'UNKNOWN_BROKEN']
+         regressed_successes = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[11] == 'KNOWN_BROKEN']
+@@ -40,3 +41,24 @@ The following packages have been checked successfully for upstream versions,
+ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please remove that line from the recipes.
+ """ + "\n".join(regressed_successes)
+         self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
++
++    def test_maintainers(self):
++        """
++        Summary:     Test that recipes have a maintainer
++        Expected:    All recipes (except a few special static/testing ones) should have a maintainer listed in maintainers.inc file.
++        Product:     oe-core
++        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        """
++        def is_exception(pkg):
++            exceptions = ["packagegroup-", "initramfs-", "systemd-machine-units", "container-image-testpkg", "postinst", "devtool-test-", "selftest-ed", "target-sdk-provides-dummy"]
++            for i in exceptions:
++                 if i in pkg:
++                     return True
++            return False
++
++        checkpkg_result = open(os.path.join(get_bb_var("LOG_DIR"), "checkpkg.csv")).readlines()[1:]
++        no_maintainer_list = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[14] == '' and not is_exception(pkg_data[0])]
++        msg = """
++The following packages do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
++""" + "\n".join(no_maintainer_list)
++        self.assertTrue(len(no_maintainer_list) == 0, msg)
+-- 
+2.15.1
 
 
