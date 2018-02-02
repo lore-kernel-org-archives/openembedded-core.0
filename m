@@ -1,28 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5910D7858F
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id CED9678842
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 13:37:18 +0000 (UTC)
+	Fri,  2 Feb 2018 13:37:20 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Feb 2018 05:37:20 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Feb 2018 05:37:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,448,1511856000"; d="scan'208";a="31468029"
+X-IronPort-AV: E=Sophos;i="5.46,448,1511856000"; d="scan'208";a="200681612"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2018 05:37:19 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 02 Feb 2018 05:37:21 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 556C9580319
+	by linux.intel.com (Postfix) with ESMTP id 5E45F5802D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 05:37:19 -0800 (PST)
+	Fri,  2 Feb 2018 05:37:20 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Feb 2018 15:33:14 +0200
-Message-Id: <1517578395-28398-1-git-send-email-maxin.john@intel.com>
+Date: Fri,  2 Feb 2018 15:33:15 +0200
+Message-Id: <1517578395-28398-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] libsolv: upgrade to version 0.6.31
+In-Reply-To: <1517578395-28398-1-git-send-email-maxin.john@intel.com>
+References: <1517578395-28398-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] x264: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,82 +37,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 13:37:19 -0000
+X-List-Received-Date: Fri, 02 Feb 2018 13:37:21 -0000
 
-Remove upstreamed patch:
-        0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch
+Change dependency from yasm to nasm following this change:
+
+commit d2b5f4873e2147452a723b61b14f030b2ee760a5
+Author: Henrik Gramner <henrik@gramner.com>
+Date:   Sat Mar 18 18:50:36 2017 +0100
+
+    x86: Change assembler from yasm to nasm
+
+Refreshed the following patch:
+        don-t-default-to-cortex-a9-with-neon.patch
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ....c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch | 35 ----------------------
- .../{libsolv_0.6.29.bb => libsolv_0.6.31.bb}       |  3 +-
- 2 files changed, 1 insertion(+), 37 deletions(-)
- delete mode 100644 meta/recipes-extended/libsolv/libsolv/0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch
- rename meta/recipes-extended/libsolv/{libsolv_0.6.29.bb => libsolv_0.6.31.bb} (87%)
+ .../don-t-default-to-cortex-a9-with-neon.patch     | 29 ++++++++++++++++------
+ meta/recipes-multimedia/x264/x264_git.bb           |  6 ++---
+ 2 files changed, 24 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch b/meta/recipes-extended/libsolv/libsolv/0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch
-deleted file mode 100644
-index 4a4e5cb..0000000
---- a/meta/recipes-extended/libsolv/libsolv/0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 1c4c935cb73ac1ccb9693df1a51ba218a22e8ca8 Mon Sep 17 00:00:00 2001
--From: Ming Liu <liu.ming50@gmail.com>
--Date: Sat, 30 Sep 2017 11:15:16 +0800
--Subject: [PATCH] repo_rpmdb.c: increase MAX_HDR_CNT and MAX_HDR_DSIZE
--
--Upstream-Status: Submitted [https://github.com/openSUSE/libsolv/pull/230]
--
--We encountered 'corrupt rpm' issues when installing extreme big RPM
--packages like the kernel-devsrc package of Yocto project.
--
--It can be fixed by increasing MAX_HDR_CNT and MAX_HDR_DSIZE per test.
--
--Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-----
-- ext/repo_rpmdb.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/ext/repo_rpmdb.c b/ext/repo_rpmdb.c
--index c7000a9..7000835 100644
----- a/ext/repo_rpmdb.c
--+++ b/ext/repo_rpmdb.c
--@@ -170,8 +170,8 @@
-- #define MAX_SIG_CNT		0x100000
-- #define MAX_SIG_DSIZE		0x100000
-- 
---#define MAX_HDR_CNT		0x100000
---#define MAX_HDR_DSIZE		0x2000000
--+#define MAX_HDR_CNT		0x200000
--+#define MAX_HDR_DSIZE		0x4000000
-- 
-- typedef struct rpmhead {
--   int cnt;
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.29.bb b/meta/recipes-extended/libsolv/libsolv_0.6.31.bb
-similarity index 87%
-rename from meta/recipes-extended/libsolv/libsolv_0.6.29.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.6.31.bb
-index 78972e5..96c366b 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.6.29.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.31.bb
-@@ -8,13 +8,12 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "expat zlib rpm"
+diff --git a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
+index 73f2aac..065e3b3 100644
+--- a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
++++ b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
+@@ -1,20 +1,33 @@
+--march flag is not in CFLAGS so this will always default to -mcpu=cortex-a8
+--mfpu=neon.
++From a72bf499a0674fc75eedf15008b424e28f67e4bd Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei@gherzan.ro>
++Date: Fri, 2 Feb 2018 15:10:08 +0200
++Subject: [PATCH] dont default to cortex-a9 with neon
++
++-march flag is not in CFLAGS so this will always default to
++ -mcpu=cortex-a8 -mfpu=neon.
  
- SRC_URI = "git://github.com/openSUSE/libsolv.git \
--           file://0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch \
-           "
- SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
-                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
-                            "
+ Upstream-Status: Pending
++
+ Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ configure | 3 ---
++ 1 file changed, 3 deletions(-)
  
--SRCREV = "765be095eaeaef1b1d2a84f6a0e00d5abf677ae9"
-+SRCREV = "bef46d75f6d2537060114eea0f3a892e958ad5e0"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ diff --git a/configure b/configure
+-index 9d1586c..3109ec4 100755
++index 0e3ef23..955b993 100755
+ --- a/configure
+ +++ b/configure
+-@@ -874,9 +874,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
++@@ -911,9 +911,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
+  fi
+  
+  if [ $asm = auto -a $ARCH = ARM ] ; then
+ -    # set flags so neon is built by default
+--    echo $CFLAGS | grep -Eq '(-mcpu|-march|-mfpu)' || CFLAGS="$CFLAGS -mcpu=cortex-a8 -mfpu=neon"
++-    [ $compiler == CL ] || echo $CFLAGS | grep -Eq '(-mcpu|-march|-mfpu)' || CFLAGS="$CFLAGS -mcpu=cortex-a8 -mfpu=neon"
+ -
+-     if  cc_check '' '' '__asm__("rev ip, ip");' ; then      define HAVE_ARMV6
+-         cc_check '' '' '__asm__("movt r0, #0");'         && define HAVE_ARMV6T2
+-         cc_check '' '' '__asm__("vadd.i16 q0, q0, q0");' && define HAVE_NEON
++     cc_check '' '' '__asm__("add r0, r1, r2");' && define HAVE_ARM_INLINE_ASM
++     if [ $compiler = CL ] && cpp_check '' '' 'defined(_M_ARM) && _M_ARM >= 7' ; then
++         define HAVE_ARMV6
++-- 
++2.4.0
++
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index bc9775a..a669295 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
+ LICENSE_FLAGS = "commercial"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+-DEPENDS = "yasm-native"
++DEPENDS = "nasm-native"
+ 
+ SRC_URI = "git://github.com/mirror/x264;branch=stable \
+            file://don-t-default-to-cortex-a9-with-neon.patch \
+@@ -14,9 +14,9 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-SRCREV = "2b741f81e51f92d053d87a49f59ff1026553a0f6"
++SRCREV = "e9a5903edf8ca59ef20e6f4894c196f135af735e"
+ 
+-PV = "r2731+git${SRCPV}"
++PV = "r2854+git${SRCPV}"
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.4.0
 
