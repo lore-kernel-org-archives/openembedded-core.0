@@ -1,136 +1,139 @@
 Return-Path: <alejandr@xilinx.com>
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam02on0067.outbound.protection.outlook.com [104.47.36.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CC067886D
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+	(mail-cys01nam02on0043.outbound.protection.outlook.com
+	[104.47.37.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2834B787DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 21:37:37 +0000 (UTC)
+	Fri,  2 Feb 2018 21:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=CQ8rxRDwtlIEoP/W1txgYcv/8KXuoa0ZI1mQujHP+7M=;
-	b=nIgDZrFzyrzD6hPPHT4KTrCl1bzMT0UgnQr4YizXejs4/A7JV0hzSZzWRUXkP9DwEPI4TUKTCeNpdRHUiKA+ctof+rO5XYSUybnnx7iIGlH5UF/XJvl7m3VrTJ2ihruhxP9rKx+bcXWCPH7XDdK5UjqqUoCXVH1oQz99+SUppBo=
-Received: from MWHPR0201CA0077.namprd02.prod.outlook.com (10.167.161.18) by
-	CY4PR02MB3381.namprd02.prod.outlook.com (10.165.89.152) with Microsoft
+	bh=auar8A/EAPyMkW/HrX3xI2CjsG8ebzfjTIe5Vel2G+c=;
+	b=kYCt9O5+lFVzjsDYCrile/0pcAlG+Yrv/gqDI0pi3D3kwSGX2Wd9cC8ZB8of/o0h0DxqXpOKHUGzEaBEQeLUsxs9rOnD4bBtbgOdYFy8FRNFa80YDLlhKcZSUhcOPHyjkz2RqNXZVQ6qWPTclkA7vkG1RHVluBM28ggxRp12JiU=
+Received: from MWHPR02CA0006.namprd02.prod.outlook.com (10.168.209.144) by
+	CY4PR02MB3382.namprd02.prod.outlook.com (10.165.89.153) with Microsoft
 	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.444.14; Fri, 2 Feb 2018 21:22:48 +0000
-Received: from CY1NAM02FT005.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e45::203) by MWHPR0201CA0077.outlook.office365.com
-	(2603:10b6:301:75::18) with Microsoft SMTP Server (version=TLS1_2,
+	15.20.444.14; Fri, 2 Feb 2018 21:28:53 +0000
+Received: from SN1NAM02FT020.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::205) by MWHPR02CA0006.outlook.office365.com
+	(2603:10b6:300:4b::16) with Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.464.11 via
-	Frontend Transport; Fri, 2 Feb 2018 21:22:47 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	Frontend Transport; Fri, 2 Feb 2018 21:28:53 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
 	smtp.mailfrom=xilinx.com; intel.com; dkim=none (message not signed)
 	header.d=none;intel.com; dmarc=bestguesspass action=none
 	header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	CY1NAM02FT005.mail.protection.outlook.com (10.152.74.117) with
+	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+	SN1NAM02FT020.mail.protection.outlook.com (10.152.72.139) with
 	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.444.13
-	via Frontend Transport; Fri, 2 Feb 2018 21:22:47 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.464.11
+	via Frontend Transport; Fri, 2 Feb 2018 21:28:52 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:33809
+	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
 	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1ehinG-0001wI-Oa; Fri, 02 Feb 2018 13:22:46 -0800
+	id 1ehit9-00072C-Ue; Fri, 02 Feb 2018 13:28:51 -0800
 Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
 	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
 	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1ehinG-0003F0-Lm; Fri, 02 Feb 2018 13:22:46 -0800
-Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
+	id 1ehit9-00040j-Rf; Fri, 02 Feb 2018 13:28:51 -0800
+Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
 	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	w12LMjIN011077; Fri, 2 Feb 2018 13:22:45 -0800
+	w12LSoOg016914; Fri, 2 Feb 2018 13:28:50 -0800
 Received: from [172.19.2.8] by xsj-pvapsmtp01 with esmtp (Exim 4.63)
 	(envelope-from <alejandr@xilinx.com>)
-	id 1ehinF-0003Ex-Ax; Fri, 02 Feb 2018 13:22:45 -0800
+	id 1ehit8-00040X-GO; Fri, 02 Feb 2018 13:28:50 -0800
+From: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <1517523029-19272-1-git-send-email-alejandr@xilinx.com>
 	<20180201223257.15539.41169@do.openembedded.org>
 	<MWHPR0201MB3401497FB2219F33ADADA13FACF90@MWHPR0201MB3401.namprd02.prod.outlook.com>
 	<CAJTo0LbLxeJEGu=sTpg0uXWNRue7FcFuHMc+qbb1zzDe2QH_cQ@mail.gmail.com>
-From: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Message-ID: <1fa84e7e-1032-906c-c25c-136f0a52d695@xilinx.com>
-Date: Fri, 2 Feb 2018 13:22:45 -0800
+	<1fa84e7e-1032-906c-c25c-136f0a52d695@xilinx.com>
+Message-ID: <bcc359a5-5ba7-8cd0-d9c9-767f20114d39@xilinx.com>
+Date: Fri, 2 Feb 2018 13:28:50 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbLxeJEGu=sTpg0uXWNRue7FcFuHMc+qbb1zzDe2QH_cQ@mail.gmail.com>
+In-Reply-To: <1fa84e7e-1032-906c-c25c-136f0a52d695@xilinx.com>
 X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
 X-TM-AS-User-Approved-Sender: Yes;Yes
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(346002)(39380400002)(39860400002)(376002)(396003)(2980300002)(438002)(279900001)(3190300001)(199004)(189003)(28163001)(5660300001)(53386004)(106002)(229853002)(6246003)(606006)(77096007)(84326002)(26005)(186003)(336011)(64126003)(9786002)(31696002)(53546011)(81156014)(81166006)(8936002)(83506002)(270700001)(4326008)(575784001)(65806001)(31686004)(54896002)(2906002)(236005)(106466001)(6306002)(36756003)(93886005)(19625305001)(63266004)(65956001)(65826007)(356003)(33964004)(59450400001)(16586007)(478600001)(76176011)(316002)(2950100002)(37036004)(58126008)(6916009)(107986001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB3381; H:xsj-pvapsmtpgw01;
-	FPR:; SPF:Pass; PTR:unknown-60-83.xilinx.com; A:1; MX:1; LANG:en;
-X-Microsoft-Exchange-Diagnostics: 1; CY1NAM02FT005;
-	1:w/RWRb0DJ6u4VQ2hru5fnQNa8lJ1GIIPV3M6+leA4oOgKJUcMs1c+lSEJulVK0euq8Qj9rmLo/7fbbj6f+5n3cbDypVYYNCvcAqWqOxbguYGst7FXLu0qMFYFhQeDU0W
+	SFS:(10009020)(39380400002)(376002)(346002)(39860400002)(396003)(2980300002)(438002)(279900001)(3190300001)(28163001)(199004)(189003)(65806001)(26005)(9786002)(6246003)(77096007)(36756003)(336011)(8936002)(31686004)(81166006)(63266004)(106466001)(4326008)(81156014)(356003)(5660300001)(65826007)(19625305001)(270700001)(6916009)(64126003)(2950100002)(31696002)(53386004)(966005)(2906002)(37036004)(16586007)(316002)(478600001)(58126008)(83506002)(606006)(65956001)(6306002)(236005)(186003)(84326002)(54896002)(59450400001)(106002)(33964004)(93886005)(53546011)(76176011)(575784001)(229853002)(107986001)(5001870100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB3382; H:xsj-pvapsmtpgw02;
+	FPR:; SPF:Pass; PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com;
+	A:1; MX:1; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; SN1NAM02FT020;
+	1:06h8+dkzjfPPeY8Nu6BH/CRRiRiyqEq9XIhtUPAcBogG52pkXjhQZ5CvUY5/WyI5muocLsbjxmjpTiDPL1dI/xu0GIAgOXBHY+6LcJtmhrdfJDi7Xg/j3eqUOAvTsY3u
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 24176a04-11be-47a4-a157-08d56a831b5e
+X-MS-Office365-Filtering-Correlation-Id: 8020485c-fbcd-4466-d934-08d56a83f4fb
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(4604075)(4608076)(2017052603307)(7153060);
-	SRVR:CY4PR02MB3381; 
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3381;
-	3:7TW5MwX3iPz5zKdemC42zrxuAWaqF7PoroBvqmLaObLQ6UDSM5dPHD94RmsQhNmBNKn/R5oEgZb5BLqHYGDI8OjBmYTBlJDwAPlt3cg5AtX2J2XTqSwxBZW6ZQ1dRSGe9vvVWcp75NOqW7npHFZkid925IA2FBPcpQKPsCb6fJ7tOOTpokniAvmVSPvKkUbYHyloRWkEKCTUHavrozObTKszDq7s/b60Y5AkdC495xRdhqiyWuxx9k3E8f3/ZNthUf8e48gSuvwPWNP+Ko1KWjHASCB9tHsxrZgYqLWbYYQj1/CefTWgzf8NeWQeeXjUxUyIjShlwaEcZ6abJ+KLwVlp86cT2jX3yUbfVxrJou0=;
-	25:Zptd12sO1EWZ/fjrng5uC/13bZ72lZbwbtewrkq2Yl/E8W4Z4nsjgxmFmgjaPlL+/j90IpWIjEnqV6filtPlCGASEfIPbi3uRXbQpIZvUAR3xiNfboadIgQOIcueGH7xJmp7gZtOnHlIgy9TYOL79xe2d6J8hPCdhWbwxVu264yjDEFx2Yl1IZG7Xe8Xcotho6xIsejO+BrggIe+YtBfHZ1MB0F1r7Jil0RmqUkMblluRNe8b4g2nGjA9t58LAfEZ575PQbFfmYiChCN5Gm0fwAgdGpNxvNustSdKkDM+MxR7IqAkrhoX/Wg3WeMcfC1nC1hCeKDZEAHOmQCSz8KUA==
-X-MS-TrafficTypeDiagnostic: CY4PR02MB3381:
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3381;
-	31:UA5hwHsO+SANYp83gQ/mpoHjOlXSuKWaiCVssJrOxcYbXcO82OVHA8sli3U0B4e8X/jOyFgyqhD7NK+2zjqz0WjTKvB7xZuKIVwsa1B37hFc9OeAo5kI2JI+cENg5wA6BMm279SU2lrGcrWhM4VpRkzi3JRmE58JGsTFTlNp8CwtkJX5kZZkACyvTqQ1Tn3KZzedkciBANb43MPK8lZGVpK/2YUxuoBeLwnWwVzkYCc=;
-	20:qUT8uW1SfRC0Y/SrPOIuOvO3H1Ma+6O4oYpvO/vtgKM0TJma+AFV707piEWVLN2sx7C7wbs7oQKBCC9qe+67DJbAWOc6c95zTiWRGb3zxjoUzEjL6+Hkh2cV1MOjxY+hL0Cb23vla+MRu8O7YcdjjRB/Ur+LoXReYUMkv7a3xmLpK+uFxE5EijnW2d3lS8pVdSbMDZkt/3JZ3GNZ8Yjkkjt6X2YEkv0mGUNMelbC5wfjjsWf/PwTD9kOz6MI1LWlSNdmrla3pSZoUcn/CYhWPeEpmSdNP7XvVMlB7XmvxUN78O28G7qZ4e+xqDGZkjjm0HpQbmGqnbV5QARzfNld6x5yQ14tcvNuFWDO+1Wk5dwLtpjd5o06xEXvD6AMuCBSaDdRbK2QWWGRrgqvbjcks6Y+kVZpbYm8svs4RxZhhbQfcz88j+PjnhnQIZZZw6LO4cRomDW9riVh4BC6oBL6hTJ5IF9+REv1hlzb2gFCRiBPVN/+mC5XZZWhSiYyTxtF
+	SRVR:CY4PR02MB3382; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3382;
+	3:8GjR+g1oZGzgu7X67TIuWpZ38hYlMcjRf46Dbs7PZVgUwiykOSfBdNiivlr+AQm+50aiFjm1dhsoO/STOZ8Gr3SZQUNoZ0vr4CidE+XeKtV8J0XUfp9P7XJ6eyI+gWQJG/6M/XAT7SPkIRT+KWTbRbKZY+u58ov+zDNHJr26xvRAiiEt9hve3I0xXQOZQ8hQj/Frev1Ppg+ngW/YXO+0wjOIH511h+3X1SS8GyxnfSH0kPKDhhuPIIN/zA4N97TlXoXPgfAA+EF1UYgj1dcVkyB3uyFVQvIazrDwzBBH+Iv58M8UX57SfxoOGSML8rXH1+jlkV/kX/79IqWgnJNOMc6NECMDLBGqHoqkGEFOlt8=;
+	25:pbxCwgmnzBDq9UFGYSagiHCZ+HNEh5wJ31IRXbxiwJgtZrBp4ZJ9fULwsN2h+eUbIyU1Mh3kIeSrnStSoNBYPc0tpcXe+GYYBQUI+Gf4IhkVOKpOYux/DDrI5VqlEn1ErKR4LJVVYahkepIl2HtOUyQmglP9knKz7NBpo+nDsgzb12OSKfI2juZyrM9XhLjWRD/dAyvsTUSn6SkA5ul+VrgH2+QizZG48ePHt6Y1oSal3CI+m/KvwmLt4d+JKk0lst5jtaMSBO5uyIWac6KP2IA/02GK1U+LIKzB37U74IUjcgccRvP3s7DMTuYFlF1jG+iDvFUNEhm2xTRiKmeTHQ==
+X-MS-TrafficTypeDiagnostic: CY4PR02MB3382:
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3382;
+	31:le850Xs46tt8OIsqgEt2131LnzqA9Ti4bJHpu1Ats7m6Ph6hjjIkB+FPxOaBTsXTM+yOiMVVSvvqZVtnzu9qf+hOIuogu78Z1xRZi6ijsUUz/BdI7Jwcmi+XVEyCv0ojWLFRvLkVTf5W5U1G453VhIVWbMIhWFiUNTtiN1Wr3XTatcHkxCJNC7YaILOb1fZbuOYU9q7rOiNthAMLgnuUfLbMgS8NzOouA0lXtDqI+O0=;
+	20:HjFuAiu75nKp5R4Qxr+5a0SVxSH3JJ5hzWhFv7JCJu/yKyUATgPDG46aeurnLoRXZTS1hv09FgWoV/zzJG0sgFr9trAbkFVBKVyc/6JbuD+Js29ACWIZrCCvMQMEcJNAM904p8b6OTG9f1Fq9x7qx1xEJBiQ4BEhvnuj0jCDT4LJnX6X5frFm93fa4sz244jx2JTUeXnqzbTJZqEJIkXbbZz0V+J+6gfCdaG5a7a/bwprTzJcJY6+L7eIx8K+NJyKwFEpUF/dL4AgxekWl1U/dl9u90hHRbvuLLOiMUyogRHhMJYPi/E5HZF0ZXOY9Y5/bi73l/pULmj1xdIc2iZ4wdli7HYT0pWgyUy518AbbmDTRSiWYl6azuO84gUg3AmWsY+/bx8Qrp2VBJLkrKBIqVCP76yUQ9EWxeldeJVQHmHHnGam003jX2cAYltQJIABKpx5KS6SX8XgJtTiuYkvnFspEHiQoQv2TGTf+WTbvT1Z5kx98qjMHzgNNDC3bPd
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <CY4PR02MB3381EA0A76587B48CF1D8934ACF90@CY4PR02MB3381.namprd02.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CY4PR02MB338255B3DCA596E8602BB6BBACF90@CY4PR02MB3382.namprd02.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:(85827821059158)(192813158149592);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	RULEID:(6040501)(2401047)(5005006)(8121501046)(3002001)(10201501046)(93006095)(93004095)(3231101)(2400082)(944501161)(6055026)(6041288)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(6072148)(201708071742011);
-	SRVR:CY4PR02MB3381; BCL:0; PCL:0; RULEID:; SRVR:CY4PR02MB3381; 
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3381;
-	4:f4usd9eV7kMlIPZOSPmn/O9mUqZsTzH8YaZdOLmg/XodYD21E0FDPvqASWo+AwSzv7cnK2HT8IrJEXBiF73IeUQObC9ap0yQpbb2mC6fQrRK2L6RwR/G6nUHGynn2yhyux576zSxCHDZY+pFvb1tfrih2KXLA6scpwo555GBp/oGPcx9YD+kVsbbgFOD2auYxkDW9bPyzCHycwnFBFoDKv3oYXHKoqHAGwzswjfcGunavWJT3wZ/X5ltnPhzn9ObW5Lsc/+lweeBuTvXOpYnPdV1HUJg/usUWpwGkVxM6SGpKeAmPgj3ON+9ktYz8Vg7WBDtQJZ4djFaLLw2dL2eKjsxpoDrCIomdOVNxSIMebs=
+	SRVR:CY4PR02MB3382; BCL:0; PCL:0; RULEID:; SRVR:CY4PR02MB3382; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3382;
+	4:8vFR5/s2xHWzmlvOHAEQ7x9Mg+a95PF2UxQD1KrcoibqSU7kfvthc3LhIcUyVgDOAvyNp12xlVBNIacWlchC8eWav/Z6ONevv35FJ00J+KB+IteYjmrxbH2KcTIQdnnyjhlD3Y97s1RZKeKm7LHYxib8ju+y0WECOvtm+jlV6l9AIcuVLt81VfgCawiYSk6UrqyfgxwDQcxoFM0CWUpRCvNHTgkUXGr3Y01igPNhGamkENyJ/UjDwJIhML6VoodUbxCsmg7o8j83SouVZrOP5VIJaTKRXb12jLa5t97s9IrMeOuja0KaWqXwUx3vLlGbC3GgRvftgYn0N6uw7HOuiVMX/KWMYyYZ1nBSWth2jCg=
 X-Forefront-PRVS: 05715BE7FD
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR02MB3381;
-	23:CZnnGNKYb7eoXx92QzXNI2rpQbVcbBsJYVxXD2rd+?=
-	=?us-ascii?Q?oXhLQ25LZtfZwVcVeKRk2vYmetZ9Sz2PE2EEBwl7o9xkyKIEOu/kGjbq1jS4?=
-	=?us-ascii?Q?LjlU5dCi++aEbCOocwD0zua5Vt8c6CESzgE4XLGPQdarVxm2f4uLdg/xZq/H?=
-	=?us-ascii?Q?tmV8WpUvjjsrirw3sOEbWkMFZezp7y08LOyBnNUdBcMHDoy5tyjQ/JvDPPwM?=
-	=?us-ascii?Q?najliXCMCY7czY5o15srMG0wgkobPTCWFlHlf0zMTrrQ9UtHEgwgAfzmIg1Q?=
-	=?us-ascii?Q?eM5dGRlw0Rizu6p3SXpuFqLC8tgr9sim/KeO6jGsiQUEW6inFri4fpzfBOsq?=
-	=?us-ascii?Q?+E21KG9JUxhs4zc7xaRRKsGuQOKW2SwQWrQY5/I/qkdzlFBcjbP6lJrobuxN?=
-	=?us-ascii?Q?Su7tCCpXeU/gVRBJM9cgdzeo2MWNltBipoDm71hqb/9f/nAML4ULlu/xUgYC?=
-	=?us-ascii?Q?Gmn71gbq5SMyO+QtE8BnOeaOBuzoyjV3l4BujKo/T1ufSWveEs7V1KUVCJp/?=
-	=?us-ascii?Q?EeRFLz82NRVj6sGrcksZOx1g9ZJlXFj6C5uclSYNiOXrm03AhSEhmrMmIPaQ?=
-	=?us-ascii?Q?pRLpLMATmjj7SGDGThJL41/EMk4ANhU/J+lvDcOouogOoz+CXYavG2656JRK?=
-	=?us-ascii?Q?7aPHt2m+Oc9oZy4jeBGy2PXxO1670OnxbvbZmXeyPk/+rdSuXFv51/UTc1/V?=
-	=?us-ascii?Q?E9qfbhBjwDQoazAR7+VlGtQ49iGDs+r3WXbBgygzY3z37HM5ywsENojVZsPD?=
-	=?us-ascii?Q?Da9qSp7YHytfAKiA9xwpUR+ysfkjXjJ/1cDDGCCAMuuWIb3rg7Zm01sj7uo5?=
-	=?us-ascii?Q?0PhPfSzL8yqyv/S3f7pRnchIoYkxMQXGjRPBNcOwofo0JqaUeO+624EEUe0v?=
-	=?us-ascii?Q?jHbEcstgtfMi9bGnepzEce3FI7o5D+NvkpHHqHLzFyBF86FMICBahTBDvZEV?=
-	=?us-ascii?Q?w1n2rInvFxBjyXRWGOfIoi+Kdm4rkYEUcdsZbjFAgTCD3qDmcCewxNm628Rj?=
-	=?us-ascii?Q?9Ab0QNaMMulrT1n7SYVpMuwqe3XKHrWA1XOI2SiYDrpJIEBqOwij32JSzx0D?=
-	=?us-ascii?Q?7UmwIsAKjtVw7FtZ1QqGvdCX1FEkWi1uE+a+meU4vX04SS1w5kQ79t/gRtaJ?=
-	=?us-ascii?Q?N5eGjhvrO6hG1v2x+FbMxLDCMsBG1pC0QLyYe4IyeU4tGPph9q+4ZbT04VAW?=
-	=?us-ascii?Q?N5AhcuzNXoftTo8YEHqlKLsQ1+keuzC1xVIPBFvmX4pMi2sIkB7UPCkwz8iM?=
-	=?us-ascii?Q?TI4tDQN4LpyW4ahNVZA0a49NqChTZFp3t3LHIxLPF4Lg9I4CjTLuMveFDSq8?=
-	=?us-ascii?Q?za8T3l0b/fUSKmJIoXR1ejWCQdSO5STQFL2exLSrE1dq5gOcKzaEynZssqEy?=
-	=?us-ascii?Q?QLuJA=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3381;
-	6:Kw6gC9II/P0WuAwj0+As04TERsRPQneNXsrtBX+4L4KXQsYKmqKDVtGaYXNX4bSXw/gCFfa+Ikj+9pScWvkPOoqdyZRNlNRdMj2SWeYwlgfnKBkFQCRF0xd8on5sQhuLunawZ1NIQTRkFrxkvvMvIUkLjdmGy+V6Wnw6OZZ5bpfx51CYWAmPf9pIC8iWMAKL5dXiy27NmSLEVxAJ6qvoiw6CJd7EOHQaCQsuUMNHgg1QwzBDd0aLBWHuOLmlX07/3+16A/BvAZutWaILPQl7g22ekIfC1pIccBAXZ4eqzJVmddkVXRBHUJUGth8fagChsN+aE2Nmwyc4EFDGBexFDXW+XGVaSrG7g51R9daHVDg=;
-	5:S/I7ZMoU3RiNp/MTLc0PDRrI3RLOs6oh6yXow4ok1q70MAsgIRTBASgNdQzUDCLpUu6xuwEM1C5dTyqbOimgM5ewWBrbp+92rhZtfFU8SanhULZgxVsqfjsD4yoToTdyh1nbOlIdbvx7Y63cE0JH4qqZYM9skjOwY02EgjEIhak=;
-	24:tGHQOYGlRwjX9i6NJLrlRCC+tJRczsn5Alv3VRwjm8eN4r0zj3ruKOqnmgam+eYgzT+NVDeS19/Bj4FZ/t1tp7MWcBWf5Pa3/RHrxh23Iuo=;
-	7:D6VlBRf/DdDgXBBCo5cqnqMLZc43X0x4N7EGeUwHRzOirp8kZB8aBiwY1qms4EK8LZdVfpl1MO1oGbZNF2lrB4VgqGL4hcXgOVDTVHiPMewURvN4OC75ZfNIciEGTTReL7JDnJU65h33W4gD1y9cCTxcrVQlbhJtIGDSlFn8RReY/fYXYbKrD2sD2BPMcvMDz39X3qZaty5MVjnPp6o1raOPG+/2bJILcAjbu0ZMVbmarVZJEXC652EAjuRZYU0P
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR02MB3382;
+	23:RLSmMeoYHdWrZX41GUUv/EcaqwiS0eqMg75Rhpe5a?=
+	=?us-ascii?Q?QlaivrjDCov/C9+5oPye/hyLa5QGX4WEwpgqP17hXrxWWDDTAwcrKrtiJ5L3?=
+	=?us-ascii?Q?jIn3h5laz3I1BHYzM29ii0e+EU+yT/Z3jk4HKvaadZ11zwVZDrl1bRMqp9hH?=
+	=?us-ascii?Q?UDijUxeJ8x4SDKL1N/0KSrcyyM8H2/rJ8VKuf/RlNvpq6lswdLyfWyJ39nP6?=
+	=?us-ascii?Q?TAS2Gygl+Ga6/R1p08j5sZgAhTvR+wEB1IovCeG9DYGrmCLIdTO7rMAaFA1i?=
+	=?us-ascii?Q?5mQyyaDc+DjtbIiqP6no50M1IGBZxLbr807XPy2bKMDBXodsHjHe9aMfdIWt?=
+	=?us-ascii?Q?z19t86zMOIqvv0JpUjF+qLvYAyttpyjSIfL0Xl/CLChux4/9LRlOCZOqEOo6?=
+	=?us-ascii?Q?g6RO9+u+RPkkvdt20ze+X4dJ0vAZf88SmumX0Bk2ytdMLofGC5l884OGGxTO?=
+	=?us-ascii?Q?ZWVXUTWNHXjjsIvFY5BsUcj67jX/0vxq9jvt/P1luMK/TlEANHnFfkLYSvFV?=
+	=?us-ascii?Q?Y5xSmoAFe4KVBkWO/85omIFbgPQMVjZdSH04HUpUlmiWMNjihHXUx5dgr0YM?=
+	=?us-ascii?Q?ht1/hUhDR0TbruOCZccQDKLwYkd98chd7HjKjA8o5jR8FffKvvMrFg6G4pzf?=
+	=?us-ascii?Q?eKe9o7BBSRZZkqHYD7a8P8O9dWi1Fp4AeZbkwoXrcxbyyCMXM3poJq9aTmGK?=
+	=?us-ascii?Q?AVhsd4BEVK9lwn8OUDWtwZFclXNh3b5JOVxHm7tpz6ibmCxj7vbY45g30lCd?=
+	=?us-ascii?Q?R3WZ9SR2QvwWpR1Oc3pstyw08VZCUoiZGdg+KetR73rgZcPfKQPtp0o9fVEo?=
+	=?us-ascii?Q?H0vLoNm3OabgsQKZ/WvCe8VFvVJzEkQCrg4FJmdZD48dzLOox0DSfcwLIIcU?=
+	=?us-ascii?Q?23FPqnDxwmfXoqhUOg+vsXCk/Et9eL5Rxg9BkelF48OJE4h0BKa65916RdF4?=
+	=?us-ascii?Q?upVcrqIpNTNc9eegpRUtf7kHq5J6eb9euR0mF9ms56SeAxsCm38lav1Wo6G6?=
+	=?us-ascii?Q?Jq3NTzf7cxrM3NZpLPlmJk5gLB0c02NUZPu1b+S5AhgA4DfOyO29wABWWinZ?=
+	=?us-ascii?Q?QYHn2bny9TgWnh+poDymfjjjumbTTIQHeWM5cxM7I11EkI3PSmUEeZ6SN5xQ?=
+	=?us-ascii?Q?UCx+YuuXBpVDMdKHGZZMhFkSeqPRkpUOcIg+CCksSG4zfM14O2kefTFspQ5D?=
+	=?us-ascii?Q?U3tpPyLscBs0+YSCDMLFnI8egQNqtuEhZD10ad+YMd2GtPwrmBaUnXGm/LgL?=
+	=?us-ascii?Q?s0TIYYo7UCbzQT6Giu0HN7QGRkjK7tsr3b9gsCQvaEFxAyh4qA37r07vfzT5?=
+	=?us-ascii?Q?K+LNtSCq9l6pOZ540X//6niEY4ejRQHRETP17aPM688AoNM5BvcozHOBd1AH?=
+	=?us-ascii?Q?vunbmwp4v7vE91X9fT/o3Ea+LvnW58y0dnRVJeaHnVFsOWH?=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR02MB3382;
+	6:5MuoAiLNxkXXrtcLmb8TQuc1Bo0tXA/le8G2OY4GVTrasW7fg9+8Tf7WXGwEjNJCo3pl+mQE13p2ux96j1X8KJq3Nw3VfU/fB/lPY2l8MfUfbQ1sAIAGSRBWaH7D2L3oqAglnDqQ2dx/f/Cc9cShnZH/8jpNLsvWEU9dInhrOKG/vIlQg9czbmSZV3v5lrOADVAuBTZjK4/DX0HG+BZfG/mfUQvsFKYc+a2u3wSKEwKF3VSeDrCr7MgNOZ8z/PbywVfM7lfZPnm/6UqJiJP5+BXygb5ya/i9g8N5bQnDomvpkAiDHNoZ+YrWtSbKxaUq6yBmiV3hpwPkF/DUoGJ0CiMGpdbfkKISOqvf52/w6XA=;
+	5:4okot+NQ3M7wtqBNiBA22MSVGB6upIuDnGAjKRm76Ykwz+fpQGoNd7ZybZMJXxxbLaSKUzVSZX5vntRZ3Efg6pTibXkM864n36ZKGqr/TVHTwVUs9EHHXUOIOi0snt1utzWLAxwxZ7e2IZRrZHSzOCkUOeBrK0lodlFsIaZTz7M=;
+	24:Xr+iPYpeZUb0DzMoU2yXJ/Y1Bk22RAXaAgTMiRFOFTU7S6MhznA55qDm76TvzNnwobfBZTbdCAOQvR5eLXvREo0sj6P7y9eVzqZ/aH7jgWc=;
+	7:6Cll/IzVc6EtIGLTI9qFj3WYXlvw+ItmwepEHkvOpa/eVbLi+dsMjIUNmLZwU21FID96UoVx+oq3tLyenQ3Nwai/cExQZtYyYz8+g3v6OzO84+/91fYvncEMpN29ynHItAMnxplByR3sMn0QzZgTXC8WjZaqQkggUUZwwaf9cfp9pazJadBfAZKy17q2HgJqwK2N1BJPchAtjrmZSDEply+IW8069CByHFD/gyp5vlIPSB2r2rPl6IpPPDuVurX8
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2018 21:22:47.2895 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24176a04-11be-47a4-a157-08d56a831b5e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2018 21:28:52.4480 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8020485c-fbcd-4466-d934-08d56a83f4fb
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3381
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3382
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG5pbmphOiBVcGdyYWRlIGZyb20gMS43LjIgdG8gbWFqb3IgcmVsZWFzZSAxLjguMiAocmV2Mik=?=
@@ -146,56 +149,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 21:37:37 -0000
+X-List-Received-Date: Fri, 02 Feb 2018 21:44:16 -0000
 Content-Type: multipart/alternative;
-	boundary="------------3A189D867D34D00161C4E8AF"
+	boundary="------------535B249575A74F04A2EB2EA0"
 Content-Language: en-US
 
---------------3A189D867D34D00161C4E8AF
+--------------535B249575A74F04A2EB2EA0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-This is what I got:
+I might be wrong but you can check it here as well:
+
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=aehs29/ninja
 
 
-$ git remote show origin
-* remote origin
-   Fetch URL: git://git.yoctoproject.org/poky
-   Push  URL: git://git.yoctoproject.org/poky
-   HEAD branch: master
-
-latest commit:
-
-bca260ef4dca87c11fc9d30b2b8a17664dc2d879 ninja: Upgrade from 1.7.2 to 
-major release 1.8.2
-385944254d0ef88bd6450a221a54cbcb40020b42 tcmode-default.inc: drop 
-preferred version of gzip-native
-
-
-
-On 02/02/2018 12:58 PM, Burton, Ross wrote:
-> On 2 February 2018 at 19:06, Alejandro Enedino Hernandez Samaniego 
-> <alejandr@xilinx.com <mailto:alejandr@xilinx.com>> wrote:
+On 02/02/2018 01:22 PM, Alejandro Enedino Hernandez Samaniego wrote:
 >
->     This makes no sense to me, I rebased to master just before sending it.
+> This is what I got:
 >
 >
-> Are you sure that the master you're rebasing is the actual upstream 
-> master?
+> $ git remote show origin
+> * remote origin
+>   Fetch URL: git://git.yoctoproject.org/poky
+>   Push  URL: git://git.yoctoproject.org/poky
+>   HEAD branch: master
 >
-> Applying: ninja: Upgrade from 1.7.2 to major release 1.8.2
-> Using index info to reconstruct a base tree...
-> error: patch failed: meta/recipes-devtools/ninja/ninja_1.7.2.bb:1 
-> <http://ninja_1.7.2.bb:1>
-> error: meta/recipes-devtools/ninja/ninja_1.7.2.bb 
-> <http://ninja_1.7.2.bb>: patch does not apply
-> error: Did you hand edit your patch?
-> It does not apply to blobs recorded in its index.
-> Patch failed at 0001 ninja: Upgrade from 1.7.2 to major release 1.8.2
+> latest commit:
+>
+> bca260ef4dca87c11fc9d30b2b8a17664dc2d879 ninja: Upgrade from 1.7.2 to 
+> major release 1.8.2
+> 385944254d0ef88bd6450a221a54cbcb40020b42 tcmode-default.inc: drop 
+> preferred version of gzip-native
+>
+>
+>
+> On 02/02/2018 12:58 PM, Burton, Ross wrote:
+>> On 2 February 2018 at 19:06, Alejandro Enedino Hernandez Samaniego 
+>> <alejandr@xilinx.com <mailto:alejandr@xilinx.com>> wrote:
+>>
+>>     This makes no sense to me, I rebased to master just before
+>>     sending it.
+>>
+>>
+>> Are you sure that the master you're rebasing is the actual upstream 
+>> master?
+>>
+>> Applying: ninja: Upgrade from 1.7.2 to major release 1.8.2
+>> Using index info to reconstruct a base tree...
+>> error: patch failed: meta/recipes-devtools/ninja/ninja_1.7.2.bb:1 
+>> <http://ninja_1.7.2.bb:1>
+>> error: meta/recipes-devtools/ninja/ninja_1.7.2.bb 
+>> <http://ninja_1.7.2.bb>: patch does not apply
+>> error: Did you hand edit your patch?
+>> It does not apply to blobs recorded in its index.
+>> Patch failed at 0001 ninja: Upgrade from 1.7.2 to major release 1.8.2
+>>
 >
 
 
---------------3A189D867D34D00161C4E8AF
+--------------535B249575A74F04A2EB2EA0
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
@@ -204,68 +216,80 @@ Content-Transfer-Encoding: 8bit
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body text="#000000" bgcolor="#FFFFFF">
-    <p>This is what I got:</p>
-    <p><br>
+    <p>I might be wrong but you can check it here as well:<br>
     </p>
-    <p>$ git remote show origin<br>
-      * remote origin<br>
-        Fetch URL: git://git.yoctoproject.org/poky<br>
-        Push  URL: git://git.yoctoproject.org/poky<br>
-        HEAD branch: master</p>
-    <p>latest commit:</p>
-    <p>bca260ef4dca87c11fc9d30b2b8a17664dc2d879 ninja: Upgrade from
-      1.7.2 to major release 1.8.2<br>
-      385944254d0ef88bd6450a221a54cbcb40020b42 tcmode-default.inc: drop
-      preferred version of gzip-native<br>
-    </p>
-    <p><br>
-    </p>
+<a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=aehs29/ninja">https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=aehs29/ninja</a><br>
     <br>
-    <div class="moz-cite-prefix">On 02/02/2018 12:58 PM, Burton, Ross
-      wrote:<br>
+    <br>
+    <div class="moz-cite-prefix">On 02/02/2018 01:22 PM, Alejandro
+      Enedino Hernandez Samaniego wrote:<br>
     </div>
     <blockquote type="cite"
-cite="mid:CAJTo0LbLxeJEGu=sTpg0uXWNRue7FcFuHMc+qbb1zzDe2QH_cQ@mail.gmail.com">
+      cite="mid:1fa84e7e-1032-906c-c25c-136f0a52d695@xilinx.com">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">On 2 February 2018 at 19:06, Alejandro Enedino
-        Hernandez Samaniego <span dir="ltr">&lt;<a
-            href="mailto:alejandr@xilinx.com" target="_blank"
-            moz-do-not-send="true">alejandr@xilinx.com</a>&gt;</span>
+      <p>This is what I got:</p>
+      <p><br>
+      </p>
+      <p>$ git remote show origin<br>
+        * remote origin<br>
+          Fetch URL: git://git.yoctoproject.org/poky<br>
+          Push  URL: git://git.yoctoproject.org/poky<br>
+          HEAD branch: master</p>
+      <p>latest commit:</p>
+      <p>bca260ef4dca87c11fc9d30b2b8a17664dc2d879 ninja: Upgrade from
+        1.7.2 to major release 1.8.2<br>
+        385944254d0ef88bd6450a221a54cbcb40020b42 tcmode-default.inc:
+        drop preferred version of gzip-native<br>
+      </p>
+      <p><br>
+      </p>
+      <br>
+      <div class="moz-cite-prefix">On 02/02/2018 12:58 PM, Burton, Ross
         wrote:<br>
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+      </div>
+      <blockquote type="cite"
+cite="mid:CAJTo0LbLxeJEGu=sTpg0uXWNRue7FcFuHMc+qbb1zzDe2QH_cQ@mail.gmail.com">
+        <div dir="ltr">On 2 February 2018 at 19:06, Alejandro Enedino
+          Hernandez Samaniego <span dir="ltr">&lt;<a
+              href="mailto:alejandr@xilinx.com" target="_blank"
+              moz-do-not-send="true">alejandr@xilinx.com</a>&gt;</span>
+          wrote:<br>
+          <div class="gmail_extra">
+            <div class="gmail_quote">
+              <blockquote class="gmail_quote" style="margin:0px 0px 0px
 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">This
-              makes no sense to me, I rebased to master just before
-              sending it.<br>
-            </blockquote>
-            <div><br>
+                makes no sense to me, I rebased to master just before
+                sending it.<br>
+              </blockquote>
+              <div><br>
+              </div>
+              <div>Are you sure that the master you're rebasing is the
+                actual upstream master?</div>
+              <div><br>
+              </div>
+              <div>Applying: ninja: Upgrade from 1.7.2 to major release
+                1.8.2</div>
+              <div>Using index info to reconstruct a base tree...</div>
+              <div>error: patch failed: meta/recipes-devtools/ninja/<a
+                  href="http://ninja_1.7.2.bb:1" moz-do-not-send="true">ninja_1.7.2.bb:1</a></div>
+              <div>error: meta/recipes-devtools/ninja/<a
+                  href="http://ninja_1.7.2.bb" moz-do-not-send="true">ninja_1.7.2.bb</a>:
+                patch does not apply</div>
+              <div>error: Did you hand edit your patch?</div>
+              <div>It does not apply to blobs recorded in its index.</div>
+              <div>Patch failed at 0001 ninja: Upgrade from 1.7.2 to
+                major release 1.8.2</div>
+              <div><br>
+              </div>
+              <div> </div>
             </div>
-            <div>Are you sure that the master you're rebasing is the
-              actual upstream master?</div>
-            <div><br>
-            </div>
-            <div>Applying: ninja: Upgrade from 1.7.2 to major release
-              1.8.2</div>
-            <div>Using index info to reconstruct a base tree...</div>
-            <div>error: patch failed: meta/recipes-devtools/ninja/<a
-                href="http://ninja_1.7.2.bb:1" moz-do-not-send="true">ninja_1.7.2.bb:1</a></div>
-            <div>error: meta/recipes-devtools/ninja/<a
-                href="http://ninja_1.7.2.bb" moz-do-not-send="true">ninja_1.7.2.bb</a>:
-              patch does not apply</div>
-            <div>error: Did you hand edit your patch?</div>
-            <div>It does not apply to blobs recorded in its index.</div>
-            <div>Patch failed at 0001 ninja: Upgrade from 1.7.2 to major
-              release 1.8.2</div>
-            <div><br>
-            </div>
-            <div> </div>
           </div>
         </div>
-      </div>
+      </blockquote>
+      <br>
     </blockquote>
     <br>
   </body>
 </html>
 
---------------3A189D867D34D00161C4E8AF--
+--------------535B249575A74F04A2EB2EA0--
