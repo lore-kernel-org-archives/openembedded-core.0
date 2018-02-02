@@ -1,25 +1,27 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 00B927867C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1537278869
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 02:18:06 +0000 (UTC)
+	Fri,  2 Feb 2018 02:18:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w122I7cj026570
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w122IBFK004975
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Feb 2018 18:18:08 -0800 (PST)
+	Thu, 1 Feb 2018 18:18:12 -0800
 Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 1 Feb 2018 18:18:07 -0800
+	Thu, 1 Feb 2018 18:18:10 -0800
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Feb 2018 10:16:07 +0800
-Message-ID: <1517537774-12847-1-git-send-email-yi.zhao@windriver.com>
+Date: Fri, 2 Feb 2018 10:16:08 +0800
+Message-ID: <1517537774-12847-2-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1517537774-12847-1-git-send-email-yi.zhao@windriver.com>
+References: <1517537774-12847-1-git-send-email-yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.163.220]
-Subject: [PATCH 0/7] Packages update
+Subject: [PATCH 1/7] debianutils: update to 4.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 02:18:07 -0000
+X-List-Received-Date: Fri, 02 Feb 2018 02:18:11 -0000
 Content-Type: text/plain
 
-
-
-Yi Zhao (7):
-  debianutils: update to 4.8.4
-  libbsd: update to 0.8.7
-  wget: update to 1.19.4
-  rsync: update to 3.1.3
-  json-c: update to 0.13
-  tcl: update to 8.6.8
-  maintainers.inc: update maintainership
-
- meta/conf/distro/include/maintainers.inc           | 42 ++++++------
- ...-FALLTHRU-comment-to-handle-GCC7-warnings.patch | 74 ----------------------
- .../json-c/{json-c_0.12.1.bb => json-c_0.13.bb}    | 11 ++--
- .../rsync/{rsync_3.1.2.bb => rsync_3.1.3.bb}       |  4 +-
- .../tcltk/tcl/tcl-add-soname.patch                 |  4 +-
- .../tcltk/{tcl_8.6.7.bb => tcl_8.6.8.bb}           |  4 +-
- meta/recipes-extended/wget/wget.inc                |  2 +-
- .../wget/{wget_1.19.2.bb => wget_1.19.4.bb}        |  4 +-
- ...debianutils_4.8.1.1.bb => debianutils_4.8.4.bb} |  8 ++-
- ...r-older-GCCs-not-supporting-__has_include.patch | 31 ---------
- ...001-Replace-__BEGIN_DECLS-and-__END_DECLS.patch | 65 +++++++++++--------
- .../libbsd/{libbsd_0.8.6.bb => libbsd_0.8.7.bb}    |  5 +-
- 12 files changed, 80 insertions(+), 174 deletions(-)
- delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Add-FALLTHRU-comment-to-handle-GCC7-warnings.patch
- rename meta/recipes-devtools/json-c/{json-c_0.12.1.bb => json-c_0.13.bb} (75%)
- rename meta/recipes-devtools/rsync/{rsync_3.1.2.bb => rsync_3.1.3.bb} (86%)
- rename meta/recipes-devtools/tcltk/{tcl_8.6.7.bb => tcl_8.6.8.bb} (95%)
- rename meta/recipes-extended/wget/{wget_1.19.2.bb => wget_1.19.4.bb} (60%)
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../debianutils/{debianutils_4.8.1.1.bb => debianutils_4.8.4.bb}  | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
  rename meta/recipes-support/debianutils/{debianutils_4.8.1.1.bb => debianutils_4.8.4.bb} (86%)
- delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-Fix-for-older-GCCs-not-supporting-__has_include.patch
- rename meta/recipes-support/libbsd/{libbsd_0.8.6.bb => libbsd_0.8.7.bb} (89%)
 
+diff --git a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb b/meta/recipes-support/debianutils/debianutils_4.8.4.bb
+similarity index 86%
+rename from meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
+rename to meta/recipes-support/debianutils/debianutils_4.8.4.bb
+index 1857d4b..300e6f1 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.8.4.bb
+@@ -3,13 +3,15 @@ SECTION = "base"
+ LICENSE = "GPLv2 & SMAIL_GPL"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20170402T211732Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "http://snapshot.debian.org/archive/debian/20180129T164727Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+ 
+-SRC_URI[md5sum] = "ee5fcecaab071bd0c93e8a0cee65d6c4"
+-SRC_URI[sha256sum] = "06446cd4c0d309fd31a0682c5c2f07f7613fb867f769414b9cc51f155ad73172"
++SRC_URI[md5sum] = "a6dcd496b4f79b3c452c3a74c2d3f89c"
++SRC_URI[sha256sum] = "c061ab99aea61f892043b7624b021ab5b193e9c6bbfd474da0fbcdd506be1eb2"
++
++S = "${WORKDIR}/${BPN}"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
 2.7.4
 
