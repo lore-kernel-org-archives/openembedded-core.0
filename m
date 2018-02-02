@@ -1,23 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DA4CB7852C
+	by mail.openembedded.org (Postfix) with ESMTP id 1104F78845
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 17:38:15 +0000 (UTC)
+	Fri,  2 Feb 2018 17:38:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Feb 2018 09:38:16 -0800
+	02 Feb 2018 09:38:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,450,1511856000"; d="scan'208";a="15016415"
+X-IronPort-AV: E=Sophos;i="5.46,450,1511856000"; d="scan'208";a="15016418"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 02 Feb 2018 09:38:14 -0800
+	by orsmga008.jf.intel.com with ESMTP; 02 Feb 2018 09:38:16 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Feb 2018 19:38:14 +0200
-Message-Id: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+Date: Fri,  2 Feb 2018 19:38:15 +0200
+Message-Id: <20180202173815.9500-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
-Subject: [PATCH 1/2] gtk-doc: update to 1.27
+In-Reply-To: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+References: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 2/2] libfm: add a patch to fix build errors with recent versions of gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,431 +34,110 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 02 Feb 2018 17:38:16 -0000
 
-Gtk-doc has been rewritten in Python, so drop perl dependencies (good riddance!),
-and adjust patches to reflect that.
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...r-out-if-perl-is-not-found-or-its-version.patch |  40 ------
- ...hardocode-paths-to-perl-python-in-scripts.patch | 155 +++++++++++----------
- .../gtk-doc/files/conditionaltests.patch           |  26 +++-
- .../gtk-doc/files/pkg-config-native.patch          |  22 ++-
- .../gtk-doc/{gtk-doc_1.25.bb => gtk-doc_1.27.bb}   |  15 +-
- 5 files changed, 119 insertions(+), 139 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.25.bb => gtk-doc_1.27.bb} (81%)
+ ...Enclose-text-in-programlisting-into-CDATA.patch | 76 ++++++++++++++++++++++
+ meta/recipes-support/libfm/libfm_1.2.5.bb          |  4 +-
+ 2 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libfm/libfm/0001-Enclose-text-in-programlisting-into-CDATA.patch
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch
-deleted file mode 100644
-index 4a9028742ca..00000000000
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From e733241fb580f032efbbe684ec35d4c9d27f1595 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 8 Sep 2016 13:38:39 +0300
--Subject: [PATCH] Do not error out if perl is not found or its version is too
-- old.
--
--This allows use to avoid depending on perl-native if we're not going
--to use it (when api-docs are disabled).
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 2a61d6e..29415bd 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -36,7 +36,7 @@ dnl Check for Perl.
-- dnl
-- AC_PATH_PROG([PERL], [perl])
-- if test -z "$PERL"; then
---	AC_MSG_ERROR([perl not found])
--+	AC_MSG_WARN([perl not found])
-- fi
-- 
-- AC_MSG_CHECKING([if Perl version >= 5.18.0])
--@@ -44,7 +44,7 @@ if "$PERL" -e "require v5.18.0"; then
-- 	AC_MSG_RESULT([yes])
-- else
-- 	AC_MSG_RESULT([no])
---	AC_MSG_ERROR([perl >= 5.18.0 is required for gtk-doc])
--+	AC_MSG_WARN([perl >= 5.18.0 is required for gtk-doc])
-- fi
-- 
-- dnl
---- 
--2.9.3
--
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-index 477fc9ae8c1..2fe3ab9221f 100644
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-@@ -1,7 +1,7 @@
--From 6fab82b93c7bd301eb42448515b02f7cb3306897 Mon Sep 17 00:00:00 2001
-+From 928102874bc2339a1d57c6b178877e0c6002cb3a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Aug 2016 16:44:46 +0300
--Subject: [PATCH] Do not hardocode paths to perl/python in scripts.
-+Subject: [PATCH 1/3] Do not hardocode paths to perl/python in scripts.
- 
- Doing so when the interpreters are somewhere deep in a sysroot directory
- can reach the shebang line limit, and resulting scripts wouldn't work
-@@ -9,131 +9,134 @@ on targets either.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-support/libfm/libfm/0001-Enclose-text-in-programlisting-into-CDATA.patch b/meta/recipes-support/libfm/libfm/0001-Enclose-text-in-programlisting-into-CDATA.patch
+new file mode 100644
+index 00000000000..40e53291e1c
+--- /dev/null
++++ b/meta/recipes-support/libfm/libfm/0001-Enclose-text-in-programlisting-into-CDATA.patch
+@@ -0,0 +1,76 @@
++From ed4ca8c0b17ff5d3c768b92409c1787e3f3f1841 Mon Sep 17 00:00:00 2001
++From: Andriy Grytsenko <andrej@rep.kiev.ua>
++Date: Sun, 26 Nov 2017 22:30:15 +0200
++Subject: [PATCH 2/2] Enclose text in <programlisting> into <![CDATA[
 +
- ---
-- gtkdoc-check.in     | 2 +-
-- gtkdoc-common.pl.in | 2 +-
-- gtkdoc-depscan.in   | 2 +-
-- gtkdoc-fixxref.in   | 2 +-
-- gtkdoc-mkdb.in      | 2 +-
-- gtkdoc-mktmpl.in    | 2 +-
-- gtkdoc-rebase.in    | 2 +-
-- gtkdoc-scan.in      | 2 +-
-- gtkdoc-scangobj.in  | 2 +-
-- tests/tools.sh.in   | 4 ++--
-- 10 files changed, 11 insertions(+), 11 deletions(-)
-+ gtkdoc-check.in    | 2 +-
-+ gtkdoc-depscan.in  | 2 +-
-+ gtkdoc-fixxref.in  | 2 +-
-+ gtkdoc-mkdb.in     | 2 +-
-+ gtkdoc-mkhtml.in   | 2 +-
-+ gtkdoc-mkman.in    | 2 +-
-+ gtkdoc-mkpdf.in    | 2 +-
-+ gtkdoc-rebase.in   | 2 +-
-+ gtkdoc-scan.in     | 2 +-
-+ gtkdoc-scangobj.in | 2 +-
-+ tests/tools.sh.in  | 2 +-
-+ 11 files changed, 11 insertions(+), 11 deletions(-)
- 
- diff --git a/gtkdoc-check.in b/gtkdoc-check.in
--index 560d69b..b60857f 100755
-+index 8c8e917..f6a25f6 100755
- --- a/gtkdoc-check.in
- +++ b/gtkdoc-check.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-- #
-- # gtk-doc - GTK DocBook documentation generator.
--diff --git a/gtkdoc-common.pl.in b/gtkdoc-common.pl.in
--index 4747396..cfadb78 100644
----- a/gtkdoc-common.pl.in
--+++ b/gtkdoc-common.pl.in
--@@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python; coding: utf-8 -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-depscan.in b/gtkdoc-depscan.in
--index 83af01b..917e247 100644
-+index 9bfaf30..aadc952 100644
- --- a/gtkdoc-depscan.in
- +++ b/gtkdoc-depscan.in
- @@ -1,4 +1,4 @@
- -#!@PYTHON@
--+#!/usr/bin/env python
-++#!/usr/bin/env python3
-  
-- import gzip, os.path, re
-+ from __future__ import print_function
-  
- diff --git a/gtkdoc-fixxref.in b/gtkdoc-fixxref.in
--index 3d9e8d0..d55190b 100755
-+index 0ea02d4..bdd443a 100755
- --- a/gtkdoc-fixxref.in
- +++ b/gtkdoc-fixxref.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-mkdb.in b/gtkdoc-mkdb.in
--index 8dd6d5e..d808750 100755
-+index 42d5731..3a56d56 100755
- --- a/gtkdoc-mkdb.in
- +++ b/gtkdoc-mkdb.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python; coding: utf-8 -*-
-+ #
-+ # gtk-doc - GTK DocBook documentation generator.
-+diff --git a/gtkdoc-mkhtml.in b/gtkdoc-mkhtml.in
-+index 0d0a15d..914ff55 100644
-+--- a/gtkdoc-mkhtml.in
-++++ b/gtkdoc-mkhtml.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python; coding: utf-8 -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
--diff --git a/gtkdoc-mktmpl.in b/gtkdoc-mktmpl.in
--index c64dfd3..2f46c18 100755
----- a/gtkdoc-mktmpl.in
--+++ b/gtkdoc-mktmpl.in
-+diff --git a/gtkdoc-mkman.in b/gtkdoc-mkman.in
-+index c5445cd..65db71a 100644
-+--- a/gtkdoc-mkman.in
-++++ b/gtkdoc-mkman.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python; coding: utf-8 -*-
-+ #
-+ # gtk-doc - GTK DocBook documentation generator.
-+diff --git a/gtkdoc-mkpdf.in b/gtkdoc-mkpdf.in
-+index e8c0c03..f807236 100755
-+--- a/gtkdoc-mkpdf.in
-++++ b/gtkdoc-mkpdf.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python; coding: utf-8 -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-rebase.in b/gtkdoc-rebase.in
--index 375482d..cf05b45 100644
-+index 17a71c2..ec3fd28 100755
- --- a/gtkdoc-rebase.in
- +++ b/gtkdoc-rebase.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-scan.in b/gtkdoc-scan.in
--index 048e5c9..78c6136 100755
-+index 954c811..f461504 100755
- --- a/gtkdoc-scan.in
- +++ b/gtkdoc-scan.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-scangobj.in b/gtkdoc-scangobj.in
--index fb66b76..67ee8f7 100644
-+index 4cbe130..52c2c24 100644
- --- a/gtkdoc-scangobj.in
- +++ b/gtkdoc-scangobj.in
- @@ -1,4 +1,4 @@
---#!@PERL@ -w
--+#!/usr/bin/env perl
-- # -*- cperl -*-
-+-#!@PYTHON@
-++#!/usr/bin/env python3
-+ # -*- python -*-
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/tests/tools.sh.in b/tests/tools.sh.in
--index a114a42..7073883 100644
-+index 4d301d0..565fc1e 100644
- --- a/tests/tools.sh.in
- +++ b/tests/tools.sh.in
--@@ -11,7 +11,7 @@ echo "Running suite(s): gtk-doc-$suite";
-- 
-- # test perl scripts
-- for file in gtkdoc-check gtkdoc-fixxref gtkdoc-mkdb gtkdoc-mktmpl gtkdoc-rebase gtkdoc-scan gtkdoc-scangobj ; do
---  @PERL@ -cwT `which $file`
--+  perl -cwT `which $file`
--   if test $? = 1 ; then failed=`expr $failed + 1`; fi
--   tested=`expr $tested + 1`
-+@@ -31,7 +31,7 @@ done
-+ # TODO: test python 2 and 3 (python3 -mcompileall gtkdoc/*.py)
-+ for file in gtkdoc-check gtkdoc-depscan gtkdoc-fixxref gtkdoc-mkdb gtkdoc-mkhtml gtkdoc-mkman gtkdoc-mkpdf gtkdoc-rebase gtkdoc-scangobj; do
-+     fullfile=`which $file`
-+-    @PYTHON@ -m py_compile $fullfile
-++    python3 -m py_compile $fullfile
-+     if test $? != 0 ; then failed=`expr $failed + 1`; fi
-+     tested=`expr $tested + 1`
-  done
--@@ -34,7 +34,7 @@ done
-- 
-- 
-- # test python scripts
---@PYTHON@ -m py_compile `which gtkdoc-depscan`
--+python -m py_compile `which gtkdoc-depscan`
-- if test $? != 0 ; then failed=`expr $failed + 1`; fi
-- tested=`expr $tested + 1`
-- 
- -- 
--2.9.3
-+2.14.1
- 
-diff --git a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-index 0c180f2605e..21c2db7826f 100644
---- a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-@@ -1,14 +1,23 @@
-+From 78bbf185934147a69ceb4b617d424e12e70997bf Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 27 Jun 2017 21:00:58 +0100
-+Subject: [PATCH 3/3] gtk-doc: Handle floating gtk-doc dependency
++New gtk-doc fails on tag-like data in it.
++See https://bugs.freedesktop.org/show_bug.cgi?id=101585
++That is definitely bug of gtk-doc but let workaround it.
 +
- Allow the tests to be explicitly disabled to avoid floating dependnecy
- issues. This is not really an issue with RSS but is on previous releases.
- 
- RP 2017/6/27
- Upstream-Status: Pending
- 
--Index: gtk-doc-1.25/configure.ac
--===================================================================
----- gtk-doc-1.25.orig/configure.ac
--+++ gtk-doc-1.25/configure.ac
--@@ -161,6 +161,11 @@ if test "x$GCC" = "xyes"; then
++Upstream-Status: Backport [https://git.lxde.org/gitweb/?p=lxde/libfm.git;a=commit;h=b072ee0400432d72fdf86ba9fed74a7e0ec11ec1]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ configure.ac | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
++ src/base/fm-module.c | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 684e2d1..e5e3aab 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -146,6 +146,11 @@ if test "x$GCC" = "xyes"; then
-  	fi
-  fi
-  
-@@ -20,7 +29,7 @@ Index: gtk-doc-1.25/configure.ac
-  dnl if glib is available we can enable the tests
-  PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
-  	[	glib_prefix="`$PKG_CONFIG --variable=prefix glib-2.0`"
--@@ -171,6 +176,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >
-+@@ -156,6 +161,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
-  		build_tests="no"
-  	]
-  )
-@@ -30,5 +39,8 @@ Index: gtk-doc-1.25/configure.ac
- +fi
- +
-  AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, test -n "$LIBTOOL" -a x$gtk_doc_use_libtool = xyes )
-- dnl this enable the rule in test/Makefile.am
-+ dnl this enables the rule in test/Makefile.am
-  AM_CONDITIONAL(BUILD_TESTS, test x$build_tests = xyes)
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index c7688704eb6..bf03c8f6134 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,24 +1,31 @@
--Use native pkg-config when looking for gtk-doc.
-+From 5f145621b4780cfd6a5632fcc97c45f572938efc Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Mon, 5 Sep 2016 22:25:44 +0100
-+Subject: [PATCH 5/5] Use native pkg-config when looking for gtk-doc.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
-+---
-+ gtk-doc.m4 | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
- diff --git a/gtk-doc.m4 b/gtk-doc.m4
--index 3675543..94881ae 100644
-+index 3675543..2590e2a 100644
- --- a/gtk-doc.m4
- +++ b/gtk-doc.m4
- @@ -1,6 +1,6 @@
-  dnl -*- mode: autoconf -*-
--
-+ 
- -# serial 2
- +# serial 2.1
--
-+ 
-  dnl Usage:
-  dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
- @@ -10,11 +10,16 @@ AC_DEFUN([GTK_DOC_CHECK],
-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--
-+ 
- +  gtkdoc_pkgconfig_save=$PKG_CONFIG
- +  PKG_CONFIG=pkg-config-native
- +
-@@ -26,9 +33,12 @@ index 3675543..94881ae 100644
-    AC_MSG_CHECKING([for gtk-doc])
-    PKG_CHECK_EXISTS([$gtk_doc_requires],[have_gtk_doc=yes],[have_gtk_doc=no])
-    AC_MSG_RESULT($have_gtk_doc)
--
-+ 
- +  PKG_CONFIG=$gtkdoc_pkgconfig_save
- +
-    if test "$have_gtk_doc" = "no"; then
-        AC_MSG_WARN([
-    You will not be able to create source packages with 'make dist'
++diff --git a/src/base/fm-module.c b/src/base/fm-module.c
++index d364b2d..2e8c978 100644
++--- a/src/base/fm-module.c
+++++ b/src/base/fm-module.c
++@@ -44,7 +44,7 @@
++  * of that type should include:
++  * <example id="example-fm-dummy-h">
++  * <title>Sample of fm-dummy.h</title>
++- * <programlisting>
+++ * <programlisting><![CDATA[
++  * #include <libfm/fm.h>
++  *
++  * #define FM_MODULE_dummy_VERSION 1
++@@ -54,7 +54,7 @@
++  * } FmDummyInit;
++  *
++  * extern FmDummyInit fm_module_init_dummy;
++- * </programlisting>
+++ * ]]></programlisting>
++  * </example>
++  * The FM_MODULE_dummy_VERSION is a number which should be increased each
++  * time something in FmDummyInit structure is changed. The FmDummyInit
++@@ -65,7 +65,7 @@
++  * module handling in your code:
++  * <example id="example-fm-dummy-widget-c">
++  * <title>Sample of fm-dummy-widget.c</title>
++- * <programlisting>
+++ * <programlisting><![CDATA[
++  * #include "fm-dummy.h"
++  *
++  * FM_MODULE_DEFINE_TYPE(dummy, FmDummyInit, 1)
++@@ -87,7 +87,7 @@
++  *         result = module->get_new("test sample");
++  *     return result;
++  * }
++- * </programlisting>
+++ * ]]></programlisting>
++  * </example>
++  *
++  * Third thing application should do is to register module type on the
++@@ -108,7 +108,7 @@
++  * interface (see the fm-dummy.h header example above):
++  * <example id="example-fm-dummy-test-c">
++  * <title>Sample of module dummy/test</title>
++- * <programlisting>
+++ * <programlisting><![CDATA[
++  * #include "fm-dummy.h"
++  *
++  * FM_DEFINE_MODULE(dummy, test)
++@@ -121,7 +121,7 @@
++  * FmDummyInit fm_module_init_dummy = {
++  *     fm_dummy_test_get_new;
++  * };
++- * </programlisting>
+++ * ]]></programlisting>
++  * </example>
++  * The fm_module_init_dummy should be exactly the same structure that is
++  * defined in the header file above.
 +-- 
 +2.15.1
 +
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-similarity index 81%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-index e0eb994e259..b907bae1478 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-@@ -15,22 +15,17 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation",
- # into its scripts. This means that target gtk-doc package is broken;
- # hopefully no one minds because its scripts are not used for anything during build
- # and shouldn't be used on targets.
--PACKAGECONFIG[working-scripts] = "--with-highlight=source-highlight,--with-highlight=no,libxslt-native xmlto-native source-highlight-native perl-native"
-+PACKAGECONFIG[working-scripts] = "--with-highlight=source-highlight,--with-highlight=no,libxslt-native xmlto-native source-highlight-native python3-six"
- PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
+diff --git a/meta/recipes-support/libfm/libfm_1.2.5.bb b/meta/recipes-support/libfm/libfm_1.2.5.bb
+index 6844243c1e3..c1deea68531 100644
+--- a/meta/recipes-support/libfm/libfm_1.2.5.bb
++++ b/meta/recipes-support/libfm/libfm_1.2.5.bb
+@@ -12,7 +12,9 @@ SECTION = "x11/libs"
+ DEPENDS = "glib-2.0 pango gtk+3 menu-cache intltool-native libexif libfm-extra gettext-native"
  
--# We cannot use host perl, because it may be too old for gtk-doc
--EXTRANATIVEPATH += "perl-native"
--
-+SRC_URI[archive.md5sum] = "b29949e0964762e474b706ce22171602"
-+SRC_URI[archive.sha256sum] = "e26bd3f7080c749b1cb66c46c6bf8239e2f320a949964fb9c6d56e1b0c6d9a6f"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
--            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
--            file://0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch \
--            file://conditionaltests.patch \
-+           file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-+           file://conditionaltests.patch \
-            "
- SRC_URI_append_class-native = " file://pkg-config-native.patch"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
+-           file://0001-Correctly-check-the-stamp-file-that-indicates-if-we-.patch"
++           file://0001-Correctly-check-the-stamp-file-that-indicates-if-we-.patch \
++           file://0001-Enclose-text-in-programlisting-into-CDATA.patch \
++           "
  
--SRC_URI[archive.md5sum] = "0dc6570953112a464a409fb99258ccbc"
--SRC_URI[archive.sha256sum] = "1ea46ed400e6501f975acaafea31479cea8f32f911dca4dff036f59e6464fd42"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- # Do not check for XML catalogs when building because that
+ SRC_URI[md5sum] = "a1ba9ae5e920f38b647dd511edd6c807"
+ SRC_URI[sha256sum] = "c706bb1020cf5f2d6f5a9226f692ce1985947134dcf2bde64278bd0420779b5a"
 -- 
 2.15.1
 
