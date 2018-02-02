@@ -1,26 +1,18 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F28E378876
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 07:13:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w127DATV027940
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Feb 2018 23:13:10 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 1 Feb 2018 23:13:09 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Feb 2018 15:10:34 +0800
-Message-ID: <43ac77af5aacf8076f0b6af1330af6013502fe19.1517555249.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1517555249.git.jackie.huang@windriver.com>
-References: <cover.1517555249.git.jackie.huang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 510E06FF9F;
+	Fri,  2 Feb 2018 07:32:58 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] e2fsprogs: fix the hardcoded paths for ptest
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: jackie huang <jackie.huang@windriver.com>
+Date: Fri, 02 Feb 2018 07:33:00 -0000
+Message-ID: <20180202073300.15542.39974@do.openembedded.org>
+References: <cover.1517555249.git.jackie.huang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1517555249.git.jackie.huang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZTJmc3Byb2dzOiBmaXhlcyBmb3IgcHRlc3Q=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 07:13:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Feb 2018 07:32:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+== Series Details ==
 
-Fix the hardcoded paths in test scripts and expect
-files to avoid issue like:
-| cat: ../e2fsck/e2fsck: No such file or directory
+Series: e2fsprogs: fixes for ptest
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10824/
+State : failure
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Patches not removed from tree [test_src_uri_left_files] 
+  Suggested fix    Amend the patch containing the software patch file removal
+  Patch            quiet-debugfs.patch
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-index a53585db47..ceaf171585 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-@@ -104,7 +104,9 @@ do_compile_ptest() {
- do_install_ptest() {
- 	cp -R --no-dereference --preserve=mode,links -v ${B}/tests ${D}${PTEST_PATH}/test
- 	cp -R --no-dereference --preserve=mode,links -v ${S}/tests/* ${D}${PTEST_PATH}/test
--	sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
-+	sed -e 's!../e2fsck/e2fsck!e2fsck!g' \
-+	    -e 's!../misc/tune2fs!tune2fs!g' -i ${D}${PTEST_PATH}/test/*/expect*
-+	sed -e 's!../e2fsck/e2fsck!${base_sbindir}/e2fsck!g' -i ${D}${PTEST_PATH}/test/*/script
- 
- 	# Remove various files
- 	find "${D}${PTEST_PATH}" -type f \
--- 
-2.11.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
