@@ -1,29 +1,38 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6EE7885D
+Return-Path: <jan.siegmund0@hm.edu>
+Received: from postout1.mail.lrz.de (postout1.mail.lrz.de [129.187.255.137])
+	by mail.openembedded.org (Postfix) with ESMTP id 540F9787DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Feb 2018 23:17:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Feb 2018 15:17:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,451,1511856000"; d="scan'208";a="31597637"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2018 15:17:16 -0800
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-References: <1517523029-19272-1-git-send-email-alejandr@xilinx.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <40632d02-90d3-02ab-47cf-afa6ddb333fb@intel.com>
-Date: Fri, 2 Feb 2018 15:17:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <1517523029-19272-1-git-send-email-alejandr@xilinx.com>
-Subject: Re: [PATCH v2] ninja: Upgrade from 1.7.2 to major release 1.8.2
+	Sat,  3 Feb 2018 01:50:27 +0000 (UTC)
+Received: from lxmhs51.srv.lrz.de (localhost [127.0.0.1])
+	by postout1.mail.lrz.de (Postfix) with ESMTP id 3zYGyX5frQzyVH;
+	Sat,  3 Feb 2018 02:50:28 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs51.srv.lrz.de
+X-Spam-Flag: NO
+X-Spam-Score: -2.894
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.894 tagged_above=-999 required=5
+	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9,
+	LRZ_ENVFROM_FROM_ALIGNED_STRICT=0.001, LRZ_ENVFROM_FROM_MATCH=0.001,
+	LRZ_FROM_HOSTED_DOMAIN=0.001, LRZ_FROM_PHRASE=0.001,
+	LRZ_FROM_PRE_SUR_PHRASE=0.001, LRZ_TO_SHORT=0.001]
+	autolearn=no autolearn_force=no
+Received: from postout1.mail.lrz.de ([127.0.0.1])
+	by lxmhs51.srv.lrz.de (lxmhs51.srv.lrz.de [127.0.0.1]) (amavisd-new,
+	port 20024)
+	with LMTP id 3kjMu4teErle; Sat,  3 Feb 2018 02:50:27 +0100 (CET)
+Received: from N752VX.cm.cablesurf.de (unknown
+	[IPv6:2001:4c50:149:b900:1148:aa39:bb8b:2714])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by postout1.mail.lrz.de (Postfix) with ESMTPSA id 3zYGyW0CHCzyTx;
+	Sat,  3 Feb 2018 02:50:26 +0100 (CET)
+From: Jan Siegmund <jan.siegmund0@hm.edu>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Feb 2018 02:49:17 +0100
+Message-Id: <20180203014917.18068-1-jsiegmun@hm.edu>
+X-Mailer: git-send-email 2.14.1
+Cc: Jan Siegmund <jsiegmund@arri.de>
+Subject: [PATCH] apt-native: Add libapt-pkg headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,108 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 23:17:16 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 03 Feb 2018 01:50:28 -0000
 
+From: Jan Siegmund <jsiegmund@arri.de>
 
+Native tools were not able to use the headers of apt-pkg. This patch
+adds the feature.
+The headers were added from apt-pkg and apt-inst to the native recipe.
+The shipped headers match the ones in the Ubuntu package libapt-pkg-dev.
 
-On 02/01/2018 02:10 PM, Alejandro Enedino Hernandez Samaniego wrote:
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-> ---
->   meta/recipes-devtools/ninja/ninja_1.7.2.bb | 30 ------------------------------
->   meta/recipes-devtools/ninja/ninja_1.8.2.bb | 30 ++++++++++++++++++++++++++++++
->   2 files changed, 30 insertions(+), 30 deletions(-)
->   delete mode 100644 meta/recipes-devtools/ninja/ninja_1.7.2.bb
->   create mode 100644 meta/recipes-devtools/ninja/ninja_1.8.2.bb
-Adding the following to your .gitconfig will give you more readable 
-patches for package upgrades:
-[diff]
-         renames = copies
+Signed-off-by: Jan Siegmund <jsiegmund@arri.de>
+---
+ meta/recipes-devtools/apt/apt-native.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-It simplifies the delete -> creation to a rename, then shows what 
-changed in the renamed file (SRC_URI and SRCREV).
-
-Thanks,
-Cal
-
->
-> diff --git a/meta/recipes-devtools/ninja/ninja_1.7.2.bb b/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-> deleted file mode 100644
-> index 4d3b272..0000000
-> --- a/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -SUMMARY = "Ninja is a small build system with a focus on speed."
-> -HOMEPAGE = "http://martine.github.com/ninja/"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
-> -
-> -DEPENDS = "re2c-native ninja-native"
-> -
-> -SRCREV = "717b7b4a31db6027207588c0fb89c3ead384747b"
-> -
-> -SRC_URI = "git://github.com/martine/ninja.git;branch=release"
-> -UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -do_configure[noexec] = "1"
-> -
-> -do_compile_class-native() {
-> -       ./configure.py --bootstrap
-> -}
-> -
-> -do_compile() {
-> -       ./configure.py
-> -       ninja
-> -}
-> -
-> -do_install() {
-> -       install -D -m 0755  ${S}/ninja ${D}${bindir}/ninja
-> -}
-> -
-> -BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-devtools/ninja/ninja_1.8.2.bb b/meta/recipes-devtools/ninja/ninja_1.8.2.bb
-> new file mode 100644
-> index 0000000..c6fcfef
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ninja/ninja_1.8.2.bb
-> @@ -0,0 +1,30 @@
-> +SUMMARY = "Ninja is a small build system with a focus on speed."
-> +HOMEPAGE = "http://martine.github.com/ninja/"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
-> +
-> +DEPENDS = "re2c-native ninja-native"
-> +
-> +SRCREV = "253e94c1fa511704baeb61cf69995bbf09ba435e"
-> +
-> +SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release"
-> +UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +do_configure[noexec] = "1"
-> +
-> +do_compile_class-native() {
-> +       ./configure.py --bootstrap
-> +}
-> +
-> +do_compile() {
-> +       ./configure.py
-> +       ninja
-> +}
-> +
-> +do_install() {
-> +       install -D -m 0755  ${S}/ninja ${D}${bindir}/ninja
-> +}
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.7.4
->
-> This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
+diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
+index 68f1b3ce2c..8859fef797 100644
+--- a/meta/recipes-devtools/apt/apt-native.inc
++++ b/meta/recipes-devtools/apt/apt-native.inc
+@@ -35,6 +35,8 @@ python do_install_config () {
+         outfile.close()
+ }
+ 
++FILES_${PN} = "${includedir}"
++
+ do_install_base () {
+ 	install -d ${D}${bindir}
+ 	install -m 0755 bin/apt-cdrom ${D}${bindir}/
+@@ -67,4 +69,10 @@ do_install_base () {
+ 	install -d ${D}${localstatedir}/cache/apt/archives/partial
+ 
+ 	install -d ${D}${localstatedir}/log/apt/
++
++	install -d ${D}${includedir}/apt-pkg
++	for h in `find ${S}/apt-pkg ${S}/apt-inst -name '*.h'`
++	do
++		install -m 0644 $h ${D}${includedir}/apt-pkg
++	done
+ }
+-- 
+2.14.1
 
 
