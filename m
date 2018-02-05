@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E40CE783B4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D2B578400
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Feb 2018 01:28:09 +0000 (UTC)
+	Mon,  5 Feb 2018 01:28:11 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w151S92q026355
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 4 Feb 2018 17:28:09 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w151SBGK001963
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 4 Feb 2018 17:28:11 -0800
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Sun, 4 Feb 2018 17:28:06 -0800
+	Sun, 4 Feb 2018 17:28:08 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 4 Feb 2018 20:27:58 -0500
-Message-ID: <cover.1517793934.git.hongxu.jia@windriver.com>
+Date: Sun, 4 Feb 2018 20:27:59 -0500
+Message-ID: <24ad9eb8ae60fe08a04140d25b123bea3dc4f3b4.1517793934.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1517793934.git.hongxu.jia@windriver.com>
+References: <cover.1517793934.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/5] improve reproducibility of 5 recipes
+Subject: [PATCH 1/5] python-xcbgen: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Feb 2018 01:28:10 -0000
+X-List-Received-Date: Mon, 05 Feb 2018 01:28:11 -0000
 Content-Type: text/plain
 
-Changed in V2:
+Use relative path to generate .pyc files could remove build host
+references which leads to non-reproducible builds.
 
-- Rebase on top of targeted branch master a0988c3374
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-//Hongxu
-
-The following changes since commit 385944254d0ef88bd6450a221a54cbcb40020b42:
-
-  tcmode-default.inc: drop preferred version of gzip-native (2018-01-31 17:01:20 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/reproduce
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/reproduce
-
-Hongxu Jia (5):
-  python-xcbgen: improve reproducibility
-  openssl/nativesdk-openssl: improve reproducibility
-  python3-core: improve reproducibility
-  python-core/python-dev: improve reproducibility
-  kbd-ptest: improve reproducibility
-
- .../openssl/0001-improve-reproducibility.patch     | 50 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2m.bb | 11 +++++
- meta/recipes-core/kbd/kbd_2.0.4.bb                 |  7 +++
- meta/recipes-devtools/python/python3_3.5.3.bb      | 13 +++++-
- meta/recipes-devtools/python/python_2.7.14.bb      |  7 ++-
- meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb |  2 +-
- 6 files changed, 87 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-improve-reproducibility.patch
-
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+index bc04bc4..be6b1a0 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+@@ -36,5 +36,5 @@ do_install_append() {
+     # Makefile's do_install creates .pyc files for python3, now also create
+     # them for python2 so that they will be recorded by manifest, and can be
+     # cleaned correctly.
+-    python -m py_compile ${D}${libdir}/xcb-proto/xcbgen/*.py
++    (cd ${D}; python -m py_compile ./${libdir}/xcb-proto/xcbgen/*.py)
+ }
 -- 
 2.8.1
 
