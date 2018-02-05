@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A1127783E4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A375D783E4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Feb 2018 02:40:24 +0000 (UTC)
+	Mon,  5 Feb 2018 02:40:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w152eOpR026824
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w152eQ0b003270
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Feb 2018 18:40:24 -0800 (PST)
+	Sun, 4 Feb 2018 18:40:26 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 4 Feb 2018 18:40:22 -0800
+	14.3.361.1; Sun, 4 Feb 2018 18:40:23 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Feb 2018 10:41:02 +0800
-Message-ID: <cover.1517798422.git.liezhi.yang@windriver.com>
+Date: Mon, 5 Feb 2018 10:41:03 +0800
+Message-ID: <1d77f91111a704c9ae72060da6814f276ece3a83.1517798422.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1517798422.git.liezhi.yang@windriver.com>
+References: <cover.1517798422.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] Packages upgrade
+Subject: [PATCH 1/4] ccache: 3.3.4 -> 3.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Feb 2018 02:40:24 -0000
+X-List-Received-Date: Mon, 05 Feb 2018 02:40:25 -0000
 Content-Type: text/plain
 
-The following changes since commit a0988c3374e964170d1d24fc230306b887432d31:
+The LIC_FILES_CHKSUM is changed because of year updated, the contents are the
+same.
 
-  tcmode-default.inc: drop preferred version of gzip-native (2018-01-31 17:01:12 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/pu
-
-Robert Yang (4):
-  ccache: 3.3.4 -> 3.3.5
-  nfs-utils: 2.1.1 -> 2.3.1
-  git: 2.15.0 -> 2.16.1
-  time: 1.7 -> 1.8
-
- ...gure-Allow-to-explicitly-disable-nfsidmap.patch |   43 -
- ...nclude-stdint.h-for-UINT16_MAX-definition.patch |   27 -
- .../nfs-utils-1.2.3-sm-notify-res_init.patch       |   36 -
- .../{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb}     |    9 +-
- .../ccache/{ccache_3.3.4.bb => ccache_3.3.5.bb}    |    6 +-
- meta/recipes-devtools/git/git.inc                  |    2 +
- meta/recipes-devtools/git/git_2.15.0.bb            |   11 -
- meta/recipes-devtools/git/git_2.16.1.bb            |   11 +
- meta/recipes-extended/time/time-1.7/debian.patch   | 1301 --------------------
- meta/recipes-extended/time/time.inc                |    4 +-
- meta/recipes-extended/time/time_1.7.bb             |   11 -
- meta/recipes-extended/time/time_1.8.bb             |    8 +
- 12 files changed, 29 insertions(+), 1440 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb} (92%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/ccache/{ccache_3.3.4.bb => ccache_3.3.5.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-devtools/ccache/{ccache_3.3.4.bb => ccache_3.3.5.bb} (48%)
- delete mode 100644 meta/recipes-devtools/git/git_2.15.0.bb
- create mode 100644 meta/recipes-devtools/git/git_2.16.1.bb
- delete mode 100644 meta/recipes-extended/time/time-1.7/debian.patch
- delete mode 100644 meta/recipes-extended/time/time_1.7.bb
- create mode 100644 meta/recipes-extended/time/time_1.8.bb
 
+diff --git a/meta/recipes-devtools/ccache/ccache_3.3.4.bb b/meta/recipes-devtools/ccache/ccache_3.3.5.bb
+similarity index 48%
+rename from meta/recipes-devtools/ccache/ccache_3.3.4.bb
+rename to meta/recipes-devtools/ccache/ccache_3.3.5.bb
+index 1e535b1..929f0f1 100644
+--- a/meta/recipes-devtools/ccache/ccache_3.3.4.bb
++++ b/meta/recipes-devtools/ccache/ccache_3.3.5.bb
+@@ -1,10 +1,10 @@
+ require ccache.inc
+ 
+ LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7fe21f9470f2305e95e7d8a632255079"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=dae379a85bb6e9d594773e0aa64876f6"
+ 
+-SRC_URI[md5sum] = "95ab3c56284129cc2a32460c23069516"
+-SRC_URI[sha256sum] = "24f15bf389e38c41548c9c259532187774ec0cb9686c3497bbb75504c8dc404f"
++SRC_URI[md5sum] = "eee58db7cce892febddb989308dc568f"
++SRC_URI[sha256sum] = "190576a6e938760ec8113523e6fd380141117303e90766cc4802e770422b30c6"
+ 
+ SRC_URI += " \
+             file://0002-dev.mk.in-fix-file-name-too-long.patch \
 -- 
 2.7.4
 
