@@ -1,49 +1,48 @@
 Return-Path: <ricardo@opensourcefoundries.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF2371CBD
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 37D6B78430
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Feb 2018 18:46:58 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id c2so40904955qtn.9
+	Mon,  5 Feb 2018 18:48:43 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id l20so40869549qtj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Feb 2018 10:46:59 -0800 (PST)
+	Mon, 05 Feb 2018 10:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=QGTrlbz24yadfkbESg2EnjjcRe+IFRhCMGSm0h26VHc=;
-	b=cdyNrKvKvfgUoyiHakXtx1exR7QJOQdI51YORxqhvzaWqWXPqCJYRIVg652J7utdtQ
-	1LTzw/RqvOOvwd7rLbnavzuuS0xiJLD6hcWKHYy1/EAWCKIKuvohqBFc3WEnuAV0YvYi
-	bGn+53yPXF2zQAf4sWdinI9vD9vRYpR0zSDzGpgHaUdE1U/AldzNQBSqiAx1tlpptqyu
-	iWBp3xsQ4vFSB+Dx98eQgO695O+bb+/3mQ7qsiu8cWrXyK6BPpLac7Vy23Ngp+kyIPjQ
-	0hWm9Uw5yBGFv9/1zTKivSmd56INyxl+oggC+fWSy2OgNsKkE/fteaGT0BtYyBnD/n5I
-	Dd3A==
+	bh=3n67T3Z11kOGfvsDzIf+3i0VLfhYHHdzHYtw0QeBUsM=;
+	b=nckcj8mu/jePVPxL0DbPkkToMn3PUXY2aUZpszM9SES7GHB1LzGFybiPc1C+nnbp+a
+	xAZ9BEblSpU55Kxu/xBorKscm1W5oweI7w4xHwyfTADtCb4gTFlS+zdXzmBJUXhy5jBH
+	67ZchFq390tju2FU0+2I+TCtyagfQw9TUy0U6HQ5BtKieDiO1u+GsMVwV2raWg+g+7v0
+	fCYXW9oibFoAt+KoiNuHxpx4vJQcpzFgSt3uAzWsjKiERNnabaGsTe8yNfx+oujEydti
+	pjOgHcGESzOYHjkb0EDpcH0I7JZ/G9rPsrGTBB7iDoyVyQNgpffvWOAc9TGV6Xw/T7sv
+	eqYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QGTrlbz24yadfkbESg2EnjjcRe+IFRhCMGSm0h26VHc=;
-	b=aI12Gzlnv0mknKjOX44vrBATeh8E3MyxSLbJXqe97CHb5qy3gjle+xMYb6HxF39yFE
-	QRzB0076VOy1BD6gUKKFP3W1WF4cwHq/PLJDts7Sr1VdjqpTQoAccXiXuNsi3mpJqFKR
-	DOjzYzzTJpRj/fWsMKALVz3Gf+ix/2ds2zygWzMClYTxJU8OsP7zrsh49ODRoQRVsEEW
-	z2ME9Q+vogFDuyLdh4YPbbo5E90y2intkuZs0p6nUU5gdQuhRmXCgvJodEgPWlOH4tGW
-	lOmyVhiENUNw45ejlqKfyfK2O8pCaQieRH+JBpNv5I/DUFq3e+99ycMiExQgAE0nH92F
-	HJDQ==
-X-Gm-Message-State: APf1xPA5KsJWBEfSz9CDXXBSOonDhzBV1J9yJLAl/lEu5COoj0tiaesn
-	iaW79sWqbXL3yVEHTC6cLZCkqSuH7g==
-X-Google-Smtp-Source: AH8x225lyvbRQi5HbAIjxxMOQ6jWreqKKHRamaVUJuwqodx31+VT4vcSaHVpObx2FXaabqCWVJnwoQ==
-X-Received: by 10.200.52.207 with SMTP id x15mr20127602qtb.267.1517856418911; 
-	Mon, 05 Feb 2018 10:46:58 -0800 (PST)
+	bh=3n67T3Z11kOGfvsDzIf+3i0VLfhYHHdzHYtw0QeBUsM=;
+	b=Dqld2cToDnZO3xw52/WRVuIZ8ImQkP82BhKdlgHa+HrTFQEOsE+uwAlJQ2LsEXBTdX
+	Z4ItJJmAsnVzTLSMwwtoIIxUB1n72noRuXVkADTs6Q4MVWg+/zPb0U1atWBIEuBopO1z
+	lWBga05Aj4naB2NvOCImzjvEv/Snp5ATPvD9m9ac29h/R90TiBQnO8JK08XiMPudEiFQ
+	+WS936AIS2ppKyDxX2qiYu2yjDqkErspQTLwioHnENcNaKQS4jvrrmcqNZsTegtFa74Y
+	Ibbzo0fEzes9vTzyun/pcd6A/umBgwm9UnjWD/L/PSoFSogR6xiHTOJCk0VIWCgVXs+O
+	jHGQ==
+X-Gm-Message-State: AKwxytdS8L4a8bIDBcErsAepEVZiziqGKIOv5pLixDTK6WuMfajs+LJi
+	sNcww6nILQN7kxn9Zzns1k8mZCb2Wg==
+X-Google-Smtp-Source: AH8x2245zjc9IBsq+gCMLAioKaat+WCoY5OzYDGtlEQX3KQhfEEkS8nRXjdCdMyMgDJZQxseF6yOhg==
+X-Received: by 10.237.35.38 with SMTP id h35mr26706492qtc.300.1517856525128;
+	Mon, 05 Feb 2018 10:48:45 -0800 (PST)
 Received: from localhost.localdomain ([189.4.104.170])
-	by smtp.gmail.com with ESMTPSA id
-	t123sm5709045qkh.60.2018.02.05.10.46.57
+	by smtp.gmail.com with ESMTPSA id q2sm6387005qti.81.2018.02.05.10.48.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Feb 2018 10:46:58 -0800 (PST)
+	Mon, 05 Feb 2018 10:48:44 -0800 (PST)
 From: Ricardo Salveti <ricardo@opensourcefoundries.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Feb 2018 16:20:44 -0200
-Message-Id: <1517854844-14634-1-git-send-email-ricardo@opensourcefoundries.com>
+Date: Mon,  5 Feb 2018 16:22:30 -0200
+Message-Id: <1517854950-14727-1-git-send-email-ricardo@opensourcefoundries.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] grub-efi: allow default config to be customized by the distro
+Subject: [PATCH] grub-efi: add grub target and image for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Feb 2018 18:46:58 -0000
+X-List-Received-Date: Mon, 05 Feb 2018 18:48:44 -0000
 
-The default grub config produced by grub-efi can't be easily customized
-by the distro (without replacing the standard cfg file), so create an
-extra variable GRUB_CFG to allow customizing the config file that is
-consumed by grub-mkimage.
+Add missing target and image for aarch64, as the current revision is
+already fully compatible with ARMv8.
 
 Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/grub/grub-efi_2.02.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index a72b189..6530d92 100644
+index a72b189..a5235a1 100644
 --- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
 +++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -53,13 +53,14 @@ do_install_class-target() {
-         {} +
- }
- 
-+GRUB_CFG ?= "cfg"
- GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
-                  efi_gop iso9660 search loadenv test"
- 
- do_deploy() {
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
--	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+	grub-mkimage -c ../${GRUB_CFG} -p /EFI/BOOT -d ./grub-core/ \
- 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
- 	               ${GRUB_BUILDIN}
- 	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+@@ -21,6 +21,9 @@ python __anonymous () {
+     elif re.match('i.86', target):
+         grubtarget = 'i386'
+         grubimage = "grub-efi-bootia32.efi"
++    elif re.match('aarch64', target):
++        grubtarget = 'arm64'
++        grubimage = "grub-efi-bootaa64.efi"
+     else:
+         raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
+     d.setVar("GRUB_TARGET", grubtarget)
 -- 
 2.7.4
 
