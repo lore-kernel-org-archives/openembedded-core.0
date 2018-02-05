@@ -1,24 +1,18 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id A04467841B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Feb 2018 17:28:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Feb 2018 09:28:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,465,1511856000"; d="scan'208";a="171825998"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga004.jf.intel.com with ESMTP; 05 Feb 2018 09:28:51 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Feb 2018 09:28:58 -0800
-Message-Id: <1517851738-68408-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] opkg-build: differentiate between compressorargs and zipargs
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CFB417847D;
+	Mon,  5 Feb 2018 17:32:55 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Date: Mon, 05 Feb 2018 17:32:57 -0000
+Message-ID: <20180205173257.15539.38338@do.openembedded.org>
+References: <1517851738-68408-1-git-send-email-juro.bystricky@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1517851738-68408-1-git-send-email-juro.bystricky@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZy1idWlsZDogZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIGNvbXByZXNzb3JhcmdzIGFuZCB6aXBhcmdz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Feb 2018 17:28:50 -0000
+X-List-Received-Date: Mon, 05 Feb 2018 17:32:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-control.tar.gz is always compressed with gzip.
-If data.tar is compressed by a compressor other than gzip, control.tar.gz
-may end up compressed with timestamp in the compressed image header.
-This would result in packages that are not binary reproducible.
+== Series Details ==
 
-[YOCTO #11242]
+Series: opkg-build: differentiate between compressorargs and zipargs
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10851/
+State : failure
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a0988c3374)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- opkg-build | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/opkg-build b/opkg-build
-index 7bfdd99..318f308 100755
---- a/opkg-build
-+++ b/opkg-build
-@@ -149,7 +149,8 @@ outer=ar
- noclean=0
- opkext=0
- compressor=gzip
--compressorargs="-9n"
-+zipargs="-9n"
-+compressorargs=""
- 
- # Determine if tar supports the --format argument by checking the help output.
- #
-@@ -223,13 +224,12 @@ done
- 
- cext=$(compressor_ext $compressor)
- 
-+# pgzip requires -T to avoid timestamps on the gzip archive
-+if gzip --help 2>&1 | grep -- "-T" > /dev/null; then
-+	zipargs="-9nT"
-+fi
- if [ $compressor = "gzip" ] ; then
--	# pgzip requires -T to avoid timestamps on the gzip archive
--	if gzip --help 2>&1 | grep -- "-T" > /dev/null; then
--		compressorargs="-9nT"
--	fi
--else
--	compressorargs=""
-+	compressorargs=$zipargs
- fi
- 
- shift $(($OPTIND - 1))
-@@ -281,7 +281,7 @@ build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
- 
- echo $CONTROL > $tmp_dir/tarX
- ( cd $pkg_dir && tar $ogargs --sort=name --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
--( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $compressorargs > $tmp_dir/control.tar.gz )
-+( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
- rm $tmp_dir/tarX
- 
- echo "2.0" > $tmp_dir/debian-binary
-@@ -296,7 +296,7 @@ rm -f $pkg_file
- if [ "$outer" = "ar" ] ; then
-   ( cd $tmp_dir && ar -crf $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
- else
--  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $compressorargs > $pkg_file )
-+  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
- fi
- 
- rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
