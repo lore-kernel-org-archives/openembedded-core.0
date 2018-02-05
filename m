@@ -1,30 +1,24 @@
-Return-Path: <psaavedra@igalia.com>
-X-Greylist: delayed 1833 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 Feb 2018 16:57:52 UTC
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 997F6600BC
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id A04467841B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Feb 2018 16:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
-	bh=6fgRfp4uW2B0S/4JXhXSvPlVLUae/dvZIx8L297Y5ao=; 
-	b=Rsw7eRPW2f7gs23T9tI8C05S4/e0Yg8f2xMk1617USWeLBry888B8IhqJHLlp3estLWcR0qu7X1WmspZTxbpoQrD5VJg9DxiUpHAI/pkW+L5xzCaGgYhlE8051/YpVPdVv5lwhXFklfSDJeuuLzIFb92BZrnXPLEvINwC0o6nm8qSz8OIcJOpgpKor8lTWQ68TRHGrHKHhQxncWW0SCB34/7/joa94/KLnevti5RsYAUnKbK0K6wZdPOaiEMOLkAcxkKid/abQobUlNzE2mZ5ddjvmLXXiLjad+iNYTNm1YoiLjBk4D56qpPGNPBlzbT/DM6tW/FE4r1qbtr3JkUnw==;
-Received: from 6.27.165.83.dynamic.reverse-mundo-r.com ([83.165.27.6]
-	helo=[192.168.9.78]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1eijbz-0004HV-Ep for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Feb 2018 17:27:19 +0100
+	Mon,  5 Feb 2018 17:28:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Feb 2018 09:28:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,465,1511856000"; d="scan'208";a="171825998"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga004.jf.intel.com with ESMTP; 05 Feb 2018 09:28:51 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <8da72ea4-8a6f-848b-539c-63bfc7197cfb@gmail.com>
-From: Pablo Saavedra <psaavedra@igalia.com>
-Message-ID: <0c839d38-650b-5385-b761-acaad9267873@igalia.com>
-Date: Mon, 5 Feb 2018 17:27:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <8da72ea4-8a6f-848b-539c-63bfc7197cfb@gmail.com>
-Subject: Re: [PATCH] puppet: add recipe for puppet 4.10.9
+Date: Mon,  5 Feb 2018 09:28:58 -0800
+Message-Id: <1517851738-68408-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] opkg-build: differentiate between compressorargs and zipargs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Feb 2018 16:57:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 05 Feb 2018 17:28:50 -0000
 
+control.tar.gz is always compressed with gzip.
+If data.tar is compressed by a compressor other than gzip, control.tar.gz
+may end up compressed with timestamp in the compressed image header.
+This would result in packages that are not binary reproducible.
 
->
-> On 11/27/17 2:35 AM, Pablo Saavedra wrote:
->> Added Yocto recipe for Puppet 4.10.9
->>
->> Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
->> ---
->>   recipes-support/puppet/puppet_4.10.9.bb | 41 +++++++++++++++++++++++++++++++++
->>   1 file changed, 41 insertions(+)
->>   create mode 100644 recipes-support/puppet/puppet_4.10.9.bb
->>
->> diff --git a/recipes-support/puppet/puppet_4.10.9.bb b/recipes-support/puppet/puppet_4.10.9.bb
->> new file mode 100644
->> index 0000000..a335546
->> --- /dev/null
->> +++ b/recipes-support/puppet/puppet_4.10.9.bb
->> @@ -0,0 +1,41 @@
->> +SUMMARY = "Open source Puppet is a configuration management system"
->> +HOMEPAGE = "https://puppetlabs.com/puppet/puppet-open-source"
->> +LICENSE = "Apache-2.0"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=7c9045ec00cc0d6b6e0e09ee811da4a0"
->> +
->> +SRC_URI = " \
->> +    https://downloads.puppetlabs.com/puppet/puppet-${PV}.tar.gz \
->> +    file://add_puppet_gemspec.patch \
->> +    file://puppet.conf \
->> +"
->> +SRC_URI[md5sum] = "8af3c2fec5dc4683d80aab4efc1614c6"
->> +SRC_URI[sha256sum] = "e667bd825e54bbc38c30534c25adc441ed638fc484fe0abe278f0335770cd161"
->> +
->> +inherit ruby
-> which layer is ruby.bbclass coming from ?
+[YOCTO #11242]
 
-meta-cloud-services/classes/ruby.bbclass into the meta-cloud-services layer
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ opkg-build | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Sorry, I guess this this patch should be sent against
-openembedded-devel@lists.openembedded.org
+diff --git a/opkg-build b/opkg-build
+index 7bfdd99..318f308 100755
+--- a/opkg-build
++++ b/opkg-build
+@@ -149,7 +149,8 @@ outer=ar
+ noclean=0
+ opkext=0
+ compressor=gzip
+-compressorargs="-9n"
++zipargs="-9n"
++compressorargs=""
+ 
+ # Determine if tar supports the --format argument by checking the help output.
+ #
+@@ -223,13 +224,12 @@ done
+ 
+ cext=$(compressor_ext $compressor)
+ 
++# pgzip requires -T to avoid timestamps on the gzip archive
++if gzip --help 2>&1 | grep -- "-T" > /dev/null; then
++	zipargs="-9nT"
++fi
+ if [ $compressor = "gzip" ] ; then
+-	# pgzip requires -T to avoid timestamps on the gzip archive
+-	if gzip --help 2>&1 | grep -- "-T" > /dev/null; then
+-		compressorargs="-9nT"
+-	fi
+-else
+-	compressorargs=""
++	compressorargs=$zipargs
+ fi
+ 
+ shift $(($OPTIND - 1))
+@@ -281,7 +281,7 @@ build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
+ 
+ echo $CONTROL > $tmp_dir/tarX
+ ( cd $pkg_dir && tar $ogargs --sort=name --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+-( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $compressorargs > $tmp_dir/control.tar.gz )
++( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
+ rm $tmp_dir/tarX
+ 
+ echo "2.0" > $tmp_dir/debian-binary
+@@ -296,7 +296,7 @@ rm -f $pkg_file
+ if [ "$outer" = "ar" ] ; then
+   ( cd $tmp_dir && ar -crf $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
+ else
+-  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $compressorargs > $pkg_file )
++  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
+ fi
+ 
+ rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
+-- 
+2.7.4
+
 
