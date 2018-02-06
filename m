@@ -1,94 +1,49 @@
-Return-Path: <mkelly@xevo.com>
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-bl2nam02on0044.outbound.protection.outlook.com [104.47.38.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CB278461
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B4687842E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Feb 2018 19:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=IORGoERzTqu+7YHiS23iZLufitXrRL9YDAo3cmRqxns=;
-	b=Az+O/h6zZReUcr0OgqwqxJ8zLc7QFFaFE5pV6CDm5z2Zc4a2FxEWIGGKVgHnoErjJPWNEguNqYmeQoqfkh7MPF6h8r7vU6wqOkcvKXhLRpuzE6sP24Prhv0MnIYqQ+PP0tfXi0y6LzS9anno99XqBx/RoW01VPTnn3shXFcljzA=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=mkelly@xevo.com; 
-Received: from columbia.corp.xevo.com (65.122.179.226) by
-	MWHPR0101MB2943.prod.exchangelabs.com (10.174.170.14) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.464.11; Tue, 6 Feb 2018 19:48:54 +0000
-From: Martin Kelly <mkelly@xevo.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Feb 2018 11:48:22 -0800
-Message-Id: <20180206194822.25248-1-mkelly@xevo.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-X-Originating-IP: [65.122.179.226]
-X-ClientProxiedBy: BN6PR06CA0017.namprd06.prod.outlook.com (10.175.123.155) To
-	MWHPR0101MB2943.prod.exchangelabs.com (10.174.170.14)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a6d0137-21bb-4524-a267-08d56d9aa844
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603307)(7153060)(7193020);
-	SRVR:MWHPR0101MB2943; 
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
-	3:Oy8b4rNMBZuMZOSskJvG0ewQnW/oO4GSdXvt/zAhNAfsArqrkK+MrNBwebV2vsRC5YK6oKnrWqeIsV9AScx1fDG7UYZ3JKyaqVls37BQ+5eu3yS61+dpJJNIZG+eXU0pNxWz4iqtLW/JJrjCJyn6LjoqYfutA5tXF2jO9i4HMojfmfwXra1LR5qxkKY8Ah5X6g7HYqB62US5XECKVN8zfUsGdEaH7U7at2/2klHN9XA6z4kb8FahvPMMj532XyO+;
-	25:8yHcOfTZDgEZ+r0d02GRZYkNCkTmsBDsDdEAV6dpGDeSQcU5ctrGAam2rCdswGUmS0nsOVFAEiLTiNmfCxSiOM7Lfs4i99eU/QXGEx5mqwa9DKLVD4xZYyXHPR/MO1LZkISe7ndE+He49rOEkK76Yb8TA2a5Ok++5pPhhf7YDu3X+FVRoqDVZbjnkF1kQ32l55e7k5spuO+vomufeDam1sUfxXJfXytbeq0OTJbGEbapcn0ED7MVs8SEKm2Ub/t9aghCaA5OAxiPD69NoyCl4PS0ZErM8w3azHk0MQOiEOykzzYLpbKVDTKkyliKsgQixDuaaF0EgoQRWykN0IzfvQ==;
-	31:iiMC300O27ie6CGs904qa3TmTjAdx9a7Y8aGHPQ6CShHaYqRkv3L1aq8NXsli3k1ISlLaobvUyTCGdIrT8yvcG1LEH6kToNoNfujeQmRoKcT/NHNbRorMK+1hdP+moPFl4PmCb2T6hvwGyewogtNgR9/gCLoRJ0Wz5680ugIvuuUWfexHOlhhr7ZZt5t0vT5YXk6V1aU+bl5nciV+vsbHU4pl+stt0svS3LsXqLEAQU=
-X-MS-TrafficTypeDiagnostic: MWHPR0101MB2943:
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
-	20:m/M+Mp34UKM0MCZVqxBHYZpvl1rx+y256MmkSbmFleAF+k7MhiUjRXB0PJluSNyfWGuNl+VSwPTgBXjnMbbsAJ2cD7PNWNpgGhLzOZXfkybkLhHMLCQnI41J8TpYgTvQjMfaabpn5CkYu6YUTrAKWn8DbtBMIW8MSvJSsTfVyBHepMNSSQcuIs/i05DjS2d4WBED3cKPaS1BmWFXs2Ra7/ZlR04gHdAliMtQg20qzf/pSYM+/x5Fx3O/9DfewsAFzneles5GooijnbCzCnGlmZpYNwHkPkhJPzxFX5H7M3bSbLrIaIThqXBJXzFdqTatysbdD4ivXSC3ZMFIuoDVg5+vXq/8Xy6DBEm8w6y5fRUSJlgeO8fbArHLz34nI+BhbTda2ZxeW4ecBQqAyDadw7O7N0gEiM+toum/HQpCxT0=;
-	4:g8sjT0KHBT4ehMm7u7Ii0nPul8FzzZ9fcVCUEpWCi4de3B91s+cDWM1qxkkv4UGaF6jnSfl9wKuqPFRfxjFvzzOTWKgUaHrIUZMqgfzcjeVu/zFBcR37NudOqQzCsS3dkobxr9Cv8ufA/uhODFw4C1cDYo4adz329gy9dTpUpUg1M7T0HVe1qBSW3VsgOKtRe+ZzoIaTK31wa4eJXHmbmkRp0CeCf4PNJU3V7mKlp/iCcFEX02UbcaaLML20adOiWbECzDuzR00qUA8/50PhpfqKaEwrbLID41LZQjK0+bgPSkCiYOlFbm3bXYnDBaKL0QjyiENMHP3t+GlAsdWMuBlhsYGCoNUovLx3QgeH3ag=
-X-Microsoft-Antispam-PRVS: <MWHPR0101MB29431BA942C78577F33F8869ABFD0@MWHPR0101MB2943.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-Test: UriScan:(31051911155226)(228905959029699);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040501)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231101)(2400082)(944501161)(93006095)(93001095)(6041288)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123564045)(20161123562045)(20161123560045)(6072148)(201708071742011);
-	SRVR:MWHPR0101MB2943; BCL:0; PCL:0; RULEID:;
-	SRVR:MWHPR0101MB2943; 
-X-Forefront-PRVS: 0575F81B58
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(366004)(39840400004)(376002)(39380400002)(396003)(346002)(189003)(199004)(6306002)(50226002)(1857600001)(7696005)(97736004)(36756003)(25786009)(51416003)(26005)(4326008)(6486002)(5660300001)(6916009)(7736002)(53936002)(305945005)(86362001)(81156014)(6666003)(52116002)(966005)(8676002)(81166006)(478600001)(8936002)(47776003)(54906003)(107886003)(16586007)(105586002)(316002)(66066001)(186003)(2361001)(16526019)(50466002)(6116002)(1076002)(68736007)(2906002)(2351001)(386003)(48376002)(106356001)(3846002)(228453006);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR0101MB2943;
-	H:columbia.corp.xevo.com; FPR:; SPF:None; PTR:InfoNoRecords;
-	MX:1; A:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: xevo.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR0101MB2943;
-	23:uf4y9M7bE43sFhcN31a55qvQTJcIhR9mkgpSWCV?=
-	=?us-ascii?Q?DjFbyRjfGLDOdsEALylf4mXC6jb3CklZXdFdwI7E16cjeBRn2WC5JOhnuOrW?=
-	=?us-ascii?Q?yD1z4iq42ZX04ypSbUo1SjzpkKO5f6FNskKwDvWsDvbQb5v44PrWWrWWos2E?=
-	=?us-ascii?Q?e2cslnUr35pJ6ZliNaxxduvx4LgLLw/viKR8tlJ+Izbew6S8nrHw6pc08vjl?=
-	=?us-ascii?Q?bsozKQaSuMETyDtKjhXJEnZQZIU9R2eUa8ZuPnwMEdnPTfe+Yf2orSs8SApy?=
-	=?us-ascii?Q?BGYajNaYpGTGnbZDPvyL81pHdNW5lci49Cn4BM0oRGUNIRFtWuEWyd/JRsOf?=
-	=?us-ascii?Q?9UWtIT0iyOdN3XxeuIw7ArWOGVJIfvKDZb8FRBBy6rP5LqaOTi4+Xzw0hiGV?=
-	=?us-ascii?Q?I7Nsk+r3CwbhyPPle+WriKc9zQoFGKfwOVHPDS8t+tHrmglmQ/IYk4zNHcZg?=
-	=?us-ascii?Q?C8iAYVvI/F8DHxcPVeDgNrPBEtftVP0AOEmeKTnGcGqIpO9g/tS0LFTDrrq7?=
-	=?us-ascii?Q?7TpOY3+y0xaC/9fdl3ZLGuLF2xc00ifI8P43V8qFz85Ew0bYGWogri8ujVQ7?=
-	=?us-ascii?Q?lUzpvCvgeDDcBU7ddWtzrVoIljqKD1z/0dYvGprbwOjSVLAPqTQZ7RmFMW8y?=
-	=?us-ascii?Q?H/0p0yPMAdv32HHFnqswlkmkq+5QwEJYbfpDFpyrueGMF53LdVAl5OT+D+XW?=
-	=?us-ascii?Q?6s32Z7hL8iXGpuVf72wC3n9b26x33LwbRomuqu5BtvfK9y4B+Mes/ygD4YAG?=
-	=?us-ascii?Q?u39RQPzS6UwbDi7h4pEj7xxlL2rXpZv3o53OWcpnhFwlRiY8wi0OeEZyPPJX?=
-	=?us-ascii?Q?kWnK8yOKNIkJyJWoYyRw7c0ALN4vTQMww1ldZI9qOFRtr5y6YeaUI2h3zQmD?=
-	=?us-ascii?Q?6vxohQazMcR92gqA60xljMkQhPcf9b8PcJgfiXNh+VVv95hzz8+Hv8a5pAmy?=
-	=?us-ascii?Q?RXLorag/2Ly7dE9EKq2x+YrqyyqWiQgnv7GjgYtaQotcNKlp1CBtOUhlKdkU?=
-	=?us-ascii?Q?XQP/9G2r3JFmd1/jL4U7BY9cdYfwIwiaKN+i9syAxGuGFIgefgr/XhX/Dxc8?=
-	=?us-ascii?Q?qgeH4Efypl1Q9aYdlMQFCpMGksMDo5GsieNgxrSI9/GoM1pnYg+BXg58ygPE?=
-	=?us-ascii?Q?BFIPE4U0vvIr9UGbVPP3XJpAanvQEele7/gFilXOFrx1s3vTndRGy2t72Ml1?=
-	=?us-ascii?Q?nYDt/iPXmBAPT5QCqEMY1fwDeJRQjdU+jbot9?=
-X-Microsoft-Exchange-Diagnostics: 1; MWHPR0101MB2943;
-	6:OIy9FbkRj/vmcY12j9luDqK80HpoHT0/0nGCB2r+zQa0hNKciwmnRzXzkukQHm/lMN+ZrKOU4RlSVGblDPYZsNnvvspwMSqOt9aYMRtWgxj+Znend9VpEM9BazQNTKDZBiU0xqDMUBe1Ihkv0ExDehzCNoM5YhJ7XP9VP+v8QyfEywlR9Gncnq8ptW5zjutH3m7iCZ6F3jlaaltry6HOr1jknM9i2pVPsfW82r7C5umwcaYiMafZ9Z7D7h+2q7Piw9R11e//vZkmWtZEEcHN1zn9ODBvSGfj3rYSUuVxUMmRsB4h2EpL4rIxeMe5MY4YsfRHzr394Wa53m2tBzH2QCicj7BgKPxDIxE0hC9t18g=;
-	5:hmrIeFZgWZXMX9OfMmYFm332lyIdgqyFxnnji76COr05sgNwbkq4AaMo2J+UmFWqOp4E/7H9G+626jwXZ19kwNCAeCRdWG/S0OoofgIJNKUJwPoiYTHBGuO5MjJKGnYR/GynKScIIP9STxtt3zX9MLU6Mb+D5Prlf6gokv5dh4s=;
-	24:IH9d59qHNJy4pL3J8VkhDX15sLHsCxYdLT9h30L++s1XMZcyi9cgSNA7aY2Rnuo/p01t6dI7V9hMtVAZEw3Bu0XQ5sbTuEbwLIHRY7d0Lmg=;
-	7:h/6oGY3taRYqlUArJarzSFcs9GREjDl7rsxuMNTwOOmEtCdOYbSrUDDDXi242boDbIlSen536jJk66t5dDgb55sO8WzqrIDjIbmbowdE0A8mLwkRoATDAQ8bShnQjnCSritdJ6ciDyZJnMYzZMKwme2Wv00pbggvKIZOmLrBiHxQIVFXp6BA8YWobjBa0HHhJdyRRszaxCYjvdLFZdaPbJiuQ3eB4Aqf8Muuy8MUHeA1WGSUNfaBMcNOL2TeKuc8
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2018 19:48:54.9348 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a6d0137-21bb-4524-a267-08d56d9aa844
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2943
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [pyro][PATCH] python3-nose: rename ${bindir}/nosetests into ${bindir}/nosetests3
+	Tue,  6 Feb 2018 22:03:14 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id 196so4253282iti.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Feb 2018 14:03:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=5TanbjK/wrL1VOA6aZArgkG4RLpMz5VLgJxq+6KP9Us=;
+	b=P25wD9JcjQKXcUwx3U4nDY35dtLLaiECmHiUhz9/NoHqluSUrcmivEn94dJBE0OwHx
+	WMdxsBZQeWdugBH55KVMdAGEjOxsOecYoH0+/8Ww9uVKkSFQKnvsbv7+fWtkn9P0hRjF
+	yqt+v/KoMN9adQF6+GkGSrz2vNhmIiipF1rxsHFN/Db7jAcgeVcke9EIv7jpl6hiLhGV
+	J13tArBmMX2q39UNBg/jPfDE2i0zRx6GIdY7CyMB5wV//5S/SgwoqWfqxFVZsgnYnk12
+	q6LW8jg36SHuV73SroiWO7x5R04tFZlpTMNgcuyEgFTwb1uTvsgUQZ8qcgn/UYwqmL5P
+	ah9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5TanbjK/wrL1VOA6aZArgkG4RLpMz5VLgJxq+6KP9Us=;
+	b=X7vT0CIMtptXbPti5PO9FLnW5IFbAbSPCN4QKcedNl2ZIvlExWj7/+2zFg+4QtlmpE
+	Y4jj/FHEm54iY4DOY2f5MF/ri5lIHgt6189OILakoMnFiCv5axNJA10NNT0VTFof9/14
+	FuHV9r2NBEsiIWhFyFI7kmuoxbtq3hx+XQAdPtVPIAHPUuH15FAqdRmFZGep9qgjZHPY
+	S57gNut+UuBU0d8yI0AOTR9mrO6B3PEFRBSNTgdzDuKLxLlILvkDUfkmuREIReva5DD6
+	YZjNv5jfuxh2ykLv66Xjr26hedDyBDrldlk+4bHxZdo7gZbMXm/sS+K2ieH1R8PyTweM
+	e1gA==
+X-Gm-Message-State: APf1xPDFGaNMm0MhNNAGAYfPl0xEbFRtTTONGU7Rt2EyU7xjZIP+YwEV
+	BdV6Dk67H8QLktqoq/eNn6blZLNO
+X-Google-Smtp-Source: AH8x224lzLVbjtZ/utbzx7XCwkEjqnKlbK13wi0FmUUt4Z7xm4OP0l5ln6YIctVV2tabBcsAkz2nFA==
+X-Received: by 10.36.217.131 with SMTP id p125mr4838396itg.62.1517954595454;
+	Tue, 06 Feb 2018 14:03:15 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	g69sm294785ita.9.2018.02.06.14.03.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Feb 2018 14:03:14 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue,  6 Feb 2018 16:01:19 -0600
+Message-Id: <cover.1517857764.git.JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH 00/14] Fix support for Icecream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -101,43 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Feb 2018 19:48:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Feb 2018 22:03:14 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+Fix up support for using Icecream to do distributed builds, which
+appears to have been broken for some time.
 
-This resolves a conflict when both python-nose and python3-nose are pulled
-into an image and try to install ${bindir}/nosetests binary.
+In addition, Icecream support can now be enabled in the SDK. When
+enabled, the SDK install process will check if the host supports icecc
+and if so will construct a proper environment tarball and use it when
+compiling.
 
-This matches with how other distros are solving this problem, e.g. Debian:
-https://packages.debian.org/jessie/all/python3-nose/filelist
+Most of the changes should be straightforward. icecc-create-env has
+been almost completely re-written but the changes were broken up into
+hopefully logical chunks.
 
-Also, other packages like python3-setuptools are already doing the same with
-their binaries.
+The following changes since commit 385944254d0ef88bd6450a221a54cbcb40020b42:
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Martin Kelly <mkelly@xevo.com>
----
- meta/recipes-devtools/python/python3-nose_1.3.7.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+  tcmode-default.inc: drop preferred version of gzip-native (2018-01-31 17:01:20 +0000)
 
-diff --git a/meta/recipes-devtools/python/python3-nose_1.3.7.bb b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-index 99bba4403f..1e2ff74f57 100644
---- a/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-+++ b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-@@ -17,6 +17,10 @@ S = "${WORKDIR}/nose-${PV}"
- 
- inherit setuptools3
- 
-+do_install_append() {
-+    mv ${D}${bindir}/nosetests ${D}${bindir}/nosetests3
-+}
-+
- RDEPENDS_${PN}_class-target = "\
-   python3-unittest \
-   "
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib jpew/icecream
+
+Joshua Watt (14):
+  icecc.bbclass: Move to shared work directory
+  icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
+  icecc.bbclass: Skip canadian-cross compiles
+  icecc-create-env: Reformat
+  icecc-create-env: Add /bin/true to environment
+  icecc-create-env: Use program interpreter for deps
+  icecc-create-env: Symlink alternate names
+  icecc-create-env: Archive directory
+  icecc-create-env: Fix executable rpaths
+  icecc-create-env: Add support for nativesdk
+  icecc-create-env: Allow multiple tool aliases
+  toolchain-shar-extract: Add post-relocate scripts
+  icecc-toolchain: Add SDK icecream setup
+  icecc.bbclass: Add IceCream support to SDK
+
+ meta/classes/icecc.bbclass                         |  37 ++-
+ meta/classes/toolchain-scripts.bbclass             |  15 +
+ meta/files/toolchain-shar-extract.sh               |   8 +
+ meta/recipes-core/meta/meta-environment.bb         |   2 +
+ .../icecc-create-env/icecc-create-env              | 328 ++++++++++++++-------
+ ...e-env-native_0.1.bb => icecc-create-env_0.1.bb} |   4 +-
+ .../icecc-toolchain/icecc-toolchain/icecc-env.sh   |  37 +++
+ .../icecc-toolchain/icecc-toolchain/icecc-setup.sh |  43 +++
+ .../nativesdk-icecc-toolchain_0.1.bb               |  38 +++
+ 9 files changed, 390 insertions(+), 122 deletions(-)
+ rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-native_0.1.bb => icecc-create-env_0.1.bb} (98%)
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
+
 -- 
-2.11.0
+2.14.3
 
 
