@@ -1,52 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 96F7D78557
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CC581783AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Feb 2018 22:03:20 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id m11so4163615iob.2
+	Tue,  6 Feb 2018 22:03:21 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id f34so4123788ioi.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Feb 2018 14:03:22 -0800 (PST)
+	Tue, 06 Feb 2018 14:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=UI9lMDu3tuyZBQ227epFhAfTU0yCv+o/OCdl0zXq1ms=;
-	b=eFyX5xpjBRnw33meyQph3kHTz9FHP4aeRnfu0DDd9YWSZj+jnSvx/L30qQb8QjvzjV
-	3m5QdPwnU09mJRuOgIJM7Sgtn8Lka3c0+BZbikJ+lr86f0zPJV/des1YReZZY1fYJfJZ
-	XWN5972Zfo6NWh0n5mUhrqMxz5tuRjcnNreJAXwuS0dnl2x9ZG6oBQTvLBUzeQCH53jn
-	vZboGCETckFAhtqQPoYvK7fO8jn2/Nc48YGrjcFcqK1uDdXkLurAt9JJaerUNCGtuSNi
-	wqTJw+fOxYwaABrDAebIybDw8vDrCqlv+THLabgH3p6DFdDBodV3DkKvT6pvW88Z6wec
-	1cOQ==
+	bh=/CXlxm0an0A8r6l9MFqX8olR6cf7GUFrrQcIXER6JBE=;
+	b=ES5id113O5lBK58U5WEPyNGj4cW1AInXcHSQcyIZ/N+P81d9lOqT2kejpaw9AD95DG
+	MpFLTZsLUGXc2GvK0u6AuUPcaFPQOPZnsvgV1t41tjbqo0xHHm7IXMGuooh3tvaMG8ha
+	fIy+/9T5GLMKovRMtfKB2K9TU7kCdvcKER3imlBFZNHgsFBNxufEojPq8ywLl+H7/P6P
+	XuRaeTTRCP1ymdnlCSSMao9W5qRsy8FPp2H/Q/Xze8k9rVQrU7KtQM1bf71EgayLXRtp
+	V0KAKavVCsUl2c5Ur1rDSO3KGEoVYfCM5mw25Qsa879E/XDd9jJwo8WPDVp8HniYnp0Z
+	WU2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=UI9lMDu3tuyZBQ227epFhAfTU0yCv+o/OCdl0zXq1ms=;
-	b=rO7OZU2XyW1OxdDUB0YULa/QDehhzZ4JmwEaunRF+3V9GdMEMR4R/B/5GeOA17itMQ
-	wFBgXs7eM+qGz0CrIZvn3Yswmou9Sl0mKEcURApcOrV/P7ogppvLupDEM/8OfFds/m2D
-	6X4wUv5i3mnfZDbI2PJJ+ySCzku8nwjYo6hZP2TCXBr0aKlxSdUJuGZkoLeW4Pjo/ijm
-	Tosudn5A5a7DR/SXbZ8T9egN6yvIdIeRNC2vXiXE81OdeMJs8EpI5opaSqDSe0vLNbrA
-	3SrwdSiAfrZH5S+qpRaOanlaDxUWhqJblSV6XIRwb9ohUOlttwLoMpsBU8V8gb0gtU+P
-	JlBQ==
-X-Gm-Message-State: APf1xPDsMWKPi8L9O4VFFKvv74nK3wEhWaQRk0bc+j00ypwzOMFBqpYo
-	gQUurv7davoqEvccB8sOxVHv1HGw
-X-Google-Smtp-Source: AH8x225IIhbE7aFx3s7FA80g00MZHhK1ZUicvavbeQxuJDR8BTp/dIgQWOYqj9D8a1xynF6uqfFmDg==
-X-Received: by 10.107.70.25 with SMTP id t25mr4865301ioa.126.1517954601889;
-	Tue, 06 Feb 2018 14:03:21 -0800 (PST)
+	bh=/CXlxm0an0A8r6l9MFqX8olR6cf7GUFrrQcIXER6JBE=;
+	b=bvyUWrFhvWq5nWlyo+WecRzk9CySCUskDwWov08k8jq8rBnMGYVk64ao5cjQXXX+Af
+	NnfdQGEwk7nW732dquN6SN7HhBhiveK6wm+J0p/e3exkPATG0kHXXfKTo20e+70xO77O
+	+RwFSXOVQ81AzxWIGc78b0Mv0wGq17XRUVppTwsXxKGcT3WKLGwEhek8SRvA2f8qSLpD
+	LnRu8cfEqvJTVk1lHx9xlddOBJ7WHbsJgBTgfKf8PY3C7tQ09X82pJsqAP7t+Po8Dk31
+	yo+MJwPEsnLTWWwLG7HQVTx95UDLL9n2bPm87Czz14TZ8LCfp8QNShN44xBgTcnDz8Y2
+	RGlw==
+X-Gm-Message-State: APf1xPCQ8gm/lc6DF/Mm9XP7xDYNyPxw9HkjcKpy5ew5xqFgNJyP9E6R
+	XEUrTGrh123HnlVnsDpD2xAzYT+/
+X-Google-Smtp-Source: AH8x2247hsDsZIPmAXtIagG2TmYKkDY5mh/jC+rBxCEaIsQsVo0ROthf9Z9h8e6BuGkud4WNSeDtJA==
+X-Received: by 10.107.142.147 with SMTP id q141mr4685109iod.15.1517954602698; 
+	Tue, 06 Feb 2018 14:03:22 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
 	g69sm294785ita.9.2018.02.06.14.03.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 06 Feb 2018 14:03:21 -0800 (PST)
+	Tue, 06 Feb 2018 14:03:22 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Tue,  6 Feb 2018 16:01:27 -0600
-Message-Id: <01debcf29b2de5f0b9515408629f141d34adf22e.1517857764.git.JPEWhacker@gmail.com>
+Date: Tue,  6 Feb 2018 16:01:28 -0600
+Message-Id: <7900a07468bd546bcd2c8fd2f864765a5a6f7be1.1517857764.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1517857764.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
-Subject: [PATCH 08/14] icecc-create-env: Archive directory
+Subject: [PATCH 09/14] icecc-create-env: Fix executable rpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +59,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Feb 2018 22:03:20 -0000
+X-List-Received-Date: Tue, 06 Feb 2018 22:03:22 -0000
 
-Taring up the toolchain is now done by adding the entire working
-directory, instead of listing all the files individually. This is done
-because the list of files may contain ".." entries, which tar does not
-like and strips out, resulting in bad archives. This should result in an
-identical archive to what was previously generated.
+Executables in the toolchain archive occasionally contain runtime
+library search paths (RPATH) that use the $ORIGIN placeholder. However,
+in order for that placeholder to work, /proc must be mounted. When
+iceccd executes the toolchain in the chroot environment, it doesn't
+mount /proc, so it is unable to resolve $ORIGIN resulting in a failure
+to find dynamic libraries.
 
-In addition, symbolic links are no longer dereferenced when creating the
-archive, as they are purposely included to provide alternate names for
-files
+The fix is to replace $ORIGIN in executable RPATH entries with the known
+chroot executable path.  In order for this to work, the actual real path
+to the executable must be resolved to remove any symlinks, otherwise the
+calculate $ORIGIN replacement will be wrong. This is done by using
+"readlink -f", which is an acceptable dependency because Yocto already
+requires it.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../icecc-create-env/icecc-create-env/icecc-create-env              | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../icecc-create-env/icecc-create-env              | 40 ++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-index 0791bd54b27..426b093d91c 100755
+index 426b093d91c..90d249df9f3 100755
 --- a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
 +++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-@@ -256,7 +256,11 @@ if test -z "$silent"; then
- fi
+@@ -12,6 +12,26 @@ is_dynamic_elf ()
+     (file -L "$1" | grep 'ELF' > /dev/null 2>&1) && (! file -L "$1" | grep 'static' > /dev/null 2>&1)
+ }
  
- cd $tempdir
--tar -czhf "$mydir/$archive_name" $target_files || {
-+# Add everything in the temp directory. Tar doesn't like to be given files with
-+# ".." in them, which frequently happens in $target_files, and will strip off
-+# the path prefix past the offending "..". This makes the archive generate
-+# incorrectly
-+tar -czf "$mydir/$archive_name" . || {
++fix_rpath ()
++{
++    # Patches the RPATH for a file. When the program is executed in the chroot
++    # be iceccd, /proc is not mounted. As such, $ORIGIN can't be resolved. To
++    # work around this, replace all instances of $ORIGIN in RPATH with the
++    # known chroot path to the executables directory
++    local path="$1"
++    local origin="$2"
++    if ! is_dynamic_elf "$path"; then
++        return
++    fi
++    local new_rpath="`readelf -w -d "$path" | grep RPATH | \
++        sed 's/.*\[\(.*\)\]/\1/g' | \
++        sed "s,\\\$ORIGIN,/$origin,g"`"
++
++    if test -n "$new_rpath"; then
++        $PATCHELF --set-rpath "$new_rpath" "$path"
++    fi
++}
++
+ is_contained ()
+ {
+     case " $target_files " in
+@@ -47,9 +67,8 @@ add_file ()
+         name="$2"
+     fi
+     test -z "$name" && return
+-    # ls -H isn't really the same as readlink, but
+-    # readlink is not portable enough.
+-    path=`ls -H $path`
++    # readlink is required for Yocto, so we can use it
++    path=`readlink -f "$path"`
+     toadd="$name=$path"
+     is_contained "$toadd" && return
      if test -z "$silent"; then
-         echo "Couldn't create archive"
+@@ -108,6 +127,17 @@ added_as=$1
+ shift
+ archive_name=$1
+ 
++if test -z "$PATCHELF"; then
++    PATCHELF=`which patchelf 2> /dev/null`
++fi
++if test -z "$PATCHELF"; then
++    PATCHELF=`which patchelf-uninative 2> /dev/null`
++fi
++if test -z "$PATCHELF"; then
++    echo "patchelf is required"
++    exit 1
++fi
++
+ if test -z "$added_gcc" || test -z "$added_gxx" ; then
+     echo "usage: $0 <gcc_path> <g++_path>"
+     exit 1
+@@ -197,6 +227,8 @@ for i in $target_files; do
+         if test -f $tempdir/$target -a -x $tempdir/$target; then
+             strip -s $tempdir/$target 2>/dev/null
+         fi
++
++        fix_rpath $tempdir/$target `dirname $target`
+     else
+         mkdir -p $tempdir/`dirname $path`
+         cp -pH $path $tempdir/$path
+@@ -210,6 +242,8 @@ for i in $target_files; do
+             strip -s $tempdir/$path 2>/dev/null
+         fi
+ 
++        fix_rpath $tempdir/$path `dirname $path`
++
+         path=`echo $path | cut -b2-`
+         new_target_files="$new_target_files $path"
      fi
 -- 
 2.14.3
