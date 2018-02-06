@@ -1,34 +1,27 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E39C65D00
+Return-Path: <anuj.mittal@intel.com>
+X-Greylist: delayed 561 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 06 Feb 2018 02:13:27 UTC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id EF68B60616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Feb 2018 01:52:25 +0000 (UTC)
+	Tue,  6 Feb 2018 02:13:27 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Feb 2018 17:52:26 -0800
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Feb 2018 18:04:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,467,1511856000"; d="scan'208,217";a="32302805"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2018 17:52:10 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <20171219221234.21699-1-california.l.sullivan@intel.com>
-	<8686fa07-e2a8-1080-e646-7380437e7338@intel.com>
-	<49611977-aff9-6e13-ab7a-0233208e49b3@intel.com>
-	<CAJTo0LZJfZMVoG_WCJYEqJvCH4aBUE1pv=i4HYZmqtTEMKkvVQ@mail.gmail.com>
-	<CAJTo0LbA0w+Rq_cPpBjDPe6JOrFN-wsu0sRA37Bdh_8nrW3u6g@mail.gmail.com>
-	<a86b178d-3b9f-f967-1fe8-720f238b74ba@intel.com>
-	<CAMKF1sp=mb4fMEEu0mkPvvYZYRZXiwtjQ=who4RNVNhQv8=X+Q@mail.gmail.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <fb16c035-aa39-a21f-5bd2-0ebda3dfe3bf@intel.com>
-Date: Mon, 5 Feb 2018 17:52:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp=mb4fMEEu0mkPvvYZYRZXiwtjQ=who4RNVNhQv8=X+Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] core-image-minimal-initramfs: use initramfs-framework for initialization
+X-IronPort-AV: E=Sophos;i="5.46,467,1511856000"; d="scan'208";a="32305003"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.20.239])
+	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2018 18:04:09 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Feb 2018 10:03:59 +0800
+Message-Id: <1517882640-731-2-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1517882640-731-1-git-send-email-anuj.mittal@intel.com>
+References: <1517882640-731-1-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH v2 2/3] libva: upgrade to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,538 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Feb 2018 01:52:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------120508CCC517374D5D6B289A"
-Content-Language: en-US
+X-List-Received-Date: Tue, 06 Feb 2018 02:13:28 -0000
 
---------------120508CCC517374D5D6B289A
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+libva 2.0 bumps the VA-API version to 1.0.0 and deletes egl and
+tpi backends. The header files va_egl.h and va_tpi.h are still
+packaged in -dev to ensure packages that still use them don't fail.
 
+Major changes:
 
+* Bump VA-API version to 1.0.0
+* Add new API for H264 FEI support
+* Add definition of VA_FOURCC_I420
+* Add functions for converting common enums to strings
+* Deprecate H.264 baseline profile and FMO support
+* Deprecate packed misc packed header flag
+* Delete libva-tpi and libva-egl backends
+* Refine VASliceParameterBufferHEVC, VAEncMiscParameterBuffer
+* Fix errors in VAConfigAttribValEncROI, VAEncMacroblockParameterBufferH264
+* Fix race condition in wayland support
+* Rename vaMessageCallback to VAMessageCallback
+* Make logging callbacks library-safe
 
-On 02/05/2018 04:47 PM, Khem Raj wrote:
->
-> On Mon, Feb 5, 2018 at 4:15 PM Cal Sullivan 
-> <california.l.sullivan@intel.com 
-> <mailto:california.l.sullivan@intel.com>> wrote:
->
->     Looking at the test and the output, its expecting /dev/sda3 to be
->     mounted as /media and /dev/sda4 to be mounted as /mnt. With this
->     test result, there is no /media, and instead /dev/sda3 is mounted
->     to /mnt.
->
->     That seems odd to me unless that partition either wasn't created
->     or went entirely undetected.
->
->     I'll take a closer look, I think there's more going on here.
->
->
-> Udev trigger sometimes get ignored have seem that in past
-Thanks for the info Khem! I think its an intermittent issue unrelated to 
-this patch.
+Updated recipe to point to release tarball instead of git. Also, updated the
+github URLs to point to renamed Intel repository.
 
-I ran the following with my patch applied on top of master and only 
-SANITY_TESTED_DISTROS changed in local.conf:
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../libva/{libva_1.8.3.bb => libva_2.0.0.bb}        | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
+ rename meta/recipes-graphics/libva/{libva_1.8.3.bb => libva_2.0.0.bb} (70%)
 
-MACHINE=qemux86-64 oe-selftest -r wic.Wic.test_qemu
-
-And it didn't fail.
-
-I'm going to run this test a few hundred times overnight without my 
-patch and see if I can hit it.
-
-Thanks,
-Cal
-
->
->
->     ---
->     Cal
->
->     On 02/05/2018 03:34 PM, Burton, Ross wrote:
->>     This is causing the qemu boot wic test to fail in oe-selftest:
->>
->>     2018-02-05 15:08:41,786 - oe-selftest - INFO - FAIL [64.639s]:
->>     test_qemu (wic.Wic)
->>     2018-02-05 15:08:41,786 - oe-selftest - INFO -
->>     ----------------------------------------------------------------------
->>     2018-02-05 15:08:41,786 - oe-selftest - INFO - Traceback (most
->>     recent call last):
->>       File
->>     "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
->>     line 32, in wrapped_f
->>         return func(*args, **kwargs)
->>       File
->>     "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
->>     line 58, in wrapped_f
->>         return func(*args, **kwargs)
->>       File
->>     "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
->>     line 637, in test_qemu
->>         self.assertEqual(output, '/dev/root /\r\n/dev/sda1
->>     /boot\r\n/dev/sda3 /mnt')
->>     AssertionError: '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3
->>     /media\r\n/dev/sda4 /mnt' != '/dev/root /\r\n/dev/sda1
->>     /boot\r\n/dev/sda3 /mnt'
->>       /dev/root /
->>       /dev/sda1 /boot
->>     - /dev/sda3 /media
->>     - /dev/sda4 /mnt?         ^
->>     + /dev/sda3 /mnt?         ^
->>
->>     Presumably this is the initramfs mounting more stuff
->>     automatically?  I don't have an opinion right now as to whether
->>     this is a problem with the initramfs or the test case being too
->>     strict...
->>
->>     Ross
->>
->>
->>     On 1 February 2018 at 14:03, Burton, Ross <ross.burton@intel.com
->>     <mailto:ross.burton@intel.com>> wrote:
->>
->>         Sorry, missed this.  I'll pull it into MUT and throw it at
->>         the autobuilder...
->>
->>         Ross
->>
->>         On 31 January 2018 at 22:53, Cal Sullivan
->>         <california.l.sullivan@intel.com
->>         <mailto:california.l.sullivan@intel.com>> wrote:
->>
->>             Ping.
->>
->>             ---
->>             Cal
->>
->>
->>             On 01/09/2018 05:00 PM, Cal Sullivan wrote:
->>
->>                 Anything wrong with this? Haven't seen it hit any mut
->>                 branches.
->>
->>                 Thanks,
->>                 Cal
->>
->>                 On 12/19/2017 02:12 PM, California Sullivan wrote:
->>
->>                     initramfs-framework is more modular and
->>                     expandable. This change was
->>                     proposed in commit
->>                     28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e
->>                     "core-image-minimal-initramfs: use
->>                     initramfs-framework by default" but
->>                     reverted due to the selftests
->>                     runqemu.RunqemuTests.test_boot_machine_iso
->>                     and runqemu.RunqemuTests.test_boot_deploy_hddimg
->>                     failing. Since then,
->>                     the kinks have been worked out, and missing
->>                     functionality that had been
->>                     missed (non-EFI installation module) has been added.
->>
->>                     Since the PACKAGE_INSTALL variable was getting so
->>                     long with all these
->>                     individual modules getting added, I also
->>                     introduced a new
->>                     INITRAMFS_SCRIPTS variable to the
->>                     core-image-minimal-initramfs recipe.
->>                     This variable makes the recipe look much cleaner,
->>                     and also allows easier
->>                     replacement or additions to the scripts.
->>
->>                     Fixes [YOCTO #10987].
->>
->>                     Signed-off-by: California Sullivan
->>                     <california.l.sullivan@intel.com
->>                     <mailto:california.l.sullivan@intel.com>>
->>                     ---
->>                      
->>                     meta/recipes-core/images/core-image-minimal-initramfs.bb
->>                     <http://core-image-minimal-initramfs.bb> | 10
->>                     +++++++++-
->>                       1 file changed, 9 insertions(+), 1 deletion(-)
->>
->>                     diff --git
->>                     a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>                     <http://core-image-minimal-initramfs.bb>
->>                     b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>                     <http://core-image-minimal-initramfs.bb>
->>                     index 5794a25952a..a9ba91bd310 100644
->>                     ---
->>                     a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>                     <http://core-image-minimal-initramfs.bb>
->>                     +++
->>                     b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>                     <http://core-image-minimal-initramfs.bb>
->>                     @@ -3,7 +3,15 @@ DESCRIPTION = "Small image
->>                     capable of booting a device. The kernel includes \
->>                       the Minimal RAM-based Initial Root Filesystem
->>                     (initramfs), which finds the \
->>                       first 'init' program more efficiently."
->>                       -PACKAGE_INSTALL = "initramfs-live-boot
->>                     initramfs-live-install initramfs-live-install-efi
->>                     ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
->>                     ${ROOTFS_BOOTSTRAP_INSTALL}"
->>                     +INITRAMFS_SCRIPTS ?= "\
->>                     + initramfs-framework-base \
->>                     + initramfs-module-setup-live \
->>                     + initramfs-module-udev \
->>                     + initramfs-module-install \
->>                     + initramfs-module-install-efi \
->>                     +                     "
->>                     +
->>                     +PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS}
->>                     ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
->>                     ${ROOTFS_BOOTSTRAP_INSTALL}"
->>                         # Do not pollute the initrd image with rootfs
->>                     features
->>                       IMAGE_FEATURES = ""
->>
->>
->>
->>             -- 
->>             _______________________________________________
->>             Openembedded-core mailing list
->>             Openembedded-core@lists.openembedded.org
->>             <mailto:Openembedded-core@lists.openembedded.org>
->>             http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-graphics/libva/libva_1.8.3.bb b/meta/recipes-graphics/libva/libva_2.0.0.bb
+similarity index 70%
+rename from meta/recipes-graphics/libva/libva_1.8.3.bb
+rename to meta/recipes-graphics/libva/libva_2.0.0.bb
+index ceeda84..5ccaa76 100644
+--- a/meta/recipes-graphics/libva/libva_1.8.3.bb
++++ b/meta/recipes-graphics/libva/libva_2.0.0.bb
+@@ -11,19 +11,20 @@ manufacturers can also freely use this API for hardware accelerated \
+ video decoding."
+ 
+ HOMEPAGE = "https://01.org/linuxmedia/vaapi"
+-BUGTRACKER = "https://github.com/01org/libva/issues"
++BUGTRACKER = "https://github.com/intel/libva/issues"
+ 
+ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+ 
+-SRC_URI = "git://github.com/01org/libva.git;protocol=http;branch=v1.8-branch "
+-SRCREV = "457470987cc9df5976ce8c72ffd4bfbd9baaf0f9"
+-UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>(\d+(\.\d+)+))$"
++SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.bz2"
+ 
+-S = "${WORKDIR}/git"
++SRC_URI[md5sum] = "b863f99b7ae41960a0e2e7a4cc959b46"
++SRC_URI[sha256sum] = "bb0601f9a209e60d8d0b867067323661a7816ff429021441b775452b8589e533"
+ 
+-DEPENDS = "libdrm virtual/mesa virtual/libgles1 virtual/libgles2 virtual/egl"
++UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
++
++DEPENDS = "libdrm virtual/mesa"
+ 
+ inherit autotools pkgconfig distro_features_check
+ 
+@@ -35,17 +36,11 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
+ PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
+ 
+-PACKAGES =+ "${PN}-x11 ${PN}-tpi ${PN}-glx ${PN}-egl ${PN}-wayland"
++PACKAGES =+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
+ 
+-RDEPENDS_${PN}-tpi =+ "${PN}"
+ RDEPENDS_${PN}-x11 =+ "${PN}"
+ RDEPENDS_${PN}-glx =+ "${PN}-x11"
+-RDEPENDS_${PN}-egl =+ "${PN}-x11"
+-
+-FILES_${PN}-dbg += "${libdir}/dri/.debug"
+ 
+ FILES_${PN}-x11 =+ "${libdir}/libva-x11*${SOLIBS}"
+-FILES_${PN}-tpi =+ "${libdir}/libva-tpi*${SOLIBS}"
+ FILES_${PN}-glx =+ "${libdir}/libva-glx*${SOLIBS}"
+-FILES_${PN}-egl =+ "${libdir}/libva-egl*${SOLIBS}"
+ FILES_${PN}-wayland =+ "${libdir}/libva-wayland*${SOLIBS}"
+-- 
+2.7.4
 
 
---------------120508CCC517374D5D6B289A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 02/05/2018 04:47 PM, Khem Raj wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAMKF1sp=mb4fMEEu0mkPvvYZYRZXiwtjQ=who4RNVNhQv8=X+Q@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div><br>
-        <div class="gmail_quote">
-          <div dir="auto">On Mon, Feb 5, 2018 at 4:15 PM Cal Sullivan
-            &lt;<a href="mailto:california.l.sullivan@intel.com"
-              moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div text="#000000" bgcolor="#FFFFFF"> <tt>Looking at the
-                test and the output, its expecting /dev/sda3 to be
-                mounted as /media and /dev/sda4 to be mounted as /mnt.
-                With this test result, there is no /media, and instead
-                /dev/sda3 is mounted to /mnt.<br>
-                <br>
-                That seems odd to me unless that partition either wasn't
-                created or went entirely undetected.<br>
-              </tt><br>
-              <tt><tt>I'll take a closer look, I think there's more
-                  going on here.</tt></tt></div>
-          </blockquote>
-          <div dir="auto"><br>
-          </div>
-          <div dir="auto">Udev trigger sometimes get ignored have seem
-            that in past <br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Thanks for the info Khem! I think its an intermittent issue
-    unrelated to this patch.<br>
-    <br>
-    I ran the following with my patch applied on top of master and only
-    SANITY_TESTED_DISTROS changed in local.conf:<br>
-    <br>
-    MACHINE=qemux86-64 oe-selftest -r wic.Wic.test_qemu<br>
-    <br>
-    And it didn't fail.<br>
-    <br>
-    I'm going to run this test a few hundred times overnight without my
-    patch and see if I can hit it.<br>
-    <br>
-    Thanks,<br>
-    Cal<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAMKF1sp=mb4fMEEu0mkPvvYZYRZXiwtjQ=who4RNVNhQv8=X+Q@mail.gmail.com">
-      <div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div text="#000000" bgcolor="#FFFFFF"><tt><br>
-                <br>
-                ---<br>
-                Cal<br>
-              </tt></div>
-            <div text="#000000" bgcolor="#FFFFFF"><br>
-              <div class="m_3545165834634221937moz-cite-prefix">On
-                02/05/2018 03:34 PM, Burton, Ross wrote:<br>
-              </div>
-              <blockquote type="cite">
-                <div>This is causing the qemu boot wic test to fail in
-                  oe-selftest:<br>
-                  <br>
-                  2018-02-05 15:08:41,786 - oe-selftest - INFO - FAIL
-                  [64.639s]: test_qemu (wic.Wic)<br>
-                  2018-02-05 15:08:41,786 - oe-selftest - INFO -
-                  ----------------------------------------------------------------------<br>
-                  2018-02-05 15:08:41,786 - oe-selftest - INFO -
-                  Traceback (most recent call last):<br>
-                    File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py",
-                  line 32, in wrapped_f<br>
-                      return func(*args, **kwargs)<br>
-                    File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-                  line 58, in wrapped_f<br>
-                      return func(*args, **kwargs)<br>
-                    File
-"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/wic.py",
-                  line 637, in test_qemu<br>
-                      self.assertEqual(output, '/dev/root /\r\n/dev/sda1
-                  /boot\r\n/dev/sda3 /mnt')<br>
-                  AssertionError: '/dev/root /\r\n/dev/sda1
-                  /boot\r\n/dev/sda3 /media\r\n/dev/sda4 /mnt' !=
-                  '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /mnt'<br>
-                    /dev/root /<br>
-                    /dev/sda1 /boot<br>
-                  - /dev/sda3 /media<br>
-                  - /dev/sda4 /mnt?         ^<br>
-                  + /dev/sda3 /mnt?         ^<br>
-                  <br>
-                  Presumably this is the initramfs mounting more stuff
-                  automatically?  I don't have an opinion right now as
-                  to whether this is a problem with the initramfs or the
-                  test case being too strict...
-                  <div><br>
-                  </div>
-                  <div>Ross<br>
-                    <br>
-                  </div>
-                </div>
-                <div class="gmail_extra"><br>
-                  <div class="gmail_quote">On 1 February 2018 at 14:03,
-                    Burton, Ross <span>&lt;<a
-                        href="mailto:ross.burton@intel.com"
-                        target="_blank" moz-do-not-send="true">ross.burton@intel.com</a>&gt;</span>
-                    wrote:<br>
-                    <blockquote class="gmail_quote" style="margin:0 0 0
-                      .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                      <div>Sorry, missed this.  I'll pull it into MUT
-                        and throw it at the autobuilder...<span
-                          class="m_3545165834634221937HOEnZb"><font
-                            color="#888888">
-                            <div><br>
-                            </div>
-                            <div>Ross</div>
-                          </font></span></div>
-                      <div class="m_3545165834634221937HOEnZb">
-                        <div class="m_3545165834634221937h5">
-                          <div class="gmail_extra"><br>
-                            <div class="gmail_quote">On 31 January 2018
-                              at 22:53, Cal Sullivan <span>&lt;<a
-                                  href="mailto:california.l.sullivan@intel.com"
-                                  target="_blank" moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;</span>
-                              wrote:<br>
-                              <blockquote class="gmail_quote"
-                                style="margin:0 0 0 .8ex;border-left:1px
-                                #ccc solid;padding-left:1ex">Ping.<br>
-                                <br>
-                                ---<br>
-                                Cal
-                                <div
-                                  class="m_3545165834634221937m_-9033303757896667203HOEnZb">
-                                  <div
-                                    class="m_3545165834634221937m_-9033303757896667203h5"><br>
-                                    <br>
-                                    On 01/09/2018 05:00 PM, Cal Sullivan
-                                    wrote:<br>
-                                    <blockquote class="gmail_quote"
-                                      style="margin:0 0 0
-                                      .8ex;border-left:1px #ccc
-                                      solid;padding-left:1ex"> Anything
-                                      wrong with this? Haven't seen it
-                                      hit any mut branches.<br>
-                                      <br>
-                                      Thanks,<br>
-                                      Cal<br>
-                                      <br>
-                                      On 12/19/2017 02:12 PM, California
-                                      Sullivan wrote:<br>
-                                      <blockquote class="gmail_quote"
-                                        style="margin:0 0 0
-                                        .8ex;border-left:1px #ccc
-                                        solid;padding-left:1ex">
-                                        initramfs-framework is more
-                                        modular and expandable. This
-                                        change was<br>
-                                        proposed in commit
-                                        28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e<br>
-                                        "core-image-minimal-initramfs:
-                                        use initramfs-framework by
-                                        default" but<br>
-                                        reverted due to the selftests
-                                        runqemu.RunqemuTests.test_boot_machine_iso<br>
-                                        and
-                                        runqemu.RunqemuTests.test_boot_deploy_hddimg
-                                        failing. Since then,<br>
-                                        the kinks have been worked out,
-                                        and missing functionality that
-                                        had been<br>
-                                        missed (non-EFI installation
-                                        module) has been added.<br>
-                                        <br>
-                                        Since the PACKAGE_INSTALL
-                                        variable was getting so long
-                                        with all these<br>
-                                        individual modules getting
-                                        added, I also introduced a new<br>
-                                        INITRAMFS_SCRIPTS variable to
-                                        the core-image-minimal-initramfs
-                                        recipe.<br>
-                                        This variable makes the recipe
-                                        look much cleaner, and also
-                                        allows easier<br>
-                                        replacement or additions to the
-                                        scripts.<br>
-                                        <br>
-                                        Fixes [YOCTO #10987].<br>
-                                        <br>
-                                        Signed-off-by: California
-                                        Sullivan &lt;<a
-                                          href="mailto:california.l.sullivan@intel.com"
-                                          target="_blank"
-                                          moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;<br>
-                                        ---<br>
-                                          meta/recipes-core/images/<a
-                                          href="http://core-image-minimal-initramfs.bb"
-                                          rel="noreferrer"
-                                          target="_blank"
-                                          moz-do-not-send="true">core-image-minimal-initramfs.bb</a>
-                                        | 10 +++++++++-<br>
-                                          1 file changed, 9
-                                        insertions(+), 1 deletion(-)<br>
-                                        <br>
-                                        diff --git
-                                        a/meta/recipes-core/images/<a
-                                          href="http://core-image-minimal-initramfs.bb"
-                                          rel="noreferrer"
-                                          target="_blank"
-                                          moz-do-not-send="true">core-image-minimal-initramfs.bb</a>
-                                        b/meta/recipes-core/images/<a
-                                          href="http://core-image-minimal-initramfs.bb"
-                                          rel="noreferrer"
-                                          target="_blank"
-                                          moz-do-not-send="true">core-image-minimal-initramfs.bb</a><br>
-                                        index 5794a25952a..a9ba91bd310
-                                        100644<br>
-                                        --- a/meta/recipes-core/images/<a
-href="http://core-image-minimal-initramfs.bb" rel="noreferrer"
-                                          target="_blank"
-                                          moz-do-not-send="true">core-image-minimal-initramfs.bb</a><br>
-                                        +++ b/meta/recipes-core/images/<a
-href="http://core-image-minimal-initramfs.bb" rel="noreferrer"
-                                          target="_blank"
-                                          moz-do-not-send="true">core-image-minimal-initramfs.bb</a><br>
-                                        @@ -3,7 +3,15 @@ DESCRIPTION =
-                                        "Small image capable of booting
-                                        a device. The kernel includes \<br>
-                                          the Minimal RAM-based Initial
-                                        Root Filesystem (initramfs),
-                                        which finds the \<br>
-                                          first 'init' program more
-                                        efficiently."<br>
-                                          -PACKAGE_INSTALL =
-                                        "initramfs-live-boot
-                                        initramfs-live-install
-                                        initramfs-live-install-efi
-                                        ${VIRTUAL-RUNTIME_base-utils}
-                                        udev base-passwd
-                                        ${ROOTFS_BOOTSTRAP_INSTALL}"<br>
-                                        +INITRAMFS_SCRIPTS ?= "\<br>
-                                        +                     
-                                        initramfs-framework-base \<br>
-                                        +                     
-                                        initramfs-module-setup-live \<br>
-                                        +                     
-                                        initramfs-module-udev \<br>
-                                        +                     
-                                        initramfs-module-install \<br>
-                                        +                     
-                                        initramfs-module-install-efi \<br>
-                                        +                     "<br>
-                                        +<br>
-                                        +PACKAGE_INSTALL =
-                                        "${INITRAMFS_SCRIPTS}
-                                        ${VIRTUAL-RUNTIME_base-utils}
-                                        udev base-passwd
-                                        ${ROOTFS_BOOTSTRAP_INSTALL}"<br>
-                                            # Do not pollute the initrd
-                                        image with rootfs features<br>
-                                          IMAGE_FEATURES = ""<br>
-                                      </blockquote>
-                                      <br>
-                                    </blockquote>
-                                    <br>
-                                    -- <br>
-_______________________________________________<br>
-                                    Openembedded-core mailing list<br>
-                                    <a
-                                      href="mailto:Openembedded-core@lists.openembedded.org"
-                                      target="_blank"
-                                      moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-                                    <a
-                                      href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                                      rel="noreferrer" target="_blank"
-                                      moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-                                  </div>
-                                </div>
-                              </blockquote>
-                            </div>
-                            <br>
-                          </div>
-                        </div>
-                      </div>
-                    </blockquote>
-                  </div>
-                  <br>
-                </div>
-              </blockquote>
-              <br>
-            </div>
-            --<br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a href="mailto:Openembedded-core@lists.openembedded.org"
-              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-            <a
-              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------120508CCC517374D5D6B289A--
