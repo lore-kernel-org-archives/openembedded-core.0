@@ -1,27 +1,23 @@
 Return-Path: <anuj.mittal@intel.com>
-X-Greylist: delayed 561 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 Feb 2018 02:13:27 UTC
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id EF68B60616
+	by mail.openembedded.org (Postfix) with ESMTP id 83868784F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Feb 2018 02:13:27 +0000 (UTC)
+	Tue,  6 Feb 2018 02:13:33 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Feb 2018 18:04:10 -0800
+	05 Feb 2018 18:04:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,467,1511856000"; d="scan'208";a="32305003"
+X-IronPort-AV: E=Sophos;i="5.46,467,1511856000"; d="scan'208";a="32304979"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.20.239])
-	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2018 18:04:09 -0800
+	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2018 18:04:06 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Feb 2018 10:03:59 +0800
-Message-Id: <1517882640-731-2-git-send-email-anuj.mittal@intel.com>
+Date: Tue,  6 Feb 2018 10:03:58 +0800
+Message-Id: <1517882640-731-1-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1517882640-731-1-git-send-email-anuj.mittal@intel.com>
-References: <1517882640-731-1-git-send-email-anuj.mittal@intel.com>
-Subject: [PATCH v2 2/3] libva: upgrade to 2.0.0
+Subject: [PATCH v2 1/3] maintainers.inc: update ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,89 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Feb 2018 02:13:28 -0000
+X-List-Received-Date: Tue, 06 Feb 2018 02:13:33 -0000
 
-libva 2.0 bumps the VA-API version to 1.0.0 and deletes egl and
-tpi backends. The header files va_egl.h and va_tpi.h are still
-packaged in -dev to ensure packages that still use them don't fail.
-
-Major changes:
-
-* Bump VA-API version to 1.0.0
-* Add new API for H264 FEI support
-* Add definition of VA_FOURCC_I420
-* Add functions for converting common enums to strings
-* Deprecate H.264 baseline profile and FMO support
-* Deprecate packed misc packed header flag
-* Delete libva-tpi and libva-egl backends
-* Refine VASliceParameterBufferHEVC, VAEncMiscParameterBuffer
-* Fix errors in VAConfigAttribValEncROI, VAEncMacroblockParameterBufferH264
-* Fix race condition in wayland support
-* Rename vaMessageCallback to VAMessageCallback
-* Make logging callbacks library-safe
-
-Updated recipe to point to release tarball instead of git. Also, updated the
-github URLs to point to renamed Intel repository.
+I propose to take over gstreamer stack and x264. Remove libav entry since
+the recipe was removed from oe-core. Change ownership of libva* since Wei Tee
+is no longer working on oe-core.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../libva/{libva_1.8.3.bb => libva_2.0.0.bb}        | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
- rename meta/recipes-graphics/libva/{libva_1.8.3.bb => libva_2.0.0.bb} (70%)
+ meta/conf/distro/include/maintainers.inc | 33 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-graphics/libva/libva_1.8.3.bb b/meta/recipes-graphics/libva/libva_2.0.0.bb
-similarity index 70%
-rename from meta/recipes-graphics/libva/libva_1.8.3.bb
-rename to meta/recipes-graphics/libva/libva_2.0.0.bb
-index ceeda84..5ccaa76 100644
---- a/meta/recipes-graphics/libva/libva_1.8.3.bb
-+++ b/meta/recipes-graphics/libva/libva_2.0.0.bb
-@@ -11,19 +11,20 @@ manufacturers can also freely use this API for hardware accelerated \
- video decoding."
- 
- HOMEPAGE = "https://01.org/linuxmedia/vaapi"
--BUGTRACKER = "https://github.com/01org/libva/issues"
-+BUGTRACKER = "https://github.com/intel/libva/issues"
- 
- SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
- 
--SRC_URI = "git://github.com/01org/libva.git;protocol=http;branch=v1.8-branch "
--SRCREV = "457470987cc9df5976ce8c72ffd4bfbd9baaf0f9"
--UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>(\d+(\.\d+)+))$"
-+SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.bz2"
- 
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "b863f99b7ae41960a0e2e7a4cc959b46"
-+SRC_URI[sha256sum] = "bb0601f9a209e60d8d0b867067323661a7816ff429021441b775452b8589e533"
- 
--DEPENDS = "libdrm virtual/mesa virtual/libgles1 virtual/libgles2 virtual/egl"
-+UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
-+
-+DEPENDS = "libdrm virtual/mesa"
- 
- inherit autotools pkgconfig distro_features_check
- 
-@@ -35,17 +36,11 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
- PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
- 
--PACKAGES =+ "${PN}-x11 ${PN}-tpi ${PN}-glx ${PN}-egl ${PN}-wayland"
-+PACKAGES =+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
- 
--RDEPENDS_${PN}-tpi =+ "${PN}"
- RDEPENDS_${PN}-x11 =+ "${PN}"
- RDEPENDS_${PN}-glx =+ "${PN}-x11"
--RDEPENDS_${PN}-egl =+ "${PN}-x11"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug"
- 
- FILES_${PN}-x11 =+ "${libdir}/libva-x11*${SOLIBS}"
--FILES_${PN}-tpi =+ "${libdir}/libva-tpi*${SOLIBS}"
- FILES_${PN}-glx =+ "${libdir}/libva-glx*${SOLIBS}"
--FILES_${PN}-egl =+ "${libdir}/libva-egl*${SOLIBS}"
- FILES_${PN}-wayland =+ "${libdir}/libva-wayland*${SOLIBS}"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 34f3d81..5f1cb79 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -237,19 +237,19 @@ RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-grub = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-grub-efi = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-gsettings-desktop-schemas = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gst-examples = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gst-validate = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0 = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-libav = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-omx = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-meta-base = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-bad = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-base = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-good = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-ugly = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-python = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-rtsp-server = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-gstreamer1.0-vaapi = "Wei Tee Ng <wei.tee.ng@intel.com>"
++RECIPE_MAINTAINER_pn-gst-examples = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gst-validate = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0 = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-libav = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-omx = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-meta-base = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-bad = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-base = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-good = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-ugly = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-python = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-rtsp-server = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-gstreamer1.0-vaapi = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk+ = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk+3 = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk-doc = "Alexander Kanavin <alexander.kanavin@intel.com>"
+@@ -312,7 +312,6 @@ RECIPE_MAINTAINER_pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.co
+ RECIPE_MAINTAINER_pn-libart-lgpl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libassuan = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libatomic-ops = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libav = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libbsd = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libcap = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -405,8 +404,8 @@ RECIPE_MAINTAINER_pn-liburi-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libusb-compat = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libusb1 = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libuser = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER_pn-libva = "Wei Tee Ng <wei.tee.ng@intel.com>"
+-RECIPE_MAINTAINER_pn-libva-utils = "Wei Tee Ng <wei.tee.ng@intel.com>"
++RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-libwebp = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libx11 = "Armin Kuster <akuster@mvista.com>"
+@@ -745,7 +744,7 @@ RECIPE_MAINTAINER_pn-wireless-tools = "Changhyeok Bae <changhyeok.bae@lge.com>"
+ RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@lge.com>"
+ RECIPE_MAINTAINER_pn-x11-common = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster@mvista.com>"
+-RECIPE_MAINTAINER_pn-x264 = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-xauth = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-xcb-proto = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-xcb-util = "Armin Kuster <akuster@mvista.com>"
 -- 
 2.7.4
 
