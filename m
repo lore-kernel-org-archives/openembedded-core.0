@@ -1,48 +1,47 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail7.pr.hu (mail7.pr.hu [87.242.0.7])
-	by mail.openembedded.org (Postfix) with ESMTP id F0AB160068
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 30A0E784E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Feb 2018 11:21:37 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1ej1Jk-0004qk-24; Tue, 06 Feb 2018 12:21:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=DXDVtBw2kWmV4SMWbyldhdnBwMvEYVH0dZOJeQGW6NU=;
-	b=Qj690gV+gR2zi0NZvRUVqHih/g
-	Qc2SuVL/vqE4ghVwlMJqPRrPQhbYeIerqOrof0AtrBUg3iCfwk75RLNihCPoD/66l3kYck2g6VFeb
-	uT6ei+L2PVHxEDO4ivOW/Y5FYAz68jsqy4RtrLMlIPmUR8eyoAFXPKQwaMd0fR8e/8M6nxrs7p8tn
-	WkhvnljScT1SbwiO1iv/D/MfioAvrG0Y5WTc1Yu5bwtavLZtLYiTjE61n8l23nxUpoB1eMwZeVgaV
-	YOQU4XS9EcNgL9wAq2hKl7LgHmP2zVM1Az3F6XMO2ElO/DKmdbgfDOoCLaull2xcpOW3czO98l0rY
-	X28qU/5w==;
-Received: from host-87-242-32-111.prtelecom.hu ([87.242.32.111]
-	helo=s002.sicom.com)
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1ej1JZ-0007VU-Sa; Tue, 06 Feb 2018 12:21:34 +0100
-To: Matthijs Vader <mvader@victronenergy.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1517782997-32315-1-git-send-email-mvader@victronenergy.com>
-	<575bced0-3a91-cea6-ba14-fc2346907620@pr.hu>
-	<HE1PR07MB143682C1F14E2831B5C0D133C5FE0@HE1PR07MB1436.eurprd07.prod.outlook.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <a06b333b-7f52-6576-0f4f-4629acc79863@pr.hu>
-Date: Tue, 6 Feb 2018 12:21:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <HE1PR07MB143682C1F14E2831B5C0D133C5FE0@HE1PR07MB1436.eurprd07.prod.outlook.com>
-X-Spam-Score: -0.5 (/)
-X-Scan-Signature: 8f5da0c40d649b22aaae3fc58f517802
-X-Spam-Tracer: backend.mail.pr.hu -0.5 20180206112134Z
-Subject: Re: [PATCH] classes/npm: replace cache clear with cache clean --force
+	Tue,  6 Feb 2018 12:00:18 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id 143so3229983wma.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Feb 2018 04:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Cb+FJ7bDsO7A8LlDM/MYMvGMrwsNP3MkuNxUElUaIpk=;
+	b=Jh2sQTdfCNeUK0/BGZFB72rUsDzvInErssGl5tCL7ttWDCx00+KGZ9Coc3acmuhJvf
+	8qfliBNoJ5+PztRW7/NUZXM8XChC9xGDHi78NKpbBprv0ZRjx1gUxgkTNFwm2hQ1kPPB
+	X5WL/q3WdEUfTQ7X9tbNi0kK4KJUA6wcGqmHPY7e4qFV8rqVt6LDL86JKwKhsfo0mHCk
+	HqG4v5MeL/MFK1xt7jgdKQ+QJHXXKPgvJMzBVzQ6+mT1JaX1BzXYY/eircrkBYB8nCvb
+	NvDQRZnpp7lciFOOFpVXnUnE6fFEakuHZXwr7vYJjzrDCWIxj2e97HHCcKD/K0bIlL1b
+	ObnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Cb+FJ7bDsO7A8LlDM/MYMvGMrwsNP3MkuNxUElUaIpk=;
+	b=i8hl8+MjIJSyLoNB//PAsBU3kWnXwUzjnuj2nGcq1VTSh/yZdzf0pnU3uMWFmx1/8p
+	5cfiEjrZ7KlPAz9tv05b0tKGnP00GvZmuNxmjzOlZEF9VMLD2oTvWfMemFEPmFG0iU9O
+	oJoAlymVpFplcIa3Vn++CdkcS8MVTI3Lv4zwRX6bYUtEPQdP4zKKX0zGHVKXS7+aigcu
+	nIk5DmCWtz3365EUBA1H3MdrSqQgwM1o6zHgM/Rf377jC7DIFbJa55tkNaQG8ckxDfPW
+	3Mi2DEsYWEB4v0dlnQGabadg5NX1CCPVi4+JsxX9t6rZgZusAvYVcEkhqGe6EpHa2KN+
+	AtWw==
+X-Gm-Message-State: APf1xPDhPTZ3ayomwoKaUxwWb4NzX3lLkQqdARaFVRD0Nefp24pxN3XO
+	T0aS1EvMv/eqG+sXpEXr8Fct39a0
+X-Google-Smtp-Source: AH8x224OsIk/+ekoYehqoxY8cp1h2DXuap/v2QCKTS2KLPfd/4jVlQnvuwz0BGxsnVT9UpvisQmoOg==
+X-Received: by 10.28.49.212 with SMTP id x203mr1616787wmx.28.1517918419387;
+	Tue, 06 Feb 2018 04:00:19 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 7sm8327657wmq.42.2018.02.06.04.00.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Feb 2018 04:00:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Feb 2018 11:59:51 +0000
+Message-Id: <20180206115954.1780-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/4] expat: merge bb and inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +54,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Feb 2018 11:21:38 -0000
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Feb 2018 12:00:19 -0000
 
-2018-02-05 16:55 keltezéssel, Matthijs Vader írta:
-> Hi,
-> 
-> 2018-02-05 15:07, zboszor wrote:
->> I have already sent this patch (although a little extended) last week:
->> http://lists.openembedded.org/pipermail/openembedded-core/2018-
->> February/147071.html
-> 
-> Thanks! The second patch you sent in with that actually solved some other problems I was having as well. Still one left to fix:
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12534
-> 
-> See also the comment I added to that bugreport just now.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/expat/expat.inc      | 25 -------------------------
+ meta/recipes-core/expat/expat_2.2.5.bb | 28 +++++++++++++++++++++++++++-
+ 2 files changed, 27 insertions(+), 26 deletions(-)
+ delete mode 100644 meta/recipes-core/expat/expat.inc
 
-Cool! Can we have a joint effort in the merged patches?
-
-Also, can you please look into this fix I made against bitbake?
-At least one node module (cli-color) has cyclic dependencies,
-making the npm fetcher looping infinitely.
-http://lists.openembedded.org/pipermail/bitbake-devel/2018-February/009199.html
-
-> 
-> Best regards, Matthijs
-> 
-> 
->> 2018-02-04 23:23 keltezéssel, mpvader írta:
->>> npm now requires --force to clean the cache, see [1]. Also, use clean
->>> instead of clear since the latter is an alias.
->>>
->>> [1]
->>>
->> https://github.com/npm/npm/commit/34f24c8381235790945208d25ac193bc
->> 97a2
->>> 1b79
->>>
->>> Signed-off-by: mpvader <mvader@victronenergy.com>
->>> ---
->>>    meta/classes/npm.bbclass | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass index
->>> a69bedb..43aed36 100644
->>> --- a/meta/classes/npm.bbclass
->>> +++ b/meta/classes/npm.bbclass
->>> @@ -31,7 +31,7 @@ npm_do_compile() {
->>>    	fi
->>>    	npm set cache ${WORKDIR}/npm_cache
->>>    	# clear cache before every build
->>> -	npm cache clear
->>> +	npm cache clean --force
->>>    	# Install pkg into ${S} without going to the registry
->>>    	if [  "${NPM_INSTALL_DEV}" = "1" ]; then
->>>    		npm --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --
->> no-registry
->>> install
->>>
-> 
-> 
+diff --git a/meta/recipes-core/expat/expat.inc b/meta/recipes-core/expat/expat.inc
+deleted file mode 100644
+index 0ee6c276d99..00000000000
+--- a/meta/recipes-core/expat/expat.inc
++++ /dev/null
+@@ -1,25 +0,0 @@
+-SUMMARY = "A stream-oriented XML parser library"
+-DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
+-HOMEPAGE = "http://expat.sourceforge.net/"
+-SECTION = "libs"
+-LICENSE = "MIT"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+-           file://autotools.patch \
+-           file://libtool-tag.patch \
+-	  "
+-
+-SRC_URI_append_class-native = " file://no_getrandom.patch"
+-
+-inherit autotools lib_package
+-
+-# This package uses an archive format known to have issue with some
+-# versions of gzip
+-DEPENDS += "pigz-native"
+-do_unpack[depends] += "pigz-native:do_populate_sysroot"
+-
+-do_configure_prepend () {
+-	rm -f ${S}/conftools/libtool.m4
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/expat/expat_2.2.5.bb b/meta/recipes-core/expat/expat_2.2.5.bb
+index 337287b93bc..f7a5b36ac74 100644
+--- a/meta/recipes-core/expat/expat_2.2.5.bb
++++ b/meta/recipes-core/expat/expat_2.2.5.bb
+@@ -1,4 +1,30 @@
+-require expat.inc
++SUMMARY = "A stream-oriented XML parser library"
++DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
++HOMEPAGE = "http://expat.sourceforge.net/"
++SECTION = "libs"
++LICENSE = "MIT"
++
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
++           file://autotools.patch \
++           file://libtool-tag.patch \
++	  "
++
++SRC_URI_append_class-native = " file://no_getrandom.patch"
++
+ SRC_URI[md5sum] = "789e297f547980fc9ecc036f9a070d49"
+ SRC_URI[sha256sum] = "d9dc32efba7e74f788fcc4f212a43216fc37cf5f23f4c2339664d473353aedf6"
++
++inherit autotools lib_package
++
++# This package uses an archive format known to have issue with some
++# versions of gzip
++DEPENDS += "pigz-native"
++do_unpack[depends] += "pigz-native:do_populate_sysroot"
++
++do_configure_prepend () {
++	rm -f ${S}/conftools/libtool.m4
++}
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.11.0
 
 
