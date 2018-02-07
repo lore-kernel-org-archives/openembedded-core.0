@@ -1,41 +1,24 @@
-Return-Path: <robert_joslyn@selinc.com>
-Received: from scamp.selinc.com (scamp.selinc.com [74.117.214.142])
-	by mail.openembedded.org (Postfix) with ESMTP id 8060060119
+Return-Path: <tomas@novotny.cz>
+X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 Feb 2018 21:08:58 UTC
+Received: from hosting.pavoucek.net (hosting.pavoucek.net [46.28.107.168])
+	by mail.openembedded.org (Postfix) with ESMTP id B74DE783C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 18:31:38 +0000 (UTC)
-Received: from pps.filterd (scamp.selinc.com [127.0.0.1])
-	by scamp.selinc.com (8.16.0.22/8.16.0.22) with SMTP id w17IVXYb023063; 
-	Wed, 7 Feb 2018 10:31:39 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=selinc.com;
-	h=from : to : cc : subject : date : message-id; s=SELinc2017;
-	bh=dKwfJFSRi/sxnn1ennfVFexj6Z4Wz2dN56kbe/NmvSI=;
-	b=m4SmKJSN0jBk1aIBFibMZo3atAWefS4UySF611RFFWbh/mV7kTKuoPycNyQDya4F6xVG
-	ttYxTwc5CuGYXLpIhZOaQHJkme5T9e2IQ+URNlVmgUzmjB5JU36SUMvmJko0V49lyTW/
-	VcSWgjpf1BQzXBppFX80SCtExP+SM3EP6Um3Wp79Fxtg7jBYbzowewkzlyElaSxaZRyb
-	jSBAyHyCduhetM3JPPjEop0cvtXT8jwsUJxVdxR23UlHWWQXjJhjy9i05gk1HV8vBfl0
-	F5QE36//jaky0ZrsO2DIhMblMgPXBt/JOpAchfM7NyKcoWnfyA3p5oW9Npn/R/zdtt3U
-	MQ== 
-Received: from edison2.ad.selinc.com ([10.100.0.115])
-	by scamp.selinc.com with ESMTP id 2fwbx47f76-1;
-	Wed, 07 Feb 2018 10:31:39 -0800
-Received: from robejoslpc.ad.selinc.com ([10.202.51.92])
-	by edison2.ad.selinc.com (IBM Domino Release 9.0.1FP9 HF139)
-	with ESMTP id 2018020710313865-219880 ;
-	Wed, 7 Feb 2018 10:31:38 -0800 
-From: Robert Joslyn <robert_joslyn@selinc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 7 Feb 2018 10:29:43 -0800
-Message-Id: <20180207182943.26372-1-robert_joslyn@selinc.com>
-X-Mailer: git-send-email 2.13.6
-X-MIMETrack: Itemize by SMTP Server on Edison2/SEL(Release 9.0.1FP9
-	HF139|October 06, 2017) at 02/07/2018 10:31:38 AM,
-	Serialize by Router on Edison2/SEL(Release 9.0.1FP9 HF139|October 06,
-	2017) at 02/07/2018 10:31:38 AM,
-	Serialize complete at 02/07/2018 10:31:38 AM
-X-TNEFEvaluated: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8798
-	signatures=668663
-Subject: [pyro][PATCH] grub: Fix device mapper dependency
+	Wed,  7 Feb 2018 21:08:58 +0000 (UTC)
+Received: from tomas.local.tbs-biometrics.cz (unknown [176.74.132.138])
+	(Authenticated sender: tomas@novotny.cz)
+	by hosting.pavoucek.net (Postfix) with ESMTPSA id 24D56103FCF;
+	Wed,  7 Feb 2018 21:59:14 +0100 (CET)
+Date: Wed, 7 Feb 2018 21:59:13 +0100
+From: Tomas Novotny <tomas@novotny.cz>
+To: Joshua Watt <jpewhacker@gmail.com>
+Message-ID: <20180207215913.1efc2300@tomas.local.tbs-biometrics.cz>
+In-Reply-To: <cover.1517857764.git.JPEWhacker@gmail.com>
+References: <cover.1517857764.git.JPEWhacker@gmail.com>
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/14] Fix support for Icecream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,31 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 18:31:38 -0000
+X-List-Received-Date: Wed, 07 Feb 2018 21:08:59 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The lvm2 recipe in meta-oe was split, so the libdevmapper library is
-provided by the libdevmapper recipe rather than lvm2.
+Hi Joshua,
 
-Signed-off-by: Robert Joslyn <robert_joslyn@selinc.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-bsp/grub/grub2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue,  6 Feb 2018 16:01:19 -0600
+Joshua Watt <jpewhacker@gmail.com> wrote:
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index a93c99e6c9..e3409b9250 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -53,7 +53,7 @@ inherit autotools gettext texinfo
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
--PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,lvm2"
-+PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,libdevmapper"
- 
- # grub2 creates its own set of -nostdinc / -isystem / -ffreestanding CFLAGS and
- # OE's default BUILD_CFLAGS (assigned to CFLAGS for native builds) etc, conflict
--- 
-2.13.6
+> Fix up support for using Icecream to do distributed builds, which
+> appears to have been broken for some time.
 
+we were using icecream a year ago and we set ICECC_CARET_WORKAROUND env
+variable to 0 (in set_icecc_env() in icecc.bbclass). The default is 1 and it
+causes a local rebuild when any warning is emitted.
+
+I don't have exact numbers, but the extreme case was opencv. There was so
+many warnings that distributed build on ~10 threads was slower than local
+build on 4 threads.
+
+I know that it is some kind of configuration, but I would set the default to
+0. Or do it at least configurable.
+
+> In addition, Icecream support can now be enabled in the SDK. When
+> enabled, the SDK install process will check if the host supports icecc
+> and if so will construct a proper environment tarball and use it when
+> compiling.
+
+Thanks for work on that, I'm keen to use it in our environment.
+
+Tomas
+
+> Most of the changes should be straightforward. icecc-create-env has
+> been almost completely re-written but the changes were broken up into
+> hopefully logical chunks.
+> 
+> The following changes since commit 385944254d0ef88bd6450a221a54cbcb40020b42:
+> 
+>   tcmode-default.inc: drop preferred version of gzip-native (2018-01-31 17:01:20 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   git://push.yoctoproject.org/poky-contrib jpew/icecream
+> 
+> Joshua Watt (14):
+>   icecc.bbclass: Move to shared work directory
+>   icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
+>   icecc.bbclass: Skip canadian-cross compiles
+>   icecc-create-env: Reformat
+>   icecc-create-env: Add /bin/true to environment
+>   icecc-create-env: Use program interpreter for deps
+>   icecc-create-env: Symlink alternate names
+>   icecc-create-env: Archive directory
+>   icecc-create-env: Fix executable rpaths
+>   icecc-create-env: Add support for nativesdk
+>   icecc-create-env: Allow multiple tool aliases
+>   toolchain-shar-extract: Add post-relocate scripts
+>   icecc-toolchain: Add SDK icecream setup
+>   icecc.bbclass: Add IceCream support to SDK
+> 
+>  meta/classes/icecc.bbclass                         |  37 ++-
+>  meta/classes/toolchain-scripts.bbclass             |  15 +
+>  meta/files/toolchain-shar-extract.sh               |   8 +
+>  meta/recipes-core/meta/meta-environment.bb         |   2 +
+>  .../icecc-create-env/icecc-create-env              | 328 ++++++++++++++-------
+>  ...e-env-native_0.1.bb => icecc-create-env_0.1.bb} |   4 +-
+>  .../icecc-toolchain/icecc-toolchain/icecc-env.sh   |  37 +++
+>  .../icecc-toolchain/icecc-toolchain/icecc-setup.sh |  43 +++
+>  .../nativesdk-icecc-toolchain_0.1.bb               |  38 +++
+>  9 files changed, 390 insertions(+), 122 deletions(-)
+>  rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-native_0.1.bb => icecc-create-env_0.1.bb} (98%)
+>  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+>  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+>  create mode 100644 meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
+> 
 
