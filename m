@@ -1,50 +1,25 @@
-Return-Path: <carlos.rodriguez@ridgerun.com>
-Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com
-	[209.85.213.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 342857843F
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CFB78093
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 21:30:32 +0000 (UTC)
-Received: by mail-vk0-f45.google.com with SMTP id m197so1498039vka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Feb 2018 13:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ridgerun-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tFyyj1EaE3MFEdIUTVcydtupuP4THsJXHDgQZ+/ZIs0=;
-	b=zV2k+G0n7i7+wCRDkqebd72KT+9Z13xpZlRhTx+LaQJ61osIj3WHlcZ88oWDGiXp/5
-	fPD8wda8gJz0E58RacwO8mnXVoQIwDTnIgMAqf4U/CSnfwxjM4IE0KKRv2GaOabADumX
-	UUj2YIRBO5SFQLGFcUL08/a7Rk+8Fy0y0+X57VXaOxZRaVjcu+qsY/c8FNvHQwopoXMs
-	prodiSTw5+zdgyF0YEA1b2F07EchJxgsDBn5uZDVtfyblDcPwnOhhphScfVmpMmpMmLA
-	Y0PJ0cESGxq31Dyi66HsKltMfwgCVqaqBpHbmIe7fUZxPiQzVeFJsLgg92pjiGlOiXpw
-	4/eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=tFyyj1EaE3MFEdIUTVcydtupuP4THsJXHDgQZ+/ZIs0=;
-	b=RzA9RViYMf8Fajs07i30171cTwFB1fHXrDzQsMYVKTLVvT7mKc/H35NsodFmEbhjIp
-	1ospr5qN32Tm42b95Iox7qSa3qWB70FKI8MNBAB0yYrT8fpsw4kFxgPGdxZ7zND/D0iH
-	Om0/xvK6z0qf63vloy+9ZRY5zJDYjMe8QEnSQmapeOEP20Q9005c5PRCGL1NjNdGViVJ
-	T2Wd8EDbumo2U0EJSgOHCxzSn7Kl9xHeFDuNhaIwkH5fPvH5pBcdno5u/XCjpiFC3r82
-	Wq5yYP8pQbnXCi80AR99m40GkrDTHK9ONLmlZu9nlUwRKH1NZSDD3UknH5uLd3GFeFbr
-	WmOg==
-X-Gm-Message-State: APf1xPDxKpzakCWtq4d6bCp/C9EQBhZvWBNpl54iDYGffdqU/4eTIDuJ
-	pO317EHN34eMAhalUovCQ0DtvTJW
-X-Google-Smtp-Source: AH8x224cABfC+5SPU8QvMieRlBeXsGowVWQaBXHlNW45R4kJFh5DifvgXFGCLMVWqITaZLttf+TMjQ==
-X-Received: by 10.31.151.151 with SMTP id z145mr6130035vkd.40.1518039033927;
-	Wed, 07 Feb 2018 13:30:33 -0800 (PST)
-Received: from crodriguez.cr.ridgerun.com ([201.206.221.6])
-	by smtp.gmail.com with ESMTPSA id d11sm797871vke.37.2018.02.07.13.30.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 07 Feb 2018 13:30:33 -0800 (PST)
-From: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Feb 2018 15:30:23 -0600
-Message-Id: <1518039023-29531-2-git-send-email-carlos.rodriguez@ridgerun.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1518039023-29531-1-git-send-email-carlos.rodriguez@ridgerun.com>
-References: <1518039023-29531-1-git-send-email-carlos.rodriguez@ridgerun.com>
-Subject: [PATCH 2/2] gstd: Add Gst-Deamon recipe
+	Wed,  7 Feb 2018 21:34:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w17LY3IJ007123
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 7 Feb 2018 13:34:03 -0800 (PST)
+Received: from yow-masselst-lx1.localnet (128.224.24.27) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 7 Feb 2018 13:33:57 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Feb 2018 16:34:00 -0500
+Message-ID: <3144211.9qXzQgCZpO@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+References: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] gtk-doc: update to 1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,137 +32,498 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 21:30:33 -0000
+X-List-Received-Date: Wed, 07 Feb 2018 21:34:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-GStreamer Daemon, also called gstd, is a GStreamer framework
-for controlling audio and video streaming using TCP connection
-messages. Qt applications, web interfaces, and GStreamer element
-test suites show different ways the framework can be utilized.
-GStreamer Daemon is gst-launch on steroids where you can create a
-GStreamer pipeline, play, pause, change speed, skip around, and
-even change element parameter settings all while the pipeline
-is active.
+On Friday, February 2, 2018 12:38:14 PM EST Alexander Kanavin wrote:
+> Gtk-doc has been rewritten in Python, so drop perl dependencies (good
+> riddance!), and adjust patches to reflect that.
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
 
-Signed-off-by: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
----
- meta/recipes-multimedia/gstreamer/gstd.inc         | 25 +++++++++
- .../gstd/0001-gstd-yocto-compatibility.patch       | 63 ++++++++++++++++++++++
- meta/recipes-multimedia/gstreamer/gstd_1.0.bb      |  3 ++
- 3 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstd.inc
- create mode 100644 meta/recipes-multimedia/gstreamer/gstd/0001-gstd-yocto-compatibility.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstd_1.0.bb
+Alexander. When things move to python you can almost always bet on them 
+requiring additional libraries and as such the lack of RDEPENDS here is a bit 
+surprising. As you can see from the top of some of the py files in gtk-doc we 
+have:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstd.inc b/meta/recipes-multimedia/gstreamer/gstd.inc
-new file mode 100644
-index 0000000..3e23521
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstd.inc
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "RidgeRun Gstreamer Daemon 1.0"
-+SUMMARY = "GStreamer framework for controlling audio and video streaming using TCP connection messages"
-+HOMEPAGE = "https://developer.ridgerun.com/wiki/index.php?title=Gstd-1.0"
-+SECTION = "multimedia"
-+LICENSE = "GPLv2+"
-+
-+DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-rtsp-server json-glib libdaemon"
-+
-+SRCBRANCH ?= "master"
-+SRCREV = "097a086a8606dcb368c7d38c7ec4fefc2497401b"
-+SRC_URI = "git://git@github.com/RidgeRun/gstd-1.x.git;protocol=https;branch=${SRCBRANCH} \
-+	   file://0001-gstd-yocto-compatibility.patch"
-+
-+S = "${WORKDIR}/git"
-+
-+PACKAGECONFIG_CONFARGS = " \
-+	--disable-gtk-doc \
-+"
-+
-+inherit autotools pkgconfig gettext
-+
-+do_configure() {
-+${S}/autogen.sh
-+oe_runconf
-+}
-diff --git a/meta/recipes-multimedia/gstreamer/gstd/0001-gstd-yocto-compatibility.patch b/meta/recipes-multimedia/gstreamer/gstd/0001-gstd-yocto-compatibility.patch
-new file mode 100644
-index 0000000..ddc1831
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstd/0001-gstd-yocto-compatibility.patch
-@@ -0,0 +1,63 @@
-+From eaf51d6420c63713f62025583681007c3502d387 Mon Sep 17 00:00:00 2001
-+From: Carlos <carlos.rodriguez@ridgerun.com>
-+Date: Fri, 15 Dec 2017 10:14:05 -0600
-+Subject: [PATCH] gstd:yocto compatibility
-+
-+---
-+ autogen.sh                      | 8 +++++++-
-+ docs/reference/gstd/Makefile.am | 2 +-
-+ gstd/Makefile.am                | 2 +-
-+ 3 files changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/autogen.sh b/autogen.sh
-+index 66dbd42..793ee2f 100755
-+--- a/autogen.sh
-++++ b/autogen.sh
-+@@ -21,7 +21,11 @@
-+ # ACLOCAL, AUTOPOINT and/or LIBTOOLIZE to the right versions, or leave them
-+ # unset and get the defaults
-+ 
-+-gtkdocize || exit 1
-++test -n "$srcdir" || srcdir=`dirname "$0"`
-++test -n "$srcdir" || srcdir=.
-++
-++olddir=`pwd`
-++cd "$srcdir"
-+ 
-+ autoreconf --verbose --force --install || {
-+  echo 'autogen.sh failed';
-+@@ -31,3 +35,5 @@ autoreconf --verbose --force --install || {
-+ echo
-+ echo "Now run './configure' with your system settings followed by 'make' to compile this module."
-+ echo
-++
-++cd "$olddir"
-+diff --git a/docs/reference/gstd/Makefile.am b/docs/reference/gstd/Makefile.am
-+index f860fa1..153a13b 100644
-+--- a/docs/reference/gstd/Makefile.am
-++++ b/docs/reference/gstd/Makefile.am
-+@@ -66,7 +66,7 @@ GTKDOC_LIBS=$(top_builddir)/gstd/libgstd-core.la
-+ 
-+ 
-+ # This includes the standard gtk-doc make rules, copied by gtkdocize.
-+-include $(top_srcdir)/docs/gtk-doc.make
-++# include $(top_srcdir)/docs/gtk-doc.make
-+ 
-+ # Comment this out if you want 'make check' to test you doc status
-+ # and run some sanity checks
-+diff --git a/gstd/Makefile.am b/gstd/Makefile.am
-+index 13c551d..11fe202 100644
-+--- a/gstd/Makefile.am
-++++ b/gstd/Makefile.am
-+@@ -49,7 +49,7 @@ bin_PROGRAMS = gstd
-+ 
-+ gstd_SOURCES = gstd.c
-+ gstd_CFLAGS = $(GST_CFLAGS) $(GIO_CFLAGS) $(GJSON_CFLAGS)
-+-gstd_LDFLAGS = $(GST_LIBS) $(GIO_LIBS) $(GJSON_LIBS) -Wl,-rpath -Wl,$(libdir)
-++gstd_LDFLAGS = $(GST_LIBS) $(GIO_LIBS) $(GJSON_LIBS)
-+ gstd_LDADD = libgstd-core.la
-+ 
-+ gstdincludedir = $(includedir)/gstd
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstd_1.0.bb b/meta/recipes-multimedia/gstreamer/gstd_1.0.bb
-new file mode 100644
-index 0000000..94f6b57
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstd_1.0.bb
-@@ -0,0 +1,3 @@
-+require gstd.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--- 
-1.9.1
+import logging
+import os
+import re
+import subprocess
+import sys
+import six
+import codecs
+
+Some of which are python stdlibs but others are external modules, such as 
+'six'. As such I am now getting a build failure:
+
+     -- Installing ../../../libunique-1.1.6/doc/reference/html/up.png
+     Traceback (most recent call last):
+      File "/home/mark/build/overc/tmp/work/core2-64-overc-linux/libunique/
+      1.1.6-r7/recipe-sysroot-native/usr/bin/gtkdoc-rebase", line 28, in 
+       <module>
+     from gtkdoc import common, config, rebase
+     File "/home/mark/build/overc/tmp/work/core2-64-overc-linux/libunique/
+     1.1.6-r7/recipe-sysroot-native/usr/share/gtk-doc/python/gtkdoc/
+     common.py", line 31, in <module>
+     import six
+ ImportError: No module named 'six'
+
+So we need to RDEPENDS on "python-six" here for starters. We do have a recipe 
+for python-six but it is in meta-openembedded. So we either need to move this 
+recipe there or the python-six recipe to oe-core or...
+
+I have added Derek to the CC as he is being a good sport and working hard on 
+python recipes and might have thoughts on the best solution here.
+
+Mark Asselstine
+
+>  ...r-out-if-perl-is-not-found-or-its-version.patch |  40 ------
+>  ...hardocode-paths-to-perl-python-in-scripts.patch | 155
+> +++++++++++---------- .../gtk-doc/files/conditionaltests.patch           | 
+> 26 +++-
+>  .../gtk-doc/files/pkg-config-native.patch          |  22 ++-
+>  .../gtk-doc/{gtk-doc_1.25.bb => gtk-doc_1.27.bb}   |  15 +-
+>  5 files changed, 119 insertions(+), 139 deletions(-)
+>  delete mode 100644
+> meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-found
+> -or-its-version.patch rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.25.bb =>
+> gtk-doc_1.27.bb} (81%)
+> 
+> diff --git
+> a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-fou
+> nd-or-its-version.patch
+> b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-fou
+> nd-or-its-version.patch deleted file mode 100644
+> index 4a9028742ca..00000000000
+> ---
+> a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-perl-is-not-fou
+> nd-or-its-version.patch +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -From e733241fb580f032efbbe684ec35d4c9d27f1595 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Thu, 8 Sep 2016 13:38:39 +0300
+> -Subject: [PATCH] Do not error out if perl is not found or its version is
+> too - old.
+> -
+> -This allows use to avoid depending on perl-native if we're not going
+> -to use it (when api-docs are disabled).
+> -
+> -Upstream-Status: Inappropriate [oe-core specific]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - configure.ac | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 2a61d6e..29415bd 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -36,7 +36,7 @@ dnl Check for Perl.
+> - dnl
+> - AC_PATH_PROG([PERL], [perl])
+> - if test -z "$PERL"; then
+> --	AC_MSG_ERROR([perl not found])
+> -+	AC_MSG_WARN([perl not found])
+> - fi
+> -
+> - AC_MSG_CHECKING([if Perl version >= 5.18.0])
+> -@@ -44,7 +44,7 @@ if "$PERL" -e "require v5.18.0"; then
+> - 	AC_MSG_RESULT([yes])
+> - else
+> - 	AC_MSG_RESULT([no])
+> --	AC_MSG_ERROR([perl >= 5.18.0 is required for gtk-doc])
+> -+	AC_MSG_WARN([perl >= 5.18.0 is required for gtk-doc])
+> - fi
+> -
+> - dnl
+> ---
+> -2.9.3
+> -
+> diff --git
+> a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-pyth
+> on-in-scripts.patch
+> b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-pyth
+> on-in-scripts.patch index 477fc9ae8c1..2fe3ab9221f 100644
+> ---
+> a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-pyth
+> on-in-scripts.patch +++
+> b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-pyth
+> on-in-scripts.patch @@ -1,7 +1,7 @@
+> -From 6fab82b93c7bd301eb42448515b02f7cb3306897 Mon Sep 17 00:00:00 2001
+> +From 928102874bc2339a1d57c6b178877e0c6002cb3a Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Wed, 31 Aug 2016 16:44:46 +0300
+> -Subject: [PATCH] Do not hardocode paths to perl/python in scripts.
+> +Subject: [PATCH 1/3] Do not hardocode paths to perl/python in scripts.
+> 
+>  Doing so when the interpreters are somewhere deep in a sysroot directory
+>  can reach the shebang line limit, and resulting scripts wouldn't work
+> @@ -9,131 +9,134 @@ on targets either.
+> 
+>  Upstream-Status: Inappropriate [oe-core specific]
+>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +
+>  ---
+> - gtkdoc-check.in     | 2 +-
+> - gtkdoc-common.pl.in | 2 +-
+> - gtkdoc-depscan.in   | 2 +-
+> - gtkdoc-fixxref.in   | 2 +-
+> - gtkdoc-mkdb.in      | 2 +-
+> - gtkdoc-mktmpl.in    | 2 +-
+> - gtkdoc-rebase.in    | 2 +-
+> - gtkdoc-scan.in      | 2 +-
+> - gtkdoc-scangobj.in  | 2 +-
+> - tests/tools.sh.in   | 4 ++--
+> - 10 files changed, 11 insertions(+), 11 deletions(-)
+> + gtkdoc-check.in    | 2 +-
+> + gtkdoc-depscan.in  | 2 +-
+> + gtkdoc-fixxref.in  | 2 +-
+> + gtkdoc-mkdb.in     | 2 +-
+> + gtkdoc-mkhtml.in   | 2 +-
+> + gtkdoc-mkman.in    | 2 +-
+> + gtkdoc-mkpdf.in    | 2 +-
+> + gtkdoc-rebase.in   | 2 +-
+> + gtkdoc-scan.in     | 2 +-
+> + gtkdoc-scangobj.in | 2 +-
+> + tests/tools.sh.in  | 2 +-
+> + 11 files changed, 11 insertions(+), 11 deletions(-)
+> 
+>  diff --git a/gtkdoc-check.in b/gtkdoc-check.in
+> -index 560d69b..b60857f 100755
+> +index 8c8e917..f6a25f6 100755
+>  --- a/gtkdoc-check.in
+>  +++ b/gtkdoc-check.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> - #
+> - # gtk-doc - GTK DocBook documentation generator.
+> -diff --git a/gtkdoc-common.pl.in b/gtkdoc-common.pl.in
+> -index 4747396..cfadb78 100644
+> ---- a/gtkdoc-common.pl.in
+> -+++ b/gtkdoc-common.pl.in
+> -@@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python; coding: utf-8 -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/gtkdoc-depscan.in b/gtkdoc-depscan.in
+> -index 83af01b..917e247 100644
+> +index 9bfaf30..aadc952 100644
+>  --- a/gtkdoc-depscan.in
+>  +++ b/gtkdoc-depscan.in
+>  @@ -1,4 +1,4 @@
+>  -#!@PYTHON@
+> -+#!/usr/bin/env python
+> ++#!/usr/bin/env python3
+> 
+> - import gzip, os.path, re
+> + from __future__ import print_function
+> 
+>  diff --git a/gtkdoc-fixxref.in b/gtkdoc-fixxref.in
+> -index 3d9e8d0..d55190b 100755
+> +index 0ea02d4..bdd443a 100755
+>  --- a/gtkdoc-fixxref.in
+>  +++ b/gtkdoc-fixxref.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/gtkdoc-mkdb.in b/gtkdoc-mkdb.in
+> -index 8dd6d5e..d808750 100755
+> +index 42d5731..3a56d56 100755
+>  --- a/gtkdoc-mkdb.in
+>  +++ b/gtkdoc-mkdb.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python; coding: utf-8 -*-
+> + #
+> + # gtk-doc - GTK DocBook documentation generator.
+> +diff --git a/gtkdoc-mkhtml.in b/gtkdoc-mkhtml.in
+> +index 0d0a15d..914ff55 100644
+> +--- a/gtkdoc-mkhtml.in
+> ++++ b/gtkdoc-mkhtml.in
+> +@@ -1,4 +1,4 @@
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python; coding: utf-8 -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+> -diff --git a/gtkdoc-mktmpl.in b/gtkdoc-mktmpl.in
+> -index c64dfd3..2f46c18 100755
+> ---- a/gtkdoc-mktmpl.in
+> -+++ b/gtkdoc-mktmpl.in
+> +diff --git a/gtkdoc-mkman.in b/gtkdoc-mkman.in
+> +index c5445cd..65db71a 100644
+> +--- a/gtkdoc-mkman.in
+> ++++ b/gtkdoc-mkman.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python; coding: utf-8 -*-
+> + #
+> + # gtk-doc - GTK DocBook documentation generator.
+> +diff --git a/gtkdoc-mkpdf.in b/gtkdoc-mkpdf.in
+> +index e8c0c03..f807236 100755
+> +--- a/gtkdoc-mkpdf.in
+> ++++ b/gtkdoc-mkpdf.in
+> +@@ -1,4 +1,4 @@
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python; coding: utf-8 -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/gtkdoc-rebase.in b/gtkdoc-rebase.in
+> -index 375482d..cf05b45 100644
+> +index 17a71c2..ec3fd28 100755
+>  --- a/gtkdoc-rebase.in
+>  +++ b/gtkdoc-rebase.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/gtkdoc-scan.in b/gtkdoc-scan.in
+> -index 048e5c9..78c6136 100755
+> +index 954c811..f461504 100755
+>  --- a/gtkdoc-scan.in
+>  +++ b/gtkdoc-scan.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/gtkdoc-scangobj.in b/gtkdoc-scangobj.in
+> -index fb66b76..67ee8f7 100644
+> +index 4cbe130..52c2c24 100644
+>  --- a/gtkdoc-scangobj.in
+>  +++ b/gtkdoc-scangobj.in
+>  @@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!/usr/bin/env perl
+> - # -*- cperl -*-
+> +-#!@PYTHON@
+> ++#!/usr/bin/env python3
+> + # -*- python -*-
+>   #
+>   # gtk-doc - GTK DocBook documentation generator.
+>  diff --git a/tests/tools.sh.in b/tests/tools.sh.in
+> -index a114a42..7073883 100644
+> +index 4d301d0..565fc1e 100644
+>  --- a/tests/tools.sh.in
+>  +++ b/tests/tools.sh.in
+> -@@ -11,7 +11,7 @@ echo "Running suite(s): gtk-doc-$suite";
+> -
+> - # test perl scripts
+> - for file in gtkdoc-check gtkdoc-fixxref gtkdoc-mkdb gtkdoc-mktmpl
+> gtkdoc-rebase gtkdoc-scan gtkdoc-scangobj ; do --  @PERL@ -cwT `which
+> $file`
+> -+  perl -cwT `which $file`
+> -   if test $? = 1 ; then failed=`expr $failed + 1`; fi
+> -   tested=`expr $tested + 1`
+> +@@ -31,7 +31,7 @@ done
+> + # TODO: test python 2 and 3 (python3 -mcompileall gtkdoc/*.py)
+> + for file in gtkdoc-check gtkdoc-depscan gtkdoc-fixxref gtkdoc-mkdb
+> gtkdoc-mkhtml gtkdoc-mkman gtkdoc-mkpdf gtkdoc-rebase gtkdoc-scangobj; do +
+>     fullfile=`which $file`
+> +-    @PYTHON@ -m py_compile $fullfile
+> ++    python3 -m py_compile $fullfile
+> +     if test $? != 0 ; then failed=`expr $failed + 1`; fi
+> +     tested=`expr $tested + 1`
+>   done
+> -@@ -34,7 +34,7 @@ done
+> -
+> -
+> - # test python scripts
+> --@PYTHON@ -m py_compile `which gtkdoc-depscan`
+> -+python -m py_compile `which gtkdoc-depscan`
+> - if test $? != 0 ; then failed=`expr $failed + 1`; fi
+> - tested=`expr $tested + 1`
+> -
+> -2.9.3
+> +2.14.1
+> 
+> diff --git a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+> b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch index
+> 0c180f2605e..21c2db7826f 100644
+> --- a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+> +++ b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+> @@ -1,14 +1,23 @@
+> +From 78bbf185934147a69ceb4b617d424e12e70997bf Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Tue, 27 Jun 2017 21:00:58 +0100
+> +Subject: [PATCH 3/3] gtk-doc: Handle floating gtk-doc dependency
+> +
+>  Allow the tests to be explicitly disabled to avoid floating dependnecy
+>  issues. This is not really an issue with RSS but is on previous releases.
+> 
+>  RP 2017/6/27
+>  Upstream-Status: Pending
+> 
+> -Index: gtk-doc-1.25/configure.ac
+> -===================================================================
+> ---- gtk-doc-1.25.orig/configure.ac
+> -+++ gtk-doc-1.25/configure.ac
+> -@@ -161,6 +161,11 @@ if test "x$GCC" = "xyes"; then
+> +---
+> + configure.ac | 10 ++++++++++
+> + 1 file changed, 10 insertions(+)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 684e2d1..e5e3aab 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -146,6 +146,11 @@ if test "x$GCC" = "xyes"; then
+>   	fi
+>   fi
+> 
+> @@ -20,7 +29,7 @@ Index: gtk-doc-1.25/configure.ac
+>   dnl if glib is available we can enable the tests
+>   PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
+>   	[	glib_prefix="`$PKG_CONFIG --variable=prefix glib-2.0`"
+> -@@ -171,6 +176,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >
+> +@@ -156,6 +161,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0
+> gobject-2.0 >= 2.6.0], build_tests="no"
+>   	]
+>   )
+> @@ -30,5 +39,8 @@ Index: gtk-doc-1.25/configure.ac
+>  +fi
+>  +
+>   AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, test -n "$LIBTOOL" -a
+> x$gtk_doc_use_libtool = xyes ) - dnl this enable the rule in
+> test/Makefile.am
+> + dnl this enables the rule in test/Makefile.am
+>   AM_CONDITIONAL(BUILD_TESTS, test x$build_tests = xyes)
+> +--
+> +2.14.1
+> +
+> diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+> b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch index
+> c7688704eb6..bf03c8f6134 100644
+> --- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+> +++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+> @@ -1,24 +1,31 @@
+> -Use native pkg-config when looking for gtk-doc.
+> +From 5f145621b4780cfd6a5632fcc97c45f572938efc Mon Sep 17 00:00:00 2001
+> +From: Ross Burton <ross.burton@intel.com>
+> +Date: Mon, 5 Sep 2016 22:25:44 +0100
+> +Subject: [PATCH 5/5] Use native pkg-config when looking for gtk-doc.
+> 
+>  Upstream-Status: Inappropriate
+>  Signed-off-by: Ross Burton <ross.burton@intel.com>
+> 
+> +---
+> + gtk-doc.m4 | 7 ++++++-
+> + 1 file changed, 6 insertions(+), 1 deletion(-)
+> +
+>  diff --git a/gtk-doc.m4 b/gtk-doc.m4
+> -index 3675543..94881ae 100644
+> +index 3675543..2590e2a 100644
+>  --- a/gtk-doc.m4
+>  +++ b/gtk-doc.m4
+>  @@ -1,6 +1,6 @@
+>   dnl -*- mode: autoconf -*-
+> -
+> +
+>  -# serial 2
+>  +# serial 2.1
+> -
+> +
+>   dnl Usage:
+>   dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
+>  @@ -10,11 +10,16 @@ AC_DEFUN([GTK_DOC_CHECK],
+>     AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
+>     AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
+> -
+> +
+>  +  gtkdoc_pkgconfig_save=$PKG_CONFIG
+>  +  PKG_CONFIG=pkg-config-native
+>  +
+> @@ -26,9 +33,12 @@ index 3675543..94881ae 100644
+>     AC_MSG_CHECKING([for gtk-doc])
+>    
+> PKG_CHECK_EXISTS([$gtk_doc_requires],[have_gtk_doc=yes],[have_gtk_doc=no])
+> AC_MSG_RESULT($have_gtk_doc)
+> -
+> +
+>  +  PKG_CONFIG=$gtkdoc_pkgconfig_save
+>  +
+>     if test "$have_gtk_doc" = "no"; then
+>         AC_MSG_WARN([
+>     You will not be able to create source packages with 'make dist'
+> +--
+> +2.15.1
+> +
+> diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+> b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb similarity index 81%
+> rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+> rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
+> index e0eb994e259..b907bae1478 100644
+> --- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+> +++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
+> @@ -15,22 +15,17 @@ PACKAGECONFIG ??=
+> "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation", # into its
+> scripts. This means that target gtk-doc package is broken; # hopefully no
+> one minds because its scripts are not used for anything during build # and
+> shouldn't be used on targets.
+> -PACKAGECONFIG[working-scripts] =
+> "--with-highlight=source-highlight,--with-highlight=no,libxslt-native
+> xmlto-native source-highlight-native perl-native"
+> +PACKAGECONFIG[working-scripts] =
+> "--with-highlight=source-highlight,--with-highlight=no,libxslt-native
+> xmlto-native source-highlight-native python3-six" PACKAGECONFIG[tests] =
+> "--enable-tests,--disable-tests,glib-2.0"
+> 
+> -# We cannot use host perl, because it may be too old for gtk-doc
+> -EXTRANATIVEPATH += "perl-native"
+> -
+> +SRC_URI[archive.md5sum] = "b29949e0964762e474b706ce22171602"
+> +SRC_URI[archive.sha256sum] =
+> "e26bd3f7080c749b1cb66c46c6bf8239e2f320a949964fb9c6d56e1b0c6d9a6f" SRC_URI
+> += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \ - 
+>           file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \ -  
+>         
+> file://0001-Do-not-error-out-if-perl-is-not-found-or-its-version.patch \ - 
+>           file://conditionaltests.patch \
+> +           file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
+> +           file://conditionaltests.patch \
+>             "
+>  SRC_URI_append_class-native = " file://pkg-config-native.patch"
+> 
+> -SRC_URI[archive.md5sum] = "0dc6570953112a464a409fb99258ccbc"
+> -SRC_URI[archive.sha256sum] =
+> "1ea46ed400e6501f975acaafea31479cea8f32f911dca4dff036f59e6464fd42" -
+>  BBCLASSEXTEND = "native nativesdk"
+> 
+>  # Do not check for XML catalogs when building because that
+
 
 
