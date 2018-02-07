@@ -1,55 +1,47 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A311606B2
+Return-Path: <carlos.rodriguez@ridgerun.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F057878430
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 21:19:12 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id i144so4021251ita.3
+	Wed,  7 Feb 2018 21:30:30 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id f5so1539604ual.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Feb 2018 13:19:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=08CcwHzgw8gUT5gKRRPi2u9GE9LiLHh2BO+5aPhQrBc=;
-	b=SJ3MNC6ccI4qyh90V4muFmOtFxUr1oyzIM//8oQ2xErwBJgEEFzOxu82BHWBHNm+13
-	76I5x4aHzBNBIpqRo82hZPMe0vSY9jtPEvhEVv+yvsJ/79pwFDL/J9So6sM5a8PZjX2R
-	FW6FNtTSvLR3TDV1ujU8BQKFKgIqrnGJ0AR+qjNFQAmCxA6kWBouGM/C2YLlr9tGV6ss
-	9vIJ8MzzNcuBUGk7PbIo0JTLrlrPEf8ssg8dFXCwNu8zHps40uDP7dnk7q7c2ocU880B
-	+nBCEFWabljQRnVoFR6rKD6Yw5xRoAUeJ8xNop5LtCSANJpVzNRX2cOXfUhdxxY6ylQ5
-	mTFQ==
+	Wed, 07 Feb 2018 13:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ridgerun-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=dCMDKTSvWvhsK9rQI57ZyoZfrgBvdWkDQvIg5F2KT+8=;
+	b=hSuA49OkOhLeT78Pwqm1SfVNzb3l+Pq8BWsPtf06luCck8x7DCjDUtJenjz5K8EEu7
+	rOz/JqZ7Jqjm6mJ0fSDSJ1HTrUvHVr5fGunKwDwBRxaeYLSX7YE9mZTEETTEyF3nwU2J
+	RPhxn7HukA3gzTTXHkFdAopkqt+bR4TJZS3hvdEDLrhmOel3vRbLjcWdPOrcKP1MiPyS
+	ME+FiJHVxUDszQqvVE580/gXC+Ny0ZQQO6SKijtyaZOlws7QIUlkzKRWH2dg5ZfRiP1I
+	868meJWiDD2wTuoCSlnkwMmgMkfF8G1CYxRN2R+Sxqe5WD1D84cdPKezCZ+vGjFTiMZe
+	UElg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=08CcwHzgw8gUT5gKRRPi2u9GE9LiLHh2BO+5aPhQrBc=;
-	b=egbNTI15cBa2NBOm5aaVGSL4OKJYEXVVDsVskZ1j3uPl5juh5a1Xsjd0F8r9ys6sEZ
-	p38d3ckXR62vtpKk1L6005kvgKcxF0VRsuDKDXWE3VP3PawHFLqlbcCDB5bo+AwiIkdp
-	ihAn8YgNrcaJDTZuvpjMxOuxJqDFnKijqeNWQ8E3kKbO4W/YQ4ljFsF/yioulu5WVPCV
-	Q6AoSULSTtoM7lKMImAnokP0naaamaHRuyEtPrzq/a6g5yuPO03tNHnuWfIqjwzWpWrs
-	xfTh5YiizUgw+UviEcbDYKF2qkj4cfxi4K3xxz6I7fg5Xb8CMOMkWHrTcbllzlSb4n2N
-	/N0A==
-X-Gm-Message-State: APf1xPAuPg9w9V1TJisaVVmdamn0o9wZxxI39Blx3CDfYBJIa1f3gCfO
-	Ocs8/NqbKUPqOrJ3yx6Cn0o=
-X-Google-Smtp-Source: AH8x226fcY1SmHRBMBxm1XgCh7jx2MEUjw+o38CBvoZ9QOqv3HIXxug3WjmbPi8P1IVJ8H9ndbgBrg==
-X-Received: by 10.36.5.81 with SMTP id 78mr10315623itl.135.1518038353367;
-	Wed, 07 Feb 2018 13:19:13 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	r13sm2593754ioa.4.2018.02.07.13.19.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 07 Feb 2018 13:19:12 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1518038352.3509.18.camel@gmail.com>
-To: Tomas Novotny <tomas@novotny.cz>
-Date: Wed, 07 Feb 2018 15:19:12 -0600
-In-Reply-To: <20180207215913.1efc2300@tomas.local.tbs-biometrics.cz>
-References: <cover.1517857764.git.JPEWhacker@gmail.com>
-	<20180207215913.1efc2300@tomas.local.tbs-biometrics.cz>
-X-Mailer: Evolution 3.26.2 (3.26.2-1.fc27) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/14] Fix support for Icecream
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dCMDKTSvWvhsK9rQI57ZyoZfrgBvdWkDQvIg5F2KT+8=;
+	b=R3shpgVSnRxiPIKOSfcH+DYZgpJ6GBXoUPOkuOrzryZivFNf2ychPNXmYQz1l6yWk+
+	JwzMVHk8ZxcAJHvJWUi7zjzZlymHE0ZwyyRYk1r8LWau+DO23kkQ9tpqMQp5qvfULuOG
+	LCy5/Avyx0EalCdHsb4g0zVPeGhXe3+BI9BE/0oYPEnAKz1RwETodcmyuJHQGVJ0qlm+
+	GiU4vDrzS7ffODS3Lq2/3isQ9ffRS90esuanHnsZzuOlXM8makpnSgL4K605FJi7j2Bn
+	WUzOSAj8VxoOEECBqxv4wWW1OvaTeDxjrZkzu0hoPyKa6Ez53AQV30ZkLlhW58kdCEdA
+	7oNg==
+X-Gm-Message-State: APf1xPC5fi2i3oUanw6U/KARHlajvVW52A832P+w9Hc0nMPujcvgabMa
+	6of3N3d2Af3BWJkuejps5S8pI5qZ
+X-Google-Smtp-Source: AH8x225bV/kPrPAArJsOQbqRMf4fX9In4nacCP/pnqdF8J+FfspPO90GSvYI+zXbS3uZOQmIfSEqbw==
+X-Received: by 10.159.52.73 with SMTP id s9mr6301289uab.198.1518039031885;
+	Wed, 07 Feb 2018 13:30:31 -0800 (PST)
+Received: from crodriguez.cr.ridgerun.com ([201.206.221.6])
+	by smtp.gmail.com with ESMTPSA id d11sm797871vke.37.2018.02.07.13.30.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Feb 2018 13:30:31 -0800 (PST)
+From: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Feb 2018 15:30:22 -0600
+Message-Id: <1518039023-29531-1-git-send-email-carlos.rodriguez@ridgerun.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] gst-shark: Add Gst-Shark recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,99 +54,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 21:19:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Feb 2018 21:30:31 -0000
 
-On Wed, 2018-02-07 at 21:59 +0100, Tomas Novotny wrote:
-> Hi Joshua,
-> 
-> On Tue,  6 Feb 2018 16:01:19 -0600
-> Joshua Watt <jpewhacker@gmail.com> wrote:
-> 
-> > Fix up support for using Icecream to do distributed builds, which
-> > appears to have been broken for some time.
-> 
-> we were using icecream a year ago and we set ICECC_CARET_WORKAROUND
-> env
-> variable to 0 (in set_icecc_env() in icecc.bbclass). The default is 1
-> and it
-> causes a local rebuild when any warning is emitted.
-> 
-> I don't have exact numbers, but the extreme case was opencv. There
-> was so
-> many warnings that distributed build on ~10 threads was slower than
-> local
-> build on 4 threads.
+Gst-Shark is a set of tracers used as Benchmarks and
+profiling tools for GStreamer. It includes tracers for
+generating debug information plus some tools to analyze
+the debug information. GstShark provides easy to use and
+useful tracers, paired with analysis tools to enable
+straightforward optimizations.
 
-Ok, that make sense. I'll add a patch to default to
-ICECC_CARET_WORKAROUND to my patch series. Thanks for the heads up!
+Signed-off-by: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-shark.inc    | 36 ++++++++++++++++++++++
+ .../gstreamer/gst-shark_0.2.1.bb                   |  3 ++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-shark.inc
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
 
-> 
-> I know that it is some kind of configuration, but I would set the
-> default to
-> 0. Or do it at least configurable.
-> 
-> > In addition, Icecream support can now be enabled in the SDK. When
-> > enabled, the SDK install process will check if the host supports
-> > icecc
-> > and if so will construct a proper environment tarball and use it
-> > when
-> > compiling.
-> 
-> Thanks for work on that, I'm keen to use it in our environment.
-> 
-> Tomas
-> 
-> > Most of the changes should be straightforward. icecc-create-env has
-> > been almost completely re-written but the changes were broken up
-> > into
-> > hopefully logical chunks.
-> > 
-> > The following changes since commit
-> > 385944254d0ef88bd6450a221a54cbcb40020b42:
-> > 
-> >   tcmode-default.inc: drop preferred version of gzip-native (2018-
-> > 01-31 17:01:20 +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://push.yoctoproject.org/poky-contrib jpew/icecream
-> > 
-> > Joshua Watt (14):
-> >   icecc.bbclass: Move to shared work directory
-> >   icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
-> >   icecc.bbclass: Skip canadian-cross compiles
-> >   icecc-create-env: Reformat
-> >   icecc-create-env: Add /bin/true to environment
-> >   icecc-create-env: Use program interpreter for deps
-> >   icecc-create-env: Symlink alternate names
-> >   icecc-create-env: Archive directory
-> >   icecc-create-env: Fix executable rpaths
-> >   icecc-create-env: Add support for nativesdk
-> >   icecc-create-env: Allow multiple tool aliases
-> >   toolchain-shar-extract: Add post-relocate scripts
-> >   icecc-toolchain: Add SDK icecream setup
-> >   icecc.bbclass: Add IceCream support to SDK
-> > 
-> >  meta/classes/icecc.bbclass                         |  37 ++-
-> >  meta/classes/toolchain-scripts.bbclass             |  15 +
-> >  meta/files/toolchain-shar-extract.sh               |   8 +
-> >  meta/recipes-core/meta/meta-environment.bb         |   2 +
-> >  .../icecc-create-env/icecc-create-env              | 328
-> > ++++++++++++++-------
-> >  ...e-env-native_0.1.bb => icecc-create-env_0.1.bb} |   4 +-
-> >  .../icecc-toolchain/icecc-toolchain/icecc-env.sh   |  37 +++
-> >  .../icecc-toolchain/icecc-toolchain/icecc-setup.sh |  43 +++
-> >  .../nativesdk-icecc-toolchain_0.1.bb               |  38 +++
-> >  9 files changed, 390 insertions(+), 122 deletions(-)
-> >  rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-
-> > native_0.1.bb => icecc-create-env_0.1.bb} (98%)
-> >  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-
-> > toolchain/icecc-env.sh
-> >  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-
-> > toolchain/icecc-setup.sh
-> >  create mode 100644 meta/recipes-devtools/icecc-
-> > toolchain/nativesdk-icecc-toolchain_0.1.bb
-> > 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-shark.inc b/meta/recipes-multimedia/gstreamer/gst-shark.inc
+new file mode 100644
+index 0000000..1841d30
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-shark.inc
+@@ -0,0 +1,36 @@
++DESCRIPTION = "RidgeRun Gst-Shark Tracers" 
++SUMMARY = "Benchmarks and profiling tools for GStreamer"
++HOMEPAGE = "https://developer.ridgerun.com/wiki/index.php?title=GstShark"
++SECTION = "multimedia" 
++LICENSE = "GPLv2+" 
++
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad "
++
++SRCBRANCH ?= "master"
++
++SRCREV_base = "a60b3996fe3376d42334fc89014e9d6f6af62899"
++SRCREV_common = "b64f03f6090245624608beb5d2fff335e23a01c0"
++
++SRC_URI = " \
++    git://git@github.com/RidgeRun/gst-shark.git;protocol=https;branch=${SRCBRANCH};name=base \
++    git://anongit.freedesktop.org/git/gstreamer/common.git;protocol=https;destsuffix=git/common;name=common; \
++    "
++
++S = "${WORKDIR}/git"
++
++PACKAGECONFIG_CONFARGS = " \
++	--disable-graphviz \
++	--enable-gtk-doc=no \
++"
++
++FILES_${PN} += "\
++	${libdir}/gstreamer-1.0/libgstsharktracers.so  \
++	${libdir}/gstreamer-1.0/libgstsharktracers.la \
++"
++
++inherit autotools gettext 
++
++do_configure() {
++${S}/autogen.sh --noconfigure
++oe_runconf
++}
+diff --git a/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+new file mode 100644
+index 0000000..637bd0e
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+@@ -0,0 +1,3 @@
++require gst-shark.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=e1caa368743492879002ad032445fa97"
+\ No newline at end of file
+-- 
+1.9.1
+
 
