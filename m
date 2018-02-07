@@ -1,47 +1,41 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D2C1578416
+Return-Path: <robert_joslyn@selinc.com>
+Received: from valiant.selinc.com (valiant.selinc.com [74.117.214.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 26AEE6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 18:04:33 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id t6so1136724ual.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Feb 2018 10:04:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KZRqLyKIp0qWKrQ4+NYLrAnXoRiK8OCNspxJTDMYaXo=;
-	b=c8HCVOfxmU0Nkh7a7WZ7QRTkyCEzGm1cduN/U8poNrF57H45QSBdFfNLgg9FzNsmDu
-	+Ud0BalHTSL5k831mLVnA5x9RHr0CtJXc9xzjHgE43jlkgf2Vd8x6CpRPFZQRKWTI99A
-	w1GsAl6Bv4537TYmj5DoQTCjLPiLwPjCLD1/A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KZRqLyKIp0qWKrQ4+NYLrAnXoRiK8OCNspxJTDMYaXo=;
-	b=OJ9Bie+DGmCnDkJ74iNy760OD7nE7FYu0fBnKptDvBScdoHJ6vM+gMQbAwYAVzydLv
-	HzFzgUOpU/W3orvOJW/n+zOUzAxC/oiIpwD0PIF3AEqGXo0rTaOzooJtMG7qe6bkWj0F
-	QK99oWugb2Q4iViiCTsRJ0OORYwRkz8UK8lIBH3xO0IT1A7F0m/ObR22U54oKkJ6aS2y
-	G+cCUvF+RfEhcv/3QrLJ0FXqdpiQJ6/BwLTyM+/XrlgVjwC98XZHD7CUEFf2TgxkIZOI
-	7L985+5zW1dal4cFgJPYseHnqIvn/IamOd+eqQDWygKnTLG3SJgdMmQktDJNlEefjtVT
-	dWXw==
-X-Gm-Message-State: APf1xPBXjENJsYEaH2aW4JFVjWjGC5y1ok7Mw50Tuu2WkJZb2xdATjWq
-	2aN4+4i6Q22sRj5KDzwyehDvLloaeXd2YgrtpO/jSA==
-X-Google-Smtp-Source: AH8x225kulJo7dYDDIlCdQXIAzAKjHM090y1Q3CbaxLWKQ98qBN6n39qbC4C8UYremG/m9qkIKdeONOwv2wg+qHepPw=
-X-Received: by 10.176.9.95 with SMTP id c31mr5808122uah.43.1518026670945; Wed,
-	07 Feb 2018 10:04:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.54.77 with HTTP; Wed, 7 Feb 2018 10:04:30 -0800 (PST)
-In-Reply-To: <73704abe-4307-e1fa-bf2e-ca55617c64a7@linux.intel.com>
-References: <1516102686.29722.267.camel@linuxfoundation.org>
-	<1517070952.756.40.camel@linuxfoundation.org>
-	<73704abe-4307-e1fa-bf2e-ca55617c64a7@linux.intel.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Wed, 7 Feb 2018 20:04:30 +0200
-Message-ID: <CAGNsrLC8hdYKb2K+RLSBnOUBg74oz5=DvepFeUiEy+eKd-XN2A@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project, Spectre and Meltdown
+	Wed,  7 Feb 2018 18:27:53 +0000 (UTC)
+Received: from pps.filterd (valiant.selinc.com [127.0.0.1])
+	by valiant.selinc.com (8.16.0.22/8.16.0.22) with SMTP id w17IQukS023094;
+	Wed, 7 Feb 2018 10:27:53 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=selinc.com;
+	h=from : to : cc : subject : date : message-id; s=SELinc2017;
+	bh=6HuBn21ZKhrSoKnNXnyXvdauAEP3Fcx257vRGfB4Sc8=;
+	b=lD1np6S/NDaaXZTIiNCaQPdpjSOj4jFOX98vHZ+Er4qjHcGU/TqVUenSrGbM9CyJke7W
+	2n4Isukb53Mh8zxwIpd77UzQs93vwdvObmAAIbIz9sHvNoh6ICtI1fSVeSHcH49xyqDB
+	Al1ipfoz76QyK0KpJR94WoonMXV9NG5Bgb7NqFrdyr3Cn7eNey+TyZj+kR9cTlU1zEVg
+	nrmTRf1uXVwcEkJdwSHrqyeV33ceHoscXm5V4SZ7FY8jYLqUoa+ef3LzZVyxE3plRAu4
+	kfn2GArIjFU17nYz1jWAFmPivEh8XOooKG+6kvZxR3YdPoLuc9skDBLba4sZWM48+ufK
+	ZA== 
+Received: from edison2.ad.selinc.com ([10.100.0.115])
+	by valiant.selinc.com with ESMTP id 2fwc1v75em-1;
+	Wed, 07 Feb 2018 10:27:53 -0800
+Received: from robejoslpc.ad.selinc.com ([10.202.51.92])
+	by edison2.ad.selinc.com (IBM Domino Release 9.0.1FP9 HF139)
+	with ESMTP id 2018020710275321-219593 ;
+	Wed, 7 Feb 2018 10:27:53 -0800 
+From: Robert Joslyn <robert_joslyn@selinc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 7 Feb 2018 10:27:05 -0800
+Message-Id: <20180207182705.25862-1-robert_joslyn@selinc.com>
+X-Mailer: git-send-email 2.13.6
+X-MIMETrack: Itemize by SMTP Server on Edison2/SEL(Release 9.0.1FP9
+	HF139|October 06, 2017) at 02/07/2018 10:27:53 AM,
+	Serialize by Router on Edison2/SEL(Release 9.0.1FP9 HF139|October 06,
+	2017) at 02/07/2018 10:27:53 AM,
+	Serialize complete at 02/07/2018 10:27:53 AM
+X-TNEFEvaluated: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8798
+	signatures=668663
+Subject: [rocko][PATCH] grub: Fix device mapper dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 18:04:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Feb 2018 18:27:54 -0000
 
-On 7 February 2018 at 14:17, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 01/27/2018 06:35 PM, Richard Purdie wrote:
->>
->> On Tue, 2018-01-16 at 11:38 +0000, Richard Purdie wrote:
->>>
->>> I just wanted to give people an update on where the project stands
->>> with these issues.
->>
->>
->> Master now contains gcc and kernel fixes (in linux-yocto). meta-yocto-
->> bsp updates are still pending.
->>
->> rocko-next also has those fixes and is undergoing testing which if it
->> passes, will get pushed to rocko.
->
->
-> A quick way to check what degree of protection there is on a system is to
-> look at what is in /sys/devices/system/cpu/vulnerabilities:
->
-> ak@linux-f9zs:/sys/devices/system/cpu/vulnerabilities> ls
-> meltdown  spectre_v1  spectre_v2
->
-> ak@linux-f9zs:/sys/devices/system/cpu/vulnerabilities> cat spectre_v1
-> spectre_v2 meltdown
-> Vulnerable
-> Mitigation: Full generic retpoline
-> Mitigation: PTI
->
-> Of course, outdated, unprotected kernels do not have this directory at all.
->
->
-> Paul, perhaps this could go to release notes?
+The lvm2 recipe in meta-oe was split, so the libdevmapper library is
+provided by the libdevmapper recipe rather than lvm2.
 
-It might be of interest to some since it's shipped by some distro:
-https://github.com/speed47/spectre-meltdown-checker
+Signed-off-by: Robert Joslyn <robert_joslyn@selinc.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-bsp/grub/grub2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Alex
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 28f96bb162..5bc7bf6f13 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -47,7 +47,7 @@ EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} \
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
+-PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,lvm2"
++PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,libdevmapper"
+ 
+ # grub2 creates its own set of -nostdinc / -isystem / -ffreestanding CFLAGS and
+ # OE's default BUILD_CFLAGS (assigned to CFLAGS for native builds) etc, conflict
+-- 
+2.13.6
+
 
