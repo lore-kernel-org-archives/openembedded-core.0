@@ -1,46 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id F102E60602
+Return-Path: <carlos.rodriguez@ridgerun.com>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F0878441
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 23:29:20 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id n7so3881397iob.0
+	Wed,  7 Feb 2018 23:40:06 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id g83so1686297vki.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Feb 2018 15:29:22 -0800 (PST)
+	Wed, 07 Feb 2018 15:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jA7ONMcFpgHlF6LWhA2xfRFhpUtkxrznbR6V1tf6DLA=;
-	b=GjFDHNKmf3eEvijJMN57fBToqX0gFjwliy9ROknMjlg842QoX6Md+P5mvP62x2Kqr1
-	ZoaLpFap3TYFq1jclxwGwJmZcpX2WUQI4+J+xrwUyD2tE8yani2eUrrM5ka2y4QNha4F
-	NYfMw2uiZ5WF1ni/jyVEggO4IY5GVONwRXzW/dxcl0GWd098f7qdfANUqbmZkxB51WtE
-	obXouxXKhKXtZCaW6RajcGV7YyTScWSCvP/xsM98Bha80w0OCaQkeuMbY8G93fG+EeO4
-	5iwthSzLQE2gIYOCYxa/XUTMIEipNr3f8wQmhJlNTYCIjfD5f5CEjNBEAqCPz+1NBVj1
-	UPWg==
+	d=ridgerun-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=zIo2qevlpeDhFE+7TU+Z0OwIypIr9S9sfHV7VTXaTmI=;
+	b=G5PIxd5kcdiYe+FHQHrdybjzhzdlY/TiBsdnpiPRidSykfK/8YqfIe9wbboNBYuXnR
+	PtjxhdgmI+GjYGOdms/4G1ilr31yF8mcYEaob1d/vQrfVlJFV7T5FmEYDsLSJH8gi3AO
+	1jCj5HDeskhcZh8tkCkCOCOjxKg7Mw6SB3QLJZZMPzW4d6fzzicKobFQGMDjSeXurZJD
+	1vSSXJkUgYCtVkze3lhFWbIKisD4nTOAKKBQqjV7Rc4eDu9AIqANQdPFW92jv+JXXrlt
+	A4uUq5CZlS/oIZqkUStnd3p1rUEPW0OSHvD1UUzLgbyb05vLkhms3573HQ1+nMyAz/zC
+	w5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jA7ONMcFpgHlF6LWhA2xfRFhpUtkxrznbR6V1tf6DLA=;
-	b=DOPiJaNs0HSLWRmwP7tP0+Bz0tm2ej2c86FVaCWKu1iFPiWM92LqI+4snyZZh71Mzy
-	rO5H3PlcEzlohNDDytAo7u2/n+rGa08bGXY9ssWY4T5Wg2kLKfy73W+DtgRJU3l0KgEf
-	PUMRDWJ3SeS2Ac10YBy60H7oQASK+uTfh6u3g0k3LKer7D+3Nn0YdLMHBySG84QxNDhb
-	d/aXKadowOmhCZNrdW3fe5lUNIaIPUqfbnBM3Iz+AM+Z47dsnJ+3zRCAo01j9mXN04tN
-	4JmGctJVtCAsvEEd30fKLyp9BVp9+FK+kXYHVyNaLLyEKp+wx/8wpmE6ap273+t0ZwKe
-	hLow==
-X-Gm-Message-State: APf1xPDvJOp+4o7tCxUdHqq8PNFabLRmRCGWhPwuyuxxkxjnHd/6sq4O
-	buLaofyPdGPlwkUVp3hCc1fSXbKs7VvLdGcgCzZvag==
-X-Google-Smtp-Source: AH8x224QmVVHbpl+0b0kXJ+Da6g0OqILgKcH48shGjtipPsbYofdjQ62xSA4WZgnu7pe+di3F90zXT2KWACT9WbCMjw=
-X-Received: by 10.107.32.19 with SMTP id g19mr9695994iog.217.1518046161831;
-	Wed, 07 Feb 2018 15:29:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.17.206 with HTTP; Wed, 7 Feb 2018 15:29:01 -0800 (PST)
-In-Reply-To: <1518039023-29531-1-git-send-email-carlos.rodriguez@ridgerun.com>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=zIo2qevlpeDhFE+7TU+Z0OwIypIr9S9sfHV7VTXaTmI=;
+	b=RhZIHQpFa+Tk3wl/IsiMwuTGauwYNDONsLZUhEzAd/EpbceDb3oiU1iKBzcgog+DYn
+	gs6bCXeZ4Wz7pu8YyB6A/TiVBIHA22Np5l0weTVN9k/fvSmULGxvLiA8mFrpq7BbYrBM
+	QlIMY6bnPwsskk22aCX/EGQTz+8fFBxjfa8eW/ylI7afJmzgJL3w/FrMJBoKUTPKEiEd
+	EvuY7FM8s62snO8oxCQOAFek/RuOTTMUKHBwQHbMnq6OTEbgC2szfSyfOQibk11TaHXb
+	4jLRvIK/G5i6XTVHFHSHaCkXcvdKU8/4Tdoc32mIK+tlKN+qv81UEpVrxmCdcQM9sY9g
+	YPhg==
+X-Gm-Message-State: APf1xPAzFJWWsSTiqDZzLwG5fSIs3sYVNQ99Lbdv/iyWCTf2ySnpggTa
+	Uv2neYm2dHzmmaDS69Vz3ZJiGYesO4E=
+X-Google-Smtp-Source: AH8x227jhS5f0VKcH+IzFY+qOTemrJ604XETEOjwcV1RI2h03vOfoB7WIdqfSOwH2mdgbCkRhzKHsg==
+X-Received: by 10.31.237.68 with SMTP id l65mr6607444vkh.30.1518046807285;
+	Wed, 07 Feb 2018 15:40:07 -0800 (PST)
+Received: from [10.251.101.85] ([201.206.221.6])
+	by smtp.gmail.com with ESMTPSA id u5sm2387844uaf.7.2018.02.07.15.40.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 Feb 2018 15:40:06 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1518039023-29531-1-git-send-email-carlos.rodriguez@ridgerun.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Feb 2018 23:29:01 +0000
-Message-ID: <CAJTo0LZpMogpg6sBUtbL+-BJ+Cf6C-HG6P3um-HjUaCct52YXA@mail.gmail.com>
-To: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
+	<CAJTo0LZpMogpg6sBUtbL+-BJ+Cf6C-HG6P3um-HjUaCct52YXA@mail.gmail.com>
+From: Carlos <carlos.rodriguez@ridgerun.com>
+Message-ID: <16827076-8e50-dd0a-cb2f-6fee4ac54c70@ridgerun.com>
+Date: Wed, 7 Feb 2018 17:40:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZpMogpg6sBUtbL+-BJ+Cf6C-HG6P3um-HjUaCct52YXA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] gst-shark: Add Gst-Shark recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,220 +62,279 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 23:29:21 -0000
-Content-Type: multipart/alternative; boundary="001a1141a2a43aa0180564a7aaa8"
+X-List-Received-Date: Wed, 07 Feb 2018 23:40:07 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5445E9DFC665920DA57134F1"
+Content-Language: en-US
 
---001a1141a2a43aa0180564a7aaa8
-Content-Type: text/plain; charset="UTF-8"
+--------------5445E9DFC665920DA57134F1
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I'd be inclined to say these are a good fit for meta-multimedia, but not
-oe-core.
+Ok thanks for the feedback. Will create the patches for meta-multimedia.
 
-Ross
+If you have any other suggestion please let me know.
 
-On 7 February 2018 at 21:30, Carlos Rodriguez <carlos.rodriguez@ridgerun.com
+On 07/02/2018 17:29, Burton, Ross wrote:
+> I'd be inclined to say these are a good fit for meta-multimedia, but 
+> not oe-core.
+>
+> Ross
+>
+> On 7 February 2018 at 21:30, Carlos Rodriguez 
+> <carlos.rodriguez@ridgerun.com <mailto:carlos.rodriguez@ridgerun.com>> 
 > wrote:
-
-> Gst-Shark is a set of tracers used as Benchmarks and
-> profiling tools for GStreamer. It includes tracers for
-> generating debug information plus some tools to analyze
-> the debug information. GstShark provides easy to use and
-> useful tracers, paired with analysis tools to enable
-> straightforward optimizations.
 >
-> Signed-off-by: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-shark.inc    | 36
-> ++++++++++++++++++++++
->  .../gstreamer/gst-shark_0.2.1.bb                   |  3 ++
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-shark.inc
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+>     Gst-Shark is a set of tracers used as Benchmarks and
+>     profiling tools for GStreamer. It includes tracers for
+>     generating debug information plus some tools to analyze
+>     the debug information. GstShark provides easy to use and
+>     useful tracers, paired with analysis tools to enable
+>     straightforward optimizations.
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-shark.inc
-> b/meta/recipes-multimedia/gstreamer/gst-shark.inc
-> new file mode 100644
-> index 0000000..1841d30
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-shark.inc
-> @@ -0,0 +1,36 @@
-> +DESCRIPTION = "RidgeRun Gst-Shark Tracers"
-> +SUMMARY = "Benchmarks and profiling tools for GStreamer"
-> +HOMEPAGE = "https://developer.ridgerun.com/wiki/index.php?title=GstShark"
-> +SECTION = "multimedia"
-> +LICENSE = "GPLv2+"
-> +
-> +DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base
-> gstreamer1.0-plugins-bad "
-> +
-> +SRCBRANCH ?= "master"
-> +
-> +SRCREV_base = "a60b3996fe3376d42334fc89014e9d6f6af62899"
-> +SRCREV_common = "b64f03f6090245624608beb5d2fff335e23a01c0"
-> +
-> +SRC_URI = " \
-> +    git://git@github.com/RidgeRun/gst-shark.git;protocol=https;
-> branch=${SRCBRANCH};name=base \
-> +    git://anongit.freedesktop.org/git/gstreamer/common.git;
-> protocol=https;destsuffix=git/common;name=common; \
-> +    "
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +PACKAGECONFIG_CONFARGS = " \
-> +       --disable-graphviz \
-> +       --enable-gtk-doc=no \
-> +"
-> +
-> +FILES_${PN} += "\
-> +       ${libdir}/gstreamer-1.0/libgstsharktracers.so  \
-> +       ${libdir}/gstreamer-1.0/libgstsharktracers.la \
-> +"
-> +
-> +inherit autotools gettext
-> +
-> +do_configure() {
-> +${S}/autogen.sh --noconfigure
-> +oe_runconf
-> +}
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
-> b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
-> new file mode 100644
-> index 0000000..637bd0e
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
-> @@ -0,0 +1,3 @@
-> +require gst-shark.inc
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=e1caa368743492879002ad032445fa97"
-> \ No newline at end of file
-> --
-> 1.9.1
+>     Signed-off-by: Carlos Rodriguez <carlos.rodriguez@ridgerun.com
+>     <mailto:carlos.rodriguez@ridgerun.com>>
+>     ---
+>      meta/recipes-multimedia/gstreamer/gst-shark.inc    | 36
+>     ++++++++++++++++++++++
+>      .../gstreamer/gst-shark_0.2.1.bb <http://gst-shark_0.2.1.bb>    
+>                  |  3 ++
+>      2 files changed, 39 insertions(+)
+>      create mode 100644 meta/recipes-multimedia/gstreamer/gst-shark.inc
+>      create mode 100644
+>     meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+>     <http://gst-shark_0.2.1.bb>
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     diff --git a/meta/recipes-multimedia/gstreamer/gst-shark.inc
+>     b/meta/recipes-multimedia/gstreamer/gst-shark.inc
+>     new file mode 100644
+>     index 0000000..1841d30
+>     --- /dev/null
+>     +++ b/meta/recipes-multimedia/gstreamer/gst-shark.inc
+>     @@ -0,0 +1,36 @@
+>     +DESCRIPTION = "RidgeRun Gst-Shark Tracers"
+>     +SUMMARY = "Benchmarks and profiling tools for GStreamer"
+>     +HOMEPAGE =
+>     "https://developer.ridgerun.com/wiki/index.php?title=GstShark
+>     <https://developer.ridgerun.com/wiki/index.php?title=GstShark>"
+>     +SECTION = "multimedia"
+>     +LICENSE = "GPLv2+"
+>     +
+>     +DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base
+>     gstreamer1.0-plugins-bad "
+>     +
+>     +SRCBRANCH ?= "master"
+>     +
+>     +SRCREV_base = "a60b3996fe3376d42334fc89014e9d6f6af62899"
+>     +SRCREV_common = "b64f03f6090245624608beb5d2fff335e23a01c0"
+>     +
+>     +SRC_URI = " \
+>     +   
+>     git://git@github.com/RidgeRun/gst-shark.git;protocol=https;branch=${SRCBRANCH};name=base
+>     <http://git@github.com/RidgeRun/gst-shark.git;protocol=https;branch=$%7BSRCBRANCH%7D;name=base>
+>     \
+>     +   
+>     git://anongit.freedesktop.org/git/gstreamer/common.git;protocol=https;destsuffix=git/common;name=common
+>     <http://anongit.freedesktop.org/git/gstreamer/common.git;protocol=https;destsuffix=git/common;name=common>;
+>     \
+>     +    "
+>     +
+>     +S = "${WORKDIR}/git"
+>     +
+>     +PACKAGECONFIG_CONFARGS = " \
+>     +       --disable-graphviz \
+>     +       --enable-gtk-doc=no \
+>     +"
+>     +
+>     +FILES_${PN} += "\
+>     +       ${libdir}/gstreamer-1.0/libgstsharktracers.so \
+>     +       ${libdir}/gstreamer-1.0/libgstsharktracers.la
+>     <http://libgstsharktracers.la> \
+>     +"
+>     +
+>     +inherit autotools gettext
+>     +
+>     +do_configure() {
+>     +${S}/autogen.sh --noconfigure
+>     +oe_runconf
+>     +}
+>     diff --git a/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+>     <http://gst-shark_0.2.1.bb>
+>     b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+>     <http://gst-shark_0.2.1.bb>
+>     new file mode 100644
+>     index 0000000..637bd0e
+>     --- /dev/null
+>     +++ b/meta/recipes-multimedia/gstreamer/gst-shark_0.2.1.bb
+>     <http://gst-shark_0.2.1.bb>
+>     @@ -0,0 +1,3 @@
+>     +require gst-shark.inc
+>     +
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=e1caa368743492879002ad032445fa97"
+>     \ No newline at end of file
+>     --
+>     1.9.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
 >
 
---001a1141a2a43aa0180564a7aaa8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I&#39;d be inclined to say these are a good fit for meta-m=
-ultimedia, but not oe-core.<div><br></div><div>Ross</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 7 February 2018 at 21:30=
-, Carlos Rodriguez <span dir=3D"ltr">&lt;<a href=3D"mailto:carlos.rodriguez=
-@ridgerun.com" target=3D"_blank">carlos.rodriguez@ridgerun.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">Gst-Shark is a set of tracers u=
-sed as Benchmarks and<br>
-profiling tools for GStreamer. It includes tracers for<br>
-generating debug information plus some tools to analyze<br>
-the debug information. GstShark provides easy to use and<br>
-useful tracers, paired with analysis tools to enable<br>
-straightforward optimizations.<br>
-<br>
-Signed-off-by: Carlos Rodriguez &lt;<a href=3D"mailto:carlos.rodriguez@ridg=
-erun.com">carlos.rodriguez@ridgerun.com</a><wbr>&gt;<br>
----<br>
-=C2=A0meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc=C2=A0 =C2=A0 | 3=
-6 ++++++++++++++++++++++<br>
-=C2=A0.../gstreamer/<a href=3D"http://gst-shark_0.2.1.bb" rel=3D"noreferrer=
-" target=3D"_blank">gst-shark_0.2.1.<wbr>bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ++<br>
-=C2=A02 files changed, 39 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/<wbr>gstreamer/gst-shark.i=
-nc<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"=
-http://gst-shark_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">gst-shark_0=
-.2.1.bb</a><br>
-<br>
-diff --git a/meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc b/meta/re=
-cipes-multimedia/<wbr>gstreamer/gst-shark.inc<br>
-new file mode 100644<br>
-index 0000000..1841d30<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc<br>
-@@ -0,0 +1,36 @@<br>
-+DESCRIPTION =3D &quot;RidgeRun Gst-Shark Tracers&quot;<br>
-+SUMMARY =3D &quot;Benchmarks and profiling tools for GStreamer&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://developer.ridgerun.com/wiki/index.ph=
-p?title=3DGstShark" rel=3D"noreferrer" target=3D"_blank">https://developer.=
-ridgerun.<wbr>com/wiki/index.php?title=3D<wbr>GstShark</a>&quot;<br>
-+SECTION =3D &quot;multimedia&quot;<br>
-+LICENSE =3D &quot;GPLv2+&quot;<br>
-+<br>
-+DEPENDS =3D &quot;gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plug=
-ins-bad &quot;<br>
-+<br>
-+SRCBRANCH ?=3D &quot;master&quot;<br>
-+<br>
-+SRCREV_base =3D &quot;<wbr>a60b3996fe3376d42334fc89014e9d<wbr>6f6af62899&q=
-uot;<br>
-+SRCREV_common =3D &quot;<wbr>b64f03f6090245624608beb5d2fff3<wbr>35e23a01c0=
-&quot;<br>
-+<br>
-+SRC_URI =3D &quot; \<br>
-+=C2=A0 =C2=A0 git://<a href=3D"http://git@github.com/RidgeRun/gst-shark.gi=
-t;protocol=3Dhttps;branch=3D${SRCBRANCH};name=3Dbase" rel=3D"noreferrer" ta=
-rget=3D"_blank">git@github.com/RidgeRun/<wbr>gst-shark.git;protocol=3Dhttps=
-;<wbr>branch=3D${SRCBRANCH};name=3Dbase</a> \<br>
-+=C2=A0 =C2=A0 git://<a href=3D"http://anongit.freedesktop.org/git/gstreame=
-r/common.git;protocol=3Dhttps;destsuffix=3Dgit/common;name=3Dcommon" rel=3D=
-"noreferrer" target=3D"_blank">anongit.freedesktop.org/<wbr>git/gstreamer/c=
-ommon.git;<wbr>protocol=3Dhttps;destsuffix=3Dgit/<wbr>common;name=3Dcommon<=
-/a>; \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+PACKAGECONFIG_CONFARGS =3D &quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-graphviz \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-gtk-doc=3Dno \<br>
-+&quot;<br>
-+<br>
-+FILES_${PN} +=3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${libdir}/gstreamer-1.0/<wbr>libgstsharktracers=
-.so=C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${libdir}/gstreamer-1.0/<a href=3D"http://libgs=
-tsharktracers.la" rel=3D"noreferrer" target=3D"_blank">libgst<wbr>sharktrac=
-ers.la</a> \<br>
-+&quot;<br>
-+<br>
-+inherit autotools gettext<br>
-+<br>
-+do_configure() {<br>
-+${S}/autogen.sh --noconfigure<br>
-+oe_runconf<br>
-+}<br>
-diff --git a/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gst-s=
-hark_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">gst-shark_0.2.1.bb</a> =
-b/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gst-shark_0.2.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">gst-shark_0.2.1.bb</a><br>
-new file mode 100644<br>
-index 0000000..637bd0e<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/<wbr>gstreamer/<a href=3D"http://gst-shark_0.=
-2.1.bb" rel=3D"noreferrer" target=3D"_blank">gst-shark_0.2.1.bb</a><br>
-@@ -0,0 +1,3 @@<br>
-+require gst-shark.inc<br>
-+<br>
-+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>e1caa368743492879002a=
-d032445fa<wbr>97&quot;<br>
-\ No newline at end of file<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+--------------5445E9DFC665920DA57134F1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---001a1141a2a43aa0180564a7aaa8--
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Ok thanks for the feedback. Will create the patches for
+    meta-multimedia.<br>
+    <br>
+    If you have any other suggestion please let me know.<br>
+    <br>
+    <div class="moz-cite-prefix">On 07/02/2018 17:29, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZpMogpg6sBUtbL+-BJ+Cf6C-HG6P3um-HjUaCct52YXA@mail.gmail.com">
+      <div dir="ltr">I'd be inclined to say these are a good fit for
+        meta-multimedia, but not oe-core.
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 7 February 2018 at 21:30, Carlos
+          Rodriguez <span dir="ltr">&lt;<a
+              href="mailto:carlos.rodriguez@ridgerun.com"
+              target="_blank" moz-do-not-send="true">carlos.rodriguez@ridgerun.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">Gst-Shark
+            is a set of tracers used as Benchmarks and<br>
+            profiling tools for GStreamer. It includes tracers for<br>
+            generating debug information plus some tools to analyze<br>
+            the debug information. GstShark provides easy to use and<br>
+            useful tracers, paired with analysis tools to enable<br>
+            straightforward optimizations.<br>
+            <br>
+            Signed-off-by: Carlos Rodriguez &lt;<a
+              href="mailto:carlos.rodriguez@ridgerun.com"
+              moz-do-not-send="true">carlos.rodriguez@ridgerun.com</a><wbr>&gt;<br>
+            ---<br>
+             meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc    |
+            36 ++++++++++++++++++++++<br>
+             .../gstreamer/<a href="http://gst-shark_0.2.1.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">gst-shark_0.2.1.<wbr>bb</a> 
+                             |  3 ++<br>
+             2 files changed, 39 insertions(+)<br>
+             create mode 100644 meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc<br>
+             create mode 100644 meta/recipes-multimedia/<wbr>gstreamer/<a
+              href="http://gst-shark_0.2.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">gst-shark_0.2.1.bb</a><br>
+            <br>
+            diff --git a/meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc
+            b/meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc<br>
+            new file mode 100644<br>
+            index 0000000..1841d30<br>
+            --- /dev/null<br>
+            +++ b/meta/recipes-multimedia/<wbr>gstreamer/gst-shark.inc<br>
+            @@ -0,0 +1,36 @@<br>
+            +DESCRIPTION = "RidgeRun Gst-Shark Tracers"<br>
+            +SUMMARY = "Benchmarks and profiling tools for GStreamer"<br>
+            +HOMEPAGE = "<a
+              href="https://developer.ridgerun.com/wiki/index.php?title=GstShark"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">https://developer.ridgerun.<wbr>com/wiki/index.php?title=<wbr>GstShark</a>"<br>
+            +SECTION = "multimedia"<br>
+            +LICENSE = "GPLv2+"<br>
+            +<br>
+            +DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base
+            gstreamer1.0-plugins-bad "<br>
+            +<br>
+            +SRCBRANCH ?= "master"<br>
+            +<br>
+            +SRCREV_base = "<wbr>a60b3996fe3376d42334fc89014e9d<wbr>6f6af62899"<br>
+            +SRCREV_common = "<wbr>b64f03f6090245624608beb5d2fff3<wbr>35e23a01c0"<br>
+            +<br>
+            +SRC_URI = " \<br>
+            +    git://<a
+href="http://git@github.com/RidgeRun/gst-shark.git;protocol=https;branch=$%7BSRCBRANCH%7D;name=base"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">git@github.com/RidgeRun/<wbr>gst-shark.git;protocol=https;<wbr>branch=${SRCBRANCH};name=base</a>
+            \<br>
+            +    git://<a
+href="http://anongit.freedesktop.org/git/gstreamer/common.git;protocol=https;destsuffix=git/common;name=common"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">anongit.freedesktop.org/<wbr>git/gstreamer/common.git;<wbr>protocol=https;destsuffix=git/<wbr>common;name=common</a>;
+            \<br>
+            +    "<br>
+            +<br>
+            +S = "${WORKDIR}/git"<br>
+            +<br>
+            +PACKAGECONFIG_CONFARGS = " \<br>
+            +       --disable-graphviz \<br>
+            +       --enable-gtk-doc=no \<br>
+            +"<br>
+            +<br>
+            +FILES_${PN} += "\<br>
+            +       ${libdir}/gstreamer-1.0/<wbr>libgstsharktracers.so 
+            \<br>
+            +       ${libdir}/gstreamer-1.0/<a
+              href="http://libgstsharktracers.la" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libgst<wbr>sharktracers.la</a>
+            \<br>
+            +"<br>
+            +<br>
+            +inherit autotools gettext<br>
+            +<br>
+            +do_configure() {<br>
+            +${S}/autogen.sh --noconfigure<br>
+            +oe_runconf<br>
+            +}<br>
+            diff --git a/meta/recipes-multimedia/<wbr>gstreamer/<a
+              href="http://gst-shark_0.2.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">gst-shark_0.2.1.bb</a>
+            b/meta/recipes-multimedia/<wbr>gstreamer/<a
+              href="http://gst-shark_0.2.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">gst-shark_0.2.1.bb</a><br>
+            new file mode 100644<br>
+            index 0000000..637bd0e<br>
+            --- /dev/null<br>
+            +++ b/meta/recipes-multimedia/<wbr>gstreamer/<a
+              href="http://gst-shark_0.2.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">gst-shark_0.2.1.bb</a><br>
+            @@ -0,0 +1,3 @@<br>
+            +require gst-shark.inc<br>
+            +<br>
+            +LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://COPYING;md5=">file://COPYING;md5=</a><wbr>e1caa368743492879002ad032445fa<wbr>97"<br>
+            \ No newline at end of file<br>
+            <span class="HOEnZb"><font color="#888888">--<br>
+                1.9.1<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a
+                  href="mailto:Openembedded-core@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </font></span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------5445E9DFC665920DA57134F1--
