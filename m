@@ -1,27 +1,40 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 1838360125
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3717780A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Feb 2018 14:16:17 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w17EGIN6024707
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Feb 2018 15:16:18 +0100
-Received: from dev.sbt.siemens.com (sk1d124c.siemens.sk [163.242.57.217])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w17EGI8v001379;
-	Wed, 7 Feb 2018 15:16:18 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 05F2ACDBD8;
-	Wed,  7 Feb 2018 15:16:18 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Feb 2018 15:15:37 +0100
-Message-Id: <1518012937-9972-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1518011128-6874-1-git-send-email-andrej.valek@siemens.com>
-References: <1518011128-6874-1-git-send-email-andrej.valek@siemens.com>
-Subject: [PATCH v2] fix(glibc): fix bug 22627
+	Wed,  7 Feb 2018 16:25:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Feb 2018 08:25:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,473,1511856000"; d="scan'208,217";a="32867347"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga002.jf.intel.com with ESMTP; 07 Feb 2018 08:25:51 -0800
+Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 7 Feb 2018 08:25:50 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.11]) by
+	ORSMSX159.amr.corp.intel.com ([169.254.11.243]) with mapi id
+	14.03.0319.002; Wed, 7 Feb 2018 08:25:50 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] autoconf-doc: improve reproducibility
+Thread-Index: AQHTn7TgRbnrUllJxUO343Q1O45To6OZRjKA///aD5w=
+Date: Wed, 7 Feb 2018 16:25:49 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B64053A3C4@ORSMSX112.amr.corp.intel.com>
+References: <1517967731-9068-1-git-send-email-juro.bystricky@intel.com>,
+	<CAJTo0LaP-MXNqCEdokSmvfaDMz2OYcupWJzzir=sYFriPBqxJA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaP-MXNqCEdokSmvfaDMz2OYcupWJzzir=sYFriPBqxJA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.46]
+MIME-Version: 1.0
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autoconf-doc: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,97 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Feb 2018 14:16:18 -0000
+X-List-Received-Date: Wed, 07 Feb 2018 16:25:50 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B64053A3C4ORSMSX112amrcor_"
 
-From: Radovan Scasny <radovan.scasny@siemens.com>
-
-Check for empty tokens before dynamic string token expansion
-
-Fixes bug 22627
-
-Signed-off-by: Radovan Scasny <radovan.scasny@siemens.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- ...030-Bug-22627-do-not-substitute-dst-twice.patch | 56 ++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.26.bb              |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0030-Bug-22627-do-not-substitute-dst-twice.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0030-Bug-22627-do-not-substitute-dst-twice.patch b/meta/recipes-core/glibc/glibc/0030-Bug-22627-do-not-substitute-dst-twice.patch
-new file mode 100644
-index 0000000..28855e2
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0030-Bug-22627-do-not-substitute-dst-twice.patch
-@@ -0,0 +1,56 @@
-+glibc: Fix Bug-22627
-+
-+[No upstream tracking] -- https://sourceware.org/bugzilla/show_bug.cgi?id=22627
-+
-+elf: Check for empty tokens before dynamic string token expansion
-+
-+The fillin_rpath function in elf/dl-load.c loops over each RPATH or
-+RUNPATH tokens and interprets empty tokens as the current directory
-+("./"). In practice the check for empty token is done *after* the
-+dynamic string token expansion. The expansion process can return an
-+empty string for the $ORIGIN token if __libc_enable_secure is set
-+or if the path of the binary can not be determined (/proc not mounted).
-+
-+Fix that by moving the check for empty tokens before the dynamic string
-+token expansion. In addition, check for NULL pointer or empty strings
-+return by expand_dynamic_string_token.
-+
-+The above changes highlighted a bug in decompose_rpath, an empty array
-+is represented by the first element being NULL at the fillin_rpath
-+level, but by using a -1 pointer in decompose_rpath and other functions.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=bb195224acc14724e9fc2dbaa8d0b20b72ace79b]
-+Bug: 22627
-+Signed-off-by: Radovan Scasny <radovan.scasny@siemens.com>
-+
-+diff --git a/glibc/elf/dl-load.c b/glibc/elf/dl-load.c
-+index 70c259b..c29257c 100644
-+--- a/glibc/elf/dl-load.c
-++++ b/glibc/elf/dl-load.c
-+@@ -778,25 +778,7 @@ _dl_init_paths (const char *llp)
-+     {
-+       size_t nllp;
-+       const char *cp = llp;
-+-      char *llp_tmp;
-+-
-+-#ifdef SHARED
-+-      /* Expand DSTs.  */
-+-      size_t cnt = DL_DST_COUNT (llp, 1);
-+-      if (__glibc_likely (cnt == 0))
-+-	llp_tmp = strdupa (llp);
-+-      else
-+-	{
-+-	  /* Determine the length of the substituted string.  */
-+-	  size_t total = DL_DST_REQUIRED (l, llp, strlen (llp), cnt);
-+-
-+-	  /* Allocate the necessary memory.  */
-+-	  llp_tmp = (char *) alloca (total + 1);
-+-	  llp_tmp = _dl_dst_substitute (l, llp, llp_tmp, 1);
-+-	}
-+-#else
-+-      llp_tmp = strdupa (llp);
-+-#endif
-++      char *llp_tmp = strdupa (llp);
-+ 
-+       /* Decompose the LD_LIBRARY_PATH contents.  First determine how many
-+ 	 elements it has.  */
-diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-index 7eb56b3..e5c171c 100644
---- a/meta/recipes-core/glibc/glibc_2.26.bb
-+++ b/meta/recipes-core/glibc/glibc_2.26.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
-            file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-            file://0029-malloc-add-missing-arena-lock-in-malloc-info.patch \
-+           file://0030-Bug-22627-do-not-substitute-dst-twice.patch \
-            file://CVE-2017-15671.patch \
-            file://CVE-2017-16997.patch \
-            file://CVE-2017-17426.patch \
--- 
-2.1.4
+--_000_6E51916E4A1F32428260031F4C7CD2B64053A3C4ORSMSX112amrcor_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
+
+> A neater fix might be to drop the documentation change from the patch we'=
+re applying, as it's unlikely that people will be reading the autoconf docu=
+mentation.
+
+Yes, I agree. That was my first thought, too. The less patches the better. =
+ I'll send a v2 of the patch to the ML and gauge the reaction.
+
+--_000_6E51916E4A1F32428260031F4C7CD2B64053A3C4ORSMSX112amrcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;"><br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<div id=3D"divRpF92365" style=3D"direction: ltr;"><font size=3D"2" face=3D"=
+Tahoma" color=3D"#000000"></font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">&gt; A neater fix might be to drop the documentation chang=
+e from the patch we're applying, as it's unlikely that people will be readi=
+ng the autoconf documentation.
+<div><br>
+</div>
+</div>
+Yes, I agree. That was my first thought, too. The less patches the better.&=
+nbsp; I'll send a v2 of the patch to the ML and gauge the reaction.<br>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_6E51916E4A1F32428260031F4C7CD2B64053A3C4ORSMSX112amrcor_--
