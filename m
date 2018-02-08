@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F24960190;
-	Thu,  8 Feb 2018 07:35:22 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Vineeth Chowdary Karumanchi <vineethchowz.chowdary@xilinx.com>
-Date: Thu, 08 Feb 2018 07:35:24 -0000
-Message-ID: <20180208073524.15536.32057@do.openembedded.org>
-References: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlLmJiY2xhc3M6IEZpeCA2NCBiaXQgRU5UUllQT0lOVA==?=
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C52E6059F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Feb 2018 08:56:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Feb 2018 00:56:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,477,1511856000"; d="scan'208";a="16237179"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga007.fm.intel.com with ESMTP; 08 Feb 2018 00:56:35 -0800
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Feb 2018 16:51:15 +0800
+Message-Id: <1518079875-44198-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1518079875-44198-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+References: <1518079875-44198-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Subject: [PATCH 2/2] maintainers.inc: update recipe ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 07:35:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Feb 2018 08:56:35 -0000
 
-== Series Details ==
+Remove recipe for sato-icon-theme that was obsolete since YP 2.2
+release and change ownership for eudev recipe.
 
-Series: kernel-fitimage.bbclass: Fix 64 bit ENTRYPOINT
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/10888/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4a4eff9b9e)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/conf/distro/include/maintainers.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 34f3d81..914cc2b 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -164,7 +164,7 @@ RECIPE_MAINTAINER_pn-enchant = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-ethtool = "Changhyeok Bae <changhyeok.bae@lge.com>"
+-RECIPE_MAINTAINER_pn-eudev = "Alejandro Hernandez <alejandro.hernandez@linux.intel.com>"
++RECIPE_MAINTAINER_pn-eudev = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-expat = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-expect = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-ffmpeg = "Alexander Kanavin <alexander.kanavin@intel.com>"
+@@ -646,7 +646,6 @@ RECIPE_MAINTAINER_pn-rt-tests = "Alexander Kanavin <alexander.kanavin@intel.com>
+ RECIPE_MAINTAINER_pn-ruby = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-run-postinsts = "Cristian Iorga <cristian.iorga@intel.com>"
+ RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster@mvista.com>"
+-RECIPE_MAINTAINER_pn-sato-icon-theme = "Alejandro Hernandez <alejandro.hernandez@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-sato-screenshot = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-sbc = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-screen = "Maxin B. John <maxin.john@intel.com>"
+-- 
+2.7.4
 
 
