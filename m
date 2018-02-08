@@ -1,23 +1,18 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B0C4784F6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Feb 2018 07:13:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Feb 2018 23:13:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,477,1511856000"; d="scan'208";a="16214972"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by fmsmga007.fm.intel.com with ESMTP; 07 Feb 2018 23:13:03 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Feb 2018 16:01:04 -0800
-Message-Id: <1518048064-137485-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oe-selftest: meta_ide: add tests for meta-ide-support
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F24960190;
+	Thu,  8 Feb 2018 07:35:22 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Vineeth Chowdary Karumanchi <vineethchowz.chowdary@xilinx.com>
+Date: Thu, 08 Feb 2018 07:35:24 -0000
+Message-ID: <20180208073524.15536.32057@do.openembedded.org>
+References: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlLmJiY2xhc3M6IEZpeCA2NCBiaXQgRU5UUllQT0lOVA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,76 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 07:13:05 -0000
+X-List-Received-Date: Thu, 08 Feb 2018 07:35:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-QA team were testing meta-ide-support manually. Add automated
-tests to test that bibtake meta-ide-support will create the
-toolchain and environment setup script. Also test that after
-using environment setup script, one can compile c program
-and build cpio project.
+== Series Details ==
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Series: kernel-fitimage.bbclass: Fix 64 bit ENTRYPOINT
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10888/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 4a4eff9b9e)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/meta_ide.py | 49 ++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/meta_ide.py
-
-diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-new file mode 100644
-index 0000000..5df9d3e
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-@@ -0,0 +1,49 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
-+from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
-+from oeqa.core.decorator.oeid import OETestID
-+import tempfile
-+import shutil
-+
-+class MetaIDE(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super(MetaIDE, cls).setUpClass()
-+        bitbake('meta-ide-support')
-+        bb_vars = get_bb_vars(['MULTIMACH_TARGET_SYS', 'TMPDIR', 'COREBASE'])
-+        cls.environment_script = 'environment-setup-%s' % bb_vars['MULTIMACH_TARGET_SYS']
-+        cls.tmpdir = bb_vars['TMPDIR']
-+        cls.environment_script_path = '%s/%s' % (cls.tmpdir, cls.environment_script)
-+        cls.corebasedir = bb_vars['COREBASE']
-+        cls.tmpdir_metaideQA = tempfile.mkdtemp(prefix='metaide')
-+        
-+    @classmethod
-+    def tearDownClass(cls):
-+        shutil.rmtree(cls.tmpdir_metaideQA, ignore_errors=True)
-+        super(MetaIDE, cls).tearDownClass()
-+
-+    @OETestID(1982)
-+    def test_meta_ide_had_installed_meta_ide_support(self):
-+        self.assertExists(self.environment_script_path)
-+
-+    @OETestID(1983)
-+    def test_meta_ide_can_compile_c_program(self):
-+        runCmd('cp %s/test.c %s' % (self.tc.files_dir, self.tmpdir_metaideQA))
-+        runCmd("cd %s; . %s; $CC test.c -lm" % (self.tmpdir_metaideQA, self.environment_script_path))
-+        compiled_file = '%s/a.out' % self.tmpdir_metaideQA
-+        self.assertExists(compiled_file)
-+
-+    @OETestID(1984)
-+    def test_meta_ide_can_build_cpio_project(self):
-+        dl_dir = self.td.get('DL_DIR', None)
-+        self.project = SDKBuildProject(self.tmpdir_metaideQA + "/cpio/", self.environment_script_path,
-+                        "https://ftp.gnu.org/gnu/cpio/cpio-2.12.tar.gz",
-+                        self.tmpdir_metaideQA, self.td['DATETIME'], dl_dir=dl_dir)
-+        self.project.download_archive()
-+        self.assertEqual(self.project.run_configure(), 0,
-+                        msg="Running configure failed")
-+        self.assertEqual(self.project.run_make(), 0,
-+                        msg="Running make failed")
-+        self.assertEqual(self.project.run_install(), 0,
-+                        msg="Running make install failed")
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
