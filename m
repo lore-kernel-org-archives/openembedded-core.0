@@ -1,30 +1,30 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B02278520
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E4D16076F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Feb 2018 06:50:17 +0000 (UTC)
+	Thu,  8 Feb 2018 06:57:13 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Feb 2018 22:50:18 -0800
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Feb 2018 22:57:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,477,1511856000"; d="scan'208";a="25783854"
+X-IronPort-AV: E=Sophos;i="5.46,477,1511856000"; d="scan'208";a="25784649"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2018 22:50:15 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>,
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2018 22:57:12 -0800
+To: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin.hundeboll@prevas.dk>,
 	openembedded-core@lists.openembedded.org
-References: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
-	<3144211.9qXzQgCZpO@yow-masselst-lx1>
+References: <20180206144152.7765-1-alexander.kanavin@linux.intel.com>
+	<0dacebb9-8e33-749d-0b96-af527e05fe7d@prevas.dk>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <00d7531e-b773-536e-ad5b-e19f8f993dbf@linux.intel.com>
-Date: Thu, 8 Feb 2018 08:44:02 +0200
+Message-ID: <be0f28ca-fa21-cb5b-8061-246d7086f401@linux.intel.com>
+Date: Thu, 8 Feb 2018 08:50:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <3144211.9qXzQgCZpO@yow-masselst-lx1>
-Subject: Re: [PATCH 1/2] gtk-doc: update to 1.27
+In-Reply-To: <0dacebb9-8e33-749d-0b96-af527e05fe7d@prevas.dk>
+Subject: Re: [PATCH 1/3] package.bbclass: run pre/post installation/removal scriptlets using sh -e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 06:50:18 -0000
+X-List-Received-Date: Thu, 08 Feb 2018 06:57:13 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/07/2018 11:34 PM, Mark Asselstine wrote:
-> Alexander. When things move to python you can almost always bet on them
-> requiring additional libraries and as such the lack of RDEPENDS here is a bit
-> surprising. As you can see from the top of some of the py files in gtk-doc we
-> have:
-> 
-> import logging
-> import os
-> import re
-> import subprocess
-> import sys
-> import six
-> import codecs
-> 
-> Some of which are python stdlibs but others are external modules, such as
-> 'six'. As such I am now getting a build failure:
-> 
->       -- Installing ../../../libunique-1.1.6/doc/reference/html/up.png
->       Traceback (most recent call last):
->        File "/home/mark/build/overc/tmp/work/core2-64-overc-linux/libunique/
->        1.1.6-r7/recipe-sysroot-native/usr/bin/gtkdoc-rebase", line 28, in
->         <module>
->       from gtkdoc import common, config, rebase
->       File "/home/mark/build/overc/tmp/work/core2-64-overc-linux/libunique/
->       1.1.6-r7/recipe-sysroot-native/usr/share/gtk-doc/python/gtkdoc/
->       common.py", line 31, in <module>
->       import six
->   ImportError: No module named 'six'
-> 
-> So we need to RDEPENDS on "python-six" here for starters. We do have a recipe
-> for python-six but it is in meta-openembedded. So we either need to move this
-> recipe there or the python-six recipe to oe-core or...
+On 02/08/2018 08:37 AM, Martin Hundebøll wrote:
+> I guess there is no support for non-shell scriptlets? E.g. RPM supports 
+> python:
+> https://stackoverflow.com/questions/21590014/rpm-post-install-execute-with-python 
 
-Thanks for the failure report Mark, but the diagnosis is way off :-)
+Nope, there is no support for it. Besides, that would mean the recipe 
+would no longer work with deb or ipk as package types.
 
-First of all, for what purpose are you even building libunique? It's a 
-very old, unmaintained library for gtk 2.x apps from gnome stack (last 
-release: 2011), and here's what gnome has to say about it: "Unique is 
-now in maintenance mode and its usage is strongly discouraged".
+I hardly see an issue though: just write a shell one-liner that invokes 
+the actual script.
 
-It's coming from the gnome section of meta-oe, which is badly suffering 
-from lack of maintenance and general bitrot. I think much of it was 
-about to be removed a few months ago at last, but for some reason it 
-hasn't happened.
-
-This specific failure is because libunique recipe neither inherits 
-gtk-doc class (which correctly sets things up) nor explicitly disables 
-gtk-doc. I'm now building the rest of meta-oe to check if anything else 
-needs to be fixed up, and will send a patch in a moment.
 
 Alex
 
