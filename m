@@ -1,24 +1,48 @@
-Return-Path: <tomas@novotny.cz>
-Received: from hosting.pavoucek.net (hosting.pavoucek.net [46.28.107.168])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C85571993
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id AF58F606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Feb 2018 09:57:41 +0000 (UTC)
-Received: from tomas-nb (nat8.vcit.vutbr.net [185.62.108.74])
-	(Authenticated sender: tomas@novotny.cz)
-	by hosting.pavoucek.net (Postfix) with ESMTPSA id 21AFE104A9A;
-	Thu,  8 Feb 2018 10:57:42 +0100 (CET)
-Date: Thu, 8 Feb 2018 10:57:41 +0100
-From: Tomas Novotny <tomas@novotny.cz>
-To: Joshua Watt <jpewhacker@gmail.com>
-Message-ID: <20180208105741.6bbe99c0@tomas-nb>
-In-Reply-To: <1518038352.3509.18.camel@gmail.com>
-References: <cover.1517857764.git.JPEWhacker@gmail.com>
-	<20180207215913.1efc2300@tomas.local.tbs-biometrics.cz>
-	<1518038352.3509.18.camel@gmail.com>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+	Thu,  8 Feb 2018 10:16:08 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id k6so5781489ita.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Feb 2018 02:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=cWQYdpOa6YFlXZX6BAKOwkgDp0aLZfSGFJ1vizP6d2M=;
+	b=w9pCpU6zOSzf5VoNAM/EgxyMwY2SRPus6yXuEY96rCShX8S2xy2vFZls8Ysul48wIX
+	qBfZ+I+eiruali3TJdWJIwx26yZLhBu9PTh/yR/p9TMc0c9x0oZ6F3v5j9V1y03lrdkf
+	ddjLeX3P3HZZd/hxftUKjTx2FKrOKtLStsFegIk7ivnWioGgvOBVvOj7aiZJd2sSdgrR
+	R321Bg5gKe4iNfNJE9V5Ru0cWjDC8biQOjcKrHl3mtZb/d5i19Q2o2E7AhKPM+XUv2gC
+	TgpQzJRUFhOsLE2E9cH0XJU+BA207gO68q1MuNKttap959A6qBaIrxYBMRh5uVI8Pbdf
+	bneA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=cWQYdpOa6YFlXZX6BAKOwkgDp0aLZfSGFJ1vizP6d2M=;
+	b=tz4/A7nRirye8m4jYZ/oYpq/ydN+JqmcG64//edB8b4qqUQ169/ZNuM/1gLQD31FQJ
+	VMYCbwxO38UuQyrZhS31QHXgjdAen7fF/B9t1IXvZv+ROG2d8gUaiCwn3GUbYGdURvOj
+	oCWTDrBZ4GGtD2mp28H35X6z6PnavwCXg8D8/HwJdvbHyq4H8qoRxeW8byx4aCnVRBMP
+	js6sHg8TqO6yC2kIAhjyh9WCOAOUhlc+aQEasRa30/4C7jzPExYz9vXY82EdpaHU3DO0
+	S9zLvY1zJmWAqovWUnlEek73qi+U/sF+eB2jYiOU1y30voQW54ocb2SILEEmgqiKm0hY
+	r1rw==
+X-Gm-Message-State: APf1xPDIN4n99Si6C+Rhat8JMD9L064RZ92i2RAe3HM4i4qJe+SbNzfT
+	mFtUxqYJ/s8c9674BLbHTOM2APQN3UbktwwZiSx/Wg==
+X-Google-Smtp-Source: AH8x224VhpO3JQE/G8MsvCPViwsPwNMNyL67MxRKGITZ2Af2tjXQt8/pb/5DDr4d5yXHMIqD6gSLZZ33ImeYh4nf620=
+X-Received: by 10.36.61.142 with SMTP id n136mr732519itn.6.1518084969807; Thu,
+	08 Feb 2018 02:16:09 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.107.17.206 with HTTP; Thu, 8 Feb 2018 02:15:49 -0800 (PST)
+In-Reply-To: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
+References: <1518071376-7716-1-git-send-email-vineethchowz.chowdary@xilinx.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Feb 2018 10:15:49 +0000
+Message-ID: <CAJTo0LaD24Zi+uWc+0o0BsNSeEF0Br3Z3WQy7JJnEaC6Jy6vWg@mail.gmail.com>
+To: Vineeth Chowdary Karumanchi <vineethchowz.chowdary@xilinx.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/14] Fix support for Icecream
+Subject: Re: [PATCH] kernel-fitimage.bbclass: Fix 64 bit ENTRYPOINT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,110 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 09:57:42 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Feb 2018 10:16:08 -0000
+Content-Type: multipart/alternative; boundary="001a1144467e5d4e4b0564b0b3ee"
 
-Hi Joshua,
+--001a1144467e5d4e4b0564b0b3ee
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 07 Feb 2018 15:19:12 -0600
-Joshua Watt <jpewhacker@gmail.com> wrote:
+On 8 February 2018 at 06:29, Vineeth Chowdary Karumanchi <
+vineethchowz.chowdary@xilinx.com> wrote:
 
-> On Wed, 2018-02-07 at 21:59 +0100, Tomas Novotny wrote:
-> > Hi Joshua,
-> > 
-> > On Tue,  6 Feb 2018 16:01:19 -0600
-> > Joshua Watt <jpewhacker@gmail.com> wrote:
-> >   
-> > > Fix up support for using Icecream to do distributed builds, which
-> > > appears to have been broken for some time.  
-> > 
-> > we were using icecream a year ago and we set ICECC_CARET_WORKAROUND
-> > env
-> > variable to 0 (in set_icecc_env() in icecc.bbclass). The default is 1
-> > and it
-> > causes a local rebuild when any warning is emitted.
-> > 
-> > I don't have exact numbers, but the extreme case was opencv. There
-> > was so
-> > many warnings that distributed build on ~10 threads was slower than
-> > local
-> > build on 4 threads.  
-> 
-> Ok, that make sense. I'll add a patch to default to
-> ICECC_CARET_WORKAROUND to my patch series. Thanks for the heads up!
+> 64 bit entry point should be passed in 2 literals ( "0x1 0x00008000"
+> ).ENTRYPOINT is assigned with first half only and erroring out as
+> 'command not found' for the second half. Adding quotes while assignment
+> fixes the
+> issue.
+>
 
-thanks a lot. Please note one smaller consequence. The warning message is
-retained, but the second line of warning containing "^" pointing to the exact
-position is not printed. I guess that this is ok for OE.
+Does this mean that this expression below is broken too?
 
-Tomas
 
-> > I know that it is some kind of configuration, but I would set the
-> > default to
-> > 0. Or do it at least configurable.
-> >   
-> > > In addition, Icecream support can now be enabled in the SDK. When
-> > > enabled, the SDK install process will check if the host supports
-> > > icecc
-> > > and if so will construct a proper environment tarball and use it
-> > > when
-> > > compiling.  
-> > 
-> > Thanks for work on that, I'm keen to use it in our environment.
-> > 
-> > Tomas
-> >   
-> > > Most of the changes should be straightforward. icecc-create-env has
-> > > been almost completely re-written but the changes were broken up
-> > > into
-> > > hopefully logical chunks.
-> > > 
-> > > The following changes since commit
-> > > 385944254d0ef88bd6450a221a54cbcb40020b42:
-> > > 
-> > >   tcmode-default.inc: drop preferred version of gzip-native (2018-
-> > > 01-31 17:01:20 +0000)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   git://push.yoctoproject.org/poky-contrib jpew/icecream
-> > > 
-> > > Joshua Watt (14):
-> > >   icecc.bbclass: Move to shared work directory
-> > >   icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
-> > >   icecc.bbclass: Skip canadian-cross compiles
-> > >   icecc-create-env: Reformat
-> > >   icecc-create-env: Add /bin/true to environment
-> > >   icecc-create-env: Use program interpreter for deps
-> > >   icecc-create-env: Symlink alternate names
-> > >   icecc-create-env: Archive directory
-> > >   icecc-create-env: Fix executable rpaths
-> > >   icecc-create-env: Add support for nativesdk
-> > >   icecc-create-env: Allow multiple tool aliases
-> > >   toolchain-shar-extract: Add post-relocate scripts
-> > >   icecc-toolchain: Add SDK icecream setup
-> > >   icecc.bbclass: Add IceCream support to SDK
-> > > 
-> > >  meta/classes/icecc.bbclass                         |  37 ++-
-> > >  meta/classes/toolchain-scripts.bbclass             |  15 +
-> > >  meta/files/toolchain-shar-extract.sh               |   8 +
-> > >  meta/recipes-core/meta/meta-environment.bb         |   2 +
-> > >  .../icecc-create-env/icecc-create-env              | 328
-> > > ++++++++++++++-------
-> > >  ...e-env-native_0.1.bb => icecc-create-env_0.1.bb} |   4 +-
-> > >  .../icecc-toolchain/icecc-toolchain/icecc-env.sh   |  37 +++
-> > >  .../icecc-toolchain/icecc-toolchain/icecc-setup.sh |  43 +++
-> > >  .../nativesdk-icecc-toolchain_0.1.bb               |  38 +++
-> > >  9 files changed, 390 insertions(+), 122 deletions(-)
-> > >  rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-
-> > > native_0.1.bb => icecc-create-env_0.1.bb} (98%)
-> > >  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-
-> > > toolchain/icecc-env.sh
-> > >  create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-
-> > > toolchain/icecc-setup.sh
-> > >  create mode 100644 meta/recipes-devtools/icecc-
-> > > toolchain/nativesdk-icecc-toolchain_0.1.bb
-> > >   
-> 
+>         if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+>                 ENTRYPOINT=`${HOST_PREFIX}nm vmlinux | \
+>                         awk '$3=="${UBOOT_ENTRYSYMBOL}" {print
+> "0x"$1;exit}'`
+>
 
+Ross
+
+--001a1144467e5d4e4b0564b0b3ee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 8 February 2018 at 06:29, Vineeth Chowdary Karumanchi <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:vineethchowz.chowdary@xilinx.com" ta=
+rget=3D"_blank">vineethchowz.chowdary@xilinx.com</a>&gt;</span> wrote:<br><=
+div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">64 bit entry point should be passed in 2 literals ( &quot;0x1 0x00=
+008000&quot;<br>
+).ENTRYPOINT is assigned with first half only and erroring out as<br>
+&#39;command not found&#39; for the second half. Adding quotes while assign=
+ment fixes the<br>
+issue.<br></blockquote><div><br></div><div>Does this mean that this express=
+ion below is broken too?</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${UBOOT_ENTRYSYMBOL}&quot; ]; =
+then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ENTRYPOINT=3D`${HOS=
+T_PREFIX}nm vmlinux | \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 awk &#39;$3=3D=3D&quot;${UBOOT_ENTRYSYMBOL}&quot; {print &quot;0=
+x&quot;$1;exit}&#39;`<br></blockquote><div><br></div><div>Ross=C2=A0</div><=
+/div></div></div>
+
+--001a1144467e5d4e4b0564b0b3ee--
