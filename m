@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 683AC782E7
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5122D782E7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Feb 2018 23:04:49 +0000 (UTC)
-Received: by mail-wr0-f180.google.com with SMTP id t94so6400274wrc.5
+	Thu,  8 Feb 2018 23:05:51 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id r78so13016346wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Feb 2018 15:04:51 -0800 (PST)
+	Thu, 08 Feb 2018 15:05:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=YWkhrAgUkcpcpwvf8/gXvdER8MWjHO5iwBi0hNadqNg=;
-	b=YTs5gymIO/QVf44t50KjzA1gDXwMU1zSzODJRbv2ceejAiz9VGtJgvUdihh7Q8rCNx
-	JleihtDGvjYvzxB6mR71fFcxLirsftnhbMN2zhU9rDNF6hpMt9vlYa0U7VcBy3B1Vtkd
-	kOiWc5EM7X9Ss0uzpN+uzDPzMwnhHQDwxmdH3sS4163B/6XD2VYvgVbVwlAcggh/cGVE
-	3sUUFqu2OX4wACknqoyVPWt3T2icDHbQ+h3HxxMWFR4zWSK6ae1uYmmGa+3i1fiCLZOq
-	K6lo+Egcd4yqX+wJh9RRITu3I5uG60P3WBf8GjFIhmDp3KGUWjfOshenP4mzf/tL5b8h
-	wGDA==
+	bh=i3lIhusZE469ODApCvrRMDpNYbVoSzPEiJXVPGHXGJI=;
+	b=11QYW54DDo/DrNxokLy6iG74rzhb5EvC5g5WzqsNkrHHU7PMVm76w5SjZGncKkGa4C
+	YLg5udB8gzj4pgj1g25lK0W5L0E4iKN5F7qCb0GLiweeCFjtuP89sRk6wrajJkG47vMa
+	DQZgycG7UBEG+LmYjr0UG+2tbT27KTUXYPLnajWpgdj9pYl57N8cO5EU4xTXjmnztrtY
+	fOABFyY7C391RLCxXrmL+cr8sWDn4KI9ivZi2y/l5dAf5mbtteJGV7H/YZQ56OMeBsxu
+	R6Nfayxa7h6GuRzgD0UchoNfHhqwkAjKq0o07DccQ1hGZqqEFNMrwoitEMxH98uPVLNd
+	RM8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=YWkhrAgUkcpcpwvf8/gXvdER8MWjHO5iwBi0hNadqNg=;
-	b=ghDkdojy+8NCj5rqkPO5DDF7dH48QpAZ44BCmc8jckXfUil2krw29seCRytLhGc7tF
-	OrysjR4AmVGalH02PMS8Z6ZGIKhWRe7JSnazGIph8BWkXdHoN+OckXoz9ZhFjBrHpGM2
-	n6spGHashhhTCcpwNw/wq59oUO6A15yhxG5ANYwQA/VeC3t2QKxM6enGODXA668UxzeE
-	Roj/8nNtbxT55TrOD8B3HAJzfNqVYztefrqnCCuwB6JiCPiMCQjp9/Lzq7Lk+JqrZFyH
-	R2CSBHi1fc7AnjfDFU3NzJt4s3HOz12GZH/CH0DpI0siYJoX+bTkmU6f5BTuVAWWhaUN
-	wavw==
-X-Gm-Message-State: APf1xPC2FXrjUcX6vgJcvF8LSPde0kTHnPqRT6QT+ZSWF1cX30d6y6Ay
-	S9qb3UvMBdUDchnoQfQ2dscWsHKW
-X-Google-Smtp-Source: AH8x226Ej7YwUuQzidrlT8O1G7aoV8nPbHF+xbbqouZUU3CkCAWT95GxJ9TTrEulgc9McoloEHITQA==
-X-Received: by 10.223.166.176 with SMTP id t45mr563249wrc.221.1518131088998;
-	Thu, 08 Feb 2018 15:04:48 -0800 (PST)
+	bh=i3lIhusZE469ODApCvrRMDpNYbVoSzPEiJXVPGHXGJI=;
+	b=DQ7ufpxbJn+JaCm487Q9VPpdVg5l7qM0tWDMdm16Vm56t4gDsbmUxvwUKJ/5U12wFp
+	Cj/HNp1xE51fExnflWHhruakWw1utRF4BGTwP7acEy2BEvIm0dJrwUcDlbdFYnB9WjLD
+	7rvSwdnU6/LfB/WVTRxRymBzNg7u+H6x3u7zvyJyK8JfXwWVCqOTDjENwKkXAbMPnnZv
+	4mDC69aJxXl5/oi7BvulLNb4YRjkMTtZQRU5yGKwYmZbrByFkqCN+WFJyP02omV+hS33
+	lo39v273tYWRqtGj0h0KT5/J/swDZ9/k174FYyJfVJ8deW5DorlJ78BK5/EeFnJ8SM5v
+	LLIA==
+X-Gm-Message-State: APf1xPA90yzVr7VchpDvfbCwOVVCqoc/pj2bEB2/v5e0yGzbFuEX1Qpq
+	TrB6BtV9T8jf4YuxPBzB7v403CxI
+X-Google-Smtp-Source: AH8x224ke5QlfTinGSV5w93eVQ7lELfuk3anQGW0NVxCJEkRebISTKk181PDaIjm/uGzlgD6EQeb5A==
+X-Received: by 10.28.51.6 with SMTP id z6mr415509wmz.26.1518131150904;
+	Thu, 08 Feb 2018 15:05:50 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 81sm985867wmi.26.2018.02.08.15.04.46
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	j44sm1365382wre.86.2018.02.08.15.05.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Feb 2018 15:04:47 -0800 (PST)
+	Thu, 08 Feb 2018 15:05:50 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Feb 2018 23:04:43 +0000
-Message-Id: <20180208230443.10761-1-ross.burton@intel.com>
+Date: Thu,  8 Feb 2018 23:05:45 +0000
+Message-Id: <20180208230545.11565-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH] qemu: fix CVE-2017-15124
+Subject: [PATCH][V2] qemu: fix CVE-2017-15124
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,7 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 23:04:50 -0000
+X-List-Received-Date: Thu, 08 Feb 2018 23:05:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -80,7 +79,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
 
 diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-15124.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-15124.patch
 new file mode 100644
-index 00000000000..b46ac4efff1
+index 00000000000..a47b6d05103
 --- /dev/null
 +++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-15124.patch
 @@ -0,0 +1,1476 @@
@@ -90,6 +89,7 @@ index 00000000000..b46ac4efff1
 +updates, VNC server allocates growing memory to hold onto this data. A malicious
 +remote VNC client could use this flaw to cause DoS to the server host.
 +
++CVE: CVE-2017-15124
 +Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
@@ -1559,7 +1559,6 @@ index 00000000000..b46ac4efff1
 + void start_auth_vnc(VncState *vs);
 +-- 
 +2.11.0
-+
 diff --git a/meta/recipes-devtools/qemu/qemu_2.11.0.bb b/meta/recipes-devtools/qemu/qemu_2.11.0.bb
 index 8306db2ce5a..10760dc2db6 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.11.0.bb
