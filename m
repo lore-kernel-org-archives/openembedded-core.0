@@ -1,41 +1,18 @@
-Return-Path: <jsbronder@cold-front.org>
-X-Greylist: delayed 583 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 09 Feb 2018 20:03:22 UTC
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A410784EB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 20:03:22 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 288A620BDF;
-	Fri,  9 Feb 2018 14:53:40 -0500 (EST)
-Received: from frontend1 ([10.202.2.160])
-	by compute7.internal (MEProxy); Fri, 09 Feb 2018 14:53:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	h=cc:date:from:message-id:subject:to:x-me-sender:x-me-sender
-	:x-sasl-enc; s=mesmtp; bh=GRRk+8yYEgjg+ki+Pt8WyCWl8KjOrGYEEObcSq
-	DpBj8=; b=JbmkwbFmVPwHaz9ttJtQYHy7QoCATbjKMEhZMs0Hv97oIh0fvlLa/C
-	CzofSv9jFQF7yKrm2QoyyH5cX2JTn41F5D8SSN4vY4b6L4TNdSzFNY8SQULAm6B0
-	EgkLMhrkfLlKH8tH0y68PJ5msuPHNwk+uDy+DfcLiycayWSFqNWXY=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:message-id:subject:to
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GRRk+8yYEgjg+ki+P
-	t8WyCWl8KjOrGYEEObcSqDpBj8=; b=JZHYs8HI4NdnJDXlT/oUlB53ZTQUbPbIg
-	mca31+nzsLXBgOoySfe/iG4Q5sDQbFAkIWsY/XtGJFrNo6dnqFGmBzuWV8DV7ZxS
-	VAc3bgS8fd5fVHIki67JUCd5B7wAtcSvj2ET0tMijnyT7SFG6GKJvxPvsUYxOQ3G
-	KB3NByehYHJr9SuB3w9BYoaUTW06nODC34C+d1QHoSpvra+5O41quu+HSb8al7F7
-	gA/2FzpRreaKtlqXAUP7yMW/zxFEodftLGOmYmpgYZQQBouFbWU9ylrs4P5tX8Em
-	EP8EIdgNem5knV91vhrZB46SYaShYuhRFkYjOr+YeLHyvrxTevpwg==
-X-ME-Sender: <xms:RPx9WsXlsVyUpJSnIblC0bAP3XENosFATFfE3y42tAIIQdvlcLVVuA>
-Received: from localhost (unknown [72.12.91.223])
-	by mail.messagingengine.com (Postfix) with ESMTPA id D7B197E46B;
-	Fri,  9 Feb 2018 14:53:39 -0500 (EST)
-From: Justin Bronder <jsbronder@cold-front.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Feb 2018 14:53:37 -0500
-Message-Id: <20180209195337.27617-1-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] kernel-yocto: create dummy git user if necessary
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 96A296B6EA;
+	Fri,  9 Feb 2018 20:07:57 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
+Date: Fri, 09 Feb 2018 20:07:59 -0000
+Message-ID: <20180209200759.15542.91912@do.openembedded.org>
+References: <1518205787-575-1-git-send-email-carlos.rodriguez@ridgerun.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1518205787-575-1-git-send-email-carlos.rodriguez@ridgerun.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3N0ZDogQWRkIEdzdC1EZWFtb24gcmVjaXBl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 20:03:23 -0000
+X-List-Received-Date: Fri, 09 Feb 2018 20:07:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The user's global git configuration may not have the name and email set
-and git autodetection can fail.  The initialization commit for a non-git
-kernel directory doesn't really need to be tied back to them anyways.
-Instead, create a user and email that's clearly tied back to
-kernel-yocto.bbclass.
+== Series Details ==
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+Series: gstd: Add Gst-Deamon recipe
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/10918/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta-multimedia/recipes-multimedia/gstreamer-1.0/gstd/0001-gstd-yocto-compatibility.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta-multimedia/recipes-multimedia/gstreamer-1.0/gstd/0001-gstd-yocto-compatibility.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/kernel-yocto.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 60979a218f..dbf01f86b6 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -247,6 +247,8 @@ do_kernel_checkout() {
- 		fi
- 		rm -f .gitignore
- 		git init
-+		git config user.name 'Yocto Kernel Git Initializer'
-+		git config user.email 'kernel-yocto.bbclass@invalid'
- 		git add .
- 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
- 		git clean -d -f
--- 
-2.13.6
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
