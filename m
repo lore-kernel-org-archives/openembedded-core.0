@@ -1,32 +1,43 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 4376D78743
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A8C2678766
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 07:09:13 +0000 (UTC)
+	Fri,  9 Feb 2018 07:14:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Feb 2018 23:09:15 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Feb 2018 23:14:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,482,1511856000"; d="scan'208";a="16486508"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga007.fm.intel.com with ESMTP; 08 Feb 2018 23:09:14 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
-	<3144211.9qXzQgCZpO@yow-masselst-lx1>
-	<00d7531e-b773-536e-ad5b-e19f8f993dbf@linux.intel.com>
-	<1778379.J915XxZyfQ@yow-masselst-lx1>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <8f3fceb1-bb2b-de95-acd0-947ccc7a674e@linux.intel.com>
-Date: Fri, 9 Feb 2018 09:03:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+X-IronPort-AV: E=Sophos;i="5.46,482,1511856000"; d="scan'208";a="16695514"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by fmsmga008.fm.intel.com with ESMTP; 08 Feb 2018 23:14:30 -0800
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.31]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.52]) with mapi id
+	14.03.0319.002; Fri, 9 Feb 2018 15:14:29 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] bmap-tools: change SRC_URI to use
+	tarball instead
+Thread-Index: AQHToXNmHf06lwLit0OSHH1Vgl6DJ6ObpiEw
+Date: Fri, 9 Feb 2018 07:14:28 +0000
+Message-ID: <50B33AC5ED75F74F991980326F1C438D1F208698@PGSMSX103.gar.corp.intel.com>
+References: <1518150301-33101-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+	<754a5028-97a1-79a3-fe48-232cea8d3a6d@linux.intel.com>
+In-Reply-To: <754a5028-97a1-79a3-fe48-232cea8d3a6d@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTIwMGVjOGMtOGNjMC00MmNhLWEwZTEtMjI5Y2M4NTYxZmU2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJTMWpYbmJXOXNXeVRCRXdXOWJsTDZxQWNhKzgyUUVEK0xDR3VCSzJYZllmR2RwR09va1R6WHN5WThaRWFTR3IwIn0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-In-Reply-To: <1778379.J915XxZyfQ@yow-masselst-lx1>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] gtk-doc: update to 1.27
+Subject: Re: [PATCH 1/2] bmap-tools: change SRC_URI to use tarball instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 07:09:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 09 Feb 2018 07:14:30 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 02/09/2018 12:13 AM, Mark Asselstine wrote:
-> The use of libunique is non-consequential here. The issue is that the gtk-doc
-> package has imports which are not going to be present via direct runtime
-> dependencies. Any sw which attempts to run the python scripts found in gtk-doc
-> will fail in the same way unless the python3-six is installed via an indirect
-> dependency. I didn't have a chance to dig in to this deeper today so I don't
-> have more to add than this but the "import six" is pretty explicit and will
-> fail unless this script is not meant to actually be run anytime, anywhere.
-
-gtk-doc recipe does have a direct dependency on python3-six, subject to 
-'api-documentation' in DISTRO_FEATURES. The reason it's conditional is 
-that we don't want to build a ton of gtk-doc dependencies in the default 
-case that used by almost everyone. Yes, this produces gtk-doc scripts 
-that are not working, but they will not be run anyway, if gtk-doc 
-capable recipes inherit the gtk-doc class, which will disable the 
-gtk-doc feature. libunique was missing that inherit, the patch to fix 
-that is now on oe-devl list. Take it and the issue will go away.
-
-Alex
+SGkgQWxleCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5k
+ZXIgS2FuYXZpbiBbbWFpbHRvOmFsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbV0NCj4g
+U2VudDogRnJpZGF5LCBGZWJydWFyeSA5LCAyMDE4IDI6NTIgUE0NCj4gVG86IENoYW5nLCBSZWJl
+Y2NhIFN3ZWUgRnVuIDxyZWJlY2NhLnN3ZWUuZnVuLmNoYW5nQGludGVsLmNvbT47DQo+IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
+b3JlXSBbUEFUQ0ggMS8yXSBibWFwLXRvb2xzOiBjaGFuZ2UgU1JDX1VSSSB0byB1c2UgdGFyYmFs
+bA0KPiBpbnN0ZWFkDQo+IA0KPiBPbiAwMi8wOS8yMDE4IDA2OjI1IEFNLCBDaGFuZyBSZWJlY2Nh
+IFN3ZWUgRnVuIHdyb3RlOg0KPiA+IC1TUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaW50ZWwv
+Ym1hcC10b29scy5naXQiDQo+ID4gLVNSQ1JFViA9ICI5ZGFkNzI0MTA0ZGYyNjU0NDIyMjY5NzJh
+MWUzMTA4MTNmOWZmY2JhIg0KPiA+ICtTUkNfVVJJID0NCj4gImh0dHBzOi8vZ2l0aHViLmNvbS9p
+bnRlbC8ke0JQTn0vcmVsZWFzZXMvZG93bmxvYWQvdiR7UFZ9LyR7QlBOfS0ke1BWfS50Z3oiDQo+
+IA0KPiBXaGVuIHlvdSBzd2l0Y2ggdGhlIHVwc3RyZWFtIHNvdXJjZSBsb2NhdGlvbiBsaWtlIHRo
+aXMsIHlvdSBuZWVkIHRvIHZlcmlmeSB0aGF0DQo+IHVwc3RyZWFtIHZlcnNpb24gY2hlY2sgc3Rp
+bGwgd29ya3M6DQo+IA0KPiBiaXRiYWtlIC1jIGNoZWNrcGtnIGJtYXAtdG9vbHMNCj4NCj4gYW5k
+IGluc3BlY3QgdG1wL2xvZy9jaGVja3BrZy5jc3YgdG8gc2VlIHRoZSBvdXRjb21lLiBJZiBiaXRi
+YWtlIGNhbiBubyBsb25nZXINCj4gZGV0ZXJtaW5lIHRoZSBsYXRlc3QgdmVyc2lvbiwgc2V0IFVQ
+U1RSRUFNX0NIRUNLX1VSSSB0byB0aGUgd2VicGFnZSB3aGVyZQ0KPiBhbGwgdGhlIHRhcmJhbGxz
+IGFyZSBsaW5rZWQgZnJvbSAoSSB0aGluayBpdCB3b3VsZCBiZQ0KPiBodHRwczovL2dpdGh1Yi5j
+b20vaW50ZWwvJHtCUE59L3JlbGVhc2VzLykuIFRoZXJlJ3MgcGxlbnR5IG9mIHJlY2lwZXMgaW4g
+b2UtY29yZQ0KPiB3aXRoIHNpbWlsYXIgYWRqdXN0bWVudHMsIGlmIHlvdSBuZWVkIGZ1cnRoZXIg
+ZXhhbXBsZXMuDQo+IA0KVGhhbmtzIGZvciB5b3VyIGlucHV0ISBJIHdpbGwgZG91YmxlIGNoZWNr
+IGFuZCBzZW5kIGEgbmV3IHJldmlzaW9uLg0KDQpSZWJlY2NhDQo=
 
