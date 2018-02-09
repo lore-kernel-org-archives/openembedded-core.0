@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C884278589
+Return-Path: <ricardo@opensourcefoundries.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A3BAD78654
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Feb 2018 23:09:16 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id b52so6402689wrd.10
+	Fri,  9 Feb 2018 02:44:40 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id e20so8334531qkm.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Feb 2018 15:09:18 -0800 (PST)
+	Thu, 08 Feb 2018 18:44:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=sGNrBiGji7GwPDhRB8fjgDngFFldiGkC8Ge6JsMjmWs=;
-	b=u0kFv4cro1upijUD+2CRpu7PID2QfzXWBHWf9yOHQC6E9i0MEz/GHJB7R86HXdS4A+
-	udVmDxzEEDFPhdVOtPWCMMOznn1BI03OEOQ0kWqUmfUzkLdbdIqBhdagw1lf2lhGSRa3
-	cg4QMKXUiKdNZbVwqgvAHFEiUrUgXYMSGoBKht8lE1yYueLyMblWNi0wdQ08op2d9bo4
-	l6gtpnR58jCIgVA7hdNm+JWlNbFE3y6tmunk6aaQo85zPso7sQtKKry2lVT2EENsmVcF
-	/pkivHEFp4LFqhbJCF4tA85iSMBcN62jCOw3D+cqS4aVK2DwjTEnC+0V7LOpRkpRJGiT
-	/fHw==
+	bh=Poa/lIxvZVzyVMnQQCBu2JH24V0tqsP4vJcsM8+cvRg=;
+	b=S5rxvIrTiT5u69umOxvgT7trFxsFAvdWGebUlTmrfHaLJqRc6bZWy0menha2KYV1cj
+	BK0F6hHs4vHdoz/Fe288dHFSWuDmArkloChc4GSgABMxUvLpr0NUFWKWZY2W85sbgtVr
+	aEdBSNJgVsWwuqTap9bjG8ZJ/IcPD3hZRT/jU9WG3naZ8kGISxCWuHFwIsDeAcnmZ0C3
+	Cy4maZ7tllIO1ngdomM7pn7mLFHRAoRwBOFN/rZjH3cJalFQCX59Z7RgeUoz0vTok29D
+	DaGjb6o9UuTIlBmKV29514q1nLAAFamra69CXndEtjhOaHar6K3W/kIefsHVe39t7nY4
+	xj9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sGNrBiGji7GwPDhRB8fjgDngFFldiGkC8Ge6JsMjmWs=;
-	b=jV/zZxDHLz/RAh3e9mnBr/pMLC+/QQdHU53gjf+AowfAlLStPkNzJPnUtZbkRBY29H
-	NtmQ2IfGEh7f54Pn9Znvh7DGWFLEL1BEeS/3h+haJKS/PUlP/vQAhyjswBI881Tq7UgJ
-	i45cMMkGTh3ZZPaWfLT6gGP1wGmqo4zMxd0DQrh3gCFdfwbJ78U/obHfCCLBBNeH4Eki
-	m0bh3PkJiAb359URzWQz2+A7ZlLZHr604OJ/rEPBRGKltN1mf07HEsxyG05EtDwUJEcj
-	EJt2803P4SEisMsDehPUiyBbp7hL9USUKYxa+YfJbbB9j4ZIhGE36FGdXQsaPgQQYxLp
-	+hmQ==
-X-Gm-Message-State: APf1xPAM/eFHo8UfhuOQUsrQMV6QDUDptXloHKBXPib0EAkO2XOLVNE0
-	pwyf+FY1U5kGiKpd9wMuba2XWYfn
-X-Google-Smtp-Source: AH8x226FEqy/qQ3424nUzEHEI+mmr6eBFLiTgrG3x0c9aFvuLsArCo3KU90alGreec45CsezX37dYw==
-X-Received: by 10.223.151.158 with SMTP id s30mr615552wrb.70.1518131357485;
-	Thu, 08 Feb 2018 15:09:17 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m11sm1349083wrf.75.2018.02.08.15.09.16
+	bh=Poa/lIxvZVzyVMnQQCBu2JH24V0tqsP4vJcsM8+cvRg=;
+	b=QwfAaU7evtRfkpTz/bBSGrWoig9Z112vlh/APGhiBOBIV69YOsoEOqKfING8ao0XVW
+	PeTGw2KMiGY+Lpq42p5JB9ns5aC5LZroG49aGDoE7vGm7iMszU1CzM4cA+K29dFKKsu8
+	MYujCUcYArmYHHM01+mcd1K4AgfXKGXPZ8PUZ/UajXEeg9H20FSCWvBaFNEoFW16911U
+	LdASw+gZ4+6kwyt99Len3T95NFOrAS+dhxDDlJ7kXtIFsBDnDc1zxst2XOvkqo7aYMfs
+	xh3/qBuIfkPvX6jQog1fJm+gddw3rHARs3l9Hm+z9FX0L9jj9PNxjwvO1w0u3fj9zmkE
+	qTmQ==
+X-Gm-Message-State: APf1xPANxeUblB3RBQqsbp7rqFu3KllBlHuGcHlwIqSe6arAEZm6d8ol
+	z+6kuA/OzuFRgUCAu3yoesrXQvd1wQ==
+X-Google-Smtp-Source: AH8x224XEa1tJ25sUl7pK8Gj9FFf3l6RhGgUEE4y6iouR2qiZfzKJza/9bhheuv3gqaSjV4I9OWQqQ==
+X-Received: by 10.55.144.198 with SMTP id s189mr1827815qkd.168.1518144281170; 
+	Thu, 08 Feb 2018 18:44:41 -0800 (PST)
+Received: from localhost.localdomain ([189.4.104.170])
+	by smtp.gmail.com with ESMTPSA id f4sm1085439qtc.16.2018.02.08.18.44.38
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Feb 2018 15:09:16 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 08 Feb 2018 18:44:39 -0800 (PST)
+From: Ricardo Salveti <ricardo@opensourcefoundries.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Feb 2018 23:09:14 +0000
-Message-Id: <20180208230914.19368-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cve-check: put log in T so it doesn't get deleted by rm_work
+Date: Thu,  8 Feb 2018 23:41:18 -0200
+Message-Id: <1518140478-7992-1-git-send-email-ricardo@opensourcefoundries.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] initramfs-framework: rootfs: add support for LABEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Feb 2018 23:09:17 -0000
+X-List-Received-Date: Fri, 09 Feb 2018 02:44:40 -0000
 
-This is where the other task logs go, so it's a sensible place to put it.
+The rootfs can also be found via the partition label.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
 ---
- meta/classes/cve-check.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index bc2f03f7ddb..62dd6424d5c 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -27,8 +27,7 @@ CVE_PRODUCT ??= "${BPN}"
- CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+index 14768f1..76fa84d 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+@@ -31,6 +31,11 @@ rootfs_run() {
+ 				bootparam_root="/dev/disk/by-partuuid/$root_uuid"
+ 			fi
  
--CVE_CHECK_LOCAL_DIR ?= "${WORKDIR}/cve"
--CVE_CHECK_LOCAL_FILE ?= "${CVE_CHECK_LOCAL_DIR}/cve.log"
-+CVE_CHECK_LOG ?= "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
-@@ -251,11 +250,11 @@ def cve_write_data(d, patched, unpatched, cve_data):
-     CVE manifest if enabled.
-     """
- 
--    cve_file = d.getVar("CVE_CHECK_LOCAL_FILE")
-+    cve_file = d.getVar("CVE_CHECK_LOG")
-     nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
-     write_string = ""
-     unpatched_cves = []
--    bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR"))
-+    bb.utils.mkdirhier(os.path.dirname(cve_file))
- 
-     for cve in sorted(cve_data):
-         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
++			if [ "`echo ${bootparam_root} | cut -c1-6`" = "LABEL=" ]; then
++				root_label=`echo $bootparam_root | cut -c7-`
++				bootparam_root="/dev/disk/by-label/$root_label"
++			fi
++
+ 			if [ -e "$bootparam_root" ]; then
+ 				flags=""
+ 				if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | grep -w -q "ro"; then
 -- 
-2.11.0
+2.7.4
 
 
