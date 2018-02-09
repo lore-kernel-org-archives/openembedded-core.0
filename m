@@ -1,25 +1,24 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B08671B2E
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C82AE7864B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 08:01:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Feb 2018 00:01:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,482,1511856000"; d="scan'208";a="26074629"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Feb 2018 00:01:58 -0800
-From: rebecca.swee.fun.chang@intel.com
+	Fri,  9 Feb 2018 09:55:04 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w199t3gp002451
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 9 Feb 2018 09:55:04 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1ek5OZ-0005Zu-Ei; Fri, 09 Feb 2018 09:55:03 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Feb 2018 15:56:41 +0800
-Message-Id: <1518163001-81507-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Date: Fri,  9 Feb 2018 09:54:59 +0000
+Message-Id: <1518170099-21404-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1518156537-58531-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1518156537-58531-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv3] bmap-tools: change SRC_URI to use tarball instead
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] utility-tasks: Drop fetchall and checkuriall tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 08:01:58 -0000
+X-List-Received-Date: Fri, 09 Feb 2018 09:55:05 -0000
 
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+The same thing can now be done with "bitbake <target> --runall=fetch"
+or "bitbake <target> --runall=checkuri".
 
-Tarball sources can be checksummed and are faster to download.
-Added UPSTREAM_CHECK_URI to improve recipe maintenance and to
-verify upstream version check is still work.
+Dropping the tasks takes "bitbake core-image-sato -g" from 22s to 8s
+since it no longer has to resolve the recursive dependencies (it
+doesn't know if any given target will touch them or not until it
+computes them). That is a significant enough win that its worth any
+impact this may have on the small number of users using the tasks.
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/utility-tasks.bbclass | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-index 70b6e91..9d8191f 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-@@ -9,10 +9,12 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
+index 587bfd4..b1f27d3 100644
+--- a/meta/classes/utility-tasks.bbclass
++++ b/meta/classes/utility-tasks.bbclass
+@@ -50,17 +50,4 @@ python do_checkuri() {
+         bb.fatal(str(e))
+ }
  
--SRC_URI = "git://github.com/intel/bmap-tools.git"
--SRCREV = "9dad724104df265442226972a1e310813f9ffcba"
-+SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
+-addtask checkuriall after do_checkuri
+-do_checkuriall[recrdeptask] = "do_checkuriall do_checkuri"
+-do_checkuriall[recideptask] = "do_${BB_DEFAULT_TASK}"
+-do_checkuriall[nostamp] = "1"
+-do_checkuriall() {
+-	:
+-}
  
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
-+SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
-+
-+UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
- 
- RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools"
- 
+-addtask fetchall after do_fetch
+-do_fetchall[recrdeptask] = "do_fetchall do_fetch"
+-do_fetchall[recideptask] = "do_${BB_DEFAULT_TASK}"
+-do_fetchall() {
+-	:
+-}
 -- 
 2.7.4
 
