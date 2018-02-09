@@ -1,43 +1,33 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A8C2678766
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C7B57827F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 07:14:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Feb 2018 23:14:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,482,1511856000"; d="scan'208";a="16695514"
-Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
-	by fmsmga008.fm.intel.com with ESMTP; 08 Feb 2018 23:14:30 -0800
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.31]) by
-	KMSMSX153.gar.corp.intel.com ([169.254.5.52]) with mapi id
-	14.03.0319.002; Fri, 9 Feb 2018 15:14:29 +0800
-From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] bmap-tools: change SRC_URI to use
-	tarball instead
-Thread-Index: AQHToXNmHf06lwLit0OSHH1Vgl6DJ6ObpiEw
-Date: Fri, 9 Feb 2018 07:14:28 +0000
-Message-ID: <50B33AC5ED75F74F991980326F1C438D1F208698@PGSMSX103.gar.corp.intel.com>
-References: <1518150301-33101-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-	<754a5028-97a1-79a3-fe48-232cea8d3a6d@linux.intel.com>
-In-Reply-To: <754a5028-97a1-79a3-fe48-232cea8d3a6d@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTIwMGVjOGMtOGNjMC00MmNhLWEwZTEtMjI5Y2M4NTYxZmU2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJTMWpYbmJXOXNXeVRCRXdXOWJsTDZxQWNhKzgyUUVEK0xDR3VCSzJYZllmR2RwR09va1R6WHN5WThaRWFTR3IwIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+	Fri,  9 Feb 2018 07:45:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w197jpnH020613
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 8 Feb 2018 23:45:51 -0800
+Received: from [128.224.163.244] (128.224.163.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 8 Feb 2018 23:45:44 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, Randy MacLeod
+	<randy.macleod@windriver.com>
+References: <cover.1515461823.git.Qi.Chen@windriver.com>
+	<a320979ef8fb138981c66b8c0ead607a9804cee0.1515461823.git.Qi.Chen@windriver.com>
+	<CAJTo0LayZCc=psjBv7QjsXNi3drktBT4wmZcXd37cVGHYbAJcg@mail.gmail.com>
+	<5377d8ea-0b83-a972-eece-a0dbd3129f31@windriver.com>
+	<CAJTo0LanxcbSTOatAxbD_hn6meS1Rwkvjug_+DPryMUcW1nAQA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <21871d83-7fb7-3576-387e-d66bdbcf5473@windriver.com>
+Date: Fri, 9 Feb 2018 15:48:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] bmap-tools: change SRC_URI to use tarball instead
+In-Reply-To: <CAJTo0LanxcbSTOatAxbD_hn6meS1Rwkvjug_+DPryMUcW1nAQA@mail.gmail.com>
+X-Originating-IP: [128.224.163.244]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] coreutils: upgrade to 8.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,31 +40,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 07:14:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 09 Feb 2018 07:45:51 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F5C3505EB5E3C988AAAEEA80"
 
-SGkgQWxleCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5k
-ZXIgS2FuYXZpbiBbbWFpbHRvOmFsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbV0NCj4g
-U2VudDogRnJpZGF5LCBGZWJydWFyeSA5LCAyMDE4IDI6NTIgUE0NCj4gVG86IENoYW5nLCBSZWJl
-Y2NhIFN3ZWUgRnVuIDxyZWJlY2NhLnN3ZWUuZnVuLmNoYW5nQGludGVsLmNvbT47DQo+IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0ggMS8yXSBibWFwLXRvb2xzOiBjaGFuZ2UgU1JDX1VSSSB0byB1c2UgdGFyYmFs
-bA0KPiBpbnN0ZWFkDQo+IA0KPiBPbiAwMi8wOS8yMDE4IDA2OjI1IEFNLCBDaGFuZyBSZWJlY2Nh
-IFN3ZWUgRnVuIHdyb3RlOg0KPiA+IC1TUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaW50ZWwv
-Ym1hcC10b29scy5naXQiDQo+ID4gLVNSQ1JFViA9ICI5ZGFkNzI0MTA0ZGYyNjU0NDIyMjY5NzJh
-MWUzMTA4MTNmOWZmY2JhIg0KPiA+ICtTUkNfVVJJID0NCj4gImh0dHBzOi8vZ2l0aHViLmNvbS9p
-bnRlbC8ke0JQTn0vcmVsZWFzZXMvZG93bmxvYWQvdiR7UFZ9LyR7QlBOfS0ke1BWfS50Z3oiDQo+
-IA0KPiBXaGVuIHlvdSBzd2l0Y2ggdGhlIHVwc3RyZWFtIHNvdXJjZSBsb2NhdGlvbiBsaWtlIHRo
-aXMsIHlvdSBuZWVkIHRvIHZlcmlmeSB0aGF0DQo+IHVwc3RyZWFtIHZlcnNpb24gY2hlY2sgc3Rp
-bGwgd29ya3M6DQo+IA0KPiBiaXRiYWtlIC1jIGNoZWNrcGtnIGJtYXAtdG9vbHMNCj4NCj4gYW5k
-IGluc3BlY3QgdG1wL2xvZy9jaGVja3BrZy5jc3YgdG8gc2VlIHRoZSBvdXRjb21lLiBJZiBiaXRi
-YWtlIGNhbiBubyBsb25nZXINCj4gZGV0ZXJtaW5lIHRoZSBsYXRlc3QgdmVyc2lvbiwgc2V0IFVQ
-U1RSRUFNX0NIRUNLX1VSSSB0byB0aGUgd2VicGFnZSB3aGVyZQ0KPiBhbGwgdGhlIHRhcmJhbGxz
-IGFyZSBsaW5rZWQgZnJvbSAoSSB0aGluayBpdCB3b3VsZCBiZQ0KPiBodHRwczovL2dpdGh1Yi5j
-b20vaW50ZWwvJHtCUE59L3JlbGVhc2VzLykuIFRoZXJlJ3MgcGxlbnR5IG9mIHJlY2lwZXMgaW4g
-b2UtY29yZQ0KPiB3aXRoIHNpbWlsYXIgYWRqdXN0bWVudHMsIGlmIHlvdSBuZWVkIGZ1cnRoZXIg
-ZXhhbXBsZXMuDQo+IA0KVGhhbmtzIGZvciB5b3VyIGlucHV0ISBJIHdpbGwgZG91YmxlIGNoZWNr
-IGFuZCBzZW5kIGEgbmV3IHJldmlzaW9uLg0KDQpSZWJlY2NhDQo=
+--------------F5C3505EB5E3C988AAAEEA80
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 01/19/2018 01:34 AM, Burton, Ross wrote:
+> On 18 January 2018 at 16:47, Randy MacLeod 
+> <randy.macleod@windriver.com <mailto:randy.macleod@windriver.com>> wrote:
+>
+>     On 2018-01-11 11:18 AM, Burton, Ross wrote:
+>
+>         On 9 January 2018 at 01:40, Chen Qi <Qi.Chen@windriver.com
+>         <mailto:Qi.Chen@windriver.com> <mailto:Qi.Chen@windriver.com
+>         <mailto:Qi.Chen@windriver.com>>> wrote:
+>
+>             * hostname is explicitly enabled to keep the same with
+>         previous recipe's
+>                behaviour.
+>
+>
+>         But buildhistory-diff:
+>
+>         packages/corei7-64-poky-linux/coreutils/coreutils: FILELIST:
+>         added "/usr/bin/hostname"
+>
+>         So the old coreutils wasn't building hostname at all (we use
+>         /bin/hostname from busybox).
+>
+>     Are you asking Chen to package coreutils.hostname and
+>     use the alternatives mechanism with busybox's hostname as the default?
+>     (busybox hostname has annoyed me in a past life!)
+>
+>
+> I'm not sure what I'm asking, just pointing out that the log is wrong 
+> as the old coreutils wasn't building a hostname binary.
+>
+> If someone sets base_bindir and bindir to the same directory then 
+> there will be a conflict, so this does need to be sorted somehow.
+>
+> Ross
+
+Hi Ross,
+
+You are right about this. The old coreutils doesn't build out hostname. 
+I cannot recall why I thought it did. Anyway I can see from this mistake 
+that using buildhistory is indeed a big help, and I'll use it in my 
+future work.
+
+I've sent out a fix to resolve the conflict problem about hostname 
+between coreutils and other packages (busybox and net-tools).
+
+Best Regards,
+Chen Qi
+
+
+
+--------------F5C3505EB5E3C988AAAEEA80
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/19/2018 01:34 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LanxcbSTOatAxbD_hn6meS1Rwkvjug_+DPryMUcW1nAQA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">On 18 January 2018 at 16:47, Randy MacLeod <span
+          dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:randy.macleod@windriver.com" target="_blank">randy.macleod@windriver.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">On
+              2018-01-11 11:18 AM, Burton, Ross wrote:<span class=""><br>
+                <blockquote class="gmail_quote" style="margin:0 0 0
+                  .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                  On 9 January 2018 at 01:40, Chen Qi &lt;<a
+                    moz-do-not-send="true"
+                    href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>
+                  &lt;mailto:<a moz-do-not-send="true"
+                    href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;<wbr>&gt;
+                  wrote:<br>
+                  <br>
+                      * hostname is explicitly enabled to keep the same
+                  with previous recipe's<br>
+                         behaviour.<br>
+                  <br>
+                  <br>
+                  But buildhistory-diff:<br>
+                  <br>
+                  packages/corei7-64-poky-linux/<wbr>coreutils/coreutils:
+                  FILELIST: added "/usr/bin/hostname"<br>
+                  <br>
+                  So the old coreutils wasn't building hostname at all
+                  (we use /bin/hostname from busybox).<br>
+                </blockquote>
+              </span></blockquote>
+            <div> </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">Are you
+              asking Chen to package coreutils.hostname and<br>
+              use the alternatives mechanism with busybox's hostname as
+              the default?<br>
+              (busybox hostname has annoyed me in a past life!)<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>I'm not sure what I'm asking, just pointing out that
+              the log is wrong as the old coreutils wasn't building a
+              hostname binary.</div>
+            <div><br>
+            </div>
+            <div>If someone sets base_bindir and bindir to the same
+              directory then there will be a conflict, so this does need
+              to be sorted somehow.</div>
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross,<br>
+    <br>
+    You are right about this. The old coreutils doesn't build out
+    hostname. I cannot recall why I thought it did. Anyway I can see
+    from this mistake that using buildhistory is indeed a big help, and
+    I'll use it in my future work.<br>
+    <br>
+    I've sent out a fix to resolve the conflict problem about hostname
+    between coreutils and other packages (busybox and net-tools).<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------F5C3505EB5E3C988AAAEEA80--
