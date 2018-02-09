@@ -1,48 +1,25 @@
-Return-Path: <ricardo@opensourcefoundries.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A3BAD78654
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 841607807D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 02:44:40 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id e20so8334531qkm.7
+	Fri,  9 Feb 2018 03:27:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w193RMbp027721
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Feb 2018 18:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Poa/lIxvZVzyVMnQQCBu2JH24V0tqsP4vJcsM8+cvRg=;
-	b=S5rxvIrTiT5u69umOxvgT7trFxsFAvdWGebUlTmrfHaLJqRc6bZWy0menha2KYV1cj
-	BK0F6hHs4vHdoz/Fe288dHFSWuDmArkloChc4GSgABMxUvLpr0NUFWKWZY2W85sbgtVr
-	aEdBSNJgVsWwuqTap9bjG8ZJ/IcPD3hZRT/jU9WG3naZ8kGISxCWuHFwIsDeAcnmZ0C3
-	Cy4maZ7tllIO1ngdomM7pn7mLFHRAoRwBOFN/rZjH3cJalFQCX59Z7RgeUoz0vTok29D
-	DaGjb6o9UuTIlBmKV29514q1nLAAFamra69CXndEtjhOaHar6K3W/kIefsHVe39t7nY4
-	xj9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Poa/lIxvZVzyVMnQQCBu2JH24V0tqsP4vJcsM8+cvRg=;
-	b=QwfAaU7evtRfkpTz/bBSGrWoig9Z112vlh/APGhiBOBIV69YOsoEOqKfING8ao0XVW
-	PeTGw2KMiGY+Lpq42p5JB9ns5aC5LZroG49aGDoE7vGm7iMszU1CzM4cA+K29dFKKsu8
-	MYujCUcYArmYHHM01+mcd1K4AgfXKGXPZ8PUZ/UajXEeg9H20FSCWvBaFNEoFW16911U
-	LdASw+gZ4+6kwyt99Len3T95NFOrAS+dhxDDlJ7kXtIFsBDnDc1zxst2XOvkqo7aYMfs
-	xh3/qBuIfkPvX6jQog1fJm+gddw3rHARs3l9Hm+z9FX0L9jj9PNxjwvO1w0u3fj9zmkE
-	qTmQ==
-X-Gm-Message-State: APf1xPANxeUblB3RBQqsbp7rqFu3KllBlHuGcHlwIqSe6arAEZm6d8ol
-	z+6kuA/OzuFRgUCAu3yoesrXQvd1wQ==
-X-Google-Smtp-Source: AH8x224XEa1tJ25sUl7pK8Gj9FFf3l6RhGgUEE4y6iouR2qiZfzKJza/9bhheuv3gqaSjV4I9OWQqQ==
-X-Received: by 10.55.144.198 with SMTP id s189mr1827815qkd.168.1518144281170; 
-	Thu, 08 Feb 2018 18:44:41 -0800 (PST)
-Received: from localhost.localdomain ([189.4.104.170])
-	by smtp.gmail.com with ESMTPSA id f4sm1085439qtc.16.2018.02.08.18.44.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Feb 2018 18:44:39 -0800 (PST)
-From: Ricardo Salveti <ricardo@opensourcefoundries.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Feb 2018 23:41:18 -0200
-Message-Id: <1518140478-7992-1-git-send-email-ricardo@opensourcefoundries.com>
+	Thu, 8 Feb 2018 19:27:23 -0800 (PST)
+Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 8 Feb 2018 19:27:15 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Feb 2018 11:25:34 +0800
+Message-ID: <1518146734-31932-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] initramfs-framework: rootfs: add support for LABEL
+MIME-Version: 1.0
+X-Originating-IP: [128.224.163.220]
+Subject: [PATCH] ltp: fix confiugre with numa support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 02:44:40 -0000
+X-List-Received-Date: Fri, 09 Feb 2018 03:27:22 -0000
+Content-Type: text/plain
 
-The rootfs can also be found via the partition label.
+Fix Add-knob-to-control-whether-numa-support-should-be-c.patch since it
+doesn't work when set --with-numa=yes.
+Disable the test program since it can not run while cross compiling.
 
-Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 5 +++++
- 1 file changed, 5 insertions(+)
+ ...-control-whether-numa-support-should-be-c.patch | 31 +++++++++++++++-------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-index 14768f1..76fa84d 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-@@ -31,6 +31,11 @@ rootfs_run() {
- 				bootparam_root="/dev/disk/by-partuuid/$root_uuid"
- 			fi
+diff --git a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
+index 31460b9..f8790d7 100644
+--- a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
++++ b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
+@@ -10,36 +10,47 @@ during build depending upong numa being staged or not
+ Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+ Upstream-Status: Pending
+ ---
+  m4/ltp-numa.m4 | 10 +++++++++-
+  1 file changed, 9 insertions(+), 1 deletion(-)
  
-+			if [ "`echo ${bootparam_root} | cut -c1-6`" = "LABEL=" ]; then
-+				root_label=`echo $bootparam_root | cut -c7-`
-+				bootparam_root="/dev/disk/by-label/$root_label"
-+			fi
-+
- 			if [ -e "$bootparam_root" ]; then
- 				flags=""
- 				if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | grep -w -q "ro"; then
+ diff --git a/m4/ltp-numa.m4 b/m4/ltp-numa.m4
+-index fc3383e..44cb559 100644
++index fc3383e..1ca4613 100644
+ --- a/m4/ltp-numa.m4
+ +++ b/m4/ltp-numa.m4
+-@@ -24,7 +24,13 @@ dnl LTP_CHECK_SYSCALL_NUMA
++@@ -24,21 +24,18 @@ dnl LTP_CHECK_SYSCALL_NUMA
+  dnl ----------------------------
+  dnl
+  AC_DEFUN([LTP_CHECK_SYSCALL_NUMA], [
+ -	AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
++-	AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
++-
++-	if test "x$have_numa_headers" != "xno"; then
++-		AC_RUN_IFELSE([AC_LANG_PROGRAM([
++-#include <numa.h>
++-		], [
++-#if LIBNUMA_API_VERSION < 2
++-exit(1);
++-#endif
++-		])], [have_numa_headers_v2=yes])
++-	fi
+ +	AC_MSG_CHECKING([for numa])
+ +	AC_ARG_WITH(
+ +		[numa],
+-+		AC_HELP_STRING([--without-numa],
+-+		[without numa support]),
+-+		[],
+++		AC_HELP_STRING([--with-numa],
+++		[with numa support]),
+ +	[AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
+- 	AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
+++	AC_CHECK_HEADERS([numa.h numaif.h], [have_numa_headers=yes have_numa_headers_v2=yes], [have_numa_headers=no])
+  
+- 	if test "x$have_numa_headers" != "xno"; then
+-@@ -42,3 +48,5 @@ exit(1);
++ 	if test "x$have_libnuma" = "xyes" -a "x$have_numa_headers" != "xno" -a "x$have_numa_headers_v2" = "xyes"; then
++ 		AC_SUBST(NUMA_LIBS, "-lnuma")
+  		AC_DEFINE(HAVE_NUMA_V2, 1, [Define to 1 if you have libnuma and it's headers version >= 2 installed.])
+  	fi
+- ])
+++], [])
+ +AC_MSG_RESULT([$with_numa])
+-+])
++ ])
+ -- 
+ 2.7.0
+ 
 -- 
 2.7.4
 
