@@ -1,26 +1,32 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B4B778801
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4453C7827F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 07:46:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w197kVqO024574
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Feb 2018 23:46:31 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.244) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 8 Feb 2018 23:46:23 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Feb 2018 15:49:32 +0800
-Message-ID: <4a64681d801f0f424da0b53c921e55b5e63c1bca.1518162342.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1518162342.git.Qi.Chen@windriver.com>
-References: <cover.1518162342.git.Qi.Chen@windriver.com>
+	Fri,  9 Feb 2018 07:50:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Feb 2018 23:50:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,482,1511856000"; d="scan'208";a="16493556"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga007.fm.intel.com with ESMTP; 08 Feb 2018 23:50:28 -0800
+To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1518150301-33101-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+	<754a5028-97a1-79a3-fe48-232cea8d3a6d@linux.intel.com>
+	<50B33AC5ED75F74F991980326F1C438D1F208698@PGSMSX103.gar.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <e5a3c0d5-20ac-437f-8460-aafea427b961@linux.intel.com>
+Date: Fri, 9 Feb 2018 09:44:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] coreutils: fix hostname conflict with other packages
+In-Reply-To: <50B33AC5ED75F74F991980326F1C438D1F208698@PGSMSX103.gar.corp.intel.com>
+Subject: Re: [PATCH 1/2] bmap-tools: change SRC_URI to use tarball instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 07:46:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 Feb 2018 07:50:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The hostname utility is also provided by busybox and net-tools. So
-use alternatives mechanism to manage it in coreutils. Make its priority
-higher than busybox. As hostname is not built by default for coreutils,
-we make its priority lower than net-tools.
+On 02/09/2018 09:14 AM, Chang, Rebecca Swee Fun wrote:
+>> When you switch the upstream source location like this, you need to verify that
+>> upstream version check still works:
+>>
+>> bitbake -c checkpkg bmap-tools
+>>
+>> and inspect tmp/log/checkpkg.csv to see the outcome. If bitbake can no longer
+>> determine the latest version, set UPSTREAM_CHECK_URI to the webpage where
+>> all the tarballs are linked from (I think it would be
+>> https://github.com/intel/${BPN}/releases/). There's plenty of recipes in oe-core
+>> with similar adjustments, if you need further examples.
+>>
+> Thanks for your input! I will double check and send a new revision.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/coreutils/coreutils_8.29.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Ah, how could I forget. Devtool makes this much more convenient:
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.29.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
-index 8df8802..0b8acc5 100644
---- a/meta/recipes-core/coreutils/coreutils_8.29.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
-@@ -52,7 +52,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
-                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
- 
- # hostname gets a special treatment and is not included in this
--base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
-+base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill ln ls mkdir \
-                      mknod mv pwd rm rmdir sleep stty sync touch true uname stat"
- 
- sbindir_progs= "chroot"
-@@ -95,6 +95,8 @@ do_install_append() {
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "100"
-+# Make hostname's priority higher than busybox but lower than net-tools
-+ALTERNATIVE_PRIORITY[hostname] = "90"
- ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base64 mktemp df"
- ALTERNATIVE_${PN}-doc = "base64.1 mktemp.1 df.1 groups.1 kill.1 uptime.1 stat.1  hostname.1"
- 
--- 
-1.9.1
+devtool latest-version bmap-tools
+
+
+Alex
 
 
