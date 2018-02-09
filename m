@@ -1,25 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 841607807D
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id B85117843F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Feb 2018 03:27:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w193RMbp027721
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Feb 2018 19:27:23 -0800 (PST)
-Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 8 Feb 2018 19:27:15 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Feb 2018 11:25:34 +0800
-Message-ID: <1518146734-31932-1-git-send-email-yi.zhao@windriver.com>
+	Fri,  9 Feb 2018 04:30:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Feb 2018 20:30:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,481,1511856000"; d="scan'208";a="16793692"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga008.jf.intel.com with ESMTP; 08 Feb 2018 20:30:24 -0800
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Feb 2018 12:25:00 +0800
+Message-Id: <1518150301-33101-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.163.220]
-Subject: [PATCH] ltp: fix confiugre with numa support
+Subject: [PATCH 1/2] bmap-tools: change SRC_URI to use tarball instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Feb 2018 03:27:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 Feb 2018 04:30:24 -0000
 
-Fix Add-knob-to-control-whether-numa-support-should-be-c.patch since it
-doesn't work when set --with-numa=yes.
-Disable the test program since it can not run while cross compiling.
+Tarball sources can be checksummed and are faster to download.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- ...-control-whether-numa-support-should-be-c.patch | 31 +++++++++++++++-------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
-index 31460b9..f8790d7 100644
---- a/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
-+++ b/meta/recipes-extended/ltp/ltp/0002-Add-knob-to-control-whether-numa-support-should-be-c.patch
-@@ -10,36 +10,47 @@ during build depending upong numa being staged or not
- Signed-off-by: Roy.Li <rongqing.li@windriver.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
- Upstream-Status: Pending
- ---
-  m4/ltp-numa.m4 | 10 +++++++++-
-  1 file changed, 9 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+index 70b6e91..6975acb 100644
+--- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
++++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+@@ -9,10 +9,10 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- diff --git a/m4/ltp-numa.m4 b/m4/ltp-numa.m4
--index fc3383e..44cb559 100644
-+index fc3383e..1ca4613 100644
- --- a/m4/ltp-numa.m4
- +++ b/m4/ltp-numa.m4
--@@ -24,7 +24,13 @@ dnl LTP_CHECK_SYSCALL_NUMA
-+@@ -24,21 +24,18 @@ dnl LTP_CHECK_SYSCALL_NUMA
-  dnl ----------------------------
-  dnl
-  AC_DEFUN([LTP_CHECK_SYSCALL_NUMA], [
- -	AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
-+-	AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
-+-
-+-	if test "x$have_numa_headers" != "xno"; then
-+-		AC_RUN_IFELSE([AC_LANG_PROGRAM([
-+-#include <numa.h>
-+-		], [
-+-#if LIBNUMA_API_VERSION < 2
-+-exit(1);
-+-#endif
-+-		])], [have_numa_headers_v2=yes])
-+-	fi
- +	AC_MSG_CHECKING([for numa])
- +	AC_ARG_WITH(
- +		[numa],
--+		AC_HELP_STRING([--without-numa],
--+		[without numa support]),
--+		[],
-++		AC_HELP_STRING([--with-numa],
-++		[with numa support]),
- +	[AC_CHECK_LIB(numa, numa_available, [have_libnuma=yes])
-- 	AC_CHECK_HEADERS([numa.h numaif.h], [], [have_numa_headers=no])
-++	AC_CHECK_HEADERS([numa.h numaif.h], [have_numa_headers=yes have_numa_headers_v2=yes], [have_numa_headers=no])
-  
-- 	if test "x$have_numa_headers" != "xno"; then
--@@ -42,3 +48,5 @@ exit(1);
-+ 	if test "x$have_libnuma" = "xyes" -a "x$have_numa_headers" != "xno" -a "x$have_numa_headers_v2" = "xyes"; then
-+ 		AC_SUBST(NUMA_LIBS, "-lnuma")
-  		AC_DEFINE(HAVE_NUMA_V2, 1, [Define to 1 if you have libnuma and it's headers version >= 2 installed.])
-  	fi
-- ])
-++], [])
- +AC_MSG_RESULT([$with_numa])
--+])
-+ ])
- -- 
- 2.7.0
+-SRC_URI = "git://github.com/intel/bmap-tools.git"
+-SRCREV = "9dad724104df265442226972a1e310813f9ffcba"
++SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BPN}-${PV}.tgz"
+ 
+-S = "${WORKDIR}/git"
++SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
++SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
+ 
+ RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools"
  
 -- 
 2.7.4
