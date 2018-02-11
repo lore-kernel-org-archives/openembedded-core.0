@@ -1,29 +1,38 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D119E6093E
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E540C602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Feb 2018 08:34:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1B8YUDF027916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 11 Feb 2018 00:34:30 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.240) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 11 Feb 2018 00:34:21 -0800
-To: Joshua Watt <jpewhacker@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180131170230.7183-1-JPEWhacker@gmail.com>
-	<20180131194956.23938-1-JPEWhacker@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57e7aa56-8823-4083-1812-fada355d1eb0@windriver.com>
-Date: Sun, 11 Feb 2018 16:35:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180131194956.23938-1-JPEWhacker@gmail.com>
-Cc: jslater@windriver.com, stefan.agner@toradex.com
-Subject: Re: [PATCH v2] waf.bbclass: cd to ${S} before checking version
+	Sun, 11 Feb 2018 15:55:36 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id n188so15744448qkn.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Feb 2018 07:55:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YiRePTL4YkQPmRmpD52DymksR3h9+6AopVFIweBNnrU=;
+	b=K2fTayhiJzN6SZP/npzVeECRHASN7H9Rz2nF/RdxkZGkVAmL5bthpUh0USREsTIZwE
+	GR+6Z+LaYf28EkqlDDk6aCWqcRhBzwDp85SThtRwFDxgNdBKGGLPBn6ISymBWjjVdW0q
+	vLvmLBoDo3Bupl1Ll6lO5wiK17XScBYSM+6tOcOtGO9U8BKMpSfQcvw70g76ooCUoKSY
+	/AEmlAtficIoyjTX+aCzNFSK/uoPpRBeTG2QwLx8gJhW7M8f8s4aTeVJd1gpj4tu9eNw
+	5nfj1fY3VV2xtD+/4EZT4G8pWPTCjitXldCvWcdqnoVPlzVcxk1LxS2pigmGybnFQ2Vt
+	8DmA==
+X-Gm-Message-State: APf1xPCdmW8LEduqG7aMY/7K2YEY4k6JvdXVYCmgoQNRlhn3+src2FS+
+	xJETTRlpA4nPby6hFEI96srdzDyX
+X-Google-Smtp-Source: AH8x226i+9jtP3XNxZNSM8k5fgZzLR6XL6PGB8pUlX/uoCVWSNdtPSgqUdyuNUjijI+JwK2yfHFf2g==
+X-Received: by 10.55.158.199 with SMTP id h190mr11887448qke.167.1518364537692; 
+	Sun, 11 Feb 2018 07:55:37 -0800 (PST)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id
+	f128sm4634627qkc.36.2018.02.11.07.55.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 11 Feb 2018 07:55:37 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Feb 2018 10:55:22 -0500
+Message-Id: <1518364522-12197-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python*-setuptools: update to 38.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,78 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Feb 2018 08:34:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 11 Feb 2018 15:55:37 -0000
 
-Hi Joshua,
+Update the python{3}-setuptools to the latest stable version
 
-This one causes the following 2 recipes failed to build:
+Tested on the qemu with core-image-minimal
 
-meta-openembedded/meta-networking/recipes-support/libtalloc/libtalloc_2.1.10.bb:do_configure
-meta-openembedded/meta-networking/recipes-support/libtdb/libtdb_1.3.15.bb:do_configure
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
+ .../{python-setuptools_38.4.0.bb => python-setuptools_38.5.1.bb}      | 0
+ .../{python3-setuptools_38.4.0.bb => python3-setuptools_38.5.1.bb}    | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_38.4.0.bb => python-setuptools_38.5.1.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_38.4.0.bb => python3-setuptools_38.5.1.bb} (100%)
 
-The error messages are similar:
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index fc4fd9c..65383ce 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
+ 
+ inherit pypi
+ 
+-SRC_URI[md5sum] = "3426bbf31662b4067dc79edc0fa21a2e"
+-SRC_URI[sha256sum] = "6501fc32f505ec5b3ed36ec65ba48f1b975f52cf2ea101c7b73a08583fd12f75"
++SRC_URI[md5sum] = "1705ae74b04d1637f604c336bb565720"
++SRC_URI[sha256sum] = "6425484c08e99a98a42209c25c3d325f749230b55284d66192784f941a7e6628"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ DEPENDS_class-native += "${PYTHON_PN}-native"
+diff --git a/meta/recipes-devtools/python/python-setuptools_38.4.0.bb b/meta/recipes-devtools/python/python-setuptools_38.5.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_38.4.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_38.5.1.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_38.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_38.5.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_38.4.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_38.5.1.bb
+-- 
+2.7.4
 
-File: '/usr/lib/python3.4/subprocess.py', lineno: 1457, function: _execute_child
-      1453:                                # The error must be from chdir(cwd).
-      1454:                                err_msg += ': ' + repr(cwd)
-      1455:                            else:
-      1456:                                err_msg += ': ' + repr(orig_executable)
-  *** 1457:                    raise child_exception_type(errno_num, err_msg)
-      1458:                raise child_exception_type(err_msg)
-      1459:
-      1460:
-      1461:        def _handle_exitstatus(self, sts, _WIFSIGNALED=os.WIFSIGNALED,
-Exception: FileNotFoundError: [Errno 2] No such file or directory: 
-'/path/to/tmp-glibc/work/i586-wrs-linux/libtdb/1.3.15-r0/tdb-1.3.15/waf'
-
-// Robert
-
-On 02/01/2018 03:49 AM, Joshua Watt wrote:
-> waf requires that the current working directory be the project root (in
-> this case ${S} when it is invoked. The check to get the waf version was
-> being executed as a prefunc for do_configure, which meant it was
-> executed before the current working directory was switched to ${S}, and
-> thus would fail with some recipes. Fix this by changing to ${S} before
-> executing "waf --version"
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   meta/classes/waf.bbclass | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> index c3e744e5dec..bdbdc56767c 100644
-> --- a/meta/classes/waf.bbclass
-> +++ b/meta/classes/waf.bbclass
-> @@ -26,16 +26,17 @@ def get_waf_parallel_make(d):
->       return ""
->   
->   python waf_preconfigure() {
-> +    import subprocess
->       from distutils.version import StrictVersion
-> -    srcsubdir = d.getVar('S')
-> -    wafbin = os.path.join(srcsubdir, 'waf')
-> -    status, result = oe.utils.getstatusoutput(wafbin + " --version")
-> -    if status != 0:
-> -        bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % status)
-> -        return
-> -    version = result.split()[1]
-> -    if StrictVersion(version) >= StrictVersion("1.8.7"):
-> -        d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
-> +    subsrcdir = d.getVar('S')
-> +    wafbin = os.path.join(subsrcdir, 'waf')
-> +    try:
-> +        result = subprocess.check_output([wafbin, '--version'], cwd=subsrcdir, stderr=subprocess.STDOUT)
-> +        version = result.decode('utf-8').split()[1]
-> +        if StrictVersion(version) >= StrictVersion("1.8.7"):
-> +            d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
-> +    except subprocess.CalledProcessError as e:
-> +        bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % e.returncode)
->   }
->   
->   do_configure[prefuncs] += "waf_preconfigure"
-> 
 
