@@ -1,37 +1,47 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 588E877BC3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D893860053
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Feb 2018 16:36:13 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id o7so1412407qkc.1
+	Sun, 11 Feb 2018 16:44:00 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id 41so12881528wrc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Feb 2018 08:36:15 -0800 (PST)
+	Sun, 11 Feb 2018 08:44:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=q1uIKSqGueEdRz7BUqomvQtZ6qg76zHXokTeP/44/f4=;
+	b=L8xio/tJjPgPw4TNAl1eTt5qlitvZInvgu8e43/k3Srt0jB0p/8SGdck1cWImxprEr
+	7+01RI/aILDqcvVTTfnC5a9DNh/Zu3cMFRgyWVPrhGe6uRJ2F8fw8qps5G4IXYhTiUNk
+	r/PIK8CYknEHtK+XKOwlMGSQ8wX7YvTf1bZO0y9n6mh9PQEZAAtEOy1zKfF3vMwFODc9
+	/8NV6SzamIuOKCyRCfFhwvuYlr89ijYcZShxLvXFV4FmDOl+e4PMpIa1viVGbDVkHZEp
+	x81zL7LoHULbcoTmcC3Z2iFw+wVjkcGrk5MGlc9UXBBT7ce3g0tAk08Z4t8xPYrjQpes
+	vuNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UDg9CLTHZuIPKf8KX0j/hbd7WobDLuwgzIlK8ccybwg=;
-	b=XyyvgUsC/cd/giqhSmpVtsDevRIrmDayZZXHVRh/UaHOQw2NzrnItFzBh3PNBmEryD
-	bo3ri7CQRjIP0pIGtcj6NNuFRXXx5AY3GUc+qU+AT/RpfX1cYMdGnhcOMDEJUB8/ycHj
-	n4cuu/gzduWWRTKhDk2MDe7OcEeSgoA39VphhPgBtRJ03EGRz43pjicYMdhExxdIP9xM
-	leJMaY+/JDLi8ncU0hKQd9k2i9dO9K13ZzmUo2lTj7jNRiCKwEst+ALLigTcpo0d8gLm
-	MVTGFuXa8AmK5Z/vF6Vrm62fVTRYGXDHRVUPz2LT6WpjRofvRMFQ777cPwnKWQ2BxYWS
-	ZITg==
-X-Gm-Message-State: APf1xPCzODhQCHkwFQDstLMZVxy7GglFunyq4ca2kma+oEClxExb8mAC
-	MF2npxNgrcjVh7CUWCnGlb2nyhG/
-X-Google-Smtp-Source: AH8x224lk6FoAQ4k8rLj4PVISdQ352q7LNnzhyjQQyZ9w9MN1hVPLeua4keJkBYWlIq4DbH2E9e3sw==
-X-Received: by 10.55.16.31 with SMTP id a31mr14036845qkh.298.1518366975046;
-	Sun, 11 Feb 2018 08:36:15 -0800 (PST)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id w18sm14233qkw.35.2018.02.11.08.36.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 11 Feb 2018 08:36:14 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Feb 2018 11:36:04 -0500
-Message-Id: <1518366964-14607-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2] python3-dbus: update to version 1.2.6
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=q1uIKSqGueEdRz7BUqomvQtZ6qg76zHXokTeP/44/f4=;
+	b=nqnTfKeHNKb92OzmK1U2qcqYc1yFzEnEZKsUFydFUYwVfL+Y4gbWs5KAg86aI3HRW/
+	+AJXgBGt4/o08gaim/jjHztrH9f2MEmhcF8LLXXOKHejSp9AGGmIkFrp9TuUZ32g8Wd3
+	5qlfIB1nIQGL+07fYLSDIownYptUkXvYnLEcvB7pOlGzNV73u/mXSa8FpXDrrYlTbCoe
+	PiZmxDMuvsAwQVXCqOtWEJxGr0T0YgrZNKqXiV6jEZYOvcqVRJt37O3rQ/iAFLpeblug
+	grAUtjje8V1Zqc96dUkavF+2PG9gbSmNqr3c4F2HTUg/W/cN/TdDDvQk6m/725JhA6Xh
+	oXVg==
+X-Gm-Message-State: APf1xPBSrR0Xrxub11tDzOKUKvQQYk+hkKvKKkEqwruIBtsvHs5wJ/oE
+	S0W9mLAXjrDbHmlt5ubItW0gxeTRO1i08pl8v8b5gg==
+X-Google-Smtp-Source: AH8x225JmyJ+G7nxZZnl3P1rkx0Pw6lHcWKiC6OORygI7N6XiwsZaMB+VFoXvh0oqxfwwT3vQptpjJZG6XrU7UrWHJo=
+X-Received: by 10.223.132.166 with SMTP id 35mr7531484wrg.183.1518367441351;
+	Sun, 11 Feb 2018 08:44:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.28.74.211 with HTTP; Sun, 11 Feb 2018 08:44:00 -0800 (PST)
+In-Reply-To: <20180201122218.4533-1-Martin.Jansa@gmail.com>
+References: <20180201122218.4533-1-Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 11 Feb 2018 17:44:00 +0100
+Message-ID: <CA+chaQcQztFnFJjZhXVYQeTZuv4qJ41j5cNca0NJhHPz4R6x7A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [pyro][PATCH] bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +54,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Feb 2018 16:36:14 -0000
+X-List-Received-Date: Sun, 11 Feb 2018 16:44:01 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0defbefaf7eb0564f27704"
 
-License-Update: Checksum updated for added clarification to licenses
-in other directories and verified the license terms remain the same
+--94eb2c0defbefaf7eb0564f27704
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- .../python/{python3-dbus_1.2.4.bb => python3-dbus_1.2.6.bb}         | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-dbus_1.2.4.bb => python3-dbus_1.2.6.bb} (77%)
+50e7619aebae5351e9a41fe1b909a31b9e383f0a bitbake.conf: add ssh to
+HOSTTOOLS_NONFATAL
 
-diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb b/meta/recipes-devtools/python/python3-dbus_1.2.6.bb
-similarity index 77%
-rename from meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-rename to meta/recipes-devtools/python/python3-dbus_1.2.6.bb
-index de5a01c..19cbae9 100644
---- a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.6.bb
-@@ -2,14 +2,14 @@ SUMMARY = "Python bindings for the DBus inter-process communication system"
- SECTION = "devel/python"
- HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0b83047ce9e948b67c0facc5f233476a"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b03240518994df6d8c974675675e5ca4"
- DEPENDS = "expat dbus dbus-glib virtual/libintl"
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
- "
- 
--SRC_URI[md5sum] = "7372a588c83a7232b4e08159bfd48fe5"
--SRC_URI[sha256sum] = "e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc"
-+RSRC_URI[md5sum] = "1ce1ddf2582060f8f971652ea54cc17e"
-+SRC_URI[sha256sum] = "32f29c17172cdb9cb61c68b1f1a71dfe7351506fc830869029c47449bd04faeb"
- S = "${WORKDIR}/dbus-python-${PV}"
- 
- inherit distutils3-base autotools pkgconfig
--- 
-2.7.4
+should be cherry-picked together with this one.
 
 
+On Thu, Feb 1, 2018 at 1:22 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Add tools required by testimage to HOSTTOOLS only when testimage is
+> inherited. These tools, as described in the comment, are only required
+> by the testimage task. So this change should not have negtive effect.
+> This would also solve build error on hosts which miss some tool such as
+> scp.
+>
+> Cherry-picked from rocko 8ca61a5464743ff85b6d26886112750d6ddd13e0
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 2dac3a1481..f3994fc642 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -469,7 +469,7 @@ HOSTTOOLS += " \
+>  "
+>
+>  # Tools needed to run testimage runtime image testing
+> -HOSTTOOLS += "ip ping ps scp ssh stty"
+> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage',
+> d)]}"
+>
+>  # Link to these if present
+>  HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat
+> sudo"
+> --
+> 2.15.1
+>
+>
+
+--94eb2c0defbefaf7eb0564f27704
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">50e7619aebae5351e9a41fe1b909a31b9e383f0a bitbake.conf: add=
+ ssh to HOSTTOOLS_NONFATAL<div><br></div><div>should be cherry-picked toget=
+her with this one.<br><div><br></div></div></div><div class=3D"gmail_extra"=
+><br><div class=3D"gmail_quote">On Thu, Feb 1, 2018 at 1:22 PM, Martin Jans=
+a <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D=
+"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi=
+.Chen@windriver.com</a>&gt;<br>
+<br>
+Add tools required by testimage to HOSTTOOLS only when testimage is<br>
+inherited. These tools, as described in the comment, are only required<br>
+by the testimage task. So this change should not have negtive effect.<br>
+This would also solve build error on hosts which miss some tool such as scp=
+.<br>
+<br>
+Cherry-picked from rocko 8ca61a5464743ff85b6d2688611275<wbr>0d6ddd13e0<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
+@windriver.com</a>&gt;<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com">M=
+artin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/bitbake.conf | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+index 2dac3a1481..f3994fc642 100644<br>
+--- a/meta/conf/bitbake.conf<br>
++++ b/meta/conf/bitbake.conf<br>
+@@ -469,7 +469,7 @@ HOSTTOOLS +=3D &quot; \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0# Tools needed to run testimage runtime image testing<br>
+-HOSTTOOLS +=3D &quot;ip ping ps scp ssh stty&quot;<br>
++HOSTTOOLS +=3D &quot;${@[&#39;&#39;, &#39;ip ping ps scp ssh stty&#39;][bb=
+.data.inherits_class(<wbr>&#39;testimage&#39;, d)]}&quot;<br>
+<br>
+=C2=A0# Link to these if present<br>
+=C2=A0HOSTTOOLS_NONFATAL +=3D &quot;aws ccache gcc-ar gpg ld.bfd ld.gold nc=
+ sftp socat sudo&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.15.1<br>
+<br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c0defbefaf7eb0564f27704--
