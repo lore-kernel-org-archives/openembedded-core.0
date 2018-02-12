@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CF2E478441
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D99178493
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:35 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id 140so363223iti.0
+	Mon, 12 Feb 2018 16:52:37 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id x128so7476869ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:52:37 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HFl38gtxoLTir5EPxD4tK6xGlFsIm1j/GDqwvgPVlf8=;
-	b=gqaLYA8U5uUcER85583ut4C+FNgWAADicBAN5CD6wHGRcN4y88QBXFTKZrfYvM6cSZ
-	kSPRxKZiO4dP+NErqeMIfTe/iavPDpQ1knMV5CpBlQwG9T+14eqDECj5W9K6f0jL5cmg
-	d+R+7edPnghq+84sUDnrThIMyJ1i3SriJEuWSvHhadhRkJEgC/PTSYSf94fJroKmfuUJ
-	pXwjP82EleVVz0CKXM6RYtcSlvwo9cvauyT42Yc8yqdEUKXW9YWME2Z5E/7SR6GiPdG6
-	I7RWUPhAiQKv25uxkZ7uVtrkqJY8ra7zB9LgqBVKymbd2jg4/+z0JH8DIje3BijkWX+6
-	1m+Q==
+	bh=caC/w63ya/Gkn0LAnSJieKEVZlbdiUOT1MCKxxQtRNg=;
+	b=ZGInlrJOF0Rc7ckjFG/gP0sWH/HOFg285C1U4Nf4FrmJQVuFPVxuPoElW/o93kz4QN
+	09jd0h//aezoJaLGydCaw8xA1OhUu5rJJ1GkeTpub0IqLIiPJHEfw3m6kngOcF1ddCzb
+	+/LElxkOxDHAHFro/cmm2rKwnD8D4izvp87n80fBmJ1UhvzR6w5cnMpMxMfHjL4p5zkC
+	IeUrE5Wf8K7wuEOAW/Eg9guQpFHMRcF9WxPCpRBgJXNMJ8VDs+9pbW1t3gllAgnYMUEs
+	y8vq3YmW1KZ2tmKSTsDxx74dWoV+5ybPEvO6+HkwbM4bbeEYIYMY4U6CwrlgYPzdIQDW
+	Aqvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=HFl38gtxoLTir5EPxD4tK6xGlFsIm1j/GDqwvgPVlf8=;
-	b=E1O0VYm9FYtcLy7SHix4dvZudBbZwmngxuaLb+ezWKC8mPiKwGCanfPpq1HpA0qNiQ
-	yh/a/U76Lm7zIACzhQ6EqUMG5l5bmshZ99H8cw9aWbNaT8ix08CWCVjsh3txV7lVHGPy
-	wTOfpPk8KbNsGvpl/isVYyH4hyM+T5t724B0VEE34ndcVeIjWocsvnTDR3lyHWms8+8z
-	Mp/9yFfD9PWjcH3i6Bds4BhvmAr5yvIpY8Qdi0NczP/7AIHzsQLCmcfbjU8UGebN2zhn
-	Ltk5vCuruZJYdiWXqjckrSl4/igs+WNXcWKLWO6rgMEEizUo78k7Q0Tq1hDw7su8PLVv
-	6HUw==
-X-Gm-Message-State: APf1xPCuRQKeLWbZgubD9WGUVmCwRhoZCY0JWgYdINPu3l9Jjv49P7SC
-	P5M+UeVgVODO6okD0HrmGPQPUGiy
-X-Google-Smtp-Source: AH8x226ir5tUR8f5ZiB0Jmy6sAOHRF2nq1E+9ULdIvPg058UKUskx0B3A2lNKfZaVn9SKQIMosINkw==
-X-Received: by 10.36.213.212 with SMTP id a203mr5950814itg.86.1518454357228;
+	bh=caC/w63ya/Gkn0LAnSJieKEVZlbdiUOT1MCKxxQtRNg=;
+	b=NasNXGRQs2/PheMknSGRuNXLnapX190pyjn5fkln+2q1x8w/HErsI1G7VcvAfT6NOl
+	GAUwzIoN6jeYbbLeldGC6l+36neqNUmVz2XKw66uUGm8YQ7XM7Sr2Gsxo3uoYfh5jOC+
+	nFDD2onEhfoNZs/L8GHi4MPE/nftDTtZeFKhSn9kU9D82VsO1A534o37lLPxz8Nv5sCo
+	ydUQnZDAXggz/TE5s51pm+tH+B32pCYBspp6SHdEMcdH/4Ks1zM6Vvk9ZSiznxBoKuN3
+	O9hoXz/5euu6L3iQG/L2OUdDn3WwgA9OYNZ/1lz00gr+BGHXB7FWgAfQkFBdxhoJ9k02
+	NQvA==
+X-Gm-Message-State: APf1xPDkzjIjI+gOzl/A2Mhv0WJem/+V65W2p5CO7iWveFbHvQd6Gbq7
+	8Qpc9RBe84UGGacjCkXuTemQMvCq
+X-Google-Smtp-Source: AH8x225VI74f0AO2uhuiD2uueANonFAun788pF52ydG8sYPceg26D8DWfYrQJahkQqLD4dvGB9Tqlg==
+X-Received: by 10.36.98.3 with SMTP id d3mr5266530itc.122.1518454357887;
 	Mon, 12 Feb 2018 08:52:37 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	w132sm12206760iow.51.2018.02.12.08.52.36
+	w132sm12206760iow.51.2018.02.12.08.52.37
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Feb 2018 08:52:36 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:37 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:52:11 -0600
-Message-Id: <3eb292246b6bcd983260aa7361e0cd78d604c40c.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:52:12 -0600
+Message-Id: <8d9e30cc0b71f0043ca3340339420f4dee151fb1.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 16/17] icecc-toolchain: Disable caret workaround
+Subject: [PATCH v2 17/17] elfutils: Use fallthrough attribute
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +60,876 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:36 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:38 -0000
 
-Icecream has a behavior that causes it to recompile files locally if gcc
-generates any warnings or errors. The reason for this is that GCC tries
-to re-read the input file in order to display the offending line with a
-caret below it, which doesn't work in the remote chroot.
-
-Default to disabling this this workaround and add
--fno-diagnostics-show-caret to the GCC flags so that errors and warnings
-generated by GCC do not show erroneous results. Users can override this
-default in the SDK by defining ICECC_CARET_WORKAROUND="1" either before
-or after sourcing the SDK environment.
+Patches elfutils to use the fallthrough attribute instead of comments to
+satisfy the -Wimplicit-fallthrough warning. Using comments is
+insufficient when compiling remotely with Icecream because the file gets
+pre-processed locally, removing the comments
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../icecc-toolchain/icecc-toolchain/icecc-env.sh           | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/elfutils/elfutils_0.170.bb   |   4 +-
+ .../files/0001-Use-fallthrough-attribute.patch     | 791 +++++++++++++++++++++
+ .../elfutils/files/debian/fallthrough.patch        |  36 -
+ 3 files changed, 793 insertions(+), 38 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-Use-fallthrough-attribute.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/files/debian/fallthrough.patch
 
-diff --git a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
-index 9c9bb4dc4ea..94760076bfa 100644
---- a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
-+++ b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
-@@ -25,7 +25,19 @@ if [ -z "$ICECC_PATH" ]; then
- fi
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.170.bb b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
+index 3b81e287b01..9242aea26b5 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.170.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
+@@ -32,8 +32,8 @@ SRC_URI += "\
+         file://debian/0002-Add-support-for-mips64-abis-in-mips_retval.c.patch \
+         file://debian/0003-Add-mips-n64-relocation-format-hack.patch \
+ "
+-# Fix the patches from Debian with GCC7
+-SRC_URI += "file://debian/fallthrough.patch"
++# Fix fallthrough with GCC7
++SRC_URI += "file://0001-Use-fallthrough-attribute.patch"
  
- if [ -n "$ICECC_PATH" ]; then
--    export ICECC_PATH
-+    # Default to disabling the caret workaround. If set to "1", icecc will
-+    # locally recompile any files that have warnings, which can adversely
-+    # affect performance.
-+    #
-+    # See: https://github.com/icecc/icecream/issues/190
-+    if [ -z "$ICECC_CARET_WORKAROUND" ]; then
-+        ICECC_CARET_WORKAROUND="0"
-+    fi
-+    if [ "$ICECC_CARET_WORKAROUND" != "1" ]; then
-+        CFLAGS="$CFLAGS -fno-diagnostics-show-caret"
-+        CXXFLAGS="$CXXFLAGS -fno-diagnostics-show-caret"
-+    fi
-+    export ICECC_PATH ICECC_CARET_WORKAROUND
-     export ICECC_VERSION="$OECORE_NATIVE_SYSROOT/usr/share/icecream/@TOOLCHAIN_ENV@"
-     export ICECC="$(which ${CROSS_COMPILE}gcc)"
-     export ICECXX="$(which ${CROSS_COMPILE}g++)"
+ # The buildsystem wants to generate 2 .h files from source using a binary it just built,
+ # which can not pass the cross compiling, so let's work around it by adding 2 .h files
+diff --git a/meta/recipes-devtools/elfutils/files/0001-Use-fallthrough-attribute.patch b/meta/recipes-devtools/elfutils/files/0001-Use-fallthrough-attribute.patch
+new file mode 100644
+index 00000000000..5e2155b3c66
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0001-Use-fallthrough-attribute.patch
+@@ -0,0 +1,791 @@
++From 5cb883f67d00a63531ef195c242763d36b1905ca Mon Sep 17 00:00:00 2001
++From: Joshua Watt <Joshua.Watt@garmin.com>
++Date: Fri, 9 Feb 2018 12:46:38 -0600
++Subject: [PATCH] Use fallthrough attribute
++
++Use __attribute__ ((fallthrough)) to indicate switch case fall through
++instead of a comment. This ensure that the fallthrough warning is not
++triggered even if the file is pre-processed (hence stripping the
++comments) before it is compiled.
++
++The actual fallback implementation is hidden behind a FALLBACK macro in
++case the compiler doesn't support it.
++
++Finally, the -Wimplict-fallthrough warning was upgraded to only allow
++the attribute to satisfy it; a comment alone is no longer sufficient.
++
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++
++Upstream-Status: Submitted [1]
++
++[1] https://sourceware.org/ml/elfutils-devel/2018-q1/msg00027.html
++---
++ backends/aarch64_retval.c    | 2 +-
++ backends/alpha_retval.c      | 4 ++--
++ backends/arm_regs.c          | 2 +-
++ backends/arm_retval.c        | 2 +-
++ backends/i386_regs.c         | 2 +-
++ backends/i386_retval.c       | 4 ++--
++ backends/ia64_retval.c       | 2 +-
++ backends/linux-core-note.c   | 2 +-
++ backends/m68k_retval.c       | 4 ++--
++ backends/mips_retval.c       | 4 ++--
++ backends/parisc_retval.c     | 5 +++--
++ backends/ppc64_retval.c      | 6 +++---
++ backends/ppc_regs.c          | 2 +-
++ backends/ppc_retval.c        | 4 ++--
++ backends/s390_retval.c       | 4 ++--
++ backends/sh_retval.c         | 2 +-
++ backends/sparc_retval.c      | 2 +-
++ backends/tilegx_retval.c     | 4 ++--
++ backends/x86_64_regs.c       | 2 +-
++ backends/x86_64_retval.c     | 2 +-
++ config/eu.am                 | 4 +++-
++ configure.ac                 | 6 ++++++
++ lib/eu-config.h              | 7 +++++++
++ libcpu/i386_disasm.c         | 2 +-
++ libcpu/i386_parse.c          | 4 ++--
++ libdw/cfi.c                  | 4 ++--
++ libdw/dwarf_frame_register.c | 2 +-
++ libdwfl/dwfl_report_elf.c    | 2 +-
++ libdwfl/frame_unwind.c       | 2 +-
++ libebl/eblobjnote.c          | 2 +-
++ libelf/elf32_updatenull.c    | 2 +-
++ libelf/elf_begin.c           | 4 ++--
++ libelf/elf_cntl.c            | 2 +-
++ src/addr2line.c              | 2 +-
++ src/elfcompress.c            | 2 +-
++ src/elflint.c                | 8 ++++----
++ src/objdump.c                | 2 +-
++ src/readelf.c                | 8 ++++----
++ src/strings.c                | 2 +-
++ tests/backtrace.c            | 2 +-
++ tests/elfstrmerge.c          | 3 ++-
++ 41 files changed, 75 insertions(+), 58 deletions(-)
++
++diff --git a/backends/aarch64_retval.c b/backends/aarch64_retval.c
++index 68de307..1308340 100644
++--- a/backends/aarch64_retval.c
+++++ b/backends/aarch64_retval.c
++@@ -292,7 +292,7 @@ aarch64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  assert (count > 0);
++ 	  if (count <= 4)
++ 	    return pass_hfa (locp, base_size, count);
++-	  /* Fall through.  */
+++	  FALLTHROUGH;
++ 
++ 	case 1:
++ 	  /* Not a HFA.  */
++diff --git a/backends/alpha_retval.c b/backends/alpha_retval.c
++index 53dbfa4..d9bae3b 100644
++--- a/backends/alpha_retval.c
+++++ b/backends/alpha_retval.c
++@@ -85,7 +85,7 @@ alpha_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -131,7 +131,7 @@ alpha_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  }
++       }
++ 
++-      /* Else fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++diff --git a/backends/arm_regs.c b/backends/arm_regs.c
++index 4ee1039..418c931 100644
++--- a/backends/arm_regs.c
+++++ b/backends/arm_regs.c
++@@ -81,7 +81,7 @@ arm_register_info (Ebl *ebl __attribute__ ((unused)),
++        * but gcc maps FPA registers here
++        */
++       regno += 96 - 16;
++-      /* Fall through.  */
+++      FALLTHROUGH;
++     case 96 + 0 ... 96 + 7:
++       *setname = "FPA";
++       *type = DW_ATE_float;
++diff --git a/backends/arm_retval.c b/backends/arm_retval.c
++index 8687eab..313e4eb 100644
++--- a/backends/arm_retval.c
+++++ b/backends/arm_retval.c
++@@ -90,7 +90,7 @@ arm_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp,
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++diff --git a/backends/i386_regs.c b/backends/i386_regs.c
++index fd963a6..7ec93bb 100644
++--- a/backends/i386_regs.c
+++++ b/backends/i386_regs.c
++@@ -92,7 +92,7 @@ i386_register_info (Ebl *ebl __attribute__ ((unused)),
++     case 5:
++     case 8:
++       *type = DW_ATE_address;
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     case 0 ... 3:
++     case 6 ... 7:
++       name[0] = 'e';
++diff --git a/backends/i386_retval.c b/backends/i386_retval.c
++index 4aa646f..32fec72 100644
++--- a/backends/i386_retval.c
+++++ b/backends/i386_retval.c
++@@ -85,7 +85,7 @@ i386_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -123,7 +123,7 @@ i386_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	if (size <= 8)
++ 	  return nloc_intregpair;
++       }
++-    /* Fallthrough */
+++    FALLTHROUGH;
++ 
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++diff --git a/backends/ia64_retval.c b/backends/ia64_retval.c
++index dcd5f28..03ea4d8 100644
++--- a/backends/ia64_retval.c
+++++ b/backends/ia64_retval.c
++@@ -260,7 +260,7 @@ ia64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++diff --git a/backends/linux-core-note.c b/backends/linux-core-note.c
++index 67638d7..5f06c89 100644
++--- a/backends/linux-core-note.c
+++++ b/backends/linux-core-note.c
++@@ -226,7 +226,7 @@ EBLHOOK(core_note) (const GElf_Nhdr *nhdr, const char *name,
++       if (memcmp (name, "CORE", nhdr->n_namesz) == 0)
++ 	break;
++       /* Buggy old Linux kernels didn't terminate "LINUX".  */
++-      /* Fall through. */
+++      FALLTHROUGH;
++ 
++     case sizeof "LINUX":
++       if (memcmp (name, "LINUX", nhdr->n_namesz) == 0)
++diff --git a/backends/m68k_retval.c b/backends/m68k_retval.c
++index c68ed02..a653ba3 100644
++--- a/backends/m68k_retval.c
+++++ b/backends/m68k_retval.c
++@@ -92,7 +92,7 @@ m68k_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -135,7 +135,7 @@ m68k_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	if (size <= 8)
++ 	  return nloc_intregpair;
++       }
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++     case DW_TAG_union_type:
++diff --git a/backends/mips_retval.c b/backends/mips_retval.c
++index 57487bb..c6e1ffe 100644
++--- a/backends/mips_retval.c
+++++ b/backends/mips_retval.c
++@@ -306,7 +306,7 @@ mips_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = dwarf_tag (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -389,7 +389,7 @@ mips_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++             }
++         }
++ 
++-      /* Fallthrough to handle large types */
+++      FALLTHROUGH; /* Fallthrough to handle large types */
++ 
++     case DW_TAG_array_type:
++     large:
++diff --git a/backends/parisc_retval.c b/backends/parisc_retval.c
++index df7ec3a..1f1e91a 100644
++--- a/backends/parisc_retval.c
+++++ b/backends/parisc_retval.c
++@@ -116,7 +116,7 @@ parisc_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp, in
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = dwarf_tag (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -167,6 +167,7 @@ parisc_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp, in
++ 
++ 	/* Else fall through.  */
++       }
+++      FALLTHROUGH;
++ 
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++@@ -189,7 +190,7 @@ parisc_return_value_location_ (Dwarf_Die *functypedie, const Dwarf_Op **locp, in
++         *locp = loc_aggregate;
++         return nloc_aggregate;
++ #endif
++-	/* fall through.  */
+++	FALLTHROUGH;
++       }
++     }
++ 
++diff --git a/backends/ppc64_retval.c b/backends/ppc64_retval.c
++index a251983..eb1c11e 100644
++--- a/backends/ppc64_retval.c
+++++ b/backends/ppc64_retval.c
++@@ -96,7 +96,7 @@ ppc64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -141,7 +141,7 @@ ppc64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  return nloc_intreg;
++ 	}
++ 
++-      /* Else fall through.  */
+++      FALLTHROUGH;
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++     case DW_TAG_union_type:
++@@ -161,7 +161,7 @@ ppc64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	    return nloc_vmxreg;
++ 	  }
++       }
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_string_type:
++       if (dwarf_aggregate_size (typedie, &size) == 0 && size <= 8)
++diff --git a/backends/ppc_regs.c b/backends/ppc_regs.c
++index c2d5011..43d2534 100644
++--- a/backends/ppc_regs.c
+++++ b/backends/ppc_regs.c
++@@ -140,7 +140,7 @@ ppc_register_info (Ebl *ebl __attribute__ ((unused)),
++     case 100:
++       if (*bits == 32)
++ 	return stpcpy (name, "mq") + 1 - name;
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     case 102 ... 107:
++       name[0] = 's';
++       name[1] = 'p';
++diff --git a/backends/ppc_retval.c b/backends/ppc_retval.c
++index b14a99f..39b42da 100644
++--- a/backends/ppc_retval.c
+++++ b/backends/ppc_retval.c
++@@ -108,7 +108,7 @@ ppc_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -172,7 +172,7 @@ ppc_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	      return nloc_intregquad;
++ 	    }
++       }
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++diff --git a/backends/s390_retval.c b/backends/s390_retval.c
++index a927d46..2043f98 100644
++--- a/backends/s390_retval.c
+++++ b/backends/s390_retval.c
++@@ -87,7 +87,7 @@ s390_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -127,7 +127,7 @@ s390_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	    return size <= asize ? nloc_intreg : nloc_intregpair;
++ 	  }
++       }
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++diff --git a/backends/sh_retval.c b/backends/sh_retval.c
++index d44f260..33d7d96 100644
++--- a/backends/sh_retval.c
+++++ b/backends/sh_retval.c
++@@ -84,7 +84,7 @@ sh_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++diff --git a/backends/sparc_retval.c b/backends/sparc_retval.c
++index e1b1775..fb81cdc 100644
++--- a/backends/sparc_retval.c
+++++ b/backends/sparc_retval.c
++@@ -91,7 +91,7 @@ sparc_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++diff --git a/backends/tilegx_retval.c b/backends/tilegx_retval.c
++index db81a20..7f7d24b 100644
++--- a/backends/tilegx_retval.c
+++++ b/backends/tilegx_retval.c
++@@ -79,7 +79,7 @@ tilegx_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++@@ -113,7 +113,7 @@ tilegx_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  return nloc_intreg;
++ 	}
++ 
++-      /* Else fall through.  */
+++      FALLTHROUGH;
++     case DW_TAG_structure_type:
++     case DW_TAG_class_type:
++     case DW_TAG_union_type:
++diff --git a/backends/x86_64_regs.c b/backends/x86_64_regs.c
++index 8430440..ef987da 100644
++--- a/backends/x86_64_regs.c
+++++ b/backends/x86_64_regs.c
++@@ -87,7 +87,7 @@ x86_64_register_info (Ebl *ebl __attribute__ ((unused)),
++ 
++     case 6 ... 7:
++       *type = DW_ATE_address;
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     case 0 ... 5:
++       name[0] = 'r';
++       name[1] = baseregs[regno][0];
++diff --git a/backends/x86_64_retval.c b/backends/x86_64_retval.c
++index b3799ae..f9114cb 100644
++--- a/backends/x86_64_retval.c
+++++ b/backends/x86_64_retval.c
++@@ -100,7 +100,7 @@ x86_64_return_value_location (Dwarf_Die *functypedie, const Dwarf_Op **locp)
++ 	  typedie = dwarf_formref_die (attr, &die_mem);
++ 	  tag = DWARF_TAG_OR_RETURN (typedie);
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++ 
++     case DW_TAG_base_type:
++     case DW_TAG_enumeration_type:
++diff --git a/config/eu.am b/config/eu.am
++index 8fe1e25..b6ec581 100644
++--- a/config/eu.am
+++++ b/config/eu.am
++@@ -62,7 +62,9 @@ NULL_DEREFERENCE_WARNING=
++ endif
++ 
++ if HAVE_IMPLICIT_FALLTHROUGH_WARNING
++-IMPLICIT_FALLTHROUGH_WARNING=-Wimplicit-fallthrough
+++# Use strict fallthrough. Only __attribute__((fallthrough)) will prevent the
+++# warning
+++IMPLICIT_FALLTHROUGH_WARNING=-Wimplicit-fallthrough=5
++ else
++ IMPLICIT_FALLTHROUGH_WARNING=
++ endif
++diff --git a/configure.ac b/configure.ac
++index 1f1856d..698efbb 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -360,6 +360,12 @@ CFLAGS="$old_CFLAGS"])
++ AM_CONDITIONAL(HAVE_IMPLICIT_FALLTHROUGH_WARNING,
++ 	       [test "x$ac_cv_implicit_fallthrough" != "xno"])
++ 
+++# Assume the fallthrough attribute is supported if -Wimplict-fallthrough is supported
+++if test "$ac_cv_implicit_fallthrough" = "yes"; then
+++	AC_DEFINE([HAVE_FALLTHROUGH], [1],
+++		  [Defined if __attribute__((fallthrough)) is supported])
+++fi
+++
++ dnl Check if we have argp available from our libc
++ AC_LINK_IFELSE(
++ 	[AC_LANG_PROGRAM(
++diff --git a/lib/eu-config.h b/lib/eu-config.h
++index 400cdc6..e8d4ec2 100644
++--- a/lib/eu-config.h
+++++ b/lib/eu-config.h
++@@ -186,5 +186,12 @@ asm (".section predict_data, \"aw\"; .previous\n"
++ # define COMPAT_VERSION(name, version, prefix) error "should use #ifdef SYMBOL_VERSIONING"
++ #endif
++ 
+++#ifndef FALLTHROUGH
+++# ifdef HAVE_FALLTHROUGH
+++#  define FALLTHROUGH __attribute__ ((fallthrough))
+++# else
+++#  define FALLTHROUGH ((void) 0)
+++# endif
+++#endif
++ 
++ #endif	/* eu-config.h */
++diff --git a/libcpu/i386_disasm.c b/libcpu/i386_disasm.c
++index 60fd6d4..837a3a8 100644
++--- a/libcpu/i386_disasm.c
+++++ b/libcpu/i386_disasm.c
++@@ -819,7 +819,7 @@ i386_disasm (Ebl *ebl __attribute__((unused)),
++ 			      ++param_start;
++ 			      break;
++ 			    }
++-			  /* Fallthrough */
+++			  FALLTHROUGH;
++ 			default:
++ 			  str = "";
++ 			  assert (! "INVALID not handled");
++diff --git a/libcpu/i386_parse.c b/libcpu/i386_parse.c
++index ef1ac35..6fa7ce3 100644
++--- a/libcpu/i386_parse.c
+++++ b/libcpu/i386_parse.c
++@@ -1047,7 +1047,7 @@ yytnamerr (char *yyres, const char *yystr)
++           case '\\':
++             if (*++yyp != '\\')
++               goto do_not_strip_quotes;
++-            /* Fall through.  */
+++            FALLTHROUGH;
++           default:
++             if (yyres)
++               yyres[yyn] = *yyp;
++@@ -2042,7 +2042,7 @@ yyabortlab:
++ yyexhaustedlab:
++   yyerror (YY_("memory exhausted"));
++   yyresult = 2;
++-  /* Fall through.  */
+++  FALLTHROUGH;
++ #endif
++ 
++ yyreturn:
++diff --git a/libdw/cfi.c b/libdw/cfi.c
++index daa845f..341e055 100644
++--- a/libdw/cfi.c
+++++ b/libdw/cfi.c
++@@ -138,7 +138,7 @@ execute_cfi (Dwarf_CFI *cache,
++ 
++ 	case DW_CFA_advance_loc1:
++ 	  operand = *program++;
++-	  /* Fallthrough */
+++	  FALLTHROUGH;
++ 	case DW_CFA_advance_loc + 0 ... DW_CFA_advance_loc + CFI_PRIMARY_MAX:
++ 	advance_loc:
++ 	  loc += operand * cie->code_alignment_factor;
++@@ -301,7 +301,7 @@ execute_cfi (Dwarf_CFI *cache,
++ 
++ 	case DW_CFA_restore_extended:
++ 	  get_uleb128 (operand, program, end);
++-	  /* Fallthrough */
+++	  FALLTHROUGH;
++ 	case DW_CFA_restore + 0 ... DW_CFA_restore + CFI_PRIMARY_MAX:
++ 
++ 	  if (unlikely (abi_cfi) && likely (opcode == DW_CFA_restore))
++diff --git a/libdw/dwarf_frame_register.c b/libdw/dwarf_frame_register.c
++index 37e8e91..d0159fb 100644
++--- a/libdw/dwarf_frame_register.c
+++++ b/libdw/dwarf_frame_register.c
++@@ -62,7 +62,7 @@ dwarf_frame_register (Dwarf_Frame *fs, int regno, Dwarf_Op *ops_mem,
++       /* Use the default rule for registers not yet mentioned in CFI.  */
++       if (fs->cache->default_same_value)
++ 	goto same_value;
++-      /*FALLTHROUGH*/
+++      FALLTHROUGH;
++     case reg_undefined:
++       /* The value is known to be unavailable.  */
++       break;
++diff --git a/libdwfl/dwfl_report_elf.c b/libdwfl/dwfl_report_elf.c
++index 6950a37..3fc9384 100644
++--- a/libdwfl/dwfl_report_elf.c
+++++ b/libdwfl/dwfl_report_elf.c
++@@ -174,7 +174,7 @@ __libdwfl_elf_address_range (Elf *elf, GElf_Addr base, bool add_p_vaddr,
++       /* An assigned base address is meaningless for these.  */
++       base = 0;
++       add_p_vaddr = true;
++-      /* Fallthrough. */
+++      FALLTHROUGH;
++     case ET_DYN:
++     default:;
++       size_t phnum;
++diff --git a/libdwfl/frame_unwind.c b/libdwfl/frame_unwind.c
++index 4dc9c43..eaea495 100644
++--- a/libdwfl/frame_unwind.c
+++++ b/libdwfl/frame_unwind.c
++@@ -442,7 +442,7 @@ expr_eval (Dwfl_Frame *state, Dwarf_Frame *frame, const Dwarf_Op *ops,
++ 	    }
++ 	  if (val1 == 0)
++ 	    break;
++-	  /* FALLTHRU */
+++	  FALLTHROUGH;
++ 	case DW_OP_skip:;
++ 	  Dwarf_Word offset = op->offset + 1 + 2 + (int16_t) op->number;
++ 	  const Dwarf_Op *found = bsearch ((void *) (uintptr_t) offset, ops, nops,
++diff --git a/libebl/eblobjnote.c b/libebl/eblobjnote.c
++index f80a1a5..ca4f155 100644
++--- a/libebl/eblobjnote.c
+++++ b/libebl/eblobjnote.c
++@@ -223,7 +223,7 @@ ebl_object_note (Ebl *ebl, const char *name, uint32_t type,
++ 		free (buf);
++ 	      break;
++ 	    }
++-	  /* FALLTHROUGH */
+++	  FALLTHROUGH;
++ 
++ 	default:
++ 	  /* Unknown type.  */
++diff --git a/libelf/elf32_updatenull.c b/libelf/elf32_updatenull.c
++index a51bf70..5351518 100644
++--- a/libelf/elf32_updatenull.c
+++++ b/libelf/elf32_updatenull.c
++@@ -232,7 +232,7 @@ __elfw2(LIBELFBITS,updatenull_wrlock) (Elf *elf, int *change_bop, size_t shnum)
++ 		      __libelf_seterrno (ELF_E_GROUP_NOT_REL);
++ 		      return -1;
++ 		    }
++-		  /* FALLTHROUGH */
+++		  FALLTHROUGH;
++ 		case SHT_SYMTAB_SHNDX:
++ 		  sh_entsize = elf_typesize (32, ELF_T_WORD, 1);
++ 		  break;
++diff --git a/libelf/elf_begin.c b/libelf/elf_begin.c
++index 6f85038..6de206a 100644
++--- a/libelf/elf_begin.c
+++++ b/libelf/elf_begin.c
++@@ -582,7 +582,7 @@ read_unmmaped_file (int fildes, off_t offset, size_t maxsize, Elf_Cmd cmd,
++ 			     ? sizeof (Elf32_Ehdr) : sizeof (Elf64_Ehdr)))
++ 	return file_read_elf (fildes, NULL, mem.header, offset, maxsize, cmd,
++ 			      parent);
++-      /* FALLTHROUGH */
+++      FALLTHROUGH;
++ 
++     default:
++       break;
++@@ -1097,7 +1097,7 @@ elf_begin (int fildes, Elf_Cmd cmd, Elf *ref)
++ 	  retval = NULL;
++ 	  break;
++ 	}
++-      /* FALLTHROUGH */
+++      FALLTHROUGH;
++ 
++     case ELF_C_READ:
++     case ELF_C_READ_MMAP:
++diff --git a/libelf/elf_cntl.c b/libelf/elf_cntl.c
++index ab13ffb..fd68178 100644
++--- a/libelf/elf_cntl.c
+++++ b/libelf/elf_cntl.c
++@@ -62,7 +62,7 @@ elf_cntl (Elf *elf, Elf_Cmd cmd)
++ 	  result = -1;
++ 	  break;
++ 	}
++-      /* FALLTHROUGH */
+++      FALLTHROUGH;
++ 
++     case ELF_C_FDDONE:
++       /* Mark the file descriptor as not usable.  */
++diff --git a/src/addr2line.c b/src/addr2line.c
++index ba414a7..444ee52 100644
++--- a/src/addr2line.c
+++++ b/src/addr2line.c
++@@ -618,7 +618,7 @@ handle_address (const char *string, Dwfl *dwfl)
++ 	case 1:
++ 	  addr = 0;
++ 	  j = i;
++-	  /* Fallthrough */
+++	  FALLTHROUGH;
++ 	case 2:
++ 	  if (string[j] != '\0')
++ 	    break;
++diff --git a/src/elfcompress.c b/src/elfcompress.c
++index 8e0d5c5..25378a4 100644
++--- a/src/elfcompress.c
+++++ b/src/elfcompress.c
++@@ -149,7 +149,7 @@ parse_opt (int key, char *arg __attribute__ ((unused)),
++ 		    N_("Only one input file allowed together with '-o'"));
++       /* We only use this for checking the number of arguments, we don't
++ 	 actually want to consume them.  */
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     default:
++       return ARGP_ERR_UNKNOWN;
++     }
++diff --git a/src/elflint.c b/src/elflint.c
++index 51e53c2..df1b3a0 100644
++--- a/src/elflint.c
+++++ b/src/elflint.c
++@@ -1764,7 +1764,7 @@ section [%2d] '%s': entry %zu: pointer does not match address of section [%2d] '
++ 	  if (dyn->d_tag < DT_ADDRRNGLO || dyn->d_tag > DT_ADDRRNGHI)
++ 	    /* Value is no pointer.  */
++ 	    break;
++-	  /* FALLTHROUGH */
+++	  FALLTHROUGH;
++ 
++ 	case DT_AUXILIARY:
++ 	case DT_FILTER:
++@@ -3993,7 +3993,7 @@ section [%2zu] '%s': merge flag set but entry size is zero\n"),
++ 	    case SHT_NOBITS:
++ 	      if (is_debuginfo)
++ 		break;
++-	      /* Fallthrough */
+++	      FALLTHROUGH;
++ 	    default:
++ 	      ERROR (gettext ("\
++ section [%2zu] '%s' has unexpected type %d for an executable section\n"),
++@@ -4137,7 +4137,7 @@ section [%2zu] '%s': ELF header says this is the section header string table but
++ 	    ERROR (gettext ("\
++ section [%2zu] '%s': relocatable files cannot have dynamic symbol tables\n"),
++ 		   cnt, section_name (ebl, cnt));
++-	  /* FALLTHROUGH */
+++	  FALLTHROUGH;
++ 	case SHT_SYMTAB:
++ 	  check_symtab (ebl, ehdr, shdr, cnt);
++ 	  break;
++@@ -4336,7 +4336,7 @@ section [%2d] '%s': unknown core file note type %" PRIu32
++ 	    if (nhdr.n_namesz == sizeof "Linux"
++ 		&& !memcmp (data->d_buf + name_offset, "Linux", sizeof "Linux"))
++ 	      break;
++-	    /* Fallthrough */
+++	    FALLTHROUGH;
++ 	  default:
++ 	    if (shndx == 0)
++ 	      ERROR (gettext ("\
++diff --git a/src/objdump.c b/src/objdump.c
++index 860cfac..0dd9a6a 100644
++--- a/src/objdump.c
+++++ b/src/objdump.c
++@@ -223,7 +223,7 @@ parse_opt (int key, char *arg,
++ 	}
++       /* We only use this for checking the number of arguments, we don't
++ 	 actually want to consume them.  */
++-      /* Fallthrough */
+++      FALLTHROUGH;
++     default:
++       return ARGP_ERR_UNKNOWN;
++     }
++diff --git a/src/readelf.c b/src/readelf.c
++index 346eccd..6a27e7e 100644
++--- a/src/readelf.c
+++++ b/src/readelf.c
++@@ -465,7 +465,7 @@ parse_opt (int key, char *arg,
++ 	  print_string_sections = true;
++ 	  break;
++ 	}
++-      /* Fall through.  */
+++      FALLTHROUGH;
++     case 'x':
++       add_dump_section (arg, false);
++       any_control_option = true;
++@@ -6029,7 +6029,7 @@ attr_callback (Dwarf_Attribute *attrp, void *arg)
++ 			dwarf_form_name (form), (uintmax_t) num);
++ 	      return DWARF_CB_OK;
++ 	    }
++-	  /* else fallthrough */
+++	  FALLTHROUGH;
++ 
++ 	/* These cases always take a loclistptr and no constant. */
++ 	case DW_AT_location:
++@@ -6195,7 +6195,7 @@ attr_callback (Dwarf_Attribute *attrp, void *arg)
++ 	      print_block (block.length, block.data);
++ 	      break;
++ 	    }
++-	  /* Fall through.  */
+++	  FALLTHROUGH;
++ 
++ 	case DW_AT_location:
++ 	case DW_AT_data_location:
++@@ -9227,7 +9227,7 @@ handle_auxv_note (Ebl *ebl, Elf *core, GElf_Word descsz, GElf_Off desc_pos)
++ 		printf ("    %s\n", name);
++ 		break;
++ 	      }
++-	    /* Fall through */
+++	    FALLTHROUGH;
++ 	  case 'x':		/* hex */
++ 	  case 'p':		/* address */
++ 	  case 's':		/* address of string */
++diff --git a/src/strings.c b/src/strings.c
++index d214356..03d0f13 100644
++--- a/src/strings.c
+++++ b/src/strings.c
++@@ -246,7 +246,7 @@ parse_opt (int key, char *arg,
++ 	case 'b':
++ 	case 'B':
++ 	  big_endian = true;
++-	  /* FALLTHROUGH */
+++	  FALLTHROUGH;
++ 
++ 	case 'l':
++ 	case 'L':
++diff --git a/tests/backtrace.c b/tests/backtrace.c
++index 21abe8a..f5dd761 100644
++--- a/tests/backtrace.c
+++++ b/tests/backtrace.c
++@@ -127,7 +127,7 @@ callback_verify (pid_t tid, unsigned frameno, Dwarf_Addr pc,
++ 	  assert (symname2 == NULL || strcmp (symname2, "jmp") != 0);
++ 	  break;
++ 	}
++-      /* FALLTHRU */
+++      FALLTHROUGH;
++     case 4:
++       /* Some simple frame unwinders get this wrong and think sigusr2
++ 	 is calling itself again. Allow it and just pretend there is
++diff --git a/tests/elfstrmerge.c b/tests/elfstrmerge.c
++index 8d5b53c..62c549d 100644
++--- a/tests/elfstrmerge.c
+++++ b/tests/elfstrmerge.c
++@@ -578,7 +578,8 @@ main (int argc, char **argv)
++ 	      break;
++ 
++ 	    case SHT_DYNAMIC:
++-	      /* Fallthrough.  There are string indexes in here, but
+++	      FALLTHROUGH;
+++	      /* There are string indexes in here, but
++ 		 they (should) point to a allocated string table,
++ 		 which we don't alter.  */
++ 	    default:
++-- 
++2.14.3
++
+diff --git a/meta/recipes-devtools/elfutils/files/debian/fallthrough.patch b/meta/recipes-devtools/elfutils/files/debian/fallthrough.patch
+deleted file mode 100644
+index b2623f9d2e5..00000000000
+--- a/meta/recipes-devtools/elfutils/files/debian/fallthrough.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-GCC7 adds -Wimplicit-fallthrough to warn when a switch case falls through,
+-however this causes warnings (which are promoted to errors) with the elfutils
+-patches from Debian for mips and parisc, which use fallthrough's by design.
+-
+-Explicitly mark the intentional fallthrough switch cases with a comment to
+-disable the warnings where the fallthrough behaviour is desired.
+-
+-Upstream-Status: Pending [debian]
+-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+-
+-Index: elfutils-0.168/backends/parisc_retval.c
+-===================================================================
+---- elfutils-0.168.orig/backends/parisc_retval.c
+-+++ elfutils-0.168/backends/parisc_retval.c
+-@@ -166,7 +166,7 @@ parisc_return_value_location_ (Dwarf_Die
+- 	  return nloc_intregpair;
+- 
+- 	/* Else fall through.  */
+--      }
+-+      } // fallthrough
+- 
+-     case DW_TAG_structure_type:
+-     case DW_TAG_class_type:
+-Index: elfutils-0.168/backends/mips_retval.c
+-===================================================================
+---- elfutils-0.168.orig/backends/mips_retval.c
+-+++ elfutils-0.168/backends/mips_retval.c
+-@@ -387,7 +387,7 @@ mips_return_value_location (Dwarf_Die *f
+-               else
+-                 return nloc_intregpair;
+-             }
+--        }
+-+        } // fallthrough
+- 
+-       /* Fallthrough to handle large types */
+- 
 -- 
 2.14.3
 
