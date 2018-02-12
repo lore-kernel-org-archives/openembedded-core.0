@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 637877826D
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 15F8A7826D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:28 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id g14so11766413iob.9
+	Mon, 12 Feb 2018 16:52:29 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id k6so7268185ita.3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 Feb 2018 08:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Bao+UzTgIvgNBwswqMWw85SCIcSIWoOCmqrowjdaFgc=;
-	b=Yro7j316DP9uwg/Dxzx0805wlyKGwWqjh1oU+jykCDrchmXoex8o5F+0rx0t6FBr2s
-	RNWW73+g4qkw8LMT3Uyjup1EyOIuTNNatADSH7HptD0aEDzPFt1BRunMloZd9WwfGqGE
-	hnX2X1UriLPoE3lW9ZMD3k0qEFeOyWJrsfUmIpVITiSV0604aYLffXbAa/rqRTFnKKb5
-	cFeuc6y1HnCIoVnCZn0P4q2LmnhgK15m7FZA41mONqBHwJZL8UYA6QgxITi2AWLgHvtw
-	QaOUAJXlnAD+UFoUpKgOrfSf2pI4hn5wzwTFpIRiTkt8MFzVvUUU+vaGknUHrY/fX3Jc
-	wKkg==
+	bh=UI9lMDu3tuyZBQ227epFhAfTU0yCv+o/OCdl0zXq1ms=;
+	b=Q02/s/1tkDaTY370z5XUV/SoDmm9cmyH0qVoZykAKDbaYIiKsxfofIolu9QijdZDQy
+	pWIPOR2swt78K9CszU/IsaxEDMIVc5e6/cPBKgtsFkPcSrZYCClakwCUpvLFOXez2O3t
+	I/EsH7P2ySlNNvz+pYkSZCpNjZds/jqvprSYdu3RKdHA9WLaQRZGJS+SnMbKjdX/J1ps
+	jSTmquxEi0k4WqCXoe8feOEc5RYpvxDn8mEnYTGABjnjOvRO2NLsPgSntCtEyhC4RkzW
+	65PXoj7IPos9JuWYViRJRWNn6ldr77F8cFQsubXSrOoU/9AGtpSGh1uqCjrP34qssPtX
+	teUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Bao+UzTgIvgNBwswqMWw85SCIcSIWoOCmqrowjdaFgc=;
-	b=CM5ddjOfFee1LBHAtIIQl00JOcrsHb7waTX0WHtB4O478oMkwUEQrvqRDc6AxDPRxN
-	0wwhsr19teq/Ivy6QzXbmeK2XYovOHkhZchfeqTQtHssLioQLaKQMR/HJTjbRcEuMXjs
-	PMiQ87RLearzjKovXq9EnRvqeqgRc3Jz8Kz1nb7pf5uoRAsQeNA+h7lvusYj8uT7tjV3
-	hIzajQSGIsEQkfnfmCR1NqEy3nsmlDnjSdSiSCAdJNR/tNn/n8eF0EQGPWn602U51vWv
-	P1470c8lYmyZk7AJuhISFBCLJoFYHBydbMgyGwgxJnvWES7N0Un2ylLMLnQSVcovTQTd
-	Pp1g==
-X-Gm-Message-State: APf1xPC13AnbabDjNPmftbtot8nW1oNoGwiUjceEIaNi59vtbuqnzJko
-	tT8q7vxqoQdYW7ovdEzPZaM+tLWX
-X-Google-Smtp-Source: AH8x226xMrMS29CS+BmOPsV1AG7ovXySHKJBQrI86HIyW8bUg2fam0KiVuS4MKER/aRVtp65DCSjWw==
-X-Received: by 10.107.111.2 with SMTP id k2mr13183147ioc.11.1518454349651;
-	Mon, 12 Feb 2018 08:52:29 -0800 (PST)
+	bh=UI9lMDu3tuyZBQ227epFhAfTU0yCv+o/OCdl0zXq1ms=;
+	b=SzRzpHCXqKsbU0Lmsvk8bsWS/92kiZlAQhnZ+eIb6YHYZ4NgXbxlhvFPiQXEVNlDRB
+	CDgo2ntVKm1YZpND27bbZN4Scfo1VSWzf7ckj3aF4De6YdMDamFMVqRGbohom3huWJIA
+	31vpCiFiuyHeTJL01Vf6oEhwGVo2cscPsoY7jNJp+em3pQIWTOWql++aO7jemoLMxIjK
+	x3iej6HttGcztbPm95q5eF4j3HkPu3FdPxAlt0kaTLaE04OZvtBo+/V6nPTmpIdpYvbt
+	xbK3YFAMbCmu9k4DgVO4EZv8G3+ry4v2Cat2+Y/yzTxmzHegRUEg+gpvVdb+rFa/gdvR
+	FhTw==
+X-Gm-Message-State: APf1xPDnVBimOfbTOwOkq8NahhzmoISYOS09oXtm7CnkfKLiY84USFho
+	u3dwRg+vsT9s70D8oJtyzEVdjt50
+X-Google-Smtp-Source: AH8x227VqXOP8tMtRVaEGUcuNHHXwel8YPQlSyADm9xh1PT+f0T3HrTQ2++Il5C6y9JN3POpMUuvHQ==
+X-Received: by 10.36.181.87 with SMTP id j23mr5847576iti.48.1518454350227;
+	Mon, 12 Feb 2018 08:52:30 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	w132sm12206760iow.51.2018.02.12.08.52.28
+	w132sm12206760iow.51.2018.02.12.08.52.29
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Mon, 12 Feb 2018 08:52:29 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:52:02 -0600
-Message-Id: <70f9c82cbb4e0b8f715df5e664d37b483dce5177.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:52:03 -0600
+Message-Id: <505ce9fa455677bd20a46c2eeecf324d29034b07.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 07/17] icecc-create-env: Symlink alternate names
+Subject: [PATCH v2 08/17] icecc-create-env: Archive directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,116 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:28 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:29 -0000
 
-Instead of renaming files to a new path in the toolchain archive, keep
-the files with their original paths and create a relative symbolic link
-from the new path to the original file.
+Taring up the toolchain is now done by adding the entire working
+directory, instead of listing all the files individually. This is done
+because the list of files may contain ".." entries, which tar does not
+like and strips out, resulting in bad archives. This should result in an
+identical archive to what was previously generated.
+
+In addition, symbolic links are no longer dereferenced when creating the
+archive, as they are purposely included to provide alternate names for
+files
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../icecc-create-env/icecc-create-env              | 64 +++++++++++++++++++---
- 1 file changed, 57 insertions(+), 7 deletions(-)
+ .../icecc-create-env/icecc-create-env/icecc-create-env              | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-index 7636d090a48..0791bd54b27 100755
+index 0791bd54b27..426b093d91c 100755
 --- a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
 +++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-@@ -21,10 +21,28 @@ is_contained ()
-     esac
- }
- 
-+normalize_path ()
-+{
-+    # Normalizes the path to a file or directory, removing all "." and ".."
-+    # entries. Use pwd -L to explicitly prevent symlink expansion
-+    local path=$1
-+    if test -f "$path"; then
-+        pushd $(dirname $path) > /dev/null 2>&1
-+        dir_path=$(pwd -L)
-+        path=$dir_path/$(basename $path)
-+        popd > /dev/null 2>&1
-+    elif test -d "$path"; then
-+        pushd $path > /dev/null 2>&1
-+        path=$(pwd -L)
-+        popd > /dev/null 2>&1
-+    fi
-+    echo $path
-+}
-+
- add_file ()
- {
--    local name="$1"
--    local path="$1";
-+    local path=`normalize_path $1`
-+    local name="$path"
-     if test -n "$2"; then
-         name="$2"
-     fi
-@@ -129,7 +147,7 @@ if test -n "$specfile" && test -e "$specfile"; then
+@@ -256,7 +256,11 @@ if test -z "$silent"; then
  fi
  
- ltofile=`$added_gcc -print-prog-name=lto1`
--pluginfile="${ltofile%lto1}liblto_plugin.so"
-+pluginfile=`normalize_path "${ltofile%lto1}liblto_plugin.so"`
- if test -r "$pluginfile"
- then
-     add_file $pluginfile  ${pluginfile#*usr}
-@@ -146,6 +164,19 @@ else
-     exit 1
- fi
- 
-+link_rel ()
-+{
-+    local target="$1"
-+    local name="$2"
-+    local base="$3"
-+
-+    local prefix=`dirname $name`
-+
-+    prefix=`echo $prefix | sed 's,[^/]\+,..,g' | sed 's,^/*,,g'`
-+
-+    ln -s $prefix/$target $base/$name
-+}
-+
- tempdir=`mktemp -d /tmp/iceccenvXXXXXX`
- new_target_files=
- for i in $target_files; do
-@@ -159,11 +190,30 @@ for i in $target_files; do
-             target=$i
-             ;;
-     esac
--    mkdir -p $tempdir/`dirname $target`
--    cp -p $path $tempdir/$target
--    if test -f $tempdir/$target -a -x $tempdir/$target; then
--        strip -s $tempdir/$target 2>/dev/null
-+    if test "$target" == "$path"; then
-+        mkdir -p $tempdir/`dirname $target`
-+        cp -pH $target $tempdir/$target
-+
-+        if test -f $tempdir/$target -a -x $tempdir/$target; then
-+            strip -s $tempdir/$target 2>/dev/null
-+        fi
-+    else
-+        mkdir -p $tempdir/`dirname $path`
-+        cp -pH $path $tempdir/$path
-+
-+        mkdir -p $tempdir/`dirname $target`
-+        # Relative links are used because the files are checked for being
-+        # executable outside the chroot
-+        link_rel $path $target $tempdir
-+
-+        if test -f $tempdir/$path -a -x $tempdir/$path; then
-+            strip -s $tempdir/$path 2>/dev/null
-+        fi
-+
-+        path=`echo $path | cut -b2-`
-+        new_target_files="$new_target_files $path"
+ cd $tempdir
+-tar -czhf "$mydir/$archive_name" $target_files || {
++# Add everything in the temp directory. Tar doesn't like to be given files with
++# ".." in them, which frequently happens in $target_files, and will strip off
++# the path prefix past the offending "..". This makes the archive generate
++# incorrectly
++tar -czf "$mydir/$archive_name" . || {
+     if test -z "$silent"; then
+         echo "Couldn't create archive"
      fi
-+
-     target=`echo $target | cut -b2-`
-     new_target_files="$new_target_files $target"
- done
 -- 
 2.14.3
 
