@@ -1,32 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-X-Greylist: delayed 583 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 12 Feb 2018 17:10:28 UTC
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B0B7607A5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E66860750
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 17:10:28 +0000 (UTC)
+	Mon, 12 Feb 2018 17:11:35 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 09:00:47 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 09:11:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,503,1511856000"; d="scan'208";a="17535755"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga008.jf.intel.com with ESMTP; 12 Feb 2018 09:00:47 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id A03115801AE
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 09:00:46 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Feb 2018 19:03:11 +0200
-Message-Id: <1518454991-32814-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1518454991-32814-1-git-send-email-maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.46,503,1511856000"; d="scan'208";a="17860674"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga006.jf.intel.com with ESMTP; 12 Feb 2018 09:11:36 -0800
+To: "Maxin B. John" <maxin.john@intel.com>,
+	openembedded-core@lists.openembedded.org
 References: <1518454991-32814-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH v2 2/2] libinput: fix upstream version check
+	<1518454991-32814-2-git-send-email-maxin.john@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <ac189ddf-de59-e13e-a3af-7e76b1d0d681@linux.intel.com>
+Date: Mon, 12 Feb 2018 19:05:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1518454991-32814-2-git-send-email-maxin.john@intel.com>
+Subject: Re: [PATCH v2 2/2] libinput: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +37,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 17:10:29 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 17:11:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Skip RC releases for libinput which follow the pattern: x.x.9xx
+On 02/12/2018 07:03 PM, Maxin B. John wrote:
+> Skip RC releases for libinput which follow the pattern: x.x.9xx
+>   
+> +UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar\.xz"
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-graphics/wayland/libinput_1.9.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+Same here: dom't hardcode the compression format. Otherwise, seems fine.
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
-index 2843314..3879356 100644
---- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
- SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
- SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
- 
-+UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar\.xz"
- inherit meson pkgconfig lib_package
- 
- PACKAGECONFIG ??= ""
--- 
-2.4.0
-
+Alex
 
