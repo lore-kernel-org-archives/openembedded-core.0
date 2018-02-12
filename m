@@ -1,25 +1,30 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B7A5960053
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 41CEC6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:32:23 +0000 (UTC)
+	Mon, 12 Feb 2018 08:48:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 00:32:25 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 00:48:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="26929030"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga003.jf.intel.com with ESMTP; 12 Feb 2018 00:32:24 -0800
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Feb 2018 16:27:06 +0800
-Message-Id: <1518424026-25060-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1518424026-25060-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="17767308"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga006.jf.intel.com with ESMTP; 12 Feb 2018 00:48:54 -0800
+To: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>,
+	openembedded-core@lists.openembedded.org
 References: <1518424026-25060-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCH 2/2] build-appliance-image: update version to 19.0.0
+	<1518424026-25060-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <fb6ff954-744b-b38a-59b1-4d5afa879ec9@linux.intel.com>
+Date: Mon, 12 Feb 2018 10:42:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1518424026-25060-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+Subject: Re: [PATCH 2/2] build-appliance-image: update version to 19.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +37,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 08:32:23 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 08:48:54 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Updating recipe to reflect latest poky version and SRCREV points
-to latest master HEAD revision.
+On 02/12/2018 10:27 AM, Chang Rebecca Swee Fun wrote:
+> Updating recipe to reflect latest poky version and SRCREV points
+> to latest master HEAD revision.
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
----
- ...{build-appliance-image_15.0.0.bb => build-appliance-image_19.0.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/images/{build-appliance-image_15.0.0.bb => build-appliance-image_19.0.0.bb} (99%)
+The latest poky version is 18.0.1, and I think SRCREV should point to 
+that as well, not to the tip of master? 19.0.0 isn't yet released.
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_19.0.0.bb
-similarity index 99%
-rename from meta/recipes-core/images/build-appliance-image_15.0.0.bb
-rename to meta/recipes-core/images/build-appliance-image_19.0.0.bb
-index dc16c0b..f3a2eac 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_19.0.0.bb
-@@ -22,7 +22,7 @@ IMAGE_FSTYPES = "wic.vmdk"
- 
- inherit core-image module-base setuptools3
- 
--SRCREV ?= "433ef0f8e9e63e4459934a06a42b56989c885e44"
-+SRCREV ?= "44ea6ded0e8e73f5258ce55bd1b851e24243b76a"
- SRC_URI = "git://git.yoctoproject.org/poky;branch=master \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
--- 
-2.7.4
 
+Alex
 
