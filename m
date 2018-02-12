@@ -1,37 +1,37 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EFFDE7826D
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CF57C7826D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:23 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id e1so7281097ita.0
+	Mon, 12 Feb 2018 16:52:24 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id d10so1344504itj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:52:25 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/KmqZyt34CyuFXHUXWHJwNIXqpb7DwnedtPeGAQ69/0=;
-	b=hKEBHWcykFlA7UF9lkXciEZFGDzfCz3iCaKZBJSC7QfxqOf30b5m99uf9RY4xgu61N
-	YwVeBh4RhuVlohLSVWl3LDuJ8phkqvhOccyqMOxceRyzuSzgFsZYGI+mvIXzQZLNKNOF
-	5ux9jkSeWb+V/H/vgrVRp07DH2rietYepa/R1/dnNPU9Bd6N8Mlin4jQtMK85kNdFAB9
-	ODMP6N+glBL4uWsEBh+SyMJlR8HsKg7ixqfczzG6xHoVAC+HO4PhIIxV28EM7HSHtDGL
-	Fs2OX84+uyM5LT2fJayKxempKdBhsA0lkb1ELSdA9pIlXlO+fvFxJ+iwnkI8Fk/uRfN+
-	9Fdg==
+	bh=nLbMujYGyHlaD28lfqN/9vqMAyXiGjo73kHjjl9DTaw=;
+	b=gzmz9bCnL09aE/eyCHpvrt3Gf0Jg+DhvV4If+iwnywVrJLI0c5nPxwHPOpm5nORgjb
+	vZW9z6ihkPf1SgOx+JFB3TyfekkVrrvhMlGhFd/cptME8uvllVyENztgI1Y7CL8TkFlO
+	nPLB2Kx40plJ/ajKWJ3vGOWcfXoOCeBBMS4ENbGyMpJtaheJccK4s3DaSCJn00VHB/1P
+	Y9fPxDvpns+st4HZP5yxeVrlvOzYYybLmbPld9SXNvVq38CDdXKAp492yarkT+6Y1E6Z
+	r7tkrkPXBx28l9LJ4FArOwjHhECDCoXYHOED/RB/NtcYRcJdFE2qKWNL5zIFvr/qYwVN
+	6GZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=/KmqZyt34CyuFXHUXWHJwNIXqpb7DwnedtPeGAQ69/0=;
-	b=ogaJhnFF5wgg0baDA4QYxNccsgIZst74b7YwI9iizaX91Hdy/L/CFAmRr0K6YeYtCp
-	LslBtYVThsPxE2eKXVJIxNKh0G32Aw6h5ka0m010UEHLzzmICk6DsCudrwxDMfddhd/L
-	5DMJbi+Etrf/iV1CX+CVLhVpxmvgwB3psa0uMXp1gINMG9Zj3qQ/wnuQ6PiMBx0CVdPm
-	yUiSjQBwUY541utwJnhNKany7cg1um9CTe+A9ePXtxDVLyZ/l2dNQ2C6gj865SbBWybd
-	z+rPIt4cJYE1M2rRFkQ8j6CGL0LUXenmhm0SmE9+yiog7BTftb1ffTDYiNGyIjwCD8yu
-	9Qbw==
-X-Gm-Message-State: APf1xPDxGsfrG/bLGdE9BMse1lEEgqzmKRvsue7KUIwQR+xnSDShftc9
-	qqT+omKYW4Rxz4YimuymzkQWVn+L
-X-Google-Smtp-Source: AH8x225Fa03nXUtzFanNprDSs5Nc3M1lhfCcXBOZ60Vi7TY1Lw1DunfN/29luRdPaxrNyTWYboXxMA==
-X-Received: by 10.36.98.3 with SMTP id d3mr5265670itc.122.1518454344738;
-	Mon, 12 Feb 2018 08:52:24 -0800 (PST)
+	bh=nLbMujYGyHlaD28lfqN/9vqMAyXiGjo73kHjjl9DTaw=;
+	b=QnqP/IStl6FzsudOe1aBEEAHXD2ICWY1DriQbCZPBAveTAjCf11WCIrmHgbfTWwB4K
+	JH/G3Vi0Dcrh3rnCIoOaGhRdfim5V9po78U5Pe6/Y/FmBAKk9FiR7SH8Pp5YoPKptIj+
+	iCUbbq38ywjKuc7G6x1I7ADBwnCgLgKZTFQrDQEkkCm++zMpfnVHJ/biqJq6xXXmZTyF
+	HcUKlj59t5Ko0MS88c0aj2U+egp8BV8+KpYrd4dgYj0ZwGzl8L8/0ABpc+L5fhm/OVou
+	HXIkfC4EJitkNp65DiQS3jasv1VHD24o6b07XpJ3GH2TDB42Kj4pNToTzteyRJOcB5Ao
+	czYQ==
+X-Gm-Message-State: APf1xPBaHCTEoM4PprZATZXgsa7kXioGfaM1cQR7tSxxF6pMXXgkkEzd
+	CFrzU2Rsr0jMuI2FUq3E9nsvjg0z
+X-Google-Smtp-Source: AH8x224y3vYJDk4RvIvyD3WT+mqWkhUYBFpMgUYCaodSjJpflwoKOjfQPX674223x+y0z4tr34Ve+Q==
+X-Received: by 10.36.120.80 with SMTP id p77mr6038938itc.115.1518454345886;
+	Mon, 12 Feb 2018 08:52:25 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
 	w132sm12206760iow.51.2018.02.12.08.52.24
@@ -40,14 +40,14 @@ Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:51:56 -0600
-Message-Id: <fc8f466ba8a70687de131a52bc0341534cb73a5c.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:51:57 -0600
+Message-Id: <fe95881608b727e473af111c05cd1b4ada74ab32.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 01/17] icecc.bbclass: Move to shared work directory
+Subject: [PATCH v2 02/17] icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,44 +62,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Feb 2018 16:52:24 -0000
 
-Generate the icecc toolchains in a shared work directory. This class was
-already setup to correctly synchronize creating the toolchains in a
-shared location before the RSS changes, so return to that behavior
-instead of generated the toolchains in each recipe's sysroot.
-Additionally, it makes no sense for each recipe to generate a toolchain,
-only to find it was already generated and uploaded to the compile server
-by another recipe.
+STAGING_BINDIR_TOOLCHAIN is actually a path list, not a single path. Fix
+icecc.bbclass to try all the paths in the variable instead of treating
+it as a single path.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/icecc.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/icecc.bbclass | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 1cc1c4ddb0f..e8725b582b3 100644
+index e8725b582b3..35a1aaef86f 100644
 --- a/meta/classes/icecc.bbclass
 +++ b/meta/classes/icecc.bbclass
-@@ -151,6 +151,9 @@ def icecc_is_native(bb, d):
-         bb.data.inherits_class("cross", d) or \
-         bb.data.inherits_class("native", d);
+@@ -210,15 +210,14 @@ def icecc_get_tool(bb, d, tool):
+     else:
+         ice_dir = d.expand('${STAGING_BINDIR_TOOLCHAIN}')
+         target_sys = d.expand('${TARGET_SYS}')
+-        tool_bin = os.path.join(ice_dir, "%s-%s" % (target_sys, tool))
+-        if os.path.isfile(tool_bin):
+-            return tool_bin
+-        else:
+-            external_tool_bin = icecc_get_external_tool(bb, d, tool)
+-            if os.path.isfile(external_tool_bin):
+-                return external_tool_bin
+-            else:
+-                return ""
++        for p in ice_dir.split(':'):
++            tool_bin = os.path.join(p, "%s-%s" % (target_sys, tool))
++            if os.path.isfile(tool_bin):
++                return tool_bin
++        external_tool_bin = icecc_get_external_tool(bb, d, tool)
++        if os.path.isfile(external_tool_bin):
++            return external_tool_bin
++        return ""
  
-+def icecc_dir(bb, d):
-+    return d.expand('${TMPDIR}/work-shared/ice')
-+
- # Don't pollute allarch signatures with TARGET_FPU
- icecc_version[vardepsexclude] += "TARGET_FPU"
- def icecc_version(bb, d):
-@@ -175,8 +178,8 @@ def icecc_version(bb, d):
-             archive_name += "-kernel"
- 
-     import socket
--    ice_dir = d.expand('${STAGING_DIR_NATIVE}${prefix_native}')
--    tar_file = os.path.join(ice_dir, 'ice', archive_name + "-@VERSION@-" + socket.gethostname() + '.tar.gz')
-+    ice_dir = icecc_dir(bb, d)
-+    tar_file = os.path.join(ice_dir, archive_name + "-@VERSION@-" + socket.gethostname() + '.tar.gz')
- 
-     return tar_file
- 
+ def icecc_get_and_check_tool(bb, d, tool):
+     # Check that g++ or gcc is not a symbolic link to icecc binary in
 -- 
 2.14.3
 
