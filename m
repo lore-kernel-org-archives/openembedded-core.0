@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5341260103;
-	Mon, 12 Feb 2018 10:34:31 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 12 Feb 2018 10:34:33 -0000
-Message-ID: <20180212103433.15536.66283@do.openembedded.org>
-References: <20180201122218.4533-1-Martin.Jansa@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180201122218.4533-1-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZS5jb25mOiBhZGQgdG9vbHMgcmVxdWlyZWQgYnkgdGVzdGltYWdlIHRvIEhPU1RUT09MUyBjb25kaXRpb25hbGx5IChyZXYzKQ==?=
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 093D760102
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Feb 2018 11:11:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 03:11:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="17464948"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 12 Feb 2018 03:11:34 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Feb 2018 13:05:12 +0200
+Message-Id: <20180212110521.16974-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH 01/10] cryptodev: switch SRC_URI to git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 10:34:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Feb 2018 11:11:35 -0000
 
-== Series Details ==
+One of the tarball mirrors is down; the other is blocked by Intel's corporate proxy
+for being deemed 'suspicious' (the same problem might pop up in other
+companies as well). Let's just take the source from github.
 
-Series: bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/9179/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  pyro (currently at 2c61e60cc5)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-kernel/cryptodev/cryptodev.inc | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index 50366e72024..ab15bc1d971 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -3,11 +3,9 @@ HOMEPAGE = "http://cryptodev-linux.org/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-SRC_URI = "http://nwl.cc/pub/cryptodev-linux/cryptodev-linux-${PV}.tar.gz"
++SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
++SRCREV = "87d959d9a279c055b361de8e730fab6a7144edd7"
+ 
+-SRC_URI[md5sum] = "cb4e0ed9e5937716c7c8a7be84895b6d"
+-SRC_URI[sha256sum] = "9f4c0b49b30e267d776f79455d09c70cc9c12c86eee400a0d0a0cd1d8e467950"
+-
+-S = "${WORKDIR}/cryptodev-linux-${PV}"
++S = "${WORKDIR}/git"
+ 
+ CLEANBROKEN = "1"
+-- 
+2.15.1
 
 
