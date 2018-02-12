@@ -1,30 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CEC6067C
+Return-Path: <prvs=574c3b7e0=Sean.Nyekjaer@prevas.dk>
+Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 141B46B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:48:53 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 00:48:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="17767308"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 12 Feb 2018 00:48:54 -0800
-To: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1518424026-25060-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-	<1518424026-25060-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <fb6ff954-744b-b38a-59b1-4d5afa879ec9@linux.intel.com>
-Date: Mon, 12 Feb 2018 10:42:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Mon, 12 Feb 2018 09:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=1150; q=dns/txt;
+	s=ironport2; t=1518428492; x=1549964492;
+	h=from:to:cc:subject:date:message-id:mime-version;
+	bh=+sc8K+FOam9tVElFNdG4XFVCZliqaRAgl9E+Pl8J2cM=;
+	b=yKGT/E+wBEsAPdRKhnG/RUiBjdfXoTpwJ8Eqw6LRatNUgZZtcN93fFJy
+	8n2bloN+HSqkJ31fwbDVeJHdQ5t04Z2YGC21HJ6BLXK0KzKQMyfbIpr5N
+	Hnys1IghiVjfvP+TAJprYK1sCfwkZwf7xxKgxdxU4hNCwpTIps+wWzo7n w=;
+X-IronPort-AV: E=Sophos;i="5.46,501,1511823600"; 
+   d="scan'208";a="3046151"
+Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
+	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 10:41:30 +0100
+Received: from skn.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
+	with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 12 Feb 2018 10:41:29 +0100
+From: Sean Nyekjaer <sean.nyekjaer@prevas.dk>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Feb 2018 10:41:17 +0100
+Message-ID: <20180212094117.4534-1-sean.nyekjaer@prevas.dk>
+X-Mailer: git-send-email 2.16.1
 MIME-Version: 1.0
-In-Reply-To: <1518424026-25060-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: Re: [PATCH 2/2] build-appliance-image: update version to 19.0.0
+X-Originating-IP: [172.16.8.31]
+Subject: [PATCH] site/common-linux: coreutils: get the uptime program to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,18 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 08:48:54 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Feb 2018 09:41:30 -0000
+Content-Type: text/plain
 
-On 02/12/2018 10:27 AM, Chang Rebecca Swee Fun wrote:
-> Updating recipe to reflect latest poky version and SRCREV points
-> to latest master HEAD revision.
+coreutils configure script needs to know whether /proc/uptime is
+available, but this is not possible in a cross-compilation
+context. This leads to an uptime program that fails to work on the
+target, as it has been compiled without /proc/uptime reading support.
 
-The latest poky version is 18.0.1, and I think SRCREV should point to 
-that as well, not to the tip of master? 19.0.0 isn't yet released.
+This commit fixes that by telling coreutils at configure time that
+/proc/uptime will be available on the target (which seems to be a
+reasonable assumption on Linux systems).
 
+This commit is made with great inspiration from Thomas Petazzoni's
+patch to buildroot to fix the same issue.
 
-Alex
+Signed-off-by: Sean Nyekjaer <sean.nyekjaer@prevas.dk>
+---
+ meta/site/common-linux | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index 2958716..71ec961 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -48,6 +48,7 @@ hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
+ 
+ # coreutils
+ gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
++gl_cv_have_proc_uptime=${gl_cv_have_proc_uptime=yes}
+ 
+ # mysql
+ ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
+-- 
+2.7.4
+
 
