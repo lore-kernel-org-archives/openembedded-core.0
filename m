@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 45E3D78262
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BCAB578432
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 Feb 2018 16:52:34 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id n206so7272803itg.1
+Received: by mail-it0-f66.google.com with SMTP id k131so7458248ith.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:52:35 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lq5hYnNWIIsWf9VqX5ddFyh9UvY+TFocxJCqE55QWz4=;
-	b=I9OESPZJOmR47rLmWEHPJU0ndAOdLPGSoSD7zsuQCe1AnawDOofY5mo2Vam7do/s42
-	5eGou8M5BnR9JQsSwh3YiDnjCsHdeBaq7ywIZWadm863Bn9b7RAUjSU4WwS9a/cxgeXF
-	ndyhPhVEgg4+JPJnhxvw7jD66qyZV7jE3zXDI7jxtyTLOXknYUkjE+oP9keNviL3m7zK
-	+o41iwi53xS/7HJ4XJDPRb3J8Crk6Txp6ICpb11auoLjPL8Dw5W0oegeIX2mdY6t0X+g
-	dKCOBPM0SL/wyirohAO0IUDv4Bogo3NwSXXNPwBexgbTEGiUdUjCJDiHBgaIG07q940K
-	odDg==
+	bh=A+xWcn0XoMbfJCLD5errX0bOBfWLk5nk8E50U32Q0y0=;
+	b=GcMBT7k0M4wSzOM+6ICgNehPTL3aEDStwhtcSC+RKqFN0dP2Cqq5dPMYcbp/0GNusz
+	TcnHW/conHAd68fIBoOcr8MTn1Ck4zpkhqtgnpCjpKzHvThYxfz9BfuFlEYyGO6MKVu8
+	zIyiZYxMLnLBS8/7pjxi60xUxjps6W/BtLZfs/jjGoWPkKhhmG/KVYcgz2h28czo+9ih
+	wg86o6Q/dYyjlgcv96pNJZCORBIsneZFroi5Uty1ZAmzz0kT4v6zYyvUHfMPynQA2kR+
+	6nNgODXUI+21udPezysDP/Kp1M8t6nSB08Gdm+ei2/QdPNe6CelW0qsRkZxaI+ss8HSo
+	SgVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=lq5hYnNWIIsWf9VqX5ddFyh9UvY+TFocxJCqE55QWz4=;
-	b=HK0newdeVZY2KtHHhQ2lHSzo9BDds2zFcNezfDbwQK1Z06ld6uz5Clh557IA9jadAS
-	tNbesMam7WAQxdSy/wtJa8OjQwI0SCHTUN9A++i0VEug5tuLoeyMxOD/lg+XVWaE/7R+
-	+t18pgfX/pmnlJdSXnx20Xx2azg7GdZg87NkZlcT0Rw4YIFm3o6XrfWgFQDyhuMvLx/p
-	zz9Wj92rU0rhI6o040q9dIo+BJ9uNcHFTeLyEmd5QGBydI11/qNbqeKh9yWXqv38OeFV
-	K5Ei9Lu4vvQvIjcmcIsSbGB2xfB61TdxJJLbx8AxmasaKOoIuLaQNCpWZoagGSm+X4jG
-	fClA==
-X-Gm-Message-State: APf1xPCsZKuEGEOb2iNrwUXW9N0h4nAfYICQL6VspBizMpbEK5leBLB8
-	DqMWaLzJj3REzBciaBGrJtqTM64y
-X-Google-Smtp-Source: AH8x224KMVSZvgR1P+c6nLcLehraox/eiYHkma/UJ7AI+ejmpq/dwXUbFdSsQ9+pD32kVH5ol8hz5w==
-X-Received: by 10.36.214.131 with SMTP id o125mr6488378itg.0.1518454355333;
-	Mon, 12 Feb 2018 08:52:35 -0800 (PST)
+	bh=A+xWcn0XoMbfJCLD5errX0bOBfWLk5nk8E50U32Q0y0=;
+	b=e/DQV+AyMn6gfXgw3NzjX6Y0C//RZTrGdulduI9/YzHiB762hbe15JQqkZ8hvEqmth
+	mgFACpzNfEiimCaAVstmRtbcGGzjtXDCfs84psrJw+YueIBC0cYHEBsqq8zrCELHQ5/h
+	F79/mIo5zDxYfiQXp+tj3twGm+PxU3qAHPPGQTozTEcADzhv0KKSyaOtNQuXozMnMdmF
+	tG2UHgvotupHet4U3XX6znvep0VAnRsFZVs5e9j6KXxoc6983sG1e9Vwlb+c5+Oah/FE
+	M1fzoM0NPKV9kwJPMPtWmKJxssPsyOCeMDmxWBTmZXnpBbLRkQQhEvMW2e7/CNVTN1n3
+	EBhQ==
+X-Gm-Message-State: APf1xPA4C2iWDnF08TmBiR8QqPeP2+0GyUpBufbwAxWa6aYMhNFXZHDq
+	DSwkwextrlCSXMWsZ+61gPvCzChZ
+X-Google-Smtp-Source: AH8x225GwCJraW8+4JG9BaXL1uRIej1b3NWvMsSkfb0CDvczOL/r080QtbyuMI4lF1ILsuuw2buJcQ==
+X-Received: by 10.36.206.194 with SMTP id v185mr6081683itg.55.1518454356100;
+	Mon, 12 Feb 2018 08:52:36 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	w132sm12206760iow.51.2018.02.12.08.52.34
+	w132sm12206760iow.51.2018.02.12.08.52.35
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Feb 2018 08:52:34 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:35 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:52:09 -0600
-Message-Id: <b6003d1e4a53cc6f22609639ccfff5559873cccb.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:52:10 -0600
+Message-Id: <8fb3bcdb2382ae022016abc2f8cb78c9b116d54f.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 14/17] icecc.bbclass: Add Icecream support to SDK
+Subject: [PATCH v2 15/17] icecc.bbclass: Disable caret workaround by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +60,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:34 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:35 -0000
 
-If icecc is inherited, generated SDKs will automatically have optional
-support for compiling using the Icecream distributed compiler
+Icecream has a behavior that causes it to recompile files locally if gcc
+generates any warnings or errors. The reason for this is that GCC tries
+to re-read the input file in order to display the offending line with a
+caret below it, which doesn't work in the remote chroot.
+
+Default to disabling this this workaround and add
+-fno-diagnostics-show-caret to the GCC flags so that errors and warnings
+generated by GCC do not show erroneous results.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/icecc.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/classes/icecc.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 9d5eaed57ce..8492ece60c3 100644
+index 8492ece60c3..e8f7eab1bc1 100644
 --- a/meta/classes/icecc.bbclass
 +++ b/meta/classes/icecc.bbclass
-@@ -346,3 +346,10 @@ do_compile_kernelmodules_prepend() {
- do_install_prepend() {
-     set_icecc_env
- }
+@@ -28,10 +28,23 @@
+ #Error checking is kept to minimum so double check any parameters you pass to the class
+ ###########################################################################################
+ 
+-BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL ICECC_PATH ICECC_ENV_EXEC"
++BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL \
++    ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL ICECC_PATH ICECC_ENV_EXEC \
++    ICECC_CARET_WORKAROUND ICECC_CFLAGS"
+ 
+ ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
+ 
++# Default to disabling the caret workaround, If set to "1" in local.conf, icecc
++# will locally recompile any files that have warnings, which can adversely
++# affect performance.
++#
++# See: https://github.com/icecc/icecream/issues/190
++export ICECC_CARET_WORKAROUND ??= "0"
 +
-+# IceCream is not (currently) supported in the extensible SDK
-+ICECC_SDK_HOST_TASK = "nativesdk-icecc-toolchain"
-+ICECC_SDK_HOST_TASK_task-populate-sdk-ext = ""
++ICECC_CFLAGS = ""
++CFLAGS += "${ICECC_CFLAGS}"
++CXXFLAGS += "${ICECC_CFLAGS}"
 +
-+# Add the toolchain scripts to the SDK
-+TOOLCHAIN_HOST_TASK_append = " ${ICECC_SDK_HOST_TASK}"
+ def icecc_dep_prepend(d):
+     # INHIBIT_DEFAULT_DEPS doesn't apply to the patch command.  Whether or  not
+     # we need that built is the responsibility of the patch function / class, not
+@@ -170,6 +183,11 @@ def icecc_version(bb, d):
+     if not d.getVar('PARALLEL_MAKE', False) == "" and parallel:
+         d.setVar("PARALLEL_MAKE", parallel)
+ 
++    # Disable showing the caret in the GCC compiler output if the workaround is
++    # disabled
++    if d.getVar('ICECC_CARET_WORKAROUND', True) == '0':
++        d.setVar('ICECC_CFLAGS', '-fno-diagnostics-show-caret')
++
+     if icecc_is_native(bb, d):
+         archive_name = "local-host-env"
+     elif d.expand('${HOST_PREFIX}') == "":
 -- 
 2.14.3
 
