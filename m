@@ -1,33 +1,32 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id B485A6093C
+X-Greylist: delayed 583 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 12 Feb 2018 17:10:28 UTC
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B0B7607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 17:06:05 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+	Mon, 12 Feb 2018 17:10:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 09:06:06 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 09:00:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,503,1511856000"; d="scan'208";a="200579901"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga005.jf.intel.com with ESMTP; 12 Feb 2018 09:06:05 -0800
-Date: Mon, 12 Feb 2018 19:08:35 +0200
+X-IronPort-AV: E=Sophos;i="5.46,503,1511856000"; d="scan'208";a="17535755"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga008.jf.intel.com with ESMTP; 12 Feb 2018 09:00:47 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id A03115801AE
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Feb 2018 09:00:46 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20180212170834.GA32860@mbabyjoh-desk.ger.corp.intel.com>
-References: <1518444986-25886-1-git-send-email-maxin.john@intel.com>
-	<1518444986-25886-3-git-send-email-maxin.john@intel.com>
-	<3c2e005c-2a1b-5656-4794-54ce2c34109a@linux.intel.com>
-	<20180212143503.GA26313@mbabyjoh-desk.ger.corp.intel.com>
-	<aa878915-dc7b-2fdc-f90d-f10522c54d7a@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <aa878915-dc7b-2fdc-f90d-f10522c54d7a@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] fontconfig: fix upstream version check
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Feb 2018 19:03:11 +0200
+Message-Id: <1518454991-32814-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1518454991-32814-1-git-send-email-maxin.john@intel.com>
+References: <1518454991-32814-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH v2 2/2] libinput: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,32 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 17:06:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Feb 2018 17:10:29 -0000
 
-Hi Alex,
+Skip RC releases for libinput which follow the pattern: x.x.9xx
 
-On Mon, Feb 12, 2018 at 04:43:54PM +0200, Alexander Kanavin wrote:
-> On 02/12/2018 04:35 PM, Maxin B. John wrote:
-> >>This is a good place to practice:
-> >>http://regex101.com
-> >
-> >Thanks. I will update and send a v2.
-> 
-> To save you a bit of time, I think the right construct should be either
-> 
-> (9|[0-8]\d+)
-> 
-> or
-> 
-> (?!9\d+)\d+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-graphics/wayland/libinput_1.9.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
+index 2843314..3879356 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.9.4.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+ SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
+ SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
  
-This looks much better. Thanks!
++UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar\.xz"
+ inherit meson pkgconfig lib_package
+ 
+ PACKAGECONFIG ??= ""
+-- 
+2.4.0
 
-> 
-> Alex
-
-Thanks and Regards,
-Maxin
 
