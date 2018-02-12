@@ -1,32 +1,50 @@
-Return-Path: <prvs=574c3b7e0=Sean.Nyekjaer@prevas.dk>
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 141B46B6EA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ED8A60102
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 09:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=1150; q=dns/txt;
-	s=ironport2; t=1518428492; x=1549964492;
-	h=from:to:cc:subject:date:message-id:mime-version;
-	bh=+sc8K+FOam9tVElFNdG4XFVCZliqaRAgl9E+Pl8J2cM=;
-	b=yKGT/E+wBEsAPdRKhnG/RUiBjdfXoTpwJ8Eqw6LRatNUgZZtcN93fFJy
-	8n2bloN+HSqkJ31fwbDVeJHdQ5t04Z2YGC21HJ6BLXK0KzKQMyfbIpr5N
-	Hnys1IghiVjfvP+TAJprYK1sCfwkZwf7xxKgxdxU4hNCwpTIps+wWzo7n w=;
-X-IronPort-AV: E=Sophos;i="5.46,501,1511823600"; 
-   d="scan'208";a="3046151"
-Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
-	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 10:41:30 +0100
-Received: from skn.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
-	with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 12 Feb 2018 10:41:29 +0100
-From: Sean Nyekjaer <sean.nyekjaer@prevas.dk>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:41:17 +0100
-Message-ID: <20180212094117.4534-1-sean.nyekjaer@prevas.dk>
-X-Mailer: git-send-email 2.16.1
-MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH] site/common-linux: coreutils: get the uptime program to work
+	Mon, 12 Feb 2018 10:19:18 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id b52so14569274wrd.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Feb 2018 02:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=7ivacdM0UJ1yYROWtQ5KzbkRA8hj/3lTiWPVtzKPHdw=;
+	b=dBOgT3s/AfPy0YCF6rnk1S5xETvurSOZk/b52B/z07tNnvMkClcIYdOhq32qY8Nepj
+	/hcjAYmME8eSl2Mcgp88RcBfrZyf7oHhWbxdeQr9p7u3Eg7n3Ke95YnQWWcQWx1MjbSu
+	983MFwtN6CGt0SrrqlzVO76XX8oiA1Ue7VSItOMVX0O5YoVeS/2nvzzBIU2eHyDNGupO
+	dFqL+PIkFyYgLiVB+WfCbjzk+76JOcemDz2g6eph8j9g1FT8ynrl+PY8NHV/DBwnrLlM
+	Pv5DglE4WEemWcRMoIGYCpRXAoT5v540/HlUAa8AsRpDbaWTsnyLvF/xxLxBMJKIZd2u
+	nLOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=7ivacdM0UJ1yYROWtQ5KzbkRA8hj/3lTiWPVtzKPHdw=;
+	b=Zfhq8Dn2iq1SOfA3358NhjwHKGbw5CSWoAOLaInzy25ymsIdcCSeCImZw5fzGjwMZE
+	xNzG5QRSQg3Q3P5Iqzzitn/bRInUwM3onangKZV0+Ys8s10PmBrxrIQa0mniH5+7s59G
+	VCrDg6HnDqEjlyCpsdayLT+Zh7pCB/auqiZ8KwLkgQaZJvP6SB3tzE6EEJwZCl9RheXA
+	9zNlhmjQ0BzqFrDENr39kB6yH3fZFxEXid4rOKYySZ7WAinAo5dqmdoWtS4FL9h+aSSY
+	wLrRCugqDziiqu2W1kM+1YaY5Du1MvIfx/vWpcdgPpVd+5XetE1UcrNe3SpGb5kF2eux
+	T4hg==
+X-Gm-Message-State: APf1xPB2COfz4kunQLPYPbK7FptAaZiIbO9++9TGTmxgW48RT2LJrLQr
+	c8Z2ceEsRKey7yWVhYycyiNh6A==
+X-Google-Smtp-Source: AH8x227bUuKL5vEyDOw0+eCmfRR1g7S6gxez0BPhTV8tUw7Df51NLxUrMF6TVv+UrkvQyeOqcHKHZw==
+X-Received: by 10.223.155.196 with SMTP id e4mr10049764wrc.63.1518430759913;
+	Mon, 12 Feb 2018 02:19:19 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	h14sm9764307wrb.29.2018.02.12.02.19.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 12 Feb 2018 02:19:19 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Feb 2018 10:19:18 +0000
+Message-Id: <20180212101918.228-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.15.1
+In-Reply-To: <CA+chaQcQztFnFJjZhXVYQeTZuv4qJ41j5cNca0NJhHPz4R6x7A@mail.gmail.com>
+References: <CA+chaQcQztFnFJjZhXVYQeTZuv4qJ41j5cNca0NJhHPz4R6x7A@mail.gmail.com>
+Subject: [pyro][PATCH] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 09:41:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Feb 2018 10:19:20 -0000
 
-coreutils configure script needs to know whether /proc/uptime is
-available, but this is not possible in a cross-compilation
-context. This leads to an uptime program that fails to work on the
-target, as it has been compiled without /proc/uptime reading support.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-This commit fixes that by telling coreutils at configure time that
-/proc/uptime will be available on the target (which seems to be a
-reasonable assumption on Linux systems).
+We changed to make tools required by testimage to be included conditionally.
+This resulted in users who use ssh for git fetching having failures.
 
-This commit is made with great inspiration from Thomas Petazzoni's
-patch to buildroot to fix the same issue.
+Add ssh to HOSTTOOLS_NONFATAL to make things work for the above situation.
 
-Signed-off-by: Sean Nyekjaer <sean.nyekjaer@prevas.dk>
+[YOCTO #12227]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/site/common-linux | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 2958716..71ec961 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -48,6 +48,7 @@ hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f3994fc642..e2383d2709 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -472,7 +472,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
  
- # coreutils
- gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
-+gl_cv_have_proc_uptime=${gl_cv_have_proc_uptime=yes}
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
++HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
  
- # mysql
- ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
 -- 
-2.7.4
+2.15.1
 
 
