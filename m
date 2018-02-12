@@ -1,30 +1,48 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B26877F34
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D6E171AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 02:00:37 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="36992083"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Feb 2018 10:00:38 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id D540C48AE765
+	Mon, 12 Feb 2018 07:32:55 +0000 (UTC)
+Received: by mail-pg0-f42.google.com with SMTP id l24so951259pgc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 10:00:38 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Mon, 12 Feb 2018 10:00:39 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:00:42 +0800
-Message-ID: <1518400842-17896-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Sun, 11 Feb 2018 23:32:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DOYYHeTFZUbnLK+dFOtyxm5OCC/66A1AI6tH1FSjL/A=;
+	b=P9QJKOFPp8rxiKKoamMuc6kspnFP8PWMAXy4eIH8xtpC+iTcfAlg3qybZHENmKvOYk
+	SXR1KD4U+vaCtuoBb85w1fP1vQBmJjsdus/vkXx1TqSVWBrV1pziide3Ig+0AtQNAWpF
+	o58tjHOlN19CZbhapfbe7gbnNfBPKfmU1bt8ewsGL8QVXLXCETiPMpFZeXG9f1RTm5/5
+	hVWNjauNtECDMqx32hqNKFg3evlgmRSHTHdvVuSqffzuIs4rqu2kQfgbjgkbQ+2GvUhC
+	wLfNhy61rU+ipKHzSc9cA2J58fV2Xx+MC7Z8moH4hx/ANV6yC9pGa7dwxx8sbVi8zBlW
+	73tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DOYYHeTFZUbnLK+dFOtyxm5OCC/66A1AI6tH1FSjL/A=;
+	b=lIlA5b9qg/xnqIJ533Z+BXEqagCJiSlfPMcHL1UWSl5LtN39rPrSugwqAwrXzItJYx
+	xhBoJ0k86RAlbjXRjBnY9hnj8bm3eKzmuSNSJO+OK0lHrGzKzc0+ymj7QJNBNv0FdC+2
+	jme98T/APVYrijqgr/bBBMKFxhg6+1Z4VSvLCco4PYOlb27nI9eXvK2bBTS0Gw4Ioiny
+	URp/xLg/9InGx4hpIeQLUG9NixlBgE332/BkWe6qez4uGT7KpglHsUilxd0d1Q0WJqBc
+	kPvxwvavyOQ4iYKWU+LzOwo+4/7vyk+WdU4QITNb+VeqU3aQE1BaFGfSECe9QVXB4LcL
+	jXiA==
+X-Gm-Message-State: APf1xPAsLbh+44/Y1yF7Bks4izS8XGLgJjdgwJUMfE53ZdajRYLinK5l
+	+Y7ZTRK7agNcyxVVftsxDJQI490f6k5E/dWEDfQ=
+X-Google-Smtp-Source: AH8x225S623VwkUwIFL08KSyPA9MZgSJllYJ0VqDu/9E7QDjf4q/i6mnuMazqqNIebxLAYyf6bwvo+ePH+iEbtBqmfM=
+X-Received: by 10.98.131.139 with SMTP id h133mr10767060pfe.155.1518420777048; 
+	Sun, 11 Feb 2018 23:32:57 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: D540C48AE765.A81F1
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] util-linux: 2.31 -> 2.31.1
+Received: by 10.100.161.170 with HTTP; Sun, 11 Feb 2018 23:32:26 -0800 (PST)
+In-Reply-To: <CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
+References: <cover.1517524576.git.raj.khem@gmail.com>
+	<aa96375d5517a1f0170609aac7283bd71566f46a.1517524576.git.raj.khem@gmail.com>
+	<CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 11 Feb 2018 23:32:26 -0800
+Message-ID: <CAMKF1sp8riyhF=6N_ak-TyZ6_w=aj+az=qx+mjepXPQagV7vqw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.27 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 02:00:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Feb 2018 07:32:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-1.Upgrade util-linux from 2.31 to 2.31.1.
-2.Modify ALTERNATIVE_TARGET, since rfkill has been moved to /usr/sbin.
+On Sat, Feb 3, 2018 at 2:21 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Getting there: https://autobuilder.yocto.io/tgrid
+>
+> Just two actual problems:
+> - The non-gplv3 build failed as the make fix needs to be backported to
+> meta-gplv2
+> - The eSDK selftests all failed with en_US.UTF-8 problems, the new glibc
+> shouldn't be causing a problem with uninative so this is interesting, maybe
+> the new one is behaving slightly differently.  Should be easy to replicate.
+> The same problem caused selftest to fail.
+>
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-core/util-linux/util-linux.inc                           | 2 +-
- .../util-linux/{util-linux_2.31.bb => util-linux_2.31.1.bb}           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux_2.31.bb => util-linux_2.31.1.bb} (87%)
+is the UTF error like this one
+https://gist.github.com/25a84d23618824f0e5e6857a960eaca4
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 248e8be..922cecd 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -270,7 +270,7 @@ ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
- 
- ALTERNATIVE_util-linux-rfkill = "rfkill"
- ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
--ALTERNATIVE_TARGET[rfkill] = "${base_bindir}/rfkill"
-+ALTERNATIVE_TARGET[rfkill] = "${sbindir}/rfkill"
- 
- ALTERNATIVE_util-linux-getopt = "getopt"
- ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.31.bb b/meta/recipes-core/util-linux/util-linux_2.31.1.bb
-similarity index 87%
-rename from meta/recipes-core/util-linux/util-linux_2.31.bb
-rename to meta/recipes-core/util-linux/util-linux_2.31.1.bb
-index a83919b..6836682 100644
---- a/meta/recipes-core/util-linux/util-linux_2.31.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.31.1.bb
-@@ -16,8 +16,8 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://avoid_parallel_tests.patch \
- "
- SRC_URI_append_class-native = " file://no_getrandom.patch"
--SRC_URI[md5sum] = "5b6821c403c3cc6e7775f74df1882a20"
--SRC_URI[sha256sum] = "f9be7cdcf4fc5c5064a226599acdda6bdf3d86c640152ba01ea642d91108dc8a"
-+SRC_URI[md5sum] = "7733b583dcb51518944d42aa62ef19ea"
-+SRC_URI[sha256sum] = "1a51b16fa9cd51d26ef9ab52d2f1de12403b810fc8252bf7d478df91b3cddf11"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
- 
--- 
-2.7.4
-
-
-
+> Ross
 
