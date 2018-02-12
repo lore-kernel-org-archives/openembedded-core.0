@@ -1,28 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AA93360103
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 14F9D6FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 14:32:34 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Mon, 12 Feb 2018 14:50:03 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 06:32:35 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 06:50:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="17300074"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga008.fm.intel.com with ESMTP; 12 Feb 2018 06:32:34 -0800
-Date: Mon, 12 Feb 2018 16:35:04 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20180212143503.GA26313@mbabyjoh-desk.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="17826835"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga006.jf.intel.com with ESMTP; 12 Feb 2018 06:50:03 -0800
+To: "Maxin B. John" <maxin.john@intel.com>
 References: <1518444986-25886-1-git-send-email-maxin.john@intel.com>
 	<1518444986-25886-3-git-send-email-maxin.john@intel.com>
 	<3c2e005c-2a1b-5656-4794-54ce2c34109a@linux.intel.com>
+	<20180212143503.GA26313@mbabyjoh-desk.ger.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <aa878915-dc7b-2fdc-f90d-f10522c54d7a@linux.intel.com>
+Date: Mon, 12 Feb 2018 16:43:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <3c2e005c-2a1b-5656-4794-54ce2c34109a@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20180212143503.GA26313@mbabyjoh-desk.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 3/4] fontconfig: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,37 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 14:32:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Feb 2018 14:50:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Alex,
-
-On Mon, Feb 12, 2018 at 04:19:53PM +0200, Alexander Kanavin wrote:
-> On 02/12/2018 04:16 PM, Maxin B. John wrote:
-> >In the case of fontconfig, version x.x.9x are release candidates
-> >for next version.
-> >+UPSTREAM_CHECK_REGEX = "fontconfig-(?P<pver>\d+\.\d+\.[^9]\d*).tar.gz"
+On 02/12/2018 04:35 PM, Maxin B. John wrote:
+>> This is a good place to practice:
+>> http://regex101.com
 > 
-> This will incorrectly exclude x.x.9 which is not a release candidate. You
-> need to exclude "9 followed by one or more digits", not just 9 alone.
+> Thanks. I will update and send a v2.
 
-You are right. Thanks for looking into this. However, in practice, I haven't found
-a single non-RC release which follow the pattern x.x.9 for these 
-packages (fontconfig, libinput). That doesn't mean, it is improbable.
+To save you a bit of time, I think the right construct should be either
 
-> Also, "." in .tar.gz means "any character", if you want to match literal "."
-> it should be "\."
+(9|[0-8]\d+)
 
-Ok.
+or
 
-> This is a good place to practice:
-> http://regex101.com
+(?!9\d+)\d+
 
-Thanks. I will update and send a v2.
 
-> Alex
-
-Best Regards,
-Maxin
+Alex
 
