@@ -1,39 +1,52 @@
-Return-Path: <jsbronder@cold-front.org>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id D2A837814B
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A02C78259
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:32:31 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id C4B8C20A8D;
-	Mon, 12 Feb 2018 11:32:32 -0500 (EST)
-Received: from frontend2 ([10.202.2.161])
-	by compute7.internal (MEProxy); Mon, 12 Feb 2018 11:32:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	h=cc:date:from:message-id:subject:to:x-me-sender:x-me-sender
-	:x-sasl-enc; s=mesmtp; bh=3WHinrRDz8J24eAJXoccybFR9W+UYSMX9eTvhI
-	qt7M4=; b=OJa4kwBkGoY8tmenBkZUmac1b5K55b2EZ4nP2hvf6SO7WspZz6r8U0
-	/4e8o08QL9ceFN6l+7Lg3jXv2JQJ8b0BV/pzWp9f3hiLen6rpcVoTAOh+wWOyCr2
-	3gI+zXErvG/M8zZnyZPKpLrWcGNNshXannuwtOp+PN3U9kQoP0GI0=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:message-id:subject:to
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3WHinrRDz8J24eAJX
-	occybFR9W+UYSMX9eTvhIqt7M4=; b=ewt6rnRQHCKfsdAPciekoKDxaJHQR5TU7
-	Yr5nHtVOVxMYlBSDfh3ogAHx7jk248wgc4qIoEVSHi+Yy8+ArVr47v74U23/M82c
-	g6cwiYzKw2+ygPmt8UwEamScxFvOJkj5E+Q2LkaTKg/KxzvcW4e/8Ri1XqLFrcd0
-	xTFlo84QIcx8gEN+3U74JvfPSdqIFUnq/EphRYSyvR5lzBNDiVwI+tPWqafoUwDe
-	HJ+Ysyy7fEy+7WoYCxrwgzhiM79KzXnzb54l7N+ZK3PN8pm4+yuFLGct9B+SFLQK
-	Oyvi3qnDPn+7XFgMaIKmz/G8K6SSgecACnmVFHmJjUb3p2dN3ohYA==
-X-ME-Sender: <xms:oMGBWj3AJK1Xal4EE5li45Oh0ZRH7ceHETOAcyCmgbF67v7ZGSUVZQ>
-Received: from localhost (c-24-60-203-86.hsd1.ma.comcast.net [24.60.203.86])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 845DF24610;
-	Mon, 12 Feb 2018 11:32:32 -0500 (EST)
-From: Justin Bronder <jsbronder@cold-front.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Feb 2018 11:32:24 -0500
-Message-Id: <20180212163224.19624-1-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] kernel: add objtool to shared workdir
+	Mon, 12 Feb 2018 16:52:21 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id k131so7457264ith.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Feb 2018 08:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=HMIUFVaDyNb6Ql5lRh4Y5o+OACxoXovB9wIemjmYEnk=;
+	b=TAsbxWY8E1gaig+1+EcVI6O0uLMksTL/dYGHmVa7340kT7QVgu9wUNLoclKAuHDVbq
+	s6HZfGvXRLECSEmTFOW8eMGJZLqMg9Kwu42ozm933P7V5U44Ai9TZQmwpmqqzcs+IQYa
+	6UIf3ejP9Nlh8BDjxSujQDp/g3B7RglFxBdfuzKLTolRiePEleS9hLHXgnpOyaBFr5IN
+	c5oeva5D5dgcip7NkKMQXDrJkX/uEDNyZwm53vR+ShF4VJwVnKAlNgWWd3XkFLVB66Y3
+	EGmNIeWVed/3KyoS5eHQG7LN7G+93fe/PLGppr+3t477RE576Sm03nU6uY01t4uWrLV8
+	fRSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=HMIUFVaDyNb6Ql5lRh4Y5o+OACxoXovB9wIemjmYEnk=;
+	b=a6saVB5bbIDx36e2sjjBi3dZo2ySH675M42l/B2Ujr49q3uTHDP4qKkCjViXYfd+5o
+	4Mfoy/gNKFLyCxuYujZHPAxfkXw6uukTRPbXX6MU7bRIFqF7bI9B7u/Pkw3u8SuXWOEM
+	BVXrhWn2kbFOyH09KV39Rist8irpSo5QYiPcEp+ZYwR+2d25Ykb80yQB0lJZlP2mArJU
+	WxrW7oWmKQuzZjZMH1vrgWxp4nEwceqQoePXagWO8BZQo1tZBUc3LFEWHp6TZs6F9rXi
+	4/p+Q3DwTDJAyXffgXOZGsiZLL0ejRCvW/vlNnXb98cJ/a4fRIVp2ksR65a909PfG1n0
+	bNTg==
+X-Gm-Message-State: APf1xPA20bJCbBglcUXkG/TxIbmbG240dmNPEDMdpkworeCd+ZJrvab5
+	yN2UZHafSl/UNzCGXhwX/MQS0nps
+X-Google-Smtp-Source: AH8x224m0COCEvL4MzMM3IuDOm0HUHSbBGgXWg32Q+gsYSV7/VO66D3N6yWQ7arbR/Nw5DngPxWvDg==
+X-Received: by 10.36.249.129 with SMTP id l123mr6528722ith.30.1518454343088;
+	Mon, 12 Feb 2018 08:52:23 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	w132sm12206760iow.51.2018.02.12.08.52.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 12 Feb 2018 08:52:22 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Feb 2018 10:51:55 -0600
+Message-Id: <cover.1518453683.git.JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <cover.1517857764.git.JPEWhacker@gmail.com>
+References: <cover.1517857764.git.JPEWhacker@gmail.com>
+Cc: Tomas Novotny <tomas@novotny.cz>
+Subject: [PATCH v2 00/17] Fix support for Icecream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +59,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:32:33 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:22 -0000
 
-With CONFIG_UNWINDER_ORC (the default in 4.14), objtool is required for
-out-of-tree modules to be able to generate object files.
+Fix up support for using Icecream to do distributed builds, which
+appears to have been broken for some time.
 
-For instance, meta-skeleton/hello-mod fails with:
-    | make[3]: *** No rule to make target 'tools/objtool/objtool', needed by ...
+In addition, Icecream support can now be enabled in the SDK. When
+enabled, the SDK install process will check if the host supports icecc
+and if so will construct a proper environment tarball and use it when
+compiling.
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
----
- meta/classes/kernel.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+Most of the changes should be straightforward. icecc-create-env has
+been almost completely re-written but the changes were broken up into
+hopefully logical chunks.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 943938df0e..5cdff581ef 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -479,6 +479,13 @@ do_shared_workdir () {
- 		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
- 		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
- 	fi
-+
-+	# With CONFIG_UNWINDER_ORC (the default in 4.14), objtool is required for
-+	# out-of-tree modules to be able to generate object files.
-+	if [ -x tools/objtool/objtool ]; then
-+		mkdir -p ${kerneldir}/tools/objtool
-+		cp tools/objtool/objtool ${kerneldir}/tools/objtool/
-+	fi
- }
- 
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+V2:
+  * Default ICECC_CARET_WORKAROUND = "0" which greatly speeds up build
+    times in recipes with a lot of warnings. (Thanks to Tomas Novotny
+    <tomas@novotny.cz>)
+  * Fix elfutils build when ICECC_CARET_WORKAROUND = "0"
+  * Minor fixes to commit messages and patchtest failures
+
+The following changes since commit 44ea6ded0e8e73f5258ce55bd1b851e24243b76a:
+
+  bitbake: bitbake-user-manual: Commented out Placeholder Paragraph (2018-02-06 18:10:35 +0000)
+
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib jpew/icecream
+
+Joshua Watt (17):
+  icecc.bbclass: Move to shared work directory
+  icecc.bbclass: Fix STAGING_BINDIR_TOOLCHAIN usage
+  icecc.bbclass: Skip canadian-cross compiles
+  icecc-create-env: Reformat
+  icecc-create-env: Add /bin/true to environment
+  icecc-create-env: Use program interpreter for deps
+  icecc-create-env: Symlink alternate names
+  icecc-create-env: Archive directory
+  icecc-create-env: Fix executable rpaths
+  icecc-create-env: Add support for nativesdk
+  icecc-create-env: Allow multiple tool aliases
+  toolchain-shar-extract: Add post-relocate scripts
+  icecc-toolchain: Add SDK icecream setup
+  icecc.bbclass: Add Icecream support to SDK
+  icecc.bbclass: Disable caret workaround by default
+  icecc-toolchain: Disable caret workaround
+  elfutils: Use fallthrough attribute
+
+ meta/classes/icecc.bbclass                         |  57 +-
+ meta/classes/toolchain-scripts.bbclass             |  15 +
+ meta/files/toolchain-shar-extract.sh               |   8 +
+ meta/recipes-core/meta/meta-environment.bb         |   2 +
+ meta/recipes-devtools/elfutils/elfutils_0.170.bb   |   4 +-
+ .../files/0001-Use-fallthrough-attribute.patch     | 791 +++++++++++++++++++++
+ .../elfutils/files/debian/fallthrough.patch        |  36 -
+ .../icecc-create-env/icecc-create-env              | 328 ++++++---
+ ...e-env-native_0.1.bb => icecc-create-env_0.1.bb} |   4 +-
+ .../icecc-toolchain/icecc-toolchain/icecc-env.sh   |  49 ++
+ .../icecc-toolchain/icecc-toolchain/icecc-setup.sh |  43 ++
+ .../nativesdk-icecc-toolchain_0.1.bb               |  38 +
+ 12 files changed, 1214 insertions(+), 161 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-Use-fallthrough-attribute.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/files/debian/fallthrough.patch
+ rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-native_0.1.bb => icecc-create-env_0.1.bb} (98%)
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
+
 -- 
-2.13.6
+2.14.3
 
 
