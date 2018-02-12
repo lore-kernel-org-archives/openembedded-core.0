@@ -1,37 +1,37 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 590037826D
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8198378297
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:32 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id v186so2058864itc.5
+	Mon, 12 Feb 2018 16:52:33 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id o13so7475120ito.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:52:34 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=x95EZ5gCM0QtoB7OvPlJFAVId5Vu0BRYODnBjMk53d0=;
-	b=k7nWaRn/R58BuicaJPZUuaXqlQplt4VbOp1RFqjxmc0EDdeLzZwUPItetXRpuTNflh
-	ZZFS02igH2dOpEVjPhxRrKzReus4vFwAJ9+R+Ns00+u2B7kRd3P9lEGFngiZGNv68sob
-	Mq25wL1kE8QRvX0N25jHeyx7PDLrw+yuprruRdqjCB2EbnG/6v57+vkTSWM2VfP7uny6
-	t4F7n6lUgq3lbrVKzHy/d65gcQRlA2+RLrb//UFV4Pmjp7srxPVCy4qlamGcLxv73ZEa
-	5W+FNIMvO0jkjFK/c/S6T9xOkdbS6vfwh45gcpR2XyoZh/lkvANMlkPFewNGNWhBrlex
-	OcCg==
+	bh=TJRJAtWUX9RmRxJ7JN+FHCYG2uhj/55WuvsJlnPUdLs=;
+	b=N2nw6wpuhlBRUIfLycDVJOTCe+u7oSFGinRRNennTA6a5SEramOueIE0QDDlv/0utO
+	ZvUaHkVDeWGzzhGaL4L/C/CrEIjIIani0EUAg8Mih2cbUWUGD60q7mLN2mzOWKPN+SGh
+	OFK9PjXIlkmKRUvgz6RQi3L2YniSUgu5g6XF/xnnJhlDsbRii339yNVZiq2Ugc37Fyd6
+	lUjDw8l6onC6KdUTPty4vYGDRCGRHiZ6CEnMHH3DFsX1UnFnpc+7UA6iRq0oq4fbLxSg
+	3PNnoWqUlEkgDczc5PseVKKmWQAcIif+3UfOhRZNGNgR0E0GAZ/wgLb2T9Eu26VUJyLR
+	tFMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=x95EZ5gCM0QtoB7OvPlJFAVId5Vu0BRYODnBjMk53d0=;
-	b=syZQAqYwDCXkJOCrBpyesFLAc6S7NAF31zT9QxaNXqEq89nbVfmtgWW0TuG0l/+9zU
-	zMPNYyaFyNNdHTy3XUk3PtFQi1+W+MPtr7ipw5yolw/wc1HlD28DeoTg6MClreVEyUT3
-	OD6lICRZ49DS5bLjoInRnvFI/EPqjED7cKxX+raSUvGPNF8yugnsZ0oiOB4Hpyc23tT3
-	PGk1GX0jIWwlNnRRqOXRbeGtxY73qoEjAi3wbV+nI+7L2Rw1wCLo5IkILKToD+1uX7U0
-	Q8aiGHxa49xvzyVJv5gajstVuwe6wysmfDJkz81VaVxFbwztX42JFS3j+puiwSy8jGp1
-	oxqw==
-X-Gm-Message-State: APf1xPDv2AR5VVQBi47qk6UiVTfGsN6G9oqA4TJ6du3pmirbgJb9g+Bp
-	gMiyZLa8+RtyLh5QIeoopwfPfjBz
-X-Google-Smtp-Source: AH8x2271NwWEsimJwDk4rq0JAA73zDJM5F/ThODWtQAZVKrazsJnvGNmiy623Y8pOPFHdtVJxLWHfQ==
-X-Received: by 10.36.111.66 with SMTP id x63mr5747428itb.12.1518454353756;
-	Mon, 12 Feb 2018 08:52:33 -0800 (PST)
+	bh=TJRJAtWUX9RmRxJ7JN+FHCYG2uhj/55WuvsJlnPUdLs=;
+	b=QirdfDWblz0MJkIrfEyys4hWbn68p9gfScuVMWBHYea2gpG95E0Q2s6LI5bZs5Qz2P
+	p6UnJEntw7BRQ2ERBkjMvlEtdUGaiTgJsJBIoG0FcIOXfqTzMFofai0Q04xxS0qIR57v
+	OtPg5+5mFB1SJHLMwaApisEcaACsDrktltHRHOfLAp/6fgY+rrp0dAvW5KfogY8axlPx
+	sM2fmv4OrILBgWQ5/xCqn6CTjlyU28X7HKkKAlbu6FU8PqCFxc6FH1hBBp5Jl5eb2tKu
+	lTgMwdJqKY615Vry4X/AZ3EpLSxAaXk5ZTJvYrRQ3WUgtK6OCY3hn4aQD2IlCO4AZQDA
+	aHTA==
+X-Gm-Message-State: APf1xPDlHE0w9cSvTClXhyg+Ci8r+RRcJ9IXCe9awCZskwRgor/hiyMZ
+	rc2YBa8Q8htCV7fu9kSo+grTpu4C
+X-Google-Smtp-Source: AH8x225RwdYfydWC8yvRV3tSRML1OJJQ217GEMRmY7wHoNo8ltXjYQKqeelIn45P9WeJrNC5bllmpQ==
+X-Received: by 10.36.39.201 with SMTP id g192mr1162086ita.144.1518454354532;
+	Mon, 12 Feb 2018 08:52:34 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
 	w132sm12206760iow.51.2018.02.12.08.52.33
@@ -40,14 +40,14 @@ Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:52:07 -0600
-Message-Id: <f23460b2232463bac2d07d7decddd85af35eae64.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:52:08 -0600
+Message-Id: <b9d52b53fc2be75e287fdfe35b1a19f74fb9306d.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 12/17] toolchain-shar-extract: Add post-relocate scripts
+Subject: [PATCH v2 13/17] icecc-toolchain: Add SDK icecream setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,76 +60,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:32 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:33 -0000
 
-Recipes can now install post-relocation scripts which will be run when
-the SDK is installed.
+Icecream can now be optionally included in the generated SDK by
+including nativesdk-icecc-toolchain to TOOLCHAIN_HOST_TASK. When the SDK
+is installed a post-relocation script will check if icecc exists and if
+so will generate the toolchain environment.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/toolchain-scripts.bbclass     | 15 +++++++++++++++
- meta/files/toolchain-shar-extract.sh       |  8 ++++++++
- meta/recipes-core/meta/meta-environment.bb |  2 ++
- 3 files changed, 25 insertions(+)
+ .../icecc-toolchain/icecc-toolchain/icecc-env.sh   | 37 +++++++++++++++++++
+ .../icecc-toolchain/icecc-toolchain/icecc-setup.sh | 43 ++++++++++++++++++++++
+ .../nativesdk-icecc-toolchain_0.1.bb               | 38 +++++++++++++++++++
+ 3 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+ create mode 100644 meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 9bcfe708c7c..eeb320d15a8 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -116,6 +116,21 @@ fi
- EOF
- }
- 
-+toolchain_create_post_relocate_script() {
-+	script=$1
-+	rm -f $script
-+	touch $script
+diff --git a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+new file mode 100644
+index 00000000000..9c9bb4dc4ea
+--- /dev/null
++++ b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-env.sh
+@@ -0,0 +1,37 @@
++#! /bin/sh
++# Copyright (c) 2018 Joshua Watt, Garmin International,Inc.
++#
++# Permission is hereby granted, free of charge, to any person obtaining a copy
++# of this software and associated documentation files (the "Software"), to deal
++# in the Software without restriction, including without limitation the rights
++# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# copies of the Software, and to permit persons to whom the Software is
++# furnished to do so, subject to the following conditions:
++#
++# The above copyright notice and this permission notice shall be included in
++# all copies or substantial portions of the Software.
++#
++# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++# SOFTWARE.
++#
 +
-+    cat >> $script <<EOF
-+if [ -d "${SDKPATHNATIVE}/post-relocate-setup.d/" ]; then
-+    for s in ${SDKPATHNATIVE}/post-relocate-setup.d/*.sh; do
-+        \$s "\$1"
-+    done
-+    rm -rf "${SDKPATHNATIVE}/post-relocate-setup.d"
++if [ -z "$ICECC_PATH" ]; then
++    ICECC_PATH=$(which icecc 2> /dev/null)
 +fi
-+EOF
++
++if [ -n "$ICECC_PATH" ]; then
++    export ICECC_PATH
++    export ICECC_VERSION="$OECORE_NATIVE_SYSROOT/usr/share/icecream/@TOOLCHAIN_ENV@"
++    export ICECC="$(which ${CROSS_COMPILE}gcc)"
++    export ICECXX="$(which ${CROSS_COMPILE}g++)"
++    export ICEAS="$(which ${CROSS_COMPILE}as)"
++    export PATH="$OECORE_NATIVE_SYSROOT/usr/share/icecream/bin:$PATH"
++else
++    echo "Icecc not found. Disabling distributed compiling"
++fi
++
+diff --git a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+new file mode 100644
+index 00000000000..04808265781
+--- /dev/null
++++ b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
+@@ -0,0 +1,43 @@
++#! /bin/sh
++# Copyright (c) 2018 Joshua Watt, Garmin International,Inc.
++#
++# Permission is hereby granted, free of charge, to any person obtaining a copy
++# of this software and associated documentation files (the "Software"), to deal
++# in the Software without restriction, including without limitation the rights
++# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# copies of the Software, and to permit persons to whom the Software is
++# furnished to do so, subject to the following conditions:
++#
++# The above copyright notice and this permission notice shall be included in
++# all copies or substantial portions of the Software.
++#
++# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++# SOFTWARE.
++#
++
++# Setup environment
++for env_setup_script in `ls $1/environment-setup-*`; do
++	. $env_setup_script
++done
++
++# ICECC_PATH will have been found icecc-env.sh
++if [ -z "$ICECC_PATH" ]; then
++    exit 0
++fi
++
++echo "Setting up IceCream distributed compiling..."
++
++# Create the environment
++mkdir -p "`dirname $ICECC_VERSION`"
++icecc-create-env $ICECC $ICECXX $ICEAS $ICECC_VERSION || exit $?
++
++# Create symbolic links
++d="$OECORE_NATIVE_SYSROOT/usr/share/icecream/bin"
++mkdir -p "$d"
++ln -s "$ICECC_PATH" "$d/${CROSS_COMPILE}gcc"
++ln -s "$ICECC_PATH" "$d/${CROSS_COMPILE}g++"
+diff --git a/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb b/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
+new file mode 100644
+index 00000000000..91958d7fbcc
+--- /dev/null
++++ b/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
+@@ -0,0 +1,38 @@
++# Copyright (c) 2018 Joshua Watt, Garmin International,Inc.
++# Released under the MIT license (see COPYING.MIT for the terms)
++SUMMARY = "Generates Icecream toolchain for SDK"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/icecc-env.sh;beginline=2;endline=20;md5=aafdb7bc2aa7ac5d039fda0c8733983c"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++SRC_URI = "\
++    file://icecc-env.sh \
++    file://icecc-setup.sh \
++    "
++
++inherit nativesdk
++
++ENV_NAME="${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TUNE_PKGARCH}-${DISTRO_VERSION}.tar.gz"
++
++do_compile() {
 +}
 +
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 91804ec2818..f7ab43066fb 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -259,6 +259,14 @@ if [ $savescripts = 0 ] ; then
- 	$SUDO_EXEC rm -f ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
- fi
- 
-+# Execute post-relocation script
-+post_relocate="$target_sdk_dir/post-relocate-setup.sh"
-+if [ -e "$post_relocate" ]; then
-+	$SUDO_EXEC sed -e "s:@SDKPATH@:$target_sdk_dir:g" -i $post_relocate
-+	$SUDO_EXEC /bin/sh $post_relocate "$target_sdk_dir" "@SDKPATH@"
-+	$SUDO_EXEC rm -f $post_relocate
-+fi
++do_install() {
++    install -d ${D}${SDKPATHNATIVE}${datadir}/icecream/bin
 +
- echo "SDK has been successfully set up and is ready to be used."
- echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
- for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
-diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-index 29da121a3a9..09f757a087c 100644
---- a/meta/recipes-core/meta/meta-environment.bb
-+++ b/meta/recipes-core/meta/meta-environment.bb
-@@ -55,6 +55,8 @@ create_sdk_files() {
- 
- 	# Add version information
- 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
++    install -d ${D}${SDKPATHNATIVE}/environment-setup.d/
++    install -m 0644 ${WORKDIR}/icecc-env.sh ${D}${SDKPATHNATIVE}/environment-setup.d/
++    sed -i ${D}${SDKPATHNATIVE}/environment-setup.d/icecc-env.sh \
++        -e "s,@TOOLCHAIN_ENV@,${ENV_NAME},g"
 +
-+	toolchain_create_post_relocate_script ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh
- }
- 
- do_install() {
++    install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d/
++    install -m 0755 ${WORKDIR}/icecc-setup.sh ${D}${SDKPATHNATIVE}/post-relocate-setup.d/
++    sed -i ${D}${SDKPATHNATIVE}/post-relocate-setup.d/icecc-setup.sh \
++        -e "s,@TOOLCHAIN_ENV@,${ENV_NAME},g"
++}
++
++PACKAGES = "${PN}"
++FILES_${PN} = "${SDKPATHNATIVE}"
++RDEPENDS_${PN} += "nativesdk-icecc-create-env"
++
 -- 
 2.14.3
 
