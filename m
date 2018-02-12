@@ -1,39 +1,44 @@
-Return-Path: <jsbronder@cold-front.org>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 069716FFC8
+Return-Path: <anders.roxell@linaro.org>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AFB4178289
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 22:05:33 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id D02B020DF7;
-	Mon, 12 Feb 2018 17:05:34 -0500 (EST)
-Received: from frontend1 ([10.202.2.160])
-	by compute7.internal (MEProxy); Mon, 12 Feb 2018 17:05:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	h=cc:date:from:message-id:subject:to:x-me-sender:x-me-sender
-	:x-sasl-enc; s=mesmtp; bh=mrbLc6qrFzMzJV625kYH1b7Hb+VA6vozaXDrPt
-	qkz40=; b=WBxiCxMjXDMVwXKEJ387Ex0cRL+TEr70q2w/iAAs3GXfjgL8CrIndt
-	d7UjmauOKLKy6pWFiE5ClBDz5eTVN5CeRtzwuR8m5QYZAHNkCVhWD0R4rvvF3eJc
-	BQ1GUQyGkHJ/Kk6PFvNfDL3AViev0MBFAC1ZYyuX1Pz3/F5bkgnx4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:message-id:subject:to
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=mrbLc6qrFzMzJV625
-	kYH1b7Hb+VA6vozaXDrPtqkz40=; b=HB6zIudHf8U31tnk1Hx3ktEwuyoS2Eqff
-	/QnEV5EiieDxMf36Ll9qn/b9wo4EYU/MOdDClpSD8Zs7gyvPP5q5X9SaLnnF+Kr0
-	4Fav+0efx5LoQ2bVm69sIQBKtozGWJ+2juQp2VxiLO6eW+JZPQti4/RgVbAR5+7M
-	SMSTRmSXgf+AlYFEGap7jm4pFUhqo2OQptBZidHBLW8veDLibWvFIsazhGAqr01M
-	+Lfym8XZwUQfi2SklS61Bm5RircszLnkauVncYnL6fccJcpiRNouqzl3u/CxFY/N
-	CT3AQ+A7jpukz+LI4+Zc0CwusZxCpKDi882vj1bhlhQsOofCWgkPA==
-X-ME-Sender: <xms:rg-CWpzzQ4dndTxo0X8PofwrHE_e6HZE2jZgc0RZ-bogwLqs6q7FYA>
-Received: from localhost (c-24-60-203-86.hsd1.ma.comcast.net [24.60.203.86])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 79EF77E522;
-	Mon, 12 Feb 2018 17:05:34 -0500 (EST)
-From: Justin Bronder <jsbronder@cold-front.org>
+	Mon, 12 Feb 2018 22:38:35 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id q69so4702219lfi.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Feb 2018 14:38:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=7OkCv+XjYXrMkdJRS1okFmJxXqJepIukOSHM2fzQ5Rs=;
+	b=HAxcoCJZjJIuGuzlixDGVDf5f/fdcyudJ9VYcmFjVICBrUU6BAaIlPBLIjWYQlYeuw
+	Pm1r90/A8eb3GiEnuaQrBpEWpxtf6E+TyVvSv3pVz72bmmPnAvBqTYXjx+fskKEb+Cov
+	YlBncIG50dWZYlBOMXGplbhJO0qRo1SbEeb/A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7OkCv+XjYXrMkdJRS1okFmJxXqJepIukOSHM2fzQ5Rs=;
+	b=RiF1+cVOw1lpaLtWge8PyLu/S4DW0bk/ZekQfGtcfdf8jt9mm3rZVNGvXLC1le27pX
+	6u4HRc2FhdjR68goZYSf2u/x1cbqRav+lMmY5rBAflV5ETPWOzBQcc9zRsMZ9/W6t3HB
+	Gf+aEVkDGn+HnrfXxp+6DcjRc16ez5kZvQJLKt7+ikJbTRXQ62kjdvCFU5CPB4ogDZYZ
+	izdOydFDbo2mVUJtBmKVGFTLGeTALrrMrDRBerMNelMFx1k8//qouy5cAAfcdGxPhHVa
+	nEE1CUegszTBQmIa0flxdrz2SKfsyBpCu/CGgfWh7ZdIzjCg+Z+ZPRav0+y7UvqU5mnF
+	GRRg==
+X-Gm-Message-State: APf1xPB/lyQz41PhgqklqPFPgym3mAnVsvOXVETmBZ2+AJqOqQR9lsYx
+	DKgJNlq/dsu5sLvAUCq6v1qfwFdFWFs=
+X-Google-Smtp-Source: AH8x2276DXAWgxIG9fJd/B5KbuF65RXN3y8M4Np0T5i73oquopRttVLTKKyCHVryIe7ut3mq9nyiJg==
+X-Received: by 10.25.225.84 with SMTP id y81mr6195809lfg.102.1518475115873;
+	Mon, 12 Feb 2018 14:38:35 -0800 (PST)
+Received: from localhost (c-2c3d70d5.07-21-73746f28.cust.bredbandsbolaget.se.
+	[213.112.61.44])
+	by smtp.gmail.com with ESMTPSA id c70sm802239ljf.34.2018.02.12.14.38.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 12 Feb 2018 14:38:34 -0800 (PST)
+From: Anders Roxell <anders.roxell@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Feb 2018 17:05:28 -0500
-Message-Id: <20180212220528.5545-1-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] rxvt-unicode: add missing pkgconfig
+Date: Mon, 12 Feb 2018 23:38:08 +0100
+Message-Id: <20180212223808.9016-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v2] ltp: fix fanotify06 test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +51,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 22:05:34 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 22:38:35 -0000
 
-The configure script uses pkg-config in RXVT_CHECK_MODULES and falls
-back to disabling features that were enabled in EXTRA_OECONF if
-pkg-config isn't found.
+This patch fixes the fanotify06 test.
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+http://lists.linux.it/pipermail/ltp/2018-January/006915.html
+
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
 ---
- meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...anotify-the-mount-fs_type-should-be-given.patch | 38 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20180118.bb          |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-index 4d5daa661c..b568f04580 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -12,7 +12,7 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
- 	   file://rxvt.desktop \
- 	   file://rxvt.png"
+diff --git a/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch b/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
+new file mode 100644
+index 0000000000..e57b6cd91e
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
+@@ -0,0 +1,38 @@
++From c1b440c04d86adf77308fcd173d41dbfc6e66299 Mon Sep 17 00:00:00 2001
++From: Li Wang <liwang@redhat.com>
++Date: Tue, 23 Jan 2018 16:23:14 +0800
++Subject: [PATCH 40/40] fanotify: the mount fs_type should be given
++
++This commmit 28507e514c(safe_mount: Do not try mount() syscall for FUSE fs)
++involves FUSE fs check in safe_mount(), so we should give the "fs_type" when
++calling that in case the system kill our program.
++
++  cmdline="fanotify06"
++  contacts=""
++  analysis=exit
++  <<<test_output>>>
++  tst_test.c:980: INFO: Timeout per run is 0h 10m 00s
++  tst_test.c:1025: BROK: Test killed by SIGSEGV!
++
++Signed-off-by: Li Wang <liwang@redhat.com>
++Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2018-January/006915.html]
++---
++ testcases/kernel/syscalls/fanotify/fanotify06.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testcases/kernel/syscalls/fanotify/fanotify06.c b/testcases/kernel/syscalls/fanotify/fanotify06.c
++index e63e457a1..8cbe1adc6 100644
++--- a/testcases/kernel/syscalls/fanotify/fanotify06.c
+++++ b/testcases/kernel/syscalls/fanotify/fanotify06.c
++@@ -221,7 +221,7 @@ void test01(void)
++ static void setup(void)
++ {
++ 	SAFE_MKDIR(MOUNT_NAME, 0755);
++-	SAFE_MOUNT(MOUNT_NAME, MOUNT_NAME, NULL, MS_BIND, NULL);
+++	SAFE_MOUNT(MOUNT_NAME, MOUNT_NAME, "none", MS_BIND, NULL);
++ 	mount_created = 1;
++ 	SAFE_CHDIR(MOUNT_NAME);
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+index 369b98df9b..88f3bb4879 100644
+--- a/meta/recipes-extended/ltp/ltp_20180118.bb
++++ b/meta/recipes-extended/ltp/ltp_20180118.bb
+@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0035-fix-test_proc_kill-hang.patch \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
++           file://0040-fanotify-the-mount-fs_type-should-be-given.patch \
+            "
  
--inherit autotools update-alternatives
-+inherit autotools pkgconfig update-alternatives
- 
- PROVIDES = "virtual/x-terminal-emulator"
- ALTERNATIVE_${PN} = "x-terminal-emulator"
+ S = "${WORKDIR}/git"
 -- 
-2.13.6
+2.11.0
 
 
