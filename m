@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A2592782CD
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 182CD7827A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:25 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id x128so7475987ite.0
+	Mon, 12 Feb 2018 16:52:26 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id x128so7476045ite.0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 Feb 2018 08:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=bsda0URUY7BHjY5r8q0T3vFaNRIerbL1pxlOkxTNEUI=;
-	b=f8O6y+hQD6fz2o/eo1iqvcokTpu3qjl4OprcHiR2CmqxbhpCBknogmpPVNvZwYALWN
-	NIL7nhsVi4xMqjcNdCDJqO7rlXMW8eVB7mYpCL7R5rBt8HYN5JwZ6ZHsqDf7INT2ZN4F
-	TtMLF6dyLliSy06gbQQNnQwES92K5sSTgDlfzHnSSsrBuEYfZF0UJZBeHmONutPIcyoS
-	zjk7mEkathrpsx5BTAgebw084WriVMFU0cwzCA97nb+rKRCWCuFzbuDoKKzIkGIOncYe
-	qoiTmILB3D96t5Bami3SP++XRAXkwXj4zTQCeRe+FWdf1gkAi4h/QR8O988Eopp4PMrt
-	yRNw==
+	bh=lQfs62veCbU8rKZxSLuxZ7nUBD40/DEzVSzTtdAI8Go=;
+	b=g31HWgqkSpgZz1+t03H17klKoO568MiQaw6gx53oa3uSUVerOauEhVhjlN70s23RNp
+	QPFyUNa6tJWTco1Wy4Oywgt2USXamDiT0W5EBMApRx9K7Hy0FIje7hMe5Jhkfe7HYsqY
+	fKJNGzTZ2booJNtLTPANv/UjMZ9ka+tb3t94q4lDDXt5ncPF2G/viODPMWF2pnW6qBr1
+	/PAMXLB1+j7p+aoK8pNTTleYlR5L1vYMvOw1limRcpMadAzAW4rgr1dbb3kwL4uCepgQ
+	jfZ7P6mTLIlCbkgXuEqw3i49fi+UPtC5UQ4gRhBm4d5mtee7jPrEgvZHV3WIAXyDn652
+	MBag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=bsda0URUY7BHjY5r8q0T3vFaNRIerbL1pxlOkxTNEUI=;
-	b=BUGV8DEgy5zuvhtT/B9QDyFEao/I5cxNfFK0BMT/Wm48e0sNJYpXiCBc6RfgLVJBWE
-	Ay6wAAo8z1jodWSkrF/KbuZb/f/NZhoMxHKytCwM9BtHa+qAVQ+SHyfKqf4rKUgiRrQv
-	WTQ2qwnFx2eA8+mMQwyKWzZesLrl6+Jh7wfdKsQnL7rJHjnjVKjkxaRRvuAbwCQ/2sTb
-	wjri1GPmD6+ofHrcnJHTqhvlWoVsAnIFs4aJvHFDF0aBHfaamRWUl4wjj+Z66/+ZDlnt
-	aTXRrI4+t+UV2X3OqPO3SeUzXdQyUS0LKyZSp14Vd6ZIwyh1UB8QLJmhN4/10swBWspv
-	itlg==
-X-Gm-Message-State: APf1xPD0WUpaqLYMJuDyhHAVJ4q+RPd7A8ZEaEU9KxUfkStZ7k8CTenM
-	uSDGMnYfbpiXO3tzHNIQffpXravO
-X-Google-Smtp-Source: AH8x2261MUInQynyVVmrfJZxSove4OT9phMOPxNZurreYlCK56MLIxuIo+336J3mUZnMEYoZSHXLRA==
-X-Received: by 10.36.107.22 with SMTP id v22mr5768009itc.119.1518454346592;
-	Mon, 12 Feb 2018 08:52:26 -0800 (PST)
+	bh=lQfs62veCbU8rKZxSLuxZ7nUBD40/DEzVSzTtdAI8Go=;
+	b=bLukpspOnoBrJroP4ebFBC/GPAUGKIwtL0dCv6MAXujtrydE7/c5dzIKYG0XtBEnk7
+	/75+nlEZj8M6tmWw8UoN4SWxXwzPGDXreu5aK+dDBEMwCYMPumeZ1hJvoCDWBYSiW2FQ
+	hkJ4A3DtIpzOfkUM8QMze93cLpHngBWq/g1gXLLqUjKDqrmVhnU8uUd/M5lsWye3fEOm
+	chKuAWt6AddgX65vQ+gdrRN14O18nc37WCl807mir38RNrJPTUXpyhfo9Q8PrvKRWrA7
+	/322G2xMmh9DgL2tb4X8M0gnA3+G1kAW6+lse5a2rHVqNNKT7yF+svmjB31IkstuNvBq
+	6w3A==
+X-Gm-Message-State: APf1xPB2f2IjNU2sto6G1umVf3RPDs/MMuKX3JWLtCnW05UX/XeHL2qo
+	ewKYQP2DUlvWMM0pa9e0cggY8WRs
+X-Google-Smtp-Source: AH8x226eqHrsgvLFFdF2e74qM5ZW/sec+MAUDTiFcFyXUc0BmGRcfKxN9JZ1ajzoEoJyxIcFnq3uuQ==
+X-Received: by 10.36.44.194 with SMTP id i185mr5969165iti.37.1518454347260;
+	Mon, 12 Feb 2018 08:52:27 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	w132sm12206760iow.51.2018.02.12.08.52.25
+	w132sm12206760iow.51.2018.02.12.08.52.26
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Mon, 12 Feb 2018 08:52:26 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:51:58 -0600
-Message-Id: <eb39ffb5fdf03dbbb74701bff478f8162f880c8b.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:51:59 -0600
+Message-Id: <7a3e2571fc7084cf039bb4561dfbf5f934c29d9e.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 03/17] icecc.bbclass: Skip canadian-cross compiles
+Subject: [PATCH v2 04/17] icecc-create-env: Reformat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +60,305 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:25 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:26 -0000
 
-icecc.bbclass will no longer attempt to distribute cross-canadian
-compiles. While it is technically possible to generate a toolchain that runs
-on the build system and generates executables for the host system, this
-is not the normal way that icecc operates. There are so few of these
-recipes that it is probably not worth maintaining a distinct code path
-for them.
+The environment script used an annoying mix of tabs and spaces and no
+mapping of tabs to spaces would produce pleasant indentation. Reformat
+to eliminate tab characters and settle on 4 spaces for indentation
+(which matches the upstream icecream script from which this is derived)
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/icecc.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../icecc-create-env/icecc-create-env              | 208 ++++++++++-----------
+ 1 file changed, 104 insertions(+), 104 deletions(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 35a1aaef86f..9d5eaed57ce 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -101,6 +101,9 @@ def use_icecc(bb,d):
-     if icecc_is_allarch(bb, d):
-         return "no"
+diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
+index 7e4dbc414e7..723f1f9bd90 100755
+--- a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
++++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
+@@ -8,63 +8,63 @@ target_files=
  
-+    if icecc_is_cross_canadian(bb, d):
-+        return "no"
+ is_contained ()
+ {
+-  case " $target_files " in
+-    *" $1 "* ) return 0 ;;
+-    *"=$1 "* ) return 0;;
+-    * ) return 1 ;;
+-  esac
++    case " $target_files " in
++        *" $1 "* ) return 0 ;;
++        *"=$1 "* ) return 0;;
++        * ) return 1 ;;
++    esac
+ }
+ 
+ add_file ()
+ {
+-  local name="$1"
+-  local path="$1";
+-  if test -n "$2"; then
+-    name="$2"
+-  fi
+-  test -z "$name" && return
+-  # ls -H isn't really the same as readlink, but
+-  # readlink is not portable enough.
+-  path=`ls -H $path`
+-  toadd="$name=$path"
+-  is_contained "$toadd" && return
+-  if test -z "$silent"; then
+-  echo "adding file $toadd"
+-  fi
+-  target_files="$target_files $toadd"
+-  if test -x "$path"; then
+-    # Only call ldd when it makes sense
+-    if file -L "$path" | grep 'ELF' > /dev/null 2>&1; then
+-	if ! file -L "$path" | grep 'static' > /dev/null 2>&1; then
+-	   # ldd now outputs ld as /lib/ld-linux.so.xx on current nptl based glibc
+-		# this regexp parse the outputs like:
+-		# ldd /usr/bin/gcc
+-		#         linux-gate.so.1 =>  (0xffffe000)
+-		#         libc.so.6 => /lib/tls/libc.so.6 (0xb7e81000)
+-		#         /lib/ld-linux.so.2 (0xb7fe8000)
+-		# covering both situations ( with => and without )
+-          for lib in `ldd "$path" | sed -n 's,^[^/]*\(/[^ ]*\).*,\1,p'`; do
+-	    test -f "$lib" || continue
+-	    # Check wether the same library also exists in the parent directory,
+-	    # and prefer that on the assumption that it is a more generic one.
+-	    local baselib=`echo "$lib" | sed 's,\(/[^/]*\)/.*\(/[^/]*\)$,\1\2,'`
+-	    test -f "$baselib" && lib=$baselib
+-	  add_file "$lib"
+-        done
+-      fi
++    local name="$1"
++    local path="$1";
++    if test -n "$2"; then
++        name="$2"
++    fi
++    test -z "$name" && return
++    # ls -H isn't really the same as readlink, but
++    # readlink is not portable enough.
++    path=`ls -H $path`
++    toadd="$name=$path"
++    is_contained "$toadd" && return
++    if test -z "$silent"; then
++        echo "adding file $toadd"
++    fi
++    target_files="$target_files $toadd"
++    if test -x "$path"; then
++        # Only call ldd when it makes sense
++        if file -L "$path" | grep 'ELF' > /dev/null 2>&1; then
++            if ! file -L "$path" | grep 'static' > /dev/null 2>&1; then
++                # ldd now outputs ld as /lib/ld-linux.so.xx on current nptl based glibc
++                # this regexp parse the outputs like:
++                # ldd /usr/bin/gcc
++                #         linux-gate.so.1 =>  (0xffffe000)
++                #         libc.so.6 => /lib/tls/libc.so.6 (0xb7e81000)
++                #         /lib/ld-linux.so.2 (0xb7fe8000)
++                # covering both situations ( with => and without )
++                for lib in `ldd "$path" | sed -n 's,^[^/]*\(/[^ ]*\).*,\1,p'`; do
++                    test -f "$lib" || continue
++                    # Check wether the same library also exists in the parent directory,
++                    # and prefer that on the assumption that it is a more generic one.
++                    local baselib=`echo "$lib" | sed 's,\(/[^/]*\)/.*\(/[^/]*\)$,\1\2,'`
++                    test -f "$baselib" && lib=$baselib
++                    add_file "$lib"
++                done
++            fi
++        fi
+     fi
+-  fi
+ }
+ 
+ # backward compat
+ if test "$1" = "--respect-path"; then
+-  shift
++    shift
+ fi
+ 
+ #add a --silent switch to avoid "broken pipe" errors when calling this scipt from within OE
+ if test "$1" = "--silent"; then
+- silent=1
+- shift
++    silent=1
++    shift
+ fi
+ 
+ 
+@@ -77,18 +77,18 @@ shift
+ archive_name=$1
+ 
+ if test -z "$added_gcc" || test -z "$added_gxx" ; then
+-	echo "usage: $0 <gcc_path> <g++_path>"
+-	exit 1
++    echo "usage: $0 <gcc_path> <g++_path>"
++    exit 1
+ fi
+ 
+ if ! test -x "$added_gcc" ; then
+-  echo "'$added_gcc' is no executable."
+-  exit 1
++    echo "'$added_gcc' is no executable."
++    exit 1
+ fi
+ 
+ if ! test -x "$added_gxx" ; then
+-  echo "'$added_gcc' is no executable."
+-  exit 1
++    echo "'$added_gcc' is no executable."
++    exit 1
+ fi
+ 
+ 
+@@ -97,51 +97,51 @@ add_file $added_gcc /usr/bin/gcc
+ add_file $added_gxx /usr/bin/g++
+ 
+ if test -z "$added_as" ; then
+- add_file /usr/bin/as /usr/bin/as
++    add_file /usr/bin/as /usr/bin/as
+ else
+- if ! test -x "$added_as" ; then
+-  echo "'$added_as' is no executable."
+-  exit 1
+- fi
++    if ! test -x "$added_as" ; then
++        echo "'$added_as' is no executable."
++        exit 1
++    fi
+ 
+- add_file $added_as  /usr/bin/as
++    add_file $added_as  /usr/bin/as
+ fi
+ 
+ add_file `$added_gcc -print-prog-name=cc1` /usr/bin/cc1
+ add_file `$added_gxx -print-prog-name=cc1plus` /usr/bin/cc1plus
+ specfile=`$added_gcc -print-file-name=specs`
+ if test -n "$specfile" && test -e "$specfile"; then
+-  add_file "$specfile"
++    add_file "$specfile"
+ fi
+ 
+ ltofile=`$added_gcc -print-prog-name=lto1`
+ pluginfile="${ltofile%lto1}liblto_plugin.so"
+ if test -r "$pluginfile"
+ then
+-  add_file $pluginfile  ${pluginfile#*usr}
+-  add_file $pluginfile  /usr${pluginfile#*usr}
++    add_file $pluginfile  ${pluginfile#*usr}
++    add_file $pluginfile  /usr${pluginfile#*usr}
+ fi
+ 
+ tempdir=`mktemp -d /tmp/iceccenvXXXXXX`
+ new_target_files=
+ for i in $target_files; do
+- case $i in
+-   *=/*)
+-    target=`echo $i | cut -d= -f1`
+-    path=`echo $i | cut -d= -f2`
+-    ;;
+-   *)
+-    path=$i
+-    target=$i
+-    ;;
+-  esac
+-  mkdir -p $tempdir/`dirname $target`
+-  cp -p $path $tempdir/$target
+-  if test -f $tempdir/$target -a -x $tempdir/$target; then
+-    strip -s $tempdir/$target 2>/dev/null
+-  fi
+-  target=`echo $target | cut -b2-`
+-  new_target_files="$new_target_files $target"
++    case $i in
++        *=/*)
++            target=`echo $i | cut -d= -f1`
++            path=`echo $i | cut -d= -f2`
++            ;;
++        *)
++            path=$i
++            target=$i
++            ;;
++    esac
++    mkdir -p $tempdir/`dirname $target`
++    cp -p $path $tempdir/$target
++    if test -f $tempdir/$target -a -x $tempdir/$target; then
++        strip -s $tempdir/$target 2>/dev/null
++    fi
++    target=`echo $target | cut -b2-`
++    new_target_files="$new_target_files $target"
+ done
+ 
+ #sort the files
+@@ -150,43 +150,43 @@ target_files=`for i in $new_target_files; do echo $i; done | sort`
+ #test if an archive name was supplied
+ #if not use the md5 of all files as the archive name
+ if test -z "$archive_name"; then
+-  md5sum=NONE
+-  for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
+-    if test -x $file; then
+-      md5sum=$file
+-      break
+-    fi
+-  done
+-
+-  #calculate md5 and use it as the archive name
+-  archive_name=`for i in $target_files; do test -f $tempdir/$i && $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'`.tar.gz || {
+-    if test -z "$silent"; then
+-     echo "Couldn't compute MD5 sum."
+-    fi
+-    exit 2
+-  }
+-  mydir=`pwd`
++    md5sum=NONE
++    for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
++        if test -x $file; then
++            md5sum=$file
++            break
++        fi
++    done
 +
-     pn = d.getVar('PN')
++    #calculate md5 and use it as the archive name
++    archive_name=`for i in $target_files; do test -f $tempdir/$i && $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'`.tar.gz || {
++        if test -z "$silent"; then
++            echo "Couldn't compute MD5 sum."
++        fi
++        exit 2
++    }
++    mydir=`pwd`
+ else
+-  mydir="`dirname "$archive_name"`"
++    mydir="`dirname "$archive_name"`"
  
-     system_class_blacklist = []
-@@ -151,6 +154,9 @@ def icecc_is_native(bb, d):
-         bb.data.inherits_class("cross", d) or \
-         bb.data.inherits_class("native", d);
+-  #check if we have a full path or only a filename
+-  if test "$mydir" = "." ; then
+-    mydir=`pwd`
+-  else
+-    mydir=""
+-  fi
++    #check if we have a full path or only a filename
++    if test "$mydir" = "." ; then
++        mydir=`pwd`
++    else
++        mydir=""
++    fi
+ fi
  
-+def icecc_is_cross_canadian(bb, d):
-+    return bb.data.inherits_class("cross-canadian", d)
-+
- def icecc_dir(bb, d):
-     return d.expand('${TMPDIR}/work-shared/ice')
+ if test -z "$silent"; then
+-echo "creating $archive_name"
++    echo "creating $archive_name"
+ fi
  
+ cd $tempdir
+ tar -czhf "$mydir/$archive_name" $target_files || {
+- if test -z "$silent"; then
+-  echo "Couldn't create archive"
+- fi
+-  exit 3
++    if test -z "$silent"; then
++        echo "Couldn't create archive"
++    fi
++    exit 3
+ }
+ cd ..
+ rm -rf $tempdir
 -- 
 2.14.3
 
