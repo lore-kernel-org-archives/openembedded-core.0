@@ -1,48 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D6E171AD1
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 75C9F60053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 07:32:55 +0000 (UTC)
-Received: by mail-pg0-f42.google.com with SMTP id l24so951259pgc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Feb 2018 23:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DOYYHeTFZUbnLK+dFOtyxm5OCC/66A1AI6tH1FSjL/A=;
-	b=P9QJKOFPp8rxiKKoamMuc6kspnFP8PWMAXy4eIH8xtpC+iTcfAlg3qybZHENmKvOYk
-	SXR1KD4U+vaCtuoBb85w1fP1vQBmJjsdus/vkXx1TqSVWBrV1pziide3Ig+0AtQNAWpF
-	o58tjHOlN19CZbhapfbe7gbnNfBPKfmU1bt8ewsGL8QVXLXCETiPMpFZeXG9f1RTm5/5
-	hVWNjauNtECDMqx32hqNKFg3evlgmRSHTHdvVuSqffzuIs4rqu2kQfgbjgkbQ+2GvUhC
-	wLfNhy61rU+ipKHzSc9cA2J58fV2Xx+MC7Z8moH4hx/ANV6yC9pGa7dwxx8sbVi8zBlW
-	73tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DOYYHeTFZUbnLK+dFOtyxm5OCC/66A1AI6tH1FSjL/A=;
-	b=lIlA5b9qg/xnqIJ533Z+BXEqagCJiSlfPMcHL1UWSl5LtN39rPrSugwqAwrXzItJYx
-	xhBoJ0k86RAlbjXRjBnY9hnj8bm3eKzmuSNSJO+OK0lHrGzKzc0+ymj7QJNBNv0FdC+2
-	jme98T/APVYrijqgr/bBBMKFxhg6+1Z4VSvLCco4PYOlb27nI9eXvK2bBTS0Gw4Ioiny
-	URp/xLg/9InGx4hpIeQLUG9NixlBgE332/BkWe6qez4uGT7KpglHsUilxd0d1Q0WJqBc
-	kPvxwvavyOQ4iYKWU+LzOwo+4/7vyk+WdU4QITNb+VeqU3aQE1BaFGfSECe9QVXB4LcL
-	jXiA==
-X-Gm-Message-State: APf1xPAsLbh+44/Y1yF7Bks4izS8XGLgJjdgwJUMfE53ZdajRYLinK5l
-	+Y7ZTRK7agNcyxVVftsxDJQI490f6k5E/dWEDfQ=
-X-Google-Smtp-Source: AH8x225S623VwkUwIFL08KSyPA9MZgSJllYJ0VqDu/9E7QDjf4q/i6mnuMazqqNIebxLAYyf6bwvo+ePH+iEbtBqmfM=
-X-Received: by 10.98.131.139 with SMTP id h133mr10767060pfe.155.1518420777048; 
-	Sun, 11 Feb 2018 23:32:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.161.170 with HTTP; Sun, 11 Feb 2018 23:32:26 -0800 (PST)
-In-Reply-To: <CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
-References: <cover.1517524576.git.raj.khem@gmail.com>
-	<aa96375d5517a1f0170609aac7283bd71566f46a.1517524576.git.raj.khem@gmail.com>
-	<CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 11 Feb 2018 23:32:26 -0800
-Message-ID: <CAMKF1sp8riyhF=6N_ak-TyZ6_w=aj+az=qx+mjepXPQagV7vqw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.27 release
+	Mon, 12 Feb 2018 08:32:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 00:32:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,501,1511856000"; d="scan'208";a="26929026"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga003.jf.intel.com with ESMTP; 12 Feb 2018 00:32:23 -0800
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Feb 2018 16:27:05 +0800
+Message-Id: <1518424026-25060-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] maintainers.inc: change ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +30,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 07:32:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Feb 2018 08:32:23 -0000
 
-On Sat, Feb 3, 2018 at 2:21 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Getting there: https://autobuilder.yocto.io/tgrid
->
-> Just two actual problems:
-> - The non-gplv3 build failed as the make fix needs to be backported to
-> meta-gplv2
-> - The eSDK selftests all failed with en_US.UTF-8 problems, the new glibc
-> shouldn't be causing a problem with uninative so this is interesting, maybe
-> the new one is behaving slightly differently.  Should be easy to replicate.
-> The same problem caused selftest to fail.
->
+Taking ownership on recipes related to boot and base setup.
 
-is the UTF error like this one
-https://gist.github.com/25a84d23618824f0e5e6857a960eaca4
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-> Ross
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 2500d19..33a9d55 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -59,8 +59,8 @@ RECIPE_MAINTAINER_pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-avahi-ui = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-babeltrace = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-RECIPE_MAINTAINER_pn-base-files = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-base-passwd = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-base-files = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-base-passwd = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-bash-completion = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-bc = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+@@ -272,12 +272,13 @@ RECIPE_MAINTAINER_pn-ifupdown = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-init-ifupdown = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-initramfs-boot = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-initramfs-framework = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+-RECIPE_MAINTAINER_pn-initramfs-live-boot = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-initramfs-live-install = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-initramfs-live-install-efi = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-initramfs-live-install-efi-testfs = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-initramfs-live-install-testfs = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-initscripts = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-boot = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-boot-tiny = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-install = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-install-efi = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-install-efi-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initramfs-live-install-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-initscripts = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-inputproto = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-intltool = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-iproute2 = "Changhyeok Bae <changhyeok.bae@lge.com>"
+@@ -463,7 +464,7 @@ RECIPE_MAINTAINER_pn-llvm = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lrzsz = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-lsb = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-lsbinitscripts = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-lsbinitscripts = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-lsbtest = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lsof = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -687,8 +688,8 @@ RECIPE_MAINTAINER_pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-systemtap = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-systemtap-uprobes = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-RECIPE_MAINTAINER_pn-sysvinit = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-sysvinit-inittab = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-sysvinit = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
++RECIPE_MAINTAINER_pn-sysvinit-inittab = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-taglib = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-tar = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-tcf-agent = "Randy Witt <randy.e.witt@linux.intel.com>"
+@@ -716,7 +717,7 @@ RECIPE_MAINTAINER_pn-unfs3 = "Randy Witt <randy.e.witt@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@ti.com>"
+-RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-update-rc.d = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
+ RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
+-- 
+2.7.4
+
 
