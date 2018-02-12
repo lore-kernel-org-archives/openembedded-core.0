@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D4DBC7826D
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 10D5478297
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 16:52:29 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id f4so17972041ioh.8
+	Mon, 12 Feb 2018 16:52:30 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id z6so17943071iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Feb 2018 08:52:31 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/CXlxm0an0A8r6l9MFqX8olR6cf7GUFrrQcIXER6JBE=;
-	b=KbK0B7GdatMqHRx0ql8/Cp9CuzExlc+Fns95Qh/WUXXFZi8K6X4rd4ccfGIeyi0xxx
-	H9sDn6HDchnt21VOguxNx2b4QwGWJUd4EkEw3D2mGU5Ezs8SDAmSw9Zvez4mrgS1KSaL
-	CH6RtaMcVxkkJCpGXw7izEhELxkQBwclSzZ8azuMXBTTXWMV44jjN15A0v0eq+7yaxR/
-	grXfnVTBS9aw3JZjs3ZKr29r/P8YMq+MZQNh3ZwK4j1+xICrJV8CscCl/K+kfGlwMcTo
-	BmJnxgim7yeOhRcIYwLplGrVZ/TwDHxGasqBUKO4nYX9GOla4vpy/gBBa+oH64PboZTw
-	5CsQ==
+	bh=UILp/DtFFSe9G4yDi0ApVjLFwMjLbFWxQ8Nx577vi1g=;
+	b=K3BkGhT4etD0/FuNTwq53/2lkX8w/HGkfu5EdkAeCazJE4OeQL0L2msgmtAd9Dk03A
+	j4rfHkX44DAnB7IHlOCts3wHRdcNk10FfkWLQXjENS7io0DDcQ6v8Xa+TouK5FJS0UxW
+	reI619jgP6F5lkr97rpY16MR7i9OlXC5kXkWnxwwbRaaQ2ozDRaHgbsRzDpfKimW11yF
+	3hvBbxuN5hbk4Yhg6fOkecORbJNEfFHS2pOli5j63v9RCJLjPH0FKMYzASB0OenPoG3I
+	yos0tNqfl8ry4Pk/2f84h04f5aKVhjldL/myCBsA+GJYlt/Y41wMxYpNiKbldbecNcbs
+	1nOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=/CXlxm0an0A8r6l9MFqX8olR6cf7GUFrrQcIXER6JBE=;
-	b=kyP8ts4Q7tFbWl04Qc2t+/+97+9zPS+3Xbfkl1LRiY9zHOHShrjnWBQwQXKZ88hzq7
-	p0vABKPXjZWhJp0VLA6uxiybz3GqKs3q2ur3gfPz1NdSkiGxpN8Mifk0iV52kwmR7MlV
-	LON1+nVNwycINOO9vA0fDCT1e+MpPiJ+Dq3sBdORe6J70pmAKiD+7QH9UQGLJP9yCim+
-	mAdrGS7cVV0K1Rl01nsecdHREkQs1ppN6BQEJJaXPNUJ6XQswPJ5GMLgJloQeKAxgz2l
-	yg4ihq6PA9lHAnvtW5M1HOiWUhf84hCZPDpLeBsFA9wO983X7PVjbhNFCJ5oXvnJNIKw
-	QVng==
-X-Gm-Message-State: APf1xPBIgkpOU8I32zTzttAE7Vs/a4upMyakreHEAyJDpc/aFrSiNh6P
-	wyeXRe7JxqenNSw2jjPdnU4Ot2qi
-X-Google-Smtp-Source: AH8x225iv8v5cgX3LRvmWekmQjItjNXMN67sM5ba1ZEYNoKf8cHwuDk9kOiN6EIijZc4Gim/cLkfTw==
-X-Received: by 10.107.158.77 with SMTP id h74mr8294944ioe.262.1518454351188;
+	bh=UILp/DtFFSe9G4yDi0ApVjLFwMjLbFWxQ8Nx577vi1g=;
+	b=MRAIn3Q53vTmeiJDwq4UcZJgxZU+bWxEiaz3n8yek2wuS9vsYusFLRvZIlAn272luU
+	S0035GudNDig+yFms8lHDLfD7D8ldNAho+qO+X45Czcwc3Ksz5LNnPKaPNL6y92UpSff
+	VQ+859KMA6yOYMIOlGeLAWpqO4UK2cECkyjOkk37f6fRIrbMmtG5bIF/UPd5/8uOyEAF
+	16GFHr3LFc/RMQmBoeGHOGGF6eNJ6aroNxDOopc/Thx6X8AG7/PYZ5j6jn9DHHoEp/Hx
+	5sJ9zQNRO1gH8rVivLJAa7FB7OSFeTmBhLsSwJyq0vXvPSaPl1dQRHhhHxGdYyVVuFIK
+	q3fg==
+X-Gm-Message-State: APf1xPDFZylwjMW0mhs6Z7yloh8d17MsUc0eFrfw0rgu3Dd/j222eijt
+	1A6Ek/DTJLSLgH0Pcu1H+ybOBhK1
+X-Google-Smtp-Source: AH8x226Aguu8XqtKVfP+90QNp2Ja6IhfpllBWKAnkMvAY4VD5ui8ezZSYtiAl5pxupzX/lOF1PxQdw==
+X-Received: by 10.107.184.10 with SMTP id i10mr3515359iof.283.1518454351986;
 	Mon, 12 Feb 2018 08:52:31 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	w132sm12206760iow.51.2018.02.12.08.52.30
+	w132sm12206760iow.51.2018.02.12.08.52.31
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Feb 2018 08:52:30 -0800 (PST)
+	Mon, 12 Feb 2018 08:52:31 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Feb 2018 10:52:04 -0600
-Message-Id: <c48ec67f93383f915a37c3d659b0b03d4da9cd13.1518453683.git.JPEWhacker@gmail.com>
+Date: Mon, 12 Feb 2018 10:52:05 -0600
+Message-Id: <38275d23cf7dd08ad0c84089a423a0eb13cd2d50.1518453683.git.JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1518453683.git.JPEWhacker@gmail.com>
 References: <cover.1517857764.git.JPEWhacker@gmail.com>
 	<cover.1518453683.git.JPEWhacker@gmail.com>
 Cc: Tomas Novotny <tomas@novotny.cz>
-Subject: [PATCH v2 09/17] icecc-create-env: Fix executable rpaths
+Subject: [PATCH v2 10/17] icecc-create-env: Add support for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,106 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Feb 2018 16:52:30 -0000
+X-List-Received-Date: Mon, 12 Feb 2018 16:52:31 -0000
 
-Executables in the toolchain archive occasionally contain runtime
-library search paths (RPATH) that use the $ORIGIN placeholder. However,
-in order for that placeholder to work, /proc must be mounted. When
-iceccd executes the toolchain in the chroot environment, it doesn't
-mount /proc, so it is unable to resolve $ORIGIN resulting in a failure
-to find dynamic libraries.
-
-The fix is to replace $ORIGIN in executable RPATH entries with the known
-chroot executable path. In order for this to work, the actual real path
-to the executable must be resolved to remove any symlinks, otherwise the
-calculate $ORIGIN replacement will be wrong. This is done by using
-"readlink -f", which is an acceptable dependency because Yocto already
-requires it.
+icecc-create-env can now be built as a nativesdk recipe, allowing the
+script to be included as part of an SDK
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../icecc-create-env/icecc-create-env              | 40 ++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 3 deletions(-)
+ .../{icecc-create-env-native_0.1.bb => icecc-create-env_0.1.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-native_0.1.bb => icecc-create-env_0.1.bb} (98%)
 
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-index 426b093d91c..90d249df9f3 100755
---- a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-@@ -12,6 +12,26 @@ is_dynamic_elf ()
-     (file -L "$1" | grep 'ELF' > /dev/null 2>&1) && (! file -L "$1" | grep 'static' > /dev/null 2>&1)
+diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb
+rename to meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+index f8f4aef3923..053945ebbc6 100644
+--- a/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb
++++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+@@ -12,8 +12,6 @@ PR = "r2"
+ DEPENDS = ""
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-inherit native
+-
+ # This is needed, because otherwise there is dependency loop from quilt-native
+ # Dependency loop #1 found:
+ #  Task 10907 (meta/recipes-devtools/quilt/quilt-native_0.60.bb, do_install) (dependent Tasks ['quilt-native, do_compile'])
+@@ -34,3 +32,5 @@ do_install() {
+     install -d ${D}/${bindir}
+     install -m 0755 ${WORKDIR}/icecc-create-env ${D}/${bindir}
  }
- 
-+fix_rpath ()
-+{
-+    # Patches the RPATH for a file. When the program is executed in the chroot
-+    # be iceccd, /proc is not mounted. As such, $ORIGIN can't be resolved. To
-+    # work around this, replace all instances of $ORIGIN in RPATH with the
-+    # known chroot path to the executables directory
-+    local path="$1"
-+    local origin="$2"
-+    if ! is_dynamic_elf "$path"; then
-+        return
-+    fi
-+    local new_rpath="`readelf -w -d "$path" | grep RPATH | \
-+        sed 's/.*\[\(.*\)\]/\1/g' | \
-+        sed "s,\\\$ORIGIN,/$origin,g"`"
 +
-+    if test -n "$new_rpath"; then
-+        $PATCHELF --set-rpath "$new_rpath" "$path"
-+    fi
-+}
-+
- is_contained ()
- {
-     case " $target_files " in
-@@ -47,9 +67,8 @@ add_file ()
-         name="$2"
-     fi
-     test -z "$name" && return
--    # ls -H isn't really the same as readlink, but
--    # readlink is not portable enough.
--    path=`ls -H $path`
-+    # readlink is required for Yocto, so we can use it
-+    path=`readlink -f "$path"`
-     toadd="$name=$path"
-     is_contained "$toadd" && return
-     if test -z "$silent"; then
-@@ -108,6 +127,17 @@ added_as=$1
- shift
- archive_name=$1
- 
-+if test -z "$PATCHELF"; then
-+    PATCHELF=`which patchelf 2> /dev/null`
-+fi
-+if test -z "$PATCHELF"; then
-+    PATCHELF=`which patchelf-uninative 2> /dev/null`
-+fi
-+if test -z "$PATCHELF"; then
-+    echo "patchelf is required"
-+    exit 1
-+fi
-+
- if test -z "$added_gcc" || test -z "$added_gxx" ; then
-     echo "usage: $0 <gcc_path> <g++_path>"
-     exit 1
-@@ -197,6 +227,8 @@ for i in $target_files; do
-         if test -f $tempdir/$target -a -x $tempdir/$target; then
-             strip -s $tempdir/$target 2>/dev/null
-         fi
-+
-+        fix_rpath $tempdir/$target `dirname $target`
-     else
-         mkdir -p $tempdir/`dirname $path`
-         cp -pH $path $tempdir/$path
-@@ -210,6 +242,8 @@ for i in $target_files; do
-             strip -s $tempdir/$path 2>/dev/null
-         fi
- 
-+        fix_rpath $tempdir/$path `dirname $path`
-+
-         path=`echo $path | cut -b2-`
-         new_target_files="$new_target_files $path"
-     fi
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.14.3
 
