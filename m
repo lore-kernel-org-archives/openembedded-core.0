@@ -1,30 +1,41 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 80BCB7827E
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 34C6977BC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 01:29:45 +0000 (UTC)
+	Tue, 13 Feb 2018 01:41:52 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 17:29:45 -0800
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Feb 2018 17:41:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,505,1511856000"; d="scan'208";a="17644962"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga008.jf.intel.com with ESMTP; 12 Feb 2018 17:29:45 -0800
-To: Kristian Amlie <kristian.amlie@northern.tech>,
-	openembedded-core@lists.openembedded.org
-References: <e4d7ba56-e92f-9322-6e37-be08bcab8ad8@linux.intel.com>
-	<1516876416-13748-1-git-send-email-kristian.amlie@northern.tech>
-	<1516876416-13748-2-git-send-email-kristian.amlie@northern.tech>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <3d9848f0-9432-0717-f4f0-0c37dba63b9f@intel.com>
-Date: Mon, 12 Feb 2018 17:29:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+X-IronPort-AV: E=Sophos;i="5.46,505,1511856000"; d="scan'208";a="17247949"
+Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
+	by fmsmga007.fm.intel.com with ESMTP; 12 Feb 2018 17:41:49 -0800
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.31]) by
+	PGSMSX105.gar.corp.intel.com ([169.254.4.51]) with mapi id
+	14.03.0319.002; Tue, 13 Feb 2018 09:41:47 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>, OpenEmbedded
+	Core Mailing List <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
+Thread-Index: AQHTkzoD5fITUi1K7EafNDULyGvSDKOhsMqA
+Date: Tue, 13 Feb 2018 01:41:46 +0000
+Message-ID: <50B33AC5ED75F74F991980326F1C438D1F20A7AC@PGSMSX103.gar.corp.intel.com>
+References: <1516595182-50325-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <1516595182-50325-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzk0MDUwZWQtNGVhOC00YjViLTliMGUtZGEwYjA4NmQxNDIwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJLendUNHdVU0dGeFc1RE1BSW5Pc0hodDU0XC9DV011TUtLd0ZET2s0RXlDUTh0cTdSRUU4dlhkWHZDQ0krWkpUbSJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-In-Reply-To: <1516876416-13748-2-git-send-email-kristian.amlie@northern.tech>
-Subject: Re: [PATCH v7] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
+Subject: Re: [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,236 +48,290 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Feb 2018 01:29:45 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Feb 2018 01:41:53 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
+Ed has acked/reviewed on the patchset.
+Link to patchset: https://patchwork.openembedded.org/patch/147467/
 
-On 01/25/2018 02:33 AM, Kristian Amlie wrote:
-> This is a direct followup from the earlier 6602392db3d39 commit in
-> wic. It works more or less the same way: The variable specifies a list
-> of directories relative to the root of the rootfs, and these
-> directories will be excluded from the resulting rootfs image. If an
-> entry ends with a slash, only the contents are omitted, not the
-> directory itself.
->
-> Since the intended use of the variable is to exclude certain
-> directories from the rootfs, and then include said directories in
-> other partitions, it is not natural for this variable to be respected
-> for image creators that create multi partition images. These can turn
-> the feature off locally by defining:
->
->    do_image_myfs[respect_exclude_path] = "0"
->
-> Specifically, "wic" and "multiubi" come with the feature disabled.
->
-> Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
+Regards,
+Rebecca
+
+-----Original Message-----
+From: Bartosh, Eduard=20
+Sent: Monday, February 12, 2018 5:09 PM
+To: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Subject: Re: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSD=
+K
+
+Hi Rebecca,
+
+The patchset looks good to me.
+
+Regards,
+Ed
+
+On 08/02/18 10:18, "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.=
+com> wrote:
+
+    Hi Ed,
+   =20
+    Thanks, here is the link: https://patchwork.openembedded.org/patch/1474=
+67/
+   =20
+    Regards,
+    Rebecca
+   =20
+    > -----Original Message-----
+    > From: Bartosh, Eduard
+    > Sent: Thursday, February 8, 2018 6:05 PM
+    > To: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>;
+    > ed.bartosh@linux.intel.com
+    > Subject: Re: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases f=
+or eSDK
+    >=20
+    > Hi Rebecca,
+    >=20
+    > Can you point me out on the patchset? It looks like I missed it someh=
+ow.
+    >=20
+    > Sure, please take the maintenance, no concerns here.
+    >=20
+    > Regards,
+    > Ed
+    >=20
+    > On 08/02/18 07:09, "Chang, Rebecca Swee Fun"
+    > <rebecca.swee.fun.chang@intel.com> wrote:
+    >=20
+    >     Hi Ed,
+    >=20
+    >     I have pushed some basic test for wic in eSDK. I still have plan =
+to extend the
+    > test coverage.
+    >     Could you help to provide you feedback for the basic tests?
+    >=20
+    >     I also plan to take up the recipe maintenance for wic-tools and b=
+map-tools.
+    >     Do you have any concern?
+    >=20
+    >     Thank you.
+    >=20
+    >     Regards,
+    >     Rebecca
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Chang Rebecca Swee Fun
+> Sent: Monday, January 22, 2018 12:26 PM
+> To: OpenEmbedded Core Mailing List <openembedded-
+> core@lists.openembedded.org>
+> Subject: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
+>=20
+> wic is now available in the eSDK. Adding test cases to test wic utility w=
+ithin eSDK.
+>=20
+> Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 > ---
->   meta/classes/image.bbclass           | 84 +++++++++++++++++++++++++++++++++++-
->   meta/classes/image_types.bbclass     |  1 +
->   meta/classes/image_types_wic.bbclass |  1 +
->   3 files changed, 84 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 4531aa2..849a19c 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -117,7 +117,8 @@ def rootfs_variables(d):
->                    'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
->                    'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
->                    'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
-> -                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS']
-> +                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS',
-> +                 'IMAGE_ROOTFS_EXCLUDE_PATH']
->       variables.extend(rootfs_command_variables(d))
->       variables.extend(variable_depends(d))
->       return " ".join(variables)
-> @@ -508,8 +509,9 @@ python () {
->           d.setVarFlag(task, 'func', '1')
->           d.setVarFlag(task, 'fakeroot', '1')
->   
-> -        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
-> +        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size prepare_excluded_directories')
->           d.prependVarFlag(task, 'postfuncs', ' create_symlinks')
-> +        d.appendVarFlag(task, 'postfuncs', ' cleanup_excluded_directories')
->           d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
->           d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
->           d.appendVarFlag(task, 'vardepsexclude', 'DATETIME DATE ' + ' '.join(vardepsexclude))
-> @@ -518,6 +520,84 @@ python () {
->           bb.build.addtask(task, 'do_image_complete', after, d)
->   }
->   
-> +python prepare_excluded_directories() {
-> +    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-> +    if not exclude_var:
-> +        return
+>  meta/lib/oeqa/sdkext/cases/wic.py | 171
+> ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 171 insertions(+)
+>  create mode 100644 meta/lib/oeqa/sdkext/cases/wic.py
+>=20
+> diff --git a/meta/lib/oeqa/sdkext/cases/wic.py
+> b/meta/lib/oeqa/sdkext/cases/wic.py
+> new file mode 100644
+> index 0000000..221a290
+> --- /dev/null
+> +++ b/meta/lib/oeqa/sdkext/cases/wic.py
+> @@ -0,0 +1,171 @@
+> +import os
+> +import sys
+> +import shutil
+> +import unittest
 > +
-> +    taskname = d.getVar("BB_CURRENTTASK")
+> +from glob import glob
 > +
-> +    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') == '0':
-> +        bb.debug(1, "'IMAGE_ROOTFS_EXCLUDE_PATH' is set but 'respect_exclude_path' variable flag is 0 for this image type, so ignoring it")
-> +        return
+> +from oeqa.sdkext.case import OESDKExtTestCase from
+> +oeqa.core.decorator.depends import OETestDepends from
+> +oeqa.core.decorator.oeid import OETestID from oeqa.utils.commands
+> +import runCmd
 > +
-> +    import shutil
-> +    from oe.path import copyhardlinktree
 > +
-> +    exclude_list = exclude_var.split()
+> +class WicTest(OESDKExtTestCase):
+> +    """Wic test within eSDK."""
 > +
-> +    rootfs_orig = d.getVar('IMAGE_ROOTFS')
-> +    # We need a new rootfs directory we can delete files from. Copy to
-> +    # workdir.
-> +    new_rootfs = os.path.realpath(os.path.join(d.getVar("WORKDIR"), "rootfs.%s" % taskname))
+> +    testdir =3D "/var/tmp/wic.test.sdkext/"
+> +    outfile =3D "/var/tmp/wic.test.sdkext/output.txt"
 > +
-> +    if os.path.lexists(new_rootfs):
-> +        shutil.rmtree(os.path.join(new_rootfs))
+> +    @OETestID(1963)
+> +    def test_wic_location(self):
+> +        """Check whether wic is run within eSDK sysroot"""
+> +        output =3D self._run("which wic")
+> +        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
+> +            msg=3D"Seems that wic isn't the eSDK one : %s" % output)
 > +
-> +    copyhardlinktree(rootfs_orig, new_rootfs)
+> +    def _exec_wic_cmd(self, cmd):
+> +        """Wrapper to execute wic command and check status"""
+> +        status =3D runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.=
+sdk_env,
+> cmd)).status
+> +        self.assertEqual(0, status)
 > +
-> +    for orig_path in exclude_list:
-> +        path = orig_path
-> +        if os.path.isabs(path):
-> +            bb.fatal("IMAGE_ROOTFS_EXCLUDE_PATH: Must be relative: %s" % orig_path)
+> +    def _exec_devtool_build(self):
+> +        """Wrapper to build image as pre-requisite for wic"""
+> +        cmd =3D "devtool build-image"
+> +        runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.sdk_env,
+> + cmd))
 > +
-> +        full_path = os.path.realpath(os.path.join(new_rootfs, path))
+> +    def _get_img_type(self):
+> +        """Wrapper to get SDK target for image creation"""
+> +        # Get sdk_targets from devtool.conf
+> +        conf_file =3D self.tc.sdk_dir + "conf/devtool.conf"
+> +        with open (conf_file, 'r') as in_file:
+> +             for line in in_file:
+> +                if 'sdk_targets' in line:
+> +                    image =3D line.split()
+> +                    for img_name in image:
+> +                        if img_name.startswith('core-image'):
+> +                            break
+> +        return img_name
 > +
-> +        # Disallow climbing outside of parent directory using '..',
-> +        # because doing so could be quite disastrous (we will delete the
-> +        # directory).
-> +        if not full_path.startswith(new_rootfs):
-> +            bb.fatal("'%s' points to a path outside the rootfs" % orig_path)
+> +    def _get_line_count(self):
+> +        count =3D 0
+> +        with open (self.outfile, 'r') as output:
+> +            count =3D sum(1 for line in output if line.rstrip('\n'))
+> +        return count
 > +
-> +        if path.endswith(os.sep):
-We need to check if full_path exists here, else it may try modifying 
-things that don't exist. E.g., if I have IMAGE_ROOTFS_EXCLUDE_PATH = 
-"boot" in local.conf and do 'bitbake core-image-minimal-initramfs' I get 
-the following:
-
-ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Error 
-executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-      0001:
-  *** 0002:prepare_excluded_directories(d)
-      0003:
-File: '/home/clsulliv/yocto/poky/meta/classes/image.bbclass', lineno: 
-572, function: prepare_excluded_directories
-      0568:                else:
-      0569:                    os.remove(full_entry)
-      0570:        else:
-      0571:            # Delete whole directory.
-  *** 0572:            shutil.rmtree(full_path)
-      0573:
-      0574:    # Save old value for cleanup later.
-      0575:    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
-      0576:    d.setVar('IMAGE_ROOTFS', new_rootfs)
-File: '/usr/lib64/python3.6/shutil.py', lineno: 471, function: rmtree
-      0467:        # lstat()/open()/fstat() trick.
-      0468:        try:
-      0469:            orig_st = os.lstat(path)
-      0470:        except Exception:
-  *** 0471:            onerror(os.lstat, path, sys.exc_info())
-      0472:            return
-      0473:        try:
-      0474:            fd = os.open(path, os.O_RDONLY)
-      0475:        except Exception:
-File: '/usr/lib64/python3.6/shutil.py', lineno: 469, function: rmtree
-      0465:            path = os.fsdecode(path)
-      0466:        # Note: To guard against symlink races, we use the 
-standard
-      0467:        # lstat()/open()/fstat() trick.
-      0468:        try:
-  *** 0469:            orig_st = os.lstat(path)
-      0470:        except Exception:
-      0471:            onerror(os.lstat, path, sys.exc_info())
-      0472:            return
-      0473:        try:
-Exception: FileNotFoundError: [Errno 2] No such file or directory: 
-'/home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/rootfs.image_cpio/boot'
-
-ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Function 
-failed: prepare_excluded_directories
-ERROR: Logfile of failure stored in: 
-/home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do_image_cpio.23514
-ERROR: Task 
-(/home/clsulliv/yocto/poky/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image_cpio) 
-failed with exit code '1'
-
-Besides this, it works well. I'm using it here[1] as part of my attempt 
-to improve EFI images.
-
-[1]. 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation-exclude-path
-
-Thanks,
-Cal
-
-> +            # Delete content only.
-> +            for entry in os.listdir(full_path):
-> +                full_entry = os.path.join(full_path, entry)
-> +                if os.path.isdir(full_entry) and not os.path.islink(full_entry):
-> +                    shutil.rmtree(full_entry)
-> +                else:
-> +                    os.remove(full_entry)
-> +        else:
-> +            # Delete whole directory.
-> +            shutil.rmtree(full_path)
+> +    @OETestID(1964)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_version(self):
+> +        cmd =3D "wic --version"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    # Save old value for cleanup later.
-> +    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
-> +    d.setVar('IMAGE_ROOTFS', new_rootfs)
-> +}
+> +    @OETestID(1965)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help(self):
+> +        cmd =3D "wic --help"
+> +        self._exec_wic_cmd(cmd)
+> +        cmd =3D "wic -h"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +python cleanup_excluded_directories() {
-> +    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-> +    if not exclude_var:
-> +        return
+> +    @OETestID(1966)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_create_help(self):
+> +        cmd =3D "wic create --help"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    taskname = d.getVar("BB_CURRENTTASK")
+> +    @OETestID(1967)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_list_help(self):
+> +        cmd =3D "wic list --help"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') == '0':
-> +        return
+> +    @OETestID(1968)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help_create(self):
+> +        cmd =3D "wic help create"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    import shutil
+> +    @OETestID(1969)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help_list(self):
+> +        cmd =3D "wic help list"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    rootfs_dirs_excluded = d.getVar('IMAGE_ROOTFS')
-> +    rootfs_orig = d.getVar('IMAGE_ROOTFS_ORIG')
-> +    # This should never happen, since we should have set it to a different
-> +    # directory in the prepare function.
-> +    assert rootfs_dirs_excluded != rootfs_orig
+> +    @OETestID(1970)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help_overview(self):
+> +        cmd =3D "wic help overview"
+> +        self._exec_wic_cmd(cmd)
 > +
-> +    shutil.rmtree(rootfs_dirs_excluded)
-> +    d.setVar('IMAGE_ROOTFS', rootfs_orig)
-> +}
+> +    @OETestID(1971)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help_plugins(self):
+> +        cmd =3D "wic help plugins"
+> +        self._exec_wic_cmd(cmd)
 > +
->   #
->   # Compute the rootfs size
->   #
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index c736f92..8cd8fd5 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -201,6 +201,7 @@ IMAGE_CMD_multiubi () {
->   		multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
->   	done
->   }
-> +do_image_multiubi[respect_exclude_path] = "0"
->   
->   IMAGE_CMD_ubi () {
->   	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}"
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> index dcf620c..452d7f3 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -34,6 +34,7 @@ IMAGE_CMD_wic () {
->   	rm -rf "$out/"
->   }
->   IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
-> +do_image_wic[respect_exclude_path] = "0"
->   
->   # Rebuild when the wks file or vars in WICVARS change
->   USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-
+> +    @OETestID(1972)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_help_kickstart(self):
+> +        cmd =3D "wic help kickstart"
+> +        self._exec_wic_cmd(cmd)
+> +
+> +    @OETestID(1973)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_list_images(self):
+> +        cmd =3D "wic list images"
+> +        self._exec_wic_cmd(cmd)
+> +
+> +    @OETestID(1974)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_list_src_plugins(self):
+> +        cmd =3D "wic list source-plugins"
+> +        self._exec_wic_cmd(cmd)
+> +
+> +    @OETestID(1976)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_listed_images_help(self):
+> +        cmd =3D "wic list images"
+> +        output =3D runCmd("cd %s; %s" % (self.tc.sdk_dir, cmd)).output
+> +        imagelist =3D [line.split()[0] for line in output.splitlines()]
+> +        for img in imagelist:
+> +            cmd =3D "wic list %s help" % img
+> +            self._exec_wic_cmd(cmd)
+> +
+> +    @OETestID(1977)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_unsupported_subcommand(self):
+> +        self.assertNotEqual(0, runCmd('wic unsupported',
+> + ignore_status=3DTrue).status)
+> +
+> +    @OETestID(1978)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_no_subcommand(self):
+> +        self.assertEqual(1, runCmd('wic', ignore_status=3DTrue).status)
+> +
+> +    @OETestID(1979)
+> +    @OETestDepends(['test_wic_location'])
+> +    def test_wic_mkefidisk_image(self):
+> +        self._exec_devtool_build()
+> +        image =3D self._get_img_type()
+> +        cmd =3D "wic create mkefidisk --image-name %s -o %s" % (image, s=
+elf.testdir)
+> +        self._exec_wic_cmd(cmd)
+> +        self.assertEqual(1, len(glob(self.testdir +
+> + "mkefidisk-*.direct")))
+> +
+> +    @OETestID(1980)
+> +    @OETestDepends(['test_wic_location', 'test_wic_mkefidisk_image'])
+> +    def test_wic_ls(self):
+> +        images =3D glob(self.testdir + "mkefidisk-*.direct")
+> +        self.assertEqual(1, len(images))
+> +
+> +        # list partition
+> +        cmd =3D "wic ls %s > %s" % (images[0], self.outfile)
+> +        self._exec_wic_cmd(cmd)
+> +        count =3D self._get_line_count()
+> +        self.assertEqual(4, count)
+> +
+> +        # list directory content of the first partition
+> +        cmd =3D "wic ls %s:1 > %s" % (images[0], self.outfile)
+> +        self._exec_wic_cmd(cmd)
+> +        count =3D self._get_line_count()
+> +        self.assertEqual(7, count)
+> +        # clean up testdir
+> +        shutil.rmtree(self.testdir)
+> --
+> 2.7.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
