@@ -1,43 +1,44 @@
 Return-Path: <anders.roxell@linaro.org>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D41926093A
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 405BA60777
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 11:20:23 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id g12so1278777pgs.0
+	Tue, 13 Feb 2018 11:57:52 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id a204so24710534lfa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 03:20:25 -0800 (PST)
+	Tue, 13 Feb 2018 03:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=n9iR8sjve+gTomLUU5oZUQsY2Op7M8poQzJQF96sysc=;
-	b=cy3+WqgwXxRmEfPfY5DKj6Uw3hDYYuebDdz+wUr454D7bbeIbW1htBLPrmgU8+rKLa
-	uKpDE8kJ1wK4h9codWDHovQgIw2EWeaFTs7kyejbOCq3g5YsNicX8dORUYbL1GrnkiJJ
-	gYK2Bn9wXhw8KlW87m927wOAMgI+6W6k2Ovho=
+	h=from:to:cc:subject:date:message-id;
+	bh=1klL5QWSZ0vB3IXQGELe06dpL+BKwzWhqJx8mOMrzvg=;
+	b=PjlW7KFqytH6cpcJ81+ugGpqe0zgq6LDU5y9tbEfEpJuiW0vMXeLPPZerX/JQV7eeO
+	YA/zinEkud3htRY50Qmtkl8BDZqJUU15p8FpI6C5FTrtXbDqdRo/aIE647lhPcY3N+IN
+	9Uub4pgMzbB6ee7v3MqN3sx40wl7Q06uRxg2Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=n9iR8sjve+gTomLUU5oZUQsY2Op7M8poQzJQF96sysc=;
-	b=CkH9MdCnXkgO4rmnbLIHmB4DBkAD2dlR4DIaZUdmLaNeko6OdjJnJfTfnr8DMl4bMQ
-	Wj7HyeKTQjnbXotClP8qk2FE3xz+gsf0PNHC4db3Iyag431xgoMQeTlyzxlzmW80m9Rn
-	17/rHPHL+YuCcmrJOKRVt3ezUnmixLAk4QFEzw40aes5IpexFiUUfs8d3sg/VMvBr1gp
-	U/aiPBTZN4YtIiOOfRBK62Wm5No0v0WO1pa2D4maCnY/idG1BD+U5ljgaQany1UOBV8t
-	JumFMIrdUHdXTW/dwzE3D6uQKsfH41ULqbVfZ5Xogx6Ky0ou2i/s561y/Uj9IwRPlFMC
-	/EPQ==
-X-Gm-Message-State: APf1xPBLDclB8giYLkcHXIr3UiJUGTnSLgLv5Z71Tl0gUqjlW3Wwl5iD
-	8t9E/rMo8eGb/H4wHyaCD2byV1CgQGyz/br/tXsm33AT
-X-Google-Smtp-Source: AH8x227+Md63d53r3BRq4E999gGU6C57eGUh1eareR/OYbvIXLy91lq4X/lZc+JPuWfWDlUBRgGWYJwu7dKBYFgBeks=
-X-Received: by 10.98.87.195 with SMTP id i64mr945245pfj.34.1518520824662; Tue,
-	13 Feb 2018 03:20:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.236.166.12 with HTTP; Tue, 13 Feb 2018 03:20:24 -0800 (PST)
-In-Reply-To: <20180212223808.9016-1-anders.roxell@linaro.org>
-References: <20180212223808.9016-1-anders.roxell@linaro.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1klL5QWSZ0vB3IXQGELe06dpL+BKwzWhqJx8mOMrzvg=;
+	b=qR8TFwPKTdTOzhzNkEyMTAv0lm/yXs2wNbIjiiTVBF8sKWA3xH2LA/6AKRV+Ts5ZKB
+	4OUr5PxysMqm+MmESGJcfoFIPRC8GngJblRq+7jyJp43fIWpqjwoq21Pccnqir+E6ucw
+	ctpryL5XM/FvIPuurDlE7pvsacSvj0MYYNA+KeKQn2XsnmstfRXyBHoEzSVll2toB3SH
+	H0XBgurKyzqS115Spn4htxcq5SYbBuW3gOgHr2A77lJp0FqzqoL8FK/7hyz7HZpKdO79
+	ikZI3elFpQPcChhrwa15/La9wJnXzLE3cHm3NRKlzN/CwMk37ISNkVltkGAusfyaRjuH
+	A8pw==
+X-Gm-Message-State: APf1xPDpaZtpYjOVQfCDlzxV9eRf6nRlxiSZjdiiFdpQ9VLdCCQzwwTI
+	T6dnuIULWL3y9tpG9aHBu6z4VqzlJgw=
+X-Google-Smtp-Source: AH8x224ee/AC5AjkIc0P2tTCZaP5ujg/yl2xMFZoYE51dtfGWnPxOOw1bNtBISUnqq2K6zyGN723Bg==
+X-Received: by 10.46.29.138 with SMTP id w10mr757315lje.120.1518523073323;
+	Tue, 13 Feb 2018 03:57:53 -0800 (PST)
+Received: from localhost (c-2c3d70d5.07-21-73746f28.cust.bredbandsbolaget.se.
+	[213.112.61.44])
+	by smtp.gmail.com with ESMTPSA id s9sm2146114lfe.48.2018.02.13.03.57.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 13 Feb 2018 03:57:52 -0800 (PST)
 From: Anders Roxell <anders.roxell@linaro.org>
-Date: Tue, 13 Feb 2018 12:20:24 +0100
-Message-ID: <CADYN=9+Cy9FLvC-i+At8d+jC9nNb_0E9cSWD5uYCyFQPNWbxcw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ltp: fix fanotify06 test
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Feb 2018 12:57:48 +0100
+Message-Id: <20180213115748.3135-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v3] ltp: fix fanotify06 test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,83 +51,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Feb 2018 11:20:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 13 Feb 2018 11:57:53 -0000
 
-please ignore this patch.
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ ...-make-is_fuse-return-zero-if-fs_type-is-N.patch | 40 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20180118.bb          |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
 
-Cheers,
-Anders
+diff --git a/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch b/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
+new file mode 100644
+index 0000000000..5096a85c1e
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
+@@ -0,0 +1,40 @@
++From 67af7dbe8bdf29f9ed980d8d29feeae32a0a7a1d Mon Sep 17 00:00:00 2001
++From: Li Wang <liwang@redhat.com>
++Date: Tue, 23 Jan 2018 17:46:35 +0800
++Subject: [PATCH] safe_macros: make is_fuse() return zero if fs_type is NULL
++
++This commmit 28507e514c(safe_mount: Do not try mount() syscall for FUSE fs)
++involves FUSE fs check in safe_mount(), but we'd better guarantee the "fs_type"
++is legal to check in is_fuse() function otherwise system will kill the program.
++
++  cmdline="fanotify06"
++  contacts=""
++  analysis=exit
++  <<<test_output>>>
++  tst_test.c:980: INFO: Timeout per run is 0h 10m 00s
++  tst_test.c:1025: BROK: Test killed by SIGSEGV!
++
++Signed-off-by: Li Wang <liwang@redhat.com>
++Acked-by: Jan Stancek <jstancek@redhat.com>
++Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/commit/67af7dbe8bdf29f9ed980d8d29feeae32a0a7a1d]
++---
++ lib/safe_macros.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/lib/safe_macros.c b/lib/safe_macros.c
++index c48e436dc..abdeca013 100644
++--- a/lib/safe_macros.c
+++++ b/lib/safe_macros.c
++@@ -708,6 +708,9 @@ static int is_fuse(const char *fs_type)
++ {
++ 	unsigned int i;
++ 
+++	if (!fs_type)
+++		return 0;
+++
++ 	for (i = 0; i < ARRAY_SIZE(fuse_fs_types); i++) {
++ 		if (!strcmp(fuse_fs_types[i], fs_type))
++ 			return 1;
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+index 369b98df9b..b7cac8592a 100644
+--- a/meta/recipes-extended/ltp/ltp_20180118.bb
++++ b/meta/recipes-extended/ltp/ltp_20180118.bb
+@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0035-fix-test_proc_kill-hang.patch \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
++           file://0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.11.0
 
-On 12 February 2018 at 23:38, Anders Roxell <anders.roxell@linaro.org> wrote:
-> This patch fixes the fanotify06 test.
->
-> http://lists.linux.it/pipermail/ltp/2018-January/006915.html
->
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  ...anotify-the-mount-fs_type-should-be-given.patch | 38 ++++++++++++++++++++++
->  meta/recipes-extended/ltp/ltp_20180118.bb          |  1 +
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
->
-> diff --git a/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch b/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
-> new file mode 100644
-> index 0000000000..e57b6cd91e
-> --- /dev/null
-> +++ b/meta/recipes-extended/ltp/ltp/0040-fanotify-the-mount-fs_type-should-be-given.patch
-> @@ -0,0 +1,38 @@
-> +From c1b440c04d86adf77308fcd173d41dbfc6e66299 Mon Sep 17 00:00:00 2001
-> +From: Li Wang <liwang@redhat.com>
-> +Date: Tue, 23 Jan 2018 16:23:14 +0800
-> +Subject: [PATCH 40/40] fanotify: the mount fs_type should be given
-> +
-> +This commmit 28507e514c(safe_mount: Do not try mount() syscall for FUSE fs)
-> +involves FUSE fs check in safe_mount(), so we should give the "fs_type" when
-> +calling that in case the system kill our program.
-> +
-> +  cmdline="fanotify06"
-> +  contacts=""
-> +  analysis=exit
-> +  <<<test_output>>>
-> +  tst_test.c:980: INFO: Timeout per run is 0h 10m 00s
-> +  tst_test.c:1025: BROK: Test killed by SIGSEGV!
-> +
-> +Signed-off-by: Li Wang <liwang@redhat.com>
-> +Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2018-January/006915.html]
-> +---
-> + testcases/kernel/syscalls/fanotify/fanotify06.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/testcases/kernel/syscalls/fanotify/fanotify06.c b/testcases/kernel/syscalls/fanotify/fanotify06.c
-> +index e63e457a1..8cbe1adc6 100644
-> +--- a/testcases/kernel/syscalls/fanotify/fanotify06.c
-> ++++ b/testcases/kernel/syscalls/fanotify/fanotify06.c
-> +@@ -221,7 +221,7 @@ void test01(void)
-> + static void setup(void)
-> + {
-> +       SAFE_MKDIR(MOUNT_NAME, 0755);
-> +-      SAFE_MOUNT(MOUNT_NAME, MOUNT_NAME, NULL, MS_BIND, NULL);
-> ++      SAFE_MOUNT(MOUNT_NAME, MOUNT_NAME, "none", MS_BIND, NULL);
-> +       mount_created = 1;
-> +       SAFE_CHDIR(MOUNT_NAME);
-> +
-> +--
-> +2.11.0
-> +
-> diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
-> index 369b98df9b..88f3bb4879 100644
-> --- a/meta/recipes-extended/ltp/ltp_20180118.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20180118.bb
-> @@ -43,6 +43,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
->             file://0035-fix-test_proc_kill-hang.patch \
->             file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
->             file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
-> +           file://0040-fanotify-the-mount-fs_type-should-be-given.patch \
->             "
->
->  S = "${WORKDIR}/git"
-> --
-> 2.11.0
->
 
