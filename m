@@ -1,63 +1,54 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 726DB7826C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DFBD778259
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 14:50:58 +0000 (UTC)
-Received: by mail-ot0-f174.google.com with SMTP id r23so17486414ote.8
+	Tue, 13 Feb 2018 16:27:53 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id g2so195221pgn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 06:51:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=51HDOjFbp4PTSp6R5hBTxez8HAjk821t6Am9OIx1VE8=;
-	b=rdmp6H8JYw+7ttRWfs/Ears1PgaIGDZJTGctMqBRUg9wUSMJaGB18ufP3pXsyGM7tl
-	3WiOFXsFkquKtvWw/P2Cm87QXbrjDsCPW3TQqtr9gKWcdFqiY8RQ6h9ZWU0aS66dWR3P
-	+EOHsd4exO4fh2PEU1D4BesvAu9oprDdteCc6uSjPjxWym+CHckPAx0/LdB/nGl7FQLZ
-	aS6ZP/ydSICQEfwPBKdxd9E6ojhsyZAAkc8+FSxGn1OsCjHh7i5eSewXy2r2csT/6W8+
-	3mLiBbkVAyZgOKmUNC7rtfWAM5WyvybeyjMMAelKJiEYHwWUplg7SdtjrkdF5da6JWZ4
-	0lVA==
+	Tue, 13 Feb 2018 08:27:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=Eqd58FRXaljDuzFIgZCKYWBMakGxQVgGTgENQyWxOMQ=;
+	b=j87R6J4W+KSNAwReRkE/qVwdLNYCcBppglK2VIWvGJuXjX0yH8SBBEcOc9ZUaFhTwR
+	nth+3P4lWLJLrzi5YOrMOH74T5xwrpCdJ75vvh8QoND01odhaojpruxcWLDwETA0JBel
+	+C6hdhRnrMIVbJ0DaBzQ4Ovd8UpMJdwXWXYKITVuRS1kCUa2huLPDN8ualwb5+KGRBWb
+	R7ETur9EErq3y8JQSVBFqHLY27kRYcNH8IZhA+wiM49V981Y1e4T2IV9r9PIMn2I1r2C
+	n7ESoeu4WAjXHfABvfE9eFQOuvZ3CpLxkoEVWdLd2ppvs51lW1Pydrq6in4ze8ZrJtI+
+	mB6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=51HDOjFbp4PTSp6R5hBTxez8HAjk821t6Am9OIx1VE8=;
-	b=mPTGeu4MS4gwR8frnCGHNEd1DrbOp/2Hf8tqfTSQmrN6DnkIkytU5XWfzdghJtylSO
-	MiIz8of7oJDDZk2+xgCYQSjJ3e5y2FaJ23jrmivBbisejmHTcEtFSye6E2V+SwwhMhJx
-	H1TLxKIJk4Bs4pqdyG9k8aO+XCGczTbpQkD4I+9a4EHgtCo+xw2te+SA/ZC2q5+Gcxwb
-	Cf4SPgdIFM7B2HR2BmT24IxQSUKQm6bCcP17/8TWRGRv1LJoZ0Jx3g3bMDKGlJuqZQH6
-	yK28qXeg8kt4yWCB6ZwUoYOBwiTVjhxU1w8FCYl7jF4kC9b5AXjATiymDB2K2jjyiyHu
-	HfWQ==
-X-Gm-Message-State: APf1xPArhDUpCAvkvweLv5fLjfM3e5wtaxS10A8HB21jCUerUqwnOHyt
-	9pN5X/1Pw8vQeJpwMWuayNmM2EwQ
-X-Google-Smtp-Source: AH8x224yYGylmKQKd04JJSlhTGH3t8zWRmRLvVevWT6rLQu07Pnm2LNQ4qGEWKNauy2OzujDu+B0+A==
-X-Received: by 10.157.26.44 with SMTP id a41mr1025064ote.108.1518533459504;
-	Tue, 13 Feb 2018 06:50:59 -0800 (PST)
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com.
-	[209.85.218.46]) by smtp.gmail.com with ESMTPSA id
-	d10sm6247771ote.28.2018.02.13.06.50.57
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Eqd58FRXaljDuzFIgZCKYWBMakGxQVgGTgENQyWxOMQ=;
+	b=j9xCj1k2wKi0sCQ9DrCsNb1S911l3KkHPeVGJdStLaLeKztbara+cNe6/rx9sLoq0G
+	cxLWspvq4bbCBPBTNLhNeXT/StXtNtzSCg85+qhfHUuXv7/zQ2S1ZMV6r6KLj0s3Pco2
+	ScNulx/A0RF9BMhs4ZIVCQCdSr8THNoW7fLhU/l4WjXpx4Eo8rvoyVTdcRO6ORHlVJxw
+	yEW9RDpevOCM+pOc8pCOqBQNxJrNiEzwePBlDDFSpjyTpY8uIEpoWPKaIILnSbBRlAgF
+	pXvyAQSAsqx7Ze8WHPvJ7qdjVSxwNBkcefOYG/dk0Hocpwv71vc6W8PHCXPO3K1gU2VH
+	FnHw==
+X-Gm-Message-State: APf1xPDaKpnpl65nFyM29frTYDzkoBBViw71D0FG6c8OE5lNV2g96fZ2
+	Gk9/qPM2kb9pMZ5fYNcBwz8tHg==
+X-Google-Smtp-Source: AH8x224yeqYlJQWBkle76ZY/EtRHi6vbmwxH/pxw6/ez9yQ8iVd9OIKpDTwKW1h0oVWfnrs6AFQELw==
+X-Received: by 10.98.86.27 with SMTP id k27mr1795971pfb.174.1518539274788;
+	Tue, 13 Feb 2018 08:27:54 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:44c8:48fa:566e:84f9?
+	([2601:202:4000:1184:44c8:48fa:566e:84f9])
+	by smtp.gmail.com with ESMTPSA id
+	x4sm32394755pgo.15.2018.02.13.08.27.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Feb 2018 06:50:58 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f46.google.com with SMTP id 24so14041647oij.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 06:50:57 -0800 (PST)
-X-Received: by 10.202.65.194 with SMTP id o185mr918306oia.166.1518533457278;
-	Tue, 13 Feb 2018 06:50:57 -0800 (PST)
+	Tue, 13 Feb 2018 08:27:54 -0800 (PST)
+To: robert_joslyn@selinc.com, openembedded-core@lists.openembedded.org
+References: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
+Date: Tue, 13 Feb 2018 08:27:52 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.157.13.115 with HTTP; Tue, 13 Feb 2018 06:50:55 -0800 (PST)
-In-Reply-To: <68bad37c-fb4f-bfe1-2e51-7f191edca215@linux.intel.com>
-References: <CAGix03zhY3ZEhKLUyzU3HDmMD3t2MmOwkM2TffZVUdByk+cA+A@mail.gmail.com>
-	<68bad37c-fb4f-bfe1-2e51-7f191edca215@linux.intel.com>
-Date: Tue, 13 Feb 2018 12:50:55 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
-Message-ID: <CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Regarding Patch ID: 132816
+In-Reply-To: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
+Subject: Re: Backport OpenSSL 1.0.2n
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,29 +61,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Feb 2018 14:50:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 13 Feb 2018 16:27:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-On Tue, Feb 13, 2018 at 4:58 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 02/12/2018 11:06 PM, Chaitanya Cherukuri wrote:
->>
->> I'm new to this forum and didn't know to where to report an issue. I'm
->> contacting you regarding the patch ID 132816 ( cmake: improve
->> CMAKE_SYSTEM_PROCESSOR assignment in nativesdk).
->>
->> If SDKTARGETSYSROOT is "/sysroots/cortexa9hf-neon-poky-linux-gnueabi" this
->> patch sets the CMAKE_SYSTEM_PROCESSOR as  "cortexa9hf-neon-poky"  instead of
->> "cortexa9hf-neon".
->>
->> This patch works if SDKTARGETSYSROOT is "/sysroots/core2-32-poky-linux".
+
+
+On 02/12/2018 01:08 PM, robert_joslyn@selinc.com wrote:
+> I'm working with the pyro release, and noticed that it's still using=20
+> openssl 1.0.2k. The latest version in the 1.0.2 series is 1.0.2n, which=
+ is=20
+> already available on master. Is there a reason that the newer version=20
+> hasn't made it back to pyro (or rocko, which is on 1.0.2m)?=20
+openssl 1.1 was added and the openssl files got restructured making
+simple cherry-picking not an option for older releases.
+
+1.0.2n hit master 7 days ago, sorry for the delay.
+
+1.0.2n is now in stable/rocko-next and will migrate to rocko when
+appropriate.
+
+
+> I know new=20
+> package versions are not normally backported, but looking at the change=
+=20
+> log, I only see one change mentioned that is not a CVE fix (the 1.0.2l =
+
+> release):
 >
-> I guess this one is for Otavio Salvador, the cmake recipe maintainer?
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.openssl.org_=
+-3Fp-3Dopenssl.git-3Ba-3Dblob-3Bf-3DCHANGES-3Bh-3Df2fc31a25c54b12fc7db40c=
+03d39f9a68b9ec0e5-3Bhb-3De5bba24cd8bb3e5127a578b85c6edf013a38ea6d&d=3DDwI=
+BAg&c=3DzVFQZQ67ypsA9mYKSCqWmQHiVkCCaN-Gb60_N6TVnLk&r=3Dak_pMnzuMKndrbvJG=
+ok-seoFenjTGhP3oPNUzKUOwzHhGpNMwSJsaHunyXDlBGjO&m=3D3JjPoO2FeIBSz3wggiqKG=
+tYceKB5t__oSe8p6yDsQfM&s=3DoeCHfmZkkXVFW1aoMZsolXeFvKI9RTUtbdGBj61kheQ&e=3D=
 
-I had acked and test the patch. https://patchwork.openembedded.org/patch/132816/
+>
+> I can send patches to bring 1.0.2n to rocko and pyro if they will be=20
+> accepted.
+patches welcome
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+- Armin
+>
+> Thanks,
+> Robert
+
+
 
