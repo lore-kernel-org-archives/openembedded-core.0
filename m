@@ -1,33 +1,29 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 001C6781C8
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 12FF360557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 18:54:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Feb 2018 10:54:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,508,1511856000"; d="scan'208";a="174697132"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 13 Feb 2018 10:54:52 -0800
-Received: from hmhajya-mobl.amr.corp.intel.com (unknown [10.252.129.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 86D9C5801AE;
-	Tue, 13 Feb 2018 10:54:52 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <cover.1517336283.git.amber.n.elliot@intel.com>
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-Message-ID: <bf8a9825-0964-14f7-5dd1-ff464f3c7d50@linux.intel.com>
-Date: Tue, 13 Feb 2018 10:54:52 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
+	Tue, 13 Feb 2018 19:27:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1DJRpHC028162
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 13 Feb 2018 11:27:51 -0800
+Received: from [128.224.56.223] (128.224.56.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 13 Feb 2018 11:27:39 -0800
+From: Randy MacLeod <randy.macleod@windriver.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>, Mark Asselstine
+	<mark.asselstine@windriver.com>
+References: <20180208202228.20850-1-alexander.kanavin@linux.intel.com>
+Message-ID: <9e88817b-57e5-adb6-0176-9c1aa9609dce@windriver.com>
+Date: Tue, 13 Feb 2018 14:27:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1517336283.git.amber.n.elliot@intel.com>
-Cc: Paul Eggleton <paul.eggleton@intel.com>
-Subject: Re: [PATCHv2 0/1] wic: argparse now used for help functionality.
+In-Reply-To: <20180208202228.20850-1-alexander.kanavin@linux.intel.com>
+X-Originating-IP: [128.224.56.223]
+Subject: Re: [PATCH 1/3] latencytop: remove recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,36 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Feb 2018 18:54:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Tue, 13 Feb 2018 19:27:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 1/30/18 10:24 AM, anelliot wrote:
-> The wic help output formally consisted of manually created strings mixed with argparse,
-> which was unformatted and unusable. This fix cleans up the help messages, rewrites help
-> functionality to use argparse, and adds functionality to show information for
-> plugins (similar to canned images).
-> 
-> The following changes since commit e5e89cfb7bc2231ac4fcc16f4cb4f74d806136c4:
-> 
->   pulseaudio: improve glibc 2.27 patch (2018-01-30 12:53:16 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://push.yoctoproject.org/poky-contrib anelliot/bug12205
-> 
-> anelliot (1):
->   wic: argparse now used for help functionality.
-> 
->  meta/lib/oeqa/selftest/cases/wic.py |   50 +-
->  scripts/lib/wic/engine.py           |   87 ++-
->  scripts/lib/wic/help.py             | 1080 ++++-------------------------------
->  scripts/wic                         |  168 ++----
->  4 files changed, 267 insertions(+), 1118 deletions(-)
-> 
+On 2018-02-08 03:22 PM, Alexander Kanavin wrote:
+> Last commit and release were in 2009; website is down; it's a dead project.
 
-Ack'd and tested.
+Add MarkA who might care/know more about latencytop than I do.
 
---S
+
+Is there another package that makes use of the kernel feature?
+The kernel Kconfig has been tweaked in 2017:
+
+    commit a34a766ff96d9e88572e35a45066279e40a85d84
+    Author: Josh Poimboeuf <jpoimboe@redhat.com>
+    Date:   Mon Jul 24 18:36:58 2017 -0500
+
+      x86/kconfig: Make it easier to switch to the new ORC unwinder
+
+and there are people updating latencytop on github last year:
+    https://github.com/namhyung/latencytop/commits/master
+commits on some random github page. That's shocking I know but it
+does indicate that there's still interest in the tool even if the
+original authors haven't been maintaining it.
+
+../Randy
+
+
+<snip>
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
