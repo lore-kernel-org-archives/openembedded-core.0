@@ -1,41 +1,30 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 34C6977BC3
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C8308782E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Feb 2018 01:41:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Feb 2018 17:41:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,505,1511856000"; d="scan'208";a="17247949"
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-	by fmsmga007.fm.intel.com with ESMTP; 12 Feb 2018 17:41:49 -0800
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.31]) by
-	PGSMSX105.gar.corp.intel.com ([169.254.4.51]) with mapi id
-	14.03.0319.002; Tue, 13 Feb 2018 09:41:47 +0800
-From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
-To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>, OpenEmbedded
-	Core Mailing List <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
-Thread-Index: AQHTkzoD5fITUi1K7EafNDULyGvSDKOhsMqA
-Date: Tue, 13 Feb 2018 01:41:46 +0000
-Message-ID: <50B33AC5ED75F74F991980326F1C438D1F20A7AC@PGSMSX103.gar.corp.intel.com>
-References: <1516595182-50325-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-In-Reply-To: <1516595182-50325-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzk0MDUwZWQtNGVhOC00YjViLTliMGUtZGEwYjA4NmQxNDIwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjIuNS4xOCIsIlRydXN0ZWRMYWJlbEhhc2giOiJLendUNHdVU0dGeFc1RE1BSW5Pc0hodDU0XC9DV011TUtLd0ZET2s0RXlDUTh0cTdSRUU4dlhkWHZDQ0krWkpUbSJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Tue, 13 Feb 2018 05:48:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37020277"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Feb 2018 13:48:35 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7C56548AE761
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Feb 2018 13:48:35 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Tue, 13 Feb 2018 13:48:32 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Feb 2018 13:48:41 +0800
+Message-ID: <1518500921-19848-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 7C56548AE761.A5531
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] sudo: 1.8.21P1 -> 1.8.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,290 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Feb 2018 01:41:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Feb 2018 05:48:35 -0000
+Content-Type: text/plain
 
-Hi all,
+1.Upgrade sudo from 1.8.21P1 to 1.8.22.
+2.Update the checksum of LIC_FILES_CHKSUM.
+  The following content is appended to doc/LICENSE, plugins/sudoers/redblack.c.
 
-Ed has acked/reviewed on the patchset.
-Link to patchset: https://patchwork.openembedded.org/patch/147467/
+    Todd C. Miller <Todd.Miller@courtesan.com> -> Todd C. Miller <Todd.Miller@sudo.ws>
 
-Regards,
-Rebecca
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/sudo/sudo.inc                             | 4 ++--
+ meta/recipes-extended/sudo/{sudo_1.8.21p2.bb => sudo_1.8.22.bb} | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.21p2.bb => sudo_1.8.22.bb} (90%)
 
------Original Message-----
-From: Bartosh, Eduard=20
-Sent: Monday, February 12, 2018 5:09 PM
-To: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-Subject: Re: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSD=
-K
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 80ec0ae..362bd3a 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,8 +4,8 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=652fb4334c13b511597d7940ef8b3323 \
+-                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
++                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
+                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb b/meta/recipes-extended/sudo/sudo_1.8.22.bb
+similarity index 90%
+rename from meta/recipes-extended/sudo/sudo_1.8.21p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.22.bb
+index acd0025..9150178 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.22.bb
+@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "cd3993d910c713ae72e94beebd230b22"
+-SRC_URI[sha256sum] = "74c5746cd33a814e2431c39faf0d76f7f8a697379bd073862e3b156cf0d76368"
++SRC_URI[md5sum] = "24abdea48db4c5abcd410167c801cc8c"
++SRC_URI[sha256sum] = "7256cb27c20883b14360eddbd17f98922073d104b214cf65aeacf1d9c9b9fd02"
+ 
+ DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-- 
+2.7.4
 
-Hi Rebecca,
 
-The patchset looks good to me.
 
-Regards,
-Ed
-
-On 08/02/18 10:18, "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.=
-com> wrote:
-
-    Hi Ed,
-   =20
-    Thanks, here is the link: https://patchwork.openembedded.org/patch/1474=
-67/
-   =20
-    Regards,
-    Rebecca
-   =20
-    > -----Original Message-----
-    > From: Bartosh, Eduard
-    > Sent: Thursday, February 8, 2018 6:05 PM
-    > To: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>;
-    > ed.bartosh@linux.intel.com
-    > Subject: Re: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases f=
-or eSDK
-    >=20
-    > Hi Rebecca,
-    >=20
-    > Can you point me out on the patchset? It looks like I missed it someh=
-ow.
-    >=20
-    > Sure, please take the maintenance, no concerns here.
-    >=20
-    > Regards,
-    > Ed
-    >=20
-    > On 08/02/18 07:09, "Chang, Rebecca Swee Fun"
-    > <rebecca.swee.fun.chang@intel.com> wrote:
-    >=20
-    >     Hi Ed,
-    >=20
-    >     I have pushed some basic test for wic in eSDK. I still have plan =
-to extend the
-    > test coverage.
-    >     Could you help to provide you feedback for the basic tests?
-    >=20
-    >     I also plan to take up the recipe maintenance for wic-tools and b=
-map-tools.
-    >     Do you have any concern?
-    >=20
-    >     Thank you.
-    >=20
-    >     Regards,
-    >     Rebecca
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Chang Rebecca Swee Fun
-> Sent: Monday, January 22, 2018 12:26 PM
-> To: OpenEmbedded Core Mailing List <openembedded-
-> core@lists.openembedded.org>
-> Subject: [OE-core] [PATCH] oeqa/sdkext: wic: add new test cases for eSDK
->=20
-> wic is now available in the eSDK. Adding test cases to test wic utility w=
-ithin eSDK.
->=20
-> Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-> ---
->  meta/lib/oeqa/sdkext/cases/wic.py | 171
-> ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 171 insertions(+)
->  create mode 100644 meta/lib/oeqa/sdkext/cases/wic.py
->=20
-> diff --git a/meta/lib/oeqa/sdkext/cases/wic.py
-> b/meta/lib/oeqa/sdkext/cases/wic.py
-> new file mode 100644
-> index 0000000..221a290
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdkext/cases/wic.py
-> @@ -0,0 +1,171 @@
-> +import os
-> +import sys
-> +import shutil
-> +import unittest
-> +
-> +from glob import glob
-> +
-> +from oeqa.sdkext.case import OESDKExtTestCase from
-> +oeqa.core.decorator.depends import OETestDepends from
-> +oeqa.core.decorator.oeid import OETestID from oeqa.utils.commands
-> +import runCmd
-> +
-> +
-> +class WicTest(OESDKExtTestCase):
-> +    """Wic test within eSDK."""
-> +
-> +    testdir =3D "/var/tmp/wic.test.sdkext/"
-> +    outfile =3D "/var/tmp/wic.test.sdkext/output.txt"
-> +
-> +    @OETestID(1963)
-> +    def test_wic_location(self):
-> +        """Check whether wic is run within eSDK sysroot"""
-> +        output =3D self._run("which wic")
-> +        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
-> +            msg=3D"Seems that wic isn't the eSDK one : %s" % output)
-> +
-> +    def _exec_wic_cmd(self, cmd):
-> +        """Wrapper to execute wic command and check status"""
-> +        status =3D runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.=
-sdk_env,
-> cmd)).status
-> +        self.assertEqual(0, status)
-> +
-> +    def _exec_devtool_build(self):
-> +        """Wrapper to build image as pre-requisite for wic"""
-> +        cmd =3D "devtool build-image"
-> +        runCmd("cd %s; . %s; %s" % (self.tc.sdk_dir, self.tc.sdk_env,
-> + cmd))
-> +
-> +    def _get_img_type(self):
-> +        """Wrapper to get SDK target for image creation"""
-> +        # Get sdk_targets from devtool.conf
-> +        conf_file =3D self.tc.sdk_dir + "conf/devtool.conf"
-> +        with open (conf_file, 'r') as in_file:
-> +             for line in in_file:
-> +                if 'sdk_targets' in line:
-> +                    image =3D line.split()
-> +                    for img_name in image:
-> +                        if img_name.startswith('core-image'):
-> +                            break
-> +        return img_name
-> +
-> +    def _get_line_count(self):
-> +        count =3D 0
-> +        with open (self.outfile, 'r') as output:
-> +            count =3D sum(1 for line in output if line.rstrip('\n'))
-> +        return count
-> +
-> +    @OETestID(1964)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_version(self):
-> +        cmd =3D "wic --version"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1965)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help(self):
-> +        cmd =3D "wic --help"
-> +        self._exec_wic_cmd(cmd)
-> +        cmd =3D "wic -h"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1966)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_create_help(self):
-> +        cmd =3D "wic create --help"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1967)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_list_help(self):
-> +        cmd =3D "wic list --help"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1968)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help_create(self):
-> +        cmd =3D "wic help create"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1969)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help_list(self):
-> +        cmd =3D "wic help list"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1970)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help_overview(self):
-> +        cmd =3D "wic help overview"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1971)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help_plugins(self):
-> +        cmd =3D "wic help plugins"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1972)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_help_kickstart(self):
-> +        cmd =3D "wic help kickstart"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1973)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_list_images(self):
-> +        cmd =3D "wic list images"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1974)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_list_src_plugins(self):
-> +        cmd =3D "wic list source-plugins"
-> +        self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1976)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_listed_images_help(self):
-> +        cmd =3D "wic list images"
-> +        output =3D runCmd("cd %s; %s" % (self.tc.sdk_dir, cmd)).output
-> +        imagelist =3D [line.split()[0] for line in output.splitlines()]
-> +        for img in imagelist:
-> +            cmd =3D "wic list %s help" % img
-> +            self._exec_wic_cmd(cmd)
-> +
-> +    @OETestID(1977)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_unsupported_subcommand(self):
-> +        self.assertNotEqual(0, runCmd('wic unsupported',
-> + ignore_status=3DTrue).status)
-> +
-> +    @OETestID(1978)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_no_subcommand(self):
-> +        self.assertEqual(1, runCmd('wic', ignore_status=3DTrue).status)
-> +
-> +    @OETestID(1979)
-> +    @OETestDepends(['test_wic_location'])
-> +    def test_wic_mkefidisk_image(self):
-> +        self._exec_devtool_build()
-> +        image =3D self._get_img_type()
-> +        cmd =3D "wic create mkefidisk --image-name %s -o %s" % (image, s=
-elf.testdir)
-> +        self._exec_wic_cmd(cmd)
-> +        self.assertEqual(1, len(glob(self.testdir +
-> + "mkefidisk-*.direct")))
-> +
-> +    @OETestID(1980)
-> +    @OETestDepends(['test_wic_location', 'test_wic_mkefidisk_image'])
-> +    def test_wic_ls(self):
-> +        images =3D glob(self.testdir + "mkefidisk-*.direct")
-> +        self.assertEqual(1, len(images))
-> +
-> +        # list partition
-> +        cmd =3D "wic ls %s > %s" % (images[0], self.outfile)
-> +        self._exec_wic_cmd(cmd)
-> +        count =3D self._get_line_count()
-> +        self.assertEqual(4, count)
-> +
-> +        # list directory content of the first partition
-> +        cmd =3D "wic ls %s:1 > %s" % (images[0], self.outfile)
-> +        self._exec_wic_cmd(cmd)
-> +        count =3D self._get_line_count()
-> +        self.assertEqual(7, count)
-> +        # clean up testdir
-> +        shutil.rmtree(self.testdir)
-> --
-> 2.7.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
