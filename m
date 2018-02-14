@@ -1,59 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 808E3605BA
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9251A780BE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 17:26:20 +0000 (UTC)
-Received: by mail-pl0-f50.google.com with SMTP id f4so8895911plr.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 09:26:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=0TP6tkqaLLKx/wFay0TQeDRp8K23JDS4LEKVXyIfpSk=;
-	b=Vw3DW1r0zOgY/PvEGfOExAwT+T9gArmeYeIUkK6p6413vd/Dt0Ah84IYNjQrGIUTzA
-	FXOkTZX+cte2AcFjEV8ReQAHwnDHMosWlSG23aco5MAHQPxjQjRIuwBxOtgZhb93HAZ7
-	/Be/Vt8sjzMPL/rC9eRz49Bysy/CViQkXHYJREvpeiwdqbIL7Yc/RH8NDVKKuPZJY7Tr
-	j1c4M1Tfhe31CIdixsSYSpdpHwUeH8bM5f1Dkxn8qQZ8JSVhu2tHEbAIC3l9UkIguFPK
-	4WEauUmU1l/46C253R2jerZh51DRfgkdTpsFBvaXD5TIm8Wq7JrgI+UOSXgqd6+n7A5m
-	fMcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=0TP6tkqaLLKx/wFay0TQeDRp8K23JDS4LEKVXyIfpSk=;
-	b=E6oD0HhYuimw1m372U2A4XqyB8UM99nfKv6tsbsgyEpPI8lNqfaRQlE9WJ+WncboZB
-	jI/MwbZHJ5mYU6/+px65LkcTB0E7wzNesjIR3cabsIIhsEX463vxxaDPoxY4/xKCzFgz
-	dYC1ffmafkn1mwQ5udHh5VrMs1HKlL6ZbBGT0A1/z20IBKIcHufeHKvN56xXSd2QQHQn
-	hqynuD0fw0cd0vsAnl3S22ZBFKNux9fJMp/XTk3P0pGsWSdo/th3hze6AmasrbzTRK7s
-	yBYxyrFzEW/Hz8XQ/ymIcZU5Na8i+DA3SIFnlQtxOdyAL4EpbqheFVv6EyybDYcmsro2
-	eQ9Q==
-X-Gm-Message-State: APf1xPBigzQt6LnRM8BN4/ymd811Bu3YE8t0YTi5zwAbVFrQtGwX5m+4
-	SxcabSX90V7ZhQTFyD4Mi2g1gA==
-X-Google-Smtp-Source: AH8x227nb6t+gf3TgAY0w2tzi77tcpCbxUlxz5U5oiMwmDwN56WjXANTG6W20lT5+HaMY5BB5kBt2w==
-X-Received: by 2002:a17:902:2904:: with SMTP id
-	g4-v6mr5087485plb.170.1518629181512; 
-	Wed, 14 Feb 2018 09:26:21 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:4c3d:6d16:593d:cc61?
-	([2601:202:4000:1184:4c3d:6d16:593d:cc61])
-	by smtp.gmail.com with ESMTPSA id
-	e81sm24418951pfb.58.2018.02.14.09.26.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Feb 2018 09:26:20 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	robert_joslyn@selinc.com, openembedded-core@lists.openembedded.org
-References: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
-	<00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
-	<1518623907.24236.115.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <b2346dc6-5649-8924-044b-1a193dd5adc6@gmail.com>
-Date: Wed, 14 Feb 2018 09:26:19 -0800
+	Wed, 14 Feb 2018 20:18:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1EKICMN003512
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 14 Feb 2018 12:18:12 -0800
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Feb 2018 12:17:59 -0800
+To: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1518205465-32581-1-git-send-email-carlos.rodriguez@ridgerun.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <93cbc693-88e8-fa7e-e755-e6731245e2bb@windriver.com>
+Date: Wed, 14 Feb 2018 15:18:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <1518623907.24236.115.camel@linuxfoundation.org>
-Subject: Re: Backport OpenSSL 1.0.2n
+In-Reply-To: <1518205465-32581-1-git-send-email-carlos.rodriguez@ridgerun.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [meta-oe][PATCH v2] gst-shark: Add Gst-Shark recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,38 +35,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 17:26:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 14 Feb 2018 20:18:12 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
 
+Carlos,
 
-On 02/14/2018 07:58 AM, Richard Purdie wrote:
-> On Tue, 2018-02-13 at 08:27 -0800, akuster808 wrote:
->> On 02/12/2018 01:08 PM, robert_joslyn@selinc.com wrote:
->>> I'm working with the pyro release, and noticed that it's still
->>> using 
->>> openssl 1.0.2k. The latest version in the 1.0.2 series is 1.0.2n,
->>> which is 
->>> already available on master. Is there a reason that the newer
->>> version 
->>> hasn't made it back to pyro (or rocko, which is on 1.0.2m)? 
->> openssl 1.1 was added and the openssl files got restructured making
->> simple cherry-picking not an option for older releases.
->>
->> 1.0.2n hit master 7 days ago, sorry for the delay.
->>
->> 1.0.2n is now in stable/rocko-next and will migrate to rocko when
->> appropriate.
-> It is? Not pushed maybe?
-it is.. just not in poky-contrib ;) its over on oe-contrib. Its where I
-queue up things
+meta-multimedia is part of OpenEmbedded not the oe-core layer. See:
 
-- armin
->
-> Cheers,
->
-> Richard
+http://cgit.openembedded.org/meta-openembedded/tree/meta-multimedia/recipes-multimedia
 
+Please re-send your email to:
+   openembedded-devel@lists.openembedded.org
+
+Thanks for incorporating the changes that Ross suggested.
+One more try and hopefully the work will be merged.
+
+Thanks,
+../Randy
+
+On 2018-02-09 02:44 PM, Carlos Rodriguez wrote:
+> Gst-Shark is a set of tracers used as Benchmarks and
+> profiling tools for GStreamer. It includes tracers for
+> generating debug information plus some tools to analyze
+> the debug information. GstShark provides easy to use and
+> useful tracers, paired with analysis tools to enable
+> straightforward optimizations.
+> 
+> Signed-off-by: Carlos Rodriguez <carlos.rodriguez@ridgerun.com>
+> ---
+>   .../recipes-multimedia/gstreamer-1.0/gst-shark.inc | 36 ++++++++++++++++++++++
+>   .../gstreamer-1.0/gst-shark_0.2.1.bb               |  3 ++
+>   2 files changed, 39 insertions(+)
+>   create mode 100644 meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark.inc
+>   create mode 100644 meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark_0.2.1.bb
+> 
+> diff --git a/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark.inc b/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark.inc
+> new file mode 100644
+> index 0000000..1841d30
+> --- /dev/null
+> +++ b/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark.inc
+> @@ -0,0 +1,36 @@
+> +DESCRIPTION = "RidgeRun Gst-Shark Tracers"
+> +SUMMARY = "Benchmarks and profiling tools for GStreamer"
+> +HOMEPAGE = "https://developer.ridgerun.com/wiki/index.php?title=GstShark"
+> +SECTION = "multimedia"
+> +LICENSE = "GPLv2+"
+> +
+> +DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad "
+> +
+> +SRCBRANCH ?= "master"
+> +
+> +SRCREV_base = "a60b3996fe3376d42334fc89014e9d6f6af62899"
+> +SRCREV_common = "b64f03f6090245624608beb5d2fff335e23a01c0"
+> +
+> +SRC_URI = " \
+> +    git://git@github.com/RidgeRun/gst-shark.git;protocol=https;branch=${SRCBRANCH};name=base \
+> +    git://anongit.freedesktop.org/git/gstreamer/common.git;protocol=https;destsuffix=git/common;name=common; \
+> +    "
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +PACKAGECONFIG_CONFARGS = " \
+> +	--disable-graphviz \
+> +	--enable-gtk-doc=no \
+> +"
+> +
+> +FILES_${PN} += "\
+> +	${libdir}/gstreamer-1.0/libgstsharktracers.so  \
+> +	${libdir}/gstreamer-1.0/libgstsharktracers.la \
+> +"
+> +
+> +inherit autotools gettext
+> +
+> +do_configure() {
+> +${S}/autogen.sh --noconfigure
+> +oe_runconf
+> +}
+> diff --git a/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark_0.2.1.bb b/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark_0.2.1.bb
+> new file mode 100644
+> index 0000000..637bd0e
+> --- /dev/null
+> +++ b/meta-multimedia/recipes-multimedia/gstreamer-1.0/gst-shark_0.2.1.bb
+> @@ -0,0 +1,3 @@
+> +require gst-shark.inc
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=e1caa368743492879002ad032445fa97"
+> \ No newline at end of file
+> 
+
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
