@@ -1,26 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A3C326FFD8
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B75EE6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 15:58:29 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w1EFwRgx026292
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 14 Feb 2018 15:58:28 GMT
-Message-ID: <1518623907.24236.115.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, robert_joslyn@selinc.com,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 14 Feb 2018 15:58:27 +0000
-In-Reply-To: <00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
-References: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
-	<00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: Re: Backport OpenSSL 1.0.2n
+	Wed, 14 Feb 2018 15:59:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1EFwxp1028855
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 14 Feb 2018 07:58:59 -0800
+Received: from [128.224.56.223] (128.224.56.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Feb 2018 07:58:46 -0800
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+References: <20180214154301.20665-1-Randy.MacLeod@windriver.com>
+	<alpine.LFD.2.21.1802141047430.4676@android-a172fe96dd584b41>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <6c21c8dd-bece-caef-f297-d0af74e8325f@windriver.com>
+Date: Wed, 14 Feb 2018 10:58:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LFD.2.21.1802141047430.4676@android-a172fe96dd584b41>
+X-Originating-IP: [128.224.56.223]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pacakge.bbclass: fix typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 15:58:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 14 Feb 2018 15:59:47 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-02-13 at 08:27 -0800, akuster808 wrote:
+On 2018-02-14 10:47 AM, Robert P. J. Day wrote:
 > 
-> On 02/12/2018 01:08 PM, robert_joslyn@selinc.com wrote:
-> > 
-> > I'm working with the pyro release, and noticed that it's still
-> > using 
-> > openssl 1.0.2k. The latest version in the 1.0.2 series is 1.0.2n,
-> > which is 
-> > already available on master. Is there a reason that the newer
-> > version 
-> > hasn't made it back to pyro (or rocko, which is on 1.0.2m)? 
-> openssl 1.1 was added and the openssl files got restructured making
-> simple cherry-picking not an option for older releases.
+>    "pacakge"?
 > 
-> 1.0.2n hit master 7 days ago, sorry for the delay.
+> rday
 > 
-> 1.0.2n is now in stable/rocko-next and will migrate to rocko when
-> appropriate.
 
-It is? Not pushed maybe?
+That would have been funny if it were intentional but it wasn't. Sigh.
+v2 coming.
 
-Cheers,
-
-Richard
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
