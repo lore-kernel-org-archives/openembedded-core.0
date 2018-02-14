@@ -1,49 +1,59 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4220C78213
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 808E3605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 17:09:46 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id w63so2355909ita.3
+	Wed, 14 Feb 2018 17:26:20 +0000 (UTC)
+Received: by mail-pl0-f50.google.com with SMTP id f4so8895911plr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 09:09:48 -0800 (PST)
+	Wed, 14 Feb 2018 09:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=X8jc+GUgJIFfhPQVJ0ZnBHclABqPwCAyCG4eLwVZ8I8=;
-	b=GmLBsNYiGyPcDBZNF0oxmJE4y74oTrpndikxYdoETTRd97Z1ZP6IetjV/Lg/abwKka
-	KcYImRqe5rO2unowK8s1TtxkBI1wPHHc1gyKkuZ9vH6nE7uUAFbUnjkVWYlMzKSB3rze
-	OKLAI3yB0K27MQa7Z6FlHveJgvvLuibW9pk7jrUZqsRXN1AaucI97u6HoRXLhtj/ngzX
-	FcWenBU/q1evjY/2j6JpteisVFBbUd+1U524awVVeSbbrywJtLdu0ZKBs/eaKnSvCQhU
-	QmDr4/tcNGckfJZxK6+mAp9I1EEeudDBVn9Q7ETxW5/plYdTkA4/Y4piXNI8D9uA8Gmy
-	hudQ==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=0TP6tkqaLLKx/wFay0TQeDRp8K23JDS4LEKVXyIfpSk=;
+	b=Vw3DW1r0zOgY/PvEGfOExAwT+T9gArmeYeIUkK6p6413vd/Dt0Ah84IYNjQrGIUTzA
+	FXOkTZX+cte2AcFjEV8ReQAHwnDHMosWlSG23aco5MAHQPxjQjRIuwBxOtgZhb93HAZ7
+	/Be/Vt8sjzMPL/rC9eRz49Bysy/CViQkXHYJREvpeiwdqbIL7Yc/RH8NDVKKuPZJY7Tr
+	j1c4M1Tfhe31CIdixsSYSpdpHwUeH8bM5f1Dkxn8qQZ8JSVhu2tHEbAIC3l9UkIguFPK
+	4WEauUmU1l/46C253R2jerZh51DRfgkdTpsFBvaXD5TIm8Wq7JrgI+UOSXgqd6+n7A5m
+	fMcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=X8jc+GUgJIFfhPQVJ0ZnBHclABqPwCAyCG4eLwVZ8I8=;
-	b=lmo17sRWhO6Nukv0f9saIyGf8NAvG9P9cfaoUuQP/5FmFHeC63QaRAaPIJQ29UZFov
-	/0crWcvL/gkqRC1OjpYb80cmLzfnCpzyb+7+k9qXLfSmbEM6sO5f+69jv+EO1zxu6ug7
-	Ku08tpqIP0Fxo/W/pKmRwJb/7bR8eNOSw0x/M5159ShW2lTDRuE2VjiYdzh6mBDBpHGh
-	0ClM42QQOA5A6s7hMsCXi9fpvFZa6MSgO4udjCJh1g8bHYNqER+FD5aqZRQP/8ZVfinL
-	Bo8n54wAOkuCRmE4SD3F6+m0w2u2RwTAiX7uZaut8bVgAqB1k5iWp32yjHEo0oYh0muH
-	6ZAQ==
-X-Gm-Message-State: APf1xPBHSF/f/dtDyiSCCicqWKnOF34mKufH6bW+LR29NcgcgCmukdCt
-	+p5EX7L3VB9pdCPxxVVQ13/kwhSE
-X-Google-Smtp-Source: AH8x226TjEE4rmFGQ+ftILzDteAlA/k3IrG164gk7ogsqVqS+oyd+H4zeHKYl0EEuIpQp/s8N1eQiw==
-X-Received: by 10.36.17.129 with SMTP id 123mr7041318itf.78.1518628188080;
-	Wed, 14 Feb 2018 09:09:48 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	s32sm10385189ite.1.2018.02.14.09.09.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 14 Feb 2018 09:09:47 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Feb 2018 11:09:38 -0600
-Message-Id: <20180214170938.5339-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.14.3
-Cc: Matt.Hoosier@garmin.com
-Subject: [PATCH] externalsrc.bbclass: Suppress git errors
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=0TP6tkqaLLKx/wFay0TQeDRp8K23JDS4LEKVXyIfpSk=;
+	b=E6oD0HhYuimw1m372U2A4XqyB8UM99nfKv6tsbsgyEpPI8lNqfaRQlE9WJ+WncboZB
+	jI/MwbZHJ5mYU6/+px65LkcTB0E7wzNesjIR3cabsIIhsEX463vxxaDPoxY4/xKCzFgz
+	dYC1ffmafkn1mwQ5udHh5VrMs1HKlL6ZbBGT0A1/z20IBKIcHufeHKvN56xXSd2QQHQn
+	hqynuD0fw0cd0vsAnl3S22ZBFKNux9fJMp/XTk3P0pGsWSdo/th3hze6AmasrbzTRK7s
+	yBYxyrFzEW/Hz8XQ/ymIcZU5Na8i+DA3SIFnlQtxOdyAL4EpbqheFVv6EyybDYcmsro2
+	eQ9Q==
+X-Gm-Message-State: APf1xPBigzQt6LnRM8BN4/ymd811Bu3YE8t0YTi5zwAbVFrQtGwX5m+4
+	SxcabSX90V7ZhQTFyD4Mi2g1gA==
+X-Google-Smtp-Source: AH8x227nb6t+gf3TgAY0w2tzi77tcpCbxUlxz5U5oiMwmDwN56WjXANTG6W20lT5+HaMY5BB5kBt2w==
+X-Received: by 2002:a17:902:2904:: with SMTP id
+	g4-v6mr5087485plb.170.1518629181512; 
+	Wed, 14 Feb 2018 09:26:21 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:4c3d:6d16:593d:cc61?
+	([2601:202:4000:1184:4c3d:6d16:593d:cc61])
+	by smtp.gmail.com with ESMTPSA id
+	e81sm24418951pfb.58.2018.02.14.09.26.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Feb 2018 09:26:20 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	robert_joslyn@selinc.com, openembedded-core@lists.openembedded.org
+References: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
+	<00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
+	<1518623907.24236.115.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <b2346dc6-5649-8924-044b-1a193dd5adc6@gmail.com>
+Date: Wed, 14 Feb 2018 09:26:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1518623907.24236.115.camel@linuxfoundation.org>
+Subject: Re: Backport OpenSSL 1.0.2n
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +66,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 17:09:47 -0000
+X-List-Received-Date: Wed, 14 Feb 2018 17:26:20 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Suppress any warnings git might generate when searching for a valid git
-directory, as there are use cases where the directory is expected to not
-exist and the warning is superfluous
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/externalsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 65dd13ddc1f..ac1b904e72c 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -189,7 +189,7 @@ def srctree_hash_files(d, srcdir=None):
- 
-     try:
-         git_dir = os.path.join(s_dir,
--            subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir']).decode("utf-8").rstrip())
-+            subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
-     except subprocess.CalledProcessError:
-         pass
- 
--- 
-2.14.3
+On 02/14/2018 07:58 AM, Richard Purdie wrote:
+> On Tue, 2018-02-13 at 08:27 -0800, akuster808 wrote:
+>> On 02/12/2018 01:08 PM, robert_joslyn@selinc.com wrote:
+>>> I'm working with the pyro release, and noticed that it's still
+>>> using 
+>>> openssl 1.0.2k. The latest version in the 1.0.2 series is 1.0.2n,
+>>> which is 
+>>> already available on master. Is there a reason that the newer
+>>> version 
+>>> hasn't made it back to pyro (or rocko, which is on 1.0.2m)? 
+>> openssl 1.1 was added and the openssl files got restructured making
+>> simple cherry-picking not an option for older releases.
+>>
+>> 1.0.2n hit master 7 days ago, sorry for the delay.
+>>
+>> 1.0.2n is now in stable/rocko-next and will migrate to rocko when
+>> appropriate.
+> It is? Not pushed maybe?
+it is.. just not in poky-contrib ;) its over on oe-contrib. Its where I
+queue up things
+
+- armin
+>
+> Cheers,
+>
+> Richard
 
 
