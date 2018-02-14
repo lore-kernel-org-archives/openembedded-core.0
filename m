@@ -1,27 +1,24 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC2177D81
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D282177DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 14:47:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1EEl0V4006550
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Feb 2018 06:47:00 -0800 (PST)
-Received: from yow-masselst-lx1.localnet (128.224.24.103) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 14 Feb 2018 06:46:47 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Randy MacLeod <randy.macleod@windriver.com>, <bruce.ashfield@windriver.com>
-Date: Wed, 14 Feb 2018 09:46:58 -0500
-Message-ID: <2591507.FzfLpsFnPY@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <9e88817b-57e5-adb6-0176-9c1aa9609dce@windriver.com>
-References: <20180208202228.20850-1-alexander.kanavin@linux.intel.com>
-	<9e88817b-57e5-adb6-0176-9c1aa9609dce@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] latencytop: remove recipe
+	Wed, 14 Feb 2018 15:07:57 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1EF7tCL021377
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 14 Feb 2018 15:07:56 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1elyf5-0006Dx-FA; Wed, 14 Feb 2018 15:07:55 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Feb 2018 15:07:53 +0000
+Message-Id: <1518620874-23886-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/2] package: Add INHIBIT_PACKAGE_STRIP_FILES to allow files to remain unstripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 14:47:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Feb 2018 15:07:58 -0000
 
-On Tuesday, February 13, 2018 2:27:49 PM EST Randy MacLeod wrote:
-> On 2018-02-08 03:22 PM, Alexander Kanavin wrote:
-> > Last commit and release were in 2009; website is down; it's a dead
-> > project.
-> 
-> Add MarkA who might care/know more about latencytop than I do.
+There are cases where its useful to allow only a select few files
+to be excluded from the package stripping mechanism. Currently
+this isn't possible so add a variable to allow this.
 
-I believe Bruce had already identified LatencyTop as a dead end by the time we 
-even did our first release of OVP (I have no recollection of ever including it 
-and there are 0 user stories in Rally which would validate my memories on this 
-subject). Just in case I have added Bruce to the list. We already had LTTng 
-and FTrace, including a mostly dead Intel project was not a priority if I 
-recall correctly.
+This is to be used sparingly as in general the core code should be
+doing the right thing. This is better than the alternative of leaving the whole
+package unstripped.
 
-MarkA
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> 
-> 
-> Is there another package that makes use of the kernel feature?
-> The kernel Kconfig has been tweaked in 2017:
-> 
->     commit a34a766ff96d9e88572e35a45066279e40a85d84
->     Author: Josh Poimboeuf <jpoimboe@redhat.com>
->     Date:   Mon Jul 24 18:36:58 2017 -0500
-> 
->       x86/kconfig: Make it easier to switch to the new ORC unwinder
-> 
-> and there are people updating latencytop on github last year:
->     https://github.com/namhyung/latencytop/commits/master
-> commits on some random github page. That's shocking I know but it
-> does indicate that there's still interest in the tool even if the
-> original authors haven't been maintaining it.
-> 
-> ../Randy
-> 
-> 
-> <snip>
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 6a7f35a..90e5236 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -946,6 +946,7 @@ python split_and_strip_files () {
+     inodes = {}
+     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
+     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir"))
++    skipfiles = (d.getVar("INHIBIT_PACKAGE_STRIP_FILES") or "").split()
+     if (d.getVar('INHIBIT_PACKAGE_STRIP') != '1' or \
+             d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
+         for root, dirs, files in cpath.walk(dvar):
+@@ -961,6 +962,9 @@ python split_and_strip_files () {
+                 if debugdir and debugdir in os.path.dirname(file[len(dvar):]):
+                     continue
+ 
++                if file in skipfiles:
++                    continue
++
+                 try:
+                     ltarget = cpath.realpath(file, dvar, False)
+                     s = cpath.lstat(ltarget)
+-- 
+2.7.4
 
 
