@@ -1,24 +1,26 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B97986FFD8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C326FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 15:43:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1EFh2Lg022230
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 07:43:02 -0800 (PST)
-Received: from fidler.wrs.com (128.224.56.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 14 Feb 2018 07:42:49 -0800
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Feb 2018 10:43:01 -0500
-Message-ID: <20180214154301.20665-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.14.3
-MIME-Version: 1.0
-Subject: [PATCH] pacakge.bbclass: fix typos
+	Wed, 14 Feb 2018 15:58:29 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1EFwRgx026292
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 14 Feb 2018 15:58:28 GMT
+Message-ID: <1518623907.24236.115.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster808 <akuster808@gmail.com>, robert_joslyn@selinc.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 14 Feb 2018 15:58:27 +0000
+In-Reply-To: <00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
+References: <OFDC897003.15BD668A-ON88258232.006ED4D2-88258232.00742260@selinc.com>
+	<00ccda06-5caf-0aad-9df8-df46a8b40a9f@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: Backport OpenSSL 1.0.2n
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 15:43:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 14 Feb 2018 15:58:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-All typos were in comments but some of these comments end up in run/log files.
-The typos can be annoying when searching the log files so they're worth
-fixing with ispell.
+On Tue, 2018-02-13 at 08:27 -0800, akuster808 wrote:
+> 
+> On 02/12/2018 01:08 PM, robert_joslyn@selinc.com wrote:
+> > 
+> > I'm working with the pyro release, and noticed that it's still
+> > using 
+> > openssl 1.0.2k. The latest version in the 1.0.2 series is 1.0.2n,
+> > which is 
+> > already available on master. Is there a reason that the newer
+> > version 
+> > hasn't made it back to pyro (or rocko, which is on 1.0.2m)? 
+> openssl 1.1 was added and the openssl files got restructured making
+> simple cherry-picking not an option for older releases.
+> 
+> 1.0.2n hit master 7 days ago, sorry for the delay.
+> 
+> 1.0.2n is now in stable/rocko-next and will migrate to rocko when
+> appropriate.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/classes/package.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+It is? Not pushed maybe?
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 6a7f35a3e7..aecaeed1e6 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -26,7 +26,7 @@
- #    a list of affected files in FILER{PROVIDES,DEPENDS}FLIST_pkg
- #
- # h) package_do_shlibs - Look at the shared libraries generated and autotmatically add any
--#    depenedencies found. Also stores the package name so anyone else using this library
-+#    dependencies found. Also stores the package name so anyone else using this library
- #    knows which package to depend on.
- #
- # i) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
-@@ -401,7 +401,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
-     return 0
- 
- def copydebugsources(debugsrcdir, d):
--    # The debug src information written out to sourcefile is further procecessed
-+    # The debug src information written out to sourcefile is further processed
-     # and copied to the destination here.
- 
-     import stat
-@@ -650,7 +650,7 @@ python fixup_perms () {
-     # __str__ can be used to print out an entry in the input format
-     #
-     # if fs_perms_entry.path is None:
--    #    an error occured
-+    #    an error occurred
-     # if fs_perms_entry.link, you can retrieve:
-     #    fs_perms_entry.path = path
-     #    fs_perms_entry.link = target of link
-@@ -972,7 +972,7 @@ python split_and_strip_files () {
-                     continue
-                 if not s:
-                     continue
--                # Check its an excutable
-+                # Check its an executable
-                 if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
-                         or ((file.startswith(libdir) or file.startswith(baselibdir)) and (".so" in f or ".node" in f)):
-                     # If it's a symlink, and points to an ELF file, we capture the readlink target
-@@ -1000,7 +1000,7 @@ python split_and_strip_files () {
-                         #  b) Only strip any hardlinked file once (no races)
-                         #  c) Track any hardlinks between files so that we can reconstruct matching debug file hardlinks
- 
--                        # Use a reference of device ID and inode number to indentify files
-+                        # Use a reference of device ID and inode number to identify files
-                         file_reference = "%d_%d" % (s.st_dev, s.st_ino)
-                         if file_reference in inodes:
-                             os.unlink(file)
-@@ -1122,7 +1122,7 @@ python populate_packages () {
-         d.setVar('FILES_%s' % src_package_name, '/usr/src/debug')
- 
-     # Sanity check PACKAGES for duplicates
--    # Sanity should be moved to sanity.bbclass once we have the infrastucture
-+    # Sanity should be moved to sanity.bbclass once we have the infrastructure
-     package_list = []
- 
-     for pkg in packages.split():
--- 
-2.14.3
+Cheers,
 
+Richard
 
