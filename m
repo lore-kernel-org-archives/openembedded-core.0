@@ -1,30 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8082377F90
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E9ACA71B9E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 16:01:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1EG1CnN027232
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Feb 2018 08:01:13 -0800 (PST)
-Received: from server.local (128.224.23.180) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 14 Feb 2018 08:00:59 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>, Randy MacLeod
-	<randy.macleod@windriver.com>
-References: <20180208202228.20850-1-alexander.kanavin@linux.intel.com>
-	<9e88817b-57e5-adb6-0176-9c1aa9609dce@windriver.com>
-	<2591507.FzfLpsFnPY@yow-masselst-lx1>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <1120f7a5-5bba-39be-ce10-ed94f7911cb4@windriver.com>
-Date: Wed, 14 Feb 2018 11:01:10 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
+	Wed, 14 Feb 2018 16:03:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1EG3DnX000372
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Feb 2018 08:03:13 -0800 (PST)
+Received: from fidler.wrs.com (128.224.56.223) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Feb 2018 08:03:01 -0800
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Feb 2018 11:03:13 -0500
+Message-ID: <20180214160313.21147-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-In-Reply-To: <2591507.FzfLpsFnPY@yow-masselst-lx1>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] latencytop: remove recipe
+Subject: [PATCH v2] package.bbclass: fix typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,64 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Feb 2018 16:01:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Feb 2018 16:03:13 -0000
+Content-Type: text/plain
 
-On 2018-02-14 9:46 AM, Mark Asselstine wrote:
-> On Tuesday, February 13, 2018 2:27:49 PM EST Randy MacLeod wrote:
->> On 2018-02-08 03:22 PM, Alexander Kanavin wrote:
->>> Last commit and release were in 2009; website is down; it's a dead
->>> project.
->>
->> Add MarkA who might care/know more about latencytop than I do.
-> 
-> I believe Bruce had already identified LatencyTop as a dead end by the time we
-> even did our first release of OVP (I have no recollection of ever including it
-> and there are 0 user stories in Rally which would validate my memories on this
-> subject). Just in case I have added Bruce to the list. We already had LTTng
-> and FTrace, including a mostly dead Intel project was not a priority if I
-> recall correctly.
-> 
+All typos were in comments but some of these comments end up in run/log files.
+The typos can be annoying when searching the log files so they're worth
+fixing with ispell.
 
-Not everything needs new features constantly, and if they aren't
-causing build issues .. I tend to be ok with keeping them around.
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ meta/classes/package.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-There are uses, and users for latencytop.
-
-That being said, I can just add it to meta-realtime, and it can
-be dropped from core, since the userbase doesn't justify it in
-oe-core itself.
-
-Cheers,
-
-Bruce
-
-> MarkA
-> 
->>
->>
->> Is there another package that makes use of the kernel feature?
->> The kernel Kconfig has been tweaked in 2017:
->>
->>      commit a34a766ff96d9e88572e35a45066279e40a85d84
->>      Author: Josh Poimboeuf <jpoimboe@redhat.com>
->>      Date:   Mon Jul 24 18:36:58 2017 -0500
->>
->>        x86/kconfig: Make it easier to switch to the new ORC unwinder
->>
->> and there are people updating latencytop on github last year:
->>      https://github.com/namhyung/latencytop/commits/master
->> commits on some random github page. That's shocking I know but it
->> does indicate that there's still interest in the tool even if the
->> original authors haven't been maintaining it.
->>
->> ../Randy
->>
->>
->> <snip>
-> 
-> 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 6a7f35a3e7..aecaeed1e6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -26,7 +26,7 @@
+ #    a list of affected files in FILER{PROVIDES,DEPENDS}FLIST_pkg
+ #
+ # h) package_do_shlibs - Look at the shared libraries generated and autotmatically add any
+-#    depenedencies found. Also stores the package name so anyone else using this library
++#    dependencies found. Also stores the package name so anyone else using this library
+ #    knows which package to depend on.
+ #
+ # i) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
+@@ -401,7 +401,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+     return 0
+ 
+ def copydebugsources(debugsrcdir, d):
+-    # The debug src information written out to sourcefile is further procecessed
++    # The debug src information written out to sourcefile is further processed
+     # and copied to the destination here.
+ 
+     import stat
+@@ -650,7 +650,7 @@ python fixup_perms () {
+     # __str__ can be used to print out an entry in the input format
+     #
+     # if fs_perms_entry.path is None:
+-    #    an error occured
++    #    an error occurred
+     # if fs_perms_entry.link, you can retrieve:
+     #    fs_perms_entry.path = path
+     #    fs_perms_entry.link = target of link
+@@ -972,7 +972,7 @@ python split_and_strip_files () {
+                     continue
+                 if not s:
+                     continue
+-                # Check its an excutable
++                # Check its an executable
+                 if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
+                         or ((file.startswith(libdir) or file.startswith(baselibdir)) and (".so" in f or ".node" in f)):
+                     # If it's a symlink, and points to an ELF file, we capture the readlink target
+@@ -1000,7 +1000,7 @@ python split_and_strip_files () {
+                         #  b) Only strip any hardlinked file once (no races)
+                         #  c) Track any hardlinks between files so that we can reconstruct matching debug file hardlinks
+ 
+-                        # Use a reference of device ID and inode number to indentify files
++                        # Use a reference of device ID and inode number to identify files
+                         file_reference = "%d_%d" % (s.st_dev, s.st_ino)
+                         if file_reference in inodes:
+                             os.unlink(file)
+@@ -1122,7 +1122,7 @@ python populate_packages () {
+         d.setVar('FILES_%s' % src_package_name, '/usr/src/debug')
+ 
+     # Sanity check PACKAGES for duplicates
+-    # Sanity should be moved to sanity.bbclass once we have the infrastucture
++    # Sanity should be moved to sanity.bbclass once we have the infrastructure
+     package_list = []
+ 
+     for pkg in packages.split():
+-- 
+2.14.3
 
 
