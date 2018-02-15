@@ -1,31 +1,45 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id A10FA6FEF5
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1969F780A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 03:14:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id AF74120ACD;
-	Thu, 15 Feb 2018 03:14:29 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id jp6CWhPeaLPa; Thu, 15 Feb 2018 03:14:29 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8BC212017C;
-	Thu, 15 Feb 2018 03:14:28 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 079DD1632A7;
-	Wed, 14 Feb 2018 22:14:28 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Feb 2018 22:14:27 -0500
-Message-Id: <1518664467-54633-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] wayland-protocols: upgrade to 1.13
+	Thu, 15 Feb 2018 07:40:49 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id f25so4272496qkm.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Feb 2018 23:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=bxJTyDhlOKXEMAIjITNHa4SzQFjQKC9RhkVQWT1KdsA=;
+	b=O0rCep86yLVoWq3Ky+ycXsO0ZKSPNIiMYYJmwqSzBLMeE8qjytYJXmbgL29YDRydRP
+	yL1YlulNXDhiC97c9Wjfy4i92L0S8TBC9y9PZ7een8fswXWe/p0zJYDC5owTRWJQALR3
+	W3oOvyoOgWNgKZLV8L0IBafegg+1bo3hPfjEc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=bxJTyDhlOKXEMAIjITNHa4SzQFjQKC9RhkVQWT1KdsA=;
+	b=kNVJsXOcXHSynxQavbZFTS0Qv2W6Tk+DyUzA1xdg7wktszjHhxIoFgBJqtnJoI/4/H
+	Xd05o70lqBW6dLSENlaswygx9NonRpL4Yeo7SSnepGJDDWCdO2lyZmk3uCW1xCbFOAge
+	RnJXZjBGMhMI5yx/oK51tInsh6YXBLcA45kA2s0fe67T2acafFni6MLj+eSQ9MNM1tEg
+	fmzhcqAXHQ9KhdRwSF0G/fhuNs866bgcoRnL3OmVZDjIYuJqxIw27GBweGplqCHci5qe
+	xmGE0uU3yvPsd0e+kSvVOLHwgPaxh+lim0tcldwE/fx+m8MsaoUNB5qOSl+NpnpjHmxU
+	e/9A==
+X-Gm-Message-State: APf1xPCxWnK3xQmiFMhGUJR0uxGzfhP++thT1G9okaKElPZK5AoFEFOM
+	+xE3atngmqjcwx5Q6iA/Xy384vfPaJr9SzhYxS9d6Bsl
+X-Google-Smtp-Source: AH8x226s9iZ7rcnKcLDe2PPRw3L0Md7rxenUxpx/Ve46oZhd9NollUwq1Yf0/v7gcmY5IwRrO+pvbVSqBuxzBlj7XkE=
+X-Received: by 10.55.209.12 with SMTP id s12mr2565968qki.219.1518680450622;
+	Wed, 14 Feb 2018 23:40:50 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.102.170 with HTTP; Wed, 14 Feb 2018 23:40:30 -0800 (PST)
+In-Reply-To: <CAP71WjygD3eM2fhhU5JG6Kn3_y=mH1fzy+aVrQFKtp+ED_yoog@mail.gmail.com>
+References: <CAP71WjygD3eM2fhhU5JG6Kn3_y=mH1fzy+aVrQFKtp+ED_yoog@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 15 Feb 2018 08:40:30 +0100
+Message-ID: <CAP71Wjzbtbe-ZTxxw13501y5veyNzam6QcqDFjoD03sxqVTjtg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Ryan Harkin <ryan.harkin@linaro.org>
+Subject: git fetcher and github pull requests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +52,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 03:14:28 -0000
+X-List-Received-Date: Thu, 15 Feb 2018 07:40:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Denys Dmytriyenko <denys@ti.com>
+hi,
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- .../wayland/{wayland-protocols_1.12.bb => wayland-protocols_1.13.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.12.bb => wayland-protocols_1.13.bb} (85%)
+re-posting to oe-core list. While this is a bitbake question, I didn't
+get any answer.. so I would like to get more attention from bitbake
+users..
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.12.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.13.bb
-similarity index 85%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.12.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.13.bb
-index ef1d857..1ef1ee1 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.12.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.13.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
- 
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            "
--SRC_URI[md5sum] = "ac83c4704003323b6bd5a1b91fb1be53"
--SRC_URI[sha256sum] = "3b19e8a9e1e19474756a7069db23b90ca9b8ebb438448c6063b4a7fc89b7c8b2"
-+SRC_URI[md5sum] = "29312149dafcd4a0e739ba94995a574d"
-+SRC_URI[sha256sum] = "0758bc8008d5332f431b2a84fea7de64d971ce270ed208206a098ff2ebc68f38"
- 
- inherit allarch autotools pkgconfig
- 
--- 
-2.7.4
+cheers
+nico
 
+
+---------- Forwarded message ----------
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, Feb 7, 2018 at 4:04 PM
+Subject: git fetcher and github pull requests
+To: bitbake-devel <bitbake-devel@lists.openembedded.org>, Ryan Harkin
+<ryan.harkin@linaro.org>
+
+
+hi there,
+
+we've been debugging an issue these days on our builder which ended up
+ do_fetch failing with
+
+LANG=C git -c core.fsyncobjectfiles=0 fetch -f --prune --progress
+git://github.com/OP-TEE/optee_test.git refs/*:refs/* failed with exit
+code 128, output:
+error: Could not read 48e440f5f8d033e1ace6e41f424ecf6e6d96e5f2
+error: Could not read 019a8db54beb29388e1108831d2e2dc135c1cd73
+
+It happens that these refs correspond to pull requests done on github
+which existed at some point, but have been updated with newer commits,
+and won't exist anymore.
+
+the bitbake fetcher seems to be greedy and fetches refs/* which ends
+up fetching pull request when fetching from github, e.g. in my
+workspace:
+
+in $DL_DIR/git2/
+
+github.com.docker.containerd.git/refs/pull/66
+github.com.docker.containerd.git/refs/pull/459
+github.com.docker.containerd.git/refs/pull/551
+github.com.docker.containerd.git/refs/pull/321
+github.com.docker.containerd.git/refs/pull/60
+github.com.docker.containerd.git/refs/pull/523
+github.com.docker.containerd.git/refs/pull/40
+github.com.docker.containerd.git/refs/pull/561
+
+It looks inefficient to fetch and store on each builder pull requests.
+I understand this is just because how PR are implemented in github,
+but github is quite central, so many we should/could do something
+about it?
+
+Beyond the inefficiencies, we now are seeing unrelated build issues as well.
+
+What do you think? Should we try to avoid fetching refs/pull/* from
+github? or is it our git fetch command that needs to be improve to
+work in this situation?
+
+thanks
+nico
 
