@@ -1,47 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CA71601A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B59960053
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 12:49:19 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id x21so645368wmh.0
+	Thu, 15 Feb 2018 12:53:00 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id v186so341828itc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 04:49:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Fy1QexHW7FNE5yxs9ybSiwY2uPGxLyZQOlmUPjpFmT8=;
-	b=IgRCBnPL7EBzVp7nz7JNAGlbwTGzlGpjemNfvy782S1AaKX/suoVH7o9DUUiZKYP2o
-	H5YK1sfylrh6T8sihKdpW1ucIs+2ckQrDMxaxtl+V8sXcu/sn5lHUPCOFZ3RnHcPvC3+
-	61ytGOdskPvaglvUxfMye4PpX08qo+MZugK1a2DXpS4vk7G14bHBepz6qCxU309OL2Mx
-	N7pzJ8c+MsvlgXXIBCyrSHBMb0KeZrMqjhQ8jxqxE663ih8A6jghGaZ1dshoZQeEi2s2
-	/tixU4ul3CQziIk6t4sYwNE+5On3cYtzkiZqtCVIeGrKVZZLC7oymwD3jhgiGh7jf8hG
-	8h4A==
+	Thu, 15 Feb 2018 04:53:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+z4SOQAxqA4X2uiG8VHP5qw8xjjAIZeMhn1FbUoynu0=;
+	b=vAgGJ78FCQWXbC6qW+nN8uWtLznQ4Xuq/vjJZ+dhM9XrCFqm/Jj++w/vJDk1rgmFor
+	0/6odY7iAO+RixS+srNMhNDsFBZGHfCGGdqweqs1LFKA+mfXyWaBfL1tSxBZ73hAtakK
+	ByRdWebNiLg/p4cKSKqqdN5BiGP+zA1e9TY0GP2531wBqs5122xnNq2Zqh6pqUN8K0yM
+	mToNUKNVQqFJdEYT0b7pALFS0e4sTnr3WR2c1vywn+rX/SSsxyLojUPqJFONEo0Llids
+	X2eZiydRCSiVDCJt7B5QIs8ZyO3qLmxEsgF5AWmGqBMmBb119hvblrapzfFXujJuQmdL
+	L12Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Fy1QexHW7FNE5yxs9ybSiwY2uPGxLyZQOlmUPjpFmT8=;
-	b=eY/ZoIGa2k6LNXOf+iAFg8jlM6+mDgebplpn1mRaxjaE5Y7xTctNhU4H+NjW4apYs+
-	bywpi+c7C1Jin4/qH9MJMEsYEnjNfNzmWr12gDrRIQAUcuVRpBnsFjMa8BfQ2fmCwEPg
-	qTeqyxg1/CgdORgNPN3WKH+IE9eb2vqqpYxENvl1xTZkl5JxLDSy4pIsXMImv+j1HzYC
-	h3z4Zt61eFIWignZbbLT88UjHO+q7CFXgmwofmzo/SJMEn0Sr0g6BpgDheaNr52zfePp
-	xSbVq8ZMiNzNVP8tz++epS9MRKCPC7RkH3v1l4Z92v3AN/0agVb8MNhUTfHoeiUiflVz
-	RpMw==
-X-Gm-Message-State: APf1xPDPWkpFw4Ak0H5a5iITg1QnhqIl7U07twae4HpKdW9oE55UovZ0
-	CdNqJwMFUIescksgoHr72hgklw==
-X-Google-Smtp-Source: AH8x225VFN/0flk0AgsN3AZvmqr0ie+cK8XNBhPYT/oCmv8uIK0OQxn/5QBMqj1Jzl/cL3uTcYljKw==
-X-Received: by 10.80.180.210 with SMTP id x18mr3224991edd.126.1518698960814;
-	Thu, 15 Feb 2018 04:49:20 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.206.246]) by smtp.gmail.com with ESMTPSA id
-	e29sm10782722edj.14.2018.02.15.04.49.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Feb 2018 04:49:20 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Feb 2018 13:49:13 +0100
-Message-Id: <1518698953-23437-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] license.bbclass: set do_bootimg recrdeptask on do_populate_lic
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+z4SOQAxqA4X2uiG8VHP5qw8xjjAIZeMhn1FbUoynu0=;
+	b=MIUo7kHYadqH42/hTe9HBAdA9hg6Jt9vIdNhWvxywmMk5f0FPtI02/Iv1Fy0mW7wMP
+	+auD3M/JZh8hpAxglr71mLBkxanfqybF+Zo0iLDGhWeMSqdPfkravs8K06EzgXxgwN3C
+	vYU6M0Drr8/a/5dZKm7yhJHzSgEjmaFkDnRFHPKbbv6hg16vebmDDZ18vxEQmMa2+Zi9
+	2F/Rm+JmhWtYYRvktoO1CnYM1wp0j0oOngQGc2L7m0M9KYL7usLveATx8/BIceamT2cT
+	Cg0qsqyvzeqnqGQ/emghonbxLa/GSikzE9dkTTg6w/6REiUl/d+FteAgwCvVCp6q9Dfl
+	pWSg==
+X-Gm-Message-State: APf1xPB9Zt96bfSA2yH6CE+FDFQq7DSAIxOGdTqIS41I8UWa+mkVyBpL
+	+dalIf+AfUV6bZYvcugldCoVBiRnt/rUZKFdCkAp5A==
+X-Google-Smtp-Source: AH8x224IIxHBYINm6Y+s9P72tFF3AKRgYeiz18aUcKynaoOQ9x7WsOx3s+CJ8iPnP5HxXsKFrkIklaOL9+pW+sdRTFA=
+X-Received: by 10.36.17.195 with SMTP id 186mr3099193itf.85.1518699182364;
+	Thu, 15 Feb 2018 04:53:02 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.17.200 with HTTP; Thu, 15 Feb 2018 04:52:42 -0800 (PST)
+In-Reply-To: <1518400842-17896-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1518400842-17896-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Feb 2018 12:52:42 +0000
+Message-ID: <CAJTo0LY4PQhR+nA+zUr7L4efuF7puNGTkhYyfyf87mtBnBm4AA@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux: 2.31 -> 2.31.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 12:49:20 -0000
+X-List-Received-Date: Thu, 15 Feb 2018 12:53:01 -0000
+Content-Type: multipart/alternative; boundary="001a1143ea484960e605653fb593"
 
-From: Ming Liu <liu.ming50@gmail.com>
+--001a1143ea484960e605653fb593
+Content-Type: text/plain; charset="UTF-8"
 
-This is needed since the license_deployed_manifest task is referring
-the deployed licenses of the depends of do_bootimg task.
+On 12 February 2018 at 02:00, Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+wrote:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+> 1.Upgrade util-linux from 2.31 to 2.31.1.
+> 2.Modify ALTERNATIVE_TARGET, since rfkill has been moved to /usr/sbin.
+>
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index d353110..10d2279 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -679,6 +679,7 @@ do_rootfs[recrdeptask] += "do_populate_lic"
- 
- IMAGE_POSTPROCESS_COMMAND_prepend = "write_deploy_manifest; "
- do_image[recrdeptask] += "do_populate_lic"
-+do_bootimg[recrdeptask] += "do_populate_lic"
- 
- python do_populate_lic_setscene () {
-     sstate_setscene(d)
--- 
-2.7.4
+packages/corei7-64-poky-linux/util-linux/util-linux-rfkill: PKGSIZE changed
+from 47144 to 0 (-100%)
 
+This move is breaking the packaging.
 
+Ross
+
+--001a1143ea484960e605653fb593
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 12 February 2018 at 02:00, Huang Qiyu <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huang=
+qy.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra">=
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-le=
+ft-color:rgb(204,204,204);padding-left:1ex">1.Upgrade util-linux from 2.31 =
+to 2.31.1.<br>
+2.Modify ALTERNATIVE_TARGET, since rfkill has been moved to /usr/sbin.<br><=
+/blockquote><div><br></div><div>packages/corei7-64-poky-linux/util-linux/ut=
+il-linux-rfkill: PKGSIZE changed from 47144 to 0 (-100%)</div><div><br></di=
+v><div>This move is breaking the packaging.</div><div><br></div><div>Ross=
+=C2=A0</div></div></div></div>
+
+--001a1143ea484960e605653fb593--
