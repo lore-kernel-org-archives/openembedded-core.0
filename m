@@ -1,51 +1,28 @@
-Return-Path: <ccherukuri.chaitanya@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 52CDA719AF
+Return-Path: <maxin.john@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 52C846E666
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 12:59:34 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id u15so3278117wrg.3
+	Thu, 15 Feb 2018 13:18:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2018 05:18:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,517,1511856000"; d="scan'208";a="18352142"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga008.jf.intel.com with ESMTP; 15 Feb 2018 05:18:52 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 7FDF6580385
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 04:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4obKUqro/QnKx0mpkks/As4tkvvIq3Pznfs409n17v4=;
-	b=Mcqf8K3iMZOjccqbvfP0EbSr7mljhfVTzR5enmkq/mvpe7FSaBNcANwYmBz246Dvzh
-	KHLbyc4xt6xcMfXVUJwWXu5nsyIHOFvXAYhaOijVSEZ/B6qR4wCF1RlBY5yMg4GqsIre
-	dgREfz6slJMaTWquSSiXMpLAQSKU2haRTlScC6IuD3H5kcuONRYmsAU/LJY25OsyhERl
-	zRAHP3MPXUYLOccTLKewN/g/Vls3h5fDylfEbUHrIrqIpUbIW0FCa2SVOSBY5bC5LWtZ
-	y45beIyMaZ+Ki0TV2C4bBsG71hlorJ9vMDOZ68xa03nOODpg7y7rLfOZ0I+qPLNVz699
-	MowA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4obKUqro/QnKx0mpkks/As4tkvvIq3Pznfs409n17v4=;
-	b=Gje9DiKasQ6e3mo65FjxlA57r8SFuNI5UNKar+5GJyuddRtIzMDXdTGUXeWx+XCmfe
-	ikAAlGc2T0IPI0jmL2tQB8Nno5VGgYvtzluQvPEHFJ/6VE3eNLKfTfcEfzx11jH2uzg8
-	ZW8vOCNYf2pbpdRFnMcp8jHcKmoQwYpjANUakMFnBRYWA13dhnwc8k8ZHOXWCfp9tq8n
-	DyzIwvoSLuJkRvzpJWZPZ4SXDg83lwps5T1P19qRWobjXJnYLru6PWGFC6MT6BGoLZQa
-	XRwh6D4bAPLUTOdMF+Nf1JAb2vfYwqzWIGQpkhtDp4Opp6+uPmQAL/QLVtyMOd/w8TdH
-	j9Vg==
-X-Gm-Message-State: APf1xPBZHhv0e9TS+9jJHAih08uDoDw3Pu6/4X+kh1NbTpDVwRXFi5qG
-	rgQw4tNSHQm5whXzFXcdnOwglWDXoEOt5VfN9NY=
-X-Google-Smtp-Source: AH8x225PyC8wmUljxTBXhRRunAjdemWvPOzlTuD103Q4B6yrAjUVOsdIshIaXvCZGdQsLHKwcXHOeRUVYrLxuSyvU4E=
-X-Received: by 10.223.209.18 with SMTP id a18mr2395985wri.141.1518699575909;
-	Thu, 15 Feb 2018 04:59:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.61.9 with HTTP; Thu, 15 Feb 2018 04:59:35 -0800 (PST)
-In-Reply-To: <CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
-References: <CAGix03zhY3ZEhKLUyzU3HDmMD3t2MmOwkM2TffZVUdByk+cA+A@mail.gmail.com>
-	<68bad37c-fb4f-bfe1-2e51-7f191edca215@linux.intel.com>
-	<CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
-From: Chaitanya Cherukuri <ccherukuri.chaitanya@gmail.com>
-Date: Thu, 15 Feb 2018 07:59:35 -0500
-Message-ID: <CAGix03ya92WbdxC1o+WSxtJK4t9LnS6G81ja9M1fzqZ2byJG5Q@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Regarding Patch ID: 132816
+	Thu, 15 Feb 2018 05:18:51 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Feb 2018 15:19:31 +0200
+Message-Id: <1518700772-14988-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] python3-pygobject: remove unused patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,131 +35,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 12:59:35 -0000
-Content-Type: multipart/alternative; boundary="f4f5e80a3f64be229205653fcc30"
+X-List-Received-Date: Thu, 15 Feb 2018 13:18:51 -0000
 
---f4f5e80a3f64be229205653fcc30
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Remove the following patches that are no-longer used in python3-pygobject:
+ 1. 0001-configure.ac-Don-t-use-gnome-common-macros.patch
+ 2. 0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
 
-=E2=80=8BHello,
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...onfigure.ac-Don-t-use-gnome-common-macros.patch | 33 -----------------
+ ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch | 41 ----------------------
+ 2 files changed, 74 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
+ delete mode 100644 meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
 
-The regular expression =E2=80=8B(from OEToolchainConfig.cmake)  below is no=
-t
-working for SDK path /sysroots/cortexa9hf-neon-poky-linux-gnueabi
+diff --git a/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch b/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
+deleted file mode 100644
+index aaedb58..0000000
+--- a/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 206360744cedff20eae3c8fcfde9938fdae99592 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Thu, 6 Jul 2017 11:47:21 +0300
+-Subject: [PATCH] configure.ac: Don't use gnome-common macros
+-
+-remove GNOME_COMPILE_WARNINGS() call: it's from gnome-common which
+-is deprecated.
+-
+-This patch can be removed when upgrading to 3.25.1: at that point
+-pygobject needs autoconf-archive instead.
+-
+-Upstream-Status: Inappropriate [Already handled upstream]
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- configure.ac | 2 --
+- 1 file changed, 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 1f15b3c..5cb170f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -221,8 +221,6 @@ AC_ARG_WITH(common,
+-     with_common=yes)
+- AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
+- 
+--# compiler warnings, errors, required cflags, and code coverage support
+--GNOME_COMPILE_WARNINGS([maximum], [-Wno-error=missing-prototypes])
+- AC_MSG_CHECKING(for Gnome code coverage support)
+- m4_ifdef([GNOME_CODE_COVERAGE],
+-          [AC_MSG_RESULT(yes)
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch b/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+deleted file mode 100644
+index a391f7e..0000000
+--- a/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 5e5350d730f85957a42c6d846d347d080e7dd996 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 23 Oct 2015 12:40:34 +0300
+-Subject: [PATCH] configure.ac: add sysroot path to GI_DATADIR; don't set
+- introspection scanner and compiler paths
+-
+-Upstream-Status: Pending [review on oe-core maillist]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- configure.ac | 8 +-------
+- 1 file changed, 1 insertion(+), 7 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 2c0cfbd..cfcb3bf 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -194,7 +194,7 @@ PKG_CHECK_MODULES(GI,
+-     gobject-introspection-1.0 >= introspection_required_version
+- )
+- 
+--GI_DATADIR=$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
+-+GI_DATADIR=$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
+- AC_SUBST(GI_DATADIR)
+- 
+- if test "$enable_cairo" != no; then
+-@@ -219,12 +219,6 @@ AC_ARG_WITH(common,
+-     with_common=yes)
+- AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
+- 
+--INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+--INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+--
+--AC_SUBST(INTROSPECTION_SCANNER)
+--AC_SUBST(INTROSPECTION_COMPILER)
+--
+- # compiler warnings, errors, required cflags, and code coverage support
+- GNOME_COMPILE_WARNINGS([maximum])
+- AC_MSG_CHECKING(for Gnome code coverage support)
+--- 
+-2.1.4
+-
+-- 
+2.4.0
 
-if ($ENV{SDKTARGETSYSROOT} MATCHES "/sysroots/([a-zA-Z0-9_-]+)-.+-.+")
-  set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})
-endif()
 
-Thanks,
-Chaitanya
-
-On Tue, Feb 13, 2018 at 9:50 AM, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
-
-> On Tue, Feb 13, 2018 at 4:58 AM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
-> > On 02/12/2018 11:06 PM, Chaitanya Cherukuri wrote:
-> >>
-> >> I'm new to this forum and didn't know to where to report an issue. I'm
-> >> contacting you regarding the patch ID 132816 ( cmake: improve
-> >> CMAKE_SYSTEM_PROCESSOR assignment in nativesdk).
-> >>
-> >> If SDKTARGETSYSROOT is "/sysroots/cortexa9hf-neon-poky-linux-gnueabi"
-> this
-> >> patch sets the CMAKE_SYSTEM_PROCESSOR as  "cortexa9hf-neon-poky"
-> instead of
-> >> "cortexa9hf-neon".
-> >>
-> >> This patch works if SDKTARGETSYSROOT is "/sysroots/core2-32-poky-
-> linux".
-> >
-> > I guess this one is for Otavio Salvador, the cmake recipe maintainer?
->
-> I had acked and test the patch. https://patchwork.
-> openembedded.org/patch/132816/
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
-
-
-
---=20
-*Chaitanya Cherukuri*
-
---f4f5e80a3f64be229205653fcc30
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:&quot;co=
-mic sans ms&quot;,sans-serif;font-size:small">=E2=80=8BHello,</div><div cla=
-ss=3D"gmail_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-se=
-rif;font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small"><font face=3D"verdana, sans-serif">The regular expression =E2=80=
-=8B(from OEToolchainConfig.cmake)=C2=A0 below is not working for SDK path /=
-sysroots/cortexa9hf-neon-poky-linux-gnueabi</font></div><div class=3D"gmail=
-_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif;font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-family:&quot=
-;comic sans ms&quot;,sans-serif;font-size:small">if ($ENV{SDKTARGETSYSROOT}=
- MATCHES &quot;/sysroots/([a-zA-Z0-9_-]+)-.+-.+&quot;)</div><div class=3D"g=
-mail_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">=
-=C2=A0 set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})</div><div class=3D"gmai=
-l_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">endif=
-()</div><div class=3D"gmail_default" style=3D"font-family:&quot;comic sans =
-ms&quot;,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-f=
-amily:&quot;comic sans ms&quot;,sans-serif">Thanks,</div><div class=3D"gmai=
-l_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">Chait=
-anya</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">O=
-n Tue, Feb 13, 2018 at 9:50 AM, Otavio Salvador <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.sal=
-vador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><span class=3D"">On Tue, Feb 13, 2018 at 4:58 AM, Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@=
-linux.<wbr>intel.com</a>&gt; wrote:<br>
-&gt; On 02/12/2018 11:06 PM, Chaitanya Cherukuri wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;m new to this forum and didn&#39;t know to where to report a=
-n issue. I&#39;m<br>
-&gt;&gt; contacting you regarding the patch ID 132816 ( cmake: improve<br>
-&gt;&gt; CMAKE_SYSTEM_PROCESSOR assignment in nativesdk).<br>
-&gt;&gt;<br>
-&gt;&gt; If SDKTARGETSYSROOT is &quot;/sysroots/cortexa9hf-neon-<wbr>poky-l=
-inux-gnueabi&quot; this<br>
-&gt;&gt; patch sets the CMAKE_SYSTEM_PROCESSOR as=C2=A0 &quot;cortexa9hf-ne=
-on-poky&quot;=C2=A0 instead of<br>
-&gt;&gt; &quot;cortexa9hf-neon&quot;.<br>
-&gt;&gt;<br>
-&gt;&gt; This patch works if SDKTARGETSYSROOT is &quot;/sysroots/core2-32-p=
-oky-<wbr>linux&quot;.<br>
-&gt;<br>
-&gt; I guess this one is for Otavio Salvador, the cmake recipe maintainer?<=
-br>
-<br>
-</span>I had acked and test the patch. <a href=3D"https://patchwork.openemb=
-edded.org/patch/132816/" rel=3D"noreferrer" target=3D"_blank">https://patch=
-work.<wbr>openembedded.org/patch/132816/</a><br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div di=
-r=3D"ltr"><div><i><font face=3D"comic sans ms,sans-serif">Chaitanya Cheruku=
-ri</font></i></div>
-</div></div>
-</div>
-
---f4f5e80a3f64be229205653fcc30--
