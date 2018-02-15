@@ -1,30 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4839877E9A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AA0060557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 13:18:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2018 05:18:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,517,1511856000"; d="scan'208";a="175463883"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 15 Feb 2018 05:18:53 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 8ADEF580385
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 05:18:52 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Feb 2018 15:19:32 +0200
-Message-Id: <1518700772-14988-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1518700772-14988-1-git-send-email-maxin.john@intel.com>
-References: <1518700772-14988-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH] swig.inc: inherit pkgconfig
+	Thu, 15 Feb 2018 13:34:17 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1FDYFPU025678
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 15 Feb 2018 13:34:16 GMT
+Message-ID: <1518701655.24236.146.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: liu.ming50@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 15 Feb 2018 13:34:15 +0000
+In-Reply-To: <1518698953-23437-1-git-send-email-liu.ming50@gmail.com>
+References: <1518698953-23437-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] license.bbclass: set do_bootimg recrdeptask on do_populate_lic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 13:18:52 -0000
+X-List-Received-Date: Thu, 15 Feb 2018 13:34:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-swig uses pkg-config for pcre detection
+On Thu, 2018-02-15 at 13:49 +0100, liu.ming50@gmail.com wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
+> 
+> This is needed since the license_deployed_manifest task is referring
+> the deployed licenses of the depends of do_bootimg task.
+> 
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> ---
+>  meta/classes/license.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/license.bbclass
+> b/meta/classes/license.bbclass
+> index d353110..10d2279 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -679,6 +679,7 @@ do_rootfs[recrdeptask] += "do_populate_lic"
+>  
+>  IMAGE_POSTPROCESS_COMMAND_prepend = "write_deploy_manifest; "
+>  do_image[recrdeptask] += "do_populate_lic"
+> +do_bootimg[recrdeptask] += "do_populate_lic"
+>  
+>  python do_populate_lic_setscene () {
+>      sstate_setscene(d)
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-devtools/swig/swig.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+How old is this patch?
 
-diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
-index 8cb6fbd..bf61b02 100644
---- a/meta/recipes-devtools/swig/swig.inc
-+++ b/meta/recipes-devtools/swig/swig.inc
-@@ -11,7 +11,7 @@ DEPENDS = "libpcre python3"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
- 
--inherit autotools python3native
-+inherit autotools python3native pkgconfig
- 
- EXTRA_OECONF = " \
-     --with-python3=${PYTHON} \
--- 
-2.4.0
+The recrdepends handling in bitbake changed recently and these kind of
+older issues may have been a bitbake bug. Can you describe a test
+scenario and check if master still needs this "fix"?
+
+Cheers,
+
+Richard
 
 
