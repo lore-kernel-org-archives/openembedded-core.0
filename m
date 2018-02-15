@@ -1,51 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C5397824F
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CA71601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 12:12:24 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id k6so186725ita.3
+	Thu, 15 Feb 2018 12:49:19 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x21so645368wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 04:12:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=s3LmWyMDXBc90Oj98/VEDWQ1XLZ3FpHROob0m9OnNcM=;
-	b=rCXGjgNxuuyV6cclZyUXX0qbOMtRcHFpMzpY2RRKegiM30QqrTWFWtvvTEjFcqCMsr
-	2M4TNVa5283wghX+kiu02t4Jlj6aqoM5Aw0SsRa0Cg048HEWud3aVcV3K5xpM4ibUb80
-	Uhz4hJ3gBGZhFVOM77x+2H3ZlkXYAQ5GdZpioZ+DWMELKFB80fCSLq1p4raIU4JYaAgk
-	hwXK0laSqNJYFT6ZWEZaO3BgXTXvKMA06csf0VAr2EmSsMbL6uVyVBiQzl4m0dFa2DN8
-	UxQX34UFhkt8rvs/yx8M1bxRS/ZmED7udUCTx/sHWiP8lGj4z/7ZtNY6RR78Hn6k7lXX
-	Aevw==
+	Thu, 15 Feb 2018 04:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Fy1QexHW7FNE5yxs9ybSiwY2uPGxLyZQOlmUPjpFmT8=;
+	b=IgRCBnPL7EBzVp7nz7JNAGlbwTGzlGpjemNfvy782S1AaKX/suoVH7o9DUUiZKYP2o
+	H5YK1sfylrh6T8sihKdpW1ucIs+2ckQrDMxaxtl+V8sXcu/sn5lHUPCOFZ3RnHcPvC3+
+	61ytGOdskPvaglvUxfMye4PpX08qo+MZugK1a2DXpS4vk7G14bHBepz6qCxU309OL2Mx
+	N7pzJ8c+MsvlgXXIBCyrSHBMb0KeZrMqjhQ8jxqxE663ih8A6jghGaZ1dshoZQeEi2s2
+	/tixU4ul3CQziIk6t4sYwNE+5On3cYtzkiZqtCVIeGrKVZZLC7oymwD3jhgiGh7jf8hG
+	8h4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=s3LmWyMDXBc90Oj98/VEDWQ1XLZ3FpHROob0m9OnNcM=;
-	b=el4LqXYCnjz5UBxUxMQISyUsbH05pyuk/Cmkevnk+H8FlCFLXpL9PVbMwqxRa6GIRC
-	/ojKmHHZphOmNhwoUp5fEFI2tmpXduJpOu/GbhIbxF4A0Bh4cy5n8b6heF6LvY8LwouO
-	rHN5bO4R22lgJeiDrbUjx7bERc76NKC5AUOAKbU+zqCwOuX+QEo2A7/w1usKMrV5wxLX
-	toIYrEUmnEmJjjJQcF6Dbd8YKpAthJ7eaJgSmK1CVsxni1qk35WdxjL/krkELWU7Lal9
-	Q9VOR2164MhqNFSw0dNE3RFOeRZ1hCcjLUQb91Ktye78efcSK/IJ9RSQoElxAr6tDKAz
-	SlxA==
-X-Gm-Message-State: APf1xPBnqjYmmZ19PDVtmh9XS5u0wsen3l3Ug6CkbCI2MyL7YOvvMr4s
-	hn512VVJ2ZGfvOOgo7Uy/SsuE3PvY6nMKp5HERmdsg==
-X-Google-Smtp-Source: AH8x227H5s8570dhfSLLuCJZKLNAesM6own+c5VI2tSt/3PdctVE5Q4MUCADiHYOUlUfORa8I5RexMnzEniM6NbRWwk=
-X-Received: by 10.36.182.14 with SMTP id g14mr3037401itf.124.1518696745865;
-	Thu, 15 Feb 2018 04:12:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Thu, 15 Feb 2018 04:12:05 -0800 (PST)
-In-Reply-To: <CAMKF1sp8riyhF=6N_ak-TyZ6_w=aj+az=qx+mjepXPQagV7vqw@mail.gmail.com>
-References: <cover.1517524576.git.raj.khem@gmail.com>
-	<aa96375d5517a1f0170609aac7283bd71566f46a.1517524576.git.raj.khem@gmail.com>
-	<CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
-	<CAMKF1sp8riyhF=6N_ak-TyZ6_w=aj+az=qx+mjepXPQagV7vqw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Feb 2018 12:12:05 +0000
-Message-ID: <CAJTo0LYEO1e2i_dnXDT7sNRyScH_KT3Ge38yWundnr2hk3de9g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.27 release
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Fy1QexHW7FNE5yxs9ybSiwY2uPGxLyZQOlmUPjpFmT8=;
+	b=eY/ZoIGa2k6LNXOf+iAFg8jlM6+mDgebplpn1mRaxjaE5Y7xTctNhU4H+NjW4apYs+
+	bywpi+c7C1Jin4/qH9MJMEsYEnjNfNzmWr12gDrRIQAUcuVRpBnsFjMa8BfQ2fmCwEPg
+	qTeqyxg1/CgdORgNPN3WKH+IE9eb2vqqpYxENvl1xTZkl5JxLDSy4pIsXMImv+j1HzYC
+	h3z4Zt61eFIWignZbbLT88UjHO+q7CFXgmwofmzo/SJMEn0Sr0g6BpgDheaNr52zfePp
+	xSbVq8ZMiNzNVP8tz++epS9MRKCPC7RkH3v1l4Z92v3AN/0agVb8MNhUTfHoeiUiflVz
+	RpMw==
+X-Gm-Message-State: APf1xPDPWkpFw4Ak0H5a5iITg1QnhqIl7U07twae4HpKdW9oE55UovZ0
+	CdNqJwMFUIescksgoHr72hgklw==
+X-Google-Smtp-Source: AH8x225VFN/0flk0AgsN3AZvmqr0ie+cK8XNBhPYT/oCmv8uIK0OQxn/5QBMqj1Jzl/cL3uTcYljKw==
+X-Received: by 10.80.180.210 with SMTP id x18mr3224991edd.126.1518698960814;
+	Thu, 15 Feb 2018 04:49:20 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.206.246]) by smtp.gmail.com with ESMTPSA id
+	e29sm10782722edj.14.2018.02.15.04.49.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 15 Feb 2018 04:49:20 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Feb 2018 13:49:13 +0100
+Message-Id: <1518698953-23437-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] license.bbclass: set do_bootimg recrdeptask on do_populate_lic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 12:12:25 -0000
-Content-Type: multipart/alternative; boundary="089e0820475c0f6bcc05653f24fc"
+X-List-Received-Date: Thu, 15 Feb 2018 12:49:20 -0000
 
---089e0820475c0f6bcc05653f24fc
-Content-Type: text/plain; charset="UTF-8"
+From: Ming Liu <liu.ming50@gmail.com>
 
-Yes, that's it.
+This is needed since the license_deployed_manifest task is referring
+the deployed licenses of the depends of do_bootimg task.
 
-Ross
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/license.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 12 February 2018 at 07:32, Khem Raj <raj.khem@gmail.com> wrote:
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index d353110..10d2279 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -679,6 +679,7 @@ do_rootfs[recrdeptask] += "do_populate_lic"
+ 
+ IMAGE_POSTPROCESS_COMMAND_prepend = "write_deploy_manifest; "
+ do_image[recrdeptask] += "do_populate_lic"
++do_bootimg[recrdeptask] += "do_populate_lic"
+ 
+ python do_populate_lic_setscene () {
+     sstate_setscene(d)
+-- 
+2.7.4
 
-> On Sat, Feb 3, 2018 at 2:21 AM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > Getting there: https://autobuilder.yocto.io/tgrid
-> >
-> > Just two actual problems:
-> > - The non-gplv3 build failed as the make fix needs to be backported to
-> > meta-gplv2
-> > - The eSDK selftests all failed with en_US.UTF-8 problems, the new glibc
-> > shouldn't be causing a problem with uninative so this is interesting,
-> maybe
-> > the new one is behaving slightly differently.  Should be easy to
-> replicate.
-> > The same problem caused selftest to fail.
-> >
->
-> is the UTF error like this one
-> https://gist.github.com/25a84d23618824f0e5e6857a960eaca4
->
-> > Ross
->
 
---089e0820475c0f6bcc05653f24fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yes, that&#39;s it.<div><br></div><div>Ross</div></div><di=
-v class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 12 February 2018 =
-at 07:32, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.c=
-om" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><span class=3D"">On Sat, Feb 3, 2018 at 2:21 AM, Burt=
-on, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com=
-</a>&gt; wrote:<br>
-&gt; Getting there: <a href=3D"https://autobuilder.yocto.io/tgrid" rel=3D"n=
-oreferrer" target=3D"_blank">https://autobuilder.yocto.io/<wbr>tgrid</a><br=
->
-&gt;<br>
-&gt; Just two actual problems:<br>
-&gt; - The non-gplv3 build failed as the make fix needs to be backported to=
-<br>
-&gt; meta-gplv2<br>
-&gt; - The eSDK selftests all failed with en_US.UTF-8 problems, the new gli=
-bc<br>
-&gt; shouldn&#39;t be causing a problem with uninative so this is interesti=
-ng, maybe<br>
-&gt; the new one is behaving slightly differently.=C2=A0 Should be easy to =
-replicate.<br>
-&gt; The same problem caused selftest to fail.<br>
-&gt;<br>
-<br>
-</span>is the UTF error like this one<br>
-<a href=3D"https://gist.github.com/25a84d23618824f0e5e6857a960eaca4" rel=3D=
-"noreferrer" target=3D"_blank">https://gist.github.com/<wbr>25a84d23618824f=
-0e5e6857a960eac<wbr>a4</a><br>
-<br>
-&gt; Ross<br>
-</blockquote></div><br></div>
-
---089e0820475c0f6bcc05653f24fc--
