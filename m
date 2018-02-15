@@ -1,48 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B59960053
+Return-Path: <ccherukuri.chaitanya@gmail.com>
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 52CDA719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 12:53:00 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id v186so341828itc.5
+	Thu, 15 Feb 2018 12:59:34 +0000 (UTC)
+Received: by mail-wr0-f177.google.com with SMTP id u15so3278117wrg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 04:53:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 15 Feb 2018 04:59:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+z4SOQAxqA4X2uiG8VHP5qw8xjjAIZeMhn1FbUoynu0=;
-	b=vAgGJ78FCQWXbC6qW+nN8uWtLznQ4Xuq/vjJZ+dhM9XrCFqm/Jj++w/vJDk1rgmFor
-	0/6odY7iAO+RixS+srNMhNDsFBZGHfCGGdqweqs1LFKA+mfXyWaBfL1tSxBZ73hAtakK
-	ByRdWebNiLg/p4cKSKqqdN5BiGP+zA1e9TY0GP2531wBqs5122xnNq2Zqh6pqUN8K0yM
-	mToNUKNVQqFJdEYT0b7pALFS0e4sTnr3WR2c1vywn+rX/SSsxyLojUPqJFONEo0Llids
-	X2eZiydRCSiVDCJt7B5QIs8ZyO3qLmxEsgF5AWmGqBMmBb119hvblrapzfFXujJuQmdL
-	L12Q==
+	:cc; bh=4obKUqro/QnKx0mpkks/As4tkvvIq3Pznfs409n17v4=;
+	b=Mcqf8K3iMZOjccqbvfP0EbSr7mljhfVTzR5enmkq/mvpe7FSaBNcANwYmBz246Dvzh
+	KHLbyc4xt6xcMfXVUJwWXu5nsyIHOFvXAYhaOijVSEZ/B6qR4wCF1RlBY5yMg4GqsIre
+	dgREfz6slJMaTWquSSiXMpLAQSKU2haRTlScC6IuD3H5kcuONRYmsAU/LJY25OsyhERl
+	zRAHP3MPXUYLOccTLKewN/g/Vls3h5fDylfEbUHrIrqIpUbIW0FCa2SVOSBY5bC5LWtZ
+	y45beIyMaZ+Ki0TV2C4bBsG71hlorJ9vMDOZ68xa03nOODpg7y7rLfOZ0I+qPLNVz699
+	MowA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+z4SOQAxqA4X2uiG8VHP5qw8xjjAIZeMhn1FbUoynu0=;
-	b=MIUo7kHYadqH42/hTe9HBAdA9hg6Jt9vIdNhWvxywmMk5f0FPtI02/Iv1Fy0mW7wMP
-	+auD3M/JZh8hpAxglr71mLBkxanfqybF+Zo0iLDGhWeMSqdPfkravs8K06EzgXxgwN3C
-	vYU6M0Drr8/a/5dZKm7yhJHzSgEjmaFkDnRFHPKbbv6hg16vebmDDZ18vxEQmMa2+Zi9
-	2F/Rm+JmhWtYYRvktoO1CnYM1wp0j0oOngQGc2L7m0M9KYL7usLveATx8/BIceamT2cT
-	Cg0qsqyvzeqnqGQ/emghonbxLa/GSikzE9dkTTg6w/6REiUl/d+FteAgwCvVCp6q9Dfl
-	pWSg==
-X-Gm-Message-State: APf1xPB9Zt96bfSA2yH6CE+FDFQq7DSAIxOGdTqIS41I8UWa+mkVyBpL
-	+dalIf+AfUV6bZYvcugldCoVBiRnt/rUZKFdCkAp5A==
-X-Google-Smtp-Source: AH8x224IIxHBYINm6Y+s9P72tFF3AKRgYeiz18aUcKynaoOQ9x7WsOx3s+CJ8iPnP5HxXsKFrkIklaOL9+pW+sdRTFA=
-X-Received: by 10.36.17.195 with SMTP id 186mr3099193itf.85.1518699182364;
-	Thu, 15 Feb 2018 04:53:02 -0800 (PST)
+	bh=4obKUqro/QnKx0mpkks/As4tkvvIq3Pznfs409n17v4=;
+	b=Gje9DiKasQ6e3mo65FjxlA57r8SFuNI5UNKar+5GJyuddRtIzMDXdTGUXeWx+XCmfe
+	ikAAlGc2T0IPI0jmL2tQB8Nno5VGgYvtzluQvPEHFJ/6VE3eNLKfTfcEfzx11jH2uzg8
+	ZW8vOCNYf2pbpdRFnMcp8jHcKmoQwYpjANUakMFnBRYWA13dhnwc8k8ZHOXWCfp9tq8n
+	DyzIwvoSLuJkRvzpJWZPZ4SXDg83lwps5T1P19qRWobjXJnYLru6PWGFC6MT6BGoLZQa
+	XRwh6D4bAPLUTOdMF+Nf1JAb2vfYwqzWIGQpkhtDp4Opp6+uPmQAL/QLVtyMOd/w8TdH
+	j9Vg==
+X-Gm-Message-State: APf1xPBZHhv0e9TS+9jJHAih08uDoDw3Pu6/4X+kh1NbTpDVwRXFi5qG
+	rgQw4tNSHQm5whXzFXcdnOwglWDXoEOt5VfN9NY=
+X-Google-Smtp-Source: AH8x225PyC8wmUljxTBXhRRunAjdemWvPOzlTuD103Q4B6yrAjUVOsdIshIaXvCZGdQsLHKwcXHOeRUVYrLxuSyvU4E=
+X-Received: by 10.223.209.18 with SMTP id a18mr2395985wri.141.1518699575909;
+	Thu, 15 Feb 2018 04:59:35 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Thu, 15 Feb 2018 04:52:42 -0800 (PST)
-In-Reply-To: <1518400842-17896-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1518400842-17896-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Feb 2018 12:52:42 +0000
-Message-ID: <CAJTo0LY4PQhR+nA+zUr7L4efuF7puNGTkhYyfyf87mtBnBm4AA@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] util-linux: 2.31 -> 2.31.1
+Received: by 10.28.61.9 with HTTP; Thu, 15 Feb 2018 04:59:35 -0800 (PST)
+In-Reply-To: <CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
+References: <CAGix03zhY3ZEhKLUyzU3HDmMD3t2MmOwkM2TffZVUdByk+cA+A@mail.gmail.com>
+	<68bad37c-fb4f-bfe1-2e51-7f191edca215@linux.intel.com>
+	<CAP9ODKqo9yObWxoNs6bRPps-OsG2Zh9Y5BX2_E3_W1=pMgK2rg@mail.gmail.com>
+From: Chaitanya Cherukuri <ccherukuri.chaitanya@gmail.com>
+Date: Thu, 15 Feb 2018 07:59:35 -0500
+Message-ID: <CAGix03ya92WbdxC1o+WSxtJK4t9LnS6G81ja9M1fzqZ2byJG5Q@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Regarding Patch ID: 132816
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +58,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 12:53:01 -0000
-Content-Type: multipart/alternative; boundary="001a1143ea484960e605653fb593"
+X-List-Received-Date: Thu, 15 Feb 2018 12:59:35 -0000
+Content-Type: multipart/alternative; boundary="f4f5e80a3f64be229205653fcc30"
 
---001a1143ea484960e605653fb593
+--f4f5e80a3f64be229205653fcc30
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12 February 2018 at 02:00, Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-wrote:
+=E2=80=8BHello,
 
-> 1.Upgrade util-linux from 2.31 to 2.31.1.
-> 2.Modify ALTERNATIVE_TARGET, since rfkill has been moved to /usr/sbin.
+The regular expression =E2=80=8B(from OEToolchainConfig.cmake)  below is no=
+t
+working for SDK path /sysroots/cortexa9hf-neon-poky-linux-gnueabi
+
+if ($ENV{SDKTARGETSYSROOT} MATCHES "/sysroots/([a-zA-Z0-9_-]+)-.+-.+")
+  set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})
+endif()
+
+Thanks,
+Chaitanya
+
+On Tue, Feb 13, 2018 at 9:50 AM, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> On Tue, Feb 13, 2018 at 4:58 AM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+> > On 02/12/2018 11:06 PM, Chaitanya Cherukuri wrote:
+> >>
+> >> I'm new to this forum and didn't know to where to report an issue. I'm
+> >> contacting you regarding the patch ID 132816 ( cmake: improve
+> >> CMAKE_SYSTEM_PROCESSOR assignment in nativesdk).
+> >>
+> >> If SDKTARGETSYSROOT is "/sysroots/cortexa9hf-neon-poky-linux-gnueabi"
+> this
+> >> patch sets the CMAKE_SYSTEM_PROCESSOR as  "cortexa9hf-neon-poky"
+> instead of
+> >> "cortexa9hf-neon".
+> >>
+> >> This patch works if SDKTARGETSYSROOT is "/sysroots/core2-32-poky-
+> linux".
+> >
+> > I guess this one is for Otavio Salvador, the cmake recipe maintainer?
+>
+> I had acked and test the patch. https://patchwork.
+> openembedded.org/patch/132816/
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 >
 
-packages/corei7-64-poky-linux/util-linux/util-linux-rfkill: PKGSIZE changed
-from 47144 to 0 (-100%)
 
-This move is breaking the packaging.
 
-Ross
+--=20
+*Chaitanya Cherukuri*
 
---001a1143ea484960e605653fb593
+--f4f5e80a3f64be229205653fcc30
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 12 February 2018 at 02:00, Huang Qiyu <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huang=
-qy.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra">=
-<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-le=
-ft-color:rgb(204,204,204);padding-left:1ex">1.Upgrade util-linux from 2.31 =
-to 2.31.1.<br>
-2.Modify ALTERNATIVE_TARGET, since rfkill has been moved to /usr/sbin.<br><=
-/blockquote><div><br></div><div>packages/corei7-64-poky-linux/util-linux/ut=
-il-linux-rfkill: PKGSIZE changed from 47144 to 0 (-100%)</div><div><br></di=
-v><div>This move is breaking the packaging.</div><div><br></div><div>Ross=
-=C2=A0</div></div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:&quot;co=
+mic sans ms&quot;,sans-serif;font-size:small">=E2=80=8BHello,</div><div cla=
+ss=3D"gmail_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-se=
+rif;font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small"><font face=3D"verdana, sans-serif">The regular expression =E2=80=
+=8B(from OEToolchainConfig.cmake)=C2=A0 below is not working for SDK path /=
+sysroots/cortexa9hf-neon-poky-linux-gnueabi</font></div><div class=3D"gmail=
+_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif;font-si=
+ze:small"><br></div><div class=3D"gmail_default" style=3D"font-family:&quot=
+;comic sans ms&quot;,sans-serif;font-size:small">if ($ENV{SDKTARGETSYSROOT}=
+ MATCHES &quot;/sysroots/([a-zA-Z0-9_-]+)-.+-.+&quot;)</div><div class=3D"g=
+mail_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">=
+=C2=A0 set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})</div><div class=3D"gmai=
+l_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">endif=
+()</div><div class=3D"gmail_default" style=3D"font-family:&quot;comic sans =
+ms&quot;,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-f=
+amily:&quot;comic sans ms&quot;,sans-serif">Thanks,</div><div class=3D"gmai=
+l_default" style=3D"font-family:&quot;comic sans ms&quot;,sans-serif">Chait=
+anya</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">O=
+n Tue, Feb 13, 2018 at 9:50 AM, Otavio Salvador <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.sal=
+vador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><span class=3D"">On Tue, Feb 13, 2018 at 4:58 AM, Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@=
+linux.<wbr>intel.com</a>&gt; wrote:<br>
+&gt; On 02/12/2018 11:06 PM, Chaitanya Cherukuri wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m new to this forum and didn&#39;t know to where to report a=
+n issue. I&#39;m<br>
+&gt;&gt; contacting you regarding the patch ID 132816 ( cmake: improve<br>
+&gt;&gt; CMAKE_SYSTEM_PROCESSOR assignment in nativesdk).<br>
+&gt;&gt;<br>
+&gt;&gt; If SDKTARGETSYSROOT is &quot;/sysroots/cortexa9hf-neon-<wbr>poky-l=
+inux-gnueabi&quot; this<br>
+&gt;&gt; patch sets the CMAKE_SYSTEM_PROCESSOR as=C2=A0 &quot;cortexa9hf-ne=
+on-poky&quot;=C2=A0 instead of<br>
+&gt;&gt; &quot;cortexa9hf-neon&quot;.<br>
+&gt;&gt;<br>
+&gt;&gt; This patch works if SDKTARGETSYSROOT is &quot;/sysroots/core2-32-p=
+oky-<wbr>linux&quot;.<br>
+&gt;<br>
+&gt; I guess this one is for Otavio Salvador, the cmake recipe maintainer?<=
+br>
+<br>
+</span>I had acked and test the patch. <a href=3D"https://patchwork.openemb=
+edded.org/patch/132816/" rel=3D"noreferrer" target=3D"_blank">https://patch=
+work.<wbr>openembedded.org/patch/132816/</a><br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
+">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
+p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
+.ossystems.com.br</a><br>
+Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
+">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
+a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
+903-9750</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div di=
+r=3D"ltr"><div><i><font face=3D"comic sans ms,sans-serif">Chaitanya Cheruku=
+ri</font></i></div>
+</div></div>
+</div>
 
---001a1143ea484960e605653fb593--
+--f4f5e80a3f64be229205653fcc30--
