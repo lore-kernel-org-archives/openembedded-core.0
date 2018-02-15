@@ -1,48 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 65D207017B
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B90217814B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Feb 2018 07:49:32 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id x19so1321577plr.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Feb 2018 23:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9gf94P0NFYhwQhru8xqiiBnjIWFstc9c75YItwf+lk4=;
-	b=mvWBxndnS2aOoZTdt5rJwezLifPtyHN7pUHDg2ZdRntBfnIG1hIYAqVwSjIb2QooMc
-	X1fFy3Y7xwdYI8oCHiQiwNzHWzXFoi7C92x5vBL4zXwLZEhephYE418/HiWWx2n3TTqu
-	GlS1eLcbkCf4zaufB25SWieyrNs4BG8hPMTsivRwHuv8CJmED9fYWyCk1yXIqohNdsDi
-	0PbxkRRaciKfnbesCoZ53aDSNFGwY37dXq2ZeteVM6A0g0c1+NhteBn6/MOg62/S0soZ
-	W/z0icBENMSvX6jopj2QmxLrsHvMj0NssWtziRhkjqeRkpyK7xuTl4TThcRiHQbRfDyf
-	UrUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9gf94P0NFYhwQhru8xqiiBnjIWFstc9c75YItwf+lk4=;
-	b=uHNU4krpNOOBKaothvIL/X6TISmdMV0VjmPO9wqREQdC+UYQYsvphtE+NbidkYHINQ
-	jAVjgBUo2pv5WQgpdfKg0/dsBamVs8dbmKslM8WrNIvXiaSa0o9+AP4pdvoTYzuvCZcx
-	YiaA+Rd3ZmDh+cxffRFGiT8qBw9JNNo+COznxKIXLFEZI/bxk/58ke4IcSuAw3GhzoAi
-	DAFK563562d6u7Hey7en+Gt5zhIgnaybnnC4f2+BjC2MU2tGZexhZUbqOUz+B8Z5IYXD
-	LoK/U2ecDTLe2a8mEtAaIMpc8MuFeSFEf1IdT5UU8CDHoB0XgbEzvmE1QzgcctMlY/j2
-	M9HQ==
-X-Gm-Message-State: APf1xPACrdIRLnV7QQj5365R2iISR4rxeLTyom1ZWb8NoZ91KOgtG6db
-	X1By7m8MQF2LMb7fwbPdLxjOsQ==
-X-Google-Smtp-Source: AH8x226h9zHzVjhe2yaq/nWY5l4LPx0EJLMVs0k7Bt9uFls+94uA8+D+DIKS/xzduX3fjbd8879HYg==
-X-Received: by 2002:a17:902:5682:: with SMTP id
-	j2-v6mr1695453pli.441.1518680973370; 
-	Wed, 14 Feb 2018 23:49:33 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:8880:466c::1da0])
-	by smtp.gmail.com with ESMTPSA id
-	m80sm46176278pfj.163.2018.02.14.23.49.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Feb 2018 23:49:32 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Feb 2018 23:49:25 -0800
-Message-Id: <20180215074925.35300-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.1
-Subject: [PATCH] eglinfo-fb: Pass -DMESA_EGL_NO_X11_HEADERS to cxxflags
+	Thu, 15 Feb 2018 07:50:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2018 23:50:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,516,1511856000"; d="scan'208";a="201284435"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 14 Feb 2018 23:50:48 -0800
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Ryan Harkin <ryan.harkin@linaro.org>
+References: <CAP71WjygD3eM2fhhU5JG6Kn3_y=mH1fzy+aVrQFKtp+ED_yoog@mail.gmail.com>
+	<CAP71Wjzbtbe-ZTxxw13501y5veyNzam6QcqDFjoD03sxqVTjtg@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <f98a9f25-06a3-b27d-f951-9b80cce9aa84@linux.intel.com>
+Date: Thu, 15 Feb 2018 09:44:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAP71Wjzbtbe-ZTxxw13501y5veyNzam6QcqDFjoD03sxqVTjtg@mail.gmail.com>
+Subject: Re: git fetcher and github pull requests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Feb 2018 07:49:32 -0000
+X-List-Received-Date: Thu, 15 Feb 2018 07:50:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This helps in compiling on graphics drivers which use
-this define to differentiate between eglfs and x11 headers
-e.g. mali or mesa
+On 02/15/2018 09:40 AM, Nicolas Dechesne wrote:
+> re-posting to oe-core list. While this is a bitbake question, I didn't
+> get any answer.. so I would like to get more attention from bitbake
+> users..
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+I do realize this is not answering your specific question, but from 
+'getting attention' perspective patches are always better than problem 
+descriptions. If you can come up with something, please do.
 
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
-index dc2820cda7..cccdd2073d 100644
---- a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
-@@ -4,3 +4,4 @@ EGLINFO_BINARY_NAME ?= "eglinfo-fb"
- require eglinfo.inc
- 
- SUMMARY += "(Framebuffer version)"
-+CXXFLAGS += "-DMESA_EGL_NO_X11_HEADERS=1"
--- 
-2.16.1
-
+Alex
 
