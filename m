@@ -1,28 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9496FF7F
+Return-Path: <seebs@seebs.net>
+X-Greylist: delayed 359 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 16 Feb 2018 17:57:47 UTC
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 8878477D16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Feb 2018 17:32:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Feb 2018 09:32:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,520,1511856000"; d="scan'208";a="201719702"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 16 Feb 2018 09:32:39 -0800
+	Fri, 16 Feb 2018 17:57:47 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id F222D2E8958;
+	Fri, 16 Feb 2018 11:51:49 -0600 (CST)
+Date: Fri, 16 Feb 2018 11:51:47 -0600
+From: Seebs <seebs@seebs.net>
 To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20180216115147.2869fdf2@seebsdell>
+In-Reply-To: <CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
 References: <20180216095628.15414-1-alexander.kanavin@linux.intel.com>
 	<CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <43e89607-bb40-3892-6b55-0a6b3b8c729b@linux.intel.com>
-Date: Fri, 16 Feb 2018 19:26:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] pseudo: update to latest master
@@ -38,30 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Feb 2018 17:32:39 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Feb 2018 17:57:47 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 02/16/2018 06:55 PM, Martin Jansa wrote:
-> Something is a bit wrong with this version:
-> 
-> $ du -hs update-rc.d/0.7-r5/pseudo/*
-> 72K     update-rc.d/0.7-r5/pseudo/files.db
-> 16K     update-rc.d/0.7-r5/pseudo/logs.db
-> 0       update-rc.d/0.7-r5/pseudo/pseudo.lock
-> 31G     update-rc.d/0.7-r5/pseudo/pseudo.log
-> 4.0K    update-rc.d/0.7-r5/pseudo/pseudo.pid
-> 0       update-rc.d/0.7-r5/pseudo/pseudo.socket
-> 
-> $ grep -c "tried to close client 0 (highest is 1)" 
+On Fri, 16 Feb 2018 17:55:54 +0100
+Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> $ grep -c "tried to close client 0 (highest is 1)"
 > update-rc.d/0.7-r5/pseudo/pseudo.log
 > 579655922
 > 
-> All pseudo processes I've seen on various servers which were building 
+> All pseudo processes I've seen on various servers which were building
 > with this change included got stuck until disk space run out..
 
-Strange. On this side it worked fine up to core-image-minimal.
+Oh-hoh! That could be the epoll thing that I wasn't able to reproduce.
 
-Alex
+> commit 26e30fa2e1a0fe4e885d7eea3f55d23cd2c3158f
+> Author: Seebs <seebs@seebs.net>
+> Date:   Fri Feb 16 11:49:49 2018 -0600
+>
+>     Allow closing client 0
+
+Added a thing to master. It looks like the failure mode is that a
+client ended up on fd 0, and for some reason, back in 2010, I thought
+that would be invalid and did not allow it. So change is to replace "<=
+0" with "< 0".
+
+-s
 
