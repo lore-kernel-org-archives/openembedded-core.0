@@ -1,136 +1,47 @@
-Return-Path: <alejandr@xilinx.com>
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0080.outbound.protection.outlook.com [104.47.34.80])
-	by mail.openembedded.org (Postfix) with ESMTP id EF70660616
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D31771C54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Feb 2018 20:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=RJRc/T9j8rN6mm98sg+RwAxC1qHu5iB7yNlTM6uWuaA=;
-	b=rpNu9b6R4TUvHxY/S7eanB9kJUirQyFefpgijTe/yTx74MI/a++f9Q+Yh4FcGsPMstZcwRuJeQT5DFu1WMWKbaxKfOAHmS/XSEuszGYR+52PPadDlqhqFXO9wP5Ksm5rF2EYYX+BvA53QqdoxFeoyCzR7LuDB+YKV5H3B0WQSSA=
-Received: from SN4PR0201CA0034.namprd02.prod.outlook.com (10.162.76.20) by
-	BN6PR02MB3379.namprd02.prod.outlook.com (10.161.153.10) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.506.18; Fri, 16 Feb 2018 19:56:05 +0000
-Received: from BL2NAM02FT055.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e46::203) by SN4PR0201CA0034.outlook.office365.com
-	(2603:10b6:803:2e::20) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.506.18 via
-	Frontend Transport; Fri, 16 Feb 2018 19:56:04 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	BL2NAM02FT055.mail.protection.outlook.com (10.152.77.126) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.485.14
-	via Frontend Transport; Fri, 16 Feb 2018 19:56:04 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:48066
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1emm71-0003Ot-Pc for openembedded-core@lists.openembedded.org;
-	Fri, 16 Feb 2018 11:56:03 -0800
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1emm71-000187-MI for openembedded-core@lists.openembedded.org;
-	Fri, 16 Feb 2018 11:56:03 -0800
-Received: from [172.19.2.8] by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandr@xilinx.com>) id 1emm70-00015P-Vx
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Feb 2018 11:56:03 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1518620874-23886-1-git-send-email-richard.purdie@linuxfoundation.org>
-From: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Message-ID: <909c5fbb-7bec-2f15-d2f9-40ff78913bf4@xilinx.com>
-Date: Fri, 16 Feb 2018 11:56:02 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Fri, 16 Feb 2018 20:14:53 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id 141so5104670wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Feb 2018 12:14:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9K01R/Q+bBqNK34W0Nf6JCNExvFcXcOtOtus3ZFJlxk=;
+	b=tNA/Mc7AUglHLNLD318cfWp3t8bmJGyf1jRfFnWsJDKu2s5/SUyo7NHhJqb4Jf5CDh
+	8bw4ZmWGUqrptpGg3BFneMj8OqoIB0VixoVpwVo0xnCsyThXD3Yn/TCeEvdMxT7fb3r6
+	1GXEsxENxtl2SYWUFYAqK7LzmExy2dHs4f9Js0cLu26brrXfCF6oG3ko7HfZ2kKlBxhw
+	036YMfuh0bmiiCeJZW+Ybrepzi80RAFfa12wRUPhAy/ze2z7RSKEVk/VGaz4FcnjmpdU
+	ThuSS52+VXqDwn822Z24LJxbCKssN5r1t2YQzoWfsXgz6ud0tImDIyCpzoD31kn/Vwr7
+	x2mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9K01R/Q+bBqNK34W0Nf6JCNExvFcXcOtOtus3ZFJlxk=;
+	b=H+1dn5HBU/AK3K7B2+Yfi7sksp6TrkRJVCt+xNSEOmIwf2v3vY8cvPC/JAvXJ6+E/v
+	Zl40IPJXmPYXCNO5NaHM6R+uHvzQmyxLXL71t/A9EIXlKOyxIonZvpnyq3s9EVbJyk4t
+	tCo0RnOdSfQkcbnIizB4r3sCTgbRrf1h+dwKM7+lZVFQ8SpNJwq0LnMM4unr8HKWf8nY
+	dBDwXdEuxUAt33zQ2KUcj/ty4gAe3kxxOb3ByhQ+al5EN7y0lgyq7UddmUgPzY4liKhi
+	NaVCfQR9djnzCyVogWwHzR/MVNhsoDWFuDzwPK5xFTJnWsos9dhWaalTtFPTmmGOwH3L
+	dbhg==
+X-Gm-Message-State: APf1xPAgK6lE3sOGy5wYfSRNAlQFNKrx2Nbj/6VuO90xe4pckipUqqfS
+	E8MPwmmkV1H5jCQNgJlk3eLLQbr/GH2c1mmeHp4=
+X-Google-Smtp-Source: AH8x227Wx8pUxp0GfRN0Z9w+riUzv/6AL4ckN9Vky+J+qr5xYmBo55gh1yqO65Kl6ZhRGqZW3iOE9XZhBMUq/GxAwVo=
+X-Received: by 10.28.207.201 with SMTP id f192mr4491878wmg.81.1518812094243;
+	Fri, 16 Feb 2018 12:14:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1518620874-23886-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(396003)(39380400002)(39860400002)(376002)(346002)(2980300002)(438002)(189003)(199004)(106002)(76176011)(6916009)(58126008)(2906002)(316002)(9786002)(36756003)(83506002)(8676002)(478600001)(31686004)(5660300001)(2351001)(2486003)(106466001)(356003)(81156014)(26005)(6246003)(81166006)(31696002)(67846002)(65806001)(65956001)(336011)(23676004)(230700001)(47776003)(8936002)(186003)(64126003)(53546011)(2950100002)(229853002)(305945005)(50466002)(65826007)(77096007)(107986001)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR02MB3379; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com;
-	MX:1; A:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT055;
-	1:hjmWZxlMJRks7b7PViYxetiCx6Jjlfs4Z2Sx00RtSsWGpKMRiPuAmun5nW8PFlKdeYdFXmPmvmX5kZne7JkNH4JY2nke9H9pG+Doq+UKhQsd6QheclzoI6dhzNe5HX+l
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 52ce1bf8-0d6c-48a3-1df4-08d57577502b
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(4604075)(4608076)(2017052603307)(7153060);
-	SRVR:BN6PR02MB3379; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3379;
-	3:SKmMZCJkFaV/ByGUM2xZYo/3kSb0MUnpYHLcap6bK7ITeHg6uXgEKTN60UlFH33RTF/5AG+2ltEm414WBLtE0FjlCIKhZFyedWCwm5ekXrRoPiGI3dGwNiO3cLTdPAk2w68hXcUPvRe5F8r4lS24ATozge66E2XkSaTZlAxIHxUcUn5CXY6iEVmQ3rjrCPtjdWYwuRnX3s+KaJ0W81wCqEBhW7xEph6IvVhhho/Wxt3QFK6ebD+nxZZO/o/fHOXoaj/N5uSZirZ3cc1FCH2m9tTRSg+NfY99gPUpH+I3iMgn8jAwxbK00oL1qZy8Q6hwcdnf3LssT8bsr96bShpNWT8Gf+fupqcW7BdRXPbRw64=;
-	25:SixfPK5HxbGSkwt/Yra6CrIs1r5op1spXTI8yErWJEFqLVOz5rdjBe00EUgd7xmN5SCq96sGPpG7bV1DAYtUuZDsmcW9NFbKKI2KNRV3KJvkjp8zXqvTsAl9IxlXP0AKyEnAuZ2SF2azmFq5ngIksjyowTVhrGs0oKcOnA9573PVZvdR3WCD6uIbf+sVJ0izxCNT4/3+3vAV8JdFB7f3J5XJk7aC+xGhZx3uONAiHK0lfFBDGyO1+Byh7np1DsICS+osmjvytXqr2rh+4U1ZhEvpLIA9vmj5T1LiVrVg6BJYDOLJkDBeLe7+c0yNJg/+SpRabcO3j9674le5cFuTPQ==
-X-MS-TrafficTypeDiagnostic: BN6PR02MB3379:
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3379;
-	31:VQBKCLt/rhuJ07JFqVfp19Pq8Xep7+mBGShG/c/84fP76MC0j4GIQjE3//aFuqgMGz4DLFgJvpao/4Cn86M7FQ9/0UavSEchyV9lDPeE6NUWQU6J7G57Bnh2lFbkbsv9M1L989LZFzzaofqISc3lym7KIbYBWBmXHU+2GQIYsKX1du7A33IhUlADRa85oB+dGAY6vVz5/QkJrfsaiNLjUQGvYXLGMKmIu4+f/w7UnDs=;
-	20:nuegubchBvtXpyWiibV5geP8cXs1diR52S7+4vN/6nx36vKdH6bl+9GvF8K5ypaxJIaJR68bmawuqN6+SLhd6ZO6Yh04rqWzKoqCmInPc4UsBfXRQX5WUbBtTjahlk+JKQn3VqPv4BRuM7A0zKy7FiXY0eIxAKKMrDz8qPSVcYoAgra+A7ip3tfZK5kSkO/8bdUXs4M93GyFvSreMNrqzMKQmHW3CBPMzV6Lx9r4om4nE6NixDzuY4vnH3EwgA2QLDQGYexuOr1t3fxsaa4aEZyTf36ExYDAduaiM5U/mknxag4gB7i8CVNvHFIjX10iJdpTdSBrHZaLqCwZduXrDemZbxzBfHNIaAcOylB+BcrDxcriI9fyAIvlJUf7MCDxG2qXxXwYSZAo1H3gf+hE113aTly8q5RITWaqeJpPIYfDtvqm3aLOne9Eer6qBYBUGYl/ZhDTsHQViawDBj22WmCfofLnlNEGuL07Q0xlD4L5itrTUHauNyhxuO8XSeGF
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BN6PR02MB3379FF89AED7EDD95FE6E81EACCB0@BN6PR02MB3379.namprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040501)(2401047)(5005006)(8121501046)(93006095)(93004095)(3002001)(10201501046)(3231101)(944501161)(6055026)(6041288)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
-	SRVR:BN6PR02MB3379; BCL:0; PCL:0; RULEID:; SRVR:BN6PR02MB3379; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3379;
-	4:s54mReY/KcojEpwI6/4h+2AUGv5rsd6xH2sXpxvyrjqS29Vr/4dUDYtFqQuQPsSWtsCD60rIKR1/t1fD/WRu7jEeN7rBIRTwsovoqN9Bp9/WqwWM1URn6b/YJyblkHq7PqR+TM2Fr9Gnzdv0luSUc5vPOjfgKsOZl8GemKsshscDH/rcTNBCt0IsLlje2YfqV2LmczloclhfdiNiVecEp6wmLb/gZDB5kXePe8QBq5FQs7Aam8YLmp8vqRXo37eW0MQWu15+aSIG0ioy9NiFfw==
-X-Forefront-PRVS: 0585417D7B
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTjZQUjAyTUIzMzc5OzIzOmtxME1MQ3oxcGNwV2Z3OTFIclFLdlpkL0Qz?=
-	=?utf-8?B?RU03aFlXQnhJeHpJTS9kNHZ6ZStLMVpjNVlUOFd4ODgyazlIUmF6NVliMSt3?=
-	=?utf-8?B?MlJsbDE5R0tEYloxV0hpMGRaSDJHR2xFUGRzZmV5dzlUVXZDYUZvd0lmdDdo?=
-	=?utf-8?B?c1dWK2FXTEs1cHYwUFBTeWh1bE9DSWJFUWovOHIxOTU4SUlOa2xFeCtDeERk?=
-	=?utf-8?B?b2FPK1hjTWhqK0ZzWWhmZXhJWm1XT0JOL1BmdGwvOWZDTWRocXFxeXJrU0xC?=
-	=?utf-8?B?QmxFN1EreDhZdU5uNmZGUEJaTTlaWlpuem1sZ2lDTTZONlBlS1h3dElUdCtZ?=
-	=?utf-8?B?S0ZOZTE2VGw5c3hkaXM3N2RjQjNZdkx5dWdoa0hOeXVIaWdpcWdiQTZuQlFv?=
-	=?utf-8?B?RW1JS2VHM3VnMUNVL3FCYUNLMVQyNFhBUGlqVWx0RTNIb0RKU21kQ2ovOVEy?=
-	=?utf-8?B?VlhXN1FEc0dobDR6dCtONFJwajhGKzdIUXkrMDYxd3BYSVFYRC8zNWdmYUM0?=
-	=?utf-8?B?ZnpFSWhCSklGampZWFlvc1ovampPSmkySWdTbTltVUpJd0dmWVpBMkNjdWps?=
-	=?utf-8?B?cGFScjZWM3R4NE9IV05BMUVaZ1RWQlpZNUltL2pGQVUvOS85akVrTUZWUS9B?=
-	=?utf-8?B?czlwSm5FRnB3OTdpckYyVGwyZjE5ZVRkRk0yOXdnOTVzNlVYVE4ydG5ZVHRD?=
-	=?utf-8?B?Vm5yeEdNLzc1dGxRMWFkSCtJaXNvSXkzdEU2M3k3S1NLbW5QL3E1MSt3ZUE0?=
-	=?utf-8?B?RUNlanRYTHNGUXdtV0RhdUoySm9XN0poY3dRaGRLZFQyVnVoeG9hRmZ5QXBK?=
-	=?utf-8?B?WlQ3RG8wNGo5ZmtXWERURExpbmIyUnVvZXFpdDdva1g5VVNaeXA5WVlSL2lJ?=
-	=?utf-8?B?TEJVbXpubWhKajZzMGdRdHJtRWZnSW4wS1h5OWhpeXMrZGJFb29od1RzT3Vy?=
-	=?utf-8?B?R0FIamFReEZZOE02d3kyODdJUGYzSGt2SEYwRTRDRllLU2VxVW1UZjVlQ0VD?=
-	=?utf-8?B?NUhhcEQ0WXJLMHhkTW9YMDQxY1hXcEUvUEpWR01zNXQ1cFYrSFdHeDZXWE9q?=
-	=?utf-8?B?VFFCR0hqYXVoV2g0YmVEdGYva1NQUWlQUUx2c1l3UExLcmZkQXdpTll0akls?=
-	=?utf-8?B?bFBDY3BUTGcwNngrM2c5em1LdDJrNTBHajQwOXBiRzRSTmNaSzgrcmZIZFJt?=
-	=?utf-8?B?aDNFWG53bWVGTGU4U3h1bUpKTmFldWFud2taUHc3NUtjRWVVaE83UE84V1Nx?=
-	=?utf-8?B?S2xhVTZrejRjRHl6WUVSeTFOWmkzMERFaDBrZlNyRzUxYzFHZi9Gc1gvTjZG?=
-	=?utf-8?B?OHY5VWc2U0VSbG9VakViVFpVTDUzSVhpU2JsbXhlcHowUXVESFVINWxGVTZu?=
-	=?utf-8?B?VDkzMXR0TGYyU08rQ1hkUldJcDFkZzMwRjA1MDl5VVVOWU92aUNmWkVpSUFX?=
-	=?utf-8?B?Q1NlN29RcGNFUkZIYkV6YzVZdkwxMG45a29UeFIvVm5EWkpYZ3NjUGxmSFRT?=
-	=?utf-8?B?bW5WQmt1NWdxMDBTQUhaQ3lBd2tYalhNTFJGd0tBb3JoNW9RaEsrU2FrbVNk?=
-	=?utf-8?B?NUxwSWN3ekl2bS9iVkdOUGlPVm80dXc9PQ==?=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR02MB3379;
-	6:JHjd+uwhBe33oonEQqdup7FqGbIImxeBLzZGFjNdgcERoqEoyVimbsGlr4IceOm3QeXRrKZDFtJQ20Dz2XwR59AQpIO5abRBl43GTcJdmWqNTxgUCZU3bnL4XrQgOGNJOHItQxrYJ3px8n1WzdMB3ov+NyPyGA5x0IXUPXYoZSJ59e+tF0ZmSJdg3Ni2JxZn/gwlR2mgYJFF0tIPULhNSas1U2NvbAw0yW0kQKIb6aPIyhSU/I2cSZozavOPtW04PWHyW+mrg3S3wONB0cwxPC3lFfQ77GUSbXd+m6nOHemyfSCQjD7G1sZgXC02qxwsyL+SKEzJAKjH6bs2UDhKTZ7+XMeycs2vOZzjwZdWteY=;
-	5:J65sSejKsBxkDHnOe3Gt96ZzfXDOTH8MzKQHE2GAqLX/6KWVVAxR73KETxGFOnXAX1Ungqov4lp10lMpBQfl6W5mejVBfhUdn5konKUYGkqZ+QtR/6ZIshfGKwOcSiaeJIgqECbIjf32/wcGIDa5+hAXlchxYxx626o0XclXltM=;
-	24:Nr3SDXaVtxT5geGDR7c6dCH9YpKGO4cWYGCTHgwjGWkmYcqRNAcL6UnqGaEsAivTJR8MIk8qoqlMYmvFx8uuhAXcKmzgagzhVp466ZlKqHA=;
-	7:oAXzqn4kES/LKnU+oi+znUbNkvdnCuxdPuJArtac+RiZJD7yS6NQ03Xs07+4XKLSd5HLno8bAiQNUV5tlCpMlDyphLV2+V8A8u8BDwFfo1K1+nSp7jQa1g3nnT9dOwJW5/LZBgBGkCpqkPij6ADlgfyI483wcMnxFmAwivH73M6z+SNc5sJW8ekqtN0iE/ekAH2idGO4xCqIw2bhm0L+dAvpANzilHur2Py/G3omNK3n+qfuRb9LwGAZeMTspXSW
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2018 19:56:04.7322 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52ce1bf8-0d6c-48a3-1df4-08d57577502b
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB3379
-Subject: Re: [PATCH 1/2] package: Add INHIBIT_PACKAGE_STRIP_FILES to allow files to remain unstripped
+Received: by 10.28.74.211 with HTTP; Fri, 16 Feb 2018 12:14:53 -0800 (PST)
+In-Reply-To: <20180212193958.19804-1-JPEWhacker@gmail.com>
+References: <20180212193958.19804-1-JPEWhacker@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 16 Feb 2018 21:14:53 +0100
+Message-ID: <CA+chaQfqemdC3a70o9sjGRb+RWfb-Uoaea6a2apYkTaz2uomyA@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utils.py: add parallel make helpers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -143,58 +54,547 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Feb 2018 20:10:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 16 Feb 2018 20:14:53 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0d6dd65ba915056559ff6d"
 
-Hey Richard,
+--94eb2c0d6dd65ba915056559ff6d
+Content-Type: text/plain; charset="UTF-8"
 
++            v = max(limit, v)
 
-Do we expect to backport this to older releases?
+this seems to be doing the opposite of what the limit was used for before:
 
+-                v = min(64, int(v))
 
-Cheers,
+On Mon, Feb 12, 2018 at 8:39 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
 
-
-Alejandro
-
-
-On 02/14/2018 07:07 AM, Richard Purdie wrote:
-> There are cases where its useful to allow only a select few files
-> to be excluded from the package stripping mechanism. Currently
-> this isn't possible so add a variable to allow this.
+> The code to extract the integer number of parallel build threads and
+> construct a new argument from them has started to be copied in multiple
+> locations, so create two new helper utilities to aid recipes.
 >
-> This is to be used sparingly as in general the core code should be
-> doing the right thing. This is better than the alternative of leaving the whole
-> package unstripped.
+> The first helper (parallel_make()) extracts the integer number of
+> parallel build threads from PARALLEL_MAKE. The second
+> (parallel_make_argument()) does the same and then puts the result back
+> into a format string, optionally clamping it to some maximum value.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Additionally, rework the oe-core recipes that were manually doing this
+> to use the new helper utilities.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > ---
->   meta/classes/package.bbclass | 4 ++++
->   1 file changed, 4 insertions(+)
+>  meta/classes/go.bbclass              | 19 +---------------
+>  meta/classes/waf.bbclass             | 24 +-------------------
+>  meta/lib/oe/utils.py                 | 43 ++++++++++++++++++++++++++++++
+> ++++++
+>  meta/recipes-core/ovmf/ovmf_git.bb   |  2 +-
+>  meta/recipes-support/boost/boost.inc | 24 +-------------------
+>  5 files changed, 47 insertions(+), 65 deletions(-)
 >
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 6a7f35a..90e5236 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -946,6 +946,7 @@ python split_and_strip_files () {
->       inodes = {}
->       libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
->       baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir"))
-> +    skipfiles = (d.getVar("INHIBIT_PACKAGE_STRIP_FILES") or "").split()
->       if (d.getVar('INHIBIT_PACKAGE_STRIP') != '1' or \
->               d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
->           for root, dirs, files in cpath.walk(dvar):
-> @@ -961,6 +962,9 @@ python split_and_strip_files () {
->                   if debugdir and debugdir in os.path.dirname(file[len(dvar):]):
->                       continue
->   
-> +                if file in skipfiles:
-> +                    continue
+> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+> index 09b01a84c37..7ecd8c92541 100644
+> --- a/meta/classes/go.bbclass
+> +++ b/meta/classes/go.bbclass
+> @@ -1,23 +1,6 @@
+>  inherit goarch ptest
+>
+> -def get_go_parallel_make(d):
+> -    pm = (d.getVar('PARALLEL_MAKE') or '').split()
+> -    # look for '-j' and throw other options (e.g. '-l') away
+> -    # because they might have a different meaning in golang
+> -    while pm:
+> -        opt = pm.pop(0)
+> -        if opt == '-j':
+> -            v = pm.pop(0)
+> -        elif opt.startswith('-j'):
+> -            v = opt[2:].strip()
+> -        else:
+> -            continue
+> -
+> -        return '-p %d' % int(v)
+> -
+> -    return ""
+> -
+> -GO_PARALLEL_BUILD ?= "${@get_go_parallel_make(d)}"
+> +GO_PARALLEL_BUILD ?= "${@oe.utils.parallel_make_argument(d, '-p %d')}"
+>
+>  GOROOT_class-native = "${STAGING_LIBDIR_NATIVE}/go"
+>  GOROOT_class-nativesdk = "${STAGING_DIR_TARGET}${libdir}/go"
+> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+> index bdbdc56767c..f9a851d0759 100644
+> --- a/meta/classes/waf.bbclass
+> +++ b/meta/classes/waf.bbclass
+> @@ -3,28 +3,6 @@ DISABLE_STATIC = ""
+>
+>  EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
+>
+> -def get_waf_parallel_make(d):
+> -    pm = d.getVar('PARALLEL_MAKE')
+> -    if pm:
+> -        # look for '-j' and throw other options (e.g. '-l') away
+> -        # because they might have different meaning in bjam
+> -        pm = pm.split()
+> -        while pm:
+> -            v = None
+> -            opt = pm.pop(0)
+> -            if opt == '-j':
+> -                v = pm.pop(0)
+> -            elif opt.startswith('-j'):
+> -                v = opt[2:].strip()
+> -            else:
+> -                v = None
+> -
+> -            if v:
+> -                v = min(64, int(v))
+> -                return '-j' + str(v)
+> -
+> -    return ""
+> -
+>  python waf_preconfigure() {
+>      import subprocess
+>      from distutils.version import StrictVersion
+> @@ -47,7 +25,7 @@ waf_do_configure() {
+>
+>  do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
+>  waf_do_compile()  {
+> -       ${S}/waf build ${@get_waf_parallel_make(d)}
+> +       ${S}/waf build ${@oe.utils.parallel_make_argument(d, '-j%d',
+> limit=64)}
+>  }
+>
+>  waf_do_install() {
+> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+> index 7a79d752b69..ec91927233a 100644
+> --- a/meta/lib/oe/utils.py
+> +++ b/meta/lib/oe/utils.py
+> @@ -156,6 +156,49 @@ def any_distro_features(d, features, truevalue="1",
+> falsevalue=""):
+>      """
+>      return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue,
+> falsevalue, d)
+>
+> +def parallel_make(d):
+> +    """
+> +    Return the integer value for the number of parallel threads to use
+> when
+> +    building, scraped out of PARALLEL_MAKE. If no parallelization option
+> is
+> +    found, returns None
 > +
->                   try:
->                       ltarget = cpath.realpath(file, dvar, False)
->                       s = cpath.lstat(ltarget)
+> +    e.g. if PARALLEL_MAKE = "-j 10", this will return 10 as an integer.
+> +    """
+> +    pm = (d.getVar('PARALLEL_MAKE') or '').split()
+> +    # look for '-j' and throw other options (e.g. '-l') away
+> +    while pm:
+> +        opt = pm.pop(0)
+> +        if opt == '-j':
+> +            v = pm.pop(0)
+> +        elif opt.startswith('-j'):
+> +            v = opt[2:].strip()
+> +        else:
+> +            continue
+> +
+> +        return int(v)
+> +
+> +    return None
+> +
+> +def parallel_make_argument(d, fmt, limit=None):
+> +    """
+> +    Helper utility to construct a parallel make argument from the number
+> of
+> +    parallel threads specified in PARALLEL_MAKE.
+> +
+> +    Returns the input format string `fmt` where a single '%d' will be
+> expanded
+> +    with the number of parallel threads to use. If `limit` is specified,
+> the
+> +    number of parallel threads will be no larger than it. If no
+> parallelization
+> +    option is found in PARALLEL_MAKE, returns an empty string
+> +
+> +    e.g. if PARALLEL_MAKE = "-j 10", parallel_make_argument(d, "-n %d")
+> will return
+> +    "-n 10"
+> +    """
+> +    v = parallel_make(d)
+> +    if v:
+> +        if limit:
+> +            v = max(limit, v)
+> +        return fmt % v
+> +    return ''
+> +
+>  def packages_filter_out_system(d):
+>      """
+>      Return a list of packages from PACKAGES with the "system" packages
+> such as
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/
+> ovmf_git.bb
+> index fa0d66291d1..8750b3c528d 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -151,7 +151,7 @@ do_compile_class-native() {
+>
+>  do_compile_class-target() {
+>      export LFLAGS="${LDFLAGS}"
+> -    PARALLEL_JOBS="${@ '${PARALLEL_MAKE}'.replace('-j', '-n ')}"
+> +    PARALLEL_JOBS="${@oe.utils.parallel_make_argument(d, '-n %d')}"
+>      OVMF_ARCH="X64"
+>      if [ "${TARGET_ARCH}" != "x86_64" ] ; then
+>          OVMF_ARCH="IA32"
+> diff --git a/meta/recipes-support/boost/boost.inc
+> b/meta/recipes-support/boost/boost.inc
+> index 41fc90fb211..0461ec6fcf1 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -135,29 +135,7 @@ BJAM_TOOLS   = "--ignore-site-config \
+>
+>  # use PARALLEL_MAKE to speed up the build, but limit it by -j 64, greater
+> parallelism causes bjam to segfault or to ignore -j
+>  # https://svn.boost.org/trac/boost/ticket/7634
+> -def get_boost_parallel_make(d):
+> -    pm = d.getVar('PARALLEL_MAKE')
+> -    if pm:
+> -        # look for '-j' and throw other options (e.g. '-l') away
+> -        # because they might have different meaning in bjam
+> -        pm = pm.split()
+> -        while pm:
+> -            v = None
+> -            opt = pm.pop(0)
+> -            if opt == '-j':
+> -                v = pm.pop(0)
+> -            elif opt.startswith('-j'):
+> -                v = opt[2:].strip()
+> -            else:
+> -                v = None
+> -
+> -            if v:
+> -                v = min(64, int(v))
+> -                return '-j' + str(v)
+> -
+> -    return ""
+> -
+> -BOOST_PARALLEL_MAKE = "${@get_boost_parallel_make(d)}"
+> +BOOST_PARALLEL_MAKE = "${@oe.utils.parallel_make_argument(d, '-j%d',
+> limit=64)}"
+>  BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
+>                 ${BJAM_TOOLS} \
+>                 -sBOOST_BUILD_USER_CONFIG=${WORKDIR}/user-config.jam \
+> --
+> 2.14.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--94eb2c0d6dd65ba915056559ff6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><span style=3D"color:rgb(34,34,34);font-family:arial,sans-=
+serif;font-size:12.8px;font-style:normal;font-variant-ligatures:normal;font=
+-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start=
+;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;ba=
+ckground-color:rgb(255,255,255);text-decoration-style:initial;text-decorati=
+on-color:initial;float:none;display:inline">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 v =3D max(limit, v)</span><br><div><span style=3D"color:rgb(3=
+4,34,34);font-family:arial,sans-serif;font-size:12.8px;font-style:normal;fo=
+nt-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter=
+-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-=
+space:normal;word-spacing:0px;background-color:rgb(255,255,255);text-decora=
+tion-style:initial;text-decoration-color:initial;float:none;display:inline"=
+><br></span></div><div><span style=3D"color:rgb(34,34,34);font-family:arial=
+,sans-serif;font-size:12.8px;font-style:normal;font-variant-ligatures:norma=
+l;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align=
+:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:=
+0px;background-color:rgb(255,255,255);text-decoration-style:initial;text-de=
+coration-color:initial;float:none;display:inline">this seems to be doing th=
+e opposite of what the limit was used for before:</span></div><div><span st=
+yle=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.8px;fo=
+nt-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font=
+-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-tra=
+nsform:none;white-space:normal;word-spacing:0px;background-color:rgb(255,25=
+5,255);text-decoration-style:initial;text-decoration-color:initial;float:no=
+ne;display:inline"><br></span></div><div><span style=3D"color:rgb(34,34,34)=
+;font-family:arial,sans-serif;font-size:12.8px;font-style:normal;font-varia=
+nt-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing=
+:normal;text-align:start;text-indent:0px;text-transform:none;white-space:no=
+rmal;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-sty=
+le:initial;text-decoration-color:initial;float:none;display:inline"><span s=
+tyle=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.8px;f=
+ont-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;fon=
+t-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-tr=
+ansform:none;white-space:normal;word-spacing:0px;background-color:rgb(255,2=
+55,255);text-decoration-style:initial;text-decoration-color:initial;float:n=
+one;display:inline">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 v =3D min(64, int(v))</span><br></span></div></div><div class=3D"gmail_=
+extra"><br><div class=3D"gmail_quote">On Mon, Feb 12, 2018 at 8:39 PM, Josh=
+ua Watt <span dir=3D"ltr">&lt;<a href=3D"mailto:jpewhacker@gmail.com" targe=
+t=3D"_blank">jpewhacker@gmail.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">The code to extract the integer number of parallel build thr=
+eads and<br>
+construct a new argument from them has started to be copied in multiple<br>
+locations, so create two new helper utilities to aid recipes.<br>
+<br>
+The first helper (parallel_make()) extracts the integer number of<br>
+parallel build threads from PARALLEL_MAKE. The second<br>
+(parallel_make_argument()) does the same and then puts the result back<br>
+into a format string, optionally clamping it to some maximum value.<br>
+<br>
+Additionally, rework the oe-core recipes that were manually doing this<br>
+to use the new helper utilities.<br>
+<br>
+Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEW=
+hacker@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/go.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 19 +---------------<br>
+=C2=A0meta/classes/waf.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 24 +-------------------<br>
+=C2=A0meta/lib/oe/utils.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 43 ++++++++++++++++++++++++++++++<wbr>++++++<br>
+=C2=A0meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_<wbr>git.bb</a>=C2=A0 =C2=A0|=C2=A0 2 +-<br>
+=C2=A0meta/recipes-support/boost/<wbr>boost.inc | 24 +-------------------<b=
+r>
+=C2=A05 files changed, 47 insertions(+), 65 deletions(-)<br>
+<br>
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass<br>
+index 09b01a84c37..7ecd8c92541 100644<br>
+--- a/meta/classes/go.bbclass<br>
++++ b/meta/classes/go.bbclass<br>
+@@ -1,23 +1,6 @@<br>
+=C2=A0inherit goarch ptest<br>
+<br>
+-def get_go_parallel_make(d):<br>
+-=C2=A0 =C2=A0 pm =3D (d.getVar(&#39;PARALLEL_MAKE&#39;) or &#39;&#39;).spl=
+it()<br>
+-=C2=A0 =C2=A0 # look for &#39;-j&#39; and throw other options (e.g. &#39;-=
+l&#39;) away<br>
+-=C2=A0 =C2=A0 # because they might have a different meaning in golang<br>
+-=C2=A0 =C2=A0 while pm:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 opt =3D pm.pop(0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if opt =3D=3D &#39;-j&#39;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D pm.pop(0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif opt.startswith(&#39;-j&#39;):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D opt[2:].strip()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;-p %d&#39; % int(v)<br>
+-<br>
+-=C2=A0 =C2=A0 return &quot;&quot;<br>
+-<br>
+-GO_PARALLEL_BUILD ?=3D &quot;${@get_go_parallel_make(d)}&quot;<br>
++GO_PARALLEL_BUILD ?=3D &quot;${@oe.utils.parallel_make_<wbr>argument(d, &#=
+39;-p %d&#39;)}&quot;<br>
+<br>
+=C2=A0GOROOT_class-native =3D &quot;${STAGING_LIBDIR_NATIVE}/go&quot;<br>
+=C2=A0GOROOT_class-nativesdk =3D &quot;${STAGING_DIR_TARGET}${<wbr>libdir}/=
+go&quot;<br>
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass<br>
+index bdbdc56767c..f9a851d0759 100644<br>
+--- a/meta/classes/waf.bbclass<br>
++++ b/meta/classes/waf.bbclass<br>
+@@ -3,28 +3,6 @@ DISABLE_STATIC =3D &quot;&quot;<br>
+<br>
+=C2=A0EXTRA_OECONF_append =3D &quot; ${PACKAGECONFIG_CONFARGS}&quot;<br>
+<br>
+-def get_waf_parallel_make(d):<br>
+-=C2=A0 =C2=A0 pm =3D d.getVar(&#39;PARALLEL_MAKE&#39;)<br>
+-=C2=A0 =C2=A0 if pm:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # look for &#39;-j&#39; and throw other option=
+s (e.g. &#39;-l&#39;) away<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # because they might have different meaning in=
+ bjam<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm =3D pm.split()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while pm:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D None<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 opt =3D pm.pop(0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if opt =3D=3D &#39;-j&#39;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D pm.pop(0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif opt.startswith(&#39;-j&#39;=
+):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D opt[2:].stri=
+p()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D None<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if v:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D min(64, int(=
+v))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;-j&#39=
+; + str(v)<br>
+-<br>
+-=C2=A0 =C2=A0 return &quot;&quot;<br>
+-<br>
+=C2=A0python waf_preconfigure() {<br>
+=C2=A0 =C2=A0 =C2=A0import subprocess<br>
+=C2=A0 =C2=A0 =C2=A0from distutils.version import StrictVersion<br>
+@@ -47,7 +25,7 @@ waf_do_configure() {<br>
+<br>
+=C2=A0do_compile[progress] =3D &quot;outof:^\[\s*(\d+)/\s*(\d+)\]\<wbr>s+&q=
+uot;<br>
+=C2=A0waf_do_compile()=C2=A0 {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/waf build ${@get_waf_parallel_make(d)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/waf build ${@oe.utils.parallel_make_<wbr>a=
+rgument(d, &#39;-j%d&#39;, limit=3D64)}<br>
+=C2=A0}<br>
+<br>
+=C2=A0waf_do_install() {<br>
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py<br>
+index 7a79d752b69..ec91927233a 100644<br>
+--- a/meta/lib/oe/utils.py<br>
++++ b/meta/lib/oe/utils.py<br>
+@@ -156,6 +156,49 @@ def any_distro_features(d, features, truevalue=3D&quot=
+;1&quot;, falsevalue=3D&quot;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0return bb.utils.contains_any(&quot;DISTRO_<wbr>FEATURES=
+&quot;, features, truevalue, falsevalue, d)<br>
+<br>
++def parallel_make(d):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Return the integer value for the number of parallel threads =
+to use when<br>
++=C2=A0 =C2=A0 building, scraped out of PARALLEL_MAKE. If no parallelizatio=
+n option is<br>
++=C2=A0 =C2=A0 found, returns None<br>
++<br>
++=C2=A0 =C2=A0 e.g. if PARALLEL_MAKE =3D &quot;-j 10&quot;, this will retur=
+n 10 as an integer.<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 pm =3D (d.getVar(&#39;PARALLEL_MAKE&#39;) or &#39;&#39;).spl=
+it()<br>
++=C2=A0 =C2=A0 # look for &#39;-j&#39; and throw other options (e.g. &#39;-=
+l&#39;) away<br>
++=C2=A0 =C2=A0 while pm:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 opt =3D pm.pop(0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if opt =3D=3D &#39;-j&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D pm.pop(0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif opt.startswith(&#39;-j&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D opt[2:].strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return int(v)<br>
++<br>
++=C2=A0 =C2=A0 return None<br>
++<br>
++def parallel_make_argument(d, fmt, limit=3DNone):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Helper utility to construct a parallel make argument from th=
+e number of<br>
++=C2=A0 =C2=A0 parallel threads specified in PARALLEL_MAKE.<br>
++<br>
++=C2=A0 =C2=A0 Returns the input format string `fmt` where a single &#39;%d=
+&#39; will be expanded<br>
++=C2=A0 =C2=A0 with the number of parallel threads to use. If `limit` is sp=
+ecified, the<br>
++=C2=A0 =C2=A0 number of parallel threads will be no larger than it. If no =
+parallelization<br>
++=C2=A0 =C2=A0 option is found in PARALLEL_MAKE, returns an empty string<br=
+>
++<br>
++=C2=A0 =C2=A0 e.g. if PARALLEL_MAKE =3D &quot;-j 10&quot;, parallel_make_a=
+rgument(d, &quot;-n %d&quot;) will return<br>
++=C2=A0 =C2=A0 &quot;-n 10&quot;<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 v =3D parallel_make(d)<br>
++=C2=A0 =C2=A0 if v:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if limit:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D max(limit, v)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return fmt % v<br>
++=C2=A0 =C2=A0 return &#39;&#39;<br>
++<br>
+=C2=A0def packages_filter_out_system(d):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0Return a list of packages from PACKAGES with the &quot;=
+system&quot; packages such as<br>
+diff --git a/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">ovmf_<wbr>git.bb</a> b/meta/recipes-core/ovmf/=
+<a href=3D"http://ovmf_git.bb" rel=3D"noreferrer" target=3D"_blank">ovmf_<w=
+br>git.bb</a><br>
+index fa0d66291d1..8750b3c528d 100644<br>
+--- a/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_<wbr>git.bb</a><br>
++++ b/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_<wbr>git.bb</a><br>
+@@ -151,7 +151,7 @@ do_compile_class-native() {<br>
+<br>
+=C2=A0do_compile_class-target() {<br>
+=C2=A0 =C2=A0 =C2=A0export LFLAGS=3D&quot;${LDFLAGS}&quot;<br>
+-=C2=A0 =C2=A0 PARALLEL_JOBS=3D&quot;${@ &#39;${PARALLEL_MAKE}&#39;.replace=
+(&#39;-<wbr>j&#39;, &#39;-n &#39;)}&quot;<br>
++=C2=A0 =C2=A0 PARALLEL_JOBS=3D&quot;${@oe.utils.<wbr>parallel_make_argumen=
+t(d, &#39;-n %d&#39;)}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0OVMF_ARCH=3D&quot;X64&quot;<br>
+=C2=A0 =C2=A0 =C2=A0if [ &quot;${TARGET_ARCH}&quot; !=3D &quot;x86_64&quot;=
+ ] ; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0OVMF_ARCH=3D&quot;IA32&quot;<br>
+diff --git a/meta/recipes-support/boost/<wbr>boost.inc b/meta/recipes-suppo=
+rt/boost/<wbr>boost.inc<br>
+index 41fc90fb211..0461ec6fcf1 100644<br>
+--- a/meta/recipes-support/boost/<wbr>boost.inc<br>
++++ b/meta/recipes-support/boost/<wbr>boost.inc<br>
+@@ -135,29 +135,7 @@ BJAM_TOOLS=C2=A0 =C2=A0=3D &quot;--ignore-site-config =
+\<br>
+<br>
+=C2=A0# use PARALLEL_MAKE to speed up the build, but limit it by -j 64, gre=
+ater parallelism causes bjam to segfault or to ignore -j<br>
+=C2=A0# <a href=3D"https://svn.boost.org/trac/boost/ticket/7634" rel=3D"nor=
+eferrer" target=3D"_blank">https://svn.boost.org/trac/<wbr>boost/ticket/763=
+4</a><br>
+-def get_boost_parallel_make(d):<br>
+-=C2=A0 =C2=A0 pm =3D d.getVar(&#39;PARALLEL_MAKE&#39;)<br>
+-=C2=A0 =C2=A0 if pm:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # look for &#39;-j&#39; and throw other option=
+s (e.g. &#39;-l&#39;) away<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # because they might have different meaning in=
+ bjam<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm =3D pm.split()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while pm:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D None<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 opt =3D pm.pop(0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if opt =3D=3D &#39;-j&#39;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D pm.pop(0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif opt.startswith(&#39;-j&#39;=
+):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D opt[2:].stri=
+p()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D None<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if v:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D min(64, int(=
+v))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;-j&#39=
+; + str(v)<br>
+-<br>
+-=C2=A0 =C2=A0 return &quot;&quot;<br>
+-<br>
+-BOOST_PARALLEL_MAKE =3D &quot;${@get_boost_parallel_make(d)<wbr>}&quot;<br=
+>
++BOOST_PARALLEL_MAKE =3D &quot;${@oe.utils.parallel_make_<wbr>argument(d, &=
+#39;-j%d&#39;, limit=3D64)}&quot;<br>
+=C2=A0BJAM_OPTS=C2=A0 =C2=A0 =3D &#39;${BOOST_PARALLEL_MAKE} -d+2 -q \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${BJAM_TOOLS} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -sBOOST_BUILD_USER_=
+CONFIG=3D${<wbr>WORKDIR}/user-config.jam \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.14.3<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c0d6dd65ba915056559ff6d--
