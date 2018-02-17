@@ -1,48 +1,49 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CD39A77E87
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FA297807A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Feb 2018 11:56:31 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id t74so7446773wme.3
+	Sat, 17 Feb 2018 12:03:08 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id v10so7385435wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Feb 2018 03:56:33 -0800 (PST)
+	Sat, 17 Feb 2018 04:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZBB0bLx+jkNLLJxwolXFtASUSv/zU8yoW+Ri0hJmLO4=;
-	b=RGuwt4q6RQurXQ8xRLExUYBtU/Zwg61oy0GE8joNNS31g2nfABYrB5xOONoXwFG5CT
-	0o6Op89MU/DoAgxBK0sllCZuZWTx5AE9DXKSfsHoWrNXEFWx+ylscM+6iyU0XHFVexJ+
-	Jhskbi0H4KMGqDwVKSvFWlcQvtwO1fitaJfXkKAu1KozYXqwidYvZcH9jkgO+MtZl7Y4
-	audORjwEFdIPa3Mmt3ti4w15ck6AEuI1sy73p8gGb5yz0f19iU8Ny0kcoAjUtCjldzJ1
-	mneNzggZ6cti9BUlPnW0RDoiomwihSa4v89heyIb06s48j1qHhobWQjGVXtVlcNcVp1B
-	qVow==
+	:cc; bh=1ckyEVjRpPNzko3i178yrpSvCaNQ3VRTdzqaHP4EwME=;
+	b=fGeL6TE7YH5KmOxVt/6LEx+N6MvXrYAFoXaummbFaCH9IEE7/pkBSOn2wAjAf8XCan
+	JiUDSC7RgH2gMwee1ps06dAAtth/25e5JnAincsekXDGk/6yIXHh4iC5kRK4yXVbSj+k
+	DqwZcS8hvfXPKQBdBMwQmbxvcaEGancAS2PO/rK5EXFPycAzf9sL/xfu7E1Bzif0nbA0
+	MC/0ipAzXcu/TG9Eo47RFgNyzTpdGYLDPKUIWN3PstLv+wq7rgs+0zPxbvuV3DA4Z0Dq
+	gQeD0V9Q9Ltz353DJxAlMfE+yc7y+qffVJke8A3H7vpO7Gmr1mywGhavJAxOqjWGvapf
+	Hk1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ZBB0bLx+jkNLLJxwolXFtASUSv/zU8yoW+Ri0hJmLO4=;
-	b=HRpefV4V3z3sWJwAJycrLNFXRayL4F12kv6E39fQXY2JJ9f7ZaJHsZ36C28Xsvu3Bz
-	2B/OIgpkGiMZDwZCbDVWUFI9cfkchGPfI64qv1cduP22J+QOThwnFa2e7+YO/jeAANZS
-	xU0bR4Sd9WuHJgM/nTzR+tokFIXCcHrhB9mo1K25jS45kXr8QBjO/xJhHWCvRJNL0gQl
-	VLBF2X5a7uCEZt9p4LoSd5k2jMInmZ7H9lb7IjNz7nmFclXxEkKK4tc/hhVfZSClKkHF
-	0973T+cL37llww5Y8ReQ+E2S40G6+IhUq2yRsevgT0NlyCi/j+cgYIKlzXtUPCGGp+3d
-	ZttA==
-X-Gm-Message-State: APf1xPAuMzF9HL3Fsw6RzT0iLYqYXycbHsKlmUpDPtorNKUWlLfWM4E0
-	pSqz8nBYuzmbaocTRFLSKZ9SYdoQPof3iFy6Nno=
-X-Google-Smtp-Source: AH8x225d3wcHI+JmCDjnPg+PBT5HJb/LW566qPKAKdDK0w5gcPkYOTPAD5XHbOFHXbIdgwJpXV4uXrQPFKKZvRpTOYQ=
-X-Received: by 10.28.85.194 with SMTP id j185mr6710436wmb.60.1518868592712;
-	Sat, 17 Feb 2018 03:56:32 -0800 (PST)
+	bh=1ckyEVjRpPNzko3i178yrpSvCaNQ3VRTdzqaHP4EwME=;
+	b=dhtVRrXN38RMKFIDgHSotv1ue92oxMlzAkaR7IObyflyvdNRLpfaFo5XZqjV6beHXh
+	W3cxCZr3Zpq+hsxW4MXw2TgzATz23Syux9LhyNlgzS13ODO14iNLJ4u0WPPOjhJVUSDq
+	oX6PAH+rPYYt1rv0+B8dMJAF0tOsavXWdQp+kBYLtOr/a98u4uRNdQrpA/UYEEoiySB/
+	h64X5nfxUQq9/lwSKXiXdoVnbW0zeZCcrOzUgSf3Gg0h2Pl4ZEdNiU/iks0EVDyQU6RY
+	jBxNJbeat2q7kS6KsHEpHa5oHhyvS8aWGOePOB2N6WlzDt8OTqrgKlJ11K7XUytWI/hf
+	+nuw==
+X-Gm-Message-State: APf1xPAYhLf6tssnFxf0EgsR0e3oO9DajziXIWHhOALjsiLJJ+RpvcQt
+	xM2gK4RsiezVqMyUiERJgCQSR2atNMkAiBfn6K8=
+X-Google-Smtp-Source: AH8x226SsKufX2URPzpztDKWMuzIrTXVIF0EWmmXOA5GeGBQyzMRZNImb1bSR/pyr+hGFDYpEZ2agnZGiWS/gjBex7s=
+X-Received: by 10.28.8.137 with SMTP id 131mr7530458wmi.79.1518868989785; Sat,
+	17 Feb 2018 04:03:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Sat, 17 Feb 2018 03:56:31 -0800 (PST)
-In-Reply-To: <60cc88e3-577e-de47-e5da-b3cf93c74a2c@linux.intel.com>
+Received: by 10.28.74.211 with HTTP; Sat, 17 Feb 2018 04:03:09 -0800 (PST)
+In-Reply-To: <CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
 References: <20180216095628.15414-1-alexander.kanavin@linux.intel.com>
 	<CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
 	<20180216115147.2869fdf2@seebsdell>
 	<CA+chaQf=OMV60V7S=C6zaJ3sd_FwQkiojKY5EqAb6gTxXAQmXw@mail.gmail.com>
 	<20180216132531.3a1c2398@seebsdell>
 	<60cc88e3-577e-de47-e5da-b3cf93c74a2c@linux.intel.com>
+	<CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 17 Feb 2018 12:56:31 +0100
-Message-ID: <CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
+Date: Sat, 17 Feb 2018 13:03:09 +0100
+Message-ID: <CA+chaQeNhb=nPaYz3XZdh_ceQopFKJvEq5Ximu83PykTjoHJWA@mail.gmail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -59,88 +60,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Feb 2018 11:56:32 -0000
-Content-Type: multipart/alternative; boundary="001a1141e4d4ede4c30565672634"
+X-List-Received-Date: Sat, 17 Feb 2018 12:03:09 -0000
+Content-Type: multipart/alternative; boundary="001a1144260098bc8d0565673e8d"
 
---001a1141e4d4ede4c30565672634
+--001a1144260098bc8d0565673e8d
 Content-Type: text/plain; charset="UTF-8"
 
-On ubuntu-14.04 I'm seeing SIGABRT in couple do_install tasks even after
-reverting both pseudo changes (the upgrade from Alex as well as SRCREV bump
-to latest commit from Seebs).
+> Without this change (pseudo at 'Handle O_TMPFILE more better') things
+work flawlessly, with epoll enabled.
 
-So there might be different root cause for SIGABRT unrelated to pseudo
-which I haven't seen before, because pseudo locked-up in never ending loop
-before it reached that point. I kind of suspect the icecc changes as
-nothing else in last oe-core upgrade looked suspicious to cause such issues
-in unrelated components (like tzdata, update-rc.d do_install).
+Your
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/pseudo-1.9.0
+is using this change with SRCREV b6a015aa91d7ab84c2f5466f3b5704f501129cbc.
 
-On ubuntu-18.04 with both changes included I've reproduced the lock-up and
-endless 100% CPU spin without pseudo.log growing in size.
+Does it mean that the change you sent to the ML doesn't work flawlessly and
+to make it work you need to downgrade SRCREV
+from b6a015aa91d7ab84c2f5466f3b5704f501129cbc
+to 23f089f480e04ca1b88df8fe1f46b864fee2a0b8 (while I did upgrade
+from b6a015aa91d7ab84c2f5466f3b5704f501129cbc
+to 26e30fa2e1a0fe4e885d7eea3f55d23cd2c3158f after Seebs reply)?
 
-I'll try to revert icecc changes to verify if it makes SIGABRT go away,
-then will try to upgrade pseudo again on 14.04 to see if it will spin or
-not.
+docker-shr @ ~/projects/pseudo $ git log --oneline yp/master  | head -n 5
+26e30fa Allow closing client 0
+b6a015a Handle O_TMPFILE more better
+23f089f Fix openat flag #ifdef typo
+449c234 Half-undo FASTOP
+d107418 1.9.0
 
-Regards,
 
-On Sat, Feb 17, 2018 at 12:22 PM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On Sat, Feb 17, 2018 at 12:56 PM, Martin Jansa <martin.jansa@gmail.com>
+wrote:
 
-> On 02/16/2018 09:25 PM, Seebs wrote:
+> On ubuntu-14.04 I'm seeing SIGABRT in couple do_install tasks even after
+> reverting both pseudo changes (the upgrade from Alex as well as SRCREV bump
+> to latest commit from Seebs).
 >
->> On Fri, 16 Feb 2018 20:11:48 +0100
->> Martin Jansa <martin.jansa@gmail.com> wrote:
+> So there might be different root cause for SIGABRT unrelated to pseudo
+> which I haven't seen before, because pseudo locked-up in never ending loop
+> before it reached that point. I kind of suspect the icecc changes as
+> nothing else in last oe-core upgrade looked suspicious to cause such issues
+> in unrelated components (like tzdata, update-rc.d do_install).
+>
+> On ubuntu-18.04 with both changes included I've reproduced the lock-up and
+> endless 100% CPU spin without pseudo.log growing in size.
+>
+> I'll try to revert icecc changes to verify if it makes SIGABRT go away,
+> then will try to upgrade pseudo again on 14.04 to see if it will spin or
+> not.
+>
+> Regards,
+>
+> On Sat, Feb 17, 2018 at 12:22 PM, Alexander Kanavin <
+> alexander.kanavin@linux.intel.com> wrote:
+>
+>> On 02/16/2018 09:25 PM, Seebs wrote:
 >>
->> I didn't get to the logs yet, but with this change added I see many
->>> do_install tasks failing with exit code '134'.
+>>> On Fri, 16 Feb 2018 20:11:48 +0100
+>>> Martin Jansa <martin.jansa@gmail.com> wrote:
+>>>
+>>> I didn't get to the logs yet, but with this change added I see many
+>>>> do_install tasks failing with exit code '134'.
+>>>>
+>>>
+>>> Huh, that's SIGABRT. I'll see if I can reproduce.
 >>>
 >>
->> Huh, that's SIGABRT. I'll see if I can reproduce.
+>> My experience is again radically different to that of Martin. Without
+>> this change (pseudo at 'Handle O_TMPFILE more better') things work
+>> flawlessly, with epoll enabled.
+>>
+>> With this change (pseudo at 'Allow closing client 0), pseudo again locks
+>> up and goes into endless 100% CPU spin. There's nothing useful in
+>> pseudo.log, and it does not grow in size.
+>>
+>> I think we need someone else to try this, perhaps on the autobuilder, to
+>> have more than two data points. I rebased my patch on top of latest poky
+>> master, but did not bump it to latest pseudo master:
+>>
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?
+>> h=akanavin/pseudo-1.9.0
+>>
+>>
+>> Alex
 >>
 >
-> My experience is again radically different to that of Martin. Without this
-> change (pseudo at 'Handle O_TMPFILE more better') things work flawlessly,
-> with epoll enabled.
->
-> With this change (pseudo at 'Allow closing client 0), pseudo again locks
-> up and goes into endless 100% CPU spin. There's nothing useful in
-> pseudo.log, and it does not grow in size.
->
-> I think we need someone else to try this, perhaps on the autobuilder, to
-> have more than two data points. I rebased my patch on top of latest poky
-> master, but did not bump it to latest pseudo master:
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?
-> h=akanavin/pseudo-1.9.0
->
->
-> Alex
 >
 
---001a1141e4d4ede4c30565672634
+--001a1144260098bc8d0565673e8d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On ubuntu-14.04 I&#39;m seeing SIGABRT in couple do_instal=
-l tasks even after reverting both pseudo changes (the upgrade from Alex as =
-well as SRCREV bump to latest commit from Seebs).<div><br></div><div>So the=
-re might be different root cause for SIGABRT unrelated to pseudo which I ha=
-ven&#39;t seen before, because pseudo locked-up in never ending loop before=
- it reached that point. I kind of suspect the icecc changes as nothing else=
- in last oe-core upgrade looked suspicious to cause such issues in unrelate=
-d components (like tzdata, update-rc.d do_install).</div><div><br></div><di=
-v>On ubuntu-18.04 with both changes included I&#39;ve reproduced the lock-u=
-p and endless 100% CPU spin without pseudo.log growing in size.</div><div><=
-br></div><div>I&#39;ll try to revert icecc changes to verify if it makes SI=
-GABRT go away, then will try to upgrade pseudo again on 14.04 to see if it =
-will spin or not.</div><div><br></div><div>Regards,</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sat, Feb 17, 2018 at 12:=
-22 PM, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.=
-kanavin@linux.intel.com" target=3D"_blank">alexander.kanavin@linux.intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">=
-On 02/16/2018 09:25 PM, Seebs wrote:<br>
+<div dir=3D"ltr">&gt;=C2=A0Without this change (pseudo at &#39;Handle O_TMP=
+FILE more better&#39;) things work flawlessly, with epoll enabled.<div><br>=
+</div><div>Your <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-c=
+ontrib/log/?h=3Dakanavin/pseudo-1.9.0">http://git.yoctoproject.org/cgit/cgi=
+t.cgi/poky-contrib/log/?h=3Dakanavin/pseudo-1.9.0</a> is using this change =
+with SRCREV=C2=A0b6a015aa91d7ab84c2f5466f3b5704f501129cbc.</div><div><br></=
+div><div>Does it mean that the change you sent to the ML doesn&#39;t work f=
+lawlessly and to make it work you need to downgrade SRCREV from=C2=A0b6a015=
+aa91d7ab84c2f5466f3b5704f501129cbc to=C2=A023f089f480e04ca1b88df8fe1f46b864=
+fee2a0b8 (while I did upgrade from=C2=A0b6a015aa91d7ab84c2f5466f3b5704f5011=
+29cbc to=C2=A026e30fa2e1a0fe4e885d7eea3f55d23cd2c3158f after Seebs reply)?<=
+/div><div><br></div><div><div>docker-shr @ ~/projects/pseudo $ git log --on=
+eline yp/master=C2=A0 | head -n 5</div><div>26e30fa Allow closing client 0<=
+/div><div>b6a015a Handle O_TMPFILE more better</div><div>23f089f Fix openat=
+ flag #ifdef typo</div><div>449c234 Half-undo FASTOP</div><div>d107418 1.9.=
+0</div></div><div><br></div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On Sat, Feb 17, 2018 at 12:56 PM, Martin Jansa <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">ma=
+rtin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div dir=3D"ltr">On ubuntu-14.04 I&#39;m seeing SIGABRT in couple do_inst=
+all tasks even after reverting both pseudo changes (the upgrade from Alex a=
+s well as SRCREV bump to latest commit from Seebs).<div><br></div><div>So t=
+here might be different root cause for SIGABRT unrelated to pseudo which I =
+haven&#39;t seen before, because pseudo locked-up in never ending loop befo=
+re it reached that point. I kind of suspect the icecc changes as nothing el=
+se in last oe-core upgrade looked suspicious to cause such issues in unrela=
+ted components (like tzdata, update-rc.d do_install).</div><div><br></div><=
+div>On ubuntu-18.04 with both changes included I&#39;ve reproduced the lock=
+-up and endless 100% CPU spin without pseudo.log growing in size.</div><div=
+><br></div><div>I&#39;ll try to revert icecc changes to verify if it makes =
+SIGABRT go away, then will try to upgrade pseudo again on 14.04 to see if i=
+t will spin or not.</div><div><br></div><div>Regards,</div></div><div class=
+=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_extra"><br><div class=3D"=
+gmail_quote">On Sat, Feb 17, 2018 at 12:22 PM, Alexander Kanavin <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D=
+"_blank">alexander.kanavin@linux.<wbr>intel.com</a>&gt;</span> wrote:<br><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex"><span>On 02/16/2018 09:25 PM, Seebs wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
 x #ccc solid;padding-left:1ex">
 On Fri, 16 Feb 2018 20:11:48 +0100<br>
@@ -176,5 +224,6 @@ oproject.org/cg<wbr>it/cgit.cgi/poky-contrib/log/?<wbr>h=3Dakanavin/pseudo-=
 <br>
 Alex<br>
 </blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
 
---001a1141e4d4ede4c30565672634--
+--001a1144260098bc8d0565673e8d--
