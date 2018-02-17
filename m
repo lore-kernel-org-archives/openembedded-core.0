@@ -1,49 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EE076FF80
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D428377E87
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Feb 2018 00:18:24 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id t3so5899761wmc.2
+	Sat, 17 Feb 2018 00:24:07 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id s5so4497988wra.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Feb 2018 16:18:25 -0800 (PST)
+	Fri, 16 Feb 2018 16:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BSRtJA+2XmxkFh3UsKHu7PbR5jlyxeedEmSuCAzcSfQ=;
-	b=VAIxNHPSGU8lITIJWysC1MsRUyXfPlvh5PjFCdwY/oWV5dOCqOOqqXBi8ZC7gA4lPl
-	EkgHMh/nafs/B7iI11uAOY9s3Gi9YymPmhy3KmJMmA6Nv6dEZ5Fbh2Su0g19Vbni4ch3
-	vhvKEQT0PYr/lBXxSwMgMktXv9P42hNa/sxg1fWV5bBeE0d90K5FTgT+NLIaN+r8bM07
-	PBkiuDqQRJI0ctSsUN79fiWIizJXX14nNlCzoSCh3dnUBlTMkYh0+KVsiFm1eAtA3rN1
-	aMhEDGofIa1Ko83DLJVrUn/oV1aVakmE3nBHfKXb7a2JBYwm2VxNalrmBwYvsRt+qb64
-	J6jw==
+	h=from:to:cc:subject:date:message-id;
+	bh=IX9Ss+QnG+1niCTQPI97MkSTFxqt+nyg31UWhTE8HWg=;
+	b=IDMyJFsKHBpimufTLMSQ8j8cKSfuT/7xupQkE+EkAllN02hWOH1MyeFOFa/rFpGhIa
+	1M2eRdUoAujVYgTGLWwlLXrGsIP0JhNgqPy5jIQH7WZULzWYAEvdbU43W/Qo0pUBJPv1
+	e9JE57ST8t1GWUtZtsAt3U5ar2l4lEqLiCkS1NlA1Izx+MNAcjQQfDaKI5bw4j2/Ptmr
+	JlJp/uD84mDEPd6qURt3bpohWmAQTOP6SwmPQk9thOSSy103ZVjYiltHISepMcXG3wzW
+	NmGzyNB2+FB1ZKQOpITvQGcgjpvL2DSgaq1pG6rj8pJllSPPr/A+6BnV0SnQh3AJV9rF
+	0BmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BSRtJA+2XmxkFh3UsKHu7PbR5jlyxeedEmSuCAzcSfQ=;
-	b=jJ83fvmQcGhBiZNB4mrn9pZeK8nhUbYYB3cDZ4zEsTWcBtDIN5RckH/9huur4gYA/h
-	ZF10G/YEhrtXJ/f5NJk/jE6fW1QgnWRtLlSnPCLPAhppbWSXFz8HjPvcrRvxdiVSXsHp
-	nPAlNCj6t292kBQ2gquwtVIREEZ6ze41r5Z5c9pDl9cEjcsx3kH4Ip2NxNV5gVMgmDci
-	4F5k5bnFzxLFSNPRsaYgUzDSAZTstqQbJ3nYj+O4wvNSIbpwq70dfLYfKOp4yf86MUIe
-	VXWEs4iaFBAXswmpxKkSCBybE/Pu8Iv3N3X5+FQY4YJTNqtH4eH1yocUD9EIpiTtAuBm
-	JvKA==
-X-Gm-Message-State: APf1xPAJ/bonNLLspxYTje+/NSJtN7j2j6wSlClpm4rUlaYmza0Wdex/
-	YhmMTec/E+4D7c5CF2x+uP0+tw==
-X-Google-Smtp-Source: AH8x2247qraWlH8qgr4Qblk6XuLOwYmcyyRohFTadUcUrUnglua2NxJfcHsY3J/94c+uRTP8xVa42Q==
-X-Received: by 10.28.18.144 with SMTP id 138mr5958652wms.19.1518826704914;
-	Fri, 16 Feb 2018 16:18:24 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=IX9Ss+QnG+1niCTQPI97MkSTFxqt+nyg31UWhTE8HWg=;
+	b=EHOPAwKNEQIWwAIcz0snQeerZpy2S2X5a4GYoVyEMBQcMNWoSiZcUfxkRyzrEBK1dX
+	eaVK0m/BHb98+YLyNasFjeFecKK+FX7EMoI8oyozmWCUQQUGg+u/p4CUa+RhSRUTCU1m
+	6C3AWIse11XfxxkKQTNSryBtVft5KEipQhd7f9zycsY84qe9TKlJJaHpyBpCKlALnD/P
+	1CVINlXMCwxqh3Nk1ypt0f9BCIlT72x3JjDIcKFwqC4Quuy3P3Z0jZAS0ZkgJ20mjweg
+	hmzoG8qUKr5wmWY1UaHMOThZtYaHHGatOCW6PA0cGfN9edHXpv+POwY2TFSyhM8barQ2
+	AvGQ==
+X-Gm-Message-State: APf1xPB7+sNtzieqAT8+SHMSz38Q19y18G6oKggUpvPJLf1aJouJVcB7
+	BH1+/qFuqnWjLewwGltRdhBh8Q==
+X-Google-Smtp-Source: AH8x225H7W+wo7zUIAPq7znSgBciXVeL89eIhiS8LF8jmqrZVKmLzr05AC0Z+s1Yq4ToEDv2g0xDoA==
+X-Received: by 10.223.145.33 with SMTP id j30mr2304107wrj.172.1518827048677;
+	Fri, 16 Feb 2018 16:24:08 -0800 (PST)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	32sm18127499wrm.14.2018.02.16.16.18.23
+	s126sm10011899wmd.43.2018.02.16.16.24.07
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 16 Feb 2018 16:18:24 -0800 (PST)
+	Fri, 16 Feb 2018 16:24:07 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Feb 2018 00:18:24 +0000
-Message-Id: <20180217001824.42-1-Martin.Jansa@gmail.com>
+Date: Sat, 17 Feb 2018 00:24:09 +0000
+Message-Id: <20180217002409.88-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.15.1
-In-Reply-To: <CAJdd5GYmBp69xaSKm7cgbe2vHm+38HOHFEbHjDQXLO8zAa4Rxg@mail.gmail.com>
-References: <CAJdd5GYmBp69xaSKm7cgbe2vHm+38HOHFEbHjDQXLO8zAa4Rxg@mail.gmail.com>
-Subject: [PATCH] nativesdk-icecc-toolchain: Fix LIC_FILES_CHKSUM md5
+Subject: [rocko][PATCH] Revert "waf.bbclass: explicitly pass bindir and libdir if supported"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Feb 2018 00:18:24 -0000
+X-List-Received-Date: Sat, 17 Feb 2018 00:24:09 -0000
+
+* this doesn't work correctly as discussed in:
+  http://lists.openembedded.org/pipermail/openembedded-commits/2018-January/218460.html
+* some of the issues were fixed in master since then
+  but not all, so revert it until it's completely resolved
+
+This reverts commit eac21f981337bfaddb2d67161a1ff049158041ce.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/waf.bbclass | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
-diff --git a/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb b/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
-index 91958d7fbc..9d2750e479 100644
---- a/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
-+++ b/meta/recipes-devtools/icecc-toolchain/nativesdk-icecc-toolchain_0.1.bb
-@@ -2,7 +2,7 @@
- # Released under the MIT license (see COPYING.MIT for the terms)
- SUMMARY = "Generates Icecream toolchain for SDK"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${WORKDIR}/icecc-env.sh;beginline=2;endline=20;md5=aafdb7bc2aa7ac5d039fda0c8733983c"
-+LIC_FILES_CHKSUM = "file://${WORKDIR}/icecc-env.sh;beginline=2;endline=20;md5=dd6b68c1efed8a9fb04e409b3b287d47"
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index acbda278a2..c4698e910a 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -25,23 +25,8 @@ def get_waf_parallel_make(d):
  
- INHIBIT_DEFAULT_DEPS = "1"
+     return ""
  
+-python waf_preconfigure() {
+-    from distutils.version import StrictVersion
+-    srcsubdir = d.getVar('S')
+-    wafbin = os.path.join(srcsubdir, 'waf')
+-    status, result = oe.utils.getstatusoutput(wafbin + " --version")
+-    if status != 0:
+-        bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % status)
+-        return
+-    version = result.split()[1]
+-    if StrictVersion(version) >= StrictVersion("1.8.7"):
+-        d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
+-}
+-
+-do_configure[prefuncs] += "waf_preconfigure"
+-
+ waf_do_configure() {
+-	${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF}
++	${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
+ }
+ 
+ waf_do_compile()  {
 -- 
 2.15.1
 
