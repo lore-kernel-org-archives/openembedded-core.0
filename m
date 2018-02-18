@@ -1,61 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2743B6FFFE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E48336069C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Feb 2018 07:58:37 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id z24so987462pfh.13
+	Sun, 18 Feb 2018 11:43:08 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id h21so3038164wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Feb 2018 23:58:39 -0800 (PST)
+	Sun, 18 Feb 2018 03:43:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=rqR/c/5OXw8fgFnKDW3eouh/V2LE9NMwAZJSUNGLxNA=;
-	b=kMd9V3XB4ajWJpG/eUnsTWx46fN2dhmchOb3rSxAn8wHZ9DA74YYPS9ml6hlKC5s/3
-	o7OTH+pdsIswXjTYEJAk0/keJG13phaAgUMKmNOQqb3hKEldR91DeTnt+d0YK5BB87sI
-	Af2H7mQPJd+UierrdbJkymxAtAWyGUh6vP72Yj81V4H1vL1T/cBc2BI889M5RAvFMeWK
-	XDTNsOkcRkHE/olKwQipcmuS89LucJzugDTABgJHS1biAWAPL2MYYy5sD1g36YqlWcGn
-	WOQRA6CB7MwBKWJvr02Iy1vKp4FqrD0GSs/h906I8YOQ/JnxdNyjuxWRk6o2ekQCS2hX
-	w1Yw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pHTHDu3IH9qys/FjX0nKseoQ1EkdeDWM3HTQTvlqrvk=;
+	b=OJVLpc+YGQtQ2UDz6CnpPmo1Ir9TVyTOHoK2u6iDjWaFLXyLoouy9fL75wjdAVaHjE
+	4R1bZ7PvNgpIUK3qbcv5qqGPjE7kAFDiTbunBJczFFT/3dZHdlK9r+lX4nNOyVtdt0vw
+	CwODbZGEUdDXjKcWmSILKR01CqhO8GN47qFKNEKfevwXHMGxhzqaFa3SQjDfeoL3Z+bU
+	n7Tn/A7XrdAaoqoh2cmM8RIdt11zyDGKtKa3U35sEIiurT9oL2v7IcpmuOWydiQuTFL5
+	S46QLSrqpGCU7jT8afrSHuNC2KDValPWKXmhsFp9WfP7L+saH67tDH0Mya9u68M6fvmR
+	fmIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=rqR/c/5OXw8fgFnKDW3eouh/V2LE9NMwAZJSUNGLxNA=;
-	b=Vs486eYX7WIaGvDKsACFJD7rNbBDsoVetbYcZyKM48ZWP64nujd3v8YmfYIwWU33a5
-	e8M+4zTI13WyfZ/M/AhVaqzMUml7Ny6HqPPFOpOVqh1sVq0gXBWSa0O6o4wm0HPMfA19
-	CGf6VLW8fNe4Gtjyk+9ej7efELUB4y0UOGh1/grJuLJCTNX9UWXL9y8SuGD0OrIQJrIy
-	YQz9pAR+AMa9bOFwqa4GuYLs6lgfPxCjgGHFWgNjQRFKlUCIv1+upbMVkcjsV+3USkgL
-	waGq9JTNxh9OdT2GrJ+iOIrvP6OxaiG5P/oTPz4Kv+Zb9GOTbdyBBexXdbJV7VjIt/tf
-	GktA==
-X-Gm-Message-State: APf1xPC4gjObnxnTzkdlHCguMH04lhfTXLPnkxam67SFRclilb3SLDRl
-	XDcCU2BWzQvwcmetfQoUngRiP77b
-X-Google-Smtp-Source: AH8x226N1e6miJA7YiGHdQ0Ky1HTDhZlXjszqIfcWptJr6qBxrs2/00WbwgJJU3/WgwHpFPB4aMmSA==
-X-Received: by 10.99.122.70 with SMTP id j6mr6291903pgn.17.1518940718606;
-	Sat, 17 Feb 2018 23:58:38 -0800 (PST)
-Received: from hermes.local ([2601:646:8880:466c:109d:7df3:e4af:3b6d])
-	by smtp.gmail.com with ESMTPSA id
-	63sm46509629pgi.71.2018.02.17.23.58.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 17 Feb 2018 23:58:37 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1517524576.git.raj.khem@gmail.com>
-	<aa96375d5517a1f0170609aac7283bd71566f46a.1517524576.git.raj.khem@gmail.com>
-	<CAJTo0Lax4NpwLPN2Ly_9seKFLYp-qCVJCuyzXhtN6aiXKgVKRg@mail.gmail.com>
-	<CAMKF1sp8riyhF=6N_ak-TyZ6_w=aj+az=qx+mjepXPQagV7vqw@mail.gmail.com>
-	<CAJTo0LYEO1e2i_dnXDT7sNRyScH_KT3Ge38yWundnr2hk3de9g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <089d4714-011d-5cca-5af6-8f7a8e3568c4@gmail.com>
-Date: Sat, 17 Feb 2018 23:58:36 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0)
-	Gecko/20100101 Thunderbird/59.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pHTHDu3IH9qys/FjX0nKseoQ1EkdeDWM3HTQTvlqrvk=;
+	b=l8RC57nJSCU6079w5MxnKH5Jw6mKRQlb4hwE8gXg0V8kMgQRX7Q8T8d9fyBXou9ZPY
+	PpQKmGTtYJmLzZ6wqdr0YHA67QLpZIOpXf/ThSrdvH8YDJOr72Qs+DTR1Lsxowf3iIvK
+	Jkp7Nrls9c/hyWR2inycYt8gsl19FfFCL8ZS1duoSkQOy6+0bGvnXPKs6UtpDeGjDE5V
+	W6TTAy1taZT2W0TeskyFVelLIR/N6FyyToRXNxzS2vqVbK2DVoOXzw0U+mrdbnGbdQnl
+	gaSgYwnsBrJr06rV904bYAD+npyMZvzWGbYg8hSnkmDOO6XHPcEuwlAlwpR6pC3WDc8G
+	V/JA==
+X-Gm-Message-State: APf1xPBw/YR7lC+9b29DA8mlkYv/4kxx0UWhJz2Oa0Lr/FjobkgLbzMD
+	CHYDjTeIobuSfg+OzZnVjX2Fr/dqbB7yTiRYg2c=
+X-Google-Smtp-Source: AH8x22730E91my1AXtIB7k6vk8Bk/0Q0BeOccy5Yxjsotz/NAMM8M/Uk496Ji10KseuLxT2ilEFOqacLHccvvnYfsTo=
+X-Received: by 10.28.8.137 with SMTP id 131mr9529369wmi.79.1518954189335; Sun,
+	18 Feb 2018 03:43:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYEO1e2i_dnXDT7sNRyScH_KT3Ge38yWundnr2hk3de9g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.27 release
+Received: by 10.28.74.211 with HTTP; Sun, 18 Feb 2018 03:43:08 -0800 (PST)
+In-Reply-To: <20180217141701.229759cf@seebsdell>
+References: <20180216095628.15414-1-alexander.kanavin@linux.intel.com>
+	<CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
+	<20180216115147.2869fdf2@seebsdell>
+	<CA+chaQf=OMV60V7S=C6zaJ3sd_FwQkiojKY5EqAb6gTxXAQmXw@mail.gmail.com>
+	<20180216132531.3a1c2398@seebsdell>
+	<60cc88e3-577e-de47-e5da-b3cf93c74a2c@linux.intel.com>
+	<CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
+	<CA+chaQeNhb=nPaYz3XZdh_ceQopFKJvEq5Ximu83PykTjoHJWA@mail.gmail.com>
+	<bb8be581-a074-b05b-86c6-71e1ee19fdfa@linux.intel.com>
+	<20180217141701.229759cf@seebsdell>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 18 Feb 2018 12:43:08 +0100
+Message-ID: <CA+chaQcw7brjMVnfxf5uC=O80y1-uPsiuVCNfRV1xkWdOqqT-A@mail.gmail.com>
+To: Seebs <seebs@seebs.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: update to latest master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,61 +63,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Feb 2018 07:58:38 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 18 Feb 2018 11:43:09 -0000
+Content-Type: multipart/alternative; boundary="001a11442600e2bdbe05657b14e3"
 
-Wanted to send update on this issue
+--001a11442600e2bdbe05657b14e3
+Content-Type: text/plain; charset="UTF-8"
 
-I got to bottom of this issue and Ross you should have known it :)
+The do_install tasks failing with exit code '134'/SIGABRT were caused by
+left over pseudo processes from previous builds still holding the
+pseudo.lock.
 
-https://patchwork.openembedded.org/patch/127105/
+Manually killing those (still spinning at around 90% CPU for last 2 days)
+resolved the do_install failures.
 
-introduced an optimization into nativesdk glibc to let it ride on 
-localedate from SDK host. This has now broken in glibc with
+It also explains the lack of log.do_install files, because do_install
+failed before it even properly started.
 
-https://github.com/kraj/glibc/commit/95cb863a1ef7760a11272bbd7ba5fe62dc41be54
+Regards,
 
-it is recommended for static programs to be relinked if using glibc 2.27
-our case is also similar mismatch of libc version and localedata just in 
-opposite direction where we are trying to read old data with new glibc 
-instead.
+On Sat, Feb 17, 2018 at 9:17 PM, Seebs <seebs@seebs.net> wrote:
 
-I have initiated a discussion within glibc community on it to explore 
-what options we have, but be prepared to ship full localedata in worst 
-case with glibc 2.27,  this might be the worst case option if no 
-alternative is found.
+> On Sat, 17 Feb 2018 15:28:55 +0200
+> Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
+>
+> > For me, with epoll enabled:
+> >
+> > b6a015a works
+> > 23f089f and 26e30fa both lock up
+>
+> Huh. It's possible that the initial "don't try to close fd 0" was
+> correct, and the real problem is that the attempt is getting made
+> mistakenly. I'll study that more; the epoll code was a contribution and
+> I may not have fully understood it.
+>
+> -s
+>
 
-Thank you
--Khem
+--001a11442600e2bdbe05657b14e3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/15/18 4:12 AM, Burton, Ross wrote:
-> Yes, that's it.
-> 
-> Ross
-> 
-> On 12 February 2018 at 07:32, Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
->     On Sat, Feb 3, 2018 at 2:21 AM, Burton, Ross <ross.burton@intel.com
->     <mailto:ross.burton@intel.com>> wrote:
->     > Getting there: https://autobuilder.yocto.io/tgrid <https://autobuilder.yocto.io/tgrid>
->     >
->     > Just two actual problems:
->     > - The non-gplv3 build failed as the make fix needs to be backported to
->     > meta-gplv2
->     > - The eSDK selftests all failed with en_US.UTF-8 problems, the new glibc
->     > shouldn't be causing a problem with uninative so this is interesting, maybe
->     > the new one is behaving slightly differently.  Should be easy to replicate.
->     > The same problem caused selftest to fail.
->     >
-> 
->     is the UTF error like this one
->     https://gist.github.com/25a84d23618824f0e5e6857a960eaca4
->     <https://gist.github.com/25a84d23618824f0e5e6857a960eaca4>
-> 
->      > Ross
-> 
-> 
+<div dir=3D"ltr"><span style=3D"color:rgb(34,34,34);font-family:arial,sans-=
+serif;font-size:12.8px;font-style:normal;font-variant-ligatures:normal;font=
+-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start=
+;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;ba=
+ckground-color:rgb(255,255,255);text-decoration-style:initial;text-decorati=
+on-color:initial;float:none;display:inline">The do_install tasks failing=C2=
+=A0with exit code &#39;134&#39;/SIGABRT were caused by left over pseudo pro=
+cesses from previous builds still holding the pseudo.lock.</span><br><div><=
+span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12=
+.8px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:norm=
+al;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;t=
+ext-transform:none;white-space:normal;word-spacing:0px;background-color:rgb=
+(255,255,255);text-decoration-style:initial;text-decoration-color:initial;f=
+loat:none;display:inline"><br></span></div><div>Manually killing those (sti=
+ll spinning at around 90% CPU for last 2 days) resolved the do_install fail=
+ures.</div><div><br></div><div>It also explains the lack of log.do_install =
+files, because do_install failed before it even properly started.</div><div=
+><br></div><div>Regards,</div></div><div class=3D"gmail_extra"><br><div cla=
+ss=3D"gmail_quote">On Sat, Feb 17, 2018 at 9:17 PM, Seebs <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:seebs@seebs.net" target=3D"_blank">seebs@seebs.net</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On =
+Sat, 17 Feb 2018 15:28:55 +0200<br>
+Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">=
+alexander.kanavin@linux.<wbr>intel.com</a>&gt; wrote:<br>
+<br>
+&gt; For me, with epoll enabled:<br>
+&gt;<br>
+&gt; b6a015a works<br>
+&gt; 23f089f and 26e30fa both lock up<br>
+<br>
+</span>Huh. It&#39;s possible that the initial &quot;don&#39;t try to close=
+ fd 0&quot; was<br>
+correct, and the real problem is that the attempt is getting made<br>
+mistakenly. I&#39;ll study that more; the epoll code was a contribution and=
+<br>
+I may not have fully understood it.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+-s<br>
+</font></span></blockquote></div><br></div>
 
+--001a11442600e2bdbe05657b14e3--
