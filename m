@@ -1,58 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 24B9F7198F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5182771A36
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Feb 2018 20:23:57 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id o76so7676928wrb.7
+	Sun, 18 Feb 2018 22:21:28 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id f4so10168288qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Feb 2018 12:23:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hqJ7SUzv85uyYUkJDLHcxOg43UfbklcKHdKgTqOzmxk=;
-	b=p0hQnqgvdcqYADwXiPH+xpV8/hj7LlLYnbbNNV3i3njpxaKzfAUWgsdyTUMEFjJlgq
-	MyUH+gai2FE38eKQWh6QljkAUYxDqO+JB2UfrkmFBN9SqG8lIj9yf06kxVHIXkY5WOzC
-	ZeZgRbT5JNXsol6sIvmrLwXL1QULly7PKbQs2iu/Tvkp8sxUbbPdTslXxZpit/XKxKeS
-	d939x7O7ML9OFWm+hPFGpBkrT4umx75M4aMB9rOZwlBIzMN04BJIoaowXlMaGA6drkVS
-	bM+5DoziHBPRUzlAB0q+EWHLd2+YvuSDKK0TEOV6VT4QIhEp8DeunAlzu0/BkAqOotZO
-	XKPA==
+	Sun, 18 Feb 2018 14:21:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hqJ7SUzv85uyYUkJDLHcxOg43UfbklcKHdKgTqOzmxk=;
-	b=WJu2lkNc5Sc1h/f1K1LqJQPXfvJGqoVyHuRGs37xisvtErUFUNy6l6QQMGsMa1cxdW
-	TK8M8Q22WZZc0x+a4k8v36e4rVbFsxjgrcB4M5kp7z5k1Uga6JlqWkdXA8BzEDMa6aNj
-	Ot0ZWhKixeEgt+u/c3oZtWWYuTWAt7NFhuRSJK7bBw1qoPgNZXcn9DmgJ63L9AP93fCa
-	iwUWoZutLtb8E1IS74dHJ9032poPjy671+DTlpvyA78x0Hlfa+d+lE1z4LPlkoe6XUNv
-	pbYnIqqqXFE0P13nwklJh7/dxMbxBwEpw7kkGhtUnIhrCZP+lmejbhA4d8xtTKx2S3H5
-	f18Q==
-X-Gm-Message-State: APf1xPCxCcenjags6qG91UlLPMzN56St0ff3VniGBNLQv6UddtLwCif+
-	hCdTHUup++y3skWsKlt93Ra1G09BQBX7IQG6yKQ=
-X-Google-Smtp-Source: AH8x225yTmujhh2eL8F/go1c/d6IZhgY+6E3GJyO4q5qtmeFWohPLzoU3e4DAjC6eisaUuDu9dr+qs/+n5NvhJ2eoQo=
-X-Received: by 10.223.143.101 with SMTP id p92mr10848874wrb.241.1518985438414; 
-	Sun, 18 Feb 2018 12:23:58 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Sun, 18 Feb 2018 12:23:57 -0800 (PST)
-In-Reply-To: <CA+chaQcw7brjMVnfxf5uC=O80y1-uPsiuVCNfRV1xkWdOqqT-A@mail.gmail.com>
-References: <20180216095628.15414-1-alexander.kanavin@linux.intel.com>
-	<CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
-	<20180216115147.2869fdf2@seebsdell>
-	<CA+chaQf=OMV60V7S=C6zaJ3sd_FwQkiojKY5EqAb6gTxXAQmXw@mail.gmail.com>
-	<20180216132531.3a1c2398@seebsdell>
-	<60cc88e3-577e-de47-e5da-b3cf93c74a2c@linux.intel.com>
-	<CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
-	<CA+chaQeNhb=nPaYz3XZdh_ceQopFKJvEq5Ximu83PykTjoHJWA@mail.gmail.com>
-	<bb8be581-a074-b05b-86c6-71e1ee19fdfa@linux.intel.com>
-	<20180217141701.229759cf@seebsdell>
-	<CA+chaQcw7brjMVnfxf5uC=O80y1-uPsiuVCNfRV1xkWdOqqT-A@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 18 Feb 2018 21:23:57 +0100
-Message-ID: <CA+chaQckqaibky3je+w8O1AUxC3xWF+uZhSgi=JVmDT2b=SfjA@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: update to latest master
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=1FfmjKQDyhbvXmpVapb+aVXfbD0DqVy3b4v2l2ki9mI=;
+	b=Ggq75hCbEqYPym0yKWGXnN2kNA/J7JkBTwGuYveMjoim1+v+Z0fG4nL6cG4iD2kewz
+	WiTltm9LQpCLpjaVrHfwxKT9vlkXlbSY6adwdlDHqbLpNe7dZK0MnesDu5bKL89hQkCJ
+	6kZZ+7OMrBrsFp+UWqpE2aERqTAWrOIbVE5K8QR+zeH9B+R1QI1dWd/8a1Y9lAtMkyCq
+	vpM/NTck+jPZTu8E5yXBojlhueA1IAKcxzYU1c3yuK2Rhbb9QFB0QubGk6XhgSRn7OHr
+	qeLVsjZ6q810KubW5g29iF0k1vC3bqQnEw8ODEC74Fn5hKlP3iV2h2fNgB/kwoK9WAMV
+	8Q4Q==
+X-Gm-Message-State: APf1xPCzBcQ4w4CzLWNDjjWU4uh7PIKIwVwMS+JbvpeyEaFhGNRVy58B
+	8UN9IvWi0+TJzOF5UQ05HZ+8AQ==
+X-Google-Smtp-Source: AH8x225JsCHEp1+2sxQbQCXuluAQJhvKjTVU5UEV2DWRnq8k2jBlrsR9iH2sDeSY3H/fdQqg8f0gJQ==
+X-Received: by 10.200.27.172 with SMTP id z41mr22494433qtj.58.1518992489526;
+	Sun, 18 Feb 2018 14:21:29 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id q2sm8490399qtf.52.2018.02.18.14.21.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 18 Feb 2018 14:21:28 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Sun, 18 Feb 2018 19:21:21 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sun, 18 Feb 2018 19:21:19 -0300
+Message-Id: <20180218222120.28451-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] mtd-utils: Bump revision to 1bfee866
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,298 +48,443 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Feb 2018 20:23:58 -0000
-Content-Type: multipart/alternative; boundary="f403045f54d879cd980565825b6d"
+X-List-Received-Date: Sun, 18 Feb 2018 22:21:29 -0000
 
---f403045f54d879cd980565825b6d
-Content-Type: text/plain; charset="UTF-8"
+This bumps the version to 2.0.1 release plus some more changes.
 
-I've tried again with the change from Alex (without additional SRCREV bump)
-on ubuntu-14.04
+The following patches were merged upstream:
 
-To make it simple I've triggered the build of just to recipes (which caused
-"tried to close client 0 (highest is 1)" before:
+ - 0001-Fix-build-with-musl.patch
+ - 010-fix-rpmatch.patch
+ - fix-armv7-neon-alignment.patch
 
-$ bitbake tzdata update-rc.d
-and again I quickly got:
-23G     tzdata/2018c-r0/pseudo/
-24G     update-rc.d/0.7-r5/pseudo/
+The `mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch`
+patch has been removed as the issue seems to have been addressed
+in the Linux MTD subsystem. The discussion can be seen at:
 
-There is nothing special in the pseudo.log before this "tried to close
-client 0 (highest is 1)"
-==> tzdata/2018c-r0/pseudo/pseudo.log <==
-debug_logfile: fd 2
-pid 8489 [parent 8484], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 8484.
-tried to close client 0 (highest is 1)
-tried to close client 0 (highest is 1)
+ http://lists.infradead.org/pipermail/linux-mtd/2011-August/037320.html
 
-==> update-rc.d/0.7-r5/pseudo/pseudo.log <==
-debug_logfile: fd 2
-pid 8488 [parent 8481], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 8481.
-tried to close client 0 (highest is 1)
-tried to close client 0 (highest is 1)
+Also a research to see if any other distribution had a similar patch
+included and they don't. So there is no clear need to keep diverging
+from upstream.
 
-And there is actually nothing else after those 3 lines at the beginning
-until I've killed the bitbake build (which didn't kill pseudo itself) and
-then killed both pseudo processes - which resulted with left-over
-bitbake-worker starting 2 new pseudo processes which kept spamming "tried
-to close client 0 (highest is 1)" after initial setup:
+See the logs below:
 
-$grep -v "^tried to close client 0 (highest is 1)$" */*/pseudo/pseudo.log
-tzdata/2018c-r0/pseudo/pseudo.log:debug_logfile: fd 2
-tzdata/2018c-r0/pseudo/pseudo.log:pid 8489 [parent 8484], doing new pid
-setup and server start
-tzdata/2018c-r0/pseudo/pseudo.log:Setup complete, sending SIGUSR1 to pid
-8484.
-tzdata/2018c-r0/pseudo/pseudo.log:Received signal 15, quitting.
-tzdata/2018c-r0/pseudo/pseudo.log:db cleanup for server shutdown,
-19:10:01.424
-tzdata/2018c-r0/pseudo/pseudo.log:memory-to-file backup complete,
-19:10:01.436.
-tzdata/2018c-r0/pseudo/pseudo.log:db cleanup finished, 19:10:01.436
-tzdata/2018c-r0/pseudo/pseudo.log:debug_logfile: fd 2
-tzdata/2018c-r0/pseudo/pseudo.log:pid 11205 [parent 11199], doing new pid
-setup and server start
-tzdata/2018c-r0/pseudo/pseudo.log:Setup complete, sending SIGUSR1 to pid
-11199.
-update-rc.d/0.7-r5/pseudo/pseudo.log:debug_logfile: fd 2
-update-rc.d/0.7-r5/pseudo/pseudo.log:pid 8488 [parent 8481], doing new pid
-setup and server start
-update-rc.d/0.7-r5/pseudo/pseudo.log:Setup complete, sending SIGUSR1 to pid
-8481.
-update-rc.d/0.7-r5/pseudo/pseudo.log:Received signal 15, quitting.
-update-rc.d/0.7-r5/pseudo/pseudo.log:db cleanup for server shutdown,
-19:10:01.423
-update-rc.d/0.7-r5/pseudo/pseudo.log:memory-to-file backup complete,
-19:10:01.436.
-update-rc.d/0.7-r5/pseudo/pseudo.log:db cleanup finished, 19:10:01.436
-update-rc.d/0.7-r5/pseudo/pseudo.log:debug_logfile: fd 2
-update-rc.d/0.7-r5/pseudo/pseudo.log:pid 11212 [parent 11200], doing new
-pid setup and server start
-update-rc.d/0.7-r5/pseudo/pseudo.log:Setup complete, sending SIGUSR1 to pid
-11200.
+,----[ Changes from 2.0.0 -> 2.0.1 ]
+| 81049e5 Release mtd-utils-2.0.1
+| 4458ad6 mtd-utils: tests: Avoid using less than two blocks in nandpagetest
+| 76a55b1 mtd-utils: ubinfo: add parameter check
+| 454a3d0 mkfs-ubifs: fix inclusion of uuid.h
+| df913e4 mtd-utils: tests: Add Erased Pages Bit Flip Test
+| f8bc7d9 Add const modifier to read only strings and string constants
+| a7c8cb3 Silence warnings about unused arguments
+| e511691 Remove unused variables and functions
+| ca517e8 Eliminate warnings about missing prototypes
+| 3029b65 Enable compiler warnings
+| 9eae306 Move libfec declarations to public header in global include directory
+| 022ce62 Use autoconf header detection correctly for libmissing
+| 1a3e3af Restructure autoconf configure.ac
+| e772dc8 Replace defunct ubifs_assert
+| b0b1bc5 mtd-utils: tests: Fix nandbiterrs Failure Check
+| 76e27a7 ubi-utils: Return error code if command line option is unknown
+| b8e785a nor-utils: Return error code if command line option is unknown
+| 12e27a1 jffsX-utils: Return error code if command line option is unknown
+| 9a357ee ftl_format: Use return directly to leave main function
+| 6890608 flashcp: Drop exit code defines
+| ccffc10 Use defines for exit code values
+| 871c2f1 mkfs.ubifs: Add support for symlinks in device table
+| c0972a5 libiniparser: remove unused function needing float
+| 5c57076 libubi.c: add klibc specific fixes for ioctl
+| dede98f Return correct error number in ubi_get_vol_info1
+| a2eeedb Fix libmtd behaviour if MTD is not present on the system
+| 4dab9be Fix build with musl
+| 82839c3 Replace rpmatch() usage with checking first character of line
+| 7d026a8 Fix alignment trap triggered by NEON instructions
+| d7e8612 mtd-utils: Support jffs2 flash-erase for large OOB (>32b)
+| fc7aa01 ubi: tests: Speedup io_paral by using rand_r()
+| fdec8a4 ubi: tests: Support up to 65k NAND page size
+| d600419 ubi: tests: Replace variable-length array with malloc()
+| 1710e0c Remove README.udev from ubi-tests extra dist
+| e3e010c ubirename: trivial fixes to the help text
+| 1fed9b4 Remove UDEV_SETTLE_HACK
+| 22089b0 mtd-utils: serve_image: Use PRIdoff_t as format specifier.
+| 5a80691 mtd-utils: Fix format specifier definitions for off_t and loff_t.
+| 44558d1 nanddump: Add --skip-bad-blocks-to-start option
+| 2fc8058 nandwrite: Add --skip-bad-blocks-to-start option
+| 6df83fd nandwrite: fix/cleanup bad block skipping
+| 7b8981a nandwrite: replace erase loop with mtd_erase_multi
+| dffaa1d nandwrite: add stricter sanity checking for blockalign
+`----
 
-$ du -hs */*/pseudo/
-28G     tzdata/2018c-r0/pseudo/
-28G     update-rc.d/0.7-r5/pseudo/
+,----[ Changes from 2.0.1 -> 9c61735 ]
+| 9c61735 mtd: unittests: Stop testing stat() calls
+| daef4f1 mtd: unittests: Decode arg size from ioctl request
+| fd0b70b mtd: unittests: Use proper unsigned long type for ioctl requests
+| c75d104 ubi-utils: ubiformat.c: convert to integer arithmetic
+| 61afcc6 mtd-utils: common.c: convert to integer arithmetic
+| 6766178 Run unit test programs through "make check"
+| 098e91a mtd: tests: Fix check on ebcnt in nandpagetest
+| 9cfb02c libscan: fix a comment typo in libscan.h
+| 7086393 libmtd: fix a comment typo in dev_node2num
+| 3c54e4e ubi-utils: ubicrc32: process command line arguments first
+| ce50e6d nandbiterrs: Fix copy & paste fail
+| 03dafe3 Enable further warning flags, address new warnings
+| 0555cb2 jittertest: Use the appropriate versions of abs()
+| 475bf70 Mark or fix switch cases that fall through
+| cb2fcfc Add no-return attribute to usage() style functions
+| 81fd176 Remove self-assignments of unused paramters
+| 3b421ab mkfs.ubifs: ignore EOPNOTSUPP when listing extended attributes
+| 030a63b tests: checkfs: Remove unused source file from makefiles
+| 40dd609 misc-utils: initialize "ip" in docfdisk to NULL
+| 94f6573 ubi-tests: io_update: fix missleading indentation
+| afba4fc mkfs.ubifs: Apply squash-uids to the root node
+| 3a34784 Add ctags files to .gitignore
+`----
 
-Without --enable-epoll in pseudo.inc tzdata built fine and pseudo.log is
-very short:
-debug_logfile: fd 2
-pid 14630 [parent 14629], doing new pid setup and server start
-14630: new pid: 14630 [pseudo]
-14630: Setup complete, sending SIGUSR1 to pid 14629.
-14630: path mismatch [2 links]: ino 282238092 db '/run/shm/sem.mp-yluz7s8j'
-req '/run/shm/sem.5mP74h'.
-14630: db cleanup for server shutdown, 20:19:27.475
-14630: memory-to-file backup complete, 20:19:27.475.
-14630: db cleanup finished, 20:19:27.475
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Shouldn't PSEUDO_DEBUG=4 in the environment generate a bit more verbose log?
+ .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   |  28 -----
+ .../mtd/mtd-utils/010-fix-rpmatch.patch            |  63 ----------
+ .../mtd/mtd-utils/fix-armv7-neon-alignment.patch   |  55 ---------
+ ...t-cleanmarker-with-flash_erase--j-command.patch | 137 ---------------------
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |   8 +-
+ 5 files changed, 2 insertions(+), 289 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
 
-I've also tried to add it in FAKEROOTENV (because pseudo seems to lock up
-before run.do_install is executed, so the export there probably didn't
-happen soon enough, but then even when it worked without --enable-epoll the
-log wasn't any bigger).
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+deleted file mode 100644
+index bf3f98f14d2..00000000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 4dab9bed1033f797ef9b482c77342fe3fe26d0be Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 6 Oct 2015 23:51:34 +0000
+-Subject: [PATCH] Fix build with musl
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+----
+- jffsX-utils/mkfs.jffs2.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/jffsX-utils/mkfs.jffs2.c b/jffsX-utils/mkfs.jffs2.c
+-index 5446a16..ca5e0d5 100644
+---- a/jffsX-utils/mkfs.jffs2.c
+-+++ b/jffsX-utils/mkfs.jffs2.c
+-@@ -72,6 +72,7 @@
+- #include <byteswap.h>
+- #include <crc32.h>
+- #include <inttypes.h>
+-+#include <limits.h>
+- 
+- #include "rbtree.h"
+- #include "common.h"
+--- 
+-2.6.1
+-
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch b/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+deleted file mode 100644
+index 853de6af984..00000000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From 82839c3c0371ca2a1643a99d7d01f5bc1c850b28 Mon Sep 17 00:00:00 2001
+-From: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+-Date: Thu, 2 Mar 2017 11:40:36 +0100
+-Subject: [PATCH] Replace rpmatch() usage with checking first character of line
+-
+-This is based on the patch from Khem Raj used by openembedded. In
+-addition to the original patch, this also removes the fallback
+-implementation that was provided for C libraries that don't implement
+-rpmatch.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+----
+- include/common.h | 25 ++++++-------------------
+- 1 file changed, 6 insertions(+), 19 deletions(-)
+-
+-diff --git a/include/common.h b/include/common.h
+-index d0c706d..d609257 100644
+---- a/include/common.h
+-+++ b/include/common.h
+-@@ -129,21 +129,6 @@ extern "C" {
+- 	fprintf(stderr, "%s: warning!: " fmt "\n", PROGRAM_NAME, ##__VA_ARGS__); \
+- } while(0)
+- 
+--/* uClibc versions before 0.9.34 and musl don't have rpmatch() */
+--#if defined(__UCLIBC__) && \
+--		(__UCLIBC_MAJOR__ == 0 && \
+--		(__UCLIBC_MINOR__ < 9 || \
+--		(__UCLIBC_MINOR__ == 9 && __UCLIBC_SUBLEVEL__ < 34))) || \
+--	!defined(__GLIBC__)
+--#undef rpmatch
+--#define rpmatch __rpmatch
+--static inline int __rpmatch(const char *resp)
+--{
+--    return (resp[0] == 'y' || resp[0] == 'Y') ? 1 :
+--	(resp[0] == 'n' || resp[0] == 'N') ? 0 : -1;
+--}
+--#endif
+--
+- /**
+-  * prompt the user for confirmation
+-  */
+-@@ -164,10 +149,12 @@ static inline bool prompt(const char *msg, bool def)
+- 		}
+- 
+- 		if (strcmp("\n", line) != 0) {
+--			switch (rpmatch(line)) {
+--			case 0: ret = false; break;
+--			case 1: ret = true; break;
+--			case -1:
+-+			switch (line[0]) {
+-+			case 'N':
+-+			case 'n': ret = false; break;
+-+			case 'Y':
+-+			case 'y': ret = true; break;
+-+			default:
+- 				puts("unknown response; please try again");
+- 				continue;
+- 			}
+--- 
+-2.6.1
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch b/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+deleted file mode 100644
+index 6fc594f00bc..00000000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 7d026a85946a08b8167dcd792ea6660bf6a49e08 Mon Sep 17 00:00:00 2001
+-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+-Date: Thu, 2 Mar 2017 10:43:56 +0100
+-Subject: [PATCH] Fix alignment trap triggered by NEON instructions
+-
+-NEON instruction VLD1.64 was used to copy 64 bits data after type
+-casting, and they will trigger alignment trap.
+-This patch uses memcpy to avoid alignment problem.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+-Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+----
+- ubifs-utils/mkfs.ubifs/key.h | 16 ++++++++++------
+- 1 file changed, 10 insertions(+), 6 deletions(-)
+-
+-diff --git a/ubifs-utils/mkfs.ubifs/key.h b/ubifs-utils/mkfs.ubifs/key.h
+-index 39379fd..118858b 100644
+---- a/ubifs-utils/mkfs.ubifs/key.h
+-+++ b/ubifs-utils/mkfs.ubifs/key.h
+-@@ -159,10 +159,12 @@ static inline void data_key_init(union ubifs_key *key, ino_t inum,
+-  */
+- static inline void key_write(const union ubifs_key *from, void *to)
+- {
+--	union ubifs_key *t = to;
+-+	__le32 x[2];
+- 
+--	t->j32[0] = cpu_to_le32(from->u32[0]);
+--	t->j32[1] = cpu_to_le32(from->u32[1]);
+-+	x[0] = cpu_to_le32(from->u32[0]);
+-+	x[1] = cpu_to_le32(from->u32[1]);
+-+
+-+	memcpy(to, &x, 8);
+- 	memset(to + 8, 0, UBIFS_MAX_KEY_LEN - 8);
+- }
+- 
+-@@ -174,10 +176,12 @@ static inline void key_write(const union ubifs_key *from, void *to)
+-  */
+- static inline void key_write_idx(const union ubifs_key *from, void *to)
+- {
+--	union ubifs_key *t = to;
+-+	__le32 x[2];
+-+
+-+	x[0] = cpu_to_le32(from->u32[0]);
+-+	x[1] = cpu_to_le32(from->u32[1]);
+- 
+--	t->j32[0] = cpu_to_le32(from->u32[0]);
+--	t->j32[1] = cpu_to_le32(from->u32[1]);
+-+	memcpy(to, &x, 8);
+- }
+- 
+- /**
+--- 
+-2.6.1
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
+deleted file mode 100644
+index 0f42e73e9ae..00000000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
++++ /dev/null
+@@ -1,137 +0,0 @@
+-Upstream-Status: Pending
+-From patchwork Mon Aug  8 08:16:43 2011
+-Content-Type: text/plain; charset="utf-8"
+-MIME-Version: 1.0
+-Content-Transfer-Encoding: 7bit
+-Subject: mtd-utils: fix corrupt cleanmarker with flash_erase -j command
+-Date: Sun, 07 Aug 2011 22:16:43 -0000
+-From: b35362@freescale.com
+-X-Patchwork-Id: 108873
+-Message-Id: <1312791403-13473-1-git-send-email-b35362@freescale.com>
+-To: <dwmw2@infradead.org>
+-Cc: Liu Shuo <b35362@freescale.com>, Artem.Bityutskiy@nokia.com,
+- Li Yang <leoli@freescale.com>, linux-mtd@lists.infradead.org
+-
+-From: Liu Shuo <b35362@freescale.com>
+-
+-Flash_erase -j should fill discrete freeoob areas with required bytes
+-of JFFS2 cleanmarker in jffs2_check_nand_cleanmarker(). Not just fill
+-the first freeoob area.
+-
+-The below is the result without this workaround:
+-
+-JFFS2: Erase block at 0x00000000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00004000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00008000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x0000c000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00010000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00014000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00018000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x0001c000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00020000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00024000 is not formatted. It will be erased
+-JFFS2: Erase block at 0x00028000 is not formatted. It will be erased
+-...
+-
+-Signed-off-by: Liu Shuo <b35362@freescale.com>
+-Signed-off-by: Li Yang <leoli@freescale.com>
+-
+-Updated for the new version
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+----
+-v2 : get length of availble freeoob bytes from oobinfo information,
+-      not use the ioctl ECCGETLAYOUT which is being deprecated.
+-
+- flash_erase.c |   46 +++++++++++++++++++++++++++++++++++++++-------
+- 1 files changed, 39 insertions(+), 7 deletions(-)
+-
+-diff --git a/flash_erase.c b/flash_erase.c
+-index 933373a..4b9d84b 100644
+---- a/misc-utils/flash_erase.c
+-+++ b/misc-utils/flash_erase.c
+-@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
+- 	bool isNAND;
+- 	int error = 0;
+- 	off_t offset = 0;
+-+	void *oob_data = NULL;
+- 
+- 	/*
+- 	 * Process user arguments
+-@@ -201,15 +202,43 @@ int main(int argc, char *argv[])
+- 			if (ioctl(fd, MEMGETOOBSEL, &oobinfo) != 0)
+- 				return sys_errmsg("%s: unable to get NAND oobinfo", mtd_device);
+- 
+-+			cleanmarker.totlen = cpu_to_je32(8);
+- 			/* Check for autoplacement */
+- 			if (oobinfo.useecc == MTD_NANDECC_AUTOPLACE) {
+--				/* Get the position of the free bytes */
+--				if (!oobinfo.oobfree[0][1])
+-+				struct nand_ecclayout_user ecclayout;
+-+				int i, oobavail;
+-+
+-+				for (i = 0, oobavail = 0; oobinfo.oobfree[i][1]; i++)
+-+					oobavail += oobinfo.oobfree[i][1];
+-+
+-+				if (!oobavail)
+- 					return errmsg(" Eeep. Autoplacement selected and no empty space in oob");
+-+
+-+				/* Get the position of the free bytes */
+- 				clmpos = oobinfo.oobfree[0][0];
+--				clmlen = oobinfo.oobfree[0][1];
+--				if (clmlen > 8)
+--					clmlen = 8;
+-+				clmlen = MIN(oobavail, 8);
+-+
+-+				if (oobinfo.oobfree[0][1] < 8 && oobavail >= 8) {
+-+					int left, n, last = 0;
+-+					void *cm;
+-+
+-+					oob_data = malloc(mtd.oob_size);
+-+					if (!oob_data)
+-+						return -ENOMEM;
+-+
+-+					memset(oob_data, 0xff, mtd.oob_size);
+-+					cm = &cleanmarker;
+-+					for (i = 0, left = clmlen; left ; i++) {
+-+						n = MIN(left, oobinfo.oobfree[i][1]);
+-+						memcpy(oob_data + oobinfo.oobfree[i][0],
+-+								cm, n);
+-+						left -= n;
+-+						cm   += n;
+-+						last = oobinfo.oobfree[i][0] + n;
+-+					}
+-+
+-+					clmlen = last - clmpos;
+-+				}
+- 			} else {
+- 				/* Legacy mode */
+- 				switch (mtd.oob_size) {
+-@@ -227,7 +256,6 @@ int main(int argc, char *argv[])
+- 						break;
+- 				}
+- 			}
+--			cleanmarker.totlen = cpu_to_je32(8);
+- 		}
+- 		cleanmarker.hdr_crc = cpu_to_je32(mtd_crc32(0, &cleanmarker, sizeof(cleanmarker) - 4));
+- 	}
+-@@ -276,7 +304,8 @@ int main(int argc, char *argv[])
+- 
+- 		/* write cleanmarker */
+- 		if (isNAND) {
+--			if (mtd_write_oob(mtd_desc, &mtd, fd, (uint64_t)offset + clmpos, clmlen, &cleanmarker) != 0) {
+-+			void *data = oob_data ? oob_data + clmpos : &cleanmarker;
+-+			if (mtd_write_oob(mtd_desc, &mtd, fd, (uint64_t)offset + clmpos, clmlen, data) != 0) {
+- 				sys_errmsg("%s: MTD writeoob failure", mtd_device);
+- 				continue;
+- 			}
+-@@ -291,5 +320,8 @@ int main(int argc, char *argv[])
+- 	show_progress(&mtd, offset, eb, eb_start, eb_cnt);
+- 	bareverbose(!quiet, "\n");
+- 
+-+	if (oob_data)
+-+		free(oob_data);
+-+
+- 	return 0;
+- }
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 48ba2ee07a9..3c34bdd84ea 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -9,15 +9,11 @@ inherit autotools pkgconfig update-alternatives
+ 
+ DEPENDS = "zlib lzo e2fsprogs util-linux"
+ 
+-PV = "2.0.0"
++PV = "2.0.1+${SRCPV}"
+ 
+-SRCREV = "1bfee8660131fca7a18f68e9548a18ca6b3378a0"
++SRCREV = "9c6173559f95e939e66efb2ec3193d6f3618cf69"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+-           file://fix-armv7-neon-alignment.patch \
+-           file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch \
+-           file://0001-Fix-build-with-musl.patch \
+-           file://010-fix-rpmatch.patch \
+ "
+ 
+ S = "${WORKDIR}/git/"
+-- 
+2.16.1
 
-meta/conf/bitbake.conf:export PSEUDO_DEBUG = "4"
-meta/conf/bitbake.conf:FAKEROOTBASEENV =
-"PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native}
-PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib
-PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_DISABLED=1
-PSEUDO_DEBUG=4"
-meta/conf/bitbake.conf:FAKEROOTENV =
-"PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
-PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD}
-PSEUDO_NOSYMLINKEXP=1 PSEUDO_DEBUG=4 PSEUDO_DISABLED=0"
 
-Regards,
-
-On Sun, Feb 18, 2018 at 12:43 PM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
-
-> The do_install tasks failing with exit code '134'/SIGABRT were caused by
-> left over pseudo processes from previous builds still holding the
-> pseudo.lock.
->
-> Manually killing those (still spinning at around 90% CPU for last 2 days)
-> resolved the do_install failures.
->
-> It also explains the lack of log.do_install files, because do_install
-> failed before it even properly started.
->
-> Regards,
->
-> On Sat, Feb 17, 2018 at 9:17 PM, Seebs <seebs@seebs.net> wrote:
->
->> On Sat, 17 Feb 2018 15:28:55 +0200
->> Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
->>
->> > For me, with epoll enabled:
->> >
->> > b6a015a works
->> > 23f089f and 26e30fa both lock up
->>
->> Huh. It's possible that the initial "don't try to close fd 0" was
->> correct, and the real problem is that the attempt is getting made
->> mistakenly. I'll study that more; the epoll code was a contribution and
->> I may not have fully understood it.
->>
->> -s
->>
->
->
-
---f403045f54d879cd980565825b6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I&#39;ve tried again with the change from Alex (witho=
-ut additional SRCREV bump) on ubuntu-14.04</div><div><br></div><div>To make=
- it simple I&#39;ve triggered the build of just to recipes (which caused &q=
-uot;tried to close client 0 (highest is 1)&quot; before:</div><div><br></di=
-v>$ bitbake tzdata update-rc.d<br><div>and again I quickly got:</div><div><=
-div>23G=C2=A0 =C2=A0 =C2=A0tzdata/2018c-r0/pseudo/</div><div>24G=C2=A0 =C2=
-=A0 =C2=A0update-rc.d/0.7-r5/pseudo/</div></div><div><br></div><div>There i=
-s nothing special in the pseudo.log before this=C2=A0<span style=3D"color:r=
-gb(34,34,34);font-family:arial,sans-serif;font-size:small;font-style:normal=
-;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;let=
-ter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;whi=
-te-space:normal;word-spacing:0px;background-color:rgb(255,255,255);text-dec=
-oration-style:initial;text-decoration-color:initial;float:none;display:inli=
-ne">&quot;tried to close client 0 (highest is 1)&quot;</span></div><div><di=
-v>=3D=3D&gt; tzdata/2018c-r0/pseudo/pseudo.log &lt;=3D=3D</div><div>debug_l=
-ogfile: fd 2</div><div>pid 8489 [parent 8484], doing new pid setup and serv=
-er start</div><div>Setup complete, sending SIGUSR1 to pid 8484.</div><div>t=
-ried to close client 0 (highest is 1)</div><div>tried to close client 0 (hi=
-ghest is 1)</div><div><br></div><div>=3D=3D&gt; update-rc.d/0.7-r5/pseudo/p=
-seudo.log &lt;=3D=3D</div><div>debug_logfile: fd 2</div><div>pid 8488 [pare=
-nt 8481], doing new pid setup and server start</div><div>Setup complete, se=
-nding SIGUSR1 to pid 8481.</div><div>tried to close client 0 (highest is 1)=
-</div><div>tried to close client 0 (highest is 1)</div></div><div><br></div=
-><div>And there is actually nothing else after those 3 lines at the beginni=
-ng until I&#39;ve killed the bitbake build (which didn&#39;t kill pseudo it=
-self) and then killed both pseudo processes - which resulted with left-over=
- bitbake-worker starting 2 new pseudo processes which kept spamming &quot;<=
-span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:sm=
-all;font-style:normal;font-variant-ligatures:normal;font-variant-caps:norma=
-l;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;te=
-xt-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(=
-255,255,255);text-decoration-style:initial;text-decoration-color:initial;fl=
-oat:none;display:inline">tried to close client 0 (highest is 1)&quot; after=
- initial setup:</span></div><div><span style=3D"color:rgb(34,34,34);font-fa=
-mily:arial,sans-serif;font-size:small;font-style:normal;font-variant-ligatu=
-res:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;t=
-ext-align:start;text-indent:0px;text-transform:none;white-space:normal;word=
--spacing:0px;background-color:rgb(255,255,255);text-decoration-style:initia=
-l;text-decoration-color:initial;float:none;display:inline"><br></span></div=
-><div>$grep -v &quot;^tried to close client 0 (highest is 1)$&quot; */*/pse=
-udo/pseudo.log<br></div><div><div>tzdata/2018c-r0/pseudo/pseudo.log:debug_l=
-ogfile: fd 2</div><div>tzdata/2018c-r0/pseudo/pseudo.log:pid 8489 [parent 8=
-484], doing new pid setup and server start</div><div>tzdata/2018c-r0/pseudo=
-/pseudo.log:Setup complete, sending SIGUSR1 to pid 8484.</div><div>tzdata/2=
-018c-r0/pseudo/pseudo.log:Received signal 15, quitting.</div><div>tzdata/20=
-18c-r0/pseudo/pseudo.log:db cleanup for server shutdown, 19:10:01.424</div>=
-<div>tzdata/2018c-r0/pseudo/pseudo.log:memory-to-file backup complete, 19:1=
-0:01.436.</div><div>tzdata/2018c-r0/pseudo/pseudo.log:db cleanup finished, =
-19:10:01.436</div><div>tzdata/2018c-r0/pseudo/pseudo.log:debug_logfile: fd =
-2</div><div>tzdata/2018c-r0/pseudo/pseudo.log:pid 11205 [parent 11199], doi=
-ng new pid setup and server start</div><div>tzdata/2018c-r0/pseudo/pseudo.l=
-og:Setup complete, sending SIGUSR1 to pid 11199.</div><div>update-rc.d/0.7-=
-r5/pseudo/pseudo.log:debug_logfile: fd 2</div><div>update-rc.d/0.7-r5/pseud=
-o/pseudo.log:pid 8488 [parent 8481], doing new pid setup and server start</=
-div><div>update-rc.d/0.7-r5/pseudo/pseudo.log:Setup complete, sending SIGUS=
-R1 to pid 8481.</div><div>update-rc.d/0.7-r5/pseudo/pseudo.log:Received sig=
-nal 15, quitting.</div><div>update-rc.d/0.7-r5/pseudo/pseudo.log:db cleanup=
- for server shutdown, 19:10:01.423</div><div>update-rc.d/0.7-r5/pseudo/pseu=
-do.log:memory-to-file backup complete, 19:10:01.436.</div><div>update-rc.d/=
-0.7-r5/pseudo/pseudo.log:db cleanup finished, 19:10:01.436</div><div>update=
--rc.d/0.7-r5/pseudo/pseudo.log:debug_logfile: fd 2</div><div>update-rc.d/0.=
-7-r5/pseudo/pseudo.log:pid 11212 [parent 11200], doing new pid setup and se=
-rver start</div><div>update-rc.d/0.7-r5/pseudo/pseudo.log:Setup complete, s=
-ending SIGUSR1 to pid 11200.</div></div><div><br></div><div><div>$ du -hs *=
-/*/pseudo/</div><div>28G=C2=A0 =C2=A0 =C2=A0tzdata/2018c-r0/pseudo/</div><d=
-iv>28G=C2=A0 =C2=A0 =C2=A0update-rc.d/0.7-r5/pseudo/</div></div><div><br></=
-div><div>Without --enable-epoll in pseudo.inc tzdata built fine and pseudo.=
-log is very short:</div><div><div>debug_logfile: fd 2</div><div>pid 14630 [=
-parent 14629], doing new pid setup and server start</div><div>14630: new pi=
-d: 14630 [pseudo]</div><div>14630: Setup complete, sending SIGUSR1 to pid 1=
-4629.</div><div>14630: path mismatch [2 links]: ino 282238092 db &#39;/run/=
-shm/sem.mp-yluz7s8j&#39; req &#39;/run/shm/sem.5mP74h&#39;.</div><div>14630=
-: db cleanup for server shutdown, 20:19:27.475</div><div>14630: memory-to-f=
-ile backup complete, 20:19:27.475.</div><div>14630: db cleanup finished, 20=
-:19:27.475</div></div><div><br></div><div>Shouldn&#39;t PSEUDO_DEBUG=3D4 in=
- the environment generate a bit more verbose log?</div><div><br></div><div>=
-I&#39;ve also tried to add it in=C2=A0<span style=3D"color:rgb(34,34,34);fo=
-nt-family:arial,sans-serif;font-size:small;font-style:normal;font-variant-l=
-igatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:nor=
-mal;text-align:start;text-indent:0px;text-transform:none;white-space:normal=
-;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:i=
-nitial;text-decoration-color:initial;float:none;display:inline">FAKEROOTENV=
- (because pseudo seems to lock up before run.do_install is executed, so the=
- export there probably didn&#39;t happen soon enough, but then even when it=
- worked without --enable-epoll the log wasn&#39;t any bigger).</span></div>=
-<div><span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-s=
-ize:small;font-style:normal;font-variant-ligatures:normal;font-variant-caps=
-:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:=
-0px;text-transform:none;white-space:normal;word-spacing:0px;background-colo=
-r:rgb(255,255,255);text-decoration-style:initial;text-decoration-color:init=
-ial;float:none;display:inline"><br></span></div><div><div>meta/conf/bitbake=
-.conf:export PSEUDO_DEBUG =3D &quot;4&quot;</div><div>meta/conf/bitbake.con=
-f:FAKEROOTBASEENV =3D &quot;PSEUDO_BINDIR=3D${PSEUDO_SYSROOT}${bindir_nativ=
-e} PSEUDO_LIBDIR=3D${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_=
-PREFIX=3D${PSEUDO_SYSROOT}${prefix_native} PSEUDO_DISABLED=3D1 PSEUDO_DEBUG=
-=3D4&quot;</div><div>meta/conf/bitbake.conf:FAKEROOTENV =3D &quot;PSEUDO_PR=
-EFIX=3D${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LO=
-CALSTATEDIR} PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 PSEUD=
-O_DEBUG=3D4 PSEUDO_DISABLED=3D0&quot;</div></div><div><br></div><div>Regard=
-s,</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On =
-Sun, Feb 18, 2018 at 12:43 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><=
-span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12=
-.8px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:norm=
-al;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;t=
-ext-transform:none;white-space:normal;word-spacing:0px;background-color:rgb=
-(255,255,255);text-decoration-style:initial;text-decoration-color:initial;f=
-loat:none;display:inline">The do_install tasks failing=C2=A0with exit code =
-&#39;134&#39;/SIGABRT were caused by left over pseudo processes from previo=
-us builds still holding the pseudo.lock.</span><br><div><span style=3D"colo=
-r:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.8px;font-style:no=
-rmal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400=
-;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none=
-;white-space:normal;word-spacing:0px;background-color:rgb(255,255,255);text=
--decoration-style:initial;text-decoration-color:initial;float:none;display:=
-inline"><br></span></div><div>Manually killing those (still spinning at aro=
-und 90% CPU for last 2 days) resolved the do_install failures.</div><div><b=
-r></div><div>It also explains the lack of log.do_install files, because do_=
-install failed before it even properly started.</div><div><br></div><div>Re=
-gards,</div></div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On Sat, Feb 17, 2018 at 9:17 PM, S=
-eebs <span dir=3D"ltr">&lt;<a href=3D"mailto:seebs@seebs.net" target=3D"_bl=
-ank">seebs@seebs.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><span>On Sat, 17 Feb 2018 15:28:55 +0200<br>
-Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" =
-target=3D"_blank">alexander.kanavin@linux.intel<wbr>.com</a>&gt; wrote:<br>
-<br>
-&gt; For me, with epoll enabled:<br>
-&gt;<br>
-&gt; b6a015a works<br>
-&gt; 23f089f and 26e30fa both lock up<br>
-<br>
-</span>Huh. It&#39;s possible that the initial &quot;don&#39;t try to close=
- fd 0&quot; was<br>
-correct, and the real problem is that the attempt is getting made<br>
-mistakenly. I&#39;ll study that more; the epoll code was a contribution and=
-<br>
-I may not have fully understood it.<br>
-<span class=3D"m_-3203429403165069772HOEnZb"><font color=3D"#888888"><br>
--s<br>
-</font></span></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-
---f403045f54d879cd980565825b6d--
