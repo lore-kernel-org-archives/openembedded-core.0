@@ -1,51 +1,24 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 99A407846C
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 368DA7847D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 01:32:41 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id v9so8949347lfa.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Feb 2018 17:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=exiHp9JRRjAJ0awKuI2J6ILlbTqcBPLoSxCDgofaaeA=;
-	b=g0hp/PTBijaeZ/1jK/T3v3fgLbxZ4OJgcLg+ZxQ7nKKh0YRdIvYGX0o5xcMIzX4Bbb
-	/njyChxJs///+eph+maALETKsQx5O3KKW2gTYEovaRgqOiJHKvjxIr6CYj4Zbv/82Lrr
-	94FUrBVdpLj80wL4OT/T6494qIBWy/llmUfKGektkQPE2phfFFqCL0X6th+GD1XYIA0U
-	Nf6tOHNuvZs/DSsgWDhcYYGC9C/s4RFLctWL9EFU4bU1f4ii4RZvq56QbDHYPpAxNrjJ
-	GL3kfp94VBDrvcvFkHywSXN9ab+xX9kLnogddYxM87KIjMCcq2kd+Da5+Zl9Q5se26++
-	6l2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=exiHp9JRRjAJ0awKuI2J6ILlbTqcBPLoSxCDgofaaeA=;
-	b=AKtEmc6e2/M9cU7N8w7Xwwm2qXwgsaxJgAtTFIqaxexCoiEYrNus3P2kE9JjSI6AIy
-	J7qkTsOuReRU1kIXKXrUAzDaOtGIWjJDdc4rKXpEjgnNd70NINyg+MmhVPK+RYtLVSSP
-	8Ic2Y/9RnnOp2RoGMzlAUjS7KZHnAV7lv6flp8oGfD+1zGPqUlxwcSkRSB9N3Z1kou9s
-	e+j3Fi2JYAIw0nfNFkyJpmO5W0KXvin/P2TEddhhc/90GP2IjuAZyDe3Yz9yGOP/MN5H
-	zGfFj7vNbqZ9kDbA4PKf71ek9d061MJOl/5n1L0FUrKRS56Iu4uCM3NCCkqHsf44OfuW
-	xTCA==
-X-Gm-Message-State: APf1xPAHUgYN4UIz5Gqqi1LKbGKgTK1Zc+9wKYSjMBU+Ot/8nPBmPkVp
-	km1oJSKwbLUUqT1UTK13dR/deJ116wc=
-X-Google-Smtp-Source: AH8x2274fMg6oLolyHm2zDdbsxVRLueelzwn+ZDTEdLlPtQuaXHvfJojXkwbiSz7RrBYbzSMl/k1wQ==
-X-Received: by 10.46.41.157 with SMTP id p29mr8131498ljp.137.1519003962035;
-	Sun, 18 Feb 2018 17:32:42 -0800 (PST)
-Received: from localhost.localdomain ([2a04:ae08:1403:ff00:80ad:a8be:d6c:2b2c])
-	by smtp.gmail.com with ESMTPSA id 5sm4671501ljv.29.2018.02.18.17.32.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Feb 2018 17:32:41 -0800 (PST)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Feb 2018 02:32:09 +0100
-Message-Id: <20180219013209.21401-2-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180219013209.21401-1-open.source@oleksandr-kravchuk.com>
-References: <20180219013209.21401-1-open.source@oleksandr-kravchuk.com>
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [meta-oe][PATCH 2/2] curl: upgrade to 7.58.0
+	Mon, 19 Feb 2018 02:25:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1J2PofO026838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 18 Feb 2018 18:25:51 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Sun, 18 Feb 2018 18:25:33 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sun, 18 Feb 2018 21:25:42 -0500
+Message-ID: <cover.1519006338.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 01:32:41 -0000
+X-List-Received-Date: Mon, 19 Feb 2018 02:25:51 -0000
+Content-Type: text/plain
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-support/curl/{curl_7.57.0.bb => curl_7.58.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.57.0.bb => curl_7.58.0.bb} (95%)
+Hi all,
 
-diff --git a/meta/recipes-support/curl/curl_7.57.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
-similarity index 95%
-rename from meta/recipes-support/curl/curl_7.57.0.bb
-rename to meta/recipes-support/curl/curl_7.58.0.bb
-index 47e3d45460..5535a5609b 100644
---- a/meta/recipes-support/curl/curl_7.57.0.bb
-+++ b/meta/recipes-support/curl/curl_7.58.0.bb
-@@ -15,8 +15,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "dd3e22e923be17663e67f721c2aec054"
--SRC_URI[sha256sum] = "c92fe31a348eae079121b73884065e600c533493eb50f1f6cee9c48a3f454826"
-+SRC_URI[md5sum] = "fa049f9f90c1ae473a2a7bcfa14de976"
-+SRC_URI[sha256sum] = "1cb081f97807c01e3ed747b6e1c9fee7a01cb10048f1cd0b5f56cfe0209de731"
- 
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+Here is the next set of kernel (and kernel-yocto) changes. Now that we've
+got 4.14 and 4.15 in master, these are the follow on tweaks.
+
+ - stable updates for 4.14 and 4.15
+ - -rt addition and build dependency fixes for 4.14
+ - 4.12 -stable updates (which include meltdown patches). This is also
+   valid for rocko, and I'll send it separately as a single patch for
+   that branch.
+
+Outside of the kernel updates, I've also included my changes for
+make-mod-scripts that were sent as a RFC in my last pull request. These have
+been in my tree for a while, and have been commented/tested by others. I now
+have a second patch in that sub-series that adds the right openssl dependencies
+for 4.15+ kernels when building out of tree modules (since they do appear
+to solve the issues reported on the mailing list).
+
+Cheers,
+
+Bruce
+
+The following changes since commit 02641ef12d681e4402fdaee1038513bfdb8c79b1:
+
+  ltp: fix knob to control numa support (2018-02-16 18:05:41 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  make-mod-scripts: add build requirements for external modules
+  linux-yocto/4.15: add build dependencies
+  linux-yocto/4.14: add -rt and update to v4.4.18
+  linux-yocto/4.14: update to v4.14.19
+  linux-yocto/4.15: update to v4.15.3
+  linux-yocto/4.12: update to v4.12.20
+
+Joe Slater (1):
+  make-mod-scripts: change how some kernel module tools are built
+
+ meta/classes/module-base.bbclass                   | 12 +++-------
+ meta/classes/module.bbclass                        |  4 ----
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  9 +++++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 16 ++++++-------
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 20 ++++++++--------
+ .../make-mod-scripts/make-mod-scripts_1.0.bb       | 27 ++++++++++++++++++++++
+ 12 files changed, 78 insertions(+), 58 deletions(-)
+ create mode 100644 meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+
 -- 
-2.14.1
+2.5.0
 
 
