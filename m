@@ -1,26 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1991F78812
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 72A0C71ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 23:45:18 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w1JNjHXN003614
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 19 Feb 2018 23:45:19 GMT
-Message-ID: <1519083917.24236.261.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Mon, 19 Feb 2018 23:45:17 +0000
-In-Reply-To: <1519054657-4616-2-git-send-email-bruce.ashfield@windriver.com>
-References: <1519054657-4616-1-git-send-email-bruce.ashfield@windriver.com>
-	<1519054657-4616-2-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] make-mod-scripts: change how some kernel module tools are built
+	Mon, 19 Feb 2018 23:54:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A296520B15;
+	Mon, 19 Feb 2018 23:54:17 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 3g83vsPHX1pj; Mon, 19 Feb 2018 23:54:17 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7F7012073F;
+	Mon, 19 Feb 2018 23:54:16 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 0B27E1632C0;
+	Mon, 19 Feb 2018 18:54:16 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Feb 2018 18:54:15 -0500
+Message-Id: <1519084455-3915-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] kernel.bbclass: explicitly depend on bison-native for deterministic builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 23:45:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 19 Feb 2018 23:54:16 -0000
 
-On Mon, 2018-02-19 at 10:37 -0500, Bruce Ashfield wrote:
-> From: Joe Slater <jslater@windriver.com>
-> 
-> Remove do_make_scripts() from module-base.bbclass and put
-> functionality in a recipe.  This will build the scripts only
-> once instead of each time an external module is built.
-> 
-> [YOCTO #12228]
-> 
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> 
-> v2: added the LIC_FILES_CHECKSUM
-> 
+From: Denys Dmytriyenko <denys@ti.com>
 
-Sadly this doesn't pass all our tests:
+Explicitly depend on bison-native for deterministic builds, as it is required
+for the build:
 
-https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/827/steps/Running%20oe-selftest/logs/stdio
+|   HOSTCC  scripts/basic/fixdep
+|   GEN     ./Makefile
+|   HOSTCC  scripts/kconfig/conf.o
+|   YACC    scripts/kconfig/zconf.tab.c
+| /bin/sh: bison: command not found
+| scripts/Makefile.lib:217: recipe for target 'scripts/kconfig/zconf.tab.c' failed
 
-oe-selftest -r sstatetests.SStateTests.test_sstate_sametune_samesigs
+In most cases, this dependency comes indirectly via toolchain dependencies,
+specifically binutils-cross, which pulls bison-native. Different setups,
+such as with external toolchain, would expose this problem, since correct
+dependency is not marked explicitly.
 
-should reproduce.
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+I'm seeing this now on 4.16-rc2 with external toolchain.
 
-I suspect that the recipe may need:
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 943938d..321c0a4 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
+ KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+ 
+ PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+-DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
++DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+ do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+-- 
+2.7.4
 
-Cheers,
-
-Richard
 
