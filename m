@@ -1,48 +1,51 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 182517846C
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 99A407846C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 01:32:32 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id y19so857301lfd.4
+	Mon, 19 Feb 2018 01:32:41 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id v9so8949347lfa.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Feb 2018 17:32:34 -0800 (PST)
+	Sun, 18 Feb 2018 17:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=rUJaZOrjhaNG9M/QDGTMR9MekIwm5ZHJ/mQo6OZDdsc=;
-	b=zbaKqPxs85qfJdwJn06xvepuwda7nDONV/GLctZkE50ta2vZ+oZQtS22wNjVVnpEjf
-	8F2Vt3AEqn2MdIFfAxtzwnqGNCJPTTxyFzXbiy0IhkyFK1ZgiGQmVYpLElYGXqAqyyZ0
-	Q/mjPOdk5YNnX9e06IBzoTFv2q898pe5jmk1R4RZMFdagdc85B8UyS70vyADWYhtsabv
-	Vsr40yZH6tmDBSoZXKXws6M+cltrVCNEGwu8n49FMAfAXJoU/44fy+jIm2J0qphByKxE
-	ncwvibbMXJqKQfhJQokwWngbioeB13iQ6okN9wF6vewEPw0qUlkqaY/AnFe2WF8rGmru
-	xnww==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=exiHp9JRRjAJ0awKuI2J6ILlbTqcBPLoSxCDgofaaeA=;
+	b=g0hp/PTBijaeZ/1jK/T3v3fgLbxZ4OJgcLg+ZxQ7nKKh0YRdIvYGX0o5xcMIzX4Bbb
+	/njyChxJs///+eph+maALETKsQx5O3KKW2gTYEovaRgqOiJHKvjxIr6CYj4Zbv/82Lrr
+	94FUrBVdpLj80wL4OT/T6494qIBWy/llmUfKGektkQPE2phfFFqCL0X6th+GD1XYIA0U
+	Nf6tOHNuvZs/DSsgWDhcYYGC9C/s4RFLctWL9EFU4bU1f4ii4RZvq56QbDHYPpAxNrjJ
+	GL3kfp94VBDrvcvFkHywSXN9ab+xX9kLnogddYxM87KIjMCcq2kd+Da5+Zl9Q5se26++
+	6l2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=rUJaZOrjhaNG9M/QDGTMR9MekIwm5ZHJ/mQo6OZDdsc=;
-	b=HRvIsgAGgCqGgLMsuCqyO4UFXkm8HZwk1AdebvYgWUh5HVV4gQ9olF23pUcG0LCLoJ
-	lOXY4t+44f5Mre7JQmFDTrPYJ2ZxHk6FzakdZT6NReZUslfme5mXYtK+ugVJE6TTsmEw
-	RMvyRiXm0I1zeCw+rre4U9iBLgNJJKNutnzBMQx4+wsj1ZZ3OqtKdOpvnRFD3zQUxlPJ
-	dmNGK+CmUOPkuZ1sd7srA/AXey4itjVMfQlu3xYuHoHICeWFTTCcUSOsd/z+hYZRGqo+
-	FUnYvtTILIRHSAcVxIi+gcvj2EV5tcZbBGIP0TMRJE3B7Kq7RUr0S56qpFpGFJ9zxpUE
-	q3Sw==
-X-Gm-Message-State: APf1xPD3MATyGNkCTl2aXv0R6mM6jbvnSHYvU/nZmwt+8NfVwEvxwOgh
-	IvH/yocD5ykkCoLK164kZxTyTUx8hv4=
-X-Google-Smtp-Source: AH8x2253SP9mOeuOSPcx3dTdndwENZhu8TpCx0KSUHx5tUzSgHxeIVZoYDr3oDUavZE+nCOif3T1Kw==
-X-Received: by 10.25.216.74 with SMTP id p71mr9048320lfg.11.1519003953119;
-	Sun, 18 Feb 2018 17:32:33 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=exiHp9JRRjAJ0awKuI2J6ILlbTqcBPLoSxCDgofaaeA=;
+	b=AKtEmc6e2/M9cU7N8w7Xwwm2qXwgsaxJgAtTFIqaxexCoiEYrNus3P2kE9JjSI6AIy
+	J7qkTsOuReRU1kIXKXrUAzDaOtGIWjJDdc4rKXpEjgnNd70NINyg+MmhVPK+RYtLVSSP
+	8Ic2Y/9RnnOp2RoGMzlAUjS7KZHnAV7lv6flp8oGfD+1zGPqUlxwcSkRSB9N3Z1kou9s
+	e+j3Fi2JYAIw0nfNFkyJpmO5W0KXvin/P2TEddhhc/90GP2IjuAZyDe3Yz9yGOP/MN5H
+	zGfFj7vNbqZ9kDbA4PKf71ek9d061MJOl/5n1L0FUrKRS56Iu4uCM3NCCkqHsf44OfuW
+	xTCA==
+X-Gm-Message-State: APf1xPAHUgYN4UIz5Gqqi1LKbGKgTK1Zc+9wKYSjMBU+Ot/8nPBmPkVp
+	km1oJSKwbLUUqT1UTK13dR/deJ116wc=
+X-Google-Smtp-Source: AH8x2274fMg6oLolyHm2zDdbsxVRLueelzwn+ZDTEdLlPtQuaXHvfJojXkwbiSz7RrBYbzSMl/k1wQ==
+X-Received: by 10.46.41.157 with SMTP id p29mr8131498ljp.137.1519003962035;
+	Sun, 18 Feb 2018 17:32:42 -0800 (PST)
 Received: from localhost.localdomain ([2a04:ae08:1403:ff00:80ad:a8be:d6c:2b2c])
-	by smtp.gmail.com with ESMTPSA id 5sm4671501ljv.29.2018.02.18.17.32.32
+	by smtp.gmail.com with ESMTPSA id 5sm4671501ljv.29.2018.02.18.17.32.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Feb 2018 17:32:32 -0800 (PST)
+	Sun, 18 Feb 2018 17:32:41 -0800 (PST)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Feb 2018 02:32:08 +0100
-Message-Id: <20180219013209.21401-1-open.source@oleksandr-kravchuk.com>
+Date: Mon, 19 Feb 2018 02:32:09 +0100
+Message-Id: <20180219013209.21401-2-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20180219013209.21401-1-open.source@oleksandr-kravchuk.com>
+References: <20180219013209.21401-1-open.source@oleksandr-kravchuk.com>
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [meta-oe][PATCH 1/2] libmpc: fix SRC_URI
+Subject: [meta-oe][PATCH 2/2] curl: upgrade to 7.58.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 01:32:34 -0000
+X-List-Received-Date: Mon, 19 Feb 2018 01:32:41 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-support/libmpc/libmpc_1.0.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/curl/{curl_7.57.0.bb => curl_7.58.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.57.0.bb => curl_7.58.0.bb} (95%)
 
-diff --git a/meta/recipes-support/libmpc/libmpc_1.0.3.bb b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
-index 9c8c5f643f..d37de3831a 100644
---- a/meta/recipes-support/libmpc/libmpc_1.0.3.bb
-+++ b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
-@@ -3,7 +3,7 @@ require libmpc.inc
- DEPENDS = "gmp mpfr"
+diff --git a/meta/recipes-support/curl/curl_7.57.0.bb b/meta/recipes-support/curl/curl_7.58.0.bb
+similarity index 95%
+rename from meta/recipes-support/curl/curl_7.57.0.bb
+rename to meta/recipes-support/curl/curl_7.58.0.bb
+index 47e3d45460..5535a5609b 100644
+--- a/meta/recipes-support/curl/curl_7.57.0.bb
++++ b/meta/recipes-support/curl/curl_7.58.0.bb
+@@ -15,8 +15,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
- LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
--SRC_URI = "http://www.multiprecision.org/mpc/download/mpc-${PV}.tar.gz"
-+SRC_URI = "https://ftp.gnu.org/gnu/mpc/mpc-${PV}.tar.gz"
+-SRC_URI[md5sum] = "dd3e22e923be17663e67f721c2aec054"
+-SRC_URI[sha256sum] = "c92fe31a348eae079121b73884065e600c533493eb50f1f6cee9c48a3f454826"
++SRC_URI[md5sum] = "fa049f9f90c1ae473a2a7bcfa14de976"
++SRC_URI[sha256sum] = "1cb081f97807c01e3ed747b6e1c9fee7a01cb10048f1cd0b5f56cfe0209de731"
  
- SRC_URI[md5sum] = "d6a1d5f8ddea3abd2cc3e98f58352d26"
- SRC_URI[sha256sum] = "617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3"
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
 -- 
 2.14.1
 
