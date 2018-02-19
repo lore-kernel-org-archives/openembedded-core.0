@@ -1,30 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 231486060F
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C42D6060F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 08:35:10 +0000 (UTC)
+	Mon, 19 Feb 2018 08:35:11 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Feb 2018 00:35:12 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Feb 2018 00:35:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.46,534,1511856000"; d="scan'208";a="18866095"
+X-IronPort-AV: E=Sophos;i="5.46,534,1511856000"; d="scan'208";a="29064669"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga008.fm.intel.com with ESMTP; 19 Feb 2018 00:35:12 -0800
+	by orsmga003.jf.intel.com with ESMTP; 19 Feb 2018 00:35:13 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 6C4625802D1
+	by linux.intel.com (Postfix) with ESMTP id 812625802D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 00:35:11 -0800 (PST)
+	Mon, 19 Feb 2018 00:35:12 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Feb 2018 10:37:11 +0200
-Message-Id: <1519029438-11092-21-git-send-email-maxin.john@intel.com>
+Date: Mon, 19 Feb 2018 10:37:12 +0200
+Message-Id: <1519029438-11092-22-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1519029438-11092-1-git-send-email-maxin.john@intel.com>
 References: <1519029438-11092-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 20/27] bluez5: specify udev, dbus and systemd configurations
+Subject: [PATCH 21/27] xf86-input-synaptics: fix installation paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +39,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Feb 2018 08:35:11 -0000
 
-configure udevdir, systemd-unitsdir and dbusconfdir.
-Also provide a packageconfig for systemd.
+Fix the installations paths of xf86-input-synaptics.
+This was caused by the change of pkg-config provider to pkgconf.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.9.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 2607a05..cf61a9e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -27,7 +27,7 @@ PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
- PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
- PACKAGECONFIG[testing] = "--enable-testing,--disable-testing"
- PACKAGECONFIG[midi] = "--enable-midi,--disable-midi,alsa-lib"
--PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd"
-+PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir} --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd"
- PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,,cups"
- PACKAGECONFIG[nfc] = "--enable-nfc,--disable-nfc"
- PACKAGECONFIG[sap-profiles] = "--enable-sap,--disable-sap"
-@@ -61,7 +61,11 @@ EXTRA_OECONF = "\
-   --enable-test \
-   --enable-datafiles \
-   --enable-library \
--"
-+  --with-udevdir=`unset PKG_CONFIG_SYSROOT_DIR;pkg-config --variable=udevdir udev` \
-+  --with-dbusconfdir=${sysconfdir}/dbus-1/system.d \
-+  --with-dbussessionbusdir=${datadir}/dbus-1/services/ \
-+  --with-dbussystembusdir=${datadir}/dbus-1/system-services/ \
-+  "
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.9.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.9.0.bb
+index d327a3b..35dbe50 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.9.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.9.0.bb
+@@ -14,3 +14,5 @@ SRC_URI[md5sum] = "58e5b7722a402114093bf193962d1e3a"
+ SRC_URI[sha256sum] = "afba3289d7a40217a19d90db98ce181772f9ca6d77e1898727b0afcf02073b5a"
  
- # bluez5 builds a large number of useful utilities but does not
- # install them.  Specify which ones we want put into ${PN}-noinst-tools.
+ DEPENDS += "libxi mtdev libxtst libevdev"
++
++EXTRA_OECONF += "--with-sdkdir=${includedir}/xorg --with-xorg-conf-dir=${datadir}/X11/xorg.conf.d"
 -- 
 2.4.0
 
