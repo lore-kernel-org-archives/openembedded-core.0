@@ -1,50 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 21541786B2
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F94478235
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 16:45:53 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id 37so333381lfs.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 08:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Agzx7IvbGvc/hld/Ds0xke8jgbqeaEkpdCS1tqr84vE=;
-	b=KvcS1KS8w65tFim2AtrKkYDjpBGeIvt0s4rJVQk3eTCOYYRAK26oZ1r2YH0eJigLAn
-	6hjmCJAi4r7xlWGoiDjPe1ZNA2NScieDsuGan2o4oNvNcy5VpqpWfU/MnXlik7zYHmx0
-	ea1hS+YMj7dq4SV2e1uXEK968dsyiyzaw5Ld9KLwtDRpJ4B2N+AI1wNt/SXLK8BTetxl
-	WEeuIkQBhjE90khbwHovN9X+5vZimOvN88vqPgOUrfJYi6wjQdC9pwOOxrvbezcGYzLU
-	zYRfUZEbNlxo/t75/AghRqX6946np+0GOwdaUv9q9HH2A8+nol3XznNbBuYpCVzFqcgC
-	9nUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Agzx7IvbGvc/hld/Ds0xke8jgbqeaEkpdCS1tqr84vE=;
-	b=Q8ibZN4Xkm6p9FdGi2/FPsemSHSbPNuSKlW8MqSU39NAaI0+St76LaeWcVCoV2Ay9R
-	ae+mKiP5ANoQToi3ReELDl5RP5XW3PhzLRGeWdkYCKVf45zWTky4E8asEqsNktDKLEv0
-	beHmfpJVS4G0jiWJc9Fn5a8MVGE8O21pVVeU+OEqZIlDZZZI+swg/WBGDff30EZL67UV
-	kaho73ibOu8HLrg5rNdDg0lxQKwya0ALRbXUbZCtjP4PnK7ecLgDdzkdbyqEHxxBOK93
-	TaS9PoItbEUt79g+5QKKwx7khHWdZdLsWpxMr/GLR0q/I34QLN+gPuALLBeOreSuqJ2j
-	KzCg==
-X-Gm-Message-State: APf1xPCjcfagl06Jq1NPNJXwgdghD4aYv6EGM6zDAxZceZm1MIv3GdJf
-	vDpyHpUuT45TNurCFr52htSsEOhs2Q388gGhkk0=
-X-Google-Smtp-Source: AH8x226hQDkf1TbN2ehVeI1lzEfwzb4u/N1V1xNaCMkZSdVgW19Bhsult4gII/NIh6jUVOVeu65dRUYJH1XPFY7f1R4=
-X-Received: by 10.46.23.219 with SMTP id 88mr10230217ljx.49.1519058754587;
-	Mon, 19 Feb 2018 08:45:54 -0800 (PST)
+	Mon, 19 Feb 2018 17:55:39 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id D443C2E894A;
+	Mon, 19 Feb 2018 11:55:40 -0600 (CST)
+Date: Mon, 19 Feb 2018 11:55:38 -0600
+From: Seebs <seebs@seebs.net>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20180219115538.5081767b@seebsdell>
+In-Reply-To: <bb1b003e-9bd3-f438-8ae1-637500d970b5@linux.intel.com>
+References: <20180216095628.15414-1-alexander.kanavin@linux.intel.com>
+	<CA+chaQeEdY8tjp4PMsMCfZNoi2NwGqZoOcOqme9Ju-Ext6FkaQ@mail.gmail.com>
+	<20180216115147.2869fdf2@seebsdell>
+	<CA+chaQf=OMV60V7S=C6zaJ3sd_FwQkiojKY5EqAb6gTxXAQmXw@mail.gmail.com>
+	<20180216132531.3a1c2398@seebsdell>
+	<60cc88e3-577e-de47-e5da-b3cf93c74a2c@linux.intel.com>
+	<CA+chaQdGobLWVzZ_YSpdWozrF3ZrYzBNAVusUMFgGFbAX+w90w@mail.gmail.com>
+	<CA+chaQeNhb=nPaYz3XZdh_ceQopFKJvEq5Ximu83PykTjoHJWA@mail.gmail.com>
+	<bb8be581-a074-b05b-86c6-71e1ee19fdfa@linux.intel.com>
+	<20180217141701.229759cf@seebsdell>
+	<bb1b003e-9bd3-f438-8ae1-637500d970b5@linux.intel.com>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 10.46.48.4 with HTTP; Mon, 19 Feb 2018 08:45:54 -0800 (PST)
-In-Reply-To: <1519058248.24236.259.camel@linuxfoundation.org>
-References: <1519054841-4986-1-git-send-email-bruce.ashfield@windriver.com>
-	<a2083091-1169-4ab3-1aba-55a1fc4cf2c0@gmail.com>
-	<1519058248.24236.259.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 19 Feb 2018 11:45:54 -0500
-Message-ID: <CADkTA4MjxCe1gY2zf6iro3DdQYs6_HZ9kH9SymcvhBJ8FJm1WA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2][rocko] linux-yocto/4.12: update to v4.12.20
+Subject: Re: [PATCH] pseudo: update to latest master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 16:45:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Feb 2018 17:55:40 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 19, 2018 at 11:37 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2018-02-19 at 08:16 -0800, akuster808 wrote:
->> Bruce,
->>
->> thanks. I hand applied this as I have another kernel change sitting
->> in
->> stable/rocko-next
->>
->> I will build this once RP is done with master
->
-> You correctly pointed out I needed to sort master first! :)
->
-> Bruce: Is there an update for 4.9 in rocko? If so we should perhaps
-> pull that in too before we rebuild 2.4.2?
+On Mon, 19 Feb 2018 11:27:56 +0200
+Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
 
-I haven't done a patch for 4.9 in rocko, but can. Give me a few minutes and
-will send one out.
+> > Huh. It's possible that the initial "don't try to close fd 0" was
+> > correct, and the real problem is that the attempt is getting made
+> > mistakenly. I'll study that more; the epoll code was a contribution
+> > and I may not have fully understood it.
+> 
+> To be honest, it would have been better to apply my epoll patch as it 
+> is, and then do additional modifications as separate commits. That
+> would make it simpler to isolate the issue. We've used my epoll patch
+> for many months without problems on the autobuilder and elsewhere.
 
-Bruce
+... Wow, you know, now that you *mention* it, that is a really good
+idea. *sigh* Sorry about that.
 
->
-> (and thanks for the 4.12 fixes, I was going to ask about them but Armin
-> beat me to it)
->
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Hmm.
+
+> if (clients[events[i].data.u64].fd == listen_fd) {
+
+Just a sanity-check: Should this be equivalent to:
+    if (events[[i].data.u64 == 0)
+?
+
+The reason I ask is that, looking at the code, we should never, ever,
+be getting into close_client(0). The "<=" check was right.
+
+The only call to close_client anywhere in the epoll case is:
+
+> } else {
+> 	int n = 0;
+> 	ioctl(clients[i].fd, FIONREAD, &n);
+> 	if (n == 0) {
+> 		close_client(i);
+> 	} else {
+> 		serve_client(i);
+> 	}
+
+And that's the else for clients... oh hey
 
 
+> if (clients[events[i].data.u64].fd == listen_fd) {
+...
+> ioctl(clients[i].fd, FIONREAD, &n);
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+do you see the error? I do.
+
+This gets back to "and one of the problems with testing is that
+if I don't actually check the logs, I often don't see problems",
+because pseudo does enough internal disaster recovery that things can
+explode horribly without observable failures.
+
+Now extracting the data.u64 value and using that consistently as the
+index. Pushed fix to master.
+
+-s
 
