@@ -1,30 +1,26 @@
-Return-Path: <konstantin.shemyak@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
-	[67.231.149.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 457D8782CD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C50E46FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 15:20:20 +0000 (UTC)
-Received: from pps.filterd (m0047962.ppops.net [127.0.0.1])
-	by m0047962.ppops.net-00176a03. (8.16.0.22/8.16.0.22) with SMTP id
-	w1JEXKLI001184 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 09:36:29 -0500
-From: Konstantin Shemyak <konstantin.shemyak@ge.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Feb 2018 16:35:53 +0200
-Message-ID: <1519050954-29266-1-git-send-email-konstantin.shemyak@ge.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [3.159.212.191]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2018-02-19_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=662
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1711220000
-	definitions=main-1802190182
-Subject: [PATCH 0/1] cve-check-tool: correctly exported web proxies
+	Mon, 19 Feb 2018 15:28:18 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1JFSHBX004857
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 19 Feb 2018 15:28:18 GMT
+Message-ID: <1519054097.24236.247.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mauno Niko <niko.mauno@vaisala.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Feb 2018 15:28:17 +0000
+In-Reply-To: <ddc7757a-ea92-9841-a521-47d9b68b2de6@vaisala.com>
+References: <ddc7757a-ea92-9841-a521-47d9b68b2de6@vaisala.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: Missing git tags for latest Morty release?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,22 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 15:20:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Feb 2018 15:28:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Commit 0466c81f has lost passing web proxies to the download process,
-which makes whole CVE checking fail.
-In turn, in cve-check.bbclass setting the proxies is not needed, as the
-called process does not connect to the network.
+On Mon, 2018-02-19 at 12:15 +0000, Mauno Niko wrote:
+> Even <https://wiki.yoctoproject.org/wiki/Releases> states "Current
+> Version" is "2.2.3" for Codename Morty, associated "yocto-2.2.3",
+> "morty-16.0.3" tags do not seem to exist, could someone please create
+> those?
 
-Konstantin Shemyak (1):
-  cve-check-tool: correctly exported proxies for updating the DB
+2.2.3 is actually undergoing QA testing at the moment and has not been
+released yet but has been built. I suspect someone updated the wiki
+prematurely.
 
- meta/classes/cve-check.bbclass                               | 3 ---
- meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb | 1 +
- 2 files changed, 1 insertion(+), 3 deletions(-)
+Cheers,
 
--- 
-2.7.4
-
+Richard
 
