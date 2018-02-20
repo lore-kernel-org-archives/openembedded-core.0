@@ -1,48 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 37462786F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B4791782A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 17:06:45 +0000 (UTC)
-Received: by mail-lf0-f47.google.com with SMTP id f136so5205387lff.8
+	Tue, 20 Feb 2018 17:22:51 +0000 (UTC)
+Received: by mail-wr0-f173.google.com with SMTP id m5so16598959wrg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 09:06:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Q39v7Vj6NNHOAdBnRavfr4y9YskigsGue/ClCDz5A1k=;
-	b=l3CD0SGhEAtuU1bXPz1nQHWbPxD6Ha1jbqtsbGqn1dVfyUipTDmsw9/DplE6Ba3X3L
-	wYteFHBjoJDH1qmB6mBtErpudo2JXwwg8I0wz9uyL4htmVNbpfGr0MqM9a+TYfh6Eyvv
-	a9ws9UJ9FRzR1nBQR0ANH4t2jsZzO8Q9PU5VGfL1jmlWUPEvil2AxQqUNypiDG6xavzk
-	3KXU3BxlpwexJk82FOESFV9v5eJy+MdiXwHxOyxVe7ZwFMBVUfEfkGO9pEeizf9LAzg8
-	AkSbn2Q2MOpnD/8/e2XNefBAWUsqM5th+yRvnP89HAJ+wy5dOOJPc51DKMa24qmHKxPw
-	So0Q==
+	Tue, 20 Feb 2018 09:22:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=RiERxdA9ojfGA7NSC4NYcY2bd7IybS8ZBu/EL8W9OIk=;
+	b=tV75FOFLzVYyOYw7KV6DBxoJWHELHHTK1Sw2Wk4llVN4nGIU6nz+y8MAa2iNn3aTzD
+	1y3TMP9/AMK9naorgMrlILzVYI7l2JinjOESrPq0J+5sa1l3YfjSRxIMPU3s9vR3vNoG
+	0uxppppLr2rUhAU6MhXUKMvBhoEshs69Vd500WRKKQctd42KqYaorbt8c7cuBbXNIGGf
+	uHeYE/idEYlBc+vI2Zrgb++6RNU1R/DwvEH2QY+Z/VDRLWvKhwEts3fteNa0yEWx0Qcg
+	DapplmxFHGQyQWbL9f5VLG3DS4Y81hSeonkDte4ZVGjyuNNyqKIFgv8euo+vpcFq9ZOc
+	QEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Q39v7Vj6NNHOAdBnRavfr4y9YskigsGue/ClCDz5A1k=;
-	b=EWRCJgQUnFILBxDhwsD8ETxunrY6pWzgHdWFXp4NoMfa5ew2tOXrVQ8dd099MYVjQ9
-	LdjkbU2qKjxYAocVgA32JYn+vpE1Y9NcWzON5CSmHRYi6NQFgGlzyaOJkQc6DOQo36cO
-	p0g+/4Sg4OAsHuLOKhRKnx9WKrgrAQLaYDdnbeSEoPB5Q/4xGEZ3DuvQNaz7DXAKMo3k
-	8jDCr/yypxR54yQbd3k0QAlXxa8CPV4xj7Rii/Xu3aVHmiAVEIOa5nDigGyITJmVcAxG
-	H0JAwKtu7B0MIixTC3EZTB/yp4/nLa3U0KFHwvg4hkoNitOElEdOJxUMuLow7LWskF/U
-	TSmA==
-X-Gm-Message-State: APf1xPBv0MwnWCF9F2uOrxVan3QNZEkXPo+h6wQSWB0F7iA175wykX2x
-	FmLFnGQJi3REGK63ub90SKXbw5j/XfboGjXeRWOFjg==
-X-Google-Smtp-Source: AH8x224Ytj6yjFJY93FGl+WLRETqhKKrWmevtNJyAuSR+dKcxHaxfQd/6jA07O+F3QP8VMUlf/DeLoU3ugqmL3r6kM4=
-X-Received: by 10.46.86.74 with SMTP id k71mr227689ljb.28.1519146406536; Tue,
-	20 Feb 2018 09:06:46 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=RiERxdA9ojfGA7NSC4NYcY2bd7IybS8ZBu/EL8W9OIk=;
+	b=CIxDPg7N5RrDxk71wjsTgpjnRLMBGaXaNI+Vq6Wy670OaEDyuD5VD2y4+eitTBhWUM
+	L9Z9lbhnGv+v4qszyAJrxU6eebwnNv51PQYx1+dsxMtW1ivW7DY14LqxWixjIFky1T4Y
+	a56J3d6YQ1rshRXNae0nTs3VMQBrV/xRxqEAl4S9dP2gRGJsM1/JQtsUi+yb/mAU0+ry
+	9gakT59lT4i5clZLbaanyD4d2zMbp1bLaW51tM/iH4scZUw52vAwdejwGniAgNDY4ZgZ
+	HCEYmZ2IckimH/rauo+lFNzT8N+LaMtbImcljxvI9drmIYbhJiMF9wrfix3hGpbiknjd
+	aufA==
+X-Gm-Message-State: APf1xPAitPmGVmP+Yklel8zM9xSwqhG3nL0Y6CuQh2DYrczQ6qxS5/Vy
+	FFRXs6vTbie1f6SpGxJBiZizMxLv
+X-Google-Smtp-Source: AH8x227A+wD0wQ2eN4Xof/Eoe2BkjJ2mZGDvj005odQlkOUd0Sr80YCMUwpLhwf22rA9Rae+x4nx7Q==
+X-Received: by 10.28.39.67 with SMTP id n64mr880093wmn.0.1519147371860;
+	Tue, 20 Feb 2018 09:22:51 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e15sm33890380wmd.26.2018.02.20.09.22.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Feb 2018 09:22:51 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Feb 2018 17:22:49 +0000
+Message-Id: <20180220172249.950-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.46.48.4 with HTTP; Tue, 20 Feb 2018 09:06:45 -0800 (PST)
-In-Reply-To: <20180220164126.13123-1-jsbronder@cold-front.org>
-References: <20180220164126.13123-1-jsbronder@cold-front.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 20 Feb 2018 12:06:45 -0500
-Message-ID: <CADkTA4PYMiMCKSE-rua7pjHaYgg_U3caan=Sy_i6r2Agc-8vUQ@mail.gmail.com>
-To: Justin Bronder <jsbronder@cold-front.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: module: module-base: depend on elfutils-native
+Subject: [PATCH] flex: upgrade to 2.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,86 +59,234 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 17:06:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 20 Feb 2018 17:22:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 20, 2018 at 11:41 AM, Justin Bronder
-<jsbronder@cold-front.org> wrote:
-> libelf is required for CONFIG_STACK_VALIDATION which is required by
-> CONFIG_UNWINDER_ORC (the default in 4.14+).
+Upgrade to 2.6.4 and use the new tarballs on GitHub.
 
-As you'll see in the discussion about adding bison-native, we don't want to add
-these version specific dependencies globally.
+Remove patches which have been merged upstream.
 
->
-> We also need to update the module classes to pass HOSTCC and HOSTCPP
+The new releases of Flex bootstrap differently, but the bootstrapping code isn't
+entirely cross-friendly yet so depend on flex-native and pass
+--disable-bootstrap.
 
-This is already covered in my v3 "make-modules-script" changes.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...oid-c-comments-in-c-code-fails-with-gcc-6.patch | 64 ----------------------
+ .../recipes-devtools/flex/flex/CVE-2016-6354.patch | 59 --------------------
+ .../flex/flex/do_not_create_pdf_doc.patch          | 17 ------
+ .../flex/{flex_2.6.0.bb => flex_2.6.4.bb}          | 17 +++---
+ 4 files changed, 8 insertions(+), 149 deletions(-)
+ delete mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+ rename meta/recipes-devtools/flex/{flex_2.6.0.bb => flex_2.6.4.bb} (76%)
 
-Bruce
-
-> just like the kernel class already does.  Otherwise the test for libelf
-> in the kernel Makefile fails.
-> ---
->  meta/classes/kernel.bbclass      | 2 +-
->  meta/classes/module-base.bbclass | 1 +
->  meta/classes/module.bbclass      | 4 +++-
->  3 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 5cdff581ef..d3a7e1e1cb 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
->  KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
->
->  PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
-> -DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
-> +DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native elfutils-native"
->  PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
->
->  do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
-> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-> index f851b85163..3b56e04534 100644
-> --- a/meta/classes/module-base.bbclass
-> +++ b/meta/classes/module-base.bbclass
-> @@ -23,5 +23,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->  do_make_scripts() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->         make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-> +                  HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" \
->                    -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
->  }
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index 78d1b21dbd..89dee2dae8 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -1,10 +1,12 @@
->  inherit module-base kernel-module-split pkgconfig
->
-> +DEPENDS += "elfutils-native"
-> +
->  addtask make_scripts after do_prepare_recipe_sysroot before do_configure
->  do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
->  do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
->
-> -EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
-> +EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR} HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
->
->  MODULES_INSTALL_TARGET ?= "modules_install"
->  MODULES_MODULE_SYMVERS_LOCATION ?= ""
-> --
-> 2.13.6
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+deleted file mode 100644
+index 438ca5f5276..00000000000
+--- a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+-Date: Tue, 30 Aug 2016 14:25:32 +0200
+-Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-fixes:
+-
+-| error: C++ style comments are not allowed in ISO C90
+-| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+----
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/flex.skl b/src/flex.skl
+-index 73a0b9e..ed71627 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+- 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								M4_YY_CALL_LAST_ARG);
+-diff --git a/src/scan.c b/src/scan.c
+-index b55df2d..f1dce75 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
+- 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								);
+-diff --git a/src/skel.c b/src/skel.c
+-index ef657d3..26cc889 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -2561,7 +2561,7 @@ const char *skel[] = {
+-   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
+-   "		 * immediate realloc on the next call.",
+-   "         */",
+--  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
+-+  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
+-   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
+-   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
+-   "								M4_YY_CALL_LAST_ARG);",
+--- 
+-2.5.5
+-
+diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+deleted file mode 100644
+index 216ac7ae1c4..00000000000
+--- a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Fri, 7 Oct 2016 14:15:38 +0300
+-Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
+-
+-This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
+-with some additional backporting to make binutils build again.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-6354
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/flex.skl b/src/flex.skl
+-index ed71627..814d562 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/scan.c b/src/scan.c
+-index f1dce75..1949872 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/skel.c b/src/skel.c
+-index 26cc889..0344d18 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -1929,7 +1929,7 @@ const char *skel[] = {
+-   "",
+-   "	else",
+-   "		{",
+--  "			yy_size_t num_to_read =",
+-+  "			int num_to_read =",
+-   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
+-   "",
+-   "		while ( num_to_read <= 0 )",
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+deleted file mode 100644
+index 032833ae7a9..00000000000
+--- a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate (embedded specific)
+-
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+-
+-Index: flex-2.5.37/doc/Makefile.am
+-===================================================================
+---- flex-2.5.37.orig/doc/Makefile.am	2012-07-21 04:18:27.000000000 +0300
+-+++ flex-2.5.37/doc/Makefile.am	2013-07-30 17:57:09.834834531 +0300
+-@@ -2,7 +2,7 @@
+- 
+- info_TEXINFOS =	flex.texi
+- dist_man_MANS = flex.1
+--dist_doc_DATA= flex.pdf
+-+EXTRA_DIST= flex.pdf
+- 
+- CLEANFILES = \
+- 	flex.hks \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+similarity index 76%
+rename from meta/recipes-devtools/flex/flex_2.6.0.bb
+rename to meta/recipes-devtools/flex/flex_2.6.4.bb
+index a906fe8dc64..3684b0c881b 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -5,29 +5,28 @@ HOMEPAGE = "http://sourceforge.net/projects/flex/"
+ SECTION = "devel"
+ LICENSE = "BSD"
+ 
+-DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
++DEPENDS = "flex-native ${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native', '', d)}"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
++SRC_URI = "https://github.com/westes/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+            file://run-ptest \
+-           file://do_not_create_pdf_doc.patch \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
+-           file://CVE-2016-6354.patch \
+-           ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
++           file://disable-tests.patch \
+            "
+ 
+-SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
+-SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
++SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
++SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995"
+ 
+-# Flex has moved to github from 2.6.1 onwards
+ UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+ UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ inherit autotools gettext texinfo ptest
+ 
++EXTRA_OECONF_append_class-target = " --disable-bootstrap"
++EXTRA_OECONF_append_class-nativesdk = " --disable-bootstrap"
++
+ M4 = "${bindir}/m4"
+ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+ EXTRA_OECONF += "ac_cv_path_M4=${M4}"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.11.0
+
 
