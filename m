@@ -1,31 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 72A0C71ADD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C4D79600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Feb 2018 23:54:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A296520B15;
-	Mon, 19 Feb 2018 23:54:17 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 3g83vsPHX1pj; Mon, 19 Feb 2018 23:54:17 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7F7012073F;
-	Mon, 19 Feb 2018 23:54:16 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 0B27E1632C0;
-	Mon, 19 Feb 2018 18:54:16 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Feb 2018 18:54:15 -0500
-Message-Id: <1519084455-3915-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] kernel.bbclass: explicitly depend on bison-native for deterministic builds
+	Tue, 20 Feb 2018 00:12:12 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1K0CBZs004740
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 20 Feb 2018 00:12:12 GMT
+Message-ID: <1519085531.24236.271.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 20 Feb 2018 00:12:11 +0000
+In-Reply-To: <CADkTA4MjxCe1gY2zf6iro3DdQYs6_HZ9kH9SymcvhBJ8FJm1WA@mail.gmail.com>
+References: <1519054841-4986-1-git-send-email-bruce.ashfield@windriver.com>
+	<a2083091-1169-4ab3-1aba-55a1fc4cf2c0@gmail.com>
+	<1519058248.24236.259.camel@linuxfoundation.org>
+	<CADkTA4MjxCe1gY2zf6iro3DdQYs6_HZ9kH9SymcvhBJ8FJm1WA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2][rocko] linux-yocto/4.12: update to v4.12.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Feb 2018 23:54:16 -0000
+X-List-Received-Date: Tue, 20 Feb 2018 00:12:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Mon, 2018-02-19 at 11:45 -0500, Bruce Ashfield wrote:
+> On Mon, Feb 19, 2018 at 11:37 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > On Mon, 2018-02-19 at 08:16 -0800, akuster808 wrote:
+> > > 
+> > > Bruce,
+> > > 
+> > > thanks. I hand applied this as I have another kernel change
+> > > sitting
+> > > in
+> > > stable/rocko-next
+> > > 
+> > > I will build this once RP is done with master
+> > You correctly pointed out I needed to sort master first! :)
+> > 
+> > Bruce: Is there an update for 4.9 in rocko? If so we should perhaps
+> > pull that in too before we rebuild 2.4.2?
+> I haven't done a patch for 4.9 in rocko, but can. Give me a few
+> minutes and
+> will send one out.
 
-Explicitly depend on bison-native for deterministic builds, as it is required
-for the build:
+Thanks. Master is sorted apart from the scripts sigs issue which should
+be simple to fix.
 
-|   HOSTCC  scripts/basic/fixdep
-|   GEN     ./Makefile
-|   HOSTCC  scripts/kconfig/conf.o
-|   YACC    scripts/kconfig/zconf.tab.c
-| /bin/sh: bison: command not found
-| scripts/Makefile.lib:217: recipe for target 'scripts/kconfig/zconf.tab.c' failed
+Rocko is looking a bit tricky, the qemuarm64 kernel is failing to boot:
 
-In most cases, this dependency comes indirectly via toolchain dependencies,
-specifically binutils-cross, which pulls bison-native. Different setups,
-such as with external toolchain, would expose this problem, since correct
-dependency is not marked explicitly.
+https://autobuilder.yocto.io/builders/nightly-arm64/builds/755/steps/Running%20Sanity%20Tests/logs/stdio
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-I'm seeing this now on 4.16-rc2 with external toolchain.
+so 4.12 qemuarm64 looks like it may be bust. Armin ran it twice and it
+happened twice on different builders.
 
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 943938d..321c0a4 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
- KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
- 
- PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
--DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
-+DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
- PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
- 
- do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
--- 
-2.7.4
-
+Richard
 
