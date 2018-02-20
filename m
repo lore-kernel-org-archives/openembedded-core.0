@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A892719AF;
-	Tue, 20 Feb 2018 22:35:21 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C8326785AF;
+	Tue, 20 Feb 2018 22:35:22 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 20 Feb 2018 22:35:23 -0000
-Message-ID: <20180220223523.15537.23054@do.openembedded.org>
-References: <1519165060-17784-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 20 Feb 2018 22:35:24 -0000
+Message-ID: <20180220223524.15542.977@do.openembedded.org>
+References: <1519165360-17959-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1519165060-17784-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1519165360-17959-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2NyaXB0cy9jb250cmliL2J1aWxkLXBlcmYtdGVzdDogRml4IGZldGNoYWxsIHJlZmVyZW5jZSB0byB1c2UgcnVuYWxs?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9lcWEvYnVpbGRwZXJmL2Jhc2U6IEZpeCBmZXRjaC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 22:35:21 -0000
+X-List-Received-Date: Tue, 20 Feb 2018 22:35:23 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: scripts/contrib/build-perf-test: Fix fetchall reference to use runall
+Series: "oeqa/buildperf/base: Fix fetch..." and 1 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/11022/
+URL   : https://patchwork.openembedded.org/series/11023/
 State : failure
 
 == Summary ==
