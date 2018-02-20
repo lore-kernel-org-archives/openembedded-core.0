@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 603C67844B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E10D7844B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 16:25:17 +0000 (UTC)
+	Tue, 20 Feb 2018 16:25:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1KGPI0H029858
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 20 Feb 2018 08:25:18 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1KGPJ5B006956
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Feb 2018 08:25:19 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 20 Feb 2018 08:24:58 -0800
+	14.3.361.1; Tue, 20 Feb 2018 08:25:00 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 20 Feb 2018 11:25:16 -0500
-Message-ID: <1519143917-11799-1-git-send-email-bruce.ashfield@windriver.com>
+Date: Tue, 20 Feb 2018 11:25:17 -0500
+Message-ID: <1519143917-11799-2-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1519143917-11799-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1519143917-11799-1-git-send-email-bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2 v3] make-mod-scripts: change how some kernel module tools are built
+Subject: [PATCH 2/2 v3] make-mod-scripts: add build requirements for external modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,104 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 16:25:18 -0000
+X-List-Received-Date: Tue, 20 Feb 2018 16:25:19 -0000
 Content-Type: text/plain
 
-From: Joe Slater <jslater@windriver.com>
+Newer kernels (4.14/v4.15+) have dependencies for the build of
+modules (and hence external modules). Without these dependencies
+explicitly in the build chain, you can end up with build failures like:
 
-Remove do_make_scripts() from module-base.bbclass and put
-functionality in a recipe.  This will build the scripts only
-once instead of each time an external module is built.
+  work-shared/qemux86/kernel-source/scripts/extract-cert.c:21:25: fatal
+  error: openssl/bio.h: No such file or directory
+  |  #include <openssl/bio.h>
+  |                          ^
+  | compilation terminated.
+  | make[2]: *** [scripts/extract-cert] Error 1
+  | make[1]: *** [scripts] Error 2
 
-[YOCTO #12228]
+To ensure that these headers are in place, and that the scripts use
+our build environment flags, we add a dependency on openssl-native
+and use oe_make to invoke the build.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Older kernels have no issues with the extra dependency, so there's no
+need to make this conditional.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
 
-v2: added the LIC_FILES_CHECKSUM
-v3: added PACKAGE_ARCH = "${MACHINE_ARCH}" for .test_sstate_sametune_samesigs
+v3: added bc-native to DEPENDS
 
- meta/classes/module-base.bbclass                   | 12 +++-------
- meta/classes/module.bbclass                        |  4 ----
- .../make-mod-scripts/make-mod-scripts_1.0.bb       | 28 ++++++++++++++++++++++
- 3 files changed, 31 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-index f851b851639a..27bd69ff33bf 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -1,7 +1,8 @@
- inherit kernel-arch
- 
--# This is instead of DEPENDS = "virtual/kernel"
--do_configure[depends] += "virtual/kernel:do_compile_kernelmodules"
-+# We do the dependency this way because the output is not preserved
-+# in sstate, so we must force do_compile to run (once).
-+do_configure[depends] += "make-mod-scripts:do_compile"
- 
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
-@@ -18,10 +19,3 @@ KERNEL_OBJECT_SUFFIX = ".ko"
- # kernel modules are generally machine specific
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--# Function to ensure the kernel scripts are created. Expected to
--# be called before do_compile. See module.bbclass for an example.
--do_make_scripts() {
--	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
--	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
--	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
--}
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 78d1b21dbd83..e34496024434 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -1,9 +1,5 @@
- inherit module-base kernel-module-split pkgconfig
- 
--addtask make_scripts after do_prepare_recipe_sysroot before do_configure
--do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
--do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
--
- EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
- 
- MODULES_INSTALL_TARGET ?= "modules_install"
 diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-new file mode 100644
-index 000000000000..6e47d09f798f
---- /dev/null
+index 6e47d09f798f..889878ddc003 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
 +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Build tools needed by external modules"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+@@ -9,15 +9,19 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ S = "${WORKDIR}"
+ 
+-do_configure[depends] += "virtual/kernel:do_shared_workdir"
++do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
+ do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
+ 
++DEPENDS += "bc-native"
 +
-+inherit kernel-arch
-+inherit pkgconfig
++EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
 +
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+S = "${WORKDIR}"
-+
-+do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
-+
-+# Build some host tools under work-shared.  CC, LD, and AR are probably
-+# not used, but this is the historical way of invoking "make scripts".
-+#
-+do_configure() {
-+	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-+	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
-+}
-+
-+
-+# There is no reason to build this on its own.
-+#
-+EXCLUDE_FROM_WORLD = "1"
-+
+ # Build some host tools under work-shared.  CC, LD, and AR are probably
+ # not used, but this is the historical way of invoking "make scripts".
+ #
+ do_configure() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
++	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+ 	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
+ }
+ 
 -- 
 2.5.0
 
