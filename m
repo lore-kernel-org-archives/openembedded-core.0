@@ -1,26 +1,29 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E10D7844B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D49997844B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 16:25:18 +0000 (UTC)
+	Tue, 20 Feb 2018 16:26:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1KGPJ5B006956
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1KGQTm9010031
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Feb 2018 08:25:19 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 20 Feb 2018 08:25:00 -0800
+	Tue, 20 Feb 2018 08:26:29 -0800 (PST)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 20 Feb 2018 08:26:10 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1519054657-4616-1-git-send-email-bruce.ashfield@windriver.com>
+	<1519054657-4616-2-git-send-email-bruce.ashfield@windriver.com>
+	<1519083917.24236.261.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 20 Feb 2018 11:25:17 -0500
-Message-ID: <1519143917-11799-2-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1519143917-11799-1-git-send-email-bruce.ashfield@windriver.com>
-References: <1519143917-11799-1-git-send-email-bruce.ashfield@windriver.com>
+Message-ID: <deba09ee-bc72-224b-85d3-887670a26b9d@windriver.com>
+Date: Tue, 20 Feb 2018 11:26:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
+In-Reply-To: <1519083917.24236.261.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2 v3] make-mod-scripts: add build requirements for external modules
+Subject: Re: [PATCH v2] make-mod-scripts: change how some kernel module tools are built
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 16:25:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Feb 2018 16:26:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Newer kernels (4.14/v4.15+) have dependencies for the build of
-modules (and hence external modules). Without these dependencies
-explicitly in the build chain, you can end up with build failures like:
+On 02/19/2018 06:45 PM, Richard Purdie wrote:
+> On Mon, 2018-02-19 at 10:37 -0500, Bruce Ashfield wrote:
+>> From: Joe Slater <jslater@windriver.com>
+>>
+>> Remove do_make_scripts() from module-base.bbclass and put
+>> functionality in a recipe.  This will build the scripts only
+>> once instead of each time an external module is built.
+>>
+>> [YOCTO #12228]
+>>
+>> Signed-off-by: Joe Slater <jslater@windriver.com>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>
+>> v2: added the LIC_FILES_CHECKSUM
+>>
+> 
+> Sadly this doesn't pass all our tests:
+> 
+> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/827/steps/Running%20oe-selftest/logs/stdio
+> 
+> oe-selftest -r sstatetests.SStateTests.test_sstate_sametune_samesigs
+> 
+> should reproduce.
+> 
+> I suspect that the recipe may need:
+> 
+> PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-  work-shared/qemux86/kernel-source/scripts/extract-cert.c:21:25: fatal
-  error: openssl/bio.h: No such file or directory
-  |  #include <openssl/bio.h>
-  |                          ^
-  | compilation terminated.
-  | make[2]: *** [scripts/extract-cert] Error 1
-  | make[1]: *** [scripts] Error 2
+v3 has been sent for the two patches in this series. With the
+kernel-devsrc and other scripts/prepare work in progress, I'm sure
+there will be more changes coming. But the dependencies and and
+build steps are definitely easier to express in the separate recipe
+versus being buried in the various bbclasses.
 
-To ensure that these headers are in place, and that the scripts use
-our build environment flags, we add a dependency on openssl-native
-and use oe_make to invoke the build.
+Cheers,
 
-Older kernels have no issues with the extra dependency, so there's no
-need to make this conditional.
+Bruce
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
-
-v3: added bc-native to DEPENDS
-
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 6e47d09f798f..889878ddc003 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -9,15 +9,19 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- S = "${WORKDIR}"
- 
--do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
- 
-+DEPENDS += "bc-native"
-+
-+EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-+
- # Build some host tools under work-shared.  CC, LD, and AR are probably
- # not used, but this is the historical way of invoking "make scripts".
- #
- do_configure() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
--	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
- 	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
- }
- 
--- 
-2.5.0
+> 
+> Cheers,
+> 
+> Richard
+> 
 
 
