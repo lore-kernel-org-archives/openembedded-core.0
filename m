@@ -1,49 +1,62 @@
-Return-Path: <leon.anavi@konsulko.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id AD76578868
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7568A6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 09:57:31 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id p104so11200887wrc.12
+	Tue, 20 Feb 2018 10:10:37 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id t126so14316863iof.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 01:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=to:from:cc:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding:content-language;
-	bh=Vzo42St0XPz1D5UIjHsxF5srqV4eqHQcTuR61fUIonU=;
-	b=ktEk8m3Fu71yqbufL8/+ner2nOic0oAn4tOd9EFD9++Fg68zAPa+pTXTM008dREMrW
-	IDEUMBwkJWiP2G7vv0zJb2mOL1c5cMEk9dTsqEuiN+T+GmauN7r0WcDdQNE4TF/H+Ejk
-	MPIPwuFmpbe8W5pi+siETIVTnZvj9UueqG/NQ=
+	Tue, 20 Feb 2018 02:10:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=rV+YJZ/ODjKBUekDrCOT+2dP1Iz8dylOcNsG34/VHm0=;
+	b=T6R2DXtU3YLgolLspRdgWZQ+fgbYs6q41SsuVgkrluXc/H4VTzNYUraphDDqEZ4d3F
+	OKPx3mj33XwvWQUhS4LKgzlfdXD2MHYxG0zsxGmz4dtUGsHPhoxCM3ei2Y24fxbT1Mw3
+	At8Rg1Cs6j75TMz/wS2ZkIExfPFM+7+gf2wd7r8Tt8j+RwrypkqYTQKYLiq8vSt8mTeo
+	iKvdIVsTm4eNau6ESLXU+yTN6uvPxowvlxIDNUpJJcn29fBf63xBhJ+TgrEEpl5Lc93i
+	RbkLAVf+MXNH5EU+gBj9wTfzjxK7AxYLKAQgd2IPHifYClxwPjZajLmqKPY9ZbgxBRlC
+	fACw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:cc:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=Vzo42St0XPz1D5UIjHsxF5srqV4eqHQcTuR61fUIonU=;
-	b=FiMQZiKHPRyi+4nYDkOFzgxgc8wRWObTwlPU5EqyBpiCTcAqyNoNdsqx+IAHWo7Fhw
-	uTAqjUVBDckvFn9vW7Azo/86lPuWQsVnPqEo00KJ9cWSf1qQfu7/7uBDQG8bTrxjSE+7
-	nR9LPQHd2K3EcvKSUty2ZQB9QFLzgfio3/8V2OZRW16EjH0iseABB9nUMgN62QpyqwtV
-	wrN3TZWoRJTUqmWjuzJ9sLwM/jKVCv2PTioMC4YkRoBV5/qNz1nx8T509yAdLF+oVL41
-	4YDMbfwyDpxKcteevZqu2J318QpQFgJ5VrJQ0SxAf5PTqF96q5VwsxgcPI464o9EMbFj
-	j5Xg==
-X-Gm-Message-State: APf1xPBj29ottjnDRXHbYhDJn3R6LayCQV6mKFrnPQ3ry0pG/IY7TlHG
-	/NiQLVQ+DUHjWMQ7w5ftVwKrmw==
-X-Google-Smtp-Source: AH8x226Ioy19zuLnxS2t3z6mjb5liFy6Nh8+PvGsqfMhZ67y3yqCKOVUDHYrtj7quXqrXIUF9kf8gw==
-X-Received: by 10.28.164.196 with SMTP id n187mr5499859wme.141.1519120652453; 
-	Tue, 20 Feb 2018 01:57:32 -0800 (PST)
-Received: from [192.168.4.209] ([213.145.109.17])
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=rV+YJZ/ODjKBUekDrCOT+2dP1Iz8dylOcNsG34/VHm0=;
+	b=ERWsnNtqc4AC82NPuT0PNrMxMta1/YDjlT/ik40oaA8vgQdE+lecnNnsV6drD3MhxZ
+	b0wG2osVpd97yZ6L/6rIRZ9z/UJkcmiLuct9UvNcZnHDvdw6+2o/R8tkC183pgxHY7Ir
+	FvX8ZDQ1uuJu84jsaE1iETsOWfE27LB7rTRsDqsOAiMNrM+yIEx0/ahU5Evk+lYcWqoA
+	RsHHiuoEmgaX3wW9wUYnD+5yNB10UB/cglbyNBLWHSS7Ncq/UR3QomMBT31P2/K7CsOA
+	fGagx9vL5ndqBi9vX1tjMS/vRtlFY9f+dV+kOUcMH+J0B31SNhfobXDtjAMntSWqRN3S
+	4K4A==
+X-Gm-Message-State: APf1xPBVoBEig0gYd+DSvyTPuDup7kPPZwqO3EabbFtJ3OTm0Bd10l6/
+	B4m8uyv1/df2+GX8LtSvatWuEt3I
+X-Google-Smtp-Source: AH8x2240Yix44SvFKHqBsKz43XcWzUuVuS6be3tOPBCbNoHnKD9jmFKS8a+zp5alSU8Gfd2rfKmuQQ==
+X-Received: by 10.107.150.211 with SMTP id y202mr22951904iod.10.1519121438144; 
+	Tue, 20 Feb 2018 02:10:38 -0800 (PST)
+Received: from hermes.local ([2601:646:8880:466c:a565:c31b:dc80:af0d])
 	by smtp.gmail.com with ESMTPSA id
-	l15sm24053488wrb.91.2018.02.20.01.57.31
+	137sm22496056itl.32.2018.02.20.02.10.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Feb 2018 01:57:31 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-From: Leon Anavi <leon.anavi@konsulko.com>
-Message-ID: <5281f708-550c-0c1c-227c-c171b720582c@konsulko.com>
-Date: Tue, 20 Feb 2018 11:57:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 20 Feb 2018 02:10:37 -0800 (PST)
+To: Denys Dmytriyenko <denis@denix.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <1519084455-3915-1-git-send-email-denis@denix.org>
+	<CAP9ODKq7YyqaapLxxOrPo6WoNf6dTFpxkvQh1pF+yqJQxGA7jQ@mail.gmail.com>
+	<20180220012001.GZ2786@denix.org>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <8d340a29-2016-55fa-0fd2-9847e6f9e62b@gmail.com>
+Date: Tue, 20 Feb 2018 02:10:35 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0)
+	Gecko/20100101 Thunderbird/59.0
 MIME-Version: 1.0
-Cc: bruce.ashfield@windriver.com
-Subject: Back porting lttng-module update to v2.10.5 from master to rocko
+In-Reply-To: <20180220012001.GZ2786@denix.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] kernel.bbclass: explicitly depend on bison-native for deterministic builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +69,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 09:57:31 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Feb 2018 10:10:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-
-Hi,
-
-Yesterday, while working on Automotive Grade Linux (AGL) based on
-Yocto/OpenEmbedded layers for release Rocko, I noticed an issue with
-lttng-modules for machine intel-corei7-64 with Linux kernel 4.9.77. The
-fix requires updating lttng-modules to v2.10.5 and has been already done
-at the master branch of openembedded-core (OE-Core rev:
-7f00a5161889a422d83dc113521d9241fdd89abf).
-
-Could you please back port this change to branch Rocko?
-
-Thanks,
-Leon
-
---=20
-Leon Anavi
-Software Engineer
-konsulko.com
+Content-Transfer-Encoding: 7bit
 
 
+
+On 2/19/18 5:20 PM, Denys Dmytriyenko wrote:
+> On Mon, Feb 19, 2018 at 09:36:22PM -0300, Otavio Salvador wrote:
+>> On Mon, Feb 19, 2018 at 8:54 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+>>> From: Denys Dmytriyenko <denys@ti.com>
+>>>
+>>> Explicitly depend on bison-native for deterministic builds, as it is required
+>>> for the build:
+>>>
+>>> |   HOSTCC  scripts/basic/fixdep
+>>> |   GEN     ./Makefile
+>>> |   HOSTCC  scripts/kconfig/conf.o
+>>> |   YACC    scripts/kconfig/zconf.tab.c
+>>> | /bin/sh: bison: command not found
+>>> | scripts/Makefile.lib:217: recipe for target 'scripts/kconfig/zconf.tab.c' failed
+>>>
+>>> In most cases, this dependency comes indirectly via toolchain dependencies,
+>>> specifically binutils-cross, which pulls bison-native. Different setups,
+>>> such as with external toolchain, would expose this problem, since correct
+>>> dependency is not marked explicitly.
+>>>
+>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>>> ---
+>>> I'm seeing this now on 4.16-rc2 with external toolchain.
+>>
+>> I am not against the addition but in fact, it is because 4.16 stopped
+>> of using pre-generated files and now requires bison to be available.
+> 
+> Ok, good, I was wondering why I didn't see it before 4.16...
+> 
+> 
+>> I am unsure it ought to be on kernel.bbclass at this moment.
+> 
+> Why not? Because it's 4.16+ specific?
+> 
+> By default bison-native dependency gets added implicitly when built with the
+> toolchain from oe-core, so this doesn't add any extra dependencies, only makes
+> it explicit.
+> 
+it will be overcompensating for < 4.16 kernel recipes where this 
+dependency is not needed. it might be a legit dependency for another 
+component, that doesn't stage this package in kernel recipe-specific 
+sysroot but this change will do that. So its not completely innocent 
+change.
 
