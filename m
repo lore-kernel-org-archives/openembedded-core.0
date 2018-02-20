@@ -1,45 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E450878858
+Return-Path: <maxin.john@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 73EDB78858
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 13:28:50 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id u6so16263572qtg.13
+	Tue, 20 Feb 2018 13:28:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Feb 2018 05:28:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,539,1511856000"; d="scan'208";a="176660548"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 20 Feb 2018 05:28:53 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id E780358038C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Feb 2018 05:28:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=Fb4IjqeS3xrsxGhpLuF5ZXk5mJb9rPIFSiHTlz6b3Ew=;
-	b=YUUZDZqEr9+EYqUSUh2KqI0AseHRRoa/1F8PA1pQr4/t21rm9X/oDY8p/0N0TEyZmX
-	zhwdu291bOkZriUG4naq+6a1HisKnqGLq3S/Uf6mARoN3pijfhr+HPDLzWCYL4B4hhWM
-	eQzZWenK34NbdNo/3L1E7FdjsOEpLUsk0Pp6eY4RFhnQxmJkWauN6fQMNSEsTOay2pBy
-	GQofO2nfgnpsCUj9XTNuThMra2EuTHZbJDbMlmZqDieilFqF0tA1qVBzFCstqlyFBbFJ
-	8ep0SQvTvti1xi/wTK4oIw+FaacxAlnqjFQHp7AON2mJfWHE6a8TsBAkkLGEdF+XSg7b
-	qjJQ==
-X-Gm-Message-State: APf1xPAAOOUH4YTczLUq/nbGKMs8OMTsy6yj26UKTFVyWkjcOHBDIw5m
-	bo4F6nXqlg2AxIfvEqjA9ugT+A==
-X-Google-Smtp-Source: AH8x225SyCtKHSjUoYMTArPkjCbUaWOhdht0wMgkFH3o4k17MIqJe+ZA3+x030mFrrWD4YRhcnWOUA==
-X-Received: by 10.200.50.251 with SMTP id a56mr30174784qtb.13.1519133331504;
-	Tue, 20 Feb 2018 05:28:51 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	h29sm10367950qtk.94.2018.02.20.05.28.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Feb 2018 05:28:50 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 20 Feb 2018 10:28:46 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Feb 2018 10:28:08 -0300
-Message-Id: <20180220132811.16100-3-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180220132811.16100-1-otavio@ossystems.com.br>
-References: <20180220132811.16100-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 3/6] cmake: Upgrade 3.10.1 -> 3.10.2
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Feb 2018 15:31:34 +0200
+Message-Id: <1519133494-41293-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] libinput: upgrade to version 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,56 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Feb 2018 13:28:51 -0000
+X-List-Received-Date: Tue, 20 Feb 2018 13:28:52 -0000
 
-This is a minor stable update to CMake. This includes following
-changes:
+1. Set RDEPENDS to python3
+2. Fix a QA error related to python3 path:
+        a) 0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
 
-,----
-| c1e087a9d CMake 3.10.2
-| d592bfc9f Autogen: Ignore not existing source files in cmMakefile
-| d49986b3b KWIML: Backport RISC-V update to CMake 3.10
-| 9417a6d32 FindPostgreSQL: Add support for PG10
-| 683e9023a Autogen: Fix for problematic nested list separator
-| 9b4d31dc7 cmGraphVizWriter: Updated to create and follow dependers for
-|           interface targets
-`----
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
+ ...asure-touchpad-tap-fix-python-script-QA-e.patch | 32 ++++++++++++++++++++++
+ .../{libinput_1.9.4.bb => libinput_1.10.0.bb}      |  6 ++--
+ 2 files changed, 36 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
+ rename meta/recipes-graphics/wayland/{libinput_1.9.4.bb => libinput_1.10.0.bb} (78%)
 
-Changes in v2: None
-
- .../cmake/{cmake-native_3.10.1.bb => cmake-native_3.10.2.bb}          | 0
- meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
- meta/recipes-devtools/cmake/{cmake_3.10.1.bb => cmake_3.10.2.bb}      | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.10.1.bb => cmake-native_3.10.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.10.1.bb => cmake_3.10.2.bb} (100%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.10.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.10.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.10.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.10.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 045cce3fd0c..4eaca755971 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://cmake-Prevent-the-detection-of-Qt5.patch \
+diff --git a/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch b/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
+new file mode 100644
+index 0000000..eb771ab
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
+@@ -0,0 +1,32 @@
++From f595219dd3564a5fbf61646f2054f04f2e22238a Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Mon, 19 Feb 2018 11:21:37 +0200
++Subject: [PATCH] libinput-measure-touchpad-tap: fix python script QA error
++
++Tweak this python scripts to use '/usr/bin/env python3', Otherwise,
++it generate a QA error:
++
++QA Issue: /usr/libexec/libinput/libinput-measure-touchpad-tap contained
++in package libinput requires /usr/bin/python3, but no providers found
++in RDEPENDS_libinput? [file-rdeps]
++
++Upstream-Status: Accepted [https://cgit.freedesktop.org/wayland/libinput/commit/?id=920debffd7ee591bbc1014ee0961c75473429651]
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ tools/libinput-measure-touchpad-tap | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/libinput-measure-touchpad-tap b/tools/libinput-measure-touchpad-tap
++index 3037232..6f4f399 100755
++--- a/tools/libinput-measure-touchpad-tap
+++++ b/tools/libinput-measure-touchpad-tap
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python3
+++#!/usr/bin/env python3
++ # vim: set expandtab shiftwidth=4:
++ # -*- Mode: python; coding: utf-8; indent-tabs-mode: nil -*- */
++ #
++-- 
++2.4.0
++
+diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.10.0.bb
+similarity index 78%
+rename from meta/recipes-graphics/wayland/libinput_1.9.4.bb
+rename to meta/recipes-graphics/wayland/libinput_1.10.0.bb
+index 67a49df..fcd6a79 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.10.0.bb
+@@ -6,11 +6,13 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+ 
+ DEPENDS = "libevdev udev mtdev"
++RDEPENDS_${PN} = "python3"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
++           file://0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch \
             "
+-SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
+-SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
++SRC_URI[md5sum] = "dac92f0b094392c03ab1320d06173afd"
++SRC_URI[sha256sum] = "c2c72c2e0c63498b34d887c28ea84b8570b50fef7ffe489179a1253280d33f57"
  
--SRC_URI[md5sum] = "9a726e5ec69618b172aa4b06d18c3998"
--SRC_URI[sha256sum] = "7be36ee24b0f5928251b644d29f5ff268330a916944ef4a75e23ba01e7573284"
-+SRC_URI[md5sum] = "732808e17fc14dc8cee50d51518c34eb"
-+SRC_URI[sha256sum] = "80d0faad4ab56de07aa21a7fc692c88c4ce6156d42b0579c6962004a70a3218b"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/cmake/cmake_3.10.1.bb b/meta/recipes-devtools/cmake/cmake_3.10.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.10.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.10.2.bb
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ inherit meson pkgconfig lib_package
 -- 
-2.16.2
+2.4.0
 
 
