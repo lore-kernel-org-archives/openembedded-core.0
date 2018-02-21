@@ -1,58 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 55BD16FEFE
+Return-Path: <avinash.reddy.palleti@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DAF75786F8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Feb 2018 04:47:25 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id j9so232850pgv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Feb 2018 20:47:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=+6zLHJgN5IV4yI5SjbY9871iX5ss9F0R3nVTJwZ2NRY=;
-	b=NTMF3in3PQtS7ZM3KZyISJx8pEpI/Y4JYCfNj6FUg99URgQbL1+/cwcLe7zv93ziqm
-	5I55KTSM9YuGO9uvLSSfC0GZupBZiY389+03nh89D14O2cCV1ofOW/w9g5JLFwZPQp4o
-	qvELYezzhOsN+/v2S+bpos/qGJj1D21xZZkU431j+xz0dE0u93vJs1bEl/eFiAjis7nN
-	o7Z1uMk9OS1Q82GqG3OGu3bVsd/fgqauF2Hq18ExxrZ9v0Z7htbbWTmBpla+l1AhqEjf
-	dIU6qO/F1YHz1bM48KncETIYS4+CKBTL2qfjZC755yGOEa5noPY3PqVcOq+0w3HOMFGM
-	w2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=+6zLHJgN5IV4yI5SjbY9871iX5ss9F0R3nVTJwZ2NRY=;
-	b=lH2bIWJnZZUcDK8jCAWELErmHY/kjJXI36/OfzkUtpZ86lUzDB3FzR4w0pIEKqqf39
-	8vzmu+LeBbOO+4Gk9/hu9FVBSAF0+I3r6n72Y9KLnpri685myepsPiIAqWjitRXKSayM
-	ZHDrtkIlYHle3uk7IiCSjUFqaMsGZmWVRUt0j3Cm42dTWWkVcyS3bDIyO7Dz2eJGXuxz
-	GphO8HDnfORFIm6VJRB/q/iO5zq19GZYUlqgjUMw52e7MUrQo6g8oGLUjuEInbvlBeyF
-	KkQMWd3rzExhzH6QF+fRD6JQeKRHyu5TGRYYuDtI72/JG9odYGZ5ouJdQrLnZIYp3WHQ
-	cN0Q==
-X-Gm-Message-State: APf1xPAKcvszjERPWe+TCtIaUw//2LEEnS2lPVwDoO4mGloTv2f8toNw
-	4vxZrgtrbVzRhmxnl8RLXkB4uA==
-X-Google-Smtp-Source: AH8x2256N/kKBSHfxRMjBqzjAuLrXftlRv1kX4PrJL8zz+WujfHgagr9vtzCiAzYW6OBDMDUH0IC3A==
-X-Received: by 10.99.1.206 with SMTP id 197mr1646057pgb.179.1519188447088;
-	Tue, 20 Feb 2018 20:47:27 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:88:5af5:94f3:78b1?
-	([2601:202:4000:1184:88:5af5:94f3:78b1])
-	by smtp.gmail.com with ESMTPSA id
-	q14sm28869514pgq.2.2018.02.20.20.47.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Feb 2018 20:47:26 -0800 (PST)
-To: Andrei Gherzan <andrei@gherzan.ro>,
-	"Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>,
-	akuster@mvista.com
+	Wed, 21 Feb 2018 04:52:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Feb 2018 20:52:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.46,542,1511856000"; d="scan'208,217";a="31592933"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+	by fmsmga004.fm.intel.com with ESMTP; 20 Feb 2018 20:52:27 -0800
+Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
+	FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Tue, 20 Feb 2018 20:52:26 -0800
+Received: from bgsmsx101.gar.corp.intel.com (10.223.4.170) by
+	fmsmsx156.amr.corp.intel.com (10.18.116.74) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Tue, 20 Feb 2018 20:52:26 -0800
+Received: from bgsmsx102.gar.corp.intel.com ([169.254.2.13]) by
+	BGSMSX101.gar.corp.intel.com ([169.254.1.25]) with mapi id
+	14.03.0319.002; Wed, 21 Feb 2018 10:22:23 +0530
+From: "Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>
+To: akuster808 <akuster808@gmail.com>, Andrei Gherzan <andrei@gherzan.ro>,
+	"akuster@mvista.com" <akuster@mvista.com>
+Thread-Topic: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
+Thread-Index: AQHTpxt1xUH5tykUwUugJ0+XYK2etaOmqEyAgABiU6D//6ohAIAGM4QAgAELcwCAAF10QA==
+Date: Wed, 21 Feb 2018 04:52:23 +0000
+Message-ID: <EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
 References: <CAK18fxEEZRnHzobX=Lt2By_VYgEzi36nSU+X_94Etegh8E81mg@mail.gmail.com>
 	<cc978b8d-afa0-5ea2-ba5d-9700bab26fdc@linux.intel.com>
 	<EBAEBC3AA1B73F4887F286A6723535236597E79C@BGSMSX102.gar.corp.intel.com>
 	<CAK18fxGNk3vxKeLVpoa7TCuuCq_jkkmMmj3D6Z-hM494ASF5kA@mail.gmail.com>
 	<CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
-Date: Tue, 20 Feb 2018 20:47:24 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	<2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
+In-Reply-To: <2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODYwNmQyNzQtNGI2Yi00Mjk4LTlmMDQtODczNjQ3MjAwY2I3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6IlFKTWJWRU5FSUVuOTJ2Y1wvbGhaa0dTMlMwa25vaFFDQzUxTEg4VFFyN3ZRPSJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-In-Reply-To: <CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
 Cc: openembedded <openembedded-core@lists.openembedded.org>
 Subject: Re: Linux firmware for iwlwifi 8000c disappeared in pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -67,128 +59,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Feb 2018 04:47:26 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F0B2C6EC841E7788EB990B19"
+X-List-Received-Date: Wed, 21 Feb 2018 04:52:26 -0000
 Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_EBAEBC3AA1B73F4887F286A67235352365980978BGSMSX102garcor_"
 
---------------F0B2C6EC841E7788EB990B19
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+--_000_EBAEBC3AA1B73F4887F286A67235352365980978BGSMSX102garcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-in stable/pyro-next
+SXQgbmVlZHMgdG8gYmUgbWVyZ2VkIGluIGJvdGggcHlybyBhbmQgcHlyby1uZXh0Lg0KDQpUaGFu
+a3MsDQpBdmluYXNoDQoNCkZyb206IGFrdXN0ZXI4MDggW21haWx0bzpha3VzdGVyODA4QGdtYWls
+LmNvbV0NClNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkgMjEsIDIwMTggMTA6MTcgQU0NClRvOiBB
+bmRyZWkgR2hlcnphbiA8YW5kcmVpQGdoZXJ6YW4ucm8+OyBQYWxsZXRpLCBBdmluYXNoIFJlZGR5
+IDxhdmluYXNoLnJlZGR5LnBhbGxldGlAaW50ZWwuY29tPjsgYWt1c3RlckBtdmlzdGEuY29tDQpD
+Yzogb3BlbmVtYmVkZGVkIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+Pg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBMaW51eCBmaXJtd2FyZSBmb3IgaXdsd2lmaSA4MDAw
+YyBkaXNhcHBlYXJlZCBpbiBweXJvDQoNCg0KaW4gc3RhYmxlL3B5cm8tbmV4dA0KDQpPbiAwMi8y
+MC8yMDE4IDA0OjUwIEFNLCBBbmRyZWkgR2hlcnphbiB3cm90ZToNCk9uIEZyaSwgRmViIDE2LCAy
+MDE4IGF0IDI6MDggUE0sIEFuZHJlaSBHaGVyemFuIDxhbmRyZWlAZ2hlcnphbi5ybzxtYWlsdG86
+YW5kcmVpQGdoZXJ6YW4ucm8+PiB3cm90ZToNCk9uIEZyaSwgRmViIDE2LCAyMDE4IGF0IDE6NDgg
+UE0sIFBhbGxldGksIEF2aW5hc2ggUmVkZHkgPGF2aW5hc2gucmVkZHkucGFsbGV0aUBpbnRlbC5j
+b208bWFpbHRvOmF2aW5hc2gucmVkZHkucGFsbGV0aUBpbnRlbC5jb20+PiB3cm90ZToNCiBJIHN1
+Ym1pdHRlZCBhIGZpeCBzb21ldGltZSBiYWNrLA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTgtRmVicnVhcnkvMTQ3MjkxLmh0bWwN
+Cg0KDQpHcmVhdC4gV2UgaGF2ZSB0aGUgZml4IGF2YWlsYWJsZSBhbmQgYXBwcm92ZWQgYnkgU2F1
+bC4gU2hhbGwgd2UgbWVyZ2U/DQoNCkFkZGluZyB0aGUgcHlybyBtYWludGFpbmVyIHRvIHRoaXMg
+dGhyZWFkLg0KDQotLQ0KQW5kcmVpIEdoZXJ6YW4NCg0KDQoNCg==
 
+--_000_EBAEBC3AA1B73F4887F286A67235352365980978BGSMSX102garcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 02/20/2018 04:50 AM, Andrei Gherzan wrote:
-> On Fri, Feb 16, 2018 at 2:08 PM, Andrei Gherzan <andrei@gherzan.ro
-> <mailto:andrei@gherzan.ro>> wrote:
->
->     On Fri, Feb 16, 2018 at 1:48 PM, Palleti, Avinash Reddy
->     <avinash.reddy.palleti@intel.com
->     <mailto:avinash.reddy.palleti@intel.com>> wrote:
->
->          I submitted a fix sometime back,
->         http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html
->         <http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html>
->
->
->     Great. We have the fix available and approved by Saul. Shall we merge?
->
->
-> Adding the pyro maintainer to this thread. 
->
-> --
-> Andrei Gherzan
->
->
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjsN
+Cgljb2xvcjpibGFjazt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1w
+cmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0K
+YTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0
+eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwDQoJ
+e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJn
+aW4tcmlnaHQ6MGluOw0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0
+OjBpbjsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4i
+LHNlcmlmOw0KCWNvbG9yOmJsYWNrO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10
+eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0K
+CWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
+LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4
+LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRpdi5Xb3Jk
+U2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBt
+c28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYi
+IC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
+bGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0K
+PC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgYmdjb2xv
+cj0id2hpdGUiIGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYg
+Y2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWY7Y29sb3I6IzFGNDk3RCI+SXQgbmVlZHMgdG8gYmUgbWVyZ2VkIGluIGJvdGggcHlybyBhbmQg
+cHlyby1uZXh0LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhh
+bmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZjtjb2xvcjojMUY0OTdEIj5BdmluYXNoPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxkaXY+
+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7
+cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBuYW1l
+PSJfX19fX3JlcGx5c2VwYXJhdG9yIj48L2E+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOndpbmRv
+d3RleHQiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6d2luZG93dGV4dCI+
+IGFrdXN0ZXI4MDggW21haWx0bzpha3VzdGVyODA4QGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6
+PC9iPiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDIxLCAyMDE4IDEwOjE3IEFNPGJyPg0KPGI+VG86PC9i
+PiBBbmRyZWkgR2hlcnphbiAmbHQ7YW5kcmVpQGdoZXJ6YW4ucm8mZ3Q7OyBQYWxsZXRpLCBBdmlu
+YXNoIFJlZGR5ICZsdDthdmluYXNoLnJlZGR5LnBhbGxldGlAaW50ZWwuY29tJmd0OzsgYWt1c3Rl
+ckBtdmlzdGEuY29tPGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQgJmx0O29wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJl
+OiBbT0UtY29yZV0gTGludXggZmlybXdhcmUgZm9yIGl3bHdpZmkgODAwMGMgZGlzYXBwZWFyZWQg
+aW4gcHlybzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwPmluIHN0YWJsZS9weXJvLW5leHQ8
+bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDAyLzIwLzIwMTggMDQ6NTAgQU0sIEFu
+ZHJlaSBHaGVyemFuIHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBz
+dHlsZT0ibWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxkaXY+DQo8ZGl2
+Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIEZy
+aSwgRmViIDE2LCAyMDE4IGF0IDI6MDggUE0sIEFuZHJlaSBHaGVyemFuICZsdDs8YSBocmVmPSJt
+YWlsdG86YW5kcmVpQGdoZXJ6YW4ucm8iIHRhcmdldD0iX2JsYW5rIj5hbmRyZWlAZ2hlcnphbi5y
+bzwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
+PC9kaXY+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
+OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVm
+dDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPk9uIEZyaSwgRmViIDE2LCAyMDE4IGF0IDE6NDggUE0sIFBhbGxldGksIEF2
+aW5hc2ggUmVkZHkgJmx0OzxhIGhyZWY9Im1haWx0bzphdmluYXNoLnJlZGR5LnBhbGxldGlAaW50
+ZWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+YXZpbmFzaC5yZWRkeS5wYWxsZXRpQGludGVsLmNvbTwv
+YT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
+b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2
+LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPiZuYnNwO0kgc3VibWl0dGVkIGEgZml4IHNvbWV0aW1lIGJhY2ssPGJyPg0KPGEgaHJl
+Zj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1j
+b3JlLzIwMTgtRmVicnVhcnkvMTQ3MjkxLmh0bWwiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxOC1GZWJy
+dWFyeS8xNDcyOTEuaHRtbDwvYT48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9i
+bG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+R3JlYXQuIFdlIGhhdmUg
+dGhlIGZpeCBhdmFpbGFibGUgYW5kIGFwcHJvdmVkIGJ5IFNhdWwuIFNoYWxsIHdlIG1lcmdlPzxv
+OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Jsb2NrcXVv
+dGU+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BZGRpbmcgdGhlIHB5cm8gbWFpbnRh
+aW5lciB0byB0aGlzIHRocmVhZC4mbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJiYWNrZ3JvdW5kOndoaXRlIj48
+c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZjtjb2xv
+cjojMjIyMjIyIj4tLTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzIyMjIyMjtiYWNrZ3JvdW5kOndoaXRlIj5BbmRyZWkgR2hlcnphbjwvc3Bh
+bj48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyPg0KPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9i
+b2R5Pg0KPC9odG1sPg0K
 
-
---------------F0B2C6EC841E7788EB990B19
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>in stable/pyro-next<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 02/20/2018 04:50 AM, Andrei Gherzan
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div>
-            <div class="gmail_signature"
-              data-smartmail="gmail_signature">
-              <div dir="ltr">
-                <div dir="ltr">On Fri, Feb 16, 2018 at 2:08 PM, Andrei
-                  Gherzan <span dir="ltr">&lt;<a
-                      href="mailto:andrei@gherzan.ro" target="_blank"
-                      moz-do-not-send="true">andrei@gherzan.ro</a>&gt;</span>
-                  wrote:<br>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div dir="ltr">
-                <div class="gmail_extra">
-                  <div class="gmail_quote"><span class="">On Fri, Feb
-                      16, 2018 at 1:48 PM, Palleti, Avinash Reddy <span
-                        dir="ltr">&lt;<a
-                          href="mailto:avinash.reddy.palleti@intel.com"
-                          target="_blank" moz-do-not-send="true">avinash.reddy.palleti@intel.<wbr>com</a>&gt;</span>
-                      wrote:<br>
-                      <blockquote class="gmail_quote" style="margin:0 0
-                        0 .8ex;border-left:1px #ccc
-                        solid;padding-left:1ex"> I submitted a fix
-                        sometime back,<br>
-                        <a
-href="http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html"
-                          rel="noreferrer" target="_blank"
-                          moz-do-not-send="true">http://lists.openembedded.org/<wbr>pipermail/openembedded-core/20<wbr>18-February/147291.html</a><br>
-                        <div>
-                          <div class="m_5106601931707792508h5"><br>
-                          </div>
-                        </div>
-                      </blockquote>
-                      <div><br>
-                      </div>
-                    </span>
-                    <div>Great. We have the fix available and approved
-                      by Saul. Shall we merge?</div>
-                  </div>
-                </div>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Adding the pyro maintainer to this thread. </div>
-            <div><br>
-            </div>
-            <div>
-              <div
-style="color:rgb(34,34,34);font-family:arial,sans-serif;font-size:small;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:initial;text-decoration-color:initial">--</div>
-              <span
-style="color:rgb(34,34,34);font-family:arial,sans-serif;font-size:small;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:initial;text-decoration-color:initial;float:none;display:inline">Andrei
-                Gherzan</span><br>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F0B2C6EC841E7788EB990B19--
+--_000_EBAEBC3AA1B73F4887F286A67235352365980978BGSMSX102garcor_--
