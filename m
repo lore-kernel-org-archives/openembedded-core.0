@@ -1,23 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 25890786E9
+	by mail.openembedded.org (Postfix) with ESMTP id B1785786E9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 05:45:58 +0000 (UTC)
+	Thu, 22 Feb 2018 05:45:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Feb 2018 21:46:00 -0800
+	21 Feb 2018 21:46:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="206033836"
+X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="206033841"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.20.193])
-	by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2018 21:45:59 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2018 21:46:00 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Feb 2018 13:45:50 +0800
-Message-Id: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
+Date: Thu, 22 Feb 2018 13:45:51 +0800
+Message-Id: <1519278352-5224-2-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/3] bluez5: remove dependency on libcheck
+In-Reply-To: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
+References: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH 2/3] kbd: build tests only when ptest is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +34,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Feb 2018 05:45:59 -0000
 
-It was removed a while back and isn't needed anymore.
-
-https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=292a37990cf0b9517135a4d58c8c1df6b9123cb4
+Also include the libcheck dependency only when tests are to be built.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/kbd/kbd_2.0.4.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 2607a05..a73d956 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
--DEPENDS = "udev dbus-glib glib-2.0 libcheck"
-+DEPENDS = "udev dbus-glib glib-2.0"
- PROVIDES += "bluez-hcidump"
- RPROVIDES_${PN} += "bluez-hcidump"
+diff --git a/meta/recipes-core/kbd/kbd_2.0.4.bb b/meta/recipes-core/kbd/kbd_2.0.4.bb
+index 5937cb8..b25d5e8 100644
+--- a/meta/recipes-core/kbd/kbd_2.0.4.bb
++++ b/meta/recipes-core/kbd/kbd_2.0.4.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "http://www.kbd-project.org/"
+ # everything minus console-fonts is GPLv2+
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a5fcc36121d93e1f69d96a313078c8b5"
+-DEPENDS = "libcheck"
  
+ inherit autotools gettext ptest pkgconfig
+ 
+@@ -19,8 +18,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+ SRC_URI[md5sum] = "c1635a5a83b63aca7f97a3eab39ebaa6"
+ SRC_URI[sha256sum] = "5fd90af6beb225a9bb9b9fb414c090fba53c9a55793e172f508cd43652e59a88"
+ 
+-PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
++PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam ptest', d)}"
+ PACKAGECONFIG[pam] = "--enable-vlock, --disable-vlock, libpam,"
++PACKAGECONFIG[ptest] = "--enable-tests, --disable-tests, libcheck"
+ 
+ do_compile_ptest() {
+     oe_runmake -C ${B}/tests dumpkeys-fulltable alt-is-meta
 -- 
 2.7.4
 
