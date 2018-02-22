@@ -1,48 +1,56 @@
-Return-Path: <prvs=1591333edf=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id BC893787DE
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 19:57:06 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w1MJuVgV031343 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 13:57:07 -0600
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2g6jswf19e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 13:57:07 -0600
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w1MJv6bf032182
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 13:57:06 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Thu, 22 Feb 2018 13:57:06 -0600
-Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Thu, 22 Feb 2018 13:57:06 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Feb 2018 13:57:34 -0600
-Message-ID: <20180222195736.21391-1-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.16.1
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 030C2784DC;
+	Thu, 22 Feb 2018 20:37:44 +0000 (UTC)
+Received: by mail-pf0-f171.google.com with SMTP id y186so1872167pfb.2;
+	Thu, 22 Feb 2018 12:37:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=f9hsO+Xyv+uXSZ4o71jL/AxqarlLQsk5by2sNnS1VZc=;
+	b=WEH2JmpntGddDUzzqLNAmVIRAsEBqypcblujjI8M6ko0eLfU4VvbciFozTtc/LHP6a
+	UWDvddPYpwCkOOUL/Q3Vw9v0rJY/Z9myov8zSFF0ttzVEl4FzReGPds76/F+VjzdaisM
+	hkaJ8hSLEUFerWoUIonIx6KH86BUnoIqiJA+S8+dml9IVD+EQ+yMydmcMWQHfmrHmaYH
+	7o18s8ANbVkr3vAzwRdUJR+9PHvP6TCHE1sGb3iiWIBppT/YyWc9TfIt1Y6pQ0S8RIk7
+	qDZ17MXmqwyXZPgWAYakB661Cyq+cLXUjV3GGsZBRnAlOadHKGGzNFjz+bLxa2oNWo5A
+	kmkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=f9hsO+Xyv+uXSZ4o71jL/AxqarlLQsk5by2sNnS1VZc=;
+	b=Z04yzStjpsfK2TZz/yQmrVlS6x+u29bokosLXzwBjMqo5Is/S4EPSYvcGnCA/Ivyft
+	FwmkO7cABLM86vDMS8GmpmvyMojRfqHuAym7nENHBAjWp+lQoSUl/badrM09Hif7TESV
+	9OtXbwxIWOAxRFwjDF7gdUhlrFHNnIh+7DElpD4gQnlZUqcj5sw+nbM9sPJHruNpFG2s
+	KJ0Q+wOtEtbYRTaj6bb7Qf+K7DiNkj2mfFKvlIkWTkRmGJuzUIT2gzGK3HosHiDiJUW1
+	ISp9ILHpBh5x8G+LKXBPFAwjCPmZGMRSlvpN2tQabf5HuttCZ2zfKKeRXBFy+K9FwFWg
+	dfFA==
+X-Gm-Message-State: APf1xPDgm5DD/8foG30/kTLtYyOL22aCfot7Oqg9oUB+8WvKkf0uQw1V
+	sMX+utrOjn9o33Xp7Mf46okFpA==
+X-Google-Smtp-Source: AH8x226Wb/biuxAhiCuUd+wAGmGN2n3pPRAqyZsFyFQkrrJwFo+qjfmcvrmBhz8OQHIu/jOJ/tBUQA==
+X-Received: by 10.99.143.69 with SMTP id r5mr6570665pgn.160.1519331865916;
+	Thu, 22 Feb 2018 12:37:45 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:18a7:7dde:bcc7:31a7?
+	([2601:202:4000:1184:18a7:7dde:bcc7:31a7])
+	by smtp.gmail.com with ESMTPSA id
+	j25sm1302602pgn.92.2018.02.22.12.37.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 22 Feb 2018 12:37:45 -0800 (PST)
+To: Andrea Adami <andrea.adami@gmail.com>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAAQYJAudtnFaY1S2j6FF_pN9B1OJhN-6fEBY8nWCtM73Kx8tSw@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <0bb858dc-a43f-ae14-01c9-2a42855e4409@gmail.com>
+Date: Thu, 22 Feb 2018 12:37:44 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2018-02-22_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=399 adultscore=0 classifier=spam adjust=30 reason=mlx
-	scancount=1 engine=8.0.1-1711220000 definitions=main-1802220251
-Subject: [PATCH 0/2] opkg & opkg-utils upgrade to 0.3.6
+In-Reply-To: <CAAQYJAudtnFaY1S2j6FF_pN9B1OJhN-6fEBY8nWCtM73Kx8tSw@mail.gmail.com>
+Subject: Re: [RFC] Rename meta-openembedded to openembedded-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,21 +63,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 19:57:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Feb 2018 20:37:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-Alejandro del Castillo (2):
-  opkg: upgrade to version 0.3.6
-  opkg-utils: upgrade to version 0.3.6
 
- .../recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch | 8 ++++----
- .../opkg-utils/{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb}       | 4 ++--
- meta/recipes-devtools/opkg/{opkg_0.3.5.bb => opkg_0.3.6.bb}       | 4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb} (94%)
- rename meta/recipes-devtools/opkg/{opkg_0.3.5.bb => opkg_0.3.6.bb} (95%)
 
--- 
-2.16.1
+On 02/21/2018 11:55 PM, Andrea Adami wrote:
+> All,
+> it seems there is some consensus about reordering/cleaning the
+> "OpenEmbedded layers".
+>
+> I think that before starting any cleaning *inside* we should finally
+> clean up the confusion about meta-oe meta-openembedded
+> openembedded-layers, etc..
+>
+> I think it would be advisable to rename the repository from
+> meta-openembedded to openembedded-extras, matching the
+> openembedded-core naming schema.
+Renaming an existing repo will cause more damage than what benefit one
+thinks it may solve.=C2=A0
+
+I think openembededd-core is incorrect. it should have been
+meta-openbedded-core or meta-core.
+
+- armin
+>
+> Regards
+> Andrea
+>
+>
+> P.S.
+> One layer of this repo would be the (in)famous meta-oe.
+> I can't imagine right now a definition for it: it contains old
+> versions of oe-core recipes, expunged recipes, tools and libraries
+> needed by other layers (i.e. tslib), etc. etc.
+> This one will need a separate thread.
+
 
 
