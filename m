@@ -1,41 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F0FCB6FFCD
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D37C171B50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 12:51:48 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id d206so6257329qkb.3
+	Thu, 22 Feb 2018 14:16:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1MEG2To013687
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 04:51:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=diyp203gwzCAVMEJIcqX1r6Gbs1s/ojdQpIG5bpddKM=;
-	b=PU0q39oOaTOY76ZgXZUqHHk4OKnr7AUJUqWriA0OstHX0EZE21tlolDdhatYEDzr2i
-	uMK+Z7+l3YmN6d+Uqp8PoiCIxIfAH50Ak1OTrl+lsBjkzjoiORmHmwG9Be5UtaLftSmB
-	epxA+JiOs61r15z5RiVKnTadBBOLK8KuTVqTcsYq7O2fXUMhWtyfhpfCNRI3XaUu3NM9
-	fhV5yR5SQlHJEKoFIWWeeaS5EHZPap+MmVt4M8+sSJeWatBdZf7D5djnNBd7O2gHKcL6
-	ZYevRQi8rX6ZsaLQKoRMXiUAFp70h1fowkdvUEaTyuLfP+ghX4YgE996J2WbtSFSp5jR
-	YbNw==
-X-Gm-Message-State: APf1xPAUKxoo6rzEbGn9FsAb9gjr6e0N3QZ6nUEILGkzJ8+l4CBJy7ub
-	JmKCp7s21Bdix74uMQr8LoSGiw==
-X-Google-Smtp-Source: AH8x224G8IOF31fyBtnvNR6rc6WD8PfZ7nRpaiT0+M7jGotaZ1xr7ub8rNGwNtcnE3Fa7ctKnDWapw==
-X-Received: by 10.55.212.150 with SMTP id s22mr9947662qks.85.1519303909873;
-	Thu, 22 Feb 2018 04:51:49 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id q2sm9268qti.81.2018.02.22.04.51.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 22 Feb 2018 04:51:49 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 22 Feb 2018 09:51:42 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Feb 2018 09:51:40 -0300
-Message-Id: <20180222125140.2161-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] u-boot-mkimage: Add dependency on dtc
+	Thu, 22 Feb 2018 06:16:02 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 22 Feb 2018 06:15:41 -0800
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Feb 2018 09:15:37 -0500
+Message-ID: <20180222141537.229103-1-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.13.3
+MIME-Version: 1.0
+Subject: [PATCH v3] systemd: re-enable mount propagation for udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,45 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 12:51:49 -0000
+X-List-Received-Date: Thu, 22 Feb 2018 14:16:01 -0000
+Content-Type: text/plain
 
-The dtc is used when generating images which use Device Tree and we
-must use the OE version to avoid relying on the host one.
+MountFlags's default value is shared in systemd-udevd.service. But upstream
+sets MountFlags with slave just for keeping mounts done by udev private to
+udevd, which causes block device mounted by udev unvisable but being busy for
+host. So we revert it to shared to be propagated to host.
 
-Reported-by: Renato Caldas <rm.santos.caldas@gmail.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 ---
+ ...evd-re-enable-mount-propagation-for-udevd.patch | 33 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_234.bb           |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
 
-Changes in v3:
-- just rdepends on dtc; it is not used during mkimage build
-
-Changes in v2:
-- add rdepends on dtc
-- fix depends on dtc-native for native
-
- meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-index f1fc5644922..d691cdce658 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-@@ -2,6 +2,7 @@ require u-boot-common_${PV}.inc
- 
- SUMMARY = "U-Boot bootloader image creation tool"
- DEPENDS = "openssl"
-+DEPENDS_append_class-native = " dtc-native"
- 
- EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
- EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-@@ -24,4 +25,6 @@ do_install () {
- 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
- }
- 
-+RDEPENDS_${PN} += "dtc"
+diff --git a/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
+new file mode 100644
+index 0000000000..fce7bdd796
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
+@@ -0,0 +1,33 @@
++From 11a3312d36109f5e5a7697ddb05c533c51e2cd75 Mon Sep 17 00:00:00 2001
++From: "Hongzhi.Song" <hongzhi.song@windriver.com>
++Date: Mon, 19 Feb 2018 20:43:02 -0500
++Subject: [PATCH] systemd-udevd: re-enable mount propagation for udevd
 +
- BBCLASSEXTEND = "native nativesdk"
++Upstream-Status: Inappropriate [embedded specific]
++
++Change the mount propagation flag from MountFlags=slave to MountFlags=shared
++(default). Use shared to ensure that mounts and unmounts are propagated from 
++systemd's namespace to the service's namespace and vice versa, while use slave 
++to run processes so that none of their mounts and unmounts will propagate to 
++the host.
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ units/systemd-udevd.service.in | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
++index fc037b5..841d7a8 100644
++--- a/units/systemd-udevd.service.in
+++++ b/units/systemd-udevd.service.in
++@@ -24,7 +24,6 @@ ExecStart=@rootlibexecdir@/systemd-udevd
++ KillMode=mixed
++ WatchdogSec=3min
++ TasksMax=infinity
++-MountFlags=slave
++ MemoryDenyWriteExecute=yes
++ RestrictRealtime=yes
++ RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_INET AF_INET6
++-- 
++2.8.1
++
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index babc351cc8..42f4f1ec76 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -32,6 +32,7 @@ SRC_URI += " \
+            file://0001-main-skip-many-initialization-steps-when-running-in-.patch \
+            file://CVE-2017-18078.patch \
+            file://0001-resolved-fix-loop-on-packets-with-pseudo-dns-types.patch \
++	   file://systemd-udevd-re-enable-mount-propagation-for-udevd.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
 -- 
-2.16.2
+2.13.3
 
 
