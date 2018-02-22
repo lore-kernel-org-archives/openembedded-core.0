@@ -1,24 +1,18 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DB8FD6093A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 07:07:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1M77359007329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Feb 2018 23:07:03 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 21 Feb 2018 23:06:42 -0800
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Feb 2018 02:06:49 -0500
-Message-ID: <20180222070649.114898-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.13.3
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AB51F605C3;
+	Thu, 22 Feb 2018 07:32:52 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] systemd: re-enable mount propagation for udevd
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Thu, 22 Feb 2018 07:32:54 -0000
+Message-ID: <20180222073254.15542.88267@do.openembedded.org>
+References: <20180222070649.114898-1-hongzhi.song@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180222070649.114898-1-hongzhi.song@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogcmUtZW5hYmxlIG1vdW50IHByb3BhZ2F0aW9uIGZvciB1ZGV2ZCAocmV2NCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 07:07:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Feb 2018 07:32:52 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-With MountFlags=slave, those mounts then become private to the systemd-udevd
-namespace and are no longer accessible from outside the namespace, which is
-not expected.
+== Series Details ==
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Series: systemd: re-enable mount propagation for udevd (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/1447/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 709b60a5e3)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...evd-re-enable-mount-propagation-for-udevd.patch | 33 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_234.bb           |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
-new file mode 100644
-index 0000000000..fce7bdd796
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
-@@ -0,0 +1,33 @@
-+From 11a3312d36109f5e5a7697ddb05c533c51e2cd75 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Mon, 19 Feb 2018 20:43:02 -0500
-+Subject: [PATCH] systemd-udevd: re-enable mount propagation for udevd
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Change the mount propagation flag from MountFlags=slave to MountFlags=shared
-+(default). Use shared to ensure that mounts and unmounts are propagated from 
-+systemd's namespace to the service's namespace and vice versa, while use slave 
-+to run processes so that none of their mounts and unmounts will propagate to 
-+the host.
-+
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ units/systemd-udevd.service.in | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
-+index fc037b5..841d7a8 100644
-+--- a/units/systemd-udevd.service.in
-++++ b/units/systemd-udevd.service.in
-+@@ -24,7 +24,6 @@ ExecStart=@rootlibexecdir@/systemd-udevd
-+ KillMode=mixed
-+ WatchdogSec=3min
-+ TasksMax=infinity
-+-MountFlags=slave
-+ MemoryDenyWriteExecute=yes
-+ RestrictRealtime=yes
-+ RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_INET AF_INET6
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index babc351cc8..42f4f1ec76 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -32,6 +32,7 @@ SRC_URI += " \
-            file://0001-main-skip-many-initialization-steps-when-running-in-.patch \
-            file://CVE-2017-18078.patch \
-            file://0001-resolved-fix-loop-on-packets-with-pseudo-dns-types.patch \
-+	   file://systemd-udevd-re-enable-mount-propagation-for-udevd.patch \
-            "
- SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.13.3
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
