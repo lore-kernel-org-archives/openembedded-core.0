@@ -1,21 +1,21 @@
 Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 35C7F786F0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DB8FD6093A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 06:45:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1M6jKx7026286
+	Thu, 22 Feb 2018 07:07:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1M77359007329
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Feb 2018 22:45:20 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 21 Feb 2018 22:45:00 -0800
+	Wed, 21 Feb 2018 23:07:03 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 21 Feb 2018 23:06:42 -0800
 From: "Hongzhi.Song" <hongzhi.song@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Feb 2018 01:45:06 -0500
-Message-ID: <20180222064506.108335-1-hongzhi.song@windriver.com>
+Date: Thu, 22 Feb 2018 02:06:49 -0500
+Message-ID: <20180222070649.114898-1-hongzhi.song@windriver.com>
 X-Mailer: git-send-email 2.13.3
 MIME-Version: 1.0
 Subject: [PATCH] systemd: re-enable mount propagation for udevd
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 06:45:19 -0000
+X-List-Received-Date: Thu, 22 Feb 2018 07:07:02 -0000
 Content-Type: text/plain
 
 With MountFlags=slave, those mounts then become private to the systemd-udevd
@@ -41,12 +41,13 @@ not expected.
 Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 ---
  ...evd-re-enable-mount-propagation-for-udevd.patch | 33 ++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ meta/recipes-core/systemd/systemd_234.bb           |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
 
 diff --git a/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
 new file mode 100644
-index 0000000000..5349ecedf7
+index 0000000000..fce7bdd796
 --- /dev/null
 +++ b/meta/recipes-core/systemd/systemd/systemd-udevd-re-enable-mount-propagation-for-udevd.patch
 @@ -0,0 +1,33 @@
@@ -55,7 +56,7 @@ index 0000000000..5349ecedf7
 +Date: Mon, 19 Feb 2018 20:43:02 -0500
 +Subject: [PATCH] systemd-udevd: re-enable mount propagation for udevd
 +
-+Upstream-Status: Pending
++Upstream-Status: Inappropriate [embedded specific]
 +
 +Change the mount propagation flag from MountFlags=slave to MountFlags=shared
 +(default). Use shared to ensure that mounts and unmounts are propagated from 
@@ -83,6 +84,18 @@ index 0000000000..5349ecedf7
 +-- 
 +2.8.1
 +
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index babc351cc8..42f4f1ec76 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -32,6 +32,7 @@ SRC_URI += " \
+            file://0001-main-skip-many-initialization-steps-when-running-in-.patch \
+            file://CVE-2017-18078.patch \
+            file://0001-resolved-fix-loop-on-packets-with-pseudo-dns-types.patch \
++	   file://systemd-udevd-re-enable-mount-propagation-for-udevd.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
 -- 
 2.13.3
 
