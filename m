@@ -1,18 +1,42 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AB51F605C3;
-	Thu, 22 Feb 2018 07:32:52 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Thu, 22 Feb 2018 07:32:54 -0000
-Message-ID: <20180222073254.15542.88267@do.openembedded.org>
-References: <20180222070649.114898-1-hongzhi.song@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180222070649.114898-1-hongzhi.song@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogcmUtZW5hYmxlIG1vdW50IHByb3BhZ2F0aW9uIGZvciB1ZGV2ZCAocmV2NCk=?=
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2247868B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Feb 2018 07:37:04 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id b130so5343797qkg.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Feb 2018 23:37:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=oQyPcF/HYfyKSpyxVSJ7NP2t62WhTJaHrURFtsA8Q2k=;
+	b=nNr2Y34+kG6K0uYnopsnoKH4wTiyZ3YOgsVFClzis4Oif/siOgwke/1V54Pqf+GSKK
+	7kxOfgPzPquAA+w/grCkhJn9Y9LGV+3PVdC+0rVdkGALqnwT3tewbBwZe8hNZVmtURCV
+	CyxuNIzjU3XOs18FEY53A0mXXWNglv8YbwMFO7a2Joriv1OhhfxXD9KtDdgh40y73wpB
+	rkyttFiRdhDpy9cP0zhPgaXUauh+yvw4qqzGPz7/S91hBhxOt1/8wQAowWQ/sflWTgds
+	KkwyYEH0mPavJ6hXGIXTE2iuvK4BaTLwQlIDJy2GS6hF3Eetlurw8sP2qa6hFhCPTv+1
+	D33w==
+X-Gm-Message-State: APf1xPAbNR82nZS67y4+Jci4i77cELjQXriCbYrEUYFaVLpI3h1dYDm1
+	gh6pIoY8BbAJwwpWtvbNI7QmpQ==
+X-Google-Smtp-Source: AH8x225e+ieXhqR44fgRuZaP5xVi5n9s4IYWe3Q8Me0Em66bL70WjAwCbyZT6RG47H6q8HCCXjX90g==
+X-Received: by 10.55.64.21 with SMTP id n21mr5836938qka.186.1519285025682;
+	Wed, 21 Feb 2018 23:37:05 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	53sm22291469qto.77.2018.02.21.23.37.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 21 Feb 2018 23:37:03 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Thu, 22 Feb 2018 04:36:56 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Feb 2018 04:36:47 -0300
+Message-Id: <20180222073647.31860-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot-mkimage: Add dependency on dtc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 07:32:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Feb 2018 07:37:05 -0000
 
-== Series Details ==
+The dtc is used when generating images which use Device Tree and we
+must use the OE version to avoid relying on the host one.
 
-Series: systemd: re-enable mount propagation for udevd (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/1447/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 709b60a5e3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Reported-by: Renato Caldas <rm.santos.caldas@gmail.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
+index f1fc5644922..1d55f2899a1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
+@@ -1,7 +1,7 @@
+ require u-boot-common_${PV}.inc
+ 
+ SUMMARY = "U-Boot bootloader image creation tool"
+-DEPENDS = "openssl"
++DEPENDS = "openssl dtc"
+ 
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+-- 
+2.16.2
 
 
