@@ -1,49 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4356A78709
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3F971A18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 12:26:33 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id o9so6049134itc.1
+	Thu, 22 Feb 2018 12:41:39 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id h129so6209483qke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 04:26:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+ZqXsEi2rmI9IZze7eEz4ayNHFGd9zbHuCXv7ZaxMGM=;
-	b=N1/CJLrqRMxRdSOqQL/FdcBnTHxRXb7xghs98tSwQhHpEIZ+6WaucCReo8FmCSsqc5
-	/O+mRvIqr1+Ui2XL2xde4nP+1e/ID9cdog+AKqI7qOJMuBiK1ZsHkWoofsOHZRlY1S8U
-	dqC24udgFPdMbyosL/ZIDq0toswOgX22f1oAV8ItF3tyA4xSumDnDt/RKRno8lNoS+hc
-	Z1i8dYnpzB2UTXfJRR2rdsKKecNeOwiaw9LJeAwJ/cye49nFSAR67DnVszzMHypI0VOW
-	4TCSzYn7o1q22YWHkPEbmNbQl9U8/5tjhXPzANEnNQlBlb0b19MvbzgSg7/KZ361lIi+
-	xdqw==
+	Thu, 22 Feb 2018 04:41:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+ZqXsEi2rmI9IZze7eEz4ayNHFGd9zbHuCXv7ZaxMGM=;
-	b=h9YKZiG1rOJyJI7WWPdqYv2OG7hE7ozIdeusCJOhciPK/K6H5HnN0DMu94gDJHk7Zz
-	R8cW3FRsh9/EE7ZPF3VFD/Gs98QnTNolWGbHWl5OelFCn7BgWWyH/fPMDJHLrFiWhm26
-	bvWg9LN79vdGFgqYVjJKg3DMmFo6SBaciDGb2ObWO4kAnxMKZ3/aqSJ2KEtlMAqL2jv7
-	maK7mcS4dxP0LAo3DbxWgAvaLywoheBMAm0NKh8bPkpaWcKKRSDlgM515L4PI03ZY/nS
-	rNK+AJxNEt9QxtZ6xsMfRkv8a7fRo1mgLHUTfHNY+EtVytUssdsexrJ4kFxV2Beki+Fz
-	nLhw==
-X-Gm-Message-State: APf1xPAw4p44bCWYWyPdyPPbKnwhZJ7Bqx1q3bFRWD0Z8NzYfKxQlvlZ
-	mwgzpDKPmsgR/G/Y+7BK+sDeKadmGWnPRevgmYywug==
-X-Google-Smtp-Source: AH8x224bFCYdh8jNKt0Xy0auVY1jwKiY3dSSWK+p2Mn+Ohrc6f3IuBTvz3ytw2nh3qsjKbs5C9wpRwd5kLVixguEXxk=
-X-Received: by 10.36.144.68 with SMTP id x65mr7923576itd.60.1519302394633;
-	Thu, 22 Feb 2018 04:26:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Thu, 22 Feb 2018 04:26:14 -0800 (PST)
-In-Reply-To: <1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
-References: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
-	<1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Feb 2018 12:26:14 +0000
-Message-ID: <CAJTo0LYWYmk5Ch9q19Bzf6taggCsHvaZqJHdF2FPy3tbYVJBsg@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gstreamer-rtsp-server: remove unnecessary dependencies
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=G6Zv3NC8GXHYB9LoqJtkKgiOJy+bEmkvpH4Ru229KYI=;
+	b=kt2Znd9uKKCzTbJTLWVmnuA+Kb8P4RD8E+N2dMeujNGoQEDF3LwFPTYc09QqiZ0G2/
+	NdIp25kJWaI/axgQCUgRxRRcdmG+t1zXC5lKq0EepB8XensSI0yEHUOBPLeRvavLRo5E
+	tl1w/espTqZmtZphkq9NPJInl7ZkgBPWy+szAd6Ka2pcBa1A1bC192NbzLqEiyj6kCBd
+	vwi5Jd64VaHgIYWeSwe7QvJQmvUEvOxSrCzMFXnh5NakIbQfCFGY5E1rEJy0DHHJwO3/
+	AaL3gilI0O63dncOCH6xBYz2F1xBTl6wEh2UbAEZOOogHb/dEysxwY99rBBkx1CLFJOe
+	MQ/Q==
+X-Gm-Message-State: APf1xPAJC9VWZJZi29AhObMerTtYa7VogEoFjZzun9YSWhX79NUAGQcv
+	eHSuSrDlb1OYq65aYYNsXe8o8g==
+X-Google-Smtp-Source: AH8x224HNSRhkZXqqzyQU80efRQemWUxGpliLMJGbTFuW3erP5Pha3ELvbhxgZRM1VV4zUZCa59Xcw==
+X-Received: by 10.55.152.71 with SMTP id a68mr10451927qke.297.1519303300108;
+	Thu, 22 Feb 2018 04:41:40 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id x49sm2230qth.62.2018.02.22.04.41.37
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 22 Feb 2018 04:41:39 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Thu, 22 Feb 2018 09:41:32 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Feb 2018 09:41:30 -0300
+Message-Id: <20180222124130.29581-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] u-boot-mkimage: Add dependency on dtc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +48,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 12:26:33 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07e8068a13620565cc2783"
+X-List-Received-Date: Thu, 22 Feb 2018 12:41:39 -0000
 
---94eb2c07e8068a13620565cc2783
-Content-Type: text/plain; charset="UTF-8"
+The dtc is used when generating images which use Device Tree and we
+must use the OE version to avoid relying on the host one.
 
-On 22 February 2018 at 05:45, Anuj Mittal <anuj.mittal@intel.com> wrote:
+Reported-by: Renato Caldas <rm.santos.caldas@gmail.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-> Disable building of examples and remove dep on libcgroup which
-> was needed, if present, to build only one specific example.
->
+Changes in v2:
+- add rdepends on dtc
+- fix depends on dtc-native for native
 
-Are the examples installed?  Might be worth making this a packageconfig.
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
+index f1fc5644922..d691cdce658 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
+@@ -2,6 +2,7 @@ require u-boot-common_${PV}.inc
+ 
+ SUMMARY = "U-Boot bootloader image creation tool"
+ DEPENDS = "openssl"
++DEPENDS_append_class-native = " dtc-native"
+ 
+ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+ EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+@@ -24,4 +25,6 @@ do_install () {
+ 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
+ }
+ 
++RDEPENDS_${PN} += "dtc"
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.16.2
 
 
-> Make building of tests optional.
->
-
-Are the tests installed?  If not then we can just disable them globally
-until someone turns them into a ptests.
-
-Ross
-
---94eb2c07e8068a13620565cc2783
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 22 February 2018 at 05:45, Anuj Mittal <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitta=
-l@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">Disable building of example=
-s and remove dep on libcgroup which<br>
-was needed, if present, to build only one specific example.<br></blockquote=
-><div><br></div><div>Are the examples installed?=C2=A0 Might be worth makin=
-g this a packageconfig.</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
-Make building of tests optional.<br></blockquote><div><br></div><div>Are th=
-e tests installed?=C2=A0 If not then we can just disable them globally unti=
-l someone turns them into a ptests.</div><div><br></div><div>Ross</div></di=
-v></div></div>
-
---94eb2c07e8068a13620565cc2783--
