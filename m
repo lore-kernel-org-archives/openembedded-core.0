@@ -1,62 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f170.google.com (mail-ot0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CC80871AB3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E14B78745
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 09:19:13 +0000 (UTC)
-Received: by mail-ot0-f170.google.com with SMTP id e64so4024966ote.4
+	Thu, 22 Feb 2018 10:51:19 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x21so2842056wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 01:19:15 -0800 (PST)
+	Thu, 22 Feb 2018 02:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=+lvnrkJC+78+H93eGOHjGHoVGdYBHPK5knyl4Dnr97g=;
-	b=jPA8Fy6n45DpUG29UdysldhZBM1Xd6eeqIyCn/eNzCE6IAChF4ZZRZGnbNMlSNOLNg
-	h+6iQB9qufO572xWFnfTfnd6PUWhglh8vJ4gzvwt2MLTIlxNv46NUT0Nx/1iEEHg1eeW
-	bFL6eWF382+BSsCguXT6P73XfFUUBoIis2sAeNjvJlAjXv973OJuHjAip/wSWLhfyQ63
-	3CfNCnH++GyguYgrogK7o5vZ+T5/K2ZrplrAIuJHuxdtRDd4JWz0qQZHGvPMb36jXSUd
-	5YfdMDQdKJmCg8bcN12P63GSDD2JlU3Xo5rT4cu1OpQhVPlhrL3I4cB/1p+rM5/q9pKT
-	2mAA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=yLDX6U1AW0h/CV6/ObczTgTnaBEMUGS4x2js8NHagfI=;
+	b=WsqUzgmQHp1oWoiq1RiHfPFIleZ0O6Sh78sGjoT43DE0W18S1jEV9UvfAvdiTY/BAE
+	ixhLhthgIwwPQNEo+jA3F9YhI6toNwslvufXuYDA99u1B2PmYa8m7E6CRS7EIDEJGIRv
+	066vzvWHmzZjz9j5m30VzGTEDwI3vYcn4a3U2cYjICKlhy0LqFhvwV4Hhz2FKIyCfZWt
+	2moEJgyYgOtiJHN8emcLS61xRmGLgy4kELD9dCvtmNLY3qW2OhAM89AxOHLoDaS416Mj
+	aDSHzhfa+TqAOTSBVRD/c1G0Iduv4vcfHrMMe95JETLx3uWOSLO/ARGuluFG1PIIBMGD
+	vQvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=+lvnrkJC+78+H93eGOHjGHoVGdYBHPK5knyl4Dnr97g=;
-	b=sEXuh+6wOMgMv2p14Rq2sN8pAQqY3Lr8BkwtmtZVMOKJM2ScZnWgUSJCk02nakdw02
-	RbiwhgIiU3mfbrt+9FH8DP+gUsr+IkYe8zts2cGxcOt6dG6Oj4IClPW82NsWHwOeT3LV
-	Mu2eOo8zXbj9wFo9B6Kgc9/E1JTYOhoX10hQb2IP1I/vagHwxnDUNPpgV5WJ/DBGCxMI
-	3DepeJVGE/jOLRk589SIEGEmgbRTKGhn1sQ87iASRbBAsmpRUGYQ/vI0VHBz4UNtLs32
-	EWmV7BwD1+RgvMhzzDvICGZMmccm31sN3TtbZfuzAxB1cb3fcAyX+Ff0eyUGtOljEuBR
-	rwEA==
-X-Gm-Message-State: APf1xPAu0N96sem9RbSzNdoP749JkMydtK0f338t9gH1TgPPgqo9bU9I
-	FNjn+UER4+uZnxpc6+FmkwuJYFaR
-X-Google-Smtp-Source: AG47ELsNFRMtJy2t24b7a5mN+8ih6gJWVoQtNn36yHE/CTXEKYW9iSk9I5Se45olVHKSycS1oKjQWw==
-X-Received: by 10.157.68.9 with SMTP id u9mr4790445ote.387.1519291154394;
-	Thu, 22 Feb 2018 01:19:14 -0800 (PST)
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com.
-	[209.85.218.41])
-	by smtp.gmail.com with ESMTPSA id x4sm93150otx.13.2018.02.22.01.19.13
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yLDX6U1AW0h/CV6/ObczTgTnaBEMUGS4x2js8NHagfI=;
+	b=Y1rTE5bQZJwy0G9jO/YmM1phzOJ4hbdm8p5prj200+wczK2m6WHQLTat2DoVOIefb0
+	NELIkfDJoF5e8Q2VBRR/ZksGM7rCz4D5bx1V6D9W8qg76AMyxS4vnmjx1XqmFhWN2M1G
+	M/RY+sezkP0Q8xRLMXFVA+TAPlZ13K031feCFGBhaGSYJBoa8OgVq76FhmlEvf+xds3b
+	d/IsVhPjhW2+hA4M6vIj1dxx8LI4y40XcX1ciT8VKjwaO2+OpiSxXWPTv2IzQ49vGVbo
+	UNtpubc7IjQfa97e7ZW8RhxIEaPUQJnG99QskSaulbK6EBglbyuBPdOY9oJvod4/6RzH
+	2hAw==
+X-Gm-Message-State: APf1xPBrMRWk6CNfaW5suDTc4udShYqU+XBQPscjg964qimzhRkt918s
+	1CqJzvcRdxzi4Wc+lTFlCX4mmouX
+X-Google-Smtp-Source: AH8x2251S4PrX72X81n3YfbkckNcltriGbD1zDxXlwaLc4SdtB6qGTY+r1tOx0eVRponX5X5yqIflQ==
+X-Received: by 10.28.87.20 with SMTP id l20mr4311025wmb.48.1519296680415;
+	Thu, 22 Feb 2018 02:51:20 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id y6sm128446wmy.14.2018.02.22.02.51.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Feb 2018 01:19:13 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f41.google.com with SMTP id j79so3209334oib.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 01:19:13 -0800 (PST)
-X-Received: by 10.202.179.214 with SMTP id c205mr4246261oif.315.1519291152740; 
-	Thu, 22 Feb 2018 01:19:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.157.80.129 with HTTP; Thu, 22 Feb 2018 01:19:11 -0800 (PST)
-In-Reply-To: <1519288575-139362-1-git-send-email-hongzhi.song@windriver.com>
-References: <1519288575-139362-1-git-send-email-hongzhi.song@windriver.com>
-Date: Thu, 22 Feb 2018 06:19:11 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqj9wyUuYR5Rh+3DP=j40=P2fbgtLPvOwurfmtAKH9n1A@mail.gmail.com>
-Message-ID: <CAP9ODKqj9wyUuYR5Rh+3DP=j40=P2fbgtLPvOwurfmtAKH9n1A@mail.gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: re-enable mount propagation for udevd
+	Thu, 22 Feb 2018 02:51:19 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Feb 2018 10:51:16 +0000
+Message-Id: <20180222105116.4102-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] maintainers: update for change to icecc-create-env recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,21 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 09:19:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Feb 2018 10:51:20 -0000
 
-On Thu, Feb 22, 2018 at 5:36 AM, Hongzhi.Song
-<hongzhi.song@windriver.com> wrote:
-> With MountFlags=slave, those mounts then become private to the systemd-udevd
-> namespace and are no longer accessible from outside the namespace, which is
-> not expected.
->
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It is not clear /why/ this is need.
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 59906f8b6de..965fd34ca04 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -266,7 +266,7 @@ RECIPE_MAINTAINER_pn-help2man-native = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-hicolor-icon-theme = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-hwlatdetect = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-i2c-tools = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-icecc-create-env-native = "Alexander Kanavin <alexander.kanavin@intel.com>"
++RECIPE_MAINTAINER_pn-icecc-create-env = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-icon-naming-utils = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-icu = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-ifupdown = "Maxin B. John <maxin.john@intel.com>"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.11.0
+
 
