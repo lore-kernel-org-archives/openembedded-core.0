@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9642F78745;
-	Thu, 22 Feb 2018 14:32:54 +0000 (UTC)
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id DBE446093A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Feb 2018 14:59:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Feb 2018 06:59:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="202972426"
+Received: from anmitta2-mobl1.gar.corp.intel.com (HELO [10.249.67.7])
+	([10.249.67.7])
+	by orsmga005.jf.intel.com with ESMTP; 22 Feb 2018 06:59:52 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
+	<1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
+	<CAJTo0LYWYmk5Ch9q19Bzf6taggCsHvaZqJHdF2FPy3tbYVJBsg@mail.gmail.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <35726aa0-9847-9517-2094-6d11e85f33cd@intel.com>
+Date: Thu, 22 Feb 2018 22:59:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Thu, 22 Feb 2018 14:32:56 -0000
-Message-ID: <20180222143256.15542.61267@do.openembedded.org>
-References: <20180222141537.229103-1-hongzhi.song@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180222141537.229103-1-hongzhi.song@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogcmUtZW5hYmxlIG1vdW50IHByb3BhZ2F0aW9uIGZvciB1ZGV2ZCAocmV2Nik=?=
+In-Reply-To: <CAJTo0LYWYmk5Ch9q19Bzf6taggCsHvaZqJHdF2FPy3tbYVJBsg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] gstreamer-rtsp-server: remove unnecessary dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 14:32:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Feb 2018 14:59:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On 02/22/2018 08:26 PM, Burton, Ross wrote:
+> On 22 February 2018 at 05:45, Anuj Mittal <anuj.mittal@intel.com
+> <mailto:anuj.mittal@intel.com>> wrote:
+> 
+>     Disable building of examples and remove dep on libcgroup which
+>     was needed, if present, to build only one specific example.
+> 
+> 
+> Are the examples installed?  Might be worth making this a packageconfig.
 
-Series: systemd: re-enable mount propagation for udevd (rev6)
-Revision: 6
-URL   : https://patchwork.openembedded.org/series/1447/
-State : failure
+No, they are not installed. Same like gstreamer.
 
-== Summary ==
+>  
+> 
+>     Make building of tests optional.
+> 
+> 
+> Are the tests installed?  If not then we can just disable them globally
+> until someone turns them into a ptests.
 
+These are also not installed. Even when it's enabled, it's built when
+make check is invoked ...
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+I will disable them in v2 and evaluate later if these can be used as
+part of a bug that asks for more testing of gstreamer.
 
+Thanks,
 
+Anuj
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 709b60a5e3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> Ross
 
 
