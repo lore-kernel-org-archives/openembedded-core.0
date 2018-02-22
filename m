@@ -1,25 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B1785786E9
+	by mail.openembedded.org (Postfix) with ESMTP id BE12778709
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 05:45:59 +0000 (UTC)
+	Thu, 22 Feb 2018 05:46:00 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Feb 2018 21:46:01 -0800
+	21 Feb 2018 21:46:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="206033841"
+X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="206033846"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.20.193])
-	by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2018 21:46:00 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2018 21:46:01 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Feb 2018 13:45:51 +0800
-Message-Id: <1519278352-5224-2-git-send-email-anuj.mittal@intel.com>
+Date: Thu, 22 Feb 2018 13:45:52 +0800
+Message-Id: <1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
 References: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
-Subject: [PATCH 2/3] kbd: build tests only when ptest is enabled
+Subject: [PATCH 3/3] gstreamer-rtsp-server: remove unnecessary dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 05:45:59 -0000
+X-List-Received-Date: Thu, 22 Feb 2018 05:46:00 -0000
 
-Also include the libcheck dependency only when tests are to be built.
+libcheck dep was removed from gst-rtsp-server some time back [1].
+
+Disable building of examples and remove dep on libcgroup which
+was needed, if present, to build only one specific example.
+
+Make building of tests optional.
+
+[1] https://cgit.freedesktop.org/gstreamer/gst-rtsp-server/commit?id=43ec4e7c786227b85aec06599c3955626e241a01
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/kbd/kbd_2.0.4.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/kbd/kbd_2.0.4.bb b/meta/recipes-core/kbd/kbd_2.0.4.bb
-index 5937cb8..b25d5e8 100644
---- a/meta/recipes-core/kbd/kbd_2.0.4.bb
-+++ b/meta/recipes-core/kbd/kbd_2.0.4.bb
-@@ -3,7 +3,6 @@ HOMEPAGE = "http://www.kbd-project.org/"
- # everything minus console-fonts is GPLv2+
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a5fcc36121d93e1f69d96a313078c8b5"
--DEPENDS = "libcheck"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+index 70e90b8..938e919 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
+ SECTION = "multimedia"
+ LICENSE = "LGPLv2"
  
- inherit autotools gettext ptest pkgconfig
+-DEPENDS = "gstreamer1.0 libcgroup gstreamer1.0-plugins-base libcheck"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
  
-@@ -19,8 +18,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
- SRC_URI[md5sum] = "c1635a5a83b63aca7f97a3eab39ebaa6"
- SRC_URI[sha256sum] = "5fd90af6beb225a9bb9b9fb414c090fba53c9a55793e172f508cd43652e59a88"
+ PNREAL = "gst-rtsp-server"
  
--PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam ptest', d)}"
- PACKAGECONFIG[pam] = "--enable-vlock, --disable-vlock, libpam,"
-+PACKAGECONFIG[ptest] = "--enable-tests, --disable-tests, libcheck"
+@@ -16,6 +16,11 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
  
- do_compile_ptest() {
-     oe_runmake -C ${B}/tests dumpkeys-fulltable alt-is-meta
+ inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
++
++EXTRA_OECONF = "--disable-examples"
++
+ # Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
+ LIBV = "1.0"
+ require gst-plugins-package.inc
+@@ -26,4 +31,3 @@ delete_pkg_m4_file() {
+ }
+ 
+ do_configure[prefuncs] += " delete_pkg_m4_file"
+-
 -- 
 2.7.4
 
