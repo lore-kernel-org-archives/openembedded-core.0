@@ -1,31 +1,24 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id DBE446093A
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 71D0478754
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 14:59:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2018 06:59:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,377,1515484800"; d="scan'208";a="202972426"
-Received: from anmitta2-mobl1.gar.corp.intel.com (HELO [10.249.67.7])
-	([10.249.67.7])
-	by orsmga005.jf.intel.com with ESMTP; 22 Feb 2018 06:59:52 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1519278352-5224-1-git-send-email-anuj.mittal@intel.com>
-	<1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
-	<CAJTo0LYWYmk5Ch9q19Bzf6taggCsHvaZqJHdF2FPy3tbYVJBsg@mail.gmail.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <35726aa0-9847-9517-2094-6d11e85f33cd@intel.com>
-Date: Thu, 22 Feb 2018 22:59:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Thu, 22 Feb 2018 15:03:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1MF3DYe013894
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Feb 2018 07:03:13 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 22 Feb 2018 07:02:51 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Feb 2018 10:03:12 -0500
+Message-ID: <1519311792-21058-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYWYmk5Ch9q19Bzf6taggCsHvaZqJHdF2FPy3tbYVJBsg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gstreamer-rtsp-server: remove unnecessary dependencies
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto-dev: update to v4.16-rcX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 14:59:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Feb 2018 15:03:12 -0000
+Content-Type: text/plain
 
-On 02/22/2018 08:26 PM, Burton, Ross wrote:
-> On 22 February 2018 at 05:45, Anuj Mittal <anuj.mittal@intel.com
-> <mailto:anuj.mittal@intel.com>> wrote:
-> 
->     Disable building of examples and remove dep on libcgroup which
->     was needed, if present, to build only one specific example.
-> 
-> 
-> Are the examples installed?  Might be worth making this a packageconfig.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, they are not installed. Same like gstreamer.
-
->  
-> 
->     Make building of tests optional.
-> 
-> 
-> Are the tests installed?  If not then we can just disable them globally
-> until someone turns them into a ptests.
-
-These are also not installed. Even when it's enabled, it's built when
-make check is invoked ...
-
-I will disable them in v2 and evaluate later if these can be used as
-part of a bug that asks for more testing of gstreamer.
-
-Thanks,
-
-Anuj
-
-> 
-> Ross
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 490b83af6842..4201faf672bb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -28,7 +28,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "4.15-rc+"
++LINUX_VERSION ?= "4.16-rc+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-- 
+2.5.0
 
 
