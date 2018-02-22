@@ -1,41 +1,63 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A3F971A18
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DB4171A18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 12:41:39 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id h129so6209483qke.8
+	Thu, 22 Feb 2018 12:43:23 +0000 (UTC)
+Received: by mail-ot0-f180.google.com with SMTP id 79so4460916oth.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Feb 2018 04:41:40 -0800 (PST)
+	Thu, 22 Feb 2018 04:43:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=akzxpOr6g1CX/Z24TvDhCb9d+nmmIcIEDRcKaRvbS1k=;
+	b=KesDb/1vGgsStvrZHbJVQmiqJRJPJPcmqnu7hKbH7IX08Pff/5FfyYgUohsi68F5q5
+	fqdp08pjMKHlg/OBwvFKVKeC80/wWcSIzduQwRVxh5BgyP1xIblzNUPvCARE77sOqXSu
+	UGaJJB7P2UjSZHM4YUA/0PrZdBPFT1mvfRap0bhdbMBtV7CjyaKC3Oi5DEpw2RYgsLyJ
+	y7SbRV/a2MlTi0wPXXqySYV5/JauIjBBbx4DBwEPzauqkygvCY2pC0LYuNUKVzMAz30E
+	l+YlNGDz45Wo1Cxap810LBZlGg6q2aifAUjbf0mIbNiuKuBrGaCSnnlyc3ZgiBePK/Lj
+	kmGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=G6Zv3NC8GXHYB9LoqJtkKgiOJy+bEmkvpH4Ru229KYI=;
-	b=kt2Znd9uKKCzTbJTLWVmnuA+Kb8P4RD8E+N2dMeujNGoQEDF3LwFPTYc09QqiZ0G2/
-	NdIp25kJWaI/axgQCUgRxRRcdmG+t1zXC5lKq0EepB8XensSI0yEHUOBPLeRvavLRo5E
-	tl1w/espTqZmtZphkq9NPJInl7ZkgBPWy+szAd6Ka2pcBa1A1bC192NbzLqEiyj6kCBd
-	vwi5Jd64VaHgIYWeSwe7QvJQmvUEvOxSrCzMFXnh5NakIbQfCFGY5E1rEJy0DHHJwO3/
-	AaL3gilI0O63dncOCH6xBYz2F1xBTl6wEh2UbAEZOOogHb/dEysxwY99rBBkx1CLFJOe
-	MQ/Q==
-X-Gm-Message-State: APf1xPAJC9VWZJZi29AhObMerTtYa7VogEoFjZzun9YSWhX79NUAGQcv
-	eHSuSrDlb1OYq65aYYNsXe8o8g==
-X-Google-Smtp-Source: AH8x224HNSRhkZXqqzyQU80efRQemWUxGpliLMJGbTFuW3erP5Pha3ELvbhxgZRM1VV4zUZCa59Xcw==
-X-Received: by 10.55.152.71 with SMTP id a68mr10451927qke.297.1519303300108;
-	Thu, 22 Feb 2018 04:41:40 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id x49sm2230qth.62.2018.02.22.04.41.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 22 Feb 2018 04:41:39 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 22 Feb 2018 09:41:32 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Feb 2018 09:41:30 -0300
-Message-Id: <20180222124130.29581-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] u-boot-mkimage: Add dependency on dtc
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=akzxpOr6g1CX/Z24TvDhCb9d+nmmIcIEDRcKaRvbS1k=;
+	b=d1WP5eKEmATicBDQm02fjKIbpv625W3VUOvIdT6vyeym+CIcrQcGOSlPZJv9sEXRTW
+	EcWRVtDLEZuERoH6v2rNlTmbpuhQZvjlaYeS826DkO5yA68CiEWS58hlRZChe0H2Id2d
+	ap1B6FYFHcOgw8ebqi4uCAAhIr0ECDCOr9wnwQbqRIfare7O0Oz7LuUgCnGwbB/CDqnc
+	A4n9nVgUkgjWJnuayfFpW31hK235jLbEOFm03hwEsy8pVslwmNjblZ/IYS1Hglo/2EkS
+	KeMIuPy/SzusONbaXdrOUWf5gJL8kx7BnFOKiiVKqnIixlQdqp7kdh9wpAoFKHSLeZD/
+	+PTw==
+X-Gm-Message-State: APf1xPC3G5dbXPE7NDbhgwi1FgzoMm/aRUdzlfM0SRFPMHguz9JblPOi
+	mu+QP5FKgqIfu63OysvAKOhEv3td
+X-Google-Smtp-Source: AG47ELshLa0onWHU+UKZNx1RfbKgyuwD9gbgVu1b485MyvTTFWjD1w2avpm3q8H6CbulI+bUMju37Q==
+X-Received: by 10.157.26.74 with SMTP id u10mr3576489otu.22.1519303404889;
+	Thu, 22 Feb 2018 04:43:24 -0800 (PST)
+Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com.
+	[74.125.82.176])
+	by smtp.gmail.com with ESMTPSA id o49sm4215oto.46.2018.02.22.04.43.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 22 Feb 2018 04:43:23 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot0-f176.google.com with SMTP id a7so4467967otk.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Feb 2018 04:43:23 -0800 (PST)
+X-Received: by 10.157.30.228 with SMTP id n91mr4567383otn.181.1519303403217;
+	Thu, 22 Feb 2018 04:43:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.157.80.129 with HTTP; Thu, 22 Feb 2018 04:43:22 -0800 (PST)
+In-Reply-To: <CAJTo0LZkjeVEQohwNZRZU4KLLCJySyPbVqJQgq2nS=jB42DszA@mail.gmail.com>
+References: <20180222073647.31860-1-otavio@ossystems.com.br>
+	<CAJTo0LZkjeVEQohwNZRZU4KLLCJySyPbVqJQgq2nS=jB42DszA@mail.gmail.com>
+Date: Thu, 22 Feb 2018 09:43:22 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKomT_V2SHUQysFvkMu_9hBd87TWHj--qacmMf5aw2XKFg@mail.gmail.com>
+Message-ID: <CAP9ODKomT_V2SHUQysFvkMu_9hBd87TWHj--qacmMf5aw2XKFg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot-mkimage: Add dependency on dtc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,42 +70,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Feb 2018 12:41:39 -0000
+X-List-Received-Date: Thu, 22 Feb 2018 12:43:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The dtc is used when generating images which use Device Tree and we
-must use the OE version to avoid relying on the host one.
+On Thu, Feb 22, 2018 at 9:23 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Shouldn't this be dtc-native?
 
-Reported-by: Renato Caldas <rm.santos.caldas@gmail.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Good catch; in fact for native it was right but for other variants, it
+was not. Fixed in v2.
 
-Changes in v2:
-- add rdepends on dtc
-- fix depends on dtc-native for native
-
- meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-index f1fc5644922..d691cdce658 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
-@@ -2,6 +2,7 @@ require u-boot-common_${PV}.inc
- 
- SUMMARY = "U-Boot bootloader image creation tool"
- DEPENDS = "openssl"
-+DEPENDS_append_class-native = " dtc-native"
- 
- EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
- EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-@@ -24,4 +25,6 @@ do_install () {
- 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
- }
- 
-+RDEPENDS_${PN} += "dtc"
-+
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.16.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
