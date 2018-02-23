@@ -1,47 +1,59 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E8DF787DE
+	by mail.openembedded.org (Postfix) with ESMTP id 83616787DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 07:46:18 +0000 (UTC)
+	Fri, 23 Feb 2018 07:49:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 187751847E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:20 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTP id 29762184DB;
+	Fri, 23 Feb 2018 08:42:36 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 9iHLds-jSy1D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:19 +0100 (CET)
+	port 10024)
+	with LMTP id 6VUDmFsZH7A0; Fri, 23 Feb 2018 08:42:35 +0100 (CET)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id BD8E1184E0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:18 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTPS id 466591847E;
+	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8997B1A08A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:18 +0100 (CET)
+	by IMSVA (Postfix) with ESMTP id 2ADB21A08A;
+	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EC9A1A082
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:18 +0100 (CET)
+	by IMSVA (Postfix) with ESMTP id 1EAEC1A082;
+	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:18 +0100 (CET)
-Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id 72FFF1E3A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 08:46:18 +0100 (CET)
-Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 6E0B8409B5; Fri, 23 Feb 2018 08:46:18 +0100 (CET)
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 123C51E15;
+	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Fri, 23 Feb 2018 08:42:34 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Fri, 23 Feb 2018 08:42:34 +0100
+Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
+	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
+	15.00.1263.000; Fri, 23 Feb 2018 08:42:34 +0100
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Feb 2018 08:46:18 +0100
-Message-Id: <20180223074618.24928-1-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/8] lib/oe/path: implement is_path_under()
+Thread-Index: AQHTrFLY3U9EqY0MB0mydZwyWYCvfqOxmhBg
+Date: Fri, 23 Feb 2018 07:42:34 +0000
+Message-ID: <bb76902073b54d2bba0774471fd64543@XBOX04.axis.com>
+References: <cover.1519354910.git.paul.eggleton@linux.intel.com>
+	<e1e012bd3bb79e363b65b911f805989301f4188f.1519354910.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <e1e012bd3bb79e363b65b911f805989301f4188f.1519354910.git.paul.eggleton@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH] package.bbclass: Include dbgsrc for static libs
+Subject: Re: [PATCH 1/8] lib/oe/path: implement is_path_under()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,108 +66,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 07:46:19 -0000
+X-List-Received-Date: Fri, 23 Feb 2018 07:49:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The debugsource must be added from the package providing the static
-lib, because any package using that lib does not have access to the
-source code.
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Paul Eggleton
+> Sent: den 23 februari 2018 04:02
+> To: openembedded-core@lists.openembedded.org
+>=20
+<snip>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/lib/oe/path.py | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>=20
+> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py index
+> 1ea03d5d568..346b48f3641 100644
+> --- a/meta/lib/oe/path.py
+> +++ b/meta/lib/oe/path.py
+> @@ -237,3 +237,27 @@ def realpath(file, root, use_physdir =3D True, loop_=
+cnt
+> =3D 100, assume_dir =3D False)
+>          raise
+>=20
+>      return file
+> +
+> +def is_path_under(path1, possible_parent):
 
-Fixes [YOCTO #12558]
+Changing the signature to is_path_under(possible_parent, *paths) will make =
+the list management more natural.
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
----
- meta/classes/package.bbclass | 42 ++++++++++++++++++++++++++++++------------
- 1 file changed, 30 insertions(+), 12 deletions(-)
+This function will return True if path1 is the empty list. Is that intentio=
+nal?
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index e7e93a067a..ec6fca87b5 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -344,6 +344,20 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
- 
-     return debugfiles.keys()
- 
-+def append_source_info(file, sourcefile, d):
-+    cmd = "'dwarfsrcfiles' '%s'" % (file)
-+    (retval, output) = oe.utils.getstatusoutput(cmd)
-+    # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
-+    if retval != 0 and retval != 255:
-+        bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+
-+    debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
-+    # filenames are null-separated - this is an artefact of the previous use
-+    # of rpm's debugedit, which was writing them out that way, and the code elsewhere
-+    # is still assuming that.
-+    debuglistoutput = '\0'.join(debugsources) + '\0'
-+    open(sourcefile, 'a').write(debuglistoutput)
-+
- 
- def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
-     # Function to split a single file into two components, one is the stripped
-@@ -369,18 +383,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
- 
-     # We need to extract the debug src information here...
-     if debugsrcdir:
--        cmd = "'dwarfsrcfiles' '%s'" % (file)
--        (retval, output) = oe.utils.getstatusoutput(cmd)
--        # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
--        if retval != 0 and retval != 255:
--            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
--
--        debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
--        # filenames are null-separated - this is an artefact of the previous use
--        # of rpm's debugedit, which was writing them out that way, and the code elsewhere
--        # is still assuming that.
--        debuglistoutput = '\0'.join(debugsources) + '\0'
--        open(sourcefile, 'a').write(debuglistoutput)
-+        append_source_info(file, sourcefile, d)
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
-@@ -936,6 +939,13 @@ python split_and_strip_files () {
-                 type |= 8
-         return type
- 
-+    def isStaticLib(path):
-+        if file.endswith('.a'):
-+            with open(path, 'rb') as fh:
-+                magic = b'!<arch>\n'
-+                start = fh.read(len(magic))
-+                return start == magic
-+        return False
- 
-     #
-     # First lets figure out all of the files we may have to process ... do this only once!
-@@ -943,6 +953,7 @@ python split_and_strip_files () {
-     elffiles = {}
-     symlinks = {}
-     kernmods = []
-+    staticlibs = []
-     inodes = {}
-     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
-     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir"))
-@@ -955,6 +966,9 @@ python split_and_strip_files () {
-                 if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-                     kernmods.append(file)
-                     continue
-+                if isStaticLib(file):
-+                    staticlibs.append(file)
-+                    continue
- 
-                 # Skip debug files
-                 if debugappend and file.endswith(debugappend):
-@@ -1033,6 +1047,10 @@ python split_and_strip_files () {
-             # Only store off the hard link reference if we successfully split!
-             splitdebuginfo(file, fpath, debugsrcdir, sourcefile, d)
- 
-+        if debugsrcdir:
-+            for file in staticlibs:
-+                append_source_info(file, sourcefile, d)
-+
-         # Hardlink our debug symbols to the other hardlink copies
-         for ref in inodes:
-             if len(inodes[ref]) == 1:
--- 
-2.11.0
+/Ola Nilsson
 
+> +    """
+> +    Return True if a path is underneath another, False otherwise.
+> +    Multiple paths to test can be specified (as a list or tuple) in
+> +    which case all specified test paths must be under the parent to
+> +    return True.
+> +    """
+> +    def abs_path_trailing(pth):
+> +        pth_abs =3D os.path.abspath(pth)
+> +        if not pth_abs.endswith(os.sep):
+> +            pth_abs +=3D os.sep
+> +        return pth_abs
+> +
+> +    possible_parent_abs =3D abs_path_trailing(possible_parent)
+> +    if isinstance(path1, str):
+> +        testpaths =3D [path1]
+> +    else:
+> +        testpaths =3D path1
+> +    for path in testpaths:
+> +        path_abs =3D abs_path_trailing(path)
+> +        if not path_abs.startswith(possible_parent_abs):
+> +            return False
+> +    return True
+> --
+> 2.14.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
