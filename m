@@ -1,41 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CC29786DD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A34126011A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 14:50:15 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id l12so10032905ioc.10
+	Fri, 23 Feb 2018 15:12:09 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id s13so5048578plq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 06:50:17 -0800 (PST)
+	Fri, 23 Feb 2018 07:12:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=86XczCYxU/kaLPJKI0uTYqrA/xz1QLdp2bzVP3ihpaY=;
+	b=hNodrp2LcXNYYgbG+GXnZd1c6BaTWOAfn0QelzmkaDn4ALk/AzFFfhB4iswMLhVUeC
+	MZOIRMck5p5jJ1jRnv+Cben65jV8MCHQENK2CM03okn+PvgvL+/XXMMaql+Oj362LHJC
+	d6gTvnLvdimdkgnLZVZMiy2d2ZST1elvM8eksM0uFmfzHinUnCONeyUqj4hGDcNsWtMe
+	4s7/tHOK4gwj2VSZMyAKhDdcWNymKOQcz1Thw88KR44XvIFfgiw1XZYpX2oRrkyNk4eY
+	MfrdZAQQvjy5efEKGaMJr6BU3hvc5+atQkuxuDhdqvVP9KBA1hwWL7SaU14sWLyTZGrG
+	uAWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5iZXezW33OPuQOjRj3Utf44aPxiXQuByL6tQoU3qsBM=;
-	b=VsZ8yG8r/g4+jG7VDhfVlrJdSyEarIIfrFdQ8W55Qxe2hPQkvkdWZwd4juB6AspsH4
-	YiUfFD7Q52TDYuld14YW8vJsM19AvCmCZK2bN/Fb7MgCQnkLuWhVejlIkOGuOWB0BeRd
-	FYXGUgwFpRXWGT+otwDaBd4yenjwR1aoo8hVbGufQqHFKgWIilE9y+PGMzx3OuOZolqI
-	3TJ1LgcFbdhSNljGJnfQhFiIySGYgh5aHw8eAAOpF3s4ayM9jP3hx7ITE7Nk55P54r01
-	FtG71k3LVRin1DskUeq5H9KYUtqpioDbH3aRoZt2HOqoOCoEzoUWB5qxk2rY2y7BIss6
-	Tncg==
-X-Gm-Message-State: APf1xPAgEINwsbmouxtu7OyqlsURFpKskteE+cqnDWG5pjhMEY2gsrCp
-	jOgazVswikjcAvLpWo3mlKjLx/Z9
-X-Google-Smtp-Source: AG47ELuhXs3MRCV539A0v81UchMpV6hYifQg4zKVPwRKUcxz3VzmRUyDr5dAl4d8kzLYEAvzNDGskQ==
-X-Received: by 10.107.28.66 with SMTP id c63mr2093707ioc.247.1519397416978;
-	Fri, 23 Feb 2018 06:50:16 -0800 (PST)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=86XczCYxU/kaLPJKI0uTYqrA/xz1QLdp2bzVP3ihpaY=;
+	b=lwmDBuI9szqf5JjonTk3XFY0Sldnlj1NkObYdK2+HEcksIsZlSj6FiCG4+yfpKjFDH
+	k6ACMycgBXic7x5v5jMf2uHqPPI8Ed8Pej/ac513vs8PFzPnaeVqi246iQxKE35Vuxj6
+	8/HOaIN3mjvJHo0tu/1aQHZfWrog7IzcetEpRbxHLRKsU08HumoW4cldyJR39/mnQGKe
+	GCkwGkuxvb3OIKZYiMRS4BTOKBpRn+rbk/UTN5ffZHwAZgZsVkPxtt39PDVsi/o9XewD
+	g8e/M48lhY6DkFIDtWu3q2Bx122WBPHzEmsW20R/ZuqLsPLwRajJHfhF5Ty6hA6ntpGa
+	eiyQ==
+X-Gm-Message-State: APf1xPBGKlgSgBZa47s47ezFR7ZiRZc6lsXRfB5gK9cgULb0NZIj0PKz
+	P5bwUQvEnmRQWNzCJrMhgXGyWg==
+X-Google-Smtp-Source: AH8x225iJTunM5gHivqCH8F5AebwDXKb/XFY3nJM25jcj9a+tEWdJa2ysWdT83POqUYNNQSs4gZGNA==
+X-Received: by 2002:a17:902:d806:: with SMTP id
+	a6-v6mr2020046plz.274.1519398731354; 
+	Fri, 23 Feb 2018 07:12:11 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
 	by smtp.gmail.com with ESMTPSA id
-	t76sm1698320iof.87.2018.02.23.06.50.15
-	for <openembedded-core@lists.openembedded.org>
+	80sm6116933pfn.114.2018.02.23.07.12.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Feb 2018 06:50:16 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Fri, 23 Feb 2018 07:12:10 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Feb 2018 14:50:13 +0000
-Message-Id: <20180223145013.755-1-git@andred.net>
-X-Mailer: git-send-email 2.16.1
-MIME-Version: 1.0
-Subject: [PATCH] cmake: refactor compile and install for easier re-use
+Date: Fri, 23 Feb 2018 07:11:59 -0800
+Message-Id: <20180223151159.11743-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] musl: Upgrade to 1.1.19 release point
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,61 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 14:50:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Feb 2018 15:12:10 -0000
 
-From: André Draszik <andre.draszik@jci.com>
+Changes from the current commit
 
-cmake_do_compile() and cmake_do_install() basically do the
-same, except they use a different --target, and at the
-moment this is copy/pasted code with a minor modification.
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=628cf979b249fa76a80962e2eefe05073216a4db..55df09bfccbfe21fc9dd7d8f94550c0ff25ace04
 
-Other recipes which e.g. might want to support compilation
-as part of ptest have to do the same. This is a bit
-inconvenient.
+Summary of this release
+http://www.openwall.com/lists/musl/2018/02/22/2
 
-By factoring out all of this into a common helper,
-cmake_runcmake_build(), this is easily re-used. An
-(imaginary) recipe can compile ptest support simply by
-using
-  cmake_runcmake_build --target buildtest-TESTS
-(assuming such a build target exists).
-
-Also, this now is very similar to oe_runmake().
-
-Signed-off-by: André Draszik <andre.draszik@jci.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/cmake.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index d60dad8d66..fcfd5dda4f 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -159,14 +159,17 @@ cmake_do_configure() {
- 	  -Wno-dev
- }
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 8b2cb4d49d..8906ac6beb 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,9 +3,9 @@
  
-+cmake_runcmake_build() {
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+}
-+
- cmake_do_compile()  {
--	bbnote VERBOSE=1 cmake --build '${B}' --target ${OECMAKE_TARGET_COMPILE} -- ${EXTRA_OECMAKE_BUILD}
--	VERBOSE=1 cmake --build '${B}' --target ${OECMAKE_TARGET_COMPILE} -- ${EXTRA_OECMAKE_BUILD}
-+	cmake_runcmake_build --target ${OECMAKE_TARGET_COMPILE}
- }
+ require musl.inc
  
- cmake_do_install() {
--	bbnote DESTDIR='${D}' cmake --build '${B}' --target ${OECMAKE_TARGET_INSTALL} -- ${EXTRA_OECMAKE_BUILD}
--	DESTDIR='${D}' cmake --build '${B}' --target ${OECMAKE_TARGET_INSTALL} -- ${EXTRA_OECMAKE_BUILD}
-+	DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
- }
+-SRCREV = "628cf979b249fa76a80962e2eefe05073216a4db"
++SRCREV = "55df09bfccbfe21fc9dd7d8f94550c0ff25ace04"
  
- EXPORT_FUNCTIONS do_configure do_compile do_install do_generate_toolchain_file
+-PV = "1.1.18+git${SRCPV}"
++PV = "1.1.19+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
 -- 
-2.16.1
+2.16.2
 
 
