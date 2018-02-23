@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B09377BD2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f46.google.com (mail-pg0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 329C978837
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 18:18:53 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id 30so10717053iog.2
+	Fri, 23 Feb 2018 19:38:56 +0000 (UTC)
+Received: by mail-pg0-f46.google.com with SMTP id w17so3730619pgv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 10:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 23 Feb 2018 11:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=89MPooeFpB+QgwO7nDTIu3440mFlrGj7i5ScjUT0BHY=;
-	b=XOnlZpU6/NFPH8BuMMnPcPMg4L1CzxgEVg7AJHV3fgOTPnzZ16JZT7+akeos3tvbee
-	ObTQsTh7AlwYT2IWGLXjFQ/G6u4X02HqD0oVKZ8UOBwwuYDo01/k9XOU4rRKURUqsQtt
-	4S3LvpWlny+tnoDfSyJtmVTHlnPKoMqzSBCd5UHKMZvzqmPsjSLuSzmtWEE+qzjsbNB7
-	PuH3OTjV429HTBcxNSy38gi7b3fnm7IPRlz6I8c7/bzLbR4wbzmdsek/YzR2GIALbZV5
-	vrF6KVypQ4yv2dizc6VE34JvOg6WAEBJawW1IJPOHPS9cc2FWz4ks/hbraA3/DrkpSTM
-	8Y2w==
+	:cc:content-transfer-encoding;
+	bh=3+MfnaX4xSA4aFyG4OakiQcP64VHwmzRniLLZIz8bSQ=;
+	b=DCtEydJ496WTCwu0ktihNXZPnreAV8HTKlGHaoyy9UNCGKJ1PETZ0Qdf2GiN9UbUWh
+	rwAc7FQQqK5QV+XbeD0qodl+wWFkJjGVUB+TM0M51YDndf+e2oiC4j75anxNMNbdmI8s
+	7Ey8m7PGK4Di+0FBU47hTMC0ET+1DOvCLELn2IHwFNeaojXTCx2uP/+heFilN5T+BDSf
+	RaggAY4MpeRWlHXoPpbEykB1QK8AyZfDjD85nLm7WlIPJT4rM3nj674F2Ihew7uCJWaO
+	jgFTssqcfP4uECmbfswMbdFoFNXLuwwwA3cM6ETAuuB8MTj+QOPAk0ehCYWDvRr+qwIh
+	K19A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=89MPooeFpB+QgwO7nDTIu3440mFlrGj7i5ScjUT0BHY=;
-	b=cF40oYA+nIwpzAWjypN6zAAMvfwxa+1qvpVFuxy9GWK4Io4H+iLB6l+Ks8YGnuqE21
-	deVhvwmhi3bG24HIXPBtWBBhd3udYb9rvPT+mhKbrHWmbFvRQsfHVYF+b8ZpPUbd+8px
-	iHpnmV+mBiYCKHv8XScqe5gYIkepis82/8shiPQGadaI+TKuGA7zzOFnecUq6e3Fu1sf
-	EAZYqNLBrseH2bsiLOMDl/Zsn3VawqFG5TD/+b9yiXJ9oD1MJGXG6Ke0wbf6dTtk7McM
-	36D2fj9FIAJu5HBnru48eTiG2/ZkiVhnsQsL1Jp1VAD4nIoUHI9bVHRShYWH5Swjt5UH
-	GBsw==
-X-Gm-Message-State: APf1xPCmh3iQGp8FfvWBIqL1ewCCjb6tVybStKmBKrUFTCuTU1hI8Dts
-	HYd9rsjinSet8uvDkaEKq/YavTz+FP6tsESZc6zm0Q==
-X-Google-Smtp-Source: AG47ELvzpJsh4qox3jUXty6TgdO5fMBj8tcgxgji2tzQtUNFSAhZznkCAtDPGV4qy2I2Tjfnm2mK2mu1c6008paM2iQ=
-X-Received: by 10.107.183.76 with SMTP id h73mr2809907iof.201.1519409934657;
-	Fri, 23 Feb 2018 10:18:54 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=3+MfnaX4xSA4aFyG4OakiQcP64VHwmzRniLLZIz8bSQ=;
+	b=o3HvvBNsC+kNc6fC+vW1tGUoPTLIh/xDh3M/j9qfj69dQz8kWKO3d/hwdAeEu3dbvQ
+	MxMdY48GEjFv8yOmz5w2Wx4UZET5P2kiEDKXNEIswrR2cPIPKQAk2v2Wd2zRUeGug6u5
+	cVG7byFYB3vcHibYmTepvIUWMhoTH5F8U/j/pgRwTYJZQ7PsLAYujt0x4+5isWr73Lua
+	lqYOO8MCgpCkTCd/OCAbfrDRNRcQRNGJaPXsmLhZl/xFKQQUdwFWJNAX2msX5DWlH+x+
+	KgFkSSAyUlpp3Q8+eb9468Q1X+SRorTCAMMsI3azAgw2WboftAYp2stX9+ICy4Lt1FdW
+	NnWA==
+X-Gm-Message-State: APf1xPAvo6xblSXjP3hmLY24NCT6fs7Fv/aorzyNCss5yVnoqKQf8rJG
+	PZEAj5wVW3J0o0H6o7bxAMBnaQeSnghJxYDAxM8=
+X-Google-Smtp-Source: AH8x2254yUyQaeWLqYmQ7Ff8kOiQfFf+u3532pCbmfhTU3nvJVRKwrnM277Ndj7lrEGLyB4LeamGE1Z1UmySVtxKmZ0=
+X-Received: by 10.98.28.202 with SMTP id c193mr2787508pfc.109.1519414737954;
+	Fri, 23 Feb 2018 11:38:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Fri, 23 Feb 2018 10:18:34 -0800 (PST)
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B64C6607C5@ORSMSX112.amr.corp.intel.com>
-References: <20180223153535.11063-1-ross.burton@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C6607C5@ORSMSX112.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 23 Feb 2018 18:18:34 +0000
-Message-ID: <CAJTo0LZ2bVOuYY6m7jbZcND=T4p2dOQKn7iN4D7FtXrPg=RB+g@mail.gmail.com>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.100.139.97 with HTTP; Fri, 23 Feb 2018 11:38:27 -0800 (PST)
+In-Reply-To: <20180223174124.24238-3-mark.hatle@windriver.com>
+References: <20180223174124.24238-1-mark.hatle@windriver.com>
+	<20180223174124.24238-3-mark.hatle@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 23 Feb 2018 11:38:27 -0800
+Message-ID: <CAMKF1soBinBRwuZ6Y6dPRwwh5k0BhihZc4QOVigc5th2h9pR6Q@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xcb-proto: don't compile for Python 2
+Subject: Re: [master][rocko][PATCH 2/2] gcc: Fix internal compiler error for PPC test case "gcc.dg/vmx/7d-02.c"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,297 +56,306 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 18:18:53 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0b9e3a6c8b940565e5314a"
-
---94eb2c0b9e3a6c8b940565e5314a
+X-List-Received-Date: Fri, 23 Feb 2018 19:38:57 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Indeed, meant to put that number in the message.
+On Fri, Feb 23, 2018 at 9:41 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> Fix an internal compiler error on PPC from building a specific test:
+>
+> $ $CC -S 7d-02.c
+> 7d-02.c: In function =C3=A2:
+> 7d-02.c:11:5: internal compiler error: in copy_to_mode_reg, at explow.c:6=
+12
+>      vec_st(v, i*16,p);
+>      ^~~~~~
+>
+> The failure appears to happen on all optimizations levels as well.
+>
 
-On 23 February 2018 at 17:21, Bystricky, Juro <juro.bystricky@intel.com>
-wrote:
+this is ok
 
-> Nice. This should fix Yocto #12543 as well.
-> ________________________________________
-> From: openembedded-core-bounces@lists.openembedded.org [
-> openembedded-core-bounces@lists.openembedded.org] on behalf of Ross
-> Burton [ross.burton@intel.com]
-> Sent: Friday, February 23, 2018 7:35 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] xcb-proto: don't compile for Python 2
->
-> Remove the do_install_append to create the Python 2 pyc files, as nothing
-> in the
-> build is using Python 2 anymore (libxcb is the only user, and that uses
-> Python
-> 3).
->
-> Also use variables instead of a patch to control what Python binary and
-> path the
-> modules are installed to.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 > ---
->  .../xorg-proto/xcb-proto/no-python-native.patch    | 27
-> ----------------------
->  meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 14 ++++-------
->  2 files changed, 5 insertions(+), 36 deletions(-)
->  delete mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/no-python-
-> native.patch
+>  meta/recipes-devtools/gcc/gcc-7.3.inc              |   1 +
+>  ...1-Fix-internal-compiler-error-in-testcase.patch | 212 +++++++++++++++=
+++++++
+>  2 files changed, 213 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-c=
+ompiler-error-in-testcase.patch
 >
-> diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/no-python-native.patch
-> b/meta/recipes-graphics/xorg-proto/xcb-proto/no-python-native.patch
-> deleted file mode 100644
-> index 09b6088db0a..00000000000
-> --- a/meta/recipes-graphics/xorg-proto/xcb-proto/no-python-native.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -Upstream uses AM_PATH_PYTHON to find a python binary and ask it where to
-> install
-> -libraries.  This means we either need to depend on python-native (large
-> build
-> -dependency, early in the build) or use the host python (pythondir
-> reflects the
-> -host and not the target, breaks builds).
-> -
-> -The third option is to just hardcode the path where the module goes, as
-> most
-> -callers of the code use pkg-config to find where it was installed anyway.
-> -
-> -Upstream-Status: Inappropriate
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index d140bfe..c7b68da 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -14,7 +14,10 @@ if test "$XMLLINT" = "no"; then
-> -    AC_MSG_WARN([xmllint not found; unable to validate against schema.])
-> - fi
-> -
-> --AM_PATH_PYTHON([2.5])
-> -+pythondir="${libdir}/xcb-proto"
-> -+AC_SUBST(pythondir)
-> -+PYTHON="python3"
-> -+AC_SUBST(PYTHON)
-> -
-> - xcbincludedir='${datadir}/xcb'
-> - AC_SUBST(xcbincludedir)
-> diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-> b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-> index be6b1a0200e..712ab6c59ab 100644
-> --- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-> +++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-> @@ -11,8 +11,7 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
->                      file://src/dri2.xml;beginline=2;endline=28;md5=
-> f8763b13ff432e8597e0d610cf598e65"
+> diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtool=
+s/gcc/gcc-7.3.inc
+> index da236e5..5d3b8d7 100644
+> --- a/meta/recipes-devtools/gcc/gcc-7.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+> @@ -78,6 +78,7 @@ SRC_URI =3D "\
+>             ${BACKPORTS} \
+>  "
+>  BACKPORTS =3D "\
+> +           file://0001-Fix-internal-compiler-error-in-testcase.patch \
+>  "
 >
-> -SRC_URI = "http://xcb.freedesktop.org/dist/xcb-proto-${PV}.tar.bz2 \
-> -           file://no-python-native.patch \
-> +SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
->             file://0001-Make-whitespace-use-consistent.patch \
->             file://0002-print-is-a-function-and-needs-parentheses.patch \
->             "
-> @@ -21,6 +20,10 @@ SRC_URI[sha256sum] = "5922aba4c664ab7899a29d92ea91a8
-> 7aa4c1fc7eb5ee550325c3216c48
->
->  inherit autotools pkgconfig
->
-> +# Force the use of Python 3 and a specific library path so we don't need
-> to
-> +# depend on python3-native
-> +CACHED_CONFIGUREVARS += "PYTHON=python3 am_cv_python_pythondir=${
-> libdir}/xcb-proto"
+>  SRC_URI[md5sum] =3D "be2da21680f27624f3a87055c4ba5af2"
+> diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler=
+-error-in-testcase.patch b/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-inter=
+nal-compiler-error-in-testcase.patch
+> new file mode 100644
+> index 0000000..45cc0ee
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler-error-=
+in-testcase.patch
+> @@ -0,0 +1,212 @@
+> +From d3cdd96a300f9003a1cc242541605169aacdc811 Mon Sep 17 00:00:00 2001
+> +From: willschm <willschm@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Mon, 25 Sep 2017 14:35:02 +0000
+> +Subject: [PATCH] [gcc]
 > +
->  PACKAGES += "python-xcbgen"
->
->  FILES_${PN} = ""
-> @@ -31,10 +34,3 @@ RDEPENDS_${PN}-dev = ""
->  RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
->
->  BBCLASSEXTEND = "native nativesdk"
-> -
-> -do_install_append() {
-> -    # Makefile's do_install creates .pyc files for python3, now also
-> create
-> -    # them for python2 so that they will be recorded by manifest, and can
-> be
-> -    # cleaned correctly.
-> -    (cd ${D}; python -m py_compile ./${libdir}/xcb-proto/xcbgen/*.py)
-> -}
+> +2017-09-25  Will Schmidt  <will_schmidt@vnet.ibm.com>
+> +
+> +       * config/rs6000/rs6000.c (rs6000_gimple_fold_builtin): Add handli=
+ng
+> +       for early folding of vector stores (ALTIVEC_BUILTIN_ST_*).
+> +       (rs6000_builtin_valid_without_lhs): New helper function.
+> +       * config/rs6000/rs6000-c.c (altivec_resolve_overloaded_builtin):
+> +       Remove obsoleted code for handling ALTIVEC_BUILTIN_VEC_ST.
+> +
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@253152 138bc75d-0d04-041=
+0-961f-82ee72b054a4
+> +
+> +Fix internal compiler error for testcase gcc.dg/vmx/7d-02.c
+> +
+> +Upstream commit: d3cdd96a300f9003a1cc242541605169aacdc811
+> +
+> +Backport by Kaushik Phatak <Kaushik.Phatak@kpit.com>
+> +
+> +This patch removes changes to Changelog from the original upstream patch=
+.
+> +This will help us avoid conflicts.
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> +---
+> + gcc/ChangeLog                |  8 +++++
+> + gcc/config/rs6000/rs6000-c.c | 72 -------------------------------------=
+------
+> + gcc/config/rs6000/rs6000.c   | 73 +++++++++++++++++++++++++++++++++++++=
++++++--
+> + 3 files changed, 78 insertions(+), 75 deletions(-)
+> +
+> +diff --git a/gcc/config/rs6000/rs6000-c.c b/gcc/config/rs6000/rs6000-c.c
+> +index a49db97..4a363a1 100644
+> +--- a/gcc/config/rs6000/rs6000-c.c
+> ++++ b/gcc/config/rs6000/rs6000-c.c
+> +@@ -6279,70 +6279,6 @@ altivec_resolve_overloaded_builtin (loca
+> +       }
+> +     }
+> +
+> +-  /* Similarly for stvx.  */
+> +-  if (fcode =3D=3D ALTIVEC_BUILTIN_VEC_ST
+> +-      && (BYTES_BIG_ENDIAN || !VECTOR_ELT_ORDER_BIG)
+> +-      && nargs =3D=3D 3)
+> +-    {
+> +-      tree arg0 =3D (*arglist)[0];
+> +-      tree arg1 =3D (*arglist)[1];
+> +-      tree arg2 =3D (*arglist)[2];
+> +-
+> +-      /* Construct the masked address.  Let existing error handling tak=
+e
+> +-       over if we don't have a constant offset.  */
+> +-      arg1 =3D fold (arg1);
+> +-
+> +-      if (TREE_CODE (arg1) =3D=3D INTEGER_CST)
+> +-      {
+> +-        if (!ptrofftype_p (TREE_TYPE (arg1)))
+> +-          arg1 =3D build1 (NOP_EXPR, sizetype, arg1);
+> +-
+> +-        tree arg2_type =3D TREE_TYPE (arg2);
+> +-        if (TREE_CODE (arg2_type) =3D=3D ARRAY_TYPE && c_dialect_cxx ()=
+)
+> +-          {
+> +-            /* Force array-to-pointer decay for C++.  */
+> +-            arg2 =3D default_conversion (arg2);
+> +-            arg2_type =3D TREE_TYPE (arg2);
+> +-          }
+> +-
+> +-        /* Find the built-in to make sure a compatible one exists; if n=
+ot
+> +-           we fall back to default handling to get the error message.  =
+*/
+> +-        for (desc =3D altivec_overloaded_builtins;
+> +-             desc->code && desc->code !=3D fcode; desc++)
+> +-          continue;
+> +-
+> +-        for (; desc->code =3D=3D fcode; desc++)
+> +-          if (rs6000_builtin_type_compatible (TREE_TYPE (arg0), desc->o=
+p1)
+> +-              && rs6000_builtin_type_compatible (TREE_TYPE (arg1), desc=
+->op2)
+> +-              && rs6000_builtin_type_compatible (TREE_TYPE (arg2),
+> +-                                                 desc->op3))
+> +-            {
+> +-              tree addr =3D fold_build2_loc (loc, POINTER_PLUS_EXPR, ar=
+g2_type,
+> +-                                           arg2, arg1);
+> +-              tree aligned
+> +-                =3D fold_build2_loc (loc, BIT_AND_EXPR, arg2_type,
+> +-                                   addr, build_int_cst (arg2_type, -16)=
+);
+> +-
+> +-              tree arg0_type =3D TREE_TYPE (arg0);
+> +-              if (TYPE_MODE (arg0_type) =3D=3D V2DImode)
+> +-                /* Type-based aliasing analysis thinks vector long
+> +-                   and vector long long are different and will put them
+> +-                   in distinct alias classes.  Force our address type
+> +-                   to be a may-alias type to avoid this.  */
+> +-                arg0_type
+> +-                  =3D build_pointer_type_for_mode (arg0_type, Pmode,
+> +-                                                 true/*can_alias_all*/)=
+;
+> +-              else
+> +-                arg0_type =3D build_pointer_type (arg0_type);
+> +-              aligned =3D build1 (NOP_EXPR, arg0_type, aligned);
+> +-              tree stg =3D build_indirect_ref (loc, aligned, RO_NULL);
+> +-              tree retval =3D build2 (MODIFY_EXPR, TREE_TYPE (stg), stg=
+,
+> +-                                    convert (TREE_TYPE (stg), arg0));
+> +-              return retval;
+> +-            }
+> +-      }
+> +-    }
+> +-
+> +   for (n =3D 0;
+> +        !VOID_TYPE_P (TREE_VALUE (fnargs)) && n < nargs;
+> +        fnargs =3D TREE_CHAIN (fnargs), n++)
+> +diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
+> +index a49db97..4a363a1 100644
+> +--- a/gcc/config/rs6000/rs6000.c
+> ++++ b/gcc/config/rs6000/rs6000.c
+> +@@ -55,6 +55,7 @@
+> + #include "reload.h"
+> + #include "sched-int.h"
+> + #include "gimplify.h"
+> ++#include "gimple-fold.h"
+> + #include "gimple-iterator.h"
+> + #include "gimple-ssa.h"
+> + #include "gimple-walk.h"
+> +@@ -17089,6 +17090,25 @@ rs6000_fold_builtin (tree fndecl, int n_
+> + #endif
+> + }
+> +
+> ++/*  Helper function to sort out which built-ins may be valid without ha=
+ving
+> ++    a LHS.  */
+> ++bool
+> ++rs6000_builtin_valid_without_lhs (enum rs6000_builtins fn_code)
+> ++{
+> ++  switch (fn_code)
+> ++    {
+> ++    case ALTIVEC_BUILTIN_STVX_V16QI:
+> ++    case ALTIVEC_BUILTIN_STVX_V8HI:
+> ++    case ALTIVEC_BUILTIN_STVX_V4SI:
+> ++    case ALTIVEC_BUILTIN_STVX_V4SF:
+> ++    case ALTIVEC_BUILTIN_STVX_V2DI:
+> ++    case ALTIVEC_BUILTIN_STVX_V2DF:
+> ++      return true;
+> ++    default:
+> ++      return false;
+> ++    }
+> ++}
+> ++
+> + /* Fold a machine-dependent built-in in GIMPLE.  (For folding into
+> +    a constant, use rs6000_fold_builtin.)  */
+> +
+> +@@ -17102,6 +17122,10 @@ rs6000_gimple_fold_builtin (gimple_stmt_
+> +     =3D (enum rs6000_builtins) DECL_FUNCTION_CODE (fndecl);
+> +   tree arg0, arg1, lhs;
+> +
+> ++  /* Prevent gimple folding for code that does not have a LHS, unless i=
+t is
+> ++     allowed per the rs6000_builtin_valid_without_lhs helper function. =
+ */
+> ++  if (!gimple_call_lhs (stmt) && !rs6000_builtin_valid_without_lhs (fn_=
+code))
+> ++     return false;
+> +   switch (fn_code)
+> +     {
+> +     /* Flavors of vec_add.  We deliberately don't expand
+> +@@ -17169,6 +17193,54 @@ rs6000_gimple_fold_builtin (gimple_stmt_
+> +       gsi_replace (gsi, g, true);
+> +       return true;
+> +       }
+> ++    /* Vector stores.  */
+> ++    case ALTIVEC_BUILTIN_STVX_V16QI:
+> ++    case ALTIVEC_BUILTIN_STVX_V8HI:
+> ++    case ALTIVEC_BUILTIN_STVX_V4SI:
+> ++    case ALTIVEC_BUILTIN_STVX_V4SF:
+> ++    case ALTIVEC_BUILTIN_STVX_V2DI:
+> ++    case ALTIVEC_BUILTIN_STVX_V2DF:
+> ++      {
+> ++       /* Do not fold for -maltivec=3Dbe on LE targets.  */
+> ++       if (VECTOR_ELT_ORDER_BIG && !BYTES_BIG_ENDIAN)
+> ++          return false;
+> ++       arg0 =3D gimple_call_arg (stmt, 0); /* Value to be stored.  */
+> ++       arg1 =3D gimple_call_arg (stmt, 1); /* Offset.  */
+> ++       tree arg2 =3D gimple_call_arg (stmt, 2); /* Store-to address.  *=
+/
+> ++       location_t loc =3D gimple_location (stmt);
+> ++       tree arg0_type =3D TREE_TYPE (arg0);
+> ++       /* Use ptr_type_node (no TBAA) for the arg2_type.
+> ++        FIXME: (Richard)  "A proper fix would be to transition this typ=
+e as
+> ++        seen from the frontend to GIMPLE, for example in a similar way =
+we
+> ++        do for MEM_REFs by piggy-backing that on an extra argument, a
+> ++        constant zero pointer of the alias pointer type to use (which w=
+ould
+> ++        also serve as a type indicator of the store itself).  I'd use a
+> ++        target specific internal function for this (not sure if we can =
+have
+> ++        those target specific, but I guess if it's folded away then tha=
+t's
+> ++        fine) and get away with the overload set."
+> ++        */
+> ++       tree arg2_type =3D ptr_type_node;
+> ++       /* POINTER_PLUS_EXPR wants the offset to be of type 'sizetype'. =
+ Create
+> ++          the tree using the value from arg0.  The resulting type will =
+match
+> ++          the type of arg2.  */
+> ++       gimple_seq stmts =3D NULL;
+> ++       tree temp_offset =3D gimple_convert (&stmts, loc, sizetype, arg1=
+);
+> ++       tree temp_addr =3D gimple_build (&stmts, loc, POINTER_PLUS_EXPR,
+> ++                                     arg2_type, arg2, temp_offset);
+> ++       /* Mask off any lower bits from the address.  */
+> ++       tree aligned_addr =3D gimple_build (&stmts, loc, BIT_AND_EXPR,
+> ++                                        arg2_type, temp_addr,
+> ++                                        build_int_cst (arg2_type, -16))=
+;
+> ++       gsi_insert_seq_before (gsi, stmts, GSI_SAME_STMT);
+> ++      /* The desired gimple result should be similar to:
+> ++       MEM[(__vector floatD.1407 *)_1] =3D vf1D.2697;  */
+> ++       gimple *g;
+> ++       g =3D gimple_build_assign (build2 (MEM_REF, arg0_type, aligned_a=
+ddr,
+> ++                                         build_int_cst (arg2_type, 0)),=
+ arg0);
+> ++       gimple_set_location (g, loc);
+> ++       gsi_replace (gsi, g, true);
+> ++       return true;
+> ++      }
+> +
+> +     default:
+> +       break;
 > --
-> 2.11.0
+> 1.8.3.1
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---94eb2c0b9e3a6c8b940565e5314a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Indeed, meant to put that number in the message.</div><div=
- class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 23 February 2018 a=
-t 17:21, Bystricky, Juro <span dir=3D"ltr">&lt;<a href=3D"mailto:juro.bystr=
-icky@intel.com" target=3D"_blank">juro.bystricky@intel.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">Nice. This should fix Yocto #12543 =
-as well.<br>
-______________________________<wbr>__________<br>
-From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org">o=
-penembedded-core-bounces@<wbr>lists.openembedded.org</a> [<a href=3D"mailto=
-:openembedded-core-bounces@lists.openembedded.org">openembedded-core-bounce=
-s@<wbr>lists.openembedded.org</a>] on behalf of Ross Burton [<a href=3D"mai=
-lto:ross.burton@intel.com">ross.burton@intel.com</a>]<br>
-Sent: Friday, February 23, 2018 7:35 AM<br>
-To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openembedde=
-d-core@lists.<wbr>openembedded.org</a><br>
-Subject: [OE-core] [PATCH] xcb-proto: don&#39;t compile for Python 2<br>
-<div><div class=3D"h5"><br>
-Remove the do_install_append to create the Python 2 pyc files, as nothing i=
-n the<br>
-build is using Python 2 anymore (libxcb is the only user, and that uses Pyt=
-hon<br>
-3).<br>
-<br>
-Also use variables instead of a patch to control what Python binary and pat=
-h the<br>
-modules are installed to.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0.../xorg-proto/xcb-proto/no-<wbr>python-native.patch=C2=A0 =C2=A0 | 2=
-7 ----------------------<br>
-=C2=A0meta/recipes-graphics/xorg-<wbr>proto/<a href=3D"http://xcb-proto_1.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a> | 14 ++++-=
-------<br>
-=C2=A02 files changed, 5 insertions(+), 36 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-graphics/xorg-<wbr>proto/xcb-proto/no=
--python-<wbr>native.patch<br>
-<br>
-diff --git a/meta/recipes-graphics/xorg-<wbr>proto/xcb-proto/no-python-<wbr=
->native.patch b/meta/recipes-graphics/xorg-<wbr>proto/xcb-proto/no-python-<=
-wbr>native.patch<br>
-deleted file mode 100644<br>
-index 09b6088db0a..00000000000<br>
---- a/meta/recipes-graphics/xorg-<wbr>proto/xcb-proto/no-python-<wbr>native=
-.patch<br>
-+++ /dev/null<br>
-@@ -1,27 +0,0 @@<br>
--Upstream uses AM_PATH_PYTHON to find a python binary and ask it where to i=
-nstall<br>
--libraries.=C2=A0 This means we either need to depend on python-native (lar=
-ge build<br>
--dependency, early in the build) or use the host python (pythondir reflects=
- the<br>
--host and not the target, breaks builds).<br>
--<br>
--The third option is to just hardcode the path where the module goes, as mo=
-st<br>
--callers of the code use pkg-config to find where it was installed anyway.<=
-br>
--<br>
--Upstream-Status: Inappropriate<br>
--Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ro=
-ss.burton@intel.com</a>&gt;<br>
--<br>
--diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
-_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
-r" target=3D"_blank">configure.ac</a><br>
--index d140bfe..c7b68da 100644<br>
----- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
--+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
--@@ -14,7 +14,10 @@ if test &quot;$XMLLINT&quot; =3D &quot;no&quot;; then<b=
-r>
--=C2=A0 =C2=A0 AC_MSG_WARN([xmllint not found; unable to validate against s=
-chema.])<br>
-- fi<br>
--<br>
---AM_PATH_PYTHON([2.5])<br>
--+pythondir=3D&quot;${libdir}/xcb-<wbr>proto&quot;<br>
--+AC_SUBST(pythondir)<br>
--+PYTHON=3D&quot;python3&quot;<br>
--+AC_SUBST(PYTHON)<br>
--<br>
-- xcbincludedir=3D&#39;${datadir}/xcb&#39;<br>
-- AC_SUBST(xcbincludedir)<br>
-diff --git a/meta/recipes-graphics/xorg-<wbr>proto/<a href=3D"http://xcb-pr=
-oto_1.12.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a> b/m=
-eta/recipes-graphics/xorg-<wbr>proto/<a href=3D"http://xcb-proto_1.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
-index be6b1a0200e..712ab6c59ab 100644<br>
---- a/meta/recipes-graphics/xorg-<wbr>proto/<a href=3D"http://xcb-proto_1.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
-+++ b/meta/recipes-graphics/xorg-<wbr>proto/<a href=3D"http://xcb-proto_1.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
-@@ -11,8 +11,7 @@ LICENSE =3D &quot;MIT&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>d763b081cb10c223=
-435b01e00dc0ab<wbr>a7 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0file://src/dri2.xml;beginline=3D<wbr>2;endline=3D28;md5=3D<wbr>f8763b13f=
-f432e8597e0d610cf598e<wbr>65&quot;<br>
-<br>
--SRC_URI =3D &quot;<a href=3D"http://xcb.freedesktop.org/dist/xcb-proto-${P=
-V}.tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://xcb.freedesktop.org=
-/<wbr>dist/xcb-proto-${PV}.tar.bz2</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://no-python-native.patch \<b=
-r>
-+SRC_URI =3D &quot;<a href=3D"http://xcb.freedesktop.org/dist/${BP}.tar.bz2=
-" rel=3D"noreferrer" target=3D"_blank">http://xcb.freedesktop.org/<wbr>dist=
-/${BP}.tar.bz2</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Make-whitespace-<wbr>=
-use-consistent.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-print-is-a-<wbr>funct=
-ion-and-needs-<wbr>parentheses.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-@@ -21,6 +20,10 @@ SRC_URI[sha256sum] =3D &quot;<wbr>5922aba4c664ab7899a29d=
-92ea91a8<wbr>7aa4c1fc7eb5ee550325c3216c48<br>
-<br>
-=C2=A0inherit autotools pkgconfig<br>
-<br>
-+# Force the use of Python 3 and a specific library path so we don&#39;t ne=
-ed to<br>
-+# depend on python3-native<br>
-+CACHED_CONFIGUREVARS +=3D &quot;PYTHON=3Dpython3 am_cv_python_pythondir=3D=
-${<wbr>libdir}/xcb-proto&quot;<br>
-+<br>
-=C2=A0PACKAGES +=3D &quot;python-xcbgen&quot;<br>
-<br>
-=C2=A0FILES_${PN} =3D &quot;&quot;<br>
-@@ -31,10 +34,3 @@ RDEPENDS_${PN}-dev =3D &quot;&quot;<br>
-=C2=A0RRECOMMENDS_${PN}-dbg =3D &quot;${PN}-dev (=3D ${EXTENDPKGV})&quot;<b=
-r>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
--<br>
--do_install_append() {<br>
--=C2=A0 =C2=A0 # Makefile&#39;s do_install creates .pyc files for python3, =
-now also create<br>
--=C2=A0 =C2=A0 # them for python2 so that they will be recorded by manifest=
-, and can be<br>
--=C2=A0 =C2=A0 # cleaned correctly.<br>
--=C2=A0 =C2=A0 (cd ${D}; python -m py_compile ./${libdir}/xcb-proto/xcbgen/=
-*<wbr>.py)<br>
--}<br>
---<br>
-2.11.0<br>
-<br>
-</div></div>--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</blockquote></div><br></div>
-
---94eb2c0b9e3a6c8b940565e5314a--
