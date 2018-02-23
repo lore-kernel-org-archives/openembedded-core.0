@@ -1,30 +1,24 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D029F785B8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A63E786DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 01:23:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1N1NNdo018643
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Feb 2018 17:23:23 -0800 (PST)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 22 Feb 2018 17:23:02 -0800
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <20180222141537.229103-1-hongzhi.song@windriver.com>
-	<CAP9ODKrAmVyqUa8Kw5JcLCZNP3wMQTKMxhFuPO36crWy=330dQ@mail.gmail.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <9671a8bf-0e27-f182-6d8f-4b248dcac860@windriver.com>
-Date: Fri, 23 Feb 2018 09:23:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKrAmVyqUa8Kw5JcLCZNP3wMQTKMxhFuPO36crWy=330dQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.148]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] systemd: re-enable mount propagation for udevd
+	Fri, 23 Feb 2018 03:02:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Feb 2018 19:02:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,381,1515484800"; d="scan'208";a="30026511"
+Received: from vsharmab-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.74.120])
+	by orsmga003.jf.intel.com with ESMTP; 22 Feb 2018 19:02:47 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Feb 2018 16:02:08 +1300
+Message-Id: <cover.1519354910.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH 0/8] devtool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 01:23:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 23 Feb 2018 03:02:49 -0000
 
-If MountFlags=slave, systemd-udevd mounts all block device,  such as
-
-'/dev/sda1' '/dev/mmcblk*' , in itself unit namespace. So other namespace,
-
-such as 'root user', has no access to use block device mentioned above.
+This incorporates several of the fixes from my previous series and adds
+a few others - I've excluded the multi-source changes from the previous
+series as they may not be ready yet and it's too late in the release
+cycle now. These have all passed through oe-selftest locally.
 
 
-On 2018年02月23日 08:50, Otavio Salvador wrote:
-> On Thu, Feb 22, 2018 at 11:15 AM, Hongzhi.Song
-> <hongzhi.song@windriver.com> wrote:
->> MountFlags's default value is shared in systemd-udevd.service. But upstream
->> sets MountFlags with slave just for keeping mounts done by udev private to
->> udevd, which causes block device mounted by udev unvisable but being busy for
->> host. So we revert it to shared to be propagated to host.
->>
->> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> This is what the mountflag does. This does not explain WHY you need this change.
->
+The following changes since commit 6e5dbb53a7cbd05baf07de62b1abc88dccfd4cb9:
+
+  nativesdk-qemu-helper: add a missing nativesdk-python3-logging dependency (2018-02-22 16:02:17 +0000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool33-oe
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool33-oe
+
+Paul Eggleton (8):
+  lib/oe/path: implement is_path_under()
+  devtool: fix poor handling of upgraded BBCLASSEXTENDed recipes
+  devtool: reset: delete bbappend file if _check_preserve() doesn't
+  devtool: finish: fix erroneously creating bbappend for relative paths
+  devtool: deploy-target: don't specify ssh/scp port unless user does
+  lib/oe/recipeutils: add .txz extension to archive list
+  devtool: search: also look in recipe cache
+  devtool: search: tweak help text
+
+ meta/lib/oe/path.py             |  24 ++++++++++
+ meta/lib/oe/recipeutils.py      |   2 +-
+ scripts/devtool                 |   5 +-
+ scripts/lib/devtool/deploy.py   |  12 ++---
+ scripts/lib/devtool/search.py   | 100 ++++++++++++++++++++++++++--------------
+ scripts/lib/devtool/standard.py |  17 +++++--
+ 6 files changed, 110 insertions(+), 50 deletions(-)
+
+-- 
+2.14.3
 
 
