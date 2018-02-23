@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AFAE71A70
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D3D6178745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 17:41:26 +0000 (UTC)
+	Fri, 23 Feb 2018 17:41:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1NHfRhu028214
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1NHfSob002364
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 09:41:27 -0800 (PST)
+	Fri, 23 Feb 2018 09:41:29 -0800
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 23 Feb 2018 09:41:05 -0800
+	Fri, 23 Feb 2018 09:41:06 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Feb 2018 12:41:23 -0500
-Message-ID: <20180223174124.24238-2-mark.hatle@windriver.com>
+Date: Fri, 23 Feb 2018 12:41:24 -0500
+Message-ID: <20180223174124.24238-3-mark.hatle@windriver.com>
 X-Mailer: git-send-email 2.16.0.rc2
 In-Reply-To: <20180223174124.24238-1-mark.hatle@windriver.com>
 References: <20180223174124.24238-1-mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [master][rocko][PATCH 1/2] gcc: Fix test case issue when SSE is not enabled
+Subject: [master][rocko][PATCH 2/2] gcc: Fix internal compiler error for PPC test case "gcc.dg/vmx/7d-02.c"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,301 +33,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 17:41:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Feb 2018 17:41:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Whenever "-mno-sse" is used, "-mfpmath" should be set to 387.
+Fix an internal compiler error on PPC from building a specific test:
 
-The test case should be modified accordingly as below:
+$ $CC -S 7d-02.c
+7d-02.c: In function â:
+7d-02.c:11:5: internal compiler error: in copy_to_mode_reg, at explow.c:612
+     vec_st(v, i*16,p);
+     ^~~~~~
 
-/* { dg-additional-options "-mno-sse -mfpmath=387 " { target { i?86-*-* x86_64-*-* } } } */
-
-Original patch from: RAGHUNATH LOLUR <raghunath.lolur@kpit.com>
+The failure appears to happen on all optimizations levels as well.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
  meta/recipes-devtools/gcc/gcc-7.3.inc              |   1 +
- .../gcc-7.3/no-sse-fix-test-case-failures.patch    | 259 +++++++++++++++++++++
- 2 files changed, 260 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/no-sse-fix-test-case-failures.patch
+ ...1-Fix-internal-compiler-error-in-testcase.patch | 212 +++++++++++++++++++++
+ 2 files changed, 213 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler-error-in-testcase.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
-index 724f9c3..da236e5 100644
+index da236e5..5d3b8d7 100644
 --- a/meta/recipes-devtools/gcc/gcc-7.3.inc
 +++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-            file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-+           file://no-sse-fix-test-case-failures.patch \
+@@ -78,6 +78,7 @@ SRC_URI = "\
             ${BACKPORTS} \
  "
  BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3/no-sse-fix-test-case-failures.patch b/meta/recipes-devtools/gcc/gcc-7.3/no-sse-fix-test-case-failures.patch
++           file://0001-Fix-internal-compiler-error-in-testcase.patch \
+ "
+ 
+ SRC_URI[md5sum] = "be2da21680f27624f3a87055c4ba5af2"
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler-error-in-testcase.patch b/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler-error-in-testcase.patch
 new file mode 100644
-index 0000000..cb87c5a
+index 0000000..45cc0ee
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.3/no-sse-fix-test-case-failures.patch
-@@ -0,0 +1,259 @@
-+From f22830da2ba64577deb6f717d05d86c03dd2e50d Mon Sep 17 00:00:00 2001
-+From: RAGHUNATH LOLUR <raghunath.lolur@kpit.com>
-+Date: Wed, 6 Dec 2017 22:52:26 -0800
-+Subject: [PATCH] Fix for testsuite failure
++++ b/meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-internal-compiler-error-in-testcase.patch
+@@ -0,0 +1,212 @@
++From d3cdd96a300f9003a1cc242541605169aacdc811 Mon Sep 17 00:00:00 2001
++From: willschm <willschm@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Mon, 25 Sep 2017 14:35:02 +0000
++Subject: [PATCH] [gcc]
 +
-+2017-11-16  Raghunath Lolur  <raghunath.lolur@kpit.com>
++2017-09-25  Will Schmidt  <will_schmidt@vnet.ibm.com>
 +
-+	* gcc.dg/pr56275.c: If SSE is disabled, ensure that
-+	"-mfpmath" is not set to use SSE. Set "-mfpmath=387".
-+	* gcc.dg/pr68306.c: Likewise
-+	* gcc.dg/pr68306-2.c: Likewise
-+	* gcc.dg/pr68306-3.c: Likewise
-+	* gcc.dg/pr69634.c: Likewise
-+	* gcc.target/i386/amd64-abi-1.c: Likewise
-+	* gcc.target/i386/funcspec-6.c: Likewise
-+	* gcc.target/i386/interrupt-387-err-1.c: Likewise
-+	* gcc.target/i386/isa-14.c: Likewise
-+	* gcc.target/i386/pr44948-2b.c: Likewise
-+	* gcc.target/i386/pr53425-1.c: Likewise
-+	* gcc.target/i386/pr53425-2.c: Likewise
-+	* gcc.target/i386/pr55247.c: Likewise
-+	* gcc.target/i386/pr59644.c: Likewise
-+	* gcc.target/i386/pr62120.c: Likewise
-+	* gcc.target/i386/pr70467-1.c: Likewise
-+	* gcc.target/i386/warn-vect-op-1.c: Likewise
++	* config/rs6000/rs6000.c (rs6000_gimple_fold_builtin): Add handling
++	for early folding of vector stores (ALTIVEC_BUILTIN_ST_*).
++	(rs6000_builtin_valid_without_lhs): New helper function.
++	* config/rs6000/rs6000-c.c (altivec_resolve_overloaded_builtin):
++	Remove obsoleted code for handling ALTIVEC_BUILTIN_VEC_ST.
 +
-+If -Wall, -Werror are used during compilation various test cases fail
-+to compile.
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@253152 138bc75d-0d04-0410-961f-82ee72b054a4
 +
-+If SSE is disabled, be sure to -mfpmath=387 to resolve this.
++Fix internal compiler error for testcase gcc.dg/vmx/7d-02.c
 +
-+This patch removes the changes to Changelog from the original patch.
++Upstream commit: d3cdd96a300f9003a1cc242541605169aacdc811
++
++Backport by Kaushik Phatak <Kaushik.Phatak@kpit.com>
++
++This patch removes changes to Changelog from the original upstream patch.
 +This will help us avoid conflicts.
 +
-+Upstream-Status: Pending
++Upstream-Status: Backport
 +
 +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +---
-+ gcc/testsuite/ChangeLog                   | 21 +++++++++++++++++++++
-+ gcc/testsuite/gcc.dg/pr56275.c            |  2 +-
-+ gcc/testsuite/gcc.dg/pr68306-2.c          |  2 +-
-+ gcc/testsuite/gcc.dg/pr68306-3.c          |  2 +-
-+ gcc/testsuite/gcc.dg/pr68306.c            |  2 +-
-+ gcc/testsuite/gcc.dg/pr69634.c            |  2 +-
-+ .../gcc/testsuite/gcc.target/i386/amd64-abi-1.c     |  2 +-
-+ .../gcc/testsuite/gcc.target/i386/funcspec-6.c      |  1 +
-+ .../testsuite/gcc.target/i386/interrupt-387-err-1.c |  2 +-
-+ gcc/testsuite/gcc.target/i386/isa-14.c    |  2 +-
-+ .../gcc/testsuite/gcc.target/i386/pr44948-2b.c      |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr53425-1.c |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr53425-2.c |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr55247.c   |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr59644.c   |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr62120.c   |  2 +-
-+ gcc/testsuite/gcc.target/i386/pr70467-1.c |  2 +-
-+ .../gcc/testsuite/gcc.target/i386/warn-vect-op-1.c  |  2 +-
-+ 18 files changed, 38 insertions(+), 16 deletions(-)
++ gcc/ChangeLog                |  8 +++++
++ gcc/config/rs6000/rs6000-c.c | 72 -------------------------------------------
++ gcc/config/rs6000/rs6000.c   | 73 ++++++++++++++++++++++++++++++++++++++++++--
++ 3 files changed, 78 insertions(+), 75 deletions(-)
 +
-+diff --git a/gcc/testsuite/gcc.dg/pr56275.c b/gcc/testsuite/gcc.dg/pr56275.c
-+index b901bb2..a4f6c95 100644
-+--- a/gcc/testsuite/gcc.dg/pr56275.c
-++++ b/gcc/testsuite/gcc.dg/pr56275.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-options "-O2" } */
-+-/* { dg-additional-options "-mno-sse" { target { i?86-*-* x86_64-*-* } } } */
-++/* { dg-additional-options "-mno-sse -mfpmath=387" { target { i?86-*-* x86_64-*-* } } } */
++diff --git a/gcc/config/rs6000/rs6000-c.c b/gcc/config/rs6000/rs6000-c.c
++index a49db97..4a363a1 100644
++--- a/gcc/config/rs6000/rs6000-c.c
+++++ b/gcc/config/rs6000/rs6000-c.c
++@@ -6279,70 +6279,6 @@ altivec_resolve_overloaded_builtin (loca
++ 	}
++     }
 + 
-+ typedef long long v2tw __attribute__ ((vector_size (2 * sizeof (long long))));
++-  /* Similarly for stvx.  */
++-  if (fcode == ALTIVEC_BUILTIN_VEC_ST
++-      && (BYTES_BIG_ENDIAN || !VECTOR_ELT_ORDER_BIG)
++-      && nargs == 3)
++-    {
++-      tree arg0 = (*arglist)[0];
++-      tree arg1 = (*arglist)[1];
++-      tree arg2 = (*arglist)[2];
++-
++-      /* Construct the masked address.  Let existing error handling take
++-	 over if we don't have a constant offset.  */
++-      arg1 = fold (arg1);
++-
++-      if (TREE_CODE (arg1) == INTEGER_CST)
++-	{
++-	  if (!ptrofftype_p (TREE_TYPE (arg1)))
++-	    arg1 = build1 (NOP_EXPR, sizetype, arg1);
++-
++-	  tree arg2_type = TREE_TYPE (arg2);
++-	  if (TREE_CODE (arg2_type) == ARRAY_TYPE && c_dialect_cxx ())
++-	    {
++-	      /* Force array-to-pointer decay for C++.  */
++-	      arg2 = default_conversion (arg2);
++-	      arg2_type = TREE_TYPE (arg2);
++-	    }
++-
++-	  /* Find the built-in to make sure a compatible one exists; if not
++-	     we fall back to default handling to get the error message.  */
++-	  for (desc = altivec_overloaded_builtins;
++-	       desc->code && desc->code != fcode; desc++)
++-	    continue;
++-
++-	  for (; desc->code == fcode; desc++)
++-	    if (rs6000_builtin_type_compatible (TREE_TYPE (arg0), desc->op1)
++-		&& rs6000_builtin_type_compatible (TREE_TYPE (arg1), desc->op2)
++-		&& rs6000_builtin_type_compatible (TREE_TYPE (arg2),
++-						   desc->op3))
++-	      {
++-		tree addr = fold_build2_loc (loc, POINTER_PLUS_EXPR, arg2_type,
++-					     arg2, arg1);
++-		tree aligned
++-		  = fold_build2_loc (loc, BIT_AND_EXPR, arg2_type,
++-				     addr, build_int_cst (arg2_type, -16));
++-
++-		tree arg0_type = TREE_TYPE (arg0);
++-		if (TYPE_MODE (arg0_type) == V2DImode)
++-		  /* Type-based aliasing analysis thinks vector long
++-		     and vector long long are different and will put them
++-		     in distinct alias classes.  Force our address type
++-		     to be a may-alias type to avoid this.  */
++-		  arg0_type
++-		    = build_pointer_type_for_mode (arg0_type, Pmode,
++-						   true/*can_alias_all*/);
++-		else
++-		  arg0_type = build_pointer_type (arg0_type);
++-		aligned = build1 (NOP_EXPR, arg0_type, aligned);
++-		tree stg = build_indirect_ref (loc, aligned, RO_NULL);
++-		tree retval = build2 (MODIFY_EXPR, TREE_TYPE (stg), stg,
++-				      convert (TREE_TYPE (stg), arg0));
++-		return retval;
++-	      }
++-	}
++-    }
++-
++   for (n = 0;
++        !VOID_TYPE_P (TREE_VALUE (fnargs)) && n < nargs;
++        fnargs = TREE_CHAIN (fnargs), n++)
++diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
++index a49db97..4a363a1 100644
++--- a/gcc/config/rs6000/rs6000.c
+++++ b/gcc/config/rs6000/rs6000.c
++@@ -55,6 +55,7 @@
++ #include "reload.h"
++ #include "sched-int.h"
++ #include "gimplify.h"
+++#include "gimple-fold.h"
++ #include "gimple-iterator.h"
++ #include "gimple-ssa.h"
++ #include "gimple-walk.h"
++@@ -17089,6 +17090,25 @@ rs6000_fold_builtin (tree fndecl, int n_
++ #endif
++ }
 + 
-+diff --git a/gcc/testsuite/gcc.dg/pr68306-2.c b/gcc/testsuite/gcc.dg/pr68306-2.c
-+index 4672ebe..2a368c4 100644
-+--- a/gcc/testsuite/gcc.dg/pr68306-2.c
-++++ b/gcc/testsuite/gcc.dg/pr68306-2.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-options "-O3" } */
-+-/* { dg-additional-options "-mno-sse -mno-mmx" { target i?86-*-* x86_64-*-* } } */
-++/* { dg-additional-options "-mno-sse -mno-mmx -mfpmath=387" { target i?86-*-* x86_64-*-* } } */
+++/*  Helper function to sort out which built-ins may be valid without having
+++    a LHS.  */
+++bool
+++rs6000_builtin_valid_without_lhs (enum rs6000_builtins fn_code)
+++{
+++  switch (fn_code)
+++    {
+++    case ALTIVEC_BUILTIN_STVX_V16QI:
+++    case ALTIVEC_BUILTIN_STVX_V8HI:
+++    case ALTIVEC_BUILTIN_STVX_V4SI:
+++    case ALTIVEC_BUILTIN_STVX_V4SF:
+++    case ALTIVEC_BUILTIN_STVX_V2DI:
+++    case ALTIVEC_BUILTIN_STVX_V2DF:
+++      return true;
+++    default:
+++      return false;
+++    }
+++}
+++
++ /* Fold a machine-dependent built-in in GIMPLE.  (For folding into
++    a constant, use rs6000_fold_builtin.)  */
 + 
-+ struct {
-+     int tz_minuteswest;
-+diff --git a/gcc/testsuite/gcc.dg/pr68306-3.c b/gcc/testsuite/gcc.dg/pr68306-3.c
-+index f5a8c10..df3390c 100644
-+--- a/gcc/testsuite/gcc.dg/pr68306-3.c
-++++ b/gcc/testsuite/gcc.dg/pr68306-3.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-options "-O3" } */
-+-/* { dg-additional-options "-mno-sse -mno-mmx" { target i?86-*-* x86_64-*-* } } */
-++/* { dg-additional-options "-mno-sse -mno-mmx -mfpmath=387" { target i?86-*-* x86_64-*-* } } */
-+ /* { dg-additional-options "-mno-altivec -mno-vsx" { target powerpc*-*-* } } */
++@@ -17102,6 +17122,10 @@ rs6000_gimple_fold_builtin (gimple_stmt_
++     = (enum rs6000_builtins) DECL_FUNCTION_CODE (fndecl);
++   tree arg0, arg1, lhs;
 + 
-+ extern void fn2();
-+diff --git a/gcc/testsuite/gcc.dg/pr68306.c b/gcc/testsuite/gcc.dg/pr68306.c
-+index 54e5b40..0813389 100644
-+--- a/gcc/testsuite/gcc.dg/pr68306.c
-++++ b/gcc/testsuite/gcc.dg/pr68306.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-options "-O3" } */
-+-/* { dg-additional-options "-mno-sse -mno-mmx" { target i?86-*-* x86_64-*-* } } */
-++/* { dg-additional-options "-mno-sse -mno-mmx -mfpmath=387" { target i?86-*-* x86_64-*-* } } */
+++  /* Prevent gimple folding for code that does not have a LHS, unless it is
+++     allowed per the rs6000_builtin_valid_without_lhs helper function.  */
+++  if (!gimple_call_lhs (stmt) && !rs6000_builtin_valid_without_lhs (fn_code))
+++     return false;
++   switch (fn_code)
++     {
++     /* Flavors of vec_add.  We deliberately don't expand
++@@ -17169,6 +17193,54 @@ rs6000_gimple_fold_builtin (gimple_stmt_
++ 	gsi_replace (gsi, g, true);
++ 	return true;
++       }
+++    /* Vector stores.  */
+++    case ALTIVEC_BUILTIN_STVX_V16QI:
+++    case ALTIVEC_BUILTIN_STVX_V8HI:
+++    case ALTIVEC_BUILTIN_STVX_V4SI:
+++    case ALTIVEC_BUILTIN_STVX_V4SF:
+++    case ALTIVEC_BUILTIN_STVX_V2DI:
+++    case ALTIVEC_BUILTIN_STVX_V2DF:
+++      {
+++	 /* Do not fold for -maltivec=be on LE targets.  */
+++	 if (VECTOR_ELT_ORDER_BIG && !BYTES_BIG_ENDIAN)
+++	    return false;
+++	 arg0 = gimple_call_arg (stmt, 0); /* Value to be stored.  */
+++	 arg1 = gimple_call_arg (stmt, 1); /* Offset.  */
+++	 tree arg2 = gimple_call_arg (stmt, 2); /* Store-to address.  */
+++	 location_t loc = gimple_location (stmt);
+++	 tree arg0_type = TREE_TYPE (arg0);
+++	 /* Use ptr_type_node (no TBAA) for the arg2_type.
+++	  FIXME: (Richard)  "A proper fix would be to transition this type as
+++	  seen from the frontend to GIMPLE, for example in a similar way we
+++	  do for MEM_REFs by piggy-backing that on an extra argument, a
+++	  constant zero pointer of the alias pointer type to use (which would
+++	  also serve as a type indicator of the store itself).  I'd use a
+++	  target specific internal function for this (not sure if we can have
+++	  those target specific, but I guess if it's folded away then that's
+++	  fine) and get away with the overload set."
+++	  */
+++	 tree arg2_type = ptr_type_node;
+++	 /* POINTER_PLUS_EXPR wants the offset to be of type 'sizetype'.  Create
+++	    the tree using the value from arg0.  The resulting type will match
+++	    the type of arg2.  */
+++	 gimple_seq stmts = NULL;
+++	 tree temp_offset = gimple_convert (&stmts, loc, sizetype, arg1);
+++	 tree temp_addr = gimple_build (&stmts, loc, POINTER_PLUS_EXPR,
+++				       arg2_type, arg2, temp_offset);
+++	 /* Mask off any lower bits from the address.  */
+++	 tree aligned_addr = gimple_build (&stmts, loc, BIT_AND_EXPR,
+++					  arg2_type, temp_addr,
+++					  build_int_cst (arg2_type, -16));
+++	 gsi_insert_seq_before (gsi, stmts, GSI_SAME_STMT);
+++	/* The desired gimple result should be similar to:
+++	 MEM[(__vector floatD.1407 *)_1] = vf1D.2697;  */
+++	 gimple *g;
+++	 g = gimple_build_assign (build2 (MEM_REF, arg0_type, aligned_addr,
+++					   build_int_cst (arg2_type, 0)), arg0);
+++	 gimple_set_location (g, loc);
+++	 gsi_replace (gsi, g, true);
+++	 return true;
+++      }
 + 
-+ enum powerpc_pmc_type { PPC_PMC_IBM };
-+ struct {
-+diff --git a/gcc/testsuite/gcc.dg/pr69634.c b/gcc/testsuite/gcc.dg/pr69634.c
-+index 60a5614..bcc23f9 100644
-+--- a/gcc/testsuite/gcc.dg/pr69634.c
-++++ b/gcc/testsuite/gcc.dg/pr69634.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-options "-O2 -fno-dce -fschedule-insns -fno-tree-vrp -fcompare-debug -Wno-psabi" } */
-+-/* { dg-additional-options "-mno-sse" { target i?86-*-* x86_64-*-* } } */
-++/* { dg-additional-options "-mno-sse -mfpmath=387" { target i?86-*-* x86_64-*-* } } */
-+ /* { dg-require-effective-target scheduling } */
-+ 
-+ typedef unsigned short u16;
-+diff --git a/gcc/testsuite/gcc.target/i386/amd64-abi-1.c b/gcc/testsuite/gcc.target/i386/amd64-abi-1.c
-+index 69fde57..7f1f1c0 100644
-+--- a/gcc/testsuite/gcc.target/i386/amd64-abi-1.c
-++++ b/gcc/testsuite/gcc.target/i386/amd64-abi-1.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do compile { target { ! ia32 } } } */
-+-/* { dg-options "-mno-sse" } */
-++/* { dg-options "-mno-sse -mfpmath=387" } */
-+ /* { dg-additional-options "-mabi=sysv" { target *-*-mingw* } } */
-+ 
-+ double foo(void) { return 0; }	/* { dg-error "SSE disabled" } */
-+diff --git a/gcc/testsuite/gcc.target/i386/funcspec-6.c b/gcc/testsuite/gcc.target/i386/funcspec-6.c
-+index ea896b7..bf15569 100644
-+--- a/gcc/testsuite/gcc.target/i386/funcspec-6.c
-++++ b/gcc/testsuite/gcc.target/i386/funcspec-6.c
-+@@ -1,6 +1,7 @@
-+ /* Test whether all of the 64-bit function specific options are accepted
-+    without error.  */
-+ /* { dg-do compile { target { ! ia32 } } } */
-++/* { dg-additional-options "-mfpmath=387" } */
-+ 
-+ #include "funcspec-56.inc"
-+ 
-+diff --git a/gcc/testsuite/gcc.target/i386/interrupt-387-err-1.c b/gcc/testsuite/gcc.target/i386/interrupt-387-err-1.c
-+index 3fbdc88..6b4d9d1 100644
-+--- a/gcc/testsuite/gcc.target/i386/interrupt-387-err-1.c
-++++ b/gcc/testsuite/gcc.target/i386/interrupt-387-err-1.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do compile } */
-+-/* { dg-options "-O2 -mgeneral-regs-only -mno-cld -mno-iamcu -m80387" } */
-++/* { dg-options "-O2 -mgeneral-regs-only -mno-cld -mno-iamcu -m80387 -mfpmath=387" } */
-+ 
-+ typedef unsigned int uword_t __attribute__ ((mode (__word__)));
-+ 
-+diff --git a/gcc/testsuite/gcc.target/i386/isa-14.c b/gcc/testsuite/gcc.target/i386/isa-14.c
-+index 5d49e6e..1de2db9 100644
-+--- a/gcc/testsuite/gcc.target/i386/isa-14.c
-++++ b/gcc/testsuite/gcc.target/i386/isa-14.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do run } */
-+-/* { dg-options "-march=x86-64 -msse4a -mfma4 -mno-sse" } */
-++/* { dg-options "-march=x86-64 -msse4a -mfma4 -mno-sse -mfpmath=387" } */
-+ 
-+ extern void abort (void);
-+ 
-+diff --git a/gcc/testsuite/gcc.target/i386/pr44948-2b.c b/gcc/testsuite/gcc.target/i386/pr44948-2b.c
-+index fa1769b..f79fb12 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr44948-2b.c
-++++ b/gcc/testsuite/gcc.target/i386/pr44948-2b.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do compile } */
-+-/* { dg-options "-O -mno-sse -Wno-psabi -mtune=generic" } */
-++/* { dg-options "-O -mno-sse -Wno-psabi -mtune=generic -mfpmath=387" } */
-+ 
-+ struct A
-+ { 
-+diff --git a/gcc/testsuite/gcc.target/i386/pr53425-1.c b/gcc/testsuite/gcc.target/i386/pr53425-1.c
-+index 2e89ff7..6339bf6 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr53425-1.c
-++++ b/gcc/testsuite/gcc.target/i386/pr53425-1.c
-+@@ -1,6 +1,6 @@
-+ /* PR target/53425 */
-+ /* { dg-do compile { target { ! ia32 } } } */
-+-/* { dg-options "-O2 -mno-sse" } */
-++/* { dg-options "-O2 -mno-sse -mfpmath=387" } */
-+ /* { dg-skip-if "no SSE vector" { x86_64-*-mingw* } } */
-+ 
-+ typedef double __v2df __attribute__ ((__vector_size__ (16)));
-+diff --git a/gcc/testsuite/gcc.target/i386/pr53425-2.c b/gcc/testsuite/gcc.target/i386/pr53425-2.c
-+index 61f6283..2c5a55f 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr53425-2.c
-++++ b/gcc/testsuite/gcc.target/i386/pr53425-2.c
-+@@ -1,6 +1,6 @@
-+ /* PR target/53425 */
-+ /* { dg-do compile { target { ! ia32 } } } */
-+-/* { dg-options "-O2 -mno-sse" } */
-++/* { dg-options "-O2 -mno-sse -mfpmath=387" } */
-+ /* { dg-skip-if "no SSE vector" { x86_64-*-mingw* } } */
-+ 
-+ typedef float __v2sf __attribute__ ((__vector_size__ (8)));
-+diff --git a/gcc/testsuite/gcc.target/i386/pr55247.c b/gcc/testsuite/gcc.target/i386/pr55247.c
-+index 23366d0..9810e3a 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr55247.c
-++++ b/gcc/testsuite/gcc.target/i386/pr55247.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile { target { ! ia32 } } } */
-+ /* { dg-require-effective-target maybe_x32 } */
-+-/* { dg-options "-O2 -mno-sse -mno-mmx -mx32 -maddress-mode=long" } */
-++/* { dg-options "-O2 -mno-sse -mno-mmx -mx32 -maddress-mode=long -mfpmath=387" } */
-+ 
-+ typedef unsigned int uint32_t;
-+ typedef uint32_t Elf32_Word;
-+diff --git a/gcc/testsuite/gcc.target/i386/pr59644.c b/gcc/testsuite/gcc.target/i386/pr59644.c
-+index 96006b3..4287e45 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr59644.c
-++++ b/gcc/testsuite/gcc.target/i386/pr59644.c
-+@@ -1,6 +1,6 @@
-+ /* PR target/59644 */
-+ /* { dg-do run { target lp64 } } */
-+-/* { dg-options "-O2 -ffreestanding -mno-sse -mpreferred-stack-boundary=3 -maccumulate-outgoing-args -mno-red-zone" } */
-++/* { dg-options "-O2 -ffreestanding -mno-sse -mpreferred-stack-boundary=3 -maccumulate-outgoing-args -mno-red-zone -mfpmath=387" } */
-+ 
-+ /* This test uses __builtin_trap () instead of e.g. abort,
-+    because due to -mpreferred-stack-boundary=3 it should not call
-+diff --git a/gcc/testsuite/gcc.target/i386/pr62120.c b/gcc/testsuite/gcc.target/i386/pr62120.c
-+index bfb8c47..ed04cf1 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr62120.c
-++++ b/gcc/testsuite/gcc.target/i386/pr62120.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do compile } */
-+-/* { dg-options "-mno-sse" } */
-++/* { dg-options "-mno-sse -mfpmath=387" } */
-+ 
-+ void foo ()
-+ {
-+diff --git a/gcc/testsuite/gcc.target/i386/pr70467-1.c b/gcc/testsuite/gcc.target/i386/pr70467-1.c
-+index 4e112c8..bcfb396 100644
-+--- a/gcc/testsuite/gcc.target/i386/pr70467-1.c
-++++ b/gcc/testsuite/gcc.target/i386/pr70467-1.c
-+@@ -1,6 +1,6 @@
-+ /* PR rtl-optimization/70467 */
-+ /* { dg-do compile } */
-+-/* { dg-options "-O2 -mno-sse" } */
-++/* { dg-options "-O2 -mno-sse -mfpmath=387" } */
-+ 
-+ void foo (unsigned long long *);
-+ 
-+diff --git a/gcc/testsuite/gcc.target/i386/warn-vect-op-1.c b/gcc/testsuite/gcc.target/i386/warn-vect-op-1.c
-+index 6cda153..26e37f5 100644
-+--- a/gcc/testsuite/gcc.target/i386/warn-vect-op-1.c
-++++ b/gcc/testsuite/gcc.target/i386/warn-vect-op-1.c
-+@@ -1,5 +1,5 @@
-+ /* { dg-do compile { target { ! ia32 } } }  */
-+-/* { dg-options "-mno-sse -Wvector-operation-performance" }  */
-++/* { dg-options "-mno-sse -Wvector-operation-performance -mfpmath=387" }  */
-+ #define vector(elcount, type)  \
-+ __attribute__((vector_size((elcount)*sizeof(type)))) type
-+ 
-+-- 
-+1.8.5.6
-+
++     default:
++       break;
 -- 
 1.8.3.1
 
