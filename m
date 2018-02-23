@@ -1,59 +1,51 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 83616787DE
+Return-Path: <vincent.prince.fr@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C1EE78684
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 07:49:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 29762184DB;
-	Fri, 23 Feb 2018 08:42:36 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 6VUDmFsZH7A0; Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 466591847E;
-	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2ADB21A08A;
-	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1EAEC1A082;
-	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 123C51E15;
-	Fri, 23 Feb 2018 08:42:35 +0100 (CET)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 23 Feb 2018 08:42:34 +0100
-Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 23 Feb 2018 08:42:34 +0100
-Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
-	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
-	15.00.1263.000; Fri, 23 Feb 2018 08:42:34 +0100
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/8] lib/oe/path: implement is_path_under()
-Thread-Index: AQHTrFLY3U9EqY0MB0mydZwyWYCvfqOxmhBg
-Date: Fri, 23 Feb 2018 07:42:34 +0000
-Message-ID: <bb76902073b54d2bba0774471fd64543@XBOX04.axis.com>
-References: <cover.1519354910.git.paul.eggleton@linux.intel.com>
-	<e1e012bd3bb79e363b65b911f805989301f4188f.1519354910.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <e1e012bd3bb79e363b65b911f805989301f4188f.1519354910.git.paul.eggleton@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Fri, 23 Feb 2018 10:18:54 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id j7so1257657ita.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Feb 2018 02:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5dunRJOyktkN6MIfk0pp3/H6rphNXYeXNd3LAzGuWJQ=;
+	b=Ux2hxsd327kqLMz9wTreXa9YKr9NWk6WGLy8IG/efCx7hepvPQzFaQ+i3vgTGGHnBi
+	+nYj1bY6GbFG6hJzcCPeOzsdo3zeCT2FDx/gkNkttD3eI40IwX31H/8DrvYXFIyhSSts
+	tidhWV2ux0B9mjadcbiryua66bjoAlAf4DWjOp3rkd5zKt+d0pXKeTj6Lj2leDZBsqau
+	iBiB9jt+pJFxPtqUXnmVp0VCLR2vWCSsIXrnHt3PNkUpZ51D1X4HrjRiR9a9JuS4kGPf
+	FyejuU16YDWuoJYlEb9+LFANsRlQnf1OrpiZSt6mZ9tX/RtW0mdvQ4IV2M2sBBvwXGcE
+	/whA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5dunRJOyktkN6MIfk0pp3/H6rphNXYeXNd3LAzGuWJQ=;
+	b=CnKybMP++kKkH3gvIE0DUA6uXUkdAm4rOQa/nNZRUBjD519Rc1KrfdXZWX2ZK8eM54
+	l/fyHoGqbBMUgs7ToBTa17sq7irDvZonvBhY//ns3+UbQoDU5gZ6t0cE2tfAnHypzHvP
+	tCQ+A+KDJB+jpy5VWV0Tg5Kk9a1UyBoJxxgw8Mb/LDyWUblU5gbwGx/Go9pR0Lz4tjSi
+	2wyzGX868aR8XmypcCyriTtBKIIhcGp3+AlhChYZ/eFmpTrnGoiIWSj4W455L6MaRx9R
+	HkZBB/Nd1SBuLxY9BoK5TX6g2rqIcgyHgOBfVQIiWKpyA4D+iW1ECfCsvbXriflOBHn4
+	iY2Q==
+X-Gm-Message-State: APf1xPDaEzXLfE81bHk1awSwbI0AzL2t0sjatXlVdYMpoQiXqqcY6Pll
+	nyEuJqkHv2BHhH8WnnrNUcX3oHS5/YNPiA1EcWc=
+X-Google-Smtp-Source: AG47ELvZdRoP0qkEZHlgELqy39AmSylU8Q+QxO3Cw62gGAZ3yIlnIXXXTRszqNVSE49nt15RFCLa8UoJp3Gyj5FqsN8=
+X-Received: by 10.36.7.198 with SMTP id f189mr1704406itf.114.1519381135538;
+	Fri, 23 Feb 2018 02:18:55 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/8] lib/oe/path: implement is_path_under()
+Received: by 10.2.96.23 with HTTP; Fri, 23 Feb 2018 02:18:35 -0800 (PST)
+In-Reply-To: <9671a8bf-0e27-f182-6d8f-4b248dcac860@windriver.com>
+References: <20180222141537.229103-1-hongzhi.song@windriver.com>
+	<CAP9ODKrAmVyqUa8Kw5JcLCZNP3wMQTKMxhFuPO36crWy=330dQ@mail.gmail.com>
+	<9671a8bf-0e27-f182-6d8f-4b248dcac860@windriver.com>
+From: Vincent Prince <vincent.prince.fr@gmail.com>
+Date: Fri, 23 Feb 2018 11:18:35 +0100
+Message-ID: <CAB2nKc8wG5iLR3WrmGimmgeRYQBd2=UozPhep71oCZuiS3KLjA@mail.gmail.com>
+To: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] systemd: re-enable mount propagation for udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,72 +58,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Feb 2018 07:49:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 Feb 2018 10:18:54 -0000
+Content-Type: multipart/alternative; boundary="001a1143d932dcbc2b0565de7c3f"
+
+--001a1143d932dcbc2b0565de7c3f
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Paul Eggleton
-> Sent: den 23 februari 2018 04:02
-> To: openembedded-core@lists.openembedded.org
->=20
-<snip>
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/lib/oe/path.py | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->=20
-> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py index
-> 1ea03d5d568..346b48f3641 100644
-> --- a/meta/lib/oe/path.py
-> +++ b/meta/lib/oe/path.py
-> @@ -237,3 +237,27 @@ def realpath(file, root, use_physdir =3D True, loop_=
-cnt
-> =3D 100, assume_dir =3D False)
->          raise
->=20
->      return file
-> +
-> +def is_path_under(path1, possible_parent):
+Hi all,
 
-Changing the signature to is_path_under(possible_parent, *paths) will make =
-the list management more natural.
+I have MountFlags=3Dslave defined, and I use the following recipe to
+automount usb stick without right issues:
+https://github.com/nefethael/meta-random/blob/master/recipes-support/usbmou=
+nt/usbmount_git.bb
+I think we should keep this settings as it is.
 
-This function will return True if path1 is the empty list. Is that intentio=
-nal?
+What is the problematic use case?
 
-/Ola Nilsson
+Best regards,
+Vincent
 
-> +    """
-> +    Return True if a path is underneath another, False otherwise.
-> +    Multiple paths to test can be specified (as a list or tuple) in
-> +    which case all specified test paths must be under the parent to
-> +    return True.
-> +    """
-> +    def abs_path_trailing(pth):
-> +        pth_abs =3D os.path.abspath(pth)
-> +        if not pth_abs.endswith(os.sep):
-> +            pth_abs +=3D os.sep
-> +        return pth_abs
-> +
-> +    possible_parent_abs =3D abs_path_trailing(possible_parent)
-> +    if isinstance(path1, str):
-> +        testpaths =3D [path1]
-> +    else:
-> +        testpaths =3D path1
-> +    for path in testpaths:
-> +        path_abs =3D abs_path_trailing(path)
-> +        if not path_abs.startswith(possible_parent_abs):
-> +            return False
-> +    return True
-> --
-> 2.14.3
->=20
+2018-02-23 2:23 GMT+01:00 Hongzhi, Song <hongzhi.song@windriver.com>:
+
+> If MountFlags=3Dslave, systemd-udevd mounts all block device,  such as
+>
+> '/dev/sda1' '/dev/mmcblk*' , in itself unit namespace. So other namespace=
+,
+>
+> such as 'root user', has no access to use block device mentioned above.
+>
+>
+> On 2018=E5=B9=B402=E6=9C=8823=E6=97=A5 08:50, Otavio Salvador wrote:
+>
+>> On Thu, Feb 22, 2018 at 11:15 AM, Hongzhi.Song
+>> <hongzhi.song@windriver.com> wrote:
+>>
+>>> MountFlags's default value is shared in systemd-udevd.service. But
+>>> upstream
+>>> sets MountFlags with slave just for keeping mounts done by udev private
+>>> to
+>>> udevd, which causes block device mounted by udev unvisable but being
+>>> busy for
+>>> host. So we revert it to shared to be propagated to host.
+>>>
+>>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>>>
+>> This is what the mountflag does. This does not explain WHY you need this
+>> change.
+>>
+>>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a1143d932dcbc2b0565de7c3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi all,</div><div><br></div>I have MountFlags=3Dslave=
+ defined, and I use the following recipe to automount usb stick without rig=
+ht issues:=C2=A0<div><a href=3D"https://github.com/nefethael/meta-random/bl=
+ob/master/recipes-support/usbmount/usbmount_git.bb">https://github.com/nefe=
+thael/meta-random/blob/master/recipes-support/usbmount/usbmount_git.bb</a><=
+br></div><div>I think we should keep this settings as it is.=C2=A0</div><di=
+v><br></div><div>What is the problematic use case?</div><div><br></div><div=
+>Best regards,</div><div>Vincent</div></div><div class=3D"gmail_extra"><br>=
+<div class=3D"gmail_quote">2018-02-23 2:23 GMT+01:00 Hongzhi, Song <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:hongzhi.song@windriver.com" target=3D"_blan=
+k">hongzhi.song@windriver.com</a>&gt;</span>:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">If MountFlags=3Dslave, systemd-udevd mounts all block device,=C2=A0 su=
+ch as<br>
+<br>
+&#39;/dev/sda1&#39; &#39;/dev/mmcblk*&#39; , in itself unit namespace. So o=
+ther namespace,<br>
+<br>
+such as &#39;root user&#39;, has no access to use block device mentioned ab=
+ove.<span class=3D"im HOEnZb"><br>
+<br>
+<br>
+On 2018=E5=B9=B402=E6=9C=8823=E6=97=A5 08:50, Otavio Salvador wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Thu, Feb 22, 2018 at 11:15 AM, Hongzhi.Song<br>
+&lt;<a href=3D"mailto:hongzhi.song@windriver.com" target=3D"_blank">hongzhi=
+.song@windriver.com</a>&gt; wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+MountFlags&#39;s default value is shared in systemd-udevd.service. But upst=
+ream<br>
+sets MountFlags with slave just for keeping mounts done by udev private to<=
+br>
+udevd, which causes block device mounted by udev unvisable but being busy f=
+or<br>
+host. So we revert it to shared to be propagated to host.<br>
+<br>
+Signed-off-by: Hongzhi.Song &lt;<a href=3D"mailto:hongzhi.song@windriver.co=
+m" target=3D"_blank">hongzhi.song@windriver.com</a>&gt;<br>
+</blockquote>
+This is what the mountflag does. This does not explain WHY you need this ch=
+ange.<br>
+<br>
+</blockquote>
+<br>
+-- <br></span><div class=3D"HOEnZb"><div class=3D"h5">
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a1143d932dcbc2b0565de7c3f--
