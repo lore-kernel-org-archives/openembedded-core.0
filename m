@@ -1,31 +1,50 @@
-Return-Path: <Joe_MacDonald@mentor.com>
-X-Greylist: delayed 999 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 24 Feb 2018 18:43:37 UTC
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id BFD447884B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Feb 2018 18:43:37 +0000 (UTC)
-Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1epeXC-0006JB-Gy from Joe_MacDonald@mentor.com ;
-	Sat, 24 Feb 2018 10:26:58 -0800
-Received: from svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) by
-	svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Sat, 24 Feb 2018 10:26:56 -0800
-Received: from svr-orw-mbx-04.mgc.mentorg.com ([fe80::4967:8f7f:4a15:68a4]) by
-	SVR-ORW-MBX-04.mgc.mentorg.com ([fe80::4967:8f7f:4a15:68a4%22]) with
-	mapi id 15.00.1320.000; Sat, 24 Feb 2018 10:26:56 -0800
-From: "MacDonald, Joe" <Joe_MacDonald@mentor.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [RFC] meta-openembedded/meta-oe re-org
-Thread-Index: AQHTrZ0Mv+Yd9al56UizIm4J0IW4Vg==
-Date: Sat, 24 Feb 2018 18:26:56 +0000
-Message-ID: <7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BD12D788BF;
+	Sat, 24 Feb 2018 19:30:28 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id q27so3059211pgn.8;
+	Sat, 24 Feb 2018 11:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=Z0pF6MUmV6y0QP7IIguEuXeCQ29MZbDePG08y3LZ90Y=;
+	b=EGeu0AogrLNAeUzXOZfu4gV5YQGql5GwPZWaUApq8Xzi5oWNDZalAOP7D2/9Icv9h/
+	TDE+zHy2+vULWpaIlwkwUkOU1/uHmiz2KOE2xggPuOnEL05FBt7FQHmPdb+AYK+iA4lk
+	Ga5+guuEvGhYJAn+tODCTlNHa0EhPBShC7yp1rXrevTltIi/nR3+BvqDQwsL/ZikrJ22
+	ZmMV4OMolJAvvGeC9jA5WRPLDrKUFYko1sEcza6dderhkSizyj4RCO5XRftUMIvdfXna
+	a6Ism2rDZknSYX3/kisfV42lltgSa22gxNpuUZBASBFib+vfvxowv0XEmiIWVlOvbcdm
+	LWqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=Z0pF6MUmV6y0QP7IIguEuXeCQ29MZbDePG08y3LZ90Y=;
+	b=GDTw9j7k3PTrUJ1Re005nEyzzMErrVuFckUZQ9wEjvOTj1Q7GTwfn7AGA0hrWx3SPn
+	P8lkVkNvG6vb40ipftUYLW2g5y+4b24YEQk8VUFvZJE2LJKNF2u/mFIvvq5Nf563J96F
+	VDosu+EluVl51kTLUDD66Kg+6pLqTLT7hViCobuWODpem53sSqjNwwgwnYte1mfT8C96
+	OvlnxAzCLsPj3aNAQF8DV4YSFXdgmkjZhvVLzHQhDXaZr/sj30O3YE4QXqLNbRUqWUAR
+	571ZNzQ6AykNbtQxkco7w3Pfc5KC749Lcz4FTmQKnL/q0Mn7Wl5uIu/Ls5nOZv7lAjry
+	E6Bg==
+X-Gm-Message-State: APf1xPDm4YURYnk/JXOJhvjkluLuHk8rN7AIu5dyFoyBMe1Hxlp6W/pY
+	xUnluF2OGixAMKJGlOrQn8qT7Q==
+X-Google-Smtp-Source: AH8x226cYjDHk+XbL7QtFgPD4sKvYsyxJpiqCS023Ki7D+r5PMGTfBLOypLF3LhNc2ar3SkcoGgs9g==
+X-Received: by 10.101.98.201 with SMTP id m9mr4551134pgv.100.1519500629716;
+	Sat, 24 Feb 2018 11:30:29 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:301f:20d9:41ea:5ba?
+	([2601:202:4000:1184:301f:20d9:41ea:5ba])
+	by smtp.gmail.com with ESMTPSA id
+	r62sm14816447pfi.52.2018.02.24.11.30.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 24 Feb 2018 11:30:29 -0800 (PST)
+To: "MacDonald, Joe" <Joe_MacDonald@mentor.com>
+References: <7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <61ed17a3-a0d3-6bc1-c84b-e914ecfcc399@gmail.com>
+Date: Sat, 24 Feb 2018 11:30:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
+In-Reply-To: <7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com>
 Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -42,77 +61,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Feb 2018 18:43:37 -0000
-Content-Language: en-US
+X-List-Received-Date: Sat, 24 Feb 2018 19:30:29 -0000
 Content-Type: multipart/alternative;
-	boundary="_000_7e8d4f35621246c184d3a386aeae326demailandroidcom_"
+	boundary="------------536419A69A881D5E234429BA"
+Content-Language: en-US
 
---_000_7e8d4f35621246c184d3a386aeae326demailandroidcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--------------536419A69A881D5E234429BA
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-SGV5IEFybWluLA0KDQpZb3VyIGJyYW5jaCBpbmNsdWRlcyBhdCBsZWFzdCBzb21lIChJIGhhdmVu
-J3QgbG9va2VkIHRvIHNlZSBpZiBpdCdzIGFsbCwgc2VlbXMgbGlrZWx5KSBvZiB0aGUgY2hhbmdl
-cyBJIGhhdmUgbWVyZ2VkIGFuZCByZWFkeSB0byBpbmNsdWRlIGZvciBtZXRhLW5ldHdvcmtpbmcu
-IFNpbmNlIEkgaGF2ZW4ndCBwdXNoZWQgdGhlbSB5ZXQgYW5kIHdvdWxkbid0IGJlIGJlZm9yZSB0
-b25pZ2h0IGF0IHRoZSBlYXJsaWVzdCwgZG8geW91IHdhbnQgbWUgdG8gd2FpdD8gT3Igd2VyZSB0
-aGV5IGp1c3QgaW5jbHVkZWQgaW4geW91ciB0cmVlIGZvciB0ZXN0aW5nPyBJIGRvbid0IHdhbnQg
-dG8gY2F1c2UgeW91IHVubmVjZXNzYXJ5IG1lcmdlIGNvbmZsaWN0cy4NCg0KLUouDQoNCk9uIEZl
-YiAyNCwgMjAxOCAxMjo1NyBQTSwgYWt1c3RlcjgwOCA8YWt1c3RlcjgwOEBnbWFpbC5jb20+IHdy
-b3RlOg0KSGVsbG8sDQoNCkkgYW0gcGxhbm5pbmcgb24gbW92aW5nIHNvbWUgcmVjaXBlcyB0byBu
-ZXcgbG9jYXRpb25zIHRoYXQgYXJlIG1vcmUNCmluLWxpbmUgd2l0aCB0aGVpciBmdW5jdGlvbi4N
-Cg0KQWxzbywgSSBwbGFuIG9uIGFkZGluZyAqLXNoZWxscywgKi1kYnMsICotc2VjdXJpdHkgYW5k
-ICouY3J5cHRvIGFuZA0KbW92aW5nIHRoZSBhcHByb3ByaWF0ZSByZWNpcGVzIHRoZXJlLg0KDQpU
-aGlzIG1pZ2h0IGhlbHAgZmFjaWxpdGF0ZSBmb2xrcyBzaWduaW5nIHVwIHRvIG1haW50YWluIGEg
-Z3JvdXBpbmcgbGlrZQ0KcmVjaXBlcy1jcnlwdG8gaWYgdGhhdCBpcyB0aGVpciB0aGluZy4NCg0K
-DQpJIHdpbGwgYmUgc2VuZGluZyBvdXQgcGF0Y2hlcyBsYXRlciB0b2RheSBmb3IgcmV2aWV3Lg0K
-DQpJIGhhdmUgc3RhZ2VkIHRoZSBjaGFuZ2VzIEANCmh0dHA6Ly9jZ2l0Lm9wZW5lbWJlZGRlZC5v
-cmcvbWV0YS1vcGVuZW1iZWRkZWQtY29udHJpYi9sb2cvP2g9YWt1c3Rlci9tZXRhLW9lLXJlb3Jn
-DQoNCi0gYXJtaW4NCg0KDQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQo=
 
---_000_7e8d4f35621246c184d3a386aeae326demailandroidcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <0FA320B12B499F4D85C3A6F88E373221@mentor.com>
-Content-Transfer-Encoding: base64
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBkaXI9ImF1
-dG8iPkhleSBBcm1pbiwNCjxkaXYgZGlyPSJhdXRvIj48YnI+DQo8L2Rpdj4NCjxkaXYgZGlyPSJh
-dXRvIj5Zb3VyIGJyYW5jaCBpbmNsdWRlcyBhdCBsZWFzdCBzb21lIChJIGhhdmVuJ3QgbG9va2Vk
-IHRvIHNlZSBpZiBpdCdzIGFsbCwgc2VlbXMgbGlrZWx5KSBvZiB0aGUgY2hhbmdlcyBJIGhhdmUg
-bWVyZ2VkIGFuZCByZWFkeSB0byBpbmNsdWRlIGZvciBtZXRhLW5ldHdvcmtpbmcuIFNpbmNlIEkg
-aGF2ZW4ndCBwdXNoZWQgdGhlbSB5ZXQgYW5kIHdvdWxkbid0IGJlIGJlZm9yZSB0b25pZ2h0IGF0
-IHRoZSBlYXJsaWVzdCwgZG8NCiB5b3Ugd2FudCBtZSB0byB3YWl0PyBPciB3ZXJlIHRoZXkganVz
-dCBpbmNsdWRlZCBpbiB5b3VyIHRyZWUgZm9yIHRlc3Rpbmc/IEkgZG9uJ3Qgd2FudCB0byBjYXVz
-ZSB5b3UgdW5uZWNlc3NhcnkgbWVyZ2UgY29uZmxpY3RzLjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8i
-Pjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPi1KLjwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGNs
-YXNzPSJnbWFpbF9leHRyYSI+PGJyPg0KPGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPk9uIEZlYiAy
-NCwgMjAxOCAxMjo1NyBQTSwgYWt1c3RlcjgwOCAmbHQ7YWt1c3RlcjgwOEBnbWFpbC5jb20mZ3Q7
-IHdyb3RlOjxiciB0eXBlPSJhdHRyaWJ1dGlvbiI+DQo8YmxvY2txdW90ZSBjbGFzcz0icXVvdGUi
-IHN0eWxlPSJtYXJnaW46MCAwIDAgLjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtwYWRk
-aW5nLWxlZnQ6MWV4Ij4NCjxkaXY+PGZvbnQgc2l6ZT0iMiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMHB0Ij4NCjxkaXY+SGVsbG8sPGJyPg0KPGJyPg0KSSBhbSBwbGFubmluZyBvbiBtb3Zpbmcg
-c29tZSByZWNpcGVzIHRvIG5ldyBsb2NhdGlvbnMgdGhhdCBhcmUgbW9yZTxicj4NCmluLWxpbmUg
-d2l0aCB0aGVpciBmdW5jdGlvbi48YnI+DQo8YnI+DQpBbHNvLCBJIHBsYW4gb24gYWRkaW5nICot
-c2hlbGxzLCAqLWRicywgKi1zZWN1cml0eSBhbmQgKi5jcnlwdG8gYW5kPGJyPg0KbW92aW5nIHRo
-ZSBhcHByb3ByaWF0ZSByZWNpcGVzIHRoZXJlLjxicj4NCjxicj4NClRoaXMgbWlnaHQgaGVscCBm
-YWNpbGl0YXRlIGZvbGtzIHNpZ25pbmcgdXAgdG8gbWFpbnRhaW4gYSBncm91cGluZyBsaWtlPGJy
-Pg0KcmVjaXBlcy1jcnlwdG8gaWYgdGhhdCBpcyB0aGVpciB0aGluZy48YnI+DQo8YnI+DQo8YnI+
-DQpJIHdpbGwgYmUgc2VuZGluZyBvdXQgcGF0Y2hlcyBsYXRlciB0b2RheSBmb3IgcmV2aWV3Ljxi
-cj4NCjxicj4NCkkgaGF2ZSBzdGFnZWQgdGhlIGNoYW5nZXMgQDxicj4NCjxhIGhyZWY9Imh0dHA6
-Ly9jZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvbWV0YS1vcGVuZW1iZWRkZWQtY29udHJpYi9sb2cvP2g9
-YWt1c3Rlci9tZXRhLW9lLXJlb3JnIj5odHRwOi8vY2dpdC5vcGVuZW1iZWRkZWQub3JnL21ldGEt
-b3BlbmVtYmVkZGVkLWNvbnRyaWIvbG9nLz9oPWFrdXN0ZXIvbWV0YS1vZS1yZW9yZzwvYT48YnI+
-DQo8YnI+DQotIGFybWluPGJyPg0KPGJyPg0KPGJyPg0KLS0gPGJyPg0KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX188YnI+DQpPcGVuZW1iZWRkZWQtY29yZSBt
-YWlsaW5nIGxpc3Q8YnI+DQpPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PGJyPg0KPGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9vcGVuZW1iZWRkZWQtY29yZSI+aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZTwvYT48YnI+DQo8L2Rpdj4NCjwvc3Bhbj48
-L2ZvbnQ+PC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxicj4NCjwvZGl2Pg0KPC9ib2R5
-Pg0KPC9odG1sPg0K
+On 02/24/2018 10:26 AM, MacDonald, Joe wrote:
+> Hey Armin,
+>
+> Your branch includes at least some (I haven't looked to see if it's
+> all, seems likely) of the changes I have merged and ready to include
+> for meta-networking. Since I haven't pushed them yet and wouldn't be
+> before tonight at the earliest, do you want me to wait? Or were they
+> just included in your tree for testing? I don't want to cause you
+> unnecessary merge conflicts.
+>
+Yeah, After I sent it, I thought maybe I should have given the start and
+end range.
 
---_000_7e8d4f35621246c184d3a386aeae326demailandroidcom_--
+
+"zsh: move to recipes-shells" to top "postgres: move to recipes-dbs"
+
+- armin
+
+> -J.
+>
+> On Feb 24, 2018 12:57 PM, akuster808 <akuster808@gmail.com> wrote:
+>
+>     Hello,
+>
+>     I am planning on moving some recipes to new locations that are more
+>     in-line with their function.
+>
+>     Also, I plan on adding *-shells, *-dbs, *-security and *.crypto and
+>     moving the appropriate recipes there.
+>
+>     This might help facilitate folks signing up to maintain a grouping
+>     like
+>     recipes-crypto if that is their thing.
+>
+>
+>     I will be sending out patches later today for review.
+>
+>     I have staged the changes @
+>     http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg
+>
+>     - armin
+>
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+
+--------------536419A69A881D5E234429BA
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 02/24/2018 10:26 AM, MacDonald, Joe
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="auto">Hey Armin,
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">Your branch includes at least some (I haven't
+          looked to see if it's all, seems likely) of the changes I have
+          merged and ready to include for meta-networking. Since I
+          haven't pushed them yet and wouldn't be before tonight at the
+          earliest, do you want me to wait? Or were they just included
+          in your tree for testing? I don't want to cause you
+          unnecessary merge conflicts.</div>
+        <div dir="auto"><br>
+        </div>
+      </div>
+    </blockquote>
+    Yeah, After I sent it, I thought maybe I should have given the start
+    and end range.<br>
+    <br>
+    <div dir="auto"><br>
+    </div>
+    <div dir="auto">"zsh: move to recipes-shells" to top "postgres: move
+      to recipes-dbs" <br>
+      <br>
+      - armin<br>
+      <br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com">
+      <div dir="auto">
+        <div dir="auto">
+        </div>
+        <div dir="auto">-J.</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On Feb 24, 2018 12:57 PM, akuster808
+          <a class="moz-txt-link-rfc2396E" href="mailto:akuster808@gmail.com">&lt;akuster808@gmail.com&gt;</a> wrote:<br type="attribution">
+          <blockquote class="quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">
+            <div><font size="2"><span style="font-size:10pt">
+                  <div>Hello,<br>
+                    <br>
+                    I am planning on moving some recipes to new
+                    locations that are more<br>
+                    in-line with their function.<br>
+                    <br>
+                    Also, I plan on adding *-shells, *-dbs, *-security
+                    and *.crypto and<br>
+                    moving the appropriate recipes there.<br>
+                    <br>
+                    This might help facilitate folks signing up to
+                    maintain a grouping like<br>
+                    recipes-crypto if that is their thing.<br>
+                    <br>
+                    <br>
+                    I will be sending out patches later today for
+                    review.<br>
+                    <br>
+                    I have staged the changes @<br>
+                    <a
+href="http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg"
+                      moz-do-not-send="true">http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg</a><br>
+                    <br>
+                    - armin<br>
+                    <br>
+                    <br>
+                    -- <br>
+                    _______________________________________________<br>
+                    Openembedded-core mailing list<br>
+                    <a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
+                    <a
+                      href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                      moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+                  </div>
+                </span></font></div>
+          </blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------536419A69A881D5E234429BA--
