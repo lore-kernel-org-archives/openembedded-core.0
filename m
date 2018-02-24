@@ -1,50 +1,25 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A4F6C7885F
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7895F7884D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Feb 2018 04:12:55 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id f6so4110476pgs.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Feb 2018 20:12:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=GJARVlgvRIzZ3nI4AQUoMzAszyJSxLIUmM41AcUCsl8=;
-	b=Bix55GtPFQkAsorF1j3smOcUM2G0DbVXqa9F3j0w4HPG9iwy+G2Gug2iN39MO7CEyk
-	Gr1zFKmtb2pnrRn0qVOJ1KgRp6B7H2Q8W6E57Yxji98iSRHV/2dps/BXUwMPSY4JiSvV
-	FG61JcBzUdjzuvbPk1z5+XxO8wuyC+3e+DUm9l1AflRF1bhO2EtkoiwUzzZ8eePp+C3+
-	E6xYTkRhjrP36nFARSG1naVL8dtV3bsGs8UZBPwt6Mm+JOs75S6zqB5C+sZrAi0ww2me
-	9eg5wlPPB4Oc1bNGpx7loPqGBv0yEpQVa5vAbu6b0BnyPsxCNGdXyfFmbXVfW9ZtmYjE
-	uEZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=GJARVlgvRIzZ3nI4AQUoMzAszyJSxLIUmM41AcUCsl8=;
-	b=h9rm2gEl9UXD4D1eqI+ksdRvoWEJKdWRnIQ5enNh6PmIPJjIycf1cfW1QRQjRxwLxj
-	zp8hoJ0duwEBdYcNmGLrMSTy76jAW8KZy/YefbSp2strYUTb5yvVvASnx8Dz6ZfogP6n
-	cU9vXy1DpKuXgFrl94thdGpmoKAbkoBuGwBx0gtl7hK9Uc5IQCpV/su9GyVit7q7RYAi
-	1q4O1CJDV9hfim0bmGvRO8gifVrquy3efFhxfsWynOOlw9a7Ve8gzDjo1nJvmS/yc8XZ
-	tfQxW3nbA/qUBqhvSznco5oN4+Pj4rqQzDmCQBKAljwbQmxkPNzWU7dhhofCo9K2TXeo
-	n5PQ==
-X-Gm-Message-State: APf1xPAQqJ7I70QKWyy09U02THlm30SYSwal+uRNeSbGJbJnDmz1s6Ph
-	iGtof0WPfRgDpm8U/ZJ8582l+w==
-X-Google-Smtp-Source: AH8x224XHDGPS8xb9+cqi3AsqeC1XyeOEmxrdsaQnaZ10Ctcxz4HCmk4p04VQRylkXApy+GBvf/Usg==
-X-Received: by 10.98.137.147 with SMTP id n19mr3883380pfk.193.1519445576746;
-	Fri, 23 Feb 2018 20:12:56 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:d4a8:b8d7:4edf:beec])
-	by smtp.gmail.com with ESMTPSA id 186sm6641324pfe.2.2018.02.23.20.12.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Feb 2018 20:12:56 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 23 Feb 2018 20:12:52 -0800
-Message-Id: <1519445572-25411-3-git-send-email-akuster808@gmail.com>
+	Sat, 24 Feb 2018 11:53:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2018 03:53:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,388,1515484800"; d="scan'208";a="20758977"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.132.212])
+	by orsmga006.jf.intel.com with ESMTP; 24 Feb 2018 03:53:22 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 24 Feb 2018 19:53:03 +0800
+Message-Id: <1519473183-8649-1-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1519445572-25411-1-git-send-email-akuster808@gmail.com>
-References: <1519445572-25411-1-git-send-email-akuster808@gmail.com>
-Subject: [pyro][PATCH 3/3] linux-yocto-tiny/4.1: update to 4.1.49 plus meltdown
+In-Reply-To: <1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
+References: <1519278352-5224-3-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH v2 3/3] gstreamer-rtsp-server: remove unnecessary dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Feb 2018 04:12:55 -0000
+X-List-Received-Date: Sat, 24 Feb 2018 11:53:22 -0000
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+libcheck dep was removed from gst-rtsp-server some time back [1].
+
+Disable building of examples and tests and remove dep on libcgroup which
+was needed, if present, to build only one specific example.
+
+[1] https://cgit.freedesktop.org/gstreamer/gst-rtsp-server/commit?id=43ec4e7c786227b85aec06599c3955626e241a01
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 537efb1..5adec18 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+index 70e90b8..3776f92 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
+ SECTION = "multimedia"
+ LICENSE = "LGPLv2"
  
- require recipes-kernel/linux/linux-yocto.inc
+-DEPENDS = "gstreamer1.0 libcgroup gstreamer1.0-plugins-base libcheck"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
  
--LINUX_VERSION ?= "4.1.43"
-+LINUX_VERSION ?= "4.1.49"
+ PNREAL = "gst-rtsp-server"
  
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+@@ -16,6 +16,8 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
  
--SRCREV_machine ?= "782133d8166ac71ef1ffaba58b7cf81ec9e532a1"
--SRCREV_meta ?= "9f9c9a66ef3452343586adf150137967e955d71a"
-+SRCREV_machine ?= "a315195324973d3edbd4868a0d7acbd82b7d53ae"
-+SRCREV_meta ?= "4e12cb8f8e06636f2058ea0ab3096ed38228a88b"
+ inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
++EXTRA_OECONF = "--disable-examples --disable-tests"
++
+ # Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
+ LIBV = "1.0"
+ require gst-plugins-package.inc
 -- 
 2.7.4
 
