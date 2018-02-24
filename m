@@ -1,54 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BD12D788BF;
-	Sat, 24 Feb 2018 19:30:28 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id q27so3059211pgn.8;
-	Sat, 24 Feb 2018 11:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=Z0pF6MUmV6y0QP7IIguEuXeCQ29MZbDePG08y3LZ90Y=;
-	b=EGeu0AogrLNAeUzXOZfu4gV5YQGql5GwPZWaUApq8Xzi5oWNDZalAOP7D2/9Icv9h/
-	TDE+zHy2+vULWpaIlwkwUkOU1/uHmiz2KOE2xggPuOnEL05FBt7FQHmPdb+AYK+iA4lk
-	Ga5+guuEvGhYJAn+tODCTlNHa0EhPBShC7yp1rXrevTltIi/nR3+BvqDQwsL/ZikrJ22
-	ZmMV4OMolJAvvGeC9jA5WRPLDrKUFYko1sEcza6dderhkSizyj4RCO5XRftUMIvdfXna
-	a6Ism2rDZknSYX3/kisfV42lltgSa22gxNpuUZBASBFib+vfvxowv0XEmiIWVlOvbcdm
-	LWqg==
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EEC9F78698
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Feb 2018 23:18:16 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id o145so14032323lff.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Feb 2018 15:18:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=7nI2g3pERPNM69AFr907uQJ3En3M6WrOxWfurnEB+Nc=;
+	b=NlycK8fhoRDc8WWtPe56SDtUs7qaPGXLm0o0Iz2CFG0M+8Cuc+Q8Z4SjIRVhppc7yG
+	hkuVniqaY1lxncTU7AkU5mEY3cl410gqz8xlLHkiE/CzA8tji2Ul3vO2X+oJmokkWayA
+	S53PfB+NARAMCI9hDUGdCXFfL7EaHIwZ5hMFUOs42aVZPmaZcMPNRdagOABUlQ7xNXYE
+	4oBZ2AD98MqyjnU525/a7BQ4j1qmndckpTJL3Ssyzyo3zDbc7TAJSDxEJ037PG77iIDg
+	9dPOPbyrEipB4ALqbDRuZBm0IlajYIm7lYeWKeanudwqkZFIpR4inTax1HgounpPBXmd
+	rgcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=Z0pF6MUmV6y0QP7IIguEuXeCQ29MZbDePG08y3LZ90Y=;
-	b=GDTw9j7k3PTrUJ1Re005nEyzzMErrVuFckUZQ9wEjvOTj1Q7GTwfn7AGA0hrWx3SPn
-	P8lkVkNvG6vb40ipftUYLW2g5y+4b24YEQk8VUFvZJE2LJKNF2u/mFIvvq5Nf563J96F
-	VDosu+EluVl51kTLUDD66Kg+6pLqTLT7hViCobuWODpem53sSqjNwwgwnYte1mfT8C96
-	OvlnxAzCLsPj3aNAQF8DV4YSFXdgmkjZhvVLzHQhDXaZr/sj30O3YE4QXqLNbRUqWUAR
-	571ZNzQ6AykNbtQxkco7w3Pfc5KC749Lcz4FTmQKnL/q0Mn7Wl5uIu/Ls5nOZv7lAjry
-	E6Bg==
-X-Gm-Message-State: APf1xPDm4YURYnk/JXOJhvjkluLuHk8rN7AIu5dyFoyBMe1Hxlp6W/pY
-	xUnluF2OGixAMKJGlOrQn8qT7Q==
-X-Google-Smtp-Source: AH8x226cYjDHk+XbL7QtFgPD4sKvYsyxJpiqCS023Ki7D+r5PMGTfBLOypLF3LhNc2ar3SkcoGgs9g==
-X-Received: by 10.101.98.201 with SMTP id m9mr4551134pgv.100.1519500629716;
-	Sat, 24 Feb 2018 11:30:29 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:301f:20d9:41ea:5ba?
-	([2601:202:4000:1184:301f:20d9:41ea:5ba])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7nI2g3pERPNM69AFr907uQJ3En3M6WrOxWfurnEB+Nc=;
+	b=n1roMaoHfx+mEPxRQybe3YxCYLySipHMzn1M/mnp1j2Gj3OChYC+DJsPWD8Hps9LTR
+	L3ZmqBbnGysZsrHutFmwa1+ztoapHHiKcIOTsQnxSQmUa4MuITOXI9AxDo8kMltYMJ7D
+	iP4xBmUsYzDCYDV97Etk7kK2JKnNClObaGWkio+MVSd2SJDcWauguWa8HrzY1MfhIBDP
+	K7qi6XosnKMI7tBE+odYdxbQxXICyFxAESWhPJiccAbymrQUjNXtsKQUlbZ9nol45lW4
+	jtowjsOgKVxo+JeLOpa+k7oGKBEzKdTMxm7VzKeLDd1xUPMfSXNnJhoXWn+7X4SFMx9S
+	1U9Q==
+X-Gm-Message-State: APf1xPBHssxhZgDrtSdg8T2fa0E71qJqKu0Ms08KhR7YUtY+WAAVs2fJ
+	lr3h5XwFVaOkWjfTrzJV/a3Lv63L
+X-Google-Smtp-Source: AG47ELuN99Bctn2I3SQSLZjsJw8LjSJMtA8K3AuOplXbZNQVZ65Kd1RrcleQ3Mv9PnqUWL/3YzuA0A==
+X-Received: by 10.46.125.10 with SMTP id y10mr4559755ljc.23.1519514296672;
+	Sat, 24 Feb 2018 15:18:16 -0800 (PST)
+Received: from localhost.localdomain
+	([2a04:ae08:1403:ff00:f495:dd31:4406:dfb4])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm14816447pfi.52.2018.02.24.11.30.28
+	r73sm1167766lja.87.2018.02.24.15.18.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 24 Feb 2018 11:30:29 -0800 (PST)
-To: "MacDonald, Joe" <Joe_MacDonald@mentor.com>
-References: <7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <61ed17a3-a0d3-6bc1-c84b-e914ecfcc399@gmail.com>
-Date: Sat, 24 Feb 2018 11:30:27 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] meta-openembedded/meta-oe re-org
+	Sat, 24 Feb 2018 15:18:15 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Feb 2018 00:17:50 +0100
+Message-Id: <20180224231750.5795-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.14.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] libmpc: upgrade to 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,167 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Feb 2018 19:30:29 -0000
-Content-Type: multipart/alternative;
-	boundary="------------536419A69A881D5E234429BA"
-Content-Language: en-US
+X-List-Received-Date: Sat, 24 Feb 2018 23:18:17 -0000
 
---------------536419A69A881D5E234429BA
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-support/libmpc/{libmpc_1.0.3.bb => libmpc_1.1.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libmpc/{libmpc_1.0.3.bb => libmpc_1.1.0.bb} (69%)
 
-
-
-On 02/24/2018 10:26 AM, MacDonald, Joe wrote:
-> Hey Armin,
->
-> Your branch includes at least some (I haven't looked to see if it's
-> all, seems likely) of the changes I have merged and ready to include
-> for meta-networking. Since I haven't pushed them yet and wouldn't be
-> before tonight at the earliest, do you want me to wait? Or were they
-> just included in your tree for testing? I don't want to cause you
-> unnecessary merge conflicts.
->
-Yeah, After I sent it, I thought maybe I should have given the start and
-end range.
-
-
-"zsh: move to recipes-shells" to top "postgres: move to recipes-dbs"
-
-- armin
-
-> -J.
->
-> On Feb 24, 2018 12:57 PM, akuster808 <akuster808@gmail.com> wrote:
->
->     Hello,
->
->     I am planning on moving some recipes to new locations that are more
->     in-line with their function.
->
->     Also, I plan on adding *-shells, *-dbs, *-security and *.crypto and
->     moving the appropriate recipes there.
->
->     This might help facilitate folks signing up to maintain a grouping
->     like
->     recipes-crypto if that is their thing.
->
->
->     I will be sending out patches later today for review.
->
->     I have staged the changes @
->     http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg
->
->     - armin
->
->
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/recipes-support/libmpc/libmpc_1.0.3.bb b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+similarity index 69%
+rename from meta/recipes-support/libmpc/libmpc_1.0.3.bb
+rename to meta/recipes-support/libmpc/libmpc_1.1.0.bb
+index d37de3831a..2d25d388f1 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.0.3.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+@@ -5,8 +5,8 @@ DEPENDS = "gmp mpfr"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ SRC_URI = "https://ftp.gnu.org/gnu/mpc/mpc-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "d6a1d5f8ddea3abd2cc3e98f58352d26"
+-SRC_URI[sha256sum] = "617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3"
++SRC_URI[md5sum] = "4125404e41e482ec68282a2e687f6c73"
++SRC_URI[sha256sum] = "6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e"
+ 
+ UPSTREAM_CHECK_URI = "http://www.multiprecision.org/mpc/download.html"
+ 
+-- 
+2.14.1
 
 
---------------536419A69A881D5E234429BA
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 02/24/2018 10:26 AM, MacDonald, Joe
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="auto">Hey Armin,
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">Your branch includes at least some (I haven't
-          looked to see if it's all, seems likely) of the changes I have
-          merged and ready to include for meta-networking. Since I
-          haven't pushed them yet and wouldn't be before tonight at the
-          earliest, do you want me to wait? Or were they just included
-          in your tree for testing? I don't want to cause you
-          unnecessary merge conflicts.</div>
-        <div dir="auto"><br>
-        </div>
-      </div>
-    </blockquote>
-    Yeah, After I sent it, I thought maybe I should have given the start
-    and end range.<br>
-    <br>
-    <div dir="auto"><br>
-    </div>
-    <div dir="auto">"zsh: move to recipes-shells" to top "postgres: move
-      to recipes-dbs" <br>
-      <br>
-      - armin<br>
-      <br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7e8d4f35-6212-46c1-84d3-a386aeae326d@email.android.com">
-      <div dir="auto">
-        <div dir="auto">
-        </div>
-        <div dir="auto">-J.</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Feb 24, 2018 12:57 PM, akuster808
-          <a class="moz-txt-link-rfc2396E" href="mailto:akuster808@gmail.com">&lt;akuster808@gmail.com&gt;</a> wrote:<br type="attribution">
-          <blockquote class="quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div><font size="2"><span style="font-size:10pt">
-                  <div>Hello,<br>
-                    <br>
-                    I am planning on moving some recipes to new
-                    locations that are more<br>
-                    in-line with their function.<br>
-                    <br>
-                    Also, I plan on adding *-shells, *-dbs, *-security
-                    and *.crypto and<br>
-                    moving the appropriate recipes there.<br>
-                    <br>
-                    This might help facilitate folks signing up to
-                    maintain a grouping like<br>
-                    recipes-crypto if that is their thing.<br>
-                    <br>
-                    <br>
-                    I will be sending out patches later today for
-                    review.<br>
-                    <br>
-                    I have staged the changes @<br>
-                    <a
-href="http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg"
-                      moz-do-not-send="true">http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=akuster/meta-oe-reorg</a><br>
-                    <br>
-                    - armin<br>
-                    <br>
-                    <br>
-                    -- <br>
-                    _______________________________________________<br>
-                    Openembedded-core mailing list<br>
-                    <a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-                    <a
-                      href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                      moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-                  </div>
-                </span></font></div>
-          </blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------536419A69A881D5E234429BA--
