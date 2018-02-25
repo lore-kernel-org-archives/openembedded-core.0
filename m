@@ -1,51 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B1A3786DD
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 26720786CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 16:30:44 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id e11so5272605pgq.12
+	Sun, 25 Feb 2018 16:50:04 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id l191so18895776lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 08:30:46 -0800 (PST)
+	Sun, 25 Feb 2018 08:50:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BQQ4CwSOkUFI+G6tBESV/kShIy5eTFhplt23J8/6njQ=;
-	b=rD6INrtKZurJzu4QpdGI3bxhsjJ/0h9YHdAJblaYB6p5w+ziNbRPsczKyYbv4Z/RfN
-	v/0zo28YEa1KKXVMhQEb+SKl0/8KCvcUe+K/Azsr6cnfj6He6biowjdaFMnmC3w7IGr7
-	3tXkP7Fy6UJOPpkhEoekWTBK0i7CvmOp7M63o9xv6txjRPlqfJtkWPk/anS83C1pG/uK
-	iJ53hG3zxJKXcdYj/gWvFBH3z5uXP3GEfYV64icUQnO81U7BcI6PxtYptzpD2IF80Q6W
-	Bq56Mca0ok2hMbnBqp/mzh7Rob0rCZZRgY8FDjDr8wgCM1lszHkD0qj+DAGuKIewnEBW
-	w0OA==
+	h=from:to:cc:subject:date:message-id;
+	bh=kTAuMx+Aaf3/JRAx0rLO7zlwm4c05AebmIUXLzkAbG0=;
+	b=Rb78G/nfHV3JrW5N71ouFne4W4oG55gs8zgjs5nJbzJAYv+g82kd1k4HGSGZ7hOf4B
+	S6MheKCv/05U0IKSdoNlAXk/fxNP9iqEfVQ4drTsEvWlwkTw3eR/VUPVVSzX//XSCMmC
+	8lGB5Kmf7TlYNH2M2dRB/safY493Pl2q+u45dfHRTLndcjSmxDjalz+yK7U5xM2TFWQF
+	VQN1oJ48b8FSX+6+TxJAQVL1gZE+EqKPmMUlyJSmrIHTAZFiXXkYdo8G1KJeb85rKnzq
+	itKRowSM6bOmQd8gz5HBqKM7tSVGzbshJPckIwqJ8T2YkpNTDqwnfH7XOdFuf3DSB2MX
+	+E0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BQQ4CwSOkUFI+G6tBESV/kShIy5eTFhplt23J8/6njQ=;
-	b=E6lLmYbXcGCpZhlqiURS8aDa4NZGBBShUflf+60ohzBCW6sMptn8TqNpfDlsPdSN34
-	MAWHQkyfUpbL43LCpRF+iqi/hAcxxWynT/YZFAAZgJUeDCYfT1EkH/EaFqt7o9xcerea
-	FvMFO1aBoxPjNqbHv554BKe3ZIl22HDqqFL0KAE6/DUufrvA2Lv/yBr+0GKbphNy4iic
-	1rOw8XSa0YgSKcW0qsi9P/O/ectMmS506wlsk3Pw1Uvp3I8huMIx0i1cf/oYNfttb3jc
-	dTNJ7f8UMDhsBTWtQ3w1aiylEFQSJcFLT0otSyDCsAku4RLNnq02y47c2qP3EdUrg1Bi
-	neew==
-X-Gm-Message-State: APf1xPBas5/mjn5U2U6f3BWij6v7aqFqQLofh0Txh44kaHeN048uuNEO
-	qdE0plj2Zmgw8SrJeoCdmArL5w==
-X-Google-Smtp-Source: AH8x227XMFJg3Rj/jeopcmHpwBZ72DQOHSW1KFTi47Scrmt60899Xp19XytvdI9u8LF1pWq1fnV0Rg==
-X-Received: by 10.101.73.141 with SMTP id r13mr6306054pgs.161.1519576246109;
-	Sun, 25 Feb 2018 08:30:46 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4000:1184:ad95:2a34:2e02:2fdf])
-	by smtp.gmail.com with ESMTPSA id
-	z25sm14448876pfe.0.2018.02.25.08.30.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 25 Feb 2018 08:30:45 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 25 Feb 2018 08:30:44 -0800
-Message-Id: <1519576244-7238-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [pyro][PATCH] ovmf-native: fix compile issue on new OS like FC27 and Ubuntu 17
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kTAuMx+Aaf3/JRAx0rLO7zlwm4c05AebmIUXLzkAbG0=;
+	b=DY1g300/5iRKi/fFLh8CChnLJdiIbELl6f+4rumGMkM0plZh2vcCMpHOSEK4CYutec
+	4QP0otGZUAKtuqBtUYkmRzhjKovc7+0yaBjJhWZQRWbDXsrNG5j8h1t6Wl5D5OgMKzMc
+	fJHoTk57fd4Rzig0e2Gri7cAhqifL9TVggPNBR6yptQcTj+w0SRCg8HWI5YA6Aa8LHdm
+	IC+QaHP8FROfPuitwH03BYIhVrRKH0HuHeLJ+3xBtqI20uwfXMXxi4YvJh85IGWNG4SR
+	xy3rRcKrKbxjYmE4qtxweEoizWpW2oYLiQikgb4kS/QRfebu2h/bhnC/ncZ/464Pf2dp
+	goQw==
+X-Gm-Message-State: APf1xPC0Y/mo911XI/Q9DRLf+YVlxpyXVcB1oHyUK8iw9v/h0q5A9h4i
+	f252UZUsG420G68/ztI12/aPNFM=
+X-Google-Smtp-Source: AG47ELuV5iz4TugSgB1b3eJKc2kJsd8iUm89HoTRC0OQQUvX0ys4iKWvbDHQMcPGR2ifTTzbHraMKw==
+X-Received: by 10.46.93.207 with SMTP id v76mr5929669lje.134.1519577405494;
+	Sun, 25 Feb 2018 08:50:05 -0800 (PST)
+Received: from localhost.localdomain (user-94-254-244-94.play-internet.pl.
+	[94.254.244.94]) by smtp.gmail.com with ESMTPSA id
+	m202sm1517669lfg.37.2018.02.25.08.50.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 25 Feb 2018 08:50:04 -0800 (PST)
+From: Paulo Neves <ptsneves@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Feb 2018 17:49:25 +0100
+Message-Id: <20180225164926.18993-1-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Cc: Paulo Neves <ptsneves@gmail.com>
+Subject: [PATCH 1/2] wic: partition plugin wrongly assumes it is rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,83 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Feb 2018 16:30:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 25 Feb 2018 16:50:05 -0000
 
-Fixed this error:
-| VfrUtilityLib.cpp:3375:26: error: ISO C++ forbids comparison between
-pointer and integer [-fpermissive]
-|    if (mStringFileName == '\0' ) {
-|                           ^~~~
-| VfrUtilityLib.cpp:3398:9: warning: ignoring return value of ‘size_t
-fread(void*, size_t, size_t, FILE*)’, declared with attribute
-warn_unused_result [-Wunused-result]
-|    fread ((char *)StringPtr, sizeof (UINT8), Length, pInFile);
-|    ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../Makefiles/footer.makefile:30: recipe for target 'VfrUtilityLib.o'
-failed
+The partition plugin is used as the base for other plugins.
+One of the methods the plugins use, is the prepare_rootfs
+method.
 
-[Yocto #12530]
+The prepare_rootfs method wrongly assumes that the value
+ROOTFS_SIZE from bitbake datastore is relevant to every
+invocation of prepare_rootfs, which it clearly is not, for
+example in the bootimg-partition case.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+This commit adds an optional argument to prepare_rootfs
+where a caller can tell prepare_rootfs if it is an actual
+rootfs and whether related rootfs information retrieved from
+bitbake is valid. The default behavior of this optional
+argument is to assume that the invocation is an actual
+rootfs, to maintain compatibility with previous
+implementations.
+
+Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- ...fix-invalid-comparison-between-pointer-an.patch | 32 ++++++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb                 |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-VfrCompile-fix-invalid-comparison-between-pointer-an.patch
+ scripts/lib/wic/partition.py                        | 4 ++--
+ scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-VfrCompile-fix-invalid-comparison-between-pointer-an.patch b/meta/recipes-core/ovmf/ovmf/0001-VfrCompile-fix-invalid-comparison-between-pointer-an.patch
-new file mode 100644
-index 0000000..43bfce4
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-VfrCompile-fix-invalid-comparison-between-pointer-an.patch
-@@ -0,0 +1,32 @@
-+From d37fa01fbbe2cf0cd8b49069a71706a33cb4a53e Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Mon, 13 Feb 2017 20:54:00 +0800
-+Subject: [PATCH] VfrCompile: fix invalid comparison between pointer and
-+ integer
-+
-+This would be valid C but is not valid C++, so change the comparison to do what it has always been doing.
-+
-+Contributed-under: TianoCore Contribution Agreement 1.0
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Reviewed-by: Yonghong Zhu <yonghong.zhu@intel.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
-+
-+---
-+ BaseTools/Source/C/VfrCompile/VfrUtilityLib.cpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: git/BaseTools/Source/C/VfrCompile/VfrUtilityLib.cpp
-+===================================================================
-+--- git.orig/BaseTools/Source/C/VfrCompile/VfrUtilityLib.cpp
-++++ git/BaseTools/Source/C/VfrCompile/VfrUtilityLib.cpp
-+@@ -3372,7 +3372,7 @@ CVfrStringDB::GetVarStoreNameFormStringI
-+   UINT8       BlockType;
-+   EFI_HII_STRING_PACKAGE_HDR *PkgHeader;
-+   
-+-  if (mStringFileName == '\0' ) {
-++  if (mStringFileName == NULL) {
-+     return NULL;
-+   }
-+ 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 9d988e9..4ddfb47 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
- 	file://VfrCompile-increase-path-length-limit.patch \
-         file://0001-MdeModulePkg-UefiHiiLib-Fix-incorrect-comparison-exp.patch \
-+        file://0001-VfrCompile-fix-invalid-comparison-between-pointer-an.patch \
-         "
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 72f2e2708f..695e0abd3b 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -199,7 +199,7 @@ class Partition():
+                            (self.mountpoint, self.size, self.fixed_size))
  
- SRC_URI_append_class-target = " \
+     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
+-                       native_sysroot):
++                       native_sysroot, real_rootfs = True):
+         """
+         Prepare content for a rootfs partition i.e. create a partition
+         and fill it from a /rootfs dir.
+@@ -223,7 +223,7 @@ class Partition():
+             os.remove(rootfs)
+ 
+         # Get rootfs size from bitbake variable if it's not set in .ks file
+-        if not self.size:
++        if not self.size and real_rootfs:
+             # Bitbake variable ROOTFS_SIZE is calculated in
+             # Image._get_rootfs_size method from meta/lib/oe/image.py
+             # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index 67e5498d5e..b239fc0b4c 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -129,4 +129,4 @@ class BootimgPartitionPlugin(SourcePlugin):
+ 
+         logger.debug('Prepare boot partition using rootfs in %s', hdddir)
+         part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,
+-                            native_sysroot)
++                            native_sysroot, False)
 -- 
-2.7.4
+2.14.1
 
 
