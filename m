@@ -1,48 +1,51 @@
 Return-Path: <ptsneves@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 26720786CD
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4B8378748
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 16:50:04 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id l191so18895776lfe.1
+	Sun, 25 Feb 2018 16:50:10 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id y19so18875565lfd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 08:50:06 -0800 (PST)
+	Sun, 25 Feb 2018 08:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kTAuMx+Aaf3/JRAx0rLO7zlwm4c05AebmIUXLzkAbG0=;
-	b=Rb78G/nfHV3JrW5N71ouFne4W4oG55gs8zgjs5nJbzJAYv+g82kd1k4HGSGZ7hOf4B
-	S6MheKCv/05U0IKSdoNlAXk/fxNP9iqEfVQ4drTsEvWlwkTw3eR/VUPVVSzX//XSCMmC
-	8lGB5Kmf7TlYNH2M2dRB/safY493Pl2q+u45dfHRTLndcjSmxDjalz+yK7U5xM2TFWQF
-	VQN1oJ48b8FSX+6+TxJAQVL1gZE+EqKPmMUlyJSmrIHTAZFiXXkYdo8G1KJeb85rKnzq
-	itKRowSM6bOmQd8gz5HBqKM7tSVGzbshJPckIwqJ8T2YkpNTDqwnfH7XOdFuf3DSB2MX
-	+E0g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=gTdjKj8n1tHKWPy9bqkN9IKR65g4k/QMK5DkIBdXSKc=;
+	b=dPkHH9r8yIEMXxbR4LQdScaUz0YC2RWL04+gpdPzu0wlhMjQzuDKXmhnnUREYmIAZU
+	pIZfRjsNFeAFuA6pH8lVRd9ZLxoV0Z6pidyvXJg5G6n3gNhnt/1uVH9tLJIYgfYeR9wC
+	sFvTgVXQxr6XQ/76UKLTSV2vrZkWTfBmpCEXDZ3ZReNjz5+bByWzQZ1tW3btm4RvEf0V
+	k+Bb8lvSD+uEzAKm14RZvNcEAIXHl0GnpwehgwR0Hx1OIHk31NajjHBf7oTdRNQ4vlV7
+	6Bpj9XVPvL97Bu0o/G1r4GdlSZeMiLdGE2iBAfvwx0jV9o+VtHxFstfdhqt1v1xEAX9j
+	KzqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kTAuMx+Aaf3/JRAx0rLO7zlwm4c05AebmIUXLzkAbG0=;
-	b=DY1g300/5iRKi/fFLh8CChnLJdiIbELl6f+4rumGMkM0plZh2vcCMpHOSEK4CYutec
-	4QP0otGZUAKtuqBtUYkmRzhjKovc7+0yaBjJhWZQRWbDXsrNG5j8h1t6Wl5D5OgMKzMc
-	fJHoTk57fd4Rzig0e2Gri7cAhqifL9TVggPNBR6yptQcTj+w0SRCg8HWI5YA6Aa8LHdm
-	IC+QaHP8FROfPuitwH03BYIhVrRKH0HuHeLJ+3xBtqI20uwfXMXxi4YvJh85IGWNG4SR
-	xy3rRcKrKbxjYmE4qtxweEoizWpW2oYLiQikgb4kS/QRfebu2h/bhnC/ncZ/464Pf2dp
-	goQw==
-X-Gm-Message-State: APf1xPC0Y/mo911XI/Q9DRLf+YVlxpyXVcB1oHyUK8iw9v/h0q5A9h4i
-	f252UZUsG420G68/ztI12/aPNFM=
-X-Google-Smtp-Source: AG47ELuV5iz4TugSgB1b3eJKc2kJsd8iUm89HoTRC0OQQUvX0ys4iKWvbDHQMcPGR2ifTTzbHraMKw==
-X-Received: by 10.46.93.207 with SMTP id v76mr5929669lje.134.1519577405494;
-	Sun, 25 Feb 2018 08:50:05 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=gTdjKj8n1tHKWPy9bqkN9IKR65g4k/QMK5DkIBdXSKc=;
+	b=i5bMVaNm2DjfLf5e6DOy88gsgFZdCeggaBmWi8h89qhji0FZGv8rl3TQlUDDhO/3pA
+	Os8z3LTRb7+iBM9o67syZ7XMxYKeOf33rCKK9AafQasQvnzBNYGSpxq8DA/JqqCG+xWa
+	Vje1HeoxNuyWlq8e6ahdAHik7TatHvYNMj4uflPlXen+zw73YHakvRp+rmr87f1zdGMX
+	Oeae7+xj6OXZ3tMehDUvli2eZlXrGp3AJuizqAFyQLNIq4bVcElZPwYjYlh6zNk7L9ov
+	hhO1ClDQwkou5pj0cPLj4rSWiTWq89zrurXfrO40Sw8p66LE9lItYLQiLKEkK7jLoked
+	xOdw==
+X-Gm-Message-State: APf1xPAo8E+opsEU2x9J0bGXhe0I3GzE0O/ZVZCPeJ4TwTlZvoZnvqoL
+	ZeF2YRV83B3kgOKJJiu2ktmwnOs=
+X-Google-Smtp-Source: AG47ELtnVa0P1LItvUq39Nlyla805ZVoXx5ZAepNDNfo5qIv8lEft3IL76uCwRiUP7DOxJEeDcKAzw==
+X-Received: by 10.25.212.19 with SMTP id l19mr5498181lfg.83.1519577411240;
+	Sun, 25 Feb 2018 08:50:11 -0800 (PST)
 Received: from localhost.localdomain (user-94-254-244-94.play-internet.pl.
 	[94.254.244.94]) by smtp.gmail.com with ESMTPSA id
-	m202sm1517669lfg.37.2018.02.25.08.50.03
+	m202sm1517669lfg.37.2018.02.25.08.50.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 25 Feb 2018 08:50:04 -0800 (PST)
+	Sun, 25 Feb 2018 08:50:10 -0800 (PST)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Feb 2018 17:49:25 +0100
-Message-Id: <20180225164926.18993-1-ptsneves@gmail.com>
+Date: Sun, 25 Feb 2018 17:49:26 +0100
+Message-Id: <20180225164926.18993-2-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20180225164926.18993-1-ptsneves@gmail.com>
+References: <20180225164926.18993-1-ptsneves@gmail.com>
 Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH 1/2] wic: partition plugin wrongly assumes it is rootfs
+Subject: [PATCH 2/2] wic: Set a miniumum FAT16 volume size.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,63 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Feb 2018 16:50:05 -0000
+X-List-Received-Date: Sun, 25 Feb 2018 16:50:11 -0000
 
-The partition plugin is used as the base for other plugins.
-One of the methods the plugins use, is the prepare_rootfs
-method.
+Set a miniumum FAT16 volume size because images are
+not valid to parted if this minimum value is not respected.
 
-The prepare_rootfs method wrongly assumes that the value
-ROOTFS_SIZE from bitbake datastore is relevant to every
-invocation of prepare_rootfs, which it clearly is not, for
-example in the bootimg-partition case.
-
-This commit adds an optional argument to prepare_rootfs
-where a caller can tell prepare_rootfs if it is an actual
-rootfs and whether related rootfs information retrieved from
-bitbake is valid. The default behavior of this optional
-argument is to assume that the invocation is an actual
-rootfs, to maintain compatibility with previous
-implementations.
+The value set is determined experimentally forr a logical
+sector size of 512. This fixed my local problem but, there
+may be better solutions.
 
 Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- scripts/lib/wic/partition.py                        | 4 ++--
- scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/wic/partition.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 72f2e2708f..695e0abd3b 100644
+index 695e0abd3b..7326b664ac 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -199,7 +199,7 @@ class Partition():
-                            (self.mountpoint, self.size, self.fixed_size))
+@@ -319,7 +319,7 @@ class Partition():
  
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
--                       native_sysroot):
-+                       native_sysroot, real_rootfs = True):
-         """
-         Prepare content for a rootfs partition i.e. create a partition
-         and fill it from a /rootfs dir.
-@@ -223,7 +223,7 @@ class Partition():
-             os.remove(rootfs)
+         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
+                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
+-                     rootfs_size)
++                     max(8250, rootfs_size))
+         exec_native_cmd(dosfs_cmd, native_sysroot)
  
-         # Get rootfs size from bitbake variable if it's not set in .ks file
--        if not self.size:
-+        if not self.size and real_rootfs:
-             # Bitbake variable ROOTFS_SIZE is calculated in
-             # Image._get_rootfs_size method from meta/lib/oe/image.py
-             # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 67e5498d5e..b239fc0b4c 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -129,4 +129,4 @@ class BootimgPartitionPlugin(SourcePlugin):
- 
-         logger.debug('Prepare boot partition using rootfs in %s', hdddir)
-         part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,
--                            native_sysroot)
-+                            native_sysroot, False)
+         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
 -- 
 2.14.1
 
