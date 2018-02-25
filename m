@@ -1,51 +1,31 @@
-Return-Path: <ptsneves@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B8378748
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CB5B7874E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 16:50:10 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id y19so18875565lfd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 08:50:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gTdjKj8n1tHKWPy9bqkN9IKR65g4k/QMK5DkIBdXSKc=;
-	b=dPkHH9r8yIEMXxbR4LQdScaUz0YC2RWL04+gpdPzu0wlhMjQzuDKXmhnnUREYmIAZU
-	pIZfRjsNFeAFuA6pH8lVRd9ZLxoV0Z6pidyvXJg5G6n3gNhnt/1uVH9tLJIYgfYeR9wC
-	sFvTgVXQxr6XQ/76UKLTSV2vrZkWTfBmpCEXDZ3ZReNjz5+bByWzQZ1tW3btm4RvEf0V
-	k+Bb8lvSD+uEzAKm14RZvNcEAIXHl0GnpwehgwR0Hx1OIHk31NajjHBf7oTdRNQ4vlV7
-	6Bpj9XVPvL97Bu0o/G1r4GdlSZeMiLdGE2iBAfvwx0jV9o+VtHxFstfdhqt1v1xEAX9j
-	KzqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=gTdjKj8n1tHKWPy9bqkN9IKR65g4k/QMK5DkIBdXSKc=;
-	b=i5bMVaNm2DjfLf5e6DOy88gsgFZdCeggaBmWi8h89qhji0FZGv8rl3TQlUDDhO/3pA
-	Os8z3LTRb7+iBM9o67syZ7XMxYKeOf33rCKK9AafQasQvnzBNYGSpxq8DA/JqqCG+xWa
-	Vje1HeoxNuyWlq8e6ahdAHik7TatHvYNMj4uflPlXen+zw73YHakvRp+rmr87f1zdGMX
-	Oeae7+xj6OXZ3tMehDUvli2eZlXrGp3AJuizqAFyQLNIq4bVcElZPwYjYlh6zNk7L9ov
-	hhO1ClDQwkou5pj0cPLj4rSWiTWq89zrurXfrO40Sw8p66LE9lItYLQiLKEkK7jLoked
-	xOdw==
-X-Gm-Message-State: APf1xPAo8E+opsEU2x9J0bGXhe0I3GzE0O/ZVZCPeJ4TwTlZvoZnvqoL
-	ZeF2YRV83B3kgOKJJiu2ktmwnOs=
-X-Google-Smtp-Source: AG47ELtnVa0P1LItvUq39Nlyla805ZVoXx5ZAepNDNfo5qIv8lEft3IL76uCwRiUP7DOxJEeDcKAzw==
-X-Received: by 10.25.212.19 with SMTP id l19mr5498181lfg.83.1519577411240;
-	Sun, 25 Feb 2018 08:50:11 -0800 (PST)
-Received: from localhost.localdomain (user-94-254-244-94.play-internet.pl.
-	[94.254.244.94]) by smtp.gmail.com with ESMTPSA id
-	m202sm1517669lfg.37.2018.02.25.08.50.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 25 Feb 2018 08:50:10 -0800 (PST)
-From: Paulo Neves <ptsneves@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Feb 2018 17:49:26 +0100
-Message-Id: <20180225164926.18993-2-ptsneves@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180225164926.18993-1-ptsneves@gmail.com>
-References: <20180225164926.18993-1-ptsneves@gmail.com>
-Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH 2/2] wic: Set a miniumum FAT16 volume size.
+	Sun, 25 Feb 2018 21:56:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Feb 2018 13:56:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,394,1515484800"; d="scan'208";a="177997048"
+Received: from cthanang-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.165.39])
+	by orsmga004.jf.intel.com with ESMTP; 25 Feb 2018 13:56:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Ola x Nilsson <ola.x.nilsson@axis.com>
+Date: Mon, 26 Feb 2018 10:56:15 +1300
+Message-ID: <253268833.XyhE8v2TBP@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <bb76902073b54d2bba0774471fd64543@XBOX04.axis.com>
+References: <cover.1519354910.git.paul.eggleton@linux.intel.com>
+	<e1e012bd3bb79e363b65b911f805989301f4188f.1519354910.git.paul.eggleton@linux.intel.com>
+	<bb76902073b54d2bba0774471fd64543@XBOX04.axis.com>
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/8] lib/oe/path: implement is_path_under()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Feb 2018 16:50:11 -0000
+X-List-Received-Date: Sun, 25 Feb 2018 21:56:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Set a miniumum FAT16 volume size because images are
-not valid to parted if this minimum value is not respected.
+Hi Ola,
 
-The value set is determined experimentally forr a logical
-sector size of 512. This fixed my local problem but, there
-may be better solutions.
+On Friday, 23 February 2018 8:42:34 PM NZDT Ola x Nilsson wrote:
+> > +def is_path_under(path1, possible_parent):
+> 
+> Changing the signature to is_path_under(possible_parent, *paths) will make
+> the list management more natural.
 
-Signed-off-by: Paulo Neves <ptsneves@gmail.com>
----
- scripts/lib/wic/partition.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Right, it does simplify things a little. In fact given the parameter order is 
+changing I'll rename it to is_path_parent() at the same time.
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 695e0abd3b..7326b664ac 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -319,7 +319,7 @@ class Partition():
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
--                     rootfs_size)
-+                     max(8250, rootfs_size))
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+> This function will return True if path1 is the empty list. Is that
+> intentional?
+
+I don't believe so. I'll change the function to return False in that case, 
+well spotted.
+
+Thanks,
+Paul
+
 -- 
-2.14.1
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
