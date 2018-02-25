@@ -1,42 +1,57 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 59FFA787D0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Feb 2018 22:46:28 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1519598790; h=Content-Type: To: Subject: Message-ID: Date:
-	From: References: In-Reply-To: MIME-Version: Sender;
-	bh=kYbt6R8OZ8o6CbOLkbDmd3zf2MxMDEFF4M69t7spjRI=;
-	b=fq423HfIHCj2vRIYyQ0oJD/8QqQVALsHsaECxEh2bQ5Gc3hfb7niYR5Jnf0JgFeqtpN211i1
-	o1XaUx8gdk9Fgxu2OeDVPY/7ScQwDUMP+KTRdgVSwhEEalcC6ada7VT9koQkKZgPFcWeFV55
-	FgQAqQwOAUbllE9mDt6HbXWLjak=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mxa.mailgun.org with ESMTP id 5a933cc6.7fcbb818b730-smtp-out-n02;
-	Sun, 25 Feb 2018 22:46:30 -0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id m13so12036715qtg.13;
-	Sun, 25 Feb 2018 14:46:29 -0800 (PST)
-X-Gm-Message-State: APf1xPDrwRfo2TmjbRHixJQEOd5a6z3VgYTfEGcnGA3A6IlcqWTKhiqW
-	x4CqCeJVvs1Q2tJyzS2v15UKol3UOxSJbDVRdxY=
-X-Google-Smtp-Source: AG47ELsWOIzGSZJANSs/Tq9zxh4M2+VBaVL9oM8nfy9FgWABXAB/6v8PZfYB/b9ZVEl3ajTVZK43YZG5efEeZ1Gjaok=
-X-Received: by 10.200.6.5 with SMTP id d5mr14971934qth.205.1519598789098; Sun,
-	25 Feb 2018 14:46:29 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.108.75 with HTTP; Sun, 25 Feb 2018 14:46:28 -0800 (PST)
-In-Reply-To: <CADNbA1rnfQfQJ-78WFXdJHeZKGQXPnQ+hUY1zFi0SEDRiew4ig@mail.gmail.com>
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B60178754;
+	Sun, 25 Feb 2018 22:55:18 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id v9-v6so6183616plp.12;
+	Sun, 25 Feb 2018 14:55:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=q1M4LRe086AcBzkgq+kpwORhuaSLRMxVR4ztIugfeFM=;
+	b=tJ+xztBs5rFhSHzoo8KVNQbNj6o4bcYrx0mClJX00KLbwqei7d6WN+FcSy5+TZYAJq
+	vKkDOLoI1tWoawnFWlFJrReGVni/EFf8EUbxf2nqY4XHLgOLF/y39on5VKQdXZgBSvko
+	NopT9S78sr/E+CDylY7pg1z76XZAwI0bgPIppdOSM4JQN01fElxhSTylIljg7OPvDOnU
+	1U0Xyh37LKoaP4Qdqxi11EfqsSGhQW8/lWuBMxZCUFhtwx74KR2ABGeP1Tm+ebv/F9it
+	MeKLNaUvUzwNKIAkZflGlMc0XXoumC+mQLJyl3K0wpwqxX9KOpACfjccHJtHoIN/Vtx/
+	FnLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=q1M4LRe086AcBzkgq+kpwORhuaSLRMxVR4ztIugfeFM=;
+	b=dWAdwIspkcCMBGIbaUuhYOBITom0rNeLVC4dwbmqqCsuJ+pr7n9tP0C/CNORL1F5Iq
+	UPBMZmhlNEzkzlicFLH2ZhhsTNyvVxEwIAJhfWrAC283mreEe0N90xGmjeXyO3CEtKjn
+	q35N6xBUCmuA+8e7UxOl0Sg5A/aa4PSQCQyOcGdUgAUryDmZMMyDVHN7N96wuKPzFfpS
+	jvG89MWFuZ7N6KuFhyTPUguF8yRub26nAGzmZHi2es2H8mxuQOElwc8XsGPO4DdXIn0s
+	JVcM0/5OarpNZec0sOPwNB2o/muTdyZcfXlLUCtPP1l8OgscJvqE6Cbii0SD/hjQDg+0
+	CcAQ==
+X-Gm-Message-State: APf1xPBA9aBE/UzXBNZ8/NbaGhSb1CDfCa0AYHq0GiNwuS+/jwvL0+Ek
+	KY71f6BrdymeY19TepA9AWXjJQ==
+X-Google-Smtp-Source: AH8x224N5xtRftqnFrgR29GDSd1XcHnvYWqWGIQUBHS49LT9bpkyZv7CKihWv7wj9eI//WsOZFKhYQ==
+X-Received: by 2002:a17:902:b604:: with SMTP id
+	b4-v6mr8665576pls.448.1519599319606; 
+	Sun, 25 Feb 2018 14:55:19 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1184:ad95:2a34:2e02:2fdf?
+	([2601:202:4000:1184:ad95:2a34:2e02:2fdf])
+	by smtp.gmail.com with ESMTPSA id
+	p10sm1694967pgd.28.2018.02.25.14.55.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 25 Feb 2018 14:55:18 -0800 (PST)
+To: Tom Rini <trini@konsulko.com>
 References: <966e95a6-4401-5c12-b69c-9bd37bb236fd@gmail.com>
-	<CADNbA1rnfQfQJ-78WFXdJHeZKGQXPnQ+hUY1zFi0SEDRiew4ig@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Sun, 25 Feb 2018 17:46:28 -0500
-X-Gmail-Original-Message-ID: <CADNbA1q9b5+ehN=d=p+ymLYKnRBWR6SwgVaqfU=hNhiwxU4WFg@mail.gmail.com>
-Message-ID: <CADNbA1q9b5+ehN=d=p+ymLYKnRBWR6SwgVaqfU=hNhiwxU4WFg@mail.gmail.com>
-To: openembeded-devel <openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: [RFC] meta-openembedded/meta-oe re-org
+	<20180224183811.GL4311@bill-the-cat>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <fa075cca-02ef-7cd9-e60d-86693e554dd6@gmail.com>
+Date: Sun, 25 Feb 2018 14:55:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <20180224183811.GL4311@bill-the-cat>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] meta-openembedded/meta-oe re-org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,94 +64,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Feb 2018 22:46:29 -0000
-Content-Type: multipart/alternative; boundary="f403043b00f80681dd0566112a93"
+X-List-Received-Date: Sun, 25 Feb 2018 22:55:18 -0000
+X-Groupsio-MsgNum: 108390
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="ANj6Ow28Y34NMpxReFRKT5aVKjf8pQEGW"
 
---f403043b00f80681dd0566112a93
-Content-Type: text/plain; charset="UTF-8"
+--ANj6Ow28Y34NMpxReFRKT5aVKjf8pQEGW
+Content-Type: multipart/mixed; boundary="Ot2HXvAETHAQuVQHYbDFmNch3fFaGRFFK";
+ protected-headers="v1"
+From: akuster808 <akuster808@gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <fa075cca-02ef-7cd9-e60d-86693e554dd6@gmail.com>
+Subject: Re: [OE-core] [RFC] meta-openembedded/meta-oe re-org
+References: <966e95a6-4401-5c12-b69c-9bd37bb236fd@gmail.com>
+ <20180224183811.GL4311@bill-the-cat>
+In-Reply-To: <20180224183811.GL4311@bill-the-cat>
 
-On Sat, Feb 24, 2018 at 12:56 PM, akuster808 <akuster808@gmail.com> wrote:
-
-> Hello,
->
-> I am planning on moving some recipes to new locations that are more
-> in-line with their function.
->
-> Also, I plan on adding *-shells, *-dbs, *-security and *.crypto and
-> moving the appropriate recipes there.
-
-
-I can take maintenance of *-shells and *-dbs once you merge things in
-unless someone else wants to take them on.
-
--Derek
-
-
-> This might help facilitate folks signing up to maintain a grouping like
-> recipes-crypto if that is their thing.
->
->
-> I will be sending out patches later today for review.
->
-> I have staged the changes @
-> http://cgit.openembedded.org/meta-openembedded-contrib/log/?
-> h=akuster/meta-oe-reorg
->
-> - armin
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---f403043b00f80681dd0566112a93
-Content-Type: text/html; charset="UTF-8"
+--Ot2HXvAETHAQuVQHYbDFmNch3fFaGRFFK
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr"><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote"><span class=3D"">On Sat, Feb 24=
-, 2018 at 12:56 PM, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailto:akus=
-ter808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">Hello,<br>
-<br>
-I am planning on moving some recipes to new locations that are more<br>
-in-line with their function.<br>
-<br>
-Also, I plan on adding *-shells, *-dbs, *-security and *.crypto and<br>
-moving the appropriate recipes there.</blockquote><div>=C2=A0</div><div>I c=
-an take maintenance of *-shells and *-dbs once you merge things in unless s=
-omeone else wants to take them on.</div></span><span class=3D"HOEnZb"><font=
- color=3D"#888888"><div><br></div><div>-Derek</div></font></span><span clas=
-s=3D""><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-This might help facilitate folks signing up to maintain a grouping like<br>
-recipes-crypto if that is their thing.<br>
-<br>
-<br>
-I will be sending out patches later today for review.<br>
-<br>
-I have staged the changes @<br>
-<a href=3D"http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=3D=
-akuster/meta-oe-reorg" rel=3D"noreferrer" target=3D"_blank">http://cgit.ope=
-nembedded.org/m<wbr>eta-openembedded-contrib/log/?<wbr>h=3Dakuster/meta-oe-=
-reorg</a><br>
-<br>
-- armin<br>
-<span class=3D"m_4250717216032953116HOEnZb"><font color=3D"#888888"><br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></span></div><br></div></div>
-</div><br></div>
 
---f403043b00f80681dd0566112a93--
+
+On 02/24/2018 10:38 AM, Tom Rini wrote:
+> On Sat, Feb 24, 2018 at 09:56:42AM -0800, akuster808 wrote:
+>
+>> Hello,
+>>
+>> I am planning on moving some recipes to new locations that are more
+>> in-line with their function.
+>>
+>> Also, I plan on adding *-shells, *-dbs, *-security and *.crypto and
+>> moving the appropriate recipes there.
+>>
+>> This might help facilitate folks signing up to maintain a grouping lik=
+e
+>> recipes-crypto if that is their thing.
+>>
+>>
+>> I will be sending out patches later today for review.
+>>
+>> I have staged the changes @
+>> http://cgit.openembedded.org/meta-openembedded-contrib/log/?h=3Dakuste=
+r/meta-oe-reorg
+> Should some stuff perhaps be moved out to other layers?  More
+> specifically, should at least tomoyo-tools get moved to meta-security
+> with the rest of the tomoyo stuff? =20
+Myabe. It might be easier to figure that out once we re-org things.
+
+
+> I have less strong opinions on
+> leveldb (but maybe recipes-dbs instead) and passwdqc.
+
+re-naming is ease. its getting things it the grouped together that make
+sense.
+
+Thanks,
+armin
+>
+
+
+
+--Ot2HXvAETHAQuVQHYbDFmNch3fFaGRFFK--
+
+--ANj6Ow28Y34NMpxReFRKT5aVKjf8pQEGW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJakz7VAAoJEO6LtJn0Vuf5kzwP/iscWsFuQ9x/GY3j+fUPEW63
+shk4v/6Uv2QHaffSuHXyQYo6FEz4u6lNo7iclZcwu/yxjusr7+X+U1zprkEoBigp
+0ECRLMcScL44VXtTsipqWEuqnP32LG0lvsUa5hTVNIdwvEfMFbDiC3RUrD/HCXRo
+h7Xb8SpZAI9WkSDFwQaLz5AAVZCAN8XkHx5zGN+0QlZI1QRrgWIS0Cj253V+urac
+mTToZqYgicd2aMoO8x0Jfj3RSikvILTBMgCT2fXSIwq/Lxqy/dl9Z/W8eDoGsUH/
+h30Fn6dDzfqxD2A7Dm4LJ+Z+pk+7pt3B33WshQ2rAM9pJU2aa+Q80MCQOLpW3ELc
+RiPGgn6iaWWKGWmhd7IpcPz5EEDxnGk093QLO/m4naVsIrImPhYTY5xNmIa/5Mdz
+MPdFYDQDmO1fzA0EboRfqoBZXSvIVHxStZdG4t5LvW7H9y5mrpaqrJST3X46ZGIW
+LkdCWqURvXTO5g0Bk5lwF5YSgj+bVOaxELk7RK90VbDtr9+yzJ8QOnb/aX3N6S80
+sj7Ks5I3lCatakSoZsa+tMywJCCAP/qyKx2yuClcQSAgbsGf3ktjfRe48gLm24Ch
+/5M6kMDteIfxyc00eZlKxSNFc1YsbedzQn0w2pXNRf6jQezvoYyRzXbJvvWcxBBF
+jAj8/X5BmYwNv5x/ImWo
+=Bc2W
+-----END PGP SIGNATURE-----
+
+--ANj6Ow28Y34NMpxReFRKT5aVKjf8pQEGW--
