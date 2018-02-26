@@ -1,54 +1,28 @@
-Return-Path: <avinash.reddy.palleti@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A4365CC7
+Return-Path: <maxin.john@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 881307874E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Feb 2018 08:16:58 +0000 (UTC)
+	Mon, 26 Feb 2018 08:55:55 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Feb 2018 00:16:59 -0800
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Feb 2018 00:55:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,396,1515484800"; 
-	d="scan'208,217";a="207050062"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-	by fmsmga006.fm.intel.com with ESMTP; 26 Feb 2018 00:16:59 -0800
-Received: from fmsmsx154.amr.corp.intel.com (10.18.116.70) by
-	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 26 Feb 2018 00:16:59 -0800
-Received: from bgsmsx104.gar.corp.intel.com (10.223.4.190) by
-	FMSMSX154.amr.corp.intel.com (10.18.116.70) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 26 Feb 2018 00:16:58 -0800
-Received: from bgsmsx102.gar.corp.intel.com ([169.254.2.13]) by
-	BGSMSX104.gar.corp.intel.com ([169.254.5.135]) with mapi id
-	14.03.0319.002; Mon, 26 Feb 2018 13:46:56 +0530
-From: "Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>
-To: 'akuster808' <akuster808@gmail.com>, 'Andrei Gherzan' <andrei@gherzan.ro>, 
-	"'akuster@mvista.com'" <akuster@mvista.com>
-Thread-Topic: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
-Thread-Index: AQHTpxt1xUH5tykUwUugJ0+XYK2etaOmqEyAgABiU6D//6ohAIAGM4QAgAELcwCAAF10QIAIFMaA
-Date: Mon, 26 Feb 2018 08:16:55 +0000
-Message-ID: <EBAEBC3AA1B73F4887F286A67235352365982A04@BGSMSX102.gar.corp.intel.com>
-References: <CAK18fxEEZRnHzobX=Lt2By_VYgEzi36nSU+X_94Etegh8E81mg@mail.gmail.com>
-	<cc978b8d-afa0-5ea2-ba5d-9700bab26fdc@linux.intel.com>
-	<EBAEBC3AA1B73F4887F286A6723535236597E79C@BGSMSX102.gar.corp.intel.com>
-	<CAK18fxGNk3vxKeLVpoa7TCuuCq_jkkmMmj3D6Z-hM494ASF5kA@mail.gmail.com>
-	<CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
-	<2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
-	<EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
-In-Reply-To: <EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODYwNmQyNzQtNGI2Yi00Mjk4LTlmMDQtODczNjQ3MjAwY2I3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6IlFKTWJWRU5FSUVuOTJ2Y1wvbGhaa0dTMlMwa25vaFFDQzUxTEg4VFFyN3ZRPSJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
-MIME-Version: 1.0
-Cc: 'openembedded' <openembedded-core@lists.openembedded.org>
-Subject: Re: Linux firmware for iwlwifi 8000c disappeared in pyro
+X-IronPort-AV: E=Sophos;i="5.47,396,1515484800"; d="scan'208";a="207057661"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 26 Feb 2018 00:55:56 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id AEA3B580575
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Feb 2018 00:55:55 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Feb 2018 10:58:48 +0200
+Message-Id: <1519635528-21824-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] pkgconf: revert changes to pkg-config-wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,179 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Feb 2018 08:16:58 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_EBAEBC3AA1B73F4887F286A67235352365982A04BGSMSX102garcor_"
+X-List-Received-Date: Mon, 26 Feb 2018 08:55:55 -0000
 
---_000_EBAEBC3AA1B73F4887F286A67235352365982A04BGSMSX102garcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To maintain the status quo, revert changes to pkgconf wrappers.
+This helps to keep it compatible with freedesktop.org pkg-config.
 
-R2VudGxlIFJlbWluZGVyLg0KDQpUaGFua3MsDQpBdmluYXNoDQoNCkZyb206IFBhbGxldGksIEF2
-aW5hc2ggUmVkZHkNClNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkgMjEsIDIwMTggMTA6MjIgQU0N
-ClRvOiBha3VzdGVyODA4IDxha3VzdGVyODA4QGdtYWlsLmNvbT47IEFuZHJlaSBHaGVyemFuIDxh
-bmRyZWlAZ2hlcnphbi5ybz47IGFrdXN0ZXJAbXZpc3RhLmNvbQ0KQ2M6IG9wZW5lbWJlZGRlZCA8
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJFOiBb
-T0UtY29yZV0gTGludXggZmlybXdhcmUgZm9yIGl3bHdpZmkgODAwMGMgZGlzYXBwZWFyZWQgaW4g
-cHlybw0KDQpJdCBuZWVkcyB0byBiZSBtZXJnZWQgaW4gYm90aCBweXJvIGFuZCBweXJvLW5leHQu
-DQoNClRoYW5rcywNCkF2aW5hc2gNCg0KRnJvbTogYWt1c3RlcjgwOCBbbWFpbHRvOmFrdXN0ZXI4
-MDhAZ21haWwuY29tXQ0KU2VudDogV2VkbmVzZGF5LCBGZWJydWFyeSAyMSwgMjAxOCAxMDoxNyBB
-TQ0KVG86IEFuZHJlaSBHaGVyemFuIDxhbmRyZWlAZ2hlcnphbi5ybzxtYWlsdG86YW5kcmVpQGdo
-ZXJ6YW4ucm8+PjsgUGFsbGV0aSwgQXZpbmFzaCBSZWRkeSA8YXZpbmFzaC5yZWRkeS5wYWxsZXRp
-QGludGVsLmNvbTxtYWlsdG86YXZpbmFzaC5yZWRkeS5wYWxsZXRpQGludGVsLmNvbT4+OyBha3Vz
-dGVyQG12aXN0YS5jb208bWFpbHRvOmFrdXN0ZXJAbXZpc3RhLmNvbT4NCkNjOiBvcGVuZW1iZWRk
-ZWQgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+Pg0KU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBMaW51eCBmaXJtd2FyZSBmb3IgaXdsd2lmaSA4MDAwYyBkaXNhcHBlYXJlZCBpbiBweXJv
-DQoNCg0KaW4gc3RhYmxlL3B5cm8tbmV4dA0KDQpPbiAwMi8yMC8yMDE4IDA0OjUwIEFNLCBBbmRy
-ZWkgR2hlcnphbiB3cm90ZToNCk9uIEZyaSwgRmViIDE2LCAyMDE4IGF0IDI6MDggUE0sIEFuZHJl
-aSBHaGVyemFuIDxhbmRyZWlAZ2hlcnphbi5ybzxtYWlsdG86YW5kcmVpQGdoZXJ6YW4ucm8+PiB3
-cm90ZToNCk9uIEZyaSwgRmViIDE2LCAyMDE4IGF0IDE6NDggUE0sIFBhbGxldGksIEF2aW5hc2gg
-UmVkZHkgPGF2aW5hc2gucmVkZHkucGFsbGV0aUBpbnRlbC5jb208bWFpbHRvOmF2aW5hc2gucmVk
-ZHkucGFsbGV0aUBpbnRlbC5jb20+PiB3cm90ZToNCiBJIHN1Ym1pdHRlZCBhIGZpeCBzb21ldGlt
-ZSBiYWNrLA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJl
-ZGRlZC1jb3JlLzIwMTgtRmVicnVhcnkvMTQ3MjkxLmh0bWwNCg0KDQpHcmVhdC4gV2UgaGF2ZSB0
-aGUgZml4IGF2YWlsYWJsZSBhbmQgYXBwcm92ZWQgYnkgU2F1bC4gU2hhbGwgd2UgbWVyZ2U/DQoN
-CkFkZGluZyB0aGUgcHlybyBtYWludGFpbmVyIHRvIHRoaXMgdGhyZWFkLg0KDQotLQ0KQW5kcmVp
-IEdoZXJ6YW4NCg0KDQo=
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-devtools/pkgconf/pkgconf/pkg-config-esdk.in   | 4 +++-
+ meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in | 1 +
+ meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper   | 9 +++++++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
---_000_EBAEBC3AA1B73F4887F286A67235352365982A04BGSMSX102garcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-esdk.in b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-esdk.in
+index d4ac71d..4fc9b0a 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-esdk.in
++++ b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-esdk.in
+@@ -5,6 +5,7 @@
+ if [ "pkg-config-native" = "`basename $0`" ] ; then
+ 	PKG_CONFIG_PATH="@PATH_NATIVE@"
+ 	PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++	unset PKG_CONFIG_SYSROOT_DIR
+ else
+ 	# in this case check if we are in the esdk
+ 	if [ "$OE_SKIP_SDK_CHECK" = "1" ] ; then
+@@ -15,8 +16,9 @@ else
+ 		if ( echo $parentpid_info | grep -q check-lxdialog ) ; then
+ 			PKG_CONFIG_PATH="@PATH_NATIVE@"
+ 			PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++			unset PKG_CONFIG_SYSROOT_DIR
+ 		fi
+ 	fi
+ fi
+ 
+-pkg-config "$@"
++pkg-config.real "$@"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
+index c2e86e5..9ed30a0 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
++++ b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
+@@ -1,5 +1,6 @@
+ #! /bin/sh
+ 
+ PKG_CONFIG_PATH="@PATH_NATIVE@"
++unset PKG_CONFIG_SYSROOT_DIR
+ 
+ pkg-config "$@"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper
+index fc9b488..695f349 100755
+--- a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper
++++ b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper
+@@ -4,4 +4,13 @@
+ # Copyright (C) 2015 Christopher Larson <chris_larson@mentor.com>
+ # License: MIT (see COPYING.MIT at the root of the repository for terms)
+ 
++for arg; do
++    case "$arg" in
++        --variable|--variable=*)
++            # pkg-config doesn't sysroot-prefix user variables
++            unset PKG_CONFIG_SYSROOT_DIR
++            ;;
++    esac
++done
++
+ exec pkgconf "$@"
+-- 
+2.4.0
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjsN
-Cgljb2xvcjpibGFjazt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1w
-cmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0K
-YTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0
-eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwDQoJ
-e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJn
-aW4tcmlnaHQ6MGluOw0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0
-OjBpbjsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4i
-LHNlcmlmOw0KCWNvbG9yOmJsYWNrO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10
-eXBlOnBlcnNvbmFsOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9y
-OiMxRjQ5N0Q7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwt
-cmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6IzFGNDk3
-RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250
-LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsN
-CgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtw
-YWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
-PG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwh
-W2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9
-ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlv
-dXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBiZ2NvbG9yPSJ3aGl0ZSIgbGFu
-Zz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNl
-Y3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0
-OTdEIj5HZW50bGUgUmVtaW5kZXIuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkF2aW5hc2g8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBuYW1lPSJfTWFpbEVuZENvbXBvc2UiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L2E+
-PC9wPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0Ux
-RTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxhIG5hbWU9Il9fX19fcmVwbHlzZXBhcmF0b3IiPjwvYT48Yj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6d2luZG93dGV4dCI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjp3
-aW5kb3d0ZXh0Ij4gUGFsbGV0aSwgQXZpbmFzaCBSZWRkeQ0KPGJyPg0KPGI+U2VudDo8L2I+IFdl
-ZG5lc2RheSwgRmVicnVhcnkgMjEsIDIwMTggMTA6MjIgQU08YnI+DQo8Yj5Ubzo8L2I+IGFrdXN0
-ZXI4MDggJmx0O2FrdXN0ZXI4MDhAZ21haWwuY29tJmd0OzsgQW5kcmVpIEdoZXJ6YW4gJmx0O2Fu
-ZHJlaUBnaGVyemFuLnJvJmd0OzsgYWt1c3RlckBtdmlzdGEuY29tPGJyPg0KPGI+Q2M6PC9iPiBv
-cGVuZW1iZWRkZWQgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcm
-Z3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJFOiBbT0UtY29yZV0gTGludXggZmlybXdhcmUgZm9y
-IGl3bHdpZmkgODAwMGMgZGlzYXBwZWFyZWQgaW4gcHlybzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5J
-dCBuZWVkcyB0byBiZSBtZXJnZWQgaW4gYm90aCBweXJvIGFuZCBweXJvLW5leHQuPG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
-OiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
-N0QiPkF2aW5hc2g8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFF
-MSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjp3aW5kb3d0ZXh0Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmO2NvbG9yOndpbmRvd3RleHQiPiBha3VzdGVyODA4IFs8YSBocmVmPSJtYWls
-dG86YWt1c3RlcjgwOEBnbWFpbC5jb20iPm1haWx0bzpha3VzdGVyODA4QGdtYWlsLmNvbTwvYT5d
-DQo8YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVzZGF5LCBGZWJydWFyeSAyMSwgMjAxOCAxMDoxNyBB
-TTxicj4NCjxiPlRvOjwvYj4gQW5kcmVpIEdoZXJ6YW4gJmx0OzxhIGhyZWY9Im1haWx0bzphbmRy
-ZWlAZ2hlcnphbi5ybyI+YW5kcmVpQGdoZXJ6YW4ucm88L2E+Jmd0OzsgUGFsbGV0aSwgQXZpbmFz
-aCBSZWRkeSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmF2aW5hc2gucmVkZHkucGFsbGV0aUBpbnRlbC5j
-b20iPmF2aW5hc2gucmVkZHkucGFsbGV0aUBpbnRlbC5jb208L2E+Jmd0OzsNCjxhIGhyZWY9Im1h
-aWx0bzpha3VzdGVyQG12aXN0YS5jb20iPmFrdXN0ZXJAbXZpc3RhLmNvbTwvYT48YnI+DQo8Yj5D
-Yzo8L2I+IG9wZW5lbWJlZGRlZCAmbHQ7PGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc8L2E+Jmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIExpbnV4
-IGZpcm13YXJlIGZvciBpd2x3aWZpIDgwMDBjIGRpc2FwcGVhcmVkIGluIHB5cm88bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8cD5pbiBzdGFibGUvcHlyby1uZXh0PG86cD48L286cD48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5PbiAwMi8yMC8yMDE4IDA0OjUwIEFNLCBBbmRyZWkgR2hlcnphbiB3cm90
-ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9Im1hcmdpbi10b3A6
-NS4wcHQ7bWFyZ2luLWJvdHRvbTo1LjBwdCI+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0K
-PGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBGcmksIEZlYiAxNiwgMjAxOCBh
-dCAyOjA4IFBNLCBBbmRyZWkgR2hlcnphbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmFuZHJlaUBnaGVy
-emFuLnJvIiB0YXJnZXQ9Il9ibGFuayI+YW5kcmVpQGdoZXJ6YW4ucm88L2E+Jmd0OyB3cm90ZTo8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPGRpdj4NCjxi
-bG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEu
-MHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXRv
-cDo1LjBwdDttYXJnaW4tcmlnaHQ6MGluO21hcmdpbi1ib3R0b206NS4wcHQiPg0KPGRpdj4NCjxk
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gRnJpLCBGZWIgMTYsIDIwMTggYXQg
-MTo0OCBQTSwgUGFsbGV0aSwgQXZpbmFzaCBSZWRkeSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmF2aW5h
-c2gucmVkZHkucGFsbGV0aUBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5hdmluYXNoLnJlZGR5
-LnBhbGxldGlAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2tx
-dW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtw
-YWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi10b3A6NS4w
-cHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPiZuYnNwO0kgc3VibWl0dGVkIGEgZml4IHNvbWV0aW1lIGJhY2ssPGJyPg0KPGEgaHJl
-Zj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1j
-b3JlLzIwMTgtRmVicnVhcnkvMTQ3MjkxLmh0bWwiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxOC1GZWJy
-dWFyeS8xNDcyOTEuaHRtbDwvYT48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9i
-bG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+R3JlYXQuIFdlIGhhdmUg
-dGhlIGZpeCBhdmFpbGFibGUgYW5kIGFwcHJvdmVkIGJ5IFNhdWwuIFNoYWxsIHdlIG1lcmdlPzxv
-OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Jsb2NrcXVv
-dGU+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BZGRpbmcgdGhlIHB5cm8gbWFpbnRh
-aW5lciB0byB0aGlzIHRocmVhZC4mbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJiYWNrZ3JvdW5kOndoaXRlIj48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZjtjb2xv
-cjojMjIyMjIyIj4tLTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMt
-c2VyaWY7Y29sb3I6IzIyMjIyMjtiYWNrZ3JvdW5kOndoaXRlIj5BbmRyZWkgR2hlcnphbjwvc3Bh
-bj48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_EBAEBC3AA1B73F4887F286A67235352365982A04BGSMSX102garcor_--
