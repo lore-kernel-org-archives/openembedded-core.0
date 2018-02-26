@@ -1,26 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D577678741
+	by mail.openembedded.org (Postfix) with ESMTP id 0A3A0786F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Feb 2018 01:50:49 +0000 (UTC)
+	Mon, 26 Feb 2018 01:50:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Feb 2018 17:50:51 -0800
+	25 Feb 2018 17:50:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,395,1515484800"; d="scan'208";a="206908215"
+X-IronPort-AV: E=Sophos;i="5.47,395,1515484800"; d="scan'208";a="206908227"
 Received: from cthanang-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.165.39])
-	by fmsmga005.fm.intel.com with ESMTP; 25 Feb 2018 17:50:49 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 25 Feb 2018 17:50:52 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Feb 2018 14:49:58 +1300
-Message-Id: <3b5ce0fff1065bea5cc5a90d8b4e9e0ba40f4688.1519609613.git.paul.eggleton@linux.intel.com>
+Date: Mon, 26 Feb 2018 14:49:59 +1300
+Message-Id: <14d6d6f5343629fe03863c1fa0527bc31fa20333.1519609613.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1519609613.git.paul.eggleton@linux.intel.com>
 References: <cover.1519609613.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 5/8] devtool: deploy-target: don't specify ssh/scp port unless user does
+Subject: [PATCH v2 6/8] lib/oe/recipeutils: add .txz extension to archive list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Feb 2018 01:50:50 -0000
+X-List-Received-Date: Mon, 26 Feb 2018 01:50:53 -0000
 
-If the user doesn't specify a port then we should avoid specifying one
-on the ssh/scp command line in case the user has configured one for the
-host they are connecting to, which was being overridden unnecessarily.
-
-Fixes [YOCTO #12381].
+Prompted by bitbake commit 2ba8a6b25ccc12e7b543e8450121e5311c7a701d,
+add .txz to the list of archives used within get_recipe_local_files()
+here as well.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/deploy.py | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ meta/lib/oe/recipeutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index 9cc492788b6..52e261d5600 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -213,9 +213,7 @@ def deploy(args, config, basepath, workspace):
- 
-         scp_port = ''
-         ssh_port = ''
--        if not args.port:
--            raise DevtoolError("If you specify -P/--port then you must provide the port to be used to connect to the target")
--        else:
-+        if args.port:
-             scp_port = "-P %s" % args.port
-             ssh_port = "-p %s" % args.port
- 
-@@ -280,9 +278,7 @@ def undeploy(args, config, basepath, workspace):
- 
-     scp_port = ''
-     ssh_port = ''
--    if not args.port:
--        raise DevtoolError("If you specify -P/--port then you must provide the port to be used to connect to the target")
--    else:
-+    if args.port:
-         scp_port = "-P %s" % args.port
-         ssh_port = "-p %s" % args.port
- 
-@@ -328,7 +324,7 @@ def register_commands(subparsers, context):
-     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
-     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
-     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
--    parser_deploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
-+    parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
- 
-     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
-     strip_opts.add_argument('-S', '--strip',
-@@ -350,5 +346,5 @@ def register_commands(subparsers, context):
-     parser_undeploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
-     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
-     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
--    parser_undeploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
-+    parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
-     parser_undeploy.set_defaults(func=undeploy)
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 4e0859e6d90..aa64553c06b 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -408,7 +408,7 @@ def get_recipe_local_files(d, patches=False, archives=False):
+     # fetcher) though note that this only encompasses actual container formats
+     # i.e. that can contain multiple files as opposed to those that only
+     # contain a compressed stream (i.e. .tar.gz as opposed to just .gz)
+-    archive_exts = ['.tar', '.tgz', '.tar.gz', '.tar.Z', '.tbz', '.tbz2', '.tar.bz2', '.tar.xz', '.tar.lz', '.zip', '.jar', '.rpm', '.srpm', '.deb', '.ipk', '.tar.7z', '.7z']
++    archive_exts = ['.tar', '.tgz', '.tar.gz', '.tar.Z', '.tbz', '.tbz2', '.tar.bz2', '.txz', '.tar.xz', '.tar.lz', '.zip', '.jar', '.rpm', '.srpm', '.deb', '.ipk', '.tar.7z', '.7z']
+     ret = {}
+     for uri in uris:
+         if fetch.ud[uri].type == 'file':
 -- 
 2.14.3
 
