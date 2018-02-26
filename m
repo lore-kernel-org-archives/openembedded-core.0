@@ -1,23 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id E9DF560017
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DFBF78784
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Feb 2018 20:12:22 +0000 (UTC)
+	Mon, 26 Feb 2018 20:12:27 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Feb 2018 12:12:23 -0800
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Feb 2018 12:12:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,397,1515484800"; d="scan'208";a="203914537"
+X-IronPort-AV: E=Sophos;i="5.47,397,1515484800"; d="scan'208";a="203914565"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 26 Feb 2018 12:12:23 -0800
+	by orsmga005.jf.intel.com with ESMTP; 26 Feb 2018 12:12:29 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Feb 2018 12:12:00 -0800
-Message-Id: <20180226201216.33204-1-california.l.sullivan@intel.com>
+Date: Mon, 26 Feb 2018 12:12:01 -0800
+Message-Id: <20180226201216.33204-2-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
-Subject: [PATCH 00/16] EFI image enhancements
+In-Reply-To: <20180226201216.33204-1-california.l.sullivan@intel.com>
+References: <20180226201216.33204-1-california.l.sullivan@intel.com>
+Subject: [PATCH 01/16] grub-efi.bbclass: split out configuration portion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,134 +32,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Feb 2018 20:12:24 -0000
+X-List-Received-Date: Mon, 26 Feb 2018 20:12:28 -0000
 
-EFI images require a boot partition containing the bootloader, the
-kernel, the bootloader configuration, and any other EFI binaries that
-your platform needs. Currently, the boot partition is done at image
-creation time rather than through packages, making it very difficult to
-add to its contents. As an example, we currently have no way to make use
-of the multiple kernel enhancement that was recently added.
+This part is useful on its own, whereas the whole class together is
+specific for image-live.
 
-We should instead be treating the boot partition like anything else and
-be installing needed items via packages. This can be done by treating
-the /boot/ directory as the boot partion, pointing wic at it via the
---rootfs-dir option for the EFI partition, and using the new
---exclude-path option to not include the contents of /boot/ in the main
-rootfs. This is the kickstart file in patch 0008.
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ .../{grub-efi.bbclass => grub-efi-cfg.bbclass}     |  40 -------
+ meta/classes/grub-efi.bbclass                      | 122 +--------------------
+ 2 files changed, 1 insertion(+), 161 deletions(-)
+ copy meta/classes/{grub-efi.bbclass => grub-efi-cfg.bbclass} (76%)
 
-What's left is installing everything in the correct location, which is
-what the majority of the remaining patches entails.
-
-I reused the grub-efi and systemd-boot bbclasses to create the
-configuration files, and one change that was required due to that is the
-removal of the assumption that kernels are installed as "vmlinuz", which
-was normal in the past. This change was needed in order to make use of
-the new normal kernel install, where the default kernel is installed to
-/boot/ as ${KERNEL_IMAGETYPE}.
-
-This has some cascading effects and required changes in install scripts
-as well, as they too assumed the kernel would be named vmlinuz. When
-updating these I also added functionality allowing them to install
-multiple kernels.
-
-The image enhancements can be tested in qemu by adding the following to
-your local.conf:
-MACHINE="qemux86"
-# or qemux86-64
-WKS_FILE = "efi-bootdisk.wks.in"
-MACHINE_FEATURES_append = " efi"
-IMAGE_INSTALL_append = " grub-efi systemd-boot kernel-image-bzimage"
-# kernel-image-bzimage is neccessary due to
-# RDEPENDS_${KERNEL_PACKAGE_NAME}-base = "" in qemu.inc
-IMAGE_FSTYPES_pn-core-image-minimal_append = " wic"
-
-And then running the following:
-bitbake core-image-minimal ovmf
-runqemu wic ovmf
-
-The image will contain two bootloaders in the boot partition, and will
-boot successfully with either.
-
-Please note that without setting the EFI_PROVIDER variable, neither
-bootloader will be installed as the standard boot(x64|ia32), and will
-have to be ran manually through the EFI shell.
-
-There is still one unfortunate issue with this patchset - I wasn't able
-to get random UUIDs working completely right before feature freeze, so
-instead the bootconf recipes assume that the rootfs will be /dev/sda2.
-This can be changed via the ROOT variable which originated from the
-grub-efi.bbclass. For this reason, I'm not making the efi-bootdisk
-kickstart file default for anything, only making it available for this
-release.
-
-The issue with random UUIDs is that both wic and the bootloader
-configurations need the same random value, and wic needs it at parse
-time in order to specify it in a kickstart file. This is doable, but a
-little nasty, by writing a value to a file and adding helper functions
-to assign that value to a variable. The issue here is package upgrades.
-I know of no way to ensure that that file generated at parse time
-persists between builds, and if someone tries to do a package upgrade on
-thier configuration file that now has a different UUID, they would no
-longer have the same UUID as their rootfs, causing boot failures.
-
-One additional issue is that the kernel is installed to /boot/ in iso
-and hddimgs, when the real kernel and bootloaders are in the separate
-EFI partition. This can be fixed via the following patch and one
-additional line of configuration for those image types:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146828.html
-
-Please review this patcheset and let me know of any issues you see or
-encounter. Also, I have a contrib branch available to pull from here:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation-sda
-
-A previous iteration including the UUID stuff that's not included here
-is available at clsulliv/image-creation-exclude-path
-
-Thanks,
-Cal
-
-
-California Sullivan (16):
-  grub-efi.bbclass: split out configuration portion
-  grub: create recipe for configuration
-  grub-efi: install to /boot/
-  grub-efi: if installed and EFI_PROVIDER, install as bootx64 or
-    bootia32
-  packagegroup-core-boot: add bootloader to EFI systems
-  live-vm-common.bbclass: Don't use vmlinuz or VM_DEFAULT_KERNEL
-  grub-efi*.bbclass: don't reference vmlinuz
-  wic: add wks file to make use of exclude-path functionality
-  init-install-efi.sh: Update to support installing multiple kernels
-  syslinux.bbclass: don't use vmlinuz
-  systemd-boot.bbclass: break out configuration creation
-  systemd: add systemd-bootconf recipe
-  systemd-boot*.bbclass: Don't use vmlinuz
-  systemd-boot: add package that installs to boot
-  packagegroup-core-boot: add kernel for EFI systems
-  init-install.sh: support multiple kernels and don't assume vmlinuz
-
- .../{grub-efi.bbclass => grub-efi-cfg.bbclass}     |  44 +-------
- meta/classes/grub-efi.bbclass                      | 124 +--------------------
- meta/classes/live-vm-common.bbclass                |   9 +-
- meta/classes/syslinux.bbclass                      |   4 +-
- meta/classes/systemd-boot-cfg.bbclass              |  75 +++++++++++++
- meta/classes/systemd-boot.bbclass                  |  72 +-----------
- meta/recipes-bsp/grub/grub-bootconf_1.00.bb        |  29 +++++
- meta/recipes-bsp/grub/grub-efi_2.02.bb             |  43 +++++--
- .../initrdscripts/files/init-install-efi.sh        |  15 ++-
- .../initrdscripts/files/init-install.sh            |  37 +++++-
- .../packagegroups/packagegroup-core-boot.bb        |   3 +
- meta/recipes-core/systemd/systemd-boot_234.bb      |  28 ++++-
- meta/recipes-core/systemd/systemd-bootconf_1.00.bb |  30 +++++
- scripts/lib/wic/canned-wks/efi-bootdisk.wks.in     |   3 +
- 14 files changed, 256 insertions(+), 260 deletions(-)
- copy meta/classes/{grub-efi.bbclass => grub-efi-cfg.bbclass} (74%)
- create mode 100644 meta/classes/systemd-boot-cfg.bbclass
- create mode 100644 meta/recipes-bsp/grub/grub-bootconf_1.00.bb
- create mode 100644 meta/recipes-core/systemd/systemd-bootconf_1.00.bb
- create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi-cfg.bbclass
+similarity index 76%
+copy from meta/classes/grub-efi.bbclass
+copy to meta/classes/grub-efi-cfg.bbclass
+index 610479b85d1..730323c72e6 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi-cfg.bbclass
+@@ -16,8 +16,6 @@
+ # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+ # ${GRUB_ROOT} - grub's root device.
+ 
+-do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
+-
+ GRUB_SERIAL ?= "console=ttyS0,115200"
+ GRUB_CFG_VM = "${S}/grub_vm.cfg"
+ GRUB_CFG_LIVE = "${S}/grub_live.cfg"
+@@ -32,44 +30,6 @@ APPEND ?= ""
+ # Need UUID utility code.
+ inherit fs-uuid
+ 
+-efi_populate() {
+-	# DEST must be the root of the image so that EFIDIR is not
+-	# nested under a top level directory.
+-	DEST=$1
+-
+-	install -d ${DEST}${EFIDIR}
+-
+-	GRUB_IMAGE="grub-efi-bootia32.efi"
+-	DEST_IMAGE="bootia32.efi"
+-	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+-		GRUB_IMAGE="grub-efi-bootx64.efi"
+-		DEST_IMAGE="bootx64.efi"
+-	fi
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}/${DEST_IMAGE}
+-	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-	printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_IMAGE" >${DEST}/startup.nsh
+-
+-	install -m 0644 ${GRUB_CFG} ${DEST}${EFIDIR}/grub.cfg
+-}
+-
+-efi_iso_populate() {
+-	iso_dir=$1
+-	efi_populate $iso_dir
+-	# Build a EFI directory to create efi.img
+-	mkdir -p ${EFIIMGDIR}/${EFIDIR}
+-	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+-	cp $iso_dir/vmlinuz ${EFIIMGDIR}
+-	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" > ${EFIIMGDIR}/startup.nsh
+-	if [ -f "$iso_dir/initrd" ] ; then
+-		cp $iso_dir/initrd ${EFIIMGDIR}
+-	fi
+-}
+-
+-efi_hddimg_populate() {
+-	efi_populate $1
+-}
+-
+ python build_efi_cfg() {
+     import sys
+ 
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 610479b85d1..4b5704c19cc 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -1,36 +1,4 @@
+-# grub-efi.bbclass
+-# Copyright (c) 2011, Intel Corporation.
+-# All rights reserved.
+-#
+-# Released under the MIT license (see packages/COPYING)
+-
+-# Provide grub-efi specific functions for building bootable images.
+-
+-# External variables
+-# ${INITRD} - indicates a list of filesystem images to concatenate and use as an initrd (optional)
+-# ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+-# ${GRUB_GFXSERIAL} - set this to 1 to have graphics and serial in the boot menu
+-# ${LABELS} - a list of targets for the automatic config
+-# ${APPEND} - an override list of append strings for each label
+-# ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
+-# ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+-# ${GRUB_ROOT} - grub's root device.
+-
+-do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
+-
+-GRUB_SERIAL ?= "console=ttyS0,115200"
+-GRUB_CFG_VM = "${S}/grub_vm.cfg"
+-GRUB_CFG_LIVE = "${S}/grub_live.cfg"
+-GRUB_TIMEOUT ?= "10"
+-#FIXME: build this from the machine config
+-GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+-
+-EFIDIR = "/EFI/BOOT"
+-GRUB_ROOT ?= "${ROOT}"
+-APPEND ?= ""
+-
+-# Need UUID utility code.
+-inherit fs-uuid
++inherit grub-efi-cfg
+ 
+ efi_populate() {
+ 	# DEST must be the root of the image so that EFIDIR is not
+@@ -69,91 +37,3 @@ efi_iso_populate() {
+ efi_hddimg_populate() {
+ 	efi_populate $1
+ }
+-
+-python build_efi_cfg() {
+-    import sys
+-
+-    workdir = d.getVar('WORKDIR')
+-    if not workdir:
+-        bb.error("WORKDIR not defined, unable to package")
+-        return
+-
+-    gfxserial = d.getVar('GRUB_GFXSERIAL') or ""
+-
+-    labels = d.getVar('LABELS')
+-    if not labels:
+-        bb.debug(1, "LABELS not defined, nothing to do")
+-        return
+-
+-    if labels == []:
+-        bb.debug(1, "No labels, nothing to do")
+-        return
+-
+-    cfile = d.getVar('GRUB_CFG')
+-    if not cfile:
+-        bb.fatal('Unable to read GRUB_CFG')
+-
+-    try:
+-         cfgfile = open(cfile, 'w')
+-    except OSError:
+-        bb.fatal('Unable to open %s' % cfile)
+-
+-    cfgfile.write('# Automatically created by OE\n')
+-
+-    opts = d.getVar('GRUB_OPTS')
+-    if opts:
+-        for opt in opts.split(';'):
+-            cfgfile.write('%s\n' % opt)
+-
+-    cfgfile.write('default=%s\n' % (labels.split()[0]))
+-
+-    timeout = d.getVar('GRUB_TIMEOUT')
+-    if timeout:
+-        cfgfile.write('timeout=%s\n' % timeout)
+-    else:
+-        cfgfile.write('timeout=50\n')
+-
+-    root = d.getVar('GRUB_ROOT')
+-    if not root:
+-        bb.fatal('GRUB_ROOT not defined')
+-
+-    if gfxserial == "1":
+-        btypes = [ [ " graphics console", "" ],
+-            [ " serial console", d.getVar('GRUB_SERIAL') or "" ] ]
+-    else:
+-        btypes = [ [ "", "" ] ]
+-
+-    for label in labels.split():
+-        localdata = d.createCopy()
+-
+-        overrides = localdata.getVar('OVERRIDES')
+-        if not overrides:
+-            bb.fatal('OVERRIDES not defined')
+-
+-        for btype in btypes:
+-            localdata.setVar('OVERRIDES', label + ':' + overrides)
+-
+-            cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
+-            lb = label
+-            if label == "install":
+-                lb = "install-efi"
+-            cfgfile.write('linux /vmlinuz LABEL=%s' % (lb))
+-
+-            cfgfile.write(' %s' % replace_rootfs_uuid(d, root))
+-
+-            append = localdata.getVar('APPEND')
+-            initrd = localdata.getVar('INITRD')
+-
+-            if append:
+-                append = replace_rootfs_uuid(d, append)
+-                cfgfile.write(' %s' % (append))
+-
+-            cfgfile.write(' %s' % btype[1])
+-            cfgfile.write('\n')
+-
+-            if initrd:
+-                cfgfile.write('initrd /initrd')
+-            cfgfile.write('\n}\n')
+-
+-    cfgfile.close()
+-}
 -- 
 2.14.3
 
