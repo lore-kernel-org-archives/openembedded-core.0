@@ -1,26 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 600FD7870D
+	by mail.openembedded.org (Postfix) with ESMTP id D577678741
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Feb 2018 01:50:46 +0000 (UTC)
+	Mon, 26 Feb 2018 01:50:49 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Feb 2018 17:50:48 -0800
+	25 Feb 2018 17:50:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,395,1515484800"; d="scan'208";a="206908207"
+X-IronPort-AV: E=Sophos;i="5.47,395,1515484800"; d="scan'208";a="206908215"
 Received: from cthanang-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.165.39])
-	by fmsmga005.fm.intel.com with ESMTP; 25 Feb 2018 17:50:45 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 25 Feb 2018 17:50:49 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Feb 2018 14:49:57 +1300
-Message-Id: <690ab4d326341a98938a8c4424229c18e0f511c3.1519609613.git.paul.eggleton@linux.intel.com>
+Date: Mon, 26 Feb 2018 14:49:58 +1300
+Message-Id: <3b5ce0fff1065bea5cc5a90d8b4e9e0ba40f4688.1519609613.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1519609613.git.paul.eggleton@linux.intel.com>
 References: <cover.1519609613.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 4/8] devtool: finish: fix erroneously creating bbappend for relative paths
+Subject: [PATCH v2 5/8] devtool: deploy-target: don't specify ssh/scp port unless user does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Feb 2018 01:50:46 -0000
+X-List-Received-Date: Mon, 26 Feb 2018 01:50:50 -0000
 
-After OE-Core rev 5e3fe00a0233d563781849a44f53885b4e924a9c we call
-os.path.abspath() on the original layer path, but we later compare that
-to the destination layer path. If that layer path isn't absolute but is
-effectively the same path, it should be writing to the original recipe
-but because we weren't making it absolute we were writing a bbappend
-instead. Call os.path.abspath() on the destination path as well to avoid
-that.
+If the user doesn't specify a port then we should avoid specifying one
+on the ssh/scp command line in case the user has configured one for the
+host they are connecting to, which was being overridden unnecessarily.
+
+Fixes [YOCTO #12381].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/lib/devtool/deploy.py | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 2dbb1976422..a962ebe09b4 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1861,9 +1861,7 @@ def _get_layer(layername, d):
-         layerdir = layers.get('meta', None)
-     else:
-         layerdir = layers.get(layername, None)
--    if layerdir:
--        layerdir = os.path.abspath(layerdir)
--    return layerdir or layername
-+    return os.path.abspath(layerdir or layername)
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 9cc492788b6..52e261d5600 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -213,9 +213,7 @@ def deploy(args, config, basepath, workspace):
  
- def finish(args, config, basepath, workspace):
-     """Entry point for the devtool 'finish' subcommand"""
+         scp_port = ''
+         ssh_port = ''
+-        if not args.port:
+-            raise DevtoolError("If you specify -P/--port then you must provide the port to be used to connect to the target")
+-        else:
++        if args.port:
+             scp_port = "-P %s" % args.port
+             ssh_port = "-p %s" % args.port
+ 
+@@ -280,9 +278,7 @@ def undeploy(args, config, basepath, workspace):
+ 
+     scp_port = ''
+     ssh_port = ''
+-    if not args.port:
+-        raise DevtoolError("If you specify -P/--port then you must provide the port to be used to connect to the target")
+-    else:
++    if args.port:
+         scp_port = "-P %s" % args.port
+         ssh_port = "-p %s" % args.port
+ 
+@@ -328,7 +324,7 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
+     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
+-    parser_deploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
++    parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
+ 
+     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
+     strip_opts.add_argument('-S', '--strip',
+@@ -350,5 +346,5 @@ def register_commands(subparsers, context):
+     parser_undeploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
+     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
+     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
+-    parser_undeploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
++    parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
+     parser_undeploy.set_defaults(func=undeploy)
 -- 
 2.14.3
 
