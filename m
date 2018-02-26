@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 28A8A787FC
+	by mail.openembedded.org (Postfix) with ESMTP id 3B53278803
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 26 Feb 2018 20:12:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	26 Feb 2018 12:12:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,397,1515484800"; d="scan'208";a="203914606"
+X-IronPort-AV: E=Sophos;i="5.47,397,1515484800"; d="scan'208";a="203914609"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga005.jf.intel.com with ESMTP; 26 Feb 2018 12:12:30 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Feb 2018 12:12:13 -0800
-Message-Id: <20180226201216.33204-14-california.l.sullivan@intel.com>
+Date: Mon, 26 Feb 2018 12:12:14 -0800
+Message-Id: <20180226201216.33204-15-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180226201216.33204-1-california.l.sullivan@intel.com>
 References: <20180226201216.33204-1-california.l.sullivan@intel.com>
-Subject: [PATCH 13/16] systemd-boot*.bbclass: Don't use vmlinuz
+Subject: [PATCH 14/16] systemd-boot: add package that installs to boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,48 +34,92 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 26 Feb 2018 20:12:31 -0000
 
-We can't guarantee vmlinuz anymore. Use KERNEL_IMAGETYPE instead.
+If the EFI_PROVIDER is systemd-boot, install as boot(x64|ia32) as per
+convention. If its not the EFI_PROVIDER, install as
+systemd-boot(x64|ia32), as to not collide with other possible
+bootloaders.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/systemd-boot-cfg.bbclass | 6 +++++-
- meta/classes/systemd-boot.bbclass     | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd-boot_234.bb      | 28 +++++++++++++++++++---
+ meta/recipes-core/systemd/systemd-bootconf_1.00.bb |  7 +++---
+ 2 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 46eeae126ae..360c86cbd34 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -1,3 +1,5 @@
-+KERNEL_IMAGETYPE ??= "bzImage"
-+
- SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
-@@ -52,7 +54,9 @@ python build_efi_cfg() {
-         localdata.setVar('OVERRIDES', label + ':' + overrides)
+diff --git a/meta/recipes-core/systemd/systemd-boot_234.bb b/meta/recipes-core/systemd/systemd-boot_234.bb
+index 88a14ac61ec..2d29df8be7c 100644
+--- a/meta/recipes-core/systemd/systemd-boot_234.bb
++++ b/meta/recipes-core/systemd/systemd-boot_234.bb
+@@ -18,6 +18,26 @@ EXTRA_OECONF = " --enable-gnuefi \
+                  EFI_CC='${EFI_CC}' \
+                "
  
-         entrycfg.write('title %s\n' % label)
--        entrycfg.write('linux /vmlinuz\n')
++# install to the image as boot*.efi if its the EFI_PROVIDER,
++# otherwise install as the full name.
++# This allows multiple bootloaders to coexist in a single image.
++python __anonymous () {
++    import re
++    target = d.getVar('TARGET_ARCH')
++    prefix = "" if d.getVar('EFI_PROVIDER', True) == "systemd-boot" else "systemd-"
++    if target == "x86_64":
++        systemdimage = prefix + "bootx64.efi"
++    else:
++        systemdimage = prefix + "bootia32.efi"
++    d.setVar("SYSTEMD_BOOT_IMAGE", systemdimage)
++    prefix = "systemd-" if prefix == "" else ""
++    d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
++}
 +
-+        kernel = localdata.getVar("KERNEL_IMAGETYPE")
-+        entrycfg.write('linux /%s\n' % kernel)
++FILES_${PN} = "/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}"
++
++RDEPENDS_${PN} += "virtual/systemd-bootconf"
++
+ # Imported from the old gummiboot recipe
+ TUNE_CCARGS_remove = "-mfpmath=sse"
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+@@ -29,12 +49,14 @@ do_compile() {
+ 		SYSTEMD_BOOT_EFI_ARCH="x64"
+ 	fi
  
-         append = localdata.getVar('APPEND')
-         initrd = localdata.getVar('INITRD')
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 14538fe2d7a..3cd6811a6ce 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -45,7 +45,7 @@ efi_iso_populate() {
-         mkdir -p ${EFIIMGDIR}/${EFIDIR}
-         cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/vmlinuz ${EFIIMGDIR}
-+        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
-         EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-         echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-         if [ -f "$iso_dir/initrd" ] ; then
+-	oe_runmake systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
++	oe_runmake ${SYSTEMD_BOOT_IMAGE_PREFIX}${SYSTEMD_BOOT_IMAGE}
+ }
+ 
+ do_install() {
+-	# Bypass systemd installation with a NOP
+-	:
++	install -d ${D}/boot
++	install -d ${D}/boot/EFI
++	install -d ${D}/boot/EFI/BOOT
++	install ${B}/systemd-boot*.efi ${D}/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}
+ }
+ 
+ do_deploy () {
+diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+index bd291e65115..77a731e1174 100644
+--- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
++++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+@@ -9,7 +9,8 @@ S = "${WORKDIR}"
+ 
+ LABELS = "boot"
+ 
+-APPEND_append = " root=/dev/sda2"
++ROOT = "root=/dev/sda2"
++APPEND_append = " ${ROOT}"
+ 
+ python do_configure() {
+     bb.build.exec_func('build_efi_cfg', d)
+@@ -21,9 +22,9 @@ do_install() {
+ 	install -d ${D}/boot
+ 	install -d ${D}/boot/loader
+ 	install -d ${D}/boot/loader/entries
+-	install -m 0744 loader.conf ${D}/boot/loader/
++	install loader.conf ${D}/boot/loader/
+         rm loader.conf
+-        install -m 077 *.conf ${D}/boot/loader/entries/
++        install *.conf ${D}/boot/loader/entries/
+ }
+ 
+ FILES_${PN} = "/boot/loader/* /boot/loader/entries/*"
 -- 
 2.14.3
 
