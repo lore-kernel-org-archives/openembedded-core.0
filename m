@@ -1,31 +1,58 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 530A2607A4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 15:37:46 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 07:37:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,401,1515484800"; d="scan'208";a="33219428"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 27 Feb 2018 07:37:48 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 9E7CC5803CF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 07:37:47 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 17:40:41 +0200
-Message-Id: <1519746041-44662-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1519746041-44662-1-git-send-email-maxin.john@intel.com>
-References: <1519746041-44662-1-git-send-email-maxin.john@intel.com>
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 93DBC7878B;
+	Tue, 27 Feb 2018 16:56:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 32204185CE;
+	Tue, 27 Feb 2018 17:56:59 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id zNB9zkPXoDi0; Tue, 27 Feb 2018 17:56:58 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id DD65E1858D;
+	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CB4881A081;
+	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B64EE1A07F;
+	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id AA5651AFC;
+	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Tue, 27 Feb 2018 17:56:57 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Tue, 27 Feb 2018 17:56:57 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Trevor Woerner <twoerner@gmail.com>, OpenEmbedded Devel List
+	<openembedded-devel@lists.openembedded.org>, "Patches and discussions about
+	the oe-core layer" <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe] [RFC] Rename meta-openembedded to
+	openembedded-extras
+Thread-Index: AQHTr993RXcPnvEtT0Sk9kytfXmEJaO4dVmw
+Date: Tue, 27 Feb 2018 16:56:57 +0000
+Message-ID: <63be8ac8a2744c64b18e252afd2e6307@XBOX02.axis.com>
+References: <CAAQYJAudtnFaY1S2j6FF_pN9B1OJhN-6fEBY8nWCtM73Kx8tSw@mail.gmail.com>
+	<0bb858dc-a43f-ae14-01c9-2a42855e4409@gmail.com>
+	<20180224034807.GF2786@denix.org>
+	<CAHUNapQYRJ=qNnQt8GT7eZ+m=iOdFDRWnY4Vuu4twB+VLA05jw@mail.gmail.com>
+In-Reply-To: <CAHUNapQYRJ=qNnQt8GT7eZ+m=iOdFDRWnY4Vuu4twB+VLA05jw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH v2 2/2] piglit: upgrade to current git master
+X-TM-AS-GCONF: 00
+Subject: Re: [oe] [RFC] Rename meta-openembedded to	openembedded-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,90 +65,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 15:37:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Feb 2018 16:56:59 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_"
 
-Upgrade to revision:
-4ce0887e2f7f848d2be2e435a2d0f3c80e44ea3b
+--_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-remove backported patch:
-        0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+V2VsbCwgdGhlcmUgaXMgYSBiZW5lZml0IGluIGhhdmluZyBhIGNvbW1vbiBuYW1pbmcgZm9yIGxh
+eWVycyBpbiB0aGF0IGl0IGlzIHBvc3NpYmxlIHRvIGVhc2lseSBpZGVudGlmeSB0aGVtIHByb2dy
+YW1tYXRpY2FsbHkuIEUuZy4sIG91ciBzZXR1cCB3aWxsIGF1dG9tYXRpY2FsbHkgdGFrZSBhbGwg
+Y2hlY2tlZCBvdXQgbGF5ZXJzIG5hbWVkIOKAnG1ldGEq4oCdIGFuZCBhZGQgdGhlbSB0byB0aGUg
+YmJsYXllcnMuY29uZi5zYW1wbGUgZmlsZS4gVGhhdCBzYWlkLCB0aGUgbmFtZSDigJxtZXRh4oCd
+IGFzIGl0IGhhcyBiZWVuIHVzZWQsIGJvdGggZm9yIGEgc3BlY2lmaWMgbGF5ZXIgKGkuZS4sIG1l
+dGEpLCBhcyBwcmVmaXggZm9yIGluZGl2aWR1YWwgbGF5ZXJzIChlLmcuLCBtZXRhLW9lKSBhbmQg
+YXMgcHJlZml4IGZvciBhIGdyb3VwIG9mIGxheWVycyAoZS5nLiwgbWV0YS1vcGVuZW1iZWRkZWQp
+LCBpcyBtb3N0bHkgY29uZnVzaW5n4oCmDQoNCi8vUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YgVHJldm9y
+IFdvZXJuZXINClNlbnQ6IGRlbiAyNyBmZWJydWFyaSAyMDE4IDE2OjI3DQpUbzogT3BlbkVtYmVk
+ZGVkIERldmVsIExpc3QgPG9wZW5lbWJlZGRlZC1kZXZlbEBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+PjsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNv
+cmVdIFtvZV0gW1JGQ10gUmVuYW1lIG1ldGEtb3BlbmVtYmVkZGVkIHRvIG9wZW5lbWJlZGRlZC1l
+eHRyYXMNCg0KT24gRnJpLCBGZWIgMjMsIDIwMTggYXQgMTA6NDggUE0sIERlbnlzIERteXRyaXll
+bmtvIDxkZW5pc0BkZW5peC5vcmc8bWFpbHRvOmRlbmlzQGRlbml4Lm9yZz4+IHdyb3RlOg0KT24g
+VGh1LCBGZWIgMjIsIDIwMTggYXQgMTI6Mzc6NDRQTSAtMDgwMCwgYWt1c3RlcjgwOCB3cm90ZToN
+Cj4gSSB0aGluayBvcGVuZW1iZWRlZGQtY29yZSBpcyBpbmNvcnJlY3QuIGl0IHNob3VsZCBoYXZl
+IGJlZW4NCj4gbWV0YS1vcGVuYmVkZGVkLWNvcmUgb3IgbWV0YS1jb3JlLg0KDQpJdCBkb2VzIGhh
+dmUgYSBsYXllciBjYWxsZWQganVzdCAibWV0YSIgdGhvdWdoLi4uDQoNCkluIHJldHJvc3BlY3Qs
+IHVzaW5nIHRoZSB3b3JkICJtZXRhIiBldmVyeXdoZXJlIGJlY29tZXMgdXNlbGVzcy4gTm8gbGF5
+ZXIgY29udGFpbnMgYWN0dWFsIHNvdXJjZXMgYW5kIG5ldmVyIHNob3VsZCwgc28gdGhleSdyZSBh
+bGwgIm1ldGEiIGRhdGEsIGl0J3MgcmVkdW5kYW50IHRvIGhhdmUgdG8gc2F5IHNvIGluIGV2ZXJ5
+IGxheWVyJ3MgbmFtZSAoZXRjKS4NCkl0IHdvdWxkIGhhdmUgYmVlbiBiZXR0ZXIgdG8gdXNlIHRo
+YXQgc3BhY2UgdG8gY29udmV5IHNvbWV0aGluZyBtZWFuaW5nZnVsLCBzdWNoIGFzOiAid2hldGhl
+ciBhIGxheWVyIHdhcyBkZXNpZ25lZCB0byBiZSBhIGJzcCwgYSBkaXN0cm8sIHNvbWV0aGluZyBl
+bHNlLCBvciBhIGNvbWJpbmF0aW9uIiwgb3IgcGVyaGFwcyBvdGhlciBtZWFuaW5nZnVsIGluZm9y
+bWF0aW9uLg0KDQo=
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...gl-context-priority.c-Use-piglit_egl_get_.patch | 41 ----------------------
- meta/recipes-graphics/piglit/piglit_git.bb         |  5 ++-
- 2 files changed, 2 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+--_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
-deleted file mode 100644
-index e2e87cc..0000000
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From cb562a383229074b44db6998b85572d2abe7c363 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
--Date: Fri, 24 Nov 2017 10:31:55 -0600
--Subject: [PATCH] tests/egl/egl-context-priority.c: Use
-- piglit_egl_get_default_display
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--The entry point is not guaranteed to exist, so use the
--piglit_egl_get_default_display() helper which does the correct thing.
--
--Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
--Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
--Reviewed-by: Tapani Pälli <tapani.palli@intel.com>
--Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
--
--Upstream-Status: Backport
--
--https://cgit.freedesktop.org/piglit/commit/?id=cb562a3832
-----
-- tests/egl/egl-context-priority.c | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
--index 7f26fc614..9590ccae3 100644
----- a/tests/egl/egl-context-priority.c
--+++ b/tests/egl/egl-context-priority.c
--@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
-- 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
-- 		piglit_report_result(PIGLIT_SKIP);
-- 
---	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
---				    EGL_DEFAULT_DISPLAY, NULL);
--+	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
-- 
-- 	ok = eglInitialize(dpy, &major, &minor);
-- 	if (!ok) {
---- 
--2.11.0
--
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 2839f1d..b936ad8 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -5,12 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
- SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
--           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--# From 2017-07-03
--SRCREV = "c8f4fd9eeb298a2ef0855927f22634f794ef3eff"
-+# From 2018-02-26
-+SRCREV = "4ce0887e2f7f848d2be2e435a2d0f3c80e44ea3b"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
- 
--- 
-2.4.0
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
+b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
+bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
+cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
+bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90
+dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21z
+by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5
+bGU6bm9ybWFsOw0KCXRleHQtZGVjb3JhdGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERlZmF1bHQN
+Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNh
+bnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rp
+b24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBw
+dCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48
+L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0i
+ZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1z
+byA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9
+ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8
+L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2
+IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5X
+ZWxsLCB0aGVyZSBpcyBhIGJlbmVmaXQgaW4gaGF2aW5nIGEgY29tbW9uIG5hbWluZyBmb3IgbGF5
+ZXJzIGluIHRoYXQgaXQgaXMgcG9zc2libGUgdG8gZWFzaWx5IGlkZW50aWZ5IHRoZW0gcHJvZ3Jh
+bW1hdGljYWxseS4gRS5nLiwgb3VyIHNldHVwIHdpbGwgYXV0b21hdGljYWxseSB0YWtlIGFsbA0K
+IGNoZWNrZWQgb3V0IGxheWVycyBuYW1lZCDigJxtZXRhKuKAnSBhbmQgYWRkIHRoZW0gdG8gdGhl
+IGJibGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUuIFRoYXQgc2FpZCwgdGhlIG5hbWUg4oCcbWV0YeKA
+nSBhcyBpdCBoYXMgYmVlbiB1c2VkLCBib3RoIGZvciBhIHNwZWNpZmljIGxheWVyIChpLmUuLCBt
+ZXRhKSwgYXMgcHJlZml4IGZvciBpbmRpdmlkdWFsIGxheWVycyAoZS5nLiwgbWV0YS1vZSkgYW5k
+IGFzIHByZWZpeCBmb3IgYSBncm91cCBvZiBsYXllcnMgKGUuZy4sDQogbWV0YS1vcGVuZW1iZWRk
+ZWQpLCBpcyBtb3N0bHkgY29uZnVzaW5n4oCmPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21z
+by1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2
+MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9y
+OiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUg
+MS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9y
+ZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNt
+IDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZy
+b206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyI+IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
+ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
+ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10NCjxiPk9uIEJlaGFsZiBPZiA8L2I+VHJldm9yIFdv
+ZXJuZXI8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDI3IGZlYnJ1YXJpIDIwMTggMTY6Mjc8YnI+DQo8
+Yj5Ubzo8L2I+IE9wZW5FbWJlZGRlZCBEZXZlbCBMaXN0ICZsdDtvcGVuZW1iZWRkZWQtZGV2ZWxA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs7IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0
+IHRoZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtvZV0gW1JGQ10g
+UmVuYW1lIG1ldGEtb3BlbmVtYmVkZGVkIHRvIG9wZW5lbWJlZGRlZC1leHRyYXM8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5PbiBGcmksIEZlYiAyMywgMjAxOCBhdCAxMDo0OCBQTSwgRGVueXMgRG15dHJpeWVua28gJmx0
+OzxhIGhyZWY9Im1haWx0bzpkZW5pc0BkZW5peC5vcmciIHRhcmdldD0iX2JsYW5rIj5kZW5pc0Bk
+ZW5peC5vcmc8L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxl
+PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNt
+IDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj5PbiBUaHUsIEZlYiAyMiwgMjAxOCBhdCAxMjozNzo0NFBNIC0wODAw
+LCBha3VzdGVyODA4IHdyb3RlOjxicj4NCiZndDsgSSB0aGluayBvcGVuZW1iZWRlZGQtY29yZSBp
+cyBpbmNvcnJlY3QuIGl0IHNob3VsZCBoYXZlIGJlZW48YnI+DQomZ3Q7IG1ldGEtb3BlbmJlZGRl
+ZC1jb3JlIG9yIG1ldGEtY29yZS48YnI+DQo8YnI+DQpJdCBkb2VzIGhhdmUgYSBsYXllciBjYWxs
+ZWQganVzdCAmcXVvdDttZXRhJnF1b3Q7IHRob3VnaC4uLjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9j
+a3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0
+b206MTIuMHB0Ij5JbiByZXRyb3NwZWN0LCB1c2luZyB0aGUgd29yZCAmcXVvdDttZXRhJnF1b3Q7
+IGV2ZXJ5d2hlcmUgYmVjb21lcyB1c2VsZXNzLiBObyBsYXllciBjb250YWlucyBhY3R1YWwgc291
+cmNlcyBhbmQgbmV2ZXIgc2hvdWxkLCBzbyB0aGV5J3JlIGFsbCAmcXVvdDttZXRhJnF1b3Q7IGRh
+dGEsIGl0J3MgcmVkdW5kYW50IHRvIGhhdmUgdG8gc2F5IHNvIGluIGV2ZXJ5IGxheWVyJ3MgbmFt
+ZSAoZXRjKS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPkl0IHdvdWxkIGhhdmUgYmVlbiBiZXR0ZXIgdG8gdXNlIHRoYXQgc3BhY2UgdG8gY29udmV5
+IHNvbWV0aGluZyBtZWFuaW5nZnVsLCBzdWNoIGFzOiAmcXVvdDt3aGV0aGVyIGEgbGF5ZXIgd2Fz
+IGRlc2lnbmVkIHRvIGJlIGEgYnNwLCBhIGRpc3Rybywgc29tZXRoaW5nIGVsc2UsIG9yIGEgY29t
+YmluYXRpb24mcXVvdDssIG9yIHBlcmhhcHMgb3RoZXIgbWVhbmluZ2Z1bCBpbmZvcm1hdGlvbi48
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5
+Pg0KPC9odG1sPg0K
 
-
+--_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_--
