@@ -1,48 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D7C5178726
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E169606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 00:39:46 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id c11-v6so6913764plo.0
+	Tue, 27 Feb 2018 03:02:12 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id w63so13342423ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Feb 2018 16:39:48 -0800 (PST)
+	Mon, 26 Feb 2018 19:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bmxoricLWeZ/WeBIpo+by0fMc7a8pSW49PF21U7DeTU=;
-	b=UT4zz7hY1MidI+A8ihVCblQwEZ3pFbVNz+IVSkRETOGgCqojHXoFrDSi0hz+tvzdW6
-	xVrQYmvQ5seSK6Mj1ZqTW8cNkIH9Jr2ZLB+SzhhtrtMpouXMeubp4c1LotJOxISflsY0
-	qOxZu3PBjrmI+ePDr+Nn/iuwRlnwNnNTjDrJf+b1a3EIFzQGgHyKH9KU4yR50zmMPE2r
-	8/djVjTG/ncpqnhfN2+Aa3GS3mQGR1LeXO/frQ6b1f8tFh2eChHCmasuH1aNem8bfZuo
-	Ez8ELqGvLk7BEQE1J2Qe+e93K8dmtjTbyg7IssgOobRWyz1U9BUDXOXCZNRRR/8z/OGq
-	TFTA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4ImSPFixO1/ZsNNoB4xWKncb9X9ZW5TNG3Hpu+2DzPU=;
+	b=QdH/HdxfQJZ66r2P+WQxY4y0OWZjjZO5OO567VtsL+oP2MA7RZO8+6SrpOpfFVO1iE
+	J2VWIABhCKEaLajYEcgxA9Wx07pXMReRDM9RALQ9Lz/pddzT1Qi6reD/+MtFNOPbtsIO
+	9kwnKH7X3QLqTxePbQCwXMCbgeuubxxKJCF+MjzFGCnPhGN6htb4/aThSlDk2RJo9c1k
+	ZgJlzjPrRIyDidjULJw7eXekKJa6Hg5nNyLefogzoJR6o5Q5Y01JFwgDDqSnO+lfNmnU
+	T1f1LkFUZaMBH4D18/YfFmzmlmge1FltrNuyEfQUuElXHhY3G94/yMxw+bWCdTbEMNPP
+	S70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bmxoricLWeZ/WeBIpo+by0fMc7a8pSW49PF21U7DeTU=;
-	b=Q2/cX1e8VLoHcwT9z/vKzzzVTKqKF4JUwws+DausbRJSc9zXPHlTk9impGCF2Sny9M
-	BXWkQNVUFXt/uvioShueNTVeu1YU2pw6xpB/CsoHtKwmwKkeOEXxhOVPOXONOGKZas3M
-	1/KfdsoXULxTez/n+N0Sxod+2NKd7CnXMJOpA8oEEzP+aXdFBqlxvskYiVBs9w+MwDnl
-	v6pG8gcjLH8fLVuHTX9JGDvZcO4pgX4ouWlRZkjpJf4BswjpMbkaIohN81nxAimGaFB2
-	xDx4jflRCrLfIfng4H7befROlnYDpsZzbqNaoB4KeS8H5UYKQPWnUiincVlt4W+jrh17
-	fUGg==
-X-Gm-Message-State: APf1xPA4r+XwNlhnkF/vz3it/5qHN+k322W5dTVai5nTCFp6rcsTQZ87
-	T2GhqX6F8uuwoYw167l9izhZfw==
-X-Google-Smtp-Source: AG47ELvvQ2XM4eVtk9XD3rvIDOeUG6PHGVdGuuV4xe03zYjykU7FyPnK9QoqWT6uF3j3hqQ6vUEvJQ==
-X-Received: by 2002:a17:902:bd41:: with SMTP id
-	b1-v6mr5390378plx.147.1519691987681; 
-	Mon, 26 Feb 2018 16:39:47 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	m190sm15862268pga.42.2018.02.26.16.39.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 26 Feb 2018 16:39:46 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=4ImSPFixO1/ZsNNoB4xWKncb9X9ZW5TNG3Hpu+2DzPU=;
+	b=m1WbY3MPMw4A41Ha2PiBjU+h59XSi0GSsWermaczER0iDBdg2bVOMtHYodkY59UdNG
+	v0Aq07gbsNuHCW258idLhWbn/sKsICRC2jA59SpJLMxN3t/wTd5o/SMuvQR9ZaOdXTry
+	fFvRCwUEOvALadGYE4qjX3//tgc1UHK+jpQh0qNsSv/iBSA8/DGn7kGKaPRmKS7yn8a6
+	Cuth0/japI134Dj5Ai8BKyQWPE7Fs4poWbaIREozRMHneQWN2DUa+ujpxP95jZttTjBG
+	pcctWnxhGCjeQ1srba38yvOeeRdN8qIFMBtWQZPUE/ujbxZSPj0oHePn+MJW/mqW83hr
+	xawg==
+X-Gm-Message-State: APf1xPDJK6JqU/exOT7otAtsfbckNKD4qxKnd5laQF5kKruFUGhYFcAv
+	UmOi7g25SzUToUeldPxVjI3gyV7H
+X-Google-Smtp-Source: AG47ELsvGGKIi+M9syCX92KJIVq0Hh9egBF0bxQepMz1DCGZfIZ44I+G5TLCaQF2c/nLbABMLQ/Xug==
+X-Received: by 10.36.111.4 with SMTP id x4mr2542814itb.51.1519700533759;
+	Mon, 26 Feb 2018 19:02:13 -0800 (PST)
+Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
+	by smtp.gmail.com with ESMTPSA id m5sm6301932iti.2.2018.02.26.19.02.12
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 26 Feb 2018 19:02:13 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Feb 2018 16:39:40 -0800
-Message-Id: <1519691980-11486-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [krogoth][PATCH] logrotate: replace fedorahosted.org SRC_URI with github.com source
+Date: Mon, 26 Feb 2018 21:01:34 -0600
+Message-Id: <20180227030135.3120-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180226223054.5687-1-JPEWhacker@gmail.com>
+References: <20180226223054.5687-1-JPEWhacker@gmail.com>
+Subject: [PATCH v2 1/2] icecc.bbclass: Ignore more icecream vars in hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,66 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 00:39:47 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 03:02:13 -0000
 
-From: Choong YinThong <yin.thong.choong@intel.com>
+Changing ICECC_ENV_VERSION or ICECC_SCHEDULER_HOST should not cause
+recipes to rebuild
 
-fedorahosted.org was retired on March 1st, 2017. This is to
-update the SRC_URI to point to github.com.
-Update the ${PN} to ${BPN} in order to pass the autobuilder
-mulitlib enable configuration.
-
-[YOCTO #11226]
-
-Signed-off-by: Choong YinThong <yin.thong.choong@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-(cherry picked from commit b935c1e9dd17afa85a9ffe213d5f94051f585529)
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/classes/icecc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index 5f1a601..5bd3381 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "Rotates, compresses, removes and mails system log files"
- SECTION = "console/utils"
--HOMEPAGE = "https://fedorahosted.org/logrotate/"
-+HOMEPAGE = "https://github.com/logrotate/logrotate/issues"
- LICENSE = "GPLv2"
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 36dcfbe6048..6e35e3be486 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -30,7 +30,7 @@
  
- # TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
-@@ -10,14 +10,23 @@ DEPENDS="coreutils popt"
+ BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL \
+     ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL ICECC_PATH ICECC_ENV_EXEC \
+-    ICECC_CARET_WORKAROUND ICECC_CFLAGS"
++    ICECC_CARET_WORKAROUND ICECC_CFLAGS ICECC_ENV_VERSION ICECC_SCHEDULER_HOST"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+ ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
  
--SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
-+# When updating logrotate to latest upstream, SRC_URI should point to
-+# a proper release tarball from https://github.com/logrotate/logrotate/releases
-+# and we have to take the snapshot for now because there is no such
-+# tarball available for 3.9.1.
-+
-+S = "${WORKDIR}/${BPN}-r3-9-1"
-+
-+UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
-+
-+SRC_URI = "https://github.com/${BPN}/${BPN}/archive/r3-9-1.tar.gz \
-            file://act-as-mv-when-rotate.patch \
-            file://update-the-manual.patch \
-            file://disable-check-different-filesystems.patch \
-             "
- 
--SRC_URI[md5sum] = "4492b145b6d542e4a2f41e77fa199ab0"
--SRC_URI[sha256sum] = "022769e3288c80981559a8421703c88e8438b447235e36dd3c8e97cd94c52545"
-+SRC_URI[md5sum] = "8572b7c2cf9ade09a8a8e10098500fb3"
-+SRC_URI[sha256sum] = "5bf8e478c428e7744fefa465118f8296e7e771c981fb6dffb7527856a0ea3617"
- 
- PACKAGECONFIG ?= "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
 -- 
-1.9.1
+2.14.3
 
 
