@@ -1,58 +1,26 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-X-Greylist: delayed 2092 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 27 Feb 2018 19:21:55 UTC
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D93B78563
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 74BE7787D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 19:21:55 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w1RIl3Jd003156
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 19:47:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1519757223;
-	bh=D7QYsvxQrLJN+Qvf4g4DAAs9UYJuDX30PvS6yQUGR2I=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=Bfxlcc+mSBirzVWrdqOm9HtEUt8F4/u/bL+mEM0gvGi4W4UqdCkFwR7GX9vmAAiw6
-	62PulMz6bMQEI4MrjdLKwvKtsf0m7VBMVOBWBxEzz9Z8lMjGbGa++hA3566YGCgmv+
-	YBtBruTNuj3xQfL5KQQ1Hz+8ItWY8HdMcWl9gukA=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w1RIkt2n014784 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 27 Feb 2018 19:46:56 +0100
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 839652973D8;
-	Tue, 27 Feb 2018 19:38:09 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w1RIksDv014781
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Tue, 27 Feb 2018 19:46:54 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.89) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1eqkH8-0007tW-3B; Tue, 27 Feb 2018 19:46:54 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Tue, 27 Feb 2018 19:56:48 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w1RJum6s004849
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 27 Feb 2018 19:56:49 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1eqlMm-0005K9-1d; Tue, 27 Feb 2018 19:56:48 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:46:48 +0100
-Message-Id: <20180227184648.30304-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.14.3
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.75
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.83
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] oe-init-env: search 'bitbake' outside of oe-core
+Date: Tue, 27 Feb 2018 19:56:45 +0000
+Message-Id: <1519761405-20421-2-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 2/2] sstatesig/staging/package_manager: Create common sstate manifest code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,62 +33,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 19:21:56 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 19:56:49 -0000
 
-atm, 'oe-init-build-env' expects 'bitbake' to be within the OE core git
-repository.  This complicates the project setup because you have to
-manage the 'bitbake' directory or symlink manually (or specify the
-bitbake location explicitly).
+Create a common function for locating task manifest files rather than
+several implementations with missing pieces.
 
-Looking for 'bitbake' outside the main git repository will ease project
-management significantly.  Now, you can put everything into git submodules,
-clone the project with
-
-| git clone --recursive ...
-
-and continue immediately with
-
-| ..../oe-init-build-env
-
-E.g. when you had previously
-
-| .
-| |-- build/
-| `-- sources/
-|     `-- org.openembedded.core/
-|         `-- bitbake -> ../bitbake
-
-(where 'bitbake' must be created manually after cloning the project),
-you can have now
-
-| .
-| |-- build/
-| `-- sources/
-|     |-- bitbake/
-|     `-- org.openembedded.core/
-
-which is completely managed by 'git'.
-
-Patch adds $OEROOT/.. to the search path for 'bitbake'
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/oe-buildenv-internal | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/staging.bbclass   | 36 +++++-------------------------------
+ meta/lib/oe/package_manager.py | 31 +------------------------------
+ meta/lib/oe/sstatesig.py       | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 61 deletions(-)
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 77f98a32b9..6773872326 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -101,6 +101,7 @@ unset BDIR
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 1b9e84d..3fcbc9f 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -470,40 +470,14 @@ python extend_recipe_sysroot() {
  
- if [ -z "$BITBAKEDIR" ]; then
-     BITBAKEDIR="$OEROOT/bitbake$BBEXTRA"
-+    test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake$BBEXTRA"
- fi
+         os.symlink(c + "." + taskhash, depdir + "/" + c)
  
- BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
+-        d2 = d
+-        destsysroot = recipesysroot
+-        variant = ''
+-        if setscenedeps[dep][2].startswith("virtual:multilib"):
+-            variant = setscenedeps[dep][2].split(":")[2]
+-            if variant != current_variant:
+-                if variant not in multilibs:
+-                    multilibs[variant] = get_multilib_datastore(variant, d)
+-                d2 = multilibs[variant]
+-                destsysroot = d2.getVar("RECIPE_SYSROOT")
++        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, setscenedeps[dep][2], "populate_sysroot", d, multilibs)
++        destsysroot = d2.getVar("RECIPE_SYSROOT")
+ 
+         native = False
+-        if c.endswith("-native"):
+-            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
++        if c.endswith("-native") or "-cross-" in c or "-crosssdk" in c:
+             native = True
+-        elif c.startswith("nativesdk-"):
+-            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
+-        elif "-cross-" in c:
+-            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}_${TARGET_ARCH}-%s.populate_sysroot" % c)
+-            native = True
+-        elif "-crosssdk" in c:
+-            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
+-            native = True
+-        else:
+-            pkgarchs = ['${MACHINE_ARCH}']
+-            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
+-            pkgarchs.append('allarch')
+-            for pkgarch in pkgarchs:
+-                manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.populate_sysroot" % (pkgarch, c))
+-                if os.path.exists(manifest):
+-                    break
+-        if not os.path.exists(manifest):
+-            bb.warn("Manifest %s not found?" % manifest)
+-        else:
++
++        if manifest:
+             newmanifest = collections.OrderedDict()
+             if native:
+                 fm = fixme['native']
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f59eaf7..8c567be 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -507,37 +507,8 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+ 
+     for dep in rpmdeps:
+         c = taskdepdata[dep][0]
+-
+-        d2 = d
+-        variant = ''
+-        if taskdepdata[dep][2].startswith("virtual:multilib"):
+-            variant = taskdepdata[dep][2].split(":")[2]
+-            if variant not in multilibs:
+-                multilibs[variant] = oe.utils.get_multilib_datastore(variant, d)
+-            d2 = multilibs[variant]
+-
+-        if c.endswith("-native"):
+-            pkgarchs = ["${BUILD_ARCH}"]
+-        elif c.startswith("nativesdk-"):
+-            pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
+-        elif "-cross-canadian" in c:
+-            pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
+-        elif "-cross-" in c:
+-            pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
+-        elif "-crosssdk" in c:
+-            pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
+-        else:
+-            pkgarchs = ['${MACHINE_ARCH}']
+-            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
+-            pkgarchs.append('allarch')
+-            pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
+-
+-        for pkgarch in pkgarchs:
+-            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, c, taskname))
+-            if os.path.exists(manifest):
+-                break
++        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
+         if not os.path.exists(manifest):
+-            bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
+             continue
+         with open(manifest, "r") as f:
+             for l in f:
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 3a8778e..8ec5f8e 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -368,3 +368,37 @@ def sstate_get_manifest_filename(task, d):
+     if extrainf:
+         d2.setVar("SSTATE_MANMACH", extrainf)
+     return (d2.expand("${SSTATE_MANFILEPREFIX}.%s" % task), d2)
++
++def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
++    d2 = d
++    variant = ''
++    if taskdata2.startswith("virtual:multilib"):
++        variant = taskdata2.split(":")[2]
++        if variant not in multilibcache:
++            multilibcache[variant] = oe.utils.get_multilib_datastore(variant, d)
++        d2 = multilibcache[variant]
++
++    if taskdata.endswith("-native"):
++        pkgarchs = ["${BUILD_ARCH}"]
++    elif taskdata.startswith("nativesdk-"):
++        pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
++    elif "-cross-canadian" in taskdata:
++        pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
++    elif "-cross-" in taskdata:
++        pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
++    elif "-crosssdk" in taskdata:
++        pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
++    else:
++        pkgarchs = ['${MACHINE_ARCH}']
++        pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
++        pkgarchs.append('allarch')
++        pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
++
++    for pkgarch in pkgarchs:
++        manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
++        if os.path.exists(manifest):
++            return manifest, d2
++    bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++    return None, d2
++
++
 -- 
-2.14.3
+2.7.4
 
 
