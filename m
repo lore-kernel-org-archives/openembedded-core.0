@@ -1,26 +1,24 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 74BE7787D2
+	by mail.openembedded.org (Postfix) with ESMTP id 7600E787DD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 27 Feb 2018 19:56:48 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w1RJum6s004849
+	w1RJulsc004848
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 27 Feb 2018 19:56:49 GMT
+	verify=NOT); Tue, 27 Feb 2018 19:56:48 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1eqlMm-0005K9-1d; Tue, 27 Feb 2018 19:56:48 +0000
+	id 1eqlMl-0005K4-Bd; Tue, 27 Feb 2018 19:56:47 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:56:45 +0000
-Message-Id: <1519761405-20421-2-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 27 Feb 2018 19:56:44 +0000
+Message-Id: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 2/2] sstatesig/staging/package_manager: Create common sstate manifest code
+Subject: [PATCH 1/2] package_manager: Filter to only rpms we depend upon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,153 +31,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 19:56:49 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 19:56:50 -0000
 
-Create a common function for locating task manifest files rather than
-several implementations with missing pieces.
+Currently do_rootfs gets to see all rpms in the deploy directory. This filters
+that view to only rpms which the image recipe has actual depends upon which
+potentially removes some sources of confusion in the image construction.
+
+This makes builds more reproducibile and also fixes contamination issues
+where dnf picks up packages it shouldn't be able to 'see'.
+
+[YOCTO #12039]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/staging.bbclass   | 36 +++++-------------------------------
- meta/lib/oe/package_manager.py | 31 +------------------------------
- meta/lib/oe/sstatesig.py       | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 40 insertions(+), 61 deletions(-)
+ meta/lib/oe/package_manager.py         | 114 ++++++++++++++++++++++++++++++++-
+ meta/lib/oeqa/utils/package_manager.py |   3 +-
+ 2 files changed, 113 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 1b9e84d..3fcbc9f 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -470,40 +470,14 @@ python extend_recipe_sysroot() {
- 
-         os.symlink(c + "." + taskhash, depdir + "/" + c)
- 
--        d2 = d
--        destsysroot = recipesysroot
--        variant = ''
--        if setscenedeps[dep][2].startswith("virtual:multilib"):
--            variant = setscenedeps[dep][2].split(":")[2]
--            if variant != current_variant:
--                if variant not in multilibs:
--                    multilibs[variant] = get_multilib_datastore(variant, d)
--                d2 = multilibs[variant]
--                destsysroot = d2.getVar("RECIPE_SYSROOT")
-+        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, setscenedeps[dep][2], "populate_sysroot", d, multilibs)
-+        destsysroot = d2.getVar("RECIPE_SYSROOT")
- 
-         native = False
--        if c.endswith("-native"):
--            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
-+        if c.endswith("-native") or "-cross-" in c or "-crosssdk" in c:
-             native = True
--        elif c.startswith("nativesdk-"):
--            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
--        elif "-cross-" in c:
--            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}_${TARGET_ARCH}-%s.populate_sysroot" % c)
--            native = True
--        elif "-crosssdk" in c:
--            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
--            native = True
--        else:
--            pkgarchs = ['${MACHINE_ARCH}']
--            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
--            pkgarchs.append('allarch')
--            for pkgarch in pkgarchs:
--                manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.populate_sysroot" % (pkgarch, c))
--                if os.path.exists(manifest):
--                    break
--        if not os.path.exists(manifest):
--            bb.warn("Manifest %s not found?" % manifest)
--        else:
-+
-+        if manifest:
-             newmanifest = collections.OrderedDict()
-             if native:
-                 fm = fixme['native']
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f59eaf7..8c567be 100644
+index f7e0134..f59eaf7 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -507,37 +507,8 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+@@ -454,6 +454,114 @@ class PackageManager(object, metaclass=ABCMeta):
+             return res
+         return _append(uris, base_paths)
  
-     for dep in rpmdeps:
-         c = taskdepdata[dep][0]
--
--        d2 = d
--        variant = ''
--        if taskdepdata[dep][2].startswith("virtual:multilib"):
--            variant = taskdepdata[dep][2].split(":")[2]
--            if variant not in multilibs:
--                multilibs[variant] = oe.utils.get_multilib_datastore(variant, d)
--            d2 = multilibs[variant]
--
--        if c.endswith("-native"):
--            pkgarchs = ["${BUILD_ARCH}"]
--        elif c.startswith("nativesdk-"):
--            pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
--        elif "-cross-canadian" in c:
--            pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
--        elif "-cross-" in c:
--            pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
--        elif "-crosssdk" in c:
--            pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
--        else:
--            pkgarchs = ['${MACHINE_ARCH}']
--            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
--            pkgarchs.append('allarch')
--            pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
--
--        for pkgarch in pkgarchs:
--            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, c, taskname))
--            if os.path.exists(manifest):
--                break
-+        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
-         if not os.path.exists(manifest):
--            bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-             continue
-         with open(manifest, "r") as f:
-             for l in f:
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 3a8778e..8ec5f8e 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -368,3 +368,37 @@ def sstate_get_manifest_filename(task, d):
-     if extrainf:
-         d2.setVar("SSTATE_MANMACH", extrainf)
-     return (d2.expand("${SSTATE_MANFILEPREFIX}.%s" % task), d2)
++def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependencies):
++    """
++    Go through our do_package_write_X dependencies and hardlink the packages we depend
++    upon into the repo directory. This prevents us seeing other packages that may
++    have been built that we don't depend upon and also packages for architectures we don't
++    support.
++    """
++    import errno
 +
-+def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-+    d2 = d
-+    variant = ''
-+    if taskdata2.startswith("virtual:multilib"):
-+        variant = taskdata2.split(":")[2]
-+        if variant not in multilibcache:
-+            multilibcache[variant] = oe.utils.get_multilib_datastore(variant, d)
-+        d2 = multilibcache[variant]
++    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++    mytaskname = d.getVar("BB_RUNTASK")
++    pn = d.getVar("PN")
++    seendirs = set()
++    multilibs = {}
++   
++    rpm_subrepo_dir = oe.path.join(rpm_repo_dir, "rpm")
 +
-+    if taskdata.endswith("-native"):
-+        pkgarchs = ["${BUILD_ARCH}"]
-+    elif taskdata.startswith("nativesdk-"):
-+        pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
-+    elif "-cross-canadian" in taskdata:
-+        pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
-+    elif "-cross-" in taskdata:
-+        pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
-+    elif "-crosssdk" in taskdata:
-+        pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
-+    else:
-+        pkgarchs = ['${MACHINE_ARCH}']
-+        pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
-+        pkgarchs.append('allarch')
-+        pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
++    bb.utils.remove(rpm_subrepo_dir, recurse=True)
++    bb.utils.mkdirhier(rpm_subrepo_dir)
 +
-+    for pkgarch in pkgarchs:
-+        manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
-+        if os.path.exists(manifest):
-+            return manifest, d2
-+    bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-+    return None, d2
++    # Detect bitbake -b usage
++    nodeps = d.getVar("BB_LIMITEDDEPS") or False
++    if nodeps or not filterbydependencies:
++        oe.path.symlink(deploydir, rpm_subrepo_dir, True)
++        return
 +
++    start = None
++    for dep in taskdepdata:
++        data = taskdepdata[dep]
++        if data[1] == mytaskname and data[0] == pn:
++            start = dep
++            break
++    if start is None:
++        bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
++    rpmdeps = set()
++    start = [start]
++    seen = set(start)
++    # Support direct dependencies (do_rootfs -> rpms)
++    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> rpms)
++    while start:
++        next = []
++        for dep2 in start:
++            for dep in taskdepdata[dep2][3]:
++                if taskdepdata[dep][0] != pn:
++                    if "do_" + taskname in dep:
++                        rpmdeps.add(dep)
++                elif dep not in seen:
++                    next.append(dep)
++                    seen.add(dep)
++        start = next
 +
++    for dep in rpmdeps:
++        c = taskdepdata[dep][0]
++
++        d2 = d
++        variant = ''
++        if taskdepdata[dep][2].startswith("virtual:multilib"):
++            variant = taskdepdata[dep][2].split(":")[2]
++            if variant not in multilibs:
++                multilibs[variant] = oe.utils.get_multilib_datastore(variant, d)
++            d2 = multilibs[variant]
++
++        if c.endswith("-native"):
++            pkgarchs = ["${BUILD_ARCH}"]
++        elif c.startswith("nativesdk-"):
++            pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
++        elif "-cross-canadian" in c:
++            pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
++        elif "-cross-" in c:
++            pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
++        elif "-crosssdk" in c:
++            pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
++        else:
++            pkgarchs = ['${MACHINE_ARCH}']
++            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
++            pkgarchs.append('allarch')
++            pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
++
++        for pkgarch in pkgarchs:
++            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, c, taskname))
++            if os.path.exists(manifest):
++                break
++        if not os.path.exists(manifest):
++            bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++            continue
++        with open(manifest, "r") as f:
++            for l in f:
++                l = l.strip()
++                dest = l.replace(deploydir, "")
++                dest = rpm_subrepo_dir + dest
++                if l.endswith("/"):
++                    if dest not in seendirs:
++                        bb.utils.mkdirhier(dest)
++                        seendirs.add(dest)
++                    continue
++                # Try to hardlink the file, copy if that fails
++                destdir = os.path.dirname(dest)
++                if destdir not in seendirs:
++                    bb.utils.mkdirhier(destdir)
++                    seendirs.add(destdir)
++                try:
++                    os.link(l, dest)
++                except OSError as err:
++                    if err.errno == errno.EXDEV:
++                        bb.utils.copyfile(l, dest)
++                    else:
++                        raise
++
+ class RpmPM(PackageManager):
+     def __init__(self,
+                  d,
+@@ -462,7 +570,8 @@ class RpmPM(PackageManager):
+                  task_name='target',
+                  arch_var=None,
+                  os_var=None,
+-                 rpm_repo_workdir="oe-rootfs-repo"):
++                 rpm_repo_workdir="oe-rootfs-repo",
++                 filterbydependencies=True):
+         super(RpmPM, self).__init__(d)
+         self.target_rootfs = target_rootfs
+         self.target_vendor = target_vendor
+@@ -477,8 +586,7 @@ class RpmPM(PackageManager):
+             self.primary_arch = self.d.getVar('MACHINE_ARCH')
+ 
+         self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
+-        bb.utils.mkdirhier(self.rpm_repo_dir)
+-        oe.path.symlink(self.d.getVar('DEPLOY_DIR_RPM'), oe.path.join(self.rpm_repo_dir, "rpm"), True)
++        create_packages_dir(self.d, self.rpm_repo_dir, d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
+ 
+         self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+diff --git a/meta/lib/oeqa/utils/package_manager.py b/meta/lib/oeqa/utils/package_manager.py
+index 724afb2..afd5b8e 100644
+--- a/meta/lib/oeqa/utils/package_manager.py
++++ b/meta/lib/oeqa/utils/package_manager.py
+@@ -14,7 +14,8 @@ def get_package_manager(d, root_path):
+     if pkg_class == "rpm":
+         pm = RpmPM(d,
+                    root_path,
+-                   d.getVar('TARGET_VENDOR'))
++                   d.getVar('TARGET_VENDOR'),
++                   filterbydependencies=False)
+         pm.create_configs()
+ 
+     elif pkg_class == "ipk":
 -- 
 2.7.4
 
