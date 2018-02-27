@@ -1,24 +1,24 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7600E787DD
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B032571C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 19:56:48 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w1RJulsc004848
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 27 Feb 2018 19:56:48 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eqlMl-0005K4-Bd; Tue, 27 Feb 2018 19:56:47 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 27 Feb 2018 20:19:26 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 12:19:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,402,1515484800"; d="scan'208";a="34589381"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2018 12:19:27 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:56:44 +0000
-Message-Id: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 27 Feb 2018 12:19:26 -0800
+Message-Id: <1519762766-20100-1-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 1/2] package_manager: Filter to only rpms we depend upon
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] dbus-test_1.12.2: various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,176 +31,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 19:56:50 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 20:19:26 -0000
 
-Currently do_rootfs gets to see all rpms in the deploy directory. This filters
-that view to only rpms which the image recipe has actual depends upon which
-potentially removes some sources of confusion in the image construction.
+The result of running dbus-test-ptest was a series of
+various segfaults, interpreted as FAILs. This was a direct consequence
+of the test suite loading the installed shared library libdbus-1.so, not the
+one built along the test suite.
 
-This makes builds more reproducibile and also fixes contamination issues
-where dnf picks up packages it shouldn't be able to 'see'.
+While we normally want to test against the installed libraries, we cannot
+do this in this case as the test suite expects a library that is configured/compiled
+differently from the installed one. We could configure the installed library
+identically as the test suite expects, (and there should be no issues), however
+this is not desirable for performance reasons.
 
-[YOCTO #12039]
+Hence we need to use the library built along with the test suite.
+Of course, running the test suite against its own library does not
+test the installed library, however they are both built from the same
+sources so that can give us some kind of indication.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The following changes were made:
+
+1. Configure the test library as close as possible to the installed one,
+   with some additional configuration options that are needed for testing.
+   (Use dbus_1.12.2.bb recipe as a template)
+2. Include the shared libraries in the package, use LD_LIBRARY_PATH during
+   testing to load them instead of the installed ones.
+3. Add a few more tests. (There are still some additional tests built that
+   are not used, but they would have to be special-cased).
+4. When evaluating the test results, differentiate between "FAIL" and "SKIP"
+
+[YOCTO #10841]
+[YOCTO #12277]
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/lib/oe/package_manager.py         | 114 ++++++++++++++++++++++++++++++++-
- meta/lib/oeqa/utils/package_manager.py |   3 +-
- 2 files changed, 113 insertions(+), 4 deletions(-)
+ meta/recipes-core/dbus/dbus-test_1.12.2.bb | 30 ++++++++++++++++++++++++++----
+ meta/recipes-core/dbus/dbus/run-ptest      | 20 +++++++++++++++++---
+ 2 files changed, 43 insertions(+), 7 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f7e0134..f59eaf7 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -454,6 +454,114 @@ class PackageManager(object, metaclass=ABCMeta):
-             return res
-         return _append(uris, base_paths)
+diff --git a/meta/recipes-core/dbus/dbus-test_1.12.2.bb b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
+index c3891a3..a6a5ca2 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.12.2.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
+@@ -34,25 +34,47 @@ EXTRA_OECONF = "--enable-tests \
+                 --enable-checks \
+                 --enable-asserts \
+                 --enable-verbose-mode \
++                --enable-largefile \
+                 --disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+-                --disable-systemd \
+-                --without-systemdsystemunitdir \
+                 --with-dbus-test-dir=${PTEST_PATH} \
+                 ${EXTRA_OECONF_X}"
  
-+def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependencies):
-+    """
-+    Go through our do_package_write_X dependencies and hardlink the packages we depend
-+    upon into the repo directory. This prevents us seeing other packages that may
-+    have been built that we don't depend upon and also packages for architectures we don't
-+    support.
-+    """
-+    import errno
++EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
 +
-+    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-+    mytaskname = d.getVar("BB_RUNTASK")
-+    pn = d.getVar("PN")
-+    seendirs = set()
-+    multilibs = {}
-+   
-+    rpm_subrepo_dir = oe.path.join(rpm_repo_dir, "rpm")
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
++PACKAGECONFIG_class-native = ""
++PACKAGECONFIG_class-nativesdk = ""
 +
-+    bb.utils.remove(rpm_subrepo_dir, recurse=True)
-+    bb.utils.mkdirhier(rpm_subrepo_dir)
++PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
++PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
++PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
 +
-+    # Detect bitbake -b usage
-+    nodeps = d.getVar("BB_LIMITEDDEPS") or False
-+    if nodeps or not filterbydependencies:
-+        oe.path.symlink(deploydir, rpm_subrepo_dir, True)
-+        return
-+
-+    start = None
-+    for dep in taskdepdata:
-+        data = taskdepdata[dep]
-+        if data[1] == mytaskname and data[0] == pn:
-+            start = dep
-+            break
-+    if start is None:
-+        bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
-+    rpmdeps = set()
-+    start = [start]
-+    seen = set(start)
-+    # Support direct dependencies (do_rootfs -> rpms)
-+    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> rpms)
-+    while start:
-+        next = []
-+        for dep2 in start:
-+            for dep in taskdepdata[dep2][3]:
-+                if taskdepdata[dep][0] != pn:
-+                    if "do_" + taskname in dep:
-+                        rpmdeps.add(dep)
-+                elif dep not in seen:
-+                    next.append(dep)
-+                    seen.add(dep)
-+        start = next
-+
-+    for dep in rpmdeps:
-+        c = taskdepdata[dep][0]
-+
-+        d2 = d
-+        variant = ''
-+        if taskdepdata[dep][2].startswith("virtual:multilib"):
-+            variant = taskdepdata[dep][2].split(":")[2]
-+            if variant not in multilibs:
-+                multilibs[variant] = oe.utils.get_multilib_datastore(variant, d)
-+            d2 = multilibs[variant]
-+
-+        if c.endswith("-native"):
-+            pkgarchs = ["${BUILD_ARCH}"]
-+        elif c.startswith("nativesdk-"):
-+            pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
-+        elif "-cross-canadian" in c:
-+            pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
-+        elif "-cross-" in c:
-+            pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
-+        elif "-crosssdk" in c:
-+            pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
-+        else:
-+            pkgarchs = ['${MACHINE_ARCH}']
-+            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
-+            pkgarchs.append('allarch')
-+            pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
-+
-+        for pkgarch in pkgarchs:
-+            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, c, taskname))
-+            if os.path.exists(manifest):
-+                break
-+        if not os.path.exists(manifest):
-+            bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-+            continue
-+        with open(manifest, "r") as f:
-+            for l in f:
-+                l = l.strip()
-+                dest = l.replace(deploydir, "")
-+                dest = rpm_subrepo_dir + dest
-+                if l.endswith("/"):
-+                    if dest not in seendirs:
-+                        bb.utils.mkdirhier(dest)
-+                        seendirs.add(dest)
-+                    continue
-+                # Try to hardlink the file, copy if that fails
-+                destdir = os.path.dirname(dest)
-+                if destdir not in seendirs:
-+                    bb.utils.mkdirhier(destdir)
-+                    seendirs.add(destdir)
-+                try:
-+                    os.link(l, dest)
-+                except OSError as err:
-+                    if err.errno == errno.EXDEV:
-+                        bb.utils.copyfile(l, dest)
-+                    else:
-+                        raise
-+
- class RpmPM(PackageManager):
-     def __init__(self,
-                  d,
-@@ -462,7 +570,8 @@ class RpmPM(PackageManager):
-                  task_name='target',
-                  arch_var=None,
-                  os_var=None,
--                 rpm_repo_workdir="oe-rootfs-repo"):
-+                 rpm_repo_workdir="oe-rootfs-repo",
-+                 filterbydependencies=True):
-         super(RpmPM, self).__init__(d)
-         self.target_rootfs = target_rootfs
-         self.target_vendor = target_vendor
-@@ -477,8 +586,7 @@ class RpmPM(PackageManager):
-             self.primary_arch = self.d.getVar('MACHINE_ARCH')
+ do_install() {
+     :
+ }
  
-         self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
--        bb.utils.mkdirhier(self.rpm_repo_dir)
--        oe.path.symlink(self.d.getVar('DEPLOY_DIR_RPM'), oe.path.join(self.rpm_repo_dir, "rpm"), True)
-+        create_packages_dir(self.d, self.rpm_repo_dir, d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
+ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/test
+-	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay"
++	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay \
++	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass "
+ 	for i in $l; do install ${B}/test/.libs/test-$i ${D}${PTEST_PATH}/test; done
++
+ 	l="bus bus-system bus-launch-helper"
+ 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
+-	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
++
+ 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
++	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
++
++	install -d ${D}${PTEST_PATH}/test/.libs
++	cp -a ${B}/dbus/.libs/*.so* ${D}${PTEST_PATH}/test/.libs
++
++	# Remove build host references...
++	find "${D}${PTEST_PATH}/test/data" \( -name *.service -o -name *.conf \) -type f -exec \
++		sed -i \
++		 -e 's:${B}:${PTEST_PATH}:g' \
++		 {} +
+ }
++
+ RDEPENDS_${PN}-ptest += "bash"
+diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus/dbus/run-ptest
+index c72d083..8a8970e 100755
+--- a/meta/recipes-core/dbus/dbus/run-ptest
++++ b/meta/recipes-core/dbus/dbus/run-ptest
+@@ -1,10 +1,24 @@
+ #!/bin/sh
  
-         self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
-         if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
-diff --git a/meta/lib/oeqa/utils/package_manager.py b/meta/lib/oeqa/utils/package_manager.py
-index 724afb2..afd5b8e 100644
---- a/meta/lib/oeqa/utils/package_manager.py
-+++ b/meta/lib/oeqa/utils/package_manager.py
-@@ -14,7 +14,8 @@ def get_package_manager(d, root_path):
-     if pkg_class == "rpm":
-         pm = RpmPM(d,
-                    root_path,
--                   d.getVar('TARGET_VENDOR'))
-+                   d.getVar('TARGET_VENDOR'),
-+                   filterbydependencies=False)
-         pm.create_configs()
+ output() {
+-  if [ $? -eq 0 ]
++  retcode=$?
++  if [ $retcode -eq 0 ]
+     then echo "PASS: $i"
+-    else echo "FAIL: $i"
++  elif [ $retcode -eq 77 ]
++    then echo "SKIP: $i"
++  else echo "FAIL: $i"
+   fi
+ }
  
-     elif pkg_class == "ipk":
+-for i in `ls test/test-*`; do ./$i ./test/data DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
++export DBUS_TEST_HOMEDIR=./test
++export XDG_RUNTIME_DIR=./test
++export LD_LIBRARY_PATH=/usr/lib/dbus-test/ptest/test/.libs
++
++files=`ls test/test-*`
++
++for i in $files
++	do
++		./$i ./test/data >/dev/null
++		output
++	done
++
 -- 
 2.7.4
 
