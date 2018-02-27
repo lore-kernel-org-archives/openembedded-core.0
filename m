@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7100278278;
-	Tue, 27 Feb 2018 03:35:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 9226678267;
+	Tue, 27 Feb 2018 03:35:19 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 27 Feb 2018 03:35:20 -0000
-Message-ID: <20180227033520.15539.63239@do.openembedded.org>
+Date: Tue, 27 Feb 2018 03:35:21 -0000
+Message-ID: <20180227033521.15539.68984@do.openembedded.org>
 References: <20180226223054.5687-1-JPEWhacker@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20180226223054.5687-1-JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImljZWNjLmJiY2xhc3M6IElnbm9yZSBtb3JlIGljZS4uLiIgYW5kIDEgbW9yZSAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImljZWNjLmJiY2xhc3M6IElnbm9yZSBtb3JlIGljZS4uLiIgYW5kIDEgbW9yZSAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 03:35:18 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 03:35:19 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "icecc.bbclass: Ignore more ice..." and 1 more (rev2)
-Revision: 2
+Series: "icecc.bbclass: Ignore more ice..." and 1 more (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/11106/
 State : failure
 
@@ -44,6 +44,10 @@ an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
 
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at b30153a157)
 
 * Patch            [2/2] Ignore icecc-create-env in task signature
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
