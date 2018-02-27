@@ -1,58 +1,62 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93DBC7878B;
-	Tue, 27 Feb 2018 16:56:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 32204185CE;
-	Tue, 27 Feb 2018 17:56:59 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id zNB9zkPXoDi0; Tue, 27 Feb 2018 17:56:58 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id DD65E1858D;
-	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CB4881A081;
-	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B64EE1A07F;
-	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id AA5651AFC;
-	Tue, 27 Feb 2018 17:56:57 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Tue, 27 Feb 2018 17:56:57 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Tue, 27 Feb 2018 17:56:57 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Trevor Woerner <twoerner@gmail.com>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>, "Patches and discussions about
-	the oe-core layer" <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [oe] [RFC] Rename meta-openembedded to
-	openembedded-extras
-Thread-Index: AQHTr993RXcPnvEtT0Sk9kytfXmEJaO4dVmw
-Date: Tue, 27 Feb 2018 16:56:57 +0000
-Message-ID: <63be8ac8a2744c64b18e252afd2e6307@XBOX02.axis.com>
-References: <CAAQYJAudtnFaY1S2j6FF_pN9B1OJhN-6fEBY8nWCtM73Kx8tSw@mail.gmail.com>
-	<0bb858dc-a43f-ae14-01c9-2a42855e4409@gmail.com>
-	<20180224034807.GF2786@denix.org>
-	<CAHUNapQYRJ=qNnQt8GT7eZ+m=iOdFDRWnY4Vuu4twB+VLA05jw@mail.gmail.com>
-In-Reply-To: <CAHUNapQYRJ=qNnQt8GT7eZ+m=iOdFDRWnY4Vuu4twB+VLA05jw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4B9787DE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Feb 2018 17:16:37 +0000 (UTC)
+Received: by mail-ot0-f174.google.com with SMTP id y11so4493808otg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Feb 2018 09:16:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=UIGfBXgN+llI7OJa+/KPF0QH6yJdiR9B32A1lH0RsXQ=;
+	b=WuHQ+oO7oocKumluHlWxGGMSuptdW7TX5W1uxKKORfxvXMj+lWBhnvBNnx/UaXGDBY
+	CvTuwxewiA50FgQnwwU9JhEGOSYbb9iWZDhkUpNM55I2GBq7bpW/5YNWSwiFkur4E2JU
+	cOPKVt4YkFgUldm0vBA5JptO/y6K4xiq6BD7qusNpc9RRzuKxfgpbBijlerBt/ec1lpn
+	9pQ85EmaRrAT7T5CYw2O9Jv1IVLrHsUFzYYPRItGqZcy6Z+hRHBhpIVZQfhaGR3JZJOL
+	9Fhy1m+Mqyyqi+lWqjTlZkvRuZ281dfEPiogbkt2itGYU0tzf0KOJ0V7PZeqFneD1T3m
+	tR0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=UIGfBXgN+llI7OJa+/KPF0QH6yJdiR9B32A1lH0RsXQ=;
+	b=JqYZO069GhZ9DB2vpoRkbE1EaH73Ba/wlG3bTAs78C2354hxBxczVipid/q5jSUSNZ
+	lmf/xoiyevALznv84uKVfoeHU3NXvEbAmo5My0Z4mizlSeety8bj8Q9bAxXdb665UdYH
+	T7WV/M5UrBcL8WcTpcGFKj1kpvVRMWsgEVxKLKPSOjdJjvaX6Oyx6q4paaImHUKPSM7X
+	3mJgqBYLuUoT2XynWQ/IM+WtogCL6AmUyNF/0AObCxM9BjShF8CKJqBgrsnCU0sw5TJH
+	yaLfVNwl67nbd3yZXDLR+iE3ZimfvUPHhrQOo8IiW3pXdC6x+M/xbjyGeVmfCeAp7Bxe
+	gBxA==
+X-Gm-Message-State: AElRT7GbW5AfNCuPoobz2YeGkk4X+AVP2zvLFHB/6nvKd2iLnVLGHZfN
+	uYq2G7eT0vDiEbN3vG6bJwhsLwgS
+X-Google-Smtp-Source: AG47ELvXl3vWHboUSmNoDFUEro0E4Av+TdDdefaPiFt/0TBzY0t+YceTcQXzc7Lop8cls2zzI/EH+Q==
+X-Received: by 10.157.90.5 with SMTP id v5mr1762321oth.349.1519751798543;
+	Tue, 27 Feb 2018 09:16:38 -0800 (PST)
+Received: from mail-ot0-f169.google.com (mail-ot0-f169.google.com.
+	[74.125.82.169])
+	by smtp.gmail.com with ESMTPSA id o8sm52872ota.23.2018.02.27.09.16.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Feb 2018 09:16:37 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot0-f169.google.com with SMTP id m22so4452477otf.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Feb 2018 09:16:37 -0800 (PST)
+X-Received: by 10.157.66.4 with SMTP id q4mr11371077ote.327.1519751796733;
+	Tue, 27 Feb 2018 09:16:36 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [oe] [RFC] Rename meta-openembedded to	openembedded-extras
+Received: by 10.157.80.129 with HTTP; Tue, 27 Feb 2018 09:16:36 -0800 (PST)
+In-Reply-To: <20180227123634.2812-1-matt@madison.systems>
+References: <20180227123634.2812-1-matt@madison.systems>
+Date: Tue, 27 Feb 2018 14:16:36 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpB38Kpfj3EUdGNM+dL_A0VM03mP0isV4Vg_0DZ8Jw14w@mail.gmail.com>
+Message-ID: <CAP9ODKpB38Kpfj3EUdGNM+dL_A0VM03mP0isV4Vg_0DZ8Jw14w@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/8] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,138 +69,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 16:56:59 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_"
+X-List-Received-Date: Tue, 27 Feb 2018 17:16:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Feb 27, 2018 at 9:36 AM, Matt Madison <matt@madison.systems> wrote:
+> New in v2:
+>     * Fixed Upstream-Status line in go patches
+>     * Added GOTMPDIR to do_configure[dirs]
+>
+> Updates to the go recipes and bbclasses for go1.10, which
+> moves the bulk of the toolchain bootstrap and build out
+> of the 'make.bash' script and to the 'dist' tool.  This
+> required a rework of the patches.
+>
+> go1.10 introduces significant changes to the go build
+> tool as well, requiring some further patches to make
+> it work for OE builds.
+>
+> See https://golang.org/doc/go1.10 for a complete list
+> of new features and changes.
+>
+> Following the update are some cleanup/improvement
+> patches.
 
-V2VsbCwgdGhlcmUgaXMgYSBiZW5lZml0IGluIGhhdmluZyBhIGNvbW1vbiBuYW1pbmcgZm9yIGxh
-eWVycyBpbiB0aGF0IGl0IGlzIHBvc3NpYmxlIHRvIGVhc2lseSBpZGVudGlmeSB0aGVtIHByb2dy
-YW1tYXRpY2FsbHkuIEUuZy4sIG91ciBzZXR1cCB3aWxsIGF1dG9tYXRpY2FsbHkgdGFrZSBhbGwg
-Y2hlY2tlZCBvdXQgbGF5ZXJzIG5hbWVkIOKAnG1ldGEq4oCdIGFuZCBhZGQgdGhlbSB0byB0aGUg
-YmJsYXllcnMuY29uZi5zYW1wbGUgZmlsZS4gVGhhdCBzYWlkLCB0aGUgbmFtZSDigJxtZXRh4oCd
-IGFzIGl0IGhhcyBiZWVuIHVzZWQsIGJvdGggZm9yIGEgc3BlY2lmaWMgbGF5ZXIgKGkuZS4sIG1l
-dGEpLCBhcyBwcmVmaXggZm9yIGluZGl2aWR1YWwgbGF5ZXJzIChlLmcuLCBtZXRhLW9lKSBhbmQg
-YXMgcHJlZml4IGZvciBhIGdyb3VwIG9mIGxheWVycyAoZS5nLiwgbWV0YS1vcGVuZW1iZWRkZWQp
-LCBpcyBtb3N0bHkgY29uZnVzaW5n4oCmDQoNCi8vUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YgVHJldm9y
-IFdvZXJuZXINClNlbnQ6IGRlbiAyNyBmZWJydWFyaSAyMDE4IDE2OjI3DQpUbzogT3BlbkVtYmVk
-ZGVkIERldmVsIExpc3QgPG9wZW5lbWJlZGRlZC1kZXZlbEBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PjsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtvZV0gW1JGQ10gUmVuYW1lIG1ldGEtb3BlbmVtYmVkZGVkIHRvIG9wZW5lbWJlZGRlZC1l
-eHRyYXMNCg0KT24gRnJpLCBGZWIgMjMsIDIwMTggYXQgMTA6NDggUE0sIERlbnlzIERteXRyaXll
-bmtvIDxkZW5pc0BkZW5peC5vcmc8bWFpbHRvOmRlbmlzQGRlbml4Lm9yZz4+IHdyb3RlOg0KT24g
-VGh1LCBGZWIgMjIsIDIwMTggYXQgMTI6Mzc6NDRQTSAtMDgwMCwgYWt1c3RlcjgwOCB3cm90ZToN
-Cj4gSSB0aGluayBvcGVuZW1iZWRlZGQtY29yZSBpcyBpbmNvcnJlY3QuIGl0IHNob3VsZCBoYXZl
-IGJlZW4NCj4gbWV0YS1vcGVuYmVkZGVkLWNvcmUgb3IgbWV0YS1jb3JlLg0KDQpJdCBkb2VzIGhh
-dmUgYSBsYXllciBjYWxsZWQganVzdCAibWV0YSIgdGhvdWdoLi4uDQoNCkluIHJldHJvc3BlY3Qs
-IHVzaW5nIHRoZSB3b3JkICJtZXRhIiBldmVyeXdoZXJlIGJlY29tZXMgdXNlbGVzcy4gTm8gbGF5
-ZXIgY29udGFpbnMgYWN0dWFsIHNvdXJjZXMgYW5kIG5ldmVyIHNob3VsZCwgc28gdGhleSdyZSBh
-bGwgIm1ldGEiIGRhdGEsIGl0J3MgcmVkdW5kYW50IHRvIGhhdmUgdG8gc2F5IHNvIGluIGV2ZXJ5
-IGxheWVyJ3MgbmFtZSAoZXRjKS4NCkl0IHdvdWxkIGhhdmUgYmVlbiBiZXR0ZXIgdG8gdXNlIHRo
-YXQgc3BhY2UgdG8gY29udmV5IHNvbWV0aGluZyBtZWFuaW5nZnVsLCBzdWNoIGFzOiAid2hldGhl
-ciBhIGxheWVyIHdhcyBkZXNpZ25lZCB0byBiZSBhIGJzcCwgYSBkaXN0cm8sIHNvbWV0aGluZyBl
-bHNlLCBvciBhIGNvbWJpbmF0aW9uIiwgb3IgcGVyaGFwcyBvdGhlciBtZWFuaW5nZnVsIGluZm9y
-bWF0aW9uLg0KDQo=
+I tested those patches and they are working fine. I pinged Matt
+specifically about one patch that seems that could be simplified. So
+please wait until we get back on this before merging it.
 
---_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+If possible to put this on MUT so we see if any issue is raised up,
+it'd be good as well :-)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
-OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
-cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
-b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
-bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
-cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
-bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90
-dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
-bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21z
-by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5
-bGU6bm9ybWFsOw0KCXRleHQtZGVjb3JhdGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERlZmF1bHQN
-Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNh
-bnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rp
-b24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBw
-dCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48
-L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0i
-ZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1z
-byA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9
-ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8
-L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2
-IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5X
-ZWxsLCB0aGVyZSBpcyBhIGJlbmVmaXQgaW4gaGF2aW5nIGEgY29tbW9uIG5hbWluZyBmb3IgbGF5
-ZXJzIGluIHRoYXQgaXQgaXMgcG9zc2libGUgdG8gZWFzaWx5IGlkZW50aWZ5IHRoZW0gcHJvZ3Jh
-bW1hdGljYWxseS4gRS5nLiwgb3VyIHNldHVwIHdpbGwgYXV0b21hdGljYWxseSB0YWtlIGFsbA0K
-IGNoZWNrZWQgb3V0IGxheWVycyBuYW1lZCDigJxtZXRhKuKAnSBhbmQgYWRkIHRoZW0gdG8gdGhl
-IGJibGF5ZXJzLmNvbmYuc2FtcGxlIGZpbGUuIFRoYXQgc2FpZCwgdGhlIG5hbWUg4oCcbWV0YeKA
-nSBhcyBpdCBoYXMgYmVlbiB1c2VkLCBib3RoIGZvciBhIHNwZWNpZmljIGxheWVyIChpLmUuLCBt
-ZXRhKSwgYXMgcHJlZml4IGZvciBpbmRpdmlkdWFsIGxheWVycyAoZS5nLiwgbWV0YS1vZSkgYW5k
-IGFzIHByZWZpeCBmb3IgYSBncm91cCBvZiBsYXllcnMgKGUuZy4sDQogbWV0YS1vcGVuZW1iZWRk
-ZWQpLCBpcyBtb3N0bHkgY29uZnVzaW5n4oCmPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21z
-by1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2
-MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9y
-OiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
-cGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUg
-MS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9y
-ZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNt
-IDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZy
-b206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyI+IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10NCjxiPk9uIEJlaGFsZiBPZiA8L2I+VHJldm9yIFdv
-ZXJuZXI8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDI3IGZlYnJ1YXJpIDIwMTggMTY6Mjc8YnI+DQo8
-Yj5Ubzo8L2I+IE9wZW5FbWJlZGRlZCBEZXZlbCBMaXN0ICZsdDtvcGVuZW1iZWRkZWQtZGV2ZWxA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs7IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0
-IHRoZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtvZV0gW1JGQ10g
-UmVuYW1lIG1ldGEtb3BlbmVtYmVkZGVkIHRvIG9wZW5lbWJlZGRlZC1leHRyYXM8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij5PbiBGcmksIEZlYiAyMywgMjAxOCBhdCAxMDo0OCBQTSwgRGVueXMgRG15dHJpeWVua28gJmx0
-OzxhIGhyZWY9Im1haWx0bzpkZW5pc0BkZW5peC5vcmciIHRhcmdldD0iX2JsYW5rIj5kZW5pc0Bk
-ZW5peC5vcmc8L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxl
-PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNt
-IDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5PbiBUaHUsIEZlYiAyMiwgMjAxOCBhdCAxMjozNzo0NFBNIC0wODAw
-LCBha3VzdGVyODA4IHdyb3RlOjxicj4NCiZndDsgSSB0aGluayBvcGVuZW1iZWRlZGQtY29yZSBp
-cyBpbmNvcnJlY3QuIGl0IHNob3VsZCBoYXZlIGJlZW48YnI+DQomZ3Q7IG1ldGEtb3BlbmJlZGRl
-ZC1jb3JlIG9yIG1ldGEtY29yZS48YnI+DQo8YnI+DQpJdCBkb2VzIGhhdmUgYSBsYXllciBjYWxs
-ZWQganVzdCAmcXVvdDttZXRhJnF1b3Q7IHRob3VnaC4uLjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9j
-a3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0
-b206MTIuMHB0Ij5JbiByZXRyb3NwZWN0LCB1c2luZyB0aGUgd29yZCAmcXVvdDttZXRhJnF1b3Q7
-IGV2ZXJ5d2hlcmUgYmVjb21lcyB1c2VsZXNzLiBObyBsYXllciBjb250YWlucyBhY3R1YWwgc291
-cmNlcyBhbmQgbmV2ZXIgc2hvdWxkLCBzbyB0aGV5J3JlIGFsbCAmcXVvdDttZXRhJnF1b3Q7IGRh
-dGEsIGl0J3MgcmVkdW5kYW50IHRvIGhhdmUgdG8gc2F5IHNvIGluIGV2ZXJ5IGxheWVyJ3MgbmFt
-ZSAoZXRjKS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPkl0IHdvdWxkIGhhdmUgYmVlbiBiZXR0ZXIgdG8gdXNlIHRoYXQgc3BhY2UgdG8gY29udmV5
-IHNvbWV0aGluZyBtZWFuaW5nZnVsLCBzdWNoIGFzOiAmcXVvdDt3aGV0aGVyIGEgbGF5ZXIgd2Fz
-IGRlc2lnbmVkIHRvIGJlIGEgYnNwLCBhIGRpc3Rybywgc29tZXRoaW5nIGVsc2UsIG9yIGEgY29t
-YmluYXRpb24mcXVvdDssIG9yIHBlcmhhcHMgb3RoZXIgbWVhbmluZ2Z1bCBpbmZvcm1hdGlvbi48
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
-PiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5
-Pg0KPC9odG1sPg0K
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---_000_63be8ac8a2744c64b18e252afd2e6307XBOX02axiscom_--
