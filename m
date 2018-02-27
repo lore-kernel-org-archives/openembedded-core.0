@@ -1,30 +1,33 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id B57226FF9F
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FC8E605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 21:15:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 13:15:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,402,1515484800"; d="scan'208";a="178556539"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga004.jf.intel.com with ESMTP; 27 Feb 2018 13:15:11 -0800
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180226201216.33204-1-california.l.sullivan@intel.com>
-	<20180226201216.33204-17-california.l.sullivan@intel.com>
-	<1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <aa6641df-8612-7d06-6441-fdd85c7e09a8@intel.com>
-Date: Tue, 27 Feb 2018 13:15:11 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Tue, 27 Feb 2018 21:36:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 07499209AC;
+	Tue, 27 Feb 2018 21:36:40 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id V3fHw7o4fYaP; Tue, 27 Feb 2018 21:36:39 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id D7F302005F;
+	Tue, 27 Feb 2018 21:36:38 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 6B0FD1632DC; Tue, 27 Feb 2018 16:36:38 -0500 (EST)
+Date: Tue, 27 Feb 2018 16:36:38 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20180227213638.GN2786@denix.org>
+References: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
-Subject: Re: [PATCH 16/16] init-install.sh: support multiple kernels and don't assume vmlinuz
+In-Reply-To: <1519761405-20421-1-git-send-email-richard.purdie@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] package_manager: Filter to only rpms we depend upon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,117 +40,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 21:15:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 27 Feb 2018 21:36:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Is it specific and/or limited to RPMs? How about other package managers?
 
 
-
-On 02/27/2018 01:46 AM, Anuj Mittal wrote:
-> Hi Cal,
->
-> On 02/27/2018 04:12 AM, California Sullivan wrote:
->> Since kernels will not necessarily be installed as vmlinuz anymore,
->> don't assume that's its name for either the bootloader config or the
->> copy of the kernel.
->>
->> Also, allow installing multiple kernels by searching for common kernel
->> names.
->>
->> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->> ---
->>   .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
->>   1 file changed, 34 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
->> index dade059c8f1..713a83092bf 100644
->> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
->> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
->> @@ -256,9 +256,34 @@ fi
->>   umount /tgt_root
->>   umount /src_root
->>   
->> +echo "Looking for kernels to use as boot target.."
->> +# Find kernel to boot to
->> +# Give user options if multiple are found
->> +kernels="$(find /run/media/$1/ -type f  \
->> +           -name bzImage* -o -name zImage* \
->> +           -o -name vmlinux* -o -name vmlinuz* \
->> +           -o -name fitImage* \
->> +           | sed s:.*/::)"
->> +if [ -n "$(echo $kernels)" ]; then
->> +    # only one kernel entry if no space
->> +    if [ -z "$(echo $kernels | grep " ")" ]; then
->> +        kernel=$kernels
->> +        echo "$kernel will be used as the boot target"
->> +    else
->> +        echo "Which kernel do we want to boot by default? The following kernels were found:"
->> +        echo $kernels
->> +        read answer
->> +        kernel=$answer
->> +    fi
->> +else
->> +    echo "No kernels found, exiting..."
->> +    exit 1
->> +fi
->> +
-> We probably shouldn't be exiting this script at this point since we've
-> already made the partitions and copied everything except the kernel.
->
-> Since this script is invoked for installation after booting up, I guess
-> that at this point we will have at least one kernel that we can install?
-You're right. Instead of bailing out, we should print a message that no 
-kernels were found and take user input instead. We can also use this 
-input to attempt a copy of the kernel to install, since if it wasn't 
-found here it wouldn't be found below, either. I'll make these changes 
-in a v2.
-
->
->>   # Handling of the target boot partition
->>   mount $bootfs /boot
->>   echo "Preparing boot partition..."
->> +
->>   if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
->>       echo "Preparing custom grub2 menu..."
->>       root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
->> @@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
->>       cat >$GRUBCFG <<_EOF
->>   menuentry "Linux" {
->>       search --no-floppy --fs-uuid $boot_uuid --set root
->> -    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
->> +    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
->>   }
->>   _EOF
->>       chmod 0444 $GRUBCFG
->> @@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
->>       echo "timeout 30" >> /boot/grub/menu.lst
->>       echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
->>       echo "root  (hd0,0)" >> /boot/grub/menu.lst
->> -    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
->> +    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
->>   fi
->>   
->> -cp /run/media/$1/vmlinuz /boot/
->> +# Copy kernel artifacts. To add more artifacts just add to types
->> +# For now just support kernel types already being used by something in OE-core
->> +for types in bzImage zImage vmlinux vmlinuz fitImage; do
->> +    for kernel in `find /run/media/$1/ -name $types*`; do
->> +        cp $kernel /boot
->> +    done
->> +done
-> Since the boot partition is still 20MB, there's a chance that this might
-> fail if there are enough kernels?
->
-> Perhaps the kernel selection logic should move to the top with user
-> choice and partition sizes be calculated accordingly?
-Indeed. Good catch.
-
----
-Cal
-
->
-> Thanks,
-> Anuj
-
+On Tue, Feb 27, 2018 at 07:56:44PM +0000, Richard Purdie wrote:
+> Currently do_rootfs gets to see all rpms in the deploy directory. This filters
+> that view to only rpms which the image recipe has actual depends upon which
+> potentially removes some sources of confusion in the image construction.
+> 
+> This makes builds more reproducibile and also fixes contamination issues
+> where dnf picks up packages it shouldn't be able to 'see'.
+> 
+> [YOCTO #12039]
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oe/package_manager.py         | 114 ++++++++++++++++++++++++++++++++-
+>  meta/lib/oeqa/utils/package_manager.py |   3 +-
+>  2 files changed, 113 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index f7e0134..f59eaf7 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -454,6 +454,114 @@ class PackageManager(object, metaclass=ABCMeta):
+>              return res
+>          return _append(uris, base_paths)
+>  
+> +def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependencies):
+> +    """
+> +    Go through our do_package_write_X dependencies and hardlink the packages we depend
+> +    upon into the repo directory. This prevents us seeing other packages that may
+> +    have been built that we don't depend upon and also packages for architectures we don't
+> +    support.
+> +    """
+> +    import errno
+> +
+> +    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+> +    mytaskname = d.getVar("BB_RUNTASK")
+> +    pn = d.getVar("PN")
+> +    seendirs = set()
+> +    multilibs = {}
+> +   
+> +    rpm_subrepo_dir = oe.path.join(rpm_repo_dir, "rpm")
+> +
+> +    bb.utils.remove(rpm_subrepo_dir, recurse=True)
+> +    bb.utils.mkdirhier(rpm_subrepo_dir)
+> +
+> +    # Detect bitbake -b usage
+> +    nodeps = d.getVar("BB_LIMITEDDEPS") or False
+> +    if nodeps or not filterbydependencies:
+> +        oe.path.symlink(deploydir, rpm_subrepo_dir, True)
+> +        return
+> +
+> +    start = None
+> +    for dep in taskdepdata:
+> +        data = taskdepdata[dep]
+> +        if data[1] == mytaskname and data[0] == pn:
+> +            start = dep
+> +            break
+> +    if start is None:
+> +        bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+> +    rpmdeps = set()
+> +    start = [start]
+> +    seen = set(start)
+> +    # Support direct dependencies (do_rootfs -> rpms)
+> +    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> rpms)
+> +    while start:
+> +        next = []
+> +        for dep2 in start:
+> +            for dep in taskdepdata[dep2][3]:
+> +                if taskdepdata[dep][0] != pn:
+> +                    if "do_" + taskname in dep:
+> +                        rpmdeps.add(dep)
+> +                elif dep not in seen:
+> +                    next.append(dep)
+> +                    seen.add(dep)
+> +        start = next
+> +
+> +    for dep in rpmdeps:
+> +        c = taskdepdata[dep][0]
+> +
+> +        d2 = d
+> +        variant = ''
+> +        if taskdepdata[dep][2].startswith("virtual:multilib"):
+> +            variant = taskdepdata[dep][2].split(":")[2]
+> +            if variant not in multilibs:
+> +                multilibs[variant] = oe.utils.get_multilib_datastore(variant, d)
+> +            d2 = multilibs[variant]
+> +
+> +        if c.endswith("-native"):
+> +            pkgarchs = ["${BUILD_ARCH}"]
+> +        elif c.startswith("nativesdk-"):
+> +            pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
+> +        elif "-cross-canadian" in c:
+> +            pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
+> +        elif "-cross-" in c:
+> +            pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
+> +        elif "-crosssdk" in c:
+> +            pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
+> +        else:
+> +            pkgarchs = ['${MACHINE_ARCH}']
+> +            pkgarchs = pkgarchs + list(reversed(d2.getVar("PACKAGE_EXTRA_ARCHS").split()))
+> +            pkgarchs.append('allarch')
+> +            pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
+> +
+> +        for pkgarch in pkgarchs:
+> +            manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, c, taskname))
+> +            if os.path.exists(manifest):
+> +                break
+> +        if not os.path.exists(manifest):
+> +            bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
+> +            continue
+> +        with open(manifest, "r") as f:
+> +            for l in f:
+> +                l = l.strip()
+> +                dest = l.replace(deploydir, "")
+> +                dest = rpm_subrepo_dir + dest
+> +                if l.endswith("/"):
+> +                    if dest not in seendirs:
+> +                        bb.utils.mkdirhier(dest)
+> +                        seendirs.add(dest)
+> +                    continue
+> +                # Try to hardlink the file, copy if that fails
+> +                destdir = os.path.dirname(dest)
+> +                if destdir not in seendirs:
+> +                    bb.utils.mkdirhier(destdir)
+> +                    seendirs.add(destdir)
+> +                try:
+> +                    os.link(l, dest)
+> +                except OSError as err:
+> +                    if err.errno == errno.EXDEV:
+> +                        bb.utils.copyfile(l, dest)
+> +                    else:
+> +                        raise
+> +
+>  class RpmPM(PackageManager):
+>      def __init__(self,
+>                   d,
+> @@ -462,7 +570,8 @@ class RpmPM(PackageManager):
+>                   task_name='target',
+>                   arch_var=None,
+>                   os_var=None,
+> -                 rpm_repo_workdir="oe-rootfs-repo"):
+> +                 rpm_repo_workdir="oe-rootfs-repo",
+> +                 filterbydependencies=True):
+>          super(RpmPM, self).__init__(d)
+>          self.target_rootfs = target_rootfs
+>          self.target_vendor = target_vendor
+> @@ -477,8 +586,7 @@ class RpmPM(PackageManager):
+>              self.primary_arch = self.d.getVar('MACHINE_ARCH')
+>  
+>          self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
+> -        bb.utils.mkdirhier(self.rpm_repo_dir)
+> -        oe.path.symlink(self.d.getVar('DEPLOY_DIR_RPM'), oe.path.join(self.rpm_repo_dir, "rpm"), True)
+> +        create_packages_dir(self.d, self.rpm_repo_dir, d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
+>  
+>          self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
+>          if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+> diff --git a/meta/lib/oeqa/utils/package_manager.py b/meta/lib/oeqa/utils/package_manager.py
+> index 724afb2..afd5b8e 100644
+> --- a/meta/lib/oeqa/utils/package_manager.py
+> +++ b/meta/lib/oeqa/utils/package_manager.py
+> @@ -14,7 +14,8 @@ def get_package_manager(d, root_path):
+>      if pkg_class == "rpm":
+>          pm = RpmPM(d,
+>                     root_path,
+> -                   d.getVar('TARGET_VENDOR'))
+> +                   d.getVar('TARGET_VENDOR'),
+> +                   filterbydependencies=False)
+>          pm.create_configs()
+>  
+>      elif pkg_class == "ipk":
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
