@@ -1,51 +1,51 @@
 Return-Path: <jpewhacker@gmail.com>
 Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
 	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E0790786F4
+	by mail.openembedded.org (Postfix) with ESMTP id D0B0F6007A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 22:47:59 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id e7so1085480ioj.1
+	Tue, 27 Feb 2018 22:48:00 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id h23so1048044iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
+	Tue, 27 Feb 2018 14:48:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eLcMY3zk5ohfaH3k74Z1vqBQwnmDUStpOSuhBhGpAfg=;
-	b=is/kvn6WI7Raf+y+a0w1qYb9O8jbUdjCtLXuz60j9SqTZgjcDRD3M6kUF0mMOoMA0/
-	rOpZs5kPXJo407Td0UlOfiZLKBG32YS4rGvFua6WW8oltRB33w1FGXwOLk1rA+SorzE/
-	gVLRXvU8ShXq1srGFYs3VY5DbdNr24ZsTa+63MuaHOzJKtyJfB7vTo4JJYws2pHXOanX
-	Fk3xp8X6zjz6MRwxzaaPApdJCZWvk5iea78ka8d8eq6PUyXeHmvxm1Yz/Gsfb3kRPS3T
-	TXde7vcYCerQiH/vTNmd39UuD6QMK3+OIMBqXQj0CNrgtWBmtJ4RQ+IWtiOcIwrNGIms
-	tu/w==
+	bh=T2zE1YjBSB64uH+UHjyfuk7j0iijQ7uxVKErLtkIahc=;
+	b=J/xLh8C/ydGmCgHn86zF0dkxK1rBNOA9ynd7pUR8liPhHQDFFJAbJQVSd+CbKWJnb9
+	N6z4KyroZ4gGMmtAMBU9Z2tBJwYapH9p+eOFXWzd4vykJFXGp0IGF0OuyX8SEUX6uft4
+	5b2MMuf29B4kWaqJ/5ubY9xbBjK+/Fh8Mgq7pgj27eZx1/D8IWaP8/II3opXrfLrQ4RF
+	jpzDym2Q/x05sZ15nIHbYoeSHVEkQ4xF1ejx4JKuGtkpvn7HWoHQgJj7dq5xC9pTXvaw
+	3o280IZKI0wuzraqDy1vzBfQQlwEwqUDOcbe1J/2vLaozSbjDrRoLm9L0+gjIlDCvuIF
+	RekQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eLcMY3zk5ohfaH3k74Z1vqBQwnmDUStpOSuhBhGpAfg=;
-	b=oZ+SbnmXdkriNG/ypRYigridouSv7nrs+JbNsybX+AZ85uhC6jn4bH4YXzI9ggA909
-	LXkI4y8R2rwOdXY2nMlBVgh4AZAQ/IWqWnFwxFExhRVEpSdwvWUBmDWkkUFItaddIaDV
-	Sv1j0nNursHSl5NpkKVnHlzDp0p2I6jvRMbAVB1Za6vvTonmRUNPGSQupf6eVnK0wJAS
-	TD8ZbEsDreRvcqCgvyZUM4Vpfuzc5KxnsNPi1WGh4iSCpUXoWbO+bnE/zuJt4kf+zdwx
-	JNDLzvNk35VMlWV90/anQqsGZ/kkF1ZL6/a8kZquShS4LanP2tg1jU2OHMZxWlpkNbvO
-	NFoQ==
-X-Gm-Message-State: APf1xPBDr6wnB5LWWOsiFDQ4N45apQMOr+mrradveLMMescZk9EVvp48
-	DT4WLfxPaWX/haoIEuQc9q/OtlEg
-X-Google-Smtp-Source: AG47ELumVp1hEVHwOgMxZZEG0z2CHMKv2NMp+IV73r3fqi6TFApIqV/JlcF8IjXa2Rn+5/bMoraihw==
-X-Received: by 10.107.88.10 with SMTP id m10mr16198805iob.144.1519771681324;
-	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
+	bh=T2zE1YjBSB64uH+UHjyfuk7j0iijQ7uxVKErLtkIahc=;
+	b=ZGRpSP+t5LPUrU58qLJ4r8KomtggcBzJceF1hOp6IV4kyneTNa3caH994Es4UV3gs8
+	kXimUvzl7dJ/pS1pbvuWVBuAHk777pu3flQNDAiQdLtg+zy+UTvIfiQhUGzSCUj76NE4
+	+C7LNlmdRmf0f0dpeaHKlN9nzRzFbG6UURjx3qhaz9gE6We5mMTd3/YGBjX7B7dgSEvH
+	1w44sbwAV7Qo2dkqCFYfgO65vfcmgBxgu8IXi1UE13H77lwInV5j6uWJ+vXw27qJuzjJ
+	NE5eG1KOSY8tyFn7RQ0vWUhzxI2zUmmPI+E4nOMj3/aJOppkCRG+sTJdVHNI/H0G/yiz
+	Q8Jg==
+X-Gm-Message-State: APf1xPAPR5wtxedmYUxCb0boJgAhZFKmpouhM8V3XjULoTRxCChmWVJ5
+	y4WaIdNYyPIxVcd/coUhjemPAUKi
+X-Google-Smtp-Source: AG47ELtKGwxdJiM9aGzqxqDKTk4zQCkPa4LpMRe+b7RYdsNaJ8bYRr0fH/cjPrfOGsytdE3ArBx9QQ==
+X-Received: by 10.107.183.207 with SMTP id h198mr17499417iof.293.1519771682075;
+	Tue, 27 Feb 2018 14:48:02 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	r137sm373612ita.23.2018.02.27.14.48.00
+	r137sm373612ita.23.2018.02.27.14.48.01
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 27 Feb 2018 14:48:00 -0800 (PST)
+	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 16:47:52 -0600
-Message-Id: <20180227224753.30881-3-JPEWhacker@gmail.com>
+Date: Tue, 27 Feb 2018 16:47:53 -0600
+Message-Id: <20180227224753.30881-4-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180227224753.30881-1-JPEWhacker@gmail.com>
 References: <20180227224753.30881-1-JPEWhacker@gmail.com>
-Subject: [RFC 2/3] ref-manual: Update SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
+Subject: [RFC 3/3] sstatesig: Move hardcoded native tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +58,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 22:48:00 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 22:48:01 -0000
 
-Describes the new wildcard syntax in the documentation
+Now that SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS supports the wildcard syntax,
+these exclusions no longer need to be hardcoded
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ meta/conf/layer.conf     | 5 +++++
+ meta/lib/oe/sstatesig.py | 5 -----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index 137a556d929..c5db057174b 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -12635,6 +12635,24 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-                     <filename>mplayer2</filename>.
-                 </para>
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 67820588d37..df67716a2f1 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -44,6 +44,11 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+ "
  
-+                <para>
-+                    The special token <filename>"*"</filename> may be used on
-+                    the left hand side of the dependency, which has the special
-+                    meaning "all other recipes, except the one on the right hand
-+                    side.
-+                    For example:
-+                    <literallayout class='monospaced'>
-+    SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += "*->quilt-native"
-+                    </literallayout>
-+                </para>
-+
-+                <para>
-+                    In this example, all recipes except
-+                    <filename>quilt-native</filename> will ignore task
-+                    signatures from the <filename>quilt-native</filename> recipe
-+                    when determining their task signatures.
-+                </para>
-+
-                 <para>
-                     Use of this variable is one mechanism to remove dependencies
-                     that affect task signatures and thus force rebuilds when a
+ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
++  *->quilt-native \
++  *->subversion-native \
++  *->git-native \
++  *->ccache-native \
++  *->icecc-create-env-native \
+   gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
+   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
+   ppp-dialin->ppp \
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 418c1ca3cc7..e1871b347cc 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -28,11 +28,6 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+             return False
+         return True
+ 
+-    # Quilt (patch application) changing isn't likely to affect anything
+-    excludelist = ['quilt-native', 'subversion-native', 'git-native', 'ccache-native', 'icecc-create-env-native']
+-    if depname in excludelist and recipename != depname:
+-        return False
+-
+     # Exclude well defined recipe->dependency
+     if "%s->%s" % (recipename, depname) in siggen.saferecipedeps:
+         return False
 -- 
 2.14.3
 
