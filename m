@@ -1,31 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CFBD600EA
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 14D3C607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 15:32:53 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Tue, 27 Feb 2018 15:37:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 07:32:55 -0800
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 07:37:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,401,1515484800"; d="scan'208";a="20575632"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2018 07:32:53 -0800
-Date: Tue, 27 Feb 2018 17:35:53 +0200
+X-IronPort-AV: E=Sophos;i="5.47,401,1515484800"; d="scan'208";a="30117752"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 27 Feb 2018 07:37:47 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 948785803CF
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Feb 2018 07:37:46 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Message-ID: <20180227153552.GA12878@mbabyjoh-desk.ger.corp.intel.com>
-References: <1519735027-10472-1-git-send-email-maxin.john@intel.com>
-	<1519735027-10472-2-git-send-email-maxin.john@intel.com>
-	<3bfe61278db543eebcf07e019f5dd758@XBOX02.axis.com>
-MIME-Version: 1.0
-In-Reply-To: <3bfe61278db543eebcf07e019f5dd758@XBOX02.axis.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] piglit: upgrade to current git master
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Feb 2018 17:40:40 +0200
+Message-Id: <1519746041-44662-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] webkit: add missing Upstream-Status to patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 15:32:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 27 Feb 2018 15:37:47 -0000
 
-Hi Peter,
+Add missing Upstream-Status to the following patch:
+        0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
 
-On Tue, Feb 27, 2018 at 03:23:32PM +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Maxin B. John
-> > Sent: den 27 februari 2018 13:37
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 2/3] piglit: upgrade to current git master
-> > 
-> > Upgrade to revision:
-> > 4ce0887e2f7f848d2be2e435a2d0f3c80e44ea3b
-> > 
-> > remove backported patch:
-> >         0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > 
-> > i# Your branch is ahead of 'origin/master' by 2 commits.
->   ^
-> I guess that was an accidental key press turning the comment into 
-> an actual part of the commit message. ;)
+Upstream-Status is fetched from the first commit of the patch:
+commit id: 700b846ba0e0f31b06459aee3ebb3ce5f1715918
 
-Oops.. yes, blaming vim here :)
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch     | 1 +
+ 1 file changed, 1 insertion(+)
 
-Also will send a corrected one. Thanks for spotting it.
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+index dfdc116..9fc1421 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+@@ -16,6 +16,7 @@ and ends up with compile errors e.g.
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
++Upstream-Status: Pending
+ ---
+  Source/JavaScriptCore/shell/CMakeLists.txt | 2 +-
+  Source/WebCore/PlatformGTK.cmake           | 6 +++---
+-- 
+2.4.0
 
-
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> 
-> //Peter
-
-Best Regards,
-Maxin
 
