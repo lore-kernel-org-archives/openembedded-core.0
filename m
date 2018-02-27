@@ -1,24 +1,30 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B032571C3D
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id B57226FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 20:19:26 +0000 (UTC)
+	Tue, 27 Feb 2018 21:15:10 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 12:19:27 -0800
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 13:15:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,402,1515484800"; d="scan'208";a="34589381"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2018 12:19:27 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 12:19:26 -0800
-Message-Id: <1519762766-20100-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] dbus-test_1.12.2: various fixes
+X-IronPort-AV: E=Sophos;i="5.47,402,1515484800"; d="scan'208";a="178556539"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga004.jf.intel.com with ESMTP; 27 Feb 2018 13:15:11 -0800
+To: Anuj Mittal <anuj.mittal@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180226201216.33204-1-california.l.sullivan@intel.com>
+	<20180226201216.33204-17-california.l.sullivan@intel.com>
+	<1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <aa6641df-8612-7d06-6441-fdd85c7e09a8@intel.com>
+Date: Tue, 27 Feb 2018 13:15:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
+Subject: Re: [PATCH 16/16] init-install.sh: support multiple kernels and don't assume vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,133 +37,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 20:19:26 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 21:15:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-The result of running dbus-test-ptest was a series of
-various segfaults, interpreted as FAILs. This was a direct consequence
-of the test suite loading the installed shared library libdbus-1.so, not the
-one built along the test suite.
 
-While we normally want to test against the installed libraries, we cannot
-do this in this case as the test suite expects a library that is configured/compiled
-differently from the installed one. We could configure the installed library
-identically as the test suite expects, (and there should be no issues), however
-this is not desirable for performance reasons.
 
-Hence we need to use the library built along with the test suite.
-Of course, running the test suite against its own library does not
-test the installed library, however they are both built from the same
-sources so that can give us some kind of indication.
+On 02/27/2018 01:46 AM, Anuj Mittal wrote:
+> Hi Cal,
+>
+> On 02/27/2018 04:12 AM, California Sullivan wrote:
+>> Since kernels will not necessarily be installed as vmlinuz anymore,
+>> don't assume that's its name for either the bootloader config or the
+>> copy of the kernel.
+>>
+>> Also, allow installing multiple kernels by searching for common kernel
+>> names.
+>>
+>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>> ---
+>>   .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
+>>   1 file changed, 34 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+>> index dade059c8f1..713a83092bf 100644
+>> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+>> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+>> @@ -256,9 +256,34 @@ fi
+>>   umount /tgt_root
+>>   umount /src_root
+>>   
+>> +echo "Looking for kernels to use as boot target.."
+>> +# Find kernel to boot to
+>> +# Give user options if multiple are found
+>> +kernels="$(find /run/media/$1/ -type f  \
+>> +           -name bzImage* -o -name zImage* \
+>> +           -o -name vmlinux* -o -name vmlinuz* \
+>> +           -o -name fitImage* \
+>> +           | sed s:.*/::)"
+>> +if [ -n "$(echo $kernels)" ]; then
+>> +    # only one kernel entry if no space
+>> +    if [ -z "$(echo $kernels | grep " ")" ]; then
+>> +        kernel=$kernels
+>> +        echo "$kernel will be used as the boot target"
+>> +    else
+>> +        echo "Which kernel do we want to boot by default? The following kernels were found:"
+>> +        echo $kernels
+>> +        read answer
+>> +        kernel=$answer
+>> +    fi
+>> +else
+>> +    echo "No kernels found, exiting..."
+>> +    exit 1
+>> +fi
+>> +
+> We probably shouldn't be exiting this script at this point since we've
+> already made the partitions and copied everything except the kernel.
+>
+> Since this script is invoked for installation after booting up, I guess
+> that at this point we will have at least one kernel that we can install?
+You're right. Instead of bailing out, we should print a message that no 
+kernels were found and take user input instead. We can also use this 
+input to attempt a copy of the kernel to install, since if it wasn't 
+found here it wouldn't be found below, either. I'll make these changes 
+in a v2.
 
-The following changes were made:
+>
+>>   # Handling of the target boot partition
+>>   mount $bootfs /boot
+>>   echo "Preparing boot partition..."
+>> +
+>>   if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+>>       echo "Preparing custom grub2 menu..."
+>>       root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+>> @@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+>>       cat >$GRUBCFG <<_EOF
+>>   menuentry "Linux" {
+>>       search --no-floppy --fs-uuid $boot_uuid --set root
+>> -    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+>> +    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+>>   }
+>>   _EOF
+>>       chmod 0444 $GRUBCFG
+>> @@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
+>>       echo "timeout 30" >> /boot/grub/menu.lst
+>>       echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
+>>       echo "root  (hd0,0)" >> /boot/grub/menu.lst
+>> -    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+>> +    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+>>   fi
+>>   
+>> -cp /run/media/$1/vmlinuz /boot/
+>> +# Copy kernel artifacts. To add more artifacts just add to types
+>> +# For now just support kernel types already being used by something in OE-core
+>> +for types in bzImage zImage vmlinux vmlinuz fitImage; do
+>> +    for kernel in `find /run/media/$1/ -name $types*`; do
+>> +        cp $kernel /boot
+>> +    done
+>> +done
+> Since the boot partition is still 20MB, there's a chance that this might
+> fail if there are enough kernels?
+>
+> Perhaps the kernel selection logic should move to the top with user
+> choice and partition sizes be calculated accordingly?
+Indeed. Good catch.
 
-1. Configure the test library as close as possible to the installed one,
-   with some additional configuration options that are needed for testing.
-   (Use dbus_1.12.2.bb recipe as a template)
-2. Include the shared libraries in the package, use LD_LIBRARY_PATH during
-   testing to load them instead of the installed ones.
-3. Add a few more tests. (There are still some additional tests built that
-   are not used, but they would have to be special-cased).
-4. When evaluating the test results, differentiate between "FAIL" and "SKIP"
-
-[YOCTO #10841]
-[YOCTO #12277]
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/recipes-core/dbus/dbus-test_1.12.2.bb | 30 ++++++++++++++++++++++++++----
- meta/recipes-core/dbus/dbus/run-ptest      | 20 +++++++++++++++++---
- 2 files changed, 43 insertions(+), 7 deletions(-)
+Cal
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.2.bb b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-index c3891a3..a6a5ca2 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-@@ -34,25 +34,47 @@ EXTRA_OECONF = "--enable-tests \
-                 --enable-checks \
-                 --enable-asserts \
-                 --enable-verbose-mode \
-+                --enable-largefile \
-                 --disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
--                --disable-systemd \
--                --without-systemdsystemunitdir \
-                 --with-dbus-test-dir=${PTEST_PATH} \
-                 ${EXTRA_OECONF_X}"
- 
-+EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
-+
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
-+PACKAGECONFIG_class-native = ""
-+PACKAGECONFIG_class-nativesdk = ""
-+
-+PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
-+PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
-+PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
-+
- do_install() {
-     :
- }
- 
- do_install_ptest() {
- 	install -d ${D}${PTEST_PATH}/test
--	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay"
-+	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay \
-+	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass "
- 	for i in $l; do install ${B}/test/.libs/test-$i ${D}${PTEST_PATH}/test; done
-+
- 	l="bus bus-system bus-launch-helper"
- 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
--	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
-+
- 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
-+	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
-+
-+	install -d ${D}${PTEST_PATH}/test/.libs
-+	cp -a ${B}/dbus/.libs/*.so* ${D}${PTEST_PATH}/test/.libs
-+
-+	# Remove build host references...
-+	find "${D}${PTEST_PATH}/test/data" \( -name *.service -o -name *.conf \) -type f -exec \
-+		sed -i \
-+		 -e 's:${B}:${PTEST_PATH}:g' \
-+		 {} +
- }
-+
- RDEPENDS_${PN}-ptest += "bash"
-diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus/dbus/run-ptest
-index c72d083..8a8970e 100755
---- a/meta/recipes-core/dbus/dbus/run-ptest
-+++ b/meta/recipes-core/dbus/dbus/run-ptest
-@@ -1,10 +1,24 @@
- #!/bin/sh
- 
- output() {
--  if [ $? -eq 0 ]
-+  retcode=$?
-+  if [ $retcode -eq 0 ]
-     then echo "PASS: $i"
--    else echo "FAIL: $i"
-+  elif [ $retcode -eq 77 ]
-+    then echo "SKIP: $i"
-+  else echo "FAIL: $i"
-   fi
- }
- 
--for i in `ls test/test-*`; do ./$i ./test/data DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
-+export DBUS_TEST_HOMEDIR=./test
-+export XDG_RUNTIME_DIR=./test
-+export LD_LIBRARY_PATH=/usr/lib/dbus-test/ptest/test/.libs
-+
-+files=`ls test/test-*`
-+
-+for i in $files
-+	do
-+		./$i ./test/data >/dev/null
-+		output
-+	done
-+
--- 
-2.7.4
+>
+> Thanks,
+> Anuj
 
 
