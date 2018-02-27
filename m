@@ -1,37 +1,37 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BF1996007A
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E0790786F4
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 27 Feb 2018 22:47:59 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id h23so1047984iob.11
+Received: by mail-io0-f196.google.com with SMTP id e7so1085480ioj.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8XPYZFYPwUjEHPA6mVPOIhU/SlYVjjxfwtqenoVpNa4=;
-	b=mM1UvSfffWr3ihJq4EqsLt0OI1z1T3KPj83LVvWJ5V/e9YvwBy4xLkhLkCIJIYnyG3
-	8xTIOvThdaPZ1ZoZRPn3OMDd8V0KlbDSkS4FO/wZMZyx1Onmsmt+qj4Qb+pzcCvCdcG4
-	C6PrI8PJnv0UuJ5fURbRlyixKPB9hko+QjdXNqNnzV2mLV6pYEUC8CPoJiusBVXCI2E7
-	aBqzbe7h/dQ8GvuxcEVj78yPwS2FDoCReuWS+83YuSzoW4nQ5IiezTUKlpMklO3zCTTI
-	s54nyAFmurZEw8WmI4dd22WLNiON2qPOPLiASSrm6H911/ZwGnqKU3SQ+TkwAKQEQAIe
-	ElJg==
+	bh=eLcMY3zk5ohfaH3k74Z1vqBQwnmDUStpOSuhBhGpAfg=;
+	b=is/kvn6WI7Raf+y+a0w1qYb9O8jbUdjCtLXuz60j9SqTZgjcDRD3M6kUF0mMOoMA0/
+	rOpZs5kPXJo407Td0UlOfiZLKBG32YS4rGvFua6WW8oltRB33w1FGXwOLk1rA+SorzE/
+	gVLRXvU8ShXq1srGFYs3VY5DbdNr24ZsTa+63MuaHOzJKtyJfB7vTo4JJYws2pHXOanX
+	Fk3xp8X6zjz6MRwxzaaPApdJCZWvk5iea78ka8d8eq6PUyXeHmvxm1Yz/Gsfb3kRPS3T
+	TXde7vcYCerQiH/vTNmd39UuD6QMK3+OIMBqXQj0CNrgtWBmtJ4RQ+IWtiOcIwrNGIms
+	tu/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=8XPYZFYPwUjEHPA6mVPOIhU/SlYVjjxfwtqenoVpNa4=;
-	b=uf3mO4XcGjvA5iqgER+xHRn5ued8Y0OpqDKRs3TW3v9g4Y+WnrzY/4QWQqfNTZu0PE
-	z1xj+bG8i91qtsy6KjJdcxuxpnnB1lOn3p6Rdg0E2GZpyrCl25EBmIy863bWFq8T95wg
-	MwL2Zv1n0xfFqsK8BT8GUswpI+9/eL0aAQ8Vfiln/Q9t7L4xKC0YWF3FuTOPDf11cr1V
-	VJObtPg+D878IvEiqkj6z62UFFx/+e0BGgzhG4oSETZTgCq1gdO5u8r6KEIpfjOoXJbb
-	RCe8e/7rIjmPtGnrSVfnhsMAEgHQTLdzhMY9YM+M3NJRfAj3b6iHsqpuB0QH4rJhywRT
-	8hkg==
-X-Gm-Message-State: APf1xPB18Go0hDEwxYbFkM0UypwactLuEaYrPd84kql8I0fAoOwhZBKn
-	oNRvgyGVz9c9Jz41h53WL4F2gz9k
-X-Google-Smtp-Source: AH8x226JW/V3CgjG3iAx2yQq+IVjY8q7KysjzGbfABpL6a8Q9MuoFBmReW64JLErRJtymZ/s4+3LJQ==
-X-Received: by 10.107.185.86 with SMTP id j83mr18201587iof.305.1519771680634; 
-	Tue, 27 Feb 2018 14:48:00 -0800 (PST)
+	bh=eLcMY3zk5ohfaH3k74Z1vqBQwnmDUStpOSuhBhGpAfg=;
+	b=oZ+SbnmXdkriNG/ypRYigridouSv7nrs+JbNsybX+AZ85uhC6jn4bH4YXzI9ggA909
+	LXkI4y8R2rwOdXY2nMlBVgh4AZAQ/IWqWnFwxFExhRVEpSdwvWUBmDWkkUFItaddIaDV
+	Sv1j0nNursHSl5NpkKVnHlzDp0p2I6jvRMbAVB1Za6vvTonmRUNPGSQupf6eVnK0wJAS
+	TD8ZbEsDreRvcqCgvyZUM4Vpfuzc5KxnsNPi1WGh4iSCpUXoWbO+bnE/zuJt4kf+zdwx
+	JNDLzvNk35VMlWV90/anQqsGZ/kkF1ZL6/a8kZquShS4LanP2tg1jU2OHMZxWlpkNbvO
+	NFoQ==
+X-Gm-Message-State: APf1xPBDr6wnB5LWWOsiFDQ4N45apQMOr+mrradveLMMescZk9EVvp48
+	DT4WLfxPaWX/haoIEuQc9q/OtlEg
+X-Google-Smtp-Source: AG47ELumVp1hEVHwOgMxZZEG0z2CHMKv2NMp+IV73r3fqi6TFApIqV/JlcF8IjXa2Rn+5/bMoraihw==
+X-Received: by 10.107.88.10 with SMTP id m10mr16198805iob.144.1519771681324;
+	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
 	r137sm373612ita.23.2018.02.27.14.48.00
@@ -40,12 +40,12 @@ Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 16:47:51 -0600
-Message-Id: <20180227224753.30881-2-JPEWhacker@gmail.com>
+Date: Tue, 27 Feb 2018 16:47:52 -0600
+Message-Id: <20180227224753.30881-3-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180227224753.30881-1-JPEWhacker@gmail.com>
 References: <20180227224753.30881-1-JPEWhacker@gmail.com>
-Subject: [RFC 1/3] sstatesig: Add recipe wildcard
+Subject: [RFC 2/3] ref-manual: Update SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 22:47:59 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 22:48:00 -0000
 
-The special string "*" on the left hand side of the dependency
-specification matches all recipes except the one on the right hand side.
+Describes the new wildcard syntax in the documentation
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 6be9d32133a..418c1ca3cc7 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -37,6 +37,10 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     if "%s->%s" % (recipename, depname) in siggen.saferecipedeps:
-         return False
+diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+index 137a556d929..c5db057174b 100644
+--- a/documentation/ref-manual/ref-variables.xml
++++ b/documentation/ref-manual/ref-variables.xml
+@@ -12635,6 +12635,24 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+                     <filename>mplayer2</filename>.
+                 </para>
  
-+    # Check for special wildcard
-+    if "*->%s" % depname in siggen.saferecipedeps and recipename != depname:
-+        return False
++                <para>
++                    The special token <filename>"*"</filename> may be used on
++                    the left hand side of the dependency, which has the special
++                    meaning "all other recipes, except the one on the right hand
++                    side.
++                    For example:
++                    <literallayout class='monospaced'>
++    SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += "*->quilt-native"
++                    </literallayout>
++                </para>
 +
-     # Don't change native/cross/nativesdk recipe dependencies any further
-     if isNative(recipename) or isCross(recipename) or isNativeSDK(recipename):
-         return True
++                <para>
++                    In this example, all recipes except
++                    <filename>quilt-native</filename> will ignore task
++                    signatures from the <filename>quilt-native</filename> recipe
++                    when determining their task signatures.
++                </para>
++
+                 <para>
+                     Use of this variable is one mechanism to remove dependencies
+                     that affect task signatures and thus force rebuilds when a
 -- 
 2.14.3
 
