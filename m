@@ -1,48 +1,51 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 88A366007A
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BF1996007A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 22:47:58 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id h23so1047966iob.11
+	Tue, 27 Feb 2018 22:47:59 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id h23so1047984iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 14:48:00 -0800 (PST)
+	Tue, 27 Feb 2018 14:48:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=PO3FTFbXvZp0nxliFrIJF0o9iJY/6gN1FzKPzWkCG04=;
-	b=hBMehMfpPJuQ+GyrF2Evxs65JPB5UuhPZwJiBh8rTvM29/89hVTMeJc5fa+okFKXrs
-	NKg6xqypzlMRNQ8SQQzUIkT/zsHVZq+DydrTALdt+uz4BkoyEvcrPurC1haku3mMRH0l
-	wx/1MDw42caSoPJ3Hz6XTMJ2g4iRO0muKkLLy6t11uHD1xxCGMhldxRww2iuwq5MqoKp
-	PuMhDldDTZRY5RLrzHfRFnqUx6my04BfuQSRbi6TL6qKc0Cx5PPzrvlO6V4H+TpxPinQ
-	+MSPu2hnZ/Ack0FFSC0qyjFTuLXzVnl0PX390A4d1xTc+sR3Gl46ZXP4vKdRndX1h9xJ
-	+uVw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=8XPYZFYPwUjEHPA6mVPOIhU/SlYVjjxfwtqenoVpNa4=;
+	b=mM1UvSfffWr3ihJq4EqsLt0OI1z1T3KPj83LVvWJ5V/e9YvwBy4xLkhLkCIJIYnyG3
+	8xTIOvThdaPZ1ZoZRPn3OMDd8V0KlbDSkS4FO/wZMZyx1Onmsmt+qj4Qb+pzcCvCdcG4
+	C6PrI8PJnv0UuJ5fURbRlyixKPB9hko+QjdXNqNnzV2mLV6pYEUC8CPoJiusBVXCI2E7
+	aBqzbe7h/dQ8GvuxcEVj78yPwS2FDoCReuWS+83YuSzoW4nQ5IiezTUKlpMklO3zCTTI
+	s54nyAFmurZEw8WmI4dd22WLNiON2qPOPLiASSrm6H911/ZwGnqKU3SQ+TkwAKQEQAIe
+	ElJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PO3FTFbXvZp0nxliFrIJF0o9iJY/6gN1FzKPzWkCG04=;
-	b=gh9nLQZGuIjheCLZjVEeCs81xRezK7odiuIurcbn9Ni5EI6hYrmAbFQkXQ2GOGCG+P
-	Bh51FGmg8T0mZ43y6y/7kmjTmIo3cWHe9/sqZ0hmUvJFk71nOiejQ9Lq7BEXBvb2Bkio
-	xbh5VFwl2Rd9SH+b1P1jICjRguhDY09nh3FTRiZ35SI6aAruvCJYT5rgO3L64K6ualuE
-	Gs1wWKfPwQruVsfGzEVMS+QmhyiTpDG3J+OAn9m4Wv3j/CwJLJ/18hhYdNIyV6wI6V1h
-	3LaX242r7HsTfJSW4ekuk1bpR2IB/Cv38z+QCmsi79kuVrYmpuyJbwQKF6X0y/7SDb4G
-	GmVA==
-X-Gm-Message-State: APf1xPDKTs2kmUkSjFoxALJaJRm5Q5v33hcXUxcHir9BdLunF0Gqq0Yj
-	YEt0vPoUDcSJ9fjdK0Lirh76XfFI
-X-Google-Smtp-Source: AG47ELsQG/yCYE1rmTJ3RBDFfdrQ3GsLChTP7hnownUvYduw9qshDwaNfJtHsfUYkAlv8Cj0BQ9I3Q==
-X-Received: by 10.107.82.1 with SMTP id g1mr18778311iob.203.1519771680065;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=8XPYZFYPwUjEHPA6mVPOIhU/SlYVjjxfwtqenoVpNa4=;
+	b=uf3mO4XcGjvA5iqgER+xHRn5ued8Y0OpqDKRs3TW3v9g4Y+WnrzY/4QWQqfNTZu0PE
+	z1xj+bG8i91qtsy6KjJdcxuxpnnB1lOn3p6Rdg0E2GZpyrCl25EBmIy863bWFq8T95wg
+	MwL2Zv1n0xfFqsK8BT8GUswpI+9/eL0aAQ8Vfiln/Q9t7L4xKC0YWF3FuTOPDf11cr1V
+	VJObtPg+D878IvEiqkj6z62UFFx/+e0BGgzhG4oSETZTgCq1gdO5u8r6KEIpfjOoXJbb
+	RCe8e/7rIjmPtGnrSVfnhsMAEgHQTLdzhMY9YM+M3NJRfAj3b6iHsqpuB0QH4rJhywRT
+	8hkg==
+X-Gm-Message-State: APf1xPB18Go0hDEwxYbFkM0UypwactLuEaYrPd84kql8I0fAoOwhZBKn
+	oNRvgyGVz9c9Jz41h53WL4F2gz9k
+X-Google-Smtp-Source: AH8x226JW/V3CgjG3iAx2yQq+IVjY8q7KysjzGbfABpL6a8Q9MuoFBmReW64JLErRJtymZ/s4+3LJQ==
+X-Received: by 10.107.185.86 with SMTP id j83mr18201587iof.305.1519771680634; 
 	Tue, 27 Feb 2018 14:48:00 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.googlemail.com with ESMTPSA id
-	r137sm373612ita.23.2018.02.27.14.47.59
+	r137sm373612ita.23.2018.02.27.14.48.00
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 27 Feb 2018 14:47:59 -0800 (PST)
+	Tue, 27 Feb 2018 14:48:00 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 16:47:50 -0600
-Message-Id: <20180227224753.30881-1-JPEWhacker@gmail.com>
+Date: Tue, 27 Feb 2018 16:47:51 -0600
+Message-Id: <20180227224753.30881-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
-Subject: [RFC 0/3] Add wildcards to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
+In-Reply-To: <20180227224753.30881-1-JPEWhacker@gmail.com>
+References: <20180227224753.30881-1-JPEWhacker@gmail.com>
+Subject: [RFC 1/3] sstatesig: Add recipe wildcard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,20 +60,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 27 Feb 2018 22:47:59 -0000
 
-Wildcard support in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS allows the native
-tools that were in a hardcoded list to be specified in layer.conf with
-the other exclusions.
+The special string "*" on the left hand side of the dependency
+specification matches all recipes except the one on the right hand side.
 
-Joshua Watt (3):
-  sstatesig: Add recipe wildcard
-  ref-manual: Update documentation for SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
-  sstatesig: Move hardcoded native tools
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/sstatesig.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
- meta/conf/layer.conf                       |  5 +++++
- meta/lib/oe/sstatesig.py                   |  9 ++++-----
- 3 files changed, 27 insertions(+), 5 deletions(-)
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 6be9d32133a..418c1ca3cc7 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -37,6 +37,10 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+     if "%s->%s" % (recipename, depname) in siggen.saferecipedeps:
+         return False
+ 
++    # Check for special wildcard
++    if "*->%s" % depname in siggen.saferecipedeps and recipename != depname:
++        return False
++
+     # Don't change native/cross/nativesdk recipe dependencies any further
+     if isNative(recipename) or isCross(recipename) or isNativeSDK(recipename):
+         return True
 -- 
 2.14.3
 
