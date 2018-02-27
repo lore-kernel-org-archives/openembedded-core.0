@@ -1,28 +1,31 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 42FB971B2E
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 81F0871B2E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 12:34:15 +0000 (UTC)
+	Tue, 27 Feb 2018 12:34:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 04:34:16 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 04:34:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,400,1515484800"; d="scan'208";a="20538501"
+X-IronPort-AV: E=Sophos;i="5.47,400,1515484800"; d="scan'208";a="31007152"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2018 04:34:16 -0800
+	by orsmga003.jf.intel.com with ESMTP; 27 Feb 2018 04:34:17 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id F07E95802B3
+	by linux.intel.com (Postfix) with ESMTP id 063285802B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 04:34:15 -0800 (PST)
+	Tue, 27 Feb 2018 04:34:16 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 14:37:05 +0200
-Message-Id: <1519735027-10472-1-git-send-email-maxin.john@intel.com>
+Date: Tue, 27 Feb 2018 14:37:06 +0200
+Message-Id: <1519735027-10472-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/3] libinput: upgrade to version 1.10.0
+In-Reply-To: <1519735027-10472-1-git-send-email-maxin.john@intel.com>
+References: <1519735027-10472-1-git-send-email-maxin.john@intel.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/3] piglit: upgrade to current git master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,89 +39,92 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 27 Feb 2018 12:34:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-1. Split package into libinput and libinput-tools.
-2. Since libinput-tools contains python3 scripts, set RDEPENDS to python3
-3. Fix a QA error related to python3 path:
-        a) 0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
+Upgrade to revision:
+4ce0887e2f7f848d2be2e435a2d0f3c80e44ea3b
+
+remove backported patch:
+        0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+
+i# Your branch is ahead of 'origin/master' by 2 commits.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ...asure-touchpad-tap-fix-python-script-QA-e.patch | 32 ++++++++++++++++++++++
- .../{libinput_1.9.4.bb => libinput_1.10.0.bb}      |  9 ++++--
- 2 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
- rename meta/recipes-graphics/wayland/{libinput_1.9.4.bb => libinput_1.10.0.bb} (72%)
+ ...gl-context-priority.c-Use-piglit_egl_get_.patch | 41 ----------------------
+ meta/recipes-graphics/piglit/piglit_git.bb         |  5 ++-
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
 
-diff --git a/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch b/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
-new file mode 100644
-index 0000000..eb771ab
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/libinput/0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch
-@@ -0,0 +1,32 @@
-+From f595219dd3564a5fbf61646f2054f04f2e22238a Mon Sep 17 00:00:00 2001
-+From: "Maxin B. John" <maxin.john@intel.com>
-+Date: Mon, 19 Feb 2018 11:21:37 +0200
-+Subject: [PATCH] libinput-measure-touchpad-tap: fix python script QA error
-+
-+Tweak this python scripts to use '/usr/bin/env python3', Otherwise,
-+it generate a QA error:
-+
-+QA Issue: /usr/libexec/libinput/libinput-measure-touchpad-tap contained
-+in package libinput requires /usr/bin/python3, but no providers found
-+in RDEPENDS_libinput? [file-rdeps]
-+
-+Upstream-Status: Accepted [https://cgit.freedesktop.org/wayland/libinput/commit/?id=920debffd7ee591bbc1014ee0961c75473429651]
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ tools/libinput-measure-touchpad-tap | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/libinput-measure-touchpad-tap b/tools/libinput-measure-touchpad-tap
-+index 3037232..6f4f399 100755
-+--- a/tools/libinput-measure-touchpad-tap
-++++ b/tools/libinput-measure-touchpad-tap
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python3
-++#!/usr/bin/env python3
-+ # vim: set expandtab shiftwidth=4:
-+ # -*- Mode: python; coding: utf-8; indent-tabs-mode: nil -*- */
-+ #
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.10.0.bb
-similarity index 72%
-rename from meta/recipes-graphics/wayland/libinput_1.9.4.bb
-rename to meta/recipes-graphics/wayland/libinput_1.10.0.bb
-index 67a49df..5b75ffe 100644
---- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.10.0.bb
-@@ -8,9 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
- DEPENDS = "libevdev udev mtdev"
- 
- SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-+           file://0001-libinput-measure-touchpad-tap-fix-python-script-QA-e.patch \
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
+deleted file mode 100644
+index e2e87cc..0000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From cb562a383229074b44db6998b85572d2abe7c363 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+-Date: Fri, 24 Nov 2017 10:31:55 -0600
+-Subject: [PATCH] tests/egl/egl-context-priority.c: Use
+- piglit_egl_get_default_display
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-The entry point is not guaranteed to exist, so use the
+-piglit_egl_get_default_display() helper which does the correct thing.
+-
+-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+-Reviewed-by: Tapani Pälli <tapani.palli@intel.com>
+-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+-
+-Upstream-Status: Backport
+-
+-https://cgit.freedesktop.org/piglit/commit/?id=cb562a3832
+----
+- tests/egl/egl-context-priority.c | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/tests/egl/egl-context-priority.c b/tests/egl/egl-context-priority.c
+-index 7f26fc614..9590ccae3 100644
+---- a/tests/egl/egl-context-priority.c
+-+++ b/tests/egl/egl-context-priority.c
+-@@ -99,8 +99,7 @@ piglit_init(int argc, char **argv)
+- 	if (!strstr(exts, "EGL_MESA_platform_surfaceless"))
+- 		piglit_report_result(PIGLIT_SKIP);
+- 
+--	dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA,
+--				    EGL_DEFAULT_DISPLAY, NULL);
+-+	dpy = piglit_egl_get_default_display(EGL_PLATFORM_SURFACELESS_MESA);
+- 
+- 	ok = eglInitialize(dpy, &major, &minor);
+- 	if (!ok) {
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 2839f1d..b936ad8 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -5,12 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
+-           file://0001-tests-egl-egl-context-priority.c-Use-piglit_egl_get_.patch \
             "
--SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
--SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
-+SRC_URI[md5sum] = "dac92f0b094392c03ab1320d06173afd"
-+SRC_URI[sha256sum] = "c2c72c2e0c63498b34d887c28ea84b8570b50fef7ffe489179a1253280d33f57"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- inherit meson pkgconfig lib_package
-@@ -23,6 +24,10 @@ UDEVDIR = "`pkg-config --variable=udevdir udev`"
+-# From 2017-07-03
+-SRCREV = "c8f4fd9eeb298a2ef0855927f22634f794ef3eff"
++# From 2018-02-26
++SRCREV = "4ce0887e2f7f848d2be2e435a2d0f3c80e44ea3b"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
  
- EXTRA_OEMESON += "-Dudev-dir=${UDEVDIR} -Ddocumentation=false -Dtests=false"
- 
-+PACKAGES =+ "${PN}-tools"
-+FILES_${PN}-tools = "${libexecdir}/libinput/libinput-*"
-+RDEPENDS_${PN}-tools = "python3"
-+
- # package name changed in 1.8.1 upgrade: make sure package upgrades work
- RPROVIDES_${PN} = "libinput"
- RREPLACES_${PN} = "libinput"
 -- 
 2.4.0
 
