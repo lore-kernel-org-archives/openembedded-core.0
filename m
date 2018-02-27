@@ -1,31 +1,30 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6827E65C8F
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id E6BD5786F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 09:42:55 +0000 (UTC)
+	Tue, 27 Feb 2018 09:46:03 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 01:42:56 -0800
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 01:46:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,400,1515484800"; d="scan'208";a="23512982"
+X-IronPort-AV: E=Sophos;i="5.47,400,1515484800"; d="scan'208";a="23513644"
 Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.16.40])
 	([10.221.16.40])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2018 01:42:55 -0800
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <1519721818-32415-1-git-send-email-anuj.mittal@intel.com>
-	<CAP9ODKqodPyQQcTptx1oPPTZXSLg+w7tFNsOPTr15wsQZmHyDw@mail.gmail.com>
+	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2018 01:46:04 -0800
+To: California Sullivan <california.l.sullivan@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180226201216.33204-1-california.l.sullivan@intel.com>
+	<20180226201216.33204-17-california.l.sullivan@intel.com>
 From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <d74384df-0069-b3da-8713-c7905d962afa@intel.com>
-Date: Tue, 27 Feb 2018 17:42:54 +0800
+Message-ID: <1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
+Date: Tue, 27 Feb 2018 17:46:03 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqodPyQQcTptx1oPPTZXSLg+w7tFNsOPTr15wsQZmHyDw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer: enable ptest support
+In-Reply-To: <20180226201216.33204-17-california.l.sullivan@intel.com>
+Subject: Re: [PATCH 16/16] init-install.sh: support multiple kernels and don't assume vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +37,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 09:42:55 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 09:46:04 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 02/27/2018 05:38 PM, Otavio Salvador wrote:
-> On Tue, Feb 27, 2018 at 5:56 AM, Anuj Mittal <anuj.mittal@intel.com> wrote:
-> ...
->> +++ b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
->> @@ -0,0 +1,61 @@
->> +From 442691c7778601e3e4b88d0fbfb9d512ed34f414 Mon Sep 17 00:00:00 2001
->> +From: Anuj Mittal <anuj.mittal@intel.com>
->> +Date: Tue, 27 Feb 2018 09:27:01 +0800
->> +Subject: [PATCH] add targets for test installation
->> +
->> +Targets to make sure tests can be installed and then run on
->> +the target.
->> +
->> +Upstream-Status: Pending [specific to oe setup]
-> 
-> You choose the wrong status. It should be Inappropriate.
-> 
+Hi Cal,
 
-Yes, you're right. Thank you! I will wait for other comments and send v2
-later.
+On 02/27/2018 04:12 AM, California Sullivan wrote:
+> Since kernels will not necessarily be installed as vmlinuz anymore,
+> don't assume that's its name for either the bootloader config or the
+> copy of the kernel.
+> 
+> Also, allow installing multiple kernels by searching for common kernel
+> names.
+> 
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+>  .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
+>  1 file changed, 34 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+> index dade059c8f1..713a83092bf 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+> @@ -256,9 +256,34 @@ fi
+>  umount /tgt_root
+>  umount /src_root
+>  
+> +echo "Looking for kernels to use as boot target.."
+> +# Find kernel to boot to
+> +# Give user options if multiple are found
+> +kernels="$(find /run/media/$1/ -type f  \
+> +           -name bzImage* -o -name zImage* \
+> +           -o -name vmlinux* -o -name vmlinuz* \
+> +           -o -name fitImage* \
+> +           | sed s:.*/::)"
+> +if [ -n "$(echo $kernels)" ]; then
+> +    # only one kernel entry if no space
+> +    if [ -z "$(echo $kernels | grep " ")" ]; then
+> +        kernel=$kernels
+> +        echo "$kernel will be used as the boot target"
+> +    else
+> +        echo "Which kernel do we want to boot by default? The following kernels were found:"
+> +        echo $kernels
+> +        read answer
+> +        kernel=$answer
+> +    fi
+> +else
+> +    echo "No kernels found, exiting..."
+> +    exit 1
+> +fi
+> +
+
+We probably shouldn't be exiting this script at this point since we've
+already made the partitions and copied everything except the kernel.
+
+Since this script is invoked for installation after booting up, I guess
+that at this point we will have at least one kernel that we can install?
+
+>  # Handling of the target boot partition
+>  mount $bootfs /boot
+>  echo "Preparing boot partition..."
+> +
+>  if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+>      echo "Preparing custom grub2 menu..."
+>      root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+> @@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+>      cat >$GRUBCFG <<_EOF
+>  menuentry "Linux" {
+>      search --no-floppy --fs-uuid $boot_uuid --set root
+> -    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+> +    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+>  }
+>  _EOF
+>      chmod 0444 $GRUBCFG
+> @@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
+>      echo "timeout 30" >> /boot/grub/menu.lst
+>      echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
+>      echo "root  (hd0,0)" >> /boot/grub/menu.lst
+> -    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+> +    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+>  fi
+>  
+> -cp /run/media/$1/vmlinuz /boot/
+> +# Copy kernel artifacts. To add more artifacts just add to types
+> +# For now just support kernel types already being used by something in OE-core
+> +for types in bzImage zImage vmlinux vmlinuz fitImage; do
+> +    for kernel in `find /run/media/$1/ -name $types*`; do
+> +        cp $kernel /boot
+> +    done
+> +done
+
+Since the boot partition is still 20MB, there's a chance that this might
+fail if there are enough kernels?
+
+Perhaps the kernel selection logic should move to the top with user
+choice and partition sizes be calculated accordingly?
 
 Thanks,
 Anuj
