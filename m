@@ -1,28 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 83B3778650
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BD19786C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 13:13:20 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 05:13:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,401,1515484800"; d="scan'208";a="21151081"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 05:13:21 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id C2B555802B3
+	Tue, 27 Feb 2018 13:45:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1RDjdnV016544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 05:13:20 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 15:16:16 +0200
-Message-Id: <1519737376-18536-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] puzzles: upgrade to latest revision
+	Tue, 27 Feb 2018 05:45:39 -0800 (PST)
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 27 Feb 2018 05:45:13 -0800
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Feb 2018 15:45:41 +0200
+Message-ID: <20180227134541.147175-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.16.2
+MIME-Version: 1.0
+Subject: [PATCH] nativesdk-rpm: Add wrappers for nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,102 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 13:13:20 -0000
+X-List-Received-Date: Tue, 27 Feb 2018 13:45:38 -0000
+Content-Type: text/plain
 
-License-Update: checksum change is due to standardization of
-character encoding of source tree on UTF-8
+When installing the SDK to a non-default path, running "rpm --showrc" from the
+sdk will produce the following error:
+error: Unable to open /opt/poky/2.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/rpmrc for reading: No such file or directory. 
 
-1. Remove upstreamed patch:
-        0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch
-2. Bump PE to prevent version going backwards
+Fix this by adding wrappers that dynamically export the RPM_CONFIGDIR,
+RPM_ETCCONFIGDIR and MAGIC environment variables, pointing to the proper
+sdk locations.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 ---
- ...d-paranthesis-to-remove-doubt-about-prece.patch | 47 ----------------------
- meta/recipes-sato/puzzles/puzzles_git.bb           |  7 ++--
- 2 files changed, 3 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/recipes-sato/puzzles/files/0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch b/meta/recipes-sato/puzzles/files/0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch
-deleted file mode 100644
-index 19abdd5..0000000
---- a/meta/recipes-sato/puzzles/files/0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 7b2949c48a178861f6568a18c8f45e841e36f89e Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 7 Feb 2018 23:57:12 -0800
--Subject: [PATCH] signpost: Add paranthesis to remove doubt about precendence
--
--Clang complains e.g.
--
--error: logical not is only applied to the left hand side of
--      this bitwise operator [-Werror,-Wlogical-not-parentheses]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- signpost.c | 2 +-
-- tracks.c   | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/signpost.c b/signpost.c
--index aa2e13a..2e2dff2 100644
----- a/signpost.c
--+++ b/signpost.c
--@@ -284,7 +284,7 @@ static int check_nums(game_state *orig, game_state *copy, int only_immutable)
--     int i, ret = 1;
--     assert(copy->n == orig->n);
--     for (i = 0; i < copy->n; i++) {
---        if (only_immutable && !copy->flags[i] & FLAG_IMMUTABLE) continue;
--+        if (only_immutable && !(copy->flags[i] & FLAG_IMMUTABLE)) continue;
--         assert(copy->nums[i] >= 0);
--         assert(copy->nums[i] <= copy->n);
--         if (copy->nums[i] != orig->nums[i]) {
--diff --git a/tracks.c b/tracks.c
--index 5b27350..ca44ce1 100644
----- a/tracks.c
--+++ b/tracks.c
--@@ -1072,7 +1072,7 @@ static int solve_check_single_sub(game_state *state, int si, int id, int n,
--         x = i%w;
--         y = i/w;
--         if (abs(ox-x) > 1 || abs(oy-y) > 1) {
---            if (!state->sflags[i] & S_TRACK)
--+            if (!(state->sflags[i] & S_TRACK))
--                 did += solve_set_sflag(state, x, y, S_NOTRACK, what);
--         }
--     }
---- 
--2.16.1
--
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 4fe6298..bfd8177 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -7,18 +7,17 @@ DEPENDS = "libxt"
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+index 7b8ea46a75..daaf4637a3 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+@@ -65,6 +65,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
+ #
+ # Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
+ EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
++EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=33bcd4bce8f3c197f2aefbdbd2d299bc"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=da6110d4ed1225a287eab2bf0ac0193b"
+ BBCLASSEXTEND = "native nativesdk"
  
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
-            file://fix-compiling-failure-with-option-g-O.patch \
-            file://0001-Use-labs-instead-of-abs.patch \
-            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
-            file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
--           file://0001-signpost-Add-paranthesis-to-remove-doubt-about-prece.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "8dfe5cec31e784e4ece2955ecc8cc35ee7e8fbb3"
--PE = "1"
-+SRCREV = "2adf0052d66eae88c7a5e55e67fe16e13f7018b5"
-+PE = "2"
- PV = "0.0+git${SRCPV}"
+@@ -96,6 +97,31 @@ do_install_append_class-native() {
+         done
+ }
  
- S = "${WORKDIR}/git"
++do_install_append_class-nativesdk() {
++        tools="\
++                ${bindir}/rpm \
++                ${bindir}/rpm2archive \
++                ${bindir}/rpm2cpio \
++                ${bindir}/rpmbuild \
++                ${bindir}/rpmdb \
++                ${bindir}/rpmgraph \
++                ${bindir}/rpmkeys \
++                ${bindir}/rpmsign \
++                ${bindir}/rpmspec \
++                ${libdir}/rpm/rpmdeps \
++        "
++
++        for tool in $tools; do
++                create_wrapper ${D}$tool \
++                        RPM_CONFIGDIR='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
++                        RPM_ETCCONFIGDIR='$'{RPM_ETCCONFIGDIR-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/..} \
++                        MAGIC='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/misc/magic.mgc \
++                        RPM_NO_CHROOT_FOR_SCRIPTS=1
++        done
++
++        rm -rf ${D}/var
++}
++
+ # Rpm's make install creates var/tmp which clashes with base-files packaging
+ do_install_append_class-target() {
+     rm -rf ${D}/var
 -- 
-2.4.0
+2.16.2
 
 
