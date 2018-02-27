@@ -1,30 +1,52 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id E6BD5786F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id ADC0C71C70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 09:46:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 01:46:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,400,1515484800"; d="scan'208";a="23513644"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.16.40])
-	([10.221.16.40])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2018 01:46:04 -0800
-To: California Sullivan <california.l.sullivan@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180226201216.33204-1-california.l.sullivan@intel.com>
-	<20180226201216.33204-17-california.l.sullivan@intel.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <1bfa8420-2882-3284-4994-1e7ece6e957f@intel.com>
-Date: Tue, 27 Feb 2018 17:46:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 27 Feb 2018 11:20:20 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id h23so10205323iob.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Feb 2018 03:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xgQKT4DykmvGFXmXyaI56KkG3JZE1Y0cPG6XF0Bj96w=;
+	b=z4ZJvvg1HRoY1MnnT0bhf2M50nv68GwsKQaSvbSly6J1gl3CW2FMw1iqUNcOBG9QTU
+	+318j8Xd5M8dKQnJOPkO17MkOWuVsuO6ypitqJpq6oBHXqVIZnc3qveJ/jZmq/eoayfd
+	RyrBbDVqrMw3+um6vlTyKtU402BD1O1dEHE2rkd/rrz47e6jyRPljZPIIboEDAljNDbX
+	etWUdO8T4TiEfpERVu5qn3JFMICIaKpq8Mm2DKtjwC31Wb8w0bbTu58NStDo5T2WNEbD
+	92Y4EwY2mt+5dpEgqcB/3HcwhqZf5xli1GyA8s7u3AIJjVcKxYN+Mh3+mK91n4yzKI8e
+	GXcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xgQKT4DykmvGFXmXyaI56KkG3JZE1Y0cPG6XF0Bj96w=;
+	b=NFXVO74pqS1P8+PYYBeNQWx90/9LnwKTJuvnyBM5CHbd7UxvbHW1IWGq/ncj4Fsubx
+	rkjkpPUJJ1mwFwZLKNu3hsxyOG9UkRUIDdW6CDIjVplqaIzkgDTWcuOShNw5c+p8yYcx
+	UTkMzsPPY6Vz3u3Yx7+7Fc85pcxrMg7+1BHDiAzKX9Bldznenz1asHmf21kDsH2LWvQ0
+	x+/pQMQk1Naevlcu/fcJlcElsC4nYVuKCO9F7x66ePrZ3AK859bZvscegeiv6/jJVy9W
+	tIcM8/N1A1AUAHhvVFRCQeBcrrnueGmAl2msqeIzOEyuNAsj5h3rvj11EosyP7ElGm2U
+	Hu5w==
+X-Gm-Message-State: APf1xPD2E9N/+uIbh4UlwOUeNOc89vODspwTsrSuuqJBNJE22Bjlmih+
+	vYGYsSV5EIOugRVYbbtahdwUwTIajFKXu9Ds0TZZ0w==
+X-Google-Smtp-Source: AG47ELtbeG21Usq4w0MaMSNvMu3H2iAF7BrvM/Kg3rLjDeeW4RoW0oib03O35RKXk3HXPXu3W+6GjSwxLJNnU6iBXRE=
+X-Received: by 10.107.6.139 with SMTP id f11mr16323710ioi.23.1519730421544;
+	Tue, 27 Feb 2018 03:20:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20180226201216.33204-17-california.l.sullivan@intel.com>
-Subject: Re: [PATCH 16/16] init-install.sh: support multiple kernels and don't assume vmlinuz
+Received: by 10.107.17.200 with HTTP; Tue, 27 Feb 2018 03:20:01 -0800 (PST)
+In-Reply-To: <8f3fceb1-bb2b-de95-acd0-947ccc7a674e@linux.intel.com>
+References: <20180202173815.9500-1-alexander.kanavin@linux.intel.com>
+	<3144211.9qXzQgCZpO@yow-masselst-lx1>
+	<00d7531e-b773-536e-ad5b-e19f8f993dbf@linux.intel.com>
+	<1778379.J915XxZyfQ@yow-masselst-lx1>
+	<8f3fceb1-bb2b-de95-acd0-947ccc7a674e@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 27 Feb 2018 11:20:01 +0000
+Message-ID: <CAJTo0LbK_EGmqKHdMmtWLKmTXfzjmJa80rN3u=6d_CF1H6r_Jg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] gtk-doc: update to 1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,104 +59,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 09:46:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Feb 2018 11:20:20 -0000
+Content-Type: multipart/alternative; boundary="001a113eeaeaee4eda05662fcf8e"
 
-Hi Cal,
+--001a113eeaeaee4eda05662fcf8e
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/27/2018 04:12 AM, California Sullivan wrote:
-> Since kernels will not necessarily be installed as vmlinuz anymore,
-> don't assume that's its name for either the bootloader config or the
-> copy of the kernel.
-> 
-> Also, allow installing multiple kernels by searching for common kernel
-> names.
-> 
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->  .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
->  1 file changed, 34 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index dade059c8f1..713a83092bf 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -256,9 +256,34 @@ fi
->  umount /tgt_root
->  umount /src_root
->  
-> +echo "Looking for kernels to use as boot target.."
-> +# Find kernel to boot to
-> +# Give user options if multiple are found
-> +kernels="$(find /run/media/$1/ -type f  \
-> +           -name bzImage* -o -name zImage* \
-> +           -o -name vmlinux* -o -name vmlinuz* \
-> +           -o -name fitImage* \
-> +           | sed s:.*/::)"
-> +if [ -n "$(echo $kernels)" ]; then
-> +    # only one kernel entry if no space
-> +    if [ -z "$(echo $kernels | grep " ")" ]; then
-> +        kernel=$kernels
-> +        echo "$kernel will be used as the boot target"
-> +    else
-> +        echo "Which kernel do we want to boot by default? The following kernels were found:"
-> +        echo $kernels
-> +        read answer
-> +        kernel=$answer
-> +    fi
-> +else
-> +    echo "No kernels found, exiting..."
-> +    exit 1
-> +fi
-> +
+On 9 February 2018 at 07:03, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-We probably shouldn't be exiting this script at this point since we've
-already made the partitions and copied everything except the kernel.
+> gtk-doc recipe does have a direct dependency on python3-six, subject to
+> 'api-documentation' in DISTRO_FEATURES. The reason it's conditional is that
+> we don't want to build a ton of gtk-doc dependencies in the default case
+> that used by almost everyone. Yes, this produces gtk-doc scripts that are
+> not working, but they will not be run anyway, if gtk-doc capable recipes
+> inherit the gtk-doc class, which will disable the gtk-doc feature.
+> libunique was missing that inherit, the patch to fix that is now on oe-devl
+> list. Take it and the issue will go away.
 
-Since this script is invoked for installation after booting up, I guess
-that at this point we will have at least one kernel that we can install?
 
->  # Handling of the target boot partition
->  mount $bootfs /boot
->  echo "Preparing boot partition..."
-> +
->  if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
->      echo "Preparing custom grub2 menu..."
->      root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
-> @@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
->      cat >$GRUBCFG <<_EOF
->  menuentry "Linux" {
->      search --no-floppy --fs-uuid $boot_uuid --set root
-> -    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
-> +    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
->  }
->  _EOF
->      chmod 0444 $GRUBCFG
-> @@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
->      echo "timeout 30" >> /boot/grub/menu.lst
->      echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
->      echo "root  (hd0,0)" >> /boot/grub/menu.lst
-> -    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
-> +    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
->  fi
->  
-> -cp /run/media/$1/vmlinuz /boot/
-> +# Copy kernel artifacts. To add more artifacts just add to types
-> +# For now just support kernel types already being used by something in OE-core
-> +for types in bzImage zImage vmlinux vmlinuz fitImage; do
-> +    for kernel in `find /run/media/$1/ -name $types*`; do
-> +        cp $kernel /boot
-> +    done
-> +done
+This is close but not quite right.  gtk-doc has a RDEPENDS on python3-six,
+but it then uses the *host* python3 binary in gtkdoc-scan so if the host
+doesn't have six installed it will fail:
 
-Since the boot partition is still 20MB, there's a chance that this might
-fail if there are enough kernels?
+| Traceback (most recent call last):
+|   File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-extras/build/build/tmp/work/core2-64-poky-linux/kmod/25+gitAUTOINC+aca4eca103-r0/recipe-sysroot-native/usr/bin/gtkdoc-scan",
+line 29, in <module>
+|     from gtkdoc import common, config, scan
+|   File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-extras/build/build/tmp/work/core2-64-poky-linux/kmod/25+gitAUTOINC+aca4eca103-r0/recipe-sysroot-native/usr/share/gtk-doc/python/gtkdoc/common.py",
+line 31, in <module>
+|     import six
+| ImportError: No module named 'six'
 
-Perhaps the kernel selection logic should move to the top with user
-choice and partition sizes be calculated accordingly?
+Ross
 
-Thanks,
-Anuj
+--001a113eeaeaee4eda05662fcf8e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 9 February 2018 at 07:03, Alexander Kanavin <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D=
+"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><div cl=
+ass=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-s=
+tyle:solid;border-left-color:rgb(204,204,204);padding-left:1ex">gtk-doc rec=
+ipe does have a direct dependency on python3-six, subject to &#39;api-docum=
+entation&#39; in DISTRO_FEATURES. The reason it&#39;s conditional is that w=
+e don&#39;t want to build a ton of gtk-doc dependencies in the default case=
+ that used by almost everyone. Yes, this produces gtk-doc scripts that are =
+not working, but they will not be run anyway, if gtk-doc capable recipes in=
+herit the gtk-doc class, which will disable the gtk-doc feature. libunique =
+was missing that inherit, the patch to fix that is now on oe-devl list. Tak=
+e it and the issue will go away.</blockquote><div><br></div><div>This is cl=
+ose but not quite right. =C2=A0gtk-doc has a RDEPENDS on python3-six, but i=
+t then uses the *host* python3 binary in gtkdoc-scan so if the host doesn&#=
+39;t have six installed it will fail:</div><div><br></div>| Traceback (most=
+ recent call last):<br>| =C2=A0 File &quot;/home/pokybuild/yocto-autobuilde=
+r/yocto-worker/nightly-qa-extras/build/build/tmp/work/core2-64-poky-linux/k=
+mod/25+gitAUTOINC+aca4eca103-r0/recipe-sysroot-native/usr/bin/gtkdoc-scan&q=
+uot;, line 29, in &lt;module&gt;<br>| =C2=A0 =C2=A0 from gtkdoc import comm=
+on, config, scan<br>| =C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/y=
+octo-worker/nightly-qa-extras/build/build/tmp/work/core2-64-poky-linux/kmod=
+/25+gitAUTOINC+aca4eca103-r0/recipe-sysroot-native/usr/share/gtk-doc/python=
+/gtkdoc/common.py&quot;, line 31, in &lt;module&gt;<br>| =C2=A0 =C2=A0 impo=
+rt six<br>| ImportError: No module named &#39;six&#39;</div><div class=3D"g=
+mail_quote"><br></div><div class=3D"gmail_quote">Ross</div></div></div>
+
+--001a113eeaeaee4eda05662fcf8e--
