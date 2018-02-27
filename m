@@ -1,24 +1,29 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BD19786C1
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E3CE77FED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 13:45:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1RDjdnV016544
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 05:45:39 -0800 (PST)
-Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 27 Feb 2018 05:45:13 -0800
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Feb 2018 15:45:41 +0200
-Message-ID: <20180227134541.147175-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.16.2
+	Tue, 27 Feb 2018 14:15:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 06:15:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,401,1515484800"; d="scan'208";a="204118210"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 27 Feb 2018 06:15:45 -0800
+To: Ovidiu Panait <ovidiu.panait@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180227134541.147175-1-ovidiu.panait@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <af855f84-4b86-d8d6-94ee-7ef56915ef05@linux.intel.com>
+Date: Tue, 27 Feb 2018 16:09:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: [PATCH] nativesdk-rpm: Add wrappers for nativesdk support
+In-Reply-To: <20180227134541.147175-1-ovidiu.panait@windriver.com>
+Subject: Re: [PATCH] nativesdk-rpm: Add wrappers for nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Feb 2018 13:45:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Feb 2018 14:15:45 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-When installing the SDK to a non-default path, running "rpm --showrc" from the
-sdk will produce the following error:
-error: Unable to open /opt/poky/2.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/rpmrc for reading: No such file or directory. 
+On 02/27/2018 03:45 PM, Ovidiu Panait wrote:
+> +do_install_append_class-nativesdk() {
+> +        tools="\
+> +                ${bindir}/rpm \
+> +                ${bindir}/rpm2archive \
+> +                ${bindir}/rpm2cpio \
+> +                ${bindir}/rpmbuild \
+> +                ${bindir}/rpmdb \
+> +                ${bindir}/rpmgraph \
+> +                ${bindir}/rpmkeys \
+> +                ${bindir}/rpmsign \
+> +                ${bindir}/rpmspec \
+> +                ${libdir}/rpm/rpmdeps \
+> +        "
+> +
+> +        for tool in $tools; do
+> +                create_wrapper ${D}$tool \
+> +                        RPM_CONFIGDIR='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+> +                        RPM_ETCCONFIGDIR='$'{RPM_ETCCONFIGDIR-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/..} \
+> +                        MAGIC='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/misc/magic.mgc \
+> +                        RPM_NO_CHROOT_FOR_SCRIPTS=1
+> +        done
+> +
+> +        rm -rf ${D}/var
+> +}
 
-Fix this by adding wrappers that dynamically export the RPM_CONFIGDIR,
-RPM_ETCCONFIGDIR and MAGIC environment variables, pointing to the proper
-sdk locations.
+Can this be done without copy-pasting an existing function please?
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
----
- meta/recipes-devtools/rpm/rpm_4.14.1.bb | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index 7b8ea46a75..daaf4637a3 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -65,6 +65,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
- #
- # Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
- EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
-+EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
-@@ -96,6 +97,31 @@ do_install_append_class-native() {
-         done
- }
- 
-+do_install_append_class-nativesdk() {
-+        tools="\
-+                ${bindir}/rpm \
-+                ${bindir}/rpm2archive \
-+                ${bindir}/rpm2cpio \
-+                ${bindir}/rpmbuild \
-+                ${bindir}/rpmdb \
-+                ${bindir}/rpmgraph \
-+                ${bindir}/rpmkeys \
-+                ${bindir}/rpmsign \
-+                ${bindir}/rpmspec \
-+                ${libdir}/rpm/rpmdeps \
-+        "
-+
-+        for tool in $tools; do
-+                create_wrapper ${D}$tool \
-+                        RPM_CONFIGDIR='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
-+                        RPM_ETCCONFIGDIR='$'{RPM_ETCCONFIGDIR-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/..} \
-+                        MAGIC='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/misc/magic.mgc \
-+                        RPM_NO_CHROOT_FOR_SCRIPTS=1
-+        done
-+
-+        rm -rf ${D}/var
-+}
-+
- # Rpm's make install creates var/tmp which clashes with base-files packaging
- do_install_append_class-target() {
-     rm -rf ${D}/var
--- 
-2.16.2
-
+Alex
 
