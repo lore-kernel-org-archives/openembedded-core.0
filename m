@@ -1,28 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BF79788A9
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D6B178856
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 14:51:23 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Wed, 28 Feb 2018 14:55:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2018 06:51:25 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2018 06:55:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,406,1515484800"; d="scan'208";a="20833215"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga007.fm.intel.com with ESMTP; 28 Feb 2018 06:51:23 -0800
-Date: Wed, 28 Feb 2018 16:54:25 +0200
+X-IronPort-AV: E=Sophos;i="5.47,406,1515484800"; d="scan'208";a="23912783"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2018 06:55:26 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 3C4B858038F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Feb 2018 06:55:26 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Message-ID: <20180228145424.GA23739@mbabyjoh-desk.ger.corp.intel.com>
-References: <1519762766-20100-1-git-send-email-juro.bystricky@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1519762766-20100-1-git-send-email-juro.bystricky@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: jurobystricky@hotmail.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dbus-test_1.12.2: various fixes
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Feb 2018 16:57:54 +0200
+Message-Id: <1519829874-23964-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] openssh: remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,70 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 14:51:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Feb 2018 14:55:25 -0000
 
-Hi,
+Remove unused patch:
+        0001-openssh-Fix-syntax-error-on-x32.patch
 
-On Tue, Feb 27, 2018 at 12:19:26PM -0800, Juro Bystricky wrote:
-> The result of running dbus-test-ptest was a series of
-> various segfaults, interpreted as FAILs. This was a direct consequence
-> of the test suite loading the installed shared library libdbus-1.so, not the
-> one built along the test suite.
-> 
-> While we normally want to test against the installed libraries, we cannot
-> do this in this case as the test suite expects a library that is configured/compiled
-> differently from the installed one. We could configure the installed library
-> identically as the test suite expects, (and there should be no issues), however
-> this is not desirable for performance reasons.
-> 
-> Hence we need to use the library built along with the test suite.
-> Of course, running the test suite against its own library does not
-> test the installed library, however they are both built from the same
-> sources so that can give us some kind of indication.
-> 
-> The following changes were made:
-> 
-> 1. Configure the test library as close as possible to the installed one,
->    with some additional configuration options that are needed for testing.
->    (Use dbus_1.12.2.bb recipe as a template)
-> 2. Include the shared libraries in the package, use LD_LIBRARY_PATH during
->    testing to load them instead of the installed ones.
-> 3. Add a few more tests. (There are still some additional tests built that
->    are not used, but they would have to be special-cased).
-> 4. When evaluating the test results, differentiate between "FAIL" and "SKIP"
-> 
-> [YOCTO #10841]
-> [YOCTO #12277]
-> 
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-core/dbus/dbus-test_1.12.2.bb | 30 ++++++++++++++++++++++++++----
->  meta/recipes-core/dbus/dbus/run-ptest      | 20 +++++++++++++++++---
->  2 files changed, 43 insertions(+), 7 deletions(-)
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../0001-openssh-Fix-syntax-error-on-x32.patch     | 33 ----------------------
+ 1 file changed, 33 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
 
-Probably due to this change, dbus ptest related sanity tests fails here:
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
+deleted file mode 100644
+index ce9e200..0000000
+--- a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From a7e359d4ba345aa2a13c07f1057184e9b4e598a2 Mon Sep 17 00:00:00 2001
+-From: sweeaun <swee.aun.khor@intel.com>
+-Date: Tue, 22 Aug 2017 11:19:48 -0700
+-Subject: [PATCH] openssh: Fix syntax error on x32
+-
+-Upstream-Status: Backport
+-This bug has been fixed in v_7.5 branch https://github.com/openssh/
+-openssh-portable/tree/V_7_5 and master branch https://github.com/
+-openssh/openssh-portable/tree/master.
+-
+-Fix compilation error during openssh x32 build due to syntax error.
+-
+-Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+----
+- sandbox-seccomp-filter.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
+-index 3a1aedc..a8d472a 100644
+---- a/sandbox-seccomp-filter.c
+-+++ b/sandbox-seccomp-filter.c
+-@@ -235,7 +235,7 @@ static const struct sock_filter preauth_insns[] = {
+- 	 * x86-64 syscall under some circumstances, e.g.
+- 	 * https://bugs.debian.org/849923
+- 	 */
+--	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT);
+-+	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT),
+- #endif
+- 
+- 	/* Default deny */
+--- 
+-2.7.4
+-
+-- 
+2.4.0
 
-https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/813/steps/Running%20Sanity%20Tests/logs/stdio
-
-
-NOTE:  ... ok
-| NOTE: ======================================================================
-| NOTE: FAIL: test_ptestrunner (ptest.PtestRunnerTest)
-| NOTE: ----------------------------------------------------------------------
-| NOTE: Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/meta/lib/oeqa/runtime/cases/ptest.py", line 93, in test_ptestrunner
-|     self.assertFalse(failed_tests, msg = "Failed ptests: %s" %(str(failed_tests)))
-| AssertionError: {'dbus-test': [' test/test-bus', ' test/test-dbus-daemon', ' test/test-names']} is not false : Failed ptests: {'dbus-test': [' test/test-bus', ' test/test-dbus-daemon', ' test/test-names']}
-
-
-Best Regards,
-Maxin
 
