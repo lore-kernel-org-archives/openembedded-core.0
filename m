@@ -1,30 +1,38 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EB1A788E6
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 019B678754
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 17:38:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w1SHcklB024594
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Feb 2018 09:38:46 -0800 (PST)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 28 Feb 2018 09:38:18 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1519783331.git.bruce.ashfield@windriver.com>
-	<edec3fd339889290220602c525683ab97d1c1fb4.1519783331.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lb3+VSbk+iQcD5cqTHXm4fap-QZQv6eS1ZAVzZCVj=8pw@mail.gmail.com>
-	<8ac4b7a1-b720-87cd-f1b8-67e04d7a8cbe@windriver.com>
-Message-ID: <f3935874-0721-ba2f-df81-c2e1af75bfae@windriver.com>
-Date: Wed, 28 Feb 2018 12:38:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Wed, 28 Feb 2018 17:52:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2018 09:52:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,406,1515484800"; d="scan'208";a="20873937"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by fmsmga007.fm.intel.com with ESMTP; 28 Feb 2018 09:52:34 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.116]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.3.86]) with mapi id
+	14.03.0319.002; Wed, 28 Feb 2018 09:48:16 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "John, Maxin" <maxin.john@intel.com>
+Thread-Topic: [OE-core] [PATCH] dbus-test_1.12.2: various fixes
+Thread-Index: AQHTsAhKN9TD+Z9kD0Ku/XIqg9EQk6O6bhiA//+pSwQ=
+Date: Wed, 28 Feb 2018 17:48:16 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B64C6649B3@ORSMSX112.amr.corp.intel.com>
+References: <1519762766-20100-1-git-send-email-juro.bystricky@intel.com>,
+	<20180228145424.GA23739@mbabyjoh-desk.ger.corp.intel.com>
+In-Reply-To: <20180228145424.GA23739@mbabyjoh-desk.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.42]
 MIME-Version: 1.0
-In-Reply-To: <8ac4b7a1-b720-87cd-f1b8-67e04d7a8cbe@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] kernel-devsrc: restructure for out of tree (and on target) module builds
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dbus-test_1.12.2: various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,353 +45,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 17:38:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 28 Feb 2018 17:52:33 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 02/28/2018 11:51 AM, Bruce Ashfield wrote:
-> Unfortunately, I can't reproduce that here.
-> 
-> This has been built and tested on all arches by myself and others, but
-> I can try again .. just no promises when I'll get back to it.
-
-Ahaha. 32 bit ARM with a little bit of a manual hack on my machine
-and it triggered.
-
-64 bit works fine. Will send a v2 shortly.
-
-Bruce
-
-> 
-> Bruce
-> 
-> On 02/28/2018 11:38 AM, Burton, Ross wrote:
->> Sorry, but this breaks on ARM:
->>
->> ERROR: kernel-devsrc-1.0-r0 do_install: Function failed: do_install 
->> (log file is located at 
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822) 
->>
->> ERROR: Logfile of failure stored in: 
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822 
->>
->> Log data follows:
->> | DEBUG: Executing shell function do_install
->> | cp: with --parents, the destination must be a directory
->> | Try 'cp --help' for more information.
->> | WARNING: 
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/run.do_install.25822:1 
->> exit 1 from 'rm -rf $kerneldir/build/include'
->> | ERROR: Function failed: do_install (log file is located at 
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822) 
->>
->>
->> Ross
->>
->> On 28 February 2018 at 02:06, Bruce Ashfield 
->> <bruce.ashfield@windriver.com <mailto:bruce.ashfield@windriver.com>> 
->> wrote:
->>
->>     The existing kernel-devsrc package starts with a full copy of the 
->> kernel
->>     source and then starts to strip out elements that are not required.
->>
->>     This results in extra time (I/O) and extra space being taken up in 
->> the
->>     final package. The main purpose of the kernel-devsrc package has 
->> been to
->>     build modules against the running kernel, not to include a full 
->> copy of
->>     the source code for re-building the kernel. The end result was a
->>     600M kernel-devsrc package.
->>
->>     This restructuring of the package uses an approach similar to other
->>     distros, where the kernel-devsrc package is for building against the
->>     running kernel and uses a curated set of copied infrastructure, 
->> versus
->>     a mass copy of the entire kernel.
->>
->>     The differences in this approach versus other is largely due to the
->>     architecture support and the split build/source directory of the
->>     kernel.
->>
->>     The result is a kernel-devsrc package of about 10M, which is capable
->>     of running "make scripts" and compiling kernel modules against the
->>     running kernel.
->>
->>     Along with the changes to the copying of the infrascture, we also
->>     have the following changes:
->>
->>       - a better/more explicit listing of dependencies for on-target
->>         builds of "make scripts" or "make modules_prepare"
->>
->>       - The kernel source is installed into /lib/modules/<version>/build
->>         and a symlink created from /usr/src/kernel to the new location.
->>         This aligns with the standard location for module support
->>         code
->>
->>       - There is also a symlink from /lib/modules/<version>/source -> 
->> build
->>         to reserve a spot for a new package that is simply the kernel
->>         source. That package is not part of this update.
->>
->>     [YOCTO #12535]
->>
->>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com
->>     <mailto:bruce.ashfield@windriver.com>>
->>     ---
->>       meta/recipes-kernel/linux/kernel-devsrc.bb
->>     <http://kernel-devsrc.bb> | 178 ++++++++++++++++++++++-------
->>       1 file changed, 138 insertions(+), 40 deletions(-)
->>
->>     diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
->>     <http://kernel-devsrc.bb>
->>     b/meta/recipes-kernel/linux/kernel-devsrc.bb 
->> <http://kernel-devsrc.bb>
->>     index c1b5b7786d7c..f55b115e0936 100644
->>     --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
->>     <http://kernel-devsrc.bb>
->>     +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
->>     <http://kernel-devsrc.bb>
->>     @@ -30,50 +30,148 @@ do_populate_sysroot[noexec] = "1"
->>       S = "${STAGING_KERNEL_DIR}"
->>       B = "${STAGING_KERNEL_BUILDDIR}"
->>
->>     -KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
->>     -
->>       PACKAGE_ARCH = "${MACHINE_ARCH}"
->>
->>     +KERNEL_BUILD_ROOT="/lib/modules/"
->>     +
->>       do_install() {
->>     -        kerneldir=${D}${KERNEL_SRC_PATH}
->>     -        install -d $kerneldir
->>     -
->>     -        #
->>     -        # Copy the staging dir source (and module build support)
->>     into the devsrc structure.
->>     -        # We can keep this copy simple and take everything, since a
->>     we'll clean up any build
->>     -        # artifacts afterwards, and the extra i/o is not significant
->>     -        #
->>     -        cd ${B}
->>     -        find . -type d -name '.git*' -prune -o -path '.debug'
->>     -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
->>     -        cd ${S}
->>     -       find . -type d -name '.git*' -prune -o -type d -name
->>     '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu 
->> $kerneldir
->>     -
->>     -        # Explicitly set KBUILD_OUTPUT to ensure that the image
->>     directory is cleaned and not
->>     -        # The main build artifacts. We clean the directory to avoid
->>     QA errors on mismatched
->>     -        # architecture (since scripts and helpers are native 
->> format).
->>     -        KBUILD_OUTPUT="$kerneldir"
->>     -        oe_runmake -C $kerneldir CC="${KERNEL_CC}"
->>     LD="${KERNEL_LD}" clean _mrproper_scripts
->>     -        # make clean generates an absolute path symlink called 
->> "source"
->>     -        # in $kerneldir points to $kerneldir, which doesn't make any
->>     -        # sense, so remove it.
->>     -        if [ -L $kerneldir/source ]; then
->>     -            bbnote "Removing $kerneldir/source symlink"
->>     -            rm -f $kerneldir/source
->>     -        fi
->>     -
->>     -        # As of Linux kernel version 3.0.1, the clean target removes
->>     -        # arch/powerpc/lib/crtsavres.o which is present in
->>     -        # KBUILD_LDFLAGS_MODULE, making it required to build
->>     external modules.
->>     -        if [ ${ARCH} = "powerpc" ]; then
->>     -                mkdir -p $kerneldir/arch/powerpc/lib/
->>     -                cp ${B}/arch/powerpc/lib/crtsavres.o
->>     $kerneldir/arch/powerpc/lib/crtsavres.o
->>     -        fi
->>     -
->>     -        chown -R root:root ${D}
->>     +    kerneldir=${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}
->>     +    install -d $kerneldir
->>     +
->>     +    # create the directory structure
->>     +    rm -f $kerneldir/build
->>     +    rm -f $kerneldir/source
->>     +    mkdir -p $kerneldir/build
->>     +
->>     +    # for compatibility with some older variants of this package, we
->>     +    # create  a /usr/src/kernel symlink to
->>     /lib/modules/<version>/source
->>     +    mkdir -p ${D}/usr/src
->>     +    (
->>     +       cd ${D}/usr/src
->>     +       ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
->>     +    )
->>     +
->>     +    # for on target purposes, we unify build and source
->>     +    (
->>     +       cd $kerneldir
->>     +       ln -s build source
->>     +    )
->>     +
->>     +    # first copy everything
->>     +    (
->>     +       cd ${S}
->>     +       cp --parents $(find  -type f -name "Makefile*" -o -name
->>     "Kconfig*") $kerneldir/build
->>     +    )
->>     +
->>     +    # then drop all but the needed Makefiles/Kconfig files
->>     +    rm -rf $kerneldir/build/Documentation
->>     +    rm -rf $kerneldir/build/scripts
->>     +    rm -rf $kerneldir/build/include
->>     +
->>     +    # now copy in parts from the build that we'll need later
->>     +    (
->>     +       cd ${B}
->>     +
->>     +       cp Module.symvers $kerneldir/build
->>     +       cp System.map* $kerneldir/build
->>     +       if [ -s Module.markers ]; then
->>     +           cp Module.markers $kerneldir/build
->>     +       fi
->>     +
->>     +       cp .config $kerneldir/build
->>     +
->>     +       # TODO: this scripts copy will likely blow up QA, so for 
->> now, we
->>     +       #       require a more complex 'make scripts' to restore
->>     these, versus
->>     +       #       copying them here. Left as a reference to indicate
->>     that we
->>     +       #       know the scripts must be dealt with.
->>     +       # cp -a scripts $kerneldir/build
->>     +
->>     +       if [ -f tools/objtool/objtool ]; then
->>     +           cp -a tools/objtool/objtool 
->> $kerneldir/build/tools/objtool/
->>     +       fi
->>     +       if [ -d arch/${ARCH}/scripts ]; then
->>     +           cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
->>     +       fi
->>     +       if [ -f arch/${ARCH}/*lds ]; then
->>     +           cp -a arch/${ARCH}/*lds $kerneldir/build/arch/${ARCH}
->>     +       fi
->>     +
->>     +       rm -f $kerneldir/build/scripts/*.o
->>     +       rm -f $kerneldir/build/scripts/*/*.o
->>     +
->>     +       if [ "${ARCH}" = "powerpc" ]; then
->>     +           cp -a --parents arch/powerpc/lib/crtsavres.[So]
->>     $kerneldir/build/
->>     +       fi
->>     +
->>     +       cp -a include $kerneldir/build/include
->>     +    )
->>     +
->>     +    # now grab the chunks from the source tree that we need
->>     +    (
->>     +       cd ${S}
->>     +
->>     +       cp -a scripts $kerneldir/build
->>     +       if [ "${ARCH}" = "arm64" ]; then
->>     +           # arch/arm64/include/asm/xen references arch/arm
->>     +           cp -a --parents arch/arm/include/asm/xen 
->> $kerneldir/build/
->>     +           # arch/arm64/include/asm/opcodes.h references arch/arm
->>     +           cp -a --parents arch/arm/include/asm/opcodes.h
->>     $kerneldir/build/
->>     +       fi
->>     +
->>     +       # include the machine specific headers for ARM variants, if
->>     available.
->>     +       if [ "${ARCH}" = "arm" ]; then
->>     +           cp -a --parents arch/${ARCH}/mach-*/include
->>     $kerneldir/build/
->>     +
->>     +           # include a few files for 'make prepare'
->>     +           cp -a --parents arch/arm/tools/gen-mach-types
->>     $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
->>     +           cp -a --parents arch/arm/tools/mach-types
->>     $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
->>     +       fi
->>     +
->>     +       if [ -d arch/${ARCH}/include ]; then
->>     +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
->>     +       fi
->>     +
->>     +       cp -a include $kerneldir/build
->>     +
->>     +       if [ "${ARCH}" = "x86" ]; then
->>     +           # files for 'make prepare' to succeed with kernel-devel
->>     +           cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/tools/relocs_32.c 
->> $kerneldir/build/
->>     +           cp -a --parents arch/x86/tools/relocs_64.c 
->> $kerneldir/build/
->>     +           cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
->>     +           cp -a --parents arch/x86/tools/relocs_common.c
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
->>     +           cp -a --parents tools/include/tools/le_byteshift.h
->>     $kerneldir/build/
->>     +           cp -a --parents tools/include/tools/be_byteshift.h
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/purgatory.c
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/sha256.h
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/sha256.c
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/stack.S 
->> $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/string.c
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/setup-x86_64.S
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/purgatory/entry64.S
->>     $kerneldir/build/
->>     +           cp -a --parents arch/x86/boot/string.h $kerneldir/build/
->>     +           cp -a --parents arch/x86/boot/string.c $kerneldir/build/
->>     +           cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
->>     +       fi
->>     +    )
->>     +
->>     +    # Make sure the Makefile and version.h have a matching
->>     timestamp so that
->>     +    # external modules can be built
->>     +    touch -r $kerneldir/build/Makefile
->>     $kerneldir/build/include/generated/uapi/linux/version.h
->>     +
->>     +    # Copy .config to include/config/auto.conf so "make prepare" is
->>     unnecessary.
->>     +    cp $kerneldir/build/.config
->>     $kerneldir/build/include/config/auto.conf
->>     +
->>     +    chown -R root:root ${D}
->>       }
->>     +
->>       # Ensure we don't race against "make scripts" during cpio
->>       do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
->>
->>     -PACKAGES = "kernel-devsrc"
->>     -FILES_${PN} = "${KERNEL_SRC_PATH}"
->>     -RDEPENDS_${PN} = "bc"
->>     +FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
->>     +FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
->>     +RDEPENDS_${PN} = "bc glibc-utils"
->>     --
->>     2.5.0
->>
->>
-> 
-
+Yes, that is the root cause. I did file a bug a while ago:=0A=
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12273=0A=
+=0A=
+It is a race, I put the libraries in a hidden file, hoping they would not b=
+e found.=0A=
+I also considered linking the tests statically (which would eliminate the n=
+eed for the shared libraries), =0A=
+but the size was getting too big...=0A=
+=0A=
+Juro=0A=
+________________________________________=0A=
+From: John, Maxin=0A=
+Sent: Wednesday, February 28, 2018 6:54 AM=0A=
+To: Bystricky, Juro=0A=
+Cc: openembedded-core@lists.openembedded.org; jurobystricky@hotmail.com=0A=
+Subject: Re: [OE-core] [PATCH] dbus-test_1.12.2: various fixes=0A=
+=0A=
+Hi,=0A=
+=0A=
+On Tue, Feb 27, 2018 at 12:19:26PM -0800, Juro Bystricky wrote:=0A=
+> The result of running dbus-test-ptest was a series of=0A=
+> various segfaults, interpreted as FAILs. This was a direct consequence=0A=
+> of the test suite loading the installed shared library libdbus-1.so, not =
+the=0A=
+> one built along the test suite.=0A=
+>=0A=
+> While we normally want to test against the installed libraries, we cannot=
+=0A=
+> do this in this case as the test suite expects a library that is configur=
+ed/compiled=0A=
+> differently from the installed one. We could configure the installed libr=
+ary=0A=
+> identically as the test suite expects, (and there should be no issues), h=
+owever=0A=
+> this is not desirable for performance reasons.=0A=
+>=0A=
+> Hence we need to use the library built along with the test suite.=0A=
+> Of course, running the test suite against its own library does not=0A=
+> test the installed library, however they are both built from the same=0A=
+> sources so that can give us some kind of indication.=0A=
+>=0A=
+> The following changes were made:=0A=
+>=0A=
+> 1. Configure the test library as close as possible to the installed one,=
+=0A=
+>    with some additional configuration options that are needed for testing=
+.=0A=
+>    (Use dbus_1.12.2.bb recipe as a template)=0A=
+> 2. Include the shared libraries in the package, use LD_LIBRARY_PATH durin=
+g=0A=
+>    testing to load them instead of the installed ones.=0A=
+> 3. Add a few more tests. (There are still some additional tests built tha=
+t=0A=
+>    are not used, but they would have to be special-cased).=0A=
+> 4. When evaluating the test results, differentiate between "FAIL" and "SK=
+IP"=0A=
+>=0A=
+> [YOCTO #10841]=0A=
+> [YOCTO #12277]=0A=
+>=0A=
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>=0A=
+> ---=0A=
+>  meta/recipes-core/dbus/dbus-test_1.12.2.bb | 30 ++++++++++++++++++++++++=
+++----=0A=
+>  meta/recipes-core/dbus/dbus/run-ptest      | 20 +++++++++++++++++---=0A=
+>  2 files changed, 43 insertions(+), 7 deletions(-)=0A=
+=0A=
+Probably due to this change, dbus ptest related sanity tests fails here:=0A=
+=0A=
+https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/813/steps/=
+Running%20Sanity%20Tests/logs/stdio=0A=
+=0A=
+=0A=
+NOTE:  ... ok=0A=
+| NOTE: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
+| NOTE: FAIL: test_ptestrunner (ptest.PtestRunnerTest)=0A=
+| NOTE: -------------------------------------------------------------------=
+---=0A=
+| NOTE: Traceback (most recent call last):=0A=
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-de=
+b/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f=0A=
+|     return func(*args, **kwargs)=0A=
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-de=
+b/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f=0A=
+|     return func(*args, **kwargs)=0A=
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-de=
+b/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f=0A=
+|     return func(*args, **kwargs)=0A=
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-de=
+b/build/meta/lib/oeqa/runtime/cases/ptest.py", line 93, in test_ptestrunner=
+=0A=
+|     self.assertFalse(failed_tests, msg =3D "Failed ptests: %s" %(str(fail=
+ed_tests)))=0A=
+| AssertionError: {'dbus-test': [' test/test-bus', ' test/test-dbus-daemon'=
+, ' test/test-names']} is not false : Failed ptests: {'dbus-test': [' test/=
+test-bus', ' test/test-dbus-daemon', ' test/test-names']}=0A=
+=0A=
+=0A=
+Best Regards,=0A=
+Maxin=0A=
 
