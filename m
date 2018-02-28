@@ -1,31 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6116D78844
+Return-Path: <raphael.freudiger@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 69B12700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 08:55:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1S8toPY026346
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Feb 2018 00:55:50 -0800 (PST)
-Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 28 Feb 2018 00:55:24 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1519797175.git.Qi.Chen@windriver.com>
-	<c3450d9b913dd74b47d5a6b68518d3d06802d7a8.1519797175.git.Qi.Chen@windriver.com>
-	<CAMKF1sosH7NOrugAEOMyRd_p+nFa8Wpjc-cvWK2eSRX6T1bEWQ@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <0fc088d9-ca1b-5d50-7d0c-dca1fdd1d36c@windriver.com>
-Date: Wed, 28 Feb 2018 16:55:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sosH7NOrugAEOMyRd_p+nFa8Wpjc-cvWK2eSRX6T1bEWQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.197]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] meson.bbclass: fix to build for more projects
+	Wed, 28 Feb 2018 10:23:26 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w1SANQsd019771
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Feb 2018 11:23:27 +0100
+Received: from dev.vm6.ccp.siemens.com ([167.87.38.206])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w1SANQmc022406;
+	Wed, 28 Feb 2018 11:23:26 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 21EE73605BBD;
+	Wed, 28 Feb 2018 11:23:26 +0100 (CET)
+From: Raphael Freudiger <raphael.freudiger@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Feb 2018 11:20:56 +0100
+Message-Id: <20180228102056.13754-1-raphael.freudiger@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] staging: remove files from multilib workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,82 +32,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 08:55:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Feb 2018 10:23:28 -0000
 
-On 02/28/2018 04:25 PM, Khem Raj wrote:
-> On Tue, Feb 27, 2018 at 9:56 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->> We should use the value of CC for the c compiler setting in cross
->> compilation configuration file for meson. For example, if we only
->> use ${HOST_PREFIX}gcc instead of ${CC}, we would meet the following
->> do_compile failure for systemd.
->>
->>    cc1: fatal error: linux/capability.h: No such file or directory
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/meson.bbclass | 13 ++++---------
->>   1 file changed, 4 insertions(+), 9 deletions(-)
->>
->> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
->> index 31d32a5..97dcf81 100644
->> --- a/meta/classes/meson.bbclass
->> +++ b/meta/classes/meson.bbclass
->> @@ -41,24 +41,19 @@ MESON_CROSS_FILE = ""
->>   MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
->>   MESON_CROSS_FILE_class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
->>
->> -CCOMPILER ?= "gcc"
->> -CXXCOMPILER ?= "g++"
->> -CCOMPILER_toolchain-clang = "clang"
->> -CXXCOMPILER_toolchain-clang = "clang++"
->> -
->>   def meson_array(var, d):
->>       return "', '".join(d.getVar(var).split()).join(("'", "'"))
->>
->>   addtask write_config before do_configure
->> -do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS"
->> +do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD"
->>   do_write_config() {
->>       # This needs to be Py to split the args into single-element lists
->>       cat >${WORKDIR}/meson.cross <<EOF
->>   [binaries]
->> -c = '${HOST_PREFIX}${CCOMPILER}'
->> -cpp = '${HOST_PREFIX}${CXXCOMPILER}'
->> +c = [${@meson_array('CC', d)}]
->> +cpp = [${@meson_array('CXX', d)}]
->>   ar = '${HOST_PREFIX}ar'
->> -ld = '${HOST_PREFIX}ld'
->> +ld = [${@meson_array('LD', d)}]
->
-> we should do same for ar and nm atleast.
->
+Packages with a different architecture will be installed in a different multilib workdir.
+When those packages are updated, it will remove the files from the default workdir,
+but not from the multilib workdir.
+This will throw a file exists error later on.
+Remove the files from the multilib workdir for packages that are installed into the multilib workdir.
 
-Hi Khem,
+Signed-off-by: Raphael Freudiger <raphael.freudiger@siemens.com>
+---
+ meta/classes/staging.bbclass | 47 ++++++++++++++++++++++++++++++++------------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
-As AR is set to be "${HOST_PREFIX}ar" and NM is set to be 
-"${HOST_PREFIX}nm" in bitbake.conf, I chose not to change it.
-
-Given it a second thinking, considering the meta-clang layer, I think 
-you are right.
-
-I'll fix it in V2.
-
-Best Regards,
-Chen Qi
-
->>   strip = '${HOST_PREFIX}strip'
->>   readelf = '${HOST_PREFIX}readelf'
->>   pkgconfig = 'pkg-config'
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 984051d6aa..2e836adce4 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -470,6 +470,10 @@ python extend_recipe_sysroot() {
+     multilibs = {}
+     manifests = {}
+ 
++    multilib_variants = (d.getVar("MULTILIBS") or "").split()
++    if multilib_variants:
++        multilib_variants = [variant.split(":")[1] for variant in multilib_variants]
++
+     for f in os.listdir(depdir):
+         if not f.endswith(".complete"):
+             continue
+@@ -477,7 +481,15 @@ python extend_recipe_sysroot() {
+         if os.path.islink(f) and not os.path.exists(f):
+             bb.note("%s no longer exists, removing from sysroot" % f)
+             lnk = os.readlink(f.replace(".complete", ""))
+-            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
++            dep = os.path.basename(f).replace(".complete", "")
++            d2 = d
++            for variant in multilib_variants:
++                if dep.startswith(variant+"-"):
++                    if variant not in multilibs:
++                        multilibs[variant] = get_multilib_datastore(variant, d)
++                    d2 = multilibs[variant]
++                    break
++            sstate_clean_manifest(depdir + "/" + lnk, d2, d2.getVar("WORKDIR"))
+             os.unlink(f)
+             os.unlink(f.replace(".complete", ""))
+ 
+@@ -517,7 +529,14 @@ python extend_recipe_sysroot() {
+             fl = depdir + "/" + l
+             bb.note("Task %s no longer depends on %s, removing from sysroot" % (mytaskname, l))
+             lnk = os.readlink(fl)
+-            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
++            d2 = d
++            for variant in multilib_variants:
++                if l.startswith(variant+"-"):
++                    if variant not in multilibs:
++                        multilibs[variant] = get_multilib_datastore(variant, d)
++                    d2 = multilibs[variant]
++                    break
++            sstate_clean_manifest(depdir + "/" + lnk, d2, d2.getVar("WORKDIR"))
+             os.unlink(fl)
+             os.unlink(fl + ".complete")
+ 
+@@ -528,6 +547,18 @@ python extend_recipe_sysroot() {
+         taskhash = setscenedeps[dep][5]
+         taskmanifest = depdir + "/" + c + "." + taskhash
+ 
++        d2 = d
++        destsysroot = recipesysroot
++        variant = ''
++        # get multilib datastore if needed
++        if setscenedeps[dep][2].startswith("virtual:multilib"):
++            variant = setscenedeps[dep][2].split(":")[2]
++            if variant != current_variant:
++                if variant not in multilibs:
++                    multilibs[variant] = get_multilib_datastore(variant, d)
++                d2 = multilibs[variant]
++                destsysroot = d2.getVar("RECIPE_SYSROOT")
++
+         if os.path.exists(depdir + "/" + c):
+             lnk = os.readlink(depdir + "/" + c)
+             if lnk == c + "." + taskhash and os.path.exists(depdir + "/" + c + ".complete"):
+@@ -535,7 +566,7 @@ python extend_recipe_sysroot() {
+                 continue
+             else:
+                 bb.note("%s exists in sysroot, but is stale (%s vs. %s), removing." % (c, lnk, c + "." + taskhash))
+-                sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
++                sstate_clean_manifest(depdir + "/" + lnk, d2, d2.getVar("WORKDIR"))
+                 os.unlink(depdir + "/" + c)
+                 if os.path.lexists(depdir + "/" + c + ".complete"):
+                     os.unlink(depdir + "/" + c + ".complete")
+@@ -544,16 +575,6 @@ python extend_recipe_sysroot() {
+ 
+         os.symlink(c + "." + taskhash, depdir + "/" + c)
+ 
+-        d2 = d
+-        destsysroot = recipesysroot
+-        variant = ''
+-        if setscenedeps[dep][2].startswith("virtual:multilib"):
+-            variant = setscenedeps[dep][2].split(":")[2]
+-            if variant != current_variant:
+-                if variant not in multilibs:
+-                    multilibs[variant] = get_multilib_datastore(variant, d)
+-                d2 = multilibs[variant]
+-                destsysroot = d2.getVar("RECIPE_SYSROOT")
+ 
+         native = False
+         if c.endswith("-native"):
+-- 
+2.11.0
 
 
