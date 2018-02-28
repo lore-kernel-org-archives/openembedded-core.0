@@ -1,31 +1,31 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 93F0F788B8
+	by mail.openembedded.org (Postfix) with ESMTP id 6116D78844
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 08:46:28 +0000 (UTC)
+	Wed, 28 Feb 2018 08:55:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1S8kTHW026310
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w1S8toPY026346
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Feb 2018 00:46:29 -0800 (PST)
+	Wed, 28 Feb 2018 00:55:50 -0800 (PST)
 Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 28 Feb 2018 00:46:02 -0800
+	Wed, 28 Feb 2018 00:55:24 -0800
 To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1519797175.git.Qi.Chen@windriver.com>
-	<846a1c535da3f41e87999910427d49929d9753a2.1519797175.git.Qi.Chen@windriver.com>
-	<CAMKF1spn6uXBQJsSBnTs8ZMkBVyQeJFOqv9_ufWSnAoFqqJ0mg@mail.gmail.com>
+	<c3450d9b913dd74b47d5a6b68518d3d06802d7a8.1519797175.git.Qi.Chen@windriver.com>
+	<CAMKF1sosH7NOrugAEOMyRd_p+nFa8Wpjc-cvWK2eSRX6T1bEWQ@mail.gmail.com>
 From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <9bbbe528-0650-35ae-c68d-ea2cdba6eee7@windriver.com>
-Date: Wed, 28 Feb 2018 16:46:34 +0800
+Message-ID: <0fc088d9-ca1b-5d50-7d0c-dca1fdd1d36c@windriver.com>
+Date: Wed, 28 Feb 2018 16:55:56 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spn6uXBQJsSBnTs8ZMkBVyQeJFOqv9_ufWSnAoFqqJ0mg@mail.gmail.com>
+In-Reply-To: <CAMKF1sosH7NOrugAEOMyRd_p+nFa8Wpjc-cvWK2eSRX6T1bEWQ@mail.gmail.com>
 X-Originating-IP: [128.224.162.197]
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: fix build failure for qemux86 and qemuppc with musl
+Subject: Re: [PATCH 1/4] meson.bbclass: fix to build for more projects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,92 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 08:46:28 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 08:55:50 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/28/2018 04:29 PM, Khem Raj wrote:
+On 02/28/2018 04:25 PM, Khem Raj wrote:
 > On Tue, Feb 27, 2018 at 9:56 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->> Remove the 'fstack-protector' and 'fstack-protector-strong' flags
->> as a workaround to fix the following error when building for qemux86
->> and qemuppc with musl.
+>> We should use the value of CC for the c compiler setting in cross
+>> compilation configuration file for meson. For example, if we only
+>> use ${HOST_PREFIX}gcc instead of ${CC}, we would meet the following
+>> do_compile failure for systemd.
 >>
->>    undefined reference to `__stack_chk_fail_local'
+>>    cc1: fatal error: linux/capability.h: No such file or directory
 >>
 >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 >> ---
->>   ...ck-protector-flags-to-workaround-musl-bui.patch | 33 ++++++++++++++++++++++
->>   meta/recipes-core/systemd/systemd_236.bb           |  4 +++
->>   2 files changed, 37 insertions(+)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>   meta/classes/meson.bbclass | 13 ++++---------
+>>   1 file changed, 4 insertions(+), 9 deletions(-)
 >>
->> diff --git a/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->> new file mode 100644
->> index 0000000..783e579
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->> @@ -0,0 +1,33 @@
->> +From a3e71209957e627be7e47969a61d2c69de4f2659 Mon Sep 17 00:00:00 2001
->> +From: Chen Qi <Qi.Chen@windriver.com>
->> +Date: Tue, 27 Feb 2018 18:06:51 -0800
->> +Subject: [PATCH] Remove fstack-protector flags to workaround musl build
->> +
->> +Remove fstack-protector and fstack-protector-strong flags to fix
->> +the following build failure for qemux86 and qemuppc with musl.
->> +
->> +  undefined reference to `__stack_chk_fail_local'
->> +
->> +Upstream-Status: Inappropriate [OE Specific]
->> +
->> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> +---
->> + meson.build | 2 --
->> + 1 file changed, 2 deletions(-)
->> +
->> +diff --git a/meson.build b/meson.build
->> +index ddc061c12..631e76886 100644
->> +--- a/meson.build
->> ++++ b/meson.build
->> +@@ -298,8 +298,6 @@ foreach arg : ['-Wextra',
->> +                '-fdiagnostics-show-option',
->> +                '-fno-strict-aliasing',
->> +                '-fvisibility=hidden',
->> +-               '-fstack-protector',
->> +-               '-fstack-protector-strong',
->> +                '-fPIE',
->> +                '--param=ssp-buffer-size=4',
->> +               ]
->> +--
->> +2.13.0
->> +
->> diff --git a/meta/recipes-core/systemd/systemd_236.bb b/meta/recipes-core/systemd/systemd_236.bb
->> index a208f62..7798abb 100644
->> --- a/meta/recipes-core/systemd/systemd_236.bb
->> +++ b/meta/recipes-core/systemd/systemd_236.bb
->> @@ -53,6 +53,10 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
->>              "
->>   SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+>> index 31d32a5..97dcf81 100644
+>> --- a/meta/classes/meson.bbclass
+>> +++ b/meta/classes/meson.bbclass
+>> @@ -41,24 +41,19 @@ MESON_CROSS_FILE = ""
+>>   MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+>>   MESON_CROSS_FILE_class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
 >>
->> +# Workaround undefined reference to `__stack_chk_fail_local' on qemux86 and qemuppc for musl
->> +SRC_URI_append_libc-musl_qemux86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
->> +SRC_URI_append_libc-musl_qemuppc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
->> +
-> we have security_flags.inc to build with these flags. So it might be fine
-> to just remove these flags including -fPIE
+>> -CCOMPILER ?= "gcc"
+>> -CXXCOMPILER ?= "g++"
+>> -CCOMPILER_toolchain-clang = "clang"
+>> -CXXCOMPILER_toolchain-clang = "clang++"
+>> -
+>>   def meson_array(var, d):
+>>       return "', '".join(d.getVar(var).split()).join(("'", "'"))
+>>
+>>   addtask write_config before do_configure
+>> -do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS"
+>> +do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD"
+>>   do_write_config() {
+>>       # This needs to be Py to split the args into single-element lists
+>>       cat >${WORKDIR}/meson.cross <<EOF
+>>   [binaries]
+>> -c = '${HOST_PREFIX}${CCOMPILER}'
+>> -cpp = '${HOST_PREFIX}${CXXCOMPILER}'
+>> +c = [${@meson_array('CC', d)}]
+>> +cpp = [${@meson_array('CXX', d)}]
+>>   ar = '${HOST_PREFIX}ar'
+>> -ld = '${HOST_PREFIX}ld'
+>> +ld = [${@meson_array('LD', d)}]
+>
+> we should do same for ar and nm atleast.
 >
 
 Hi Khem,
 
-Just to confirm, do you mean that we remove these flags unconditionally?
-Something like:
-SRC_URI_append = " file://0001-Remove-security-flags"
+As AR is set to be "${HOST_PREFIX}ar" and NM is set to be 
+"${HOST_PREFIX}nm" in bitbake.conf, I chose not to change it.
+
+Given it a second thinking, considering the meta-clang layer, I think 
+you are right.
+
+I'll fix it in V2.
 
 Best Regards,
 Chen Qi
 
->>   PAM_PLUGINS = " \
->>       pam-plugin-unix \
->>       pam-plugin-loginuid \
+>>   strip = '${HOST_PREFIX}strip'
+>>   readelf = '${HOST_PREFIX}readelf'
+>>   pkgconfig = 'pkg-config'
 >> --
 >> 1.9.1
 >>
