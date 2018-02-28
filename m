@@ -1,46 +1,47 @@
 Return-Path: <francescogiancane8@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CB50D78908
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB0C78901
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 21:00:06 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id z81so7586417wmb.4
+	Wed, 28 Feb 2018 21:01:08 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id w128so7699144wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 13:00:08 -0800 (PST)
+	Wed, 28 Feb 2018 13:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=uJhDXcJOzvlTBT2paUHljN9Dd7n7iGNBzYj9hLejAFY=;
-	b=cjkv11yHrrYmSRvrV5brRSdNVJ7uhL/AC67L12mBbLs6w8vdJSdYWO+MR+LsP7gZgA
-	k6jAKR5XEExJeT0ag6fjhrs7DKPOyaPsn4vXKR5WhlmSmqlF5dWtKpW4zBJULXnGeVFG
-	lV9w4+hXZuE2CIYB/lPLBJx13aCz5T7YE1ki5DdySrzuecAE0gXGE147+PNr8OlvVPY+
-	0Xwmkb84e7vuvjQLZPHcxNLE0/5EWCDv9R3ZL/HZmI2DqTU2kwe79kt3wn9esSOJRY8e
-	MRNtjQtt+iJTL0ytMSgs9qLFn+E7N/Ea0TkcSMM/13hPzTrlXpooPOc8694QG8FJrPI6
-	CsMA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qdZRPbEZAJOjHHlcOWpvuv+YoAt4i//63CZ1qasJQLU=;
+	b=GL4etb/oRYUhIhxYoze/oG+YbtJdlnvscjDNwbP4lw4NCVmCRylHr2D4k49yp3CXmh
+	MFw8eXEGnhQoq4vVFoppFaxU0S+Voj0RBZNuQB2KMWbOGtZ4QNvYh7p+yT2SnupGtWBe
+	O1flj4T9XX4pr5hJlLfGbnwIaGvaJU6vtiWN7gCp/CzUxguwNHbcU0Fs9t5De6U+bb2n
+	8an3AoUlyx4PLnkP7HaQYFnR/tq0edtNK8uucst/sqiHFHxkxR/tEMEWk8TUwNcSSoAh
+	n1lgWb/+BOszkjqxXn95jVOrqq5np+NYR47UaZIR9+zQ7QfO4caYSNF0UiQdINBP7Upi
+	OKTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uJhDXcJOzvlTBT2paUHljN9Dd7n7iGNBzYj9hLejAFY=;
-	b=On5nMGRqGTzngKQDsRGR7ucdKrJQhmvx6mSxNco6jNWrLF6+waI1MVA8mNSP8/ySlV
-	gF4H+827ng9q7IE2mfVC67uxZr5jaT4jgqg18CoeB4gLVKoKTne+DG5pn8VSVenYcnif
-	y/AyrJQ4NDqQ5zOgRPNDvial4uhpcBLi4CHPD6FlKxPIeyOgtirI+amqlJXegAZBV7bf
-	WnwKXD1CvZR5tWM3dsg6M+PmXaD1bKGdVVHlKjHqKjB/3an1a6RrQiOAUrKZaTJfYAAW
-	h4blDuqMdnfL2VcXgxBO6KGwF/EfEUIWddQz4T4eXBup8BC/kPQuCoaBmjA2IbNTPFUL
-	GZLw==
-X-Gm-Message-State: APf1xPBLOwWhwUwc90vMQnLGkVO1+/APTD5FKt9Z0BKAdDlTstK+LJ0d
-	FKBJIzeBQu2cfuc7fw2aVkEKoUXP
-X-Google-Smtp-Source: AH8x225MH8u0037zPhwXwfnynv4dtlDJQvqB9rbN1U+dxNMGcNWUx0lSkqw+bsnNCJhkbaZ/0MYUZg==
-X-Received: by 10.28.3.65 with SMTP id 62mr14861626wmd.116.1519851606821;
-	Wed, 28 Feb 2018 13:00:06 -0800 (PST)
-Received: from localhost.localdomain ([151.33.14.228])
-	by smtp.gmail.com with ESMTPSA id
-	a14sm2439477wra.27.2018.02.28.13.00.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 28 Feb 2018 13:00:05 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qdZRPbEZAJOjHHlcOWpvuv+YoAt4i//63CZ1qasJQLU=;
+	b=BrXAntlbqX1ltaMAOsGh+bz6D8w2cjuW8hTjRl7Vs+aXa32mSca9QZ9RnV3phjy5VZ
+	E+abxNb07yT98vBBJbyeG4MquucJh8m51bQ0q50VhXYEa4Tr4Z7tR8zTNPJpUHoOa3mb
+	+BPcbTIA3CXo72DMmzaAxb+ubf0ydtQQ+JTAKRtyF6TbvfHOT45T0FBsg28k0Hq28dgH
+	LMTjp3cRDyHSHLXDkIZhCNF6vUJfZGIw1ghkj6MgxxqpJsr/5ompTptJfgLOtq0qUDFd
+	lZ1W0vsRVc6K8GfzZbm11XlYsUiriXaH1Qpc/osIfCQzaqfvla5Fu2pgAUJMc0MLWq0v
+	e+Hg==
+X-Gm-Message-State: APf1xPBz67z+TIPCgI6YiIZfzqBYw3FisloE0N37m9DAq4kgmF3WwVuU
+	+syjU2SZ0FEVQdg4HVvLKRViRgyHm4IMbbzDoq26GQ==
+X-Google-Smtp-Source: AG47ELvYZSBq4w9yCz0eIdYJ0vlKRC7kD6WiUu/KMvew5mYu9CSPt0esAWdXP1uTQaxSLNQGE2u8vH2GaSMohYGm7FA=
+X-Received: by 10.80.246.143 with SMTP id d15mr21047666edn.196.1519851669727; 
+	Wed, 28 Feb 2018 13:01:09 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.80.143.162 with HTTP; Wed, 28 Feb 2018 13:01:09 -0800 (PST)
+In-Reply-To: <CAJTo0LatUkmJPixp2_CnxwRfP4hqvMdjtaiX3H_ezFxRwr_mAA@mail.gmail.com>
+References: <20180228184225.10017-1-francescogiancane8@gmail.com>
+	<CAJTo0LatUkmJPixp2_CnxwRfP4hqvMdjtaiX3H_ezFxRwr_mAA@mail.gmail.com>
 From: Francesco Giancane <francescogiancane8@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 21:58:43 +0100
-Message-Id: <20180228205843.3146-1-francescogiancane8@gmail.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [meta-oe][PATCH v2] libepoxy: New recipe updated to latest release
+Date: Wed, 28 Feb 2018 22:01:09 +0100
+Message-ID: <CAEQ58sgRB4kZ9Z_gmSPWt0nd8WrPmYi81HQoEAz_SbbgFHHFTg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] libepoxy: New recipe updated to latest release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,168 +54,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 21:00:07 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 21:01:09 -0000
+Content-Type: multipart/alternative; boundary="f403045f1f8ae2affc05664c0a3f"
 
-libepoxy 1.4.3 did not compile successfully because of
-implicit symbol definitions and link-time errors.
-A new recipe with latest libepoxy release (1.5.0) which
-successfully compiles is provided.
+--f403045f1f8ae2affc05664c0a3f
+Content-Type: text/plain; charset="UTF-8"
 
-Patch to disable 'dlvsym' has also been forward-ported
-to be applicable to version 1.5.0.
-The patch 'Add-fallback-definition-for-EGL-CAST.patch' is
-mainline now; thus it can be safely removed.
+Hi,
 
-Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
----
- ...sible-to-disable-the-use-of-dlvsym-needed.patch | 26 +++++++++--------
- .../Add-fallback-definition-for-EGL-CAST.patch     | 33 ----------------------
- .../{libepoxy_1.4.3.bb => libepoxy_1.5.0.bb}       |  9 +++---
- 3 files changed, 18 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
- rename meta/recipes-graphics/libepoxy/{libepoxy_1.4.3.bb => libepoxy_1.5.0.bb} (66%)
+Thank you for the review.
+I took the opportunity to re-check my patch, as requested:
+- removed old version;
+- updated the patches for 1.5.0 version of the library;
+- fixed configure-time flags;
+- tested again.
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
-index c2a2fa3453..5bddc12033 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
-+++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
-@@ -1,36 +1,38 @@
--From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 15 Nov 2017 12:48:27 +0200
-+From 9c964427656ef71210e2c5b48b279857806574e9 Mon Sep 17 00:00:00 2001
-+From: Francesco Giancane <francescogiancane8@gmail.com>
-+Date: Wed, 28 Feb 2018 21:32:24 +0100
- Subject: [PATCH] Make it possible to disable the use of dlvsym() (needed for
-  musl)
- 
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+Add a patch to work around absence of dlvsym() on musl
-+(wasn't previously a problem as autotools weren't building tests by default)
- 
-+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-+Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
- ---
-  meson_options.txt | 3 +++
-  test/meson.build  | 6 +++---
-  2 files changed, 6 insertions(+), 3 deletions(-)
- 
- diff --git a/meson_options.txt b/meson_options.txt
--index 244476a..071f0b6 100644
-+index b5d7c98..aa849c2 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
- @@ -1,6 +1,9 @@
-- option('enable-docs',
-+ option('docs',
-         type: 'boolean', value: false,
-         description: 'Enable generating the Epoxy API reference (depends on Doxygen)')
- +option('has-dlvsym',
- +       type: 'boolean', value: true,
- +       description: 'Whether dlvsym() is available (it is not when using musl C library)')
-- option('enable-glx',
-+ option('glx',
-         type: 'combo',
-         choices: [ 'auto', 'yes', 'no' ],
- diff --git a/test/meson.build b/test/meson.build
--index 2340fc6..bc4330b 100644
-+index c5788b4..4c46ae6 100644
- --- a/test/meson.build
- +++ b/test/meson.build
--@@ -86,8 +86,8 @@ if build_glx
-+@@ -92,8 +92,8 @@ if build_glx
-      [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c' ], [], [], true ],
-      [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [ '-static' ], libtype == 'static' ],
-      [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ], has_znow ],
-@@ -41,7 +43,7 @@ index 2340fc6..bc4330b 100644
-    ]
-  
-    foreach test: glx_tests
--@@ -108,7 +108,7 @@ if build_glx
-+@@ -114,7 +114,7 @@ if build_glx
-      endif
-    endforeach
-  
-@@ -51,5 +53,5 @@ index 2340fc6..bc4330b 100644
-      if build_egl
-        glx_egl_sources = [
- -- 
--2.15.0
-+2.14.3
- 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
-deleted file mode 100644
-index b9297257dc..0000000000
---- a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--Add fallback definition for EGL_CAST
--
--The EGL API update from d11104f introduced a dependency on the
--EGL_CAST() macro, provided by an updated eglplatform.h. Given that we
--don't provide eglplatform.h, add a fallback definition for if we're
--building against Mesa 17.0.x or similar.
--
--https://bugs.gentoo.org/show_bug.cgi?id=623926
--
--Upstream-Status: Backport [https://github.com/anholt/libepoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8]
--
--Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
--
--Index: libepoxy-1.4.3/src/gen_dispatch.py
--===================================================================
----- libepoxy-1.4.3.orig/src/gen_dispatch.py	2017-06-06 04:24:13.000000000 -0500
--+++ libepoxy-1.4.3/src/gen_dispatch.py	2017-11-06 12:45:43.594966473 -0600
--@@ -491,6 +491,15 @@
--             self.outln('#include "epoxy/gl.h"')
--             if self.target == "egl":
--                 self.outln('#include "EGL/eglplatform.h"')
--+                # Account for older eglplatform.h, which doesn't define
--+                # the EGL_CAST macro.
--+                self.outln('#ifndef EGL_CAST')
--+                self.outln('#if defined(__cplusplus)')
--+                self.outln('#define EGL_CAST(type, value) (static_cast<type>(value))')
--+                self.outln('#else')
--+                self.outln('#define EGL_CAST(type, value) ((type) (value))')
--+                self.outln('#endif')
--+                self.outln('#endif')
--         else:
--             # Add some ridiculous inttypes.h redefinitions that are
--             # from khrplatform.h and not included in the XML.  We
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
-similarity index 66%
-rename from meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
-index 72167a2fb8..dfdd19248d 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
-@@ -6,11 +6,10 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
- 
- SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
--           file://Add-fallback-definition-for-EGL-CAST.patch \
-            file://0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch \
-            "
--SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
--SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8bc7fb2fda074478e329b063c1f872b826f6"
-+SRC_URI[md5sum] = "63fe3847789258254dcd7e3fdb9e7f5e"
-+SRC_URI[sha256sum] = "4c94995398a6ebf691600dda2e9685a0cac261414175c2adf4645cdfab42a5d5"
- UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
- 
- inherit meson pkgconfig distro_features_check
-@@ -19,8 +18,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
- 
- DEPENDS = "util-macros"
- 
--PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
--PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no, virtual/libx11"
-+PACKAGECONFIG[egl] = "-Degl=yes, -Degl=no, virtual/egl"
-+PACKAGECONFIG[x11] = "-Dglx=yes, -Dglx=no, virtual/libx11 virtual/libgl"
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
- 
- EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
--- 
-2.14.3
+Everything seems OK now.
 
+a PATCH v2 shall follow.
 
+Thanks,
+Francesco Giancane
+
+2018-02-28 20:58 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
+
+> Please also delete the old release.
+>
+> Ross
+>
+> On 28 February 2018 at 18:42, Francesco Giancane <
+> francescogiancane8@gmail.com> wrote:
+>
+>> libepoxy 1.4.3 did not compile successfully because of
+>> implicit symbol definitions and link-time errors.
+>> A new recipe with latest libepoxy release (1.5.0) which
+>> successfully compiles is provided.
+>>
+>> Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
+>> ---
+>>  meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb | 24
+>> ++++++++++++++++++++++++
+>>  1 file changed, 24 insertions(+)
+>>  create mode 100644 meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>>
+>> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>> b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>> new file mode 100644
+>> index 0000000000..d7702cfd64
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>> @@ -0,0 +1,24 @@
+>> +SUMMARY = "OpenGL function pointer management library"
+>> +HOMEPAGE = "https://github.com/anholt/libepoxy/"
+>> +SECTION = "libs"
+>> +
+>> +LICENSE = "MIT"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+>> +
+>> +SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${
+>> BP}.tar.xz \
+>> +           "
+>> +SRC_URI[md5sum] = "63fe3847789258254dcd7e3fdb9e7f5e"
+>> +SRC_URI[sha256sum] = "4c94995398a6ebf691600dda2e968
+>> 5a0cac261414175c2adf4645cdfab42a5d5"
+>> +UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+>> +
+>> +inherit meson pkgconfig distro_features_check
+>> +
+>> +REQUIRED_DISTRO_FEATURES = "opengl"
+>> +
+>> +DEPENDS = "util-macros"
+>> +
+>> +PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
+>> +PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no, virtual/libx11
+>> virtual/libgl"
+>> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
+>> +
+>> +EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
+>> --
+>> 2.14.3
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
+
+--f403045f1f8ae2affc05664c0a3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>Thank you for the review.</div><div=
+>I took the opportunity to re-check my patch, as requested:</div><div>- rem=
+oved old version;</div><div>- updated the patches for 1.5.0 version of the =
+library;</div><div class=3D"gmail_extra">- fixed configure-time flags;</div=
+><div class=3D"gmail_extra">- tested again.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Everything seems OK now.</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">a PATCH v2 shall f=
+ollow.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Thanks,<br clear=3D"all"><div><div class=3D"gmail_signature" data-smartmai=
+l=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
+=3D"ltr">Francesco Giancane</div></div></div></div></div></div></div>
+<br><div class=3D"gmail_quote">2018-02-28 20:58 GMT+01:00 Burton, Ross <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank=
+">ross.burton@intel.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
+div dir=3D"ltr">Please also delete the old release.<div><br></div><div>Ross=
+</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><div>=
+<div class=3D"h5">On 28 February 2018 at 18:42, Francesco Giancane <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:francescogiancane8@gmail.com" target=3D"_bl=
+ank">francescogiancane8@gmail.com</a>&gt;</span> wrote:<br></div></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"><div><div class=3D"h5">libepoxy 1.4.3 did not co=
+mpile successfully because of<br>
+implicit symbol definitions and link-time errors.<br>
+A new recipe with latest libepoxy release (1.5.0) which<br>
+successfully compiles is provided.<br>
+<br>
+Signed-off-by: Francesco Giancane &lt;<a href=3D"mailto:francescogiancane8@=
+gmail.com" target=3D"_blank">francescogiancane8@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/libepox<wbr>y/<a href=3D"http://libepoxy_1.5.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.5.0.bb</a> | 24 +++++++=
++++++++++++++++++<br>
+=C2=A01 file changed, 24 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-graphics/libepoxy<wbr>/<a href=3D"htt=
+p://libepoxy_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.5.0.=
+bb</a><br>
+<br>
+diff --git a/meta/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy=
+_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.5.0.bb</a> b/met=
+a/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy_1.5.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">libepoxy_1.5.0.bb</a><br>
+new file mode 100644<br>
+index 0000000000..d7702cfd64<br>
+--- /dev/null<br>
++++ b/meta/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy_1.5.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.5.0.bb</a><br>
+@@ -0,0 +1,24 @@<br>
++SUMMARY =3D &quot;OpenGL function pointer management library&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/anholt/libepoxy/" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/anholt/lib<wbr>epoxy/</a>&=
+quot;<br>
++SECTION =3D &quot;libs&quot;<br>
++<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D58ef4c80d4<wbr>01e07bd9ee8=
+b6b58cf464b&quot;<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"https://github.com/anholt/$%7BBPN%7D/releases=
+/download/$%7BPV%7D/$%7BBP%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">=
+https://github.com/anholt/${B<wbr>PN}/releases/download/${PV}/${<wbr>BP}.ta=
+r.xz</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
++SRC_URI[md5sum] =3D &quot;63fe3847789258254dcd7e3fdb9e7<wbr>f5e&quot;<br>
++SRC_URI[sha256sum] =3D &quot;4c94995398a6ebf691600dda2e968<wbr>5a0cac26141=
+4175c2adf4645cdfab4<wbr>2a5d5&quot;<br>
++UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/anholt/libepoxy=
+/releases" rel=3D"noreferrer" target=3D"_blank">https://github.com/anholt/l=
+ib<wbr>epoxy/releases</a>&quot;<br>
++<br>
++inherit meson pkgconfig distro_features_check<br>
++<br>
++REQUIRED_DISTRO_FEATURES =3D &quot;opengl&quot;<br>
++<br>
++DEPENDS =3D &quot;util-macros&quot;<br>
++<br>
++PACKAGECONFIG[egl] =3D &quot;-Denable-egl=3Dyes, -Denable-egl=3Dno, virtua=
+l/egl&quot;<br>
++PACKAGECONFIG[x11] =3D &quot;-Denable-glx=3Dyes, -Denable-glx=3Dno, virtua=
+l/libx11 virtual/libgl&quot;<br>
++PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_FE<wbr>ATURES&#39=
+;, &#39;x11&#39;, d)} egl&quot;<br>
++<br>
++EXTRA_OEMESON_append_libc-mus<wbr>l =3D &quot; -Dhas-dlvsym=3Dfalse &quot;=
+<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888"><span class=3D"m=
+_4835065452750070574HOEnZb"><font color=3D"#888888">--<br>
+2.14.3<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></font></span></blockquote></div><br></div>
+</blockquote></div><br></div></div>
+
+--f403045f1f8ae2affc05664c0a3f--
