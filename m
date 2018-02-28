@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA63788D0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BA724788AA
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Feb 2018 03:09:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 19:09:28 -0800
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 19:09:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325765"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325750"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:26 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:16 -0800
-Message-Id: <20180228030918.35934-17-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:11 -0800
+Message-Id: <20180228030918.35934-12-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 16/18] init-install.sh: support multiple kernels and don't assume vmlinuz
+Subject: [PATCH v2 11/18] systemd-boot.bbclass: break out configuration creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +34,176 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:27 -0000
 
-Since kernels will not necessarily be installed as vmlinuz anymore,
-don't assume that's its name for either the bootloader config or the
-copy of the kernel.
-
-Also, allow installing multiple kernels by searching for common kernel
-names.
+This class is useful on its own and can be used to create configuration
+recipes.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ ...stemd-boot.bbclass => systemd-boot-cfg.bbclass} | 57 ------------------
+ meta/classes/systemd-boot.bbclass                  | 70 +---------------------
+ 2 files changed, 1 insertion(+), 126 deletions(-)
+ copy meta/classes/{systemd-boot.bbclass => systemd-boot-cfg.bbclass} (50%)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index dade059c8f1..713a83092bf 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -256,9 +256,34 @@ fi
- umount /tgt_root
- umount /src_root
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot-cfg.bbclass
+similarity index 50%
+copy from meta/classes/systemd-boot.bbclass
+copy to meta/classes/systemd-boot-cfg.bbclass
+index 937307076f7..46eeae126ae 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot-cfg.bbclass
+@@ -1,18 +1,3 @@
+-# Copyright (C) 2016 Intel Corporation
+-#
+-# Released under the MIT license (see COPYING.MIT)
+-
+-# systemd-boot.bbclass - The "systemd-boot" is essentially the gummiboot merged into systemd.
+-#                        The original standalone gummiboot project is dead without any more
+-#                        maintenance.
+-#
+-# Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
+-# (images built by image-live.bbclass)
+-
+-do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+-
+-EFIDIR = "/EFI/BOOT"
+-
+ SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+ SYSTEMD_BOOT_ENTRIES ?= ""
+ SYSTEMD_BOOT_TIMEOUT ?= "10"
+@@ -20,48 +5,6 @@ SYSTEMD_BOOT_TIMEOUT ?= "10"
+ # Need UUID utility code.
+ inherit fs-uuid
  
-+echo "Looking for kernels to use as boot target.."
-+# Find kernel to boot to
-+# Give user options if multiple are found
-+kernels="$(find /run/media/$1/ -type f  \
-+           -name bzImage* -o -name zImage* \
-+           -o -name vmlinux* -o -name vmlinuz* \
-+           -o -name fitImage* \
-+           | sed s:.*/::)"
-+if [ -n "$(echo $kernels)" ]; then
-+    # only one kernel entry if no space
-+    if [ -z "$(echo $kernels | grep " ")" ]; then
-+        kernel=$kernels
-+        echo "$kernel will be used as the boot target"
-+    else
-+        echo "Which kernel do we want to boot by default? The following kernels were found:"
-+        echo $kernels
-+        read answer
-+        kernel=$answer
-+    fi
-+else
-+    echo "No kernels found, exiting..."
-+    exit 1
-+fi
-+
- # Handling of the target boot partition
- mount $bootfs /boot
- echo "Preparing boot partition..."
-+
- if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
-     echo "Preparing custom grub2 menu..."
-     root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
-@@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
-     cat >$GRUBCFG <<_EOF
- menuentry "Linux" {
-     search --no-floppy --fs-uuid $boot_uuid --set root
--    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
-+    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+-efi_populate() {
+-        DEST=$1
+-
+-        EFI_IMAGE="systemd-bootia32.efi"
+-        DEST_EFI_IMAGE="bootia32.efi"
+-        if [ "${TARGET_ARCH}" = "x86_64" ]; then
+-            EFI_IMAGE="systemd-bootx64.efi"
+-            DEST_EFI_IMAGE="bootx64.efi"
+-        fi
+-
+-        install -d ${DEST}${EFIDIR}
+-        # systemd-boot requires these paths for configuration files
+-        # they are not customizable so no point in new vars
+-        install -d ${DEST}/loader
+-        install -d ${DEST}/loader/entries
+-        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
+-        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-        printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_EFI_IMAGE" >${DEST}/startup.nsh
+-        install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
+-        for i in ${SYSTEMD_BOOT_ENTRIES}; do
+-            install -m 0644 ${i} ${DEST}/loader/entries
+-        done
+-}
+-
+-efi_iso_populate() {
+-        iso_dir=$1
+-        efi_populate $iso_dir
+-        mkdir -p ${EFIIMGDIR}/${EFIDIR}
+-        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+-        cp -r $iso_dir/loader ${EFIIMGDIR}
+-        cp $iso_dir/vmlinuz ${EFIIMGDIR}
+-        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+-        if [ -f "$iso_dir/initrd" ] ; then
+-            cp $iso_dir/initrd ${EFIIMGDIR}
+-        fi
+-}
+-
+-efi_hddimg_populate() {
+-        efi_populate $1
+-}
+-
+ python build_efi_cfg() {
+     s = d.getVar("S")
+     labels = d.getVar('LABELS')
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+index 937307076f7..14538fe2d7a 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot.bbclass
+@@ -12,11 +12,6 @@
+ do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+ 
+ EFIDIR = "/EFI/BOOT"
+-
+-SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+-SYSTEMD_BOOT_ENTRIES ?= ""
+-SYSTEMD_BOOT_TIMEOUT ?= "10"
+-
+ # Need UUID utility code.
+ inherit fs-uuid
+ 
+@@ -62,67 +57,4 @@ efi_hddimg_populate() {
+         efi_populate $1
  }
- _EOF
-     chmod 0444 $GRUBCFG
-@@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
-     echo "timeout 30" >> /boot/grub/menu.lst
-     echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
-     echo "root  (hd0,0)" >> /boot/grub/menu.lst
--    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
-+    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
- fi
  
--cp /run/media/$1/vmlinuz /boot/
-+# Copy kernel artifacts. To add more artifacts just add to types
-+# For now just support kernel types already being used by something in OE-core
-+for types in bzImage zImage vmlinux vmlinuz fitImage; do
-+    for kernel in `find /run/media/$1/ -name $types*`; do
-+        cp $kernel /boot
-+    done
-+done
- 
- umount /boot
- 
+-python build_efi_cfg() {
+-    s = d.getVar("S")
+-    labels = d.getVar('LABELS')
+-    if not labels:
+-        bb.debug(1, "LABELS not defined, nothing to do")
+-        return
+-
+-    if labels == []:
+-        bb.debug(1, "No labels, nothing to do")
+-        return
+-
+-    cfile = d.getVar('SYSTEMD_BOOT_CFG')
+-    cdir = os.path.dirname(cfile)
+-    if not os.path.exists(cdir):
+-        os.makedirs(cdir)
+-    try:
+-         cfgfile = open(cfile, 'w')
+-    except OSError:
+-        bb.fatal('Unable to open %s' % cfile)
+-
+-    cfgfile.write('# Automatically created by OE\n')
+-    cfgfile.write('default %s\n' % (labels.split()[0]))
+-    timeout = d.getVar('SYSTEMD_BOOT_TIMEOUT')
+-    if timeout:
+-        cfgfile.write('timeout %s\n' % timeout)
+-    else:
+-        cfgfile.write('timeout 10\n')
+-    cfgfile.close()
+-
+-    for label in labels.split():
+-        localdata = d.createCopy()
+-
+-        overrides = localdata.getVar('OVERRIDES')
+-        if not overrides:
+-            bb.fatal('OVERRIDES not defined')
+-
+-        entryfile = "%s/%s.conf" % (s, label)
+-        if not os.path.exists(s):
+-            os.makedirs(s)
+-        d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
+-        try:
+-            entrycfg = open(entryfile, "w")
+-        except OSError:
+-            bb.fatal('Unable to open %s' % entryfile)
+-        localdata.setVar('OVERRIDES', label + ':' + overrides)
+-
+-        entrycfg.write('title %s\n' % label)
+-        entrycfg.write('linux /vmlinuz\n')
+-
+-        append = localdata.getVar('APPEND')
+-        initrd = localdata.getVar('INITRD')
+-
+-        if initrd:
+-            entrycfg.write('initrd /initrd\n')
+-        lb = label
+-        if label == "install":
+-            lb = "install-efi"
+-        entrycfg.write('options LABEL=%s ' % lb)
+-        if append:
+-            append = replace_rootfs_uuid(d, append)
+-            entrycfg.write('%s' % append)
+-        entrycfg.write('\n')
+-        entrycfg.close()
+-}
++inherit systemd-boot-cfg
 -- 
 2.14.3
 
