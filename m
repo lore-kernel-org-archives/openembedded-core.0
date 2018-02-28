@@ -1,26 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D86B60684
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C93BE788A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 02:07:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1S271YD022881
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 27 Feb 2018 18:07:01 -0800
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 27 Feb 2018 18:06:35 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 27 Feb 2018 21:06:56 -0500
-Message-ID: <edec3fd339889290220602c525683ab97d1c1fb4.1519783331.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1519783331.git.bruce.ashfield@windriver.com>
-References: <cover.1519783331.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kernel-devsrc: restructure for out of tree (and on target) module builds
+	Wed, 28 Feb 2018 02:51:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 18:51:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="20710518"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.16.108])
+	by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2018 18:51:32 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Feb 2018 10:51:12 +0800
+Message-Id: <1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1519721818-32415-1-git-send-email-anuj.mittal@intel.com>
+References: <1519721818-32415-1-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH v2] gstreamer: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,247 +32,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 02:07:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Feb 2018 02:51:33 -0000
 
-The existing kernel-devsrc package starts with a full copy of the kernel
-source and then starts to strip out elements that are not required.
+Make sure that the tests are packaged and can be executed
+when ptest is enabled. Also, remove build host specific references
+from Makefile.
 
-This results in extra time (I/O) and extra space being taken up in the
-final package. The main purpose of the kernel-devsrc package has been to
-build modules against the running kernel, not to include a full copy of
-the source code for re-building the kernel. The end result was a
-600M kernel-devsrc package.
-
-This restructuring of the package uses an approach similar to other
-distros, where the kernel-devsrc package is for building against the
-running kernel and uses a curated set of copied infrastructure, versus
-a mass copy of the entire kernel.
-
-The differences in this approach versus other is largely due to the
-architecture support and the split build/source directory of the
-kernel.
-
-The result is a kernel-devsrc package of about 10M, which is capable
-of running "make scripts" and compiling kernel modules against the
-running kernel.
-
-Along with the changes to the copying of the infrascture, we also
-have the following changes:
-
- - a better/more explicit listing of dependencies for on-target
-   builds of "make scripts" or "make modules_prepare"
-
- - The kernel source is installed into /lib/modules/<version>/build
-   and a symlink created from /usr/src/kernel to the new location.
-   This aligns with the standard location for module support
-   code
-
- - There is also a symlink from /lib/modules/<version>/source -> build
-   to reserve a spot for a new package that is simply the kernel
-   source. That package is not part of this update.
-
-[YOCTO #12535]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 178 ++++++++++++++++++++++-------
- 1 file changed, 138 insertions(+), 40 deletions(-)
+ .../files/add-a-target-to-compile-tests.patch      | 61 ++++++++++++++++++++++
+ meta/recipes-multimedia/gstreamer/files/run-ptest  |  3 ++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 24 ++++++++-
+ 3 files changed, 86 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/run-ptest
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index c1b5b7786d7c..f55b115e0936 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -30,50 +30,148 @@ do_populate_sysroot[noexec] = "1"
- S = "${STAGING_KERNEL_DIR}"
- B = "${STAGING_KERNEL_BUILDDIR}"
+diff --git a/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+new file mode 100644
+index 0000000..b1405b6
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+@@ -0,0 +1,61 @@
++From 442691c7778601e3e4b88d0fbfb9d512ed34f414 Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anuj.mittal@intel.com>
++Date: Tue, 27 Feb 2018 09:27:01 +0800
++Subject: [PATCH] add targets for test installation
++
++Targets to make sure tests can be installed and then run on
++the target.
++
++Upstream-Status: Inappropriate [specific to oe setup]
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ Makefile.am             |  3 +++
++ tests/check/Makefile.am | 17 +++++++++++++++++
++ 2 files changed, 20 insertions(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index de057c4..42e90fe 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -96,6 +96,9 @@ check-torture:
++ 
++ build-checks:
++ 	$(MAKE) -C tests/check build-checks
+++
+++install-ptest:
+++	$(MAKE) -C tests/check DESTDIR=$(DESTDIR) $@
++ else
++ check-valgrind:
++ 	echo "'check' library not installed, skipping"
++diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am
++index 13b916d..05ab267 100644
++--- a/tests/check/Makefile.am
+++++ b/tests/check/Makefile.am
++@@ -178,6 +178,23 @@ noinst_PROGRAMS =
++ 
++ TESTS = $(check_PROGRAMS)
++ 
+++install-ptest: $(TESTS)
+++	@$(INSTALL) -d $(DESTDIR)
+++	@for dir in gst libs tools pipelines elements generic; do \
+++		if [ -x $$dir/.libs ]; then \
+++			$(INSTALL) -d $(DESTDIR)/$$dir; \
+++			$(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \
+++		fi \
+++	done
+++
+++runtests:
+++	@for b in $(TESTS); do \
+++		if [ -x $$b ]; then \
+++			$(AM_TESTS_ENVIRONMENT) $(SHELL) test-driver --test-name "$$b" \
+++			--log-file $$b.log --trs-file $$b.trs $$b; \
+++		fi \
+++	done
+++
++ noinst_HEADERS = \
++ 	gst/capslist.h \
++ 	gst/struct_arm.h \
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/files/run-ptest b/meta/recipes-multimedia/gstreamer/files/run-ptest
+new file mode 100644
+index 0000000..473d0b6
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++make -k runtests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index c2df1f3..9371132 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -8,7 +8,7 @@ LICENSE = "LGPLv2+"
  
--KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
--
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+ DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
  
-+KERNEL_BUILD_ROOT="/lib/modules/"
-+
- do_install() {
--        kerneldir=${D}${KERNEL_SRC_PATH}
--        install -d $kerneldir
--
--        #
--        # Copy the staging dir source (and module build support) into the devsrc structure.
--        # We can keep this copy simple and take everything, since a we'll clean up any build
--        # artifacts afterwards, and the extra i/o is not significant
--        #
--        cd ${B}
--        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
--        cd ${S}
--	find . -type d -name '.git*' -prune -o -type d -name '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
--
--        # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
--        # The main build artifacts. We clean the directory to avoid QA errors on mismatched
--        # architecture (since scripts and helpers are native format).
--        KBUILD_OUTPUT="$kerneldir"
--        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
--        # make clean generates an absolute path symlink called "source"
--        # in $kerneldir points to $kerneldir, which doesn't make any
--        # sense, so remove it.
--        if [ -L $kerneldir/source ]; then
--            bbnote "Removing $kerneldir/source symlink"
--            rm -f $kerneldir/source
--        fi
--
--        # As of Linux kernel version 3.0.1, the clean target removes
--        # arch/powerpc/lib/crtsavres.o which is present in
--        # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
--        if [ ${ARCH} = "powerpc" ]; then
--                mkdir -p $kerneldir/arch/powerpc/lib/
--                cp ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
--        fi
--
--        chown -R root:root ${D}
-+    kerneldir=${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}
-+    install -d $kerneldir
-+
-+    # create the directory structure
-+    rm -f $kerneldir/build
-+    rm -f $kerneldir/source
-+    mkdir -p $kerneldir/build
-+
-+    # for compatibility with some older variants of this package, we
-+    # create  a /usr/src/kernel symlink to /lib/modules/<version>/source
-+    mkdir -p ${D}/usr/src
-+    (
-+	cd ${D}/usr/src
-+	ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
-+    )
-+
-+    # for on target purposes, we unify build and source
-+    (
-+	cd $kerneldir
-+	ln -s build source
-+    )
-+
-+    # first copy everything
-+    (
-+	cd ${S}
-+	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
-+    )
-+
-+    # then drop all but the needed Makefiles/Kconfig files
-+    rm -rf $kerneldir/build/Documentation
-+    rm -rf $kerneldir/build/scripts
-+    rm -rf $kerneldir/build/include
-+
-+    # now copy in parts from the build that we'll need later
-+    (
-+	cd ${B}
-+
-+	cp Module.symvers $kerneldir/build
-+	cp System.map* $kerneldir/build
-+	if [ -s Module.markers ]; then
-+	    cp Module.markers $kerneldir/build
-+	fi
-+
-+	cp .config $kerneldir/build
-+
-+	# TODO: this scripts copy will likely blow up QA, so for now, we
-+	#       require a more complex 'make scripts' to restore these, versus
-+	#       copying them here. Left as a reference to indicate that we
-+	#       know the scripts must be dealt with.
-+	# cp -a scripts $kerneldir/build
-+
-+	if [ -f tools/objtool/objtool ]; then
-+	    cp -a tools/objtool/objtool $kerneldir/build/tools/objtool/
-+	fi
-+	if [ -d arch/${ARCH}/scripts ]; then
-+	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
-+	fi
-+	if [ -f arch/${ARCH}/*lds ]; then
-+	    cp -a arch/${ARCH}/*lds $kerneldir/build/arch/${ARCH}
-+	fi
-+
-+	rm -f $kerneldir/build/scripts/*.o
-+	rm -f $kerneldir/build/scripts/*/*.o
-+
-+	if [ "${ARCH}" = "powerpc" ]; then
-+	    cp -a --parents arch/powerpc/lib/crtsavres.[So] $kerneldir/build/
-+	fi
-+
-+	cp -a include $kerneldir/build/include
-+    )
-+
-+    # now grab the chunks from the source tree that we need
-+    (
-+	cd ${S}
-+
-+	cp -a scripts $kerneldir/build
-+	if [ "${ARCH}" = "arm64" ]; then
-+	    # arch/arm64/include/asm/xen references arch/arm
-+	    cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
-+	    # arch/arm64/include/asm/opcodes.h references arch/arm
-+	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
-+	fi
-+
-+	# include the machine specific headers for ARM variants, if available.
-+	if [ "${ARCH}" = "arm" ]; then
-+	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
-+
-+	    # include a few files for 'make prepare'
-+	    cp -a --parents arch/arm/tools/gen-mach-types $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
-+	    cp -a --parents arch/arm/tools/mach-types $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
-+	fi
-+
-+	if [ -d arch/${ARCH}/include ]; then
-+	    cp -a --parents arch/${ARCH}/include $kerneldir/build/
-+	fi
-+
-+	cp -a include $kerneldir/build
-+
-+	if [ "${ARCH}" = "x86" ]; then
-+	    # files for 'make prepare' to succeed with kernel-devel
-+	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
-+	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs_common.c $kerneldir/build/
-+	    cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
-+	    cp -a --parents tools/include/tools/le_byteshift.h $kerneldir/build/
-+	    cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/purgatory.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/sha256.h $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
-+	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
-+	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
-+	fi
-+    )
-+
-+    # Make sure the Makefile and version.h have a matching timestamp so that
-+    # external modules can be built
-+    touch -r $kerneldir/build/Makefile $kerneldir/build/include/generated/uapi/linux/version.h
-+
-+    # Copy .config to include/config/auto.conf so "make prepare" is unnecessary.
-+    cp $kerneldir/build/.config $kerneldir/build/include/config/auto.conf
-+
-+    chown -R root:root ${D}
+-inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc
++inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc ptest
+ 
+ # This way common/m4/introspection.m4 will come first
+ # (it has a custom INTROSPECTION_INIT macro, and so must be used instead of our common introspection.m4 file)
+@@ -18,9 +18,12 @@ SRC_URI_append = " \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+     file://gtk-doc-tweaks.patch \
+     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
++    file://add-a-target-to-compile-tests.patch \
++    file://run-ptest \
+ "
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
++                   "
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
+@@ -59,3 +62,20 @@ do_configure[prefuncs] += "delete_pkg_m4_file"
+ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"
  }
 +
- # Ensure we don't race against "make scripts" during cpio
- do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- 
--PACKAGES = "kernel-devsrc"
--FILES_${PN} = "${KERNEL_SRC_PATH}"
--RDEPENDS_${PN} = "bc"
-+FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
-+FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
-+RDEPENDS_${PN} = "bc glibc-utils"
++do_compile_ptest() {
++        oe_runmake build-checks
++}
++
++do_install_ptest() {
++        install -m 644 ${B}/tests/check/Makefile ${D}${PTEST_PATH}
++        install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
++        sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
++            -e 's|${DEBUG_PREFIX_MAP}||g' \
++            -e 's:${HOSTTOOLS_DIR}/::g' \
++            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
++            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \-e 's/^Makefile:/_Makefile:/' \
++            -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
++            -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
++            -i ${D}${PTEST_PATH}/Makefile
++}
 -- 
-2.5.0
+2.7.4
 
 
