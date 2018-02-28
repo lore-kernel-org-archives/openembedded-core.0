@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D8D59788DF
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E8861788E2
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Feb 2018 03:09:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 19:09:27 -0800
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 19:09:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325759"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325771"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:26 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:14 -0800
-Message-Id: <20180228030918.35934-15-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:18 -0800
+Message-Id: <20180228030918.35934-19-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 14/18] systemd-boot: add package that installs to boot
+Subject: [PATCH v2 18/18] selftests: Add test case for booting a generic EFI boot partition image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +34,69 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:27 -0000
 
-If the EFI_PROVIDER is systemd-boot, install as boot(x64|ia32) as per
-convention. If its not the EFI_PROVIDER, install as
-systemd-boot(x64|ia32), as to not collide with other possible
-bootloaders.
+Simple test case that adds 'efi' to MACHINE_FEATURES, sets WKS_FILE to
+"efi-bootdisk.wks.in", installed required boot items, and attempts to
+boot the wic image.
+
+Quick check to make sure that the feature actually works.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-core/systemd/systemd-boot_234.bb | 28 ++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/efibootpartition.py | 45 ++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/efibootpartition.py
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_234.bb b/meta/recipes-core/systemd/systemd-boot_234.bb
-index 88a14ac61ec..2d29df8be7c 100644
---- a/meta/recipes-core/systemd/systemd-boot_234.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_234.bb
-@@ -18,6 +18,26 @@ EXTRA_OECONF = " --enable-gnuefi \
-                  EFI_CC='${EFI_CC}' \
-                "
- 
-+# install to the image as boot*.efi if its the EFI_PROVIDER,
-+# otherwise install as the full name.
-+# This allows multiple bootloaders to coexist in a single image.
-+python __anonymous () {
-+    import re
-+    target = d.getVar('TARGET_ARCH')
-+    prefix = "" if d.getVar('EFI_PROVIDER', True) == "systemd-boot" else "systemd-"
-+    if target == "x86_64":
-+        systemdimage = prefix + "bootx64.efi"
-+    else:
-+        systemdimage = prefix + "bootia32.efi"
-+    d.setVar("SYSTEMD_BOOT_IMAGE", systemdimage)
-+    prefix = "systemd-" if prefix == "" else ""
-+    d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
-+}
+diff --git a/meta/lib/oeqa/selftest/cases/efibootpartition.py b/meta/lib/oeqa/selftest/cases/efibootpartition.py
+new file mode 100644
+index 00000000000..0c832566965
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/efibootpartition.py
+@@ -0,0 +1,45 @@
++# Based on runqemu.py test file
++#
++# Copyright (c) 2017 Wind River Systems, Inc.
++#
 +
-+FILES_${PN} = "/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}"
++import re
 +
-+RDEPENDS_${PN} += "virtual/systemd-bootconf"
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runqemu, get_bb_var
 +
- # Imported from the old gummiboot recipe
- TUNE_CCARGS_remove = "-mfpmath=sse"
- COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
-@@ -29,12 +49,14 @@ do_compile() {
- 		SYSTEMD_BOOT_EFI_ARCH="x64"
- 	fi
- 
--	oe_runmake systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
-+	oe_runmake ${SYSTEMD_BOOT_IMAGE_PREFIX}${SYSTEMD_BOOT_IMAGE}
- }
- 
- do_install() {
--	# Bypass systemd installation with a NOP
--	:
-+	install -d ${D}/boot
-+	install -d ${D}/boot/EFI
-+	install -d ${D}/boot/EFI/BOOT
-+	install ${B}/systemd-boot*.efi ${D}/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}
- }
- 
- do_deploy () {
++class GenericEFITest(OESelftestTestCase):
++    """EFI booting test class"""
++
++    buffer = True
++    cmd_common = "runqemu nographic serial wic ovmf"
++    efi_provider = "systemd-boot"
++    image = "core-image-minimal"
++    machine = "qemux86-64"
++    recipes_built = False
++
++    @classmethod
++    def setUpLocal(self):
++        super(GenericEFITest, self).setUpLocal(self)
++
++        self.write_config(self,
++"""
++EFI_PROVIDER = "%s"
++IMAGE_FSTYPES_pn-%s_append = " wic"
++MACHINE = "%s"
++MACHINE_FEATURES_append = " efi"
++WKS_FILE = "efi-bootdisk.wks.in"
++IMAGE_INSTALL_append = " grub-efi systemd-boot kernel-image-bzimage"
++"""
++% (self.efi_provider, self.image, self.machine))
++        if not self.recipes_built:
++            bitbake("ovmf")
++            bitbake(self.image)
++            self.recipes_built = True
++
++    @classmethod
++    def test_boot_efi(self):
++        """Test generic boot partition with qemu"""
++        cmd = "%s %s" % (self.cmd_common, self.machine)
++        with runqemu(self.image, ssh=False, launch_cmd=cmd) as qemu:
++            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
 -- 
 2.14.3
 
