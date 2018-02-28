@@ -1,26 +1,48 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DBA3788EF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E1A785E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 05:56:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w1S5ufuM027584
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 28 Feb 2018 08:26:01 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id i14so687791pgv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 21:56:42 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 27 Feb 2018 21:56:15 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Feb 2018 13:56:39 +0800
-Message-ID: <cc7b5c36944049bc5c69151a2d3c7adf242b04f5.1519797175.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1519797175.git.Qi.Chen@windriver.com>
-References: <cover.1519797175.git.Qi.Chen@windriver.com>
+	Wed, 28 Feb 2018 00:26:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DF/8xslnxHg+N/kDp4eEGfYOxi3ENFGSNLOh/yf6pyI=;
+	b=XdMulu6D5ZL3D4bwoxXmqtXA7zfq4qmoxqSLLqrYaD/YV2FWowo+6zFDb1/8sEIozZ
+	PHUC5cVxQnfJ4pCOd7e4aLyudfiXqvcbGyrfJEihifops68/3gTkue2IdQiXI5aK6TJz
+	1pv+whfzFBdWsguusfqPOwxDprRo+ifLu28Jy6aRt4x60Z0TJxodWSVz5h76BWromQMF
+	RP0kMWR+LY78kd1vJsg1J7nKXkDGhLYA1APf/FslzGr+pbmh6AwectPtdjSBdbhuJRi9
+	tOR9SnmdtA9gDEgGdBq3RHFudcgUNoSL0PPUrw31g1GqVWt5PgWWYaT1h7CiQzZXncRI
+	L8WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DF/8xslnxHg+N/kDp4eEGfYOxi3ENFGSNLOh/yf6pyI=;
+	b=aaf8ReX5RJdcbksp8tTfqtrb+W2mkg5hg1jhBCVnahhsykp0kGZLDP9r/2/qw49m5o
+	4PYz19N4r6jVwW2rtdT1YuwGqlx0lKP3Y6gjiI2R+qR+XfUJE09R1xFyLfatr5Yj95Fo
+	uw8pVS5H0SDkEalKp/MxRY6ZNCtb9N+5YeP6ynm7gS6ZL/a+A9/UDpZLo35Hta+VRwNY
+	Wgv/AcD4SndJC3IfbvFO7L0stJiQJsny4tyu3vpWHWzDwM22whQ7k4XkeyCVPg5/3b7L
+	2k5inJvNHM6d4XcFry7vNF+mJkwMYDKFpqywsJ8mTujwQUnL4+/Wfv5pWolDUzFLH+CT
+	wuNA==
+X-Gm-Message-State: APf1xPDS6C1cTotSSAuJGZp1UlFqibQF/nyHq4JuMQ5VczNmFIgNQqri
+	SbiyH2RJst5ExnCzWp0oOboxO+Qy1lgbr991Crc=
+X-Google-Smtp-Source: AH8x225XA/64SNd8PjxwcqNF92T7g7TSexXaFbNFGdDQ5Qf+Y3AThypEWiT292+JBI0c7mQb0ZVtqZuSQt20SqRYhF0=
+X-Received: by 10.98.18.70 with SMTP id a67mr16921749pfj.213.1519806362785;
+	Wed, 28 Feb 2018 00:26:02 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] systemd-boot: upgrade to 236
+Received: by 10.100.139.97 with HTTP; Wed, 28 Feb 2018 00:25:32 -0800 (PST)
+In-Reply-To: <c3450d9b913dd74b47d5a6b68518d3d06802d7a8.1519797175.git.Qi.Chen@windriver.com>
+References: <cover.1519797175.git.Qi.Chen@windriver.com>
+	<c3450d9b913dd74b47d5a6b68518d3d06802d7a8.1519797175.git.Qi.Chen@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 Feb 2018 00:25:32 -0800
+Message-ID: <CAMKF1sosH7NOrugAEOMyRd_p+nFa8Wpjc-cvWK2eSRX6T1bEWQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] meson.bbclass: fix to build for more projects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,233 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 05:56:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Feb 2018 08:26:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upgrade systemd-boot to 236.
+On Tue, Feb 27, 2018 at 9:56 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> We should use the value of CC for the c compiler setting in cross
+> compilation configuration file for meson. For example, if we only
+> use ${HOST_PREFIX}gcc instead of ${CC}, we would meet the following
+> do_compile failure for systemd.
+>
+>   cc1: fatal error: linux/capability.h: No such file or directory
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/meson.bbclass | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index 31d32a5..97dcf81 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -41,24 +41,19 @@ MESON_CROSS_FILE = ""
+>  MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+>  MESON_CROSS_FILE_class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+>
+> -CCOMPILER ?= "gcc"
+> -CXXCOMPILER ?= "g++"
+> -CCOMPILER_toolchain-clang = "clang"
+> -CXXCOMPILER_toolchain-clang = "clang++"
+> -
+>  def meson_array(var, d):
+>      return "', '".join(d.getVar(var).split()).join(("'", "'"))
+>
+>  addtask write_config before do_configure
+> -do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS"
+> +do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD"
+>  do_write_config() {
+>      # This needs to be Py to split the args into single-element lists
+>      cat >${WORKDIR}/meson.cross <<EOF
+>  [binaries]
+> -c = '${HOST_PREFIX}${CCOMPILER}'
+> -cpp = '${HOST_PREFIX}${CXXCOMPILER}'
+> +c = [${@meson_array('CC', d)}]
+> +cpp = [${@meson_array('CXX', d)}]
+>  ar = '${HOST_PREFIX}ar'
+> -ld = '${HOST_PREFIX}ld'
+> +ld = [${@meson_array('LD', d)}]
 
-As systemd has dropped autotools support, fix configure and compile
-failures related to meson.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/systemd/systemd-boot_234.bb      | 43 ---------------
- meta/recipes-core/systemd/systemd-boot_236.bb      | 49 +++++++++++++++++
- .../systemd/0001-Also-check-i586-for-ia32.patch    | 28 ++++++++++
- ...efi_cc-and-efi_ld-correctly-when-cross-co.patch | 62 ++++++++++++++++++++++
- 4 files changed, 139 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd-boot_234.bb
- create mode 100644 meta/recipes-core/systemd/systemd-boot_236.bb
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i586-for-ia32.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
+we should do same for ar and nm atleast.
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_234.bb b/meta/recipes-core/systemd/systemd-boot_234.bb
-deleted file mode 100644
-index 88a14ac..0000000
---- a/meta/recipes-core/systemd/systemd-boot_234.bb
-+++ /dev/null
-@@ -1,43 +0,0 @@
--require systemd.inc
--FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
--
--DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
--
--SRC_URI += "file://0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch"
--
--inherit autotools pkgconfig gettext
--inherit deploy
--
--EFI_CC ?= "${CC}"
--# Man pages are packaged through the main systemd recipe
--EXTRA_OECONF = " --enable-gnuefi \
--                 --with-efi-includedir=${STAGING_INCDIR} \
--                 --with-efi-ldsdir=${STAGING_LIBDIR} \
--                 --with-efi-libdir=${STAGING_LIBDIR} \
--                 --disable-manpages \
--                 EFI_CC='${EFI_CC}' \
--               "
--
--# Imported from the old gummiboot recipe
--TUNE_CCARGS_remove = "-mfpmath=sse"
--COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
--COMPATIBLE_HOST_x86-x32 = "null"
--
--do_compile() {
--	SYSTEMD_BOOT_EFI_ARCH="ia32"
--	if [ "${TARGET_ARCH}" = "x86_64" ]; then
--		SYSTEMD_BOOT_EFI_ARCH="x64"
--	fi
--
--	oe_runmake systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
--}
--
--do_install() {
--	# Bypass systemd installation with a NOP
--	:
--}
--
--do_deploy () {
--	install ${B}/systemd-boot*.efi ${DEPLOYDIR}
--}
--addtask deploy before do_build after do_compile
-diff --git a/meta/recipes-core/systemd/systemd-boot_236.bb b/meta/recipes-core/systemd/systemd-boot_236.bb
-new file mode 100644
-index 0000000..1a0135a
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-boot_236.bb
-@@ -0,0 +1,49 @@
-+require systemd.inc
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
-+
-+DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
-+
-+SRC_URI += "file://0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
-+            file://0027-remove-nobody-user-group-checking.patch \
-+            file://0001-Also-check-i586-for-ia32.patch \
-+            file://0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch \
-+            "
-+
-+inherit meson pkgconfig gettext
-+inherit deploy
-+
-+EFI_CC ?= "${CC}"
-+
-+EXTRA_OEMESON += "-Defi=true \
-+                  -Dgnu-efi=true \
-+                  -Defi-includedir=${STAGING_INCDIR}/efi \
-+                  -Defi-ldsdir=${STAGING_LIBDIR} \
-+                  -Defi-libdir=${STAGING_LIBDIR} \
-+                  -Dman=false \
-+                  -Defi-cc='${EFI_CC}' \
-+                  -Defi-ld='${LD}' \
-+                  "
-+
-+
-+# Imported from the old gummiboot recipe
-+TUNE_CCARGS_remove = "-mfpmath=sse"
-+COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
-+COMPATIBLE_HOST_x86-x32 = "null"
-+
-+do_compile() {
-+	SYSTEMD_BOOT_EFI_ARCH="ia32"
-+	if [ "${TARGET_ARCH}" == "x86_64" ]; then
-+		SYSTEMD_BOOT_EFI_ARCH="x64"
-+	fi
-+	ninja src/boot/efi/systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
-+}
-+
-+do_install() {
-+	# Bypass systemd installation with a NOP
-+	:
-+}
-+
-+do_deploy () {
-+	install ${B}/src/boot/efi/systemd-boot*.efi ${DEPLOYDIR}
-+}
-+addtask deploy before do_build after do_compile
-diff --git a/meta/recipes-core/systemd/systemd/0001-Also-check-i586-for-ia32.patch b/meta/recipes-core/systemd/systemd/0001-Also-check-i586-for-ia32.patch
-new file mode 100644
-index 0000000..892b25e
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Also-check-i586-for-ia32.patch
-@@ -0,0 +1,28 @@
-+From 4616e6f228d2678420ee7d5bb1c8a0c8ebb27be8 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 27 Feb 2018 20:42:41 -0800
-+Subject: [PATCH] Also check i586 for ia32
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index ddc061c12..abd1261d6 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1182,7 +1182,7 @@ conf.set10('SYSTEMD_SLOW_TESTS_DEFAULT', get_option('slow-tests'))
-+ if get_option('efi')
-+         efi_arch = host_machine.cpu_family()
-+ 
-+-        if efi_arch == 'x86'
-++        if efi_arch == 'x86' or efi_arch == 'i586'
-+                 EFI_MACHINE_TYPE_NAME = 'ia32'
-+                 gnu_efi_arch = 'ia32'
-+         elif efi_arch == 'x86_64'
-+-- 
-+2.13.0
-+
-diff --git a/meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch b/meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
-new file mode 100644
-index 0000000..e2e19ba
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
-@@ -0,0 +1,62 @@
-+From 527413ec243564a89ffaad6368d446de44415970 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 27 Feb 2018 21:42:23 -0800
-+Subject: [PATCH] Fix to run efi_cc and efi_ld correctly when cross-compiling
-+
-+When cross-compiling, efi_cc and efi_ld may take the form of
-+'xxx-gcc --sysroot=xxx', and this would cause run_command and
-+the alike fail.
-+
-+Fix to split them to make commands run correctly.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/boot/efi/meson.build | 16 +++++++++++++---
-+ 1 file changed, 13 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
-+index 992a3ba4c..9f9ec4911 100644
-+--- a/src/boot/efi/meson.build
-++++ b/src/boot/efi/meson.build
-+@@ -157,7 +157,7 @@ if have_gnu_efi
-+                 o_file = custom_target(file + '.o',
-+                                        input : file,
-+                                        output : file + '.o',
-+-                                       command : [efi_cc, '-c', '@INPUT@', '-o', '@OUTPUT@']
-++                                       command : efi_cc.split() + ['-c', '@INPUT@', '-o', '@OUTPUT@']
-+                                                  + compile_args,
-+                                        depend_files : efi_headers)
-+                 if (common_sources + systemd_boot_sources).contains(file)
-+@@ -168,7 +168,17 @@ if have_gnu_efi
-+                 endif
-+         endforeach
-+ 
-+-        libgcc_file_name = run_command(efi_cc, '-print-libgcc-file-name').stdout().strip()
-++        find_libgcc_cmd_all = efi_cc + ' -print-libgcc-file-name'
-++        find_libgcc_cmd = find_libgcc_cmd_all.split()[0]
-++        find_libgcc_args = []
-++        cmd_args_all = find_libgcc_cmd_all.split()
-++        foreach arg : cmd_args_all
-++                if arg != find_libgcc_cmd
-++                        find_libgcc_args += arg
-++                endif
-++        endforeach
-++
-++        libgcc_file_name = run_command(find_libgcc_cmd, find_libgcc_args).stdout().strip()
-+         systemd_boot_efi_name = 'systemd-boot@0@.efi'.format(EFI_MACHINE_TYPE_NAME)
-+         stub_efi_name = 'linux@0@.efi.stub'.format(EFI_MACHINE_TYPE_NAME)
-+         no_undefined_symbols = find_program('no-undefined-symbols.sh')
-+@@ -179,7 +189,7 @@ if have_gnu_efi
-+                         tuple[0],
-+                         input : tuple[2],
-+                         output : tuple[0],
-+-                        command : [efi_ld, '-o', '@OUTPUT@'] +
-++                        command : efi_ld.split() + ['-o', '@OUTPUT@'] +
-+                                   efi_ldflags + tuple[2] +
-+                                   ['-lefi', '-lgnuefi', libgcc_file_name])
-+ 
-+-- 
-+2.13.0
-+
--- 
-1.9.1
 
+>  strip = '${HOST_PREFIX}strip'
+>  readelf = '${HOST_PREFIX}readelf'
+>  pkgconfig = 'pkg-config'
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
