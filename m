@@ -1,28 +1,52 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D6B178856
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 001C878417
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 14:55:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2018 06:55:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,406,1515484800"; d="scan'208";a="23912783"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2018 06:55:26 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 3C4B858038F
+	Wed, 28 Feb 2018 14:59:30 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id i6-v6so1643193plt.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 06:55:26 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 16:57:54 +0200
-Message-Id: <1519829874-23964-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] openssh: remove unused patch
+	Wed, 28 Feb 2018 06:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Rz4welK0LmBUUAj04am60B0wnof70U4y5AmfX+IUczc=;
+	b=XQzB3xQAn1GLdjhGfRlSO0iEIXGdSwUl6eolKoRZsTejsxbyEoNMrnH+hOPBnuPEW8
+	s+X0WCwyr2Jz3v8EqmV48vgc5xLhTZzKm+6N6V65SRUWr6nJB+O/vskC6XTOanUzPWAc
+	Ej/J2g+FC7Dcomh3ZeKyrPvN0Cbv6K2MLdVvIG14KES0Se6JFMnrQEhmZ6NIq9y58O1C
+	ywVMZiscFqugQk5I9DBDN/iVnyhN7LFQRe++qpka3LVpLgJUkmp/PZxWK/rywbWmdOiJ
+	eo3OTsRN02wMTuyGXl+jKVre+Vuz7LMzQvfeQEoEUAzYtc6Kwh1nJU5vO6RHnDvxOvgK
+	EiXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Rz4welK0LmBUUAj04am60B0wnof70U4y5AmfX+IUczc=;
+	b=FowGtNooOt0hOGWaAfCmFC0OTrohq99XRk/cm5MmZE18NCKp4l8cyZ0MCJ169W5ONF
+	sTLvC94xF/BTJRwnD0lFzYSbdpehlcXkpOfZ/KyhnkhsW7jVvEIw4KE8wa5XvomeykMz
+	225c/FtDNt/jB93t0RTlF8siemF9sGj58YZ3fOST1FUX0F3VhX5NI+kea0ouWwgkox9T
+	aS7LHJ5CZPnhTbd0mX7aQZr6TnI2msM+YJqoI9Zq73sVsEoq/CyeojHDW+F7hv6cJ71J
+	AKQMnc3ktr8H2XOZ9jvV2Riqn8RIQTEcrKeQcR5sFkYp0tU3wMf6DyZqksYeAuLraXy5
+	XDuQ==
+X-Gm-Message-State: APf1xPCF8vy30l4w6w+FhaQQGvNsGqDsfq2UMETLENHp32kiJzjBQKWK
+	bLbAqSXNipQWL9dupkY8wX0yq/toxTCfho9f+24=
+X-Google-Smtp-Source: AG47ELvVLi/3Dd++pijXVtv3RE4G1qKGmj/WpBG5+Ft/wIzaGrj1XAUgIaWB4X8ZXEXt3j2cfeg3pOO0C3TpjJ91l/c=
+X-Received: by 2002:a17:902:bc3:: with SMTP id
+	61-v6mr3439374plr.398.1519829971778; 
+	Wed, 28 Feb 2018 06:59:31 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.139.97 with HTTP; Wed, 28 Feb 2018 06:59:01 -0800 (PST)
+In-Reply-To: <9bbbe528-0650-35ae-c68d-ea2cdba6eee7@windriver.com>
+References: <cover.1519797175.git.Qi.Chen@windriver.com>
+	<846a1c535da3f41e87999910427d49929d9753a2.1519797175.git.Qi.Chen@windriver.com>
+	<CAMKF1spn6uXBQJsSBnTs8ZMkBVyQeJFOqv9_ufWSnAoFqqJ0mg@mail.gmail.com>
+	<9bbbe528-0650-35ae-c68d-ea2cdba6eee7@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 Feb 2018 06:59:01 -0800
+Message-ID: <CAMKF1squ6TYojN8cm2znaH2r75kD49JRPm6FW_RGshxzE3+ezQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: fix build failure for qemux86 and qemuppc with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,57 +59,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 14:55:25 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 14:59:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Remove unused patch:
-        0001-openssh-Fix-syntax-error-on-x32.patch
+On Wed, Feb 28, 2018 at 12:46 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+> On 02/28/2018 04:29 PM, Khem Raj wrote:
+>>
+>> On Tue, Feb 27, 2018 at 9:56 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>
+>>> Remove the 'fstack-protector' and 'fstack-protector-strong' flags
+>>> as a workaround to fix the following error when building for qemux86
+>>> and qemuppc with musl.
+>>>
+>>>    undefined reference to `__stack_chk_fail_local'
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   ...ck-protector-flags-to-workaround-musl-bui.patch | 33
+>>> ++++++++++++++++++++++
+>>>   meta/recipes-core/systemd/systemd_236.bb           |  4 +++
+>>>   2 files changed, 37 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>> b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>> new file mode 100644
+>>> index 0000000..783e579
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>> @@ -0,0 +1,33 @@
+>>> +From a3e71209957e627be7e47969a61d2c69de4f2659 Mon Sep 17 00:00:00 2001
+>>> +From: Chen Qi <Qi.Chen@windriver.com>
+>>> +Date: Tue, 27 Feb 2018 18:06:51 -0800
+>>> +Subject: [PATCH] Remove fstack-protector flags to workaround musl build
+>>> +
+>>> +Remove fstack-protector and fstack-protector-strong flags to fix
+>>> +the following build failure for qemux86 and qemuppc with musl.
+>>> +
+>>> +  undefined reference to `__stack_chk_fail_local'
+>>> +
+>>> +Upstream-Status: Inappropriate [OE Specific]
+>>> +
+>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> +---
+>>> + meson.build | 2 --
+>>> + 1 file changed, 2 deletions(-)
+>>> +
+>>> +diff --git a/meson.build b/meson.build
+>>> +index ddc061c12..631e76886 100644
+>>> +--- a/meson.build
+>>> ++++ b/meson.build
+>>> +@@ -298,8 +298,6 @@ foreach arg : ['-Wextra',
+>>> +                '-fdiagnostics-show-option',
+>>> +                '-fno-strict-aliasing',
+>>> +                '-fvisibility=hidden',
+>>> +-               '-fstack-protector',
+>>> +-               '-fstack-protector-strong',
+>>> +                '-fPIE',
+>>> +                '--param=ssp-buffer-size=4',
+>>> +               ]
+>>> +--
+>>> +2.13.0
+>>> +
+>>> diff --git a/meta/recipes-core/systemd/systemd_236.bb
+>>> b/meta/recipes-core/systemd/systemd_236.bb
+>>> index a208f62..7798abb 100644
+>>> --- a/meta/recipes-core/systemd/systemd_236.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_236.bb
+>>> @@ -53,6 +53,10 @@ SRC_URI =
+>>> "git://github.com/systemd/systemd.git;protocol=git \
+>>>              "
+>>>   SRC_URI_append_qemuall = "
+>>> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>>>
+>>> +# Workaround undefined reference to `__stack_chk_fail_local' on qemux86
+>>> and qemuppc for musl
+>>> +SRC_URI_append_libc-musl_qemux86 = "
+>>> file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+>>> +SRC_URI_append_libc-musl_qemuppc = "
+>>> file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+>>> +
+>>
+>> we have security_flags.inc to build with these flags. So it might be fine
+>> to just remove these flags including -fPIE
+>>
+>
+> Hi Khem,
+>
+> Just to confirm, do you mean that we remove these flags unconditionally?
+> Something like:
+> SRC_URI_append = " file://0001-Remove-security-flags"
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../0001-openssh-Fix-syntax-error-on-x32.patch     | 33 ----------------------
- 1 file changed, 33 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
-deleted file mode 100644
-index ce9e200..0000000
---- a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From a7e359d4ba345aa2a13c07f1057184e9b4e598a2 Mon Sep 17 00:00:00 2001
--From: sweeaun <swee.aun.khor@intel.com>
--Date: Tue, 22 Aug 2017 11:19:48 -0700
--Subject: [PATCH] openssh: Fix syntax error on x32
--
--Upstream-Status: Backport
--This bug has been fixed in v_7.5 branch https://github.com/openssh/
--openssh-portable/tree/V_7_5 and master branch https://github.com/
--openssh/openssh-portable/tree/master.
--
--Fix compilation error during openssh x32 build due to syntax error.
--
--Signed-off-by: sweeaun <swee.aun.khor@intel.com>
-----
-- sandbox-seccomp-filter.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
--index 3a1aedc..a8d472a 100644
----- a/sandbox-seccomp-filter.c
--+++ b/sandbox-seccomp-filter.c
--@@ -235,7 +235,7 @@ static const struct sock_filter preauth_insns[] = {
-- 	 * x86-64 syscall under some circumstances, e.g.
-- 	 * https://bugs.debian.org/849923
-- 	 */
---	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT);
--+	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT),
-- #endif
-- 
-- 	/* Default deny */
---- 
--2.7.4
--
--- 
-2.4.0
-
+yes
 
