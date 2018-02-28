@@ -1,48 +1,47 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EF63788D6
+Return-Path: <francescogiancane8@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 27871788B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 18:30:52 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id v194so4694874itb.0
+	Wed, 28 Feb 2018 18:43:34 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id n7so3508649wrn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 10:30:54 -0800 (PST)
+	Wed, 28 Feb 2018 10:43:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=q4uj/jcockcaew3fJ8V/Jkgcv+vwcugxgIOWnQuITUg=;
-	b=WdP9OmRMC0K8mniwJFobn5CXOejBcw/TqxKkouOU5+k2fGv+7JFRok/JiHWIwln+Wr
-	JJ0a5y7AhI8PTcc78eQZiPKLOX0dq3FUqrEcYw9nddBiGJeYSiWyU1OIAee974eE1omD
-	aOENWUH7CSM5C4QKYJxAjVFTvSqP9e/7MPp7zgUsNn4WVI3SQ7c/xCrJzs+ZssRYvNOv
-	XkJVZMBbNboXXTIN1iyNJs/0kdpQBqJEQ43T3Yd4++oeetgWSvmDgh0srhv6izrauVdC
-	zzli+4pe12DJLl0INmhDa7IjEv+X7cyAUKq9QFPjsQsjww7jODTOhF6cd1vqV3l6NdcB
-	lsBw==
+	bh=imW7Sp+lpc8TnYYehnmn/LTgGCo2g62yeKuhKfR0HiE=;
+	b=Wz7KDecynHUZ+Log2yA+bPLCFmBWgTumzS+vO2gJY+uTnJxmVQm+tYg+3rq81QlJR+
+	oXu6fSEl0qypuCJgdn9gee8rqKzRV6ySABbFsfMEi9+ckZycXytsl0WX1qGfJrwafn45
+	2br4Jb3LBJBCwrGBhrc/DFd5I0ao8TPX2/TBQ/o5ylJwL9SGC2dgge58IWGYuasAQhgt
+	iwLt6sGtwPbbQr4agli+lQ/sPoLXz9yuxjCawuKXxZ8BTYQ6QI65OyWG8M8t+30NPaHy
+	miTLGwIVoGr4ne0xRNQHpAIQa0pPmsQUIU6vul7Cs/CQygHbiMBxnb+I3yAq/L1VaVA+
+	S1KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=q4uj/jcockcaew3fJ8V/Jkgcv+vwcugxgIOWnQuITUg=;
-	b=TsR/IPe995CHDhRpw+s2gcRTd8FPDFLl8MCAbdwDLDW63gyyXv7FwUXFHgHu7pzjE5
-	zJeHxOL3WTIwZwwJSarIso6ydzrh5XDCEtzfSqeSonvNqRxOxIKXAfwYvoxzyve4br0i
-	f3ZLuiwbGOLBUGWRhsA5VP/2nF5txMt3OXzEFFSBU59FuNoydHwf8IviBCGL9XmrnYzZ
-	iGye4fi26ImtXHZ3dGT/Y3LvEUSwQYV9cJDNab9RSt4SfFR40LvhIxXoL8C1l5Ew0lNQ
-	P+f2xDAeucBlj9PTmkHAHkwJcxcGtjqPjli8WqE4PMj89MauOAQUd41VC3kjlIJCfOKU
-	5lLA==
-X-Gm-Message-State: AElRT7Fe5Q2H2uNuOO253sSxkQO/9o9EKwu3ceJ4RSfOPbW7g5DhT0eP
-	Wh/TzmGIv+qWeWsWGRhNA7uD0rHy
-X-Google-Smtp-Source: AG47ELu61SgLMXtwFWoacsN/b9YIEAgHP9WG2+3gu4GTuxOIh69tlS15CiSg3iczNpUzzXiaaTdTCQ==
-X-Received: by 10.36.9.84 with SMTP id 81mr2911669itm.89.1519842653611;
-	Wed, 28 Feb 2018 10:30:53 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	l64sm1989916itb.25.2018.02.28.10.30.52
+	bh=imW7Sp+lpc8TnYYehnmn/LTgGCo2g62yeKuhKfR0HiE=;
+	b=lwiaw3x6bEBEl2R8QXv+wg9sn3TwgEbuYrHRH62fhwl3pPSq/bb6Hb/CEvkaNEApQl
+	0AQR7xab2T6jknAWcYO6Mtufh9OsT2eRCOhMDRO47tiEI/A7WihHMDfBDMcWy9Jk/ERg
+	FD4ZbLHb6oYmNGy4iddSP1v6xqvR9IiCbpzlGtdHhgk+gVgUgmsmRLBnPo1gMzFEXJdN
+	aHyqbeTxp+a0ea+Pb9LITcStTNSgdroIpiqybH2pOGBNN+C0pdl0BuhF/HKIJsq2lrMx
+	PI0ZK85FfEAsmAUdgnfTd5/RqNXRZ2YSw7OU/pM8xZEs1X7yAw9qtq5K1SlnPJC4w4CX
+	bxzQ==
+X-Gm-Message-State: APf1xPBmEhJgBSgKPeLu+er14RX21SFpuG3IzKU1+F5jYR+I4YXuN/1F
+	8K9hlss4wUCxr1ttOEZFYMK5B5k4
+X-Google-Smtp-Source: AH8x224QXH50zw/PbDbCv9eBRTUeNNo7vYAnI8Xf8mg91HUXjU6Mj20YKs1LLbYLbu4jP4HRbvK4MA==
+X-Received: by 10.223.167.5 with SMTP id c5mr15875192wrd.188.1519843415510;
+	Wed, 28 Feb 2018 10:43:35 -0800 (PST)
+Received: from localhost.localdomain ([151.33.14.228])
+	by smtp.gmail.com with ESMTPSA id
+	j42sm3602590wre.55.2018.02.28.10.43.34
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 28 Feb 2018 10:30:53 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Wed, 28 Feb 2018 10:43:34 -0800 (PST)
+From: Francesco Giancane <francescogiancane8@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 12:30:32 -0600
-Message-Id: <20180228183032.3787-1-JPEWhacker@gmail.com>
+Date: Wed, 28 Feb 2018 19:42:25 +0100
+Message-Id: <20180228184225.10017-1-francescogiancane8@gmail.com>
 X-Mailer: git-send-email 2.14.3
-Subject: [pyro][PATCH] openssh: Atomically generate host keys
+Subject: [meta-oe][PATCH] libepoxy: New recipe updated to latest release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,91 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 18:30:53 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 18:43:35 -0000
 
-From: Joshua Watt <jpewhacker@gmail.com>
+libepoxy 1.4.3 did not compile successfully because of
+implicit symbol definitions and link-time errors.
+A new recipe with latest libepoxy release (1.5.0) which
+successfully compiles is provided.
 
-Generating the host keys atomically prevents power interruptions during the
-first boot from leaving the key files incomplete, which often prevents users
-from being able to ssh into the device.
-
-[YOCTO #11671]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 43fc3d8e180c168dbe5dd5faa577e69a279bd1bd)
+Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
 ---
- .../openssh/openssh/sshd_check_keys                | 42 +++++++++++++++++-----
- 1 file changed, 34 insertions(+), 8 deletions(-)
+ meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-index f5bba53ca31..5463b1a4cb1 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-@@ -1,5 +1,35 @@
- #! /bin/sh
- 
-+generate_key() {
-+    local FILE=$1
-+    local TYPE=$2
-+    local DIR="$(dirname "$FILE")"
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+new file mode 100644
+index 0000000000..d7702cfd64
+--- /dev/null
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "OpenGL function pointer management library"
++HOMEPAGE = "https://github.com/anholt/libepoxy/"
++SECTION = "libs"
 +
-+    mkdir -p "$DIR"
-+    ssh-keygen -q -f "${FILE}.tmp" -N '' -t $TYPE
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
 +
-+    # Atomically rename file public key
-+    mv -f "${FILE}.tmp.pub" "${FILE}.pub"
++SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
++           "
++SRC_URI[md5sum] = "63fe3847789258254dcd7e3fdb9e7f5e"
++SRC_URI[sha256sum] = "4c94995398a6ebf691600dda2e9685a0cac261414175c2adf4645cdfab42a5d5"
++UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
 +
-+    # This sync does double duty: Ensuring that the data in the temporary
-+    # private key file is on disk before the rename, and ensuring that the
-+    # public key rename is completed before the private key rename, since we
-+    # switch on the existence of the private key to trigger key generation.
-+    # This does mean it is possible for the public key to exist, but be garbage
-+    # but this is OK because in that case the private key won't exist and the
-+    # keys will be regenerated.
-+    #
-+    # In the event that sync understands arguments that limit what it tries to
-+    # fsync(), we provided them. If it does not, it will simply call sync()
-+    # which is just as well
-+    sync "${FILE}.pub" "$DIR" "${FILE}.tmp"
++inherit meson pkgconfig distro_features_check
 +
-+    mv "${FILE}.tmp" "$FILE"
++REQUIRED_DISTRO_FEATURES = "opengl"
 +
-+    # sync to ensure the atomic rename is committed
-+    sync "$DIR"
-+}
++DEPENDS = "util-macros"
 +
- # /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
- if test -f /etc/default/ssh; then
-     . /etc/default/ssh
-@@ -43,22 +73,18 @@ HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | a
- # create keys if necessary
- if [ ! -f $HOST_KEY_RSA ]; then
-     echo "  generating ssh RSA key..."
--    mkdir -p $(dirname $HOST_KEY_RSA)
--    ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
-+    generate_key $HOST_KEY_RSA rsa
- fi
- if [ ! -f $HOST_KEY_ECDSA ]; then
-     echo "  generating ssh ECDSA key..."
--    mkdir -p $(dirname $HOST_KEY_ECDSA)
--    ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
-+    generate_key $HOST_KEY_ECDSA ecdsa
- fi
- if [ ! -f $HOST_KEY_DSA ]; then
-     echo "  generating ssh DSA key..."
--    mkdir -p $(dirname $HOST_KEY_DSA)
--    ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
-+    generate_key $HOST_KEY_DSA dsa
- fi
- if [ ! -f $HOST_KEY_ED25519 ]; then
-     echo "  generating ssh ED25519 key..."
--    mkdir -p $(dirname $HOST_KEY_ED25519)
--    ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
-+    generate_key $HOST_KEY_ED25519 ed25519
- fi
- 
++PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
++PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no, virtual/libx11 virtual/libgl"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
++
++EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
 -- 
 2.14.3
 
