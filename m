@@ -1,47 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8709F786FA
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 1321778856
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 01:06:24 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id l24so317552pgc.5
+	Wed, 28 Feb 2018 01:25:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37311869"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 Feb 2018 09:25:39 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 780B348AE761
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Feb 2018 17:06:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=xBiyDE9G41VnK7mbXI7Es3XoDd044gFfvqcziMNDM44=;
-	b=J2RdbXn9vGCVRpJcjtiHerBaSXghmz1JUJyPQicL5b9wU6KvreEYvKMnNhKsZmG8Um
-	kAviieSRPaQYHNAjkW98X67qHRTsjklGcx9i3njh01H/rz9GkYgfbsTScL0sozMvzvgg
-	TafUceFgsrEfpoAeSwDr8Hcc+RAW+FxRMAP5/cty7TmoIW0Uq/VsoA7y5qg39Lj5cEhn
-	2yk3nC2RVkw52D5fwTb02F2HLkX9wduv3Iwz33+YQoIkWCJB+7Shi+D4ROCR2VtWVM9m
-	QRpyhQGapkG44szAMb5L34w7Wi3EsiakbcqZ+Ucna/fDAqdTWjwupENf/5Wuf6lMPC6C
-	DbMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xBiyDE9G41VnK7mbXI7Es3XoDd044gFfvqcziMNDM44=;
-	b=UDsx3TD1lmr2mBUradhpyFRCxrewQ4IEXNf0Ygm2faa1I7Uud2/Wjys7DU7NUlddZz
-	P2oM22OoVY241Twbrosr+rMN662LrSMn8zuYc3bDE2AXOlTWbtssqZ+5Blwvw5AYnyC5
-	ui+J6aPDF4V7YOdBM44+Ca2EBh7DKbOk540qKvJV7ntrkr2Ua/CHQ9aDBDfsyoYPaCRs
-	Tr4UtoMACPm9G/CzImFwL1FCOWbdvQ7Ok0c8e+LW6NOjaBBDg3f86zUkp/zr0+xonGB8
-	pv0JThhGtChoXIy7w64zBy4Jg7/NoVs+ULXvIeX3KE4Yj7uMdbTE38IvacpjME8XbaiY
-	k7rw==
-X-Gm-Message-State: APf1xPAuFXNAEf3l81ZLJWUYuUqZ/NRmQLQYyReObZEU7gyCbM/ZH5l2
-	4irNqLFtzj9iTbnm2etPcKWqRQ==
-X-Google-Smtp-Source: AH8x226X1elrGytT8DAXLn282nx2m0QoEY+lBdE6esuff5FaVIDichUw3laQDqDnv4VXr0Eak/Z4DA==
-X-Received: by 10.101.80.6 with SMTP id f6mr12607310pgo.272.1519779985184;
-	Tue, 27 Feb 2018 17:06:25 -0800 (PST)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	a21sm492726pfl.137.2018.02.27.17.06.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Feb 2018 17:06:24 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 17:06:17 -0800
-Message-Id: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [morty][PATCH] buildhistory: fix latest_srcrev in the common case
+	Wed, 28 Feb 2018 09:25:37 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 28 Feb 2018 09:25:35 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Feb 2018 09:25:14 +0800
+Message-ID: <1519781114-1825-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 780B348AE761.A6297
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] mesa: 17.3.5 -> 17.3.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 01:06:24 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 01:25:41 -0000
+Content-Type: text/plain
 
-From: Christopher Larson <chris_larson@mentor.com>
+Upgrade mesa form 17.3.5 to 17.3.6.
 
-buildhistory was writing srcrevs.values() as SRCREV when only one
-srcrev/branch exists. This returns a view of the dictionary values in python
-3, and used to return a list in python 2, neither of which is an appropriate
-value for SRCREV. It was resulting in latest_srcrev files like this:
-
-    # SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
-    SRCREV = "dict_values(['346584bf6e38232be8773c24fd7dedcbd7b3d9ed'])"
-
-Which in turn would result in invalid output in buildhistory-collect-srcrevs.
-Fix by calling `next(iter())` on the `.values()`
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit ef826a395612400924bbe49859d256b237ff59e1)
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: HuangQiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/classes/buildhistory.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/mesa/{mesa-gl_17.3.5.bb => mesa-gl_17.3.6.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.3.5.bb => mesa_17.3.6.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.3.5.bb => mesa-gl_17.3.6.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.3.5.bb => mesa_17.3.6.bb} (87%)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3a5bc2c..d82e9bb 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -833,7 +833,7 @@ python write_srcrev() {
-                         f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
-                     f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
-             else:
--                f.write('SRCREV = "%s"\n' % srcrevs.values())
-+                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
-             if len(tag_srcrevs) > 0:
-                 for name, srcrev in tag_srcrevs.items():
-                     f.write('# tag_%s = "%s"\n' % (name, srcrev))
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.5.bb b/meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.3.5.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.3.5.bb b/meta/recipes-graphics/mesa/mesa_17.3.6.bb
+similarity index 87%
+rename from meta/recipes-graphics/mesa/mesa_17.3.5.bb
+rename to meta/recipes-graphics/mesa/mesa_17.3.6.bb
+index 3ce7135..1ace5fd 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.3.5.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.3.6.bb
+@@ -11,8 +11,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "bf73288c33cf12abe62045c25e2196b4"
+-SRC_URI[sha256sum] = "eb9228fc8aaa71e0205c1481c5b157752ebaec9b646b030d27478e25a6d7936a"
++SRC_URI[md5sum] = "ba66ae0f09b9b84482268608557cd175"
++SRC_URI[sha256sum] = "e5915680d44ac9d05defdec529db7459ac9edd441c9845266eff2e2d3e57fbf8"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
-1.9.1
+2.7.4
+
+
 
 
