@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EFE7788CD
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA63788D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 03:09:25 +0000 (UTC)
+	Wed, 28 Feb 2018 03:09:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 19:09:27 -0800
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2018 19:09:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325740"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325765"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:25 -0800
+	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:26 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:08 -0800
-Message-Id: <20180228030918.35934-9-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:16 -0800
+Message-Id: <20180228030918.35934-17-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 08/18] wic: add wks file to make use of exclude-path functionality
+Subject: [PATCH v2 16/18] init-install.sh: support multiple kernels and don't assume vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +34,85 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:27 -0000
 
-Using --exclude-path and a wks.in file we can create an image that takes
-the /boot/ directory for the boot partition, has an empty /boot/
-directory in the rootfs partition. The boot partition gets mounted to
-/boot/ after startup.
+Since kernels will not necessarily be installed as vmlinuz anymore,
+don't assume that's its name for either the bootloader config or the
+copy of the kernel.
+
+Also, allow installing multiple kernels by searching for common kernel
+names.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+ .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-new file mode 100644
-index 00000000000..7300e65e32d
---- /dev/null
-+++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-@@ -0,0 +1,3 @@
-+bootloader --ptable gpt
-+part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.0
-+part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index dade059c8f1..713a83092bf 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -256,9 +256,34 @@ fi
+ umount /tgt_root
+ umount /src_root
+ 
++echo "Looking for kernels to use as boot target.."
++# Find kernel to boot to
++# Give user options if multiple are found
++kernels="$(find /run/media/$1/ -type f  \
++           -name bzImage* -o -name zImage* \
++           -o -name vmlinux* -o -name vmlinuz* \
++           -o -name fitImage* \
++           | sed s:.*/::)"
++if [ -n "$(echo $kernels)" ]; then
++    # only one kernel entry if no space
++    if [ -z "$(echo $kernels | grep " ")" ]; then
++        kernel=$kernels
++        echo "$kernel will be used as the boot target"
++    else
++        echo "Which kernel do we want to boot by default? The following kernels were found:"
++        echo $kernels
++        read answer
++        kernel=$answer
++    fi
++else
++    echo "No kernels found, exiting..."
++    exit 1
++fi
++
+ # Handling of the target boot partition
+ mount $bootfs /boot
+ echo "Preparing boot partition..."
++
+ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+     echo "Preparing custom grub2 menu..."
+     root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+@@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+     cat >$GRUBCFG <<_EOF
+ menuentry "Linux" {
+     search --no-floppy --fs-uuid $boot_uuid --set root
+-    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
++    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+ }
+ _EOF
+     chmod 0444 $GRUBCFG
+@@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
+     echo "timeout 30" >> /boot/grub/menu.lst
+     echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
+     echo "root  (hd0,0)" >> /boot/grub/menu.lst
+-    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
++    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+ fi
+ 
+-cp /run/media/$1/vmlinuz /boot/
++# Copy kernel artifacts. To add more artifacts just add to types
++# For now just support kernel types already being used by something in OE-core
++for types in bzImage zImage vmlinux vmlinuz fitImage; do
++    for kernel in `find /run/media/$1/ -name $types*`; do
++        cp $kernel /boot
++    done
++done
+ 
+ umount /boot
+ 
 -- 
 2.14.3
 
