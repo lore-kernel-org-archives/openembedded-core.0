@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E1D77EA8
+	by mail.openembedded.org (Postfix) with ESMTP id 9BC976007A
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Feb 2018 03:09:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	27 Feb 2018 19:09:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325724"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325730"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:25 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:03 -0800
-Message-Id: <20180228030918.35934-4-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:05 -0800
+Message-Id: <20180228030918.35934-6-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 03/18] grub-efi: install to /boot/
+Subject: [PATCH v2 05/18] packagegroup-core-boot: add bootloader to EFI systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,93 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:25 -0000
 
-Since /boot/ will be recipe/package controlled now we can't just deploy.
+Since the bootloader is now installed instead of added at image creation
+time, this is necessary for booting.
+
+Also set the default to grub-efi. This is done because a default of
+grub-efi is already used by live-vm-common.bbclass, and in the event
+that EFI_PROVIDER isn't defined errors would occur.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-bsp/grub/grub-bootconf_1.00.bb |  2 +-
- meta/recipes-bsp/grub/grub-efi_2.02.bb      | 34 +++++++++++++++++++++++------
- 2 files changed, 28 insertions(+), 8 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-index d376fde68b1..750f8c808a8 100644
---- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-+++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-@@ -23,7 +23,7 @@ do_install() {
- 	install -d ${D}/boot
- 	install -d ${D}/boot/EFI
- 	install -d ${D}/boot/EFI/BOOT
--	install -m 0744 grub-bootconf ${D}/boot/EFI/BOOT/grub.cfg
-+	install grub-bootconf ${D}/boot/EFI/BOOT/grub.cfg
- }
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 04bc0f2b693..0fcb8ba9193 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -23,6 +23,8 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
- FILES_${PN} = "/boot/EFI/BOOT/grub.cfg"
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index d5aa64c75f7..c5a68f01cef 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -3,7 +3,7 @@ require grub2.inc
- GRUBPLATFORM = "efi"
- 
- DEPENDS_append_class-target = " grub-efi-native"
--RDEPENDS_${PN}_class-target = "diffutils freetype grub-common"
-+RDEPENDS_${PN}_class-target = "diffutils freetype grub-common virtual/grub-bootconf"
- 
- SRC_URI += " \
-            file://cfg \
-@@ -36,6 +36,28 @@ EXTRA_OECONF += "--enable-efiemu=no"
- # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
- CFLAGS_append_class-native = " -Wno-error=trampolines"
- 
-+do_mkimage() {
-+	cd ${B}
-+	# Search for the grub.cfg on the local boot media by using the
-+	# built in cfg file provided via this recipe
-+	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-+	               ${GRUB_BUILDIN}
-+}
++EFI_PROVIDER ??= "grub-efi"
 +
-+addtask mkimage before do_install after do_compile
-+
-+do_mkimage_class-native() {
-+	:
-+}
-+
-+do_install_append_class-target() {
-+	install -d ${D}/boot
-+	install -d ${D}/boot/EFI
-+	install -d ${D}/boot/EFI/BOOT
-+	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
-+}
-+
- do_install_class-native() {
- 	install -d ${D}${bindir}
- 	install -m 755 grub-mkimage ${D}${bindir}
-@@ -57,11 +79,6 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
-                  efi_gop iso9660 configfile search loadenv test"
- 
- do_deploy() {
--	# Search for the grub.cfg on the local boot media by using the
--	# built in cfg file provided via this recipe
--	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
--	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
--	               ${GRUB_BUILDIN}
- 	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
- }
- 
-@@ -72,7 +89,10 @@ do_deploy_class-native() {
- addtask deploy after do_install before do_build
- 
- FILES_${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
--                "
-+               ${datadir}/grub \
-+               /boot/EFI/BOOT/${GRUB_IMAGE} \
-+               "
-+
- 
- # 64-bit binaries are expected for the bootloader with an x32 userland
- INSANE_SKIP_${PN}_append_linux-gnux32 = " arch"
+ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+@@ -35,6 +37,7 @@ RDEPENDS_${PN} = "\
+     ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
++    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)} \
+     netbase \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
 -- 
 2.14.3
 
