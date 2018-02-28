@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D9ECC78893
+	by mail.openembedded.org (Postfix) with ESMTP id E64E7788A0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Feb 2018 03:09:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2018 19:09:26 -0800
+	27 Feb 2018 19:09:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325727"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325743"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:25 -0800
+	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:26 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:04 -0800
-Message-Id: <20180228030918.35934-5-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:09 -0800
+Message-Id: <20180228030918.35934-10-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 04/18] grub-efi: if installed and EFI_PROVIDER, install as bootx64 or bootia32
+Subject: [PATCH v2 09/18] init-install-efi.sh: Update to support installing multiple kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +34,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:26 -0000
 
-This way we could theoretically support multiple bootloaders, and we
-keep the convention of boot(x64|ia32).
+We can no longer rely on the kernel having a static name of "vmlinuz".
+This means we can't use it as a sentinel value in our sed commands, and
+we can't just copy vmlinuz to the boot directory.
+
+Instead, we'll use "root=" as the sentinel value for our sed commands,
+and we'll search for common kernel names to copy into our boot
+directory.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index c5a68f01cef..ed27b90fdbc 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -15,16 +15,19 @@ S = "${WORKDIR}/grub-${PV}"
- python __anonymous () {
-     import re
-     target = d.getVar('TARGET_ARCH')
-+    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
-     if target == "x86_64":
-         grubtarget = 'x86_64'
--        grubimage = "grub-efi-bootx64.efi"
-+        grubimage = prefix + "bootx64.efi"
-     elif re.match('i.86', target):
-         grubtarget = 'i386'
--        grubimage = "grub-efi-bootia32.efi"
-+        grubimage = prefix + "bootia32.efi"
-     else:
-         raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
-     d.setVar("GRUB_TARGET", grubtarget)
-     d.setVar("GRUB_IMAGE", grubimage)
-+    prefix = "grub-efi-" if prefix == "" else ""
-+    d.setVar("GRUB_IMAGE_PREFIX", prefix)
- }
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 706418fa9c5..f946d971d11 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -244,10 +244,9 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+     sed -i "/initrd /d" $GRUBCFG
+     # Delete any LABEL= strings
+     sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
+-    # Delete any root= strings
+-    sed -i "s/ root=[^ ]*/ /g" $GRUBCFG
+-    # Add the root= and other standard boot options
+-    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$root_part_uuid rw $rootwait quiet @" $GRUBCFG
++    # Replace root= and add additional standard boot options
++    # We use root as a sentinel value, as vmlinuz is no longer guaranteed
++    sed -i "s/ root=[^ ]*/ root=PARTUUID=$root_part_uuid rw $rootwait quiet /g" $GRUBCFG
+ fi
  
- inherit deploy
-@@ -41,7 +44,7 @@ do_mkimage() {
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
- 	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
--	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-+	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
- 	               ${GRUB_BUILDIN}
- }
+ if [ -d /run/media/$1/loader ]; then
+@@ -269,7 +268,13 @@ fi
  
-@@ -55,7 +58,7 @@ do_install_append_class-target() {
- 	install -d ${D}/boot
- 	install -d ${D}/boot/EFI
- 	install -d ${D}/boot/EFI/BOOT
--	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
-+	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}/boot/EFI/BOOT/${GRUB_IMAGE}
- }
+ umount /tgt_root
  
- do_install_class-native() {
-@@ -79,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
-                  efi_gop iso9660 configfile search loadenv test"
+-cp /run/media/$1/vmlinuz /boot
++# Copy kernel artifacts. To add more artifacts just add to types
++# For now just support kernel types already being used by something in OE-core
++for types in bzImage zImage vmlinux vmlinuz fitImage; do
++    for kernel in `find /run/media/$1/ -name $types*`; do
++        cp $kernel /boot
++    done
++done
  
- do_deploy() {
--	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
- }
+ umount /boot
  
- do_deploy_class-native() {
 -- 
 2.14.3
 
