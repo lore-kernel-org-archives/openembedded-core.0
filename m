@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A1D77FED;
-	Wed, 28 Feb 2018 21:05:19 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id DF3F37890F;
+	Wed, 28 Feb 2018 21:05:20 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Date: Wed, 28 Feb 2018 21:05:21 -0000
-Message-ID: <20180228210521.15537.53788@do.openembedded.org>
-References: <20180222195736.21391-1-alejandro.delcastillo@ni.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 Feb 2018 21:05:22 -0000
+Message-ID: <20180228210522.15542.22429@do.openembedded.org>
+References: <20180228204607.16416-1-raj.khem@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20180222195736.21391-1-alejandro.delcastillo@ni.com>
+In-Reply-To: <20180228204607.16416-1-raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZyAmIG9wa2ctdXRpbHMgdXBncmFkZSB0byAwLjMuNiAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IEVuYWJsZSBzdGF0aWMgUElFIHN1cHBvcnQ=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 21:05:20 -0000
+X-List-Received-Date: Wed, 28 Feb 2018 21:05:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: opkg & opkg-utils upgrade to 0.3.6 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/11058/
+Series: glibc: Enable static PIE support
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11152/
 State : failure
 
 == Summary ==
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at b30153a157)
 
 
 
