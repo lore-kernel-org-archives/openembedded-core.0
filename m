@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5CB788B8
+	by mail.openembedded.org (Postfix) with ESMTP id 1B2277887B
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Feb 2018 03:09:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	27 Feb 2018 19:09:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325753"
+X-IronPort-AV: E=Sophos;i="5.47,403,1515484800"; d="scan'208";a="21325756"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga008.jf.intel.com with ESMTP; 27 Feb 2018 19:09:26 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Feb 2018 19:09:12 -0800
-Message-Id: <20180228030918.35934-13-california.l.sullivan@intel.com>
+Date: Tue, 27 Feb 2018 19:09:13 -0800
+Message-Id: <20180228030918.35934-14-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180228030918.35934-1-california.l.sullivan@intel.com>
 References: <20180228030918.35934-1-california.l.sullivan@intel.com>
-Subject: [PATCH v2 12/18] systemd: add systemd-bootconf recipe
+Subject: [PATCH v2 13/18] systemd-boot*.bbclass: Don't use vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +34,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Feb 2018 03:09:26 -0000
 
-Reuses our systemd-boot-cfg bbclass to generate systemd-boot
-configuration files.
+We can't guarantee vmlinuz anymore. Use KERNEL_IMAGETYPE instead.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 31 ++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+ meta/classes/systemd-boot-cfg.bbclass | 6 +++++-
+ meta/classes/systemd-boot.bbclass     | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-new file mode 100644
-index 00000000000..e9c2466456c
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-@@ -0,0 +1,31 @@
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+SUMMARY = "Basic systemd-boot configuration files"
+diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
+index 46eeae126ae..360c86cbd34 100644
+--- a/meta/classes/systemd-boot-cfg.bbclass
++++ b/meta/classes/systemd-boot-cfg.bbclass
+@@ -1,3 +1,5 @@
++KERNEL_IMAGETYPE ??= "bzImage"
 +
-+RPROVIDES_${PN} += "virtual/systemd-bootconf"
+ SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+ SYSTEMD_BOOT_ENTRIES ?= ""
+ SYSTEMD_BOOT_TIMEOUT ?= "10"
+@@ -52,7 +54,9 @@ python build_efi_cfg() {
+         localdata.setVar('OVERRIDES', label + ':' + overrides)
+ 
+         entrycfg.write('title %s\n' % label)
+-        entrycfg.write('linux /vmlinuz\n')
 +
-+inherit systemd-boot-cfg
-+
-+S = "${WORKDIR}"
-+
-+LABELS = "boot"
-+
-+ROOT ?= "root=/dev/sda2"
-+APPEND_append = " ${ROOT}"
-+
-+python do_configure() {
-+    bb.build.exec_func('build_efi_cfg', d)
-+}
-+
-+do_configure[vardeps] += "APPEND"
-+
-+do_install() {
-+	install -d ${D}/boot
-+	install -d ${D}/boot/loader
-+	install -d ${D}/boot/loader/entries
-+	install loader.conf ${D}/boot/loader/
-+	rm loader.conf
-+	install *.conf ${D}/boot/loader/entries/
-+}
-+
-+FILES_${PN} = "/boot/loader/* /boot/loader/entries/*"
++        kernel = localdata.getVar("KERNEL_IMAGETYPE")
++        entrycfg.write('linux /%s\n' % kernel)
+ 
+         append = localdata.getVar('APPEND')
+         initrd = localdata.getVar('INITRD')
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+index 14538fe2d7a..3cd6811a6ce 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot.bbclass
+@@ -45,7 +45,7 @@ efi_iso_populate() {
+         mkdir -p ${EFIIMGDIR}/${EFIDIR}
+         cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+         cp -r $iso_dir/loader ${EFIIMGDIR}
+-        cp $iso_dir/vmlinuz ${EFIIMGDIR}
++        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
+         EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+         echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+         if [ -f "$iso_dir/initrd" ] ; then
 -- 
 2.14.3
 
