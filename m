@@ -1,51 +1,50 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F0722785E7
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 22552788CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 23:17:03 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id h19so2262706pfd.12
+	Thu,  1 Mar 2018 23:17:05 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id e9so2961778pgs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 15:17:05 -0800 (PST)
+	Thu, 01 Mar 2018 15:17:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dUxQdzr2SBrcfBqe2tEonmwdHyDR01znZtRavgcZIvk=;
-	b=TJ/yVtAsh8V3jnm5NA/gaPSOdJCC4ttj6xIHerS0fpmClAZoTe4+acPZiCbU2Rnn4b
-	DTf2YCwRcXKlIvIX9ZsAUGVbGT5MtaFam2sclrA6JUXW4sosIjPysZ21lhxqFh01vxGz
-	jsYnTjPOv9BC9Z7QMW1HHegwedjfMEMB3dCZMIVuAJdjR67xysjufsRZfpveKB9ivAJ0
-	VzFflobbIRO4VnYVRBj4wuzpLjTVFSsrTbRZdZ3pwCSXD7ki/UBBLUCNkuWLxpho+aLO
-	XauH9B6RUE9D0n5Gcf1mhAq7+2fcOIZ0qyRrbCVHRP7www3rJKypQUZOW8i3X1lRng/f
-	pcQQ==
+	bh=NjPzR8c+npW2TtRpiuKh98gAqgDuDQNBQCD+hBFLyHU=;
+	b=GKcqht22Ivc/1lGDvyiFITqKbjuCwLEOooidHg8/v20sI8yH3ZgC10u2Wh1lETpleg
+	JijqINJVdXP0K9OtVsDtxDHOOlWKAaJCUHaaCo69plv+H34ZzvsWpUzCsutv8E3uX2AP
+	rOX/jNSZMrrGsuHRoRQ8CSBG8Y01bSNEU7JI2gHzeeoSgHVcPtCtiQYrOcgk4zBIxpN6
+	sN55p+kOGV/PW+QOKNcwWpmF4zIV/FxAu0HwiBnlA+JePhSNdfVbX9v6Cfy5kxs8GqQf
+	xqWc49DhdlVNSobAz6ufAiZx2OZOg3ywWvZIFKcOBoRtxK7xF9GqgF5pg6ibLb64gOYg
+	fmZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dUxQdzr2SBrcfBqe2tEonmwdHyDR01znZtRavgcZIvk=;
-	b=IHULMvgX8SQJjUFKQBSRI0+c7c9GJhsZlGUsxVV3A2EYWzGrLh3Yqng1p86+/mvGlb
-	W/NGgm5aasZVw7B/omCiPJKENZfSW4AAVLOwe5/4yOwiWE4TS4NKk6ge/+imv3MakvVl
-	+C1F1bonC0lYewKc/gRLP2GrMPMz1BiIJFUiQYGu/v5CF7mDrgi6UI8JAXJ+3hbh9KvX
-	eDh4B4W1+bL2IswwO1vAy8ZDYC07VfflNYfvUviCj8QDCPw2Ra77s5wGfPLUvgeO8Qe1
-	vwFV1P6JknYNlyrPDSXiv4uDLUuyaNwiVUNN6j0KqwSSSVt4iMMwc/VravLTP/225JEF
-	h7Ng==
-X-Gm-Message-State: APf1xPCCfzFQ4AXXfAASto6COmjHGBUoN6YH1kEia2awmK3AkGAS1tXo
-	E3mujqbQ6f7OsXmqCXIn68K8NGcF
-X-Google-Smtp-Source: AG47ELsjqN2Lkh3s8mbLBgaYFCx1lDrafUJtzeN9qO7KbUrHEMQSWnkyDVK5+GTuqeBolvdd3GHReQ==
-X-Received: by 10.101.98.85 with SMTP id q21mr2839861pgv.182.1519946224768;
-	Thu, 01 Mar 2018 15:17:04 -0800 (PST)
+	bh=NjPzR8c+npW2TtRpiuKh98gAqgDuDQNBQCD+hBFLyHU=;
+	b=BVnXNHdLJdoSOao9/zcb1Rbh7hb4gARZaY4T4uJLo5WU8QOVVjCokK+VKi/BnIR6SJ
+	/0IsI5RM6RREJIEexjLyRul6EeF+cVuEQnEhQ4J56Er1841XT/rPMQbj7IIzHHC+Fasn
+	HYAjxMlqK+QZWQN1BHBckw/35zwlXAIJEd3G4jQJnXdluEuvhlohR02Mxl17M56UAgbW
+	7Zs6d04m6hfHnqs9QCRVIFAT465HD8fuK9agCNWF/n8yGQ7UMwW2ZaRw55zc32jKpaSz
+	ZYAkDyfLQovk28j1LFovL4aQfhlmXWaaOejQFUKdau4NJD92T9g0IuVvF35bvMx+YjCG
+	S7Rw==
+X-Gm-Message-State: APf1xPACAuZZJ+TcNa8Cs5/Kjw6d4J9ZL5UYhBpd1NoLwieLm2Uk3QD0
+	AoV0XhbKDCMqEXC4HavNjZotRrZI
+X-Google-Smtp-Source: AG47ELudAtWq8t2oL8dKa8q0Jk/f6qYsI6A85hkvM8r4rWkULqzW0VDVWVN1z2HYMVg9RY+8/Ng8dA==
+X-Received: by 10.101.68.82 with SMTP id e18mr2867165pgq.329.1519946226765;
+	Thu, 01 Mar 2018 15:17:06 -0800 (PST)
 Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
 	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	p128sm7853503pga.45.2018.03.01.15.17.03
+	p128sm7853503pga.45.2018.03.01.15.17.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 15:17:03 -0800 (PST)
+	Thu, 01 Mar 2018 15:17:05 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 15:16:43 -0800
-Message-Id: <20180301231654.24018-3-matt@madison.systems>
+Date: Thu,  1 Mar 2018 15:16:44 -0800
+Message-Id: <20180301231654.24018-4-matt@madison.systems>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180301231654.24018-1-matt@madison.systems>
 References: <20180301231654.24018-1-matt@madison.systems>
-Subject: [PATCH v3 02/13] go: set GOMIPS envrionment variable
+Subject: [PATCH v3 03/13] go.bbclass: rename GO_TMPDIR -> GOTMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,110 +57,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 23:17:04 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 23:17:06 -0000
 
-Go 1.10 adds support for selecting hard/soft float
-object code through the GOMIPS environment variable.
+and export it. Go 1.10 now supports using this
+separate variable locating its temporary files,
+so TMPDIR doesn't have to be modified.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/classes/goarch.bbclass                    | 11 +++++++++++
- meta/recipes-devtools/go/go-cross-canadian.inc |  1 +
- meta/recipes-devtools/go/go-cross.inc          |  2 ++
- meta/recipes-devtools/go/go-runtime.inc        |  1 +
- meta/recipes-devtools/go/go-target.inc         |  1 +
- 5 files changed, 16 insertions(+)
+ meta/classes/go.bbclass | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 922c0cc8f3..1021b94d4c 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -5,11 +5,13 @@ HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
- HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
- HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-+HOST_GOMIPS = "${@go_map_mips(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
- TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
- TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
- TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-+TARGET_GOMIPS = "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
- GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
- 
-@@ -78,6 +80,15 @@ def go_map_386(a, f, d):
-             return '387'
-     return ''
- 
-+def go_map_mips(a, f, d):
-+    import re
-+    if a == 'mips' or a == 'mipsel':
-+        if 'fpu-hard' in f:
-+            return 'hardfloat'
-+        else:
-+            return 'softfloat'
-+    return ''
-+
- def go_map_os(o, d):
-     if o.startswith('linux'):
-         return 'linux'
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index c84aa4c9eb..3b98ea449f 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -42,6 +42,7 @@ export GOARCH="${TARGET_GOARCH}"
- export GOOS="${TARGET_GOOS}"
- test -n "\$GOARM" || export GOARM="${TARGET_GOARM}"
- test -n "\$GO386" || export GO386="${TARGET_GO386}"
-+test -n "\$GOMIPS" || export GOMIPS="${TARGET_GOMIPS}"
- export GOTOOLDIR="\$native_goroot/pkg/tool/${HOST_GOTUPLE}"
- test -n "\$GOROOT" || export GOROOT="\$OECORE_TARGET_SYSROOT/${target_libdir}/go"
- \$here/../../lib/${TARGET_SYS}/go/bin/$1 "\$@"
-diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
-index fe92651581..289ae77104 100644
---- a/meta/recipes-devtools/go/go-cross.inc
-+++ b/meta/recipes-devtools/go/go-cross.inc
-@@ -11,6 +11,7 @@ export GOOS = "${TARGET_GOOS}"
- export GOARCH = "${TARGET_GOARCH}"
- export GOARM = "${TARGET_GOARM}"
- export GO386 = "${TARGET_GO386}"
-+export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 43a262d599..a126d531b8 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -49,8 +49,8 @@ GO_INSTALL_FILTEROUT ?= "${GO_IMPORT}/vendor/"
+ B = "${WORKDIR}/build"
+ export GOPATH = "${B}"
  export GOCACHE = "off"
-@@ -40,6 +41,7 @@ export GOARCH="${TARGET_GOARCH}"
- export GOOS="${TARGET_GOOS}"
- export GOARM="\${GOARM:-${TARGET_GOARM}}"
- export GO386="\${GO386:-${TARGET_GO386}}"
-+export GOMIPS="\${GOMIPS:-${TARGET_GOMIPS}}"
- \$here/../../lib/${CROSS_TARGET_SYS_DIR}/go/bin/$1 "\$@"
- END
- 	chmod +x ${D}${bindir}/$2
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index 7a3b415b3f..0fe4566360 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -8,6 +8,7 @@ export GOOS = "${TARGET_GOOS}"
- export GOARCH = "${TARGET_GOARCH}"
- export GOARM = "${TARGET_GOARM}"
- export GO386 = "${TARGET_GO386}"
-+export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_ENABLED = "1"
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index a53a314c78..141a456cca 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -8,6 +8,7 @@ export GOOS = "${TARGET_GOOS}"
- export GOARCH = "${TARGET_GOARCH}"
- export GOARM = "${TARGET_GOARM}"
- export GO386 = "${TARGET_GO386}"
-+export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_ENABLED = "1"
+-GO_TMPDIR ?= "${WORKDIR}/go-tmp"
+-GO_TMPDIR[vardepvalue] = ""
++export GOTMPDIR ?= "${WORKDIR}/go-tmp"
++GOTMPDIR[vardepvalue] = ""
+ 
+ python go_do_unpack() {
+     src_uri = (d.getVar('SRC_URI') or "").split()
+@@ -85,19 +85,18 @@ go_list_package_tests() {
+ go_do_configure() {
+ 	ln -snf ${S}/src ${B}/
+ }
++do_configure[dirs] =+ "${GOTMPDIR}"
+ 
+ go_do_compile() {
+-	export TMPDIR="${GO_TMPDIR}"
+ 	${GO} env
+ 	if [ -n "${GO_INSTALL}" ]; then
+ 		${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} `go_list_packages`
+ 	fi
+ }
+-do_compile[dirs] =+ "${GO_TMPDIR}"
++do_compile[dirs] =+ "${GOTMPDIR}"
+ do_compile[cleandirs] = "${B}/bin ${B}/pkg"
+ 
+ do_compile_ptest() {
+-    export TMPDIR="${GO_TMPDIR}"
+     rm -f ${B}/.go_compiled_tests.list
+ 	go_list_package_tests | while read pkg; do
+ 		cd ${B}/src/$pkg
+@@ -106,7 +105,7 @@ do_compile_ptest() {
+ 			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
+ 	done
+ }
+-do_compile_ptest_base[dirs] =+ "${GO_TMPDIR}"
++do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
+ 
+ go_do_install() {
+ 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
 -- 
 2.14.1
 
