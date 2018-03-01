@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B345F71C71
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 00E9B7889F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 16:24:46 +0000 (UTC)
-Received: by mail-wr0-f173.google.com with SMTP id m12so7167772wrm.13
+	Thu,  1 Mar 2018 16:44:25 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id n128so8699311ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 08:24:47 -0800 (PST)
+	Thu, 01 Mar 2018 08:44:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=x6sU5Napo8nTvm/bwM3ag7sL4AQr/9e4Sp6zb04AW4w=;
-	b=Vm0MnHQvZfEBka3nyh2yZsR/BFWfizY6VvEWnOH2wxm5QmAPQXLRMl5Caetb2eALuf
-	5FTXPfepcj3ADS82MOxDqYdLbXrsoxbUvd6GTKuVCrMEjwkIG2E2Z/lcT7yVvfB1Swwa
-	jVzail6nKb1wvCQlwxjwLO+Atn9de/Z3smHT2KjxLAKD9y/h0LFgQArgwjdVm1RS9Rj/
-	k/99cWgLrwM5+YOe8GAcdENEcbCbKOKlQ8pi3pcCcwmRZ9GDw/1EsU3TJz1ZDrgBbJSc
-	0VQ9Jl+YFuhUBo4w0Q6SScqYump7/JwcTH9QH9QRHCR6flh4W28C/fWz0rNebGdtPbc/
-	4gvQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wzVgHEt3QaO3ceVqv3PakqRLAV9g2ij67G+8tH5x7hE=;
+	b=jJndGQmwD2frpZ52qaBj5iQsJI5S61wfJLQBo2C9sJESlY5b/GTSYtHBwOwt7eYIuc
+	WAaSdY73vd4/LMopG+pJK9y7/GD7kumkNJLAIg9KcnHbD0Z+li24ddoB7G0Il150FQJ7
+	KumM3m7kbVEqLkL4MbQME49suAP3rrtG7cwYXr0L6pZW8csiEc4V1EgoqmoPpEjE1k3B
+	GcwIRNRed2/yR0FEo+S8FEvu5rWXNvekPPnJ+sbohoFuiSENbcx8X3qoEqdTpBJt/nSE
+	WcXtlJHimgap4deIn8DFdb/kxMAybNbt6SrNEqsYKkmavjzCwmJIjoUR+XYEjrBAIXxS
+	o8Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=x6sU5Napo8nTvm/bwM3ag7sL4AQr/9e4Sp6zb04AW4w=;
-	b=hNyej7TDFDVOWAV1QiWbGfch9mwxadorQ7UpoJMnM6OvV8YQ92aSuyoXfL3cznOVHK
-	e0rBkSJ18oodSpZ+skFD4cJk7MohC5KOuoJF5BlZ14gWoMWG1jb0HVRfrmqFfKDek4mz
-	oL2U1lcNUf6avyYe+Leq2/sCzgXJMaAYqgRVpIKIwCPfjLgZQoDVtDVaPeycukio5ULj
-	y/OPPKSw/jQwhKYCxPmMsZHGeDzj/N3mLapLCpzu6B1MNIXR432dR8w48AUMo4suTjn2
-	JNYNtSL/P4JVYnkUVG09YU+CzREuMwDHUR+AzRiXQtImdLRXulFWMpXQGvpkLbI7GM8j
-	G3rg==
-X-Gm-Message-State: APf1xPCpt4Dz/ofB32hyzT8pLr+wxh5/LKo410jxcsi7ccAHMrVa5aA2
-	sS2Sc4W5EkIkMSWRikWAvjKNDt7x
-X-Google-Smtp-Source: AG47ELujmTqKPJAxccI8FxufYga+mzaHZvddAUjC3zc1t8NrDDnQSB/5AevPam4KwoI0nKkJz2PTrg==
-X-Received: by 10.223.183.75 with SMTP id n11mr2323221wre.162.1519921487015;
-	Thu, 01 Mar 2018 08:24:47 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id t4sm4408971wmt.16.2018.03.01.08.24.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 08:24:46 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 16:24:42 +0000
-Message-Id: <20180301162442.32506-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] dbus-test_1.12.2: various fixes
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wzVgHEt3QaO3ceVqv3PakqRLAV9g2ij67G+8tH5x7hE=;
+	b=JF9RbhgM4rcuPoqEaOyZdAca0I7RbvPvpxccY5RIj3orfOOaYEadO/VZhBjtHiwCZR
+	GpcSuHyUwPykmrV5mqGFeQoa+yZaH2GCgxsJDPLLzFU9cAZInVUqRZrOd1Xh6TJm9z54
+	RbLaPKKd7MbEJ0fFcjR6NNHAfzGpWpfSlKLguDW6tBG2IA7mFhWIzObtjRFYcZtFsCCL
+	wHo1N7xSAutgTRxlZHvdYbESGZVRTqDDRqkgiltCx380YtvM/1XK+FC+nFpWVx2y5Hy1
+	pPe3DJlYyZRquRyAcQAFi0HSyO1vJwbQySr1acwSg6xpZ13DydsZAVt9v9tF815SdaNc
+	Xwrw==
+X-Gm-Message-State: APf1xPAn33sRpAzYD/pa6QMU33hsHqLFbPt3uonBG2leOHOlBjrZXek0
+	Jg1rplIi/mL4oAbmvXsIlkeiK69YvrXy2PqsNX+xQQ==
+X-Google-Smtp-Source: AG47ELt3lLeDjW4ZXl4o1HplUgCrv9UdzRLkBcgXV6jw31mgnXraMy/NvN+wm/6gSbZpvV6HMEeSNV8lbYRGVdOrPXw=
+X-Received: by 10.36.66.195 with SMTP id i186mr3522656itb.45.1519922667089;
+	Thu, 01 Mar 2018 08:44:27 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.17.200 with HTTP; Thu, 1 Mar 2018 08:44:06 -0800 (PST)
+In-Reply-To: <40f962d3-b902-3ed0-33e6-a9c00e88e93a@linux.intel.com>
+References: <20180221031249.43075-1-raj.khem@gmail.com>
+	<40f962d3-b902-3ed0-33e6-a9c00e88e93a@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Mar 2018 16:44:06 +0000
+Message-ID: <CAJTo0LZ_ppyEQSEn=Ga5d-r3PxD=1-O47r=q=sCmupGWpRRjCA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/2] binutils: Upgrade to 2.30 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,141 +56,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 16:24:46 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 16:44:26 -0000
+Content-Type: multipart/alternative; boundary="001a113b8804a88bd205665c9221"
 
-From: Juro Bystricky <juro.bystricky@intel.com>
+--001a113b8804a88bd205665c9221
+Content-Type: text/plain; charset="UTF-8"
 
-The result of running dbus-test-ptest was a series of
-various segfaults, interpreted as FAILs. This was a direct consequence
-of the test suite loading the installed shared library libdbus-1.so, not the
-one built along the test suite.
+Filed a bug for this:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12577
 
-While we normally want to test against the installed libraries, we cannot
-do this in this case as the test suite expects a library that is configured/compiled
-differently from the installed one. We could configure the installed library
-identically as the test suite expects, (and there should be no issues), however
-this is not desirable for performance reasons.
+On 1 March 2018 at 09:43, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-Hence we need to use the library built along with the test suite.
-Of course, running the test suite against its own library does not
-test the installed library, however they are both built from the same
-sources so that can give us some kind of indication.
+> On 02/21/2018 05:12 AM, Khem Raj wrote:
+>
+>> Additionally cherry-pick
+>>
+>> 5ffeba4a09 Revert "PowerPC PLT speculative execution barriers"
+>> b01452b1d4 [PR22764][LD][AARCH64]Allow R_AARCH64_ABS16 and
+>> R_AARCH64_ABS32 against absolution symbol or undefine symbol in shared
+>> object.
+>> a985e9b9de Import patch from mainline to remove PROVODE qualifiers around
+>> definitions of __CTOR_LIST__ and __DTOR_LIST__ in PE linker scripts.
+>> eec4607fc5 Add support for DWARF-4 line number tables.
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> Changes in v2:
+>>
+>> - Backport fixes for aarch64 relocs
+>> - ppc plt fix, dwarf-4 line number support and linker script fix for
+>> removing PROVODE
+>>
+>> Changes in v3:
+>> - None
+>>
+>
+> I did some bisection and unfortunately this cases breakage when musl,
+> systemd and gobject introspection are all enabled:
+>
+> | i586-poky-linux-musl-libtool: link: i586-poky-linux-musl-gcc -m32
+> -march=i586 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat
+> -Wformat-security -Werror=format-security --sysroot=/home/ak/development
+> /poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot -o
+> /home/ak/development/poky/build/tmp/work/i586-poky-linux-
+> musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/.libs/Avahi-0.6
+> -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/home/ak/de
+> velopment/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.
+> 7-r0=/usr/src/debug/avahi/0.7-r0 -fdebug-prefix-map=/home/ak/de
+> velopment/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot-native=
+> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/
+> i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot= -std=c99 -Wall -W
+> -Wextra -pedantic -pipe -Wformat -Wold-style-definition
+> -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarations
+> -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls
+> -Wmissing-noreturn -Wshadow -Wendif-labels -Wpointer-arith
+> -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings
+> -fdiagnostics-show-option -Wno-cast-qual -fno-strict-aliasing
+> /home/ak/development/poky/build/tmp/work/i586-poky-linux-
+> musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/Avahi-0.6.o
+> -Wl,--export-dynamic -pthread -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+> -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now
+> -Wl,--export-dynamic  -L. ./.libs/libavahi-gobject.so
+> /home/ak/development/poky/build/tmp/work/i586-poky-linux-
+> musl/avahi/0.7-r0/build/avahi-client/.libs/libavahi-client.so -ldbus-1
+> -ldl /home/ak/development/poky/build/tmp/work/i586-poky-linux-
+> musl/avahi/0.7-r0/build/avahi-glib/.libs/libavahi-glib.so
+> /home/ak/development/poky/build/tmp/work/i586-poky-linux-
+> musl/avahi/0.7-r0/build/avahi-common/.libs/libavahi-common.so -lgio-2.0
+> -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -pthread
+> | Error relocating /home/ak/development/poky/buil
+> d/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+> __start_BUS_ERROR_MAP: symbol not found
+> | Error relocating /home/ak/development/poky/buil
+> d/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+> __stop_BUS_ERROR_MAP: symbol not found
+>
+>
+>
+> Alex
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-The following changes were made:
+--001a113b8804a88bd205665c9221
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-1. Configure the test library as close as possible to the installed one,
-   with some additional configuration options that are needed for testing.
-   (Use dbus_1.12.2.bb recipe as a template)
-2. Include the shared libraries in the package, use LD_LIBRARY_PATH during
-   testing to load them instead of the installed ones.
-3. Add a few more tests. (There are still some additional tests built that
-   are not used, but they would have to be special-cased).
-4. When evaluating the test results, differentiate between "FAIL" and "SKIP"
+<div dir=3D"ltr">Filed a bug for this:=C2=A0<a href=3D"https://bugzilla.yoc=
+toproject.org/show_bug.cgi?id=3D12577">https://bugzilla.yoctoproject.org/sh=
+ow_bug.cgi?id=3D12577</a></div><div class=3D"gmail_extra"><br><div class=3D=
+"gmail_quote">On 1 March 2018 at 09:43, Alexander Kanavin <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank"=
+>alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex"><span class=3D"">On 02/21/2018 05:12 AM, Khem Raj wrote:<br=
+>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Additionally cherry-pick<br>
+<br>
+5ffeba4a09 Revert &quot;PowerPC PLT speculative execution barriers&quot;<br=
+>
+b01452b1d4 [PR22764][LD][AARCH64]Allow R_AARCH64_ABS16 and R_AARCH64_ABS32 =
+against absolution symbol or undefine symbol in shared object.<br>
+a985e9b9de Import patch from mainline to remove PROVODE qualifiers around d=
+efinitions of __CTOR_LIST__ and __DTOR_LIST__ in PE linker scripts.<br>
+eec4607fc5 Add support for DWARF-4 line number tables.<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+Changes in v2:<br>
+<br>
+- Backport fixes for aarch64 relocs<br>
+- ppc plt fix, dwarf-4 line number support and linker script fix for removi=
+ng PROVODE<br>
+<br>
+Changes in v3:<br>
+- None<br>
+</blockquote>
+<br></span>
+I did some bisection and unfortunately this cases breakage when musl, syste=
+md and gobject introspection are all enabled:<br>
+<br>
+| i586-poky-linux-musl-libtool: link: i586-poky-linux-musl-gcc -m32 -march=
+=3Di586 -fstack-protector-strong -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-se=
+curity -Werror=3Dformat-security --sysroot=3D/home/ak/development<wbr>/poky=
+/build/tmp/work/i586-<wbr>poky-linux-musl/avahi/0.7-r0/<wbr>recipe-sysroot =
+-o /home/ak/development/poky/buil<wbr>d/tmp/work/i586-poky-linux-<wbr>musl/=
+avahi/0.7-r0/build/avahi-<wbr>gobject/tmp-introspectcefd3msq<wbr>/.libs/Ava=
+hi-0.6 -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=3D/ho=
+me/ak/de<wbr>velopment/poky/build/tmp/work/<wbr>i586-poky-linux-musl/avahi/=
+0.<wbr>7-r0=3D/usr/src/debug/avahi/0.7-<wbr>r0 -fdebug-prefix-map=3D/home/a=
+k/de<wbr>velopment/poky/build/tmp/work/<wbr>i586-poky-linux-musl/avahi/0.<w=
+br>7-r0/recipe-sysroot-native=3D -fdebug-prefix-map=3D/home/ak/de<wbr>velop=
+ment/poky/build/tmp/work/<wbr>i586-poky-linux-musl/avahi/0.<wbr>7-r0/recipe=
+-sysroot=3D -std=3Dc99 -Wall -W -Wextra -pedantic -pipe -Wformat -Wold-styl=
+e-definition -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarat=
+ions -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-n=
+oreturn -Wshadow -Wendif-labels -Wpointer-arith -Wbad-function-cast -Wcast-=
+qual -Wcast-align -Wwrite-strings -fdiagnostics-show-option -Wno-cast-qual =
+-fno-strict-aliasing /home/ak/development/poky/buil<wbr>d/tmp/work/i586-pok=
+y-linux-<wbr>musl/avahi/0.7-r0/build/avahi-<wbr>gobject/tmp-introspectcefd3=
+msq<wbr>/Avahi-0.6.o -Wl,--export-dynamic -pthread -Wl,-O1 -Wl,--hash-style=
+=3Dgnu -Wl,--as-needed -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl=
+,now -Wl,--export-dynamic=C2=A0 -L. ./.libs/libavahi-gobject.so /home/ak/de=
+velopment/poky/buil<wbr>d/tmp/work/i586-poky-linux-<wbr>musl/avahi/0.7-r0/b=
+uild/avahi-<wbr>client/.libs/libavahi-client.<wbr>so -ldbus-1 -ldl /home/ak=
+/development/poky/buil<wbr>d/tmp/work/i586-poky-linux-<wbr>musl/avahi/0.7-r=
+0/build/avahi-<wbr>glib/.libs/libavahi-glib.so /home/ak/development/poky/bu=
+il<wbr>d/tmp/work/i586-poky-linux-<wbr>musl/avahi/0.7-r0/build/avahi-<wbr>c=
+ommon/.libs/libavahi-common.<wbr>so -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -=
+lglib-2.0 -pthread<br>
+| Error relocating /home/ak/development/poky/buil<wbr>d/tmp/work/i586-poky-=
+linux-<wbr>musl/avahi/0.7-r0/recipe-<wbr>sysroot//lib/libsystemd.so.0: __st=
+art_BUS_ERROR_MAP: symbol not found<br>
+| Error relocating /home/ak/development/poky/buil<wbr>d/tmp/work/i586-poky-=
+linux-<wbr>musl/avahi/0.7-r0/recipe-<wbr>sysroot//lib/libsystemd.so.0: __st=
+op_BUS_ERROR_MAP: symbol not found<br>
+<br>
+<br>
+<br>
+Alex<div class=3D"HOEnZb"><div class=3D"h5"><br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
 
-[YOCTO #10841]
-[YOCTO #12277]
-
-(From OE-Core rev: 5d148aa9c3c338fabab1e60e2ca64d09c9b8477f)
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/dbus/dbus-test_1.12.2.bb | 32 ++++++++++++++++++++++++++----
- meta/recipes-core/dbus/dbus/run-ptest      | 20 ++++++++++++++++---
- 2 files changed, 45 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.2.bb b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-index c3891a33701..26556ed2468 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-@@ -34,25 +34,49 @@ EXTRA_OECONF = "--enable-tests \
-                 --enable-checks \
-                 --enable-asserts \
-                 --enable-verbose-mode \
-+                --enable-largefile \
-                 --disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
--                --disable-systemd \
--                --without-systemdsystemunitdir \
-                 --with-dbus-test-dir=${PTEST_PATH} \
-                 ${EXTRA_OECONF_X}"
- 
-+EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
-+
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
-+PACKAGECONFIG_class-native = ""
-+PACKAGECONFIG_class-nativesdk = ""
-+
-+PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
-+PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
-+PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
-+
- do_install() {
-     :
- }
- 
- do_install_ptest() {
- 	install -d ${D}${PTEST_PATH}/test
--	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay"
-+	l="shell printf refs syslog marshal syntax corrupt dbus-daemon dbus-daemon-eavesdrop loopback relay \
-+	   variant uid-permissions syntax spawn sd-activation names monitor message fdpass "
- 	for i in $l; do install ${B}/test/.libs/test-$i ${D}${PTEST_PATH}/test; done
-+
- 	l="bus bus-system bus-launch-helper"
- 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
--	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
-+
- 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
-+	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
-+
-+	install -d ${D}${PTEST_PATH}/test/.libs
-+	cp -a ${B}/dbus/.libs/*.so* ${D}${PTEST_PATH}/test/.libs
-+
-+	# Remove build host references...
-+	find "${D}${PTEST_PATH}/test/data" \( -name *.service -o -name *.conf \) -type f -exec \
-+		sed -i \
-+		 -e 's:${B}:${PTEST_PATH}:g' \
-+		 {} +
- }
-+
- RDEPENDS_${PN}-ptest += "bash"
-+
-+PRIVATE_LIBS_${PN}-ptest = "libdbus-1.so.3"
-diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus/dbus/run-ptest
-index c72d083a917..8a8970ee208 100755
---- a/meta/recipes-core/dbus/dbus/run-ptest
-+++ b/meta/recipes-core/dbus/dbus/run-ptest
-@@ -1,10 +1,24 @@
- #!/bin/sh
- 
- output() {
--  if [ $? -eq 0 ]
-+  retcode=$?
-+  if [ $retcode -eq 0 ]
-     then echo "PASS: $i"
--    else echo "FAIL: $i"
-+  elif [ $retcode -eq 77 ]
-+    then echo "SKIP: $i"
-+  else echo "FAIL: $i"
-   fi
- }
- 
--for i in `ls test/test-*`; do ./$i ./test/data DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
-+export DBUS_TEST_HOMEDIR=./test
-+export XDG_RUNTIME_DIR=./test
-+export LD_LIBRARY_PATH=/usr/lib/dbus-test/ptest/test/.libs
-+
-+files=`ls test/test-*`
-+
-+for i in $files
-+	do
-+		./$i ./test/data >/dev/null
-+		output
-+	done
-+
--- 
-2.11.0
-
-
+--001a113b8804a88bd205665c9221--
