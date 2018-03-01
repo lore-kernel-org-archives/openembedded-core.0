@@ -1,59 +1,53 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E7B5A78909
+Return-Path: <prvs=259826eb9f=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 106D178916
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 22:57:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id EED071867B;
-	Wed, 28 Feb 2018 23:57:02 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id RxtzEZAidHzO; Wed, 28 Feb 2018 23:57:01 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 04FFD18678;
-	Wed, 28 Feb 2018 23:57:01 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D318C1A07F;
-	Wed, 28 Feb 2018 23:57:00 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C7E0C1A07D;
-	Wed, 28 Feb 2018 23:57:00 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 28 Feb 2018 23:57:00 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id BC24721B7;
-	Wed, 28 Feb 2018 23:57:00 +0100 (CET)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 28 Feb 2018 23:57:00 +0100
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 28 Feb 2018 23:57:00 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 28 Feb 2018 23:57:00 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Francesco Giancane <francescogiancane8@gmail.com>
-Thread-Topic: [OE-core] [meta-oe][PATCH v3] libepoxy: New recipe updated to
-	latest release
-Thread-Index: AQHTsODqFWfZplrFDUiXspIgetgUEKO6Z5Ow
-Date: Wed, 28 Feb 2018 22:57:00 +0000
-Message-ID: <ee96cca916ba401b99a626c2a1d4fe26@XBOX02.axis.com>
-References: <20180228220845.8906-1-francescogiancane8@gmail.com>
-In-Reply-To: <20180228220845.8906-1-francescogiancane8@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu,  1 Mar 2018 00:03:26 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w2101IoB017763 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Feb 2018 18:03:28 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2gdqj02qge-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Feb 2018 18:03:27 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w2103Qmi020145
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Feb 2018 18:03:26 -0600
+Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 28 Feb 2018 18:03:26 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 28 Feb 2018 18:03:26 -0600
+Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 28 Feb 2018 18:03:26 -0600
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Feb 2018 18:03:55 -0600
+Message-ID: <20180301000355.16588-1-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.16.1
+In-Reply-To: <20180222195736.21391-3-alejandro.delcastillo@ni.com>
+References: <20180222195736.21391-3-alejandro.delcastillo@ni.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v3] libepoxy: New recipe updated to	latest release
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2018-02-28_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
+	scancount=1 engine=8.0.1-1711220000 definitions=main-1802280285
+Subject: [PATCH v3] opkg-utils: upgrade to version 0.3.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,284 +60,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Feb 2018 22:57:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Mar 2018 00:03:27 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Francesco Giancane
-> Sent: den 28 februari 2018 23:09
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [meta-oe][PATCH v3] libepoxy: New recipe updated to la=
-test release
+0.3.5 -> 0.3.6
 
-This isn't in meta-oe, it's in meta. ;)
+Patches:
+ - Add support for tar versions that don't support --sort
+ - Use local time when setting the modication time on the archives
 
-I suggest changing the subject to:
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...rt-name-on-versions-of-tar-which-support-.patch | 54 ++++++++++++++++++++++
+ ...Use-local-time-for-build_date-since-opkg-.patch | 47 +++++++++++++++++++
+ .../opkg-utils/opkg-utils/tar_ignore_error.patch   | 13 +++---
+ .../{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb}   |  6 ++-
+ 4 files changed, 112 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
+ rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb} (88%)
 
-libepoxy: Update to 1.5.0
-
-since it's not a new recipe, and "latest release" carries a lot=20
-less information than the actual version.
-
-> libepoxy 1.4.3 did not compile successfully because of
-> implicit symbol definitions and link-time errors.
-> A new recipe with latest libepoxy release (1.5.0) which
-> successfully compiles is provided.
-
-I'd remove the second sentence. All that information is=20
-conveyed by the updated subject anyway.
-
-> Patch to disable 'dlvsym' has also been forward-ported
-> to be applicable to version 1.5.0.
-> The patch 'Add-fallback-definition-for-EGL-CAST.patch' is
-> mainline now; thus it can be safely removed.
-> Also, the patch
-> 0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
-> is no longer required since mainline fixed this too.
->=20
-> Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
-> ---
->  ..._EGL_NO_X11_HEADERS-before-including-eglp.patch | 30 ----------------=
-----
->  ...sible-to-disable-the-use-of-dlvsym-needed.patch | 26 +++++++++-------=
--
->  .../Add-fallback-definition-for-EGL-CAST.patch     | 33 ----------------=
-------
->  .../{libepoxy_1.4.3.bb =3D> libepoxy_1.5.0.bb}       | 10 +++----
->  4 files changed, 18 insertions(+), 81 deletions(-)
->  delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0001-Define-M=
-ESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
->  delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-=
-definition-for-EGL-CAST.patch
->  rename meta/recipes-graphics/libepoxy/{libepoxy_1.4.3.bb =3D> libepoxy_1=
-.5.0.bb} (61%)
->=20
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_EGL=
-_NO_X11_HEADERS-before-including-eglp.patch b/meta/recipes-graphics/libepox=
-y/libepoxy/0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
-> deleted file mode 100644
-> index ebe5754a7a..0000000000
-> --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_EGL_NO_X11=
-_HEADERS-before-including-eglp.patch
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -From 62e178ddae24c7633d2a03b129dc52261e0a15bf Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Wed, 7 Feb 2018 00:48:03 -0800
-> -Subject: [PATCH] Define MESA_EGL_NO_X11_HEADERS before including eglplat=
-form.h
-> - when X11 is disabled
-> -
-> -This helps in compiling when GL implementations e.g. mesa use
-> -this define to exclude X11 headers
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> -Upstream-Status: Submitted
-> [https://github.com/anholt/libepoxy/pull/153]
-> -
-> - src/dispatch_common.h | 3 +++
-> - 1 file changed, 3 insertions(+)
-> -
-> -Index: libepoxy-1.4.3/src/dispatch_common.h
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- libepoxy-1.4.3.orig/src/dispatch_common.h
-> -+++ libepoxy-1.4.3/src/dispatch_common.h
-> -@@ -46,6 +46,9 @@
-> - #include "epoxy/glx.h"
-> - #endif
-> - #if PLATFORM_HAS_EGL
-> -+#if !PLATFORM_HAS_GLX
-> -+#define MESA_EGL_NO_X11_HEADERS 1
-> -+#endif
-> - #include "epoxy/egl.h"
-> - #endif
-> - #if PLATFORM_HAS_WGL
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possibl=
-e-to-disable-the-use-of-dlvsym-needed.patch b/meta/recipes-graphics/libepox=
-y/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
-> index c2a2fa3453..5bddc12033 100644
-> --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-di=
-sable-the-use-of-dlvsym-needed.patch
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possible-to-di=
-sable-the-use-of-dlvsym-needed.patch
-> @@ -1,36 +1,38 @@
-> -From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 15 Nov 2017 12:48:27 +0200
-> +From 9c964427656ef71210e2c5b48b279857806574e9 Mon Sep 17 00:00:00 2001
-> +From: Francesco Giancane <francescogiancane8@gmail.com>
-> +Date: Wed, 28 Feb 2018 21:32:24 +0100
->  Subject: [PATCH] Make it possible to disable the use of dlvsym() (needed=
- for
->   musl)
->=20
-> -Upstream-Status: Pending
-
-Don't remove the Upstream-Status.
-
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Add a patch to work around absence of dlvsym() on musl
-> +(wasn't previously a problem as autotools weren't building tests by defa=
-ult)
->=20
-> +Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> +Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
->  ---
->   meson_options.txt | 3 +++
->   test/meson.build  | 6 +++---
->   2 files changed, 6 insertions(+), 3 deletions(-)
->=20
->  diff --git a/meson_options.txt b/meson_options.txt
-> -index 244476a..071f0b6 100644
-> +index b5d7c98..aa849c2 100644
->  --- a/meson_options.txt
->  +++ b/meson_options.txt
->  @@ -1,6 +1,9 @@
-> - option('enable-docs',
-> + option('docs',
->          type: 'boolean', value: false,
->          description: 'Enable generating the Epoxy API reference (depends=
- on Doxygen)')
->  +option('has-dlvsym',
->  +       type: 'boolean', value: true,
->  +       description: 'Whether dlvsym() is available (it is not when usin=
-g musl C library)')
-> - option('enable-glx',
-> + option('glx',
->          type: 'combo',
->          choices: [ 'auto', 'yes', 'no' ],
->  diff --git a/test/meson.build b/test/meson.build
-> -index 2340fc6..bc4330b 100644
-> +index c5788b4..4c46ae6 100644
->  --- a/test/meson.build
->  +++ b/test/meson.build
-> -@@ -86,8 +86,8 @@ if build_glx
-> +@@ -92,8 +92,8 @@ if build_glx
->       [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c' =
-], [], [], true ],
->       [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [ '-=
-static' ], libtype =3D=3D 'static' ],
->       [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ], has=
-_znow ],
-> @@ -41,7 +43,7 @@ index 2340fc6..bc4330b 100644
->     ]
->=20
->     foreach test: glx_tests
-> -@@ -108,7 +108,7 @@ if build_glx
-> +@@ -114,7 +114,7 @@ if build_glx
->       endif
->     endforeach
->=20
-> @@ -51,5 +53,5 @@ index 2340fc6..bc4330b 100644
->       if build_egl
->         glx_egl_sources =3D [
->  --
-> -2.15.0
-> +2.14.3
->=20
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definit=
-ion-for-EGL-CAST.patch b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallba=
-ck-definition-for-EGL-CAST.patch
-> deleted file mode 100644
-> index b9297257dc..0000000000
-> --- a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for=
--EGL-CAST.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -Add fallback definition for EGL_CAST
-> -
-> -The EGL API update from d11104f introduced a dependency on the
-> -EGL_CAST() macro, provided by an updated eglplatform.h. Given that we
-> -don't provide eglplatform.h, add a fallback definition for if we're
-> -building against Mesa 17.0.x or similar.
-> -
-> -https://bugs.gentoo.org/show_bug.cgi?id=3D623926
-> -
-> -Upstream-Status: Backport [https://github.com/anholt/libepoxy/commit/ebe=
-3a53db1c0bb34e1ca963b95d1f222115f93f8]
-> -
-> -Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-> -
-> -Index: libepoxy-1.4.3/src/gen_dispatch.py
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- libepoxy-1.4.3.orig/src/gen_dispatch.py	2017-06-06
-> 04:24:13.000000000 -0500
-> -+++ libepoxy-1.4.3/src/gen_dispatch.py	2017-11-06
-> 12:45:43.594966473 -0600
-> -@@ -491,6 +491,15 @@
-> -             self.outln('#include "epoxy/gl.h"')
-> -             if self.target =3D=3D "egl":
-> -                 self.outln('#include "EGL/eglplatform.h"')
-> -+                # Account for older eglplatform.h, which doesn't define
-> -+                # the EGL_CAST macro.
-> -+                self.outln('#ifndef EGL_CAST')
-> -+                self.outln('#if defined(__cplusplus)')
-> -+                self.outln('#define EGL_CAST(type, value) (static_cast<=
-type>(value))')
-> -+                self.outln('#else')
-> -+                self.outln('#define EGL_CAST(type, value) ((type) (valu=
-e))')
-> -+                self.outln('#endif')
-> -+                self.outln('#endif')
-> -         else:
-> -             # Add some ridiculous inttypes.h redefinitions that are
-> -             # from khrplatform.h and not included in the XML.  We
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb b/meta/reci=
-pes-graphics/libepoxy/libepoxy_1.5.0.bb
-> similarity index 61%
-> rename from meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-> rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
-> index 8a5cb8f49f..dfdd19248d 100644
-> --- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
-> @@ -6,12 +6,10 @@ LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D58ef4c80d401e07bd9ee8b6b58cf4=
-64b"
->=20
->  SRC_URI =3D "https://github.com/anholt/${BPN}/releases/download/${PV}/${=
-BP}.tar.xz \
-> -           file://Add-fallback-definition-for-EGL-CAST.patch \
->             file://0001-Make-it-possible-to-disable-the-use-of-dlvsym-nee=
-ded.patch \
-> -           file://0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-e=
-glp.patch \
->             "
-> -SRC_URI[md5sum] =3D "af4c3ce0fb1143bdc4e43f85695a9bed"
-> -SRC_URI[sha256sum] =3D "0b808a06c9685a62fca34b680abb8bc7fb2fda074478e329=
-b063c1f872b826f6"
-> +SRC_URI[md5sum] =3D "63fe3847789258254dcd7e3fdb9e7f5e"
-> +SRC_URI[sha256sum] =3D "4c94995398a6ebf691600dda2e9685a0cac261414175c2ad=
-f4645cdfab42a5d5"
->  UPSTREAM_CHECK_URI =3D "https://github.com/anholt/libepoxy/releases"
->=20
->  inherit meson pkgconfig distro_features_check
-> @@ -20,8 +18,8 @@ REQUIRED_DISTRO_FEATURES =3D "opengl"
->=20
->  DEPENDS =3D "util-macros"
->=20
-> -PACKAGECONFIG[egl] =3D "-Denable-egl=3Dyes, -Denable-egl=3Dno, virtual/e=
-gl"
-> -PACKAGECONFIG[x11] =3D "-Denable-glx=3Dyes, -Denable-glx=3Dno, virtual/l=
-ibx11"
-> +PACKAGECONFIG[egl] =3D "-Degl=3Dyes, -Degl=3Dno, virtual/egl"
-> +PACKAGECONFIG[x11] =3D "-Dglx=3Dyes, -Dglx=3Dno, virtual/libx11 virtual/=
-libgl"
->  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} eg=
-l"
->=20
->  EXTRA_OEMESON_append_libc-musl =3D " -Dhas-dlvsym=3Dfalse "
-> --
-> 2.14.3
-
-//Peter
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
+new file mode 100644
+index 0000000000..4fbaa26d18
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
+@@ -0,0 +1,54 @@
++From ef5db062b7d25e6070acc6922ea48f50491313b5 Mon Sep 17 00:00:00 2001
++From: Michael Hansen <michael.j.hansen@hp.com>
++Date: Mon, 26 Feb 2018 09:42:56 -0800
++Subject: [PATCH 1/2] Only use --sort=name on versions of tar which support it.
++ This fixes compatibility with bsdtar and old versions of GNU tar (e.g.
++ RHEL6).
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Hansen <michael.j.hansen@hp.com>
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++ opkg-build | 11 ++++++++---
++ 1 file changed, 8 insertions(+), 3 deletions(-)
++
++diff --git a/opkg-build b/opkg-build
++index 265906f..094d69f 100755
++--- a/opkg-build
+++++ b/opkg-build
++@@ -232,6 +232,11 @@ if [ $compressor = "gzip" ] ; then
++ 	compressorargs=$zipargs
++ fi
++ 
+++tsortargs=
+++if tar --help 2>&1 | grep -- "--sort=" > /dev/null; then
+++	tsortargs="--sort=name"
+++fi
+++
++ shift $(($OPTIND - 1))
++ 
++ # continue on to process additional arguments
++@@ -280,8 +285,8 @@ mkdir $tmp_dir
++ build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
++ 
++ echo $CONTROL > $tmp_dir/tarX
++-( cd $pkg_dir && tar $ogargs --sort=name --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
++-( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
+++( cd $pkg_dir && tar $ogargs $tsortargs --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
++ rm $tmp_dir/tarX
++ 
++ echo "2.0" > $tmp_dir/debian-binary
++@@ -296,7 +301,7 @@ rm -f $pkg_file
++ if [ "$outer" = "ar" ] ; then
++   ( cd $tmp_dir && ar -crfD $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
++ else
++-  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
+++  ( cd $tmp_dir && tar -c $tsortargs --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
++ fi
++ 
++ rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
++-- 
++2.16.1
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
+new file mode 100644
+index 0000000000..cfb9a77fb4
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
+@@ -0,0 +1,47 @@
++From 5727826b51cf99feaff3483a9df8af2043e7efc1 Mon Sep 17 00:00:00 2001
++From: Michael Hansen <michael.j.hansen@hp.com>
++Date: Mon, 26 Feb 2018 10:17:01 -0800
++Subject: [PATCH 2/2] opkg-build: Use local time for build_date, since opkg
++ extracts files assuming local time rather than UTC. Also increase resolution
++ of build date down to the second, rather than clamping to midnight of the
++ current date.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Hansen <michael.j.hansen@hp.com>
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++ opkg-build | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/opkg-build b/opkg-build
++index 094d69f..0050c2b 100755
++--- a/opkg-build
+++++ b/opkg-build
++@@ -282,11 +282,11 @@ fi
++ tmp_dir=$dest_dir/IPKG_BUILD.$$
++ mkdir $tmp_dir
++ 
++-build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
+++build_date="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" "+%Y-%m-%d %H:%M:%S")"
++ 
++ echo $CONTROL > $tmp_dir/tarX
++-( cd $pkg_dir && tar $ogargs $tsortargs --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
++-( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
+++( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
++ rm $tmp_dir/tarX
++ 
++ echo "2.0" > $tmp_dir/debian-binary
++@@ -301,7 +301,7 @@ rm -f $pkg_file
++ if [ "$outer" = "ar" ] ; then
++   ( cd $tmp_dir && ar -crfD $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
++ else
++-  ( cd $tmp_dir && tar -c $tsortargs --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
+++  ( cd $tmp_dir && tar -c $tsortargs --mtime="$build_date" $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
++ fi
++ 
++ rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
++-- 
++2.16.1
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+index 75c6f3b8de..d8931b281f 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+@@ -18,26 +18,27 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+ 
+ 
+ Index: git/opkg-build
++
+ ===================================================================
+ --- git.orig/opkg-build
+ +++ git/opkg-build
+-@@ -250,8 +250,21 @@ tmp_dir=$dest_dir/IPKG_BUILD.$$
+- mkdir $tmp_dir
++@@ -285,8 +285,21 @@ mkdir $tmp_dir
++ build_date="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" "+%Y-%m-%d %H:%M:%S")"
+  
+  echo $CONTROL > $tmp_dir/tarX
+--( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -c --$compressor $tarformat -f $tmp_dir/data.tar.$cext . )
+--( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . )
++-( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
++-( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
+ +
+ +
+ +# Ignore error code 1, caused by modifying the number of hard links while creating the tar file
+ +rc=0
+-+( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -c --$compressor $tarformat -f $tmp_dir/data.tar.$cext . ) || rc=$?
+++( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext ) || rc=$?
+ +if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
+ +        exit $rc 
+ +fi
+ +
+ +rc=0
+-+( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . ) || rc=$?
+++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz ) || rc=$?
+ +if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
+ +        exit $rc
+ +fi
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+similarity index 88%
+rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
+rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+index e9ba9de094..081d8d8b7d 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
+@@ -9,13 +9,15 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
+ 
+ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
+            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
++           file://0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch \
++           file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
+ "
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
+ 
+ 
+-SRC_URI[md5sum] = "a19e09c79bf1152aac62e8a120d679ff"
+-SRC_URI[sha256sum] = "7f4b08912e26a3f4f6f423f3b4e7157a73b1f3a7483fc59b216d1a80b50b0c38"
++SRC_URI[md5sum] = "391c1c80aca26961375dd22e1d2d0cbf"
++SRC_URI[sha256sum] = "26b3f4dd1c1ef65f519d4cddfb35ebea41ae8af989aea2699a39783598c33769"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+-- 
+2.16.1
 
 
