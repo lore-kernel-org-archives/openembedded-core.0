@@ -1,50 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id ED50978477
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 717667822B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 10:11:41 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id f14so5452134wre.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 02:11:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=QH0mcNuuBLCbhin/dBx3NyqcAyj0TKTTsAnSGm8+GdM=;
-	b=poL+Iznmj6FyEDyTE++TN+amfzh8TqnFgNG2h2kS6h6+aw7DiePfVqU+x6N10hArXQ
-	5g0fxnRR+5l7pi3kih9vL9z+apnlozxTW+O8R8IwJnj9CpBG/d1zCNx6jr53IaObwMj4
-	1wKbowB/l9KszzRngbl9LYbAswBkm0mrHOxcDj/VgUmg3VTMXH8Uvnwvnmx5GC+It7Z5
-	qWj+0AYKHWKyfQ2xdMe3tgSpcenyWpRryH7+xiiqvSqTxpdLxyOj0zIte29EYWKzBWaa
-	6Dk4Bgmf19j4LMnodjmj7pn2OR3SC/H6KnB/y4LDfzUFz7bkMB3J5RkzO+63EXXo8mjM
-	tyOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=QH0mcNuuBLCbhin/dBx3NyqcAyj0TKTTsAnSGm8+GdM=;
-	b=LMrXbXOtymB5GLjE9MP3kjxWGTlbRTshTZmBFP9hkorL6Bnhu0+lwpeWF74Uu3AQ2t
-	19Sh8/y/vM6QJwYTtYAcs6c/NwM3d+0NJBl2+Qd7tdYliV5qoFtCnZCIgPwNrbZDnme6
-	rCiibaZUQx4PZEW4vehiTUtKRhYfj8Uji7YXuMk5j0gICBqPqi1ebJMUhYVhLgiLPhr2
-	H5mzB3P2dBx0esZvRl50CjOTT+siT7nZ3UKLIEemkA997lEeqJx96rXFH+LjrP2tDBNu
-	3Dnky38CyzAPCA2EqF1nPfq4MHU9jxg5MDDXHQgtpskm98QC5lXwnHtbKZ+kRvia3lt3
-	ZWUw==
-X-Gm-Message-State: APf1xPAKpYZytPoQuU0EoDzRKmtBQ7K8/f59d5n3IrjNtRMrks6xRUIa
-	ECN2IDGKXU4dfc4jkGBD7nloLw==
-X-Google-Smtp-Source: AG47ELuMXMGN5njA8rP2IWamlzbgvXXiKMMHoYCwAsiziOrjGl9vZ/Vx8SuUTy3QsgNIIhH1ugAOwA==
-X-Received: by 10.223.134.12 with SMTP id 12mr1165158wrv.193.1519899102272;
-	Thu, 01 Mar 2018 02:11:42 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id l8sm3588809wmf.39.2018.03.01.02.11.41
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 01 Mar 2018 02:11:41 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 10:11:38 +0000
-Message-Id: <20180301101138.25645-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <CA+chaQdBp4v4kBLcx==wzR2ORzKen29_+HgvzAfSrkAF9tw+6g@mail.gmail.com>
-References: <CA+chaQdBp4v4kBLcx==wzR2ORzKen29_+HgvzAfSrkAF9tw+6g@mail.gmail.com>
-Subject: [PATCHv3] libpam: be more strict about user's sanity
+	Thu,  1 Mar 2018 10:28:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Mar 2018 02:28:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="204692747"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 01 Mar 2018 02:28:17 -0800
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1519870266-63347-1-git-send-email-ee.peng.yeoh@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <372da1c4-0897-86fe-7db8-5b4f0991e279@linux.intel.com>
+Date: Thu, 1 Mar 2018 12:22:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1519870266-63347-1-git-send-email-ee.peng.yeoh@intel.com>
+Subject: Re: [PATCH] oeqa/runtime/dpkg.py: add runtime test for dpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,77 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 10:11:42 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 10:28:17 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-* replace do_pam_sanity function with distro_features_check inherit
-* fixes:
-  WARNING: libpam-1.3.0-r5 do_pam_sanity: Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly
-  in world builds and prevents user to build libpam at all without pam
-  in DISTRO_FEATURES, I don't see any users of this which wouldn't respect
-  pam in DISTRO_FEATURES
-* only libuser is depending on libpam without respecting DISTRO_FEATURES
-* there are few recipes in meta-oe layers depending on libpam without
-  respecting DISTRO_FEATURES, I've sent patch for them:
-  samba, openwsman, pam-ssh-agent-auth, sblim-sfcb, passwdqc, python-pam, smbnetfs
-  and omxplayer in meta-raspberrypi, I've sent PR for that one:
-  https://github.com/agherzan/meta-raspberrypi/pull/192
-* poky-lsb will need to add pam to DISTRO_FEATURES in order to build
-  packagegroup-core-lsb
+On 03/01/2018 04:11 AM, Yeoh Ee Peng wrote:
+> Add runtime test for dpkg to test that it can install deb
+> package from remote source.
+> 
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>   meta/lib/oeqa/runtime/cases/dpkg.py | 47 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 47 insertions(+)
+>   create mode 100644 meta/lib/oeqa/runtime/cases/dpkg.py
+> 
+> diff --git a/meta/lib/oeqa/runtime/cases/dpkg.py b/meta/lib/oeqa/runtime/cases/dpkg.py
+> new file mode 100644
+> index 0000000..adf5195
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/cases/dpkg.py
+> @@ -0,0 +1,47 @@
+> +import os
+> +from oeqa.utils.httpserver import HTTPService
+> +from oeqa.runtime.case import OERuntimeTestCase
+> +from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
+> +from oeqa.runtime.decorator.package import OEHasPackage
+> +
+> +class DpkgTest(OERuntimeTestCase):
+> +
+> +    def pkg(self, command, expected = 0):
+> +        command = 'apt-get %s' % command
+> +        status, output = self.target.run(command, 1500)
+> +        message = os.linesep.join([command, output])
+> +        self.assertEqual(status, expected, message)
+> +        return output
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-extended/libuser/libuser_0.62.bb                | 3 +++
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 3 +++
- meta/recipes-extended/pam/libpam_1.3.0.bb                    | 7 ++-----
- 3 files changed, 8 insertions(+), 5 deletions(-)
+This is testing apt, not dpkg. So the file name and the testcases/class 
+names should be renamed accoridngly.
 
-diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
-index 1765346646..7ec54eb16e 100644
---- a/meta/recipes-extended/libuser/libuser_0.62.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.62.bb
-@@ -22,6 +22,9 @@ SRC_URI[sha256sum] = "a58ff4fabb01a25043b142185a33eeea961109dd60d4b40b6a9df4fa3c
- 
- DEPENDS = "popt libpam glib-2.0 python3"
- 
-+inherit distro_features_check
-+REQUIRED_DISTRO_FEATURES = "pam"
-+
- inherit autotools gettext python3native python3-dir pkgconfig gtk-doc
- 
- EXTRA_OEMAKE = "PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 8959e3c8f4..53d100ce74 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -14,6 +14,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
- # libglu needs virtual/libgl, which requires opengl in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES += "opengl"
- 
-+# libpam, pam-plugin-wheel requires pam in DISTRO_FEATURES
-+REQUIRED_DISTRO_FEATURES += "pam"
-+
- #
- # We will skip parsing this packagegeoup for non-glibc systems
- #
-diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-index 8f7753d001..92ab72a42f 100644
---- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-@@ -151,11 +151,8 @@ do_install() {
- 	fi
- }
- 
--python do_pam_sanity () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'pam', True, False, d):
--        bb.warn("Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly")
--}
--addtask pam_sanity before do_configure
-+inherit distro_features_check
-+REQUIRED_DISTRO_FEATURES = "pam"
- 
- BBCLASSEXTEND = "nativesdk native"
- 
--- 
-2.15.1
 
+> +    def test_dpkg_install_from_repo(self):
+> +        self.setup_source_config_for_package_install()
+> +        self.pkg('update')
+> +        self.pkg('remove --yes run-postinsts-dev')
+> +        self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
+> +        self.cleanup_source_config_for_package_install()
+
+That's a good start, but apt can do more, right? Play with its various 
+utilities (apt-get, apt-cache, etc.) on the command line. What kind of 
+features it has? Can those be tested automatically? Should they be tested?
+
+Also, before you do advanced package installation/removal, it's good to 
+run a few sanity checks. Check that apt is able to print a help message 
+without crashing, that it can list installed and available packages and 
+so on. You can look at dnf test cases for examples.
+
+And same applies to opkg test cases as well.
+
+Regards,
+Alex
 
