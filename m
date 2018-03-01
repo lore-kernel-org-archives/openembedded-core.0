@@ -1,53 +1,41 @@
-Return-Path: <prvs=259826eb9f=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 106D178916
+Return-Path: <ruslan@babayev.com>
+Received: from mail-pl0-f47.google.com (mail-pl0-f47.google.com
+	[209.85.160.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A46E700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 00:03:26 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w2101IoB017763 for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 18:03:28 -0600
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2gdqj02qge-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 18:03:27 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w2103Qmi020145
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Thu,  1 Mar 2018 01:53:35 +0000 (UTC)
+Received: by mail-pl0-f47.google.com with SMTP id 61-v6so2724665plf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Feb 2018 18:03:26 -0600
-Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 28 Feb 2018 18:03:26 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 28 Feb 2018 18:03:26 -0600
-Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Wed, 28 Feb 2018 18:03:26 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Feb 2018 18:03:55 -0600
-Message-ID: <20180301000355.16588-1-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180222195736.21391-3-alejandro.delcastillo@ni.com>
-References: <20180222195736.21391-3-alejandro.delcastillo@ni.com>
+	Wed, 28 Feb 2018 17:53:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=babayev.com; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=G9g7JiFL6I9U4+AlcO8Q/4G3gnMPVHiEvGkoZ69kn0U=;
+	b=YTAJQkh5CuCKc0AeyJyXjOgzxG4oO8hhm00vz5zDOYOZYj1NLb4bfk5E/WKHV1OuDr
+	i4RBKe2yHeVxsqIYtKyE3Rrz5rF7n/SJASy9ABWlUTulhj/Id+jSjnt1g9YD+Z614t8Q
+	Fzp2g6qz+WpjepVDLWAWgnEzSJpdcaGgf5RrQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=G9g7JiFL6I9U4+AlcO8Q/4G3gnMPVHiEvGkoZ69kn0U=;
+	b=jrlhyxueEWc28blqwJVnFSgtnaBRjL15Gs3vSXhucU2CPEzy9/c8A4o3tze96cqB1B
+	qQR4Ohb5r/Twwm5T1OyyuBVnyqyzbWFbHiKSTJ9n/ZynYpQMp6YUhewhDLdnjpYQozfU
+	AaVJKu5jYUMD7xdSChj5YfDU2x1DUuDgpb6NNMwpsqwzrkP8Ko86vvxFgfh1r/QB9ioQ
+	diKDtgUbzx8A6mjtItyiGHDbTpERq/d2Wv9akM6Lq36sgtOYekIz4uJQ/5ZQxzcZOoMJ
+	V5yg1I8Q4/lBR4SIPhFu27aD0SZCRYVThdD8YdP0G3IK1ls8j/SxvicH+/t0LbgNyXJ+
+	395w==
+X-Gm-Message-State: APf1xPDaNe44/QEIHcFHKsO0Kv0s6rA4TJn6OgiKbd/A0Ho8TFmpq9EE
+	apYJF5UsSr8zxJqKWPodGpb75+YFZ73FB4N9H55D4PrX
+X-Google-Smtp-Source: AG47ELt/AjvICK+eCXnaeVFrVB4u43D/wvLA0IaSYWGbCdJKZ6zfOsEnYpXsa5gQQ9smUIjytvzNSUW56ALHNdOtreo=
+X-Received: by 2002:a17:902:1c5:: with SMTP id
+	b63-v6mr180093plb.311.1519869217051; 
+	Wed, 28 Feb 2018 17:53:37 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2018-02-28_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
-	scancount=1 engine=8.0.1-1711220000 definitions=main-1802280285
-Subject: [PATCH v3] opkg-utils: upgrade to version 0.3.6
+Received: by 10.236.185.131 with HTTP; Wed, 28 Feb 2018 17:53:36 -0800 (PST)
+From: Ruslan Babayev <ruslan@babayev.com>
+Date: Wed, 28 Feb 2018 17:53:36 -0800
+Message-ID: <CAOpYhv9DYb5wkmw9ZN+xH751t4PQwK3tybLdoDPeQQX-Qzmneg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: tune-octeon: change Octeon II to soft-float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,203 +48,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 00:03:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Mar 2018 01:53:36 -0000
+X-Groupsio-MsgNum: 108585
+Content-Type: multipart/mixed; boundary="000000000000c9d270056650208f"
 
-0.3.5 -> 0.3.6
-
-Patches:
- - Add support for tar versions that don't support --sort
- - Use local time when setting the modication time on the archives
-
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...rt-name-on-versions-of-tar-which-support-.patch | 54 ++++++++++++++++++++++
- ...Use-local-time-for-build_date-since-opkg-.patch | 47 +++++++++++++++++++
- .../opkg-utils/opkg-utils/tar_ignore_error.patch   | 13 +++---
- .../{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb}   |  6 ++-
- 4 files changed, 112 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.3.5.bb => opkg-utils_0.3.6.bb} (88%)
-
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
-new file mode 100644
-index 0000000000..4fbaa26d18
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch
-@@ -0,0 +1,54 @@
-+From ef5db062b7d25e6070acc6922ea48f50491313b5 Mon Sep 17 00:00:00 2001
-+From: Michael Hansen <michael.j.hansen@hp.com>
-+Date: Mon, 26 Feb 2018 09:42:56 -0800
-+Subject: [PATCH 1/2] Only use --sort=name on versions of tar which support it.
-+ This fixes compatibility with bsdtar and old versions of GNU tar (e.g.
-+ RHEL6).
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Michael Hansen <michael.j.hansen@hp.com>
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+---
-+ opkg-build | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/opkg-build b/opkg-build
-+index 265906f..094d69f 100755
-+--- a/opkg-build
-++++ b/opkg-build
-+@@ -232,6 +232,11 @@ if [ $compressor = "gzip" ] ; then
-+ 	compressorargs=$zipargs
-+ fi
-+ 
-++tsortargs=
-++if tar --help 2>&1 | grep -- "--sort=" > /dev/null; then
-++	tsortargs="--sort=name"
-++fi
-++
-+ shift $(($OPTIND - 1))
-+ 
-+ # continue on to process additional arguments
-+@@ -280,8 +285,8 @@ mkdir $tmp_dir
-+ build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
-+ 
-+ echo $CONTROL > $tmp_dir/tarX
-+-( cd $pkg_dir && tar $ogargs --sort=name --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+-( cd $pkg_dir/$CONTROL && tar $ogargs --sort=name --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
-++( cd $pkg_dir && tar $ogargs $tsortargs --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
-+ rm $tmp_dir/tarX
-+ 
-+ echo "2.0" > $tmp_dir/debian-binary
-+@@ -296,7 +301,7 @@ rm -f $pkg_file
-+ if [ "$outer" = "ar" ] ; then
-+   ( cd $tmp_dir && ar -crfD $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
-+ else
-+-  ( cd $tmp_dir && tar -c --sort=name --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
-++  ( cd $tmp_dir && tar -c $tsortargs --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
-+ fi
-+ 
-+ rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
-+-- 
-+2.16.1
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
-new file mode 100644
-index 0000000000..cfb9a77fb4
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch
-@@ -0,0 +1,47 @@
-+From 5727826b51cf99feaff3483a9df8af2043e7efc1 Mon Sep 17 00:00:00 2001
-+From: Michael Hansen <michael.j.hansen@hp.com>
-+Date: Mon, 26 Feb 2018 10:17:01 -0800
-+Subject: [PATCH 2/2] opkg-build: Use local time for build_date, since opkg
-+ extracts files assuming local time rather than UTC. Also increase resolution
-+ of build date down to the second, rather than clamping to midnight of the
-+ current date.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Michael Hansen <michael.j.hansen@hp.com>
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+---
-+ opkg-build | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/opkg-build b/opkg-build
-+index 094d69f..0050c2b 100755
-+--- a/opkg-build
-++++ b/opkg-build
-+@@ -282,11 +282,11 @@ fi
-+ tmp_dir=$dest_dir/IPKG_BUILD.$$
-+ mkdir $tmp_dir
-+ 
-+-build_date="$(date --utc --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y-%m-%d)"
-++build_date="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" "+%Y-%m-%d %H:%M:%S")"
-+ 
-+ echo $CONTROL > $tmp_dir/tarX
-+-( cd $pkg_dir && tar $ogargs $tsortargs --mtime=$build_date -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+-( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime=$build_date -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
-++( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
-+ rm $tmp_dir/tarX
-+ 
-+ echo "2.0" > $tmp_dir/debian-binary
-+@@ -301,7 +301,7 @@ rm -f $pkg_file
-+ if [ "$outer" = "ar" ] ; then
-+   ( cd $tmp_dir && ar -crfD $pkg_file ./debian-binary ./control.tar.gz ./data.tar.$cext )
-+ else
-+-  ( cd $tmp_dir && tar -c $tsortargs --mtime=$build_date $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
-++  ( cd $tmp_dir && tar -c $tsortargs --mtime="$build_date" $tarformat ./debian-binary ./control.tar.gz ./data.tar.$cext | gzip $zipargs > $pkg_file )
-+ fi
-+ 
-+ rm $tmp_dir/debian-binary $tmp_dir/data.tar.$cext $tmp_dir/control.tar.gz
-+-- 
-+2.16.1
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-index 75c6f3b8de..d8931b281f 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-@@ -18,26 +18,27 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
- 
- 
- Index: git/opkg-build
-+
- ===================================================================
- --- git.orig/opkg-build
- +++ git/opkg-build
--@@ -250,8 +250,21 @@ tmp_dir=$dest_dir/IPKG_BUILD.$$
-- mkdir $tmp_dir
-+@@ -285,8 +285,21 @@ mkdir $tmp_dir
-+ build_date="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" "+%Y-%m-%d %H:%M:%S")"
-  
-  echo $CONTROL > $tmp_dir/tarX
---( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -c --$compressor $tarformat -f $tmp_dir/data.tar.$cext . )
---( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . )
-+-( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+-( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz )
- +
- +
- +# Ignore error code 1, caused by modifying the number of hard links while creating the tar file
- +rc=0
--+( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -c --$compressor $tarformat -f $tmp_dir/data.tar.$cext . ) || rc=$?
-++( cd $pkg_dir && tar $ogargs $tsortargs --mtime="$build_date" -X $tmp_dir/tarX -c $tarformat . | $compressor $compressorargs > $tmp_dir/data.tar.$cext ) || rc=$?
- +if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
- +        exit $rc 
- +fi
- +
- +rc=0
--+( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . ) || rc=$?
-++( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --mtime="$build_date" -c $tarformat . | gzip $zipargs > $tmp_dir/control.tar.gz ) || rc=$?
- +if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
- +        exit $rc
- +fi
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-similarity index 88%
-rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-index e9ba9de094..081d8d8b7d 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.5.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-@@ -9,13 +9,15 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- 
- SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
-            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
-+           file://0001-Only-use-sort-name-on-versions-of-tar-which-support-.patch \
-+           file://0002-opkg-build-Use-local-time-for-build_date-since-opkg-.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
- 
- 
--SRC_URI[md5sum] = "a19e09c79bf1152aac62e8a120d679ff"
--SRC_URI[sha256sum] = "7f4b08912e26a3f4f6f423f3b4e7157a73b1f3a7483fc59b216d1a80b50b0c38"
-+SRC_URI[md5sum] = "391c1c80aca26961375dd22e1d2d0cbf"
-+SRC_URI[sha256sum] = "26b3f4dd1c1ef65f519d4cddfb35ebea41ae8af989aea2699a39783598c33769"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
--- 
-2.16.1
+--000000000000c9d270056650208f
+Content-Type: text/plain; charset="UTF-8"
 
 
+
+--000000000000c9d270056650208f
+Content-Type: application/octet-stream; 
+	name="0001-tune-octeon-change-Octeon-II-to-soft-float.patch"
+Content-Disposition: attachment; 
+	filename="0001-tune-octeon-change-Octeon-II-to-soft-float.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_je7uvlt90
+
+RnJvbSAzNDgzMzI2MjNlMTZiZDFjNjY2ZWFmZGVjMmFkZjM1MGI5ZDY0NzMyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBSdXNsYW4gQmFiYXlldiA8cnVzbGFuQGJhYmF5ZXYuY29tPgpE
+YXRlOiBUdWUsIDI3IEZlYiAyMDE4IDA0OjIyOjQ3IC0wODAwClN1YmplY3Q6IFtQQVRDSF0gdHVu
+ZS1vY3Rlb246IGNoYW5nZSBPY3Rlb24gSUkgdG8gc29mdC1mbG9hdAoKT2N0ZW9uIElJIFNPQ3Mg
+ZG9uJ3QgaGF2ZSBGUFVzCgpTaWduZWQtb2ZmLWJ5OiBSdXNsYW4gQmFiYXlldiA8cnVzbGFuQGJh
+YmF5ZXYuY29tPgotLS0KIG1ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1vY3Rlb24uaW5j
+IHwgOCArKysrLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
+bnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtb2N0ZW9u
+LmluYyBiL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1vY3Rlb24uaW5jCmluZGV4IGI1
+ZGViOGYuLjNmYWJkMDIgMTAwNjQ0Ci0tLSBhL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVu
+ZS1vY3Rlb24uaW5jCisrKyBiL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1vY3Rlb24u
+aW5jCkBAIC03LDE1ICs3LDE1IEBAIEFWQUlMVFVORVMgKz0gIm9jdGVvbjIgb2N0ZW9uMl82NCBv
+Y3Rlb24zIG9jdGVvbjNfNjQiCiBUVU5FVkFMSURbb2N0ZW9uMl0gPSAiRW5hYmxlIG9wdGltaXph
+dGlvbiByZWxhdGVkIHRvIG9jdGVvbjIgc3VwcG9ydCIKIFRVTkVfQ0NBUkdTIC49ICIke0BiYi51
+dGlscy5jb250YWlucygnVFVORV9GRUFUVVJFUycsICdvY3Rlb24yJywgJyAtbWFyY2g9b2N0ZW9u
+MiAnLCAnJyxkKX0iCiAKLVRVTkVfRkVBVFVSRVNfdHVuZS1vY3Rlb24yID0gIiR7VFVORV9GRUFU
+VVJFU190dW5lLW1pcHM2NC1uMzJ9IG9jdGVvbjIiCitUVU5FX0ZFQVRVUkVTX3R1bmUtb2N0ZW9u
+MiA9ICIke1RVTkVfRkVBVFVSRVNfdHVuZS1taXBzNjQtbmYtbjMyfSBvY3Rlb24yIgogQkFTRV9M
+SUJfdHVuZS1vY3Rlb24yID0gImxpYjMyIgogTUlQU1BLR1NGWF9WQVJJQU5UX3R1bmUtb2N0ZW9u
+MiA9ICJvY3Rlb24yIgotUEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLW9jdGVvbjIgPSAibWlwczY0
+LW4zMiBvY3Rlb24yLW4zMiIKK1BBQ0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1vY3Rlb24yID0gIm1p
+cHM2NC1uZi1uMzIgb2N0ZW9uMi1uMzItbmYiCiAKLVRVTkVfRkVBVFVSRVNfdHVuZS1vY3Rlb24y
+XzY0ID0gIiR7VFVORV9GRUFUVVJFU190dW5lLW1pcHM2NH0gb2N0ZW9uMiIKK1RVTkVfRkVBVFVS
+RVNfdHVuZS1vY3Rlb24yXzY0ID0gIiR7VFVORV9GRUFUVVJFU190dW5lLW1pcHM2NC1uZn0gb2N0
+ZW9uMiIKIEJBU0VfTElCX3R1bmUtb2N0ZW9uMl82NCA9ICJsaWI2NCIKIE1JUFNQS0dTRlhfVkFS
+SUFOVF90dW5lLW9jdGVvbjJfNjQgPSAib2N0ZW9uMl82NCIKLVBBQ0tBR0VfRVhUUkFfQVJDSFNf
+dHVuZS1vY3Rlb24yXzY0ID0gIm1pcHM2NCBvY3Rlb24yXzY0IgorUEFDS0FHRV9FWFRSQV9BUkNI
+U190dW5lLW9jdGVvbjJfNjQgPSAibWlwczY0LW5mIG9jdGVvbjJfNjQtbmYiCiAKIAogVFVORVZB
+TElEW29jdGVvbjNdID0gIkVuYWJsZSBvcHRpbWl6YXRpb24gcmVsYXRlZCB0byBvY3Rlb24zIHN1
+cHBvcnQiCi0tIAoyLjcuNAoK
+
+--000000000000c9d270056650208f--
