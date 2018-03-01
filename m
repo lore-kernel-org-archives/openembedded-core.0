@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C88378960
+	by mail.openembedded.org (Postfix) with ESMTP id 55D0C78964
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Mar 2018 02:16:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932823"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932811"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:10 -0800
-Message-Id: <20180301021518.29564-14-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:06 -0800
+Message-Id: <20180301021518.29564-10-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 13/21] systemd-boot*.bbclass: Don't use vmlinuz
+Subject: [PATCH v3 09/21] init-install-efi.sh: Update to support installing multiple kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,48 +34,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:15 -0000
 
-We can't guarantee vmlinuz anymore. Use KERNEL_IMAGETYPE instead.
+We can no longer rely on the kernel having a static name of "vmlinuz".
+This means we can't use it as a sentinel value in our sed commands, and
+we can't just copy vmlinuz to the boot directory.
+
+Instead, we'll use "root=" as the sentinel value for our sed commands,
+and we'll search for common kernel names to copy into our boot
+directory.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/systemd-boot-cfg.bbclass | 6 +++++-
- meta/classes/systemd-boot.bbclass     | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 46eeae126ae..360c86cbd34 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -1,3 +1,5 @@
-+KERNEL_IMAGETYPE ??= "bzImage"
-+
- SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
-@@ -52,7 +54,9 @@ python build_efi_cfg() {
-         localdata.setVar('OVERRIDES', label + ':' + overrides)
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 706418fa9c5..f946d971d11 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -244,10 +244,9 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+     sed -i "/initrd /d" $GRUBCFG
+     # Delete any LABEL= strings
+     sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
+-    # Delete any root= strings
+-    sed -i "s/ root=[^ ]*/ /g" $GRUBCFG
+-    # Add the root= and other standard boot options
+-    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$root_part_uuid rw $rootwait quiet @" $GRUBCFG
++    # Replace root= and add additional standard boot options
++    # We use root as a sentinel value, as vmlinuz is no longer guaranteed
++    sed -i "s/ root=[^ ]*/ root=PARTUUID=$root_part_uuid rw $rootwait quiet /g" $GRUBCFG
+ fi
  
-         entrycfg.write('title %s\n' % label)
--        entrycfg.write('linux /vmlinuz\n')
-+
-+        kernel = localdata.getVar("KERNEL_IMAGETYPE")
-+        entrycfg.write('linux /%s\n' % kernel)
+ if [ -d /run/media/$1/loader ]; then
+@@ -269,7 +268,13 @@ fi
  
-         append = localdata.getVar('APPEND')
-         initrd = localdata.getVar('INITRD')
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 14538fe2d7a..3cd6811a6ce 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -45,7 +45,7 @@ efi_iso_populate() {
-         mkdir -p ${EFIIMGDIR}/${EFIDIR}
-         cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/vmlinuz ${EFIIMGDIR}
-+        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
-         EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-         echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-         if [ -f "$iso_dir/initrd" ] ; then
+ umount /tgt_root
+ 
+-cp /run/media/$1/vmlinuz /boot
++# Copy kernel artifacts. To add more artifacts just add to types
++# For now just support kernel types already being used by something in OE-core
++for types in bzImage zImage vmlinux vmlinuz fitImage; do
++    for kernel in `find /run/media/$1/ -name $types*`; do
++        cp $kernel /boot
++    done
++done
+ 
+ umount /boot
+ 
 -- 
 2.14.3
 
