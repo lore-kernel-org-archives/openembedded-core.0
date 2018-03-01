@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id CB70A7883C
+	by mail.openembedded.org (Postfix) with ESMTP id 2942078882
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 14:06:49 +0000 (UTC)
+	Thu,  1 Mar 2018 14:06:51 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 06:06:51 -0800
+	01 Mar 2018 06:06:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="35134114"
+X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="35134118"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 01 Mar 2018 06:06:50 -0800
+	by orsmga001.jf.intel.com with ESMTP; 01 Mar 2018 06:06:51 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 16:00:42 +0200
-Message-Id: <20180301140052.1388-5-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Mar 2018 16:00:43 +0200
+Message-Id: <20180301140052.1388-6-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
 References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/15] lsbinitscripts: update to 9.79
+Subject: [PATCH 06/15] btrfs-tools: update to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,88 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 14:06:49 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 14:06:51 -0000
 
-Switch to github as pkgs.fedoraproject.org is down.
+Drop upstreamed 0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
+
+Add --disable-zstd as libzstd isn't provided in oe-core.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../lsb/lsbinitscripts/functions.patch              | 21 +++++++++++----------
- ...sbinitscripts_9.72.bb => lsbinitscripts_9.79.bb} |  8 +++++---
- 2 files changed, 16 insertions(+), 13 deletions(-)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.72.bb => lsbinitscripts_9.79.bb} (73%)
+ ...ith-musl-missing-header-include-for-dev_t.patch | 26 ----------------------
+ ...btrfs-tools_4.13.3.bb => btrfs-tools_4.15.1.bb} |  4 ++--
+ 2 files changed, 2 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.13.3.bb => btrfs-tools_4.15.1.bb} (90%)
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-index 9c58d90c382..e912daa701a 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-+++ b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-@@ -1,7 +1,7 @@
--From 57468c5f4e364bdad556604dca09046e1afca929 Mon Sep 17 00:00:00 2001
-+From e46b056282c8420f096d5c34d78c00f816788784 Mon Sep 17 00:00:00 2001
- From: Fan Xin <fan.xin@jp.fujitsu.com>
- Date: Mon, 5 Jun 2017 16:26:47 +0900
--Subject: [PATCH] Upstream-Status: Inappropriate [configuration]
-+Subject: [PATCH 1/2] Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
+deleted file mode 100644
+index 790676b9cbf..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From bc35c4caebb57cc8b96c30c25432b12ca8dc18d5 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 6 Oct 2017 15:03:49 +0300
+-Subject: [PATCH] Fix build with musl (missing header include for dev_t).
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- convert/source-fs.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/convert/source-fs.h b/convert/source-fs.h
+-index 23f3356..6fd770f 100644
+---- a/convert/source-fs.h
+-+++ b/convert/source-fs.h
+-@@ -20,6 +20,7 @@
+- #include "kerncompat.h"
+- #include <linux/kdev_t.h>
+- #include <pthread.h>
+-+#include <sys/types.h>
+- 
+- #define CONV_IMAGE_SUBVOL_OBJECTID BTRFS_FIRST_FREE_OBJECTID
+- 
+--- 
+-2.14.1
+-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb
+index 263fc657550..4490b82d91d 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb
+@@ -14,15 +14,15 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
  
- Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
-@@ -10,23 +10,24 @@ Rebase on 9.72
+-SRCREV = "a7a1ea0f4f2a1d6eeeb3d106e062c7f1034f16d4"
++SRCREV = "3097f02c948f69f520c565ff8f8ba476aa6edb88"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Makefile-build-mktables-using-native-gcc.patch \
+-           file://0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch \
+            "
  
- Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
- Upstream-Status: Pending
-+
- ---
-- initscripts-9.72/rc.d/init.d/functions | 2 +-
-+ rc.d/init.d/functions | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ inherit autotools-brokensep pkgconfig manpages
  
--diff --git a/initscripts-9.72/rc.d/init.d/functions b/initscripts-9.72/rc.d/init.d/functions
--index 0f627f1..a6aa092 100644
----- a/initscripts-9.72/rc.d/init.d/functions
--+++ b/initscripts-9.72/rc.d/init.d/functions
-+diff --git a/rc.d/init.d/functions b/rc.d/init.d/functions
-+index 2e3da964..1a204dec 100644
-+--- a/rc.d/init.d/functions
-++++ b/rc.d/init.d/functions
- @@ -59,7 +59,7 @@ systemctl_redirect () {
-  [ -z "${COLUMNS:-}" ] && COLUMNS=80
-  
-  if [ -z "${CONSOLETYPE:-}" ]; then
---    if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
--+    if [ -c "/dev/stderr" -a -r "/dev/stderr" -a -e /sbin/consoletype ]; then
-+-    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ]; then
-++    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ] && [ -e /sbin/consoletype ]; then
-          CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
-      else
-          CONSOLETYPE="serial"
- -- 
--1.9.1
-+2.15.1
+ PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
++EXTRA_OECONF = " --disable-zstd"
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
  
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
-similarity index 73%
-rename from meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
-rename to meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
-index 2d74a6f9d3b..46edeed8a48 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.72.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.79.bb
-@@ -10,11 +10,13 @@ RCONFLICTS_${PN} = "initscripts-functions"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
- 
--S="${WORKDIR}/initscripts-${PV}"
--SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.gz/sha512/b6ed38f9576e9227c2ecf047e2d60e1e872f40d51d13861b0c91dddb282f10f7e6b79706a4d1435d7a57a14a0b73a1b71541cfe44c00e8e03ef96b08de19ec32/initscripts-${PV}.tar.gz \
--           file://functions.patch;striplevel=2 \
-+S = "${WORKDIR}/git"
-+SRC_URI = "git://github.com/fedora-sysv/initscripts \
-+           file://functions.patch \
-            file://0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch \
-           " 
-+SRCREV = "a51c1b4f7dcf55b568b2ee4c2b18078849943469"
-+UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)"
- 
- SRC_URI[md5sum] = "d6c798f40dceb117e12126d94cb25a9a"
- SRC_URI[sha256sum] = "1793677bdd1f7ee4cb00878ce43346196374f848a4c8e4559e086040fc7487db"
+ do_configure_prepend() {
 -- 
 2.15.1
 
