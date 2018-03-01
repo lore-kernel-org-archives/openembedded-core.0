@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id F141778915
+	by mail.openembedded.org (Postfix) with ESMTP id 18A44788C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 02:16:12 +0000 (UTC)
+	Thu,  1 Mar 2018 02:16:13 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932791"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932796"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:14:58 -0800
-Message-Id: <20180301021518.29564-2-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:01 -0800
+Message-Id: <20180301021518.29564-5-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 01/21] grub-efi.bbclass: split out configuration portion
+Subject: [PATCH v3 04/21] grub-efi: if installed and EFI_PROVIDER, install as bootx64 or bootia32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,211 +34,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:13 -0000
 
-This part is useful on its own, whereas the whole class together is
-specific for image-live.
+This way we could theoretically support multiple bootloaders, and we
+keep the convention of boot(x64|ia32).
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- .../{grub-efi.bbclass => grub-efi-cfg.bbclass}     |  40 -------
- meta/classes/grub-efi.bbclass                      | 122 +--------------------
- 2 files changed, 1 insertion(+), 161 deletions(-)
- copy meta/classes/{grub-efi.bbclass => grub-efi-cfg.bbclass} (76%)
+ meta/recipes-bsp/grub/grub-efi_2.02.bb | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi-cfg.bbclass
-similarity index 76%
-copy from meta/classes/grub-efi.bbclass
-copy to meta/classes/grub-efi-cfg.bbclass
-index 610479b85d1..730323c72e6 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -16,8 +16,6 @@
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
- # ${GRUB_ROOT} - grub's root device.
- 
--do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
--
- GRUB_SERIAL ?= "console=ttyS0,115200"
- GRUB_CFG_VM = "${S}/grub_vm.cfg"
- GRUB_CFG_LIVE = "${S}/grub_live.cfg"
-@@ -32,44 +30,6 @@ APPEND ?= ""
- # Need UUID utility code.
- inherit fs-uuid
- 
--efi_populate() {
--	# DEST must be the root of the image so that EFIDIR is not
--	# nested under a top level directory.
--	DEST=$1
--
--	install -d ${DEST}${EFIDIR}
--
--	GRUB_IMAGE="grub-efi-bootia32.efi"
--	DEST_IMAGE="bootia32.efi"
--	if [ "${TARGET_ARCH}" = "x86_64" ]; then
--		GRUB_IMAGE="grub-efi-bootx64.efi"
--		DEST_IMAGE="bootx64.efi"
--	fi
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}/${DEST_IMAGE}
--	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_IMAGE" >${DEST}/startup.nsh
--
--	install -m 0644 ${GRUB_CFG} ${DEST}${EFIDIR}/grub.cfg
--}
--
--efi_iso_populate() {
--	iso_dir=$1
--	efi_populate $iso_dir
--	# Build a EFI directory to create efi.img
--	mkdir -p ${EFIIMGDIR}/${EFIDIR}
--	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
--	cp $iso_dir/vmlinuz ${EFIIMGDIR}
--	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" > ${EFIIMGDIR}/startup.nsh
--	if [ -f "$iso_dir/initrd" ] ; then
--		cp $iso_dir/initrd ${EFIIMGDIR}
--	fi
--}
--
--efi_hddimg_populate() {
--	efi_populate $1
--}
--
- python build_efi_cfg() {
-     import sys
- 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 610479b85d1..4b5704c19cc 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -1,36 +1,4 @@
--# grub-efi.bbclass
--# Copyright (c) 2011, Intel Corporation.
--# All rights reserved.
--#
--# Released under the MIT license (see packages/COPYING)
--
--# Provide grub-efi specific functions for building bootable images.
--
--# External variables
--# ${INITRD} - indicates a list of filesystem images to concatenate and use as an initrd (optional)
--# ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
--# ${GRUB_GFXSERIAL} - set this to 1 to have graphics and serial in the boot menu
--# ${LABELS} - a list of targets for the automatic config
--# ${APPEND} - an override list of append strings for each label
--# ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
--# ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
--# ${GRUB_ROOT} - grub's root device.
--
--do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
--
--GRUB_SERIAL ?= "console=ttyS0,115200"
--GRUB_CFG_VM = "${S}/grub_vm.cfg"
--GRUB_CFG_LIVE = "${S}/grub_live.cfg"
--GRUB_TIMEOUT ?= "10"
--#FIXME: build this from the machine config
--GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
--
--EFIDIR = "/EFI/BOOT"
--GRUB_ROOT ?= "${ROOT}"
--APPEND ?= ""
--
--# Need UUID utility code.
--inherit fs-uuid
-+inherit grub-efi-cfg
- 
- efi_populate() {
- 	# DEST must be the root of the image so that EFIDIR is not
-@@ -69,91 +37,3 @@ efi_iso_populate() {
- efi_hddimg_populate() {
- 	efi_populate $1
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+index c5a68f01cef..ed27b90fdbc 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+@@ -15,16 +15,19 @@ S = "${WORKDIR}/grub-${PV}"
+ python __anonymous () {
+     import re
+     target = d.getVar('TARGET_ARCH')
++    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
+     if target == "x86_64":
+         grubtarget = 'x86_64'
+-        grubimage = "grub-efi-bootx64.efi"
++        grubimage = prefix + "bootx64.efi"
+     elif re.match('i.86', target):
+         grubtarget = 'i386'
+-        grubimage = "grub-efi-bootia32.efi"
++        grubimage = prefix + "bootia32.efi"
+     else:
+         raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
+     d.setVar("GRUB_TARGET", grubtarget)
+     d.setVar("GRUB_IMAGE", grubimage)
++    prefix = "grub-efi-" if prefix == "" else ""
++    d.setVar("GRUB_IMAGE_PREFIX", prefix)
  }
--
--python build_efi_cfg() {
--    import sys
--
--    workdir = d.getVar('WORKDIR')
--    if not workdir:
--        bb.error("WORKDIR not defined, unable to package")
--        return
--
--    gfxserial = d.getVar('GRUB_GFXSERIAL') or ""
--
--    labels = d.getVar('LABELS')
--    if not labels:
--        bb.debug(1, "LABELS not defined, nothing to do")
--        return
--
--    if labels == []:
--        bb.debug(1, "No labels, nothing to do")
--        return
--
--    cfile = d.getVar('GRUB_CFG')
--    if not cfile:
--        bb.fatal('Unable to read GRUB_CFG')
--
--    try:
--         cfgfile = open(cfile, 'w')
--    except OSError:
--        bb.fatal('Unable to open %s' % cfile)
--
--    cfgfile.write('# Automatically created by OE\n')
--
--    opts = d.getVar('GRUB_OPTS')
--    if opts:
--        for opt in opts.split(';'):
--            cfgfile.write('%s\n' % opt)
--
--    cfgfile.write('default=%s\n' % (labels.split()[0]))
--
--    timeout = d.getVar('GRUB_TIMEOUT')
--    if timeout:
--        cfgfile.write('timeout=%s\n' % timeout)
--    else:
--        cfgfile.write('timeout=50\n')
--
--    root = d.getVar('GRUB_ROOT')
--    if not root:
--        bb.fatal('GRUB_ROOT not defined')
--
--    if gfxserial == "1":
--        btypes = [ [ " graphics console", "" ],
--            [ " serial console", d.getVar('GRUB_SERIAL') or "" ] ]
--    else:
--        btypes = [ [ "", "" ] ]
--
--    for label in labels.split():
--        localdata = d.createCopy()
--
--        overrides = localdata.getVar('OVERRIDES')
--        if not overrides:
--            bb.fatal('OVERRIDES not defined')
--
--        for btype in btypes:
--            localdata.setVar('OVERRIDES', label + ':' + overrides)
--
--            cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
--            lb = label
--            if label == "install":
--                lb = "install-efi"
--            cfgfile.write('linux /vmlinuz LABEL=%s' % (lb))
--
--            cfgfile.write(' %s' % replace_rootfs_uuid(d, root))
--
--            append = localdata.getVar('APPEND')
--            initrd = localdata.getVar('INITRD')
--
--            if append:
--                append = replace_rootfs_uuid(d, append)
--                cfgfile.write(' %s' % (append))
--
--            cfgfile.write(' %s' % btype[1])
--            cfgfile.write('\n')
--
--            if initrd:
--                cfgfile.write('initrd /initrd')
--            cfgfile.write('\n}\n')
--
--    cfgfile.close()
--}
+ 
+ inherit deploy
+@@ -41,7 +44,7 @@ do_mkimage() {
+ 	# Search for the grub.cfg on the local boot media by using the
+ 	# built in cfg file provided via this recipe
+ 	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+-	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
++	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
+ 	               ${GRUB_BUILDIN}
+ }
+ 
+@@ -55,7 +58,7 @@ do_install_append_class-target() {
+ 	install -d ${D}/boot
+ 	install -d ${D}/boot/EFI
+ 	install -d ${D}/boot/EFI/BOOT
+-	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
++	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}/boot/EFI/BOOT/${GRUB_IMAGE}
+ }
+ 
+ do_install_class-native() {
+@@ -79,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
+                  efi_gop iso9660 configfile search loadenv test"
+ 
+ do_deploy() {
+-	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
++	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
+ }
+ 
+ do_deploy_class-native() {
 -- 
 2.14.3
 
