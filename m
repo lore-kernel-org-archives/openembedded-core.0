@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id ACCA278882
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 32EC478882
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 18:26:46 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id w77so7592754wrc.6
+	Thu,  1 Mar 2018 18:26:47 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 139so14039362wmn.2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 01 Mar 2018 10:26:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JiI0yLyGnULS2BwF0V0yVVwzDZYOoTs0o6Z2fWwTYtM=;
-	b=tSAMuQ0goc8NbjQJjsPOqZkl0CijBMiYaC0223+vofbeizrxrsptBzrxkHzfggDzB0
-	E7m1MTC+l7n79DGO5B1o9ck1zbo1ilL4GReWFXi/vYIDrezDLk1dNY+0SGKxN5jaCiQG
-	55e2Zvo/Do+UDTt1q0oHURe1BbUcAwd9dReJHe6TbPGNfifaziYr6xMO7Y+TNkeKKv8b
-	SRbjURcVj2DaWXC+P9ikJ5q4Imscmw7sYFnXvASRaX6KGchuJzmCrsLBj9Il8KcOr6at
-	yOd/r6a5dW37q27zvfcs6NmrG1OTkPsZjW4BQk+esr+3LgRyfaE6/GmvBxEyp84rpg8p
-	LWTw==
+	bh=kZjZ9KONEBlNdhOyr2g6flG+pBr9DRF/g/NxStxLsF8=;
+	b=yyUh89jlCmkLGz0JhHH/SlfHZT2MdQnMA0L3FBMC7z5r71QbHzQeNu1Xwfebm4eQ5m
+	8xTjVRil47k2IHE9V6fLorDluL90DR5VCcmM1ndtblV4XkYxkD+VZ68S5szYkR7/mObH
+	73zXuYKy2Qd6IhypNkvNUqXvSUSqx45vTcln5HYQSpdfq5lVEyGPrDfs0ktdPunrSvj2
+	J7NEGB2o9bWI5G62ZGyWpGVWsy9EeT9hIlgm4IEeX60nGqDPf/eclIxJ72VXhsyyEQpv
+	VLZLihVAzHIg7IE8FbIigU9PCM8yhiKrYCe3SuDM7qRpWW3aLHyrpIRzjMYkD50q91Yp
+	CWYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=JiI0yLyGnULS2BwF0V0yVVwzDZYOoTs0o6Z2fWwTYtM=;
-	b=lgzHAIhHYqZBQ51IkSvXXTQrQs/eEb/xipY0rEzayKrD8hbQmQARSt//Np9CThMjzt
-	z1AMzvUmg08C2e3FpmCBhLx3ZipyU/ORBX+I9cFt/rqquosQMr6BrGWz8B7WU53KENRx
-	YbOJZhPpbxwM0f7TTwBCa+rD9IgBpUx9QG3mUIyp4rbv6djBqw4SFN7TgTyiVZXrx6AI
-	2aoaHuWR/3nUxExMHUoplVppi7vhbGCkg5W8fCjomkmEBajIg41D4WDx0QLozBGTxdMx
-	vX3yJQrLeKqu6Yyhmk/1n0Vc8luWUUFqWRs46FFaGI5+43HwloXrf2z3J/j/6hQYZuGH
-	C7lg==
-X-Gm-Message-State: APf1xPCU0dRGjnPJ5B+xzc/njvIWvlf2f4pA/4GDErnlVhoJ/d78aCNJ
-	dSFBn1RO9e0UZvDPaEqxFrG8uQox
-X-Google-Smtp-Source: AG47ELtAP0g1s7u1J/0VXApu3kEUxwRTk9z7SRm/gNj/RTYgB+lyzLfYBpTN8sEw49diEP+eUwxBRg==
-X-Received: by 10.223.163.93 with SMTP id d29mr2808339wrb.187.1519928807080;
-	Thu, 01 Mar 2018 10:26:47 -0800 (PST)
+	bh=kZjZ9KONEBlNdhOyr2g6flG+pBr9DRF/g/NxStxLsF8=;
+	b=QOO3oMkapbc92RbEmADtAL2kiU2lgxdpfV2TqeJUGVjelZ70frJJuaflwMrARzf/Hl
+	2LTXWto/yPimpfhEaf+Rh0099cidtTTyhmsrX69QtRiR1ZaKQBKEg/bZmrbR/MxHjoN5
+	jDQbJveMzja2x/qanEpDI/okmwo5tSJ0IVfVjGYSzZwsmQslX1orIeWTcQvPv31md5tX
+	RqwkVlBML7MvIw3BVkSAyoRy4VFvT/x5yHG5SLnWs/uvESaVPlQpsxf1kdXBEVNPYLZM
+	F/aaGHMvaVbW7lGPm8B+lfLRFQ5Tz90DvsWpOjw+4TgQmY96XaRWiqH7GE/GrrOWmpzd
+	YtBQ==
+X-Gm-Message-State: APf1xPAP2oQK+p7gk0KqsueOvW9E/CRNumHrcu3UhqCSsKUUk8xM1M/M
+	9uCaVUUtG8opsvOuCajAKP9Z1aJV
+X-Google-Smtp-Source: AG47ELsJfAN+ixotcuotRISk6m9KI4DUn7tbudvIF/Z3hKS9ns91D6gC5Sa9YUlTqDUeAWkVvWXftA==
+X-Received: by 10.28.7.209 with SMTP id 200mr2537509wmh.49.1519928808062;
+	Thu, 01 Mar 2018 10:26:48 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h188sm4955285wmf.23.2018.03.01.10.26.46
+	h188sm4955285wmf.23.2018.03.01.10.26.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 10:26:46 -0800 (PST)
+	Thu, 01 Mar 2018 10:26:47 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 18:26:29 +0000
-Message-Id: <20180301182634.20502-6-ross.burton@intel.com>
+Date: Thu,  1 Mar 2018 18:26:30 +0000
+Message-Id: <20180301182634.20502-7-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180301182634.20502-1-ross.burton@intel.com>
 References: <20180301182634.20502-1-ross.burton@intel.com>
-Subject: [PATCH 06/11] package_manager: improve install_complementary
+Subject: [PATCH 07/11] package-manager: add install_glob()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,40 +60,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 18:26:47 -0000
 
-- No need to use bb.utils.which() as subprocess will search $PATH
-- Clarity flow by moving the install inside the try/except
-
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/package_manager.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f7e013437c9..e37dd4e8a2f 100644
+index e37dd4e8a2f..7a5796a3a57 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -402,7 +402,7 @@ class PackageManager(object, metaclass=ABCMeta):
-             installed_pkgs.write(output)
-             installed_pkgs.flush()
+@@ -371,6 +371,29 @@ class PackageManager(object, metaclass=ABCMeta):
+         pass
  
--            cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
-+            cmd = ["oe-pkgdata-util",
-                    "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
-                    globs]
-             exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
-@@ -412,11 +412,11 @@ class PackageManager(object, metaclass=ABCMeta):
-                 bb.note("Installing complementary packages ...")
-                 bb.note('Running %s' % cmd)
-                 complementary_pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+                self.install(complementary_pkgs.split(), attempt_only=True)
-             except subprocess.CalledProcessError as e:
-                 bb.fatal("Could not compute complementary packages list. Command "
-                          "'%s' returned %d:\n%s" %
-                          (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
--            self.install(complementary_pkgs.split(), attempt_only=True)
- 
-     def deploy_dir_lock(self):
-         if self.deploy_dir is None:
+     """
++    Install all packages that match a glob.
++    """
++    def install_glob(self, globs, sdk=False):
++        # TODO don't have sdk here but have a property on the superclass
++        # (and respect in install_complementary)
++        if sdk:
++            pkgdatadir = self.d.expand("${TMPDIR}/pkgdata/${SDK_SYS}")
++        else:
++            pkgdatadir = self.d.getVar("PKGDATA_DIR")
++
++        try:
++            bb.note("Installing globbed packages...")
++            cmd = ["oe-pkgdata-util", "-p", pkgdatadir, "list-pkgs", globs]
++            pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
++            self.install(pkgs.split(), attempt_only=True)
++        except subprocess.CalledProcessError as e:
++            # Return code 1 means no packages matched
++            if e.returncode != 1:
++                bb.fatal("Could not compute globbed packages list. Command "
++                         "'%s' returned %d:\n%s" %
++                         (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
++
++    """
+     Install complementary packages based upon the list of currently installed
+     packages e.g. locales, *-dev, *-dbg, etc. This will only attempt to install
+     these packages, if they don't exist then no error will occur.  Note: every
 -- 
 2.11.0
 
