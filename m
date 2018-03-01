@@ -1,51 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 7473078818
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8073271C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 12:19:55 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id w63so7395986ita.3
+	Thu,  1 Mar 2018 12:29:48 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k9so5906968wre.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 04:19:57 -0800 (PST)
+	Thu, 01 Mar 2018 04:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6hfYDoZXp2hxMsWymtIznjP8tQ0sf1ugq8vURdl/lXY=;
-	b=nChb2QhCn//a95PxUQ7Q8Ck5SHYMX3WDuRJ5P73ZSMMmnodEfaOqErqpBNZLU/0v9h
-	S5dSjcgtSWeOpZIc59au5Wt2R8uzein6gHb1bU7zcBktpUoqwJAieTnV+IJbQ4uzO6A+
-	yLcBh5VcPewQ5gopVohx1ymGPqVqJXs4E1F+WMWy7O4Emc6bnbqfdtsg5o4iEm68rZJY
-	URuMK7miXLqLe1xCMbCe8A7WxC81OtBqQAHN2HCEKHrGswoFIPQ4G+cD5ERQQfPCB/NU
-	1KruTrSj2oDmptVcmvV5137IgnudbKeSrRXHzzonhBGr1ug1P2hi5IgL5oUg+B+a8S2P
-	ptRA==
+	h=from:to:subject:date:message-id;
+	bh=/80c2s6TXso1Jj33UgMM4QVX7Sfr203p35MeFoJOywQ=;
+	b=Jaiyh5qdKhMdhj1ZK8aptaryBraWBHV2BlKQlr7x4YtFNlBoN/n2iR0dYHJgqzcJSv
+	X+r9j8qsH2nsPqbt4rJ+SAMvslF3pZc4F9ZWLQCXjdhrVPMDoCPnc5kilW0puNPmI+cb
+	Cxzii7JqT0QmWOSObXkEXReaUaV4uN5kZPzx4L8ntXcDVbR58WMsl3UXYy7n6AnT3Yj1
+	9srXj1NDadO8XhSocJW42j2T25/X3ZKGtXBiSG7u8b5Concen3i+GygSEDilVuC2R0se
+	z5IeWEL0fg1XvdiR5WiZwCo/ZQA1KjXMyGWwIi1zFZySHI5OQ0DSLr5ly+VisKoGWs9K
+	Ww/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6hfYDoZXp2hxMsWymtIznjP8tQ0sf1ugq8vURdl/lXY=;
-	b=WkdxgKwFoYCYllSGxVrpI7G+TENOIo07aae1g9ZW0hjxzLC3p60YzM8MfsnJDrgMR1
-	d42NBaMrO75mMwn8QZ6bUgmnkSvPH5+psV4HAAk1eHCLMBQMfwElCkFmlhGGNBmY63uU
-	3uhxIjAm8yuiS8a7qFzIF1XiY3/0rtXKs/4TAuMTwK4MkVLSAjCkeVKL4Pc7z6mHESxz
-	pCYL0VaeUh00+yuSMQoCdewsaI2zaeeZ61fqCBl7BAflxqAOlEGqvV/ol3RVktDtIxcv
-	r9HrGn99hqiIWdpEC0tNLf4mVVPG8kpdluxySO4NdiYlC1IZ+hcNYLQ/JgrqmSdjCWZq
-	2arA==
-X-Gm-Message-State: APf1xPBlU9oPCeiY5JyQmumXlvTrrTb3/SDPcWua/bXdOlaxgjvvz0zq
-	kNY2SqnsS6nFY14WP4cEPkW8gkKGvYg6XJxs+QlfXA==
-X-Google-Smtp-Source: AG47ELszDNcV1lIK888CBXgkL8KxKcugbPqK3HZDCzNyVE6IgpdkHauwnRIoMW/8nhuYNr9q6wjakqLRs+dobqd+Bxs=
-X-Received: by 10.36.82.84 with SMTP id d81mr2248785itb.34.1519906796777; Thu,
-	01 Mar 2018 04:19:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Thu, 1 Mar 2018 04:19:36 -0800 (PST)
-In-Reply-To: <660e2c8a-8f4d-40af-443b-63d016a7d3fc@windriver.com>
-References: <cover.1519797175.git.Qi.Chen@windriver.com>
-	<17b1cd0eb9a731bdf5049a60bb8efd00614f8edd.1519797175.git.Qi.Chen@windriver.com>
-	<CAJTo0LZ3d68OW-6t4wTreW5jeAGZaPMeXwvfOeufcqYVZRBzvA@mail.gmail.com>
-	<660e2c8a-8f4d-40af-443b-63d016a7d3fc@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 1 Mar 2018 12:19:36 +0000
-Message-ID: <CAJTo0LZgTxUwn+YBvpWCjo=6wpmhkN6zS+bYGiGQf8Q5meumtw@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] systemd: upgrade to 236
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/80c2s6TXso1Jj33UgMM4QVX7Sfr203p35MeFoJOywQ=;
+	b=Y3z9WA0DND1vmg/WSoGY0pHBPW6ObQnLpVlGm7VCKnjSycaPke0bv+cflyETQF5CV/
+	2PLipncUb5hemCzLm4uUWZJH/g4gTTH2rX/6MDLApQvLDR1fc6onAw883HV2HLZ1egCv
+	C8DA06PTvv8LpXjiYxX8N4xQRLNuFKBi8kcFVp6Ldaud8mH8AKBfPkMA1P0bIL/KJxs6
+	wnWjCGTa1M/TNLl4D/QMdMcsD1FjPMdrWBesbZEbkGFjHCMXpnTuHYjPDnx4Vuc+qISb
+	COvqjyw/3wWTvy1F+Up7qTyt3Q43SnCpXo46Z/2zjm7vsbBtGQSeoyd+0TXC14jcZE1e
+	Nnhg==
+X-Gm-Message-State: APf1xPAhGoGHSsa6HcAo5/KKr1qrU8YjiIv8VidNNHrMql0eI9IInPgX
+	9QbdfeIThVP+sBUnrn3WNckFhvGn
+X-Google-Smtp-Source: AG47ELsNK0ahN8UTAX1YES6pcyUTG4jqJ36YoDYREdxu811JmvJMEWAF49hb/bci1sX2FbM9UjZocg==
+X-Received: by 10.223.173.163 with SMTP id w32mr1683596wrc.204.1519907389084; 
+	Thu, 01 Mar 2018 04:29:49 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	y28sm3776679wrd.46.2018.03.01.04.29.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 01 Mar 2018 04:29:48 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Mar 2018 12:29:46 +0000
+Message-Id: <20180301122946.7388-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] package.bbclass: fetch PRIVATE_LIBS twice as we iterate twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 12:19:55 -0000
-Content-Type: multipart/alternative; boundary="001a11449248b6e069056658e050"
+X-List-Received-Date: Thu, 01 Mar 2018 12:29:48 -0000
 
---001a11449248b6e069056658e050
-Content-Type: text/plain; charset="UTF-8"
+The shlibs detection/handling iterates the package list twice, but PRIVATE_LIBS
+is only fetched in the first loop which means the second loop only considers the
+value set.
 
->
-> The PACKAGECONFIG 'manpages' is now renamed to 'man'. I forgot to mention
-> this in commit message.
-> I renamed it to 'man' because in meson_options.txt, we have:
-> option('man', type : 'combo', choices : ['auto', 'true', 'false'],
->        description : 'build and install man pages')
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/package.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e7e93a067a6..317c77585fc 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1773,6 +1773,9 @@ python package_do_shlibs() {
+     for pkg in packages.split():
+         bb.debug(2, "calculating shlib requirements for %s" % pkg)
+ 
++        private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or d.getVar('PRIVATE_LIBS') or ""
++        private_libs = private_libs.split()
++
+         deps = list()
+         for n in needed[pkg]:
+             # if n is in private libraries, don't try to search provider for it
+-- 
+2.11.0
 
 
-For compatibility with people changing the value can we keep the
-PACKAGECONFIG as manpages please.
-
-Ross
-
---001a11449248b6e069056658e050
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:r=
-gb(204,204,204);padding-left:1ex"><span style=3D"font-size:12.8000001907348=
-63px">The PACKAGECONFIG &#39;manpages&#39; is now renamed to &#39;man&#39;.=
- I forgot to mention this in commit message.</span><br style=3D"font-size:1=
-2.800000190734863px"><span style=3D"font-size:12.800000190734863px">I renam=
-ed it to &#39;man&#39; because in meson_options.txt, we have:<br></span><sp=
-an style=3D"font-size:12.800000190734863px">option(&#39;man&#39;, type : &#=
-39;combo&#39;, choices : [&#39;auto&#39;, &#39;true&#39;, &#39;false&#39;],=
-<br></span><span style=3D"font-size:12.800000190734863px">=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 description : &#39;build and install man pages&#39;)<=
-/span></blockquote><div><br></div><div>For compatibility with people changi=
-ng the value can we keep the PACKAGECONFIG as manpages please.</div><div><b=
-r></div><div>Ross=C2=A0</div></div>
-
---001a11449248b6e069056658e050--
