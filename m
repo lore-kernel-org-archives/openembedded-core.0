@@ -1,31 +1,51 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E31571AB4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 7473078818
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 10:55:34 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 02:55:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="207991921"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga005.fm.intel.com with ESMTP; 01 Mar 2018 02:55:33 -0800
-Date: Thu, 1 Mar 2018 12:58:37 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180301105836.GA14042@mbabyjoh-desk.ger.corp.intel.com>
-References: <1519845645-21713-1-git-send-email-bruce.ashfield@windriver.com>
-	<20180301082802.GA16294@mbabyjoh-desk.ger.corp.intel.com>
-	<CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
+	Thu,  1 Mar 2018 12:19:55 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id w63so7395986ita.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Mar 2018 04:19:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6hfYDoZXp2hxMsWymtIznjP8tQ0sf1ugq8vURdl/lXY=;
+	b=nChb2QhCn//a95PxUQ7Q8Ck5SHYMX3WDuRJ5P73ZSMMmnodEfaOqErqpBNZLU/0v9h
+	S5dSjcgtSWeOpZIc59au5Wt2R8uzein6gHb1bU7zcBktpUoqwJAieTnV+IJbQ4uzO6A+
+	yLcBh5VcPewQ5gopVohx1ymGPqVqJXs4E1F+WMWy7O4Emc6bnbqfdtsg5o4iEm68rZJY
+	URuMK7miXLqLe1xCMbCe8A7WxC81OtBqQAHN2HCEKHrGswoFIPQ4G+cD5ERQQfPCB/NU
+	1KruTrSj2oDmptVcmvV5137IgnudbKeSrRXHzzonhBGr1ug1P2hi5IgL5oUg+B+a8S2P
+	ptRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6hfYDoZXp2hxMsWymtIznjP8tQ0sf1ugq8vURdl/lXY=;
+	b=WkdxgKwFoYCYllSGxVrpI7G+TENOIo07aae1g9ZW0hjxzLC3p60YzM8MfsnJDrgMR1
+	d42NBaMrO75mMwn8QZ6bUgmnkSvPH5+psV4HAAk1eHCLMBQMfwElCkFmlhGGNBmY63uU
+	3uhxIjAm8yuiS8a7qFzIF1XiY3/0rtXKs/4TAuMTwK4MkVLSAjCkeVKL4Pc7z6mHESxz
+	pCYL0VaeUh00+yuSMQoCdewsaI2zaeeZ61fqCBl7BAflxqAOlEGqvV/ol3RVktDtIxcv
+	r9HrGn99hqiIWdpEC0tNLf4mVVPG8kpdluxySO4NdiYlC1IZ+hcNYLQ/JgrqmSdjCWZq
+	2arA==
+X-Gm-Message-State: APf1xPBlU9oPCeiY5JyQmumXlvTrrTb3/SDPcWua/bXdOlaxgjvvz0zq
+	kNY2SqnsS6nFY14WP4cEPkW8gkKGvYg6XJxs+QlfXA==
+X-Google-Smtp-Source: AG47ELszDNcV1lIK888CBXgkL8KxKcugbPqK3HZDCzNyVE6IgpdkHauwnRIoMW/8nhuYNr9q6wjakqLRs+dobqd+Bxs=
+X-Received: by 10.36.82.84 with SMTP id d81mr2248785itb.34.1519906796777; Thu,
+	01 Mar 2018 04:19:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+Received: by 10.107.17.200 with HTTP; Thu, 1 Mar 2018 04:19:36 -0800 (PST)
+In-Reply-To: <660e2c8a-8f4d-40af-443b-63d016a7d3fc@windriver.com>
+References: <cover.1519797175.git.Qi.Chen@windriver.com>
+	<17b1cd0eb9a731bdf5049a60bb8efd00614f8edd.1519797175.git.Qi.Chen@windriver.com>
+	<CAJTo0LZ3d68OW-6t4wTreW5jeAGZaPMeXwvfOeufcqYVZRBzvA@mail.gmail.com>
+	<660e2c8a-8f4d-40af-443b-63d016a7d3fc@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Mar 2018 12:19:36 +0000
+Message-ID: <CAJTo0LZgTxUwn+YBvpWCjo=6wpmhkN6zS+bYGiGQf8Q5meumtw@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] systemd: upgrade to 236
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,70 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 10:55:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 Mar 2018 12:19:55 -0000
+Content-Type: multipart/alternative; boundary="001a11449248b6e069056658e050"
 
+--001a11449248b6e069056658e050
+Content-Type: text/plain; charset="UTF-8"
 
->Also fails on musl:
 >
->ERROR: Nothing RPROVIDES 'glibc-utils' (but /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/meta/recipes-kernel/linux/kernel-devsrc.bb RDEPENDS on or otherwise requires it)
->
->Ross
->
->On 1 March 2018 at 08:28, Maxin B. John <maxin.john@intel.com> wrote:
+> The PACKAGECONFIG 'manpages' is now renamed to 'man'. I forgot to mention
+> this in commit message.
+> I renamed it to 'man' because in meson_options.txt, we have:
+> option('man', type : 'combo', choices : ['auto', 'true', 'false'],
+>        description : 'build and install man pages')
 
- >On Wed, Feb 28, 2018 at 02:20:45PM -0500, Bruce Ashfield wrote:
- >> The existing kernel-devsrc package starts with a full copy of the kernel
- >> source and then starts to strip out elements that are not required.
- >>
- >> This results in extra time (I/O) and extra space being taken up in the
- >> final package. The main purpose of the kernel-devsrc package has been to
- >> build modules against the running kernel, not to include a full copy of
- >> the source code for re-building the kernel. The end result was a
- >> 600M kernel-devsrc package.
 
- Other failures are listed below:
- 
- arm64:
- https://autobuilder.yocto.io/builders/nightly-arm64/builds/790/steps/Running%20Sanity%20Tests/logs/stdio
+For compatibility with people changing the value can we keep the
+PACKAGECONFIG as manpages please.
 
- RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase 1541: FAILED
+Ross
 
-HOSTCC  scripts/sortextable
- scripts/sortextable.c:31:10: fatal error: tools/be_byteshift.h: No such file or directory
-#include <tools/be_byteshift.h>
-  ^~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.host:102: scripts/sortextable] Error 1
-make: *** [Makefile:557: scripts] Error 2
-----------------------------------------------------------------------
+--001a11449248b6e069056658e050
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Similar on qemuarm - poky-lsb :
+<div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:r=
+gb(204,204,204);padding-left:1ex"><span style=3D"font-size:12.8000001907348=
+63px">The PACKAGECONFIG &#39;manpages&#39; is now renamed to &#39;man&#39;.=
+ I forgot to mention this in commit message.</span><br style=3D"font-size:1=
+2.800000190734863px"><span style=3D"font-size:12.800000190734863px">I renam=
+ed it to &#39;man&#39; because in meson_options.txt, we have:<br></span><sp=
+an style=3D"font-size:12.800000190734863px">option(&#39;man&#39;, type : &#=
+39;combo&#39;, choices : [&#39;auto&#39;, &#39;true&#39;, &#39;false&#39;],=
+<br></span><span style=3D"font-size:12.800000190734863px">=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 description : &#39;build and install man pages&#39;)<=
+/span></blockquote><div><br></div><div>For compatibility with people changi=
+ng the value can we keep the PACKAGECONFIG as manpages please.</div><div><b=
+r></div><div>Ross=C2=A0</div></div>
 
-https://autobuilder.yocto.io/builders/nightly-arm-lsb/builds/812/steps/Running%20Sanity%20Tests/logs/stdio
-
-HOSTCC  scripts/recordmcount
-HOSTCC  scripts/sortextable
-scripts/sortextable.c:31:10: fatal error: tools/be_byteshift.h: No such file or directory
-    #include <tools/be_byteshift.h>
-              ^~~~~~~~~~~~~~~~~~~~~~
-              compilation terminated.
-              make[1]: *** [scripts/Makefile.host:102: scripts/sortextable] Error 1
-              make: *** [Makefile:557: scripts] Error 2
--------------------------------------------------------------------------
-
-Also on PowerPC:
-
-https://autobuilder.yocto.io/builders/nightly-ppc-lsb/builds/814/steps/Running%20Sanity%20Tests/logs/stdio
-
-scripts/sortextable.c:31:10: fatal error: tools/be_byteshift.h: No such file or directory
- #include <tools/be_byteshift.h>
-           ^~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.host:102: scripts/sortextable] Error 1
-make: *** [Makefile:557: scripts] Error 2
-
-Best Regards,
-Maxin
-
+--001a11449248b6e069056658e050--
