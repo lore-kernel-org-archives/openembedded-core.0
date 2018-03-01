@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 10C927895F
+	by mail.openembedded.org (Postfix) with ESMTP id 26A6378961
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Mar 2018 02:16:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932841"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932832"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:16 -0800
-Message-Id: <20180301021518.29564-20-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:13 -0800
+Message-Id: <20180301021518.29564-17-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 19/21] grub-efi-cfg.bbclass: Don't reference or set OVERRIDES
+Subject: [PATCH v3 16/21] init-install.sh: support multiple kernels and don't assume vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +34,85 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:14 -0000
 
-There's no need to add to the local copy of overrides and then not do
-anything with it.
+Since kernels will not necessarily be installed as vmlinuz anymore,
+don't assume that's its name for either the bootloader config or the
+copy of the kernel.
 
-Now that this function is being used in package creation it was causing
-sstate issues as well, as MACHINE is always in OVERRIDES, so something
-trivial such as the name of the MACHINE would cause the hash to change.
+Also, allow installing multiple kernels by searching for common kernel
+names.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/classes/grub-efi-cfg.bbclass | 6 ------
- 1 file changed, 6 deletions(-)
+ .../initrdscripts/files/init-install.sh            | 37 ++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index 85173c91fc3..d2226af97a7 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -87,13 +87,7 @@ python build_efi_cfg() {
-     for label in labels.split():
-         localdata = d.createCopy()
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index dade059c8f1..713a83092bf 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -256,9 +256,34 @@ fi
+ umount /tgt_root
+ umount /src_root
  
--        overrides = localdata.getVar('OVERRIDES')
--        if not overrides:
--            bb.fatal('OVERRIDES not defined')
--
-         for btype in btypes:
--            localdata.setVar('OVERRIDES', label + ':' + overrides)
--
-             cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
-             lb = label
-             if label == "install":
++echo "Looking for kernels to use as boot target.."
++# Find kernel to boot to
++# Give user options if multiple are found
++kernels="$(find /run/media/$1/ -type f  \
++           -name bzImage* -o -name zImage* \
++           -o -name vmlinux* -o -name vmlinuz* \
++           -o -name fitImage* \
++           | sed s:.*/::)"
++if [ -n "$(echo $kernels)" ]; then
++    # only one kernel entry if no space
++    if [ -z "$(echo $kernels | grep " ")" ]; then
++        kernel=$kernels
++        echo "$kernel will be used as the boot target"
++    else
++        echo "Which kernel do we want to boot by default? The following kernels were found:"
++        echo $kernels
++        read answer
++        kernel=$answer
++    fi
++else
++    echo "No kernels found, exiting..."
++    exit 1
++fi
++
+ # Handling of the target boot partition
+ mount $bootfs /boot
+ echo "Preparing boot partition..."
++
+ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+     echo "Preparing custom grub2 menu..."
+     root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+@@ -268,7 +293,7 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+     cat >$GRUBCFG <<_EOF
+ menuentry "Linux" {
+     search --no-floppy --fs-uuid $boot_uuid --set root
+-    linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
++    linux /$kernel root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+ }
+ _EOF
+     chmod 0444 $GRUBCFG
+@@ -282,10 +307,16 @@ if [ $grub_version -eq 0 ] ; then
+     echo "timeout 30" >> /boot/grub/menu.lst
+     echo "title Live Boot/Install-Image" >> /boot/grub/menu.lst
+     echo "root  (hd0,0)" >> /boot/grub/menu.lst
+-    echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
++    echo "kernel /$kernel root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
+ fi
+ 
+-cp /run/media/$1/vmlinuz /boot/
++# Copy kernel artifacts. To add more artifacts just add to types
++# For now just support kernel types already being used by something in OE-core
++for types in bzImage zImage vmlinux vmlinuz fitImage; do
++    for kernel in `find /run/media/$1/ -name $types*`; do
++        cp $kernel /boot
++    done
++done
+ 
+ umount /boot
+ 
 -- 
 2.14.3
 
