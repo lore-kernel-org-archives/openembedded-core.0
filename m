@@ -1,51 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E8740788F1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 18:26:51 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id m5so7595083wrg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 10:26:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=M9yflCopJZVXrvF7F3K+Tn+QNJmvmIrp31AubhSMYYI=;
-	b=hGVtid6R6ue+JpkIrrMIXASyPEYHB/kb8kwG3SW0v58MmDcc3LNiky+uW9Bz0EJZkZ
-	6S/X4o82+QZoQFOiH0F3UaU+VKR84GMTZuceJknels4U+960/Wq49XZ5TdsX/QwQge8m
-	a/Lf+3TIxNwowfBVN/L/bYarQdYXpw5jZfXGREgvITWPFFSeocRfjoRR+XPRqn8C5zWo
-	Wsf+cbqJo4hOHS+sgem7aVBfigYIMhYAjlyVMrmhQiy1dWl8B9CjYihxN4e8lA1gf1uU
-	laS6BmnfCMeaJnk3Bb9WZf90+FywX5sk6TXR1tGzgcmas0A3lOPTtNiCTzRmhT3Yl6Hu
-	JJ6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=M9yflCopJZVXrvF7F3K+Tn+QNJmvmIrp31AubhSMYYI=;
-	b=naNOJ/itXyaZl6p1hhWXY3rCi0yEIj+4dh8PZVwWXilyMcUOOkPql8+N+CuorIr1vZ
-	y71mJzjBwGRe6PORSWxJF7S9YswaDeZMk5Dy+TiUn7athJZIDjeD+bSdTvv9E9ta95xM
-	wJdG4V2sA4+AAxQAT3Ri0XcGoCsJLEO55MGeAHxTsA/slxarEUETergpZIuZBhMQDi7M
-	Ka7AnJAIZLnQ9IQftMPcrtKt5dW001t/vQvtoBnK26TILPmipDXUwH26bCAEcLaDkP5P
-	9ObIMORMrnCZg8h5raOc1ud1QCfhgT3WoFL2zM8cVDq98fqHslnJdWIW3VZHm4D2BzZa
-	5oZA==
-X-Gm-Message-State: APf1xPA0mvsmXCxFEttMwvF7xUuJyzIokgAVNQEstbwO25DblmiKVoNA
-	yIimMMx6yscoog9N0c5WMEUzqY6c
-X-Google-Smtp-Source: AG47ELvvuiiBcKQHRlCBOzgb3zndYQtV17o2bAbis4KiJHTNygWgEEGzzRkDq3TICnt6Yzh/Y2quvg==
-X-Received: by 10.223.134.136 with SMTP id 8mr2654170wrx.86.1519928812290;
-	Thu, 01 Mar 2018 10:26:52 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h188sm4955285wmf.23.2018.03.01.10.26.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 10:26:51 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 18:26:34 +0000
-Message-Id: <20180301182634.20502-11-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180301182634.20502-1-ross.burton@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C4F79785E7;
+	Thu,  1 Mar 2018 18:34:28 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Thu, 01 Mar 2018 18:34:30 -0000
+Message-ID: <20180301183430.15543.58354@do.openembedded.org>
 References: <20180301182634.20502-1-ross.burton@intel.com>
-Subject: [PATCH 11/11] glibc: Enable static PIE support when security_flags are enabled
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180301182634.20502-1-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImdsaWJjOiBVcGdyYWRlIHRvIDIuMjcgcmVsZWFzZS4uLiIgYW5kIDEwIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 18:26:52 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 18:34:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Khem Raj <raj.khem@gmail.com>
+== Series Details ==
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Series: "glibc: Upgrade to 2.27 release..." and 10 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11173/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
+  Suggested fix    Include a brief reason why relocate-locales.patch is inappropriate
+  Current          Upstream-Status: Inappropriate (OE-specific)
+  Standard format  Upstream-Status: Inappropriate [reason]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/security_flags.inc | 2 ++
- meta/recipes-core/glibc/glibc_2.27.bb       | 3 +++
- 2 files changed, 5 insertions(+)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 49d2417a882..d66dd576493 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -6,6 +6,7 @@
- # in the DISTRO="poky-lsb" configuration.
- 
- GCCPIE ?= "--enable-default-pie"
-+GLIBCPIE ?= "--enable-static-pie"
- 
- # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
- # -O0 which then results in a compiler warning.
-@@ -30,6 +31,7 @@ SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
- SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_NOPIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libgcc_powerpc = ""
- GCCPIE_powerpc = ""
-+GLIBCPIE_powerpc = ""
- 
- # arm specific security flag issues
- SECURITY_CFLAGS_pn-glibc = ""
-diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
-index 2434c061056..bcc1acfbc28 100644
---- a/meta/recipes-core/glibc/glibc_2.27.bb
-+++ b/meta/recipes-core/glibc/glibc_2.27.bb
-@@ -69,6 +69,8 @@ GLIBC_BROKEN_LOCALES = ""
- #
- COMPATIBLE_HOST_libc-musl_class-target = "null"
- 
-+GLIBCPIE ??= ""
-+
- EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --without-cvs --disable-profile \
-                 --disable-debug --without-gd \
-@@ -82,6 +84,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --enable-bind-now \
-                 --enable-stack-protector=strong \
-                 --enable-stackguard-randomization \
-+                ${GLIBCPIE} \
-                 ${GLIBC_EXTRA_OECONF}"
- 
- EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
--- 
-2.11.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
