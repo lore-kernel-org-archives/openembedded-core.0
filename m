@@ -1,30 +1,51 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 93CDE78686
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 65F43782A9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 17:37:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 09:37:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="179145069"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga004.jf.intel.com with ESMTP; 01 Mar 2018 09:37:35 -0800
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-	<20180301021518.29564-5-california.l.sullivan@intel.com>
-	<bfa31a79-669b-2327-b366-7aff56a8f57d@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <6e49d30b-6bf4-eba1-a219-f5231c2c82f1@intel.com>
-Date: Thu, 1 Mar 2018 09:37:35 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <bfa31a79-669b-2327-b366-7aff56a8f57d@intel.com>
-Subject: Re: [PATCH v3 04/21] grub-efi: if installed and EFI_PROVIDER, install as bootx64 or bootia32
+	Thu,  1 Mar 2018 18:26:41 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id h21so13932675wmd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Mar 2018 10:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=rP6wdqah3fDcEKd4NBYXmeM0djOMej4Zz1uDvXgkAZU=;
+	b=WTJeIV38r0fbFwj7CBF7Od4igB12wXjtkkGjZmournja21PbnvF/pUg/wvanoWhcRs
+	czrVPEnIl0WbBDg01rmQfiObm8UNJFyr0cRM5KesCAfJ+Yla3Hh4JrtvlrPPvk0Ix7T4
+	oKpwWg5lbdXLb0hrKN/Wh3+a7bTMO5JnTwTXh+fLoqCBy80ujG0l29JSFNvuA5KNJhvI
+	UrP0OcgmLtpDlkpremOZ5YUpxIV96Zch+FIVY3hC8ju22FYnQyBeK9gxnsiYv5liGone
+	HSA9RIHeHJDG/ukCiwNj4/OFxhj71F/6UwcIn2vHthRXBE5u9h97/7NulHCeKuAILuro
+	K/pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=rP6wdqah3fDcEKd4NBYXmeM0djOMej4Zz1uDvXgkAZU=;
+	b=JWsEESkmOc66fECbqQgUdFDco9uLW4hQnht+uWyf/a1+viVBWG2rYUT1SvACUIqrDq
+	OfNnrjrNghBn0XoRgUWXTb8puX4P+SdkvRC1Cjja65nKrzwRMztgTG6+d1ncld17I/1I
+	LQDEDQ6AFlENckMDuubILBay/rJGSDK4JSYuDW9NZrL4Mz/N4CQ/qMZyvW7IEs/CuKZQ
+	aBrhuiuwt8dEuCPue5FubpU9JzIxxeV8HyJZynJuNvBRxBYKabu2oj/uaxeV4XkeP5nF
+	+Lew/CDEwUjqYrR3SabzUR9FLHUCZ7kj6iqFz2eqlbgFmhBXoXsjSGz4ifTmLnONkk0X
+	HD5g==
+X-Gm-Message-State: AElRT7FHYwT7CfMNpkvS68lo0lcULab9sLIWuvUZgYB8Z+2twbyBaYGO
+	Upf0bo1aO0kFC7+hkHEJpnQMz3jd
+X-Google-Smtp-Source: AG47ELtION3T933h/0D4FVfOPWo6Neh/AGAlBo/rZWfLqc+jP00F0Y129kXvMRJavRKgexakK8vFrA==
+X-Received: by 10.28.128.79 with SMTP id b76mr2751818wmd.10.1519928802839;
+	Thu, 01 Mar 2018 10:26:42 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h188sm4955285wmf.23.2018.03.01.10.26.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 01 Mar 2018 10:26:42 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Mar 2018 18:26:25 +0000
+Message-Id: <20180301182634.20502-2-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180301182634.20502-1-ross.burton@intel.com>
+References: <20180301182634.20502-1-ross.burton@intel.com>
+Subject: [PATCH 02/11] default-distrovars: don't rename locales for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,98 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 17:37:34 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 01 Mar 2018 18:26:42 -0000
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/default-distrovars.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-On 02/28/2018 06:34 PM, Anuj Mittal wrote:
-> Hi Cal,
->
-> On 03/01/2018 10:15 AM, California Sullivan wrote:
->> This way we could theoretically support multiple bootloaders, and we
->> keep the convention of boot(x64|ia32).
->>
->> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->> ---
->>   meta/recipes-bsp/grub/grub-efi_2.02.bb | 13 ++++++++-----
->>   1 file changed, 8 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
->> index c5a68f01cef..ed27b90fdbc 100644
->> --- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
->> @@ -15,16 +15,19 @@ S = "${WORKDIR}/grub-${PV}"
->>   python __anonymous () {
->>       import re
->>       target = d.getVar('TARGET_ARCH')
->> +    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
->>       if target == "x86_64":
->>           grubtarget = 'x86_64'
->> -        grubimage = "grub-efi-bootx64.efi"
->> +        grubimage = prefix + "bootx64.efi"
->>       elif re.match('i.86', target):
->>           grubtarget = 'i386'
->> -        grubimage = "grub-efi-bootia32.efi"
->> +        grubimage = prefix + "bootia32.efi"
->>       else:
->>           raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
->>       d.setVar("GRUB_TARGET", grubtarget)
->>       d.setVar("GRUB_IMAGE", grubimage)
->> +    prefix = "grub-efi-" if prefix == "" else ""
->> +    d.setVar("GRUB_IMAGE_PREFIX", prefix)
->>   }
->>   
->>   inherit deploy
->> @@ -41,7 +44,7 @@ do_mkimage() {
->>   	# Search for the grub.cfg on the local boot media by using the
->>   	# built in cfg file provided via this recipe
->>   	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
->> -	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
->> +	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
->>   	               ${GRUB_BUILDIN}
->>   }
->>   
->> @@ -55,7 +58,7 @@ do_install_append_class-target() {
->>   	install -d ${D}/boot
->>   	install -d ${D}/boot/EFI
->>   	install -d ${D}/boot/EFI/BOOT
->> -	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
->> +	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}/boot/EFI/BOOT/${GRUB_IMAGE}
->>   }
->>   
->>   do_install_class-native() {
->> @@ -79,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
->>                    efi_gop iso9660 configfile search loadenv test"
->>   
->>   do_deploy() {
->> -	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
->> +	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
->>   }
->>   
->>   do_deploy_class-native() {
->>
-> Should FILES_${PN} also be changed to add prefix?
-Nope, only ${GRUB_IMAGE}. It gets installed as ${GRUB_IMAGE}, which will 
-either be grub-efi-bootx64.efi or bootx64.efi (or ia32 equivalents). 
-${GRUB_IMAGE_PREFIX} is only used to set the build target, input file 
-for installation, and deploy target. ${GRUB_IMAGE_PREFIX} will always be 
-either "grub-efi" or "", and together ${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} 
-will always create grub-efi-boot(x64|ia32).efi.
-
-The goal of this is to install as boot(x64|ia32).efi if it is selected 
-as the EFI_PROVIDER, and install as the complete name otherwise. This 
-allows one efi bootloader to be installed as the standard 
-boot(x64|ia32).efi, while still being able to coexist with other efi 
-bootloaders.
-
-Thanks,
-Cal
->
-> Thanks,
-> Anuj
->
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 08542a743f9..76d09af7266 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -8,6 +8,7 @@ IMAGE_LINGUAS ?= "en-us en-gb"
+ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
++LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+ 
+ DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+-- 
+2.11.0
 
 
