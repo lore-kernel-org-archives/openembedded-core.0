@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6316A7894E
+	by mail.openembedded.org (Postfix) with ESMTP id 6DF4C78959
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Mar 2018 02:16:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932808"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932814"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:05 -0800
-Message-Id: <20180301021518.29564-9-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:07 -0800
+Message-Id: <20180301021518.29564-11-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 08/21] wic: add wks file to make use of exclude-path functionality
+Subject: [PATCH v3 10/21] syslinux.bbclass: don't use vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +34,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:15 -0000
 
-Using --exclude-path and a wks.in file we can create an image that takes
-the /boot/ directory for the boot partition, has an empty /boot/
-directory in the rootfs partition. The boot partition gets mounted to
-/boot/ after startup.
+We can't guarantee the kernel will be named vmlinuz anymore. Use
+KERNEL_IMAGETYPE instead.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+ meta/classes/syslinux.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-new file mode 100644
-index 00000000000..7300e65e32d
---- /dev/null
-+++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-@@ -0,0 +1,3 @@
-+bootloader --ptable gpt
-+part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.0
-+part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index d6f882420e4..959aed4fb8f 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -21,6 +21,7 @@ do_bootimg[depends] += "${MLPREFIX}syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot"
+ 
+ ISOLINUXDIR ?= "/isolinux"
++KERNEL_IMAGETYPE ??= "bzImage"
+ SYSLINUXDIR = "/"
+ # The kernel has an internal default console, which you can override with
+ # a console=...some_tty...
+@@ -173,8 +174,9 @@ python build_syslinux_cfg () {
+         if not root:
+             bb.fatal('SYSLINUX_ROOT not defined')
+ 
++        kernel = localdata.getVar('KERNEL_IMAGETYPE')
+         for btype in btypes:
+-            cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
++            cfgfile.write('LABEL %s%s\nKERNEL /%s\n' % (btype[0], label, kernel))
+ 
+             exargs = d.getVar('SYSLINUX_KERNEL_ARGS')
+             if exargs:
 -- 
 2.14.3
 
