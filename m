@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A3A4788B4
+	by mail.openembedded.org (Postfix) with ESMTP id ABF7E788B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 14:06:55 +0000 (UTC)
+	Thu,  1 Mar 2018 14:06:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 06:06:57 -0800
+	01 Mar 2018 06:06:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="35134129"
+X-IronPort-AV: E=Sophos;i="5.47,408,1515484800"; d="scan'208";a="35134138"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 01 Mar 2018 06:06:55 -0800
+	by orsmga001.jf.intel.com with ESMTP; 01 Mar 2018 06:06:57 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 16:00:46 +0200
-Message-Id: <20180301140052.1388-9-alexander.kanavin@linux.intel.com>
+Date: Thu,  1 Mar 2018 16:00:47 +0200
+Message-Id: <20180301140052.1388-10-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
 References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/15] mpg123: upgrade 1.25.8 -> 1.25.10
+Subject: [PATCH 10/15] ffmpeg: upgrade 3.4.1 -> 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 14:06:55 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 14:06:56 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../recipes-multimedia/mpg123/{mpg123_1.25.8.bb => mpg123_1.25.10.bb} | 4 ++--
+ meta/recipes-multimedia/ffmpeg/{ffmpeg_3.4.1.bb => ffmpeg_3.4.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.25.8.bb => mpg123_1.25.10.bb} (94%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.4.1.bb => ffmpeg_3.4.2.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.25.8.bb b/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-similarity index 94%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.25.8.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-index 45f3538d70a..929069ab494 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.25.8.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-@@ -11,8 +11,8 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.2.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.2.bb
+index 1837956904d..879cf7ffb94 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.2.bb
+@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            "
+-SRC_URI[md5sum] = "726212db1b8a7eff6c25a2bc2e6fa75c"
+-SRC_URI[sha256sum] = "5a77278a63741efa74e26bf197b9bb09ac6381b9757391b922407210f0f991c0"
++SRC_URI[md5sum] = "cbf4ead227fcedddf54c86013705a988"
++SRC_URI[sha256sum] = "2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740"
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[md5sum] = "62ef1e417eb50f82bf241866d9e6e19b"
--SRC_URI[sha256sum] = "79da51efae011814491f07c95cb5e46de0476aca7a0bf240ba61cfc27af8499b"
-+SRC_URI[md5sum] = "ea32caa61d41d8be797f0b04a1b43ad9"
-+SRC_URI[sha256sum] = "6c1337aee2e4bf993299851c70b7db11faec785303cfca3a5c3eb5f329ba7023"
- 
- inherit autotools pkgconfig
- 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
 -- 
 2.15.1
 
