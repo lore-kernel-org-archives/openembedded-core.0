@@ -1,25 +1,30 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 79A4B78967
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F4578915
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 02:16:14 +0000 (UTC)
+	Thu,  1 Mar 2018 02:34:22 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2018 18:16:14 -0800
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2018 18:34:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932817"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:08 -0800
-Message-Id: <20180301021518.29564-12-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="30558955"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.22.4])
+	([10.221.22.4])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Feb 2018 18:34:22 -0800
+To: California Sullivan <california.l.sullivan@intel.com>,
+	openembedded-core@lists.openembedded.org
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 11/21] systemd-boot.bbclass: break out configuration creation
+	<20180301021518.29564-5-california.l.sullivan@intel.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <bfa31a79-669b-2327-b366-7aff56a8f57d@intel.com>
+Date: Thu, 1 Mar 2018 10:34:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <20180301021518.29564-5-california.l.sullivan@intel.com>
+Subject: Re: [PATCH v3 04/21] grub-efi: if installed and EFI_PROVIDER, install as bootx64 or bootia32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,179 +37,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 02:16:15 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 02:34:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This class is useful on its own and can be used to create configuration
-recipes.
+Hi Cal,
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
- ...stemd-boot.bbclass => systemd-boot-cfg.bbclass} | 57 ------------------
- meta/classes/systemd-boot.bbclass                  | 70 +---------------------
- 2 files changed, 1 insertion(+), 126 deletions(-)
- copy meta/classes/{systemd-boot.bbclass => systemd-boot-cfg.bbclass} (50%)
+On 03/01/2018 10:15 AM, California Sullivan wrote:
+> This way we could theoretically support multiple bootloaders, and we
+> keep the convention of boot(x64|ia32).
+> 
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+>  meta/recipes-bsp/grub/grub-efi_2.02.bb | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> index c5a68f01cef..ed27b90fdbc 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> @@ -15,16 +15,19 @@ S = "${WORKDIR}/grub-${PV}"
+>  python __anonymous () {
+>      import re
+>      target = d.getVar('TARGET_ARCH')
+> +    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
+>      if target == "x86_64":
+>          grubtarget = 'x86_64'
+> -        grubimage = "grub-efi-bootx64.efi"
+> +        grubimage = prefix + "bootx64.efi"
+>      elif re.match('i.86', target):
+>          grubtarget = 'i386'
+> -        grubimage = "grub-efi-bootia32.efi"
+> +        grubimage = prefix + "bootia32.efi"
+>      else:
+>          raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
+>      d.setVar("GRUB_TARGET", grubtarget)
+>      d.setVar("GRUB_IMAGE", grubimage)
+> +    prefix = "grub-efi-" if prefix == "" else ""
+> +    d.setVar("GRUB_IMAGE_PREFIX", prefix)
+>  }
+>  
+>  inherit deploy
+> @@ -41,7 +44,7 @@ do_mkimage() {
+>  	# Search for the grub.cfg on the local boot media by using the
+>  	# built in cfg file provided via this recipe
+>  	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+> -	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+> +	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
+>  	               ${GRUB_BUILDIN}
+>  }
+>  
+> @@ -55,7 +58,7 @@ do_install_append_class-target() {
+>  	install -d ${D}/boot
+>  	install -d ${D}/boot/EFI
+>  	install -d ${D}/boot/EFI/BOOT
+> -	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
+> +	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}/boot/EFI/BOOT/${GRUB_IMAGE}
+>  }
+>  
+>  do_install_class-native() {
+> @@ -79,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
+>                   efi_gop iso9660 configfile search loadenv test"
+>  
+>  do_deploy() {
+> -	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+> +	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
+>  }
+>  
+>  do_deploy_class-native() {
+> 
 
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-similarity index 50%
-copy from meta/classes/systemd-boot.bbclass
-copy to meta/classes/systemd-boot-cfg.bbclass
-index 937307076f7..46eeae126ae 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -1,18 +1,3 @@
--# Copyright (C) 2016 Intel Corporation
--#
--# Released under the MIT license (see COPYING.MIT)
--
--# systemd-boot.bbclass - The "systemd-boot" is essentially the gummiboot merged into systemd.
--#                        The original standalone gummiboot project is dead without any more
--#                        maintenance.
--#
--# Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
--# (images built by image-live.bbclass)
--
--do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
--
--EFIDIR = "/EFI/BOOT"
--
- SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
-@@ -20,48 +5,6 @@ SYSTEMD_BOOT_TIMEOUT ?= "10"
- # Need UUID utility code.
- inherit fs-uuid
- 
--efi_populate() {
--        DEST=$1
--
--        EFI_IMAGE="systemd-bootia32.efi"
--        DEST_EFI_IMAGE="bootia32.efi"
--        if [ "${TARGET_ARCH}" = "x86_64" ]; then
--            EFI_IMAGE="systemd-bootx64.efi"
--            DEST_EFI_IMAGE="bootx64.efi"
--        fi
--
--        install -d ${DEST}${EFIDIR}
--        # systemd-boot requires these paths for configuration files
--        # they are not customizable so no point in new vars
--        install -d ${DEST}/loader
--        install -d ${DEST}/loader/entries
--        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_EFI_IMAGE" >${DEST}/startup.nsh
--        install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
--        for i in ${SYSTEMD_BOOT_ENTRIES}; do
--            install -m 0644 ${i} ${DEST}/loader/entries
--        done
--}
--
--efi_iso_populate() {
--        iso_dir=$1
--        efi_populate $iso_dir
--        mkdir -p ${EFIIMGDIR}/${EFIDIR}
--        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
--        cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/vmlinuz ${EFIIMGDIR}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--        if [ -f "$iso_dir/initrd" ] ; then
--            cp $iso_dir/initrd ${EFIIMGDIR}
--        fi
--}
--
--efi_hddimg_populate() {
--        efi_populate $1
--}
--
- python build_efi_cfg() {
-     s = d.getVar("S")
-     labels = d.getVar('LABELS')
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 937307076f7..14538fe2d7a 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -12,11 +12,6 @@
- do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
- 
- EFIDIR = "/EFI/BOOT"
--
--SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
--SYSTEMD_BOOT_ENTRIES ?= ""
--SYSTEMD_BOOT_TIMEOUT ?= "10"
--
- # Need UUID utility code.
- inherit fs-uuid
- 
-@@ -62,67 +57,4 @@ efi_hddimg_populate() {
-         efi_populate $1
- }
- 
--python build_efi_cfg() {
--    s = d.getVar("S")
--    labels = d.getVar('LABELS')
--    if not labels:
--        bb.debug(1, "LABELS not defined, nothing to do")
--        return
--
--    if labels == []:
--        bb.debug(1, "No labels, nothing to do")
--        return
--
--    cfile = d.getVar('SYSTEMD_BOOT_CFG')
--    cdir = os.path.dirname(cfile)
--    if not os.path.exists(cdir):
--        os.makedirs(cdir)
--    try:
--         cfgfile = open(cfile, 'w')
--    except OSError:
--        bb.fatal('Unable to open %s' % cfile)
--
--    cfgfile.write('# Automatically created by OE\n')
--    cfgfile.write('default %s\n' % (labels.split()[0]))
--    timeout = d.getVar('SYSTEMD_BOOT_TIMEOUT')
--    if timeout:
--        cfgfile.write('timeout %s\n' % timeout)
--    else:
--        cfgfile.write('timeout 10\n')
--    cfgfile.close()
--
--    for label in labels.split():
--        localdata = d.createCopy()
--
--        overrides = localdata.getVar('OVERRIDES')
--        if not overrides:
--            bb.fatal('OVERRIDES not defined')
--
--        entryfile = "%s/%s.conf" % (s, label)
--        if not os.path.exists(s):
--            os.makedirs(s)
--        d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
--        try:
--            entrycfg = open(entryfile, "w")
--        except OSError:
--            bb.fatal('Unable to open %s' % entryfile)
--        localdata.setVar('OVERRIDES', label + ':' + overrides)
--
--        entrycfg.write('title %s\n' % label)
--        entrycfg.write('linux /vmlinuz\n')
--
--        append = localdata.getVar('APPEND')
--        initrd = localdata.getVar('INITRD')
--
--        if initrd:
--            entrycfg.write('initrd /initrd\n')
--        lb = label
--        if label == "install":
--            lb = "install-efi"
--        entrycfg.write('options LABEL=%s ' % lb)
--        if append:
--            append = replace_rootfs_uuid(d, append)
--            entrycfg.write('%s' % append)
--        entrycfg.write('\n')
--        entrycfg.close()
--}
-+inherit systemd-boot-cfg
--- 
-2.14.3
+Should FILES_${PN} also be changed to add prefix?
+
+Thanks,
+Anuj
 
 
