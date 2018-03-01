@@ -1,51 +1,52 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A2DC7891E
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3310778933
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 23:17:16 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 68so3147289pfx.3
+	Thu,  1 Mar 2018 23:17:17 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id m22-v6so1031361pls.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 15:17:17 -0800 (PST)
+	Thu, 01 Mar 2018 15:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=P/MzlcKetNtfeSG5UZA66Cj3uAy6BIO/LIjdoifv178=;
-	b=05HN1TeURMNy1/JsKn4HF6JaF5FEguN0dcvlTiQFgDr6XPo0PB0wiJ0CTtj1Sm4Myf
-	y6GdNM/PIMJF1h2ZthqGsaEGxXr4F1vwtjnBTmpAWTRrMM7pbEYp3PJ49MMZabEeOYc1
-	+It+kIj5+2LAj6cnUTAc3mkdaF7qTA0/rFMfN5uGHb/WVWsS8RBgKmoWb1i/99jtSgxo
-	PVr1KlD3P380C4Ec7iUw32rIytL12cTdEroS26s9vFM9IPvSuH51RG1fne8SGlx33MGx
-	QCW5d+uW0jYoVsRZYWMwlipfP2W1fhN6ORwuXDh7ofpSPfp0lSDWdEZuTgJn+URUwEpc
-	N9XA==
+	bh=pCRd0jdDNokk6IKK8oEwhHDpAgWP9AjjX+8D+gN1vBE=;
+	b=LM0Nfh/jYuD+ddWRZzs3TkmyBni9ANKrBtXrS2xeLi/sJwNZ2yB45mL14xC6KXI6+X
+	SbDYY/qDIh0aAA5yorr7JEIw5RGS39o9eb5UJpqrQeH7GhUXy8z6HV+c5IAA2ZdTGzJh
+	oc10EyDfYAE5OiHQIdmCZbK6eKIyUvoFJ55xq+b1IUCnyYbJu0SOZwQcdXdfBR12vrqQ
+	dm+v+NwO+NwYlc3tG9+tAr861XRsJEQwic/dZvL7j38QB7ki+i01Im8Z6tDrxJFbIAX8
+	KsgzI9c1IK1k705kodKMeSYV+u244X4DziIIGMEOQBhgQLGQ4isYr4NugEW05oKum5r4
+	MHgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=P/MzlcKetNtfeSG5UZA66Cj3uAy6BIO/LIjdoifv178=;
-	b=FqaKOBbcOZAO4tKPSEUN8htQlBlUSGK+ai6wpKCcRlawQDAh4HCJYhSZ+OV9fhw7xG
-	OpQQP4Y8kAoXjSzmkfThA/Ph1vamrShCoFKINN6guQqSYenfnRPaCNmPFQL3nmdVBP32
-	PywPEa4CrA3/DA4wL+62P8djx+x7hMx4X1DznDfsrslW/IGNFVu+rKYLDSbwk1vxadL5
-	ciEXfNxN+PqjdofQHyw/OKmubj3eYodMNOS9kd5v62Z1nWaXH3+B5LccrsI/K3xapVzy
-	3t5/y3zR6S7L6BDoGWU1/vwgNr9s6RiM6NZ7DnKFLSypKIJwL3BR2YMrl+iTbWG88jdX
-	eT7w==
-X-Gm-Message-State: APf1xPCDQUMwLJZOAf7hGXzm9u1qSZwKLWkCi7rCp7UhpOSSM3XLD+wH
-	H3ZOX45QpbBOicPNs/k2zBvmNTcs
-X-Google-Smtp-Source: AG47ELvLDe2uG3GXlDYM7PZ0ieV8IwgM9Cj/gwhcbJo2zkkIswfC0lwa3wLD4RUDGw/mRCpggkTz+A==
-X-Received: by 10.99.108.199 with SMTP id h190mr2877244pgc.295.1519946237243; 
-	Thu, 01 Mar 2018 15:17:17 -0800 (PST)
+	bh=pCRd0jdDNokk6IKK8oEwhHDpAgWP9AjjX+8D+gN1vBE=;
+	b=AZGtRUUtrGqIsvpuAEx9PtfXOkjPGrrKsAPEzspDLDpm8eSsN9gQle3flFf8UVRH45
+	V2T3jbqR2k4WOObITrkdqpwdjx3pZ8FEg/s3R+I2sUzUYPKd7hM7UqE0rX0LSfUKWign
+	i1uTHpBVLjOmd2qkhx00aArV/63zl01srB+tWAbEGipcyuFWFmbd64vaE74Tk4NDCDb4
+	5ZxI2wTLwG4NL1A0ogeR/LYfL96evCOMmaHPRAkGtvBBuGTn+lFcrCUTrPoCqwuA/CQ/
+	YXbYyzVFSZ5EhKqQveLstOgxyInwZwDmQwpt+hs58vFmS2BI3TES5bRAbXuO9molPDkp
+	z4tw==
+X-Gm-Message-State: APf1xPCcofXKNNHQ8p5gFUW7VLmF7yTJqgVN69WdyyyluyN9MZHUcKMI
+	5bFPJvmJw9onWjyCH7Gr4g2XyUTJ
+X-Google-Smtp-Source: AG47ELtUFKKjOyXix5xnj94/aJVUrH2TU1DFczEnTNkZPAdEvhnKxQIBvetcDVyvKky11LFw+zm7gg==
+X-Received: by 2002:a17:902:b40e:: with SMTP id
+	x14-v6mr3112898plr.442.1519946238910; 
+	Thu, 01 Mar 2018 15:17:18 -0800 (PST)
 Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
 	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	p128sm7853503pga.45.2018.03.01.15.17.15
+	p128sm7853503pga.45.2018.03.01.15.17.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 15:17:16 -0800 (PST)
+	Thu, 01 Mar 2018 15:17:17 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 15:16:50 -0800
-Message-Id: <20180301231654.24018-10-matt@madison.systems>
+Date: Thu,  1 Mar 2018 15:16:51 -0800
+Message-Id: <20180301231654.24018-11-matt@madison.systems>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180301231654.24018-1-matt@madison.systems>
 References: <20180301231654.24018-1-matt@madison.systems>
-Subject: [PATCH v3 09/13] go.bbclass, goarch.bbclass: update SECURITY_CFLAGS
+Subject: [PATCH v3 10/13] go: disable PIE CFLAGS for nativesdk and cross-canadian builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 23:17:16 -0000
+X-List-Received-Date: Thu, 01 Mar 2018 23:17:18 -0000
 
-With go1.10 the NOPIE flags are only required for
-MIPS target builds, and are now incompatible for
-the other architectures.
+The statically-linked Go code in the toolchain is not compatible
+with PIE, so disable its use in the C compiler during the
+toolchain build.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/classes/go.bbclass     | 3 ---
- meta/classes/goarch.bbclass | 1 +
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-devtools/go/go-cross-canadian.inc | 6 +++---
+ meta/recipes-devtools/go/go-target.inc         | 3 +--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 080fb4ae69..90863acbdb 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -34,9 +34,6 @@ GOTOOLDIR = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go/pkg/tool/${BUILD_GOTUPLE}
- GOTOOLDIR_class-native = "${STAGING_LIBDIR_NATIVE}/go/pkg/tool/${BUILD_GOTUPLE}"
- export GOTOOLDIR
+diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
+index 7a39e4509b..1d6453712e 100644
+--- a/meta/recipes-devtools/go/go-cross-canadian.inc
++++ b/meta/recipes-devtools/go/go-cross-canadian.inc
+@@ -12,13 +12,13 @@ export GOTOOLDIR_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/${HOST_SYS}/go/pkg/tool/$
+ export GOROOT_FINAL = "${libdir}/go"
+ export CGO_CFLAGS = "${CFLAGS}"
+ export CGO_LDFLAGS = "${LDFLAGS}"
+-export GO_LDFLAGS = '-v -linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${HOST_CC_ARCH} ${LDFLAGS}"'
++export GO_LDFLAGS = '-v -linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${SECURITY_NOPIE_CFLAGS} ${HOST_CC_ARCH} ${LDFLAGS}"'
+ 
+ do_configure[noexec] = "1"
+ 
+ do_compile() {
+-	export CC_FOR_${HOST_GOOS}_${HOST_GOARCH}="${HOST_PREFIX}gcc --sysroot=${STAGING_DIR_HOST}${SDKPATHNATIVE}"
+-	export CXX_FOR_${HOST_GOOS}_${HOST_GOARCH}="${HOST_PREFIX}gxx --sysroot=${STAGING_DIR_HOST}${SDKPATHNATIVE}"
++	export CC_FOR_${HOST_GOOS}_${HOST_GOARCH}="${HOST_PREFIX}gcc --sysroot=${STAGING_DIR_HOST}${SDKPATHNATIVE} ${SECURITY_NOPIE_CFLAGS}"
++	export CXX_FOR_${HOST_GOOS}_${HOST_GOARCH}="${HOST_PREFIX}gxx --sysroot=${STAGING_DIR_HOST}${SDKPATHNATIVE} ${SECURITY_NOPIE_CFLAGS}"
+ 	cd src
+ 	./make.bash --host-only --no-banner
+ 	cd ${B}
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index 3bc32f3bec..29a1344675 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -14,8 +14,7 @@ GO_LDFLAGS = ""
+ GO_LDFLAGS_class-nativesdk = "-linkmode external"
+ export GO_LDFLAGS
  
 -SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
 -SECURITY_LDFLAGS = ""
--
- export CGO_ENABLED ?= "1"
- export CGO_CFLAGS ?= "${CFLAGS}"
- export CGO_CPPFLAGS ?= "${CPPFLAGS}"
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 5c8ed33b15..eb8b32d35b 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -35,6 +35,7 @@ COMPATIBLE_HOST_powerpc64 = "null"
- COMPATIBLE_HOST_mipsarchn32 = "null"
- ARM_INSTRUCTION_SET = "arm"
- TUNE_CCARGS_remove = "-march=mips32r2"
-+SECURITY_CFLAGS_mips = "${SECURITY_NOPIE_CFLAGS}"
++CC_append_class-nativesdk = " ${SECURITY_NOPIE_CFLAGS}"
  
- def go_map_arch(a, d):
-     import re
+ do_configure[noexec] = "1"
+ 
 -- 
 2.14.1
 
