@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 55D0C78964
+	by mail.openembedded.org (Postfix) with ESMTP id 6316A7894E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Mar 2018 02:16:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932811"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932808"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:06 -0800
-Message-Id: <20180301021518.29564-10-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:05 -0800
+Message-Id: <20180301021518.29564-9-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 09/21] init-install-efi.sh: Update to support installing multiple kernels
+Subject: [PATCH v3 08/21] wic: add wks file to make use of exclude-path functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:15 -0000
 
-We can no longer rely on the kernel having a static name of "vmlinuz".
-This means we can't use it as a sentinel value in our sed commands, and
-we can't just copy vmlinuz to the boot directory.
-
-Instead, we'll use "root=" as the sentinel value for our sed commands,
-and we'll search for common kernel names to copy into our boot
-directory.
+Using --exclude-path and a wks.in file we can create an image that takes
+the /boot/ directory for the boot partition, has an empty /boot/
+directory in the rootfs partition. The boot partition gets mounted to
+/boot/ after startup.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 706418fa9c5..f946d971d11 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -244,10 +244,9 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
-     sed -i "/initrd /d" $GRUBCFG
-     # Delete any LABEL= strings
-     sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
--    # Delete any root= strings
--    sed -i "s/ root=[^ ]*/ /g" $GRUBCFG
--    # Add the root= and other standard boot options
--    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$root_part_uuid rw $rootwait quiet @" $GRUBCFG
-+    # Replace root= and add additional standard boot options
-+    # We use root as a sentinel value, as vmlinuz is no longer guaranteed
-+    sed -i "s/ root=[^ ]*/ root=PARTUUID=$root_part_uuid rw $rootwait quiet /g" $GRUBCFG
- fi
- 
- if [ -d /run/media/$1/loader ]; then
-@@ -269,7 +268,13 @@ fi
- 
- umount /tgt_root
- 
--cp /run/media/$1/vmlinuz /boot
-+# Copy kernel artifacts. To add more artifacts just add to types
-+# For now just support kernel types already being used by something in OE-core
-+for types in bzImage zImage vmlinux vmlinuz fitImage; do
-+    for kernel in `find /run/media/$1/ -name $types*`; do
-+        cp $kernel /boot
-+    done
-+done
- 
- umount /boot
- 
+diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+new file mode 100644
+index 00000000000..7300e65e32d
+--- /dev/null
++++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+@@ -0,0 +1,3 @@
++bootloader --ptable gpt
++part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.0
++part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
 -- 
 2.14.3
 
