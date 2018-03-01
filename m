@@ -1,29 +1,23 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 587607844B
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 1333278433
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2018 08:50:51 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
+	Thu,  1 Mar 2018 09:24:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 00:50:53 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Mar 2018 01:24:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="204669776"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga005.jf.intel.com with ESMTP; 01 Mar 2018 00:50:51 -0800
-Date: Thu, 1 Mar 2018 10:53:54 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20180301085354.GA16642@mbabyjoh-desk.ger.corp.intel.com>
-References: <cover.1519783331.git.bruce.ashfield@windriver.com>
-	<800a060ed6aa52970d0672be3b63acf046abf522.1519783331.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <800a060ed6aa52970d0672be3b63acf046abf522.1519783331.git.bruce.ashfield@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] linux-yocto/4.14/4.15: yaffs2 fixes
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="35078567"
+Received: from echidna.jf.intel.com ([10.54.77.42])
+	by orsmga001.jf.intel.com with ESMTP; 01 Mar 2018 01:24:48 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Feb 2018 18:11:05 -0800
+Message-Id: <1519870266-63347-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oeqa/runtime/dpkg.py: add runtime test for dpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2018 08:50:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 Mar 2018 09:24:49 -0000
 
-Hi Bruce,
+Add runtime test for dpkg to test that it can install deb
+package from remote source.
 
-On Tue, Feb 27, 2018 at 09:06:54PM -0500, Bruce Ashfield wrote:
-> Integrating the following fixes for yaffs2:
-> 
->   9f9649fffac9 yaffs2: Adjust the timer callback and init functions
->   0ef24a829eee yaffs2: include rawnand.h instead of nand.h
-> 
-> Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  4 ++--
->  meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  4 ++--
->  meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  4 ++--
->  meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  4 ++--
->  meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 18 +++++++++---------
->  meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 18 +++++++++---------
->  6 files changed, 26 insertions(+), 26 deletions(-)
-<snip>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/runtime/cases/dpkg.py | 47 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/dpkg.py
 
-For MIPS, KernelModuleTest fails in autobuilder ( probably due to this change - haven't bisected it)
+diff --git a/meta/lib/oeqa/runtime/cases/dpkg.py b/meta/lib/oeqa/runtime/cases/dpkg.py
+new file mode 100644
+index 0000000..adf5195
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/dpkg.py
+@@ -0,0 +1,47 @@
++import os
++from oeqa.utils.httpserver import HTTPService
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class DpkgTest(OERuntimeTestCase):
++
++    def pkg(self, command, expected = 0):
++        command = 'apt-get %s' % command
++        status, output = self.target.run(command, 1500)
++        message = os.linesep.join([command, output])
++        self.assertEqual(status, expected, message)
++        return output
++
++class DpkgRepoTest(DpkgTest):
++
++    @classmethod
++    def setUpClass(cls):
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all')
++        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip)
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDownClass(cls):
++        cls.repo_server.stop()
++
++    def setup_source_config_for_package_install(self):
++        apt_get_source_server = 'http://%s:%s/' % (self.tc.target.server_ip, self.repo_server.port)
++        apt_get_sourceslist_dir = '/etc/apt/'
++        self.target.run('cd %s; echo deb %s ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
++
++    def cleanup_source_config_for_package_install(self):
++        apt_get_sourceslist_dir = '/etc/apt/'
++        self.target.run('cd %s; rm sources.list' % (apt_get_sourceslist_dir))
++
++    @skipIfNotFeature('package-management',
++                      'Test requires package-management to be in IMAGE_FEATURES')
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'deb',
++                      'DEB is not the primary package manager')
++    @OEHasPackage(['dpkg','apt'])
++    def test_dpkg_install_from_repo(self):
++        self.setup_source_config_for_package_install()
++        self.pkg('update')
++        self.pkg('remove --yes run-postinsts-dev')
++        self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
++        self.cleanup_source_config_for_package_install()
+-- 
+2.7.4
 
-https://autobuilder.yocto.io/builders/nightly-mips/builds/806/steps/Running%20Sanity%20Tests/logs/stdio
-
-RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase 1541: FAILED
-
-NOTE: ======================================================================
-| NOTE: FAIL: test_kernel_module (kernelmodule.KernelModuleTest)
-| NOTE: ----------------------------------------------------------------------
-| NOTE: Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/lib/oeqa/runtime/cases/kernelmodule.py", line 40, in test_kernel_module
-|     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-| AssertionError: 2 != 0 : cd /usr/src/kernel && make scripts
-| arch/mips/Makefile:240: arch/mips/Kbuild.platforms: No such file or directory
-| make: *** No rule to make target 'arch/mips/Kbuild.platforms'.  Stop.
-
-Best Regards,
-Maxin
 
