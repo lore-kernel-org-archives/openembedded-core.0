@@ -1,6 +1,6 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 18A44788C3
+	by mail.openembedded.org (Postfix) with ESMTP id 3330B78915
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Mar 2018 02:16:13 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -9,17 +9,17 @@ Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	28 Feb 2018 18:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932796"
+X-IronPort-AV: E=Sophos;i="5.47,407,1515484800"; d="scan'208";a="178932799"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
 	by orsmga004.jf.intel.com with ESMTP; 28 Feb 2018 18:16:13 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2018 18:15:01 -0800
-Message-Id: <20180301021518.29564-5-california.l.sullivan@intel.com>
+Date: Wed, 28 Feb 2018 18:15:02 -0800
+Message-Id: <20180301021518.29564-6-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180301021518.29564-1-california.l.sullivan@intel.com>
 References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-Subject: [PATCH v3 04/21] grub-efi: if installed and EFI_PROVIDER, install as bootx64 or bootia32
+Subject: [PATCH v3 05/21] packagegroup-core-boot: add bootloader to EFI systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Mar 2018 02:16:13 -0000
 
-This way we could theoretically support multiple bootloaders, and we
-keep the convention of boot(x64|ia32).
+Since the bootloader is now installed instead of added at image creation
+time, this is necessary for booting.
+
+Also set the default to grub-efi. This is done because a default of
+grub-efi is already used by live-vm-common.bbclass, and in the event
+that EFI_PROVIDER isn't defined errors would occur.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index c5a68f01cef..ed27b90fdbc 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -15,16 +15,19 @@ S = "${WORKDIR}/grub-${PV}"
- python __anonymous () {
-     import re
-     target = d.getVar('TARGET_ARCH')
-+    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
-     if target == "x86_64":
-         grubtarget = 'x86_64'
--        grubimage = "grub-efi-bootx64.efi"
-+        grubimage = prefix + "bootx64.efi"
-     elif re.match('i.86', target):
-         grubtarget = 'i386'
--        grubimage = "grub-efi-bootia32.efi"
-+        grubimage = prefix + "bootia32.efi"
-     else:
-         raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
-     d.setVar("GRUB_TARGET", grubtarget)
-     d.setVar("GRUB_IMAGE", grubimage)
-+    prefix = "grub-efi-" if prefix == "" else ""
-+    d.setVar("GRUB_IMAGE_PREFIX", prefix)
- }
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 04bc0f2b693..0fcb8ba9193 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -23,6 +23,8 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
- inherit deploy
-@@ -41,7 +44,7 @@ do_mkimage() {
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
- 	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
--	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-+	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
- 	               ${GRUB_BUILDIN}
- }
- 
-@@ -55,7 +58,7 @@ do_install_append_class-target() {
- 	install -d ${D}/boot
- 	install -d ${D}/boot/EFI
- 	install -d ${D}/boot/EFI/BOOT
--	install -m 644 ${B}/${GRUB_IMAGE} ${D}/boot/EFI/BOOT/
-+	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}/boot/EFI/BOOT/${GRUB_IMAGE}
- }
- 
- do_install_class-native() {
-@@ -79,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
-                  efi_gop iso9660 configfile search loadenv test"
- 
- do_deploy() {
--	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
- }
- 
- do_deploy_class-native() {
++EFI_PROVIDER ??= "grub-efi"
++
+ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+@@ -35,6 +37,7 @@ RDEPENDS_${PN} = "\
+     ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
++    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)} \
+     netbase \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
 -- 
 2.14.3
 
