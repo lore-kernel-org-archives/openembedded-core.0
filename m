@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
 	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F293F7855C
+	by mail.openembedded.org (Postfix) with ESMTP id 904FC789BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 17:53:02 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id i6-v6so6092207plt.7
+	Fri,  2 Mar 2018 17:53:03 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id m22-v6so2584086pls.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 09:53:04 -0800 (PST)
+	Fri, 02 Mar 2018 09:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=M+168zrK+/v2AD6aVz70b4ulSPoaMENDZ2niI8mPeCU=;
-	b=fyXZIEw+6OOBmWfYGY7+D2e7aAILDLj0jyJTxzNvT2puTc27FH2g5cnnSrrNdZdnOy
-	Pg+3ensJCxd3KQAbeyM/P/AvU3gqHFJGTC5iL0Ck8oZaQ/vt8GSNW9XOoSZMIV9nZ+tC
-	WpjA/cRj6VQcW/zlmXMCmOkk4WlI8Isjnq71tz+1JcR7zM3XaQC5kFLwPGMmQMeJeIKo
-	5/5gnzHtr798jBc/ZrXZnuyZlE9BzqtbGnI+nvhWpBxwWXCQ2jqR0qQeX2bO8ZfVSVmj
-	cjxbp7/arH33z5x743PqCELnlkyxxEonb7OeiVw7pWWY1XMICqmLDSI1FUrAZNd5Cm9S
-	WUoA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=PDLNi6pNVYNU1gOZo9numrl3LBi+GvUB1SmRiHEF0lY=;
+	b=lGrVR9hbaoYfyz6eZloDmn9X8vPwgCtJemDUsgclY3jh9/rNnM24TqjB24LW+fAtNa
+	nkK0IHj545FlZR1RuK86CWFkulNWg/UgN1DFndSrcHjqx2p5sfBun4jDQp5O21Wb0Nse
+	wll07lVkc9+sDyLw/MrGerqYGj/8BU9qOSRpEp/nlBFSdeJl7667BbrHHYnBunZ+eq9F
+	cI0ipPdrSOKgy2H0HI/5Ezzn+OU3Q6YDk9RWe2H5HGkYVQhWxMU0Xzju7TOXF7cxM2TE
+	65pmlyAkDTH/THBY+7AHbXxrAyVMgrmDcL4arsAnoKkA+AZSjmTSFrvCu8PLZPqknk8c
+	P9/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=M+168zrK+/v2AD6aVz70b4ulSPoaMENDZ2niI8mPeCU=;
-	b=nJdsMAgrNl//hXmG4S9sSBvUavsQjTjJtw4/dZwAivaf1lv/6w+dZa9+zC8QWaEKOM
-	js+jH1o0fFlRuU3jr07ni0Yh/ikwXcOh1vOzX8sqGupONCss4rpdjvHLRhay/01s6fAD
-	+L0Qgv0A2rVhdoM0IRSs1GbRc3/HO6i0slTVZ8XouUQuSDXFMp55ZExXWoEMsYmnGQC6
-	z3BKC/IDR2BMIefqp6CNLHrCMms2RAMMjXEMPY5vYknDHLEIvFVxxg54QV7Wf/+1T+PR
-	sdzkqf/+vgrvrrYJTqgASqfC0Z7Ru2VC73qZkSSHTtB7/l2lCri9mDk2/TMciGU6PBQx
-	GmjA==
-X-Gm-Message-State: APf1xPAVGfKEoWWBC0w7wgf+evAnWSWO070xe0LjjxpZDbXacOlf7UOB
-	RfW2lTrmVme9tyIKZxRQOSEwlg==
-X-Google-Smtp-Source: AG47ELtDDvIANNp6OXeK/QeOGfZcYEyKr2XPPUr92Je+FoyANGtCgZ70yCv9l4o2d+zdRCvXs/dMxg==
-X-Received: by 2002:a17:902:3124:: with SMTP id
-	w33-v6mr6086260plb.119.1520013183940; 
-	Fri, 02 Mar 2018 09:53:03 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=PDLNi6pNVYNU1gOZo9numrl3LBi+GvUB1SmRiHEF0lY=;
+	b=t0UuZg5ZwBSEdBdpMBgFEzsorbDUFKnfMTIEasRTrYAJCqWUXsE53zmzpnCMr0Ew10
+	12jj3dTn/sa0Qd8AMTD7ud46A09Paj5sOmi3vGq4pxvyY8KBk9kCcL6sUDTdm16bwFlE
+	jj4rihlEyAXvH3HQFuKWLoU8IV9ltpzC8CZS12zibvSrYZnOK3wNm2gEt7rgDASn8OBo
+	Jz9DUOgZZBv+b4eOpTMCJf7yJCvDaDKF5XD58Gk4UD/Au+aGrPWm+Hgy9WwXFiP42OBj
+	423k9ObdTNBoZDO7f9npayI//ETfc9ogMZw7dzhcA64ZV8ReCvhQ5BPt+JI7r5FVA5CM
+	0QuA==
+X-Gm-Message-State: APf1xPAyIE6ZaPwlZfyXa8r2kV4NNZ4ZoYE4FAKNcPelUvDGaqceSe1X
+	GueV/tD6GRJ7ShVDaGRTNbIH1g==
+X-Google-Smtp-Source: AG47ELuSeBk4isxS56LgqdCwHlZy8cJ8XhGgapBKpwEPyz0Pw6hmRGchbuqTgVootU3HrkwLjs0SDw==
+X-Received: by 2002:a17:902:a584:: with SMTP id
+	az4-v6mr6141062plb.20.1520013184888; 
+	Fri, 02 Mar 2018 09:53:04 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
 	by smtp.gmail.com with ESMTPSA id
 	a28sm13329196pfe.70.2018.03.02.09.53.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Mar 2018 09:53:03 -0800 (PST)
+	Fri, 02 Mar 2018 09:53:04 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 09:52:53 -0800
-Message-Id: <20180302175256.29044-1-raj.khem@gmail.com>
+Date: Fri,  2 Mar 2018 09:52:54 -0800
+Message-Id: <20180302175256.29044-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.16.2
-Subject: [PATCH 1/4] bsd-headers: Move next to musl recipes
+In-Reply-To: <20180302175256.29044-1-raj.khem@gmail.com>
+References: <20180302175256.29044-1-raj.khem@gmail.com>
+Subject: [PATCH 2/4] musl: Rename files/ directory to musl/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +60,18 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 02 Mar 2018 17:53:03 -0000
 
-This helps communicate the dependency a bit better
+Since it holds musl specific patches, name it so
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/{bsd-headers => musl}/bsd-headers.bb          | 0
- meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-cdefs.h | 0
- meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-queue.h | 0
- meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-tree.h  | 0
- 4 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-core/{bsd-headers => musl}/bsd-headers.bb (100%)
- rename meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-cdefs.h (100%)
- rename meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-queue.h (100%)
- rename meta/recipes-core/{bsd-headers => musl}/bsd-headers/sys-tree.h (100%)
+ .../0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch             | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-core/musl/{files => musl}/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch (100%)
 
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers.bb b/meta/recipes-core/musl/bsd-headers.bb
+diff --git a/meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
 similarity index 100%
-rename from meta/recipes-core/bsd-headers/bsd-headers.bb
-rename to meta/recipes-core/musl/bsd-headers.bb
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers/sys-cdefs.h b/meta/recipes-core/musl/bsd-headers/sys-cdefs.h
-similarity index 100%
-rename from meta/recipes-core/bsd-headers/bsd-headers/sys-cdefs.h
-rename to meta/recipes-core/musl/bsd-headers/sys-cdefs.h
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers/sys-queue.h b/meta/recipes-core/musl/bsd-headers/sys-queue.h
-similarity index 100%
-rename from meta/recipes-core/bsd-headers/bsd-headers/sys-queue.h
-rename to meta/recipes-core/musl/bsd-headers/sys-queue.h
-diff --git a/meta/recipes-core/bsd-headers/bsd-headers/sys-tree.h b/meta/recipes-core/musl/bsd-headers/sys-tree.h
-similarity index 100%
-rename from meta/recipes-core/bsd-headers/bsd-headers/sys-tree.h
-rename to meta/recipes-core/musl/bsd-headers/sys-tree.h
+rename from meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
+rename to meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
 -- 
 2.16.2
 
