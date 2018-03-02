@@ -1,52 +1,49 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A1BE978A1F
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED816079F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 20:33:51 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id y8-v6so6320651pll.13
+	Fri,  2 Mar 2018 20:47:05 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id o145so15108111lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 12:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=GEr07TvIBNwMtWjhDkNkcJNw6R7uDAcH0KZ2P5KsmW4=;
-	b=kRvfJ9OaEIkHwZCxDByouJd0aCL80+8jOQyXBugO/HxPEbTWg0NHavdlUftXnrM2cg
-	thxw8YiaqvIIs4j148x2ZPhdZx+1uI6aetSLE4GFbA5/LWmPT+0fwR//ua2EXYIRvxTi
-	0g2JXM9ZDtod6YNbCM3KaGYACerA09eCDv0RXJRK9lvcmU2dfouTJf0aEsGe2WFA8ncn
-	u+KH6MvMlwMl6Lvio+aUSdKL4EB6l5Bx2aNhV0pvHBFfiVzt4bJJr5LDA/LnBuTD0cKw
-	w3ngyTzDca94v/CYpkngUWAzncvhU+WIQMSTT/bW0l/+a+JxgV6kYeCn2aAAkCliIrkD
-	ateA==
+	Fri, 02 Mar 2018 12:47:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OR7E6YfWAiJMs+u87pPxGRDnt+rjHSelsHG0GC5FFbw=;
+	b=X0e2DLM5OHT4zFfr1Xh+JqJefXB4t9kebpkcamwYV5pku0ExM87X3aH/7TCkLXADSi
+	rrD6kXV6T23pbEbAmkVxq+tcqoKwcNFFfIRwy+H9DvRz+nTLT4fPtIUmMAF+3Qo+ZpBY
+	YxFI1leMWAXJuaDLQ5A/ahvgY9iC6F+ltYPw+5jMp2zxFxpUR4x9nOezyF030Zv6W7ZW
+	5PcQ+6pvb7zrz06XClR0YyTm9XZL1QbCdzdAYGsF4ITWKpuc/vfoC1od8cZ4VQNV7lw6
+	Scd12RnCy7l+Zma56X7NCVtJU1X0gVR7IYHI3jwDCK4ynPxSV8mq4VIW9VsagQkAxz/h
+	QdKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=GEr07TvIBNwMtWjhDkNkcJNw6R7uDAcH0KZ2P5KsmW4=;
-	b=dGPsl5dgsikrhjnEWDrH5IYwDlSqdwpuj/SRYqTKVYh3vSS3JbLMyQb1XkBUiuDtKg
-	hgNeijpvJvd5ECfOS6Xwh28C8g5cT+y+/wRwc29OdOgEHziGH1UP0lktMjR8P1uPtoOE
-	GsXj9CX2Mi1ogBdmgK75f39eo6OsbEPvAOb4bU8a9Re0by5qk3USjA9rUh+4Z4kwZqyX
-	qXqJ45hkAeSo65PD/eU5h5NVlxUq3Uo9rqlDBmILXAeuOcvWaABzOn9nQHjGpHs+4hTi
-	EzEI/jyeBwFw6X0Qyl1WSqhFDNj4oGJBXV/QTW/4tomq4dfJ7T58xWLP2uch+I3TrnJy
-	gZTg==
-X-Gm-Message-State: AElRT7Fy1vQr2NxAIbw3CecyxfWLLJXhQNYqHkRcouxiTFJSHusSd/sB
-	SSco/A/joCn0Clxckb9dHENeo7Dr
-X-Google-Smtp-Source: AG47ELu6/Lqb/AQRtTET6Lqjpy15sjB/3CpMDQREtR/81/J3dklFpglahb0ddWb5EyzPGp4KdMGFmQ==
-X-Received: by 2002:a17:902:901:: with SMTP id
-	1-v6mr6382028plm.404.1520022832955; 
-	Fri, 02 Mar 2018 12:33:52 -0800 (PST)
-Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
-	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	m12sm11193338pgr.35.2018.03.02.12.33.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Mar 2018 12:33:51 -0800 (PST)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 12:33:14 -0800
-Message-Id: <20180302203314.32737-14-matt@madison.systems>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180302203314.32737-1-matt@madison.systems>
-References: <20180302203314.32737-1-matt@madison.systems>
-Subject: [PATCH v4 13/13] go-cross-canadian: remove verbosity setting from GO_LDFLAGS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OR7E6YfWAiJMs+u87pPxGRDnt+rjHSelsHG0GC5FFbw=;
+	b=IT/EIHTAnpHHAxRP6e4kQ5y91Zwc6zTESfUqT1vLVOBg7hnkyjl+g+2QxwBSv2P1+A
+	QmYrmtWBYMo/sDomHY1JEg5JRkeogVPZsGPoLfAzdY85dQcWqLkmBxUxbNC51h461mhT
+	M8MIFMr8zgB1BGmNE6mFQ0kkqsMWWVyF1fNTo++s/fOkuZTvYgT3wONjILnQYqBRiJ7W
+	XOh7Jl6958pacuRyidkCZBrKbqfIQcUHpno5aA+8S+FPztaYa4UYtPgWPhQihDGjM03D
+	2wmjnscvGgCkSwsYJlkeVCr576DnsBSEq0jhdiOr4WzecVqlzi4Sow8ddqV9llZldqHu
+	Y0PA==
+X-Gm-Message-State: AElRT7HgsRBnc8AzjcAnP90bHA82+HwOs6zj9gWVQzvx0XKcy+OAIywN
+	odWM7mquojtjijeJz6+aOevrBKj+aq3uq8Xaj9RVr3pX
+X-Google-Smtp-Source: AG47ELvw4e8cqZT21sETUR1C36NTMAwHM/r0SJwjdUVJuPlpBgSECIH6hRRa2nuLHvrxxLpdIMX+p/KMzXUrSU0TRUc=
+X-Received: by 10.46.42.67 with SMTP id q64mr4673696ljq.133.1520023626428;
+	Fri, 02 Mar 2018 12:47:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.46.48.4 with HTTP; Fri, 2 Mar 2018 12:47:05 -0800 (PST)
+In-Reply-To: <20180302175256.29044-3-raj.khem@gmail.com>
+References: <20180302175256.29044-1-raj.khem@gmail.com>
+	<20180302175256.29044-3-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 2 Mar 2018 15:47:05 -0500
+Message-ID: <CADkTA4MHrD5W0WZ2pHkOx8f6J9ZyB4ZXdJDQs+Nb1gfNtRdVkA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] musl-utils: Add package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +56,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 20:33:51 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 20:47:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This was another setting left over from debugging the
-recipes, and isn't needed by default.
+I've tested this against my new kernel-devsrc package when built on
+musl, and I can
+confirm that it works. There's a warning about the flags, but
+everything still builds
+and runs .. unlike before!
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/recipes-devtools/go/go-cross-canadian.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index 1d6453712e..ea68b8875d 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -12,7 +12,7 @@ export GOTOOLDIR_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/${HOST_SYS}/go/pkg/tool/$
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_CFLAGS = "${CFLAGS}"
- export CGO_LDFLAGS = "${LDFLAGS}"
--export GO_LDFLAGS = '-v -linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${SECURITY_NOPIE_CFLAGS} ${HOST_CC_ARCH} ${LDFLAGS}"'
-+export GO_LDFLAGS = '-linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${SECURITY_NOPIE_CFLAGS} ${HOST_CC_ARCH} ${LDFLAGS}"'
- 
- do_configure[noexec] = "1"
- 
+Bruce
+
+root@qemux86-64:/lib/modules/4.14.19-yocto-standard/build# make ARCH=x86 scripts
+
+getconf: LFS_CFLAGS: unknown variable
+getconf: LFS_LDFLAGS: unknown variable
+getconf: LFS_LIBS: unknown variable
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/basic/bin2c
+getconf: LFS_CFLAGS: unknown variable
+getconf: LFS_LDFLAGS: unknown variable
+getconf: LFS_LIBS: unknown variable
+  HOSTCC  scripts/kconfig/conf.o
+  SHIPPED scripts/kconfig/zconf.tab.c
+  SHIPPED scripts/kconfig/zconf.lex.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --silentoldconfig Kconfig
+  WRAP    arch/x86/include/generated/asm/clkdev.h
+  WRAP    arch/x86/include/generated/asm/dma-contiguous.h
+  WRAP    arch/x86/include/generated/asm/early_ioremap.h
+  WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/x86/include/generated/asm/mm-arch-hooks.h
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/mod/mk_elfconfig
+  MKELF   scripts/mod/elfconfig.h
+  HOSTCC  scripts/mod/modpost.o
+  CC      scripts/mod/devicetable-offsets.s
+  CHK     scripts/mod/devicetable-offsets.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/file2alias.o
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTLD  scripts/mod/modpost
+  HOSTCC  scripts/kallsyms
+  HOSTCC  scripts/conmakehash
+  HOSTCC  scripts/recordmcount
+
+root@qemux86-64:~# mv hellomod_makefile Makefile
+root@qemux86-64:~# make
+make -C /usr/src/kernel M=/home/root modules
+make[1]: Entering directory '/lib/modules/4.14.19-yocto-standard/build'
+getconf: LFS_CFLAGS: unknown variable
+getconf: LFS_LDFLAGS: unknown variable
+getconf: LFS_LIBS: unknown variable
+  CC [M]  /home/root/hellomod.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/root/hellomod.mod.o
+  LD [M]  /home/root/hellomod.ko
+make[1]: Leaving directory '/lib/modules/4.14.19-yocto-standard/build'
+
+root@qemux86-64:~# insmod hellomod.ko
+[  109.391703] hellomod: loading out-of-tree module taints kernel.
+[  109.402032] Hello world!
+
+Bruce
+
+
+On Fri, Mar 2, 2018 at 12:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> This contains getconf, getent and iconv glibc compat utils
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl-utils.bb | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>  create mode 100644 meta/recipes-core/musl/musl-utils.bb
+>
+> diff --git a/meta/recipes-core/musl/musl-utils.bb b/meta/recipes-core/musl/musl-utils.bb
+> new file mode 100644
+> index 0000000000..74b846df59
+> --- /dev/null
+> +++ b/meta/recipes-core/musl/musl-utils.bb
+> @@ -0,0 +1,25 @@
+> +# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +DESCRIPTION = "getconf, getent and iconv implementations for musl"
+> +HOMEPAGE = "https://git.alpinelinux.org/cgit/aports/tree/main/musl"
+> +LICENSE = "BSD-2-Clause & GPL-2.0+"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=9d08215e611db87b357e8674b4b42564"
+> +SECTION = "utils"
+> +
+> +# Date of the commit in SRCREV
+> +PV = "20170421"
+> +
+> +SRCREV = "fb5630138ccabbbc14a19d372096a04e42573c7d"
+> +SRC_URI = "git://github.com/boltlinux/musl-utils"
+> +
+> +inherit autotools
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +PACKAGES =+ "${PN}-iconv"
+> +
+> +FILES_${PN}-iconv = "${bindir}/iconv"
+> +
+> +COMPATIBLE_HOST = ".*-musl.*"
+> +
+> --
+> 2.16.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-2.14.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
