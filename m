@@ -1,25 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 562DA788F3
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 56D6760616
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 04:44:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 20:44:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,409,1515484800"; d="scan'208";a="22246124"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.22.4])
-	by orsmga006.jf.intel.com with ESMTP; 01 Mar 2018 20:44:26 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 12:44:17 +0800
-Message-Id: <1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
-References: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
-Subject: [PATCH 2/2] perf: enable support for libaudit
+	Fri,  2 Mar 2018 04:47:10 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id y19so11614201lfd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Mar 2018 20:47:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/A+Byv3laqVzYRJ9tTzF3IRhfTOqXX/l/jirKyXDi0g=;
+	b=QhKE/avf0s+GF0p3MR6jfntgA2HodD9nuVSjJCG/RLL01gC87clss9QjGrzRSRUuTg
+	cvy8DIIFc7dFHKaXMKd5LMyrNHNx6R/3/bbPN++m7bNmVrKNQFoC1YrJyjPVeZ18SQcb
+	snKJyM7trxzvuZeKQ0kSfVej32OHXl1dqeEmui0/aQ44k0w4xc0Uuo7XjcRNrVCMJAxL
+	YXrk32qNgfNPRtsJSBU/UvUz4EM86R5+qCZbj2+2dXxXz/j8r+LulfUSU60D5hDBXoaR
+	QyKA1MW21r7ZWZ8Kq8VKTfdQmn7PRR9fAJN+1yKahJIB2DKvQvdKG0cNG2AWH0jZkHW1
+	Vzww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/A+Byv3laqVzYRJ9tTzF3IRhfTOqXX/l/jirKyXDi0g=;
+	b=XPePIcsQQFYHe2ZqsROrjdd9u0PGi+5MdvOMWMATOAv7NVttpkAw0gVvvTmxbkYg+0
+	Lb9k1XTarY+7n6CVnuw72r/8mYxqmkJ1XicFM5HiAhtWJKfWlwKm08Eejnz1obbudfpD
+	u1Du/R960RCvdA8DC5oUcmdSFgiWr9C8boBhEPmoTAU9UN9GUIfkETAQ+iYz8PpVJHXM
+	U94prc0dV7SMwYCxHxwcXuSy4WgDPxLoLimQWqVHKuCyuYX3a2oHwC432peGLevaZidV
+	YZ7POaR+jKkwsMeFSqiHX5pXvK9oF94x+kWp1ls38VH54MmORQZdMIER51kn1iliE93s
+	qlsw==
+X-Gm-Message-State: AElRT7GyTVnOGmOkO9j1r83Qx1WfGo+cn7GlXppKHr8BYv78QY0v+S79
+	XF6uOb/226JnDcvAX3TYrsWpHgZF9sr1Utw+EMo=
+X-Google-Smtp-Source: AG47ELtLxtOWaasyOUfM/hCMWsVwU0tpCCQXt1yOrHh7hLZTR7oFU9FRiFEnKnwKEtjHaW8lhZZpeeNhevAK1v72C5I=
+X-Received: by 10.25.92.1 with SMTP id q1mr3113642lfb.126.1519966030867; Thu,
+	01 Mar 2018 20:47:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.46.48.4 with HTTP; Thu, 1 Mar 2018 20:47:10 -0800 (PST)
+In-Reply-To: <CAJTo0LZ_ppyEQSEn=Ga5d-r3PxD=1-O47r=q=sCmupGWpRRjCA@mail.gmail.com>
+References: <20180221031249.43075-1-raj.khem@gmail.com>
+	<40f962d3-b902-3ed0-33e6-a9c00e88e93a@linux.intel.com>
+	<CAJTo0LZ_ppyEQSEn=Ga5d-r3PxD=1-O47r=q=sCmupGWpRRjCA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 1 Mar 2018 23:47:10 -0500
+Message-ID: <CADkTA4N-3yhfgrPD6H1dDv7TuuXLUR35mwNOyAEf_GGdW88_TQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/2] binutils: Upgrade to 2.30 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,74 +56,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 04:44:26 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 04:47:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-perf needs audit-python to be able to show syscall names and for
-'perf trace' to work.
+On Thu, Mar 1, 2018 at 11:44 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Filed a bug for this:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12577
 
-Enable dependency on audit-python if present in PACKAGECONFIG. It's
-disabled by default since audit as of now is in meta-selinux.
+Thank goodness this was discussed on the list. While trying to test my
+new kernel-devsrc package
+against musl, I was running into this same error for at-spi2-core, and
+I was at a loss to explain it.
 
-Fixes [YOCTO #3343]
-Fixes [YOCTO #3358]
+I've tried reverting the binutils update locally in the hopes I'll get
+a working build.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-kernel/perf/perf.bb | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Bruce
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index d798492..abd9290 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -12,7 +12,7 @@ LICENSE = "GPLv2"
- PR = "r9"
- 
- PACKAGECONFIG ??= "scripting tui libunwind"
--PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python"
-+PACKAGECONFIG[scripting] = ",NO_LIBPERL=1,perl python"
- # gui support was added with kernel 3.6.35
- # since 3.10 libnewt was replaced by slang
- # to cover a wide range of kernel we add both dependencies
-@@ -22,6 +22,10 @@ PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
- PACKAGECONFIG[systemtap] = ",NO_SDT=1,systemtap"
- PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
- 
-+# libaudit support needs python to be present
-+PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit python"
-+PACKAGECONFIG_CONFARGS += "${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', '', 'NO_LIBPYTHON=1', d)}"
-+
- DEPENDS = " \
-     virtual/${MLPREFIX}libc \
-     ${MLPREFIX}elfutils \
-@@ -38,7 +42,7 @@ PROVIDES = "virtual/perf"
- inherit linux-kernel-base kernel-arch
- 
- # needed for building the tools/perf Python bindings
--inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'pythonnative', '', d)}
-+inherit ${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', 'pythonnative', '', d)}
- inherit python-dir
- export PYTHON_SITEPACKAGES_DIR
- 
-@@ -111,7 +115,7 @@ do_install() {
- 	unset CFLAGS
- 	oe_runmake install
- 	# we are checking for this make target to be compatible with older perf versions
--	if ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'true', 'false', d)} && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
-+	if ${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', 'true', 'false', d)} && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
- 		oe_runmake DESTDIR=${D} install-python_ext
- 	fi
- }
-@@ -216,7 +220,7 @@ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
- RDEPENDS_${PN} += "elfutils bash"
- RDEPENDS_${PN}-doc += "man"
- RDEPENDS_${PN}-archive =+ "bash"
--RDEPENDS_${PN}-python =+ "bash python python-modules"
-+RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
- RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
- RDEPENDS_${PN}-tests =+ "python"
- 
+>
+> On 1 March 2018 at 09:43, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+>>
+>> On 02/21/2018 05:12 AM, Khem Raj wrote:
+>>>
+>>> Additionally cherry-pick
+>>>
+>>> 5ffeba4a09 Revert "PowerPC PLT speculative execution barriers"
+>>> b01452b1d4 [PR22764][LD][AARCH64]Allow R_AARCH64_ABS16 and
+>>> R_AARCH64_ABS32 against absolution symbol or undefine symbol in shared
+>>> object.
+>>> a985e9b9de Import patch from mainline to remove PROVODE qualifiers around
+>>> definitions of __CTOR_LIST__ and __DTOR_LIST__ in PE linker scripts.
+>>> eec4607fc5 Add support for DWARF-4 line number tables.
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>> Changes in v2:
+>>>
+>>> - Backport fixes for aarch64 relocs
+>>> - ppc plt fix, dwarf-4 line number support and linker script fix for
+>>> removing PROVODE
+>>>
+>>> Changes in v3:
+>>> - None
+>>
+>>
+>> I did some bisection and unfortunately this cases breakage when musl,
+>> systemd and gobject introspection are all enabled:
+>>
+>> | i586-poky-linux-musl-libtool: link: i586-poky-linux-musl-gcc -m32
+>> -march=i586 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat
+>> -Wformat-security -Werror=format-security
+>> --sysroot=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot
+>> -o
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/.libs/Avahi-0.6
+>> -O2 -pipe -g -feliminate-unused-debug-types
+>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0=/usr/src/debug/avahi/0.7-r0
+>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot-native=
+>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot=
+>> -std=c99 -Wall -W -Wextra -pedantic -pipe -Wformat -Wold-style-definition
+>> -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarations
+>> -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls
+>> -Wmissing-noreturn -Wshadow -Wendif-labels -Wpointer-arith
+>> -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings
+>> -fdiagnostics-show-option -Wno-cast-qual -fno-strict-aliasing
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/Avahi-0.6.o
+>> -Wl,--export-dynamic -pthread -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now
+>> -Wl,--export-dynamic  -L. ./.libs/libavahi-gobject.so
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-client/.libs/libavahi-client.so
+>> -ldbus-1 -ldl
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-glib/.libs/libavahi-glib.so
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-common/.libs/libavahi-common.so
+>> -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -pthread
+>> | Error relocating
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+>> __start_BUS_ERROR_MAP: symbol not found
+>> | Error relocating
+>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+>> __stop_BUS_ERROR_MAP: symbol not found
+>>
+>>
+>>
+>> Alex
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-2.7.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
