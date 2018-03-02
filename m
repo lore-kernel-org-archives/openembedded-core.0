@@ -1,49 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B84071C42
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E5F61786BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 14:12:41 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id j7so1944906ita.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 06:12:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zU0MWDWeNDvg2kwQZUkfAZljbvv4Y2F7O3XDk8hRNH4=;
-	b=GUlKIsOwe7VILsygeLCn8oGFdiEUOFnycqIpLv+woDPM6pooAOLuf3wuGSizAaGZBF
-	qeFDWY5T7FYKIKp6hzOEgU8aknfnOi+Pi4OjJU/XRYKaGBqbp87lTfJqcO0YM4wu5HL5
-	ORoIu1doBDPXSNSUihitvnRvGWKOSfU4V+2kvEQq/meZJrt+adJyAPH2JwT0n5GzJcXT
-	8hZDo+gkZu6di79LiEPDl9K2Gbsmpx4J03zGcS6//HDbCx7Dbp70xATgarllbckcM3+K
-	2MDr6QqkgoeL69/LoiqdxdMenc8rst0xtg17AJVYqI6YSav0KmtXOnZSZ3xiZIUf4nxd
-	GWOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zU0MWDWeNDvg2kwQZUkfAZljbvv4Y2F7O3XDk8hRNH4=;
-	b=kWAJw383ARS8/aYHHAcMFGqbqyA8sujarkA4hFNrTXVBuEpoCmHBx8+Hvn7/VBhljV
-	qzW3RVD2EFberyujOH/VYkaEV1MraAcdI8lUpkLYTtzw5QQnLtQoPplozXzDO2Xgam3u
-	t6e0y+kgv0DXE+di3ezFo1yOZQz5X9s9iXBIEHG1aPha2bX+NwwG93L5gG6maXe1wY/l
-	L93Weh5Dpk6gjauZzHzaxj8Kdx8T8elMi1WpaGEB/aCc4hN3SP/wEuX6V+1chKMSriF1
-	hyCVrUalMC8dKtrMUW2aj6Ti3vb3KJo9yyJenPU4QsgSuuqYqGD1B/6JVTlai34dcbvJ
-	6gvw==
-X-Gm-Message-State: AElRT7EkjTPfGNXOQSoMDn8hr7XZHHUg7f2UnJ+nQBVmKWQ1sLLql9Lg
-	iG3942HApUjw9ZNHblH8ELPf2ZDc6rEZMbkjYhxw7w==
-X-Google-Smtp-Source: AG47ELskKBKsfp5Wel5vhGLCq+YVzrvOMmqhKK8LhiaO5+TEalqxL2BDEGiJPr3F4azD74TmKLfCTfewAODNGkKXh4c=
-X-Received: by 10.36.36.144 with SMTP id f138mr2428206ita.131.1519999963228;
-	Fri, 02 Mar 2018 06:12:43 -0800 (PST)
+	Fri,  2 Mar 2018 14:23:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w22ENfLL029546
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Mar 2018 06:23:41 -0800 (PST)
+Received: from server.local (128.224.20.107) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 2 Mar 2018 06:23:13 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1519845645-21713-1-git-send-email-bruce.ashfield@windriver.com>
+	<20180301082802.GA16294@mbabyjoh-desk.ger.corp.intel.com>
+	<CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <2e0d78eb-cce0-ffe0-867d-fea4f6d189e6@windriver.com>
+Date: Fri, 2 Mar 2018 09:23:40 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Fri, 2 Mar 2018 06:12:22 -0800 (PST)
-In-Reply-To: <20180301140052.1388-14-alexander.kanavin@linux.intel.com>
-References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
-	<20180301140052.1388-14-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 2 Mar 2018 14:12:22 +0000
-Message-ID: <CAJTo0LbB5ZAHTmcbv5Moof0kjYejw4XOskNawqH3sCopyxPSFg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/15] expect: upgrade 5.45.3 -> 5.45.4
+Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,173 +36,216 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 14:12:42 -0000
-Content-Type: multipart/alternative; boundary="001a1147cd30de041605666e9127"
+X-List-Received-Date: Fri, 02 Mar 2018 14:23:42 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---001a1147cd30de041605666e9127
-Content-Type: text/plain; charset="UTF-8"
+I worked through some problems to test with musl:
 
-ERROR: expect-5.45.4-r0 do_fetch: Fetcher failure for URL: '
-http://downloads.sourceforge.net/expect/Expect/5.45.4/expect5.45.4.tar.gz'.
-Checksum mismatch!
-File: '/srv/autobuilder/
-autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has md5
-checksum cb530d737c8f2d1023797cf0587b4e05 when
-00fce8de158422f5ccd2666512329bd2 was expected
-File: '/srv/autobuilder/
-autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has
-sha256 checksum
-7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf when
-49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34 was
-expected
-If this change is expected (e.g. you have upgraded to a new version without
-updating the checksums) then you can use these lines within the recipe:
-SRC_URI[md5sum] = "cb530d737c8f2d1023797cf0587b4e05"
-SRC_URI[sha256sum] =
-"7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf"
+   - uprev'd linux-libc-headers --> refresh / change of the musl ethhdr
+     patch
 
-Yes, they changed the tarball between you submitting this (and me testing
-it here), and the autobuilder run last night.
+   - worked around the binutils link issue and libsystemd
 
-Actually worth checking they haven't been hacked, although god knows who
-would want to compromise expect of all things.
+So I was able to assemble kernel-devsrc on an image with musl, and now
+I'm back to the problem that lead me to add glibc-utils to the RDEPENDS
+of kernel-devsrc:
 
-Ross
+---------
 
-On 1 March 2018 at 14:00, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+root@qemux86-64:/lib/modules/4.14.19-yocto-standard/build# make ARCH=x86 
+scripts
+make: getconf: Command not found
+make: getconf: Command not found
+make: getconf: Command not found
+   HOSTCC  scripts/basic/fixdep
+   HOSTCC  scripts/basic/bin2c
+make[1]: getconf: Command not found
+make[1]: getconf: Command not found
+make[1]: getconf: Command not found
+   HOSTCC  scripts/kconfig/conf.o
+   SHIPPED scripts/kconfig/zconf.tab.c
+   SHIPPED scripts/kconfig/zconf.lex.c
+   HOSTCC  scripts/kconfig/zconf.tab.o
+   HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --silentoldconfig Kconfig
+   WRAP    arch/x86/include/generated/asm/clkdev.h
+   WRAP    arch/x86/include/generated/asm/dma-contiguous.h
+   WRAP    arch/x86/include/generated/asm/early_ioremap.h
+   WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+   WRAP    arch/x86/include/generated/asm/mm-arch-hooks.h
+   CC      scripts/mod/empty.o
+   HOSTCC  scripts/mod/mk_elfconfig
+   MKELF   scripts/mod/elfconfig.h
+   HOSTCC  scripts/mod/modpost.o
+   CC      scripts/mod/devicetable-offsets.s
+   CHK     scripts/mod/devicetable-offsets.h
+   UPD     scripts/mod/devicetable-offsets.h
+   HOSTCC  scripts/mod/file2alias.o
+   HOSTCC  scripts/mod/sumversion.o
+   HOSTLD  scripts/mod/modpost
+   HOSTCC  scripts/kallsyms
+   HOSTCC  scripts/conmakehash
+   HOSTCC  scripts/recordmcount
+   HOSTCC  scripts/sortextable
+root@qemux86-64:/lib/modules/4.14.19-yocto-standard/build#
 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb} | 4
-> ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb}
-> (95%)
->
-> diff --git a/meta/recipes-devtools/expect/expect_5.45.3.bb
-> b/meta/recipes-devtools/expect/expect_5.45.4.bb
-> similarity index 95%
-> rename from meta/recipes-devtools/expect/expect_5.45.3.bb
-> rename to meta/recipes-devtools/expect/expect_5.45.4.bb
-> index 445eca5742d..96eacd92934 100644
-> --- a/meta/recipes-devtools/expect/expect_5.45.3.bb
-> +++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-> @@ -26,8 +26,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/
-> Expect/${PV}/${BPN}${PV}.tar.gz \
->             file://0001-Resolve-string-formatting-issues.patch \
->             file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-> \
->            "
-> -SRC_URI[md5sum] = "a8855cd41c1ef004b9794db9e2a57a9d"
-> -SRC_URI[sha256sum] = "c520717b7195944a69ce1492ec82ca
-> 0ac3f3baf060804e6c5ee6d505ea512be9"
-> +SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
-> +SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c
-> 7767bb9a323e40c4781f89caf760b92c34"
->
->  UPSTREAM_CHECK_URI = "http://sourceforge.net/
-> projects/expect/files/Expect/"
->  UPSTREAM_CHECK_REGEX = "/Expect/(?P<pver>(\d+[\.\-_]*)+)/"
-> --
-> 2.15.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+----------------
 
---001a1147cd30de041605666e9127
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've added Khem to the cc .. Khem: what in the muslc world would
+provide 'getconf' ? I didn't see it when glancing through the packaging.
 
-<div dir=3D"ltr">ERROR: expect-5.45.4-r0 do_fetch: Fetcher failure for URL:=
- &#39;<a href=3D"http://downloads.sourceforge.net/expect/Expect/5.45.4/expe=
-ct5.45.4.tar.gz">http://downloads.sourceforge.net/expect/Expect/5.45.4/expe=
-ct5.45.4.tar.gz</a>&#39;. Checksum mismatch!<br>File: &#39;/srv/autobuilder=
-/<a href=3D"http://autobuilder.yoctoproject.org/current_sources/expect5.45.=
-4.tar.gz">autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz<=
-/a>&#39; has md5 checksum cb530d737c8f2d1023797cf0587b4e05 when 00fce8de158=
-422f5ccd2666512329bd2 was expected<br>File: &#39;/srv/autobuilder/<a href=
-=3D"http://autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz=
-">autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz</a>&#39;=
- has sha256 checksum 7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec=
-2462b930bf when 49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b=
-92c34 was expected<br>If this change is expected (e.g. you have upgraded to=
- a new version without updating the checksums) then you can use these lines=
- within the recipe:<br>SRC_URI[md5sum] =3D &quot;cb530d737c8f2d1023797cf058=
-7b4e05&quot;<br>SRC_URI[sha256sum] =3D &quot;7a07d3f7cca5c0b38ca811984ef8da=
-536da32932d68c1a6cce33ec2462b930bf&quot;<div><br></div><div>Yes, they chang=
-ed the tarball between you submitting this (and me testing it here), and th=
-e autobuilder run last night.</div><div><br></div><div>Actually worth check=
-ing they haven&#39;t been hacked, although god knows who would want to comp=
-romise expect of all things.</div><div><br></div><div>Ross</div></div><div =
-class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 1 March 2018 at 14:=
-00, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kan=
-avin@linux.intel.com" target=3D"_blank">alexander.kanavin@linux.intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Alexa=
-nder Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexa=
-nder.kanavin@linux.<wbr>intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/expect/{<a href=3D"http://expect_5.45.3.bb" rel=
-=3D"noreferrer" target=3D"_blank"><wbr>expect_5.45.3.bb</a> =3D&gt; <a href=
-=3D"http://expect_5.45.4.bb" rel=3D"noreferrer" target=3D"_blank">expect_5.=
-45.4.bb</a>} | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/expect/{<a href=3D"http://expect_5.45.3.=
-bb" rel=3D"noreferrer" target=3D"_blank"><wbr>expect_5.45.3.bb</a> =3D&gt; =
-<a href=3D"http://expect_5.45.4.bb" rel=3D"noreferrer" target=3D"_blank">ex=
-pect_5.45.4.bb</a>} (95%)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.4=
-5.3.bb" rel=3D"noreferrer" target=3D"_blank">expect_5.45.3.bb</a> b/meta/re=
-cipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.4.bb" rel=3D"noref=
-errer" target=3D"_blank">expect_5.45.4.bb</a><br>
-similarity index 95%<br>
-rename from meta/recipes-devtools/expect/<a href=3D"http://expect_5.45.3.bb=
-" rel=3D"noreferrer" target=3D"_blank">e<wbr>xpect_5.45.3.bb</a><br>
-rename to meta/recipes-devtools/expect/<a href=3D"http://expect_5.45.4.bb" =
-rel=3D"noreferrer" target=3D"_blank">e<wbr>xpect_5.45.4.bb</a><br>
-index 445eca5742d..96eacd92934 100644<br>
---- a/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.3.bb"=
- rel=3D"noreferrer" target=3D"_blank">expect_5.45.3.bb</a><br>
-+++ b/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.4.bb"=
- rel=3D"noreferrer" target=3D"_blank">expect_5.45.4.bb</a><br>
-@@ -26,8 +26,8 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/expect/<wbr>Expec=
-t/${PV}/${BPN}${PV}.tar.<wbr>gz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Resolve-string-<wbr>f=
-ormatting-issues.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-expect-Fix-<wbr>segfa=
-ults-if-Tcl-is-built-<wbr>with-stubs-and-.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
--SRC_URI[md5sum] =3D &quot;<wbr>a8855cd41c1ef004b9794db9e2a57a<wbr>9d&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>c520717b7195944a69ce1492ec82ca<wbr>0ac3f=
-3baf060804e6c5ee6d505ea51<wbr>2be9&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>00fce8de158422f5ccd2666512329b<wbr>d2&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>49a7da83b0bdd9f46d04a04deec19c<wbr>7767b=
-b9a323e40c4781f89caf760b9<wbr>2c34&quot;<br>
-<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://sourceforge.net/projec=
-ts/expect/files/Expect/" rel=3D"noreferrer" target=3D"_blank">http://source=
-forge.net/<wbr>projects/expect/files/Expect/</a>&quot;<br>
-=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;/Expect/(?P&lt;pver&gt;(\d+[\.\-_]*<wb=
-r>)+)/&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.15.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+Bruce
 
---001a1147cd30de041605666e9127--
+On 2018-03-01 4:37 AM, Burton, Ross wrote:
+> Also fails on musl:
+> 
+> ERROR: Nothing RPROVIDES 'glibc-utils' (but 
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/meta/recipes-kernel/linux/kernel-devsrc.bb 
+> <http://kernel-devsrc.bb> RDEPENDS on or otherwise requires it)
+> 
+> Ross
+> 
+> On 1 March 2018 at 08:28, Maxin B. John <maxin.john@intel.com 
+> <mailto:maxin.john@intel.com>> wrote:
+> 
+>     Hi,
+> 
+>     On Wed, Feb 28, 2018 at 02:20:45PM -0500, Bruce Ashfield wrote:
+>      > The existing kernel-devsrc package starts with a full copy of the
+>     kernel
+>      > source and then starts to strip out elements that are not required.
+>      >
+>      > This results in extra time (I/O) and extra space being taken up
+>     in the
+>      > final package. The main purpose of the kernel-devsrc package has
+>     been to
+>      > build modules against the running kernel, not to include a full
+>     copy of
+>      > the source code for re-building the kernel. The end result was a
+>      > 600M kernel-devsrc package.
+>      >
+>      > This restructuring of the package uses an approach similar to other
+>      > distros, where the kernel-devsrc package is for building against the
+>      > running kernel and uses a curated set of copied infrastructure,
+>     versus
+>      > a mass copy of the entire kernel.
+>      >
+>      > The differences in this approach versus other is largely due to the
+>      > architecture support and the split build/source directory of the
+>      > kernel.
+>      >
+>      > The result is a kernel-devsrc package of about 10M, which is capable
+>      > of running "make scripts" and compiling kernel modules against the
+>      > running kernel.
+>      >
+>      > Along with the changes to the copying of the infrascture, we also
+>      > have the following changes:
+>      >
+>      >  - a better/more explicit listing of dependencies for on-target
+>      >    builds of "make scripts" or "make modules_prepare"
+>      >
+>      >  - The kernel source is installed into /lib/modules/<version>/build
+>      >    and a symlink created from /usr/src/kernel to the new location.
+>      >    This aligns with the standard location for module support
+>      >    code
+>      >
+>      >  - There is also a symlink from /lib/modules/<version>/source ->
+>     build
+>      >    to reserve a spot for a new package that is simply the kernel
+>      >    source. That package is not part of this update.
+>      >
+>      > [YOCTO #12535]
+>      >
+>      > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com
+>     <mailto:bruce.ashfield@windriver.com>>
+>      > ---
+>      >
+>      >  v2: fix arch/arm devsrc builds
+> 
+>     Noticed one kernel-devsrc build failure in autobuilder (qemuarm) :
+> 
+>     https://autobuilder.yocto.io/builders/nightly-arm/builds/876/steps/BuildImages/logs/stdio
+>     <https://autobuilder.yocto.io/builders/nightly-arm/builds/876/steps/BuildImages/logs/stdio>
+> 
+>     ERROR: kernel-devsrc-1.0-r0 do_install: Function failed: do_install
+>     (log file is located at
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
+>     ERROR: Logfile of failure stored in:
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822
+>     Log data follows:
+>     | DEBUG: Executing python function extend_recipe_sysroot
+>     | NOTE: Direct dependencies are
+>     ['/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/binutils/binutils-cross_2.30.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/xz/xz_5.2.3.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-support/lzop/lzop_1.03.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-runtime_7.3.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-cross_7.
+>       3.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/bison/bison_3.0.4.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-core/glibc/glibc_2.26.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kmod/kmod-native_git.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/bc/bc_1.06.bb:do_populate_sysroot',
+>     '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot',
+>     'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb:d
+>       o_populate_sysroot']
+>     | NOTE: Installed into sysroot: ['pkgconfig-native', 'lzop-native',
+>     'kern-tools-native', 'pseudo-native', 'kmod-native', 'bc-native',
+>     'openssl-native', 'gtk-doc-native', 'lzo-native',
+>     'makedepend-native', 'cryptodev-linux-native', 'util-macros-native',
+>     'xproto-native']
+>     | NOTE: Skipping as already exists in sysroot:
+>     ['binutils-cross-arm', 'xz-native', 'gcc-runtime', 'gcc-cross-arm',
+>     'bison-native', 'glibc', 'quilt-native', 'gettext-minimal-native',
+>     'gnu-config-native', 'automake-native', 'autoconf-native',
+>     'libtool-native', 'linux-libc-headers', 'libgcc', 'zlib-native',
+>     'texinfo-dummy-native', 'flex-native', 'libmpc-native',
+>     'gmp-native', 'mpfr-native', 'm4-native']
+>     | DEBUG: sed -e
+>     's:^[^/]*/:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native/:g'
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/pkgconfig-native/fixmepath
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/openssl-native/fixmepath
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/gtk-doc-native/fixmepath
+>     | xargs sed -i -e
+>     's:FIXMESTAGINGDIRTARGET:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot:g;
+>     s:FIXMESTAGINGDIRHOST:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native:g'
+>     -e 's:FIXME_COMPONENTS_DIR:/home/pokybuild/yocto-autobuilder/y
+>       octo-worker/nightly-arm/build/build/tmp/sysroots-components:g' -e
+>     's:FIXME_HOSTTOOLS_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/hosttools:g'
+>     -e
+>     's:FIXME_PKGDATA_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/pkgdata/qemuarm:g'
+>     -e
+>     's:FIXME_PSEUDO_LOCALSTATEDIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/pseudo/:g'
+>     -e
+>     's:FIXME_LOGFIFO:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/fifo.25822:g'
+>     | DEBUG: Python function extend_recipe_sysroot finished
+>     | DEBUG: Executing shell function do_install
+>     | cp: with --parents, the destination must be a directory
+>     | Try 'cp --help' for more information.
+>     | WARNING:
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/run.do_install.25822:1
+>     exit 1 from 'rm -rf $kerneldir/build/include'
+>     | ERROR: Function failed: do_install (log file is located at
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
+>     NOTE: recipe kernel-devsrc-1.0-r0: task do_install: Failed
+>     ERROR: Task
+>     (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/linux/kernel-devsrc.bb:do_install)
+>     failed with exit code '1'
+> 
+>     Best Regards,
+>     Maxin
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+
+
