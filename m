@@ -1,52 +1,51 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 13611789FC
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 161D278918
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 20:33:43 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id 61-v6so6337746plf.3
+	Fri,  2 Mar 2018 20:33:44 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y186so4480930pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 12:33:44 -0800 (PST)
+	Fri, 02 Mar 2018 12:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UB8LSnPQ1GSQHlDJaddN0SsuDrWLTHyYTYALqbWNG2Y=;
-	b=eUrn7yl/uSiC3Wordz18XpgN4oheTG31zNCJTMaNC1Elf+tjyUAIWgYuoKuN85WFhc
-	eQEG79rK5o2Bf6qmwOtAnSOW4HQX3Okho4kCnmiNJ1am6ghBxyI1dXzz14EvJfXBMyC6
-	rlaQSNukst2UzO22Y9ppeKuem1tcshn6BGhsOm4g/0h7YI3xgvY/AqGA5GPj+U7T4TYf
-	IXZTdOiYOgxGTCgMViOYrS8xPCKKy+vAVY4X2wEHHgzm7Tk6uScYkTR8XDxUrDHeCYOZ
-	/ADyFdW1NiZPKoRWtXeZcXMSnC9BZTyC/nC9h0+VOzsn1qa8LuuuY2oKkbekDKsKDqxD
-	beLw==
+	bh=VeLeW84fsYwkcCsHgxuGkOjDyNR0RHPyMkeGaExrzhQ=;
+	b=IM+CpAmiWn7vlNeYNSU/Uz6BamZ560g5uJvJj2G60ZFj+CZOIQh+dZ+IYvuTTpuxuS
+	VOPGgZtvm0IRrlhHy1SK3du3dtpdHHctccKMmQTFQIwrN/unaGzRkzP7Vlw6NCWsEZcI
+	DUo9DN2DK1s4IaSXAAOQaTUsu7ZSadv5L14GQV1+C2yk7nblNiFBSB/ghyd7VLLdfYTi
+	ejumqzJFZtL2E7aRgljNby5dL1E2/l7ooAKuKiCWSSrpYJKqaTEfNPbDA6X1YnbSuDxj
+	C64tBFDKoLZLWtccMypUpTl90g9R/x1yN6eO6/uY5PVNVWwJTasKQFEq3+Moz/tj/9Zy
+	faFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=UB8LSnPQ1GSQHlDJaddN0SsuDrWLTHyYTYALqbWNG2Y=;
-	b=R/PdaU3ssRDx70PgWP9TQuHS86lm1xGd6Vdz/secYaI+3aFVncuVOrXpVaI2RN+ssS
-	vfCsQZi/KGnRDbzjekab/xh+kmZMz7L4d5ynZER26/LSsUr2P5ZrrbB8pu8oWZfKQ23V
-	boywaRHwL6BI85nF478NXfjWYtz8nW2dMVEd3tG//2eZSvE0ZZQFSMD+ru3iqtVlUdjp
-	V3XSGfi2/ziHnCZq7K/Df88KfxwBA32o151GJ1xf6boeOPODle9DH9RaiMUI8vqnPLI3
-	7RgfvTTDFKFnm6ibTnzzYcl53fZbWpGDjPt7k+8ZAhwgTMeFri+JIS1SlIzae2SVN2p8
-	EOiA==
-X-Gm-Message-State: APf1xPD7sjC2B432vdDHOYBS7vo9rcu7xQd2cwYowQNKGIGCNGvX4LG3
-	Df/p2VXxdS1g5j51+pnx+7E+ZuJM
-X-Google-Smtp-Source: AG47ELuETAFuI5UX/t//DtwXmFLm27uAPryTzK6FshtKw771AxLN5IFTgsOi3Z+HEiEJQ/xdavSrUg==
-X-Received: by 2002:a17:902:b210:: with SMTP id
-	t16-v6mr6291586plr.373.1520022824182; 
-	Fri, 02 Mar 2018 12:33:44 -0800 (PST)
+	bh=VeLeW84fsYwkcCsHgxuGkOjDyNR0RHPyMkeGaExrzhQ=;
+	b=nxFailcgR6U47TA7igPYoJErH8L7LL4+pYHxl7tYmxd+NKpQnr0AvHkYURRzvGZIN7
+	JCQJelsxioooYIPoKyMKVbLU/Hj5EjYneBav//ZXOPXfPMKw3whESulJVjPIHzkb47V6
+	+Y6jqvp014mZM2O/UB05TSE8T5Kjek3vQTK3LBgb6kINzay9AEA9/dOoFGpclTh52mjd
+	0NeUI2fTVmcqpN5qUQtvyIiS3zVA8dsQxJYF/xnScuBGsJai+RoA3fZRkLBv4oQ0EYko
+	hwqBwOeda1kXVTstAGxa4n3POMdg76qghQzgFFvvbAMBVNoMbjfIM9cTAzbU9SlwrrZP
+	QjWA==
+X-Gm-Message-State: APf1xPBTknYju9ZukDqbwWQjA984oWTsy3nmo2h6VlVu5h/G8I9OXvQM
+	yt0qTwpmqrNKELvkywnSsZRw92j+
+X-Google-Smtp-Source: AG47ELtDhAiIi5qngVVEwswswiigN5XpwxaldyDjfW96tKpPq7vHnw0R45EI5R2hdKhyyzw7mVqjkw==
+X-Received: by 10.98.192.74 with SMTP id x71mr6765115pff.21.1520022826111;
+	Fri, 02 Mar 2018 12:33:46 -0800 (PST)
 Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
 	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	m12sm11193338pgr.35.2018.03.02.12.33.42
+	m12sm11193338pgr.35.2018.03.02.12.33.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Mar 2018 12:33:43 -0800 (PST)
+	Fri, 02 Mar 2018 12:33:45 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 12:33:09 -0800
-Message-Id: <20180302203314.32737-9-matt@madison.systems>
+Date: Fri,  2 Mar 2018 12:33:10 -0800
+Message-Id: <20180302203314.32737-10-matt@madison.systems>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180302203314.32737-1-matt@madison.systems>
 References: <20180302203314.32737-1-matt@madison.systems>
-Subject: [PATCH v4 08/13] go: move common settings to go-common.inc
+Subject: [PATCH v4 09/13] go.bbclass, goarch.bbclass: update SECURITY_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,141 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 20:33:43 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 20:33:45 -0000
 
-Eliminate some redundancy in the recipes by moving
-some commonly-used variable settings to the common
-include file.  Also removed a duplicate inherit
-from go-target.inc that was already in go-common.inc.
+With go1.10 the NOPIE flags are only required for
+MIPS target builds, and are now incompatible for
+the other architectures.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/recipes-devtools/go/go-common.inc         | 4 ++++
- meta/recipes-devtools/go/go-cross-canadian.inc | 5 -----
- meta/recipes-devtools/go/go-cross.inc          | 3 ---
- meta/recipes-devtools/go/go-crosssdk.inc       | 4 ----
- meta/recipes-devtools/go/go-native.inc         | 4 ----
- meta/recipes-devtools/go/go-runtime.inc        | 5 +----
- meta/recipes-devtools/go/go-target.inc         | 5 -----
- 7 files changed, 5 insertions(+), 25 deletions(-)
+ meta/classes/go.bbclass     | 3 ---
+ meta/classes/goarch.bbclass | 1 +
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
-index 611775b2cc..11d55c4d36 100644
---- a/meta/recipes-devtools/go/go-common.inc
-+++ b/meta/recipes-devtools/go/go-common.inc
-@@ -23,6 +23,10 @@ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- SSTATE_SCAN_CMD = "true"
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 010914c307..821095a63c 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -34,9 +34,6 @@ GOTOOLDIR = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go/pkg/tool/${BUILD_GOTUPLE}
+ GOTOOLDIR_class-native = "${STAGING_LIBDIR_NATIVE}/go/pkg/tool/${BUILD_GOTUPLE}"
+ export GOTOOLDIR
  
- export GOROOT_OVERRIDE = "1"
-+export GOTMPDIR ?= "${WORKDIR}/go-tmp"
-+GOTMPDIR[vardepvalue] = ""
-+export GOCACHE = "off"
-+export CGO_ENABLED = "1"
- 
- do_compile_prepend() {
- 	BUILD_CC=${BUILD_CC}
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index 3b98ea449f..7a39e4509b 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -10,11 +10,6 @@ export GOHOSTARCH = "${BUILD_GOARCH}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOTOOLDIR_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/${HOST_SYS}/go/pkg/tool/${BUILD_GOTUPLE}"
- export GOROOT_FINAL = "${libdir}/go"
--export CGO_ENABLED = "1"
--export GOCACHE = "off"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
--#CC = "${HOST_PREFIX}gcc"
- export CGO_CFLAGS = "${CFLAGS}"
- export CGO_LDFLAGS = "${LDFLAGS}"
- export GO_LDFLAGS = '-v -linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${HOST_CC_ARCH} ${LDFLAGS}"'
-diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
-index 289ae77104..44f230b8bc 100644
---- a/meta/recipes-devtools/go/go-cross.inc
-+++ b/meta/recipes-devtools/go/go-cross.inc
-@@ -15,9 +15,6 @@ export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
- export GOCACHE = "off"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
--export CGO_ENABLED = "1"
- CC = "${@d.getVar('BUILD_CC').strip()}"
- 
- do_configure[noexec] = "1"
-diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
-index 05ca62eba8..4391b32424 100644
---- a/meta/recipes-devtools/go/go-crosssdk.inc
-+++ b/meta/recipes-devtools/go/go-crosssdk.inc
-@@ -10,10 +10,6 @@ export GOOS = "${TARGET_GOOS}"
- export GOARCH = "${TARGET_GOARCH}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
--export CGO_ENABLED = "1"
--export GOCACHE = "off"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
- 
- do_configure[noexec] = "1"
- 
-diff --git a/meta/recipes-devtools/go/go-native.inc b/meta/recipes-devtools/go/go-native.inc
-index 31e899da82..5fbb72b087 100644
---- a/meta/recipes-devtools/go/go-native.inc
-+++ b/meta/recipes-devtools/go/go-native.inc
-@@ -10,12 +10,8 @@ SRC_URI[bootstrap.sha256sum] = "f4ff5b5eb3a3cae1c993723f3eab519c5bae18866b5e5f96
- 
- export GOOS = "${BUILD_GOOS}"
- export GOARCH = "${BUILD_GOARCH}"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
- CC = "${@d.getVar('BUILD_CC').strip()}"
- 
--export CGO_ENABLED = "1"
+-SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
+-SECURITY_LDFLAGS = ""
 -
- do_configure() {
- 	cd ${WORKDIR}/go1.4/go/src
- 	CGO_ENABLED=0 GOROOT=${WORKDIR}/go1.4/go ./make.bash
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index 0fe4566360..a79295df47 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -11,14 +11,11 @@ export GO386 = "${TARGET_GO386}"
- export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
--export CGO_ENABLED = "1"
- export CGO_CFLAGS = "${CFLAGS}"
- export CGO_CPPFLAGS = "${CPPFLAGS}"
- export CGO_CXXFLAGS = "${CXXFLAGS}"
- export CGO_LDFLAGS = "${LDFLAGS}"
--export GOCACHE = "off"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
-+
- GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
- GO_LINKMODE ?= ""
- GO_LINKMODE_class-nativesdk = "--linkmode=external"
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index 141a456cca..3bc32f3bec 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -1,4 +1,3 @@
--inherit goarch
- DEPENDS = "virtual/${TARGET_PREFIX}go go-native"
- DEPENDS_class-nativesdk = "virtual/${TARGET_PREFIX}go-crosssdk go-native"
+ export CGO_ENABLED ?= "1"
+ export CGO_CFLAGS ?= "${CFLAGS}"
+ export CGO_CPPFLAGS ?= "${CPPFLAGS}"
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 5c8ed33b15..eb8b32d35b 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -35,6 +35,7 @@ COMPATIBLE_HOST_powerpc64 = "null"
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ ARM_INSTRUCTION_SET = "arm"
+ TUNE_CCARGS_remove = "-march=mips32r2"
++SECURITY_CFLAGS_mips = "${SECURITY_NOPIE_CFLAGS}"
  
-@@ -11,10 +10,6 @@ export GO386 = "${TARGET_GO386}"
- export GOMIPS = "${TARGET_GOMIPS}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
--export CGO_ENABLED = "1"
--export GOCACHE = "off"
--export GOTMPDIR ?= "${WORKDIR}/go-tmp"
--GOTMPDIR[vardepvalue] = ""
- GO_LDFLAGS = ""
- GO_LDFLAGS_class-nativesdk = "-linkmode external"
- export GO_LDFLAGS
+ def go_map_arch(a, d):
+     import re
 -- 
 2.14.1
 
