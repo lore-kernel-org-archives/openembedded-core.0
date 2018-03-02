@@ -1,23 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 29D2F7897E
+Return-Path: <prvs=2599704a79=alexandru.vasiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id CA62E78960
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 15:38:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Mar 2018 07:38:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,412,1515484800"; d="scan'208";a="208390081"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 02 Mar 2018 07:38:13 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 17:32:20 +0200
-Message-Id: <20180302153220.16494-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] perl: use parallel build where possible
+	Fri,  2 Mar 2018 17:47:00 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w22Hjo7J011947 for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Mar 2018 11:47:01 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2gdqj08ws7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Mar 2018 11:47:01 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w22Hl0l1030131
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Mar 2018 11:47:00 -0600
+Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 2 Mar 2018 11:47:00 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 2 Mar 2018 11:46:59 -0600
+Received: from avasiuPC.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Fri, 2 Mar 2018 11:46:59 -0600
+From: Alexandru Vasiu <alexandru.vasiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Mar 2018 19:46:57 +0200
+Message-ID: <20180302174657.32731-1-alexandru.vasiu@ni.com>
+X-Mailer: git-send-email 2.16.2
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2018-03-02_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=842 adultscore=0 classifier=spam adjust=30 reason=mlx
+	scancount=1 engine=8.0.1-1711220000 definitions=main-1803020210
+Subject: [PATCH] Add support for pyiface
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 15:38:13 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 17:47:00 -0000
+Content-Type: text/plain
 
-While the upstream just runs a number of make tasks hardcoded to a single thread
-in succession, we can add '-j n_threads' to a few of them. The benefit
-is real: on my machine the do_compile() time goes from 250 seconds to about 90.
+Pyiface is a package that exposes the network interfaces of the
+operating system in a easy to use and transparent way.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
 ---
- meta/recipes-devtools/perl/perl_5.24.1.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-support/pyiface/pyiface_0.0.2.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 meta/recipes-support/pyiface/pyiface_0.0.2.bb
 
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index f13a63a80a3..67cc8d668db 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -184,6 +184,11 @@ do_compile() {
-         # Fix to avoid recursive substitution of path
-         sed -i -e 's|(@libpath, ".*"|(@libpath, "${STAGING_LIBDIR}"|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
- 
-+        # Build auxillary make targets (more/more2/more3/more4) in parallel.
-+        # Unfortunately the core target will race, and so remains single-threaded.
-+        # Still, this cuts do_compile() time from 250 seconds to about 90.
-+        sed -i -e 's, more, ${PARALLEL_MAKE} more,g' Cross/Makefile
+diff --git a/meta/recipes-support/pyiface/pyiface_0.0.2.bb b/meta/recipes-support/pyiface/pyiface_0.0.2.bb
+new file mode 100644
+index 0000000000..fad75af06d
+--- /dev/null
++++ b/meta/recipes-support/pyiface/pyiface_0.0.2.bb
+@@ -0,0 +1,10 @@
++SUMMARY = "Pyiface Recipe - Adds Pyiface library for Python"
++HOMEPAGE = "https://pypi.python.org/pypi/pyiface/"
++LICENSE = "GPLv3+"
 +
-         cd Cross
-         oe_runmake perl LD="${CCLD}"
- }
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4fe869ee987a340198fb0d54c55c47f1"
++
++SRC_URI[md5sum] = "8ced1d8ef89376a5aed97a59f11ae683"
++SRC_URI[sha256sum] = "bf5b1ff115344d388b0f9409a440ee06f67478b6c63bc8d8ce8f843f2652a8d3"
++
++inherit pypi setuptools
 -- 
-2.15.1
+2.16.2
 
 
