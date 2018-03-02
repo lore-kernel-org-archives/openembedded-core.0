@@ -1,50 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D05A71AB4
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C3DD371C42
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 18:18:03 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id h19so3451376pfd.12
+	Fri,  2 Mar 2018 19:04:19 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id 37so14776056lfs.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 10:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 02 Mar 2018 11:04:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FbkBv1TfU9N4EG5As6JCM0HaNlKtaktNTZq6Uc3VnyQ=;
-	b=os747KjUu0SMFDNQaECBV4Bwnynz0lHHxXLDB6jOpiL4j4OOa7pbL+zRIl0Fy+VteA
-	8YWIGwQMlXD0jQ6g9Fw+l0Lt/ipGQ5A8WoiLKDTP5j9ejJpI5cqh3BsWZzNo22yKwmjc
-	ZPeaBfFJ8B2KVU0n0xzQqMgXOWQWTNP3YjiiVu8bvHWixtKjvmCnb0upyQ5syfwVWz1W
-	GflawY/GeRImYHNIh8WgfT5ctX7rU5C27xwqyKZ/I92w1r29d2xa1Dn8AEjJML0DgkXX
-	N5V6PiFvwFulALMK1uNSL6EHysbS0ztXW3g4MgXWfoVbKiUoI1s1llkQ7OCp4zmkxqtl
-	409g==
+	:cc; bh=oMyoYeJElWq11XmzbjlvO+70q4jiRGj5/j/5aZOIq+c=;
+	b=XgMkxWQ0wypTOlf1Rox3NQPgxsq1NvO0KWz6SabokME5FDn5BUnuoE4g4/aHyP6K9j
+	dV9nWzmvJVLaeZK5taVT8uji8dG+L8b+dvRE/lM3QHHEtX5yg5rjb2en7i26WV8LyFyk
+	QQf/yVMXtT536b/6AlVRqMjnu7JUQjjHYdOtfbIGTNzwxRjYFRgLLxvu0pu8S0S4Jaq4
+	LgT3LKyaSthgKnN8B9IqatAnyT4XVTKICpa4jYo3kplogx45N2kVNnCulVxtou1I0rFW
+	GgQxpQJ+vjyGtbRINWhHQoYDhlbJBJsE+4MxcXAXNxIeVtC4JlVZDkEQ/UqbHHl93s6r
+	DvUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FbkBv1TfU9N4EG5As6JCM0HaNlKtaktNTZq6Uc3VnyQ=;
-	b=OTdj/eDqjf0GBDsbPH15dCBq5MksXiW2X3SbMhRFOnEoPqAxrSNI4zEhqyxsgtHc5Z
-	RdwPSxj6D9qeHSt3cpi5psuJIJgD9La76t005SNnC85PEvAFxevR5TDZmGqbjulqPYa6
-	ANXH6pkmEhpU3x4Q0HfSNAvTAoyjZ0Avyvn9DFANVeFiwmmHU96JLzQ2Cp2s+6L9l40f
-	yuXbFJlit+9xQ1ZvdXMDE3wLdORzDGP24rHBDGJ6LMuyfM1+H/9ZqRXDjp+ykYthlWoy
-	js7QVzTi2vrjlsI72fSzQiZGWTT+++oyhPHMvrGsVt6pCuIi76jUf/xvvE2UUe8ITqk/
-	0Z4w==
-X-Gm-Message-State: APf1xPB9lQYzb7dB5o82pRQJKLRKB+sc9tFuFuIPi1B9FZChhGcHoyM1
-	CqySjy+iwk8RPSwCuvpl9VrqfFJTP0ofCalj+oc=
-X-Google-Smtp-Source: AG47ELtxNEsTzGJahUJiehI0u60MqCjZuqkQ21ehrKpKuYOm/L3eYJ++q+S5cvqgz1bgP6L9z/c+7TRGCBgj0cdhUZA=
-X-Received: by 10.101.97.175 with SMTP id i15mr5115442pgv.55.1520014684407;
-	Fri, 02 Mar 2018 10:18:04 -0800 (PST)
+	bh=oMyoYeJElWq11XmzbjlvO+70q4jiRGj5/j/5aZOIq+c=;
+	b=UmpvL5+4JZPEJghX3MsyrcsZDaBpd/lzLPXgfROYfqqZAf7vLw4Ajh1gByDO6W+wUB
+	OwiRc48fRawu35bLKmq8ofMntmXw/rBIuhwd/kSF/we8k4dyNODUDlrGQks8vMY3xCN8
+	qbRrZ8nQRRneiK1kyPgs0pNk3KffZuJ8sQdLSf8kPUEi+QynALmcL7D55SfTcVYMZCl1
+	JupWy8FMqcI+0gMRo7nR9YIdU21SRjRVq72+fwAVdiyx7Ev3gbXGunySMHyY6EnD4AGJ
+	iOUToPbgsJUfJ7GUmRq3rU4F5/T61iJFxgEkKricujphWRLTXV2CoJtvt2xzGPERVPNH
+	1EiA==
+X-Gm-Message-State: AElRT7EYDzXQM/km79fmxWle64uNO/FvNaz1cVtPY8pa8cUhhvIFU2j3
+	ueZ4hE0dGrdf/C8L+qj+zIJiIS7YGZdWr5032EM90g==
+X-Google-Smtp-Source: AG47ELt/Q88uO3ns1Qi/0CosVxiUh+PnogbWAB4YBea/3VFXf5QeR6KA+L3kKam3ciZFaaQDfeJGVaxeHsrqmqDmjTQ=
+X-Received: by 10.25.37.139 with SMTP id l133mr4750754lfl.70.1520017460037;
+	Fri, 02 Mar 2018 11:04:20 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.170.69 with HTTP; Fri, 2 Mar 2018 10:17:33 -0800 (PST)
-In-Reply-To: <CADkTA4N-3yhfgrPD6H1dDv7TuuXLUR35mwNOyAEf_GGdW88_TQ@mail.gmail.com>
-References: <20180221031249.43075-1-raj.khem@gmail.com>
-	<40f962d3-b902-3ed0-33e6-a9c00e88e93a@linux.intel.com>
-	<CAJTo0LZ_ppyEQSEn=Ga5d-r3PxD=1-O47r=q=sCmupGWpRRjCA@mail.gmail.com>
-	<CADkTA4N-3yhfgrPD6H1dDv7TuuXLUR35mwNOyAEf_GGdW88_TQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 2 Mar 2018 10:17:33 -0800
-Message-ID: <CAMKF1sqmCCjhjRnOVEuOaPMWBt0jTWoHMQVsp_KS+ezE+ucM7A@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/2] binutils: Upgrade to 2.30 release
+Received: by 10.25.156.131 with HTTP; Fri, 2 Mar 2018 11:04:19 -0800 (PST)
+In-Reply-To: <CAMKF1soDhQ=c3Lj8CZXmDnBLPJQbm6CLmS_GBBrqSmUkH5Czgw@mail.gmail.com>
+References: <20180301231654.24018-1-matt@madison.systems>
+	<dd2616c3-2032-4ec8-87f5-cfbf598389f4@gmail.com>
+	<CAMKF1soDhQ=c3Lj8CZXmDnBLPJQbm6CLmS_GBBrqSmUkH5Czgw@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+Date: Fri, 2 Mar 2018 11:04:19 -0800
+Message-ID: <CAGgRHJppHQ-Q8Xv0rososnqsUKFhh8LHYLjiGp9Nwg-KK3TXMA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 00/13] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,118 +58,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 18:18:03 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 19:04:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 1, 2018 at 8:47 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> On Thu, Mar 1, 2018 at 11:44 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> Filed a bug for this:
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12577
+On Thu, Mar 1, 2018 at 10:10 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Mar 1, 2018 at 9:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>> On 3/1/18 3:16 PM, Matt Madison wrote:
+>>>
+>>> New in v3:
+>>>      * reduced one of the go source patches,
+>>>        eliminating an unneeded change (thanks
+>>>        Otavio)
+>>>      * Added bbclass and recipe patches to
+>>>        handle SECURITY_CFLAGS settings if
+>>>        they're enabled
+>>>      * Added go-runtime-staticdev to target-side
+>>>        SDK, needed for go static builds (fixes
+>>>        test case failure in oe-selftest)
+>>>      * two more minor cleanups
+>>>
+>>> New in v2:
+>>>      * Fixed Upstream-Status line in go patches
+>>>      * Added GOTMPDIR to do_configure[dirs]
+>>>
+>>> Updates to the go recipes and bbclasses for go1.10, which
+>>> moves the bulk of the toolchain bootstrap and build out
+>>> of the 'make.bash' script and to the 'dist' tool.  This
+>>> required a rework of the patches to the go source.
+>>>
+>>> go1.10 introduces significant changes to the go build
+>>> tool as well, requiring some further patches to make
+>>> it work for OE builds.
+>>
+>>
+>> The errors from v2 are gone but here I am seeing another error in
+>> meta-influx with this patchset with ptest enabled
+>>
+>> DISTRO_FEATURES_append = " ptest"
+>>
+>>
+>> bitbake github.com-eapache-go-xerial-snappy
+>>
 >
-> Thank goodness this was discussed on the list. While trying to test my
-> new kernel-devsrc package
-> against musl, I was running into this same error for at-spi2-core, and
-> I was at a loss to explain it.
+> for github.com-alicebob-miniredis you dont even need to ptest enabled
 >
-> I've tried reverting the binutils update locally in the hopes I'll get
-> a working build.
->
+>>
+>> | DEBUG: Executing shell function do_compile_ptest_base
+>> | go build github.com/golang/snappy: missing or invalid GOROOT-resident
+>> package
+>> | WARNING:
+>> /mnt/a/zonit/build/tmp/work/aarch64-bec-linux/github.com-eapache-go-xerial-snappy/1.0-r0/temp/run.do_compile_ptest_base.21897:1
+>> exit 1 from 'go_list_package_tests'
+>>
+>> This error seems to be due to a patch
+>> 0007-cmd-go-make-GOROOT-precious-by-default.patch
+>>
+>> It worked fine with 1.9
 
-I am able to reproduce it as well.  I am trying to narrow it down further
-seems a regression in ld thus far.
+Yeah, I think I was erroring out too early in that patch. It worked OK for
+the recipes I tested, but there are cases where it won't.  v4 will have an
+updated patch that defers the error decision until later, which works better.
 
-> Bruce
->
->>
->> On 1 March 2018 at 09:43, Alexander Kanavin
->> <alexander.kanavin@linux.intel.com> wrote:
->>>
->>> On 02/21/2018 05:12 AM, Khem Raj wrote:
->>>>
->>>> Additionally cherry-pick
->>>>
->>>> 5ffeba4a09 Revert "PowerPC PLT speculative execution barriers"
->>>> b01452b1d4 [PR22764][LD][AARCH64]Allow R_AARCH64_ABS16 and
->>>> R_AARCH64_ABS32 against absolution symbol or undefine symbol in shared
->>>> object.
->>>> a985e9b9de Import patch from mainline to remove PROVODE qualifiers around
->>>> definitions of __CTOR_LIST__ and __DTOR_LIST__ in PE linker scripts.
->>>> eec4607fc5 Add support for DWARF-4 line number tables.
->>>>
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>> Changes in v2:
->>>>
->>>> - Backport fixes for aarch64 relocs
->>>> - ppc plt fix, dwarf-4 line number support and linker script fix for
->>>> removing PROVODE
->>>>
->>>> Changes in v3:
->>>> - None
->>>
->>>
->>> I did some bisection and unfortunately this cases breakage when musl,
->>> systemd and gobject introspection are all enabled:
->>>
->>> | i586-poky-linux-musl-libtool: link: i586-poky-linux-musl-gcc -m32
->>> -march=i586 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat
->>> -Wformat-security -Werror=format-security
->>> --sysroot=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot
->>> -o
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/.libs/Avahi-0.6
->>> -O2 -pipe -g -feliminate-unused-debug-types
->>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0=/usr/src/debug/avahi/0.7-r0
->>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot-native=
->>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot=
->>> -std=c99 -Wall -W -Wextra -pedantic -pipe -Wformat -Wold-style-definition
->>> -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarations
->>> -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls
->>> -Wmissing-noreturn -Wshadow -Wendif-labels -Wpointer-arith
->>> -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings
->>> -fdiagnostics-show-option -Wno-cast-qual -fno-strict-aliasing
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/Avahi-0.6.o
->>> -Wl,--export-dynamic -pthread -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
->>> -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now
->>> -Wl,--export-dynamic  -L. ./.libs/libavahi-gobject.so
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-client/.libs/libavahi-client.so
->>> -ldbus-1 -ldl
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-glib/.libs/libavahi-glib.so
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-common/.libs/libavahi-common.so
->>> -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -pthread
->>> | Error relocating
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
->>> __start_BUS_ERROR_MAP: symbol not found
->>> | Error relocating
->>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
->>> __stop_BUS_ERROR_MAP: symbol not found
->>>
->>>
->>>
->>> Alex
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Thanks,
+-Matt
+
+
 >>
 >>
+>>>
+>>> See https://golang.org/doc/go1.10 for a complete list
+>>> of new features and changes.
+>>>
+>>> Following the update are some cleanup/improvement
+>>> patches.
+>>>
+>>> Matt Madison (13):
+>>>    go: update go 1.9 -> go 1.10
+>>>    go: set GOMIPS envrionment variable
+>>>    go.bbclass: rename GO_TMPDIR -> GOTMPDIR
+>>>    go.bbclass: remove debug-related commands
+>>>    go.bbclass: don't stage test data with sources
+>>>    go.bbclass: ptest cleanup and improvements
+>>>    goarch.bbclass: disable shared runtime for nativesdk builds
+>>>    go: move common settings to go-common.inc
+>>>    go.bbclass, goarch.bbclass: update SECURITY_CFLAGS
+>>>    go: disable PIE CFLAGS for nativesdk and cross-canadian builds
+>>>    packagegroup-go-sdk-target: add go-runtime-staticdev
+>>>    go-runtime: remove unneeded nativesdk override, rename variable
+>>>    go-cross-canadian: remove verbosity setting from GO_LDFLAGS
+>>>
+>>>   meta/classes/go.bbclass                            | 108 ++++----
+>>>   meta/classes/goarch.bbclass                        |  13 +
+>>>   .../packagegroups/packagegroup-go-sdk-target.bb    |   1 +
+>>>   meta/recipes-devtools/go/go-1.10.inc               |  21 ++
+>>>   ...1-allow-CC-and-CXX-to-have-multiple-words.patch |  33 +++
+>>>   ...-content-based-hash-generation-less-pedan.patch | 220
+>>> ++++++++++++++++
+>>>   ...OLDIR-to-be-overridden-in-the-environment.patch |  64 +++++
+>>>   .../0004-ld-add-soname-to-shareable-objects.patch  |  47 ++++
+>>>   ...verride-CC-when-building-dist-and-go_boot.patch |  40 +++
+>>>   ...-cmd-dist-separate-host-and-target-builds.patch | 277
+>>> +++++++++++++++++++++
+>>>   ...07-cmd-go-make-GOROOT-precious-by-default.patch |  97 ++++++++
+>>>   ...ld-replace-glibc-dynamic-linker-with-musl.patch | 130 ++++++++++
+>>>   meta/recipes-devtools/go/go-1.9.inc                |  26 --
+>>>   .../0001-make.bash-quote-CC_FOR_TARGET.patch       |  32 ---
+>>>   ...CC-and-CXX-environment-variable-construct.patch |  67 -----
+>>>   ...sh-better-separate-host-and-target-builds.patch |  92 -------
+>>>   ...w-GOTOOLDIR-to-be-overridden-in-the-envir.patch |  68 -----
+>>>   ...05-cmd-go-make-GOROOT-precious-by-default.patch |  41 ---
+>>>   ...dd-GOTOOLDIR_BOOTSTRAP-environment-variab.patch |  36 ---
+>>>   .../0007-ld-add-soname-to-shareable-objects.patch  |  46 ----
+>>>   ...dd-GOHOSTxx-indirection-for-cross-canadia.patch |  33 ---
+>>>   ...dmode-pie-forces-external-linking-mode-on.patch |  47 ----
+>>>   ...verride-CC-when-building-dist-and-go_boot.patch |  43 ----
+>>>   .../go/go-1.9/set-external-linker.patch            | 111 ---------
+>>>   meta/recipes-devtools/go/go-common.inc             |   6 +
+>>>   meta/recipes-devtools/go/go-cross-canadian.inc     |  26 +-
+>>>   ...s-canadian_1.9.bb => go-cross-canadian_1.10.bb} |   0
+>>>   meta/recipes-devtools/go/go-cross.inc              |  56 ++---
+>>>   .../go/{go-cross_1.9.bb => go-cross_1.10.bb}       |   0
+>>>   meta/recipes-devtools/go/go-crosssdk.inc           |  14 +-
+>>>   .../go/{go-crosssdk_1.9.bb => go-crosssdk_1.10.bb} |   0
+>>>   meta/recipes-devtools/go/go-native.inc             |  25 +-
+>>>   .../go/{go-native_1.9.bb => go-native_1.10.bb}     |   0
+>>>   meta/recipes-devtools/go/go-runtime.inc            |  56 ++---
+>>>   .../go/{go-runtime_1.9.bb => go-runtime_1.10.bb}   |   0
+>>>   meta/recipes-devtools/go/go-target.inc             |  24 +-
+>>>   meta/recipes-devtools/go/{go_1.9.bb => go_1.10.bb} |   0
+>>>   37 files changed, 1095 insertions(+), 805 deletions(-)
+>>>   create mode 100644 meta/recipes-devtools/go/go-1.10.inc
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0001-allow-CC-and-CXX-to-have-multiple-words.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0004-ld-add-soname-to-shareable-objects.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0006-cmd-dist-separate-host-and-target-builds.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0007-cmd-go-make-GOROOT-precious-by-default.patch
+>>>   create mode 100644
+>>> meta/recipes-devtools/go/go-1.10/0008-ld-replace-glibc-dynamic-linker-with-musl.patch
+>>>   delete mode 100644 meta/recipes-devtools/go/go-1.9.inc
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0001-make.bash-quote-CC_FOR_TARGET.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0002-cmd-go-fix-CC-and-CXX-environment-variable-construct.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0003-make.bash-better-separate-host-and-target-builds.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0004-cmd-go-allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0005-cmd-go-make-GOROOT-precious-by-default.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0006-make.bash-add-GOTOOLDIR_BOOTSTRAP-environment-variab.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0007-ld-add-soname-to-shareable-objects.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+>>>   delete mode 100644
+>>> meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+>>>   rename meta/recipes-devtools/go/{go-cross-canadian_1.9.bb =>
+>>> go-cross-canadian_1.10.bb} (100%)
+>>>   rename meta/recipes-devtools/go/{go-cross_1.9.bb => go-cross_1.10.bb}
+>>> (100%)
+>>>   rename meta/recipes-devtools/go/{go-crosssdk_1.9.bb =>
+>>> go-crosssdk_1.10.bb} (100%)
+>>>   rename meta/recipes-devtools/go/{go-native_1.9.bb => go-native_1.10.bb}
+>>> (100%)
+>>>   rename meta/recipes-devtools/go/{go-runtime_1.9.bb =>
+>>> go-runtime_1.10.bb} (100%)
+>>>   rename meta/recipes-devtools/go/{go_1.9.bb => go_1.10.bb} (100%)
+>>>
 >>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
