@@ -1,47 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6439E789A8
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id EF1B4789AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 18:09:16 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id h11so3929127pfn.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 10:09:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=iQYJOt9hhUYHE0LAM/1W2bqJYhDt9i5FWeBk8oFUJyA=;
-	b=WS8jyyPIYmlmcWB++jYgwcImS1iREyiE8bbofv/kEdzFdgvVPxwDHbqB6/9nc829MP
-	q40sbUMhDmTvs+ndpedd5oFWFG7JVoX2MbIynEgb0o5Bu4Urob6DbcV6U/S4D13Qo5Rf
-	vj+vcxLJ8dgPJkDVHGR+/0ExIAAMPe3rOrEv0L/fMrF5WY9M30/Cl3TO6H0Mmu9W4PXL
-	rO8lAgXU2dCM0+6HCFKnoiwV0IdlhLow0qSJPpMMkP9hoCRLP4aS0Q4SUlEDwEee3VA8
-	0Cp2XQ3b3sFCVBTkTYwG26AEbYQOIWetdEhRIveDsXl78KBXiwgY2eyXrXyNp4i/KftA
-	1N4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=iQYJOt9hhUYHE0LAM/1W2bqJYhDt9i5FWeBk8oFUJyA=;
-	b=d5wETfIpH+/D7b/XpV0HC+0mmhxCHKkiX6A817Bb1hwPtsRXl12Uyrl3tneU1n1JIK
-	kxonzJJOvYBc84oQNNqtRUvaD1qacj+79u8RV36doJRUpI9CAIVM5+vdi2F44fO+PYbg
-	qKQEhnIBNaLwavp51lUgvwkdsDoOTbvrSE7e8iRuU3sAqo1CnHPpOfrEr71oFHBtsx7t
-	zXYuQevIhRJXN9PydBNBJglvS6ROky9NSMMDcz4uE1kVLgP52dw8+Gl7/9SIvJ5acZD9
-	qquUIfno2BBbNFm4Vz3bx9x9KF30JQDTrJUQvqynPB0YwZPSpS2hKM9eIGrNJKiFwF7h
-	s7DA==
-X-Gm-Message-State: APf1xPD3aObEGeMeDBK29Zs7zYuQsqahVLGbcB+CBJG7/ybCjG8yjBge
-	ME1Q26qM7OsesU/3RsC06giMPQ==
-X-Google-Smtp-Source: AG47ELsJvZOY4Y1qmZlfTThdh3bOoyD7XLauh+5Kla3SZtBAaAC3diTS0ur/7O267DPdVdpx6PakaQ==
-X-Received: by 10.99.62.136 with SMTP id l130mr5151290pga.28.1520014158306;
-	Fri, 02 Mar 2018 10:09:18 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	k83sm16372640pfg.110.2018.03.02.10.09.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Mar 2018 10:09:17 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 10:09:10 -0800
-Message-Id: <20180302180910.32239-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.2
-Subject: [PATCH] tclibc-musl.inc: Add needed libc deps for musl for on-device SDK
+	Fri,  2 Mar 2018 18:14:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 8F2AA2099C;
+	Fri,  2 Mar 2018 18:14:53 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id IIj-8my6KXKd; Fri,  2 Mar 2018 18:14:53 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 88FFC20862;
+	Fri,  2 Mar 2018 18:14:50 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 999151632EF; Fri,  2 Mar 2018 13:14:49 -0500 (EST)
+Date: Fri, 2 Mar 2018 13:14:49 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180302181449.GR2786@denix.org>
+References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
+	<20180301140052.1388-14-alexander.kanavin@linux.intel.com>
+	<CAJTo0LbB5ZAHTmcbv5Moof0kjYejw4XOskNawqH3sCopyxPSFg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbB5ZAHTmcbv5Moof0kjYejw4XOskNawqH3sCopyxPSFg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 14/15] expect: upgrade 5.45.3 -> 5.45.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,26 +42,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 18:09:17 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 18:14:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tclibc-musl.inc | 3 +++
- 1 file changed, 3 insertions(+)
+FYI, sourceforge is currently experiencing issues (another DDoS attack?) and 
+instead of tarballs, serves HTML file with this text:
 
-diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
-index 9ae2a93e9b..54e1acf1df 100644
---- a/meta/conf/distro/include/tclibc-musl.inc
-+++ b/meta/conf/distro/include/tclibc-musl.inc
-@@ -26,4 +26,7 @@ LIBC_DEPENDENCIES = "\
-     musl \
-     musl-dbg \
-     musl-dev \
-+    musl-utils \
-+    musl-utils-iconv \
-+    bsd-headers-dev \
-     "
+We're sorry -- the Sourceforge site is currently in Disaster Recovery mode, 
+and currently requires the use of javascript to function.  Please check back 
+later.
+
 -- 
-2.16.2
+Denys
+
+
+On Fri, Mar 02, 2018 at 02:12:22PM +0000, Burton, Ross wrote:
+> ERROR: expect-5.45.4-r0 do_fetch: Fetcher failure for URL: '
+> http://downloads.sourceforge.net/expect/Expect/5.45.4/expect5.45.4.tar.gz'.
+> Checksum mismatch!
+> File: '/srv/autobuilder/
+> autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has md5
+> checksum cb530d737c8f2d1023797cf0587b4e05 when
+> 00fce8de158422f5ccd2666512329bd2 was expected
+> File: '/srv/autobuilder/
+> autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has
+> sha256 checksum
+> 7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf when
+> 49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34 was
+> expected
+> If this change is expected (e.g. you have upgraded to a new version without
+> updating the checksums) then you can use these lines within the recipe:
+> SRC_URI[md5sum] = "cb530d737c8f2d1023797cf0587b4e05"
+> SRC_URI[sha256sum] =
+> "7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf"
+> 
+> Yes, they changed the tarball between you submitting this (and me testing
+> it here), and the autobuilder run last night.
+> 
+> Actually worth checking they haven't been hacked, although god knows who
+> would want to compromise expect of all things.
+> 
+> Ross
+> 
+> On 1 March 2018 at 14:00, Alexander Kanavin <
+> alexander.kanavin@linux.intel.com> wrote:
+> 
+> > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> > ---
+> >  meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb} | 4
+> > ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb}
+> > (95%)
+> >
+> > diff --git a/meta/recipes-devtools/expect/expect_5.45.3.bb
+> > b/meta/recipes-devtools/expect/expect_5.45.4.bb
+> > similarity index 95%
+> > rename from meta/recipes-devtools/expect/expect_5.45.3.bb
+> > rename to meta/recipes-devtools/expect/expect_5.45.4.bb
+> > index 445eca5742d..96eacd92934 100644
+> > --- a/meta/recipes-devtools/expect/expect_5.45.3.bb
+> > +++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+> > @@ -26,8 +26,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/
+> > Expect/${PV}/${BPN}${PV}.tar.gz \
+> >             file://0001-Resolve-string-formatting-issues.patch \
+> >             file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
+> > \
+> >            "
+> > -SRC_URI[md5sum] = "a8855cd41c1ef004b9794db9e2a57a9d"
+> > -SRC_URI[sha256sum] = "c520717b7195944a69ce1492ec82ca
+> > 0ac3f3baf060804e6c5ee6d505ea512be9"
+> > +SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+> > +SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c
+> > 7767bb9a323e40c4781f89caf760b92c34"
+> >
+> >  UPSTREAM_CHECK_URI = "http://sourceforge.net/
+> > projects/expect/files/Expect/"
+> >  UPSTREAM_CHECK_REGEX = "/Expect/(?P<pver>(\d+[\.\-_]*)+)/"
+> > --
+> > 2.15.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
