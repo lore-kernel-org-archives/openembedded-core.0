@@ -1,79 +1,49 @@
-Return-Path: <niko.mauno@vaisala.com>
-Received: from den-mailgw-01.vaisala.com (den-mailgw-01.vaisala.com
-	[63.233.207.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 98C1D78980
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B84071C42
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 13:59:19 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GzAAA2WJlah/Gax9VdGgEBAQEBAgEBA?=
-	=?us-ascii?q?QEIAQEBAYJ8UYFKBAsoCo5hjDqCTYEWlWQDWwqFMAKDAjcVAQIBAQEBAQECAQI?=
-	=?us-ascii?q?QAQEBCA0JCCgugjgkAYEBMQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQEBAQEBAwI0NwECA0ABATgPAgEIGC4yJQIEAQwIAQGEfwMWA50hAosNAQG?=
-	=?us-ascii?q?DFIMBAQEFhB4YgSWCIwiFJoYPgk42gVuDRoVtmmIJkHZ2jgkwkHgCAgICCQIRA?=
-	=?us-ascii?q?QEHgS40gXUzGiODEoIiH4IHd4s0AYEXAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2GzAAA2WJlah/Gax9VdGgEBAQEBAgEBAQEIAQEBAYJ8UYF?=
-	=?us-ascii?q?KBAsoCo5hjDqCTYEWlWQDWwqFMAKDAjcVAQIBAQEBAQECAQIQAQEBCA0JCCgug?=
-	=?us-ascii?q?jgkAYEBMQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAwI?=
-	=?us-ascii?q?0NwECA0ABATgPAgEIGC4yJQIEAQwIAQGEfwMWA50hAosNAQGDFIMBAQEFhB4Yg?=
-	=?us-ascii?q?SWCIwiFJoYPgk42gVuDRoVtmmIJkHZ2jgkwkHgCAgICCQIRAQEHgS40gXUzGiO?=
-	=?us-ascii?q?DEoIiH4IHd4s0AYEXAQEB?=
-X-IronPort-AV: E=Sophos;i="5.47,412,1515481200"; d="scan'208";a="13229084"
+	Fri,  2 Mar 2018 14:12:41 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id j7so1944906ita.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Mar 2018 06:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=VaisalaWorks.onmicrosoft.com; s=selector1-vaisala-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=elISxwyrJgJ7BGP/RBgbK98f/8n3UFivzgjJHXFrk5I=;
-	b=LxQGiOmKc2GIBJOqfNYVFtO5oA2dXJVOAxO9V17lzqsPHPbrQsFsHR9niatSCubajHq2X8jnQg0vThQJgCyxPmeOF5PcC1oUTad3X1vPSjcd4QnDEn4UbGI0QkZm7BTgFf/bgg/rK+TQh6Dr2wEqAmURad5HM/KmbNevSWeP2Po=
-From: Mauno Niko <niko.mauno@vaisala.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] package_manager.py: Explicit complementary fail
-Thread-Index: AQHTsLAJ/vh5qETvJ0Cps4RKTf96v6O6CVkAgALylYA=
-Date: Fri, 2 Mar 2018 13:59:17 +0000
-Message-ID: <a96ac7d4-946d-d299-e727-3a5095778675@vaisala.com>
-References: <20180228162008.14197-1-niko.mauno@vaisala.com>
-	<aff352ce-9c5a-c8bb-fa78-74951722d4f8@linux.intel.com>
-In-Reply-To: <aff352ce-9c5a-c8bb-fa78-74951722d4f8@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-x-originating-ip: [193.143.230.131]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; AM5PR0601MB2388;
-	7:egKR3u8b+ceebIg77p6+dBvVPGqyB2h3YhBF1y2MmtUvT6ZwqF2fggABNhXY6YExDK3cxDxAYWqiYte8x+znEt5yD/Rwsq/c2YJ/x4sRqkoAy5xkBecyRNthk0v1oAn+XrJZtBx0zdDGVRPEbF2+r+eWorToUcpjGocikdLBV8QQ4XZkiArw8+y6RVkeQ/mv22gqfYwMg1eygrWmDN7msQHZXpyZFTdMS7FR25PjANpwniE+VG/gEu+aCtxZ2Wc/
-x-ms-exchange-antispam-srfa-diagnostics: SSOS;
-x-ms-office365-filtering-correlation-id: 046b17ee-71e5-42f7-8eec-08d58045ca34
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(7021125)(4534165)(7022125)(4603075)(4627221)(201702281549075)(7048125)(7024125)(7027125)(7028125)(7023125)(5600026)(4604075)(3008032)(2017052603307)(7153060)(7193020);
-	SRVR:AM5PR0601MB2388; 
-x-ms-traffictypediagnostic: AM5PR0601MB2388:
-x-microsoft-antispam-prvs: <AM5PR0601MB238859C2485892AF0B57872681C50@AM5PR0601MB2388.eurprd06.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040501)(2401047)(5005006)(8121501046)(3231220)(944501240)(52105095)(93006095)(93001095)(10201501046)(3002001)(6041288)(20161123564045)(20161123558120)(20161123560045)(2016111802025)(20161123562045)(6043046)(6072148)(201708071742011);
-	SRVR:AM5PR0601MB2388; BCL:0; PCL:0; RULEID:;
-	SRVR:AM5PR0601MB2388; 
-x-forefront-prvs: 05991796DF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39850400004)(346002)(376002)(39380400002)(366004)(396003)(189003)(199004)(8936002)(8676002)(2501003)(5660300001)(26005)(3846002)(6486002)(81166006)(81156014)(53546011)(6506007)(6116002)(7736002)(102836004)(305945005)(110136005)(6436002)(53936002)(97736004)(14454004)(6246003)(316002)(105586002)(106356001)(6512007)(5250100002)(65956001)(65806001)(25786009)(68736007)(2950100002)(2900100001)(229853002)(64126003)(86362001)(2906002)(99286004)(65826007)(3660700001)(3280700002)(58126008)(66066001)(186003)(478600001)(31696002)(36756003)(31686004)(76176011);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR0601MB2388;
-	H:AM5PR0601MB2531.eurprd06.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-x-microsoft-antispam-message-info: OGxlly0Z7yYAMGFb3rAjFu6dU6BZ7T9Avz+z9XriaACeHhXAn7sNO30hmjURtdzPLjzCycHpX5JtppEswp4/s6VuWUonn5ADm46OdXvuojGpzncyiI4VLoWG+WSx+m+apti24/FADyHdIN3y3gtzwSaCVKGgV8nqPZ+JQ4rCwz8=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zU0MWDWeNDvg2kwQZUkfAZljbvv4Y2F7O3XDk8hRNH4=;
+	b=GUlKIsOwe7VILsygeLCn8oGFdiEUOFnycqIpLv+woDPM6pooAOLuf3wuGSizAaGZBF
+	qeFDWY5T7FYKIKp6hzOEgU8aknfnOi+Pi4OjJU/XRYKaGBqbp87lTfJqcO0YM4wu5HL5
+	ORoIu1doBDPXSNSUihitvnRvGWKOSfU4V+2kvEQq/meZJrt+adJyAPH2JwT0n5GzJcXT
+	8hZDo+gkZu6di79LiEPDl9K2Gbsmpx4J03zGcS6//HDbCx7Dbp70xATgarllbckcM3+K
+	2MDr6QqkgoeL69/LoiqdxdMenc8rst0xtg17AJVYqI6YSav0KmtXOnZSZ3xiZIUf4nxd
+	GWOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zU0MWDWeNDvg2kwQZUkfAZljbvv4Y2F7O3XDk8hRNH4=;
+	b=kWAJw383ARS8/aYHHAcMFGqbqyA8sujarkA4hFNrTXVBuEpoCmHBx8+Hvn7/VBhljV
+	qzW3RVD2EFberyujOH/VYkaEV1MraAcdI8lUpkLYTtzw5QQnLtQoPplozXzDO2Xgam3u
+	t6e0y+kgv0DXE+di3ezFo1yOZQz5X9s9iXBIEHG1aPha2bX+NwwG93L5gG6maXe1wY/l
+	L93Weh5Dpk6gjauZzHzaxj8Kdx8T8elMi1WpaGEB/aCc4hN3SP/wEuX6V+1chKMSriF1
+	hyCVrUalMC8dKtrMUW2aj6Ti3vb3KJo9yyJenPU4QsgSuuqYqGD1B/6JVTlai34dcbvJ
+	6gvw==
+X-Gm-Message-State: AElRT7EkjTPfGNXOQSoMDn8hr7XZHHUg7f2UnJ+nQBVmKWQ1sLLql9Lg
+	iG3942HApUjw9ZNHblH8ELPf2ZDc6rEZMbkjYhxw7w==
+X-Google-Smtp-Source: AG47ELskKBKsfp5Wel5vhGLCq+YVzrvOMmqhKK8LhiaO5+TEalqxL2BDEGiJPr3F4azD74TmKLfCTfewAODNGkKXh4c=
+X-Received: by 10.36.36.144 with SMTP id f138mr2428206ita.131.1519999963228;
+	Fri, 02 Mar 2018 06:12:43 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 046b17ee-71e5-42f7-8eec-08d58045ca34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2018 13:59:17.4927 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0601MB2388
-Subject: Re: [PATCH] package_manager.py: Explicit complementary fail
+Received: by 10.107.17.200 with HTTP; Fri, 2 Mar 2018 06:12:22 -0800 (PST)
+In-Reply-To: <20180301140052.1388-14-alexander.kanavin@linux.intel.com>
+References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
+	<20180301140052.1388-14-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 2 Mar 2018 14:12:22 +0000
+Message-ID: <CAJTo0LbB5ZAHTmcbv5Moof0kjYejw4XOskNawqH3sCopyxPSFg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 14/15] expect: upgrade 5.45.3 -> 5.45.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -86,36 +56,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 13:59:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <C15F8BEF7BA54E49B38E9A942D557BED@eurprd06.prod.outlook.com>
+X-List-Received-Date: Fri, 02 Mar 2018 14:12:42 -0000
+Content-Type: multipart/alternative; boundary="001a1147cd30de041605666e9127"
+
+--001a1147cd30de041605666e9127
+Content-Type: text/plain; charset="UTF-8"
+
+ERROR: expect-5.45.4-r0 do_fetch: Fetcher failure for URL: '
+http://downloads.sourceforge.net/expect/Expect/5.45.4/expect5.45.4.tar.gz'.
+Checksum mismatch!
+File: '/srv/autobuilder/
+autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has md5
+checksum cb530d737c8f2d1023797cf0587b4e05 when
+00fce8de158422f5ccd2666512329bd2 was expected
+File: '/srv/autobuilder/
+autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz' has
+sha256 checksum
+7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf when
+49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34 was
+expected
+If this change is expected (e.g. you have upgraded to a new version without
+updating the checksums) then you can use these lines within the recipe:
+SRC_URI[md5sum] = "cb530d737c8f2d1023797cf0587b4e05"
+SRC_URI[sha256sum] =
+"7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf"
+
+Yes, they changed the tarball between you submitting this (and me testing
+it here), and the autobuilder run last night.
+
+Actually worth checking they haven't been hacked, although god knows who
+would want to compromise expect of all things.
+
+Ross
+
+On 1 March 2018 at 14:00, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb} | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/expect/{expect_5.45.3.bb => expect_5.45.4.bb}
+> (95%)
+>
+> diff --git a/meta/recipes-devtools/expect/expect_5.45.3.bb
+> b/meta/recipes-devtools/expect/expect_5.45.4.bb
+> similarity index 95%
+> rename from meta/recipes-devtools/expect/expect_5.45.3.bb
+> rename to meta/recipes-devtools/expect/expect_5.45.4.bb
+> index 445eca5742d..96eacd92934 100644
+> --- a/meta/recipes-devtools/expect/expect_5.45.3.bb
+> +++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+> @@ -26,8 +26,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/
+> Expect/${PV}/${BPN}${PV}.tar.gz \
+>             file://0001-Resolve-string-formatting-issues.patch \
+>             file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
+> \
+>            "
+> -SRC_URI[md5sum] = "a8855cd41c1ef004b9794db9e2a57a9d"
+> -SRC_URI[sha256sum] = "c520717b7195944a69ce1492ec82ca
+> 0ac3f3baf060804e6c5ee6d505ea512be9"
+> +SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+> +SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c
+> 7767bb9a323e40c4781f89caf760b92c34"
+>
+>  UPSTREAM_CHECK_URI = "http://sourceforge.net/
+> projects/expect/files/Expect/"
+>  UPSTREAM_CHECK_REGEX = "/Expect/(?P<pver>(\d+[\.\-_]*)+)/"
+> --
+> 2.15.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1147cd30de041605666e9127
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 02/28/2018 06:58 PM, Alexander Kanavin wrote:
-> On 02/28/2018 06:20 PM, Niko Mauno wrote:
->>
->> Improve associated install() method behaviour in affected OpkgPM and
->> DpkgPM classes so that a problematic state of affairs becomes directly
->> obvious for bitbake user, resulting in shell output like:
->=20
-> Does rpm need the same fix?
+<div dir=3D"ltr">ERROR: expect-5.45.4-r0 do_fetch: Fetcher failure for URL:=
+ &#39;<a href=3D"http://downloads.sourceforge.net/expect/Expect/5.45.4/expe=
+ct5.45.4.tar.gz">http://downloads.sourceforge.net/expect/Expect/5.45.4/expe=
+ct5.45.4.tar.gz</a>&#39;. Checksum mismatch!<br>File: &#39;/srv/autobuilder=
+/<a href=3D"http://autobuilder.yoctoproject.org/current_sources/expect5.45.=
+4.tar.gz">autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz<=
+/a>&#39; has md5 checksum cb530d737c8f2d1023797cf0587b4e05 when 00fce8de158=
+422f5ccd2666512329bd2 was expected<br>File: &#39;/srv/autobuilder/<a href=
+=3D"http://autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz=
+">autobuilder.yoctoproject.org/current_sources/expect5.45.4.tar.gz</a>&#39;=
+ has sha256 checksum 7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec=
+2462b930bf when 49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b=
+92c34 was expected<br>If this change is expected (e.g. you have upgraded to=
+ a new version without updating the checksums) then you can use these lines=
+ within the recipe:<br>SRC_URI[md5sum] =3D &quot;cb530d737c8f2d1023797cf058=
+7b4e05&quot;<br>SRC_URI[sha256sum] =3D &quot;7a07d3f7cca5c0b38ca811984ef8da=
+536da32932d68c1a6cce33ec2462b930bf&quot;<div><br></div><div>Yes, they chang=
+ed the tarball between you submitting this (and me testing it here), and th=
+e autobuilder run last night.</div><div><br></div><div>Actually worth check=
+ing they haven&#39;t been hacked, although god knows who would want to comp=
+romise expect of all things.</div><div><br></div><div>Ross</div></div><div =
+class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 1 March 2018 at 14:=
+00, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kan=
+avin@linux.intel.com" target=3D"_blank">alexander.kanavin@linux.intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">alexa=
+nder.kanavin@linux.<wbr>intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/expect/{<a href=3D"http://expect_5.45.3.bb" rel=
+=3D"noreferrer" target=3D"_blank"><wbr>expect_5.45.3.bb</a> =3D&gt; <a href=
+=3D"http://expect_5.45.4.bb" rel=3D"noreferrer" target=3D"_blank">expect_5.=
+45.4.bb</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-devtools/expect/{<a href=3D"http://expect_5.45.3.=
+bb" rel=3D"noreferrer" target=3D"_blank"><wbr>expect_5.45.3.bb</a> =3D&gt; =
+<a href=3D"http://expect_5.45.4.bb" rel=3D"noreferrer" target=3D"_blank">ex=
+pect_5.45.4.bb</a>} (95%)<br>
+<br>
+diff --git a/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.4=
+5.3.bb" rel=3D"noreferrer" target=3D"_blank">expect_5.45.3.bb</a> b/meta/re=
+cipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.4.bb" rel=3D"noref=
+errer" target=3D"_blank">expect_5.45.4.bb</a><br>
+similarity index 95%<br>
+rename from meta/recipes-devtools/expect/<a href=3D"http://expect_5.45.3.bb=
+" rel=3D"noreferrer" target=3D"_blank">e<wbr>xpect_5.45.3.bb</a><br>
+rename to meta/recipes-devtools/expect/<a href=3D"http://expect_5.45.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">e<wbr>xpect_5.45.4.bb</a><br>
+index 445eca5742d..96eacd92934 100644<br>
+--- a/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.3.bb"=
+ rel=3D"noreferrer" target=3D"_blank">expect_5.45.3.bb</a><br>
++++ b/meta/recipes-devtools/<wbr>expect/<a href=3D"http://expect_5.45.4.bb"=
+ rel=3D"noreferrer" target=3D"_blank">expect_5.45.4.bb</a><br>
+@@ -26,8 +26,8 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/expect/<wbr>Expec=
+t/${PV}/${BPN}${PV}.tar.<wbr>gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Resolve-string-<wbr>f=
+ormatting-issues.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-expect-Fix-<wbr>segfa=
+ults-if-Tcl-is-built-<wbr>with-stubs-and-.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>a8855cd41c1ef004b9794db9e2a57a<wbr>9d&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>c520717b7195944a69ce1492ec82ca<wbr>0ac3f=
+3baf060804e6c5ee6d505ea51<wbr>2be9&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>00fce8de158422f5ccd2666512329b<wbr>d2&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>49a7da83b0bdd9f46d04a04deec19c<wbr>7767b=
+b9a323e40c4781f89caf760b9<wbr>2c34&quot;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://sourceforge.net/projec=
+ts/expect/files/Expect/" rel=3D"noreferrer" target=3D"_blank">http://source=
+forge.net/<wbr>projects/expect/files/Expect/</a>&quot;<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;/Expect/(?P&lt;pver&gt;(\d+[\.\-_]*<wb=
+r>)+)/&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.15.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
-RpmPM's respective install() implementation deviates somewhat from it's Opk=
-gPM, DpkgPM counterparts. It seems that rpm applies '--skip-broken' switch =
-to dnf command which supposedly ignores just the conflicting packages in a =
-given set, while installing all others.
-
-The behaviour in opkg/dpkg case however seems to be, that in case of even s=
-ingle conflicting package in a package set, the whole package set is silent=
-ly left uninstalled. I performed a test against a reference image where the=
- issue manifests, and compared to rpm, opkg/dpkg-based SDK images lacked ov=
-er half of target packages:
-
-$ wc -l toolchain-target-manifest-*
-  317 toolchain-target-manifest-deb
-  317 toolchain-target-manifest-ipk
-  653 toolchain-target-manifest-rpm
-
--Niko=
-
+--001a1147cd30de041605666e9127--
