@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 414EC789AF
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D05A71AB4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 18:16:46 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id u13-v6so6142713plq.1
+	Fri,  2 Mar 2018 18:18:03 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id h19so3451376pfd.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 10:16:48 -0800 (PST)
+	Fri, 02 Mar 2018 10:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WxEUUtRkJEuemxq4EJHLQNkQ4ut2KLaaXqHlt5PWZVk=;
-	b=eQbqcjTAetJjFosMgmKC4Y/jIHPDGhW6njOfFsXtRDBTEVtm/6akL9juWyVWiWvEN9
-	PcSg59NG7ZY0TZ0xXdXbX8LA7SaLZdeKc70PgrVbmT/wum+f04+By6ch4seNWe6vRDUA
-	f9XXqIAEyH+beDP7XYasbEOOR+2Y3WN9x2up4JnDgvwM4U4d0bQLXmR4kFUAQVgrmUBR
-	V6SqZ3YpVTITIe+TNP/YayreyXkOOnbQfzi3weCEREFNF9rNgzhGPoAKFYYzImr+9+CT
-	a2MAfTkinwNkwxYNA+SvN3Jv6zcYBJJ9Z3HwXeazAEq4Dh4IM7kvOxTvx7qq8rw44rd5
-	kQCA==
+	:cc; bh=FbkBv1TfU9N4EG5As6JCM0HaNlKtaktNTZq6Uc3VnyQ=;
+	b=os747KjUu0SMFDNQaECBV4Bwnynz0lHHxXLDB6jOpiL4j4OOa7pbL+zRIl0Fy+VteA
+	8YWIGwQMlXD0jQ6g9Fw+l0Lt/ipGQ5A8WoiLKDTP5j9ejJpI5cqh3BsWZzNo22yKwmjc
+	ZPeaBfFJ8B2KVU0n0xzQqMgXOWQWTNP3YjiiVu8bvHWixtKjvmCnb0upyQ5syfwVWz1W
+	GflawY/GeRImYHNIh8WgfT5ctX7rU5C27xwqyKZ/I92w1r29d2xa1Dn8AEjJML0DgkXX
+	N5V6PiFvwFulALMK1uNSL6EHysbS0ztXW3g4MgXWfoVbKiUoI1s1llkQ7OCp4zmkxqtl
+	409g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=WxEUUtRkJEuemxq4EJHLQNkQ4ut2KLaaXqHlt5PWZVk=;
-	b=DQuxwJQL26WIcbidJ5+c5zaz6iwBebXYTKDBG0yzJU27b8laPtopfL2mE5ph4T+Lq+
-	I9pHpg7JtFyrV4uPfZ8L2e89xywDX0bbzQ0b3AGAKSBE9eavMxgrVJpXgbKJ5iwTQF0z
-	G6bGX7H65aagzePNxZ40S9NzUBNbEDDYwwjhGrzsDcL4/pqyXjMxJZ3HUntz01OnqBek
-	X7sWM+vG7/1kVfh/1MYdRfVYURwyznVnsKv9qndWeJzY+9Ec4Vp8//QX78ZCOIlGzc4O
-	PExCjREKJLxgJOmA5m9lCb0c1kBk5H7FzhEwTLTgpej4BA+j0p7erg7YZAzJ94L46yuw
-	OOmw==
-X-Gm-Message-State: APf1xPAC+NTi0DqG1ZZxi7drD4001uq23EMveLo/N8Vhafj0GbTMyg9J
-	p/rJ8Sc3z9bOiLCjsgcpTMbAQ6Xjr6ecuxRcW4I=
-X-Google-Smtp-Source: AG47ELv+UoNgFbhaZqJWGAI4/N7Mlfh3C7IPITf519tfJzO4lR7I8KhKCuomcqW24MUo3iFJcLdsBDNnjdyK+shHxsY=
-X-Received: by 2002:a17:902:aa89:: with SMTP id
-	d9-v6mr6024965plr.337.1520014608127; 
-	Fri, 02 Mar 2018 10:16:48 -0800 (PST)
+	bh=FbkBv1TfU9N4EG5As6JCM0HaNlKtaktNTZq6Uc3VnyQ=;
+	b=OTdj/eDqjf0GBDsbPH15dCBq5MksXiW2X3SbMhRFOnEoPqAxrSNI4zEhqyxsgtHc5Z
+	RdwPSxj6D9qeHSt3cpi5psuJIJgD9La76t005SNnC85PEvAFxevR5TDZmGqbjulqPYa6
+	ANXH6pkmEhpU3x4Q0HfSNAvTAoyjZ0Avyvn9DFANVeFiwmmHU96JLzQ2Cp2s+6L9l40f
+	yuXbFJlit+9xQ1ZvdXMDE3wLdORzDGP24rHBDGJ6LMuyfM1+H/9ZqRXDjp+ykYthlWoy
+	js7QVzTi2vrjlsI72fSzQiZGWTT+++oyhPHMvrGsVt6pCuIi76jUf/xvvE2UUe8ITqk/
+	0Z4w==
+X-Gm-Message-State: APf1xPB9lQYzb7dB5o82pRQJKLRKB+sc9tFuFuIPi1B9FZChhGcHoyM1
+	CqySjy+iwk8RPSwCuvpl9VrqfFJTP0ofCalj+oc=
+X-Google-Smtp-Source: AG47ELtxNEsTzGJahUJiehI0u60MqCjZuqkQ21ehrKpKuYOm/L3eYJ++q+S5cvqgz1bgP6L9z/c+7TRGCBgj0cdhUZA=
+X-Received: by 10.101.97.175 with SMTP id i15mr5115442pgv.55.1520014684407;
+	Fri, 02 Mar 2018 10:18:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.170.69 with HTTP; Fri, 2 Mar 2018 10:16:17 -0800 (PST)
-In-Reply-To: <CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
-References: <1519845645-21713-1-git-send-email-bruce.ashfield@windriver.com>
-	<20180301082802.GA16294@mbabyjoh-desk.ger.corp.intel.com>
-	<CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
+Received: by 10.100.170.69 with HTTP; Fri, 2 Mar 2018 10:17:33 -0800 (PST)
+In-Reply-To: <CADkTA4N-3yhfgrPD6H1dDv7TuuXLUR35mwNOyAEf_GGdW88_TQ@mail.gmail.com>
+References: <20180221031249.43075-1-raj.khem@gmail.com>
+	<40f962d3-b902-3ed0-33e6-a9c00e88e93a@linux.intel.com>
+	<CAJTo0LZ_ppyEQSEn=Ga5d-r3PxD=1-O47r=q=sCmupGWpRRjCA@mail.gmail.com>
+	<CADkTA4N-3yhfgrPD6H1dDv7TuuXLUR35mwNOyAEf_GGdW88_TQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 2 Mar 2018 10:16:17 -0800
-Message-ID: <CAMKF1soPjqqARZJdqi1W5Qcq6uCFymyzrGcXh-_HPrvgFgdW1w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+Date: Fri, 2 Mar 2018 10:17:33 -0800
+Message-ID: <CAMKF1sqmCCjhjRnOVEuOaPMWBt0jTWoHMQVsp_KS+ezE+ucM7A@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/2] binutils: Upgrade to 2.30 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,160 +57,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 18:16:47 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 18:18:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 1, 2018 at 1:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Also fails on musl:
+On Thu, Mar 1, 2018 at 8:47 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> On Thu, Mar 1, 2018 at 11:44 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> Filed a bug for this:
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12577
 >
-> ERROR: Nothing RPROVIDES 'glibc-utils' (but
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/meta/recipes-kernel/linux/kernel-devsrc.bb
-> RDEPENDS on or otherwise requires it)
+> Thank goodness this was discussed on the list. While trying to test my
+> new kernel-devsrc package
+> against musl, I was running into this same error for at-spi2-core, and
+> I was at a loss to explain it.
+>
+> I've tried reverting the binutils update locally in the hopes I'll get
+> a working build.
 >
 
-I sent patches to add musl-utils which should help this case. Perhaps
-adding glibc-utils to
-deps unconditionally is not right thing here. We can use libc-glibc
-and libc-musl overrides
-to select the right utils.
+I am able to reproduce it as well.  I am trying to narrow it down further
+seems a regression in ld thus far.
 
-Other idea is to create virtual/libc-utils but that seems like an overkill.
-
-> Ross
+> Bruce
 >
-> On 1 March 2018 at 08:28, Maxin B. John <maxin.john@intel.com> wrote:
 >>
->> Hi,
+>> On 1 March 2018 at 09:43, Alexander Kanavin
+>> <alexander.kanavin@linux.intel.com> wrote:
+>>>
+>>> On 02/21/2018 05:12 AM, Khem Raj wrote:
+>>>>
+>>>> Additionally cherry-pick
+>>>>
+>>>> 5ffeba4a09 Revert "PowerPC PLT speculative execution barriers"
+>>>> b01452b1d4 [PR22764][LD][AARCH64]Allow R_AARCH64_ABS16 and
+>>>> R_AARCH64_ABS32 against absolution symbol or undefine symbol in shared
+>>>> object.
+>>>> a985e9b9de Import patch from mainline to remove PROVODE qualifiers around
+>>>> definitions of __CTOR_LIST__ and __DTOR_LIST__ in PE linker scripts.
+>>>> eec4607fc5 Add support for DWARF-4 line number tables.
+>>>>
+>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>> ---
+>>>> Changes in v2:
+>>>>
+>>>> - Backport fixes for aarch64 relocs
+>>>> - ppc plt fix, dwarf-4 line number support and linker script fix for
+>>>> removing PROVODE
+>>>>
+>>>> Changes in v3:
+>>>> - None
+>>>
+>>>
+>>> I did some bisection and unfortunately this cases breakage when musl,
+>>> systemd and gobject introspection are all enabled:
+>>>
+>>> | i586-poky-linux-musl-libtool: link: i586-poky-linux-musl-gcc -m32
+>>> -march=i586 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat
+>>> -Wformat-security -Werror=format-security
+>>> --sysroot=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot
+>>> -o
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/.libs/Avahi-0.6
+>>> -O2 -pipe -g -feliminate-unused-debug-types
+>>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0=/usr/src/debug/avahi/0.7-r0
+>>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot-native=
+>>> -fdebug-prefix-map=/home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot=
+>>> -std=c99 -Wall -W -Wextra -pedantic -pipe -Wformat -Wold-style-definition
+>>> -Wdeclaration-after-statement -Wfloat-equal -Wmissing-declarations
+>>> -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls
+>>> -Wmissing-noreturn -Wshadow -Wendif-labels -Wpointer-arith
+>>> -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings
+>>> -fdiagnostics-show-option -Wno-cast-qual -fno-strict-aliasing
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-gobject/tmp-introspectcefd3msq/Avahi-0.6.o
+>>> -Wl,--export-dynamic -pthread -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>>> -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now
+>>> -Wl,--export-dynamic  -L. ./.libs/libavahi-gobject.so
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-client/.libs/libavahi-client.so
+>>> -ldbus-1 -ldl
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-glib/.libs/libavahi-glib.so
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/build/avahi-common/.libs/libavahi-common.so
+>>> -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -pthread
+>>> | Error relocating
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+>>> __start_BUS_ERROR_MAP: symbol not found
+>>> | Error relocating
+>>> /home/ak/development/poky/build/tmp/work/i586-poky-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0:
+>>> __stop_BUS_ERROR_MAP: symbol not found
+>>>
+>>>
+>>>
+>>> Alex
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >>
->> On Wed, Feb 28, 2018 at 02:20:45PM -0500, Bruce Ashfield wrote:
->> > The existing kernel-devsrc package starts with a full copy of the kernel
->> > source and then starts to strip out elements that are not required.
->> >
->> > This results in extra time (I/O) and extra space being taken up in the
->> > final package. The main purpose of the kernel-devsrc package has been to
->> > build modules against the running kernel, not to include a full copy of
->> > the source code for re-building the kernel. The end result was a
->> > 600M kernel-devsrc package.
->> >
->> > This restructuring of the package uses an approach similar to other
->> > distros, where the kernel-devsrc package is for building against the
->> > running kernel and uses a curated set of copied infrastructure, versus
->> > a mass copy of the entire kernel.
->> >
->> > The differences in this approach versus other is largely due to the
->> > architecture support and the split build/source directory of the
->> > kernel.
->> >
->> > The result is a kernel-devsrc package of about 10M, which is capable
->> > of running "make scripts" and compiling kernel modules against the
->> > running kernel.
->> >
->> > Along with the changes to the copying of the infrascture, we also
->> > have the following changes:
->> >
->> >  - a better/more explicit listing of dependencies for on-target
->> >    builds of "make scripts" or "make modules_prepare"
->> >
->> >  - The kernel source is installed into /lib/modules/<version>/build
->> >    and a symlink created from /usr/src/kernel to the new location.
->> >    This aligns with the standard location for module support
->> >    code
->> >
->> >  - There is also a symlink from /lib/modules/<version>/source -> build
->> >    to reserve a spot for a new package that is simply the kernel
->> >    source. That package is not part of this update.
->> >
->> > [YOCTO #12535]
->> >
->> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> > ---
->> >
->> >  v2: fix arch/arm devsrc builds
->>
->> Noticed one kernel-devsrc build failure in autobuilder (qemuarm) :
 >>
 >>
->> https://autobuilder.yocto.io/builders/nightly-arm/builds/876/steps/BuildImages/logs/stdio
->>
->> ERROR: kernel-devsrc-1.0-r0 do_install: Function failed: do_install (log
->> file is located at
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
->> ERROR: Logfile of failure stored in:
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822
->> Log data follows:
->> | DEBUG: Executing python function extend_recipe_sysroot
->> | NOTE: Direct dependencies are
->> ['/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/binutils/binutils-cross_2.30.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/xz/xz_5.2.3.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-support/lzop/lzop_1.03.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-runtime_7.3.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-cross_7.
->>  3.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/bison/bison_3.0.4.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-core/glibc/glibc_2.26.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kmod/kmod-native_git.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/bc/bc_1.06.bb:do_populate_sysroot',
->> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot',
->> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb:d
->>  o_populate_sysroot']
->> | NOTE: Installed into sysroot: ['pkgconfig-native', 'lzop-native',
->> 'kern-tools-native', 'pseudo-native', 'kmod-native', 'bc-native',
->> 'openssl-native', 'gtk-doc-native', 'lzo-native', 'makedepend-native',
->> 'cryptodev-linux-native', 'util-macros-native', 'xproto-native']
->> | NOTE: Skipping as already exists in sysroot: ['binutils-cross-arm',
->> 'xz-native', 'gcc-runtime', 'gcc-cross-arm', 'bison-native', 'glibc',
->> 'quilt-native', 'gettext-minimal-native', 'gnu-config-native',
->> 'automake-native', 'autoconf-native', 'libtool-native',
->> 'linux-libc-headers', 'libgcc', 'zlib-native', 'texinfo-dummy-native',
->> 'flex-native', 'libmpc-native', 'gmp-native', 'mpfr-native', 'm4-native']
->> | DEBUG: sed -e
->> 's:^[^/]*/:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native/:g'
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/pkgconfig-native/fixmepath
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/openssl-native/fixmepath
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/gtk-doc-native/fixmepath
->> | xargs sed -i -e
->> 's:FIXMESTAGINGDIRTARGET:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot:g;
->> s:FIXMESTAGINGDIRHOST:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native:g'
->> -e 's:FIXME_COMPONENTS_DIR:/home/pokybuild/yocto-autobuilder/y
->>  octo-worker/nightly-arm/build/build/tmp/sysroots-components:g' -e
->> 's:FIXME_HOSTTOOLS_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/hosttools:g'
->> -e
->> 's:FIXME_PKGDATA_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/pkgdata/qemuarm:g'
->> -e
->> 's:FIXME_PSEUDO_LOCALSTATEDIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/pseudo/:g'
->> -e
->> 's:FIXME_LOGFIFO:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/fifo.25822:g'
->> | DEBUG: Python function extend_recipe_sysroot finished
->> | DEBUG: Executing shell function do_install
->> | cp: with --parents, the destination must be a directory
->> | Try 'cp --help' for more information.
->> | WARNING:
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/run.do_install.25822:1
->> exit 1 from 'rm -rf $kerneldir/build/include'
->> | ERROR: Function failed: do_install (log file is located at
->> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
->> NOTE: recipe kernel-devsrc-1.0-r0: task do_install: Failed
->> ERROR: Task
->> (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/linux/kernel-devsrc.bb:do_install)
->> failed with exit code '1'
->>
->> Best Regards,
->> Maxin
 >> --
 >> _______________________________________________
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 >
 >
 >
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
