@@ -1,51 +1,54 @@
 Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 82AAD7880B
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C4C9D7895A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 04:49:25 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id a23so10564784qtn.0
+	Fri,  2 Mar 2018 04:51:37 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id z197so10565322qkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2018 20:49:26 -0800 (PST)
+	Thu, 01 Mar 2018 20:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4z50Pyjg7Z2tIRzzqE7QcT/bc2dxATB1/klsG8EGS5U=;
-	b=lbN2mHCSSLtEAC0YkdKC8TwAIv9ufl7vjWh3X7EH//zFWlCbRsYKRJ+FD60RzM+Fe2
-	1sP3TmETwmI1sDTigiGD1REOK/gVELFb1RWphHmuKzZ6fjfGsrbljY9XENC2NVCzOTKe
-	L9W5haRGOJJdTdIp8pRuqV5mZq0SSpzXk3xJzMaEVBB0+vq+qqaKzhL+bdpHaXPnWjbw
-	WzA1qHIWJB+nb9PGHyu8cXjW5G5jORKsRpZvk+8iRybsENEp6D5h9HGBh4jOO1DHVWvd
-	7Wasvllu2zUI+8qHUAi5xzgIoiEIsd7T6yG3iQ2F8M9n+sFdk3Tu5DAB+Je20HUVKUuu
-	jHMQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=E+0uG99PPjKb+p58VGmk4feeQ379xAG3aqocfSgjhTo=;
+	b=L4BsMZrcVll5dI1D2i/r/0mNMj8aO8LRCcFTu1RX1aTK3iR1o1pZwQECx+vWxHIbkm
+	b+giDlnPK/nMEsKxPXJPf53mI/eKE2cHX5PtC26gnoc2AqRYMUE+HXut4EFc6rsHj6SA
+	Fs0wRIHVaLJ0c3XZo5oquDAVn2oUUp/5No2DdPJZN8OKekr6OrFlP7Q8Ih1qK3S45rmS
+	QYmbGOZpGiE47bGp73PAAPX/lOQFPkrVImzVqfT3fCk8fJZldGz//HnpIuCcnG+hLzwM
+	2Ppn4U8rfJYH4za86Z4IEqpwYjmEOH+M5RXKb7bhg4JlH9uIYG4xo89HA1QfBLsbKezo
+	BSQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4z50Pyjg7Z2tIRzzqE7QcT/bc2dxATB1/klsG8EGS5U=;
-	b=efXfb/SRVDw7i7r/ReZIIvXznO+5Vn5Zk0tryrNU8FKrcOdaelOEKLjPfgEPqoiOWD
-	xfouUU2LxcNZB1HkFeKvAqW7c87TG3gmW8KogqBSzCOlXgQ5WVTiNNuM1WqKNc7wjXjH
-	tzxs6wU5+IPh5A/rZ4tN+EmLfIRe8TpK9GqqkFQMUx7PnxeBPaMT9FfkK9cPov696mPa
-	YkKNiWD48bp4YUjcm3tYWxL7vRVKmoyeZe1FCVrN66MRY+7gcmcUMmet/WFgcJeV5AN8
-	MUBzgX1rzd8CTGEC5VWdvXtfPNFmR+ra27j/uKcPcEtgzzIAzZRU8oBB/Dg5PSqH0dtf
-	XaMA==
-X-Gm-Message-State: AElRT7Gc17sIoxmvlJwtPa+PJ7cukxkrW/p93XIa74+m6Mav4rBvumfF
-	n8nIk3KwxNWIHdYVLSRCpXlssYRS
-X-Google-Smtp-Source: AG47ELtlgC96g93CSsmbqKMcaTE7gtSWduy2NVntyU44j8G3o4wfwa48+i7QlTGnEQCvawSXvspUJw==
-X-Received: by 10.200.8.205 with SMTP id y13mr6918174qth.89.1519966166316;
-	Thu, 01 Mar 2018 20:49:26 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=E+0uG99PPjKb+p58VGmk4feeQ379xAG3aqocfSgjhTo=;
+	b=mqcIT2z+ZfKkJFpjxreJyGXsp1w18nKQU0VVtjIrMaDDcR2oy1q+C+CL6NJN6E0pYO
+	qKANfBg75b0MmdOAkA450JLieuUBpSw0A7hFY5uaG45/nfohIDLqMjgX9K9uX6mFtw3t
+	LkEdtxddlU6XsHa2ApDCYtjRpC7sdX+d1XWshNemJ54qqwAWpBQ8q0Is+Bn3q7RvroiB
+	liuBcG/VNLo/dC7H4UMMw6sBhRgkShXRO+4xpGQLFCHEdgXW5N3Yds3VqlXntwFhmgAv
+	tE9NiWdk1WlGUA+j4YZG97RyPW3aF++/tboQhpMMU5mB4v35UdMWKVyNz1VKNDeK5E91
+	jgDQ==
+X-Gm-Message-State: AElRT7FehDsjW8LOS2kADza1iY2Jnk/4E9+dULlurSaZvU24YP8uzqM+
+	UFSxEB437CqVxTHUM/7foEBMG5Jh
+X-Google-Smtp-Source: AG47ELvwnj8h8VAdGRJJYl5zumglEDN6UC+THDA6rr+dJDg3++tdgl0DsRsI2n0kHqDHMzLebslmMA==
+X-Received: by 10.55.162.73 with SMTP id l70mr6723909qke.124.1519966298655;
+	Thu, 01 Mar 2018 20:51:38 -0800 (PST)
 Received: from mbedesk.Sonatest.net
 	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
-	e39sm4183296qtk.22.2018.03.01.20.49.25
+	[174.94.156.236])
+	by smtp.gmail.com with ESMTPSA id j7sm3866477qtn.58.2018.03.01.20.51.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Mar 2018 20:49:25 -0800 (PST)
+	Thu, 01 Mar 2018 20:51:38 -0800 (PST)
 From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
 	<maxime.roussinbelanger@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 23:48:08 -0500
-Message-Id: <20180302044808.31177-1-maxime.roussinbelanger@gmail.com>
+Date: Thu,  1 Mar 2018 23:51:18 -0500
+Message-Id: <20180302045118.3708-1-maxime.roussinbelanger@gmail.com>
 X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
 Cc: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
 	<maxime.roussinbelanger@gmail.com>
-Subject: [meta-oe][PATCH] python-matplotlib: Change download name
+Subject: [meta-oe][PATCH v2] python-matplotlib: Change download name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,12 +61,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 04:49:25 -0000
-
-gflags: change download name.
+X-List-Received-Date: Fri, 02 Mar 2018 04:51:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Just having "v2.0.2.tar.gz" was causing problems with other
 similarly misconfigured packages.
+
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 ---
  meta-python/recipes-devtools/python/python-matplotlib_2.0.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
