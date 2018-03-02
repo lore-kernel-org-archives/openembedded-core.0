@@ -1,25 +1,31 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 690607898B
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 17E4778976
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 08:49:20 +0000 (UTC)
+	Fri,  2 Mar 2018 09:01:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Mar 2018 00:49:20 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Mar 2018 01:01:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,411,1515484800"; d="scan'208";a="208269203"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by fmsmga005.fm.intel.com with ESMTP; 02 Mar 2018 00:49:19 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Mar 2018 17:35:37 -0800
-Message-Id: <1519954537-109282-2-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1519954537-109282-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1519954537-109282-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH] oeqa/runtime/opkg.py: add runtime test for opkg
+X-IronPort-AV: E=Sophos;i="5.47,411,1515484800"; d="scan'208";a="35368826"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 02 Mar 2018 01:01:14 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20180301140052.1388-1-alexander.kanavin@linux.intel.com>
+	<20180301140052.1388-7-alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb+JQLsZh+ZKC0BPyg+uo=u0rROS44=Er6ezHr0f1QOsQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <7b13b018-7b5e-559a-6ec2-19548c5fcf22@linux.intel.com>
+Date: Fri, 2 Mar 2018 10:55:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lb+JQLsZh+ZKC0BPyg+uo=u0rROS44=Er6ezHr0f1QOsQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/15] gtk-doc.bbclass: inherit python3native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 08:49:20 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 09:01:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Add runtime test for opkg to test that it can install ipk
-package from remote source.
+On 03/02/2018 01:34 AM, Burton, Ross wrote:
+> Can the inherit of python3native be avoided if gtk-doc isn't enabled? 
+>   (I just removed the dependency on py3native in glib)
 
-[YOCTO# 11488]
+gobject-introspection has the same inherit. And meson, and rpm. I don't 
+think we should fight against this: python3 does not take very long to 
+build, and is not on a critical path (from my many observations of the 
+build process). I'd look into why perl takes over 4 minutes to build first.
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/runtime/cases/opkg.py | 47 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/opkg.py
-
-diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
-new file mode 100644
-index 0000000..671ee06
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/opkg.py
-@@ -0,0 +1,47 @@
-+import os
-+from oeqa.utils.httpserver import HTTPService
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
-+from oeqa.runtime.decorator.package import OEHasPackage
-+
-+class OpkgTest(OERuntimeTestCase):
-+
-+    def pkg(self, command, expected = 0):
-+        command = 'opkg %s' % command
-+        status, output = self.target.run(command, 1500)
-+        message = os.linesep.join([command, output])
-+        self.assertEqual(status, expected, message)
-+        return output
-+
-+class OpkgRepoTest(OpkgTest):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'], 'all')
-+        cls.repo_server = HTTPService(service_repo, cls.tc.target.server_ip)
-+        cls.repo_server.start()
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        cls.repo_server.stop()
-+
-+    def setup_source_config_for_package_install(self):
-+        apt_get_source_server = 'http://%s:%s/' % (self.tc.target.server_ip, self.repo_server.port)
-+        apt_get_sourceslist_dir = '/etc/opkg/'
-+        self.target.run('cd %s; echo src/gz all %s >> opkg.conf' % (apt_get_sourceslist_dir, apt_get_source_server))
-+        
-+    def cleanup_source_config_for_package_install(self):
-+        apt_get_sourceslist_dir = '/etc/opkg/'
-+        self.target.run('cd %s; sed -i "/^src/d" opkg.conf' % (apt_get_sourceslist_dir))
-+        
-+    @skipIfNotFeature('package-management',
-+                      'Test requires package-management to be in IMAGE_FEATURES')
-+    @skipIfNotDataVar('IMAGE_PKGTYPE', 'ipk',
-+                      'IPK is not the primary package manager')
-+    @OEHasPackage(['opkg'])
-+    def test_opkg_install_from_repo(self):
-+        self.setup_source_config_for_package_install()
-+        self.pkg('update')
-+        self.pkg('remove run-postinsts-dev')
-+        self.pkg('install run-postinsts-dev')
-+        self.cleanup_source_config_for_package_install()
--- 
-2.7.4
-
+Alex
 
