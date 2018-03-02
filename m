@@ -1,23 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B0D0571A88
+	by mail.openembedded.org (Postfix) with ESMTP id 562DA788F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 04:44:24 +0000 (UTC)
+	Fri,  2 Mar 2018 04:44:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2018 20:44:25 -0800
+	01 Mar 2018 20:44:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,409,1515484800"; d="scan'208";a="22246119"
+X-IronPort-AV: E=Sophos;i="5.47,409,1515484800"; d="scan'208";a="22246124"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.22.4])
-	by orsmga006.jf.intel.com with ESMTP; 01 Mar 2018 20:44:24 -0800
+	by orsmga006.jf.intel.com with ESMTP; 01 Mar 2018 20:44:26 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2018 12:44:16 +0800
-Message-Id: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
+Date: Fri,  2 Mar 2018 12:44:17 +0800
+Message-Id: <1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] perf: fix packaging of scripting modules
+In-Reply-To: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
+References: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH 2/2] perf: enable support for libaudit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +32,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 04:44:24 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 04:44:26 -0000
 
-Make sure that python and perl scripts are packaged in the correct rpm.
+perf needs audit-python to be able to show syscall names and for
+'perf trace' to work.
+
+Enable dependency on audit-python if present in PACKAGECONFIG. It's
+disabled by default since audit as of now is in meta-selinux.
+
+Fixes [YOCTO #3343]
+Fixes [YOCTO #3358]
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 1bad6f4..d798492 100644
+index d798492..abd9290 100644
 --- a/meta/recipes-kernel/perf/perf.bb
 +++ b/meta/recipes-kernel/perf/perf.bb
-@@ -223,13 +223,14 @@ RDEPENDS_${PN}-tests =+ "python"
- RSUGGESTS_SCRIPTING = "${@bb.utils.contains('PACKAGECONFIG', 'scripting', '${PN}-perl ${PN}-python', '',d)}"
- RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+@@ -12,7 +12,7 @@ LICENSE = "GPLv2"
+ PR = "r9"
  
--#FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core /usr/lib64/traceevent ${libdir}/traceevent"
- FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
- FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
- FILES_${PN}-tests = "${libdir}/perf/perf-core/tests ${libexecdir}/perf-core/tests"
--FILES_${PN}-python = "${libdir}/perf/perf-core/scripts/python ${PYTHON_SITEPACKAGES_DIR}"
--FILES_${PN}-python += "${libexecdir}/perf-core/scripts/python/*"
--FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
-+FILES_${PN}-python = " \
-+                       ${PYTHON_SITEPACKAGES_DIR} \
-+                       ${libexecdir}/perf-core/scripts/python \
-+                       "
-+FILES_${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
+ PACKAGECONFIG ??= "scripting tui libunwind"
+-PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python"
++PACKAGECONFIG[scripting] = ",NO_LIBPERL=1,perl python"
+ # gui support was added with kernel 3.6.35
+ # since 3.10 libnewt was replaced by slang
+ # to cover a wide range of kernel we add both dependencies
+@@ -22,6 +22,10 @@ PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
+ PACKAGECONFIG[systemtap] = ",NO_SDT=1,systemtap"
+ PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
  
++# libaudit support needs python to be present
++PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit python"
++PACKAGECONFIG_CONFARGS += "${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', '', 'NO_LIBPYTHON=1', d)}"
++
+ DEPENDS = " \
+     virtual/${MLPREFIX}libc \
+     ${MLPREFIX}elfutils \
+@@ -38,7 +42,7 @@ PROVIDES = "virtual/perf"
+ inherit linux-kernel-base kernel-arch
  
- INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+ # needed for building the tools/perf Python bindings
+-inherit ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'pythonnative', '', d)}
++inherit ${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', 'pythonnative', '', d)}
+ inherit python-dir
+ export PYTHON_SITEPACKAGES_DIR
+ 
+@@ -111,7 +115,7 @@ do_install() {
+ 	unset CFLAGS
+ 	oe_runmake install
+ 	# we are checking for this make target to be compatible with older perf versions
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'true', 'false', d)} && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
++	if ${@bb.utils.contains_any('PACKAGECONFIG', 'scripting audit', 'true', 'false', d)} && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
+ 		oe_runmake DESTDIR=${D} install-python_ext
+ 	fi
+ }
+@@ -216,7 +220,7 @@ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+ RDEPENDS_${PN} += "elfutils bash"
+ RDEPENDS_${PN}-doc += "man"
+ RDEPENDS_${PN}-archive =+ "bash"
+-RDEPENDS_${PN}-python =+ "bash python python-modules"
++RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
+ RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+ RDEPENDS_${PN}-tests =+ "python"
+ 
 -- 
 2.7.4
 
