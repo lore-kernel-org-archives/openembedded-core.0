@@ -1,51 +1,50 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C3DD371C42
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 279BE789C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2018 19:04:19 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id 37so14776056lfs.7
+	Fri,  2 Mar 2018 19:29:51 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id l191so14826848lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 11:04:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	Fri, 02 Mar 2018 11:29:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oMyoYeJElWq11XmzbjlvO+70q4jiRGj5/j/5aZOIq+c=;
-	b=XgMkxWQ0wypTOlf1Rox3NQPgxsq1NvO0KWz6SabokME5FDn5BUnuoE4g4/aHyP6K9j
-	dV9nWzmvJVLaeZK5taVT8uji8dG+L8b+dvRE/lM3QHHEtX5yg5rjb2en7i26WV8LyFyk
-	QQf/yVMXtT536b/6AlVRqMjnu7JUQjjHYdOtfbIGTNzwxRjYFRgLLxvu0pu8S0S4Jaq4
-	LgT3LKyaSthgKnN8B9IqatAnyT4XVTKICpa4jYo3kplogx45N2kVNnCulVxtou1I0rFW
-	GgQxpQJ+vjyGtbRINWhHQoYDhlbJBJsE+4MxcXAXNxIeVtC4JlVZDkEQ/UqbHHl93s6r
-	DvUw==
+	:cc; bh=MmOn1nPTnu7Ib2kSU33sYx8ZIQp3xmTS2Xrpz5dpUvs=;
+	b=sA8CwpImqTAluSRErmGw/O1phYGel7P+u2wpHt27EmXJ+WkYFXEXAsl9/llfZwh32+
+	34Axd3J9/MPEEg35jRgbk6FuLpbhtw167+PNFY0kde1zd2jAtCnDlmKCgAQsLMpblSje
+	QHcHVgj/d8SBT028Pbxtb8v/Zye4D8isiqyI9lobknqAVjG9UuSKwRn5t7qDGSpYtBcx
+	MC2qIxd1GHFjCJKhNMQB0Ue/N5u0Ym4Ec+fIbAd4THwSjAB1+RM7puXWDll/KhBNo5EW
+	N6VioAOB3HgDXKehh5zQC5Ca8v3Jg6RuFUi0x8Ce4RP1xkU4Y7fxPcDxRMAGuy4ZGM84
+	ABqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=oMyoYeJElWq11XmzbjlvO+70q4jiRGj5/j/5aZOIq+c=;
-	b=UmpvL5+4JZPEJghX3MsyrcsZDaBpd/lzLPXgfROYfqqZAf7vLw4Ajh1gByDO6W+wUB
-	OwiRc48fRawu35bLKmq8ofMntmXw/rBIuhwd/kSF/we8k4dyNODUDlrGQks8vMY3xCN8
-	qbRrZ8nQRRneiK1kyPgs0pNk3KffZuJ8sQdLSf8kPUEi+QynALmcL7D55SfTcVYMZCl1
-	JupWy8FMqcI+0gMRo7nR9YIdU21SRjRVq72+fwAVdiyx7Ev3gbXGunySMHyY6EnD4AGJ
-	iOUToPbgsJUfJ7GUmRq3rU4F5/T61iJFxgEkKricujphWRLTXV2CoJtvt2xzGPERVPNH
-	1EiA==
-X-Gm-Message-State: AElRT7EYDzXQM/km79fmxWle64uNO/FvNaz1cVtPY8pa8cUhhvIFU2j3
-	ueZ4hE0dGrdf/C8L+qj+zIJiIS7YGZdWr5032EM90g==
-X-Google-Smtp-Source: AG47ELt/Q88uO3ns1Qi/0CosVxiUh+PnogbWAB4YBea/3VFXf5QeR6KA+L3kKam3ciZFaaQDfeJGVaxeHsrqmqDmjTQ=
-X-Received: by 10.25.37.139 with SMTP id l133mr4750754lfl.70.1520017460037;
-	Fri, 02 Mar 2018 11:04:20 -0800 (PST)
+	bh=MmOn1nPTnu7Ib2kSU33sYx8ZIQp3xmTS2Xrpz5dpUvs=;
+	b=IjkZzHanZOxAR9IBWSsJ4SkR4vX/ah68ZPotTCqchmtYrjLji/jHwsk9vn/F7mSWJ6
+	5srxMmyRu/9EMLUcbrZoKb7Llpi2jRsSMylqHbauX3VeI+Ry+8PueYSz0HUaqz2+ffqj
+	bfMd9vuce0AytP1pNdFQBfgI19+TsCxATv4cWME7HQ+DnqZ0LbZkEX3mqQ9UnQ8ScZvg
+	pofMIqB84Tji261vk0RG8n/oYeltpRGtX5gtYbFysh9aOprBJts1hwjHUUErRYa1bVpT
+	x4z3pGPTkYRyjA6xhnVhsyMAlF6kmFL58ydUYt+XLSqcZIRTJV+HgK+9nZthS3uNYs/8
+	cPyg==
+X-Gm-Message-State: APf1xPBNR2DBPHOikmjFl7kh3Gfm0vZkMuAc0x0pBlkdlN63OGJtolaN
+	snUWYPag+ujMdHvix7Zm/Hjwg1T+K+7/12FkMMlW4w==
+X-Google-Smtp-Source: AG47ELuSYk3KVkfg4txhrfowIvj7nunneQ4M0Z5xhaEBm+UKjnANRAjQ668arYXho6g6o+626s+lSpeLsoksQMr9k8A=
+X-Received: by 10.46.86.74 with SMTP id k71mr4568264ljb.28.1520018992291; Fri,
+	02 Mar 2018 11:29:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.25.156.131 with HTTP; Fri, 2 Mar 2018 11:04:19 -0800 (PST)
-In-Reply-To: <CAMKF1soDhQ=c3Lj8CZXmDnBLPJQbm6CLmS_GBBrqSmUkH5Czgw@mail.gmail.com>
-References: <20180301231654.24018-1-matt@madison.systems>
-	<dd2616c3-2032-4ec8-87f5-cfbf598389f4@gmail.com>
-	<CAMKF1soDhQ=c3Lj8CZXmDnBLPJQbm6CLmS_GBBrqSmUkH5Czgw@mail.gmail.com>
-From: Matt Madison <matt@madison.systems>
-Date: Fri, 2 Mar 2018 11:04:19 -0800
-Message-ID: <CAGgRHJppHQ-Q8Xv0rososnqsUKFhh8LHYLjiGp9Nwg-KK3TXMA@mail.gmail.com>
+Received: by 10.46.48.4 with HTTP; Fri, 2 Mar 2018 11:29:51 -0800 (PST)
+In-Reply-To: <CAMKF1soPjqqARZJdqi1W5Qcq6uCFymyzrGcXh-_HPrvgFgdW1w@mail.gmail.com>
+References: <1519845645-21713-1-git-send-email-bruce.ashfield@windriver.com>
+	<20180301082802.GA16294@mbabyjoh-desk.ger.corp.intel.com>
+	<CAJTo0LYxPA=4=qQZSm0_AbWHCCG+=0j0+2pzmFrV76nxG7DRww@mail.gmail.com>
+	<CAMKF1soPjqqARZJdqi1W5Qcq6uCFymyzrGcXh-_HPrvgFgdW1w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 2 Mar 2018 14:29:51 -0500
+Message-ID: <CADkTA4PhUCCDD93y6k7wFFgdp0BdGFx45kU+at2gYt06ABQeAg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 00/13] go1.10 update and misc improvements
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,188 +57,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 19:04:20 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 19:29:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 1, 2018 at 10:10 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Mar 1, 2018 at 9:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Mar 2, 2018 at 1:16 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Mar 1, 2018 at 1:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> Also fails on musl:
 >>
->>
->> On 3/1/18 3:16 PM, Matt Madison wrote:
->>>
->>> New in v3:
->>>      * reduced one of the go source patches,
->>>        eliminating an unneeded change (thanks
->>>        Otavio)
->>>      * Added bbclass and recipe patches to
->>>        handle SECURITY_CFLAGS settings if
->>>        they're enabled
->>>      * Added go-runtime-staticdev to target-side
->>>        SDK, needed for go static builds (fixes
->>>        test case failure in oe-selftest)
->>>      * two more minor cleanups
->>>
->>> New in v2:
->>>      * Fixed Upstream-Status line in go patches
->>>      * Added GOTMPDIR to do_configure[dirs]
->>>
->>> Updates to the go recipes and bbclasses for go1.10, which
->>> moves the bulk of the toolchain bootstrap and build out
->>> of the 'make.bash' script and to the 'dist' tool.  This
->>> required a rework of the patches to the go source.
->>>
->>> go1.10 introduces significant changes to the go build
->>> tool as well, requiring some further patches to make
->>> it work for OE builds.
->>
->>
->> The errors from v2 are gone but here I am seeing another error in
->> meta-influx with this patchset with ptest enabled
->>
->> DISTRO_FEATURES_append = " ptest"
->>
->>
->> bitbake github.com-eapache-go-xerial-snappy
+>> ERROR: Nothing RPROVIDES 'glibc-utils' (but
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> RDEPENDS on or otherwise requires it)
 >>
 >
-> for github.com-alicebob-miniredis you dont even need to ptest enabled
+> I sent patches to add musl-utils which should help this case. Perhaps
+> adding glibc-utils to
+> deps unconditionally is not right thing here. We can use libc-glibc
+> and libc-musl overrides
+> to select the right utils.
+
+Yah. I've already removed that in my updated WIP version of the patch,
+I'm just trying to complete
+the work and get the scripts building on target with musl .. I assume
+I can use the c library variable
+and select the right package ?
+
+Bruce
+
 >
+> Other idea is to create virtual/libc-utils but that seems like an overkill.
+>
+>> Ross
 >>
->> | DEBUG: Executing shell function do_compile_ptest_base
->> | go build github.com/golang/snappy: missing or invalid GOROOT-resident
->> package
->> | WARNING:
->> /mnt/a/zonit/build/tmp/work/aarch64-bec-linux/github.com-eapache-go-xerial-snappy/1.0-r0/temp/run.do_compile_ptest_base.21897:1
->> exit 1 from 'go_list_package_tests'
+>> On 1 March 2018 at 08:28, Maxin B. John <maxin.john@intel.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Wed, Feb 28, 2018 at 02:20:45PM -0500, Bruce Ashfield wrote:
+>>> > The existing kernel-devsrc package starts with a full copy of the kernel
+>>> > source and then starts to strip out elements that are not required.
+>>> >
+>>> > This results in extra time (I/O) and extra space being taken up in the
+>>> > final package. The main purpose of the kernel-devsrc package has been to
+>>> > build modules against the running kernel, not to include a full copy of
+>>> > the source code for re-building the kernel. The end result was a
+>>> > 600M kernel-devsrc package.
+>>> >
+>>> > This restructuring of the package uses an approach similar to other
+>>> > distros, where the kernel-devsrc package is for building against the
+>>> > running kernel and uses a curated set of copied infrastructure, versus
+>>> > a mass copy of the entire kernel.
+>>> >
+>>> > The differences in this approach versus other is largely due to the
+>>> > architecture support and the split build/source directory of the
+>>> > kernel.
+>>> >
+>>> > The result is a kernel-devsrc package of about 10M, which is capable
+>>> > of running "make scripts" and compiling kernel modules against the
+>>> > running kernel.
+>>> >
+>>> > Along with the changes to the copying of the infrascture, we also
+>>> > have the following changes:
+>>> >
+>>> >  - a better/more explicit listing of dependencies for on-target
+>>> >    builds of "make scripts" or "make modules_prepare"
+>>> >
+>>> >  - The kernel source is installed into /lib/modules/<version>/build
+>>> >    and a symlink created from /usr/src/kernel to the new location.
+>>> >    This aligns with the standard location for module support
+>>> >    code
+>>> >
+>>> >  - There is also a symlink from /lib/modules/<version>/source -> build
+>>> >    to reserve a spot for a new package that is simply the kernel
+>>> >    source. That package is not part of this update.
+>>> >
+>>> > [YOCTO #12535]
+>>> >
+>>> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>> > ---
+>>> >
+>>> >  v2: fix arch/arm devsrc builds
+>>>
+>>> Noticed one kernel-devsrc build failure in autobuilder (qemuarm) :
+>>>
+>>>
+>>> https://autobuilder.yocto.io/builders/nightly-arm/builds/876/steps/BuildImages/logs/stdio
+>>>
+>>> ERROR: kernel-devsrc-1.0-r0 do_install: Function failed: do_install (log
+>>> file is located at
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
+>>> ERROR: Logfile of failure stored in:
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822
+>>> Log data follows:
+>>> | DEBUG: Executing python function extend_recipe_sysroot
+>>> | NOTE: Direct dependencies are
+>>> ['/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/binutils/binutils-cross_2.30.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/xz/xz_5.2.3.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-support/lzop/lzop_1.03.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-runtime_7.3.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/gcc/gcc-cross_7.
+>>>  3.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/bison/bison_3.0.4.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-core/glibc/glibc_2.26.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/kmod/kmod-native_git.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-extended/bc/bc_1.06.bb:do_populate_sysroot',
+>>> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot',
+>>> 'virtual:native:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb:d
+>>>  o_populate_sysroot']
+>>> | NOTE: Installed into sysroot: ['pkgconfig-native', 'lzop-native',
+>>> 'kern-tools-native', 'pseudo-native', 'kmod-native', 'bc-native',
+>>> 'openssl-native', 'gtk-doc-native', 'lzo-native', 'makedepend-native',
+>>> 'cryptodev-linux-native', 'util-macros-native', 'xproto-native']
+>>> | NOTE: Skipping as already exists in sysroot: ['binutils-cross-arm',
+>>> 'xz-native', 'gcc-runtime', 'gcc-cross-arm', 'bison-native', 'glibc',
+>>> 'quilt-native', 'gettext-minimal-native', 'gnu-config-native',
+>>> 'automake-native', 'autoconf-native', 'libtool-native',
+>>> 'linux-libc-headers', 'libgcc', 'zlib-native', 'texinfo-dummy-native',
+>>> 'flex-native', 'libmpc-native', 'gmp-native', 'mpfr-native', 'm4-native']
+>>> | DEBUG: sed -e
+>>> 's:^[^/]*/:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native/:g'
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/pkgconfig-native/fixmepath
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/openssl-native/fixmepath
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/sysroots-components/x86_64/gtk-doc-native/fixmepath
+>>> | xargs sed -i -e
+>>> 's:FIXMESTAGINGDIRTARGET:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot:g;
+>>> s:FIXMESTAGINGDIRHOST:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/recipe-sysroot-native:g'
+>>> -e 's:FIXME_COMPONENTS_DIR:/home/pokybuild/yocto-autobuilder/y
+>>>  octo-worker/nightly-arm/build/build/tmp/sysroots-components:g' -e
+>>> 's:FIXME_HOSTTOOLS_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/hosttools:g'
+>>> -e
+>>> 's:FIXME_PKGDATA_DIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/pkgdata/qemuarm:g'
+>>> -e
+>>> 's:FIXME_PSEUDO_LOCALSTATEDIR:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/pseudo/:g'
+>>> -e
+>>> 's:FIXME_LOGFIFO:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/fifo.25822:g'
+>>> | DEBUG: Python function extend_recipe_sysroot finished
+>>> | DEBUG: Executing shell function do_install
+>>> | cp: with --parents, the destination must be a directory
+>>> | Try 'cp --help' for more information.
+>>> | WARNING:
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/run.do_install.25822:1
+>>> exit 1 from 'rm -rf $kerneldir/build/include'
+>>> | ERROR: Function failed: do_install (log file is located at
+>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/kernel-devsrc/1.0-r0/temp/log.do_install.25822)
+>>> NOTE: recipe kernel-devsrc-1.0-r0: task do_install: Failed
+>>> ERROR: Task
+>>> (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/meta/recipes-kernel/linux/kernel-devsrc.bb:do_install)
+>>> failed with exit code '1'
+>>>
+>>> Best Regards,
+>>> Maxin
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >>
->> This error seems to be due to a patch
->> 0007-cmd-go-make-GOROOT-precious-by-default.patch
 >>
->> It worked fine with 1.9
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Yeah, I think I was erroring out too early in that patch. It worked OK for
-the recipes I tested, but there are cases where it won't.  v4 will have an
-updated patch that defers the error decision until later, which works better.
-
-Thanks,
--Matt
 
 
->>
->>
->>>
->>> See https://golang.org/doc/go1.10 for a complete list
->>> of new features and changes.
->>>
->>> Following the update are some cleanup/improvement
->>> patches.
->>>
->>> Matt Madison (13):
->>>    go: update go 1.9 -> go 1.10
->>>    go: set GOMIPS envrionment variable
->>>    go.bbclass: rename GO_TMPDIR -> GOTMPDIR
->>>    go.bbclass: remove debug-related commands
->>>    go.bbclass: don't stage test data with sources
->>>    go.bbclass: ptest cleanup and improvements
->>>    goarch.bbclass: disable shared runtime for nativesdk builds
->>>    go: move common settings to go-common.inc
->>>    go.bbclass, goarch.bbclass: update SECURITY_CFLAGS
->>>    go: disable PIE CFLAGS for nativesdk and cross-canadian builds
->>>    packagegroup-go-sdk-target: add go-runtime-staticdev
->>>    go-runtime: remove unneeded nativesdk override, rename variable
->>>    go-cross-canadian: remove verbosity setting from GO_LDFLAGS
->>>
->>>   meta/classes/go.bbclass                            | 108 ++++----
->>>   meta/classes/goarch.bbclass                        |  13 +
->>>   .../packagegroups/packagegroup-go-sdk-target.bb    |   1 +
->>>   meta/recipes-devtools/go/go-1.10.inc               |  21 ++
->>>   ...1-allow-CC-and-CXX-to-have-multiple-words.patch |  33 +++
->>>   ...-content-based-hash-generation-less-pedan.patch | 220
->>> ++++++++++++++++
->>>   ...OLDIR-to-be-overridden-in-the-environment.patch |  64 +++++
->>>   .../0004-ld-add-soname-to-shareable-objects.patch  |  47 ++++
->>>   ...verride-CC-when-building-dist-and-go_boot.patch |  40 +++
->>>   ...-cmd-dist-separate-host-and-target-builds.patch | 277
->>> +++++++++++++++++++++
->>>   ...07-cmd-go-make-GOROOT-precious-by-default.patch |  97 ++++++++
->>>   ...ld-replace-glibc-dynamic-linker-with-musl.patch | 130 ++++++++++
->>>   meta/recipes-devtools/go/go-1.9.inc                |  26 --
->>>   .../0001-make.bash-quote-CC_FOR_TARGET.patch       |  32 ---
->>>   ...CC-and-CXX-environment-variable-construct.patch |  67 -----
->>>   ...sh-better-separate-host-and-target-builds.patch |  92 -------
->>>   ...w-GOTOOLDIR-to-be-overridden-in-the-envir.patch |  68 -----
->>>   ...05-cmd-go-make-GOROOT-precious-by-default.patch |  41 ---
->>>   ...dd-GOTOOLDIR_BOOTSTRAP-environment-variab.patch |  36 ---
->>>   .../0007-ld-add-soname-to-shareable-objects.patch  |  46 ----
->>>   ...dd-GOHOSTxx-indirection-for-cross-canadia.patch |  33 ---
->>>   ...dmode-pie-forces-external-linking-mode-on.patch |  47 ----
->>>   ...verride-CC-when-building-dist-and-go_boot.patch |  43 ----
->>>   .../go/go-1.9/set-external-linker.patch            | 111 ---------
->>>   meta/recipes-devtools/go/go-common.inc             |   6 +
->>>   meta/recipes-devtools/go/go-cross-canadian.inc     |  26 +-
->>>   ...s-canadian_1.9.bb => go-cross-canadian_1.10.bb} |   0
->>>   meta/recipes-devtools/go/go-cross.inc              |  56 ++---
->>>   .../go/{go-cross_1.9.bb => go-cross_1.10.bb}       |   0
->>>   meta/recipes-devtools/go/go-crosssdk.inc           |  14 +-
->>>   .../go/{go-crosssdk_1.9.bb => go-crosssdk_1.10.bb} |   0
->>>   meta/recipes-devtools/go/go-native.inc             |  25 +-
->>>   .../go/{go-native_1.9.bb => go-native_1.10.bb}     |   0
->>>   meta/recipes-devtools/go/go-runtime.inc            |  56 ++---
->>>   .../go/{go-runtime_1.9.bb => go-runtime_1.10.bb}   |   0
->>>   meta/recipes-devtools/go/go-target.inc             |  24 +-
->>>   meta/recipes-devtools/go/{go_1.9.bb => go_1.10.bb} |   0
->>>   37 files changed, 1095 insertions(+), 805 deletions(-)
->>>   create mode 100644 meta/recipes-devtools/go/go-1.10.inc
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0001-allow-CC-and-CXX-to-have-multiple-words.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0004-ld-add-soname-to-shareable-objects.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0006-cmd-dist-separate-host-and-target-builds.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0007-cmd-go-make-GOROOT-precious-by-default.patch
->>>   create mode 100644
->>> meta/recipes-devtools/go/go-1.10/0008-ld-replace-glibc-dynamic-linker-with-musl.patch
->>>   delete mode 100644 meta/recipes-devtools/go/go-1.9.inc
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0001-make.bash-quote-CC_FOR_TARGET.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0002-cmd-go-fix-CC-and-CXX-environment-variable-construct.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0003-make.bash-better-separate-host-and-target-builds.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0004-cmd-go-allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0005-cmd-go-make-GOROOT-precious-by-default.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0006-make.bash-add-GOTOOLDIR_BOOTSTRAP-environment-variab.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0007-ld-add-soname-to-shareable-objects.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
->>>   delete mode 100644
->>> meta/recipes-devtools/go/go-1.9/set-external-linker.patch
->>>   rename meta/recipes-devtools/go/{go-cross-canadian_1.9.bb =>
->>> go-cross-canadian_1.10.bb} (100%)
->>>   rename meta/recipes-devtools/go/{go-cross_1.9.bb => go-cross_1.10.bb}
->>> (100%)
->>>   rename meta/recipes-devtools/go/{go-crosssdk_1.9.bb =>
->>> go-crosssdk_1.10.bb} (100%)
->>>   rename meta/recipes-devtools/go/{go-native_1.9.bb => go-native_1.10.bb}
->>> (100%)
->>>   rename meta/recipes-devtools/go/{go-runtime_1.9.bb =>
->>> go-runtime_1.10.bb} (100%)
->>>   rename meta/recipes-devtools/go/{go_1.9.bb => go_1.10.bb} (100%)
->>>
->>
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
