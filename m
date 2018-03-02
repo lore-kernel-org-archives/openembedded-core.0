@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E5AF7895C;
-	Fri,  2 Mar 2018 05:07:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 511CD78829;
+	Fri,  2 Mar 2018 05:07:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: =?utf-8?q?Maxime_Roussin-B=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
-Date: Fri, 02 Mar 2018 05:07:46 -0000
-Message-ID: <20180302050746.15542.89326@do.openembedded.org>
-References: <20180302044808.31177-1-maxime.roussinbelanger@gmail.com>
+Date: Fri, 02 Mar 2018 05:07:48 -0000
+Message-ID: <20180302050748.15539.15960@do.openembedded.org>
+References: <20180302045118.3708-1-maxime.roussinbelanger@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20180302044808.31177-1-maxime.roussinbelanger@gmail.com>
+In-Reply-To: <20180302045118.3708-1-maxime.roussinbelanger@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uLW1hdHBsb3RsaWI6IENoYW5nZSBkb3dubG9hZCBuYW1l?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uLW1hdHBsb3RsaWI6IENoYW5nZSBkb3dubG9hZCBuYW1lIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2018 05:07:45 -0000
+X-List-Received-Date: Fri, 02 Mar 2018 05:07:46 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: python-matplotlib: Change download name
-Revision: 1
+Series: python-matplotlib: Change download name (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/11184/
 State : failure
 
@@ -45,17 +45,13 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [meta-oe] python-matplotlib: Change download name
+* Patch            [meta-oe,v2] python-matplotlib: Change download name
  Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
+  Suggested fix    Check the project's README (meta-oe,v2) and send the patch to the indicated list
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at 8e4ece7bf0)
-
-* Patch            [meta-oe] python-matplotlib: Change download name
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
 
