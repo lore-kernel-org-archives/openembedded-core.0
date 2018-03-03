@@ -1,30 +1,65 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 452 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 03 Mar 2018 21:34:23 UTC
-Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
-	by mail.openembedded.org (Postfix) with ESMTP id 393227882D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 457F378A27
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Mar 2018 21:34:23 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id sEg4exprWVXf7sEg5eE0VN; Sat, 03 Mar 2018 21:26:51 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=QohwI26d c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=v2DPQv5-lfwA:10 a=CdFY5-eK-0FOOr9COkUA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>) id 1esEg4-0006Nv-3r
-	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2018 21:26:48 +0000
-Date: Sat, 3 Mar 2018 21:26:48 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20180303212648.6fnwlntm6je3hw7c@mcrowe.com>
+	Sat,  3 Mar 2018 22:45:49 +0000 (UTC)
+Received: by mail-ot0-f175.google.com with SMTP id l12so11872157otj.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Mar 2018 14:45:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=VhpKX2mKN2i/7iL5dygpcGSVzpiLDtBBpA7B3mfzWuo=;
+	b=vtpxSfcCurgD7HZEmt3FhUfq4gb2UYh/U0hZyZfq98qFrY6fR8ElxNF1yYNO+mLqyv
+	FzInSADef9DVYRS247xD3vfPmfbpYbDS+FTGNB7CR1mqdeoskBB8PYh8p/jvSbEZxzSg
+	nyvRTg9HyLFxHa/ptXb0sK48AbPJYC3fjlfxZvKJeE0T9WlDNX1iC4F/npKJQEablwka
+	CmfZYU8Qhv2tsopHJBIq3DlJ9GFt+U0qHhZNuEJ+L7K2Wmgz7JGh8g/ok4NCP/ygdBl9
+	X0XuK7DZzOW5T1E3wSCOIdMaiWJL98NJGOBYH72+7SNug/Y/gf4hdFTIVtCrUXcedzcU
+	7aOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=VhpKX2mKN2i/7iL5dygpcGSVzpiLDtBBpA7B3mfzWuo=;
+	b=A4iW1BPdN+P0E7H/am7vIPQ5buvu/plPGmpHYb+zC1aBoG2N+z/zF7EoBo7b2uSZ8/
+	gjEBMd3PTGYdPgsFpQKf6spgf9hZuDPGDXleZeuGvKHDx2H0BRX214MCr9rYvwDq7vin
+	yH4mtIde1ur+0rSmbYo4GbpIS0/jg0xMJQpbs4SlXr0uLijDYQYOyARcrM+1UDgv+KZE
+	V6OSMiqGooySBVPiwsITV9Iu8baRIJ7nfvqPLlLmQVUTlci5OKMVY5SyYq6WB2Ke51HE
+	wfvK4TXqoxaIvI5Q/zFOCB4DhjDygOYDSyohmQsbQ8DfETsJsTszZw+W6Sia1QdlB4+R
+	iVLQ==
+X-Gm-Message-State: APf1xPA8aJLUomtyJ/r2qDmyYEumCzVTR4ANTH4YF9JD+8uAZLo3P2KW
+	maoIbEb5MfPyBxoR7KuKvh/uYAPx
+X-Google-Smtp-Source: AG47ELuHuJDyMQClSG1NZIGq+ut3ToGnvC6vhs62ZI3oz7SI44SWULBYYJsl6711Sqm+r4XJ6Nkybw==
+X-Received: by 10.157.75.130 with SMTP id k2mr7353127otf.244.1520117150614;
+	Sat, 03 Mar 2018 14:45:50 -0800 (PST)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+	u203sm4507317oie.24.2018.03.03.14.45.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 03 Mar 2018 14:45:48 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id c18so9564153oiy.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Mar 2018 14:45:48 -0800 (PST)
+X-Received: by 10.202.179.214 with SMTP id c205mr6793474oif.315.1520117148266; 
+	Sat, 03 Mar 2018 14:45:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfCOUzmsdzc6Ej3ynlWFI7QMW5l8tOMgiUO/2h9uUmNMDAKxuV88Ubk4DrrAwL72UncmmS9CVdBbw+YpGJ39hfnC1tCGVXfjIvb/Y+4MPbb90drjzClm0
-	v6g6nmuN/E8cNicNPAcKVGJwn2RSU39mEXqNCbAARqVRN9C1gNB8+dhg
-Subject: coreutils-native and util-linux-native conflicting with meta-micro
+Received: by 10.157.80.129 with HTTP; Sat, 3 Mar 2018 14:45:47 -0800 (PST)
+In-Reply-To: <CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
+References: <20180302203314.32737-1-matt@madison.systems>
+	<876d96e7-1425-df8e-621c-b2dd3c263d88@gmail.com>
+	<CAGgRHJoNhQTyVN7ww5BAoQLs1GPkxO3rsdujLttH8V-84vFiAw@mail.gmail.com>
+	<CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
+Date: Sat, 3 Mar 2018 19:45:47 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
+Message-ID: <CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +72,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2018 21:34:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 03 Mar 2018 22:45:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-I have a recipe which uses both base64 from coreutils-native and hexdump
-from util-linux-native so I've put both in my recipe DEPENDS.
+On Sat, Mar 3, 2018 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Sat, Mar 3, 2018 at 9:44 AM, Matt Madison <matt@madison.systems> wrote:
+>> Since it looks like I'll have to do a v5 on my series anyway, I can
+>> pull in that backport for the aarch64 issue.
+>
+> sure,  I would suggest we keep 1.9 around as well.
 
-Unfortunately do_prepare_sysroot is failing with:
+I am against. Go is good to provide backward compatibility and keeping
+both just causes people to delay the update. We have some time to
+April release and thus any regression will be ironed out. Possibly
+wait until 1.10.1 is out but keeping two releases I am unsure it is
+needed.
 
-Exception: FileExistsError: [Errno 17] File exists: '/home/mac/src/oe2/build-bcm7425/tmp-glibc/sysroots-components/x86_64/coreutils-native/bin/kill' -> '/home/mac/src/oe2/build-bcm7425/tmp-glibc/work/impala-oe-linux-gnueabi/verify-rootfs/1.0-r3/recipe-sysroot-native/bin/kill'
-
-since both coreutils and util-linux provide /bin/kill.
-
-This doesn't cause a problem in a standard oe-core build since coreutils
-installs all its binaries in ${bindir} whereas util-linux puts kill in
-${base_bindir}.
-
-Unfortunately, with meta-micro ${bindir} and ${base_bindir} are the same
-directory. :(
-
-Both coreutils and util-linux already appear to use the alternatives
-mechanism for kill, but that doesn't seem to help for -native.
-
-I can easily locally nobble kill in one of the recipes to solve this
-problem, but that doesn't seem very elegant.
-
-What's the correct way to solve this problem?
-
-Thanks.
-
-Mike.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
