@@ -1,57 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AB3C471A74
+Received: from mail-pl0-f46.google.com (mail-pl0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FEFA78531
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Mar 2018 02:45:37 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id l131so4520209pga.2
+	Sat,  3 Mar 2018 02:47:12 +0000 (UTC)
+Received: by mail-pl0-f46.google.com with SMTP id 93-v6so6738307plc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2018 18:45:39 -0800 (PST)
+	Fri, 02 Mar 2018 18:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=J8bR5sD9rXB5thTn32J9R00jeBlasVhD1wwSrKo8xbM=;
-	b=mOW+QYEe+oHO3a8B7NHkXwAgWfkKPRrjSQOUHwb4NA2IglOB9Ty6RzKimOPTChpHLV
-	wlHJn4R50ie5kjdjn5/YXEAuJVbZqpIMRmXxkJ2rlk3I9GbR1IbiyhHVaRhs3ip4BSo6
-	Br+teDaF24WQZggmS30GYe4Aiz9DgqnF8QnY83y+LYrsKTEVi4824xVp/p9cf/sGGPqz
-	yggoBruHOYQVi5517We3vMXJGE4F3UIQ6qwMdltbyoVcqbb8lK4iucUjNqIf9dMm0L/i
-	Rwp/WCrZxdXP7iHyWXCr/g6xDurXGNj534QZ/Z7qEa9dXCJ0Mw9WkR8YQPvGF+qnybz+
-	2iLw==
+	h=from:to:cc:subject:date:message-id;
+	bh=+1H33gnGI37SiQcdS/HPwU0GTsgEPv5MebyzC284R9k=;
+	b=cvxi2P0hwlkmjXt6YalH58nW/mB4sa3DnizSMACUnAo0Fl4ldFNwwM/ZPNk/2BWoQ/
+	Pplqb7Mey4NA5vAcVmqJyGTZ2ZAnALoj1cv4VmZqN1I/Ex5zemlUipMZnZ5WALaG6xuA
+	CSJtgjvNvTI5ywqfngE04cdO69xRxZjKpO4rE08fi22PfHMTWrAf7uHyh4GGwrazKLBq
+	+K3KI3dvQqeoMC+M8RWyMSrxBq+K6guXuz5SmPrjULm7RSAch/7PF8UducPz3mWW075X
+	BHXshb1FgXutrB6y7ThbWzu6yKk+h5TtONpTKn5Lc7YmaCpcC8NZQPYDBqw3hMMfMDdZ
+	7m2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=J8bR5sD9rXB5thTn32J9R00jeBlasVhD1wwSrKo8xbM=;
-	b=W8evwCwXEYVXO1QQa91gcBlSPxmhVHcgIQLPez/2LYhHrbLVtZeGN0PVkMR6TJz41l
-	yjmtnz1Of5Q92G9chZThi6D6upwRN7K0Rj8nlJatWvI9EMOdk/ZJr0zQcdFVNoV1L3pB
-	0aqqVgekRmJ+hmBGSjnDlSzPFJow4kpb+gwOrMBkIHdI/tDF9BvjNM1nUOZEY9S4oU/X
-	0RHeMuJgq5x1vJFekHMTxGqPvune0qc42bscKP+G1B+i4J0pS3ftrWxwgkpXn80tA34f
-	3FkRtZnb5r/oNTkOBzRqhJEw1gawe9KKu+4k4tFRFfIxO8OfYb7UGlZOwZOEl1vqJj+D
-	oaHg==
-X-Gm-Message-State: APf1xPBbkzfXNzOileuGNwf2oJZozq1Ez5JEXGMNzu0HnGiznLT9FQbJ
-	9tF6jOxEYfpQ6xm9XTh/AeEbFLnC
-X-Google-Smtp-Source: AG47ELuz6Y5YeHtIdWGPgQMYrLSJpLiMcGj4JN3jlts6rEi8izDzT+Y1HacFft6R0wI+S96I94iIzQ==
-X-Received: by 10.167.129.67 with SMTP id d3mr7643861pfn.108.1520045138204;
-	Fri, 02 Mar 2018 18:45:38 -0800 (PST)
-Received: from ?IPv6:2601:646:8880:466c:a564:75fb:6e2a:d708?
-	([2601:646:8880:466c:a564:75fb:6e2a:d708])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+1H33gnGI37SiQcdS/HPwU0GTsgEPv5MebyzC284R9k=;
+	b=AUN1hymLN6Lun8MP7VK4vKViDOcUEdoY6RNkBMf82JSGhGTX6w+S5Nsi2gz6I39TyB
+	U/8xKnSXJ9mEZKV895KWG2M5LBGE3IIKCt7SyROydvy+rcMh1eLs8d0ka4gywLnwqiBc
+	deekeiIW58eKnl/hPr6+ZkIyiLL8njA+TqjRPyBxN897ROhElczI4RlPxizDz6mGnnzk
+	P1pVHu58O0U6wz49ygk2/885rVObYNrvN3pW8ic8atIWaQzEwNpolpBuKOncF6EPMFlx
+	rxLsYjLNDphubC1hunidRvaiCQqc5VzY2zLz9BnM964dDsF+pEDD2JjxuFO9DHh6UGPB
+	sULg==
+X-Gm-Message-State: APf1xPBb4Uv/bNfkVYPdMUfiXwLvX4/376T6JFnFcugXlUOq10g8bQYH
+	9BPYogRQHpw+EnyPEeHg+bAoPQ==
+X-Google-Smtp-Source: AG47ELuTC8KSdiZn4l8GHM/7R1hLcGwO/PynlTFi5egfjENocveYBzGLNC4gW0I3l1VrbWPSuKJpcw==
+X-Received: by 2002:a17:902:6716:: with SMTP id
+	f22-v6mr7099540plk.180.1520045234158; 
+	Fri, 02 Mar 2018 18:47:14 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
 	by smtp.gmail.com with ESMTPSA id
-	y18sm13500101pfl.146.2018.03.02.18.45.36
+	a28sm14320814pfe.70.2018.03.02.18.47.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Mar 2018 18:45:37 -0800 (PST)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-References: <cover.1519797175.git.Qi.Chen@windriver.com>
-	<17b1cd0eb9a731bdf5049a60bb8efd00614f8edd.1519797175.git.Qi.Chen@windriver.com>
-	<46823155-8640-e1a8-abd3-3096c42db362@linux.intel.com>
+	Fri, 02 Mar 2018 18:47:13 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <e75690b6-7de8-cfdc-547b-7c35afe835ff@gmail.com>
-Date: Fri, 2 Mar 2018 18:45:36 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0)
-	Gecko/20100101 Thunderbird/58.0
-MIME-Version: 1.0
-In-Reply-To: <46823155-8640-e1a8-abd3-3096c42db362@linux.intel.com>
-Subject: Re: [PATCH 2/4] systemd: upgrade to 236
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Mar 2018 18:47:05 -0800
+Message-Id: <20180303024705.1391-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] systemd: Explicitly add hidden attribute to __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,20 +55,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2018 02:45:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Mar 2018 02:47:13 -0000
 
-On 2/28/18 3:41 AM, Alexander Kanavin wrote:
-> On 02/28/2018 07:56 AM, Chen Qi wrote:
->> Upgrade systemd to 236.
-> 
-> Latest upstream release is 237, should we use that?
-> 
+These symbols appear in dynsyms of libsystemd.so and musl loader
+doesnt like it
 
-I think yes thats a good idea
+Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0: __start_BUS_ERROR_MAP: symbol not found
+Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-r0/recipe-sysroot//lib/libsystemd.so.0: __stop_BUS_ERROR_MAP: symbol not found
 
-> Alex
+[YOCTO #12577]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...rt_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch | 34 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_234.bb           |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch b/meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+new file mode 100644
+index 0000000000..2cffc426ed
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+@@ -0,0 +1,34 @@
++From 687a5af8dc5d38f918a6ce08fed5297234bf8346 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 2 Mar 2018 18:00:17 -0800
++Subject: [PATCH] Hide __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
++
++for currently unknown reasons they get exported to the shared libries
++even without being listed in the sym file
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++
++Upstream-Status: Pending [ Conditional on master needing this, 234 does need it ]
++
++ src/libsystemd/sd-bus/bus-error.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/libsystemd/sd-bus/bus-error.c b/src/libsystemd/sd-bus/bus-error.c
++index 378f7a377..49d797abd 100644
++--- a/src/libsystemd/sd-bus/bus-error.c
+++++ b/src/libsystemd/sd-bus/bus-error.c
++@@ -71,8 +71,8 @@ BUS_ERROR_MAP_ELF_REGISTER const sd_bus_error_map bus_standard_errors[] = {
++ };
++ 
++ /* GCC maps this magically to the beginning and end of the BUS_ERROR_MAP section */
++-extern const sd_bus_error_map __start_BUS_ERROR_MAP[];
++-extern const sd_bus_error_map __stop_BUS_ERROR_MAP[];
+++extern const sd_bus_error_map __start_BUS_ERROR_MAP[] _hidden_;
+++extern const sd_bus_error_map __stop_BUS_ERROR_MAP[] _hidden_;
++ 
++ /* Additional maps registered with sd_bus_error_add_map() are in this
++  * NULL terminated array */
++-- 
++2.16.2
++
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index d12e94f463..b15e5a41db 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -51,6 +51,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://0001-meson-update-header-file-to-detect-memfd_create.patch \
+            file://0002-configure.ac-Check-if-memfd_create-is-already-define.patch \
+            file://0003-fileio-include-sys-mman.h.patch \
++           file://0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+-- 
+2.16.2
 
 
