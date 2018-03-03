@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A61AF789C9;
-	Sat,  3 Mar 2018 04:35:19 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: =?utf-8?q?Daniel_D=C3=ADaz?= <daniel.diaz@linaro.org>
-Date: Sat, 03 Mar 2018 04:35:21 -0000
-Message-ID: <20180303043521.15536.27126@do.openembedded.org>
-References: <1520051014-6587-1-git-send-email-daniel.diaz@linaro.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1520051014-6587-1-git-send-email-daniel.diaz@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2RiOiBmaXggaGVhZGVyIG9yZGVyaW5nIGZvciBUUkFQX0hXQktQVA==?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CBAA78A22
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  3 Mar 2018 08:53:56 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w238rrYB007823
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 3 Mar 2018 08:53:55 GMT
+Message-ID: <1520067233.3436.34.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 03 Mar 2018 08:53:53 +0000
+In-Reply-To: <20180302153220.16494-1-alexander.kanavin@linux.intel.com>
+References: <20180302153220.16494-1-alexander.kanavin@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] perl: use parallel build where possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2018 04:35:19 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Mar 2018 08:53:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On Fri, 2018-03-02 at 17:32 +0200, Alexander Kanavin wrote:
+> While the upstream just runs a number of make tasks hardcoded to a
+> single thread
+> in succession, we can add '-j n_threads' to a few of them. The
+> benefit
+> is real: on my machine the do_compile() time goes from 250 seconds to
+> about 90.
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-devtools/perl/perl_5.24.1.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-Series: gdb: fix header ordering for TRAP_HWBKPT
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11215/
-State : failure
+I like the idea of the patch but I think it triggered:
 
-== Summary ==
+https://autobuilder.yocto.io/builders/nightly-world/builds/806/steps/BuildImages/logs/stdio
 
+Cheers,
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Richard
 
 
