@@ -1,40 +1,49 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF997847B
+Return-Path: <adi@adirat.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 53F267847B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Mar 2018 01:48:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B9BC620B67;
-	Sat,  3 Mar 2018 01:48:40 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 5054y6F7zk6F; Sat,  3 Mar 2018 01:48:40 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 9C9C720862;
-	Sat,  3 Mar 2018 01:48:39 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 5B1751632F1; Fri,  2 Mar 2018 20:48:39 -0500 (EST)
-Date: Fri, 2 Mar 2018 20:48:39 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20180303014839.GV2786@denix.org>
-References: <1453495750-104494-1-git-send-email-raj.khem@gmail.com>
-	<CAJ86T=U6jUg7+nLPVz_=cEodqRNcK=zHvu3yJBOvg+b9V0XXWA@mail.gmail.com>
-	<1454314457.20696.16.camel@intel.com>
-	<CAMKF1srg=gT+SNznGFoLG2p_gHdwf4FW0UQk_5DqxKTB_A_k4Q@mail.gmail.com>
-	<1454425253.22914.5.camel@intel.com>
-	<1454426983.27087.81.camel@linuxfoundation.org>
-	<20160502164357.GB27602@denix.org>
-	<20180302211938.GS2786@denix.org>
-MIME-Version: 1.0
-In-Reply-To: <20180302211938.GS2786@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox: Add support for busybox-init
+	Sat,  3 Mar 2018 02:19:52 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id p104so11861952wrc.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Mar 2018 18:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=adirat-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=sVGdixCWHXMUTmQ4Sk/FO7MkNSGNN2hwVseSyoQ0QFo=;
+	b=A8YTZX03S+3mahJwcjUEXs3y/yo5dmF4Kt4TWk8l3e2cUSoJFI6wnSoxLYz6wlQFGM
+	W+riUKkXePQ0SLAY2JrIbp3LzABEdt6JzWtQ4cp7+USdpGbPj22+ibr7Ju5Db/L72SOf
+	349ywuNbuotnkrQ73GNq3KK9H3Uh2BbfmCdvaBOnP1wTNUip6HPGsSQRNgcYIWzeNzgv
+	ZPKbNfjhem76VM7aYXGNZqamjixaWYHi5ovVSZNd5zetzCU3ZTBr0FeOnWaEbUEBN2Nd
+	utodZJg0yfF+p5j7TNgfW6YnNmVsKvrvx1rBJj6BYkJBX3ZdAPEPX7jI7Pi+7bjmilLF
+	4Zpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=sVGdixCWHXMUTmQ4Sk/FO7MkNSGNN2hwVseSyoQ0QFo=;
+	b=DLYQwNcDVzTZjyPoSiaCXL0CduSBlpNYNzD8oC+BhOrO2WMG8AflVvnztlJksTpjrS
+	ikJsb6E0d9CLAnBFTWRjkjlAVdjYKFY4wscJwZuaszB0l3177Z1C2qMrd3NrNKO7uRpd
+	S3r/442szcWzueX4ViN7U6C5bWqUW+r701vR2RhTUB9iYzkpi1rwIMbeQZkXdcRLOgG9
+	bXfuRmv9CiW1P1+biLFlIrEucZvyB12WXDWFt6z7EMj/l/mxMxzbxkOEV0+c9iIU1SaO
+	e/wI9fgA3Q3g/NGzYvs3y2bM+n5AVh5fRMpBFsm58P3BrAvtBj5RScO4rzcUkLtbMN/F
+	Gaqg==
+X-Gm-Message-State: APf1xPCcsPFXNVr1VthzUQnf3F7nIb/FiFVOhffFeHdwFqqkbKeQJxgQ
+	JsGGQ3u4HDJAsQgeQKqRUPeKR53b
+X-Google-Smtp-Source: AG47ELucaZv4fNPpcnfCxXZ54F9jv8U9EhkXbWJOEQGvqnBijwREExOntB4whLkQlBmHdZA4m0fJMw==
+X-Received: by 10.223.185.112 with SMTP id b45mr6495967wrg.159.1520043593584; 
+	Fri, 02 Mar 2018 18:19:53 -0800 (PST)
+Received: from adiPC.lan ([2a02:2f0e:190:12a9:eaa7:71e2:972d:878b])
+	by smtp.gmail.com with ESMTPSA id
+	b81sm2117999wmb.36.2018.03.02.18.19.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 02 Mar 2018 18:19:52 -0800 (PST)
+From: Ioan-Adrian Ratiu <adi@adirat.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Mar 2018 06:19:31 +0200
+Message-Id: <20180303041931.16154-1-adi@adirat.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] dtc: add rdepends_${PN}-misc = diffutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,78 +56,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2018 01:48:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 03 Mar 2018 02:19:53 -0000
 
-On Fri, Mar 02, 2018 at 04:19:38PM -0500, Denys Dmytriyenko wrote:
-> On Mon, May 02, 2016 at 12:43:58PM -0400, Denys Dmytriyenko wrote:
-> > On Tue, Feb 02, 2016 at 03:29:43PM +0000, Richard Purdie wrote:
-> > > On Tue, 2016-02-02 at 16:00 +0100, Patrick Ohly wrote:
-> > > > On Mon, 2016-02-01 at 08:57 -0800, Khem Raj wrote:
-> > > > > On Mon, Feb 1, 2016 at 12:14 AM, Patrick Ohly <
-> > > > > patrick.ohly@intel.com> wrote:
-> > > > > > On Mon, 2016-01-25 at 11:39 -0800, Andre McCurdy wrote:
-> > > > > > > > +        if grep "CONFIG_INIT=y" ${B}/.config; then
-> > > > > > > > +                install -D -m 0777 ${WORKDIR}/rcS
-> > > > > > > ${D}${sysconfdir}/init.d/rcS
-> > > > > > > > +                install -D -m 0777 ${WORKDIR}/rcK
-> > > > > > > ${D}${sysconfdir}/init.d/rcK
-> > > > > > > > +                install -D -m 0755 ${WORKDIR}/runlevel
-> > > > > > > ${D}${base_sbindir}/runlevel
-> > > > > > > > +                if grep "CONFIG_FEATURE_USE_INITTAB=y"
-> > > > > > > ${B}/.config; then
-> > > > > > > > +                        install -D -m 0777
-> > > > > > > > ${WORKDIR}/inittab
-> > > > > > > ${D}${sysconfdir}/inittab
-> > > > > > > > +                        tmp="${SERIAL_CONSOLES}"
-> > > > > > > > +                        for i in $tmp
-> > > > > > > > +                        do
-> > > > > > > > +                                j=`echo ${i} | sed s/\;/\
-> > > > > > > > /g`
-> > > > > > > > +                                label=`echo ${i} | sed -e
-> > > > > > > > 's/tty//'
-> > > > > > > -e 's/^.*;//' -e 's/;.*//'`
-> > > > > > > > +                                echo "tty$label::respawn:
-> > > > > > > ${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-> > > > > > > > +                        done
-> > > > > > > > +                fi
-> > > > > > > > +        fi
-> > > > > > 
-> > > > > > SERIAL_CONSOLES is typically set differently for different
-> > > > > > machines. But
-> > > > > > busybox is not machine-specific, therefore using SERIAL_CONSOLE
-> > > > > > like
-> > > > > > this prevents sstate/package reuse or worse, causes package
-> > > > > > versioning
-> > > > > > problems.
-> > > > > 
-> > > > > when busybox is used as init system then it becomes machine
-> > > > > specific and we have
-> > > > > a choice to do so which is disabled by default.
-> > > > 
-> > > > In my case, busybox is not the init system and the recipe is
-> > > > therefore
-> > > > not machine specific. But the code above is active and thus
-> > > > introduces a
-> > > > sstate dependency on the machine-specific SERIAL_CONSOLES anyway,
-> > > > even
-> > > > though the code is dead (if check never reaches it).
-> > > > 
-> > > > The code would have to be added conditionally, and only when it is
-> > > > okay
-> > > > to reference ${SERIAL_CONSOLES}.
-> > > 
-> > > I think we should split this init piece out into a separate recipe,
-> > > which busybox can depend on if/as/when needed.
-> > 
-> > What is the status of this request? Currently busybox is wreaking havoc in our 
-> > multi-machine builds due to SERIAL_CONSOLE reference...
-> 
-> 2 years later this is still an issue...
+Needed by dtdiff which calls `diff` to display its result.
 
-Ok, just sent the patches to fix this.
+Signed-off-by: Ioan-Adrian Ratiu <adi@adirat.com>
+---
+ meta/recipes-kernel/dtc/dtc.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
+index d259c57e8d..9a90d44041 100644
+--- a/meta/recipes-kernel/dtc/dtc.inc
++++ b/meta/recipes-kernel/dtc/dtc.inc
+@@ -22,4 +22,4 @@ do_install () {
+ PACKAGES =+ "${PN}-misc"
+ FILES_${PN}-misc = "${bindir}/convert-dtsv0 ${bindir}/ftdump ${bindir}/dtdiff"
+ 
+-RDEPENDS_${PN}-misc += "bash"
++RDEPENDS_${PN}-misc += "bash diffutils"
 -- 
-Denys
+2.16.2
+
 
