@@ -1,26 +1,50 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C52D978A62
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 941C078A63
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Mar 2018 17:08:47 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w23H8lYd025243
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 3 Mar 2018 17:08:48 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1esAeN-0003LO-4r; Sat, 03 Mar 2018 17:08:47 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Mar 2018 17:08:44 +0000
-Message-Id: <1520096924-12804-3-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1520096924-12804-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1520096924-12804-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 3/3] base: Handle backfilling in anonymous python code, not event handler
+	Sat,  3 Mar 2018 17:23:04 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id 70so17606364lfw.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Mar 2018 09:23:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/dcxCFeUFHUD/xZslrwBMt8CfCex9gk8JRoyVswPrTM=;
+	b=mULLd8rjWZ7zEzCe0YtC5KjD5UkLgYZKRUlV09FHUUBXl+NlsaUCWwAfVKI83sbp7Q
+	EGbPMCav3Vqc8gDUH8gFZqWP/3EAxMviCMqp+EudDO1p8xLDsZmviXJH1FZaiiQxZQ9X
+	hrBaftsCRZ5rA3law058kvhlSwo6K3r0QbgbxoKOU+r5WnYpjNEWprKO9hNkFov2MyUU
+	zZZHYPUOoySAp0cAPMdlBpxwhayfrWDn9g+rjXif7xBi890PJkW/QSqseF8vrEKMWKvi
+	fWQMdy+R346HEk58L/eaEgA65ZnyP0D/Sk/bjPCn5V0B9QP5O6rqWzOuS0h+JfP8Rag0
+	QAmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/dcxCFeUFHUD/xZslrwBMt8CfCex9gk8JRoyVswPrTM=;
+	b=iJYHaS5Ef8RzWnaEj4FlXF3kodb0hO1DdhgHtuakPw0mDjX8eEtYS9MqlZW3xUm45q
+	/3luvO4mDMiIel5ze9ejwgq6+GdIYYNNCvzO+QJFVpGBNPIQXNW+csr1QJ2hxaJMpcZw
+	ExJ4shazOR0/3MtZN1YFewzhxKWKVZ/1BmesCNx/1Nu907oMQgsGH91BbgDexareMASq
+	nQvEjd6X+NWv4QLMF5I/jrhb4OA9gJFb9OQ8pYOwt6VOph+uN+WuMrYdGWid8RAEUSkV
+	NMxRXxZn19x074uNBXSpNwKDrqBatUsbBdFzvLkiG+dWIn76/LpKsCSSxpaVn9RMReNc
+	tjFw==
+X-Gm-Message-State: AElRT7Fz/Ipqm4kA0cEk8VMMhVIUDBAUxB4OSegwgLZU2+dPDYyj+gSl
+	uKI1DlUilZbV7tK4+dxQU5M1CVvG5FBfLF+d/j3WOA==
+X-Google-Smtp-Source: AG47ELuxC9M7kjNjdp9PvepMXyS/PkPaqPQ0HfuKNDD53rRs+LE4qxZ1tneQecjLqQUitGGKIbMVnzysf5sOgHOa530=
+X-Received: by 10.25.208.196 with SMTP id h187mr3663286lfg.107.1520097785036; 
+	Sat, 03 Mar 2018 09:23:05 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.25.156.131 with HTTP; Sat, 3 Mar 2018 09:23:04 -0800 (PST)
+In-Reply-To: <1520096037.3436.59.camel@linuxfoundation.org>
+References: <20180302203314.32737-1-matt@madison.systems>
+	<1520096037.3436.59.camel@linuxfoundation.org>
+From: Matt Madison <matt@madison.systems>
+Date: Sat, 3 Mar 2018 09:23:04 -0800
+Message-ID: <CAGgRHJrhCgN3YoZRpnfbHSU-ASkpgMo-qiCSNEnHW7-sAtzq5Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2018 17:08:48 -0000
+X-List-Received-Date: Sat, 03 Mar 2018 17:23:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Handling of backfilling is trickier than you'd think. We need this to execute
-early enough that the user will see the changes in bitbake -e and other output
-yet late enough that the virtclass extensions have changed the tunes before
-it executes.
+On Sat, Mar 3, 2018 at 8:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2018-03-02 at 12:33 -0800, Matt Madison wrote:
+>> New in v4:
+>>     * updated the go source patch to protect
+>>       GOROOT to defer generating an error
+>>       until a build action would try to update
+>>       something in GOROOT
+>>     * updated go.bbclass to compile for both
+>>       static and dynamic linking, similar to
+>>       go-runtime
+>>     * fixed missing sign-off
+>>
+>> New in v3:
+>>     * reduced one of the go source patches,
+>>       eliminating an unneeded change (thanks
+>>       Otavio)
+>>     * Added bbclass and recipe patches to
+>>       handle SECURITY_CFLAGS settings if
+>>       they're enabled
+>>     * Added go-runtime-staticdev to target-side
+>>       SDK, needed for go static builds (fixes
+>>       test case failure in oe-selftest)
+>>     * two more minor cleanups
+>>
+>> New in v2:
+>>     * Fixed Upstream-Status line in go patches
+>>     * Added GOTMPDIR to do_configure[dirs]
+>
+> I think there may be an issue still lurking somewhere with the PIE
+> changes:
+>
+> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/871/st
+> eps/Running%20oe-selftest/logs/stdio
 
-It makes more sense to execute this at anonymous python time now bitbake -e
-correctly handles this and that unbreaks multilib corruption of these variables.
+Yes, I see.  Works OK if security_flags.inc is included, but not
+otherwise.  Will fix.
 
-[YOCTO #12373]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/base.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index b0a72c7..e0b76f0 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -222,8 +222,6 @@ python base_eventhandler() {
-         if not d.getVar("NATIVELSBSTRING", False):
-             d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
-         d.setVar('BB_VERSION', bb.__version__)
--        oe.utils.features_backfill("DISTRO_FEATURES", d)
--        oe.utils.features_backfill("MACHINE_FEATURES", d)
-         # Works with the line in layer.conf which changes PATH to point here
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
-@@ -382,6 +380,10 @@ def set_packagetriplet(d):
- python () {
-     import string, re
- 
-+    # Handle backfilling
-+    oe.utils.features_backfill("DISTRO_FEATURES", d)
-+    oe.utils.features_backfill("MACHINE_FEATURES", d)
-+
-     # Handle PACKAGECONFIG
-     #
-     # These take the form:
--- 
-2.7.4
-
+Thanks,
+-Matt
+>
+> Cheers,
+>
+> Richard
 
