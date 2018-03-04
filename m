@@ -1,22 +1,20 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C1C78A3F
+	by mail.openembedded.org (Postfix) with ESMTP id C30E178955
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 13:26:51 +0000 (UTC)
+	Sun,  4 Mar 2018 13:29:07 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w24DQorM015141
+	w24DSxxQ015181
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 4 Mar 2018 13:26:51 GMT
-Message-ID: <1520170010.3436.66.camel@linuxfoundation.org>
+	verify=NOT); Sun, 4 Mar 2018 13:29:00 GMT
+Message-ID: <1520170139.3436.68.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 04 Mar 2018 13:26:50 +0000
-In-Reply-To: <CA+chaQeKutNQ5G8=6ph4fYZVJb8KkF0OWeExCJUQTWArBZirKA@mail.gmail.com>
+Date: Sun, 04 Mar 2018 13:28:59 +0000
+In-Reply-To: <CA+chaQeV1f7yUt3w5t7iXrYf5OyMjbxr-C_dqKGqG+jDt4gFcA@mail.gmail.com>
 References: <1520162580-30003-1-git-send-email-richard.purdie@linuxfoundation.org>
 	<CA+chaQeV1f7yUt3w5t7iXrYf5OyMjbxr-C_dqKGqG+jDt4gFcA@mail.gmail.com>
-	<CA+chaQdU0RoRG_5pKr5qrKS2KauOfii_F-_CHPB4cy_0v2P-pQ@mail.gmail.com>
-	<CA+chaQeKutNQ5G8=6ph4fYZVJb8KkF0OWeExCJUQTWArBZirKA@mail.gmail.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
@@ -36,17 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 13:26:51 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 13:29:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2018-03-04 at 13:08 +0100, Martin Jansa wrote:
-> And the same with
-> meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
-> which isn't included in SRC_URI since:
+On Sun, 2018-03-04 at 12:38 +0100, Martin Jansa wrote:
+> Is this backport of https://patches.openembedded.org/patch/144961/ ?
+> 
+> If yes, why does it have different author?
 
-As far as I can tell this isn't included in the patch or the
-repository?
+I suspect this was done independently and it wasn't realised that there
+was a patch that could be backported. We'll wait for Juro to comment.
+
+I posted it as I really wanted to get it reviewed, it passed the test
+builds and I'm keen to get some of these issues resolved before travel
+starts complicating things for me.
 
 Cheers,
 
