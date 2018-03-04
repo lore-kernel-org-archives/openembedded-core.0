@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AC86C78548;
-	Sun,  4 Mar 2018 11:35:01 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B30DC78548;
+	Sun,  4 Mar 2018 11:35:02 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun, 04 Mar 2018 11:35:03 -0000
-Message-ID: <20180304113503.15543.26836@do.openembedded.org>
-References: <1520162492-29839-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sun, 04 Mar 2018 11:35:04 -0000
+Message-ID: <20180304113504.15539.72353@do.openembedded.org>
+References: <1520162580-30003-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1520162492-29839-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1520162580-30003-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2NjNjogVXBncmFkZSB0byA2LjQuMCAobGF0ZXN0IHN0YWJsZSBzZXJpZXMgcmVsZWFzZSk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2NjNjogVXBncmFkZSB0byA2LjQuMCAobGF0ZXN0IHN0YWJsZSBzZXJpZXMgcmVsZWFzZSkgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 11:35:01 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 11:35:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: gcc6: Upgrade to 6.4.0 (latest stable series release)
-Revision: 1
+Series: gcc6: Upgrade to 6.4.0 (latest stable series release) (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/11226/
 State : failure
 
