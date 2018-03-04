@@ -1,23 +1,23 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E4F2078A95
+	by mail.openembedded.org (Postfix) with ESMTP id 59DD778975
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 23:08:00 +0000 (UTC)
+	Sun,  4 Mar 2018 23:12:45 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Mar 2018 15:08:02 -0800
+	04 Mar 2018 15:12:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="22873251"
+X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="39175154"
 Received: from chiron.jf.intel.com ([10.7.159.61])
-	by orsmga006.jf.intel.com with ESMTP; 04 Mar 2018 15:08:01 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2018 15:12:46 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 15:07:50 -0800
-Message-Id: <20180304230750.10113-1-timothy.t.orling@linux.intel.com>
+Date: Sun,  4 Mar 2018 15:12:44 -0800
+Message-Id: <20180304231244.10229-1-timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] libtest-needs-perl (and others): self-assign maintainerhsip
+Subject: [PATCH v2] libtest-needs-perl (and others): self-assign maintainership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 23:08:01 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 23:12:45 -0000
 
 Also, take over the other recipes that were just enabled for
 ptest:
@@ -42,6 +42,9 @@ ptest:
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
+Changes since v1:
+correct typo in shortlog
+
  meta/conf/distro/include/maintainers.inc | 11 ++++++-----
  1 file changed, 6 insertions(+), 5 deletions(-)
 
