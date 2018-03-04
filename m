@@ -1,26 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 193A378883
+	by mail.openembedded.org (Postfix) with ESMTP id 5F97478883
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 17:24:47 +0000 (UTC)
+	Sun,  4 Mar 2018 17:26:15 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w24HOi8j022893
+	w24HPP9T022935
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 4 Mar 2018 17:24:45 GMT
-Message-ID: <1520184284.3436.73.camel@linuxfoundation.org>
+	verify=NOT); Sun, 4 Mar 2018 17:25:27 GMT
+Message-ID: <1520184325.3436.74.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tim Orling <timothy.t.orling@linux.intel.com>,
+To: Denys Dmytriyenko <denis@denix.org>,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 04 Mar 2018 17:24:44 +0000
-In-Reply-To: <33ac1c7b856b09d1f12d7bbf13dd9343cf27a867.1520166347.git.timothy.t.orling@linux.intel.com>
-References: <cover.1520166347.git.timothy.t.orling@linux.intel.com>
-	<33ac1c7b856b09d1f12d7bbf13dd9343cf27a867.1520166347.git.timothy.t.orling@linux.intel.com>
+Date: Sun, 04 Mar 2018 17:25:25 +0000
+In-Reply-To: <1520041611-39622-1-git-send-email-denis@denix.org>
+References: <1520041611-39622-1-git-send-email-denis@denix.org>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 2/7] libtest-needs-perl: add 0.002005
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 1/2] busybox: separate inittab into own package, due to SERIAL_CONSOLES being machine-specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 17:24:48 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 17:26:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2018-03-04 at 04:41 -0800, Tim Orling wrote:
-> Skip tests when modules not available
+On Fri, 2018-03-02 at 20:46 -0500, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
 > 
-> * Dependency for ptest of liburi-perl
+> * Create busybox-inittab recipe to produce machine-specific package
+> with /etc/inittab
+>   and necessary getty calls for a machine, based on SERIAL_CONSOLES,
+> similar to how
+>   sysvinit-inittab was done
 > 
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> * Since CONFIG_FEATURE_USE_INITTAB is controlled by VIRTUAL-
+> RUNTIME_init_manager, make
+>   main busybox package RDEPENDS on busybox-inittab when init_manager
+> is set to busybox
+> 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 > ---
->  .../perl/libtest-needs-perl_0.002005.bb            | 29
+>  .../recipes-core/busybox/busybox-inittab_1.27.2.bb | 32
 > ++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 meta/recipes-devtools/perl/libtest-needs-
-> perl_0.002005.bb
+>  meta/recipes-core/busybox/busybox.inc              | 12 ++------
+>  2 files changed, 34 insertions(+), 10 deletions(-)
+>  create mode 100644 meta/recipes-core/busybox/busybox-
+> inittab_1.27.2.bb
+
 
 Can you send a patch to fix:
 
-https://autobuilder.yocto.io/builders/nightly-oe-
-selftest/builds/878/steps/Running%20oe-selftest/logs/stdio
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/878/steps/Running%20oe-selftest/logs/stdio
 
 i.e. 
 
 oe-selftest -r distrodata.Distrodata.test_maintainers
 
-please? (missing maintainers entry for libtest-needs-perl)
+please? (missing maintainers entry for busybox-inittab)
 
 Cheers,
 
 Richard
-
-
-
-
-
 
