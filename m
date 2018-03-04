@@ -1,52 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0932C6FF9F
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 95BBF7873C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 02:28:46 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id a16so5708423pfn.9
+	Sun,  4 Mar 2018 04:09:59 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id bb3-v6so7864476plb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Mar 2018 18:28:48 -0800 (PST)
+	Sat, 03 Mar 2018 20:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dpMsVBf1aGRUi+BB3AwqF18HEh1ry7U9usCGx8QCB0E=;
-	b=popwECZ3Y4PPiHd4VceAm4G0ejx41r0eNSDGZlp+hRYDBLrnBucjyefaWLcgUvnEeQ
-	RHLoiTUYePwPZuPbrgpFBkg/fGeEsxZ+HdnpH5mD0aIUd2XM4Y2wiRwCYGBhVXz4H9VP
-	Vic7FV5Fk5awIyEcGNuBb1fioNK4hf7Dt1joDyc5p8JeKwW/h8zU9LVs3lXeBtQo23jd
-	qlzslUOTyJuUTzForv3agEYsb0W+zvjUI6UxNWjXL7eySbrsOTBlsI4im/gdobuywNcy
-	b8S6k233XDgUV2sWVaRVM8MMdz9dZqHgHq4br/yzV+H7AVsNfjMK59j2YbpIvBDoaqOQ
-	bLCQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=zcgwxAojj+2hR7NyYDcXtgOfit5xV9uUAgAjmHaAdpw=;
+	b=Z3nB0JbueaOOCzcwLxxSqiA3CriuThBIJaqOlyIqoEfjepyGe8Qg6TeCNyWLBiPsrI
+	YzBEn7d4FKdYKsOInOtbCrQFlS0Y47r+rQ516P4Lr3SWgds7cGw7yEaSESTaZkSnbtpV
+	4IQTszd3ZhccNYTEpIZsrC+bJoi9Ski1F/vxLz7z7aduj//I1oXXGCrSBoM1gdrjDUdy
+	P7Niij9lGljztuJltLtgjZbjV856mMA+UWJ3sCZEHw4iNR+ZPFurXi/E97RZEQePp9em
+	sb1HoLpaDtn7EdM+YEcAum5tNXfNAhgyMmzUm35rHsKO5BL3CZ3KmwHQeyZWMAUvh770
+	1Jyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dpMsVBf1aGRUi+BB3AwqF18HEh1ry7U9usCGx8QCB0E=;
-	b=DZaGdYJWpnAEMZJS9ViwIXil8dXe1jhHXJHggIL/05NN1JVE9uFJB7VNbsnc5SewQT
-	PuIblvdlzMv/Z4z/8mm6jmv0Yk+lm3XD/3RUPe0xz53EAH5M8+yyQbasOEKad4lBdYA6
-	n2ZgmGH/9QzmRC+3r8MjcPUd7gwC/kl440pZUvgPnlR52YisDX+TijKKefAbM7b8SjnZ
-	WwzOoVgeMd+buwFye9f8duoYQP3ZiqIA7qPKae4aUbdWg2D3xKRNUrVQKPVf7YEKPS73
-	UGQERt/XhY+ttT1+EsGnvB1716UIQdDJ1U+CIIS8sZKi7RsqE8vPPAS/mQo3aLBRS4/4
-	+4Mw==
-X-Gm-Message-State: APf1xPDKDtKVNlsbxa+c/i3XXO0U04gBEWTHrqEAVqllEElQIVQ7qiOQ
-	di2PtEOJIY2VIhvJ2Fjc3H2IqqPXiLT98uspdm0=
-X-Google-Smtp-Source: AG47ELtWiPnqqNPBOAjQiNeDJ99gWg1HnOaszIQltefYVJhfMzknZX1iRuY+9qc/DrqPHAWI6+VMbrMemZ5cgKlv608=
-X-Received: by 10.101.97.175 with SMTP id i15mr8447594pgv.55.1520130527815;
-	Sat, 03 Mar 2018 18:28:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.170.69 with HTTP; Sat, 3 Mar 2018 18:28:17 -0800 (PST)
-In-Reply-To: <CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
-References: <20180302203314.32737-1-matt@madison.systems>
-	<876d96e7-1425-df8e-621c-b2dd3c263d88@gmail.com>
-	<CAGgRHJoNhQTyVN7ww5BAoQLs1GPkxO3rsdujLttH8V-84vFiAw@mail.gmail.com>
-	<CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
-	<CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zcgwxAojj+2hR7NyYDcXtgOfit5xV9uUAgAjmHaAdpw=;
+	b=I43WPQxkbmSdypTSBvTTlmnshwIJicsC98r5ZxjoMwfMCHh9nUxxlgPLCE3C4KvHNR
+	wwGzmEV5gK5j9b30O7mdsoryOlqAdtOx12n0MW91LoBFfWISxOYeh03Adt7JwTwB6mTW
+	gOLnSz8swwV1nvidt1Jq/EAzXz99JvsYvpTzse+oNaGOtK+D+ukOqTLh0xylA6WSONQL
+	aFD5QLYCMBvjN7QR2WwlOqBpFrSWToVAJ5sf3ZxmzW6lD2SHqehC722vjHR49ghEF5ea
+	g6pJwBlij6TD9fYEiCOZ4f/skxruUzqYItD/Z4oZ5JZFQ9+TDymTZEyPrR0JLU93VK9M
+	jvmQ==
+X-Gm-Message-State: APf1xPCuvvXwWw+BrRkwkjP0z6iyj5hrex9KQDXWj4KP9BT5bKYaC0mN
+	AOREUZNoRguUwMnzxav7Luz83w==
+X-Google-Smtp-Source: AG47ELsVKpSKGziWp8VxyestEbDbBU9edydPzL4/Yl3/fZ1GYIZ64uNcj8zWzcy1fzi5aIR5U4Mbyg==
+X-Received: by 2002:a17:902:6184:: with SMTP id
+	u4-v6mr9273243plj.390.1520136600353; 
+	Sat, 03 Mar 2018 20:10:00 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	m3sm16909045pgs.90.2018.03.03.20.09.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 03 Mar 2018 20:09:59 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 3 Mar 2018 18:28:17 -0800
-Message-ID: <CAMKF1sp5tRPs7yB9bCZShJnozK_cHTskcSSTUP-=Vag72sZZRg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Mar 2018 20:09:49 -0800
+Message-Id: <20180304040949.12689-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] libsdl2: Upgrade 2.0.7 -> 2.0.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 02:28:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 04 Mar 2018 04:09:59 -0000
 
-On Sat, Mar 3, 2018 at 2:45 PM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Sat, Mar 3, 2018 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Sat, Mar 3, 2018 at 9:44 AM, Matt Madison <matt@madison.systems> wrote:
->>> Since it looks like I'll have to do a v5 on my series anyway, I can
->>> pull in that backport for the aarch64 issue.
->>
->> sure,  I would suggest we keep 1.9 around as well.
->
-> I am against. Go is good to provide backward compatibility and keeping
-> both just causes people to delay the update. We have some time to
-> April release and thus any regression will be ironed out. Possibly
-> wait until 1.10.1 is out but keeping two releases I am unsure it is
-> needed.
+License checksum changed due to copyright year changes see commit
 
-Your disagreement is acknowledged.
-There are larger systems written in go which haven't moved to go 1.10
-and I know for sure influxdb and grafana are not working with 1.10
-and there might be many more real world programs which will be in same
-boat. This is no different then what we do with gcc releases where we
-overlap them for couple of releases to smooth out transition.
+https://github.com/SDL-mirror/SDL/commit/a9072159b2afff5a338804781312067f0a174c3c#diff-21c55fa400e4d25aed3a755371e32151
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../recipes-graphics/libsdl2/{libsdl2_2.0.7.bb => libsdl2_2.0.8.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.7.bb => libsdl2_2.0.8.bb} (92%)
+
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.7.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+similarity index 92%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.7.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+index fcbfa738b5..c0cf70d7fd 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.7.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "http://bugzilla.libsdl.org/"
+ SECTION = "libs"
+ 
+ LICENSE = "Zlib"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=e4688d3bd5bf02dadaa3e5182fd9eda9"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=02ee26814dd044bd7838ae24e05b880f"
+ 
+ PROVIDES = "virtual/libsdl2"
+ 
+@@ -20,8 +20,8 @@ SRC_URI = " \
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+-SRC_URI[md5sum] = "cdb071009d250e1782371049f0d5ca42"
+-SRC_URI[sha256sum] = "ee35c74c4313e2eda104b14b1b86f7db84a04eeab9430d56e001cea268bf4d5e"
++SRC_URI[md5sum] = "3800d705cef742c6a634f202c37f263f"
++SRC_URI[sha256sum] = "edc77c57308661d576e843344d8638e025a7818bff73f8fbfab09c3c5fd092ec"
+ 
+ inherit autotools lib_package binconfig pkgconfig
+ 
+-- 
+2.16.2
+
 
