@@ -1,52 +1,29 @@
-Return-Path: <adi@adirat.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DE6B78A82
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B49978A9B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 21:41:32 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id m12so15270844wrm.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Mar 2018 13:41:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=adirat-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=tBWylE/jSVqbq7SwLU96Rg7cqPvY3I/s06IoCeqsJ+4=;
-	b=i6IP8RLEnoujkKu8imT/dtdfQO9zl18R/rVEHsFKMdZ081j1iQuEYiKGdJO1jqiIju
-	iomZN+ludOX325OuwD3eCuLg38ctJgQnGj4USqB6/0rKQvMm7qjgyjP1hlrXZejW2+Fl
-	LtnwHmldYTpnqE3047n9hj8YBPMviL58w5g1iTZa6cWji8hJPKjFMhig5DXgL/fbOpgt
-	ct6OOaOmxQQ53/l0Q/rPeoBGl+ZyztRhr1FhYhtWiHzXqM7SMRZHDjESibYpvgdXNGmE
-	hhQQLPIcR60jxuK3CcFxRSL4Til73HowmzO3qiOfJdG5LvtsZPPVVrhg5+eAyeYzoFXI
-	1Hgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=tBWylE/jSVqbq7SwLU96Rg7cqPvY3I/s06IoCeqsJ+4=;
-	b=VXt1Z3B7kkb7TY326pZ85bUR9axtaWfc7vFM6ZXKGmjG3GA/NE2uxBDJB/yKV0ha4y
-	sEJGfVQXqbAUR5UJSEtuuCavnY2ehfMO9TVHjQinBV5b/kIUyPiSjHSfUgCV1CuDUpvi
-	Kx+/Pv3CusdLizAdZUloXUytCK05W9Ijq3aFMa/rjwXR9b2ufxOQMRioqsLZNdx5Rbxo
-	nwdrDLWRumhgVii1/eKDmG7LEuLV00rVleP+pJ0rotIaiJCukMQaLrCj/HCAARz0rbyb
-	LXuAKvrY1xwrbQKvVzD5eVug4Tjz0NsKpIza4qZuvDTDKT2b4VUyS5pnuNMa+RSqSMtX
-	paGQ==
-X-Gm-Message-State: APf1xPDREjjaloplV5WghQruMQ5w/DjNMpy30QT8vWhdO9vVakf/ntLx
-	kVbp1zYTdsrh1s2zMLPUtICf3Xur
-X-Google-Smtp-Source: AG47ELs8AJ+q3FPyV5UBEZhJV0hnuMVEghorXLGLRy0bWJ5FAwTEjXnrUvQZu3qbWlFqqfQED48q+A==
-X-Received: by 10.223.154.173 with SMTP id a42mr11532969wrc.240.1520199693579; 
-	Sun, 04 Mar 2018 13:41:33 -0800 (PST)
-Received: from adiPC.lan ([2a02:2f0e:190:12a9:eaa7:71e2:972d:878b])
-	by smtp.gmail.com with ESMTPSA id
-	d27sm14004355wrd.60.2018.03.04.13.41.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 04 Mar 2018 13:41:32 -0800 (PST)
-From: Ioan-Adrian Ratiu <adi@adirat.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 01:41:08 +0200
-Message-Id: <20180304234108.12711-2-adi@adirat.com>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180304234108.12711-1-adi@adirat.com>
-References: <20180304234108.12711-1-adi@adirat.com>
-Subject: [PATCH v2 2/2] diffutils: allow native & nativesdk builds
+	Sun,  4 Mar 2018 22:55:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2018 14:55:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="208768003"
+Received: from smuskula-mobl.amr.corp.intel.com ([10.255.72.214])
+	by fmsmga005.fm.intel.com with ESMTP; 04 Mar 2018 14:55:53 -0800
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+In-Reply-To: <1520184284.3436.73.camel@linuxfoundation.org>
+Date: Sun, 4 Mar 2018 14:55:55 -0800
+Message-Id: <40C301D0-3E30-45AA-9C74-188159EA08B8@linux.intel.com>
+References: <cover.1520166347.git.timothy.t.orling@linux.intel.com>
+	<33ac1c7b856b09d1f12d7bbf13dd9343cf27a867.1520166347.git.timothy.t.orling@linux.intel.com>
+	<1520184284.3436.73.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3273)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/7] libtest-needs-perl: add 0.002005
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 21:41:33 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 22:55:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Required by the new dtc rdepends to avoid errors like this:
 
-ERROR: Required build target 'ionel-rpi-image' has no buildable providers.
-Missing or unbuildable dependency chain was: ['ionel-rpi-image', 'nativesdk-packagegroup-sdk-host', 'nativesdk-qemu', 'nativesdk-dtc', 'nativesdk-diffutils']
+> On Mar 4, 2018, at 9:24 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Sun, 2018-03-04 at 04:41 -0800, Tim Orling wrote:
+>> Skip tests when modules not available
+>>=20
+>> * Dependency for ptest of liburi-perl
+>>=20
+>> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+>> ---
+>>  .../perl/libtest-needs-perl_0.002005.bb            | 29
+>> ++++++++++++++++++++++
+>>  1 file changed, 29 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/perl/libtest-needs-
+>> perl_0.002005.bb
+>=20
+> Can you send a patch to fix:
+>=20
+> https://autobuilder.yocto.io/builders/nightly-oe-
+> selftest/builds/878/steps/Running%20oe-selftest/logs/stdio
+>=20
+> i.e.=20
+>=20
+> oe-selftest -r distrodata.Distrodata.test_maintainers
+>=20
+> please? (missing maintainers entry for libtest-needs-perl)
+>=20
 
-Signed-off-by: Ioan-Adrian Ratiu <adi@adirat.com>
----
- meta/recipes-extended/diffutils/diffutils.inc | 1 +
- 1 file changed, 1 insertion(+)
+That=E2=80=99s what I get for submitting at 5 am. Details. Yes, I will =
+send a patch to self-assign libtest-needs-perl and take over =
+maintainership of all the libfoo-perl in oe-core (if there are no =
+objections).
 
-diff --git a/meta/recipes-extended/diffutils/diffutils.inc b/meta/recipes-extended/diffutils/diffutils.inc
-index 7c5be50fb7..c9e3130587 100644
---- a/meta/recipes-extended/diffutils/diffutils.inc
-+++ b/meta/recipes-extended/diffutils/diffutils.inc
-@@ -10,3 +10,4 @@ inherit autotools texinfo update-alternatives gettext
- ALTERNATIVE_${PN} = "diff cmp"
- ALTERNATIVE_PRIORITY = "100"
- 
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.16.2
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+>=20
 
 
