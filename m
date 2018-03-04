@@ -1,52 +1,52 @@
 Return-Path: <matt@madison.systems>
 Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
 	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 22DAD78A99
+	by mail.openembedded.org (Postfix) with ESMTP id EAC8E78ABD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 21:10:01 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id y8-v6so8528117pll.13
+	Sun,  4 Mar 2018 21:10:02 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id v9-v6so8528248plp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Mar 2018 13:10:03 -0800 (PST)
+	Sun, 04 Mar 2018 13:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=TTwENY7ULODRxCn2+4X6imfIO/W47PqIS8EbZAMn+YA=;
-	b=qYt9wkw58RLdkh1Mr/Pv0JW88Ty2aieTNWDchf4lPIRIwW7J0h2EN0wEU3ykBq9oJ7
-	l18Vuj5P02cW+pry9IoY8JdbxihRb/wzAHBm9Io3SlAJ0SyFqdWKjS/XAdKzkGQRH/O7
-	T3sdVOctLy94qGeYpwyPIUXqBpThdSVA6q0YnU1T9H+fcI88YZU5pgnDgXds62b498+b
-	tTIFzDdYFi9E8iq5IjcOTWITbyx+TFCfrdAGnG+aFt2aJ8rEPYZs5t4meMnwaAlnldoL
-	i4EpCxihhIeYFJCt3B60lHtWNgB7BlY95s02SatCuInSCYxaSvBk/TOnKBb2itaaiFQ3
-	BzHg==
+	bh=2Hx0ezCDqiaZ5nzhoyK5cZcSFJZrXiba49t+hgjjnNI=;
+	b=W8z0D7C8Aja36FUWbjfQr1h+hRTXp1gxRpTIt2phUmKvagOvblTUuxmYpRT3EFl2yM
+	QAyyM8FJOAJHpKfMDGaPKcfnc2gM60LxIMxRE6aUmTbWYD+ySeNCaIlpZQpFiQBK4SrD
+	GSxtsfKfUZ0wvoZXq65NKEbCsXMA4xFAL23uvXREuad9WDtSN1EYrfH2vHvJ6DVjtV+0
+	vhCFwR3zNqaReDfV7A+/D0MM9cD084qpL/0Db8Ci9dRU2qq5Tr1R3D8cV4b2X5kq4bHU
+	eVoTQkcZaJo9tdUeavagqiNCuxlkGV2fy3W91IMK8JDP6OfoGWGfBssfKB/HUcghMYHQ
+	u9+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=TTwENY7ULODRxCn2+4X6imfIO/W47PqIS8EbZAMn+YA=;
-	b=LK/xMKDloPufUzzvsynSYLo6bIwZvevL5c/cl9Q8A0txr9g9iMevkJ6RbRORKDpeeV
-	OgDa9FK+QgOVJsR6kuXTpl4mCmx+gxO2uPeIa8wMnFhqxqzH1AEdLufCj+i1VDM3XuLr
-	PG0lay3TCOmwYin3sO5yLPLzRpx7rl8om0+foU7SXxyjJIP32DhYGsvcDtt3HgotSxj+
-	ZXm6PEVGygDglYbgBp2W4KdTHWV/Rhg0VRQFeUNT2RW399IVdun4uuijD1+5pDjlOrfm
-	20cRn1VnVVDXNJiKc+TqGofGCkV3BuuV3cwN1GrNEQqCwcu4rsmBRNrAH3oLiqRGyPHi
-	pAsQ==
-X-Gm-Message-State: APf1xPAABHttmOcJ6F/JQkRf5v8yKBwlyxq7Mx0I/BF4AqvNwRP+Ecba
-	xYYrn2z/NyWdnJic0DwUUhQqW9ly
-X-Google-Smtp-Source: AG47ELt7RG3P2SWWubxHcUchf3h3nN6FneFp+wsp7n+FJKATb3WoS4X2442j0wHQDXavxTPSKT5EMQ==
-X-Received: by 2002:a17:902:2b84:: with SMTP id
-	l4-v6mr11128019plb.338.1520197802369; 
-	Sun, 04 Mar 2018 13:10:02 -0800 (PST)
+	bh=2Hx0ezCDqiaZ5nzhoyK5cZcSFJZrXiba49t+hgjjnNI=;
+	b=i+3lxb/GvMSXeSVpQSaARYBbq1xdnEowM2rc1j5pWPrRu8oxQjMMlCCjYjvv+92bly
+	d1F84mTehItnpozUwOXCEIW6KqUUthO+tta3tPpdtRv6obJNqYgT67468OeBOIuPHZlv
+	EcQ39PZZ07i+3+BU8gPczBLnFMdyzm4DoW2Td1FTiGGdxup2kR/D1cJDBuhQX1W5guMQ
+	7qKzIj+fNuA26hRB1PY38bcKI527qkA5QxnCynh0IPGYy+zC6oJZnykgmMQ5syh4ktle
+	/Fs2b1qpw6VEo3wh4twU+BayM469+W/TskczRdwY+oRqsjbZFIs2UrgROpRFybwkRWyi
+	FatA==
+X-Gm-Message-State: APf1xPAhWvKbw+W9sXc6LZsB4G5/SeJFbVLBMwzw60nlvJjm9mzcvhRz
+	61NRsuUi0fU3srjLSQ1vnia0uElL
+X-Google-Smtp-Source: AG47ELu2/sZi9mpBOqyRYkYQGoZ8sZIbVYD10vyS7l/DVngSY/qj0jcKJnAyGDp5kL02nOCIMEhS+g==
+X-Received: by 2002:a17:902:b482:: with SMTP id
+	y2-v6mr11104338plr.49.1520197804174; 
+	Sun, 04 Mar 2018 13:10:04 -0800 (PST)
 Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
 	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	x123sm18594829pgb.5.2018.03.04.13.10.00
+	x123sm18594829pgb.5.2018.03.04.13.10.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 04 Mar 2018 13:10:01 -0800 (PST)
+	Sun, 04 Mar 2018 13:10:03 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 13:09:36 -0800
-Message-Id: <20180304210937.29727-13-matt@madison.systems>
+Date: Sun,  4 Mar 2018 13:09:37 -0800
+Message-Id: <20180304210937.29727-14-matt@madison.systems>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180304210937.29727-1-matt@madison.systems>
 References: <20180304210937.29727-1-matt@madison.systems>
-Subject: [PATCH v5 12/13] go-runtime: remove unneeded nativesdk override, rename variable
+Subject: [PATCH v5 13/13] tcmode-default.inc: add settings for go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 21:10:01 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 21:10:03 -0000
 
-since GO_LDFLAGS is also used by the dist tool, and it's confusing
-to use a variable with the same name (but not exported, so unused
-by make.bash/dist).
+to allow GOVERSION to be set for using an older
+go toolchain.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/recipes-devtools/go/go-runtime.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index a79295df47..0041e8afab 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -17,9 +17,7 @@ export CGO_CXXFLAGS = "${CXXFLAGS}"
- export CGO_LDFLAGS = "${LDFLAGS}"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 87a5920cad..5c6681fb9d 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -67,3 +67,13 @@ PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
+ # Setup suitable toolchain flags
+ require conf/distro/include/as-needed.inc
  
- GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
--GO_LINKMODE ?= ""
--GO_LINKMODE_class-nativesdk = "--linkmode=external"
--GO_LDFLAGS ?= '-ldflags="${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS}'"'
-+GO_SHLIB_LDFLAGS ?= '-ldflags="--linkmode=external -extldflags '${GO_EXTLDFLAGS}'"'
- 
- do_configure() {
- 	:
-@@ -38,7 +36,7 @@ do_compile() {
- 	if [ -n "${GO_DYNLINK}" ]; then
- 		export GOTOOLDIR="${B}/pkg/tool/native_native"
- 		CC="$CC_FOR_${TARGET_GOOS}_${TARGET_GOARCH}" GOARCH="${TARGET_GOARCH}" GOOS="${TARGET_GOOS}" GOROOT=${B} \
--			$GOTOOLDIR/go_bootstrap install -linkshared -buildmode=shared ${GO_LDFLAGS} std
-+			$GOTOOLDIR/go_bootstrap install -linkshared -buildmode=shared ${GO_SHLIB_LDFLAGS} std
- 	fi
- 	cd ${B}
- }
++GOVERSION ?= "1.10%"
++PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
++PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
++PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
++PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
++PREFERRED_VERSION_go ?= "${GOVERSION}"
++PREFERRED_VERSION_go-native ?= "${GOVERSION}"
++PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
++PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
++PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
 -- 
 2.14.1
 
