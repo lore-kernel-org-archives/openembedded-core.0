@@ -1,24 +1,25 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 41ECC78998
+	by mail.openembedded.org (Postfix) with ESMTP id 0D35F78815
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 11:21:48 +0000 (UTC)
+	Sun,  4 Mar 2018 11:23:11 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w24BLbQR010062
+	w24BN1Xu010126
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 4 Mar 2018 11:21:38 GMT
+	verify=NOT); Sun, 4 Mar 2018 11:23:02 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1esRhx-0007ly-7f; Sun, 04 Mar 2018 11:21:37 +0000
+	id 1esRjJ-0007ob-LW; Sun, 04 Mar 2018 11:23:01 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 11:21:32 +0000
-Message-Id: <1520162492-29839-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sun,  4 Mar 2018 11:23:00 +0000
+Message-Id: <1520162580-30003-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Subject: [PATCH][morty] gcc6: Upgrade to 6.4.0 (latest stable series release)
+Subject: [PATCH][pyro] gcc6: Upgrade to 6.4.0 (latest stable series release)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,11 +32,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 11:21:52 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 11:23:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Juro Bystricky <juro.bystricky@intel.com>
 
-Changed BINV and PV from 6.2.0 to 6.4.0
+Changed BINV and PV to 6.4.0
 Modified BASEURI to load xz tarball instead of bz2
 
 Backported series of patches from https://github.com/hjl-tools/gcc.git
@@ -43,20 +46,21 @@ branch /hjl/indirect/gcc-6-branch/master which contains
 an IA patch series for security related issues
 
 ubsan-fix-check-empty-string.patch : removed, already applied
+CVE-2016-6131.patch: Modified ChangeLog hunk to apply
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  meta/conf/distro/include/tcmode-default.inc        |    2 +-
- .../gcc/gcc-6.2/ubsan-fix-check-empty-string.patch |   28 -
- .../gcc/{gcc-6.2.inc => gcc-6.4.inc}               |   25 +-
+ .../gcc/gcc-6.3/ubsan-fix-check-empty-string.patch |   28 -
+ .../gcc/{gcc-6.3.inc => gcc-6.4.inc}               |   26 +-
  .../0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch     |    0
  ...ove-struct-ix86_frame-to-machine_function.patch |  244 +++
  ...ference-of-struct-ix86_frame-to-avoid-cop.patch |   71 +
- .../{gcc-6.2 => gcc-6.4}/0002-uclibc-conf.patch    |    0
+ .../{gcc-6.3 => gcc-6.4}/0002-uclibc-conf.patch    |    0
  .../0003-gcc-uclibc-locale-ctype_touplow_t.patch   |    0
  ...nst-reference-of-struct-ix86_frame-to-avo.patch |  128 ++
- .../{gcc-6.2 => gcc-6.4}/0004-uclibc-locale.patch  |    0
+ .../{gcc-6.3 => gcc-6.4}/0004-uclibc-locale.patch  |    0
  .../gcc-6.4/0004-x86-Add-mindirect-branch.patch    | 2151 ++++++++++++++++++++
  .../0005-uclibc-locale-no__x.patch                 |    0
  .../gcc-6.4/0005-x86-Add-mfunction-return.patch    | 1567 ++++++++++++++
@@ -67,7 +71,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  .../0008-missing-execinfo_h.patch                  |    0
  ...w-mindirect-branch-mfunction-return-with-.patch |  301 +++
  ...VALID_REGNUM-in-indirect-thunk-processing.patch |  123 ++
- .../{gcc-6.2 => gcc-6.4}/0009-c99-snprintf.patch   |    0
+ .../{gcc-6.3 => gcc-6.4}/0009-c99-snprintf.patch   |    0
  .../0010-gcc-poison-system-directories.patch       |    0
  ...INVALID_REGNUM-as-invalid-register-number.patch |   43 +
  .../0011-gcc-poison-dir-extend.patch               |    0
@@ -84,12 +88,12 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  .../0020-MIPS64-Default-to-N64-ABI.patch           |    0
  ...C_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |    0
  ...0022-gcc-Fix-argument-list-too-long-error.patch |    0
- .../{gcc-6.2 => gcc-6.4}/0023-Disable-sdt.patch    |    0
- .../gcc/{gcc-6.2 => gcc-6.4}/0024-libtool.patch    |    0
+ .../{gcc-6.3 => gcc-6.4}/0023-Disable-sdt.patch    |    0
+ .../gcc/{gcc-6.3 => gcc-6.4}/0024-libtool.patch    |    0
  ...4-pass-fix-v4bx-to-linker-to-support-EABI.patch |    0
  ...tilib-config-files-from-B-instead-of-usin.patch |    0
  ...-libdir-from-.la-which-usually-points-to-.patch |    0
- .../gcc/{gcc-6.2 => gcc-6.4}/0028-export-CPP.patch |    0
+ .../gcc/{gcc-6.3 => gcc-6.4}/0028-export-CPP.patch |    0
  ...AltiVec-generation-on-powepc-linux-target.patch |    0
  ...-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch |    0
  ...Ensure-target-gcc-headers-can-be-included.patch |    0
@@ -102,121 +106,125 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  ...et-sysroot-gcc-version-specific-dirs-with.patch |    0
  ...-various-_FOR_BUILD-and-related-variables.patch |    0
  .../0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch    |    0
- .../{gcc-6.2 => gcc-6.4}/0041-ssp_nonshared.patch  |    0
+ ...shared-to-link-commandline-for-musl-targe.patch |    0
  ...c-libcpp-support-ffile-prefix-map-old-new.patch |    0
  ...ug-prefix-map-to-replace-ffile-prefix-map.patch |    0
  ...-fdebug-prefix-map-support-to-remap-sourc.patch |    0
  ...45-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch |    0
  ...bgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch |    0
  ...e-alias-for-__cpu_indicator_init-instead-.patch |    0
- ...et-71056-Don-t-use-vectorized-builtins-wh.patch |    0
- .../gcc/{gcc-6.2 => gcc-6.4}/CVE-2016-4490.patch   |    0
- ...s-canadian_6.2.bb => gcc-cross-canadian_6.4.bb} |    0
- ...oss-initial_6.2.bb => gcc-cross-initial_6.4.bb} |    0
- .../gcc/{gcc-cross_6.2.bb => gcc-cross_6.4.bb}     |    0
- ...-initial_6.2.bb => gcc-crosssdk-initial_6.4.bb} |    0
- .../{gcc-crosssdk_6.2.bb => gcc-crosssdk_6.4.bb}   |    0
- .../gcc/{gcc-runtime_6.2.bb => gcc-runtime_6.4.bb} |    0
- ...gcc-sanitizers_6.2.bb => gcc-sanitizers_6.4.bb} |    0
- .../gcc/{gcc-source_6.2.bb => gcc-source_6.4.bb}   |    0
- .../gcc/{gcc_6.2.bb => gcc_6.4.bb}                 |    0
- ...libgcc-initial_6.2.bb => libgcc-initial_6.4.bb} |    0
- .../gcc/{libgcc_6.2.bb => libgcc_6.4.bb}           |    0
- .../gcc/{libgfortran_6.2.bb => libgfortran_6.4.bb} |    0
- 76 files changed, 7177 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2.inc => gcc-6.4.inc} (81%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (100%)
+ .../0048-sync-gcc-stddef.h-with-musl.patch         |    0
+ .../0054_all_nopie-all-flags.patch                 |    0
+ .../0055-unwind_h-glibc26.patch                    |    0
+ .../gcc/{gcc-6.3 => gcc-6.4}/CVE-2016-6131.patch   |   36 +-
+ ...s-canadian_6.3.bb => gcc-cross-canadian_6.4.bb} |    0
+ ...oss-initial_6.3.bb => gcc-cross-initial_6.4.bb} |    0
+ .../gcc/{gcc-cross_6.3.bb => gcc-cross_6.4.bb}     |    0
+ ...-initial_6.3.bb => gcc-crosssdk-initial_6.4.bb} |    0
+ .../{gcc-crosssdk_6.3.bb => gcc-crosssdk_6.4.bb}   |    0
+ .../gcc/{gcc-runtime_6.3.bb => gcc-runtime_6.4.bb} |    0
+ ...gcc-sanitizers_6.3.bb => gcc-sanitizers_6.4.bb} |    0
+ .../gcc/{gcc-source_6.3.bb => gcc-source_6.4.bb}   |    0
+ .../gcc/{gcc_6.3.bb => gcc_6.4.bb}                 |    0
+ ...libgcc-initial_6.3.bb => libgcc-initial_6.4.bb} |    0
+ .../gcc/{libgcc_6.3.bb => libgcc_6.4.bb}           |    0
+ .../gcc/{libgfortran_6.3.bb => libgfortran_6.4.bb} |    0
+ 78 files changed, 7198 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.3/ubsan-fix-check-empty-string.patch
+ rename meta/recipes-devtools/gcc/{gcc-6.3.inc => gcc-6.4.inc} (81%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0001-i386-Move-struct-ix86_frame-to-machine_function.patch
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0002-i386-Use-reference-of-struct-ix86_frame-to-avoid-cop.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0002-uclibc-conf.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0003-gcc-uclibc-locale-ctype_touplow_t.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0002-uclibc-conf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0003-gcc-uclibc-locale-ctype_touplow_t.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0003-i386-Use-const-reference-of-struct-ix86_frame-to-avo.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0004-uclibc-locale.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0004-uclibc-locale.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0004-x86-Add-mindirect-branch.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0005-uclibc-locale-no__x.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0005-uclibc-locale-no__x.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0005-x86-Add-mfunction-return.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0006-uclibc-locale-wchar_fix.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0006-uclibc-locale-wchar_fix.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0006-x86-Add-mindirect-branch-register.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0007-uclibc-locale-update.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0007-uclibc-locale-update.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0007-x86-Add-V-register-operand-modifier.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0008-missing-execinfo_h.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0008-missing-execinfo_h.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0008-x86-Disallow-mindirect-branch-mfunction-return-with-.patch
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0009-Use-INVALID_REGNUM-in-indirect-thunk-processing.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0009-c99-snprintf.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0010-gcc-poison-system-directories.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0009-c99-snprintf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0010-gcc-poison-system-directories.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0010-i386-Pass-INVALID_REGNUM-as-invalid-register-number.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0011-gcc-poison-dir-extend.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0011-gcc-poison-dir-extend.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0011-i386-Update-mfunction-return-for-return-with-pop.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (100%)
  create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0012-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0013-64-bit-multilib-hack.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0014-optional-libstdc.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0016-COLLECT_GCC_OPTIONS.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0018-fortran-cross-compile-hack.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0019-cpp-honor-sysroot.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0020-MIPS64-Default-to-N64-ABI.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0022-gcc-Fix-argument-list-too-long-error.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0023-Disable-sdt.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0024-libtool.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0028-export-CPP.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0031-Ensure-target-gcc-headers-can-be-included.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0035-aarch64-Add-support-for-musl-ldso.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0037-handle-sysroot-support-for-nativesdk-gcc.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0039-Fix-various-_FOR_BUILD-and-related-variables.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0041-ssp_nonshared.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/CVE-2016-4490.patch (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross-canadian_6.2.bb => gcc-cross-canadian_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross-initial_6.2.bb => gcc-cross-initial_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross_6.2.bb => gcc-cross_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-crosssdk-initial_6.2.bb => gcc-crosssdk-initial_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-crosssdk_6.2.bb => gcc-crosssdk_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-runtime_6.2.bb => gcc-runtime_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-sanitizers_6.2.bb => gcc-sanitizers_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-source_6.2.bb => gcc-source_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc_6.2.bb => gcc_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc-initial_6.2.bb => libgcc-initial_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc_6.2.bb => libgcc_6.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgfortran_6.2.bb => libgfortran_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0013-64-bit-multilib-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0014-optional-libstdc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0016-COLLECT_GCC_OPTIONS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0018-fortran-cross-compile-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0019-cpp-honor-sysroot.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0020-MIPS64-Default-to-N64-ABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0022-gcc-Fix-argument-list-too-long-error.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0023-Disable-sdt.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0024-libtool.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0028-export-CPP.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0031-Ensure-target-gcc-headers-can-be-included.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0035-aarch64-Add-support-for-musl-ldso.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0037-handle-sysroot-support-for-nativesdk-gcc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0039-Fix-various-_FOR_BUILD-and-related-variables.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0048-sync-gcc-stddef.h-with-musl.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0054_all_nopie-all-flags.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/0055-unwind_h-glibc26.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.3 => gcc-6.4}/CVE-2016-6131.patch (89%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_6.3.bb => gcc-cross-canadian_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-initial_6.3.bb => gcc-cross-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_6.3.bb => gcc-cross_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk-initial_6.3.bb => gcc-crosssdk-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_6.3.bb => gcc-crosssdk_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_6.3.bb => gcc-runtime_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_6.3.bb => gcc-sanitizers_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_6.3.bb => gcc-source_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc_6.3.bb => gcc_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_6.3.bb => libgcc-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_6.3.bb => libgcc_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgfortran_6.3.bb => libgfortran_6.4.bb} (100%)
 
 diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index ca3c5ec..c06e352 100644
+index 3db16e8..69cb762 100644
 --- a/meta/conf/distro/include/tcmode-default.inc
 +++ b/meta/conf/distro/include/tcmode-default.inc
 @@ -22,7 +22,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
  PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
  PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
  
--GCCVERSION ?= "6.2%"
+-GCCVERSION ?= "6.3%"
 +GCCVERSION ?= "6.4%"
  SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.27%"
- GDBVERSION ?= "7.11%"
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch b/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
+ BINUVERSION ?= "2.28%"
+ GDBVERSION ?= "7.12%"
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/ubsan-fix-check-empty-string.patch b/meta/recipes-devtools/gcc/gcc-6.3/ubsan-fix-check-empty-string.patch
 deleted file mode 100644
 index c012719..0000000
---- a/meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
+--- a/meta/recipes-devtools/gcc/gcc-6.3/ubsan-fix-check-empty-string.patch
 +++ /dev/null
 @@ -1,28 +0,0 @@
 -From 8db2cf6353c13f2a84cbe49b689654897906c499 Mon Sep 17 00:00:00 2001
@@ -247,26 +255,26 @@ index c012719..0000000
 -       || xloc.file[1] == '\xff')
 -     return false;
 - 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
 similarity index 81%
-rename from meta/recipes-devtools/gcc/gcc-6.2.inc
+rename from meta/recipes-devtools/gcc/gcc-6.3.inc
 rename to meta/recipes-devtools/gcc/gcc-6.4.inc
-index 39ae653..4808d07 100644
---- a/meta/recipes-devtools/gcc/gcc-6.2.inc
+index 5c81a33..3514587 100644
+--- a/meta/recipes-devtools/gcc/gcc-6.3.inc
 +++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
 @@ -2,13 +2,13 @@ require gcc-common.inc
  
  # Third digit in PV should be incremented after a minor release
  
--PV = "6.2.0"
+-PV = "6.3.0"
 +PV = "6.4.0"
  
  # BINV should be incremented to a revision after a minor gcc release
  
--BINV = "6.2.0"
+-BINV = "6.3.0"
 +BINV = "6.4.0"
  
--FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.2:${FILE_DIRNAME}/gcc-6.2/backport:"
+-FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.3:${FILE_DIRNAME}/gcc-6.3/backport:"
 +FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.4:${FILE_DIRNAME}/gcc-6.4/backport:"
  
  DEPENDS =+ "mpfr gmp libmpc zlib"
@@ -280,10 +288,10 @@ index 39ae653..4808d07 100644
  #SRCREV = "bd9a826d5448db11d29d2ec5884e7e679066f140"
  #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
  #BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
-@@ -81,10 +81,21 @@ SRC_URI = "\
-            ${BACKPORTS} \
+@@ -85,10 +85,22 @@ SRC_URI = "\
  "
  BACKPORTS = "\
+            file://CVE-2016-6131.patch \
 -           file://ubsan-fix-check-empty-string.patch \
 +           file://0001-i386-Move-struct-ix86_frame-to-machine_function.patch \
 +           file://0002-i386-Use-reference-of-struct-ix86_frame-to-avoid-cop.patch \
@@ -298,16 +306,17 @@ index 39ae653..4808d07 100644
 +           file://0011-i386-Update-mfunction-return-for-return-with-pop.patch \
 +           file://0012-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch \
  "
--SRC_URI[md5sum] = "9768625159663b300ae4de2f4745fcc4"
--SRC_URI[sha256sum] = "9944589fc722d3e66308c0ce5257788ebd7872982a718aa2516123940671b7c5"
+-SRC_URI[md5sum] = "677a7623c7ef6ab99881bc4e048debb6"
+-SRC_URI[sha256sum] = "f06ae7f3f790fbf0f018f6d40e844451e6bc3b7bc96e128e63b09825c1f8b29f"
++
 +SRC_URI[md5sum] = "11ba51a0cfb8471927f387c8895fe232"
 +SRC_URI[sha256sum] = "850bf21eafdfe5cd5f6827148184c08c4a0852a37ccf36ce69855334d2c914d4"
  
  S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-6.4/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-6.4/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0001-i386-Move-struct-ix86_frame-to-machine_function.patch b/meta/recipes-devtools/gcc/gcc-6.4/0001-i386-Move-struct-ix86_frame-to-machine_function.patch
 new file mode 100644
@@ -636,13 +645,13 @@ index 0000000..156a0a3
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0002-uclibc-conf.patch b/meta/recipes-devtools/gcc/gcc-6.4/0002-uclibc-conf.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0002-uclibc-conf.patch b/meta/recipes-devtools/gcc/gcc-6.4/0002-uclibc-conf.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0002-uclibc-conf.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0002-uclibc-conf.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0002-uclibc-conf.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0003-gcc-uclibc-locale-ctype_touplow_t.patch b/meta/recipes-devtools/gcc/gcc-6.4/0003-gcc-uclibc-locale-ctype_touplow_t.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0003-gcc-uclibc-locale-ctype_touplow_t.patch b/meta/recipes-devtools/gcc/gcc-6.4/0003-gcc-uclibc-locale-ctype_touplow_t.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0003-gcc-uclibc-locale-ctype_touplow_t.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0003-gcc-uclibc-locale-ctype_touplow_t.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0003-gcc-uclibc-locale-ctype_touplow_t.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0003-i386-Use-const-reference-of-struct-ix86_frame-to-avo.patch b/meta/recipes-devtools/gcc/gcc-6.4/0003-i386-Use-const-reference-of-struct-ix86_frame-to-avo.patch
 new file mode 100644
@@ -778,9 +787,9 @@ index 0000000..9cb0a41
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0004-uclibc-locale.patch b/meta/recipes-devtools/gcc/gcc-6.4/0004-uclibc-locale.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0004-uclibc-locale.patch b/meta/recipes-devtools/gcc/gcc-6.4/0004-uclibc-locale.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0004-uclibc-locale.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0004-uclibc-locale.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0004-uclibc-locale.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0004-x86-Add-mindirect-branch.patch b/meta/recipes-devtools/gcc/gcc-6.4/0004-x86-Add-mindirect-branch.patch
 new file mode 100644
@@ -2939,9 +2948,9 @@ index 0000000..9a9b4e9
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0005-uclibc-locale-no__x.patch b/meta/recipes-devtools/gcc/gcc-6.4/0005-uclibc-locale-no__x.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0005-uclibc-locale-no__x.patch b/meta/recipes-devtools/gcc/gcc-6.4/0005-uclibc-locale-no__x.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0005-uclibc-locale-no__x.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0005-uclibc-locale-no__x.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0005-uclibc-locale-no__x.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0005-x86-Add-mfunction-return.patch b/meta/recipes-devtools/gcc/gcc-6.4/0005-x86-Add-mfunction-return.patch
 new file mode 100644
@@ -4516,9 +4525,9 @@ index 0000000..2529bf2
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0006-uclibc-locale-wchar_fix.patch b/meta/recipes-devtools/gcc/gcc-6.4/0006-uclibc-locale-wchar_fix.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0006-uclibc-locale-wchar_fix.patch b/meta/recipes-devtools/gcc/gcc-6.4/0006-uclibc-locale-wchar_fix.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0006-uclibc-locale-wchar_fix.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0006-uclibc-locale-wchar_fix.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0006-uclibc-locale-wchar_fix.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0006-x86-Add-mindirect-branch-register.patch b/meta/recipes-devtools/gcc/gcc-6.4/0006-x86-Add-mindirect-branch-register.patch
 new file mode 100644
@@ -5469,9 +5478,9 @@ index 0000000..50921aa
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0007-uclibc-locale-update.patch b/meta/recipes-devtools/gcc/gcc-6.4/0007-uclibc-locale-update.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0007-uclibc-locale-update.patch b/meta/recipes-devtools/gcc/gcc-6.4/0007-uclibc-locale-update.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0007-uclibc-locale-update.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0007-uclibc-locale-update.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0007-uclibc-locale-update.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0007-x86-Add-V-register-operand-modifier.patch b/meta/recipes-devtools/gcc/gcc-6.4/0007-x86-Add-V-register-operand-modifier.patch
 new file mode 100644
@@ -5615,9 +5624,9 @@ index 0000000..714b0e1
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0008-missing-execinfo_h.patch b/meta/recipes-devtools/gcc/gcc-6.4/0008-missing-execinfo_h.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0008-missing-execinfo_h.patch b/meta/recipes-devtools/gcc/gcc-6.4/0008-missing-execinfo_h.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0008-missing-execinfo_h.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0008-missing-execinfo_h.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0008-missing-execinfo_h.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0008-x86-Disallow-mindirect-branch-mfunction-return-with-.patch b/meta/recipes-devtools/gcc/gcc-6.4/0008-x86-Disallow-mindirect-branch-mfunction-return-with-.patch
 new file mode 100644
@@ -6055,13 +6064,13 @@ index 0000000..735bf0e
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0009-c99-snprintf.patch b/meta/recipes-devtools/gcc/gcc-6.4/0009-c99-snprintf.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0009-c99-snprintf.patch b/meta/recipes-devtools/gcc/gcc-6.4/0009-c99-snprintf.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0009-c99-snprintf.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0009-c99-snprintf.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0009-c99-snprintf.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0010-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc-6.4/0010-gcc-poison-system-directories.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0010-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc-6.4/0010-gcc-poison-system-directories.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0010-gcc-poison-system-directories.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0010-gcc-poison-system-directories.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0010-gcc-poison-system-directories.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0010-i386-Pass-INVALID_REGNUM-as-invalid-register-number.patch b/meta/recipes-devtools/gcc/gcc-6.4/0010-i386-Pass-INVALID_REGNUM-as-invalid-register-number.patch
 new file mode 100644
@@ -6112,9 +6121,9 @@ index 0000000..1833a14
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0011-gcc-poison-dir-extend.patch b/meta/recipes-devtools/gcc/gcc-6.4/0011-gcc-poison-dir-extend.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0011-gcc-poison-dir-extend.patch b/meta/recipes-devtools/gcc/gcc-6.4/0011-gcc-poison-dir-extend.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0011-gcc-poison-dir-extend.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0011-gcc-poison-dir-extend.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0011-gcc-poison-dir-extend.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0011-i386-Update-mfunction-return-for-return-with-pop.patch b/meta/recipes-devtools/gcc/gcc-6.4/0011-i386-Update-mfunction-return-for-return-with-pop.patch
 new file mode 100644
@@ -6572,9 +6581,9 @@ index 0000000..7dd325d
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-6.4/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc-6.4/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
 diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0012-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch b/meta/recipes-devtools/gcc/gcc-6.4/0012-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch
 new file mode 100644
@@ -7583,201 +7592,260 @@ index 0000000..f4b137c
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0013-64-bit-multilib-hack.patch b/meta/recipes-devtools/gcc/gcc-6.4/0013-64-bit-multilib-hack.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0013-64-bit-multilib-hack.patch b/meta/recipes-devtools/gcc/gcc-6.4/0013-64-bit-multilib-hack.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0013-64-bit-multilib-hack.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0013-64-bit-multilib-hack.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0013-64-bit-multilib-hack.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0014-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0014-optional-libstdc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0014-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0014-optional-libstdc.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0014-optional-libstdc.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0014-optional-libstdc.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0014-optional-libstdc.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch b/meta/recipes-devtools/gcc/gcc-6.4/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch b/meta/recipes-devtools/gcc/gcc-6.4/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0016-COLLECT_GCC_OPTIONS.patch b/meta/recipes-devtools/gcc/gcc-6.4/0016-COLLECT_GCC_OPTIONS.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0016-COLLECT_GCC_OPTIONS.patch b/meta/recipes-devtools/gcc/gcc-6.4/0016-COLLECT_GCC_OPTIONS.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0016-COLLECT_GCC_OPTIONS.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0016-COLLECT_GCC_OPTIONS.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0016-COLLECT_GCC_OPTIONS.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-6.4/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-6.4/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0018-fortran-cross-compile-hack.patch b/meta/recipes-devtools/gcc/gcc-6.4/0018-fortran-cross-compile-hack.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0018-fortran-cross-compile-hack.patch b/meta/recipes-devtools/gcc/gcc-6.4/0018-fortran-cross-compile-hack.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0018-fortran-cross-compile-hack.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0018-fortran-cross-compile-hack.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0018-fortran-cross-compile-hack.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0019-cpp-honor-sysroot.patch b/meta/recipes-devtools/gcc/gcc-6.4/0019-cpp-honor-sysroot.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0019-cpp-honor-sysroot.patch b/meta/recipes-devtools/gcc/gcc-6.4/0019-cpp-honor-sysroot.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0019-cpp-honor-sysroot.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0019-cpp-honor-sysroot.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0019-cpp-honor-sysroot.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0020-MIPS64-Default-to-N64-ABI.patch b/meta/recipes-devtools/gcc/gcc-6.4/0020-MIPS64-Default-to-N64-ABI.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0020-MIPS64-Default-to-N64-ABI.patch b/meta/recipes-devtools/gcc/gcc-6.4/0020-MIPS64-Default-to-N64-ABI.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0020-MIPS64-Default-to-N64-ABI.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0020-MIPS64-Default-to-N64-ABI.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0020-MIPS64-Default-to-N64-ABI.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc-6.4/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc-6.4/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0022-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc-6.4/0022-gcc-Fix-argument-list-too-long-error.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0022-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc-6.4/0022-gcc-Fix-argument-list-too-long-error.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0022-gcc-Fix-argument-list-too-long-error.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0022-gcc-Fix-argument-list-too-long-error.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0022-gcc-Fix-argument-list-too-long-error.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0023-Disable-sdt.patch b/meta/recipes-devtools/gcc/gcc-6.4/0023-Disable-sdt.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0023-Disable-sdt.patch b/meta/recipes-devtools/gcc/gcc-6.4/0023-Disable-sdt.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0023-Disable-sdt.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0023-Disable-sdt.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0023-Disable-sdt.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0024-libtool.patch b/meta/recipes-devtools/gcc/gcc-6.4/0024-libtool.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0024-libtool.patch b/meta/recipes-devtools/gcc/gcc-6.4/0024-libtool.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0024-libtool.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0024-libtool.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0024-libtool.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc-6.4/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc-6.4/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch b/meta/recipes-devtools/gcc/gcc-6.4/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch b/meta/recipes-devtools/gcc/gcc-6.4/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch b/meta/recipes-devtools/gcc/gcc-6.4/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch b/meta/recipes-devtools/gcc/gcc-6.4/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0028-export-CPP.patch b/meta/recipes-devtools/gcc/gcc-6.4/0028-export-CPP.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0028-export-CPP.patch b/meta/recipes-devtools/gcc/gcc-6.4/0028-export-CPP.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0028-export-CPP.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0028-export-CPP.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0028-export-CPP.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-6.4/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-6.4/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch b/meta/recipes-devtools/gcc/gcc-6.4/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch b/meta/recipes-devtools/gcc/gcc-6.4/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0031-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc-6.4/0031-Ensure-target-gcc-headers-can-be-included.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0031-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc-6.4/0031-Ensure-target-gcc-headers-can-be-included.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0031-Ensure-target-gcc-headers-can-be-included.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0031-Ensure-target-gcc-headers-can-be-included.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0031-Ensure-target-gcc-headers-can-be-included.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch b/meta/recipes-devtools/gcc/gcc-6.4/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch b/meta/recipes-devtools/gcc/gcc-6.4/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch b/meta/recipes-devtools/gcc/gcc-6.4/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch b/meta/recipes-devtools/gcc/gcc-6.4/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-6.4/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-6.4/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0035-aarch64-Add-support-for-musl-ldso.patch b/meta/recipes-devtools/gcc/gcc-6.4/0035-aarch64-Add-support-for-musl-ldso.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0035-aarch64-Add-support-for-musl-ldso.patch b/meta/recipes-devtools/gcc/gcc-6.4/0035-aarch64-Add-support-for-musl-ldso.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0035-aarch64-Add-support-for-musl-ldso.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0035-aarch64-Add-support-for-musl-ldso.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0035-aarch64-Add-support-for-musl-ldso.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch b/meta/recipes-devtools/gcc/gcc-6.4/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch b/meta/recipes-devtools/gcc/gcc-6.4/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0037-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0037-handle-sysroot-support-for-nativesdk-gcc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0037-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0037-handle-sysroot-support-for-nativesdk-gcc.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0037-handle-sysroot-support-for-nativesdk-gcc.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0037-handle-sysroot-support-for-nativesdk-gcc.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0037-handle-sysroot-support-for-nativesdk-gcc.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch b/meta/recipes-devtools/gcc/gcc-6.4/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch b/meta/recipes-devtools/gcc/gcc-6.4/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0039-Fix-various-_FOR_BUILD-and-related-variables.patch b/meta/recipes-devtools/gcc/gcc-6.4/0039-Fix-various-_FOR_BUILD-and-related-variables.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0039-Fix-various-_FOR_BUILD-and-related-variables.patch b/meta/recipes-devtools/gcc/gcc-6.4/0039-Fix-various-_FOR_BUILD-and-related-variables.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0039-Fix-various-_FOR_BUILD-and-related-variables.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0039-Fix-various-_FOR_BUILD-and-related-variables.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0039-Fix-various-_FOR_BUILD-and-related-variables.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch b/meta/recipes-devtools/gcc/gcc-6.4/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch b/meta/recipes-devtools/gcc/gcc-6.4/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0041-ssp_nonshared.patch b/meta/recipes-devtools/gcc/gcc-6.4/0041-ssp_nonshared.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch b/meta/recipes-devtools/gcc/gcc-6.4/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0041-ssp_nonshared.patch
-rename to meta/recipes-devtools/gcc/gcc-6.4/0041-ssp_nonshared.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch b/meta/recipes-devtools/gcc/gcc-6.4/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch b/meta/recipes-devtools/gcc/gcc-6.4/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-6.4/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch b/meta/recipes-devtools/gcc/gcc-6.4/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch b/meta/recipes-devtools/gcc/gcc-6.4/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch b/meta/recipes-devtools/gcc/gcc-6.4/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch b/meta/recipes-devtools/gcc/gcc-6.4/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-6.4/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch b/meta/recipes-devtools/gcc/gcc-6.4/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
 rename to meta/recipes-devtools/gcc/gcc-6.4/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch b/meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0048-sync-gcc-stddef.h-with-musl.patch b/meta/recipes-devtools/gcc/gcc-6.4/0048-sync-gcc-stddef.h-with-musl.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-rename to meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch b/meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
+rename from meta/recipes-devtools/gcc/gcc-6.3/0048-sync-gcc-stddef.h-with-musl.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/0048-sync-gcc-stddef.h-with-musl.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch b/meta/recipes-devtools/gcc/gcc-6.4/0054_all_nopie-all-flags.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch
-rename to meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_6.2.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_6.4.bb
+rename from meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/0054_all_nopie-all-flags.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0055-unwind_h-glibc26.patch b/meta/recipes-devtools/gcc/gcc-6.4/0055-unwind_h-glibc26.patch
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross-canadian_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-6.3/0055-unwind_h-glibc26.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/0055-unwind_h-glibc26.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch b/meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-6131.patch
+similarity index 89%
+rename from meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-6131.patch
+index e873cc6..68d0dee 100644
+--- a/meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch
++++ b/meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-6131.patch
+@@ -41,27 +41,31 @@ diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
+ index 240138f..adf1d72 100644
+ --- a/libiberty/ChangeLog
+ +++ b/libiberty/ChangeLog
+-@@ -1,3 +1,20 @@
++@@ -2,6 +2,23 @@
++ 
++        * GCC 6.4.0 released.
++ 
+ +2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
+ +
+-+	PR c++/71696
+-+	* cplus-dem.c: Prevent infinite recursion when there is a cycle
+-+	in the referencing of remembered mangled types.
+-+	(work_stuff): New stack to keep track of the remembered mangled
+-+	types that are currently being processed.
+-+	(push_processed_type): New method to push currently processed
+-+	remembered type onto the stack.
+-+	(pop_processed_type): New method to pop currently processed
+-+	remembered type from the stack.
+-+	(work_stuff_copy_to_from): Copy values of new variables.
+-+	(delete_non_B_K_work_stuff): Free stack memory.
+-+	(demangle_args): Push/Pop currently processed remembered type.
+-+	(do_type): Do not demangle a cyclic reference and push/pop
+-+	referenced remembered type.
+++       PR c++/71696
+++       * cplus-dem.c: Prevent infinite recursion when there is a cycle
+++       in the referencing of remembered mangled types.
+++       (work_stuff): New stack to keep track of the remembered mangled
+++       types that are currently being processed.
+++       (push_processed_type): New method to push currently processed
+++       remembered type onto the stack.
+++       (pop_processed_type): New method to pop currently processed
+++       remembered type from the stack.
+++       (work_stuff_copy_to_from): Copy values of new variables.
+++       (delete_non_B_K_work_stuff): Free stack memory.
+++       (demangle_args): Push/Pop currently processed remembered type.
+++       (do_type): Do not demangle a cyclic reference and push/pop
+++       referenced remembered type.
+ +
+  2016-12-21  Release Manager
+  
+- 	* GCC 6.3.0 released.
++        * GCC 6.3.0 released.
++
+ diff --git a/libiberty/cplus-dem.c b/libiberty/cplus-dem.c
+ index 7514e57..f21e630 100644
+ --- a/libiberty/cplus-dem.c
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_6.3.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_6.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross-canadian_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-cross-canadian_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_6.2.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_6.3.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross-initial_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-cross-initial_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-cross-initial_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-cross_6.2.bb b/meta/recipes-devtools/gcc/gcc-cross_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_6.3.bb b/meta/recipes-devtools/gcc/gcc-cross_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-cross_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-cross_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.2.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.3.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-crosssdk-initial_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_6.2.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_6.3.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-crosssdk_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-crosssdk_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-crosssdk_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_6.2.bb b/meta/recipes-devtools/gcc/gcc-runtime_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_6.3.bb b/meta/recipes-devtools/gcc/gcc-runtime_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-runtime_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-runtime_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-runtime_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_6.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_6.3.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-sanitizers_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-sanitizers_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-sanitizers_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-source_6.2.bb b/meta/recipes-devtools/gcc/gcc-source_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-source_6.3.bb b/meta/recipes-devtools/gcc/gcc-source_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-source_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc-source_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc-source_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc_6.2.bb b/meta/recipes-devtools/gcc/gcc_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc_6.3.bb b/meta/recipes-devtools/gcc/gcc_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc_6.2.bb
+rename from meta/recipes-devtools/gcc/gcc_6.3.bb
 rename to meta/recipes-devtools/gcc/gcc_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc-initial_6.2.bb b/meta/recipes-devtools/gcc/libgcc-initial_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial_6.3.bb b/meta/recipes-devtools/gcc/libgcc-initial_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc-initial_6.2.bb
+rename from meta/recipes-devtools/gcc/libgcc-initial_6.3.bb
 rename to meta/recipes-devtools/gcc/libgcc-initial_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc_6.2.bb b/meta/recipes-devtools/gcc/libgcc_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc_6.3.bb b/meta/recipes-devtools/gcc/libgcc_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc_6.2.bb
+rename from meta/recipes-devtools/gcc/libgcc_6.3.bb
 rename to meta/recipes-devtools/gcc/libgcc_6.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgfortran_6.2.bb b/meta/recipes-devtools/gcc/libgfortran_6.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgfortran_6.3.bb b/meta/recipes-devtools/gcc/libgfortran_6.4.bb
 similarity index 100%
-rename from meta/recipes-devtools/gcc/libgfortran_6.2.bb
+rename from meta/recipes-devtools/gcc/libgfortran_6.3.bb
 rename to meta/recipes-devtools/gcc/libgfortran_6.4.bb
 -- 
 2.7.4
