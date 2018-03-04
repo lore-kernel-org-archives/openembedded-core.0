@@ -1,25 +1,27 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EDBC78563
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AC1DD78A5C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 12:42:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Mar 2018 04:42:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,422,1515484800"; d="scan'208";a="179744516"
-Received: from chiron.jf.intel.com ([10.7.159.61])
-	by orsmga004.jf.intel.com with ESMTP; 04 Mar 2018 04:42:43 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 04:41:55 -0800
-Message-Id: <3a75f4372ce23b7834a3509ba4fca60b6ddad734.1520166347.git.timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <cover.1520166347.git.timothy.t.orling@linux.intel.com>
-References: <cover.1520166347.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH 7/7] libxml-simple-perl: inherit ptest-perl
+	Sun,  4 Mar 2018 13:20:11 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w24DKAW9014661
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 4 Mar 2018 13:20:11 GMT
+Message-ID: <1520169610.3436.63.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Sun, 04 Mar 2018 13:20:10 +0000
+In-Reply-To: <CA+chaQcHJ=x+j+5tSpdCW-QC_wOuqNNwO2TVTCPMHC--qNROkA@mail.gmail.com>
+References: <CA+chaQcQztFnFJjZhXVYQeTZuv4qJ41j5cNca0NJhHPz4R6x7A@mail.gmail.com>
+	<20180212101918.228-1-Martin.Jansa@gmail.com>
+	<CA+chaQcHJ=x+j+5tSpdCW-QC_wOuqNNwO2TVTCPMHC--qNROkA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: [pyro][PATCH] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +34,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 12:42:42 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 13:20:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Enable ptest by inheriting new ptest-perl.bbclass
+On Sun, 2018-03-04 at 12:41 +0100, Martin Jansa wrote:
+> ping
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've merged this.
 
-diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb
-index 0cf2eebda4..f9d00d2e28 100644
---- a/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb
-+++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb
-@@ -19,6 +19,6 @@ S = "${WORKDIR}/XML-Simple-${PV}"
- 
- EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
- 
--inherit cpan
-+inherit cpan ptest-perl
- 
- BBCLASSEXTEND = "native"
--- 
-2.14.3
+Cheers,
 
+Richard
 
