@@ -1,46 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A32D60291
+	by mail.openembedded.org (Postfix) with ESMTP id 5E5AD78A7D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 13:33:45 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id z9so10709442wmb.3
+	Sun,  4 Mar 2018 13:35:40 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t74so11037051wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Mar 2018 05:33:46 -0800 (PST)
+	Sun, 04 Mar 2018 05:35:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tFcnFnDiMGTuxBAv3NLZueGEzl136ARPWavSM98m1jE=;
-	b=YB4TlMR9BU2f9oGzzn+mgRufTUGF1OaeMlEux0JIhO6IItA7QPMB5ejNV+pD5iT1XI
-	hbMm62jnMqSRHNzOVJURzX2/xw6cZ0MeMSqB1CLgMg4tyQwZv4IVQqjdJnvs6olkd+pm
-	bC3tgecTB7lJULFDUL+ynzedkjc2i5yMsAhlKVU6Ha9OKfRImGzlFJy/tEg6d4n0Rgx9
-	4ytjjBlbNrqbVeApATTEvaEFOUo7QNeEb2Pby8YfxfYEVfYpS962dwAzfx3K94aJ7/Wd
-	DEUzR65zsPoZb4L8ChNEZKyGcX4f2s47UBvwPWITnn4wF7OFOWNzpCxhVnhVdQ6G4WUT
-	X7ww==
+	:cc; bh=N3xLgvJctRgheR7k/vYaRybjTw7gsCWboMuNr8cHCZM=;
+	b=etGJVx5NPHkMeaoeQOPDQlBXnK67OE4dI48ALSbAv54vc60UpjXeM0A2T0DzyRNwsw
+	nZnaN67bEdi0fFpmp2rFAMSupJgImhgAGPxzo0ncgh+haUSPkjyyDetRSzN+0KEQ7u8t
+	xQgXT3v2i/GqAOP8bPnXnuM9/lFr+mz/t4oNAqD0RHGtpvpgMjxRV6zQzLpWtF3Xsbve
+	RXYnkCnQf6/sJhPTfVopPQJtTFJ8gWQ3sXMiv4scSzwldPf8/+MHs/pw1xluM8Ps85rt
+	ScFmGdxT0UckE8WOK07ZPEUy6a2fpNkymB8Vzto1UMxR1YxIunYqog/lB+FnH7OEsEvm
+	Y2aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=tFcnFnDiMGTuxBAv3NLZueGEzl136ARPWavSM98m1jE=;
-	b=I92wQ1pHfn3sRKDiiCurjjnmPAsQbFG4X9ZWXOyiP+ATz/RC61iN37Xiiz9DlVP/vT
-	tf9tJfuhFpy9KaR4ATlDXgv9+WbTO4U+bMsPbEpbdbhYK0DmACOEh4HJa2R2kFcDxszH
-	hlZgbcKxksxy3iNpwWfWVNJXFGn/l9hQaqpLQ63RwFJPHm452Ye9mtV5z0i9RP9qSV0c
-	hIe0b0sLAFknjLB4ZWn8mU8ZJcTTU8S3zHxtYsJfrvw57NkYW+LmqKcHVUTfUENRQVa9
-	r/cD9HeZEZI4XzmAm/dHaR9JNTvGtPgEP+06kj04NsuQsIUAyYEVvyizp0wV2hDlhDye
-	o/DA==
-X-Gm-Message-State: AElRT7HFwL/HKmFnrtF7vtOKTXZ4hmhwm0ow3bWLHheguJDj+Vm48dl1
-	KF5kc/eMEZ9ZTda0L6UgIG+IR1uyNufR81vPRKQ=
-X-Google-Smtp-Source: AG47ELvmSuQcz86M3dnFVOYAKW9wtQqHmFVaKZSjYh0tpvsc0CdTy8J6cf7XoWMtwlHgmwoaPedLPLXhPv4LKfsidX4=
-X-Received: by 10.28.225.130 with SMTP id y124mr5613487wmg.60.1520170426161;
-	Sun, 04 Mar 2018 05:33:46 -0800 (PST)
+	bh=N3xLgvJctRgheR7k/vYaRybjTw7gsCWboMuNr8cHCZM=;
+	b=h/pH362tBI98d7BYPOEq+OkZuyajv/cn6c4r7/dWySSCfdyP0oEEzsAMfjkuvINc+p
+	ImO2PCapubtUCpmM6Gy9EWheHae93bJjDAKrWdyWBWIetXS9QGs9hAV2+ZrOrQ95Oo7E
+	V7k0qzdhKQkFz3K1xrkrGgWflq5hzoFec5pfUFytFS36s0yVj9RyY7wf+yuzK8RFWfK8
+	jKgYURjZMWxb5BQ/pIdQmh+tiUCJaPcv8/KWnWlNSde6JUSsPoBdb8bAjBKeXTOYOrhE
+	KWuqxAlGNK5GFfJF3rQHsKSzHv5ESaYEU2Rd6P29AV7iowG7D5Dh59GXVleBSVYeRmUl
+	2j5Q==
+X-Gm-Message-State: AElRT7H2JclnPy8zn5VWdRvhhY/9D66cHlbdtlvIZX3MHdmUxuiobNAH
+	u5pvuSvgvXoIbaubqleSbca+bRLKsFAJmcSCnDs=
+X-Google-Smtp-Source: AG47ELstktsdGerpxqhk/IzUzwF5uzaleX9m5ZIrpm3qymAVCGs2RWHaA7mSjJw7uUGq4LT0617P8ayItngOxqDZOIk=
+X-Received: by 10.28.212.141 with SMTP id l135mr5242837wmg.122.1520170541295; 
+	Sun, 04 Mar 2018 05:35:41 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.74.211 with HTTP; Sun, 4 Mar 2018 05:33:45 -0800 (PST)
-In-Reply-To: <1520169914.3436.65.camel@linuxfoundation.org>
+Received: by 10.28.74.211 with HTTP; Sun, 4 Mar 2018 05:35:40 -0800 (PST)
+In-Reply-To: <1520170010.3436.66.camel@linuxfoundation.org>
 References: <1520162580-30003-1-git-send-email-richard.purdie@linuxfoundation.org>
 	<CA+chaQeV1f7yUt3w5t7iXrYf5OyMjbxr-C_dqKGqG+jDt4gFcA@mail.gmail.com>
 	<CA+chaQdU0RoRG_5pKr5qrKS2KauOfii_F-_CHPB4cy_0v2P-pQ@mail.gmail.com>
-	<1520169914.3436.65.camel@linuxfoundation.org>
+	<CA+chaQeKutNQ5G8=6ph4fYZVJb8KkF0OWeExCJUQTWArBZirKA@mail.gmail.com>
+	<1520170010.3436.66.camel@linuxfoundation.org>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 4 Mar 2018 14:33:45 +0100
-Message-ID: <CA+chaQfeBK9q3QxDHRvoFDTbDodStoi-=WKyd6LP=K0AAEfCmg@mail.gmail.com>
+Date: Sun, 4 Mar 2018 14:35:40 +0100
+Message-ID: <CA+chaQe3UXNRjTZ0CQjtU7w5qMg+Z42uFWr6yvYKCLM+zr8kaw@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -57,18 +58,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 13:33:46 -0000
-Content-Type: multipart/alternative; boundary="001a114a4cfa3fde020566964241"
+X-List-Received-Date: Sun, 04 Mar 2018 13:35:40 -0000
+Content-Type: multipart/alternative; boundary="001a114695941cae3b05669649bc"
 
---001a114a4cfa3fde020566964241
+--001a114695941cae3b05669649bc
 Content-Type: text/plain; charset="UTF-8"
 
-> As far as I can tell, this patch doesn't add that file?
+Are we both talking about the same morty-next?
 
-My git doesn't agree:
-
-docker-shr @ ~/openembedded-core $ git log origin/morty-next --
-meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+docker-shr @ ~/openembedded-core $ git log origin/morty-next  --
+meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
 commit a926f3986174b67375c4486e5b3f27ad3b939e28
 Author: Juro Bystricky <juro.bystricky@intel.com>
 Date:   Thu Mar 1 13:38:08 2018 -0800
@@ -85,92 +84,80 @@ Date:   Thu Mar 1 13:38:08 2018 -0800
     ubsan-fix-check-empty-string.patch : removed, already applied
 
     Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-
-It's moved from gcc-6.2 to gcc-6.4 directory in this patch:
-diff --git
-a/meta/recipes-devtools/gcc/gcc-6.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-b/meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-rename from
-meta/recipes-devtools/gcc/gcc-6.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-rename to
-meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+docker-shr @ ~/openembedded-core $ git show -1
+a926f3986174b67375c4486e5b3f27ad3b939e28 -M  | grep CVE-2016-4490.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch
+b/meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
+rename from meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch
+rename to meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
 
 
-On Sun, Mar 4, 2018 at 2:25 PM, Richard Purdie <
+On Sun, Mar 4, 2018 at 2:26 PM, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
-> On Sun, 2018-03-04 at 13:00 +0100, Martin Jansa wrote:
-> > Also
-> > meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-
-> > vectorized-builtins-wh.patch
-> > added in this patch doesn't seem to be used anywhere.
+> On Sun, 2018-03-04 at 13:08 +0100, Martin Jansa wrote:
+> > And the same with
+> > meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch
+> > which isn't included in SRC_URI since:
 >
-> As far as I can tell, this patch doesn't add that file?
+> As far as I can tell this isn't included in the patch or the
+> repository?
 >
 > Cheers,
 >
 > Richard
 >
 
---001a114a4cfa3fde020566964241
+--001a114695941cae3b05669649bc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><span style=3D"color:rgb(34,34,34);font-family:arial,=
-sans-serif;font-size:12.8px;font-style:normal;font-variant-ligatures:normal=
-;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:=
-start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0=
-px;background-color:rgb(255,255,255);text-decoration-style:initial;text-dec=
-oration-color:initial;float:none;display:inline">&gt; As far as I can tell,=
- this patch doesn&#39;t add that file?</span><br></div><div><span style=3D"=
-color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.8px;font-styl=
-e:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight=
-:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:=
-none;white-space:normal;word-spacing:0px;background-color:rgb(255,255,255);=
-text-decoration-style:initial;text-decoration-color:initial;float:none;disp=
-lay:inline"><br></span></div><div>My git doesn&#39;t agree:</div><div><br><=
-/div><div>docker-shr @ ~/openembedded-core $ git log origin/morty-next -- m=
-eta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectori=
-zed-builtins-wh.patch</div><div>commit a926f3986174b67375c4486e5b3f27ad3b93=
-9e28</div><div>Author: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@=
-intel.com">juro.bystricky@intel.com</a>&gt;</div><div>Date:=C2=A0 =C2=A0Thu=
- Mar 1 13:38:08 2018 -0800</div><div><br></div><div>=C2=A0 =C2=A0 gcc6: Upg=
-rade to 6.4.0 (latest stable series release)</div><div>=C2=A0 =C2=A0=C2=A0<=
-/div><div>=C2=A0 =C2=A0 Changed BINV and PV from 6.2.0 to 6.4.0</div><div>=
-=C2=A0 =C2=A0 Modified BASEURI to load xz tarball instead of bz2</div><div>=
-=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Backported series of patches fr=
-om <a href=3D"https://github.com/hjl-tools/gcc.git">https://github.com/hjl-=
-tools/gcc.git</a></div><div>=C2=A0 =C2=A0 branch /hjl/indirect/gcc-6-branch=
-/master which contains</div><div>=C2=A0 =C2=A0 an IA patch series for secur=
-ity related issues</div><div>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 ub=
-san-fix-check-empty-string.patch : removed, already applied</div><div>=C2=
-=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Signed-off-by: Juro Bystricky &lt;=
-<a href=3D"mailto:juro.bystricky@intel.com">juro.bystricky@intel.com</a>&gt=
-;</div><div><br></div><div>It&#39;s moved from gcc-6.2 to gcc-6.4 directory=
- in this patch:</div><div><div>diff --git a/meta/recipes-devtools/gcc/gcc-6=
-.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch b/meta/r=
-ecipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use-vectorized-b=
-uiltins-wh.patch</div><div>rename from meta/recipes-devtools/gcc/gcc-6.2/00=
-48-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch</div><div>ren=
-ame to meta/recipes-devtools/gcc/gcc-6.4/0048-ARM-PR-target-71056-Don-t-use=
--vectorized-builtins-wh.patch</div></div><div><br></div></div><div class=3D=
-"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Mar 4, 2018 at 2:25 PM=
-, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@lin=
-uxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 2018-03-04 at 1=
-3:00 +0100, Martin Jansa wrote:<br>
-&gt; Also<br>
-&gt; meta/recipes-devtools/gcc/gcc-<wbr>6.4/0048-ARM-PR-target-71056-<wbr>D=
-on-t-use-<br>
-<span class=3D"">&gt; vectorized-builtins-wh.patch<br>
-&gt; added in this patch doesn&#39;t seem to be used anywhere.<br>
+<div dir=3D"ltr"><div>Are we both talking about the same morty-next?</div><=
+div><br></div><div><span style=3D"color:rgb(34,34,34);font-family:arial,san=
+s-serif;font-size:small;font-style:normal;font-variant-ligatures:normal;fon=
+t-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:star=
+t;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;b=
+ackground-color:rgb(255,255,255);text-decoration-style:initial;text-decorat=
+ion-color:initial;float:none;display:inline">docker-shr @ ~/openembedded-co=
+re $<span>=C2=A0</span></span>git log origin/morty-next=C2=A0 -- meta/recip=
+es-devtools/gcc/gcc-6.4/CVE-2016-4490.patch</div><div>commit a926f3986174b6=
+7375c4486e5b3f27ad3b939e28</div><div>Author: Juro Bystricky &lt;<a href=3D"=
+mailto:juro.bystricky@intel.com">juro.bystricky@intel.com</a>&gt;</div><div=
+>Date:=C2=A0 =C2=A0Thu Mar 1 13:38:08 2018 -0800</div><div><br></div><div>=
+=C2=A0 =C2=A0 gcc6: Upgrade to 6.4.0 (latest stable series release)</div><d=
+iv>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Changed BINV and PV from 6.2=
+.0 to 6.4.0</div><div>=C2=A0 =C2=A0 Modified BASEURI to load xz tarball ins=
+tead of bz2</div><div>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Backporte=
+d series of patches from <a href=3D"https://github.com/hjl-tools/gcc.git">h=
+ttps://github.com/hjl-tools/gcc.git</a></div><div>=C2=A0 =C2=A0 branch /hjl=
+/indirect/gcc-6-branch/master which contains</div><div>=C2=A0 =C2=A0 an IA =
+patch series for security related issues</div><div>=C2=A0 =C2=A0=C2=A0</div=
+><div>=C2=A0 =C2=A0 ubsan-fix-check-empty-string.patch : removed, already a=
+pplied</div><div>=C2=A0 =C2=A0=C2=A0</div><div>=C2=A0 =C2=A0 Signed-off-by:=
+ Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com">juro.bystri=
+cky@intel.com</a>&gt;</div><div>docker-shr @ ~/openembedded-core $ git show=
+ -1 a926f3986174b67375c4486e5b3f27ad3b939e28 -M=C2=A0 | grep CVE-2016-4490.=
+patch</div><div>diff --git a/meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-449=
+0.patch b/meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch</div><div>r=
+ename from meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch</div><div>=
+rename to meta/recipes-devtools/gcc/gcc-6.4/CVE-2016-4490.patch</div><div><=
+br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
+ Sun, Mar 4, 2018 at 2:26 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><span class=3D"">On Sun, 2018-03-04 at 13:08 +0100, Martin Jansa wrot=
+e:<br>
+&gt; And the same with<br>
+&gt; meta/recipes-devtools/gcc/gcc-<wbr>6.4/CVE-2016-4490.patch<br>
+&gt; which isn&#39;t included in SRC_URI since:<br>
 <br>
-</span>As far as I can tell, this patch doesn&#39;t add that file?<br>
+</span>As far as I can tell this isn&#39;t included in the patch or the<br>
+repository?<br>
 <br>
 Cheers,<br>
 <br>
 Richard<br>
 </blockquote></div><br></div>
 
---001a114a4cfa3fde020566964241--
+--001a114695941cae3b05669649bc--
