@@ -1,52 +1,55 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EAC8E78ABD
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 348C778A7F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 21:10:02 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id v9-v6so8528248plp.12
+	Sun,  4 Mar 2018 21:10:54 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id l191so20257233lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Mar 2018 13:10:04 -0800 (PST)
+	Sun, 04 Mar 2018 13:10:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2Hx0ezCDqiaZ5nzhoyK5cZcSFJZrXiba49t+hgjjnNI=;
-	b=W8z0D7C8Aja36FUWbjfQr1h+hRTXp1gxRpTIt2phUmKvagOvblTUuxmYpRT3EFl2yM
-	QAyyM8FJOAJHpKfMDGaPKcfnc2gM60LxIMxRE6aUmTbWYD+ySeNCaIlpZQpFiQBK4SrD
-	GSxtsfKfUZ0wvoZXq65NKEbCsXMA4xFAL23uvXREuad9WDtSN1EYrfH2vHvJ6DVjtV+0
-	vhCFwR3zNqaReDfV7A+/D0MM9cD084qpL/0Db8Ci9dRU2qq5Tr1R3D8cV4b2X5kq4bHU
-	eVoTQkcZaJo9tdUeavagqiNCuxlkGV2fy3W91IMK8JDP6OfoGWGfBssfKB/HUcghMYHQ
-	u9+Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MbuSRat1AA0B0iz5mYvKTysnaLrR5hCzkllJ+3Y7Ch0=;
+	b=q4k62UoEB6m6YCmeyKz12v8rtsaTivOXgmS2M99Hs2eCLULPbzoPksXZp5jkHBvva2
+	hJnvYgVdgBptlJTucLDF2HKxOBMDKc6pwNx8aVNHUk1K8L1Tj8zdRme+mWASG8yuxFUw
+	3MU7h1K+QBc1aEeopDEAgfD+e8nFfz/nJx7CmDYrfkTYuEL6j0PbakgKfGJdi2s/Lrus
+	3ClbgwE8dhoEQJzKgwOZiyFFwuBfv7IehmwsE/Act4kpvlbSTh1UfpI06xb8H/SPMhCG
+	0wZKy0DR9MoQF6K7N5cOiSc1nPiYHqHNsysVF4lyQx2oU3cbDwb84mTXsDsLjaBT2nlA
+	U5vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=2Hx0ezCDqiaZ5nzhoyK5cZcSFJZrXiba49t+hgjjnNI=;
-	b=i+3lxb/GvMSXeSVpQSaARYBbq1xdnEowM2rc1j5pWPrRu8oxQjMMlCCjYjvv+92bly
-	d1F84mTehItnpozUwOXCEIW6KqUUthO+tta3tPpdtRv6obJNqYgT67468OeBOIuPHZlv
-	EcQ39PZZ07i+3+BU8gPczBLnFMdyzm4DoW2Td1FTiGGdxup2kR/D1cJDBuhQX1W5guMQ
-	7qKzIj+fNuA26hRB1PY38bcKI527qkA5QxnCynh0IPGYy+zC6oJZnykgmMQ5syh4ktle
-	/Fs2b1qpw6VEo3wh4twU+BayM469+W/TskczRdwY+oRqsjbZFIs2UrgROpRFybwkRWyi
-	FatA==
-X-Gm-Message-State: APf1xPAhWvKbw+W9sXc6LZsB4G5/SeJFbVLBMwzw60nlvJjm9mzcvhRz
-	61NRsuUi0fU3srjLSQ1vnia0uElL
-X-Google-Smtp-Source: AG47ELu2/sZi9mpBOqyRYkYQGoZ8sZIbVYD10vyS7l/DVngSY/qj0jcKJnAyGDp5kL02nOCIMEhS+g==
-X-Received: by 2002:a17:902:b482:: with SMTP id
-	y2-v6mr11104338plr.49.1520197804174; 
-	Sun, 04 Mar 2018 13:10:04 -0800 (PST)
-Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
-	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	x123sm18594829pgb.5.2018.03.04.13.10.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 04 Mar 2018 13:10:03 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MbuSRat1AA0B0iz5mYvKTysnaLrR5hCzkllJ+3Y7Ch0=;
+	b=dFB5jv546RMYObRgEjw0E8/RXbWwKqeBOOQy3d7YRlCATxG3Dut/NslPpiDQOVPtRs
+	9buwBscJzDmPfQg6bzPvuW5gyGl/r2R+KFZdU0UGnR8MBRj4bkp9OEPa8MnMPtniomYQ
+	1wYiD7CwIxZG11UzJKRc3megBl8QlLRbIbdXUK+RD6oZlu/4qCuwvQKdKfVOcJXZRNA5
+	FnBm7TQJjBdR3EFbWDlvHbhw5VHKhUmELFMxwYueNE2v1jAmxZrG24E4fxu3R9BbBGzV
+	Bui+eMxMJZ4EZSWIAg8uLv7tvVmBTf0EolfkNXdE5mxhv31e+E+ffu7GM8RmV6SPrx2J
+	ur2w==
+X-Gm-Message-State: AElRT7HGPeRbG8ZLJw1Q/JUd7BBQUgB/mFWhZ5SBUVciq8Qf3lzhjhr3
+	/tpB4xLUugo5fS0S5dZhbLZS3XRizDdZTrCm+fLHmA==
+X-Google-Smtp-Source: AG47ELt/des0w3VUh8nP9tphQKiNgJpAvmWYt0Sj/6fleDTtK1UTfI8QswcjSWaKFsDT/Pa4xhfuW2woh74P9vLEwX0=
+X-Received: by 10.25.24.203 with SMTP id 72mr8138717lfy.132.1520197855616;
+	Sun, 04 Mar 2018 13:10:55 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.25.156.131 with HTTP; Sun, 4 Mar 2018 13:10:54 -0800 (PST)
+In-Reply-To: <CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
+References: <20180302203314.32737-1-matt@madison.systems>
+	<876d96e7-1425-df8e-621c-b2dd3c263d88@gmail.com>
+	<CAGgRHJoNhQTyVN7ww5BAoQLs1GPkxO3rsdujLttH8V-84vFiAw@mail.gmail.com>
+	<CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
+	<CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
+	<CAMKF1sp5tRPs7yB9bCZShJnozK_cHTskcSSTUP-=Vag72sZZRg@mail.gmail.com>
+	<CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
 From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 13:09:37 -0800
-Message-Id: <20180304210937.29727-14-matt@madison.systems>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180304210937.29727-1-matt@madison.systems>
-References: <20180304210937.29727-1-matt@madison.systems>
-Subject: [PATCH v5 13/13] tcmode-default.inc: add settings for go
+Date: Sun, 4 Mar 2018 13:10:54 -0800
+Message-ID: <CAGgRHJpHT_OZu=MSfjYVq1RRR4bcL4a1aN6MbpzcKf_6EciasQ@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +62,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 21:10:03 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 21:10:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-to allow GOVERSION to be set for using an older
-go toolchain.
+On Sun, Mar 4, 2018 at 12:46 PM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Sat, Mar 3, 2018 at 11:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Sat, Mar 3, 2018 at 2:45 PM, Otavio Salvador
+>> <otavio.salvador@ossystems.com.br> wrote:
+>>> On Sat, Mar 3, 2018 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> On Sat, Mar 3, 2018 at 9:44 AM, Matt Madison <matt@madison.systems> wrote:
+>>>>> Since it looks like I'll have to do a v5 on my series anyway, I can
+>>>>> pull in that backport for the aarch64 issue.
+>>>>
+>>>> sure,  I would suggest we keep 1.9 around as well.
+>>>
+>>> I am against. Go is good to provide backward compatibility and keeping
+>>> both just causes people to delay the update. We have some time to
+>>> April release and thus any regression will be ironed out. Possibly
+>>> wait until 1.10.1 is out but keeping two releases I am unsure it is
+>>> needed.
+>>
+>> Your disagreement is acknowledged.
+>> There are larger systems written in go which haven't moved to go 1.10
+>> and I know for sure influxdb and grafana are not working with 1.10
+>> and there might be many more real world programs which will be in same
+>> boat. This is no different then what we do with gcc releases where we
+>> overlap them for couple of releases to smooth out transition.
+>
+> I understand the need and I see the value. The GCC is harder to
+> upgrade but problems using newer Go toolchain does not happen very
+> often and likely are caused by a regression on Go itself.
+>
+> As I said, there are two options:
+>
+> a) wait for 1.10.1 release
+> b) keep 1.9.4 around
+>
+> My preference goes to (a) as I prefer to not include 1.10 now with
+> those known issues.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/conf/distro/include/tcmode-default.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I've reworked the patches in v5 to allow for either approach.  If it's
+(a), we can simply remove the 1.9 recipes.
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 87a5920cad..5c6681fb9d 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -67,3 +67,13 @@ PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
- # Setup suitable toolchain flags
- require conf/distro/include/as-needed.inc
- 
-+GOVERSION ?= "1.10%"
-+PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
-+PREFERRED_VERSION_go ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-native ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
-+PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
-+PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
--- 
-2.14.1
+-Matt
 
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
