@@ -1,31 +1,23 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 01B4278A96
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E4F2078A95
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Mar 2018 22:58:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0452C20B84;
-	Sun,  4 Mar 2018 22:58:29 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 3YSqOsHHxZJb; Sun,  4 Mar 2018 22:58:28 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C3A7C20B2F;
-	Sun,  4 Mar 2018 22:58:26 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id 0BA191632FA;
-	Sun,  4 Mar 2018 17:58:26 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+	Sun,  4 Mar 2018 23:08:00 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2018 15:08:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="22873251"
+Received: from chiron.jf.intel.com ([10.7.159.61])
+	by orsmga006.jf.intel.com with ESMTP; 04 Mar 2018 15:08:01 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 17:58:12 -0500
-Message-Id: <1520204294-38993-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [rocko][PATCH 1/3] busybox: separate inittab into own package, due to SERIAL_CONSOLES being machine-specific
+Date: Sun,  4 Mar 2018 15:07:50 -0800
+Message-Id: <20180304230750.10113-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] libtest-needs-perl (and others): self-assign maintainerhsip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,96 +30,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Mar 2018 22:58:28 -0000
+X-List-Received-Date: Sun, 04 Mar 2018 23:08:01 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+Also, take over the other recipes that were just enabled for
+ptest:
+  - liberror-perl
+  - liburi-perl
+  - libxml-parser-perl
+  - libxml-perl
+  - libxml-simple-perl
 
-* Create busybox-inittab recipe to produce machine-specific package with /etc/inittab
-  and necessary getty calls for a machine, based on SERIAL_CONSOLES, similar to how
-  sysvinit-inittab was done
-
-* Since CONFIG_FEATURE_USE_INITTAB is controlled by VIRTUAL-RUNTIME_init_manager, make
-  main busybox package RDEPENDS on busybox-inittab when init_manager is set to busybox
-
-(From OE-Core rev: afb09abd2f0f7555ba156260a87fd3867f591310)
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../recipes-core/busybox/busybox-inittab_1.24.1.bb | 32 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox.inc              | 12 ++------
- 2 files changed, 34 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox-inittab_1.24.1.bb
+ meta/conf/distro/include/maintainers.inc | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.24.1.bb b/meta/recipes-core/busybox/busybox-inittab_1.24.1.bb
-new file mode 100644
-index 0000000..a83620e
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-inittab_1.24.1.bb
-@@ -0,0 +1,32 @@
-+SUMMARY = "inittab configuration for BusyBox"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+
-+SRC_URI = "file://inittab"
-+
-+S = "${WORKDIR}"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+do_compile() {
-+	:
-+}
-+
-+do_install() {
-+    install -d ${D}${sysconfdir}
-+    install -D -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
-+    tmp="${SERIAL_CONSOLES}"
-+    for i in $tmp
-+    do
-+            j=`echo ${i} | sed s/\;/\ /g`
-+            id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
-+            echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+    done
-+}
-+
-+# SERIAL_CONSOLES is generally defined by the MACHINE .conf.
-+# Set PACKAGE_ARCH appropriately.
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+FILES_${PN} = "${sysconfdir}/inittab"
-+CONFFILES_${PN} = "${sysconfdir}/inittab"
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 48910ca..a6bfd46 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -48,6 +48,8 @@ CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
- 
- RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
- 
-+RDEPENDS_${PN} = "${@["", "busybox-inittab"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]}"
-+
- inherit cml1 systemd update-rc.d ptest
- 
- # internal helper
-@@ -292,16 +294,6 @@ do_install () {
-                 install -D -m 0777 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
-                 install -D -m 0777 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
-                 install -D -m 0755 ${WORKDIR}/runlevel ${D}${base_sbindir}/runlevel
--                if grep "CONFIG_FEATURE_USE_INITTAB=y" ${B}/.config; then
--                        install -D -m 0777 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
--                        tmp="${SERIAL_CONSOLES}"
--                        for i in $tmp
--                        do
--                                j=`echo ${i} | sed s/\;/\ /g`
--                                id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
--                                echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
--                        done
--                fi
-         fi
- 
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5039248790..1e7517ac9a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -331,7 +331,7 @@ RECIPE_MAINTAINER_pn-libdumpvalue-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libenv-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libepoxy = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-liberation-fonts = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-RECIPE_MAINTAINER_pn-liberror-perl = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER_pn-liberror-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libevdev = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libevent = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libexif = "Alexander Kanavin <alexander.kanavin@intel.com>"
+@@ -394,6 +394,7 @@ RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-libsolv = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libsoup-2.4 = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libtasn1 = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@intel.com>"
+ RECIPE_MAINTAINER_pn-libtheora = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libtimedate-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libtirpc = "Maxin B. John <maxin.john@intel.com>"
+@@ -403,7 +404,7 @@ RECIPE_MAINTAINER_pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-libunistring = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libunwind = "Bruce Ashfield <bruce.ashfield@windriver.com>"
+ RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-RECIPE_MAINTAINER_pn-liburi-perl = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libusb-compat = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libusb1 = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libuser = "Robert Yang <liezhi.yang@windriver.com>"
+@@ -430,11 +431,11 @@ RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libxml-parser-perl = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libxml-perl = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-libxml-parser-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-libxml-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libxml-sax-perl = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libxml-simple-perl = "Maxin B. John <maxin.john@intel.com>"
++RECIPE_MAINTAINER_pn-libxml-simple-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libxpm = "Armin Kuster <akuster@mvista.com>"
 -- 
-2.7.4
+2.14.3
 
 
