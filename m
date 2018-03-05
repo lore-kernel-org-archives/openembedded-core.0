@@ -1,32 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F405C78A51
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:33:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Mar 2018 09:33:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,427,1515484800"; d="scan'208";a="23083721"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 05 Mar 2018 09:33:37 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: akuster808 <akuster808@gmail.com>, Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180305172046.21729-1-ross.burton@intel.com>
-	<20180305172046.21729-2-ross.burton@intel.com>
-	<30b5b54b-c330-5bdf-9f3c-454ddde92353@gmail.com>
-	<593a77b8-c31f-5f58-5214-a526d73f2749@linux.intel.com>
-Message-ID: <d71cf595-a1d7-40a0-d486-902975862685@linux.intel.com>
-Date: Mon, 5 Mar 2018 19:27:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 655467893E;
+	Mon,  5 Mar 2018 17:35:24 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <593a77b8-c31f-5f58-5214-a526d73f2749@linux.intel.com>
-Subject: Re: [PATCH 02/29] dbus-glib: refresh patch
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Victor Kamensky <kamensky@cisco.com>
+Date: Mon, 05 Mar 2018 17:35:26 -0000
+Message-ID: <20180305173526.15537.64727@do.openembedded.org>
+References: <1520268635-5466-1-git-send-email-kamensky@cisco.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1520268635-5466-1-git-send-email-kamensky@cisco.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInN5c3RlbXRhcDogc3VwcG9ydHMgbWlwcyBzdGFydC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,32 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:33:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Mon, 05 Mar 2018 17:35:24 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/05/2018 07:26 PM, Alexander Kanavin wrote:
-> On 03/05/2018 07:24 PM, akuster808 wrote:
->> Why do this patches need to be refreshed?
-> 
-> Long story:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-> 
-> Short story:
-> 
-> we'll soon start warning users if patches are applied with fuzz (e.g. 
-> context lines in a patch are ignored in order to apply the patch 
-> somehow, somewhere). This patch series fixes up oe-core patches, so that 
-> none of oe-core produces these warnings. This is the commit that will 
-> follow the fixup patches and introduces the warning:
-> 
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-October/143760.html 
+== Series Details ==
 
-Oh, and once most layers catch up, fuzz will be rejected outright:
+Series: "systemtap: supports mips start..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11250/
+State : failure
 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/fix-patch-fuzz&id=827172d096dd62648506c0341d0207bd6353203d
+== Summary ==
 
 
-Alex
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
