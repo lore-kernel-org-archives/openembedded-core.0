@@ -1,44 +1,31 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 13BAE782D6
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A04CB7826D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 13:28:31 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1520256512; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=Zwa0OE8rT04hCihqzMPlLz17u4KO9GBFInhUYL0DMZ4=;
-	b=Zh6IHBUnxsCRRyzGz8if2AroWX3KzN8NH5YR16loggaMh8mm4V0k6lh8teOfNTzvD9ZPBCAQ
-	e7rj3WvebeW+AmRX4v70cJJUhAM6MDETvo04toiY33e5nYj/f2yhdbYLljiOZBD4SVplZLFo
-	V0gr85e83hhOtKMk2FhcY2ADrzw=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mxa.mailgun.org with ESMTP id 5a9d4600.7f14ec07d7f0-smtp-out-n03;
-	Mon, 05 Mar 2018 13:28:32 -0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id v124so20497870qkh.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 05:28:32 -0800 (PST)
-X-Gm-Message-State: AElRT7F+obZaqBZUeYB/6nqjWhOl3oEcOEfS2EOgVPvDnCdpPakj9bVg
-	WhOEAm0arhzVOYVUh/BVeU98D6SOJYWInn5Fsnw=
-X-Google-Smtp-Source: AG47ELuKs5ADLIAK0aBcAu6ERC9gZb92jNGUf55B7/Jw30xT/ZynI/BS61Tw1s1w+z/h+fg7AoOIktR8yV5YsAyJwJc=
-X-Received: by 10.55.20.233 with SMTP id 102mr22425601qku.18.1520256511425;
-	Mon, 05 Mar 2018 05:28:31 -0800 (PST)
+	Mon,  5 Mar 2018 13:52:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w25DqbsO005201
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 5 Mar 2018 05:52:37 -0800
+Received: from [172.25.59.213] (172.25.59.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 5 Mar 2018 05:52:05 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+References: <1520022430-7908-1-git-send-email-jason.wessel@windriver.com>
+	<CAP9ODKrOspi_MOPfaV3bHZyc9iZfOCgyJO4Db8urtpyYUseyMQ@mail.gmail.com>
+	<1520092215.3436.54.camel@linuxfoundation.org>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <8842ab24-f539-7809-8cd0-e69df8c254fb@windriver.com>
+Date: Mon, 5 Mar 2018 07:52:07 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.140.108.35 with HTTP; Mon, 5 Mar 2018 05:28:30 -0800 (PST)
-In-Reply-To: <CADNbA1pV9OMsnPNCy+Tj9TLQqjQ7cR=8s-2igRRdu4p1TDOF5A@mail.gmail.com>
-References: <1520254360-16927-1-git-send-email-derek@asterius.io>
-	<CAJTo0LbwDJGp6zGz=OenK0rFnrKMogASi-EzuQ5BOgCsDakhsA@mail.gmail.com>
-	<CADNbA1pV9OMsnPNCy+Tj9TLQqjQ7cR=8s-2igRRdu4p1TDOF5A@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Mon, 5 Mar 2018 08:28:30 -0500
-X-Gmail-Original-Message-ID: <CADNbA1qrhSrVDbno=EPHr3avg6CVhMa1hhJoe12P64BGosWLqQ@mail.gmail.com>
-Message-ID: <CADNbA1qrhSrVDbno=EPHr3avg6CVhMa1hhJoe12P64BGosWLqQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-pycairo: update to 1.16.3
+In-Reply-To: <1520092215.3436.54.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image.bbclass: Use deltask instead of noexec for package_write_rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,196 +38,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 13:28:32 -0000
-Content-Type: multipart/alternative; boundary="001a11400fc054c69a0566aa4d62"
+X-List-Received-Date: Mon, 05 Mar 2018 13:52:37 -0000
+X-Groupsio-MsgNum: 108893
+Content-Type: multipart/mixed; boundary="------------EE77B1421B42A1739DC3AB81"
+Content-Language: en-GB
 
---001a11400fc054c69a0566aa4d62
-Content-Type: text/plain; charset="UTF-8"
+--------------EE77B1421B42A1739DC3AB81
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Not sure that it is the correct solution, but I sent a v2.  Is it better to
-override --install-data directory in this instance rather than touching up
-the locations in the do_install_append?
+On 03/03/2018 09:50 AM, Richard Purdie wrote:
+> On Sat, 2018-03-03 at 12:46 -0300, Otavio Salvador wrote:
+>> On Fri, Mar 2, 2018 at 5:27 PM, Jason Wessel <jason.wessel@windriver.
+>> com> wrote:
+>>>
+>>> If you install an image into another image (this is the case for
+>>> custom initrd for example), it will fail with a non obvious python
+>>> backtrace.  This patch modifies the package_manager.py print which
+>>> package causes the failure for the future, if it is missing a
+>>> manifest.
+>>>
+>>> The error you get looks like this:
+>>>
+>>> oe-core/meta/lib/oe/package_manager.py', lineno: 534, function:
+>>> create_packages_dir
+>>>       0530:
+>>>       0531:    for dep in rpmdeps:
+>>>       0532:        c = taskdepdata[dep][0]
+>>>       0533:        manifest, d2 =
+>>> oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname,
+>>> d, multilibs)
+>>>   *** 0534:        if not os.path.exists(manifest):
+>>>       0535:            continue
+>>>       0536:        with open(manifest, "r") as f:
+>>>       0537:            for l in f:
+>>>       0538:                l = l.strip()
+>>> File: '/usr/lib/python3.5/genericpath.py', lineno: 19, function:
+>>> exists
+>>>       0015:# This is false for dangling symbolic links on systems
+>>> that support them.
+>>>       0016:def exists(path):
+>>>       0017:    """Test whether a path exists.  Returns False for
+>>> broken symbolic links"""
+>>>       0018:    try:
+>>>   *** 0019:        os.stat(path)
+>>>       0020:    except OSError:
+>>>       0021:        return False
+>>>       0022:    return True
+>>>       0023:
+>>> Exception: TypeError: stat: can't specify None for path argument
+>>>
+>>> The root cause of the problem was determined to be the noexec
+>>> clause
+>>> in the image.bbclass.  When the package_write_rpm task runs it
+>>> expects
+>>> that a manifest will be generated.  Not running the task eliminates
+>>> the problem.
+>>>
+>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> What about the other image types?
+> 
+> FWIW I'm testing:
+> 
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=d77755d02f23ba410a2c55596c4538b8c5c2f63a
+> 
+> (but haven't posted it yet, I will shortly, just wanted to check it was
+> roughly going to work first).
+> 
+> I'd propose taking my patch above along with Jason's patch rewritten to
+> add the bb.fatal().
+> 
 
-On Mon, Mar 5, 2018 at 7:59 AM, Derek Straka <derek@asterius.io> wrote:
 
-> Probably.  I didn't even notice that it wasn't.  v2 coming once I verify.
->
-> On Mon, Mar 5, 2018 at 7:56 AM, Burton, Ross <ross.burton@intel.com>
-> wrote:
->
->> Shouldn't the .h and .pc be in PN-dev?
->>
->> On 5 March 2018 at 12:52, Derek Straka <derek@asterius.io> wrote:
->>
->>> Update to the latest stable release
->>> Add the .pc file to the list of FILES
->>>
->>> Tested in qemux86-64 running core-image-minimal
->>>
->>> Signed-off-by: Derek Straka <derek@asterius.io>
->>> ---
->>>  .../{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb}     | 9
->>> ++++++---
->>>  1 file changed, 6 insertions(+), 3 deletions(-)
->>>  rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb =>
->>> python3-pycairo_1.16.3.bb} (78%)
->>>
->>> diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->>> b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->>> similarity index 78%
->>> rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->>> rename to meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->>> index 5c3e1e6..b648852 100644
->>> --- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->>> +++ b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->>> @@ -13,8 +13,8 @@ DEPENDS = "cairo"
->>>  SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${P
->>> V}/pycairo-${PV}.tar.gz"
->>>  UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
->>>
->>> -SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
->>> -SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8
->>> e59494538f0b80497ad3462051368755016"
->>> +SRC_URI[md5sum] = "d2a115037ccd128219f43d5ed3df7926"
->>> +SRC_URI[sha256sum] = "5bb321e5d4f8b3a51f56fc6a35c14
->>> 3f1b72ce0d748b43d8b623596e8215f01f7"
->>>
->>>  S = "${WORKDIR}/pycairo-${PV}"
->>>
->>> @@ -28,4 +28,7 @@ do_install_append() {
->>>      install -d ${D}${includedir}/pycairo/
->>>      install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h
->>> ${D}${includedir}/pycairo/
->>>  }
->>> -FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
->>> +FILES_${PN} += " \
->>> +    ${datadir}/include/pycairo/py3cairo.h \
->>> +    ${datadir}/lib/pkgconfig/py3cairo.pc \
->>> +"
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->>
->
+I agree.
 
---001a11400fc054c69a0566aa4d62
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Jason Wessel <jason.wessel@windriver.com>
 
-<div dir=3D"ltr">Not sure that it is the correct solution, but I sent a v2.=
-=C2=A0 Is it better to override=C2=A0<span style=3D"color:rgb(34,34,34);fon=
-t-family:arial,sans-serif;font-size:12.8px;font-style:normal;font-variant-l=
-igatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:nor=
-mal;text-align:start;text-indent:0px;text-transform:none;white-space:normal=
-;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:i=
-nitial;text-decoration-color:initial;float:none;display:inline">--install-d=
-ata directory in this instance rather than touching up the locations in the=
- do_install_append?</span></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On Mon, Mar 5, 2018 at 7:59 AM, Derek Straka <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@aster=
-ius.io</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"=
-ltr">Probably.=C2=A0 I didn&#39;t even notice that it wasn&#39;t.=C2=A0 v2 =
-coming once I verify.</div><div class=3D"HOEnZb"><div class=3D"h5"><div cla=
-ss=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Mar 5, 2018 at 7:=
-56 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@int=
-el.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><div dir=3D"ltr">Shouldn&#39;t the .h and .pc =
-be in PN-dev?</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote=
-"><div><div class=3D"m_-8992084579151626636h5">On 5 March 2018 at 12:52, De=
-rek Straka <span dir=3D"ltr">&lt;<a href=3D"mailto:derek@asterius.io" targe=
-t=3D"_blank">derek@asterius.io</a>&gt;</span> wrote:<br></div></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div><div class=3D"m_-8992084579151626636h5">Update=
- to the latest stable release<br>
-Add the .pc file to the list of FILES<br>
-<br>
-Tested in qemux86-64 running core-image-minimal<br>
-<br>
-Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" target=
-=3D"_blank">derek@asterius.io</a>&gt;<br>
----<br>
-=C2=A0.../{<a href=3D"http://python3-pycairo_1.15.6.bb" rel=3D"noreferrer" =
-target=3D"_blank">python3-pycairo_1.15.6.b<wbr>b</a> =3D&gt; <a href=3D"htt=
-p://python3-pycairo_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3=
--pycairo_1.16.3.bb</a>}=C2=A0 =C2=A0 =C2=A0| 9 ++++++---<br>
-=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-pycair=
-o_1.15.6.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python3-pycairo_1.15=
-.6.bb</a> =3D&gt; <a href=3D"http://python3-pycairo_1.16.3.bb" rel=3D"noref=
-errer" target=3D"_blank">python3-pycairo_1.16.3.bb</a>} (78%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-py=
-cairo_1.15.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.15.=
-6.bb</a> b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pyca=
-iro_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.16.3.=
-bb</a><br>
-similarity index 78%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-pycairo_=
-1.15.6.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython3-pycairo_1.15.6=
-.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-pycairo_1.=
-16.3.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython3-pycairo_1.16.3.b=
-b</a><br>
-index 5c3e1e6..b648852 100644<br>
---- a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pycairo_1=
-.15.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.15.6.bb</a=
-><br>
-+++ b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pycairo_1=
-.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.16.3.bb</a=
-><br>
-@@ -13,8 +13,8 @@ DEPENDS =3D &quot;cairo&quot;<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://github.com/pygobject/pycairo/rel=
-eases/download/v$%7BPV%7D/pycairo-$%7BPV%7D.tar.gz" rel=3D"noreferrer" targ=
-et=3D"_blank">https://github.com/pygobject/<wbr>pycairo/releases/download/v=
-${P<wbr>V}/pycairo-${PV}.tar.gz</a>&quot;<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/pygobject/=
-pycairo/releases/" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
-pygobject/<wbr>pycairo/releases/</a>&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;3ff210c34e7b052590e15fd0fb147<wbr>766&quot;<br>
--SRC_URI[sha256sum] =3D &quot;ad150ea637860836b66705e0513b8<wbr>e59494538f0=
-b80497ad34620513687<wbr>55016&quot;<br>
-+SRC_URI[md5sum] =3D &quot;d2a115037ccd128219f43d5ed3df7<wbr>926&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;5bb321e5d4f8b3a51f56fc6a35c14<wbr>3f1b72ce0d7=
-48b43d8b623596e8215<wbr>f01f7&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/pycairo-${PV}&quot;<br>
-<br>
-@@ -28,4 +28,7 @@ do_install_append() {<br>
-=C2=A0 =C2=A0 =C2=A0install -d ${D}${includedir}/pycairo/<br>
-=C2=A0 =C2=A0 =C2=A0install -m 0644 ${D}${datadir}/include/pycairo<wbr>/py3=
-cairo.h ${D}${includedir}/pycairo/<br>
-=C2=A0}<br>
--FILES_${PN} +=3D &quot;${datadir}/include/pycairo/py<wbr>3cairo.h&quot;<br=
->
-+FILES_${PN} +=3D &quot; \<br>
-+=C2=A0 =C2=A0 ${datadir}/include/pycairo/py3<wbr>cairo.h \<br>
-+=C2=A0 =C2=A0 ${datadir}/lib/pkgconfig/py3ca<wbr>iro.pc \<br>
-+&quot;<br>
-</div></div><span class=3D"m_-8992084579151626636HOEnZb"><font color=3D"#88=
-8888"><span class=3D"m_-8992084579151626636m_-1005834292654371431HOEnZb"><f=
-ont color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></font></span></blockquote></div><br></div>
-</blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
+Attached is the revised bbfatal patch.
 
---001a11400fc054c69a0566aa4d62--
+Jason.
+
+--------------EE77B1421B42A1739DC3AB81
+Content-Type: text/x-patch;
+	name="0001-package_manager.py-Print-offending-package-instead-o.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename*0="0001-package_manager.py-Print-offending-package-instead-o.pa";
+	filename*1="tch"
+
+From 71201901b917d31c694cde00640c461edb10b4e7 Mon Sep 17 00:00:00 2001
+From: Jason Wessel <jason.wessel@windriver.com>
+Date: Fri, 2 Mar 2018 13:49:16 -0600
+Subject: [PATCH] package_manager.py: Print offending package instead of
+ non-sense trace
+
+If you have a package that does not generate a manifest due to using a
+noexec rule, the package name should be printed so the problem can be
+tracked down.  With out the patch you get an error that makes it look
+more like the package_manager is broken as shown below.
+
+oe-core/meta/lib/oe/package_manager.py', lineno: 534, function: create_packages_dir
+     0530:
+     0531:    for dep in rpmdeps:
+     0532:        c = taskdepdata[dep][0]
+     0533:        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
+ *** 0534:        if not os.path.exists(manifest):
+     0535:            continue
+     0536:        with open(manifest, "r") as f:
+     0537:            for l in f:
+     0538:                l = l.strip()
+File: '/usr/lib/python3.5/genericpath.py', lineno: 19, function: exists
+     0015:# This is false for dangling symbolic links on systems that support them.
+     0016:def exists(path):
+     0017:    """Test whether a path exists.  Returns False for broken symbolic links"""
+     0018:    try:
+ *** 0019:        os.stat(path)
+     0020:    except OSError:
+     0021:        return False
+     0022:    return True
+     0023:
+Exception: TypeError: stat: can't specify None for path argument
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/image.bbclass     | 2 +-
+ meta/lib/oe/package_manager.py | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 23ed53d..ad44f11 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -629,7 +629,7 @@ deltask do_package_qa
+ do_packagedata[noexec] = "1"
+ do_package_write_ipk[noexec] = "1"
+ do_package_write_deb[noexec] = "1"
+-do_package_write_rpm[noexec] = "1"
++deltask do_package_write_rpm
+ 
+ # Prepare the root links to point to the /usr counterparts.
+ create_merged_usr_symlinks() {
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 287ca9a..980649f 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -531,6 +531,8 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+     for dep in rpmdeps:
+         c = taskdepdata[dep][0]
+         manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
++        if not manifest:
++            bb.fatal("No manifest generated from: %s in %s" % (c, taskdepdata[dep][2]))
+         if not os.path.exists(manifest):
+             continue
+         with open(manifest, "r") as f:
+-- 
+2.7.4
+
+
+--------------EE77B1421B42A1739DC3AB81--
