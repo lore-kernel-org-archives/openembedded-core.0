@@ -1,28 +1,29 @@
-Return-Path: <quentin.schulz@bootlin.com>
-X-Greylist: delayed 598 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 Mar 2018 08:33:02 UTC
-Received: from mail.bootlin.com (mail.bootlin.com [62.4.15.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 945277897C
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 31549782D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 08:33:02 +0000 (UTC)
-Received: by mail.bootlin.com (Postfix, from userid 110)
-	id EE8FD207CA; Mon,  5 Mar 2018 09:23:03 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
-	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
-Received: from localhost.localdomain
-	(LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-	by mail.bootlin.com (Postfix) with ESMTPSA id B4FE92046F;
-	Mon,  5 Mar 2018 09:23:03 +0100 (CET)
-From: Quentin Schulz <quentin.schulz@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 09:22:33 +0100
-Message-Id: <20180305082233.8493-1-quentin.schulz@bootlin.com>
-X-Mailer: git-send-email 2.14.1
-Cc: thomas.petazzoni@bootlin.com
-Subject: [PATCH] busybox: mdev: make mdev auto load modules at boot
+	Mon,  5 Mar 2018 08:39:38 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 00:39:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,426,1515484800"; d="scan'208";a="34665525"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by fmsmga004.fm.intel.com with ESMTP; 05 Mar 2018 00:39:38 -0800
+Date: Mon, 5 Mar 2018 10:42:49 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Message-ID: <20180305084249.GB32533@mbabyjoh-desk.ger.corp.intel.com>
+References: <cover.1520219828.git.timothy.t.orling@linux.intel.com>
+	<eaeb3198cf033c5960fb0c5db7cbec630d79d69d.1520219828.git.timothy.t.orling@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <eaeb3198cf033c5960fb0c5db7cbec630d79d69d.1520219828.git.timothy.t.orling@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/6] maintainers.inc: self-assign recipes from recipes-extended/perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 08:33:02 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 08:39:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks to the MODALIAS line at the beginning of mdev.conf, mdev supports
-module auto probing on hotplug.
+On Sun, Mar 04, 2018 at 07:25:18PM -0800, Tim Orling wrote:
+> In prior round, the perl module recipes in recipes-extended/perl
+> were inadvertantly overlooked.
+> 
+> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 1e7517ac9a..1bd5fbd61e 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -321,7 +321,7 @@ RECIPE_MAINTAINER_pn-libcgroup = "Alexander Kanavin <alexander.kanavin@intel.com
+>  RECIPE_MAINTAINER_pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER_pn-libclass-isa-perl = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alexander.kanavin@intel.com>"
+> -RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Maxin B. John <maxin.john@intel.com>"
+> +RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
+>  RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alexander.kanavin@intel.com>"
+>  RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster@mvista.com>"
+> @@ -394,9 +394,9 @@ RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
+>  RECIPE_MAINTAINER_pn-libsolv = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-libsoup-2.4 = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-libtasn1 = "Maxin B. John <maxin.john@intel.com>"
+> -RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@intel.com>"
+> +RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libtheora = "Alexander Kanavin <alexander.kanavin@intel.com>"
+> -RECIPE_MAINTAINER_pn-libtimedate-perl = "Maxin B. John <maxin.john@intel.com>"
+> +RECIPE_MAINTAINER_pn-libtimedate-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libtirpc = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+>  RECIPE_MAINTAINER_pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
+> @@ -430,11 +430,11 @@ RECIPE_MAINTAINER_pn-libxi = "Armin Kuster <akuster@mvista.com>"
+>  RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster@mvista.com>"
+>  RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster@mvista.com>"
+>  RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster@mvista.com>"
+> -RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Maxin B. John <maxin.john@intel.com>"
+> +RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libxml-parser-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libxml-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+> -RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Maxin B. John <maxin.john@intel.com>"
+> -RECIPE_MAINTAINER_pn-libxml-sax-perl = "Maxin B. John <maxin.john@intel.com>"
+> +RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+> +RECIPE_MAINTAINER_pn-libxml-sax-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libxml-simple-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
+>  RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster@mvista.com>"
+> -- 
 
-However, this does not work for cold plugged modules (i.e. modules for
-devices that were probed before mdev is added as hotplug handler).
-Running mdev -s to replay hotplug events does not work in that case.
+FWIW,
+Acked-by: Maxin B. John <maxin.john@intel.com>
 
-Let's manually modprobe all modules in the rootfs.
-
-Taken from:
- - https://github.com/buildroot/buildroot/commit/07f46c2b6daec44a6176039c90be67e66c4c2e42
- - https://github.com/buildroot/buildroot/commit/b4fc5a180c81689a982d5c595844331684c14f51
-
-We need xargs to support zero termination of args so let's enable this
-configuration in the fragment for mdev.
-
-Signed-off-by: Quentin Schulz <quentin.schulz@bootlin.com>
----
- meta/recipes-core/busybox/busybox/mdev.cfg | 2 ++
- meta/recipes-core/busybox/files/mdev       | 1 +
- 2 files changed, 3 insertions(+)
-
-diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-core/busybox/busybox/mdev.cfg
-index 6aefe90e43..0d60fc9560 100644
---- a/meta/recipes-core/busybox/busybox/mdev.cfg
-+++ b/meta/recipes-core/busybox/busybox/mdev.cfg
-@@ -9,3 +9,5 @@ CONFIG_SETSID=y
- CONFIG_CTTYHACK=y
- 
- CONFIG_FEATURE_SHADOWPASSWDS=y
-+
-+CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
-diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-index 8c9c06e96c..165b275256 100755
---- a/meta/recipes-core/busybox/files/mdev
-+++ b/meta/recipes-core/busybox/files/mdev
-@@ -9,6 +9,7 @@ touch /dev/mdev.seq
- #sysctl -w kernel.hotplug=/sbin/mdev
- echo "/sbin/mdev" > /proc/sys/kernel/hotplug
- mdev -s
-+find /sys/ -name modalias -print0 | xargs -0 sort -u -z | xargs -0 modprobe -abq
- 
- #
- # We might have mounted something over /dev, see if /dev/initctl is there.
--- 
-2.14.1
-
+Best Regards,
+Maxin
 
