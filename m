@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8654378A8C
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 58C6378A8E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:20:54 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id t6so17111791wmt.5
+	Mon,  5 Mar 2018 17:20:55 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t3so17418793wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 09:20:55 -0800 (PST)
+	Mon, 05 Mar 2018 09:20:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=x9u7zZmUOhVuaWNS6cNQosqJd9ycX958uOVgDziWFew=;
-	b=tkbpJSLDwwIMOoYZNjGSd9dESFPtO2wVRjZVN4ojtp4TiYEm9yvakQOZiS3qn24dbs
-	Oww8Mg1cHsfwHkuTVg+WORRk1UNj3mT5rj11AdqQcHoB871WBArfgXvq4rkTrdesQhHT
-	oUzKr44Zt88Rm7hHnJ4z2f20VV6qFvVbXhE3nlWCBEHEMyWRm+WTQ+IvdxN0VuardYpH
-	EBJK8FAkeRfLQ0APOBConjWda1NJ0HUMJQxPnqV8i5fSJJlwIVvVHq+KbG/FwpE8ojr1
-	VF6uGBlCRNB71PvajdPxBtUTaiajZAOmID1s+i6apT4ObrlfQ6tu++1GnoYuKhtNaZQF
-	RkWA==
+	bh=JoCVxiPcAdm4Eywdl2UBbUu9463VgUT59lz4nD5xZqk=;
+	b=Ystkdga3b1kbrDkdDs0FbeOwIP0QlIqmdJT6czfCgRqyLlAFBRZThPkRpqSCIOdwDr
+	/yC/0yAHnn3Qcnmu/tOBWHAP5P+uBSfYdEDTjjWH2RF//PHcwOJbG1Oz03eowDZTOBNJ
+	fQkBcMwT1K8ZZv8xW99P8jjtBKVGK3SaTuZUIcPjhFbzndUyU9b9f6Y40EhZVK2C0jkh
+	KRVZhL9ossIDrcUguEx8W9BsKtKQO7E4Zmk89s6cFxEhHNZXa6LOqBEbdxPJXVs1/IBM
+	AzDcpKyPBQ8P4T/p1MgU2OjW3Ho8OvnZo5pNoGHsF3qjLCUeHSSlQiICo6SV82Z/mnAB
+	VXkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=x9u7zZmUOhVuaWNS6cNQosqJd9ycX958uOVgDziWFew=;
-	b=QnLWCrIFZbBKye6hRDRy6RNKrhC6XR3uSLMgjdSGCUsgpVd1wqEBNXSdXEG4nXijFW
-	kqnBX1gDn4p1stBtMwR5yRUjRVrt8iLS8krIRD2mB25vUPpx+7PzQlzEdLaBMppb6WNS
-	b+EHigSJnpsTCU9Chx7EdeK0mDjCU6YP2DTq1k+rWeRDUmC97WlHsJ8ja2988TqaO/hD
-	8lIaVyydSlUGsxWros74lWtfxFJrRWKDG+cCRf7By9HSvrhMR4FSJylq5cgyvCWvdJ6M
-	nTQYPomU4tS13mGChBBeBp3Z6kiEtWJmzuejl4AuHdQcuZg/TlVHB5MIEvp4ZVdAK+KI
-	ezYQ==
-X-Gm-Message-State: AElRT7GeM1O7n8L5/eduAQNGgiuyNnUrU/VBMCznU6nDXjlzr4TwiH/H
-	SZ7c9bxJph58Q1VYPpMz0jFmh+cC
-X-Google-Smtp-Source: AG47ELvnZUmtLePzbczcmC+wMNiME3aGVQADXnkooaGlrI/1aurOWo3EpmJ8eZEnonX0nCwUJQ1x7w==
-X-Received: by 10.28.111.198 with SMTP id c67mr8792794wmi.83.1520270454979;
-	Mon, 05 Mar 2018 09:20:54 -0800 (PST)
+	bh=JoCVxiPcAdm4Eywdl2UBbUu9463VgUT59lz4nD5xZqk=;
+	b=C+a2L7xSjOT3RCSCCjp17M/9PEQ8soiPJuBzo87gyHe0Q0QqRG6f+sBskeFDwQDNM+
+	bSgcfg/SJbrZl/gB0pzdcuV/SqF/ZCrKc14b9Zax20rY24YevuXmDdv5Kydl2q/zGB/o
+	GjEdypg9rv2rJfftMz6DvJ8EvTgNcm3SXuzImyFaP21pzmiCdxkA22loQC8lC9+ZB5LQ
+	My26woWDl4vOzMeLohVsvY+MYDhrxIrPsbCM1x7uis8o9G+P+GZMmogCRb652GZoqKCV
+	sbYExH5SUHykwR5+m2+37jvQt5GQNsUn23UCg3lJAHnVXIvbPQWbhzBcnpy4MMGGDI9y
+	3bKA==
+X-Gm-Message-State: AElRT7FymBrHzcRvpAyC/Jp1NsiHVYbD+gzD8JLYLQyr8ZQu9yiyp00N
+	VukL1vj8Bi0gGGnA59FRz5fs1/j5
+X-Google-Smtp-Source: AG47ELtTN3GmYQFqRpHVihRKrzJnbIQUBEd/r+V+JpwHMOizQxrC+PWgECNtcIsAipGNxkl5TvS7SQ==
+X-Received: by 10.28.84.26 with SMTP id i26mr8897236wmb.129.1520270456061;
+	Mon, 05 Mar 2018 09:20:56 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.20.54
+	m190sm10082047wmb.6.2018.03.05.09.20.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 09:20:54 -0800 (PST)
+	Mon, 05 Mar 2018 09:20:55 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:21 +0000
-Message-Id: <20180305172046.21729-4-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:22 +0000
+Message-Id: <20180305172046.21729-5-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 04/29] gtk+: refresh patches
+Subject: [PATCH 05/29] ovmf: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:20:54 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:20:55 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-index 1ae728e70d6..9eb7f6bf5c7 100644
---- a/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-+++ b/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-@@ -3,19 +3,20 @@ Upstream-Status: Inappropriate [embedded specific]
- Updated to apply to gtk+-2.24.15
- 
- Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd gtk+-2.24.15/configure.ac gtk+-2.24.15/configure.ac
----- gtk+-2.24.15/configure.ac	2013-01-12 20:52:54.000000000 +0200
--+++ gtk+-2.24.15/configure.ac	2013-02-12 21:33:30.689925967 +0200
--@@ -415,7 +415,7 @@
-+Index: gtk+-2.24.31/configure.ac
-+===================================================================
-+--- gtk+-2.24.31.orig/configure.ac
-++++ gtk+-2.24.31/configure.ac
-+@@ -415,7 +415,7 @@ AC_MSG_CHECKING([Whether to write depend
-  case $enable_explicit_deps in
-    auto)
-      export SED
- -    deplibs_check_method=`(./libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
- +    deplibs_check_method=`(./$host_alias-libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
-      if test "x$deplibs_check_method" '!=' xpass_all || test "x$enable_static" = xyes ; then
--       enable_explicit_deps=yes
-+       enable_explicit_deps=yes  
-      else
--@@ -774,7 +774,7 @@
-+@@ -772,7 +772,7 @@ else
-      dnl Now we check to see if our libtool supports shared lib deps
-      dnl (in a rather ugly way even)
-      if $dynworks; then
-@@ -24,7 +25,7 @@ diff -Nurd gtk+-2.24.15/configure.ac gtk+-2.24.15/configure.ac
-          module_deplibs_check=`$module_libtool_config | \
-              grep '^[[a-z_]]*check[[a-z_]]*_method=[['\''"]]' | \
-              sed 's/.*[['\''"]]\(.*\)[['\''"]]$/\1/'`
--@@ -1574,7 +1574,7 @@
-+@@ -1579,7 +1579,7 @@ fi
-  # We are using gmodule-no-export now, but I'm leaving the stripping
-  # code in place for now, since pango and atk still require gmodule.
-  export SED
+diff --git a/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch b/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch
+index 959b1c649c7..25e5b58e707 100644
+--- a/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch
++++ b/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch
+@@ -17,4 +17,4 @@ Index: git/BaseTools/Conf/tools_def.template
+ +DEFINE GCC44_ALL_CC_FLAGS            = -g -fshort-wchar -fno-builtin -fno-strict-aliasing -Wall -Werror -Wno-array-bounds -ffunction-sections -fdata-sections -fno-stack-protector -include AutoGen.h -fno-common -DSTRING_ARRAY_NAME=$(BASE_NAME)Strings
+  DEFINE GCC44_IA32_CC_FLAGS           = DEF(GCC44_ALL_CC_FLAGS) -m32 -march=i586 -malign-double -fno-stack-protector -D EFI32 -fno-asynchronous-unwind-tables -fno-PIE -no-pie
+  DEFINE GCC44_X64_CC_FLAGS            = DEF(GCC44_ALL_CC_FLAGS) -m64 -fno-stack-protector "-DEFIAPI=__attribute__((ms_abi))" -maccumulate-outgoing-args -mno-red-zone -Wno-address -mcmodel=small -fpie -fno-asynchronous-unwind-tables
+- DEFINE GCC44_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x20
++ DEFINE GCC44_IA32_X64_DLINK_COMMON   = -nostdlib -Wl,-n,-q,--gc-sections -z common-page-size=0x20 -no-pie
 -- 
 2.11.0
 
