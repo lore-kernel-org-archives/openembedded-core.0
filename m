@@ -1,41 +1,56 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 7539F78A8F
+Return-Path: <ian.arkver.dev@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3572D78A6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 21:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=12274; q=dns/txt;
-	s=iport; t=1520286619; x=1521496219;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=nyFbNIbn3L023XDt2QkLeA5e2EybLSeeM7Dm4tKFni0=;
-	b=m5JlX6bpNPWM3zjHft4bp/wQjytFYeD30jySOoZrApO+Gjj/CjQqWCH9
-	G6Su8uQlZUtGTsUQqDZei9Vd2uE4OdKrEjIJzcTaYDKEraxyPBHLqVj+f
-	Eu2A7AjZxGiS6Lnu2WduzeYCrIrkm56ytXn8ecCH0GvYH92FVunLA85jR 8=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0D7AAATup1a/5pdJa1dGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNQZnAojXiNeYICgRaUNBSCAQobgWSDMQKCcyE0GAECAQE?=
-	=?us-ascii?q?BAQEBAmsnhSMBBidiHAMBAi9PCAYBEoUbqnY6iGOCK4Utgi6IMYMfI4YFBI5?=
-	=?us-ascii?q?ui3QJhlSKKwKBZU6MQ4d4iTACERkBgS4eOIFSTSMVgn0JgigMEBaCBh83jG8?=
-	=?us-ascii?q?BAQE?=
-X-IronPort-AV: E=Sophos;i="5.47,428,1515456000"; d="scan'208";a="356950835"
-Received: from rcdn-core-3.cisco.com ([173.37.93.154])
-	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Mar 2018 21:50:18 +0000
-Received: from kamensky-w541.cisco.com ([10.154.177.165])
-	(authenticated bits=0)
-	by rcdn-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id w25LoB2A007375
-	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Mon, 5 Mar 2018 21:50:17 GMT
-From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alexander.kanavin@intel.com>
-Date: Mon,  5 Mar 2018 13:50:11 -0800
-Message-Id: <1520286611-27418-2-git-send-email-kamensky@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1520286611-27418-1-git-send-email-kamensky@cisco.com>
-References: <1520286611-27418-1-git-send-email-kamensky@cisco.com>
-X-Authenticated-User: kamensky@cisco.com
-Subject: [PATCH v2 2/2] systemtap: bring in PR22551 fix that addresses build against 4.15 kernel issue
+	Mon,  5 Mar 2018 22:10:18 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id z12so18924264wrg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Mar 2018 14:10:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=O20m9O8irBE+VLEBkHSqOvde5LmuuxDLfoSYNxcXaYE=;
+	b=ZIDwP5nuAax3h2IjFBiXaLvixtDWpS5lTfShNAuwu3lEdVOAYWLV+W5x+TU7Edpfe/
+	4rnelqKCrN9/OIk+zoN/4YhTiDOnrm0yxQiqSSGHZqbDBquXmx8JIBwFXOKVaJD2nnhw
+	Re+MyBaydvnsZ7sD0XxDJMEyqTmQnRpJJadwFJJwRO3aVsIvpi9gfOPo5sl6AyADV6j4
+	KeIF5YWXuW2+JihBASh2ziSOmUP7O6I21pRxJbvtdkm7Qf2huo20UPiFiK/pHC5K2Q5v
+	JaVKzaP7k68sgR/X0mAb1vxK/2UTctOtl/tdaGyIBFUvBp3/G0BYsCyKQUko4W8u+oJd
+	Q0CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=O20m9O8irBE+VLEBkHSqOvde5LmuuxDLfoSYNxcXaYE=;
+	b=p6ovvgsQ+NbyTFuG3BuHr+Jq70l99Ns0sr6QU4k3JwfkB1m/pEItSKew7cBs/2V1Mh
+	PzktSM2d5FXb1FvsWRggWWuGRPK7pdpV8TX+z1CP0+yNwoT84+gItU20GiI6wAmEAe0b
+	qrv1p3xKdfEu7p7tfowbaT2sKp7K8us0EQ1skJ2CrrJzNEvIovYfU2cWKPpPblJ48OGu
+	DmUWSSMNXaLhhm6Ax4WiLT7uR4vtDc6vCfyhuEfeyVJjiUU0MR8lBQFRdt5pM12/sl00
+	HsaF1JqngVN7QlMhJwOo6d2Lb19T9DmboOkgEKozf3YLjSgrW3BJFondS+uPBS6MrSVX
+	bAtA==
+X-Gm-Message-State: APf1xPCYD1OJVRKPFpDiP5QHZtpURlx0UVIip+u1waOi5K8X4b8pHzYj
+	KP8j2FyJ0T4UkOJU+OqUjkxQnneU
+X-Google-Smtp-Source: AG47ELtY1lKmVYEWNwebFv0915YetzkNPRop42OZ3CIaD3hjlDnC8QHYsbmMkQ0g3aJVN+xnmYBy3g==
+X-Received: by 10.223.177.132 with SMTP id q4mr13437901wra.27.1520287819578;
+	Mon, 05 Mar 2018 14:10:19 -0800 (PST)
+Received: from [192.168.19.11] ([109.181.41.150])
+	by smtp.googlemail.com with ESMTPSA id
+	p78sm12541167wmg.47.2018.03.05.14.10.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Mar 2018 14:10:18 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1520067650.3436.41.camel@linuxfoundation.org>
+	<1520101306.3436.60.camel@linuxfoundation.org>
+From: Ian Arkver <ian.arkver.dev@gmail.com>
+Message-ID: <82357905-d251-7d83-dd8b-5787e65d8a0a@gmail.com>
+Date: Mon, 5 Mar 2018 22:10:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1520101306.3436.60.camel@linuxfoundation.org>
+Subject: Re: Need arm64/qemu help
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,316 +63,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 21:50:17 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 22:10:19 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-With 4.15 kernel systemtap needs update to address systemtap module
-compilation issues. It is fixed in later version of systemtap by
-PR22551.
+On 03/03/18 18:21, Richard Purdie wrote:
+> On Sat, 2018-03-03 at 09:00 +0000, Richard Purdie wrote:
+>> Hi,
+>>
+>> I need some help with a problem we keep seeing:
+>>
+>> https://autobuilder.yocto.io/builders/nightly-arm64/builds/798
+>>
+>> Basically, now and again, for reasons we don't understand, all the
+>> sanity tests fail for qemuarm64.
+> 
+> Another failure:
+> 
+> https://autobuilder.yocto.io/builders/nightly-arm64/builds/801/steps/Running%20Sanity%20Tests/logs/stdio
+> 
+> In this case one testimage failed, the others passed...
 
-Upstream-Status: Backport
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
- ...-by-updating-the-use-of-timers-for-the-4..patch | 277 +++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |   1 +
- 2 files changed, 278 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
+Interesting, re your comments on host load affecting all runs.
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
-new file mode 100644
-index 0000000..460c3b7
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
-@@ -0,0 +1,277 @@
-+From fbb26e17a4c026f05a497fc5d584516bad3b6950 Mon Sep 17 00:00:00 2001
-+From: David Smith <dsmith@redhat.com>
-+Date: Wed, 6 Dec 2017 14:37:42 -0600
-+Subject: [PATCH] Fix PR22551 by updating the use of timers for the 4.15
-+ kernel.
-+
-+* runtime/linux/timer_compatibility.h: New file.
-+* runtime/time.c: Update timer callback function parameter type. Update
-+  timer initialization.
-+* runtime/transport/relay_v2.c: Ditto.
-+* runtime/transport/transport.c: Ditto.
-+* tapset-timers.cxx (timer_derived_probe_group::emit_module_decls):
-+  Ditto. Handle old and new timer callback interface.
-+* runtime/linux/runtime.h: Include timer_compatibility.h instead of timer.h.
-+* tapset/linux/scsi.stp: Ditto.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+
-+---
-+ runtime/linux/runtime.h             |  2 +-
-+ runtime/linux/timer_compatibility.h | 76 +++++++++++++++++++++++++++++++++++++
-+ runtime/time.c                      |  7 ++--
-+ runtime/transport/relay_v2.c        |  8 ++--
-+ runtime/transport/transport.c       | 13 +++----
-+ tapset-timers.cxx                   | 14 +++++--
-+ tapset/linux/scsi.stp               |  2 +-
-+ 7 files changed, 100 insertions(+), 22 deletions(-)
-+ create mode 100644 runtime/linux/timer_compatibility.h
-+
-+diff --git a/runtime/linux/runtime.h b/runtime/linux/runtime.h
-+index 9c585a2..df9b74c 100644
-+--- a/runtime/linux/runtime.h
-++++ b/runtime/linux/runtime.h
-+@@ -34,7 +34,7 @@
-+ #include <linux/compat.h>
-+ #include <linux/sched.h>
-+ #include <linux/mm.h>
-+-#include <linux/timer.h>
-++#include "timer_compatibility.h"
-+ #include <linux/delay.h>
-+ #include <linux/profile.h>
-+ #include <linux/rcupdate.h>
-+diff --git a/runtime/linux/timer_compatibility.h b/runtime/linux/timer_compatibility.h
-+new file mode 100644
-+index 0000000..ac03de9
-+--- /dev/null
-++++ b/runtime/linux/timer_compatibility.h
-+@@ -0,0 +1,76 @@
-++/*
-++ * linux/timer.h compatibility defines and inlines
-++ * Copyright (C) 2017 Red Hat Inc.
-++ *
-++ * This file is part of systemtap, and is free software.  You can
-++ * redistribute it and/or modify it under the terms of the GNU General
-++ * Public License (GPL); either version 2, or (at your option) any
-++ * later version.
-++ */
-++
-++#ifndef _TIMER_COMPATIBILITY_H_
-++#define _TIMER_COMPATIBILITY_H_
-++
-++#include <linux/timer.h>
-++
-++/*
-++ * Starting with the 4.15 kernel, the timer interface
-++ * changed. Originally, you'd do something like:
-++ *
-++ *   static void timer_func(unsigned long val);
-++ *
-++ *   init_timer(&timer);
-++ *   timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
-++ *   timer.function = timer_func;
-++ *   timer.data = 0;
-++ *   add_timer(&timer);
-++ *
-++ * The 'data' parameter would get passed to the callback
-++ * function. Starting with 4.15, you'd do something like this:
-++ *
-++ *   static void timer_func(struct timer_list *val);
-++ *
-++ *   timer_setup(&timer, timer_func, 0);
-++ *   timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
-++ *   add_timer(&timer);
-++ *   
-++ * With the new code, the timer that caused the callback gets passed
-++ * to the timer callback function. The 'data' field has been removed.
-++ *
-++ * So, we're going to use the new interface. To hide the differences
-++ * between the callback function parameter type, we'll define a new
-++ * type, 'stp_timer_callback_parameter_t'.
-++ *
-++ * If code needs to figure out the difference between the old and new
-++ * interface, it should test the TIMER_TRACE_FLAGMASK define (which
-++ * only exists in the new interface).
-++ */
-++
-++#if defined(TIMER_TRACE_FLAGMASK) 
-++/* This is the >= 4.15 kernel interface. */
-++
-++typedef struct timer_list * stp_timer_callback_parameter_t;
-++
-++#else
-++/* This is the < 4.15 kernel interface. */
-++
-++typedef unsigned long stp_timer_callback_parameter_t;
-++
-++/**
-++ * timer_setup - prepare a timer for first use
-++ * @timer: the timer in question
-++ * @callback: the function to call when timer expires
-++ * @flags: any TIMER_* flags (note that anything other than 0 is an
-++ * 	   error, since this compatibility function can't support any
-++ *	   of the TIMER_* flags)
-++ */
-++#define timer_setup(timer, callback, flags)			\
-++	{							\
-++		init_timer((timer));				\
-++		(timer)->function = callback;			\
-++		(timer)->data = 0;				\
-++		BUILD_BUG_ON_ZERO((flags) != 0);		\
-++	}
-++#endif
-++
-++#endif /* _TIMER_COMPATIBILITY_H_ */
-+diff --git a/runtime/time.c b/runtime/time.c
-+index 2e666d5..91ceafa 100644
-+--- a/runtime/time.c
-++++ b/runtime/time.c
-+@@ -168,10 +168,10 @@ __stp_time_smp_callback(void *val)
-+ 
-+ /* The timer callback is in a softIRQ -- interrupts enabled. */
-+ static void
-+-__stp_time_timer_callback(unsigned long val)
-++__stp_time_timer_callback(stp_timer_callback_parameter_t unused)
-+ {
-+     stp_time_t *time =__stp_time_local_update();
-+-    (void) val;
-++    (void) unused;
-+ 
-+     /* PR6481: make sure IRQs are enabled before resetting the timer
-+        (IRQs are disabled and then reenabled in
-+@@ -200,9 +200,8 @@ __stp_init_time(void *info)
-+     time->freq = __stp_get_freq();
-+     __stp_time_local_update();
-+ 
-+-    init_timer(&time->timer);
-++    timer_setup(&time->timer, __stp_time_timer_callback, 0);
-+     time->timer.expires = jiffies + STP_TIME_SYNC_INTERVAL;
-+-    time->timer.function = __stp_time_timer_callback;
-+ 
-+ #ifndef STAPCONF_ADD_TIMER_ON
-+     add_timer(&time->timer);
-+diff --git a/runtime/transport/relay_v2.c b/runtime/transport/relay_v2.c
-+index f81d75d..135951a 100644
-+--- a/runtime/transport/relay_v2.c
-++++ b/runtime/transport/relay_v2.c
-+@@ -30,7 +30,7 @@
-+ #include <linux/debugfs.h>
-+ #include <linux/mm.h>
-+ #include <linux/relay.h>
-+-#include <linux/timer.h>
-++#include "../linux/timer_compatibility.h"
-+ #include "../uidgid_compatibility.h"
-+ #include "relay_compat.h"
-+ 
-+@@ -120,7 +120,7 @@ static void __stp_relay_wakeup_readers(struct rchan_buf *buf)
-+ 		wake_up_interruptible(&buf->read_wait);
-+ }
-+ 
-+-static void __stp_relay_wakeup_timer(unsigned long val)
-++static void __stp_relay_wakeup_timer(stp_timer_callback_parameter_t unused)
-+ {
-+ #ifdef STP_BULKMODE
-+ 	int i;
-+@@ -151,10 +151,8 @@ static void __stp_relay_wakeup_timer(unsigned long val)
-+ static void __stp_relay_timer_init(void)
-+ {
-+ 	atomic_set(&_stp_relay_data.wakeup, 0);
-+-	init_timer(&_stp_relay_data.timer);
-++	timer_setup(&_stp_relay_data.timer, __stp_relay_wakeup_timer, 0);
-+ 	_stp_relay_data.timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
-+-	_stp_relay_data.timer.function = __stp_relay_wakeup_timer;
-+-	_stp_relay_data.timer.data = 0;
-+ 	add_timer(&_stp_relay_data.timer);
-+ 	smp_mb();
-+ }
-+diff --git a/runtime/transport/transport.c b/runtime/transport/transport.c
-+index 3400f22..320fd18 100644
-+--- a/runtime/transport/transport.c
-++++ b/runtime/transport/transport.c
-+@@ -311,7 +311,7 @@ static void _stp_detach(void)
-+ }
-+ 
-+ 
-+-static void _stp_ctl_work_callback(unsigned long val);
-++static void _stp_ctl_work_callback(stp_timer_callback_parameter_t unused);
-+ 
-+ /*
-+  * Called when stapio opens the control channel.
-+@@ -320,13 +320,12 @@ static void _stp_attach(void)
-+ {
-+ 	dbug_trans(1, "attach\n");
-+ 	_stp_pid = current->pid;
-+-  if (_stp_namespaces_pid < 1)
-+-    _stp_namespaces_pid = _stp_pid;
-++	if (_stp_namespaces_pid < 1)
-++		_stp_namespaces_pid = _stp_pid;
-+ 	_stp_transport_data_fs_overwrite(0);
-+-	init_timer(&_stp_ctl_work_timer);
-++
-++	timer_setup(&_stp_ctl_work_timer, _stp_ctl_work_callback, 0);
-+ 	_stp_ctl_work_timer.expires = jiffies + STP_CTL_TIMER_INTERVAL;
-+-	_stp_ctl_work_timer.function = _stp_ctl_work_callback;
-+-	_stp_ctl_work_timer.data= 0;
-+ 	add_timer(&_stp_ctl_work_timer);
-+ }
-+ 
-+@@ -341,7 +340,7 @@ static void _stp_attach(void)
-+  *	notified. Reschedules itself if someone is still attached
-+  *	to the cmd channel.
-+  */
-+-static void _stp_ctl_work_callback(unsigned long val)
-++static void _stp_ctl_work_callback(stp_timer_callback_parameter_t unused)
-+ {
-+ 	int do_io = 0;
-+ 	unsigned long flags;
-+diff --git a/tapset-timers.cxx b/tapset-timers.cxx
-+index 1a40bcd..0ab4d69 100644
-+--- a/tapset-timers.cxx
-++++ b/tapset-timers.cxx
-+@@ -122,9 +122,13 @@ timer_derived_probe_group::emit_module_decls (systemtap_session& s)
-+   s.op->newline(-1) << "};";
-+   s.op->newline();
-+ 
-+-  s.op->newline() << "static void enter_timer_probe (unsigned long val) {";
-++  s.op->newline() << "static void enter_timer_probe (stp_timer_callback_parameter_t val) {";
-++  s.op->newline() << "#if defined(TIMER_TRACE_FLAGMASK)";
-++  s.op->newline(1) << "struct stap_timer_probe* stp = container_of(val, struct stap_timer_probe, timer_list);";
-++  s.op->newline(-1) << "#else";
-+   s.op->newline(1) << "struct stap_timer_probe* stp = & stap_timer_probes [val];";
-+-  s.op->newline() << "if ((atomic_read (session_state()) == STAP_SESSION_STARTING) ||";
-++  s.op->newline(-1) << "#endif";
-++  s.op->newline(1) << "if ((atomic_read (session_state()) == STAP_SESSION_STARTING) ||";
-+   s.op->newline() << "    (atomic_read (session_state()) == STAP_SESSION_RUNNING))";
-+   s.op->newline(1) << "mod_timer (& stp->timer_list, jiffies + ";
-+   emit_interval (s.op);
-+@@ -148,9 +152,11 @@ timer_derived_probe_group::emit_module_init (systemtap_session& s)
-+   s.op->newline() << "for (i=0; i<" << probes.size() << "; i++) {";
-+   s.op->newline(1) << "struct stap_timer_probe* stp = & stap_timer_probes [i];";
-+   s.op->newline() << "probe_point = stp->probe->pp;";
-+-  s.op->newline() << "init_timer (& stp->timer_list);";
-+-  s.op->newline() << "stp->timer_list.function = & enter_timer_probe;";
-++
-++  s.op->newline() << "timer_setup (& stp->timer_list, enter_timer_probe, 0);";
-++  s.op->newline() << "#if !defined(TIMER_TRACE_FLAGMASK)";
-+   s.op->newline() << "stp->timer_list.data = i;"; // NB: important!
-++  s.op->newline() << "#endif";
-+   // copy timer renew calculations from above :-(
-+   s.op->newline() << "stp->timer_list.expires = jiffies + ";
-+   emit_interval (s.op);
-+diff --git a/tapset/linux/scsi.stp b/tapset/linux/scsi.stp
-+index 44f686c..3577942 100644
-+--- a/tapset/linux/scsi.stp
-++++ b/tapset/linux/scsi.stp
-+@@ -14,7 +14,7 @@
-+ #include <scsi/scsi_cmnd.h>
-+ #include <scsi/scsi_device.h>
-+ #include <scsi/scsi_host.h>
-+-#include <linux/timer.h>
-++#include "linux/timer_compatibility.h"
-+ #include <linux/blkdev.h>
-+ %}
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index d122359..f51bd28 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -13,6 +13,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-buildrun-remove-quotes-around-I-include-line.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-+           file://0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch \
-            "
- 
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
--- 
-2.7.4
+I was going to ask about repeatability over qemu/kernel builds, but here 
+we have 3 instances of the same qemu and kernel binaries only one of 
+which fails.
 
+I've done some limited testing, but haven't been able to reproduce this 
+on my single build machine. Every aarch64 boot works ok for me, and the 
+ping test completes. I only tried core-image-minimal. I tried 
+cleansstate'ing the kernel and/or qemu-native and remaking, but no 
+change. Poky commit I tried was 
+master:bd5424f5b05a0a65471a77632efe7b9907370217
+
+Regards,
+Ian
+
+> 
+> Cheers,
+> 
+> Richard
+> 
 
