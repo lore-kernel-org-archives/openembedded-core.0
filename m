@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B34DB78A6F
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 35EB478A99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 11:02:02 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id f14so16759498wre.8
+	Mon,  5 Mar 2018 11:02:03 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t3so14906249wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 03:02:03 -0800 (PST)
+	Mon, 05 Mar 2018 03:02:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=B7mhhfys3sr2L542YIwm6NiJvuL3JbokzeUhKRnFGxI=;
-	b=j1YtlLzYLj1IlEVOLwDJOtLK8ceUarposvhFJcgernzlIXtnpxKUuMDsrvLtRL6o80
-	rGIYi8++EMptNXCxu0oNgoAdYkXogoxiJr5ZMWKsKDJxKRJ4tKdyRNGhjvDSZNh8QoNY
-	ye6i/LAf2p0p5AflG6D6uW7Yllb6f0yEANL/x1/Unhhw/Nt1u6qoSVTDDKiSXlZLl6ob
-	+m+JPvnRBJWJICd/z7FifnnmaWuVL2GDjar8ku+u9eLolWjHjKGnflL8SJjyWR1nikdI
-	MXNYbni2syum1xCQbCmVByBbfUmxAUqk2W0gzdy+xA24GT1DqIkXS1IXX9Vk/lyk5qeu
-	/0sw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=ynF9UGEhyEqcdsadq4vUDebPFieDeSO98PGDUwXaCb4=;
+	b=kk9gla9ZH4YhEI3cfBJkve5/34c+MRh9rZlA7INCDZ+/V1JZ8dn9iRg3/HAirKzrA1
+	NUe9ndyhA9hQCAzhA76ogRNDMQ+4XPTJnW61AfiAuRQFtrO2GwaacfPnaK0UDrzjKpdR
+	Rvk9wCoWgl/qTh127xfzjYIPU25hCpBEGrXMibtvOKpsGcjA3NvfhWIKlmR4jsYeijAH
+	h396o1gnZdBTXy52jwQrY/wkgHJ7KgajJkmY+yUgcnVhSYYdQeWJBO8qetXdK8zacJaP
+	LQ2tCRYAEmNaQPjoog04HZvnLOtTr9yOdjIdFGKblM9ppBPzuRKMQgdKjVwbpd1h7qRy
+	nMAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=B7mhhfys3sr2L542YIwm6NiJvuL3JbokzeUhKRnFGxI=;
-	b=eETtgd4vc4TAJBs35A6D1ivrPvetLrwkMZ1Cr929sC5ycyrxzWFqNGk78twqy04/cf
-	mjAnbr6DZJeIid6PIwPVfh5gx8xR8CAoOJ6ZaDlBYp1Mn5PiXQ7q0AK4lv8FFlPMal/A
-	m8qFiIMk0dcUIfNYrMwwTChbtLu8kWK0F+R6j9sCAPhtkmVcPhBwtudAex6cW2DrIHZ/
-	V5qkf0Q3Q8icdEoVadG54ScWei0DZt89Eik+1cBfIoRmvFI1pvdXzgkq0lRJkJlaPwkC
-	uDKbY0GoPMM37vIjRKqp45Ns2KM+ucn38ITrD9Pnx7SY4vux0ETzR2bbPRTAruz4WWq0
-	5wfQ==
-X-Gm-Message-State: APf1xPCirDGYHpT9yjaYDujEYYdotXexv4qswMZlYGMGAiqMNgaWf0rA
-	019e6JyI8Vr+LmeE1q4Bxqx8sb2x
-X-Google-Smtp-Source: AG47ELvt/NRnSn8mR1RTPIKqnSKidl9bZla2pUUiVp1LQo+rjl2aw5/nPPiV4IpLKpGUCpwisi4TzQ==
-X-Received: by 10.223.176.228 with SMTP id j33mr11554188wra.67.1520247722856; 
-	Mon, 05 Mar 2018 03:02:02 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=ynF9UGEhyEqcdsadq4vUDebPFieDeSO98PGDUwXaCb4=;
+	b=jkhz7B64eh/UVoOuAi9x3f4yVu7xvB4kOceju5BjVkVdrKLCJ7AcerBibe9OF4wKSE
+	QLRPmfvEUtqx4U4BDo8l8976VXXgsrKC0VWAtaJgaT1rjCW+UtYB1v17DBWtEX7nDRJT
+	CiyekQQ3sA8juuB3OCyvawG4aQr6z5VC+WJ1PVeNDZCITAv40+sbECKktcV2A18CpEGG
+	fX1SFAvODJBmxspYsCnjd2gY+hjpfjgTfnqfgJcR3pK31JrpsyCTd2L4VSD9vHn60/oI
+	qBW1H14dXxT5Na6hHQKkI46K9LQnfCgGJv6uS6CoOYRAZXCXNwLbozm6KV4i6x3zFRat
+	M6dA==
+X-Gm-Message-State: AElRT7GhqnVWefMXqlfpClS3z7k3IePj1Sjkwc1aDgbPBU6XI/hYhZ8w
+	3kqho5gNmIr+5cGIZFQGIBEIejk0
+X-Google-Smtp-Source: AG47ELuZkVrSPaBvDfGSAShegDNWkIjKoe7M6jmT0nvo5bv1x4JdaSNMh5kXdPQ5O2YaWg5XwxsRUQ==
+X-Received: by 10.28.106.19 with SMTP id f19mr8441820wmc.84.1520247724007;
+	Mon, 05 Mar 2018 03:02:04 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o9sm13042874wrf.43.2018.03.05.03.02.01
+	o9sm13042874wrf.43.2018.03.05.03.02.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 03:02:01 -0800 (PST)
+	Mon, 05 Mar 2018 03:02:03 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 11:01:55 +0000
-Message-Id: <20180305110158.10308-1-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 11:01:56 +0000
+Message-Id: <20180305110158.10308-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/4] xcb-proto: solve python cache colliion
+In-Reply-To: <20180305110158.10308-1-ross.burton@intel.com>
+References: <20180305110158.10308-1-ross.burton@intel.com>
+Subject: [PATCH 2/4] testexport-tarball: sync with buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +58,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 11:02:02 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 11:02:04 -0000
 
-Because I didn't really want python3-native to be at the bottom of the
-entire X11 stack this recipe jumps through a small hoop to use the host
-Python to run some modules it installs into the sysroot.
-
-The Makefile compiles the Python module, which is good as the cache file
-is recorded in the sstate manifest so when the package is removed from the
-sysroot all of it is removed.
-
-However in an enviroment where the sstate is shared between multiple hosts
-it is possible that a different Python is used and this will generate a
-new cache when the code is executed, which is not recorded in the manifest.
-Eventually you'll end up with ownerless cache files in a sysroot which
-conflict with the same file coming from a sstate upgrade.
-
-Solve this with a SSTATE_INST_POSTRM which is ran when sstate is removed
-to ensure that there are no Python cache files left behind.
-
-[ YOCTO #11809 ]
+This is basically a copy/paste of buildtools-tarball so copy some of the
+recent changes to buildtools across.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ meta/recipes-core/meta/testexport-tarball.bb | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-index 712ab6c59ab..25a8373e0b9 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-@@ -34,3 +34,20 @@ RDEPENDS_${PN}-dev = ""
- RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-core/meta/testexport-tarball.bb b/meta/recipes-core/meta/testexport-tarball.bb
+index 72f5531c5c5..c38ac902a06 100644
+--- a/meta/recipes-core/meta/testexport-tarball.bb
++++ b/meta/recipes-core/meta/testexport-tarball.bb
+@@ -10,7 +10,13 @@ TOOLCHAIN_TARGET_TASK ?= ""
  
- BBCLASSEXTEND = "native nativesdk"
+ TOOLCHAIN_HOST_TASK ?= "${TEST_EXPORT_SDK_PACKAGES}"
+ 
+-SDK_PACKAGE_ARCHS += "tesexport-tools-${SDKPKGSUFFIX}"
++MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
++PACKAGE_ARCH = "${SDK_ARCH}_${SDK_OS}"
++PACKAGE_ARCHS = ""
++TARGET_ARCH = "none"
++TARGET_OS = "none"
 +
-+# Need to do this dance because we're forcing the use of host Python above and
-+# if xcb-proto is built with Py3.5 and then re-used from sstate on a host with
-+# Py3.6 the second build will write new cache files into the sysroot which won't
-+# be listed in the manifest so won't be deleted, resulting in an error on
-+# rebuilds.  Solve this by deleting the entire cache directory when this package
-+# is removed from the sysroot.
-+SSTATEPOSTINSTFUNCS += "xcb_sstate_postinst"
-+xcb_sstate_postinst() {
-+	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-+	then
-+		cat <<EOF >${SSTATE_INST_POSTRM}
-+#!/bin/sh
-+rm -rf ${libdir}/xcb-proto/xcbgen/__pycache__
-+EOF
-+	fi
-+}
++SDK_PACKAGE_ARCHS += "testexport-tools-${SDKPKGSUFFIX}"
+ 
+ TOOLCHAIN_OUTPUTNAME ?= "${TEST_EXPORT_SDK_NAME}"
+ 
+@@ -22,7 +28,15 @@ EXCLUDE_FROM_WORLD = "1"
+ 
+ inherit meta
+ inherit populate_sdk
+-inherit toolchain-scripts
++inherit toolchain-scripts-base
++inherit nopackages
++
++deltask install
++deltask populate_sysroot
++
++do_populate_sdk[stamp-extra-info] = "${PACKAGE_ARCH}"
++
++REAL_MULTIMACH_TARGET_SYS = "none"
+ 
+ create_sdk_files_append () {
+ 	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config-*
 -- 
 2.11.0
 
