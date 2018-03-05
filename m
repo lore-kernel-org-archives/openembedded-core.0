@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 655467893E;
-	Mon,  5 Mar 2018 17:35:24 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id AFD6878A80;
+	Mon,  5 Mar 2018 17:35:25 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Victor Kamensky <kamensky@cisco.com>
-Date: Mon, 05 Mar 2018 17:35:26 -0000
-Message-ID: <20180305173526.15537.64727@do.openembedded.org>
-References: <1520268635-5466-1-git-send-email-kamensky@cisco.com>
+To: Ross Burton <ross.burton@intel.com>
+Date: Mon, 05 Mar 2018 17:35:27 -0000
+Message-ID: <20180305173527.15537.27494@do.openembedded.org>
+References: <20180305172046.21729-1-ross.burton@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1520268635-5466-1-git-send-email-kamensky@cisco.com>
+In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInN5c3RlbXRhcDogc3VwcG9ydHMgbWlwcyBzdGFydC4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImRidXM6IHJlbW92ZSB1cHN0cmVhbWVkIHBhdGNoLi4uIiBhbmQgMjggbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:35:24 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:35:26 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "systemtap: supports mips start..." and 1 more
+Series: "dbus: remove upstreamed patch..." and 28 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/11250/
+URL   : https://patchwork.openembedded.org/series/11251/
 State : failure
 
 == Summary ==
@@ -45,13 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ba2eb62374)
 
 
 
