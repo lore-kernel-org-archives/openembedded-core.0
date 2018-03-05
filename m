@@ -1,25 +1,25 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3130678A8E
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id DD5F978AA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 03:25:34 +0000 (UTC)
+	Mon,  5 Mar 2018 03:25:41 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Mar 2018 19:25:36 -0800
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2018 19:25:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="179872348"
+X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="179872358"
 Received: from chiron.jf.intel.com ([10.7.159.61])
-	by orsmga004.jf.intel.com with ESMTP; 04 Mar 2018 19:25:36 -0800
+	by orsmga004.jf.intel.com with ESMTP; 04 Mar 2018 19:25:42 -0800
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 19:25:13 -0800
-Message-Id: <7708a0823ff0df8de197ca00a0f6d8091514904e.1520219828.git.timothy.t.orling@linux.intel.com>
+Date: Sun,  4 Mar 2018 19:25:14 -0800
+Message-Id: <8e511cac675d5a7a6422bea8c41aee308703ee59.1520219828.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1520219828.git.timothy.t.orling@linux.intel.com>
 References: <cover.1520219828.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH 1/6] libtest-needs-perl (and others): self-assign maintainership
+Subject: [PATCH 2/6] libconvert-asn1-perl: inherit ptest-perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 03:25:35 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 03:25:42 -0000
 
-Also, take over the other recipes that were just enabled for
-ptest:
-  - liberror-perl
-  - liburi-perl
-  - libxml-parser-perl
-  - libxml-perl
-  - libxml-simple-perl
+* Enable ptest using new ptest-perl.bbclass
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/conf/distro/include/maintainers.inc | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 5039248790..1e7517ac9a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -331,7 +331,7 @@ RECIPE_MAINTAINER_pn-libdumpvalue-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libenv-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libepoxy = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-liberation-fonts = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-liberror-perl = "Yi Zhao <yi.zhao@windriver.com>"
-+RECIPE_MAINTAINER_pn-liberror-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libevdev = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libevent = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libexif = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -394,6 +394,7 @@ RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libsolv = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libsoup-2.4 = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libtasn1 = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER_pn-libtheora = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libtimedate-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libtirpc = "Maxin B. John <maxin.john@intel.com>"
-@@ -403,7 +404,7 @@ RECIPE_MAINTAINER_pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-libunistring = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libunwind = "Bruce Ashfield <bruce.ashfield@windriver.com>"
- RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-liburi-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libusb-compat = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libusb1 = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libuser = "Robert Yang <liezhi.yang@windriver.com>"
-@@ -430,11 +431,11 @@ RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libxml-parser-perl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libxml-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-parser-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libxml-sax-perl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libxml-simple-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-simple-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxpm = "Armin Kuster <akuster@mvista.com>"
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+index 170e7ecdea..644d8208ec 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+@@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "74a4a78ae0c5e973100ac0a8f203a110f76fb047b79dae4fc1fd7d6814
+ 
+ S = "${WORKDIR}/Convert-ASN1-${PV}"
+ 
+-inherit cpan
++inherit cpan ptest-perl
+ 
+ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
 -- 
 2.14.3
 
