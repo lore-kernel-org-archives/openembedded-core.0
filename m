@@ -1,41 +1,37 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F72E78A68
+Return-Path: <kamensky@cisco.com>
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 3936A78A5C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 20:24:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 1626A20B1A;
-	Mon,  5 Mar 2018 20:24:13 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id A03AW2Yi23rs; Mon,  5 Mar 2018 20:24:13 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C72DA208EE;
-	Mon,  5 Mar 2018 20:24:08 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 5262616330D; Mon,  5 Mar 2018 15:24:08 -0500 (EST)
-Date: Mon, 5 Mar 2018 15:24:08 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>
-Message-ID: <20180305202408.GE2786@denix.org>
-References: <CAK18fxEEZRnHzobX=Lt2By_VYgEzi36nSU+X_94Etegh8E81mg@mail.gmail.com>
-	<cc978b8d-afa0-5ea2-ba5d-9700bab26fdc@linux.intel.com>
-	<EBAEBC3AA1B73F4887F286A6723535236597E79C@BGSMSX102.gar.corp.intel.com>
-	<CAK18fxGNk3vxKeLVpoa7TCuuCq_jkkmMmj3D6Z-hM494ASF5kA@mail.gmail.com>
-	<CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
-	<2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
-	<EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
-	<EBAEBC3AA1B73F4887F286A67235352365982A04@BGSMSX102.gar.corp.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <EBAEBC3AA1B73F4887F286A67235352365982A04@BGSMSX102.gar.corp.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "'akuster@mvista.com'" <akuster@mvista.com>,
-	'openembedded' <openembedded-core@lists.openembedded.org>
-Subject: Re: Linux firmware for iwlwifi 8000c disappeared in pyro
+	Mon,  5 Mar 2018 21:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=829; q=dns/txt; s=iport;
+	t=1520286619; x=1521496219; h=from:to:subject:date:message-id;
+	bh=EqyDNBjRIWL/eRIrK84DjkNT3WzebjDvWjDLnZ3k+RQ=;
+	b=BxGm1BufbmHT/nEPO0i5gXudlqS5iasaiJcMTHsFl1Frhb+I0iFwOPjE
+	C09lvlyoX1EdFEdNJ9zAo6pawyaXqA1P5/RiH1rXDXQyT/neQsvHKTAzN
+	CIjD6MQsrCmEHUmPOb/ZAjWf2eBI+isWYnsY9jcsmOi3gInfeIMymaYMb c=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CMAgCVup1a/5pdJa1dGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNQZnAom3GDGJZJChuICiE4FAECAQEBAQEBAmsnh2EBEoU?=
+	=?us-ascii?q?bqzCEcoNxgiuFLYIukXgEjm6LdAmGVIorAoIzjEORKAIRGQGBLjUhgVJNIxW?=
+	=?us-ascii?q?CfQmEYB83jG8BAQE?=
+X-IronPort-AV: E=Sophos;i="5.47,428,1515456000"; d="scan'208";a="366871299"
+Received: from rcdn-core-3.cisco.com ([173.37.93.154])
+	by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 21:50:17 +0000
+Received: from kamensky-w541.cisco.com ([10.154.177.165])
+	(authenticated bits=0)
+	by rcdn-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id w25LoB29007375
+	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
+	Mon, 5 Mar 2018 21:50:17 GMT
+From: Victor Kamensky <kamensky@cisco.com>
+To: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alexander.kanavin@intel.com>
+Date: Mon,  5 Mar 2018 13:50:10 -0800
+Message-Id: <1520286611-27418-1-git-send-email-kamensky@cisco.com>
+X-Mailer: git-send-email 2.7.4
+X-Authenticated-User: kamensky@cisco.com
+Subject: [PATCH v2 1/2] systemtap: supports mips starting with version 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,61 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 20:24:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 05 Mar 2018 21:50:17 -0000
 
-Same thing just broke morty!
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+---
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-http://cgit.openembedded.org/openembedded-core/commit/?h=morty&id=c134c583e0ef315e88644d94e5a3920b92c6f39d
-
-
-On Mon, Feb 26, 2018 at 08:16:55AM +0000, Palleti, Avinash Reddy wrote:
-> Gentle Reminder.
-> 
-> Thanks,
-> Avinash
-> 
-> From: Palleti, Avinash Reddy
-> Sent: Wednesday, February 21, 2018 10:22 AM
-> To: akuster808 <akuster808@gmail.com>; Andrei Gherzan <andrei@gherzan.ro>; akuster@mvista.com
-> Cc: openembedded <openembedded-core@lists.openembedded.org>
-> Subject: RE: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
-> 
-> It needs to be merged in both pyro and pyro-next.
-> 
-> Thanks,
-> Avinash
-> 
-> From: akuster808 [mailto:akuster808@gmail.com]
-> Sent: Wednesday, February 21, 2018 10:17 AM
-> To: Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>>; Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>>; akuster@mvista.com<mailto:akuster@mvista.com>
-> Cc: openembedded <openembedded-core@lists.openembedded.org<mailto:openembedded-core@lists.openembedded.org>>
-> Subject: Re: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
-> 
-> 
-> in stable/pyro-next
-> 
-> On 02/20/2018 04:50 AM, Andrei Gherzan wrote:
-> On Fri, Feb 16, 2018 at 2:08 PM, Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>> wrote:
-> On Fri, Feb 16, 2018 at 1:48 PM, Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>> wrote:
->  I submitted a fix sometime back,
-> http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html
-> 
-> 
-> Great. We have the fix available and approved by Saul. Shall we merge?
-> 
-> Adding the pyro maintainer to this thread.
-> 
-> --
-> Andrei Gherzan
-> 
-> 
-
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index c938760..d122359 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -15,8 +15,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+            "
+ 
+-# systemtap doesn't support mips
+-COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel).*-linux'
++COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.7.4
 
 
