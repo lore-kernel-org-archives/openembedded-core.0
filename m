@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B1B8E78AA0
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EFE6D78A50
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:21:09 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id p104so18081382wrc.12
+	Mon,  5 Mar 2018 17:21:10 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id l43so18126150wrc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 09:21:11 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WsQHlqrlLvu2wRnxsNV5fmExn/pugLcP1R/3A+qVpEU=;
-	b=ou5/SyVFXvwNy1uyruZcpfONXc3FsC5uS7DW0kduEB9vYG7sUAB3wbmNzy9KFxGjIr
-	vJJ+X7CIUTVrpxmJ0dKAlgBxuXbzgIcru1qGcXiYZxXKOwUORFmNJ/p9gUIQCmpWCMK7
-	0qlVmp/Lfq7axGt20mzb3scsp7ovk5/IfI5lWLDfQqwqQZpvEeRPP5w4jNrcVGZsAYl6
-	EzfPvriDCkX8RADb9Q6r4WyXYEU151xTP/7uxHPBW88iKSEOyH1DfJOHhwzqpp9sxZkY
-	6J4nrdYBdCTIepNZhyibo0AR5/PjoJ+Rhqg85fnJ2PSKnIEiAVsRBcriwYoEQlVpXj3A
-	urcQ==
+	bh=EWpFQ4tniXNiRsS0HeHKVGgRttMDISG3wZoue1ZlIPU=;
+	b=FadpXyE98jJ57FljvNunRuyCs6FVTp81vLtsMvvGeTyIcrlsNda834cbpvVD3z2Fdl
+	5YX955EiJm4lkUBXvZro8L7bEZqYB/T87n+iPgVZdMli9Be1fNxRSorBVJg8NxmOgQwA
+	NnPHhsl913GjznWqTT055LVLlgL3wmQMfdGqnzDcsth51N2YEf+xSXDMeSUocEIm2Bwh
+	vYXgmRn+vz1LctpsEsXUlpr9A5aIK+ej//28Jb4ZGmEfKNdoV6sX/7XiSwfv95+IvSse
+	C9S7dE7SNRNVXfnGBZy+Yr8nB/KkluDIro/KMk73fMgvo8MElqowZfG4/0lqGjkbQRfO
+	/q6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=WsQHlqrlLvu2wRnxsNV5fmExn/pugLcP1R/3A+qVpEU=;
-	b=PaRm1th3+3NGl1k2fUVGOLtao+9wCkWCM0U8BvXbNQgO80L9zzk9oIb/62u+6LA2RQ
-	zBAATeD6z6vTFczVEujKcAzZXSmGJxoqvc5ItlHnr5i87AjHJeKWqL6ruVVobxIEn1r2
-	qBHkeilAlJB3ErIMWwp77UTQW2lLIiLhA6UH+pRTZFbKuK/ssiLtoIVI8ITNSR9ZtWMb
-	dnXE0Bh+bKTeAtecfElGbUAUoTQ7oJI5rYIQY6OiK7DZWmfJIUZ4QyVb90pJTwIiQTy7
-	lRYWG2RvrhDUKpCfXnIaFHmTrDno47FHAVhFvp5CURkOSS16kuASfDqsGPZa7H9D0TUm
-	KCTw==
-X-Gm-Message-State: APf1xPB3i26Mp5faCblavy5Fy7dDCFVkkIlPGU36a9/d+h+DG8EnK80q
-	28SGtjs407BvByph6CR/gkv0e4kf
-X-Google-Smtp-Source: AG47ELt0UCsm9iNKnTw1U5aB6m2h8H43ZCGxlnM40IPrQ6tVgK4IBelKmfnF8RvfeT4p8UZ3Xl1t5w==
-X-Received: by 10.223.209.197 with SMTP id m5mr13373648wri.121.1520270470557; 
-	Mon, 05 Mar 2018 09:21:10 -0800 (PST)
+	bh=EWpFQ4tniXNiRsS0HeHKVGgRttMDISG3wZoue1ZlIPU=;
+	b=eQPbxx6fYFwm2IDKl1HoOgVaH7KohiOU6pzSmmWkPKQIYnd+wFCUkmYxkSvHTMou3F
+	nAz0bY6jzYUDrvwU8GQmzwrKJ5wnQP6WpqbVuY9lJWXw7WtXiAPO5pdId/FYg1z4vxf3
+	BtauPWzMTAR+HyeSENZ3IZgto0Wu8B/yVGWSSbLXY1zvukupNIs7pxh2w+hfJaCn23dP
+	qqUrkLCSGcwsVdmKghhAECjmuS9/Tl6qX78kL+QJUbmLDcgVSmh373nbgkuyVF3ohUn+
+	3iXIXEjwvt2vrpUxcFAuuyQeAs2OBLFy5N95eZFDUECu156/jXviQbFRJDW+i8Pm6f6q
+	x6iA==
+X-Gm-Message-State: APf1xPAjDcLBck8iDY1zQhoAZQa/Aauii6i25JabEHy5FgrKWnPlYuSg
+	BKKn1un2VUV7dvvObZtDhEENU8YK
+X-Google-Smtp-Source: AG47ELtWtUr+dg5z63i/gu289BVtKt72MBfqyHwhe1MuFl2DfL0GzIg7MtOBADpur2M2csfrEuonOQ==
+X-Received: by 10.223.179.17 with SMTP id j17mr12952318wrd.223.1520270471905; 
+	Mon, 05 Mar 2018 09:21:11 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.21.09
+	m190sm10082047wmb.6.2018.03.05.09.21.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 09:21:09 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:11 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:36 +0000
-Message-Id: <20180305172046.21729-19-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:37 +0000
+Message-Id: <20180305172046.21729-20-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 19/29] watchdog: refresh patches
+Subject: [PATCH 20/29] unzip: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:21:10 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:21:11 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../recipes-extended/watchdog/watchdog/watchdog-conf.patch | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ .../unzip/unzip/10-cve-2014-8140-test-compr-eb.patch         | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
-index e68ad545c30..ec44c803b14 100644
---- a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
-+++ b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
-@@ -1,14 +1,16 @@
- Signed-off-by: Diego Rondini <diego.ml@zoho.com>
- Upstream-Status: Inappropriate
+diff --git a/meta/recipes-extended/unzip/unzip/10-cve-2014-8140-test-compr-eb.patch b/meta/recipes-extended/unzip/unzip/10-cve-2014-8140-test-compr-eb.patch
+index c989df18965..ca4aaadffe1 100644
+--- a/meta/recipes-extended/unzip/unzip/10-cve-2014-8140-test-compr-eb.patch
++++ b/meta/recipes-extended/unzip/unzip/10-cve-2014-8140-test-compr-eb.patch
+@@ -9,9 +9,11 @@ CVE: CVE-2014-8140
  
----- watchdog-5.13.orig/watchdog.conf	2013-02-01 12:15:44.000000000 +0100
--+++ watchdog-5.13/watchdog.conf	2014-11-13 10:59:43.233943000 +0100
--@@ -20,7 +20,7 @@
-- #test-binary		= 
-- #test-timeout		= 
-+Index: watchdog-5.15/watchdog.conf
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ 
+---- a/extract.c
+-+++ b/extract.c
+-@@ -2232,10 +2232,17 @@
++Index: unzip60/extract.c
 +===================================================================
-+--- watchdog-5.15.orig/watchdog.conf
-++++ watchdog-5.15/watchdog.conf
-+@@ -28,7 +28,7 @@
-+ #retry-timeout		= 60
-+ #repair-maximum		= 1
++--- unzip60.orig/extract.c
+++++ unzip60/extract.c
++@@ -2233,10 +2233,17 @@ static int test_compr_eb(__G__ eb, eb_si
+      if (compr_offset < 4)                /* field is not compressed: */
+          return PK_OK;                    /* do nothing and signal OK */
   
- -#watchdog-device	= /dev/watchdog
- +watchdog-device	= /dev/watchdog
+@@ -30,5 +32,5 @@ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ +     ((eb_ucsize > 0L) && (eb_size <= (compr_offset + EB_CMPRHEADLEN))))
+ +        return IZ_EF_TRUNC;             /* no/bad compressed data! */
   
-  # Defaults compiled into the binary
-- #temperature-device	=
-+ #temperature-sensor	=
+-     if (
+- #ifdef INT_16BIT
++     method = makeword(eb + (EB_HEADSIZE + compr_offset));
++     if ((method == STORED) &&
 -- 
 2.11.0
 
