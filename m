@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AA97878A50
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0E978A50
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:21:12 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id h21so17426272wmd.1
+	Mon,  5 Mar 2018 17:21:13 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 188so17025134wme.1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 05 Mar 2018 09:21:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=zNNhVihUlCLSoyBuecLu7ZmmfTqm5e3ESkZqnkxp7sY=;
-	b=zIo3dgFEM+hBpVQEgzrm2cl43QAiS0pYsN76aRTp6PSfrEt1EsUHFhiG0Q57RlERmK
-	8MimcL6RlwMJSMoqmhwHdDcAuWpYexPjW47VDcaUSqvJEQXCThm46KLdHFTKcDeIEIAv
-	KOQyAT75nq62ulJGXq/b3tlgBl69gCn/Qt2uiJu4k9S/xNrBF3ZbT3B7ZU5n1mU1Hnfr
-	wnbKmTQfZtt9g+MP4uiVGWysOrfAZEOq//yDXq8I3vMbF+24D3A1OxtQvp94EC9kpdtJ
-	dgIXy9Ob5jRyFxjWj6vkHButQwKqPZkq9b9KCHAE9aOuOK2ZUkQkNo35KBPoOTcHsgTA
-	cYgQ==
+	bh=a6icK6ZtzyW98aG7ox82TeV5qSWzZvtIpdCNS070PMw=;
+	b=del8JuLofSK51nYLOBc+Kx2TBobe4uES+nWHQR1M2ZDaKqYRBCzb68pJ28JkYBdGLl
+	LXC3kYSHwji9bbnp+RJlQ8n+YEQbKsJQ8BRl6Gar1NQ5UHBImmGJm8YGm6X58S0pooJu
+	yv1t9cCkrYjGDaxXwB1Q2T8I3ZeS0Z7i0ZSFBeU7hJfFk7CBynJIqi+B/1VoJSCA4o7y
+	HqoEyLx0atLtB8QsS7bKjlPdUwkOjRZQFP9vHW7T8JC9eHtmeV2DO4aEnQcv16sh/VVN
+	OI+l0uPK4Rdi/f76qBMaN9s1rp2pXCxH6ertPJjl1mYuO2qrRl43i1jOWWs7gHgZyeGU
+	p4pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=zNNhVihUlCLSoyBuecLu7ZmmfTqm5e3ESkZqnkxp7sY=;
-	b=oLgQ8Lh2hVHuv1tm0LPIJT0MNUFnEFNh0d4+j9C8vTRIEqfSDpxf4E9kjlbmA629VX
-	SQo/iLIabVJAffZmEpBzrxrbE2idA+aIrIlfjeJOjxNoO+fh6yAuCzmN3hnRTF8V7XqB
-	pRxpYRPNnmCBpi48+N2Khvk+I1MAPjSD5LxPNk8TF3taV5EsHwtRe11NX4+OiaQAQ/jM
-	ee4QF0bPXUIvvc+Qgfa8HsbOmPHc1li6jZncOgNRYss9IHSnaiyv285WghrQIynOzihq
-	blRJdPvYURyMZUE1mnIBe2DQc45Bwu5TijPbU93l+e3e1E2a77JgoxsHGWXBUxgYPvAs
-	ctTg==
-X-Gm-Message-State: AElRT7Fe5ccg/BJxurjaPN7UxwAXBqaTigtF9buxC4ZtwADdgKvH8HZQ
-	E3oRUm4zUpB/hs1sLqhNwTWRawX8
-X-Google-Smtp-Source: AG47ELsCPnCFSNJDyEypK/65PW6hGhIiEBF6Ph5UXQDW3/+6MWHhCCfyHuQOkI8swXE4yvh9FrLGkQ==
-X-Received: by 10.28.125.197 with SMTP id y188mr8656415wmc.150.1520270473105; 
-	Mon, 05 Mar 2018 09:21:13 -0800 (PST)
+	bh=a6icK6ZtzyW98aG7ox82TeV5qSWzZvtIpdCNS070PMw=;
+	b=W1BnJSYeHVzgKXvpz02lSGrOVbp0y4z7ITvuHnmoEle59GfeEGFcfqQ/9qm+tyA7IY
+	Sr0wAMGoK6uRu5k3CbHD/5icMsdTDN3wfEGtadOm6N+FFSOAT2gmMsCUpuubEt7ZpdB8
+	JHoa+tmdgR/NspgV9GhLgdJtmjgSnd28py1MB0t38qA1QNC6wkO17X3XgG5HV0UMd7m3
+	JvfHM0loUae3Z7/7grg1UG82FOQQ14CbjEJM9+pPzmFK6Fj59X7jh4VemJ6tsx4/HECV
+	w3sfvL+/As2c6ws7IzcJjIKpKHSYqTOaE1YxyNnh6VWvichrRFjT2GecApnVypDTyXne
+	zkpg==
+X-Gm-Message-State: AElRT7HFycapGtWmKHDFNM/SOtSWu9K3yGTC3PmzPlY9Hc+tLpWN+2zx
+	GwUXVlLJgdWb/kJVC/gKmYvsLJqf
+X-Google-Smtp-Source: AG47ELsl3EtfrGdApxXVcyWRPqa9rbGTVf8VnMPqW6kb94lzhVemA5fdC1Apdsbt42EQ6QEKzcPDGg==
+X-Received: by 10.28.169.79 with SMTP id s76mr8749833wme.48.1520270474032;
+	Mon, 05 Mar 2018 09:21:14 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.21.12
+	m190sm10082047wmb.6.2018.03.05.09.21.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 09:21:12 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:13 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:38 +0000
-Message-Id: <20180305172046.21729-21-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:39 +0000
+Message-Id: <20180305172046.21729-22-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 21/29] sysstat: refresh patches
+Subject: [PATCH 22/29] screen: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,67 +62,41 @@ X-List-Received-Date: Mon, 05 Mar 2018 17:21:13 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../0001-Include-needed-headers-explicitly.patch   | 29 ++++++++++------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ .../screen/0002-comm.h-now-depends-on-term.h.patch    | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
-index c12652307c1..5fc26fbc270 100644
---- a/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
-+++ b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
-@@ -21,10 +21,10 @@ Upstream-Status: Pending
-  sa_common.c | 1 +
-  3 files changed, 3 insertions(+)
+diff --git a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+index b5d71cc1b41..a01dc247511 100644
+--- a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
++++ b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+@@ -15,19 +15,16 @@ Subject: [PATCH] comm.h now depends on term.h
+  src/Makefile.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--diff --git a/common.c b/common.c
--index a23155b..ad86446 100644
----- a/common.c
--+++ b/common.c
-+Index: sysstat-11.5.7/common.c
+-diff --git a/src/Makefile.in b/src/Makefile.in
+-index e791e79..d4f7c0b 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -113,7 +113,7 @@ term.h: term.c term.sh
+- 
+- kmapdef.c: term.h
++Index: screen-4.6.1/Makefile.in
 +===================================================================
-+--- sysstat-11.5.7.orig/common.c
-++++ sysstat-11.5.7/common.c
- @@ -20,6 +20,7 @@
-   */
++--- screen-4.6.1.orig/Makefile.in
+++++ screen-4.6.1/Makefile.in
++@@ -133,7 +133,7 @@ kmapdef.c: term.h
++ tty.c:	tty.sh 
++ 	sh $(srcdir)/tty.sh tty.c
   
-@@ -32,11 +32,11 @@ index a23155b..ad86446 100644
- +#include <limits.h>
-  #include <string.h>
-  #include <stdlib.h>
-- #include <time.h>
--diff --git a/ioconf.c b/ioconf.c
--index 7d88c5d..6d67691 100644
----- a/ioconf.c
--+++ b/ioconf.c
-+ #include <stdarg.h>
-+Index: sysstat-11.5.7/ioconf.c
-+===================================================================
-+--- sysstat-11.5.7.orig/ioconf.c
-++++ sysstat-11.5.7/ioconf.c
- @@ -27,6 +27,7 @@
-  #include <errno.h>
-  #include <dirent.h>
-@@ -45,10 +45,10 @@ index 7d88c5d..6d67691 100644
+ -comm.h: comm.c comm.sh config.h
+ +comm.h: comm.c comm.sh config.h term.h
+  	AWK=$(AWK) CC="$(CC) $(CFLAGS)" srcdir=${srcdir} sh $(srcdir)/comm.sh
   
-  #include "ioconf.h"
-  #include "common.h"
--diff --git a/sa_common.c b/sa_common.c
--index b7351d9..c9e3299 100644
----- a/sa_common.c
--+++ b/sa_common.c
-+Index: sysstat-11.5.7/sa_common.c
-+===================================================================
-+--- sysstat-11.5.7.orig/sa_common.c
-++++ sysstat-11.5.7/sa_common.c
- @@ -20,6 +20,7 @@
-   */
-  
-@@ -57,6 +57,3 @@ index b7351d9..c9e3299 100644
-  #include <string.h>
-  #include <stdlib.h>
-  #include <time.h>
+- docs:
 --- 
--2.5.2
+-2.4.1
 -
++ osdef.h: osdef.sh config.h osdef.h.in
 -- 
 2.11.0
 
