@@ -1,23 +1,28 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BA1178A51
+Return-Path: <quentin.schulz@bootlin.com>
+X-Greylist: delayed 598 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 05 Mar 2018 08:33:02 UTC
+Received: from mail.bootlin.com (mail.bootlin.com [62.4.15.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 945277897C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 08:08:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Mar 2018 00:08:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,426,1515484800"; d="scan'208";a="35517684"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.16.248])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2018 00:08:05 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Mon,  5 Mar 2018 08:33:02 +0000 (UTC)
+Received: by mail.bootlin.com (Postfix, from userid 110)
+	id EE8FD207CA; Mon,  5 Mar 2018 09:23:03 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
+	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost.localdomain
+	(LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+	by mail.bootlin.com (Postfix) with ESMTPSA id B4FE92046F;
+	Mon,  5 Mar 2018 09:23:03 +0100 (CET)
+From: Quentin Schulz <quentin.schulz@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 16:07:58 +0800
-Message-Id: <1520237278-18943-1-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] buildhistory: remove duplicate renames
+Date: Mon,  5 Mar 2018 09:22:33 +0100
+Message-Id: <20180305082233.8493-1-quentin.schulz@bootlin.com>
+X-Mailer: git-send-email 2.14.1
+Cc: thomas.petazzoni@bootlin.com
+Subject: [PATCH] busybox: mdev: make mdev auto load modules at boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,55 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 08:08:05 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 08:33:02 -0000
 
-In cases when a package like qemu might have files with same names
-in multiple directories, the rename logic might go wrong and create
-multiple rename pair for a single directory.
+Thanks to the MODALIAS line at the beginning of mdev.conf, mdev supports
+module auto probing on hotplug.
 
-Make sure that we process each rename pair once. Also, don't print
-FILELIST as part of PKGSIZE to ensure that it gets printed only once
-when reporting package changes.
+However, this does not work for cold plugged modules (i.e. modules for
+devices that were probed before mdev is added as hotplug handler).
+Running mdev -s to replay hotplug events does not work in that case.
 
-Fixes [YOCTO #12559]
+Let's manually modprobe all modules in the rootfs.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Taken from:
+ - https://github.com/buildroot/buildroot/commit/07f46c2b6daec44a6176039c90be67e66c4c2e42
+ - https://github.com/buildroot/buildroot/commit/b4fc5a180c81689a982d5c595844331684c14f51
+
+We need xargs to support zero termination of args so let's enable this
+configuration in the fragment for mdev.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@bootlin.com>
 ---
- meta/lib/oe/buildhistory_analysis.py | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ meta/recipes-core/busybox/busybox/mdev.cfg | 2 ++
+ meta/recipes-core/busybox/files/mdev       | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index 6c0bca8..bf2a9d3 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -36,7 +36,6 @@ related_fields = {}
- related_fields['RDEPENDS'] = ['DEPENDS']
- related_fields['RRECOMMENDS'] = ['DEPENDS']
- related_fields['FILELIST'] = ['FILES']
--related_fields['PKGSIZE'] = ['FILELIST']
- related_fields['files-in-image.txt'] = ['installed-package-names.txt', 'USER_CLASSES', 'IMAGE_CLASSES', 'ROOTFS_POSTPROCESS_COMMAND', 'IMAGE_POSTPROCESS_COMMAND']
- related_fields['installed-package-names.txt'] = ['IMAGE_FEATURES', 'IMAGE_LINGUAS', 'IMAGE_INSTALL', 'BAD_RECOMMENDATIONS', 'NO_RECOMMENDATIONS', 'PACKAGE_EXCLUDE']
+diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-core/busybox/busybox/mdev.cfg
+index 6aefe90e43..0d60fc9560 100644
+--- a/meta/recipes-core/busybox/busybox/mdev.cfg
++++ b/meta/recipes-core/busybox/busybox/mdev.cfg
+@@ -9,3 +9,5 @@ CONFIG_SETSID=y
+ CONFIG_CTTYHACK=y
  
-@@ -99,7 +98,17 @@ class ChangeRecord:
-                                 for name in adirs - bdirs]
-             files_ba = [(name, sorted(os.path.basename(item) for item in bitems if os.path.dirname(item) == name)) \
-                                 for name in bdirs - adirs]
--            renamed_dirs = [(dir1, dir2) for dir1, files1 in files_ab for dir2, files2 in files_ba if files1 == files2]
-+            renamed_dirs = []
-+            for dir1, files1 in files_ab:
-+                rename = False
-+                for dir2, files2 in files_ba:
-+                    if files1 == files2 and not rename:
-+                        renamed_dirs.append((dir1,dir2))
-+                        # Make sure that we don't use this (dir, files) pair again.
-+                        files_ba.remove((dir2,files2))
-+                        # If a dir has already been found to have a rename, stop and go no further.
-+                        rename = True
+ CONFIG_FEATURE_SHADOWPASSWDS=y
 +
-             # remove files that belong to renamed dirs from aitems and bitems
-             for dir1, dir2 in renamed_dirs:
-                 aitems = [item for item in aitems if os.path.dirname(item) not in (dir1, dir2)]
++CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
+diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+index 8c9c06e96c..165b275256 100755
+--- a/meta/recipes-core/busybox/files/mdev
++++ b/meta/recipes-core/busybox/files/mdev
+@@ -9,6 +9,7 @@ touch /dev/mdev.seq
+ #sysctl -w kernel.hotplug=/sbin/mdev
+ echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+ mdev -s
++find /sys/ -name modalias -print0 | xargs -0 sort -u -z | xargs -0 modprobe -abq
+ 
+ #
+ # We might have mounted something over /dev, see if /dev/initctl is there.
 -- 
-2.7.4
+2.14.1
 
 
