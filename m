@@ -1,51 +1,55 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 997B378A96
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C0DF960684
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 11:02:06 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 139so14636597wmn.2
+	Mon,  5 Mar 2018 11:23:07 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id u84so17548344iod.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 03:02:08 -0800 (PST)
+	Mon, 05 Mar 2018 03:23:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mRW8EXVXJCXNwNqzYiD84y+v32aIEuif6iqbSgfTFo4=;
-	b=EoZi4L+HYHyGxz0WiccFOiQvCSZ0PIbPRg0cwvhOKJDRJG9EJLVrlSy1LmVDWMWy9M
-	mUqCyO8QS8bBv1DNbIn/EfI5/79Y2+91Yud4AQ9PdCphSms+0tKkxqzwyiiw/Ln7gZb/
-	LujFUwNLjvuQ8/mFYa6VX4siQ3/QSHTxv8cXY5wxPzCckdKcG1U8MSxcOUsWmU3xkZMU
-	apctIuO2OphqCtKGU2MDfcidj6RU/MhSih87oj9YsGr/mKRVvNpw3LT8/x99iGiI5+SY
-	Xo2/HVmvNK5Yz7UUnDgL2sdDpJ8J70IPy6j3buyf8OuNZnbL6wfZtImKht8wpMiZodPN
-	95Iw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HDv3GgL13ptveQtX4Mcd2dVcnpqGhzYJ6JyrdKuRE54=;
+	b=pLZFURhdwpUODmuzzbBRqd+R7886vFtrdMzzRAosy87sf+ky3D7WRGRnf0OzFjSdiK
+	oqYrPKzcDdwWGz85p8wg5l5rAjmDFDK0OYnPd5KbeO+IX3Ui4L+EtSvvUvMslD0hEYlZ
+	JURChQ/YonxvoQNwObIrqECXk3cVj4eJ85pndmVmrQfuId8jaImWMh7rMzFLU4Dm8v/M
+	iRxspeASAFDR2y7abx78v36XsbdmvdouvafWiQZWjjJsf2rh2LdF32Mr0YXoCKJrQFuT
+	dUu5EXSLyhqP1YirTsCkMrsMlzpiby6GfNsrp5LwQZvYBGwxfHzhAa7vmjbImPabuQJ8
+	vckA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=mRW8EXVXJCXNwNqzYiD84y+v32aIEuif6iqbSgfTFo4=;
-	b=QSXSyj5qRI2EPZDFASqT4s80phNTvF05XFOz5vtG/898h5tbqroE5B4GRPQHXPNGdf
-	KraIpfBAjcphvRCMSJINnETj4RDgC+doGvAapuhrs6Gzir/ASXXH+gdYgZL6gfqziBiN
-	Tsp6Tnl2izg7rJdpPAzKlGfiMfAKOGLqUQ48p/38WDVStA19Ayl4CdXeFCKKFVHWCvFz
-	eYdUdLfcfY4s/nVvSbnboseSyfXRJW9h2F9sqbUHmLcD/kVlgnzKX31CUKQGlFR6mEXz
-	R+Sd6a3N9AAtVdtJGYhFF9zRivKtqpZg6UDc02o2qzC0TlcOVd0ga/YVlI8tlf6UOkm+
-	6tSw==
-X-Gm-Message-State: AElRT7FnKXycW/RqTI/e2Rbr9wGEOMpth8yKtQL9Rtt9V1uqnDt/vMZi
-	gpa5gR1nEngYwyrwqa+6VqUECr2t
-X-Google-Smtp-Source: AG47ELseEWp+lo0Ol6ChO/VbmrO581wERKPZztLebwD3YkGUHk346XjrxZcykGDXhct7MnZRhhqQSQ==
-X-Received: by 10.28.4.216 with SMTP id 207mr4983823wme.108.1520247727125;
-	Mon, 05 Mar 2018 03:02:07 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o9sm13042874wrf.43.2018.03.05.03.02.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 03:02:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 11:01:58 +0000
-Message-Id: <20180305110158.10308-4-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180305110158.10308-1-ross.burton@intel.com>
-References: <20180305110158.10308-1-ross.burton@intel.com>
-Subject: [PATCH 4/4] populate_sdk_base: depend on nativesdk-glibc-locale
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HDv3GgL13ptveQtX4Mcd2dVcnpqGhzYJ6JyrdKuRE54=;
+	b=U53Gl+cYa3z2/GHL1WQT1iYm21O6/X8K6gEz6oJD8CQ674jxMOClT03gWC8nuwWtG8
+	w198XqU+BbPicz+zf4y9nrKAWK7z4YPmh0kM8OPXrOziwAWmea14ToxnS2iq++vUQive
+	aFmeUFXsvugOXBmxsgqtK346ii7LYjpmtbtqFSenYNavoKQGEnwcNu4gy1yWTXbU7dzd
+	NeZDHn4wxycS1ECl3uwKM3hZr7dvGaprpx2XSxjQT9tO1D0xQx6zIHSaeWA54p8hbeQO
+	VL60OxxCwjNDSL658uxUW60Fmg6t6ol6XDmrSkGJqFWZq+h5bqIPoCX3ZjIq5KQr7GLi
+	PhQQ==
+X-Gm-Message-State: AElRT7HuD162xGDznW6FS9hr8744pTMrCb2yI8I08N0h8ucP6o0RAEGV
+	KDkjuLOD15kDyuP3Tg1RlneuVc3n4Dufii2yp+Kt/g==
+X-Google-Smtp-Source: AG47ELsY71WuRt5LRLF8vIYXTvtyjT3OW5h8logTcZl7pIOb6au2rzgEf7qUHmzGLYa4sr/3mG2E8z8wKHsNYRq/zXY=
+X-Received: by 10.107.37.212 with SMTP id l203mr16559824iol.20.1520248988772; 
+	Mon, 05 Mar 2018 03:23:08 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.17.200 with HTTP; Mon, 5 Mar 2018 03:22:48 -0800 (PST)
+In-Reply-To: <CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
+References: <20180302203314.32737-1-matt@madison.systems>
+	<876d96e7-1425-df8e-621c-b2dd3c263d88@gmail.com>
+	<CAGgRHJoNhQTyVN7ww5BAoQLs1GPkxO3rsdujLttH8V-84vFiAw@mail.gmail.com>
+	<CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
+	<CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
+	<CAMKF1sp5tRPs7yB9bCZShJnozK_cHTskcSSTUP-=Vag72sZZRg@mail.gmail.com>
+	<CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Mar 2018 11:22:48 +0000
+Message-ID: <CAJTo0La5d88sn4Ce=QkwDnP7pd-r1iKH2S6ouGZikSsMjq40zA@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +62,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 11:02:07 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 11:23:08 -0000
+Content-Type: multipart/alternative; boundary="001a11405f16f2415e0566a88c8d"
 
-If we're building a SDK and we're using glibc so may be installing locales,
-add a build-dependency on natiesdk-glibc-locale so the locales we need will
-exist.
+--001a11405f16f2415e0566a88c8d
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/populate_sdk_base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+On 4 March 2018 at 20:46, Otavio Salvador <otavio.salvador@ossystems.com.br>
+wrote:
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index be5970a4bbc..60a5abc7dc8 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -47,6 +47,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
- 
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
- SDK_DEPENDS = "virtual/fakeroot-native pixz-native cross-localedef-native"
-+SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
- 
- # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
- # could be set to the MACHINE_ARCH
--- 
-2.11.0
+> I understand the need and I see the value. The GCC is harder to
+> upgrade but problems using newer Go toolchain does not happen very
+> often and likely are caused by a regression on Go itself.
+>
+> As I said, there are two options:
+>
+> a) wait for 1.10.1 release
+> b) keep 1.9.4 around
+>
+> My preference goes to (a) as I prefer to not include 1.10 now with
+> those known issues.
+>
 
+Considering that we're technically past the upgrade freeze and we're only
+still talking about this patch set as there's other, larger, patches we're
+holding M3 for discussing waiting for another upgrade isn't really an
+option unless 1.10.1 is due *very* soon.
 
+So my opinion is that as Go is getting quite some traction but is also
+under quite heavy development, unless there's a 1.10.1 release due *this
+week* which solves the problems that InfluxDB et al are having then we
+should ship both in this release, and drop 1.9.4 from master once 1.10.1 is
+added.  1.10 should be the default version, and hopefully we don't have to
+do this again.
+
+Ross
+
+--001a11405f16f2415e0566a88c8d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 4 March 2018 at 20:46, Otavio Salvador <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank"=
+>otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D"gm=
+ail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I unde=
+rstand the need and I see the value. The GCC is harder to<br>
+upgrade but problems using newer Go toolchain does not happen very<br>
+often and likely are caused by a regression on Go itself.<br>
+<br>
+As I said, there are two options:<br>
+<br>
+a) wait for 1.10.1 release<br>
+b) keep 1.9.4 around<br>
+<br>
+My preference goes to (a) as I prefer to not include 1.10 now with<br>
+those known issues.<br></blockquote><div><br></div><div>Considering that we=
+&#39;re technically past the upgrade freeze and we&#39;re only still talkin=
+g about this patch set as there&#39;s other, larger, patches we&#39;re hold=
+ing M3 for discussing waiting for another upgrade isn&#39;t really an optio=
+n unless 1.10.1 is due *very* soon.</div><div><br></div><div>So my opinion =
+is that as Go is getting quite some traction but is also under quite heavy =
+development, unless there&#39;s a 1.10.1 release due *this week* which solv=
+es the problems that InfluxDB et al are having then we should ship both in =
+this release, and drop 1.9.4 from master once 1.10.1 is added. =C2=A01.10 s=
+hould be the default version, and hopefully we don&#39;t have to do this ag=
+ain.</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a11405f16f2415e0566a88c8d--
