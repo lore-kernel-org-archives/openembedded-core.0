@@ -1,24 +1,30 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F062E789EE
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DDD578A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 13:58:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w25DwVTx020932
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Mar 2018 05:58:31 -0800 (PST)
-Received: from localhost.localdomain (172.25.59.221) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 5 Mar 2018 05:57:58 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Mar 2018 07:58:26 -0600
-Message-ID: <1520258306-4263-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon,  5 Mar 2018 14:09:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 06:09:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,427,1515484800"; d="scan'208";a="36044938"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 05 Mar 2018 06:09:02 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20180302153220.16494-1-alexander.kanavin@linux.intel.com>
+	<1520067233.3436.34.camel@linuxfoundation.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <c6097246-f40b-1d51-a0bb-83bb7e223043@linux.intel.com>
+Date: Mon, 5 Mar 2018 16:03:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: [PATCH] package_manager.py: Print offending package instead of non-sense trace
+In-Reply-To: <1520067233.3436.34.camel@linuxfoundation.org>
+Subject: Re: [PATCH] perl: use parallel build where possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 13:58:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Mar 2018 14:09:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-If you have a package that does not generate a manifest due to using a
-noexec rule, the package name should be printed so the problem can be
-tracked down.  With out the patch you get an error that makes it look
-more like the package_manager is broken as shown below.
+On 03/03/2018 10:53 AM, Richard Purdie wrote:
+> On Fri, 2018-03-02 at 17:32 +0200, Alexander Kanavin wrote:
+>> While the upstream just runs a number of make tasks hardcoded to a
+>> single thread
+>> in succession, we can add '-j n_threads' to a few of them. The
+>> benefit
+>> is real: on my machine the do_compile() time goes from 250 seconds to
+>> about 90.
+>>
+>> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>> ---
+>>   meta/recipes-devtools/perl/perl_5.24.1.bb | 5 +++++
+>>   1 file changed, 5 insertions(+)
+> 
+> I like the idea of the patch but I think it triggered:
+> 
+> https://autobuilder.yocto.io/builders/nightly-world/builds/806/steps/BuildImages/logs/stdio
 
-oe-core/meta/lib/oe/package_manager.py', lineno: 534, function: create_packages_dir
-     0530:
-     0531:    for dep in rpmdeps:
-     0532:        c = taskdepdata[dep][0]
-     0533:        manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
- *** 0534:        if not os.path.exists(manifest):
-     0535:            continue
-     0536:        with open(manifest, "r") as f:
-     0537:            for l in f:
-     0538:                l = l.strip()
-File: '/usr/lib/python3.5/genericpath.py', lineno: 19, function: exists
-     0015:# This is false for dangling symbolic links on systems that support them.
-     0016:def exists(path):
-     0017:    """Test whether a path exists.  Returns False for broken symbolic links"""
-     0018:    try:
- *** 0019:        os.stat(path)
-     0020:    except OSError:
-     0021:        return False
-     0022:    return True
-     0023:
-Exception: TypeError: stat: can't specify None for path argument
+Unfortunately it's also a race:
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/lib/oe/package_manager.py | 2 ++
- 1 file changed, 2 insertions(+)
+| JSON::PP 2.27103 is not available
+...
+| Unsuccessful Makefile.PL(ext/ODBM_File): code=65280 at make_ext.pl 
+line 521.
+| makefile:590: recipe for target 'lib/auto/ODBM_File/ODBM_File.so' failed
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 287ca9a..980649f 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -531,6 +531,8 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
-     for dep in rpmdeps:
-         c = taskdepdata[dep][0]
-         manifest, d2 = oe.sstatesig.find_sstate_manifest(c, taskdepdata[dep][2], taskname, d, multilibs)
-+        if not manifest:
-+            bb.fatal("No manifest generated from: %s in %s" % (c, taskdepdata[dep][2]))
-         if not os.path.exists(manifest):
-             continue
-         with open(manifest, "r") as f:
--- 
-2.7.4
+Maybe we should look into reducing perl dependencies instead, 
+particularly look into whether perl is really still needed for RDEPENDS 
+of various ptests of 'core' packages.
 
+Alex
 
