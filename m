@@ -1,27 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A42178A6B
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BA1178A51
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 08:06:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2586M8d027745
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 Mar 2018 00:06:23 -0800 (PST)
-Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 5 Mar 2018 00:05:51 -0800
-To: Mike Crowe <mac@mcrowe.com>, <openembedded-core@lists.openembedded.org>
-References: <20180303212648.6fnwlntm6je3hw7c@mcrowe.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <a17ddf01-8f48-8c49-47be-3a4752ac7e16@windriver.com>
-Date: Mon, 5 Mar 2018 16:06:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20180303212648.6fnwlntm6je3hw7c@mcrowe.com>
-X-Originating-IP: [128.224.162.197]
-Subject: Re: coreutils-native and util-linux-native conflicting with meta-micro
+	Mon,  5 Mar 2018 08:08:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 00:08:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,426,1515484800"; d="scan'208";a="35517684"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.16.248])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2018 00:08:05 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Mar 2018 16:07:58 +0800
+Message-Id: <1520237278-18943-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] buildhistory: remove duplicate renames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,55 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 08:06:22 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Mar 2018 08:08:05 -0000
 
-On 03/04/2018 05:26 AM, Mike Crowe wrote:
-> I have a recipe which uses both base64 from coreutils-native and hexdump
-> from util-linux-native so I've put both in my recipe DEPENDS.
->
-> Unfortunately do_prepare_sysroot is failing with:
->
-> Exception: FileExistsError: [Errno 17] File exists: '/home/mac/src/oe2/build-bcm7425/tmp-glibc/sysroots-components/x86_64/coreutils-native/bin/kill' -> '/home/mac/src/oe2/build-bcm7425/tmp-glibc/work/impala-oe-linux-gnueabi/verify-rootfs/1.0-r3/recipe-sysroot-native/bin/kill'
->
-> since both coreutils and util-linux provide /bin/kill.
->
-> This doesn't cause a problem in a standard oe-core build since coreutils
-> installs all its binaries in ${bindir} whereas util-linux puts kill in
-> ${base_bindir}.
->
-> Unfortunately, with meta-micro ${bindir} and ${base_bindir} are the same
-> directory. :(
->
-> Both coreutils and util-linux already appear to use the alternatives
-> mechanism for kill, but that doesn't seem to help for -native.
->
-> I can easily locally nobble kill in one of the recipes to solve this
-> problem, but that doesn't seem very elegant.
->
-> What's the correct way to solve this problem?
->
-> Thanks.
->
-> Mike.
+In cases when a package like qemu might have files with same names
+in multiple directories, the rename logic might go wrong and create
+multiple rename pair for a single directory.
 
-I'd suggest you remove conflict items in do_install in case of native. 
-An example is in coreutils recipe as below.
+Make sure that we process each rename pair once. Also, don't print
+FILELIST as part of PKGSIZE to ensure that it gets printed only once
+when reporting package changes.
 
-do_install_class-native() {
-     autotools_do_install
-     # remove groups to fix conflict with shadow-native
-     rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
-     # The return is a must since native doesn't need the
-     # do_install_append() in the below.
-     return
-}
+Fixes [YOCTO #12559]
 
-You can create a bbappend file in your layer and do similar things.
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/oe/buildhistory_analysis.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Best Regards,
-
-Chen Qi
+diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
+index 6c0bca8..bf2a9d3 100644
+--- a/meta/lib/oe/buildhistory_analysis.py
++++ b/meta/lib/oe/buildhistory_analysis.py
+@@ -36,7 +36,6 @@ related_fields = {}
+ related_fields['RDEPENDS'] = ['DEPENDS']
+ related_fields['RRECOMMENDS'] = ['DEPENDS']
+ related_fields['FILELIST'] = ['FILES']
+-related_fields['PKGSIZE'] = ['FILELIST']
+ related_fields['files-in-image.txt'] = ['installed-package-names.txt', 'USER_CLASSES', 'IMAGE_CLASSES', 'ROOTFS_POSTPROCESS_COMMAND', 'IMAGE_POSTPROCESS_COMMAND']
+ related_fields['installed-package-names.txt'] = ['IMAGE_FEATURES', 'IMAGE_LINGUAS', 'IMAGE_INSTALL', 'BAD_RECOMMENDATIONS', 'NO_RECOMMENDATIONS', 'PACKAGE_EXCLUDE']
+ 
+@@ -99,7 +98,17 @@ class ChangeRecord:
+                                 for name in adirs - bdirs]
+             files_ba = [(name, sorted(os.path.basename(item) for item in bitems if os.path.dirname(item) == name)) \
+                                 for name in bdirs - adirs]
+-            renamed_dirs = [(dir1, dir2) for dir1, files1 in files_ab for dir2, files2 in files_ba if files1 == files2]
++            renamed_dirs = []
++            for dir1, files1 in files_ab:
++                rename = False
++                for dir2, files2 in files_ba:
++                    if files1 == files2 and not rename:
++                        renamed_dirs.append((dir1,dir2))
++                        # Make sure that we don't use this (dir, files) pair again.
++                        files_ba.remove((dir2,files2))
++                        # If a dir has already been found to have a rename, stop and go no further.
++                        rename = True
++
+             # remove files that belong to renamed dirs from aitems and bitems
+             for dir1, dir2 in renamed_dirs:
+                 aitems = [item for item in aitems if os.path.dirname(item) not in (dir1, dir2)]
+-- 
+2.7.4
 
 
