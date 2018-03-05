@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
 	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E6DF71AC1
+	by mail.openembedded.org (Postfix) with ESMTP id B1B8E78AA0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:21:08 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id u49so18086946wrc.10
+	Mon,  5 Mar 2018 17:21:09 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id p104so18081382wrc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 09:21:10 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2zih1aFVJJQemYZsQjpOpmKpREPnP1wqI10RfkotmsI=;
-	b=xVTmDSKIT81FBoGPTZwt70slWcS27PdnJSsz4J7NUaM77/FMmDVu/3xDgGbwjQcc79
-	h9JZBod/F+RKJs3xS2ZEEda89rESoDtZb81+Yx8KR7pQL9DfHEWPuKMhTN/OYIFagPOo
-	8WrgOxOvaauTLAir449IrXOYC3u9BdAmF+v9enLFoBXjXQwmwDkuTvcyKxgzvz9xTcdM
-	ydlE0YhXTzdnG5SJwB1ChPPCRwO3RM5QqxwBlrQh+YCJqQKgUmUwfT9+FVDZUmyI7J3f
-	dmyrGZdIMN4dOIpYdSzpMLkjQDpyIzRu0n4WyA3O07W929KKZ+UxBmoe+n45XVkeMfWj
-	tfBQ==
+	bh=WsQHlqrlLvu2wRnxsNV5fmExn/pugLcP1R/3A+qVpEU=;
+	b=ou5/SyVFXvwNy1uyruZcpfONXc3FsC5uS7DW0kduEB9vYG7sUAB3wbmNzy9KFxGjIr
+	vJJ+X7CIUTVrpxmJ0dKAlgBxuXbzgIcru1qGcXiYZxXKOwUORFmNJ/p9gUIQCmpWCMK7
+	0qlVmp/Lfq7axGt20mzb3scsp7ovk5/IfI5lWLDfQqwqQZpvEeRPP5w4jNrcVGZsAYl6
+	EzfPvriDCkX8RADb9Q6r4WyXYEU151xTP/7uxHPBW88iKSEOyH1DfJOHhwzqpp9sxZkY
+	6J4nrdYBdCTIepNZhyibo0AR5/PjoJ+Rhqg85fnJ2PSKnIEiAVsRBcriwYoEQlVpXj3A
+	urcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=2zih1aFVJJQemYZsQjpOpmKpREPnP1wqI10RfkotmsI=;
-	b=B08KH4godA0VIpNyt4JzILkgke5HurjqWX223cg7f2LLXsstR04l0jsR76kzeWo+qQ
-	L4GOpw84+cByC0z7VhCT/xdmU56mepsE0vyhQPQrCCDuEc5JF/HIxUXK/7WQAv7aUIZ8
-	nDgjmvCHwjxLrSdpb2dW764zPhGZ6Z7YrTJYFalSmkmt+mIXHugtTFi4RxGHcdyXt3ju
-	DgTdQJGbNBV64a66Yj2lZyfz6aCAoU0nZcF0tmxluLYU7pWHiOd0XJ5mfvTDF63Z9hXj
-	kcbogArEcZ7evttm5IOmk3CQuLc9mbIOmdxWVwRuX5xUjeyF7hwgpDIYuIGDV4MI3w4t
-	o7lQ==
-X-Gm-Message-State: APf1xPBhuOoDEJNOKALk5nQeXV8VLwkAh+Q4pOEg+0xfnLURK/HbZOe2
-	v2whj6e7qH9dfrF0XmiO0vRYtH7Z
-X-Google-Smtp-Source: AG47ELsSce2xm2waP0NJzb96S5NQX74UM1H+oKh4KKNUE5SIu244L3jhTxSa7Ao3a7Lxw/OpS1VzTQ==
-X-Received: by 10.223.142.3 with SMTP id n3mr12991338wrb.151.1520270469644;
-	Mon, 05 Mar 2018 09:21:09 -0800 (PST)
+	bh=WsQHlqrlLvu2wRnxsNV5fmExn/pugLcP1R/3A+qVpEU=;
+	b=PaRm1th3+3NGl1k2fUVGOLtao+9wCkWCM0U8BvXbNQgO80L9zzk9oIb/62u+6LA2RQ
+	zBAATeD6z6vTFczVEujKcAzZXSmGJxoqvc5ItlHnr5i87AjHJeKWqL6ruVVobxIEn1r2
+	qBHkeilAlJB3ErIMWwp77UTQW2lLIiLhA6UH+pRTZFbKuK/ssiLtoIVI8ITNSR9ZtWMb
+	dnXE0Bh+bKTeAtecfElGbUAUoTQ7oJI5rYIQY6OiK7DZWmfJIUZ4QyVb90pJTwIiQTy7
+	lRYWG2RvrhDUKpCfXnIaFHmTrDno47FHAVhFvp5CURkOSS16kuASfDqsGPZa7H9D0TUm
+	KCTw==
+X-Gm-Message-State: APf1xPB3i26Mp5faCblavy5Fy7dDCFVkkIlPGU36a9/d+h+DG8EnK80q
+	28SGtjs407BvByph6CR/gkv0e4kf
+X-Google-Smtp-Source: AG47ELt0UCsm9iNKnTw1U5aB6m2h8H43ZCGxlnM40IPrQ6tVgK4IBelKmfnF8RvfeT4p8UZ3Xl1t5w==
+X-Received: by 10.223.209.197 with SMTP id m5mr13373648wri.121.1520270470557; 
+	Mon, 05 Mar 2018 09:21:10 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.21.08
+	m190sm10082047wmb.6.2018.03.05.09.21.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Mon, 05 Mar 2018 09:21:09 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:35 +0000
-Message-Id: <20180305172046.21729-18-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:36 +0000
+Message-Id: <20180305172046.21729-19-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 18/29] sysklogd: refresh patches
+Subject: [PATCH 19/29] watchdog: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:21:09 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:21:10 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/sysklogd/files/no-strip-install.patch | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../recipes-extended/watchdog/watchdog/watchdog-conf.patch | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/sysklogd/files/no-strip-install.patch b/meta/recipes-extended/sysklogd/files/no-strip-install.patch
-index 00fba71017e..d426c83bf25 100644
---- a/meta/recipes-extended/sysklogd/files/no-strip-install.patch
-+++ b/meta/recipes-extended/sysklogd/files/no-strip-install.patch
-@@ -1,10 +1,10 @@
- Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+index e68ad545c30..ec44c803b14 100644
+--- a/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+@@ -1,14 +1,16 @@
+ Signed-off-by: Diego Rondini <diego.ml@zoho.com>
+ Upstream-Status: Inappropriate
  
--Index: sysklogd-1.5/Makefile
-+Index: sysklogd-1.5.1/Makefile
- ===================================================================
----- sysklogd-1.5.orig/Makefile	2009-06-09 13:02:41.000000000 +0200
--+++ sysklogd-1.5/Makefile	2009-06-09 13:03:06.000000000 +0200
--@@ -127,8 +127,8 @@
-+--- sysklogd-1.5.1.orig/Makefile
-++++ sysklogd-1.5.1/Makefile
-+@@ -127,8 +127,8 @@ clobber: clean
-  	rm -f syslogd klogd ksym syslog_tst oops_test TAGS tsyslogd tklogd
+---- watchdog-5.13.orig/watchdog.conf	2013-02-01 12:15:44.000000000 +0100
+-+++ watchdog-5.13/watchdog.conf	2014-11-13 10:59:43.233943000 +0100
+-@@ -20,7 +20,7 @@
+- #test-binary		= 
+- #test-timeout		= 
++Index: watchdog-5.15/watchdog.conf
++===================================================================
++--- watchdog-5.15.orig/watchdog.conf
+++++ watchdog-5.15/watchdog.conf
++@@ -28,7 +28,7 @@
++ #retry-timeout		= 60
++ #repair-maximum		= 1
   
-  install_exec: syslogd klogd
-@@ -14,4 +14,4 @@ Index: sysklogd-1.5/Makefile
- +	${INSTALL} -m 500 klogd ${BINDIR}/klogd
+ -#watchdog-device	= /dev/watchdog
+ +watchdog-device	= /dev/watchdog
   
-  install_man:
-- 	${INSTALL} -m ${MAN_PERMS} sysklogd.8 ${MANDIR}/man8/sysklogd.8
-+ 	${INSTALL} -o ${MAN_USER} -g ${MAN_GROUP} -m ${MAN_PERMS} sysklogd.8 ${MANDIR}/man8/sysklogd.8
+  # Defaults compiled into the binary
+- #temperature-device	=
++ #temperature-sensor	=
 -- 
 2.11.0
 
