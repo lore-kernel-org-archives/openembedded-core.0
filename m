@@ -1,55 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C0DF960684
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AD212788BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 11:23:07 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id u84so17548344iod.9
+	Mon,  5 Mar 2018 11:58:04 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id z9so14869020wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 03:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HDv3GgL13ptveQtX4Mcd2dVcnpqGhzYJ6JyrdKuRE54=;
-	b=pLZFURhdwpUODmuzzbBRqd+R7886vFtrdMzzRAosy87sf+ky3D7WRGRnf0OzFjSdiK
-	oqYrPKzcDdwWGz85p8wg5l5rAjmDFDK0OYnPd5KbeO+IX3Ui4L+EtSvvUvMslD0hEYlZ
-	JURChQ/YonxvoQNwObIrqECXk3cVj4eJ85pndmVmrQfuId8jaImWMh7rMzFLU4Dm8v/M
-	iRxspeASAFDR2y7abx78v36XsbdmvdouvafWiQZWjjJsf2rh2LdF32Mr0YXoCKJrQFuT
-	dUu5EXSLyhqP1YirTsCkMrsMlzpiby6GfNsrp5LwQZvYBGwxfHzhAa7vmjbImPabuQJ8
-	vckA==
+	Mon, 05 Mar 2018 03:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=XzzVWYQN8Y/WE3xGIw8O1ATk01lsdJBNIe9+iebqW/s=;
+	b=ZpyHniA40BkJi6LbkwlIic4PnakExP8yTrTiBxmoOqnMYgD3sZDwmHVtQEwjyWzf8x
+	Om3n13PfQVlqzqR0PXUER5Q+YS7amu8jUjk8Y0E2fQ8ufDF/TI0gm3s8ChgKEpphmyS0
+	IBx2VC7D5aBz4oK2IKD+EFLTl/3zFEFjr1e1H3UKD132dfKHRJsFJGxKrfGYUZU0LlNZ
+	/Uq3TOcmfSco5IqzZhWvD4Fz0hG/+STqdSSJ2/qPonaCp/CQFmVyB7OLSWoHsrYAgxDc
+	iCESsvvjhsmQJEmqOEI/Cka9MvTyXZy64pEWxj2ge+W7rpASALIDGvxcDnrRIneN3ia+
+	/yiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HDv3GgL13ptveQtX4Mcd2dVcnpqGhzYJ6JyrdKuRE54=;
-	b=U53Gl+cYa3z2/GHL1WQT1iYm21O6/X8K6gEz6oJD8CQ674jxMOClT03gWC8nuwWtG8
-	w198XqU+BbPicz+zf4y9nrKAWK7z4YPmh0kM8OPXrOziwAWmea14ToxnS2iq++vUQive
-	aFmeUFXsvugOXBmxsgqtK346ii7LYjpmtbtqFSenYNavoKQGEnwcNu4gy1yWTXbU7dzd
-	NeZDHn4wxycS1ECl3uwKM3hZr7dvGaprpx2XSxjQT9tO1D0xQx6zIHSaeWA54p8hbeQO
-	VL60OxxCwjNDSL658uxUW60Fmg6t6ol6XDmrSkGJqFWZq+h5bqIPoCX3ZjIq5KQr7GLi
-	PhQQ==
-X-Gm-Message-State: AElRT7HuD162xGDznW6FS9hr8744pTMrCb2yI8I08N0h8ucP6o0RAEGV
-	KDkjuLOD15kDyuP3Tg1RlneuVc3n4Dufii2yp+Kt/g==
-X-Google-Smtp-Source: AG47ELsY71WuRt5LRLF8vIYXTvtyjT3OW5h8logTcZl7pIOb6au2rzgEf7qUHmzGLYa4sr/3mG2E8z8wKHsNYRq/zXY=
-X-Received: by 10.107.37.212 with SMTP id l203mr16559824iol.20.1520248988772; 
-	Mon, 05 Mar 2018 03:23:08 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=XzzVWYQN8Y/WE3xGIw8O1ATk01lsdJBNIe9+iebqW/s=;
+	b=QWJibZwxrGD0lxQj1v3Bw9CFhovjNpmiw109/fkADdzZQW+tn1IqJY8jiWWYC3UzI2
+	RKdxAJkg5wfBHdPFUWCBRZAXGtAp1hbP2D3tza/Bgtt9Npr/HQaQEpC10/HBbCLxkDON
+	TPMIjXZ7w+hxXdZnvnhvQDkSoC9MZm0M9u+3fEgd+GhSaDNlw5LEAbM3clBZCWW/4sS5
+	ploraNrZcXduaFTeOZd3BgPGkR/AfBmxMakiKPurv/YkEL2oKlXgdOyVqUxgYjkUvLSN
+	Z9poBu9+YlSnBiMZiAQMNtxjEBcFah8ciWOZlTKrcylvDBeL3FI5EdE/rKhi535xL2y3
+	zc+g==
+X-Gm-Message-State: AElRT7HTCPIUKUz1ieF5hqlWYz6U+I3tMS1WBMvTE5fPU5bjJqF1GquF
+	lwJN0InRvdoL9LLqUVLczCg=
+X-Google-Smtp-Source: AG47ELv9rz2EFOLmPZHxXu8D+JJf55DCz1HrEvmb4na0FV5x6EEs7FGnKDu4DIuTBwBH0VDWJmJhRA==
+X-Received: by 10.28.74.199 with SMTP id n68mr7715414wmi.83.1520251085401;
+	Mon, 05 Mar 2018 03:58:05 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	n127sm2544773wmb.5.2018.03.05.03.58.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 05 Mar 2018 03:58:04 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 5 Mar 2018 12:58:08 +0100
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20180305115808.GB19075@jama>
+References: <20180305110158.10308-1-ross.burton@intel.com>
+	<20180305110158.10308-4-ross.burton@intel.com>
 MIME-Version: 1.0
-Received: by 10.107.17.200 with HTTP; Mon, 5 Mar 2018 03:22:48 -0800 (PST)
-In-Reply-To: <CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
-References: <20180302203314.32737-1-matt@madison.systems>
-	<876d96e7-1425-df8e-621c-b2dd3c263d88@gmail.com>
-	<CAGgRHJoNhQTyVN7ww5BAoQLs1GPkxO3rsdujLttH8V-84vFiAw@mail.gmail.com>
-	<CAMKF1sqZr+tBB9wVR_aVp0U8X2v25_LX1fuRHSaH=JqAiOUPmg@mail.gmail.com>
-	<CAP9ODKokRKXqyec5QCU1z5vaHut5a4kSJ9Zq=eAY=V_APirV7Q@mail.gmail.com>
-	<CAMKF1sp5tRPs7yB9bCZShJnozK_cHTskcSSTUP-=Vag72sZZRg@mail.gmail.com>
-	<CAP9ODKpRAUwaUysuOVC7rWq1ZdXDAzH31L2YRAt2Dp7u1MoNkA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Mar 2018 11:22:48 +0000
-Message-ID: <CAJTo0La5d88sn4Ce=QkwDnP7pd-r1iKH2S6ouGZikSsMjq40zA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 00/13] go1.10 update and misc improvements
+In-Reply-To: <20180305110158.10308-4-ross.burton@intel.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] populate_sdk_base: depend on nativesdk-glibc-locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,71 +60,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 11:23:08 -0000
-Content-Type: multipart/alternative; boundary="001a11405f16f2415e0566a88c8d"
+X-List-Received-Date: Mon, 05 Mar 2018 11:58:05 -0000
+X-Groupsio-MsgNum: 108885
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="A6N2fC+uXW/VQSAv"
+Content-Disposition: inline
 
---001a11405f16f2415e0566a88c8d
-Content-Type: text/plain; charset="UTF-8"
-
-On 4 March 2018 at 20:46, Otavio Salvador <otavio.salvador@ossystems.com.br>
-wrote:
-
-> I understand the need and I see the value. The GCC is harder to
-> upgrade but problems using newer Go toolchain does not happen very
-> often and likely are caused by a regression on Go itself.
->
-> As I said, there are two options:
->
-> a) wait for 1.10.1 release
-> b) keep 1.9.4 around
->
-> My preference goes to (a) as I prefer to not include 1.10 now with
-> those known issues.
->
-
-Considering that we're technically past the upgrade freeze and we're only
-still talking about this patch set as there's other, larger, patches we're
-holding M3 for discussing waiting for another upgrade isn't really an
-option unless 1.10.1 is due *very* soon.
-
-So my opinion is that as Go is getting quite some traction but is also
-under quite heavy development, unless there's a 1.10.1 release due *this
-week* which solves the problems that InfluxDB et al are having then we
-should ship both in this release, and drop 1.9.4 from master once 1.10.1 is
-added.  1.10 should be the default version, and hopefully we don't have to
-do this again.
-
-Ross
-
---001a11405f16f2415e0566a88c8d
-Content-Type: text/html; charset="UTF-8"
+--A6N2fC+uXW/VQSAv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 4 March 2018 at 20:46, Otavio Salvador <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank"=
->otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D"gm=
-ail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I unde=
-rstand the need and I see the value. The GCC is harder to<br>
-upgrade but problems using newer Go toolchain does not happen very<br>
-often and likely are caused by a regression on Go itself.<br>
-<br>
-As I said, there are two options:<br>
-<br>
-a) wait for 1.10.1 release<br>
-b) keep 1.9.4 around<br>
-<br>
-My preference goes to (a) as I prefer to not include 1.10 now with<br>
-those known issues.<br></blockquote><div><br></div><div>Considering that we=
-&#39;re technically past the upgrade freeze and we&#39;re only still talkin=
-g about this patch set as there&#39;s other, larger, patches we&#39;re hold=
-ing M3 for discussing waiting for another upgrade isn&#39;t really an optio=
-n unless 1.10.1 is due *very* soon.</div><div><br></div><div>So my opinion =
-is that as Go is getting quite some traction but is also under quite heavy =
-development, unless there&#39;s a 1.10.1 release due *this week* which solv=
-es the problems that InfluxDB et al are having then we should ship both in =
-this release, and drop 1.9.4 from master once 1.10.1 is added. =C2=A01.10 s=
-hould be the default version, and hopefully we don&#39;t have to do this ag=
-ain.</div><div><br></div><div>Ross</div></div></div></div>
+On Mon, Mar 05, 2018 at 11:01:58AM +0000, Ross Burton wrote:
+> If we're building a SDK and we're using glibc so may be installing locale=
+s,
+> add a build-dependency on natiesdk-glibc-locale so the locales we need wi=
+ll
+> exist.
+>=20
 
---001a11405f16f2415e0566a88c8d--
+Thanks, fixes the sdk build failures I was seeing since Sunday.
+
+Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/popula=
+te_sdk_base.bbclass
+> index be5970a4bbc..60a5abc7dc8 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -47,6 +47,7 @@ TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${SDK_=
+VERSION}"
+> =20
+>  SDK_RDEPENDS =3D "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+>  SDK_DEPENDS =3D "virtual/fakeroot-native pixz-native cross-localedef-nat=
+ive"
+> +SDK_DEPENDS_append_libc-glibc =3D " nativesdk-glibc-locale"
+> =20
+>  # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PAC=
+KAGE_ARCH as it
+>  # could be set to the MACHINE_ARCH
+> --=20
+> 2.11.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--A6N2fC+uXW/VQSAv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWp0wVgAKCRA3VSO3ZXaA
+HDquAJwPX9RKMU1NtUi5a7ggq8DJYNMiXgCfY+sTWYXwJaAJ2UcQU3zToKVFr7s=
+=nLNg
+-----END PGP SIGNATURE-----
+
+--A6N2fC+uXW/VQSAv--
