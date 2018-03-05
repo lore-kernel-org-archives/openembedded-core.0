@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AC26F78A5B
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CB54178A99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:21:00 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id v111so18098743wrb.3
+	Mon,  5 Mar 2018 17:21:01 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id f14so18086504wre.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 09:21:02 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=PBtyomkIs36b2Jg5mWgAfkPYVeGwxfRv6xgzwaB230Y=;
-	b=HtyX2317YfusjkheqBXplW8TCh20pxgyAYL6hp5sd80SU3DOHdXe9R8WS5RXiycTMn
-	erd9hkYR1VJlPG/VmuVbpNsCXUM7Opla6qKgbYcmYAjpM3PnpEl/BSr3usvIeErttYop
-	2k6PvX06b3YqqXHMFqegR0oFruvur/mWju/SwhaqMJ/IDleHvstsb06T4yRnZtzm8AUS
-	8dkXnpRuaWxVR2W5cWZPozWw1jJOqT1OrFPdp+JZ72LbX8YcQV2c5mRHbtyBhrH/iwy8
-	l0C9cOT1f/ns7CKESpXolgInWk1dTd3Y1fThMTtgj7urKyiwRQ7XYZBDZ5RJPrJLzpnl
-	Adcg==
+	bh=8rbiFt6wPhxqqm+8PWkUFaL1FTg2KOqqoaUiktrLkJQ=;
+	b=RIomr30GoLMA1PQ3CDzKtfqUzhOVp2IedYkgHevuC43rdEUTVZu7tbVBFn13OoTiNT
+	rXHCfUpqwPyHHKFuq0WHccWvqE8T4eAeUK5/hRtZA6cdARFMIyTgnV0Y9wrGK/HdFc7/
+	XQoAeRlkRb1/fYXyT+sOdFn403O0xp7eleRMSQTdrlfGGdNd1cZVWd9ky2YFmByFTWNO
+	7BoLbhK6GN4DRB6mVmxLvDF7mGfSkOki2NSuKvqCdBDRsGB61NUJFwG7sXqeXcD42BXc
+	nQuf1WlYEW1gHXQbyet5GEPEGC4lQdxrePtDZ8Ne+UdEtKW7CoUGaO4x7/l5EpY2+QaH
+	qs3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=PBtyomkIs36b2Jg5mWgAfkPYVeGwxfRv6xgzwaB230Y=;
-	b=EsDoZeTX1L1nc+WrCRJ9jLrcYfn5f4EZE38JzCERJxuTiJmb/xu48CD5LTMBcI/GMs
-	XT5LyuOao84F0PUIC+LJVgTSNIjQo4Kc6ePtRjyyqq2y+a1JnXMcxW47HXVJKb7Auqhb
-	cFwuZqJWJTEKTxHVbGSmR2Vw7Pw3BObJrDzuV5L9sg5ny6itUUB/Cp86jHkdFt83/v6U
-	I+3Tfjfs8mFq0o1wwff4DiiEGLl+/MGbJEik/XX+8E9Qi+XbNPOynJMMil0vMv3PLVnx
-	DDbksYECwf/wVf+j82scixc8Xja1RY9DPP0LhPWzAbcy8hTzjquhhYY5Mrh7CsAhZWSp
-	tPQg==
-X-Gm-Message-State: APf1xPBmAoiENgHzFcD+vuN6XB/L/mOl1iyR2r0A3QF7J0jtDNk0rWti
-	BHAUZIXezRnwGrTjif4lHAd4GUuY
-X-Google-Smtp-Source: AG47ELtHLOXlz+NtqSJRBfmlvNn1ZDnn8A64k+DAtCNl7eO8r2NZYxAJl4ygWyqGJ0wetwYL2dv92Q==
-X-Received: by 10.223.171.247 with SMTP id s110mr13458121wrc.106.1520270461586;
-	Mon, 05 Mar 2018 09:21:01 -0800 (PST)
+	bh=8rbiFt6wPhxqqm+8PWkUFaL1FTg2KOqqoaUiktrLkJQ=;
+	b=Q0jLQHL0PPx4eRNOia4ZScfXU4Ur0owrMlCWQM2nye0jVRwNEUv8uDanJROlOoOMDp
+	uctgkLYP/XUYeiK+1IrV/rPgt2tU1K2Fva6RyGWEEVFu1egQ6mkj38tgeDKP2vIz7Fui
+	gOl3YeEalRztILZLeSIRoG253aAmVysJLYVghv5VsmVJaZGrE8TOTj/DZ4Zqlnqa9umW
+	zWVG1XPX1V0tmlJOZUh2ZUU9VMgOmTy4sgu4pJIGC13Qf5gmfBLt806IfzvMULRQdS3v
+	n01ACxEE4Id8eY4WHGjWvH5deXqMHs8cP4izdSltc2S9ULw/3Gvpl4MrakF0WHeD3jAg
+	JqXQ==
+X-Gm-Message-State: APf1xPB62w02YRYycvhah2alAOf61LSFSZZSn4dFEXD48IwzlCYWooLd
+	VGyF47Mo5AgOdeRiVlmKzhvdDDWh
+X-Google-Smtp-Source: AG47ELuMi9cHCNhK2VTTz2NjdGFPmTa6Sl7oxNdolWQvk6TTwYABiNw2L8o5s+LiqKlLSnQFAOhYFA==
+X-Received: by 10.223.147.227 with SMTP id 90mr13301356wrp.230.1520270462484; 
+	Mon, 05 Mar 2018 09:21:02 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.21.00
+	m190sm10082047wmb.6.2018.03.05.09.21.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 09:21:00 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:01 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:27 +0000
-Message-Id: <20180305172046.21729-10-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:28 +0000
+Message-Id: <20180305172046.21729-11-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 10/29] neard: refresh patches
+Subject: [PATCH 11/29] iproute2: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +59,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:21:01 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:21:02 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../neard/neard/Makefile.am-fix-parallel-issue.patch      | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ .../iproute2/iproute2/configure-cross.patch                    | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-index 466067693d5..6e864079a98 100644
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-+++ b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-@@ -16,18 +16,15 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-  Makefile.am |    1 +
-  1 file changed, 1 insertion(+)
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+index 866609ca991..5536fb57656 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+@@ -9,19 +9,19 @@ Upstream-Status: Pending
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+ Signed-off-by: Shane Wang <shane.wang@intel.com>
  
--diff --git a/Makefile.am b/Makefile.am
--index 3241311..a43eaa2 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -164,6 +164,7 @@ MAINTAINERCLEANFILES = Makefile.in \
-+Index: neard-0.16/Makefile.am
-+===================================================================
-+--- neard-0.16.orig/Makefile.am
-++++ neard-0.16/Makefile.am
-+@@ -244,6 +244,7 @@ SED_PROCESS = $(AM_V_GEN)$(MKDIR_P) $(di
-  src/plugin.$(OBJEXT): src/builtin.h
+-Index: iproute2-3.7.0/configure
++Index: iproute2-4.11.0/configure
+ ===================================================================
+---- iproute2-3.7.0.orig/configure
+-+++ iproute2-3.7.0/configure
++--- iproute2-4.11.0.orig/configure
+++++ iproute2-4.11.0/configure
+ @@ -2,6 +2,7 @@
+- # This is not an autconf generated configure
++ # This is not an autoconf generated configure
+  #
+  INCLUDE=${1:-"$PWD/include"}
+ +SYSROOT=$1
   
-  src/builtin.h: src/genbuiltin $(builtin_sources)
- +	$(AM_V_at)$(MKDIR_P) src
-  	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
+  # Make a temp directory in build tree.
+  TMPDIR=$(mktemp -d config.XXXXXX)
+-@@ -158,7 +159,7 @@ check_ipt_lib_dir()
++@@ -192,7 +193,7 @@ check_ipt_lib_dir()
+  		return
+  	fi
   
-- $(src_neard_OBJECTS) \
---- 
--1.7.9.5
--
-+ se/plugin.$(OBJEXT): se/builtin.h
 -- 
 2.11.0
 
