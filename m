@@ -1,25 +1,30 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B32B78ABD
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2642578A76
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 03:25:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Mar 2018 19:25:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="179872402"
-Received: from chiron.jf.intel.com ([10.7.159.61])
-	by orsmga004.jf.intel.com with ESMTP; 04 Mar 2018 19:25:54 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Mar 2018 19:25:18 -0800
-Message-Id: <eaeb3198cf033c5960fb0c5db7cbec630d79d69d.1520219828.git.timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <cover.1520219828.git.timothy.t.orling@linux.intel.com>
-References: <cover.1520219828.git.timothy.t.orling@linux.intel.com>
-Subject: [PATCH 6/6] maintainers.inc: self-assign recipes from recipes-extended/perl
+	Mon,  5 Mar 2018 05:51:50 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37468334"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 05 Mar 2018 13:51:51 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 417A048AE761
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Mar 2018 13:51:48 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Mon, 5 Mar 2018 13:51:48 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Mar 2018 13:51:36 +0800
+Message-ID: <1520229096-9983-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 417A048AE761.A3768
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libmpc:1.0.3 -> 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 03:25:52 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 05:51:51 -0000
+Content-Type: text/plain
 
-In prior round, the perl module recipes in recipes-extended/perl
-were inadvertantly overlooked.
+Upgrade libmpc from 1.0.3 to 1.1.0
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/conf/distro/include/maintainers.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-support/libmpc/{libmpc_1.0.3.bb => libmpc_1.1.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libmpc/{libmpc_1.0.3.bb => libmpc_1.1.0.bb} (69%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 1e7517ac9a..1bd5fbd61e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -321,7 +321,7 @@ RECIPE_MAINTAINER_pn-libcgroup = "Alexander Kanavin <alexander.kanavin@intel.com
- RECIPE_MAINTAINER_pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libclass-isa-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster@mvista.com>"
-@@ -394,9 +394,9 @@ RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libsolv = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libsoup-2.4 = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libtasn1 = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@intel.com>"
-+RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libtheora = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libtimedate-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libtimedate-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libtirpc = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
-@@ -430,11 +430,11 @@ RECIPE_MAINTAINER_pn-libxi = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-parser-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libxml-sax-perl = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-libxml-sax-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-simple-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster@mvista.com>"
+diff --git a/meta/recipes-support/libmpc/libmpc_1.0.3.bb b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+similarity index 69%
+rename from meta/recipes-support/libmpc/libmpc_1.0.3.bb
+rename to meta/recipes-support/libmpc/libmpc_1.1.0.bb
+index d37de38..2d25d38 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.0.3.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+@@ -5,8 +5,8 @@ DEPENDS = "gmp mpfr"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ SRC_URI = "https://ftp.gnu.org/gnu/mpc/mpc-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "d6a1d5f8ddea3abd2cc3e98f58352d26"
+-SRC_URI[sha256sum] = "617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3"
++SRC_URI[md5sum] = "4125404e41e482ec68282a2e687f6c73"
++SRC_URI[sha256sum] = "6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e"
+ 
+ UPSTREAM_CHECK_URI = "http://www.multiprecision.org/mpc/download.html"
+ 
 -- 
-2.14.3
+2.7.4
+
+
 
 
