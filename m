@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F0E978A50
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D34B78AAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 17:21:13 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 188so17025134wme.1
+	Mon,  5 Mar 2018 17:21:14 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q83so17516263wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 09:21:14 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=a6icK6ZtzyW98aG7ox82TeV5qSWzZvtIpdCNS070PMw=;
-	b=del8JuLofSK51nYLOBc+Kx2TBobe4uES+nWHQR1M2ZDaKqYRBCzb68pJ28JkYBdGLl
-	LXC3kYSHwji9bbnp+RJlQ8n+YEQbKsJQ8BRl6Gar1NQ5UHBImmGJm8YGm6X58S0pooJu
-	yv1t9cCkrYjGDaxXwB1Q2T8I3ZeS0Z7i0ZSFBeU7hJfFk7CBynJIqi+B/1VoJSCA4o7y
-	HqoEyLx0atLtB8QsS7bKjlPdUwkOjRZQFP9vHW7T8JC9eHtmeV2DO4aEnQcv16sh/VVN
-	OI+l0uPK4Rdi/f76qBMaN9s1rp2pXCxH6ertPJjl1mYuO2qrRl43i1jOWWs7gHgZyeGU
-	p4pA==
+	bh=FmO/H/2Zc1SXpxNhkQYNmhbxvENn0c7n7FVQeg29aUE=;
+	b=oUqG4UMz0e2kPfIJFjFyXtCqIC9ToV2XTYW5JluAEWiSo4ejAcpqOzhJml77qwYlMU
+	HUescBK/bBN6fnIS2hs7c+g/qKaeJDf9RLf+k+qSOo5BCJe9zqS/GLhrN2KdjR33WOqu
+	vY+bySN44yd3lmnRzq1eVCLSdhG2c0qnVaXn7EFeyYdGLnkuCsHPqJnS42e1f/LPRcpR
+	XHpxZsgIwztl6EXwTXhJnxvp3q4/bExydJIXiq/oeHqjfDZ6IR+4/S/JV5wr7+56zpo1
+	YP3q59rvtFyFSTacmZPmpUOOKOQpIwPu/cTI5GNrOkof1+atLH3XgUDpEMhXi2o4nsEP
+	qAQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=a6icK6ZtzyW98aG7ox82TeV5qSWzZvtIpdCNS070PMw=;
-	b=W1BnJSYeHVzgKXvpz02lSGrOVbp0y4z7ITvuHnmoEle59GfeEGFcfqQ/9qm+tyA7IY
-	Sr0wAMGoK6uRu5k3CbHD/5icMsdTDN3wfEGtadOm6N+FFSOAT2gmMsCUpuubEt7ZpdB8
-	JHoa+tmdgR/NspgV9GhLgdJtmjgSnd28py1MB0t38qA1QNC6wkO17X3XgG5HV0UMd7m3
-	JvfHM0loUae3Z7/7grg1UG82FOQQ14CbjEJM9+pPzmFK6Fj59X7jh4VemJ6tsx4/HECV
-	w3sfvL+/As2c6ws7IzcJjIKpKHSYqTOaE1YxyNnh6VWvichrRFjT2GecApnVypDTyXne
-	zkpg==
-X-Gm-Message-State: AElRT7HFycapGtWmKHDFNM/SOtSWu9K3yGTC3PmzPlY9Hc+tLpWN+2zx
-	GwUXVlLJgdWb/kJVC/gKmYvsLJqf
-X-Google-Smtp-Source: AG47ELsl3EtfrGdApxXVcyWRPqa9rbGTVf8VnMPqW6kb94lzhVemA5fdC1Apdsbt42EQ6QEKzcPDGg==
-X-Received: by 10.28.169.79 with SMTP id s76mr8749833wme.48.1520270474032;
-	Mon, 05 Mar 2018 09:21:14 -0800 (PST)
+	bh=FmO/H/2Zc1SXpxNhkQYNmhbxvENn0c7n7FVQeg29aUE=;
+	b=NoItwng2yPhVAZJwW0ChvIwAHxsaFWmQDhpb0KOlhd5OW56uxmjGexfxPrVnRL5Jd5
+	PwqbJrqiK7RaYWMgg6VG+cbH/f0OcLxXKrzRY8B+xbD9YQiRzwivExxJhudvhY4j9UuY
+	DfzpqVgjnpguvfqeihpvLCc5lQvWJLu7iu8Bt5kKJk8wEngGvtdNsKzthd2YcDZEi+Xk
+	S+GBDv3mhXbfhZ/Hj5OmHo30nbyfZB5fZnXCiZqonr6uv79wsTNUAd3oHdgBXreIwJE9
+	BOANy0JMZ4hGw6xebKGzFckrqfK/Cg+icZguL1+jWjo+tZzHbaNEGe1tkqJw92rHM6p8
+	N7cw==
+X-Gm-Message-State: AElRT7GxRc4g+YoI3y2nMV7mLB8U57Rk0nrp5gvSj9dZjjOONA4T5bzW
+	pwE1k2bJIElfZ8NxpWnErTNK/Uk7
+X-Google-Smtp-Source: AG47ELuBcRmF42/zjCX75wUi8ACUPl8xivk78oBl8a8fXvawMywGSYbjCVuILX3ncVNMW46YvEJdiA==
+X-Received: by 10.28.48.85 with SMTP id w82mr8801558wmw.95.1520270475087;
+	Mon, 05 Mar 2018 09:21:15 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m190sm10082047wmb.6.2018.03.05.09.21.13
+	m190sm10082047wmb.6.2018.03.05.09.21.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Mar 2018 09:21:13 -0800 (PST)
+	Mon, 05 Mar 2018 09:21:14 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 17:20:39 +0000
-Message-Id: <20180305172046.21729-22-ross.burton@intel.com>
+Date: Mon,  5 Mar 2018 17:20:40 +0000
+Message-Id: <20180305172046.21729-23-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180305172046.21729-1-ross.burton@intel.com>
 References: <20180305172046.21729-1-ross.burton@intel.com>
-Subject: [PATCH 22/29] screen: refresh patches
+Subject: [PATCH 23/29] lsb: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,45 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 17:21:13 -0000
+X-List-Received-Date: Mon, 05 Mar 2018 17:21:15 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../screen/0002-comm.h-now-depends-on-term.h.patch    | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ ...ons-avoid-exit-1-which-causes-init-scripts-to-.patch | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-index b5d71cc1b41..a01dc247511 100644
---- a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-+++ b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-@@ -15,19 +15,16 @@ Subject: [PATCH] comm.h now depends on term.h
-  src/Makefile.in | 2 +-
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts/0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch b/meta/recipes-extended/lsb/lsbinitscripts/0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch
+index 17c90029c38..c0076453f2b 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts/0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch
++++ b/meta/recipes-extended/lsb/lsbinitscripts/0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch
+@@ -7,18 +7,15 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+  rc.d/init.d/functions | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
  
--diff --git a/src/Makefile.in b/src/Makefile.in
--index e791e79..d4f7c0b 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -113,7 +113,7 @@ term.h: term.c term.sh
-- 
-- kmapdef.c: term.h
-+Index: screen-4.6.1/Makefile.in
+-diff --git a/rc.d/init.d/functions b/rc.d/init.d/functions
+-index 6850046..11223f7 100644
+---- a/rc.d/init.d/functions
+-+++ b/rc.d/init.d/functions
+-@@ -597,6 +597,6 @@ if [ "$_use_systemctl" = "1" ]; then
+- 	fi
++Index: initscripts-9.72/rc.d/init.d/functions
 +===================================================================
-+--- screen-4.6.1.orig/Makefile.in
-++++ screen-4.6.1/Makefile.in
-+@@ -133,7 +133,7 @@ kmapdef.c: term.h
-+ tty.c:	tty.sh 
-+ 	sh $(srcdir)/tty.sh tty.c
++--- initscripts-9.72.orig/rc.d/init.d/functions
+++++ initscripts-9.72/rc.d/init.d/functions
++@@ -686,6 +686,6 @@ if [ "$_use_systemctl" = "1" ]; then
++     fi
+  fi
   
- -comm.h: comm.c comm.sh config.h
- +comm.h: comm.c comm.sh config.h term.h
-  	AWK=$(AWK) CC="$(CC) $(CFLAGS)" srcdir=${srcdir} sh $(srcdir)/comm.sh
-  
-- docs:
---- 
--2.4.1
+ -strstr "$(cat /proc/cmdline)" "rc.debug" && set -x
+ +strstr "$(cat /proc/cmdline)" "rc.debug" && set -x || true
+  return 0
 -
-+ osdef.h: osdef.sh config.h osdef.h.in
+--- 
+-2.1.0
+-
++ 
 -- 
 2.11.0
 
