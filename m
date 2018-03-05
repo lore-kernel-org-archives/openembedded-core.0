@@ -1,33 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2318678A06
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AC2F078A73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 02:08:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2528hnH021657
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 4 Mar 2018 18:08:43 -0800 (PST)
-Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Sun, 4 Mar 2018 18:08:11 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1519797175.git.Qi.Chen@windriver.com>
-	<846a1c535da3f41e87999910427d49929d9753a2.1519797175.git.Qi.Chen@windriver.com>
-	<CAMKF1spn6uXBQJsSBnTs8ZMkBVyQeJFOqv9_ufWSnAoFqqJ0mg@mail.gmail.com>
-	<9bbbe528-0650-35ae-c68d-ea2cdba6eee7@windriver.com>
-	<CAMKF1squ6TYojN8cm2znaH2r75kD49JRPm6FW_RGshxzE3+ezQ@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <26558265-5e95-d7f4-b56a-7933c258ae81@windriver.com>
-Date: Mon, 5 Mar 2018 10:08:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1squ6TYojN8cm2znaH2r75kD49JRPm6FW_RGshxzE3+ezQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.197]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: fix build failure for qemux86 and qemuppc with musl
+	Mon,  5 Mar 2018 02:48:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2018 18:48:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,425,1515484800"; d="scan'208";a="32389268"
+Received: from smuskula-mobl.amr.corp.intel.com ([10.255.72.214])
+	by orsmga003.jf.intel.com with ESMTP; 04 Mar 2018 18:48:38 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Message-Id: <D3AACFE0-9EDF-48B0-A3C9-6BFF7843021A@linux.intel.com>
+Date: Sun, 4 Mar 2018 18:48:37 -0800
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.3273)
+Subject: Should we drop old lsb4 perl recipes from maintainers.inc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,113 +31,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 02:08:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Mar 2018 02:48:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 02/28/2018 10:59 PM, Khem Raj wrote:
-> On Wed, Feb 28, 2018 at 12:46 AM, ChenQi <Qi.Chen@windriver.com> wrote:
->> On 02/28/2018 04:29 PM, Khem Raj wrote:
->>> On Tue, Feb 27, 2018 at 9:56 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->>>> Remove the 'fstack-protector' and 'fstack-protector-strong' flags
->>>> as a workaround to fix the following error when building for qemux86
->>>> and qemuppc with musl.
->>>>
->>>>     undefined reference to `__stack_chk_fail_local'
->>>>
->>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> ---
->>>>    ...ck-protector-flags-to-workaround-musl-bui.patch | 33
->>>> ++++++++++++++++++++++
->>>>    meta/recipes-core/systemd/systemd_236.bb           |  4 +++
->>>>    2 files changed, 37 insertions(+)
->>>>    create mode 100644
->>>> meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->>>>
->>>> diff --git
->>>> a/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->>>> b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->>>> new file mode 100644
->>>> index 0000000..783e579
->>>> --- /dev/null
->>>> +++
->>>> b/meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->>>> @@ -0,0 +1,33 @@
->>>> +From a3e71209957e627be7e47969a61d2c69de4f2659 Mon Sep 17 00:00:00 2001
->>>> +From: Chen Qi <Qi.Chen@windriver.com>
->>>> +Date: Tue, 27 Feb 2018 18:06:51 -0800
->>>> +Subject: [PATCH] Remove fstack-protector flags to workaround musl build
->>>> +
->>>> +Remove fstack-protector and fstack-protector-strong flags to fix
->>>> +the following build failure for qemux86 and qemuppc with musl.
->>>> +
->>>> +  undefined reference to `__stack_chk_fail_local'
->>>> +
->>>> +Upstream-Status: Inappropriate [OE Specific]
->>>> +
->>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> +---
->>>> + meson.build | 2 --
->>>> + 1 file changed, 2 deletions(-)
->>>> +
->>>> +diff --git a/meson.build b/meson.build
->>>> +index ddc061c12..631e76886 100644
->>>> +--- a/meson.build
->>>> ++++ b/meson.build
->>>> +@@ -298,8 +298,6 @@ foreach arg : ['-Wextra',
->>>> +                '-fdiagnostics-show-option',
->>>> +                '-fno-strict-aliasing',
->>>> +                '-fvisibility=hidden',
->>>> +-               '-fstack-protector',
->>>> +-               '-fstack-protector-strong',
->>>> +                '-fPIE',
->>>> +                '--param=ssp-buffer-size=4',
->>>> +               ]
->>>> +--
->>>> +2.13.0
->>>> +
->>>> diff --git a/meta/recipes-core/systemd/systemd_236.bb
->>>> b/meta/recipes-core/systemd/systemd_236.bb
->>>> index a208f62..7798abb 100644
->>>> --- a/meta/recipes-core/systemd/systemd_236.bb
->>>> +++ b/meta/recipes-core/systemd/systemd_236.bb
->>>> @@ -53,6 +53,10 @@ SRC_URI =
->>>> "git://github.com/systemd/systemd.git;protocol=git \
->>>>               "
->>>>    SRC_URI_append_qemuall = "
->>>> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->>>>
->>>> +# Workaround undefined reference to `__stack_chk_fail_local' on qemux86
->>>> and qemuppc for musl
->>>> +SRC_URI_append_libc-musl_qemux86 = "
->>>> file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
->>>> +SRC_URI_append_libc-musl_qemuppc = "
->>>> file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
->>>> +
->>> we have security_flags.inc to build with these flags. So it might be fine
->>> to just remove these flags including -fPIE
->>>
->> Hi Khem,
->>
->> Just to confirm, do you mean that we remove these flags unconditionally?
->> Something like:
->> SRC_URI_append = " file://0001-Remove-security-flags"
-> yes
->
+h=
+ttp://git.openembedded.org/openembedded-core/commit/?id=3D30fb4c8f329fe3aa=
+3c528ffeba60ee7d702e873e
 
-Hi Khem,
-
-If removing PIE flag, we would have the following QA issue.
-
-   ELF Binary 'xxx' has relations in .text
-
-And the meson.build file has also slightly changed regarding the PIE flag.
-
-So I chose to keep this patch as it is in the new patchset which 
-upgrades systemd to 237.
-The meson.bbclass is fixed to use more vars than just CC and LD in the 
-new patchset.
-
-Best Regards,
-Chen Qi
+But these are still in the maintainers.inc=
 
