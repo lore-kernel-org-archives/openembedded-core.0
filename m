@@ -1,49 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 92ECE7826D
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EBE1D78974
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 12:51:03 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id g21so17826030ioj.5
+	Mon,  5 Mar 2018 12:53:02 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id f25so20418371qkm.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 04:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Dx9PlaKFS4xPjHir63ZJBDnEWaz2ezCvnRSG9Hw1kYQ=;
-	b=i3RG+AA2DsxX7Vip4j9CQkHApZVJ/CLguLL0B8bQRrt0iynURdCO12nOKpgRMZFU8+
-	0yBI2+HfALqnN29ASA7/YTcSGBNTjpU62HUbso/4gJhg4GVtvnertrvIZWdHuwJOJkKI
-	sjv36D0Qh3noiBRwjD+/9vciycrXCOffCIKCUlBqU3tWLdr+cSUFTurgx9VX+rJNafnI
-	GckTsFumG+tNTPPp5khMK9/22ykTaqMuICkNOFjSVd8jQmI8cwHRD84fjJ5TBtWnqhsD
-	8huxSA/XtjXdFP2rjqasYnPLIDvEq0lam98lTgyoYtBoPxYQNaRiCqF1JQxuIxP43/U4
-	1I1g==
+	Mon, 05 Mar 2018 04:53:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Dx9PlaKFS4xPjHir63ZJBDnEWaz2ezCvnRSG9Hw1kYQ=;
-	b=RnPFyOYwxllTZYi4OvxkZqMp44aPZ/Iu+0VqmQaXhICVRnb82icO3V8LQCnZrF3OH7
-	Pqw8uH/EVRqvfbHL/W5Jwnj49pMkujJN6DY2/40hwM7klmcWJNxDMHMe2KCqbcdlkN8R
-	gDHOk/agDxAzQ87Ei6jp/aQpaYpK2XKng5thyk0ZZaUt6e+Kfrj/uE2lye3JmDN6MpYS
-	d7aTV3HeT6nRn9g4US9wtQ1pUXpj6vuk3Zvu3cHHA5dgN3UFjVMq6ofKr3Vq2JKbPzvm
-	yxIHkGiCekD1do0vtVlVhgfeqZucoCwZq2tiAOpguk2JMJN8/MTe2hZ978JBy5vC+OP/
-	SHJQ==
-X-Gm-Message-State: APf1xPDwlQZpkb66tBSf6gjGeYEheEXbma9cWyDSNnFRjxsObJpYB63Y
-	4T894A2O14SnjZTML3BlPigYQ7awYSLF22lnd47thg==
-X-Google-Smtp-Source: AG47ELt9Yybdp7UVUu03+iZaxpu8F+aa1zDjwPsQRfKjL83GL8ij6IkO0zMw8QHdyhmMvF5AS5aJZRlysowY2T336Yg=
-X-Received: by 10.107.6.139 with SMTP id f11mr17935628ioi.23.1520254264945;
-	Mon, 05 Mar 2018 04:51:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.212.6 with HTTP; Mon, 5 Mar 2018 04:50:42 -0800 (PST)
-In-Reply-To: <20180301021518.29564-8-california.l.sullivan@intel.com>
-References: <20180301021518.29564-1-california.l.sullivan@intel.com>
-	<20180301021518.29564-8-california.l.sullivan@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Mar 2018 12:50:42 +0000
-Message-ID: <CAJTo0LZH136aQ6jL2G=QcYeOvxjrc9mfisrAkEYgD4dVz1G59A@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 07/21] grub-efi*.bbclass: don't reference vmlinuz
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hWiqSX1hBQIzbKRecTwF743jQaBIaL7iddmCm1ux6fk=;
+	b=LC94YfU+RJIg5zLDXyat8NXv1U8kq1AUDiIACSQorjT1jfg+fkfKjCdz9ZcjxsjETM
+	0+sfkqt4hnWzSMZee2m2agx5PiwdyegKefcc3Cb/xrAmxf+AvkB7JhILdP+OF1ctm+yp
+	ewYguuDNnAc09InF/Uhvv0NKNwZSbeyKCRd4xYBz9LzZ7S1PWfcZh8stIDZszzZyFhl2
+	APmjSEPJTclkEc814i70RhyCIYGBScS1FeKNc03eG4Xzm2IM27YfrmnTPhuI+vmrgmR3
+	Xrn910NcQl5nRwMOJVovVTKokLS7VNW1+Pr8lK4BQdSLy0aDWmLJFHSerd1lcKYUVisM
+	+BVA==
+X-Gm-Message-State: AElRT7HCRDIQn3EBqrrd+bJu0mEnadwY8yybmARldAVLvvKTpZ5EIAoh
+	ebP/TvRVt2sqZ3KeZcBgslV3RU+E
+X-Google-Smtp-Source: AG47ELtahuvz1WAv1YAFJ8tLjuG30z3TiIb2eJgFqDr09E5t2BuwhT0RzbepUiPvLTVQHHPGn6QVXQ==
+X-Received: by 10.55.15.92 with SMTP id z89mr14357825qkg.301.1520254383655;
+	Mon, 05 Mar 2018 04:53:03 -0800 (PST)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id z9sm9043364qtb.49.2018.03.05.04.53.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Mar 2018 04:53:03 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Mar 2018 07:52:40 -0500
+Message-Id: <1520254360-16927-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python3-pycairo: update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 12:51:03 -0000
-Content-Type: multipart/alternative; boundary="001a113eeaea6e465b0566a9c7e6"
+X-List-Received-Date: Mon, 05 Mar 2018 12:53:03 -0000
 
---001a113eeaea6e465b0566a9c7e6
-Content-Type: text/plain; charset="UTF-8"
+Update to the latest stable release
+Add the .pc file to the list of FILES
 
-On 1 March 2018 at 02:15, California Sullivan <
-california.l.sullivan@intel.com> wrote:
+Tested in qemux86-64 running core-image-minimal
 
-> +KERNEL_IMAGETYPE ??= "bzImage"
->
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ .../{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb}     | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb} (78%)
 
-You repeat this line in several classes, can we just move the default to
-default-distrovars or similar?
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+index 5c3e1e6..b648852 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+@@ -13,8 +13,8 @@ DEPENDS = "cairo"
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+-SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+-SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
++SRC_URI[md5sum] = "d2a115037ccd128219f43d5ed3df7926"
++SRC_URI[sha256sum] = "5bb321e5d4f8b3a51f56fc6a35c143f1b72ce0d748b43d8b623596e8215f01f7"
+ 
+ S = "${WORKDIR}/pycairo-${PV}"
+ 
+@@ -28,4 +28,7 @@ do_install_append() {
+     install -d ${D}${includedir}/pycairo/
+     install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
+ }
+-FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
++FILES_${PN} += " \
++    ${datadir}/include/pycairo/py3cairo.h \
++    ${datadir}/lib/pkgconfig/py3cairo.pc \
++"
+-- 
+2.7.4
 
-Ross
 
---001a113eeaea6e465b0566a9c7e6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 1 March 2018 at 02:15, California Sullivan <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:california.l.sullivan@intel.com" target=3D"_bla=
-nk">california.l.sullivan@intel.com</a>&gt;</span> wrote:<br><div class=3D"=
-gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+KER=
-NEL_IMAGETYPE ??=3D &quot;bzImage&quot;<br></blockquote><div><br></div><div=
->You repeat this line in several classes, can we just move the default to d=
-efault-distrovars or similar?</div><div><br></div><div>Ross=C2=A0</div></di=
-v></div></div>
-
---001a113eeaea6e465b0566a9c7e6--
