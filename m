@@ -1,43 +1,37 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EDB1789F1
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0FA78A60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2018 12:59:37 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1520254778; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=Jy7KEl1Y5NanQQBEdVn+X4u8DWV9jKSkr9zkkc23QKo=;
-	b=hNuK3fLxGp6OMwCHOIanaUWyVz+AWQhAssU0uEaYmbomZKlpZZWS55hQuLNnFv62s3t9QVZj
-	y+RuDWaDREAwjOcBG1jhMEciyOlhJljzA0H0M42Jf42pMQImnxMxiNG1rmaM7o+PVlX8k3Tr
-	5hyQ0vP0RM7I6r7DjuC1SdEnXoo=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mxa.mailgun.org with ESMTP id 5a9d3f3a.7f735413b830-smtp-out-n02;
-	Mon, 05 Mar 2018 12:59:38 -0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id c7so20159811qtn.3
+	Mon,  5 Mar 2018 13:27:01 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id c7so20256254qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 04:59:38 -0800 (PST)
-X-Gm-Message-State: AElRT7E318/2NTlxH8jkadTuKhClWuj+6kwmpQzq0vyxImXNNxiRg2vF
-	paowjKuqox1jXHuq1QTRbB1wN/7vr09zDBUe3SY=
-X-Google-Smtp-Source: AG47ELvkfpw6ourls+yufh79JWl6nUmSG9zv6UJ5jWk8aVA0sMWtcOF76k1DDv2WMpTEBZrug2zGdNddVe3mTOs4Tew=
-X-Received: by 10.237.34.172 with SMTP id p41mr22857835qtc.316.1520254778350; 
-	Mon, 05 Mar 2018 04:59:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.108.35 with HTTP; Mon, 5 Mar 2018 04:59:37 -0800 (PST)
-In-Reply-To: <CAJTo0LbwDJGp6zGz=OenK0rFnrKMogASi-EzuQ5BOgCsDakhsA@mail.gmail.com>
-References: <1520254360-16927-1-git-send-email-derek@asterius.io>
-	<CAJTo0LbwDJGp6zGz=OenK0rFnrKMogASi-EzuQ5BOgCsDakhsA@mail.gmail.com>
+	Mon, 05 Mar 2018 05:27:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TBCZX672hdFA7lrojFzp/vZ6vjRDNopFX7mytmCgZ/Y=;
+	b=IjEtZY1W9Ds/kKD+L/GcpW/0WG2jKTZGZW9RG2Ui6tGVsJtlRMZrQq0VKGDQJPr/Yj
+	9puNAwFiWz1/X63DArpgoaak6TxDLvaF+jXwg0LlhbVW7i31e0CM760j35J4sR0w5r0c
+	H3eGBtbmHnn5MLzQjGnilkJfngKmkfbGib40FETTKRo5/R03fr8ZdJhPDbSRIb4rngSO
+	jc0OtKQtezMb39kL3ubQck21hTCXBnSCGISPCdlVhavNtfAfJj7OvtV0LrLLb09B9nTI
+	MVwAC9vBn3X3+60xs8fud3bepe2nAedhspPvdhDu6yZJ/4qq/je9Hm5t/bDdR/fzvlz5
+	l/CQ==
+X-Gm-Message-State: AElRT7Eq0a1WSkNEQ2f4/+v7zz6QnnkIDm5Mw7gLtFFeaDkfxdfkO8Hm
+	FDwoR3id0MwemFUwqQrgUDW/32ii
+X-Google-Smtp-Source: AG47ELuU7ctAcf4jEovHV7m7w9NJTJziF2lQrZ7IB3+9p5UfEFntlb6GCUANnJV0ObPSHzVICRl9Cg==
+X-Received: by 10.200.25.239 with SMTP id s44mr22144044qtk.57.1520256422941;
+	Mon, 05 Mar 2018 05:27:02 -0800 (PST)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id c13sm293557qth.97.2018.03.05.05.27.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Mar 2018 05:27:02 -0800 (PST)
 From: Derek Straka <derek@asterius.io>
-Date: Mon, 5 Mar 2018 07:59:37 -0500
-X-Gmail-Original-Message-ID: <CADNbA1pV9OMsnPNCy+Tj9TLQqjQ7cR=8s-2igRRdu4p1TDOF5A@mail.gmail.com>
-Message-ID: <CADNbA1pV9OMsnPNCy+Tj9TLQqjQ7cR=8s-2igRRdu4p1TDOF5A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-pycairo: update to 1.16.3
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Mar 2018 08:26:46 -0500
+Message-Id: <1520256406-4603-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCHv2] python3-pycairo: update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,172 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2018 12:59:38 -0000
-Content-Type: multipart/alternative; boundary="001a11356bce0823060566a9e68a"
+X-List-Received-Date: Mon, 05 Mar 2018 13:27:02 -0000
 
---001a11356bce0823060566a9e68a
-Content-Type: text/plain; charset="UTF-8"
+Update to the latest stable release
 
-Probably.  I didn't even notice that it wasn't.  v2 coming once I verify.
+Changes in this update:
+  Add the .pc file to the list of -dev files
+  Move py3cairo header to -dev package
+  Added a comment for why the .pc and .h file are re-installed
 
-On Mon, Mar 5, 2018 at 7:56 AM, Burton, Ross <ross.burton@intel.com> wrote:
+Verified native build and dependency builds (python3-pygobject and bootchart2)
+Tested in qemux86-64 running core-image-minimal
 
-> Shouldn't the .h and .pc be in PN-dev?
->
-> On 5 March 2018 at 12:52, Derek Straka <derek@asterius.io> wrote:
->
->> Update to the latest stable release
->> Add the .pc file to the list of FILES
->>
->> Tested in qemux86-64 running core-image-minimal
->>
->> Signed-off-by: Derek Straka <derek@asterius.io>
->> ---
->>  .../{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb}     | 9
->> ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>  rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb =>
->> python3-pycairo_1.16.3.bb} (78%)
->>
->> diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->> b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->> similarity index 78%
->> rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->> rename to meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->> index 5c3e1e6..b648852 100644
->> --- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
->> +++ b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
->> @@ -13,8 +13,8 @@ DEPENDS = "cairo"
->>  SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${P
->> V}/pycairo-${PV}.tar.gz"
->>  UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
->>
->> -SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
->> -SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8
->> e59494538f0b80497ad3462051368755016"
->> +SRC_URI[md5sum] = "d2a115037ccd128219f43d5ed3df7926"
->> +SRC_URI[sha256sum] = "5bb321e5d4f8b3a51f56fc6a35c14
->> 3f1b72ce0d748b43d8b623596e8215f01f7"
->>
->>  S = "${WORKDIR}/pycairo-${PV}"
->>
->> @@ -28,4 +28,7 @@ do_install_append() {
->>      install -d ${D}${includedir}/pycairo/
->>      install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h
->> ${D}${includedir}/pycairo/
->>  }
->> -FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
->> +FILES_${PN} += " \
->> +    ${datadir}/include/pycairo/py3cairo.h \
->> +    ${datadir}/lib/pkgconfig/py3cairo.pc \
->> +"
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ ...ython3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb} | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb} (58%)
 
---001a11356bce0823060566a9e68a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+similarity index 58%
+rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+index 5c3e1e6..85f3752 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+@@ -13,8 +13,8 @@ DEPENDS = "cairo"
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+-SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+-SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
++SRC_URI[md5sum] = "d2a115037ccd128219f43d5ed3df7926"
++SRC_URI[sha256sum] = "5bb321e5d4f8b3a51f56fc6a35c143f1b72ce0d748b43d8b623596e8215f01f7"
+ 
+ S = "${WORKDIR}/pycairo-${PV}"
+ 
+@@ -25,7 +25,14 @@ CFLAGS += "-fPIC"
+ BBCLASSEXTEND = "native"
+ 
+ do_install_append() {
+-    install -d ${D}${includedir}/pycairo/
++    # setup.py uses --install-data which points to a non-standard datadir  to install the header and .pc files
++    # Fix the paths here to install in the standard locations as well
++    install -d ${D}${includedir}/pycairo/ -d ${D}${nonarch_libdir}/pkgconfig
+     install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
++    install -m 0644 ${D}${datadir}/lib/pkgconfig/py3cairo.pc ${D}${nonarch_libdir}/pkgconfig/
+ }
+-FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
++
++FILES_${PN}-dev += " \
++    ${datadir}/include/pycairo/py3cairo.h \
++    ${datadir}/lib/pkgconfig/py3cairo.pc \
++"
+-- 
+2.7.4
 
-<div dir=3D"ltr">Probably.=C2=A0 I didn&#39;t even notice that it wasn&#39;=
-t.=C2=A0 v2 coming once I verify.</div><div class=3D"gmail_extra"><br><div =
-class=3D"gmail_quote">On Mon, Mar 5, 2018 at 7:56 AM, Burton, Ross <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ro=
-ss.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div dir=3D"ltr">Shouldn&#39;t the .h and .pc be in PN-dev?</div><div clas=
-s=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D"h5">On =
-5 March 2018 at 12:52, Derek Straka <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&gt;</span> wrot=
-e:<br></div></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"h5">Upd=
-ate to the latest stable release<br>
-Add the .pc file to the list of FILES<br>
-<br>
-Tested in qemux86-64 running core-image-minimal<br>
-<br>
-Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" target=
-=3D"_blank">derek@asterius.io</a>&gt;<br>
----<br>
-=C2=A0.../{<a href=3D"http://python3-pycairo_1.15.6.bb" rel=3D"noreferrer" =
-target=3D"_blank">python3-pycairo_1.15.6.<wbr>bb</a> =3D&gt; <a href=3D"htt=
-p://python3-pycairo_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3=
--pycairo_1.16.3.bb</a>}=C2=A0 =C2=A0 =C2=A0| 9 ++++++---<br>
-=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-pycair=
-o_1.15.6.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python3-pycairo_1.15=
-.6.bb</a> =3D&gt; <a href=3D"http://python3-pycairo_1.16.3.bb" rel=3D"noref=
-errer" target=3D"_blank">python3-pycairo_1.16.3.bb</a>} (78%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-py=
-cairo_1.15.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.15.=
-6.bb</a> b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pyca=
-iro_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.16.3.=
-bb</a><br>
-similarity index 78%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-pycairo_=
-1.15.6.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython3-pycairo_1.15.6=
-.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-pycairo_1.=
-16.3.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython3-pycairo_1.16.3.b=
-b</a><br>
-index 5c3e1e6..b648852 100644<br>
---- a/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pycairo_1=
-.15.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.15.6.bb</a=
-><br>
-+++ b/meta/recipes-devtools/python<wbr>/<a href=3D"http://python3-pycairo_1=
-.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycairo_1.16.3.bb</a=
-><br>
-@@ -13,8 +13,8 @@ DEPENDS =3D &quot;cairo&quot;<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://github.com/pygobject/pycairo/rel=
-eases/download/v$%7BPV%7D/pycairo-$%7BPV%7D.tar.gz" rel=3D"noreferrer" targ=
-et=3D"_blank">https://github.com/pygobject/<wbr>pycairo/releases/download/v=
-${P<wbr>V}/pycairo-${PV}.tar.gz</a>&quot;<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/pygobject/=
-pycairo/releases/" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
-pygobject/<wbr>pycairo/releases/</a>&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;3ff210c34e7b052590e15fd0fb147<wbr>766&quot;<br>
--SRC_URI[sha256sum] =3D &quot;ad150ea637860836b66705e0513b8<wbr>e59494538f0=
-b80497ad34620513687<wbr>55016&quot;<br>
-+SRC_URI[md5sum] =3D &quot;d2a115037ccd128219f43d5ed3df7<wbr>926&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;5bb321e5d4f8b3a51f56fc6a35c14<wbr>3f1b72ce0d7=
-48b43d8b623596e8215<wbr>f01f7&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/pycairo-${PV}&quot;<br>
-<br>
-@@ -28,4 +28,7 @@ do_install_append() {<br>
-=C2=A0 =C2=A0 =C2=A0install -d ${D}${includedir}/pycairo/<br>
-=C2=A0 =C2=A0 =C2=A0install -m 0644 ${D}${datadir}/include/pycairo<wbr>/py3=
-cairo.h ${D}${includedir}/pycairo/<br>
-=C2=A0}<br>
--FILES_${PN} +=3D &quot;${datadir}/include/pycairo/py<wbr>3cairo.h&quot;<br=
->
-+FILES_${PN} +=3D &quot; \<br>
-+=C2=A0 =C2=A0 ${datadir}/include/pycairo/py3<wbr>cairo.h \<br>
-+=C2=A0 =C2=A0 ${datadir}/lib/pkgconfig/py3ca<wbr>iro.pc \<br>
-+&quot;<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888"><span class=3D"m=
-_-1005834292654371431HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></font></span></blockquote></div><br></div>
-</blockquote></div><br></div>
 
---001a11356bce0823060566a9e68a--
