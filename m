@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BC3F78A57
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
+	[74.125.82.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 436D778297
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 15:11:32 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id e30so22388130ioc.3
+	Tue,  6 Mar 2018 15:46:56 +0000 (UTC)
+Received: by mail-ot0-f196.google.com with SMTP id n74so18748732ota.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Mar 2018 07:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=P3ToDqas2OmxL/NWjSa9QBd/jY8Cb4qHuKqi65h4NEM=;
-	b=pR//TRtJZeL/KjjV4bhYzJAF/OYTTqSTcV1ApQuSY4vLe/z1EzHrF/rTglU/rEUhfS
-	VQ/Poa796pVnkRd/lsONYKKysB9Xg0MhTrSakgLsHLHe8xJdW57WIBKaX+IM8YkdsW/4
-	weCNLWwQfRwYlek4rroQV7xgzpw46r/nHuTggwBwlwkVZufIHZ4WEJdcVKky5NAoULWc
-	rwHzHZZAg8enzOwM5z+RjRMcgIIbeAey3PKW8Q+n+WE6Yv4Xuk6tgao7FHTvsU/dOZ25
-	+TZjF0G1z9GgcztRWxccvRbVDpQn25SnTF1QSXF4s8KN4S9poKR43OmvxXWtvSOyqbN+
-	OxFw==
+	Tue, 06 Mar 2018 07:46:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Y2xCOuramHL69KA6x4r1YV1JfGoM4vWsyqQEmnoHx9M=;
+	b=kL5veBa87RrIxku/qD+uDepjEnEbLTsdwaWwOm5ZtbMAR3FiWuwRgpbMd+TpKnBkWV
+	Kkmp0x42RTyo3mU8gMJDjyNef0DkdrLqOUBbqtUDAbRwbaa9fXRLKD+Qj6lBmrFG+78/
+	As/dXS+HSlQaLjl72UHxXPW8t0J2CRqjH3TLQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=P3ToDqas2OmxL/NWjSa9QBd/jY8Cb4qHuKqi65h4NEM=;
-	b=omSq9PvwdhlBbeK4K7Kruy2PsesvbrQaHPDFLIATQAfz6QBZSa4hxf+oTqcsCIzDew
-	mj77qs4iZS640ESTjxOOnJN2Jr1vFier0NICcBYxy5ZVICWvyfdzQJJa5TiCStVUn6CO
-	LOH1PO3/CWSZWCJ4LjFHoirfofSyYpoLZA605iv61gF47Fi3unI7Zkdg1Ft/w82JYo+3
-	flFv+cG1OSAmoFCD59W/L7SNBVgr8WuTJ1gyk2LvgP5oVLxZ9Fvl/fU93Z5cbfMIfsbg
-	QQcecQu6uO/jSv0YNc0dwmbOpciRosdlNYjHo/BBMxm6c1CkU23WVYuZDy4xIYOlAA4d
-	/Yjw==
-X-Gm-Message-State: AElRT7GYihPlirMgqs2iYibplnQfbyQ5edmJBlsFpxxUj25rfuiN71Bp
-	SvE+uC+9SZQz6qt4lhwgdnjpkTdmSGT8tVnmhg5yyg==
-X-Google-Smtp-Source: AG47ELtlDkvHrrOcINiEeMiqgw3MvuUfW//XMR4IZfaIWQDi6gtao+4BH0mRoT0B/C1oyPxlBQ6otoVB2k9MUMHdl/M=
-X-Received: by 10.107.37.212 with SMTP id l203mr21570089iol.20.1520349093970; 
-	Tue, 06 Mar 2018 07:11:33 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Y2xCOuramHL69KA6x4r1YV1JfGoM4vWsyqQEmnoHx9M=;
+	b=Yq1tfpnbhF/XVc2SGpmrrHk2UumBUvjOfpcgtnNuXrpebk/nZOHE1Nv9wkIn7663bn
+	GYaTy23rFSc9opogKzMyzQktR1wdYNOeyNzTL1CSu6PI/g6mGSBjg23uKhijNxeFhJZc
+	ItL4IPJehYd8VMtjxksZpfPDJSFerz987C2AT9qVkN+0nvD4RG6MgHMhNDJnrfDS0/h/
+	9X8QeKzoawfAE1bawh1S01+qPjNgkTVeAh3QVUFGv7hYcFjT/ZBmiNZGC3JdMkE2emTx
+	eHwUwBMqTOmlVq9IjmCI87WgfL4xunT8t21iNAI8HskbDcu1gwxoqk+FeJPRE+h+ByLD
+	SD2Q==
+X-Gm-Message-State: AElRT7FNZ8gpmpdqW3+MLeig6OdoLyeGb/g3N+F8BtiXSioxOQwU2XOt
+	4826ebYvNwG826iXc/roCRL17tvsF9o=
+X-Google-Smtp-Source: AG47ELvl+8KZm95SKU5AsDVFHYf20j7VQLdBU0UGBXJtkJjJLrL9EWbM9ATxoK4yvvv/Ynm9nVwUjw==
+X-Received: by 10.157.89.158 with SMTP id u30mr5691872oth.294.1520351217695;
+	Tue, 06 Mar 2018 07:46:57 -0800 (PST)
+Received: from aura.cortijodelrio.net
+	(CableLink-187-161-113-185.PCs.InterCable.net. [187.161.113.185])
+	by smtp.googlemail.com with ESMTPSA id
+	h188sm7407997oib.4.2018.03.06.07.46.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 06 Mar 2018 07:46:56 -0800 (PST)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Mar 2018 09:46:21 -0600
+Message-Id: <1520351181-18084-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1520051014-6587-1-git-send-email-daniel.diaz@linaro.org>
+References: <1520051014-6587-1-git-send-email-daniel.diaz@linaro.org>
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Tue, 6 Mar 2018 07:11:13 -0800 (PST)
-In-Reply-To: <20180306151006.26952-1-ross.burton@intel.com>
-References: <20180306151006.26952-1-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Mar 2018 15:11:13 +0000
-Message-ID: <CAJTo0La-2MTBBugeuF=P00i3zz=MjXSAcZaMcHBc5zJM0sOiKQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dbus-glib: refresh patches
+Subject: [PATCH v2] gdb: fix header ordering for TRAP_HWBKPT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,145 +57,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 15:11:33 -0000
-Content-Type: multipart/alternative; boundary="001a11405f16ae68b20566bfdbf3"
+X-List-Received-Date: Tue, 06 Mar 2018 15:46:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a11405f16ae68b20566bfdbf3
-Content-Type: text/plain; charset="UTF-8"
+This error can appear in gdb/nat/linux-ptrace.c because of
+the order in which some headers are processed:
+| In file included from ../../gdb-7.11.1/gdb/nat/linux-ptrace.c:20:0:
+| ../../gdb-7.11.1/gdb/nat/linux-ptrace.h:175:22: error: expected identifier before numeric constant
+|  # define TRAP_HWBKPT 4
+|                       ^
+| Makefile:2357: recipe for target 'linux-ptrace.o' failed
+| make[2]: *** [linux-ptrace.o] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory '/oe/build/tmp-rpb-glibc/work/aarch64-linaro-linux/gdb/7.11.1-r0/build-aarch64-linaro-linux/gdb'
+| Makefile:8822: recipe for target 'all-gdb' failed
+| make[1]: *** [all-gdb] Error 2
+| make[1]: Leaving directory '/oe/build/tmp-rpb-glibc/work/aarch64-linaro-linux/gdb/7.11.1-r0/build-aarch64-linaro-linux'
+| Makefile:846: recipe for target 'all' failed
+| make: *** [all] Error 2
 
-I don't want to spam the list again, so this is the new commit message on
-my patch rebase series.  The rest are in poky-contrib:ross/mut2 and are
-identical.  Any further comments?
+A patch from GDB's current master solves the issue.
 
-Ross
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+v2: Add signed-off-by tag to patch
 
-On 6 March 2018 at 15:10, Ross Burton <ross.burton@intel.com> wrote:
+ meta/recipes-devtools/gdb/gdb-8.0.1.inc            |  1 +
+ ...4-defining-TRAP_HWBKPT-before-including-g.patch | 56 ++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch
 
-> The patch tool will apply patches by default with "fuzz", which is where
-> if the
-> hunk context isn't present but what is there is close enough, it will
-> force the
-> patch in.
->
-> Whilst this is useful when there's just whitespace changes, when applied to
-> source it is possible for a patch applied with fuzz to produce broken code
-> which
-> still compiles (see #10450).  This is obviously bad.
->
-> We'd like to eventually have do_patch() rejecting any fuzz on these
-> grounds. For
-> that to be realistic the existing patches with fuzz need to be rebased and
-> reviewed.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/dbus/dbus-glib/no-examples.patch | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/dbus/dbus-glib/no-examples.patch
-> b/meta/recipes-core/dbus/dbus-glib/no-examples.patch
-> index fbb49678282..32e76117188 100644
-> --- a/meta/recipes-core/dbus/dbus-glib/no-examples.patch
-> +++ b/meta/recipes-core/dbus/dbus-glib/no-examples.patch
-> @@ -5,11 +5,13 @@ Upstream-Status: Inappropriate [disable feature]
->  Signed-off-by: Kevin Tian <kevin.tian@intel.com>
->  Signed-off-by: Scott Garman <scott.a.garman@intel.com>
->
-> ---- dbus-glib-0.70/dbus/Makefile.am.orig       2006-07-23
-> 16:04:43.000000000 +0200
-> -+++ dbus-glib-0.70/dbus/Makefile.am    2006-07-23 16:04:52.000000000
-> +0200
-> +Index: dbus-glib-0.108/dbus/Makefile.am
-> +===================================================================
-> +--- dbus-glib-0.108.orig/dbus/Makefile.am
-> ++++ dbus-glib-0.108/dbus/Makefile.am
->  @@ -1,4 +1,4 @@
->  -SUBDIRS = . examples
->  +SUBDIRS = .
->
-> - INCLUDES=-I$(top_srcdir) $(DBUS_CFLAGS) $(DBUS_GLIB_CFLAGS)
-> $(DBUS_GLIB_TOOL_CFLAGS) -DDBUS_COMPILATION=1 -DDBUS_LOCALEDIR=\"$(prefix)/@
-> DATADIRNAME@/locale\"
-> -
-> + AM_CPPFLAGS = \
-> +       -I$(top_srcdir)                                         \
-> --
-> 2.11.0
->
->
+diff --git a/meta/recipes-devtools/gdb/gdb-8.0.1.inc b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+index 83c08e5..4a5299b 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.0.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.0.1.inc
+@@ -17,6 +17,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+            file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
+            file://0012-Unbreak-GDBserver-build-for-x32.patch \
++           file://gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch \
+ "
+ SRC_URI[md5sum] = "48cac527e6f3018b865ece021e9723ac"
+ SRC_URI[sha256sum] = "3dbd5f93e36ba2815ad0efab030dcd0c7b211d7b353a40a53f4c02d7d56295e3"
+diff --git a/meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch b/meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch
+new file mode 100644
+index 0000000..2cdeafc
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb/gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch
+@@ -0,0 +1,56 @@
++From c57122f94b1c749e4c12f6449b61a3b114f705cd Mon Sep 17 00:00:00 2001
++From: James Clarke <jrtc27@jrtc27.com>
++Date: Fri, 19 Jan 2018 17:22:49 +0000
++Subject: [PATCH] gdb: Fix ia64 defining TRAP_HWBKPT before including
++ gdb_wait.h
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++On ia64, gdb_wait.h eventually includes siginfo-consts-arch.h, which
++contains an enum with TRAP_HWBKPT, along with a #define. Thus we cannot
++define TRAP_HWBKPT to 4 beforehand, and so gdb_wait.h must be included
++earlier; include it from linux-ptrace.h so it can never come afterwards.
++
++gdb/ChangeLog:
++
++	* nat/linux-ptrace.c: Remove unnecessary reinclusion of
++	gdb_ptrace.h, and move including gdb_wait.h ...
++	* nat/linux-ptrace.h: ... to here.
++
++Upstream-Status: Accepted [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=5a6c3296a7a90694ad4042f6256f3da6d4fa4ee8]
++
++Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
++---
++ gdb/nat/linux-ptrace.c | 2 --
++ gdb/nat/linux-ptrace.h | 1 +
++ 2 files changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/gdb/nat/linux-ptrace.c b/gdb/nat/linux-ptrace.c
++index 3265b16..559c2de 100644
++--- a/gdb/nat/linux-ptrace.c
+++++ b/gdb/nat/linux-ptrace.c
++@@ -21,8 +21,6 @@
++ #include "linux-procfs.h"
++ #include "linux-waitpid.h"
++ #include "buffer.h"
++-#include "gdb_wait.h"
++-#include "gdb_ptrace.h"
++ #ifdef HAVE_SYS_PROCFS_H
++ #include <sys/procfs.h>
++ #endif
++diff --git a/gdb/nat/linux-ptrace.h b/gdb/nat/linux-ptrace.h
++index 5954945..6faa89b 100644
++--- a/gdb/nat/linux-ptrace.h
+++++ b/gdb/nat/linux-ptrace.h
++@@ -21,6 +21,7 @@
++ struct buffer;
++ 
++ #include "nat/gdb_ptrace.h"
+++#include "gdb_wait.h"
++ 
++ #ifdef __UCLIBC__
++ #if !(defined(__UCLIBC_HAS_MMU__) || defined(__ARCH_HAS_MMU__))
++-- 
++2.7.4
++
+-- 
+2.7.4
 
---001a11405f16ae68b20566bfdbf3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I don&#39;t want to spam the list again, so this is the ne=
-w commit message on my patch rebase series.=C2=A0 The rest are in poky-cont=
-rib:ross/mut2 and are identical.=C2=A0 Any further comments?<div><br></div>=
-<div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On 6 March 2018 at 15:10, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">The patch tool will appl=
-y patches by default with &quot;fuzz&quot;, which is where if the<br>
-hunk context isn&#39;t present but what is there is close enough, it will f=
-orce the<br>
-patch in.<br>
-<br>
-Whilst this is useful when there&#39;s just whitespace changes, when applie=
-d to<br>
-source it is possible for a patch applied with fuzz to produce broken code =
-which<br>
-still compiles (see #10450).=C2=A0 This is obviously bad.<br>
-<br>
-We&#39;d like to eventually have do_patch() rejecting any fuzz on these gro=
-unds. For<br>
-that to be realistic the existing patches with fuzz need to be rebased and<=
-br>
-reviewed.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/dbus/dbus-<wbr>glib/no-examples.patch | 10 ++++++--=
---<br>
-=C2=A01 file changed, 6 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/dbus/dbus-<wbr>glib/no-examples.patch b/meta=
-/recipes-core/dbus/dbus-<wbr>glib/no-examples.patch<br>
-index fbb49678282..32e76117188 100644<br>
---- a/meta/recipes-core/dbus/dbus-<wbr>glib/no-examples.patch<br>
-+++ b/meta/recipes-core/dbus/dbus-<wbr>glib/no-examples.patch<br>
-@@ -5,11 +5,13 @@ Upstream-Status: Inappropriate [disable feature]<br>
-=C2=A0Signed-off-by: Kevin Tian &lt;<a href=3D"mailto:kevin.tian@intel.com"=
->kevin.tian@intel.com</a>&gt;<br>
-=C2=A0Signed-off-by: Scott Garman &lt;<a href=3D"mailto:scott.a.garman@inte=
-l.com">scott.a.garman@intel.com</a>&gt;<br>
-<br>
----- dbus-glib-0.70/dbus/Makefile.<wbr>am.orig=C2=A0 =C2=A0 =C2=A0 =C2=A020=
-06-07-23 16:04:43.000000000 +0200<br>
--+++ dbus-glib-0.70/dbus/Makefile.<wbr>am=C2=A0 =C2=A0 2006-07-23 16:04:52.=
-000000000 +0200<br>
-+Index: dbus-glib-0.108/dbus/Makefile.<wbr>am<br>
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
-+--- dbus-glib-0.108.orig/dbus/<wbr>Makefile.am<br>
-++++ dbus-glib-0.108/dbus/Makefile.<wbr>am<br>
-=C2=A0@@ -1,4 +1,4 @@<br>
-=C2=A0-SUBDIRS =3D . examples<br>
-=C2=A0+SUBDIRS =3D .<br>
-<br>
-- INCLUDES=3D-I$(top_srcdir) $(DBUS_CFLAGS) $(DBUS_GLIB_CFLAGS) $(DBUS_GLIB=
-_TOOL_CFLAGS) -DDBUS_COMPILATION=3D1 -DDBUS_LOCALEDIR=3D\&quot;$(prefix)/@<=
-wbr>DATADIRNAME@/locale\&quot;<br>
--<br>
-+ AM_CPPFLAGS =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0-I$(top_srcdir)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---001a11405f16ae68b20566bfdbf3--
