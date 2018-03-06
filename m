@@ -1,46 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 33CDF789D6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 06FBF789A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 02:42:03 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id l25so22946375qtj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 18:42:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=JotDyJgN3BTao2AoF34dRXFadkLi1Nq0hvbGJ8nrDlo=;
-	b=UloVw8i4dIAU6Y2K/ndEmAN7/ZqWkBld4Rx+O4pWEe3oqc5KYc2xUpH7b4R6wCaadJ
-	emwReYZiazsL8VXXjYTQZrTRW0CVvPrbpAqMSNTWZNeBIxsPvjgpn/sAyYlJkvmzn6k0
-	ncABuaNg4W9CZQiM+JAW/YDcyOG2YSTR3IGO5N5zgYJoz9YjFA536Vyx1NPvxsVSInjJ
-	gWC9N/Hpa36/sb0ikX+oehdTbNoStsLPvKy+C5/JCQR0Gf5lxBZP3gbLf9zoX16c2KF6
-	Q+6Kzk59LTzIXUcusobIo3JH6jxjtjHxXy8s4F+aCVWWXJjQTshdt6TifLDh7jY+SKVm
-	r6Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JotDyJgN3BTao2AoF34dRXFadkLi1Nq0hvbGJ8nrDlo=;
-	b=jZnrUD2YPrLOQHapgh6cyaMu4nv+8qmgRbMhEqUeFNWwQdhQHQxbNEkN6ZQqpIKXiQ
-	2PnQw+iQIb14alC+cJMn57xuzqfmES0pOzSqcHijAEfVawooy0WEA40MR7N029TP8imp
-	WtULcM4yqdrrSGdald7cEv6nhLrdbz3yAHyxshjH5kGwaLERJDH8cWfAIy8m0PCHKozk
-	rsfNlIyB9kVe5n2eAi0ZpSSxZJNJjw1WJg6KTpym82VCK6epnlThMXOwdOMwNEvZ3VWG
-	RXAKZBKU9fjiDwjt+yF8CdrwR9TWDB6LfeI0Kyx0SNqB7iiNAzl0ipdkUtSVBmGMM1h/
-	szXA==
-X-Gm-Message-State: AElRT7EE29iS/pM+Wtvr7F573uzy8bYZakA+wkK13OtyWlzCXBPEypjK
-	kOAX++SV1oYNzPF15R2EaXDkCA==
-X-Google-Smtp-Source: AG47ELt219qkIJPCzYbcmLaOF+C/2dPtdXiPTCztJArk0o15Ef10BEZWULBmy7yTRvaMytneJaN8Sg==
-X-Received: by 10.200.46.136 with SMTP id h8mr26203752qta.253.1520304124848;
-	Mon, 05 Mar 2018 18:42:04 -0800 (PST)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id j1sm5059137qkk.39.2018.03.05.18.42.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Mar 2018 18:42:03 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Mar 2018 18:41:57 -0800
-Message-Id: <1520304117-32718-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] flex: create separate package for libfl
+	Tue,  6 Mar 2018 02:56:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 18:56:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,430,1515484800"; d="scan'208";a="31643514"
+Received: from kthulasi-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.171.81])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Mar 2018 18:56:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 06 Mar 2018 15:56:15 +1300
+Message-ID: <16709492.LLmFivbgu0@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <CAJTo0LZ0uoDi5Ant3zM4T4ZgR07JExQ=ZBqRszvBdRpFFKUCqQ@mail.gmail.com>
+References: <20180305172046.21729-1-ross.burton@intel.com>
+	<30b5b54b-c330-5bdf-9f3c-454ddde92353@gmail.com>
+	<CAJTo0LZ0uoDi5Ant3zM4T4ZgR07JExQ=ZBqRszvBdRpFFKUCqQ@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/29] dbus-glib: refresh patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 02:42:04 -0000
+X-List-Received-Date: Tue, 06 Mar 2018 02:56:22 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Target binaries linked with libfl currently generate a runtime
-dependency on the entire flex package (and therefore m4 and bison
-too). Copy Debian's approach and create a separate package for libfl.
+On Tuesday, 6 March 2018 6:30:25 AM NZDT Burton, Ross wrote:
+> I was about to write a long email explaining all this but my dinner is
+> almost ready.
+> 
+> Short version: patch fuzz is dangerous, we've had patches apply using fuzz
+> which actually break the code, or doing something else stupid like repeat a
+> statement.
+> 
+> We'd like to eventually have do_patch rejecting any fuzz on these grounds,
+> so I wrote a nasty script to rebase all the patches and am reviewing them
+> bit by bit.  Note that two of these patches are deleting patches that we've
+> been applying although upstream have already applied the same fix...
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/flex/flex_2.6.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+So, for the purposes of being able to know this looking back in the git 
+history can you please put this in the commit message? Fine if every single 
+one is a copy-paste, but it shouldn't be blank particularly if someone's 
+asking now.
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
-index a906fe8..b89b751 100644
---- a/meta/recipes-devtools/flex/flex_2.6.0.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
-@@ -43,6 +43,10 @@ do_install_append_class-nativesdk() {
- 	create_wrapper ${D}/${bindir}/flex M4=${M4}
- }
- 
-+PACKAGES =+ "${PN}-libfl"
-+
-+FILES_${PN}-libfl = "${libdir}/libfl.so.* ${libdir}/libfl_pic.so.*"
-+
- RDEPENDS_${PN} += "m4"
- RDEPENDS_${PN}-ptest += "bash gawk"
- 
+Thanks,
+Paul
+
 -- 
-1.9.1
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
