@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C4487893A
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DE45C789F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 03:14:16 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 17so8191995pfw.11
+	Tue,  6 Mar 2018 03:16:53 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id v9-v6so11070706plp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 19:14:18 -0800 (PST)
+	Mon, 05 Mar 2018 19:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ttqmVhiZ042ykFyX0oF97pGwF+N1BDZ1+Chifii0kR8=;
-	b=gU78dCvEQI9CmfqWMQ9ZWZWGjELQXqDd6fpyeOc8NEiXd6yCcdLh6l0rSctiknh+x6
-	miesGoDi5UrPuIwePVqVj8Ue0JsqaYR/x6KHvFPFEDxiSIiH4vIGhqfSJIXt4K1wuA6z
-	e+ew7c6YqagUrr9DqYQiD/EB+3OHsIX28X1CevUZ9PrXS7shcvvC81/NGI+z1ixltLZu
-	sujGjKYQP7w97W5zjDMpk80h1qjXd9SKitPjOWm13dCEKwqymqMvzTXiDUP3oIao6Bq1
-	hHeW4ve7ihi9viqc96R9XL0m8rV8g5/vfMd9DXGV/BTTIW83ZRKP0YFKYGJQzcwF3jUb
-	07wg==
+	:cc; bh=RdbxnXB5lq4ROxDabdB65r1q+eGUthnqZMbdn8RRQVw=;
+	b=T9lpX0vdXfAGNWmvCwQtlrJqgzFFPjhCRHI2aJlrhte2+NEocgxqI8MDgAYhQkiufK
+	/fKBmFGAX86+e12Gp3j+LRlPkmEkdAPQxwquzSgv24D2f/FJIAeJ8rdA5eePSan1fUAX
+	lhglJ7K6FU4HJYUN/2/YhHTohg9ml5t/zYlYi7WGlrU2vkexed/sIl7H5RiF1Tgz9MYH
+	bc5i7QCaOnau0Vfm1ef/3rth1kloc7VhmRUgbqZM0AbqUasXuwXhGRpjN8FrpBKXUtRS
+	3br+ci0a9ueCaeKFV0EiNF1QKP5Bj6lhb7wAHMp9w19tRKaiYqi3PhuLAJEQJT3Lvxg+
+	fNSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ttqmVhiZ042ykFyX0oF97pGwF+N1BDZ1+Chifii0kR8=;
-	b=VgaX7lWTGFhGCRt/8NUo9qoNAZ3wJUI++NOqqjCCJ+IflSNm6RHeq/aGuSFFrc4p6Q
-	yUv4JzmV4/4NmyTkwHaHVSVohv40D8ItBx9iufPY5VII73ylk6tCMPNyWPekjHFcwGdB
-	QYir9TeXtv1Vl9iYPUEWt5RlPYkGMTP3nzzdtkLsOLVFJiSgwJUuzrltXLUUDTF+4QTp
-	tBeqWP8RU9DB/mldZIlSpBn47lXqppZoLGOv4yyP/GIMqhr6CCrDT2l9CyVh26BDj23j
-	Y0aghXr6fSnqXyNMY4r6rNHac5xmKZ0C07+rqvWbw9DqaC1GTZ6acAvd36PzZbTmkKp3
-	r0vQ==
-X-Gm-Message-State: APf1xPBY4TgDyr97MgLnxUNjDjoXHpsiL5JLlwxny8bK2x3ZE9D3W/uG
-	owLvRVRVNFGKH1wtdxCpwEk17+4j7UgSgNuNFOU=
-X-Google-Smtp-Source: AG47ELtaypOpCR1DJ9o+Mt9P2r5qZCT0EvbrWIPeS/SEsAIwtPahTMAKjpguJ0QW346sbu+sTZPU/tMCUpfxgyjeBAY=
-X-Received: by 10.98.229.21 with SMTP id n21mr17296889pff.158.1520306058192;
-	Mon, 05 Mar 2018 19:14:18 -0800 (PST)
+	bh=RdbxnXB5lq4ROxDabdB65r1q+eGUthnqZMbdn8RRQVw=;
+	b=r1rWiwwohNJYAQzL/gsuv4kvpVtDYV5g5N5Q7c0lacrDWNCAM8x50Z4IsbyAGmS6Q2
+	Kf5Q7/yTLFZS05d2zr4L1mgOdpmVOSdWFwlzN2Qdz3AoE4VNWNMSdhkKUBkSNB9SwGEF
+	ima638yg2jZKfxgn4cedKENP1cwTAkyZ+R33Phz3UMPkfup1qAtVGgVkmvjg5nZ/igc0
+	+eNO5La5iLBAuQahvSwu27OVuHMUYfIx2C5GkPdAZZ4EnO3Ows8jZfrJ8Dj3o+X5RJ+J
+	G5/MwnFg/dwp0S3w0j2cy/e1zD+XuaH5rqX5Ew+I7ai7Jch1g8Gd0+5vbT+sRY2bTJx3
+	PFew==
+X-Gm-Message-State: APf1xPDXgflUkOBp4SWUNEJVFtX6wBjPQzY3Z/q0PIU9hH7B3ru57zMQ
+	bx6Pt0zd2keAxZxB59G8fat3pYBsuRZTfo9wuuc=
+X-Google-Smtp-Source: AG47ELukk2LMz2T7pHAZ3ZFPKXN3a+hsYfSF4ag+BsM6EbqplfpHaNW2+wwuj9seFjLROfEmNfTImRF2/zFk5SJGP48=
+X-Received: by 2002:a17:902:9009:: with SMTP id
+	a9-v6mr14941291plp.272.1520306215034; 
+	Mon, 05 Mar 2018 19:16:55 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.100.170.69 with HTTP; Mon, 5 Mar 2018 19:13:47 -0800 (PST)
-In-Reply-To: <cover.1520213817.git.Qi.Chen@windriver.com>
-References: <cover.1520213817.git.Qi.Chen@windriver.com>
+Received: by 10.100.170.69 with HTTP; Mon, 5 Mar 2018 19:16:24 -0800 (PST)
+In-Reply-To: <1520268635-5466-2-git-send-email-kamensky@cisco.com>
+References: <1520268635-5466-1-git-send-email-kamensky@cisco.com>
+	<1520268635-5466-2-git-send-email-kamensky@cisco.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Mar 2018 19:13:47 -0800
-Message-ID: <CAMKF1srWB7AK=oJd-HpKB8_5eD0zQ0KUSaGnkL_JR5KwSpr-Yw@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Date: Mon, 5 Mar 2018 19:16:24 -0800
+Message-ID: <CAMKF1sp3vtuQp7iLZH3J2t7sbQdt01HXRZbhzcgoG0B07Mdj5Q@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] systemd & systemd-boot: upgrade to 237
+Subject: Re: [PATCH 2/2] systemtap: bring in PR22551 fix that addresses build against 4.15 kernel issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,140 +57,320 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 03:14:17 -0000
+X-List-Received-Date: Tue, 06 Mar 2018 03:16:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Mar 4, 2018 at 6:02 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> Changes from last patchset (236 upgrading):
-> 1. Use more vars (AR, NM, etc.) than just CC and LD in meson.bbclass.
-> 2. Keep the PACKAGECONFIG item's name 'manpages' for compatibility.
-> 3. Make it check for all i*86 archs instead of just i586 for systemd-boot.
-> 4. Fix the '==' bashism in systemd-boot.
-> 5. Rebase patches for 237.
+On Mon, Mar 5, 2018 at 8:50 AM, Victor Kamensky <kamensky@cisco.com> wrote:
+> With 4.15 kernel systemtap needs update to address systemtap module
+> compilation issues. It is fixed in later version of systemtap by
+> PR22551.
 >
 
-before I try it out wanted to know if you tested it on musl targets ?
 
+LGTM
+
+> Upstream-Status: Backport
 >
-> The following changes since commit bd5424f5b05a0a65471a77632efe7b9907370217:
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> ---
+>  ...-by-updating-the-use-of-timers-for-the-4..patch | 273 +++++++++++++++++++++
+>  meta/recipes-kernel/systemtap/systemtap_git.inc    |   1 +
+>  2 files changed, 274 insertions(+)
+>  create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
 >
->   maintainers.inc: add myself as maintainer for the new busybox-inittab (2018-03-04 21:23:03 +0000)
+> diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
+> new file mode 100644
+> index 0000000..da30f8c
+> --- /dev/null
+> +++ b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch
+> @@ -0,0 +1,273 @@
+> +From fbb26e17a4c026f05a497fc5d584516bad3b6950 Mon Sep 17 00:00:00 2001
+> +From: David Smith <dsmith@redhat.com>
+> +Date: Wed, 6 Dec 2017 14:37:42 -0600
+> +Subject: [PATCH] Fix PR22551 by updating the use of timers for the 4.15
+> + kernel.
+> +
+> +* runtime/linux/timer_compatibility.h: New file.
+> +* runtime/time.c: Update timer callback function parameter type. Update
+> +  timer initialization.
+> +* runtime/transport/relay_v2.c: Ditto.
+> +* runtime/transport/transport.c: Ditto.
+> +* tapset-timers.cxx (timer_derived_probe_group::emit_module_decls):
+> +  Ditto. Handle old and new timer callback interface.
+> +* runtime/linux/runtime.h: Include timer_compatibility.h instead of timer.h.
+> +* tapset/linux/scsi.stp: Ditto.
+> +---
+> + runtime/linux/runtime.h             |  2 +-
+> + runtime/linux/timer_compatibility.h | 76 +++++++++++++++++++++++++++++++++++++
+> + runtime/time.c                      |  7 ++--
+> + runtime/transport/relay_v2.c        |  8 ++--
+> + runtime/transport/transport.c       | 13 +++----
+> + tapset-timers.cxx                   | 14 +++++--
+> + tapset/linux/scsi.stp               |  2 +-
+> + 7 files changed, 100 insertions(+), 22 deletions(-)
+> + create mode 100644 runtime/linux/timer_compatibility.h
+> +
+> +diff --git a/runtime/linux/runtime.h b/runtime/linux/runtime.h
+> +index 9c585a2..df9b74c 100644
+> +--- a/runtime/linux/runtime.h
+> ++++ b/runtime/linux/runtime.h
+> +@@ -34,7 +34,7 @@
+> + #include <linux/compat.h>
+> + #include <linux/sched.h>
+> + #include <linux/mm.h>
+> +-#include <linux/timer.h>
+> ++#include "timer_compatibility.h"
+> + #include <linux/delay.h>
+> + #include <linux/profile.h>
+> + #include <linux/rcupdate.h>
+> +diff --git a/runtime/linux/timer_compatibility.h b/runtime/linux/timer_compatibility.h
+> +new file mode 100644
+> +index 0000000..ac03de9
+> +--- /dev/null
+> ++++ b/runtime/linux/timer_compatibility.h
+> +@@ -0,0 +1,76 @@
+> ++/*
+> ++ * linux/timer.h compatibility defines and inlines
+> ++ * Copyright (C) 2017 Red Hat Inc.
+> ++ *
+> ++ * This file is part of systemtap, and is free software.  You can
+> ++ * redistribute it and/or modify it under the terms of the GNU General
+> ++ * Public License (GPL); either version 2, or (at your option) any
+> ++ * later version.
+> ++ */
+> ++
+> ++#ifndef _TIMER_COMPATIBILITY_H_
+> ++#define _TIMER_COMPATIBILITY_H_
+> ++
+> ++#include <linux/timer.h>
+> ++
+> ++/*
+> ++ * Starting with the 4.15 kernel, the timer interface
+> ++ * changed. Originally, you'd do something like:
+> ++ *
+> ++ *   static void timer_func(unsigned long val);
+> ++ *
+> ++ *   init_timer(&timer);
+> ++ *   timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
+> ++ *   timer.function = timer_func;
+> ++ *   timer.data = 0;
+> ++ *   add_timer(&timer);
+> ++ *
+> ++ * The 'data' parameter would get passed to the callback
+> ++ * function. Starting with 4.15, you'd do something like this:
+> ++ *
+> ++ *   static void timer_func(struct timer_list *val);
+> ++ *
+> ++ *   timer_setup(&timer, timer_func, 0);
+> ++ *   timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
+> ++ *   add_timer(&timer);
+> ++ *
+> ++ * With the new code, the timer that caused the callback gets passed
+> ++ * to the timer callback function. The 'data' field has been removed.
+> ++ *
+> ++ * So, we're going to use the new interface. To hide the differences
+> ++ * between the callback function parameter type, we'll define a new
+> ++ * type, 'stp_timer_callback_parameter_t'.
+> ++ *
+> ++ * If code needs to figure out the difference between the old and new
+> ++ * interface, it should test the TIMER_TRACE_FLAGMASK define (which
+> ++ * only exists in the new interface).
+> ++ */
+> ++
+> ++#if defined(TIMER_TRACE_FLAGMASK)
+> ++/* This is the >= 4.15 kernel interface. */
+> ++
+> ++typedef struct timer_list * stp_timer_callback_parameter_t;
+> ++
+> ++#else
+> ++/* This is the < 4.15 kernel interface. */
+> ++
+> ++typedef unsigned long stp_timer_callback_parameter_t;
+> ++
+> ++/**
+> ++ * timer_setup - prepare a timer for first use
+> ++ * @timer: the timer in question
+> ++ * @callback: the function to call when timer expires
+> ++ * @flags: any TIMER_* flags (note that anything other than 0 is an
+> ++ *       error, since this compatibility function can't support any
+> ++ *       of the TIMER_* flags)
+> ++ */
+> ++#define timer_setup(timer, callback, flags)                   \
+> ++      {                                                       \
+> ++              init_timer((timer));                            \
+> ++              (timer)->function = callback;                   \
+> ++              (timer)->data = 0;                              \
+> ++              BUILD_BUG_ON_ZERO((flags) != 0);                \
+> ++      }
+> ++#endif
+> ++
+> ++#endif /* _TIMER_COMPATIBILITY_H_ */
+> +diff --git a/runtime/time.c b/runtime/time.c
+> +index 2e666d5..91ceafa 100644
+> +--- a/runtime/time.c
+> ++++ b/runtime/time.c
+> +@@ -168,10 +168,10 @@ __stp_time_smp_callback(void *val)
+> +
+> + /* The timer callback is in a softIRQ -- interrupts enabled. */
+> + static void
+> +-__stp_time_timer_callback(unsigned long val)
+> ++__stp_time_timer_callback(stp_timer_callback_parameter_t unused)
+> + {
+> +     stp_time_t *time =__stp_time_local_update();
+> +-    (void) val;
+> ++    (void) unused;
+> +
+> +     /* PR6481: make sure IRQs are enabled before resetting the timer
+> +        (IRQs are disabled and then reenabled in
+> +@@ -200,9 +200,8 @@ __stp_init_time(void *info)
+> +     time->freq = __stp_get_freq();
+> +     __stp_time_local_update();
+> +
+> +-    init_timer(&time->timer);
+> ++    timer_setup(&time->timer, __stp_time_timer_callback, 0);
+> +     time->timer.expires = jiffies + STP_TIME_SYNC_INTERVAL;
+> +-    time->timer.function = __stp_time_timer_callback;
+> +
+> + #ifndef STAPCONF_ADD_TIMER_ON
+> +     add_timer(&time->timer);
+> +diff --git a/runtime/transport/relay_v2.c b/runtime/transport/relay_v2.c
+> +index f81d75d..135951a 100644
+> +--- a/runtime/transport/relay_v2.c
+> ++++ b/runtime/transport/relay_v2.c
+> +@@ -30,7 +30,7 @@
+> + #include <linux/debugfs.h>
+> + #include <linux/mm.h>
+> + #include <linux/relay.h>
+> +-#include <linux/timer.h>
+> ++#include "../linux/timer_compatibility.h"
+> + #include "../uidgid_compatibility.h"
+> + #include "relay_compat.h"
+> +
+> +@@ -120,7 +120,7 @@ static void __stp_relay_wakeup_readers(struct rchan_buf *buf)
+> +               wake_up_interruptible(&buf->read_wait);
+> + }
+> +
+> +-static void __stp_relay_wakeup_timer(unsigned long val)
+> ++static void __stp_relay_wakeup_timer(stp_timer_callback_parameter_t unused)
+> + {
+> + #ifdef STP_BULKMODE
+> +       int i;
+> +@@ -151,10 +151,8 @@ static void __stp_relay_wakeup_timer(unsigned long val)
+> + static void __stp_relay_timer_init(void)
+> + {
+> +       atomic_set(&_stp_relay_data.wakeup, 0);
+> +-      init_timer(&_stp_relay_data.timer);
+> ++      timer_setup(&_stp_relay_data.timer, __stp_relay_wakeup_timer, 0);
+> +       _stp_relay_data.timer.expires = jiffies + STP_RELAY_TIMER_INTERVAL;
+> +-      _stp_relay_data.timer.function = __stp_relay_wakeup_timer;
+> +-      _stp_relay_data.timer.data = 0;
+> +       add_timer(&_stp_relay_data.timer);
+> +       smp_mb();
+> + }
+> +diff --git a/runtime/transport/transport.c b/runtime/transport/transport.c
+> +index 3400f22..320fd18 100644
+> +--- a/runtime/transport/transport.c
+> ++++ b/runtime/transport/transport.c
+> +@@ -311,7 +311,7 @@ static void _stp_detach(void)
+> + }
+> +
+> +
+> +-static void _stp_ctl_work_callback(unsigned long val);
+> ++static void _stp_ctl_work_callback(stp_timer_callback_parameter_t unused);
+> +
+> + /*
+> +  * Called when stapio opens the control channel.
+> +@@ -320,13 +320,12 @@ static void _stp_attach(void)
+> + {
+> +       dbug_trans(1, "attach\n");
+> +       _stp_pid = current->pid;
+> +-  if (_stp_namespaces_pid < 1)
+> +-    _stp_namespaces_pid = _stp_pid;
+> ++      if (_stp_namespaces_pid < 1)
+> ++              _stp_namespaces_pid = _stp_pid;
+> +       _stp_transport_data_fs_overwrite(0);
+> +-      init_timer(&_stp_ctl_work_timer);
+> ++
+> ++      timer_setup(&_stp_ctl_work_timer, _stp_ctl_work_callback, 0);
+> +       _stp_ctl_work_timer.expires = jiffies + STP_CTL_TIMER_INTERVAL;
+> +-      _stp_ctl_work_timer.function = _stp_ctl_work_callback;
+> +-      _stp_ctl_work_timer.data= 0;
+> +       add_timer(&_stp_ctl_work_timer);
+> + }
+> +
+> +@@ -341,7 +340,7 @@ static void _stp_attach(void)
+> +  *    notified. Reschedules itself if someone is still attached
+> +  *    to the cmd channel.
+> +  */
+> +-static void _stp_ctl_work_callback(unsigned long val)
+> ++static void _stp_ctl_work_callback(stp_timer_callback_parameter_t unused)
+> + {
+> +       int do_io = 0;
+> +       unsigned long flags;
+> +diff --git a/tapset-timers.cxx b/tapset-timers.cxx
+> +index 1a40bcd..0ab4d69 100644
+> +--- a/tapset-timers.cxx
+> ++++ b/tapset-timers.cxx
+> +@@ -122,9 +122,13 @@ timer_derived_probe_group::emit_module_decls (systemtap_session& s)
+> +   s.op->newline(-1) << "};";
+> +   s.op->newline();
+> +
+> +-  s.op->newline() << "static void enter_timer_probe (unsigned long val) {";
+> ++  s.op->newline() << "static void enter_timer_probe (stp_timer_callback_parameter_t val) {";
+> ++  s.op->newline() << "#if defined(TIMER_TRACE_FLAGMASK)";
+> ++  s.op->newline(1) << "struct stap_timer_probe* stp = container_of(val, struct stap_timer_probe, timer_list);";
+> ++  s.op->newline(-1) << "#else";
+> +   s.op->newline(1) << "struct stap_timer_probe* stp = & stap_timer_probes [val];";
+> +-  s.op->newline() << "if ((atomic_read (session_state()) == STAP_SESSION_STARTING) ||";
+> ++  s.op->newline(-1) << "#endif";
+> ++  s.op->newline(1) << "if ((atomic_read (session_state()) == STAP_SESSION_STARTING) ||";
+> +   s.op->newline() << "    (atomic_read (session_state()) == STAP_SESSION_RUNNING))";
+> +   s.op->newline(1) << "mod_timer (& stp->timer_list, jiffies + ";
+> +   emit_interval (s.op);
+> +@@ -148,9 +152,11 @@ timer_derived_probe_group::emit_module_init (systemtap_session& s)
+> +   s.op->newline() << "for (i=0; i<" << probes.size() << "; i++) {";
+> +   s.op->newline(1) << "struct stap_timer_probe* stp = & stap_timer_probes [i];";
+> +   s.op->newline() << "probe_point = stp->probe->pp;";
+> +-  s.op->newline() << "init_timer (& stp->timer_list);";
+> +-  s.op->newline() << "stp->timer_list.function = & enter_timer_probe;";
+> ++
+> ++  s.op->newline() << "timer_setup (& stp->timer_list, enter_timer_probe, 0);";
+> ++  s.op->newline() << "#if !defined(TIMER_TRACE_FLAGMASK)";
+> +   s.op->newline() << "stp->timer_list.data = i;"; // NB: important!
+> ++  s.op->newline() << "#endif";
+> +   // copy timer renew calculations from above :-(
+> +   s.op->newline() << "stp->timer_list.expires = jiffies + ";
+> +   emit_interval (s.op);
+> +diff --git a/tapset/linux/scsi.stp b/tapset/linux/scsi.stp
+> +index 44f686c..3577942 100644
+> +--- a/tapset/linux/scsi.stp
+> ++++ b/tapset/linux/scsi.stp
+> +@@ -14,7 +14,7 @@
+> + #include <scsi/scsi_cmnd.h>
+> + #include <scsi/scsi_device.h>
+> + #include <scsi/scsi_host.h>
+> +-#include <linux/timer.h>
+> ++#include "linux/timer_compatibility.h"
+> + #include <linux/blkdev.h>
+> + %}
+> +
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> index d122359..f51bd28 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -13,6 +13,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+>             file://0001-Install-python-modules-to-correct-library-dir.patch \
+>             file://0001-buildrun-remove-quotes-around-I-include-line.patch \
+>             file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+> +           file://0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch \
+>             "
 >
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
->
-> Chen Qi (4):
->   meson.bbclass: fix to build for more projects
->   systemd: upgrade to 237
->   systemd: fix build failure for qemux86 and qemuppc with musl
->   systemd-boot: upgrade to 237
->
->  meta/classes/meson.bbclass                         |  20 +-
->  .../{systemd-boot_234.bb => systemd-boot_237.bb}   |  32 ++-
->  meta/recipes-core/systemd/systemd.inc              |   2 +-
->  ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 +++
->  ...efi_cc-and-efi_ld-correctly-when-cross-co.patch |  62 +++++
->  ...ck-protector-flags-to-workaround-musl-bui.patch |  33 +++
->  ...v-when-secure-versions-are-not-available.patch} |  21 +-
->  ...te-presets-after-generators-have-run-6526.patch |  69 ------
->  ...any-initialization-steps-when-running-in-.patch | 163 -------------
->  ...update-header-file-to-detect-memfd_create.patch |  28 ---
->  ...t-install-dependency-links-at-install-tim.patch |  81 +++++++
->  ...c-Check-if-memfd_create-is-already-define.patch |  27 ---
->  .../systemd/0003-fileio-include-sys-mman.h.patch   |  26 --
->  ...pper-instead-of-looking-for-relative-opti.patch |  64 +++++
->  ...004-implment-systemd-sysv-install-for-OE.patch} |   8 +-
->  ...t-install-dependency-links-at-install-tim.patch |  74 ------
->  ...patch => 0005-rules-whitelist-hd-devices.patch} |   9 +-
->  ...6-Make-root-s-home-directory-configurable.patch |  78 ++++++
->  ...vert-rules-remove-firmware-loading-rules.patch} |   8 +-
->  ...-check-for-missing-canonicalize_file_name.patch |  63 -----
->  ...pper-instead-of-looking-for-relative-opti.patch |  40 ---
->  .../systemd/0008-Do-not-enable-nss-tests.patch     |  35 ---
->  ...remove-userspace-firmware-loading-suppor.patch} | 204 +++++++++-------
->  ...=> 0009-remove-duplicate-include-uchar.h.patch} |  14 +-
->  .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ++++
->  ...nes-Build-conditionally-when-HAVE_MYHOSTN.patch |  38 ---
->  ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  26 +-
->  ...es-watch-metadata-changes-in-ide-devices.patch} |   8 +-
->  ...3-Make-root-s-home-directory-configurable.patch | 155 ------------
->  ...lback-parse_printf_format-implementation.patch} |  86 ++++---
->  ...sic-missing.h-check-for-missing-strndupa.patch} |  96 ++++----
->  ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  30 +--
->  ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  18 +-
->  ...patch => 0017-Include-netinet-if_ether.h.patch} |  55 +++--
->  ...-check-for-missing-canonicalize_file_name.patch |  47 ++++
->  .../0018-check-for-uchar.h-in-configure.patch      |  44 ----
->  ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 +++
->  ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  15 +-
->  ...c-Disable-tests-for-missing-typedefs-in-.patch} |  39 ++-
->  ...=> 0022-don-t-use-glibc-specific-qsort_r.patch} |  26 +-
->  ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  22 +-
->  ...n_t-is-glibc-specific-use-raw-signature-.patch} |  14 +-
->  ...ATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} |  16 +-
->  ...> 0026-Use-uintmax_t-for-handling-rlim_t.patch} |  22 +-
->  .../0027-remove-nobody-user-group-checking.patch   |  63 +++++
->  .../0028-add-missing-FTW_-macros-for-musl.patch    |  50 ++++
->  ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 ++++
->  ...-of-__register_atfork-for-non-glibc-build.patch |  45 ++++
->  ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 +++
->  meta/recipes-core/systemd/systemd/run-ptest        |   6 -
->  .../systemd/{systemd_234.bb => systemd_237.bb}     | 270 +++++++++------------
->  51 files changed, 1220 insertions(+), 1307 deletions(-)
->  rename meta/recipes-core/systemd/{systemd-boot_234.bb => systemd-boot_237.bb} (41%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->  rename meta/recipes-core/systemd/systemd/{0004-Use-getenv-when-secure-versions-are-not-available.patch => 0001-Use-getenv-when-secure-versions-are-not-available.patch} (53%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->  rename meta/recipes-core/systemd/systemd/{0010-implment-systemd-sysv-install-for-OE.patch => 0004-implment-systemd-sysv-install-for-OE.patch} (89%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->  rename meta/recipes-core/systemd/systemd/{0012-rules-whitelist-hd-devices.patch => 0005-rules-whitelist-hd-devices.patch} (89%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0006-Make-root-s-home-directory-configurable.patch
->  rename meta/recipes-core/systemd/systemd/{0014-Revert-rules-remove-firmware-loading-rules.patch => 0007-Revert-rules-remove-firmware-loading-rules.patch} (81%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0007-check-for-missing-canonicalize_file_name.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests.patch
->  rename meta/recipes-core/systemd/systemd/{0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch => 0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch} (63%)
->  rename meta/recipes-core/systemd/systemd/{0017-remove-duplicate-include-uchar.h.patch => 0009-remove-duplicate-include-uchar.h.patch} (78%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
->  rename meta/recipes-core/systemd/systemd/{0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (58%)
->  rename meta/recipes-core/systemd/systemd/{0020-rules-watch-metadata-changes-in-ide-devices.patch => 0012-rules-watch-metadata-changes-in-ide-devices.patch} (90%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0013-Make-root-s-home-directory-configurable.patch
->  rename meta/recipes-core/systemd/systemd/{0001-add-fallback-parse_printf_format-implementation.patch => 0013-add-fallback-parse_printf_format-implementation.patch} (88%)
->  rename meta/recipes-core/systemd/systemd/{0002-src-basic-missing.h-check-for-missing-strndupa.patch => 0014-src-basic-missing.h-check-for-missing-strndupa.patch} (47%)
->  rename meta/recipes-core/systemd/systemd/{0003-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (88%)
->  rename meta/recipes-core/systemd/systemd/{0004-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch => 0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (77%)
->  rename meta/recipes-core/systemd/systemd/{0006-Include-netinet-if_ether.h.patch => 0017-Include-netinet-if_ether.h.patch} (67%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-uchar.h-in-configure.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
->  rename meta/recipes-core/systemd/systemd/{0009-test-hexdecoct.c-Include-missing.h-form-strndupa.patch => 0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (68%)
->  rename meta/recipes-core/systemd/systemd/{0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (49%)
->  rename meta/recipes-core/systemd/systemd/{0011-don-t-use-glibc-specific-qsort_r.patch => 0022-don-t-use-glibc-specific-qsort_r.patch} (88%)
->  rename meta/recipes-core/systemd/systemd/{0012-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (90%)
->  rename meta/recipes-core/systemd/systemd/{0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch => 0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (77%)
->  rename meta/recipes-core/systemd/systemd/{0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch => 0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} (80%)
->  rename meta/recipes-core/systemd/systemd/{0001-Use-uintmax_t-for-handling-rlim_t.patch => 0026-Use-uintmax_t-for-handling-rlim_t.patch} (89%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0027-remove-nobody-user-group-checking.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0028-add-missing-FTW_-macros-for-musl.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/run-ptest
->  rename meta/recipes-core/systemd/{systemd_234.bb => systemd_237.bb} (71%)
->
+>  COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
 > --
-> 1.9.1
+> 2.7.4
 >
 > --
 > _______________________________________________
