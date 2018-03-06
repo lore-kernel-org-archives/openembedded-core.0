@@ -1,47 +1,44 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 73633789BA
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D58C78A50
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 13:44:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 291E51844B
+	Tue,  6 Mar 2018 14:04:47 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id t126so12366529vkb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:59 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id sDjiFAjm8FJF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8C1F5183BC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 75A791A07C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6AE121A077
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by seth.se.axis.com (Postfix) with ESMTP id 5F8DD280A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 5AE21409D1; Tue,  6 Mar 2018 14:44:58 +0100 (CET)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2018 14:44:58 +0100
-Message-Id: <20180306134458.15080-1-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] libcgroup: Various fixes
+	Tue, 06 Mar 2018 06:04:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=aejt8VZYitsdwKiWU0j9zKb5/ffErRTlXVUR4b7Lzko=;
+	b=AW89Jbi3rHF+5f7K7XNsu51YygWHY1vMh/vIuOk2dBhWxXRYQJrWElkMHbEiJw6Zjv
+	fJpItTpnK30tvYc73nYUEhtJq61vXuTAsSkZMsSu97WtfPBGrAc3K/O8GwHE22qe0lXi
+	JmCwoGC2OnNwmk/Z5bC/1yuHeIFtDoeO42VhiDWEw07YTcx0i75ZpRQ9ZJpMvbcfwl3q
+	e/7JJT/YarNsNqmCBp+A59VWqN0PF+bYpkTP7SfoQUv1e3enGiklxocngJXfbxmzVjJ8
+	5gyV3+ko0nyPigIP7mjom93pl4QMdxL9M5qMmx6mM7yqpiJ0joXS9EbiDCGvn1sEu6FS
+	t4lQ==
+X-Gm-Message-State: APf1xPCTUMKkOSfOxnURWSEZBlEg7mFi/2P5wWfK3Es/yJiVXHwQpGAH
+	6p6r3O2L/0ghBTtbTPNZf0Y7Qg==
+X-Google-Smtp-Source: AG47ELv3JwvpLKnjqI918r9oNmvSNPipEZy9+g594U1r5fybbxtbCOFxXcOVu87tgphXWdaGSY3DAg==
+X-Received: by 10.31.208.7 with SMTP id h7mr13276593vkg.71.1520345087787;
+	Tue, 06 Mar 2018 06:04:47 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	j192sm6851536vke.9.2018.03.06.06.04.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Mar 2018 06:04:46 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 06 Mar 2018 11:04:40 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  6 Mar 2018 11:04:39 -0300
+Message-Id: <20180306140439.13059-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libdrm: 2.4.90 -> 2.4.91
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +51,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 13:44:59 -0000
+X-List-Received-Date: Tue, 06 Mar 2018 14:04:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Use PACKAGECONFIG for pam instead of two bb.utils.contains
-* Add leading whitespace to EXTRA_OEMAKE_append_libc_musl
-* Usr lnr in do_install_append rather than a sed generated
-  ../-sequence.
+This is a minor release, announced in March 5th, 2018, which includes
+following changes:
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+,----
+| Andrey Grodzovsky (1):
+|      amdgpu: Fix mistake in initial hole size calculation.
+|
+| Christian König (3):
+|      amdgpu: mostly revert "use the high VA range if possible v2"
+|      amdgpu: add AMDGPU_VA_RANGE_HIGH
+|      amdgpu: fix "add AMDGPU_VA_RANGE_HIGH"
+|
+| Chunming Zhou (1):
+|      test/amdgpu: disable bo eviction test by default
+|
+| Eric Engestrom (1):
+|      meson: add configuration summary
+|
+| Heiko Becker (1):
+|      *-symbol-check: Don't hard-code nm executable
+|
+| Igor Gnatenko (1):
+|      meson: do not use cairo/valgrind if disabled
+|
+| Jonathan Gray (1):
+|      meson/configure.ac: pthread-stubs not present on OpenBSD
+|
+| Marek Olšák (2):
+|      meson: bump the version number
+|      RELEASING: mention meson
+|
+| Michel Dänzer (1):
+|      tests/amdgpu: Fix misspellings of "suite"
+|
+| Rob Clark (2):
+|      freedreno: add interface to get buffer address
+|      bump version for release
+|
+| Rob Herring (4):
+|      android: revert making handle magic and version members const
+|      android: fix mis-named alloc_handle_t
+|      android: add helper to convert buffer_handle_t to gralloc_handle_t ptr
+|      android: fix gralloc_handle_create() problems
+|
+| Thierry Reding (2):
+|      drm/fourcc: Fix fourcc_mod_code() definition
+|      drm/tegra: Sanitize format modifiers
+`----
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/libcgroup/libcgroup_0.41.bb | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup_0.41.bb b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-index e4b1782ad4..7ddc81e9b7 100644
---- a/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ meta/recipes-graphics/drm/{libdrm_2.4.90.bb => libdrm_2.4.91.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.90.bb => libdrm_2.4.91.bb} (93%)
+
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.90.bb b/meta/recipes-graphics/drm/libdrm_2.4.91.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.90.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.91.bb
+index 462ed157855..c490285883f 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.90.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.91.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "61dcb4989c728f566e3c15c236585a17"
+-SRC_URI[sha256sum] = "db37ec8f1dbaa2c192ad9903c8d0988b858ae88031e96f169bf76aaf705db68b"
++SRC_URI[md5sum] = "23d87cda92700b710a37d9b8edaa9f54"
++SRC_URI[sha256sum] = "634a0ed0cc1eff06f48674b1da81aafa661a9f001e7a4f43dde81076886dc800"
  
--DEPENDS = "bison-native flex-native ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+DEPENDS = "bison-native flex-native"
+ inherit autotools pkgconfig manpages
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v0.41/${BPN}-${PV}.tar.bz2"
- SRC_URI_append_libc-musl = " file://musl-decls-compat.patch"
-@@ -20,9 +20,10 @@ SRC_URI[sha256sum] = "e4e38bdc7ef70645ce33740ddcca051248d56b53283c0dc6d404e17706
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libcg/files/libcgroup/"
- 
- DEPENDS_append_libc-musl = " fts "
--EXTRA_OEMAKE_append_libc-musl = "LIBS=-lfts"
-+EXTRA_OEMAKE_append_libc-musl = " LIBS=-lfts"
- 
--EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam-module-dir=${base_libdir}/security --enable-pam=yes', '--enable-pam=no', d)}"
-+PACKAGECONFIG = "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG[pam] = "--enable-pam-module-dir=${base_libdir}/security --enable-pam=yes,--enable-pam=no,libpam"
- 
- PACKAGES =+ "cgroups-pam-plugin"
- FILES_cgroups-pam-plugin = "${base_libdir}/security/pam_cgroup.so*"
-@@ -33,8 +34,8 @@ do_install_append() {
- 	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
- 		mkdir -p ${D}/${base_libdir}/
- 		mv -f ${D}${libdir}/libcgroup.so.* ${D}${base_libdir}/
--		rel_lib_prefix=`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
--		ln -sf ${rel_lib_prefix}${base_libdir}/libcgroup.so.1 ${D}${libdir}/libcgroup.so
-+		rm -f ${D}${libdir}/libcgroup.so
-+		lnr ${D}${base_libdir}/libcgroup.so.1 ${D}${libdir}/libcgroup.so
- 	fi
- 	# pam modules in ${base_libdir}/security/ should be binary .so files, not symlinks.
- 	if [ -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ]; then
 -- 
-2.11.0
+2.16.2
 
 
