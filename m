@@ -1,30 +1,52 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D20C6093B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C81478954
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 05:06:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2656bDv027269
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 5 Mar 2018 21:06:37 -0800
-Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 5 Mar 2018 21:06:04 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1520213817.git.Qi.Chen@windriver.com>
-	<CAMKF1srWB7AK=oJd-HpKB8_5eD0zQ0KUSaGnkL_JR5KwSpr-Yw@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <5e652928-2bb2-6f18-a01b-48ad3e7f75b2@windriver.com>
-Date: Tue, 6 Mar 2018 13:06:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue,  6 Mar 2018 06:51:54 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id y8-v6so11341463pll.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Mar 2018 22:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QN15bqPTMB+NVyD+NNQVHJXWOnfRZ7c+GhrNZrlha1M=;
+	b=DWUZ0NhtN1su+9/R0KRHwG65HPsLvZFsAAsWfozmKXeuh9rs5d79QlZNj/e0ctFXdU
+	pBy4jFEIQ/ooCbY0VI4CZ1TRG+mzI9sceYJ3MUTZLbsB5x3zxxLPvQk2E2j0lB++Bk+n
+	YAZzQFvrhNYj6YyJLtkSUABqWbBjP9QhGAnXTJ7Xzkx/nZNsgQIP1e2zUMHF5Ipc0V5O
+	ioCtFCrYjDQmfVzFMSZxT6TzHAHJZpXBpYLL6w2Y7hBCGGA3m1lWxUdhZI+LK1tB6GyT
+	SAmavU905Lo7sN+dtmIKIJ+zpNv/3QGdETiZI6TbAzQ9mj1kStfqpW2+HMbQfhf9QdO2
+	/FBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QN15bqPTMB+NVyD+NNQVHJXWOnfRZ7c+GhrNZrlha1M=;
+	b=drzqy3Znk2LwfD+k5wL5Tpfn5z5PoNded/TYkfjgJNtLOF/hqmBbJZPdnMmRDMRtpu
+	PFo3EXV8AcCCH50WEJhKrt0kfAWkgqIp8qEn2cSFKzOaCjgC/ZOG9plrR/zC00TxLwcY
+	Km3lqockSW1C+ZirnNmNZ37SqM6YCkh7MW/caXwzlXJWPXgL6yRrfpkcfi7YI1CQNfzS
+	fKRFJI26HDC9tmLDWZTGQs/+WlkHFusHJvss+eKmUa4uyYvBCSLiWtd15uNjJJJ9oHuy
+	xc4rMcI7fQ48ZdKsKY0UFTp2SkEIvta1S6nP7djHzgmPf0QLJl+AF7IrTEFCBj2AW6nb
+	hbtw==
+X-Gm-Message-State: APf1xPB0enwXSYLut+cCFdUMlDV0Uc/JXOZcNdGoaVA1TO5CIAPuCmYM
+	/ayKLLk66ucqfY3jrsh5aLOWFS0cwDzx4FAeh0g=
+X-Google-Smtp-Source: AG47ELtvCTgBgxbS7Uf2DUDSLbdrVxcsvFfuUKhY/Jf965tMBVqS6ith4+9S4HSSHHKf21LZGf+Y4ZgEbUgsaAgntx4=
+X-Received: by 2002:a17:902:9009:: with SMTP id
+	a9-v6mr15440673plp.272.1520319115646; 
+	Mon, 05 Mar 2018 22:51:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srWB7AK=oJd-HpKB8_5eD0zQ0KUSaGnkL_JR5KwSpr-Yw@mail.gmail.com>
-X-Originating-IP: [128.224.162.197]
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.100.170.69 with HTTP; Mon, 5 Mar 2018 22:51:25 -0800 (PST)
+In-Reply-To: <alpine.LRH.2.00.1803052231250.22668@sjc-ads-6991.cisco.com>
+References: <1520286611-27418-1-git-send-email-kamensky@cisco.com>
+	<CAMKF1so6ZxGFD-9BOH_g0jO=Zu0wOP1r9+2SdQ5dZGc34uaoVQ@mail.gmail.com>
+	<alpine.LRH.2.00.1803052231250.22668@sjc-ads-6991.cisco.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 5 Mar 2018 22:51:25 -0800
+Message-ID: <CAMKF1sr-wwj4LTMiqL4Q_i9=EJZSCegFXb1NPHCgD=LyWrNnPQ@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] systemd & systemd-boot: upgrade to 237
+Subject: Re: [PATCH v2 1/2] systemtap: supports mips starting with version 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,157 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 05:06:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Mar 2018 06:51:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 03/06/2018 11:13 AM, Khem Raj wrote:
-> On Sun, Mar 4, 2018 at 6:02 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
->> Changes from last patchset (236 upgrading):
->> 1. Use more vars (AR, NM, etc.) than just CC and LD in meson.bbclass.
->> 2. Keep the PACKAGECONFIG item's name 'manpages' for compatibility.
->> 3. Make it check for all i*86 archs instead of just i586 for systemd-boot.
->> 4. Fix the '==' bashism in systemd-boot.
->> 5. Rebase patches for 237.
->>
-> before I try it out wanted to know if you tested it on musl targets ?
-
-Yes.
-
-For building test, I built all qemu archs for musl.
-For booting test, I booted qemux86-64 and qemux86 for musl. For other 
-archs, I didn't do booting test for musl.
-
-Best Regards,
-Chen Qi
-
-
+On Mon, Mar 5, 2018 at 10:47 PM, Victor Kamensky <kamensky@cisco.com> wrote:
+> Hi Khem,
 >
->> The following changes since commit bd5424f5b05a0a65471a77632efe7b9907370217:
+> On Mon, 5 Mar 2018, Khem Raj wrote:
+>
+>> On Mon, Mar 5, 2018 at 1:50 PM, Victor Kamensky <kamensky@cisco.com>
+>> wrote:
+>>>
+>>> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+>>> ---
+>>>  meta/recipes-kernel/systemtap/systemtap_git.inc | 3 +--
+>>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc
+>>> b/meta/recipes-kernel/systemtap/systemtap_git.inc
+>>> index c938760..d122359 100644
+>>> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+>>> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+>>> @@ -15,8 +15,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+>>>
+>>> file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+>>>             "
+>>>
+>>> -# systemtap doesn't support mips
+>>> -COMPATIBLE_HOST =
+>>> '(x86_64|i.86|powerpc|arm|aarch64|microblazeel).*-linux'
+>>> +COMPATIBLE_HOST =
+>>> '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
+>>>
 >>
->>    maintainers.inc: add myself as maintainer for the new busybox-inittab (2018-03-04 21:23:03 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
->>
->> Chen Qi (4):
->>    meson.bbclass: fix to build for more projects
->>    systemd: upgrade to 237
->>    systemd: fix build failure for qemux86 and qemuppc with musl
->>    systemd-boot: upgrade to 237
->>
->>   meta/classes/meson.bbclass                         |  20 +-
->>   .../{systemd-boot_234.bb => systemd-boot_237.bb}   |  32 ++-
->>   meta/recipes-core/systemd/systemd.inc              |   2 +-
->>   ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 +++
->>   ...efi_cc-and-efi_ld-correctly-when-cross-co.patch |  62 +++++
->>   ...ck-protector-flags-to-workaround-musl-bui.patch |  33 +++
->>   ...v-when-secure-versions-are-not-available.patch} |  21 +-
->>   ...te-presets-after-generators-have-run-6526.patch |  69 ------
->>   ...any-initialization-steps-when-running-in-.patch | 163 -------------
->>   ...update-header-file-to-detect-memfd_create.patch |  28 ---
->>   ...t-install-dependency-links-at-install-tim.patch |  81 +++++++
->>   ...c-Check-if-memfd_create-is-already-define.patch |  27 ---
->>   .../systemd/0003-fileio-include-sys-mman.h.patch   |  26 --
->>   ...pper-instead-of-looking-for-relative-opti.patch |  64 +++++
->>   ...004-implment-systemd-sysv-install-for-OE.patch} |   8 +-
->>   ...t-install-dependency-links-at-install-tim.patch |  74 ------
->>   ...patch => 0005-rules-whitelist-hd-devices.patch} |   9 +-
->>   ...6-Make-root-s-home-directory-configurable.patch |  78 ++++++
->>   ...vert-rules-remove-firmware-loading-rules.patch} |   8 +-
->>   ...-check-for-missing-canonicalize_file_name.patch |  63 -----
->>   ...pper-instead-of-looking-for-relative-opti.patch |  40 ---
->>   .../systemd/0008-Do-not-enable-nss-tests.patch     |  35 ---
->>   ...remove-userspace-firmware-loading-suppor.patch} | 204 +++++++++-------
->>   ...=> 0009-remove-duplicate-include-uchar.h.patch} |  14 +-
->>   .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ++++
->>   ...nes-Build-conditionally-when-HAVE_MYHOSTN.patch |  38 ---
->>   ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  26 +-
->>   ...es-watch-metadata-changes-in-ide-devices.patch} |   8 +-
->>   ...3-Make-root-s-home-directory-configurable.patch | 155 ------------
->>   ...lback-parse_printf_format-implementation.patch} |  86 ++++---
->>   ...sic-missing.h-check-for-missing-strndupa.patch} |  96 ++++----
->>   ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  30 +--
->>   ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  18 +-
->>   ...patch => 0017-Include-netinet-if_ether.h.patch} |  55 +++--
->>   ...-check-for-missing-canonicalize_file_name.patch |  47 ++++
->>   .../0018-check-for-uchar.h-in-configure.patch      |  44 ----
->>   ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 +++
->>   ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  15 +-
->>   ...c-Disable-tests-for-missing-typedefs-in-.patch} |  39 ++-
->>   ...=> 0022-don-t-use-glibc-specific-qsort_r.patch} |  26 +-
->>   ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  22 +-
->>   ...n_t-is-glibc-specific-use-raw-signature-.patch} |  14 +-
->>   ...ATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} |  16 +-
->>   ...> 0026-Use-uintmax_t-for-handling-rlim_t.patch} |  22 +-
->>   .../0027-remove-nobody-user-group-checking.patch   |  63 +++++
->>   .../0028-add-missing-FTW_-macros-for-musl.patch    |  50 ++++
->>   ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 ++++
->>   ...-of-__register_atfork-for-non-glibc-build.patch |  45 ++++
->>   ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 +++
->>   meta/recipes-core/systemd/systemd/run-ptest        |   6 -
->>   .../systemd/{systemd_234.bb => systemd_237.bb}     | 270 +++++++++------------
->>   51 files changed, 1220 insertions(+), 1307 deletions(-)
->>   rename meta/recipes-core/systemd/{systemd-boot_234.bb => systemd-boot_237.bb} (41%)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->>   rename meta/recipes-core/systemd/systemd/{0004-Use-getenv-when-secure-versions-are-not-available.patch => 0001-Use-getenv-when-secure-versions-are-not-available.patch} (53%)
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->>   rename meta/recipes-core/systemd/systemd/{0010-implment-systemd-sysv-install-for-OE.patch => 0004-implment-systemd-sysv-install-for-OE.patch} (89%)
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->>   rename meta/recipes-core/systemd/systemd/{0012-rules-whitelist-hd-devices.patch => 0005-rules-whitelist-hd-devices.patch} (89%)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0006-Make-root-s-home-directory-configurable.patch
->>   rename meta/recipes-core/systemd/systemd/{0014-Revert-rules-remove-firmware-loading-rules.patch => 0007-Revert-rules-remove-firmware-loading-rules.patch} (81%)
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0007-check-for-missing-canonicalize_file_name.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests.patch
->>   rename meta/recipes-core/systemd/systemd/{0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch => 0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch} (63%)
->>   rename meta/recipes-core/systemd/systemd/{0017-remove-duplicate-include-uchar.h.patch => 0009-remove-duplicate-include-uchar.h.patch} (78%)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
->>   rename meta/recipes-core/systemd/systemd/{0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (58%)
->>   rename meta/recipes-core/systemd/systemd/{0020-rules-watch-metadata-changes-in-ide-devices.patch => 0012-rules-watch-metadata-changes-in-ide-devices.patch} (90%)
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0013-Make-root-s-home-directory-configurable.patch
->>   rename meta/recipes-core/systemd/systemd/{0001-add-fallback-parse_printf_format-implementation.patch => 0013-add-fallback-parse_printf_format-implementation.patch} (88%)
->>   rename meta/recipes-core/systemd/systemd/{0002-src-basic-missing.h-check-for-missing-strndupa.patch => 0014-src-basic-missing.h-check-for-missing-strndupa.patch} (47%)
->>   rename meta/recipes-core/systemd/systemd/{0003-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (88%)
->>   rename meta/recipes-core/systemd/systemd/{0004-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch => 0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (77%)
->>   rename meta/recipes-core/systemd/systemd/{0006-Include-netinet-if_ether.h.patch => 0017-Include-netinet-if_ether.h.patch} (67%)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-uchar.h-in-configure.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
->>   rename meta/recipes-core/systemd/systemd/{0009-test-hexdecoct.c-Include-missing.h-form-strndupa.patch => 0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (68%)
->>   rename meta/recipes-core/systemd/systemd/{0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (49%)
->>   rename meta/recipes-core/systemd/systemd/{0011-don-t-use-glibc-specific-qsort_r.patch => 0022-don-t-use-glibc-specific-qsort_r.patch} (88%)
->>   rename meta/recipes-core/systemd/systemd/{0012-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (90%)
->>   rename meta/recipes-core/systemd/systemd/{0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch => 0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (77%)
->>   rename meta/recipes-core/systemd/systemd/{0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch => 0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} (80%)
->>   rename meta/recipes-core/systemd/systemd/{0001-Use-uintmax_t-for-handling-rlim_t.patch => 0026-Use-uintmax_t-for-handling-rlim_t.patch} (89%)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0027-remove-nobody-user-group-checking.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0028-add-missing-FTW_-macros-for-musl.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/run-ptest
->>   rename meta/recipes-core/systemd/{systemd_234.bb => systemd_237.bb} (71%)
->>
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> Looks ok. Can we enable mipsel as well ?
+>
+>
+> Above expression, effectively 'mips.*-linux', does match 'mipsel' as well,
+> does not it? It matches mips64.
+>
+> I did test basic systemtap operations on qemumips, and
+> qemumips64 machines, worked ok to me. I noticed some small quirks but they
+> were similar to one that arm machine has. I am not saying
+> that MIPS support in systemtap is perfect, it is new architecture
+> for systemtap after all, there could be some bugs. But I believe
+> it is good enough to be enabled in OE.
+>
+> I don't see any easy virtual mipsel based machine so I cannot test
+> it right away. But I don't see a reson why it would not work in LE
+> mode.
 
-
+ok thanks for clarifying. I wanted to ask if it works on mipsel
+or not, not about the regexp, but I see I could have framed it better
 
