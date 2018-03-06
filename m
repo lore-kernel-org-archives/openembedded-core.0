@@ -1,28 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EE307899F
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E50E7899F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 01:50:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w261oWns004692
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 Mar 2018 17:50:32 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.240) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 5 Mar 2018 17:50:00 -0800
-To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1512006081.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <4290d2bd-1bb5-de14-a148-057092d5c133@windriver.com>
-Date: Tue, 6 Mar 2018 09:51:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue,  6 Mar 2018 02:19:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w262JHBj002770
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Mar 2018 18:19:17 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 5 Mar 2018 18:18:44 -0800
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Mar 2018 21:19:02 -0500
+Message-ID: <1520302742-249026-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1512006081.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/5] fix build when len(TMPDIR) == 410
+Subject: [PATCH] systemd-udev: Add systemd-mount to mount.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +31,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 01:50:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Mar 2018 02:19:16 -0000
+Content-Type: text/plain
 
-Ping.
+If linux uses systemd as init, systemd-udevd.service sets MountFlags=slave,
+which is essentially a sandboxing setting: it detaches mount() operations
+done within the service from the rest of the system. This means that,
+outside of namespace of systemd-udev, we can not access device mounted by
+udev and some operation may not be possible (e.g. mkfs.ext4 /dev/sda1).
 
-// Robert
+This patch adds systemd-mount in /etc/udev/script/mount.sh. The tool
+recommended by systemd upstream generally is the best way in particular in
+embedded applications to deal with hotpluggable media. Systemd-mount request
+the mount operation to be executed by PID 1, and hence outside of the mount
+context of udev.
 
-On 11/30/2017 09:45 AM, Robert Yang wrote:
-> The following changes since commit 33418ed064fe9cff5b4803f09135a81d9170c189:
-> 
->    runqemu: Also specialcase resolution of '.' to the file's location (2017-11-21 17:58:36 +0000)
-> 
-> are available in the git repository at:
-> 
->    git://git.openembedded.org/openembedded-core-contrib rbt/long
->    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/long
-> 
-> Robert Yang (5):
->    go-native: fix PATH issue when len(TMPDIR) == 410
->    go-native: fix import error when len(TMPDIR) == 410
->    ninja: fix for llvm build when len(TMPDIR) == 410
->    webkitgtk: fix compile error when len(TMPDIR) == 410
->    sqlite3: use 1024 for MAX_PATHNAM
-> 
->   ...01-cmd-dist-unix.c-bprintf-use-larger-buf.patch | 38 ++++++++++++++++++++++
->   .../go/files/0002-cmd-gc-go.h-NSYMB-500-1000.patch | 35 ++++++++++++++++++++
->   meta/recipes-devtools/go/go-native.inc             |  5 ++-
->   ...src-util.cc-use-larger-kMaxPathComponents.patch | 33 +++++++++++++++++++
->   meta/recipes-devtools/ninja/ninja_1.7.2.bb         |  5 ++-
->   meta/recipes-sato/webkit/webkitgtk_2.16.6.bb       | 27 +++++++++++++++
->   .../0001-sqlite3.c-use-1024-MAX_PATHNAME.patch     | 37 +++++++++++++++++++++
->   meta/recipes-support/sqlite/sqlite3_3.21.0.bb      |  1 +
->   8 files changed, 179 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/go/files/0001-cmd-dist-unix.c-bprintf-use-larger-buf.patch
->   create mode 100644 meta/recipes-devtools/go/files/0002-cmd-gc-go.h-NSYMB-500-1000.patch
->   create mode 100644 meta/recipes-devtools/ninja/ninja/0001-src-util.cc-use-larger-kMaxPathComponents.patch
->   create mode 100644 meta/recipes-support/sqlite/files/0001-sqlite3.c-use-1024-MAX_PATHNAME.patch
-> 
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 61 +++++++++++++++++++++++---
+ 1 file changed, 56 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index d760328..2fa2925 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -5,9 +5,28 @@
+ # Attempt to mount any added block devices and umount any removed devices
+ 
+ 
+-MOUNT="/bin/mount"
++BASE_INIT="`readlink "/sbin/init"`"
++INIT_SYSTEMD="/lib/systemd/systemd"
++
++if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
++	# systemd as init uses systemd-mount to mount block devices
++        MOUNT="/usr/bin/systemd-mount"
++        UMOUNT="/usr/bin/systemd-umount"
++
++        if [ -x $MOUNT ] && [ -x $UMOUNT ];
++        then
++                logger "Using systemd-mount to finish mount"
++        else
++                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
++		exit 1
++        fi
++else
++        MOUNT="/bin/mount"
++        UMOUNT="/bin/umount"
++fi
++
+ PMOUNT="/usr/bin/pmount"
+-UMOUNT="/bin/umount"
++
+ for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
+ do
+ 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+@@ -17,6 +36,34 @@ do
+ 	fi
+ done
+ 
++automount_systemd() {
++        name="`basename "$DEVNAME"`"
++
++        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
++        
++        MOUNT="$MOUNT -o silent"
++        
++        # If filesystemtype is vfat, change the ownership group to 'disk', and
++        # grant it with  w/r/x permissions.
++        case $ID_FS_TYPE in
++        vfat|fat)
++                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++                ;;
++        # TODO
++        *)
++                ;;
++        esac
++
++        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
++        then
++                #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
++                rm_dir "/run/media/$name"
++        else
++                logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
++                touch "/tmp/.automount-$name"
++        fi
++}
++
+ automount() {	
+ 	name="`basename "$DEVNAME"`"
+ 
+@@ -72,9 +119,13 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
+ 	# If the device isn't mounted at this point, it isn't
+ 	# configured in fstab (note the root filesystem can show up as
+ 	# /dev/root in /proc/mounts, so check the device number too)
+-	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+-		grep -q "^$DEVNAME " /proc/mounts || automount
+-	fi
++        if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
++                if [ "`basename $MOUNT`" = "systemd-mount" ];then
++                        grep -q "^$DEVNAME " /proc/mounts || automount_systemd
++                else
++                        grep -q "^$DEVNAME " /proc/mounts || automount
++                fi
++        fi
+ fi
+ 
+ 
+-- 
+2.8.1
+
 
