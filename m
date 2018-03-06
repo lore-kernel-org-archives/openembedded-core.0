@@ -1,48 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E8A2D6FFCD
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 676466FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 03:09:33 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id l4so7746684pgp.11
+	Tue,  6 Mar 2018 03:11:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w263BnVf007489
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2018 19:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=y/kD81gQVX7DzVi5EGwGXumGKn3F7hqZ3u4I808ZuJc=;
-	b=V48ZpyZLFP/q0M7DGsRdNJOBuydp136dF3vhFvkfRymJLlH3rrtKHmlaVIQqAkxQOR
-	aFRF1UrlLu9CMIuqdSdhRyc9ywiN8d2aDOuSS0nXtkG+HlEdtBqA5LsQHz/PDL6NLMyj
-	zWVW1+2y3HqVezPYexclbox0EkcgtYW5wZQWhggnN5nfr3c4c9agKYaz8lhhYBXKsmrM
-	y7DxZG+7/OTu5pbE9ZTm6cXiN6f9sBs6hsZGoy9UPbxC3PDbwZ+8I1D3XnBgYs7b8iFY
-	tl9zhPFXWkOek6kxy2jhvcatnzJ9ysHcvAaY5Rwc6jxBDVH+QNMYL1zN04cU//oJC98i
-	wXwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=y/kD81gQVX7DzVi5EGwGXumGKn3F7hqZ3u4I808ZuJc=;
-	b=nOAFIjMWAldjAdWav0sjnmxdt8AsJzSZzOFW1ABCJ3g19bNrCFx7cny4XqdJ6VvIlB
-	i8iVSwIZ00AWqYkoHUJ9mcBpI64QEN9eXqumc6pddTNYTQKtDgxaNRbi8oCSAUFBQleG
-	Y4FKGn27qr1geBg9k/MEeH1SnlNYtnzpHw5QoBqX0aarplG1G9JP5q+Kgwhk4Yg1i9jw
-	z2xqpcSsEDAeqANEMojRrq2A7/+nknwJf8PQ9AX8dflO2i+ULJudDlboNVU+9r6Bkw3m
-	HIFgU0ySRo32DxjlGbaVTUraJuZSxR9fOEYptkH5QSVR8DmNP6o23eLfNn8ASMugg1zt
-	mZKA==
-X-Gm-Message-State: APf1xPBdDrslMetNRQn68mdQtGo+Dki08jiNjgbLW/VY2GUqdMpAElMx
-	KJDA7zzOERZY8h4CYW5hW+1JpVlfoUTlbET/UHA=
-X-Google-Smtp-Source: AG47ELt1epQHctpgSEoESCua7KlGk82Jqbm0P+/IkWQvdNXnJi7SJc//98EouvZSRScizb9m3jASGO2hAMR9fynl800=
-X-Received: by 10.98.18.70 with SMTP id a67mr17422288pfj.213.1520305774576;
-	Mon, 05 Mar 2018 19:09:34 -0800 (PST)
+	Mon, 5 Mar 2018 19:11:49 -0800 (PST)
+Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 5 Mar 2018 19:11:16 -0800
+To: Yi Zhao <yi.zhao@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1520298700-20804-1-git-send-email-yi.zhao@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <0c54e22c-8ae2-0191-8292-1d1155d283c0@windriver.com>
+Date: Tue, 6 Mar 2018 11:12:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.100.170.69 with HTTP; Mon, 5 Mar 2018 19:09:04 -0800 (PST)
-In-Reply-To: <20180305172046.21729-4-ross.burton@intel.com>
-References: <20180305172046.21729-1-ross.burton@intel.com>
-	<20180305172046.21729-4-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Mar 2018 19:09:04 -0800
-Message-ID: <CAMKF1soz7-FcSjt7H1ihQ05nx31DwhZZN6a8Tzn-qt2B0Xzqag@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/29] gtk+: refresh patches
+In-Reply-To: <1520298700-20804-1-git-send-email-yi.zhao@windriver.com>
+X-Originating-IP: [128.224.162.197]
+Subject: Re: [PATCH] insane.bbclass: skip opening invalid symlinks in package_qa_check_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,63 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 03:09:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 06 Mar 2018 03:11:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-You did not mention the reason why this refresh needed
+We need to make sure the .so symlinks which are in wrong location are 
+also reported.
+For example libfoo.so.1 is in under /lib and is correct, but for some 
+reason libfoo.so which is a symlink to libfoo.so.1 is under /lib32, and 
+this should be reported.
+I guess the correct fix should be:
+If it's a symlink, report it directly.
+If it's not symlink, check if it's ELF and report it accordingly.
 
-On Mon, Mar 5, 2018 at 9:20 AM, Ross Burton <ross.burton@intel.com> wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Best Regards,
+Chen Qi
+
+On 03/06/2018 09:11 AM, Yi Zhao wrote:
+> If the library is installed in a non-standard location and don't set
+> INSANE_SKIP, e.g. libfoo.so is installed in /usr/local/lib. The
+> package_qa_check_libdir will cause a traceback because it will try to
+> open the .so link in package-dev to check if it's an ELF:
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>       0001:
+>   *** 0002:do_package_qa(d)
+>       [snip]
+>       0048:    def open(self):
+>   *** 0049:        with open(self.name, "rb") as f:
+>       0050:            try:
+>       0051:                self.data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+>       0052:            except ValueError:
+>       0053:                # This means the file is empty
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> '/buildarea1/build/tmp/work/i586-poky-linux/foo/1.0-r0/packages-split/foo-dev/usr/local/lib/libfoo.so'
+>
+> Add checking before open file to skip the invalid sysmlinks.
+>
+> [YOCTO #11862]
+>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
->  meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+>   meta/classes/insane.bbclass | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-> index 1ae728e70d6..9eb7f6bf5c7 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-> +++ b/meta/recipes-gnome/gtk+/gtk+/hardcoded_libtool.patch
-> @@ -3,19 +3,20 @@ Upstream-Status: Inappropriate [embedded specific]
->  Updated to apply to gtk+-2.24.15
->
->  Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> -diff -Nurd gtk+-2.24.15/configure.ac gtk+-2.24.15/configure.ac
-> ---- gtk+-2.24.15/configure.ac  2013-01-12 20:52:54.000000000 +0200
-> -+++ gtk+-2.24.15/configure.ac  2013-02-12 21:33:30.689925967 +0200
-> -@@ -415,7 +415,7 @@
-> +Index: gtk+-2.24.31/configure.ac
-> +===================================================================
-> +--- gtk+-2.24.31.orig/configure.ac
-> ++++ gtk+-2.24.31/configure.ac
-> +@@ -415,7 +415,7 @@ AC_MSG_CHECKING([Whether to write depend
->   case $enable_explicit_deps in
->     auto)
->       export SED
->  -    deplibs_check_method=`(./libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
->  +    deplibs_check_method=`(./$host_alias-libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
->       if test "x$deplibs_check_method" '!=' xpass_all || test "x$enable_static" = xyes ; then
-> -       enable_explicit_deps=yes
-> +       enable_explicit_deps=yes
->       else
-> -@@ -774,7 +774,7 @@
-> +@@ -772,7 +772,7 @@ else
->       dnl Now we check to see if our libtool supports shared lib deps
->       dnl (in a rather ugly way even)
->       if $dynworks; then
-> @@ -24,7 +25,7 @@ diff -Nurd gtk+-2.24.15/configure.ac gtk+-2.24.15/configure.ac
->           module_deplibs_check=`$module_libtool_config | \
->               grep '^[[a-z_]]*check[[a-z_]]*_method=[['\''"]]' | \
->               sed 's/.*[['\''"]]\(.*\)[['\''"]]$/\1/'`
-> -@@ -1574,7 +1574,7 @@
-> +@@ -1579,7 +1579,7 @@ fi
->   # We are using gmodule-no-export now, but I'm leaving the stripping
->   # code in place for now, since pango and atk still require gmodule.
->   export SED
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 7407b29..28c9eee 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -357,7 +357,7 @@ def package_qa_check_libdir(d):
+>                   package, rel_path = rel_path.split(os.sep, 1)
+>                   rel_path = os.sep + rel_path
+>                   if lib_re.match(rel_path):
+> -                    if base_libdir not in rel_path:
+> +                    if base_libdir not in rel_path and os.path.exists(full_path):
+>                           # make sure it's an actual ELF file
+>                           elf = oe.qa.ELFFile(full_path)
+>                           try:
+> @@ -366,7 +366,7 @@ def package_qa_check_libdir(d):
+>                           except (oe.qa.NotELFFileError):
+>                               pass
+>                   if exec_re.match(rel_path):
+> -                    if libdir not in rel_path and libexecdir not in rel_path:
+> +                    if libdir not in rel_path and libexecdir not in rel_path and os.path.exists(full_path):
+>                           # make sure it's an actual ELF file
+>                           elf = oe.qa.ELFFile(full_path)
+>                           try:
+
+
 
