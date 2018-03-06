@@ -1,39 +1,39 @@
 Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 8120578A97
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+	by mail.openembedded.org (Postfix) with ESMTP id 8381C78A9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 17:50:50 +0000 (UTC)
+	Tue,  6 Mar 2018 17:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2352; q=dns/txt; s=iport;
-	t=1520358653; x=1521568253;
+	d=cisco.com; i=@cisco.com; l=16407; q=dns/txt;
+	s=iport; t=1520358653; x=1521568253;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=txmjxN6J8upIiZqMwT55qqOjzoG5ZK5xQntw6ci5kK4=;
-	b=YkNUAtVGPEIUOlKD+TDzwq0siQ3ZIdRDQ0tkzUKZ/rsWmul8lEVY4YBF
-	bL8ZsQHXhib+vgw6W+LxWSTxYhYkRUJSwVKziQMj4KWkCEEpye0POpPnB
-	NbKDZFS5CS4CT/kpp1Zz/w72n0yqgdJ9IpwcPJvbLpX4e2UrO19+i5JMC I=;
+	bh=/XDdm5cE5dokPAT3/yjSYedvuS0lm7cXEJraM5xhmkU=;
+	b=OO+whdFFrpOZmeBi8gC2RTztOPSMVEYt5XdYH8kN0w1ZKzYnKFZyReUB
+	cbZiSbNr23lyDAtVzDq5iTwk5CqzNthwWqJLVVEYWU60JvEODYfPp3FBK
+	MFqIS5XXS9GsDOLBvnl5kahN07d6ypHtFOM+RFq3xH7mK8R26V9rNjekT A=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BJAgCk055a/5xdJa1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYNQZnAom3GDGJZJCh+FEQKDAyE3FQECAQEBAQEBAmsnhSQGeRB?=
-	=?us-ascii?q?RVxmFG6s6hHKDdIImhTGCLoY0hUFihSEEjnGLdgmGVIMSAQWHEwKOdol9hywCE?=
-	=?us-ascii?q?RkBgS40IoFSTSMVgn0JhGAfN4wlAQEB?=
-X-IronPort-AV: E=Sophos;i="5.47,432,1515456000"; d="scan'208";a="146325668"
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AeAQBY1J5a/5xdJa1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQcBAQEBAYNQgVYojXiNeYJ9G5Q0FIIBCoFbASODMQKDAyE0GAECAQEBAQE?=
+	=?us-ascii?q?BAmsnhSQGeRBRVxmFG6s/hHKDdIImhTGCLoM9gneFHIYoBI17AXWLL0cJiWaHG?=
+	=?us-ascii?q?QKOdoZmikMCERkBgS4eOIFSTSMVOoJDgmOCBh83M4tyAQEB?=
+X-IronPort-AV: E=Sophos;i="5.47,432,1515456000"; d="scan'208";a="362500300"
 Received: from rcdn-core-5.cisco.com ([173.37.93.156])
-	by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	by rcdn-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	06 Mar 2018 17:50:52 +0000
 Received: from kamensky-w541.cisco.com ([10.24.22.184]) (authenticated bits=0)
-	by rcdn-core-5.cisco.com (8.14.5/8.14.5) with ESMTP id w26HofYp007528
+	by rcdn-core-5.cisco.com (8.14.5/8.14.5) with ESMTP id w26HofYq007528
 	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Tue, 6 Mar 2018 17:50:51 GMT
+	Tue, 6 Mar 2018 17:50:52 GMT
 From: Victor Kamensky <kamensky@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2018 09:50:40 -0800
-Message-Id: <1520358641-7062-5-git-send-email-kamensky@cisco.com>
+Date: Tue,  6 Mar 2018 09:50:41 -0800
+Message-Id: <1520358641-7062-6-git-send-email-kamensky@cisco.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1520358641-7062-1-git-send-email-kamensky@cisco.com>
 References: <1520358641-7062-1-git-send-email-kamensky@cisco.com>
 X-Authenticated-User: kamensky@cisco.com
 Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [RFC PATCH 4/5] systemtap: introduce utils variant of systemtap package build
+Subject: [RFC PATCH 5/5] crosstap2: wrapper to build systemtap script on host against given target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,63 +48,449 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Mar 2018 17:50:51 -0000
 
-In case of small target images it is too expensive to include
-full stap package into the image. Because default systemtap
-package include SystemTap translater and have very deep dependencies
-on variety of libraries. And in cross compiling environment
-compilation of SystemTap kernel modules can happen on host for
-a given target using --sysroot and other proper options.
+crosstap2 is similar to existing crosstap shell script, but unlike crosstap
+script that can handle only kernel SystemTap scripts, crosstap2 can also
+deal with user land related SystemTap scripts. It discovers and set up
+proper --sysroot arguments for stap invocation.
 
-In order to deploy resulting SystemTap .ko module, one need small
-set of SystemTap runtime tools like staprun and stapio.
-
-systemtap-utils introduces special "small" variant of systemtap
-build where only SystemTap run-time utilties are built. As result
-addition on target is quite small.
+The logic of handling of user-land related cross build arguments is a bit
+more complicated. It seemed that to implement it in existing crosstap
+script would be a stretch, so crosstap2 is written in python.
 
 Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- .../systemtap/systemtap-utils_git.bb               | 31 ++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap-utils_git.bb
+ scripts/crosstap2 | 422 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 422 insertions(+)
+ create mode 100755 scripts/crosstap2
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap-utils_git.bb b/meta/recipes-kernel/systemtap/systemtap-utils_git.bb
-new file mode 100644
-index 0000000..3359257
+diff --git a/scripts/crosstap2 b/scripts/crosstap2
+new file mode 100755
+index 0000000..c5209d2
 --- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap-utils_git.bb
-@@ -0,0 +1,31 @@
-+SUMMARY = "Small set only runtime utilities for SystemTap"
-+HOMEPAGE = "https://sourceware.org/systemtap/"
++++ b/scripts/crosstap2
+@@ -0,0 +1,422 @@
++#!/usr/bin/env python3
++#
++# Build a systemtap script for a given image.
++#
++# Effectively script extracts needed information from set of
++# 'bitbake -e' commands and contructs proper invocation of stap on
++# host to build systemtap script for a given target.
++#
++# By default script will compile scriptname.ko that could be copied
++# to taget and activated with 'staprun scriptname.ko' command. Or if
++# --remote user@hostname option is specified script will build, load
++# execute script on target.
++#
++# This script is very similar and inspired by crosstap shell script.
++# The major difference that this script supports user-land related
++# systemtap script, whereas crosstap could deal only with scripts
++# related to kernel.
++#
++# Copyright (c) 2018, Cisco Systems.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 +
-+require systemtap_git.inc
++import sys
++import re
++import subprocess
++import os
 +
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemtap:"
++from optparse import OptionParser
 +
-+DEPENDS = "elfutils"
++class Stap(object):
++    def __init__(self, script, module, remote):
++        self.script = script
++        self.module = module
++        self.remote = remote
++        self.stap = None
++        self.sysroot = None
++        self.runtime = None
++        self.tapset = None
++        self.arch = None
++        self.cross_compile = None
++        self.kernel_release = None
++        self.target_path = None
++        self.target_ld_library_path = None
 +
-+# should not be used along with complete systemtap
-+RCONFLICTS_${PN} = "systemtap"
++        if not self.remote:
++            if not self.module:
++                # derive module name from script
++                self.module = os.path.basename(self.script)
++                if self.module[-4:] == ".stp":
++                    self.module = self.module[:-4]
++                    # replace - if any with _
++                    self.module = self.module.replace("-", "_")
 +
-+EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-+            --without-nss --without-avahi --without-dyninst \
-+            --disable-server --disable-grapher --enable-prologues \
-+            --with-python3 --without-python2-probes \
-+            --disable-sdt-probes --disable-translator \
-+            --disable-libvirt --disable-sqlite --disable-monitor \
-+            --without-python3-probes \
-+            --disable-docs --disable-publican --disable-refdocs \
-+            ac_cv_prog_have_javac=no \
-+            ac_cv_prog_have_jar=no "
++    def command(self, args):
++        ret = []
++        ret.append(self.stap)
 +
-+do_install_append () {
-+            rm -rf ${D}${datadir}/systemtap
-+            rm -rf ${D}${includedir}
-+            # remove bash dependency we don't need it anyway
-+            rm ${D}${libexecdir}/systemtap/stap-env
-+}
++        if self.remote:
++            ret.append("--remote")
++            ret.append(self.remote)
++        else:
++            ret.append("-p4")
++            ret.append("-m")
++            ret.append(self.module)
 +
-+inherit autotools gettext
++        ret.append("--sysroot")
++        ret.append(self.sysroot)
++
++        ret.append("-a")
++        ret.append(self.arch)
++
++        ret.append("-B")
++        ret.append("CROSS_COMPILE=" + self.cross_compile)
++
++        ret.append("-r")
++        ret.append(self.kernel_release)
++
++        ret.append("-I")
++        ret.append(self.tapset)
++
++        ret.append("-R")
++        ret.append(self.runtime)
++
++        ret.append("--sysenv=PATH=" + self.target_path)
++        ret.append("--sysenv=LD_LIBRARY_PATH=" + self.target_ld_library_path)
++
++        ret = ret + args
++
++        ret.append(self.script)
++        return ret
++
++    def additional_environment(self):
++        ret = {}
++        ret["SYSTEMTAP_DEBUGINFO_PATH"] = "+:.debug:build"
++        return ret
++
++    def environment(self):
++        ret = os.environ.copy()
++        additional = self.additional_environment()
++        for e in additional:
++            ret[e] = additional[e]
++        return ret
++
++    def display_command(self, args):
++        additional_env = self.additional_environment()
++        command = self.command(args)
++
++        print("#!/bin/sh")
++        for e in additional_env:
++            print("export %s=\"%s\"" % (e, additional_env[e]))
++        print(" ".join(command))
++
++class BitbakeEnvInvocationException(Exception):
++    def __init__(self, message):
++        self.message = message
++
++class BitbakeEnv(object):
++    BITBAKE="bitbake"
++
++    def __init__(self, package):
++        self.package = package
++        self.cmd = BitbakeEnv.BITBAKE + " -e " + self.package
++        self.popen = subprocess.Popen(self.cmd, shell=True,
++                                      stdout=subprocess.PIPE,
++                                      stderr=subprocess.STDOUT)
++        self.__lines = self.popen.stdout.readlines()
++        self.popen.wait()
++
++        self.lines = []
++        for line in self.__lines:
++                self.lines.append(line.decode('utf-8'))
++
++    def get_vars(self, vars):
++        if self.popen.returncode:
++            raise BitbakeEnvInvocationException(
++                "\nFailed to execute '" + self.cmd +
++                "' with the following message:\n" +
++                ''.join(self.lines))
++
++        search_patterns = []
++        retdict = {}
++        for var in vars:
++            # regular not exported variable
++            rexpr = "^" + var + "=\"(.*)\""
++            re_compiled = re.compile(rexpr)
++            search_patterns.append((var, re_compiled))
++
++            # exported variable
++            rexpr = "^export " + var + "=\"(.*)\""
++            re_compiled = re.compile(rexpr)
++            search_patterns.append((var, re_compiled))
++
++            for line in self.lines:
++                for var, rexpr in search_patterns:
++                    m = rexpr.match(line)
++                    if m:
++                        value = m.group(1)
++                        retdict[var] = value
++
++        # fill variables values in order how they were requested
++        ret = []
++        for var in vars:
++            ret.append(retdict.get(var))
++
++        # if it is single value list return it as scalar, not the list
++        if len(ret) == 1:
++            ret = ret[0]
++
++        return ret
++
++class ParamDiscovery(object):
++    SYMBOLS_CHECK_MESSAGE = """
++WARNING: image '%s' does not have dbg-pkgs IMAGE_FEATURES enabled and no
++IMAGE_GEN_COMBINED_DEBUGFS="1" options is specified. As result the image does
++not have symbols for user-land processes DWARF based probes. Consider
++adding 'dbg-pkgs' to EXTRA_IMAGE_FEATURES or set IMAGE_GEN_COMBINED_DEBUGFS="1".
++Or you may use IMAGE_GEN_DEBUGFS="1" option, and then after build you need
++recombine/unpack image and image-dbg tarballs and pass resulting dir location
++with --sysroot option.
++"""
++
++    def __init__(self, image):
++        self.image = image
++
++        self.image_rootfs = None
++        self.image_features = None
++        self.image_gen_debugfs = None
++        self.base_bindir = None
++        self.base_sbindir = None
++        self.base_libdir = None
++        self.bindir = None
++        self.sbindir = None
++        self.libdir = None
++
++        self.staging_bindir_toolchain = None
++        self.target_prefix = None
++        self.target_arch = None
++        self.target_kernel_builddir = None
++
++        self.staging_dir_native = None
++
++    def discover(self):
++        benv_image = BitbakeEnv(self.image)
++        (self.image_rootfs,
++         self.image_features,
++         self.image_gen_debugfs,
++         self.image_gen_combined_debugfs,
++         self.base_bindir,
++         self.base_sbindir,
++         self.base_libdir,
++         self.bindir,
++         self.sbindir,
++         self.libdir
++        ) = benv_image.get_vars(
++             ("IMAGE_ROOTFS",
++              "IMAGE_FEATURES",
++              "IMAGE_GEN_DEBUGFS",
++              "IMAGE_GEN_COMBINED_DEBUGFS",
++              "base_bindir",
++              "base_sbindir",
++              "base_libdir",
++              "bindir",
++              "sbindir",
++              "libdir"
++              ))
++
++        benv_kernel = BitbakeEnv("virtual/kernel")
++        (self.staging_bindir_toolchain,
++         self.target_prefix,
++         self.target_arch,
++         self.target_kernel_builddir
++        ) = benv_kernel.get_vars(
++             ("STAGING_BINDIR_TOOLCHAIN",
++              "TARGET_PREFIX",
++              "TRANSLATED_TARGET_ARCH",
++              "B"
++            ))
++
++        benv_systemtap = BitbakeEnv("systemtap-native")
++        (self.staging_dir_native
++        ) = benv_systemtap.get_vars(["STAGING_DIR_NATIVE"])
++
++    def check(self, sysroot_option):
++        ret = True
++        sysroot = self.image_rootfs
++        if not os.path.isdir(self.image_rootfs):
++            print("ERROR: Cannot find '" + sysroot +
++                  "' directory. Was '" + self.image + "' image built?")
++            ret = False
++
++        stap = self.staging_dir_native + "/usr/bin/stap"
++        if not os.path.isfile(stap):
++            print("ERROR: Cannot find '" + stap +
++                  "'. Was 'systemtap-native' built?")
++            ret = False
++
++        if not os.path.isdir(self.target_kernel_builddir):
++            print("ERROR: Cannot find '" + self.target_kernel_builddir +
++                  "' directory. Was 'kernel/virtual' built?")
++            ret = False
++
++        if not sysroot_option:
++            dbg_pkgs_found = False
++
++            if self.image_features:
++                image_features = self.image_features.split()
++                if "dbg-pkgs" in image_features:
++                    dbg_pkgs_found = True
++
++            if not dbg_pkgs_found \
++               and self.image_gen_combined_debugfs != "1":
++                print(ParamDiscovery.SYMBOLS_CHECK_MESSAGE % (self.image))
++
++        if not ret:
++            print("")
++
++        return ret
++
++    def __map_systemtap_arch(self):
++        a = self.target_arch
++        ret = a
++        if   re.match('(athlon|x86.64)$', a):
++            ret = 'x86_64'
++        elif re.match('i.86$', a):
++            ret = 'i386'
++        elif re.match('arm$', a):
++            ret = 'arm'
++        elif re.match('aarch64$', a):
++            ret = 'arm64'
++        elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a):
++            ret = 'mips'
++        elif re.match('p(pc|owerpc)(|64)', a):
++            ret = 'powerpc'
++        return ret
++
++    def fill_stap(self, stap):
++        stap.stap = self.staging_dir_native + "/usr/bin/stap"
++        if not stap.sysroot:
++            if self.image_gen_combined_debugfs == "1":
++                stap.sysroot = self.image_rootfs + "-dbg"
++            else:
++                stap.sysroot = self.image_rootfs
++        stap.runtime = self.staging_dir_native + "/usr/share/systemtap/runtime"
++        stap.tapset = self.staging_dir_native + "/usr/share/systemtap/tapset"
++        stap.arch = self.__map_systemtap_arch()
++        stap.cross_compile = self.staging_bindir_toolchain + "/" + \
++                             self.target_prefix
++        stap.kernel_release = self.target_kernel_builddir
++
++        # do we have standard that tells in which order these need to appear
++        target_path = []
++        if self.sbindir:
++            target_path.append(self.sbindir)
++        if self.bindir:
++            target_path.append(self.bindir)
++        if self.base_sbindir:
++            target_path.append(self.base_sbindir)
++        if self.base_bindir:
++            target_path.append(self.base_bindir)
++        stap.target_path = ":".join(target_path)
++
++        target_ld_library_path = []
++        if self.libdir:
++            target_ld_library_path.append(self.libdir)
++        if self.base_libdir:
++            target_ld_library_path.append(self.base_libdir)
++        stap.target_ld_library_path = ":".join(target_ld_library_path)
++
++
++def main():
++    usage = """usage: %prog [script options] [-- [systemtap options]]
++
++%prog cross compile given SystemTap script against given image
++
++It needs to run in environtment set for bitbake - it uses bitbake -e
++invocations to retrieve information to construct proper stap cross build
++invocation arguments. It assumes that systemtap-native is built in given
++bitbake workspace.
++
++Anything after -- option is passed directly to stap.
++
++Script name '-s' and image name '-i' are only mandatory options."""
++
++    option_parser = OptionParser(usage=usage)
++
++    option_parser.add_option("-s", "--script", dest="script",
++                             help="specify input script FILE name",
++                             metavar="FILE")
++
++    option_parser.add_option("-i", "--image", dest="image",
++                             help="specify image name for which script should be compiled")
++
++    option_parser.add_option("-r", "--remote", dest="remote",
++                             help="specify username@hostname of remote target to run script"
++                             "optional, it assumes that remote target can be accessed through ssh")
++
++    option_parser.add_option("-m", "--module", dest="module",
++                             help="specify module name, optional, has effect only if --remote is not used, "
++                             "if not specified module name will derived from passed script name")
++
++    option_parser.add_option("-y", "--sysroot", dest="sysroot",
++                             help="explicitely specify image sysroot location. May need to use in case "
++                             "when IMAGE_GEN_DEBUGFS=\"1\" option is used and recombined with symbols "
++                             "in different location",
++                             metavar="DIR")
++
++    option_parser.add_option("-o", "--out", dest="out",
++                             action="store_true",
++                             help="output shell script that equvivalent invocation of this script with "
++                             "given set of arguments, in given bitbake environment. It could be stored in "
++                             "separate shell script and could be repeated without incuring bitbake -e "
++                             "invocation overhead",
++                             default=False)
++
++    option_parser.add_option("-d", "--debug", dest="debug",
++                             action="store_true",
++                             help="enable debug output. Use this option to see resulting stap invocation",
++                             default=False)
++
++
++
++    (options, remaining_args) = option_parser.parse_args()
++    if not options.script or not options.image:
++        if not options.script:
++            print("'-s FILE' option is missing\n")
++        if not options.image:
++            print("'-i IMAGE' option is missing\n")
++        option_parser.print_help()
++    else:
++        stap = Stap(options.script, options.module, options.remote)
++        discovery = ParamDiscovery(options.image)
++        discovery.discover()
++        if not discovery.check(options.sysroot):
++            option_parser.print_help()
++        else:
++            stap.sysroot = options.sysroot
++            discovery.fill_stap(stap)
++
++            if options.out:
++                stap.display_command(remaining_args)
++            else:
++                cmd = stap.command(remaining_args)
++                env = stap.environment()
++
++                if options.debug:
++                    print(" ".join(cmd))
++
++                os.execve(cmd[0], cmd, env)
++
++main()
 -- 
 2.7.4
 
