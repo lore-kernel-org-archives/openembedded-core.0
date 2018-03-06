@@ -1,24 +1,31 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE32178A40
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AC65B7847D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 00:04:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2604ZLX020529
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Mar 2018 16:04:37 -0800
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 5 Mar 2018 16:04:00 -0800
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Mar 2018 16:04:32 -0800
-Message-ID: <20180306000432.254391-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	Tue,  6 Mar 2018 01:00:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Mar 2018 17:00:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,429,1515484800"; 
+	d="scan'208,217";a="180167342"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga004.jf.intel.com with ESMTP; 05 Mar 2018 17:00:12 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20180301021518.29564-1-california.l.sullivan@intel.com>
+	<20180301021518.29564-8-california.l.sullivan@intel.com>
+	<CAJTo0LZH136aQ6jL2G=QcYeOvxjrc9mfisrAkEYgD4dVz1G59A@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <365619b3-671f-81b2-f9ee-9e746a77b408@intel.com>
+Date: Mon, 5 Mar 2018 17:00:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] gnome-desktop3: eliminate erroneous free()
+In-Reply-To: <CAJTo0LZH136aQ6jL2G=QcYeOvxjrc9mfisrAkEYgD4dVz1G59A@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 07/21] grub-efi*.bbclass: don't reference vmlinuz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 00:04:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Mar 2018 01:00:11 -0000
+Content-Type: multipart/alternative;
+	boundary="------------C6C0B105F682614624AC2370"
+Content-Language: en-US
 
-gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch introduced
-a call to localtime() and a free() of the structure returned.  This is
-incorrect, as the structure is static.  For glibc 2.26, this will cause
-the program to abort.  Eliminate the free() and call localtime_r()
-which lets us allocate the tm structure.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../gnome-desktop/fix_erroneous_free.patch         | 35 ++++++++++++++++++++++
- .../gnome-desktop/gnome-desktop3_3.26.2.bb         |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch
-
-diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch b/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch
-new file mode 100644
-index 0000000..c27e4d5
---- /dev/null
-+++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch
-@@ -0,0 +1,35 @@
-+gnome-desktop3: eliminate erroneous free()
-+
-+Do not free() a static structure.  Use re-entrant localtime_r().
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <jslater@windriver.com>
-+
-+
-+--- a/libgnome-desktop/gnome-desktop-thumbnail.c
-++++ b/libgnome-desktop/gnome-desktop-thumbnail.c
-+@@ -1200,7 +1200,7 @@ save_thumbnail (GdkPixbuf  *pixbuf,
-+   char *tmp_path = NULL;
-+   int tmp_fd;
-+   char mtime_str[21];
-+-  struct tm *tmp_mtime = NULL;
-++  struct tm tmp_mtime;
-+   gboolean ret = FALSE;
-+   GError *error = NULL;
-+   const char *width, *height;
-+@@ -1220,11 +1220,10 @@ save_thumbnail (GdkPixbuf  *pixbuf,
-+     goto out;
-+   close (tmp_fd);
-+ 
-+-  tmp_mtime = localtime (&mtime);
-+-  if (!tmp_mtime)
-++  if (!localtime_r (&mtime,&tmp_mtime))
-+     goto out;
-+-  strftime (mtime_str, 21, "%s", tmp_mtime);
-+-  free (tmp_mtime);
-++
-++  strftime (mtime_str, 21, "%s", &tmp_mtime);
-+   width = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Width");
-+   height = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Height");
-+ 
-diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
-index cd6c194..2cd3234 100644
---- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
-+++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
-@@ -14,6 +14,7 @@ SRC_URI += " \
-            file://gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch \
-            file://0001-configure.ac-Remove-gnome-common-macro-calls.patch \
-            file://0001-Disable-libseccomp-sycall-filtering-mechanism.patch \
-+           file://fix_erroneous_free.patch \
-            "
- 
- DEPENDS += "intltool-native gsettings-desktop-schemas gconf virtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config iso-codes udev"
--- 
-2.7.4
+--------------C6C0B105F682614624AC2370
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 03/05/2018 04:50 AM, Burton, Ross wrote:
+> On 1 March 2018 at 02:15, California Sullivan 
+> <california.l.sullivan@intel.com 
+> <mailto:california.l.sullivan@intel.com>> wrote:
+>
+>     +KERNEL_IMAGETYPE ??= "bzImage"
+>
+>
+> You repeat this line in several classes, can we just move the default 
+> to default-distrovars or similar?
+
+I was trying to avoid adding to bitbake.conf (or things it inherits 
+from) but I think it makes sense here. With the changes switching away 
+from assuming "vmlinuz" and instead using KERNEL_IMAGETYPE, we now rely 
+on it being set in a number of places, so setting a global default would 
+be best. If I have your blessings I can make that change.
+
+I see this patchset in is master-next and ross/mut. Should I make the 
+change on top of this, or send a v4?
+
+Thanks,
+Cal
+>
+> Ross
+
+
+--------------C6C0B105F682614624AC2370
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 03/05/2018 04:50 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZH136aQ6jL2G=QcYeOvxjrc9mfisrAkEYgD4dVz1G59A@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">On 1 March 2018 at 02:15, California Sullivan <span
+          dir="ltr">&lt;<a href="mailto:california.l.sullivan@intel.com"
+            target="_blank" moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">+KERNEL_IMAGETYPE
+              ??= "bzImage"<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>You repeat this line in several classes, can we just
+              move the default to default-distrovars or similar?</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I was trying to avoid adding to bitbake.conf (or things it inherits
+    from) but I think it makes sense here. With the changes switching
+    away from assuming "vmlinuz" and instead using KERNEL_IMAGETYPE, we
+    now rely on it being set in a number of places, so setting a global
+    default would be best. If I have your blessings I can make that
+    change.<br>
+    <br>
+    I see this patchset in is master-next and ross/mut. Should I make
+    the change on top of this, or send a v4?<br>
+    <br>
+    Thanks,<br>
+    Cal<br>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZH136aQ6jL2G=QcYeOvxjrc9mfisrAkEYgD4dVz1G59A@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------C6C0B105F682614624AC2370--
