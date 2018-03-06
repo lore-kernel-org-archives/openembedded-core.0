@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DC8D78A9E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 28D0C78AA2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 18:11:18 +0000 (UTC)
+	Tue,  6 Mar 2018 18:11:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w26IBI59012024
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w26IBKCm014563
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Mar 2018 10:11:18 -0800 (PST)
+	Tue, 6 Mar 2018 10:11:20 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 6 Mar 2018 10:10:45 -0800
+	14.3.361.1; Tue, 6 Mar 2018 10:10:46 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 6 Mar 2018 13:11:08 -0500
-Message-ID: <cover.1520359364.git.bruce.ashfield@windriver.com>
+Date: Tue, 6 Mar 2018 13:11:09 -0500
+Message-ID: <28b9ee1263d7a5343c2e8246ff0b5f57454b054c.1520359364.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1520359364.git.bruce.ashfield@windriver.com>
+References: <cover.1520359364.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/9] kernel-yocto: consolidated pull request
+Subject: [PATCH 1/9 v3] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,135 +33,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 18:11:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Mar 2018 18:11:20 -0000
+Content-Type: text/plain
 
-Hi all,
+The existing kernel-devsrc package starts with a full copy of the kernel
+source and then starts to strip out elements that are not required.
 
-This is the latest consolidated kernel pull request. It contains -stable updates,
-the kernel-devsrc re-work, and a libc-headers version bump.
+This results in extra time (I/O) and extra space being taken up in the
+final package. The main purpose of the kernel-devsrc package has been to
+build modules against the running kernel, not to include a full copy of
+the source code for re-building the kernel. The end result was a
+600M kernel-devsrc package.
 
-The -stable updates are routine, and are required to pick up the latest CVE and
-bug fixes from korg.
+This restructuring of the package uses an approach similar to other
+distros, where the kernel-devsrc package is for building against the
+running kernel and uses a curated set of copied infrastructure, versus
+a mass copy of the entire kernel.
 
-The kernel-devsrc re-structure has already gone through two revisions, and this
-v3 of that patch addresses mips + powerpc + ARM issues that were found during
-the on target kernel module compilation testing.
+The differences in this approach versus other is largely due to the
+architecture support and the split build/source directory of the
+kernel.
 
-There's one minor fix for kernel class handling of crtsaveres.o, and that same fix
-was required for kernel-devsrc.
+The result is a kernel-devsrc package of about 10M, which is capable
+of running "make scripts" and compiling kernel modules against the
+running kernel.
 
-And finally, there is also have a libc-headers version bump to deal with a
-regression introduced in the 4.15 kernel uapi headers. This was picked up due
-to the breakage of several packages, and has since been nominated for -stable
-inclusion. Patching libc-headers is a last resort, so instead I've tracked the
--stable version to pick up the change. All the details are in the patches
-commit log:
+Along with the changes to the copying of the infrascture, we also
+have the following changes:
 
---->--->--->--->--->--->--->
-   Subject: [PATCH 2/9] linux-libc-headers: update to 4.15.7
+ - a better/more explicit listing of dependencies for on-target
+   builds of "make scripts" or "make modules_prepare"
 
-   While we don't normally follow all the -stable updates for libc-headers, there
-   was one userspace header that was broken in the 4.15 cycle, and it has now
-   been fixed in -stable.
+ - The kernel source is installed into /lib/modules/<version>/build
+   and a symlink created from /usr/src/kernel to the new location.
+   This aligns with the standard location for module support
+   code
 
-   The offending header breaks the build for several packages, so we update to
-   pick up this change:
+ - There is also a symlink from /lib/modules/<version>/source -> build
+   to reserve a spot for a new package that is simply the kernel
+   source. That package is not part of this update.
 
-      Author: Hauke Mehrtens <hauke@hauke-m.de>
-      Date:   Mon Feb 12 23:59:51 2018 +0100
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
 
-          uapi/if_ether.h: move __UAPI_DEF_ETHHDR libc define
+v3: fixes for ppc, mips and muslc
 
-          commit da360299b6734135a5f66d7db458dcc7801c826a upstream.
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 192 +++++++++++++++++++++++------
+ 1 file changed, 152 insertions(+), 40 deletions(-)
 
-          This fixes a compile problem of some user space applications by not
-          including linux/libc-compat.h in uapi/if_ether.h.
-
-          linux/libc-compat.h checks which "features" the header files, included
-          from the libc, provide to make the Linux kernel uapi header files only
-             provide no conflicting structures and enums. If a user application mixes
-          kernel headers and libc headers it could happen that linux/libc-compat.h
-          gets included too early where not all other libc headers are included
-          yet. Then the linux/libc-compat.h would not prevent all the
-          redefinitions and we run into compile problems.
-          This patch removes the include of linux/libc-compat.h from
-          uapi/if_ether.h to fix the recently introduced case, but not all as this
-          is more or less impossible.
-
-          It is no problem to do the check directly in the if_ether.h file and not
-          in libc-compat.h as this does not need any fancy glibc header detection
-          as glibc never provided struct ethhdr and should define
-          __UAPI_DEF_ETHHDR by them self when they will provide this.
-
-          The following test program did not compile correctly any more:
-
-          #include <linux/if_ether.h>
-          #include <netinet/in.h>
-          #include <linux/in.h>
-
-          int main(void)
-          {
-              return 0;
-          }
-
-          Fixes: 6926e041a892 ("uapi/if_ether.h: prevent redefinition of struct ethhdr")
-          Reported-by: Guillaume Nault <g.nault@alphalink.fr>
-          Cc: <stable@vger.kernel.org> # 4.15
-          Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
-          Signed-off-by: David S. Miller <davem@davemloft.net>
-          Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-   We also add a new muslc patch to adjust the ethhdr change in the uapi. As is
-   suggested in the kernel commit, we can protect musl directly in if_ether itself.
-
-   Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
---->--->--->--->--->--->--->
-
-Cheers,
-
-Bruce
-
-The following changes since commit e5f258cecef6c51a4d7ebeedbaa29d2126e566e3:
-
-  util-linux: add taskset to alternatives list (2018-03-06 06:43:11 -0800)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (9):
-  kernel-devsrc: restructure for out of tree (and on target) module
-    builds
-  linux-libc-headers: update to 4.15.7
-  linux-yocto/4.15: update to v4.15.7
-  linux-yocto/4.14: update to v4.14.24
-  linux-yocto/4.12: fix aufs compile warning
-  linux-yocto/4.12: memleak and build warning fixes
-  linux-yocto: aufs and systemtap
-  linux-yocto/4.12: warning: drm/i915/cfl: Coffee Lake works on Kaby
-    Lake PCH
-  kernel: make copying of crtsavres.o conditional
-
- meta/classes/kernel.bbclass                        |   6 +-
- ...move-muslc-ethhdr-protection-to-uapi-file.patch |  30 ++++
- ...eaders_4.15.bb => linux-libc-headers_4.15.7.bb} |   6 +-
- meta/recipes-kernel/linux/kernel-devsrc.bb         | 192 ++++++++++++++++-----
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |   4 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |   6 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |   4 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |   6 +-
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      |  18 +-
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      |  20 +--
- meta/recipes-kernel/linux/linux-yocto_4.15.bb      |  20 +--
- 13 files changed, 235 insertions(+), 89 deletions(-)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.15.bb => linux-libc-headers_4.15.7.bb} (62%)
-
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index c1b5b7786d7c..98794c93a66b 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -30,50 +30,162 @@ do_populate_sysroot[noexec] = "1"
+ S = "${STAGING_KERNEL_DIR}"
+ B = "${STAGING_KERNEL_BUILDDIR}"
+ 
+-KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
+-
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
++KERNEL_BUILD_ROOT="/lib/modules/"
++
+ do_install() {
+-        kerneldir=${D}${KERNEL_SRC_PATH}
+-        install -d $kerneldir
+-
+-        #
+-        # Copy the staging dir source (and module build support) into the devsrc structure.
+-        # We can keep this copy simple and take everything, since a we'll clean up any build
+-        # artifacts afterwards, and the extra i/o is not significant
+-        #
+-        cd ${B}
+-        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+-        cd ${S}
+-	find . -type d -name '.git*' -prune -o -type d -name '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+-
+-        # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
+-        # The main build artifacts. We clean the directory to avoid QA errors on mismatched
+-        # architecture (since scripts and helpers are native format).
+-        KBUILD_OUTPUT="$kerneldir"
+-        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
+-        # make clean generates an absolute path symlink called "source"
+-        # in $kerneldir points to $kerneldir, which doesn't make any
+-        # sense, so remove it.
+-        if [ -L $kerneldir/source ]; then
+-            bbnote "Removing $kerneldir/source symlink"
+-            rm -f $kerneldir/source
+-        fi
+-
+-        # As of Linux kernel version 3.0.1, the clean target removes
+-        # arch/powerpc/lib/crtsavres.o which is present in
+-        # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
+-        if [ ${ARCH} = "powerpc" ]; then
+-                mkdir -p $kerneldir/arch/powerpc/lib/
+-                cp ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+-        fi
+-
+-        chown -R root:root ${D}
++    kerneldir=${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}
++    install -d $kerneldir
++
++    # create the directory structure
++    rm -f $kerneldir/build
++    rm -f $kerneldir/source
++    mkdir -p $kerneldir/build
++
++    # for compatibility with some older variants of this package, we
++    # create  a /usr/src/kernel symlink to /lib/modules/<version>/source
++    mkdir -p ${D}/usr/src
++    (
++	cd ${D}/usr/src
++	ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
++    )
++
++    # for on target purposes, we unify build and source
++    (
++	cd $kerneldir
++	ln -s build source
++    )
++
++    # first copy everything
++    (
++	cd ${S}
++	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
++    )
++
++    # then drop all but the needed Makefiles/Kconfig files
++    rm -rf $kerneldir/build/Documentation
++    rm -rf $kerneldir/build/scripts
++    rm -rf $kerneldir/build/include
++
++    # now copy in parts from the build that we'll need later
++    (
++	cd ${B}
++
++	cp Module.symvers $kerneldir/build
++	cp System.map* $kerneldir/build
++	if [ -s Module.markers ]; then
++	    cp Module.markers $kerneldir/build
++	fi
++
++	cp .config $kerneldir/build
++
++	# This scripts copy bloww up QA, so for now, we require a more
++	# complex 'make scripts' to restore these, versus copying them
++	# here. Left as a reference to indicate that we know the scripts must
++	# be dealt with.
++	# cp -a scripts $kerneldir/build
++
++	if [ -f tools/objtool/objtool ]; then
++	    cp -a tools/objtool/objtool $kerneldir/build/tools/objtool/
++	fi
++	if [ -d arch/${ARCH}/scripts ]; then
++	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
++	fi
++	if [ -f arch/${ARCH}/*lds ]; then
++	    cp -a arch/${ARCH}/*lds $kerneldir/build/arch/${ARCH}
++	fi
++
++	rm -f $kerneldir/build/scripts/*.o
++	rm -f $kerneldir/build/scripts/*/*.o
++
++	if [ "${ARCH}" = "powerpc" ]; then
++	    if [ -e arch/powerpc/lib/crtsavres.S ] ||
++		   [ -e arch/powerpc/lib/crtsavres.o ]; then
++		cp -a --parents arch/powerpc/lib/crtsavres.[So] $kerneldir/build/
++	    fi
++	fi
++
++	cp -a include $kerneldir/build/include
++    )
++
++    # now grab the chunks from the source tree that we need
++    (
++	cd ${S}
++
++	cp -a scripts $kerneldir/build
++	if [ "${ARCH}" = "arm64" ]; then
++	    # arch/arm64/include/asm/xen references arch/arm
++	    cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
++	    # arch/arm64/include/asm/opcodes.h references arch/arm
++	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
++	fi
++
++	# include the machine specific headers for ARM variants, if available.
++	if [ "${ARCH}" = "arm" ]; then
++	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
++
++	    # include a few files for 'make prepare'
++	    cp -a --parents arch/arm/tools/gen-mach-types $kerneldir/build/
++	    cp -a --parents arch/arm/tools/mach-types $kerneldir/build/
++	fi
++
++	if [ -d arch/${ARCH}/include ]; then
++	    cp -a --parents arch/${ARCH}/include $kerneldir/build/
++	fi
++
++	cp -a include $kerneldir/build
++
++	cp -a --parents tools/include/tools/le_byteshift.h $kerneldir/build/
++	cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
++
++	if [ "${ARCH}" = "x86" ]; then
++	    # files for 'make prepare' to succeed with kernel-devel
++	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_common.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/purgatory.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/sha256.h $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
++	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
++	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
++	fi
++
++	if [ "${ARCH}" = "mips" ]; then
++	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
++	    cp --parents $(find  -type f -name "Platform") $kerneldir/build
++	fi
++    )
++
++    # Make sure the Makefile and version.h have a matching timestamp so that
++    # external modules can be built
++    touch -r $kerneldir/build/Makefile $kerneldir/build/include/generated/uapi/linux/version.h
++
++    # Copy .config to include/config/auto.conf so "make prepare" is unnecessary.
++    cp $kerneldir/build/.config $kerneldir/build/include/config/auto.conf
++
++    chown -R root:root ${D}
+ }
++
+ # Ensure we don't race against "make scripts" during cpio
+ do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+ 
+-PACKAGES = "kernel-devsrc"
+-FILES_${PN} = "${KERNEL_SRC_PATH}"
+-RDEPENDS_${PN} = "bc"
++FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
++FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
++
++RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
++# 4.15+ needs these next two RDEPENDS
++RDEPENDS_${PN} += "openssl-dev util-linux"
++# and x86 needs a bit more for 4.15+
++RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
 -- 
 2.5.0
 
