@@ -1,39 +1,24 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F28E78A83
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DC8D78A9E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 17:51:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=9786; q=dns/txt; s=iport;
-	t=1520358676; x=1521568276;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=ApLmlhzPGJ+3OEyEFHOwOnIYcJFu2vweZpt9Y/fIE/8=;
-	b=HZlrgFdVxfdMq+l97DuRdQlaJsLtx8enW/p+3yP70bJQVHiB2D8eIinL
-	q12nXPqXeAIS6RCMdzoJIy29RdDwtyhNt+egsJRw+WodsmltzkR3+eyLa
-	ruRtkCoe8a3HD+wYccWmqW5w40MRAxupoC7ZlmmYlFEBetMzQ5pSYte11 Y=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BKAgCN1J5a/5xdJa1dGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNQZnAom3GDGIwYg0yEUIIVChuFFQKDAyE1FwECAQEBAQE?=
-	=?us-ascii?q?BAmsnhSQGeRA7FlcZhRurQoRyg3SCJoUxgi6GNIVDYoR/IASII4ZOi3YJhlS?=
-	=?us-ascii?q?KKwKBZU6HBYU+MJB5AhEZAYEuHwE2QIESTSMVgn0JhGAfN4ldJIIkAQEB?=
-X-IronPort-AV: E=Sophos;i="5.47,432,1515456000"; d="scan'208";a="364094102"
-Received: from rcdn-core-5.cisco.com ([173.37.93.156])
-	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Mar 2018 17:50:51 +0000
-Received: from kamensky-w541.cisco.com ([10.24.22.184]) (authenticated bits=0)
-	by rcdn-core-5.cisco.com (8.14.5/8.14.5) with ESMTP id w26HofYo007528
-	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Tue, 6 Mar 2018 17:50:51 GMT
-From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2018 09:50:39 -0800
-Message-Id: <1520358641-7062-4-git-send-email-kamensky@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1520358641-7062-1-git-send-email-kamensky@cisco.com>
-References: <1520358641-7062-1-git-send-email-kamensky@cisco.com>
-X-Authenticated-User: kamensky@cisco.com
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [RFC PATCH 3/5] image: add IMAGE_GEN_COMBINED_DEBUGFS build option
+	Tue,  6 Mar 2018 18:11:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w26IBI59012024
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 6 Mar 2018 10:11:18 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 6 Mar 2018 10:10:45 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 6 Mar 2018 13:11:08 -0500
+Message-ID: <cover.1520359364.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/9] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,196 +31,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 17:51:14 -0000
+X-List-Received-Date: Tue, 06 Mar 2018 18:11:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-There is IMAGE_GEN_DEBUGFS="1" variable that enables build of
-additional rootfs-dbg and additional archive that contains
-complimentary symbols files for a given image. But the issue
-with this resulting directory and tarball that before use it
-has to be combined with original image content. It is required
-since all cross debugging tools like gdb, perf, and systemtap
-need file system that contains both target executables/libraries
-and their symbols. Those tools need to find executable/library
-first and through it debuglink note find corresponding symbols
-file.
+Hi all,
 
-IMAGE_GEN_DEBUGFS="1" variable as storage strategy may have
-some sense it removes duplicate content, but from engineer
-work flow point of view it requires extra steps of recombining,
-unpacking two tarball archives. I.e there is no directory in
-image build workspace that can be used to run gdb, perf, and
-systemtap.
+This is the latest consolidated kernel pull request. It contains -stable updates,
+the kernel-devsrc re-work, and a libc-headers version bump.
 
-In addition to IMAGE_GEN_DEBUGFS variable new variant of
-the same functionality IMAGE_GEN_COMBINED_DEBUGFS is introduced.
-Unlike IMAGE_GEN_DEBUGFS additional rootfs-dbg and additional
-tarball would contain both all target material plus symbols.
-Resulting rootfs-dbg directory in build workspace can be
-directly used by all cross debugging tools like gdb, perf, and
-systemtap.
+The -stable updates are routine, and are required to pick up the latest CVE and
+bug fixes from korg.
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
- meta/classes/image-prelink.bbclass | 13 +++++++++
- meta/classes/image.bbclass         | 11 +++++--
- meta/lib/oe/rootfs.py              | 59 +++++++++++++++++++++-----------------
- 3 files changed, 55 insertions(+), 28 deletions(-)
+The kernel-devsrc re-structure has already gone through two revisions, and this
+v3 of that patch addresses mips + powerpc + ARM issues that were found during
+the on target kernel module compilation testing.
 
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index f3bb68b..5470e63 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -35,6 +35,11 @@ prelink_image () {
- 
- 	dynamic_loader=$(linuxloader)
- 
-+        if [ "$IMAGE_GEN_COMBINED_DEBUGFS" = "1" ]; then
-+                cp ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf ${IMAGE_ROOTFS}-dbg${sysconfdir}/prelink.conf
-+                cp ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf ${IMAGE_ROOTFS}-dbg${sysconfdir}/ld.so.conf
-+        fi
-+
- 	# prelink!
- 	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
- 		bbnote " prelink: BUILD_REPRODUCIBLE_BINARIES..."
-@@ -44,8 +49,16 @@ prelink_image () {
- 			export PRELINK_TIMESTAMP=$REPRODUCIBLE_TIMESTAMP_ROOTFS
- 		fi
- 		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+                if [ "$IMAGE_GEN_COMBINED_DEBUGFS" = "1" ]; then
-+                         bbnote " prelink: IMAGE_GEN_COMBINED_DEBUGFS..."
-+		         ${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS}-dbg -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+                fi
- 	else
- 		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+                if [ "$IMAGE_GEN_COMBINED_DEBUGFS" = "1" ]; then
-+                         bbnote " prelink: IMAGE_GEN_COMBINED_DEBUGFS..."
-+		         ${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS}-dbg -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
-+                fi
- 	fi
- 
- 	# Remove the prelink.conf if we had to add it.
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 23ed53d..3d1b9e4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -28,6 +28,12 @@ IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password
- # Generate companion debugfs?
- IMAGE_GEN_DEBUGFS ?= "0"
- 
-+# Generate companion combined debugfs? The difference from IMAGE_GEN_DEBUGFS
-+# is that in case of IMAGE_GEN_COMBINED_DEBUGFS resulting debufs contains full
-+# copy of original symbols plus -dbg packages, whereas in case of IMAGE_GEN_DEBUGFS
-+# it contains only -dbg packages
-+IMAGE_GEN_COMBINED_DEBUGFS ?= "0"
-+
- # rootfs bootstrap install
- ROOTFS_BOOTSTRAP_INSTALL = "run-postinsts"
- 
-@@ -117,7 +123,7 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
--                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'IMAGE_GEN_COMBINED_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-@@ -268,6 +274,7 @@ fakeroot python do_image () {
-     from oe.utils import execute_pre_post_process
- 
-     d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', '1')
-+    d.setVarFlag('IMAGE_GEN_COMBINED_DEBUGFS', 'export', '1')
-     pre_process_cmds = d.getVar("IMAGE_PREPROCESS_COMMAND")
- 
-     execute_pre_post_process(d, pre_process_cmds)
-@@ -381,7 +388,7 @@ python () {
-     alltypes = d.getVar('IMAGE_FSTYPES').split()
-     typedeps = {}
- 
--    if d.getVar('IMAGE_GEN_DEBUGFS') == "1":
-+    if d.getVar('IMAGE_GEN_DEBUGFS') == "1" or d.getVar('IMAGE_GEN_COMBINED_DEBUGFS') == "1" :
-         debugfs_fstypes = d.getVar('IMAGE_FSTYPES_DEBUGFS').split()
-         for t in debugfs_fstypes:
-             alltypes.append("debugfs_" + t)
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index bf2aea2..a2e809a 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -107,7 +107,9 @@ class Rootfs(object, metaclass=ABCMeta):
- 
-     def _setup_dbg_rootfs(self, dirs):
-         gen_debugfs = self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
--        if gen_debugfs != '1':
-+        gen_combined_debugfs = self.d.getVar('IMAGE_GEN_COMBINED_DEBUGFS') or '0'
-+
-+        if gen_debugfs != '1' and gen_combined_debugfs != '1':
-            return
- 
-         bb.note("  Renaming the original rootfs...")
-@@ -118,32 +120,37 @@ class Rootfs(object, metaclass=ABCMeta):
-         os.rename(self.image_rootfs, self.image_rootfs + '-orig')
- 
-         bb.note("  Creating debug rootfs...")
--        bb.utils.mkdirhier(self.image_rootfs)
- 
--        bb.note("  Copying back package database...")
--        for dir in dirs:
--            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
--                continue
--            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
--            shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
--
--        cpath = oe.cachedpath.CachedPath()
--        # Copy files located in /usr/lib/debug or /usr/src/debug
--        for dir in ["/usr/lib/debug", "/usr/src/debug"]:
--            src = self.image_rootfs + '-orig' + dir
--            if cpath.exists(src):
--                dst = self.image_rootfs + dir
--                bb.utils.mkdirhier(os.path.dirname(dst))
--                shutil.copytree(src, dst)
--
--        # Copy files with suffix '.debug' or located in '.debug' dir.
--        for root, dirs, files in cpath.walk(self.image_rootfs + '-orig'):
--            relative_dir = root[len(self.image_rootfs + '-orig'):]
--            for f in files:
--                if f.endswith('.debug') or '/.debug' in relative_dir:
--                    bb.utils.mkdirhier(self.image_rootfs + relative_dir)
--                    shutil.copy(os.path.join(root, f),
--                                self.image_rootfs + relative_dir)
-+        if gen_combined_debugfs != '1':
-+            bb.utils.mkdirhier(self.image_rootfs)
-+
-+            bb.note("  Copying back package database...")
-+            for dir in dirs:
-+                if not os.path.isdir(self.image_rootfs + '-orig' + dir):
-+                    continue
-+                bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
-+                shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
-+
-+            cpath = oe.cachedpath.CachedPath()
-+            # Copy files located in /usr/lib/debug or /usr/src/debug
-+            for dir in ["/usr/lib/debug", "/usr/src/debug"]:
-+                src = self.image_rootfs + '-orig' + dir
-+                if cpath.exists(src):
-+                    dst = self.image_rootfs + dir
-+                    bb.utils.mkdirhier(os.path.dirname(dst))
-+                    shutil.copytree(src, dst)
-+
-+            # Copy files with suffix '.debug' or located in '.debug' dir.
-+            for root, dirs, files in cpath.walk(self.image_rootfs + '-orig'):
-+                relative_dir = root[len(self.image_rootfs + '-orig'):]
-+                for f in files:
-+                    if f.endswith('.debug') or '/.debug' in relative_dir:
-+                        bb.utils.mkdirhier(self.image_rootfs + relative_dir)
-+                        shutil.copy(os.path.join(root, f),
-+                                    self.image_rootfs + relative_dir)
-+        else:
-+            bb.note("  Copying back original image...")
-+            shutil.copytree(self.image_rootfs + '-orig', self.image_rootfs, symlinks=True)
- 
-         bb.note("  Install complementary '*-dbg' packages...")
-         self.pm.install_complementary('*-dbg')
+There's one minor fix for kernel class handling of crtsaveres.o, and that same fix
+was required for kernel-devsrc.
+
+And finally, there is also have a libc-headers version bump to deal with a
+regression introduced in the 4.15 kernel uapi headers. This was picked up due
+to the breakage of several packages, and has since been nominated for -stable
+inclusion. Patching libc-headers is a last resort, so instead I've tracked the
+-stable version to pick up the change. All the details are in the patches
+commit log:
+
+--->--->--->--->--->--->--->
+   Subject: [PATCH 2/9] linux-libc-headers: update to 4.15.7
+
+   While we don't normally follow all the -stable updates for libc-headers, there
+   was one userspace header that was broken in the 4.15 cycle, and it has now
+   been fixed in -stable.
+
+   The offending header breaks the build for several packages, so we update to
+   pick up this change:
+
+      Author: Hauke Mehrtens <hauke@hauke-m.de>
+      Date:   Mon Feb 12 23:59:51 2018 +0100
+
+          uapi/if_ether.h: move __UAPI_DEF_ETHHDR libc define
+
+          commit da360299b6734135a5f66d7db458dcc7801c826a upstream.
+
+          This fixes a compile problem of some user space applications by not
+          including linux/libc-compat.h in uapi/if_ether.h.
+
+          linux/libc-compat.h checks which "features" the header files, included
+          from the libc, provide to make the Linux kernel uapi header files only
+             provide no conflicting structures and enums. If a user application mixes
+          kernel headers and libc headers it could happen that linux/libc-compat.h
+          gets included too early where not all other libc headers are included
+          yet. Then the linux/libc-compat.h would not prevent all the
+          redefinitions and we run into compile problems.
+          This patch removes the include of linux/libc-compat.h from
+          uapi/if_ether.h to fix the recently introduced case, but not all as this
+          is more or less impossible.
+
+          It is no problem to do the check directly in the if_ether.h file and not
+          in libc-compat.h as this does not need any fancy glibc header detection
+          as glibc never provided struct ethhdr and should define
+          __UAPI_DEF_ETHHDR by them self when they will provide this.
+
+          The following test program did not compile correctly any more:
+
+          #include <linux/if_ether.h>
+          #include <netinet/in.h>
+          #include <linux/in.h>
+
+          int main(void)
+          {
+              return 0;
+          }
+
+          Fixes: 6926e041a892 ("uapi/if_ether.h: prevent redefinition of struct ethhdr")
+          Reported-by: Guillaume Nault <g.nault@alphalink.fr>
+          Cc: <stable@vger.kernel.org> # 4.15
+          Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
+          Signed-off-by: David S. Miller <davem@davemloft.net>
+          Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+   We also add a new muslc patch to adjust the ethhdr change in the uapi. As is
+   suggested in the kernel commit, we can protect musl directly in if_ether itself.
+
+   Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+--->--->--->--->--->--->--->
+
+Cheers,
+
+Bruce
+
+The following changes since commit e5f258cecef6c51a4d7ebeedbaa29d2126e566e3:
+
+  util-linux: add taskset to alternatives list (2018-03-06 06:43:11 -0800)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  kernel-devsrc: restructure for out of tree (and on target) module
+    builds
+  linux-libc-headers: update to 4.15.7
+  linux-yocto/4.15: update to v4.15.7
+  linux-yocto/4.14: update to v4.14.24
+  linux-yocto/4.12: fix aufs compile warning
+  linux-yocto/4.12: memleak and build warning fixes
+  linux-yocto: aufs and systemtap
+  linux-yocto/4.12: warning: drm/i915/cfl: Coffee Lake works on Kaby
+    Lake PCH
+  kernel: make copying of crtsavres.o conditional
+
+ meta/classes/kernel.bbclass                        |   6 +-
+ ...move-muslc-ethhdr-protection-to-uapi-file.patch |  30 ++++
+ ...eaders_4.15.bb => linux-libc-headers_4.15.7.bb} |   6 +-
+ meta/recipes-kernel/linux/kernel-devsrc.bb         | 192 ++++++++++++++++-----
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      |  18 +-
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      |  20 +--
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      |  20 +--
+ 13 files changed, 235 insertions(+), 89 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.15.bb => linux-libc-headers_4.15.7.bb} (62%)
+
 -- 
-2.7.4
+2.5.0
 
 
