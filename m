@@ -1,24 +1,48 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B489060102
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B813A78A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 10:55:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w26At7VY029002
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  6 Mar 2018 11:00:40 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id u5so14242829itc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Mar 2018 02:55:07 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 6 Mar 2018 02:54:34 -0800
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Mar 2018 05:54:54 -0500
-Message-ID: <1520333694-68182-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Tue, 06 Mar 2018 03:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=oJvxUkLes2vJZRwgZb3O5LrVyY022lioXTMdC54Evoo=;
+	b=loAJLtCIqv19T0lqjgUyIhUMAoRMcaRcUU1AoBrkuTM0IYGgQnq0jNCTy2g+hRwuWG
+	I4ji2MQw9boZRiKEqipqHLaSYylBvhvw7mlgKGsRj0ZmxAPxpNHuM0fvc6g1NIxDgZBS
+	NTCSIsTgs4GQ3/dii2/akZ8C/BsRQ3i3DwFh9qnIrYJ4RHaefOm4EywnBzVxqy5Q40WL
+	VqNPaqEhhDXApRdmvBX7QzxkgBXCP8B+WWhA7m8SNoehtG9q6JPfqnoQG5KggS+UH96J
+	T2jGHvy1cLgmHLP+arqjQdJreJwqYXCeXLC/gSmYOijzEcIpXH+HfPjOE8K2V4uom6gu
+	fiKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=oJvxUkLes2vJZRwgZb3O5LrVyY022lioXTMdC54Evoo=;
+	b=LwW32OMZLCTl3z1O4avQ/cCm+x6CqBPuV1VXhZTy52GpNwN6y/lMY7lQ/mzvwMx8ok
+	KtGf9DHpskXUkR9rwpklESda7+L5w7b1PmVfbfCGKFfURK4/GiiRpiLhJ2KC4sL7lrWV
+	PXq8ORS7YimdWu1/U+K4fhiBcCMbps8vT3iOPnT8raQ/UFb9aGsv+8GckcIpSTlxNBGy
+	QXxDSlGhUBSg3M8Y7qaEXPSnoDK1U23GlkOFHIT1zvPswDWJ5U7IwcRLltqsBTrXMPgF
+	TuS/2ap3UuNTZZRSrUjMyVuIlRkbc3z3bAnHiNS+s4We2+5QH4AEtQaPzp6DT4BfJYzL
+	bBbQ==
+X-Gm-Message-State: AElRT7EBs9/+NH8uqGXTWMiao2zmI4GSDnYgrWqQFv+NmVM92jZWmvvg
+	HvQ5m0fQmmUyrsktAn4bgc89L93gAqOJLD21/X4EWg==
+X-Google-Smtp-Source: AG47ELsg/VlCFveQY5HHyk/A//yYoM4XOqIyGr+zscZsZnLzBIX1gENwWHO966he4rut9Mvb+bVjr2xDxsNEUOS74u0=
+X-Received: by 10.36.36.144 with SMTP id f138mr16930038ita.131.1520334041857; 
+	Tue, 06 Mar 2018 03:00:41 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] systemd-udev: Add systemd-mount to mount.sh
+Received: by 10.107.30.9 with HTTP; Tue, 6 Mar 2018 03:00:21 -0800 (PST)
+In-Reply-To: <20180306000432.254391-1-joe.slater@windriver.com>
+References: <20180306000432.254391-1-joe.slater@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Mar 2018 11:00:21 +0000
+Message-ID: <CAJTo0LYCeT8iLNzs+zaAYPL6PMsmStiOYLvit7FdZ7wMzmf-AQ@mail.gmail.com>
+To: Joe Slater <joe.slater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gnome-desktop3: eliminate erroneous free()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,154 +55,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 10:55:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Mar 2018 11:00:40 -0000
+Content-Type: multipart/alternative; boundary="001a1147cd308157910566bc5a0d"
 
-Issue: mkfs.ext4 </dev/storage-device-name> fails, prompting that the device
-is in use by the system. But there is no mounted infomation in /proc/mounts.
+--001a1147cd308157910566bc5a0d
+Content-Type: text/plain; charset="UTF-8"
 
-Reproduce: Be sure that there is storage device connected to you machine.
+Please don't patch a patch, but fix the patch.
 
-	Boot the machine.
-	root@intel-x86-64:~# mkfs.ext4 /dev/mmcblk0p1
-	mke2fs 1.43.5 (04-Aug-2017)
-	/dev/mmcblk0p1 contains a ext2 file system
-	last mounted on / on Tue Jan 9 05:24:36 2018
-	Proceed anyway? (y,N) y
-	/dev/mmcblk0p1 is apparently in use by the system; will not make a filesystem here!
+Ross
 
-	root@intel-x86-64:~# fdisk -l
-	...
-	Disk /dev/mmcblk0: 58.2 GiB, 62537072640 bytes, 122142720 sectors
-	Units: sectors of 1 * 512 = 512 bytes
-	Sector size (logical/physical): 512 bytes / 512 bytes
-	I/O size (minimum/optimal): 512 bytes / 512 bytes
-	Disklabel type: dos
-	Disk identifier: 0xe62c8fcc
+On 6 March 2018 at 00:04, Joe Slater <joe.slater@windriver.com> wrote:
 
-	Device Boot Start End Sectors Size Id Type
-	/dev/mmcblk0p1 2048 122142719 122140672 58.2G 83 Linux
-	...
+> gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch introduced
+> a call to localtime() and a free() of the structure returned.  This is
+> incorrect, as the structure is static.  For glibc 2.26, this will cause
+> the program to abort.  Eliminate the free() and call localtime_r()
+> which lets us allocate the tm structure.
+>
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  .../gnome-desktop/fix_erroneous_free.patch         | 35
+> ++++++++++++++++++++++
+>  .../gnome-desktop/gnome-desktop3_3.26.2.bb         |  1 +
+>  2 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_
+> erroneous_free.patch
+>
+> diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch
+> b/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_erroneous_free.patch
+> new file mode 100644
+> index 0000000..c27e4d5
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop/fix_
+> erroneous_free.patch
+> @@ -0,0 +1,35 @@
+> +gnome-desktop3: eliminate erroneous free()
+> +
+> +Do not free() a static structure.  Use re-entrant localtime_r().
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Joe Slater <jslater@windriver.com>
+> +
+> +
+> +--- a/libgnome-desktop/gnome-desktop-thumbnail.c
+> ++++ b/libgnome-desktop/gnome-desktop-thumbnail.c
+> +@@ -1200,7 +1200,7 @@ save_thumbnail (GdkPixbuf  *pixbuf,
+> +   char *tmp_path = NULL;
+> +   int tmp_fd;
+> +   char mtime_str[21];
+> +-  struct tm *tmp_mtime = NULL;
+> ++  struct tm tmp_mtime;
+> +   gboolean ret = FALSE;
+> +   GError *error = NULL;
+> +   const char *width, *height;
+> +@@ -1220,11 +1220,10 @@ save_thumbnail (GdkPixbuf  *pixbuf,
+> +     goto out;
+> +   close (tmp_fd);
+> +
+> +-  tmp_mtime = localtime (&mtime);
+> +-  if (!tmp_mtime)
+> ++  if (!localtime_r (&mtime,&tmp_mtime))
+> +     goto out;
+> +-  strftime (mtime_str, 21, "%s", tmp_mtime);
+> +-  free (tmp_mtime);
+> ++
+> ++  strftime (mtime_str, 21, "%s", &tmp_mtime);
+> +   width = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Width");
+> +   height = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Height");
+> +
+> diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
+> b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
+> index cd6c194..2cd3234 100644
+> --- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
+> +++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.26.2.bb
+> @@ -14,6 +14,7 @@ SRC_URI += " \
+>             file://gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch
+> \
+>             file://0001-configure.ac-Remove-gnome-common-macro-calls.patch
+> \
+>             file://0001-Disable-libseccomp-sycall-filtering-mechanism.patch
+> \
+> +           file://fix_erroneous_free.patch \
+>             "
+>
+>  DEPENDS += "intltool-native gsettings-desktop-schemas gconf
+> virtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config
+> iso-codes udev"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-	root@intel-x86-64:~#cat /proc/mounts
-	...
-	cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,relatime,blkio 0 0
-	mqueue /dev/mqueue mqueue rw,relatime 0 0
-	debugfs /sys/kernel/debug debugfs rw,relatime 0 0
-	tmpfs /tmp tmpfs rw,nosuid,nodev 0 0
-	hugetlbfs /dev/hugepages hugetlbfs rw,relatime 0 0
-	tmpfs /var/volatile tmpfs rw,relatime 0 0
-	tmpfs /run/user/0 tmpfs rw,nosuid,nodev,relatime,size=688048k,mode=700 0 0
+--001a1147cd308157910566bc5a0d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Description:
-	If linux uses systemd as init, systemd-udevd.service sets MountFlags=slave,
-	which is essentially a sandboxing setting: it detaches mount() operations
-	done within the service from the rest of the system. This means that,
-	outside of namespace of systemd-udev, we can not access device mounted by
-	udev and some operation will be failed.(e.g. mkfs.ext4 /dev/sda1).
+<div dir=3D"ltr">Please don&#39;t patch a patch, but fix the patch.<div><br=
+></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gm=
+ail_quote">On 6 March 2018 at 00:04, Joe Slater <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:joe.slater@windriver.com" target=3D"_blank">joe.slater@windriv=
+er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">gnome-deskto=
+p-thumbnail-don-t-<wbr>convert-time_t-to-long.patch introduced<br>
+a call to localtime() and a free() of the structure returned.=C2=A0 This is=
+<br>
+incorrect, as the structure is static.=C2=A0 For glibc 2.26, this will caus=
+e<br>
+the program to abort.=C2=A0 Eliminate the free() and call localtime_r()<br>
+which lets us allocate the tm structure.<br>
+<br>
+Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com">j=
+oe.slater@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../gnome-desktop/fix_<wbr>erroneous_free.patch=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 35 ++++++++++++++++++++++<br>
+=C2=A0.../gnome-desktop/<a href=3D"http://gnome-desktop3_3.26.2.bb" rel=3D"=
+noreferrer" target=3D"_blank">gnome-<wbr>desktop3_3.26.2.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 36 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-gnome/gnome-<wbr>desktop/gnome-deskto=
+p/fix_<wbr>erroneous_free.patch<br>
+<br>
+diff --git a/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/fix_<wbr>e=
+rroneous_free.patch b/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/f=
+ix_<wbr>erroneous_free.patch<br>
+new file mode 100644<br>
+index 0000000..c27e4d5<br>
+--- /dev/null<br>
++++ b/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/fix_<wbr>erroneou=
+s_free.patch<br>
+@@ -0,0 +1,35 @@<br>
++gnome-desktop3: eliminate erroneous free()<br>
++<br>
++Do not free() a static structure.=C2=A0 Use re-entrant localtime_r().<br>
++<br>
++Upstream-Status: Pending<br>
++<br>
++Signed-off-by: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com">jsl=
+ater@windriver.com</a>&gt;<br>
++<br>
++<br>
++--- a/libgnome-desktop/gnome-<wbr>desktop-thumbnail.c<br>
+++++ b/libgnome-desktop/gnome-<wbr>desktop-thumbnail.c<br>
++@@ -1200,7 +1200,7 @@ save_thumbnail (GdkPixbuf=C2=A0 *pixbuf,<br>
++=C2=A0 =C2=A0char *tmp_path =3D NULL;<br>
++=C2=A0 =C2=A0int tmp_fd;<br>
++=C2=A0 =C2=A0char mtime_str[21];<br>
++-=C2=A0 struct tm *tmp_mtime =3D NULL;<br>
+++=C2=A0 struct tm tmp_mtime;<br>
++=C2=A0 =C2=A0gboolean ret =3D FALSE;<br>
++=C2=A0 =C2=A0GError *error =3D NULL;<br>
++=C2=A0 =C2=A0const char *width, *height;<br>
++@@ -1220,11 +1220,10 @@ save_thumbnail (GdkPixbuf=C2=A0 *pixbuf,<br>
++=C2=A0 =C2=A0 =C2=A0goto out;<br>
++=C2=A0 =C2=A0close (tmp_fd);<br>
++<br>
++-=C2=A0 tmp_mtime =3D localtime (&amp;mtime);<br>
++-=C2=A0 if (!tmp_mtime)<br>
+++=C2=A0 if (!localtime_r (&amp;mtime,&amp;tmp_mtime))<br>
++=C2=A0 =C2=A0 =C2=A0goto out;<br>
++-=C2=A0 strftime (mtime_str, 21, &quot;%s&quot;, tmp_mtime);<br>
++-=C2=A0 free (tmp_mtime);<br>
+++<br>
+++=C2=A0 strftime (mtime_str, 21, &quot;%s&quot;, &amp;tmp_mtime);<br>
++=C2=A0 =C2=A0width =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt::Thumb::I=
+mage::Width&quot;);<br>
++=C2=A0 =C2=A0height =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt::Thumb::=
+Image::Height&quot;);<br>
++<br>
+diff --git a/meta/recipes-gnome/gnome-<wbr>desktop/<a href=3D"http://gnome-=
+desktop3_3.26.2.bb" rel=3D"noreferrer" target=3D"_blank">gnome-desktop3_3.2=
+6.2.<wbr>bb</a> b/meta/recipes-gnome/gnome-<wbr>desktop/<a href=3D"http://g=
+nome-desktop3_3.26.2.bb" rel=3D"noreferrer" target=3D"_blank">gnome-desktop=
+3_3.26.2.<wbr>bb</a><br>
+index cd6c194..2cd3234 100644<br>
+--- a/meta/recipes-gnome/gnome-<wbr>desktop/<a href=3D"http://gnome-desktop=
+3_3.26.2.bb" rel=3D"noreferrer" target=3D"_blank">gnome-desktop3_3.26.2.<wb=
+r>bb</a><br>
++++ b/meta/recipes-gnome/gnome-<wbr>desktop/<a href=3D"http://gnome-desktop=
+3_3.26.2.bb" rel=3D"noreferrer" target=3D"_blank">gnome-desktop3_3.26.2.<wb=
+r>bb</a><br>
+@@ -14,6 +14,7 @@ SRC_URI +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://gnome-desktop-<wbr>thumbna=
+il-don-t-convert-time_<wbr>t-to-long.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure.ac-<wbr>Rem=
+ove-gnome-common-macro-<wbr>calls.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Disable-<wbr>libsecco=
+mp-sycall-filtering-<wbr>mechanism.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix_erroneous_free.<wbr>pa=
+tch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0DEPENDS +=3D &quot;intltool-native gsettings-desktop-schemas gconf vi=
+rtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config iso-codes=
+ udev&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
-	Current automount.rules and mount.sh created for sysvinit is unable to solve
-	above problems.
-
-	This patch adds systemd-mount in /etc/udev/script/mount.sh. The tool
-	recommended by systemd upstream generally is the best way in particular in
-	embedded applications to deal with hotpluggable media. Systemd-mount request
-	the mount operation to be executed by PID 1, and hence outside of the mount
-	context of udev.
-
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- meta/recipes-core/udev/udev-extraconf/mount.sh | 61 +++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index d760328..2fa2925 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -5,9 +5,28 @@
- # Attempt to mount any added block devices and umount any removed devices
- 
- 
--MOUNT="/bin/mount"
-+BASE_INIT="`readlink "/sbin/init"`"
-+INIT_SYSTEMD="/lib/systemd/systemd"
-+
-+if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
-+	# systemd as init uses systemd-mount to mount block devices
-+        MOUNT="/usr/bin/systemd-mount"
-+        UMOUNT="/usr/bin/systemd-umount"
-+
-+        if [ -x $MOUNT ] && [ -x $UMOUNT ];
-+        then
-+                logger "Using systemd-mount to finish mount"
-+        else
-+                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
-+		exit 1
-+        fi
-+else
-+        MOUNT="/bin/mount"
-+        UMOUNT="/bin/umount"
-+fi
-+
- PMOUNT="/usr/bin/pmount"
--UMOUNT="/bin/umount"
-+
- for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
- do
- 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
-@@ -17,6 +36,34 @@ do
- 	fi
- done
- 
-+automount_systemd() {
-+        name="`basename "$DEVNAME"`"
-+
-+        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-+        
-+        MOUNT="$MOUNT -o silent"
-+        
-+        # If filesystemtype is vfat, change the ownership group to 'disk', and
-+        # grant it with  w/r/x permissions.
-+        case $ID_FS_TYPE in
-+        vfat|fat)
-+                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-+                ;;
-+        # TODO
-+        *)
-+                ;;
-+        esac
-+
-+        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
-+        then
-+                #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+                rm_dir "/run/media/$name"
-+        else
-+                logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-+                touch "/tmp/.automount-$name"
-+        fi
-+}
-+
- automount() {	
- 	name="`basename "$DEVNAME"`"
- 
-@@ -72,9 +119,13 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
- 	# If the device isn't mounted at this point, it isn't
- 	# configured in fstab (note the root filesystem can show up as
- 	# /dev/root in /proc/mounts, so check the device number too)
--	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
--		grep -q "^$DEVNAME " /proc/mounts || automount
--	fi
-+        if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-+                if [ "`basename $MOUNT`" = "systemd-mount" ];then
-+                        grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-+                else
-+                        grep -q "^$DEVNAME " /proc/mounts || automount
-+                fi
-+        fi
- fi
- 
- 
--- 
-2.8.1
-
-
+--001a1147cd308157910566bc5a0d--
