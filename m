@@ -1,31 +1,24 @@
-Return-Path: <quentin.schulz@bootlin.com>
-Received: from mail.bootlin.com (mail.bootlin.com [62.4.15.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D8278849
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B489060102
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Mar 2018 08:39:26 +0000 (UTC)
-Received: by mail.bootlin.com (Postfix, from userid 110)
-	id 29AF620858; Tue,  6 Mar 2018 09:39:26 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on mail.bootlin.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
-	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
-Received: from qschulz (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr
-	[90.63.216.87])
-	by mail.bootlin.com (Postfix) with ESMTPSA id B52EA20644;
-	Tue,  6 Mar 2018 09:39:15 +0100 (CET)
-Date: Tue, 6 Mar 2018 09:39:15 +0100
-From: Quentin Schulz <quentin.schulz@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20180306083915.tshzk7yyed6ekl7i@qschulz>
-References: <20180305082233.8493-1-quentin.schulz@bootlin.com>
-	<CAMKF1spU6xb3WEjSjphUtrZu0Kq-gY9XymO_6taCq+RpF0jKbw@mail.gmail.com>
+	Tue,  6 Mar 2018 10:55:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w26At7VY029002
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Mar 2018 02:55:07 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 6 Mar 2018 02:54:34 -0800
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Mar 2018 05:54:54 -0500
+Message-ID: <1520333694-68182-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spU6xb3WEjSjphUtrZu0Kq-gY9XymO_6taCq+RpF0jKbw@mail.gmail.com>
-User-Agent: NeoMutt/20170609 (1.8.3)
-Cc: thomas.petazzoni@bootlin.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: mdev: make mdev auto load modules at boot
+Subject: [PATCH] systemd-udev: Add systemd-mount to mount.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,104 +31,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2018 08:39:27 -0000
-X-Groupsio-MsgNum: 108964
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oy2qi2qw4qtdghui"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 06 Mar 2018 10:55:06 -0000
+Content-Type: text/plain
 
---oy2qi2qw4qtdghui
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Issue: mkfs.ext4 </dev/storage-device-name> fails, prompting that the device
+is in use by the system. But there is no mounted infomation in /proc/mounts.
 
-Hi,
+Reproduce: Be sure that there is storage device connected to you machine.
 
-On Mon, Mar 05, 2018 at 07:12:01PM -0800, Khem Raj wrote:
-> On Mon, Mar 5, 2018 at 12:22 AM, Quentin Schulz
-> <quentin.schulz@bootlin.com> wrote:
-> > Thanks to the MODALIAS line at the beginning of mdev.conf, mdev supports
-> > module auto probing on hotplug.
-> >
-> > However, this does not work for cold plugged modules (i.e. modules for
-> > devices that were probed before mdev is added as hotplug handler).
-> > Running mdev -s to replay hotplug events does not work in that case.
-> >
-> > Let's manually modprobe all modules in the rootfs.
-> >
-> > Taken from:
-> >  - https://github.com/buildroot/buildroot/commit/07f46c2b6daec44a617603=
-9c90be67e66c4c2e42
-> >  - https://github.com/buildroot/buildroot/commit/b4fc5a180c81689a982d5c=
-595844331684c14f51
-> >
-> > We need xargs to support zero termination of args so let's enable this
-> > configuration in the fragment for mdev.
-> >
-> > Signed-off-by: Quentin Schulz <quentin.schulz@bootlin.com>
-> > ---
-> >  meta/recipes-core/busybox/busybox/mdev.cfg | 2 ++
-> >  meta/recipes-core/busybox/files/mdev       | 1 +
-> >  2 files changed, 3 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-=
-core/busybox/busybox/mdev.cfg
-> > index 6aefe90e43..0d60fc9560 100644
-> > --- a/meta/recipes-core/busybox/busybox/mdev.cfg
-> > +++ b/meta/recipes-core/busybox/busybox/mdev.cfg
-> > @@ -9,3 +9,5 @@ CONFIG_SETSID=3Dy
-> >  CONFIG_CTTYHACK=3Dy
-> >
-> >  CONFIG_FEATURE_SHADOWPASSWDS=3Dy
-> > +
-> > +CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=3Dy
-> > diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/b=
-usybox/files/mdev
-> > index 8c9c06e96c..165b275256 100755
-> > --- a/meta/recipes-core/busybox/files/mdev
-> > +++ b/meta/recipes-core/busybox/files/mdev
-> > @@ -9,6 +9,7 @@ touch /dev/mdev.seq
-> >  #sysctl -w kernel.hotplug=3D/sbin/mdev
-> >  echo "/sbin/mdev" > /proc/sys/kernel/hotplug
-> >  mdev -s
-> > +find /sys/ -name modalias -print0 | xargs -0 sort -u -z | xargs -0 mod=
-probe -abq
-> >
->=20
-> will this execute on every boot ?
+	Boot the machine.
+	root@intel-x86-64:~# mkfs.ext4 /dev/mmcblk0p1
+	mke2fs 1.43.5 (04-Aug-2017)
+	/dev/mmcblk0p1 contains a ext2 file system
+	last mounted on / on Tue Jan 9 05:24:36 2018
+	Proceed anyway? (y,N) y
+	/dev/mmcblk0p1 is apparently in use by the system; will not make a filesystem here!
 
-This file is installed to /etc/init.d[1] and since this recipe inherits
-update-rc.d[2] which takes care of adding those links to /etc/rcN.d/,
-yes, it is executed at each boot.
+	root@intel-x86-64:~# fdisk -l
+	...
+	Disk /dev/mmcblk0: 58.2 GiB, 62537072640 bytes, 122142720 sectors
+	Units: sectors of 1 * 512 = 512 bytes
+	Sector size (logical/physical): 512 bytes / 512 bytes
+	I/O size (minimum/optimal): 512 bytes / 512 bytes
+	Disklabel type: dos
+	Disk identifier: 0xe62c8fcc
 
-I've also tested this patch since I need it for a USB controller driver
-module and, in practical, it does get executed at each boot.
+	Device Boot Start End Sectors Size Id Type
+	/dev/mmcblk0p1 2048 122142719 122140672 58.2G 83 Linux
+	...
 
-[1] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/b=
-usybox/busybox.inc#n303
-[2] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/b=
-usybox/busybox.inc#n53
+	root@intel-x86-64:~#cat /proc/mounts
+	...
+	cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,relatime,blkio 0 0
+	mqueue /dev/mqueue mqueue rw,relatime 0 0
+	debugfs /sys/kernel/debug debugfs rw,relatime 0 0
+	tmpfs /tmp tmpfs rw,nosuid,nodev 0 0
+	hugetlbfs /dev/hugepages hugetlbfs rw,relatime 0 0
+	tmpfs /var/volatile tmpfs rw,relatime 0 0
+	tmpfs /run/user/0 tmpfs rw,nosuid,nodev,relatime,size=688048k,mode=700 0 0
 
-Quentin
+Description:
+	If linux uses systemd as init, systemd-udevd.service sets MountFlags=slave,
+	which is essentially a sandboxing setting: it detaches mount() operations
+	done within the service from the rest of the system. This means that,
+	outside of namespace of systemd-udev, we can not access device mounted by
+	udev and some operation will be failed.(e.g. mkfs.ext4 /dev/sda1).
 
---oy2qi2qw4qtdghui
-Content-Type: application/pgp-signature; name="signature.asc"
+	Current automount.rules and mount.sh created for sysvinit is unable to solve
+	above problems.
 
------BEGIN PGP SIGNATURE-----
+	This patch adds systemd-mount in /etc/udev/script/mount.sh. The tool
+	recommended by systemd upstream generally is the best way in particular in
+	embedded applications to deal with hotpluggable media. Systemd-mount request
+	the mount operation to be executed by PID 1, and hence outside of the mount
+	context of udev.
 
-iQIcBAABCAAGBQJanlOvAAoJEIS4mnU+4PGj3EgP/jz8aXFkkOBilgsbu7A3U18x
-KHT/uXme4HliSBjSGF8MYvoMZh/pBzYVdqpEKs3LyNIeNc9IyOr8O9izgFXjkbro
-S4KXxaFZqJBPvvWyT1HV95Il1+0pVi0iH6KIACsYjG8l639lOa8jPmVP+NwW+Xcv
-JWMfPY1nPXlI/PD9ukUPwc82YBrYycTmqVWSVyJa0X5ffP9CKx7LZU60d+s7Cj/c
-JuYKnpSS313PuIt8jEm7WmTKsvwthCI0SQmBBXpVK90HD94GJCTW2PeQ+DSQ7Fw5
-qCB3xTk6sz28z++9rSIdCXmyk6I55j4Akdehkiz/PFz6LHbdXdzodb3a429pBusS
-0gTP0Pu2eZgZpeyJy9uwXVYEG90hZvjdGEy5kGTgA+5Gyp6Hkn2E0QOCO1vjgHOZ
-EH2JxW54FiIhEEXUzlWUGjYDJz1MUQMpaX3mCiavJFtmD/GfXUBwEfaFOa5OL2ws
-rOdf1gyAAqz7AXXbq2MZ0Z04/xoAUyij5UfzgRejM07tIX0c1S0hvrBLWA0sjDXq
-WHHj15VThru0tsBIQzedWa1a8VzbHUPJiKKnhiJQDANUGat71fjiNweQcBZTmJNt
-foEJ2TJt5rBMNF/4DmcmKTDjmvBhiP/BdZlYLrPeCFQ+/HITddm27KBuvA6FRIhY
-FTWNM+/KkPEYlKI7ReZN
-=tVcy
------END PGP SIGNATURE-----
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 61 +++++++++++++++++++++++---
+ 1 file changed, 56 insertions(+), 5 deletions(-)
 
---oy2qi2qw4qtdghui--
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index d760328..2fa2925 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -5,9 +5,28 @@
+ # Attempt to mount any added block devices and umount any removed devices
+ 
+ 
+-MOUNT="/bin/mount"
++BASE_INIT="`readlink "/sbin/init"`"
++INIT_SYSTEMD="/lib/systemd/systemd"
++
++if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
++	# systemd as init uses systemd-mount to mount block devices
++        MOUNT="/usr/bin/systemd-mount"
++        UMOUNT="/usr/bin/systemd-umount"
++
++        if [ -x $MOUNT ] && [ -x $UMOUNT ];
++        then
++                logger "Using systemd-mount to finish mount"
++        else
++                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
++		exit 1
++        fi
++else
++        MOUNT="/bin/mount"
++        UMOUNT="/bin/umount"
++fi
++
+ PMOUNT="/usr/bin/pmount"
+-UMOUNT="/bin/umount"
++
+ for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
+ do
+ 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+@@ -17,6 +36,34 @@ do
+ 	fi
+ done
+ 
++automount_systemd() {
++        name="`basename "$DEVNAME"`"
++
++        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
++        
++        MOUNT="$MOUNT -o silent"
++        
++        # If filesystemtype is vfat, change the ownership group to 'disk', and
++        # grant it with  w/r/x permissions.
++        case $ID_FS_TYPE in
++        vfat|fat)
++                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++                ;;
++        # TODO
++        *)
++                ;;
++        esac
++
++        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
++        then
++                #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
++                rm_dir "/run/media/$name"
++        else
++                logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
++                touch "/tmp/.automount-$name"
++        fi
++}
++
+ automount() {	
+ 	name="`basename "$DEVNAME"`"
+ 
+@@ -72,9 +119,13 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
+ 	# If the device isn't mounted at this point, it isn't
+ 	# configured in fstab (note the root filesystem can show up as
+ 	# /dev/root in /proc/mounts, so check the device number too)
+-	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+-		grep -q "^$DEVNAME " /proc/mounts || automount
+-	fi
++        if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
++                if [ "`basename $MOUNT`" = "systemd-mount" ];then
++                        grep -q "^$DEVNAME " /proc/mounts || automount_systemd
++                else
++                        grep -q "^$DEVNAME " /proc/mounts || automount
++                fi
++        fi
+ fi
+ 
+ 
+-- 
+2.8.1
+
+
