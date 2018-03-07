@@ -1,49 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E00657892D
+Return-Path: <mcrowe@brightsign.biz>
+X-Greylist: delayed 900 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 Mar 2018 09:32:15 UTC
+Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 258F678997
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2018 08:41:13 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id q24so2148828ioh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Mar 2018 00:41:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fVLJvMxUWR4tJE/zrG65Ou/U43cTMFJ5Zvb8KGDMRB8=;
-	b=JAFi7MX721twG3W1Idkr1P4i6GtVUzO0Irxb7xGE9hzt+dViEva04drTwf3JRH2IE3
-	AMYZrcH6D257hLkUC9vf+2cDtMfl31sb+l0snrWRdfPt9Pf/5Lexi+AeuywJ4SkG4iJC
-	RYdWOyVXUM+OHChoKov7r0mk1cknM1t1ZXdk1flrK6sGXgpzvaPVag/GKYYZ3+NDvfgd
-	K2uRHhSpqh8ftCLGTDp/aeAMZVuJyNg4ARaDlpVnVY4yv6tJTNHoZi/NAi3IUw3/DXS/
-	gTCprha5IDOtrbKvOD2BgNvMznAb+ejMxv9uTS4x1X15nxgEqjGvv4WL8uS5kMLIQ5fk
-	XLhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fVLJvMxUWR4tJE/zrG65Ou/U43cTMFJ5Zvb8KGDMRB8=;
-	b=dkH21AJ/VTzZdzQODvWFWTQjj39DuLCr5V6/ibgS43EMkLnlyL2KYuH0Oy0M0jqLBD
-	26tzTxgPXbkoQ0/YoWjdwiJG9dgrCf1shoUjEVA/MilDxGCf9eEYRM8EyLcwKd9v9P6t
-	1MdKp4zHsnhXGUNohA094a7yfpq6r7Zt9NU1hwjKak5cmAO5JGsBYmjUpcdXR9vTe8cH
-	xDZPFsvfLBVAwaXv5fD05Ca1uKgzVbWX5JffAwRgVF1T9t4NzrYBKmcoSGGGysEgJ0y8
-	5VuLePnClAF1uN0IuGzBxh9/BZ1Q/L4ggZ/5/zU36Kh5j4zVVdAry3N3fIMvWIIqPoqW
-	uPXw==
-X-Gm-Message-State: APf1xPDIHqbgFhJnsNb/iKBW6YbmwtZ+IqYo0RRb/wu4PpM2NmbsnHnL
-	PeEcXb7UjDaRj/0wEptdZLomUiav1jeFltTZzq2Wrg==
-X-Google-Smtp-Source: AG47ELvINbRE8onzl3XUC3VIoWFJHDrasNYv/afkXi/fmPidVsT9GLC5z1Byx4z1V2joh3J6BGju/4saB9oVCh44xqY=
-X-Received: by 10.107.7.87 with SMTP id 84mr25618364ioh.216.1520412074961;
-	Wed, 07 Mar 2018 00:41:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 7 Mar 2018 00:40:54 -0800 (PST)
-In-Reply-To: <28b9ee1263d7a5343c2e8246ff0b5f57454b054c.1520359364.git.bruce.ashfield@windriver.com>
-References: <cover.1520359364.git.bruce.ashfield@windriver.com>
-	<28b9ee1263d7a5343c2e8246ff0b5f57454b054c.1520359364.git.bruce.ashfield@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Mar 2018 08:40:54 +0000
-Message-ID: <CAJTo0Lbf=-TOV2ctvcE1pu+wR_8dsSt=AbUwUpvSq+miJUkBHA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9 v3] kernel-devsrc: restructure for out of tree (and on target) module builds
+	Wed,  7 Mar 2018 09:32:15 +0000 (UTC)
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 03/07/2018 4:17:15 AM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.162
+X-Note-AR-Scan: None - PIPE
+Received: by relay.appriver.com (CommuniGate Pro PIPE 6.1.7)
+	with PIPE id 326744616; Wed, 07 Mar 2018 04:17:15 -0500
+Received: from [213.210.30.29] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
+	with ESMTPS id 326744578; Wed, 07 Mar 2018 04:17:13 -0500
+Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1etVCE-0005AL-1O; Wed, 07 Mar 2018 09:17:14 +0000
+Received: from mac by chuckie with local (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1etVCE-0005de-0V; Wed, 07 Mar 2018 09:17:14 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Mar 2018 09:17:11 +0000
+Message-Id: <20180307091711.21635-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 03/07/2018 4:17:13 AM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.162
+X-Policy: brightsign.biz
+X-Primary: brightsign.biz@brightsign.biz
+X-Virus-Scan: V-
+X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-35/SG:1 3/7/2018 4:16:57 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.463707 p=-1 Source Normal
+X-Signature-Violations: 0-0-0-3157-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G313 G314 G315 G316 G320 G321 G453 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] util-linux: Remove kill from native install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +62,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 08:41:14 -0000
-Content-Type: multipart/alternative; boundary="001a113ecdf4a413e90566ce853c"
+X-List-Received-Date: Wed, 07 Mar 2018 09:32:16 -0000
 
---001a113ecdf4a413e90566ce853c
-Content-Type: text/plain; charset="UTF-8"
+util-linux installs kill as ${base_bindir}/kill. coreutils installs kill as
+${bindir}/kill. If base_bindir and bindir are the same (as they are in
+meta-micro) then this causes a conflict for recipes that depend on
+util-linux-native and coreutils-native.
 
-On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.com>
-wrote:
+This means that in the unlikely event that a recipe needs to run kill
+during the build, it will need to depend on coreutils-native.
 
-> +RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
-> +# 4.15+ needs these next two RDEPENDS
-> +RDEPENDS_${PN} += "openssl-dev util-linux"
-> +# and x86 needs a bit more for 4.15+
-> +RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '',
-> d)}"
->
+core-image-sato built successfully for me with this change.
 
-Annoyingly this is breaking our multilib test case:
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/852/steps/BuildImages_4/logs/stdio
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index e228bde299..5e40b2019a 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -196,8 +196,10 @@ do_install () {
+ }
+ 
+ # nologin causes a conflict with shadow-native
++# kill causes a conflict with coreutils-native (if ${bindir}==${base_bindir})
+ do_install_append_class-native () {
+ 	rm -f ${D}${base_sbindir}/nologin
++	rm -f ${D}${base_bindir}/kill
+ }
+ 
+ ALTERNATIVE_PRIORITY = "80"
+-- 
+2.11.0
 
-It's entirely possible that the test is broken in some way but it's far too
-early for me right now to comprehend the multilib matrix...
 
-Ross
 
---001a113ecdf4a413e90566ce853c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 6 March 2018 at 18:11, Bruce Ashfield <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruc=
-e.ashfield@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra=
-"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-=
-left-color:rgb(204,204,204);padding-left:1ex">+RDEPENDS_${PN} =3D &quot;bc =
-python ${TCLIBC}-utils&quot;<br>
-+# 4.15+ needs these next two RDEPENDS<br>
-+RDEPENDS_${PN} +=3D &quot;openssl-dev util-linux&quot;<br>
-+# and x86 needs a bit more for 4.15+<br>
-+RDEPENDS_${PN} +=3D &quot;${@bb.utils.contains(&#39;ARCH&#39;, &#39;x86&#3=
-9;, &#39;elfutils&#39;, &#39;&#39;, d)}&quot;<br></blockquote><div><br></di=
-v><div>Annoyingly this is breaking our multilib test case:</div><div><br></=
-div><div><a href=3D"https://autobuilder.yocto.io/builders/nightly-multilib/=
-builds/852/steps/BuildImages_4/logs/stdio">https://autobuilder.yocto.io/bui=
-lders/nightly-multilib/builds/852/steps/BuildImages_4/logs/stdio</a></div><=
-div><br></div><div>It&#39;s entirely possible that the test is broken in so=
-me way but it&#39;s far too early for me right now to comprehend the multil=
-ib matrix...</div><div><br></div><div>Ross</div></div></div></div>
-
---001a113ecdf4a413e90566ce853c--
