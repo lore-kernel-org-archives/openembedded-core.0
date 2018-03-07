@@ -1,49 +1,49 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 21719789FC
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DE2A47890C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2018 13:35:33 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id f75-v6so3252226lfg.6
+	Wed,  7 Mar 2018 13:39:39 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id m69-v6so3251157lfe.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Mar 2018 05:35:35 -0800 (PST)
+	Wed, 07 Mar 2018 05:39:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H+a+liIwJDcy0TeMWMKXbQy7fxRuUZySVwTz+eEePGU=;
-	b=fTUDL3eTFEic+kx1/aVjUqjRMNGiKGzJkfsHTGdrqJCmUjID8hpfe6669Owx9FtLUl
-	7omII8BsDboazCGwyPC6tQ/XOXeT9Ba/PvfsRGeAnrr4642XL3O2tj/otshnl0CFmbnS
-	XWuvgptlHRHE9Hr+qReH08f8fn6RuTu2d5ttasI+gzlzbGTGkpXnTVz1mYr5MhZCWNYR
-	aBpIj589qK2msiGYKsx2l/dqf4L9vpi4o+CKWCjJAH0MN4X25FcSH3O4K3VBQcp6kRzF
-	dSI5dv0YlnhRH09lE09pCWr7uNcz2RBv8JRfwBVKny+/MNqDV+ML4lOM5FwcWco3hFlM
-	JNWQ==
+	:cc; bh=kkAHvq178pV/xDl7Jal9iJXC+lsFBEqqEzTk0WVDJ1c=;
+	b=nOTj7tnBgP0MxIQoTOfBupy5U76FKVOkOWnXYnsEUPKdJT27D6iXo7txeO12ig1owj
+	Dg0q0TJZ9hPQ7h6WqX6qZu9rQ0k8X/CJmStKXYg+ASNtPGPWqR08j2iLdRVsyxbT1wl+
+	UbSWG86DTU5FDdm7fOX4c7GgV/bY8CXghjB9E3Wx+JHwIeRwaH/+l8f0Cu2hy7CExoxZ
+	MTk4+aDM8+LAmsOLcP4iyoHzB7dF2Qr6CHhBgdzZK6naBMlCpS35dXqWuqhH7HQvZIYG
+	lcANQsfksqGqYQtqaC7kplw2bJ8C/gujPixqCewhU23CEkZquvznc48sY8vakNU6T1EC
+	t+DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=H+a+liIwJDcy0TeMWMKXbQy7fxRuUZySVwTz+eEePGU=;
-	b=OH0LaetuSka9jKI4cUaFDQ7v3tQGCWqvO0sKoIAgv/EtWJd32iHQqWbWcp05wJnAaz
-	jnxXtB+0yBMxRe8lZ3uCiBvivgZ8Gv8/mgvhb2OFuFYT+yFwGU+fk7zbbumoYZbcI+fL
-	ruwyq7z0cjJp5waLqOxe9Doht8ZFwoV6xtnNt2VjbZ6eeeuDDIrVTZCvTs6RLxgBGcPG
-	k7k0UBp98aMwnim/6MjtquMmQrkzYhhg6FxdowgdP4aCjzA5LaYgBxUTJSOqnNMohdd0
-	J7EL5QQnRkZ+sgNcImdK/am8pLnjYDZnmvk9kNq7txf4s2wo5cjbbXJxt16sKgqd8EMk
-	+2TA==
-X-Gm-Message-State: AElRT7Ho3ghOpucagdWTkw5l3NWCZfhNPef6sGXdTqAWNChi4PNaqf+4
-	xFt2670uw6hETDFv3E61C+r3UBlkISa6G/RC6C4=
-X-Google-Smtp-Source: AG47ELvht9SOQcaY2FXimxod8sHwbdXncFH4WVTy+1TpC3CFStydIASSdE6GUcpuAbYRmKix8JEFovEPTHGoXyFX7k8=
-X-Received: by 10.46.42.67 with SMTP id q64mr15857636ljq.133.1520429734499;
-	Wed, 07 Mar 2018 05:35:34 -0800 (PST)
+	bh=kkAHvq178pV/xDl7Jal9iJXC+lsFBEqqEzTk0WVDJ1c=;
+	b=pYGVpZkauAvd7LnntmuPJtqnNWG9V9AHyZvs3O1WhO6rnTs1MHK9Uu4VoQiq6miVom
+	wpqD5xKvFtdNYMb7TbiqpMPMXiqPTYA5NKRbvfvbjbUyo3f2u88qWjc61VwPtoeMPWcm
+	vhb/Ji9ROwavA9zjrdceRoutN48XtXa0xK8ebRrHouQykJZ4fSVIZM1rFroZRQL/aYHJ
+	8j047Y5bOmpnF2kIvxUPcCT2v3mGTPRJo2CDyZ5tcgErkgmh5y65LLlwvH7Sq6jkaBOX
+	A0QjnfQ6Ug3/wj3sHfgTCmOq42o5Va2cozbrXNEPA2qR591y69DFPR3gBBAn8Rg36R38
+	3neQ==
+X-Gm-Message-State: AElRT7H6AyL1xZnMsT4cg9tQaN5IGiMx8AlLWZ/d3qyXW6mOkt2HYLQe
+	ILA2RlgytUa/qcvtGiocH/OHs1t1QfKLSRpldAI=
+X-Google-Smtp-Source: AG47ELthZGw8ndSWWhXBTMADfejyEPV22Oej6DjfnhUlsc2uUr7fqQvBc6Tuf2Y2qauJyernapJ0aUqwOLG5y1vBueU=
+X-Received: by 10.46.20.30 with SMTP id u30mr16438225ljd.12.1520429980192;
+	Wed, 07 Mar 2018 05:39:40 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.46.48.4 with HTTP; Wed, 7 Mar 2018 05:35:33 -0800 (PST)
-In-Reply-To: <CAJTo0Lbf=-TOV2ctvcE1pu+wR_8dsSt=AbUwUpvSq+miJUkBHA@mail.gmail.com>
+Received: by 10.46.48.4 with HTTP; Wed, 7 Mar 2018 05:39:39 -0800 (PST)
+In-Reply-To: <CAJTo0Lahsa_Bnzuw2yXQypkfk+qSVxmuPP1YAJUKw5euzocL4w@mail.gmail.com>
 References: <cover.1520359364.git.bruce.ashfield@windriver.com>
-	<28b9ee1263d7a5343c2e8246ff0b5f57454b054c.1520359364.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lbf=-TOV2ctvcE1pu+wR_8dsSt=AbUwUpvSq+miJUkBHA@mail.gmail.com>
+	<f5971af169fa67412a2d66f3ba1e1596ea439ca7.1520359364.git.bruce.ashfield@windriver.com>
+	<CAJTo0Lahsa_Bnzuw2yXQypkfk+qSVxmuPP1YAJUKw5euzocL4w@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 Mar 2018 08:35:33 -0500
-Message-ID: <CADkTA4P58D1LFLCRZc6PvXa1+R2NTb1LF55EL+U7m+XbwLo4mQ@mail.gmail.com>
+Date: Wed, 7 Mar 2018 08:39:39 -0500
+Message-ID: <CADkTA4N=mX__4a9ZpMXvL0uj1sOkLYMA1UTh3=gUWGkpeQXGew@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9 v3] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Re: [PATCH 7/9] linux-yocto: aufs and systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 13:35:34 -0000
+X-List-Received-Date: Wed, 07 Mar 2018 13:39:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 7, 2018 at 3:40 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Wed, Mar 7, 2018 at 3:38 AM, Burton, Ross <ross.burton@intel.com> wrote:
 > On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.com>
 > wrote:
 >>
->> +RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
->> +# 4.15+ needs these next two RDEPENDS
->> +RDEPENDS_${PN} += "openssl-dev util-linux"
->> +# and x86 needs a bit more for 4.15+
->> +RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '',
->> d)}"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+>> index ae9e7691367d..1ccbf6283e43 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+>> @@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.14.24"
+>>  KMETA = "kernel-meta"
+>>  KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>> -SRCREV_machine ?= "fccf7693fe5dd00d7b6d391b7405b5d58eb959f2"
+>> -SRCREV_meta ?= "426c8aa4862f95e84ec163b942b92726d3ef978f"
+>> +SRCREV_machine ?= "09828ddd8d8c91b2d68afdcd8eb99a48e0253582"
+>> +SRCREV_meta ?= "54b3e9b768651ca15bf65ae1c72dfe6d957285f0"
 >
 >
-> Annoyingly this is breaking our multilib test case:
->
-> https://autobuilder.yocto.io/builders/nightly-multilib/builds/852/steps/BuildImages_4/logs/stdio
->
-> It's entirely possible that the test is broken in some way but it's far too
-> early for me right now to comprehend the multilib matrix...
+> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+> do_fetch: Fetcher failure: Unable to find revision
+> 09828ddd8d8c91b2d68afdcd8eb99a48e0253582 in branch
+> v4.14/standard/tiny/common-pc even from upstream
+> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+> do_fetch: Fetcher failure for URL:
+> 'git://git.yoctoproject.org/linux-yocto.git;branch=v4.14/standard/tiny/common-pc;name=machine'.
+> Unable to fetch URL from any source.
+> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+> do_fetch: Function failed: base_do_fetch
 
-And at this point, I'm basically out of cycles for hacking on devsrc :(
-
-I'll see about it again at the start of next week, and failing that,
-bump it to the next release cycle.
-
-Cheers,
+Interesting. I'll see what script has gone insane and re-submit a v2.
 
 Bruce
 
