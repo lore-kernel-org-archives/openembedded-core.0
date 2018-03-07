@@ -1,49 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DE2A47890C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 538F777FE8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2018 13:39:39 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id m69-v6so3251157lfe.8
+	Wed,  7 Mar 2018 13:42:09 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id t3so4862194wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Mar 2018 05:39:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kkAHvq178pV/xDl7Jal9iJXC+lsFBEqqEzTk0WVDJ1c=;
-	b=nOTj7tnBgP0MxIQoTOfBupy5U76FKVOkOWnXYnsEUPKdJT27D6iXo7txeO12ig1owj
-	Dg0q0TJZ9hPQ7h6WqX6qZu9rQ0k8X/CJmStKXYg+ASNtPGPWqR08j2iLdRVsyxbT1wl+
-	UbSWG86DTU5FDdm7fOX4c7GgV/bY8CXghjB9E3Wx+JHwIeRwaH/+l8f0Cu2hy7CExoxZ
-	MTk4+aDM8+LAmsOLcP4iyoHzB7dF2Qr6CHhBgdzZK6naBMlCpS35dXqWuqhH7HQvZIYG
-	lcANQsfksqGqYQtqaC7kplw2bJ8C/gujPixqCewhU23CEkZquvznc48sY8vakNU6T1EC
-	t+DA==
+	Wed, 07 Mar 2018 05:42:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=HoUtWn+2NmbH76INhUmJAteGOKyS8wn60Qy+CpmuV24=;
+	b=xGBk1D5T8fppOaaT5ldQ7LI2frTd6hgifaTASmU1rnIZMCIx+rCDWq3Y2SC+M0i9R1
+	jzLehRANsUKBMM6p3Jxbf6a1U3NurAJVqQDtCpqoITjuu8KHj740kD6l/kUl91HPobHT
+	0MqHwpbcVhXCJN8VLAjqsnxB8yKBTjyLM3Gto9Ix73pfOgHAOjEgfpZtiyNkXhCSe3oY
+	n7M7Evp7hPo0yFsJ/1znvRapi/XC6hT/4KDEC5NOvNGbs4uwPnc+CFzoP6r+hIm5LS+n
+	NrDbE6rnsdpb5zehEWjVulbozmHQvFOqc11P1eTgVqqRn4hk7B35AIvsoUv1qkz4N8tK
+	WkMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kkAHvq178pV/xDl7Jal9iJXC+lsFBEqqEzTk0WVDJ1c=;
-	b=pYGVpZkauAvd7LnntmuPJtqnNWG9V9AHyZvs3O1WhO6rnTs1MHK9Uu4VoQiq6miVom
-	wpqD5xKvFtdNYMb7TbiqpMPMXiqPTYA5NKRbvfvbjbUyo3f2u88qWjc61VwPtoeMPWcm
-	vhb/Ji9ROwavA9zjrdceRoutN48XtXa0xK8ebRrHouQykJZ4fSVIZM1rFroZRQL/aYHJ
-	8j047Y5bOmpnF2kIvxUPcCT2v3mGTPRJo2CDyZ5tcgErkgmh5y65LLlwvH7Sq6jkaBOX
-	A0QjnfQ6Ug3/wj3sHfgTCmOq42o5Va2cozbrXNEPA2qR591y69DFPR3gBBAn8Rg36R38
-	3neQ==
-X-Gm-Message-State: AElRT7H6AyL1xZnMsT4cg9tQaN5IGiMx8AlLWZ/d3qyXW6mOkt2HYLQe
-	ILA2RlgytUa/qcvtGiocH/OHs1t1QfKLSRpldAI=
-X-Google-Smtp-Source: AG47ELthZGw8ndSWWhXBTMADfejyEPV22Oej6DjfnhUlsc2uUr7fqQvBc6Tuf2Y2qauJyernapJ0aUqwOLG5y1vBueU=
-X-Received: by 10.46.20.30 with SMTP id u30mr16438225ljd.12.1520429980192;
-	Wed, 07 Mar 2018 05:39:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.46.48.4 with HTTP; Wed, 7 Mar 2018 05:39:39 -0800 (PST)
-In-Reply-To: <CAJTo0Lahsa_Bnzuw2yXQypkfk+qSVxmuPP1YAJUKw5euzocL4w@mail.gmail.com>
-References: <cover.1520359364.git.bruce.ashfield@windriver.com>
-	<f5971af169fa67412a2d66f3ba1e1596ea439ca7.1520359364.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lahsa_Bnzuw2yXQypkfk+qSVxmuPP1YAJUKw5euzocL4w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 Mar 2018 08:39:39 -0500
-Message-ID: <CADkTA4N=mX__4a9ZpMXvL0uj1sOkLYMA1UTh3=gUWGkpeQXGew@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/9] linux-yocto: aufs and systemtap
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HoUtWn+2NmbH76INhUmJAteGOKyS8wn60Qy+CpmuV24=;
+	b=moLNx9fYN53R6afL/TnIIdEw2UOvXP76AOBfM3NcvA36u+aSH3SaJ6LMcfddHDxXOd
+	6x3wRe3W5eca3oplqDbe00q44iYDYU3diMyHXyeLtBkeuc66cp9hLqJm00qf6MA7k7uQ
+	exkJVWBoLxYPzC7hanm/WnYtFNFkmJXUzy2OPexSKCJMQ/T3nM4LyNPZbWlYS4HBhdtC
+	6Lp6RpnadKSGwNkLa4/PfdKsNVYOHWtCN4Pr8Ohi+KuWuwhbWifNvPZHUsVROjMlW3ao
+	BrhS0RIt9f3y7OhbTXFvZEJvZOVf/O5jXIoEVQ67a0T214Ipxvxq14nTIsHS1BylI58A
+	tevw==
+X-Gm-Message-State: AElRT7EbVbNA/f+l7AR3ZOdsF4Z3RH5wP+cN0lZG0FwW+mloYOVpZh+/
+	aChffocSp1kJo491ihQdLDXFKfYf
+X-Google-Smtp-Source: AG47ELvyoB2QSzAE1ZUeLWjAZxRpO9uH5MCDeHBq9CXVII0owepqPPlPp8jKhcQZkaAnrhbEnTgAFA==
+X-Received: by 10.28.195.133 with SMTP id t127mr14239449wmf.156.1520430130530; 
+	Wed, 07 Mar 2018 05:42:10 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	n12sm10188292wmc.35.2018.03.07.05.42.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 Mar 2018 05:42:09 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Mar 2018 13:42:07 +0000
+Message-Id: <20180307134207.24700-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libfm: fix dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,56 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 13:39:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Mar 2018 13:42:10 -0000
 
-On Wed, Mar 7, 2018 at 3:38 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.com>
-> wrote:
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
->> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
->> index ae9e7691367d..1ccbf6283e43 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
->> @@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.14.24"
->>  KMETA = "kernel-meta"
->>  KCONF_BSP_AUDIT_LEVEL = "2"
->>
->> -SRCREV_machine ?= "fccf7693fe5dd00d7b6d391b7405b5d58eb959f2"
->> -SRCREV_meta ?= "426c8aa4862f95e84ec163b942b92726d3ef978f"
->> +SRCREV_machine ?= "09828ddd8d8c91b2d68afdcd8eb99a48e0253582"
->> +SRCREV_meta ?= "54b3e9b768651ca15bf65ae1c72dfe6d957285f0"
->
->
-> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
-> do_fetch: Fetcher failure: Unable to find revision
-> 09828ddd8d8c91b2d68afdcd8eb99a48e0253582 in branch
-> v4.14/standard/tiny/common-pc even from upstream
-> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
-> do_fetch: Fetcher failure for URL:
-> 'git://git.yoctoproject.org/linux-yocto.git;branch=v4.14/standard/tiny/common-pc;name=machine'.
-> Unable to fetch URL from any source.
-> ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
-> do_fetch: Function failed: base_do_fetch
+libfm uses glib-gettextize so explicitly depend on glib-2.0-native.
 
-Interesting. I'll see what script has gone insane and re-submit a v2.
+Instead of depending on gettext-native, inherit gettext.
 
-Bruce
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libfm/libfm-extra_1.2.5.bb | 4 ++--
+ meta/recipes-support/libfm/libfm_1.2.5.bb       | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/recipes-support/libfm/libfm-extra_1.2.5.bb b/meta/recipes-support/libfm/libfm-extra_1.2.5.bb
+index 0134572f1f8..c0fd83ef344 100644
+--- a/meta/recipes-support/libfm/libfm-extra_1.2.5.bb
++++ b/meta/recipes-support/libfm/libfm-extra_1.2.5.bb
+@@ -5,7 +5,7 @@ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://src/fm-extra.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007"
+ 
+ SECTION = "x11/libs"
+-DEPENDS = "glib-2.0 intltool-native gettext-native"
++DEPENDS = "glib-2.0-native glib-2.0 intltool-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
+            file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
+@@ -18,6 +18,6 @@ S = "${WORKDIR}/libfm-${PV}"
+ 
+ EXTRA_OECONF = "--with-extra-only --with-gtk=no"
+ 
+-inherit autotools pkgconfig gtk-doc
++inherit autotools pkgconfig gtk-doc gettext
+ 
+ do_configure[dirs] =+ "${S}/m4"
+diff --git a/meta/recipes-support/libfm/libfm_1.2.5.bb b/meta/recipes-support/libfm/libfm_1.2.5.bb
+index c1deea68531..596408353fa 100644
+--- a/meta/recipes-support/libfm/libfm_1.2.5.bb
++++ b/meta/recipes-support/libfm/libfm_1.2.5.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b \
+ 
+ 
+ SECTION = "x11/libs"
+-DEPENDS = "glib-2.0 pango gtk+3 menu-cache intltool-native libexif libfm-extra gettext-native"
++DEPENDS = "glib-2.0 glib-2.0-native pango gtk+3 menu-cache intltool-native libexif libfm-extra"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
+            file://0001-Correctly-check-the-stamp-file-that-indicates-if-we-.patch \
+@@ -19,7 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
+ SRC_URI[md5sum] = "a1ba9ae5e920f38b647dd511edd6c807"
+ SRC_URI[sha256sum] = "c706bb1020cf5f2d6f5a9226f692ce1985947134dcf2bde64278bd0420779b5a"
+ 
+-inherit autotools pkgconfig gtk-doc distro_features_check
++inherit autotools pkgconfig gtk-doc gettext distro_features_check
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+ EXTRA_OECONF = "--with-gtk=3"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.11.0
+
 
