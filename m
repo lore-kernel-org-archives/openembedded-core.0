@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B354C7878B;
-	Wed,  7 Mar 2018 16:32:54 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFF377CF6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Mar 2018 16:56:17 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id j20so1166404pfi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Mar 2018 08:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dUgR8opofr8eXA3iYsaJB14n3x1emV71TK36BfJ/Abk=;
+	b=WM4FWtbmm/ETZ7eqVwKIIEMO1mjtRZSLTGTPmhRkgniaHkbhiYwdsSTTlm1oXxp2la
+	ZVmAcICeQ8QJBpEUM43oz+u2dPaLzG2TyTsHS7UWwOoltuwoaZ1TIM7VbmKoH4pVd7Ot
+	QHohA9pvNty+FehiPbSRZC3F2RK1lDKha6PCNgeViLWfcuWtIkDFEfEo7QrFmodakbhU
+	9f9M+4J+9D1V8igj/fcpIptZiPlUbCPkTN/jWvHHN9RmLiZrR07dz8n5Uhnn4h9Ikutz
+	SlUZ5AniRN5Uu7gnsjTSRrcCSC56h3HzrRUooRvNGfKumvGfojrixDjEtjpxiasti5HR
+	r70A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dUgR8opofr8eXA3iYsaJB14n3x1emV71TK36BfJ/Abk=;
+	b=gYR7ZVMdxwirjQqm8Pe1XZbr70wg+LuecrCI9LIRKmsm9jqJ9KTpzTSNEtWvnHzBiZ
+	aDjzvwAIFnfKQb8XMFomLU/GIvPIbmVvPtjvmvp0qelDkKEkWUMWt3ni9q1WDhk6vcCw
+	UwKg+/G4RTwIiUx3odchvcszGCLDq1NLP7K2Wer99WUNTE3l3Us4IM/tAF0h2hOQlzT0
+	jvll1zgGbBF2ptBLevuehlSP3VkQaS0gnrGKM3j3/CvaThJYIYjhHH503nbtBzUsf/rT
+	SDlVkCIJb8hwfPKWD5uY5KeEyzE2G7hLTV32FhW9UJDISV/XzEGP5pr3LTIDBimN6ua8
+	EI5w==
+X-Gm-Message-State: APf1xPCZch1QUm44KeOynDbgWjn+RIMGopQT848f6r/QrTbLPCP1eMaw
+	vod/qhfn8STqqAaZJQ9iHwdC4dsvM7L82xeCr3WPvQ==
+X-Google-Smtp-Source: AG47ELscW4W/fNF1VNfo+xx9Y6B9NZVe1qyyy5Wh90SqvqQSZYpVJoztYWB56q9W7CwrxoG8fs0nNpcCMcKXoHTAunI=
+X-Received: by 10.98.18.70 with SMTP id a67mr23242133pfj.213.1520441778883;
+	Wed, 07 Mar 2018 08:56:18 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Vineeth Chowdary Karumanchi <vineethchowz.chowdary@xilinx.com>
-Date: Wed, 07 Mar 2018 16:32:56 -0000
-Message-ID: <20180307163256.15542.83367@do.openembedded.org>
-References: <1520433689-6357-1-git-send-email-vineethchowz.chowdary@xilinx.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1520433689-6357-1-git-send-email-vineethchowz.chowdary@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlLmJiY2xhc3M6IERlcGxveSBmaXRJbWFnZSB3aXRob3V0IEluaXRyYW1mcw==?=
+Received: by 10.100.170.69 with HTTP; Wed, 7 Mar 2018 08:55:48 -0800 (PST)
+In-Reply-To: <bf69c172-e313-5dd0-4ad0-39d9358f1df8@windriver.com>
+References: <cover.1520213817.git.Qi.Chen@windriver.com>
+	<bf69c172-e313-5dd0-4ad0-39d9358f1df8@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 7 Mar 2018 08:55:48 -0800
+Message-ID: <CAMKF1soeinuiVEJSC8yWFTdkt+gzOjFVsgjAFgn0q+bALsbtLQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] systemd & systemd-boot: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +56,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 16:32:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Mar 2018 16:56:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Wed, Mar 7, 2018 at 12:11 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+> Hi Ross,
+>
+> I've rebased the following patch against latest master and updated remote
+> branch.
+>
+>   systemd-boot: upgrade to 237
+>
+>   git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
+>
+>
 
-Series: kernel-fitimage.bbclass: Deploy fitImage without Initramfs
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11297/
-State : failure
+oh now 238 is out
+https://github.com/systemd/systemd/releases/tag/v238
 
-== Summary ==
+it seems we are ingesting systemd too slow :)
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at b8ddb0c8d7)
-
-* Patch            kernel-fitimage.bbclass: Deploy fitImage without Initramfs
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+>
+> Best Regards,
+> Chen Qi
+>
+>
+> On 03/05/2018 10:02 AM, Chen Qi wrote:
+>>
+>> Changes from last patchset (236 upgrading):
+>> 1. Use more vars (AR, NM, etc.) than just CC and LD in meson.bbclass.
+>> 2. Keep the PACKAGECONFIG item's name 'manpages' for compatibility.
+>> 3. Make it check for all i*86 archs instead of just i586 for systemd-boot.
+>> 4. Fix the '==' bashism in systemd-boot.
+>> 5. Rebase patches for 237.
+>>
+>>
+>> The following changes since commit
+>> bd5424f5b05a0a65471a77632efe7b9907370217:
+>>
+>>    maintainers.inc: add myself as maintainer for the new busybox-inittab
+>> (2018-03-04 21:23:03 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
+>>
+>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
+>>
+>> Chen Qi (4):
+>>    meson.bbclass: fix to build for more projects
+>>    systemd: upgrade to 237
+>>    systemd: fix build failure for qemux86 and qemuppc with musl
+>>    systemd-boot: upgrade to 237
+>>
+>>   meta/classes/meson.bbclass                         |  20 +-
+>>   .../{systemd-boot_234.bb => systemd-boot_237.bb}   |  32 ++-
+>>   meta/recipes-core/systemd/systemd.inc              |   2 +-
+>>   ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 +++
+>>   ...efi_cc-and-efi_ld-correctly-when-cross-co.patch |  62 +++++
+>>   ...ck-protector-flags-to-workaround-musl-bui.patch |  33 +++
+>>   ...v-when-secure-versions-are-not-available.patch} |  21 +-
+>>   ...te-presets-after-generators-have-run-6526.patch |  69 ------
+>>   ...any-initialization-steps-when-running-in-.patch | 163 -------------
+>>   ...update-header-file-to-detect-memfd_create.patch |  28 ---
+>>   ...t-install-dependency-links-at-install-tim.patch |  81 +++++++
+>>   ...c-Check-if-memfd_create-is-already-define.patch |  27 ---
+>>   .../systemd/0003-fileio-include-sys-mman.h.patch   |  26 --
+>>   ...pper-instead-of-looking-for-relative-opti.patch |  64 +++++
+>>   ...004-implment-systemd-sysv-install-for-OE.patch} |   8 +-
+>>   ...t-install-dependency-links-at-install-tim.patch |  74 ------
+>>   ...patch => 0005-rules-whitelist-hd-devices.patch} |   9 +-
+>>   ...6-Make-root-s-home-directory-configurable.patch |  78 ++++++
+>>   ...vert-rules-remove-firmware-loading-rules.patch} |   8 +-
+>>   ...-check-for-missing-canonicalize_file_name.patch |  63 -----
+>>   ...pper-instead-of-looking-for-relative-opti.patch |  40 ---
+>>   .../systemd/0008-Do-not-enable-nss-tests.patch     |  35 ---
+>>   ...remove-userspace-firmware-loading-suppor.patch} | 204
+>> +++++++++-------
+>>   ...=> 0009-remove-duplicate-include-uchar.h.patch} |  14 +-
+>>   .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ++++
+>>   ...nes-Build-conditionally-when-HAVE_MYHOSTN.patch |  38 ---
+>>   ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  26 +-
+>>   ...es-watch-metadata-changes-in-ide-devices.patch} |   8 +-
+>>   ...3-Make-root-s-home-directory-configurable.patch | 155 ------------
+>>   ...lback-parse_printf_format-implementation.patch} |  86 ++++---
+>>   ...sic-missing.h-check-for-missing-strndupa.patch} |  96 ++++----
+>>   ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  30 +--
+>>   ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  18 +-
+>>   ...patch => 0017-Include-netinet-if_ether.h.patch} |  55 +++--
+>>   ...-check-for-missing-canonicalize_file_name.patch |  47 ++++
+>>   .../0018-check-for-uchar.h-in-configure.patch      |  44 ----
+>>   ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 +++
+>>   ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  15 +-
+>>   ...c-Disable-tests-for-missing-typedefs-in-.patch} |  39 ++-
+>>   ...=> 0022-don-t-use-glibc-specific-qsort_r.patch} |  26 +-
+>>   ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  22 +-
+>>   ...n_t-is-glibc-specific-use-raw-signature-.patch} |  14 +-
+>>   ...ATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} |  16 +-
+>>   ...> 0026-Use-uintmax_t-for-handling-rlim_t.patch} |  22 +-
+>>   .../0027-remove-nobody-user-group-checking.patch   |  63 +++++
+>>   .../0028-add-missing-FTW_-macros-for-musl.patch    |  50 ++++
+>>   ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 ++++
+>>   ...-of-__register_atfork-for-non-glibc-build.patch |  45 ++++
+>>   ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 +++
+>>   meta/recipes-core/systemd/systemd/run-ptest        |   6 -
+>>   .../systemd/{systemd_234.bb => systemd_237.bb}     | 270
+>> +++++++++------------
+>>   51 files changed, 1220 insertions(+), 1307 deletions(-)
+>>   rename meta/recipes-core/systemd/{systemd-boot_234.bb =>
+>> systemd-boot_237.bb} (41%)
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0004-Use-getenv-when-secure-versions-are-not-available.patch
+>> => 0001-Use-getenv-when-secure-versions-are-not-available.patch} (53%)
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0010-implment-systemd-sysv-install-for-OE.patch
+>> => 0004-implment-systemd-sysv-install-for-OE.patch} (89%)
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0012-rules-whitelist-hd-devices.patch =>
+>> 0005-rules-whitelist-hd-devices.patch} (89%)
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0006-Make-root-s-home-directory-configurable.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0014-Revert-rules-remove-firmware-loading-rules.patch
+>> => 0007-Revert-rules-remove-firmware-loading-rules.patch} (81%)
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0007-check-for-missing-canonicalize_file_name.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
+>> => 0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch} (63%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0017-remove-duplicate-include-uchar.h.patch
+>> => 0009-remove-duplicate-include-uchar.h.patch} (78%)
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
+>> => 0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (58%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0020-rules-watch-metadata-changes-in-ide-devices.patch
+>> => 0012-rules-watch-metadata-changes-in-ide-devices.patch} (90%)
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0013-Make-root-s-home-directory-configurable.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0001-add-fallback-parse_printf_format-implementation.patch
+>> => 0013-add-fallback-parse_printf_format-implementation.patch} (88%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0002-src-basic-missing.h-check-for-missing-strndupa.patch
+>> => 0014-src-basic-missing.h-check-for-missing-strndupa.patch} (47%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0003-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
+>> => 0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (88%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0004-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch
+>> => 0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (77%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0006-Include-netinet-if_ether.h.patch =>
+>> 0017-Include-netinet-if_ether.h.patch} (67%)
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
+>>   delete mode 100644
+>> meta/recipes-core/systemd/systemd/0018-check-for-uchar.h-in-configure.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0009-test-hexdecoct.c-Include-missing.h-form-strndupa.patch
+>> => 0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (68%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch
+>> => 0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (49%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0011-don-t-use-glibc-specific-qsort_r.patch
+>> => 0022-don-t-use-glibc-specific-qsort_r.patch} (88%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0012-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
+>> => 0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (90%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
+>> => 0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (77%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch
+>> => 0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} (80%)
+>>   rename
+>> meta/recipes-core/systemd/systemd/{0001-Use-uintmax_t-for-handling-rlim_t.patch
+>> => 0026-Use-uintmax_t-for-handling-rlim_t.patch} (89%)
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0027-remove-nobody-user-group-checking.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0028-add-missing-FTW_-macros-for-musl.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
+>>   create mode 100644
+>> meta/recipes-core/systemd/systemd/0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
+>>   delete mode 100644 meta/recipes-core/systemd/systemd/run-ptest
+>>   rename meta/recipes-core/systemd/{systemd_234.bb => systemd_237.bb}
+>> (71%)
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
