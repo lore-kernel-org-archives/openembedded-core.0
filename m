@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DA00789D7;
-	Wed,  7 Mar 2018 00:36:48 +0000 (UTC)
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id CB21D78A0A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Mar 2018 03:10:20 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37560145"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Mar 2018 11:10:21 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 445F44D0EFEB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Mar 2018 11:10:21 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 7 Mar 2018 11:10:18 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Mar 2018 11:10:09 +0800
+Message-ID: <1520392210-13037-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
-Date: Wed, 07 Mar 2018 00:36:50 -0000
-Message-ID: <20180307003650.15543.34009@do.openembedded.org>
-References: <1520380912-17483-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1520380912-17483-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2Via2l0Z3RrXzIuMTYuNi5iYjogUmVtb3ZlIGdsMy5oIGhlYWRlciByZWZlcmVuY2UgKHJldjIp?=
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 445F44D0EFEB.A70C1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] iptables: 1.6.1 -> 1.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 00:36:48 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Mar 2018 03:10:21 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Upgrade iptables from 1.6.1 to 1.6.2.
 
-Series: webkitgtk_2.16.6.bb: Remove gl3.h header reference (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/11127/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 83a36fb20f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../iptables/{iptables_1.6.1.bb => iptables_1.6.2.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/iptables/{iptables_1.6.1.bb => iptables_1.6.2.bb} (93%)
+
+diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.2.bb
+similarity index 93%
+rename from meta/recipes-extended/iptables/iptables_1.6.1.bb
+rename to meta/recipes-extended/iptables/iptables_1.6.2.bb
+index b37c55a..628f5b7 100644
+--- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
++++ b/meta/recipes-extended/iptables/iptables_1.6.2.bb
+@@ -25,8 +25,8 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://0001-fix-build-with-musl.patch \
+ "
+ 
+-SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
+-SRC_URI[sha256sum] = "0fc2d7bd5d7be11311726466789d4c65fb4c8e096c9182b56ce97440864f0cf5"
++SRC_URI[md5sum] = "7d2b7847e4aa8832a18437b8a4c1873d"
++SRC_URI[sha256sum] = "55d02dfa46263343a401f297d44190f2a3e5113c8933946f094ed40237053733"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.7.4
+
+
 
 
