@@ -1,28 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ADC078A09
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 92A487896E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2018 08:11:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w278BYta032727
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 7 Mar 2018 00:11:34 -0800
-Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 7 Mar 2018 00:11:00 -0800
-To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1520213817.git.Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <bf69c172-e313-5dd0-4ad0-39d9358f1df8@windriver.com>
-Date: Wed, 7 Mar 2018 16:11:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Wed,  7 Mar 2018 08:38:24 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id w19so15456847ite.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Mar 2018 00:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/q8g5awY+/1z3cp1mqAYW7BB/zO1iMR50npGWSjdUTI=;
+	b=gbqGBTGJXN4ZeiTXQL4Zpx9xxThAfxkvZ4cLcreve8M9wffYe7cUnezlFGMJnml5as
+	MknrpjWDBWzH/1iEuVjU8Hw4RI8xtYRAsumXtbyruWf4VlV0dxl8MTEw4dgDVU3RMAeR
+	SHJKleZCMU4nSFo/F5P+BfUN55XYF6nFseAkVAkU8BhzHmGBMT/52UKkV33+UFrLSbCS
+	Ylr22z6T/aSIXl37GaK+XIxPrZszm69/2rHWVBzoUwlTtsnJY5BU34u7BXcdAh0GuX99
+	4bH/p3x//+HfP6d68puH0F226sokHmLDqKmyFwrZAOWhsliOXA48ENFoADeHntrOxg8E
+	4+bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/q8g5awY+/1z3cp1mqAYW7BB/zO1iMR50npGWSjdUTI=;
+	b=KJo/c8/YrO2HVHXoIXeZHLJa21zmJGzH73hK02yNsUjeFbz6LTflZ1hAaYwuMhMm6N
+	neXRt4bqHyqZwp5m2NHotI6pFGk25d6TqyD1zi99qa2b+JgSWr/FaNeuCapBcaXx1YdW
+	x61q2EnSzRPils4OEzg2sGR34IfZLmnPg9gJDtssHK2SvFBj9MU0nnOjGl/Kfdah/v8X
+	Ot9+RpJ8/cpqOsmitKkhdyBoyweerV9afQDdzJOtbmqrujxK8gICgAhS+4LkqLTQRob4
+	kvC/a75KJnmBir7Zgmac9Lp9JuY2ZZuraoHFz+wRHqn4N08B4OEiM1U8ufftl2Wnsf8T
+	sTvw==
+X-Gm-Message-State: AElRT7E7GvxokHjy8hpw1yB0XpbbPLFdJkRz7Bii0/yt7yojZJxvyA5B
+	f9GEjShAsjRlOoifP9Jzd2GzsbMLMqdB4yMhxzGVnzID
+X-Google-Smtp-Source: AG47ELvM2+YIVtwTzJujG7RDWCpB9k0IJwM7F/YZkNa9Me9be2i4p3LWzAwYoLT7cQngrMYjW8h47omqtCYqBqWD+mc=
+X-Received: by 10.36.34.11 with SMTP id o11mr8005486ito.60.1520411906359; Wed,
+	07 Mar 2018 00:38:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1520213817.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.197]
-Subject: Re: [PATCH 0/4] systemd & systemd-boot: upgrade to 237
+Received: by 10.107.30.9 with HTTP; Wed, 7 Mar 2018 00:38:06 -0800 (PST)
+In-Reply-To: <f5971af169fa67412a2d66f3ba1e1596ea439ca7.1520359364.git.bruce.ashfield@windriver.com>
+References: <cover.1520359364.git.bruce.ashfield@windriver.com>
+	<f5971af169fa67412a2d66f3ba1e1596ea439ca7.1520359364.git.bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Mar 2018 08:38:06 +0000
+Message-ID: <CAJTo0Lahsa_Bnzuw2yXQypkfk+qSVxmuPP1YAJUKw5euzocL4w@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/9] linux-yocto: aufs and systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,150 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 08:11:34 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Mar 2018 08:38:25 -0000
+Content-Type: multipart/alternative; boundary="001a113f77ba975de90566ce7b54"
 
-Hi Ross,
+--001a113f77ba975de90566ce7b54
+Content-Type: text/plain; charset="UTF-8"
 
-I've rebased the following patch against latest master and updated 
-remote branch.
+On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
 
-   systemd-boot: upgrade to 237
-
-   git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
-
-
-
-Best Regards,
-Chen Qi
-
-On 03/05/2018 10:02 AM, Chen Qi wrote:
-> Changes from last patchset (236 upgrading):
-> 1. Use more vars (AR, NM, etc.) than just CC and LD in meson.bbclass.
-> 2. Keep the PACKAGECONFIG item's name 'manpages' for compatibility.
-> 3. Make it check for all i*86 archs instead of just i586 for systemd-boot.
-> 4. Fix the '==' bashism in systemd-boot.
-> 5. Rebase patches for 237.
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+> index ae9e7691367d..1ccbf6283e43 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+> @@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.14.24"
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
 >
->
-> The following changes since commit bd5424f5b05a0a65471a77632efe7b9907370217:
->
->    maintainers.inc: add myself as maintainer for the new busybox-inittab (2018-03-04 21:23:03 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
->
-> Chen Qi (4):
->    meson.bbclass: fix to build for more projects
->    systemd: upgrade to 237
->    systemd: fix build failure for qemux86 and qemuppc with musl
->    systemd-boot: upgrade to 237
->
->   meta/classes/meson.bbclass                         |  20 +-
->   .../{systemd-boot_234.bb => systemd-boot_237.bb}   |  32 ++-
->   meta/recipes-core/systemd/systemd.inc              |   2 +-
->   ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 +++
->   ...efi_cc-and-efi_ld-correctly-when-cross-co.patch |  62 +++++
->   ...ck-protector-flags-to-workaround-musl-bui.patch |  33 +++
->   ...v-when-secure-versions-are-not-available.patch} |  21 +-
->   ...te-presets-after-generators-have-run-6526.patch |  69 ------
->   ...any-initialization-steps-when-running-in-.patch | 163 -------------
->   ...update-header-file-to-detect-memfd_create.patch |  28 ---
->   ...t-install-dependency-links-at-install-tim.patch |  81 +++++++
->   ...c-Check-if-memfd_create-is-already-define.patch |  27 ---
->   .../systemd/0003-fileio-include-sys-mman.h.patch   |  26 --
->   ...pper-instead-of-looking-for-relative-opti.patch |  64 +++++
->   ...004-implment-systemd-sysv-install-for-OE.patch} |   8 +-
->   ...t-install-dependency-links-at-install-tim.patch |  74 ------
->   ...patch => 0005-rules-whitelist-hd-devices.patch} |   9 +-
->   ...6-Make-root-s-home-directory-configurable.patch |  78 ++++++
->   ...vert-rules-remove-firmware-loading-rules.patch} |   8 +-
->   ...-check-for-missing-canonicalize_file_name.patch |  63 -----
->   ...pper-instead-of-looking-for-relative-opti.patch |  40 ---
->   .../systemd/0008-Do-not-enable-nss-tests.patch     |  35 ---
->   ...remove-userspace-firmware-loading-suppor.patch} | 204 +++++++++-------
->   ...=> 0009-remove-duplicate-include-uchar.h.patch} |  14 +-
->   .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ++++
->   ...nes-Build-conditionally-when-HAVE_MYHOSTN.patch |  38 ---
->   ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  26 +-
->   ...es-watch-metadata-changes-in-ide-devices.patch} |   8 +-
->   ...3-Make-root-s-home-directory-configurable.patch | 155 ------------
->   ...lback-parse_printf_format-implementation.patch} |  86 ++++---
->   ...sic-missing.h-check-for-missing-strndupa.patch} |  96 ++++----
->   ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  30 +--
->   ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  18 +-
->   ...patch => 0017-Include-netinet-if_ether.h.patch} |  55 +++--
->   ...-check-for-missing-canonicalize_file_name.patch |  47 ++++
->   .../0018-check-for-uchar.h-in-configure.patch      |  44 ----
->   ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 +++
->   ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  15 +-
->   ...c-Disable-tests-for-missing-typedefs-in-.patch} |  39 ++-
->   ...=> 0022-don-t-use-glibc-specific-qsort_r.patch} |  26 +-
->   ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  22 +-
->   ...n_t-is-glibc-specific-use-raw-signature-.patch} |  14 +-
->   ...ATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} |  16 +-
->   ...> 0026-Use-uintmax_t-for-handling-rlim_t.patch} |  22 +-
->   .../0027-remove-nobody-user-group-checking.patch   |  63 +++++
->   .../0028-add-missing-FTW_-macros-for-musl.patch    |  50 ++++
->   ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 ++++
->   ...-of-__register_atfork-for-non-glibc-build.patch |  45 ++++
->   ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 +++
->   meta/recipes-core/systemd/systemd/run-ptest        |   6 -
->   .../systemd/{systemd_234.bb => systemd_237.bb}     | 270 +++++++++------------
->   51 files changed, 1220 insertions(+), 1307 deletions(-)
->   rename meta/recipes-core/systemd/{systemd-boot_234.bb => systemd-boot_237.bb} (41%)
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->   rename meta/recipes-core/systemd/systemd/{0004-Use-getenv-when-secure-versions-are-not-available.patch => 0001-Use-getenv-when-secure-versions-are-not-available.patch} (53%)
->   delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->   rename meta/recipes-core/systemd/systemd/{0010-implment-systemd-sysv-install-for-OE.patch => 0004-implment-systemd-sysv-install-for-OE.patch} (89%)
->   delete mode 100644 meta/recipes-core/systemd/systemd/0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
->   rename meta/recipes-core/systemd/systemd/{0012-rules-whitelist-hd-devices.patch => 0005-rules-whitelist-hd-devices.patch} (89%)
->   create mode 100644 meta/recipes-core/systemd/systemd/0006-Make-root-s-home-directory-configurable.patch
->   rename meta/recipes-core/systemd/systemd/{0014-Revert-rules-remove-firmware-loading-rules.patch => 0007-Revert-rules-remove-firmware-loading-rules.patch} (81%)
->   delete mode 100644 meta/recipes-core/systemd/systemd/0007-check-for-missing-canonicalize_file_name.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests.patch
->   rename meta/recipes-core/systemd/systemd/{0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch => 0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch} (63%)
->   rename meta/recipes-core/systemd/systemd/{0017-remove-duplicate-include-uchar.h.patch => 0009-remove-duplicate-include-uchar.h.patch} (78%)
->   create mode 100644 meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
->   rename meta/recipes-core/systemd/systemd/{0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (58%)
->   rename meta/recipes-core/systemd/systemd/{0020-rules-watch-metadata-changes-in-ide-devices.patch => 0012-rules-watch-metadata-changes-in-ide-devices.patch} (90%)
->   delete mode 100644 meta/recipes-core/systemd/systemd/0013-Make-root-s-home-directory-configurable.patch
->   rename meta/recipes-core/systemd/systemd/{0001-add-fallback-parse_printf_format-implementation.patch => 0013-add-fallback-parse_printf_format-implementation.patch} (88%)
->   rename meta/recipes-core/systemd/systemd/{0002-src-basic-missing.h-check-for-missing-strndupa.patch => 0014-src-basic-missing.h-check-for-missing-strndupa.patch} (47%)
->   rename meta/recipes-core/systemd/systemd/{0003-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (88%)
->   rename meta/recipes-core/systemd/systemd/{0004-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch => 0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (77%)
->   rename meta/recipes-core/systemd/systemd/{0006-Include-netinet-if_ether.h.patch => 0017-Include-netinet-if_ether.h.patch} (67%)
->   create mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-uchar.h-in-configure.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
->   rename meta/recipes-core/systemd/systemd/{0009-test-hexdecoct.c-Include-missing.h-form-strndupa.patch => 0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (68%)
->   rename meta/recipes-core/systemd/systemd/{0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (49%)
->   rename meta/recipes-core/systemd/systemd/{0011-don-t-use-glibc-specific-qsort_r.patch => 0022-don-t-use-glibc-specific-qsort_r.patch} (88%)
->   rename meta/recipes-core/systemd/systemd/{0012-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (90%)
->   rename meta/recipes-core/systemd/systemd/{0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch => 0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (77%)
->   rename meta/recipes-core/systemd/systemd/{0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch => 0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} (80%)
->   rename meta/recipes-core/systemd/systemd/{0001-Use-uintmax_t-for-handling-rlim_t.patch => 0026-Use-uintmax_t-for-handling-rlim_t.patch} (89%)
->   create mode 100644 meta/recipes-core/systemd/systemd/0027-remove-nobody-user-group-checking.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0028-add-missing-FTW_-macros-for-musl.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/run-ptest
->   rename meta/recipes-core/systemd/{systemd_234.bb => systemd_237.bb} (71%)
+> -SRCREV_machine ?= "fccf7693fe5dd00d7b6d391b7405b5d58eb959f2"
+> -SRCREV_meta ?= "426c8aa4862f95e84ec163b942b92726d3ef978f"
+> +SRCREV_machine ?= "09828ddd8d8c91b2d68afdcd8eb99a48e0253582"
+> +SRCREV_meta ?= "54b3e9b768651ca15bf65ae1c72dfe6d957285f0"
 >
 
+ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+do_fetch: Fetcher failure: Unable to find revision
+09828ddd8d8c91b2d68afdcd8eb99a48e0253582 in branch
+v4.14/standard/tiny/common-pc even from upstream
+ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+do_fetch: Fetcher failure for URL: 'git://
+git.yoctoproject.org/linux-yocto.git;branch=v4.14/standard/tiny/common-pc;name=machine'.
+Unable to fetch URL from any source.
+ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09828ddd8d-r0
+do_fetch: Function failed: base_do_fetch
 
+Ross
+
+--001a113f77ba975de90566ce7b54
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 6 March 2018 at 18:11, Bruce Ashfield <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruc=
+e.ashfield@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra=
+"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-=
+left-color:rgb(204,204,204);padding-left:1ex">diff --git a/meta/recipes-ker=
+nel/linux/<a href=3D"http://linux-yocto-tiny_4.14.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">li<wbr>nux-yocto-tiny_4.14.bb</a> b/meta/recipes-kernel/lin=
+ux/<a href=3D"http://linux-yocto-tiny_4.14.bb" rel=3D"noreferrer" target=3D=
+"_blank">li<wbr>nux-yocto-tiny_4.14.bb</a><br>
+index ae9e7691367d..1ccbf6283e43 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.14.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.14.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_4.14.bb"=
+ rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto-tiny_4.14.bb</a><br>
+@@ -9,8 +9,8 @@ LINUX_VERSION ?=3D &quot;4.14.24&quot;<br>
+=C2=A0KMETA =3D &quot;kernel-meta&quot;<br>
+=C2=A0KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+-SRCREV_machine ?=3D &quot;<wbr>fccf7693fe5dd00d7b6d391b7405b5<wbr>d58eb959=
+f2&quot;<br>
+-SRCREV_meta ?=3D &quot;<wbr>426c8aa4862f95e84ec163b942b927<wbr>26d3ef978f&=
+quot;<br>
++SRCREV_machine ?=3D &quot;<wbr>09828ddd8d8c91b2d68afdcd8eb99a<wbr>48e02535=
+82&quot;<br>
++SRCREV_meta ?=3D &quot;<wbr>54b3e9b768651ca15bf65ae1c72dfe<wbr>6d957285f0&=
+quot;<br></blockquote><div><br>ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+5=
+4b3e9b768_09828ddd8d-r0 do_fetch: Fetcher failure: Unable to find revision =
+09828ddd8d8c91b2d68afdcd8eb99a48e0253582 in branch v4.14/standard/tiny/comm=
+on-pc even from upstream<br>ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3=
+e9b768_09828ddd8d-r0 do_fetch: Fetcher failure for URL: &#39;git://<a href=
+=3D"http://git.yoctoproject.org/linux-yocto.git;branch=3Dv4.14/standard/tin=
+y/common-pc;name=3Dmachine">git.yoctoproject.org/linux-yocto.git;branch=3Dv=
+4.14/standard/tiny/common-pc;name=3Dmachine</a>&#39;. Unable to fetch URL f=
+rom any source.<br>ERROR: linux-yocto-tiny-4.14.24+gitAUTOINC+54b3e9b768_09=
+828ddd8d-r0 do_fetch: Function failed: base_do_fetch=C2=A0<br></div><div><b=
+r></div><div>Ross</div></div></div></div>
+
+--001a113f77ba975de90566ce7b54--
