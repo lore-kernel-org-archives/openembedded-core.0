@@ -1,47 +1,51 @@
-Return-Path: <francescogiancane8@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BF02789FF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B80D271BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2018 10:49:17 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id 188so3811426wme.1
+	Wed,  7 Mar 2018 11:24:34 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id w63so2874377ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Mar 2018 02:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 07 Mar 2018 03:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R+hKXVveh8VMP2jcw81+Sz8r7uGa0y6SSSbuJmEE83E=;
-	b=V9wzcIHzQ3yugOIMykJUy3/QzViVtv8XToCpN2Rk59l2ZoORME1V6u46YaG4Ri8DLn
-	ljD/OVJuVIpxhgGEjt6UW3TjQ20K7/XwQIzFqSfWJs1uNcwOdUfVGf1jD2os3GYrqxYr
-	vA+yEENVGSTgqC+q2DoD8K/J9/mEXLeqKRzglsDI2LoncW4uHa3pJbGZcyGw86y62/o0
-	wvpwYBm2u8WCzEFwtTYf2vKS2Ms2eHNVAw0ZnGmPgxkP11Vw5dxH1nJ6aOqImER9wDFA
-	MHPLSerD2O6oNEyozUCIe4fsrBB6ZsCqtwWpQsF9mZqJWdqGm4tdjF5wlPD0HC1SQXCD
-	bTgw==
+	:cc; bh=mfa/MeJeaYFNw1T5yldbDGFKwp/RG8ac9zJZYsf1NM0=;
+	b=jYV7gnhj+yaiDTqD7xsXfubmKyeqredCsEQzigS8lyghhPfORMz/EsExVuz6TBFAq+
+	Uv0UCupR2WJAErfi/iDglBNapiL/3Qmyyymqk6vZJaOP54yr7FejHAxcqnIAvsmTXBq9
+	O7iWfWw+v/PdogJ/IvINm3RaHWw8KxtYeykzGQE9iKswJpN2NSrqg0DMw10006upZbaf
+	TMkukOsVzYoIcgpd5UX72raYBTbAMms747n5b1ZaA8Yx1HfPaphDKUBsmEyb/jpwEMDC
+	agOZjXWa3TM6TL4pCQgl9cJTVFJR3npYbROH3Um0MWr5nWV/PuPEvIgph6uZRK2at5eu
+	4fdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=R+hKXVveh8VMP2jcw81+Sz8r7uGa0y6SSSbuJmEE83E=;
-	b=JHAzIgRfuJ7l7xP2dOrTPGJPVpQVoV/eOz1weKZy8/MA101uRAyB4aE6Hx8iF9+Ha/
-	YSboFOYaon+GCWCObQYx66lR5r9F9usMzzsOXdeK/Zlr8kab6WEhV08Ms1VKy1ehnT+O
-	tUa72VvgsIA+Qs7JJyMxn0QscjJSTbCIm3M3hK47c8mGNoBygwhm2vZTvqtlZdMLhswP
-	SJZZRKPiDNZ8m8l+hSHKUCvSc1jkCwjhipwTdlugph3VkEsWaiaqxgw4u/Q8yrt5w6Qa
-	mDFa1uWaNtXdTfUCjjYLzKs+oap3RRBAHTDm508/aEyB6xzlFIt4ygOY4S5I5GVuiI1R
-	OMbw==
-X-Gm-Message-State: AElRT7EyShMOMDMVAbvk3z3e1hugP/+5MO4Vgu33Fd6+d9oqnkkURHpu
-	fNEXcubysXcpYuwb63Dcj2iAVilpkTOx7YrSzkg=
-X-Google-Smtp-Source: AG47ELucojDGwm8XdhtAa80ST5p95j6dh4K+Sio1MJ9mLm1gQruIjFqEUYP7bOw9p7L6cvFwAWUD6mxY8eDUiO317o0=
-X-Received: by 10.80.243.145 with SMTP id g17mr2262914edm.6.1520419758515;
-	Wed, 07 Mar 2018 02:49:18 -0800 (PST)
+	bh=mfa/MeJeaYFNw1T5yldbDGFKwp/RG8ac9zJZYsf1NM0=;
+	b=dloLBoOXaf2woWWZgAdoe9uF8R3TeRRxHloxMB901fWh6Taz7VtMzXyaC4cj/oiQ1Y
+	ZRW2+dFSGsN6bb9PI7VxQCtijJKKvs/NCFYHrdotNnzpVrkgVQ/90ZUroHSLfIIMuK7G
+	5K7EZcBh0UI9G/JubofSHx9rR4/0jURHWHJMqcYAtQiLCW+bQXc5PEJ8YU17rvxFvtik
+	FAcDAbPo0RM4rH1Ch2/CmhA7bj3XldVjckTcFL6IbrkT8dWj4xWXjBJrLAbTTr+rf7L3
+	+7WZsjKdkWsf9VHK/CMwWHN2l6V936HWrD5kaVN4C78CPNbH2z1kRVR5pmw4o03TZqoR
+	AJAg==
+X-Gm-Message-State: AElRT7ELNRI/5cXPIjHEVNaFMXPB+yQ8tV37JIqqjn7YvoumHzPgueJU
+	tXGqQjMVoJGPQvNickVZFdQftrT40T8f36gep0ahVg==
+X-Google-Smtp-Source: AG47ELuFzowTQWtXFzZJ4ON6Huja73rbPbPuOyQGQpI12ds3K1ARSjqZsPsfBJ+52jXZ5kOiKZlwHvAOA+n3x4ZnpkI=
+X-Received: by 10.36.185.24 with SMTP id w24mr22212419ite.127.1520421875692;
+	Wed, 07 Mar 2018 03:24:35 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.80.143.162 with HTTP; Wed, 7 Mar 2018 02:49:17 -0800 (PST)
-In-Reply-To: <CAEQ58sjBLx8WZhiuWtb-0w6Wq7ZUGa7xtjBmV0NG4fUpeQw+=w@mail.gmail.com>
+Received: by 10.107.30.9 with HTTP; Wed, 7 Mar 2018 03:24:15 -0800 (PST)
+In-Reply-To: <CAEQ58shVBOijMaUnB6W1MkVL7YuK9TEPmnFV0A-8rOeH0vVvTA@mail.gmail.com>
 References: <20180228220845.8906-1-francescogiancane8@gmail.com>
 	<ee96cca916ba401b99a626c2a1d4fe26@XBOX02.axis.com>
 	<CAEQ58sjBLx8WZhiuWtb-0w6Wq7ZUGa7xtjBmV0NG4fUpeQw+=w@mail.gmail.com>
-From: Francesco Giancane <francescogiancane8@gmail.com>
-Date: Wed, 7 Mar 2018 11:49:17 +0100
-Message-ID: <CAEQ58shVBOijMaUnB6W1MkVL7YuK9TEPmnFV0A-8rOeH0vVvTA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	<CAEQ58shVBOijMaUnB6W1MkVL7YuK9TEPmnFV0A-8rOeH0vVvTA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Mar 2018 11:24:15 +0000
+Message-ID: <CAJTo0LZpC17ju1v-qDjHY3zRzEjjg7wD5ekhM=voCUmKCcA12Q@mail.gmail.com>
+To: Francesco Giancane <francescogiancane8@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [meta-oe][PATCH v3] libepoxy: New recipe updated to latest release
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,338 +60,366 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2018 10:49:18 -0000
-Content-Type: multipart/alternative; boundary="089e0825b8689daae90566d04f51"
+X-List-Received-Date: Wed, 07 Mar 2018 11:24:34 -0000
+Content-Type: multipart/alternative; boundary="f403045d9a50cf4b710566d0cd36"
 
---089e0825b8689daae90566d04f51
+--f403045d9a50cf4b710566d0cd36
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Yes, it's been merged :)
 
-This email just to point that a revised patch has been submitted.
+Ross
 
-Please find attached at https://patchwork.openembedded.org/patch/148586/
+On 7 March 2018 at 10:49, Francesco Giancane <francescogiancane8@gmail.com>
+wrote:
 
-Thanks,
-
-Francesco Giancane
-
-
-2018-03-01 17:20 GMT+01:00 Francesco Giancane <francescogiancane8@gmail.com>
-:
-
-> v4 is being sent with updated commit description and Upstream-Status
-> included.
-> Thanks!
+> Hi,
+>
+> This email just to point that a revised patch has been submitted.
+>
+> Please find attached at https://patchwork.openembedded.org/patch/148586/
+>
+> Thanks,
 >
 > Francesco Giancane
 >
-> 2018-02-28 23:57 GMT+01:00 Peter Kjellerstedt <peter.kjellerstedt@axis.com
-> >:
 >
->> > -----Original Message-----
->> > From: openembedded-core-bounces@lists.openembedded.org
->> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> > Francesco Giancane
->> > Sent: den 28 februari 2018 23:09
->> > To: openembedded-core@lists.openembedded.org
->> > Subject: [OE-core] [meta-oe][PATCH v3] libepoxy: New recipe updated to
->> latest release
+> 2018-03-01 17:20 GMT+01:00 Francesco Giancane <
+> francescogiancane8@gmail.com>:
+>
+>> v4 is being sent with updated commit description and Upstream-Status
+>> included.
+>> Thanks!
 >>
->> This isn't in meta-oe, it's in meta. ;)
+>> Francesco Giancane
 >>
->> I suggest changing the subject to:
+>> 2018-02-28 23:57 GMT+01:00 Peter Kjellerstedt <
+>> peter.kjellerstedt@axis.com>:
 >>
->> libepoxy: Update to 1.5.0
+>>> > -----Original Message-----
+>>> > From: openembedded-core-bounces@lists.openembedded.org
+>>> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>>> > Francesco Giancane
+>>> > Sent: den 28 februari 2018 23:09
+>>> > To: openembedded-core@lists.openembedded.org
+>>> > Subject: [OE-core] [meta-oe][PATCH v3] libepoxy: New recipe updated to
+>>> latest release
+>>>
+>>> This isn't in meta-oe, it's in meta. ;)
+>>>
+>>> I suggest changing the subject to:
+>>>
+>>> libepoxy: Update to 1.5.0
+>>>
+>>> since it's not a new recipe, and "latest release" carries a lot
+>>> less information than the actual version.
+>>>
+>>> > libepoxy 1.4.3 did not compile successfully because of
+>>> > implicit symbol definitions and link-time errors.
+>>> > A new recipe with latest libepoxy release (1.5.0) which
+>>> > successfully compiles is provided.
+>>>
+>>> I'd remove the second sentence. All that information is
+>>> conveyed by the updated subject anyway.
+>>>
+>>> > Patch to disable 'dlvsym' has also been forward-ported
+>>> > to be applicable to version 1.5.0.
+>>> > The patch 'Add-fallback-definition-for-EGL-CAST.patch' is
+>>> > mainline now; thus it can be safely removed.
+>>> > Also, the patch
+>>> > 0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
+>>> > is no longer required since mainline fixed this too.
+>>> >
+>>> > Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
+>>> > ---
+>>> >  ..._EGL_NO_X11_HEADERS-before-including-eglp.patch | 30
+>>> --------------------
+>>> >  ...sible-to-disable-the-use-of-dlvsym-needed.patch | 26
+>>> +++++++++--------
+>>> >  .../Add-fallback-definition-for-EGL-CAST.patch     | 33
+>>> ----------------------
+>>> >  .../{libepoxy_1.4.3.bb => libepoxy_1.5.0.bb}       | 10 +++----
+>>> >  4 files changed, 18 insertions(+), 81 deletions(-)
+>>> >  delete mode 100644 meta/recipes-graphics/libepoxy
+>>> /libepoxy/0001-Define-MESA_EGL_NO_X11_HEADERS-before-includi
+>>> ng-eglp.patch
+>>> >  delete mode 100644 meta/recipes-graphics/libepoxy
+>>> /libepoxy/Add-fallback-definition-for-EGL-CAST.patch
+>>> >  rename meta/recipes-graphics/libepoxy/{libepoxy_1.4.3.bb =>
+>>> libepoxy_1.5.0.bb} (61%)
+>>> >
+>>> > diff --git a/meta/recipes-graphics/libepo
+>>> xy/libepoxy/0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
+>>> b/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_E
+>>> GL_NO_X11_HEADERS-before-including-eglp.patch
+>>> > deleted file mode 100644
+>>> > index ebe5754a7a..0000000000
+>>> > --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_E
+>>> GL_NO_X11_HEADERS-before-including-eglp.patch
+>>> > +++ /dev/null
+>>> > @@ -1,30 +0,0 @@
+>>> > -From 62e178ddae24c7633d2a03b129dc52261e0a15bf Mon Sep 17 00:00:00
+>>> 2001
+>>> > -From: Khem Raj <raj.khem@gmail.com>
+>>> > -Date: Wed, 7 Feb 2018 00:48:03 -0800
+>>> > -Subject: [PATCH] Define MESA_EGL_NO_X11_HEADERS before including
+>>> eglplatform.h
+>>> > - when X11 is disabled
+>>> > -
+>>> > -This helps in compiling when GL implementations e.g. mesa use
+>>> > -this define to exclude X11 headers
+>>> > -
+>>> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> > ----
+>>> > -Upstream-Status: Submitted
+>>> > [https://github.com/anholt/libepoxy/pull/153]
+>>> > -
+>>> > - src/dispatch_common.h | 3 +++
+>>> > - 1 file changed, 3 insertions(+)
+>>> > -
+>>> > -Index: libepoxy-1.4.3/src/dispatch_common.h
+>>> > -===================================================================
+>>> > ---- libepoxy-1.4.3.orig/src/dispatch_common.h
+>>> > -+++ libepoxy-1.4.3/src/dispatch_common.h
+>>> > -@@ -46,6 +46,9 @@
+>>> > - #include "epoxy/glx.h"
+>>> > - #endif
+>>> > - #if PLATFORM_HAS_EGL
+>>> > -+#if !PLATFORM_HAS_GLX
+>>> > -+#define MESA_EGL_NO_X11_HEADERS 1
+>>> > -+#endif
+>>> > - #include "epoxy/egl.h"
+>>> > - #endif
+>>> > - #if PLATFORM_HAS_WGL
+>>> > diff --git a/meta/recipes-graphics/libepo
+>>> xy/libepoxy/0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
+>>> b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possi
+>>> ble-to-disable-the-use-of-dlvsym-needed.patch
+>>> > index c2a2fa3453..5bddc12033 100644
+>>> > --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possi
+>>> ble-to-disable-the-use-of-dlvsym-needed.patch
+>>> > +++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-possi
+>>> ble-to-disable-the-use-of-dlvsym-needed.patch
+>>> > @@ -1,36 +1,38 @@
+>>> > -From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00
+>>> 2001
+>>> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
+>>> > -Date: Wed, 15 Nov 2017 12:48:27 +0200
+>>> > +From 9c964427656ef71210e2c5b48b279857806574e9 Mon Sep 17 00:00:00
+>>> 2001
+>>> > +From: Francesco Giancane <francescogiancane8@gmail.com>
+>>> > +Date: Wed, 28 Feb 2018 21:32:24 +0100
+>>> >  Subject: [PATCH] Make it possible to disable the use of dlvsym()
+>>> (needed for
+>>> >   musl)
+>>> >
+>>> > -Upstream-Status: Pending
+>>>
+>>> Don't remove the Upstream-Status.
+>>>
+>>> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>>> > +Add a patch to work around absence of dlvsym() on musl
+>>> > +(wasn't previously a problem as autotools weren't building tests by
+>>> default)
+>>> >
+>>> > +Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>>> > +Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
+>>> >  ---
+>>> >   meson_options.txt | 3 +++
+>>> >   test/meson.build  | 6 +++---
+>>> >   2 files changed, 6 insertions(+), 3 deletions(-)
+>>> >
+>>> >  diff --git a/meson_options.txt b/meson_options.txt
+>>> > -index 244476a..071f0b6 100644
+>>> > +index b5d7c98..aa849c2 100644
+>>> >  --- a/meson_options.txt
+>>> >  +++ b/meson_options.txt
+>>> >  @@ -1,6 +1,9 @@
+>>> > - option('enable-docs',
+>>> > + option('docs',
+>>> >          type: 'boolean', value: false,
+>>> >          description: 'Enable generating the Epoxy API reference
+>>> (depends on Doxygen)')
+>>> >  +option('has-dlvsym',
+>>> >  +       type: 'boolean', value: true,
+>>> >  +       description: 'Whether dlvsym() is available (it is not when
+>>> using musl C library)')
+>>> > - option('enable-glx',
+>>> > + option('glx',
+>>> >          type: 'combo',
+>>> >          choices: [ 'auto', 'yes', 'no' ],
+>>> >  diff --git a/test/meson.build b/test/meson.build
+>>> > -index 2340fc6..bc4330b 100644
+>>> > +index c5788b4..4c46ae6 100644
+>>> >  --- a/test/meson.build
+>>> >  +++ b/test/meson.build
+>>> > -@@ -86,8 +86,8 @@ if build_glx
+>>> > +@@ -92,8 +92,8 @@ if build_glx
+>>> >       [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c'
+>>> ], [], [], true ],
+>>> >       [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [
+>>> '-static' ], libtype == 'static' ],
+>>> >       [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ],
+>>> has_znow ],
+>>> > @@ -41,7 +43,7 @@ index 2340fc6..bc4330b 100644
+>>> >     ]
+>>> >
+>>> >     foreach test: glx_tests
+>>> > -@@ -108,7 +108,7 @@ if build_glx
+>>> > +@@ -114,7 +114,7 @@ if build_glx
+>>> >       endif
+>>> >     endforeach
+>>> >
+>>> > @@ -51,5 +53,5 @@ index 2340fc6..bc4330b 100644
+>>> >       if build_egl
+>>> >         glx_egl_sources = [
+>>> >  --
+>>> > -2.15.0
+>>> > +2.14.3
+>>> >
+>>> > diff --git a/meta/recipes-graphics/libepo
+>>> xy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
+>>> b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-defin
+>>> ition-for-EGL-CAST.patch
+>>> > deleted file mode 100644
+>>> > index b9297257dc..0000000000
+>>> > --- a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-defin
+>>> ition-for-EGL-CAST.patch
+>>> > +++ /dev/null
+>>> > @@ -1,33 +0,0 @@
+>>> > -Add fallback definition for EGL_CAST
+>>> > -
+>>> > -The EGL API update from d11104f introduced a dependency on the
+>>> > -EGL_CAST() macro, provided by an updated eglplatform.h. Given that we
+>>> > -don't provide eglplatform.h, add a fallback definition for if we're
+>>> > -building against Mesa 17.0.x or similar.
+>>> > -
+>>> > -https://bugs.gentoo.org/show_bug.cgi?id=623926
+>>> > -
+>>> > -Upstream-Status: Backport [https://github.com/anholt/lib
+>>> epoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8]
+>>> > -
+>>> > -Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+>>> > -
+>>> > -Index: libepoxy-1.4.3/src/gen_dispatch.py
+>>> > -===================================================================
+>>> > ---- libepoxy-1.4.3.orig/src/gen_dispatch.py  2017-06-06
+>>> > 04:24:13.000000000 -0500
+>>> > -+++ libepoxy-1.4.3/src/gen_dispatch.py       2017-11-06
+>>> > 12:45:43.594966473 -0600
+>>> > -@@ -491,6 +491,15 @@
+>>> > -             self.outln('#include "epoxy/gl.h"')
+>>> > -             if self.target == "egl":
+>>> > -                 self.outln('#include "EGL/eglplatform.h"')
+>>> > -+                # Account for older eglplatform.h, which doesn't
+>>> define
+>>> > -+                # the EGL_CAST macro.
+>>> > -+                self.outln('#ifndef EGL_CAST')
+>>> > -+                self.outln('#if defined(__cplusplus)')
+>>> > -+                self.outln('#define EGL_CAST(type, value)
+>>> (static_cast<type>(value))')
+>>> > -+                self.outln('#else')
+>>> > -+                self.outln('#define EGL_CAST(type, value) ((type)
+>>> (value))')
+>>> > -+                self.outln('#endif')
+>>> > -+                self.outln('#endif')
+>>> > -         else:
+>>> > -             # Add some ridiculous inttypes.h redefinitions that are
+>>> > -             # from khrplatform.h and not included in the XML.  We
+>>> > diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>>> b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>>> > similarity index 61%
+>>> > rename from meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>>> > rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>>> > index 8a5cb8f49f..dfdd19248d 100644
+>>> > --- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>>> > +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
+>>> > @@ -6,12 +6,10 @@ LICENSE = "MIT"
+>>> >  LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d4
+>>> 01e07bd9ee8b6b58cf464b"
+>>> >
+>>> >  SRC_URI = "https://github.com/anholt/${B
+>>> PN}/releases/download/${PV}/${BP}.tar.xz \
+>>> > -           file://Add-fallback-definition-for-EGL-CAST.patch \
+>>> >             file://0001-Make-it-possible-
+>>> to-disable-the-use-of-dlvsym-needed.patch \
+>>> > -           file://0001-Define-MESA_EGL_N
+>>> O_X11_HEADERS-before-including-eglp.patch \
+>>> >             "
+>>> > -SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
+>>> > -SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8
+>>> bc7fb2fda074478e329b063c1f872b826f6"
+>>> > +SRC_URI[md5sum] = "63fe3847789258254dcd7e3fdb9e7f5e"
+>>> > +SRC_URI[sha256sum] = "4c94995398a6ebf691600dda2e968
+>>> 5a0cac261414175c2adf4645cdfab42a5d5"
+>>> >  UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+>>> >
+>>> >  inherit meson pkgconfig distro_features_check
+>>> > @@ -20,8 +18,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+>>> >
+>>> >  DEPENDS = "util-macros"
+>>> >
+>>> > -PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
+>>> > -PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no,
+>>> virtual/libx11"
+>>> > +PACKAGECONFIG[egl] = "-Degl=yes, -Degl=no, virtual/egl"
+>>> > +PACKAGECONFIG[x11] = "-Dglx=yes, -Dglx=no, virtual/libx11
+>>> virtual/libgl"
+>>> >  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}
+>>> egl"
+>>> >
+>>> >  EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
+>>> > --
+>>> > 2.14.3
+>>>
+>>> //Peter
+>>>
+>>>
 >>
->> since it's not a new recipe, and "latest release" carries a lot
->> less information than the actual version.
->>
->> > libepoxy 1.4.3 did not compile successfully because of
->> > implicit symbol definitions and link-time errors.
->> > A new recipe with latest libepoxy release (1.5.0) which
->> > successfully compiles is provided.
->>
->> I'd remove the second sentence. All that information is
->> conveyed by the updated subject anyway.
->>
->> > Patch to disable 'dlvsym' has also been forward-ported
->> > to be applicable to version 1.5.0.
->> > The patch 'Add-fallback-definition-for-EGL-CAST.patch' is
->> > mainline now; thus it can be safely removed.
->> > Also, the patch
->> > 0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
->> > is no longer required since mainline fixed this too.
->> >
->> > Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
->> > ---
->> >  ..._EGL_NO_X11_HEADERS-before-including-eglp.patch | 30
->> --------------------
->> >  ...sible-to-disable-the-use-of-dlvsym-needed.patch | 26
->> +++++++++--------
->> >  .../Add-fallback-definition-for-EGL-CAST.patch     | 33
->> ----------------------
->> >  .../{libepoxy_1.4.3.bb => libepoxy_1.5.0.bb}       | 10 +++----
->> >  4 files changed, 18 insertions(+), 81 deletions(-)
->> >  delete mode 100644 meta/recipes-graphics/libepoxy
->> /libepoxy/0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
->> >  delete mode 100644 meta/recipes-graphics/libepoxy
->> /libepoxy/Add-fallback-definition-for-EGL-CAST.patch
->> >  rename meta/recipes-graphics/libepoxy/{libepoxy_1.4.3.bb =>
->> libepoxy_1.5.0.bb} (61%)
->> >
->> > diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_
->> EGL_NO_X11_HEADERS-before-including-eglp.patch
->> b/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_
->> EGL_NO_X11_HEADERS-before-including-eglp.patch
->> > deleted file mode 100644
->> > index ebe5754a7a..0000000000
->> > --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Define-MESA_
->> EGL_NO_X11_HEADERS-before-including-eglp.patch
->> > +++ /dev/null
->> > @@ -1,30 +0,0 @@
->> > -From 62e178ddae24c7633d2a03b129dc52261e0a15bf Mon Sep 17 00:00:00 2001
->> > -From: Khem Raj <raj.khem@gmail.com>
->> > -Date: Wed, 7 Feb 2018 00:48:03 -0800
->> > -Subject: [PATCH] Define MESA_EGL_NO_X11_HEADERS before including
->> eglplatform.h
->> > - when X11 is disabled
->> > -
->> > -This helps in compiling when GL implementations e.g. mesa use
->> > -this define to exclude X11 headers
->> > -
->> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > ----
->> > -Upstream-Status: Submitted
->> > [https://github.com/anholt/libepoxy/pull/153]
->> > -
->> > - src/dispatch_common.h | 3 +++
->> > - 1 file changed, 3 insertions(+)
->> > -
->> > -Index: libepoxy-1.4.3/src/dispatch_common.h
->> > -===================================================================
->> > ---- libepoxy-1.4.3.orig/src/dispatch_common.h
->> > -+++ libepoxy-1.4.3/src/dispatch_common.h
->> > -@@ -46,6 +46,9 @@
->> > - #include "epoxy/glx.h"
->> > - #endif
->> > - #if PLATFORM_HAS_EGL
->> > -+#if !PLATFORM_HAS_GLX
->> > -+#define MESA_EGL_NO_X11_HEADERS 1
->> > -+#endif
->> > - #include "epoxy/egl.h"
->> > - #endif
->> > - #if PLATFORM_HAS_WGL
->> > diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-
->> possible-to-disable-the-use-of-dlvsym-needed.patch
->> b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-
->> possible-to-disable-the-use-of-dlvsym-needed.patch
->> > index c2a2fa3453..5bddc12033 100644
->> > --- a/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-
->> possible-to-disable-the-use-of-dlvsym-needed.patch
->> > +++ b/meta/recipes-graphics/libepoxy/libepoxy/0001-Make-it-
->> possible-to-disable-the-use-of-dlvsym-needed.patch
->> > @@ -1,36 +1,38 @@
->> > -From 7bcefd311cd696955376fe2c5298ec85e8f954ce Mon Sep 17 00:00:00 2001
->> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
->> > -Date: Wed, 15 Nov 2017 12:48:27 +0200
->> > +From 9c964427656ef71210e2c5b48b279857806574e9 Mon Sep 17 00:00:00 2001
->> > +From: Francesco Giancane <francescogiancane8@gmail.com>
->> > +Date: Wed, 28 Feb 2018 21:32:24 +0100
->> >  Subject: [PATCH] Make it possible to disable the use of dlvsym()
->> (needed for
->> >   musl)
->> >
->> > -Upstream-Status: Pending
->>
->> Don't remove the Upstream-Status.
->>
->> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > +Add a patch to work around absence of dlvsym() on musl
->> > +(wasn't previously a problem as autotools weren't building tests by
->> default)
->> >
->> > +Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->> > +Signed-off-by: Francesco Giancane <francescogiancane8@gmail.com>
->> >  ---
->> >   meson_options.txt | 3 +++
->> >   test/meson.build  | 6 +++---
->> >   2 files changed, 6 insertions(+), 3 deletions(-)
->> >
->> >  diff --git a/meson_options.txt b/meson_options.txt
->> > -index 244476a..071f0b6 100644
->> > +index b5d7c98..aa849c2 100644
->> >  --- a/meson_options.txt
->> >  +++ b/meson_options.txt
->> >  @@ -1,6 +1,9 @@
->> > - option('enable-docs',
->> > + option('docs',
->> >          type: 'boolean', value: false,
->> >          description: 'Enable generating the Epoxy API reference
->> (depends on Doxygen)')
->> >  +option('has-dlvsym',
->> >  +       type: 'boolean', value: true,
->> >  +       description: 'Whether dlvsym() is available (it is not when
->> using musl C library)')
->> > - option('enable-glx',
->> > + option('glx',
->> >          type: 'combo',
->> >          choices: [ 'auto', 'yes', 'no' ],
->> >  diff --git a/test/meson.build b/test/meson.build
->> > -index 2340fc6..bc4330b 100644
->> > +index c5788b4..4c46ae6 100644
->> >  --- a/test/meson.build
->> >  +++ b/test/meson.build
->> > -@@ -86,8 +86,8 @@ if build_glx
->> > +@@ -92,8 +92,8 @@ if build_glx
->> >       [ 'glx_has_extension_nocontext', [ 'glx_has_extension_nocontext.c'
->> ], [], [], true ],
->> >       [ 'glx_static', [ 'glx_static.c' ], [ '-DNEEDS_TO_BE_STATIC'], [
->> '-static' ], libtype == 'static' ],
->> >       [ 'glx_shared_znow', [ 'glx_static.c', ], [], [ '-Wl,-z,now' ],
->> has_znow ],
->> > @@ -41,7 +43,7 @@ index 2340fc6..bc4330b 100644
->> >     ]
->> >
->> >     foreach test: glx_tests
->> > -@@ -108,7 +108,7 @@ if build_glx
->> > +@@ -114,7 +114,7 @@ if build_glx
->> >       endif
->> >     endforeach
->> >
->> > @@ -51,5 +53,5 @@ index 2340fc6..bc4330b 100644
->> >       if build_egl
->> >         glx_egl_sources = [
->> >  --
->> > -2.15.0
->> > +2.14.3
->> >
->> > diff --git a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-definition-for-EGL-CAST.patch
->> b/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-
->> definition-for-EGL-CAST.patch
->> > deleted file mode 100644
->> > index b9297257dc..0000000000
->> > --- a/meta/recipes-graphics/libepoxy/libepoxy/Add-fallback-
->> definition-for-EGL-CAST.patch
->> > +++ /dev/null
->> > @@ -1,33 +0,0 @@
->> > -Add fallback definition for EGL_CAST
->> > -
->> > -The EGL API update from d11104f introduced a dependency on the
->> > -EGL_CAST() macro, provided by an updated eglplatform.h. Given that we
->> > -don't provide eglplatform.h, add a fallback definition for if we're
->> > -building against Mesa 17.0.x or similar.
->> > -
->> > -https://bugs.gentoo.org/show_bug.cgi?id=623926
->> > -
->> > -Upstream-Status: Backport [https://github.com/anholt/lib
->> epoxy/commit/ebe3a53db1c0bb34e1ca963b95d1f222115f93f8]
->> > -
->> > -Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
->> > -
->> > -Index: libepoxy-1.4.3/src/gen_dispatch.py
->> > -===================================================================
->> > ---- libepoxy-1.4.3.orig/src/gen_dispatch.py  2017-06-06
->> > 04:24:13.000000000 -0500
->> > -+++ libepoxy-1.4.3/src/gen_dispatch.py       2017-11-06
->> > 12:45:43.594966473 -0600
->> > -@@ -491,6 +491,15 @@
->> > -             self.outln('#include "epoxy/gl.h"')
->> > -             if self.target == "egl":
->> > -                 self.outln('#include "EGL/eglplatform.h"')
->> > -+                # Account for older eglplatform.h, which doesn't
->> define
->> > -+                # the EGL_CAST macro.
->> > -+                self.outln('#ifndef EGL_CAST')
->> > -+                self.outln('#if defined(__cplusplus)')
->> > -+                self.outln('#define EGL_CAST(type, value)
->> (static_cast<type>(value))')
->> > -+                self.outln('#else')
->> > -+                self.outln('#define EGL_CAST(type, value) ((type)
->> (value))')
->> > -+                self.outln('#endif')
->> > -+                self.outln('#endif')
->> > -         else:
->> > -             # Add some ridiculous inttypes.h redefinitions that are
->> > -             # from khrplatform.h and not included in the XML.  We
->> > diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
->> b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
->> > similarity index 61%
->> > rename from meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
->> > rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
->> > index 8a5cb8f49f..dfdd19248d 100644
->> > --- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
->> > +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.0.bb
->> > @@ -6,12 +6,10 @@ LICENSE = "MIT"
->> >  LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d4
->> 01e07bd9ee8b6b58cf464b"
->> >
->> >  SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${
->> BP}.tar.xz \
->> > -           file://Add-fallback-definition-for-EGL-CAST.patch \
->> >             file://0001-Make-it-possible-to-disable-the-use-of-dlvsym-needed.patch
->> \
->> > -           file://0001-Define-MESA_EGL_NO_X11_HEADERS-before-including-eglp.patch
->> \
->> >             "
->> > -SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
->> > -SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8
->> bc7fb2fda074478e329b063c1f872b826f6"
->> > +SRC_URI[md5sum] = "63fe3847789258254dcd7e3fdb9e7f5e"
->> > +SRC_URI[sha256sum] = "4c94995398a6ebf691600dda2e968
->> 5a0cac261414175c2adf4645cdfab42a5d5"
->> >  UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
->> >
->> >  inherit meson pkgconfig distro_features_check
->> > @@ -20,8 +18,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
->> >
->> >  DEPENDS = "util-macros"
->> >
->> > -PACKAGECONFIG[egl] = "-Denable-egl=yes, -Denable-egl=no, virtual/egl"
->> > -PACKAGECONFIG[x11] = "-Denable-glx=yes, -Denable-glx=no,
->> virtual/libx11"
->> > +PACKAGECONFIG[egl] = "-Degl=yes, -Degl=no, virtual/egl"
->> > +PACKAGECONFIG[x11] = "-Dglx=yes, -Dglx=no, virtual/libx11
->> virtual/libgl"
->> >  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}
->> egl"
->> >
->> >  EXTRA_OEMESON_append_libc-musl = " -Dhas-dlvsym=false "
->> > --
->> > 2.14.3
->>
->> //Peter
->>
->>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 >
 
---089e0825b8689daae90566d04f51
+--f403045d9a50cf4b710566d0cd36
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>This email just to point that a rev=
-ised patch has been submitted.</div><div><br></div><div>Please find attache=
-d at=C2=A0<a href=3D"https://patchwork.openembedded.org/patch/148586/">http=
-s://patchwork.openembedded.org/patch/148586/</a></div><div><br></div><div>T=
-hanks,</div><div class=3D"gmail_extra"><br clear=3D"all"><div><div class=3D=
-"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div =
-dir=3D"ltr"><div><div dir=3D"ltr">Francesco Giancane</div></div><div><dd st=
-yle=3D"margin:0px;padding:0px;border:0px;font-style:inherit;font-family:inh=
-erit;vertical-align:top;line-height:inherit;display:inline-block"><span sty=
-le=3D"margin:0px;padding:0px;border:0px;font-style:inherit;font-family:inhe=
-rit;vertical-align:baseline;line-height:inherit;direction:ltr"><br></span><=
-/dd></div></div></div></div></div>
+<div dir=3D"ltr">Yes, it&#39;s been merged :)<div><br></div><div>Ross</div>=
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 7 March =
+2018 at 10:49, Francesco Giancane <span dir=3D"ltr">&lt;<a href=3D"mailto:f=
+rancescogiancane8@gmail.com" target=3D"_blank">francescogiancane8@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">H=
+i,<div><br></div><div>This email just to point that a revised patch has bee=
+n submitted.</div><div><br></div><div>Please find attached at=C2=A0<a href=
+=3D"https://patchwork.openembedded.org/patch/148586/" target=3D"_blank">htt=
+ps://patchwork.<wbr>openembedded.org/patch/148586/</a></div><div><br></div>=
+<div>Thanks,</div><div class=3D"gmail_extra"><br clear=3D"all"><div><div cl=
+ass=3D"m_8488710848946921595gmail_signature" data-smartmail=3D"gmail_signat=
+ure"><div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr">Francesco Gian=
+cane</div></div><div><dd style=3D"margin:0px;padding:0px;border:0px;font-st=
+yle:inherit;font-family:inherit;vertical-align:top;line-height:inherit;disp=
+lay:inline-block"><span style=3D"margin:0px;padding:0px;border:0px;font-sty=
+le:inherit;font-family:inherit;vertical-align:baseline;line-height:inherit;=
+direction:ltr"><br></span></dd></div></div></div></div></div><div><div clas=
+s=3D"h5">
 <br><div class=3D"gmail_quote">2018-03-01 17:20 GMT+01:00 Francesco Giancan=
 e <span dir=3D"ltr">&lt;<a href=3D"mailto:francescogiancane8@gmail.com" tar=
-get=3D"_blank">francescogiancane8@gmail.com</a>&gt;</span>:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><div dir=3D"ltr">v4 is being sent with updated commit de=
-scription and Upstream-Status included.<div>Thanks!</div><div class=3D"gmai=
-l_extra"><span class=3D"HOEnZb"><font color=3D"#888888"><br clear=3D"all"><=
-div><div class=3D"m_-1158130350777873683gmail_signature" data-smartmail=3D"=
-gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"lt=
-r">Francesco Giancane</div></div></div></div></div></div></div></font></spa=
-n><div><div class=3D"h5">
+get=3D"_blank">francescogiancane8@gmail.com</a>&gt;</span><wbr>:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div dir=3D"ltr">v4 is being sent with updated comm=
+it description and Upstream-Status included.<div>Thanks!</div><div class=3D=
+"gmail_extra"><span class=3D"m_8488710848946921595HOEnZb"><font color=3D"#8=
+88888"><br clear=3D"all"><div><div class=3D"m_8488710848946921595m_-1158130=
+350777873683gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D=
+"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">Francesco Giancane</div><=
+/div></div></div></div></div></div></font></span><div><div class=3D"m_84887=
+10848946921595h5">
 <br><div class=3D"gmail_quote">2018-02-28 23:57 GMT+01:00 Peter Kjellersted=
 t <span dir=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" targ=
 et=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;</span>:<br><blockquote cl=
@@ -423,7 +455,7 @@ less information than the actual version.<br>
 <br>
 </span>I&#39;d remove the second sentence. All that information is<br>
 conveyed by the updated subject anyway.<br>
-<div><div class=3D"m_-1158130350777873683h5"><br>
+<div><div class=3D"m_8488710848946921595m_-1158130350777873683h5"><br>
 &gt; Patch to disable &#39;dlvsym&#39; has also been forward-ported<br>
 &gt; to be applicable to version 1.5.0.<br>
 &gt; The patch &#39;Add-fallback-definition-for-E<wbr>GL-CAST.patch&#39; is=
@@ -449,23 +481,23 @@ get=3D"_blank">libepoxy_1.4.3.bb</a> =3D&gt; <a href=3D"http://libepoxy_1.5=
 =C2=A0 =C2=A0 =C2=A0| 10 +++----<br>
 &gt;=C2=A0 4 files changed, 18 insertions(+), 81 deletions(-)<br>
 &gt;=C2=A0 delete mode 100644 meta/recipes-graphics/libepoxy<wbr>/libepoxy/=
-0001-Define-MESA_<wbr>EGL_NO_X11_HEADERS-before-<wbr>including-eglp.patch<b=
+0001-Define-MESA_EGL<wbr>_NO_X11_HEADERS-before-includi<wbr>ng-eglp.patch<b=
 r>
 &gt;=C2=A0 delete mode 100644 meta/recipes-graphics/libepoxy<wbr>/libepoxy/=
-Add-fallback-<wbr>definition-for-EGL-CAST.patch<br>
+Add-fallback-definit<wbr>ion-for-EGL-CAST.patch<br>
 &gt;=C2=A0 rename meta/recipes-graphics/libepoxy<wbr>/{<a href=3D"http://li=
 bepoxy_1.4.3.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.3.bb</a>=
  =3D&gt; <a href=3D"http://libepoxy_1.5.0.bb" rel=3D"noreferrer" target=3D"=
 _blank">libepoxy_1.5.0.bb</a>} (61%)<br>
 &gt;<br>
 &gt; diff --git a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Define-=
-MESA_<wbr>EGL_NO_X11_HEADERS-before-<wbr>including-eglp.patch b/meta/recipe=
-s-graphics/libepo<wbr>xy/libepoxy/0001-Define-MESA_<wbr>EGL_NO_X11_HEADERS-=
-before-<wbr>including-eglp.patch<br>
+MESA_E<wbr>GL_NO_X11_HEADERS-before-inclu<wbr>ding-eglp.patch b/meta/recipe=
+s-graphics/libepo<wbr>xy/libepoxy/0001-Define-MESA_E<wbr>GL_NO_X11_HEADERS-=
+before-inclu<wbr>ding-eglp.patch<br>
 &gt; deleted file mode 100644<br>
 &gt; index ebe5754a7a..0000000000<br>
-&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Define-MESA_<w=
-br>EGL_NO_X11_HEADERS-before-<wbr>including-eglp.patch<br>
+&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Define-MESA_E<=
+wbr>GL_NO_X11_HEADERS-before-inclu<wbr>ding-eglp.patch<br>
 &gt; +++ /dev/null<br>
 &gt; @@ -1,30 +0,0 @@<br>
 &gt; -From 62e178ddae24c7633d2a03b129dc52<wbr>261e0a15bf Mon Sep 17 00:00:0=
@@ -509,14 +541,14 @@ rrer" target=3D"_blank">https://github.com/anholt/lib<wbr>epoxy/pull/153</a=
 &gt; - #endif<br>
 &gt; - #if PLATFORM_HAS_WGL<br>
 &gt; diff --git a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Make-it=
--<wbr>possible-to-disable-the-use-<wbr>of-dlvsym-needed.patch b/meta/recipe=
-s-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-<wbr>possible-to-disable-the=
--use-<wbr>of-dlvsym-needed.patch<br>
+-possi<wbr>ble-to-disable-the-use-of-<wbr>dlvsym-needed.patch b/meta/recipe=
+s-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-possi<wbr>ble-to-disable-the=
+-use-of-<wbr>dlvsym-needed.patch<br>
 &gt; index c2a2fa3453..5bddc12033 100644<br>
-&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-<wbr>p=
-ossible-to-disable-the-use-<wbr>of-dlvsym-needed.patch<br>
-&gt; +++ b/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-<wbr>p=
-ossible-to-disable-the-use-<wbr>of-dlvsym-needed.patch<br>
+&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-possi<=
+wbr>ble-to-disable-the-use-of-<wbr>dlvsym-needed.patch<br>
+&gt; +++ b/meta/recipes-graphics/libepo<wbr>xy/libepoxy/0001-Make-it-possi<=
+wbr>ble-to-disable-the-use-of-<wbr>dlvsym-needed.patch<br>
 &gt; @@ -1,36 +1,38 @@<br>
 &gt; -From 7bcefd311cd696955376fe2c5298ec<wbr>85e8f954ce Mon Sep 17 00:00:0=
 0 2001<br>
@@ -535,8 +567,8 @@ il.com" target=3D"_blank">francescogiancane8@gmail.com</a>&gt;<br>
 &gt; -Upstream-Status: Pending<br>
 <br>
 </div></div>Don&#39;t remove the Upstream-Status.<br>
-<div class=3D"m_-1158130350777873683HOEnZb"><div class=3D"m_-11581303507778=
-73683h5"><br>
+<div class=3D"m_8488710848946921595m_-1158130350777873683HOEnZb"><div class=
+=3D"m_8488710848946921595m_-1158130350777873683h5"><br>
 &gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
 mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
 &gt; +Add a patch to work around absence of dlvsym() on musl<br>
@@ -606,12 +638,12 @@ ic.c&#39;, ], [], [ &#39;-Wl,-z,now&#39; ], has_znow ],<br>
 &gt; +2.14.3<br>
 &gt;<br>
 &gt; diff --git a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/Add-fallback=
--<wbr>definition-for-EGL-CAST.patch b/meta/recipes-graphics/libepo<wbr>xy/l=
-ibepoxy/Add-fallback-<wbr>definition-for-EGL-CAST.patch<br>
+-defin<wbr>ition-for-EGL-CAST.patch b/meta/recipes-graphics/libepo<wbr>xy/l=
+ibepoxy/Add-fallback-defin<wbr>ition-for-EGL-CAST.patch<br>
 &gt; deleted file mode 100644<br>
 &gt; index b9297257dc..0000000000<br>
-&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/Add-fallback-<wbr>d=
-efinition-for-EGL-CAST.patch<br>
+&gt; --- a/meta/recipes-graphics/libepo<wbr>xy/libepoxy/Add-fallback-defin<=
+wbr>ition-for-EGL-CAST.patch<br>
 &gt; +++ /dev/null<br>
 &gt; @@ -1,33 +0,0 @@<br>
 &gt; -Add fallback definition for EGL_CAST<br>
@@ -738,10 +770,19 @@ quot;<br>
 &gt; --<br>
 &gt; 2.14.3<br>
 <br>
-</div></div><span class=3D"m_-1158130350777873683HOEnZb"><font color=3D"#88=
-8888">//Peter<br>
+</div></div><span class=3D"m_8488710848946921595m_-1158130350777873683HOEnZ=
+b"><font color=3D"#888888">//Peter<br>
 <br>
 </font></span></blockquote></div><br></div></div></div></div>
-</blockquote></div><br></div></div>
+</blockquote></div><br></div></div></div></div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br></div>
 
---089e0825b8689daae90566d04f51--
+--f403045d9a50cf4b710566d0cd36--
