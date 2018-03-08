@@ -1,48 +1,77 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 85E907896D
+Return-Path: <MANJUKUM@xilinx.com>
+X-Greylist: delayed 8170 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 08 Mar 2018 10:27:16 UTC
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-sn1nam01on0052.outbound.protection.outlook.com [104.47.32.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1261B6FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 10:10:45 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id d71so6476389iog.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Mar 2018 02:10:47 -0800 (PST)
+	Thu,  8 Mar 2018 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JAd2OYt9dFtE5exedtVXo347lBCxmTfuohH5v2VQfFE=;
-	b=sgwfbaATvh7EngwdeGSQtBXA8ccr3SFjXPHXUK0p6sPDgrP57WARvrqAdclrzcyuIG
-	+QIjoDEUbtzs0DJXdqt1kvM8FnUXjWdRrf5bxbd08X7cG1Hr5fWZj6WSEZt/3icoMbM5
-	+38qQB5whHSKtEiybq9hupR1JQfkZORENlLZXDPGfjyXFrPQScl4q5ZYkS0FwTALtNbd
-	ONXZdPadJ91DtWRQv7qIIQmm0gbEaAWiTh72PNjaQ/emviM4l5hhsQ8xfWf+bC08VAT7
-	OBqCU5DB4c1QuImHFUhCZvYtNsz9hqAONcKHNWXo0OmjO2XpqO3pEinLUsSBZPdFEgig
-	o8LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JAd2OYt9dFtE5exedtVXo347lBCxmTfuohH5v2VQfFE=;
-	b=tI58tMibwz1K5L5sYWbWk1hr7RX1lYmQXvuM0LtclGjurmnIZghYoGpsb11a0BVux0
-	e/caHZMlNBqU5xwHCFNgvaJ+gUytRr+zn/BfxPC8kzWRsVjBCN9IDSqqq6Xiz7Xlffxj
-	c0yK4DTRwx7bFsKBn/PmEhD2jSgQYFcA3oWBcaqr+0zetDitaUv9ZH9IKVunZ81hMoHd
-	po1SFBUIC7Llw11kgIbB5AZOARPLJN5eqVBtbc7AymM3iGxtptfB3XmW4SMKIidvr4O1
-	GTNjylcyuB/5PvlbU6mjmDzsXhxVfbXxE7zGKjMJ7oMSe+XU9G+SXdsyTDIRcuVClp/d
-	YQMA==
-X-Gm-Message-State: APf1xPC8eVMEMrpZDa0q5BkI01cEhHb/ag4uTZ24fxuijA+N3eBVwgha
-	0yfuux7W8ot39zBJIXDNcI5v4iCZugM67VKRbBGfZpIS
-X-Google-Smtp-Source: AG47ELtI/e0XPWTh50F/4WrK53h8pfXbQBzG38EsPJGYPwekdUfqLNo7QEVX5E62gdw4A6FU+ZrVlFi/hLgvlhxAOLw=
-X-Received: by 10.107.7.87 with SMTP id 84mr30738255ioh.216.1520503847424;
-	Thu, 08 Mar 2018 02:10:47 -0800 (PST)
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=TBnD/dMAe7ibMATcL90p34645KxzulXTZ69hz8St4hs=;
+	b=lL4KgZO0JBQDZXtgBlLhp+PhZ3P3XI63ZNl3AhICjOs3+XT1BCChRChCVcl4+R441Yk9HS2L1wPSjDYlE687eTpU3YUNXTZomCxsobu+qKz2a8OjMQp2nYgj75KAzc60bC4nVMSSfgQU7zKOJwf6/voV1zZuk+r82xolamMnyoQ=
+Received: from BY2PR02MB347.namprd02.prod.outlook.com (10.141.140.149) by
+	BY2PR02MB139.namprd02.prod.outlook.com (10.242.45.140) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.548.13; Thu, 8 Mar 2018 07:55:39 +0000
+Received: from BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) by
+	BY2PR02MB347.namprd02.prod.outlook.com ([10.141.140.149]) with mapi id
+	15.20.0527.025; Thu, 8 Mar 2018 07:55:37 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+To: =?utf-8?B?TWFydGluIEh1bmRlYsO4bGw=?= <mnhu@prevas.dk>, Vineeth Karumanchi
+	<VINEETHC@xilinx.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] kernel-fitimage.bbclass: Deploy fitImage
+	without Initramfs
+Thread-Index: AQHTtq60WmtNsb0gBE+vq6rkOlteyaPF93NQ
+Date: Thu, 8 Mar 2018 07:55:37 +0000
+Message-ID: <BY2PR02MB3479774AF4664F30E76058DB9DF0@BY2PR02MB347.namprd02.prod.outlook.com>
+References: <1520433689-6357-1-git-send-email-vineethchowz.chowdary@xilinx.com>
+	<2b8a0c5f-3787-23ac-d371-56c805064949@prevas.dk>
+In-Reply-To: <2b8a0c5f-3787-23ac-d371-56c805064949@prevas.dk>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [73.231.161.32]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; BY2PR02MB139;
+	7:ycNeu4+KBrpXs9IScqpxviQbhelhFNXo97TL5biy+XKtNDx0U/jJBU8Ma7R9arcpU1Ahc1fPNSQQpTMfJ07wwGJSz2ZfMI+Ca165ARXLOj3Y4SldChTjLDgWMOiOXC1J9exAJuEjIEkuy4wdiX8A9jnWP2uSnc9VB3sSuarx6c6U7bRSHstFbrqGUvQQNz85M6rgYvPdFx/InKj7fzYee44o5teSNAyeXzJzC8dtWx7xwVK6x0Jsa/WUOXYFHBJd
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;SSOR;
+x-forefront-antispam-report: SFV:SKI; SCL:-1; SFV:NSPM;
+	SFS:(10009020)(39860400002)(39380400002)(376002)(346002)(366004)(396003)(189003)(377424004)(199004)(13464003)(6506007)(33656002)(53546011)(106356001)(186003)(2501003)(7736002)(305945005)(8936002)(478600001)(81156014)(26005)(81166006)(74316002)(77096007)(66066001)(8676002)(102836004)(3280700002)(55016002)(9686003)(53936002)(3846002)(3660700001)(229853002)(6246003)(6116002)(6436002)(5660300001)(105586002)(86362001)(97736004)(316002)(2906002)(76176011)(110136005)(7696005)(68736007)(2950100002)(25786009)(72206003)(2900100001)(99286004)(14454004);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2PR02MB139;
+	H:BY2PR02MB347.namprd02.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f24a3c33-077d-45a0-4a59-08d584c9fb07
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:BY2PR02MB139; 
+x-ms-traffictypediagnostic: BY2PR02MB139:
+x-microsoft-antispam-prvs: <BY2PR02MB1392D498F9944DC4F932923B9DF0@BY2PR02MB139.namprd02.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(264703809997249)(192813158149592);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040501)(2401047)(8121501046)(5005006)(3002001)(3231220)(944501244)(52105095)(93006095)(93001095)(10201501046)(6055026)(6041288)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123560045)(20161123558120)(20161123562045)(6072148)(201708071742011);
+	SRVR:BY2PR02MB139; BCL:0; PCL:0; RULEID:; SRVR:BY2PR02MB139; 
+x-forefront-prvs: 060503E79B
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: Nv0BXhFa0KP2+eLfHDBBvFhRFl9NwHkmWet7APs4/U4YqbBHqtrVZpEf8eE2R/cLUKwwGn+mL8rhFQe5tfkgQmdKzRDWayiPRWLUNkfktWlS7BExnAD4FucHgxSt+ol10tJ0Dwmg14ITNWXz09fGPMwwcb6Ab7YRh5rDDEdYTjX/9YyDfy06pgYm3/mHdCk4ugirAvnFm4jPcjEKUxZ8jkY4SwrAOGJ83aBuSheZeGHcOXetHyJeONj5iLmAyxnPHv9Ofct1biXeMXoduPEJG8YIo7VNg3wc5n/JB1bTKyX1HN/JfEK62wXnQRSnFGcXnQa4O+YHkQ3XuAzAVjZxUQ==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Thu, 8 Mar 2018 02:10:27 -0800 (PST)
-In-Reply-To: <20180308013530.125242-1-joe.slater@windriver.com>
-References: <20180308013530.125242-1-joe.slater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Mar 2018 10:10:27 +0000
-Message-ID: <CAJTo0LafrmpRvwVsgA9Lx82o=JnFm5LhbukbZT0ZF13pLQOgdA@mail.gmail.com>
-To: Joe Slater <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gnome-desktop: do not free() a static buffer
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f24a3c33-077d-45a0-4a59-08d584c9fb07
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2018 07:55:37.6082 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR02MB139
+Subject: Re: [PATCH] kernel-fitimage.bbclass: Deploy fitImage without Initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,241 +84,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 10:10:46 -0000
-Content-Type: multipart/alternative; boundary="001a113ecdf4b49e900566e3e3b6"
+X-List-Received-Date: Thu, 08 Mar 2018 10:27:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a113ecdf4b49e900566e3e3b6
-Content-Type: text/plain; charset="UTF-8"
+SGkgTWFydGluLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE1hcnRp
+biBIdW5kZWLDuGxsIFttYWlsdG86bW5odUBwcmV2YXMuZGtdDQo+IFNlbnQ6IFdlZG5lc2RheSwg
+TWFyY2ggMDcsIDIwMTggMTE6MjYgUE0NCj4gVG86IFZpbmVldGggS2FydW1hbmNoaSA8VklORUVU
+SENAeGlsaW54LmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnOyBNYW5qdWt1bWFyIEhhcnRoaWtvdGUgTWF0aGENCj4gPE1BTkpVS1VNQHhpbGlueC5jb20+
+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBrZXJuZWwtZml0aW1hZ2UuYmJjbGFz
+czogRGVwbG95IGZpdEltYWdlIHdpdGhvdXQNCj4gSW5pdHJhbWZzDQo+IA0KPiBIaSBWaW5lZXRo
+LA0KPiANCj4gT24gMjAxOC0wMy0wNyAxNTo0MSwgVmluZWV0aCBDaG93ZGFyeSBLYXJ1bWFuY2hp
+IHdyb3RlOg0KPiA+IFRoaXMgcGF0Y2ggZGVwbG95cyBmaXRJbWFnZSAobGludXguYmluICsgZHRi
+ICkuDQo+ID4gVGhlIHVzZSBjYXNlIGlzIHRvIGhhdmUgMiBwYXJ0aW9uZWQgc2QgY2FyZCwgd2l0
+aCBGQVQgcGFydGl0aW9uIGhhdmluZw0KPiA+IGJvb3Rsb2FkZXIgKyBmaXRJbWFnZSBhbmQNCj4g
+PiBleHQ0IHBhcnRpb24gaGF2aW5nIHJvb3Rmcy4NCj4gPg0KPiA+IFNpZ25lbi1vZmYtYnk6IFZp
+bmVldGggQ2hvd2RhcnkgS2FydW1hbmNoaQ0KPiA+IDx2aW5lZXRoY2hvd3ouY2hvd2RhcnlAeGls
+aW54LmNvbT4NCj4gPiAtLS0NCj4gPiAgIG1ldGEvY2xhc3Nlcy9rZXJuZWwtZml0aW1hZ2UuYmJj
+bGFzcyB8IDUgKysrKysNCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykNCj4g
+Pg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMva2VybmVsLWZpdGltYWdlLmJiY2xhc3MN
+Cj4gPiBiL21ldGEvY2xhc3Nlcy9rZXJuZWwtZml0aW1hZ2UuYmJjbGFzcw0KPiA+IGluZGV4IDUw
+YTkxZTEuLjI1ODg0ZDUgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL2tlcm5lbC1maXRp
+bWFnZS5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2tlcm5lbC1maXRpbWFnZS5iYmNs
+YXNzDQo+ID4gQEAgLTQ2NCw2ICs0NjQsMTAgQEAga2VybmVsX2RvX2RlcGxveV9hcHBlbmQoKSB7
+DQo+ID4gICAgICAgICAgICAgICAgICBsaW51eF9iaW5fYmFzZV9uYW1lPSJmaXRJbWFnZS1saW51
+eC5iaW4tJHtQVn0tJHtQUn0tJHtNQUNISU5FfS0NCj4gJHtEQVRFVElNRX0iDQo+ID4gICAgICAg
+ICAgICAgICAgICBsaW51eF9iaW5fc3ltbGlua19uYW1lPWZpdEltYWdlLWxpbnV4LmJpbi0ke01B
+Q0hJTkV9DQo+ID4gICAgICAgICAgICAgICAgICBpbnN0YWxsIC1tIDA2NDQgbGludXguYmluDQo+
+ID4gJHtERVBMT1lESVJ9LyR7bGludXhfYmluX2Jhc2VfbmFtZX0uYmluDQo+ID4gKyAgICAgICAg
+ICAgICAgIGZpdGltYWdlX2Jhc2VfbmFtZT0iZml0SW1hZ2UtJHtQVn0tJHtQUn0tJHtNQUNISU5F
+fS0NCj4gJHtEQVRFVElNRX0iDQo+ID4gKyAgICAgICAgICAgICAgIGZpdGltYWdlX3N5bWxpbmtf
+bmFtZT1maXRJbWFnZS0ke01BQ0hJTkV9DQo+ID4gKyAgICAgICAgICAgICAgIGluc3RhbGwgLW0g
+MDY0NCBhcmNoLyR7QVJDSH0vYm9vdC9maXRJbWFnZQ0KPiA+ICsgJHtERVBMT1lESVJ9LyR7Zml0
+aW1hZ2VfYmFzZV9uYW1lfS5iaW4NCj4gPiArDQo+IA0KPiBJc24ndCB0aGlzIGFscmVhZHkgaGFu
+ZGxlZCBieSB0aGUgImxpbnV4X2Jpbl9iYXNlX25hbWUiIHZhcmlhYmxlIGp1c3QgYWJvdmUgKGku
+ZS4NCj4gZml0SW1haGUtbGludXguYmluLSR7TUFDSElORX0pLiBJIGhhdmUgdmFyaW91cyBmaXRp
+bWFnZXMsIGFuZCBhcyBmYXIgYXMgSSByZWNhbGwsIGENCj4gbm9uLWluaXRyYW1mcyBmaXRpbWFn
+ZSBpcyBhbHJlYWR5IGRlcGxveWVkLg0KPiANClRoaXMgcGF0Y2ggc2VlbXMgdG8gZG8gdGhlIHJp
+Z2h0IHRoaW5nLg0KDQpsaW51eC5iaW4gaXMgYmVpbmcgY29waWVkIGFzIGZpdEltYWdlLWxpbnV4
+LmJpbi0ke01BQ0hJTkV9ICwgYW5kIEkgdGhpbmsgaXQgaXMgaW5jb3JyZWN0Lg0KSXQgc2hvdWxk
+IGJlIGZpdEltYWdlLCB3aGljaCBpcyBnZW5lcmF0ZWQgaW4gZG9fYXNzZW1ibGVfZml0aW1hZ2UN
+Cg0KSWYgeW91IGxvb2sgYXQgaW5pdHJhbWZzIGNhc2U6DQppbnN0YWxsIC1tIDA2NDQgYXJjaC8k
+e0FSQ0h9L2Jvb3QvZml0SW1hZ2UtJHtJTklUUkFNRlNfSU1BR0V9ICR7REVQTE9ZRElSfS8ke2Zp
+dF9pbml0cmFtZnNfYmFzZV9uYW1lfS5iaW4gd2hpY2ggaXMgY29ycmVjdA0KDQpUaGFua3MsDQpN
+YW5qdQ0KDQo=
 
-I'm not sure we need this patch anymore, it's been rebased on top of
-upstream changes but one of those changes were to fix x32 builds:
-
-https://git.gnome.org/browse/gnome-desktop/commit/libgnome-desktop/gnome-desktop-thumbnail.c?id=012cad653253ae5f5248988cda89159f22c1fb1d
-
-I believe we can drop this patch to gnome-desktop.
-
-Ross
-
-On 8 March 2018 at 01:35, Joe Slater <joe.slater@windriver.com> wrote:
-
-> Do not free() the buffer returned by localtime().  Also,
-> switch to calling localtime_r() which is re-entrant.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  ...op-thumbnail-don-t-convert-time_t-to-long.patch | 27
-> +++++++++-------------
->  1 file changed, 11 insertions(+), 16 deletions(-)
->
-> diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-
-> desktop-thumbnail-don-t-convert-time_t-to-long.patch
-> b/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-
-> desktop-thumbnail-don-t-convert-time_t-to-long.patch
-> index c1a7d4f..be657a8 100644
-> --- a/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-
-> desktop-thumbnail-don-t-convert-time_t-to-long.patch
-> +++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-
-> desktop-thumbnail-don-t-convert-time_t-to-long.patch
-> @@ -9,12 +9,11 @@ build for X32, where long's size doesn't match that of
-> time_t.
->  Upstream-Status: Pending
->  Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
-> ----
-> - libgnome-desktop/gnome-desktop-thumbnail.c | 16 ++++++++++++++--
-> - 1 file changed, 14 insertions(+), 2 deletions(-)
-> +Modified to use localtime_r() and not free() a static structure.
-> +
-> +Signed-off-by: Joe Slater <jslater@windriver.com>
-> +
->
-> -diff --git a/libgnome-desktop/gnome-desktop-thumbnail.c
-> b/libgnome-desktop/gnome-desktop-thumbnail.c
-> -index e56c3d7..5d96bf3 100644
->  --- a/libgnome-desktop/gnome-desktop-thumbnail.c
->  +++ b/libgnome-desktop/gnome-desktop-thumbnail.c
->  @@ -120,6 +120,8 @@
-> @@ -30,24 +29,23 @@ index e56c3d7..5d96bf3 100644
->     char *tmp_path = NULL;
->     int tmp_fd;
->     char mtime_str[21];
-> -+  struct tm *tmp_mtime = NULL;
-> ++  struct tm tmp_mtime;
->     gboolean ret = FALSE;
->     GError *error = NULL;
->     const char *width, *height;
-> -@@ -1124,7 +1127,11 @@ save_thumbnail (GdkPixbuf  *pixbuf,
-> +@@ -1124,7 +1127,10 @@ save_thumbnail (GdkPixbuf  *pixbuf,
->       goto out;
->     close (tmp_fd);
->
->  -  g_snprintf (mtime_str, 21, "%" G_GINT64_FORMAT, (gint64) mtime);
-> -+  tmp_mtime = localtime (&mtime);
-> -+  if (!tmp_mtime)
-> ++  if (!localtime_r (&mtime,&tmp_mtime))
->  +    goto out;
-> -+  strftime (mtime_str, 21, "%s", tmp_mtime);
-> -+  free (tmp_mtime);
-> ++
-> ++  strftime (mtime_str, 21, "%s", &tmp_mtime);
->     width = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Width");
->     height = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Height");
->
-> -@@ -1319,6 +1326,7 @@ gnome_desktop_thumbnail_is_valid (GdkPixbuf
->   *pixbuf,
-> +@@ -1319,6 +1325,7 @@ gnome_desktop_thumbnail_is_valid (GdkPix
->   {
->     const char *thumb_uri, *thumb_mtime_str;
->     time_t thumb_mtime;
-> @@ -55,7 +53,7 @@ index e56c3d7..5d96bf3 100644
->
->     thumb_uri = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::URI");
->     if (g_strcmp0 (uri, thumb_uri) != 0)
-> -@@ -1327,7 +1335,11 @@ gnome_desktop_thumbnail_is_valid (GdkPixbuf
->     *pixbuf,
-> +@@ -1327,7 +1334,11 @@ gnome_desktop_thumbnail_is_valid (GdkPix
->     thumb_mtime_str = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::MTime");
->     if (!thumb_mtime_str)
->       return FALSE;
-> @@ -68,6 +66,3 @@ index e56c3d7..5d96bf3 100644
->     if (mtime != thumb_mtime)
->       return FALSE;
->
-> ---
-> -2.14.1
-> -
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a113ecdf4b49e900566e3e3b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m not sure we need this patch anymore, it&#39;s been=
- rebased on top of upstream changes but one of those changes were to fix x3=
-2 builds:<div><br></div><div><a href=3D"https://git.gnome.org/browse/gnome-=
-desktop/commit/libgnome-desktop/gnome-desktop-thumbnail.c?id=3D012cad653253=
-ae5f5248988cda89159f22c1fb1d">https://git.gnome.org/browse/gnome-desktop/co=
-mmit/libgnome-desktop/gnome-desktop-thumbnail.c?id=3D012cad653253ae5f524898=
-8cda89159f22c1fb1d</a><br></div><div><br></div><div>I believe we can drop t=
-his patch to gnome-desktop.</div><div><br></div><div>Ross</div></div><div c=
-lass=3D"gmail_extra"><br><div class=3D"gmail_quote">On 8 March 2018 at 01:3=
-5, Joe Slater <span dir=3D"ltr">&lt;<a href=3D"mailto:joe.slater@windriver.=
-com" target=3D"_blank">joe.slater@windriver.com</a>&gt;</span> wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">Do not free() the buffer returned by localtime=
-().=C2=A0 Also,<br>
-switch to calling localtime_r() which is re-entrant.<br>
-<br>
-Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com">j=
-oe.slater@windriver.com</a>&gt;<br>
----<br>
-=C2=A0...op-thumbnail-don-t-convert-<wbr>time_t-to-long.patch | 27 ++++++++=
-+-------------<br>
-=C2=A01 file changed, 11 insertions(+), 16 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/gnome-<wbr=
->desktop-thumbnail-don-t-<wbr>convert-time_t-to-long.patch b/meta/recipes-g=
-nome/gnome-<wbr>desktop/gnome-desktop/gnome-<wbr>desktop-thumbnail-don-t-<w=
-br>convert-time_t-to-long.patch<br>
-index c1a7d4f..be657a8 100644<br>
---- a/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/gnome-<wbr>deskto=
-p-thumbnail-don-t-<wbr>convert-time_t-to-long.patch<br>
-+++ b/meta/recipes-gnome/gnome-<wbr>desktop/gnome-desktop/gnome-<wbr>deskto=
-p-thumbnail-don-t-<wbr>convert-time_t-to-long.patch<br>
-@@ -9,12 +9,11 @@ build for X32, where long&#39;s size doesn&#39;t match th=
-at of time_t.<br>
-=C2=A0Upstream-Status: Pending<br>
-=C2=A0Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@=
-mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-----<br>
-- libgnome-desktop/gnome-<wbr>desktop-thumbnail.c | 16 ++++++++++++++--<br>
-- 1 file changed, 14 insertions(+), 2 deletions(-)<br>
-+Modified to use localtime_r() and not free() a static structure.<br>
-+<br>
-+Signed-off-by: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com">jsl=
-ater@windriver.com</a>&gt;<br>
-+<br>
-<br>
--diff --git a/libgnome-desktop/gnome-<wbr>desktop-thumbnail.c b/libgnome-de=
-sktop/gnome-<wbr>desktop-thumbnail.c<br>
--index e56c3d7..5d96bf3 100644<br>
-=C2=A0--- a/libgnome-desktop/gnome-<wbr>desktop-thumbnail.c<br>
-=C2=A0+++ b/libgnome-desktop/gnome-<wbr>desktop-thumbnail.c<br>
-=C2=A0@@ -120,6 +120,8 @@<br>
-@@ -30,24 +29,23 @@ index e56c3d7..5d96bf3 100644<br>
-=C2=A0 =C2=A0 char *tmp_path =3D NULL;<br>
-=C2=A0 =C2=A0 int tmp_fd;<br>
-=C2=A0 =C2=A0 char mtime_str[21];<br>
--+=C2=A0 struct tm *tmp_mtime =3D NULL;<br>
-++=C2=A0 struct tm tmp_mtime;<br>
-=C2=A0 =C2=A0 gboolean ret =3D FALSE;<br>
-=C2=A0 =C2=A0 GError *error =3D NULL;<br>
-=C2=A0 =C2=A0 const char *width, *height;<br>
--@@ -1124,7 +1127,11 @@ save_thumbnail (GdkPixbuf=C2=A0 *pixbuf,<br>
-+@@ -1124,7 +1127,10 @@ save_thumbnail (GdkPixbuf=C2=A0 *pixbuf,<br>
-=C2=A0 =C2=A0 =C2=A0 goto out;<br>
-=C2=A0 =C2=A0 close (tmp_fd);<br>
-<br>
-=C2=A0-=C2=A0 g_snprintf (mtime_str, 21, &quot;%&quot; G_GINT64_FORMAT, (gi=
-nt64) mtime);<br>
--+=C2=A0 tmp_mtime =3D localtime (&amp;mtime);<br>
--+=C2=A0 if (!tmp_mtime)<br>
-++=C2=A0 if (!localtime_r (&amp;mtime,&amp;tmp_mtime))<br>
-=C2=A0+=C2=A0 =C2=A0 goto out;<br>
--+=C2=A0 strftime (mtime_str, 21, &quot;%s&quot;, tmp_mtime);<br>
--+=C2=A0 free (tmp_mtime);<br>
-++<br>
-++=C2=A0 strftime (mtime_str, 21, &quot;%s&quot;, &amp;tmp_mtime);<br>
-=C2=A0 =C2=A0 width =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt::Thumb::I=
-mage::Width&quot;);<br>
-=C2=A0 =C2=A0 height =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt::Thumb::=
-Image::Height&quot;);<br>
-<br>
--@@ -1319,6 +1326,7 @@ gnome_desktop_thumbnail_is_<wbr>valid (GdkPixbuf=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *pixbuf,<br>
-+@@ -1319,6 +1325,7 @@ gnome_desktop_thumbnail_is_<wbr>valid (GdkPix<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 const char *thumb_uri, *thumb_mtime_str;<br>
-=C2=A0 =C2=A0 time_t thumb_mtime;<br>
-@@ -55,7 +53,7 @@ index e56c3d7..5d96bf3 100644<br>
-<br>
-=C2=A0 =C2=A0 thumb_uri =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt::Thum=
-b::URI&quot;);<br>
-=C2=A0 =C2=A0 if (g_strcmp0 (uri, thumb_uri) !=3D 0)<br>
--@@ -1327,7 +1335,11 @@ gnome_desktop_thumbnail_is_<wbr>valid (GdkPixbuf=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *pixbuf,<br>
-+@@ -1327,7 +1334,11 @@ gnome_desktop_thumbnail_is_<wbr>valid (GdkPix<br>
-=C2=A0 =C2=A0 thumb_mtime_str =3D gdk_pixbuf_get_option (pixbuf, &quot;tEXt=
-::Thumb::MTime&quot;);<br>
-=C2=A0 =C2=A0 if (!thumb_mtime_str)<br>
-=C2=A0 =C2=A0 =C2=A0 return FALSE;<br>
-@@ -68,6 +66,3 @@ index e56c3d7..5d96bf3 100644<br>
-=C2=A0 =C2=A0 if (mtime !=3D thumb_mtime)<br>
-=C2=A0 =C2=A0 =C2=A0 return FALSE;<br>
-<br>
----<br>
--2.14.1<br>
--<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a113ecdf4b49e900566e3e3b6--
