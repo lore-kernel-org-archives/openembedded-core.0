@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E31C78989
+	by mail.openembedded.org (Postfix) with ESMTP id CD6817898A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:06 +0000 (UTC)
+	Thu,  8 Mar 2018 18:25:07 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:08 -0800
+	08 Mar 2018 10:25:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053862"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053877"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:06 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:08 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:38 +0200
-Message-Id: <20180308181804.31261-16-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:39 +0200
+Message-Id: <20180308181804.31261-17-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/42] wayland: refresh patches
+Subject: [PATCH 17/42] clutter: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:06 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:25:08 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,79 +51,35 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../wayland/wayland/fixpathinpcfiles.patch         |  3 +--
- .../wayland/weston/0001-make-error-portable.patch  | 22 ++++++++++++++--------
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ .../clutter/clutter-1.0/install-examples.patch                | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch b/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch
-index 9fb12522843..ad3526d9845 100644
---- a/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch
-+++ b/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch
-@@ -21,8 +21,7 @@ Index: wayland-1.14.0/src/wayland-scanner.pc.in
- ===================================================================
- --- wayland-1.14.0.orig/src/wayland-scanner.pc.in
- +++ wayland-1.14.0/src/wayland-scanner.pc.in
--@@ -1,8 +1,8 @@
-- prefix=@prefix@
-+@@ -2,7 +2,7 @@ prefix=@prefix@
-  exec_prefix=@exec_prefix@
-  datarootdir=@datarootdir@
-  pkgdatadir=@datadir@/@PACKAGE@
-diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-index e2213aca60c..0671a450442 100644
---- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-@@ -16,9 +16,11 @@ Upstream-Status: Submitted
-  3 files changed, 23 insertions(+), 1 deletion(-)
-  create mode 100644 src/weston-error.h
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch b/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
+index 3b6a70ef0a7..ce9ab3a2489 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
++++ b/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
+@@ -3,11 +3,11 @@ Install the examples to $libdir/clutter/.
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Upstream-Status: Inappropriate
  
----- a/configure.ac
--+++ b/configure.ac
--@@ -60,6 +60,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
-+Index: weston-3.0.0/configure.ac
+-diff --git a/examples/Makefile.am b/examples/Makefile.am
+-index 4b9b449..232cd19 100644
+---- a/examples/Makefile.am
+-+++ b/examples/Makefile.am
+-@@ -38,6 +38,7 @@ AM_CPPFLAGS = \
++Index: clutter-1.26.2/examples/Makefile.am
 +===================================================================
-+--- weston-3.0.0.orig/configure.ac
-++++ weston-3.0.0/configure.ac
-+@@ -103,6 +103,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
-  	      [[#include <time.h>]])
-  AC_CHECK_HEADERS([execinfo.h])
++--- clutter-1.26.2.orig/examples/Makefile.am
+++++ clutter-1.26.2/examples/Makefile.am
++@@ -33,7 +33,8 @@ AM_CPPFLAGS = \
+  	-I$(top_srcdir)/clutter \
+  	-I$(top_builddir)/clutter
   
-@@ -26,9 +28,11 @@ Upstream-Status: Submitted
- +
-  AC_CHECK_FUNCS([mkostemp strchrnul initgroups posix_fallocate])
+@@ -16,3 +16,4 @@ index 4b9b449..232cd19 100644
+ +example_PROGRAMS = $(all_examples)
   
-- COMPOSITOR_MODULES="wayland-server >= $WAYLAND_PREREQ_VERSION pixman-1 >= 0.25.2"
-+ # check for libdrm as a build-time dependency only
-+Index: weston-3.0.0/libweston/weston-error.h
-+===================================================================
- --- /dev/null
--+++ b/libweston/weston-error.h
-++++ weston-3.0.0/libweston/weston-error.h
- @@ -0,0 +1,20 @@
- +#ifndef _WESTON_ERROR_H
- +#define _WESTON_ERROR_H
-@@ -50,8 +54,10 @@ Upstream-Status: Submitted
- +
- +#endif
- +
----- a/libweston/weston-launch.c
--+++ b/libweston/weston-launch.c
-+Index: weston-3.0.0/libweston/weston-launch.c
-+===================================================================
-+--- weston-3.0.0.orig/libweston/weston-launch.c
-++++ weston-3.0.0/libweston/weston-launch.c
- @@ -33,7 +33,6 @@
-  #include <poll.h>
-  #include <errno.h>
-@@ -60,7 +66,7 @@ Upstream-Status: Submitted
-  #include <getopt.h>
-  
-  #include <sys/types.h>
--@@ -59,6 +58,7 @@
-+@@ -60,6 +59,7 @@
-  #endif
-  
-  #include "weston-launch.h"
+  EXTRA_DIST = redhand.png
++ 
 -- 
 2.16.1
 
