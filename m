@@ -1,25 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F2F2C78A56
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D6ED78958
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24054131"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:46 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:18:04 +0200
-Message-Id: <20180308181804.31261-42-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 42/42] perl: remove perl-enable-gdbm.patch
+	Thu,  8 Mar 2018 18:52:01 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w28IptwN025658
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 8 Mar 2018 18:51:58 GMT
+Message-ID: <1520535114.10851.91.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Thu, 08 Mar 2018 10:51:54 -0800
+In-Reply-To: <CADkTA4P58D1LFLCRZc6PvXa1+R2NTb1LF55EL+U7m+XbwLo4mQ@mail.gmail.com>
+References: <cover.1520359364.git.bruce.ashfield@windriver.com>
+	<28b9ee1263d7a5343c2e8246ff0b5f57454b054c.1520359364.git.bruce.ashfield@windriver.com>
+	<CAJTo0Lbf=-TOV2ctvcE1pu+wR_8dsSt=AbUwUpvSq+miJUkBHA@mail.gmail.com>
+	<CADkTA4P58D1LFLCRZc6PvXa1+R2NTb1LF55EL+U7m+XbwLo4mQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9 v3] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:46 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:52:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The change was already present in upstream, so we just applied it
-again (see bug 10450 for why).
+On Wed, 2018-03-07 at 08:35 -0500, Bruce Ashfield wrote:
+> On Wed, Mar 7, 2018 at 3:40 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > 
+> > On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.
+> > com>
+> > wrote:
+> > > 
+> > > 
+> > > +RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
+> > > +# 4.15+ needs these next two RDEPENDS
+> > > +RDEPENDS_${PN} += "openssl-dev util-linux"
+> > > +# and x86 needs a bit more for 4.15+
+> > > +RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86',
+> > > 'elfutils', '',
+> > > d)}"
+> > 
+> > Annoyingly this is breaking our multilib test case:
+> > 
+> > https://autobuilder.yocto.io/builders/nightly-multilib/builds/852/s
+> > teps/BuildImages_4/logs/stdio
+> > 
+> > It's entirely possible that the test is broken in some way but it's
+> > far too
+> > early for me right now to comprehend the multilib matrix...
+> And at this point, I'm basically out of cycles for hacking on devsrc
+> :(
+> 
+> I'll see about it again at the start of next week, and failing that,
+> bump it to the next release cycle.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../recipes-devtools/perl/perl/perl-enable-gdbm.patch | 19 -------------------
- meta/recipes-devtools/perl/perl_5.24.1.bb             |  1 -
- 2 files changed, 20 deletions(-)
- delete mode 100644 meta/recipes-devtools/perl/perl/perl-enable-gdbm.patch
+Just as a quick brain dump from a glance at this, I think the issue is
+the openssl-dev dependency. It sounds like the image tries to install
+two sets of -dev packages and those files conflict. Quite why its doing
+that and how/why they conflict I don't know but the -dev dependency is
+where I'd start looking at this.
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-enable-gdbm.patch b/meta/recipes-devtools/perl/perl/perl-enable-gdbm.patch
-deleted file mode 100644
-index bad3373fd40..00000000000
---- a/meta/recipes-devtools/perl/perl/perl-enable-gdbm.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Upstream-Status:Inappropriate [embedded specific]
--
--Index: perl-5.24.1/config_h.SH
--===================================================================
----- perl-5.24.1.orig/config_h.SH
--+++ perl-5.24.1/config_h.SH
--@@ -726,6 +726,12 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#und
--  */
-- #$i_gdbm I_GDBM	/**/
-- 
--+/* I_GDBM:
--+ *      This symbol, if defined, indicates that <gdbm.h> exists and should
--+ *      be included.
--+ */
--+#$i_gdbm I_GDBM /**/
--+
-- /* I_LIMITS:
--  *	This symbol, if defined, indicates to the C program that it should
--  *	include <limits.h> to get definition of symbols like WORD_BIT or
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index f13a63a80a3..e5b4886a95d 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -45,7 +45,6 @@ SRC_URI += " \
-         file://letgcc-find-errno.patch \
-         file://generate-sh.patch \
-         file://native-perlinc.patch \
--        file://perl-enable-gdbm.patch \
-         file://cross-generate_uudmap.patch \
-         file://fix_bad_rpath.patch \
-         file://dynaloaderhack.patch \
--- 
-2.16.1
+I will also mention that -dev packages are not so well looked at with
+multilib, we probably don't test that area much :(.
 
+Cheers,
+
+Richard 
 
