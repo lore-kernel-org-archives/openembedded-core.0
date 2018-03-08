@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 59F6A789A0
+	by mail.openembedded.org (Postfix) with ESMTP id DB2B6789A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:09 +0000 (UTC)
+	Thu,  8 Mar 2018 18:25:10 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:11 -0800
+	08 Mar 2018 10:25:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053890"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053903"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:09 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:11 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:40 +0200
-Message-Id: <20180308181804.31261-18-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:41 +0200
+Message-Id: <20180308181804.31261-19-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/42] xset: refresh patches
+Subject: [PATCH 19/42] at: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:09 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:25:11 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -48,39 +48,43 @@ We'd like to eventually have do_patch() rejecting any fuzz on these grounds. For
 that to be realistic the existing patches with fuzz need to be rebased and
 reviewed.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-graphics/xorg-app/xset/disable-xkb.patch | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-extended/at/at/makefile-fix-parallel.patch | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/xset/disable-xkb.patch b/meta/recipes-graphics/xorg-app/xset/disable-xkb.patch
-index 97d13a30df8..a97c7b72fac 100644
---- a/meta/recipes-graphics/xorg-app/xset/disable-xkb.patch
-+++ b/meta/recipes-graphics/xorg-app/xset/disable-xkb.patch
-@@ -4,11 +4,11 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-extended/at/at/makefile-fix-parallel.patch b/meta/recipes-extended/at/at/makefile-fix-parallel.patch
+index 932a4c0bfe6..d6056dceffa 100644
+--- a/meta/recipes-extended/at/at/makefile-fix-parallel.patch
++++ b/meta/recipes-extended/at/at/makefile-fix-parallel.patch
+@@ -15,13 +15,13 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  Makefile |    4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
  
- Rebase for 1.2.1 by: Yu Ke <ke.yu@intel.com>
- 
--diff --git a/configure.ac b/configure.ac
--index 81c3ae4..26601bf 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -52,11 +52,15 @@ PKG_CHECK_MODULES(SET_XEXT, xext,
-+Index: xset-1.2.3/configure.ac
+-diff --git a/Makefile.in b/Makefile.in
+-index 2a9b918..aa7c04a 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -75,7 +75,9 @@ at: $(ATOBJECTS)
++Index: at-3.1.20/Makefile.in
 +===================================================================
-+--- xset-1.2.3.orig/configure.ac
-++++ xset-1.2.3/configure.ac
-+@@ -53,11 +53,15 @@ PKG_CHECK_MODULES(SET_XEXT, xext,
-  	AC_CHECK_HEADERS([X11/extensions/dpms.h X11/extensions/MITMisc.h],,,[#include <X11/Xlib.h>])
-  	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
++--- at-3.1.20.orig/Makefile.in
+++++ at-3.1.20/Makefile.in
++@@ -76,7 +76,9 @@ at: $(ATOBJECTS)
+  atd: $(RUNOBJECTS)
+- 	$(CC) $(LDFLAGS) -o atd $(RUNOBJECTS) $(LIBS) $(PAMLIB)
++ 	$(CC) $(LDFLAGS) -o atd $(RUNOBJECTS) $(LIBS) $(PAMLIB) $(SELINUXLIB)
   
-@@ -22,5 +22,5 @@ index 81c3ae4..26601bf 100644
-  	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
- +fi
+ -y.tab.c y.tab.h: parsetime.y
+ +y.tab.h: y.tab.c
+@@ -30,6 +30,3 @@ index 2a9b918..aa7c04a 100644
+  	$(YACC) -d parsetime.y
   
-- AC_ARG_WITH(xf86misc, AC_HELP_STRING([--without-xf86misc],[Disable xf86misc support.]),
-+ AC_ARG_WITH(xf86misc, AS_HELP_STRING([--without-xf86misc],[Disable xf86misc support.]),
-                  [USE_XF86MISC="$withval"], [USE_XF86MISC="yes"])
+  lex.yy.c: parsetime.l
+--- 
+-1.7.9.5
+-
 -- 
 2.16.1
 
