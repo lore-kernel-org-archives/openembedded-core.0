@@ -1,25 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 153357898E
+	by mail.openembedded.org (Postfix) with ESMTP id 9EC76789FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:26 +0000 (UTC)
+	Thu,  8 Mar 2018 18:25:27 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:27 -0800
+	08 Mar 2018 10:25:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053997"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24054006"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:26 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:28 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:51 +0200
-Message-Id: <20180308181804.31261-29-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:52 +0200
+Message-Id: <20180308181804.31261-30-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 29/42] iptables: drop unnecessary patches
+MIME-Version: 1.0
+Subject: [PATCH 30/42] apt: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,143 +33,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:26 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:25:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-These were adding definitions for the second time
-(see bug #10450 for why) or adding an include that isn't anymore
-necessary for musl builds.
+From: Ross Burton <ross.burton@intel.com>
 
+The patch tool will apply patches by default with "fuzz", which is where if the
+hunk context isn't present but what is there is close enough, it will force the
+patch in.
+
+Whilst this is useful when there's just whitespace changes, when applied to
+source it is possible for a patch applied with fuzz to produce broken code which
+still compiles (see #10450).  This is obviously bad.
+
+We'd like to eventually have do_patch() rejecting any fuzz on these grounds. For
+that to be realistic the existing patches with fuzz need to be rebased and
+reviewed.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../iptables/0001-fix-build-with-musl.patch        | 46 --------------------
- ...d-defines-that-are-required-for-if_packet.patch | 49 ----------------------
- meta/recipes-extended/iptables/iptables_1.6.1.bb   |  2 -
- 3 files changed, 97 deletions(-)
- delete mode 100644 meta/recipes-extended/iptables/iptables/0001-fix-build-with-musl.patch
- delete mode 100644 meta/recipes-extended/iptables/iptables/types.h-add-defines-that-are-required-for-if_packet.patch
+ meta/recipes-devtools/apt/apt/disable-test.patch   | 23 ++++++++++------------
+ .../apt/apt/fix-gcc-4.6-null-not-defined.patch     | 10 ++++++----
+ meta/recipes-devtools/apt/apt/makerace.patch       | 10 +++++-----
+ meta/recipes-devtools/apt/apt/no-nls-dpkg.patch    | 12 ++++++-----
+ meta/recipes-devtools/apt/apt/nodoc.patch          | 12 +++++------
+ 5 files changed, 34 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-extended/iptables/iptables/0001-fix-build-with-musl.patch b/meta/recipes-extended/iptables/iptables/0001-fix-build-with-musl.patch
-deleted file mode 100644
-index f1f85a6fa0e..00000000000
---- a/meta/recipes-extended/iptables/iptables/0001-fix-build-with-musl.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--[PATCH] fix build with musl
--
--Define additional TCOPTS if not there
--u_initX types are in sys/types.h be explicit about it
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
--diff -Naur iptables-1.6.0-origin/extensions/libxt_TCPOPTSTRIP.c iptables-1.6.0/extensions/libxt_TCPOPTSTRIP.c
----- iptables-1.6.0-origin/extensions/libxt_TCPOPTSTRIP.c	2015-12-09 14:55:06.000000000 +0200
--+++ iptables-1.6.0/extensions/libxt_TCPOPTSTRIP.c	2015-12-29 14:44:32.585327077 +0200
--@@ -12,6 +12,21 @@
-- #ifndef TCPOPT_MD5SIG
-- #	define TCPOPT_MD5SIG 19
-- #endif
--+#ifndef TCPOPT_MAXSEG
--+#define TCPOPT_MAXSEG 2
--+#endif
--+#ifndef TCPOPT_WINDOW
--+#define TCPOPT_WINDOW 3
--+#endif
--+#ifndef TCPOPT_SACK_PERMITTED
--+#define TCPOPT_SACK_PERMITTED 4
--+#endif
--+#ifndef TCPOPT_SACK
--+#define TCPOPT_SACK 5
--+#endif
--+#ifndef TCPOPT_TIMESTAMP
--+#define TCPOPT_TIMESTAMP 8
--+#endif
-- 
-- enum {
-- 	O_STRIP_OPTION = 0,
--diff -Naur iptables-1.6.0-origin/include/linux/netfilter_ipv4/ip_tables.h iptables-1.6.0/include/linux/netfilter_ipv4/ip_tables.h
----- iptables-1.6.0-origin/include/linux/netfilter_ipv4/ip_tables.h	2015-12-09 14:55:06.000000000 +0200
--+++ iptables-1.6.0/include/linux/netfilter_ipv4/ip_tables.h	2015-12-29 14:40:21.250469195 +0200
--@@ -15,6 +15,7 @@
-- #ifndef _IPTABLES_H
-- #define _IPTABLES_H
-- 
--+#include <sys/types.h>
-- #include <linux/types.h>
-- 
-- #include <linux/netfilter_ipv4.h>
-diff --git a/meta/recipes-extended/iptables/iptables/types.h-add-defines-that-are-required-for-if_packet.patch b/meta/recipes-extended/iptables/iptables/types.h-add-defines-that-are-required-for-if_packet.patch
-deleted file mode 100644
-index 24ee29e2d10..00000000000
---- a/meta/recipes-extended/iptables/iptables/types.h-add-defines-that-are-required-for-if_packet.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 19593491f43b70c1a71c3b9b8f4ff4fd14500014 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@windriver.com>
--Date: Fri, 23 Mar 2012 14:27:20 -0400
--Subject: [PATCH] types.h: add defines that are required for if_packet.h
--
--The iptables local linux/types.h overrides the kernel/sysroot
--types.h. As such, we need to provide some defines that are required
--to build against 3.2+ kernel headers.
--
--ifndef protection is provided for the defines to ensure that
--configuration that already have these defines are still buildable.
--
--This commit is temporary until a new version of iptables can be
--used that contains the defines.
--
--This is similar to the commit in the iptables git repository:
--
--  https://git.netfilter.org/cgi-bin/gitweb.cgi?p=iptables.git;a=commit;h=dbe77cc974cee656eae37e75039dd1a410a4535b
--
--Upstream-Status: Backport
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-----
-- include/linux/types.h |   10 ++++++++++
-- 1 files changed, 10 insertions(+), 0 deletions(-)
--
--diff --git a/include/linux/types.h b/include/linux/types.h
--index 8b483c8..ebf6432 100644
----- a/include/linux/types.h
--+++ b/include/linux/types.h
--@@ -34,5 +34,15 @@ typedef __u64 __bitwise __be64;
-- typedef __u16 __bitwise __sum16;
-- typedef __u32 __bitwise __wsum;
-- 
--+#ifndef __aligned_u64
--+#define __aligned_u64 __u64 __attribute__((aligned(8)))
--+#endif
--+#ifndef __aligned_be64
--+#define __aligned_be64 __be64 __attribute__((aligned(8)))
--+#endif
--+#ifndef __aligned_le64
--+#define __aligned_le64 __le64 __attribute__((aligned(8)))
--+#endif
--+
-- #endif /*  __ASSEMBLY__ */
-- #endif /* _LINUX_TYPES_H */
+diff --git a/meta/recipes-devtools/apt/apt/disable-test.patch b/meta/recipes-devtools/apt/apt/disable-test.patch
+index 0532671747e..d16b5c771b6 100644
+--- a/meta/recipes-devtools/apt/apt/disable-test.patch
++++ b/meta/recipes-devtools/apt/apt/disable-test.patch
+@@ -17,10 +17,10 @@ Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+  configure.ac | 7 -------
+  2 files changed, 3 insertions(+), 13 deletions(-)
+ 
+-diff --git a/Makefile b/Makefile
+-index 7680f08..69527a5 100644
+---- a/Makefile
+-+++ b/Makefile
++Index: apt-1.2.24/Makefile
++===================================================================
++--- apt-1.2.24.orig/Makefile
+++++ apt-1.2.24/Makefile
+ @@ -9,8 +9,8 @@ endif
+  .PHONY: default
+  default: startup all
+@@ -32,9 +32,9 @@ index 7680f08..69527a5 100644
+  	$(MAKE) -C vendor $@
+  	$(MAKE) -C apt-pkg $@
+  	$(MAKE) -C apt-inst $@
+-@@ -21,8 +21,6 @@ all headers library clean veryclean binary program doc manpages docbook test upd
++@@ -21,8 +21,6 @@ all headers library clean veryclean bina
+  	$(MAKE) -C dselect $@
+- 	$(MAKE) -C doc $@
++ #	$(MAKE) -C doc $@
+  	$(MAKE) -C po $@
+ -	# FIXME: -C test has issue swith parallel builds, investigate!
+ -	-$(MAKE) -C test $@
+@@ -52,10 +52,10 @@ index 7680f08..69527a5 100644
+  
+  dirs: startup
+  
+-diff --git a/configure.ac b/configure.ac
+-index 1f05da5..e47f459 100644
+---- a/configure.ac
+-+++ b/configure.ac
++Index: apt-1.2.24/configure.ac
++===================================================================
++--- apt-1.2.24.orig/configure.ac
+++++ apt-1.2.24/configure.ac
+ @@ -90,13 +90,6 @@ AC_CHECK_LIB(curl, curl_easy_init,
+       AC_MSG_ERROR([failed: I need CURL due https support]),
+  )
+@@ -70,6 +70,3 @@ index 1f05da5..e47f459 100644
+  AC_SUBST(BDBLIB)
+  
+  HAVE_ZLIB=no
 --- 
--1.7.0.4
+-2.1.4
 -
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.1.bb b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-index b37c55a64ea..d6e36fbee9a 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.1.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.1.bb
-@@ -19,10 +19,8 @@ RRECOMMENDS_${PN} = "kernel-module-x-tables \
- FILES_${PN} =+ "${libdir}/xtables/ ${datadir}/xtables"
+diff --git a/meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch
+index 801ae6dddb4..899c6ef2fcf 100644
+--- a/meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch
++++ b/meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch
+@@ -1,12 +1,14 @@
+ Upstream-Status: Pending
  
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
--           file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
--           file://0001-fix-build-with-musl.patch \
- "
+---- a/apt-pkg/contrib/weakptr.h
+-+++ b/apt-pkg/contrib/weakptr.h
++Index: apt-1.2.24/apt-pkg/contrib/weakptr.h
++===================================================================
++--- apt-1.2.24.orig/apt-pkg/contrib/weakptr.h
+++++ apt-1.2.24/apt-pkg/contrib/weakptr.h
+ @@ -21,6 +21,7 @@
+  #ifndef WEAK_POINTER_H
+  #define WEAK_POINTER_H
+  
+ +#include <cstdlib>
+  #include <set>
+- /**
+-  * Class for objects providing support for weak pointers.
++ #include <stddef.h>
++ 
+diff --git a/meta/recipes-devtools/apt/apt/makerace.patch b/meta/recipes-devtools/apt/apt/makerace.patch
+index 46e3161b673..0c686d6e276 100644
+--- a/meta/recipes-devtools/apt/apt/makerace.patch
++++ b/meta/recipes-devtools/apt/apt/makerace.patch
+@@ -8,16 +8,16 @@ RP 2012/3/19
  
- SRC_URI[md5sum] = "ab38a33806b6182c6f53d6afb4619add"
+ Upstream-Status: Pending
+ 
+-Index: apt-0.9.9.4/buildlib/library.mak
++Index: apt-1.2.24/buildlib/library.mak
+ ===================================================================
+---- apt-0.9.9.4.orig/buildlib/library.mak	2013-07-31 15:45:07.320440575 +0300
+-+++ apt-0.9.9.4/buildlib/library.mak	2013-07-31 15:46:49.440440561 +0300
+-@@ -61,7 +61,7 @@
++--- apt-1.2.24.orig/buildlib/library.mak
+++++ apt-1.2.24/buildlib/library.mak
++@@ -65,7 +65,7 @@ $(LIB)/lib$(LIBRARY).so.$(MAJOR).$(MINOR
+  
+  # Compilation rules
+  vpath %.cc $(SUBDIRS)
+ -$(OBJ)/%.opic: %.cc $(LIBRARYDEPENDS)
+ +$(OBJ)/%.opic: %.cc $(LIBRARYDEPENDS) $($(LOCAL)-HEADERS)
+  	echo Compiling $< to $@
+- 	$(CXX) -c $(INLINEDEPFLAG) $(CPPFLAGS) $(CXXFLAGS) $(PICFLAGS) -o $@ $<
++ 	$(CXX) -c $(INLINEDEPFLAG) $(CPPFLAGS) $(CXXSTD) $(CXXFLAGS) $(PICFLAGS) -o $@ '$(abspath $<)'
+  	$(DoDep)
+diff --git a/meta/recipes-devtools/apt/apt/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt/no-nls-dpkg.patch
+index a0996d4d440..98b6c96caac 100644
+--- a/meta/recipes-devtools/apt/apt/no-nls-dpkg.patch
++++ b/meta/recipes-devtools/apt/apt/no-nls-dpkg.patch
+@@ -1,8 +1,10 @@
+ Upstream-Status: Pending
+ 
+---- a/apt-pkg/deb/dpkgpm.cc
+-+++ b/apt-pkg/deb/dpkgpm.cc
+-@@ -42,6 +42,12 @@
++Index: apt-1.2.24/apt-pkg/deb/dpkgpm.cc
++===================================================================
++--- apt-1.2.24.orig/apt-pkg/deb/dpkgpm.cc
+++++ apt-1.2.24/apt-pkg/deb/dpkgpm.cc
++@@ -54,6 +54,12 @@
+  #include <apti18n.h>
+  									/*}}}*/
+  
+@@ -14,8 +16,8 @@ Upstream-Status: Pending
+ +
+  using namespace std;
+  
+- namespace
+-@@ -1279,7 +1285,7 @@ void pkgDPkgPM::WriteApportReport(const
++ APT_PURE static string
++@@ -1703,7 +1709,7 @@ void pkgDPkgPM::WriteApportReport(const
+     }
+  
+     // check if its not a follow up error 
+diff --git a/meta/recipes-devtools/apt/apt/nodoc.patch b/meta/recipes-devtools/apt/apt/nodoc.patch
+index 449e42df4a9..78cf53884a4 100644
+--- a/meta/recipes-devtools/apt/apt/nodoc.patch
++++ b/meta/recipes-devtools/apt/apt/nodoc.patch
+@@ -3,16 +3,16 @@ Disable documentation
+ Upstream-Status: Inappropriate [configuration]
+ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+ 
+-Index: apt-0.9.7.7/Makefile
++Index: apt-1.2.24/Makefile
+ ===================================================================
+---- apt-0.9.7.7.orig/Makefile
+-+++ apt-0.9.7.7/Makefile
+-@@ -17,7 +17,7 @@ all headers library clean veryclean bina
++--- apt-1.2.24.orig/Makefile
+++++ apt-1.2.24/Makefile
++@@ -19,7 +19,7 @@ all headers library clean veryclean bina
+  	$(MAKE) -C cmdline $@
+  	$(MAKE) -C ftparchive $@
+  	$(MAKE) -C dselect $@
+ -	$(MAKE) -C doc $@
+ +#	$(MAKE) -C doc $@
+  	$(MAKE) -C po $@
+- 	$(MAKE) -C test $@
+- 
++ 	# FIXME: -C test has issue swith parallel builds, investigate!
++ 	-$(MAKE) -C test $@
 -- 
 2.16.1
 
