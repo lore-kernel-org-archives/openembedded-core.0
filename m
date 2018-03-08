@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C36BB789B4
+	by mail.openembedded.org (Postfix) with ESMTP id 4F12D789C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:16 +0000 (UTC)
+	Thu,  8 Mar 2018 18:25:18 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:18 -0800
+	08 Mar 2018 10:25:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053937"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053949"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:17 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:18 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:45 +0200
-Message-Id: <20180308181804.31261-23-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:46 +0200
+Message-Id: <20180308181804.31261-24-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 23/42] ghostscript: drop incorrectly applied patch
+Subject: [PATCH 24/42] libidn: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:17 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:25:18 -0000
 
-The patch was adding a change to the source file that was already there,
-so the lines of code were repeated twice. This didn't create a bug or a
-security issue, but it may well have.
+From: Ross Burton <ross.burton@intel.com>
 
-Long story:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+The patch tool will apply patches by default with "fuzz", which is where if the
+hunk context isn't present but what is there is close enough, it will force the
+patch in.
 
+Whilst this is useful when there's just whitespace changes, when applied to
+source it is possible for a patch applied with fuzz to produce broken code which
+still compiles (see #10450).  This is obviously bad.
+
+We'd like to eventually have do_patch() rejecting any fuzz on these grounds. For
+that to be realistic the existing patches with fuzz need to be rebased and
+reviewed.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../ghostscript/ghostscript/CVE-2016-7977.patch    | 33 ----------------------
- .../ghostscript/ghostscript_9.21.bb                |  1 -
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2016-7977.patch
+ .../libidn/libidn/libidn_fix_for_automake-1.12.patch           | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-7977.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-7977.patch
-deleted file mode 100644
-index b7eed1241e7..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2016-7977.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 8abd22010eb4db0fb1b10e430d5f5d83e015ef70 Mon Sep 17 00:00:00 2001
--From: Chris Liddell <chris.liddell@artifex.com>
--Date: Mon, 3 Oct 2016 01:46:28 +0100
--Subject: [PATCH] Bug 697169: Be rigorous with SAFER permissions
--
--Once we've opened our input file from the command line, enforce the SAFER
--rules.
--
--Upstream-Status: Backport
--CVE: CVE-2016-7977
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- psi/zfile.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/psi/zfile.c b/psi/zfile.c
--index b6caea2..2c6c958 100644
----- a/psi/zfile.c
--+++ b/psi/zfile.c
--@@ -1081,6 +1081,9 @@ lib_file_open(gs_file_path_ptr  lib_path, const gs_memory_t *mem, i_ctx_t *i_ctx
--     gs_main_instance *minst = get_minst_from_memory(mem);
--     int code;
-- 
--+    if (i_ctx_p && starting_arg_file)
--+        i_ctx_p->starting_arg_file = false;
--+
--     /* when starting arg files (@ files) iodev_default is not yet set */
--     if (iodev == 0)
--         iodev = (gx_io_device *)gx_io_device_table[0];
---- 
--2.10.2
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index bf985c44a3e..50ec7e20c5a 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -32,7 +32,6 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://ghostscript-9.02-genarch.patch \
-            file://objarch.h \
-            file://cups-no-gcrypt.patch \
--           file://CVE-2016-7977.patch \
-            file://CVE-2017-7207.patch \
-            file://CVE-2017-5951.patch \
-            file://CVE-2017-7975.patch \
+diff --git a/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+index 5683d3c98d7..db91317ca5b 100644
+--- a/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
++++ b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+@@ -9,12 +9,12 @@ This patch fixes following issue with automake 1.12
+ Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+ 2012/05/03
+ 
+-Index: libidn-1.24/configure.ac
++Index: libidn-1.33/configure.ac
+ ===================================================================
+---- libidn-1.24.orig/configure.ac
+-+++ libidn-1.24/configure.ac
+-@@ -34,6 +34,10 @@ AC_SUBST(LT_CURRENT, 17)
+- AC_SUBST(LT_REVISION, 7)
++--- libidn-1.33.orig/configure.ac
+++++ libidn-1.33/configure.ac
++@@ -33,6 +33,10 @@ AC_SUBST(LT_CURRENT, 17)
++ AC_SUBST(LT_REVISION, 16)
+  AC_SUBST(LT_AGE, 6)
+  
+ +# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
 -- 
 2.16.1
 
