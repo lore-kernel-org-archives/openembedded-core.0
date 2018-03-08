@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 12DE478973
+	by mail.openembedded.org (Postfix) with ESMTP id 8DDE37897D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:24:49 +0000 (UTC)
+	Thu,  8 Mar 2018 18:24:50 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:24:50 -0800
+	08 Mar 2018 10:24:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053640"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053646"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:24:49 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:24:51 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:27 +0200
-Message-Id: <20180308181804.31261-5-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:28 +0200
+Message-Id: <20180308181804.31261-6-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/42] nspr: refresh patches
+Subject: [PATCH 06/42] libical: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:24:49 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:24:50 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,42 +51,41 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/nspr/nspr/fix-build-on-x86_64.patch     |  2 +-
- meta/recipes-support/nspr/nspr/remove-rpath-from-tests.patch | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ .../libical/libical/Remove-cmake-check-for-Perl.patch   | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-support/nspr/nspr/fix-build-on-x86_64.patch b/meta/recipes-support/nspr/nspr/fix-build-on-x86_64.patch
-index c2b7258e50e..f12acc85480 100644
---- a/meta/recipes-support/nspr/nspr/fix-build-on-x86_64.patch
-+++ b/meta/recipes-support/nspr/nspr/fix-build-on-x86_64.patch
-@@ -49,4 +49,4 @@ Index: nspr/configure.in
- -            PR_MD_ASFILES=os_Linux_ppc.s
-          fi
-          ;;
--     m68k)
-+     esac    
-diff --git a/meta/recipes-support/nspr/nspr/remove-rpath-from-tests.patch b/meta/recipes-support/nspr/nspr/remove-rpath-from-tests.patch
-index a7e7853de1a..ecc6d31874a 100644
---- a/meta/recipes-support/nspr/nspr/remove-rpath-from-tests.patch
-+++ b/meta/recipes-support/nspr/nspr/remove-rpath-from-tests.patch
-@@ -11,12 +11,12 @@ in file {builddir}/tmp/work/armv5te-poky-linux-gnueabi/nspr-4.8.9-r1/packages-sp
- Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
- Upstream-Status: Pending
+diff --git a/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch b/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
+index c5c0cb076e6..b50f50e7017 100644
+--- a/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
++++ b/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
+@@ -14,11 +14,11 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  CMakeLists.txt | 3 +--
+  1 file changed, 1 insertion(+), 2 deletions(-)
  
--Index: nspr-4.8.9/mozilla/nsprpub/pr/tests/Makefile.in
-+Index: nspr/pr/tests/Makefile.in
- ===================================================================
----- nsprpub.orig/pr/tests/Makefile.in	2012-02-11 00:01:10.476220505 +0200
--+++ nsprpub/pr/tests/Makefile.in	2012-02-10 23:57:40.000000000 +0200
--@@ -379,7 +379,7 @@
-- endif
-+--- nspr.orig/pr/tests/Makefile.in
-++++ nspr/pr/tests/Makefile.in
-+@@ -315,7 +315,7 @@ ifeq ($(OS_ARCH), SunOS)
-+ endif # SunOS
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index d5aad80..5cc9863 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -91,8 +91,7 @@ if(SHARED_ONLY)
++Index: libical-2.0.0/CMakeLists.txt
++===================================================================
++--- libical-2.0.0.orig/CMakeLists.txt
+++++ libical-2.0.0/CMakeLists.txt
++@@ -116,8 +116,7 @@ if(SHARED_ONLY)
+    set(LIBRARY_TYPE SHARED)
+  endif()
   
-  ifeq (,$(filter-out Linux GNU GNU_%,$(OS_ARCH)))
- -    LDOPTS += -Xlinker -rpath $(ABSOLUTE_LIB_DIR)
+@@ -26,8 +26,5 @@ index d5aad80..5cc9863 100644
+ -find_package(Perl REQUIRED)
+ +set(PERL_EXECUTABLE perl)
+  
+- # MSVC specific definitions
+- if(WIN32)
+--- 
+-2.1.4
+-
++ # Ensure finding 64bit libs when using 64-bit compilers
++ if(CMAKE_CL_64)
 -- 
 2.16.1
 
