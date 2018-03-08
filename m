@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1535478980
+	by mail.openembedded.org (Postfix) with ESMTP id A61B47898A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:25:03 +0000 (UTC)
+	Thu,  8 Mar 2018 18:25:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:25:04 -0800
+	08 Mar 2018 10:25:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053779"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053826"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:03 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:25:05 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:36 +0200
-Message-Id: <20180308181804.31261-14-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:37 +0200
+Message-Id: <20180308181804.31261-15-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/42] dtc: refresh patches
+Subject: [PATCH 15/42] lttng: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:25:03 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:25:04 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,36 +51,32 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/dtc/dtc/make_install.patch | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../lttng/lttng-ust/lttng-ust-doc-examples-disable.patch      | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-kernel/dtc/dtc/make_install.patch b/meta/recipes-kernel/dtc/dtc/make_install.patch
-index 1120617e7be..ccf17b38fdb 100644
---- a/meta/recipes-kernel/dtc/dtc/make_install.patch
-+++ b/meta/recipes-kernel/dtc/dtc/make_install.patch
-@@ -2,11 +2,11 @@ Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+index 0f18c5d9f1b..bff852799d0 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
++++ b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+@@ -6,13 +6,12 @@ recipe anyway.
  
- Index: git/Makefile
+ Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+ 
+-Index: doc/Makefile.am
++Index: lttng-ust-2.9.1/doc/Makefile.am
  ===================================================================
----- git.orig/Makefile	2011-11-02 14:52:17.243104779 -0700
--+++ git/Makefile	2011-11-02 15:06:01.555104982 -0700
--@@ -161,8 +161,8 @@
-- 	$(INSTALL) -d $(DESTDIR)$(BINDIR)
-- 	$(INSTALL) $(BIN) $(SCRIPTS) $(DESTDIR)$(BINDIR)
-+--- git.orig/Makefile
-++++ git/Makefile
-+@@ -168,8 +168,8 @@ install-bin: all $(SCRIPTS)
-+ install-lib: all
-+ 	@$(VECHO) INSTALL-LIB
-  	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
- -	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
- -	ln -sf $(notdir $(LIBFDT_lib)) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
-@@ -14,4 +14,4 @@ Index: git/Makefile
- +	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/$(notdir $(LIBFDT_lib))
-  	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/libfdt.$(SHAREDLIB_EXT)
-  	$(INSTALL) -m 644 $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
-- 	$(INSTALL) -d $(DESTDIR)$(INCLUDEDIR)
-+ 
+---- a/doc/Makefile.am
+-+++ b/doc/Makefile.am
+-@@ -1,4 +1,4 @@
++--- lttng-ust-2.9.1.orig/doc/Makefile.am
+++++ lttng-ust-2.9.1/doc/Makefile.am
++@@ -1,3 +1,3 @@
+ -SUBDIRS = . man examples
+ +SUBDIRS = . man
+  
+- dist_man_MANS = man/lttng-gen-tp.1 \
+- 	man/lttng-ust.3 \
++ dist_doc_DATA = java-agent.txt
 -- 
 2.16.1
 
