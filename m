@@ -1,24 +1,48 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3504378A12
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id ECB9B7891E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 01:35:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w281ZVVC002241
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  8 Mar 2018 03:18:53 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id g8so1731880pgv.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Mar 2018 17:35:31 -0800 (PST)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 7 Mar 2018 17:34:57 -0800
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Mar 2018 17:35:30 -0800
-Message-ID: <20180308013530.125242-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gnome-desktop: do not free() a static buffer
+	Wed, 07 Mar 2018 19:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=J4Q9UdlwruTllrCnk1GVAgr3yDAQEyMD5Jv2uX1Fyiw=;
+	b=mApdpyyOJRzotiMq5cZZwJS5DLPS0TkDyafSffRgQN7JtnjJcq8Iki3FioEtftPHtX
+	/SX9JqyBxo7NWSO7EmO+2PPZ2IxXnH1Gfwge8w6+0TJ3Lc2+8AxBfzEq6TChB+Ql3jds
+	/8hvEdA1Y5CmSzKwDfYO+US68KSX761DIGGXcTaI79p7/a01e60gY4LAd3T/DTHCt2Sg
+	9EKLR8z8H4NHTsLqp4E1gKHNxSIN3sRejwqQrmm17nrP3fFgKOQMfh2WgvzmYenoGKqJ
+	2pl0/sLbZMZ4snproDpJBaM0L/iDiPRyvEVx6BMyIHbyxfafXZQk/ROShQMU0Ya4okhv
+	t6qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=J4Q9UdlwruTllrCnk1GVAgr3yDAQEyMD5Jv2uX1Fyiw=;
+	b=c2OEqJpn/2KeMZXKUHTqueZy88v+7AlCt7+JJiY8feRbTSv24QxTkwzclLV8jV4R1m
+	ewbK6UfDJoBPAoxKjLZIcdq9M6wPYkgz40lIfm6LfUvxXCjrNntKMSGQNI1bvCHLXQDO
+	QblYnivg6Owjf5RjfX0IaML9eFSH6g6sl50ZCjiz2j+glvSXtkxDLbIL7DyOqRCKzoUX
+	TQxXA6KF0hVhkgFAyrMxiroB4Y6/DVLLDRYCyPAEUXHQ9i9275eRTy7B3KE4xlJ94WQv
+	e2g773fsNTrXhUC4VA8My+k0nOmgoGyymMJQVfmywGX2VQOy7Z1+Q0whBJhWNRU5/MHg
+	1xBQ==
+X-Gm-Message-State: APf1xPBFPl0cKBxoe3ZhytFd21SPToIqaLCbDdiTi3WPAM5JvJzFsCeB
+	55epnVIqDEvDHmttReOi08Q=
+X-Google-Smtp-Source: AG47ELua4GEG0lrp2DEysqQ1SS20luva6RxYD3ObUdJF8x4kZRDoT38FveuBmMRYXg4Nk1ox4rw0pA==
+X-Received: by 10.98.57.215 with SMTP id u84mr24395851pfj.152.1520479135440;
+	Wed, 07 Mar 2018 19:18:55 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4000:1184:6d76:b853:98d2:431c])
+	by smtp.gmail.com with ESMTPSA id
+	a5sm35203772pfn.66.2018.03.07.19.18.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Mar 2018 19:18:54 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com, akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed,  7 Mar 2018 19:18:51 -0800
+Message-Id: <1520479133-30471-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [pyro][PATCH 1/3] linux-yocto-tiny/4.1: update with spectre fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 01:35:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Mar 2018 03:18:54 -0000
 
-Do not free() the buffer returned by localtime().  Also,
-switch to calling localtime_r() which is re-entrant.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...op-thumbnail-don-t-convert-time_t-to-long.patch | 27 +++++++++-------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch b/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch
-index c1a7d4f..be657a8 100644
---- a/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch
-+++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch
-@@ -9,12 +9,11 @@ build for X32, where long's size doesn't match that of time_t.
- Upstream-Status: Pending
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 5adec18..fe46a0d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.49"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
-----
-- libgnome-desktop/gnome-desktop-thumbnail.c | 16 ++++++++++++++--
-- 1 file changed, 14 insertions(+), 2 deletions(-)
-+Modified to use localtime_r() and not free() a static structure.
-+
-+Signed-off-by: Joe Slater <jslater@windriver.com>
-+
+-SRCREV_machine ?= "a315195324973d3edbd4868a0d7acbd82b7d53ae"
++SRCREV_machine ?= "c71e0bd7f702aa090b9733ad4e0382ac6c5908dd"
+ SRCREV_meta ?= "4e12cb8f8e06636f2058ea0ab3096ed38228a88b"
  
--diff --git a/libgnome-desktop/gnome-desktop-thumbnail.c b/libgnome-desktop/gnome-desktop-thumbnail.c
--index e56c3d7..5d96bf3 100644
- --- a/libgnome-desktop/gnome-desktop-thumbnail.c
- +++ b/libgnome-desktop/gnome-desktop-thumbnail.c
- @@ -120,6 +120,8 @@
-@@ -30,24 +29,23 @@ index e56c3d7..5d96bf3 100644
-    char *tmp_path = NULL;
-    int tmp_fd;
-    char mtime_str[21];
--+  struct tm *tmp_mtime = NULL;
-++  struct tm tmp_mtime;
-    gboolean ret = FALSE;
-    GError *error = NULL;
-    const char *width, *height;
--@@ -1124,7 +1127,11 @@ save_thumbnail (GdkPixbuf  *pixbuf,
-+@@ -1124,7 +1127,10 @@ save_thumbnail (GdkPixbuf  *pixbuf,
-      goto out;
-    close (tmp_fd);
-  
- -  g_snprintf (mtime_str, 21, "%" G_GINT64_FORMAT, (gint64) mtime);
--+  tmp_mtime = localtime (&mtime);
--+  if (!tmp_mtime)
-++  if (!localtime_r (&mtime,&tmp_mtime))
- +    goto out;
--+  strftime (mtime_str, 21, "%s", tmp_mtime);
--+  free (tmp_mtime);
-++
-++  strftime (mtime_str, 21, "%s", &tmp_mtime);
-    width = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Width");
-    height = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::Image::Height");
-  
--@@ -1319,6 +1326,7 @@ gnome_desktop_thumbnail_is_valid (GdkPixbuf          *pixbuf,
-+@@ -1319,6 +1325,7 @@ gnome_desktop_thumbnail_is_valid (GdkPix
-  {
-    const char *thumb_uri, *thumb_mtime_str;
-    time_t thumb_mtime;
-@@ -55,7 +53,7 @@ index e56c3d7..5d96bf3 100644
-  
-    thumb_uri = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::URI");
-    if (g_strcmp0 (uri, thumb_uri) != 0)
--@@ -1327,7 +1335,11 @@ gnome_desktop_thumbnail_is_valid (GdkPixbuf          *pixbuf,
-+@@ -1327,7 +1334,11 @@ gnome_desktop_thumbnail_is_valid (GdkPix
-    thumb_mtime_str = gdk_pixbuf_get_option (pixbuf, "tEXt::Thumb::MTime");
-    if (!thumb_mtime_str)
-      return FALSE;
-@@ -68,6 +66,3 @@ index e56c3d7..5d96bf3 100644
-    if (mtime != thumb_mtime)
-      return FALSE;
-  
---- 
--2.14.1
--
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 2.7.4
 
