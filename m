@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EE35F7886F
+	by mail.openembedded.org (Postfix) with ESMTP id 8135A7886F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2018 18:24:45 +0000 (UTC)
+	Thu,  8 Mar 2018 18:24:47 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2018 10:24:47 -0800
+	08 Mar 2018 10:24:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053624"
+X-IronPort-AV: E=Sophos;i="5.47,441,1515484800"; d="scan'208";a="24053629"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:24:46 -0800
+	by orsmga006.jf.intel.com with ESMTP; 08 Mar 2018 10:24:47 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Mar 2018 20:17:25 +0200
-Message-Id: <20180308181804.31261-3-alexander.kanavin@linux.intel.com>
+Date: Thu,  8 Mar 2018 20:17:26 +0200
+Message-Id: <20180308181804.31261-4-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
 References: <20180308181804.31261-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 03/42] shared-mime-info: refresh patches
+Subject: [PATCH 04/42] serf: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 18:24:46 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 18:24:47 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,73 +51,53 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../shared-mime-info/install-data-hook.patch               | 14 ++++++++------
- .../shared-mime-info/shared-mime-info/parallelmake.patch   | 12 ++++++------
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ meta/recipes-support/serf/serf/norpath.patch | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/install-data-hook.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/install-data-hook.patch
-index 3c9f1ea438c..262ff7562ce 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info/install-data-hook.patch
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info/install-data-hook.patch
-@@ -8,16 +8,18 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-support/serf/serf/norpath.patch b/meta/recipes-support/serf/serf/norpath.patch
+index 380f5d00d2d..c392444f7b3 100644
+--- a/meta/recipes-support/serf/serf/norpath.patch
++++ b/meta/recipes-support/serf/serf/norpath.patch
+@@ -5,11 +5,11 @@ Upstream-Status: Inappropriate
  
- Signed-off-by: Joe Slater <jslater@windriver.com>
+ RP 2014/7/17
  
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -44,7 +44,9 @@ $(pkgconfig_DATA): config.status
-- @INTLTOOL_XML_RULE@
-- @INTLTOOL_DESKTOP_RULE@
-+Index: shared-mime-info-1.9/Makefile.am
-+===================================================================
-+--- shared-mime-info-1.9.orig/Makefile.am
-++++ shared-mime-info-1.9/Makefile.am
-+@@ -50,7 +50,9 @@ else
-+   update_mime_database="$(top_builddir)/update-mime-database$(EXEEXT)"
-+ endif
-  
- -install-data-hook: install-binPROGRAMS
- +# do NOT make this dependent on anything!
- +#
- +install-data-hook:
-  if ENABLE_UPDATE_MIMEDB
-- 	$(DESTDIR)"$(bindir)/update-mime-database" -V "$(DESTDIR)$(datadir)/mime"
-+ 	$(update_mime_database) -V "$(DESTDIR)$(datadir)/mime"
-  endif
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
-index 84c4d03731b..fea34a55a25 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
-@@ -11,17 +11,17 @@ RP 10/10/2011
- Upstream-Status: Pending
- Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
- 
--Index: shared-mime-info-1.0/Makefile.am
-+Index: shared-mime-info-1.9/Makefile.am
+-Index: serf-1.3.6/SConstruct
++Index: serf-1.3.9/SConstruct
  ===================================================================
----- shared-mime-info-1.0.orig/Makefile.am
--+++ shared-mime-info-1.0/Makefile.am
-+--- shared-mime-info-1.9.orig/Makefile.am
-++++ shared-mime-info-1.9/Makefile.am
- @@ -1,5 +1,3 @@
- -SUBDIRS=. po
- -
-  AM_CPPFLAGS = $(ALL_CFLAGS)
+---- serf-1.3.6.orig/SConstruct	2014-07-17 19:57:57.724389150 +0000
+-+++ serf-1.3.6/SConstruct	2014-07-17 20:04:21.784399616 +0000
+-@@ -218,8 +218,7 @@
++--- serf-1.3.9.orig/SConstruct
+++++ serf-1.3.9/SConstruct
++@@ -224,8 +224,7 @@ if sys.platform != 'win32':
+  else:
+    LIBNAMESTATIC = 'serf-${MAJOR}'
   
-  packagesdir = $(datadir)/mime/packages
--@@ -72,8 +70,7 @@ uninstall-hook:
-+@@ -81,8 +79,7 @@ endif
+@@ -17,9 +17,9 @@ Index: serf-1.3.6/SConstruct
+ -           PDB='${TARGET.filebase}.pdb')
+ +env.Append(PDB='${TARGET.filebase}.pdb')
   
-  all: $(defaultmakedeps)
+- #for i in env:
+- #    print(str(env[i]))
+-@@ -371,12 +370,6 @@
++ if sys.platform == 'darwin':
++ #  linkflags.append('-Wl,-install_name,@executable_path/%s.dylib' % (LIBNAME,))
++@@ -385,12 +384,6 @@ if gssapi and CALLOUT_OKAY:
+  if sys.platform == 'win32':
+    env.Append(CPPDEFINES=['SERF_HAVE_SSPI'])
   
-@@ -29,5 +29,5 @@ Index: shared-mime-info-1.0/Makefile.am
- -	$(AM_V_GEN) $(MAKE) -C po shared-mime-info.pot
- +create-pot: po
+@@ -32,8 +32,8 @@ Index: serf-1.3.6/SConstruct
+  # Set up the construction of serf-*.pc
+  pkgconfig = env.Textfile('serf-%d.pc' % (MAJOR,),
+                           env.File('build/serf.pc.in'),
+-@@ -446,7 +439,6 @@
+-                           ENV={'PATH' : os.environ['PATH']}))
++@@ -461,7 +454,6 @@ else:
++   TEST_EXES = [ os.path.join('test', '%s' % (prog)) for prog in TEST_PROGRAMS ]
   
-- check: create-pot freedesktop.org.xml update-mime-database check-translations
-- 	if test -e $(top_builddir)/freedesktop.org.xml; then \
-+ local-test: create-pot freedesktop.org.xml update-mime-database$(EXEEXT)
-+ if CROSS_COMPILING
+  # Find the (dynamic) library in this directory
+ -tenv.Replace(RPATH=thisdir)
 -- 
 2.16.1
 
