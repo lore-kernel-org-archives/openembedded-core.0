@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 28D607892F
+	by mail.openembedded.org (Postfix) with ESMTP id 7BBDF78917
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:03:01 +0000 (UTC)
+	Fri,  9 Mar 2018 19:03:02 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:03:02 -0800
+	09 Mar 2018 11:03:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651884"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651896"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:01 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:03 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:55:45 +0200
-Message-Id: <20180309185614.31113-7-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:55:46 +0200
+Message-Id: <20180309185614.31113-8-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 07/36] openssl: drop openssl-1.0.2a-x32-asm.patch
+Subject: [PATCH 08/36] e2fsprogs: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,84 +32,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:03:01 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:03:02 -0000
 
-The patch was applied in a completely incorrect spot (due to fuzz),
-no one noticed or complained. Meanwhile upstream says the issue
-has been resolved differently:
-https://rt.openssl.org/Ticket/Display.html?id=3759&user=guest&pass=guest
+From: Ross Burton <ross.burton@intel.com>
 
+The patch tool will apply patches by default with "fuzz", which is where if the
+hunk context isn't present but what is there is close enough, it will force the
+patch in.
+
+Whilst this is useful when there's just whitespace changes, when applied to
+source it is possible for a patch applied with fuzz to produce broken code which
+still compiles (see #10450).  This is obviously bad.
+
+We'd like to eventually have do_patch() rejecting any fuzz on these grounds. For
+that to be realistic the existing patches with fuzz need to be rebased and
+reviewed.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../openssl-1.0.2n/openssl-1.0.2a-x32-asm.patch    | 46 ----------------------
- .../recipes-connectivity/openssl/openssl_1.0.2n.bb |  1 -
- 2 files changed, 47 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2n/openssl-1.0.2a-x32-asm.patch
+ ...fs-enable-the-metadata_csum-and-64bit-fea.patch | 12 ++++-----
+ .../e2fsprogs/e2fsprogs/ptest.patch                | 30 +++++++++++-----------
+ 2 files changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2n/openssl-1.0.2a-x32-asm.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2n/openssl-1.0.2a-x32-asm.patch
-deleted file mode 100644
-index 1e5bfa17d67..00000000000
---- a/meta/recipes-connectivity/openssl/openssl-1.0.2n/openssl-1.0.2a-x32-asm.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--https://rt.openssl.org/Ticket/Display.html?id=3759&user=guest&pass=guest
--
--From 6257d59b3a68d2feb9d64317a1c556dc3813ee61 Mon Sep 17 00:00:00 2001
--From: Mike Frysinger <vapier@gentoo.org>
--Date: Sat, 21 Mar 2015 06:01:25 -0400
--Subject: [PATCH] crypto: use bigint in x86-64 perl
--
--Upstream-Status: Pending
--Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
--
--When building on x32 systems where the default type is 32bit, make sure
--we can transparently represent 64bit integers.  Otherwise we end up with
--build errors like:
--/usr/bin/perl asm/ghash-x86_64.pl elf > ghash-x86_64.s
--Integer overflow in hexadecimal number at asm/../../perlasm/x86_64-xlate.pl line 201, <> line 890.
--...
--ghash-x86_64.s: Assembler messages:
--ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
--
--We don't enable this globally as there are some cases where we'd get
--32bit values interpreted as unsigned when we need them as signed.
--
--Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
--URL: https://bugs.gentoo.org/542618
-----
-- crypto/perlasm/x86_64-xlate.pl | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/crypto/perlasm/x86_64-xlate.pl b/crypto/perlasm/x86_64-xlate.pl
--index aae8288..0bf9774 100755
----- a/crypto/perlasm/x86_64-xlate.pl
--+++ b/crypto/perlasm/x86_64-xlate.pl
--@@ -195,6 +195,10 @@ my %globals;
--     sub out {
--     	my $self = shift;
-- 
--+	# When building on x32 ABIs, the expanded hex value might be too
--+	# big to fit into 32bits.  Enable transparent 64bit support here
--+	# so we can safely print it out.
--+	use bigint;
-- 	if ($gas) {
-- 	    # Solaris /usr/ccs/bin/as can't handle multiplications
-- 	    # in $self->{value}
---- 
--2.3.3
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
-index 32444c60925..75e44bae9ff 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
-@@ -34,7 +34,6 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
-            file://openssl-fix-des.pod-error.patch \
-            file://Makefiles-ptest.patch \
-            file://ptest-deps.patch \
--           file://openssl-1.0.2a-x32-asm.patch \
-            file://ptest_makefile_deps.patch \
-            file://configure-musl-target.patch \
-            file://parallel.patch \
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
+index 38fb07e6e6e..38e1bdb3d86 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
+@@ -19,10 +19,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  misc/mke2fs.conf.in | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-diff --git a/misc/mke2fs.conf.in b/misc/mke2fs.conf.in
+-index 812f7c7..0280398 100644
+---- a/misc/mke2fs.conf.in
+-+++ b/misc/mke2fs.conf.in
++Index: git/misc/mke2fs.conf.in
++===================================================================
++--- git.orig/misc/mke2fs.conf.in
+++++ git/misc/mke2fs.conf.in
+ @@ -11,8 +11,9 @@
+  		features = has_journal
+  	}
+@@ -32,5 +32,5 @@ index 812f7c7..0280398 100644
+  		inode_size = 256
+ +		auto_64-bit_support = 1
+  	}
+- 	ext4dev = {
+- 		features = has_journal,extent,huge_file,flex_bg,uninit_bg,inline_data,64bit,dir_nlink,extra_isize
++ 	small = {
++ 		blocksize = 1024
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index 7df09676373..7c4bb39fd71 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -1,10 +1,10 @@
+ Upstream-Status: Inappropriate
+ 
+-diff --git a/tests/Makefile.in b/tests/Makefile.in
+-index c130f4a..d2ade03 100644
+---- a/tests/Makefile.in
+-+++ b/tests/Makefile.in
+-@@ -18,7 +18,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
++Index: git/tests/Makefile.in
++===================================================================
++--- git.orig/tests/Makefile.in
+++++ git/tests/Makefile.in
++@@ -18,7 +18,7 @@ test_one: $(srcdir)/test_one.in Makefile
+  	@echo "#!/bin/sh" > test_one
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+@@ -12,8 +12,8 @@ index c130f4a..d2ade03 100644
+ +	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
+  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
+- 	@cat $(srcdir)/test_one.in >> test_one
+-@@ -27,7 +27,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
++ 	@echo "DD=@DD@" >>test_one
++@@ -28,7 +28,7 @@ test_one: $(srcdir)/test_one.in Makefile
+  test_script: test_one test_script.in Makefile mke2fs.conf
+  	@echo "Creating test_script..."
+  	@echo "#!/bin/sh" > test_script
+@@ -22,10 +22,10 @@ index c130f4a..d2ade03 100644
+  	@cat $(srcdir)/test_script.in >> test_script
+  	@chmod +x test_script
+  
+-diff --git a/tests/test_config b/tests/test_config
+-index 547ef4c..e11e6f4 100644
+---- a/tests/test_config
+-+++ b/tests/test_config
++Index: git/tests/test_config
++===================================================================
++--- git.orig/tests/test_config
+++++ git/tests/test_config
+ @@ -3,24 +3,24 @@
+  #
+  
+@@ -67,10 +67,10 @@ index 547ef4c..e11e6f4 100644
+  CLEAN_OUTPUT="sed -f $cmd_dir/filter.sed"
+  LD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${LD_LIBRARY_PATH}
+  DYLD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${DYLD_LIBRARY_PATH}
+-diff --git a/tests/test_script.in b/tests/test_script.in
+-index 9959e30..442999d 100644
+---- a/tests/test_script.in
+-+++ b/tests/test_script.in
++Index: git/tests/test_script.in
++===================================================================
++--- git.orig/tests/test_script.in
+++++ git/tests/test_script.in
+ @@ -39,7 +39,7 @@ for i; do
+  done
+  
 -- 
 2.16.1
 
