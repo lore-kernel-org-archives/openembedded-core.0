@@ -1,41 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BF14178066
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DA888788C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 08:33:19 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id w128so2431876wmw.0
+	Fri,  9 Mar 2018 09:53:12 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x7so2806678wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2018 00:33:21 -0800 (PST)
+	Fri, 09 Mar 2018 01:53:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=8v2OzRWtcmWIYZ/dKfmkOXxVVo0yNUccAwaNC+0muBU=;
+	b=c/LQ6FU2u91eAno7nwB4rD2gkZ5CH26rXl9DTAoPYhbdT8NIqUHBCZ1G0kIzoVcB0B
+	mHCk3Zhv+N0M4Mn2RffDXK77rCNNvyuT1CLthkj+KXQe3O8G9j+sK+gsNAls1i9aXoxS
+	Zq6pT3Miufi+P5+YBF0F8eYJlTj8QPnfi5pyHRBEGXOuBnguTTdXQaYB+BYWiKbFzFii
+	DszPhG0tEjmuOQHogzo1e23e/PlXvywmhOZu98iEabFH8BsfHbKChGs0/I69T/2zISTa
+	l5Bu6MNwFWY7ViD0CDqMgNv9GC+A4gtQGGOvPqTwrBth+OZvxQt4wImXqlO47mTxjDA8
+	78wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=1jMwMYnzIR+unuUVM5wVtZfRQa5+fdWIYts6gssSTpI=;
-	b=JBKwkFoP9+50a8v6GUf27Yq/Rotx2cm0OpAEPKAsl91mWZsDG2+ISJjwIEhb4CmDyn
-	F5Jmwdz3Z8fWCTsr1221j9h1KXzPXMHMH7RgONbsi8yYCcMnLZSQxPvDIFeDfONr6jS3
-	Ay0v/1dkm6MoSCwGckNBzCUmVYORR841ysW6Amhc468MUYTpD7h2335ynkifvuPgA5mi
-	fY1rL4gyLvy1BSbV1g7qAW8KPuDwJKiTk3VICJMb6otrecNNUz1vkb5RYLu/pWQNzJJy
-	gbFa4NBk6rkLFRs4jKp2pifELaeKjp8dCyJ49uM69JtaliCYt8RiFKazJGOi2P/1Bgo0
-	1KWg==
-X-Gm-Message-State: AElRT7E8e7aw+tYZ3Keu+J1zS1B4FP7Vmn07lP4VBOBL5HhT5SL8PaOk
-	EQSgY4v1dDZqDIRZwPb1+Rt2ksnz
-X-Google-Smtp-Source: AG47ELuD2gE5hZ8RGGQvFL34/v9Jocn+S0slm4Vv/XKSRVSG69n6cneJsLBCoaumBlB3X+c0aRXA2w==
-X-Received: by 10.28.65.213 with SMTP id o204mr1398941wma.97.1520584400103;
-	Fri, 09 Mar 2018 00:33:20 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id n49sm834611wrn.90.2018.03.09.00.33.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 09 Mar 2018 00:33:19 -0800 (PST)
-Message-ID: <1520584397.4868.5.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8v2OzRWtcmWIYZ/dKfmkOXxVVo0yNUccAwaNC+0muBU=;
+	b=pQq9loPWiwt1O3cmcTk5Kf3mUYiPB/Nb+Y6Z7YRB/lXLcd8g+M1sK05LeLQ5pjbbtC
+	dbwLft6RTBSc4b+N4avPxCDnb1va5KzY254emFjI2tzhM+O/mzwF/VXxm+JQJMZcLDEh
+	DmRSZdo9CI3/3Rpc3TX3L7GleVINPSur1Idp9wE1fbEne+YKe4w3DjyP/JQi4LUY3psF
+	+3WG9uZWeaRBsg2W75rMrJ/aSAciFqOwIGdV2j+M4vzMo2/jPyXg5osNpPAmIMORDbsZ
+	bG/HjZsVs0jOFrpZaShHqypHN5udCFOLoW+AL3SWigp0KvhJ95dI4+6CBKaO7xItMlHA
+	o7mQ==
+X-Gm-Message-State: APf1xPBf00ke8qnYf+4Xv/LCH5/zRDsqWCVFiKOM8YHdTNc810NgAXg4
+	AFe69SlSx/n45o7jH4UgGOZu+dYk
+X-Google-Smtp-Source: AG47ELt9ytp02bN8JGnzBsTDYl0jCFoZjDtxudR2rUPiQ8RaUUdRWoNZGE/n2STvGVbH2nP2CCgBYw==
+X-Received: by 10.80.159.1 with SMTP id b1mr35604676edf.132.1520589193372;
+	Fri, 09 Mar 2018 01:53:13 -0800 (PST)
+Received: from localhost.localdomain ([185.47.135.167])
+	by smtp.gmail.com with ESMTPSA id h1sm615661edh.48.2018.03.09.01.53.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 09 Mar 2018 01:53:12 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+X-Google-Original-From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 09 Mar 2018 08:33:17 +0000
-In-Reply-To: <20180303024705.1391-1-raj.khem@gmail.com>
-References: <20180303024705.1391-1-raj.khem@gmail.com>
-X-Mailer: Evolution 3.26.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] systemd: Explicitly add hidden attribute to __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
+Date: Fri,  9 Mar 2018 10:53:09 +0100
+Message-Id: <20180309095309.4867-1-koen.kooi@linaro.org>
+X-Mailer: git-send-email 2.9.5
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] ncurses: fix do_install failure when base_libdir has more than one level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,126 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 08:33:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Mar 2018 09:53:13 -0000
 
-I see this, too.
+Other sections of the .inc already use mkdir -p, so use it here as well.
 
-BTW, some more info:
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-core/ncurses/ncurses.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 1f21cd4..106dcb0 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -227,7 +227,7 @@ do_install() {
+         if [ ! -d "${D}${base_libdir}" ]; then
+             # Setting base_libdir to libdir as is done in the -native
+             # case will skip this code
+-            mkdir ${D}${base_libdir}
++            mkdir -p ${D}${base_libdir}
+             mv ${D}${libdir}/libncurses.so.* ${D}${base_libdir}
+             ! ${ENABLE_WIDEC} || \
+                 mv ${D}${libdir}/libncursesw.so.* ${D}${base_libdir}
+-- 
+2.9.5
 
-This looks similar to
-    https://github.com/systemd/systemd/issues/234
-and was worked-around in systemd commit aac7c5ed8bc6
-("build-sys: hide magic section variables from exported symbols")
-until reverted in commit 780950a2ba58 ("Revert "build-sys: hide
-magic section variables from exported symbols"") because binutils
-was fixed since.
-This error should only ever happen with old versions of ld.gold.
-In addition, gold should be fixed by now:
-    https://sourceware.org/bugzilla/show_bug.cgi?id=18548
-    https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5417c94d1a944d1a27f99240e5d62a6d7cd324f1
-but something is amiss here.
-
-ld -v gives
-GNU ld (GNU Binutils) 2.30.0.20180208
-
-so this is a bit strange...
-
-
-Cheers,
-Andre'
-
-On Fri, 2018-03-02 at 18:47 -0800, Khem Raj wrote:
-> These symbols appear in dynsyms of libsystemd.so and musl loader
-> doesnt like it
-> 
-> Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-
-> r0/recipe-sysroot//lib/libsystemd.so.0: __start_BUS_ERROR_MAP: symbol not
-> found
-> Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-
-> r0/recipe-sysroot//lib/libsystemd.so.0: __stop_BUS_ERROR_MAP: symbol not
-> found
-> 
-> [YOCTO #12577]
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...rt_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch | 34
-> ++++++++++++++++++++++
->  meta/recipes-core/systemd/systemd_234.bb           |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Hide-
-> __start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
-> 
-> diff --git a/meta/recipes-core/systemd/systemd/0001-Hide-
-> __start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch b/meta/recipes-
-> core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-
-> __stop_BUS_ERROR_MAP.patch
-> new file mode 100644
-> index 0000000000..2cffc426ed
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-
-> and-__stop_BUS_ERROR_MAP.patch
-> @@ -0,0 +1,34 @@
-> +From 687a5af8dc5d38f918a6ce08fed5297234bf8346 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Fri, 2 Mar 2018 18:00:17 -0800
-> +Subject: [PATCH] Hide __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
-> +
-> +for currently unknown reasons they get exported to the shared libries
-> +even without being listed in the sym file
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> +
-> +Upstream-Status: Pending [ Conditional on master needing this, 234 does
-> need it ]
-> +
-> + src/libsystemd/sd-bus/bus-error.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/libsystemd/sd-bus/bus-error.c b/src/libsystemd/sd-
-> bus/bus-error.c
-> +index 378f7a377..49d797abd 100644
-> +--- a/src/libsystemd/sd-bus/bus-error.c
-> ++++ b/src/libsystemd/sd-bus/bus-error.c
-> +@@ -71,8 +71,8 @@ BUS_ERROR_MAP_ELF_REGISTER const sd_bus_error_map
-> bus_standard_errors[] = {
-> + };
-> + 
-> + /* GCC maps this magically to the beginning and end of the BUS_ERROR_MAP
-> section */
-> +-extern const sd_bus_error_map __start_BUS_ERROR_MAP[];
-> +-extern const sd_bus_error_map __stop_BUS_ERROR_MAP[];
-> ++extern const sd_bus_error_map __start_BUS_ERROR_MAP[] _hidden_;
-> ++extern const sd_bus_error_map __stop_BUS_ERROR_MAP[] _hidden_;
-> + 
-> + /* Additional maps registered with sd_bus_error_add_map() are in this
-> +  * NULL terminated array */
-> +-- 
-> +2.16.2
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-
-> core/systemd/systemd_234.bb
-> index d12e94f463..b15e5a41db 100644
-> --- a/meta/recipes-core/systemd/systemd_234.bb
-> +++ b/meta/recipes-core/systemd/systemd_234.bb
-> @@ -51,6 +51,7 @@ SRC_URI =
-> "git://github.com/systemd/systemd.git;protocol=git \
->             file://0001-meson-update-header-file-to-detect-
-> memfd_create.patch \
->             file://0002-configure.ac-Check-if-memfd_create-is-already-
-> define.patch \
->             file://0003-fileio-include-sys-mman.h.patch \
-> +           file://0001-Hide-__start_BUS_ERROR_MAP-and-
-> __stop_BUS_ERROR_MAP.patch \
->             "
->  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-
-> device-timeout-to-2.patch"
->  
-> -- 
-> 2.16.2
-> 
 
