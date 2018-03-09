@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A577892C
+	by mail.openembedded.org (Postfix) with ESMTP id 5316A78993
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:03:28 +0000 (UTC)
+	Fri,  9 Mar 2018 19:03:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:03:30 -0800
+	09 Mar 2018 11:03:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652031"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652038"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:29 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:30 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:56:04 +0200
-Message-Id: <20180309185614.31113-26-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:56:05 +0200
+Message-Id: <20180309185614.31113-27-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 26/36] gtk-doc: refresh patches
+Subject: [PATCH 27/36] drm: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:03:29 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:03:30 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,48 +51,63 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../gtk-doc/files/pkg-config-native.patch              | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ ...ac-Allow-explicit-enabling-of-cunit-tests.patch | 25 ++++++++++------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index bf03c8f6134..bfbc777ff87 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -10,19 +10,20 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  gtk-doc.m4 | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch b/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+index bf526370b0c..40bebc0f50c 100644
+--- a/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
++++ b/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+@@ -12,11 +12,11 @@ Upstream-Status: Submitted [mailing list]
+  configure.ac | 14 ++++++++++++--
+  1 file changed, 12 insertions(+), 2 deletions(-)
  
--diff --git a/gtk-doc.m4 b/gtk-doc.m4
--index 3675543..2590e2a 100644
----- a/gtk-doc.m4
--+++ b/gtk-doc.m4
--@@ -1,6 +1,6 @@
-- dnl -*- mode: autoconf -*-
-+Index: gtk-doc-1.27/gtk-doc.m4
+-diff --git a/configure.ac b/configure.ac
+-index e3048c7..918d21d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -137,6 +137,12 @@ AC_ARG_ENABLE(install-test-programs,
++Index: libdrm-2.4.91/configure.ac
 +===================================================================
-+--- gtk-doc-1.27.orig/gtk-doc.m4
-++++ gtk-doc-1.27/gtk-doc.m4
-+@@ -25,7 +25,7 @@
-+ # Macro appear in them. The GNU General Public License (GPL) does govern
-+ # all other use of the material that constitutes the Autoconf Macro.
++--- libdrm-2.4.91.orig/configure.ac
+++++ libdrm-2.4.91/configure.ac
++@@ -163,6 +163,12 @@ AC_ARG_ENABLE(install-test-programs,
+  		  [Install test programs (default: no)]),
+  		  [INSTALL_TESTS=$enableval], [INSTALL_TESTS=no])
   
- -# serial 2
- +# serial 2.1
+@@ -29,8 +29,8 @@ index e3048c7..918d21d 100644
+  dnl ===========================================================================
+  dnl check compiler flags
+  AC_DEFUN([LIBDRM_CC_TRY_FLAG], [
+-@@ -372,7 +378,7 @@ if test "x$RADEON" = xyes; then
+- 	AC_DEFINE(HAVE_RADEON, 1, [Have radeon support])
++@@ -411,7 +417,7 @@ else
++ 	AC_DEFINE(HAVE_RADEON, 0)
+  fi
   
-  dnl Usage:
-  dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
--@@ -10,11 +10,16 @@ AC_DEFUN([GTK_DOC_CHECK],
-+@@ -35,11 +35,16 @@ AC_DEFUN([GTK_DOC_CHECK],
-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
+ -if test "x$AMDGPU" != xno; then
+@@ -38,8 +38,8 @@ index e3048c7..918d21d 100644
+  	# Detect cunit library
+  	PKG_CHECK_MODULES([CUNIT], [cunit >= 2.1], [have_cunit=yes], [have_cunit=no])
+  	# If pkg-config does not find cunit, check it using AC_CHECK_LIB.  We
+-@@ -399,7 +406,11 @@ if test "x$AMDGPU" = xyes; then
+- 	AC_DEFINE(HAVE_CUNIT, [test "x$have_cunit" != "xno"], [Enable CUNIT Have amdgpu support])
++@@ -436,7 +442,11 @@ if test "x$AMDGPU" = xyes; then
++ 	AC_DEFINE(HAVE_AMDGPU, 1, [Have amdgpu support])
   
-@@ -39,6 +40,3 @@ index 3675543..2590e2a 100644
-    if test "$have_gtk_doc" = "no"; then
-        AC_MSG_WARN([
-    You will not be able to create source packages with 'make dist'
+  	if test "x$have_cunit" = "xno"; then
+ -		AC_MSG_WARN([Could not find cunit library. Disabling amdgpu tests])
+@@ -49,8 +49,5 @@ index e3048c7..918d21d 100644
+ +			AC_MSG_WARN([Could not find cunit library. Disabling amdgpu tests])
+ +		fi
+  	fi
+- fi
+- 
 --- 
--2.15.1
+-2.1.4
 -
++ else
++ 	AC_DEFINE(HAVE_AMDGPU, 0)
 -- 
 2.16.1
 
