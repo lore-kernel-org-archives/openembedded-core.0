@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A568778989
+	by mail.openembedded.org (Postfix) with ESMTP id 04A577892C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:03:27 +0000 (UTC)
+	Fri,  9 Mar 2018 19:03:28 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:03:29 -0800
+	09 Mar 2018 11:03:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652025"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652031"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:28 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:29 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:56:03 +0200
-Message-Id: <20180309185614.31113-25-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:56:04 +0200
+Message-Id: <20180309185614.31113-26-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 25/36] gnome: refresh patches
+Subject: [PATCH 26/36] gtk-doc: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:03:27 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:03:29 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,36 +51,47 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ .../gtk-doc/files/pkg-config-native.patch              | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index c0f2758da03..96ec96bdb2b 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -13,18 +13,15 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  configure.ac | 1 -
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+index bf03c8f6134..bfbc777ff87 100644
+--- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
++++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+@@ -10,19 +10,20 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  gtk-doc.m4 | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
  
--diff --git a/configure.ac b/configure.ac
--index b20eb1a..50c5fd6 100644
----- a/configure.ac
--+++ b/configure.ac
-+Index: adwaita-icon-theme-3.26.1/configure.ac
+-diff --git a/gtk-doc.m4 b/gtk-doc.m4
+-index 3675543..2590e2a 100644
+---- a/gtk-doc.m4
+-+++ b/gtk-doc.m4
+-@@ -1,6 +1,6 @@
+- dnl -*- mode: autoconf -*-
++Index: gtk-doc-1.27/gtk-doc.m4
 +===================================================================
-+--- adwaita-icon-theme-3.26.1.orig/configure.ac
-++++ adwaita-icon-theme-3.26.1/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
++--- gtk-doc-1.27.orig/gtk-doc.m4
+++++ gtk-doc-1.27/gtk-doc.m4
++@@ -25,7 +25,7 @@
++ # Macro appear in them. The GNU General Public License (GPL) does govern
++ # all other use of the material that constitutes the Autoconf Macro.
   
-- AC_INIT([adwaita-icon-theme], [3.26.0],
-+ AC_INIT([adwaita-icon-theme], [3.26.1],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([index.theme.in])
+ -# serial 2
+ +# serial 2.1
   
+  dnl Usage:
+  dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
+-@@ -10,11 +10,16 @@ AC_DEFUN([GTK_DOC_CHECK],
++@@ -35,11 +35,16 @@ AC_DEFUN([GTK_DOC_CHECK],
+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
+  
+@@ -39,6 +40,3 @@ index 3675543..2590e2a 100644
+    if test "$have_gtk_doc" = "no"; then
+        AC_MSG_WARN([
+    You will not be able to create source packages with 'make dist'
 --- 
--2.14.1
+-2.15.1
 -
 -- 
 2.16.1
