@@ -1,48 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D1187893A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C770C71BB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 13:00:13 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id a20so3373611wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2018 05:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=EtuZMaoT9mk7neXQSLbMD5Kzt1HCrrpcjMXFsL9A12Q=;
-	b=sxINcnsQGMxDr4xKm1gl6LgFiJeT7Unxk7/OnGrLhFJ6vDKmvyJ07ClVr2HE092ADA
-	2bIBFx2wAmb48FdLJs+8EY5ynZhlyrjEjXyLkb4n/MQ2xjI8w8Me7gvbrdWxWM9SyAyL
-	c0lvlXBrUlSkvKKKi4RO6O3Bh1NPCZvkXPBVzmI8/oHZLGu/uXcJ52nrtzuCOH7uUoRl
-	2UC3Qg7dkgwl8kTSewYXQj4iXeNKI+sKkkve6EmivCnjMWCXZDlh1LQ/qc1MbtppaaFR
-	GE0hQPXR7HRwesoeoNAOKN6oSdB+JUy7FcwGQXRQEZQczpd2U/Doa4TklU/iwSj/uRY/
-	bElg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EtuZMaoT9mk7neXQSLbMD5Kzt1HCrrpcjMXFsL9A12Q=;
-	b=hhrGZtaCNX0NxI+xkUBqty9tHAU+gBYkh0vrR2bXBseKtkMAwrQwerC1/PXrf9lvVg
-	epO8kCPxoKp+gNGwwwewB4DDSA61ijnm/Ckqb0LqnXyZVriSax3Ze2iHr5TOh4UCzNKo
-	svoW6Ojmz1NAqCWKnagTk1jI4FF0i6U3QA7E+d02x52a6DZLKg+bwYgi51QRTKt1RFPk
-	D4GQ2aqr+9r9VR7pZRfSEG6btOOpNFIX8weHwUh7Xwyx3SspptMrokCCLTIn74IYHl+l
-	W1nPgTvMN+mkLSt+2A+4beNKI4CH2rYy7/gKi8pNXeKZcMmutl+0YUcLOX/pbPerSFfA
-	kgQQ==
-X-Gm-Message-State: AElRT7FezTdmeS48gJeI7x9jZP2/eAOKRQghhvp+i84CyjnFyBaC/xQG
-	yTCOauxIh3XJp6gGrwd9kFJv1PBN
-X-Google-Smtp-Source: AG47ELuTFbeP7LdH9cDYwIOy+0rlUDO+gnP/QoAbLAnRaTDDdaZ2sW9oJ1pv2JMm1jePvp6taqal4A==
-X-Received: by 10.80.231.18 with SMTP id a18mr17163776edn.240.1520600414382;
-	Fri, 09 Mar 2018 05:00:14 -0800 (PST)
-Received: from localhost.localdomain ([185.47.135.167])
-	by smtp.gmail.com with ESMTPSA id x44sm885036ede.80.2018.03.09.05.00.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Mar 2018 05:00:13 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-X-Google-Original-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 14:00:05 +0100
-Message-Id: <20180309130005.3052-1-koen.kooi@linaro.org>
-X-Mailer: git-send-email 2.9.5
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] ncurses: fix deletion of /usr/lib/terminfo
+	Fri,  9 Mar 2018 13:26:54 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w29DQnAM008643
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 9 Mar 2018 13:26:53 GMT
+Message-ID: <1520602008.10851.102.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>,
+	openembedded-core@lists.openembedded.org, manjukum@xilinx.com
+Date: Fri, 09 Mar 2018 05:26:48 -0800
+In-Reply-To: <1520560178-31053-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
+References: <1520560178-31053-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] own-mirrors.bbclass: Change prepend to append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 13:00:14 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 13:26:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ncurses doesn't honour ${libdir} for terminfo, so try more options to remove it.
+On Thu, 2018-03-08 at 17:49 -0800, Bhargava Sreekantappa Gayathri
+wrote:
+> If BB_NO_NETWORK is set to 1, and local download directory is added
+> as
+> PREMIRRORS_prepend in conf file, PREMIRRORS variable will have
+> SOURCE_MIRROR_URL as the first url. This causes build to fail as
+> network
+> access is diabled. PREMIRRORS should be appended here so that a
+> prepend
+> in other layers/conf files takes precedence.
+> 
+> Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-
+> gayathri@xilinx.com>
+> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.c
+> om>
+> ---
+>  meta/classes/own-mirrors.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-core/ncurses/ncurses.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I think this patch just moves the problem, you could easily have a
+file:/// url as SOURCE_MIRROR_URL and a network address in your other
+layer in which case your patch would break things...
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 106dcb0..0bfd644 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -201,7 +201,10 @@ do_install() {
-                 ln -sf xterm-color ${D}${sysconfdir}/terminfo/x/xterm
-         fi
- 
--        rm -f ${D}${libdir}/terminfo
-+        # When changing ${libdir} to e.g. /usr/lib/myawesomelib/ ncurses 
-+        # still installs '/usr/lib/terminfo', so try to rm both 
-+        # the proper path and a slightly hardcoded one
-+        rm -f ${D}${libdir}/terminfo ${D}${prefix}/lib/terminfo
- 
-         # create linker scripts for libcurses.so and libncurses to
-         # link against -ltinfo when needed. Some builds might break
--- 
-2.9.5
+Cheers,
 
+Richard
 
