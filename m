@@ -1,26 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 892067890D
+	by mail.openembedded.org (Postfix) with ESMTP id 9AE3378948
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:03:11 +0000 (UTC)
+	Fri,  9 Mar 2018 19:03:12 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:03:13 -0800
+	09 Mar 2018 11:03:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651953"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651955"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:12 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:13 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:55:52 +0200
-Message-Id: <20180309185614.31113-14-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:55:53 +0200
+Message-Id: <20180309185614.31113-15-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/36] qemu: refresh patches
+Subject: [PATCH 15/36] qemu: drop already applied glibc-2.25.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,113 +33,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:03:11 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:03:12 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+Due to patch fuzz it was applied again in a different place.
 
-The patch tool will apply patches by default with "fuzz", which is where if the
-hunk context isn't present but what is there is close enough, it will force the
-patch in.
-
-Whilst this is useful when there's just whitespace changes, when applied to
-source it is possible for a patch applied with fuzz to produce broken code which
-still compiles (see #10450).  This is obviously bad.
-
-We'd like to eventually have do_patch() rejecting any fuzz on these grounds. For
-that to be realistic the existing patches with fuzz need to be rebased and
-reviewed.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../qemu/qemu/apic-fixup-fallthrough-to-PIC.patch  | 15 ++++++--------
- .../recipes-devtools/qemu/qemu/disable-grabs.patch | 23 ++++++++++------------
- 2 files changed, 16 insertions(+), 22 deletions(-)
+ meta/recipes-devtools/qemu/qemu/glibc-2.25.patch | 74 ------------------------
+ meta/recipes-devtools/qemu/qemu_2.11.1.bb        |  1 -
+ 2 files changed, 75 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch b/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch
-index 9bbbc6f76da..d6a3522edaa 100644
---- a/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch
-+++ b/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch
-@@ -28,12 +28,12 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
-  hw/intc/apic.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/hw/intc/apic.c b/hw/intc/apic.c
--index 45887d99..c5ae4087 100644
----- a/hw/intc/apic.c
--+++ b/hw/intc/apic.c
--@@ -587,7 +587,7 @@ int apic_accept_pic_intr(DeviceState *dev)
--     APICCommonState *s = APIC_COMMON(dev);
-+Index: qemu-2.11.1/hw/intc/apic.c
-+===================================================================
-+--- qemu-2.11.1.orig/hw/intc/apic.c
-++++ qemu-2.11.1/hw/intc/apic.c
-+@@ -591,7 +591,7 @@ int apic_accept_pic_intr(DeviceState *de
-+     APICCommonState *s = APIC(dev);
-      uint32_t lvt0;
-  
- -    if (!s)
-@@ -41,6 +41,3 @@ index 45887d99..c5ae4087 100644
-          return -1;
-  
-      lvt0 = s->lvt[APIC_LVT_LINT0];
---- 
--2.11.0
+diff --git a/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch b/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+deleted file mode 100644
+index 25569449e42..00000000000
+--- a/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From: Christopher Covington
+-Date: Wed, 28 Dec 2016 15:04:33 -0500
+-Subject: [Qemu-devel] [PATCH v3] build: include sys/sysmacros.h for major() and minor()a
 -
-diff --git a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-index 123833f8248..77117890f48 100644
---- a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-+++ b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-@@ -24,11 +24,11 @@ Signed-off-by: Eric Bénard <eric@eukrea.com>
-  ui/sdl.c | 12 ++++++++++--
-  1 file changed, 10 insertions(+), 2 deletions(-)
- 
--diff --git a/ui/sdl.c b/ui/sdl.c
--index 39a42d6..9b8abe5 100644
----- a/ui/sdl.c
--+++ b/ui/sdl.c
--@@ -59,6 +59,10 @@ static SDL_Cursor *guest_sprite = NULL;
-+Index: qemu-2.11.1/ui/sdl.c
-+===================================================================
-+--- qemu-2.11.1.orig/ui/sdl.c
-++++ qemu-2.11.1/ui/sdl.c
-+@@ -63,6 +63,10 @@ static SDL_PixelFormat host_format;
-  static int scaling_active = 0;
-  static Notifier mouse_mode_notifier;
-  static int idle_counter;
-@@ -37,10 +37,10 @@ index 39a42d6..9b8abe5 100644
- +#endif
- +static doing_grabs = True;
-  
-- static void sdl_update(DisplayChangeListener *dcl,
--                        int x, int y, int w, int h)
--@@ -384,14 +388,16 @@ static void sdl_grab_start(void)
--             }
-+ #define SDL_REFRESH_INTERVAL_BUSY 10
-+ #define SDL_MAX_IDLE_COUNT (2 * GUI_REFRESH_INTERVAL_DEFAULT \
-+@@ -431,14 +435,16 @@ static void sdl_grab_start(void)
-+         }
-      } else
-          sdl_hide_cursor();
- -    SDL_WM_GrabInput(SDL_GRAB_ON);
-@@ -58,7 +58,7 @@ index 39a42d6..9b8abe5 100644
-      gui_grab = 0;
-      sdl_show_cursor();
-      sdl_update_caption();
--@@ -909,6 +915,8 @@ void sdl_display_init(DisplayState *ds, int full_screen, int no_frame)
-+@@ -986,6 +992,8 @@ void sdl_display_init(DisplayState *ds,
-       * This requires SDL >= 1.2.14. */
-      setenv("SDL_DISABLE_LOCK_KEYS", "1", 1);
-  
-@@ -67,6 +67,3 @@ index 39a42d6..9b8abe5 100644
-      flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
-      if (SDL_Init (flags)) {
-          fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
---- 
--1.8.3.1
+-The definition of the major() and minor() macros are moving within glibc to
+-<sys/sysmacros.h>. Include this header when it is available to avoid the
+-following sorts of build-stopping messages:
 -
+-qga/commands-posix.c: In function ‘dev_major_minor’:
+-qga/commands-posix.c:656:13: error: In the GNU C Library, "major" is defined
+- by <sys/sysmacros.h>. For historical compatibility, it is
+- currently defined by <sys/types.h> as well, but we plan to
+- remove this soon. To use "major", include <sys/sysmacros.h>
+- directly. If you did not intend to use a system-defined macro
+- "major", you should undefine it after including <sys/types.h>. [-Werror]
+-         *devmajor = major(st.st_rdev);
+-             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-qga/commands-posix.c:657:13: error: In the GNU C Library, "minor" is defined
+- by <sys/sysmacros.h>. For historical compatibility, it is
+- currently defined by <sys/types.h> as well, but we plan to
+- remove this soon. To use "minor", include <sys/sysmacros.h>
+- directly. If you did not intend to use a system-defined macro
+- "minor", you should undefine it after including <sys/types.h>. [-Werror]
+-         *devminor = minor(st.st_rdev);
+-             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-The additional include allows the build to complete on Fedora 26 (Rawhide)
+-with glibc version 2.24.90.
+-
+-Signed-off-by: Christopher Covington <address@hidden>
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-
+-Upstream-Status: Submitted https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg03548.html
+-
+-diff -uNr qemu-2.8.0.orig/configure qemu-2.8.0/configure
+---- qemu-2.8.0.orig/configure  2017-02-21 19:05:13.180094708 +0100
+-+++ qemu-2.8.0/configure       2017-02-21 19:08:53.114087084 +0100
+-@@ -4727,6 +4727,20 @@
+- then
+- fi
+- 
+- ##########################################
+-+# check for sysmacros.h
+-+
+-+have_sysmacros=no
+-+cat > $TMPC << EOF
+-+#include <sys/sysmacros.h>
+-+int main(void) {
+-+    return makedev(0, 0);
+-+}
+-+EOF
+-+if compile_prog "" "" ; then
+-+    have_sysmacros=yes
+-+fi
+-+
+-+##########################################
+- # End of CC checks
+- # After here, no more $cc or $ld runs
+- 
+-diff -uNr qemu-2.8.0.orig/configure qemu-2.8.0/configure
+---- qemu-2.8.0.orig/configure  2017-02-21 19:05:13.180094708 +0100
+-+++ qemu-2.8.0/configure       2017-02-21 19:08:53.114087084 +0100
+-@@ -5695,6 +5709,10 @@
+-   echo "CONFIG_AF_VSOCK=y" >> $config_host_mak
+- fi
+- 
+-+if test "$have_sysmacros" = "yes" ; then
+-+  echo "CONFIG_SYSMACROS=y" >> $config_host_mak
+-+fi
+-+
+- # Hold two types of flag:
+- #   CONFIG_THREAD_SETNAME_BYTHREAD  - we've got a way of setting the name on
+- #                                     a thread we have a handle to
+diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+index f0e20cc1253..90eeee95c5f 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+@@ -17,7 +17,6 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://no-valgrind.patch \
+            file://pathlimit.patch \
+            file://qemu-2.5.0-cflags.patch \
+-           file://glibc-2.25.patch \
+            file://chardev-connect-socket-to-a-spawned-command.patch \
+            file://apic-fixup-fallthrough-to-PIC.patch \
+            file://linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
 -- 
 2.16.1
 
