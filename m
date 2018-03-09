@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 85AC478977
+	by mail.openembedded.org (Postfix) with ESMTP id A469178962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:03:19 +0000 (UTC)
+	Fri,  9 Mar 2018 19:03:21 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:03:21 -0800
+	09 Mar 2018 11:03:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652000"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32652005"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:20 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:03:21 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:55:58 +0200
-Message-Id: <20180309185614.31113-20-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:55:59 +0200
+Message-Id: <20180309185614.31113-21-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 20/36] ltp: refresh patches
+Subject: [PATCH 21/36] net-tools: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:03:20 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:03:22 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,209 +51,175 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...-Add-option-to-select-libc-implementation.patch | 78 +++++++++++-----------
- ..._GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch | 29 ++++----
- 2 files changed, 51 insertions(+), 56 deletions(-)
+ .../net-tools/net-tools/net-tools-1.60-sctp1.patch | 47 ++++++++++------------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
-index cf744639c21..84ab37ea395 100644
---- a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
-+++ b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
-@@ -22,10 +22,10 @@ Upstream-Status: Pending
-  testcases/realtime/stress/pi-tests/Makefile | 5 +++++
-  8 files changed, 35 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-extended/net-tools/net-tools/net-tools-1.60-sctp1.patch b/meta/recipes-extended/net-tools/net-tools/net-tools-1.60-sctp1.patch
+index 12eed17af4f..78daf6c3edf 100644
+--- a/meta/recipes-extended/net-tools/net-tools/net-tools-1.60-sctp1.patch
++++ b/meta/recipes-extended/net-tools/net-tools/net-tools-1.60-sctp1.patch
+@@ -11,10 +11,10 @@ Signed-off-by: Li Zhou <li.zhou@windriver.com>
+  statistics.c |  68 +++++++++-
+  2 files changed, 465 insertions(+), 14 deletions(-)
  
--diff --git a/Makefile b/Makefile
--index 297f8e7..906b280 100644
----- a/Makefile
--+++ b/Makefile
-+Index: git/Makefile
+-diff --git a/netstat.c b/netstat.c
+-index 1fb9e0c..5d1a4a1 100644
+---- a/netstat.c
+-+++ b/netstat.c
++Index: net-tools-1.60/netstat.c
 +===================================================================
-+--- git.orig/Makefile
-++++ git/Makefile
- @@ -49,6 +49,11 @@ SKIP_IDCHECK		?= 0
-  UCLINUX			?= 0
-  export UCLINUX
-@@ -38,11 +38,11 @@ index 297f8e7..906b280 100644
-  # CLEAN_TARGETS:	Targets which exist solely in clean.
-  # COMMON_TARGETS:	Targets which exist in all, clean, and install.
-  # INSTALL_TARGETS:	Targets which exist in clean and install (contains
--diff --git a/testcases/kernel/Makefile b/testcases/kernel/Makefile
--index 50a12fa..4f1987f 100644
----- a/testcases/kernel/Makefile
--+++ b/testcases/kernel/Makefile
--@@ -47,13 +47,16 @@ SUBDIRS			+= connectors \
-+Index: git/testcases/kernel/Makefile
++--- net-tools-1.60.orig/netstat.c
+++++ net-tools-1.60/netstat.c
+ @@ -58,6 +58,7 @@
+   *
+   *990420 {1.38} Tuan Hoang              removed a useless assignment from igmp_do_one()
+@@ -23,7 +23,7 @@ index 1fb9e0c..5d1a4a1 100644
+   *
+   *              This program is free software; you can redistribute it
+   *              and/or  modify it under  the terms of  the GNU General
+-@@ -105,7 +106,7 @@
++@@ -106,7 +107,7 @@
+  #endif
+  
+  /* prototypes for statistics.c */
+@@ -32,7 +32,7 @@ index 1fb9e0c..5d1a4a1 100644
+  void inittab(void);
+  void parsesnmp6(int, int, int);
+  void inittab6(void);
+-@@ -118,6 +119,28 @@ typedef enum {
++@@ -119,6 +120,28 @@ typedef enum {
+      SS_DISCONNECTING		/* in process of disconnecting  */
+  } socket_state;
+  
+@@ -61,7 +61,7 @@ index 1fb9e0c..5d1a4a1 100644
+  #define SO_ACCEPTCON    (1<<16)	/* performed a listen           */
+  #define SO_WAITDATA     (1<<17)	/* wait data to read            */
+  #define SO_NOSPACE      (1<<18)	/* no space to write            */
+-@@ -148,6 +171,7 @@ int flag_opt = 0;
++@@ -149,6 +172,7 @@ int flag_opt = 0;
+  int flag_raw = 0;
+  int flag_tcp = 0;
+  int flag_udp = 0;
+@@ -69,7 +69,7 @@ index 1fb9e0c..5d1a4a1 100644
+  int flag_igmp= 0;
+  int flag_rom = 0;
+  int flag_exp = 1;
+-@@ -990,6 +1014,365 @@ static int udp_info(void)
++@@ -995,6 +1019,365 @@ static int udp_info(void)
+  	       udp_do_one);
+  }
+  
+@@ -435,7 +435,7 @@ index 1fb9e0c..5d1a4a1 100644
+  static void raw_do_one(int lnr, const char *line)
+  {
+      char buffer[8192], local_addr[64], rem_addr[64];
+-@@ -1549,7 +1932,7 @@ static void usage(void)
++@@ -1558,7 +1941,7 @@ static void usage(void)
+      fprintf(stderr, _("        -F, --fib                display Forwarding Information Base (default)\n"));
+      fprintf(stderr, _("        -C, --cache              display routing cache instead of FIB\n\n"));
+  
+@@ -444,7 +444,7 @@ index 1fb9e0c..5d1a4a1 100644
+      fprintf(stderr, _("  <AF>=Use '-6|-4' or '-A <af>' or '--<af>'; default: %s\n"), DFLT_AF);
+      fprintf(stderr, _("  List of possible address families (which support routing):\n"));
+      print_aflist(1); /* 1 = routeable */
+-@@ -1574,6 +1957,7 @@ int main
++@@ -1583,6 +1966,7 @@ int main
+  	{"protocol", 1, 0, 'A'},
+  	{"tcp", 0, 0, 't'},
+  	{"udp", 0, 0, 'u'},
+@@ -452,7 +452,7 @@ index 1fb9e0c..5d1a4a1 100644
+  	{"raw", 0, 0, 'w'},
+  	{"unix", 0, 0, 'x'},
+  	{"listening", 0, 0, 'l'},
+-@@ -1604,7 +1988,7 @@ int main
++@@ -1613,7 +1997,7 @@ int main
+      getroute_init();		/* Set up AF routing support */
+  
+      afname[0] = '\0';
+@@ -461,7 +461,7 @@ index 1fb9e0c..5d1a4a1 100644
+  	switch (i) {
+  	case -1:
+  	    break;
+-@@ -1696,10 +2080,12 @@ int main
++@@ -1705,10 +2089,12 @@ int main
+  	case 't':
+  	    flag_tcp++;
+  	    break;
+@@ -475,7 +475,7 @@ index 1fb9e0c..5d1a4a1 100644
+  	case 'w':
+  	    flag_raw++;
+  	    break;
+-@@ -1717,13 +2103,13 @@ int main
++@@ -1726,13 +2112,13 @@ int main
+      if (flag_int + flag_rou + flag_mas + flag_sta > 1)
+  	usage();
+  
+@@ -493,7 +493,7 @@ index 1fb9e0c..5d1a4a1 100644
+  	+ flag_ax25 + flag_netrom + flag_igmp + flag_x25;
+  
+      if (flag_mas) {
+-@@ -1751,7 +2137,7 @@ int main
++@@ -1760,7 +2146,7 @@ int main
+          char buf[256];
+          if (!afname[0]) {
+              inittab();
+@@ -502,7 +502,7 @@ index 1fb9e0c..5d1a4a1 100644
+          } else {
+              safe_strncpy(buf, afname, sizeof(buf));
+              tmp1 = buf;
+-@@ -1804,7 +2190,7 @@ int main
++@@ -1815,7 +2201,7 @@ int main
+  	return (i);
+      }
+      for (;;) {
+@@ -511,7 +511,7 @@ index 1fb9e0c..5d1a4a1 100644
+  #if HAVE_AFINET
+  	    prg_cache_load();
+  	    printf(_("Active Internet connections "));	/* xxx */
+-@@ -1843,6 +2229,11 @@ int main
++@@ -1854,6 +2240,11 @@ int main
+  	    if (i)
+  		return (i);
+  	}
+@@ -523,10 +523,10 @@ index 1fb9e0c..5d1a4a1 100644
+  	if (!flag_arg || flag_raw) {
+  	    i = raw_info();
+  	    if (i)
+-diff --git a/statistics.c b/statistics.c
+-index 03600d7..eb8d7dc 100644
+---- a/statistics.c
+-+++ b/statistics.c
++Index: net-tools-1.60/statistics.c
 +===================================================================
-+--- git.orig/testcases/kernel/Makefile
-++++ git/testcases/kernel/Makefile
-+@@ -48,13 +48,16 @@ SUBDIRS			+= connectors \
-  			   logging \
-  			   mem \
-  			   numa \
-@@ -60,10 +60,10 @@ index 50a12fa..4f1987f 100644
-  ifeq ($(WITH_POWER_MANAGEMENT_TESTSUITE),yes)
-  SUBDIRS			+= power_management
-  endif
--diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Makefile
--index 6245ed0..aa4eb7f 100644
----- a/testcases/kernel/sched/Makefile
--+++ b/testcases/kernel/sched/Makefile
-+Index: git/testcases/kernel/sched/Makefile
-+===================================================================
-+--- git.orig/testcases/kernel/sched/Makefile
-++++ git/testcases/kernel/sched/Makefile
- @@ -23,5 +23,7 @@
-  top_srcdir		?= ../../..
++--- net-tools-1.60.orig/statistics.c
+++++ net-tools-1.60/statistics.c
+ @@ -21,7 +21,7 @@
+  #define UFWARN(x)
+  #endif
+@@ -537,7 +537,7 @@ index 03600d7..eb8d7dc 100644
+  enum State {
+      number = 0, opt_number, i_forward, i_inp_icmp, i_outp_icmp, i_rto_alg,
+ @@ -297,6 +297,27 @@ struct entry Tcpexttab[] =
+-     { "TCPRenoRecoveryFail", N_("%u classic Reno fast retransmits failed"), opt_number },
++     { "TCPRenoRecoveryFail", N_("%llu classic Reno fast retransmits failed"), opt_number },
+  };
   
-@@ -73,11 +73,11 @@ index 6245ed0..aa4eb7f 100644
- +	FILTER_OUT_DIRS += process_stress
- +endif
-  include $(top_srcdir)/include/mk/generic_trunk_target.mk
--diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/syscalls/Makefile
--index 8acb395..b749126 100644
----- a/testcases/kernel/syscalls/Makefile
--+++ b/testcases/kernel/syscalls/Makefile
--@@ -28,5 +28,10 @@ ifeq ($(UCLINUX),1)
-+Index: git/testcases/kernel/syscalls/Makefile
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/Makefile
-++++ git/testcases/kernel/syscalls/Makefile
-+@@ -28,6 +28,11 @@ ifeq ($(UCLINUX),1)
-  FILTER_OUT_DIRS	+= capget capset chmod chown clone fork getcontext llseek \
-  		   mincore mprotect nftw profil remap_file_pages sbrk
-  endif
-@@ -87,12 +87,13 @@ index 8acb395..b749126 100644
- +		   ustat
- +endif
-  
-- include $(top_srcdir)/include/mk/generic_trunk_target.mk
--diff --git a/testcases/network/nfsv4/acl/Makefile b/testcases/network/nfsv4/acl/Makefile
--index 8bc78c2..c36cf50 100644
----- a/testcases/network/nfsv4/acl/Makefile
--+++ b/testcases/network/nfsv4/acl/Makefile
--@@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre.mk
-+ ifeq ($(UCLIBC),1)
-+ FILTER_OUT_DIRS	+= profil
-+Index: git/testcases/network/nfsv4/acl/Makefile
-+===================================================================
-+--- git.orig/testcases/network/nfsv4/acl/Makefile
-++++ git/testcases/network/nfsv4/acl/Makefile
-+@@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre
-  
-  LDLIBS			+= $(ACL_LIBS)
-  
-@@ -101,10 +102,10 @@ index 8bc78c2..c36cf50 100644
- +endif
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
--diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
--index 3160813..9bdf5d0 100644
----- a/testcases/network/rpc/basic_tests/Makefile
--+++ b/testcases/network/rpc/basic_tests/Makefile
-+Index: git/testcases/network/rpc/basic_tests/Makefile
-+===================================================================
-+--- git.orig/testcases/network/rpc/basic_tests/Makefile
-++++ git/testcases/network/rpc/basic_tests/Makefile
- @@ -23,4 +23,9 @@
-  top_srcdir		?= ../../../..
-  
-@@ -115,11 +116,11 @@ index 3160813..9bdf5d0 100644
- +endif
- +
-  include $(top_srcdir)/include/mk/generic_trunk_target.mk
--diff --git a/testcases/realtime/func/pi-tests/Makefile b/testcases/realtime/func/pi-tests/Makefile
--index 7a7a57a..5808866 100644
----- a/testcases/realtime/func/pi-tests/Makefile
--+++ b/testcases/realtime/func/pi-tests/Makefile
--@@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre.mk
-+Index: git/testcases/realtime/func/pi-tests/Makefile
-+===================================================================
-+--- git.orig/testcases/realtime/func/pi-tests/Makefile
-++++ git/testcases/realtime/func/pi-tests/Makefile
-+@@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre
-  include $(abs_srcdir)/../../config.mk
-  
-  MAKE_TARGETS		:= testpi-0 testpi-1 testpi-2 testpi-4 testpi-5 testpi-6 testpi-7 sbrk_mutex
-@@ -129,10 +130,10 @@ index 7a7a57a..5808866 100644
- +
-  
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
--diff --git a/testcases/realtime/stress/pi-tests/Makefile b/testcases/realtime/stress/pi-tests/Makefile
--index 5edc3b4..aa5987a 100644
----- a/testcases/realtime/stress/pi-tests/Makefile
--+++ b/testcases/realtime/stress/pi-tests/Makefile
-+Index: git/testcases/realtime/stress/pi-tests/Makefile
-+===================================================================
-+--- git.orig/testcases/realtime/stress/pi-tests/Makefile
-++++ git/testcases/realtime/stress/pi-tests/Makefile
- @@ -24,4 +24,9 @@ top_srcdir		?= ../../../..
-  
-  include $(top_srcdir)/include/mk/env_pre.mk
-@@ -143,6 +144,3 @@ index 5edc3b4..aa5987a 100644
- +endif
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+ +struct entry Sctptab[] =
+@@ -616,7 +616,7 @@ index 03600d7..eb8d7dc 100644
+      f = proc_fopen("/proc/net/snmp");
+      if (!f) {
+  	perror(_("cannot open /proc/net/snmp"));
+-@@ -530,6 +580,16 @@ void parsesnmp(int flag_raw, int flag_tcp, int flag_udp)
++@@ -530,6 +580,16 @@ void parsesnmp(int flag_raw, int flag_tc
+      
+          fclose(f);
+      }
+@@ -633,6 +633,3 @@ index 03600d7..eb8d7dc 100644
+      return;
+  }
+      
 --- 
--2.7.0
--
-diff --git a/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch b/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
-index 3e79c9f295d..462976da42c 100644
---- a/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
-+++ b/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
-@@ -18,10 +18,10 @@ Upstream-Status: Pending
-  testcases/kernel/syscalls/mremap/mremap03.c | 2 ++
-  3 files changed, 7 insertions(+), 1 deletion(-)
- 
--diff --git a/testcases/kernel/syscalls/mremap/mremap01.c b/testcases/kernel/syscalls/mremap/mremap01.c
--index d63d1e4..24ca174 100644
----- a/testcases/kernel/syscalls/mremap/mremap01.c
--+++ b/testcases/kernel/syscalls/mremap/mremap01.c
-+Index: git/testcases/kernel/syscalls/mremap/mremap01.c
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/mremap/mremap01.c
-++++ git/testcases/kernel/syscalls/mremap/mremap01.c
- @@ -76,10 +76,12 @@
-   */
-  #include <unistd.h>
-@@ -35,11 +35,11 @@ index d63d1e4..24ca174 100644
- +#undef _GNU_SOURCE
-  
-  #include "test.h"
-- 
--diff --git a/testcases/kernel/syscalls/mremap/mremap02.c b/testcases/kernel/syscalls/mremap/mremap02.c
--index 5a51b9a..a530a6b 100644
----- a/testcases/kernel/syscalls/mremap/mremap02.c
--+++ b/testcases/kernel/syscalls/mremap/mremap02.c
-+ #include "safe_macros.h"
-+Index: git/testcases/kernel/syscalls/mremap/mremap02.c
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/mremap/mremap02.c
-++++ git/testcases/kernel/syscalls/mremap/mremap02.c
- @@ -75,9 +75,11 @@
-  #include <errno.h>
-  #include <unistd.h>
-@@ -52,10 +52,10 @@ index 5a51b9a..a530a6b 100644
-  
-  #include "test.h"
-  
--diff --git a/testcases/kernel/syscalls/mremap/mremap03.c b/testcases/kernel/syscalls/mremap/mremap03.c
--index 12e3829..9b39f8b 100644
----- a/testcases/kernel/syscalls/mremap/mremap03.c
--+++ b/testcases/kernel/syscalls/mremap/mremap03.c
-+Index: git/testcases/kernel/syscalls/mremap/mremap03.c
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/mremap/mremap03.c
-++++ git/testcases/kernel/syscalls/mremap/mremap03.c
- @@ -76,9 +76,11 @@
-  #include <errno.h>
-  #include <unistd.h>
-@@ -68,6 +68,3 @@ index 12e3829..9b39f8b 100644
-  
-  #include "test.h"
-  
---- 
--2.7.0
+-1.8.5.2.233.g932f7e4
 -
 -- 
 2.16.1
