@@ -1,23 +1,32 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E8FE378883
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D39A7892F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 21:21:22 +0000 (UTC)
+	Fri,  9 Mar 2018 21:29:58 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 13:21:24 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Mar 2018 13:29:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,447,1515484800"; d="scan'208";a="23275314"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 09 Mar 2018 13:21:23 -0800
+X-IronPort-AV: E=Sophos;i="5.47,447,1515484800"; d="scan'208";a="23940347"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga008.jf.intel.com with ESMTP; 09 Mar 2018 13:29:55 -0800
+To: Victor Kamensky <kamensky@cisco.com>
+References: <1520358641-7062-1-git-send-email-kamensky@cisco.com>
+	<6da3d33d-8c32-a49d-0b61-70b360232f12@linux.intel.com>
+	<alpine.LRH.2.00.1803091243390.27538@sjc-ads-6991.cisco.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 23:14:44 +0200
-Message-Id: <20180309211444.32946-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-Subject: [PATCH] lib/oe/patch.py: add a warning if patch context was ignored
+Message-ID: <0b5870e6-7c1a-f474-443c-d5979b94f0b4@linux.intel.com>
+Date: Fri, 9 Mar 2018 23:23:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LRH.2.00.1803091243390.27538@sjc-ads-6991.cisco.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/5] systemtap adding sysroot, cross compiling of user land related scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,78 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 21:21:23 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 21:29:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Ignoring patch context increases the chances of patches being
-applied incorrectly. Depending on what code is being patched, this can go
-completely unnoticed and create subtle bugs, sometimes with security implications.
+On 03/09/2018 10:55 PM, Victor Kamensky wrote:
+> I've set to write response why systemtap-utils is really
+> needed and ended up doing below :). Does it look acceptable
+> direction to you?
 
-Please see here for a specific example:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+Yes.
 
-On the other hand, we cannot simply force all patch context to match exactly:
-doing this would break a lot of recipes suddenly, across all layers.
+> The only controvercial item left from my original ask is
+> IMAGE_GEN_COMBINED_DEBUGFS build option that is supposed to
+> build rootfs-dbg containing combined target and debug symbols. 
 
-So let's try a softer approach: issue a warning, and gently update
-patches over a longer span of time. When most of the warnings are eliminated,
-we can start enforcing a strict patch application policy.
+You can probably repost that as a regular patch.
 
-I do understand that this patch creates a lot of warnings all of a sudden, however
-I believe the problem does need to be addressed. All of oe-core recipes have their
-context already fixed.
-
-Sample warning:
-
-WARNING: vulkan-1.0.61.1-r0 do_patch:
-Some of the context lines in patches were ignored. This can lead to incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
-
-    devtool modify <recipe>
-    devtool finish --force-patch-refresh <recipe> <layer_path>
-
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored).
-Details:
-Applying patch demos-Don-t-build-tri-or-cube.patch
-patching file demos/CMakeLists.txt
-Hunk #1 succeeded at 63 (offset 2 lines).
-Hunk #2 succeeded at 76 with fuzz 1 (offset 2 lines).
-
-[YOCTO #10450]
-
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oe/patch.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index f02dee8d27d..41cef2a272d 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -36,6 +36,20 @@ def runcmd(args, dir = None):
-         (exitstatus, output) = oe.utils.getstatusoutput(cmd)
-         if exitstatus != 0:
-             raise CmdError(cmd, exitstatus >> 8, output)
-+        if " fuzz " in output:
-+            bb.warn("""
-+Some of the context lines in patches were ignored. This can lead to incorrectly applied patches.
-+The context lines in the patches can be updated with devtool:
-+
-+    devtool modify <recipe>
-+    devtool finish --force-patch-refresh <recipe> <layer_path>
-+
-+Then the updated patches and the source tree (in devtool's workspace)
-+should be reviewed to make sure the patches apply in the correct place
-+and don't introduce duplicate lines (which can, and does happen
-+when some of the context is ignored).
-+Details:
-+{}""".format(output))
-         return output
- 
-     finally:
--- 
-2.16.1
-
+Alex
 
