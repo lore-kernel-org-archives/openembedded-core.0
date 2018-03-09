@@ -1,135 +1,41 @@
-Return-Path: <BSREEKAN@xilinx.com>
-X-Greylist: delayed 3710 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 09 Mar 2018 02:40:40 UTC
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0076.outbound.protection.outlook.com [104.47.34.76])
-	by mail.openembedded.org (Postfix) with ESMTP id B687B6E671
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BF14178066
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 02:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=LanLits5qKmpzUxyFJZrjGpzfKfx0adin8OuGrrC0CI=;
-	b=DjPNWlT5f02vX9Ncp5pMd0aXzmYUeXweF3C+I/BY4+Vitux1XjpOywI0jHFZSurhi+PnAFCcrazeUXgcsN5+/8mqLWUiDZT0dG3lbuAP/ZU5FssGwCr8osW0F5ouaJD+wYN7G1jmJehFRJsTwQVW83eEH1OgA8yZ+/t05lV8AZc=
-Received: from BLUPR0201CA0016.namprd02.prod.outlook.com
-	(2a01:111:e400:52e7::26) by DM2PR02MB1308.namprd02.prod.outlook.com
-	(2a01:111:e400:50c8::19) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.548.13;
-	Fri, 9 Mar 2018 01:07:03 +0000
-Received: from SN1NAM02FT028.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e44::203) by BLUPR0201CA0016.outlook.office365.com
-	(2a01:111:e400:52e7::26) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.567.14 via
-	Frontend Transport; Fri, 9 Mar 2018 01:07:03 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	SN1NAM02FT028.mail.protection.outlook.com (10.152.72.105) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.527.18
-	via Frontend Transport; Fri, 9 Mar 2018 01:07:02 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:45906
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
-	id 1eu6Uw-0001BA-2R for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2018 17:07:02 -0800
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
-	id 1eu6Uq-0002jy-Um for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2018 17:06:56 -0800
-Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	w2916mh6029529; Thu, 8 Mar 2018 17:06:49 -0800
-Received: from [172.19.3.10] (helo=xsjbsreekan50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
-	id 1eu6Ui-0002j2-Q0; Thu, 08 Mar 2018 17:06:48 -0800
-From: Bhargava Sreekantappa Gayathri
-	<bhargava.sreekantappa-gayathri@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>, <manjukum@xilinx.com>
-Date: Thu, 8 Mar 2018 17:06:37 -0800
-Message-ID: <1520557597-27145-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(39860400002)(346002)(39380400002)(396003)(376002)(2980300002)(438002)(189003)(199004)(316002)(36756003)(1857600001)(8936002)(81156014)(81166006)(8676002)(110136005)(8746002)(356003)(478600001)(36386004)(186003)(72206003)(336012)(50226002)(305945005)(107886003)(106466001)(4326008)(5660300001)(2906002)(9786002)(63266004)(5890100001)(6636002)(48376002)(26005)(50466002)(47776003)(59450400001)(6666003)(77096007)(7696005)(51416003)(54906003)(106002)(107986001)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR02MB1308; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com;
-	MX:1; A:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; SN1NAM02FT028;
-	1:Vl7UypAkBfLvr6NkiFkg0eoYqPZrmn0LsbNGRS/INfdjvzq2ssnbzv7xDpGlXKH5wIdKWUpHSmj0cxxAGtXEerPedQuH92NhY28NTeh9CDsbeu21uLoyZOGMtXflcjoA
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 359243c5-2602-4bb5-8fba-08d5855a1163
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(4608076)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060);
-	SRVR:DM2PR02MB1308; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR02MB1308;
-	3:hTyL4FGVcr9afYIicuDM9xoubQLwqC9vgVx4SAkLB14Li5VSdhFwGLBEpCgKq9WTY4ekYSCRr00fwsrLB+2heTxwlR/5O2JEwaXZPofznYi88xBQmGj2ck2E4QicAsee/V8cmDgzsih0StYiS0KViRNancZ5HdxRk8nXq7jdU/FM5qgPyO8L6AskDmzEXOltKhqmhn3c9Fq4E7Kk4LX71FHDQfbtcVNIwCRPJabzvrYwYbw3SATsTSc9/6rgG9/9+ZvYs6gQxPoUKsmvfwDn567fgeLfbZOspb3mGJwHnN1PJUx189yQjgDnLyz+IajILNexOt21wwApc2DLHrWUwYgA+VbbeUsXHtjzqKC0FkI=;
-	25:p8bRdS+f2AnvfMyv8pHM9i/OyJDiaDAUFk33lqmMNIZBqdZ8zpuBsdUrOUF0pNI8DX/hdX+L55BsCqF3XHTsfK+HnknZ7tvemfB+kZPQCcc9N0lcHQ7Iwy27ij/OTzOZh0GcycRt/7SRXqnYXSgmQJ2+9TG9t38sBBdDioWKD6mk8g0TOX9beSVCOBli2iMMKp5eDFoZ8uNs1/Q8YLgjeH/m77XqiUTiOfYg7zoN9u0CXZzkR1UArY4D2KW9ARCuMfO3HbMG8PAS2Sqjhq5Xdt0GuVEc/Mc/dTCuF4o0dyjWD09tRK9Kv2RBuJSiByfjOz9GYrlgKZxI9zuUxSfTYQ==
-X-MS-TrafficTypeDiagnostic: DM2PR02MB1308:
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR02MB1308;
-	31:pLvXNdDpXhMlD6hqKurv8WuV3UTCwSYdvTdV9diCuYPKb7pvIog9gGnZwTpPkSZrfbs4Wnnrkju4iTUSSYFQJQnrt6DxIaxTDpzIYT8Twh+MJZiZTCl/QfK1pYaW4Jw+HSnVq4+ZFY6gP/hjV79Rd8BLXfMZn+D+LHG/G7O+mVA+fXtU3pGLZ9ZIde4f3hTgB9GF/HrVHuC2zEaoq9kYs6tA0FOcLFiOoqfjU4932kc=;
-	20:TcyGl+meM5FBIhYaVgVXXmzYuIv9v5aYbvhiM3HpiIOHunT5gRCaECAXa6amUS/dkqrH6tGTCgTWvPcc5SE8zKCgJQ8SBLxLvJ5U1coMKqReweJtnZYud94XLrhg2YQ23ocHtUfa4VAnps/OU3FDz4krkMrgZ5KBy2Xe9/q7BqSlpE2lNxPKTCVylIBbioQ8mWGoPjeyh1hz3XsmqV+pc0eMhL/3NAlNjgzlJ++xeAe0CqEwZxAdIMEghC2Sz8sy6cDwVHFjRcoLAFuKSzNdGOUFS7JZyK3n+ljnJFpnoH0xYID2dPFnFwr3gvHnU4kcEGJFuQutvq85nzvjz8H8j1+rKHf2XQiCVl7nPtoL8RqNoVHWMc/7rEjlDBHDHkxlw46jx923/q6wshkLdalYuRQnuLhst0AEUZaetcZTBydUCCXLBKgz5yUk3uoTX1yOV0HCAJ7WzP8CCCMWgvpIl0+irHAjhMwvEljmL8nxDuaZwr8tqIFxJhl3NIAQiv3X
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <DM2PR02MB1308CEA070D9DAC2920520F3B0DE0@DM2PR02MB1308.namprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(192813158149592);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(93006095)(93004095)(3231220)(944501244)(52105095)(6055026)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123564045)(20161123560045)(20161123562045)(6072148)(201708071742011);
-	SRVR:DM2PR02MB1308; BCL:0; PCL:0; RULEID:; SRVR:DM2PR02MB1308; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR02MB1308;
-	4:/LniOj2y8u8rdaKRajruCzLna8omwPwoHzvfggNVrQxjrjFfUIr74f6aPQq2UfYtoWBGo4KYikVpyOVZlJ0Cxto78BwqKkjj5EVK+7ufUnpFNWcvMheL9ohRU+7H1mHrPkcrNg8rfJ9qNj7WDcM4leDeUDVclYNlMgWSGRHx9LJ1g21JjTk7OlETt0EUYtCV83gYnnqHpd3EOTf7T95vhhjLk1L8y31mpuM/Bz+xdNyM0Wr+/O37QucHQMY2hcCVjflcO7XcdPp2OlD6pJ7NFzWdXA5MhLzmT31D4TK3ssi98uV1jB/8N7tMvBAQ3fjJ
-X-Forefront-PRVS: 0606BBEB39
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR02MB1308;
-	23:f1cvyPX+fZ/rghQXIVlsg3RuE7sFfr/iC5yaDZojJ?=
-	=?us-ascii?Q?guxYVyHWeEajxYI2eJ6yXsWoAyv8MtRsreQE4m8EbzBTJNO4YMdAQcE76YKh?=
-	=?us-ascii?Q?VO3gWJNAx8e6pdVw17cempqxfYtoFFt4jIPnp/9zN6J9g1Z2ELcJS1U1KJPd?=
-	=?us-ascii?Q?vhxUfTtaaWtF0jqvrseGDx8l0pVFqOG50pSCgg6gUu6PRhleqrcmMRoQLp2l?=
-	=?us-ascii?Q?keKg6pxwEZn5cj7N5rQR66EvFyTKJxVOhZRqqbvl501R38dBCwFp2wqzSJP8?=
-	=?us-ascii?Q?oZ9vpOoM7EHMLWepMfNdIgTdK4fHkXrBG2LwN0OAU9CWhNUHPO8JntILDJDO?=
-	=?us-ascii?Q?69Sp7tdLJlag+4nLNcx7DMwpr6FTjy65m+wUUAd895FoWs6Gv/1SoSun+f/a?=
-	=?us-ascii?Q?KY4/dXeKdaFTLOVWQRzevdeY3wtwQOZVMOvCwutxuFhrrRBYeBWHH6Hi76Ks?=
-	=?us-ascii?Q?cMtqVmMK5QzUHDs94QceYFjC6vEsAKZJvuJrmBypNj50hb7lbV9xfuWhlZdN?=
-	=?us-ascii?Q?uXPTfyH7QXpKakSkV4HeFkCJmBg8jic9H2TgvZ/yH8IMesbZmo+NbWSYepkG?=
-	=?us-ascii?Q?1YgbqxSz+DbTe8oYRIrwGjulydvO3yeFh8+6+qPqGCRfBHHlpmQRf8QJqX7m?=
-	=?us-ascii?Q?3INpjiUzrCJV6ImYpjjSuwzm1JpA8Xt0mU8thZSPHiMIKZ+Y2CeBtIFJQgPX?=
-	=?us-ascii?Q?ogkzLGFf9TGAzvkbxqJwI7UsEBAhoEneZznP9nxXaPMeh8apSwY+MJvFCiLb?=
-	=?us-ascii?Q?HnZt3Wqg9eK9f21k1Z6RoUEfNxr2hNXypQJvX3VrkMjijiES1n6Otjmm4jsx?=
-	=?us-ascii?Q?rY/UPelsPZZKVshi+yg7tRoL3y/8n0a9dMFOVDp+HbiwW16QpINuna0C//NK?=
-	=?us-ascii?Q?GrZTsvVKxl5wc8Odq/fpbOj/JXFPH4KoC49BU1g4Gtls6boKNAjRWePyLxVU?=
-	=?us-ascii?Q?d7s3EQumGxb9MYUDDPabqAbcok+0jxjL6TiL7UzHugeZcaNeOkgY/aEgs9je?=
-	=?us-ascii?Q?T2qJiXc1eMH3G9k4PR05Bn0O5mPQlgWDnstsDjF+7S5+FgHqUeWOKkXrFPMQ?=
-	=?us-ascii?Q?u3DcXmjYhlEDs/MvJK3koqRJJErrRDrCi53AjBuM7qHxVgE1Sw7R4Ygoq2kj?=
-	=?us-ascii?Q?XSjhl2JssA=3D?=
-X-Microsoft-Antispam-Message-Info: orLei8VzBHf/xUV0JktiFUe7K7XKVjQy9cnU7Ujr5QYvlnbrIPdDkNXyjFtX8M0548ycD9uRF+gR7mUu+bX7aN3C5dAyr6c77RAJjcK9m3fiQzpLsOdzc/y3oCjfY8NHTdtP9RqnYyxCl6RP94r/m5aK840fNjMMbB0cFdaydKaWnbhrfXvh2oreKmpPj1VC
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR02MB1308;
-	6:7VNYGvwaApd++oB7zpazYrBVPWkmoFnGQkLJewMJZHO4jSTvrf61rfTpgLCcDH7ZhwFv6111oSJUAxusJfNledtJed5nkIm8UoZhYhIkd56mbyi2IYlxEa9IDLEk/yfot/JorYNaOVnnWEw1HtsvFziEd0+jvBzY4F1pCpOzR8hSJLSmyq18tsA7zeSJde9CPp2/VRZskeqkUONB6dD+1kGSSOJGoWu//avbQ/FD1DXg9Hym+kroO01R63u4ufnO4wJQSHML7+0RbCnFUlzFuk2lUBH06TgMuDOtXdt3wD8e3/fBAJFWdKTZaBvkIJqeOBfk8oSsqNI0pk0xJoNmM9+wLxzg+sfAKcV65U0IFEw=;
-	5:l9mbGf1lk4Jtl2iIJIAbvRMA00e24KTLOT/54jsjb90qa1FI8n84QszOj2tuZK+1iGdIjQbzgbPKIIX6FEHVe+PNBH7RNzAWrcwY6qBqyuTCIXMiEhOhw4Nr0JvcDNt1taRMlc26ltfPL0+LFHOj0/iYRNlDVPBsXt8i0K5ZK4o=;
-	24:YzTk/dgh+SbC5xlnr68qSRG+91ZluuYEjZvoZBH4o4kzedVyJGYsCD0VvZYrT4/SLYZWodcdYzcvwqr/uvzJZfoKEAM146zsyHcUzb274rQ=;
-	7:tFEdbBvflGwObYMtGr5od56juxHblF/I4p/qvL0Wf9ANUKDTcHVJN0lqnBVgMSm8XMoJo3b1Cp0kXOGvHsrHd9BKBGAsRpUydBjeeT6mQq/k2ugBYhzr1XUotPhEhFCqjZuUuO9YrXDDT1LZbpehWXd9mgsm5JcTYcUUiVouefOKCORtmiHIYoUeKBfC7bPyFmvwm7WCJZ9rYZ9DT/hxBCC8o3NKemm6t8qO0LAsQIqx8LszL8i2ngG+WUdwPdgH
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2018 01:07:02.6831 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 359243c5-2602-4bb5-8fba-08d5855a1163
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR02MB1308
-Cc: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
-Subject: [PATCH] own-mirrors.bbclass: Change prepend to append
+	Fri,  9 Mar 2018 08:33:19 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id w128so2431876wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Mar 2018 00:33:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=1jMwMYnzIR+unuUVM5wVtZfRQa5+fdWIYts6gssSTpI=;
+	b=JBKwkFoP9+50a8v6GUf27Yq/Rotx2cm0OpAEPKAsl91mWZsDG2+ISJjwIEhb4CmDyn
+	F5Jmwdz3Z8fWCTsr1221j9h1KXzPXMHMH7RgONbsi8yYCcMnLZSQxPvDIFeDfONr6jS3
+	Ay0v/1dkm6MoSCwGckNBzCUmVYORR841ysW6Amhc468MUYTpD7h2335ynkifvuPgA5mi
+	fY1rL4gyLvy1BSbV1g7qAW8KPuDwJKiTk3VICJMb6otrecNNUz1vkb5RYLu/pWQNzJJy
+	gbFa4NBk6rkLFRs4jKp2pifELaeKjp8dCyJ49uM69JtaliCYt8RiFKazJGOi2P/1Bgo0
+	1KWg==
+X-Gm-Message-State: AElRT7E8e7aw+tYZ3Keu+J1zS1B4FP7Vmn07lP4VBOBL5HhT5SL8PaOk
+	EQSgY4v1dDZqDIRZwPb1+Rt2ksnz
+X-Google-Smtp-Source: AG47ELuD2gE5hZ8RGGQvFL34/v9Jocn+S0slm4Vv/XKSRVSG69n6cneJsLBCoaumBlB3X+c0aRXA2w==
+X-Received: by 10.28.65.213 with SMTP id o204mr1398941wma.97.1520584400103;
+	Fri, 09 Mar 2018 00:33:20 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id n49sm834611wrn.90.2018.03.09.00.33.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 09 Mar 2018 00:33:19 -0800 (PST)
+Message-ID: <1520584397.4868.5.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 09 Mar 2018 08:33:17 +0000
+In-Reply-To: <20180303024705.1391-1-raj.khem@gmail.com>
+References: <20180303024705.1391-1-raj.khem@gmail.com>
+X-Mailer: Evolution 3.26.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] systemd: Explicitly add hidden attribute to __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -142,40 +48,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 02:40:41 -0000
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 09 Mar 2018 08:33:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If BB_NO_NETWORK is set to 1, and local download directory is added as
-PREMIRRORS_prepend in conf file, PREMIRRORS variable will have
-SOURCE_MIRROR_URL as the first url. This causes build to fail as network
-access is diabled. PREMIRRORS should be appended here so that a prepend
-in other layers/conf files takes precedence.
+I see this, too.
 
-Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayath=
-ri@xilinx.com>
-Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
----
- meta/classes/own-mirrors.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BTW, some more info:
 
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bb=
-class
-index a777835..4cfd894 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -1,4 +1,4 @@
--PREMIRRORS_prepend =3D " \
-+PREMIRRORS_append =3D " \
- cvs://.*/.*     ${SOURCE_MIRROR_URL} \n \
- svn://.*/.*     ${SOURCE_MIRROR_URL} \n \
- git://.*/.*     ${SOURCE_MIRROR_URL} \n \
---
-2.7.4
 
-This email and any attachments are intended for the sole use of the named r=
-ecipient(s) and contain(s) confidential information that may be proprietary=
-, privileged or copyrighted under applicable law. If you are not the intend=
-ed recipient, do not read, copy, or forward this email message or any attac=
-hments. Delete this email message and any attachments immediately.
+This looks similar to
+    https://github.com/systemd/systemd/issues/234
+and was worked-around in systemd commit aac7c5ed8bc6
+("build-sys: hide magic section variables from exported symbols")
+until reverted in commit 780950a2ba58 ("Revert "build-sys: hide
+magic section variables from exported symbols"") because binutils
+was fixed since.
+This error should only ever happen with old versions of ld.gold.
+In addition, gold should be fixed by now:
+    https://sourceware.org/bugzilla/show_bug.cgi?id=18548
+    https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5417c94d1a944d1a27f99240e5d62a6d7cd324f1
+but something is amiss here.
+
+ld -v gives
+GNU ld (GNU Binutils) 2.30.0.20180208
+
+so this is a bit strange...
+
+
+Cheers,
+Andre'
+
+On Fri, 2018-03-02 at 18:47 -0800, Khem Raj wrote:
+> These symbols appear in dynsyms of libsystemd.so and musl loader
+> doesnt like it
+> 
+> Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-
+> r0/recipe-sysroot//lib/libsystemd.so.0: __start_BUS_ERROR_MAP: symbol not
+> found
+> Error relocating /mnt/a/oe/build/tmp/work/i586-bec-linux-musl/avahi/0.7-
+> r0/recipe-sysroot//lib/libsystemd.so.0: __stop_BUS_ERROR_MAP: symbol not
+> found
+> 
+> [YOCTO #12577]
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  ...rt_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch | 34
+> ++++++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_234.bb           |  1 +
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-Hide-
+> __start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+> 
+> diff --git a/meta/recipes-core/systemd/systemd/0001-Hide-
+> __start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch b/meta/recipes-
+> core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-
+> __stop_BUS_ERROR_MAP.patch
+> new file mode 100644
+> index 0000000000..2cffc426ed
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-
+> and-__stop_BUS_ERROR_MAP.patch
+> @@ -0,0 +1,34 @@
+> +From 687a5af8dc5d38f918a6ce08fed5297234bf8346 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Fri, 2 Mar 2018 18:00:17 -0800
+> +Subject: [PATCH] Hide __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
+> +
+> +for currently unknown reasons they get exported to the shared libries
+> +even without being listed in the sym file
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> +
+> +Upstream-Status: Pending [ Conditional on master needing this, 234 does
+> need it ]
+> +
+> + src/libsystemd/sd-bus/bus-error.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/libsystemd/sd-bus/bus-error.c b/src/libsystemd/sd-
+> bus/bus-error.c
+> +index 378f7a377..49d797abd 100644
+> +--- a/src/libsystemd/sd-bus/bus-error.c
+> ++++ b/src/libsystemd/sd-bus/bus-error.c
+> +@@ -71,8 +71,8 @@ BUS_ERROR_MAP_ELF_REGISTER const sd_bus_error_map
+> bus_standard_errors[] = {
+> + };
+> + 
+> + /* GCC maps this magically to the beginning and end of the BUS_ERROR_MAP
+> section */
+> +-extern const sd_bus_error_map __start_BUS_ERROR_MAP[];
+> +-extern const sd_bus_error_map __stop_BUS_ERROR_MAP[];
+> ++extern const sd_bus_error_map __start_BUS_ERROR_MAP[] _hidden_;
+> ++extern const sd_bus_error_map __stop_BUS_ERROR_MAP[] _hidden_;
+> + 
+> + /* Additional maps registered with sd_bus_error_add_map() are in this
+> +  * NULL terminated array */
+> +-- 
+> +2.16.2
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-
+> core/systemd/systemd_234.bb
+> index d12e94f463..b15e5a41db 100644
+> --- a/meta/recipes-core/systemd/systemd_234.bb
+> +++ b/meta/recipes-core/systemd/systemd_234.bb
+> @@ -51,6 +51,7 @@ SRC_URI =
+> "git://github.com/systemd/systemd.git;protocol=git \
+>             file://0001-meson-update-header-file-to-detect-
+> memfd_create.patch \
+>             file://0002-configure.ac-Check-if-memfd_create-is-already-
+> define.patch \
+>             file://0003-fileio-include-sys-mman.h.patch \
+> +           file://0001-Hide-__start_BUS_ERROR_MAP-and-
+> __stop_BUS_ERROR_MAP.patch \
+>             "
+>  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-
+> device-timeout-to-2.patch"
+>  
+> -- 
+> 2.16.2
+> 
 
