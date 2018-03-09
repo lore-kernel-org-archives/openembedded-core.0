@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D2C0D78937
+	by mail.openembedded.org (Postfix) with ESMTP id 3315878917
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2018 19:02:56 +0000 (UTC)
+	Fri,  9 Mar 2018 19:02:58 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2018 11:02:58 -0800
+	09 Mar 2018 11:02:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651863"
+X-IronPort-AV: E=Sophos;i="5.47,446,1515484800"; d="scan'208";a="32651870"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:02:57 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 11:02:58 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2018 20:55:42 +0200
-Message-Id: <20180309185614.31113-4-alexander.kanavin@linux.intel.com>
+Date: Fri,  9 Mar 2018 20:55:43 +0200
+Message-Id: <20180309185614.31113-5-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
 References: <20180309185614.31113-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/36] avahi: refresh patches
+Subject: [PATCH 05/36] iproute2: refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 19:02:57 -0000
+X-List-Received-Date: Fri, 09 Mar 2018 19:02:58 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -51,56 +51,39 @@ reviewed.
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../avahi/files/initscript.patch                   | 26 +++++++++++++---------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ .../iproute2/iproute2/configure-cross.patch                  | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/files/initscript.patch b/meta/recipes-connectivity/avahi/files/initscript.patch
-index 193889eb5c2..c856c3df046 100644
---- a/meta/recipes-connectivity/avahi/files/initscript.patch
-+++ b/meta/recipes-connectivity/avahi/files/initscript.patch
-@@ -1,10 +1,10 @@
- Upstream-Status: Pending
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+index 5536fb57656..8b75a2ada4e 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+@@ -9,19 +9,19 @@ Upstream-Status: Pending
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+ Signed-off-by: Shane Wang <shane.wang@intel.com>
  
--diff --git a/initscript/debian/avahi-daemon.in b/initscript/debian/avahi-daemon.in
--index 30a2c2f..b5848a8 100755
----- a/initscript/debian/avahi-daemon.in
--+++ b/initscript/debian/avahi-daemon.in
--@@ -1,2 +1,14 @@
-+Index: avahi-0.7/initscript/debian/avahi-daemon.in
-+===================================================================
-+--- avahi-0.7.orig/initscript/debian/avahi-daemon.in
-++++ avahi-0.7/initscript/debian/avahi-daemon.in
-+@@ -1,5 +1,17 @@
-  #!/bin/sh
- -
- +### BEGIN INIT INFO
-@@ -20,11 +20,14 @@ index 30a2c2f..b5848a8 100755
- +#                    automatically
- +### END INIT INFO
- +#
--diff --git a/initscript/debian/avahi-dnsconfd.in b/initscript/debian/avahi-dnsconfd.in
--index ac34804..f95c340 100755
----- a/initscript/debian/avahi-dnsconfd.in
--+++ b/initscript/debian/avahi-dnsconfd.in
--@@ -1,1 +1,14 @@
-+ # This file is part of avahi.
-+ #
-+ # avahi is free software; you can redistribute it and/or modify it
-+Index: avahi-0.7/initscript/debian/avahi-dnsconfd.in
-+===================================================================
-+--- avahi-0.7.orig/initscript/debian/avahi-dnsconfd.in
-++++ avahi-0.7/initscript/debian/avahi-dnsconfd.in
-+@@ -1,4 +1,17 @@
-  #!/bin/sh
- +### BEGIN INIT INFO
- +# Provides:          avahi-dnsconfd
-@@ -39,3 +42,6 @@ index ac34804..f95c340 100755
- +#                    automatically
- +### END INIT INFO
- +#
-+ 
-+ # This file is part of avahi.
-+ #
+-Index: iproute2-4.11.0/configure
++Index: iproute2-4.14.1/configure
+ ===================================================================
+---- iproute2-4.11.0.orig/configure
+-+++ iproute2-4.11.0/configure
++--- iproute2-4.14.1.orig/configure
+++++ iproute2-4.14.1/configure
+ @@ -2,6 +2,7 @@
+  # This is not an autoconf generated configure
+  #
+  INCLUDE=${1:-"$PWD/include"}
+ +SYSROOT=$1
+  
+- # Make a temp directory in build tree.
+- TMPDIR=$(mktemp -d config.XXXXXX)
+-@@ -192,7 +193,7 @@ check_ipt_lib_dir()
++ # Output file which is input to Makefile
++ CONFIG=config.mk
++@@ -195,7 +196,7 @@ check_ipt_lib_dir()
+  		return
+  	fi
+  
 -- 
 2.16.1
 
