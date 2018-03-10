@@ -1,28 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E2C69780F3
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E528E780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 18:28:01 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2AIRmW4009373
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 10 Mar 2018 18:27:52 GMT
-Message-ID: <1520706468.10851.164.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, "Bystricky, Juro"
-	<juro.bystricky@intel.com>
-Date: Sat, 10 Mar 2018 10:27:48 -0800
-In-Reply-To: <20180310074659.GA7868@jama>
+	Sat, 10 Mar 2018 18:28:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Mar 2018 10:28:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,451,1515484800"; d="scan'208,217";a="26925731"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2018 10:28:21 -0800
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.175]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.4.210]) with mapi id
+	14.03.0319.002; Sat, 10 Mar 2018 10:28:20 -0800
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [morty][PATCH v2] gcc6.4 upgrade
+Thread-Index: AQHTuAFVGDs1nNZG2ECrkqALBGmGIqPJODQA//+AITWAAJRbgIAAF7cAgABlneM=
+Date: Sat, 10 Mar 2018 18:28:19 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B64C66B768@ORSMSX112.amr.corp.intel.com>
 References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C66B245@ORSMSX112.amr.corp.intel.com>
-	<20180310074659.GA7868@jama>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
+	<CAMKF1sqVAhoAK-Op+fg+kkA2HvH3h_acvEN=qckH3A5-tJEF8A@mail.gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C66B28D@ORSMSX112.amr.corp.intel.com>
+	<CAJ86T=VUgB7mWM7mrSGpHPipWy5v6bir3Puz6Wz2C7QAD2cJ3g@mail.gmail.com>,
+	<CAMKF1sq9wfRTcgo-vZLW2pVSVu2mbq9qtuAfK5WxFv5GRbrQKQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sq9wfRTcgo-vZLW2pVSVu2mbq9qtuAfK5WxFv5GRbrQKQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.46]
+MIME-Version: 1.0
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,69 +48,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 18:28:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 10 Mar 2018 18:28:20 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_"
 
-On Sat, 2018-03-10 at 08:46 +0100, Martin Jansa wrote:
-> On Fri, Mar 09, 2018 at 11:56:58PM +0000, Bystricky, Juro wrote:
-> > 
-> > I forgot to mention that if there are no objections against this
-> > patchset, I intend to do the same/equivalent upgrades for other
-> > releases with gcc 6x (rocko, pyro, ...)  and also upgrade gcc5.x
-> > and 4.9x where present.
-> Thanks for this work.
-> 
-> It might be a bit easier to do and review this by starting with rocko
-> (with just small change on top with newly backported changes) and
-> just
-> cherry-picking the necessary changes down to pyro and then few more
-> down
-> to morty (similar to Andre's backports in his branch).
-> 
-> With single big patch it's difficult to make sure that all the
-> branches
-> got all the changes and to review what's "new" compared to 6.4.0
-> which
-> used to be in master.
-
-I do agree with you that in an ideal world, this is how it should be
-done.
-
-I also realise part of the problem here is a few different companies
-have patched gcc 6.x in older releases and not submitted the changes
-with upstream stable. I appreciate there could be a ton of different
-reasons for that. It would be nice to try and share this work earlier
-and more often to avoid having patchsets quite this large.
-
-It is tough to have someone step up and try and make changes to gcc in
-OE-Core since the test matrix is quite large and fixing all the issues
-that can come up is non-trivial.
-
-I'm therefore very grateful for Juro taking this on and I don't
-particularly want to have him go back and redo the patches again,
-particularly for feedback at v2.
-
-I've been doing my best to guide Juro, equally I'm trying to do a
-number of things at the moment (M3 still isn't ready and the
-autobuilder is a wreak) and I clearly haven't given Juro enough
-guidance to get this 'right'. For that I do feel bad.
-
-So now I have a horrible choice. Do I push this back to Juro and have
-him do this again as you comment. I know I'll have to provide mode
-guidance, I'm travelling and its hard on everyone. Do I feel guilty for
-my part in this and sort the splitting up myself to avoid impacting
-Juro (with the impact on my time/sanity that entails)? Or do I take the
-patch and risk upsetting some of our key contributors for ignoring
-review?
-
-I'm spelling out the issues here because as a community/team, we need
-to get better at guiding people through things like this. It does have
-an impact on whether people step up in the first place and may be part
-of the reason nobody wants to touch gcc in the first place...
-
-Cheers,
-
-Richard
+--_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
+________________________________
+
+  - Today's morty-next is lacking one patch, which was added to oe-core
+master as a backport (from gcc master) to gcc 6.3:
+
+  http://git.openembedded.org/openembedded-core/commit/?id=3Dd2631f45a057c5=
+3797b7ba657662f35f66a2b04e
+
+I don't have any strong opinions on the patch, but presumably it fixed
+some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we
+have it in rocko so on balance I'd say it should probably be in morty
+too.
+
+Yes this patch fixes an arm regression
+
+I actually had to remove this patch,as it caused an ICE compiling valgrind =
+for x86-64.  I will retest this patch with other distros to see if it is mo=
+rty specific.
+
+
+--_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;"><br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<br>
+<div>
+<div>
+<div class=3D"gmail_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+&nbsp; - Today's morty-next is lacking one patch, which was added to oe-cor=
+e<br>
+master as a backport (from gcc master) to gcc 6.3:<br>
+<br>
+&nbsp; <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=
+=3Dd2631f45a057c53797b7ba657662f35f66a2b04e" rel=3D"noreferrer" target=3D"_=
+blank">
+http://git.openembedded.org/openembedded-core/commit/?id=3Dd2631f45a057c537=
+97b7ba657662f35f66a2b04e</a><br>
+<br>
+I don't have any strong opinions on the patch, but presumably it fixed<br>
+some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we<br>
+have it in rocko so on balance I'd say it should probably be in morty<br>
+too.<br>
+</blockquote>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">Yes this patch fixes an arm regression&nbsp;</div>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<br>
+I actually had to remove this patch,as it caused an ICE compiling valgrind =
+for x86-64.&nbsp; I will retest this patch with other distros to see if it =
+is morty specific.<br>
+<br>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_--
