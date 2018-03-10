@@ -1,41 +1,24 @@
 Return-Path: <juro.bystricky@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E528E780F3
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id CB90377E87
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 18:28:19 +0000 (UTC)
+	Sat, 10 Mar 2018 18:56:24 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Mar 2018 10:28:21 -0800
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Mar 2018 10:56:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,451,1515484800"; d="scan'208,217";a="26925731"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2018 10:28:21 -0800
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.175]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.4.210]) with mapi id
-	14.03.0319.002; Sat, 10 Mar 2018 10:28:20 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [morty][PATCH v2] gcc6.4 upgrade
-Thread-Index: AQHTuAFVGDs1nNZG2ECrkqALBGmGIqPJODQA//+AITWAAJRbgIAAF7cAgABlneM=
-Date: Sat, 10 Mar 2018 18:28:19 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B64C66B768@ORSMSX112.amr.corp.intel.com>
-References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-	<CAMKF1sqVAhoAK-Op+fg+kkA2HvH3h_acvEN=qckH3A5-tJEF8A@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C66B28D@ORSMSX112.amr.corp.intel.com>
-	<CAJ86T=VUgB7mWM7mrSGpHPipWy5v6bir3Puz6Wz2C7QAD2cJ3g@mail.gmail.com>,
-	<CAMKF1sq9wfRTcgo-vZLW2pVSVu2mbq9qtuAfK5WxFv5GRbrQKQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sq9wfRTcgo-vZLW2pVSVu2mbq9qtuAfK5WxFv5GRbrQKQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.46]
-MIME-Version: 1.0
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
+X-IronPort-AV: E=Sophos;i="5.47,451,1515484800"; d="scan'208";a="23585806"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga007.jf.intel.com with ESMTP; 10 Mar 2018 10:56:25 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 10 Mar 2018 10:56:25 -0800
+Message-Id: <1520708185-45755-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] BUILD_REPRODUCIBLE_BINARIES: use expanded value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,91 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 18:28:20 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_"
+X-List-Received-Date: Sat, 10 Mar 2018 18:56:25 -0000
 
---_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Replace the occurences of BUILD_REPRODUCIBLE_BINARIES with expanded
+values ${BUILD_REPRODUCIBLE_BINARIES} so the variable does not need to be
+exported.
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/image-prelink.bbclass    | 2 +-
+ meta/classes/image.bbclass            | 2 +-
+ meta/classes/kernel.bbclass           | 2 +-
+ meta/recipes-core/busybox/busybox.inc | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
+index f3bb68b..6a8afa8 100644
+--- a/meta/classes/image-prelink.bbclass
++++ b/meta/classes/image-prelink.bbclass
+@@ -36,7 +36,7 @@ prelink_image () {
+ 	dynamic_loader=$(linuxloader)
+ 
+ 	# prelink!
+-	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+ 		bbnote " prelink: BUILD_REPRODUCIBLE_BINARIES..."
+ 		if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+ 			export PRELINK_TIMESTAMP=`git log -1 --pretty=%ct `
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ce78c43..1636eed 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -664,7 +664,7 @@ ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge'
+ POPULATE_SDK_PRE_TARGET_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
+ 
+ reproducible_final_image_task () {
+-    if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++    if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+         if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+             REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
+         fi
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 321c0a4..d4ebc25 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -279,7 +279,7 @@ get_cc_option () {
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+ 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+ 		# be set....
+ 		if [ "$SOURCE_DATE_EPOCH" = "0" ]; then
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index ac6d7ca..d1675c3 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -106,7 +106,7 @@ python () {
+ }
+ 
+ do_prepare_config () {
+-	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+ 		export KCONFIG_NOTIMESTAMP=1
+ 	fi
+ 	sed -e '/CONFIG_STATIC/d' \
+@@ -146,7 +146,7 @@ do_configure () {
+ 
+ do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
++	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+ 		export KCONFIG_NOTIMESTAMP=1
+ 	fi
+ 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
+-- 
+2.7.4
 
 
-________________________________
-
-  - Today's morty-next is lacking one patch, which was added to oe-core
-master as a backport (from gcc master) to gcc 6.3:
-
-  http://git.openembedded.org/openembedded-core/commit/?id=3Dd2631f45a057c5=
-3797b7ba657662f35f66a2b04e
-
-I don't have any strong opinions on the patch, but presumably it fixed
-some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we
-have it in rocko so on balance I'd say it should probably be in morty
-too.
-
-Yes this patch fixes an arm regression
-
-I actually had to remove this patch,as it caused an ICE compiling valgrind =
-for x86-64.  I will retest this patch with other distros to see if it is mo=
-rty specific.
-
-
---_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;"><br>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<br>
-<div>
-<div>
-<div class=3D"gmail_quote">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-&nbsp; - Today's morty-next is lacking one patch, which was added to oe-cor=
-e<br>
-master as a backport (from gcc master) to gcc 6.3:<br>
-<br>
-&nbsp; <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=
-=3Dd2631f45a057c53797b7ba657662f35f66a2b04e" rel=3D"noreferrer" target=3D"_=
-blank">
-http://git.openembedded.org/openembedded-core/commit/?id=3Dd2631f45a057c537=
-97b7ba657662f35f66a2b04e</a><br>
-<br>
-I don't have any strong opinions on the patch, but presumably it fixed<br>
-some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we<br>
-have it in rocko so on balance I'd say it should probably be in morty<br>
-too.<br>
-</blockquote>
-<div dir=3D"auto"><br>
-</div>
-<div dir=3D"auto">Yes this patch fixes an arm regression&nbsp;</div>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<br>
-I actually had to remove this patch,as it caused an ICE compiling valgrind =
-for x86-64.&nbsp; I will retest this patch with other distros to see if it =
-is morty specific.<br>
-<br>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_6E51916E4A1F32428260031F4C7CD2B64C66B768ORSMSX112amrcor_--
