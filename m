@@ -1,48 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 242FD788E3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 122EE788DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 04:15:25 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id z12so10783527wrg.4
+	Sat, 10 Mar 2018 04:20:51 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id z10so2091528pfh.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2018 20:15:27 -0800 (PST)
+	Fri, 09 Mar 2018 20:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FCctVUdy+HuuQ+bII8sSlFogRbHpld1MgVYPbJYAerM=;
-	b=eMdgv/w2EUY0YSDivHlkJOCZl9xpr33oJX80p1TVAw67/Cx/Mj1f6KxWz9Mu0l73sc
-	iIZwA3nYk9bCz+WPUTjpXpnZblKkJvfuwn6xHLWHRp8wPJPazW/g9aRYnYFem3+l0g/v
-	aEdE/uracF71NKno35xe7j1Re48TXoczLaxyrBfHpmyxG4W3HcgxRmCI1Zg/CGtX1vrX
-	1WanrJYklRtFyzXnHSs+1BzaDeWS/crRKJ4ooUNmMACbxPQZ4bKqr5/x53+MWxTEJpXM
-	FeBcyJltH6ZDKhNf+d6vq4MB3ZJ4wHci6tHVNBwv7Q5DH7j3IqCK0DG4Urk4DNt/Zwyn
-	jJrQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=v78H1U/M41gbVAHZi5yF9Am9kaomYX2aCMayeSiZtMs=;
+	b=bBIk15FlhCAg6S+y2FTvjt303mBzXw9r9a6Xy1AOIvqa8XVIG1lQd94uXauLZU6APC
+	jQ9c3aEj3NlSeVWb74J0D2m/ITfvHgINAXPjqVEsIa9BicaclVXdb1amYGf34k0UVgil
+	t1RjX/+Uiz/Ku3DLDMFZ+eQOMXvqh9ubuXBqaeHLQWyxa4macvAVn24vkKfi0Dhe/8Rb
+	BX2J5uBaSuSVJyqVxq2oE323f/eUbCvlDwBK2qvPNj3JuYmS2jZScL68La/mWSrqkDrN
+	pdje+oQ7gUBJdq0t/O5OI36iduRFn4RK4PC8B8Xp11Xk+62qLNorjPrknC2siph6idhP
+	KyWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=FCctVUdy+HuuQ+bII8sSlFogRbHpld1MgVYPbJYAerM=;
-	b=AlV6NG8teO9yBx5NKk2d/csA8nH8+5EaqSkjenwihxw/eAZaIpsZXD5hPv4Z7vU81g
-	rEjdQPSFfvUDVIpJ0T9H4FYLM30V3O6a1tHD8JoBv/s9QJVJY5nxEpsy1KquDikGN29L
-	nALLz1xBuF+FHGhvbiqQNU/ftp4DcH3/3RX14wjg0bdmb93/El9Qz6A+IDko+81WItrZ
-	3qR9Hf4CXIlqbPqZQRVZ1kQonI/EXIbzS2H4Fk4nws5uwhWZGyihvzSrsq/S5gYewtxw
-	syxP95acb/qDSiyGC+9+XvnkobwGZrQoGK+kKamJ9eeup2yIrRt7P6by1NKSVWL9P4JQ
-	aiww==
-X-Gm-Message-State: AElRT7HY5hMaM8jKzcjy+BneppGVn+17IFHGDgz3v4lU6PkDfqJ2iRRz
-	1x2yDo1rnDV5qi969oJbCPUBGHnh9Npg/il3LcdPIA==
-X-Google-Smtp-Source: AG47ELszAFLC+rWaUuW+uhyph3uC0vSfBGwtNWXMbR0Ulc6t32ED12S6WLE05Gr0llAjpv2j+MMbmyE18zaCfEp4vbI=
-X-Received: by 10.223.182.135 with SMTP id j7mr326234wre.66.1520655326692;
-	Fri, 09 Mar 2018 20:15:26 -0800 (PST)
+	bh=v78H1U/M41gbVAHZi5yF9Am9kaomYX2aCMayeSiZtMs=;
+	b=kpWvUg8YO4zGcHRiJ2d89ReXWLQgS+6Kyhx1de0tav04sWYD2nNAOHNzJURyPNTJc9
+	ml3kH7lnSE9/XuTWlXZReeWahtwac0RedtOTkR2jwkdh5vv9u8GHfhSzhqvF9tGbbErm
+	zGGWKRU13Ul4OXQOs37Aj/32pZ4oGWBeRdpMBmcLLRMy/G/tV2tv+3B8qR1IkDx7EhwY
+	QKrKNEmvYh7FWL1vfLoLw9Qa20ZHxftqMD2vnvffd88J/HLPdai7wrZuyVV4yc+1I5uN
+	SUqHVi4VPYTFBvYlR6vglTHTZeRBW30t94bgO1cTR2xqHgF0JfLAIw0ggIDj40oJLX5K
+	2gcw==
+X-Gm-Message-State: AElRT7Fl+xnMr4vfFrzI8xM7SjeOi4eG76VviwU0EJ+mySviKfI1uvpn
+	UWAYcv6kxMjFCBMa18Oq+vqPVpRrOfNanqqhQkQ=
+X-Google-Smtp-Source: AG47ELv8K8x+v8ktKQ+4mGNDeTfl1yaq//Mcwq5YDxzT42pGU5RRxf+bYXo1omCrR+nxjTRk8clPpXAb3ePs7PeTo/M=
+X-Received: by 10.99.170.73 with SMTP id x9mr704481pgo.393.1520655653122; Fri,
+	09 Mar 2018 20:20:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.173.65 with HTTP; Fri, 9 Mar 2018 20:15:26 -0800 (PST)
-In-Reply-To: <CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
-References: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=WiHB_6J8Rj0YXv7MTqu7xBgLFt9+09W+UsEjKd-PoyAA@mail.gmail.com>
-	<CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 9 Mar 2018 20:15:26 -0800
-Message-ID: <CAJ86T=U+mP5KPJBUL+18i3g21nCiMX_JNi0_Ad2mj5iGNqFvog@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
+	<CAMKF1sqVAhoAK-Op+fg+kkA2HvH3h_acvEN=qckH3A5-tJEF8A@mail.gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C66B28D@ORSMSX112.amr.corp.intel.com>
+	<CAJ86T=VUgB7mWM7mrSGpHPipWy5v6bir3Puz6Wz2C7QAD2cJ3g@mail.gmail.com>
+In-Reply-To: <CAJ86T=VUgB7mWM7mrSGpHPipWy5v6bir3Puz6Wz2C7QAD2cJ3g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 10 Mar 2018 04:20:42 +0000
+Message-ID: <CAMKF1sq9wfRTcgo-vZLW2pVSVu2mbq9qtuAfK5WxFv5GRbrQKQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +58,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 04:15:26 -0000
+X-List-Received-Date: Sat, 10 Mar 2018 04:20:52 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1bfbbc07b7440567073cd6"
+
+--94eb2c1bfbbc07b7440567073cd6
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 21, 2018 at 1:40 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, Jan 23, 2018 at 12:16 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Tue, Dec 5, 2017 at 5:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> From: Ming Liu <liu.ming50@gmail.com>
->>>
->>> A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
->>> the default terminal, when I run any of the tasks:
->>> bitbake busybox -c menuconfig/devshell/devpyshell
->>> bitbake virtual/kernel -c menuconfig/devshell/devpyshell
->>>
->>> I got a error as follows:
->>> "Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
->>>
->>> Seems the environment of the process calling Popen is not passed to the
->>> child process, this behaviour is a known issue in Python bug tracker:
->>> http://bugs.python.org/issue8557
->>>
->>> It could be fixed by using an absolute path instead per test.
->>
->> Ping.
+On Fri, Mar 9, 2018 at 6:55 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+
+> On Fri, Mar 9, 2018 at 6:25 PM, Bystricky, Juro
+> <juro.bystricky@intel.com> wrote:
+> > This was morty upgrade, which did not have those patches to begin with,
+> I did not remove them.  The patches were not in rocko either, in the end I
+> got them from master  (gcc6.4 was eventually removed completely),
+> > Backporting of ARM specific patches was not the objective. ( I was not
+> aware that 6.4 had an ARM specific regression which broke the pi3 builds).
+> > Long story short, all patches should be there now, please review them,
+> see the commit message for more details.
+> > I'll make sure all other gcc6 upgrades contain the ARM patches as well.
 >
-> Ping again.
+> Comparing my morty branch (with update to gcc 6.4 by backporting
+> incremental gcc updates from master) and today's morty-next (which
+> updates gcc 6.2 -> 6.4 with a single commit) the only differences are:
+>
+>  - My branch lacks all the new x86 specific patches (OK, since they
+> are appearing here first)
+>
+>  - Today's morty-next is lacking one patch, which was added to oe-core
+> master as a backport (from gcc master) to gcc 6.3:
+>
+>
+> http://git.openembedded.org/openembedded-core/commit/?id=d2631f45a057c53797b7ba657662f35f66a2b04e
+>
+> I don't have any strong opinions on the patch, but presumably it fixed
+> some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we
+> have it in rocko so on balance I'd say it should probably be in morty
+> too.
+>
 
-And again...
+Yes this patch fixes an arm regression
 
-It looks like this (and a couple of other patches) made it as far as:
+>
+> Overall this looks great though and I'm very happy to see gcc updates
+> landing in the release branches. Thanks Juro!
+>
 
-  http://git.openembedded.org/openembedded-core-contrib/log/?h=stable/morty-next
+--94eb2c1bfbbc07b7440567073cd6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-but then got stuck or forgotten?
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Mar 9, 2018 a=
+t 6:55 PM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurd=
+y@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, =
+Mar 9, 2018 at 6:25 PM, Bystricky, Juro<br>
+&lt;<a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.byst=
+ricky@intel.com</a>&gt; wrote:<br>
+&gt; This was morty upgrade, which did not have those patches to begin with=
+, I did not remove them.=C2=A0 The patches were not in rocko either, in the=
+ end I got them from master=C2=A0 (gcc6.4 was eventually removed completely=
+),<br>
+&gt; Backporting of ARM specific patches was not the objective. ( I was not=
+ aware that 6.4 had an ARM specific regression which broke the pi3 builds).=
+<br>
+&gt; Long story short, all patches should be there now, please review them,=
+ see the commit message for more details.<br>
+&gt; I&#39;ll make sure all other gcc6 upgrades contain the ARM patches as =
+well.<br>
+<br>
+Comparing my morty branch (with update to gcc 6.4 by backporting<br>
+incremental gcc updates from master) and today&#39;s morty-next (which<br>
+updates gcc 6.2 -&gt; 6.4 with a single commit) the only differences are:<b=
+r>
+<br>
+=C2=A0- My branch lacks all the new x86 specific patches (OK, since they<br=
+>
+are appearing here first)<br>
+<br>
+=C2=A0- Today&#39;s morty-next is lacking one patch, which was added to oe-=
+core<br>
+master as a backport (from gcc master) to gcc 6.3:<br>
+<br>
+=C2=A0 <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=
+=3Dd2631f45a057c53797b7ba657662f35f66a2b04e" rel=3D"noreferrer" target=3D"_=
+blank">http://git.openembedded.org/openembedded-core/commit/?id=3Dd2631f45a=
+057c53797b7ba657662f35f66a2b04e</a><br>
+<br>
+I don&#39;t have any strong opinions on the patch, but presumably it fixed<=
+br>
+some issue Khem was seeing, it still applies cleanly to gcc 6.4 and we<br>
+have it in rocko so on balance I&#39;d say it should probably be in morty<b=
+r>
+too.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes this patch f=
+ixes an arm regression=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Overall this looks great though and I&#39;m very happy to see gcc updates<b=
+r>
+landing in the release branches. Thanks Juro!<br>
+</blockquote></div></div>
 
->>> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> (cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> ---
->>>  meta/lib/oe/terminal.py | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
->>> index 3c8ef59..df4c75b 100644
->>> --- a/meta/lib/oe/terminal.py
->>> +++ b/meta/lib/oe/terminal.py
->>> @@ -67,7 +67,7 @@ class Gnome(XTerminal):
->>>          import tempfile
->>>          pidfile = tempfile.NamedTemporaryFile(delete = False).name
->>>          try:
->>> -            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
->>> +            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
->>>              XTerminal.__init__(self, sh_cmd, title, env, d)
->>>              while os.stat(pidfile).st_size <= 0:
->>>                  continue
->>> --
->>> 1.9.1
->>>
-
+--94eb2c1bfbbc07b7440567073cd6--
