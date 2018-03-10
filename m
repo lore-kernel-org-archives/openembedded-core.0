@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CE13C788E2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E2C69780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 17:55:38 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id n136so6367812itg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 09:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CtGhEntdXikTVlxa23s35t+UZIe7CzXL6bALeMuDQCA=;
-	b=VS49a4F0nXLhbpBaDQMIn4P1uZjIDH2yDYJKbus7x+BskYbzkrW41jaCLKyuiQ5R60
-	TYBIT6AS5lj4b7u459euHCYmFvAXeY41LsNw1h8ordP7KAKuVwvv6rPd6f1R7JH9Gkuo
-	zzYBbSZAPjwY4kNizAHDA2gZoc02IjdQOaUXZR8AJcmIgNzgUSAiUPyfvGGwxJow/0yr
-	skFAaY7s/5Gyk26RZpfw3WufP3wjcWy6ItB6ZQPoXGSHbD9/Sr1cC0+QNniCU7ZYm9Va
-	7NvPCu5OEVKlpaJZeFNfcPCTI7bKUD1IPGxktsPaROFGityY+d7n5jc6LAFg+tyGSozY
-	/PnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CtGhEntdXikTVlxa23s35t+UZIe7CzXL6bALeMuDQCA=;
-	b=DneS0SJiEbHZsF+RlHdDgqXzuO72qAuqT9ebx6epxZbURqmmOl/rGCGUCfR+8l8OAV
-	qR06+INkHdhh8Kpxghs2FGV1chMfShFdJYw+LaQI4q46WVnw9AMuTOskVQQFtyZV5DWa
-	p80HA2+egN8sMhRVrr+47yArxdAx3cBRCRGv6xygTEJx36NUruqrsNHrZYZE6GVOTYnV
-	/lSbe2NXM4AnTK1r+jPN1/WFZ2AD5XjLX1URwNBC0MLNWJCb90R63B6krWUCWZ20Ky9t
-	v2OMpCre+Trz+KIm++IZfWMKZtl8i5/Iwm7kbNmWJUJkjOL0jcsSnV2ptSV286ne5GbI
-	DZZQ==
-X-Gm-Message-State: AElRT7G4lSa7J6eLjBzprl3sNoxKbAaS08hPra31Pw29acxIqBugs6Ay
-	mBOvrgevZHfx+chTHkPd28qOev/1NPNJYwm3Fi5eAA==
-X-Google-Smtp-Source: AG47ELsSWEDI9L6wn6MDFabfBIN086k/epucVCB7Pc1llnowQCUD4GeEEwRXQNEWyQpbawJFCRiqyNw+tzQ4guPyhUQ=
-X-Received: by 10.36.198.7 with SMTP id j7mr2570180itg.34.1520704539893; Sat,
-	10 Mar 2018 09:55:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Sat, 10 Mar 2018 09:55:19 -0800 (PST)
-In-Reply-To: <20180310002346.6086-1-california.l.sullivan@intel.com>
-References: <20180310002346.6086-1-california.l.sullivan@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 10 Mar 2018 17:55:19 +0000
-Message-ID: <CAJTo0Lbw3obJmC44nLGXxNGb1AuVFxGQzH69ckDZzM76qOkwLQ@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x86-base.inc: use xf86-video-modesettings as default xserver
+	Sat, 10 Mar 2018 18:28:01 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w2AIRmW4009373
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 10 Mar 2018 18:27:52 GMT
+Message-ID: <1520706468.10851.164.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, "Bystricky, Juro"
+	<juro.bystricky@intel.com>
+Date: Sat, 10 Mar 2018 10:27:48 -0800
+In-Reply-To: <20180310074659.GA7868@jama>
+References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C66B245@ORSMSX112.amr.corp.intel.com>
+	<20180310074659.GA7868@jama>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,114 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 17:55:39 -0000
-Content-Type: multipart/alternative; boundary="94eb2c089ed6e8c0de0567129dbe"
-
---94eb2c089ed6e8c0de0567129dbe
+X-List-Received-Date: Sat, 10 Mar 2018 18:28:02 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From memory there are some chipsets which the Intel driver *is* better on.
-I recommend we look at the Fedora patches for the intel driver, I believe
-that massively reduces the chips that the intel driver will be the primary
-driver for.  We can then continue to ship both and not break anything.
+On Sat, 2018-03-10 at 08:46 +0100, Martin Jansa wrote:
+> On Fri, Mar 09, 2018 at 11:56:58PM +0000, Bystricky, Juro wrote:
+> > 
+> > I forgot to mention that if there are no objections against this
+> > patchset, I intend to do the same/equivalent upgrades for other
+> > releases with gcc 6x (rocko, pyro, ...)  and also upgrade gcc5.x
+> > and 4.9x where present.
+> Thanks for this work.
+> 
+> It might be a bit easier to do and review this by starting with rocko
+> (with just small change on top with newly backported changes) and
+> just
+> cherry-picking the necessary changes down to pyro and then few more
+> down
+> to morty (similar to Andre's backports in his branch).
+> 
+> With single big patch it's difficult to make sure that all the
+> branches
+> got all the changes and to review what's "new" compared to 6.4.0
+> which
+> used to be in master.
 
-Ross
+I do agree with you that in an ideal world, this is how it should be
+done.
 
-On 10 March 2018 at 00:23, California Sullivan <
-california.l.sullivan@intel.com> wrote:
+I also realise part of the problem here is a few different companies
+have patched gcc 6.x in older releases and not submitted the changes
+with upstream stable. I appreciate there could be a ton of different
+reasons for that. It would be nice to try and share this work earlier
+and more often to avoid having patchsets quite this large.
 
-> Most distros have switched to this, and we're seeing better results in
-> some areas as well. E.g., on a NUC6CAYS the x11perf -aa10text and
-> -rgb10text results see a 20x increase.
->
-> [YOCTO #12019].
-> [YOCTO #12590].
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->  meta/conf/machine/include/x86-base.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/conf/machine/include/x86-base.inc
-> b/meta/conf/machine/include/x86-base.inc
-> index f8aacea64cc..e6bfdc6f770 100644
-> --- a/meta/conf/machine/include/x86-base.inc
-> +++ b/meta/conf/machine/include/x86-base.inc
-> @@ -34,11 +34,11 @@ XSERVER_X86_EXT = " \
->             xserver-xorg-module-libint10 \
->             "
->
-> -XSERVER_X86_I915 = "xf86-video-intel \
-> +XSERVER_X86_I915 = "xf86-video-modesetting \
->             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-> 'mesa-driver-i915', '', d)} \
->             "
->
-> -XSERVER_X86_I965 = "xf86-video-intel \
-> +XSERVER_X86_I965 = "xf86-video-modesetting \
->             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-> 'mesa-driver-i965', '', d)} \
->             "
->
-> --
-> 2.14.3
->
->
+It is tough to have someone step up and try and make changes to gcc in
+OE-Core since the test matrix is quite large and fixing all the issues
+that can come up is non-trivial.
 
---94eb2c089ed6e8c0de0567129dbe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm therefore very grateful for Juro taking this on and I don't
+particularly want to have him go back and redo the patches again,
+particularly for feedback at v2.
 
-<div dir=3D"ltr">From memory there are some chipsets which the Intel driver=
- *is* better on.=C2=A0 I recommend we look at the Fedora patches for the in=
-tel driver, I believe that massively reduces the chips that the intel drive=
-r will be the primary driver for.=C2=A0 We can then continue to ship both a=
-nd not break anything.<div><br></div><div>Ross</div></div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 10 March 2018 at 00:23, Califor=
-nia Sullivan <span dir=3D"ltr">&lt;<a href=3D"mailto:california.l.sullivan@=
-intel.com" target=3D"_blank">california.l.sullivan@intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">Most distros have switched to thi=
-s, and we&#39;re seeing better results in<br>
-some areas as well. E.g., on a NUC6CAYS the x11perf -aa10text and<br>
--rgb10text results see a 20x increase.<br>
-<br>
-[YOCTO #12019].<br>
-[YOCTO #12590].<br>
-<br>
-Signed-off-by: California Sullivan &lt;<a href=3D"mailto:california.l.sulli=
-van@intel.com">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/include/x86-<wbr>base.inc | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/<wbr>x86-base.inc b/meta/conf/machin=
-e/include/<wbr>x86-base.inc<br>
-index f8aacea64cc..e6bfdc6f770 100644<br>
---- a/meta/conf/machine/include/<wbr>x86-base.inc<br>
-+++ b/meta/conf/machine/include/<wbr>x86-base.inc<br>
-@@ -34,11 +34,11 @@ XSERVER_X86_EXT =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xserver-xorg-module-libint10 \<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--XSERVER_X86_I915 =3D &quot;xf86-video-intel \<br>
-+XSERVER_X86_I915 =3D &quot;xf86-video-modesetting \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_=
-<wbr>FEATURES&#39;, &#39;opengl&#39;, &#39;mesa-driver-i915&#39;, &#39;&#39=
-;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--XSERVER_X86_I965 =3D &quot;xf86-video-intel \<br>
-+XSERVER_X86_I965 =3D &quot;xf86-video-modesetting \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_=
-<wbr>FEATURES&#39;, &#39;opengl&#39;, &#39;mesa-driver-i965&#39;, &#39;&#39=
-;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.14.3<br>
-<br>
-</font></span></blockquote></div><br></div>
+I've been doing my best to guide Juro, equally I'm trying to do a
+number of things at the moment (M3 still isn't ready and the
+autobuilder is a wreak) and I clearly haven't given Juro enough
+guidance to get this 'right'. For that I do feel bad.
 
---94eb2c089ed6e8c0de0567129dbe--
+So now I have a horrible choice. Do I push this back to Juro and have
+him do this again as you comment. I know I'll have to provide mode
+guidance, I'm travelling and its hard on everyone. Do I feel guilty for
+my part in this and sort the splitting up myself to avoid impacting
+Juro (with the impact on my time/sanity that entails)? Or do I take the
+patch and risk upsetting some of our key contributors for ignoring
+review?
+
+I'm spelling out the issues here because as a community/team, we need
+to get better at guiding people through things like this. It does have
+an impact on whether people step up in the first place and may be part
+of the reason nobody wants to touch gcc in the first place...
+
+Cheers,
+
+Richard
+
+
