@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 13137788DF;
-	Sat, 10 Mar 2018 00:00:57 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 10 Mar 2018 00:00:58 -0000
-Message-ID: <20180310000058.15536.85416@do.openembedded.org>
-References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2NjNjogVXBncmFkZSB0byA2LjQuMCAobGF0ZXN0IHN0YWJsZSBzZXJpZXMgcmVsZWFzZSkgKHJldjMp?=
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 90E5F6011B
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Mar 2018 00:23:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Mar 2018 16:23:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,448,1515484800"; d="scan'208";a="24403674"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga006.jf.intel.com with ESMTP; 09 Mar 2018 16:23:48 -0800
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Mar 2018 16:23:46 -0800
+Message-Id: <20180310002346.6086-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] x86-base.inc: use xf86-video-modesettings as default xserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 00:00:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 10 Mar 2018 00:23:47 -0000
 
-== Series Details ==
+Most distros have switched to this, and we're seeing better results in
+some areas as well. E.g., on a NUC6CAYS the x11perf -aa10text and
+-rgb10text results see a 20x increase.
 
-Series: gcc6: Upgrade to 6.4.0 (latest stable series release) (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/11226/
-State : failure
+[YOCTO #12019].
+[YOCTO #12590].
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0001-enable-FL_LPAE-flag-for-armv7ve-cores.patch
-  Current          UpStream-Status: Backport
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/conf/machine/include/x86-base.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
+index f8aacea64cc..e6bfdc6f770 100644
+--- a/meta/conf/machine/include/x86-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -34,11 +34,11 @@ XSERVER_X86_EXT = " \
+            xserver-xorg-module-libint10 \
+            "
+ 
+-XSERVER_X86_I915 = "xf86-video-intel \
++XSERVER_X86_I915 = "xf86-video-modesetting \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
+            "
+ 
+-XSERVER_X86_I965 = "xf86-video-intel \
++XSERVER_X86_I965 = "xf86-video-modesetting \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
+            "
+ 
+-- 
+2.14.3
 
 
