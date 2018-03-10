@@ -1,57 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 51BC87890D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D5D78888
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 00:36:16 +0000 (UTC)
-Received: by mail-pg0-f51.google.com with SMTP id l24so4188410pgc.5
+	Sat, 10 Mar 2018 01:42:59 +0000 (UTC)
+Received: by mail-pg0-f42.google.com with SMTP id e9so4228531pgs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2018 16:36:18 -0800 (PST)
+	Fri, 09 Mar 2018 17:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=zWFjWb2TSu+yDqSP1wsEnEzqVrHGt62V+TwqI9o0CJU=;
-	b=KxT/ImC2yHjLluo4uH8U55SyHNPVzYxj0KeLmhmf7YJTDsEIiwTNLUVqCnfjKXx8eg
-	LH06SGVr0N/XTVfHj11q3T9sKlpifgPEOpYqr5aKaLf2YzAGcEvZvj6l79U9Z+nLbZDD
-	4GzmTQndnCaPdoCmPcr/+d9twHzJsv1TufdlKTfsqMWWWm2g4Ch2EFR56rAA3HxfDFUX
-	RmcktAeGI3DT4CnMOoyKz/0fuUbcqG+UIvWi/An9nyCRJFu8BepYd5u+27k0JQb9bN1F
-	H/fVwcrpsMN3Sx2BcCfGmW1YyyAfUeUHIAHqca4W32HUY/zsDYPZeBlj7i9Z4m/rWBUt
-	+TXA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gqINv9tw5PbEUcRL7TPGnxeam4nvTv+2FP6MqFMrJv8=;
+	b=MnVhYSGTNE8sQUKXyoKBKjKJQ7zHrDhW9Rtw0NXnk8nVUBuaSJ0lyHXMNNO7Pofuv6
+	Fd15VZUjqgf+uCm74iBuIPyf4Vj6dd2MQoMMcY9lIDERkHw0oPFsHyDdYemeo4bKLksO
+	Amz9L7ENdOG8Lt/ttDYQFL0sJMuT0Q6aPm2+SiY6HfcVcAK/hyZSSNK5MoRvAiiB4VOT
+	sNPwLk2F34SGQ9kXJrBqqSwW9aYqbqgyqCav61KQG5Rqvc65RLGBm6snq5Zbi7rofNEK
+	UYnMbVc3dChxzo27xlMd8eiC8zrjKfxjSFzFHNyil0ztomVrxjE//D+tqHwfARokqAgG
+	7dBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=zWFjWb2TSu+yDqSP1wsEnEzqVrHGt62V+TwqI9o0CJU=;
-	b=MD8YiIDLy2T6C0ACmWr8Ts+p+z/iKfvj5tRpI1i1DoyhNiMb/MzJufPwRRaOnS62z4
-	hDDmxX+z6xiSFAUSJUt9wqbWpnp/PsM62uF2+53Kt6TEahiwA0zOp59p25+kuYABQGNh
-	8XpvZmEs4N8Czd+oS1r21C/sxVVXhu0Y/PZ0Mh+gOcOrDrPbd8G9n3M5mBo10LYVy4qG
-	UDvPgKxwh8rhqrGopcz3yfkLhjTXSYn2bPJCG2M3pEaE6yMLEQ0IRRU2zAZJAZBMK07D
-	ZKILbBqeOwMSLSzXx7Mzow2qbxGLR85IQxco9E+cBIGNglxQcD2q0UPTEIdv50wK7BGZ
-	3IJw==
-X-Gm-Message-State: AElRT7HdTghRRroxdBdrdScAatZBmGxtehChb4+LzVJm1EmWFM2GYm+w
-	ocK8BJvwCfsOegphjDHKCJc=
-X-Google-Smtp-Source: AG47ELt660A79T+yod0eUtuWw0lBUXrlycQtD4YTB/lfK6LlmY/0lAFs92jxYjdfEynquFzlRF6neA==
-X-Received: by 10.101.69.66 with SMTP id x2mr298387pgr.438.1520642178368;
-	Fri, 09 Mar 2018 16:36:18 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1184:fd75:e63c:d189:da64?
-	([2601:202:4000:1184:fd75:e63c:d189:da64])
-	by smtp.gmail.com with ESMTPSA id
-	w24sm4973969pfl.14.2018.03.09.16.36.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Mar 2018 16:36:17 -0800 (PST)
-To: "Bystricky, Juro" <juro.bystricky@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C66B245@ORSMSX112.amr.corp.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <a4c70886-879a-1230-83bc-16486dfce66b@gmail.com>
-Date: Fri, 9 Mar 2018 16:36:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gqINv9tw5PbEUcRL7TPGnxeam4nvTv+2FP6MqFMrJv8=;
+	b=OYRGaHdlVu4Ex+3kmfvXWf/v0BacxUomo7mHtrMQGshRBRpZWj7Dj8CcLa7KoR48+C
+	qdpwdGpyo02x/VXv05T/JKRfMGZQQiOu167fsj+KKJJW+eZIQtes0u0s4hH0PQ/KYC3R
+	uKfDCNXXZLe8isGhvQHCUtF267DGwD797W/7yu+Xv+oVouM/SLcFd0Eac713NYIMwzIi
+	o5SJH75lS9rMHEJy6LsWZGIklPL+nf4YY0A2rBNpM08iOA/CSknhmurfrJNMcHGvYZ4l
+	mKkVrV1aYdfVPAVwsY2d1jwcNCcSuf+J0GWG/izb6rh5E2CfxsawodPrXOJxid46nIOJ
+	G+pg==
+X-Gm-Message-State: AElRT7E7XXmhTV/JntvC+U/LQx9HVxqGLxkcMGW+3g+4YyDsxa7abriZ
+	L67rqkXR9YXnqMd6OHmbVxB2HpVikldtvaxvm+g=
+X-Google-Smtp-Source: AG47ELsHp6Z+JP0yGJF2xXqd2DNtA/Sl0hOzosXuZ+B/Bijge3X7dg1AussHRpWFYvqHFlo9bZK3jJ4L47cFiNymajQ=
+X-Received: by 10.98.229.21 with SMTP id n21mr490005pff.158.1520646180506;
+	Fri, 09 Mar 2018 17:43:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B64C66B245@ORSMSX112.amr.corp.intel.com>
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Received: by 10.100.179.2 with HTTP; Fri, 9 Mar 2018 17:42:30 -0800 (PST)
+In-Reply-To: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
+References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Mar 2018 17:42:30 -0800
+Message-ID: <CAMKF1sqVAhoAK-Op+fg+kkA2HvH3h_acvEN=qckH3A5-tJEF8A@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -65,36 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 00:36:17 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 10 Mar 2018 01:43:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Juro,
-
-
-
-On 03/09/2018 03:56 PM, Bystricky, Juro wrote:
-> I forgot to mention that if there are no objections against this patchset, I intend to do the same/equivalent upgrades for other releases with gcc 6x (rocko, pyro, ...)  and also upgrade gcc5.x and 4.9x where present.
-Thanks for this work.
-kind regards,
-
->
-> ________________________________________
-> From: Bystricky, Juro
-> Sent: Friday, March 09, 2018 3:49 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: richard.purdie@linuxfoundation.org; jurobystricky@hotmail.com; martin.jansa@gmail.com; armccurdy@gmail.com; raj.khem@gmail.com; Bystricky, Juro
-> Subject: [morty][PATCH v2] gcc6.4 upgrade
->
+On Fri, Mar 9, 2018 at 3:49 PM, Juro Bystricky <juro.bystricky@intel.com> wrote:
 > Second attempt. Added some more patches, mostly ARM specific.
 > AFAIK this patchset passed all x86-64 tests.
 >
 > I also did some limited testing with meta-raspberrypi and musl library.
 >
 > (raspberrypi did not build with v1 of the patchset)
->
->
+
+There were patches to fix the pi issue. So we upgraded to 6.4 to ensure that
+we can backport exact set as needed. I am bit lost what went missing.
+
 > Juro Bystricky (1):
 >   gcc6: Upgrade to 6.4.0 (latest stable series release)
 >
@@ -268,5 +242,4 @@ kind regards,
 > --
 > 2.7.4
 >
-
 
