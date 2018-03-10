@@ -1,47 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 186F860190
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 242FD788E3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 03:30:22 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id k9so10738357wre.9
+	Sat, 10 Mar 2018 04:15:25 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id z12so10783527wrg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2018 19:30:24 -0800 (PST)
+	Fri, 09 Mar 2018 20:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mHaVBv++lel8jmlzyaxoHGC/LSo4F9Gg3IpjCiNeo84=;
-	b=N0bXmotzn+c57rw0Q+sZ4NX4iYTcfseplHr+521v0G4WIR+Iz1ZXlCgKN86qWMeUjW
-	d9b+EyZqVNjNNSbIdZAofz328VtVsiQrbLZX5MalEwpl8r2EBtt7ic0j/xRY8/hOCfAa
-	S3Tr1mqJqYWyxUmm5jMgUKQblfnOSjfLCkkoUip8IPNEaP7gPoDp9NjCXq8oLFvwX58T
-	qfx3ThwTsBeJO4ComUTSqHUbR1yruOzNJV3MWp3otJsJhFQWVaLJcqIdxUKTthmTlgHS
-	g+kb6Zqpgx+DgtoU8rH11TxzOw7ePaNM0hNJYz7zHtpRwOerSOiygXO2tbKBC1dPVoXn
-	K0GQ==
+	:cc; bh=FCctVUdy+HuuQ+bII8sSlFogRbHpld1MgVYPbJYAerM=;
+	b=eMdgv/w2EUY0YSDivHlkJOCZl9xpr33oJX80p1TVAw67/Cx/Mj1f6KxWz9Mu0l73sc
+	iIZwA3nYk9bCz+WPUTjpXpnZblKkJvfuwn6xHLWHRp8wPJPazW/g9aRYnYFem3+l0g/v
+	aEdE/uracF71NKno35xe7j1Re48TXoczLaxyrBfHpmyxG4W3HcgxRmCI1Zg/CGtX1vrX
+	1WanrJYklRtFyzXnHSs+1BzaDeWS/crRKJ4ooUNmMACbxPQZ4bKqr5/x53+MWxTEJpXM
+	FeBcyJltH6ZDKhNf+d6vq4MB3ZJ4wHci6tHVNBwv7Q5DH7j3IqCK0DG4Urk4DNt/Zwyn
+	jJrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=mHaVBv++lel8jmlzyaxoHGC/LSo4F9Gg3IpjCiNeo84=;
-	b=VmyglbcLgIH10YS9lD/yERbAo/2WoBrl8hNcBj26qzgo+CWdj6Dm2bKgtlS1ZXp+L2
-	2HmKMGJtDqsChaBSk0cEEAYiSs9QRWKwIb9Ve8KvrGu+5F5pTaYhRV5G7u0Cd3dTD1W+
-	iZOSJPnM6CeF+OrpyRPcA7Wt4LOuMkutyfBs0ulCBLSRvsZmyf9eteC23bEQzWSAfilU
-	J9JrY1AhnopETB0UVGeMcMmbisSTxrWKgW4lRbsRcCeo7wk7c2F0jVSEYFB6ELO4Qkyi
-	OVslpAZ+VDtEM1s5vwApJJtwJoeF8vPQPGRE3XaXj8AfsMzxnZu0Re6ub4H5dzMyymjo
-	+YvA==
-X-Gm-Message-State: AElRT7FLJdBjjEtSyO/Q6glChuNo0qWcRqFZrqdMJGYcyM++tF9KK/Dt
-	UMcZ4+gP7DeMINgE4kRkunEG6Ak+H3GPJsUqWOc2ag==
-X-Google-Smtp-Source: AG47ELsFX+7Eo0zGfDlp68zg34FU9+JwwryXbs8F7Xk8S4AFsXKwsAFyZm1earadJkZEInoH5OJYlGsFu2DdlM+Nd0g=
-X-Received: by 10.223.161.10 with SMTP id o10mr539165wro.60.1520652623641;
-	Fri, 09 Mar 2018 19:30:23 -0800 (PST)
+	bh=FCctVUdy+HuuQ+bII8sSlFogRbHpld1MgVYPbJYAerM=;
+	b=AlV6NG8teO9yBx5NKk2d/csA8nH8+5EaqSkjenwihxw/eAZaIpsZXD5hPv4Z7vU81g
+	rEjdQPSFfvUDVIpJ0T9H4FYLM30V3O6a1tHD8JoBv/s9QJVJY5nxEpsy1KquDikGN29L
+	nALLz1xBuF+FHGhvbiqQNU/ftp4DcH3/3RX14wjg0bdmb93/El9Qz6A+IDko+81WItrZ
+	3qR9Hf4CXIlqbPqZQRVZ1kQonI/EXIbzS2H4Fk4nws5uwhWZGyihvzSrsq/S5gYewtxw
+	syxP95acb/qDSiyGC+9+XvnkobwGZrQoGK+kKamJ9eeup2yIrRt7P6by1NKSVWL9P4JQ
+	aiww==
+X-Gm-Message-State: AElRT7HY5hMaM8jKzcjy+BneppGVn+17IFHGDgz3v4lU6PkDfqJ2iRRz
+	1x2yDo1rnDV5qi969oJbCPUBGHnh9Npg/il3LcdPIA==
+X-Google-Smtp-Source: AG47ELszAFLC+rWaUuW+uhyph3uC0vSfBGwtNWXMbR0Ulc6t32ED12S6WLE05Gr0llAjpv2j+MMbmyE18zaCfEp4vbI=
+X-Received: by 10.223.182.135 with SMTP id j7mr326234wre.66.1520655326692;
+	Fri, 09 Mar 2018 20:15:26 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.173.65 with HTTP; Fri, 9 Mar 2018 19:30:23 -0800 (PST)
-In-Reply-To: <20180310000058.15536.85416@do.openembedded.org>
-References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-	<20180310000058.15536.85416@do.openembedded.org>
+Received: by 10.223.173.65 with HTTP; Fri, 9 Mar 2018 20:15:26 -0800 (PST)
+In-Reply-To: <CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
+References: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=WiHB_6J8Rj0YXv7MTqu7xBgLFt9+09W+UsEjKd-PoyAA@mail.gmail.com>
+	<CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 9 Mar 2018 19:30:23 -0800
-Message-ID: <CAJ86T=Xwc3XPMp9G2y5c-noa6OiHuUkszLJMzefF2y20pLHQMw@mail.gmail.com>
+Date: Fri, 9 Mar 2018 20:15:26 -0800
+Message-ID: <CAJ86T=U+mP5KPJBUL+18i3g21nCiMX_JNi0_Ad2mj5iGNqFvog@mail.gmail.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdjYzY6IFVwZ3JhZGUgdG8gNi40LjAgKGxhdGVzdCBzdGFibGUgc2VyaWVzIHJlbGVhc2UpIChyZXYzKQ==?=
+Subject: Re: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2018 03:30:23 -0000
+X-List-Received-Date: Sat, 10 Mar 2018 04:15:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 9, 2018 at 4:00 PM, Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
-> == Series Details ==
+On Wed, Feb 21, 2018 at 1:40 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Tue, Jan 23, 2018 at 12:16 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> On Tue, Dec 5, 2017 at 5:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>> From: Ming Liu <liu.ming50@gmail.com>
+>>>
+>>> A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
+>>> the default terminal, when I run any of the tasks:
+>>> bitbake busybox -c menuconfig/devshell/devpyshell
+>>> bitbake virtual/kernel -c menuconfig/devshell/devpyshell
+>>>
+>>> I got a error as follows:
+>>> "Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
+>>>
+>>> Seems the environment of the process calling Popen is not passed to the
+>>> child process, this behaviour is a known issue in Python bug tracker:
+>>> http://bugs.python.org/issue8557
+>>>
+>>> It could be fixed by using an absolute path instead per test.
+>>
+>> Ping.
 >
-> Series: gcc6: Upgrade to 6.4.0 (latest stable series release) (rev3)
-> Revision: 3
-> URL   : https://patchwork.openembedded.org/series/11226/
-> State : failure
->
-> == Summary ==
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
-> * Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format]
->   Suggested fix    Fix Upstream-Status format in 0001-enable-FL_LPAE-flag-for-armv7ve-cores.patch
->   Current          UpStream-Status: Backport
->   Standard format  Upstream-Status: <Valid status>
->   Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+> Ping again.
 
-The v2 patch was sent to the list here:
+And again...
 
-  http://lists.openembedded.org/pipermail/openembedded-core/2017-November/144159.html
+It looks like this (and a couple of other patches) made it as far as:
 
-but it seems my morty branch still has the v1 patch with the typo...
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=stable/morty-next
+
+but then got stuck or forgotten?
+
+>>> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> (cherry picked from commit 2117c148ef07d84bc605768e3b3671b0126b9337)
+>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>>> ---
+>>>  meta/lib/oe/terminal.py | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+>>> index 3c8ef59..df4c75b 100644
+>>> --- a/meta/lib/oe/terminal.py
+>>> +++ b/meta/lib/oe/terminal.py
+>>> @@ -67,7 +67,7 @@ class Gnome(XTerminal):
+>>>          import tempfile
+>>>          pidfile = tempfile.NamedTemporaryFile(delete = False).name
+>>>          try:
+>>> -            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
+>>> +            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
+>>>              XTerminal.__init__(self, sh_cmd, title, env, d)
+>>>              while os.stat(pidfile).st_size <= 0:
+>>>                  continue
+>>> --
+>>> 1.9.1
+>>>
 
