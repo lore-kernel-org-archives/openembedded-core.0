@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC657889F
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9796B60110
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 14:05:24 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2BE5Gii014133
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 11 Mar 2018 14:05:19 GMT
-Message-ID: <1520777116.10851.192.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Victor Kamensky <kamensky@cisco.com>, Ian Arkver <ian.arkver.dev@gmail.com>
-Date: Sun, 11 Mar 2018 07:05:16 -0700
-In-Reply-To: <alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
-References: <1520067650.3436.41.camel@linuxfoundation.org>
-	<91616f15-f805-22db-6073-8698f49bab86@gmail.com>
-	<412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
-	<alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Need arm64/qemu help
+	Sun, 11 Mar 2018 15:03:29 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id t6so16257904qtn.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Mar 2018 08:03:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MsEBCI7mcKPHRrp3y6nSJKhr/Fbq9Ed0/gHcXUCoFGk=;
+	b=D64rsll56dsEWH5DvY4EpNUMcQ/Z8tWO9WrpvYi4/P6rl30deDYNzz1i2102TlhlA3
+	XNObBu8XzNVtFxOWxwqAhcb+dfChgH8N1UZ92BoAdm1cmJ3GX77fAec0uo0k7PDLT/Xk
+	bJmHxTyIGwqiXpegtkiLxk0NSbo4XNZcOzHHio+4rfSpXuYXHS0pkhxWlZaTf7pF0i7h
+	U0lANymF2mZ0kao8qCzxi76IJu2KnE0pDSILG2TKBZBvhmUaIb4erRo8eofgDizt2lFH
+	7v4Z+ui7SWFYLg5ha0hA7M/+Bel5ywleL9F+pQU0ylCWqbDBIQjs/VhgD7KAXAW6uv6v
+	XPRw==
+X-Gm-Message-State: AElRT7GZ0W2IMBjTt9VFFa7ZoE2uD7iK12pRJio5CffcHYCIrl+ZGPy/
+	+wGrZgwpUV9lgyPlRnNRqfCDSTdz
+X-Google-Smtp-Source: AG47ELt2ylQyyN62ThX1ajCf2rC1O75m5dKgQasqUE1HJW0cV/Hv0d08W4pFJ7dT1RZtEYEQd+/uXQ==
+X-Received: by 10.200.1.17 with SMTP id e17mr7828489qtg.137.1520780610338;
+	Sun, 11 Mar 2018 08:03:30 -0700 (PDT)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id
+	r13sm3576310qke.76.2018.03.11.08.03.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 11 Mar 2018 08:03:29 -0700 (PDT)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Mar 2018 11:03:21 -0400
+Message-Id: <1520780601-18488-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python*-setuptools: update to 38.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 14:05:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 11 Mar 2018 15:03:29 -0000
 
-Hi Victor,
+Update the python{3}-setuptools to the latest stable version
 
-On Sat, 2018-03-10 at 16:11 -0800, Victor Kamensky wrote:
-> Any progress on the issue? In case if not, I am adding few Linaro
-> guys
-> who work on aarch64 qemu. Maybe they can give some insight.
-> 
-> I was able to reproduce on my system and I
-> and look at it under gdb. It seems that some strange aarch64
-> percularity might be in play. Details inline, root cause is still
-> not clear.
+Tested on the qemu with core-image-minimal
 
-From the OE side we simply don't have people able to dig into this kind
-of problem in detail unfortunately. I'm also travelling at the moment
-which just complicates my own availability.
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
+ .../{python-setuptools_38.5.1.bb => python-setuptools_38.5.2.bb}      | 0
+ .../{python3-setuptools_38.5.1.bb => python3-setuptools_38.5.2.bb}    | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_38.5.1.bb => python-setuptools_38.5.2.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_38.5.1.bb => python3-setuptools_38.5.2.bb} (100%)
 
-I am pleased you can replicate it and have been able to dig into it a
-bit. My own theory was something like the timer interrupts stalling
-since I've seen that problem on two other occasions recently on x86 and
-ppc due to totally different issues but it sounds like you've ruled
-that out.
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 65383ce..b5bd8cc 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
+ 
+ inherit pypi
+ 
+-SRC_URI[md5sum] = "1705ae74b04d1637f604c336bb565720"
+-SRC_URI[sha256sum] = "6425484c08e99a98a42209c25c3d325f749230b55284d66192784f941a7e6628"
++SRC_URI[md5sum] = "b4c7f29c8079bdf2f0f355cdcd999e69"
++SRC_URI[sha256sum] = "8246123e984cadf687163bdcd1bb58eb325e2891b066e1f0224728a41c8d9064"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ DEPENDS_class-native += "${PYTHON_PN}-native"
+diff --git a/meta/recipes-devtools/python/python-setuptools_38.5.1.bb b/meta/recipes-devtools/python/python-setuptools_38.5.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_38.5.1.bb
+rename to meta/recipes-devtools/python/python-setuptools_38.5.2.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_38.5.1.bb b/meta/recipes-devtools/python/python3-setuptools_38.5.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_38.5.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_38.5.2.bb
+-- 
+2.7.4
 
-At least from a replication standpoint it happens with a second of the
-kernel boot so you don't need the rootfs and can likely script a fast
-"brute force" of the issue (restart qemu until it hangs in boot).
-
-I can confirm we continue to see the problem on our builds and it is
-causing a real problem for us as we can't tell whether qemuarm64 is
-really failing or just hanging :(
-
-Any help in getting this figured out is much appreciated!
-
-Cheers,
-
-Richard
 
