@@ -1,47 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F89788AC
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A5A3C788BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 01:17:11 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id x7so10005464wmc.0
+	Sun, 11 Mar 2018 01:17:26 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id v111so12346201wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 17:17:13 -0800 (PST)
+	Sat, 10 Mar 2018 17:17:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=fHbHuUNHWfJRe5qUIg8E4VBLAE5NhG0MxnLciE2oMmk=;
-	b=FJqbLHyyIZzX47DITpvTzd/T/2JmzWrXv/1XWkmSrLHU4d+q1mW0A8EGz8LigQfeJr
-	Uw2JsBK27sPZff4uUCPCHtkty1l778Yv0Op3FqrjcUxCPB60d5IOtREd2VkQna8VnJo/
-	Cx47SD6vte/IhPGBmRId4uUlg3gs4eRmcQXAbO4dogq/FHAORdh4AZ8ZjNwzQxqUhBKX
-	eABvvF54gvRp/TKqtrUn2UPe6Z8857CZwiAzwuzs6bXUgecMvvgjgn74EHQUgs3MtG10
-	PnVWmHojBUDN95GprE96ZvEg9eXxeErE48rUItLrjVn74ZHslfEYACB0s99Uj5G6Y7oX
-	Jxaw==
+	bh=7deWsbJr3OtjNDkcURXlhSEV1XDEnCJAJGt03LcMq18=;
+	b=NdRycVmNElirzjO0E1XyaK+IizsZD8zkJrEuGQDg5y44DKLe8iz/nBmcHqNAbGmaZa
+	rFzduSCNFWfQx67bQFBNGowTMzVHoGRlKBOivu62e308S0m54aV8K7Tk3NBaAD2Mebzi
+	zbiimsEwSZridMUFUeRszlFP8/tKMQMXlE710caWft9gxRJsQIArXf8wuH+cxLh1FMhJ
+	X914+H8x73SOjVBZWxIj7GfHC3S6cUU0uUm2o2eeVm8o2Zp6ccnWvJ33sqljDvWcJcwk
+	mMj+m+ob52/l+zRRR63FZbHCggLxC7VKcVrunZGjejdoWjxbx3wPzYQ2b8GZbGxOVtJx
+	qUMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to;
-	bh=fHbHuUNHWfJRe5qUIg8E4VBLAE5NhG0MxnLciE2oMmk=;
-	b=eff02wuCb0LePwKfQUS91lTAjzXNQpdUK9yOoaOH5PPGMNMajgIVCGQVGifWPcVATc
-	JrGuMQVDGHiv1SB+1XRaFbZa8Ze2O3yXS9B2vbp8vC2L6eQb2BV+T3lmfmQzuDMAQxqc
-	0SMEifISYQdg5QEPbKMevJhqFXuRTv+r+AS6YNfy9TyaKGFXvs8wIw4YcWY7vnk6gFN8
-	XakpLaUr3/UYu6Rdy14wAZ7HRtDSaKc2bVp+GWe+rx9lGgZdOVaDNn5IKDasVVxw5tye
-	jbwKDR5bd3qsQNWjCpazrxN0nrkDjvWPKPj1btID82VPv5CgqhzfrGY8W//xdwwUIvB2
-	KRmg==
-X-Gm-Message-State: AElRT7GrykIqc5qcNt18y6p7MgoxlC40DWmotGF0xFM2sTwLgHoOWwGi
-	FeOlcARWb52zkmdpjNKqmL+PLqbp8lMjcsVxW2A=
-X-Google-Smtp-Source: AG47ELv/GTz3qlRxgYpvML7KRth0mv5m0TFU6XdSyr8etGDRUXKD6W8Vgni6IBXAkymwNfszFUqUAr1bxFKEoYqSMwY=
-X-Received: by 10.28.212.141 with SMTP id l135mr1911766wmg.122.1520731032331; 
-	Sat, 10 Mar 2018 17:17:12 -0800 (PST)
+	bh=7deWsbJr3OtjNDkcURXlhSEV1XDEnCJAJGt03LcMq18=;
+	b=BSldULrpDLylhTKzXHYzQbfoy+YqlhwzSYHc9s0VM/cM0n7R6EJAjAAb5MHFeWgjDJ
+	fXG4D+0I7FIGWTOmUaTM7A1gPmNwWxjPWHdOGkbjBmt44M3SGWijkVu6DXCnkdfmQRRr
+	S7fJ0Rb5Sx6ZywJndn4IZDJ986fBUA6fVixZep2NnbTTqKw185NV4ioVTfeYgBl/hB4q
+	vd3OmYxiphXOeTfg1GC4VNgRi3CjSmrN9bfuo1z/jV4wZicNfSmIN8LvBTaqNWrLLvNB
+	KWpTiLJ089FQhn9aYcPQd+xL7j+JiBp8guj28laB2X7hEGUAk7Ip0exK2hSI6Ts7ScSK
+	PGNw==
+X-Gm-Message-State: AElRT7Hf1JGcqR5nYlaUD5VJjHNGUIObHGAK6iNx86GNM6APJNgDuuvv
+	dGvrkCKTXe7/a3Nw4WgQPG+cuhN3oxPqt57YnkW8jA==
+X-Google-Smtp-Source: AG47ELvqXkDYV2tlSZReehMi819ijOn+6OevnoaVgXspJYLYu0mOyC3sw04w38wCmJwV41chd0XzO3h3FChh2whEiO4=
+X-Received: by 10.223.179.11 with SMTP id j11mr1879260wrd.223.1520731047181;
+	Sat, 10 Mar 2018 17:17:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.30.136 with HTTP; Sat, 10 Mar 2018 17:17:11 -0800 (PST)
-In-Reply-To: <20180311010858.15543.57364@do.openembedded.org>
-References: <cover.1520728804.git.Martin.Jansa@gmail.com>
-	<20180311010858.15543.57364@do.openembedded.org>
+Received: by 10.28.30.136 with HTTP; Sat, 10 Mar 2018 17:17:26 -0800 (PST)
+In-Reply-To: <20180311010900.15537.12193@do.openembedded.org>
+References: <cover.1520728802.git.Martin.Jansa@gmail.com>
+	<20180311010900.15537.12193@do.openembedded.org>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 11 Mar 2018 02:17:11 +0100
-Message-ID: <CA+chaQdegR91aQuUAYNdkLCCUer27pVPGiNgxCcpYAcjbkFa0A@mail.gmail.com>
+Date: Sun, 11 Mar 2018 02:17:26 +0100
+Message-ID: <CA+chaQej1RFJOCZyGnOPpnwF0fwRSLt5BCgTwyvRRVLrN0-v8A@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEJhY2twb3J0cyBmb3Igcm9ja28=?=
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEJhY2twb3J0cyBmb3IgbW9ydHkgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,22 +55,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 01:17:11 -0000
-Content-Type: multipart/alternative; boundary="001a11469594fb2b7b056718c8d0"
+X-List-Received-Date: Sun, 11 Mar 2018 01:17:27 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1b5b10ddc0b6056718c9f6"
 
---001a11469594fb2b7b056718c8d0
+--94eb2c1b5b10ddc0b6056718c9f6
 Content-Type: text/plain; charset="UTF-8"
 
-Upstream-Status typo fixed in contrib/jansa/rocko-backports
+Upstream-Status typo fixed in contrib/jansa/morty-backports
 
-On Sun, Mar 11, 2018 at 2:08 AM, Patchwork <
+On Sun, Mar 11, 2018 at 2:09 AM, Patchwork <
 patchwork@patchwork.openembedded.org> wrote:
 
 > == Series Details ==
 >
-> Series: Backports for rocko
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/11336/
+> Series: Backports for morty (rev2)
+> Revision: 2
+> URL   : https://patchwork.openembedded.org/series/8870/
 > State : failure
 >
 > == Summary ==
@@ -109,23 +110,28 @@ patchwork@patchwork.openembedded.org> wrote:
 >
 >
 
---001a11469594fb2b7b056718c8d0
+--94eb2c1b5b10ddc0b6056718c9f6
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Upstream-Status typo fixed in contrib/jansa/rocko-backport=
-s<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Mar 11, =
-2018 at 2:08 AM, Patchwork <span dir=3D"ltr">&lt;<a href=3D"mailto:patchwor=
-k@patchwork.openembedded.org" target=3D"_blank">patchwork@patchwork.openemb=
-edded.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=3D=3D S=
-eries Details =3D=3D<br>
+<div dir=3D"ltr"><span style=3D"color:rgb(34,34,34);font-family:arial,sans-=
+serif;font-size:small;font-style:normal;font-variant-ligatures:normal;font-=
+variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;=
+text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;bac=
+kground-color:rgb(255,255,255);text-decoration-style:initial;text-decoratio=
+n-color:initial;float:none;display:inline">Upstream-Status typo fixed in co=
+ntrib/jansa/morty-backports</span><br></div><div class=3D"gmail_extra"><br>=
+<div class=3D"gmail_quote">On Sun, Mar 11, 2018 at 2:09 AM, Patchwork <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" ta=
+rget=3D"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
 <br>
-Series: Backports for rocko<br>
-Revision: 1<br>
-URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/1133=
-6/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedde=
-d.org/series/11336/</a><br>
+Series: Backports for morty (rev2)<br>
+Revision: 2<br>
+URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/8870=
+/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedded=
+.org/series/8870/</a><br>
 State : failure<br>
 <br>
 =3D=3D Summary =3D=3D<br>
@@ -175,6 +181,6 @@ Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/=
 cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git.yoct=
 oproject.org/<wbr>cgit/cgit.cgi/patchtest-oe</a><br>
 <br>
-</blockquote></div><br></div></div>
+</blockquote></div><br></div>
 
---001a11469594fb2b7b056718c8d0--
+--94eb2c1b5b10ddc0b6056718c9f6--
