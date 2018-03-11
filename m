@@ -1,37 +1,38 @@
 Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A7F78815
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2442778893
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 22:17:51 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id z14so16909438qti.2
+	Sun, 11 Mar 2018 22:18:26 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id n12so16902595qtl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 15:17:53 -0700 (PDT)
+	Sun, 11 Mar 2018 15:18:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+JBzZB1Dn+4OOUpSYK/z7dyAP/edmaR9CzBU+RBmd9E=;
-	b=s74H1jYZ2/a2wRwDCSMZlIF6mlYhw84I7Wve0dK5YpgjABNdBpF5KfMax+zU5QP6ct
-	5Jin1TKtaOVBVdZetdpdoYG0URoPLFxHKGPXdcU4LVUhUJYL7zI6RVXvO4aLcAbY6vbp
-	9bTX3STaegGhlifuMZUNbv3B5kXWW2go97pA7RKIAsYfKd87vyaGCkCRaqz8Ew2Hbp7H
-	hKF8uBjjpIbVbnGDSErXwutWAeha9SesB7QdgSVmgFp3GONxBW6cT2yiqXav6tb69u1j
-	j2mutp+yWPR48bbNul8OKDmOmq5Kv53EVNiPj1kGDdToJVdsGUyRlORxDyl28+ORULGS
-	Kxfw==
-X-Gm-Message-State: AElRT7HwB3OhvmAy9f5aFAZ41PDo8aDb02tb5i/4rD0sVbyEYyqpD9IE
-	8zeYaMtNFLL3UmVxPoFInZQdbbEm
-X-Google-Smtp-Source: AG47ELvsPOvja1xY7egNc0m42QKxQCLznPnnqFXLp8hoD+QYau4soZmfwdOcgJfoE22mi3RkvUKm1Q==
-X-Received: by 10.200.63.187 with SMTP id d56mr1993428qtk.169.1520806672242;
-	Sun, 11 Mar 2018 15:17:52 -0700 (PDT)
+	bh=53VEscGNA5fXtFz70sSQiZ/jSzZNp9XA/+IQcSJaIMQ=;
+	b=G8DAS+FGGoh0q2vcfzFBlYfVlHkIKwbbgqVcf+53NYuD6zEuKV6RECr/GGXnplsSSs
+	QCSBvsbiM7X8QEGg9l5kt5C4Me81KtXgIMDsKF0DYbi77KBSYIfe5xXX7jXKlYpPXr+6
+	fVxNkDjx9rugwnK3wMFD/gwAC11Z2xBaYcXZUWuXkvdem4xmFY1cM5trwW0e2/VIuO2h
+	SWoFadvhvzpRhI87ozRqY60D/u69YifKdWo+WmTH1bCYdy1VvWs6b7kRjwS7tj9O8A67
+	fmBksDoFE84laHm1jxE90ypBORhfMzc8L5PpN8UcS51WNV3k2maYbC5mWOZF+Imbf+CL
+	w+9w==
+X-Gm-Message-State: AElRT7Exe0QlZAiVXWIK4FgekTKGp3esBUm3CywdEq7wvWpW+L04t82Z
+	xmAD0HNH7fkCvE094WcFrGZfLJMf
+X-Google-Smtp-Source: AG47ELu6NrVCVAKSduPwskMFHqG1Ffg6bjHM0pUArYPC+cUX3Jcq2UhK08V97gLJDZT6Vng53Jt9IQ==
+X-Received: by 10.200.51.193 with SMTP id d1mr6351422qtb.338.1520806707839;
+	Sun, 11 Mar 2018 15:18:27 -0700 (PDT)
 Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id 92sm4116611qta.5.2018.03.11.15.17.51
+	by smtp.gmail.com with ESMTPSA id
+	n187sm4139402qke.48.2018.03.11.15.18.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 11 Mar 2018 15:17:51 -0700 (PDT)
+	Sun, 11 Mar 2018 15:18:27 -0700 (PDT)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Mar 2018 18:17:37 -0400
-Message-Id: <1520806657-4740-1-git-send-email-derek@asterius.io>
+Date: Sun, 11 Mar 2018 18:18:22 -0400
+Message-Id: <1520806702-5879-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3: update to version 3.5.5 to fix security issues
+Subject: [PATCHv2] python3: update to version 3.5.5 to fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,11 +45,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 22:17:51 -0000
+X-List-Received-Date: Sun, 11 Mar 2018 22:18:27 -0000
 
 License-Update: checksum change is due to bump in copyright year
 
-Resolves CVE-2017-1000158 and other potential securty issues
+Resolves CVE-2017-1000158 and other potential security issues
 
 See https://docs.python.org/3.5/whatsnew/changelog.html#python-3-5-5-final
 
