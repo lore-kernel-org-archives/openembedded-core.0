@@ -1,48 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A5A3C788BC
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E72B178913
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 01:17:26 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id v111so12346201wrb.3
+	Sun, 11 Mar 2018 01:17:37 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id v111so12346395wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2018 17:17:28 -0800 (PST)
+	Sat, 10 Mar 2018 17:17:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=7deWsbJr3OtjNDkcURXlhSEV1XDEnCJAJGt03LcMq18=;
-	b=NdRycVmNElirzjO0E1XyaK+IizsZD8zkJrEuGQDg5y44DKLe8iz/nBmcHqNAbGmaZa
-	rFzduSCNFWfQx67bQFBNGowTMzVHoGRlKBOivu62e308S0m54aV8K7Tk3NBaAD2Mebzi
-	zbiimsEwSZridMUFUeRszlFP8/tKMQMXlE710caWft9gxRJsQIArXf8wuH+cxLh1FMhJ
-	X914+H8x73SOjVBZWxIj7GfHC3S6cUU0uUm2o2eeVm8o2Zp6ccnWvJ33sqljDvWcJcwk
-	mMj+m+ob52/l+zRRR63FZbHCggLxC7VKcVrunZGjejdoWjxbx3wPzYQ2b8GZbGxOVtJx
-	qUMA==
+	bh=V8swmSuwp3M4QmjDfr7xZ9Ehu37T56Yd/SF7jH7E7CI=;
+	b=blurS9Xle/eFOGPVVmleVR+HHs+/XUCd+AwHbN7IDAJmcE+IBj3sikL2D0H5HTURDp
+	g3UnxUtLa9orkJ0vTumkNxgTqaAWEHlDLzSD3gzV1rFkzEI+manfKjqUpiZrTzm5c7Tw
+	1d0y04nMoz+iIhG/l7/fRaawEPo451v3tBDX5qz1QwN98BpDVTtSiaxCpfxIYDxbJuO2
+	IbV0MzcYtN/Sy+Xw7CZza5A2Nb0dbx0rnaOLzE1pbyN5AdCny38rqEKrrZlQG1tH/icC
+	BTqDV6lnntHkiLm6GJfHZYOO5zIgnYB9BIWPZbuSmCBsjhq20h6iu+gNlixJpYNpyyAd
+	7PHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to;
-	bh=7deWsbJr3OtjNDkcURXlhSEV1XDEnCJAJGt03LcMq18=;
-	b=BSldULrpDLylhTKzXHYzQbfoy+YqlhwzSYHc9s0VM/cM0n7R6EJAjAAb5MHFeWgjDJ
-	fXG4D+0I7FIGWTOmUaTM7A1gPmNwWxjPWHdOGkbjBmt44M3SGWijkVu6DXCnkdfmQRRr
-	S7fJ0Rb5Sx6ZywJndn4IZDJ986fBUA6fVixZep2NnbTTqKw185NV4ioVTfeYgBl/hB4q
-	vd3OmYxiphXOeTfg1GC4VNgRi3CjSmrN9bfuo1z/jV4wZicNfSmIN8LvBTaqNWrLLvNB
-	KWpTiLJ089FQhn9aYcPQd+xL7j+JiBp8guj28laB2X7hEGUAk7Ip0exK2hSI6Ts7ScSK
-	PGNw==
-X-Gm-Message-State: AElRT7Hf1JGcqR5nYlaUD5VJjHNGUIObHGAK6iNx86GNM6APJNgDuuvv
-	dGvrkCKTXe7/a3Nw4WgQPG+cuhN3oxPqt57YnkW8jA==
-X-Google-Smtp-Source: AG47ELvqXkDYV2tlSZReehMi819ijOn+6OevnoaVgXspJYLYu0mOyC3sw04w38wCmJwV41chd0XzO3h3FChh2whEiO4=
-X-Received: by 10.223.179.11 with SMTP id j11mr1879260wrd.223.1520731047181;
-	Sat, 10 Mar 2018 17:17:27 -0800 (PST)
+	bh=V8swmSuwp3M4QmjDfr7xZ9Ehu37T56Yd/SF7jH7E7CI=;
+	b=KOB0ODGKffG0xFN/gSihG6BDELeku23JyK5lC8ApXX4VCFx2I+Oihydr/dEM0ulcda
+	7TtRkOLJkSkna7gy2PpxEtJWI7oeu+LtPWoN6o4157fLXVdONqFeh5YILUKVEcupuPjj
+	mT7vjy+FMMJE08RsfmjLIw95A5O8NzvtQnFALQ4+pa9Fhhi9LZH59tssjgpFC7Eent8O
+	1xJ6I3e2gE4MhF7kgLEa/3STr54TFC16Vvqw0CN6t63wYL2eJsNUxlXME9rTfkZkUV+l
+	a2rScPUuyp+5nfdeHMJHUzff5af/PP8p1lYILUNHPuXQCxhr51p+NjnclIgSxw6FeXkD
+	8+eg==
+X-Gm-Message-State: AElRT7H29qrMth7s4Nod7MQO6BfscCj5ZisKGoKPuNUVd8BL5OyQa+x7
+	fo1Sw7yDgJ/bXHUqXnbL/ybYCiKXM9hnvKbVrEycXQ==
+X-Google-Smtp-Source: AG47ELtmvtk76FFVmH1GGs1g/YDFDNkgmOTZxTLlsIVLqNomnisBbXoGajxvRN8inTdsu5sA7oF76ESzw6m1pqs+qnw=
+X-Received: by 10.223.147.36 with SMTP id 33mr2404884wro.133.1520731058768;
+	Sat, 10 Mar 2018 17:17:38 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.30.136 with HTTP; Sat, 10 Mar 2018 17:17:26 -0800 (PST)
-In-Reply-To: <20180311010900.15537.12193@do.openembedded.org>
-References: <cover.1520728802.git.Martin.Jansa@gmail.com>
-	<20180311010900.15537.12193@do.openembedded.org>
+Received: by 10.28.30.136 with HTTP; Sat, 10 Mar 2018 17:17:38 -0800 (PST)
+In-Reply-To: <20180311010859.15536.68801@do.openembedded.org>
+References: <cover.1520728803.git.Martin.Jansa@gmail.com>
+	<20180311010859.15536.68801@do.openembedded.org>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 11 Mar 2018 02:17:26 +0100
-Message-ID: <CA+chaQej1RFJOCZyGnOPpnwF0fwRSLt5BCgTwyvRRVLrN0-v8A@mail.gmail.com>
+Date: Sun, 11 Mar 2018 02:17:38 +0100
+Message-ID: <CA+chaQfcSAi3LSzvceQooC499XV6w-Wza_3ve3LKVys0WXPfQA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEJhY2twb3J0cyBmb3IgbW9ydHkgKHJldjIp?=
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEJhY2twb3J0cyBmb3IgcHlybyAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,22 +55,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 01:17:27 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1b5b10ddc0b6056718c9f6"
+X-List-Received-Date: Sun, 11 Mar 2018 01:17:38 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0df0288e8ff5056718ca98"
 
---94eb2c1b5b10ddc0b6056718c9f6
+--94eb2c0df0288e8ff5056718ca98
 Content-Type: text/plain; charset="UTF-8"
 
-Upstream-Status typo fixed in contrib/jansa/morty-backports
+Upstream-Status typo fixed in contrib/jansa/pyro-backports
 
-On Sun, Mar 11, 2018 at 2:09 AM, Patchwork <
+On Sun, Mar 11, 2018 at 2:08 AM, Patchwork <
 patchwork@patchwork.openembedded.org> wrote:
 
 > == Series Details ==
 >
-> Series: Backports for morty (rev2)
-> Revision: 2
-> URL   : https://patchwork.openembedded.org/series/8870/
+> Series: Backports for pyro (rev3)
+> Revision: 3
+> URL   : https://patchwork.openembedded.org/series/8739/
 > State : failure
 >
 > == Summary ==
@@ -110,7 +110,7 @@ patchwork@patchwork.openembedded.org> wrote:
 >
 >
 
---94eb2c1b5b10ddc0b6056718c9f6
+--94eb2c0df0288e8ff5056718ca98
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -120,18 +120,18 @@ variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;=
 text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;bac=
 kground-color:rgb(255,255,255);text-decoration-style:initial;text-decoratio=
 n-color:initial;float:none;display:inline">Upstream-Status typo fixed in co=
-ntrib/jansa/morty-backports</span><br></div><div class=3D"gmail_extra"><br>=
-<div class=3D"gmail_quote">On Sun, Mar 11, 2018 at 2:09 AM, Patchwork <span=
- dir=3D"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" ta=
-rget=3D"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
+ntrib/jansa/pyro-backports</span><br></div><div class=3D"gmail_extra"><br><=
+div class=3D"gmail_quote">On Sun, Mar 11, 2018 at 2:08 AM, Patchwork <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:patchwork@patchwork.openembedded.org" tar=
+get=3D"_blank">patchwork@patchwork.openembedded.org</a>&gt;</span> wrote:<b=
+r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<br>
 <br>
-Series: Backports for morty (rev2)<br>
-Revision: 2<br>
-URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/8870=
+Series: Backports for pyro (rev3)<br>
+Revision: 3<br>
+URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/8739=
 /" rel=3D"noreferrer" target=3D"_blank">https://patchwork.<wbr>openembedded=
-.org/series/8870/</a><br>
+.org/series/8739/</a><br>
 State : failure<br>
 <br>
 =3D=3D Summary =3D=3D<br>
@@ -183,4 +183,4 @@ oproject.org/<wbr>cgit/cgit.cgi/patchtest-oe</a><br>
 <br>
 </blockquote></div><br></div>
 
---94eb2c1b5b10ddc0b6056718c9f6--
+--94eb2c0df0288e8ff5056718ca98--
