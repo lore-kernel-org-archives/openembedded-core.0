@@ -1,47 +1,51 @@
-Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C2D77EFE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 10FB06FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 00:11:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=10922; q=dns/txt;
-	s=iport; t=1520727091; x=1521936691;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version:content-id;
-	bh=feCqsLJ2nNjLdnUnFJ1vWa2oL2C3R80AopLhUnLrZvo=;
-	b=BaCbD8R+e/gFLSfm/oSTeOjc0oqC3x1TPJppydiVZrAfyAc8uT5P9tuP
-	0GBhW3T00FTdDzCTTbjsMtqQ6P61h9hxns5xqnByLLopTR0DtGTJW8nAl
-	jENkNw159Tgq+fREL7ZvUIDYeuSsHooiGKC1edrI3xjyVX/FKLW7nNAs/ Y=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BhAgDyc6Ra/40NJK1eGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYNQZm8ojmKMf4FbKYEWlDKCFQoYC4QzTwKDESE1FwECAQEBAQE?=
-	=?us-ascii?q?BAmsnhSMBAQEDAQEBJUcLBQsLGC4nAS8GARIUhHwID6t+OohcghqFNYIug3GCQ?=
-	=?us-ascii?q?zaDLgEEh1gEiBWGUkaEDIcdCYZDhXuGCE6DZ4hJiXmBDYYbAgQLAhMBgSwgAjS?=
-	=?us-ascii?q?BUk0jFTqCQwmCKRyCGh83iyIBAQE?=
-X-IronPort-AV: E=Sophos;i="5.47,453,1515456000"; d="scan'208";a="81643116"
-Received: from alln-core-8.cisco.com ([173.36.13.141])
-	by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Mar 2018 00:11:13 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-8.cisco.com (8.14.5/8.14.5) with ESMTP id w2B0BCcG029260
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 11 Mar 2018 00:11:13 GMT
-Date: Sat, 10 Mar 2018 16:11:12 -0800 (PST)
-From: Victor Kamensky <kamensky@cisco.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ian Arkver <ian.arkver.dev@gmail.com>
-In-Reply-To: <412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
-Message-ID: <alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
-References: <1520067650.3436.41.camel@linuxfoundation.org>
-	<91616f15-f805-22db-6073-8698f49bab86@gmail.com>
-	<412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	Sun, 11 Mar 2018 00:42:31 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id e22so1565096wra.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Mar 2018 16:42:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nklm+6uz1z1xTMrt30F7JI+mFgnLnNoRX84N6ttZTGE=;
+	b=ZIXEE94Od0nLCeTMXjImf/aCoYLSmt72Bb5btIL99jIt5qMxl0p7+kPX0htbANQu5k
+	DgujOmNCkL+T9CTUCCdRSrbN+Ub7599MThWc3JRr02E7npu4YKYGGG0+CSHtoDbNI08s
+	0GQDEQr3ZGYnKheEm50DYIkfwngh56JvzxtzGZqn8qlcb8FS3R6KxFqIH1rlXiaCWXsy
+	4BBcBHeWESmvjvNV9hYl/JTAcAd0CY95h7J1pwgwqFJMPnbOJyZoKGnu/068GKSAE4RB
+	gI65098a7CF0ODaqVKe/orE4K90majQVVSXGhKGKTaA8MLHkJSwGKCtb0of8sjsKCt2F
+	OSQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nklm+6uz1z1xTMrt30F7JI+mFgnLnNoRX84N6ttZTGE=;
+	b=cCIwsTaqW6W2GaABzPDmgKgnE3uUE08HbYKAJhx2/RLrODN2TpqDSs6POU3loEfu8a
+	KVNlJZZkbak9BSZBsQJTg2z0oRG4jFNOaX1465a2+QONyceipQ5EubWn6zvKJcZLvlgl
+	faXK+g9jZ8kR8FIHgVlq8G3rNjJTmfNm3oWS/JoXvVq1Jq5tnlQfJ4mpHgMNFCzQQgsL
+	lPT2rRQVt6fARiIJp+jDmWWsXDTunGUf1aK0OQaMkV9Kw/coGb+Ec0Jigr9eRX2X0eP3
+	7RFBSCkhymMzlb06jw9Ap3VgBcvzHSgcb6V7uDEZZMnAlqHgUyi1oY2u4/ZdpiZDf4M4
+	jP6A==
+X-Gm-Message-State: AElRT7GC06cq9/bhiFMJUI5uplMUWkExUfwss8uuzTiBzv64z3wTKjdL
+	ktF3TrGeENnqCJDbyCSPXjE=
+X-Google-Smtp-Source: AG47ELv4HkN4GivFUYnU2HbNFN2UftBIxSZBferpdi22uLCkeLVQGTbboqSFnXZSTIygswK9kIzIhA==
+X-Received: by 10.223.154.7 with SMTP id z7mr2508125wrb.98.1520728952646;
+	Sat, 10 Mar 2018 16:42:32 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	u22sm4955114wrf.86.2018.03.10.16.42.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 10 Mar 2018 16:42:31 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 11 Mar 2018 00:42:12 +0000
+Message-Id: <cover.1520728802.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.15.1
 MIME-Version: 1.0
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	=?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Need arm64/qemu help
+Subject: [morty][PATCH 00/16] Backports for morty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,224 +58,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 00:11:29 -0000
-Content-Type: MULTIPART/MIXED;
-	BOUNDARY="504000474-1949797254-1520715016=:24419"
-Content-ID: <alpine.LRH.2.00.1803101602340.24419@sjc-ads-6991.cisco.com>
+X-List-Received-Date: Sun, 11 Mar 2018 00:42:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---504000474-1949797254-1520715016=:24419
-Content-Type: TEXT/PLAIN; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.LRH.2.00.1803101602341.24419@sjc-ads-6991.cisco.com>
+The following changes since commit ee49a37d096a76cce349d6eff7964daada58efb1:
 
-Hi Richard, Ian,
+  p11-kit: take source code from official git (2018-03-03 17:07:18 +0000)
 
-Any progress on the issue? In case if not, I am adding few Linaro guys
-who work on aarch64 qemu. Maybe they can give some insight.
+are available in the Git repository at:
 
-I was able to reproduce on my system and I
-and look at it under gdb. It seems that some strange aarch64
-percularity might be in play. Details inline, root cause is still
-not clear.
+  git://git.openembedded.org/openembedded-core-contrib jansa/morty-backports
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/morty-backports
 
-On Sat, 3 Mar 2018, Ian Arkver wrote:
+Andre McCurdy (1):
+  gcc6: enable FL_LPAE flag for armv7ve cores
 
-> On 03/03/18 10:51, Ian Arkver wrote:
->> On 03/03/18 09:00, Richard Purdie wrote:
->>> Hi,
->>>
->>> I need some help with a problem we keep seeing:
->>>
->>> https://autobuilder.yocto.io/builders/nightly-arm64/builds/798
->>>
->>> Basically, now and again, for reasons we don't understand, all the
->>> sanity tests fail for qemuarm64.
->>>
->>> I've poked at this a bit and if I go in onto the failed machine and run
->>> this again, they work, using the same image, kernel and qemu binaries.
->>> We've seen this on two different autobuilder infrastructure on varying
->>> host OSs. They always seem to fail all three at once.
->>>
->>> Whilst this was a mut build, I saw this repeat three builds in a row on
->>> the new autobuilder we're setting up with master.
->>>
->>> The kernels always seem to hang somewhere around the:
->>>
->>> | [    0.766079] raid6: int64x1  xor()   302 MB/s
->>> | [    0.844597] raid6: int64x2  gen()   675 MB/s
->> 
->> I believe this is related to btrfs and comes from having btrfs compiled 
->> in to the kernel. You could maybe side-step the problem (and hence leave 
->> it lurking) by changing btrfs to a module.
->
-> Actually, this comes from a library (lib/raid6), and in 4.14.y's arm64 
-> defconfig BTRFS is already a module, so please disregard my hack suggestion.
+Juro Bystricky (2):
+  gcc-6.3.inc: Use ucontext_t not struct ucontext.
+  gcc6: Backport few more patches
 
-Indeed, in my case when I run qemu with enabled remote gdbserver, and
-in kernel hang boot case I press Ctrl-C and drop into gdb I see the
-following traceback:
+Jussi Kukkonen (1):
+  gcc: Remove unused patch
 
-(gdb) bt
-#0  vectors ()
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/entry.S:376
-#1  0xffffff80089a2ff4 in raid6_choose_gen (disks=<optimized out>, dptrs=<optimized out>)
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/lib/raid6/algos.c:190
-#2  raid6_select_algo ()
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/lib/raid6/algos.c:253
-#3  0xffffff8008083b8c in do_one_initcall (fn=0xffffff80089a2e64 <raid6_select_algo>)
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:832
-#4  0xffffff8008970e80 in do_initcall_level (level=<optimized out>)
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:898
-#5  do_initcalls () at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:906
-#6  do_basic_setup () at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:924
-#7  kernel_init_freeable ()
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:1073
-#8  0xffffff80087a2e00 in kernel_init (unused=<optimized out>)
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/init/main.c:999
-#9  0xffffff80080850ec in ret_from_fork ()
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/entry.S:994
-Backtrace stopped: previous frame identical to this frame (corrupt stack?)
-(gdb) x /10i $pc - 12
-    0xffffff8008082274 <vectors+628>:	nop
-    0xffffff8008082278 <vectors+632>:	nop
-    0xffffff800808227c <vectors+636>:	nop
-=> 0xffffff8008082280 <vectors+640>:	sub	sp, sp, #0x140
-    0xffffff8008082284 <vectors+644>:	add	sp, sp, x0
-    0xffffff8008082288 <vectors+648>:	sub	x0, sp, x0
-    0xffffff800808228c <vectors+652>:	tbnz	w0, #14, 0xffffff800808229c <vectors+668>
-    0xffffff8008082290 <vectors+656>:	sub	x0, sp, x0
-    0xffffff8008082294 <vectors+660>:	sub	sp, sp, x0
-    0xffffff8008082298 <vectors+664>:	b	0xffffff8008082fc0 <el1_irq>
-(gdb) f 1
-#1  0xffffff80089a2ff4 in raid6_choose_gen (disks=<optimized out>, dptrs=<optimized out>)
-     at /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/lib/raid6/algos.c:190
-190				preempt_disable();
-(gdb) x /12i $pc - 12
-    0xffffff80089a2fe8 <raid6_select_algo+388>:	cbz	x0, 0xffffff80089a3098 <raid6_select_algo+564>
-    0xffffff80089a2fec <raid6_select_algo+392>:	mov	w0, #0x1                   	// #1
-    0xffffff80089a2ff0 <raid6_select_algo+396>:	bl	0xffffff80080cc498 <preempt_count_add>
-=> 0xffffff80089a2ff4 <raid6_select_algo+400>:	ldr	x0, [x23, #2688]
-    0xffffff80089a2ff8 <raid6_select_algo+404>:	ldr	x5, [x23, #2688]
-    0xffffff80089a2ffc <raid6_select_algo+408>:	cmp	x0, x5
-    0xffffff80089a3000 <raid6_select_algo+412>:	b.ne	0xffffff80089a300c <raid6_select_algo+424>  // b.any
-    0xffffff80089a3004 <raid6_select_algo+416>:	yield
-    0xffffff80089a3008 <raid6_select_algo+420>:	b	0xffffff80089a2ff8 <raid6_select_algo+404>
-    0xffffff80089a300c <raid6_select_algo+424>:	mov	x25, #0x0                   	// #0
-    0xffffff80089a3010 <raid6_select_algo+428>:	ldr	x0, [x23, #2688]
-    0xffffff80089a3014 <raid6_select_algo+432>:	mov	x4, x27
+Khem Raj (9):
+  gnutls_3.5.3.bb: Fix native build on distro with kernel < 3.4.17
+  gcc6: Upgrade to 6.3.0
+  gcc-6: Sync gcc stddef.h with musl stddef.h
+  gcc-6.3: Backport patch to fix ICE on ARM
+  gcc-runtime: Disable libitm on riscv
+  gcc: Link libssp_nonshared.a only on musl targets
+  gcc: Fix libssh_nonshared linker specs for ppc/musl
+  gcc6: Upgrade to 6.4
+  gcc6: Fix unaligned STRD issue on ARM
 
-(gdb) b *0xffffff80089a2ff4
-Breakpoint 8 at 0xffffff80089a2ff4: file /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work-shared/qemuarm64/kernel-source/lib/raid6/algos.c, line 191.
+Pavel Modilaynen (1):
+  buildstats.bbclass: Avoid index exception in /proc/PID/io parsing
 
-This corresponds to this code in lib/raid6/algos.c
+Stephen Arnold (1):
+  gcc-6: Add fix for missing no-PIE flags
 
-    190                          preempt_disable();
-    191                          j0 = jiffies;
-    192                          while ((j1 = jiffies) == j0)
-    193                                  cpu_relax();
-    194                          while (time_before(jiffies,
-    195                                              j1 + (1<<RAID6_TIME_JIFFIES_LG2))) {
-    196                                  (*algo)->xor_syndrome(disks, start, stop,
-    197                                                        PAGE_SIZE, *dptrs);
-    198                                  perf++;
-    199                          }
-    200                          preempt_enable();
+Yuanjie Huang (1):
+  gcc: Fix CVE-2016-6131 in libiberty
 
-If for experiment sake I disable loop that tries to find
-jiffies transition. I.e have something like this:
+ meta/classes/buildstats.bbclass                    |    5 +
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ meta/recipes-devtools/gcc/gcc-5.4.inc              |    1 +
+ .../gcc/gcc-5.4/CVE-2016-6131.patch                |  251 +++
+ .../gcc/gcc-6.2/0041-ssp_nonshared.patch           |   28 -
+ ...et-71056-Don-t-use-vectorized-builtins-wh.patch |   92 -
+ .../gcc/gcc-6.2/CVE-2016-4490.patch                |  290 ---
+ .../gcc/gcc-6.2/ubsan-fix-check-empty-string.patch |   28 -
+ .../gcc/{gcc-6.2.inc => gcc-6.4.inc}               |   35 +-
+ .../0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch     |    0
+ .../{gcc-6.2 => gcc-6.4}/0002-uclibc-conf.patch    |    0
+ .../0003-gcc-uclibc-locale-ctype_touplow_t.patch   |    0
+ .../{gcc-6.2 => gcc-6.4}/0004-uclibc-locale.patch  |    0
+ .../0005-uclibc-locale-no__x.patch                 |    0
+ .../0006-uclibc-locale-wchar_fix.patch             |    0
+ .../0007-uclibc-locale-update.patch                |    0
+ .../0008-missing-execinfo_h.patch                  |    0
+ .../{gcc-6.2 => gcc-6.4}/0009-c99-snprintf.patch   |    0
+ .../0010-gcc-poison-system-directories.patch       |    0
+ .../0011-gcc-poison-dir-extend.patch               |    0
+ .../0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |    0
+ .../0013-64-bit-multilib-hack.patch                |    0
+ .../0014-optional-libstdc.patch                    |    0
+ ...0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch |    0
+ .../0016-COLLECT_GCC_OPTIONS.patch                 |    0
+ ...efaults.h-in-B-instead-of-S-and-t-oe-in-B.patch |    0
+ .../0018-fortran-cross-compile-hack.patch          |    0
+ .../0019-cpp-honor-sysroot.patch                   |    0
+ .../0020-MIPS64-Default-to-N64-ABI.patch           |    0
+ ...C_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |    0
+ ...0022-gcc-Fix-argument-list-too-long-error.patch |    0
+ .../{gcc-6.2 => gcc-6.4}/0023-Disable-sdt.patch    |    0
+ .../gcc/{gcc-6.2 => gcc-6.4}/0024-libtool.patch    |    0
+ ...4-pass-fix-v4bx-to-linker-to-support-EABI.patch |    0
+ ...tilib-config-files-from-B-instead-of-usin.patch |    0
+ ...-libdir-from-.la-which-usually-points-to-.patch |    0
+ .../gcc/{gcc-6.2 => gcc-6.4}/0028-export-CPP.patch |    0
+ ...AltiVec-generation-on-powepc-linux-target.patch |    0
+ ...-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch |    0
+ ...Ensure-target-gcc-headers-can-be-included.patch |    0
+ ...-t-build-with-disable-dependency-tracking.patch |    0
+ ...h-host-directory-during-relink-if-inst_pr.patch |    0
+ ...IBS_DIR-replacement-instead-of-hardcoding.patch |    0
+ .../0035-aarch64-Add-support-for-musl-ldso.patch   |    0
+ ...ibcc1-fix-libcc1-s-install-path-and-rpath.patch |    0
+ ...-handle-sysroot-support-for-nativesdk-gcc.patch |    0
+ ...et-sysroot-gcc-version-specific-dirs-with.patch |    0
+ ...-various-_FOR_BUILD-and-related-variables.patch |    0
+ .../0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch    |    0
+ ...shared-to-link-commandline-for-musl-targe.patch |   87 +
+ ...c-libcpp-support-ffile-prefix-map-old-new.patch |    0
+ ...ug-prefix-map-to-replace-ffile-prefix-map.patch |    0
+ ...-fdebug-prefix-map-support-to-remap-sourc.patch |    0
+ ...45-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch |    0
+ ...bgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch |    0
+ ...e-alias-for-__cpu_indicator_init-instead-.patch |    2 +-
+ .../gcc-6.4/0048-sync-gcc-stddef.h-with-musl.patch |   91 +
+ .../gcc/gcc-6.4/0054_all_nopie-all-flags.patch     |   22 +
+ .../gcc/gcc-6.4/0055-unwind_h-glibc26.patch        |  139 ++
+ ...-relax-the-restriction-on-subreg-reload-f.patch |   51 +
+ ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch |  194 ++
+ ...001-enable-FL_LPAE-flag-for-armv7ve-cores.patch |   67 +
+ ...ove-struct-ix86_frame-to-machine_function.patch |  247 +++
+ ...ference-of-struct-ix86_frame-to-avoid-cop.patch |   74 +
+ ...nst-reference-of-struct-ix86_frame-to-avo.patch |  131 ++
+ .../backport/0004-x86-Add-mindirect-branch.patch   | 2154 ++++++++++++++++++++
+ .../backport/0005-x86-Add-mfunction-return.patch   | 1570 ++++++++++++++
+ .../0006-x86-Add-mindirect-branch-register.patch   |  946 +++++++++
+ .../0007-x86-Add-V-register-operand-modifier.patch |  139 ++
+ ...w-mindirect-branch-mfunction-return-with-.patch |  304 +++
+ ...VALID_REGNUM-in-indirect-thunk-processing.patch |  126 ++
+ ...INVALID_REGNUM-as-invalid-register-number.patch |   46 +
+ ...date-mfunction-return-for-return-with-pop.patch |  453 ++++
+ ...-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch | 1004 +++++++++
+ .../gcc/gcc-6.4/backport/CVE-2016-6131.patch       |  223 ++
+ ...s-canadian_6.2.bb => gcc-cross-canadian_6.4.bb} |    0
+ ...oss-initial_6.2.bb => gcc-cross-initial_6.4.bb} |    0
+ .../gcc/{gcc-cross_6.2.bb => gcc-cross_6.4.bb}     |    0
+ ...-initial_6.2.bb => gcc-crosssdk-initial_6.4.bb} |    0
+ .../{gcc-crosssdk_6.2.bb => gcc-crosssdk_6.4.bb}   |    0
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |    2 +
+ .../gcc/{gcc-runtime_6.2.bb => gcc-runtime_6.4.bb} |    0
+ ...gcc-sanitizers_6.2.bb => gcc-sanitizers_6.4.bb} |    0
+ .../gcc/{gcc-source_6.2.bb => gcc-source_6.4.bb}   |    0
+ .../gcc/{gcc_6.2.bb => gcc_6.4.bb}                 |    0
+ ...libgcc-initial_6.2.bb => libgcc-initial_6.4.bb} |    0
+ .../gcc/{libgcc_6.2.bb => libgcc_6.4.bb}           |    0
+ .../gcc/{libgfortran_6.2.bb => libgfortran_6.4.bb} |    0
+ .../gnutls/gnutls/check_SYS_getrandom.patch        |   35 +
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb        |    1 +
+ 90 files changed, 8392 insertions(+), 448 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.4/CVE-2016-6131.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.2/0041-ssp_nonshared.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.2/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.2/CVE-2016-4490.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.2/ubsan-fix-check-empty-string.patch
+ rename meta/recipes-devtools/gcc/{gcc-6.2.inc => gcc-6.4.inc} (74%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0002-uclibc-conf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0003-gcc-uclibc-locale-ctype_touplow_t.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0004-uclibc-locale.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0005-uclibc-locale-no__x.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0006-uclibc-locale-wchar_fix.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0007-uclibc-locale-update.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0008-missing-execinfo_h.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0009-c99-snprintf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0010-gcc-poison-system-directories.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0011-gcc-poison-dir-extend.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0012-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0013-64-bit-multilib-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0014-optional-libstdc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0015-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0016-COLLECT_GCC_OPTIONS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0017-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0018-fortran-cross-compile-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0019-cpp-honor-sysroot.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0020-MIPS64-Default-to-N64-ABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0021-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0022-gcc-Fix-argument-list-too-long-error.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0023-Disable-sdt.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0024-libtool.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0025-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0026-Use-the-multilib-config-files-from-B-instead-of-usin.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0027-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0028-export-CPP.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0029-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0030-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0031-Ensure-target-gcc-headers-can-be-included.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0032-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0033-Don-t-search-host-directory-during-relink-if-inst_pr.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0034-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0035-aarch64-Add-support-for-musl-ldso.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0036-libcc1-fix-libcc1-s-install-path-and-rpath.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0037-handle-sysroot-support-for-nativesdk-gcc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0038-Search-target-sysroot-gcc-version-specific-dirs-with.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0039-Fix-various-_FOR_BUILD-and-related-variables.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0040-nios2-Define-MUSL_DYNAMIC_LINKER.patch (100%)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0041-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0042-gcc-libcpp-support-ffile-prefix-map-old-new.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0043-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0044-gcc-final.c-fdebug-prefix-map-support-to-remap-sourc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-6.2 => gcc-6.4}/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch (99%)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0048-sync-gcc-stddef.h-with-musl.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0054_all_nopie-all-flags.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0055-unwind_h-glibc26.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0001-enable-FL_LPAE-flag-for-armv7ve-cores.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0001-i386-Move-struct-ix86_frame-to-machine_function.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0002-i386-Use-reference-of-struct-ix86_frame-to-avoid-cop.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0003-i386-Use-const-reference-of-struct-ix86_frame-to-avo.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0004-x86-Add-mindirect-branch.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0005-x86-Add-mfunction-return.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0006-x86-Add-mindirect-branch-register.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0007-x86-Add-V-register-operand-modifier.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0008-x86-Disallow-mindirect-branch-mfunction-return-with-.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0009-Use-INVALID_REGNUM-in-indirect-thunk-processing.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0010-i386-Pass-INVALID_REGNUM-as-invalid-register-number.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0011-i386-Update-mfunction-return-for-return-with-pop.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/0012-i386-Add-TARGET_INDIRECT_BRANCH_REGISTER.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/backport/CVE-2016-6131.patch
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_6.2.bb => gcc-cross-canadian_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-initial_6.2.bb => gcc-cross-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_6.2.bb => gcc-cross_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk-initial_6.2.bb => gcc-crosssdk-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_6.2.bb => gcc-crosssdk_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_6.2.bb => gcc-runtime_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_6.2.bb => gcc-sanitizers_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_6.2.bb => gcc-source_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc_6.2.bb => gcc_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_6.2.bb => libgcc-initial_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_6.2.bb => libgcc_6.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgfortran_6.2.bb => libgfortran_6.4.bb} (100%)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
 
-diff --git a/lib/raid6/algos.c b/lib/raid6/algos.c
-index 4769947..e0199fc 100644
---- a/lib/raid6/algos.c
-+++ b/lib/raid6/algos.c
-@@ -166,8 +166,12 @@ static inline const struct raid6_calls *raid6_choose_gen(
+-- 
+2.15.1
 
-                         preempt_disable();
-                         j0 = jiffies;
-+#if 0
-                         while ((j1 = jiffies) == j0)
-                                 cpu_relax();
-+#else
-+                        j1 = jiffies;
-+#endif /* 0 */
-                         while (time_before(jiffies,
-                                             j1 + (1<<RAID6_TIME_JIFFIES_LG2))) {
-                                 (*algo)->gen_syndrome(disks, PAGE_SIZE, *dptrs);
-@@ -189,8 +193,12 @@ static inline const struct raid6_calls *raid6_choose_gen(
 
-                         preempt_disable();
-                         j0 = jiffies;
-+#if 0
-                         while ((j1 = jiffies) == j0)
-                                 cpu_relax();
-+#else
-+                        j1 = jiffies;
-+#endif /* 0 */
-                         while (time_before(jiffies,
-                                             j1 + (1<<RAID6_TIME_JIFFIES_LG2))) {
-                                 (*algo)->xor_syndrome(disks, start, stop,
-
-Image boots fine after that.
-
-I.e it looks as some strange effect in aarch64 qemu that seems does not
-progress jiffies and code stuck.
-
-Another observation is that if I put breakpoint for example
-in do_timer, it actually hits the breakpoint, ie timer interrupt
-happens in this case, and strangely raid6_choose_gen sequence
-does progress, ie debugger breakpoints make this case unstuck.
-Actually several pressing Ctrl-C to interrupt target, followed
-by continue in gdb let code eventually go out of raid6_choose_gen.
-
-Also whenever I presss Ctrl-C in gdb to stop target it always
-in stalled case drops with $pc into first instruction of el1_irq,
-I never saw different $pc hang code interrupt. Does it mean qemu
-hangged on first instruction of el1_irq handler? Note once I do
-stepi after that it ables to proceseed. If I continue steping
-eventually it gets to arch_timer_handler_virt and do_timer.
-
-For Linaro qemu aarch64 guys more details:
-
-Situation happens on latest openembedded-core, for qemuarm64 MACHINE.
-It does not happens always, i.e sometimes it works.
-
-Qemu version is 2.11.1 and it is invoked like this (through regular
-oe runqemu helper utility):
-
-/wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-aarch64 -device virtio-net-device,netdev=net0,mac=52:54:00:12:34:02 -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -drive id=disk0,file=/wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/deploy/images/qemuarm64/core-image-minimal-qemuarm64-20180305025002.rootfs.ext4,if=none,format=raw -device virtio-blk-device,drive=disk0 -show-cursor -device virtio-rng-pci -monitor null -machine virt -cpu cortex-a57 -m 512 -serial mon:vc -serial null -kernel /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/deploy/images/qemuarm64/Image -append root=/dev/vda rw highres=off  mem=512M ip=192.168.7.2::192.168.7.1:255.255.255.0 console=ttyAMA0,38400
-
-My host system is ubuntu-16.04.
-
-Please let's me know if you need additional info and/or want to
-enable additional debug/trace options.
-
-Thanks,
-Victor
-
->> Regards,
->> Ian
->> 
->>> raid timing measurements.
->>>
->>> In the past we've dived in and handled these kinds of things but I've
->>> run out of people to lean on and I need help from the wider community.
->>>
->>> Can anyone help look into and fix this?
->>>
->>> This is serious as if nobody cares, I'll have to simply stop boot
->>> testing qemuarm64.
->>>
->>> Not sure if there is an open bug yet either :/.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---504000474-1949797254-1520715016=:24419--
