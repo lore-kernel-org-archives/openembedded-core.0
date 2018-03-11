@@ -1,33 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E2B2F788AE
+	by mail.openembedded.org (Postfix) with ESMTP id 48FF37887F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 12:06:26 +0000 (UTC)
+	Sun, 11 Mar 2018 13:26:41 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2BC6ENL008700
+	w2BDQc05011259
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 11 Mar 2018 12:06:18 GMT
-Message-ID: <1520769972.10851.172.camel@linuxfoundation.org>
+	verify=NOT); Sun, 11 Mar 2018 13:26:41 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1ev0zl-0007o5-Uj; Sun, 11 Mar 2018 06:26:37 -0700
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 11 Mar 2018 05:06:12 -0700
-In-Reply-To: <CA+chaQejU2YsEFWMydDJgbhtFP5r-e_45k7YqkUo3UdLRvbxVw@mail.gmail.com>
-References: <1520639372-12916-1-git-send-email-juro.bystricky@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C66B245@ORSMSX112.amr.corp.intel.com>
-	<20180310074659.GA7868@jama>
-	<1520706468.10851.164.camel@linuxfoundation.org>
-	<CA+chaQfpguoc3aumUZbo-3V1n2wyGyHdzwyJ2EeXFemFUOd-7Q@mail.gmail.com>
-	<1520717657.10851.169.camel@linuxfoundation.org>
-	<CA+chaQejU2YsEFWMydDJgbhtFP5r-e_45k7YqkUo3UdLRvbxVw@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Mar 2018 06:26:36 -0700
+Message-Id: <1520774796-29971-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH v2] gcc6.4 upgrade
+Subject: [PATCH] yocto-uninative: Upgrade to 1.8 version with glibc 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,26 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 12:06:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 11 Mar 2018 13:26:42 -0000
 
-On Sun, 2018-03-11 at 01:56 +0100, Martin Jansa wrote:
-> I've sent the pull requests for all 3 release branches.
-> 
-> I'll let some builders doing more tests over night, but it's very
-> close to what was merged in master (and also to what is currently in
-> morty-next) so it should be relatively safe.
+Now distros are starting to ship glibc 2.27 we need a uninatve version
+which contains glibc 2.27 which is in the 1.8 version.
 
-Thanks for this. I've staged the patches in the various -next branches.
-I ran pyro-next on the autobuilder to see where we stand and x86-64 is
-showing the ICE I mentioned in valgrind so we'll likely need to pull
-out that patch until we can figure out a way of fixing that. I'll queue
-a fixup patch and retry and confirm that does fix the issue.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 839c19a..b3f8c24 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,6 +6,6 @@
+ # to the distro running on the build machine.
+ #
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.7/"
+-UNINATIVE_CHECKSUM[i686] ?= "d7c341460035936c19d63fe02f354ef1bc993c62d694ae3a31458d1c6997f0c5"
+-UNINATIVE_CHECKSUM[x86_64] ?= "ed033c868b87852b07957a4400f3b744c00aef5d6470346ea1a59b6d3e03075e"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.8/"
++UNINATIVE_CHECKSUM[i686] ?= "427ce522ec97f65c75fd89587d90ef789e8cbca4a617abc4b5822abb01c2d0ae"
++UNINATIVE_CHECKSUM[x86_64] ?= "de4947e98e09e1432d069311cc2093974ecb9138a714fd5466f73524de66a693"
+-- 
+2.7.4
 
 
