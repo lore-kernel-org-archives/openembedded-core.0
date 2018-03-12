@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DC546788CA
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 1031A788C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 09:18:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C9IuG2017375
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 12 Mar 2018 09:56:24 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37742836"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Mar 2018 17:56:24 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 44B1C4D0EFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 02:18:56 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 02:18:17 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 12 Mar 2018 17:56:23 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Mon, 12 Mar 2018 17:56:25 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Mar 2018 17:19:19 +0800
-Message-ID: <046161b48df35140bf2534574d1ffeb4861aedee.1520846324.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1520846324.git.Qi.Chen@windriver.com>
-References: <cover.1520846324.git.Qi.Chen@windriver.com>
+Date: Mon, 12 Mar 2018 17:56:23 +0800
+Message-ID: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] btrfs-tools: set CLEANBROKEN to 1 to avoid rebuild failure
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 44B1C4D0EFF7.A7A41
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [oe][meta-oe][PATCH] pkcs11-helper: 1.11 -> 1.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 09:18:55 -0000
+X-List-Received-Date: Mon, 12 Mar 2018 09:56:25 -0000
 Content-Type: text/plain
 
-When rebuilding btrfs-tools, we would sometimes meet the following error.
+Upgrade pkcs11-helper from 1.11 to 1.22.
 
-  Makefile:43: *** Makefile.inc not generated, please configure first.
-
-Set CLEANBROKEN to "1" to solve this problem.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta-oe/recipes-crypto/pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb} (95%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
-index 263fc65..31bbdb8 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
-@@ -22,6 +22,8 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+diff --git a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
+similarity index 95%
+rename from meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
+rename to meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
+index db71bd0..51ccf37 100644
+--- a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
++++ b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
+@@ -20,7 +20,7 @@ SRC_URI[md5sum] = "9f62af9f475901b89355266141306673"
+ SRC_URI[sha256sum] = "494ec59c93e7c56c528f335d9353849e2e7c94a6b1b41c89604694e738113386"
  
- inherit autotools-brokensep pkgconfig manpages
+ S = "${WORKDIR}/git"
+-SRCREV = "e7adf8f35be232a4f04c53b4ac409be52792093e"
++SRCREV = "a6e54e9bdd57dd4e98a2fbf984fe7fe4a9d60171"
  
-+CLEANBROKEN = "1"
-+
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
+ DEPENDS = "zlib nettle gnutls gmp openssl nss nspr"
  
 -- 
-1.9.1
+2.7.4
+
+
 
 
