@@ -1,29 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 26C0477FC9
+Return-Path: <xiao.zhang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CF54F7886A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 08:48:48 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2018 01:48:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,460,1515484800"; d="scan'208";a="37396448"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2018 01:48:48 -0700
-Date: Mon, 12 Mar 2018 10:52:13 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Message-ID: <20180312085213.GA25631@mbabyjoh-desk.ger.corp.intel.com>
-References: <cover.1520841539.git.Qi.Chen@windriver.com>
-	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+	Mon, 12 Mar 2018 09:13:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C9DEG2017349
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2018 02:13:15 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 12 Mar 2018 02:12:36 -0700
+From: Zhang Xiao <xiao.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>
+Date: Mon, 12 Mar 2018 02:12:57 -0700
+Message-ID: <20180312091303.121887-1-xiao.zhang@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] systemd: upgrade to 237
+Subject: [PATCH 1/7] eudev: fix file conflict when multilib enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 08:48:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Mar 2018 09:13:13 -0000
+Content-Type: text/plain
 
-Hi,
+Config file udev.pc conflicts between 32 and 64 bit packages.
+Use update-alternatives to add base_libdir as suffix to avoid it.
 
-On Mon, Mar 12, 2018 at 04:38:51PM +0800, Chen Qi wrote:
-> Upgrade systemd to 237.
-> 
-> Note that this version has dropped autotools support.
+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+---
+ meta/recipes-core/udev/eudev_3.2.5.bb | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-Very minor nit-picking : 
+diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
+index 88ad8f1b37..d567c11272 100644
+--- a/meta/recipes-core/udev/eudev_3.2.5.bb
++++ b/meta/recipes-core/udev/eudev_3.2.5.bb
+@@ -23,7 +23,20 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+ SRC_URI[md5sum] = "6ca08c0e14380f87df8e8aceac123671"
+ SRC_URI[sha256sum] = "49c2d04105cad2526302627e040fa24b1916a9a3e059539bc8bb919b973890af"
+ 
+-inherit autotools update-rc.d qemu pkgconfig distro_features_check
++inherit autotools update-rc.d qemu pkgconfig distro_features_check update-alternatives
++
++MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
++
++ALTERNATIVE_${PN}-dev = "udev.pc"
++ALTERNATIVE_LINK_NAME[udev.pc] = "${datadir}/pkgconfig/udev.pc"
++ALTERNATIVE_TARGET[udev.pc] = "${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}"
++
++PACKAGE_PREPROCESS_FUNCS += "eudev_alternative_rename"
++
++eudev_alternative_rename() {
++       # rename udev.pc
++       mv ${PKGD}${datadir}/pkgconfig/udev.pc ${PKGD}${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}
++}
+ 
+ CONFLICT_DISTRO_FEATURES = "systemd"
+ 
+@@ -65,7 +78,7 @@ PACKAGES =+ "eudev-hwdb"
+ 
+ 
+ FILES_${PN} += "${libexecdir} ${base_libdir}/udev ${bindir}/udevadm"
+-FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
++FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX} \
+                    ${includedir}/libudev.h ${libdir}/libudev.so \
+                    ${includedir}/udev.h ${libdir}/libudev.la \
+                    ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
+-- 
+2.11.0
 
-Even with this patch, "systemd_237.bb" and "systemd.inc" contains duplicated
-
-SRC_URI = "git://github.com/systemd/systemd.git;protocol=git"
-
-Probably a good idea to keep it only in "systemd.inc" file.
-
-> 
-> The following patches are rebased:
-> 0004-Use-getenv-when-secure-versions-are-not-available.patch
-> 0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> 0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
-> 0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
-> 0018-check-for-uchar.h-in-configure.patch
-> 0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
-> 0001-add-fallback-parse_printf_format-implementation.patch
-> 0002-src-basic-missing.h-check-for-missing-strndupa.patch
-> 0007-check-for-missing-canonicalize_file_name.patch
-> 0008-Do-not-enable-nss-tests.patch
-> 0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch
-> 0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
-> 
-> The following backported patches are dropped:
-> 0001-core-evaluate-presets-after-generators-have-run-6526.patch
-> 0001-main-skip-many-initialization-steps-when-running-in-.patch
-> 0001-meson-update-header-file-to-detect-memfd_create.patch
-> 0003-fileio-include-sys-mman.h.patch
-> 
-> The following patch is dropped as autotools support is dropped:
-> 0002-configure.ac-Check-if-memfd_create-is-already-define.patch
-> 
-> The following patches are newly added to fix problems:
-> 0027-remove-nobody-user-group-checking.patch
-> 0028-add-missing-FTW_-macros-for-musl.patch
-> 0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
-> 0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
-
-Best Regards,
-Maxin
 
