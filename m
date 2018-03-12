@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3778D7883F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DC546788CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 09:18:53 +0000 (UTC)
+	Mon, 12 Mar 2018 09:18:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C9IsOe014217
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C9IuG2017375
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 02:18:54 -0700 (PDT)
+	Mon, 12 Mar 2018 02:18:56 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 02:18:15 -0700
+	14.3.361.1; Mon, 12 Mar 2018 02:18:17 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Mar 2018 17:19:18 +0800
-Message-ID: <cover.1520846324.git.Qi.Chen@windriver.com>
+Date: Mon, 12 Mar 2018 17:19:19 +0800
+Message-ID: <046161b48df35140bf2534574d1ffeb4861aedee.1520846324.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1520846324.git.Qi.Chen@windriver.com>
+References: <cover.1520846324.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] btrfs-tools: set CLEANBROKEN to 1 to avoid rebuild failure
+Subject: [PATCH 1/1] btrfs-tools: set CLEANBROKEN to 1 to avoid rebuild failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 09:18:53 -0000
+X-List-Received-Date: Mon, 12 Mar 2018 09:18:55 -0000
 Content-Type: text/plain
 
-The following changes since commit 5350ee317740751f2417c1794dd39d3880347dbf:
+When rebuilding btrfs-tools, we would sometimes meet the following error.
 
-  yocto-uninative: Upgrade to 1.8 version with glibc 2.27 (2018-03-11 06:27:02 -0700)
+  Makefile:43: *** Makefile.inc not generated, please configure first.
 
-are available in the git repository at:
+Set CLEANBROKEN to "1" to solve this problem.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/btrfs-tools-rebuild
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/btrfs-tools-rebuild
-
-Chen Qi (1):
-  btrfs-tools: set CLEANBROKEN to 1 to avoid rebuild failure
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
+index 263fc65..31bbdb8 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.13.3.bb
+@@ -22,6 +22,8 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+ 
+ inherit autotools-brokensep pkgconfig manpages
+ 
++CLEANBROKEN = "1"
++
+ PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
+ 
 -- 
 1.9.1
 
