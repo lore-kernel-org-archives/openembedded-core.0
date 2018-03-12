@@ -1,52 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4942C78449
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B762B782CC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 16:39:07 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id m4so3565978wrb.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 09:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=89mMeBt9N0m4gVkH+2S0IqaUWdL9xe3LikxP6+TNshY=;
-	b=2ShIEepmcWZhKpi349dH7kF02Wefv2uJj8350bvD2iPaSPGmY1Gi9LYxeQ1C682TMu
-	H3K8KyH7flKPn3KWho7bnhWCM5JaZBBRkdP73G9HrXZmyHQr8YWeOGwX6Mku3bY3kUkg
-	rFhSHjUd8TfvuSNqlnDIRZN6bnw+Rg6+GZUvl9E/KmFzT27jB0Oej5i4ozn2WwIPfFr3
-	dOewLCli5KnQi/RQZ7mdZ6G7dCsIAjVMcq/ouU+GyU6VPCZNKqjYZQaWBhnkduU0+OUx
-	MM+A/siu1iVhsrB1Wi00agwLe1QRrwzooP40S1b7l0bI5PBJu8pk+vhfY8wuNBBtSCk0
-	MeZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=89mMeBt9N0m4gVkH+2S0IqaUWdL9xe3LikxP6+TNshY=;
-	b=RQPIKZJEYuAk2aX8VBH8CzKfXKvNhqQkE5YgqrMuBgi2jZe7fCFIGiZlZASLz3vU/o
-	KF6/togbH2WjzQTqVsQfoYcR+bq44RC4S3OcIKyGv/1VbcQeVz5u4/4MbC2VUCA2UP3n
-	T2uTlE//LFg60BvWM9fOeMLOaBCWAdNe38bhelHY15pmup9H0C5Ofq1udL1WLkdJJGC+
-	lZk8xE1eVyXo3SEKqy4JoAv3Po97ThHZE3ySUfS19ggXhY1wkJRTUyrcNraVRGoLFCnS
-	rryzTYkgu7Hr/c5Z8bGDxe/sLGN9mwXEAZNgsJvSko1LKY8w5PZPL6mG6JrL/Rds1y60
-	siXg==
-X-Gm-Message-State: AElRT7EiLyPNLnRbWkOMUEMrBMG7xkoIVP6g7QPzv2uyrg7a9OH3GFHr
-	CLzpsTUbbYHdMg0i6R2LkpbayTRe
-X-Google-Smtp-Source: AG47ELvPHr/GzD59x+lcBRLFqSrT/ssaUWDCY2R7CcRHQfEfL1I6p1ky22sN13JCBoZtmZrOFOltFw==
-X-Received: by 10.223.129.80 with SMTP id 74mr5641383wrm.190.1520872748659;
-	Mon, 12 Mar 2018 09:39:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r6sm11064341wrg.63.2018.03.12.09.39.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Mar 2018 09:39:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 12 Mar 2018 16:56:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Mar 2018 09:56:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,462,1515484800"; d="scan'208";a="23835519"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga008.fm.intel.com with ESMTP; 12 Mar 2018 09:56:19 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Mar 2018 16:38:58 +0000
-Message-Id: <20180312163858.32353-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180312163858.32353-1-ross.burton@intel.com>
-References: <20180312163858.32353-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] build-recipe-list: build universe instead of world
+Date: Mon, 12 Mar 2018 18:49:41 +0200
+Message-Id: <20180312164944.39923-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.16.1
+Subject: [PATCH 1/4] package.bbclass: run pre/post installation/removal scriptlets using sh -e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 16:39:09 -0000
+X-List-Received-Date: Mon, 12 Mar 2018 16:56:19 -0000
 
-Building world means recipes that are excluded from world build for whatever
-reason get skipped from the manifests, which isn't useful.  Instead building
-universe and pass -k so that the expected dependency failures are not fatal.
+This allows catching errors in the scriptlets which would otherwise
+go unnoticed, e.g. this sequence:
+====
+bogus_command
+proper_command
+====
+would work just fine without any visible warnings or errors.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+This was previously done only for rpm packages; this patch replaces
+the rpm-specific tweak with one that works for all package types.
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- scripts/distro/build-recipe-list.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/package.bbclass     | 12 ++++++++++++
+ meta/classes/package_rpm.bbclass |  8 ++++----
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/distro/build-recipe-list.py b/scripts/distro/build-recipe-list.py
-index 407debaa76a..3f5f7c2fcc9 100755
---- a/scripts/distro/build-recipe-list.py
-+++ b/scripts/distro/build-recipe-list.py
-@@ -45,7 +45,7 @@ def generate_recipe_list():
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 317c77585fc..83f53a49ef6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1343,6 +1343,17 @@ fi
+             postinst += postinst_ontarget
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
  
-     # doing bitbake distrodata
-     for machine in machine_list:
--        os.system('MACHINE='+ machine + ' bitbake world -c distrodata')
-+        os.system('MACHINE='+ machine + ' bitbake -k universe -c distrodata')
-         shutil.copy('tmp/log/distrodata.csv', 'distrodata/' + fnformat % machine)
++    def add_set_e_to_scriptlets(pkg):
++        for scriptlet_name in ('pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm'):
++            scriptlet = d.getVar('%s_%s' % (scriptlet_name, pkg))
++            if scriptlet:
++                scriptlet_split = scriptlet.split('\n')
++                if scriptlet_split[0].startswith("#!"):
++                    scriptlet = scriptlet_split[0] + "\nset -e\n" + "\n".join(scriptlet_split[1:])
++                else:
++                    scriptlet = "set -e\n" + "\n".join(scriptlet_split[0:])
++            d.setVar('%s_%s' % (scriptlet_name, pkg), scriptlet)
++
+     def write_if_exists(f, pkg, var):
+         def encode(str):
+             import codecs
+@@ -1439,6 +1450,7 @@ fi
+         write_if_exists(sf, pkg, 'FILES')
+         write_if_exists(sf, pkg, 'CONFFILES')
+         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
++        add_set_e_to_scriptlets(pkg)
+         write_if_exists(sf, pkg, 'pkg_postinst')
+         write_if_exists(sf, pkg, 'pkg_postrm')
+         write_if_exists(sf, pkg, 'pkg_preinst')
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index e26b2ad6625..af64ef62c58 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -470,12 +470,12 @@ python write_specfile () {
  
-     for machine in machine_list:
+         # Now process scriptlets
+         if splitrpreinst:
+-            spec_scriptlets_bottom.append('%%pre -n %s -p "/bin/sh -e"' % splitname)
++            spec_scriptlets_bottom.append('%%pre -n %s' % splitname)
+             spec_scriptlets_bottom.append('# %s - preinst' % splitname)
+             spec_scriptlets_bottom.append(splitrpreinst)
+             spec_scriptlets_bottom.append('')
+         if splitrpostinst:
+-            spec_scriptlets_bottom.append('%%post -n %s -p "/bin/sh -e"' % splitname)
++            spec_scriptlets_bottom.append('%%post -n %s' % splitname)
+             spec_scriptlets_bottom.append('# %s - postinst' % splitname)
+             spec_scriptlets_bottom.append(splitrpostinst)
+             spec_scriptlets_bottom.append('')
+@@ -564,12 +564,12 @@ python write_specfile () {
+     spec_preamble_top.append('')
+ 
+     if srcrpreinst:
+-        spec_scriptlets_top.append('%pre -p "/bin/sh -e"')
++        spec_scriptlets_top.append('%pre')
+         spec_scriptlets_top.append('# %s - preinst' % srcname)
+         spec_scriptlets_top.append(srcrpreinst)
+         spec_scriptlets_top.append('')
+     if srcrpostinst:
+-        spec_scriptlets_top.append('%post -p "/bin/sh -e"')
++        spec_scriptlets_top.append('%post')
+         spec_scriptlets_top.append('# %s - postinst' % srcname)
+         spec_scriptlets_top.append(srcrpostinst)
+         spec_scriptlets_top.append('')
 -- 
-2.11.0
+2.16.1
 
 
