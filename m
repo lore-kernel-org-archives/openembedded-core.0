@@ -1,38 +1,24 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2442778893
+Return-Path: <xiao.zhang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EFA447888A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 22:18:26 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id n12so16902595qtl.5
+	Mon, 12 Mar 2018 00:32:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C0Wv4c014293
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 15:18:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=53VEscGNA5fXtFz70sSQiZ/jSzZNp9XA/+IQcSJaIMQ=;
-	b=G8DAS+FGGoh0q2vcfzFBlYfVlHkIKwbbgqVcf+53NYuD6zEuKV6RECr/GGXnplsSSs
-	QCSBvsbiM7X8QEGg9l5kt5C4Me81KtXgIMDsKF0DYbi77KBSYIfe5xXX7jXKlYpPXr+6
-	fVxNkDjx9rugwnK3wMFD/gwAC11Z2xBaYcXZUWuXkvdem4xmFY1cM5trwW0e2/VIuO2h
-	SWoFadvhvzpRhI87ozRqY60D/u69YifKdWo+WmTH1bCYdy1VvWs6b7kRjwS7tj9O8A67
-	fmBksDoFE84laHm1jxE90ypBORhfMzc8L5PpN8UcS51WNV3k2maYbC5mWOZF+Imbf+CL
-	w+9w==
-X-Gm-Message-State: AElRT7Exe0QlZAiVXWIK4FgekTKGp3esBUm3CywdEq7wvWpW+L04t82Z
-	xmAD0HNH7fkCvE094WcFrGZfLJMf
-X-Google-Smtp-Source: AG47ELu6NrVCVAKSduPwskMFHqG1Ffg6bjHM0pUArYPC+cUX3Jcq2UhK08V97gLJDZT6Vng53Jt9IQ==
-X-Received: by 10.200.51.193 with SMTP id d1mr6351422qtb.338.1520806707839;
-	Sun, 11 Mar 2018 15:18:27 -0700 (PDT)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id
-	n187sm4139402qke.48.2018.03.11.15.18.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 11 Mar 2018 15:18:27 -0700 (PDT)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Mar 2018 18:18:22 -0400
-Message-Id: <1520806702-5879-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2] python3: update to version 3.5.5 to fix security issues
+	Sun, 11 Mar 2018 17:32:58 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Sun, 11 Mar 2018 17:32:19 -0700
+From: Zhang Xiao <xiao.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 11 Mar 2018 17:32:54 -0700
+Message-ID: <20180312003256.40039-1-xiao.zhang@windriver.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH 1/3] valgrind: Fix multilib header conflict - valgrind/config.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Mar 2018 22:18:27 -0000
+X-List-Received-Date: Mon, 12 Mar 2018 00:32:59 -0000
+Content-Type: text/plain
 
-License-Update: checksum change is due to bump in copyright year
+Header file conflict between 32-bit and 64-bit versions.
 
-Resolves CVE-2017-1000158 and other potential security issues
-
-See https://docs.python.org/3.5/whatsnew/changelog.html#python-3-5-5-final
-
-Signed-off-by: Derek Straka <derek@asterius.io>
+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
 ---
- meta/recipes-devtools/python/{python3_3.5.4.bb => python3_3.5.5.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.5.4.bb => python3_3.5.5.bb} (98%)
+ meta/recipes-devtools/valgrind/valgrind_3.13.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.4.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.5.4.bb
-rename to meta/recipes-devtools/python/python3_3.5.5.bb
-index a94d009..8150dd6 100644
---- a/meta/recipes-devtools/python/python3_3.5.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.5.bb
-@@ -38,10 +38,10 @@ SRC_URI += "\
-             file://0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch \
-             file://pass-missing-libraries-to-Extension-for-mul.patch \
-            "
--SRC_URI[md5sum] = "fb2780baa260b4e51cbea814f111f303"
--SRC_URI[sha256sum] = "94d93bfabb3b109f8a10365a325f920f9ec98c6e2380bf228f9700a14054c84c"
-+SRC_URI[md5sum] = "f3763edf9824d5d3a15f5f646083b6e0"
-+SRC_URI[sha256sum] = "063d2c3b0402d6191b90731e0f735c64830e7522348aeb7ed382a83165d45009"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
+index 5bd315aff0..9390d30444 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
+@@ -58,7 +58,7 @@ COMPATIBLE_HOST_linux-muslx32 = 'null'
+ COMPATIBLE_HOST_mipsarchn32 = 'null'
+ COMPATIBLE_HOST_mipsarchr6 = 'null'
  
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de91d4eeea5930b9c3c7fa69d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b6ec515b22618f55fa07276b897bacea"
+-inherit autotools ptest
++inherit autotools ptest multilib_header
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ EXTRA_OECONF = "--enable-tls --without-mpicc"
+ EXTRA_OECONF += "${@['--enable-only32bit','--enable-only64bit'][d.getVar('SITEINFO_BITS') != '32']}"
+@@ -91,6 +91,7 @@ do_configure_prepend () {
+ 
+ do_install_append () {
+     install -m 644 ${B}/default.supp ${D}/${libdir}/valgrind/
++    oe_multilib_header valgrind/config.h
+ }
+ 
+ TUNE = "${@strip_mcpu(d)}"
 -- 
-2.7.4
+2.11.0
 
 
