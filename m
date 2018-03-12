@@ -1,29 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id C184F78489;
-	Mon, 12 Mar 2018 15:21:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2018 08:21:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,461,1515484800"; d="scan'208";a="24516586"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 12 Mar 2018 08:21:26 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <fe9f6f5b-1b12-91be-01e2-8b8e9b6eaae4@linux.intel.com>
-Date: Mon, 12 Mar 2018 17:14:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-Subject: IMPORTANT: do_patch() fuzz warnings and how to deal with them
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D43C178489
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2018 15:22:41 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id f1so11903381iob.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2018 08:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=iAAH7yRpJcFd1zCMSYibac/R3GZ7gdQre1eCKxcBxyQ=;
+	b=QWWmApCMgpI93KJ3jTelVLA+ps8UBHkM5+Srth6JbdomT+PlZflssSLH/pV+YTFsqo
+	1GgYsBi8xcqm0vVd2ys4Tn3pv4ihxuxvgboEwOXTV10ix+qu43rt/Nv0ckgzuJchLYZM
+	0ExZbT4srm4TAm4TMRx+QSuhg02/LZtJB/LG+DyHW6u1TEnloToJM/0uOw3al5bpM20U
+	tFi8I7VMAp/dXsBUpUuOEKeQTvbDdHx0w+6CpKwpQJP5+JSMaLMRs3HqYM0UxaRDlt6q
+	DGR8MBy+2goH+IvoVLmx5chUrInvSlu8bg3sSuOoG1FTIMDUbsygB5DAq2u5qrQ1sn2W
+	YqLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iAAH7yRpJcFd1zCMSYibac/R3GZ7gdQre1eCKxcBxyQ=;
+	b=HoO7m30QxunmBEvHzkSrl9BfAf/cgZDyj4msdce3HV5ztnV7cYThBs654wco/V+lEn
+	7swxch6cV8iSiBuccOxGl22o/a5Tqk0M3W839ovLzbFbMoN74F5UbTWiRv/J3Q/ta4He
+	d0gD3lZbUR7YHDGECVbMBCpaCJrMYqFcjIJq/aex+0P04Dp7s4w3pEDrOEBQs513RTf4
+	8yP2fSKQDhbZyz2KzSgsHIMLr8ZkBBZe3xRAsgXQiLvIk8/EMj8dkl9PmRMmM9d985qP
+	t2O1DAktqHgibcOXIZSeklx88ZlKuI+eYwXvEJUqkKvACXAsSsD9q1GnB122xlmWbQhs
+	SZ4w==
+X-Gm-Message-State: AElRT7Hqj3n50auFZUNJiPcWmdJP6fRLJ4RwUFqruS/3xLvF+HdNXdt9
+	9s4cGujpKhdnPpCc3eySSwKawTub
+X-Google-Smtp-Source: AG47ELv3/qLRVVWz0VkXzR2mbDd5bDv1unfTB426bIMikEvI5pGSrjvo0mni+6yUGbDMRV61YiKFzA==
+X-Received: by 10.107.63.68 with SMTP id m65mr9878126ioa.195.1520868162679;
+	Mon, 12 Mar 2018 08:22:42 -0700 (PDT)
+Received: from linux-uys3.suse ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id
+	l16sm3666876iti.36.2018.03.12.08.22.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Mar 2018 08:22:41 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Mar 2018 11:22:33 -0400
+Message-Id: <20180312152233.30216-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.14.1.459.g238e487ea
+Subject: [PATCH] iproute2: fix rebuild failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,116 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 15:21:27 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Mar 2018 15:22:42 -0000
 
-*Executive summary*
+When rebuilding iproute2, many such instances of the following build failure
+occur:
 
-do_patch() will shortly start issuing warnings when recipe patches are 
-applied with some of the patch context ignored. This email explains why 
-this is necessary, and how the warnings can be eliminated.
+	| make[1]: Entering directory '.../iproute2/4.14.1-r0/iproute2-4.14.1/lib'
+	| Makefile:1: ../config.mk: No such file or directory
+	| make[1]: *** No rule to make target '../config.mk'.  Stop.
 
-*What is patch fuzz?*
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/recipes-connectivity/iproute2/iproute2.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Patch fuzz is a situation when the patch tool ignores some of the 
-context lines in order to apply the patch. Consider this example:
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index b404eedbfb..4fbfec6f08 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -13,6 +13,8 @@ DEPENDS = "flex-native bison-native iptables elfutils"
+ 
+ inherit update-alternatives bash-completion pkgconfig
+ 
++CLEANBROKEN = "1"
++
+ PACKAGECONFIG ??= "tipc"
+ PACKAGECONFIG[tipc] = ",,libmnl,"
+ 
+-- 
+2.14.1.459.g238e487ea
 
-Patch to be applied:
-
-========
-context line 1
-context line 2
-context line 3
-+newly added line
-context line 4
-context line 5
-context line 6
-========
-
-Original source code:
-
-========
-different context line 1
-different context line 2
-context line 3
-context line 4
-different context line 5
-different context line 6
-========
-
-Outcome:
-
-========
-different context line 1
-different context line 2
-context line 3
-newly added line
-context line 4
-different context line 5
-different context line 6
-========
-
-Chances are, the newly added line was actually added in a completely 
-wrong location, or it was already in the original source, and was added 
-for the second time. This is especially possible, if the context line 3 
-and 4 are blank or have only generic things in them like #endif or }. 
-Even worse, there is currently no warning when this happens, and 
-depending on the patched code, it can (and does) still compile without 
-errors.
-
-*What is changing*
-
-When patch fuzz is detected, there will be a warning printed, similar to 
-this:
-
-     WARNING: vulkan-1.0.61.1-r0 do_patch:
-     Some of the context lines in patches were ignored. This can lead to 
-incorrectly applied patches.
-     The context lines in the patches can be updated with devtool:
-
-         devtool modify <recipe>
-         devtool finish --force-patch-refresh <recipe> <layer_path>
-
-     Then the updated patches and the source tree (in devtool's workspace)
-     should be reviewed to make sure the patches apply in the correct place
-     and don't introduce duplicate lines (which can, and does happen
-     when some of the context is ignored).
-     Details:
-     Applying patch demos-Don-t-build-tri-or-cube.patch
-     patching file demos/CMakeLists.txt
-     Hunk #1 succeeded at 63 (offset 2 lines).
-     Hunk #2 succeeded at 76 with fuzz 1 (offset 2 lines).
-
-*How to elimimate the warnings?*
-
-Use devtool command as explained by the warning. First, unpack the 
-source into devtool workspace:
-
-	devtool modify <recipe>
-
-This will apply all the patches, and create new commits out of them in 
-the workspace - with the patch context updated.
-
-Then, replace the patches in the recipe layer:
-
-         devtool finish --force-patch-refresh <recipe> <layer_path>
-
-The patch updates need be reviewed (preferably, with a side-by-side diff 
-tool) to ensure they are indeed doing the right thing:
-
-1) they get applied in the correct location;
-2) they do not introduce duplicate lines, or otherwise do things that 
-are not anymore necessary.
-
-To confirm these things, you can also review the patched source code in 
-devtool's workspace, typically in <build_dir>/workspace/sources/<recipe>/
-
-Once the review is done, you can create and publish a layer commit with 
-the patch updates that modify the context. Devtool may also refresh 
-other things in the patches, those can be discarded.
-
-
-Alex
 
