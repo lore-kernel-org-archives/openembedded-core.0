@@ -1,30 +1,18 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1031A788C2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 09:56:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37742836"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Mar 2018 17:56:24 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 44B1C4D0EFF7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 17:56:23 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Mon, 12 Mar 2018 17:56:25 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Mar 2018 17:56:23 +0800
-Message-ID: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 500987889B;
+	Mon, 12 Mar 2018 10:02:57 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: 44B1C4D0EFF7.A7A41
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [oe][meta-oe][PATCH] pkcs11-helper: 1.11 -> 1.22
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Mon, 12 Mar 2018 10:02:59 -0000
+Message-ID: <20180312100259.15542.42780@do.openembedded.org>
+References: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGtjczExLWhlbHBlcjogMS4xMSAtPiAxLjIy?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 09:56:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Mar 2018 10:02:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Upgrade pkcs11-helper from 1.11 to 1.22.
+== Series Details ==
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Series: pkcs11-helper: 1.11 -> 1.22
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11358/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
+  Patch's path:    meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 0a1a1daac6)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta-oe/recipes-crypto/pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb} (95%)
-
-diff --git a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-similarity index 95%
-rename from meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
-rename to meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-index db71bd0..51ccf37 100644
---- a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
-+++ b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-@@ -20,7 +20,7 @@ SRC_URI[md5sum] = "9f62af9f475901b89355266141306673"
- SRC_URI[sha256sum] = "494ec59c93e7c56c528f335d9353849e2e7c94a6b1b41c89604694e738113386"
- 
- S = "${WORKDIR}/git"
--SRCREV = "e7adf8f35be232a4f04c53b4ac409be52792093e"
-+SRCREV = "a6e54e9bdd57dd4e98a2fbf984fe7fe4a9d60171"
- 
- DEPENDS = "zlib nettle gnutls gmp openssl nss nspr"
- 
--- 
-2.7.4
-
-
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
