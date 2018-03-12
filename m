@@ -1,28 +1,31 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C518271C69
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F9B678429
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 18:38:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2CIcEPk026017
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 12 Mar 2018 11:38:15 -0700
-Received: from soho-mhatle-m.local (147.11.116.17) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 12 Mar 2018 11:37:35 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Zhang Xiao
-	<xiao.zhang@windriver.com>, <openembedded-core@lists.openembedded.org>
+	Mon, 12 Mar 2018 19:02:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Mar 2018 12:02:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,462,1515484800"; d="scan'208";a="182037547"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 12 Mar 2018 12:02:30 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	Zhang Xiao <xiao.zhang@windriver.com>,
+	openembedded-core@lists.openembedded.org
 References: <20180312091303.121887-1-xiao.zhang@windriver.com>
 	<7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
-Date: Mon, 12 Mar 2018 11:38:14 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
+	<a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <dcc91a62-07a3-9374-5f5c-41fae23fb682@linux.intel.com>
+Date: Mon, 12 Mar 2018 20:55:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
+In-Reply-To: <a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
 Subject: Re: [PATCH 1/7] eudev: fix file conflict when multilib enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,83 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 18:38:15 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 12 Mar 2018 19:02:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 3/12/18 3:13 AM, Alexander Kanavin wrote:
-> On 03/12/2018 11:12 AM, Zhang Xiao wrote:
->> Config file udev.pc conflicts between 32 and 64 bit packages.
->> Use update-alternatives to add base_libdir as suffix to avoid it.
->> -inherit autotools update-rc.d qemu pkgconfig distro_features_check
->> +inherit autotools update-rc.d qemu pkgconfig distro_features_check update-alternatives
->> +
->> +MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
->> +
->> +ALTERNATIVE_${PN}-dev = "udev.pc"
->> +ALTERNATIVE_LINK_NAME[udev.pc] = "${datadir}/pkgconfig/udev.pc"
->> +ALTERNATIVE_TARGET[udev.pc] = "${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}"
->> +
->> +PACKAGE_PREPROCESS_FUNCS += "eudev_alternative_rename"
->> +
->> +eudev_alternative_rename() {
->> +       # rename udev.pc
->> +       mv ${PKGD}${datadir}/pkgconfig/udev.pc ${PKGD}${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}
->> +}
-> 
-> I'm afraid, I have to say no to the entire patchset. It's abusing 
-> update-alternatives to do what it was never meant for, and effectively 
-> renders one of the -dev packages broken, just so that package manager 
-> can satisfy dependencies.
-> 
-> Let's first take a look at why dnf wants to install two different -dev 
-> packages in the first place, and why these seven recipes need to be 
-> fixed in particular. My understanding is multilib feature should be used 
-> only for libraries, and not for supporting development files.
+On 03/12/2018 08:38 PM, Mark Hatle wrote:
+> In this case, because the user specifically asked for BOTH 32-bit and 64-bit
+> development components to be installed onto the target for their application
+> development.  (This isn't a theoretical problem, but a specific problem from one
+> of our customers.)
 
-In this case, because the user specifically asked for BOTH 32-bit and 64-bit
-development components to be installed onto the target for their application
-development.  (This isn't a theoretical problem, but a specific problem from one
-of our customers.)
+Fair enough, but you should explain to the customer that Unix-type 
+systems are not designed for this. There are hardcoded assumptions 
+everywhere, that for each component there's only one set of header 
+files, one .pc file, and one -config-style helper binary. Desktop 
+distributions mutually exclude multilib -dev packages for this reason.
 
-I had a chance to talk to RP a bit about this today at ELC.  We agree we need a
-generic mechanism to handle these types of problems.
+> The under the hood it can rename the 'python3.5m-config' to a nonconflicting
+> name (based on the base_libdir, since we know that will be unique)... and then
+> invoke a post-install script that will define an appropriate priority to ensure
+> that python3.5m-config will match the final 'python3.5m' version.  (Possibly
+> using update-alternatives to manage this.)
 
-For a '.pc' file, there really should be no reason (under normal circumstances)
-for them to conflict.  Since if they are are specific they don't belong in the
-datadir, but belong in the libdir.
+Here's something I don't get. When the user starts actual development, 
+and calls python3.5-config to fetch configuration values, how do we 
+ensure that the 'right' python3.5m-config is called, from the two that 
+are installed? Same question for pkgconfig - how do we make sure it 
+would look in the 'right' library directory of the two that are available?
 
-For non-.pc files, if they are 'pkgconfig like', they should be converted to
-package config (for the most part this seems to have happened, with a few things
-'missed'.)
-
-The remainder then are things that can't be converted for some reason.  So the
-'config', or helper or whatever files really need to 'match' the installed binary.
-
-There is no way to predict ahead of time which binary is going to be installed
--- so we really need some type of automated processing that can be used to say:
-
-1) This is a known multilib issue.
-2) This file is related to this other file, and should be installed to match.
-
-Under the hood if it uses update-alternatives or anything else doesn't matter --
-but in the recipe it should not explicitly require the rename, the ALTERNATIVE
-and related declarations etc...
-
-Perhaps something like:
-
-MULTILIB_CONFLICT = "${bindir}/python3.5m-config:${bindir}/python3.5m"
-
-The under the hood it can rename the 'python3.5m-config' to a nonconflicting
-name (based on the base_libdir, since we know that will be unique)... and then
-invoke a post-install script that will define an appropriate priority to ensure
-that python3.5m-config will match the final 'python3.5m' version.  (Possibly
-using update-alternatives to manage this.)
-
---Mark
-
-> Alex
-> 
+Alex
 
 
