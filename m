@@ -1,28 +1,46 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 080FE788CE
+Return-Path: <kamensky@cisco.com>
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A77F6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 01:34:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C1YSXg014744
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Mar 2018 18:34:28 -0700 (PDT)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Sun, 11 Mar 2018 18:33:49 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1520333694-68182-1-git-send-email-hongzhi.song@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <9272ac9c-11c4-575c-4ffe-b4577bd11ba7@windriver.com>
-Date: Mon, 12 Mar 2018 09:35:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Mon, 12 Mar 2018 02:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=7048; q=dns/txt; s=iport;
+	t=1520821510; x=1522031110;
+	h=date:from:to:cc:subject:in-reply-to:message-id:
+	references:mime-version;
+	bh=EMJO2OZQVSKApt+5ob/ucIN94uYvIap+hOZ0rU+09mw=;
+	b=FNrrbBEuAdmHG3K08k52S4q6LebXF/SKIqek0VywZrUAzYMEpEAvIkjV
+	MZ/WEf79bEUq5uefygAV0YAD5FJUIkGgytub2l2TuX5QcctHDBveNGuoS
+	C9/fEcV6VsKcOZN1gRoDHESlbz35TR9rhS0pnaoX/FbvFxoszR9QzajX8 4=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DsAACm5KVa/5BdJa1dGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQcBAQEBAYNQgVUojW9zjH2BWyl7G5QyghUKhSUCgxEhNBgBAgEBAQEBAQJ?=
+	=?us-ascii?q?rJ4UjAQEBAwEnEQI/BQsLGC5XBhOFEAisRjqIWoIahTWCLoM8NYJDNoULhgAEh?=
+	=?us-ascii?q?gKCE4ZSRospCYlTgx6SU5EhAgQLAhMBgSweOIFSTSMVgn2EZyA3jQEBAQE?=
+X-IronPort-AV: E=Sophos;i="5.47,459,1515456000"; d="scan'208";a="82022570"
+Received: from rcdn-core-8.cisco.com ([173.37.93.144])
+	by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Mar 2018 02:25:09 +0000
+Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
+	by rcdn-core-8.cisco.com (8.14.5/8.14.5) with ESMTP id w2C2P8XN012883
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 12 Mar 2018 02:25:08 GMT
+Date: Sun, 11 Mar 2018 19:25:08 -0700 (PDT)
+From: Victor Kamensky <kamensky@cisco.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-Reply-To: <CAFEAcA-d6-_tVRWKbZpVsQtece4fjuUqF+o+-m-AG4jPUHPY4g@mail.gmail.com>
+Message-ID: <alpine.LRH.2.00.1803111848530.64087@sjc-ads-6991.cisco.com>
+References: <1520067650.3436.41.camel@linuxfoundation.org>
+	<91616f15-f805-22db-6073-8698f49bab86@gmail.com>
+	<412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
+	<alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
+	<CAFEAcA-d6-_tVRWKbZpVsQtece4fjuUqF+o+-m-AG4jPUHPY4g@mail.gmail.com>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 MIME-Version: 1.0
-In-Reply-To: <1520333694-68182-1-git-send-email-hongzhi.song@windriver.com>
-X-Originating-IP: [128.224.162.148]
-Subject: Re: [PATCH] systemd-udev: Add systemd-mount to mount.sh
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	=?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Need arm64/qemu help
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,159 +53,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 01:34:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 12 Mar 2018 02:25:08 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 
-ping.
 
-// hongzhi
 
-On 2018年03月06日 18:54, Hongzhi.Song wrote:
-> Issue: mkfs.ext4 </dev/storage-device-name> fails, prompting that the device
-> is in use by the system. But there is no mounted infomation in /proc/mounts.
->
-> Reproduce: Be sure that there is storage device connected to you machine.
->
-> 	Boot the machine.
-> 	root@intel-x86-64:~# mkfs.ext4 /dev/mmcblk0p1
-> 	mke2fs 1.43.5 (04-Aug-2017)
-> 	/dev/mmcblk0p1 contains a ext2 file system
-> 	last mounted on / on Tue Jan 9 05:24:36 2018
-> 	Proceed anyway? (y,N) y
-> 	/dev/mmcblk0p1 is apparently in use by the system; will not make a filesystem here!
->
-> 	root@intel-x86-64:~# fdisk -l
-> 	...
-> 	Disk /dev/mmcblk0: 58.2 GiB, 62537072640 bytes, 122142720 sectors
-> 	Units: sectors of 1 * 512 = 512 bytes
-> 	Sector size (logical/physical): 512 bytes / 512 bytes
-> 	I/O size (minimum/optimal): 512 bytes / 512 bytes
-> 	Disklabel type: dos
-> 	Disk identifier: 0xe62c8fcc
->
-> 	Device Boot Start End Sectors Size Id Type
-> 	/dev/mmcblk0p1 2048 122142719 122140672 58.2G 83 Linux
-> 	...
->
-> 	root@intel-x86-64:~#cat /proc/mounts
-> 	...
-> 	cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,relatime,blkio 0 0
-> 	mqueue /dev/mqueue mqueue rw,relatime 0 0
-> 	debugfs /sys/kernel/debug debugfs rw,relatime 0 0
-> 	tmpfs /tmp tmpfs rw,nosuid,nodev 0 0
-> 	hugetlbfs /dev/hugepages hugetlbfs rw,relatime 0 0
-> 	tmpfs /var/volatile tmpfs rw,relatime 0 0
-> 	tmpfs /run/user/0 tmpfs rw,nosuid,nodev,relatime,size=688048k,mode=700 0 0
->
-> Description:
-> 	If linux uses systemd as init, systemd-udevd.service sets MountFlags=slave,
-> 	which is essentially a sandboxing setting: it detaches mount() operations
-> 	done within the service from the rest of the system. This means that,
-> 	outside of namespace of systemd-udev, we can not access device mounted by
-> 	udev and some operation will be failed.(e.g. mkfs.ext4 /dev/sda1).
->
-> 	Current automount.rules and mount.sh created for sysvinit is unable to solve
-> 	above problems.
->
-> 	This patch adds systemd-mount in /etc/udev/script/mount.sh. The tool
-> 	recommended by systemd upstream generally is the best way in particular in
-> 	embedded applications to deal with hotpluggable media. Systemd-mount request
-> 	the mount operation to be executed by PID 1, and hence outside of the mount
-> 	context of udev.
->
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->   meta/recipes-core/udev/udev-extraconf/mount.sh | 61 +++++++++++++++++++++++---
->   1 file changed, 56 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index d760328..2fa2925 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -5,9 +5,28 @@
->   # Attempt to mount any added block devices and umount any removed devices
->   
->   
-> -MOUNT="/bin/mount"
-> +BASE_INIT="`readlink "/sbin/init"`"
-> +INIT_SYSTEMD="/lib/systemd/systemd"
-> +
-> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
-> +	# systemd as init uses systemd-mount to mount block devices
-> +        MOUNT="/usr/bin/systemd-mount"
-> +        UMOUNT="/usr/bin/systemd-umount"
-> +
-> +        if [ -x $MOUNT ] && [ -x $UMOUNT ];
-> +        then
-> +                logger "Using systemd-mount to finish mount"
-> +        else
-> +                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
-> +		exit 1
-> +        fi
-> +else
-> +        MOUNT="/bin/mount"
-> +        UMOUNT="/bin/umount"
-> +fi
-> +
->   PMOUNT="/usr/bin/pmount"
-> -UMOUNT="/bin/umount"
-> +
->   for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
->   do
->   	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
-> @@ -17,6 +36,34 @@ do
->   	fi
->   done
->   
-> +automount_systemd() {
-> +        name="`basename "$DEVNAME"`"
-> +
-> +        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-> +
-> +        MOUNT="$MOUNT -o silent"
-> +
-> +        # If filesystemtype is vfat, change the ownership group to 'disk', and
-> +        # grant it with  w/r/x permissions.
-> +        case $ID_FS_TYPE in
-> +        vfat|fat)
-> +                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-> +                ;;
-> +        # TODO
-> +        *)
-> +                ;;
-> +        esac
-> +
-> +        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
-> +        then
-> +                #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-> +                rm_dir "/run/media/$name"
-> +        else
-> +                logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-> +                touch "/tmp/.automount-$name"
-> +        fi
-> +}
-> +
->   automount() {	
->   	name="`basename "$DEVNAME"`"
->   
-> @@ -72,9 +119,13 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
->   	# If the device isn't mounted at this point, it isn't
->   	# configured in fstab (note the root filesystem can show up as
->   	# /dev/root in /proc/mounts, so check the device number too)
-> -	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-> -		grep -q "^$DEVNAME " /proc/mounts || automount
-> -	fi
-> +        if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-> +                if [ "`basename $MOUNT`" = "systemd-mount" ];then
-> +                        grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-> +                else
-> +                        grep -q "^$DEVNAME " /proc/mounts || automount
-> +                fi
-> +        fi
->   fi
->   
->   
+On Sun, 11 Mar 2018, Peter Maydell wrote:
 
+> On 11 March 2018 at 00:11, Victor Kamensky <kamensky@cisco.com> wrote:
+>> Hi Richard, Ian,
+>>
+>> Any progress on the issue? In case if not, I am adding few Linaro guys
+>> who work on aarch64 qemu. Maybe they can give some insight.
+>
+> No immediate answers, but we might be able to have a look
+> if you can provide a repro case (image, commandline, etc)
+> that doesn't require us to know anything about OE and your
+> build/test infra to look at.
+
+Peter, thank you! Appreciate your attention and response to
+this. It is fair ask, I should have tried to narrow test
+case down before punting it to you guys.
+
+> (QEMU's currently just about
+> to head into codefreeze for our next release, so I'm a bit
+> busy for the next week or so. Alex, do you have time to
+> take a look at this?)
+>
+> Does this repro with the current head-of-git QEMU?
+
+I've tried head-of-git QEMU (Mar 9) on my ubuntu-16.04
+with the same target Image and rootfs I could not reproduce
+the issue.
+
+I've started to play around more trying to reduce the test
+case. In my setup with OE qith qemu 2.11.1, if I just passed
+'-serial sdtio' or '-nographic', instead of '-serial mon:vc'
+- with all things the same image boots fine.
+
+So, I started to suspect, even if problem manifests itself
+as some functional failure of qemu, the issue could be some
+nasty memory corruption of some qemu operational data.
+And since qemu pull bunch of dependent
+libraries, problem might be not even in qemu.
+
+I realized that in OE in order to disconnect itself from
+underlying host, OE builds a lot of its own "native"
+libaries and OE qemu uses them. So I've tried to build
+head-of-git QEMU but with all native libraries that OE
+builds - now such combinations hangs in the same way.
+
+Also I noticed that OE qemu is built with SDL (v1.2),
+and libsdl is one that reponsible for '-serial mon:vc'
+handling. And I noticed in default OE conf/local.conf
+the following statements:
+
+#
+# Qemu configuration
+#
+# By default qemu will build with a builtin VNC server where graphical 
+output can be
+# seen. The two lines below enable the SDL backend too. By default 
+libsdl-native will
+# be built, if you want to use your host's libSDL instead of the minimal 
+libsdl built
+# by libsdl-native then uncomment the ASSUME_PROVIDED line below.
+PACKAGECONFIG_append_pn-qemu-native = " sdl"
+PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+#ASSUME_PROVIDED += "libsdl-native"
+
+I've tried to build against my host's libSDL and uncommented
+above line. It actually failed to build, because my host libSDL
+were not happy about ncurses native libraries, so I ended up
+adding this as well:
+
+ASSUME_PROVIDED += "ncurses-native"
+
+After that I had to rebuild qemu-native and qemu-helper-native.
+With resulting qemu and the same target files, image boots
+OK.
+
+With such nasty corruption problem, it always hard to say for
+sure, it maybe just timing changes .. , but now it seems it
+somewhat points to some issue in OE libsdl version ... And
+still it is fairly bizarre, libsdl
+that in OE (1.2.15) is the same that I have on my ubuntu
+machine and there is no additional patches for it in OE,
+although configure options might be quite different.
+
+Thanks,
+Victor
+
+>> If for experiment sake I disable loop that tries to find
+>> jiffies transition. I.e have something like this:
+>>
+>> diff --git a/lib/raid6/algos.c b/lib/raid6/algos.c
+>> index 4769947..e0199fc 100644
+>> --- a/lib/raid6/algos.c
+>> +++ b/lib/raid6/algos.c
+>> @@ -166,8 +166,12 @@ static inline const struct raid6_calls
+>> *raid6_choose_gen(
+>>
+>>                         preempt_disable();
+>>                         j0 = jiffies;
+>> +#if 0
+>>                         while ((j1 = jiffies) == j0)
+>>                                 cpu_relax();
+>> +#else
+>> +                        j1 = jiffies;
+>> +#endif /* 0 */
+>>                         while (time_before(jiffies,
+>>                                             j1 +
+>> (1<<RAID6_TIME_JIFFIES_LG2))) {
+>>                                 (*algo)->gen_syndrome(disks, PAGE_SIZE,
+>> *dptrs);
+>> @@ -189,8 +193,12 @@ static inline const struct raid6_calls
+>> *raid6_choose_gen(
+>>
+>>                         preempt_disable();
+>>                         j0 = jiffies;
+>> +#if 0
+>>                         while ((j1 = jiffies) == j0)
+>>                                 cpu_relax();
+>> +#else
+>> +                        j1 = jiffies;
+>> +#endif /* 0 */
+>>                         while (time_before(jiffies,
+>>                                             j1 +
+>> (1<<RAID6_TIME_JIFFIES_LG2))) {
+>>                                 (*algo)->xor_syndrome(disks, start, stop,
+>>
+>> Image boots fine after that.
+>>
+>> I.e it looks as some strange effect in aarch64 qemu that seems does not
+>> progress jiffies and code stuck.
+>
+>> Another observation is that if I put breakpoint for example
+>> in do_timer, it actually hits the breakpoint, ie timer interrupt
+>> happens in this case, and strangely raid6_choose_gen sequence
+>> does progress, ie debugger breakpoints make this case unstuck.
+>> Actually several pressing Ctrl-C to interrupt target, followed
+>> by continue in gdb let code eventually go out of raid6_choose_gen.
+>>
+>> Also whenever I presss Ctrl-C in gdb to stop target it always
+>> in stalled case drops with $pc into first instruction of el1_irq,
+>> I never saw different $pc hang code interrupt. Does it mean qemu
+>> hangged on first instruction of el1_irq handler? Note once I do
+>> stepi after that it ables to proceseed. If I continue steping
+>> eventually it gets to arch_timer_handler_virt and do_timer.
+>
+> This is definitely rather weird and suggestive of a QEMU bug...
+>
+>> For Linaro qemu aarch64 guys more details:
+>>
+>> Situation happens on latest openembedded-core, for qemuarm64 MACHINE.
+>> It does not happens always, i.e sometimes it works.
+>>
+>> Qemu version is 2.11.1 and it is invoked like this (through regular
+>> oe runqemu helper utility):
+>>
+>> /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-aarch64
+>> -device virtio-net-device,netdev=net0,mac=52:54:00:12:34:02 -netdev
+>> tap,id=net0,ifname=tap0,script=no,downscript=no -drive
+>> id=disk0,file=/wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/deploy/images/qemuarm64/core-image-minimal-qemuarm64-20180305025002.rootfs.ext4,if=none,format=raw
+>> -device virtio-blk-device,drive=disk0 -show-cursor -device virtio-rng-pci
+>> -monitor null -machine virt -cpu cortex-a57 -m 512 -serial mon:vc -serial
+>> null -kernel
+>> /wd6/oe/20180304/systemtap-oe-sysroot/build/tmp-glibc/deploy/images/qemuarm64/Image
+>> -append root=/dev/vda rw highres=off  mem=512M
+>> ip=192.168.7.2::192.168.7.1:255.255.255.0 console=ttyAMA0,38400
+>
+> Well, you're not running an SMP config, which rules a few
+> things out at least.
+>
+> thanks
+> -- PMM
+>
 
