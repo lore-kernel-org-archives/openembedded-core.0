@@ -1,50 +1,71 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4711B788C2
+Return-Path: <cbugot@sierrawireless.com>
+X-Greylist: delayed 12890 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 12 Mar 2018 14:39:34 UTC
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+	(mail-by2nam01on0050.outbound.protection.outlook.com [104.47.34.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5078F60107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 11:44:31 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id k79-v6so11040515ita.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 04:44:33 -0700 (PDT)
+	Mon, 12 Mar 2018 14:39:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CF4Jr1UxDimHxUduJ3LESKKdY7GM5428tUXEMQnltwE=;
-	b=VIF2ymk8E7vq/kWKC7VTEjI5J4auKSYOAkCRvLeGohzSAFqnoTtFJDKH5eNW9zHjo3
-	7jISC8h095SPM01/aZzPrmDBCSSZGKPDQ3C2js0d7D1Ji70CRKcB70nVf8sIAYlgmo5U
-	lFGJvyQfGV2kS8A/p0zxZtgMm38jQgRR03sXr/lvEgpKgdKHYQ6PQtWCyzJviAOcHnRy
-	IItUtXfLYFNqBroiIdwsCw7wWSKWjM/BRo4Z70olTrqSOgHD1HjWR2Q1loMq10vBnPKo
-	gVA49pLMzPOvBTEkrqk6pdJmC/ZAa5z33DXBKNk/KZ+RELLsk+QMGyJ3LmEyy7ei4T1Q
-	Sy3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CF4Jr1UxDimHxUduJ3LESKKdY7GM5428tUXEMQnltwE=;
-	b=BqhZj+VuU5aMkiHvnDJh/ULweZq3XYtl3qAiPLojowrVO/0/h4Zwzih6QhHFBf5CCq
-	MxMnIbCMoK58hglOEYpBziOY1nHiZ18aVkVVQDRegy8j5Dow7c/X4dKWcsNiEAnv4U9R
-	qETuDWh9iwbkJ3svQhuoQ+vlmaFM98r0R2KjkuKjf2wITH9dBo5b011zdGirxMWriUTd
-	GriA/5Db3Vtp6Qi2/UVoNb/COmhfAo71jqcK+zTks0xSl37NMk7sLU3TJgbjBDiDZzes
-	uOQ9LfEmEeoj1p7SyDN8BQtMX1qi2r2A4B5xn1CHOwtLYU7FCHYAerspKPRjora8duag
-	QzrQ==
-X-Gm-Message-State: AElRT7F3yrk4SjSSEhlQ3YLT/eo6MD2JkgBcsqSJcryOn06PB5DML2dC
-	DBWjSR/+BbtYVpajHjcw0s3z6pnlYsInL1MhAAIcXg==
-X-Google-Smtp-Source: AG47ELvz7Dx0Msbyib39Zc6QCdvjFU4v10bFoVv2XWcWdP7PKDhdH1ZW6e7d6grQjc4gibnsszX4XHKd5/zWy5cb1eI=
-X-Received: by 10.36.66.195 with SMTP id i186mr8687161itb.45.1520855073405;
-	Mon, 12 Mar 2018 04:44:33 -0700 (PDT)
+	d=SierraWirelessInc.onmicrosoft.com; s=selector1-sierrawireless-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=pHKjg8vQMOeM/AyRa4fol3LobgzBrMMLhMhWM5s62xo=;
+	b=zIXTwoJ/0chUdB5uM++uroY8UTW9jEOvAQ6ozUqFfLmzxWgKYiSujkjvHBQq8GGcN/EmeuDVLgIs8WIdMCPggpRNgqMw4bjzdWdDB5WpkdcK4WfM/c6ahMyeqtZx0Ot5jEbPqhkDn29GYlUcpyuhrKnUE6FZ0k2a8RLJDvXew+k=
+Received: from CY1PR02MB1152.namprd02.prod.outlook.com (10.163.15.154) by
+	CY1PR02MB1229.namprd02.prod.outlook.com (10.163.16.147) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.567.14; Mon, 12 Mar 2018 11:04:44 +0000
+Received: from CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) by
+	CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) with mapi id
+	15.20.0548.021; Mon, 12 Mar 2018 11:04:44 +0000
+From: Cuero Bugot <cbugot@sierrawireless.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: uninative and recipe parsing
+Thread-Index: AdO56yridq5aeM3RTjmoDMuix3K+qA==
+Date: Mon, 12 Mar 2018 11:04:44 +0000
+Message-ID: <CY1PR02MB11526A4DDADFB7EF5D6019EAA3D30@CY1PR02MB1152.namprd02.prod.outlook.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [84.14.163.134]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; CY1PR02MB1229;
+	7:L5eCxDcceBx2G/VMsEYuZTaxzexE1ejrQ9J7GMZuFZMiBicT3KwruHk+I4zQDQSk5UO0GCvRcykp7yMOCCNCnYiIiiF0MVUn7dfEjnkISsOwJ/xsr/jvECBfZQ83Z0VdGee0TSqCFd7k6RklXxi0uU1XWQtcq/kH9LO7kZV7ZhbgEwoPfjl7mwdDTgjJd77iw+PtTlaCFatWSQ+79yY/Vj1exIxed5+9L11/QWvgbwHol4HY+9MFnfwCSAuMdCgI
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 139efc15-385d-40e2-4c6b-08d588090fc2
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:CY1PR02MB1229; 
+x-ms-traffictypediagnostic: CY1PR02MB1229:
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=cbugot@sierrawireless.com; 
+x-microsoft-antispam-prvs: <CY1PR02MB12293067907B13F7F8E0B5B4A3D30@CY1PR02MB1229.namprd02.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(3002001)(3231220)(944501244)(52105095)(10201501046)(6055026)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123560045)(20161123564045)(6072148)(201708071742011);
+	SRVR:CY1PR02MB1229; BCL:0; PCL:0; RULEID:; SRVR:CY1PR02MB1229; 
+x-forefront-prvs: 06098A2863
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(346002)(366004)(376002)(39380400002)(396003)(39860400002)(53754006)(199004)(189003)(478600001)(86362001)(33656002)(8936002)(59450400001)(186003)(102836004)(77096007)(26005)(305945005)(53936002)(7736002)(3660700001)(55236004)(105586002)(6506007)(5660300001)(55016002)(6916009)(7696005)(99286004)(9686003)(5640700003)(74316002)(3280700002)(6436002)(316002)(68736007)(2900100001)(2906002)(66066001)(81166006)(25786009)(3480700004)(14454004)(97736004)(2501003)(3846002)(2351001)(6116002)(106356001)(81156014)(8676002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR02MB1229;
+	H:CY1PR02MB1152.namprd02.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: sierrawireless.com does not
+	designate permitted sender hosts)
+x-microsoft-antispam-message-info: N624n5UN1jVLCaCF368qJhwJrumXZWcwpRGoWdzF7cMZpzPnqCtGA5oTRAJuC2GhNrvykQ9BKe0QPccEIQd9ZuQ6974HuK3006aWTdstDITqM4rZkgnpshYsatjhtd5NU67w5BxG1l9ROokHsuql9z19UkPw7WsbX8RR9HqScWAXdlakIT/8sYta4p8V+uYqALtMNWLeX1XKb9D+ZhWbOpdTYeuIrln8ZuJEixW0Ac62eMUYnxRjEd1R/2gmgzeMREr7hzgmjf0JK+yk7UhjPZtDIXpXdYQSdk92ODjsitB9iPhUVu+kvl2HM2Mkf4psv4SW+sdPpbUXrNAaZN86HQ==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Mon, 12 Mar 2018 04:44:13 -0700 (PDT)
-In-Reply-To: <20180312112901.9844-2-matt@madison.systems>
-References: <20180312112901.9844-1-matt@madison.systems>
-	<20180312112901.9844-2-matt@madison.systems>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 12 Mar 2018 11:44:13 +0000
-Message-ID: <CAJTo0La3UXoWCnw=H9k7OjQF3PFH2_VMGJB-auf1kuygw-i5mw@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][PATCH 1/1] go: Upgrade 1.9 to 1.9.4 stable release
+X-OriginatorOrg: sierrawireless.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 139efc15-385d-40e2-4c6b-08d588090fc2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2018 11:04:44.0768 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 08059a4c-2486-43dd-89e3-3a747e0dcbe8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1229
+Subject: uninative and recipe parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,156 +78,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 11:44:32 -0000
-Content-Type: multipart/alternative; boundary="001a113b880467d7d9056735aab9"
-
---001a113b880467d7d9056735aab9
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Mar 2018 14:39:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Note that stable branch policy is to cherry-pick security fixes unless
-they're too complicated/risky to pick (openssl is the notable example here)=
-.
+Hi all,
 
-Ross
+When you add several layers, recipe parsing can take a (very) long time. In=
+ our case it takes more than a couple minutes [1]. Fortunately it is suppos=
+ed to happens once, except when you use uninative (poky's default) where it=
+ happens twice (the two first times you build).
+I think this is not an intentional behavior so I dug it a little bit and he=
+re is what I found:
 
-On 12 March 2018 at 11:29, Matt Madison <matt@madison.systems> wrote:
+When inheriting meta/classes/uninative.bbclass, it registers 2 functions on=
+ build events: one to fetch the uninative tarball (at bb.event.BuildStarted=
+) and the other one to set variables in the datastore (at bb.event.ConfigPa=
+rsed).
+The function that set the variables [2] to the datastore first check that t=
+he uninative blob is in the build tree, so even though it is supposed to ha=
+ppen at recipe parsing, the variable are only really set when the build rea=
+lly start (bb.event.BuildStarted), after the recipes have been parsed!
 
-> From: Otavio Salvador <otavio@ossystems.com.br>
->
-> The 1.9.4 fixes a number of issues in the Go compiler and is important
-> to get in before we start working on 1.10 inclusion.
->
->  - go1.9.1 (released 2017/10/04) includes two security fixes.
->
->  - go1.9.2 (released 2017/10/25) includes fixes to the compiler,
->    linker, runtime, documentation, go command, and the crypto/x509,
->    database/sql, log, and net/smtp packages. It includes a fix to a
->    bug introduced in Go 1.9.1 that broke go get of non-Git
->    repositories under certain conditions.
->
->  - go1.9.3 (released 2018/01/22) includes fixes to the compiler,
->    runtime, and the database/sql, math/big, net/http, and net/url
->    packages.
->
->  - go1.9.4 (released 2018/02/07) includes a security fix to =E2=80=9Cgo g=
-et=E2=80=9D.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->  meta/recipes-devtools/go/go-1.9.inc | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/go/go-1.9.inc
-> b/meta/recipes-devtools/go/go-1.9.inc
-> index 7f12241dc1..2823304b7c 100644
-> --- a/meta/recipes-devtools/go/go-1.9.inc
-> +++ b/meta/recipes-devtools/go/go-1.9.inc
-> @@ -1,6 +1,9 @@
->  require go-common.inc
->
->  GO_BASEVERSION =3D "1.9"
-> +GO_MINOR =3D ".4"
-> +PV .=3D "${GO_MINOR}"
-> +
->  FILESEXTRAPATHS_prepend :=3D "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
->
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0dd74=
-707"
-> @@ -19,5 +22,5 @@ SRC_URI +=3D "\
->  "
->  SRC_URI_append_libc-musl =3D " file://set-external-linker.patch"
->
-> -SRC_URI[main.md5sum] =3D "da2d44ea384076efec43ee1f8b7d45d2"
-> -SRC_URI[main.sha256sum] =3D "a4ab229028ed167ba1986825751463
-> 605264e44868362ca8e7accc8be057e993"
-> +SRC_URI[main.md5sum] =3D "6816441fd6680c63865cdd5cb8bc1960"
-> +SRC_URI[main.sha256sum] =3D "0573a8df33168977185aa44173305e
-> 5a0450f55213600e94541604b75d46dc06"
-> --
-> 2.14.1
->
->
+So I think there is bug in the current behavior as:
+	* Either the uninative variables are not important for the recipe parsing,=
+ and then they should be added in BB_HASHCONFIG_WHITELIST
+	* Or the variables should matter for the recipe parsing so they should be =
+set before the parsing and not in between parsing and build.
 
---001a113b880467d7d9056735aab9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I assumed the later, so a simple fix is to register the two functions on th=
+e same event: bb.event.ConfigParsed.
 
-<div dir=3D"ltr">Note that stable branch policy is to cherry-pick security =
-fixes unless they&#39;re too complicated/risky to pick (openssl is the nota=
-ble example here).<div><br></div><div>Ross</div></div><div class=3D"gmail_e=
-xtra"><br><div class=3D"gmail_quote">On 12 March 2018 at 11:29, Matt Madiso=
-n <span dir=3D"ltr">&lt;<a href=3D"mailto:matt@madison.systems" target=3D"_=
-blank">matt@madison.systems</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">From: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
-r">otavio@ossystems.com.br</a>&gt;<br>
-<br>
-The 1.9.4 fixes a number of issues in the Go compiler and is important<br>
-to get in before we start working on 1.10 inclusion.<br>
-<br>
-=C2=A0- go1.9.1 (released 2017/10/04) includes two security fixes.<br>
-<br>
-=C2=A0- go1.9.2 (released 2017/10/25) includes fixes to the compiler,<br>
-=C2=A0 =C2=A0linker, runtime, documentation, go command, and the crypto/x50=
-9,<br>
-=C2=A0 =C2=A0database/sql, log, and net/smtp packages. It includes a fix to=
- a<br>
-=C2=A0 =C2=A0bug introduced in Go 1.9.1 that broke go get of non-Git<br>
-=C2=A0 =C2=A0repositories under certain conditions.<br>
-<br>
-=C2=A0- go1.9.3 (released 2018/01/22) includes fixes to the compiler,<br>
-=C2=A0 =C2=A0runtime, and the database/sql, math/big, net/http, and net/url=
-<br>
-=C2=A0 =C2=A0packages.<br>
-<br>
-=C2=A0- go1.9.4 (released 2018/02/07) includes a security fix to =E2=80=9Cg=
-o get=E2=80=9D.<br>
-<br>
-Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
-r">otavio@ossystems.com.br</a>&gt;<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
-Signed-off-by: Matt Madison &lt;matt@madison.systems&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/go-1.<wbr>9.inc | 7 +++++--<br>
-=C2=A01 file changed, 5 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-<wbr>1.9.inc b/meta/recipes-devtoo=
-ls/go/go-<wbr>1.9.inc<br>
-index 7f12241dc1..2823304b7c 100644<br>
---- a/meta/recipes-devtools/go/go-<wbr>1.9.inc<br>
-+++ b/meta/recipes-devtools/go/go-<wbr>1.9.inc<br>
-@@ -1,6 +1,9 @@<br>
-=C2=A0require go-common.inc<br>
-<br>
-=C2=A0GO_BASEVERSION =3D &quot;1.9&quot;<br>
-+GO_MINOR =3D &quot;.4&quot;<br>
-+PV .=3D &quot;${GO_MINOR}&quot;<br>
-+<br>
-=C2=A0FILESEXTRAPATHS_prepend :=3D &quot;${FILE_DIRNAME}/go-${GO_<wbr>BASEV=
-ERSION}:&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>5d4950ecb7b26d2c=
-5e4e7b4e0dd747<wbr>07&quot;<br>
-@@ -19,5 +22,5 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI_append_libc-musl =3D &quot; file://set-external-linker.<wbr>p=
-atch&quot;<br>
-<br>
--SRC_URI[main.md5sum] =3D &quot;<wbr>da2d44ea384076efec43ee1f8b7d45<wbr>d2&=
-quot;<br>
--SRC_URI[main.sha256sum] =3D &quot;<wbr>a4ab229028ed167ba1986825751463<wbr>=
-605264e44868362ca8e7accc8be057<wbr>e993&quot;<br>
-+SRC_URI[main.md5sum] =3D &quot;<wbr>6816441fd6680c63865cdd5cb8bc19<wbr>60&=
-quot;<br>
-+SRC_URI[main.sha256sum] =3D &quot;<wbr>0573a8df33168977185aa44173305e<wbr>=
-5a0450f55213600e94541604b75d46<wbr>dc06&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.14.1<br>
-<br>
-</font></span></blockquote></div><br></div>
+Note: We are currently using pyro, but I checked that the master branch sho=
+uld exhibit the same behavior (same code).
 
---001a113b880467d7d9056735aab9--
+[1]: it matters to us as we are doing Continuous Integration and do clean b=
+uilds (with sstate cache) on every pull requests and master branch commits.=
+ The automatic test full cycle take about 20 minutes. We launch 2 bitbake c=
+ommands during that process. Parsing recipe take about 2-4 minutes, which i=
+s significant enough when trying to reduce the waiting and parallel builds/=
+tests.
+[2]: the uninative changed variables are: NATIVELSBSTRING, SSTATEPOSTUNPACK=
+FUNCS
+
+Proposed patch:
+
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclas=
+s
+index a410647..5713bb8 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -9,7 +9,7 @@ UNINATIVE_TARBALL ?=3D "${BUILD_ARCH}-nativesdk-libc.tar.bz=
+2"
+ UNINATIVE_DLDIR ?=3D "${DL_DIR}/uninative/"
+=20
+ addhandler uninative_event_fetchloader
+-uninative_event_fetchloader[eventmask] =3D "bb.event.BuildStarted"
++uninative_event_fetchloader[eventmask] =3D "bb.event.ConfigParsed"
+=20
+ addhandler uninative_event_enable
+ uninative_event_enable[eventmask] =3D "bb.event.ConfigParsed"
+
+
