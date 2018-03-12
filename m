@@ -1,29 +1,52 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 328B5788CF
+Return-Path: <matt@madison.systems>
+Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 172E978878
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 10:20:29 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2018 03:20:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,460,1515484800"; d="scan'208";a="24448679"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 12 Mar 2018 03:20:24 -0700
-To: Zhang Xiao <xiao.zhang@windriver.com>,
-	openembedded-core@lists.openembedded.org, mark.hatle@windriver.com
-References: <20180312091303.121887-1-xiao.zhang@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
-Date: Mon, 12 Mar 2018 12:13:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Mon, 12 Mar 2018 11:29:20 +0000 (UTC)
+Received: by mail-pl0-f48.google.com with SMTP id x3-v6so2624319plo.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2018 04:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=m/IcmNBprqFJXop/QtAgE6OVMWL3yWCUPQEFJi2h/f8=;
+	b=hUWSIu9XqZDZZe/hBI7ptL0Ooe1eBA9KiLJvUxgjUSmvq1sLmK11/zg1xyYBMWgVsE
+	Sj57kVOljcAMh3sXr3DR44Inu6s7lgAmhPX8E/sLEuvoLbvFdgEEBTrpUptRhZZ9EZmb
+	9Oh65F9ZiifyGKdvc/MTvm4YriXR1FInZMLb/zJMMFWaJUvSbHTTo3GbO1sO5xaLyLXt
+	u50zSj6Qw24eVPXw/PbJVumNKb1AvJAnqxkBAALNgr+5XNDSXV8acoszkqni6NuVlzIf
+	gdIo0OJy9uvdGRVGDH92Y3sgbX/lnTuLrkyTvLyZBjI9KqSjPUJPBMkbIzMg+DmjzpHu
+	thZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=m/IcmNBprqFJXop/QtAgE6OVMWL3yWCUPQEFJi2h/f8=;
+	b=i949OReb7pcb1WYsMnBPGBnWk5ztu0t7SOgmFA2bRh66bukUV03rOSLUbpU28Hb8Xj
+	bJdV7V3K4d/tLBGQOoZy7jm4XdpK2xfpDUF1DPHbC48R141jw5yjLOGSObs1cYPJZ5dd
+	iGrrYMeR7kN+iVR4AXB9ufIb3Bd/W6M3F6B5eEnHb1Xxj4/ZpnylAVHMhCPLnJkmFNHN
+	nikse5ZFB4eXKIpwQ8m+QI+fRQqHfho5d5tknZm7o/ociBbrqFGR/Df2Fff7KLZTyEgK
+	ZKA4Dq0cNuTYqKUw9AYe8XSmOt625gBLBhfVm/Pu6GJw6MKx7+Hqh/Ciyy712zodUVM/
+	hy9Q==
+X-Gm-Message-State: AElRT7FbKIvo1op955K56ff/aZZTpZ9HjsEiG51QkJqXzzMP5D/5R5gG
+	rvVJWv/bWnDOOBUow/PJdwJGmsot
+X-Google-Smtp-Source: AG47ELt0W6f1WbCB0nfyfgSM+7mwNehsGS+7mrg6vRxXEMMTg2qB8Q9TSxxsMMRqFFTZDvErpE2TUQ==
+X-Received: by 2002:a17:902:149:: with SMTP id
+	67-v6mr5146734plb.296.1520854161849; 
+	Mon, 12 Mar 2018 04:29:21 -0700 (PDT)
+Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
+	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
+	t20sm15340573pfh.182.2018.03.12.04.29.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Mar 2018 04:29:20 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Mar 2018 04:29:00 -0700
+Message-Id: <20180312112901.9844-1-matt@madison.systems>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-In-Reply-To: <20180312091303.121887-1-xiao.zhang@windriver.com>
-Subject: Re: [PATCH 1/7] eudev: fix file conflict when multilib enabled
+Subject: [rocko][PATCH 0/1] backport go 1.9.4 update to rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 10:20:30 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Mar 2018 11:29:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 03/12/2018 11:12 AM, Zhang Xiao wrote:
-> Config file udev.pc conflicts between 32 and 64 bit packages.
-> Use update-alternatives to add base_libdir as suffix to avoid it.
-> -inherit autotools update-rc.d qemu pkgconfig distro_features_check
-> +inherit autotools update-rc.d qemu pkgconfig distro_features_check update-alternatives
-> +
-> +MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
-> +
-> +ALTERNATIVE_${PN}-dev = "udev.pc"
-> +ALTERNATIVE_LINK_NAME[udev.pc] = "${datadir}/pkgconfig/udev.pc"
-> +ALTERNATIVE_TARGET[udev.pc] = "${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}"
-> +
-> +PACKAGE_PREPROCESS_FUNCS += "eudev_alternative_rename"
-> +
-> +eudev_alternative_rename() {
-> +       # rename udev.pc
-> +       mv ${PKGD}${datadir}/pkgconfig/udev.pc ${PKGD}${datadir}/pkgconfig/udev.pc-${MULTILIB_SUFFIX}
-> +}
+One of the changes included in this point release update
+fixes an issue with the construction of Go's shared runtim
+library, so it would be great to backport this to rocko
+to fix [YOCTO 12592].
 
-I'm afraid, I have to say no to the entire patchset. It's abusing 
-update-alternatives to do what it was never meant for, and effectively 
-renders one of the -dev packages broken, just so that package manager 
-can satisfy dependencies.
+Thanks,
+-Matt
 
-Let's first take a look at why dnf wants to install two different -dev 
-packages in the first place, and why these seven recipes need to be 
-fixed in particular. My understanding is multilib feature should be used 
-only for libraries, and not for supporting development files.
+Otavio Salvador (1):
+  go: Upgrade 1.9 to 1.9.4 stable release
 
-Alex
+ meta/recipes-devtools/go/go-1.9.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+-- 
+2.14.1
+
 
