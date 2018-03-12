@@ -1,26 +1,30 @@
-Return-Path: <xiao.zhang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B8C9788E3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 049FA7888F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 09:14:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2C9Drjh011047
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 02:14:08 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 12 Mar 2018 02:13:05 -0700
-From: Zhang Xiao <xiao.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>
-Date: Mon, 12 Mar 2018 02:13:01 -0700
-Message-ID: <20180312091303.121887-5-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180312091303.121887-1-xiao.zhang@windriver.com>
-References: <20180312091303.121887-1-xiao.zhang@windriver.com>
+	Mon, 12 Mar 2018 09:16:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2C9GPkn013804
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 12 Mar 2018 02:16:25 -0700 (PDT)
+Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 12 Mar 2018 02:15:46 -0700
+To: "Maxin B. John" <maxin.john@intel.com>
+References: <cover.1520841539.git.Qi.Chen@windriver.com>
+	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+	<20180312085213.GA25631@mbabyjoh-desk.ger.corp.intel.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <8447a24a-1ae3-715e-07ba-30a35148390e@windriver.com>
+Date: Mon, 12 Mar 2018 17:16:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 5/7] cairo: fix file conflict when multilib enabled
+In-Reply-To: <20180312085213.GA25631@mbabyjoh-desk.ger.corp.intel.com>
+X-Originating-IP: [128.224.162.197]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] systemd: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 09:14:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Mar 2018 09:16:25 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Script file cairo-trace conflict between 32 and 64 bit packages.
-Use update-alternatives to add base_libdir as suffix to avoid it.
+On 03/12/2018 04:52 PM, Maxin B. John wrote:
+> Hi,
+>
+> On Mon, Mar 12, 2018 at 04:38:51PM +0800, Chen Qi wrote:
+>> Upgrade systemd to 237.
+>>
+>> Note that this version has dropped autotools support.
+> Very minor nit-picking :
+>
+> Even with this patch, "systemd_237.bb" and "systemd.inc" contains duplicated
+>
+> SRC_URI = "git://github.com/systemd/systemd.git;protocol=git"
+>
+> Probably a good idea to keep it only in "systemd.inc" file.
+>
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- meta/recipes-graphics/cairo/cairo_1.14.12.bb | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Hi Maxin,
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.12.bb b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-index 075ca1ed34..1f2d68c0de 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-@@ -10,6 +10,20 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
- SRC_URI[md5sum] = "9f0db9dbfca0966be8acd682e636d165"
- SRC_URI[sha256sum] = "8c90f00c500b2299c0a323dd9beead2a00353752b2092ead558139bd67f7bf16"
- 
-+inherit update-alternatives
-+
-+MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
-+
-+ALTERNATIVE_${PN}-perf-utils="cairo-trace"
-+ALTERNATIVE_LINK_NAME[cairo-trace] = "${bindir}/cairo-trace"
-+ALTERNATIVE_TARGET[cairo-trace] = "${bindir}/cairo-trace-${MULTILIB_SUFFIX}"
-+
-+PACKAGE_PREPROCESS_FUNCS += "alternatives_rename"
-+
-+alternatives_rename() {
-+       mv ${PKGD}${bindir}/cairo-trace ${PKGD}${bindir}/cairo-trace-${MULTILIB_SUFFIX}
-+}
-+
- PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
- 
- SUMMARY_${PN} = "The Cairo 2D vector graphics library"
-@@ -35,7 +49,7 @@ FILES_${PN} = "${libdir}/libcairo.so.*"
- FILES_${PN}-dev += "${libdir}/cairo/*.so"
- FILES_${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
- FILES_${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
--FILES_${PN}-perf-utils = "${bindir}/cairo-trace ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so.*"
-+FILES_${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so.*"
- 
- do_install_append () {
- 	rm -rf ${D}${bindir}/cairo-sphinx
--- 
-2.11.0
+Thanks for pointing it out.
+I've fixed this problem and updated the remote branch.
+
+Best Regards,
+Chen Qi
+
+>> The following patches are rebased:
+>> 0004-Use-getenv-when-secure-versions-are-not-available.patch
+>> 0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+>> 0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
+>> 0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
+>> 0018-check-for-uchar.h-in-configure.patch
+>> 0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
+>> 0001-add-fallback-parse_printf_format-implementation.patch
+>> 0002-src-basic-missing.h-check-for-missing-strndupa.patch
+>> 0007-check-for-missing-canonicalize_file_name.patch
+>> 0008-Do-not-enable-nss-tests.patch
+>> 0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch
+>> 0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
+>>
+>> The following backported patches are dropped:
+>> 0001-core-evaluate-presets-after-generators-have-run-6526.patch
+>> 0001-main-skip-many-initialization-steps-when-running-in-.patch
+>> 0001-meson-update-header-file-to-detect-memfd_create.patch
+>> 0003-fileio-include-sys-mman.h.patch
+>>
+>> The following patch is dropped as autotools support is dropped:
+>> 0002-configure.ac-Check-if-memfd_create-is-already-define.patch
+>>
+>> The following patches are newly added to fix problems:
+>> 0027-remove-nobody-user-group-checking.patch
+>> 0028-add-missing-FTW_-macros-for-musl.patch
+>> 0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
+>> 0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
+> Best Regards,
+> Maxin
+>
 
 
