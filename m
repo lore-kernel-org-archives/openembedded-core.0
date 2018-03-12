@@ -1,31 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AD3A71AB5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 05C24786C1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 19:49:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2CJnSDt027961
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 12 Mar 2018 12:49:28 -0700
-Received: from soho-mhatle-m.local (147.11.119.245) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 12 Mar 2018 12:48:48 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Zhang Xiao
-	<xiao.zhang@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <20180312091303.121887-1-xiao.zhang@windriver.com>
-	<7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
-	<a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
-	<dcc91a62-07a3-9374-5f5c-41fae23fb682@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <cc14195a-81df-190f-23fa-9c914e21e6d9@windriver.com>
-Date: Mon, 12 Mar 2018 12:48:57 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <dcc91a62-07a3-9374-5f5c-41fae23fb682@linux.intel.com>
-Subject: Re: [PATCH 1/7] eudev: fix file conflict when multilib enabled
+	Mon, 12 Mar 2018 23:19:14 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id d26so5046156pfn.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2018 16:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=SjJ8bh9lIihh+HOIFK29f1OLMkEnKSkejHd6PL3ysGA=;
+	b=ugoSJY6MXFnQHVXDS0oNAyxohVgZzNrqqrPUbt7DYux2sGs7vvEOctqGrGOYlIX414
+	m6t3b7I+fRsdg2GkvQ7qQpKC017ncMfxF3KHli5v07QWUiVhFMiWbGkQP3Mjxdxhbl/m
+	nBhVYHS/1gmhgpWMe2p97OsXsu/X1PP457Q+SKbV8uybKO8L17CdzGAtzddFkVVN+mld
+	gsIYdgl4XdblD58DyIAvt9M9JXHjiSP4kv2oDpsgWonuSSE+AprgLIrwE9YPFa31SfhD
+	bDXOGlHB2Ipvsp/yic5S2Rapx8DYhE1hq4ZFLkeGdibwzijYo+64yEC/a8foudFuAPdW
+	u2nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SjJ8bh9lIihh+HOIFK29f1OLMkEnKSkejHd6PL3ysGA=;
+	b=kz6TXQnqX5a0HmbZqf6UHaNQ/zUSmNGRPYMRUcao3NNROf7tRh73zGqDYuqfDL3C9g
+	9zrXrLsrQxxmtpRNf3Rd6DWSdtSFptyq4TbpgFvBcjYpC8TvqzwyH/ogCUeN04Zl58o6
+	q5sVtkEMWczIUh+aDgzW+/4zBcLESzJOSW8vw40U1Yx+IcJA9rCA1PVcRTyPYbt9iarp
+	8bZHzHKUXcHVnWrk6tZzBik1G5pM8pdeZCO+BdbvzkbMhSDax2se9ixRWyljLeU7PnUF
+	mtSwraWh1MnDPZ0iruL8PX8U5rcnsKbfSv12ESghldtmQBQ8jnXD3edsXaM7mQURPxiM
+	bHAw==
+X-Gm-Message-State: AElRT7HufKCQ3mR73+hdWGV0cqSI1rnu5ZghxKYTBoZEoeP8/2jsf7yp
+	F8Sd7E7L/bphCcb+Fwj3guPUSQ==
+X-Google-Smtp-Source: AG47ELu9fJoS8+1BY6LDx1PeaEJM5z8cSQEj0WTHSlBPyu19m8lirszfDZWjLMstgQ+yXyhPzVB1sA==
+X-Received: by 10.99.119.130 with SMTP id s124mr8004102pgc.64.1520896755896;
+	Mon, 12 Mar 2018 16:19:15 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	14sm20294169pfi.164.2018.03.12.16.19.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Mar 2018 16:19:14 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Mar 2018 16:19:08 -0700
+Message-Id: <1520896748-13037-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,81 +54,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 19:49:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Mar 2018 23:19:15 -0000
 
-On 3/12/18 11:55 AM, Alexander Kanavin wrote:
-> On 03/12/2018 08:38 PM, Mark Hatle wrote:
->> In this case, because the user specifically asked for BOTH 32-bit and 64-bit
->> development components to be installed onto the target for their application
->> development.  (This isn't a theoretical problem, but a specific problem from one
->> of our customers.)
-> 
-> Fair enough, but you should explain to the customer that Unix-type 
-> systems are not designed for this. There are hardcoded assumptions 
-> everywhere, that for each component there's only one set of header 
-> files, one .pc file, and one -config-style helper binary. Desktop 
-> distributions mutually exclude multilib -dev packages for this reason.
+Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
+KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
+vmlinux, which will result in two calls to "make vmlinux" from
+kernel_do_compile().
 
-The desktop distribution I used (CentOS and Fedora) support this type of
-multilib-dev.  I have to use the header file stuff all the time.  I don't know
-how they handle the -config case.
+Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
+minor non-functional updates to formatting and comments.
 
-But for the .pc files, they are typically installing in the libdir (not the
-datadir) for anything that is arch specific.  So that resolves the multilib
-issue for that piece.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/kernel.bbclass | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
->> The under the hood it can rename the 'python3.5m-config' to a nonconflicting
->> name (based on the base_libdir, since we know that will be unique)... and then
->> invoke a post-install script that will define an appropriate priority to ensure
->> that python3.5m-config will match the final 'python3.5m' version.  (Possibly
->> using update-alternatives to manage this.)
-> 
-> Here's something I don't get. When the user starts actual development, 
-> and calls python3.5-config to fetch configuration values, how do we 
-> ensure that the 'right' python3.5m-config is called, from the two that 
-> are installed? Same question for pkgconfig - how do we make sure it 
-> would look in the 'right' library directory of the two that are available?
-
-For the pkgconfig side, pkgconfig (used to) check gcc for the libdir.  I say
-used to cause, I don't know if this was implemented in OE or not.  I don't
-remember.  At one time, I believe this was done using "PKG_CONFIG_LIBDIR" and
-re-execing the program... but it's been a long time since I looked or cared
-specifically.  Most '.pc' files I know of are identical for all multilibs..
-having differences is really strange, and makes me really wonder if there are
-other issues with the package producing them.
-
-For the python3.5m-config stuff, (assuming we create a general purpose system to
-resolve this).  It should be able to query the executable that was installed and
-figure out which base_libdir it is associated with, and then use that
-information to switch to the correct '-config'.  If the user knows they want a
-specific libdir version, then that would be up to the specific user to invoke.
-
-This way the user can run a version of the default with reasonable expectations
-the default will match their running system -- or manually specific the file and
-type they want to execute and get the exact version they care about.
-
-
-I think my objective is, primarily, that the 'default' behavior of the system
-needs to be reasonable.   So for any user who does not declare a specific
-'version to be used', the 'right thing happens automatically'.   Where the right
-thing would be:
-
-*) Use a common configuration that works everywhere.
-*) Determine [automatically] the configuration that matches the system.
-*) Stop and tell the user that it does not know the right solution. (Error)
-
-Then an advanced user to select a specific version of the 'alternatives'.  The
-key with all of this is that it needs to be 'reasonable' for both the recipe
-maintainer and the end user.  Having to manually rename things, use the existing
-update-alternatives, etc really isn't a good idea -- even if it solves (some of)
-the user issues.
-
---Mark
-
-> Alex
-> 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index dc0152f..4bcaa61 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -62,31 +62,37 @@ python __anonymous () {
+     type = d.getVar('KERNEL_IMAGETYPE') or ""
+     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+     types = d.getVar('KERNEL_IMAGETYPES') or ""
+-    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
+     if type not in types.split():
+         types = (type + ' ' + types).strip()
+     if alttype not in types.split():
+         types = (alttype + ' ' + types).strip()
+     d.setVar('KERNEL_IMAGETYPES', types)
+ 
+-    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
+-    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
+-    # is built (such as using gzip to compress vmlinux)
+-    typeformake = types.replace('vmlinux.gz', 'vmlinux')
++    # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
++    # by the kernel build system and others which are created by post-processing
++    # (e.g. compressing vmlinux -> vmlinux.gz in kernel_do_compile()).
++    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types supported
++    # directly by the kernel build system.
++
++    typeformake = ""
++    for type in types.split():
++        if type == 'vmlinux.gz':
++            type = 'vmlinux'
++            if type in types.split():
++                continue
++        typeformake = (typeformake + ' ' + type).strip()
++
+     d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+ 
++    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
++    imagedest = d.getVar('KERNEL_IMAGEDEST')
++
+     for type in types.split():
+         typelower = type.lower()
+-        imagedest = d.getVar('KERNEL_IMAGEDEST')
+-
+         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
+-
+         d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
+-
+         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
+-
+         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+-
+         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+-- 
+1.9.1
 
 
