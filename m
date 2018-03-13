@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E836C78954
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC4A478947
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 03:20:26 +0000 (UTC)
+	Tue, 13 Mar 2018 03:20:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KSCq028960
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KUCA002111
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 20:20:28 -0700 (PDT)
+	Mon, 12 Mar 2018 20:20:30 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 20:19:48 -0700
+	14.3.361.1; Mon, 12 Mar 2018 20:19:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2018 11:24:45 +0800
-Message-ID: <bdc9d426a1c9b482c44d288f30ddd11f28fac7f5.1520911259.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Mar 2018 11:24:46 +0800
+Message-ID: <baebe7c6ae37f56df6d34b3d6a5acf1c94de4e4f.1520911259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1520911259.git.liezhi.yang@windriver.com>
 References: <cover.1520911259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/8] staging.bbclass: print searched manifest when not found
+Subject: [PATCH 4/8] package_manager.py: reverse archs correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 03:20:27 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 03:20:29 -0000
 Content-Type: text/plain
 
-The old warning was:
-WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_prepare_recipe_sysroot: Manifest /path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot not found?
+It had reversed all the archs, which mixed multilib and common archs, e.g.:
+"all any noarch x86_64 core2-64 qemux86_64 x86 i586 core2-32"
+After reversed:
+"core2-32 i586 x86 qemux86_64 core2-64 x86_64 noarch any all"
+The core2-32 has a higher priority than core2-64 after reversed which is
+incorrect. Don't mix with mulitlib when reverse can fix the problem, and let
+multilib archs have a higher priority for multilib image.
 
-The message wasn't clear enough, it searched a few manifests, but only
-reported the last one, which confused user.
+Fixed:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
+IMAGE_INSTALL_append = " ca-certificates"
 
-Now the warning is:
-WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_rootfs: Manifest for lib32-qemuwrapper-cross not found, searched manifests:
-/path/to/tmp/sstate-control/manifest-qemux86_64-lib32-qemuwrapper-cross.populate_sysroot
-/path/to/tmp/sstate-control/manifest-core2-64-lib32-qemuwrapper-cross.populate_sysroot
-/path/to/tmp/sstate-control/manifest-x86_64-lib32-qemuwrapper-cross.populate_sysroot
-/path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot
+$ bitbake wrlinux-image-glibc-small
+Check rootfs.manifest, no core_32 packages is installed, this is
+correct, but after we build lib32-bash, it will be incorrect:
+$ bitbake lib32-bash
+$ bitbake wrlinux-image-glibc-small
+Check rootfs.manifest, a few lib32 packages are installed, such as
+lib32-bash, this is incorrect. It was because ca-certificates is
+allarch, and requires /bin/sh, which is provided by both bash and
+lib32-bash, and lib32-bash has a higher priority than bash, so it would
+be installed.
 
-Whick makes debug easier.
+[YOCTO #12288]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oe/sstatesig.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oe/package_manager.py | 57 ++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 52 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index b82e0f4..0c90ffe 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -394,11 +394,14 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-         pkgarchs.append('allarch')
-         pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index c10efb8..d4dc174 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -572,10 +572,10 @@ class RpmPM(PackageManager):
+         self.target_rootfs = target_rootfs
+         self.target_vendor = target_vendor
+         self.task_name = task_name
+-        if arch_var == None:
+-            self.archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
+-        else:
+-            self.archs = self.d.getVar(arch_var).replace("-","_")
++
++        self.archs = self._determine_archs(arch_var)
++        bb.note("The archs used by package manager: %s" % self.archs)
++
+         if task_name == "host":
+             self.primary_arch = self.d.getVar('SDK_ARCH')
+         else:
+@@ -593,9 +593,56 @@ class RpmPM(PackageManager):
+         if not os.path.exists(self.d.expand('${T}/saved')):
+             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
  
-+    searched_manifest = []
-     for pkgarch in pkgarchs:
-         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
-         if os.path.exists(manifest):
-             return manifest, d2
-+        searched_manifest.append(manifest)
-     bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-+    bb.warn("Searched manifests:\n%s" % '\n'.join(searched_manifest))
-     return None, d2
- 
- 
++    def _determine_archs(self, arch_var):
++        if arch_var:
++            archs = self.d.getVar(arch_var).replace("-","_").split()
++        else:
++            archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_").split()
++        # Reverse archs to ensure the -best- match is listed firstly, but need
++        # make sure not mixed with multilib archs, and let multilib archs have
++        # higher a priority for multilib image:
++        # For non-multilib image: (e.g., core-image-minimal)
++        # machine_arch:package_archs:multilib_archs:allarch_archs
++        # For multilib image: (e.g., lib32-core-image-minimal)
++        # machine_arch:multilib_archs:package_archs:allarch_archs
++        package_archs_var = self.d.getVar('PACKAGE_ARCHS').replace("-","_").split()
++        machine_arch_var = [self.d.getVar('MACHINE_ARCH').replace("-","_")]
++        package_archs = []
++        allarch_archs = []
++        ml_archs = []
++        machine_arch = []
++        for arch in archs:
++            if arch in machine_arch_var:
++                bb.note("Found MACHINE_ARCH: %s" % arch)
++                machine_arch.append(arch)
++            elif arch in package_archs_var:
++                bb.note("Found PACKAGE_ARCH: %s" % arch)
++                package_archs.append(arch)
++            elif arch in 'all any noarch'.split():
++                bb.note("Found allarch: %s" % arch)
++                allarch_archs.append(arch)
++            else:
++                bb.note("Found multilib arch: %s" % arch)
++                ml_archs.append(arch)
++        package_archs.reverse()
++        if machine_arch:
++            archs = machine_arch
++        mlprefix = self.d.getVar('MLPREFIX')
++        if ml_archs:
++            ml_archs.reverse()
++            if mlprefix:
++                archs += ml_archs + package_archs
++            else:
++                archs += package_archs + ml_archs
++        else:
++            archs += package_archs
++
++        archs += allarch_archs
++        return ' '.join(archs)
++
+     def _configure_dnf(self):
+         # libsolv handles 'noarch' internally, we don't need to specify it explicitly
+-        archs = [i for i in reversed(self.archs.split()) if i not in ["any", "all", "noarch"]]
++        archs = [i for i in self.archs.split() if i not in ["any", "all", "noarch"]]
+         # This prevents accidental matching against libsolv's built-in policies
+         if len(archs) <= 1:
+             archs = archs + ["bogusarch"]
 -- 
 2.7.4
 
