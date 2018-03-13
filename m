@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E80C7896C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 33D6A78982
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 03:20:36 +0000 (UTC)
+	Tue, 13 Mar 2018 03:20:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3Kbfw002127
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KeOB028969
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 20:20:37 -0700 (PDT)
+	Mon, 12 Mar 2018 20:20:40 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 20:19:57 -0700
+	14.3.361.1; Mon, 12 Mar 2018 20:20:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2018 11:24:49 +0800
-Message-ID: <b99839985653f44516cf41291681f2f5cbf63a7e.1520911259.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Mar 2018 11:24:50 +0800
+Message-ID: <d54f067023a6cea276807ba3c5e5ace161c14ef5.1520911259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1520911259.git.liezhi.yang@windriver.com>
 References: <cover.1520911259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/8] populate_sdk_ext.bbclass: remove the try...finally
+Subject: [PATCH 8/8] staging.bbclass: extend_recipe_sysroot: fix multilib manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 03:20:36 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 03:20:39 -0000
 Content-Type: text/plain
 
-The "sdkbasepath + '/conf/local.conf.bak" doesn't exist when
-"oe.copy_buildsystem.check_sstate_task_list()" fails, then os.replace() would
-raise FileNotFoundError, which overcomes the real error. Keep the error status
-makes debug easier, so remove the try..finally.
+Fixed:
+MACHINE = "qemux86-64"
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+$ bitbake <image> -cpopulate_sdk_ext
+[snip]
+Exception: subprocess.CalledProcessError: Command 'sed -e [snip]'
+[snip]
+
+Subprocess output:
+[snip]
+sed: can't read /path/to/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/recipe-sysroot/usr/lib/perl/5.24.1/ExtUtils/Liblist/Kid.pm: No such file or directory
+[snip]
+
+It was failed because "/usr/lib" is in qemux86_64-wrsmllib32-linux/, not in
+qemux86_64-wrs-linux. The code has considered mutitlib, but seems not
+completed, the multilib "variant" was not in fixme, so it wasn't handled
+correctly, this patch fixes the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 70 +++++++++++++++++------------------
- 1 file changed, 34 insertions(+), 36 deletions(-)
+ meta/classes/staging.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 057c495..43823bf 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -142,43 +142,41 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index c45ada4..1c2028c 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -492,11 +492,21 @@ python extend_recipe_sysroot() {
+         if c.endswith("-native") or "-cross-" in c or "-crosssdk" in c:
+             native = True
  
-     # Create a temporary build directory that we can pass to the env setup script
-     shutil.copyfile(sdkbasepath + '/conf/local.conf', sdkbasepath + '/conf/local.conf.bak')
-+    with open(sdkbasepath + '/conf/local.conf', 'a') as f:
-+        # Force the use of sstate from the build system
-+        f.write('\nSSTATE_DIR_forcevariable = "%s"\n' % d.getVar('SSTATE_DIR'))
-+        f.write('SSTATE_MIRRORS_forcevariable = "file://universal/(.*) file://universal-4.9/\\1 file://universal-4.9/(.*) file://universal-4.8/\\1"\n')
-+        # Ensure TMPDIR is the default so that clean_esdk_builddir() can delete it
-+        f.write('TMPDIR_forcevariable = "${TOPDIR}/tmp"\n')
-+        f.write('TCLIBCAPPEND_forcevariable = ""\n')
-+        # Drop uninative if the build isn't using it (or else NATIVELSBSTRING will
-+        # be different and we won't be able to find our native sstate)
-+        if not bb.data.inherits_class('uninative', d):
-+            f.write('INHERIT_remove = "uninative"\n')
++        multilib = False
++        if setscenedeps[dep][2].startswith("virtual:multilib"):
++            variant = setscenedeps[dep][2].split(":")[2]
++            if variant not in fixme:
++                fixme[variant] = []
++            multilib = True
 +
-+    # Unfortunately the default SDKPATH (or even a custom value) may contain characters that bitbake
-+    # will not allow in its COREBASE path, so we need to rename the directory temporarily
-+    temp_sdkbasepath = d.getVar('SDK_OUTPUT') + '/tmp-renamed-sdk'
-+    # Delete any existing temp dir
-     try:
--        with open(sdkbasepath + '/conf/local.conf', 'a') as f:
--            # Force the use of sstate from the build system
--            f.write('\nSSTATE_DIR_forcevariable = "%s"\n' % d.getVar('SSTATE_DIR'))
--            f.write('SSTATE_MIRRORS_forcevariable = "file://universal/(.*) file://universal-4.9/\\1 file://universal-4.9/(.*) file://universal-4.8/\\1"\n')
--            # Ensure TMPDIR is the default so that clean_esdk_builddir() can delete it
--            f.write('TMPDIR_forcevariable = "${TOPDIR}/tmp"\n')
--            f.write('TCLIBCAPPEND_forcevariable = ""\n')
--            # Drop uninative if the build isn't using it (or else NATIVELSBSTRING will
--            # be different and we won't be able to find our native sstate)
--            if not bb.data.inherits_class('uninative', d):
--                f.write('INHERIT_remove = "uninative"\n')
--
--        # Unfortunately the default SDKPATH (or even a custom value) may contain characters that bitbake
--        # will not allow in its COREBASE path, so we need to rename the directory temporarily
--        temp_sdkbasepath = d.getVar('SDK_OUTPUT') + '/tmp-renamed-sdk'
--        # Delete any existing temp dir
--        try:
--            shutil.rmtree(temp_sdkbasepath)
--        except FileNotFoundError:
--            pass
--        os.rename(sdkbasepath, temp_sdkbasepath)
--        cmdprefix = '. %s .; ' % conf_initpath
--        logfile = d.getVar('WORKDIR') + '/tasklist_bb_log.txt'
--        try:
--            oe.copy_buildsystem.check_sstate_task_list(d, get_sdk_install_targets(d), tasklistfile, cmdprefix=cmdprefix, cwd=temp_sdkbasepath, logfile=logfile)
--        except bb.process.ExecutionError as e:
--            msg = 'Failed to generate filtered task list for extensible SDK:\n%s' %  e.stdout.rstrip()
--            if 'attempted to execute unexpectedly and should have been setscened' in e.stdout:
--                msg += '\n----------\n\nNOTE: "attempted to execute unexpectedly and should have been setscened" errors indicate this may be caused by missing sstate artifacts that were likely produced in earlier builds, but have been subsequently deleted for some reason.\n'
--            bb.fatal(msg)
--        os.rename(temp_sdkbasepath, sdkbasepath)
--        # Clean out residue of running bitbake, which check_sstate_task_list()
--        # will effectively do
--        clean_esdk_builddir(d, sdkbasepath)
--    finally:
--        os.replace(sdkbasepath + '/conf/local.conf.bak', sdkbasepath + '/conf/local.conf')
-+        shutil.rmtree(temp_sdkbasepath)
-+    except FileNotFoundError:
-+        pass
-+    os.rename(sdkbasepath, temp_sdkbasepath)
-+    cmdprefix = '. %s .; ' % conf_initpath
-+    logfile = d.getVar('WORKDIR') + '/tasklist_bb_log.txt'
-+    try:
-+        oe.copy_buildsystem.check_sstate_task_list(d, get_sdk_install_targets(d), tasklistfile, cmdprefix=cmdprefix, cwd=temp_sdkbasepath, logfile=logfile)
-+    except bb.process.ExecutionError as e:
-+        msg = 'Failed to generate filtered task list for extensible SDK:\n%s' %  e.stdout.rstrip()
-+        if 'attempted to execute unexpectedly and should have been setscened' in e.stdout:
-+            msg += '\n----------\n\nNOTE: "attempted to execute unexpectedly and should have been setscened" errors indicate this may be caused by missing sstate artifacts that were likely produced in earlier builds, but have been subsequently deleted for some reason.\n'
-+        bb.fatal(msg)
-+    os.rename(temp_sdkbasepath, sdkbasepath)
-+    # Clean out residue of running bitbake, which check_sstate_task_list()
-+    # will effectively do
-+    clean_esdk_builddir(d, sdkbasepath)
-+    os.replace(sdkbasepath + '/conf/local.conf.bak', sdkbasepath + '/conf/local.conf')
- 
- python copy_buildsystem () {
-     import re
+         if manifest:
+             newmanifest = collections.OrderedDict()
+             if native:
+                 fm = fixme['native']
+                 targetdir = recipesysrootnative
++            elif multilib:
++                fm = fixme[variant]
++                targetdir = destsysroot
+             else:
+                 fm = fixme['']
+                 targetdir = destsysroot
 -- 
 2.7.4
 
