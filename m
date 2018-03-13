@@ -1,75 +1,35 @@
-Return-Path: <cbugot@sierrawireless.com>
-X-Greylist: delayed 109239 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 13 Mar 2018 17:41:10 UTC
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
-	(mail-bn3nam01on0073.outbound.protection.outlook.com [104.47.33.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A37378682
+Return-Path: <jpmv27@yahoo.com>
+Received: from sonic316-9.consmr.mail.gq1.yahoo.com
+	(sonic316-9.consmr.mail.gq1.yahoo.com [98.137.69.33])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CACE60107
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 17:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=SierraWirelessInc.onmicrosoft.com; s=selector1-sierrawireless-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=ffZhwcYFrZTdbDGZcuVkmLs3G5ttlFo9LvMDW9AnE60=;
-	b=O/qdXzw0rk0+TQC6sz1XPbHjiPKLK6Qj2WPDXm7vlVEVz2zRd9qWlD6eO1W+6UT4AHY/40CbPGp8T2vjvwUBQrTDYfFcrMI7qtr0bG3vZ1IQDFRiIJorpYT5BrMYU6xSKoepCxOjGCN1ltUNYYiX5kFh9dW8+fR+gckZgJ6PozI=
-Received: from CY1PR02MB1152.namprd02.prod.outlook.com (10.163.15.154) by
-	CY1PR02MB1626.namprd02.prod.outlook.com (10.162.160.156) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.588.14; Tue, 13 Mar 2018 17:41:10 +0000
-Received: from CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) by
-	CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) with mapi id
-	15.20.0548.021; Tue, 13 Mar 2018 17:41:09 +0000
-From: Cuero Bugot <cbugot@sierrawireless.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] uninative and recipe parsing
-Thread-Index: AdO56yridq5aeM3RTjmoDMuix3K+qAA8axSAAASttKA=
-Date: Tue, 13 Mar 2018 17:41:09 +0000
-Message-ID: <CY1PR02MB1152C127076BCDF14B2BFFCCA3D20@CY1PR02MB1152.namprd02.prod.outlook.com>
-References: <CY1PR02MB11526A4DDADFB7EF5D6019EAA3D30@CY1PR02MB1152.namprd02.prod.outlook.com>
-	<1520953579.25754.11.camel@linuxfoundation.org>
-In-Reply-To: <1520953579.25754.11.camel@linuxfoundation.org>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=cbugot@sierrawireless.com; 
-x-originating-ip: [84.14.163.134]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; CY1PR02MB1626;
-	7:XXsX6vIrjKCj8xFqww0FqHv8Umm/eeO/F4QwXR0YlK9klfMG4FEvubkcCzeIWkvhTQvD9eI+SeJugvx5XZfLsbiNLL0Bf4LMYYDZ/rLN7K7b6FaQ6nqopDBOxKJsLcz4pprV2MHezUi+qMav2/EJSumdas2WxwYxfz/ayH6PhwoFsggG8edL/kAJCBPpTVoBWnlcqL8u7SlY8HR4AF1YsubuksNZtEtz1hkS4iKDKXUtf3zXYPVABk93Qfl4ZBI+
-x-ms-exchange-antispam-srfa-diagnostics: SSOS;
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 0d382db9-0a1f-471e-6bc8-08d589099b63
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:CY1PR02MB1626; 
-x-ms-traffictypediagnostic: CY1PR02MB1626:
-x-microsoft-antispam-prvs: <CY1PR02MB162671E3055F9B603127702AA3D20@CY1PR02MB1626.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231221)(944501244)(52105095)(3002001)(10201501046)(6055026)(6041310)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123564045)(6072148)(201708071742011);
-	SRVR:CY1PR02MB1626; BCL:0; PCL:0; RULEID:; SRVR:CY1PR02MB1626; 
-x-forefront-prvs: 0610D16BBE
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(39380400002)(376002)(396003)(346002)(39860400002)(377424004)(199004)(189003)(6116002)(2900100001)(3846002)(2950100002)(6916009)(102836004)(6306002)(9686003)(6436002)(66066001)(86362001)(4326008)(2906002)(55016002)(7736002)(8936002)(478600001)(99286004)(3280700002)(305945005)(97736004)(186003)(8676002)(74316002)(76176011)(81166006)(81156014)(68736007)(229853002)(316002)(33656002)(14454004)(105586002)(966005)(25786009)(106356001)(6506007)(3660700001)(7696005)(55236004)(6246003)(77096007)(26005)(5660300001)(53936002)(59450400001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR02MB1626;
-	H:CY1PR02MB1152.namprd02.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: sierrawireless.com does not
-	designate permitted sender hosts)
-x-microsoft-antispam-message-info: wX01b6OCZwxYa4OR0YNmmur4K06XD0ygKSb0RZzxAY504jE8aED3RD0ssazKrd8m74X/ZXbxk+gaCjl4fBAIz1EFg2+uEK6JV27mgYdAjycUGygG/3+SzeuNsFWblp65GininUANvlu97g2GgRqxoLHp5OeoCbLCfGdGV9fkA6oR6iwzq2J92qk8qIq290I5WXca42U5IvBZauI3uje1qgDpBw2cPzj4YSBR+OEGfTq7e4SFoB5Dihp7TsJtg9EVC9ajROd1Ko/nz6x9urlVYGsDr8jfTuzkdX2EQsg+K2DCHtGHiLpxUXCwwqEtfvLRaOXOE6lKu2T22byOnsfRwg==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: sierrawireless.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d382db9-0a1f-471e-6bc8-08d589099b63
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2018 17:41:09.5300 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 08059a4c-2486-43dd-89e3-3a747e0dcbe8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1626
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: uninative and recipe parsing
+	Tue, 13 Mar 2018 20:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1520974143; bh=9VAvI4jVFjtQH7W81GrCmHcc/T9W48FHqqQ5pDw3cXI=;
+	h=From:To:Cc:Subject:Date:From:Subject;
+	b=jpKpkTMM7WiRNp8DPIWLw0CSB5I6OS3B9Mud+o6AiCtN0MWQlIaLGbd3TyE2QS25dfTOMOlDR/IOrPsj8FVS+NOyWo+jbg3TUJbaXEkMIIog63YCWTAr1p6Fa9D6Gth4R8Z8hsJvlbQw447Jvw8UzdU+1/by4MMFz+wiSXA1NYRe4qCZytLnXdNmqYKe4lIxirRGKusNo0dXV9d/Z1hdEaMfsTpFedD5d91iVbdFIUT2me7tJAK4PrctZ5ZkekSzVCa2zveSFpErUlpIWhL7yK26oDSNLxfvBATPhoTPXmG5ew4Olf3OfFOw1wOAgdelvXiTuxfm5bshmRIhzbFLag==
+X-YMail-OSG: tWHretgVM1mZMZhsGDaEBUqSh81zsFsoA8AbWtXLEN0uJPDwFzYzrOxXU9IDXL5
+	27HMVXfiwVCxZbE2kanbW2NiYUSOIzalaD4VDJgsJPuqvx1OQKMt5dU03bKvlQ7u_LlbSq5E.sbA
+	Lgo6ZmP2VMQ_HoyBIEdzRG2Yeur0VCcMu3E07LaJiTiB_CNvQ3JO.e_pCagSLRZmO5FkdeXV98.d
+	9PiNM6SXT2Vd6ROOvMPYAYPOkXRYTX5X_e0BPySaj6bdTq_FE7zso2dDI5uJAT9f7QNiQdGdOg7e
+	YmpjPir1kgAGsbKUf_acKlv7nvVrHvDoP8zxtn92u8SxsM950DMD61UVTAKVEFAjekFzX0naBEZq
+	0RBx.gLpq2xxPNFVT81ZBLq2i5LlbJWlZ15jNmyZhvfwsHlawwTXRnMrM7hO2gBswmHGzawr5iHb
+	p8vSqzGzXbQiHZbx0cb5mgSaLwkAASRD_tLfJfCV8TokxaUdSfE2uFrkbgkmdCTn4HH55Pzh67UV
+	LM.LYj8Nrtgr05GDp5Hw-
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic316.consmr.mail.gq1.yahoo.com with HTTP;
+	Tue, 13 Mar 2018 20:49:03 +0000
+Received: from CPE000db93f888c-CM001404556d28.cpe.net.cable.rogers.com (EHLO
+	thor.int.jpmvrealtime.com) ([99.246.128.134])
+	by smtp401.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
+	41c3d30c2b4cbba497f962df9d45558e; 
+	Tue, 13 Mar 2018 20:48:58 +0000 (UTC)
+From: Martin Vuille <jpmv27@yahoo.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2018 16:48:49 -0400
+Message-Id: <20180313204849.8430-1-jpmv27@yahoo.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [morty][PATCH] rpm: fix failure to report file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,93 +42,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 17:41:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 13 Mar 2018 20:49:02 -0000
 
-DQo+IEkgaGF2ZSBraW5kIG9mIG5vdGljZWQgdGhpcyBhbmQgYWdyZWUgaXRzIHNvbWV0aGluZyB3
-ZSBzaG91bGQgZml4Lg0KPiBUaGFua3MgZm9yIGRpZ2dpbmcgaW50byBpdC4gSSB0aGluayBhIGxv
-bmcgdGltZSBhZ28gd2UgdHJpZWQgdGhlIGFib3ZlIGNoYW5nZSBhbmQgaXQgZG9lcyBjYXVzZSBh
-IHByb2JsZW0sIHBlcmhhcHMgZmV0Y2hpbmcgZHVyaW5nIHBhcnNpbmcgd2hpY2ggaXMgYmFkLg0K
-Pg0KPiBIYXZlIHlvdSBiZWVuIGFibGUgdG8gZmlndXJlIG91dCB3aGF0IGNoYW5nZXMgaW4gdGhl
-IGRhdGEgc3RvcmUgZm9yIHRoZSBjYWNoZSB0byBiZSBpbnZhbGlkYXRlZD8gSSB0aGluayB3aGl0
-ZWxpc3Rpbmcgc29tZXRoaW5nIG1heSBiZSB0aGUgYmVzdCBzb2x1dGlvbiwgb3IgcGVyaGFwcyBv
-bmx5IGFjdGl2YXRpbmcgY2VydGFpbiBjaGFuZ2VzIGluIHRoZSBidWlsZCBjb2RlID4gcGF0aHMg
-YWZ0ZXIgcGFyc2luZyBpbiBhbGwgY2FzZXMuDQo+DQoNClllcyBhYnNvbHV0ZWx5IHRoZSB2YXJp
-YWJsZXMgYW5kIGNvbnRlbnQgZGlmZiBpcyBhcyBmb2xsb3c6DQo4MzBjODMwDQo8ICgnTkFUSVZF
-TFNCU1RSSU5HJywgJ25lb24tMTYuMDQnKQ0KLS0tDQo+ICgnTkFUSVZFTFNCU1RSSU5HJywgJ3Vu
-aXZlcnNhbCcpDQoxNDQ3YzE0NDcsMTQ0OQ0KPCAoJ1NTVEFURVBPU1RVTlBBQ0tGVU5DUycsICdz
-c3RhdGVfaGFyZGNvZGVfcGF0aF91bnBhY2snKQ0KLS0tDQo+ICgnU1NUQVRFUE9TVFVOUEFDS0ZV
-TkNTJywgJ3NzdGF0ZV9oYXJkY29kZV9wYXRoX3VucGFjayB1bmluYXRpdmVfY2hhbmdlaW50ZXJw
-JykNCj4gKCdTU1RBVEVQT1NUVU5QQUNLRlVOQ1NbX2FwcGVuZF0nLCBbWycgdW5pbmF0aXZlX2No
-YW5nZWludGVycCcsIE5vbmVdXSkNCj4gKCdTU1RBVEVQT1NUVU5QQUNLRlVOQ1NbdmFyZGVwdmFs
-dWVleGNsdWRlXScsICd8IHVuaW5hdGl2ZV9jaGFuZ2VpbnRlcnAnKQ0KDQpJIGRpZCBhIFBSIChQ
-QVRDSCkgZm9yIHRoZSAxc3QgYWx0ZXJuYXRpdmUgKGZldGNoaW5nIGVhcmxpZXIpIGhlcmU6IGh0
-dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJlZGRlZC5vcmcvc2VyaWVzLzExMzY5Lw0KQnV0IEkgbmVl
-ZCB0byBkbyBhIHYyIHRvIGZpeCB0aGUgc2hvcnQgZGVzY3JpcHRpb24gdG8gbWFrZSBzaG9ydGVy
-LiBpZiB5b3UgZXZlciBkZWNpZGVkIHRoYXQgaXQgY291bGQgYmUgd2F5IHRvIGdvLiAoRldJVyBJ
-IGRpZCB0ZXN0IGl0IG9uIG91ciBzZXR1cCBhbmQgeWVzIGl0IGlzIGZldGNoaW5nIHRoZSB1bmlu
-YXRpdmUgYmluYXJpZXMgZWFybHkgb24gb3IgbWF5YmUgZHVyaW5nIHRoZSBwYXJzaW5nLCBzZWUg
-b3V0cHV0IGJlbGxvdyk6DQoNCgljYnVnb3RAbmVvbjp+L2RldnMveW9jdG8vYnVpbGQkIGJpdGJh
-a2Ugc29tZS1pbWFnZQ0KCS0tMjAxOC0wMy0xMyAxODoyNTozNi0tICBodHRwOi8vYnVpbGQtY2Fj
-aGUtc2VydmVyL2NhY2hlLy9kb3dubG9hZHMveDg2XzY0LW5hdGl2ZXNkay1saWJjLnRhci5iejIg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJ
-UmVzb2x2aW5nIGJ1aWxkLWNhY2hlLXNlcnZlciAoYnVpbGQtY2FjaGUtc2VydmVyKS4uLiAxMC40
-MS41MS4yMjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KCUNvbm5lY3Rpbmcg
-dG8gYnVpbGQtY2FjaGUtc2VydmVyIChidWlsZC1jYWNoZS1zZXJ2ZXIpfDEwLjQxLjUxLjIyMHw6
-ODAuLi4gY29ubmVjdGVkLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCglIVFRQIHJlcXVlc3Qgc2VudCwgYXdh
-aXRpbmcgcmVzcG9uc2UuLi4gMjAwIE9LICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgDQoJTGVuZ3RoOiAyMjg2Mjg1ICgyLjJNKSBbYXBwbGljYXRp
-b24veC1iemlwMl0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIA0KCVNhdmluZyB0bzog4oCYL2hvbWUvY2J1Z290L2RldnMvdW5pdHkvYnVpbGQv
-ZG93bmxvYWRzL3VuaW5hdGl2ZS9lZDAzM2M4NjhiODc4NTJiMDc5NTdhNDQwMGYzYjc0NGMwMGFl
-ZjVkNjQ3MDM0NmVhMWE1OWI2ZDNlMDMwNzVlL3g4Nl82NC1uYXRpdmVzZGstbGliYy50YXIuYnoy
-4oCZICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJMjAxOC0wMy0xMyAxODoyNTozNiAoMTEu
-MiBNQi9zKSAtIOKAmC9ob21lL2NidWdvdC9kZXZzL3VuaXR5L2J1aWxkL2Rvd25sb2Fkcy91bmlu
-YXRpdmUvZWQwMzNjODY4Yjg3ODUyYjA3OTU3YTQ0MDBmM2I3NDRjMDBhZWY1ZDY0NzAzNDZlYTFh
-NTliNmQzZTAzMDc1ZS94ODZfNjQtbmF0aXZlc2RrLWxpYmMudGFyLmJ6MuKAmSBzYXZlZCBbMjI4
-NjI4NS8yMjg2Mjg1XSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCglOT1RFOiBG
-ZXRjaGluZyB1bmluYXRpdmUgYmluYXJ5IHNoaW0gZnJvbSBodHRwOi8vZG93bmxvYWRzLnlvY3Rv
-cHJvamVjdC5vcmcvcmVsZWFzZXMvdW5pbmF0aXZlLzEuNy94ODZfNjQtbmF0aXZlc2RrLWxpYmMu
-dGFyLmJ6MjtzaGEyNTZzdW09ZWQwMzNjODY4Yjg3ODUyYjA3OTU3YTQ0MDBmM2I3NDRjMDBhZWY1
-ZDY0NzAzNDZlYTFhNTliNmQzZTAzMDc1ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJUGFyc2luZyByZWNpcGVzOiAg
-MzclIHwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgRVRBOiAgMDowNjozMA0KDQoNCg0KSG93ZXZlciwgaWYgeW91IHRoaW5rIHB1
-dHRpbmcgdGhlIHR3byB2YXJpYWJsZXMgKE5BVElWRUxTQlNUUklORywgU1NUQVRFUE9TVFVOUEFD
-S0ZVTkNTKSAgaW4gQkJfSEFTSENPTkZJR19XSElURUxJU1QgaXMgYmV0dGVyL3NhZmVyLCBJIGNh
-biBhbHNvIHN1Ym1pdCBhIFBBVENIIHJlcXVlc3QgZm9yIHRoYXQgYWx0ZXJuYXRpdmUuDQoNClBl
-cnNvbmFsbHkgSSBkbyBub3QgaGF2ZSBlbm91Z2ggeW9jdG8gZXhwZXJpZW5jZSB0byBkZWNpZGUg
-d2hpY2ggb25lIHdvdWxkIGJlIHRoZSBiZXN0IChqdXN0IGluZmVycmVkIHRoYXQgV0hJVEVMSVNU
-IGNvdWxkIGxlYWQgdG8gd2VpcmQgYmVoYXZpb3IgaWYgc29tZW9uZSBldmVyIGRlcGVuZGVkIG9u
-IG9uZSBvZiB0aGlzIHZhcmlhYmxlIGluIGhpcyByZWNpcGUpOyBzbyBJIHdvdWxkIGJlIGhhcHB5
-IGVpdGhlciB3YXkg8J+Yii4NCg0KQ2hlZXJzLA0KQ3Vlcm8gDQo=
+Problem: Conflicts between two packages trying to install different versions
+         of the same file are not detected. Both copies of the file are
+         installed and the build is not deterministic because a different
+         outcome results depending on which package is installed last.
+
+Cause:   All conflicts are treated as color conflicts, even when the files
+         are not ELF files. And one of the ways that these conflicts are
+         handled is to install both conflicting files and letting the one
+         installed last win.
+
+Fix:     Backport from upstream (see function handleColorConflict in
+         lib/transaction.c). Only treat as a color conflict when both of the
+         conflicting files have a color and they do not both have the same
+         color. Do not handle color conflicts by installing both conflicting
+         files.
+
+Signed-off-by: Martin Vuille <jpmv27@yahoo.com>
+---
+ .../rpm-fix-failure-to-report-file-conflicts.patch | 24 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-failure-to-report-file-conflicts.patch
+
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-failure-to-report-file-conflicts.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-failure-to-report-file-conflicts.patch
+new file mode 100644
+index 0000000000..3f556ba97a
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-fix-failure-to-report-file-conflicts.patch
+@@ -0,0 +1,24 @@
++--- a/lib/transaction.c
+++++ b/lib/transaction.c
++@@ -411,7 +411,7 @@ assert(otherFi != NULL);
++ 
++ 		rConflicts = reportConflicts;
++ 		/* Resolve file conflicts to prefer Elf64 (if not forced) ... */
++-		if (tscolor != 0) {
+++		if (tscolor != 0 && FColor != 0 && oFColor != 0 && FColor != oFColor) {
++ 		    if (FColor & prefcolor) {
++ 			/* ... last file of preferred colour is installed ... */
++ 			if (!iosmFileActionSkipped((iosmFileAction) fi->actions[i])) {
++@@ -431,12 +431,6 @@ assert(otherFi != NULL);
++ 			    otherFi->actions[otherFileNum] = FA_CREATE;
++ 			fi->actions[i] = FA_SKIPCOLOR;
++ 			rConflicts = 0;
++-		    } else
++-		    {
++-			/* ... otherwise, do both, last in wins. */
++-			otherFi->actions[otherFileNum] = FA_CREATE;
++-			fi->actions[i] = FA_CREATE;
++-			rConflicts = 0;
++ 		    }
++ 		    done = 1;
++ 		}
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 497af8e055..296f6b8a97 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -120,6 +120,7 @@ SRC_URI += " \
+ 	   file://0001-system.h-query.c-support-nosignature.patch \
+ 	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
+ 	   file://0001-macros-add-_gpg_sign_cmd_extra_args.patch \
++	   file://rpm-fix-failure-to-report-file-conflicts.patch \
+ "
+ 
+ # OE specific changes
+-- 
+2.13.6
+
 
