@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC4A478947
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D3BD57895D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 03:20:28 +0000 (UTC)
+	Tue, 13 Mar 2018 03:20:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KUCA002111
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KXfL028963
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 20:20:30 -0700 (PDT)
+	Mon, 12 Mar 2018 20:20:33 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 20:19:50 -0700
+	14.3.361.1; Mon, 12 Mar 2018 20:19:52 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2018 11:24:46 +0800
-Message-ID: <baebe7c6ae37f56df6d34b3d6a5acf1c94de4e4f.1520911259.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Mar 2018 11:24:47 +0800
+Message-ID: <b464e1673a9dca41d2bb6fd8033cac2bf5a4105c.1520911259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1520911259.git.liezhi.yang@windriver.com>
 References: <cover.1520911259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] package_manager.py: reverse archs correctly
+Subject: [PATCH 5/8] multilib.bbclass: extend allarch recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +33,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 03:20:29 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 03:20:32 -0000
 Content-Type: text/plain
 
-It had reversed all the archs, which mixed multilib and common archs, e.g.:
-"all any noarch x86_64 core2-64 qemux86_64 x86 i586 core2-32"
-After reversed:
-"core2-32 i586 x86 qemux86_64 core2-64 x86_64 noarch any all"
-The core2-32 has a higher priority than core2-64 after reversed which is
-incorrect. Don't mix with mulitlib when reverse can fix the problem, and let
-multilib archs have a higher priority for multilib image.
-
-Fixed:
+This can fix do_rootfs and depends chaos when multilib, for example
+ca-certificates is an allarch recipe:
 MACHINE = "qemux86-64"
 require conf/multilib.conf
 MULTILIBS = "multilib:lib32"
 DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
 IMAGE_INSTALL_append = " ca-certificates"
+$ bitbake ca-certificates
+$ rpm -qpR tmp-glibc/deploy/rpm/noarch/ca-certificates-20170717-r0.noarch.rpm
+[snip]
+openssl
+[snip]
 
-$ bitbake wrlinux-image-glibc-small
-Check rootfs.manifest, no core_32 packages is installed, this is
-correct, but after we build lib32-bash, it will be incorrect:
-$ bitbake lib32-bash
-$ bitbake wrlinux-image-glibc-small
-Check rootfs.manifest, a few lib32 packages are installed, such as
-lib32-bash, this is incorrect. It was because ca-certificates is
-allarch, and requires /bin/sh, which is provided by both bash and
-lib32-bash, and lib32-bash has a higher priority than bash, so it would
-be installed.
+It requires openssl, but lib32-openssl doesn't proivide it:
+$ rpm -qp --provides tmp-glibc/deploy/rpm/core2_32/lib32-openssl-1.0.2l-r0.core2_32.rpm
+lib32-openssl = 1.0.2l-r0
+
+So openssl-1.0.2l-r0.core2_64.rpm would be installed when install
+ca-certificates, e.g.:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
+IMAGE_INSTALL_append = " ca-certificates"
+$ bitbake lib32-core-image-minimal
+The openssl-1.0.2l-r0.core2_64.rpm and other 64 bit packages are installed,
+this is incorrect.
+
+We have two solutions on this:
+1) Let lib32-openssl provide openssl, but this would cause more problems when
+   building since more than one providers for openssl.
+
+Or
+
+2) Extend allarch recipes, there would be ca-certificates-20170717-r0.noarch.rpm
+   and lib32-ca-certificates-20170717-r0.noarch.rpm, then ca-certificates
+   requires openssl, and lib32-ca-certificates requires lib32-openssl, the
+   packages will be installed correctly, this is the best solution that I can
+   find.
+
+The problem has existed for years for deb and ipk (rpm did work since it didn't
+use lib32-BPN in rpm filename before changed to dnf, for example, there was no
+lib32-openssl.core2_32.rpm, but openssl.core2_32.rpm), this patch can fix the
+problem for rpm, ipk and deb.
 
 [YOCTO #12288]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 57 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 52 insertions(+), 5 deletions(-)
+ meta/classes/allarch.bbclass         | 3 ---
+ meta/classes/multilib.bbclass        | 4 ----
+ meta/classes/multilib_global.bbclass | 4 +---
+ meta/classes/package.bbclass         | 9 ---------
+ 4 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index c10efb8..d4dc174 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -572,10 +572,10 @@ class RpmPM(PackageManager):
-         self.target_rootfs = target_rootfs
-         self.target_vendor = target_vendor
-         self.task_name = task_name
--        if arch_var == None:
--            self.archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
--        else:
--            self.archs = self.d.getVar(arch_var).replace("-","_")
-+
-+        self.archs = self._determine_archs(arch_var)
-+        bb.note("The archs used by package manager: %s" % self.archs)
-+
-         if task_name == "host":
-             self.primary_arch = self.d.getVar('SDK_ARCH')
-         else:
-@@ -593,9 +593,56 @@ class RpmPM(PackageManager):
-         if not os.path.exists(self.d.expand('${T}/saved')):
-             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index 51ba509..b4f694d 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -42,9 +42,6 @@ python () {
+         d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
+         d.setVar("INHIBIT_PACKAGE_STRIP", "1")
  
-+    def _determine_archs(self, arch_var):
-+        if arch_var:
-+            archs = self.d.getVar(arch_var).replace("-","_").split()
-+        else:
-+            archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_").split()
-+        # Reverse archs to ensure the -best- match is listed firstly, but need
-+        # make sure not mixed with multilib archs, and let multilib archs have
-+        # higher a priority for multilib image:
-+        # For non-multilib image: (e.g., core-image-minimal)
-+        # machine_arch:package_archs:multilib_archs:allarch_archs
-+        # For multilib image: (e.g., lib32-core-image-minimal)
-+        # machine_arch:multilib_archs:package_archs:allarch_archs
-+        package_archs_var = self.d.getVar('PACKAGE_ARCHS').replace("-","_").split()
-+        machine_arch_var = [self.d.getVar('MACHINE_ARCH').replace("-","_")]
-+        package_archs = []
-+        allarch_archs = []
-+        ml_archs = []
-+        machine_arch = []
-+        for arch in archs:
-+            if arch in machine_arch_var:
-+                bb.note("Found MACHINE_ARCH: %s" % arch)
-+                machine_arch.append(arch)
-+            elif arch in package_archs_var:
-+                bb.note("Found PACKAGE_ARCH: %s" % arch)
-+                package_archs.append(arch)
-+            elif arch in 'all any noarch'.split():
-+                bb.note("Found allarch: %s" % arch)
-+                allarch_archs.append(arch)
-+            else:
-+                bb.note("Found multilib arch: %s" % arch)
-+                ml_archs.append(arch)
-+        package_archs.reverse()
-+        if machine_arch:
-+            archs = machine_arch
-+        mlprefix = self.d.getVar('MLPREFIX')
-+        if ml_archs:
-+            ml_archs.reverse()
-+            if mlprefix:
-+                archs += ml_archs + package_archs
-+            else:
-+                archs += package_archs + ml_archs
-+        else:
-+            archs += package_archs
-+
-+        archs += allarch_archs
-+        return ' '.join(archs)
-+
-     def _configure_dnf(self):
-         # libsolv handles 'noarch' internally, we don't need to specify it explicitly
--        archs = [i for i in reversed(self.archs.split()) if i not in ["any", "all", "noarch"]]
-+        archs = [i for i in self.archs.split() if i not in ["any", "all", "noarch"]]
-         # This prevents accidental matching against libsolv's built-in policies
-         if len(archs) <= 1:
-             archs = archs + ["bogusarch"]
+-        # These multilib values shouldn't change allarch packages so exclude them
+-        d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
+-        d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
+     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
+ }
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index fbb6980..b517dde 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -46,10 +46,6 @@ python multilib_virtclass_handler () {
+     if bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data):
+         raise bb.parse.SkipRecipe("We can't extend nativesdk recipes")
+ 
+-    if bb.data.inherits_class('allarch', e.data) and not bb.data.inherits_class('packagegroup', e.data):
+-        raise bb.parse.SkipRecipe("Don't extend allarch recipes which are not packagegroups")
+-
+-
+     # Expand this since this won't work correctly once we set a multilib into place
+     e.data.setVar("ALL_MULTILIB_PACKAGE_ARCHS", e.data.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
+  
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index d2ec1ad..1bb6242 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -165,9 +165,7 @@ python multilib_virtclass_handler_global () {
+         return
+ 
+     if bb.data.inherits_class('kernel', e.data) or \
+-            bb.data.inherits_class('module-base', e.data) or \
+-            (bb.data.inherits_class('allarch', e.data) and\
+-             not bb.data.inherits_class('packagegroup', e.data)):
++            bb.data.inherits_class('module-base', e.data):
+             variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
+ 
+             import oe.classextend
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 317c775..0e26b46 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -475,9 +475,6 @@ def get_package_mapping (pkg, basepkg, d):
+     key = "PKG_%s" % pkg
+ 
+     if key in data:
+-        # Have to avoid undoing the write_extra_pkgs(global_variants...)
+-        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
+-            return pkg
+         return data[key]
+ 
+     return pkg
+@@ -1391,9 +1388,6 @@ fi
+     if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+         write_extra_pkgs(variants, pn, packages, pkgdatadir)
+ 
+-    if (bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d)):
+-        write_extra_pkgs(global_variants, pn, packages, pkgdatadir)
+-
+     workdir = d.getVar('WORKDIR')
+ 
+     for pkg in packages.split():
+@@ -1479,9 +1473,6 @@ fi
+     if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+         write_extra_runtime_pkgs(variants, packages, pkgdatadir)
+ 
+-    if bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d):
+-        write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
+-
+     bb.utils.unlockfile(lf)
+ }
+ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
 -- 
 2.7.4
 
