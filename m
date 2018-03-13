@@ -1,47 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 05C24786C1
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4E97198F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 23:19:14 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id d26so5046156pfn.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 16:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=SjJ8bh9lIihh+HOIFK29f1OLMkEnKSkejHd6PL3ysGA=;
-	b=ugoSJY6MXFnQHVXDS0oNAyxohVgZzNrqqrPUbt7DYux2sGs7vvEOctqGrGOYlIX414
-	m6t3b7I+fRsdg2GkvQ7qQpKC017ncMfxF3KHli5v07QWUiVhFMiWbGkQP3Mjxdxhbl/m
-	nBhVYHS/1gmhgpWMe2p97OsXsu/X1PP457Q+SKbV8uybKO8L17CdzGAtzddFkVVN+mld
-	gsIYdgl4XdblD58DyIAvt9M9JXHjiSP4kv2oDpsgWonuSSE+AprgLIrwE9YPFa31SfhD
-	bDXOGlHB2Ipvsp/yic5S2Rapx8DYhE1hq4ZFLkeGdibwzijYo+64yEC/a8foudFuAPdW
-	u2nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SjJ8bh9lIihh+HOIFK29f1OLMkEnKSkejHd6PL3ysGA=;
-	b=kz6TXQnqX5a0HmbZqf6UHaNQ/zUSmNGRPYMRUcao3NNROf7tRh73zGqDYuqfDL3C9g
-	9zrXrLsrQxxmtpRNf3Rd6DWSdtSFptyq4TbpgFvBcjYpC8TvqzwyH/ogCUeN04Zl58o6
-	q5sVtkEMWczIUh+aDgzW+/4zBcLESzJOSW8vw40U1Yx+IcJA9rCA1PVcRTyPYbt9iarp
-	8bZHzHKUXcHVnWrk6tZzBik1G5pM8pdeZCO+BdbvzkbMhSDax2se9ixRWyljLeU7PnUF
-	mtSwraWh1MnDPZ0iruL8PX8U5rcnsKbfSv12ESghldtmQBQ8jnXD3edsXaM7mQURPxiM
-	bHAw==
-X-Gm-Message-State: AElRT7HufKCQ3mR73+hdWGV0cqSI1rnu5ZghxKYTBoZEoeP8/2jsf7yp
-	F8Sd7E7L/bphCcb+Fwj3guPUSQ==
-X-Google-Smtp-Source: AG47ELu9fJoS8+1BY6LDx1PeaEJM5z8cSQEj0WTHSlBPyu19m8lirszfDZWjLMstgQ+yXyhPzVB1sA==
-X-Received: by 10.99.119.130 with SMTP id s124mr8004102pgc.64.1520896755896;
-	Mon, 12 Mar 2018 16:19:15 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	14sm20294169pfi.164.2018.03.12.16.19.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Mar 2018 16:19:14 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Mar 2018 16:19:08 -0700
-Message-Id: <1520896748-13037-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
+	Tue, 13 Mar 2018 00:09:22 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Mar 2018 17:09:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,463,1515484800"; d="scan'208,217";a="38198754"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2018 17:09:23 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20180310002346.6086-1-california.l.sullivan@intel.com>
+	<CAJTo0Lbw3obJmC44nLGXxNGb1AuVFxGQzH69ckDZzM76qOkwLQ@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <e95861b3-527a-7f70-b572-0b38ee7647b8@intel.com>
+Date: Mon, 12 Mar 2018 17:09:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lbw3obJmC44nLGXxNGb1AuVFxGQzH69ckDZzM76qOkwLQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x86-base.inc: use xf86-video-modesettings as default xserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +36,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2018 23:19:15 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 00:09:23 -0000
+Content-Type: multipart/alternative;
+	boundary="------------A1ACDF342AF3660B21C6BF18"
+Content-Language: en-US
 
-Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
-KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
-vmlinux, which will result in two calls to "make vmlinux" from
-kernel_do_compile().
+--------------A1ACDF342AF3660B21C6BF18
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
-minor non-functional updates to formatting and comments.
+It looks like Fedora doesn't patch the -intel driver anymore, instead 
+they patch xserver to fiddle with the defaults.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/kernel.bbclass | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+https://src.fedoraproject.org/rpms/xorg-x11-server/c/ee515e44b07e37689abf48cf2fffb41578f3bc1d?branch=master
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index dc0152f..4bcaa61 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -62,31 +62,37 @@ python __anonymous () {
-     type = d.getVar('KERNEL_IMAGETYPE') or ""
-     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-     types = d.getVar('KERNEL_IMAGETYPES') or ""
--    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-     if type not in types.split():
-         types = (type + ' ' + types).strip()
-     if alttype not in types.split():
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
- 
--    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
--    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
--    # is built (such as using gzip to compress vmlinux)
--    typeformake = types.replace('vmlinux.gz', 'vmlinux')
-+    # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
-+    # by the kernel build system and others which are created by post-processing
-+    # (e.g. compressing vmlinux -> vmlinux.gz in kernel_do_compile()).
-+    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types supported
-+    # directly by the kernel build system.
-+
-+    typeformake = ""
-+    for type in types.split():
-+        if type == 'vmlinux.gz':
-+            type = 'vmlinux'
-+            if type in types.split():
-+                continue
-+        typeformake = (typeformake + ' ' + type).strip()
-+
-     d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
- 
-+    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-+    imagedest = d.getVar('KERNEL_IMAGEDEST')
-+
-     for type in types.split():
-         typelower = type.lower()
--        imagedest = d.getVar('KERNEL_IMAGEDEST')
--
-         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
--
-         d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
--
-         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
--
-         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
--
-         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
- 
-     image = d.getVar('INITRAMFS_IMAGE')
--- 
-1.9.1
+Given the comment and commit description, I'm guessing that list is 
+everything older than gen4 (haswell) not already defaulting to something 
+else.
+
+I can't find any attempts to upstream the patch... Also, given the 
+different formatting, what would be the proper way to bring this into 
+OE? Rewrite the commit message, leave Author field intact and add a link?
+
+Thanks,
+Cal
+
+On 03/10/2018 09:55 AM, Burton, Ross wrote:
+> From memory there are some chipsets which the Intel driver *is* better 
+> on.  I recommend we look at the Fedora patches for the intel driver, I 
+> believe that massively reduces the chips that the intel driver will be 
+> the primary driver for. We can then continue to ship both and not 
+> break anything.
+>
+> Ross
+>
+> On 10 March 2018 at 00:23, California Sullivan 
+> <california.l.sullivan@intel.com 
+> <mailto:california.l.sullivan@intel.com>> wrote:
+>
+>     Most distros have switched to this, and we're seeing better results in
+>     some areas as well. E.g., on a NUC6CAYS the x11perf -aa10text and
+>     -rgb10text results see a 20x increase.
+>
+>     [YOCTO #12019].
+>     [YOCTO #12590].
+>
+>     Signed-off-by: California Sullivan
+>     <california.l.sullivan@intel.com
+>     <mailto:california.l.sullivan@intel.com>>
+>     ---
+>      meta/conf/machine/include/x86-base.inc | 4 ++--
+>      1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>     diff --git a/meta/conf/machine/include/x86-base.inc
+>     b/meta/conf/machine/include/x86-base.inc
+>     index f8aacea64cc..e6bfdc6f770 100644
+>     --- a/meta/conf/machine/include/x86-base.inc
+>     +++ b/meta/conf/machine/include/x86-base.inc
+>     @@ -34,11 +34,11 @@ XSERVER_X86_EXT = " \
+>                 xserver-xorg-module-libint10 \
+>                 "
+>
+>     -XSERVER_X86_I915 = "xf86-video-intel \
+>     +XSERVER_X86_I915 = "xf86-video-modesetting \
+>                 ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+>     'mesa-driver-i915', '', d)} \
+>                 "
+>
+>     -XSERVER_X86_I965 = "xf86-video-intel \
+>     +XSERVER_X86_I965 = "xf86-video-modesetting \
+>                 ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+>     'mesa-driver-i965', '', d)} \
+>                 "
+>
+>     --
+>     2.14.3
+>
+>
 
 
+--------------A1ACDF342AF3660B21C6BF18
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <tt>It looks like Fedora doesn't patch the -intel driver anymore,
+      instead they patch xserver to fiddle with the defaults.<br>
+      <br>
+<a class="moz-txt-link-freetext" href="https://src.fedoraproject.org/rpms/xorg-x11-server/c/ee515e44b07e37689abf48cf2fffb41578f3bc1d?branch=master">https://src.fedoraproject.org/rpms/xorg-x11-server/c/ee515e44b07e37689abf48cf2fffb41578f3bc1d?branch=master</a><br>
+      <br>
+      Given the comment and commit description, I'm guessing that list
+      is everything older than gen4 (haswell) not already defaulting to
+      something else.<br>
+      <br>
+      I can't find any attempts to upstream the patch... Also, given the
+      different formatting, what would be the proper way to bring this
+      into OE? Rewrite the commit message, leave Author field intact and
+      add a link?<br>
+      <br>
+      Thanks,<br>
+      Cal<br>
+    </tt><br>
+    <div class="moz-cite-prefix">On 03/10/2018 09:55 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lbw3obJmC44nLGXxNGb1AuVFxGQzH69ckDZzM76qOkwLQ@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">From memory there are some chipsets which the Intel
+        driver *is* better on.  I recommend we look at the Fedora
+        patches for the intel driver, I believe that massively reduces
+        the chips that the intel driver will be the primary driver for. 
+        We can then continue to ship both and not break anything.
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 10 March 2018 at 00:23, California
+          Sullivan <span dir="ltr">&lt;<a
+              href="mailto:california.l.sullivan@intel.com"
+              target="_blank" moz-do-not-send="true">california.l.sullivan@intel.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">Most
+            distros have switched to this, and we're seeing better
+            results in<br>
+            some areas as well. E.g., on a NUC6CAYS the x11perf
+            -aa10text and<br>
+            -rgb10text results see a 20x increase.<br>
+            <br>
+            [YOCTO #12019].<br>
+            [YOCTO #12590].<br>
+            <br>
+            Signed-off-by: California Sullivan &lt;<a
+              href="mailto:california.l.sullivan@intel.com"
+              moz-do-not-send="true">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
+            ---<br>
+             meta/conf/machine/include/x86-<wbr>base.inc | 4 ++--<br>
+             1 file changed, 2 insertions(+), 2 deletions(-)<br>
+            <br>
+            diff --git a/meta/conf/machine/include/<wbr>x86-base.inc
+            b/meta/conf/machine/include/<wbr>x86-base.inc<br>
+            index f8aacea64cc..e6bfdc6f770 100644<br>
+            --- a/meta/conf/machine/include/<wbr>x86-base.inc<br>
+            +++ b/meta/conf/machine/include/<wbr>x86-base.inc<br>
+            @@ -34,11 +34,11 @@ XSERVER_X86_EXT = " \<br>
+                        xserver-xorg-module-libint10 \<br>
+                        "<br>
+            <br>
+            -XSERVER_X86_I915 = "xf86-video-intel \<br>
+            +XSERVER_X86_I915 = "xf86-video-modesetting \<br>
+                        ${@bb.utils.contains('DISTRO_<wbr>FEATURES',
+            'opengl', 'mesa-driver-i915', '', d)} \<br>
+                        "<br>
+            <br>
+            -XSERVER_X86_I965 = "xf86-video-intel \<br>
+            +XSERVER_X86_I965 = "xf86-video-modesetting \<br>
+                        ${@bb.utils.contains('DISTRO_<wbr>FEATURES',
+            'opengl', 'mesa-driver-i965', '', d)} \<br>
+                        "<br>
+            <span class="HOEnZb"><font color="#888888"><br>
+                --<br>
+                2.14.3<br>
+                <br>
+              </font></span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------A1ACDF342AF3660B21C6BF18--
