@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CFA3F788F3
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3177D7894C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 03:20:20 +0000 (UTC)
+	Tue, 13 Mar 2018 03:20:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KLoG028957
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2D3KOet006802
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 20:20:22 -0700 (PDT)
+	Mon, 12 Mar 2018 20:20:24 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 20:19:41 -0700
+	14.3.361.1; Mon, 12 Mar 2018 20:19:44 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2018 11:24:42 +0800
-Message-ID: <cover.1520911259.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Mar 2018 11:24:43 +0800
+Message-ID: <60cfb0ee7e33fbcfb62319a46f654a8bb2c1e193.1520911259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1520911259.git.liezhi.yang@windriver.com>
+References: <cover.1520911259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] [rebase and resend] fixes for multilib
+Subject: [PATCH 1/8] populate_sdk_ext.bbclass: fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +33,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 03:20:20 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 03:20:23 -0000
 Content-Type: text/plain
 
-Hi RP,
+Fixed:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-The multilib is still broken without these patches, I'd like to add oeqa test
-cases for them after it works.
+$ bitbake <image> -cpopulate_sdk_ext
+$ bitbake <image> -ctestsdkext
+[snip]
+Standard Output: /bin/sh: 1: i686-wrsmllib32-linux-gcc: not found
+[snip]
 
-// Robert
+It was failed because no lib32 toolchain or lib installed.
 
-The following changes since commit 073d8d001033471d7fe44f52212c72a6c3541313:
+This patch fixes:
+* Set SDK_TARGETS correctly
+* Return multilib depends in get_ext_sdk_depends()
+* Write information to all environment-setup-* scripts.
 
-  dbus-test-ptest: improve reproducibility (2018-03-12 15:05:58 -0700)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 72 +++++++++++++++++++++++------------
+ 1 file changed, 47 insertions(+), 25 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/mlib
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/mlib
-
-Robert Yang (8):
-  populate_sdk_ext.bbclass: fix for multilib
-  staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
-  staging.bbclass: print searched manifest when not found
-  package_manager.py: reverse archs correctly
-  multilib.bbclass: extend allarch recipes
-  toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
-    image
-  populate_sdk_ext.bbclass: remove the try...finally
-  staging.bbclass: extend_recipe_sysroot: fix multilib manifest
-
- meta/classes/allarch.bbclass           |   3 -
- meta/classes/multilib.bbclass          |   4 -
- meta/classes/multilib_global.bbclass   |   4 +-
- meta/classes/package.bbclass           |   9 ---
- meta/classes/populate_sdk_ext.bbclass  | 142 +++++++++++++++++++--------------
- meta/classes/staging.bbclass           |  25 ++++++
- meta/classes/toolchain-scripts.bbclass |   6 ++
- meta/lib/oe/package_manager.py         |  57 +++++++++++--
- meta/lib/oe/sstatesig.py               |   3 +
- 9 files changed, 168 insertions(+), 85 deletions(-)
-
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 6553754..057c495 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -38,7 +38,7 @@ SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
+ SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
+ SDK_UPDATE_URL ?= ""
+ 
+-SDK_TARGETS ?= "${PN}"
++SDK_TARGETS ?= "${@multilib_pkg_extend(d, d.getVar('BPN', True))}"
+ 
+ def get_sdk_install_targets(d, images_only=False):
+     sdk_install_targets = ''
+@@ -55,9 +55,11 @@ def get_sdk_install_targets(d, images_only=False):
+ 
+     if not images_only:
+         if d.getVar('SDK_INCLUDE_PKGDATA') == '1':
+-            sdk_install_targets += ' meta-world-pkgdata:do_allpackagedata'
++            for pn in multilib_pkg_extend(d, 'meta-world-pkgdata').split():
++                sdk_install_targets += ' %s:do_allpackagedata' % pn
+         if d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1':
+-            sdk_install_targets += ' meta-extsdk-toolchain:do_populate_sysroot'
++            for pn in multilib_pkg_extend(d, 'meta-extsdk-toolchain').split():
++                sdk_install_targets += ' %s:do_populate_sysroot' % pn
+ 
+     return sdk_install_targets
+ 
+@@ -601,40 +603,55 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_preinst}"
+ sdk_ext_postinst() {
+ 	printf "\nExtracting buildtools...\n"
+ 	cd $target_sdk_dir
+-	env_setup_script="$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}"
+-	printf "buildtools\ny" | ./${SDK_BUILDTOOLS_INSTALLER} > buildtools.log || { printf 'ERROR: buildtools installation failed:\n' ; cat buildtools.log ; echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
++	env_setup_scripts="`ls $target_sdk_dir/environment-setup-*`"
++	./${SDK_BUILDTOOLS_INSTALLER} -d buildtools -y > buildtools.log
++	if [ $? -ne 0 ]; then
++		echo 'ERROR: buildtools installation failed:'
++		cat buildtools.log
++		for e in $env_setup_scripts; do
++			echo "echo 'ERROR: this SDK was not fully installed and needs reinstalling'" >> $e
++		done
++		exit 1
++	fi
+ 
+ 	# Delete the buildtools tar file since it won't be used again
+ 	rm -f ./${SDK_BUILDTOOLS_INSTALLER}
+ 	# We don't need the log either since it succeeded
+ 	rm -f buildtools.log
+ 
+-	# Make sure when the user sets up the environment, they also get
+-	# the buildtools-tarball tools in their path.
+-	echo ". $target_sdk_dir/buildtools/environment-setup*" >> $env_setup_script
+-
+-	# Allow bitbake environment setup to be ran as part of this sdk.
+-	echo "export OE_SKIP_SDK_CHECK=1" >> $env_setup_script
+-	# Work around runqemu not knowing how to get this information within the eSDK
+-	echo "export DEPLOY_DIR_IMAGE=$target_sdk_dir/tmp/${@os.path.relpath(d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('TMPDIR'))}" >> $env_setup_script
++	for e in $env_setup_scripts; do
++		# Make sure when the user sets up the environment, they also get
++		# the buildtools-tarball tools in their path.
++		echo ". $target_sdk_dir/buildtools/environment-setup*" >> $e
+ 
+-	# A bit of another hack, but we need this in the path only for devtool
+-	# so put it at the end of $PATH.
+-	echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $env_setup_script
++		# Allow bitbake environment setup to be ran as part of this sdk.
++		echo "export OE_SKIP_SDK_CHECK=1" >> $e
+ 
+-	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
++		# Work around runqemu not knowing how to get this information within the eSDK
++		echo "export DEPLOY_DIR_IMAGE=$target_sdk_dir/tmp/${@os.path.relpath(d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('TMPDIR'))}" >> $e
+ 
+-	# Warn if trying to use external bitbake and the ext SDK together
+-	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
++		# A bit of another hack, but we need this in the path only for devtool
++		# so put it at the end of $PATH.
++		echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $e
++		echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $e
++		# Warn if trying to use external bitbake and the ext SDK together
++		echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $e
++	done
+ 
+ 	if [ "$prepare_buildsystem" != "no" ]; then
+-		printf "Preparing build system...\n"
++		echo "Preparing build system..."
+ 		# dash which is /bin/sh on Ubuntu will not preserve the
+ 		# current working directory when first ran, nor will it set $1 when
+ 		# sourcing a script. That is why this has to look so ugly.
+ 		LOGFILE="$target_sdk_dir/preparing_build_system.log"
+-		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
+-		rm $target_sdk_dir/ext-sdk-prepare.py
++		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'"
++		if [ $? -ne 0 ]; then
++			for e in $env_setup_scripts; do
++				echo "echo 'ERROR: this SDK was not fully installed and needs reinstalling'" >> $e
++			done
++			exit 1
++		fi
++		rm -f $target_sdk_dir/ext-sdk-prepare.py
+ 	fi
+ 	echo done
+ }
+@@ -663,12 +680,17 @@ fakeroot python do_populate_sdk_ext() {
+ def get_ext_sdk_depends(d):
+     # Note: the deps varflag is a list not a string, so we need to specify expand=False
+     deps = d.getVarFlag('do_image_complete', 'deps', False)
+-    pn = d.getVar('PN')
+-    deplist = ['%s:%s' % (pn, dep) for dep in deps]
++    deplist = []
++    for pn in multilib_pkg_extend(d, d.getVar('BPN')).split():
++        deplist += ['%s:%s' % (pn, dep) for dep in deps]
+     tasklist = bb.build.tasksbetween('do_image_complete', 'do_build', d)
+     tasklist.append('do_rootfs')
+     for task in tasklist:
+         deplist.extend((d.getVarFlag(task, 'depends') or '').split())
++
++    for pn in multilib_pkg_extend(d, 'meta-extsdk-toolchain').split():
++         deplist += ['%s:do_populate_sysroot' % pn]
++
+     return ' '.join(deplist)
+ 
+ python do_sdk_depends() {
+@@ -682,7 +704,7 @@ python do_sdk_depends() {
+ addtask sdk_depends
+ 
+ do_sdk_depends[dirs] = "${WORKDIR}"
+-do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)} meta-extsdk-toolchain:do_populate_sysroot"
++do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)}"
+ do_sdk_depends[recrdeptask] = "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
+ do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy ${SDK_RECRDEP_TASKS}"
+ do_sdk_depends[rdepends] = "${@get_sdk_ext_rdepends(d)}"
 -- 
 2.7.4
 
