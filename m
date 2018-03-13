@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3448478954
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E836C78954
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 03:20:24 +0000 (UTC)
+	Tue, 13 Mar 2018 03:20:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KQZs002105
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2D3KSCq028960
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2018 20:20:26 -0700 (PDT)
+	Mon, 12 Mar 2018 20:20:28 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 12 Mar 2018 20:19:46 -0700
+	14.3.361.1; Mon, 12 Mar 2018 20:19:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2018 11:24:44 +0800
-Message-ID: <e2c4050f053623a047018bdfe8fb928c5b13711c.1520911259.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Mar 2018 11:24:45 +0800
+Message-ID: <bdc9d426a1c9b482c44d288f30ddd11f28fac7f5.1520911259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1520911259.git.liezhi.yang@windriver.com>
 References: <cover.1520911259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+Subject: [PATCH 3/8] staging.bbclass: print searched manifest when not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 03:20:25 -0000
+X-List-Received-Date: Tue, 13 Mar 2018 03:20:27 -0000
 Content-Type: text/plain
 
-Fixed:
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+The old warning was:
+WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_prepare_recipe_sysroot: Manifest /path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot not found?
 
-$ bitbake core-image-sato lib32-core-image-sato
-$ bitbake build-sysroots
+The message wasn't clear enough, it searched a few manifests, but only
+reported the last one, which confused user.
 
-All lib32 manifests which had been built should be installed, but only a few
-such as qemux86_64-lib32-base-files were installed (it was installed because
-MACHINE_ARCH was still qemux86-64 when multilib), but others such as
-x86-lib32-zlib were not installed, this was incorrect. For multilib builds,
-fix-up overrides to prepend :virtclass-multilib- and then again append
-additional multilib arches from the PACKAGE_EXTRA_ARCHS list if needed can fix
-the problem.
+Now the warning is:
+WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_rootfs: Manifest for lib32-qemuwrapper-cross not found, searched manifests:
+/path/to/tmp/sstate-control/manifest-qemux86_64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-core2-64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-x86_64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot
+
+Whick makes debug easier.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/staging.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/lib/oe/sstatesig.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 3fcbc9f..c45ada4 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -190,8 +190,23 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
-         pkgarchs = ['${MACHINE_ARCH}']
-         pkgarchs = pkgarchs + list(reversed(d.getVar("PACKAGE_EXTRA_ARCHS").split()))
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index b82e0f4..0c90ffe 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -394,11 +394,14 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
          pkgarchs.append('allarch')
-+
-+        # Handle multilib archs
-+        variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+        for variant in variants.split():
-+            localdata = bb.data.createCopy(d)
-+            overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
-+            localdata.setVar("OVERRIDES", overrides)
-+            bb.data.update_data(localdata)
-+            pkgarchs_ml = localdata.getVar('PACKAGE_EXTRA_ARCHS').split()
-+            for arch in pkgarchs_ml:
-+                if arch not in pkgarchs:
-+                    pkgarchs.append(arch)
-+
-         targetdir = targetsysroot
+         pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
  
-+    bb.debug(1, 'pkgarchs: %s' % pkgarchs)
-+
-     bb.utils.mkdirhier(targetdir)
++    searched_manifest = []
      for pkgarch in pkgarchs:
-         for manifest in glob.glob(d.expand("${SSTATE_MANIFESTS}/manifest-%s-*.populate_sysroot" % pkgarch)):
+         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
+         if os.path.exists(manifest):
+             return manifest, d2
++        searched_manifest.append(manifest)
+     bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++    bb.warn("Searched manifests:\n%s" % '\n'.join(searched_manifest))
+     return None, d2
+ 
+ 
 -- 
 2.7.4
 
