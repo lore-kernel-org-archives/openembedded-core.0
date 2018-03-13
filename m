@@ -1,44 +1,75 @@
-Return-Path: <aborduno@cisco.com>
-X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 13 Mar 2018 17:35:29 UTC
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 3993571C42
+Return-Path: <cbugot@sierrawireless.com>
+X-Greylist: delayed 109239 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 13 Mar 2018 17:41:10 UTC
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+	(mail-bn3nam01on0073.outbound.protection.outlook.com [104.47.33.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A37378682
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2018 17:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=6207; q=dns/txt; s=iport;
-	t=1520962531; x=1522172131;
-	h=subject:from:to:cc:references:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=c8big/JbgyuGrdRllv+2Crj5gHra8reEvOLvsnkXZhY=;
-	b=BSQodu3WAu4KtEnwsFcgKtR6XrSqgEhhLSeZpHes+j/YDqCifPggjm5t
-	2QTxLYrIS+Vgx9HnDcSgKa8eZYGPQhCif91MkdROaloJ3UCga9+vEmB2f
-	bVfXyM01odN5b7Ij1gjauDEQTSKKNujohjAdKE8/2K+JA2YRuyj+ViF7J Y=;
-X-IronPort-AV: E=Sophos;i="5.47,465,1515456000"; d="scan'208";a="367040824"
-Received: from rcdn-core-6.cisco.com ([173.37.93.157])
-	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Mar 2018 17:25:46 +0000
-Received: from kbp1-dhp-f50810.synapse.com ([10.24.108.147])
-	(authenticated bits=0)
-	by rcdn-core-6.cisco.com (8.14.5/8.14.5) with ESMTP id w2DHPgk0012789
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Tue, 13 Mar 2018 17:25:44 GMT
-From: Andrii Bordunov <aborduno@cisco.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
-	<1479293265.28508.4.camel@linuxfoundation.org>
-	<6897ef62-b48d-ca6d-dc03-41d3467bc91a@cisco.com>
-Message-ID: <256c9b8c-4972-f308-eb26-4c32e005a72e@cisco.com>
-Date: Tue, 13 Mar 2018 19:25:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 13 Mar 2018 17:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=SierraWirelessInc.onmicrosoft.com; s=selector1-sierrawireless-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=ffZhwcYFrZTdbDGZcuVkmLs3G5ttlFo9LvMDW9AnE60=;
+	b=O/qdXzw0rk0+TQC6sz1XPbHjiPKLK6Qj2WPDXm7vlVEVz2zRd9qWlD6eO1W+6UT4AHY/40CbPGp8T2vjvwUBQrTDYfFcrMI7qtr0bG3vZ1IQDFRiIJorpYT5BrMYU6xSKoepCxOjGCN1ltUNYYiX5kFh9dW8+fR+gckZgJ6PozI=
+Received: from CY1PR02MB1152.namprd02.prod.outlook.com (10.163.15.154) by
+	CY1PR02MB1626.namprd02.prod.outlook.com (10.162.160.156) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.588.14; Tue, 13 Mar 2018 17:41:10 +0000
+Received: from CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) by
+	CY1PR02MB1152.namprd02.prod.outlook.com ([10.163.15.154]) with mapi id
+	15.20.0548.021; Tue, 13 Mar 2018 17:41:09 +0000
+From: Cuero Bugot <cbugot@sierrawireless.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] uninative and recipe parsing
+Thread-Index: AdO56yridq5aeM3RTjmoDMuix3K+qAA8axSAAASttKA=
+Date: Tue, 13 Mar 2018 17:41:09 +0000
+Message-ID: <CY1PR02MB1152C127076BCDF14B2BFFCCA3D20@CY1PR02MB1152.namprd02.prod.outlook.com>
+References: <CY1PR02MB11526A4DDADFB7EF5D6019EAA3D30@CY1PR02MB1152.namprd02.prod.outlook.com>
+	<1520953579.25754.11.camel@linuxfoundation.org>
+In-Reply-To: <1520953579.25754.11.camel@linuxfoundation.org>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=cbugot@sierrawireless.com; 
+x-originating-ip: [84.14.163.134]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; CY1PR02MB1626;
+	7:XXsX6vIrjKCj8xFqww0FqHv8Umm/eeO/F4QwXR0YlK9klfMG4FEvubkcCzeIWkvhTQvD9eI+SeJugvx5XZfLsbiNLL0Bf4LMYYDZ/rLN7K7b6FaQ6nqopDBOxKJsLcz4pprV2MHezUi+qMav2/EJSumdas2WxwYxfz/ayH6PhwoFsggG8edL/kAJCBPpTVoBWnlcqL8u7SlY8HR4AF1YsubuksNZtEtz1hkS4iKDKXUtf3zXYPVABk93Qfl4ZBI+
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0d382db9-0a1f-471e-6bc8-08d589099b63
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:CY1PR02MB1626; 
+x-ms-traffictypediagnostic: CY1PR02MB1626:
+x-microsoft-antispam-prvs: <CY1PR02MB162671E3055F9B603127702AA3D20@CY1PR02MB1626.namprd02.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231221)(944501244)(52105095)(3002001)(10201501046)(6055026)(6041310)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123564045)(6072148)(201708071742011);
+	SRVR:CY1PR02MB1626; BCL:0; PCL:0; RULEID:; SRVR:CY1PR02MB1626; 
+x-forefront-prvs: 0610D16BBE
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(366004)(39380400002)(376002)(396003)(346002)(39860400002)(377424004)(199004)(189003)(6116002)(2900100001)(3846002)(2950100002)(6916009)(102836004)(6306002)(9686003)(6436002)(66066001)(86362001)(4326008)(2906002)(55016002)(7736002)(8936002)(478600001)(99286004)(3280700002)(305945005)(97736004)(186003)(8676002)(74316002)(76176011)(81166006)(81156014)(68736007)(229853002)(316002)(33656002)(14454004)(105586002)(966005)(25786009)(106356001)(6506007)(3660700001)(7696005)(55236004)(6246003)(77096007)(26005)(5660300001)(53936002)(59450400001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR02MB1626;
+	H:CY1PR02MB1152.namprd02.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: sierrawireless.com does not
+	designate permitted sender hosts)
+x-microsoft-antispam-message-info: wX01b6OCZwxYa4OR0YNmmur4K06XD0ygKSb0RZzxAY504jE8aED3RD0ssazKrd8m74X/ZXbxk+gaCjl4fBAIz1EFg2+uEK6JV27mgYdAjycUGygG/3+SzeuNsFWblp65GininUANvlu97g2GgRqxoLHp5OeoCbLCfGdGV9fkA6oR6iwzq2J92qk8qIq290I5WXca42U5IvBZauI3uje1qgDpBw2cPzj4YSBR+OEGfTq7e4SFoB5Dihp7TsJtg9EVC9ajROd1Ko/nz6x9urlVYGsDr8jfTuzkdX2EQsg+K2DCHtGHiLpxUXCwwqEtfvLRaOXOE6lKu2T22byOnsfRwg==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <6897ef62-b48d-ca6d-dc03-41d3467bc91a@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: aborduno
-Cc: aborduno@cisco.com, xe-linux-external@cisco.com
-Subject: Re: [PATCH v3] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
+X-OriginatorOrg: sierrawireless.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d382db9-0a1f-471e-6bc8-08d589099b63
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2018 17:41:09.5300 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 08059a4c-2486-43dd-89e3-3a747e0dcbe8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1626
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: uninative and recipe parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,180 +82,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 17:35:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 13 Mar 2018 17:41:11 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ping
-
-Rebased patch to latest master.
-
-Regarding special value for the variable, it could be done with 
-PRIVATE_LIBS to mean all libraries, I think. PRIVATE_LIBS could be set 
-per-package already.
-Would it be a better option?
-However, EXCLUDE_FROM_SHLIBS seems to be a more proper thing to use.
-
-
-Thank you,
-Andrii
-
-On 03/16/2017 05:07 PM, Andrii Bordunov wrote:
-> Hi Richard,
-> 
-> Sorry, my Python knowledge is quite basic. I'm sure it's possible to 
-> have a (global?) EXCLUDE_FROM_SHLIBS list holding subpackage names, but 
-> how it could lead to performance improvement? It would also need some 
-> check for every subpackage.
-> Could you please give more details?
-> And what do you mean under "all packages"? The intent is like opposite, 
-> to split package operations, not to gather.
-> 
-> As for False parameter to getVar, OK, I just used existing 
-> EXCLUDE_FROM_SHLIBS example (seems fixed now).
-> 
-> In the meantime tried to make a quick and dirty profiling like following:
-> 
->    bitbake -c package glibc
->    bitbake -c clean glibc
->    python -m cProfile -s cumtime /mnt/src/oe/distro/bitbake/bin/bitbake 
-> -c package glibc > result.txt
-> 
-> Result is below. If got it right, there are 3833 getVar calls with total 
-> time 0.025 second (including subcalls).
-> This gives ~6.5 microsecond duration of one call (incl subcalls). Not a 
-> lot.
-> This is only a partial rebuild of one package of course.
-> Also tried to do all of this with and without my patch, but getVar calls 
-> number stays exactly the same (w/o modifying glibc recipe, but anyway).
-> 
->    NOTE: Tasks Summary: Attempted 314 tasks of which 314 didn't need to 
-> be rerun and all succeeded.
->             672869 function calls (667640 primitive calls) in 12.912 
-> seconds
->       Ordered by: cumulative time
->       ncalls  tottime  percall  cumtime  percall filename:lineno(function)
->            1    0.001    0.001   12.913   12.913 bitbake:25(<module>)
->            1    0.001    0.001   12.082   12.082 main.py:320(bitbake_main)
->            1    0.005    0.005   11.494   11.494 knotty.py:253(main)
->          250   11.476    0.046   11.476    0.046 {method 'poll' of 
-> '_multiprocessing.Connection' objects}
->    ...
->    4481/4046    0.007    0.000    0.026    0.000 
-> data_smart.py:666(getVarFlag)
->    ...
->    3833/3719    0.002    0.000    0.025    0.000 data_smart.py:569(getVar)
->    ...
->         1338    0.002    0.000    0.003    0.000 
-> data_smart.py:805(getVarFlags)
-> 
-> 
-> 
-> Thank you,
-> Andrii
-> 
-> On 16.11.16 12:47, Richard Purdie wrote:
->> On Mon, 2016-10-10 at 20:02 +0300, Andrii Bordunov wrote:
->>> Some packages containing shared libraries might be registered
->>> as shlib providers when they shouldn't (for example, the lib is for
->>> their private use and must not generate any dependency).
->>>
->>> EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
->>> for entire recipe only.
->>>
->>> This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
->>> to set it in a style similar with RDEPENDS. For example:
->>>  EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
->>>
->>> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
->>> ---
->>>  meta/classes/package.bbclass | 12 ++++++++++--
->>>  1 file changed, 10 insertions(+), 2 deletions(-)
->>
->> My main concern here is actually performance. For a package with many
->> sub packages you just added many calls to getVar when that getVar is
->> extremely unlikely to find any value. Whilst not hugely slow, that
->> operation isn't trivial and hard to fix later.
->>
->> I'm wondering if we could support the syntax
->>
->> EXCLUDE_FROM_SHLIBS = "${PN}-ptest"
->>
->> and then have "1", used in a couple of places as the special value to
->> mean all packages?
->>
->> Also please use False, not 0 as the parameter to getVar.
->>
->> Cheers,
->>
->> Richard
-
---
-
- From 4a33d384a72a351bad5a98e46a7c9c1c9755635e Mon Sep 17 00:00:00 2001
-From: Andrii Bordunov <aborduno@cisco.com>
-Date: Mon, 12 Mar 2018 08:13:44 -0700
-Subject: [PATCH v3] Allow EXCLUDE_FROM_SHLIBS to be specified for 
-subpackages
-
-Some subpackages containing shared libraries might be registered
-as shlib providers when they shouldn't (the lib is for their private use
-and must not generate any dependency).
-
-EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
-for entire recipe only.
-
-This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
-to set it like following:
-EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
-
-Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
----
-  meta/classes/package.bbclass | 11 +++++++++--
-  1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 317c775..5d49d41 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1571,6 +1571,13 @@ python package_do_shlibs() {
-
-      workdir = d.getVar('WORKDIR')
-
-+    shlib_pkgs = []
-+    for pkg in packages.split():
-+        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, False):
-+            bb.note("not generating shlibs for %s" % pkg)
-+        else:
-+            shlib_pkgs.append(pkg)
-+
-      ver = d.getVar('PKGV')
-      if not ver:
-          msg = "PKGV not defined"
-@@ -1698,7 +1705,7 @@ python package_do_shlibs() {
-      needed = {}
-      shlib_provider = oe.package.read_shlib_providers(d)
-
--    for pkg in packages.split():
-+    for pkg in shlib_pkgs:
-          private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or 
-d.getVar('PRIVATE_LIBS') or ""
-          private_libs = private_libs.split()
-          needs_ldconfig = False
-@@ -1770,7 +1777,7 @@ python package_do_shlibs() {
-
-      libsearchpath = [d.getVar('libdir'), d.getVar('base_libdir')]
-
--    for pkg in packages.split():
-+    for pkg in shlib_pkgs:
-          bb.debug(2, "calculating shlib requirements for %s" % pkg)
-
-          private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or 
-d.getVar('PRIVATE_LIBS') or ""
--- 
-2.10.3.dirty
-
-
-
+DQo+IEkgaGF2ZSBraW5kIG9mIG5vdGljZWQgdGhpcyBhbmQgYWdyZWUgaXRzIHNvbWV0aGluZyB3
+ZSBzaG91bGQgZml4Lg0KPiBUaGFua3MgZm9yIGRpZ2dpbmcgaW50byBpdC4gSSB0aGluayBhIGxv
+bmcgdGltZSBhZ28gd2UgdHJpZWQgdGhlIGFib3ZlIGNoYW5nZSBhbmQgaXQgZG9lcyBjYXVzZSBh
+IHByb2JsZW0sIHBlcmhhcHMgZmV0Y2hpbmcgZHVyaW5nIHBhcnNpbmcgd2hpY2ggaXMgYmFkLg0K
+Pg0KPiBIYXZlIHlvdSBiZWVuIGFibGUgdG8gZmlndXJlIG91dCB3aGF0IGNoYW5nZXMgaW4gdGhl
+IGRhdGEgc3RvcmUgZm9yIHRoZSBjYWNoZSB0byBiZSBpbnZhbGlkYXRlZD8gSSB0aGluayB3aGl0
+ZWxpc3Rpbmcgc29tZXRoaW5nIG1heSBiZSB0aGUgYmVzdCBzb2x1dGlvbiwgb3IgcGVyaGFwcyBv
+bmx5IGFjdGl2YXRpbmcgY2VydGFpbiBjaGFuZ2VzIGluIHRoZSBidWlsZCBjb2RlID4gcGF0aHMg
+YWZ0ZXIgcGFyc2luZyBpbiBhbGwgY2FzZXMuDQo+DQoNClllcyBhYnNvbHV0ZWx5IHRoZSB2YXJp
+YWJsZXMgYW5kIGNvbnRlbnQgZGlmZiBpcyBhcyBmb2xsb3c6DQo4MzBjODMwDQo8ICgnTkFUSVZF
+TFNCU1RSSU5HJywgJ25lb24tMTYuMDQnKQ0KLS0tDQo+ICgnTkFUSVZFTFNCU1RSSU5HJywgJ3Vu
+aXZlcnNhbCcpDQoxNDQ3YzE0NDcsMTQ0OQ0KPCAoJ1NTVEFURVBPU1RVTlBBQ0tGVU5DUycsICdz
+c3RhdGVfaGFyZGNvZGVfcGF0aF91bnBhY2snKQ0KLS0tDQo+ICgnU1NUQVRFUE9TVFVOUEFDS0ZV
+TkNTJywgJ3NzdGF0ZV9oYXJkY29kZV9wYXRoX3VucGFjayB1bmluYXRpdmVfY2hhbmdlaW50ZXJw
+JykNCj4gKCdTU1RBVEVQT1NUVU5QQUNLRlVOQ1NbX2FwcGVuZF0nLCBbWycgdW5pbmF0aXZlX2No
+YW5nZWludGVycCcsIE5vbmVdXSkNCj4gKCdTU1RBVEVQT1NUVU5QQUNLRlVOQ1NbdmFyZGVwdmFs
+dWVleGNsdWRlXScsICd8IHVuaW5hdGl2ZV9jaGFuZ2VpbnRlcnAnKQ0KDQpJIGRpZCBhIFBSIChQ
+QVRDSCkgZm9yIHRoZSAxc3QgYWx0ZXJuYXRpdmUgKGZldGNoaW5nIGVhcmxpZXIpIGhlcmU6IGh0
+dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJlZGRlZC5vcmcvc2VyaWVzLzExMzY5Lw0KQnV0IEkgbmVl
+ZCB0byBkbyBhIHYyIHRvIGZpeCB0aGUgc2hvcnQgZGVzY3JpcHRpb24gdG8gbWFrZSBzaG9ydGVy
+LiBpZiB5b3UgZXZlciBkZWNpZGVkIHRoYXQgaXQgY291bGQgYmUgd2F5IHRvIGdvLiAoRldJVyBJ
+IGRpZCB0ZXN0IGl0IG9uIG91ciBzZXR1cCBhbmQgeWVzIGl0IGlzIGZldGNoaW5nIHRoZSB1bmlu
+YXRpdmUgYmluYXJpZXMgZWFybHkgb24gb3IgbWF5YmUgZHVyaW5nIHRoZSBwYXJzaW5nLCBzZWUg
+b3V0cHV0IGJlbGxvdyk6DQoNCgljYnVnb3RAbmVvbjp+L2RldnMveW9jdG8vYnVpbGQkIGJpdGJh
+a2Ugc29tZS1pbWFnZQ0KCS0tMjAxOC0wMy0xMyAxODoyNTozNi0tICBodHRwOi8vYnVpbGQtY2Fj
+aGUtc2VydmVyL2NhY2hlLy9kb3dubG9hZHMveDg2XzY0LW5hdGl2ZXNkay1saWJjLnRhci5iejIg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJ
+UmVzb2x2aW5nIGJ1aWxkLWNhY2hlLXNlcnZlciAoYnVpbGQtY2FjaGUtc2VydmVyKS4uLiAxMC40
+MS41MS4yMjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KCUNvbm5lY3Rpbmcg
+dG8gYnVpbGQtY2FjaGUtc2VydmVyIChidWlsZC1jYWNoZS1zZXJ2ZXIpfDEwLjQxLjUxLjIyMHw6
+ODAuLi4gY29ubmVjdGVkLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCglIVFRQIHJlcXVlc3Qgc2VudCwgYXdh
+aXRpbmcgcmVzcG9uc2UuLi4gMjAwIE9LICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgDQoJTGVuZ3RoOiAyMjg2Mjg1ICgyLjJNKSBbYXBwbGljYXRp
+b24veC1iemlwMl0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIA0KCVNhdmluZyB0bzog4oCYL2hvbWUvY2J1Z290L2RldnMvdW5pdHkvYnVpbGQv
+ZG93bmxvYWRzL3VuaW5hdGl2ZS9lZDAzM2M4NjhiODc4NTJiMDc5NTdhNDQwMGYzYjc0NGMwMGFl
+ZjVkNjQ3MDM0NmVhMWE1OWI2ZDNlMDMwNzVlL3g4Nl82NC1uYXRpdmVzZGstbGliYy50YXIuYnoy
+4oCZICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJMjAxOC0wMy0xMyAxODoyNTozNiAoMTEu
+MiBNQi9zKSAtIOKAmC9ob21lL2NidWdvdC9kZXZzL3VuaXR5L2J1aWxkL2Rvd25sb2Fkcy91bmlu
+YXRpdmUvZWQwMzNjODY4Yjg3ODUyYjA3OTU3YTQ0MDBmM2I3NDRjMDBhZWY1ZDY0NzAzNDZlYTFh
+NTliNmQzZTAzMDc1ZS94ODZfNjQtbmF0aXZlc2RrLWxpYmMudGFyLmJ6MuKAmSBzYXZlZCBbMjI4
+NjI4NS8yMjg2Mjg1XSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCglOT1RFOiBG
+ZXRjaGluZyB1bmluYXRpdmUgYmluYXJ5IHNoaW0gZnJvbSBodHRwOi8vZG93bmxvYWRzLnlvY3Rv
+cHJvamVjdC5vcmcvcmVsZWFzZXMvdW5pbmF0aXZlLzEuNy94ODZfNjQtbmF0aXZlc2RrLWxpYmMu
+dGFyLmJ6MjtzaGEyNTZzdW09ZWQwMzNjODY4Yjg3ODUyYjA3OTU3YTQ0MDBmM2I3NDRjMDBhZWY1
+ZDY0NzAzNDZlYTFhNTliNmQzZTAzMDc1ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQoJUGFyc2luZyByZWNpcGVzOiAg
+MzclIHwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgRVRBOiAgMDowNjozMA0KDQoNCg0KSG93ZXZlciwgaWYgeW91IHRoaW5rIHB1
+dHRpbmcgdGhlIHR3byB2YXJpYWJsZXMgKE5BVElWRUxTQlNUUklORywgU1NUQVRFUE9TVFVOUEFD
+S0ZVTkNTKSAgaW4gQkJfSEFTSENPTkZJR19XSElURUxJU1QgaXMgYmV0dGVyL3NhZmVyLCBJIGNh
+biBhbHNvIHN1Ym1pdCBhIFBBVENIIHJlcXVlc3QgZm9yIHRoYXQgYWx0ZXJuYXRpdmUuDQoNClBl
+cnNvbmFsbHkgSSBkbyBub3QgaGF2ZSBlbm91Z2ggeW9jdG8gZXhwZXJpZW5jZSB0byBkZWNpZGUg
+d2hpY2ggb25lIHdvdWxkIGJlIHRoZSBiZXN0IChqdXN0IGluZmVycmVkIHRoYXQgV0hJVEVMSVNU
+IGNvdWxkIGxlYWQgdG8gd2VpcmQgYmVoYXZpb3IgaWYgc29tZW9uZSBldmVyIGRlcGVuZGVkIG9u
+IG9uZSBvZiB0aGlzIHZhcmlhYmxlIGluIGhpcyByZWNpcGUpOyBzbyBJIHdvdWxkIGJlIGhhcHB5
+IGVpdGhlciB3YXkg8J+Yii4NCg0KQ2hlZXJzLA0KQ3Vlcm8gDQo=
 
