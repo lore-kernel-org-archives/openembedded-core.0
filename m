@@ -1,40 +1,47 @@
-Return-Path: <jpmv27@yahoo.com>
-Received: from sonic316-14.consmr.mail.bf2.yahoo.com
-	(sonic316-14.consmr.mail.bf2.yahoo.com [74.6.130.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D656E666
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 22:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1521066059; bh=o4AuRcMOhJEHr8E7gOOvnhUF9DFQEvy0PZHPXIt/LwA=;
-	h=Subject:From:To:References:Date:In-Reply-To:From:Subject;
-	b=MxN7dlhYCpYC0xSvUXaVUPYxup7dJ7IQqcDFhBW8sNZkbjiuIQVaWFs/8g794TJ5hwnlsK1c1//GV0Zj6HR3BF1y6E9g90YraAVyXQvrwLfytH7HiUvVols56IS01hp6oxqd9Txme5W3eycZsUywhOtUoejnC2T2zU1dvj3jRuRF6Hj3bSNWWRhHhNWPJsQHO4Ef7WyjFlDxv5TcbjFSjN+Kpna+pY7RLaVoPgFx/XmN/BGIcKi0jJ4CF53bFRlkRfgb0AVtKPgmLaoTUaXNzeU6UNraDf9mZpIi5lr0umpFIvVYGLpGVPOBylCYBT4mcHKUCL/sKbvuJJ682/P+rw==
-X-YMail-OSG: oGhYT9QVM1kSvT3_Z.jOhemUysblBr5uJPCBsY2nHk6R0M14r8v0dnIlcaawIm4
-	7OzU978xfWmsv2URgF_2NEwfkTuZqRjVXGDg1XYLSs3LEsL8Hhbd5gSKbjLCkBB.xNJHWSoKWV.U
-	d_z.j4XRwVsuPc2E0bWtValoaftZ42I3fgswy8fZRSjVR.BOrF5Y0VXtsG1fz_6oWiLsnpW.5qga
-	VoLmoEIxdsKkSfDL01QJqtA0hX9yZDnmM6uyW5LSJw6ZScl_8p4vuPAhUhNuPsJwkWjn_ascZQkk
-	wtLra9LADyal7eh4TZ4kTf8b0kY22FQsC2pHqVbkk2WVhzOaUON4KUPoE751dSCR2674Dp6v2k2z
-	WxQHV9WhDuLtQ4rABexZrfjyL28vNWAlUahTemV3bKgPD5Yft833MNHGgaOwBRPSZ_uTmK1la9Cl
-	auoMnkoSwjdwZXk.UP6Ctn.XQPL.yUFm490bGjgjK.PWJ3Pu8MqGvi8JdzEz_DlnI_z8BSlU0C_L
-	Duxl3
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic316.consmr.mail.bf2.yahoo.com with HTTP;
-	Wed, 14 Mar 2018 22:20:59 +0000
-Received: from CPE000db93f888c-CM001404556d28.cpe.net.cable.rogers.com (EHLO
-	[10.11.12.90]) ([99.246.128.134])
-	by smtp418.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
-	c4c06d6e3b6cbd3700a9a702515fb7e9
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 22:20:55 +0000 (UTC)
-From: Martin Vuille <jpmv27@yahoo.com>
-To: Openembedded-core@lists.openembedded.org
-References: <c1fcdce0-7ad4-d7ce-287b-3783579fc631@yahoo.com>
-Message-ID: <8ef4b697-ea48-80eb-9068-7b15fd7cc944@yahoo.com>
-Date: Wed, 14 Mar 2018 18:20:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 40AAA784E5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2018 23:52:22 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id m12so6405182wrm.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2018 16:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uZHUvlkdeO28j6dg461vj483GHBQ/3r3UN9f2mAL9oQ=;
+	b=ouE/843rIU7bXAVi/C0EMm4evkoIeS1z9UjAlxqOzELwMFn39tsn6Q2iu6F39NyvT6
+	qx/2tS7NLrv/OxjSaj0LAB5n7pTSRdfM3CMM7mK+1X+45pjZ5so3OIMulfc07UXKaExd
+	7MYCoXJiIVZG1nJ7YiqGKX0bQogKXVXht4EJTAPvEAjDfYVM47tSaxiOFZFeeBgWWOmi
+	fRIGZLucVqTAGHWESpXV/NDLPUhaD2hWvJLv3B24PeQWSNBx1QtoIA/ZYrU6wVUaKybA
+	s2gGuxjB7xrV9LRvvt2jqCSRBpdPug9KUomrgAFVC/KozcWDUvOhhgi5jwh4mHPeL574
+	SaQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uZHUvlkdeO28j6dg461vj483GHBQ/3r3UN9f2mAL9oQ=;
+	b=hTOyVT9sMfbs9SiO0CpqGvnlXFOs1wXMVnRLtQHoEOU8vzo+B1P26earEEVnG4Lzdg
+	u9M/IZCNzs9AQnskQlCz4YOVrQJG3Iurn3GECdYTgn4kmmez+tmC+IdGX8LrAFlm0n7n
+	glE1pVusO91VLoB3WjSkHgZVwbcWJoU2NFa+Y+sYIeKXFO0DkXTSsR63ZakIjyBtrlBX
+	R7nWVEoNGRR3UGTgRm8fMGVb95F0PUqFS2ZGFLVhUlZ8erCMF9MdXjwgDWTtdfqCRjSm
+	+F/ZjWWCV5FeXguSpjuRb9EevAZJEvuuQfV7bBrMLKaTQeeGaKGMQstl8zSZMkNGHbjx
+	A5fw==
+X-Gm-Message-State: AElRT7FlcjHHJATQ+p4JlbDgHBjMrPTf5Xxxs9PO0LpMLO1Z+LoT8AHt
+	83EjU5aeyRBrXcnzmZqAJcyXbo32+O9Ux+Hcixk=
+X-Google-Smtp-Source: AG47ELtMJBP8lTiPjETNVCtvVLTrshpXXdnGyi7X0ff9zafkMy4mgLUVXdIbtaQEzfhXnc8KGTZB2pnafUe7g7gZgJQ=
+X-Received: by 10.223.170.218 with SMTP id i26mr2491665wrc.107.1521071543696; 
+	Wed, 14 Mar 2018 16:52:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c1fcdce0-7ad4-d7ce-287b-3783579fc631@yahoo.com>
-Subject: Re: Recipe for Linux page-types tool
+Received: by 10.223.133.98 with HTTP; Wed, 14 Mar 2018 16:52:23 -0700 (PDT)
+In-Reply-To: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
+References: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 14 Mar 2018 16:52:23 -0700
+Message-ID: <CAJ86T=V=+cLpzMFoWS42NMDAuOrUMzsLCmUHfUhTrP8aEvcR2Q@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [morty][PATCH] buildhistory: fix latest_srcrev in the common case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,22 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 22:20:58 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2018 23:52:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-page-types is a simple Linux kernel debugging tool to list information about
-the state of virtual memory (VM) pages.
+On Tue, Feb 27, 2018 at 5:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> buildhistory was writing srcrevs.values() as SRCREV when only one
+> srcrev/branch exists. This returns a view of the dictionary values in python
+> 3, and used to return a list in python 2, neither of which is an appropriate
+> value for SRCREV. It was resulting in latest_srcrev files like this:
+>
+>     # SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
+>     SRCREV = "dict_values(['346584bf6e38232be8773c24fd7dedcbd7b3d9ed'])"
+>
+> Which in turn would result in invalid output in buildhistory-collect-srcrevs.
+> Fix by calling `next(iter())` on the `.values()`
 
-The source is distributed as part of the kernel tree: tools/vm/page-types.c
+Ping.
 
-MV
-
-On 03/14/18 11:22, Martin Vuille wrote:
-> I have a recipe for building the page-types Linux kernel VM tool.
-> Is there any interest in this?
-> If so, to what project/layer should I send it?
-> 
-> MV
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry picked from commit ef826a395612400924bbe49859d256b237ff59e1)
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 3a5bc2c..d82e9bb 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -833,7 +833,7 @@ python write_srcrev() {
+>                          f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
+>                      f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
+>              else:
+> -                f.write('SRCREV = "%s"\n' % srcrevs.values())
+> +                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
+>              if len(tag_srcrevs) > 0:
+>                  for name, srcrev in tag_srcrevs.items():
+>                      f.write('# tag_%s = "%s"\n' % (name, srcrev))
+> --
+> 1.9.1
+>
 
