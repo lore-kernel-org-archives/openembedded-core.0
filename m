@@ -1,27 +1,49 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C9A6C78901
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AFE8788F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 12:46:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2ECjTaD020479
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Mar 2018 05:45:29 -0700 (PDT)
-Received: from server.local (128.224.20.191) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 14 Mar 2018 05:45:28 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
+	Wed, 14 Mar 2018 12:50:33 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id z7-v6so3393133iti.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2018 05:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=P/8BrmJnZyoaI9WTM0k7m5SpEvHrZO/1NBpnfYyhUfQ=;
+	b=jv97nEgrPrwOSZZQEq14uuqK7cO+aYi1CRIK6rsIWuTA3TmLaXl1Spn0RJqPOJSMpp
+	Mu3sjZP7TjtUvRlsdP12tkzYe7bbxHzk5/X5Orbh0drpDPoLVZ6DG9yHJJSxTfgQdkec
+	4vVB7/vO5NJNtAH9nX4AWGmPAwoDNATLNxIilcX1GK+20kzstjmS2vFhnMOjt2vzFRBR
+	NFVA6muUBneTuhKASo0ZodL97dWAGdzxma/phbqF+4m4xGrPMj2t8WXFOyvSOz0ZBqRt
+	AkICwwdouBw/y0pUIIWCRGj0K3nWC4El5lpLgdslxlNKaa9+RVD0PQFKb6LJ31LYzoTr
+	LEcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=P/8BrmJnZyoaI9WTM0k7m5SpEvHrZO/1NBpnfYyhUfQ=;
+	b=UXWWYoLQmk+1Df4j0lLNPUwUzKMYY5SSI+V9nJn8szNhcAJaUH1Bov7oRS6MlegNFQ
+	H4IWp9hYJJPbaZXhGqsoMsdCYVqdcA4gvrwuTZAXnEAJh0znaoUrx5y2ilq+WnLyiimL
+	8tFFlH1Amc4L9kTDQqxtdg2tWOFBFPEzsv5NXcrWlkueafxfTuBE9OmcnERy1lf1p7Er
+	ukbFrMY+hs+5PUZPmEyY+O9eC0NEkw3t+qNyAompYeya8K8Iah113E/auXS4Fmsr7Lbo
+	9+6R5ZYwwm51GkMVGYa6Lstygkp85yW+66OyR3KKUx9yIWcaI2400ky8xt1Ok2IjGQr2
+	/t1w==
+X-Gm-Message-State: AElRT7HZ8knxXPKCbHrDuUsnDckeDCUyWNGWRi3j467Zat4T5No5/8qo
+	BzTGufOZIZVxrn/UnBfOUwLt7fm/CeK9GMPkPZ9yTQ==
+X-Google-Smtp-Source: AG47ELuKZQNDJvsr8alrmPJmIt1sHXONat1bXeTSMpcfh0Foo0zGiTeH0ltZv3lio0/nws6OhFBllBwT4Frt8ommkpQ=
+X-Received: by 10.36.185.24 with SMTP id w24mr1748686ite.127.1521031834508;
+	Wed, 14 Mar 2018 05:50:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.30.9 with HTTP; Wed, 14 Mar 2018 05:50:14 -0700 (PDT)
+In-Reply-To: <dbc5da75-f7b9-bda4-c9da-5be3088945ab@windriver.com>
 References: <cover.1520359364.git.bruce.ashfield@windriver.com>
 	<f5971af169fa67412a2d66f3ba1e1596ea439ca7.1520359364.git.bruce.ashfield@windriver.com>
 	<CAJTo0LZcrg5TmTEyEwjAW0_49RJ0T2A4ZBsuNmyJ=wSMFWtuZw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <dbc5da75-f7b9-bda4-c9da-5be3088945ab@windriver.com>
-Date: Wed, 14 Mar 2018 08:46:08 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZcrg5TmTEyEwjAW0_49RJ0T2A4ZBsuNmyJ=wSMFWtuZw@mail.gmail.com>
+	<dbc5da75-f7b9-bda4-c9da-5be3088945ab@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Mar 2018 12:50:14 +0000
+Message-ID: <CAJTo0LbY_61zJ=nCBGgmruLOY+x2Ky6Coj-D9X743iXBAFJ6+g@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 7/9] linux-yocto: aufs and systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,68 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 12:46:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 14 Mar 2018 12:50:33 -0000
+Content-Type: multipart/alternative; boundary="f403045d9a5030457205675ed267"
 
-On 2018-03-14 8:41 AM, Burton, Ross wrote:
-> On 6 March 2018 at 18:11, Bruce Ashfield <bruce.ashfield@windriver.com 
-> <mailto:bruce.ashfield@windriver.com>> wrote:
-> 
->     Integrating a configuration change for systemtap:
-> 
->        features/systemtap/systemtap.cfg: enable CONFIG_KERNEL_DEBUG
-> 
-> 
-> I noticed that all the performance machines had a big spike in kernel 
-> build time and build directory size, and annoyingly spent too long 
-> bisecting builds before noticing this in the commit message for the 
-> offending commit.  If I re-read the logs I might have spotted this 
-> sooner. :)
+--f403045d9a5030457205675ed267
+Content-Type: text/plain; charset="UTF-8"
 
-Agreed. I should have realized this as well, we went through a process
-about a year ago of moving all of the debug configs with the split into
-a production/debug set of kernel configurations.
+On 14 March 2018 at 12:46, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
 
-> 
-> $ buildstats-diff 20180314122002-3a8cce8b5c2 20180314122610-a7c9bc7020a/
-> Ignoring tasks less than 00:03.0 (3.0s)
-> Ignoring differences less than 00:01.0 (1.0s)
-> 
->    PKG            TASK                      ABSDIFF   RELDIFF  CPUTIME1 
-> -> CPUTIME2
->    linux-yocto    do_package                  20.2s   +153.0%     13.2s 
-> -> 33.3s
->    linux-yocto    do_deploy                   29.9s  +1502.8%      2.0s 
-> -> 31.9s
->    linux-yocto    do_package_write_ipk       125.5s   +310.2%     40.5s 
-> -> 166.0s
->    linux-yocto    do_compile_kernelmodules   142.6s    +17.8%    800.3s 
-> -> 942.9s
->    linux-yocto    do_package_write_rpm       156.0s   +563.6%     27.7s 
-> -> 183.7s
->    linux-yocto    do_compile                 174.8s    +18.7%    934.3s 
-> -> 1109.1s
-> 
-> Cumulative cputime:
->    649.5s    +35.0%    30:56.0 (1856.0s) -> 41:45.5 (2505.5s)
-> 
-> $ buildhistory-diff | grep SIZE
-> packages/qemux86-poky-linux/linux-yocto/kernel-vmlinux: PKGSIZE changed 
-> from 19587044 to 300944172 (+1436%)
-> 
-> Is this really what we want out of the box?  Can the kernel have the 
-> debugging bits stripped out into a separate package so even if we have 
-> the build time hit, we don't have the kernel size change?
+> I'll revert this for now (or see if I can quickly move it to a debug
+> kernel build), and yes, there is a better way to do this. I'm just not
+> sure I can get it done in time for the release.
+>
 
-I'll revert this for now (or see if I can quickly move it to a debug
-kernel build), and yes, there is a better way to do this. I'm just not
-sure I can get it done in time for the release.
+Thanks.  I'm desperately trying to be able to tell RP we can fire the M3
+build so I'm +1 on reverting now, fixing later.
 
-Bruce
+Ross
 
-> 
-> Ross
+--f403045d9a5030457205675ed267
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 14 March 2018 at 12:46, Bruce Ashfield <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bru=
+ce.ashfield@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extr=
+a"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;ll rever=
+t this for now (or see if I can quickly move it to a debug<br>
+kernel build), and yes, there is a better way to do this. I&#39;m just not<=
+br>
+sure I can get it done in time for the release.<br></blockquote><div><br></=
+div><div>Thanks.=C2=A0 I&#39;m desperately trying to be able to tell RP we =
+can fire the M3 build so I&#39;m +1 on reverting now, fixing later.</div><d=
+iv><br></div><div>Ross=C2=A0</div></div></div></div>
 
+--f403045d9a5030457205675ed267--
