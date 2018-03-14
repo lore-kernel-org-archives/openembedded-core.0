@@ -1,29 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A998788B9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A3507886C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 03:17:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2E3Gtt6013807
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Mar 2018 20:16:55 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.163.240) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 13 Mar 2018 20:16:55 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1520911259.git.liezhi.yang@windriver.com>
-	<b99839985653f44516cf41291681f2f5cbf63a7e.1520911259.git.liezhi.yang@windriver.com>
-	<1520953029.25754.7.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d4f53fca-f339-bc2b-ab2d-0c4e2b70a065@windriver.com>
-Date: Wed, 14 Mar 2018 11:18:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <1520953029.25754.7.camel@linuxfoundation.org>
-Subject: Re: [PATCH 7/8] populate_sdk_ext.bbclass: remove the try...finally
+	Wed, 14 Mar 2018 06:23:19 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id 61-v6so1215636plf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2018 23:23:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=kANwkuU4opH1E7ctKKOUbpRJD/9LlzEW2Dstzj0CZL8=;
+	b=R5u4z7JRJP1cj6SArxyeEqcfvb+IwY4/QtAVH1yt3L2w3IPjOs41uW1SU4jqX4ehBD
+	ldGbXi+O84jwNqh1thM81qgdnZG+b2ln3nVNTetiLvkRcbvP6NUYlD/J+dvU//cEO4rx
+	vPwiVgDdQPYyvF7cjGTQAcv5tUoumrZCju29aKaImw87U0+GmUpzXFuR0OEnjkPj8PSs
+	kOy5gHzRq2TWoHRDsGO7goW9yQi8plF/pVv1DINbmSkXN1/hk4yLBW/FEVS2sOKyB5ke
+	xLgaT8plZ551Zb/SXfp3oVzig8HFPUPBVyiewGYpgf8N5lL77kc3dK5OGaJ/N8McU2IV
+	/KNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kANwkuU4opH1E7ctKKOUbpRJD/9LlzEW2Dstzj0CZL8=;
+	b=K14y2DpoTBl3t6mE7Gh1RSxZm4tBAx7VN4ivAaBX4JUjLpDc0WCMIy1ZG1NHsBTsTD
+	FpWVxKjS3o9ZkFD1TrWJ9yLiW1eCmjAkvGo1zL/VsdcYrCvqM6qTbHE9FjsjrmfgPxDn
+	LuL5ONoacjAG/D2i568jglYqAEuZ+s5/YzSNIQ6eA3WrjenxgSA6Wvp22l9UuMXjvadL
+	bZas+2wM4UfqYuI75xinfYpH0xRXyICJfQI4jJGdB7t5qgdlhfhOYCB7CdTocwRUiAjr
+	rpl61COhMgrhqdbNJM9awEhR51pop5KWhitkGWtmvuR8CaCMtkunmxTtRXv5/rKwlt6r
+	sHvw==
+X-Gm-Message-State: AElRT7GxQwlmLD38WiPMya4xpd0Jq/tHzs/fH+lLLEPkQtVpPcwN/tNE
+	qXRs90bCnXELWg1m58b6J4SQrw==
+X-Google-Smtp-Source: AG47ELskT192bx64PlwdyXzW/vz5T1zuVAkusSMiMVQKZpCb7ZpA/IJ8+FuZcg1Hfd4bgdab/GoUig==
+X-Received: by 2002:a17:902:a705:: with SMTP id
+	w5-v6mr3049293plq.299.1521008601115; 
+	Tue, 13 Mar 2018 23:23:21 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	p9sm3088924pff.173.2018.03.13.23.23.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Mar 2018 23:23:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2018 23:23:11 -0700
+Message-Id: <20180314062311.19380-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] insane.bbclass: add support for RISC-V baremetal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 03:17:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2018 06:23:20 -0000
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/insane.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 03/13/2018 10:57 PM, Richard Purdie wrote:
-> On Tue, 2018-03-13 at 11:24 +0800, Robert Yang wrote:
->> The "sdkbasepath + '/conf/local.conf.bak" doesn't exist when
->> "oe.copy_buildsystem.check_sstate_task_list()" fails, then
->> os.replace() would
->> raise FileNotFoundError, which overcomes the real error. Keep the
->> error status
->> makes debug easier, so remove the try..finally.
-> 
-> I don't think this patch is quite right. If there is a failure we
-> *must* make sure local.conf is restored, that is important. The code
-> should probably keep the try/finally but make the replace conditional
-> on the file existing.
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 7407b29f86..7791a867f7 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -71,6 +71,8 @@ def package_qa_get_machine_dict(d):
+                         "microblaze":  (189,   0,    0,          False,         32),
+                         "microblazeeb":(189,   0,    0,          False,         32),
+                         "microblazeel":(189,   0,    0,          True,          32),
++                        "riscv":      (243,    0,    0,          True,          32),
++                        "riscv64":    (243,    0,    0,          True,          64),
+                       },
+             "linux" : { 
+                         "aarch64" :   (183,    0,    0,          True,          64),
+-- 
+2.16.2
 
-Thanks, updated in the repo:
-
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Wed Mar 14 10:01:51 2018 +0800
-
-     populate_sdk_ext.bbclass: only replace local.conf when local.conf.bak exists
-
-     The "sdkbasepath + '/conf/local.conf.bak'" doesn't exist when
-     "oe.copy_buildsystem.check_sstate_task_list()" fails since the sdkbasepath had
-     been renamed to temp_sdkbasepath, but can't rename back when
-     oe.copy_buildsystem.check_sstate_task_list() fails, then os.replace() would
-     raise FileNotFoundError, which overcomes the real error. Only replace
-     local.conf when local_conf.bak exists can make the debug easier.
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass 
-b/meta/classes/populate_sdk_ext.bbclass
-index 057c495..fa24fc4 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -141,9 +141,11 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, 
-conf_initpath):
-      import oe.copy_buildsystem
-
-      # Create a temporary build directory that we can pass to the env setup script
--    shutil.copyfile(sdkbasepath + '/conf/local.conf', sdkbasepath + 
-'/conf/local.conf.bak')
-+    local_conf = sdkbasepath + '/conf/local.conf'
-+    local_conf_bak = local_conf + '.bak'
-+    shutil.copyfile(local_conf, local_conf_bak)
-      try:
--        with open(sdkbasepath + '/conf/local.conf', 'a') as f:
-+        with open(local_conf, 'a') as f:
-              # Force the use of sstate from the build system
-              f.write('\nSSTATE_DIR_forcevariable = "%s"\n' % 
-d.getVar('SSTATE_DIR'))
-              f.write('SSTATE_MIRRORS_forcevariable = "file://universal/(.*) 
-file://universal-4.9/\\1 file://universal-4.9/(.*) file://universal-4.8/\\1"\n')
-@@ -178,7 +180,8 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, 
-conf_initpath):
-          # will effectively do
-          clean_esdk_builddir(d, sdkbasepath)
-      finally:
--        os.replace(sdkbasepath + '/conf/local.conf.bak', sdkbasepath + 
-'/conf/local.conf')
-+        if os.path.exists(local_conf_bak):
-+            os.replace(local_conf_bak, local_conf)
-
-  python copy_buildsystem () {
-      import re
-
-// Robert
-
-
-> 
-> Cheers,
-> 
-> Richard
-> 
 
