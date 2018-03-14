@@ -1,38 +1,28 @@
-Return-Path: <jpmv27@yahoo.com>
-Received: from sonic317-27.consmr.mail.bf2.yahoo.com
-	(sonic317-27.consmr.mail.bf2.yahoo.com [74.6.129.82])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A3C26011B
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 15:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1521040953; bh=fV9lUroMGwekTn3NZIaQj11Ofw8caY9occkoeA4R37A=;
-	h=To:From:Subject:Date:From:Subject;
-	b=kAywP0ooGKlx0jpZbKEKUUmFhskNPlz6Uig83JPdNHvZymqp39kmmKue3lQwQEmECo3yCv2rv29TKjJA9r2p8QG8jNTh0ZRdf66BimuKN750FG6gXftNnnadHZ7x+JYOjLMp+jP/oXB08uqci2WzXb7ulu4H5wSEe1gk5N4hTtbb4oFuRIJeJSqA1kPvHqLuNStt6H04zvqCoXR+ptMoEJ96xPGMqgyc/pmPr3z/Elf/IA9jOOdARCWk2Uy82e29jswIGyTKCytUoTsVbQ7Zd1D1bGAalnBNKGMLOhcKgqoIsmVXZMzdbSO/SExbUADZSP7G4gcqJMTeDe+KLh2Nsg==
-X-YMail-OSG: drmLPl4VM1lKYffqKPFpdoNKVNNfkjWYjEp092Gc5aHSW6PwFqLd8leHm2HyFwM
-	tX24RNUzdc7AWJ5SYv.LtKkAo_ZYdnsFC0zLtsD8BwgM7Dhj78WEo74bCM8BFJgfYb4J.NlU7d0n
-	NA4uhPoKz.nA7ZUFuiSzRiwbn2gg0Jsn64dl8_S419FlKI5OpYqMZw_bynKxbbQbGgHuYDvliXbx
-	O3RWi3bnXK.YnNJBFdDAXnHhPijU9qnGDJhC6rEupi._CdRvaprNL7b.cEmP.b2qvwXwIurvEoiz
-	mUc6u5qEjRBY63EpV3mtmphhKLAhkGmIh3jnQiEzWBdTfzzE6ZiSsFRId.4Rd67i6GLp9aOtvNnk
-	P7eN5LatC9kcrmG1WOn4vYEIcxnyE1con7OVZrz6n.nAUmdHMQQEpYrl6AwEjqxDUkxOKIKAC_5E
-	_c5Cu9Aq.1r2vue7yfP4xAvf2CJUInMUx8DaNoBo_bUTJjuGo0TZTkmIZEcqRZ3SUI_pwo07HpyR
-	0RT0-
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic317.consmr.mail.bf2.yahoo.com with HTTP;
-	Wed, 14 Mar 2018 15:22:33 +0000
-Received: from CPE000db93f888c-CM001404556d28.cpe.net.cable.rogers.com (EHLO
-	[10.11.12.90]) ([99.246.128.134])
-	by smtp429.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
-	5835c6c35d292a9bf007a7586ddf4f66
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 15:22:28 +0000 (UTC)
-To: Openembedded-core@lists.openembedded.org
-From: Martin Vuille <jpmv27@yahoo.com>
-Message-ID: <c1fcdce0-7ad4-d7ce-287b-3783579fc631@yahoo.com>
-Date: Wed, 14 Mar 2018 11:22:27 -0400
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 806A96011B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2018 15:24:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2EFOvbh028288
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 14 Mar 2018 08:24:57 -0700
+Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Mar 2018 08:24:15 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1520910506-1642-1-git-send-email-jason.wessel@windriver.com>
+	<CAJTo0LYc-dw8EUdC7Zcv_o4WfcE82P9JmVjhRUgX_S4m40h6wA@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <fc2af88b-79c7-76df-bfc4-5bf8fa7bec36@windriver.com>
+Date: Wed, 14 Mar 2018 10:24:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: Recipe for Linux page-types tool
+In-Reply-To: <CAJTo0LYc-dw8EUdC7Zcv_o4WfcE82P9JmVjhRUgX_S4m40h6wA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] alsa-lib: Add an RPROVIDES for alsa-lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,14 +35,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 15:22:32 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2018 15:24:57 -0000
+Content-Type: multipart/alternative;
+	boundary="------------9396CC0AE6466800EE97A730"
+Content-Language: en-GB
 
-I have a recipe for building the page-types Linux kernel VM tool.
-Is there any interest in this?
-If so, to what project/layer should I send it?
+--------------9396CC0AE6466800EE97A730
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-MV
 
+# dnf install python-pyalsaaudio
+Last metadata expiration check: 0:00:44 ago on Wed Mar 14 11:15:23 2018.
+Error:
+  Problem: conflicting requests
+   - nothing provides alsa-lib needed by python-pyalsaaudio-0.8.4-r0.1.core2_64
+
+---
+The python-pyalsaaudio recipe in question did the following:
+
+DEPENDS += "alsa-lib"
+
+RDEPENDS_${PN} += "\
+         alsa-lib \
+"
+
+Obviously since nothing provides that, it isn't going to work. It is probably better in this case to change the python recipe to RDEPENDS on libasound which is what the alsa-lib recipe generates.  I can understand how the author of the python recipe might have been confused, but it begs the question of how it worked in the first place.  :-)
+
+I can reach out to the owner of the layer that provided the recipe and you can drop this patch.
+
+Jason.
+
+On 03/14/2018 09:51 AM, Burton, Ross wrote:
+> This sounds very odd.  Can you give an example of this happening?
+>
+> Ross
+>
+> On 13 March 2018 at 03:08, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
+>
+>     There are a number of other recipes outside oe-core that depend on
+>     alsa-lib and the rpm4 dependencies resolve sometimes to include
+>     alsa-lib and the packages in the other layers fail to install because
+>     the dependency cannot be resolved, despite the fact that libasound is
+>     installed.
+>
+>     The simple is to add an RPROVIDES for alsa-lib to libasound which
+>     provides all the shared objects for alsa.
+>
+>     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
+>     ---
+>      meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb <http://alsa-lib_1.1.5.bb> | 1 +
+>      1 file changed, 1 insertion(+)
+>
+>     diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb <http://alsa-lib_1.1.5.bb> b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb <http://alsa-lib_1.1.5.bb>
+>     index c5bf107..f7f01e8 100644
+>     --- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb <http://alsa-lib_1.1.5.bb>
+>     +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb <http://alsa-lib_1.1.5.bb>
+>     @@ -25,6 +25,7 @@ FILES_alsa-server = "${bindir}/*"
+>      FILES_alsa-conf = "${datadir}/alsa/"
+>
+>      RDEPENDS_libasound = "alsa-conf"
+>     +RPROVIDES_libasound = "alsa-lib"
+>
+>      # alsa-lib gets automatically added to alsa-lib-dev dependencies, but the
+>      # alsa-lib package doesn't exist. libasound is the real library package.
+>     --
+>     2.7.4
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+
+
+--------------9396CC0AE6466800EE97A730
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix"><br>
+      # dnf install python-pyalsaaudio <br>
+      Last metadata expiration check: 0:00:44 ago on Wed Mar 14 11:15:23
+      2018.<br>
+      Error: <br>
+       Problem: conflicting requests<br>
+        - nothing provides alsa-lib needed by
+      python-pyalsaaudio-0.8.4-r0.1.core2_64<br>
+      <br>
+      ---<br>
+      The python-pyalsaaudio recipe in question did the following:<br>
+      <br>
+      DEPENDS += "alsa-lib"<br>
+      <br>
+      RDEPENDS_${PN} += "\<br>
+              alsa-lib \<br>
+      "<br>
+      <br>
+      Obviously since nothing provides that, it isn't going to work.  
+      It is probably better in this case to change the python recipe to
+      RDEPENDS on libasound which is what the alsa-lib recipe
+      generates.  I can understand how the author of the python recipe
+      might have been confused, but it begs the question of how it
+      worked in the first place.  :-)<br>
+      <br>
+      I can reach out to the owner of the layer that provided the recipe
+      and you can drop this patch. <br>
+      <br>
+      Jason. <br>
+      <br>
+      On 03/14/2018 09:51 AM, Burton, Ross wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LYc-dw8EUdC7Zcv_o4WfcE82P9JmVjhRUgX_S4m40h6wA@mail.gmail.com">
+      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">This sounds very odd.  Can you give an example of
+        this happening?
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 13 March 2018 at 03:08, Jason Wessel
+          <span dir="ltr">&lt;<a
+              href="mailto:jason.wessel@windriver.com" target="_blank"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote">There are a number of other
+            recipes outside oe-core that depend on<br>
+            alsa-lib and the rpm4 dependencies resolve sometimes to
+            include<br>
+            alsa-lib and the packages in the other layers fail to
+            install because<br>
+            the dependency cannot be resolved, despite the fact that
+            libasound is<br>
+            installed.<br>
+            <br>
+            The simple is to add an RPROVIDES for alsa-lib to libasound
+            which<br>
+            provides all the shared objects for alsa.<br>
+            <br>
+            Signed-off-by: Jason Wessel &lt;<a
+              href="mailto:jason.wessel@windriver.com"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
+            ---<br>
+             meta/recipes-multimedia/alsa/<a
+              href="http://alsa-lib_1.1.5.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">a<wbr>lsa-lib_1.1.5.bb</a>
+            | 1 +<br>
+             1 file changed, 1 insertion(+)<br>
+            <br>
+            diff --git a/meta/recipes-multimedia/<wbr>alsa/<a
+              href="http://alsa-lib_1.1.5.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">alsa-lib_1.1.5.bb</a>
+            b/meta/recipes-multimedia/<wbr>alsa/<a
+              href="http://alsa-lib_1.1.5.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">alsa-lib_1.1.5.bb</a><br>
+            index c5bf107..f7f01e8 100644<br>
+            --- a/meta/recipes-multimedia/<wbr>alsa/<a
+              href="http://alsa-lib_1.1.5.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">alsa-lib_1.1.5.bb</a><br>
+            +++ b/meta/recipes-multimedia/<wbr>alsa/<a
+              href="http://alsa-lib_1.1.5.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">alsa-lib_1.1.5.bb</a><br>
+            @@ -25,6 +25,7 @@ FILES_alsa-server = "${bindir}/*"<br>
+             FILES_alsa-conf = "${datadir}/alsa/"<br>
+            <br>
+             RDEPENDS_libasound = "alsa-conf"<br>
+            +RPROVIDES_libasound = "alsa-lib"<br>
+            <br>
+             # alsa-lib gets automatically added to alsa-lib-dev
+            dependencies, but the<br>
+             # alsa-lib package doesn't exist. libasound is the real
+            library package.<br>
+            <span class="HOEnZb">--<br>
+              2.7.4<br>
+              <br>
+              --<br>
+              ______________________________<wbr>_________________<br>
+              Openembedded-core mailing list<br>
+              <a href="mailto:Openembedded-core@lists.openembedded.org"
+                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+              <a
+                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+            </span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------9396CC0AE6466800EE97A730--
