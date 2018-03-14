@@ -1,49 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB8F788E6
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B31FF788BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 14:51:24 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id u5-v6so5097090itc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 07:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=noqBGClxpK+nKMDJ62I6/eQedktGjGparGG/ErDJGeo=;
-	b=T9FAa6sMFhqG/gOqubVBHn62YQLHDMdJ9yHv15NEVDzOMsl4kRqUdgbjWW/nb+u81t
-	xOTSqvq43arGXpdZacRUgjaXn5T+B/8Rs0yxDnfOEdR3cCUSoNwkn2v8aMvwaSNykVJB
-	JcuV7oy9EqW0NMsN7+m6LL8z3oI8LrwfppPynl+IdXfx11cIU7gROSgYbrXOmOdwKC4U
-	vRELmSnCSBatkAAX89oJwEpIP+wm/RZ9VzJPzadUfV9lH7dZSKuqeCRyKCvlpQ/kDe9s
-	vKjOEtCL/nMRk+N8MhjAV4sMYS3x8+GSIBs5umehh9BEa87RgW4zlDnHSBHUgqITyTCi
-	vYpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=noqBGClxpK+nKMDJ62I6/eQedktGjGparGG/ErDJGeo=;
-	b=soDdranRAKZ0fn33SMUdEDEMNoC3afLLPGG3YMlqfnywgQhl4M1kxr75Ag7LUn8GWQ
-	SiVvBtI7BvWrHifva/GuPOJfnrtPfWpWMyy+olAgDMO6DnRJqQ5QFRaMJzvwhF9lvAri
-	ri+yfqVWF7EMorap+kCkedkeEY/JsjtnJo92vJlcoc3/I7Ua8U67rUxfr6GPlX869fU2
-	1McWbmGaTyQDJcycKxpY65uTp012D7+B1wYTlvACqOx+S1iHSXrtTlA/Te1ZJgCxGix3
-	VI5xXz9MHOyNgl3Fr/XrPRTqsBUjupXbeTbT2iIk6/YvVV27Vc582kDxmnK9qbiclR5v
-	qm3A==
-X-Gm-Message-State: AElRT7FZSFj16yxQ0tG8Z0IUo6Cq+3JKW8JjIqqFEX57QysJ1hhw8yeG
-	i53hZVx+DR4Ski3OFmYZ/MUkBjUA2hVauoUaZz9rVA==
-X-Google-Smtp-Source: AG47ELtXOTIdGF+bilhKoTBEOncz0yEwqkmJUytCijpyfPKGSg7DbPzmGzfplSx+pgDBsMJEYPGdKBpYx4rhTFoKG8o=
-X-Received: by 2002:a24:2490:: with SMTP id
-	f138-v6mr2195534ita.131.1521039086074; 
-	Wed, 14 Mar 2018 07:51:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 14 Mar 2018 07:51:05 -0700 (PDT)
-In-Reply-To: <1520910506-1642-1-git-send-email-jason.wessel@windriver.com>
+	Wed, 14 Mar 2018 14:55:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2EEthDh027069
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 14 Mar 2018 07:55:43 -0700
+Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Mar 2018 07:55:01 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1520910506-1642-1-git-send-email-jason.wessel@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Mar 2018 14:51:05 +0000
-Message-ID: <CAJTo0LYc-dw8EUdC7Zcv_o4WfcE82P9JmVjhRUgX_S4m40h6wA@mail.gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
+	<1520910506-1642-2-git-send-email-jason.wessel@windriver.com>
+	<CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <060154ee-65b6-0c17-0f62-2af30a736456@windriver.com>
+Date: Wed, 14 Mar 2018 09:55:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] alsa-lib: Add an RPROVIDES for alsa-lib
+Subject: Re: [PATCH 2/3] boost: Fix link problems with caffe and Movidius SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,112 +36,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 14:51:25 -0000
-Content-Type: multipart/alternative; boundary="0000000000006a57f1056760823c"
+X-List-Received-Date: Wed, 14 Mar 2018 14:55:42 -0000
+Content-Type: multipart/alternative;
+	boundary="------------55C75C30D1B8C143996F9EF4"
+Content-Language: en-GB
 
---0000000000006a57f1056760823c
-Content-Type: text/plain; charset="UTF-8"
+--------------55C75C30D1B8C143996F9EF4
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This sounds very odd.  Can you give an example of this happening?
+Perhaps a bug in the cmake detect which is part of boost, because I am not using python2 for caffe.
 
-Ross
+I used the path of least resistance because as far as I could tell boost only let you build one or the other and in my case it was the python3 boost api. In the end caffe was working and all the python3 tests with the Movidius SDK pass (which use python3).
 
-On 13 March 2018 at 03:08, Jason Wessel <jason.wessel@windriver.com> wrote:
+Jason.
 
-> There are a number of other recipes outside oe-core that depend on
-> alsa-lib and the rpm4 dependencies resolve sometimes to include
-> alsa-lib and the packages in the other layers fail to install because
-> the dependency cannot be resolved, despite the fact that libasound is
-> installed.
+On 03/14/2018 09:50 AM, Burton, Ross wrote:
+> I thought that boost_python was the py2 binary, and boost_python3 was the py3 one?  Is this not a bug in caffe?
 >
-> The simple is to add an RPROVIDES for alsa-lib to libasound which
-> provides all the shared objects for alsa.
+> On 13 March 2018 at 03:08, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
 >
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb | 1 +
->  1 file changed, 1 insertion(+)
+>     When using an image built with the Yocto Project which has a compiler
+>     and all the required libraries, projects such as caffe for the
+>     Movidius SDK which use python3 and boost fail to build because they
+>     look for libboost_python.so.  The error that cmake returns doesn't
+>     even point to the fact that this is why the configuration fails.
 >
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> index c5bf107..f7f01e8 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.5.bb
-> @@ -25,6 +25,7 @@ FILES_alsa-server = "${bindir}/*"
->  FILES_alsa-conf = "${datadir}/alsa/"
+>     Example showing the problem with the missing symlink:
+>     ================
+>       git clone https://github.com/weiliu89/caffe.git <https://github.com/weiliu89/caffe.git>
+>       cd caffe
+>       mkdir build
+>       cd build
+>       cmake -DBLAS=Open ..
 >
->  RDEPENDS_libasound = "alsa-conf"
-> +RPROVIDES_libasound = "alsa-lib"
+>     -- Configuring done
+>     CMake Error at CMakeLists.txt:85 (add_dependencies):
+>       The dependency target "pycaffe" of target "pytest" does not exist.
+>     ================
 >
->  # alsa-lib gets automatically added to alsa-lib-dev dependencies, but the
->  # alsa-lib package doesn't exist. libasound is the real library package.
-> --
-> 2.7.4
+>     Conditionally creating the link when building python3 support into
+>     boost is all that is needed.
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
+>     ---
+>      meta/recipes-support/boost/boost.inc | 3 +++
+>      1 file changed, 3 insertions(+)
+>
+>     diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+>     index 0461ec6..c53edf7 100644
+>     --- a/meta/recipes-support/boost/boost.inc
+>     +++ b/meta/recipes-support/boost/boost.inc
+>     @@ -195,6 +195,9 @@ do_install() {
+>                     fi
+>             done
+>
+>     +       if [ -e ${D}${libdir}/libboost_python3.so ]; then
+>     +               ln -s libboost_python3.so ${D}${libdir}/libboost_python.so
+>     +       fi
+>      }
+>
+>      BBCLASSEXTEND = "native nativesdk"
+>     --
+>     2.7.4
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
 >
 
---0000000000006a57f1056760823c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This sounds very odd.=C2=A0 Can you give an example of thi=
-s happening?<div><br></div><div>Ross</div></div><div class=3D"gmail_extra">=
-<br><div class=3D"gmail_quote">On 13 March 2018 at 03:08, Jason Wessel <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:jason.wessel@windriver.com" target=3D"_=
-blank">jason.wessel@windriver.com</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">There are a number of other recipes outside oe-core that dep=
-end on<br>
-alsa-lib and the rpm4 dependencies resolve sometimes to include<br>
-alsa-lib and the packages in the other layers fail to install because<br>
-the dependency cannot be resolved, despite the fact that libasound is<br>
-installed.<br>
-<br>
-The simple is to add an RPROVIDES for alsa-lib to libasound which<br>
-provides all the shared objects for alsa.<br>
-<br>
-Signed-off-by: Jason Wessel &lt;<a href=3D"mailto:jason.wessel@windriver.co=
-m">jason.wessel@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-multimedia/alsa/<a href=3D"http://alsa-lib_1.1.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">a<wbr>lsa-lib_1.1.5.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-multimedia/<wbr>alsa/<a href=3D"http://alsa-lib_1=
-.1.5.bb" rel=3D"noreferrer" target=3D"_blank">alsa-lib_1.1.5.bb</a> b/meta/=
-recipes-multimedia/<wbr>alsa/<a href=3D"http://alsa-lib_1.1.5.bb" rel=3D"no=
-referrer" target=3D"_blank">alsa-lib_1.1.5.bb</a><br>
-index c5bf107..f7f01e8 100644<br>
---- a/meta/recipes-multimedia/<wbr>alsa/<a href=3D"http://alsa-lib_1.1.5.bb=
-" rel=3D"noreferrer" target=3D"_blank">alsa-lib_1.1.5.bb</a><br>
-+++ b/meta/recipes-multimedia/<wbr>alsa/<a href=3D"http://alsa-lib_1.1.5.bb=
-" rel=3D"noreferrer" target=3D"_blank">alsa-lib_1.1.5.bb</a><br>
-@@ -25,6 +25,7 @@ FILES_alsa-server =3D &quot;${bindir}/*&quot;<br>
-=C2=A0FILES_alsa-conf =3D &quot;${datadir}/alsa/&quot;<br>
-<br>
-=C2=A0RDEPENDS_libasound =3D &quot;alsa-conf&quot;<br>
-+RPROVIDES_libasound =3D &quot;alsa-lib&quot;<br>
-<br>
-=C2=A0# alsa-lib gets automatically added to alsa-lib-dev dependencies, but=
- the<br>
-=C2=A0# alsa-lib package doesn&#39;t exist. libasound is the real library p=
-ackage.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+--------------55C75C30D1B8C143996F9EF4
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---0000000000006a57f1056760823c--
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">Perhaps a bug in the cmake detect which
+      is part of boost, because I am not using python2 for caffe.<br>
+      <br>
+      I used the path of least resistance because as far as I could tell
+      boost only let you build one or the other and in my case it was
+      the python3 boost api. In the end caffe was working and all the
+      python3 tests with the Movidius SDK pass (which use python3).<br>
+      <br>
+      Jason. <br>
+      <br>
+      On 03/14/2018 09:50 AM, Burton, Ross wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com">
+      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">I thought that boost_python was the py2 binary, and
+        boost_python3 was the py3 one?  Is this not a bug in caffe?</div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 13 March 2018 at 03:08, Jason Wessel
+          <span dir="ltr">&lt;<a
+              href="mailto:jason.wessel@windriver.com" target="_blank"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote">When using an image built with
+            the Yocto Project which has a compiler<br>
+            and all the required libraries, projects such as caffe for
+            the<br>
+            Movidius SDK which use python3 and boost fail to build
+            because they<br>
+            look for libboost_python.so.  The error that cmake returns
+            doesn't<br>
+            even point to the fact that this is why the configuration
+            fails.<br>
+            <br>
+            Example showing the problem with the missing symlink:<br>
+            ================<br>
+              git clone <a href="https://github.com/weiliu89/caffe.git"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">https://github.com/weiliu89/<wbr>caffe.git</a><br>
+              cd caffe<br>
+              mkdir build<br>
+              cd build<br>
+              cmake -DBLAS=Open ..<br>
+            <br>
+            -- Configuring done<br>
+            CMake Error at CMakeLists.txt:85 (add_dependencies):<br>
+              The dependency target "pycaffe" of target "pytest" does
+            not exist.<br>
+            ================<br>
+            <br>
+            Conditionally creating the link when building python3
+            support into<br>
+            boost is all that is needed.<br>
+            <br>
+            Signed-off-by: Jason Wessel &lt;<a
+              href="mailto:jason.wessel@windriver.com"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
+            ---<br>
+             meta/recipes-support/boost/<wbr>boost.inc | 3 +++<br>
+             1 file changed, 3 insertions(+)<br>
+            <br>
+            diff --git a/meta/recipes-support/boost/<wbr>boost.inc
+            b/meta/recipes-support/boost/<wbr>boost.inc<br>
+            index 0461ec6..c53edf7 100644<br>
+            --- a/meta/recipes-support/boost/<wbr>boost.inc<br>
+            +++ b/meta/recipes-support/boost/<wbr>boost.inc<br>
+            @@ -195,6 +195,9 @@ do_install() {<br>
+                            fi<br>
+                    done<br>
+            <br>
+            +       if [ -e ${D}${libdir}/libboost_<wbr>python3.so ];
+            then<br>
+            +               ln -s libboost_python3.so
+            ${D}${libdir}/libboost_python.<wbr>so<br>
+            +       fi<br>
+             }<br>
+            <br>
+             BBCLASSEXTEND = "native nativesdk"<br>
+            <span class="HOEnZb">--<br>
+              2.7.4<br>
+              <br>
+              --<br>
+              ______________________________<wbr>_________________<br>
+              Openembedded-core mailing list<br>
+              <a href="mailto:Openembedded-core@lists.openembedded.org"
+                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+              <a
+                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+            </span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------55C75C30D1B8C143996F9EF4--
