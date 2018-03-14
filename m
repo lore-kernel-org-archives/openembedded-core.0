@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A344E788EF
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DFAC9780AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 16:55:01 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id f1so5187670iob.0
+	Wed, 14 Mar 2018 17:04:17 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id m83so5189166ioi.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 09:55:03 -0700 (PDT)
+	Wed, 14 Mar 2018 10:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9AvYlRQseI48LA8pQo4H9Zk/gmJhAOG/BpduEuepHaA=;
-	b=W43fWeN3h4vsKdkc4YYxdMuHd+qK/zDW+TB4nQi0N5WYH7BkO3T6QPeGUjh1hmOMLb
-	HUHrCyIlpRliG7NqhPLO4QAb+0RakJ8tWFo5QmyATEAN0wYtjQli2//U16r+ulPgqmS4
-	6lE5J316HHEy9PX9jvZwXMQOkRvfM1k+szTBZKvEOxMj6niHOUcDzNK/IB4E+1YFVr7x
-	kNql+7tr4tzx79v9KgcnQKr1HTgtuLbNkJvVPxLKmdoVlz2gjM6qbpUy/DgRWZimWuQr
-	KAvTvjZijuYmH4/qG61PsobXYfUaPIxx5EimlRV01R5criTkVf8HbymeZNBGt3vNcTYy
-	bAOw==
+	:cc; bh=cwyUFclDq2pPhcMR55rCP7qYOucKuwN1BksquBH3r4E=;
+	b=OSDb69rGpLavdKr03yQX24BJxjz42KdoL2r1k5sjt0uLZBuw/wfTZmAdeVAS3v0PIr
+	v4qEgQ9S01b1KKFSjRkod+EkPf2SykEjo5UAwgdIHJVy4MUs4g7TxyMCKE+/Qjr+Zzbo
+	LZ6RlIZqYWKHDew8TAWs/aELS7RrwyTZKNl7bu0DKhEda+Wa7RyP5ZllqudXCfCGZTlm
+	79YAJh8diF2l/gk5TiD25iBWi7TLgruZAvh1YG44t4f0LdqI3jyGguHnLt6AXzJWmcFo
+	ehGdktnyR4Jy2sx8y4hugkgc5gIOS6hrQereWXvIuiUbCbwGav0T2+0+OrWYkrwkvDeA
+	Tj+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9AvYlRQseI48LA8pQo4H9Zk/gmJhAOG/BpduEuepHaA=;
-	b=HgXOtkdOnN4vDXB/A/v28Mo1M9Rghk6W/uRcFlIPPjCthpvldMYay1yYy0fPsQibd2
-	8tGSXA4bms6jdzUUDmf8wlc5cujfu+zb2ELBc1EOUB2RW4a4Zh1IVMhGfEpQsDNx2xuL
-	zTtT5rsaO564rk1MMjT/YeXr/EoPUg+09+2GxPo9OhXvOCAxBAJC3N1vTufKst9Pkt8G
-	7LkxkxglpzhGe0GZiJon8+AmdUFGQGE/eAAodmGL/6L9kVqCV8EGRoE2oZXDivNIDpJ7
-	qFMLHXChpwpBhNbw6Zw9B/lvXgd/ujTLpHihQyswnMtBDsvxHLPweUIgvTH1c8Uql0rL
-	+nTQ==
-X-Gm-Message-State: AElRT7HsDddNfklblcO1JsxCPzdKkqga1U+o9LVv04SEWfcLsoiA7ny9
-	r2mRt09cocDg22XvVXnwR5FSzPuSbznnEZzdowDLCw==
-X-Google-Smtp-Source: AG47ELtwhwvi3z+/tYcRFvEt1zuI6yznz3PrQPqfzHIQpaFnDnIXrg3QhYP0Y66nAiJT8VP/hmWJcqcOADmPEQW343Y=
-X-Received: by 10.107.7.68 with SMTP id 65mr2531163ioh.216.1521046502801; Wed,
-	14 Mar 2018 09:55:02 -0700 (PDT)
+	bh=cwyUFclDq2pPhcMR55rCP7qYOucKuwN1BksquBH3r4E=;
+	b=qwaZccBeHHqV2lvL2/GZeIFCHh7UOmnxxOPsEhiowkyhBvhOvXyhB+qUV6T83UU1Nl
+	vPv0VF9PiM8b2+rJeNTeYSDx8st2z0x96BHPxgSNRPIy096kGJEZCoKf0s7m3k2y04MY
+	TfS8O2rfrVSXi+X9OUHnX7hgxRkw3KQSJspXj6W+OhQ1oSrQNoV7Z1K61WfqApJ4uAPk
+	MnqTk6HcOPpbJo9HyQYGSCWh6VBxMsn7+2HpU1yoDgxgTA5/ZxZJe+kteRr2XL8cgf+m
+	Bb3vsttoMKo3aQ3kAXr8f47YJCvBoiowhhIWo3D6/w00nnTgZH4YEtMhLVsUe2m9G9LU
+	yZsw==
+X-Gm-Message-State: AElRT7GHFxISOe6ZUkkOh1qZ+L+o4TSec8s7kBCNeDYrH+FKnxj55Ung
+	3WS+b4UoAOacQiU+n+OI2/KiB2zYNUXHYSjEI5RJvw==
+X-Google-Smtp-Source: AG47ELvHP80Krls4hx4JTuDOg3dgzmVGamEgIeHK0J63RSLpDsLYz95YBaOFe68Qgai/LNNHyNtBOiX6h7AzBQi9HtA=
+X-Received: by 10.107.6.231 with SMTP id f100mr5846808ioi.23.1521047059133;
+	Wed, 14 Mar 2018 10:04:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 14 Mar 2018 09:54:42 -0700 (PDT)
-In-Reply-To: <1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
-References: <1519965857-14794-1-git-send-email-anuj.mittal@intel.com>
-	<1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
+Received: by 10.107.30.9 with HTTP; Wed, 14 Mar 2018 10:03:58 -0700 (PDT)
+In-Reply-To: <1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
+References: <1519721818-32415-1-git-send-email-anuj.mittal@intel.com>
+	<1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Mar 2018 16:54:42 +0000
-Message-ID: <CAJTo0LbbK75Zh_h1TvAUeE=QLvFvN1NOREFKhay42-5eC2+yhg@mail.gmail.com>
+Date: Wed, 14 Mar 2018 17:03:58 +0000
+Message-ID: <CAJTo0LYQXYX9LxWdhyWXi19o2LP7Lha9=Fs-N1k=-M-e7Roc=w@mail.gmail.com>
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] perf: enable support for libaudit
+Subject: Re: [PATCH v2] gstreamer: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,73 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 16:55:02 -0000
-Content-Type: multipart/alternative; boundary="001a113f97307c9fa10567623c71"
+X-List-Received-Date: Wed, 14 Mar 2018 17:04:18 -0000
+Content-Type: multipart/alternative; boundary="001a113f9be4a5a62d0567625d61"
 
---001a113f97307c9fa10567623c71
+--001a113f9be4a5a62d0567625d61
 Content-Type: text/plain; charset="UTF-8"
 
-On 2 March 2018 at 04:44, Anuj Mittal <anuj.mittal@intel.com> wrote:
+On 28 February 2018 at 02:51, Anuj Mittal <anuj.mittal@intel.com> wrote:
 
->  # gui support was added with kernel 3.6.35
->  # since 3.10 libnewt was replaced by slang
->  # to cover a wide range of kernel we add both dependencies
-> @@ -22,6 +22,10 @@ PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
->  PACKAGECONFIG[systemtap] = ",NO_SDT=1,systemtap"
->  PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
+> +diff --git a/Makefile.am b/Makefile.am
+> +index de057c4..42e90fe 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -96,6 +96,9 @@ check-torture:
+> +
+> + build-checks:
+> +       $(MAKE) -C tests/check build-checks
+> ++
+> ++install-ptest:
+> ++      $(MAKE) -C tests/check DESTDIR=$(DESTDIR) $@
+> + else
+> + check-valgrind:
 >
-> +# libaudit support needs python to be present
-> +PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit python"
++       echo "'check' library not installed, skipping"
 >
 
-All you need in this patch is:
+I'd say not to bother patching the top-level and instead call the right
+makefile from do_install_ptest.
 
-+# audit needs scripting to be enabled.
-+PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit"
+++install-ptest: $(TESTS)
+> ++      @$(INSTALL) -d $(DESTDIR)
+> ++      @for dir in gst libs tools pipelines elements generic; do \
+> ++              if [ -x $$dir/.libs ]; then \
+> ++                      $(INSTALL) -d $(DESTDIR)/$$dir; \
+> ++                      $(INSTALL_PROGRAM) $$dir/.libs/*
+> $(DESTDIR)/$$dir/; \
+> ++              fi \
+> ++      done
+>
 
-The convoluted logic will only get more complicated over time, when a
-comment saying "if you want audit to work, turn on scripting" is sufficient.
-
-+PACKAGECONFIG_CONFARGS += "${@bb.utils.contains_any('PACKAGECONFIG',
-> 'scripting audit', '', 'NO_LIBPYTHON=1', d)}
-
-
-PACKAGECONFG_CONFAGS isn't for assigning in a recipe.
+Can this do string functions on TESTS instead of hard-coding the list of
+directories?
 
 Ross
 
---001a113f97307c9fa10567623c71
+--001a113f9be4a5a62d0567625d61
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 2 March 2018 at 04:44, Anuj Mittal <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@in=
-tel.com</a>&gt;</span> wrote:=C2=A0<div class=3D"gmail_extra"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
-204,204,204);padding-left:1ex">
-=C2=A0# gui support was added with kernel 3.6.35<br>
-=C2=A0# since 3.10 libnewt was replaced by slang<br>
-=C2=A0# to cover a wide range of kernel we add both dependencies<br>
-@@ -22,6 +22,10 @@ PACKAGECONFIG[libnuma] =3D &quot;,NO_LIBNUMA=3D1&quot;<b=
-r>
-=C2=A0PACKAGECONFIG[systemtap] =3D &quot;,NO_SDT=3D1,systemtap&quot;<br>
-=C2=A0PACKAGECONFIG[jvmti] =3D &quot;,NO_JVMTI=3D1&quot;<br>
-<br>
-+# libaudit support needs python to be present<br>
-+PACKAGECONFIG[audit] =3D &quot;,NO_LIBAUDIT=3D1,audit python&quot;<br></bl=
-ockquote><div><br></div><div>All you need in this patch is:</div><div><br><=
-/div><div>+# audit needs scripting to be enabled.</div><div>+PACKAGECONFIG[=
-audit] =3D &quot;,NO_LIBAUDIT=3D1,audit&quot;</div><div><br></div><div>The =
-convoluted logic will only get more complicated over time, when a comment s=
-aying &quot;if you want audit to work, turn on scripting&quot; is sufficien=
-t.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-c=
-olor:rgb(204,204,204);padding-left:1ex">
-+PACKAGECONFIG_CONFARGS +=3D &quot;${@bb.utils.contains_any(&#39;<wbr>PACKA=
-GECONFIG&#39;, &#39;scripting audit&#39;, &#39;&#39;, &#39;NO_LIBPYTHON=3D1=
-&#39;, d)}</blockquote><div><br></div><div>PACKAGECONFG_CONFAGS isn&#39;t f=
-or assigning in a recipe.</div><div><br></div><div>Ross</div></div></div></=
-div>
+<div dir=3D"ltr">On 28 February 2018 at 02:51, Anuj Mittal <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitta=
+l@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div =
+class=3D"h5">+diff --git a/Makefile.am b/Makefile.am<br>
++index de057c4..42e90fe 100644<br>
++--- a/Makefile.am<br>
+++++ b/Makefile.am<br>
++@@ -96,6 +96,9 @@ check-torture:<br>
++<br>
++ build-checks:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0$(MAKE) -C tests/check build-checks<br>
+++<br>
+++install-ptest:<br>
+++=C2=A0 =C2=A0 =C2=A0 $(MAKE) -C tests/check DESTDIR=3D$(DESTDIR) $@<br>
++ else<br>
++ check-valgrind:<span style=3D"color:rgb(34,34,34)">=C2=A0</span></div></d=
+iv></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div c=
+lass=3D"h5">+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;&#39;check&#39; library =
+not installed, skipping&quot;<br>
+</div></div></blockquote><div>=C2=A0</div><div>I&#39;d say not to bother pa=
+tching the top-level and instead call the right makefile from do_install_pt=
+est.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZ=
+b"><div class=3D"h5">++install-ptest: $(TESTS)<br>
+++=C2=A0 =C2=A0 =C2=A0 @$(INSTALL) -d $(DESTDIR)<br>
+++=C2=A0 =C2=A0 =C2=A0 @for dir in gst libs tools pipelines elements generi=
+c; do \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -x $$dir/.libs ]; t=
+hen \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 $(INSTALL) -d $(DESTDIR)/$$dir; \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 $(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi \<br>
+++=C2=A0 =C2=A0 =C2=A0 done<br></div></div></blockquote><div><br></div><div=
+>Can this do string functions on TESTS instead of hard-coding the list of d=
+irectories?</div><div><br></div><div>Ross</div></div></div></div>
 
---001a113f97307c9fa10567623c71--
+--001a113f9be4a5a62d0567625d61--
