@@ -1,29 +1,24 @@
-Return-Path: <jason.wessel@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B31FF788BA
+	by mail.openembedded.org (Postfix) with ESMTP id 7FF82788EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 14:55:42 +0000 (UTC)
+	Wed, 14 Mar 2018 15:10:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2EEthDh027069
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2EFAUBb027966
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 14 Mar 2018 07:55:43 -0700
-Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 14 Mar 2018 07:55:01 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1520910506-1642-1-git-send-email-jason.wessel@windriver.com>
-	<1520910506-1642-2-git-send-email-jason.wessel@windriver.com>
-	<CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <060154ee-65b6-0c17-0f62-2af30a736456@windriver.com>
-Date: Wed, 14 Mar 2018 09:55:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Wed, 14 Mar 2018 08:10:30 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 14 Mar 2018 08:09:49 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 14 Mar 2018 11:10:26 -0400
+Message-ID: <cover.1521040068.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] boost: Fix link problems with caffe and Movidius SDK
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] kernel: (mini) consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,184 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 14:55:42 -0000
-Content-Type: multipart/alternative;
-	boundary="------------55C75C30D1B8C143996F9EF4"
-Content-Language: en-GB
+X-List-Received-Date: Wed, 14 Mar 2018 15:10:31 -0000
+Content-Type: text/plain
 
---------------55C75C30D1B8C143996F9EF4
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi all,
 
-Perhaps a bug in the cmake detect which is part of boost, because I am not using python2 for caffe.
+This series is really about fixing the footprint and packaging issues
+that were reported after a systemtap configuration change. I've reverted
+the addition of DEBUG_KERNEL to the standard kernel's config and things
+should go back to normal.
 
-I used the path of least resistance because as far as I could tell boost only let you build one or the other and in my case it was the python3 boost api. In the end caffe was working and all the python3 tests with the Movidius SDK pass (which use python3).
+I also packaged a maintainers update (reported by Cal) and a couple of
+minor bug fixes in the series.
 
-Jason.
+Cheers,
 
-On 03/14/2018 09:50 AM, Burton, Ross wrote:
-> I thought that boost_python was the py2 binary, and boost_python3 was the py3 one?  Is this not a bug in caffe?
->
-> On 13 March 2018 at 03:08, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
->
->     When using an image built with the Yocto Project which has a compiler
->     and all the required libraries, projects such as caffe for the
->     Movidius SDK which use python3 and boost fail to build because they
->     look for libboost_python.so.  The error that cmake returns doesn't
->     even point to the fact that this is why the configuration fails.
->
->     Example showing the problem with the missing symlink:
->     ================
->       git clone https://github.com/weiliu89/caffe.git <https://github.com/weiliu89/caffe.git>
->       cd caffe
->       mkdir build
->       cd build
->       cmake -DBLAS=Open ..
->
->     -- Configuring done
->     CMake Error at CMakeLists.txt:85 (add_dependencies):
->       The dependency target "pycaffe" of target "pytest" does not exist.
->     ================
->
->     Conditionally creating the link when building python3 support into
->     boost is all that is needed.
->
->     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
->     ---
->      meta/recipes-support/boost/boost.inc | 3 +++
->      1 file changed, 3 insertions(+)
->
->     diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
->     index 0461ec6..c53edf7 100644
->     --- a/meta/recipes-support/boost/boost.inc
->     +++ b/meta/recipes-support/boost/boost.inc
->     @@ -195,6 +195,9 @@ do_install() {
->                     fi
->             done
->
->     +       if [ -e ${D}${libdir}/libboost_python3.so ]; then
->     +               ln -s libboost_python3.so ${D}${libdir}/libboost_python.so
->     +       fi
->      }
->
->      BBCLASSEXTEND = "native nativesdk"
->     --
->     2.7.4
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
+Bruce
+
+The following changes since commit 5350ee317740751f2417c1794dd39d3880347dbf:
+
+  yocto-uninative: Upgrade to 1.8 version with glibc 2.27 (2018-03-11 06:27:02 -0700)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/4.14/4.15: revert "features/systemtap/systemtap.cfg:
+    enable CONFIG_KERNEL_DEBUG"
+  maintainers: add maintainer for make-mod-scripts
+  linux-yocto/4.12: backport bugfixes for x86
+
+ meta/conf/distro/include/maintainers.inc           |  1 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      |  2 +-
+ 10 files changed, 17 insertions(+), 16 deletions(-)
+
+-- 
+2.5.0
 
 
---------------55C75C30D1B8C143996F9EF4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">Perhaps a bug in the cmake detect which
-      is part of boost, because I am not using python2 for caffe.<br>
-      <br>
-      I used the path of least resistance because as far as I could tell
-      boost only let you build one or the other and in my case it was
-      the python3 boost api. In the end caffe was working and all the
-      python3 tests with the Movidius SDK pass (which use python3).<br>
-      <br>
-      Jason. <br>
-      <br>
-      On 03/14/2018 09:50 AM, Burton, Ross wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com">
-      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">I thought that boost_python was the py2 binary, and
-        boost_python3 was the py3 one?  Is this not a bug in caffe?</div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On 13 March 2018 at 03:08, Jason Wessel
-          <span dir="ltr">&lt;<a
-              href="mailto:jason.wessel@windriver.com" target="_blank"
-              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote">When using an image built with
-            the Yocto Project which has a compiler<br>
-            and all the required libraries, projects such as caffe for
-            the<br>
-            Movidius SDK which use python3 and boost fail to build
-            because they<br>
-            look for libboost_python.so.  The error that cmake returns
-            doesn't<br>
-            even point to the fact that this is why the configuration
-            fails.<br>
-            <br>
-            Example showing the problem with the missing symlink:<br>
-            ================<br>
-              git clone <a href="https://github.com/weiliu89/caffe.git"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">https://github.com/weiliu89/<wbr>caffe.git</a><br>
-              cd caffe<br>
-              mkdir build<br>
-              cd build<br>
-              cmake -DBLAS=Open ..<br>
-            <br>
-            -- Configuring done<br>
-            CMake Error at CMakeLists.txt:85 (add_dependencies):<br>
-              The dependency target "pycaffe" of target "pytest" does
-            not exist.<br>
-            ================<br>
-            <br>
-            Conditionally creating the link when building python3
-            support into<br>
-            boost is all that is needed.<br>
-            <br>
-            Signed-off-by: Jason Wessel &lt;<a
-              href="mailto:jason.wessel@windriver.com"
-              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-support/boost/<wbr>boost.inc | 3 +++<br>
-             1 file changed, 3 insertions(+)<br>
-            <br>
-            diff --git a/meta/recipes-support/boost/<wbr>boost.inc
-            b/meta/recipes-support/boost/<wbr>boost.inc<br>
-            index 0461ec6..c53edf7 100644<br>
-            --- a/meta/recipes-support/boost/<wbr>boost.inc<br>
-            +++ b/meta/recipes-support/boost/<wbr>boost.inc<br>
-            @@ -195,6 +195,9 @@ do_install() {<br>
-                            fi<br>
-                    done<br>
-            <br>
-            +       if [ -e ${D}${libdir}/libboost_<wbr>python3.so ];
-            then<br>
-            +               ln -s libboost_python3.so
-            ${D}${libdir}/libboost_python.<wbr>so<br>
-            +       fi<br>
-             }<br>
-            <br>
-             BBCLASSEXTEND = "native nativesdk"<br>
-            <span class="HOEnZb">--<br>
-              2.7.4<br>
-              <br>
-              --<br>
-              ______________________________<wbr>_________________<br>
-              Openembedded-core mailing list<br>
-              <a href="mailto:Openembedded-core@lists.openembedded.org"
-                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-              <a
-                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-            </span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------55C75C30D1B8C143996F9EF4--
