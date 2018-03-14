@@ -1,49 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DFAC9780AA
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6535278854
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 17:04:17 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id m83so5189166ioi.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 10:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cwyUFclDq2pPhcMR55rCP7qYOucKuwN1BksquBH3r4E=;
-	b=OSDb69rGpLavdKr03yQX24BJxjz42KdoL2r1k5sjt0uLZBuw/wfTZmAdeVAS3v0PIr
-	v4qEgQ9S01b1KKFSjRkod+EkPf2SykEjo5UAwgdIHJVy4MUs4g7TxyMCKE+/Qjr+Zzbo
-	LZ6RlIZqYWKHDew8TAWs/aELS7RrwyTZKNl7bu0DKhEda+Wa7RyP5ZllqudXCfCGZTlm
-	79YAJh8diF2l/gk5TiD25iBWi7TLgruZAvh1YG44t4f0LdqI3jyGguHnLt6AXzJWmcFo
-	ehGdktnyR4Jy2sx8y4hugkgc5gIOS6hrQereWXvIuiUbCbwGav0T2+0+OrWYkrwkvDeA
-	Tj+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cwyUFclDq2pPhcMR55rCP7qYOucKuwN1BksquBH3r4E=;
-	b=qwaZccBeHHqV2lvL2/GZeIFCHh7UOmnxxOPsEhiowkyhBvhOvXyhB+qUV6T83UU1Nl
-	vPv0VF9PiM8b2+rJeNTeYSDx8st2z0x96BHPxgSNRPIy096kGJEZCoKf0s7m3k2y04MY
-	TfS8O2rfrVSXi+X9OUHnX7hgxRkw3KQSJspXj6W+OhQ1oSrQNoV7Z1K61WfqApJ4uAPk
-	MnqTk6HcOPpbJo9HyQYGSCWh6VBxMsn7+2HpU1yoDgxgTA5/ZxZJe+kteRr2XL8cgf+m
-	Bb3vsttoMKo3aQ3kAXr8f47YJCvBoiowhhIWo3D6/w00nnTgZH4YEtMhLVsUe2m9G9LU
-	yZsw==
-X-Gm-Message-State: AElRT7GHFxISOe6ZUkkOh1qZ+L+o4TSec8s7kBCNeDYrH+FKnxj55Ung
-	3WS+b4UoAOacQiU+n+OI2/KiB2zYNUXHYSjEI5RJvw==
-X-Google-Smtp-Source: AG47ELvHP80Krls4hx4JTuDOg3dgzmVGamEgIeHK0J63RSLpDsLYz95YBaOFe68Qgai/LNNHyNtBOiX6h7AzBQi9HtA=
-X-Received: by 10.107.6.231 with SMTP id f100mr5846808ioi.23.1521047059133;
-	Wed, 14 Mar 2018 10:04:19 -0700 (PDT)
+	Wed, 14 Mar 2018 18:55:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2EItTBG024166
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 Mar 2018 11:55:29 -0700 (PDT)
+Received: from [172.25.59.213] (172.25.59.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 14 Mar 2018 11:54:48 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1520910506-1642-1-git-send-email-jason.wessel@windriver.com>
+	<1520910506-1642-2-git-send-email-jason.wessel@windriver.com>
+	<CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com>
+	<060154ee-65b6-0c17-0f62-2af30a736456@windriver.com>
+Message-ID: <642945d0-8300-34f5-7112-746f735cb573@windriver.com>
+Date: Wed, 14 Mar 2018 13:55:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 14 Mar 2018 10:03:58 -0700 (PDT)
-In-Reply-To: <1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
-References: <1519721818-32415-1-git-send-email-anuj.mittal@intel.com>
-	<1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Mar 2018 17:03:58 +0000
-Message-ID: <CAJTo0LYQXYX9LxWdhyWXi19o2LP7Lha9=Fs-N1k=-M-e7Roc=w@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
+In-Reply-To: <060154ee-65b6-0c17-0f62-2af30a736456@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] gstreamer: enable ptest support
+Subject: Re: [PATCH 2/3] boost: Fix link problems with caffe and Movidius SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,93 +37,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 17:04:18 -0000
-Content-Type: multipart/alternative; boundary="001a113f9be4a5a62d0567625d61"
+X-List-Received-Date: Wed, 14 Mar 2018 18:55:28 -0000
+Content-Type: multipart/alternative;
+	boundary="------------077D2A259700B29F75373F4F"
+Content-Language: en-GB
 
---001a113f9be4a5a62d0567625d61
-Content-Type: text/plain; charset="UTF-8"
+--------------077D2A259700B29F75373F4F
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 28 February 2018 at 02:51, Anuj Mittal <anuj.mittal@intel.com> wrote:
 
-> +diff --git a/Makefile.am b/Makefile.am
-> +index de057c4..42e90fe 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -96,6 +96,9 @@ check-torture:
-> +
-> + build-checks:
-> +       $(MAKE) -C tests/check build-checks
-> ++
-> ++install-ptest:
-> ++      $(MAKE) -C tests/check DESTDIR=$(DESTDIR) $@
-> + else
-> + check-valgrind:
+I can't seem to find where cmake's python checker magically decides the name of the shared object, but I did find an override, so you can drop the patch.   I had even gone so far as to simply make a zero length file instead of the symlink, and everything still built and run.  It is just some cmake detection which is broken.  The ubuntu/debian systems where this code is heavily tested all provide a link for the libboost_python.so which explains why this never turned up previously.  They don't get the option to pick python2 or python3 for boost, they always get both for now.
+
+The override to build with python boost for cmake and caffe is as follows:
+
+cmake -DBoost_PYTHON_LIBRARY_DEBUG=/usr/lib64/libboost_python3.so \
+    -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib64/libboost_python3.so \
+    -DBLAS=Open \
+    ..
+
+
+Cheers,
+Jason.
+
+
+On 03/14/2018 09:55 AM, Jason Wessel wrote:
+> Perhaps a bug in the cmake detect which is part of boost, because I am not using python2 for caffe.
 >
-+       echo "'check' library not installed, skipping"
+> I used the path of least resistance because as far as I could tell boost only let you build one or the other and in my case it was the python3 boost api. In the end caffe was working and all the python3 tests with the Movidius SDK pass (which use python3).
+>
+> Jason.
+>
+> On 03/14/2018 09:50 AM, Burton, Ross wrote:
+>> I thought that boost_python was the py2 binary, and boost_python3 was the py3 one?  Is this not a bug in caffe?
+>>
+>> On 13 March 2018 at 03:08, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
+>>
+>>     When using an image built with the Yocto Project which has a compiler
+>>     and all the required libraries, projects such as caffe for the
+>>     Movidius SDK which use python3 and boost fail to build because they
+>>     look for libboost_python.so.  The error that cmake returns doesn't
+>>     even point to the fact that this is why the configuration fails.
+>>
+>>     Example showing the problem with the missing symlink:
+>>     ================
+>>       git clone https://github.com/weiliu89/caffe.git <https://github.com/weiliu89/caffe.git>
+>>       cd caffe
+>>       mkdir build
+>>       cd build
+>>       cmake -DBLAS=Open ..
+>>
+>>     -- Configuring done
+>>     CMake Error at CMakeLists.txt:85 (add_dependencies):
+>>       The dependency target "pycaffe" of target "pytest" does not exist.
+>>     ================
+>>
+>>     Conditionally creating the link when building python3 support into
+>>     boost is all that is needed.
+>>
+>>     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
+>>     ---
+>>      meta/recipes-support/boost/boost.inc | 3 +++
+>>      1 file changed, 3 insertions(+)
+>>
+>>     diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+>>     index 0461ec6..c53edf7 100644
+>>     --- a/meta/recipes-support/boost/boost.inc
+>>     +++ b/meta/recipes-support/boost/boost.inc
+>>     @@ -195,6 +195,9 @@ do_install() {
+>>                     fi
+>>             done
+>>
+>>     +       if [ -e ${D}${libdir}/libboost_python3.so ]; then
+>>     +               ln -s libboost_python3.so ${D}${libdir}/libboost_python.so
+>>     +       fi
+>>      }
+>>
+>>      BBCLASSEXTEND = "native nativesdk"
+>>     --
+>>     2.7.4
+>>
+>>     --
+>>     _______________________________________________
+>>     Openembedded-core mailing list
+>>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>>
+>>
 >
 
-I'd say not to bother patching the top-level and instead call the right
-makefile from do_install_ptest.
 
-++install-ptest: $(TESTS)
-> ++      @$(INSTALL) -d $(DESTDIR)
-> ++      @for dir in gst libs tools pipelines elements generic; do \
-> ++              if [ -x $$dir/.libs ]; then \
-> ++                      $(INSTALL) -d $(DESTDIR)/$$dir; \
-> ++                      $(INSTALL_PROGRAM) $$dir/.libs/*
-> $(DESTDIR)/$$dir/; \
-> ++              fi \
-> ++      done
->
+--------------077D2A259700B29F75373F4F
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Can this do string functions on TESTS instead of hard-coding the list of
-directories?
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix"><br>
+      I can't seem to find where cmake's python checker magically
+      decides the name of the shared object, but I did find an override,
+      so you can drop the patch.   I had even gone so far as to simply
+      make a zero length file instead of the symlink, and everything
+      still built and run.  It is just some cmake detection which is
+      broken.  The ubuntu/debian systems where this code is heavily
+      tested all provide a link for the libboost_python.so which
+      explains why this never turned up previously.  They don't get the
+      option to pick python2 or python3 for boost, they always get both
+      for now.<br>
+      <br>
+      The override to build with python boost for cmake and caffe is as
+      follows:<br>
+      <br>
+      cmake -DBoost_PYTHON_LIBRARY_DEBUG=/usr/lib64/libboost_python3.so
+      \<br>
+         -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib64/libboost_python3.so \<br>
+         -DBLAS=Open \<br>
+         ..<br>
+      <br>
+      <br>
+      Cheers,<br>
+      Jason. <br>
+      <br>
+      <br>
+      On 03/14/2018 09:55 AM, Jason Wessel wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:060154ee-65b6-0c17-0f62-2af30a736456@windriver.com">
+      <meta http-equiv="Context-Type" content="text/html; charset=utf-8">
+      <div class="moz-cite-prefix">Perhaps a bug in the cmake detect
+        which is part of boost, because I am not using python2 for
+        caffe.<br>
+        <br>
+        I used the path of least resistance because as far as I could
+        tell boost only let you build one or the other and in my case it
+        was the python3 boost api. In the end caffe was working and all
+        the python3 tests with the Movidius SDK pass (which use
+        python3).<br>
+        <br>
+        Jason. <br>
+        <br>
+        On 03/14/2018 09:50 AM, Burton, Ross wrote:<br>
+      </div>
+      <blockquote type="cite"
+cite="mid:CAJTo0La0oaau5ugOzT=k9fdGQx3PpgsPQxm+KGiGJyU06kwoKg@mail.gmail.com">
+        <div dir="ltr">I thought that boost_python was the py2 binary,
+          and boost_python3 was the py3 one?  Is this not a bug in
+          caffe?</div>
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 13 March 2018 at 03:08, Jason
+            Wessel <span dir="ltr">&lt;<a
+                href="mailto:jason.wessel@windriver.com" target="_blank"
+                moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote">When using an image built
+              with the Yocto Project which has a compiler<br>
+              and all the required libraries, projects such as caffe for
+              the<br>
+              Movidius SDK which use python3 and boost fail to build
+              because they<br>
+              look for libboost_python.so.  The error that cmake returns
+              doesn't<br>
+              even point to the fact that this is why the configuration
+              fails.<br>
+              <br>
+              Example showing the problem with the missing symlink:<br>
+              ================<br>
+                git clone <a
+                href="https://github.com/weiliu89/caffe.git"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">https://github.com/weiliu89/<wbr>caffe.git</a><br>
+                cd caffe<br>
+                mkdir build<br>
+                cd build<br>
+                cmake -DBLAS=Open ..<br>
+              <br>
+              -- Configuring done<br>
+              CMake Error at CMakeLists.txt:85 (add_dependencies):<br>
+                The dependency target "pycaffe" of target "pytest" does
+              not exist.<br>
+              ================<br>
+              <br>
+              Conditionally creating the link when building python3
+              support into<br>
+              boost is all that is needed.<br>
+              <br>
+              Signed-off-by: Jason Wessel &lt;<a
+                href="mailto:jason.wessel@windriver.com"
+                moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
+              ---<br>
+               meta/recipes-support/boost/<wbr>boost.inc | 3 +++<br>
+               1 file changed, 3 insertions(+)<br>
+              <br>
+              diff --git a/meta/recipes-support/boost/<wbr>boost.inc
+              b/meta/recipes-support/boost/<wbr>boost.inc<br>
+              index 0461ec6..c53edf7 100644<br>
+              --- a/meta/recipes-support/boost/<wbr>boost.inc<br>
+              +++ b/meta/recipes-support/boost/<wbr>boost.inc<br>
+              @@ -195,6 +195,9 @@ do_install() {<br>
+                              fi<br>
+                      done<br>
+              <br>
+              +       if [ -e ${D}${libdir}/libboost_<wbr>python3.so ];
+              then<br>
+              +               ln -s libboost_python3.so
+              ${D}${libdir}/libboost_python.<wbr>so<br>
+              +       fi<br>
+               }<br>
+              <br>
+               BBCLASSEXTEND = "native nativesdk"<br>
+              <span class="HOEnZb">--<br>
+                2.7.4<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a
+                  href="mailto:Openembedded-core@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </span></blockquote>
+          </div>
+          <br>
+        </div>
+      </blockquote>
+      <p><br>
+      </p>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
 
-Ross
-
---001a113f9be4a5a62d0567625d61
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 28 February 2018 at 02:51, Anuj Mittal <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitta=
-l@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div =
-class=3D"h5">+diff --git a/Makefile.am b/Makefile.am<br>
-+index de057c4..42e90fe 100644<br>
-+--- a/Makefile.am<br>
-++++ b/Makefile.am<br>
-+@@ -96,6 +96,9 @@ check-torture:<br>
-+<br>
-+ build-checks:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$(MAKE) -C tests/check build-checks<br>
-++<br>
-++install-ptest:<br>
-++=C2=A0 =C2=A0 =C2=A0 $(MAKE) -C tests/check DESTDIR=3D$(DESTDIR) $@<br>
-+ else<br>
-+ check-valgrind:<span style=3D"color:rgb(34,34,34)">=C2=A0</span></div></d=
-iv></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div c=
-lass=3D"h5">+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;&#39;check&#39; library =
-not installed, skipping&quot;<br>
-</div></div></blockquote><div>=C2=A0</div><div>I&#39;d say not to bother pa=
-tching the top-level and instead call the right makefile from do_install_pt=
-est.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZ=
-b"><div class=3D"h5">++install-ptest: $(TESTS)<br>
-++=C2=A0 =C2=A0 =C2=A0 @$(INSTALL) -d $(DESTDIR)<br>
-++=C2=A0 =C2=A0 =C2=A0 @for dir in gst libs tools pipelines elements generi=
-c; do \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -x $$dir/.libs ]; t=
-hen \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 $(INSTALL) -d $(DESTDIR)/$$dir; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 $(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi \<br>
-++=C2=A0 =C2=A0 =C2=A0 done<br></div></div></blockquote><div><br></div><div=
->Can this do string functions on TESTS instead of hard-coding the list of d=
-irectories?</div><div><br></div><div>Ross</div></div></div></div>
-
---001a113f9be4a5a62d0567625d61--
+--------------077D2A259700B29F75373F4F--
