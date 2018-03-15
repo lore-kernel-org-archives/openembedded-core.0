@@ -1,49 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f47.google.com (mail-pl0-f47.google.com
-	[209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C264A787F1
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5902060069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 02:00:00 +0000 (UTC)
-Received: by mail-pl0-f47.google.com with SMTP id c11-v6so2832628plo.0
+	Thu, 15 Mar 2018 02:02:44 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="37832267"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Mar 2018 10:02:45 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 745FF4D0EFFC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 19:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QOfhXoo6EMe3WQTCF1Hdxunb/Mk1CCx18mwEhYNiqOo=;
-	b=QtFsmPANhWHQN9NGMIlSXYZcNkdOEwMobgw1Eqcsy/2iYDGL0vnUN4P9cbmHBrMTih
-	RH2j2Ov5+0Gg1UYGcfPDu/ynZg44R6B8poVjWH8b4SpYe7r6yWqiyeNnsQzZJqOTUfZt
-	v0AL3YYvPsrSLIVUbvQqchxwDVe3D+B7ijRt4G0aje5NBlmB3D2w8LZGN6DqhU6/u5YQ
-	tNL1faJhSYCR0ix1iVrq+S08vfR9xVq6iKBUOIr/0wjZEKTxrF0E4KcJtA6C8REGgLzx
-	ylpwlpAOAIwxlbi6rBzdEGnARb/qygL4R2EZqT9Gfw/nJ5E9pYOfX2LwC/TTVH7Pd1PL
-	cWmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QOfhXoo6EMe3WQTCF1Hdxunb/Mk1CCx18mwEhYNiqOo=;
-	b=dBXS11lYw27NeruF7XYxKEcUz2u/RY1I+ESnuDGgbkZuddyRD1qrIdw5T0ifP9879E
-	ewIk+RK3Pmlh5F7JrpZc7NIw+W2ynAaaPsMM01kKXOOn8FfSBlzwboPa86eGo1fOR39R
-	h9UxMGMLBxGAINkl8eiheswrhkbx2SoDd1xlw9PoxRImzOczLrFgufbn410LpQ9UePYt
-	A9nFWXkM/04hcCorul25vZJGv/I73HXIdwhFj881sSVRo09s0/guQ0i6Md5zcU2tEajO
-	5w7lKkUltnYCOoiZYkFL4Q3Nasi++CWVi+lr8+JqK3vbkoFyiIw3Taa5r1wc3KBO4U63
-	KS0A==
-X-Gm-Message-State: AElRT7GlOa6N6S+hzD+GCFo3+0tMtB4QBC7jMyCAjKKXKRCUcB2aTm2S
-	Ay3nCc2FgQeD8stpVUXMVlstCTjLTBJ+KToa+io=
-X-Google-Smtp-Source: AG47ELt8PJQSsGKTNVq+8YjjCgOlrDF90awnUeLVP6PpXo34FLtTNcptg3AOSHPNOic5Ck+kMHKOex1Su/zddhLG4KU=
-X-Received: by 2002:a17:902:63:: with SMTP id
-	90-v6mr6212124pla.125.1521079202011; 
-	Wed, 14 Mar 2018 19:00:02 -0700 (PDT)
+	Thu, 15 Mar 2018 10:02:41 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Thu, 15 Mar 2018 10:02:41 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Mar 2018 10:02:40 +0800
+Message-ID: <1521079360-25393-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20180315014848.14279-1-raj.khem@gmail.com>
-	<CABcZANnzr1Xpw+Xc0=Wr-HCi95Er-GU+zOLPKj81S33GEnUW0w@mail.gmail.com>
-In-Reply-To: <CABcZANnzr1Xpw+Xc0=Wr-HCi95Er-GU+zOLPKj81S33GEnUW0w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 Mar 2018 01:59:51 +0000
-Message-ID: <CAMKF1sqVTJXwHNDPoZ66b7DXCjdGCWsx+0=2ay4dRttOBO+aDw@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Do not use --with-linker-hash-style if LINKER_HASH_STYLE is empty
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 745FF4D0EFFC.A918B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] slang: 2.3.1a -> 2.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,109 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 02:00:00 -0000
-Content-Type: multipart/alternative; boundary="00000000000082e001056769d9da"
+X-List-Received-Date: Thu, 15 Mar 2018 02:02:45 -0000
+Content-Type: text/plain
 
---00000000000082e001056769d9da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Upgrade slang from 2.3.1a to 2.3.2.
 
-On Wed, Mar 14, 2018 at 6:57 PM Christopher Larson <kergoth@gmail.com>
-wrote:
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/slang/{slang_2.3.1a.bb => slang_2.3.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/slang/{slang_2.3.1a.bb => slang_2.3.2.bb} (95%)
 
-> On Wed, Mar 14, 2018 at 6:48 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> We allow to set LINKER_HASH_STYLE to be empty so this would fail
->> since --with-linker-hash-style needs an argument and cant be empty
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-devtools/gcc/gcc-7.3.inc | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc
->> b/meta/recipes-devtools/gcc/gcc-7.3.inc
->> index d56d2c5e06..cc428ad3ef 100644
->> --- a/meta/recipes-devtools/gcc/gcc-7.3.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
->> @@ -100,7 +100,7 @@ EXTRA_OECONF_BASE =3D "\
->>      --disable-bootstrap \
->>      --disable-libmudflap \
->>      --with-system-zlib \
->> -    --with-linker-hash-style=3D${LINKER_HASH_STYLE} \
->> +
->> ${@['','--with-linker-hash-style=3D${LINKER_HASH_STYLE}'][d.getVar('LINK=
-ER_HASH_STYLE')
->> !=3D '']} \
->>
->
-> That syntax was a hack around the fact that python didn=E2=80=99t have in=
-line if
-> statements at the time we started the project, but it does now:
->
->     ${@=E2=80=98=E2=80=94with-linker-hash-style=3D${LINKER_HASH_STYLE}=E2=
-=80=99 if
-> =E2=80=98${LINKER_HASH_STYLE}=E2=80=99 else =E2=80=98'}
->
+diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.2.bb
+similarity index 95%
+rename from meta/recipes-extended/slang/slang_2.3.1a.bb
+rename to meta/recipes-extended/slang/slang_2.3.2.bb
+index 0585c14..87fd41a 100644
+--- a/meta/recipes-extended/slang/slang_2.3.1a.bb
++++ b/meta/recipes-extended/slang/slang_2.3.2.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
+            file://run-ptest \
+           "
+ 
+-SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
+-SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021f08c36"
++SRC_URI[md5sum] = "c2d5a7aa0246627da490be4e399c87cb"
++SRC_URI[sha256sum] = "fc9e3b0fc4f67c3c1f6d43c90c16a5c42d117b8e28457c5b46831b8b5d3ae31a"
+ 
+ UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
+ PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
+-- 
+2.7.4
 
-Yes that looks more elegant I will test it out and send another patch
 
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
->
 
---00000000000082e001056769d9da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Wed, Mar 14, 2018 =
-at 6:57 PM Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.com">kerg=
-oth@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><=
-div class=3D"gmail_extra"><div class=3D"gmail_quote">On Wed, Mar 14, 2018 a=
-t 6:48 PM, Khem Raj <span>&lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">We allow to set LINKER_HASH_STYLE to be empty so this would f=
-ail<br>
-since --with-linker-hash-style needs an argument and cant be empty<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gcc/gcc-7.3.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/=
-gcc/gcc-7.3.inc<br>
-index d56d2c5e06..cc428ad3ef 100644<br>
---- a/meta/recipes-devtools/gcc/gcc-7.3.inc<br>
-+++ b/meta/recipes-devtools/gcc/gcc-7.3.inc<br>
-@@ -100,7 +100,7 @@ EXTRA_OECONF_BASE =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0--disable-bootstrap \<br>
-=C2=A0 =C2=A0 =C2=A0--disable-libmudflap \<br>
-=C2=A0 =C2=A0 =C2=A0--with-system-zlib \<br>
--=C2=A0 =C2=A0 --with-linker-hash-style=3D${LINKER_HASH_STYLE} \<br>
-+=C2=A0 =C2=A0 ${@[&#39;&#39;,&#39;--with-linker-hash-style=3D${LINKER_HASH=
-_STYLE}&#39;][d.getVar(&#39;LINKER_HASH_STYLE&#39;) !=3D &#39;&#39;]} \<br>=
-</blockquote><div><br></div></div></div></div><div><div class=3D"gmail_extr=
-a"><div class=3D"gmail_quote"><div>That syntax was a hack around the fact t=
-hat python didn=E2=80=99t have inline if statements at the time we started =
-the project, but it does now:</div><div><br></div><div>=C2=A0 =C2=A0 ${@=E2=
-=80=98=E2=80=94with-linker-hash-style=3D${LINKER_HASH_STYLE}=E2=80=99 if =
-=E2=80=98${LINKER_HASH_STYLE}=E2=80=99 else =E2=80=98&#39;}</div></div></di=
-v></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes that=
- looks more elegant I will test it out and send another patch=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><div><div class=3D"gmail_extra"><div class=3D"=
-gmail_quote"><div></div></div></div></div><div><div class=3D"gmail_extra">-=
-- <br><div class=3D"m_-6433377919948742872gmail_signature" data-smartmail=
-=3D"gmail_signature"><div><div><div>Christopher Larson<br>kergoth at gmail =
-dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software E=
-ngineer, Mentor Graphics</div></div></div></div>
-</div></div></blockquote></div></div>
-
---00000000000082e001056769d9da--
