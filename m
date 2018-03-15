@@ -1,45 +1,24 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id A0261788E1
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A619D6FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 17:17:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1521134221; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=1cyWgb2V48L81JmK1iwQyI763MAG+NrzRR1FFpgScMM=;
-	b=AsrzIJO4QntVxjB9NbE3jVfP/03XHBYpi0qqCXIYmbIyLKwvtQhL8XqiUN0BeE3NH23yIGRt
-	0HRIU2WlhIYRzLEn7fp6UdYGcL8T6/ybfTLCD+uZvT3qHJLABYtCXHZ/5TEY47OeljiXFLv6
-	7lEn2XXxubq8v4gzj/l5+q5sMOc=
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-X-Mailgun-Sending-Ip: 104.130.122.4
-Sender: derek@asterius.io
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mxa.mailgun.org with ESMTP id 5aaaaa8d.7ff25814a4f0-smtp-out-n03;
-	Thu, 15 Mar 2018 17:17:01 -0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id h23so9434553iob.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 10:17:01 -0700 (PDT)
-X-Gm-Message-State: AElRT7GVI8G/sHptpOd5P5AjzeTIr/ohCCjqMCa+yJxzXW+FRDmLMSb0
-	KTaA34Z5exOgitduXbsFA5B/Fyba07WaWCne4L4=
-X-Google-Smtp-Source: AG47ELtL98IdALmZbCTH6E6sLJo3l4sUA1WyQxfezIwed5ijXu+3ajWCYKeG4RpmyC8PpooyQq1QCO/kt5wnY1pqa38=
-X-Received: by 10.107.28.203 with SMTP id c194mr3534065ioc.30.1521134220762;
-	Thu, 15 Mar 2018 10:17:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.140.74 with HTTP; Thu, 15 Mar 2018 10:16:59 -0700 (PDT)
-In-Reply-To: <c44dd7f9-8f0b-c19b-311e-8364171c8cb3@linux.intel.com>
-References: <1520806702-5879-1-git-send-email-derek@asterius.io>
-	<0fbe649e-846b-0446-64c1-587fa1221a9f@linux.intel.com>
-	<CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
-	<c44dd7f9-8f0b-c19b-311e-8364171c8cb3@linux.intel.com>
-From: Derek Straka <derek@asterius.io>
-Date: Thu, 15 Mar 2018 13:16:59 -0400
-X-Gmail-Original-Message-ID: <CADNbA1ontzC-45M0e01w1NE=+U01WRqsn-tGuj+j9+1++2ANoA@mail.gmail.com>
-Message-ID: <CADNbA1ontzC-45M0e01w1NE=+U01WRqsn-tGuj+j9+1++2ANoA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] python3: update to version 3.5.5 to fix security issues
+	Thu, 15 Mar 2018 17:30:19 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w2FHUEkq006068
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 15 Mar 2018 17:30:17 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1ewWhh-0003Aq-U8; Thu, 15 Mar 2018 10:30:13 -0700
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Mar 2018 10:29:57 -0700
+Message-Id: <1521135009-12149-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [morty][PATCH 01/13] unfs3: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,63 +31,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 17:17:00 -0000
-Content-Type: multipart/alternative; boundary="001a11409fe2e265e4056776a800"
+X-List-Received-Date: Thu, 15 Mar 2018 17:30:20 -0000
 
---001a11409fe2e265e4056776a800
-Content-Type: text/plain; charset="UTF-8"
+From: Khem Raj <raj.khem@gmail.com>
 
-I'm about half through the 3.6 updates.  I was hoping to get time in the
-next two weeks to finish it up.  I can just look at going to 3.7 if that's
-preferred.  I don't have a personal preference at this point.
+Should also fix build on new build hosts where
+with glibc 2.27 rpc support is dropped in favor
+of libtirpc
 
-On Thu, Mar 15, 2018 at 1:06 PM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/world-broken.inc          |  5 ---
+ .../0001-daemon.c-Libtirpc-porting-fixes.patch     | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb   | 10 ++++--
+ 3 files changed, 44 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-daemon.c-Libtirpc-porting-fixes.patch
 
-> On 03/15/2018 06:37 PM, Derek Straka wrote:
->
->> Definitely.  I just didn't do the git add.  I'll send out the v2
->> shortly.  Thanks for catching that!
->>
->
-> While we're on the subject of python upgrades, I'd like to ask, what kind
-> of plan do you have for 3.6/3.7? Is anything in progress? When you have
-> some kind of patch ready, we can test it on the autobuilder to iron out the
-> issues, and have it ready for when oe-core master reopens for version
-> updates.
->
-> (I also think that at this point it makes sense to go straight to 3.7 and
-> test with various pre-release versions)
->
+diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
+index d4bdddf..0166963 100644
+--- a/meta/conf/distro/include/world-broken.inc
++++ b/meta/conf/distro/include/world-broken.inc
+@@ -5,11 +5,6 @@
+ # rt-tests needs PI mutex support in libc
+ EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
+ 
+-# error: no member named 'sin_port' in 'struct sockaddr_in6'
+-# this is due to libtirpc using ipv6 but portmap rpc expecting ipv4
+-EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
+-EXCLUDE_FROM_WORLD_pn-unfs3_libc-musl = "1"
+-
+ # error: use of undeclared identifier '_STAT_VER'
+ EXCLUDE_FROM_WORLD_pn-pseudo_libc-musl = "1"
+ 
+diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-daemon.c-Libtirpc-porting-fixes.patch b/meta/recipes-devtools/unfs3/unfs3/0001-daemon.c-Libtirpc-porting-fixes.patch
+new file mode 100644
+index 0000000..6eee674
+--- /dev/null
++++ b/meta/recipes-devtools/unfs3/unfs3/0001-daemon.c-Libtirpc-porting-fixes.patch
+@@ -0,0 +1,37 @@
++From c7a2a65d6c2a433312540c207860740d6e4e7629 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 11 Mar 2018 17:32:54 -0700
++Subject: [PATCH] daemon.c: Libtirpc porting fixes
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ daemon.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/daemon.c b/daemon.c
++index 22f30f6..028a181 100644
++--- a/daemon.c
+++++ b/daemon.c
++@@ -117,7 +117,7 @@ void logmsg(int prio, const char *fmt, ...)
++  */
++ struct in_addr get_remote(struct svc_req *rqstp)
++ {
++-    return (svc_getcaller(rqstp->rq_xprt))->sin_addr;
+++    return ((struct sockaddr_in*)svc_getcaller(rqstp->rq_xprt))->sin_addr;
++ }
++ 
++ /*
++@@ -125,7 +125,7 @@ struct in_addr get_remote(struct svc_req *rqstp)
++  */
++ short get_port(struct svc_req *rqstp)
++ {
++-    return (svc_getcaller(rqstp->rq_xprt))->sin_port;
+++    return ((struct sockaddr_in*)svc_getcaller(rqstp->rq_xprt))->sin_port;
++ }
++ 
++ /*
++-- 
++2.16.2
++
+diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+index e7574fb..fd9a5cd 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+@@ -9,9 +9,11 @@ RECIPE_UPSTREAM_DATE = "Oct 08, 2015"
+ CHECK_DATE = "Dec 10, 2015"
+ 
+ DEPENDS = "flex-native bison-native flex"
+-DEPENDS_append_libc-musl = " libtirpc"
++DEPENDS += "libtirpc"
+ DEPENDS_append_class-nativesdk = " flex-nativesdk"
+ 
++ASNEEDED = ""
++
+ MOD_PV = "497"
+ S = "${WORKDIR}/trunk"
+ SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protocol=http \
+@@ -22,7 +24,8 @@ SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protoco
+            file://rename_fh_cache.patch \
+            file://relative_max_socket_path_len.patch \
+            file://tcp_no_delay.patch \
+-          "
++           file://0001-daemon.c-Libtirpc-porting-fixes.patch \
++           "
+ SRC_URI[md5sum] = "3687acc4ee992e536472365dd99712a7"
+ SRC_URI[sha256sum] = "274b43ada9c6eea1da26eb7010d72889c5278984ba0b50dff4e093057d4d64f8"
+ 
+@@ -30,7 +33,8 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ inherit autotools
+ EXTRA_OECONF_append_class-native = " --sbindir=${bindir}"
+-CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
++CFLAGS += " -I${STAGING_INCDIR}/tirpc"
++LDFLAGS += " -ltirpc"
+ 
+ # Turn off these header detects else the inode search
+ # will walk entire file systems and this is a real problem
+-- 
+2.7.4
 
---001a11409fe2e265e4056776a800
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I&#39;m about half through the 3.6 updates.=C2=A0 I was ho=
-ping to get time in the next two weeks to finish it up.=C2=A0 I can just lo=
-ok at going to 3.7 if that&#39;s preferred.=C2=A0 I don&#39;t have a person=
-al preference at this point.</div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On Thu, Mar 15, 2018 at 1:06 PM, Alexander Kanavin <span d=
-ir=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=
-=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex"><span class=3D"">On 03/15/2018 06:37 PM, Derek S=
-traka wrote:<br>
-</span><span class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Definitely.=C2=A0 I just didn&#39;t do the git add.=C2=A0 I&#39;ll send out=
- the v2 shortly.=C2=A0 Thanks for catching that!<br>
-</blockquote>
-<br></span>
-While we&#39;re on the subject of python upgrades, I&#39;d like to ask, wha=
-t kind of plan do you have for 3.6/3.7? Is anything in progress? When you h=
-ave some kind of patch ready, we can test it on the autobuilder to iron out=
- the issues, and have it ready for when oe-core master reopens for version =
-updates.<br>
-<br>
-(I also think that at this point it makes sense to go straight to 3.7 and t=
-est with various pre-release versions)<br>
-</blockquote></div><br></div>
-
---001a11409fe2e265e4056776a800--
