@@ -1,27 +1,48 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B53A788CC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 70BA17887F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 14:06:41 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2FE6UBn018656
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 15 Mar 2018 14:06:32 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1ewT7w-0002Qk-Fh; Thu, 15 Mar 2018 06:41:04 -0700
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 06:40:55 -0700
-Message-Id: <1521121262-9269-6-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1521121262-9269-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1521121262-9269-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [pyro][PATCH 06/13] libtirpc: Fix CVE-2017-8779
+	Thu, 15 Mar 2018 15:14:00 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id s206so23590255wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2018 08:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eycLXmPP2WO3AMhHM4EwMUcOQKDv0EHw0qXRP0Mlu3w=;
+	b=g9WoSE+fnJRcpzGMCPf1luQ/Ff2SxX/Ks0oSTo3r/MUt77QaQDUmg21kdAND17ziWh
+	diYmI5+uMENK9PRYDp9FF8JIE7TcYxybxQW96n7KNhFCuAIe+V4xvf13uh3qxkwcWoy3
+	MnELRYfVzKSoGn9KkwhZCQu784vRlOlEl9oU6lJOw7hJ6PdOWzJT3mv0O3ZLJyABktzr
+	KVJr+ISgvNgLdwFMvlBiDIfNTdRuiYr8qaBfqA2LnQumnV9kMzQUkoELOOm7EWshF5+T
+	oanzv4qv7eZJd9vrzkKp0OSqGWUDzjagH3i7u4ZYy8hU3omrIdezPSzDP5PelEEScJYE
+	IhYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eycLXmPP2WO3AMhHM4EwMUcOQKDv0EHw0qXRP0Mlu3w=;
+	b=XBH3X6icThVSon0MHmokfXBmrTov1XceGSvUJ5DsxY0/X4h8QctOMdsCs6o7wX/cYD
+	im9kYVkGuasygO6LrCGolCn1qM9f3ecJUA3D0jwleI87em7B/2gFtp+qLen6ED92eoxW
+	2tKu6K/aIGyoQBzpopOaIAQqFpvpxu291WUfSaM4KFNLzxNAXQ8mLv2ubwRT2xL2g+ur
+	ryifmkE6CL1tvfDYebvbHCuxTsDhsyo7HanNDUggB9hYtDkDK4ZyuJpM9uhesfTGTPMv
+	YtTEHMEebpSAg5hCCKNT9AmhpQRpt9mkSJSxpY/kym68YmHGvn2LIKW3Rb9L3bTvq5c4
+	g+vQ==
+X-Gm-Message-State: AElRT7FGymkci896OQCAxPafFpHo59Lzhfb85GKOC5SXuXbsDik3k7MI
+	G2E1QEEguSozff5OkVvZxtcSMVczCUauMbRjrxSt5A==
+X-Google-Smtp-Source: AG47ELsbYgCLlckRdjny54bwEw2gaPtKDukXPvBlvFA0KjbSNkVHshS5jFFi8qykMTp6SVLQrOAsvHxT2WsdkAw7TjM=
+X-Received: by 10.28.212.141 with SMTP id l135mr4601298wmg.122.1521126832468; 
+	Thu, 15 Mar 2018 08:13:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.30.136 with HTTP; Thu, 15 Mar 2018 08:13:51 -0700 (PDT)
+In-Reply-To: <20180312164944.39923-4-alexander.kanavin@linux.intel.com>
+References: <20180312164944.39923-1-alexander.kanavin@linux.intel.com>
+	<20180312164944.39923-4-alexander.kanavin@linux.intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 15 Mar 2018 16:13:51 +0100
+Message-ID: <CA+chaQctko3eBUWpySaiZ19WXH+5cDrAu4Kh6TGLd9r4MTx-Qw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] lib/oe/patch.py: add a warning if patch context was ignored
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,318 +55,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 14:06:42 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 15:14:04 -0000
+Content-Type: multipart/alternative; boundary="001a1146959481f907056774f065"
 
-From: Fan Xin <fan.xin@jp.fujitsu.com>
+--001a1146959481f907056774f065
+Content-Type: text/plain; charset="UTF-8"
 
-This vulnerability is also called "rpcbomb".
-Backport upstream patch to fix this vulnerability.
-CVE: CVE-2017-8779
+Now when more people will use devtool to refresh patches, would it make
+sense for devtool to use --no-signature when refreshing patches?
 
-Signed-off-by: Fan Xin<fan.xin@jp.fujitsu.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../libtirpc/0001-Fix-for-CVE-2017-8779.patch      | 276 +++++++++++++++++++++
- meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb   |   1 +
- 2 files changed, 277 insertions(+)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
-
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
-new file mode 100644
-index 0000000..b3bae67
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0001-Fix-for-CVE-2017-8779.patch
-@@ -0,0 +1,276 @@
-+From dd9c7cf4f8f375c6d641b760d124650c418c2ce3 Mon Sep 17 00:00:00 2001
-+From: Guido Vranken <guidovranken@gmail.com>
-+Date: Mon, 15 May 2017 11:12:21 -0400
-+Subject: [PATCH] Fix for CVE-2017-8779
-+
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+---
-+ src/rpc_generic.c |  8 ++++++++
-+ src/rpcb_prot.c   | 22 ++++++++++++++--------
-+ src/rpcb_st_xdr.c |  9 +++++----
-+ src/xdr.c         | 30 +++++++++++++++++++++++++-----
-+ 4 files changed, 52 insertions(+), 17 deletions(-)
-+
-+CVE: CVE-2017-8779
-+Upstream-Status: Backport
-+
-+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-+
-+diff --git a/src/rpc_generic.c b/src/rpc_generic.c
-+index 2f09a8f..589cbd5 100644
-+--- a/src/rpc_generic.c
-++++ b/src/rpc_generic.c
-+@@ -615,6 +615,9 @@ __rpc_taddr2uaddr_af(int af, const struct netbuf *nbuf)
-+ 
-+ 	switch (af) {
-+ 	case AF_INET:
-++		if (nbuf->len < sizeof(*sin)) {
-++			return NULL;
-++		}
-+ 		sin = nbuf->buf;
-+ 		if (inet_ntop(af, &sin->sin_addr, namebuf, sizeof namebuf)
-+ 		    == NULL)
-+@@ -626,6 +629,9 @@ __rpc_taddr2uaddr_af(int af, const struct netbuf *nbuf)
-+ 		break;
-+ #ifdef INET6
-+ 	case AF_INET6:
-++		if (nbuf->len < sizeof(*sin6)) {
-++			return NULL;
-++		}
-+ 		sin6 = nbuf->buf;
-+ 		if (inet_ntop(af, &sin6->sin6_addr, namebuf6, sizeof namebuf6)
-+ 		    == NULL)
-+@@ -667,6 +673,8 @@ __rpc_uaddr2taddr_af(int af, const char *uaddr)
-+ 
-+ 	port = 0;
-+ 	sin = NULL;
-++	if (uaddr == NULL)
-++		return NULL;
-+ 	addrstr = strdup(uaddr);
-+ 	if (addrstr == NULL)
-+ 		return NULL;
-+diff --git a/src/rpcb_prot.c b/src/rpcb_prot.c
-+index 43fd385..a923c8e 100644
-+--- a/src/rpcb_prot.c
-++++ b/src/rpcb_prot.c
-+@@ -41,6 +41,7 @@
-+ #include <rpc/types.h>
-+ #include <rpc/xdr.h>
-+ #include <rpc/rpcb_prot.h>
-++#include "rpc_com.h"
-+ 
-+ bool_t
-+ xdr_rpcb(xdrs, objp)
-+@@ -53,13 +54,13 @@ xdr_rpcb(xdrs, objp)
-+ 	if (!xdr_u_int32_t(xdrs, &objp->r_vers)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_addr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_addr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_owner, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_owner, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	return (TRUE);
-+@@ -159,19 +160,19 @@ xdr_rpcb_entry(xdrs, objp)
-+ 	XDR *xdrs;
-+ 	rpcb_entry *objp;
-+ {
-+-	if (!xdr_string(xdrs, &objp->r_maddr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_maddr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_u_int32_t(xdrs, &objp->r_nc_semantics)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_protofmly, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_protofmly, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->r_nc_proto, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->r_nc_proto, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	return (TRUE);
-+@@ -292,7 +293,7 @@ xdr_rpcb_rmtcallres(xdrs, p)
-+ 	bool_t dummy;
-+ 	struct r_rpcb_rmtcallres *objp = (struct r_rpcb_rmtcallres *)(void *)p;
-+ 
-+-	if (!xdr_string(xdrs, &objp->addr, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->addr, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_u_int(xdrs, &objp->results.results_len)) {
-+@@ -312,6 +313,11 @@ xdr_netbuf(xdrs, objp)
-+ 	if (!xdr_u_int32_t(xdrs, (u_int32_t *) &objp->maxlen)) {
-+ 		return (FALSE);
-+ 	}
-++
-++	if (objp->maxlen > RPC_MAXDATASIZE) {
-++		return (FALSE);
-++	}
-++
-+ 	dummy = xdr_bytes(xdrs, (char **)&(objp->buf),
-+ 			(u_int *)&(objp->len), objp->maxlen);
-+ 	return (dummy);
-+diff --git a/src/rpcb_st_xdr.c b/src/rpcb_st_xdr.c
-+index 08db745..28e6a48 100644
-+--- a/src/rpcb_st_xdr.c
-++++ b/src/rpcb_st_xdr.c
-+@@ -37,6 +37,7 @@
-+ 
-+ 
-+ #include <rpc/rpc.h>
-++#include "rpc_com.h"
-+ 
-+ /* Link list of all the stats about getport and getaddr */
-+ 
-+@@ -58,7 +59,7 @@ xdr_rpcbs_addrlist(xdrs, objp)
-+ 	    if (!xdr_int(xdrs, &objp->failure)) {
-+ 		return (FALSE);
-+ 	    }
-+-	    if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	    if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	    }
-+ 
-+@@ -109,7 +110,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 		IXDR_PUT_INT32(buf, objp->failure);
-+ 		IXDR_PUT_INT32(buf, objp->indirect);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+@@ -147,7 +148,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 		objp->failure = (int)IXDR_GET_INT32(buf);
-+ 		objp->indirect = (int)IXDR_GET_INT32(buf);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+@@ -175,7 +176,7 @@ xdr_rpcbs_rmtcalllist(xdrs, objp)
-+ 	if (!xdr_int(xdrs, &objp->indirect)) {
-+ 		return (FALSE);
-+ 	}
-+-	if (!xdr_string(xdrs, &objp->netid, (u_int)~0)) {
-++	if (!xdr_string(xdrs, &objp->netid, RPC_MAXDATASIZE)) {
-+ 		return (FALSE);
-+ 	}
-+ 	if (!xdr_pointer(xdrs, (char **)&objp->next,
-+diff --git a/src/xdr.c b/src/xdr.c
-+index f3fb9ad..b9a1558 100644
-+--- a/src/xdr.c
-++++ b/src/xdr.c
-+@@ -42,8 +42,10 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ 
-++#include <rpc/rpc.h>
-+ #include <rpc/types.h>
-+ #include <rpc/xdr.h>
-++#include <rpc/rpc_com.h>
-+ 
-+ typedef quad_t          longlong_t;     /* ANSI long long type */
-+ typedef u_quad_t        u_longlong_t;   /* ANSI unsigned long long type */
-+@@ -53,7 +55,6 @@ typedef u_quad_t        u_longlong_t;   /* ANSI unsigned long long type */
-+  */
-+ #define XDR_FALSE	((long) 0)
-+ #define XDR_TRUE	((long) 1)
-+-#define LASTUNSIGNED	((u_int) 0-1)
-+ 
-+ /*
-+  * for unit alignment
-+@@ -629,6 +630,7 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ {
-+ 	char *sp = *cpp;  /* sp is the actual string pointer */
-+ 	u_int nodesize;
-++	bool_t ret, allocated = FALSE;
-+ 
-+ 	/*
-+ 	 * first deal with the length since xdr bytes are counted
-+@@ -652,6 +654,7 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ 		}
-+ 		if (sp == NULL) {
-+ 			*cpp = sp = mem_alloc(nodesize);
-++			allocated = TRUE;
-+ 		}
-+ 		if (sp == NULL) {
-+ 			warnx("xdr_bytes: out of memory");
-+@@ -660,7 +663,14 @@ xdr_bytes(xdrs, cpp, sizep, maxsize)
-+ 		/* FALLTHROUGH */
-+ 
-+ 	case XDR_ENCODE:
-+-		return (xdr_opaque(xdrs, sp, nodesize));
-++		ret = xdr_opaque(xdrs, sp, nodesize);
-++		if ((xdrs->x_op == XDR_DECODE) && (ret == FALSE)) {
-++			if (allocated == TRUE) {
-++				free(sp);
-++				*cpp = NULL;
-++			}
-++		}
-++		return (ret);
-+ 
-+ 	case XDR_FREE:
-+ 		if (sp != NULL) {
-+@@ -754,6 +764,7 @@ xdr_string(xdrs, cpp, maxsize)
-+ 	char *sp = *cpp;  /* sp is the actual string pointer */
-+ 	u_int size;
-+ 	u_int nodesize;
-++	bool_t ret, allocated = FALSE;
-+ 
-+ 	/*
-+ 	 * first deal with the length since xdr strings are counted-strings
-+@@ -793,8 +804,10 @@ xdr_string(xdrs, cpp, maxsize)
-+ 	switch (xdrs->x_op) {
-+ 
-+ 	case XDR_DECODE:
-+-		if (sp == NULL)
-++		if (sp == NULL) {
-+ 			*cpp = sp = mem_alloc(nodesize);
-++			allocated = TRUE;
-++		}
-+ 		if (sp == NULL) {
-+ 			warnx("xdr_string: out of memory");
-+ 			return (FALSE);
-+@@ -803,7 +816,14 @@ xdr_string(xdrs, cpp, maxsize)
-+ 		/* FALLTHROUGH */
-+ 
-+ 	case XDR_ENCODE:
-+-		return (xdr_opaque(xdrs, sp, size));
-++		ret = xdr_opaque(xdrs, sp, size);
-++		if ((xdrs->x_op == XDR_DECODE) && (ret == FALSE)) {
-++			if (allocated == TRUE) {
-++				free(sp);
-++				*cpp = NULL;
-++			}
-++		}
-++		return (ret);
-+ 
-+ 	case XDR_FREE:
-+ 		mem_free(sp, nodesize);
-+@@ -823,7 +843,7 @@ xdr_wrapstring(xdrs, cpp)
-+ 	XDR *xdrs;
-+ 	char **cpp;
-+ {
-+-	return xdr_string(xdrs, cpp, LASTUNSIGNED);
-++	return xdr_string(xdrs, cpp, RPC_MAXDATASIZE);
-+ }
-+ 
-+ /*
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-index 5518fb3..f41d2f3 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
-            file://export_key_secretkey_is_set.patch \
-            file://0001-replace-__bzero-with-memset-API.patch \
-            file://0001-include-stdint.h-for-uintptr_t.patch \
-+           file://0001-Fix-for-CVE-2017-8779.patch \
-            "
- 
- SRC_URI_append_libc-uclibc = " file://remove-des-functionality.patch \
--- 
-2.7.4
+I think git version is not important in this context and causes extra
+changes in .patch files (when refreshed by different people with different
+git version) or extra work removing that chunk from resulting diff.
 
 
+On Mon, Mar 12, 2018 at 5:49 PM, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> Ignoring patch context increases the chances of patches being
+> applied incorrectly. Depending on what code is being patched, this can go
+> completely unnoticed and create subtle bugs, sometimes with security
+> implications.
+>
+> Please see here for a specific example:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+>
+> On the other hand, we cannot simply force all patch context to match
+> exactly:
+> doing this would break a lot of recipes suddenly, across all layers.
+>
+> So let's try a softer approach: issue a warning, and gently update
+> patches over a longer span of time. When most of the warnings are
+> eliminated,
+> we can start enforcing a strict patch application policy.
+>
+> I do understand that this patch creates a lot of warnings all of a sudden,
+> however
+> I believe the problem does need to be addressed. All of oe-core recipes
+> have their
+> context already fixed.
+>
+> Sample warning:
+>
+> WARNING: vulkan-1.0.61.1-r0 do_patch:
+> Some of the context lines in patches were ignored. This can lead to
+> incorrectly applied patches.
+> The context lines in the patches can be updated with devtool:
+>
+>     devtool modify <recipe>
+>     devtool finish --force-patch-refresh <recipe> <layer_path>
+>
+> Then the updated patches and the source tree (in devtool's workspace)
+> should be reviewed to make sure the patches apply in the correct place
+> and don't introduce duplicate lines (which can, and does happen
+> when some of the context is ignored).
+> Details:
+> Applying patch demos-Don-t-build-tri-or-cube.patch
+> patching file demos/CMakeLists.txt
+> Hunk #1 succeeded at 63 (offset 2 lines).
+> Hunk #2 succeeded at 76 with fuzz 1 (offset 2 lines).
+>
+> [YOCTO #10450]
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/lib/oe/patch.py | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index f02dee8d27d..bfa7d218792 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -36,6 +36,22 @@ def runcmd(args, dir = None):
+>          (exitstatus, output) = oe.utils.getstatusoutput(cmd)
+>          if exitstatus != 0:
+>              raise CmdError(cmd, exitstatus >> 8, output)
+> +        if " fuzz " in output:
+> +            bb.warn("""
+> +Some of the context lines in patches were ignored. This can lead to
+> incorrectly applied patches.
+> +The context lines in the patches can be updated with devtool:
+> +
+> +    devtool modify <recipe>
+> +    devtool finish --force-patch-refresh <recipe> <layer_path>
+> +
+> +Then the updated patches and the source tree (in devtool's workspace)
+> +should be reviewed to make sure the patches apply in the correct place
+> +and don't introduce duplicate lines (which can, and does happen
+> +when some of the context is ignored). Further information:
+> +http://lists.openembedded.org/pipermail/openembedded-
+> core/2018-March/148675.html
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+> +Details:
+> +{}""".format(output))
+>          return output
+>
+>      finally:
+> --
+> 2.16.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1146959481f907056774f065
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Now when more people will use devtool to refresh patc=
+hes, would it make sense for devtool to use --no-signature when refreshing =
+patches?</div><div><br></div><div>I think git version is not important in t=
+his context and causes extra changes in .patch files (when refreshed by dif=
+ferent people with different git version) or extra work removing that chunk=
+ from resulting diff.</div><div><br></div></div><div class=3D"gmail_extra">=
+<br><div class=3D"gmail_quote">On Mon, Mar 12, 2018 at 5:49 PM, Alexander K=
+anavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.inte=
+l.com" target=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Ignoring patch context increases th=
+e chances of patches being<br>
+applied incorrectly. Depending on what code is being patched, this can go<b=
+r>
+completely unnoticed and create subtle bugs, sometimes with security implic=
+ations.<br>
+<br>
+Please see here for a specific example:<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10450" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.<wbr>org/sh=
+ow_bug.cgi?id=3D10450</a><br>
+<br>
+On the other hand, we cannot simply force all patch context to match exactl=
+y:<br>
+doing this would break a lot of recipes suddenly, across all layers.<br>
+<br>
+So let&#39;s try a softer approach: issue a warning, and gently update<br>
+patches over a longer span of time. When most of the warnings are eliminate=
+d,<br>
+we can start enforcing a strict patch application policy.<br>
+<br>
+I do understand that this patch creates a lot of warnings all of a sudden, =
+however<br>
+I believe the problem does need to be addressed. All of oe-core recipes hav=
+e their<br>
+context already fixed.<br>
+<br>
+Sample warning:<br>
+<br>
+WARNING: vulkan-1.0.61.1-r0 do_patch:<br>
+Some of the context lines in patches were ignored. This can lead to incorre=
+ctly applied patches.<br>
+The context lines in the patches can be updated with devtool:<br>
+<br>
+=C2=A0 =C2=A0 devtool modify &lt;recipe&gt;<br>
+=C2=A0 =C2=A0 devtool finish --force-patch-refresh &lt;recipe&gt; &lt;layer=
+_path&gt;<br>
+<br>
+Then the updated patches and the source tree (in devtool&#39;s workspace)<b=
+r>
+should be reviewed to make sure the patches apply in the correct place<br>
+and don&#39;t introduce duplicate lines (which can, and does happen<br>
+when some of the context is ignored).<br>
+Details:<br>
+Applying patch demos-Don-t-build-tri-or-cube.<wbr>patch<br>
+patching file demos/CMakeLists.txt<br>
+Hunk #1 succeeded at 63 (offset 2 lines).<br>
+Hunk #2 succeeded at 76 with fuzz 1 (offset 2 lines).<br>
+<br>
+[YOCTO #10450]<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@li=
+nux.intel.com">alexander.kanavin@linux.<wbr>intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oe/patch.py | 16 ++++++++++++++++<br>
+=C2=A01 file changed, 16 insertions(+)<br>
+<br>
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py<br>
+index f02dee8d27d..bfa7d218792 100644<br>
+--- a/meta/lib/oe/patch.py<br>
++++ b/meta/lib/oe/patch.py<br>
+@@ -36,6 +36,22 @@ def runcmd(args, dir =3D None):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(exitstatus, output) =3D oe.utils.getstat=
+usoutput(cmd)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if exitstatus !=3D 0:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise CmdError(cmd, exitsta=
+tus &gt;&gt; 8, output)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot; fuzz &quot; in output:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;&quot;&quot;<br>
++Some of the context lines in patches were ignored. This can lead to incorr=
+ectly applied patches.<br>
++The context lines in the patches can be updated with devtool:<br>
++<br>
++=C2=A0 =C2=A0 devtool modify &lt;recipe&gt;<br>
++=C2=A0 =C2=A0 devtool finish --force-patch-refresh &lt;recipe&gt; &lt;laye=
+r_path&gt;<br>
++<br>
++Then the updated patches and the source tree (in devtool&#39;s workspace)<=
+br>
++should be reviewed to make sure the patches apply in the correct place<br>
++and don&#39;t introduce duplicate lines (which can, and does happen<br>
++when some of the context is ignored). Further information:<br>
++<a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2018-=
+March/148675.html" rel=3D"noreferrer" target=3D"_blank">http://lists.openem=
+bedded.<wbr>org/pipermail/openembedded-<wbr>core/2018-March/148675.html</a>=
+<br>
++<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10450" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.<wbr>yoctoproject.org/sh=
+ow_bug.cgi?<wbr>id=3D10450</a><br>
++Details:<br>
++{}&quot;&quot;&quot;.format(output))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return output<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0finally:<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.16.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a1146959481f907056774f065--
