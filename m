@@ -1,26 +1,26 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 117047890E
+	by mail.openembedded.org (Postfix) with ESMTP id 039B978918
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 18:00:49 +0000 (UTC)
+	Thu, 15 Mar 2018 18:00:53 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2FI0lOa008862
+	w2FI0ptq008869
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 15 Mar 2018 18:00:50 GMT
+	verify=NOT); Thu, 15 Mar 2018 18:00:54 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1ewWhi-0003Bg-46; Thu, 15 Mar 2018 10:30:14 -0700
+	id 1ewWhi-0003Br-5H; Thu, 15 Mar 2018 10:30:14 -0700
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 10:30:07 -0700
-Message-Id: <1521135009-12149-11-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 15 Mar 2018 10:30:09 -0700
+Message-Id: <1521135009-12149-13-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521135009-12149-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1521135009-12149-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Subject: [morty][PATCH 11/13] yocto-uninative: Upgrade to 1.8 version with glibc 2.27
+Subject: [morty][PATCH 13/13] world-broken.inc: blacklist portmap on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 18:00:50 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 18:00:54 -0000
 
-Now distros are starting to ship glibc 2.27 we need a uninatve version
-which contains glibc 2.27 which is in the 1.8 version.
+portmap was dropped in rocko and later and doesn't work with libtirpc
+so don't build it for musl
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/world-broken.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 839c19a..b3f8c24 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,6 +6,6 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
+index 0166963..8f56103 100644
+--- a/meta/conf/distro/include/world-broken.inc
++++ b/meta/conf/distro/include/world-broken.inc
+@@ -28,6 +28,10 @@ EXCLUDE_FROM_WORLD_pn-lttng-tools_libc-musl = "1"
+ EXCLUDE_FROM_WORLD_pn-systemtap_libc-musl = "1"
+ EXCLUDE_FROM_WORLD_pn-systemtap-uprobes_libc-musl = "1"
  
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.7/"
--UNINATIVE_CHECKSUM[i686] ?= "d7c341460035936c19d63fe02f354ef1bc993c62d694ae3a31458d1c6997f0c5"
--UNINATIVE_CHECKSUM[x86_64] ?= "ed033c868b87852b07957a4400f3b744c00aef5d6470346ea1a59b6d3e03075e"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.8/"
-+UNINATIVE_CHECKSUM[i686] ?= "427ce522ec97f65c75fd89587d90ef789e8cbca4a617abc4b5822abb01c2d0ae"
-+UNINATIVE_CHECKSUM[x86_64] ?= "de4947e98e09e1432d069311cc2093974ecb9138a714fd5466f73524de66a693"
++# portmap.c:488:32: error: 'struct sockaddr_in6' has no member named 'sin_port'; did you mean 'sin6_port'?
++# We removed portmap in rocko onwards and it doesn't work with libtirpc
++EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
++
+ # error: a parameter list without types is only allowed in a function definition
+ #            void (*_function)(sigval_t);
+ EXCLUDE_FROM_WORLD_pn-qemu_libc-musl = "1"
 -- 
 2.7.4
 
