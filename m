@@ -1,60 +1,49 @@
-Return-Path: <kristian.amlie@northern.tech>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B760782CE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EFC0782CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 09:29:11 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id v9-v6so9059200lfa.11
+	Thu, 15 Mar 2018 10:43:08 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k3so7738205wrg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 02:29:13 -0700 (PDT)
+	Thu, 15 Mar 2018 03:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=bEJdPpyZLALJhUiTm/rBoec3E9I+Xp6QgujVDX+xsCE=;
-	b=ANSNhHcC1u8+aTjtSdpkg/5tYq/BQzl8mwTQRZAr9HsCWxVTFDZBD7xRy5SvhO66ux
-	wF4JD9jZQd+BgW8qtx0O/M2eEdRvuxEoqI7Ae5YfrDNkkolfQXXtrrzgRCgU2WBy+QV3
-	D/pwiOLUJYPTChB7RJViRN+3CeCi0gUCj79/uiDDKiNv+lZTEAV4q04bzrOfPGASAnHX
-	jS1w6XEHzKI2J7pRKcT9rV9e/BCWSsRQDdqr3NMeRME3W+JKSugi+6rlSej/JzLqq7ys
-	NpEB0VSerdgkTA3nNZS8P72kCnyH9uue9H3BBNmC1kV+cSizaT8UrdYl3OvFg3CMZAu1
-	F6nA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Z5SdF3k+/pv6iK+5ijt3hPOmzACku23wWGGv3hYRPQU=;
+	b=oIUG0IMketxnZ+/cTdid8nPJSA6IAcmwxuPOinz8GQIWASXPYq6G1+OWeqKnT+dvuE
+	qK1Cm0KX1zIRKuKPZaU+bvPr3ZR0XBqVfLTweTIOFpvxEQUfSk2XDBu5RxUREXorYrn4
+	HrsQiK8Khz/3s4PPZAmwe9Cmh/XDR9qI6L4/bWzvYRTJCKXjbCSR81Y0kJPja90faASt
+	4F6o1UVAVafFdg/LNaMLH+5ODcr1YzGeBjD1e5JfVAAvwIlzWvw8sPJzH22lSggfZATF
+	Uy5uIGa96UV7OXto4NV7sEg5TJ7MlkrmcSb4HnOaaQqQQ00FsIdV7zQ1X+kl/6CYi2+7
+	WlMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=bEJdPpyZLALJhUiTm/rBoec3E9I+Xp6QgujVDX+xsCE=;
-	b=IjBBzTyE2AT2HMFJ5AGaUjnMY7SKof8cx1qGiR9D3mz5rY+jA9/xJFinieontPzH6m
-	2JehF2PwGqUjey3/IpMZYlKp49i22lvVCL7ntODeHx4q2H/HGQGbGaw7HZNzRqJZfclo
-	WoxmUS1endpQ0BOwvszYf1TNdVvHIG2R7yi5HUbtzE6mdTNJmvijcZw/AhfbwQ/eca7t
-	FQ4zHPaTybvFxN63VP5SbmoR5uNdCcmJUKCe1Lmb9UaEm6H9/+eY3ik9kx7CPTH5Ilp5
-	tLh4YnodZHBYPGU4hMumLuQtG+Z8KNJFKq2hqJSM+nDQJ5311+bl+U/tK3b5bs7BpNN5
-	KKdw==
-X-Gm-Message-State: AElRT7GvgFxt7cueHO/RXxWL0ALUh/7nJc+ej1hU6wU58Jw+7eW05jdf
-	SF6OF5XmPrnfCb0NPmd6Tdr+1w==
-X-Google-Smtp-Source: AG47ELvgeyfZZ2eUnKppoARfOhXVMD1yjKflXH51LzuO6zNRjcIlRCpqZxBunb3HRBHfx1MWVZ/0Yw==
-X-Received: by 2002:a19:d945:: with SMTP id
-	q66-v6mr6081328lfg.62.1521106152110; 
-	Thu, 15 Mar 2018 02:29:12 -0700 (PDT)
-Received: from [10.20.33.225] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	l1sm1011168ljc.91.2018.03.15.02.29.10
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Z5SdF3k+/pv6iK+5ijt3hPOmzACku23wWGGv3hYRPQU=;
+	b=XT5GvqCjGZURAf+7q5PPJ+1ciPtotlKFyQ8hHFiApU33Z1mCqUHk3xSQ93mreLBRae
+	uHUoWywOkOagAYVGomN2/Bl9GPSBVbfm41703zUBjOKP2JmrlnB7iib3wmmwX8MoMI4S
+	u1qYoAp0/gIFbOADahbN/E/8Uj4daHITxcTgzXRidvHpvL06peTSgOTjAcjvCdYqEDW3
+	ejmGQ+KxvW4XIq0PFac5aBuxSbKlWxhkvfcXrE2H5Z0k/LeRmese76zUprhq7wpuvauy
+	snFe4EoepV/XOlXHFebMAR4UcMC/c1npKVuVIl1UDlc4oV+1052yb8af8e9aRPlAQnXN
+	ctCA==
+X-Gm-Message-State: AElRT7Gr4rogKs72B/P/7z3ma+aSaNxKu9EV2Vxkv1vzWHDawsXmvbfI
+	2xvC38L95N40xjzbqiSh32nJ39VY
+X-Google-Smtp-Source: AG47ELtPdjI4TCar6y2zWIGutYuQ8qUPnAJK/rDAJOAifSs3axp0uF7deMVMih0oij0zzfaZRsJDBg==
+X-Received: by 10.223.189.133 with SMTP id l5mr4638636wrh.69.1521110589668;
+	Thu, 15 Mar 2018 03:43:09 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id q16sm4261667wmg.3.2018.03.15.03.43.05
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Mar 2018 02:29:11 -0700 (PDT)
-To: Cal Sullivan <california.l.sullivan@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <e4d7ba56-e92f-9322-6e37-be08bcab8ad8@linux.intel.com>
-	<1516876416-13748-1-git-send-email-kristian.amlie@northern.tech>
-	<1516876416-13748-2-git-send-email-kristian.amlie@northern.tech>
-	<3d9848f0-9432-0717-f4f0-0c37dba63b9f@intel.com>
-From: Kristian Amlie <kristian.amlie@northern.tech>
-Message-ID: <0704502f-c045-3703-c903-9f43fe1e342c@northern.tech>
-Date: Thu, 15 Mar 2018 10:29:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <3d9848f0-9432-0717-f4f0-0c37dba63b9f@intel.com>
-Subject: Re: [PATCH v7] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+	Thu, 15 Mar 2018 03:43:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Mar 2018 10:43:03 +0000
+Message-Id: <20180315104303.14908-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] gtk-doc: always inherit python3native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,88 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 09:29:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Mar 2018 10:43:09 -0000
 
-On 13/02/18 02:29, Cal Sullivan wrote:
->> ...
->> +
->> +        if path.endswith(os.sep):
-> We need to check if full_path exists here, else it may try modifying
-> things that don't exist. E.g., if I have IMAGE_ROOTFS_EXCLUDE_PATH =
-> "boot" in local.conf and do 'bitbake core-image-minimal-initramfs' I get
-> the following:
-> 
-> ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Error
-> executing a python function in exec_python_func() autogenerated:
-> 
-> The stack trace of python calls that resulted in this exception/failure
-> was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:prepare_excluded_directories(d)
->      0003:
-> File: '/home/clsulliv/yocto/poky/meta/classes/image.bbclass', lineno:
-> 572, function: prepare_excluded_directories
->      0568:                else:
->      0569:                    os.remove(full_entry)
->      0570:        else:
->      0571:            # Delete whole directory.
->  *** 0572:            shutil.rmtree(full_path)
->      0573:
->      0574:    # Save old value for cleanup later.
->      0575:    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
->      0576:    d.setVar('IMAGE_ROOTFS', new_rootfs)
-> File: '/usr/lib64/python3.6/shutil.py', lineno: 471, function: rmtree
->      0467:        # lstat()/open()/fstat() trick.
->      0468:        try:
->      0469:            orig_st = os.lstat(path)
->      0470:        except Exception:
->  *** 0471:            onerror(os.lstat, path, sys.exc_info())
->      0472:            return
->      0473:        try:
->      0474:            fd = os.open(path, os.O_RDONLY)
->      0475:        except Exception:
-> File: '/usr/lib64/python3.6/shutil.py', lineno: 469, function: rmtree
->      0465:            path = os.fsdecode(path)
->      0466:        # Note: To guard against symlink races, we use the
-> standard
->      0467:        # lstat()/open()/fstat() trick.
->      0468:        try:
->  *** 0469:            orig_st = os.lstat(path)
->      0470:        except Exception:
->      0471:            onerror(os.lstat, path, sys.exc_info())
->      0472:            return
->      0473:        try:
-> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/rootfs.image_cpio/boot'
-> 
-> 
-> ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Function
-> failed: prepare_excluded_directories
-> ERROR: Logfile of failure stored in:
-> /home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do_image_cpio.23514
-> 
-> ERROR: Task
-> (/home/clsulliv/yocto/poky/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image_cpio)
-> failed with exit code '1'
-> 
-> Besides this, it works well. I'm using it here[1] as part of my attempt
-> to improve EFI images.
-> 
-> [1].
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation-exclude-path
+My attempt at only inheriting python3native if it was needed was broken and
+didn't work, so back it out and always inherit.
 
-Sorry for coming late to the party here. Nice find though, and the fix
-looks good too.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/gtk-doc.bbclass | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Will you be pushing to get this merged in master? The process of getting
-it merged has been quite slow until now, so I've been considering
-implementing this downstream in the meta-mender layer instead, even
-though I think it could benefit many OE/poky users.
-
+diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
+index b8db4280bcd..3f731cb93bf 100644
+--- a/meta/classes/gtk-doc.bbclass
++++ b/meta/classes/gtk-doc.bbclass
+@@ -28,10 +28,8 @@ GTKDOC_DOCDIR ?= "${S}"
+ 
+ export STAGING_DIR_HOST
+ 
+-inherit ${@oe.utils.ifelse(d.getVar('GTKDOC_ENABLED') == 'True', 'python3native', '')}
+-
+-inherit pkgconfig qemu
+-DEPENDS_append = "${@oe.utils.ifelse(d.getVar('GTKDOC_ENABLED') == 'True', ' qemu-native', '')}"
++inherit python3native pkgconfig qemu
++DEPENDS_append = "${@' qemu-native' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
+ 
+ do_configure_prepend () {
+ 	( cd ${S}; gtkdocize --docdir ${GTKDOC_DOCDIR} || true )
 -- 
-Kristian
+2.11.0
+
 
