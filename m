@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 62BCA78416;
-	Thu, 15 Mar 2018 17:07:51 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 1264160069
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2018 17:13:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Mar 2018 10:13:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,311,1517904000"; d="scan'208";a="35312080"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 15 Mar 2018 10:13:40 -0700
 To: Derek Straka <derek@asterius.io>
-Date: Thu, 15 Mar 2018 17:07:53 -0000
-Message-ID: <20180315170753.2428.24707@do.openembedded.org>
-References: <1521132191-17851-1-git-send-email-derek@asterius.io>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1521132191-17851-1-git-send-email-derek@asterius.io>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogdXBkYXRlIHRvIHZlcnNpb24gMy41LjUgdG8gZml4IHNlY3VyaXR5IGlzc3VlcyAocmV2Myk=?=
+References: <1520806702-5879-1-git-send-email-derek@asterius.io>
+	<0fbe649e-846b-0446-64c1-587fa1221a9f@linux.intel.com>
+	<CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <c44dd7f9-8f0b-c19b-311e-8364171c8cb3@linux.intel.com>
+Date: Thu, 15 Mar 2018 19:06:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] python3: update to version 3.5.5 to fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 17:07:51 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Mar 2018 17:13:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On 03/15/2018 06:37 PM, Derek Straka wrote:
+> Definitely.  I just didn't do the git add.  I'll send out the v2 
+> shortly.  Thanks for catching that!
 
-Series: python3: update to version 3.5.5 to fix security issues (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/11347/
-State : failure
+While we're on the subject of python upgrades, I'd like to ask, what 
+kind of plan do you have for 3.6/3.7? Is anything in progress? When you 
+have some kind of patch ready, we can test it on the autobuilder to iron 
+out the issues, and have it ready for when oe-core master reopens for 
+version updates.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 3c14c6612c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+(I also think that at this point it makes sense to go straight to 3.7 
+and test with various pre-release versions)
 
