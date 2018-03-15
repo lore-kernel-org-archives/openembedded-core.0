@@ -1,47 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 40AAA784E5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4EC784E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 23:52:22 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id m12so6405182wrm.13
+	Thu, 15 Mar 2018 01:48:54 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id w15-v6so2807110plq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 16:52:24 -0700 (PDT)
+	Wed, 14 Mar 2018 18:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uZHUvlkdeO28j6dg461vj483GHBQ/3r3UN9f2mAL9oQ=;
-	b=ouE/843rIU7bXAVi/C0EMm4evkoIeS1z9UjAlxqOzELwMFn39tsn6Q2iu6F39NyvT6
-	qx/2tS7NLrv/OxjSaj0LAB5n7pTSRdfM3CMM7mK+1X+45pjZ5so3OIMulfc07UXKaExd
-	7MYCoXJiIVZG1nJ7YiqGKX0bQogKXVXht4EJTAPvEAjDfYVM47tSaxiOFZFeeBgWWOmi
-	fRIGZLucVqTAGHWESpXV/NDLPUhaD2hWvJLv3B24PeQWSNBx1QtoIA/ZYrU6wVUaKybA
-	s2gGuxjB7xrV9LRvvt2jqCSRBpdPug9KUomrgAFVC/KozcWDUvOhhgi5jwh4mHPeL574
-	SaQw==
+	h=from:to:cc:subject:date:message-id;
+	bh=zSvYliKnNC1wFmpamWkKWTIYKex2DPVdGqBfT2yTnzw=;
+	b=jYIc8wxuUvijDWHZsPK25vGTASw4LN0LHcJukJs2gw/dQCXz4DyllrZ1Z9ilFtzVjB
+	XFowhurA5UGntOR2pxhG1uCvuQoWBqOLDdaL+rfZ1yaKn+n6aT5LyWWaRd4QeVsFEi1/
+	8nUpnFpsjOiJWR7QOdHQyfIthZTVrFw2vyQCq2tV3Rh2cAW1Bk/9pKf8Tql/v55o6L7M
+	iU55P/pc7NBNFgnx5xnVB2mkNvWLk/o1Qrf9N6DBBvuREZkDmYXEkyQSrczINIHAb0v/
+	gF/sH+0HGf2YTSYqfdSRgLE+tHZkuj69wkAahcaWQShD2/LdfoEAnF0keeTGn7OBgbaN
+	H8fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uZHUvlkdeO28j6dg461vj483GHBQ/3r3UN9f2mAL9oQ=;
-	b=hTOyVT9sMfbs9SiO0CpqGvnlXFOs1wXMVnRLtQHoEOU8vzo+B1P26earEEVnG4Lzdg
-	u9M/IZCNzs9AQnskQlCz4YOVrQJG3Iurn3GECdYTgn4kmmez+tmC+IdGX8LrAFlm0n7n
-	glE1pVusO91VLoB3WjSkHgZVwbcWJoU2NFa+Y+sYIeKXFO0DkXTSsR63ZakIjyBtrlBX
-	R7nWVEoNGRR3UGTgRm8fMGVb95F0PUqFS2ZGFLVhUlZ8erCMF9MdXjwgDWTtdfqCRjSm
-	+F/ZjWWCV5FeXguSpjuRb9EevAZJEvuuQfV7bBrMLKaTQeeGaKGMQstl8zSZMkNGHbjx
-	A5fw==
-X-Gm-Message-State: AElRT7FlcjHHJATQ+p4JlbDgHBjMrPTf5Xxxs9PO0LpMLO1Z+LoT8AHt
-	83EjU5aeyRBrXcnzmZqAJcyXbo32+O9Ux+Hcixk=
-X-Google-Smtp-Source: AG47ELtMJBP8lTiPjETNVCtvVLTrshpXXdnGyi7X0ff9zafkMy4mgLUVXdIbtaQEzfhXnc8KGTZB2pnafUe7g7gZgJQ=
-X-Received: by 10.223.170.218 with SMTP id i26mr2491665wrc.107.1521071543696; 
-	Wed, 14 Mar 2018 16:52:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.133.98 with HTTP; Wed, 14 Mar 2018 16:52:23 -0700 (PDT)
-In-Reply-To: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
-References: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 14 Mar 2018 16:52:23 -0700
-Message-ID: <CAJ86T=V=+cLpzMFoWS42NMDAuOrUMzsLCmUHfUhTrP8aEvcR2Q@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [morty][PATCH] buildhistory: fix latest_srcrev in the common case
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zSvYliKnNC1wFmpamWkKWTIYKex2DPVdGqBfT2yTnzw=;
+	b=WEQ6sbPTWfrY9zFDEKiAzRUXZuqYuRqjUMVm457rvNYh0P0TCy93CGN6qB8rmcZFNc
+	Ovnfi6CrtJ+N2bpQ5XB1M4EUz/nmnrzpdZBf3b2cqAY514XWtCLuLKYb2Fsp+e9JrRb6
+	9+jrn8bvptm3iIH2I52gudz/8YZkVBANlCBA+LD8b2syco0SIh454WRwYZjEbCft9SPN
+	bxqtQouI64K4VcZWrx+Ningzs+nzgdnhbXilBPmfMjOOvmXrNeoqx5lHpz7mwKVkJaNE
+	cHji11E3UFn4lKebkByiRlAu895NdScWm3vQozyMhMhaFBWs1IezqjVvS8EX4EdJ9/wa
+	A+cg==
+X-Gm-Message-State: AElRT7ERJWf9gNMOj0lj36KQhJGKvuRBrxX7CUTKUgkmf77fn/CfoKBx
+	UxNUCtxHURpE73hG2HfoMAmIWw==
+X-Google-Smtp-Source: AG47ELuvwGAefJOctwnGPoVBzEP3knoaClvEn/OTjwr6Ggdq2pc301g4A6NAu/mV7V9YiHCt5+/Byg==
+X-Received: by 2002:a17:902:7088:: with SMTP id
+	z8-v6mr6129598plk.174.1521078536195; 
+	Wed, 14 Mar 2018 18:48:56 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	y23sm6416308pgv.4.2018.03.14.18.48.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Mar 2018 18:48:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Mar 2018 18:48:48 -0700
+Message-Id: <20180315014848.14279-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] gcc: Do not use --with-linker-hash-style if LINKER_HASH_STYLE is empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 23:52:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 15 Mar 2018 01:48:55 -0000
 
-On Tue, Feb 27, 2018 at 5:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> buildhistory was writing srcrevs.values() as SRCREV when only one
-> srcrev/branch exists. This returns a view of the dictionary values in python
-> 3, and used to return a list in python 2, neither of which is an appropriate
-> value for SRCREV. It was resulting in latest_srcrev files like this:
->
->     # SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
->     SRCREV = "dict_values(['346584bf6e38232be8773c24fd7dedcbd7b3d9ed'])"
->
-> Which in turn would result in invalid output in buildhistory-collect-srcrevs.
-> Fix by calling `next(iter())` on the `.values()`
+We allow to set LINKER_HASH_STYLE to be empty so this would fail
+since --with-linker-hash-style needs an argument and cant be empty
 
-Ping.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-7.3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> (cherry picked from commit ef826a395612400924bbe49859d256b237ff59e1)
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 3a5bc2c..d82e9bb 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -833,7 +833,7 @@ python write_srcrev() {
->                          f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
->                      f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
->              else:
-> -                f.write('SRCREV = "%s"\n' % srcrevs.values())
-> +                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
->              if len(tag_srcrevs) > 0:
->                  for name, srcrev in tag_srcrevs.items():
->                      f.write('# tag_%s = "%s"\n' % (name, srcrev))
-> --
-> 1.9.1
->
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+index d56d2c5e06..cc428ad3ef 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+@@ -100,7 +100,7 @@ EXTRA_OECONF_BASE = "\
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
++    ${@['','--with-linker-hash-style=${LINKER_HASH_STYLE}'][d.getVar('LINKER_HASH_STYLE') != '']} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
+-- 
+2.16.2
+
 
