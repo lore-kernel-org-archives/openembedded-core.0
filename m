@@ -1,24 +1,60 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B70D60123
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B760782CE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 08:27:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2F8RhNq029764
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 15 Mar 2018 09:29:11 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id v9-v6so9059200lfa.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 01:27:43 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 15 Mar 2018 01:27:42 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Mar 2018 16:24:45 +0800
-Message-ID: <20180315082445.8104-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 15 Mar 2018 02:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=northern.tech; s=google;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=bEJdPpyZLALJhUiTm/rBoec3E9I+Xp6QgujVDX+xsCE=;
+	b=ANSNhHcC1u8+aTjtSdpkg/5tYq/BQzl8mwTQRZAr9HsCWxVTFDZBD7xRy5SvhO66ux
+	wF4JD9jZQd+BgW8qtx0O/M2eEdRvuxEoqI7Ae5YfrDNkkolfQXXtrrzgRCgU2WBy+QV3
+	D/pwiOLUJYPTChB7RJViRN+3CeCi0gUCj79/uiDDKiNv+lZTEAV4q04bzrOfPGASAnHX
+	jS1w6XEHzKI2J7pRKcT9rV9e/BCWSsRQDdqr3NMeRME3W+JKSugi+6rlSej/JzLqq7ys
+	NpEB0VSerdgkTA3nNZS8P72kCnyH9uue9H3BBNmC1kV+cSizaT8UrdYl3OvFg3CMZAu1
+	F6nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=bEJdPpyZLALJhUiTm/rBoec3E9I+Xp6QgujVDX+xsCE=;
+	b=IjBBzTyE2AT2HMFJ5AGaUjnMY7SKof8cx1qGiR9D3mz5rY+jA9/xJFinieontPzH6m
+	2JehF2PwGqUjey3/IpMZYlKp49i22lvVCL7ntODeHx4q2H/HGQGbGaw7HZNzRqJZfclo
+	WoxmUS1endpQ0BOwvszYf1TNdVvHIG2R7yi5HUbtzE6mdTNJmvijcZw/AhfbwQ/eca7t
+	FQ4zHPaTybvFxN63VP5SbmoR5uNdCcmJUKCe1Lmb9UaEm6H9/+eY3ik9kx7CPTH5Ilp5
+	tLh4YnodZHBYPGU4hMumLuQtG+Z8KNJFKq2hqJSM+nDQJ5311+bl+U/tK3b5bs7BpNN5
+	KKdw==
+X-Gm-Message-State: AElRT7GvgFxt7cueHO/RXxWL0ALUh/7nJc+ej1hU6wU58Jw+7eW05jdf
+	SF6OF5XmPrnfCb0NPmd6Tdr+1w==
+X-Google-Smtp-Source: AG47ELvgeyfZZ2eUnKppoARfOhXVMD1yjKflXH51LzuO6zNRjcIlRCpqZxBunb3HRBHfx1MWVZ/0Yw==
+X-Received: by 2002:a19:d945:: with SMTP id
+	q66-v6mr6081328lfg.62.1521106152110; 
+	Thu, 15 Mar 2018 02:29:12 -0700 (PDT)
+Received: from [10.20.33.225] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	l1sm1011168ljc.91.2018.03.15.02.29.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Mar 2018 02:29:11 -0700 (PDT)
+To: Cal Sullivan <california.l.sullivan@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <e4d7ba56-e92f-9322-6e37-be08bcab8ad8@linux.intel.com>
+	<1516876416-13748-1-git-send-email-kristian.amlie@northern.tech>
+	<1516876416-13748-2-git-send-email-kristian.amlie@northern.tech>
+	<3d9848f0-9432-0717-f4f0-0c37dba63b9f@intel.com>
+From: Kristian Amlie <kristian.amlie@northern.tech>
+Message-ID: <0704502f-c045-3703-c903-9f43fe1e342c@northern.tech>
+Date: Thu, 15 Mar 2018 10:29:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: [PATCH] distcc: update to 3.3
+In-Reply-To: <3d9848f0-9432-0717-f4f0-0c37dba63b9f@intel.com>
+Subject: Re: [PATCH v7] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +67,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 08:27:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Mar 2018 09:29:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 13/02/18 02:29, Cal Sullivan wrote:
+>> ...
+>> +
+>> +        if path.endswith(os.sep):
+> We need to check if full_path exists here, else it may try modifying
+> things that don't exist. E.g., if I have IMAGE_ROOTFS_EXCLUDE_PATH =
+> "boot" in local.conf and do 'bitbake core-image-minimal-initramfs' I get
+> the following:
+> 
+> ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Error
+> executing a python function in exec_python_func() autogenerated:
+> 
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:prepare_excluded_directories(d)
+>      0003:
+> File: '/home/clsulliv/yocto/poky/meta/classes/image.bbclass', lineno:
+> 572, function: prepare_excluded_directories
+>      0568:                else:
+>      0569:                    os.remove(full_entry)
+>      0570:        else:
+>      0571:            # Delete whole directory.
+>  *** 0572:            shutil.rmtree(full_path)
+>      0573:
+>      0574:    # Save old value for cleanup later.
+>      0575:    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
+>      0576:    d.setVar('IMAGE_ROOTFS', new_rootfs)
+> File: '/usr/lib64/python3.6/shutil.py', lineno: 471, function: rmtree
+>      0467:        # lstat()/open()/fstat() trick.
+>      0468:        try:
+>      0469:            orig_st = os.lstat(path)
+>      0470:        except Exception:
+>  *** 0471:            onerror(os.lstat, path, sys.exc_info())
+>      0472:            return
+>      0473:        try:
+>      0474:            fd = os.open(path, os.O_RDONLY)
+>      0475:        except Exception:
+> File: '/usr/lib64/python3.6/shutil.py', lineno: 469, function: rmtree
+>      0465:            path = os.fsdecode(path)
+>      0466:        # Note: To guard against symlink races, we use the
+> standard
+>      0467:        # lstat()/open()/fstat() trick.
+>      0468:        try:
+>  *** 0469:            orig_st = os.lstat(path)
+>      0470:        except Exception:
+>      0471:            onerror(os.lstat, path, sys.exc_info())
+>      0472:            return
+>      0473:        try:
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> '/home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/rootfs.image_cpio/boot'
+> 
+> 
+> ERROR: core-image-minimal-initramfs-1.0-r0 do_image_cpio: Function
+> failed: prepare_excluded_directories
+> ERROR: Logfile of failure stored in:
+> /home/clsulliv/yocto/poky/build/tmp/work/intel_corei7_64-poky-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do_image_cpio.23514
+> 
+> ERROR: Task
+> (/home/clsulliv/yocto/poky/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image_cpio)
+> failed with exit code '1'
+> 
+> Besides this, it works well. I'm using it here[1] as part of my attempt
+> to improve EFI images.
+> 
+> [1].
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=clsulliv/image-creation-exclude-path
 
-* update to version 3.3
-* Remove 0001-zeroconf-Include-fcntl.h.patch since it's
-  included in v3.3
-* Add update-distcc-symlinks into FILES.
+Sorry for coming late to the party here. Nice find though, and the fix
+looks good too.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../distcc/{distcc_3.2.bb => distcc_3.3.bb}        | 10 +++++---
- .../files/0001-zeroconf-Include-fcntl.h.patch      | 29 ----------------------
- 2 files changed, 6 insertions(+), 33 deletions(-)
- rename meta/recipes-devtools/distcc/{distcc_3.2.bb => distcc_3.3.bb} (91%)
- delete mode 100644 meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
+Will you be pushing to get this merged in master? The process of getting
+it merged has been quite slow until now, so I've been considering
+implementing this downstream in the meta-mender layer instead, even
+though I think it could benefit many OE/poky users.
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/distcc/distcc_3.2.bb
-rename to meta/recipes-devtools/distcc/distcc_3.3.bb
-index b6da65a582a..a266e7dde9b 100644
---- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.3.bb
-@@ -14,14 +14,15 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
- 
- RRECOMMENDS_${PN} = "avahi-daemon"
- 
--SRC_URI = "git://github.com/distcc/distcc.git;branch=${PV} \
-+SRC_URI = "git://github.com/distcc/distcc.git;branch=master \
-            file://separatebuilddir.patch \
--           file://0001-zeroconf-Include-fcntl.h.patch \
-            file://default \
-            file://distccmon-gnome.desktop \
-            file://distcc \
-            file://distcc.service"
--SRCREV = "d8b18df3e9dcbe4f092bed565835d3975e99432c"
-+
-+SRCREV = "002e68b766ccd7ad05551e67d162b71a7a773d0d"
-+
- S = "${WORKDIR}/git"
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
-@@ -60,9 +61,10 @@ PACKAGES += "distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
--    ${bindir}/lsdistcc \
-+		${bindir}/lsdistcc \
- 		${bindir}/distccd \
- 		${bindir}/distccmon-text \
-+		${sbindir}/update-distcc-symlinks \
- 		${systemd_unitdir}/system/distcc.service"
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
-diff --git a/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch b/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
-deleted file mode 100644
-index b17ec9c9599..00000000000
---- a/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 8331fc4759d809512f404e7a27f817ad6d616450 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 18:00:33 -0700
--Subject: [PATCH] zeroconf: Include fcntl.h
--
--We need it for getting deinitions for O_* e.g. O_CREAT
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/zeroconf.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/zeroconf.c b/src/zeroconf.c
--index 414ddc4..31bd33f 100644
----- a/src/zeroconf.c
--+++ b/src/zeroconf.c
--@@ -33,6 +33,7 @@
-- #include <unistd.h>
-- #include <stdlib.h>
-- #include <limits.h>
--+#include <fcntl.h>
-- 
-- #include <avahi-common/domain.h>
-- #include <avahi-common/error.h>
---- 
--2.1.4
--
 -- 
-2.13.0
-
+Kristian
 
