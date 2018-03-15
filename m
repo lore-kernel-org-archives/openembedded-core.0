@@ -1,37 +1,42 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F086788B9
+Return-Path: <jpmv27@yahoo.com>
+Received: from sonic301-32.consmr.mail.ne1.yahoo.com
+	(sonic301-32.consmr.mail.ne1.yahoo.com [66.163.184.201])
+	by mail.openembedded.org (Postfix) with ESMTP id E6CFA788DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 16:43:25 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id l25so7919073qtj.1
+	Thu, 15 Mar 2018 16:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1521132220; bh=1Bawe/j/JxYO5NXt8N7MsNYvzTlNTbzwyyikecDMmSw=;
+	h=Subject:To:References:From:Date:In-Reply-To:From:Subject;
+	b=m9PacMMsnfl9L1QtqyiVMIeViBhxVRHwKNJFcX6vEJql6y+o0RKHZl9Q5CHum2bTrOIZX9FwILpzIZUJaUHh0h7cr7+ZNSZnUG4UuJ6zNT+GXB5iOCP31nVmbRvvTi9aonZemtyJ0dstpZKSBQiBXQrjN80SO7d88TeLoL9VgVXimRqPGo6I1c1tsaDMYBNnnrUhi1pYtDLHVGJ3XBf2YPo6KkfctVkzckzKgQjPeixr6z8OZJnCAVE3b3At63N6P18bveXNjTUUDVBgLQfwbn5aUs2z6z2Ihn7rDqgGQ9pYh/wuBtDiv0l3dKQx1p4dNwkEH2THYgfJSmNdII1o1w==
+X-YMail-OSG: .PKHSTEVM1ldu22gKJdXLK5TfhJke5NKXnidNq8R_A3Dlgicux2HVmATfLbS7eL
+	_UoGWOh9LiFUZJ986zStsdUr60k0S75Y34J8vqHT6C1sxzHXEVdOcITwR5YWvRhsEy7cmi2_YpPu
+	wrvFB9kHuM.VTtolSVmRnD_PTTRMXbj8QCgPONW8ssDAhD8HcOLuueMIw_BvB80_nmnrJfNWpn8I
+	pODSQogVoS84QMJAdTQRb3JrmSIixw_hbSjTSXDvnuoc5VGNFVxLBbDF.3OQv1XsaNyHaRiQVoe7
+	va61AHEG.txYZKEjJ.rmTMYM51viQBfH2Sx5ViM1uXp_O.HGjh5ANTT1Lql7m1uT_Zkx0hiGNLlK
+	P6kqQu46hpU6bJ0QmriPMUK62hSGgJcdfsg0Itkk2XP9LQnKzsVqisJEl.F0_UA0LVYKaxAQOJWZ
+	Ux1H8q6ZUjP0z1gNYQZJmwJciAotj3hlT6opo5O4i55Jy8d7Rt27ZcIftOAn9JwzsiCh9M1Ngg4J
+	pizdJ
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic301.consmr.mail.ne1.yahoo.com with HTTP;
+	Thu, 15 Mar 2018 16:43:40 +0000
+Received: from CPE000db93f888c-CM001404556d28.cpe.net.cable.rogers.com (EHLO
+	[10.11.12.90]) ([99.246.128.134])
+	by smtp412.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
+	6fae18b8b7c268d23c76d7bc63cb99fb
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 09:43:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eEuR6bEMhSVR4iAunorrxVCwUGpHqzqYAXhBUx6Yqgg=;
-	b=X65wF2ZPumXqo0b4kpghBWbK5nuAuWk3u2GhF+fsv8nRNXJjRo6RkOCJpKaEYktHG9
-	lq19LoEhfVCG30DxrrQoY3iVGrKs4zkzwEWooSQioRBXW4t9Uq1+rLD9Ngi+BRq3MCcc
-	aSJuya5nG6R+DzjQC9IY2zmA1GoMHi7ONONUrKhQog7V1KBP3tIbUhiZ0QZ4KrSi6KZG
-	ezJTIQi3B0SKqOBhjl6P1Fm1a/NmfxeUiAJaxlcoC7eSJZzoqQrbmgoFdT4bI3HUI8g0
-	3NgRP2rQFZmUaRU+yatvLrirjJ6ocBiV6IMl/1GtZzeTbTxrxjJV32kTKDhfgGjIOzCg
-	JYgA==
-X-Gm-Message-State: AElRT7FZRJRJzmcNIN1obSCNnuzYBRacTtoKfm+qOydVwK1vjlRCK3rB
-	rsG/lIjmYYWx7e4Pi1l+cpYAnsgY
-X-Google-Smtp-Source: AG47ELsF2p4rIsrWabuYKabDGjhH0E1BdiwPeGUzCn9mAfZpgw8QlWlWZPcshtd2+8rscz1h8LnfGw==
-X-Received: by 10.200.47.163 with SMTP id l32mr13626506qta.195.1521132206611; 
-	Thu, 15 Mar 2018 09:43:26 -0700 (PDT)
-Received: from sparta.ny.asterius.io ([68.132.72.199])
-	by smtp.gmail.com with ESMTPSA id u5sm3474456qkh.36.2018.03.15.09.43.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Mar 2018 09:43:25 -0700 (PDT)
-From: Derek Straka <derek@asterius.io>
+	Thu, 15 Mar 2018 16:43:35 +0000 (UTC)
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 12:43:11 -0400
-Message-Id: <1521132191-17851-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv3] python3: update to version 3.5.5 to fix security issues
+References: <c1fcdce0-7ad4-d7ce-287b-3783579fc631@yahoo.com>
+	<8ef4b697-ea48-80eb-9068-7b15fd7cc944@yahoo.com>
+	<ff44760a-886b-b868-c309-3cf52dc142f5@linux.intel.com>
+From: Martin Vuille <jpmv27@yahoo.com>
+Message-ID: <5c0c563b-bbe2-e1b9-2da0-bb260a946042@yahoo.com>
+Date: Thu, 15 Mar 2018 12:43:34 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <ff44760a-886b-b868-c309-3cf52dc142f5@linux.intel.com>
+Subject: Re: Recipe for Linux page-types tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 16:43:26 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 16:43:39 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-License-Update: checksum change is due to bump in copyright year
+On 03/15/18 06:49, Alexander Kanavin wrote:
+> On 03/15/2018 12:20 AM, Martin Vuille wrote:
+>> page-types is a simple Linux kernel debugging tool to list information about
+>> the state of virtual memory (VM) pages.
+>>
+>> The source is distributed as part of the kernel tree: tools/vm/page-types.c
+>>
+>> MV
+>>
+>> On 03/14/18 11:22, Martin Vuille wrote:
+>>> I have a recipe for building the page-types Linux kernel VM tool.
+>>> Is there any interest in this?
+>>> If so, to what project/layer should I send it?
+> 
+> 
+> This questions is probably better asked on the linux-yocto mailing list then?
+> 
+> Alex
 
-Resolves CVE-2017-1000158 and other potential security issues
+Perhaps I'm missing something. I'm offering a bitbake recipe. linux-yocto
+doesn't seem to contain any layers or recipes.
 
-See https://docs.python.org/3.5/whatsnew/changelog.html#python-3-5-5-final
-
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- .../python/{python3-native_3.5.4.bb => python3-native_3.5.5.bb}     | 6 +++---
- meta/recipes-devtools/python/{python3_3.5.4.bb => python3_3.5.5.bb} | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/python/{python3-native_3.5.4.bb => python3-native_3.5.5.bb} (94%)
- rename meta/recipes-devtools/python/{python3_3.5.4.bb => python3_3.5.5.bb} (98%)
-
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.4.bb b/meta/recipes-devtools/python/python3-native_3.5.5.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-native_3.5.4.bb
-rename to meta/recipes-devtools/python/python3-native_3.5.5.bb
-index c825253..3f09b32 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.4.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.5.bb
-@@ -27,10 +27,10 @@ file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
- file://support_SOURCE_DATE_EPOCH_in_py_compile.patch \
- "
- 
--SRC_URI[md5sum] = "fb2780baa260b4e51cbea814f111f303"
--SRC_URI[sha256sum] = "94d93bfabb3b109f8a10365a325f920f9ec98c6e2380bf228f9700a14054c84c"
-+SRC_URI[md5sum] = "f3763edf9824d5d3a15f5f646083b6e0"
-+SRC_URI[sha256sum] = "063d2c3b0402d6191b90731e0f735c64830e7522348aeb7ed382a83165d45009"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de91d4eeea5930b9c3c7fa69d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b6ec515b22618f55fa07276b897bacea"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-diff --git a/meta/recipes-devtools/python/python3_3.5.4.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.5.4.bb
-rename to meta/recipes-devtools/python/python3_3.5.5.bb
-index a94d009..8150dd6 100644
---- a/meta/recipes-devtools/python/python3_3.5.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.5.bb
-@@ -38,10 +38,10 @@ SRC_URI += "\
-             file://0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch \
-             file://pass-missing-libraries-to-Extension-for-mul.patch \
-            "
--SRC_URI[md5sum] = "fb2780baa260b4e51cbea814f111f303"
--SRC_URI[sha256sum] = "94d93bfabb3b109f8a10365a325f920f9ec98c6e2380bf228f9700a14054c84c"
-+SRC_URI[md5sum] = "f3763edf9824d5d3a15f5f646083b6e0"
-+SRC_URI[sha256sum] = "063d2c3b0402d6191b90731e0f735c64830e7522348aeb7ed382a83165d45009"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f741e51de91d4eeea5930b9c3c7fa69d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b6ec515b22618f55fa07276b897bacea"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.7.4
-
+MV
 
