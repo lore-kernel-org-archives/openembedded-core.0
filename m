@@ -1,23 +1,49 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EC87678854
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E6A6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 12:40:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Mar 2018 05:40:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,310,1517904000"; d="scan'208";a="211570252"
-Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Mar 2018 05:40:45 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Thu, 15 Mar 2018 13:13:52 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id f14so8212086wre.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2018 06:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PE/JAdkkV2jqcWe6X+s57jIKK29n/6pW5aI0V+zy7s8=;
+	b=VM+EnWLGEy4EcRR6JfBgPmunAaB5wWBFeCDfqZS7ugkl197Jz0drVNe76AiK8Dui7O
+	u9fnoP28QFudDm9yVFS4n3+Qogbae/YRWeRzfiHDxXi9ZrH8JwRPC2YmMEusIf14OqoI
+	MJEOOtZK4lPAItMoOvpvPOW3q+G1IYSznEo0kQoiGXTlHonhOWXRKtCCmRQIDnMXSNL5
+	bqDKk1X2oINBZO2OcOIa3V/Pn+OAcYNrSC1Czwrz2A9wbiLFCc+HZVeHBdlG36WJsGEs
+	jnO/s1uHhaRjvTlh9rP8DxLGp9vxYVBwG4qyqG3EKJNcmYsyTYACeRiDs9xZDZxHOfx9
+	fEfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PE/JAdkkV2jqcWe6X+s57jIKK29n/6pW5aI0V+zy7s8=;
+	b=MKlcq4r9At2EXXlkMwCbIl/DboqapnoImC2RgZ0dQucSWn0s29pgFkxUXeV3Kl8sy9
+	anTmrOX35JOOu+xnmdm6chB0tFBC1dcB/HzlBT8PnmZn/aaF77bEwoSF1wz1kkS5Ri9B
+	NTPBlNwPflrZRnh0stgAp7WbwwebDDWkFJXalqmj2ETl0JxDBcrZmLGpwWJj/w9eHbvA
+	68Klra+wiBWWMwb+lzkxbY3x1BQQIap+fVz7iz12J6aEZYOKzZcKyvAsCve4aSN7K6AB
+	dBASkGS9KG/zbdP99Y+bHOaJsMStC1Ik5006ft4ukZCLi5n7AcmpFTjc2TQGXWF9uI/A
+	ZNig==
+X-Gm-Message-State: AElRT7FpqQ0U3vokAaCBv83lUmYzdk8OMnW6HBDnRHqEl/qRKgXHnOXE
+	VZiTvLGg3JZ7BO1VAj3c18WmTrnX
+X-Google-Smtp-Source: AG47ELtQgtPHnqcAG5WdX7m4m3ZRjCZ+fXgbtkvvmwRQd8CR97YWMIkKNGyAd6esteD+cGkAX1fiGg==
+X-Received: by 10.223.178.228 with SMTP id g91mr7207047wrd.157.1521119633203; 
+	Thu, 15 Mar 2018 06:13:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	u89sm3964882wma.10.2018.03.15.06.13.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Mar 2018 06:13:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 14:40:45 +0200
-Message-Id: <20180315124045.44117-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] scripts/oe-build-perf-report: fix comparing arbitrary commits
+Date: Thu, 15 Mar 2018 13:13:50 +0000
+Message-Id: <20180315131350.12270-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] buildperf: measure the size of core-image-sato rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 12:40:46 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 13:13:52 -0000
 
-Fix a crash when generating a txt report and the two commits to be
-compared were not consecutive (but there were some tested commits
-between them).
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/oe-build-perf-report | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ meta/lib/oeqa/buildperf/test_basic.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index ac88f0fce5..dc999c45c1 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -639,10 +639,6 @@ def main(argv=None):
-         data.append(AggregateTestData(aggregate_metadata(raw_m),
-                                       aggregate_data(raw_d)))
+diff --git a/meta/lib/oeqa/buildperf/test_basic.py b/meta/lib/oeqa/buildperf/test_basic.py
+index a19089a6ed2..6d6b01b04b4 100644
+--- a/meta/lib/oeqa/buildperf/test_basic.py
++++ b/meta/lib/oeqa/buildperf/test_basic.py
+@@ -15,8 +15,7 @@ import shutil
  
--    # Re-map list indexes to the new table starting from index 0
--    index_r = index_r - index_0
--    index_l = index_l - index_0
+ import oe.path
+ from oeqa.buildperf import BuildPerfTestCase
+-from oeqa.utils.commands import get_bb_vars
 -
-     # Read buildstats only when needed
-     buildstats = None
-     if args.dump_buildstats or args.html:
-@@ -653,10 +649,11 @@ def main(argv=None):
++from oeqa.utils.commands import get_bb_var, get_bb_vars
  
-     # Print report
-     if not args.html:
--        print_diff_report(data[index_l].metadata, data[index_l].results,
--                          data[index_r].metadata, data[index_r].results)
-+        print_diff_report(data[0].metadata, data[0].results,
-+                          data[1].metadata, data[1].results)
-     else:
--        print_html_report(data, index_l, buildstats)
-+        # Re-map 'left' list index to the data table where index_0 maps to 0
-+        print_html_report(data, index_l - index_0, buildstats)
+ class Test1P1(BuildPerfTestCase):
+     build_target = 'core-image-sato'
+@@ -30,6 +29,7 @@ class Test1P1(BuildPerfTestCase):
+         self.measure_cmd_resources(['bitbake', self.build_target], 'build',
+                                    'bitbake ' + self.build_target, save_bs=True)
+         self.measure_disk_usage(self.bb_vars['TMPDIR'], 'tmpdir', 'tmpdir')
++        self.measure_disk_usage(get_bb_var("IMAGE_ROOTFS", self.build_target), 'rootfs', 'rootfs', True)
  
-     return 0
  
+ class Test1P2(BuildPerfTestCase):
 -- 
-2.13.6
+2.11.0
 
 
