@@ -1,66 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id EED8F77811
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C619D6093F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 21:10:10 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id u5so3321887pfh.6
+	Thu, 15 Mar 2018 21:28:30 +0000 (UTC)
+Received: by mail-yw0-f193.google.com with SMTP id c20so5656107ywa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 14:10:12 -0700 (PDT)
+	Thu, 15 Mar 2018 14:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=abiprFVLqYDhE294uFCHZCqR6/b62Wet2ec3okRSKf4=;
-	b=W2hTmZr67M/zoIKliXvica94V0m13aFWjnTK32rMaBxbZvseG3Whw5CEyeeP5bfPze
-	PFc3GfN535KlLo7KDpfMTb7wjGxtNSAMh3WlDo3xA8EpeZKOkgtFeIcPJkoZR/+mHI+n
-	yhHOTWnYERLtWfDOjislrLulYHgg8+vYsuV52bcXFxE/+J0m6Oyky6QQslXv2m0r4o1p
-	bj1gaX4LshqPJn8KYjRaJZTzjQPa5IjyEoieE/b6yJ0iwG5M0RCEQ0+ojbOeqtOFjDK6
-	m3EnLNufFwBnvXIhJZ/5HvUIZMqafx54RHj2wZcv6NRzvebcTlg3p097piyXZOtdK5Na
-	Z+/A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=szKl/Wfy0qNmAvo5Z8dY55uU+HW2Z5QXe0VYl+xEWgw=;
+	b=A3Lc7p9TM2VaduTNTyBUsDke3EFneLG1+OPf4MXpYJ/S4Leflbho5V9gIui8FXB2UL
+	6XDDmlBlvT+dT3cRMUduE5zUnnY2XION4H4XK/zeSeiLbatV4zLnsK8X0jW/GiXpblI2
+	QoWP6xEdqFv1ApJOTJVYN/6Z+csO4nrGpL9PCb2SFdtKexEm+z4KTO1BHDpUE8o1PwcQ
+	tPhxzceVTFWH5NkuQCiO/a34AxL9meze1KqqSndYD6cYAFs9TrYXx6chk33L0jsUF0Nn
+	8u4siHGSOtPVFgDvnQb0b36qyLukuscsGJVZ7u83j0c9en8YBi3jmnhZIVXzca4UFv6D
+	+ZiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=abiprFVLqYDhE294uFCHZCqR6/b62Wet2ec3okRSKf4=;
-	b=V4lVC75ISm4L6QcUyHMbOdMxTm22HZeFHHdoUTXp8L9W0gr0yrNZAwqSYXZ7JiN64u
-	bihOHxIbp1a/mBMIh4DtcCwaibQdJBVnGXZt5e6GuD6vvkinUg3PA0OUF1XyeVG0XD3w
-	M/iYF7C7/vhKm1D/uqf6kZUxlUQsGw8WRsg8IVEFEPj/JjpoUb7W27cvM6rZcjPygigT
-	6jO3oWGPaMpBrgxR9W6bdwq1cnv+qgMjmJC9GEWh1s6IbZisfPVpMv/QIiwdYgTviPRi
-	7X2F2RqY3LgNcGadP0FAVCcLKNyLMC/RqVRZM7tjdUW/KfJGG46hQn2ycT7RGWXjabiQ
-	rBwA==
-X-Gm-Message-State: AElRT7H9riatcFhEOKEYw5lK2VfgQ4QAW5DVqpf4H2OzgWxIAJaqDHNh
-	tu20MMyq1jy7jdw75kjMwlTViQ==
-X-Google-Smtp-Source: AG47ELtdPfCEptUDkkbFLTHJh3524+g3r0MqHhVllaE/kZ9ddnvbG7obMXsrcL779hfJ7AoNsgxNHw==
-X-Received: by 10.101.96.142 with SMTP id t14mr7660601pgu.58.1521148210961;
-	Thu, 15 Mar 2018 14:10:10 -0700 (PDT)
-Received: from [172.16.131.121] (nat-wv.mentorg.com. [192.94.38.34])
-	by smtp.gmail.com with ESMTPSA id
-	o3sm10099550pgp.18.2018.03.15.14.10.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Mar 2018 14:10:09 -0700 (PDT)
-To: Denys Dmytriyenko <denis@denix.org>, akuster <akuster@mvista.com>
-References: <CAK18fxEEZRnHzobX=Lt2By_VYgEzi36nSU+X_94Etegh8E81mg@mail.gmail.com>
-	<cc978b8d-afa0-5ea2-ba5d-9700bab26fdc@linux.intel.com>
-	<EBAEBC3AA1B73F4887F286A6723535236597E79C@BGSMSX102.gar.corp.intel.com>
-	<CAK18fxGNk3vxKeLVpoa7TCuuCq_jkkmMmj3D6Z-hM494ASF5kA@mail.gmail.com>
-	<CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
-	<2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
-	<EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
-	<EBAEBC3AA1B73F4887F286A67235352365982A04@BGSMSX102.gar.corp.intel.com>
-	<20180305202408.GE2786@denix.org>
-	<20ae973a-1a8e-3950-193c-4adda84c513f@mvista.com>
-	<20180315174854.GW2786@denix.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <82bfa84f-c352-5997-829c-26434f100c10@gmail.com>
-Date: Thu, 15 Mar 2018 14:10:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=szKl/Wfy0qNmAvo5Z8dY55uU+HW2Z5QXe0VYl+xEWgw=;
+	b=ggBcrnXpFh+RurFtECIwkeH/NKurzUFmq/tF3/wjgU8BV+XnQfgIDocCyn/6lqPSre
+	NrysISQYfW0azMtw94ipU2RzDL3QTiv8r1G2zCFnmyOJvHqPNtQf8+Qp37svROKkCMof
+	JBzQaonml/2YGggcggMDGEBl0oNHWMmz7qI7EN14kRxFQKpfjo8TsnP6QpYDrK0YlZfO
+	QKCaKdUZ7UgLyw64+qRqBzfyuKJVTNex7nJ4iNHa2zABmEnvKP4bshTMbdu7MXYBeTR3
+	Wopm1J1lvTNkrayYhlIhnUJ8RT+DFUsmBt9OXsqWTz2R4iRdesh7IErsgP3yUpMa2awJ
+	YyMw==
+X-Gm-Message-State: AElRT7H22KyBbNzZXDu6QR0ZSfGm9S/Hl4wYz5mCfkJG48vpw+NW7T5Y
+	rufslarbSsYqzte5N8HsnuV8pZv7RgDOgHGFv5A=
+X-Google-Smtp-Source: AG47ELvBwPhJpApcV2LeI7mzeC0J3J5m1WeBSVhi3W9FGCIieaTRdOccx8J0EFU4VQH7FBftyBNVtJKgLME5t1sYNfo=
+X-Received: by 10.129.69.10 with SMTP id s10mr7295137ywa.145.1521149311483;
+	Thu, 15 Mar 2018 14:28:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180315174854.GW2786@denix.org>
-Cc: "Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>,
-	'openembedded' <openembedded-core@lists.openembedded.org>
-Subject: Re: Linux firmware for iwlwifi 8000c disappeared in pyro
+Received: by 2002:a25:d105:0:0:0:0:0 with HTTP; Thu, 15 Mar 2018 14:28:30
+	-0700 (PDT)
+In-Reply-To: <5c0c563b-bbe2-e1b9-2da0-bb260a946042@yahoo.com>
+References: <c1fcdce0-7ad4-d7ce-287b-3783579fc631@yahoo.com>
+	<8ef4b697-ea48-80eb-9068-7b15fd7cc944@yahoo.com>
+	<ff44760a-886b-b868-c309-3cf52dc142f5@linux.intel.com>
+	<5c0c563b-bbe2-e1b9-2da0-bb260a946042@yahoo.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 15 Mar 2018 22:28:30 +0100
+Message-ID: <CALbNGRTfdmkms=mi-q8oFp3ENZ3OWv0SGfy0xpta4JWmheynHw@mail.gmail.com>
+To: Martin Vuille <jpmv27@yahoo.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe for Linux page-types tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,81 +59,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 21:10:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 15 Mar 2018 21:28:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 03/15/2018 10:49 AM, Denys Dmytriyenko wrote:
-> Ping. Any ETA for when it will be merged to morty?
-I will run a build this weekend for formal submission to morty.
-
-next week maybe?
-- armin
+On Thu, Mar 15, 2018 at 5:43 PM, Martin Vuille <jpmv27@yahoo.com> wrote:
+> On 03/15/18 06:49, Alexander Kanavin wrote:
+>>
+>> On 03/15/2018 12:20 AM, Martin Vuille wrote:
+>>>
+>>> page-types is a simple Linux kernel debugging tool to list information
+>>> about
+>>> the state of virtual memory (VM) pages.
+>>>
+>>> The source is distributed as part of the kernel tree:
+>>> tools/vm/page-types.c
+>>>
+>>> MV
+>>>
+>>> On 03/14/18 11:22, Martin Vuille wrote:
+>>>>
+>>>> I have a recipe for building the page-types Linux kernel VM tool.
+>>>> Is there any interest in this?
+>>>> If so, to what project/layer should I send it?
+>>
+>>
+>>
+>> This questions is probably better asked on the linux-yocto mailing list
+>> then?
+>>
+>> Alex
 >
 >
-> On Mon, Mar 05, 2018 at 01:29:22PM -0800, akuster wrote:
->> its in stable/mory-next
->>
->>
->> thanks,
->>
->> Armin
->>
->>
->> On 03/05/2018 12:24 PM, Denys Dmytriyenko wrote:
->>> Same thing just broke morty!
->>>
->>> http://cgit.openembedded.org/openembedded-core/commit/?h=morty&id=c134c583e0ef315e88644d94e5a3920b92c6f39d
->>>
->>>
->>> On Mon, Feb 26, 2018 at 08:16:55AM +0000, Palleti, Avinash Reddy wrote:
->>>> Gentle Reminder.
->>>>
->>>> Thanks,
->>>> Avinash
->>>>
->>>> From: Palleti, Avinash Reddy
->>>> Sent: Wednesday, February 21, 2018 10:22 AM
->>>> To: akuster808 <akuster808@gmail.com>; Andrei Gherzan <andrei@gherzan.ro>; akuster@mvista.com
->>>> Cc: openembedded <openembedded-core@lists.openembedded.org>
->>>> Subject: RE: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
->>>>
->>>> It needs to be merged in both pyro and pyro-next.
->>>>
->>>> Thanks,
->>>> Avinash
->>>>
->>>> From: akuster808 [mailto:akuster808@gmail.com]
->>>> Sent: Wednesday, February 21, 2018 10:17 AM
->>>> To: Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>>; Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>>; akuster@mvista.com<mailto:akuster@mvista.com>
->>>> Cc: openembedded <openembedded-core@lists.openembedded.org<mailto:openembedded-core@lists.openembedded.org>>
->>>> Subject: Re: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
->>>>
->>>>
->>>> in stable/pyro-next
->>>>
->>>> On 02/20/2018 04:50 AM, Andrei Gherzan wrote:
->>>> On Fri, Feb 16, 2018 at 2:08 PM, Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>> wrote:
->>>> On Fri, Feb 16, 2018 at 1:48 PM, Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>> wrote:
->>>>  I submitted a fix sometime back,
->>>> http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html
->>>>
->>>>
->>>> Great. We have the fix available and approved by Saul. Shall we merge?
->>>>
->>>> Adding the pyro maintainer to this thread.
->>>>
->>>> --
->>>> Andrei Gherzan
->>>>
->>>>
->>>> -- 
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Perhaps I'm missing something. I'm offering a bitbake recipe. linux-yocto
+> doesn't seem to contain any layers or recipes.
+>
+Hi Alex,
 
+* You have checked layer list [1] if this recipe is not yet available?
+* It would help if you send out a patch - just a description does not
+say much. From what you wrote I suggest to locate the patch in repo
+meta-openembedded/meta-oe/recipes-devtools. Mail addresses can be
+found at [2] - for meta-openembedded it is
+openembedded-devel@lists.openembedded.org.
+
+[1] http://layers.openembedded.org/layerindex/branch/master/recipes/
+[2] https://www.openembedded.org/wiki/Mailing_lists
 
