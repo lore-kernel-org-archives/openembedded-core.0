@@ -1,48 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BF8D378830
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4083960720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 01:56:59 +0000 (UTC)
-Received: by mail-vk0-f48.google.com with SMTP id w197so2451288vkw.3
+	Thu, 15 Mar 2018 01:59:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2F1xKQ9021652
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2018 18:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=D4wvwqk37kNjA4BhqRbL8cjj1kAaGAjIAHualfno+nw=;
-	b=ixoe8M1WJ0OohBn5LGKaVjIox/c0IZq92m4AfGlf2Ot7Yep/rMQvXv4x6pVUF76z8c
-	G+CWnHfIsUSBlOB/wpRsaZHk5bWqiL/HVAYNA5NSHo0bvjlkSxCtPFHtNAiiktvXYU33
-	dkPOMPQ7z79vDOraIXTtynhbBVdOH9358l8oeuhbvUf5GSOsdY6ARJgcITAI4WAZ/TTu
-	3YMFA+oihT7hYcWVxn2Baw5ChUmIADjxRtFvNY+S/duxAWXL25apKEUVpOKtrV/Oa6Aw
-	ml+KjPoOofYYMYNN6EQ+GiiW6FHkYerYOp8JFVWyznWGmz0ibEt/VK68xvmSCXKy9cD9
-	JO/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=D4wvwqk37kNjA4BhqRbL8cjj1kAaGAjIAHualfno+nw=;
-	b=qrISzu/vMHzdaCUuBiEZmL0VTl4uXCLcdwQ6fMQegpbY2UAniYXYBIWCj6EZYcRIqH
-	SesJc7jpNDnfLFZoaXavQN4kIhVEQxQj43zEttSX//bC7LGjUjm0iaRlnTzC5CHlG4oc
-	8kpo/XEb/6hBvLdeRQhYnhlNkXCRGipUx//+w5BBwkITSfXUxjG9P/JVYqbT7c8lOFDc
-	BOm72E83Gn6EeqSzl9xHKl7mtEbTYGNnYexcr5DEq1K2o9arGk1mEy9cdRsX4mzXbxGJ
-	DiCsxjNM6vnl4oQB2AIUCIOiJumrFO7aW7rOwj105biIPuGygzJzXI0S2jKkpNmVgCaL
-	moxA==
-X-Gm-Message-State: AElRT7EdF2Fd75+XRAb4RbWBPm4eqGDVABJlakX8Sktu7xzMdTXEday9
-	DatxYLMbpo5Ta9oIdgVTcetb1IhV+3RvG2fWns0=
-X-Google-Smtp-Source: AG47ELtJ39N+XAm6T0XUK5wDomYgVWoPgI2OntJTrc0g+ryFtsggel+9SG1hTe97JceJeizzeOvLyUGLAsFwzUfy1T4=
-X-Received: by 10.31.206.198 with SMTP id e189mr4883084vkg.164.1521079020473; 
-	Wed, 14 Mar 2018 18:57:00 -0700 (PDT)
+	Wed, 14 Mar 2018 18:59:20 -0700 (PDT)
+Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 14 Mar 2018 18:58:38 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1520841539.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <45826bc2-bdf5-4508-1e0f-dc9cb3fcda69@windriver.com>
+Date: Thu, 15 Mar 2018 09:59:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.159.61.25 with HTTP; Wed, 14 Mar 2018 18:56:40 -0700 (PDT)
-In-Reply-To: <20180315014848.14279-1-raj.khem@gmail.com>
-References: <20180315014848.14279-1-raj.khem@gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 14 Mar 2018 18:56:40 -0700
-Message-ID: <CABcZANnzr1Xpw+Xc0=Wr-HCi95Er-GU+zOLPKj81S33GEnUW0w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Do not use --with-linker-hash-style if LINKER_HASH_STYLE is empty
+In-Reply-To: <cover.1520841539.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.197]
+Subject: Re: [PATCH 0/3] systemd & systemd-boot: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,90 +35,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 01:56:59 -0000
-Content-Type: multipart/alternative; boundary="001a114e5a44b0e50a056769ce6a"
+X-List-Received-Date: Thu, 15 Mar 2018 01:59:19 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114e5a44b0e50a056769ce6a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ping
 
-On Wed, Mar 14, 2018 at 6:48 PM, Khem Raj <raj.khem@gmail.com> wrote:
+Is there some problem with this patchset?
 
-> We allow to set LINKER_HASH_STYLE to be empty so this would fail
-> since --with-linker-hash-style needs an argument and cant be empty
+Regards,
+Chen Qi
+
+On 03/12/2018 04:38 PM, Chen Qi wrote:
+> Changes in V2:
+> * Rebase against latest master to resolve conflicts
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-7.3.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc
-> b/meta/recipes-devtools/gcc/gcc-7.3.inc
-> index d56d2c5e06..cc428ad3ef 100644
-> --- a/meta/recipes-devtools/gcc/gcc-7.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
-> @@ -100,7 +100,7 @@ EXTRA_OECONF_BASE =3D "\
->      --disable-bootstrap \
->      --disable-libmudflap \
->      --with-system-zlib \
-> -    --with-linker-hash-style=3D${LINKER_HASH_STYLE} \
-> +    ${@['','--with-linker-hash-style=3D${LINKER_HASH_STYLE}'][d.getVar('=
-LINKER_HASH_STYLE')
-> !=3D '']} \
+> The following changes since commit 5350ee317740751f2417c1794dd39d3880347dbf:
+>
+>    yocto-uninative: Upgrade to 1.8 version with glibc 2.27 (2018-03-11 06:27:02 -0700)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-237
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-237
+>
+> Chen Qi (3):
+>    systemd: upgrade to 237
+>    systemd: fix build failure for qemux86 and qemuppc with musl
+>    systemd-boot: upgrade to 237
+>
+>   .../{systemd-boot_234.bb => systemd-boot_237.bb}   |  31 ++-
+>   meta/recipes-core/systemd/systemd.inc              |   2 +-
+>   ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 +++
+>   ...efi_cc-and-efi_ld-correctly-when-cross-co.patch |  62 +++++
+>   ...ck-protector-flags-to-workaround-musl-bui.patch |  33 +++
+>   ...v-when-secure-versions-are-not-available.patch} |  21 +-
+>   ...te-presets-after-generators-have-run-6526.patch |  69 ------
+>   ...any-initialization-steps-when-running-in-.patch | 163 -------------
+>   ...update-header-file-to-detect-memfd_create.patch |  28 ---
+>   ...t-install-dependency-links-at-install-tim.patch |  81 +++++++
+>   ...c-Check-if-memfd_create-is-already-define.patch |  27 ---
+>   .../systemd/0003-fileio-include-sys-mman.h.patch   |  26 --
+>   ...pper-instead-of-looking-for-relative-opti.patch |  64 +++++
+>   ...004-implment-systemd-sysv-install-for-OE.patch} |   8 +-
+>   ...t-install-dependency-links-at-install-tim.patch |  74 ------
+>   ...patch => 0005-rules-whitelist-hd-devices.patch} |   9 +-
+>   ...6-Make-root-s-home-directory-configurable.patch |  78 ++++++
+>   ...vert-rules-remove-firmware-loading-rules.patch} |   8 +-
+>   ...-check-for-missing-canonicalize_file_name.patch |  63 -----
+>   ...pper-instead-of-looking-for-relative-opti.patch |  40 ---
+>   .../systemd/0008-Do-not-enable-nss-tests.patch     |  35 ---
+>   ...remove-userspace-firmware-loading-suppor.patch} | 204 +++++++++-------
+>   ...=> 0009-remove-duplicate-include-uchar.h.patch} |  14 +-
+>   .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ++++
+>   ...nes-Build-conditionally-when-HAVE_MYHOSTN.patch |  38 ---
+>   ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  26 +-
+>   ...es-watch-metadata-changes-in-ide-devices.patch} |   8 +-
+>   ...3-Make-root-s-home-directory-configurable.patch | 155 ------------
+>   ...lback-parse_printf_format-implementation.patch} |  86 ++++---
+>   ...sic-missing.h-check-for-missing-strndupa.patch} |  96 ++++----
+>   ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  30 +--
+>   ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  18 +-
+>   ...patch => 0017-Include-netinet-if_ether.h.patch} |  55 +++--
+>   ...-check-for-missing-canonicalize_file_name.patch |  47 ++++
+>   .../0018-check-for-uchar.h-in-configure.patch      |  44 ----
+>   ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 +++
+>   ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  15 +-
+>   ...c-Disable-tests-for-missing-typedefs-in-.patch} |  39 ++-
+>   ...=> 0022-don-t-use-glibc-specific-qsort_r.patch} |  26 +-
+>   ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  22 +-
+>   ...n_t-is-glibc-specific-use-raw-signature-.patch} |  14 +-
+>   ...ATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} |  16 +-
+>   ...> 0026-Use-uintmax_t-for-handling-rlim_t.patch} |  22 +-
+>   .../0027-remove-nobody-user-group-checking.patch   |  63 +++++
+>   .../0028-add-missing-FTW_-macros-for-musl.patch    |  50 ++++
+>   ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 ++++
+>   ...-of-__register_atfork-for-non-glibc-build.patch |  45 ++++
+>   ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 +++
+>   meta/recipes-core/systemd/systemd/run-ptest        |   6 -
+>   .../systemd/{systemd_234.bb => systemd_237.bb}     | 270 +++++++++------------
+>   50 files changed, 1211 insertions(+), 1295 deletions(-)
+>   rename meta/recipes-core/systemd/{systemd-boot_234.bb => systemd-boot_237.bb} (58%)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>   rename meta/recipes-core/systemd/systemd/{0004-Use-getenv-when-secure-versions-are-not-available.patch => 0001-Use-getenv-when-secure-versions-are-not-available.patch} (53%)
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-evaluate-presets-after-generators-have-run-6526.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-main-skip-many-initialization-steps-when-running-in-.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-update-header-file-to-detect-memfd_create.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0002-configure.ac-Check-if-memfd_create-is-already-define.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0003-fileio-include-sys-mman.h.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
+>   rename meta/recipes-core/systemd/systemd/{0010-implment-systemd-sysv-install-for-OE.patch => 0004-implment-systemd-sysv-install-for-OE.patch} (89%)
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0005-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+>   rename meta/recipes-core/systemd/systemd/{0012-rules-whitelist-hd-devices.patch => 0005-rules-whitelist-hd-devices.patch} (89%)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0006-Make-root-s-home-directory-configurable.patch
+>   rename meta/recipes-core/systemd/systemd/{0014-Revert-rules-remove-firmware-loading-rules.patch => 0007-Revert-rules-remove-firmware-loading-rules.patch} (81%)
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0007-check-for-missing-canonicalize_file_name.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests.patch
+>   rename meta/recipes-core/systemd/systemd/{0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch => 0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch} (63%)
+>   rename meta/recipes-core/systemd/systemd/{0017-remove-duplicate-include-uchar.h.patch => 0009-remove-duplicate-include-uchar.h.patch} (78%)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0011-nss-mymachines-Build-conditionally-when-HAVE_MYHOSTN.patch
+>   rename meta/recipes-core/systemd/systemd/{0019-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (58%)
+>   rename meta/recipes-core/systemd/systemd/{0020-rules-watch-metadata-changes-in-ide-devices.patch => 0012-rules-watch-metadata-changes-in-ide-devices.patch} (90%)
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0013-Make-root-s-home-directory-configurable.patch
+>   rename meta/recipes-core/systemd/systemd/{0001-add-fallback-parse_printf_format-implementation.patch => 0013-add-fallback-parse_printf_format-implementation.patch} (88%)
+>   rename meta/recipes-core/systemd/systemd/{0002-src-basic-missing.h-check-for-missing-strndupa.patch => 0014-src-basic-missing.h-check-for-missing-strndupa.patch} (47%)
+>   rename meta/recipes-core/systemd/systemd/{0003-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (88%)
+>   rename meta/recipes-core/systemd/systemd/{0004-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch => 0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (77%)
+>   rename meta/recipes-core/systemd/systemd/{0006-Include-netinet-if_ether.h.patch => 0017-Include-netinet-if_ether.h.patch} (67%)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-uchar.h-in-configure.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
+>   rename meta/recipes-core/systemd/systemd/{0009-test-hexdecoct.c-Include-missing.h-form-strndupa.patch => 0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (68%)
+>   rename meta/recipes-core/systemd/systemd/{0010-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (49%)
+>   rename meta/recipes-core/systemd/systemd/{0011-don-t-use-glibc-specific-qsort_r.patch => 0022-don-t-use-glibc-specific-qsort_r.patch} (88%)
+>   rename meta/recipes-core/systemd/systemd/{0012-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (90%)
+>   rename meta/recipes-core/systemd/systemd/{0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch => 0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (77%)
+>   rename meta/recipes-core/systemd/systemd/{0001-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch => 0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch} (80%)
+>   rename meta/recipes-core/systemd/systemd/{0001-Use-uintmax_t-for-handling-rlim_t.patch => 0026-Use-uintmax_t-for-handling-rlim_t.patch} (89%)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0027-remove-nobody-user-group-checking.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0028-add-missing-FTW_-macros-for-musl.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/run-ptest
+>   rename meta/recipes-core/systemd/{systemd_234.bb => systemd_237.bb} (71%)
 >
 
-That syntax was a hack around the fact that python didn=E2=80=99t have inli=
-ne if
-statements at the time we started the project, but it does now:
 
-    ${@=E2=80=98=E2=80=94with-linker-hash-style=3D${LINKER_HASH_STYLE}=E2=
-=80=99 if
-=E2=80=98${LINKER_HASH_STYLE}=E2=80=99 else =E2=80=98'}
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---001a114e5a44b0e50a056769ce6a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Mar 14, 2018 at 6:48 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">We allow to set LINKER_HAS=
-H_STYLE to be empty so this would fail<br>
-since --with-linker-hash-style needs an argument and cant be empty<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
-gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gcc/gcc-<wbr>7.3.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/gcc/<wbr>gcc-7.3.inc b/meta/recipes-devt=
-ools/gcc/<wbr>gcc-7.3.inc<br>
-index d56d2c5e06..cc428ad3ef 100644<br>
---- a/meta/recipes-devtools/gcc/<wbr>gcc-7.3.inc<br>
-+++ b/meta/recipes-devtools/gcc/<wbr>gcc-7.3.inc<br>
-@@ -100,7 +100,7 @@ EXTRA_OECONF_BASE =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0--disable-bootstrap \<br>
-=C2=A0 =C2=A0 =C2=A0--disable-libmudflap \<br>
-=C2=A0 =C2=A0 =C2=A0--with-system-zlib \<br>
--=C2=A0 =C2=A0 --with-linker-hash-style=3D${<wbr>LINKER_HASH_STYLE} \<br>
-+=C2=A0 =C2=A0 ${@[&#39;&#39;,&#39;--with-linker-hash-<wbr>style=3D${LINKER=
-_HASH_STYLE}&#39;][<wbr>d.getVar(&#39;LINKER_HASH_STYLE&#39;) !=3D &#39;&#3=
-9;]} \<br></blockquote><div><br></div><div>That syntax was a hack around th=
-e fact that python didn=E2=80=99t have inline if statements at the time we =
-started the project, but it does now:</div><div><br></div><div>=C2=A0 =C2=
-=A0 ${@=E2=80=98=E2=80=94with-linker-hash-style=3D${LINKER_HASH_STYLE}=E2=
-=80=99 if =E2=80=98${LINKER_HASH_STYLE}=E2=80=99 else =E2=80=98&#39;}</div>=
-</div>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signatu=
-re"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at=
- gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Sof=
-tware Engineer, Mentor Graphics</div></div></div></div>
-</div></div>
-
---001a114e5a44b0e50a056769ce6a--
