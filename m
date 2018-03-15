@@ -1,52 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B078578077
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 17:02:59 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id k135-v6so9972384ite.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 10:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=koYC9HV6UkwS1S5AR7D84heCaojRRcAG2UcKmKURpKk=;
-	b=v/rR7lMUaMMN5np5MNvxQhNIngPQsoQ8BxV3YPYPWAio/hNaHgEl3CZdR2riIIKZcM
-	GsUKflpxNClckNceemeyk018M7IyVev1oo1hZu3K6IIYJx78yuK0FFM3VeoAdcX8A54j
-	ei2PM8Eo4+havxkbNoWueaAJBDBXoLPV0CbRV7M6ylWvCaxcbYQXpDxfAwg2cCrbZJoH
-	uJh+8v7wFAxHcLDOz1r0pgTAHIYnxLV9KxHMAuTq9Yt02D4ejAxM7ZS+3bUUvnMM5vbc
-	Uur8m36qdURE2WhYQz6LsjaxIQYxG6dD9zdENRXWd0eNG9ExVK8riVyqxchtV0axwfWQ
-	WAcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=koYC9HV6UkwS1S5AR7D84heCaojRRcAG2UcKmKURpKk=;
-	b=KCnRfKRO6byIWcACkpxZst7P9gYs35nDag+akuCTMrZV8+rPtyjUFzNuY6qC5BahqS
-	43nsl+EfSIL1+PUjqqbBatFDUYdhhHGESL4KwzdwU3FbqbjsFPSvtYNSm3ZmQoocXIcw
-	O6M23+f4mChG9C5ZLaNwC69yB3oEOK/XNgdx4whhpGBv+C1m5UjJe5wf2mqXrOgO/rZd
-	V67W7ULHZ+0Sf/g7FWqkfFJSqHG7PiEO+bLl1Sq3uDHkWQ32od1RBiT2uhqFoAxzFwE5
-	GTyravx9Nt39cBK/Uo3Q5SDDyX55PgHduuDu0EuIrTOIvAFXFsHaV/BfpWh5lBM79uwk
-	doTQ==
-X-Gm-Message-State: AElRT7HY+VFNYfUH4a78nsFnbnKCtjalzQ63z/g40AhOl++8eMvAqI+h
-	e2vvn1ZRAuDGM2PIVVR+92x2yweoOqd1WGe6yf070w==
-X-Google-Smtp-Source: AG47ELv0Ej/C+a7TWwkJEUf7x6oCiDRVLfrJLdZUDkYL8b6OfJQaEsqW/m1Zf3//ECCTY6RzGzryhWDw+/v9XTNbN+M=
-X-Received: by 10.36.185.24 with SMTP id w24mr6973924ite.127.1521133380667;
-	Thu, 15 Mar 2018 10:03:00 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 62BCA78416;
+	Thu, 15 Mar 2018 17:07:51 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Thu, 15 Mar 2018 10:02:40 -0700 (PDT)
-In-Reply-To: <CADNbA1q6JMK=x49Q3VDKC58hLNrK4uKhudf_Zia=CCURiDVMEQ@mail.gmail.com>
-References: <1520806702-5879-1-git-send-email-derek@asterius.io>
-	<0fbe649e-846b-0446-64c1-587fa1221a9f@linux.intel.com>
-	<CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
-	<5baad61a-a285-5aa5-3a7f-ee4dabf3242a@linux.intel.com>
-	<CADNbA1q6JMK=x49Q3VDKC58hLNrK4uKhudf_Zia=CCURiDVMEQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Mar 2018 17:02:40 +0000
-Message-ID: <CAJTo0LbQQidvBd=sREHiBwzesECiNOuyDFMtarSFkQ5eBsEY5A@mail.gmail.com>
+From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Derek Straka <derek@asterius.io>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] python3: update to version 3.5.5 to fix security issues
+Date: Thu, 15 Mar 2018 17:07:53 -0000
+Message-ID: <20180315170753.2428.24707@do.openembedded.org>
+References: <1521132191-17851-1-git-send-email-derek@asterius.io>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1521132191-17851-1-git-send-email-derek@asterius.io>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogdXBkYXRlIHRvIHZlcnNpb24gMy41LjUgdG8gZml4IHNlY3VyaXR5IGlzc3VlcyAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 17:02:59 -0000
-Content-Type: multipart/alternative; boundary="f403045d9a50cfc867056776764b"
+X-List-Received-Date: Thu, 15 Mar 2018 17:07:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---f403045d9a50cfc867056776764b
-Content-Type: text/plain; charset="UTF-8"
+== Series Details ==
 
-On 15 March 2018 at 17:00, Derek Straka <derek@asterius.io> wrote:
+Series: python3: update to version 3.5.5 to fix security issues (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/11347/
+State : failure
 
-> I'll stop failing eventually... I'm surprised I didn't get a bounce from
-> the patch test script.  In any case, I sent the native version.
->
->
-Git does the right thing and does the merge, so the patch applies.
+== Summary ==
 
-Ross
 
---f403045d9a50cfc867056776764b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-<div dir=3D"ltr">On 15 March 2018 at 17:00, Derek Straka <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.i=
-o</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I&#39;ll stop failing=
- eventually... I&#39;m surprised I didn&#39;t get a bounce from the patch t=
-est script.=C2=A0 In any case, I sent the native version.=C2=A0=C2=A0</div>=
-<div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_extra"><br></di=
-v></div></div></blockquote><div><br></div><div>Git does the right thing and=
- does the merge, so the patch applies.</div><div><br></div><div>Ross=C2=A0<=
-/div></div></div></div>
 
---f403045d9a50cfc867056776764b--
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3c14c6612c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
