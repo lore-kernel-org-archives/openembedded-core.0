@@ -1,24 +1,24 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9047A788BC
+	by mail.openembedded.org (Postfix) with ESMTP id 9FACA78824
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 13:40:22 +0000 (UTC)
+	Thu, 15 Mar 2018 13:41:08 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2FDeHZf015914
+	w2FDf49j016284
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 15 Mar 2018 13:40:21 GMT
+	verify=NOT); Thu, 15 Mar 2018 13:41:07 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1ewT7B-0002OJ-Ev; Thu, 15 Mar 2018 06:40:17 -0700
+	id 1ewT7w-0002QN-CI; Thu, 15 Mar 2018 06:41:04 -0700
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 06:40:10 -0700
-Message-Id: <1521121214-9149-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 15 Mar 2018 06:40:50 -0700
+Message-Id: <1521121262-9269-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
 X-Virus-Status: Clean
-Subject: [rocko][PATCH 1/5] unfs3: Fix build with musl
+Subject: [pyro][PATCH 01/13] unfs3: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 13:40:23 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 13:41:09 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
@@ -42,22 +42,23 @@ of libtirpc
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/world-broken.inc          |  4 ---
+ meta/conf/distro/include/world-broken.inc          |  5 ---
  .../0001-daemon.c-Libtirpc-porting-fixes.patch     | 37 ++++++++++++++++++++++
  meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb   | 10 ++++--
- 3 files changed, 44 insertions(+), 7 deletions(-)
+ 3 files changed, 44 insertions(+), 8 deletions(-)
  create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-daemon.c-Libtirpc-porting-fixes.patch
 
 diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
-index 49e9516..42cacfd 100644
+index d4bdddf..0166963 100644
 --- a/meta/conf/distro/include/world-broken.inc
 +++ b/meta/conf/distro/include/world-broken.inc
-@@ -5,10 +5,6 @@
+@@ -5,11 +5,6 @@
  # rt-tests needs PI mutex support in libc
  EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
  
 -# error: no member named 'sin_port' in 'struct sockaddr_in6'
 -# this is due to libtirpc using ipv6 but portmap rpc expecting ipv4
+-EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
 -EXCLUDE_FROM_WORLD_pn-unfs3_libc-musl = "1"
 -
  # error: use of undeclared identifier '_STAT_VER'
@@ -107,7 +108,7 @@ index 0000000..6eee674
 +2.16.2
 +
 diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-index cebc866..46ac369 100644
+index 52aa17e..8a76e5d 100644
 --- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
 +++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
 @@ -9,9 +9,11 @@ RECIPE_UPSTREAM_DATE = "Oct 08, 2015"
@@ -123,7 +124,7 @@ index cebc866..46ac369 100644
  MOD_PV = "497"
  S = "${WORKDIR}/trunk"
  # Only subversion url left in OE-Core, use a mirror tarball instead since
-@@ -26,7 +28,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.ta
+@@ -25,7 +27,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/trunk_svn.code.sf.ne
             file://rename_fh_cache.patch \
             file://relative_max_socket_path_len.patch \
             file://tcp_no_delay.patch \
@@ -133,7 +134,7 @@ index cebc866..46ac369 100644
  SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
  SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
  
-@@ -34,7 +37,8 @@ BBCLASSEXTEND = "native nativesdk"
+@@ -33,7 +36,8 @@ BBCLASSEXTEND = "native nativesdk"
  
  inherit autotools
  EXTRA_OECONF_append_class-native = " --sbindir=${bindir}"
