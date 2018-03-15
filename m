@@ -1,24 +1,25 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 00BE478843
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F1F3605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 02:50:36 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2F2oX4r030160
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 15 Mar 2018 02:50:36 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1ewIyP-0005t4-6X; Wed, 14 Mar 2018 19:50:33 -0700
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 15 Mar 2018 03:41:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Mar 2018 20:41:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,308,1517904000"; d="scan'208";a="211700019"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.20.23])
+	by fmsmga005.fm.intel.com with ESMTP; 14 Mar 2018 20:41:24 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2018 19:50:31 -0700
-Message-Id: <1521082231-22592-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 15 Mar 2018 11:41:20 +0800
+Message-Id: <1521085280-2987-1-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] uninative: Add compatiblity version check
+In-Reply-To: <1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
+References: <1519965857-14794-2-git-send-email-anuj.mittal@intel.com>
+Subject: [PATCH v2] perf: enable support for libaudit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 02:50:37 -0000
+X-List-Received-Date: Thu, 15 Mar 2018 03:41:24 -0000
 
-If glibc is newer on the host than in uninative, the failure mode is
-pretty nasty for clusters where the sstate is shared, including the Yocto
-Project autobuilder.
+perf needs audit-python to be able to show syscall names and for
+'perf trace' to work.
 
-This check aborts the use of uninative in such scenarios where a newer
-glibc version appears and avoids corruption of sstate caches.
+Enable dependency on audit-python if present in PACKAGECONFIG. It's
+disabled by default since audit as of now is in meta-selinux.
 
-We use ldd to check the glibc version since that is included in libc-bin
-(or equivalent) which locales use so it should always be present.
+Fixes [YOCTO #3343]
+Fixes [YOCTO #3358]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/uninative.bbclass               | 7 +++++++
- meta/conf/distro/include/yocto-uninative.inc | 2 ++
- 2 files changed, 9 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 670efa9..1723364 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -77,6 +77,11 @@ python uninative_event_fetchloader() {
-                 except FileExistsError:
-                     pass
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index d798492..872b5f0 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -22,6 +22,9 @@ PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
+ PACKAGECONFIG[systemtap] = ",NO_SDT=1,systemtap"
+ PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
  
-+        # ldd output is "ldd (Ubuntu GLIBC 2.23-0ubuntu10) 2.23", extract last option from first line
-+        glibcver = subprocess.check_output(["ldd", "--version"]).decode('utf-8').split('\n')[0].split()[-1]
-+        if bb.utils.vercmp_string(d.getVar("UNINATIVE_MAXGLIBCVERSION"), glibcver) < 0:
-+            raise RuntimeError("Your host glibc verson (%s) is newer than that in uninative (%s). Disabling uninative so that sstate is not corrupted." % (glibcver, d.getVar("UNINATIVE_MAXGLIBCVERSION")))
++# libaudit support would need scripting to be enabled
++PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit"
 +
-         cmd = d.expand("\
- mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
- cd ${UNINATIVE_STAGING_DIR}-uninative; \
-@@ -94,6 +99,8 @@ ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py \
+ DEPENDS = " \
+     virtual/${MLPREFIX}libc \
+     ${MLPREFIX}elfutils \
+@@ -216,7 +219,7 @@ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+ RDEPENDS_${PN} += "elfutils bash"
+ RDEPENDS_${PN}-doc += "man"
+ RDEPENDS_${PN}-archive =+ "bash"
+-RDEPENDS_${PN}-python =+ "bash python python-modules"
++RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
+ RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+ RDEPENDS_${PN}-tests =+ "python"
  
-         enable_uninative(d)
- 
-+    except RuntimeError as e:
-+        bb.warn(str(e))
-     except bb.fetch2.BBFetchException as exc:
-         bb.warn("Disabling uninative as unable to fetch uninative tarball: %s" % str(exc))
-         bb.warn("To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index b3f8c24..cd5fc0b 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,6 +6,8 @@
- # to the distro running on the build machine.
- #
- 
-+UNINATIVE_MAXGLIBCVERSION = "2.27"
-+
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.8/"
- UNINATIVE_CHECKSUM[i686] ?= "427ce522ec97f65c75fd89587d90ef789e8cbca4a617abc4b5822abb01c2d0ae"
- UNINATIVE_CHECKSUM[x86_64] ?= "de4947e98e09e1432d069311cc2093974ecb9138a714fd5466f73524de66a693"
 -- 
 2.7.4
 
