@@ -1,43 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 837FC788BA
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F0CC788F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 17:49:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 6377F20B94;
-	Thu, 15 Mar 2018 17:49:06 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id aKI3raG3zQrd; Thu, 15 Mar 2018 17:49:06 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1F83620862;
-	Thu, 15 Mar 2018 17:49:02 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 9D76516332D; Thu, 15 Mar 2018 13:49:01 -0400 (EDT)
-Date: Thu, 15 Mar 2018 13:49:01 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: akuster <akuster@mvista.com>
-Message-ID: <20180315174854.GW2786@denix.org>
-References: <CAK18fxEEZRnHzobX=Lt2By_VYgEzi36nSU+X_94Etegh8E81mg@mail.gmail.com>
-	<cc978b8d-afa0-5ea2-ba5d-9700bab26fdc@linux.intel.com>
-	<EBAEBC3AA1B73F4887F286A6723535236597E79C@BGSMSX102.gar.corp.intel.com>
-	<CAK18fxGNk3vxKeLVpoa7TCuuCq_jkkmMmj3D6Z-hM494ASF5kA@mail.gmail.com>
-	<CAK18fxHDUWXhLuqRn0h2Kq+m3M34PwPhJTpwhAnm3bEqN22x0g@mail.gmail.com>
-	<2be633e3-4845-fe97-07fe-dbf12beaf9d4@gmail.com>
-	<EBAEBC3AA1B73F4887F286A67235352365980978@BGSMSX102.gar.corp.intel.com>
-	<EBAEBC3AA1B73F4887F286A67235352365982A04@BGSMSX102.gar.corp.intel.com>
-	<20180305202408.GE2786@denix.org>
-	<20ae973a-1a8e-3950-193c-4adda84c513f@mvista.com>
-MIME-Version: 1.0
-In-Reply-To: <20ae973a-1a8e-3950-193c-4adda84c513f@mvista.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "Palleti, Avinash Reddy" <avinash.reddy.palleti@intel.com>,
-	'openembedded' <openembedded-core@lists.openembedded.org>
-Subject: Re: Linux firmware for iwlwifi 8000c disappeared in pyro
+	Thu, 15 Mar 2018 18:00:46 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w2FI0g4A008859
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 15 Mar 2018 18:00:45 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1ewWhi-0003Bl-4g; Thu, 15 Mar 2018 10:30:14 -0700
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Mar 2018 10:30:08 -0700
+Message-Id: <1521135009-12149-12-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1521135009-12149-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1521135009-12149-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [morty][PATCH 12/13] uninative: Add compatiblity version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,73 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 17:49:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 Mar 2018 18:00:47 -0000
 
-Ping. Any ETA for when it will be merged to morty?
+If glibc is newer on the host than in uninative, the failure mode is
+pretty nasty for clusters where the sstate is shared, including the Yocto
+Project autobuilder.
 
+This check aborts the use of uninative in such scenarios where a newer
+glibc version appears and avoids corruption of sstate caches.
 
-On Mon, Mar 05, 2018 at 01:29:22PM -0800, akuster wrote:
-> its in stable/mory-next
-> 
-> 
-> thanks,
-> 
-> Armin
-> 
-> 
-> On 03/05/2018 12:24 PM, Denys Dmytriyenko wrote:
-> > Same thing just broke morty!
-> >
-> > http://cgit.openembedded.org/openembedded-core/commit/?h=morty&id=c134c583e0ef315e88644d94e5a3920b92c6f39d
-> >
-> >
-> > On Mon, Feb 26, 2018 at 08:16:55AM +0000, Palleti, Avinash Reddy wrote:
-> >> Gentle Reminder.
-> >>
-> >> Thanks,
-> >> Avinash
-> >>
-> >> From: Palleti, Avinash Reddy
-> >> Sent: Wednesday, February 21, 2018 10:22 AM
-> >> To: akuster808 <akuster808@gmail.com>; Andrei Gherzan <andrei@gherzan.ro>; akuster@mvista.com
-> >> Cc: openembedded <openembedded-core@lists.openembedded.org>
-> >> Subject: RE: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
-> >>
-> >> It needs to be merged in both pyro and pyro-next.
-> >>
-> >> Thanks,
-> >> Avinash
-> >>
-> >> From: akuster808 [mailto:akuster808@gmail.com]
-> >> Sent: Wednesday, February 21, 2018 10:17 AM
-> >> To: Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>>; Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>>; akuster@mvista.com<mailto:akuster@mvista.com>
-> >> Cc: openembedded <openembedded-core@lists.openembedded.org<mailto:openembedded-core@lists.openembedded.org>>
-> >> Subject: Re: [OE-core] Linux firmware for iwlwifi 8000c disappeared in pyro
-> >>
-> >>
-> >> in stable/pyro-next
-> >>
-> >> On 02/20/2018 04:50 AM, Andrei Gherzan wrote:
-> >> On Fri, Feb 16, 2018 at 2:08 PM, Andrei Gherzan <andrei@gherzan.ro<mailto:andrei@gherzan.ro>> wrote:
-> >> On Fri, Feb 16, 2018 at 1:48 PM, Palleti, Avinash Reddy <avinash.reddy.palleti@intel.com<mailto:avinash.reddy.palleti@intel.com>> wrote:
-> >>  I submitted a fix sometime back,
-> >> http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147291.html
-> >>
-> >>
-> >> Great. We have the fix available and approved by Saul. Shall we merge?
-> >>
-> >> Adding the pyro maintainer to this thread.
-> >>
-> >> --
-> >> Andrei Gherzan
-> >>
-> >>
-> >> -- 
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+We use ldd to check the glibc version since that is included in libc-bin
+(or equivalent) which locales use so it should always be present.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/uninative.bbclass               | 7 +++++++
+ meta/conf/distro/include/yocto-uninative.inc | 2 ++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 241ca74..62a29a1 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -59,6 +59,11 @@ python uninative_event_fetchloader() {
+             if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
+                     os.symlink(localpath, tarballpath)
+ 
++        # ldd output is "ldd (Ubuntu GLIBC 2.23-0ubuntu10) 2.23", extract last option from first line
++        glibcver = subprocess.check_output(["ldd", "--version"]).decode('utf-8').split('\n')[0].split()[-1]
++        if bb.utils.vercmp_string(d.getVar("UNINATIVE_MAXGLIBCVERSION", True), glibcver) < 0:
++            raise RuntimeError("Your host glibc verson (%s) is newer than that in uninative (%s). Disabling uninative so that sstate is not corrupted." % (glibcver, d.getVar("UNINATIVE_MAXGLIBCVERSION", True)))
++
+         cmd = d.expand("mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; cd ${UNINATIVE_STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
+         subprocess.check_call(cmd, shell=True)
+ 
+@@ -67,6 +72,8 @@ python uninative_event_fetchloader() {
+ 
+         enable_uninative(d)
+ 
++    except RuntimeError as e:
++        bb.warn(str(e))
+     except bb.fetch2.BBFetchException as exc:
+         bb.warn("Disabling uninative as unable to fetch uninative tarball: %s" % str(exc))
+         bb.warn("To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.")
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index b3f8c24..cd5fc0b 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,6 +6,8 @@
+ # to the distro running on the build machine.
+ #
+ 
++UNINATIVE_MAXGLIBCVERSION = "2.27"
++
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.8/"
+ UNINATIVE_CHECKSUM[i686] ?= "427ce522ec97f65c75fd89587d90ef789e8cbca4a617abc4b5822abb01c2d0ae"
+ UNINATIVE_CHECKSUM[x86_64] ?= "de4947e98e09e1432d069311cc2093974ecb9138a714fd5466f73524de66a693"
+-- 
+2.7.4
+
 
