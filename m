@@ -1,42 +1,48 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 44DF871A70
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f42.google.com (mail-pl0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B156D78866
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 21:45:30 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id o184so12576850qkd.13
+	Fri, 16 Mar 2018 23:01:07 +0000 (UTC)
+Received: by mail-pl0-f42.google.com with SMTP id k22-v6so5906106pls.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 14:45:32 -0700 (PDT)
+	Fri, 16 Mar 2018 16:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=E1pOiyUEKYsaUQg7/HoZVWhhtuBF7+PVWqdoD7jByD8=;
+	b=vgvAuz3nnvQZ+mnGBLNZP87M41hcNvr/o7jeE2xklUcwt39O0Uu5p3V1UbsEHsYdtn
+	ffn5zXO3vFD0ckaWL02cqXcrX/FczW9NvQDiayun+3HmwQeB9m66nwAFnvEqOpP4Qpsd
+	wgABmEvxASC/RgeZOKN8TJ6GXtRytaRGC2llUvjVURpJmQ5AAIcmyDl4VhEWHo9Qd9xu
+	vqMfjgNb1esbzeO4d8UmnJqDhyDiWOZzDByl/Gcu/9z/+/0c6qHKA6LHdJiynRDd5Y+j
+	QyV8uYyqJ5vBcSZjW9koV17Fyjals9iGUfFlnHKj7RYs0Vxn7IiJR5EwAvDdBzhTOpSD
+	yZvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=9Lj/KHV1L3i5vL8vue/4o+JYaMGxMEaRzQkyMoU1qYQ=;
-	b=mTpRWKPAAqdi/B+eYkoM7HqHs9nCL/QQq8NA0Ng79/DjAZGDfUDq/Ks9scF74IdYZ7
-	8Kut47xsoQzV/vmYK8OhY9Xyp+8IPzSLPQn/J+sxxbwnktsNdeDyLnib30VvDU1nDYfs
-	rp7jISyQUdysQHLNkUacGWO8Xe0yXf1CF9kSstziWDr5q0O3IqsC+fN8b+tyOPstjZ8O
-	vs+pflIPFEdXakO0Qlk+tBvzXINNp3ho8m998aDjJ4V55JIT4T5zOG0DxJHpQmuvYiYQ
-	9DWnybZYaatN1ntRhY+KMnmxPV+kU1j3W91KZyYJkYnmse7rCUJt/zj4IftSJn022no0
-	gStQ==
-X-Gm-Message-State: AElRT7HvLPOL18uTGNDCKxqcKourqTqae0KX8Fawix9TuRbVU/4PEoFH
-	IAQIMlsWqUB1KYy5JHE3eAyTpg==
-X-Google-Smtp-Source: AG47ELvKKS+F2auFb9S+IAMUVMvp1rwIbTogeB7HNSAgKFgDcJeZy3FZoHuOzmznkREi8uMO5ygENw==
-X-Received: by 10.55.31.165 with SMTP id n37mr4902469qkh.184.1521236730398;
-	Fri, 16 Mar 2018 14:45:30 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	u27sm1413005qtj.51.2018.03.16.14.45.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 16 Mar 2018 14:45:29 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 16 Mar 2018 18:45:23 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Mar 2018 18:45:22 -0300
-Message-Id: <20180316214522.18211-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] linux-firmware: upgrade to 4c0bf11 revision
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=E1pOiyUEKYsaUQg7/HoZVWhhtuBF7+PVWqdoD7jByD8=;
+	b=jivTsnKHF2yix+pAa+zyKV1Sds5U/QkScnaZYT0MvZmjSf7tl8F4/+wO8+Q3pXMZL0
+	n4FkgG5WpS6j/e2d4GBfLufmWZ5bD7ZUPilZeYAQcFri9StwZzE+gRaFlqoFcKXoO6O4
+	S9XRUYuf+5z+Y0/cziBNUn+9IIrndLGiYUQcb8skwe1KTYBLlf2nUXCgh1ma+BTZJgXY
+	4InZfA+0nqNrmpj9uDvaeufb4wGKUyrR6PC2nPuQsJLZv5JcPzFgoZ49ANCokzBRUytP
+	hdvRiMknLeclVHoWbVO6JkBuX7oLyDjfuXUM4f20nBTvBGZu2ZEHwG53mNyNWo96/dbd
+	Vljw==
+X-Gm-Message-State: AElRT7GyK8VyqwLZQr3Wc7K27CgtRJkSBFtQjv6XFdd1OS2dVr48XuVk
+	XC52iI5Pg6bYzjgA9Cvp/RC3L1U7V3QLypyY+Vc=
+X-Google-Smtp-Source: AG47ELv4yCkk1oUKHXmRDJJVSk5GA45gMbXL7z5umw4m6B8riOJPBd3Zc/99Ypqq/7OnkX0nPcOZusyK8DUUm8wFmuw=
+X-Received: by 2002:a17:902:158b:: with SMTP id
+	m11-v6mr3778134pla.300.1521241268435; 
+	Fri, 16 Mar 2018 16:01:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <CY1PR02MB115262F14464BB959F555708A3D70@CY1PR02MB1152.namprd02.prod.outlook.com>
+In-Reply-To: <CY1PR02MB115262F14464BB959F555708A3D70@CY1PR02MB1152.namprd02.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 16 Mar 2018 23:00:57 +0000
+Message-ID: <CAMKF1sqpRjw=m59+W1cwPUOTQ0ovDq8HY00BS1-3_in72RHmQg@mail.gmail.com>
+To: Cuero Bugot <cbugot@sierrawireless.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] uninative: add variables to the whitelist so that it does not re-triger recipe parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +55,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 21:45:31 -0000
+X-List-Received-Date: Fri, 16 Mar 2018 23:01:07 -0000
+Content-Type: multipart/alternative; boundary="0000000000006c401505678f9529"
 
-License-Update: new releases and copyright years updated.
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+--0000000000006c401505678f9529
+Content-Type: text/plain; charset="UTF-8"
 
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, Mar 16, 2018 at 10:31 AM Cuero Bugot <cbugot@sierrawireless.com>
+wrote:
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 816c7a0d78f..c96588473b6 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -118,7 +118,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=99d352987a7e29460bcf9b26d146a95a \
-+    file://WHENCE;md5=ec6f70c8a1104ff87f6aa144d926f0dd \
- "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -181,7 +181,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
--SRCREV = "65b1c68c63f974d72610db38dfae49861117cae2"
-+SRCREV = "4c0bf113a55975d702673e57c5542f150807ad66"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
--- 
-2.16.2
+> When uninative is activated (poky's default) internal datastore variables
+> are modified (NATIVELSBSTRING and SSTATEPOSTUNPACKFUNCS) to enable uninative
+> support. This is happening after parsing is done at the beginning of the
+> build. On the next bitbake call the recipe would be parsed if the two
+> variables above were not added to the parsing whitelist
+> BB_HASHCONFIG_WHITELIST.
+>
+> The fix is to add these two variables to the recipe parsing whitelist
+> BB_HASHCONFIG_WHITELIST, this is done at recipe parsing time, only when
+> uninative.bbclass is used.
 
 
+It seems you have a case where data is already parsed and then uninstive is
+enabled after this the reparse is happening. Or is it always happening when
+uninative is enabled
+
+>
+>
+> Signed-off-by: Cuero Bugot <cbugot@sierrawireless.com>
+> ---
+>  meta/classes/uninative.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/uninative.bbclass
+> b/meta/classes/uninative.bbclass
+> index 8f34483..d1fdbc8 100644
+> --- a/meta/classes/uninative.bbclass
+> +++ b/meta/classes/uninative.bbclass
+> @@ -8,6 +8,9 @@ UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
+>  #UNINATIVE_CHECKSUM[x86_64] = "dead"
+>  UNINATIVE_DLDIR ?= "${DL_DIR}/uninative/"
+>
+> +# Enabling uninative will change the following variables so they need to
+> go the parsing white list to prevent multiple recipe parsing
+> +BB_HASHCONFIG_WHITELIST += "NATIVELSBSTRING SSTATEPOSTUNPACKFUNCS"
+> +
+>  addhandler uninative_event_fetchloader
+>  uninative_event_fetchloader[eventmask] = "bb.event.BuildStarted"
+>
+> --
+> 2.7.4
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000006c401505678f9529
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Mar 16, 2018 =
+at 10:31 AM Cuero Bugot &lt;<a href=3D"mailto:cbugot@sierrawireless.com">cb=
+ugot@sierrawireless.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">When uninative is activated (poky&#39;s default) internal datastore var=
+iables are modified (NATIVELSBSTRING and SSTATEPOSTUNPACKFUNCS) to enable u=
+ninative<br>
+support. This is happening after parsing is done at the beginning of the bu=
+ild. On the next bitbake call the recipe would be parsed if the two<br>
+variables above were not added to the parsing whitelist BB_HASHCONFIG_WHITE=
+LIST.<br>
+<br>
+The fix is to add these two variables to the recipe parsing whitelist BB_HA=
+SHCONFIG_WHITELIST, this is done at recipe parsing time, only when<br>
+uninative.bbclass is used.</blockquote><div dir=3D"auto"><br></div><div dir=
+=3D"auto">It seems you have a case where data is already parsed and then un=
+instive is enabled after this the reparse is happening. Or is it always hap=
+pening when uninative is enabled=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<br>
+<br>
+Signed-off-by: Cuero Bugot &lt;<a href=3D"mailto:cbugot@sierrawireless.com"=
+ target=3D"_blank">cbugot@sierrawireless.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/uninative.bbclass | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclas=
+s<br>
+index 8f34483..d1fdbc8 100644<br>
+--- a/meta/classes/uninative.bbclass<br>
++++ b/meta/classes/uninative.bbclass<br>
+@@ -8,6 +8,9 @@ UNINATIVE_TARBALL ?=3D &quot;${BUILD_ARCH}-nativesdk-libc.t=
+ar.bz2&quot;<br>
+=C2=A0#UNINATIVE_CHECKSUM[x86_64] =3D &quot;dead&quot;<br>
+=C2=A0UNINATIVE_DLDIR ?=3D &quot;${DL_DIR}/uninative/&quot;<br>
+<br>
++# Enabling uninative will change the following variables so they need to g=
+o the parsing white list to prevent multiple recipe parsing<br>
++BB_HASHCONFIG_WHITELIST +=3D &quot;NATIVELSBSTRING SSTATEPOSTUNPACKFUNCS&q=
+uot;<br>
++<br>
+=C2=A0addhandler uninative_event_fetchloader<br>
+=C2=A0uninative_event_fetchloader[eventmask] =3D &quot;bb.event.BuildStarte=
+d&quot;<br>
+<br>
+--<br>
+2.7.4<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--0000000000006c401505678f9529--
