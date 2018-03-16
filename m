@@ -1,103 +1,51 @@
-Return-Path: <niko.mauno@vaisala.com>
-Received: from den-mailgw-01.vaisala.com (den-mailgw-01.vaisala.com
-	[63.233.207.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BF3F78226
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 277A678829
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 09:06:24 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2FeAACuiKtah6+ax9VeHAEBAQQBAQoBA?=
-	=?us-ascii?q?YNNZ2IEMwqNbXKMOoNkk3uBNANbCh+BDoNjg1c0GAECAQEBAQEBAgECEAEBAQg?=
-	=?us-ascii?q?NCQgoIwyCOCQBgQMwAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQEBAwIvBVojAQE3AYFQG4RlAxmkDwKLDAEBgxODAQEBBYQjGIEiggIICQG?=
-	=?us-ascii?q?FJINohkiDfoUdjCyLfwmBc4QTcogngVyLXzCMfQGCWwICAgIJAg0BAQWBKh6CC?=
-	=?us-ascii?q?zMaI4MSCYIbH4NYhWSEcHKOFwGBFwEBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2FeAACuiKtah6+ax9VeHAEBAQQBAQoBAYNNZ2IEMwqNbXK?=
-	=?us-ascii?q?MOoNkk3uBNANbCh+BDoNjg1c0GAECAQEBAQEBAgECEAEBAQgNCQgoIwyCOCQBg?=
-	=?us-ascii?q?QMwAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAwIvBVo?=
-	=?us-ascii?q?jAQE3AYFQG4RlAxmkDwKLDAEBgxODAQEBBYQjGIEiggIICQGFJINohkiDfoUdj?=
-	=?us-ascii?q?CyLfwmBc4QTcogngVyLXzCMfQGCWwICAgIJAg0BAQWBKh6CCzMaI4MSCYIbH4N?=
-	=?us-ascii?q?YhWSEcHKOFwGBFwEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.48,315,1517900400"; d="scan'208";a="13371660"
+	Fri, 16 Mar 2018 10:13:30 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id e195-v6so1461751ita.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2018 03:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=VaisalaWorks.onmicrosoft.com; s=selector1-vaisala-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=EuTI14xi+a4DbD3CDQ6YlPXK62MeP3F6thCpVnXNtCM=;
-	b=fdSz6SaSy0auKrORAZLvkFbSKRbJi9KWRFDFcGKPdpIsfv92JYmTD30GfeozH9Dvj7ipiqpE1LKr680SJkbv+V9wQhheS2mc1riB489BbEOO2M2dnsCm11P95JZ2YRWFkHukw2rSrMQ0nKqk+25CPcItawHhm12FDkp+nJ83gSE=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2018 11:05:21 +0200
-Message-Id: <20180316090521.22467-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.11.0
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=khROXNE+mleQbxRu1n6NpL47syzpbEnIcig469FU1UM=;
+	b=lSQELcoY1kYjioSBpGFZwMBkH13VyqkeR1+WmBpUf4mLlZBpREK1Ul2zxEGJqpDnTp
+	WTXJ+rttdo9lPFNa4twbrkGPLKz3ERaE/+f1/8TaghS9VoKcqEOUNXwqC2XPBEG9FS37
+	eX1Ba7Gc+3WQsI1roEDnMv2o0OFSMw38ZPTAKXdWqiA0k/X0y8AnGVAxv8X1EBqrsaIK
+	OKzx4/mGreSx1YUK/5niBxVPBum3xSEIi+GTGU+3iCX3Vyna8CulBEJAVsP1MotbCf1J
+	QdNWY6g4h93uNBiIFRomK8rr/Z4lENdLw+9NNUkqyKdm+UsMTOq1lGHfbkieOS76+aFP
+	KIvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=khROXNE+mleQbxRu1n6NpL47syzpbEnIcig469FU1UM=;
+	b=YK3n5giMnzxm3ATkqxVskipBryND+5QxnBE2llV2niYjpgpoQAzjQVclOyDlGHqOwj
+	aZ1kftEkpTBazEwbnF8FEqKIc5vavUh8x/yQjwUn2mjEwQdHEf71Q5VXDBVYs9fkQNiv
+	tfWAeBsxT3Rp1eeK92yst+ghSQS5jdmS4wt8t5N+GjiNDDDp0+dWjGX3FquX/N0NvyhD
+	6f8+i0JpjqYvbd5w1pap8sjfz0uAshNhwoAfPiUeIuoGzd2O+x/gwnkRx7VaWZyP0PXU
+	R/FkV/xwmgvIx4tRnQHOZfDl3KFeaOjKEx0cLhrD0YYNXWr2sRvDJTvh6lbzEP9df2gR
+	XhDQ==
+X-Gm-Message-State: AElRT7G0xChB0tYRNXprzsia9ODSEPOSC7J+HBJIyMwfh/T4pZZBUY3A
+	uwpDI4CFxaqrBMYrErnSKEcECZ1Cp7CKcypzE65yWg==
+X-Google-Smtp-Source: AG47ELt/4LsJSfpuzI48q7XqNVpdWQxd+NxJSS5voJP3QER2MLARpyKzLPwj6QgjsNY+Bqew38tYNfenD8owXzupCXE=
+X-Received: by 2002:a24:22c2:: with SMTP id
+	o185-v6mr1619769ito.60.1521195212191; 
+	Fri, 16 Mar 2018 03:13:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [193.143.230.131]
-X-ClientProxiedBy: DB6PR0301CA0051.eurprd03.prod.outlook.com
-	(2603:10a6:4:54::19) To HE1PR0601MB2537.eurprd06.prod.outlook.com
-	(2603:10a6:3:52::15)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bbbc00ac-d5aa-42d7-add4-08d58b1d2e80
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:HE1PR0601MB2537; 
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2537;
-	3:W1/o75GB8TuCL3PCFhiG64/88hFup9qmScvannu0w0+KgCsxiwBM+6MsZ1lIlhIwgNOuRIt1I3ZzEGEZ5SdS1Wj5e0Do2Ke2SLv9jVLSQuz/V8lZr1YHpFSXk9KpNhlf9stGxnTjP7Djpqa39b24K1ZbdJlu5EqXnEnGOmViWyZ+tEwRcH9mRcSp9r3A2LIzcZvvbuZzBry6zfVx3LDrL0TSez7DW7E4t9/F/MDJDq8XfWDRTs8+dED9xONxJ3yI;
-	25:OSUVZ+NLsYRz3rQ4lcfIu5amWl31KjXY2ycxRdHu0XfrnOdw4BOGK/uQLVnDDka6lqqV0ZPS7YDz5FCXbHdcARx+4JnAm0ARyMW4XDfsJvLojirdepzKBrJxkgIQZ+JZ8LB6sqDar/S0un2tXxpwPQjVGGy4hZo4MOBEvYoa9S2Nm6cHlVvbZIxe8jPNHS3iXyjxfiryUrc2WEBh7Y0u3ffBB6kXBXkt7kVomLgmk0QptUtQKqCebMmR7feDl1iuoNMGCljqM7fhS+robalPaIQ9vT4a4RDEAcmrTBCvTTA7Nw65A5lFC2B+TcnXtge9bWv2omXNx7DNcku88ZIrYg==;
-	31:7fcyyj2JKIfUKQXAp+XeKeNTTOKLwmvbAIZU/upnikcfR5T7xLSIFFjk5pyEPuICjHFXVoIH2H2uZD1mG+8R/lNpID1cuSKcfqYkbkukZ6zReuuIg5X87cgZ8bY8SGc/hfuvJpTkf6HAVYOFo8bARmYHsy8Ku8tK+DhBqdWFJA96bsSuMMrZ2YTu+vwHviTK8zVoLRKf0oKCzqwFfDPgzUrFzg+2RzkbHRlwhMyh09U=
-X-MS-TrafficTypeDiagnostic: HE1PR0601MB2537:
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2537;
-	20:7hdjkIN7N+xJv+qHkpdApb+2qnAB04xnvYz10w+KmMRdYm/rNDFX60O6Yrt6n/alMoWjfpIgbwju4NBjHlKX4SzIAZPraEFooFb1itGP0dTev64waBO0siI6mFgP5XSFAV06GJ/5BD1zfgfM4kRO5L/V9MQvTZP6lf0rRdzUI9HO4Y9IvaPd2UTXvcqzoAEA+ADdEdbd2ckWh/PyJ8p9RzXHEePwvsLbZwuqgGcsOgh25oA53dpBGNcLh72LJkQn;
-	4:9w5Bz3fjmuQMlmi2No/pixUZk6QM7oRShBqN/zhAOkjTYoUdwSpG2DnMi2DD6pSCK2qa4fFjtHF/OtKf/8AdqQO/K5imQwRRGF9DS7C71q8+T2htp7WTPItEU3LXXXf6N2zILjCliDdcht5QjgqsXKTD3cdg3oFM/xt7TBJl3sSK0vGvIxmhS1klC0RdjRkYLkA8mPs/uDhTo6ViJpNsps1txacFUAhPb/dr3DQWZ4q6+gr69A94dGiXi96fqUHKspENcVDz+C6dstqczNanTVjAG6F131ZYj/T0xSkPT15vPp/ZsjQInd7lGba/8cwo
-X-Microsoft-Antispam-PRVS: <HE1PR0601MB25379E41647836555C3569E381D70@HE1PR0601MB2537.eurprd06.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(228905959029699);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(3231221)(944501244)(52105095)(3002001)(10201501046)(6041310)(20161123560045)(20161123558120)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
-	SRVR:HE1PR0601MB2537; BCL:0; PCL:0; RULEID:;
-	SRVR:HE1PR0601MB2537; 
-X-Forefront-PRVS: 0613912E23
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(366004)(39380400002)(346002)(376002)(396003)(39850400004)(189003)(199004)(2361001)(52116002)(16586007)(305945005)(48376002)(50466002)(86362001)(575784001)(47776003)(54906003)(7736002)(7696005)(51416003)(316002)(50226002)(8936002)(36756003)(8676002)(97736004)(81166006)(6116002)(3846002)(81156014)(106356001)(1076002)(2351001)(53416004)(478600001)(25786009)(6486002)(69596002)(53936002)(16526019)(26005)(4326008)(1857600001)(68736007)(105586002)(5660300001)(2906002)(186003)(66066001)(6666003)(386003)(6916009)(59450400001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:HE1PR0601MB2537;
-	H:ThinkStation.vaisala.com; FPR:; SPF:None; PTR:InfoNoRecords;
-	MX:1; A:1; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; HE1PR0601MB2537;
-	23:J5kuzwTP+2FcNacy3f60gXYwg63ypiFGtQsqd63?=
-	=?us-ascii?Q?qaTotxCzU+MdlpZPanIGpbn7x9JmPQYskNrIlwHq5VrENt9DJ9ExySv4EdMP?=
-	=?us-ascii?Q?5xl8r+oPLaUJHfd4qhJ8r+wPkEadB1x0/Oe2e/74/8nQDVQE+b3fphlPatE0?=
-	=?us-ascii?Q?jDDv6JKp7FnmVqBKs30uAtJHOjJQ4dDRwKFsnOpNsPa1N4lvuLZjDh/ciY5B?=
-	=?us-ascii?Q?8WcqfdQRCsYIEx4Fq8PaZb5NjxcKY4bjRZIwhWqNpKEQuJOWUnwU6xVi2Wb8?=
-	=?us-ascii?Q?qfuJIwN6nTcKQUDE92fGU6lqiyviYdX3Ms3uzl32s/flfxv9s18MbhuBeUWR?=
-	=?us-ascii?Q?unKW/9zQ3XFKCNYpaRMse3FhvFWh/D0D7dtJ/XDtqXawmqVoIot7or3cxjsV?=
-	=?us-ascii?Q?KboUjSoZgO3AHCGLEVp+CR7Mn6KJ2i4leFi6apsUEwLYkSEwl+nkrK664F+g?=
-	=?us-ascii?Q?29WFntjGPFCTKw2s07ePR9exZ4FspcCGrzyvPMxcWD4yUt5u9lHgA28lNKl/?=
-	=?us-ascii?Q?5e53Hs/4PK7ey71FcbQlyqF9SenOQTpx/qwA1oPUFin5IA3+OyatO9fXnpuT?=
-	=?us-ascii?Q?/vvqStIQETdPdM7bJYAUuunWhQXjI/nuUz9BgJNPTsWD/cFj9h+HlgUz/MTi?=
-	=?us-ascii?Q?+DpCUe5ZgacjF7TjepbOdK/CwN7QkJ3JttpBBQPGU91ocedGJv4Y6y8McN2e?=
-	=?us-ascii?Q?3IRlhpv0vPCAbAcugHLPIUYjid1OnNPDRJnbns6iFwuCmJGJmozwsF6L4HVm?=
-	=?us-ascii?Q?s4nEKffLlXfl99RvXFX1TG/n3puFMujVnIs/LZEwKBIHeNiyYemmaRnKD4wL?=
-	=?us-ascii?Q?CDvjj/NkVzueqcKVZ1BXQs4ogSg3NotauhEqTod2BsVWF7UTihwe45ihiIU6?=
-	=?us-ascii?Q?dc21AR9sRCZOzY2eT6WBldJVvYFbsvvzre/46RBmY4LWs8lu1o5p3+PTmaVv?=
-	=?us-ascii?Q?Z7Af9oZGgNHpXpf3zVwt5xFBEvrcbVMVIoefHKOC4VKN6OFMBXjW3KVyxeK+?=
-	=?us-ascii?Q?nmWrYnIqUq278pYTBsDoeXdzUaCe4AvajSPLR13ggHQb8xGCAGy40Lm3loYI?=
-	=?us-ascii?Q?iHX2DoJENyFsF0AN2vcjHnbINB9fBBsJJUkcyzV9WYbzMc+pFnZe+y12BArX?=
-	=?us-ascii?Q?CVNPENMq4yvijwXkeTdQgg+CVvKSKO1SZ6kaKS5jR0fmNLmNLOBj2GjljooM?=
-	=?us-ascii?Q?be8lCY6w6b+x2kkZJPRSbDheaMx+be3ymeMX/CV1AIQuKHTdKvdSNx4rocA?=
-	=?us-ascii?Q?=3D=3D?=
-X-Microsoft-Antispam-Message-Info: R/3W1r1WxrdlwVIjxqc/+rr4unWWIsW17GQ6DLkulz15DuAlMDbDpGitnsBkwj4d2cXeXifDgxUXhqeMPeOeDBMi6/cUcngp573f3gbCfCkxdWdPUBToRYEkFD56ng08o13tkRwwh1sqNrbVCevrK/uoKwlxxqrEet9FtcCVqN/Q82tGTSd3F5waxS/oThWq
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0601MB2537;
-	6:uJjxZX/eibcZu5RkA7d67c2wziUt5EDBuGatEna4/KAeJ8GmfEd+l7k5CNebIuguCGjxF0lp110UV+EweLgp1tK4WJ4ZoWeVOjK7vCjcUImlyMJBUbGf4svjC7Zgf85fAVBzRXflTq2QtZ3CBIDmmSxvUT2pC5/MnSG+tzlGiWHY73KE5kFGOyAnD/mdebeYbEEpJsx6lUUk1OB1gaf1VBV3wVH2rH5FBcKXBYZudYwVFBckVgvWWpJoboGj2+WfnsG+QbLGyqlKtdwuVHJC6MPYBWvY6I+TBN47McrgMbcj6FE4YiHeFOmICe5xqnkYHfuTsvykwQyqUwUPshGyTUL8VE9BtWjgEKwvTtOiDmU=;
-	5:huOAZnwetBigapdV/vvztgDOKTxI1OimuzEHnSWYskeyezd0MaW5S1aTn/MIsD98VjJV1IIQJAjPBmj7rnqi3p+Z8nj9PINghxaln4ed+QUVGQPABw/slc1rSUHQtyixaWNW5EQa7TgLupnijNPAbwzjx5MgZFNczGWmrlriaIQ=;
-	24:HJ9OxBVjaYxyCHdP5PsW7o5efL9ct/ukTLRHChjHphJIbfh2VNjM3IBCJMpgqH2Crpq0YbS+I4gO0e15iW3vT4TJ6xsO/kDhopOZXkIDmXg=;
-	7:O9res9QinzBO9EdmmZRzOjAj4c1iRQfoZtOtWHRND3Zp6029yYgxjRXo7kJWTIGMatd7qh2B3JgCga1qD79TS5Y9hMJLOmmS0V8G/vzYwxp1YZt+wiiDOc102OwqfIdjGRlExWQDbNOn3JZxDC4ZmUcXQsg5jZjgfxIf5SDchr86JqT/Ca50SR9E01ggg3MZR2f9CwIvgj09nbOrgxJeHMqhJsllPUgXRUlfvLQ2/xAAKGdMLFhZ60xYEY6bEfuV
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2018 09:06:18.7196 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbbc00ac-d5aa-42d7-add4-08d58b1d2e80
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0601MB2537
-Subject: [rocko][PATCH] package_manager.py: Explicit complementary fail
+Received: by 10.107.30.9 with HTTP; Fri, 16 Mar 2018 03:13:11 -0700 (PDT)
+In-Reply-To: <3dab59e8-c09c-622e-148b-4c8d1ffe2fc9@intel.com>
+References: <20180125031227.18327-1-california.l.sullivan@intel.com>
+	<3dab59e8-c09c-622e-148b-4c8d1ffe2fc9@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Mar 2018 10:13:11 +0000
+Message-ID: <CAJTo0LZHnuZN4u6YUKBM-38QG6ZdDQMawB9x8HWt7w6fgxZ4HQ@mail.gmail.com>
+To: Cal Sullivan <california.l.sullivan@intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,72 +58,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 09:06:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Mar 2018 10:13:31 -0000
+Content-Type: multipart/alternative; boundary="00000000000041ccf0056784dca6"
 
-When running bitbake -c populate_sdk <image_name>, it is expected that
-packages matching SDKIMAGE_INSTALL_COMPLEMENTARY name mask (unless
-declared in PACKAGE_EXCLUDE_COMPLEMENTARY) are installed to resulting
-SDK. Underlying mechanism issues a package manager install call for set
-of complementary packages. However the mechanism doesn't seem to inform
-the user all too obviously in case the package manager command behind
-install_complementary() method fails -- and since it is combined with
-attempt_only=True option, user might end up wondering why several *-dev,
-*-dbg packages are missing from resulting SDK.
+--00000000000041ccf0056784dca6
+Content-Type: text/plain; charset="UTF-8"
 
-Improve associated install() method behaviour in affected OpkgPM and
-DpkgPM classes so that a problematic state of affairs becomes directly
-obvious for bitbake user, resulting in shell output like:
+Picked to mut, thanks Cal
 
-  WARNING: someimage-1.0-r0 do_populate_sdk: Unable to install packages.
-  Command '...' returned 1:
-  Collected errors:
-   * Solver encountered 1 problem(s):
-   * Problem 1/1:
-   *   - package somepkg-dev-1.0-r0.x86 requires somepkg = 1.0-r0, but
-         none of the providers can be installed
-   *
-   * Solution 1:
-   *   - allow deinstallation of someotherpkg-1.1-r1.x86
+Ross
 
-   *   - do not ask to install a package providing somepkg-dev
+On 15 March 2018 at 19:42, Cal Sullivan <california.l.sullivan@intel.com>
+wrote:
 
-   * Solution 2:
-   *   - do not ask to install a package providing somepkg-dev
+> Ping. This is still an issue and it looks like this patch fell through the
+> cracks!
+>
+> Thanks,
+> Cal
+>
+>
+> On 01/24/2018 07:12 PM, California Sullivan wrote:
+>
+>> Kernel v4.14 and newer contain the following in their Makefile:
+>>
+>> HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
+>> HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
+>>
+>> This breaks our menuconfig, because it can no longer find ncurses if its
+>> not on the host machine. This can be seen in linux-yocto-dev, for
+>> example:
+>>
+>> [clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
+>>
+>>    GEN     ./Makefile
+>>    HOSTLD  scripts/kconfig/mconf
+>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
+>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
+>> collect2: error: ld returned 1 exit status
+>> make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
+>> make[2]: *** [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei
+>> 7-64/kernel-source/Makefile:504: menuconfig] Error 2
+>> make[1]: *** [Makefile:146: sub-make] Error 2
+>> make: *** [Makefile:24: __sub-make] Error 2
+>> Command failed.
+>> Press any key to continue...
+>>
+>> Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
+>> 'make menuconfig' command.
+>>
+>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>> ---
+>>   meta/classes/kernel.bbclass | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index 2f6eca382e9..e4df1531c19 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
+>>     inherit cml1
+>>   +KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+>> +
+>>   EXPORT_FUNCTIONS do_compile do_install do_configure
+>>     # kernel-base becomes kernel-${KERNEL_VERSION}
+>>
+>
+>
 
-(From OE-Core rev: 2502bd591c37bf532d02dc6b37fc1e8b5224fb0a)
+--00000000000041ccf0056784dca6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d4459e7086fced5e9e0b4ad10378c9eddec56a8)
----
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+<div dir=3D"ltr">Picked to mut, thanks Cal<div><br></div><div>Ross</div></d=
+iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 15 March 20=
+18 at 19:42, Cal Sullivan <span dir=3D"ltr">&lt;<a href=3D"mailto:californi=
+a.l.sullivan@intel.com" target=3D"_blank">california.l.sullivan@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Ping. This is still =
+an issue and it looks like this patch fell through the cracks!<br>
+<br>
+Thanks,<br>
+Cal<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+On 01/24/2018 07:12 PM, California Sullivan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Kernel v4.14 and newer contain the following in their Makefile:<br>
+<br>
+HOST_LFS_LDFLAGS :=3D $(shell getconf LFS_LDFLAGS)<br>
+HOSTLDFLAGS=C2=A0 :=3D $(HOST_LFS_LDFLAGS)<br>
+<br>
+This breaks our menuconfig, because it can no longer find ncurses if its<br=
+>
+not on the host machine. This can be seen in linux-yocto-dev, for<br>
+example:<br>
+<br>
+[clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig<br>
+<br>
+=C2=A0 =C2=A0GEN=C2=A0 =C2=A0 =C2=A0./Makefile<br>
+=C2=A0 =C2=A0HOSTLD=C2=A0 scripts/kconfig/mconf<br>
+/home/clsulliv/yocto/poky/buil<wbr>d/tmp/hosttools/ld: cannot find -lncurse=
+s<br>
+/home/clsulliv/yocto/poky/buil<wbr>d/tmp/hosttools/ld: cannot find -ltinfo<=
+br>
+collect2: error: ld returned 1 exit status<br>
+make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1<br>
+make[2]: *** [/home/clsulliv/yocto/poky/bui<wbr>ld/tmp/work-shared/intel-co=
+rei<wbr>7-64/kernel-source/Makefile:<wbr>504: menuconfig] Error 2<br>
+make[1]: *** [Makefile:146: sub-make] Error 2<br>
+make: *** [Makefile:24: __sub-make] Error 2<br>
+Command failed.<br>
+Press any key to continue...<br>
+<br>
+Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our<br>
+&#39;make menuconfig&#39; command.<br>
+<br>
+Signed-off-by: California Sullivan &lt;<a href=3D"mailto:california.l.sulli=
+van@intel.com" target=3D"_blank">california.l.sullivan@intel.c<wbr>om</a>&g=
+t;<br>
+---<br>
+=C2=A0 meta/classes/kernel.bbclass | 2 ++<br>
+=C2=A0 1 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
+index 2f6eca382e9..e4df1531c19 100644<br>
+--- a/meta/classes/kernel.bbclass<br>
++++ b/meta/classes/kernel.bbclass<br>
+@@ -531,6 +531,8 @@ addtask savedefconfig after do_configure<br>
+=C2=A0 =C2=A0 inherit cml1<br>
+=C2=A0 +KCONFIG_CONFIG_COMMAND_append =3D &quot; HOSTLDFLAGS=3D&#39;${BUILD=
+_LDFLAGS}&#39;<wbr>&quot;<br>
++<br>
+=C2=A0 EXPORT_FUNCTIONS do_compile do_install do_configure<br>
+=C2=A0 =C2=A0 # kernel-base becomes kernel-${KERNEL_VERSION}<br>
+</blockquote>
+<br>
+</div></div></blockquote></div><br></div>
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index db8bf2f39c..ed8fec8509 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1089,7 +1089,7 @@ class OpkgPM(OpkgDpkgPM):
-             output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
-             bb.note(output)
-         except subprocess.CalledProcessError as e:
--            (bb.fatal, bb.note)[attempt_only]("Unable to install packages. "
-+            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
-                                               "Command '%s' returned %d:\n%s" %
-                                               (cmd, e.returncode, e.output.decode("utf-8")))
- 
-@@ -1388,7 +1388,7 @@ class DpkgPM(OpkgDpkgPM):
-             bb.note("Installing the following packages: %s" % ' '.join(pkgs))
-             subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-         except subprocess.CalledProcessError as e:
--            (bb.fatal, bb.note)[attempt_only]("Unable to install packages. "
-+            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
-                                               "Command '%s' returned %d:\n%s" %
-                                               (cmd, e.returncode, e.output.decode("utf-8")))
- 
--- 
-2.16.1
-
-
+--00000000000041ccf0056784dca6--
