@@ -1,48 +1,49 @@
-Return-Path: <okonopli@cisco.com>
-X-Greylist: delayed 577 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 16 Mar 2018 18:30:14 UTC
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
-	by mail.openembedded.org (Postfix) with ESMTP id 054C678869
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EAF1478557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 18:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=8989; q=dns/txt; s=iport;
-	t=1521225016; x=1522434616;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=uTJBioMYsFPfVV15vvuSTONAsRczOcsB8ujfPPiAegc=;
-	b=g1UyAh6nGGhYkE+iqTU1xZl47pXnV97aNW0+aXSiMvKdfA2DBrPDv1eu
-	7H7YjXnKfTsTRjWthrCIlvHK2M94Zn5fgzM4Rookki+i2vjrR6TLij0MJ
-	Q42I/YkGub+Y4Rxj26NFQZkz3ZGvdx3UOWuYviK60XgyF4uujZWVkM23O I=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CKAgAcCqxa/4kNJK1eGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYNQZnIog12YFoEcMwspgRaTexSBfgofhHECgzUhNhYBAgEBAQE?=
-	=?us-ascii?q?BAQJrKIUmAQUjDwEFUQsYAgIRFQICVwYBDAYCAQGFBw0PsGCCJoRug3KCChR4h?=
-	=?us-ascii?q?CWCFIFUgVQoDIJshEEONz+CSYJBIAOHNIR2gS6KUQmGBokhB4gZhROQCQIECwI?=
-	=?us-ascii?q?TAYEqJQEwgVJwFTqCQwmCKxsWjgo+NIxvgkkBAQE?=
-X-IronPort-AV: E=Sophos;i="5.48,317,1517875200"; d="scan'208";a="85354588"
-Received: from alln-core-4.cisco.com ([173.36.13.137])
-	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2018 18:20:38 +0000
-Received: from [10.21.65.179] (sjc-vpn3-435.cisco.com [10.21.65.179])
-	(authenticated bits=0)
-	by alln-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w2GIKZrw009883
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Fri, 16 Mar 2018 18:20:37 GMT
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
-References: <1520865187-13798-1-git-send-email-okonopli@cisco.com>
-	<1520873954.3748.6.camel@andred.net>
-From: Oleksii Konoplitskyi <okonopli@cisco.com>
-Message-ID: <052b3c4d-084c-9434-e47d-b68c068cd958@cisco.com>
-Date: Fri, 16 Mar 2018 20:20:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Fri, 16 Mar 2018 18:38:01 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id u10so4771547wmu.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2018 11:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rSeSADGtvXFzVhgP7XQA/8yhqkiKGehbxLMK1lScGFE=;
+	b=CqQGYwXKugbyTP70jf+zZC9aSlovz7R5Q6Y4U0uRf/2IoN92rp6PHV4OlaeVnzkS4R
+	+odIe4OkJsUvNn8lbNV+OcQ37bTL0Gjk17XMm9gm9iCzTJVY4JpXo+XDC/HP8opvBG2I
+	d75Sl9M+enA/od8jcaf5K6qrzOAxcAF9EkfMLQ9Ahz43H8n9aRYNfwKtBfThO5P7aqWX
+	xHUYhIyIFkQ417/1T8N5YWY7AblMFJg/KnkmclTgEMjUGJAO0DBdEhQ0fiiSzxfmE3/W
+	DkeAMy5Wzcam11O3NZ805RGzt318urKw0+uN5gw4iLIiMHicWGcqfZSM6vx5xwT/oRgx
+	I3mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rSeSADGtvXFzVhgP7XQA/8yhqkiKGehbxLMK1lScGFE=;
+	b=nFod33Mjlv9+1Qcd0cTqnWGu6Spkkyp+CWW1pOCJYbomiCVpaY0ovuCgHFM13yDCNM
+	hXBLpvoT9L5iTBAbhd6hHb+J12x73OWjYz2NDbCOnpIKyRiAhnPVxKfDaMhe+rcmFKNF
+	Ydz8N1RKN6pEy5d/ZbmDDoKm+mwF7Z7h8yE3XoJqtqeUhx6g5/C514v3u0gZpRymBrU3
+	8KzYud7W79PnOl71I0qpnkCcQ+T9qe5w2XPtG3XrJJ6K/wiM3ShGxkpsTG/E+IOewXUa
+	WKqJZq34ikcoxael7IXh3FiCBAvQJ+A+mRUMnfOHcQZboeH5TOzOpG8Y+s2Kf39wpDBG
+	5RtA==
+X-Gm-Message-State: AElRT7G39G+sa63bzg4/n6m8MaRDRJGaJfeW8zX/UjyAWYSiCBzSQIqv
+	mnadlRrnLjMH7D7EM3xetB7uM0vgKUQF1Ox4XE0=
+X-Google-Smtp-Source: AG47ELv3NL1k2IJncaOFxcTVOYyxEcexFx9Qv5yeJdqLzEndHIkrw4JmHlApnHz+NH9ToCZ4wEXMw7w7youbH7Q2VAY=
+X-Received: by 10.28.23.143 with SMTP id 137mr2717547wmx.153.1521225482577;
+	Fri, 16 Mar 2018 11:38:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1520873954.3748.6.camel@andred.net>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: okonopli
-Subject: Re: [PATCH] core-image-minimal-initramfs: prepare initramfs for NFS boot
+Received: by 10.223.163.65 with HTTP; Fri, 16 Mar 2018 11:38:02 -0700 (PDT)
+In-Reply-To: <CAJTo0LZHnuZN4u6YUKBM-38QG6ZdDQMawB9x8HWt7w6fgxZ4HQ@mail.gmail.com>
+References: <20180125031227.18327-1-california.l.sullivan@intel.com>
+	<3dab59e8-c09c-622e-148b-4c8d1ffe2fc9@intel.com>
+	<CAJTo0LZHnuZN4u6YUKBM-38QG6ZdDQMawB9x8HWt7w6fgxZ4HQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 16 Mar 2018 11:38:02 -0700
+Message-ID: <CAJ86T=XRNgY5J=7B0adZ6eypjyTs6C0EN=Y=e_P3cxvun9rQkA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: set HOSTLDFLAGS in KCONFIG_CONFIG_COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,298 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 18:30:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 16 Mar 2018 18:38:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andre,
-
-I could build initramfs using initramfs-framework. My device was booted 
-successfully.
-
-I created my own recipe to build initramfs image and added one more 
-module nfsrootfs to initramfs-framework. Also initramfs-framework*.bb 
-was updated.
-Module "nfsrootfs" has content:
-
-
-nfsrootfs_enabled() {
-     [ -z ${bootparam_nfsroot+x} ] && return 1
-     return 0
-}
-
-nfsrootfs_run() {
-     MODULES="$(find /lib/modules/*/kernel/drivers/net/ethernet -name 
-\*.ko | sed -e 's,^.*/,,' -e 's,\.ko$,,')"
-     modprobe -a $MODULES
-
-     ifname=$(echo $bootparam_ip | cut -d ':' -f 6)
-     ipaddr=$(echo $bootparam_ip | cut -d ':' -f 1)
-     netmask=$(echo $bootparam_ip | cut -d ':' -f 4)
-     gateway=$(echo $bootparam_ip | cut -d ':' -f 3)
-
-     ifconfig $ifname $ipaddr netmask $netmask
-     route add default gw $gateway
-
-     nfs_mount_point=$(echo $bootparam_nfsroot | cut -d ',' -f 1)
-     nfs_mount_params=$(echo $bootparam_nfsroot | cut -d ',' -f 2)
-
-     mount -t nfs ${nfs_mount_point} -o nolock,${nfs_server_params} 
-$ROOTFS_DIR
-}
-
-
-This modules does not support ipv6 and dhcp configuration.
-
-Taking into account your recommendations, module should have the next 
-content:
-
-nfsrootfs_enabled() {
-     [ -z ${bootparam_nfsroot+x} ] && return 1
-     return 0
-}
-
-nfsrootfs_run() {
-     nfs_mount_point=$(echo $bootparam_nfsroot | cut -d ',' -f 1)
-     nfs_mount_params=$(echo $bootparam_nfsroot | cut -d ',' -f 2)
-
-     mount -t nfs ${nfs_mount_point} -o nolock,${nfs_server_params} 
-$ROOTFS_DIR
-}
-
-What module is responsible for network configuration and network driver 
-loading?
-Should it be separate custom module in initramfs-framework not related 
-to upstream?
-
-Best regards,
-Oleksii
-
-On 12.03.18 18:59, André Draszik wrote:
-> Hi.
+On Fri, Mar 16, 2018 at 3:13 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Picked to mut, thanks Cal
 >
-> It'd be nice if this was part of initramfs-framework instead.
+> Ross
 >
-> In particular some devices need a bit more than ifconfig & route, e.g.
-> configuration of SoC internal Ethernet switches.
->
-> As it is, this patch is not very generic, whereas if it was integrated with
-> the initramfs-framework, another module could take care of the driver /
-> hardware specifics, and this module would just do the actual mounting of the
-> ROOTFS.
->
-> The remaining bits, like mount --move of /proc are also already part of
-> initramfs-framework.
->
-> That way, this new addition would be useful on a wide range of devices.
->
->
-> Cheers,
-> Andre'
->
-> On Mon, 2018-03-12 at 16:33 +0200, Oleksii Konoplitskyi wrote:
->> It helps to boot device by mounting rootfs via NFS when network
->> drivers are built as modules.
->> We include modules in core-image-minimal-initramfs image
->> and start kernel with specifying custom rdinit in cmdline:
->>     rdinit=/init-nfs.sh
+> On 15 March 2018 at 19:42, Cal Sullivan <california.l.sullivan@intel.com>
+> wrote:
 >>
->> NFS and IP parameters should be passed to kernel as usual.
->> For example:
->>     ip=192.168.0.11::192.168.0.1:255.255.255.0:linux:eth0:off
->>     nfsroot=192.168.0.10:/exported_nfs,nfsvers=3,tcp
->>     root=/dev/nfs rw loglevel=7 rdinit=/init-nfs.sh
+>> Ping. This is still an issue and it looks like this patch fell through the
+>> cracks!
 >>
->> To use this initramfs, one could put the following
->> to conf/local.conf:
->>     INITRAMFS_LOAD_KERNEL_MODULES = "kernel-module-igb"
->>     INITRAMFS_IMAGE_BUNDLE = "1"
->>     INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+>> Thanks,
+>> Cal
 >>
->> INITRAMFS_LOAD_KERNEL_MODULES is a space-separated list of
->> modules that will be added to initramfs.
 >>
->> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
->> Signed-off-by: Oleksii Konoplitskyi <okonopli@cisco.com>
->> ---
->>   .../images/core-image-minimal-initramfs.bb         |   2 +-
->>   meta/recipes-core/initrdscripts/files/init-nfs.sh  | 108
->> +++++++++++++++++++++
->>   .../initrdscripts/initramfs-nfs-boot_1.0.bb        |  14 +++
->>   3 files changed, 123 insertions(+), 1 deletion(-)
->>   create mode 100644 meta/recipes-core/initrdscripts/files/init-nfs.sh
->>   create mode 100644 meta/recipes-core/initrdscripts/initramfs-nfs-
->> boot_1.0.bb
->>
->> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> index c446e87..bf794bf 100644
->> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device.
->> The kernel includes \
->>   the Minimal RAM-based Initial Root Filesystem (initramfs), which finds
->> the \
->>   first 'init' program more efficiently."
->>   
->> -PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-
->> live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
->> ${ROOTFS_BOOTSTRAP_INSTALL}"
->> +PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-
->> live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
->> ${ROOTFS_BOOTSTRAP_INSTALL} initramfs-nfs-boot"
->>   
->>   # Do not pollute the initrd image with rootfs features
->>   IMAGE_FEATURES = ""
->> diff --git a/meta/recipes-core/initrdscripts/files/init-nfs.sh
->> b/meta/recipes-core/initrdscripts/files/init-nfs.sh
->> new file mode 100644
->> index 0000000..31a55ec
->> --- /dev/null
->> +++ b/meta/recipes-core/initrdscripts/files/init-nfs.sh
->> @@ -0,0 +1,108 @@
->> +#!/bin/sh
->> +
->> +CONSOLE="/dev/console"
->> +PATH=/sbin:/bin:/usr/sbin:/usr/bin
->> +ROOT_MOUNT="/rootfs"
->> +
->> +fatal()
->> +{
->> +	echo $1 >$CONSOLE
->> +	echo >$CONSOLE
->> +	exec sh
->> +}
->> +
->> +net_up()
->> +{
->> +	[ "$(ifconfig $PARAM_IFNAME | awk '/inet addr/{print
->> substr($2,6)}')" = "$PARAM_IP" ] && return
->> +	#load all ethernet drivers if network interface is not configured
->> +	MODULES="$(find /lib/modules/*/kernel/drivers/net/ethernet -name
->> \*.ko | sed -e 's,^.*/,,' -e 's,\.ko$,,')"
->> +	[ -z "$MODULES" ] && fatal "Ethernet drivers list is emty.
->> Nothing to load."
->> +	modprobe -a $MODULES
->> +
->> +	ifconfig $PARAM_IFNAME $PARAM_IP netmask $PARAM_NETMASK ||
->> +		fatal "Failed to configure ethernet interface"
->> +	route add default gw $PARAM_GW ||
->> +		fatal "Failed to set default gateway"
->> +}
->> +
->> +
->> +#TODO: IPv6 is not supported yet
->> +mount_nfs()
->> +{
->> +	mkdir $ROOT_MOUNT
->> +	for i in $(seq 1 10)
->> +	do
->> +		mount -t nfs "$PARAM_NFSROOT_PATH" -o
->> nolock,"$PARAM_NFSROOT_OPTS" $ROOT_MOUNT && return
->> +		sleep 1
->> +	done
->> +	fatal "Could not mount rootfs via nfs"
->> +}
->> +
->> +
->> +early_setup()
->> +{
->> +	mkdir -p /proc
->> +	mkdir -p /sys
->> +	mount -t proc proc /proc
->> +	mount -t sysfs sysfs /sys
->> +	mount -t devtmpfs none /dev
->> +
->> +	mkdir -p /run
->> +	mkdir -p /var/run
->> +}
->> +
->> +
->> +#TODO: IPv6 is not supported yet
->> +read_args()
->> +{
->> +	[ -z "$CMDLINE" ] && CMDLINE=$(cat /proc/cmdline)
->> +	for arg in $CMDLINE; do
->> +		optarg=$(expr "x$arg" : 'x[^=]*=\(.*\)'$)
->> +		case $arg in
->> +		ip=*)
->> +			PARAM_IFNAME=$(echo "$optarg" | cut -d: -f6)
->> +			PARAM_IP_ALL=$(echo "$optarg" | grep -Eo '([0-
->> 9]{1,3}\.){3}[0-9]{1,3}')
->> +			PARAM_IP=$(echo "$PARAM_IP_ALL" | sed -n 1p)
->> +			PARAM_GW=$(echo "$PARAM_IP_ALL" | sed -n 2p)
->> +			PARAM_NETMASK=$(echo "$PARAM_IP_ALL" | sed -n 3p)
->> +			;;
->> +		nfsroot=*)
->> +			PARAM_NFSROOT_PATH=$(echo "$optarg" | cut -d,
->> -f1)
->> +			PARAM_NFSROOT_OPTS=$(echo "$optarg" | cut -d,
->> -f2-)
->> +			;;
->> +		debugshell)
->> +			DEBUGSHELL=1
->> +			;;
->> +		esac
->> +	done
->> +}
->> +
->> +boot_nfs()
->> +{
->> +	touch $ROOT_MOUNT/bin || fatal "Rootfs is not writeable"
->> +
->> +	mount -n --move /proc ${ROOT_MOUNT}/proc
->> +	mount -n --move /sys ${ROOT_MOUNT}/sys
->> +	mount -n --move /dev ${ROOT_MOUNT}/dev
->> +
->> +	cd $ROOT_MOUNT
->> +
->> +	# busybox switch_root supports -c option
->> +	exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init $CMDLINE
->> ||
->> +		fatal "Couldn't switch_root, dropping to shell"
->> +}
->> +
->> +early_setup
->> +
->> +read_args
->> +
->> +if [ -n "$DEBUGSHELL" ]; then
->> +	exec sh
->> +fi
->> +
->> +net_up
->> +
->> +mount_nfs
->> +
->> +boot_nfs
->> +
->> diff --git a/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
->> b/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
->> new file mode 100644
->> index 0000000..ca4f191
->> --- /dev/null
->> +++ b/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
->> @@ -0,0 +1,14 @@
->> +SUMMARY = "Live image init script"
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM =
->> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->> +RDEPENDS_${PN} = "${@['', d.getVar('INITRAMFS_LOAD_KERNEL_MODULES',
->> True)][d.getVar('INITRAMFS_LOAD_KERNEL_MODULES', True) is not None]}"
->> +SRC_URI = "file://init-nfs.sh"
->> +
->> +S = "${WORKDIR}"
->> +
->> +do_install() {
->> +        install -m 0755 ${WORKDIR}/init-nfs.sh ${D}/init-nfs.sh
->> +}
->> +
->> +FILES_${PN} += " /init-nfs.sh "
->> +
->> -- 
->> 2.7.4
->>
+>> On 01/24/2018 07:12 PM, California Sullivan wrote:
+>>>
+>>> Kernel v4.14 and newer contain the following in their Makefile:
+>>>
+>>> HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS)
+>>> HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
+>>>
+>>> This breaks our menuconfig, because it can no longer find ncurses if its
+>>> not on the host machine. This can be seen in linux-yocto-dev, for
+>>> example:
+>>>
+>>> [clsulliv@clsulliv build]$ bitbake virtual/kernel -c menuconfig
+>>>
+>>>    GEN     ./Makefile
+>>>    HOSTLD  scripts/kconfig/mconf
+>>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -lncurses
+>>> /home/clsulliv/yocto/poky/build/tmp/hosttools/ld: cannot find -ltinfo
+>>> collect2: error: ld returned 1 exit status
+>>> make[3]: *** [scripts/Makefile.host:99: scripts/kconfig/mconf] Error 1
+>>> make[2]: ***
+>>> [/home/clsulliv/yocto/poky/build/tmp/work-shared/intel-corei7-64/kernel-source/Makefile:504:
+>>> menuconfig] Error 2
+>>> make[1]: *** [Makefile:146: sub-make] Error 2
+>>> make: *** [Makefile:24: __sub-make] Error 2
+>>> Command failed.
+>>> Press any key to continue...
+>>>
+>>> Fix this by setting HOSTLDFLAGS to ${BUILD_LDFLAGS} in our
+>>> 'make menuconfig' command.
+>>>
+>>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>>> ---
+>>>   meta/classes/kernel.bbclass | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index 2f6eca382e9..e4df1531c19 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -531,6 +531,8 @@ addtask savedefconfig after do_configure
+>>>     inherit cml1
+>>>   +KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
 
+What's the reasoning behind appending to KCONFIG_CONFIG_COMMAND from
+kernel.bbclass rather than appending from inside cml1.bbclass (the
+only place KCONFIG_CONFIG_COMMAND is used) or simply updating the
+default value of KCONFIG_CONFIG_COMMAND?
+
+>>> +
+>>>   EXPORT_FUNCTIONS do_compile do_install do_configure
+>>>     # kernel-base becomes kernel-${KERNEL_VERSION}
+>>
+>>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
