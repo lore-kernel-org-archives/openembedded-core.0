@@ -1,34 +1,42 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id B05CD788EA
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F29B788CD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 10:51:08 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2018 03:51:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,315,1517904000"; d="scan'208";a="35549990"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 16 Mar 2018 03:51:08 -0700
-To: Tim Orling <ticotimo@gmail.com>, Derek Straka <derek@asterius.io>
-References: <1520806702-5879-1-git-send-email-derek@asterius.io>
-	<0fbe649e-846b-0446-64c1-587fa1221a9f@linux.intel.com>
-	<CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
-	<c44dd7f9-8f0b-c19b-311e-8364171c8cb3@linux.intel.com>
-	<CADNbA1ontzC-45M0e01w1NE=+U01WRqsn-tGuj+j9+1++2ANoA@mail.gmail.com>
-	<CANx9H-BtAsgq9fhAaodGDXB0aO8vd0rb924Db6rj1GioYTRW6Q@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <a04a7a8b-70a8-1717-7477-1706b21e363d@linux.intel.com>
-Date: Fri, 16 Mar 2018 12:44:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CANx9H-BtAsgq9fhAaodGDXB0aO8vd0rb924Db6rj1GioYTRW6Q@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] python3: update to version 3.5.5 to fix security issues
+	Fri, 16 Mar 2018 12:57:33 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id j73so3443172qke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2018 05:57:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=9fU+v4Tc1AOKl5mnMSfAXnQWH7fs8HlElPAcv0FBReE=;
+	b=ujmqXszlAVQM6pl1xET3+u4zQPMa3aUOFWVQl3ooRtLz7kilcqfzdYMnLP5LJg+GV0
+	Y6tiVpLr7PrbjSSqCx5Sgo4LnPZLOpWheb6oU0AMHJlCPTfMJahMBpDcsQKw7yDCKP4D
+	0/a9nxJnjuB35ZuL2I2Gob8mU0HxEF6TtZBOtZWzfxebCfAsx1ozslS7G7BbnxlKSZxD
+	ryhCFzlFRxHw5cVhsVnw5a/JaMYLPNvWRZgY6wHIv5tKq23QSf1KHj4bxJfHxICD29wN
+	kiAdH+VKOOS8I6bemliK8WCGnFI605EI81EcLIs6s4d1Txnvr0I7SXwxmEgS28MC52F1
+	drgQ==
+X-Gm-Message-State: AElRT7GykuJHeMN7QE8hmqx6iGQLBrP6q9yU12gJd3u5qcMAwv20e5a4
+	8s5iGVyayUlb9UoSDvtXPm8YMw==
+X-Google-Smtp-Source: AG47ELsoPAqw9DBjmAyQpCqcZXjRIil4QSJR9KqxfRRzwiAx+FL/kS9M1rwcjwH9cNZEcf4FGGrKAw==
+X-Received: by 10.55.43.4 with SMTP id r4mr2518039qkh.356.1521205054747;
+	Fri, 16 Mar 2018 05:57:34 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	w18sm5160955qkw.35.2018.03.16.05.57.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 16 Mar 2018 05:57:33 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 16 Mar 2018 09:57:27 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2018 09:57:25 -0300
+Message-Id: <20180316125725.25370-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [RESEND PATCH] glide.bbclass: Add class to easy Glide use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,28 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 10:51:08 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Mar 2018 12:57:34 -0000
 
-On 03/16/2018 07:06 AM, Tim Orling wrote:
-> I looked into 3.6 as well, but the sheer number of patches we apply is a 
-> pain point to rebase.
-> 
-> I am inclined to vote for 3.6 first and pick up 3.7 when it matures a 
-> bit and is more widely supported. I have fears of rather massive 
-> failures in our python ecosystem (especially in meta-python). Perhaps 
-> backward compatibility will be there, but I need to be convinced. If 3.7 
-> is widely the _default_ in traditional distros we support, then I will 
-> sing a different tune. Also, I hope to have a ptest strategy for python 
-> by the end of 2.6, which would dramatically increase my comfort level.
+To use 'glide' this class does the integration and reduces code
+duplication.
 
-Perhaps we can provide both and default to 3.6? Eventually we will have 
-to transition to 3.7, and I think it might be easier if it's widely 
-available in oe-core, even if it has known (or unknown) issues and is 
-off by default. We can then periodically test 3.7 on the AB etc, to 
-assess where things are.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Alex
+ meta/classes/glide.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 meta/classes/glide.bbclass
+
+diff --git a/meta/classes/glide.bbclass b/meta/classes/glide.bbclass
+new file mode 100644
+index 00000000000..52291bab8cf
+--- /dev/null
++++ b/meta/classes/glide.bbclass
+@@ -0,0 +1,9 @@
++# Handle Glide Vendor Package Management use
++#
++# Copyright 2018 (C) O.S. Systems Software LTDA.
++
++DEPENDS_append = " glide-native"
++
++do_compile_prepend() {
++    ( cd ${WORKDIR}/build/src/${GO_IMPORT} && glide install )
++}
+-- 
+2.16.2
+
 
