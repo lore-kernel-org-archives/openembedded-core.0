@@ -1,72 +1,48 @@
-Return-Path: <cbugot@sierrawireless.com>
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0084.outbound.protection.outlook.com [104.47.34.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 3306C78870
+Return-Path: <okonopli@cisco.com>
+X-Greylist: delayed 577 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 16 Mar 2018 18:30:14 UTC
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+	by mail.openembedded.org (Postfix) with ESMTP id 054C678869
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 17:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=SierraWirelessInc.onmicrosoft.com; s=selector1-sierrawireless-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=jaxmnMgByOEwRGzf5dYn0UoqwtqxZ/agYzYPnTbuaVQ=;
-	b=u90poIslTMUu17K+rIxrV6in5RNmx2XYJdnpEeorvdJ5yBUyd5Zx9Vyrj8uufOld5Vc4xt57bNdSiupw617YXBGezOeMM5yA0oCn1txPxqx5orYYRr8z26P8wHa4KRLGGihQMEPKj0a7I6MISEXkOMrLC3QJyd0c4+45ncFXUfY=
-Received: from CY1PR02MB1152.namprd02.prod.outlook.com (10.163.15.154) by
-	CY1PR02MB1628.namprd02.prod.outlook.com (10.162.160.158) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.588.14; Fri, 16 Mar 2018 17:31:30 +0000
-Received: from CY1PR02MB1152.namprd02.prod.outlook.com
-	([fe80::39e8:b5a6:a20d:d4d3]) by
-	CY1PR02MB1152.namprd02.prod.outlook.com
-	([fe80::39e8:b5a6:a20d:d4d3%13]) with mapi id 15.20.0588.016;
-	Fri, 16 Mar 2018 17:31:30 +0000
-From: Cuero Bugot <cbugot@sierrawireless.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] uninative: add variables to the whitelist so that it
-	does not re-triger recipe parsing
-Thread-Index: AdO9TH9RHM3TjEkGRgOC2+RK0UYmKw==
-Date: Fri, 16 Mar 2018 17:31:30 +0000
-Message-ID: <CY1PR02MB115262F14464BB959F555708A3D70@CY1PR02MB1152.namprd02.prod.outlook.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=cbugot@sierrawireless.com; 
-x-originating-ip: [84.14.163.134]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; CY1PR02MB1628;
-	7:MZ/YlXKhMGN9tnUJ4kyFtakX+B56/foFK1pSD7+2quyjULyBbVAhjexVvoj8bqG9IpmtTIICVUuYHkX84X9AMnq0N+HXpPQ8GNGP+NzS9oyKupu8bAj05iyxNnitqLCecPOmjK3j50SKfDLVJVssV7jxvNIFYAlB4jvaoY2I0S9KALVDjIIC8PqoAibPUx5BPedv4KApv/z3j4Ij6ja2IJhPNKjQgU6sEtDPFvuaYtHpK8zmz9J9RNXqP1XBtDMw
-x-ms-exchange-antispam-srfa-diagnostics: SSOS;
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d9c8cb75-f173-473a-e467-08d58b63c156
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:CY1PR02MB1628; 
-x-ms-traffictypediagnostic: CY1PR02MB1628:
-x-microsoft-antispam-prvs: <CY1PR02MB1628B6047A38D03A13031605A3D70@CY1PR02MB1628.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(3231221)(944501244)(52105095)(93006095)(93001095)(6055026)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123562045)(20161123560045)(20161123558120)(6072148)(201708071742011);
-	SRVR:CY1PR02MB1628; BCL:0; PCL:0; RULEID:; SRVR:CY1PR02MB1628; 
-x-forefront-prvs: 0613912E23
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(376002)(366004)(346002)(39380400002)(396003)(199004)(189003)(81156014)(53936002)(99286004)(5660300001)(105586002)(74316002)(55016002)(9686003)(5640700003)(8936002)(97736004)(316002)(305945005)(7696005)(7736002)(2906002)(6436002)(3660700001)(33656002)(3846002)(6116002)(478600001)(1857600001)(86362001)(26005)(2501003)(186003)(6916009)(5250100002)(14454004)(2900100001)(8676002)(81166006)(3280700002)(106356001)(68736007)(55236004)(25786009)(2351001)(66066001)(6506007)(102836004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR02MB1628;
-	H:CY1PR02MB1152.namprd02.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: sierrawireless.com does not
-	designate permitted sender hosts)
-x-microsoft-antispam-message-info: stE9kbt3KbiBB+2YNqaGCyaZYwD1tcdpPMflKB3Q9kyyHgWcmCqwvEIkVwcaeI+3H6NRsbiLKTAjrdz1EG8+JqV1iom0GJ/VZu4IP0GxrflHWT63ZeIDRkEX0uBEkE5VmhGcrLiNBS+reDexjgKh4/pg8uh5uh6CfI/MEHpPrEPMno+6lGpebJKWhHCVfkLdXji0FiC6yNvmckL7ay5V+uO3C/6S9Ddb3qnpqnRkUrd4WqIf4UMTcqhhZc94H/8zBKCbRgTce+6mELrDgruxkrPUyQi87wsmtREBU4y1Fsy9VrPlXUy0Afr6L4xDwdVvxqCwJf8K9eZYkHI4A3w2Kg==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Fri, 16 Mar 2018 18:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=8989; q=dns/txt; s=iport;
+	t=1521225016; x=1522434616;
+	h=subject:to:references:from:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=uTJBioMYsFPfVV15vvuSTONAsRczOcsB8ujfPPiAegc=;
+	b=g1UyAh6nGGhYkE+iqTU1xZl47pXnV97aNW0+aXSiMvKdfA2DBrPDv1eu
+	7H7YjXnKfTsTRjWthrCIlvHK2M94Zn5fgzM4Rookki+i2vjrR6TLij0MJ
+	Q42I/YkGub+Y4Rxj26NFQZkz3ZGvdx3UOWuYviK60XgyF4uujZWVkM23O I=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CKAgAcCqxa/4kNJK1eGQEBAQEBAQEBA?=
+	=?us-ascii?q?QEBAQcBAQEBAYNQZnIog12YFoEcMwspgRaTexSBfgofhHECgzUhNhYBAgEBAQE?=
+	=?us-ascii?q?BAQJrKIUmAQUjDwEFUQsYAgIRFQICVwYBDAYCAQGFBw0PsGCCJoRug3KCChR4h?=
+	=?us-ascii?q?CWCFIFUgVQoDIJshEEONz+CSYJBIAOHNIR2gS6KUQmGBokhB4gZhROQCQIECwI?=
+	=?us-ascii?q?TAYEqJQEwgVJwFTqCQwmCKxsWjgo+NIxvgkkBAQE?=
+X-IronPort-AV: E=Sophos;i="5.48,317,1517875200"; d="scan'208";a="85354588"
+Received: from alln-core-4.cisco.com ([173.36.13.137])
+	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2018 18:20:38 +0000
+Received: from [10.21.65.179] (sjc-vpn3-435.cisco.com [10.21.65.179])
+	(authenticated bits=0)
+	by alln-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w2GIKZrw009883
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Fri, 16 Mar 2018 18:20:37 GMT
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
+	openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
+References: <1520865187-13798-1-git-send-email-okonopli@cisco.com>
+	<1520873954.3748.6.camel@andred.net>
+From: Oleksii Konoplitskyi <okonopli@cisco.com>
+Message-ID: <052b3c4d-084c-9434-e47d-b68c068cd958@cisco.com>
+Date: Fri, 16 Mar 2018 20:20:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-X-OriginatorOrg: sierrawireless.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9c8cb75-f173-473a-e467-08d58b63c156
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2018 17:31:30.2794 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 08059a4c-2486-43dd-89e3-3a747e0dcbe8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1628
-Subject: [PATCH] uninative: add variables to the whitelist so that it does not re-triger recipe parsing
+In-Reply-To: <1520873954.3748.6.camel@andred.net>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: okonopli
+Subject: Re: [PATCH] core-image-minimal-initramfs: prepare initramfs for NFS boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -79,44 +55,298 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 17:31:31 -0000
+X-List-Received-Date: Fri, 16 Mar 2018 18:30:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-When uninative is activated (poky's default) internal datastore variables a=
-re modified (NATIVELSBSTRING and SSTATEPOSTUNPACKFUNCS) to enable uninative
-support. This is happening after parsing is done at the beginning of the bu=
-ild. On the next bitbake call the recipe would be parsed if the two
-variables above were not added to the parsing whitelist BB_HASHCONFIG_WHITE=
-LIST.
+Hi Andre,
 
-The fix is to add these two variables to the recipe parsing whitelist BB_HA=
-SHCONFIG_WHITELIST, this is done at recipe parsing time, only when
-uninative.bbclass is used.
+I could build initramfs using initramfs-framework. My device was booted 
+successfully.
 
-Signed-off-by: Cuero Bugot <cbugot@sierrawireless.com>
----
- meta/classes/uninative.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+I created my own recipe to build initramfs image and added one more 
+module nfsrootfs to initramfs-framework. Also initramfs-framework*.bb 
+was updated.
+Module "nfsrootfs" has content:
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclas=
-s
-index 8f34483..d1fdbc8 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -8,6 +8,9 @@ UNINATIVE_TARBALL ?=3D "${BUILD_ARCH}-nativesdk-libc.tar.bz=
-2"
- #UNINATIVE_CHECKSUM[x86_64] =3D "dead"
- UNINATIVE_DLDIR ?=3D "${DL_DIR}/uninative/"
-=20
-+# Enabling uninative will change the following variables so they need to g=
-o the parsing white list to prevent multiple recipe parsing
-+BB_HASHCONFIG_WHITELIST +=3D "NATIVELSBSTRING SSTATEPOSTUNPACKFUNCS"
-+
- addhandler uninative_event_fetchloader
- uninative_event_fetchloader[eventmask] =3D "bb.event.BuildStarted"
-=20
---=20
-2.7.4
+
+nfsrootfs_enabled() {
+     [ -z ${bootparam_nfsroot+x} ] && return 1
+     return 0
+}
+
+nfsrootfs_run() {
+     MODULES="$(find /lib/modules/*/kernel/drivers/net/ethernet -name 
+\*.ko | sed -e 's,^.*/,,' -e 's,\.ko$,,')"
+     modprobe -a $MODULES
+
+     ifname=$(echo $bootparam_ip | cut -d ':' -f 6)
+     ipaddr=$(echo $bootparam_ip | cut -d ':' -f 1)
+     netmask=$(echo $bootparam_ip | cut -d ':' -f 4)
+     gateway=$(echo $bootparam_ip | cut -d ':' -f 3)
+
+     ifconfig $ifname $ipaddr netmask $netmask
+     route add default gw $gateway
+
+     nfs_mount_point=$(echo $bootparam_nfsroot | cut -d ',' -f 1)
+     nfs_mount_params=$(echo $bootparam_nfsroot | cut -d ',' -f 2)
+
+     mount -t nfs ${nfs_mount_point} -o nolock,${nfs_server_params} 
+$ROOTFS_DIR
+}
+
+
+This modules does not support ipv6 and dhcp configuration.
+
+Taking into account your recommendations, module should have the next 
+content:
+
+nfsrootfs_enabled() {
+     [ -z ${bootparam_nfsroot+x} ] && return 1
+     return 0
+}
+
+nfsrootfs_run() {
+     nfs_mount_point=$(echo $bootparam_nfsroot | cut -d ',' -f 1)
+     nfs_mount_params=$(echo $bootparam_nfsroot | cut -d ',' -f 2)
+
+     mount -t nfs ${nfs_mount_point} -o nolock,${nfs_server_params} 
+$ROOTFS_DIR
+}
+
+What module is responsible for network configuration and network driver 
+loading?
+Should it be separate custom module in initramfs-framework not related 
+to upstream?
+
+Best regards,
+Oleksii
+
+On 12.03.18 18:59, André Draszik wrote:
+> Hi.
+>
+> It'd be nice if this was part of initramfs-framework instead.
+>
+> In particular some devices need a bit more than ifconfig & route, e.g.
+> configuration of SoC internal Ethernet switches.
+>
+> As it is, this patch is not very generic, whereas if it was integrated with
+> the initramfs-framework, another module could take care of the driver /
+> hardware specifics, and this module would just do the actual mounting of the
+> ROOTFS.
+>
+> The remaining bits, like mount --move of /proc are also already part of
+> initramfs-framework.
+>
+> That way, this new addition would be useful on a wide range of devices.
+>
+>
+> Cheers,
+> Andre'
+>
+> On Mon, 2018-03-12 at 16:33 +0200, Oleksii Konoplitskyi wrote:
+>> It helps to boot device by mounting rootfs via NFS when network
+>> drivers are built as modules.
+>> We include modules in core-image-minimal-initramfs image
+>> and start kernel with specifying custom rdinit in cmdline:
+>>     rdinit=/init-nfs.sh
+>>
+>> NFS and IP parameters should be passed to kernel as usual.
+>> For example:
+>>     ip=192.168.0.11::192.168.0.1:255.255.255.0:linux:eth0:off
+>>     nfsroot=192.168.0.10:/exported_nfs,nfsvers=3,tcp
+>>     root=/dev/nfs rw loglevel=7 rdinit=/init-nfs.sh
+>>
+>> To use this initramfs, one could put the following
+>> to conf/local.conf:
+>>     INITRAMFS_LOAD_KERNEL_MODULES = "kernel-module-igb"
+>>     INITRAMFS_IMAGE_BUNDLE = "1"
+>>     INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+>>
+>> INITRAMFS_LOAD_KERNEL_MODULES is a space-separated list of
+>> modules that will be added to initramfs.
+>>
+>> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
+>> Signed-off-by: Oleksii Konoplitskyi <okonopli@cisco.com>
+>> ---
+>>   .../images/core-image-minimal-initramfs.bb         |   2 +-
+>>   meta/recipes-core/initrdscripts/files/init-nfs.sh  | 108
+>> +++++++++++++++++++++
+>>   .../initrdscripts/initramfs-nfs-boot_1.0.bb        |  14 +++
+>>   3 files changed, 123 insertions(+), 1 deletion(-)
+>>   create mode 100644 meta/recipes-core/initrdscripts/files/init-nfs.sh
+>>   create mode 100644 meta/recipes-core/initrdscripts/initramfs-nfs-
+>> boot_1.0.bb
+>>
+>> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> index c446e87..bf794bf 100644
+>> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device.
+>> The kernel includes \
+>>   the Minimal RAM-based Initial Root Filesystem (initramfs), which finds
+>> the \
+>>   first 'init' program more efficiently."
+>>   
+>> -PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-
+>> live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
+>> ${ROOTFS_BOOTSTRAP_INSTALL}"
+>> +PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-
+>> live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd
+>> ${ROOTFS_BOOTSTRAP_INSTALL} initramfs-nfs-boot"
+>>   
+>>   # Do not pollute the initrd image with rootfs features
+>>   IMAGE_FEATURES = ""
+>> diff --git a/meta/recipes-core/initrdscripts/files/init-nfs.sh
+>> b/meta/recipes-core/initrdscripts/files/init-nfs.sh
+>> new file mode 100644
+>> index 0000000..31a55ec
+>> --- /dev/null
+>> +++ b/meta/recipes-core/initrdscripts/files/init-nfs.sh
+>> @@ -0,0 +1,108 @@
+>> +#!/bin/sh
+>> +
+>> +CONSOLE="/dev/console"
+>> +PATH=/sbin:/bin:/usr/sbin:/usr/bin
+>> +ROOT_MOUNT="/rootfs"
+>> +
+>> +fatal()
+>> +{
+>> +	echo $1 >$CONSOLE
+>> +	echo >$CONSOLE
+>> +	exec sh
+>> +}
+>> +
+>> +net_up()
+>> +{
+>> +	[ "$(ifconfig $PARAM_IFNAME | awk '/inet addr/{print
+>> substr($2,6)}')" = "$PARAM_IP" ] && return
+>> +	#load all ethernet drivers if network interface is not configured
+>> +	MODULES="$(find /lib/modules/*/kernel/drivers/net/ethernet -name
+>> \*.ko | sed -e 's,^.*/,,' -e 's,\.ko$,,')"
+>> +	[ -z "$MODULES" ] && fatal "Ethernet drivers list is emty.
+>> Nothing to load."
+>> +	modprobe -a $MODULES
+>> +
+>> +	ifconfig $PARAM_IFNAME $PARAM_IP netmask $PARAM_NETMASK ||
+>> +		fatal "Failed to configure ethernet interface"
+>> +	route add default gw $PARAM_GW ||
+>> +		fatal "Failed to set default gateway"
+>> +}
+>> +
+>> +
+>> +#TODO: IPv6 is not supported yet
+>> +mount_nfs()
+>> +{
+>> +	mkdir $ROOT_MOUNT
+>> +	for i in $(seq 1 10)
+>> +	do
+>> +		mount -t nfs "$PARAM_NFSROOT_PATH" -o
+>> nolock,"$PARAM_NFSROOT_OPTS" $ROOT_MOUNT && return
+>> +		sleep 1
+>> +	done
+>> +	fatal "Could not mount rootfs via nfs"
+>> +}
+>> +
+>> +
+>> +early_setup()
+>> +{
+>> +	mkdir -p /proc
+>> +	mkdir -p /sys
+>> +	mount -t proc proc /proc
+>> +	mount -t sysfs sysfs /sys
+>> +	mount -t devtmpfs none /dev
+>> +
+>> +	mkdir -p /run
+>> +	mkdir -p /var/run
+>> +}
+>> +
+>> +
+>> +#TODO: IPv6 is not supported yet
+>> +read_args()
+>> +{
+>> +	[ -z "$CMDLINE" ] && CMDLINE=$(cat /proc/cmdline)
+>> +	for arg in $CMDLINE; do
+>> +		optarg=$(expr "x$arg" : 'x[^=]*=\(.*\)'$)
+>> +		case $arg in
+>> +		ip=*)
+>> +			PARAM_IFNAME=$(echo "$optarg" | cut -d: -f6)
+>> +			PARAM_IP_ALL=$(echo "$optarg" | grep -Eo '([0-
+>> 9]{1,3}\.){3}[0-9]{1,3}')
+>> +			PARAM_IP=$(echo "$PARAM_IP_ALL" | sed -n 1p)
+>> +			PARAM_GW=$(echo "$PARAM_IP_ALL" | sed -n 2p)
+>> +			PARAM_NETMASK=$(echo "$PARAM_IP_ALL" | sed -n 3p)
+>> +			;;
+>> +		nfsroot=*)
+>> +			PARAM_NFSROOT_PATH=$(echo "$optarg" | cut -d,
+>> -f1)
+>> +			PARAM_NFSROOT_OPTS=$(echo "$optarg" | cut -d,
+>> -f2-)
+>> +			;;
+>> +		debugshell)
+>> +			DEBUGSHELL=1
+>> +			;;
+>> +		esac
+>> +	done
+>> +}
+>> +
+>> +boot_nfs()
+>> +{
+>> +	touch $ROOT_MOUNT/bin || fatal "Rootfs is not writeable"
+>> +
+>> +	mount -n --move /proc ${ROOT_MOUNT}/proc
+>> +	mount -n --move /sys ${ROOT_MOUNT}/sys
+>> +	mount -n --move /dev ${ROOT_MOUNT}/dev
+>> +
+>> +	cd $ROOT_MOUNT
+>> +
+>> +	# busybox switch_root supports -c option
+>> +	exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init $CMDLINE
+>> ||
+>> +		fatal "Couldn't switch_root, dropping to shell"
+>> +}
+>> +
+>> +early_setup
+>> +
+>> +read_args
+>> +
+>> +if [ -n "$DEBUGSHELL" ]; then
+>> +	exec sh
+>> +fi
+>> +
+>> +net_up
+>> +
+>> +mount_nfs
+>> +
+>> +boot_nfs
+>> +
+>> diff --git a/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
+>> b/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
+>> new file mode 100644
+>> index 0000000..ca4f191
+>> --- /dev/null
+>> +++ b/meta/recipes-core/initrdscripts/initramfs-nfs-boot_1.0.bb
+>> @@ -0,0 +1,14 @@
+>> +SUMMARY = "Live image init script"
+>> +LICENSE = "MIT"
+>> +LIC_FILES_CHKSUM =
+>> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>> +RDEPENDS_${PN} = "${@['', d.getVar('INITRAMFS_LOAD_KERNEL_MODULES',
+>> True)][d.getVar('INITRAMFS_LOAD_KERNEL_MODULES', True) is not None]}"
+>> +SRC_URI = "file://init-nfs.sh"
+>> +
+>> +S = "${WORKDIR}"
+>> +
+>> +do_install() {
+>> +        install -m 0755 ${WORKDIR}/init-nfs.sh ${D}/init-nfs.sh
+>> +}
+>> +
+>> +FILES_${PN} += " /init-nfs.sh "
+>> +
+>> -- 
+>> 2.7.4
+>>
+
 
