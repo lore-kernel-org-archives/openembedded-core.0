@@ -1,48 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E057886C
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 08E4A7887B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 19:21:21 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id h76so5048934wme.4
+	Fri, 16 Mar 2018 19:30:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2GJUTMD002046
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 12:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SsThGA9glja82SSik75rLtHAC9+APHBU5D6/Jcl/Ld0=;
-	b=NMCyofEYHX/telvSprjcUnzkeTTELSjh10/vL0zFUvPGJRcUa+LKaFMJmb6ePcDAMX
-	gDeSpc7TDr1WCWQ431ROjXctad8ijJiLD32+/vmrjcIKPxeGJaQp80b0L8QsEm4Tm5wZ
-	wH1KxinGf8dCxGA73YP8p9RoGlGbpp+aA8hTAuuA1CeuaH3TaUm5maREzXJWTTSx9Y5P
-	+9DgukcvX6s5MzGisBvBWASQCZdengoVXO3Re16p5YlvbR0eiNh2l6butErFTl+Com7p
-	O6ZB1wC9kLND0lSlNz0TI0CCpKA7kWFiVgsekjoDgxl703oC5/5B0jBR6KYuh2ZL5tnR
-	01Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SsThGA9glja82SSik75rLtHAC9+APHBU5D6/Jcl/Ld0=;
-	b=OCY9YjiO02Rb0o6T+5aUayYL5mzF42OPVAO7RpReNYA8x8Hq+XtJrv1CUDj+tgLHwZ
-	ndDk8gloUC9cBhAlDExIgnPtzqKnPGuAksaQRXWYmh0P5XzdeWKtxjo1oMY3/QL1b3jJ
-	TaFy1rE4rajGWD6+QuMN2qLD7WtHpz0UAyrvaxwDwqVumVzJFkVMogiyru4DXs5X0EBJ
-	NYh655R3+CBoOy4DiIZBq2YckxZOk7Y1Y6CMi3HVz31B2d5At9g/mp4VpxOegqedC9xu
-	aKzHxLIq1NAvcBMSreXQI2jU8x0Wl4NX5+gyYUH5pYM2cVqa/Fr0BAtCwRYQUket90ao
-	crKg==
-X-Gm-Message-State: AElRT7GdpSalXiDylBQngMN32SUJ7DJVUWKWDztUNScboBTo5CktDFTi
-	VYWVpr+1vNzXLn7N2jsNFBdRQmcc2eaGqZU/5TWjSQ==
-X-Google-Smtp-Source: AG47ELsGrC0JEoCzoN5SmgFbppJR/O0489pta8hpEFI2o0A0luaeixiHgJ+2efUQBYmC/XuIwX+5C/gFGl+2B0nCHgI=
-X-Received: by 10.28.3.68 with SMTP id 65mr2676443wmd.17.1521228082447; Fri,
-	16 Mar 2018 12:21:22 -0700 (PDT)
+	Fri, 16 Mar 2018 12:30:30 -0700 (PDT)
+Received: from [172.25.44.10] (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 16 Mar 2018 12:30:29 -0700
+To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1520841539.git.Qi.Chen@windriver.com>
+	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <a0a682c8-6b75-2fa7-eba8-b451d09b1230@windriver.com>
+Date: Fri, 16 Mar 2018 15:30:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.28.30.136 with HTTP; Fri, 16 Mar 2018 12:21:21 -0700 (PDT)
-In-Reply-To: <43bf1dcc-afc2-53ca-34c1-57b2d2e1d810@linux.intel.com>
-References: <20180315225010.48-1-Martin.Jansa@gmail.com>
-	<43bf1dcc-afc2-53ca-34c1-57b2d2e1d810@linux.intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 16 Mar 2018 20:21:21 +0100
-Message-ID: <CA+chaQecxAbskvFJGR65v5X-OZihMOwLH+BOLTqUwgTwYwtDhA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] patch.py: Use git format-patch with --no-signature --no-numbered params
+In-Reply-To: <e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+X-Originating-IP: [172.25.44.10]
+Subject: Re: [PATCH 1/3] systemd: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,305 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2018 19:21:22 -0000
-Content-Type: multipart/alternative; boundary="001a114527ec7a0a9705678c8319"
+X-List-Received-Date: Fri, 16 Mar 2018 19:30:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---001a114527ec7a0a9705678c8319
-Content-Type: text/plain; charset="UTF-8"
+On 2018-03-12 04:38 AM, Chen Qi wrote:
+> This new version has dropped ptest support, as there's no easy
+> way to do this in the framework of meson.
 
-What a blasphemy to recommend it, but so many people did, that I'll
-probably try it as well soon.
+Are you talking to the meson developers to see if we/they can
+come up with a way to do that? Is there an issue opened:
+    https://github.com/mesonbuild/meson/issues
+I didn't find one.
 
-BTW: I wanted to improve the warning message, because if you grep for
-^WARNING: in fairly large build, warnings like:
-WARNING: nettle-2.7.1-r0 do_patch:
-doesn't say much (e.g. you cannot immediately grep for the patch filename
-to discover which layer introduced it).
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
-I've checked where this warning is added in meta/lib/oe/patch.py:runcmd(args,
-dir = None) and my naive 1st attempt was to just include the args
-(expecting to see the .patch file as well), but for default quilt it's
-quite useless:
-WARNING: nettle-2.7.1-r0 do_patch: Patch cannot be applied cleanly with:
-['quilt', '--quiltrc', '/OE/build/oe-core/tmp-glibc/
-work/core2-64-oe-linux/nettle/2.7.1-r0/recipe-sysroot-native/etc/quiltrc',
-'push']
-
-So I've tried to use
-PATCHTOOL = "patch"
-and it fails completely:
-
-ERROR: nettle-2.7.1-r0 do_patch: Error executing a python function in
-exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:patch_do_patch(d)
-     0003:
-File: '/OE/build/oe-core/openembedded-core/meta/classes/patch.bbclass',
-lineno: 134, function: patch_do_patch
-     0130:        if not patchdir in classes:
-     0131:            patchset = cls(patchdir, d)
-     0132:            resolver = rcls(patchset, oe_terminal)
-     0133:            classes[patchdir] = (patchset, resolver)
- *** 0134:            patchset.Clean()
-     0135:        else:
-     0136:            patchset, resolver = classes[patchdir]
-     0137:
-     0138:        bb.note("Applying patch '%s' (%s)" % (parm['patchname'],
-oe.path.format_display(local, d)))
-File: '/OE/build/oe-core/openembedded-core/meta/lib/oe/patch.py', lineno:
-293, function: Clean
-     0289:            self._current = self._current - 1
-     0290:
-     0291:    def Clean(self):
-     0292:        """"""
- *** 0293:        self.Pop(all=True)
-     0294:
-     0295:class GitApplyTree(PatchTree):
-     0296:    patch_line_prefix = '%% original patch'
-     0297:    ignore_commit_prefix = '%% ignore'
-File: '/OE/build/oe-core/openembedded-core/meta/lib/oe/patch.py', lineno:
-280, function: Pop
-     0276:            return ret
-     0277:
-     0278:    def Pop(self, force = None, all = None):
-     0279:        if all:
- *** 0280:            self._removePatchFile(True)
-     0281:            self._current = None
-     0282:        else:
-     0283:            self._removePatchFile(False)
-     0284:
-File: '/OE/build/oe-core/openembedded-core/meta/lib/oe/patch.py', lineno:
-211, function: _removePatchFile
-     0207:        with open(self.seriespath, 'r+') as f:
-     0208:            patches = f.readlines()
-     0209:        if all:
-     0210:            for p in reversed(patches):
- *** 0211:                self._removePatch(os.path.join(self.patchdir,
-p.strip()))
-     0212:            patches = []
-     0213:        else:
-     0214:            self._removePatch(os.path.join(self.patchdir,
-patches[-1].strip()))
-     0215:            patches.pop()
-File: '/OE/build/oe-core/openembedded-core/meta/lib/oe/patch.py', lineno:
-201, function: _removePatch
-     0197:
-     0198:    def _removePatch(self, p):
-     0199:        patch = {}
-     0200:        patch['file'] = p.split(",")[0]
- *** 0201:        patch['strippath'] = p.split(",")[1]
-     0202:        self._applypatch(patch, False, True)
-     0203:
-     0204:    def _removePatchFile(self, all = False):
-     0205:        if not os.path.exists(self.seriespath):
-Exception: IndexError: list index out of range
-
-ERROR: nettle-2.7.1-r0 do_patch: Function failed: patch_do_patch
-ERROR: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/
-work/core2-64-oe-linux/nettle/2.7.1-r0/temp/log.do_patch.2168
-ERROR: Task (/OE/build/oe-core/meta-gplv2/recipes-support/nettle/nettle_
-2.7.1.bb:do_patch) failed with exit code '1'
-
-PATCHTOOL = "git" fails the same.
-
-The questions are:
-
-Is patch and git as a PATCHTOOL broken for everybody?
-Is it worth parsing the fuzz in the patch output somewhere outside runcmd
-and try _harder_ to show the patch name on the first line of the warning?
-Maybe using the last line from quilt output (hopefully the "Now at patch
-Add-target-to-only-build-tests-not-run-them.patch" line) for warning and
-leaving the long explanation only as a bb.note? Not sure how this is meant
-to work with various PATCHTOOLs.
-
-FYI: I had one .patch which was always being applied with small fuzz, it
-was caused by some strange character (might be some Korean letter) in
-comment above the modified lines, so the quilt was somehow counting the
-lines incorrectly and always showed:
-Hunk #1 succeeded at 69 with fuzz 2.
-I've tried to refresh the patch with devtool, then manually and it was
-always failing like this, until I've tried to remove the strange characters
-in the same patch and now it applies cleanly.
-
-Regards,
-
-
-
-On Fri, Mar 16, 2018 at 11:37 AM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 03/16/2018 12:50 AM, Martin Jansa wrote:
->
->> * --no-signature saves unnecessary .patch modifications when executed on
->>    host with different git version
->> * --no-numbered saves unnecessary .patch modifications when number of the
->>    applied patches is changed (the number is still in the filename so the
->>    order how they should be applied is still preserved)
->> * both options exist for very long time, I've tested them with git 1.9.1
->>    from Ubuntu 14.04 and I'm quite sure they were available even in much
->>    older releases, so there shouldn't be any issue on relatively new
->> sanity
->>    tested distros
->>
->
-> Thanks, this should reduce the churn. By the way, when reviewing a change
-> to a patch, it is *far* easier to look at it with a side by side diff tool
-> than the usual +- format. I use vscode with gitlens extension (can't
-> believe I am recommending a Microsoft product, but here we are).
->
-> Alex
->
-
---001a114527ec7a0a9705678c8319
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>What a blasphemy to recommend it, but so many people =
-did, that I&#39;ll probably try it as well soon.</div><div><br></div><div>B=
-TW: I wanted to improve the warning message, because if you grep for ^WARNI=
-NG: in fairly large build, warnings like:</div><div><span style=3D"color:rg=
-b(34,34,34);font-family:arial,sans-serif;font-size:small;font-style:normal;=
-font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;lett=
-er-spacing:normal;text-align:start;text-indent:0px;text-transform:none;whit=
-e-space:normal;word-spacing:0px;background-color:rgb(255,255,255);text-deco=
-ration-style:initial;text-decoration-color:initial;float:none;display:inlin=
-e">WARNING: nettle-2.7.1-r0 do_patch:</span><br></div><div>doesn&#39;t say =
-much (e.g. you cannot immediately grep for the patch filename to discover w=
-hich layer introduced it).</div><div><br></div><div>I&#39;ve checked where =
-this warning is added in=C2=A0meta/lib/oe/patch.py:<wbr>runcmd(args, dir =
-=3D None) and my naive 1st attempt was to just include the args (expecting =
-to see the .patch file as well), but for default quilt it&#39;s quite usele=
-ss:</div><div>WARNING: nettle-2.7.1-r0 do_patch: Patch cannot be applied cl=
-eanly with: [&#39;quilt&#39;, &#39;--quiltrc&#39;, &#39;/OE/build/oe-core/t=
-mp-glibc/<wbr>work/core2-64-oe-linux/nettle/<wbr>2.7.1-r0/recipe-sysroot-<w=
-br>native/etc/quiltrc&#39;, &#39;push&#39;]<br></div><div><br></div><div>So=
- I&#39;ve tried to use</div><div>PATCHTOOL =3D &quot;patch&quot;</div><div>=
-and it fails completely:</div><div><br></div><div><div>ERROR: nettle-2.7.1-=
-r0 do_patch: Error executing a python function in exec_python_func() autoge=
-nerated:</div><div><br></div><div>The stack trace of python calls that resu=
-lted in this exception/failure was:</div><div>File: &#39;exec_python_func()=
- autogenerated&#39;, lineno: 2, function: &lt;module&gt;</div><div>=C2=A0 =
-=C2=A0 =C2=A00001:</div><div>=C2=A0*** 0002:patch_do_patch(d)</div><div>=C2=
-=A0 =C2=A0 =C2=A00003:</div><div>File: &#39;/OE/build/oe-core/<wbr>openembe=
-dded-core/meta/<wbr>classes/patch.bbclass&#39;, lineno: 134, function: patc=
-h_do_patch</div><div>=C2=A0 =C2=A0 =C2=A00130:=C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f not patchdir in classes:</div><div>=C2=A0 =C2=A0 =C2=A00131:=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 patchset =3D cls(patchdir, d)</div><div>=C2=A0=
- =C2=A0 =C2=A00132:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resolver =3D r=
-cls(patchset, oe_terminal)</div><div>=C2=A0 =C2=A0 =C2=A00133:=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 classes[patchdir] =3D (patchset, resolver)</di=
-v><div>=C2=A0*** 0134:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patchset.Cl=
-ean()</div><div>=C2=A0 =C2=A0 =C2=A00135:=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<=
-/div><div>=C2=A0 =C2=A0 =C2=A00136:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 patchset, resolver =3D classes[patchdir]</div><div>=C2=A0 =C2=A0 =C2=A0=
-0137:</div><div>=C2=A0 =C2=A0 =C2=A00138:=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.not=
-e(&quot;Applying patch &#39;%s&#39; (%s)&quot; % (parm[&#39;patchname&#39;]=
-, oe.path.format_display(local, d)))</div><div>File: &#39;/OE/build/oe-core=
-/<wbr>openembedded-core/meta/lib/oe/<wbr>patch.py&#39;, lineno: 293, functi=
-on: Clean</div><div>=C2=A0 =C2=A0 =C2=A00289:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 self._current =3D self._current - 1</div><div>=C2=A0 =C2=A0 =
-=C2=A00290:</div><div>=C2=A0 =C2=A0 =C2=A00291:=C2=A0 =C2=A0 def Clean(self=
-):</div><div>=C2=A0 =C2=A0 =C2=A00292:=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&qu=
-ot;&quot;&quot;&quot;&quot;</div><div>=C2=A0*** 0293:=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 self.Pop(all=3DTrue)</div><div>=C2=A0 =C2=A0 =C2=A00294:</div><div>=
-=C2=A0 =C2=A0 =C2=A00295:class GitApplyTree(PatchTree):</div><div>=C2=A0 =
-=C2=A0 =C2=A00296:=C2=A0 =C2=A0 patch_line_prefix =3D &#39;%% original patc=
-h&#39;</div><div>=C2=A0 =C2=A0 =C2=A00297:=C2=A0 =C2=A0 ignore_commit_prefi=
-x =3D &#39;%% ignore&#39;</div><div>File: &#39;/OE/build/oe-core/<wbr>opene=
-mbedded-core/meta/lib/oe/<wbr>patch.py&#39;, lineno: 280, function: Pop</di=
-v><div>=C2=A0 =C2=A0 =C2=A00276:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn ret</div><div>=C2=A0 =C2=A0 =C2=A00277:</div><div>=C2=A0 =C2=A0 =C2=
-=A00278:=C2=A0 =C2=A0 def Pop(self, force =3D None, all =3D None):</div><di=
-v>=C2=A0 =C2=A0 =C2=A00279:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if all:</div><div>=
-=C2=A0*** 0280:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._removePatchF=
-ile(True)</div><div>=C2=A0 =C2=A0 =C2=A00281:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 self._current =3D None</div><div>=C2=A0 =C2=A0 =C2=A00282:=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 else:</div><div>=C2=A0 =C2=A0 =C2=A00283:=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._removePatchFile(False)</div><div>=
-=C2=A0 =C2=A0 =C2=A00284:</div><div>File: &#39;/OE/build/oe-core/<wbr>opene=
-mbedded-core/meta/lib/oe/<wbr>patch.py&#39;, lineno: 211, function: _remove=
-PatchFile</div><div>=C2=A0 =C2=A0 =C2=A00207:=C2=A0 =C2=A0 =C2=A0 =C2=A0 wi=
-th open(self.seriespath, &#39;r+&#39;) as f:</div><div>=C2=A0 =C2=A0 =C2=A0=
-0208:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patches =3D f.readlines()</d=
-iv><div>=C2=A0 =C2=A0 =C2=A00209:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if all:</div><=
-div>=C2=A0 =C2=A0 =C2=A00210:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for =
-p in reversed(patches):</div><div>=C2=A0*** 0211:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._removePatch(os.path.<wbr>join(self.pa=
-tchdir, p.strip()))</div><div>=C2=A0 =C2=A0 =C2=A00212:=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 patches =3D []</div></div><div><div>=C2=A0 =C2=A0 =C2=
-=A00213:=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:</div><div>=C2=A0 =C2=A0 =C2=A0021=
-4:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._removePatch(os.path.<wbr>=
-join(self.patchdir, patches[-1].strip()))</div><div>=C2=A0 =C2=A0 =C2=A0021=
-5:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patches.pop()</div><div>File: &=
-#39;/OE/build/oe-core/<wbr>openembedded-core/meta/lib/oe/<wbr>patch.py&#39;=
-, lineno: 201, function: _removePatch</div><div>=C2=A0 =C2=A0 =C2=A00197:</=
-div><div>=C2=A0 =C2=A0 =C2=A00198:=C2=A0 =C2=A0 def _removePatch(self, p):<=
-/div><div>=C2=A0 =C2=A0 =C2=A00199:=C2=A0 =C2=A0 =C2=A0 =C2=A0 patch =3D {}=
-</div><div>=C2=A0 =C2=A0 =C2=A00200:=C2=A0 =C2=A0 =C2=A0 =C2=A0 patch[&#39;=
-file&#39;] =3D p.split(&quot;,&quot;)[0]</div><div>=C2=A0*** 0201:=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 patch[&#39;strippath&#39;] =3D p.split(&quot;,&quot;)[=
-1]</div><div>=C2=A0 =C2=A0 =C2=A00202:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._app=
-lypatch(patch, False, True)</div><div>=C2=A0 =C2=A0 =C2=A00203:</div><div>=
-=C2=A0 =C2=A0 =C2=A00204:=C2=A0 =C2=A0 def _removePatchFile(self, all =3D F=
-alse):</div><div>=C2=A0 =C2=A0 =C2=A00205:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if no=
-t os.path.exists(self.<wbr>seriespath):</div><div>Exception: IndexError: li=
-st index out of range</div><div><br></div><div>ERROR: nettle-2.7.1-r0 do_pa=
-tch: Function failed: patch_do_patch</div><div>ERROR: Logfile of failure st=
-ored in: /OE/build/oe-core/tmp-glibc/<wbr>work/core2-64-oe-linux/nettle/<wb=
-r>2.7.1-r0/temp/log.do_patch.<wbr>2168</div><div>ERROR: Task (/OE/build/oe-=
-core/meta-gplv2/<wbr>recipes-support/nettle/nettle_<wbr>2.7.1.bb:do_patch) =
-failed with exit code &#39;1&#39;</div></div><div><br></div><div>PATCHTOOL =
-=3D &quot;git&quot; fails the same.</div><div><br></div><div>The questions =
-are:</div><div><br></div><div>Is patch and git as a PATCHTOOL broken for ev=
-erybody?</div><div>Is it worth parsing the fuzz in the patch output somewhe=
-re outside runcmd and try _harder_ to show the patch name on the first line=
- of the warning? Maybe using the last line from quilt output (hopefully the=
- &quot;Now at patch Add-target-to-only-build-<wbr>tests-not-run-them.patch&=
-quot; line) for warning and leaving the long explanation only as a bb.note?=
- Not sure how this is meant to work with various PATCHTOOLs.</div><div><br>=
-</div><div>FYI: I had one .patch which was always being applied with small =
-fuzz, it was caused by some strange character (might be some Korean letter)=
- in comment above the modified lines, so the quilt was somehow counting the=
- lines incorrectly and always showed:</div><div>Hunk #1 succeeded at 69 wit=
-h fuzz 2.<br></div><div>I&#39;ve tried to refresh the patch with devtool, t=
-hen manually and it was always failing like this, until I&#39;ve tried to r=
-emove the strange characters in the same patch and now it applies cleanly.<=
-/div><div><br></div><div>Regards,</div><div><br></div><div><br></div><div c=
-lass=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Mar 16, 2018 at=
- 11:37 AM, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexan=
-der.kanavin@linux.intel.com" target=3D"_blank">alexander.kanavin@linux.inte=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><span class=3D"gmail-">On 03/16/2018 12:50 AM, Martin Jansa wrote:<br=
->
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-* --no-signature saves unnecessary .patch modifications when executed on<br=
->
-=C2=A0 =C2=A0host with different git version<br>
-* --no-numbered saves unnecessary .patch modifications when number of the<b=
-r>
-=C2=A0 =C2=A0applied patches is changed (the number is still in the filenam=
-e so the<br>
-=C2=A0 =C2=A0order how they should be applied is still preserved)<br>
-* both options exist for very long time, I&#39;ve tested them with git 1.9.=
-1<br>
-=C2=A0 =C2=A0from Ubuntu 14.04 and I&#39;m quite sure they were available e=
-ven in much<br>
-=C2=A0 =C2=A0older releases, so there shouldn&#39;t be any issue on relativ=
-ely new sanity<br>
-=C2=A0 =C2=A0tested distros<br>
-</blockquote>
-<br></span>
-Thanks, this should reduce the churn. By the way, when reviewing a change t=
-o a patch, it is *far* easier to look at it with a side by side diff tool t=
-han the usual +- format. I use vscode with gitlens extension (can&#39;t bel=
-ieve I am recommending a Microsoft product, but here we are).<br>
-<br>
-Alex<br>
-</blockquote></div><br></div></div>
-
---001a114527ec7a0a9705678c8319--
