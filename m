@@ -1,47 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id AC89B78910
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9256F600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 22:50:11 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id n12so9940463wra.2
+	Fri, 16 Mar 2018 05:06:53 +0000 (UTC)
+Received: by mail-ua0-f172.google.com with SMTP id l17so1731346uak.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2018 15:50:13 -0700 (PDT)
+	Thu, 15 Mar 2018 22:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=QEO+oi4QIyQn619YTDiEFkkS8u7zAQucxopi5rhQ85U=;
-	b=Yce6AV0h9s4F3AisMkOYAR2xn2nMtrA6fbfQLnzeE8n8j6EAD3VzEuGXNfkcv4F4mk
-	tHKqmunEyk9t7+tRyPbzhAKbV2kOahfygT5BFwMxxdfAB/N0CIkET0tAg4hrxxA1kLAr
-	46rLo2WJKMKkQPyjdYDvOZw6Nm/6ezmyWekrq/hP+DMZxNlRWGvq6xidXa1TO5myQBN0
-	6xJTiLA33RotyRL8s59rQ6Jff/jOp1ntIv7+Eaz1n6CGpzBJMC5zsl6pflwlmycBm1T8
-	+9ytCUHA82OwJ8ldzClloaKygYSx77ZGm1jptaYNLhDqerL0P8yc+UI75eDVHWcFcLx8
-	tjkw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CKL29hnHnaYI5DvEch8+vu2tA6K6+F12g2Puhc8XjSM=;
+	b=F1etORHBC7DOUgLhRVJEZWxpcYpVBmryqDTiwNBxpBD4C5huWJwo6/fIYT8thWJMG2
+	1goybJC6VQj7liVFnTI2jJfWRYFhyPQ1cPiY14/IjjTZAv0l/JCxsz7r2zhJCXWbr5Tx
+	44992Pm0iYkv8D5Ph93W8xTyzUomud24W81u6nI4tQQQzlA5pZWFtv5/KX2Ltq9cxLZf
+	Zbv/rshdg/0x4lc/8zKIkQHU7x4xrCLHXKLu+Knzsqswcl74HPLiTu4OvdD0xCjWxVJo
+	knPeqsE9Oboy/g+m0MwFuvPWoQDDFcDp/FQ2CRofD+ACMIEwLiGoGwurCfEOrhWVhNcc
+	nixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=QEO+oi4QIyQn619YTDiEFkkS8u7zAQucxopi5rhQ85U=;
-	b=LrIpA4xXu0r5yj7vB+a/vxazEQ08HwBG1FfY7JecuHQBUSvUabP2Mkn6dPv1B62hwV
-	klPMhWg7oa+uacPtOCv709Bklyz21RmsPVqMxUIZ2mlyTedlHwcT9UwespTHnsmo2ppp
-	LUuE/TLTO0dFS3VZvqbyxqmjcRh2Wci9YQ5cJk7yEJXXzn3z9e/Nmh1fANpsiXzDb8Fg
-	OTwqFzcrAFhy2zVx2ySVhoC66z5kA3E6ZWW/5aQwkJ+k7jOQtB6enfGH7ub7oKIbA3Nz
-	13EMqdW54USds8T5bKhznRdjQfUBF98qFnq2fDcP8BCokBqMg1iE92xgpeSdZTZqVWXv
-	N+SA==
-X-Gm-Message-State: AElRT7F2G6oh9gpVSz+5kyCXJ5aRVTkYCiKuURHkqVLGKCaoFlrEQtJD
-	PN3MADeT6shy6b7KS6MQogYUTg==
-X-Google-Smtp-Source: AG47ELuNMhVNx8K6Eweiz21D8FDIGJ2SK0lSrD/loFOO6NWdBLJy3TiL29PGBQ1vq6OTUzb4EcV9Ew==
-X-Received: by 10.223.133.70 with SMTP id 64mr8784392wrh.164.1521154212201;
-	Thu, 15 Mar 2018 15:50:12 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	n64sm4687096wmd.11.2018.03.15.15.50.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 15 Mar 2018 15:50:11 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2018 22:50:10 +0000
-Message-Id: <20180315225010.48-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] patch.py: Use git format-patch with --no-signature --no-numbered params
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CKL29hnHnaYI5DvEch8+vu2tA6K6+F12g2Puhc8XjSM=;
+	b=Nel6UVZXM7hV5jJi6QUpb1IjKr2nHhkFxqrecWo6+SDRAdm4awNIctklwfTOObeejG
+	ZqidssQ8PrVUMhdj0Tsz7quQhbCVaYc8ZIhsvTiXixz1SyygCpVp/7O94aYrqRlG21SP
+	Kzu/1dCpk5djoqtKGDFe6njvOJ79zY47RZpmtPFo3P7e9k+WcEHcX4k07JehSmGPOPbN
+	RYWbhLJ27UYmSn1oi1VbnK9m2sJskPGiELyY+xiKVy0qlqyslGhfuN2FevMk2UZ+jeKL
+	0h97IIZ5FxcUwXk+RGI825zlxEquSPJiH1cSpGEY2oPJkZYEUqVclukKN8uN9VZctTYh
+	Hznw==
+X-Gm-Message-State: AElRT7E9UyA/5E1iKia1qyM3Otct56YCMqH2AXiD8FNB8yg0zzeV+UDv
+	bgAnstQXf7cNsA493975q15JXoXTPDhww7HOjiRQSw==
+X-Google-Smtp-Source: AG47ELs1q+DXBRzT3SHzzf1PmxtfAlYGNQOdAyf6/Hjcj1xeWqIzibeNMijZPfQlM+qNZDY5mx4F1VXcKQEIiuDyOzI=
+X-Received: by 10.176.68.35 with SMTP id m32mr257097uam.87.1521176814347; Thu,
+	15 Mar 2018 22:06:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <1520806702-5879-1-git-send-email-derek@asterius.io>
+	<0fbe649e-846b-0446-64c1-587fa1221a9f@linux.intel.com>
+	<CADNbA1pbbMD+7e8xXwOmzGAUmQXbis_cGx3zTrXLCNnRXqyrVA@mail.gmail.com>
+	<c44dd7f9-8f0b-c19b-311e-8364171c8cb3@linux.intel.com>
+	<CADNbA1ontzC-45M0e01w1NE=+U01WRqsn-tGuj+j9+1++2ANoA@mail.gmail.com>
+In-Reply-To: <CADNbA1ontzC-45M0e01w1NE=+U01WRqsn-tGuj+j9+1++2ANoA@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 16 Mar 2018 05:06:43 +0000
+Message-ID: <CANx9H-BtAsgq9fhAaodGDXB0aO8vd0rb924Db6rj1GioYTRW6Q@mail.gmail.com>
+To: Derek Straka <derek@asterius.io>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] python3: update to version 3.5.5 to fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +57,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2018 22:50:11 -0000
+X-List-Received-Date: Fri, 16 Mar 2018 05:06:53 -0000
+Content-Type: multipart/alternative; boundary="94eb2c06a2c0a8ec0a05678093f8"
 
-* --no-signature saves unnecessary .patch modifications when executed on
-  host with different git version
-* --no-numbered saves unnecessary .patch modifications when number of the
-  applied patches is changed (the number is still in the filename so the
-  order how they should be applied is still preserved)
-* both options exist for very long time, I've tested them with git 1.9.1
-  from Ubuntu 14.04 and I'm quite sure they were available even in much
-  older releases, so there shouldn't be any issue on relatively new sanity
-  tested distros
+--94eb2c06a2c0a8ec0a05678093f8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I looked into 3.6 as well, but the sheer number of patches we apply is a
+pain point to rebase.
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index bfa7d21879..af7aa52351 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -448,7 +448,7 @@ class GitApplyTree(PatchTree):
-         import re
-         tempdir = tempfile.mkdtemp(prefix='oepatch')
-         try:
--            shellcmd = ["git", "format-patch", startcommit, "-o", tempdir]
-+            shellcmd = ["git", "format-patch", "--no-signature", "--no-numbered", startcommit, "-o", tempdir]
-             if paths:
-                 shellcmd.append('--')
-                 shellcmd.extend(paths)
--- 
-2.15.1
+I am inclined to vote for 3.6 first and pick up 3.7 when it matures a bit
+and is more widely supported. I have fears of rather massive failures in
+our python ecosystem (especially in meta-python). Perhaps backward
+compatibility will be there, but I need to be convinced. If 3.7 is widely
+the _default_ in traditional distros we support, then I will sing a
+different tune. Also, I hope to have a ptest strategy for python by the end
+of 2.6, which would dramatically increase my comfort level.
 
+=E2=80=94Tim
+On Thu, Mar 15, 2018 at 10:17 AM Derek Straka <derek@asterius.io> wrote:
 
+> I'm about half through the 3.6 updates.  I was hoping to get time in the
+> next two weeks to finish it up.  I can just look at going to 3.7 if that'=
+s
+> preferred.  I don't have a personal preference at this point.
+>
+> On Thu, Mar 15, 2018 at 1:06 PM, Alexander Kanavin <
+> alexander.kanavin@linux.intel.com> wrote:
+>
+>> On 03/15/2018 06:37 PM, Derek Straka wrote:
+>>
+>>> Definitely.  I just didn't do the git add.  I'll send out the v2
+>>> shortly.  Thanks for catching that!
+>>>
+>>
+>> While we're on the subject of python upgrades, I'd like to ask, what kin=
+d
+>> of plan do you have for 3.6/3.7? Is anything in progress? When you have
+>> some kind of patch ready, we can test it on the autobuilder to iron out =
+the
+>> issues, and have it ready for when oe-core master reopens for version
+>> updates.
+>>
+>> (I also think that at this point it makes sense to go straight to 3.7 an=
+d
+>> test with various pre-release versions)
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--94eb2c06a2c0a8ec0a05678093f8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I looked into 3.6 as well, but the sheer number of patches we apply is a pa=
+in point to rebase.<br><br>I am inclined to vote for 3.6 first and pick up =
+3.7 when it matures a bit and is more widely supported. I have fears of rat=
+her massive failures in our python ecosystem (especially in meta-python). P=
+erhaps backward compatibility will be there, but I need to be convinced. If=
+ 3.7 is widely the _default_ in traditional distros we support, then I will=
+ sing a different tune. Also,  I hope to have a ptest strategy for python b=
+y the end of 2.6, which would dramatically increase my comfort level.<br><b=
+r>=E2=80=94Tim<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, Mar 1=
+5, 2018 at 10:17 AM Derek Straka &lt;<a href=3D"mailto:derek@asterius.io">d=
+erek@asterius.io</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v dir=3D"ltr">I&#39;m about half through the 3.6 updates.=C2=A0 I was hopin=
+g to get time in the next two weeks to finish it up.=C2=A0 I can just look =
+at going to 3.7 if that&#39;s preferred.=C2=A0 I don&#39;t have a personal =
+preference at this point.</div><div class=3D"gmail_extra"><br><div class=3D=
+"gmail_quote">On Thu, Mar 15, 2018 at 1:06 PM, Alexander Kanavin <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D=
+"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><span>On 03/15/2018 06:37 PM, Derek Straka wrote:<b=
+r>
+</span><span><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">
+Definitely.=C2=A0 I just didn&#39;t do the git add.=C2=A0 I&#39;ll send out=
+ the v2 shortly.=C2=A0 Thanks for catching that!<br>
+</blockquote>
+<br></span>
+While we&#39;re on the subject of python upgrades, I&#39;d like to ask, wha=
+t kind of plan do you have for 3.6/3.7? Is anything in progress? When you h=
+ave some kind of patch ready, we can test it on the autobuilder to iron out=
+ the issues, and have it ready for when oe-core master reopens for version =
+updates.<br>
+<br>
+(I also think that at this point it makes sense to go straight to 3.7 and t=
+est with various pre-release versions)<br>
+</blockquote></div><br></div>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--94eb2c06a2c0a8ec0a05678093f8--
