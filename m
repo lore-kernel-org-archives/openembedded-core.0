@@ -1,46 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 869327886C
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F33278975
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 03:40:32 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id e3so4833835pga.6
+	Sat, 17 Mar 2018 03:40:43 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id e9so4832802pgs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2018 20:40:34 -0700 (PDT)
+	Fri, 16 Mar 2018 20:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=H3GH2mdXVFwWoKyy0SVeEuxfwIYVJtWFjCdoqp81M8Q=;
-	b=gBjgtuUOBMXH2ehFt4kZlm5801MZ7/jfbxdPzDjjGBaLZw4mYUxQfGjDBKMlHFrory
-	T3Ctnw/+u9FEY19lu9/pe8IYpaeEHY7YHbGxstc38GK0KjfVPI8vOsvCBa2A1zq8nJK9
-	6eaAr1xnAnLcAuZYWVCJBGlkPmNkl2sjkEU0+rhFjBOzdrRJtZ2WZT4E1DjXq9ADfdbS
-	qEgq+LHedCUSsXQUv3cx9DhpmBQfi+H/m1eiAizPBCQE64vmj3P5DU+Pu4J7jT0dngCt
-	tAgJXTcUPFRVkWIknvoUY/lHpwGWrokX8/VBkpi06NafJvMZGYTbpPeVWSP3gnQVUTxM
-	Al/g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Y1liX0m2MnAiNqDIlM1H6KtHt6N1aXFS2xr8zNbRuYY=;
+	b=eQRnujqh0jGfoLg06W5bcj+L4cl42FKyT1X/wYHGKdX0HqwaT70Li7DkgN+xc+vL3T
+	WDkUyXDMm5vQlmuHv1vOnWtGKR3a/XzDbUrnFTXev088iOy6FEqSCX9/DMyBtQX4+bMq
+	zfcKs+IfG67M1UMuaMEVwvad7rXPHM+RDecGPn3yMee9FNTEqqXNqvAMAQ1XqmaG2zKI
+	Lb9O9OsJqmB5BTxTSqJM1i4z/DQMcVYMj5ejH9aDRZnaOqr5Yq6QoBkl45ISpboKMNPk
+	aynUIkqmzUDRrwCpmdInd97SFUJYA8daRx3b70N82T2M5pNMwxovWPffCZCHdDiqZdEv
+	NxXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=H3GH2mdXVFwWoKyy0SVeEuxfwIYVJtWFjCdoqp81M8Q=;
-	b=sf7Yb/YhwvGvs2HlJnRO+Ue6YluL1QICMj+s8X1aPNLJAE67eBIW/gIbo9SJELJSOK
-	DtCqRbG0ABFCTb5iGDLujtsK4XO6mEIc/maxbK5AMBhnwJ+I9b/P+8ZF3CG9yr/mQxlF
-	AWzbXmV26GamgNqNiT5kAJBJdLBeG4+BTsR1KIckS/ZNP4FVXot3ZirM+34cR82D4S9J
-	pdNavJFgXvkTjJFgw2slH3BPMdv72adLxBN8Ggm1Zv22eCV9O/+FkpkK+2cQmPzD6wFu
-	swbpGgZVT6o6cNzCexQtzDs/Pbv0FgR2iKXZ0nTER91g0z063YLJDRGqlNGzLqLdzFyE
-	3QSg==
-X-Gm-Message-State: AElRT7F8nJn77gj1dynWjhWQh1dATGgDI2AZSJoiGm3tcrICP/z+CFVM
-	UAugdclXzyaw9PQo7k5/g/VPmQ==
-X-Google-Smtp-Source: AG47ELspZgkb1lIRHy1B0kTF/0FiUlkHxYT6IcigamJbJg5t6PmfN7GxWPic4cXtCaxzMctmq2GM9g==
-X-Received: by 10.101.69.75 with SMTP id x11mr3373366pgr.69.1521258033450;
-	Fri, 16 Mar 2018 20:40:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Y1liX0m2MnAiNqDIlM1H6KtHt6N1aXFS2xr8zNbRuYY=;
+	b=T4zpYHzibpc5o6l26VmlQ4iLfDJMAL+2vokeXrOuLqRk1j5SS/M71h2glVpxgJuKCi
+	R9ViRt7johjLsIycC0ygZhs4QlCbwU93Ey0w3KNTJc/2d4FETFHuIG7T61B1m9RJzfZX
+	ofCju/Z2LMeCvF7RbOqMifHFpsohg/joSgtrQSvSwQdW6nQREpvJyqKm9RTlCpBd6Bpw
+	WP6CB+n//PqfdwZuBaxUfSalD4muDyboGng3SdtI0cvbawrzwmWFZh3BkqjcHqT8Ei0g
+	HSZC8BW14GMCIGoa8m7fD6PPY0npojfGmc28IdHbWOgsT+mhxliBK2LnICq28FeZv6Hv
+	rsdA==
+X-Gm-Message-State: AElRT7EEE4SVYzVHzTx0SYpJgucs9W28RT9tz1qN1ODsd1SxtHHm44xG
+	vrdCWtgFyA1izf45ErhkYPHxgQ==
+X-Google-Smtp-Source: AG47ELtj1GxrZTWPtiV2677ur2+ldWeMS61CZRk4jKDaFPWIXRby4in1GsuVhq6UYLyyzJkhhEMZ5A==
+X-Received: by 10.99.115.3 with SMTP id o3mr3353987pgc.428.1521258045064;
+	Fri, 16 Mar 2018 20:40:45 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
 	by smtp.gmail.com with ESMTPSA id
-	n27sm17776442pgc.40.2018.03.16.20.40.32
+	184sm874800pfg.124.2018.03.16.20.40.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Mar 2018 20:40:32 -0700 (PDT)
+	Fri, 16 Mar 2018 20:40:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2018 20:40:23 -0700
-Message-Id: <cover.1521257828.git.raj.khem@gmail.com>
+Date: Fri, 16 Mar 2018 20:40:32 -0700
+Message-Id: <61dfa9e2dce4ac2ac04ab2e6d8730a3be00bfa7a.1521257828.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.16.2
-Subject: [PATCH 0/5] RISC-V Build fixes
+In-Reply-To: <cover.1521257828.git.raj.khem@gmail.com>
+References: <cover.1521257828.git.raj.khem@gmail.com>
+Subject: [PATCH 1/5] gcc: Do not use --with-linker-hash-style if LINKER_HASH_STYLE is empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Mar 2018 03:40:32 -0000
+X-List-Received-Date: Sat, 17 Mar 2018 03:40:44 -0000
 
-These packages were failing to build for qemuriscv64 world build
-Some fixes are common, some are backports and some are already
-submitted to respective upstream
+We allow to set LINKER_HASH_STYLE to be empty so this would fail
+since --with-linker-hash-style needs an argument and cant be empty
 
-The following changes since commit c94271d87d16323f920891344642f76dfb3c994f:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-7.3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  buildperf: measure the size of core-image-sato rootfs (2018-03-16 03:42:03 -0700)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/riscv64-fixes-3
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/riscv64-fixes-3
-
-Khem Raj (5):
-  gcc: Do not use --with-linker-hash-style if LINKER_HASH_STYLE is empty
-  mtd-utils: Explicitly add pthread options to cflags
-  x264: Use updated gnu-config artifacts
-  python-numpy: Fix build for riscv64
-  dpkg: Backport riscv support
-
- .../0001-arch-Add-support-for-riscv64-CPU.patch    |  54 ++++++++
- .../dpkg/dpkg/glibc2.5-sync_file_range.patch       |  21 +++-
- meta/recipes-devtools/dpkg/dpkg_1.18.24.bb         |   1 +
- meta/recipes-devtools/gcc/gcc-7.3.inc              |   2 +-
- meta/recipes-devtools/mtd/mtd-utils_git.bb         |   2 +
- .../files/0001-npy_cpu-Add-riscv-support.patch     |  28 +++++
- .../python-numpy/files/riscv64/_numpyconfig.h      |  32 +++++
- .../python-numpy/files/riscv64/config.h            | 139 +++++++++++++++++++++
- .../recipes-devtools/python-numpy/python-numpy.inc |   5 +
- meta/recipes-multimedia/x264/x264_git.bb           |   2 +
- 10 files changed, 280 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-arch-Add-support-for-riscv64-CPU.patch
- create mode 100644 meta/recipes-devtools/python-numpy/files/0001-npy_cpu-Add-riscv-support.patch
- create mode 100644 meta/recipes-devtools/python-numpy/files/riscv64/_numpyconfig.h
- create mode 100644 meta/recipes-devtools/python-numpy/files/riscv64/config.h
-
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+index d56d2c5e06..a80926216b 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+@@ -100,7 +100,7 @@ EXTRA_OECONF_BASE = "\
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
++    ${@'--with-linker-hash-style=${LINKER_HASH_STYLE}' if '${LINKER_HASH_STYLE}' else ''} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
 -- 
 2.16.2
 
