@@ -1,49 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 95A1F78951
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 530D271C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 11:26:09 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id h21so7481673wmd.1
+	Sat, 17 Mar 2018 15:16:52 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id m68so5329637pfm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 04:26:11 -0700 (PDT)
+	Sat, 17 Mar 2018 08:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JH1uPl51TcnqHCEj3r7mVV1yZEr4lVVOVc/tfDOqMOw=;
-	b=ZY12KAQGbPQkcIVuwQCQnWicQZVQ+fbWuyJPzlHB02fjOtOdTkIgxp6dEvQ5eOML6k
-	2qCqBtoRIQyEqI5HXY3zyfuSHWS3xdzmWaZMkyFMxfkmTBO2B2zWx7A6WR7JsjV7p2G5
-	MHG8yxyhXOnPuxKCpERQCJ4QLPV9s9QbNMhz6q/iKV5RIR6oExAFLER7cdoKnKIDVOi+
-	3jW4bb/revE/LFFyae4JI28VVQUE4dYxwIVL6zjOa8+UvQtUTBKs21AW4CuCToL1KWrY
-	3Odme009bgnE+I5831xAeNPKmcf3LxLIzkz6ZrjFY8lUNDqGysWES6Nmy7v3lu1DEfjc
-	gAxg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ezc3KyFWq6JHq9FR4fkV2SlwZk3CoH90uACNZ1HEoGk=;
+	b=gPg0BSwRp2c3/soiKosz06p5X+JN6bcZCE1gRzF/q5LZZgzx0JWtjaFhAM1EivLs2i
+	aQEjbHaOIXBpjAM3BgsVMHbtGIF3PKHTtGJmZked/hM9uk3VFb7aF+bHZMc1Ot7A3jR2
+	u2sPQqKBl5fiDzWA8CPYIuCbGQ+9g+weNjlKLVBAl9MaTNDpfAi1r2xGaF25lMh26lwf
+	6g98Vd2MDxSRIndsyLq0HVxCmsqy5FjxXpam7VVn+C58/O5VJX3oWrQoYPEkkDS6l9DG
+	71lMiU93sJ2Am/Gyth6nWArr9rDXkzMapNK4/bajIMBz+hLHu8M7X7dNo9hQLX3pA2sz
+	VaTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=JH1uPl51TcnqHCEj3r7mVV1yZEr4lVVOVc/tfDOqMOw=;
-	b=AGiST31vZUZu7yvSR28qJcKtPAyJB9RX3NCAGPkqP0otB1nLQ2QsYjzCGFWx41U5kj
-	er3eOZdDHk8gN9OQSWvjAA896FFIbz0IdLaFf/UXaLmfzwL5U/5u+7wMpOD1NwTx/Bj3
-	QEtmdjwNNa8+7sy/GtaLXkB6p+Ek9RbaYqttyDybj9YiPz75bTc82wRw7VdoD0VyBVst
-	OunzOHWpYjbfV+pMAQS6SqxvN5K3RaguORJZrbu+s/vEpzeo9jxM6VGZWyo2teyNnSjg
-	aiSE6BRUo8Z0DYj7iwEK5cbC79BAL40sIbDJsioGan4e0P5xDX1DqlONu93T1n8VTxDI
-	5gwA==
-X-Gm-Message-State: AElRT7EfRq5xlQEJ8WtW+B3rZf6jNoLS31hX4RPBYcbfyOC02DuCOcBk
-	ZIAVEs1xir04NM0U0VdJ8Mj2Ig==
-X-Google-Smtp-Source: AG47ELuUa9H6U50sSjoerVjhWOtR4QMJUGJEEY3DNJBK21cAXm85nVwyip6w+dy9NZH2jFf+9FfL5g==
-X-Received: by 10.28.71.204 with SMTP id m73mr3868762wmi.111.1521285970336;
-	Sat, 17 Mar 2018 04:26:10 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id x82sm8038102wmg.7.2018.03.17.04.26.09
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 17 Mar 2018 04:26:09 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Mar 2018 11:26:07 +0000
-Message-Id: <20180317112607.28536-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <CAMKF1sqfasCaxgxFV_-f1UhAeS4GnwJxSU1uz61UbOg3Rmecsg@mail.gmail.com>
-References: <CAMKF1sqfasCaxgxFV_-f1UhAeS4GnwJxSU1uz61UbOg3Rmecsg@mail.gmail.com>
-Subject: [PATCHv3] iputils: add PACKAGECONFIG for libidn and disable it by default
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ezc3KyFWq6JHq9FR4fkV2SlwZk3CoH90uACNZ1HEoGk=;
+	b=drKlbSY5DmVNKChwzY2WbYkq1eSAS2A/QuczgRdxCKVRxp/kt0lof9EjY4kpJ5+olf
+	CVY1rv6N2HaOnIkNUHSHAO+xwa+O/om9Z4RuSFwsrePJeFYNXR6pahMAUpDnAZ1dPkE0
+	ZRkXgml1zH3sdbVAk2tL2FDS6LrXwD/PEtWuepTE0UezoeYvHLqMgMDwIujx6gUYEcSs
+	dTBX7ho7RK57uzbunlX3/wwBMdBrwaQhnoMaRKJiLdT77BI/Bl9MNX7bkaRx2iZHvoKr
+	ucseev5GMeQ0fHINBV5g1MNLAJvKQps9A2fwGsJA0sc81dC40DZMI5yiILBH25jDwfIv
+	cQJA==
+X-Gm-Message-State: AElRT7F01s40W+C1qRE2kLtXpJZZmW5Rrtpn0MxEC5+1MlYPYbmSQlsj
+	PNMI0kVFaCwroeIC0UvHDnq5WsDPNKiDlaNZ/Zc=
+X-Google-Smtp-Source: AG47ELu3SJBKCy3ES8PNaPss9fMHuK7ixpB1MefBJWzZPOWnRcVMQTaptCYUCEdmWVlT7KQCFtT50sms4Dzq9C58v/I=
+X-Received: by 10.98.202.10 with SMTP id n10mr2381137pfg.220.1521299814076;
+	Sat, 17 Mar 2018 08:16:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.241.68 with HTTP; Sat, 17 Mar 2018 08:16:23 -0700 (PDT)
+In-Reply-To: <20180317111539.42108-1-alexander.kanavin@linux.intel.com>
+References: <20180317111539.42108-1-alexander.kanavin@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 17 Mar 2018 08:16:23 -0700
+Message-ID: <CAMKF1speHQU8vNbdiXSrbE2zy-keJX1e9evsEBiYcbPq5Jw3vg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,76 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Mar 2018 11:26:10 -0000
+X-List-Received-Date: Sat, 17 Mar 2018 15:16:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-* it got enabled by default, but without the dependency on libidn in:
-  commit 5997981fa2c22609a88b8cbb595dbf7758b2f7c2
-  Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-  AuthorDate: Thu Feb 1 20:02:08 2018 +0200
-  Subject: iputils: update to 20161105
+On Sat, Mar 17, 2018 at 4:15 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> Exclude x.y.90* pre-release versions in particular.
+>
 
-* https://github.com/iputils/iputils/blob/master/RELNOTES.old
-  mentiones that IDN was enabled by default in:
-  [s20160308] and surprisingly the same in [s20150815]
-  but there are no release notes for s20151218 version we were using until
-  now, don't know how it really relates to [s20150815].
+Looks ok. So I guess it pokes at master branch right ?
 
-* but there are some issues with libidn as described in:
-  https://github.com/iputils/iputils/commit/f3a461603ef4fb7512ade3bdb73fe1824e294547
-  so disable it by default.
-
-* fails with:
-  | In file included from ping_common.c:1:0:
-  | ping.h:39:10: fatal error: idna.h: No such file or directory
-  |  #include <idna.h>
-  |           ^~~~~~~~
-
-* Easiest way to reproduce this failure is to remove libidn from gnutls
-  PACKAGECONFIG or to use gnutls which doesn't have libidn PACKAGECONFIG
-  at all (like the one in meta-gplv2).
-
-* First it leads to following QA issue:
-  http://errors.yoctoproject.org/Errors/Build/53212/
-  ERROR: iputils-s20161105-r0 do_package_qa: QA Issue: iputils-ping rdepends on libidn, but it isn't a build dependency, missing libidn in DEPENDS or PACKAGECONFIG? [build-deps]
-  ERROR: iputils-s20161105-r0 do_package_qa: QA Issue: iputils-traceroute6 rdepends on libidn, but it isn't a build dependency, missing libidn in DEPENDS or PACKAGECONFIG? [build-deps]
-  ERROR: iputils-s20161105-r0 do_package_qa: QA run found fatal errors.
-  Please consider fixing them.
-  ERROR: iputils-s20161105-r0 do_package_qa: Function failed:
-  do_package_qa
-  ERROR: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/iputils/s20161105-r0/temp/log.do_package_qa.7627
-  ERROR: Task (/OE/build/oe-core/openembedded-core/meta/recipes-extended/iputils/iputils_s20161105.bb:do_package_qa) failed with exit code '1'
-
-* But if you cleansstate iputils as well (after removing libidn from
-  gnutls PACKAGECONFIG) to empty iputils RSS, then you get the error about
-  missing idna.h:
-  http://errors.yoctoproject.org/Errors/Build/53213/
-
-* Adding the libidn dependency explicitly in iputils recipe fixes the
-  issue.
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-extended/iputils/iputils_s20161105.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/iputils/iputils_s20161105.bb b/meta/recipes-extended/iputils/iputils_s20161105.bb
-index ad7dbc4d4a..0125739b03 100644
---- a/meta/recipes-extended/iputils/iputils_s20161105.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20161105.bb
-@@ -23,8 +23,11 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
- 
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn"
-+
- do_compile () {
--	oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" all
-+	oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" ${PACKAGECONFIG_CONFARGS} all
- }
- 
- do_install () {
--- 
-2.15.1
-
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-core/glibc/cross-localedef-native_2.27.bb | 2 +-
+>  meta/recipes-core/glibc/glibc_2.27.bb                  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> index f1e4a657cf4..6344c7acd05 100644
+> --- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> +++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> @@ -19,7 +19,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+>
+>  SRCBRANCH ?= "release/${PV}/master"
+>  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+> -UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+> +UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
+>
+>  SRCREV_glibc ?= "23158b08a0908f381459f273a984c6fd328363cb"
+>  SRCREV_localedef ?= "de5bdbd5e76b5403a4151b9b9f958b6cca36b3e7"
+> diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
+> index c4042d16fe2..827857dfc84 100644
+> --- a/meta/recipes-core/glibc/glibc_2.27.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.27.bb
+> @@ -12,7 +12,7 @@ SRCREV ?= "23158b08a0908f381459f273a984c6fd328363cb"
+>  SRCBRANCH ?= "release/${PV}/master"
+>
+>  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+> -UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+> +UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.(?!90)\d+)*)"
+>
+>  SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://etc/ld.so.conf \
+> --
+> 2.16.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
