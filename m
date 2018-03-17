@@ -1,33 +1,27 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 7012478892
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C74DF60068
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 20:47:07 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D8E02E00C5D; Sat, 17 Mar 2018 13:47:08 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 77A2DE00EE4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 13:46:59 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 6E4AD440002
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2018 13:46:59 -0700 (PDT)
+	Sat, 17 Mar 2018 21:32:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2HLWhv6027671
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 17 Mar 2018 14:32:43 -0700 (PDT)
+Received: from server.local (128.224.20.180) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Sat, 17 Mar 2018 14:32:42 -0700
+To: <auh@auh.yoctoproject.org>
+References: <20180317204657.19574440002@auh.yoctoproject.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <f2d0bd91-81f9-ff08-2f0d-944e7eafa9c7@windriver.com>
+Date: Sat, 17 Mar 2018 17:32:42 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.6.0
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20180317204659.6E4AD440002@auh.yoctoproject.org>
-Date: Sat, 17 Mar 2018 13:46:59 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2018-03-17
+In-Reply-To: <20180317204657.19574440002@auh.yoctoproject.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [AUH] linux-yocto: upgrading to 4.15.7 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,196 +34,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Mar 2018 20:47:07 -0000
-Content-Type: multipart/mixed; boundary="===============6530783763150916775=="
+X-List-Received-Date: Sat, 17 Mar 2018 21:32:52 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---===============6530783763150916775==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+How do I get linux-libc-headers and linux-yocto removed from the
+AUH list of recipes ?
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMpOiAx
-CiAgICAgICAgZ2xpYmMtaW5pdGlhbCwgMi4yNy45MDAwLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogICAgKiBTdWNjZWVkZWQ6IDYxCiAgICAgICAgbGlnaHR0cGQsIDEuNC40OSwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXhhbmRlci5rYW5hdmluQGludGVsLmNvbT4KICAgICAgICBsbHZt
-LCA1LjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29t
-PgogICAgICAgIGRidXMsIDEuMTIuNiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGxpYmV2ZGV2LCAxLjUuOSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5j
-b20+CiAgICAgICAga21zY3ViZSwgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQ2FybG9zIFJh
-ZmFlbCBHaWFuaSA8ZHZAcHNldWRvdGVybWluYWwub3JnPgogICAgICAgIHB5dGhvbi1udW1weSwg
-MS4xNC4yLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIHB5dGhvbjMt
-bnVtcHksIDEuMTQuMiwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB4
-Y2ItcHJvdG8sIDEuMTMsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29tPgogICAgICAg
-IGFkd2FpdGEtaWNvbi10aGVtZSwgMy4yOC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGlu
-dGVsLmNvbT4KICAgICAgICBvZm9ubywgMS4yMywgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBp
-bnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1zZXR1cHRvb2xzLCAzOC42LjAsIERlcmVrIFN0cmFr
-YSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgZ3RrKzMsIDMuMjIuMjksIE1heGluIEIuIEpv
-aG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHdheWxhbmQsIDEuMTQuOTEsIERlbnlz
-IERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAgbWFuLXBhZ2VzLCA0LjE1LCBIb25n
-eHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgY2NhY2hlLCAzLjQuMSwg
-Um9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgdnRlLCAwLjUy
-LjAsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGJsdWV6NSwg
-NS40OSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgYXRrLCAy
-LjI4LjEsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGxpYnht
-bC1zYXgtcGVybCwgMS4wMCwgVGltIE9ybGluZyA8dGltb3RoeS50Lm9ybGluZ0BsaW51eC5pbnRl
-bC5jb20+CiAgICAgICAgeHNldCwgMS4yLjQsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEu
-Y29tPgogICAgICAgIGxpYmlucHV0LCAxLjEwLjMsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5A
-aW50ZWwuY29tPgogICAgICAgIGxpYnNvdXAtMi40LCAyLjYyLjAsIE1heGluIEIuIEpvaG4gPG1h
-eGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWls
-YWJsZSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgaGRwYXJt
-LCA5LjU1LCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgogICAgICAgIHV0aWwtbWFj
-cm9zLCAxLjE5LjIsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29tPgogICAgICAgIGx6
-NCwgMS44LjEuMiwgRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBjbHV0
-dGVyLWdzdC0zLjAsIDMuMC4yNiwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+
-CiAgICAgICAgZXRodG9vbCwgNC4xNSwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGxn
-ZS5jb20+CiAgICAgICAgZ251cGcsIDIuMi41LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
-aXZlci5jb20+CiAgICAgICAgdXRpbC1saW51eCwgMi4zMS4xLCBDaGVuIFFpIDxRaS5DaGVuQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgZGJ1cy10ZXN0LCAxLjEyLjYsIENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLXB5Z29iamVjdCwgMy4yOC4wLCBEZXJlayBT
-dHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGdhd2ssIDQuMi4xLCBDaGVuIFFpIDxR
-aS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgeGV5ZXMsIDEuMS4yLCBBcm1pbiBLdXN0ZXIg
-PGFrdXN0ZXJAbXZpc3RhLmNvbT4KICAgICAgICBnbnV0bHMsIDMuNi4yLCBBcm1pbiBLdXN0ZXIg
-PGFrdXN0ZXJAbXZpc3RhLmNvbT4KICAgICAgICB4d2luaW5mbywgMS4xLjQsIEFybWluIEt1c3Rl
-ciA8YWt1c3RlckBtdmlzdGEuY29tPgogICAgICAgIG5zcywgMy4zNSwgQXJtaW4gS3VzdGVyIDxh
-a3VzdGVyQG12aXN0YS5jb20+CiAgICAgICAgeGluaXQsIDEuNC4wLCBBcm1pbiBLdXN0ZXIgPGFr
-dXN0ZXJAbXZpc3RhLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE1MDcyOC1uZXctY29tbWl0
-cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAg
-ICAgIGx6aXAsIDEuMjAsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAg
-Z3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hcywgMy4yOC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5q
-b2huQGludGVsLmNvbT4KICAgICAgICBsaW51eC1maXJtd2FyZSwgMC4wLW5ldy1jb21taXRzLWF2
-YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5i
-cj4KICAgICAgICBta2ZvbnRzY2FsZSwgMS4xLjMsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlz
-dGEuY29tPgogICAgICAgIGR0YywgMS40LjYsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIu
-a2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgeGtiY29tcCwgMS40LjEsIEFybWluIEt1c3RlciA8
-YWt1c3RlckBtdmlzdGEuY29tPgogICAgICAgIGNtYWtlLCAzLjEwLjMsIE90YXZpbyBTYWx2YWRv
-ciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgYXV0b2NvbmYtYXJj
-aGl2ZSwgMjAxOC4wMy4xMywgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgbWFuLWRiLCAyLjguMiwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIu
-Y29tPgogICAgICAgIGN1cmwsIDcuNTkuMCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyQG12aXN0YS5j
-b20+CiAgICAgICAgbGVzcywgNTMwLCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgbGlieHNobWZlbmNlLCAxLjMsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29t
-PgogICAgICAgIGF0LXNwaTItYXRrLCAyLjI2LjIsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5A
-aW50ZWwuY29tPgogICAgICAgIGxpYnBjcmUyLCAxMC4zMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
-QG12aXN0YS5jb20+CiAgICAgICAgc3lzc3RhdCwgMTEuNy4yLCBDaGVuIFFpIDxRaS5DaGVuQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgc2xhbmcsIDIuMy4yLCBZaSBaaGFvIDx5aS56aGFvQHdpbmRy
-aXZlci5jb20+CiAgICAgICAgdGltZSwgMS45LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBsb2dyb3RhdGUsIDMuMTQuMCwgWWkgWmhhbyA8eWkuemhhb0B3
-aW5kcml2ZXIuY29tPgogICAgICAgIHhrZXlib2FyZC1jb25maWcsIDIuMjMuMSwgQXJtaW4gS3Vz
-dGVyIDxha3VzdGVyQG12aXN0YS5jb20+CiAgICAgICAgcHl0aG9uLXNldHVwdG9vbHMsIDM4LjYu
-MCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB4cHJvcCwgMS4yLjMs
-IEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29tPgogICAgICAgIGRidXMtZ2xpYiwgMC4x
-MTAsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICogRmFpbGVkIChkZXZ0b29s
-IGVycm9yKTogNTEKICAgICAgICB2dWxrYW4tZGVtb3MsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFi
-bGUsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHN5c3RlbWQt
-Ym9vdCwgMjM4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgZm9udGNv
-bmZpZywgMi4xMy4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAg
-ICBtcGZyLCA0LjAuMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBidWls
-ZC1jb21wYXJlLCAyMDE1LjAyLjEwLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUmFuZHkgV2l0dCA8
-cmFuZHkuZS53aXR0QGxpbnV4LmludGVsLmNvbT4KICAgICAgICBlcGlwaGFueSwgMy4yOC4wLjEs
-IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAg
-bGliZ3BnLWVycm9yLCAxLjI4LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgd2VzdG9uLCAzLjAuOTEsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+
-CiAgICAgICAgbWVzb24sIDAuNDUuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXhhbmRlci5rYW5h
-dmluQGludGVsLmNvbT4KICAgICAgICBsaWJjYXAtbmcsIDAuNy45LCBZaSBaaGFvIDx5aS56aGFv
-QHdpbmRyaXZlci5jb20+CiAgICAgICAgZmxleCwgMi42LjQsIENoZW4gUWkgPFFpLkNoZW5Ad2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBsaWJuc2wyLCAxLjIuMCwgS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4KICAgICAgICBnbnUtZWZpLCAzLjAuOCwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2
-ZXIuY29tPgogICAgICAgIHNxdWFzaGZzLXRvb2xzLCA0LjMtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
-LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBwYW5nbywg
-MS40Mi4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICB2YWxh
-LCAwLjQwLjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+
-CiAgICAgICAgZGhjcCwgNC40LjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNv
-bT4KICAgICAgICBiYywgMS4wNy4xLCBKb3NlIExhbWVnbyA8am9zZS5hLmxhbWVnb0BsaW51eC5p
-bnRlbC5jb20+CiAgICAgICAgbGludXgteW9jdG8sIDQuMTUuNywgQnJ1Y2UgQXNoZmllbGQgPGJy
-dWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20+CiAgICAgICAgZHJvcGJlYXIsIDIwMTguNzYsIFlp
-IFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnbGliLTIuMCwgMi41Ni4wLCBN
-YXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICB2dWxrYW4sIDEuMS43
-MC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBvcGVuc3Ns
-LCAxLjEuMGcsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+
-CiAgICAgICAgYWNwaWNhLCAyMDE4MDMxMywgRmF0aGkgQm91ZHJhIDxmYXRoaS5ib3VkcmFAbGlu
-YXJvLm9yZz4KICAgICAgICBpZnVwZG93biwgMC44LjMxLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5q
-b2huQGludGVsLmNvbT4KICAgICAgICBiaW5kLCA5LjEyLjEsIEFybWluIEt1c3RlciA8YWt1c3Rl
-ckBtdmlzdGEuY29tPgogICAgICAgIHRjZi1hZ2VudCwgMS43LjAsIFJhbmR5IFdpdHQgPHJhbmR5
-LmUud2l0dEBsaW51eC5pbnRlbC5jb20+CiAgICAgICAgd2Via2l0Z3RrLCAyLjIwLjAsIEFsZXhh
-bmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgbmZzLXV0
-aWxzLCAyLjMuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgYmFzaCwgNC40LjE4LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgbnNwciwgNC4xOSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyQG12aXN0YS5jb20+CiAgICAg
-ICAgbHpvcCwgMS4wNCwgRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBn
-ZGIsIDguMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBhcHQsIDEuNC44
-LCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBidWlsZC1h
-cHBsaWFuY2UtaW1hZ2UsIDE4LjAuMiwgQ3Jpc3RpYW4gSW9yZ2EgPGNyaXN0aWFuLmlvcmdhQGlu
-dGVsLmNvbT4KICAgICAgICBnbm9tZS1kZXNrdG9wMywgMy4yOC4wLCBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleGFuZGVyLmthbmF2aW5AaW50ZWwuY29tPgogICAgICAgIGF1dG9tYWtlLCAxLjE2LjEs
-IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYnZvcmJp
-cywgMS4zLjYsIFRhbnUgS2Fza2luZW4gPHRhbnVrQGlraS5maT4KICAgICAgICBweXRob24zLCAz
-LjYuNCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBpcHJvdXRlMiwg
-NC4xNS4wLCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAbGdlLmNvbT4KICAgICAgICBz
-ZWQsIDQuNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYnhtbDIs
-IDIuOS44LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgYnVz
-eWJveCwgMS4yOC4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAg
-IGdob3N0c2NyaXB0LCA5LjIyLCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgbGliaWNhbCwgMy4wLjMsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwu
-Y29tPgogICAgICAgIGdvYmplY3QtaW50cm9zcGVjdGlvbiwgMS41Ni4wLCBBbGV4YW5kZXIgS2Fu
-YXZpbiA8YWxleGFuZGVyLmthbmF2aW5AaW50ZWwuY29tPgogICAgICAgIHBlcmwsIDUuMjYuMSwg
-TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAx
-LjQ0LjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGF0
-LXNwaTItY29yZSwgMi4yOC4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4K
-ICAgICAgICBuY3Vyc2VzLCA2LjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNv
-bT4KICAgICAgICByZTJjLCAxLjAuMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
-ICogRmFpbGVkKGRvX2NvbXBpbGUpOiAxNgogICAgICAgIHUtYm9vdC1ta2ltYWdlLCAyMDE4LjAz
-LCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIGdsaWItbmV0d29y
-a2luZywgMi41Ni4wLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAg
-ICBnaXQsIDIuMTYuMiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgZ2xpYmMsIDIuMjcuOTAwMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
-ICAgICBkcGtnLCAxLjE5LjAuNSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5j
-b20+CiAgICAgICAgZ2NyLCAzLjI4LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2Fu
-YXZpbkBpbnRlbC5jb20+CiAgICAgICAgbGludXgtbGliYy1oZWFkZXJzLCA0LjE1LjEwLCBCcnVj
-ZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJ0aXJw
-YywgMS4wLjMsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHhz
-ZXJ2ZXIteG9yZywgMS4xOS45OS45MDEsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29t
-PgogICAgICAgIGhhcmZidXp6LCAxLjcuNiwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRl
-bC5jb20+CiAgICAgICAgc3lzcHJvZiwgMy4yOC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleGFu
-ZGVyLmthbmF2aW5AaW50ZWwuY29tPgogICAgICAgIGNhbGlicmF0ZXByb3RvLCAwLjAtbmV3LWNv
-bW1pdHMtYXZhaWxhYmxlLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXJAbXZpc3RhLmNvbT4KICAgICAg
-ICBweXRob24zLXB5Y2Fpcm8sIDEuMTYuMywgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5p
-bz4KICAgICAgICBsaWJ4Y2IsIDEuMTMsIEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29t
-PgogICAgICAgIHN0cmFjZSwgNC4yMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZl
-ci5jb20+CiAgICAgICAgeGY4Ni12aWRlby12ZXNhLCAyLjQuMCwgQXJtaW4gS3VzdGVyIDxha3Vz
-dGVyQG12aXN0YS5jb20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD0xMjkgc3VjY2VlZGVkPTYxKDQ3
-LjI5JSkgZmFpbGVkPTY4KDUyLjcxJSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1h
-aW50YWluZXI6CgogICAgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4OiBhdHRlbXB0ZWQ9MSBzdWNj
-ZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIE1heGluIEIuIEpvaG4gPG1heGlu
-LmpvaG46IGF0dGVtcHRlZD0yNSBzdWNjZWVkZWQ9MTMoNTIuMDAlKSBmYWlsZWQ9MTIoNDguMDAl
-KQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBhdHRlbXB0ZWQ9MiBzdWNjZWVk
-ZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIFJvYmVydCBZYW5nIDxsaWV6aGkueWFu
-ZzogYXR0ZW1wdGVkPTEwIHN1Y2NlZWRlZD00KDQwLjAwJSkgZmFpbGVkPTYoNjAuMDAlKQogICAg
-T3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0y
-KDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlzOiBh
-dHRlbXB0ZWQ9NiBzdWNjZWVkZWQ9NCg2Ni42NyUpIGZhaWxlZD0yKDMzLjMzJSkKICAgIFRpbSBP
-cmxpbmcgPHRpbW90aHkudC5vcmxpbmc6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUp
-IGZhaWxlZD0wKDAuMDAlKQogICAgQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkOiBhdHRl
-bXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIERlcmVrIFN0
-cmFrYSA8ZGVyZWs6IGF0dGVtcHRlZD03IHN1Y2NlZWRlZD01KDcxLjQzJSkgZmFpbGVkPTIoMjgu
-NTclKQogICAgUmFuZHkgV2l0dCA8cmFuZHkuZS53aXR0OiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9
-MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIEFybWluIEt1c3RlciA8YWt1c3RlcjogYXR0
-ZW1wdGVkPTIxIHN1Y2NlZWRlZD0xNSg3MS40MyUpIGZhaWxlZD02KDI4LjU3JSkKICAgIENoZW4g
-UWkgPFFpLkNoZW46IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD02KDY2LjY3JSkgZmFpbGVkPTMoMzMu
-MzMlKQogICAgVGFudSBLYXNraW5lbiA8dGFudWs6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAu
-MDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbDog
-YXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBDYXJs
-b3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFp
-bGVkPTAoMC4wMCUpCiAgICBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYTogYXR0ZW1wdGVkPTEg
-c3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBIb25neHUgSmlhIDxob25n
-eHUuamlhOiBhdHRlbXB0ZWQ9OSBzdWNjZWVkZWQ9MygzMy4zMyUpIGZhaWxlZD02KDY2LjY3JSkK
-ICAgIENyaXN0aWFuIElvcmdhIDxjcmlzdGlhbi5pb3JnYTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVk
-PTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleGFu
-ZGVyLmthbmF2aW46IGF0dGVtcHRlZD0xMSBzdWNjZWVkZWQ9MigxOC4xOCUpIGZhaWxlZD05KDgx
-LjgyJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTEoMTQu
-MjklKSBmYWlsZWQ9Nig4NS43MSUpCiAgICBZaSBaaGFvIDx5aS56aGFvOiBhdHRlbXB0ZWQ9NiBz
-dWNjZWVkZWQ9Myg1MC4wMCUpIGZhaWxlZD0zKDUwLjAwJSkKICAgIE1hcmVrIFZhc3V0IDxtYXJl
-ay52YXN1dDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
-CiAgICBKb3NlIExhbWVnbyA8am9zZS5hLmxhbWVnbzogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAo
-MC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCg==
+These follow a specific cadence, and shouldn't be included in these
+attempts.
 
---===============6530783763150916775==--
+Bruce
+
+On 2018-03-17 4:46 PM, auh@auh.yoctoproject.org wrote:
+> Hello,
+> 
+> You are receiving this email because you are the maintainer
+> of *linux-yocto* recipe and this is to let you know that the automatic attempt
+> to upgrade the recipe to *4.15.7* has Failed (devtool error).
+> 
+> Detailed error information:
+> 
+> The following devtool command failed:  upgrade linux-yocto -V 4.15.7 -S cb4a115a42867def71fdcbf0d7b714f268ff37fd
+> NOTE: Starting bitbake server...
+> Loading cache...done.
+> Loaded 1281 entries from dependency cache.
+> NOTE: Extracting current version source...
+> NOTE: Resolving any missing task queue dependencies
+> 
+> Build Configuration:
+> BB_VERSION           = "1.37.0"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "i586-poky-linux"
+> MACHINE              = "qemux86"
+> DISTRO               = "poky"
+> DISTRO_VERSION       = "2.4+snapshot-20180317"
+> TUNE_FEATURES        = "m32 i586"
+> TARGET_FPU           = ""
+> meta
+> meta-poky
+> meta-yocto-bsp       = "tmp-auh-upgrades:096c67796ac50aa6059494f32104e6c1c520bbfc"
+> workspace            = "<unknown>:<unknown>"
+> 
+> Initialising tasks...done.
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> NOTE: Tasks Summary: Attempted 367 tasks of which 358 didn't need to be rerun and all succeeded.
+> NOTE: Writing buildhistory
+> NOTE: Copying kernel config to srctree
+> NOTE: Extracting upgraded version source...
+> ERROR: Revision cb4a115a42867def71fdcbf0d7b714f268ff37fd was found on multiple branches:
+>    v4.15/base
+>    v4.15/standard/arm-versatile-926ejs
+>    v4.15/standard/base
+>    v4.15/standard/beaglebone
+>    v4.15/standard/edgerouter
+>    v4.15/standard/fsl-mpc8315e-rdb
+>    v4.15/standard/intel
+>    v4.15/standard/mti-malta32
+>    v4.15/standard/mti-malta64
+>    v4.15/standard/preempt-rt/base
+>    v4.15/standard/preempt-rt/intel
+>    v4.15/standard/qemuarm64
+>    v4.15/standard/qemuppc
+>    v4.15/standard/tiny/base
+>    v4.15/standard/tiny/common-pc
+>    v4.15/standard/tiny/intel
+> Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
+> ERROR: Revision cb4a115a42867def71fdcbf0d7b714f268ff37fd was found on multiple branches:
+>    v4.15/base
+>    v4.15/standard/arm-versatile-926ejs
+>    v4.15/standard/base
+>    v4.15/standard/beaglebone
+>    v4.15/standard/edgerouter
+>    v4.15/standard/fsl-mpc8315e-rdb
+>    v4.15/standard/intel
+>    v4.15/standard/mti-malta32
+>    v4.15/standard/mti-malta64
+>    v4.15/standard/preempt-rt/base
+>    v4.15/standard/preempt-rt/intel
+>    v4.15/standard/qemuarm64
+>    v4.15/standard/qemuppc
+>    v4.15/standard/tiny/base
+>    v4.15/standard/tiny/common-pc
+>    v4.15/standard/tiny/intel
+> Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
+> 
+> 
+> 
+> Please review the attached files for further information and build/update failures.
+> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+> 
+> Regards,
+> The Upgrade Helper
+> 
+
+
