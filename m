@@ -1,28 +1,49 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 0370978961
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E9B91601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 13:56:21 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2018 06:56:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,330,1517904000"; d="scan'208";a="209489532"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 19 Mar 2018 06:56:23 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 36511580100
+	Mon, 19 Mar 2018 14:23:28 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id z73so14547009wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 06:56:22 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Mon, 19 Mar 2018 07:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=+pYkY0UINexZq62xln02hRemfde18AVoC5enJzUuVmE=;
+	b=fOmdnGLFcC8Ze65Fc9f0QVVVT4AbJGnOLb1sLevanypfq/JLBjKf+P5r7sY1/Cg5SY
+	mjsP62bhcpPfSprIDsUf8XqqPl2d4IHug3KYwfhaAKGK+NMuYQSoSL7u53J8dhPl4NgL
+	9NTB7iUeV5Wu81nSwUcCkqzc8SgMK/nUqfzyNWlFdLY67/GjBK2zy6+4n2mhpry9GJR3
+	Vocbpnd9FfXfCDA0IoLRB+Jxe/aSaePrRsL5y7wmwZzh6LZEnrEQpeFDJMipENtYPVsO
+	ZiH0i/tYEkp6kKjtzispt2iP0Y3pvkUMHYhmn5+IexU9kKCNqx3t1QMbd60BKPFF7Ptc
+	GjpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+pYkY0UINexZq62xln02hRemfde18AVoC5enJzUuVmE=;
+	b=gcirOwDa5HP6GEe/+n1uZAefocwfhSVYJjxCOhcgMs4SOHoH4IH7OsktOlDMz6NIC8
+	Ne3k74QRhldi31/F3kZPMwa9QK962fK/y4WIja4jzzcWhaTTJEMzZs+KWsjXBS88pROD
+	BcmHLhbHwV130UMhhu2yElXaxjqA6ky+Bf0e/lzjD5fO2bnbLGyNVSkFCQDHIPx9kAK5
+	h/e5duJSGWgdavF7yZc3hHLyzetJmiNbatkXTLZGw+CLOd/1yLV0LlAYAwmsiGeID5An
+	klWunEjrQsK7t4dqdrU5UMttElgLKVS0ss/2r/9MPUWqvBaR158iUMJT6ro9V0rQWSyN
+	TSdA==
+X-Gm-Message-State: AElRT7FwY8CTDFahqNBSVz09iRL+sFVPw2vThgqzapjp71NwBL5W03z0
+	Rxb38WdTuUQq0ZVds3XAzk3zgwP/
+X-Google-Smtp-Source: AG47ELtzyRcMKA5EBm0ESCrBpEQn4bmaAzIIPXGwCYEQGEx1d0OXs9USZkDao/gAXd56k+4Tuzh5eQ==
+X-Received: by 10.223.128.40 with SMTP id 37mr10314130wrk.73.1521469409271;
+	Mon, 19 Mar 2018 07:23:29 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id e53sm190122wrg.34.2018.03.19.07.23.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Mar 2018 07:23:28 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 15:59:55 +0200
-Message-Id: <1521467995-3521-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] libsolv: refresh the patches
+Date: Mon, 19 Mar 2018 14:23:26 +0000
+Message-Id: <20180319142326.11699-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] Revert "lttng-tools: Upgrade 2.9.5 -> 2.10.2"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,146 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 13:56:22 -0000
+X-List-Received-Date: Mon, 19 Mar 2018 14:23:29 -0000
 
-fixes:
+None of the test suite works, so something quite fundamental broke.
 
-WARNING: libsolv-0.6.33-r0 do_patch:
-Some of the context lines in patches were ignored. This can lead to
-incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
+[ YOCTO #12606 ]
 
-devtool modify <recipe>
-devtool finish --force-patch-refresh <recipe> <layer_path>
+This reverts commit 406ea737f1ce5bb5fed46c8cbeb5c7c13bf3b8ad.
 
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored). Further information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-Details:
-Applying patch
-0001-Add-fallback-fopencookie-implementation.patch
-patching file ext/CMakeLists.txt
-patching file ext/solv_xfopen.c
-Hunk #1 succeeded at 12 with fuzz 1 (offset -1 lines).
-Hunk #2 succeeded at 25 (offset -18 lines).
-Hunk #3 succeeded at 34 (offset -18 lines).
-Hunk #4 succeeded at 46 (offset -18 lines).
-patching file ext/solv_xfopen_fallback_fopencookie.c
-patching file ext/solv_xfopen_fallback_fopencookie.h
-
-Now at patch 0001-Add-fallback-fopencookie-implementation.patch
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...0001-Add-fallback-fopencookie-implementation.patch | 19 ++++++++++---------
- ...Fixes-to-internal-fopencookie-implementation.patch |  5 +++--
- 2 files changed, 13 insertions(+), 11 deletions(-)
+ .../lttng/{lttng-tools_2.10.2.bb => lttng-tools_2.9.5.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.10.2.bb => lttng-tools_2.9.5.bb} (95%)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch b/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-index a575d0e..e5cb60d 100644
---- a/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-@@ -1,4 +1,4 @@
--From 4d9b6ec30b78d00ead0a22eb5d047dcdba37e99c Mon Sep 17 00:00:00 2001
-+From 47c6f1b4332a9e4935c48cca826786a6b8fe6f59 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Neal=20Gompa=20=28=E3=83=8B=E3=83=BC=E3=83=AB=E3=83=BB?=
-  =?UTF-8?q?=E3=82=B3=E3=82=99=E3=83=B3=E3=83=8F=E3=82=9A=29?=
-  <ngompa13@gmail.com>
-@@ -13,6 +13,7 @@ Alex Kanavin: rebased CMakeLists.txt change to apply to latest upstream code.
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+similarity index 95%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.10.2.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+index fd5abbb113b..93626dd4b5f 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+@@ -22,7 +22,7 @@ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
+ PACKAGECONFIG ??= "lttng-ust"
+ PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python3 swig-native"
+ PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
+-PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
++PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+ PACKAGECONFIG_remove_riscv64 = "lttng-ust"
+@@ -32,8 +32,8 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://run-ptest \
+            "
  
- Upstream-Status: Denied [https://github.com/openSUSE/libsolv/pull/112]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  ext/CMakeLists.txt                     |   7 ++
-  ext/solv_xfopen.c                      |  10 +--
-@@ -23,7 +24,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  create mode 100644 ext/solv_xfopen_fallback_fopencookie.h
+-SRC_URI[md5sum] = "f4037d20c0a905cfb89770bccb2dc3c0"
+-SRC_URI[sha256sum] = "b3038ff9ba46c3e4d3d228def733c15952d15d23fcb1151a580f31c4276c9a9f"
++SRC_URI[md5sum] = "051224eb991aee07f8721ff1877d0b96"
++SRC_URI[sha256sum] = "77839eb6fc6c652125f08acfd9369701c2516eb05cc2084160e7efc7a3fb731c"
  
- diff --git a/ext/CMakeLists.txt b/ext/CMakeLists.txt
--index 586eda8..477a2ef 100644
-+index b8917a2..fac6c32 100644
- --- a/ext/CMakeLists.txt
- +++ b/ext/CMakeLists.txt
- @@ -4,6 +4,13 @@ SET (libsolvext_SRCS
-@@ -41,11 +42,11 @@ index 586eda8..477a2ef 100644
-      SET (libsolvext_SRCS ${libsolvext_SRCS}
-          pool_fileconflicts.c repo_rpmdb.c)
- diff --git a/ext/solv_xfopen.c b/ext/solv_xfopen.c
--index b0421bf..31345dd 100644
-+index 2c64bb6..eb3a3ad 100644
- --- a/ext/solv_xfopen.c
- +++ b/ext/solv_xfopen.c
--@@ -13,6 +13,10 @@
-- #include <zlib.h>
-+@@ -12,6 +12,10 @@
-+ #include <string.h>
-  #include <fcntl.h>
-  
- +#if !defined(HAVE_FUNOPEN) && !defined(HAVE_FOPENCOOKIE)
-@@ -55,7 +56,7 @@ index b0421bf..31345dd 100644
-  #include "solv_xfopen.h"
-  #include "util.h"
-  
--@@ -39,7 +43,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -21,7 +25,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-  	ssize_t (*cwrite)(void *, const char *, size_t),
-  	int (*cclose)(void *))
-  {
-@@ -64,7 +65,7 @@ index b0421bf..31345dd 100644
-    if (!cookie)
-      return 0;
-    return funopen(cookie,
--@@ -48,7 +52,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -30,7 +34,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-        (fpos_t (*)(void *, fpos_t, int))NULL,					/* seekfn */
-        cclose
-        );
-@@ -73,7 +74,7 @@ index b0421bf..31345dd 100644
-    cookie_io_functions_t cio;
-  
-    if (!cookie)
--@@ -60,8 +64,6 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -42,8 +46,6 @@ static FILE *cookieopen(void *cookie, const char *mode,
-      cio.write = cwrite;
-    cio.close = cclose;
-    return  fopencookie(cookie, *mode == 'w' ? "w" : "r", cio);
-@@ -246,5 +247,5 @@ index 0000000..6a7bfee
- +
- +#endif
- -- 
--2.11.0
-+2.4.0
- 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch b/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-index efb4e3a..93b8cc9 100644
---- a/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-+++ b/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-@@ -1,4 +1,4 @@
--From 99b10cdf6a0f8a24e1670c1813b1d9563ae3f5b5 Mon Sep 17 00:00:00 2001
-+From 84e12bf7ece49073c559dfd58005132a6099a964 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Neal=20Gompa=20=28=E3=83=8B=E3=83=BC=E3=83=AB=E3=83=BB?=
-  =?UTF-8?q?=E3=82=B3=E3=82=99=E3=83=B3=E3=83=8F=E3=82=9A=29?=
-  <ngompa13@gmail.com>
-@@ -11,6 +11,7 @@ the tests all pass.
- 
- Upstream-Status: Denied [https://github.com/openSUSE/libsolv/pull/112]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  ext/solv_xfopen_fallback_fopencookie.c | 19 ++++++++++---------
-  ext/solv_xfopen_fallback_fopencookie.h | 10 +++++-----
-@@ -100,5 +101,5 @@ index 6a7bfee..7223e3f 100644
-  
-  #ifndef SOLV_XFOPEN_FALLBACK_FOPENCOOKIE_H
- -- 
--2.11.0
-+2.4.0
+ inherit autotools ptest pkgconfig useradd python3-dir manpages
  
 -- 
-2.4.0
+2.11.0
 
 
