@@ -1,29 +1,41 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CBE878963
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC797895B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 14:37:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2018 07:37:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,330,1517904000"; d="scan'208";a="36251689"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 19 Mar 2018 07:37:26 -0700
-To: "Maxin B. John" <maxin.john@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1521467995-3521-1-git-send-email-maxin.john@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b6026187-5b09-a4b7-a39f-4930dfbc62ef@linux.intel.com>
-Date: Mon, 19 Mar 2018 16:30:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <1521467995-3521-1-git-send-email-maxin.john@intel.com>
-Subject: Re: [PATCH] libsolv: refresh the patches
+	Mon, 19 Mar 2018 14:40:01 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id a20so1180052qtj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2018 07:40:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=+7Hegr+O/bgRuwx4J/3GVvIxHuc9Q9JxeSDStJCRLA0=;
+	b=Uz6qOtHtU92Q4JN4ZhfL4d+M6xlLj/oXSPY6izXMSUAUYhx3+Lkil1kUAPc4YNErKY
+	dM9ZQ0S3y6LVznQsYqt3OX24pSqikUW1EBBTbr14GfazjXXJJ/7hQyZTXXA/LFKI5qJU
+	fkVmIi9kwVCcg/NhWq8gSvAw3VE7sHFWMbXk28bkSGdPB1BosRlbGSfUo9OC/tcutZXM
+	8HBe9w1gOfVdW1F59Epgq3JFVR9h4blCjvLjxRmF8JRG0o6PGi3fUWZpuKF2qs7GuW9a
+	X8xk5ZsAPzpbFGL05dXyD0+n1RV6eFkOXC6x7oghKG91vwc+KydlBZy18BsadsOMRewO
+	MpuA==
+X-Gm-Message-State: AElRT7HUryNqjM3TwpNLo3hLIUniX8w31qRBcicNX3aticLaQUc4ijQ+
+	li1oqZxQu+AvCUM8O2wv63K2iw==
+X-Google-Smtp-Source: AG47ELu/KFDN+xCJ8QXr318kC7ggbeWB9jAwyBDV85+Hj6AKB/Pv+lKO8kAec+J5Giu5huBn3oC6Eg==
+X-Received: by 10.237.43.3 with SMTP id p3mr18733846qtd.41.1521470402754;
+	Mon, 19 Mar 2018 07:40:02 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id c52sm109353qtc.89.2018.03.19.07.40.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 19 Mar 2018 07:40:02 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 19 Mar 2018 11:39:58 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Mar 2018 11:39:49 -0300
+Message-Id: <20180319143949.27368-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] cmake: upgrade 3.10.2 -> 3.10.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 14:37:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Mar 2018 14:40:02 -0000
 
-On 03/19/2018 03:59 PM, Maxin B. John wrote:
-> diff --git a/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch b/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-> index efb4e3a..93b8cc9 100644
-> --- a/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-> +++ b/meta/recipes-extended/libsolv/libsolv/0002-Fixes-to-internal-fopencookie-implementation.patch
-> @@ -1,4 +1,4 @@
-> -From 99b10cdf6a0f8a24e1670c1813b1d9563ae3f5b5 Mon Sep 17 00:00:00 2001
-> +From 84e12bf7ece49073c559dfd58005132a6099a964 Mon Sep 17 00:00:00 2001
->   From: =?UTF-8?q?Neal=20Gompa=20=28=E3=83=8B=E3=83=BC=E3=83=AB=E3=83=BB?=
->    =?UTF-8?q?=E3=82=B3=E3=82=99=E3=83=B3=E3=83=8F=E3=82=9A=29?=
->    <ngompa13@gmail.com>
-> @@ -11,6 +11,7 @@ the tests all pass.
->   
->   Upstream-Status: Denied [https://github.com/openSUSE/libsolv/pull/112]
->   Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +
->   ---
->    ext/solv_xfopen_fallback_fopencookie.c | 19 ++++++++++---------
->    ext/solv_xfopen_fallback_fopencookie.h | 10 +++++-----
-> @@ -100,5 +101,5 @@ index 6a7bfee..7223e3f 100644
->    
->    #ifndef SOLV_XFOPEN_FALLBACK_FOPENCOOKIE_H
->   --
-> -2.11.0
-> +2.4.0
+,----[ Changes in 3.10.3 ]
+| Brad King (1):
+|       CMake 3.10.3
+|
+| Craig Scott (1):
+|       GoogleTest: Rename TIMEOUT parameter to avoid clash
+|
+| Sebastian Holtermann (1):
+|       Autogen: Fix for the empty source file crash in 3.10.2
+|
+| Tianhao Chai (1):
+|       ccmake: fix status line buffer overflow on very wide terminals
+`----
 
-This patch doesn't need to be updated, and so you can discard it from 
-the commit. Unfortunately devtool can't really be instructed to refresh 
-only specific patches.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Alex
+ .../cmake/{cmake-native_3.10.2.bb => cmake-native_3.10.3.bb}          | 0
+ meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_3.10.2.bb => cmake_3.10.3.bb}      | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.10.2.bb => cmake-native_3.10.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.10.2.bb => cmake_3.10.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.10.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.10.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.10.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.10.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 4eaca755971..9357079df4e 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://cmake-Prevent-the-detection-of-Qt5.patch \
+            "
+ 
+-SRC_URI[md5sum] = "732808e17fc14dc8cee50d51518c34eb"
+-SRC_URI[sha256sum] = "80d0faad4ab56de07aa21a7fc692c88c4ce6156d42b0579c6962004a70a3218b"
++SRC_URI[md5sum] = "1c38c67295ca696aeafd8c059d748b38"
++SRC_URI[sha256sum] = "0c3a1dcf0be03e40cf4f341dda79c96ffb6c35ae35f2f911845b72dab3559cf8"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake_3.10.2.bb b/meta/recipes-devtools/cmake/cmake_3.10.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.10.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.10.3.bb
+-- 
+2.16.2
+
 
