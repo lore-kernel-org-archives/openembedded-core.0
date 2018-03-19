@@ -1,42 +1,52 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 66653788A1;
-	Mon, 19 Mar 2018 17:38:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2018 10:38:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,331,1517904000"; d="scan'208,217";a="36299604"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by orsmga003.jf.intel.com with ESMTP; 19 Mar 2018 10:38:36 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.175]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.3.86]) with mapi id
-	14.03.0319.002; Mon, 19 Mar 2018 10:38:35 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>, "Patches and discussions about the
-	oe-core layer" <openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-commits] [openembedded-core] 02/03:
-	reproducible_build_simple.bbclass: simple environment for reproducible
-	binaries
-Thread-Index: AQHTvsJgozuNr51FmEK0x15niF3TIKPWfkiAgAAChwCAAVH0HA==
-Date: Mon, 19 Mar 2018 17:38:35 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B64C673B99@ORSMSX112.amr.corp.intel.com>
-References: <152089240195.19773.3751229902290225520@git.openembedded.org>
-	<20180312220642.1D65C232B12@git.openembedded.org>
-	<CA+chaQdN_qjQx_YSuD6RX5p=8OPNfv7OGdzrTqLfWMjnjfOxxQ@mail.gmail.com>
-	<CA+chaQdQP3zTRXDz2S=Oypbe9BE5CN+rASraHdxT5vYeNLBpAg@mail.gmail.com>,
-	<CA+chaQfJx-cuye=3HDTi4BHpY64kmihykiD8yeLAQnSaurfZVg@mail.gmail.com>
-In-Reply-To: <CA+chaQfJx-cuye=3HDTi4BHpY64kmihykiD8yeLAQnSaurfZVg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.135]
+Return-Path: <kamensky@cisco.com>
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A907789A6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2018 17:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=18460; q=dns/txt;
+	s=iport; t=1521481615; x=1522691215;
+	h=date:from:to:cc:subject:in-reply-to:message-id:
+	references:mime-version:content-id;
+	bh=t+aUlHvmBB7ofaDs5jKBJAL1a2m9NCj4Ys81+wT9ZW8=;
+	b=V9jD5tV8iaIW+rlrynMS7EEYDWa3vUFWwbK1HtvGFQVRnKY945yStRGX
+	rHs2rJ2J64vf2+3IPjfWa4cUE2E5FtWUgsoojcWEjxnHRGWi0nA1hY4Fb
+	AIQxUZC0ZmJRDLiV1IKOAmkrHrnQouUMF4BEC6DX/Z/w9zs4Y+pmGG7LK A=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AcAQAQ969a/4cNJK1dGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNQZkExKI15co0JgVopexuUAIISCxuEdQKDQCE0GAECAQE?=
+	=?us-ascii?q?BAQEBAmsohSUBAQEDASdEDhALGC5XBhOFEAirFTqIWIIOhTOCFYMpNII5M4p?=
+	=?us-ascii?q?vA4dBH4VGixAJiGyIEoN8h2SKQYVNAgQLAhMBgSoeOIFSTSMVgn0Jgikbjj4?=
+	=?us-ascii?q?gNJBYAQEB?=
+X-IronPort-AV: E=Sophos;i="5.48,331,1517875200"; d="scan'208";a="372701331"
+Received: from alln-core-2.cisco.com ([173.36.13.135])
+	by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Mar 2018 17:46:53 +0000
+Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
+	by alln-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w2JHkr6j016394
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 19 Mar 2018 17:46:53 GMT
+Date: Mon, 19 Mar 2018 10:46:52 -0700 (PDT)
+From: Victor Kamensky <kamensky@cisco.com>
+To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+In-Reply-To: <87605sjvk4.fsf@linaro.org>
+Message-ID: <alpine.LRH.2.00.1803190744140.44401@sjc-ads-6991.cisco.com>
+References: <1520067650.3436.41.camel@linuxfoundation.org>
+	<91616f15-f805-22db-6073-8698f49bab86@gmail.com>
+	<412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
+	<alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
+	<CAFEAcA-d6-_tVRWKbZpVsQtece4fjuUqF+o+-m-AG4jPUHPY4g@mail.gmail.com>
+	<alpine.LRH.2.00.1803111848530.64087@sjc-ads-6991.cisco.com>
+	<alpine.LRH.2.00.1803171544580.27691@sjc-ads-6991.cisco.com>
+	<87a7v4kj5g.fsf@linaro.org>
+	<alpine.LRH.2.00.1803181801370.18105@sjc-ads-6991.cisco.com>
+	<87605sjvk4.fsf@linaro.org>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 MIME-Version: 1.0
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 02/03: reproducible_build_simple.bbclass: simple environment for reproducible binaries
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Need arm64/qemu help
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,459 +59,421 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 17:38:35 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_"
+X-List-Received-Date: Mon, 19 Mar 2018 17:46:53 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="504000474-246938886-1521472492=:44401"
+Content-ID: <alpine.LRH.2.00.1803190828000.44401@sjc-ads-6991.cisco.com>
 
---_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Martin,
-thanks for your feedback.
-I will send to ML a new version of the patch within a day or two. The patch=
- you mentioned (v2) had a few short-comings, hopefully fixed in the next on=
-e (currently being tested).
-Meanwhile, you may want to have a look at the recently updated wiki page (a=
-nd it will be updated again) how to build reproducible builds with "hard-co=
-ded" SOURCE_DATE_EPOCH:
-https://wiki.yoctoproject.org/wiki/Reproducible_Builds
-
-
-Thanks
-________________________________
-From: Martin Jansa [martin.jansa@gmail.com]
-Sent: Sunday, March 18, 2018 7:22 AM
-To: Bystricky, Juro; Patches and discussions about the oe-core layer
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 02/03: reproducible_build_sim=
-ple.bbclass: simple environment for reproducible binaries
-
-SOURCE_DATE_EPOCH was supposed to be exported in this review:
-https://patchwork.openembedded.org/patch/139558/
-but it wasn't merged to master nor rocko.
+--504000474-246938886-1521472492=:44401
+Content-Type: TEXT/PLAIN; CHARSET=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.LRH.2.00.1803190828001.44401@sjc-ads-6991.cisco.com>
 
 
 
-On Sun, Mar 18, 2018 at 3:13 PM, Martin Jansa <martin.jansa@gmail.com<mailt=
-o:martin.jansa@gmail.com>> wrote:
-I've also noticed that the kernel.bbclass says:
+On Mon, 19 Mar 2018, Alex Bennée wrote:
 
-                # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH=
- may not
-                # be set....
+>
+> Victor Kamensky <kamensky@cisco.com> writes:
+>
+>> On Sun, 18 Mar 2018, Alex Bennée wrote:
+>>
+>>>
+>>> Victor Kamensky <kamensky@cisco.com> writes:
+>>>
+>>>> Hi Folks,
+>>>>
+>>>> I am back from ELC and I am looking at this issue again.
+>>>>
+>>>> Alex Bennée from Linaro QEMU team reported that he tried to
+>>>> reproduce the issue, even he went and build the same OE images -
+>>>> but he could not reproduce it. Alex, thank you for the effort.
+>>>>
+>>>> So since it is reprodicible on my machine I kept digging
+>>>> myself. In no way I am qemu expert, but I think now I
+>>>> understand what is happening. Long story with my debug notes
+>>>> is below, but here is executive summery:
+>>>>
+>>>> Linux kernel loop waiting for jiffies to move on, while
+>>>> calling yield instruction, in our case aarch64 target runs
+>>>> under one CPU configuration, and after Alex's commit "c22edfe
+>>>> target-arm: don't generate WFE/YIELD calls for MTTCG" qemu
+>>>> logic of handling yield instruction changed in such way
+>>>> that it is treated as simple nop. But since it is single CPU
+>>>> configuration, we have qemu looping in generated code
+>>>> forver without existing loop to process pending vtimer
+>>>> interrupt in order to move jiffies forward. c22edfe implies
+>>>> that it is not parallel CPU case, but in our case even if
+>>>> we have single CPU target parallel execution is still turned
+>>>> on.
+>>>
+>>> Hmm well my gut guess was right but I'm not sure how it is hanging.
+>>>
+>>> First of all could you confirm it hangs/works with the invocation:
+>>>
+>>>  --accel tcg,thread=single -smp 2
+>>
+>> '--accel tcg,thread=single -smp 2' works fine. '--accel tcg,thread=single'
+>> works fine too.
+>>
+>>> The parallel_cpus variable only refers to the fact MTTCG is enabled or
+>>> not. You can still model -smp > 1 systems without MTTCG but in this case
+>>> each vCPU will be run round-robin style from a single thread.
+>>>
+>>> What is troubling is you are not seeing the timer IRQ fire. The whole
+>>> point of the cpu_loop_exit(cs) is to ensure we start again on the next
+>>> vCPU. Every time we enter a new block we check to see if an IRQ has
+>>> fired and then process it then.
+>>
+>> Thank you for guidance. Now I see icount_decr.u16.high check
+>> in start of every generated block. Setting icount_decr.u16.high to -1,
+>> does drop target out of loop, but now I think that the code that acts
+>> on it, cpu_handle_interrupt function, clears icount_decr.u16.high,
+>> but it cannot really serve the interrupt because it is disabled by
+>> target, as result code comes back with interupt_request set, and
+>> icount_decr.u16.high cleared, and resume blocks execution which
+>> hangs in sequence we discussed. But as before I could be missing
+>> something again.
+>>
+>> Please see more details and new gdb session log in line.
+>>
+>>>> Revert of c22edfe fixes the issue, image boots OK. Booting
+>>>> with more than one CPU "-smp 2" boots fine too. And possibly
+>>>> could work as solid workaround for us. But how to fix the
+>>>> issue without revert, while moving forward, I don't know.
+>>>> I hope Alex and Linaro QEMU folks can come up with something.
+>>>>
+>>>> Now, long debugging notes with my comments:
+>>>>
+>>>> Kernel Hang Backtrace
+>>>> ---------------------
+>>>>
+>>>> Looking at kernel hang under gdb attached to qemu (runqemu
+>>>> qemuparams="-s -S" bootparams="nokaslr"):
+>>>>
+>>>> (gdb) bt
+>>>> #0  vectors () at /usr/src/kernel/arch/arm64/kernel/entry.S:413
+>>>> #1  0xffffff80089a3758 in raid6_choose_gen (disks=<optimized out>, dptrs=<optimized out>) at /usr/src/kernel/lib/raid6/algos.c:190
+>>>> #2  raid6_select_algo () at /usr/src/kernel/lib/raid6/algos.c:253
+>>>> #3  0xffffff8008083bdc in do_one_initcall (fn=0xffffff80089a35c8 <raid6_select_algo>) at /usr/src/kernel/init/main.c:832
+>>>> #4  0xffffff8008970e80 in do_initcall_level (level=<optimized out>) at /usr/src/kernel/init/main.c:898
+>>>> #5  do_initcalls () at /usr/src/kernel/init/main.c:906
+>>>> #6  do_basic_setup () at /usr/src/kernel/init/main.c:924
+>>>> #7  kernel_init_freeable () at /usr/src/kernel/init/main.c:1073
+>>>> #8  0xffffff80087afd90 in kernel_init (unused=<optimized out>) at /usr/src/kernel/init/main.c:999
+>>>> #9  0xffffff800808517c in ret_from_fork () at /usr/src/kernel/arch/arm64/kernel/entry.S:1154
+>>>> Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+>>>> (gdb) f 1
+>>>> #1  0xffffff80089a3758 in raid6_choose_gen (disks=<optimized out>, dptrs=<optimized out>) at /usr/src/kernel/lib/raid6/algos.c:190
+>>>> 190					continue;
+>>>> (gdb) x /12i $pc - 12
+>>>>    0xffffff80089a374c <raid6_select_algo+388>:	cbz	x0, 0xffffff80089a37fc <raid6_select_algo+564>
+>>>>    0xffffff80089a3750 <raid6_select_algo+392>:	mov	w0, #0x1                   	// #1
+>>>>    0xffffff80089a3754 <raid6_select_algo+396>:	bl	0xffffff80080d07c8 <preempt_count_add>
+>>>> => 0xffffff80089a3758 <raid6_select_algo+400>:	ldr	x0, [x23, #2688]
+>>>>    0xffffff80089a375c <raid6_select_algo+404>:	ldr	x5, [x23, #2688]
+>>>>    0xffffff80089a3760 <raid6_select_algo+408>:	cmp	x0, x5
+>>>>    0xffffff80089a3764 <raid6_select_algo+412>:	b.ne	0xffffff80089a3770 <raid6_select_algo+424>  // b.any
+>>>>    0xffffff80089a3768 <raid6_select_algo+416>:	yield
+>>>>    0xffffff80089a376c <raid6_select_algo+420>:	b	0xffffff80089a375c <raid6_select_algo+404>
+>>>>    0xffffff80089a3770 <raid6_select_algo+424>:	mov	x25, #0x0                   	// #0
+>>>>    0xffffff80089a3774 <raid6_select_algo+428>:	ldr	x0, [x23, #2688]
+>>>>    0xffffff80089a3778 <raid6_select_algo+432>:	mov	x4, x27
+>>>>
+>>>> Corresponsing Source
+>>>> --------------------
+>>>>
+>>>> (gdb) b *0xffffff80089a3758
+>>>> Breakpoint 1 at 0xffffff80089a3758: file /usr/src/kernel/lib/raid6/algos.c, line 191.
+>>>>
+>>>> This corresponds to this code in lib/raid6/algos.c
+>>>>
+>>>>    190                          preempt_disable();
+>>>>    191                          j0 = jiffies;
+>>>>    192                          while ((j1 = jiffies) == j0)
+>>>>    193                                  cpu_relax();
+>>>>    194                          while (time_before(jiffies,
+>>>>    195                                              j1 + (1<<RAID6_TIME_JIFFIES_LG2))) {
+>>>>    196                                  (*algo)->xor_syndrome(disks, start, stop,
+>>>>    197                                                        PAGE_SIZE, *dptrs);
+>>>>    198                                  perf++;
+>>>>    199                          }
+>>>>    200                          preempt_enable();
+>>>>
+>>>> I.e code grabs jiffies and then loops and checks whether jiffies moved
+>>>> forward; it calls cpu_relax(), which translated to yield instruction on
+>>>> aarch64.
+>>>>
+>>>> Yield Instruction Opcode
+>>>> ------------------------
+>>>>
+>>>> (gdb) x /1wx 0xffffff80089a3768
+>>>> 0xffffff80089a3768 <raid6_select_algo+416>:	0xd503203f
+>>>> (gdb) x /1i 0xffffff80089a3768
+>>>>    0xffffff80089a3768 <raid6_select_algo+416>:	yield
+>>>>
+>>>>
+>>>> Backtrace in QEMU
+>>>> -----------------
+>>>>
+>>>> After kernel hangs attached gdb to qemu, see that thread that
+>>>> corresponds to target CPU stuck while repeatedly executing loop
+>>>> that spans couple ranges in code_gen_buffer buffers. If I put
+>>>> breakpoint in cpu_tb_exec right after control passed to generated
+>>>> snippets, it never gets there. I.e qemu stack in infinite loop.
+>>>>
+>>>> (gdb) bt
+>>>> #0  0x00007fffeca53827 in code_gen_buffer ()
+>>>> #1  0x000000000048aee9 in cpu_tb_exec (cpu=0x18c0190, itb=0x7fffec95ed00 <code_gen_buffer+9755862>)
+>>>>     at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/accel/tcg/cpu-exec.c:167
+>>>> #2  0x000000000048bd82 in cpu_loop_exec_tb (cpu=0x18c0190,
+>>>> tb=0x7fffec95ed00 <code_gen_buffer+9755862>, last_tb=0x7fffec00faf8,
+>>>> tb_exit=0x7fffec00faf0)
+>>>
+>>> At this point we have selected the next TB to run at so tb->pc should be
+>>> where we are executing next. However we do chain TB's together so you
+>>> can execute several TB's before coming back out. This can be disabled
+>>> with -d nochain which will ensure we (slowly) exit to the outer run loop
+>>
+>> If I just add '-d nochain' it boots fine.
+>>
+>>> for every block we run.
+>>>
+>>>>     at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/accel/tcg/cpu-exec.c:627
+>>>> #3  0x000000000048c091 in cpu_exec (cpu=0x18c0190) at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/accel/tcg/cpu-exec.c:736
+>>>> #4  0x000000000044a883 in tcg_cpu_exec (cpu=0x18c0190) at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/cpus.c:1270
+>>>> #5  0x000000000044ad82 in qemu_tcg_cpu_thread_fn (arg=0x18c0190) at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/cpus.c:1475
+>>>> #6  0x00007ffff79616ba in start_thread (arg=0x7fffec010700) at pthread_create.c:333
+>>>> #7  0x00007ffff59bc41d in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:109
+>>>>
+>>>> Dumping cpu and env state in QEMU
+>>>> ---------------------------------
+>>>>
+>>>> Looking at cpu data structure one can see that there is
+>>>> pending interrupt request 'interrupt_request = 2'
+>>>>
+>>>> (gdb) f 1
+>>>> #1  0x000000000048aee9 in cpu_tb_exec (cpu=0x18c0190, itb=0x7fffec95ed00 <code_gen_buffer+9755862>)
+>>>>     at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/accel/tcg/cpu-exec.c:167
+>>>> 167	    ret = tcg_qemu_tb_exec(env, tb_ptr);
+>>>>
+>>>> (gdb) p *cpu
+>>>> $3 = {
+>>>>   ...
+>>>>   nr_cores = 1,
+>>>>   nr_threads = 1,
+>>>>   ...
+>>>>   interrupt_request = 2,
+>>>
+>>> That is CPU_INTERRUPT_HARD which implies there is an IRQ pending. This
+>>> should be enough to cause:
+>>>
+>>>  if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
+>>>
+>>> to handle the setup for servicing the IRQ (-d int should show this).
+>>>
+>>>>    ...
+>>>>
+>>>> Note 'pc' points in evn to the same instructions as we saw in gdb
+>>>> with vmlinux session
+>>>>
+>>>> (gdb) p /x *env
+>>>> $5 = {
+>>>>   regs = {0x0 <repeats 16 times>},
+>>>>   xregs = {0xfffedbcb, 0xffffff80087b6610, 0xffffffffffffffff, 0x0, 0x0, 0xfffedbcb, 0x54, 0x3436746e69203a36, 0x286e656720203278, 0xffffffd0, 0xffffff800800b940,
+>>>>     0x5f5e0ff, 0xffffff8008a45000, 0xffffff8008b091c5, 0xffffff8088b091b7, 0xffffffffffffffff, 0xffffffc01ea57000, 0xffffff800800bd38, 0x10, 0xffffff8008824228,
+>>>>     0xffffff8008811c98, 0x557, 0x5ab, 0xffffff8008a26000, 0xffffffc01ea56000, 0x5ab, 0xffffff80088fd690, 0xffffff800800bcc0, 0xffffff8008a26000, 0xffffff800800bc50,
+>>>>     0xffffff80089a3758, 0xffffff800800bc50},
+>>>>   pc = 0xffffff80089a3758,
+>>>>   pstate = 0x5,
+>>>>   aarch64 = 0x1,
+>>>>   uncached_cpsr = 0x13,
+>>>>
+>>>> ARMGenericTimer sate that corresponds to Vtimer has ctl=5
+>>>>
+>>>> (gdb) p /x env->cp15.c14_timer[1]
+>>>> $6 = {
+>>>>   cval = 0xb601fb1,
+>>>>   ctl = 0x5
+>>>> }
+>>>>
+>>>> QEMU timer that handles vtimer is disarmed (ie pending interupt is already
+>>>> set):
+>>>>
+>>>> (gdb) p *((struct ARMCPU *) cpu)->gt_timer[1]
+>>>> $8 = {
+>>>>   expire_time = 9223372036854775792,
+>>>>   timer_list = 0x187fd00,
+>>>>   cb = 0x5cf886 <arm_gt_vtimer_cb>,
+>>>>   opaque = 0x18c0190,
+>>>>   next = 0x0,
+>>>>   scale = 16
+>>>> }
+>>>>
+>>>> I.e what we have here qemu TCG code inifinitely loops executing
+>>>> loop
+>>>>
+>>>>    192                          while ((j1 = jiffies) == j0)
+>>>>    193                                  cpu_relax();
+>>>>
+>>>> in raid6_choose_gen function, but vtimer interrupt that is supposed
+>>>> to move jiffies forward is pending and QEMU is not acting on it.
+>>>>
+>>>> Looking at 'int cpu_exec(CPUState *cpu)' it looks like interrupt and
+>>>> exception handling is performed in the loop, but to do so it should
+>>>> exit first from cpu_loop_exec_tb. I am still puzzled how it is
+>>>> supposed to work if above kernel code instead of cpu_relax() (yield)
+>>>> would just has nop instructions. But for now let's focus why QEMU
+>>>> executing of 'yield' instruction does not bring control out of
+>>>> cpu_loop_exec_tb and let QEMU to execute jump to pending interrupts.
+>>>>
+>>>>
+>>>> yield instruction decoding in translate-a64.c handle_hint function
+>>>> ------------------------------------------------------------------
+>>>>
+>>>> Let's put breakpoint in qemu under gdb session inside of handle_hint
+>>>> function. We have the following function:
+>>>>
+>>>> /* HINT instruction group, including various allocated HINTs */
+>>>> static void handle_hint(DisasContext *s, uint32_t insn,
+>>>>                         unsigned int op1, unsigned int op2, unsigned int crm)
+>>>> {
+>>>>     unsigned int selector = crm << 3 | op2;
+>>>>
+>>>> <snip>
+>>>>
+>>>>     switch (selector) {
+>>>>
+>>>> <snip>
+>>>>
+>>>>     case 1: /* YIELD */
+>>>>         if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
+>>>>             s->base.is_jmp = DISAS_YIELD;
+>>>>         }
+>>>>         return;
+>>>>
+>>>>
+>>>> Thread 3 "qemu-system-aar" hit Breakpoint 1, handle_hint (s=0x7fffec00f880, insn=3573751871, op1=3, op2=1, crm=0)
+>>>>     at /wd6/oe/20180311/build/tmp-glibc/work/x86_64-linux/qemu-native/2.11.1-r0/qemu-2.11.1/target/arm/translate-a64.c:1345
+>>>> 1345	        if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
+>>>> (gdb) p /x insn
+>>>> $12 = 0xd503203f
+>>>> (gdb) p /x s->base.tb.cflags
+>>>> $5 = 0x80000
+>>>>
+>>>> in s->base.tb.cflags CF_PARALLEL is set (but we are running
+>>>> single CPU mode)
+>>>>
+>>>> #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+>>>>
+>>>> gdb) n
+>>>> [Thread 0x7fffeb5ff700 (LWP 13452) exited]
+>>>> 1348	        return;
+>>>> (gdb) p s->base.is_jmp
+>>>> $14 = DISAS_NEXT
+>>>> (gdb)
+>>>>
+>>>> I.e QEMU will execute yield instruction in our case as just regular
+>>>> nop, that seems to explain why in qemu control never goes out of
+>>>> cpu_loop_exec_tb.
+>>>
+>>> It should exit once the IRQ is raised. We check
+>>> cpu->icount_decr.u16.high on entry to every block. So even a NOP will
+>>> fall through and eventually pick up the IRQ on the start of the next
+>>> block.
+>>
+>> Thank you. Your explanation of cpu->icount_decr.u16.high role let me
+>> dig further. I do see now each tc generated block does check
+>> cpu->icount_decr.u16.high.
+>>
+>> Here is what I found more:
+>>
+>> Execution of below sequence is triggered close to hang place.
+>>
+>> Debugger for each breakpoint executes
+>>    bt, p cpu->interrupt_request, env->daif, cont
+>>
+>> I have following stop points
+>>    watchpoint 7 for cpu->icount_decr.u16.high
+>>    breakpoint 10 for arm_cpu_exec_interrupt
+>>    breakpoint 9 for arm_cpu_do_interrupt
+>>
+>> Below sequence we can see two variation events progression, normally
+>> it is 1), 2), 3), 4). But in case of hang 4) is never reached.
+>>
+>> 1) qemu_cpu_kick through cpu_exit sets cpu->icount_decr.u16.high to -1
+>>
+>> 2) cpu_handle_interrupt sets cpu->icount_decr.u16.high to 0
+>>
+>> 3) cpu_handle_interrupt checks cpu->interrupt_request and if set
+>> calls arm_cpu_exec_interrupt
+>>
+>> 4) arm_cpu_exec_interrupt checks whether interrupts on target are
+>> enabled and if so it calls arm_cpu_do_interrupt. In case of hang
+>> is never reached.
+>>
+>> When I look at state of hanged execution I see that
+>> cpu->interrupt_request=2 and cpu->icount_decr.u16.high=0
+>>
+>> So I think we have a logic problem here: icount_decr.u16.high was
+>> cleared at 2) but interrupt cannot be really served since it is
+>> disabled by target, so any subsequent tc block execution does not
+>> return to main loop, and hangs ... I've tried to look around,
+>> but could not find yet and running out of time today, maybe it is
+>> already there or worth to have logic of handling instructions that
+>> reenable interupts to check whether cpu->interrupt_request is on,
+>> so it can set cpu->icount_decr.u16.high to -1 to reenable target
+>> drop out of main loop.
+>>
+>> As before I could be missing something else, so further guidance
+>> is appreicated.
+>
+>
+> Could you apply commit b29fd33db578decacd14f34933b29aece3e7c25e to your
+> tree? If it fixes it we should probably backport that to qemu-stable.
 
-but with git grep SOURCE_DATE_EPOCH I don't see any code in bitbake or oe-c=
-ore where this would be set in do_unpack (in oe-core/master and oe-core/roc=
-ko). Is this part still only in one of your contrib branches for reproducib=
-le?
+In v2.11.1 of qemu, that we use, we already have 
+b29fd33db578decacd14f34933b29aece3e7c25e. Previous testing
+and collected log was done with it present.
 
-Regards,
+But my understanding that eret would happen when target exits
+an interrupt, here I don't think it enters one.
 
-On Sun, Mar 18, 2018 at 3:06 PM, Martin Jansa <martin.jansa@gmail.com<mailt=
-o:martin.jansa@gmail.com>> wrote:
-Hi,
+Consider that target explicitely disables interrupts and while it is
+disabled, arm_cpu_exec_interrupt function calls arm_excp_unmasked
+and it returns false, so arm_cpu_do_interrupt is not called. Main
+loop resume execution, and one of the block explicitely
+reenables interrupt and sequence continues without ever returning to
+main loop.
 
-There seems to be small issue when people set BUILD_REPRODUCIBLE_BINARIES =
-=3D "1" without exporting SOURCE_DATE_EPOCH like this .bbclass does
+For example, if I apply below patch, it boots fine. But I am not sure
+in what other places similar thing is needed, and whether below
+is complete and correct:
 
-In kernel.bbclass change from:
-http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
-class?id=3D012a70da7ae0617740cd0cf807d01c3cd912c823
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 91a9300..19128c5 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2948,6 +2948,14 @@ static CPAccessResult aa64_daif_access(CPUARMState *env, const ARMCPRegInfo *ri,
+  static void aa64_daif_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                              uint64_t value)
+  {
++    if (env->daif & ~(value & PSTATE_DAIF)) {
++        /* reenabling interrupts */
++        CPUState *cs = CPU(arm_env_get_cpu(env));
++        if (cs->interrupt_request) {
++            /* there is pending one, let's drop back into main loop */
++            cs->icount_decr.u16.high = -1;
++        }
++    }
+      env->daif = value & PSTATE_DAIF;
+  }
 
-you're comparing SOURCE_DATE_EPOCH with 0 which doesn't seem to be set anyw=
-here, so by default it's empty which leads to kernel build failure like thi=
-s:
+Thanks,
+Victor
 
-DEBUG: Executing shell function do_compile
-date: invalid date '@'
-WARNING: exit code 1 from a shell command.
+> <snip>
+> --
+> Alex
+>
 
-because empty SOURCE_DATE_EPOCH is used in "ts=3D`LC_ALL=3DC date -d @$SOUR=
-CE_DATE_EPOCH`". Testing SOURCE_DATE_EPOCH for empty or "0" allows to use R=
-EPRODUCIBLE_TIMESTAMP_ROOTFS as a default value again.
-
-These build failures seem to be triggered in all my builds since kernel.bbc=
-lass was fixed to respect BUILD_REPRODUCIBLE_BINARIES in:
-http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
-class?id=3D27f87bbc8395a2481ef808465a62d213a6b678ac
-
-One way to fit it would be to inherit reproducible_build_simple.bbclass, bu=
-t this requirement to set exported SOURCE_DATE_EPOCH doesn't seem to be doc=
-umented anywhere and looking at kernel.bbclass changes it probably wasn't e=
-ven intended like that.
-
-Thanks
-
-On Mon, Mar 12, 2018 at 11:06 PM, <git@git.openembedded.org<mailto:git@git.=
-openembedded.org>> wrote:
-This is an automated email from the git hooks/post-receive script.
-
-rpurdie pushed a commit to branch master
-in repository openembedded-core.
-
-commit 5c2685c5ee2f8210a36b9a8591491b6af0482084
-Author: Juro Bystricky <juro.bystricky@intel.com<mailto:juro.bystricky@inte=
-l.com>>
-AuthorDate: Sat Mar 10 10:57:49 2018 -0800
-
-    reproducible_build_simple.bbclass: simple environment for reproducible =
-binaries
-
-    Export environmental variables needed for binary reproducibility with c=
-onsistent values.
-
-    This class can be used either directly via:
-    INHERIT +=3D "reproducible_build_simple"
-
-    or can be inherited by a more complex/complete bbclass, for example a b=
-blass which
-    will crack SOURCE_DATE_EPOCH for each recipe.
-
-    Signed-off-by: Juro Bystricky <juro.bystricky@intel.com<mailto:juro.bys=
-tricky@intel.com>>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org<mailt=
-o:richard.purdie@linuxfoundation.org>>
----
- meta/classes/reproducible_build_simple.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/=
-reproducible_build_simple.bbclass
-new file mode 100644
-index 0000000..dd11cd9
---- /dev/null
-+++ b/meta/classes/reproducible_build_simple.bbclass
-@@ -0,0 +1,11 @@
-+# Setup default environment for reproducible builds.
-+
-+BUILD_REPRODUCIBLE_BINARIES =3D "1"
-+
-+export PYTHONHASHSEED =3D "0"
-+export PERL_HASH_SEED =3D "0"
-+export TZ =3D 'UTC'
-+export SOURCE_DATE_EPOCH ??=3D "1520598896"
-+
-+REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D "1520598896"
-+
-
---
-To stop receiving notification emails like this one, please contact
-the administrator of this repository.
---
-_______________________________________________
-Openembedded-commits mailing list
-Openembedded-commits@lists.openembedded.org<mailto:Openembedded-commits@lis=
-ts.openembedded.org>
-http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
-
-
-
---_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">Hi Martin,<br>
-thanks for your feedback.<br>
-I will send to ML a new version of the patch within a day or two. The patch=
- you mentioned (v2) had a few short-comings, hopefully fixed in the next on=
-e (currently being tested).<br>
-Meanwhile, you may want to have a look at the recently updated wiki page (a=
-nd it will be updated again) how to build reproducible builds with &quot;ha=
-rd-coded&quot; SOURCE_DATE_EPOCH:<br>
-<a href=3D"https://wiki.yoctoproject.org/wiki/Reproducible_Builds" target=
-=3D"_blank">https://wiki.yoctoproject.org/wiki/Reproducible_Builds</a><br>
-<br>
-<br>
-Thanks<br>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF587482" style=3D"direction: ltr;"><font size=3D"2" face=3D=
-"Tahoma" color=3D"#000000"><b>From:</b> Martin Jansa [martin.jansa@gmail.co=
-m]<br>
-<b>Sent:</b> Sunday, March 18, 2018 7:22 AM<br>
-<b>To:</b> Bystricky, Juro; Patches and discussions about the oe-core layer=
-<br>
-<b>Cc:</b> openembedded-commits@lists.openembedded.org<br>
-<b>Subject:</b> Re: [oe-commits] [openembedded-core] 02/03: reproducible_bu=
-ild_simple.bbclass: simple environment for reproducible binaries<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
--size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
-t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
-rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
-ne">SOURCE_DATE_EPOCH
- was supposed to be exported in this review:</span><br>
-</div>
-<a href=3D"https://patchwork.openembedded.org/patch/139558/" target=3D"_bla=
-nk">https://patchwork.openembedded.org/patch/139558/</a><br>
-<div>but it wasn't merged to master nor rocko.<br>
-</div>
-<div><br>
-</div>
-<div><br>
-</div>
-</div>
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On Sun, Mar 18, 2018 at 3:13 PM, Martin Jansa <s=
-pan dir=3D"ltr">
-&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jans=
-a@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div dir=3D"ltr">I've also noticed that the kernel.bbclass says:
-<div>
-<div><br>
-</div>
-<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # kernel sourc=
-es do not use do_unpack, so SOURCE_DATE_EPOCH may not</div>
-<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # be set....</=
-div>
-</div>
-<div><br>
-</div>
-<div>but with git grep&nbsp;<span style=3D"color:rgb(34,34,34); font-family=
-:arial,sans-serif; font-size:small; font-style:normal; font-weight:400; let=
-ter-spacing:normal; text-align:start; text-indent:0px; text-transform:none;=
- white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); f=
-loat:none; display:inline">SOURCE_DATE_EPOCH
- I don't see any code in bitbake or oe-core where this would be set in do_u=
-npack (in oe-core/master and oe-core/rocko). Is this part still only in one=
- of your contrib branches for reproducible?</span></div>
-<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
--size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
-t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
-rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
-ne"><br>
-</span></div>
-<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
--size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
-t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
-rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
-ne">Regards,</span></div>
-</div>
-<div class=3D"HOEnZb">
-<div class=3D"h5">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On Sun, Mar 18, 2018 at 3:06 PM, Martin Jansa <s=
-pan dir=3D"ltr">
-&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jans=
-a@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div dir=3D"ltr">
-<div>Hi,</div>
-<div><br>
-</div>
-There seems to be small issue when people set&nbsp;<span style=3D"color:rgb=
-(34,34,34); font-family:arial,sans-serif; font-size:12.8px; font-style:norm=
-al; font-weight:400; letter-spacing:normal; text-align:start; text-indent:0=
-px; text-transform:none; white-space:normal; word-spacing:0px; background-c=
-olor:rgb(255,255,255); float:none; display:inline">BUILD_REPRODUCIBLE_BINAR=
-IE<wbr>S
- =3D &quot;1&quot; without exporting&nbsp;<span style=3D"color:rgb(34,34,34=
-); font-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-=
-weight:400; letter-spacing:normal; text-align:start; text-indent:0px; text-=
-transform:none; white-space:normal; word-spacing:0px; background-color:rgb(=
-255,255,255); float:none; display:inline">SOURCE_DATE_EPOCH
- like this .bbclass does</span></span>
-<div><span style=3D"font-size:12.8px"><br>
-</span></div>
-<div><span style=3D"font-size:12.8px">In kernel.bbclass change from:<br>
-</span><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; fo=
-nt-size:12.8px; font-style:normal; font-weight:400; letter-spacing:normal; =
-text-align:start; text-indent:0px; text-transform:none; white-space:normal;=
- word-spacing:0px; background-color:rgb(255,255,255); float:none; display:i=
-nline"></span>
-<div><a href=3D"http://git.openembedded.org/openembedded-core/commit/meta/c=
-lasses/kernel.bbclass?id=3D012a70da7ae0617740cd0cf807d01c3cd912c823" target=
-=3D"_blank">http://git.openembedded.org/op<wbr>enembedded-core/commit/meta/=
-cl<wbr>asses/kernel.bbclass?id=3D012a70<wbr>da7ae0617740cd0cf807d01c3cd912<=
-wbr>c823</a><br>
-</div>
-</div>
-<div><br>
-</div>
-<div>you're comparing&nbsp;<span style=3D"color:rgb(34,34,34); font-family:=
-arial,sans-serif; font-size:12.8px; font-style:normal; font-weight:400; let=
-ter-spacing:normal; text-align:start; text-indent:0px; text-transform:none;=
- white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); f=
-loat:none; display:inline">SOURCE_DATE_EPOCH
- with 0 which doesn't seem to be set anywhere, so by default it's empty whi=
-ch leads to kernel build failure like this:</span></div>
-<div><span style=3D"text-align:start; text-indent:0px; background-color:rgb=
-(255,255,255); float:none; display:inline">
-<div><span style=3D"font-size:12.8px"><br>
-</span></div>
-<div><span style=3D"font-size:12.8px">DEBUG: Executing shell function do_co=
-mpile</span></div>
-<div><span style=3D"font-size:12.8px">date: invalid date '@'</span></div>
-<div><span style=3D"font-size:12.8px">WARNING: exit code 1 from a shell com=
-mand.</span></div>
-<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
-12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
-nsform:none; white-space:normal; word-spacing:0px">
-<br>
-</div>
-<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
-12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
-nsform:none; white-space:normal; word-spacing:0px">
-because empty SOURCE_DATE_EPOCH is used in &quot;ts=3D`LC_ALL=3DC date -d @=
-$SOURCE_DATE_EPOCH`&quot;. Testing SOURCE_DATE_EPOCH for empty or &quot;0&q=
-uot; allows to use&nbsp;REPRODUCIBLE_TIMESTAMP_ROO<wbr>TFS as a default val=
-ue again.</div>
-<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
-12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
-nsform:none; white-space:normal; word-spacing:0px">
-<br>
-</div>
-<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
-12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
-nsform:none; white-space:normal; word-spacing:0px">
-These build failures seem to be triggered in all my builds since kernel.bbc=
-lass was fixed to respect BUILD_REPRODUCIBLE_BINARIES in:</div>
-<div><span style=3D"font-size:12.8px"><a href=3D"http://git.openembedded.or=
-g/openembedded-core/commit/meta/classes/kernel.bbclass?id=3D27f87bbc8395a24=
-81ef808465a62d213a6b678ac" target=3D"_blank">http://git.openembedded.org/op=
-<wbr>enembedded-core/commit/meta/cl<wbr>asses/kernel.bbclass?id=3D27f87b<wb=
-r>bc8395a2481ef808465a62d213a6b6<wbr>78ac</a></span><br>
-</div>
-<div><span style=3D"font-size:12.8px"><br>
-</span></div>
-<div><span style=3D"font-size:12.8px">One way to fit it would be to inherit=
-&nbsp;<span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; fon=
-t-size:12.8px; font-style:normal; font-weight:400; letter-spacing:normal; t=
-ext-align:start; text-indent:0px; text-transform:none; white-space:normal; =
-word-spacing:0px; background-color:rgb(255,255,255); float:none; display:in=
-line">reproducible_</span><span style=3D"color:rgb(34,34,34); font-family:a=
-rial,sans-serif; font-size:12.8px; font-style:normal; font-weight:400; lett=
-er-spacing:normal; text-align:start; text-indent:0px; text-transform:none; =
-white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); fl=
-oat:none; display:inline">build_sim<wbr>ple.bbclass,
- but this requirement to set exported SOURCE_DATE_EPOCH doesn't seem to be =
-documented anywhere and looking at kernel.bbclass changes it probably wasn'=
-t even intended like that.</span></span></div>
-<div><span style=3D"font-size:12.8px"><span style=3D"color:rgb(34,34,34); f=
-ont-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-weig=
-ht:400; letter-spacing:normal; text-align:start; text-indent:0px; text-tran=
-sform:none; white-space:normal; word-spacing:0px; background-color:rgb(255,=
-255,255); float:none; display:inline"><br>
-</span></span></div>
-<div><span style=3D"font-size:12.8px"><span style=3D"color:rgb(34,34,34); f=
-ont-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-weig=
-ht:400; letter-spacing:normal; text-align:start; text-indent:0px; text-tran=
-sform:none; white-space:normal; word-spacing:0px; background-color:rgb(255,=
-255,255); float:none; display:inline">Thanks</span></span></div>
-</span></div>
-</div>
-<div class=3D"m_-8114575700723207354HOEnZb">
-<div class=3D"m_-8114575700723207354h5">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On Mon, Mar 12, 2018 at 11:06 PM, <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:git@git.openembedded.org" target=3D"_blank">git@g=
-it.openembedded.org</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-This is an automated email from the git hooks/post-receive script.<br>
-<br>
-rpurdie pushed a commit to branch master<br>
-in repository openembedded-core.<br>
-<br>
-commit 5c2685c5ee2f8210a36b9a8591491b<wbr>6af0482084<br>
-Author: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com" targ=
-et=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
-AuthorDate: Sat Mar 10 10:57:49 2018 -0800<br>
-<br>
-&nbsp; &nbsp; reproducible_build_simple.bbcl<wbr>ass: simple environment fo=
-r reproducible binaries<br>
-<br>
-&nbsp; &nbsp; Export environmental variables needed for binary reproducibil=
-ity with consistent values.<br>
-<br>
-&nbsp; &nbsp; This class can be used either directly via:<br>
-&nbsp; &nbsp; INHERIT &#43;=3D &quot;reproducible_build_simple&quot;<br>
-<br>
-&nbsp; &nbsp; or can be inherited by a more complex/complete bbclass, for e=
-xample a bblass which<br>
-&nbsp; &nbsp; will crack SOURCE_DATE_EPOCH for each recipe.<br>
-<br>
-&nbsp; &nbsp; Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.byst=
-ricky@intel.com" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
-&nbsp; &nbsp; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
-urdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundatio<=
-wbr>n.org</a>&gt;<br>
----<br>
-&nbsp;meta/classes/reproducible_bui<wbr>ld_simple.bbclass | 11 &#43;&#43;&#=
-43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
-&nbsp;1 file changed, 11 insertions(&#43;)<br>
-<br>
-diff --git a/meta/classes/reproducible_bu<wbr>ild_simple.bbclass b/meta/cla=
-sses/reproducible_bu<wbr>ild_simple.bbclass<br>
-new file mode 100644<br>
-index 0000000..dd11cd9<br>
---- /dev/null<br>
-&#43;&#43;&#43; b/meta/classes/reproducible_bu<wbr>ild_simple.bbclass<br>
-@@ -0,0 &#43;1,11 @@<br>
-&#43;# Setup default environment for reproducible builds.<br>
-&#43;<br>
-&#43;BUILD_REPRODUCIBLE_BINARIES =3D &quot;1&quot;<br>
-&#43;<br>
-&#43;export PYTHONHASHSEED =3D &quot;0&quot;<br>
-&#43;export PERL_HASH_SEED =3D &quot;0&quot;<br>
-&#43;export TZ =3D 'UTC'<br>
-&#43;export SOURCE_DATE_EPOCH ??=3D &quot;1520598896&quot;<br>
-&#43;<br>
-&#43;REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D &quot;1520598896&quot;<br>
-&#43;<br>
-<span class=3D"m_-8114575700723207354m_-2939368165476955101HOEnZb"><font co=
-lor=3D"#888888"><br>
---<br>
-To stop receiving notification emails like this one, please contact<br>
-the administrator of this repository.<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-commits mailing list<br>
-<a href=3D"mailto:Openembedded-commits@lists.openembedded.org" target=3D"_b=
-lank">Openembedded-commits@lists.ope<wbr>nembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-comm=
-its" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wb=
-r>mailman/listinfo/openembedded-<wbr>commits</a><br>
-</font></span></blockquote>
-</div>
-<br>
-</div>
-</div>
-</div>
-</blockquote>
-</div>
-<br>
-</div>
-</div>
-</div>
-</blockquote>
-</div>
-<br>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_--
+--504000474-246938886-1521472492=:44401--
