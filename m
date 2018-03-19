@@ -1,50 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 62F17788A1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 17:34:54 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id l3so5138984iog.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 10:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=deStYnGkpSmBQgFBoR1RqKNcsAG81mKU3jEZuFoLdao=;
-	b=FB02wGQiohH3Jz9nyDT0kMjYfWZyyQThVnf2Z4dAEK6TXHsXlZOA/hHz7+jKjSgpv4
-	IHLqU2OQzsxLP14m3CJpaSGnSHs3DGbGrXHWUFCJsD70PxH9Hjr3ITu3RTSKQYVZ+Wgs
-	0J3l89NGPv9W+0p7cbSS+0VmUHutjYive/9vBagV8VKJS/5ZGMOGEBwhq0hK3R4UjNhW
-	9M2VJ1igDInxd8y5IafvvjuEIDmSxTeoaEqoKTnHfRtqiSsedEBsyWeiP09dEKe3oMB4
-	h40Lz0ZmCwXuxwl66S5EB4/TlJ6XHLYZXE9PZ/GtaVYiNRNlRtQLPj+BlFA0hcYr6Hna
-	VWgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=deStYnGkpSmBQgFBoR1RqKNcsAG81mKU3jEZuFoLdao=;
-	b=a0bB1ak4ot+vgyqIGJlja7zMU/Soeq0bIhclm3EFtWgBVqHi487lBx9glIuaVxgMFi
-	YEcVwmK3x1McLYXWyk5iRzFL7an32+cpVtCcQUqhKRwkuuMVFrixNnLVAjng+LL+Oow6
-	mrQyHHnDn0rYQYp8FbslH0ZIXyEH/vH5CgN/tZvmfx3hsAsPjJ9aAmVzye/hLgr9XSG4
-	5lQQjoyE1zfaq/IPv/KqaKjE3tgCKQnoa+pJO7nz/6u4E9s2k0BI/APMd3o97S/uw4De
-	DJp+c0e+Ym9IZPLUdd2zAulanShOq1aFBg4j9Cu6uIqY9VB5fK+8b3gOtQLg5C6A6dJG
-	79Zw==
-X-Gm-Message-State: AElRT7FRUzeIoy8gAIZHcpQ/WfxGXAW+M6BeCfil/g0Ew8jz9Fw8POv1
-	vWIg5cqEgIArHGP8ANWQddXfTKsRKYtFDMPnUdQfpg==
-X-Google-Smtp-Source: AG47ELt7r/vCCKrHiHhroKdQlo8wevc2MxTVdWclMbFhXYa8c33qWzmnJTyu7joQ6fdlCbwEmCaVBqoD60OBcbdgw3M=
-X-Received: by 10.107.37.212 with SMTP id l203mr12464772iol.20.1521480896306; 
-	Mon, 19 Mar 2018 10:34:56 -0700 (PDT)
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 66653788A1;
+	Mon, 19 Mar 2018 17:38:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Mar 2018 10:38:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,331,1517904000"; d="scan'208,217";a="36299604"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by orsmga003.jf.intel.com with ESMTP; 19 Mar 2018 10:38:36 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.175]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.3.86]) with mapi id
+	14.03.0319.002; Mon, 19 Mar 2018 10:38:35 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>, "Patches and discussions about the
+	oe-core layer" <openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-commits] [openembedded-core] 02/03:
+	reproducible_build_simple.bbclass: simple environment for reproducible
+	binaries
+Thread-Index: AQHTvsJgozuNr51FmEK0x15niF3TIKPWfkiAgAAChwCAAVH0HA==
+Date: Mon, 19 Mar 2018 17:38:35 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B64C673B99@ORSMSX112.amr.corp.intel.com>
+References: <152089240195.19773.3751229902290225520@git.openembedded.org>
+	<20180312220642.1D65C232B12@git.openembedded.org>
+	<CA+chaQdN_qjQx_YSuD6RX5p=8OPNfv7OGdzrTqLfWMjnjfOxxQ@mail.gmail.com>
+	<CA+chaQdQP3zTRXDz2S=Oypbe9BE5CN+rASraHdxT5vYeNLBpAg@mail.gmail.com>,
+	<CA+chaQfJx-cuye=3HDTi4BHpY64kmihykiD8yeLAQnSaurfZVg@mail.gmail.com>
+In-Reply-To: <CA+chaQfJx-cuye=3HDTi4BHpY64kmihykiD8yeLAQnSaurfZVg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Mon, 19 Mar 2018 10:34:35 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb3aVFUXAbG+f4OWse5TpFYC=6Lpgjf8xeF2C8=34YKWw@mail.gmail.com>
-References: <1519786272-21483-1-git-send-email-anuj.mittal@intel.com>
-	<1521442149-27776-1-git-send-email-anuj.mittal@intel.com>
-	<CAJTo0Lb3aVFUXAbG+f4OWse5TpFYC=6Lpgjf8xeF2C8=34YKWw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Mar 2018 17:34:35 +0000
-Message-ID: <CAJTo0LYpRGx53b2Pjsdjoe61O-GXriiSoTTNu+M7E5-0uvXRrQ@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] gstreamer: enable ptest support
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 02/03: reproducible_build_simple.bbclass: simple environment for reproducible binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,418 +49,459 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 17:34:55 -0000
-Content-Type: multipart/alternative; boundary="001a11405f165b71e30567c76025"
+X-List-Received-Date: Mon, 19 Mar 2018 17:38:35 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_"
 
---001a11405f165b71e30567c76025
-Content-Type: text/plain; charset="UTF-8"
-
-So the problem is that the tests explicitly search the build tree for
-plugins (as they're testing the built plugins, not the system ones).
-
-This is easily solved by deleting bits from the makefile:
-
---- a/tests/check/Makefile.am
-+++ b/tests/check/Makefile.am
-@@ -8,11 +8,7 @@ REGISTRY_ENVIRONMENT = \
-   GST_REGISTRY=$(CHECK_REGISTRY)
-AM_TESTS_ENVIRONMENT += \
-- GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"   \
-- $(REGISTRY_ENVIRONMENT)                    \
--
-GST_PLUGIN_SCANNER_1_0=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner \
-- GST_PLUGIN_SYSTEM_PATH_1_0=                    \
-- GST_PLUGIN_PATH_1_0=$(top_builddir)/plugins
-+ GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"
-plugindir = $(libdir)/gstreamer-@GST_API_VERSION@
-
-However, now elements/fdsrc and elements/filesrc both fail, because they're
-both trying to open configure.ac in the build tree.  Changing that to the
-ptest Makefile should be sufficient.
-
-Ross
-
-On 19 March 2018 at 17:03, Burton, Ross <ross.burton@intel.com> wrote:
-
-> You're missing a dependency on make in PN-ptest, but installing that
-> results in about 20% of the tests failing.  Should they all work?
->
-> Ross
->
-> On 19 March 2018 at 06:49, Anuj Mittal <anuj.mittal@intel.com> wrote:
->
->> Make sure that the tests are packaged and can be executed
->> when ptest is enabled. Also, remove build host specific references
->> from Makefile.
->>
->> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
->> ---
->>  .../files/add-a-target-to-compile-tests.patch      | 46
->> ++++++++++++++++++++++
->>  meta/recipes-multimedia/gstreamer/files/run-ptest  |  3 ++
->>  meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 25 +++++++++++-
->>  3 files changed, 72 insertions(+), 2 deletions(-)
->>  create mode 100644 meta/recipes-multimedia/gstrea
->> mer/files/add-a-target-to-compile-tests.patch
->>  create mode 100644 meta/recipes-multimedia/gstreamer/files/run-ptest
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
->> b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-
->> compile-tests.patch
->> new file mode 100644
->> index 0000000..c918bbe
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-
->> compile-tests.patch
->> @@ -0,0 +1,46 @@
->> +From e69e5408f03a2f65045a418af6605653c06ec28b Mon Sep 17 00:00:00 2001
->> +From: Anuj Mittal <anuj.mittal@intel.com>
->> +Date: Tue, 27 Feb 2018 09:27:01 +0800
->> +Subject: [PATCH] add targets for test installation
->> +
->> +Targets to make sure tests can be installed and then run on
->> +the target.
->> +
->> +Upstream-Status: Inappropriate [specific to oe setup]
->> +
->> +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
->> +---
->> + tests/check/Makefile.am | 17 +++++++++++++++++
->> + 1 file changed, 17 insertions(+)
->> +
->> +diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am
->> +index afc1591..fb5c1c9 100644
->> +--- a/tests/check/Makefile.am
->> ++++ b/tests/check/Makefile.am
->> +@@ -175,6 +175,23 @@ noinst_PROGRAMS =
->> +
->> + TESTS = $(check_PROGRAMS)
->> +
->> ++install-ptest: $(TESTS)
->> ++      @$(INSTALL) -d $(DESTDIR)
->> ++      @for dir in `find -maxdepth 1 -type d`; do \
->> ++              if [ -x $$dir/.libs ]; then \
->> ++                      $(INSTALL) -d $(DESTDIR)/$$dir; \
->> ++                      $(INSTALL_PROGRAM) $$dir/.libs/*
->> $(DESTDIR)/$$dir/; \
->> ++              fi \
->> ++      done
->> ++
->> ++runtests:
->> ++      @for b in $(TESTS); do \
->> ++              if [ -x $$b ]; then \
->> ++                      $(AM_TESTS_ENVIRONMENT) $(SHELL) test-driver
->> --test-name "$$b" \
->> ++                      --log-file $$b.log --trs-file $$b.trs $$b; \
->> ++              fi \
->> ++      done
->> ++
->> + noinst_HEADERS = \
->> +       gst/capslist.h \
->> +       gst/struct_arm.h \
->> +--
->> +2.7.4
->> +
->> diff --git a/meta/recipes-multimedia/gstreamer/files/run-ptest
->> b/meta/recipes-multimedia/gstreamer/files/run-ptest
->> new file mode 100644
->> index 0000000..473d0b6
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/gstreamer/files/run-ptest
->> @@ -0,0 +1,3 @@
->> +#!/bin/sh
->> +
->> +make -k runtests
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> index c2df1f3..91f5067 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> @@ -8,7 +8,7 @@ LICENSE = "LGPLv2+"
->>
->>  DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native
->> flex-native"
->>
->> -inherit autotools pkgconfig gettext upstream-version-is-even
->> gobject-introspection gtk-doc
->> +inherit autotools pkgconfig gettext upstream-version-is-even
->> gobject-introspection gtk-doc ptest
->>
->>  # This way common/m4/introspection.m4 will come first
->>  # (it has a custom INTROSPECTION_INIT macro, and so must be used instead
->> of our common introspection.m4 file)
->> @@ -18,9 +18,12 @@ SRC_URI_append = " \
->>      file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
->> \
->>      file://gtk-doc-tweaks.patch \
->>      file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
->> \
->> +    file://add-a-target-to-compile-tests.patch \
->> +    file://run-ptest \
->>  "
->>
->> -PACKAGECONFIG ??= ""
->> +PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',
->> '', d)} \
->> +                   "
->>
->>  PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
->>  PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
->> @@ -59,3 +62,21 @@ do_configure[prefuncs] += "delete_pkg_m4_file"
->>  do_compile_prepend() {
->>          export GIR_EXTRA_LIBS_PATH="${B}/gst/
->> .libs:${B}/libs/gst/base/.libs"
->>  }
->> +
->> +do_compile_ptest() {
->> +        oe_runmake build-checks
->> +}
->> +
->> +do_install_ptest() {
->> +        oe_runmake -C tests/check DESTDIR=${D}${PTEST_PATH} install-ptest
->> +        install -m 644 ${B}/tests/check/Makefile ${D}${PTEST_PATH}
->> +        install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
->> +        sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
->> +            -e 's|${DEBUG_PREFIX_MAP}||g' \
->> +            -e 's:${HOSTTOOLS_DIR}/::g' \
->> +            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
->> +            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \-e
->> 's/^Makefile:/_Makefile:/' \
->> +            -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir =
->> \(.*\)/top_srcdir = ./' \
->> +            -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir
->> = \(.*\)/top_builddir = ./' \
->> +            -i ${D}${PTEST_PATH}/Makefile
->> +}
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
-
---001a11405f165b71e30567c76025
-Content-Type: text/html; charset="UTF-8"
+--_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">So the problem is that the tests explicitly search the bui=
-ld tree for plugins (as they&#39;re testing the built plugins, not the syst=
-em ones).<br><br>This is easily solved by deleting bits from the makefile:<=
-br><br>--- a/tests/check/Makefile.am<br>+++ b/tests/check/Makefile.am<br>@@=
- -8,11 +8,7 @@ REGISTRY_ENVIRONMENT =3D \<br>=C2=A0 =C2=A0GST_REGISTRY=3D$(=
-CHECK_REGISTRY)<br>AM_TESTS_ENVIRONMENT +=3D \<br>- GST_STATE_IGNORE_ELEMEN=
-TS=3D&quot;$(STATE_IGNORE_ELEMENTS)&quot; =C2=A0 \<br>- $(REGISTRY_ENVIRONM=
-ENT) =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\=
-<br>- GST_PLUGIN_SCANNER_1_0=3D$(top_builddir)/libs/gst/helpers/gst-plugin-=
-scanner \<br>- GST_PLUGIN_SYSTEM_PATH_1_0=3D =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>- GST_PLUGIN_PATH_1_0=3D$(top=
-_builddir)/plugins<br>+ GST_STATE_IGNORE_ELEMENTS=3D&quot;$(STATE_IGNORE_EL=
-EMENTS)&quot;<br>plugindir =3D $(libdir)/gstreamer-@GST_API_VERSION@<div><b=
-r></div><div>However, now elements/fdsrc and elements/filesrc both fail, be=
-cause they&#39;re both trying to open <a href=3D"http://configure.ac">confi=
-gure.ac</a> in the build tree.=C2=A0 Changing that to the ptest Makefile sh=
-ould be sufficient.</div><div><br></div><div>Ross</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 19 March 2018 at 17:03, Burt=
-on, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex"><div dir=3D"ltr">You&#39;re missing a dependency on make =
-in PN-ptest, but installing that results in about 20% of the tests failing.=
-=C2=A0 Should they all work?<span class=3D"HOEnZb"><font color=3D"#888888">=
-<div><br></div><div>Ross</div></font></span></div><div class=3D"HOEnZb"><di=
-v class=3D"h5"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
- 19 March 2018 at 06:49, Anuj Mittal <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><span>Make sure that the test=
-s are packaged and can be executed<br>
-when ptest is enabled. Also, remove build host specific references<br>
-from Makefile.<br>
+Hi Martin,
+thanks for your feedback.
+I will send to ML a new version of the patch within a day or two. The patch=
+ you mentioned (v2) had a few short-comings, hopefully fixed in the next on=
+e (currently being tested).
+Meanwhile, you may want to have a look at the recently updated wiki page (a=
+nd it will be updated again) how to build reproducible builds with "hard-co=
+ded" SOURCE_DATE_EPOCH:
+https://wiki.yoctoproject.org/wiki/Reproducible_Builds
+
+
+Thanks
+________________________________
+From: Martin Jansa [martin.jansa@gmail.com]
+Sent: Sunday, March 18, 2018 7:22 AM
+To: Bystricky, Juro; Patches and discussions about the oe-core layer
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 02/03: reproducible_build_sim=
+ple.bbclass: simple environment for reproducible binaries
+
+SOURCE_DATE_EPOCH was supposed to be exported in this review:
+https://patchwork.openembedded.org/patch/139558/
+but it wasn't merged to master nor rocko.
+
+
+
+On Sun, Mar 18, 2018 at 3:13 PM, Martin Jansa <martin.jansa@gmail.com<mailt=
+o:martin.jansa@gmail.com>> wrote:
+I've also noticed that the kernel.bbclass says:
+
+                # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH=
+ may not
+                # be set....
+
+but with git grep SOURCE_DATE_EPOCH I don't see any code in bitbake or oe-c=
+ore where this would be set in do_unpack (in oe-core/master and oe-core/roc=
+ko). Is this part still only in one of your contrib branches for reproducib=
+le?
+
+Regards,
+
+On Sun, Mar 18, 2018 at 3:06 PM, Martin Jansa <martin.jansa@gmail.com<mailt=
+o:martin.jansa@gmail.com>> wrote:
+Hi,
+
+There seems to be small issue when people set BUILD_REPRODUCIBLE_BINARIES =
+=3D "1" without exporting SOURCE_DATE_EPOCH like this .bbclass does
+
+In kernel.bbclass change from:
+http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
+class?id=3D012a70da7ae0617740cd0cf807d01c3cd912c823
+
+you're comparing SOURCE_DATE_EPOCH with 0 which doesn't seem to be set anyw=
+here, so by default it's empty which leads to kernel build failure like thi=
+s:
+
+DEBUG: Executing shell function do_compile
+date: invalid date '@'
+WARNING: exit code 1 from a shell command.
+
+because empty SOURCE_DATE_EPOCH is used in "ts=3D`LC_ALL=3DC date -d @$SOUR=
+CE_DATE_EPOCH`". Testing SOURCE_DATE_EPOCH for empty or "0" allows to use R=
+EPRODUCIBLE_TIMESTAMP_ROOTFS as a default value again.
+
+These build failures seem to be triggered in all my builds since kernel.bbc=
+lass was fixed to respect BUILD_REPRODUCIBLE_BINARIES in:
+http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
+class?id=3D27f87bbc8395a2481ef808465a62d213a6b678ac
+
+One way to fit it would be to inherit reproducible_build_simple.bbclass, bu=
+t this requirement to set exported SOURCE_DATE_EPOCH doesn't seem to be doc=
+umented anywhere and looking at kernel.bbclass changes it probably wasn't e=
+ven intended like that.
+
+Thanks
+
+On Mon, Mar 12, 2018 at 11:06 PM, <git@git.openembedded.org<mailto:git@git.=
+openembedded.org>> wrote:
+This is an automated email from the git hooks/post-receive script.
+
+rpurdie pushed a commit to branch master
+in repository openembedded-core.
+
+commit 5c2685c5ee2f8210a36b9a8591491b6af0482084
+Author: Juro Bystricky <juro.bystricky@intel.com<mailto:juro.bystricky@inte=
+l.com>>
+AuthorDate: Sat Mar 10 10:57:49 2018 -0800
+
+    reproducible_build_simple.bbclass: simple environment for reproducible =
+binaries
+
+    Export environmental variables needed for binary reproducibility with c=
+onsistent values.
+
+    This class can be used either directly via:
+    INHERIT +=3D "reproducible_build_simple"
+
+    or can be inherited by a more complex/complete bbclass, for example a b=
+blass which
+    will crack SOURCE_DATE_EPOCH for each recipe.
+
+    Signed-off-by: Juro Bystricky <juro.bystricky@intel.com<mailto:juro.bys=
+tricky@intel.com>>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org<mailt=
+o:richard.purdie@linuxfoundation.org>>
+---
+ meta/classes/reproducible_build_simple.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/=
+reproducible_build_simple.bbclass
+new file mode 100644
+index 0000000..dd11cd9
+--- /dev/null
++++ b/meta/classes/reproducible_build_simple.bbclass
+@@ -0,0 +1,11 @@
++# Setup default environment for reproducible builds.
++
++BUILD_REPRODUCIBLE_BINARIES =3D "1"
++
++export PYTHONHASHSEED =3D "0"
++export PERL_HASH_SEED =3D "0"
++export TZ =3D 'UTC'
++export SOURCE_DATE_EPOCH ??=3D "1520598896"
++
++REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D "1520598896"
++
+
+--
+To stop receiving notification emails like this one, please contact
+the administrator of this repository.
+--
+_______________________________________________
+Openembedded-commits mailing list
+Openembedded-commits@lists.openembedded.org<mailto:Openembedded-commits@lis=
+ts.openembedded.org>
+http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+
+
+
+--_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">Hi Martin,<br>
+thanks for your feedback.<br>
+I will send to ML a new version of the patch within a day or two. The patch=
+ you mentioned (v2) had a few short-comings, hopefully fixed in the next on=
+e (currently being tested).<br>
+Meanwhile, you may want to have a look at the recently updated wiki page (a=
+nd it will be updated again) how to build reproducible builds with &quot;ha=
+rd-coded&quot; SOURCE_DATE_EPOCH:<br>
+<a href=3D"https://wiki.yoctoproject.org/wiki/Reproducible_Builds" target=
+=3D"_blank">https://wiki.yoctoproject.org/wiki/Reproducible_Builds</a><br>
 <br>
-Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" tar=
-get=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
+<br>
+Thanks<br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div id=3D"divRpF587482" style=3D"direction: ltr;"><font size=3D"2" face=3D=
+"Tahoma" color=3D"#000000"><b>From:</b> Martin Jansa [martin.jansa@gmail.co=
+m]<br>
+<b>Sent:</b> Sunday, March 18, 2018 7:22 AM<br>
+<b>To:</b> Bystricky, Juro; Patches and discussions about the oe-core layer=
+<br>
+<b>Cc:</b> openembedded-commits@lists.openembedded.org<br>
+<b>Subject:</b> Re: [oe-commits] [openembedded-core] 02/03: reproducible_bu=
+ild_simple.bbclass: simple environment for reproducible binaries<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
+-size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
+t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
+rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
+ne">SOURCE_DATE_EPOCH
+ was supposed to be exported in this review:</span><br>
+</div>
+<a href=3D"https://patchwork.openembedded.org/patch/139558/" target=3D"_bla=
+nk">https://patchwork.openembedded.org/patch/139558/</a><br>
+<div>but it wasn't merged to master nor rocko.<br>
+</div>
+<div><br>
+</div>
+<div><br>
+</div>
+</div>
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On Sun, Mar 18, 2018 at 3:13 PM, Martin Jansa <s=
+pan dir=3D"ltr">
+&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jans=
+a@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div dir=3D"ltr">I've also noticed that the kernel.bbclass says:
+<div>
+<div><br>
+</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # kernel sourc=
+es do not use do_unpack, so SOURCE_DATE_EPOCH may not</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # be set....</=
+div>
+</div>
+<div><br>
+</div>
+<div>but with git grep&nbsp;<span style=3D"color:rgb(34,34,34); font-family=
+:arial,sans-serif; font-size:small; font-style:normal; font-weight:400; let=
+ter-spacing:normal; text-align:start; text-indent:0px; text-transform:none;=
+ white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); f=
+loat:none; display:inline">SOURCE_DATE_EPOCH
+ I don't see any code in bitbake or oe-core where this would be set in do_u=
+npack (in oe-core/master and oe-core/rocko). Is this part still only in one=
+ of your contrib branches for reproducible?</span></div>
+<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
+-size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
+t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
+rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
+ne"><br>
+</span></div>
+<div><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font=
+-size:small; font-style:normal; font-weight:400; letter-spacing:normal; tex=
+t-align:start; text-indent:0px; text-transform:none; white-space:normal; wo=
+rd-spacing:0px; background-color:rgb(255,255,255); float:none; display:inli=
+ne">Regards,</span></div>
+</div>
+<div class=3D"HOEnZb">
+<div class=3D"h5">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On Sun, Mar 18, 2018 at 3:06 PM, Martin Jansa <s=
+pan dir=3D"ltr">
+&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jans=
+a@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div dir=3D"ltr">
+<div>Hi,</div>
+<div><br>
+</div>
+There seems to be small issue when people set&nbsp;<span style=3D"color:rgb=
+(34,34,34); font-family:arial,sans-serif; font-size:12.8px; font-style:norm=
+al; font-weight:400; letter-spacing:normal; text-align:start; text-indent:0=
+px; text-transform:none; white-space:normal; word-spacing:0px; background-c=
+olor:rgb(255,255,255); float:none; display:inline">BUILD_REPRODUCIBLE_BINAR=
+IE<wbr>S
+ =3D &quot;1&quot; without exporting&nbsp;<span style=3D"color:rgb(34,34,34=
+); font-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-=
+weight:400; letter-spacing:normal; text-align:start; text-indent:0px; text-=
+transform:none; white-space:normal; word-spacing:0px; background-color:rgb(=
+255,255,255); float:none; display:inline">SOURCE_DATE_EPOCH
+ like this .bbclass does</span></span>
+<div><span style=3D"font-size:12.8px"><br>
+</span></div>
+<div><span style=3D"font-size:12.8px">In kernel.bbclass change from:<br>
+</span><span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; fo=
+nt-size:12.8px; font-style:normal; font-weight:400; letter-spacing:normal; =
+text-align:start; text-indent:0px; text-transform:none; white-space:normal;=
+ word-spacing:0px; background-color:rgb(255,255,255); float:none; display:i=
+nline"></span>
+<div><a href=3D"http://git.openembedded.org/openembedded-core/commit/meta/c=
+lasses/kernel.bbclass?id=3D012a70da7ae0617740cd0cf807d01c3cd912c823" target=
+=3D"_blank">http://git.openembedded.org/op<wbr>enembedded-core/commit/meta/=
+cl<wbr>asses/kernel.bbclass?id=3D012a70<wbr>da7ae0617740cd0cf807d01c3cd912<=
+wbr>c823</a><br>
+</div>
+</div>
+<div><br>
+</div>
+<div>you're comparing&nbsp;<span style=3D"color:rgb(34,34,34); font-family:=
+arial,sans-serif; font-size:12.8px; font-style:normal; font-weight:400; let=
+ter-spacing:normal; text-align:start; text-indent:0px; text-transform:none;=
+ white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); f=
+loat:none; display:inline">SOURCE_DATE_EPOCH
+ with 0 which doesn't seem to be set anywhere, so by default it's empty whi=
+ch leads to kernel build failure like this:</span></div>
+<div><span style=3D"text-align:start; text-indent:0px; background-color:rgb=
+(255,255,255); float:none; display:inline">
+<div><span style=3D"font-size:12.8px"><br>
+</span></div>
+<div><span style=3D"font-size:12.8px">DEBUG: Executing shell function do_co=
+mpile</span></div>
+<div><span style=3D"font-size:12.8px">date: invalid date '@'</span></div>
+<div><span style=3D"font-size:12.8px">WARNING: exit code 1 from a shell com=
+mand.</span></div>
+<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
+12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
+nsform:none; white-space:normal; word-spacing:0px">
+<br>
+</div>
+<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
+12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
+nsform:none; white-space:normal; word-spacing:0px">
+because empty SOURCE_DATE_EPOCH is used in &quot;ts=3D`LC_ALL=3DC date -d @=
+$SOURCE_DATE_EPOCH`&quot;. Testing SOURCE_DATE_EPOCH for empty or &quot;0&q=
+uot; allows to use&nbsp;REPRODUCIBLE_TIMESTAMP_ROO<wbr>TFS as a default val=
+ue again.</div>
+<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
+12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
+nsform:none; white-space:normal; word-spacing:0px">
+<br>
+</div>
+<div style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; font-size:=
+12.8px; font-style:normal; font-weight:400; letter-spacing:normal; text-tra=
+nsform:none; white-space:normal; word-spacing:0px">
+These build failures seem to be triggered in all my builds since kernel.bbc=
+lass was fixed to respect BUILD_REPRODUCIBLE_BINARIES in:</div>
+<div><span style=3D"font-size:12.8px"><a href=3D"http://git.openembedded.or=
+g/openembedded-core/commit/meta/classes/kernel.bbclass?id=3D27f87bbc8395a24=
+81ef808465a62d213a6b678ac" target=3D"_blank">http://git.openembedded.org/op=
+<wbr>enembedded-core/commit/meta/cl<wbr>asses/kernel.bbclass?id=3D27f87b<wb=
+r>bc8395a2481ef808465a62d213a6b6<wbr>78ac</a></span><br>
+</div>
+<div><span style=3D"font-size:12.8px"><br>
+</span></div>
+<div><span style=3D"font-size:12.8px">One way to fit it would be to inherit=
+&nbsp;<span style=3D"color:rgb(34,34,34); font-family:arial,sans-serif; fon=
+t-size:12.8px; font-style:normal; font-weight:400; letter-spacing:normal; t=
+ext-align:start; text-indent:0px; text-transform:none; white-space:normal; =
+word-spacing:0px; background-color:rgb(255,255,255); float:none; display:in=
+line">reproducible_</span><span style=3D"color:rgb(34,34,34); font-family:a=
+rial,sans-serif; font-size:12.8px; font-style:normal; font-weight:400; lett=
+er-spacing:normal; text-align:start; text-indent:0px; text-transform:none; =
+white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); fl=
+oat:none; display:inline">build_sim<wbr>ple.bbclass,
+ but this requirement to set exported SOURCE_DATE_EPOCH doesn't seem to be =
+documented anywhere and looking at kernel.bbclass changes it probably wasn'=
+t even intended like that.</span></span></div>
+<div><span style=3D"font-size:12.8px"><span style=3D"color:rgb(34,34,34); f=
+ont-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-weig=
+ht:400; letter-spacing:normal; text-align:start; text-indent:0px; text-tran=
+sform:none; white-space:normal; word-spacing:0px; background-color:rgb(255,=
+255,255); float:none; display:inline"><br>
+</span></span></div>
+<div><span style=3D"font-size:12.8px"><span style=3D"color:rgb(34,34,34); f=
+ont-family:arial,sans-serif; font-size:12.8px; font-style:normal; font-weig=
+ht:400; letter-spacing:normal; text-align:start; text-indent:0px; text-tran=
+sform:none; white-space:normal; word-spacing:0px; background-color:rgb(255,=
+255,255); float:none; display:inline">Thanks</span></span></div>
+</span></div>
+</div>
+<div class=3D"m_-8114575700723207354HOEnZb">
+<div class=3D"m_-8114575700723207354h5">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On Mon, Mar 12, 2018 at 11:06 PM, <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:git@git.openembedded.org" target=3D"_blank">git@g=
+it.openembedded.org</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+This is an automated email from the git hooks/post-receive script.<br>
+<br>
+rpurdie pushed a commit to branch master<br>
+in repository openembedded-core.<br>
+<br>
+commit 5c2685c5ee2f8210a36b9a8591491b<wbr>6af0482084<br>
+Author: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com" targ=
+et=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
+AuthorDate: Sat Mar 10 10:57:49 2018 -0800<br>
+<br>
+&nbsp; &nbsp; reproducible_build_simple.bbcl<wbr>ass: simple environment fo=
+r reproducible binaries<br>
+<br>
+&nbsp; &nbsp; Export environmental variables needed for binary reproducibil=
+ity with consistent values.<br>
+<br>
+&nbsp; &nbsp; This class can be used either directly via:<br>
+&nbsp; &nbsp; INHERIT &#43;=3D &quot;reproducible_build_simple&quot;<br>
+<br>
+&nbsp; &nbsp; or can be inherited by a more complex/complete bbclass, for e=
+xample a bblass which<br>
+&nbsp; &nbsp; will crack SOURCE_DATE_EPOCH for each recipe.<br>
+<br>
+&nbsp; &nbsp; Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.byst=
+ricky@intel.com" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
+&nbsp; &nbsp; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
+urdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundatio<=
+wbr>n.org</a>&gt;<br>
 ---<br>
-</span>=C2=A0.../files/add-a-target-to-com<wbr>pile-tests.patch=C2=A0 =C2=
-=A0 =C2=A0 | 46 ++++++++++++++++++++++<br>
-=C2=A0meta/recipes-multimedia/gstre<wbr>amer/files/run-ptest=C2=A0 |=C2=A0 =
-3 ++<br>
-=C2=A0meta/recipes-multimedia/gstre<wbr>amer/gstreamer1.0.inc | 25 ++++++++=
-+++-<br>
-=C2=A03 files changed, 72 insertions(+), 2 deletions(-)<br>
-<span>=C2=A0create mode 100644 meta/recipes-multimedia/gstrea<wbr>mer/files=
-/add-a-target-to-<wbr>compile-tests.patch<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/gstrea<wbr>mer/files/run-p=
-test<br>
+&nbsp;meta/classes/reproducible_bui<wbr>ld_simple.bbclass | 11 &#43;&#43;&#=
+43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&nbsp;1 file changed, 11 insertions(&#43;)<br>
 <br>
-diff --git a/meta/recipes-multimedia/gstr<wbr>eamer/files/add-a-target-to-<=
-wbr>compile-tests.patch b/meta/recipes-multimedia/gstr<wbr>eamer/files/add-=
-a-target-to-<wbr>compile-tests.patch<br>
+diff --git a/meta/classes/reproducible_bu<wbr>ild_simple.bbclass b/meta/cla=
+sses/reproducible_bu<wbr>ild_simple.bbclass<br>
 new file mode 100644<br>
-</span>index 0000000..c918bbe<br>
+index 0000000..dd11cd9<br>
 --- /dev/null<br>
-+++ b/meta/recipes-multimedia/gstr<wbr>eamer/files/add-a-target-to-<wbr>com=
-pile-tests.patch<br>
-@@ -0,0 +1,46 @@<br>
-+From e69e5408f03a2f65045a418af66056<wbr>53c06ec28b Mon Sep 17 00:00:00 200=
-1<br>
-<span>+From: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" targe=
-t=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
-+Date: Tue, 27 Feb 2018 09:27:01 +0800<br>
-+Subject: [PATCH] add targets for test installation<br>
-+<br>
-+Targets to make sure tests can be installed and then run on<br>
-+the target.<br>
-+<br>
-+Upstream-Status: Inappropriate [specific to oe setup]<br>
-+<br>
-+Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" ta=
-rget=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
-+---<br>
-</span>+ tests/check/Makefile.am | 17 +++++++++++++++++<br>
-+ 1 file changed, 17 insertions(+)<br>
-+<br>
-+diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am<br>
-+index afc1591..fb5c1c9 100644<br>
-+--- a/tests/check/Makefile.am<br>
-++++ b/tests/check/Makefile.am<br>
-+@@ -175,6 +175,23 @@ noinst_PROGRAMS =3D<br>
-<span>+<br>
-+ TESTS =3D $(check_PROGRAMS)<br>
-+<br>
-++install-ptest: $(TESTS)<br>
-++=C2=A0 =C2=A0 =C2=A0 @$(INSTALL) -d $(DESTDIR)<br>
-</span>++=C2=A0 =C2=A0 =C2=A0 @for dir in `find -maxdepth 1 -type d`; do \<=
-br>
-<div><div class=3D"m_6708603585553811464h5">++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 if [ -x $$dir/.libs ]; then \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 $(INSTALL) -d $(DESTDIR)/$$dir; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 $(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi \<br>
-++=C2=A0 =C2=A0 =C2=A0 done<br>
-++<br>
-++runtests:<br>
-++=C2=A0 =C2=A0 =C2=A0 @for b in $(TESTS); do \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -x $$b ]; then \<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 $(AM_TESTS_ENVIRONMENT) $(SHELL) test-driver --test-name &quot;$$b&quot=
-; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 --log-file $$b.log --trs-file $$b.trs $$b; \<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi \<br>
-++=C2=A0 =C2=A0 =C2=A0 done<br>
-++<br>
-+ noinst_HEADERS =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0gst/capslist.h \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0gst/struct_arm.h \<br>
-+--<br>
-+2.7.4<br>
-+<br>
-diff --git a/meta/recipes-multimedia/gstr<wbr>eamer/files/run-ptest b/meta/=
-recipes-multimedia/gstr<wbr>eamer/files/run-ptest<br>
-new file mode 100644<br>
-index 0000000..473d0b6<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/gstr<wbr>eamer/files/run-ptest<br>
-@@ -0,0 +1,3 @@<br>
-+#!/bin/sh<br>
-+<br>
-+make -k runtests<br>
-diff --git a/meta/recipes-multimedia/gstr<wbr>eamer/gstreamer1.0.inc b/meta=
-/recipes-multimedia/gstr<wbr>eamer/gstreamer1.0.inc<br>
-</div></div>index c2df1f3..91f5067 100644<br>
-<span>--- a/meta/recipes-multimedia/gstr<wbr>eamer/gstreamer1.0.inc<br>
-+++ b/meta/recipes-multimedia/gstr<wbr>eamer/gstreamer1.0.inc<br>
-@@ -8,7 +8,7 @@ LICENSE =3D &quot;LGPLv2+&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;glib-2.0 glib-2.0-native libcap libxml2 bison-nativ=
-e flex-native&quot;<br>
-<br>
--inherit autotools pkgconfig gettext upstream-version-is-even gobject-intro=
-spection gtk-doc<br>
-+inherit autotools pkgconfig gettext upstream-version-is-even gobject-intro=
-spection gtk-doc ptest<br>
-<br>
-=C2=A0# This way common/m4/introspection.m4 will come first<br>
-=C2=A0# (it has a custom INTROSPECTION_INIT macro, and so must be used inst=
-ead of our common introspection.m4 file)<br>
-@@ -18,9 +18,12 @@ SRC_URI_append =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-introspection.m4-<wbr>prefix-pkgconfig-path=
-s-with-PK<wbr>G_CON.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://gtk-doc-tweaks.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-gst-gstpluginload<wbr>er.c-when-env-var-is-=
-set-do-<wbr>not-fal.patch \<br>
-+=C2=A0 =C2=A0 file://add-a-target-to-compile<wbr>-tests.patch \<br>
-+=C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0&quot;<br>
-<br>
--PACKAGECONFIG ??=3D &quot;&quot;<br>
-+PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;PTEST_E<wbr>NABLED&#39=
-;, &#39;1&#39;, &#39;tests&#39;, &#39;&#39;, d)} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;<br>
-<br>
-=C2=A0PACKAGECONFIG[debug] =3D &quot;--enable-debug,--disable-debu<wbr>g&qu=
-ot;<br>
-=C2=A0PACKAGECONFIG[tests] =3D &quot;--enable-tests,--disable-test<wbr>s&qu=
-ot;<br>
-</span>@@ -59,3 +62,21 @@ do_configure[prefuncs] +=3D &quot;delete_pkg_m4_f=
-ile&quot;<br>
-<span>=C2=A0do_compile_prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export GIR_EXTRA_LIBS_PATH=3D&quot;${B}/g=
-st/<wbr>.libs:${B}/libs/gst/base/.libs<wbr>&quot;<br>
-=C2=A0}<br>
-+<br>
-+do_compile_ptest() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake build-checks<br>
-+}<br>
-+<br>
-+do_install_ptest() {<br>
-</span>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C tests/check DESTDIR=3D${D=
-}${PTEST_PATH} install-ptest<br>
-<div class=3D"m_6708603585553811464HOEnZb"><div class=3D"m_6708603585553811=
-464h5">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 644 ${B}/tests/check/Makefil=
-e ${D}${PTEST_PATH}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 755 ${S}/test-driver ${D}${PTEST_PA=
-TH}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -e &#39;s,--sysroot=3D${STAGING_DIR_TAR<wb=
-r>GET},,g&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s|${DEBUG_PREFIX_MAP}||g=
-&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s:${HOSTTOOLS_DIR}/::g&#=
-39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s:${RECIPE_SYSROOT_NATIV=
-E}::g<wbr>&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s:${BASE_WORKDIR}/${MULT=
-IMACH<wbr>_TARGET_SYS}::g&#39; \-e &#39;s/^Makefile:/_Makefile:/&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s/^srcdir =3D \(.*\)/src=
-dir =3D ./&#39; -e &#39;s/^top_srcdir =3D \(.*\)/top_srcdir =3D ./&#39; \<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s/^builddir =3D \(.*\)/b=
-uilddir =3D ./&#39; -e &#39;s/^top_builddir =3D \(.*\)/top_builddir =3D ./&=
-#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -i ${D}${PTEST_PATH}/Makefile<br=
->
-+}<br>
+&#43;&#43;&#43; b/meta/classes/reproducible_bu<wbr>ild_simple.bbclass<br>
+@@ -0,0 &#43;1,11 @@<br>
+&#43;# Setup default environment for reproducible builds.<br>
+&#43;<br>
+&#43;BUILD_REPRODUCIBLE_BINARIES =3D &quot;1&quot;<br>
+&#43;<br>
+&#43;export PYTHONHASHSEED =3D &quot;0&quot;<br>
+&#43;export PERL_HASH_SEED =3D &quot;0&quot;<br>
+&#43;export TZ =3D 'UTC'<br>
+&#43;export SOURCE_DATE_EPOCH ??=3D &quot;1520598896&quot;<br>
+&#43;<br>
+&#43;REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D &quot;1520598896&quot;<br>
+&#43;<br>
+<span class=3D"m_-8114575700723207354m_-2939368165476955101HOEnZb"><font co=
+lor=3D"#888888"><br>
 --<br>
-2.7.4<br>
-<br>
+To stop receiving notification emails like this one, please contact<br>
+the administrator of this repository.<br>
 --<br>
 ______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
+Openembedded-commits mailing list<br>
+<a href=3D"mailto:Openembedded-commits@lists.openembedded.org" target=3D"_b=
+lank">Openembedded-commits@lists.ope<wbr>nembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-comm=
+its" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wb=
+r>mailman/listinfo/openembedded-<wbr>commits</a><br>
+</font></span></blockquote>
+</div>
+<br>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+<br>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+<br>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
 
---001a11405f165b71e30567c76025--
+--_000_6E51916E4A1F32428260031F4C7CD2B64C673B99ORSMSX112amrcor_--
