@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EB5A788E6
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C570788E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 16:06:17 +0000 (UTC)
+	Mon, 19 Mar 2018 16:06:54 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2018 09:06:18 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Mar 2018 09:06:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,331,1517904000"; d="scan'208";a="35076407"
+X-IronPort-AV: E=Sophos;i="5.48,331,1517904000"; d="scan'208";a="184119329"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Mar 2018 09:06:16 -0700
+	by orsmga004.jf.intel.com with ESMTP; 19 Mar 2018 09:06:54 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 17:59:32 +0200
-Message-Id: <20180319155932.6575-1-alexander.kanavin@linux.intel.com>
+Date: Mon, 19 Mar 2018 18:00:12 +0200
+Message-Id: <20180319160012.6734-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 MIME-Version: 1.0
-Subject: [pyro][PATCH] qemu: fix memfd_create with glibc 2.27
+Subject: [rocko][PATCH] qemu: fix memfd_create with glibc 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 16:06:17 -0000
+X-List-Received-Date: Mon, 19 Mar 2018 16:06:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -45,8 +45,8 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
  meta/recipes-devtools/qemu/qemu/memfd.patch | 57 +++++++++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.8.0.bb    |  1 +
- 2 files changed, 58 insertions(+)
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb   |  2 +-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu/memfd.patch b/meta/recipes-devtools/qemu/qemu/memfd.patch
@@ -112,18 +112,23 @@ index 00000000000..62e8d3800bd
 + 
 +-- 
 +2.11.0
-diff --git a/meta/recipes-devtools/qemu/qemu_2.8.0.bb b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-index fa70009f725..41014f16634 100644
---- a/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-@@ -31,6 +31,7 @@ SRC_URI += " \
-             file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
-             file://CVE-2016-9908.patch \
-             file://CVE-2016-9912.patch \
-+            file://memfd.patch \
- "
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+index a9b4939b049..bdf6c21f877 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://CVE-2017-13672.patch \
+            file://CVE-2017-14167.patch \
+            file://ppc_locking.patch \
++           file://memfd.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
  
- SRC_URI_append_class-native = " \
+@@ -60,4 +61,3 @@ do_install_ptest() {
+ 
+ 	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
+ }
+-
 -- 
 2.16.1
 
