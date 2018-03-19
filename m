@@ -1,47 +1,25 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 586E0789E1
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 90735789BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 23:32:15 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id t6so96508wmt.5
+	Mon, 19 Mar 2018 23:53:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2JNrNfT016352
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 16:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TRiuQA/tzweuv+GGfPx+OnBL2Hp8fFCWPfW9iKoIe4I=;
-	b=OHqR52DPpclxQvdgGkqJBtZ6g6j/FFBv/uEEq+LSiJ4Wb/MfLYcd9kYjkLOFTUvL8w
-	X9CTDEA0zTD8+/Gw4pH4GD4fONif+eFUjR37XcFTk4HnVo7TsQt3Z5Ex0bKx0ZR1HF/6
-	UJseaZVz9Btisrmb+oWPYtjgKMT/urhUv8pTDwk/Id+JfZ2Raa8mxTjRkT74X5fhSqVR
-	slvSl35MQHYK+mxOtffNcUyO/09MLt7f50q+P2uD60IUqrfVWy1GqheljtiIYZg274eG
-	Xfz9jSigf7FNsfA7SDxbYLX2iEUUEPFDeVV0eu/hNyp3KbCmivNxz3Bkkup3ozky1+D/
-	0T2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TRiuQA/tzweuv+GGfPx+OnBL2Hp8fFCWPfW9iKoIe4I=;
-	b=Ph8OEge9JvwReagQ4v75VxhZSDIrub5x4xkqmd7fYLbpy73hlwSov+fenulvEt9lUz
-	E31mM2pnYMot/mv2FfqOKtaJ228Kij50V1S/8SFVoNcX2AdHDkaIo/SS4dC1W5Kmwr0S
-	Cy5nbc/4hpClw5TAF05NDjz7V6fJ50fquf3l2rCMam2Ibm8sfib+bzjMhxjzEkfYcLLw
-	sMRi1mMLo4rfsr6gXS02sXgzZRjO3HuQ3yhXWmsGi1iRe/FD/Hk5FZEa6dw7mkYizGyY
-	wkVLnM8LWcxx2NIVDjJuGpR71/XW27xt5PTy4JHlQvvGdgMI43C9tSc2IxMT1s4654DZ
-	vRoQ==
-X-Gm-Message-State: AElRT7F0nhmkQkoC26d37gxDMnrbK7mo3hqhALTvM2WTPt90ZRtpnTHa
-	bbdC27i43eC0+7seP0OitSMgJeQQpXixmpclSoE=
-X-Google-Smtp-Source: AG47ELt03Zz+afUi1RJ9m7/DzP7KufqvzNEcP9C1KDlTCOcgDswtRhJDiFb5YQMR9O8Takg40DpMlU2DeWEaIG+x16M=
-X-Received: by 10.28.176.134 with SMTP id z128mr405366wme.86.1521502336859;
-	Mon, 19 Mar 2018 16:32:16 -0700 (PDT)
+	Mon, 19 Mar 2018 16:53:23 -0700
+Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 19 Mar 2018 16:53:22 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Mar 2018 07:53:20 +0800
+Message-ID: <1521503600-21532-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Mon, 19 Mar 2018 16:32:16 -0700 (PDT)
-In-Reply-To: <20180317112607.28536-1-Martin.Jansa@gmail.com>
-References: <CAMKF1sqfasCaxgxFV_-f1UhAeS4GnwJxSU1uz61UbOg3Rmecsg@mail.gmail.com>
-	<20180317112607.28536-1-Martin.Jansa@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 19 Mar 2018 16:32:16 -0700
-Message-ID: <CAJ86T=VWaJOesaUHM_k=x-+ip044=0SqFhMA4MfNExsz_VYeWw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3] iputils: add PACKAGECONFIG for libidn and disable it by default
+X-Originating-IP: [128.224.163.220]
+Subject: [PATCH] tiff: Security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,87 +32,405 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 23:32:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Mar 2018 23:53:22 -0000
+Content-Type: text/plain
 
-On Sat, Mar 17, 2018 at 4:26 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * it got enabled by default, but without the dependency on libidn in:
->   commit 5997981fa2c22609a88b8cbb595dbf7758b2f7c2
->   Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->   AuthorDate: Thu Feb 1 20:02:08 2018 +0200
->   Subject: iputils: update to 20161105
->
-> * https://github.com/iputils/iputils/blob/master/RELNOTES.old
->   mentiones that IDN was enabled by default in:
->   [s20160308] and surprisingly the same in [s20150815]
->   but there are no release notes for s20151218 version we were using until
->   now, don't know how it really relates to [s20150815].
->
-> * but there are some issues with libidn as described in:
->   https://github.com/iputils/iputils/commit/f3a461603ef4fb7512ade3bdb73fe1824e294547
->   so disable it by default.
->
-> * fails with:
->   | In file included from ping_common.c:1:0:
->   | ping.h:39:10: fatal error: idna.h: No such file or directory
->   |  #include <idna.h>
->   |           ^~~~~~~~
->
-> * Easiest way to reproduce this failure is to remove libidn from gnutls
->   PACKAGECONFIG or to use gnutls which doesn't have libidn PACKAGECONFIG
->   at all (like the one in meta-gplv2).
->
-> * First it leads to following QA issue:
->   http://errors.yoctoproject.org/Errors/Build/53212/
->   ERROR: iputils-s20161105-r0 do_package_qa: QA Issue: iputils-ping rdepends on libidn, but it isn't a build dependency, missing libidn in DEPENDS or PACKAGECONFIG? [build-deps]
->   ERROR: iputils-s20161105-r0 do_package_qa: QA Issue: iputils-traceroute6 rdepends on libidn, but it isn't a build dependency, missing libidn in DEPENDS or PACKAGECONFIG? [build-deps]
->   ERROR: iputils-s20161105-r0 do_package_qa: QA run found fatal errors.
->   Please consider fixing them.
->   ERROR: iputils-s20161105-r0 do_package_qa: Function failed:
->   do_package_qa
->   ERROR: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/iputils/s20161105-r0/temp/log.do_package_qa.7627
->   ERROR: Task (/OE/build/oe-core/openembedded-core/meta/recipes-extended/iputils/iputils_s20161105.bb:do_package_qa) failed with exit code '1'
->
-> * But if you cleansstate iputils as well (after removing libidn from
->   gnutls PACKAGECONFIG) to empty iputils RSS, then you get the error about
->   missing idna.h:
->   http://errors.yoctoproject.org/Errors/Build/53213/
->
-> * Adding the libidn dependency explicitly in iputils recipe fixes the
->   issue.
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-extended/iputils/iputils_s20161105.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/iputils/iputils_s20161105.bb b/meta/recipes-extended/iputils/iputils_s20161105.bb
-> index ad7dbc4d4a..0125739b03 100644
-> --- a/meta/recipes-extended/iputils/iputils_s20161105.bb
-> +++ b/meta/recipes-extended/iputils/iputils_s20161105.bb
-> @@ -23,8 +23,11 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
->
->  EXTRA_OEMAKE = "-e MAKEFLAGS="
->
-> +PACKAGECONFIG ?= ""
+Fix CVE-2017-99935, CVE-2017-18013, CVE-2018-5784
 
-It looks like mut (and now master-next) have picked up v1 of this
-patch, where libidn is enabled by default.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2017-9935
+https://nvd.nist.gov/vuln/detail/CVE-2017-18013
+https://nvd.nist.gov/vuln/detail/CVE-2018-5784
 
-> +PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn"
-> +
->  do_compile () {
-> -       oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" all
-> +       oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" ${PACKAGECONFIG_CONFARGS} all
->  }
->
->  do_install () {
-> --
-> 2.15.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Patches from:
+CVE-2017-9935:
+https://gitlab.com/libtiff/libtiff/commit/3dd8f6a357981a4090f126ab9025056c938b6940
+CVE-2017-18013:
+https://gitlab.com/libtiff/libtiff/commit/c6f41df7b581402dfba3c19a1e3df4454c551a01
+CVE-2018-5784:
+https://gitlab.com/libtiff/libtiff/commit/473851d211cf8805a161820337ca74cc9615d6ef
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../libtiff/files/CVE-2017-18013.patch             |  42 ++++++
+ .../libtiff/files/CVE-2017-9935.patch              | 160 +++++++++++++++++++++
+ .../libtiff/files/CVE-2018-5784.patch              | 135 +++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |   3 +
+ 4 files changed, 340 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-18013.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-9935.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-5784.patch
+
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2017-18013.patch b/meta/recipes-multimedia/libtiff/files/CVE-2017-18013.patch
+new file mode 100644
+index 0000000..878e0de
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2017-18013.patch
+@@ -0,0 +1,42 @@
++From 293c8b0298e91d20ba51291e2351ab7d110671d0 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sun, 31 Dec 2017 15:09:41 +0100
++Subject: [PATCH] libtiff/tif_print.c: TIFFPrintDirectory(): fix null pointer
++ dereference on corrupted file. Fixes
++ http://bugzilla.maptools.org/show_bug.cgi?id=2770
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/commit/c6f41df7b581402dfba3c19a1e3df4454c551a01]
++
++CVE: CVE-2017-18013
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ libtiff/tif_print.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
++index 24d4b98..f494cfb 100644
++--- a/libtiff/tif_print.c
+++++ b/libtiff/tif_print.c
++@@ -667,13 +667,13 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
++ #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++ 			fprintf(fd, "    %3lu: [%8I64u, %8I64u]\n",
++ 			    (unsigned long) s,
++-			    (unsigned __int64) td->td_stripoffset[s],
++-			    (unsigned __int64) td->td_stripbytecount[s]);
+++			    td->td_stripoffset ? (unsigned __int64) td->td_stripoffset[s] : 0,
+++			    td->td_stripbytecount ? (unsigned __int64) td->td_stripbytecount[s] : 0);
++ #else
++ 			fprintf(fd, "    %3lu: [%8llu, %8llu]\n",
++ 			    (unsigned long) s,
++-			    (unsigned long long) td->td_stripoffset[s],
++-			    (unsigned long long) td->td_stripbytecount[s]);
+++			    td->td_stripoffset ? (unsigned long long) td->td_stripoffset[s] : 0,
+++			    td->td_stripbytecount ? (unsigned long long) td->td_stripbytecount[s] : 0);
++ #endif
++ 	}
++ }
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2017-9935.patch b/meta/recipes-multimedia/libtiff/files/CVE-2017-9935.patch
+new file mode 100644
+index 0000000..60684dd
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2017-9935.patch
+@@ -0,0 +1,160 @@
++From abb0055d21c52a9925314d5b0628fb2b6307619c Mon Sep 17 00:00:00 2001
++From: Brian May <brian@linuxpenguins.xyz>
++Date: Thu, 7 Dec 2017 07:46:47 +1100
++Subject: [PATCH] tiff2pdf: Fix CVE-2017-9935
++
++Fix for http://bugzilla.maptools.org/show_bug.cgi?id=2704
++
++This vulnerability - at least for the supplied test case - is because we
++assume that a tiff will only have one transfer function that is the same
++for all pages. This is not required by the TIFF standards.
++
++We than read the transfer function for every page.  Depending on the
++transfer function, we allocate either 2 or 4 bytes to the XREF buffer.
++We allocate this memory after we read in the transfer function for the
++page.
++
++For the first exploit - POC1, this file has 3 pages. For the first page
++we allocate 2 extra extra XREF entries. Then for the next page 2 more
++entries. Then for the last page the transfer function changes and we
++allocate 4 more entries.
++
++When we read the file into memory, we assume we have 4 bytes extra for
++each and every page (as per the last transfer function we read). Which
++is not correct, we only have 2 bytes extra for the first 2 pages. As a
++result, we end up writing past the end of the buffer.
++
++There are also some related issues that this also fixes. For example,
++TIFFGetField can return uninitalized pointer values, and the logic to
++detect a N=3 vs N=1 transfer function seemed rather strange.
++
++It is also strange that we declare the transfer functions to be of type
++float, when the standard says they are unsigned 16 bit values. This is
++fixed in another patch.
++
++This patch will check to ensure that the N value for every transfer
++function is the same for every page. If this changes, we abort with an
++error. In theory, we should perhaps check that the transfer function
++itself is identical for every page, however we don't do that due to the
++confusion of the type of the data in the transfer function.
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/commit/3dd8f6a357981a4090f126ab9025056c938b6940]
++
++CVE: CVE-2017-9935
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ libtiff/tif_dir.c |  3 +++
++ tools/tiff2pdf.c  | 65 +++++++++++++++++++++++++++++++++++++------------------
++ 2 files changed, 47 insertions(+), 21 deletions(-)
++
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index f00f808..c36a5f3 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -1067,6 +1067,9 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
++ 			if (td->td_samplesperpixel - td->td_extrasamples > 1) {
++ 				*va_arg(ap, uint16**) = td->td_transferfunction[1];
++ 				*va_arg(ap, uint16**) = td->td_transferfunction[2];
+++			} else {
+++				*va_arg(ap, uint16**) = NULL;
+++				*va_arg(ap, uint16**) = NULL;
++ 			}
++ 			break;
++ 		case TIFFTAG_REFERENCEBLACKWHITE:
++diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
++index 454befb..0b5973e 100644
++--- a/tools/tiff2pdf.c
+++++ b/tools/tiff2pdf.c
++@@ -1047,6 +1047,8 @@ void t2p_read_tiff_init(T2P* t2p, TIFF* input){
++ 	uint16 pagen=0;
++ 	uint16 paged=0;
++ 	uint16 xuint16=0;
+++	uint16 tiff_transferfunctioncount=0;
+++	float* tiff_transferfunction[3];
++ 
++ 	directorycount=TIFFNumberOfDirectories(input);
++ 	t2p->tiff_pages = (T2P_PAGE*) _TIFFmalloc(TIFFSafeMultiply(tmsize_t,directorycount,sizeof(T2P_PAGE)));
++@@ -1147,26 +1149,48 @@ void t2p_read_tiff_init(T2P* t2p, TIFF* input){
++                 }
++ #endif
++ 		if (TIFFGetField(input, TIFFTAG_TRANSFERFUNCTION,
++-                                 &(t2p->tiff_transferfunction[0]),
++-                                 &(t2p->tiff_transferfunction[1]),
++-                                 &(t2p->tiff_transferfunction[2]))) {
++-			if((t2p->tiff_transferfunction[1] != (float*) NULL) &&
++-                           (t2p->tiff_transferfunction[2] != (float*) NULL) &&
++-                           (t2p->tiff_transferfunction[1] !=
++-                            t2p->tiff_transferfunction[0])) {
++-				t2p->tiff_transferfunctioncount = 3;
++-				t2p->tiff_pages[i].page_extra += 4;
++-				t2p->pdf_xrefcount += 4;
++-			} else {
++-				t2p->tiff_transferfunctioncount = 1;
++-				t2p->tiff_pages[i].page_extra += 2;
++-				t2p->pdf_xrefcount += 2;
++-			}
++-			if(t2p->pdf_minorversion < 2)
++-				t2p->pdf_minorversion = 2;
+++                                 &(tiff_transferfunction[0]),
+++                                 &(tiff_transferfunction[1]),
+++                                 &(tiff_transferfunction[2]))) {
+++
+++                        if((tiff_transferfunction[1] != (float*) NULL) &&
+++                           (tiff_transferfunction[2] != (float*) NULL)
+++                          ) {
+++                            tiff_transferfunctioncount=3;
+++                        } else {
+++                            tiff_transferfunctioncount=1;
+++                        }
++                 } else {
++-			t2p->tiff_transferfunctioncount=0;
+++			tiff_transferfunctioncount=0;
++ 		}
+++
+++                if (i > 0){
+++                    if (tiff_transferfunctioncount != t2p->tiff_transferfunctioncount){
+++                        TIFFError(
+++                            TIFF2PDF_MODULE,
+++                            "Different transfer function on page %d",
+++                            i);
+++                        t2p->t2p_error = T2P_ERR_ERROR;
+++                        return;
+++                    }
+++                }
+++
+++                t2p->tiff_transferfunctioncount = tiff_transferfunctioncount;
+++                t2p->tiff_transferfunction[0] = tiff_transferfunction[0];
+++                t2p->tiff_transferfunction[1] = tiff_transferfunction[1];
+++                t2p->tiff_transferfunction[2] = tiff_transferfunction[2];
+++                if(tiff_transferfunctioncount == 3){
+++                        t2p->tiff_pages[i].page_extra += 4;
+++                        t2p->pdf_xrefcount += 4;
+++                        if(t2p->pdf_minorversion < 2)
+++                                t2p->pdf_minorversion = 2;
+++                } else if (tiff_transferfunctioncount == 1){
+++                        t2p->tiff_pages[i].page_extra += 2;
+++                        t2p->pdf_xrefcount += 2;
+++                        if(t2p->pdf_minorversion < 2)
+++                                t2p->pdf_minorversion = 2;
+++                }
+++
++ 		if( TIFFGetField(
++ 			input, 
++ 			TIFFTAG_ICCPROFILE, 
++@@ -1828,9 +1852,8 @@ void t2p_read_tiff_data(T2P* t2p, TIFF* input){
++ 			 &(t2p->tiff_transferfunction[1]),
++ 			 &(t2p->tiff_transferfunction[2]))) {
++ 		if((t2p->tiff_transferfunction[1] != (float*) NULL) &&
++-                   (t2p->tiff_transferfunction[2] != (float*) NULL) &&
++-                   (t2p->tiff_transferfunction[1] !=
++-                    t2p->tiff_transferfunction[0])) {
+++                   (t2p->tiff_transferfunction[2] != (float*) NULL)
+++                  ) {
++ 			t2p->tiff_transferfunctioncount=3;
++ 		} else {
++ 			t2p->tiff_transferfunctioncount=1;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-5784.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-5784.patch
+new file mode 100644
+index 0000000..406001d
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-5784.patch
+@@ -0,0 +1,135 @@
++From 6cdea15213be6b67d9f8380c7bb40e325d3adace Mon Sep 17 00:00:00 2001
++From: Nathan Baker <nathanb@lenovo-chrome.com>
++Date: Tue, 6 Feb 2018 10:13:57 -0500
++Subject: [PATCH] Fix for bug 2772
++
++It is possible to craft a TIFF document where the IFD list is circular,
++leading to an infinite loop while traversing the chain. The libtiff
++directory reader has a failsafe that will break out of this loop after
++reading 65535 directory entries, but it will continue processing,
++consuming time and resources to process what is essentially a bogus TIFF
++document.
++
++This change fixes the above behavior by breaking out of processing when
++a TIFF document has >= 65535 directories and terminating with an error.
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/commit/473851d211cf8805a161820337ca74cc9615d6ef]
++
++CVE: CVE-2018-5784
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ contrib/addtiffo/tif_overview.c | 14 +++++++++++++-
++ tools/tiff2pdf.c                | 10 ++++++++++
++ tools/tiffcrop.c                | 13 +++++++++++--
++ 3 files changed, 34 insertions(+), 3 deletions(-)
++
++diff --git a/contrib/addtiffo/tif_overview.c b/contrib/addtiffo/tif_overview.c
++index c61ffbb..03b3573 100644
++--- a/contrib/addtiffo/tif_overview.c
+++++ b/contrib/addtiffo/tif_overview.c
++@@ -65,6 +65,8 @@
++ #  define MAX(a,b)      ((a>b) ? a : b)
++ #endif
++ 
+++#define TIFF_DIR_MAX  65534
+++
++ void TIFFBuildOverviews( TIFF *, int, int *, int, const char *,
++                          int (*)(double,void*), void * );
++ 
++@@ -91,6 +93,7 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, uint32 nXSize, uint32 nYSize,
++ {
++     toff_t	nBaseDirOffset;
++     toff_t	nOffset;
+++    tdir_t	iNumDir;
++ 
++     (void) bUseSubIFDs;
++ 
++@@ -147,7 +150,16 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, uint32 nXSize, uint32 nYSize,
++         return 0;
++ 
++     TIFFWriteDirectory( hTIFF );
++-    TIFFSetDirectory( hTIFF, (tdir_t) (TIFFNumberOfDirectories(hTIFF)-1) );
+++    iNumDir = TIFFNumberOfDirectories(hTIFF);
+++    if( iNumDir > TIFF_DIR_MAX )
+++    {
+++        TIFFErrorExt( TIFFClientdata(hTIFF),
+++                      "TIFF_WriteOverview",
+++                      "File `%s' has too many directories.\n",
+++                      TIFFFileName(hTIFF) );
+++        exit(-1);
+++    }
+++    TIFFSetDirectory( hTIFF, (tdir_t) (iNumDir - 1) );
++ 
++     nOffset = TIFFCurrentDirOffset( hTIFF );
++ 
++diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
++index 0b5973e..ef5d6a0 100644
++--- a/tools/tiff2pdf.c
+++++ b/tools/tiff2pdf.c
++@@ -68,6 +68,8 @@ extern int getopt(int, char**, char*);
++ 
++ #define PS_UNIT_SIZE	72.0F
++ 
+++#define TIFF_DIR_MAX    65534
+++
++ /* This type is of PDF color spaces. */
++ typedef enum {
++ 	T2P_CS_BILEVEL = 0x01,	/* Bilevel, black and white */
++@@ -1051,6 +1053,14 @@ void t2p_read_tiff_init(T2P* t2p, TIFF* input){
++ 	float* tiff_transferfunction[3];
++ 
++ 	directorycount=TIFFNumberOfDirectories(input);
+++	if(directorycount > TIFF_DIR_MAX) {
+++		TIFFError(
+++			TIFF2PDF_MODULE,
+++			"TIFF contains too many directories, %s",
+++			TIFFFileName(input));
+++		t2p->t2p_error = T2P_ERR_ERROR;
+++		return;
+++	}
++ 	t2p->tiff_pages = (T2P_PAGE*) _TIFFmalloc(TIFFSafeMultiply(tmsize_t,directorycount,sizeof(T2P_PAGE)));
++ 	if(t2p->tiff_pages==NULL){
++ 		TIFFError(
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index c69177e..c60cb38 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -217,6 +217,8 @@ extern int getopt(int argc, char * const argv[], const char *optstring);
++ #define DUMP_TEXT   1
++ #define DUMP_RAW    2
++ 
+++#define TIFF_DIR_MAX  65534
+++
++ /* Offsets into buffer for margins and fixed width and length segments */
++ struct offset {
++   uint32  tmargin;
++@@ -2233,7 +2235,7 @@ main(int argc, char* argv[])
++     pageNum = -1;
++   else
++     total_images = 0;
++-  /* read multiple input files and write to output file(s) */
+++  /* Read multiple input files and write to output file(s) */
++   while (optind < argc - 1)
++     {
++     in = TIFFOpen (argv[optind], "r");
++@@ -2241,7 +2243,14 @@ main(int argc, char* argv[])
++       return (-3);
++ 
++     /* If only one input file is specified, we can use directory count */
++-    total_images = TIFFNumberOfDirectories(in); 
+++    total_images = TIFFNumberOfDirectories(in);
+++    if (total_images > TIFF_DIR_MAX)
+++      {
+++      TIFFError (TIFFFileName(in), "File contains too many directories");
+++      if (out != NULL)
+++        (void) TIFFClose(out);
+++      return (1);
+++      }
++     if (image_count == 0)
++       {
++       dirnum = 0;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+index b8f895b..8c3bba5 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+@@ -6,6 +6,9 @@ CVE_PRODUCT = "libtiff"
+ 
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://libtool2.patch \
++           file://CVE-2017-9935.patch \
++           file://CVE-2017-18013.patch \
++           file://CVE-2018-5784.patch \
+           "
+ 
+ SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
+-- 
+2.7.4
+
 
