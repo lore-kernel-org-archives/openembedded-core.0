@@ -1,23 +1,56 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ABE77893C
+Return-Path: <marek.vasut@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DFB378946
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 09:45:20 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2018 02:45:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,330,1517904000"; d="scan'208";a="209440004"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 19 Mar 2018 02:45:20 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 11:38:27 +0200
-Message-Id: <20180319093827.1299-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-Subject: [PATCH] package-index: index also subdirectories when using rpm
+	Mon, 19 Mar 2018 10:02:37 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t6so14443480wmt.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2018 03:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=JkifuQZY4iJj66XTOsrGmZqqcL9kt/xk1GZfmO4n/8E=;
+	b=Ksmn5TVQD80RSDKgoIaoaGNAyVB5STCcF2gqepsuadJqUyTUwG2dhDKNS5pyeAJBoh
+	iZ2MJut1g7f7fi7D7fLSWnuWVImxPg/D4tKSKUKQA/hy9okLdHCZT+ymdRfbhpdZNy3h
+	9/TPA22jDnML5XYBytgakfZtk8H6hZ0B+95t/PXTnjfz7T/HYbG3lOWPWLUbUnpp9gmw
+	trzHekhyuo+xtMUwgzfaTWc/idBqE3c+roPf7XmEaE/fqRGSQMr9cveh7rkgHZEjVBuT
+	iQQu3OWXvErE7MoBz/CaLzWNiQ7g9Gq+lWJ4HiCSPXf9zckTp2WOTtmLq3J6r4RmcrWL
+	hnRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=JkifuQZY4iJj66XTOsrGmZqqcL9kt/xk1GZfmO4n/8E=;
+	b=Ec8S0GQgwCAZxU/PlxhV0b4bU5vDpcF/kXRRkGsYZQn+sutM4dDa+e3hXMbBaJD1xF
+	Xc4x83Hbi8dgfrbOAEpq0tPG5JK33eg26JAW7wh2388hkCNTMqMpYhuVwOHj+kdv/ytj
+	4U45OSJFu781JFgpl9686DVIIa2QRJDLzqmHCMh4NdY60rYCyRz9qDIyUO+e3EQDoa37
+	qh6/6hAvM4YbfCXvDhlfTARI048dLF1x8q1L5jYw4Q0lBBQDbPFWbvF5ui+YtV48bQOw
+	nOml+xa5N/X49LWJw3UWdItBs7m6S+l4zbqu69v+ldF3iRn+8Hhi+BSOJDoOl+2TkCrK
+	xn9w==
+X-Gm-Message-State: AElRT7ElyM4z+eQbL25vpeQQor+SN1GpRQFXUmpAisQijfdttD6ANHU6
+	uprtBZxPZTwEanZllSQ678Nkni/V
+X-Google-Smtp-Source: AG47ELtZtGD0ry8mEAUP8+tiSECClcjE2vhMuyCVPJLM9hfyV0Vr/E5SnZS6hu6oE1a4QKAEQuEkBQ==
+X-Received: by 10.28.130.1 with SMTP id e1mr7665987wmd.45.1521453758007;
+	Mon, 19 Mar 2018 03:02:38 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-107-50.net.upcbroadband.cz.
+	[86.49.107.50]) by smtp.gmail.com with ESMTPSA id
+	69sm13398487wmp.36.2018.03.19.03.02.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Mar 2018 03:02:37 -0700 (PDT)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+References: <20180316092125.64DD7440071@auh.yoctoproject.org>
+	<8f7b8f66-1a17-6051-e626-fc4a3d26c5af@gmail.com>
+	<caedac22-09fe-1ee3-34c7-8e285743f352@linux.intel.com>
+From: Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <c7ca8437-1517-e449-57b4-bdc39633b9e6@gmail.com>
+Date: Mon, 19 Mar 2018 10:55:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <caedac22-09fe-1ee3-34c7-8e285743f352@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [AUH] u-boot-mkimage: upgrading to 2018.03 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,77 +63,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 09:45:20 -0000
+X-List-Received-Date: Mon, 19 Mar 2018 10:02:38 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Previously only the top-level index was created, which did not
-work if PACKAGE_FEED_ARCHS whitelisting (or explicitly listing
-architectures in dnf repo files by hand) was in use:
-https://lists.yoctoproject.org/pipermail/yocto/2018-March/040327.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=12419
+On 03/19/2018 09:50 AM, Alexander Kanavin wrote:
+> On 03/17/2018 06:27 PM, Marek Vasut wrote:
+> 
+>>> You are receiving this email because you are the maintainer
+>>> of *u-boot-mkimage* recipe and this is to let you know that the
+>>> automatic attempt
+>>> to upgrade the recipe to *2018.03* has Failed(do_compile).
+>>>
+>>> Detailed error information:
+>>>
+>>> do_compile failed
+>>
+>> It seems this only bumped some of the U-Boot recipes to 2018.03 while it
+>> left some at 2018.01, so it's not really surprising it failed. Maybe
+>> this is an auto-update bug ?
+> 
+> The problem is that AUH is using qemu machines to determine what needs
+> to be updated, and to attempt building new versions. u-boot is not
+> enabled in qemu at all, and so it's skipped:
+> 
+> ERROR: Nothing PROVIDES 'u-boot'
+> u-boot was skipped: Either UBOOT_MACHINE or UBOOT_CONFIG must be set in
+> the qemux86 machine configuration.
+> 
+> I'm not sure how to solve it - perhaps you can simply take the email as
+> a reminder to update the whole set on your machine manually?
 
-[YOCTO #12419]
+I was hoping the tool will take care of that, now that I've finally
+plucked all the extra patches out.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 0c5cf3cf7f3..b0c1ff5471b 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -101,13 +101,16 @@ class Indexer(object, metaclass=ABCMeta):
- 
- class RpmIndexer(Indexer):
-     def write_index(self):
-+        self.do_write_index(self.deploy_dir)
-+
-+    def do_write_index(self, deploy_dir):
-         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
-             signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
-         else:
-             signer = None
- 
-         createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
--        result = create_index("%s --update -q %s" % (createrepo_c, self.deploy_dir))
-+        result = create_index("%s --update -q %s" % (createrepo_c, deploy_dir))
-         if result:
-             bb.fatal(result)
- 
-@@ -115,11 +118,22 @@ class RpmIndexer(Indexer):
-         if signer:
-             sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
-             is_ascii_sig = (sig_type.upper() != "BIN")
--            signer.detach_sign(os.path.join(self.deploy_dir, 'repodata', 'repomd.xml'),
-+            signer.detach_sign(os.path.join(deploy_dir, 'repodata', 'repomd.xml'),
-                                self.d.getVar('PACKAGE_FEED_GPG_NAME'),
-                                self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
-                                armor=is_ascii_sig)
- 
-+class RpmSubdirIndexer(RpmIndexer):
-+    def write_index(self):
-+        bb.note("Generating package index for %s" %(self.deploy_dir))
-+        self.do_write_index(self.deploy_dir)
-+        for entry in os.walk(self.deploy_dir):
-+            if os.path.samefile(self.deploy_dir, entry[0]):
-+                for dir in entry[1]:
-+                    if dir != 'repodata':
-+                        dir_path = oe.path.join(self.deploy_dir, dir)
-+                        bb.note("Generating package index for %s" %(dir_path))
-+                        self.do_write_index(dir_path)
- 
- class OpkgIndexer(Indexer):
-     def write_index(self):
-@@ -1688,7 +1702,7 @@ def generate_index_files(d):
-     classes = d.getVar('PACKAGE_CLASSES').replace("package_", "").split()
- 
-     indexer_map = {
--        "rpm": (RpmIndexer, d.getVar('DEPLOY_DIR_RPM')),
-+        "rpm": (RpmSubdirIndexer, d.getVar('DEPLOY_DIR_RPM')),
-         "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK')),
-         "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB'))
-     }
 -- 
-2.16.1
-
+Best regards,
+Marek Vasut
 
