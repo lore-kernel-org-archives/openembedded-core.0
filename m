@@ -1,50 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 59ADB77E92
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B4078941
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 15:29:18 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id x4-v6so1482558pln.7
+	Mon, 19 Mar 2018 15:32:19 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id n11so2307380pgp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 08:29:20 -0700 (PDT)
+	Mon, 19 Mar 2018 08:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QGEwZxEnnfOxiVn/5UilpLY145gL3/SMG8hYDLAc9RQ=;
-	b=coISfFgzU7UPTH/SWnA2Jc2J2b7K7eGOwiPFrJe5OOKe/YY/zHVvGHKTNUZT2VzZtx
-	05G5zkbfrLZG+gL0Lef9EWaupwsskntONvL1bUbZlyroU34mQXXxHDsFIY5OSA08cQLY
-	cunI/TEqwwcUPjcbzYiU3Wj8b0yYqPKIHnQEMZ+uHB14fVcK+PsaJKoiXeZFmPGqjeCy
-	f0kExQJL+nmNGJEDSR8wiokAuIuHeji0AEUjWYmG+Ci29yU3W+LSQRGyJQGzE6lqGlWS
-	/F6cZEEnDSQ0160pnZ8YNJO6Vj6BJF2MlcfL3t96rKGE0IOGe9Wg1GVVNWtY8oRMd0fw
-	8kAA==
+	:cc; bh=7WoDnebRkyVLpsd5UDZF1kZkaeH4xs/8TlKf+rjocKk=;
+	b=CnJs8IhgUDdBIBQI46HLu58AMuX9KV5wbiia93fUfo21WqxemBFaEdR7Kqdt9gs8uz
+	HiLCkHIwwJ7IC5fTHUQqertWNeXRCRrKtVmXAuJ4d0SoHISq7Ag1XbTewM/hzHjKJxGJ
+	MugqvQB8kBXtvs0W2aIPxUxRYSH5sF6NXNXMdeMkvIlRJqi296FpoHxVyHEjVrMBZ++W
+	ZXFJZ/WapLs0IHgAzMPUMvzJZr0DTkyVL8PqKdhzVg6f5xPFICpCt0GnoeKUs9on7WNU
+	ty1KP+hlU8aXFwqSVX/LwKnxjsPPBvU0a0QasVp4NmTXsYdSVgccFegbBoh1nSi6IPB4
+	PABQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QGEwZxEnnfOxiVn/5UilpLY145gL3/SMG8hYDLAc9RQ=;
-	b=eU9GzMuOpJhQwacKLTOE9rxsRsGQJWjG7vHi3rXQBLknIdsRr/akBw2Il/IReVfxMS
-	RQ4r59/wyyvCOUNfVbeauZEesfo978VCqjG6bxmm6ctJfovtaVHVMonj/s4MfzB+aE2a
-	Vk7dLQDIuKxTkeq+z4iPUQSVc2rWA2JcVmdy5kUs3qGSO91WE4uUF56eDVaUyT5HEFlw
-	qJuVABz2mE+mgxqx45LD/jhAK5TP/C2jrb2y/KAzatrA4k1nj/3NyXgveV3nYFv8ikOT
-	FyyN1hvNp1anK/GAg89tGCzglQ+EpQLTr20zUSx+pTlRU6jE4CNEwVcHU7hHtM4iNfPQ
-	8eAw==
-X-Gm-Message-State: AElRT7FYDp74ZStX+e8lkF0tILCOmm9noBhfs3MVpT3Jv2pXRBaZECHv
-	MvshDBuZqrbsjuuEOfaOkcO/dlyu+Ge2HkPaZmQ=
-X-Google-Smtp-Source: AG47ELtPDRzjE/7N4n7ff251+12HVsGuf+05HPzZzYRnm3FL0pbMpZzKSRwbRv3dTqIxp7NJHSwHCbTx6K2MKSjVEX4=
-X-Received: by 2002:a17:902:3283:: with SMTP id
-	z3-v6mr12729548plb.118.1521473360071; 
-	Mon, 19 Mar 2018 08:29:20 -0700 (PDT)
+	bh=7WoDnebRkyVLpsd5UDZF1kZkaeH4xs/8TlKf+rjocKk=;
+	b=MegcswCenxSed85v+T7hTIdc0oX0Gua6XW95/hNk1c9Se+Xe98/dZexpjP/o+4utsP
+	ViqzSn9eszPQ91nRBGz5reqA9ssZkMKhGR/6KEelSTMos0HjrXplnNu1Uk26nAwBTM67
+	XzrBORFDWbTzLPfgIsfQnljlD4x/tMr6e7x/V50F1tuJb7+EOah81tYSbff1asCVUmmD
+	nQrtvYw2J4aB0Zuq05bw0AZPksVQ/FdELosXO8uzMmZs6BWB4sqyw0z1NpHUsDBgeQbS
+	zMy/OBX60J17NQoUvFj21BTdc8cDeW481FUEEvKAd7eIQ04xBvzLIZz+r71Rd+pJnGAQ
+	CVjQ==
+X-Gm-Message-State: AElRT7GZUCIrcTqRXG3PdN0UHgGY8x9ygSwAs9ONFBmd9aUtmAr6+fwM
+	i4WEXb5ExERnTPB8eJKfdsL7SQsfjkUwIoa0bio=
+X-Google-Smtp-Source: AG47ELszjaq1PgdWjgVRwlV9dE2uFXfOMQBe+25J5dsggYzVN/xKFYgXgyyzMSRnaamdIfekOJ0A+6STyl131JTVMZc=
+X-Received: by 10.99.128.67 with SMTP id j64mr9212792pgd.55.1521473540522;
+	Mon, 19 Mar 2018 08:32:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180317111539.42108-1-alexander.kanavin@linux.intel.com>
-	<CAMKF1speHQU8vNbdiXSrbE2zy-keJX1e9evsEBiYcbPq5Jw3vg@mail.gmail.com>
-	<64bf3224-8d92-a547-44ba-c7a2f4f0c8dd@linux.intel.com>
-In-Reply-To: <64bf3224-8d92-a547-44ba-c7a2f4f0c8dd@linux.intel.com>
+References: <cover.1521257828.git.raj.khem@gmail.com>
+	<19ff9542e08c7df5898cc811f65200050ecf02d5.1521257828.git.raj.khem@gmail.com>
+	<CAJTo0LZ0Mqnpu+021rDroBnVWKB-zbdC+Q35XXwQpb12_FYHNQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ0Mqnpu+021rDroBnVWKB-zbdC+Q35XXwQpb12_FYHNQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Mar 2018 15:29:09 +0000
-Message-ID: <CAMKF1sryc1yJU=A3vwsrabiPk2dDhSdv34c1+ptiux_0XnkvrQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: fix upstream version check
+Date: Mon, 19 Mar 2018 15:32:10 +0000
+Message-ID: <CAMKF1sq_vMcaSLmX_eAE9Rfj6be7Kd90rGOZU3DB0a4KsWjRvg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] x264: Use updated gnu-config artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +54,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 15:29:19 -0000
-Content-Type: multipart/alternative; boundary="0000000000002990520567c59f86"
+X-List-Received-Date: Mon, 19 Mar 2018 15:32:19 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0ba780eb079f0567c5a9ac"
 
---0000000000002990520567c59f86
+--94eb2c0ba780eb079f0567c5a9ac
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 19, 2018 at 1:53 AM Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Thanks for the tip!
 
-> On 03/17/2018 05:16 PM, Khem Raj wrote:
-> > On Sat, Mar 17, 2018 at 4:15 AM, Alexander Kanavin
-> > <alexander.kanavin@linux.intel.com> wrote:
-> >> Exclude x.y.90* pre-release versions in particular.
-> >>
-> >
-> > Looks ok. So I guess it pokes at master branch right ?
+On Mon, Mar 19, 2018 at 4:37 AM Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 17 March 2018 at 03:40, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> It lists all tags regardless of branch and picks the highest.
-
-
-I think that does not work effectively for how glibc release works we
-should probably track the Release branch name and deduce version from there
-
+>> It is not using autoconf completely, therefore there
+>> is no autoreconf happening, so when we depend on latest
+>> gnu-config changes e.g. new architectures like riscv
+>> the build does not see them and fails.
+>>
+>> Installing these files from native sysroot helps
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-multimedia/x264/x264_git.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-multimedia/x264/x264_git.bb
+>> b/meta/recipes-multimedia/x264/x264_git.bb
+>> index a669295044..c445d15e69 100644
+>> --- a/meta/recipes-multimedia/x264/x264_git.bb
+>> +++ b/meta/recipes-multimedia/x264/x264_git.bb
+>> @@ -43,6 +43,8 @@ EXTRA_OECONF = '--prefix=${prefix} \
+>>                 '
+>>
+>>  do_configure() {
+>> +    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess
+>> ${S}
+>> +    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
+>>      ./configure ${EXTRA_OECONF}
 >
 >
-> Alex
+> A neater way is to call gnu-configize --force ${S}.
+>
+> Ross
 >
 
---0000000000002990520567c59f86
+--94eb2c0ba780eb079f0567c5a9ac
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Mon, Mar 19, 2018 =
-at 1:53 AM Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@linux.=
-intel.com">alexander.kanavin@linux.intel.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On 03/17/2018 05:16 PM, Khem Raj wrote:<br>
-&gt; On Sat, Mar 17, 2018 at 4:15 AM, Alexander Kanavin<br>
-&gt; &lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_bl=
-ank">alexander.kanavin@linux.intel.com</a>&gt; wrote:<br>
-&gt;&gt; Exclude x.y.90* pre-release versions in particular.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; Looks ok. So I guess it pokes at master branch right ?<br>
+<div>Thanks for the tip!</div><div><br><div class=3D"gmail_quote"><div>On M=
+on, Mar 19, 2018 at 4:37 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton@=
+intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div>On 17 March 2018 at 03:40, Khem Raj <span>&lt;<a href=3D=
+"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</s=
+pan> wrote:<br></div><div><div class=3D"gmail_extra"><div class=3D"gmail_qu=
+ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">It is not using autoconf completely, th=
+erefore there<br>
+is no autoreconf happening, so when we depend on latest<br>
+gnu-config changes e.g. new architectures like riscv<br>
+the build does not see them and fails.<br>
 <br>
-It lists all tags regardless of branch and picks the highest.</blockquote><=
-div dir=3D"auto"><br></div><div dir=3D"auto">I think that does not work eff=
-ectively for how glibc release works we should probably track the Release b=
-ranch name and deduce version from there=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><br>
+Installing these files from native sysroot helps<br>
 <br>
-Alex<br>
-</blockquote></div></div>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb" rel=3D"no=
+referrer" target=3D"_blank">x264_git.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb" re=
+l=3D"noreferrer" target=3D"_blank">x264_git.bb</a> b/meta/recipes-multimedi=
+a/x264/<a href=3D"http://x264_git.bb" rel=3D"noreferrer" target=3D"_blank">=
+x264_git.bb</a><br>
+index a669295044..c445d15e69 100644<br>
+--- a/meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb" rel=3D"no=
+referrer" target=3D"_blank">x264_git.bb</a><br>
++++ b/meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb" rel=3D"no=
+referrer" target=3D"_blank">x264_git.bb</a><br>
+@@ -43,6 +43,8 @@ EXTRA_OECONF =3D &#39;--prefix=3D${prefix} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;<br>
+<br>
+=C2=A0do_configure() {<br>
++=C2=A0 =C2=A0 install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.=
+guess ${S}<br>
++=C2=A0 =C2=A0 install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.=
+sub ${S}<br>
+=C2=A0 =C2=A0 =C2=A0./configure ${EXTRA_OECONF}</blockquote><div><br></div>=
+</div></div></div><div><div class=3D"gmail_extra"><div class=3D"gmail_quote=
+"><div>A neater way is to call gnu-configize --force ${S}.</div></div></div=
+></div><div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div><br>=
+</div><div>Ross</div></div></div></div></blockquote></div></div>
 
---0000000000002990520567c59f86--
+--94eb2c0ba780eb079f0567c5a9ac--
