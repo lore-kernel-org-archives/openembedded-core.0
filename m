@@ -1,54 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 769D3789CC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 54E807899C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 20:53:55 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id k135-v6so12208505ite.2
+	Mon, 19 Mar 2018 22:18:43 +0000 (UTC)
+Received: by mail-pf0-f176.google.com with SMTP id l27so3092645pfk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 13:53:56 -0700 (PDT)
+	Mon, 19 Mar 2018 15:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version; 
-	bh=BnHcgYBEupjWmIXo9S+uC3LpFdZ55ynuv1zWWzFedyc=;
-	b=a+0tjKz5mT9kiDvPj4oGCE9InEqjByzRPea4tF4Z0yPibcuNcIAM0hwPGQW71uY8Vj
-	fvzInH4eqRtPWzBGvBmsPjPsUv1h0VsAi7pPenCEZXpRcriPAudXEfU5yyPPDlfFQtUQ
-	aSi69IA+4j6iHfiFVPjiqYUB20RlQ0cHeiRRyXzUzZw2hnM/CZD1yEJpOQJPYDTQQeqB
-	E5LShneJMsokhFs1CTSy/WYeXNWC/zi3PZUuTlGm57jLkrezKFZYFzCi7n3mEGwTMpC/
-	VNIUW/mff4YvsneQHQ3AOAbPMELRLGeYxBZjPoAP4H66573qNJLkik3iv37fD4Iy+O6d
-	f7ww==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QhMmkDbYQ7neWTLX6EgrTM3/mwvh4dWTKvsPpk94I3Q=;
+	b=WWgq3w0pMyG6f1h59X4QMLmzhz9tJ0LkTjJnL/fbAZiOoZANvreufRDtJcolzrLCYR
+	J+VUjvUAMpQd04fvCT2gE4tX/mrdV2OliRGHbbL5Y2BVUFRsdZ7bdwLcrUI8SIXo8zP1
+	mOOWe+ebZiSdPhI6+w4wNE+zA625pXjT0wl0usnwg1+ildlDdB0rt7vr+aBsEFqOMiK+
+	xM9P5lhIjJbpKVe03aXyYxoZeVHqRUdaG0Q1zJZLXccOa5uhYz6rerpM+6iHndRB39yG
+	MQc4xgkqSIaOTmYy2x7uESRP245T0nGI//WkXZWt8zqbutGCJNL3zgLlapS9INsYxdL4
+	Pk0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version;
-	bh=BnHcgYBEupjWmIXo9S+uC3LpFdZ55ynuv1zWWzFedyc=;
-	b=XGl/dKjfOY6VTSiXudGCgXVe2hQTiuUxCL6iJqujldd3QJJeajQmEKcAxx/t/h1vbS
-	eFmgnOnmeHCOVIDZYR+cORpE57fgRgAOPtmphRRqgwmUwCAsoXuqk3x434rWnF1fiUub
-	jaIOm302OGjEv+1OMDDQjm5K43UmPwPtwbmAMkyfSWE8MjxLV3G1KM7PmWvwFYrwfwly
-	ObJYj/uYSPjnqXBuYVc3iTRleujDS/IA65tiXkUZnMYYwCiyvnM0c04qC5gk1PzS58Q3
-	dXHckb6rMjL2c9Sqf8fWcSV5w1zRV2rQzwLC04ZjE2m+l8lzamnbIEQsyxhpus15vwME
-	+Avg==
-X-Gm-Message-State: AElRT7FLNnb4AtRB8MqL64P95nLP/A9FvQhfDl2vgoKpm8NuRMkoEXNa
-	AyO0HS7aeS0QtKH5jg4T6os=
-X-Google-Smtp-Source: AG47ELu8jl5xr4VUG9PXfFohh++Olbs0VwDDwDhpW+hpbTx9pKjlo66Y/G2rqaMl3u8reRzP9eJa+A==
-X-Received: by 2002:a24:ccd7:: with SMTP id
-	x206-v6mr220899itf.136.1521492836278; 
-	Mon, 19 Mar 2018 13:53:56 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	x139-v6sm34858itb.3.2018.03.19.13.53.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 19 Mar 2018 13:53:55 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1521492834.3242.110.camel@gmail.com>
-To: Rajath C S <rajathcs.1996@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 15:53:54 -0500
-In-Reply-To: <CAPGMVzHgUcWV3TFaTeV40+P=SO2zV-4cjw2oWnB2KsBrozk9Sw@mail.gmail.com>
-References: <CAPGMVzHgUcWV3TFaTeV40+P=SO2zV-4cjw2oWnB2KsBrozk9Sw@mail.gmail.com>
-X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
-Mime-Version: 1.0
-Subject: Re: system lock down in middle of build
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QhMmkDbYQ7neWTLX6EgrTM3/mwvh4dWTKvsPpk94I3Q=;
+	b=Lo7U64FcrUkEjTHzYIebtGOU1EOZTYLdufvSrc/R3hH8qB5FBpaWgfw6vpJ5jbksEw
+	ZhZCAySlYeLmVmUWAtLfpXRSj5zh0ercUfejqxBqjTKkXKXycis536ebumxudXLvhLML
+	3UZPCYCtC6KRkG4JdUa3u237whha6uUpl3/ssEM64lXFoiJXAZ+ZBwhtfuoyxXAqkugd
+	dULFd5CVigiFhUcAp8hfwST2x3R/tCR3QW9Yk5p9QrOMZWJ5V6IDchcbU1Vyb+Q5riMQ
+	bdnjFHe4IyPbhMGZw6o7B/pN3bBXbObQKPgE5R2OKzwxHuUMtDCenb2WYz3CoRjzNmib
+	k4lQ==
+X-Gm-Message-State: AElRT7E0k5LnfuU6KVSE8jLbkRoG1zMTVgiCeTUFrKICwoKqnif7esqp
+	qPpZa+zUf56BfhcduiVszxxweTrx+JHbKelrrcs=
+X-Google-Smtp-Source: AG47ELuys6bcivX9xPtjZCtIySnVY0c5bmhpWl+4drM+DuHowzy0MWKw1QYDUaclo81Sp0sRli/t5M2Pvf0jFCY5XFc=
+X-Received: by 10.101.73.207 with SMTP id t15mr9734309pgs.204.1521497925230;
+	Mon, 19 Mar 2018 15:18:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAPGMVzHyhFkP8Udz8PXT76rW4-ZJAZxm8+vZPa6_2iAPQULqgQ@mail.gmail.com>
+In-Reply-To: <CAPGMVzHyhFkP8Udz8PXT76rW4-ZJAZxm8+vZPa6_2iAPQULqgQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 19 Mar 2018 22:18:34 +0000
+Message-ID: <CAMKF1srnoJOraLP_aXkQVtsq0xEU=RVdSeDRgTQRwkAoXwj2DA@mail.gmail.com>
+To: Rajath C S <rajathcs.1996@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Branch shifting [image-build]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,52 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 20:53:55 -0000
-Content-Type: multipart/alternative; boundary="=-6EBC7UbPE4xb9bHlacK8"
+X-List-Received-Date: Mon, 19 Mar 2018 22:18:44 -0000
+Content-Type: multipart/alternative; boundary="089e082222145c2aa60567cb57b5"
 
---=-6EBC7UbPE4xb9bHlacK8
+--089e082222145c2aa60567cb57b5
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-03-20 at 02:05 +0530, Rajath C S wrote:
-> Hi,
-> 
-> so i am workin gon yocto development on my PC as well as on my
-> laptop.
-> I have also worked on it on others systems, but the strange thing is
-> only on my PC & laptop the systems gets logged out automatically in
-> the midst of target build.
-> Is this a bug?
-> 
-> PS: both my PC & laptop are of high-end configurations
+On Mon, Mar 19, 2018 at 12:29 PM Rajath C S <rajathcs.1996@gmail.com> wrote:
 
-Are you using a virtual machine? I've had this same behavior happen
-with VirtualBox before.
+> What is the reason that we shift to a branch called rocko while installing
+> poky?
+>  The reason I ask this is , I was getting an error named classes/.pypi
+> inherit not found.. So I shifted the branch to master and ran bitbake and
+> it doesn't show any errors.
+> Will I have any problems later or is shifting branch fine?
+>
+
+Branches are important to know, the release branches are what you want to
+use for production work master is meant for development so choose wisely
+
 > Thanks
-> 
-> 
-> 
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---=-6EBC7UbPE4xb9bHlacK8
-Content-Type: text/html; charset="utf-8"
+--089e082222145c2aa60567cb57b5
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html><head></head><body><div>On Tue, 2018-03-20 at 02:05 +0530, Rajath C S=
- wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-l=
-eft:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr"><div><div><div><di=
-v><div>Hi,<br><br></div>so i am workin gon yocto development on my PC as we=
-ll as on my laptop.<br></div>I have also worked on it on others systems, bu=
-t the strange thing is only on my PC &amp; laptop the systems gets logged o=
-ut automatically in the midst of target build.<br>Is this a bug?<br><br></d=
-iv>PS: both my PC &amp; laptop are of high-end configurations<br></div></di=
-v></div></blockquote><div><br></div><div>Are you using a virtual machine? I=
-'ve had this same behavior happen with VirtualBox before.</div><div><br></d=
-iv><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #7=
-29fcf solid;padding-left:1ex"><div dir=3D"ltr"><div><br></div>Thanks<br cle=
-ar=3D"all"><div><div><div><div><div><div><div><div class=3D"gmail_signature=
-" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><br></div></div></div=
->
-</div></div></div></div></div></div></div>
-</blockquote></body></html>
+<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Mon, Mar 19, 2018 =
+at 12:29 PM Rajath C S &lt;<a href=3D"mailto:rajathcs.1996@gmail.com">rajat=
+hcs.1996@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
+div dir=3D"auto"><div dir=3D"auto">What is the reason that we shift to a br=
+anch called rocko while installing poky?</div><div dir=3D"auto">=C2=A0The r=
+eason I ask this is , I was getting an error named classes/.pypi inherit no=
+t found.. So I shifted the branch to master and ran bitbake and it doesn&#3=
+9;t show any errors.</div><div dir=3D"auto">Will I have any problems later =
+or is shifting branch fine?</div></div></blockquote><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">Branches are important to know, the release branches=
+ are what you want to use for production work master is meant for developme=
+nt so choose wisely=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"a=
+uto"><div dir=3D"auto"></div><div dir=3D"auto">Thanks</div></div>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
 
---=-6EBC7UbPE4xb9bHlacK8--
+--089e082222145c2aa60567cb57b5--
