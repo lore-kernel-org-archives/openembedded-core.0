@@ -1,42 +1,43 @@
 Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0441F78812
+Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A0E2D78951
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 19:28:58 +0000 (UTC)
-Received: by mail-ua0-f172.google.com with SMTP id m47so4204844uae.6
+	Mon, 19 Mar 2018 19:44:40 +0000 (UTC)
+Received: by mail-ua0-f170.google.com with SMTP id b8so4299441uaf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 12:29:00 -0700 (PDT)
+	Mon, 19 Mar 2018 12:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:from:date:message-id:subject:to;
-	bh=MNtsur4UqSSoZSUOAb1aOsiYEQdy5lRDer6ffuHfHio=;
-	b=X4bnlBIQlRX16IH05fcnguPTnIo2ipMte1l18rEb+9KHDqFMPcNgu0NqK6QaU3eBra
-	RN87MM0JEnxQZPxigzZhNRxEmeOtX2gQt205lgHGCQ+Jm1Fy5TNYiiN9GPGaOy76jG9U
-	2KLPDYduF2npUBEQVrByu6NUUmC2o2Tm/HjKYmG/rqAr/m3BxK0KXgD+XbebDrCKkcxI
-	91DEUlKX310tMekI0jTxtRuVVB83IFK7KfxqMjNSRAqtYvyO/BWJr4jHrrtNfzc3QQOf
-	WnZx5ORMEanLNeR/q3TFPtg5FyO/36QO2EaK59PGzyFkXP0Jb5msX/IAbrxaKIpj/ySa
-	GaSg==
+	bh=aosOl/ww7t+3QiSfRFHGV6sM0r34h77AqfYuwt/FS3c=;
+	b=m1Zf0R3LLjyTc8x68jLM3lvQN2V0K23VfZ6b1LnTuiwblm78y4TmZQJUGyOzdP5f+Y
+	ur9u12saPhij+SQiUmWOSfpvqfFBPD3dx6I4zlEdIXkS4sikxJQsuqp1U9q0YaApvY1r
+	H+scjPNmwk35XSt7vrIRvM5BBN27GW/rnhCZJR1tZHLjzdETzUnLM1ysLokSLHKo0EYe
+	/8rcmyBDFomL/IfJM5z2h4cvoyc/lXjlzf6A2f8fd/AQW4U/dZHGFOvfmFrfPrm/T9V7
+	tBjJ4sYrM9QqErC2qx2hSFCE08id7lh+doUzGjyX+UCLFRKvujcmmHQIFSytDCOP2UnG
+	oI3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=MNtsur4UqSSoZSUOAb1aOsiYEQdy5lRDer6ffuHfHio=;
-	b=Ioazv1U51ky5trwffVpULNNzB9HOlLzfBn1ljwlaSknvg8+nQcSpzgySiWtmGruJqa
-	KelVKPcP2fj6JRyOcnWR096nAlpNLJ2ImRnZP5pTjt5s0TUS8/3bMjWgsqnlLcT2UF4G
-	tCQ7Z1H3bl5aVFi/u1F6Eyqn4l/w3W5e7vh0SBARWfRJ6lDXjnC0DHvCx0iQxPK9fLb5
-	fqsJTFZ2l6ThTGumkYE4yT11ipD4m7DkH2grAdJPO8a45eVTWZAyNcZNRyEejVQhB4Oq
-	jxHSHA6Ua2PMR0f5sCef9SniAXZ1LI6P7c3ZcXfru24RqMd4A2i9dFDmbZcTNeH2z1qC
-	TcEA==
-X-Gm-Message-State: AElRT7E5piRdgBYvHYkAn2Hfb7mgT43Yjo+XguwW6vGcqQCETHrTZqWD
-	tfYiEOOCV/l7mEnbZ13i1KdKkTWPlGKVny3VNUs=
-X-Google-Smtp-Source: AG47ELsugjGLQ6wmYVdSXnGUBGuctqenbbPUWyh45b0hvphCYR91Oe+vWyEkxA8xrhgCIWfF+C6x22qcExjsFDh2Z4A=
-X-Received: by 10.176.70.87 with SMTP id z23mr8959010uab.159.1521487739707;
-	Mon, 19 Mar 2018 12:28:59 -0700 (PDT)
+	bh=aosOl/ww7t+3QiSfRFHGV6sM0r34h77AqfYuwt/FS3c=;
+	b=aluId6OMta2xP9u9g5xNx++z3U+EZV+apQkFUWYvrEnNMR5U1dOyPiM2gC4haHczvQ
+	4n4ykPQ4SWpZoa4gkqjbBYOezzVtPv9lVjI+9+auAKSUJJFUH9I67U2Ikk8P/+SUJzB2
+	rB2+AOdgruQI3dIeeaESNH2OT+KOoWFgF9EH3yf/GuZcRb7Kh2rZoWPOrTH0GtEdEJ7f
+	CB6UORN/iZqsba3xx9LmE6M83xvFHgLS0pmSeFRaF7G/jtqlUKSaAYBtnOGfEPItGuyy
+	F+vKz4bh1xAEt4NRwaABNIDSRdHvDpSCroLUet2UW333BDB3y4yEhxkR8YUozgOrOQMI
+	qvnw==
+X-Gm-Message-State: AElRT7HRfDz0sfHVYG1tSn9dEI0lKAtrKhd+tlAvWqp0hKiIJRq8I2PH
+	zVz29/W0cYXzPaMT5+nzmLjtFqv7EluAs5xo0rgSxQ==
+X-Google-Smtp-Source: AG47ELtCFKUuO8hIN6AzOuNJ5lRJepi7XXZRFAeBAQyvpWB66qJjwvZN1lVenoXvzvOvLk/rDhchIlhsF7Ysq4pvP+4=
+X-Received: by 10.159.53.105 with SMTP id o96mr9655618uao.33.1521488680956;
+	Mon, 19 Mar 2018 12:44:40 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.103.34.4 with HTTP; Mon, 19 Mar 2018 12:44:40 -0700 (PDT)
 From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Mon, 19 Mar 2018 19:28:48 +0000
-Message-ID: <CAPGMVzHyhFkP8Udz8PXT76rW4-ZJAZxm8+vZPa6_2iAPQULqgQ@mail.gmail.com>
+Date: Tue, 20 Mar 2018 01:14:40 +0530
+Message-ID: <CAPGMVzFwWL9xqX-tQSWEFsa-f56nh01ONCCzE2p1+Bx8T1=zdQ@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Branch shifting [image-build]
+Subject: Build Error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,29 +50,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2018 19:28:59 -0000
-Content-Type: multipart/alternative; boundary="f40304361e1c4165ac0567c8f840"
+X-List-Received-Date: Mon, 19 Mar 2018 19:44:40 -0000
+Content-Type: multipart/alternative; boundary="94eb2c04c6445bbbd30567c930de"
 
---f40304361e1c4165ac0567c8f840
+--94eb2c04c6445bbbd30567c930de
 Content-Type: text/plain; charset="UTF-8"
 
-What is the reason that we shift to a branch called rocko while installing
-poky?
- The reason I ask this is , I was getting an error named classes/.pypi
-inherit not found.. So I shifted the branch to master and ran bitbake and
-it doesn't show any errors.
-Will I have any problems later or is shifting branch fine?
+Hi,
+
+1. So while building the target i get the following error,
+
+bitbake core-image-sato
+Loading cache: 100%
+|#################################################################################################################|
+Time: 0:00:00
+Loaded 1 entries from dependency cache.
+ERROR: ParseError at
+/home/jarvis/poky/meta-openembedded/meta-python/recipes-extended/python-pyephem/
+python-pyephem_3.7.6.0.bb:12: Could not inherit file classes/pypi.bbclass
+
+for which i create a file called pypi.bbclass and copy the code in it and
+place it it /poky/meta/classes and run
+"bitbake core-image-sato" for which i dont get any error,
+is it the right method to be followed?
+
+2. This error appears when i am using bitbake in rocko branch but doesnt
+appear when i shift to master branch and build the image; is it fine to
+shift branch (i.e. from rocko to master) and build the image?
+
 Thanks
 
---f40304361e1c4165ac0567c8f840
+--94eb2c04c6445bbbd30567c930de
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div dir=3D"auto">What is the reason that we shift to a b=
-ranch called rocko while installing poky?</div><div dir=3D"auto">=C2=A0The =
-reason I ask this is , I was getting an error named classes/.pypi inherit n=
-ot found.. So I shifted the branch to master and ran bitbake and it doesn&#=
-39;t show any errors.</div><div dir=3D"auto">Will I have any problems later=
- or is shifting branch fine?</div><div dir=3D"auto">Thanks</div></div>
+<div dir=3D"ltr"><div><div><div><div>Hi,<br><br>1. So while building the ta=
+rget i get the following error,<br><br>bitbake core-image-sato<br>Loading c=
+ache: 100% |###############################################################=
+##################################################| Time: 0:00:00<br>Loaded=
+ 1 entries from dependency cache.<br>ERROR: ParseError at /home/jarvis/poky=
+/meta-openembedded/meta-python/recipes-extended/python-pyephem/<a href=3D"h=
+ttp://python-pyephem_3.7.6.0.bb:12">python-pyephem_3.7.6.0.bb:12</a>: Could=
+ not inherit file classes/pypi.bbclass<br><br></div>for which i create a fi=
+le called pypi.bbclass and copy the code in it and place it it /poky/meta/c=
+lasses and run <br>&quot;bitbake core-image-sato&quot; for which i dont get=
+ any error,<br></div>is it the right method to be followed?<br><br></div>2.=
+ This error appears when i am using bitbake in rocko branch but doesnt appe=
+ar when i shift to master branch and build the image; is it fine to shift b=
+ranch (i.e. from rocko to master) and build the image?<br><br></div>Thanks<=
+br><div><div><div><div><br></div></div></div></div></div>
 
---f40304361e1c4165ac0567c8f840--
+--94eb2c04c6445bbbd30567c930de--
