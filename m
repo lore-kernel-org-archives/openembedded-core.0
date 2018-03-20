@@ -1,56 +1,48 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
-	by mail.openembedded.org (Postfix) with ESMTP id CF1597880B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D20A5789C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 02:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2761; q=dns/txt; s=iport;
-	t=1521512554; x=1522722154;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=AbHWwLFaDJsvkfcZWmadhtxfDd76UBWhkC2XaRslVKE=;
-	b=gCHSPLup2MIXsQVhntsuePd3xbd7Slaj6dBHZu2r3nwrvSDaPX5PpZYT
-	Ko+1aLcUDa8wuPfcFKLbSYIu8N4RIbzL8KoEI/jpW3Q9snkxIWJzdYyq+
-	cWJFhX/pE7Mo61p9FyuavEYjTfBnGNfCoa3Eqwa1V3joK46SsGNQypc+E g=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AIAQBNb7Ba/4YNJK1eGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNQgVgog12KHXKNC4FaKXsblAGCEguFEAKDQCE0GAECAQE?=
-	=?us-ascii?q?BAQEBAmsohSUBAQEDASMEUgULCQIYKgICVwYTG4R1CI1Um0CBbDqIYIIOhTO?=
-	=?us-ascii?q?CFYMpNII5M4gOgmEDjSiLEAmcYZAQAgQLAhMBgSoeOIFSTSMVgn2CMhuOPiA?=
-	=?us-ascii?q?0kFcBAQE?=
-X-IronPort-AV: E=Sophos;i="5.48,333,1517875200"; d="scan'208";a="368055466"
-Received: from alln-core-12.cisco.com ([173.36.13.134])
-	by rcdn-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Mar 2018 02:22:33 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-12.cisco.com (8.14.5/8.14.5) with ESMTP id w2K2MWbS009938
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 20 Mar 2018 02:22:32 GMT
-Date: Mon, 19 Mar 2018 19:22:32 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <e15e3ca1-ee9e-1efa-2247-2789aac05091@linaro.org>
-Message-ID: <alpine.LRH.2.00.1803191917040.58477@sjc-ads-6991.cisco.com>
-References: <1520067650.3436.41.camel@linuxfoundation.org>
-	<91616f15-f805-22db-6073-8698f49bab86@gmail.com>
-	<412d4c49-8956-38aa-a1ea-417541585b2d@gmail.com>
-	<alpine.LRH.2.00.1803101241080.24419@sjc-ads-6991.cisco.com>
-	<CAFEAcA-d6-_tVRWKbZpVsQtece4fjuUqF+o+-m-AG4jPUHPY4g@mail.gmail.com>
-	<alpine.LRH.2.00.1803111848530.64087@sjc-ads-6991.cisco.com>
-	<alpine.LRH.2.00.1803171544580.27691@sjc-ads-6991.cisco.com>
-	<87a7v4kj5g.fsf@linaro.org>
-	<alpine.LRH.2.00.1803181801370.18105@sjc-ads-6991.cisco.com>
-	<87605sjvk4.fsf@linaro.org>
-	<alpine.LRH.2.00.1803190744140.44401@sjc-ads-6991.cisco.com>
-	<CAFEAcA8p9uO_7MXzkqyAnc-gifTHhmUgyRyE8X7hZnW=sbgQOg@mail.gmail.com>
-	<alpine.LRH.2.00.1803191615500.63034@sjc-ads-6991.cisco.com>
-	<e15e3ca1-ee9e-1efa-2247-2789aac05091@linaro.org>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
-MIME-Version: 1.0
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	=?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Need arm64/qemu help
+	Tue, 20 Mar 2018 03:02:33 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id 61-v6so154225plf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2018 20:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+GJZjDg1LWn2ieu6NAi8g5tM7RR+XHJ4Tnkg4VQTIxQ=;
+	b=feveiixzLvoWEaxQ2FoNvGJ9IeRLPcuYPXFlAYc2nsyyLUZ5tqGdaro76UV14SBM+5
+	K2rcbYgStht6uWdNggtBF85ZqNaeMafj95d2oCzXBpjSQPalBY6TFtgLJvA9GhS6kl7K
+	SDnVd4nHKU8CTZyPa0hAE6lXiN0lXrWb4UUU1FvUyOZgX0xYj0SgFbvw8bdR0kyTw7px
+	8BCXSo9pCcCDkZpZdjSxRRLMaQ4c9EMytpQ8NnfuTfMhhlX0edTlm09e2ZFwl2smWtMA
+	Dik5IAsmlAS1utYAznZOG9MNTXH2vn2NNhMtL14/R8p5QpB3LxFNDzBa9hdBvTPIgUEg
+	+xaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+GJZjDg1LWn2ieu6NAi8g5tM7RR+XHJ4Tnkg4VQTIxQ=;
+	b=cx6BY6BhkRaTfSl9b6mjlz6IyAIw4qTApoz6bRln3pLxXKjbtYGHWUW4xYoSt8L7ta
+	2aIwiWj1tJYbpx/XrTLrDbt5W7n6oEatl+ValgnxbDy3s+ZKgoC4jOqUZ2/BIjm//dpQ
+	PUfE8DQdexd4CERSGa45QOmRSDqC7feEGUoRPRaGfCEvaA72Z1wrkGpnwfL4VQLpLFfo
+	cPhRNllgBF+vDdnvcH94y2a2lVo9qEQ7/LXZ6yQsnapO2Apeud60tEd2ITtBiHOTCvXF
+	GdHRdggFAOWpKKS4s3bzHJwcT3DLdRPvLFFKPppPtEOv8SFgBHSGL8pAXLeyFhIr/rdD
+	bFlA==
+X-Gm-Message-State: AElRT7EerAUWEFRSPb7buVlYSs1e4AwQIPGZ5pgHoEcPIXbFWZ0Qsik0
+	pwMgkDAnCGresS5ICs5LSYe9vA==
+X-Google-Smtp-Source: AG47ELsdQcgHMy+m+LIvhi7rczb81u3xxPFbOdVh7/XsEh6+/Tj6ofAc+uKEIRizAYryIlFsSYfCUA==
+X-Received: by 2002:a17:902:9349:: with SMTP id
+	g9-v6mr12475152plp.243.1521514954958; 
+	Mon, 19 Mar 2018 20:02:34 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	z15sm738405pfh.11.2018.03.19.20.02.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Mar 2018 20:02:34 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Mar 2018 20:02:25 -0700
+Message-Id: <20180320030225.37857-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] site/risc-v: Cache more variables to build libIDL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,76 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 02:22:33 -0000
-Content-Type: MULTIPART/MIXED;
-	BOUNDARY="504000474-1857282591-1521512552=:58477"
+X-List-Received-Date: Tue, 20 Mar 2018 03:02:34 -0000
 
---504000474-1857282591-1521512552=:58477
-Content-Type: TEXT/PLAIN; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+These variables force runtime tests during configure
+they are already cached for other architectures
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/site/riscv32-linux | 13 +++++++++++++
+ meta/site/riscv64-linux |  8 ++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
+index 138aeb0a11..8a8a5fc1c4 100644
+--- a/meta/site/riscv32-linux
++++ b/meta/site/riscv32-linux
+@@ -1,6 +1,19 @@
++# general
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=4
++
+ # glib-2.0
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
++glib_cv_sizeof_intmax_t=${glib_cv_sizeof_intmax_t=8}
++glib_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
++glib_cv_sizeof_size_t=${glib_cv_sizeof_size_t=4}
++glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+ 
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
+index 138aeb0a11..69ff137c9a 100644
+--- a/meta/site/riscv64-linux
++++ b/meta/site/riscv64-linux
+@@ -1,6 +1,14 @@
++# general
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
++
+ # glib-2.0
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+ 
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
++
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+-- 
+2.16.2
 
 
-
-On Mon, 19 Mar 2018, Richard Henderson wrote:
-
-> On 03/20/2018 07:24 AM, Victor Kamensky wrote:
->>> target/arm/translate-a64.c:handle_sys() is setting
->>>    s->base.is_jmp = DISAS_UPDATE;
->>> which it thinks will end the TB, specifically because system
->>> register writes might do things like unmask interrupts or
->>> otherwise require main loop processing.
->>>
->>> The changes that prompted b29fd33db578dec stopped this working.
->>> I suspect what we want is for the case DISAS_UPDATE in
->>> aarch64_tr_tb_stop() to fall through into DISAS_EXIT, not
->>> DISAS_JUMP. (The AArch32 code gets this right, amazingly.)
->>
->> Peter, thank you. I can confirm that change you suggested
->> like one below, boots fine.
->>
->> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
->> index 625ef2d..c381091 100644
->> --- a/target/arm/translate-a64.c
->> +++ b/target/arm/translate-a64.c
->> @@ -11384,12 +11384,12 @@ static void aarch64_tr_tb_stop(DisasContextBase
->> *dcbase, CPUState *cpu)
->>          case DISAS_UPDATE:
->>              gen_a64_set_pc_im(dc->pc);
->>              /* fall through */
->> -        case DISAS_JUMP:
->> -            tcg_gen_lookup_and_goto_ptr();
->> -            break;
->>          case DISAS_EXIT:
->>              tcg_gen_exit_tb(0);
->>              break;
->> +        case DISAS_JUMP:
->> +            tcg_gen_lookup_and_goto_ptr();
->> +            break;
->>          case DISAS_NORETURN:
->>          case DISAS_SWI:
->>              break;
->
-> Alex and I just had a long chat about this, and I think this is the right solution.
->
-> (1) It brings aa64 into alignment with aa32 wrt the meaning of these
-> enumerators, (2) The only use of DISAS_UPDATE is there in handle_sys, so we're
-> not changing the behaviour of any other insns, (3) The most frequent writes to
-> system registers -- NZCV and FPCR -- are already special cased so that they
-> won't exit the TB.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Thanks, Richard. So how do we go about committing it in qemu tree?
-Should I submit the patch or Alex or Peter will do it?
-
-Once fix is in qemu tree I will pick it and submit patch for OE tree
-on top of current qemu-2.11.1.
-
-Thanks,
-Victor
-
->
-> r~
->
-
---504000474-1857282591-1521512552=:58477--
