@@ -1,46 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E943D78989
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C43B78982
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 16:56:52 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id i9so849046pgq.10
+	Tue, 20 Mar 2018 17:19:21 +0000 (UTC)
+Received: by mail-ua0-f171.google.com with SMTP id w3so1544421uae.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 09:56:54 -0700 (PDT)
+	Tue, 20 Mar 2018 10:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=GhQ2FQsJW8c9q83R2N5Z8pPu5FGGTgbZHRwjkYKQy8w=;
-	b=QmnXJTTaR2f1qxc0M3PxQciBSR5Af2ifU5Lo2HIGeyJph0zw+oWg88Mto6vPAuZEa7
-	0GRAChOUTFRky1Eh00jwMYzPybWg+1kEKdOojj59OTtMfvzc0z9LT8NNnz6PvphJGwoh
-	ANZ89xh59s8pSD6p9plXvRGDPAbdTBdyPwNASZ6fCko0j61dIP1YnBeEqkf2gWNaVjmV
-	EINXy9hXdaGtpOpWKOJ+OZoKASRUAznJuuOSlrCW+u1PRU8EKj7tk+l+H7b7UH4WLhim
-	cPOHJeEkJ3SoyUhFVbF99xC1OfJEpxZLwkZSxv5TpGqvFrvHogADvkqTQ590YKqXLQuN
-	OV8Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ayarOJzW7foIZ5YvhwkUIOYyBHCV8Jj6hqXLaso+3n8=;
+	b=NZJlRp1B+tfO+tvYnbzUTPnwcmavllG6KrSLeaxAKXBh/G6thqVx4/MUguPzBTJEqO
+	z4o/moneFRBVdKOx8FqdcyHpCQpyAk8LEy0G7xYMXylFj/rsxWuUK0wUw5kPn9Qrzw7Z
+	C5c/FpufWbwbs+7UbAfd+yiYAWGrh7MPo1I7ZNfT9KtixMqmeZVevmM+pnAFTTaSBpsm
+	OegwXDYFCKXGot5KjW5TbKJFk0TH+FDUqx5tDxN0O/oYN/t5ZjZbGNwAzggH5fBpTopq
+	sgKBFuNDqKvKI4I2YK+s5wgkmeeuu86kbEnqPWgN/bErshELoawfBvEP3eCQp6cKkSIR
+	KALA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GhQ2FQsJW8c9q83R2N5Z8pPu5FGGTgbZHRwjkYKQy8w=;
-	b=chrAI1Tf3Re5E99n37qYvYHeqEJ5CwuIbZxuVxyBf7dtAILEAcDS7JjyA1BFRTkobJ
-	eThG/PHc2dPWyzr+2NcIgLHd+hsVqJqRSGig3WDVOO2WaOFMxxo8E8IHo+meIiSQAo5R
-	By+ooUNlP4t6XOQgToXWovPl8g3v63tptJrn16sYBi5LsIfQCS5P/84Qmi/z8gmuQlx0
-	SRUcDXBNbDGOcYT2s6iQ/jcfoBgaHRCW0xmLgU11ED3Vp14eJnIv5e3SRQpGjX9ZagTp
-	thCwinLqN/sgAt13LRNCf0vV5SlHY6fXdeIB3zIZZ6T71YIx3SlxrsjRjGjENTxVGlRM
-	Jawg==
-X-Gm-Message-State: AElRT7FMMPyO/siC8s9nFQncH6Q6tLp9pOL6Z5uozVOXhMr7To9YuNpX
-	HJELB5R0vzcagKRjYnwVGs8V4l07
-X-Google-Smtp-Source: AG47ELujf3MrzyJaLTL0uKnHk5+KoM84lxONz/bKKSHBhnJ+I1ZM8F5K/+JGRt33xj893nbqcqwUGA==
-X-Received: by 10.101.70.72 with SMTP id k8mr7780442pgr.402.1521565013764;
-	Tue, 20 Mar 2018 09:56:53 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	q15sm4616130pfi.140.2018.03.20.09.56.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Mar 2018 09:56:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 09:56:40 -0700
-Message-Id: <20180320165640.23753-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.2
-Subject: [PATCH V3] site/risc-v: Cache common variables to build libIDL
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ayarOJzW7foIZ5YvhwkUIOYyBHCV8Jj6hqXLaso+3n8=;
+	b=jTo718hz3UMwnFJDQ/bIYBvwVp0qa7yNHlv0ixGr+Xi4idD6H4vdwD6qFFbDCkZTpz
+	c0vH3lRBoJf+oaTDXtR1jn2jLPE9ScovI0wUVKNM3zLJtdpByQyN4kI2YTKzsOEGMaa3
+	PEfZRUkOp8XBc25R0mpluGV+UdPZLOM+FnCq6gOCIbS8qXPwniuwkQqgry2CHn/uf1I/
+	fjclPtSapHZ6wM+EW1nZ3pEwc9J4SGw9GKgk9kfOHH9wO9gRZ4c65xRc/wKpJR5VQdg+
+	tS97hOaUksEJ+AV6jsh59Ohr2Lu8e8oOCU+B5w+Sy8mA+A8ixTdhlkHq6fMRlNrp13/Z
+	8KOA==
+X-Gm-Message-State: AElRT7HEIZV/roNV2VtAGGV/7ROgfctKPtvNcpfDXAzUddTz6m8W43iT
+	cBwiSeML83btJ4uVPN1E/kzucYbVToOi2Ta9o5k=
+X-Google-Smtp-Source: AG47ELvQcCkr4mU0gdT8zUF6X7Mr/rLSa/jWjTmZaZckLnPWChR23gDsMZLu/330BWt99vwMPkLfLeW4fTSDA51jx6k=
+X-Received: by 10.159.56.2 with SMTP id p2mr4192179uad.97.1521566363313; Tue,
+	20 Mar 2018 10:19:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.74.219 with HTTP; Tue, 20 Mar 2018 10:19:22 -0700 (PDT)
+In-Reply-To: <e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+References: <cover.1520841539.git.Qi.Chen@windriver.com>
+	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 20 Mar 2018 17:19:22 +0000
+Message-ID: <CAO5Uq5RBUztJ5uLdONZ0apJzCko_oXQ6L3D-9s-59Yvip9+BiQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] systemd: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 16:56:53 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 17:19:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-These variables force runtime tests during configure
-they are already cached for other architectures
+On Mon, Mar 12, 2018 at 8:38 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Upgrade systemd to 237.
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Changes from v1 -> v2:
-- Drop libIDL specific setting since they need to be in meta-gnome
+...
 
-Change from v2 -> v3:
-- Drop glib_cv_sizeof_* variable caching
+> @@ -80,7 +78,7 @@ PACKAGECONFIG ??= " \
+>      polkit \
+>      quotacheck \
+>      randomseed \
+> -    resolved \
+> +    resolve \
 
- meta/site/riscv32-linux | 5 +++++
- meta/site/riscv64-linux | 5 +++++
- 2 files changed, 10 insertions(+)
+I guess this was deliberate, but does it need picking up in release
+notes? Tripped up my builds off of master - clearly a trivial fix
+though.
 
-diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
-index 138aeb0a11..97de628e22 100644
---- a/meta/site/riscv32-linux
-+++ b/meta/site/riscv32-linux
-@@ -1,3 +1,8 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=8
-+ac_cv_alignof_unsigned_long=4
-+
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- glib_cv_uscore=${glib_cv_uscore=no}
-diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
-index 138aeb0a11..38bc5f044d 100644
---- a/meta/site/riscv64-linux
-+++ b/meta/site/riscv64-linux
-@@ -1,3 +1,8 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=8
-+ac_cv_alignof_unsigned_long=8
-+
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- glib_cv_uscore=${glib_cv_uscore=no}
 -- 
-2.16.2
-
+Alex Kiernan
 
