@@ -1,49 +1,50 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A85605B3
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 17DE26E666
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 12:08:46 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r82so3033351wme.0
+	Tue, 20 Mar 2018 12:10:14 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id u46so1426371wrc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 05:08:48 -0700 (PDT)
+	Tue, 20 Mar 2018 05:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KJd0CrvdsSTZj+spc6W5Rjh8ZavQpMVz+xfL7rd0dDY=;
-	b=KC2fYlWrD0n4je81RH0nYIueFNJxDsSZYmjlbGY/ib2rMMngDPYjnUE/qWZWb1gI29
-	1s1llG0t70gIg2EW1+sc8oTfmXhCJ88TttlnP+K3oPJKuXVquqRHOfVKrH34O5XLcRfT
-	OqOzn94n5HQ3j93aUVnwK4QISA8as//WnkPliKxLVKT1GtLBg7eJ4GZJw1jdjzjhQRAq
-	d7VvIqQP929EExaMpF2D2GTXYL8uwkcGFl3QAudBYT91fSw0cQgpvhBDGZRgC9+MPT6Q
-	6iIShBoUvlrFAb/cHClN+d0K4nQZEsZRuTh6hkIJ2R2y1Y/ekqVrYeofYfrC3TPOFbgL
-	N12Q==
+	bh=h1HpUdDEstCyU84sALo5P7MI+xK9RMtFQR2VnKR+4pY=;
+	b=BC3jbLYkXwsKmP5Uj9+vRLrWytLYtNkyLHTiKLTV1BxE3rds9+spHFmsKiJ2u9eu4B
+	gSJ+Yj0sRnvju2vveEC7OMiORYspixxQ5pq6w1uR3ZKksTj2SG8ab9zw4WpdEVtOJCeW
+	VabuyIPx6mW0kRp19GsCHzY3n84iqz1fMrZi5Wm7CHxA0BSeTuCfW8oHXJi0aSnxis3S
+	eM4ZK+Sotf8S+CuQ+d6Ou9ftueYZ99odvWlWYQ40Tkhx1k4OUzf2w3gf601Wq/cqDSyW
+	exJMCG2T2SLxUfZjEogsDOhWHsGlkJiR8WCoPN2Yu8tQZJx4BlNF1m5FUgXnaEvVKjCH
+	NCiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=KJd0CrvdsSTZj+spc6W5Rjh8ZavQpMVz+xfL7rd0dDY=;
-	b=j0zww1v3ldjMSCGUbg7DnLvWp94l5UGl+1tHO0UsyKlzVHNvxklYq8x99vZpNTbssC
-	jAC8gRa0mInKdzOG+6d/3268Yq2Jwzg9bn8enWNKhVOWl4PN17jETk52zn5Jg0faWs9j
-	59wjAeu+kBv50NHNGzWApsAkNx6scMpyIhzm8eqqOwA9FTTZCuSRzg0b+y91lXE3U29D
-	1u2ZiuEDzzdO8lsjq0jLL1mvoYAMM8PkzmV6JN2mqYfuHLG7BGnUGAbIYAuFBsinnsJj
-	5bOlUSpNJEDvrjpzupnFpuZkHIjVAkXsmQzIPCNjM6bHun8CWzzmG9cpTnqQqL4mmCsE
-	JC+A==
-X-Gm-Message-State: AElRT7EFfbu90Z1wPudW/oe9q4GGW8VssNn8Eb9elBTVF+DDgnTcVIBv
-	v0su/iCydK3fNRVUXLaay5bQkg==
-X-Google-Smtp-Source: AG47ELvF/oj8RSz/B38YkWL0dXFYxVBnMTmY6A8KVIx8U3IJ35WbpGOgXK88cMdkHGa4exiI8NvpTg==
-X-Received: by 10.28.198.2 with SMTP id w2mr1861914wmf.75.1521547727428;
-	Tue, 20 Mar 2018 05:08:47 -0700 (PDT)
+	bh=h1HpUdDEstCyU84sALo5P7MI+xK9RMtFQR2VnKR+4pY=;
+	b=q9TKeEyEzChM74ez8MUG9wZCRDAjIpgvEeeMJFr72T5JnYFDh8GXfC6oyo1m5FRi6s
+	wEp1WTK9GISrOwC2Mb237xuLZf2DCJDc4fRUB+roX1c/dF6xk61tnr2C+GabPylmvFVD
+	/yf/5VIVvrBV0/4nULRN9i8ZADuoCEvqI+ivbv8bBb4DLGlbyWe6YbevcIalEIdSDwh2
+	D84eUw0e9X8reFw9ffTQMiAGS9BK/GyYk+6zTPE52rVVUV9Ces2b99+zwGGVBaB5DChH
+	NdD+l9kRq8Wr/t4qk57Xaq1II1xkWtnVj6EthFLWLdeIdwhW3KjgnBnJQ9Y2rmGjzeja
+	DK0A==
+X-Gm-Message-State: AElRT7ESi1cxDtetoEwCCpt5/9S5/oESAUpUa3F45KyxI1/QDEOIhkea
+	DNd07ote1HimQeuXstJggVTpvg==
+X-Google-Smtp-Source: AG47ELuO6xFZrHgP2uVuObXSb40d33stZgBM3xlXd+RNBv1NynDqI+vQAlFsKuivhCbNiu/Kq6CHHA==
+X-Received: by 10.223.155.2 with SMTP id b2mr12013574wrc.185.1521547815843;
+	Tue, 20 Mar 2018 05:10:15 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	m35sm4152583wrm.59.2018.03.20.05.08.46
+	e10sm1551424wrh.38.2018.03.20.05.10.14
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Mar 2018 05:08:46 -0700 (PDT)
+	Tue, 20 Mar 2018 05:10:15 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 12:08:49 +0000
-Message-Id: <20180320120849.586-1-Martin.Jansa@gmail.com>
+Date: Tue, 20 Mar 2018 12:10:16 +0000
+Message-Id: <20180320121017.943-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.15.1
-In-Reply-To: <CAJTo0LayEiw3bpXB7a-mKiGbi3uOJhFhYt=+4aV84dTSuVoJ3w@mail.gmail.com>
-References: <CAJTo0LayEiw3bpXB7a-mKiGbi3uOJhFhYt=+4aV84dTSuVoJ3w@mail.gmail.com>
-Subject: [PATCH] iputils: change default PACKAGECONFIG to disable libidn
+In-Reply-To: <43d5b925-755b-3dbc-63b0-0df6e89396db@linux.intel.com>
+References: <43d5b925-755b-3dbc-63b0-0df6e89396db@linux.intel.com>
+Subject: [PATCH 1/2] gio-module-cache.bbclass: disable update_gio_module_cache postinst script for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 12:08:47 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 12:10:15 -0000
 
-* wrong revision of this patch, where the commit message didn't match
-  with the default PACKAGECONFIG value, was merged to master, update
-  it to avoid confusion
-
-* it got enabled by default, but without the dependency on libidn in:
-  commit 5997981fa2c22609a88b8cbb595dbf7758b2f7c2
-  Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-  AuthorDate: Thu Feb 1 20:02:08 2018 +0200
-  Subject: iputils: update to 20161105
-
-* https://github.com/iputils/iputils/blob/master/RELNOTES.old
-  mentiones that IDN was enabled by default in:
-  [s20160308] and surprisingly the same in [s20150815]
-  but there are no release notes for s20151218 version we were using until
-  now, don't know how it really relates to [s20150815].
-
-* but there are some issues with libidn as described in:
-  https://github.com/iputils/iputils/commit/f3a461603ef4fb7512ade3bdb73fe1824e294547
-  so disable it by default.
+* it fails to find postinst_intercept dir:
+  NOTE: IMAGE/1.0.0-1-r3/sdk/image///usr/lib/opkg/info/nativesdk-libglib-2.0-0.postinst: 4:
+        IMAGE/1.0.0-1-r3/sdk/image///usr/lib/opkg/info/nativesdk-libglib-2.0-0.postinst:
+        IMAGE/1.0.0-1-r3/intercept_scripts/postinst_intercept: not found
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-extended/iputils/iputils_s20161105.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/gio-module-cache.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/iputils/iputils_s20161105.bb b/meta/recipes-extended/iputils/iputils_s20161105.bb
-index dda891c7f7..0125739b03 100644
---- a/meta/recipes-extended/iputils/iputils_s20161105.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20161105.bb
-@@ -23,7 +23,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
+diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-module-cache.bbclass
+index a8190b7b89..179090d32e 100644
+--- a/meta/classes/gio-module-cache.bbclass
++++ b/meta/classes/gio-module-cache.bbclass
+@@ -2,6 +2,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+ inherit qemu
  
- EXTRA_OEMAKE = "-e MAKEFLAGS="
+ GIO_MODULE_PACKAGES ??= "${PN}"
++GIO_MODULE_PACKAGES_class-nativesdk = ""
  
--PACKAGECONFIG ?= "libidn"
-+PACKAGECONFIG ?= ""
- PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn"
- 
- do_compile () {
+ gio_module_cache_common() {
+ if [ "x$D" != "x" ]; then
 -- 
 2.15.1
 
