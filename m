@@ -1,46 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 80560783C9
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A22E605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 05:21:22 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id a19so224769pgw.6
+	Tue, 20 Mar 2018 06:42:47 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id m68so281070pfm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 22:21:24 -0700 (PDT)
+	Mon, 19 Mar 2018 23:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=571+ivtsKkbQCtmcUw5LIEbEdzoEyK6khd/8AgJpeYo=;
-	b=Oyu04lPRxjU5catrN8KOdK1Dtq3wuPJpkbV30fXmYtWBxmbk+icxCFZkyMmJ5308ch
-	JavenL09ESRD9TfbG/eUKEA4NXpBfQNHEvksSz5jHXc4LZIJF/1qSeNeL/IKSFKqS5GM
-	Iy56X4gLiGPcCQtmIzzRoc7reAM1o9yxPivnnToMsVG/H2lszm+dKxN58i6xy+TMoWz0
-	IivB1tEtwC30w+++kIeqAHgvV1Oz/jMKW+1GfLQ6uwxrZU9P2KCaJXUE6oSZ1MKbLoVp
-	RnxZM+2LcTxvfevJiQGx1+4njpGrJ2AyJ//bfCcrldT+aKZ+KsuxALs+w7ARlfFXUCKf
-	yhgg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=F5LMJAz4hPw96rADB+wgdP4zNetrTCly7fRsMyx0wJs=;
+	b=TyM8z+MQ/GypU/tV3dm+/AGXZehZJh4Q7r+6GMPxpti0bF1wv0rIyH9NzN7ie/YLe1
+	6TJZMcLKJ7IRO58JR+cExAW5zL3FcgnSVhGcOhbtsfuJ02wq43TqSnSVOfIOAKW6zuNB
+	ZPPYuAQhxiCrjuYlSeszhFT32jonbOlB2cclQymgsjr3KClqWuiWbzMI86D1G3wrC4ji
+	ruy5qd96xLac4pRORDQyteJ9ZMjqtYCibOkNGLzad3C4uVlRIHlK2f1Aj0Af8pK0FeEq
+	gGfjvEdPP4b7l9xP01aYaxZWV4COISvRjAq2O5WrFM85ilaZjjpFnyMCIz4XTIG2Sdlc
+	leXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=571+ivtsKkbQCtmcUw5LIEbEdzoEyK6khd/8AgJpeYo=;
-	b=iKb9Z/9GcPlMHnPph8az7kdMREuQK1Bc+SOx5SIa+rwUizIju+NXU2wZQfCK0n4Dkn
-	/90yYps2s2hU+j3qOH+/5im9ws+YordiFhUM3FDOBZ/yNUnA58q97jUCcUR3AwTwOPaf
-	a6b4PsJiGrjMMN0QvcBdT9AGQSbu8W86k3nqpXEwi6Zxsu7p1xB087yQJp2zXvTKCm8y
-	9lu7I1L68Y+aivVyg8ZGQrgf3LhgWqKP++Bk+/8/icyuVpDI6NsnqIFsVp6ZzJxZv3AH
-	GbaqT8gHT1T3HOQgAljcJ+wy8RGqD2eDBPue6V8IdyCEWYJ1/IZ+agMRcVdrh5wahMz9
-	Nxvw==
-X-Gm-Message-State: AElRT7GHtzG1EWA2nx2NpUNtADwq81mJNINRO2ixyVf9RmE1hGGvCG1r
-	Dhm8gdAgvPITBRBwhR9KAzP7vQ==
-X-Google-Smtp-Source: AG47ELvK/I2bH35IIZgezvXqW86IoKlJ5w6Tr3WbCfL/bpVVpd7yqT6f9Mrx2A6wVrzou1ae5mtvkw==
-X-Received: by 10.101.82.139 with SMTP id y11mr11159769pgp.68.1521523283534;
-	Mon, 19 Mar 2018 22:21:23 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	q2sm1029469pgp.70.2018.03.19.22.21.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Mar 2018 22:21:22 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=F5LMJAz4hPw96rADB+wgdP4zNetrTCly7fRsMyx0wJs=;
+	b=Crm043Ne4DSJ5d/i3wgZCyjNB7kQBW8J2JMgoUslwg9I2+kN0JQmkkh0V9xF1pah6W
+	/N/xQdGhwqjmpU7P7VAO3jLMXvvlQ6SGyRHi5dQIb/1dtt/OtUz54y8TA35ieQ2MiEjT
+	oQxKIa9PDOmPEou2dsoNI7L9juswzMseH6IUyPjfP+k86R6XC9Zm84Xh6Gb92msYoDx0
+	x+1Oz5EHsInPDzp+eQBNwWOp0KrO2K/HAqfd+GacR26TN+ASGSI2ZKWSM7ZtPsY0pFVj
+	6pKrihxvRMRj5N1yrMHXWlHl+lAgwXsj++1SD37t5Whcka+5Uh4qY+GBTBCYZ9H13W27
+	8SzQ==
+X-Gm-Message-State: AElRT7FmUgfG3Dcz5zBHAFcJnxf3ahHjxl/2B322SdKpJxOmkKoqdH8Q
+	KJkUW1aCaDCbcSpBPYI+6/GdeXcy0KVEuPlH8xw=
+X-Google-Smtp-Source: AG47ELtzNkvI4iF1e7h71VK/GTBniWQZacDpwyT7lTbfg1NMhLgjz5NN1uoYIlgKaG2SVUVfPAUetWtWMcvzPMb+7es=
+X-Received: by 10.98.18.70 with SMTP id a67mr12663604pfj.213.1521528168230;
+	Mon, 19 Mar 2018 23:42:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.241.68 with HTTP; Mon, 19 Mar 2018 23:42:17 -0700 (PDT)
+In-Reply-To: <20180320052114.32323-1-raj.khem@gmail.com>
+References: <20180320052114.32323-1-raj.khem@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 22:21:14 -0700
-Message-Id: <20180320052114.32323-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.2
-Subject: [PATCH] glibc-2.27: Update to bring in 2.27 bug fixes since release
+Date: Mon, 19 Mar 2018 23:42:17 -0700
+Message-ID: <CAMKF1sqQtYaMFV75k76-e+xqv7roh2c4oLKFunKOCX=vPAqHyA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc-2.27: Update to bring in 2.27 bug fixes since release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 05:21:22 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 06:42:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Here is full list of fixes
+hold on to this patch, I am seeing a runtime
+regression.
 
-https://sourceware.org/git/?p=glibc.git;a=shortlog;h=df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98;hp=23158b08a0908f381459f273a984c6fd328363cb
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glibc/cross-localedef-native_2.27.bb | 2 +-
- meta/recipes-core/glibc/glibc_2.27.bb                  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-index f1e4a657cf..d80c8c2a55 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-@@ -21,7 +21,7 @@ SRCBRANCH ?= "release/${PV}/master"
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
--SRCREV_glibc ?= "23158b08a0908f381459f273a984c6fd328363cb"
-+SRCREV_glibc ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
- SRCREV_localedef ?= "de5bdbd5e76b5403a4151b9b9f958b6cca36b3e7"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
-index c4042d16fe..326804d6d5 100644
---- a/meta/recipes-core/glibc/glibc_2.27.bb
-+++ b/meta/recipes-core/glibc/glibc_2.27.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
- 
- DEPENDS += "gperf-native bison-native"
- 
--SRCREV ?= "23158b08a0908f381459f273a984c6fd328363cb"
-+SRCREV ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
- 
- SRCBRANCH ?= "release/${PV}/master"
- 
--- 
-2.16.2
-
+On Mon, Mar 19, 2018 at 10:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Here is full list of fixes
+>
+> https://sourceware.org/git/?p=glibc.git;a=shortlog;h=df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98;hp=23158b08a0908f381459f273a984c6fd328363cb
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/glibc/cross-localedef-native_2.27.bb | 2 +-
+>  meta/recipes-core/glibc/glibc_2.27.bb                  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> index f1e4a657cf..d80c8c2a55 100644
+> --- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> +++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+> @@ -21,7 +21,7 @@ SRCBRANCH ?= "release/${PV}/master"
+>  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+>  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+>
+> -SRCREV_glibc ?= "23158b08a0908f381459f273a984c6fd328363cb"
+> +SRCREV_glibc ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
+>  SRCREV_localedef ?= "de5bdbd5e76b5403a4151b9b9f958b6cca36b3e7"
+>
+>  SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+> diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
+> index c4042d16fe..326804d6d5 100644
+> --- a/meta/recipes-core/glibc/glibc_2.27.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.27.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+>
+>  DEPENDS += "gperf-native bison-native"
+>
+> -SRCREV ?= "23158b08a0908f381459f273a984c6fd328363cb"
+> +SRCREV ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
+>
+>  SRCBRANCH ?= "release/${PV}/master"
+>
+> --
+> 2.16.2
+>
 
