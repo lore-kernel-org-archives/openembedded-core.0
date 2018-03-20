@@ -1,46 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E61146FF73
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B570F78958
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 04:12:59 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id i9so162636pgq.10
+	Tue, 20 Mar 2018 04:31:02 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id e194so794191wmd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 21:13:01 -0700 (PDT)
+	Mon, 19 Mar 2018 21:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=43Qor2lD9UOgsmT0+S10cSrRCLXz8q1fBaJP0pOe8F0=;
-	b=J/J5lz0J/4DU66VB0Dd3oXRwYeNOjMMGmsVnPWjNYD7GzIkp4DxKPhcdrPrJcSJpey
-	4DTvDtyf+/sFUFR/DAZ1n1VCMyv2eImJqOCnZ+Zx6AoaMe2Ey3toDk/F3ltBazMywpJg
-	8BHcuK2lwnAVy59t5SqzZoVS4wjqgnJA9X/n00rFMauDCnKECQBbuuGYR1hi6Bms4e6e
-	cyvMM2/aNYsylmc+QQAH0JXJMPzJ8GYFldF9ysaIUjOVFAWBe6+OajtefHq3NfsULInn
-	8M+r28l4oma4EX4Y7cyJLt5OiDbJd30fjlVwKCR3OAqvTiEtqDCgEYvuc82N4LdRO0cy
-	DrMQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Nz+4iPlj7gv0xVd/7ZSfUPJRm99eeDa0OEhoT379S/4=;
+	b=BQUoa6a4WEjwhJ7NvdH3tpC/PhbwGZ/dLXGKQOs2V4M+NJFpA+ITiX8QKZZ6gvAU57
+	65iOud9b3MRnI/PjwT+4TJ1bAFtylo4NITFyxaKGtm4ElbwijzvbxCE1SGTPX+UCSRKi
+	xiPZrY3ZcNqar5IPxWdXraeSZyRCFJ5Bu0T34KC/7/BuJiwzSDR215VgJNMovmiO4+Wh
+	bpB5x0FUMhIqvJ9jj1cazXy61sbLY2PDeEHZi5K/TqANa34qSYiH13tnZVCwIBF0YO1Y
+	2hYs/5nNES+Lf2+flBo1HmoU5O4/TvhgkevPd27vvtjXIbt2VzkA5zTELqxhQyQix49U
+	LAfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=43Qor2lD9UOgsmT0+S10cSrRCLXz8q1fBaJP0pOe8F0=;
-	b=WaVwlgG89ojkjXet8Xrr0gx8H0GfTMPIiXFa93pb54UgNCZf8eZ3nArX3Tr/zVShXu
-	i/0IhiyIDFI3vkngGFdOYacz45eyTxgkFZsqmgvJPHUOCUcf98RHTXIP9D9pnIUb5vAy
-	bQBhWZU6yn/S3xJeogzbdh7YCQR/E0kb1L+uzXNCJrtCpQOLQsuJdP4c+4+qMueMrgY5
-	+3zm93U4vvNKYc0wAOE6isHjOFf5//oHrGlcONpzTJIKRScxpSdOEK2YGurguIAwXDo9
-	puOyLRFwVf5SvfN2NxUiz2ioMLZIUCV26ORjVBn09+UcOzFGQ58TmkCvrycBUSg7P8Vp
-	mQ6Q==
-X-Gm-Message-State: AElRT7F3Vtm0XO0U0eR6oCxI9BbExxYn0KRAu9HBQoY7Lb223Y0JXlVV
-	s6WIbDJrbrJtNwv+RdyoQkhhuw==
-X-Google-Smtp-Source: AG47ELuZe7WN5bXpG0Z10dAIR9b/cQttyCBkPpw1ASPB5vXELTVn4N7TtNDOh/CLjT3s2ijpzI2kYQ==
-X-Received: by 10.99.94.197 with SMTP id s188mr10795893pgb.363.1521519180906; 
-	Mon, 19 Mar 2018 21:13:00 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	i125sm963231pfe.176.2018.03.19.21.12.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Mar 2018 21:13:00 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2018 21:12:53 -0700
-Message-Id: <20180320041253.24537-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.2
-Subject: [PATCH V2] site/risc-v: Cache common variables to build libIDL
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Nz+4iPlj7gv0xVd/7ZSfUPJRm99eeDa0OEhoT379S/4=;
+	b=Cj2c9GyKMi1Rgpao/XHTJC75kTnsKYxivkMgEivr48TFHfls41NmYvzVilHGtu3o4Z
+	Msa4/pSiSanERI2L1a5cqCavj0XlXJI7cJwjDQnOnT4yia2bhqgxZsc+sx8KI8EpATsW
+	qGIKLttrC8rBuce2m3Lk0ulgaoen01q2TyLq/Oz1qa3/0wup+5zdHGkua4sjhtmo33wZ
+	kgKrmZA60cnvJWxbygc2hx30tqwi+LOMycNhJn6crQhlotFnE9OmMQSkqvXS20+mZ0xf
+	oNnewWFvg23mxWbSX79JuYiXFppQyn1gUhFOTJcHN34HWAHK7ZPMtxqpQ6VV2rQVYIa6
+	Iw5g==
+X-Gm-Message-State: AElRT7FGz3K0ys2WriokWqjO12CNI/Xto7Rd/Bln04lr6mjJ0M2aA3qP
+	p85u7XX6X/Eb3suDDBfJVCzq0CZZynbu88BLiy0=
+X-Google-Smtp-Source: AG47ELv3yfOwh7S974fCG7JCrp0qXE9yGyOzZ08M4LmslD4UlhtVyE6zjdEuNZ0xA5Y9laxyzsQMY8LjBZz45zPmcgk=
+X-Received: by 10.28.21.210 with SMTP id 201mr803078wmv.151.1521520263486;
+	Mon, 19 Mar 2018 21:31:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.163.65 with HTTP; Mon, 19 Mar 2018 21:31:03 -0700 (PDT)
+In-Reply-To: <CAJTo0LYDmdGjrixdE21h_V-8PvnbZEJ5kPqxSL3F72eofm6cFA@mail.gmail.com>
+References: <CAPGMVzHgUcWV3TFaTeV40+P=SO2zV-4cjw2oWnB2KsBrozk9Sw@mail.gmail.com>
+	<CAJTo0LYDmdGjrixdE21h_V-8PvnbZEJ5kPqxSL3F72eofm6cFA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 19 Mar 2018 21:31:03 -0700
+Message-ID: <CAJ86T=V0o1jbd2JcW-34-08P+N+HQsV8Z5i1w_UgM-ond8Xt+w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Rajath C S <rajathcs.1996@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: system lock down in middle of build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +55,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 04:13:00 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 04:31:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-These variables force runtime tests during configure
-they are already cached for other architectures
+On Mon, Mar 19, 2018 at 3:38 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 19 March 2018 at 20:35, Rajath C S <rajathcs.1996@gmail.com> wrote:
+>>
+>> so i am workin gon yocto development on my PC as well as on my laptop.
+>> I have also worked on it on others systems, but the strange thing is only
+>> on my PC & laptop the systems gets logged out automatically in the midst of
+>> target build.
+>> Is this a bug?
+>>
+>> PS: both my PC & laptop are of high-end configurations
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Changes from v1 -> v2:
-- Drop libIDL specific setting since they need to be in meta-gnome
+Sounds like it could be related to the issues discussed in this thread:
 
- meta/site/riscv32-linux | 10 ++++++++++
- meta/site/riscv64-linux |  5 +++++
- 2 files changed, 15 insertions(+)
+  http://lists.openembedded.org/pipermail/openembedded-core/2016-December/thread.html#130610
 
-diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
-index 138aeb0a11..fc5b99d147 100644
---- a/meta/site/riscv32-linux
-+++ b/meta/site/riscv32-linux
-@@ -1,6 +1,16 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=8
-+ac_cv_alignof_unsigned_long=4
-+
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- glib_cv_uscore=${glib_cv_uscore=no}
-+glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
-+glib_cv_sizeof_intmax_t=${glib_cv_sizeof_intmax_t=8}
-+glib_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
-+glib_cv_sizeof_size_t=${glib_cv_sizeof_size_t=4}
-+glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
- 
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
-index 138aeb0a11..38bc5f044d 100644
---- a/meta/site/riscv64-linux
-+++ b/meta/site/riscv64-linux
-@@ -1,3 +1,8 @@
-+# general
-+ac_cv_alignof_guint32=4
-+ac_cv_alignof_guint64=8
-+ac_cv_alignof_unsigned_long=8
-+
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- glib_cv_uscore=${glib_cv_uscore=no}
--- 
-2.16.2
-
+Unfortunately that thread ended without any real conclusion but there
+are some suggestions on how to debug - e.g. try to determine which
+recipe / task is running at the time the session gets logged out.
 
