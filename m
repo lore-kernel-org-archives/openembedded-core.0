@@ -1,48 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CAD07600BC
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E7E7A78699
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 23:32:49 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id z12so3430762wrg.4
+	Tue, 20 Mar 2018 23:35:12 +0000 (UTC)
+Received: by mail-ot0-f181.google.com with SMTP id r30-v6so3738513otr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 16:32:51 -0700 (PDT)
+	Tue, 20 Mar 2018 16:35:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/ShhfbO5BCedP4bS3EVhLVJfiVM6r48KQ1SIK60LPiQ=;
-	b=Kr9+GyEs7Qy3ujMWWbW6xtUi0oVY7flkh4ShS5h/EqA3wlBJrC+BNDBCY5AigbAEt4
-	0un5qTIdScBIhjEeEbpachz1AvCGo0ixqu1Zmx36oefVnIfmQ/gJJR2NQhkBnD4CDR6M
-	C811QDwrvRtR2u3cjlRP8b8a3MDWtFx3t508xsvDl1/UucYKFrbDsnYZJ791P6gvIHZL
-	G3uMaNr8pZXZRjAQHlAoxXJU2KeCXfPoYQlE2EJuR6YYPCEvxls8TKYhZ5GcGYvxoJkM
-	0LXmgEiktxwA/Z0M3aRUgGLsTgJRkTlavmbgoyLTdkXQ05eiOfsd/yxu8oN45VdWdFql
-	Zy+g==
+	:cc; bh=6y24r0Nj2NpKUizUPQ9bs3OndqKR0OlxSi5IotPJ7fI=;
+	b=JW0D3X33Bcjm2g0RqWa5rQY2KZrP8jmrDKHXqR8JhTzYPLT433CWOV1ecNMqwdXnoq
+	M/CiSldNurUW/tcUem9BYM2bEnM2t2HrL0bpqsvg28m3mYg3/9UoyIY0SVa4QyejEpH7
+	9FXxjDcx8HiZpT4NelVP1706VV9q+ByXR675hNoDgC+jz05jAoIRic1smBrl1PIWvwa2
+	c4Dj5vAopD6MOvZ6VCKzJaA82MYE7p3rYHp00VA6f2A6dkd0ofptAfU5K5pNDYvgKVcF
+	acvS7v6SSZJg8ADNmPh/U4PLjmtLpnYWe47XMfNBX18xzd+x2sMa4SPkNNAoQOAWaw1C
+	oW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=/ShhfbO5BCedP4bS3EVhLVJfiVM6r48KQ1SIK60LPiQ=;
-	b=gjQr2MCT2shmVaDQqAtTjuJYT9XSuoznN03o0jnNE9M/N+8QzIwjxPn4gyQeL90psz
-	TzFVvtXD6oRLbQ6nUGnwPkIFabSdMXBXMIn9uoVM+fgsKfHaroOS83ZstoU7TF9HNYJC
-	itfjk3+OZvb5urhb0w4se4oXu4AUTfkV8nWQg8ZJD31RiYCbCCYA4aU/nkVRZDdwUxmN
-	qZsuwO2wZMbIHMtgxEbN1k7GA7SA4xhvPY+kMJTv0tL2n0TdA6e+IH5+q22cSI4jivyo
-	WThqkiP8WdHsY0v6TiWBAN5cL2HBjX/Mjm0Kpa0ENPpIvkCTCijrUlwh7xD8+xHQKqZt
-	iWjA==
-X-Gm-Message-State: AElRT7EcBO/bwaNFrqchyOGawBTAqd5NZHDr8S7SVx6VPOSvDPwrmIxq
-	rp1+9dnK7JDRjeCYq1FdbfhPPYF5VRI2OTcETgc=
-X-Google-Smtp-Source: AG47ELuXW2Q6C1Yz6A0O5RoWo/cnHu9/YnvsdwkdJFJYro7r7NGrFqksSc4FJVOXzo99sm2NAd5EdtMfMc0zrbWNusQ=
-X-Received: by 10.223.142.13 with SMTP id n13mr13459683wrb.133.1521588770687; 
-	Tue, 20 Mar 2018 16:32:50 -0700 (PDT)
+	bh=6y24r0Nj2NpKUizUPQ9bs3OndqKR0OlxSi5IotPJ7fI=;
+	b=DcgYrlOwimT6v/URrhpuH4AktyA2iKh6SoHDGBhf82dyZZHk3r46904Tl0b+IQgvbM
+	HhIHQoLBgklvOiUoPMWKNvFIwS/BHP2DZ72pEMUpla9dKNpgjTHiQB6oerNYPNGxY3by
+	FNMN3acI6yT1/lMr4BnpTflcE7ig4NLAt+49hcj1/KFZtjVtwQET2Ld5bawtar6mRTxP
+	7Jy3nmR54rR4/lVrREimxkKa4pAw9HDSeayd2MSQXVZMUWxIUfpf/nPKF4xh0XyPIgAo
+	EkNVcdi5/alg4JLf/vVVWUBGrGzd9Pf+6LT1YUAI7WCY2l0JN1JU5hcBeIeL4T3vYE9H
+	H1UQ==
+X-Gm-Message-State: AElRT7HSCHM66RhYwiqyRTHI071W1meS3kEmIpppTtrhppxZvljnfPK3
+	da7ED7fzfVV7G2TKD8p9jFngPYnzVQk76F4wkzo=
+X-Google-Smtp-Source: AG47ELs5SSxjjs82bXsaC+URYx/rZQmyQhUWLLsj88YBY/5PuulHRKzmVxt9lebSSqwVWZEVNAYdSvnjTjJDAOqAm7c=
+X-Received: by 2002:a9d:4a41:: with SMTP id
+	d1-v6mr12643248otj.341.1521588913878; 
+	Tue, 20 Mar 2018 16:35:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.30.136 with HTTP; Tue, 20 Mar 2018 16:32:50 -0700 (PDT)
+Received: by 2002:a9d:2221:0:0:0:0:0 with HTTP; Tue, 20 Mar 2018 16:35:13
+	-0700 (PDT)
+Received: by 2002:a9d:2221:0:0:0:0:0 with HTTP; Tue, 20 Mar 2018 16:35:13
+	-0700 (PDT)
 In-Reply-To: <3d59c4dd2b19c529ede09d2bbd10d39f2d56190a.1521587166.git.amanda.r.brindle@intel.com>
 References: <cover.1521587166.git.amanda.r.brindle@intel.com>
 	<3d59c4dd2b19c529ede09d2bbd10d39f2d56190a.1521587166.git.amanda.r.brindle@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 21 Mar 2018 00:32:50 +0100
-Message-ID: <CA+chaQchyELbN1znvJapZ4az8coY5Ursp2YmtwdsQfpb+fdyrw@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 20 Mar 2018 18:35:13 -0500
+Message-ID: <CAJdd5GagnDEbkMOmPvXODx3LXBiKR08EFS5x1vCQLnUJVh7ZuQ@mail.gmail.com>
 To: Amanda Brindle <amanda.r.brindle@intel.com>
-Cc: stephano.cetola@intel.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Cc: stephano.cetola@intel.com,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] waf.bbclass: Warn if waf doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,80 +60,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 23:32:50 -0000
-Content-Type: multipart/alternative; boundary="f403045f500a2bd0f00567e07e8f"
+X-List-Received-Date: Tue, 20 Mar 2018 23:35:13 -0000
+Content-Type: multipart/alternative; boundary="000000000000b4b95a0567e08605"
 
---f403045f500a2bd0f00567e07e8f
+--000000000000b4b95a0567e08605
 Content-Type: text/plain; charset="UTF-8"
 
-see https://patchwork.openembedded.org/patch/147693/
+On Mar 20, 2018 18:08, "Amanda Brindle" <amanda.r.brindle@intel.com> wrote:
 
-and updated version (just rebased after other waf related changes were
-merged):
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=jansa/master-submitted&id=3f70b555e3f6033b807e03247605f3fdad868646
+Before, waf.bbclass would fail to catch FileNotFoundError. Now, it will
+catch this error and warn that waf doesn't exist.
 
-but it was rejected by Ross before, maybe now it won't be when it has Yocto
-bug number in commit message..
+Fixes [YOCTO 12553]
+
+Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+---
+ meta/classes/waf.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index f9a851d..5bd5913 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -15,6 +15,8 @@ python waf_preconfigure() {
+             d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir}
+--libdir=${libdir}")
+     except subprocess.CalledProcessError as e:
+         bb.warn("Unable to execute waf --version, exit code %d. Assuming
+waf version without bindir/libdir support." % e.returncode)
++    except FileNotFoundError:
++        bb.warn("waf does not exist in %s" % subsrcdir)
+ }
 
 
-On Wed, Mar 21, 2018 at 12:07 AM, Amanda Brindle <amanda.r.brindle@intel.com
-> wrote:
+FWIW, this looks good to me
 
-> Before, waf.bbclass would fail to catch FileNotFoundError. Now, it will
-> catch this error and warn that waf doesn't exist.
->
-> Fixes [YOCTO 12553]
->
-> Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
-> ---
->  meta/classes/waf.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> index f9a851d..5bd5913 100644
-> --- a/meta/classes/waf.bbclass
-> +++ b/meta/classes/waf.bbclass
-> @@ -15,6 +15,8 @@ python waf_preconfigure() {
->              d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir}
-> --libdir=${libdir}")
->      except subprocess.CalledProcessError as e:
->          bb.warn("Unable to execute waf --version, exit code %d. Assuming
-> waf version without bindir/libdir support." % e.returncode)
-> +    except FileNotFoundError:
-> +        bb.warn("waf does not exist in %s" % subsrcdir)
->  }
->
->  do_configure[prefuncs] += "waf_preconfigure"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---f403045f500a2bd0f00567e07e8f
+ do_configure[prefuncs] += "waf_preconfigure"
+--
+2.7.4
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--000000000000b4b95a0567e08605
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">see=C2=A0<a href=3D"https://patchwork.openembedded.org/pat=
-ch/147693/">https://patchwork.openembedded.org/patch/147693/</a><div><br></=
-div><div>and updated version (just rebased after other waf related changes =
-were merged):</div><div><a href=3D"http://git.openembedded.org/openembedded=
--core-contrib/commit/?h=3Djansa/master-submitted&amp;id=3D3f70b555e3f6033b8=
-07e03247605f3fdad868646">http://git.openembedded.org/openembedded-core-cont=
-rib/commit/?h=3Djansa/master-submitted&amp;id=3D3f70b555e3f6033b807e0324760=
-5f3fdad868646</a><br></div><div><br></div><div>but it was rejected by Ross =
-before, maybe now it won&#39;t be when it has Yocto bug number in commit me=
-ssage..</div><div><br></div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On Wed, Mar 21, 2018 at 12:07 AM, Amanda Brindle <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:amanda.r.brindle@intel.com" target=3D"_blank=
-">amanda.r.brindle@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Before, waf.bbclass would fail to catch FileNotFoundError. Now, i=
-t will<br>
+<div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br><div class=3D"gma=
+il_quote">On Mar 20, 2018 18:08, &quot;Amanda Brindle&quot; &lt;<a href=3D"=
+mailto:amanda.r.brindle@intel.com">amanda.r.brindle@intel.com</a>&gt; wrote=
+:<br type=3D"attribution"><blockquote class=3D"quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">Before, waf.bbclass woul=
+d fail to catch FileNotFoundError. Now, it will<br>
 catch this error and warn that waf doesn&#39;t exist.<br>
 <br>
 Fixes [YOCTO 12553]<br>
@@ -137,10 +123,10 @@ Fixes [YOCTO 12553]<br>
 Signed-off-by: Amanda Brindle &lt;<a href=3D"mailto:amanda.r.brindle@intel.=
 com">amanda.r.brindle@intel.com</a>&gt;<br>
 ---<br>
-<span class=3D"">=C2=A0meta/classes/waf.bbclass | 2 ++<br>
+<div class=3D"quoted-text">=C2=A0meta/classes/waf.bbclass | 2 ++<br>
 =C2=A01 file changed, 2 insertions(+)<br>
 <br>
-</span>diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass<br>
+</div>diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass<br>
 index f9a851d..5bd5913 100644<br>
 --- a/meta/classes/waf.bbclass<br>
 +++ b/meta/classes/waf.bbclass<br>
@@ -154,10 +140,14 @@ t; % e.returncode)<br>
 +=C2=A0 =C2=A0 except FileNotFoundError:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;waf does not exist in %s&quot; %=
  subsrcdir)<br>
-=C2=A0}<br>
+=C2=A0}<br></blockquote></div></div></div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">FWIW, this looks good to me</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
 <br>
 =C2=A0do_configure[prefuncs] +=3D &quot;waf_preconfigure&quot;<br>
-<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+<div class=3D"elided-text">--<br>
 2.7.4<br>
 <br>
 --<br>
@@ -168,6 +158,6 @@ re@lists.<wbr>openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+</div></blockquote></div><br></div></div></div>
 
---f403045f500a2bd0f00567e07e8f--
+--000000000000b4b95a0567e08605--
