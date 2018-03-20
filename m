@@ -1,28 +1,53 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id A93BF789CA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 17B8060721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 10:47:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Mar 2018 03:47:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,335,1517904000"; d="scan'208";a="40524418"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2018 03:47:27 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id B8F36580713
+	Tue, 20 Mar 2018 10:53:02 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id g14so1761264iob.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 03:47:26 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 12:51:04 +0200
-Message-Id: <1521543064-27661-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] libsolv: refresh the patch
+	Tue, 20 Mar 2018 03:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TBCS8gHgkBSThWWVNQ3g+aKqgWv6hBYqtjDPgBkfSKQ=;
+	b=NlBMwt39y2Tc57368wuZFFWpYvqWqxeT8HVxQAPgCsYuS4opOxSBOM5Ee9myQ62vZa
+	R9grBwMZUKDZtr4PKOv46J8SLg4lUG16luKdA2wGu4I0NZ3dXe0Ywe1oxnDwJaaAqi6P
+	SB2y2PlMcSPU7Vbi7comR1y7SpYcpPzDV6STsk/v37xlhmXaSkYw9gOpG0og0Qie1B49
+	TCzKGGZ1aGfEV23NZrOKPKH+jz9ty9VcfvEt7ojqkphqEEg1O8dXHMqKgjkzDZz+ywfk
+	JOBXMpqU9hurihIG261G9+IUy//+tM0WY/M78q8tHZOVp/whUVjNNsXTmtqSz6UjGKCt
+	4tKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TBCS8gHgkBSThWWVNQ3g+aKqgWv6hBYqtjDPgBkfSKQ=;
+	b=U2NS9l9RCkRZDveDeg6Xvx50VShSyx9mBXvR+AR6UIGDa6L/1Q6CSSZF+Vz5S/4nNa
+	rwC1RY8hDOGpW4D+obpYFI7XVoz++ZvqdgsJpHcjiRIPCQDW6ckLNHblaNsdvvqEIjSF
+	00iNnPgzebg3j2v2xTP7X/3ae/nBNxO4AKcen8EH/WvheKfuxMdJR5+NFp2zp/8RiWEl
+	BZrbCWnDm9+rOJqAWFMPqlLVOEd0EwTaeVVidOlmGb30nmQt33+TqRYRJNo34UKYkfDJ
+	BJeMn2u2h78xVfyixMBwevglbtehRa0FL3Yf5gYSXX3wKWeP/peTFAil5FNhsu8uLugi
+	8R+g==
+X-Gm-Message-State: AElRT7E7KUwsFu7mlpoEj5xGJQDjayeozGw9LBuCA3943YBrw/SdRqZU
+	LeHwh7SneMef9uSexjsjUsWn+RAu9Q1WLaPAWC7BmQ==
+X-Google-Smtp-Source: AG47ELthlwhH+nEsGDgj23CPqEFoJ2NZ7XsR7JR61Tq7JSuNqutSf2DTQwluYDSJJex3VshSRdEqLdBUW7KJrenBju4=
+X-Received: by 10.107.6.231 with SMTP id f100mr16193554ioi.23.1521543184095;
+	Tue, 20 Mar 2018 03:53:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.30.9 with HTTP; Tue, 20 Mar 2018 03:52:43 -0700 (PDT)
+In-Reply-To: <833712e4-00aa-1e05-8df5-a0f9a18d4e29@linux.intel.com>
+References: <CY4PR11MB17663B664B1ED6ADE96BC48AC7D40@CY4PR11MB1766.namprd11.prod.outlook.com>
+	<dd055b01-fe83-d706-bce1-5a2aea3103fe@gmail.com>
+	<CAJTo0LbxDGNrJH8tDiCgMKoSHUsK8Q17BUH=UVkY8zDBAm70+g@mail.gmail.com>
+	<833712e4-00aa-1e05-8df5-a0f9a18d4e29@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Mar 2018 10:52:43 +0000
+Message-ID: <CAJTo0LadpoW1BCCbfhsEac7PBV2qNxuiWrnRk6MZeV2DVWiDEA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IFt5b2N0b10gWW9jdG8gUHJvamVjdCBTdGF0dXMgV1cxMuKAmTE4?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,120 +60,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 10:47:26 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 10:53:03 -0000
+Content-Type: multipart/alternative; boundary="001a113f9be4ffbcb90567d5e007"
 
-fixes:
+--001a113f9be4ffbcb90567d5e007
+Content-Type: text/plain; charset="UTF-8"
 
-WARNING: libsolv-0.6.33-r0 do_patch:
-Some of the context lines in patches were ignored. This can lead to
-incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
+On 20 March 2018 at 10:07, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-devtool modify <recipe>
-devtool finish --force-patch-refresh <recipe> <layer_path>
+> On 03/19/2018 10:07 PM, Burton, Ross wrote:
+>
+>>     Do we have a place identified for new changes (2.6) while 2.5
+>>     stabilizes.
+>>
+>>
+>> A formal place, no.  I tend to queue stuff in a branch if master isn't
+>> taking all of my energy, otherwise the patches will sit on the list until
+>> 2.5 releases.  Typically master and sumo branches won't diverge until
+>> post-release.
+>>
+>
+> Which brings me to a question: what is a good schedule and cadence for AUH
+> runs? Currently it's run on the 15th of every odd-numbered month (so
+> January, March, and so on), but I thought of shifting it one month forward,
+> so it doesn't land right in the middle of a feature freeze. Thoughts?
+>
 
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored). Further information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-Details:
-Applying patch
-0001-Add-fallback-fopencookie-implementation.patch
-patching file ext/CMakeLists.txt
-patching file ext/solv_xfopen.c
-Hunk #1 succeeded at 12 with fuzz 1 (offset -1 lines).
-Hunk #2 succeeded at 25 (offset -18 lines).
-Hunk #3 succeeded at 34 (offset -18 lines).
-Hunk #4 succeeded at 46 (offset -18 lines).
-patching file ext/solv_xfopen_fallback_fopencookie.c
-patching file ext/solv_xfopen_fallback_fopencookie.h
+How long does a single run take, and why not run it every month?
 
-Now at patch 0001-Add-fallback-fopencookie-implementation.patch
+Ross
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...0001-Add-fallback-fopencookie-implementation.patch | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+--001a113f9be4ffbcb90567d5e007
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch b/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-index a575d0e..ef0dd82 100644
---- a/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-Add-fallback-fopencookie-implementation.patch
-@@ -1,4 +1,4 @@
--From 4d9b6ec30b78d00ead0a22eb5d047dcdba37e99c Mon Sep 17 00:00:00 2001
-+From 6224f087120c9ca41b302ac85d611a7280edda33 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Neal=20Gompa=20=28=E3=83=8B=E3=83=BC=E3=83=AB=E3=83=BB?=
-  =?UTF-8?q?=E3=82=B3=E3=82=99=E3=83=B3=E3=83=8F=E3=82=9A=29?=
-  <ngompa13@gmail.com>
-@@ -13,6 +13,7 @@ Alex Kanavin: rebased CMakeLists.txt change to apply to latest upstream code.
- 
- Upstream-Status: Denied [https://github.com/openSUSE/libsolv/pull/112]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  ext/CMakeLists.txt                     |   7 ++
-  ext/solv_xfopen.c                      |  10 +--
-@@ -23,7 +24,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  create mode 100644 ext/solv_xfopen_fallback_fopencookie.h
- 
- diff --git a/ext/CMakeLists.txt b/ext/CMakeLists.txt
--index 586eda8..477a2ef 100644
-+index b8917a2..fac6c32 100644
- --- a/ext/CMakeLists.txt
- +++ b/ext/CMakeLists.txt
- @@ -4,6 +4,13 @@ SET (libsolvext_SRCS
-@@ -41,11 +42,11 @@ index 586eda8..477a2ef 100644
-      SET (libsolvext_SRCS ${libsolvext_SRCS}
-          pool_fileconflicts.c repo_rpmdb.c)
- diff --git a/ext/solv_xfopen.c b/ext/solv_xfopen.c
--index b0421bf..31345dd 100644
-+index 2c64bb6..eb3a3ad 100644
- --- a/ext/solv_xfopen.c
- +++ b/ext/solv_xfopen.c
--@@ -13,6 +13,10 @@
-- #include <zlib.h>
-+@@ -12,6 +12,10 @@
-+ #include <string.h>
-  #include <fcntl.h>
-  
- +#if !defined(HAVE_FUNOPEN) && !defined(HAVE_FOPENCOOKIE)
-@@ -55,7 +56,7 @@ index b0421bf..31345dd 100644
-  #include "solv_xfopen.h"
-  #include "util.h"
-  
--@@ -39,7 +43,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -21,7 +25,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-  	ssize_t (*cwrite)(void *, const char *, size_t),
-  	int (*cclose)(void *))
-  {
-@@ -64,7 +65,7 @@ index b0421bf..31345dd 100644
-    if (!cookie)
-      return 0;
-    return funopen(cookie,
--@@ -48,7 +52,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -30,7 +34,7 @@ static FILE *cookieopen(void *cookie, const char *mode,
-        (fpos_t (*)(void *, fpos_t, int))NULL,					/* seekfn */
-        cclose
-        );
-@@ -73,7 +74,7 @@ index b0421bf..31345dd 100644
-    cookie_io_functions_t cio;
-  
-    if (!cookie)
--@@ -60,8 +64,6 @@ static FILE *cookieopen(void *cookie, const char *mode,
-+@@ -42,8 +46,6 @@ static FILE *cookieopen(void *cookie, const char *mode,
-      cio.write = cwrite;
-    cio.close = cclose;
-    return  fopencookie(cookie, *mode == 'w' ? "w" : "r", cio);
-@@ -246,5 +247,5 @@ index 0000000..6a7bfee
- +
- +#endif
- -- 
--2.11.0
-+2.4.0
- 
--- 
-2.4.0
+<div dir=3D"ltr">On 20 March 2018 at 10:07, Alexander Kanavin <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_bl=
+ank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<span class=3D"">On 03/19/2018 10:07 PM, Burton, Ross wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+=C2=A0 =C2=A0 Do we have a place identified for new changes (2.6) while 2.5=
+<br>
+=C2=A0 =C2=A0 stabilizes.<br>
+<br>
+<br>
+A formal place, no.=C2=A0 I tend to queue stuff in a branch if master isn&#=
+39;t taking all of my energy, otherwise the patches will sit on the list un=
+til 2.5 releases.=C2=A0 Typically master and sumo branches won&#39;t diverg=
+e until post-release.<br>
+</blockquote>
+<br></span>
+Which brings me to a question: what is a good schedule and cadence for AUH =
+runs? Currently it&#39;s run on the 15th of every odd-numbered month (so Ja=
+nuary, March, and so on), but I thought of shifting it one month forward, s=
+o it doesn&#39;t land right in the middle of a feature freeze. Thoughts?<br=
+></blockquote><div><br></div><div>How long does a single run take, and why =
+not run it every month?</div><div><br></div><div>Ross=C2=A0</div></div></di=
+v></div>
 
-
+--001a113f9be4ffbcb90567d5e007--
