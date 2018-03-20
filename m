@@ -1,51 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 635377899F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E26A67855C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 12:10:18 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id z12so1437030wrg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 05:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Bhp7mjWdIuQ0BuW5SpQIjlaJl1MuGpcqtAJi/ARBu8U=;
-	b=CLwgxqbsdMyaupBSRWigLL8JI1N9QlY/MKHt0WRFvNW87itmmUdaNdhwvimy7T4zdC
-	XWbFZqBxGLX+uchvWNXElWZ54lhC/n4HLaXi2ZvuVt4TKKEaLnGgU9sywWvfDNqZwnzg
-	Maj6N/fuC7hT27rfMwLZABIcMImJIqGCLaVzUHr64rRB1MQeUB4/1gW/bO5TrdJDcRnq
-	FsgEFxjuwQdyJbnOI10eysKmxZ7eN3Q+BTKggfN7ebcOCrc4ozZ52/xIs/u2DM//R99I
-	YBg0EN8PqpQDwI6YG9tTmPRAu59C+TI6DQCcJ8LxyZ0X6Hre4g3gmiY8Ice8d0XRhPYP
-	HV5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Bhp7mjWdIuQ0BuW5SpQIjlaJl1MuGpcqtAJi/ARBu8U=;
-	b=Yz3/fcNyW1951xSdtpA5oT+LoavbvO5P8R3lMyyQvi33Xt4Ouaojwfn80ZILCe1qwk
-	zSQhgedw84d6djod5TjKJnmzSS5EhQXuZsEPyEjAP+U5iAHu8V/swu9EiFMUCxjlWuHd
-	zPqvQ6DU4hUfbj3Td+xm7t32gKaiuvDDoGqA0ACCgWfBceU21x+ylyhuQAnfMLwvWdM+
-	RQY1a3Y9qVRFlKZwyRcmiiGx3Z2IlLiC1oHQfebRduzUvDTV1lL3TriuzRDyF0BvskvM
-	skwIKV3sUZ8E3pW4vS2ERPL9lI8/NORKVq4aioZ0htFwHkzaIYCqNDX1o4mdyipmcBml
-	0L4w==
-X-Gm-Message-State: AElRT7FGX3Q5r9wH18DZ+RE+UeVwSi4l1Zs6xuQ8HoF2jsujFBWWabUb
-	lsj19Bu2zWmr3OPfqo0VgFJ9xQ==
-X-Google-Smtp-Source: AG47ELvwKjGMFfrHRAbD8ijhXq6SrYHihMaXm0R1guG8B5CWeFZCjz//4z+iSUA++Wn2QP8ox5vxrw==
-X-Received: by 10.223.158.6 with SMTP id u6mr2590456wre.142.1521547819094;
-	Tue, 20 Mar 2018 05:10:19 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	k184sm1327611wmk.45.2018.03.20.05.10.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Mar 2018 05:10:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 12:10:17 +0000
-Message-Id: <20180320121017.943-2-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20180320121017.943-1-Martin.Jansa@gmail.com>
-References: <43d5b925-755b-3dbc-63b0-0df6e89396db@linux.intel.com>
-	<20180320121017.943-1-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] shadow.inc: run postinst only for target
+	Tue, 20 Mar 2018 15:59:55 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w2KFxdRD018876
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 20 Mar 2018 15:59:40 GMT
+Message-ID: <1521561579.25754.202.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Tue, 20 Mar 2018 15:59:39 +0000
+In-Reply-To: <61d1ecb9-e4a6-8d26-9bcc-76c7c42abb7f@linux.intel.com>
+References: <CY4PR11MB17663B664B1ED6ADE96BC48AC7D40@CY4PR11MB1766.namprd11.prod.outlook.com>
+	<dd055b01-fe83-d706-bce1-5a2aea3103fe@gmail.com>
+	<CAJTo0LbxDGNrJH8tDiCgMKoSHUsK8Q17BUH=UVkY8zDBAm70+g@mail.gmail.com>
+	<833712e4-00aa-1e05-8df5-a0f9a18d4e29@linux.intel.com>
+	<CAJTo0LadpoW1BCCbfhsEac7PBV2qNxuiWrnRk6MZeV2DVWiDEA@mail.gmail.com>
+	<61d1ecb9-e4a6-8d26-9bcc-76c7c42abb7f@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IFt5b2N0b10gWW9jdG8gUHJvamVjdCBTdGF0dXMgV1cxMuKAmTE4?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 12:10:18 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 15:59:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* fails for nativesdk-shadow with:
-  pwconv: /etc/passwd.29063: No such file or directory
-  pwconv: cannot lock /etc/passwd; try again later.
+On Tue, 2018-03-20 at 13:26 +0200, Alexander Kanavin wrote:
+> On 03/20/2018 12:52 PM, Burton, Ross wrote:
+> > 
+> >     Which brings me to a question: what is a good schedule and
+> > cadence
+> >     for AUH runs? Currently it's run on the 15th of every odd-
+> > numbered
+> >     month (so January, March, and so on), but I thought of shifting
+> > it
+> >     one month forward, so it doesn't land right in the middle of a
+> >     feature freeze. Thoughts?
+> > 
+> > 
+> > How long does a single run take, and why not run it every month?
+> Just a bit longer than a day, maybe 30 hours, if it needs to update
+> the 
+> typical amount of 100-150 packages. I'll shift it to monthly then.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-extended/shadow/shadow.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Personally I'm leaning to every couple of weeks...
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index cc189649b2..48a3be87e6 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -190,7 +190,7 @@ ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
- ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
- 
- PACKAGE_WRITE_DEPS += "shadow-native"
--pkg_postinst_${PN} () {
-+pkg_postinst_${PN}_class-target () {
- 	if [ "x$D" != "x" ]; then
- 	  rootarg="--root $D"
- 	else
--- 
-2.15.1
+Cheers,
 
+Richard
 
