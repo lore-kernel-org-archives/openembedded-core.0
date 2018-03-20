@@ -1,43 +1,49 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 880D678226
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D5A85605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 12:05:03 +0000 (UTC)
-Received: by mail-ua0-f172.google.com with SMTP id w3so824921uae.5
+	Tue, 20 Mar 2018 12:08:46 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r82so3033351wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 05:05:05 -0700 (PDT)
+	Tue, 20 Mar 2018 05:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=yvS4OCSXleQwp7Mn8Q+AUv4belTxuT94tgQMQZwyEQU=;
-	b=oQnkEVvBbGu5Md/cdmPVOBHDnMesGMjX0GbeuLsXPu80i8n5amKoXRu1X7C0aJ4tn6
-	ug4Dsm3eBl20QwTaoXg9FWqXEwUNqcz5jBi5VIW3ZrzcZXfaEPO7uJjqJus0l0F/IvIE
-	GqSWpLHnhUGQTScVTZ6uhK/E7d6rRhPQKsl8LTIOL4horFODGtP/bLlrE1/SJX5ay3a7
-	qoF6LbD8HPAZJvT/Vwu5LQX+uyNl8T9DQly0FangIOd7QvXmv1TwltIFlM/8pLquMU50
-	Bi2ZwrodgYRmgAkWwogwo14OutfMnULSWls3pJlNhNdd/NMNGYaIkMO6ewKQRf6Wt9xd
-	VeZw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=KJd0CrvdsSTZj+spc6W5Rjh8ZavQpMVz+xfL7rd0dDY=;
+	b=KC2fYlWrD0n4je81RH0nYIueFNJxDsSZYmjlbGY/ib2rMMngDPYjnUE/qWZWb1gI29
+	1s1llG0t70gIg2EW1+sc8oTfmXhCJ88TttlnP+K3oPJKuXVquqRHOfVKrH34O5XLcRfT
+	OqOzn94n5HQ3j93aUVnwK4QISA8as//WnkPliKxLVKT1GtLBg7eJ4GZJw1jdjzjhQRAq
+	d7VvIqQP929EExaMpF2D2GTXYL8uwkcGFl3QAudBYT91fSw0cQgpvhBDGZRgC9+MPT6Q
+	6iIShBoUvlrFAb/cHClN+d0K4nQZEsZRuTh6hkIJ2R2y1Y/ekqVrYeofYfrC3TPOFbgL
+	N12Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=yvS4OCSXleQwp7Mn8Q+AUv4belTxuT94tgQMQZwyEQU=;
-	b=N5trtmDhn2EqxiQFc9lVRP6MbRUrfDmIRzgwmc0RAUbPjRC+JmQklUq9zGWQmaaiTA
-	PYZiSbc5cqM4N16BNPLl1pq6XnnNp2F+dk0mU5L4o5SSrR6mXfrUwU0+/5tDsi0mLdrA
-	WOFBkUSyyrjv3qWj+IGIsBr5dVtAzFcqx3BfbpIM52GQha4I9sFlBQX6dCEFCLcbQAJC
-	aJL3dh4GTzowMBKvSarefxcac0fBJC1HvX8bR+K89zgVyy7oSGeq0FNovipOw+cXVZIf
-	MlAgWrpKOm7wC7gI81vYvN09nf4Fc0zUyMCzB6TZlQwGQSM7BaHnW2SOK9hV7OV0ycAV
-	ZVLA==
-X-Gm-Message-State: AElRT7HwuIIcarJaShekqJgAIlFdkNNmilPdZlvdcnOebG2Vdu8Rsbcx
-	5VKVqaCL2/7SHQ0+eDuOueAGBk7+PFOw6dwz7Ec1Vz+T
-X-Google-Smtp-Source: AG47ELue99sMC0Qh3r58ZDBgFrwvzaJOL8nThvmAC6Wqu2Sv2yksnFl9VjZjZM9n7P10dmY55QtWL5ASLHzEmSA3jiI=
-X-Received: by 10.159.61.203 with SMTP id e11mr3784611uaj.115.1521547504815;
-	Tue, 20 Mar 2018 05:05:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.34.4 with HTTP; Tue, 20 Mar 2018 05:05:04 -0700 (PDT)
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Tue, 20 Mar 2018 17:35:04 +0530
-Message-ID: <CAPGMVzHSpbw+h_dbc=-9Cdm0_Q3o4EnOEcjH6fxZ3kpv6wwGNg@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=KJd0CrvdsSTZj+spc6W5Rjh8ZavQpMVz+xfL7rd0dDY=;
+	b=j0zww1v3ldjMSCGUbg7DnLvWp94l5UGl+1tHO0UsyKlzVHNvxklYq8x99vZpNTbssC
+	jAC8gRa0mInKdzOG+6d/3268Yq2Jwzg9bn8enWNKhVOWl4PN17jETk52zn5Jg0faWs9j
+	59wjAeu+kBv50NHNGzWApsAkNx6scMpyIhzm8eqqOwA9FTTZCuSRzg0b+y91lXE3U29D
+	1u2ZiuEDzzdO8lsjq0jLL1mvoYAMM8PkzmV6JN2mqYfuHLG7BGnUGAbIYAuFBsinnsJj
+	5bOlUSpNJEDvrjpzupnFpuZkHIjVAkXsmQzIPCNjM6bHun8CWzzmG9cpTnqQqL4mmCsE
+	JC+A==
+X-Gm-Message-State: AElRT7EFfbu90Z1wPudW/oe9q4GGW8VssNn8Eb9elBTVF+DDgnTcVIBv
+	v0su/iCydK3fNRVUXLaay5bQkg==
+X-Google-Smtp-Source: AG47ELvF/oj8RSz/B38YkWL0dXFYxVBnMTmY6A8KVIx8U3IJ35WbpGOgXK88cMdkHGa4exiI8NvpTg==
+X-Received: by 10.28.198.2 with SMTP id w2mr1861914wmf.75.1521547727428;
+	Tue, 20 Mar 2018 05:08:47 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	m35sm4152583wrm.59.2018.03.20.05.08.46
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 20 Mar 2018 05:08:46 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Packages build via recipe
+Date: Tue, 20 Mar 2018 12:08:49 +0000
+Message-Id: <20180320120849.586-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.15.1
+In-Reply-To: <CAJTo0LayEiw3bpXB7a-mKiGbi3uOJhFhYt=+4aV84dTSuVoJ3w@mail.gmail.com>
+References: <CAJTo0LayEiw3bpXB7a-mKiGbi3uOJhFhYt=+4aV84dTSuVoJ3w@mail.gmail.com>
+Subject: [PATCH] iputils: change default PACKAGECONFIG to disable libidn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 12:05:04 -0000
-Content-Type: multipart/alternative; boundary="089e0824502888938e0567d6e2fc"
+X-List-Received-Date: Tue, 20 Mar 2018 12:08:47 -0000
 
---089e0824502888938e0567d6e2fc
-Content-Type: text/plain; charset="UTF-8"
+* wrong revision of this patch, where the commit message didn't match
+  with the default PACKAGECONFIG value, was merged to master, update
+  it to avoid confusion
 
-I have been trying to build keras and tensor flow packages on yocto's image
-that is poky but not able to do so since there are no recipes for them.
+* it got enabled by default, but without the dependency on libidn in:
+  commit 5997981fa2c22609a88b8cbb595dbf7758b2f7c2
+  Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+  AuthorDate: Thu Feb 1 20:02:08 2018 +0200
+  Subject: iputils: update to 20161105
+
+* https://github.com/iputils/iputils/blob/master/RELNOTES.old
+  mentiones that IDN was enabled by default in:
+  [s20160308] and surprisingly the same in [s20150815]
+  but there are no release notes for s20151218 version we were using until
+  now, don't know how it really relates to [s20150815].
+
+* but there are some issues with libidn as described in:
+  https://github.com/iputils/iputils/commit/f3a461603ef4fb7512ade3bdb73fe1824e294547
+  so disable it by default.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/iputils/iputils_s20161105.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/iputils/iputils_s20161105.bb b/meta/recipes-extended/iputils/iputils_s20161105.bb
+index dda891c7f7..0125739b03 100644
+--- a/meta/recipes-extended/iputils/iputils_s20161105.bb
++++ b/meta/recipes-extended/iputils/iputils_s20161105.bb
+@@ -23,7 +23,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+-PACKAGECONFIG ?= "libidn"
++PACKAGECONFIG ?= ""
+ PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn"
+ 
+ do_compile () {
+-- 
+2.15.1
 
 
-What's the way to add keras and tensor flow packages to poky?
-
-Thanks
-
---089e0824502888938e0567d6e2fc
-Content-Type: text/html; charset="UTF-8"
-
-<div dir="ltr"><pre>I have been trying to build keras and tensor flow packages on yocto&#39;s image
-that is poky but not able to do so since there are no recipes for them.
-
-
-What&#39;s the way to add keras and tensor flow packages to poky?<br><br></pre><pre>Thanks<br></pre><div><div class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><br></div></div></div>
-</div>
-
---089e0824502888938e0567d6e2fc--
