@@ -1,47 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DAE47897C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9513C7847B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 17:36:30 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 68so922328pfx.3
+	Tue, 20 Mar 2018 18:00:59 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id l12so3431677ioc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 10:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 20 Mar 2018 11:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jVCD2QNNn/v5Nqfojv90nsgrey9VjacpDHETL2GU6JY=;
-	b=bWeEY5/gWFTurVCj//wxN6zQzPvNISyv8dUGyFudF+In2WQxSzfNsWR+8YMFUMOLvo
-	f05InTmy3CEhVVLGvkBr11BNll7+Z/cdYq4NZSIkW9eAnVfL1B+EneF6u/yQnFjqK7RR
-	juAU4iNovMr7yuq0ecVhfK9+kAN44obpiFHIzo5SukefbozSI/P5X9iJQZga9OWsc70o
-	Kg9jkGhZiIDYGMAi8A06gz2J73EKqDU06aa591NBHtA3UwjurlGzKtIs/Y23z7uVPpqb
-	c91Z/ZqcLAWHpHRFQ9RxPH3SM1onDLRZtJzY0udBicL7bUoJT9qz68w7PW8InKiurJKx
-	ywyQ==
+	:cc; bh=o+JhDEJrhIga5juxQYmRnYzkVEUwXO5Hz7aGMjkwwuI=;
+	b=o6MvPGSrm+g+bhw4oiy7Skdc9C7U/w5nMr+U0DAf5KA+G8mmfWebDjroJZ1MHCqzI/
+	E2cEAfjRBqMl/C5+tFr6p24D+AORKjwzBB7HBedYYRK1VO/Vvegd3jwGBA0qFLp/5VRA
+	rxpWBBhoHIyh81Rj4kpY7TVaL4qhKLPfBpqHWmJbXzNiQGDtXPpgoOt2iVAyw5/nCJzs
+	ldpbiwyzx6PmtUNx175K0e60kOYNnNE54m761qt/kGvwH14i3wYamnX+L7C/CqdxDoV4
+	9MJKVdMwLCiMO3zyQEsE39/LnyhmmDEKDEk+sh73oLLEu06B9skX7/W70H19PkRYJa+B
+	4kMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=jVCD2QNNn/v5Nqfojv90nsgrey9VjacpDHETL2GU6JY=;
-	b=ogEjGJgUbvTJBgToZ406HUjareGgIzhq59+CgIILSxMwXKdWG8poql1yx2WkyZhgyd
-	axxaXN9DjRUzmOXXQGJCibCllH4WYF5HKrfBiHDq45LBQcR9FMIKpJeOTXgtFq+jjufu
-	DHQ9/LZZT+hl8VQZGdsSu6ZcriP2iIsS3/SQMrZoJczjIR9MlO5V5eDY/p3NAl9TOy0M
-	TPLL+OySRLKANb3as07nD+NExwCxAKxIrnY2JFgMqQurAtWaF/HIKB5EeVaezRktTp7h
-	l9JGPG009WmyryD3ynqVhdzinS3agMmkhhBADbZjTXsc/rKrMiWdjhguyk2eV25e+0VQ
-	OrEQ==
-X-Gm-Message-State: AElRT7HRvYsgRpd3r13nky3D+k7qurT1qPX85qAy3dmGycnZiE58Zst3
-	xAhJ1Mf2BdFAKQhgR9xujXLTzT3hF3vj3nQsSzc=
-X-Google-Smtp-Source: AG47ELsIfZsX3rcnKQQOybfdx4QTVHnFTDBR6g1imDZr2HLyMDJ6HH8TM9gfJNwX9xxL3s/g1Urv5mIjGkv/DhSjp6I=
-X-Received: by 10.101.97.15 with SMTP id z15mr10809288pgu.393.1521567392043;
-	Tue, 20 Mar 2018 10:36:32 -0700 (PDT)
+	bh=o+JhDEJrhIga5juxQYmRnYzkVEUwXO5Hz7aGMjkwwuI=;
+	b=GwZkmUb1dt1zXzXPBsh9UdtCC9vQzm4acqBqSDXdZqkrqK1dGaP69K1TG4riq/i4Qq
+	fT8SauI9pp8V/aWAISwRx9SKf/nT1rk2ZKunwjWMDsdiiipq8HICAR46IBvqLygPgFf5
+	XxzYvQvk5DOUQwlFLsa/srs7IGZdAQ0bFfNff5S2Opb99gD1yGEFcRDJMXz52LCrLjbX
+	o0m9JNMdaJcw8RTMsOJ29QnvmR9EZAJqy1th4NwVdM3RUYo3eXkeA6dCyjt+3eZagZXT
+	bX3w9zS3we8xUN0sWNnV7vPyfM455G6rmqUkCxvDdAQjxTGZqug38vkwgOknlNJFEajz
+	UNxA==
+X-Gm-Message-State: AElRT7GiQJ91wdpKUTfA66MaEDgAMYYF60/S1eT5JJ5uG2eQVQ9BLxIx
+	YFiqvQgxPiQcLtGnLF3j+o2wlqdH68DVy5vw5BAWvA==
+X-Google-Smtp-Source: AG47ELsnjecDlHzC3KnKAqcIOM5wR0H2xse33iWrpRJJNMnjb6K8EeIQ5yG8xiROw3Wzs65emi+OMwMFWplqxyN60as=
+X-Received: by 10.107.37.212 with SMTP id l203mr16652682iol.20.1521568860612; 
+	Tue, 20 Mar 2018 11:01:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.241.68 with HTTP; Tue, 20 Mar 2018 10:36:01 -0700 (PDT)
-In-Reply-To: <CAO5Uq5RBUztJ5uLdONZ0apJzCko_oXQ6L3D-9s-59Yvip9+BiQ@mail.gmail.com>
+Received: by 10.107.30.9 with HTTP; Tue, 20 Mar 2018 11:00:40 -0700 (PDT)
+In-Reply-To: <CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
 References: <cover.1520841539.git.Qi.Chen@windriver.com>
 	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
 	<CAO5Uq5RBUztJ5uLdONZ0apJzCko_oXQ6L3D-9s-59Yvip9+BiQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 Mar 2018 10:36:01 -0700
-Message-ID: <CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
+	<CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Mar 2018 18:00:40 +0000
+Message-ID: <CAJTo0Lba_b2Hgd27movji5BQ5yqCrt5bqmXbwrJYuwth_oKKvA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, ChenQi <Qi.Chen@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] systemd: upgrade to 237
@@ -57,35 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 17:36:31 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 18:00:59 -0000
+Content-Type: multipart/alternative; boundary="001a11405f1670674e0567dbdb8a"
+
+--001a11405f1670674e0567dbdb8a
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 20, 2018 at 10:19 AM, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> On Mon, Mar 12, 2018 at 8:38 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
->> Upgrade systemd to 237.
->>
->
-> ...
->
->> @@ -80,7 +78,7 @@ PACKAGECONFIG ??= " \
->>      polkit \
->>      quotacheck \
->>      randomseed \
->> -    resolved \
->> +    resolve \
->
-> I guess this was deliberate, but does it need picking up in release
-> notes? Tripped up my builds off of master - clearly a trivial fix
-> though.
+On 20 March 2018 at 17:36, Khem Raj <raj.khem@gmail.com> wrote:
 
-hmm good catch but why change ?
-
+> >> @@ -80,7 +78,7 @@ PACKAGECONFIG ??= " \
+> >>      polkit \
+> >>      quotacheck \
+> >>      randomseed \
+> >> -    resolved \
+> >> +    resolve \
+> >
+> > I guess this was deliberate, but does it need picking up in release
+> > notes? Tripped up my builds off of master - clearly a trivial fix
+> > though.
 >
-> --
-> Alex Kiernan
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> hmm good catch but why change ?
 
+
+Bah, didn't notice this.
+
+Chen, can you submit a patch to change this back?
+
+Ross
+
+--001a11405f1670674e0567dbdb8a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 20 March 2018 at 17:36, Khem Raj <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
+/a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt;&gt; @@ -80,7 +78,7=
+ @@ PACKAGECONFIG ??=3D &quot; \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 polkit \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 quotacheck \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 randomseed \<br>
+&gt;&gt; -=C2=A0 =C2=A0 resolved \<br>
+&gt;&gt; +=C2=A0 =C2=A0 resolve \<br>
+&gt;<br>
+&gt; I guess this was deliberate, but does it need picking up in release<br=
+>
+&gt; notes? Tripped up my builds off of master - clearly a trivial fix<br>
+&gt; though.<br>
+<br>
+</span>hmm good catch but why change ?</blockquote><div><br></div><div>Bah,=
+ didn&#39;t notice this.</div><div><br></div><div>Chen, can you submit a pa=
+tch to change this back?</div><div><br></div><div>Ross</div></div></div></d=
+iv>
+
+--001a11405f1670674e0567dbdb8a--
