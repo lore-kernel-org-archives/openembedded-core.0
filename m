@@ -1,25 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E2F6178690
+Return-Path: <amanda.r.brindle@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1349978690
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 23:07:38 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2KN7bja020819
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 20 Mar 2018 23:07:39 GMT
-Message-ID: <1521587257.25754.206.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>,
-	openembedded-core@lists.openembedded.org, manjukum@xilinx.com
-Date: Tue, 20 Mar 2018 23:07:37 +0000
-In-Reply-To: <1521577519-32315-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-References: <1521577519-32315-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] wget.py: handle BBFetchException
+	Tue, 20 Mar 2018 23:07:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Mar 2018 16:07:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,337,1517904000"; d="scan'208";a="184573354"
+Received: from aurora.jf.intel.com ([10.7.198.68])
+	by orsmga004.jf.intel.com with ESMTP; 20 Mar 2018 16:07:51 -0700
+From: Amanda Brindle <amanda.r.brindle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Mar 2018 16:07:39 -0700
+Message-Id: <cover.1521587166.git.amanda.r.brindle@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Amanda Brindle <amanda.r.brindle@intel.com>, stephano.cetola@intel.com
+Subject: [PATCH 0/1] waf.bbclass: Warn if waf doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 23:07:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2018 23:07:51 -0000
 
-On Tue, 2018-03-20 at 13:25 -0700, Bhargava Sreekantappa Gayathri
-wrote:
-> When BB_NO_NETWORK is set to 1 and the first mirror url needs network
-> access, then bitbake will just fail and report error instead of going
-> through the list of mirror urls. This is because BBFetchException is
-> not
-> handled when wget is called.
-> 
-> This patch calls wget with a except blocks which returns to the
-> previous
-> function instead of failing immediately.
+The following changes since commit f49ee61422c867516db252054e993df29f775136:
 
-This doesn't look right to me unfortunately. It looks like you special
-cased one fetcher module when mirrors using other fetchers could also
-fail. I'd have expected a patch to fix this somewhere in the mirrors
-code, not in individual fetchers.
+  systemd-boot: upgrade to 237 (2018-03-20 09:59:33 +0000)
 
-Am I missing a bug in the wget fetcher?
+are available in the git repository at:
 
-Cheers,
+  git://git.yoctoproject.org/poky-contrib abrindle/waf_error
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/waf_error
 
-Richard
+Amanda Brindle (1):
+  waf.bbclass: Warn if waf doesn't exist
+
+ meta/classes/waf.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+-- 
+2.7.4
+
 
