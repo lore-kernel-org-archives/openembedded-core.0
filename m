@@ -1,52 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9513C7847B
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id E34CF7866B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 18:00:59 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id l12so3431677ioc.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 11:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=o+JhDEJrhIga5juxQYmRnYzkVEUwXO5Hz7aGMjkwwuI=;
-	b=o6MvPGSrm+g+bhw4oiy7Skdc9C7U/w5nMr+U0DAf5KA+G8mmfWebDjroJZ1MHCqzI/
-	E2cEAfjRBqMl/C5+tFr6p24D+AORKjwzBB7HBedYYRK1VO/Vvegd3jwGBA0qFLp/5VRA
-	rxpWBBhoHIyh81Rj4kpY7TVaL4qhKLPfBpqHWmJbXzNiQGDtXPpgoOt2iVAyw5/nCJzs
-	ldpbiwyzx6PmtUNx175K0e60kOYNnNE54m761qt/kGvwH14i3wYamnX+L7C/CqdxDoV4
-	9MJKVdMwLCiMO3zyQEsE39/LnyhmmDEKDEk+sh73oLLEu06B9skX7/W70H19PkRYJa+B
-	4kMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=o+JhDEJrhIga5juxQYmRnYzkVEUwXO5Hz7aGMjkwwuI=;
-	b=GwZkmUb1dt1zXzXPBsh9UdtCC9vQzm4acqBqSDXdZqkrqK1dGaP69K1TG4riq/i4Qq
-	fT8SauI9pp8V/aWAISwRx9SKf/nT1rk2ZKunwjWMDsdiiipq8HICAR46IBvqLygPgFf5
-	XxzYvQvk5DOUQwlFLsa/srs7IGZdAQ0bFfNff5S2Opb99gD1yGEFcRDJMXz52LCrLjbX
-	o0m9JNMdaJcw8RTMsOJ29QnvmR9EZAJqy1th4NwVdM3RUYo3eXkeA6dCyjt+3eZagZXT
-	bX3w9zS3we8xUN0sWNnV7vPyfM455G6rmqUkCxvDdAQjxTGZqug38vkwgOknlNJFEajz
-	UNxA==
-X-Gm-Message-State: AElRT7GiQJ91wdpKUTfA66MaEDgAMYYF60/S1eT5JJ5uG2eQVQ9BLxIx
-	YFiqvQgxPiQcLtGnLF3j+o2wlqdH68DVy5vw5BAWvA==
-X-Google-Smtp-Source: AG47ELsnjecDlHzC3KnKAqcIOM5wR0H2xse33iWrpRJJNMnjb6K8EeIQ5yG8xiROw3Wzs65emi+OMwMFWplqxyN60as=
-X-Received: by 10.107.37.212 with SMTP id l203mr16652682iol.20.1521568860612; 
-	Tue, 20 Mar 2018 11:01:00 -0700 (PDT)
+	Tue, 20 Mar 2018 18:02:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Mar 2018 11:02:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,336,1517904000"; d="scan'208";a="43753397"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2018 11:02:15 -0700
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+References: <43d5b925-755b-3dbc-63b0-0df6e89396db@linux.intel.com>
+	<20180320121017.943-1-Martin.Jansa@gmail.com>
+	<CAJTo0LY26Yp5tgyc3CJLGbeNioRB0Bu_SRd0o3CgAeHzvO8+=w@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <580eec70-ffc4-fa12-b52d-28717c0c21a5@linux.intel.com>
+Date: Tue, 20 Mar 2018 19:55:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Tue, 20 Mar 2018 11:00:40 -0700 (PDT)
-In-Reply-To: <CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
-References: <cover.1520841539.git.Qi.Chen@windriver.com>
-	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
-	<CAO5Uq5RBUztJ5uLdONZ0apJzCko_oXQ6L3D-9s-59Yvip9+BiQ@mail.gmail.com>
-	<CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Mar 2018 18:00:40 +0000
-Message-ID: <CAJTo0Lba_b2Hgd27movji5BQ5yqCrt5bqmXbwrJYuwth_oKKvA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, ChenQi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: upgrade to 237
+In-Reply-To: <CAJTo0LY26Yp5tgyc3CJLGbeNioRB0Bu_SRd0o3CgAeHzvO8+=w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] gio-module-cache.bbclass: disable update_gio_module_cache postinst script for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 18:00:59 -0000
-Content-Type: multipart/alternative; boundary="001a11405f1670674e0567dbdb8a"
+X-List-Received-Date: Tue, 20 Mar 2018 18:02:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a11405f1670674e0567dbdb8a
-Content-Type: text/plain; charset="UTF-8"
+On 03/20/2018 06:07 PM, Burton, Ross wrote:
+> Can you file a bug for this? Probably best to fix instead of working 
+> around, as this leaves gio modules broken.
 
-On 20 March 2018 at 17:36, Khem Raj <raj.khem@gmail.com> wrote:
+I also wonder if the shadow recipe's postinst needs to be fixed properly 
+(instead of removing it altogether for nativesdk). On the other hand 
+these two have been broken for a long time, and no one noticed, so maybe 
+they don't need working nativesdk postinst at all.
 
-> >> @@ -80,7 +78,7 @@ PACKAGECONFIG ??= " \
-> >>      polkit \
-> >>      quotacheck \
-> >>      randomseed \
-> >> -    resolved \
-> >> +    resolve \
-> >
-> > I guess this was deliberate, but does it need picking up in release
-> > notes? Tripped up my builds off of master - clearly a trivial fix
-> > though.
->
-> hmm good catch but why change ?
+Alex
 
-
-Bah, didn't notice this.
-
-Chen, can you submit a patch to change this back?
-
-Ross
-
---001a11405f1670674e0567dbdb8a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 20 March 2018 at 17:36, Khem Raj <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
-/a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt;&gt; @@ -80,7 +78,7=
- @@ PACKAGECONFIG ??=3D &quot; \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 polkit \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 quotacheck \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 randomseed \<br>
-&gt;&gt; -=C2=A0 =C2=A0 resolved \<br>
-&gt;&gt; +=C2=A0 =C2=A0 resolve \<br>
-&gt;<br>
-&gt; I guess this was deliberate, but does it need picking up in release<br=
->
-&gt; notes? Tripped up my builds off of master - clearly a trivial fix<br>
-&gt; though.<br>
-<br>
-</span>hmm good catch but why change ?</blockquote><div><br></div><div>Bah,=
- didn&#39;t notice this.</div><div><br></div><div>Chen, can you submit a pa=
-tch to change this back?</div><div><br></div><div>Ross</div></div></div></d=
-iv>
-
---001a11405f1670674e0567dbdb8a--
