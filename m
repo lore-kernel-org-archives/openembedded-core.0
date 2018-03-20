@@ -1,40 +1,48 @@
-Return-Path: <tanuk@iki.fi>
-X-Greylist: delayed 515 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 20 Mar 2018 08:59:30 UTC
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
-	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id B82D1789A3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CC459788B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 08:59:30 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3B11E21607
+	Tue, 20 Mar 2018 09:02:50 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id e7so1401552iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 04:51:01 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute5.internal (MEProxy); Tue, 20 Mar 2018 04:51:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:message-id
-	:references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=sZN8HQYKwKaOm58d/Kf8shM2bUoMpAS2/k1bRfUhV+A=; b=P+kw2jVM
-	Jv1SHiRcW7szK/Ubbyd2E7xkqXGDTY6hUGB93kmYiowJEm4ltaTpX4GcSQHoZ+Xx
-	bjHtuvv25+kGJekZCwAusnCNgsiLXb/2uqfz2pkBZjtEdGzsZJoB8LZ18KsmfgcF
-	Q7sdPDsebOUJU2oA/nqPdJ7s16TYJflvR0LyKWTc1sKdzCvqoy1qYluwWtO8REIR
-	Su7G+guPA3ZSQSArHfsOrRHTTHDYgt/ZbfolZqoe4gcUYUkupKWCex99fU8yVB7E
-	YtmfEqsAXdwTwOFp0sAdbqFCCOHDiZNTVNwqSDWNzxKdhW4vW/J2uPBu+yv/fqnx
-	guodqT0SMvFHKA==
-X-ME-Sender: <xms:dcuwWks_g_1D0G79SDhy1AGB_GspiDSzY3GpOsNyb3vsjZNd5CxT3Q>
-Received: from localhost.localdomain (unknown [192.40.95.30])
-	by mail.messagingengine.com (Postfix) with ESMTPA id A9D517E0EE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 04:51:00 -0400 (EDT)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 10:50:24 +0200
-Message-Id: <20180320085024.554-4-tanuk@iki.fi>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180320085024.554-1-tanuk@iki.fi>
-References: <20180320085024.554-1-tanuk@iki.fi>
-Subject: [PATCH 3/3] libvorbis: CVE-2018-5146
+	Tue, 20 Mar 2018 02:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2J4K4ef/PIQaQFW5CL8gFi964Bk3aQlab758GGMslbs=;
+	b=r+y1Zp5d4F2xJ5Ryb5N+E7e4iadxHlKkxfXCaWjF6m18UMFwAbLQdKzp6cE/jSD1hC
+	2DW9TWxmmgpBY5QHV8P69gyq9F/Ps7ENGXPGq4QSOgMGuxe6t3ZUyAyo8Pn/3w+rFCbt
+	0QGUYoqmS/tsw7H3sVe6vMF2zozpA9+3vBBpEC64YyThnMobPoCzYEVgBORqAySOMqSm
+	WXHEPTGl1/rzJpCxuS9Xb2h9e4M/2YA/lWpXRJOBxoC87Bn2fAY4yn03C3ZPcy4RpBoS
+	X4EBglmJoYK0+GmyaAdeh2xCnQdK68DQu5zy11UpYweBKkqFB31codBLmS3a6G/0grKF
+	jbPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2J4K4ef/PIQaQFW5CL8gFi964Bk3aQlab758GGMslbs=;
+	b=diUajToDiA9vHflOlWAjI395JxgLC4aJB0+txFxY6Agx06WgHZjgQ4OfENZsnyNWgo
+	nIIiBoSShZxRIBrGHdzl3RBNfxtr8Mgdl2VeMSJWO3+s2LTDONl7mcIc3bxalMtLQk1C
+	KheE866+2GaCzVoAAWHzzejBXdBJ82H08vMViW90aMsOu7cJRJ60IwaNLf/0Z0duyWdz
+	8e9E5FGpIuXZjycf48W1c8e4lmg+0ti9cA8ScYTdiqpVynkZLygpynGs42DzniP+4Qw/
+	ChjGlejHLGGmk8TpRzWYIbOj1ncAAhSsVLOIejOMtn7UmsPl6c7N1W2YjoKvocJzNia2
+	uKiA==
+X-Gm-Message-State: AElRT7GpSjVu4o+LEV4klpyKCkoE9ucK0LSM//ypiXaSQPfYlN9d/ixD
+	8VwSsEziKuxJUc15qr/yrIQKwvpV3LEBxNlhXIHQhw==
+X-Google-Smtp-Source: AG47ELtzNWWAkH/CVoFv3RrWOsb/ZsGlmZ/CWTVvKjUrKr9QGMSYaYTpEaROhDTgKofTBp7GOFUDofUDRE+kwE7e/Zw=
+X-Received: by 10.107.161.200 with SMTP id k191mr14387162ioe.270.1521536571881;
+	Tue, 20 Mar 2018 02:02:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.30.9 with HTTP; Tue, 20 Mar 2018 02:02:31 -0700 (PDT)
+In-Reply-To: <20180320041253.24537-1-raj.khem@gmail.com>
+References: <20180320041253.24537-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Mar 2018 09:02:31 +0000
+Message-ID: <CAJTo0La3zWJu2EgjKV+xv6FDUvX8Xnm9d0OOfQX_FN4k30uJYA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] site/risc-v: Cache common variables to build libIDL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,141 +55,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 08:59:31 -0000
+X-List-Received-Date: Tue, 20 Mar 2018 09:02:50 -0000
+Content-Type: multipart/alternative; boundary="001a113e9198e158420567d456b6"
 
-Prevent out-of-bounds write in codebook decoding. The bug could allow
-code execution from a specially crafted Ogg Vorbis file.
+--001a113e9198e158420567d456b6
+Content-Type: text/plain; charset="UTF-8"
 
-References:
-https://www.debian.org/security/2018/dsa-4140
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-5146
+Are the sizeof values actually needed, or are they copy/pasted from another
+site?  autoconf hasn't need to run code to do sizeof for a *long* time.
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- .../libvorbis/libvorbis/CVE-2018-5146.patch        | 100 +++++++++++++++++++++
- .../libvorbis/libvorbis_1.3.5.bb                   |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch
+Ross
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch
-new file mode 100644
-index 0000000000..6d4052a872
---- /dev/null
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch
-@@ -0,0 +1,100 @@
-+From 3a017f591457bf6e80231b563bf83ee583fdbca8 Mon Sep 17 00:00:00 2001
-+From: Thomas Daede <daede003@umn.edu>
-+Date: Thu, 15 Mar 2018 14:15:31 -0700
-+Subject: [PATCH] CVE-2018-5146: Prevent out-of-bounds write in codebook
-+ decoding.
-+
-+Codebooks that are not an exact divisor of the partition size are now
-+truncated to fit within the partition.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-5146
-+
-+Reference to upstream patch:
-+https://git.xiph.org/?p=vorbis.git;a=commitdiff;h=667ceb4aab60c1f74060143bb24e5f427b3cce5f
-+
-+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-+---
-+ lib/codebook.c | 48 ++++++++++--------------------------------------
-+ 1 file changed, 10 insertions(+), 38 deletions(-)
-+
-+diff --git a/lib/codebook.c b/lib/codebook.c
-+index 8b766e8..7022fd2 100644
-+--- a/lib/codebook.c
-++++ b/lib/codebook.c
-+@@ -387,7 +387,7 @@ long vorbis_book_decodevs_add(codebook *book,float *a,oggpack_buffer *b,int n){
-+       t[i] = book->valuelist+entry[i]*book->dim;
-+     }
-+     for(i=0,o=0;i<book->dim;i++,o+=step)
-+-      for (j=0;j<step;j++)
-++      for (j=0;o+j<n && j<step;j++)
-+         a[o+j]+=t[j][i];
-+   }
-+   return(0);
-+@@ -399,41 +399,12 @@ long vorbis_book_decodev_add(codebook *book,float *a,oggpack_buffer *b,int n){
-+     int i,j,entry;
-+     float *t;
-+ 
-+-    if(book->dim>8){
-+-      for(i=0;i<n;){
-+-        entry = decode_packed_entry_number(book,b);
-+-        if(entry==-1)return(-1);
-+-        t     = book->valuelist+entry*book->dim;
-+-        for (j=0;j<book->dim;)
-+-          a[i++]+=t[j++];
-+-      }
-+-    }else{
-+-      for(i=0;i<n;){
-+-        entry = decode_packed_entry_number(book,b);
-+-        if(entry==-1)return(-1);
-+-        t     = book->valuelist+entry*book->dim;
-+-        j=0;
-+-        switch((int)book->dim){
-+-        case 8:
-+-          a[i++]+=t[j++];
-+-        case 7:
-+-          a[i++]+=t[j++];
-+-        case 6:
-+-          a[i++]+=t[j++];
-+-        case 5:
-+-          a[i++]+=t[j++];
-+-        case 4:
-+-          a[i++]+=t[j++];
-+-        case 3:
-+-          a[i++]+=t[j++];
-+-        case 2:
-+-          a[i++]+=t[j++];
-+-        case 1:
-+-          a[i++]+=t[j++];
-+-        case 0:
-+-          break;
-+-        }
-+-      }
-++    for(i=0;i<n;){
-++      entry = decode_packed_entry_number(book,b);
-++      if(entry==-1)return(-1);
-++      t     = book->valuelist+entry*book->dim;
-++      for(j=0;i<n && j<book->dim;)
-++        a[i++]+=t[j++];
-+     }
-+   }
-+   return(0);
-+@@ -471,12 +442,13 @@ long vorbis_book_decodevv_add(codebook *book,float **a,long offset,int ch,
-+   long i,j,entry;
-+   int chptr=0;
-+   if(book->used_entries>0){
-+-    for(i=offset/ch;i<(offset+n)/ch;){
-++    int m=(offset+n)/ch;
-++    for(i=offset/ch;i<m;){
-+       entry = decode_packed_entry_number(book,b);
-+       if(entry==-1)return(-1);
-+       {
-+         const float *t = book->valuelist+entry*book->dim;
-+-        for (j=0;j<book->dim;j++){
-++        for (j=0;i<m && j<book->dim;j++){
-+           a[chptr++][i]+=t[j];
-+           if(chptr==ch){
-+             chptr=0;
-+-- 
-+2.16.2
-+
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-index 32e92f009a..20f887c252 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
-            file://0001-configure-Check-for-clang.patch \
-            file://CVE-2017-14633.patch \
-            file://CVE-2017-14632.patch \
-+           file://CVE-2018-5146.patch \
-           "
- SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
- SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
--- 
-2.16.2
+On 20 March 2018 at 04:12, Khem Raj <raj.khem@gmail.com> wrote:
 
+> These variables force runtime tests during configure
+> they are already cached for other architectures
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> Changes from v1 -> v2:
+> - Drop libIDL specific setting since they need to be in meta-gnome
+>
+>  meta/site/riscv32-linux | 10 ++++++++++
+>  meta/site/riscv64-linux |  5 +++++
+>  2 files changed, 15 insertions(+)
+>
+> diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
+> index 138aeb0a11..fc5b99d147 100644
+> --- a/meta/site/riscv32-linux
+> +++ b/meta/site/riscv32-linux
+> @@ -1,6 +1,16 @@
+> +# general
+> +ac_cv_alignof_guint32=4
+> +ac_cv_alignof_guint64=8
+> +ac_cv_alignof_unsigned_long=4
+> +
+>  # glib-2.0
+>  glib_cv_stack_grows=${glib_cv_stack_grows=no}
+>  glib_cv_uscore=${glib_cv_uscore=no}
+> +glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+> +glib_cv_sizeof_intmax_t=${glib_cv_sizeof_intmax_t=8}
+> +glib_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
+> +glib_cv_sizeof_size_t=${glib_cv_sizeof_size_t=4}
+> +glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
+>
+>  # startup-notification
+>  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+> diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
+> index 138aeb0a11..38bc5f044d 100644
+> --- a/meta/site/riscv64-linux
+> +++ b/meta/site/riscv64-linux
+> @@ -1,3 +1,8 @@
+> +# general
+> +ac_cv_alignof_guint32=4
+> +ac_cv_alignof_guint64=8
+> +ac_cv_alignof_unsigned_long=8
+> +
+>  # glib-2.0
+>  glib_cv_stack_grows=${glib_cv_stack_grows=no}
+>  glib_cv_uscore=${glib_cv_uscore=no}
+> --
+> 2.16.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a113e9198e158420567d456b6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Are the sizeof values actually needed, or are they copy/pa=
+sted from another site? =C2=A0autoconf hasn&#39;t need to run code to do si=
+zeof for a *long* time.<div><br></div><div>Ross</div></div><div class=3D"gm=
+ail_extra"><br><div class=3D"gmail_quote">On 20 March 2018 at 04:12, Khem R=
+aj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_b=
+lank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">These variables force runtime tests during configure<br>
+they are already cached for other architectures<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt;<br>
+---<br>
+Changes from v1 -&gt; v2:<br>
+- Drop libIDL specific setting since they need to be in meta-gnome<br>
+<br>
+=C2=A0meta/site/riscv32-linux | 10 ++++++++++<br>
+=C2=A0meta/site/riscv64-linux |=C2=A0 5 +++++<br>
+=C2=A02 files changed, 15 insertions(+)<br>
+<br>
+diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux<br>
+index 138aeb0a11..fc5b99d147 100644<br>
+--- a/meta/site/riscv32-linux<br>
++++ b/meta/site/riscv32-linux<br>
+@@ -1,6 +1,16 @@<br>
++# general<br>
++ac_cv_alignof_guint32=3D4<br>
++ac_cv_alignof_guint64=3D8<br>
++ac_cv_alignof_unsigned_long=3D4<br>
++<br>
+=C2=A0# glib-2.0<br>
+=C2=A0glib_cv_stack_grows=3D${glib_cv_<wbr>stack_grows=3Dno}<br>
+=C2=A0glib_cv_uscore=3D${glib_cv_<wbr>uscore=3Dno}<br>
++glib_cv_sizeof_gmutex=3D${glib_<wbr>cv_sizeof_gmutex=3D24}<br>
++glib_cv_sizeof_intmax_t=3D${<wbr>glib_cv_sizeof_intmax_t=3D8}<br>
++glib_cv_sizeof_ptrdiff_t=3D${<wbr>glib_cv_sizeof_ptrdiff_t=3D4}<br>
++glib_cv_sizeof_size_t=3D${glib_<wbr>cv_sizeof_size_t=3D4}<br>
++glib_cv_sizeof_system_thread=3D<wbr>${glib_cv_sizeof_system_<wbr>thread=3D=
+4}<br>
+<br>
+=C2=A0# startup-notification<br>
+=C2=A0lf_cv_sane_realloc=3D${lf_cv_<wbr>sane_realloc=3Dyes}<br>
+diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux<br>
+index 138aeb0a11..38bc5f044d 100644<br>
+--- a/meta/site/riscv64-linux<br>
++++ b/meta/site/riscv64-linux<br>
+@@ -1,3 +1,8 @@<br>
++# general<br>
++ac_cv_alignof_guint32=3D4<br>
++ac_cv_alignof_guint64=3D8<br>
++ac_cv_alignof_unsigned_long=3D8<br>
++<br>
+=C2=A0# glib-2.0<br>
+=C2=A0glib_cv_stack_grows=3D${glib_cv_<wbr>stack_grows=3Dno}<br>
+=C2=A0glib_cv_uscore=3D${glib_cv_<wbr>uscore=3Dno}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.16.2<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a113e9198e158420567d456b6--
