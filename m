@@ -1,35 +1,43 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F3906FFC8
+Return-Path: <rajathcs.1996@gmail.com>
+Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 880D678226
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 11:32:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Mar 2018 04:32:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,335,1517904000"; d="scan'208";a="43641800"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2018 04:32:58 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <CY4PR11MB17663B664B1ED6ADE96BC48AC7D40@CY4PR11MB1766.namprd11.prod.outlook.com>
-	<dd055b01-fe83-d706-bce1-5a2aea3103fe@gmail.com>
-	<CAJTo0LbxDGNrJH8tDiCgMKoSHUsK8Q17BUH=UVkY8zDBAm70+g@mail.gmail.com>
-	<833712e4-00aa-1e05-8df5-a0f9a18d4e29@linux.intel.com>
-	<CAJTo0LadpoW1BCCbfhsEac7PBV2qNxuiWrnRk6MZeV2DVWiDEA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <61d1ecb9-e4a6-8d26-9bcc-76c7c42abb7f@linux.intel.com>
-Date: Tue, 20 Mar 2018 13:26:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 20 Mar 2018 12:05:03 +0000 (UTC)
+Received: by mail-ua0-f172.google.com with SMTP id w3so824921uae.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2018 05:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=yvS4OCSXleQwp7Mn8Q+AUv4belTxuT94tgQMQZwyEQU=;
+	b=oQnkEVvBbGu5Md/cdmPVOBHDnMesGMjX0GbeuLsXPu80i8n5amKoXRu1X7C0aJ4tn6
+	ug4Dsm3eBl20QwTaoXg9FWqXEwUNqcz5jBi5VIW3ZrzcZXfaEPO7uJjqJus0l0F/IvIE
+	GqSWpLHnhUGQTScVTZ6uhK/E7d6rRhPQKsl8LTIOL4horFODGtP/bLlrE1/SJX5ay3a7
+	qoF6LbD8HPAZJvT/Vwu5LQX+uyNl8T9DQly0FangIOd7QvXmv1TwltIFlM/8pLquMU50
+	Bi2ZwrodgYRmgAkWwogwo14OutfMnULSWls3pJlNhNdd/NMNGYaIkMO6ewKQRf6Wt9xd
+	VeZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=yvS4OCSXleQwp7Mn8Q+AUv4belTxuT94tgQMQZwyEQU=;
+	b=N5trtmDhn2EqxiQFc9lVRP6MbRUrfDmIRzgwmc0RAUbPjRC+JmQklUq9zGWQmaaiTA
+	PYZiSbc5cqM4N16BNPLl1pq6XnnNp2F+dk0mU5L4o5SSrR6mXfrUwU0+/5tDsi0mLdrA
+	WOFBkUSyyrjv3qWj+IGIsBr5dVtAzFcqx3BfbpIM52GQha4I9sFlBQX6dCEFCLcbQAJC
+	aJL3dh4GTzowMBKvSarefxcac0fBJC1HvX8bR+K89zgVyy7oSGeq0FNovipOw+cXVZIf
+	MlAgWrpKOm7wC7gI81vYvN09nf4Fc0zUyMCzB6TZlQwGQSM7BaHnW2SOK9hV7OV0ycAV
+	ZVLA==
+X-Gm-Message-State: AElRT7HwuIIcarJaShekqJgAIlFdkNNmilPdZlvdcnOebG2Vdu8Rsbcx
+	5VKVqaCL2/7SHQ0+eDuOueAGBk7+PFOw6dwz7Ec1Vz+T
+X-Google-Smtp-Source: AG47ELue99sMC0Qh3r58ZDBgFrwvzaJOL8nThvmAC6Wqu2Sv2yksnFl9VjZjZM9n7P10dmY55QtWL5ASLHzEmSA3jiI=
+X-Received: by 10.159.61.203 with SMTP id e11mr3784611uaj.115.1521547504815;
+	Tue, 20 Mar 2018 05:05:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LadpoW1BCCbfhsEac7PBV2qNxuiWrnRk6MZeV2DVWiDEA@mail.gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IFt5b2N0b10gWW9jdG8gUHJvamVjdCBTdGF0dXMgV1cxMuKAmTE4?=
+Received: by 10.103.34.4 with HTTP; Tue, 20 Mar 2018 05:05:04 -0700 (PDT)
+From: Rajath C S <rajathcs.1996@gmail.com>
+Date: Tue, 20 Mar 2018 17:35:04 +0530
+Message-ID: <CAPGMVzHSpbw+h_dbc=-9Cdm0_Q3o4EnOEcjH6fxZ3kpv6wwGNg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Packages build via recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,23 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 11:32:58 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2018 12:05:04 -0000
+Content-Type: multipart/alternative; boundary="089e0824502888938e0567d6e2fc"
 
-On 03/20/2018 12:52 PM, Burton, Ross wrote:
->     Which brings me to a question: what is a good schedule and cadence
->     for AUH runs? Currently it's run on the 15th of every odd-numbered
->     month (so January, March, and so on), but I thought of shifting it
->     one month forward, so it doesn't land right in the middle of a
->     feature freeze. Thoughts?
-> 
-> 
-> How long does a single run take, and why not run it every month?
+--089e0824502888938e0567d6e2fc
+Content-Type: text/plain; charset="UTF-8"
 
-Just a bit longer than a day, maybe 30 hours, if it needs to update the 
-typical amount of 100-150 packages. I'll shift it to monthly then.
+I have been trying to build keras and tensor flow packages on yocto's image
+that is poky but not able to do so since there are no recipes for them.
 
-Alex
 
+What's the way to add keras and tensor flow packages to poky?
+
+Thanks
+
+--089e0824502888938e0567d6e2fc
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr"><pre>I have been trying to build keras and tensor flow packages on yocto&#39;s image
+that is poky but not able to do so since there are no recipes for them.
+
+
+What&#39;s the way to add keras and tensor flow packages to poky?<br><br></pre><pre>Thanks<br></pre><div><div class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><br></div></div></div>
+</div>
+
+--089e0824502888938e0567d6e2fc--
