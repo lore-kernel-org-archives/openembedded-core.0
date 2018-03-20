@@ -1,48 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B570F78958
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 80560783C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 04:31:02 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id e194so794191wmd.3
+	Tue, 20 Mar 2018 05:21:22 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id a19so224769pgw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2018 21:31:04 -0700 (PDT)
+	Mon, 19 Mar 2018 22:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Nz+4iPlj7gv0xVd/7ZSfUPJRm99eeDa0OEhoT379S/4=;
-	b=BQUoa6a4WEjwhJ7NvdH3tpC/PhbwGZ/dLXGKQOs2V4M+NJFpA+ITiX8QKZZ6gvAU57
-	65iOud9b3MRnI/PjwT+4TJ1bAFtylo4NITFyxaKGtm4ElbwijzvbxCE1SGTPX+UCSRKi
-	xiPZrY3ZcNqar5IPxWdXraeSZyRCFJ5Bu0T34KC/7/BuJiwzSDR215VgJNMovmiO4+Wh
-	bpB5x0FUMhIqvJ9jj1cazXy61sbLY2PDeEHZi5K/TqANa34qSYiH13tnZVCwIBF0YO1Y
-	2hYs/5nNES+Lf2+flBo1HmoU5O4/TvhgkevPd27vvtjXIbt2VzkA5zTELqxhQyQix49U
-	LAfw==
+	h=from:to:cc:subject:date:message-id;
+	bh=571+ivtsKkbQCtmcUw5LIEbEdzoEyK6khd/8AgJpeYo=;
+	b=Oyu04lPRxjU5catrN8KOdK1Dtq3wuPJpkbV30fXmYtWBxmbk+icxCFZkyMmJ5308ch
+	JavenL09ESRD9TfbG/eUKEA4NXpBfQNHEvksSz5jHXc4LZIJF/1qSeNeL/IKSFKqS5GM
+	Iy56X4gLiGPcCQtmIzzRoc7reAM1o9yxPivnnToMsVG/H2lszm+dKxN58i6xy+TMoWz0
+	IivB1tEtwC30w+++kIeqAHgvV1Oz/jMKW+1GfLQ6uwxrZU9P2KCaJXUE6oSZ1MKbLoVp
+	RnxZM+2LcTxvfevJiQGx1+4njpGrJ2AyJ//bfCcrldT+aKZ+KsuxALs+w7ARlfFXUCKf
+	yhgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Nz+4iPlj7gv0xVd/7ZSfUPJRm99eeDa0OEhoT379S/4=;
-	b=Cj2c9GyKMi1Rgpao/XHTJC75kTnsKYxivkMgEivr48TFHfls41NmYvzVilHGtu3o4Z
-	Msa4/pSiSanERI2L1a5cqCavj0XlXJI7cJwjDQnOnT4yia2bhqgxZsc+sx8KI8EpATsW
-	qGIKLttrC8rBuce2m3Lk0ulgaoen01q2TyLq/Oz1qa3/0wup+5zdHGkua4sjhtmo33wZ
-	kgKrmZA60cnvJWxbygc2hx30tqwi+LOMycNhJn6crQhlotFnE9OmMQSkqvXS20+mZ0xf
-	oNnewWFvg23mxWbSX79JuYiXFppQyn1gUhFOTJcHN34HWAHK7ZPMtxqpQ6VV2rQVYIa6
-	Iw5g==
-X-Gm-Message-State: AElRT7FGz3K0ys2WriokWqjO12CNI/Xto7Rd/Bln04lr6mjJ0M2aA3qP
-	p85u7XX6X/Eb3suDDBfJVCzq0CZZynbu88BLiy0=
-X-Google-Smtp-Source: AG47ELv3yfOwh7S974fCG7JCrp0qXE9yGyOzZ08M4LmslD4UlhtVyE6zjdEuNZ0xA5Y9laxyzsQMY8LjBZz45zPmcgk=
-X-Received: by 10.28.21.210 with SMTP id 201mr803078wmv.151.1521520263486;
-	Mon, 19 Mar 2018 21:31:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Mon, 19 Mar 2018 21:31:03 -0700 (PDT)
-In-Reply-To: <CAJTo0LYDmdGjrixdE21h_V-8PvnbZEJ5kPqxSL3F72eofm6cFA@mail.gmail.com>
-References: <CAPGMVzHgUcWV3TFaTeV40+P=SO2zV-4cjw2oWnB2KsBrozk9Sw@mail.gmail.com>
-	<CAJTo0LYDmdGjrixdE21h_V-8PvnbZEJ5kPqxSL3F72eofm6cFA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 19 Mar 2018 21:31:03 -0700
-Message-ID: <CAJ86T=V0o1jbd2JcW-34-08P+N+HQsV8Z5i1w_UgM-ond8Xt+w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Rajath C S <rajathcs.1996@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: system lock down in middle of build
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=571+ivtsKkbQCtmcUw5LIEbEdzoEyK6khd/8AgJpeYo=;
+	b=iKb9Z/9GcPlMHnPph8az7kdMREuQK1Bc+SOx5SIa+rwUizIju+NXU2wZQfCK0n4Dkn
+	/90yYps2s2hU+j3qOH+/5im9ws+YordiFhUM3FDOBZ/yNUnA58q97jUCcUR3AwTwOPaf
+	a6b4PsJiGrjMMN0QvcBdT9AGQSbu8W86k3nqpXEwi6Zxsu7p1xB087yQJp2zXvTKCm8y
+	9lu7I1L68Y+aivVyg8ZGQrgf3LhgWqKP++Bk+/8/icyuVpDI6NsnqIFsVp6ZzJxZv3AH
+	GbaqT8gHT1T3HOQgAljcJ+wy8RGqD2eDBPue6V8IdyCEWYJ1/IZ+agMRcVdrh5wahMz9
+	Nxvw==
+X-Gm-Message-State: AElRT7GHtzG1EWA2nx2NpUNtADwq81mJNINRO2ixyVf9RmE1hGGvCG1r
+	Dhm8gdAgvPITBRBwhR9KAzP7vQ==
+X-Google-Smtp-Source: AG47ELvK/I2bH35IIZgezvXqW86IoKlJ5w6Tr3WbCfL/bpVVpd7yqT6f9Mrx2A6wVrzou1ae5mtvkw==
+X-Received: by 10.101.82.139 with SMTP id y11mr11159769pgp.68.1521523283534;
+	Mon, 19 Mar 2018 22:21:23 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	q2sm1029469pgp.70.2018.03.19.22.21.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Mar 2018 22:21:22 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Mar 2018 22:21:14 -0700
+Message-Id: <20180320052114.32323-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.2
+Subject: [PATCH] glibc-2.27: Update to bring in 2.27 bug fixes since release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,25 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 04:31:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 20 Mar 2018 05:21:22 -0000
 
-On Mon, Mar 19, 2018 at 3:38 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 19 March 2018 at 20:35, Rajath C S <rajathcs.1996@gmail.com> wrote:
->>
->> so i am workin gon yocto development on my PC as well as on my laptop.
->> I have also worked on it on others systems, but the strange thing is only
->> on my PC & laptop the systems gets logged out automatically in the midst of
->> target build.
->> Is this a bug?
->>
->> PS: both my PC & laptop are of high-end configurations
+Here is full list of fixes
 
-Sounds like it could be related to the issues discussed in this thread:
+https://sourceware.org/git/?p=glibc.git;a=shortlog;h=df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98;hp=23158b08a0908f381459f273a984c6fd328363cb
 
-  http://lists.openembedded.org/pipermail/openembedded-core/2016-December/thread.html#130610
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/cross-localedef-native_2.27.bb | 2 +-
+ meta/recipes-core/glibc/glibc_2.27.bb                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Unfortunately that thread ended without any real conclusion but there
-are some suggestions on how to debug - e.g. try to determine which
-recipe / task is running at the time the session gets logged out.
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+index f1e4a657cf..d80c8c2a55 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+@@ -21,7 +21,7 @@ SRCBRANCH ?= "release/${PV}/master"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+-SRCREV_glibc ?= "23158b08a0908f381459f273a984c6fd328363cb"
++SRCREV_glibc ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
+ SRCREV_localedef ?= "de5bdbd5e76b5403a4151b9b9f958b6cca36b3e7"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
+index c4042d16fe..326804d6d5 100644
+--- a/meta/recipes-core/glibc/glibc_2.27.bb
++++ b/meta/recipes-core/glibc/glibc_2.27.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native bison-native"
+ 
+-SRCREV ?= "23158b08a0908f381459f273a984c6fd328363cb"
++SRCREV ?= "df3ff4e49d4ee3cbbdaeb0b1cb5dc2344c08be98"
+ 
+ SRCBRANCH ?= "release/${PV}/master"
+ 
+-- 
+2.16.2
+
 
