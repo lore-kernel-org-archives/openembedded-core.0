@@ -1,73 +1,42 @@
-Return-Path: <BSREEKAN@xilinx.com>
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0064.outbound.protection.outlook.com [104.47.34.64])
-	by mail.openembedded.org (Postfix) with ESMTP id E717478995
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B2FB678757
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 18:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=NZwWvMVWi3qqLj15Ypob0vqk1e8OL0dR4bBh0Gb+6nw=;
-	b=cwNzYG7Ed4hfjcx9d4cDTF8jzN/8OZ1hfoRIQ+urw1fnPVU01qHHSacSAlgbLIuFdoPOPVx2b312ap34EVKMIMYEYaAV7gY4kIAw6/HeNPIc+8IJISmuPr1SuhDEqXm0vyGFnjswVCCpYpmNZtMZuRtW+bcfaBz4Sj3DBQi5h3g=
-Received: from CY1PR0201MB0841.namprd02.prod.outlook.com (10.160.142.12) by
-	CY1PR0201MB0905.namprd02.prod.outlook.com (10.160.164.15) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.588.14; Wed, 21 Mar 2018 18:32:04 +0000
-Received: from CY1PR0201MB0841.namprd02.prod.outlook.com
-	([fe80::18e:fea4:d1d6:f51f]) by
-	CY1PR0201MB0841.namprd02.prod.outlook.com
-	([fe80::18e:fea4:d1d6:f51f%17]) with mapi id 15.20.0588.017;
-	Wed, 21 Mar 2018 18:32:04 +0000
-From: Bhargava Sreekantappa Gayathri <BSREEKAN@xilinx.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Disable post install script during build time.
-Thread-Index: AdPBQs2S9nkrUr8eQ/2JAZGWsrfI0A==
-Date: Wed, 21 Mar 2018 18:32:03 +0000
-Message-ID: <CY1PR0201MB0841DA8B7AFA88A36A490152B0AA0@CY1PR0201MB0841.namprd02.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=BSREEKAN@xilinx.com; 
-x-originating-ip: [149.199.62.254]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; CY1PR0201MB0905;
-	7:wGxGtv7wMv1jmbod7LXMa5LpEsKgcJxI+MpMSqayWvvK3YLN+aShMvXHUhcarSGhMEDvJ7+OcrFvbzXvMZHscpJQSlD7fnO+QKXKPy+O9aJo7TXKqdtQs31oCFQKSY+f7KNNmx8bR8cQVisPlDXFm0JvolTxP+4rFbutcoAEJo3rh5STYA/A2OriI+E3A1/XMUkA9bpb36Wrqd7Zb3lIa5nXJhkg48nLMYvfr6peQfmWKXtcLXrpjwVO509P8pBv
-x-ms-exchange-antispam-srfa-diagnostics: SOS;SOR;
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 056270c3-8a2e-4ba8-0bad-08d58f5a0b30
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:CY1PR0201MB0905; 
-x-ms-traffictypediagnostic: CY1PR0201MB0905:
-x-microsoft-antispam-prvs: <CY1PR0201MB09053AB94CBA13C86AD97759B0AA0@CY1PR0201MB0905.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3002001)(93006095)(93001095)(10201501046)(3231221)(944501325)(52105095)(6055026)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(6072148)(201708071742011);
-	SRVR:CY1PR0201MB0905; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0201MB0905; 
-x-forefront-prvs: 0618E4E7E1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39380400002)(366004)(346002)(396003)(376002)(39860400002)(199004)(189003)(305945005)(102836004)(186003)(106356001)(26005)(7736002)(6436002)(74316002)(59450400001)(6506007)(9686003)(97736004)(5640700003)(2351001)(316002)(3660700001)(55016002)(68736007)(81166006)(53936002)(8936002)(107886003)(8676002)(6916009)(81156014)(2501003)(2900100001)(86362001)(5250100002)(2906002)(33656002)(6116002)(3846002)(4326008)(25786009)(3280700002)(7696005)(99286004)(478600001)(72206003)(14454004)(5660300001)(105586002)(5890100001)(66066001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR0201MB0905;
-	H:CY1PR0201MB0841.namprd02.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: ULgx2yEurBQAoYj5Crr59prZo57BEcc9gW9KDj8ZUNnjMn6e1ln+dYv2nloicn9mMVPn/Dv7m3xd1uX5bxYQEp1SS1T8Ai2gsRnU103DgelRRJAKWxEMVOhchstjTCSRNR23Cxy1tNlGqPmy/iPt0bB+zNPUVKuu7UgmSQ271oR/nudZJtxUkQNOnmr2lNjgKo+Rq31uJibw2xINpWJLYCoz3N4ErV3oIFOSs6N83nlZLsxaI6gzmtN+XNP+kHqSYDVpVfqLMplBv83zwzQlDWptnSWnlHB6MmHyxYssLI7jViBmDSluOfE7h4/t7611dZWOl6HdJGCP7/4N/oXIlg==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 056270c3-8a2e-4ba8-0bad-08d58f5a0b30
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2018 18:32:03.8757 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0201MB0905
-Subject: Disable post install script during build time.
+	Wed, 21 Mar 2018 18:49:12 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id w6so6563007qkb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2018 11:49:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=rczWoEi9DgyEFatEP9AbjRizzRKOA8H8LSKh+cDSfh8=;
+	b=a1EJwONnoIqqP4LhwGl27naiqrZlQIe6KReI51YpWfdZOd3bUfVy8NJuNTGwMWUnwv
+	6s2wIF/Arg9xGENnCIhQ0OMpIAhV5CugtF/1AtuVLXM46NyxqwiPj2SO70EB7Sv0e6gu
+	OnCwGC1NKIYyAIIUA1si7YCLgx0mpIP0MdGC64Y1Luuk0/PiScujXwmspBTf2jHvJLjk
+	NU80CZSDDIosNpmnIPTwENp+v0JvQ8faw+3h7U3/bcd6omaCcKoUTWJzt44eaiSyvM1w
+	WmSsW+HGb20BLlc15VKJ9LOCdkFcaNsY1US67FQqeRqke0mMx556TtlUC20r768xAa2p
+	jwCQ==
+X-Gm-Message-State: AElRT7GBXYOU6lmsd+KaFgn0hlowah+9pYx/TAOuAe6PG0uy0R7GwIFy
+	9KAvn785xGW4AFcLKoR2kpRt7g==
+X-Google-Smtp-Source: AG47ELtI5Yfo6mRROB6t0UVLPfhmpJ1PErqfy3HcazeCAqAvgGPajHuvni5cn+X+Pc3m6grcIly7GA==
+X-Received: by 10.55.214.25 with SMTP id t25mr31329287qki.233.1521658153319;
+	Wed, 21 Mar 2018 11:49:13 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	e36sm3063655qtk.41.2018.03.21.11.49.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 21 Mar 2018 11:49:12 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 21 Mar 2018 15:49:06 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Mar 2018 15:49:05 -0300
+Message-Id: <20180321184905.25175-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade 17.3.6 -> 17.3.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,30 +49,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 18:32:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Mar 2018 18:49:12 -0000
 
-Hello,
+This version has been published at March 21, 2018, and it is a bugfix
+only release. It includes several important fixes that were made as
+part of 18.0.0 development cycle.
 
-I see that there is a post install script in "meta/recipes-core/sysvinit/sy=
-svinit-inittab_2.88dsf.bb" which needs to be run on target. However, it is =
-run on the host every time I make a build and the scriptlet fails since it =
-is checking for /proc/consoles and bitbake gives this warning:
+Full list of bug fixes can be see online at:
 
-[log_check] warning: %post(sysvinit-inittab-2.88dsf-r10.plnx_zynqmp) script=
-let failed, exit status 1
+ https://www.mesa3d.org/relnotes/17.3.7.html
 
-Is there a way to disable this post install script during build?
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Thanks,
-Bhargav
+ meta/recipes-graphics/mesa/{mesa-gl_17.3.6.bb => mesa-gl_17.3.7.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.3.6.bb => mesa_17.3.7.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.3.6.bb => mesa-gl_17.3.7.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.3.6.bb => mesa_17.3.7.bb} (87%)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb b/meta/recipes-graphics/mesa/mesa-gl_17.3.7.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.3.7.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.3.6.bb b/meta/recipes-graphics/mesa/mesa_17.3.7.bb
+similarity index 87%
+rename from meta/recipes-graphics/mesa/mesa_17.3.6.bb
+rename to meta/recipes-graphics/mesa/mesa_17.3.7.bb
+index 1ace5fd2443..fe09a2988df 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.3.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.3.7.bb
+@@ -11,8 +11,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "ba66ae0f09b9b84482268608557cd175"
+-SRC_URI[sha256sum] = "e5915680d44ac9d05defdec529db7459ac9edd441c9845266eff2e2d3e57fbf8"
++SRC_URI[md5sum] = "769137f2538562c300c4b76bcb097377"
++SRC_URI[sha256sum] = "0595904a8fba65a8fe853a84ad3c940205503b94af41e8ceed245fada777ac1e"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.16.2
 
-This email and any attachments are intended for the sole use of the named r=
-ecipient(s) and contain(s) confidential information that may be proprietary=
-, privileged or copyrighted under applicable law. If you are not the intend=
-ed recipient, do not read, copy, or forward this email message or any attac=
-hments. Delete this email message and any attachments immediately.
 
