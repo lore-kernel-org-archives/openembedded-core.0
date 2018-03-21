@@ -1,48 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 921B578984
+Return-Path: <tanuk@iki.fi>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id BAAE2788FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 16:40:53 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id t7so10936754wmh.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 09:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=lU48sTuvtOUOr9xhd7xiURuu1ZDgXyGjRTA3+pb+/xI=;
-	b=ot24ZwNhR6vWA22DHljYoz0EwjiP8glMQCTUnNnXRpEoFe223GANwhppMxfKqIFdZ0
-	vTdGn4CRWlUPKSpBF0SufSQ43twpc7yVaaqu/TUfOhYWoaXcuRfnx8EeOa2HmCoKrdZr
-	g+PMk/Ka8gsBnIz2qg8oavebJfqtH037zBsSBqi2+zGUHf7BH8fjXpUDCOad4NZDyl1T
-	u6/MHk90I/O6lAHiZdSEkj0i8oAJ2Kq6duEl9gy7epwe6i4sPqoUCVsaqr6x7qdDKVkK
-	VrRR3WYaXn2DfZyXYY+BvHowk4yImUcz/KYVlqOgjXx+o8cR5JqlHZtjVqsb9KRkkxNf
-	1plg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lU48sTuvtOUOr9xhd7xiURuu1ZDgXyGjRTA3+pb+/xI=;
-	b=hyHheMOiu3VdgUjJDhpFhfgVcZ1qPhN+HaONwjwih4rYaQAwwK5UliTRvIHT3WqTUZ
-	j1rtO0jcUJTH1dbtwRyVnYWbL1MANLjfvK5uNCQ5IybGfAslIcRtYZqwrVsMSjFXKY/R
-	qX89rdyoFzy6LhblDtYer/jMtWHPRLcQQT3gfnTxBMS8iBwS/PrmtVMt2xs4h/OVbqr7
-	Olz0KFnxJwtIlH2QrZmjGUplEHRuOdZekZ5VibnlRqJwE43IEZqnjIvSLZFrErYr6ZUG
-	WNA2/yNk265vlfKBkDauyyJxiAoNchZOU61yOzwU4E0CTpkQpxZUIw1citJv8rsC4gl/
-	6UgA==
-X-Gm-Message-State: AElRT7G5+akY6Nu8t0OuA5EG4ljXD/+dUIoAtS6HT8L5UMufbcgIvmdU
-	kWrolEexRTNagLkjvtweIesfsjEp
-X-Google-Smtp-Source: AG47ELv1odNS/2Pm29VBVrUOfEm+/EFdAJ2gZtrSnzQkbXmpRmraEJc4xD2Q9xZc9lxnPwooa4gSeQ==
-X-Received: by 10.28.19.13 with SMTP id 13mr3458378wmt.89.1521650454004;
-	Wed, 21 Mar 2018 09:40:54 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id x78sm8055164wmd.2.2018.03.21.09.40.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Mar 2018 09:40:53 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 21 Mar 2018 17:07:51 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E2AD420C99;
+	Wed, 21 Mar 2018 13:07:52 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Wed, 21 Mar 2018 13:07:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:date:from:message-id:subject:to
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wZ1MTPX/dwRB67VG0
+	LtmkN9cHur1Cm+yfyFPv/mk3K0=; b=e7ycjtr7iS8zezjQUhk9P3oYdMvy1WkNy
+	DkbAQ3wRrj64bsXy90/BdMU6A+bVd3AY9EOGLYeEBNyB6ONhEqumHOJsbt2m6xTD
+	/zLF9ugXeuTzVLZQfUHJpV2tjXbjSbMA7O3hlLW6/hMVAHJsAtxPLu8Nzb9OvkSL
+	8jwNbqqzBzetKOcgj3+HaddXMs/IF8q0+1bR8tdrfO5a5R4scSFkUfe1Uc5WgxNN
+	hoH2t5R6e25LwaAS4ApQzl0ojZAFc4obDQPpsTxkWsyHYKwTz+dHIsa/f36VgE8k
+	Nz32kY7/3x18C4oWhvi0NfhudNQdj2D1UKljmj/xeaQ/D2G5vPr0w==
+X-ME-Sender: <xms:aJGyWuBjACzad4bbjmF6O5s_txhnPZrlr1lEhtBVoDVvIdtuycsWxw>
+Received: from localhost.localdomain (unknown [192.40.95.29])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 331E07E1D6;
+	Wed, 21 Mar 2018 13:07:52 -0400 (EDT)
+From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2018 16:40:51 +0000
-Message-Id: <20180321164051.22869-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] gtk-doc: don't regenerate gtk-doc in do_install
+Date: Wed, 21 Mar 2018 19:07:41 +0200
+Message-Id: <20180321170741.22025-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.16.2
+Subject: [rocko][PATCH] e2fsprogs: fix compatibility with glibc 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,74 +40,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 16:40:53 -0000
+X-List-Received-Date: Wed, 21 Mar 2018 17:07:52 -0000
 
-In out-of-tree builds gtk-doc's setup-build target copies all the content from
-$srcdir to $builddir. However, if some of this content is regenerated at
-configure time this can happen:
+glibc 2.27 added function copy_file_range(), and e2fsprogs happens to
+have a different function with the same name. The conflict made
+e2fsprogs-native build fail.
 
-1) configure writes new build/version.xml
-2) make compile copies content, including the tarball's src/version.xml
-   to build/version.xml, and generates gtk-doc.
-3) make install notices build/version.xml is older than configure.status,
-   so regenerates gtk-doc.
+Here's a backport of a fix from upstream, the fix was released in
+e2fsprogs 1.43.8.
 
-gtk-doc generation is a slow process at the best of times, so doing it twice
-isn't good.
+The master branch doesn't need this fix, since it has new enough
+e2fsprogs version. At least rocko, pyro and morty need this, I haven't
+checked older stable branches. Apparently the problematic function was
+introduced in e2fsprogs version 1.43.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/recipes-gnome/gtk-doc/files/no-clobber.patch | 27 +++++++++++++++++++++++
- meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb        |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk-doc/files/no-clobber.patch
+ ...rename-copy_file_range-to-copy_file_chunk.patch | 62 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-rename-copy_file_range-to-copy_file_chunk.patch
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-rename-copy_file_range-to-copy_file_chunk.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-rename-copy_file_range-to-copy_file_chunk.patch
 new file mode 100644
-index 00000000000..b0a5dcade21
+index 0000000000..308fe0e292
 --- /dev/null
-+++ b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-@@ -0,0 +1,27 @@
-+In out-of-tree builds gtk-doc's setup-build target copies all the content from $srcdir to $builddir.
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-rename-copy_file_range-to-copy_file_chunk.patch
+@@ -0,0 +1,62 @@
++From 647353f7c3fd29e1ffd468d7ff56d9643047ab35 Mon Sep 17 00:00:00 2001
++From: Palmer Dabbelt <palmer@dabbelt.com>
++Date: Fri, 29 Dec 2017 10:19:51 -0800
++Subject: [PATCH] misc: rename copy_file_range to copy_file_chunk
 +
-+However, if some of this content is regenerated at configure time this can happen:
++As of 2.27, glibc will have a copy_file_range library call to wrap the
++new copy_file_range system call.  This conflicts with the function in
++misc/create_inode.c, which this patch renames _copy_file_range.
 +
-+1) configure writes new build/version.xml
-+2) make compile copies content, including the tarball's src/version.xml
-+   to build/version.xml, and generates gtk-doc.
-+3) make install notices build/version.xml is older than configure.status,
-+   so regenerates gtk-doc.
++Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 +
-+gtk-doc generation is a slow process at the best of times, so doing it twice isn't good.
++Upstream-Status: Backport
 +
-+Solve this by changing cp --force to cp --no-clobber, so setup-build only copies
-+files which don't already exist.
++Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
++---
++ misc/create_inode.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++diff --git a/misc/create_inode.c b/misc/create_inode.c
++index 8ce3fafa..cd89146f 100644
++--- a/misc/create_inode.c
+++++ b/misc/create_inode.c
++@@ -396,7 +396,7 @@ static ssize_t my_pread(int fd, void *buf, size_t count, off_t offset)
++ }
++ #endif /* !defined HAVE_PREAD64 && !defined HAVE_PREAD */
++ 
++-static errcode_t copy_file_range(ext2_filsys fs, int fd, ext2_file_t e2_file,
+++static errcode_t copy_file_chunk(ext2_filsys fs, int fd, ext2_file_t e2_file,
++ 				 off_t start, off_t end, char *buf,
++ 				 char *zerobuf)
++ {
++@@ -470,7 +470,7 @@ static errcode_t try_lseek_copy(ext2_filsys fs, int fd, struct stat *statbuf,
++ 
++ 		data_blk = data & ~(fs->blocksize - 1);
++ 		hole_blk = (hole + (fs->blocksize - 1)) & ~(fs->blocksize - 1);
++-		err = copy_file_range(fs, fd, e2_file, data_blk, hole_blk, buf,
+++		err = copy_file_chunk(fs, fd, e2_file, data_blk, hole_blk, buf,
++ 				      zerobuf);
++ 		if (err)
++ 			return err;
++@@ -521,7 +521,7 @@ static errcode_t try_fiemap_copy(ext2_filsys fs, int fd, ext2_file_t e2_file,
++ 			goto out;
++ 		for (i = 0, ext = ext_buf; i < fiemap_buf->fm_mapped_extents;
++ 		     i++, ext++) {
++-			err = copy_file_range(fs, fd, e2_file, ext->fe_logical,
+++			err = copy_file_chunk(fs, fd, e2_file, ext->fe_logical,
++ 					      ext->fe_logical + ext->fe_length,
++ 					      buf, zerobuf);
++ 			if (err)
++@@ -574,7 +574,7 @@ static errcode_t copy_file(ext2_filsys fs, int fd, struct stat *statbuf,
++ 		goto out;
++ #endif
++ 
++-	err = copy_file_range(fs, fd, e2_file, 0, statbuf->st_size, buf,
+++	err = copy_file_chunk(fs, fd, e2_file, 0, statbuf->st_size, buf,
++ 			      zerobuf);
++ out:
++ 	ext2fs_free_mem(&zerobuf);
++-- 
++2.16.2
 +
-+diff --git a/gtk-doc.make b/gtk-doc.make
-+index f87eaab..246f3c0 100644
-+--- a/gtk-doc.make
-++++ b/gtk-doc.make
-+@@ -113,3 +113,3 @@ setup-build.stamp:
-+ 	      test -f $(abs_srcdir)/$$file && \
-+-	        cp -pf $(abs_srcdir)/$$file $(abs_builddir)/$$file || true; \
-++	        cp -pn $(abs_srcdir)/$$file $(abs_builddir)/$$file || true; \
-+ 	    done; \
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-index b907bae1478..45528111c13 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
-@@ -23,6 +23,7 @@ SRC_URI[archive.sha256sum] = "e26bd3f7080c749b1cb66c46c6bf8239e2f320a949964fb9c6
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
-+           file://no-clobber.patch \
-            "
- SRC_URI_append_class-native = " file://pkg-config-native.patch"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
+index 00093cc20c..f1d7c08209 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://mkdir_p.patch \
+             file://reproducible-doc.patch \
+             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
++            file://0001-misc-rename-copy_file_range-to-copy_file_chunk.patch \
+ "
  
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
 -- 
-2.11.0
+2.16.2
 
 
