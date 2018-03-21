@@ -1,49 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 99E4A78955
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B596067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 02:42:49 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id d1so1439352pgv.2
+	Wed, 21 Mar 2018 03:33:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="38025971"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 21 Mar 2018 11:33:31 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 22EE24D0EFD1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 19:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3opJ0VDxb6x1vAffnG41LH198Idj5VQDtFD41VVl3yI=;
-	b=VLenEq+nCl9iNUmvI4uT/7DTRYJvgbOuM/nNhUyUOa+RLuARAIsxKd2mN1KNaTa3Uy
-	tsU8FSzoIfmmP4DJqAuoS9nHFvTNrkuSbc5Z/nFzn9q6OOlLve6YkkGZ7+F6Ny9q8Ana
-	g/280h8k+hgima635Mk5Ka9BcJQ6B2XGjV63YnPbRURgval8FCxnLjSvaKFuwhlHNQWN
-	XBU+m69xh3umhBiATlUOWpB7RANpTIPPHjILtyR3N5PPG66C91mm+HfXZMT7y+x4vSMS
-	/9KMBIA4jiWqy+xhmt2tTfH7FeKVSs3gPsJTlulsOCiVtKdKoY0C+ItXDD572q1U869R
-	DHmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=3opJ0VDxb6x1vAffnG41LH198Idj5VQDtFD41VVl3yI=;
-	b=U0cwVLAQ9jO0KfY1yzQ4di6c8xXo2jPZBThy0kXvf+CkuQGBBkQwDEaXLeAMqdpjXC
-	/bcVkPTT7pF0uRkfVzGd+gUm2fN8BzVDsI0Bd9iVTK0IESVqTQGp9JXdHUGJ7jhp15LZ
-	dIa4mXiURVTtw3PWPNOYlq5uKnTf2HbHQWAf+dhvsOFtEJK7Q9gilEY2hTcok5E1qIgf
-	Ui0fmoiSreGa+ZupOpW68ZHLeg9TZ/vfg/RJOx/U/OXB3ycZg1aRyqk7ih+6jKv/0Tzi
-	/+UwFAQTrJkPRZWnnInyDgYA4g1CSu9mJkPG2fdbGdJ0ABu9zA5FAezD8oQ+nZiuoUqQ
-	+l8A==
-X-Gm-Message-State: AElRT7HuDdOVNkJfqvU0H9PZFfjAIrM5B0pH8p/5Qf3PTqZ3EyN54/6e
-	l9hmrUDqU5FiIUvAxkzC5rS7YQ==
-X-Google-Smtp-Source: AG47ELt6YBMbG3WoSzveN/cbS/XTSHzCYJNbDpalfBaKCdHExEiwI41Awm2E4cESy4CdVImjGWKTKQ==
-X-Received: by 10.99.120.74 with SMTP id t71mr14056902pgc.310.1521600170398;
-	Tue, 20 Mar 2018 19:42:50 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	12sm6172559pfr.108.2018.03.20.19.42.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Mar 2018 19:42:49 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 19:42:29 -0700
-Message-Id: <1521600149-3894-7-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
-References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 6/6] mesa: fix SRC_URI
+	Wed, 21 Mar 2018 11:33:28 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 21 Mar 2018 11:33:26 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Mar 2018 11:33:33 +0800
+Message-ID: <1521603213-34824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 22EE24D0EFD1.A59B0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] python-setuptools: 38.5.2 -> 39.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 02:42:49 -0000
+X-List-Received-Date: Wed, 21 Mar 2018 03:33:34 -0000
+Content-Type: text/plain
 
-Switch from ftp -> https and use older-versions path.
+Upgrade python-setuptools from 38.5.2 to 39.0.1.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-graphics/mesa/mesa_9.2.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
+ .../{python-setuptools_38.5.2.bb => python-setuptools_39.0.1.bb}      | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_38.5.2.bb => python-setuptools_39.0.1.bb} (100%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa_9.2.5.bb b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
-index 737ed1a..51a22f8 100644
---- a/meta/recipes-graphics/mesa/mesa_9.2.5.bb
-+++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
-@@ -1,6 +1,6 @@
- require ${BPN}.inc
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index b5bd8cc..c5eb4a5 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
  
--SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-+SRC_URI = "https://mesa.freedesktop.org/archive/older-versions/9.x/${PV}/MesaLib-${PV}.tar.bz2 \
-            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
-            file://0006-fix-out-of-tree-egl.patch \
-            "
+ inherit pypi
+ 
+-SRC_URI[md5sum] = "b4c7f29c8079bdf2f0f355cdcd999e69"
+-SRC_URI[sha256sum] = "8246123e984cadf687163bdcd1bb58eb325e2891b066e1f0224728a41c8d9064"
++SRC_URI[md5sum] = "75310b72ca0ab4e673bf7679f69d7a62"
++SRC_URI[sha256sum] = "bec7badf0f60e7fc8153fac47836edc41b74e5d541d7692e614e635720d6a7c7"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ DEPENDS_class-native += "${PYTHON_PN}-native"
+diff --git a/meta/recipes-devtools/python/python-setuptools_38.5.2.bb b/meta/recipes-devtools/python/python-setuptools_39.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_38.5.2.bb
+rename to meta/recipes-devtools/python/python-setuptools_39.0.1.bb
 -- 
-1.9.1
+2.7.4
+
+
 
 
