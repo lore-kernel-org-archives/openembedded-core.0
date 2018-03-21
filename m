@@ -1,48 +1,57 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 134467896D
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7510D78969
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 11:30:50 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id g14so6208167iob.13
+	Wed, 21 Mar 2018 11:32:19 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id h23so6215587iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 04:30:52 -0700 (PDT)
+	Wed, 21 Mar 2018 04:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F+a2YygAairL12dkm6zEdT7UkMhaLLta1gYOHzoI310=;
-	b=KbWbI05V4rDvEivu1n6F0pUMXqFuLwtZIysRBIh1vN/cMHq2HZuT4TCWHvt8nprUFJ
-	/R6t7d+NBWooCBV3IZaG5zBuBa6/lEl9Z1VJXgBWTdontw7cK59siMnrQsuOfDEFx5/a
-	GgBvba9r5o8vrOvPhJ9omilR1xSHoxhttOmzU4Srhp7SpRSUrmUUa3AjCqIzPOsph+k2
-	5w/d55OJwf1DDFBA773nI6k2WaDjWknOctB/l6vuYynDMpONuOEVmFnyia1aVWf1jxWf
-	Qq2orovI923fWLxGMQ3IJTjLKY1rvlAUQkczZj/rFw/EvwuA1wC1isiI02k4TZ2+4d2U
-	mGqQ==
+	:cc; bh=lTgBg9wi7x3qRvru0MAcyFeEFeZbx4YZlaSZgt7q2BA=;
+	b=PAdPS2Wt2JUQ82mwzvY6L1TdhV4lA/eLaAaeZhpMeeWnFYcER9hu6uKccHqA6aPPUJ
+	SHBeW49MFEs0TQBJUdkx+BC91hEGnV8ZTXlr/u0DYntGvoSz98UVI+5yySb0qFsguKrz
+	3h8z4tLUcujf1IryfmwlAW2exWZWeXKeLIoHomu05KWueH5flhAX3c9C3XzBpMI2j4ds
+	yBkD1929phgiItVAj3Y7zzCf/KT7r+/+zmcP9KFQYU4JDUnjjAlj66PkGepveiTTXCkS
+	rb1a8yFlwRI8+MJyjYxa6/v+UQuq9/2gJTG20pcu433xJlmMLGc/P5L3sFu7MWCdZKJv
+	j+Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=F+a2YygAairL12dkm6zEdT7UkMhaLLta1gYOHzoI310=;
-	b=I/bLrEzr7xX5jNpGZoO7J0XA58ghglV/iIbIak60TwijvuRrbnOdbuTNZ7oMD+BkIz
-	8y/2Fo5mGOw2UmqjAHqClmWeMaRRUuFonmu1Rja5k82Gyxa/w/flbc5bk0Cd/nzLom/a
-	5DiJ08DeIbU5a2+5auqLAhpJXaUbm465j6ueNgDhKJ8iA1zyuVWmygXowa/aRsYXM6F8
-	j3evCGiF83IUmnJRz/DgkSicR1Qi4dZLkXzi3jUnzNt+dbCs0DiN8X2gMamc6okIDq8f
-	U5SctW6V3EVbEGhMw9EXZ6dBNIQ8kHg87XjXlsxZOLhO8P/kHS9XUrJ77oA2nZhabS0l
-	SmeA==
-X-Gm-Message-State: AElRT7GjBuLG+BU4gjrIRNq4Gx8/CXsFbsf1PSdx5NFdWZQLfoniKTTa
-	bfItW80OI2HxU6XV82cpwuS6ccp0SydCT/jaEIkusw==
-X-Google-Smtp-Source: AG47ELv1xb1jZtdIeAdSReKbcEvmQSQjxu/BP7tUu2ROSo+CnG10DnXsuw7zR1w/n5DF1Ga8Wfw+UFhpK+53GC/PAkI=
-X-Received: by 10.107.37.212 with SMTP id l203mr19624183iol.20.1521631852265; 
-	Wed, 21 Mar 2018 04:30:52 -0700 (PDT)
+	bh=lTgBg9wi7x3qRvru0MAcyFeEFeZbx4YZlaSZgt7q2BA=;
+	b=Np2cjiCH/WRE/e+iL1UaXbKVC0QF38uwfpABbbYOjsxEFL5Zmocq1APnmxhIqTBPlx
+	GRDOknFSWecnshL/IwvPcxh8jaPc1fG522RbR8afljBopD0HZknY6yXylABxPbrJh3kz
+	dnyee4Vme+omlTp1QdKHUDRxsQjR3iN+SfHo3EPx0HO+4UH96fL675GwwkzRRYxciuPf
+	/Sq9LZZQNkDowEAi9IId7aPAUAg4rgthS5IAapjR6y5x8UigDH+iAwFER/pD5rENGJ7o
+	2m1qaK/Jwhs22CENLov8OzkLoDyVfD6YJ4JEWxXKSGIVg1ZMPKutSFtcbQSOKtTrYIjy
+	zAQA==
+X-Gm-Message-State: AElRT7EdFTfW/znrg6WqG+Wxte8viwCPP6Tc8GClI320QoCDLnhosPZn
+	fVGW2IDUq9iSnDJU4jzIrJHfnputcfnIvndsJxTYdw==
+X-Google-Smtp-Source: AG47ELtjJwk9IxFhYckKZtQMUeOhPisfARmv4N34geksiZyljxJlnjuaQORkEXPiKVXWlHAlf/Kl6WkW6K9lpUfgb9Q=
+X-Received: by 10.107.161.200 with SMTP id k191mr19159616ioe.270.1521631940680;
+	Wed, 21 Mar 2018 04:32:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 21 Mar 2018 04:30:31 -0700 (PDT)
-In-Reply-To: <CAPGMVzGS2LNAL2nAM7JABJgPF=wrw4+1aeEdXPxAy_xOyekK8A@mail.gmail.com>
-References: <CAPGMVzGS2LNAL2nAM7JABJgPF=wrw4+1aeEdXPxAy_xOyekK8A@mail.gmail.com>
+Received: by 10.107.30.9 with HTTP; Wed, 21 Mar 2018 04:32:00 -0700 (PDT)
+In-Reply-To: <CAPGMVzFJU+UA6_xa=ZzJqAfFrFkCnT2AXrCybxyuvDE2c9Ut3w@mail.gmail.com>
+References: <CAPGMVzEUccZZpxwJpH0akzn7+FyaZf0NbDZoN=73+u8g=yA4Fg@mail.gmail.com>
+	<CAJTo0LYGumRqn5=GeB=41abhNn8s6dqoE_d3gMZThwkLor-_zA@mail.gmail.com>
+	<CAPGMVzEqtt8C0DCR28fMik6c+9jGtM3=uKRbxrMDEv=8CexdiQ@mail.gmail.com>
+	<CAPGMVzHyC098J=w5Xbt8z__2-9LVSeBhiJ1U+EHQLiGU1x+huw@mail.gmail.com>
+	<CAJTo0LZ49vPGn8rWMSj607aQZP8HQLMb4o9cq3yvTAEk57ecaA@mail.gmail.com>
+	<CAPGMVzHgcsNe9mjrTvGTyBztX-TKuip1Tx4+HDOk7UP-H9mwxA@mail.gmail.com>
+	<CAJTo0LYbWfqRe4hE3279Wmpy-5dSCNfXeT9VwFvp_qHtS+BcHQ@mail.gmail.com>
+	<CAPGMVzEO8K4gM=_f_+wTrqeyF12W4S-v7nx5Ff6HvN7vvOkjnA@mail.gmail.com>
+	<CAJTo0LaSyNEmDbxqgtt5LhEv=pZ-fMJTynK_i3GKTs+jRop2wQ@mail.gmail.com>
+	<CAPGMVzFJU+UA6_xa=ZzJqAfFrFkCnT2AXrCybxyuvDE2c9Ut3w@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Mar 2018 11:30:31 +0000
-Message-ID: <CAJTo0LaACuLHS9vJ6xe7bwjYmAVCZ10=mnKttN5AW+c+5vpXPg@mail.gmail.com>
+Date: Wed, 21 Mar 2018 11:32:00 +0000
+Message-ID: <CAJTo0LbJAebMeAqhPrq6so=NWx86sWkfWERuPE2K2UwKdZzUKw@mail.gmail.com>
 To: Rajath C S <rajathcs.1996@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: meta data error while building
+Subject: Re: [meta-openembeded] bug in adding network layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,147 +64,332 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 11:30:51 -0000
-Content-Type: multipart/alternative; boundary="001a11405f1608a5390567ea86c2"
+X-List-Received-Date: Wed, 21 Mar 2018 11:32:19 -0000
+Content-Type: multipart/alternative; boundary="001a113e91984dbc1f0567ea8b46"
 
---001a11405f1608a5390567ea86c2
+--001a113e91984dbc1f0567ea8b46
 Content-Type: text/plain; charset="UTF-8"
 
-If you made that change during a build, it's because you made a change
-during a build.  Don't worry about it, it will go away on the next build.
+I never mentioned glib-networking and it wont help at all.
 
-(its telling you that the hash of the recipe state changed from first parse
-to execution, which happened because you changed it)
+If connman can't see your wifi then your kernel is missing the drivers  you
+need.
 
 Ross
 
-On 21 March 2018 at 11:01, Rajath C S <rajathcs.1996@gmail.com> wrote:
+On 21 March 2018 at 10:53, Rajath C S <rajathcs.1996@gmail.com> wrote:
 
-> The below is the error while building core-image-sato, this error popped
-> after i including the line : PACKAGECONFIG_pn-opencv = "python2"
+> yes, when clicked on it. it says Ethernet connection
 >
-> Please help me with the solution
+> so, inside oe-core there is a folder and file called :
+> glib-networking_2.54.1.bb; so now acording to your second msg to enable
+> wifi should i include this file in MAGE_INSTALL_append command of
+> local.conf?
 >
+> Rajath C S,
+> 9964182112,
+> Bangalore - 560060
 >
+> On Wed, Mar 21, 2018 at 4:14 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
 >
->            ERROR: When reparsing /home/jarvis/poky/meta/
-> recipes-sato/images/core-image-sato.bb.do_configure, the basehash value
-> changed from 5d45ab9eb20c7583ac1edaab00e92e7d to
-> bed406587156555087b16ce65e70811f. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_compile,
-> the basehash value changed from 9b38ab297fe83e0397582fc241ec269b to
-> 3e073d16f43dd6d1aafbfc77c0e5c193. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_install,
-> the basehash value changed from 4e71f923f6dce32b7d98e1a016de76c9 to
-> 1cbe08c06c4c74f7f4765b2b5ca43449. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_build,
-> the basehash value changed from 77ff16e3d2d174337fc64b171c35e34c to
-> f8c231359c972ada4c1acdfeb4139a61. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_package,
-> the basehash value changed from bd69a16a7e8681701ed1bcb838350140 to
-> 609508e260f4448bdecfa6fc14a648fc. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_packagedata,
-> the basehash value changed from 5536cec6dc8957b6d48670b030ca78d4 to
-> 7f342767cb91e19d4718fd437a37e259. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-
-> image-sato.bb.do_package_write_deb, the basehash value changed from
-> 87e31ea755f9b76dce7ae72fe34299b1 to 24719e85cf15c36f5b18cd6837841463. The
-> metadata is not deterministic and this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_rootfs,
-> the basehash value changed from d3cb3148fa62977844e3acc707212156 to
-> 41805c6bbbbe7544554ad2887c85ae8e. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_image,
-> the basehash value changed from f6b739ca1cfbc47bd8d14904c64d044b to
-> e1abbf58b56b9f1614a1f352f715a56f. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-
-> image-sato.bb.do_image_complete, the basehash value changed from
-> 2ecdd58b8f372fb25ead31b8b04c47fa to 13be28bfaf5214958bd047d9c7682e24. The
-> metadata is not deterministic and this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_image_tar,
-> the basehash value changed from 7ba819c63a822ea5f5e7ce817c642127 to
-> 36b2b07ea59c24b0e089467790f51829. The metadata is not deterministic and
-> this needs to be fixed.
-> ERROR: When reparsing /home/jarvis/poky/meta/recipes-sato/images/core-image-sato.bb.do_image_ext4,
-> the basehash value changed from 09e97f15239508528e29bb300d6a2c99 to
-> 48adebf1ecd497028b62e8a19fd21e0d. The metadata is not deterministic and
-> this needs to be fixed.
->
->
+>> Then you have a nice button in the top right to setup wifi already.
+>>
+>> Ross
+>>
+>> On 21 March 2018 at 10:42, Rajath C S <rajathcs.1996@gmail.com> wrote:
+>>
+>>> sure, i will look into that, thanks.
+>>> and , i am actually using core-image-sato
+>>>
+>>> regards,
+>>> Rajath C S
+>>>
+>>> Rajath C S,
+>>> 9964182112,
+>>> Bangalore - 560060
+>>>
+>>> On Wed, Mar 21, 2018 at 4:11 PM, Burton, Ross <ross.burton@intel.com>
+>>> wrote:
+>>>
+>>>> Ideally in an image of your own creation, as local.conf tweaking is for
+>>>> experimentation only.
+>>>>
+>>>> There's a section in the manual about customising images, and I
+>>>> recommend that you start from an image with functionality instead of
+>>>> starting from a minimal image and trying to discover how to do basics such
+>>>> as make networking functional.
+>>>>
+>>>> Ross
+>>>>
+>>>> On 21 March 2018 at 10:35, Rajath C S <rajathcs.1996@gmail.com> wrote:
+>>>>
+>>>>> so the  connman / ifupdown and wireless-tools have to be placed in the
+>>>>> local.conf file right?
+>>>>>
+>>>>> Rajath C S,
+>>>>> 9964182112,
+>>>>> Bangalore - 560060
+>>>>>
+>>>>> On Wed, Mar 21, 2018 at 3:57 PM, Burton, Ross <ross.burton@intel.com>
+>>>>> wrote:
+>>>>>
+>>>>>> ifupdown and wireless-tools will give you the basics to configure it
+>>>>>> by hand, or use connman.  Or network-manager, in meta-oe.
+>>>>>>
+>>>>>> core-image-sato includes both connman and a UI to join to wifi.
+>>>>>>
+>>>>>> Ross
+>>>>>>
+>>>>>> On 21 March 2018 at 10:25, Rajath C S <rajathcs.1996@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>>
+>>>>>>> thanks,
+>>>>>>>
+>>>>>>> i will follow the said things,
+>>>>>>>
+>>>>>>> but as of now my situation is as such : "
+>>>>>>> sure, i will have one other question that is how to establish
+>>>>>>> internet connection on to poky?
+>>>>>>> that is , i have placed the meta-networking layer in bblayer.conf
+>>>>>>> file so after that which recipe should i add to local.conf so that wireless
+>>>>>>> connection is established on the poky?
+>>>>>>>
+>>>>>>> Do help with the steps
+>>>>>>>
+>>>>>>> Thanks"
+>>>>>>> I will try and implement networking from oe-core
+>>>>>>>
+>>>>>>>
+>>>>>>> Rajath C S,
+>>>>>>> 9964182112,
+>>>>>>> Bangalore - 560060
+>>>>>>>
+>>>>>>> On Wed, Mar 21, 2018 at 3:40 PM, Burton, Ross <ross.burton@intel.com
+>>>>>>> > wrote:
+>>>>>>>
+>>>>>>>> First, you don't need meta-networking to make networking "work",
+>>>>>>>> because oe-core has the basics.
+>>>>>>>>
+>>>>>>>> Second, you need to match the release of layers.  You're using
+>>>>>>>> meta-networking master, and a previous release of poky.  Checkout the
+>>>>>>>> corresponding release branch of meta-networking.
+>>>>>>>>
+>>>>>>>> Ross
+>>>>>>>>
+>>>>>>>> On 21 March 2018 at 07:29, Rajath C S <rajathcs.1996@gmail.com>
+>>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> I am tryiing to add meta-networking layer (to get Internet
+>>>>>>>>> connection to poky)and i have included the following line of code in
+>>>>>>>>> bbconfig file
+>>>>>>>>> /home/jarvis/poky/meta-openembedded/meta-networking \
+>>>>>>>>>
+>>>>>>>>> but while building i get this below error
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> ERROR: ExpansionError during parsing /home/jarvis/poky/meta-openemb
+>>>>>>>>> edded/meta-networking/recipes-support/libtdb/libtdb_1.3.15.bb
+>>>>>>>>> Traceback (most recent call last):
+>>>>>>>>> bb.data_smart.ExpansionError: Failure expanding variable
+>>>>>>>>> do_compile, expression was     python ./buildtools/bin/waf
+>>>>>>>>> ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)}
+>>>>>>>>>  which triggered exception AttributeError: module 'oe.utils' has
+>>>>>>>>> no attribute 'parallel_make_argument'
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> DO help,
+>>>>>>>>>
+>>>>>>>>> is there any other way to establish Internet connection inside
+>>>>>>>>> poky?
+>>>>>>>>>
+>>>>>>>>> Thanks
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> --
+>>>>>>>>> _______________________________________________
+>>>>>>>>> Openembedded-core mailing list
+>>>>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 >
 
---001a11405f1608a5390567ea86c2
+--001a113e91984dbc1f0567ea8b46
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">If you made that change during a build, it&#39;s because y=
-ou made a change during a build.=C2=A0 Don&#39;t worry about it, it will go=
- away on the next build.<div><br></div><div>(its telling you that the hash =
-of the recipe state changed from first parse to execution, which happened b=
-ecause you changed it)</div><div><br></div><div>Ross</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 21 March 2018 at 11:01, =
-Rajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com"=
- target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div dir=3D"ltr"><div>The below is the error while =
-building core-image-sato, this error popped after i including the line : PA=
-CKAGECONFIG_pn-opencv =3D &quot;python2&quot;<br><br></div>Please help me w=
-ith the solution<br><div>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 <br><br><br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 ERROR: When reparsing /home/jarvis/poky/meta/<wbr>recipes-sato=
-/images/core-<wbr>image-sato.bb.do_configure, the basehash value changed fr=
-om 5d45ab9eb20c7583ac1edaab00e92e<wbr>7d to bed406587156555087b16ce65e7081<=
-wbr>1f. The metadata is not deterministic and this needs to be fixed.<br>ER=
-ROR: When reparsing /home/jarvis/poky/meta/<wbr>recipes-sato/images/core-<w=
-br>image-sato.bb.do_compile, the basehash value changed from 9b38ab297fe83e=
-0397582fc241ec26<wbr>9b to 3e073d16f43dd6d1aafbfc77c0e5c1<wbr>93. The metad=
-ata is not deterministic and this needs to be fixed.<br>ERROR: When reparsi=
-ng /home/jarvis/poky/meta/<wbr>recipes-sato/images/core-<wbr>image-sato.bb.=
-do_install, the basehash value changed from 4e71f923f6dce32b7d98e1a016de76<=
-wbr>c9 to 1cbe08c06c4c74f7f4765b2b5ca434<wbr>49. The metadata is not determ=
-inistic and this needs to be fixed.<br>ERROR: When reparsing /home/jarvis/p=
-oky/meta/<wbr>recipes-sato/images/core-<wbr>image-sato.bb.do_build, the bas=
-ehash value changed from 77ff16e3d2d174337fc64b171c35e3<wbr>4c to f8c231359=
-c972ada4c1acdfeb4139a<wbr>61. The metadata is not deterministic and this ne=
-eds to be fixed.<br>ERROR: When reparsing /home/jarvis/poky/meta/<wbr>recip=
-es-sato/images/core-<wbr>image-sato.bb.do_package, the basehash value chang=
-ed from bd69a16a7e8681701ed1bcb8383501<wbr>40 to 609508e260f4448bdecfa6fc14=
-a648<wbr>fc. The metadata is not deterministic and this needs to be fixed.<=
-br>ERROR: When reparsing /home/jarvis/poky/meta/<wbr>recipes-sato/images/co=
-re-<wbr>image-sato.bb.do_packagedata, the basehash value changed from 5536c=
-ec6dc8957b6d48670b030ca78<wbr>d4 to 7f342767cb91e19d4718fd437a37e2<wbr>59. =
-The metadata is not deterministic and this needs to be fixed.<br>ERROR: Whe=
-n reparsing /home/jarvis/poky/meta/<wbr>recipes-sato/images/core-<wbr>image=
--sato.bb.do_package_<wbr>write_deb, the basehash value changed from 87e31ea=
-755f9b76dce7ae72fe34299<wbr>b1 to 24719e85cf15c36f5b18cd68378414<wbr>63. Th=
-e metadata is not deterministic and this needs to be fixed.<br>ERROR: When =
-reparsing /home/jarvis/poky/meta/<wbr>recipes-sato/images/core-<wbr>image-s=
-ato.bb.do_rootfs, the basehash value changed from d3cb3148fa62977844e3acc70=
-72121<wbr>56 to 41805c6bbbbe7544554ad2887c85ae<wbr>8e. The metadata is not =
-deterministic and this needs to be fixed.<br>ERROR: When reparsing /home/ja=
-rvis/poky/meta/<wbr>recipes-sato/images/core-<wbr>image-sato.bb.do_image, t=
-he basehash value changed from f6b739ca1cfbc47bd8d14904c64d04<wbr>4b to e1a=
-bbf58b56b9f1614a1f352f715a5<wbr>6f. The metadata is not deterministic and t=
-his needs to be fixed.<br>ERROR: When reparsing /home/jarvis/poky/meta/<wbr=
->recipes-sato/images/core-<wbr>image-sato.bb.do_image_<wbr>complete, the ba=
-sehash value changed from 2ecdd58b8f372fb25ead31b8b04c47<wbr>fa to 13be28bf=
-af5214958bd047d9c7682e<wbr>24. The metadata is not deterministic and this n=
-eeds to be fixed.<br>ERROR: When reparsing /home/jarvis/poky/meta/<wbr>reci=
-pes-sato/images/core-<wbr>image-sato.bb.do_image_tar, the basehash value ch=
-anged from 7ba819c63a822ea5f5e7ce817c6421<wbr>27 to 36b2b07ea59c24b0e089467=
-790f518<wbr>29. The metadata is not deterministic and this needs to be fixe=
-d.<br>ERROR: When reparsing /home/jarvis/poky/meta/<wbr>recipes-sato/images=
-/core-<wbr>image-sato.bb.do_image_ext4, the basehash value changed from 09e=
-97f15239508528e29bb300d6a2c<wbr>99 to 48adebf1ecd497028b62e8a19fd21e<wbr>0d=
-. The metadata is not deterministic and this needs to be fixed.<br><br>=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br></div></div>
+<div dir=3D"ltr">I never mentioned glib-networking and it wont help at all.=
+<div><br></div><div>If connman can&#39;t see your wifi then your kernel is =
+missing the drivers =C2=A0you need.</div><div><br></div><div>Ross</div></di=
+v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 21 March 201=
+8 at 10:53, Rajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.199=
+6@gmail.com" target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>yes, when clicked=
+ on it. it says Ethernet connection<br><br></div>so, inside oe-core there i=
+s a folder and file called : <a href=3D"http://glib-networking_2.54.1.bb" t=
+arget=3D"_blank">glib-networking_2.54.1.bb</a>; so now acording to your sec=
+ond msg to enable wifi should i include this file in MAGE_INSTALL_append co=
+mmand of local.conf?<br></div><div class=3D"gmail_extra"><span class=3D""><=
+br clear=3D"all"><div><div class=3D"m_-8758481982879607889gmail_signature" =
+data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>Rajath C S,<b=
+r>9964182112,<br></div></div>Bangalore - 560060<br></div></div></div>
+<br></span><div><div class=3D"h5"><div class=3D"gmail_quote">On Wed, Mar 21=
+, 2018 at 4:14 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ros=
+s.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Then you have a n=
+ice button in the top right to setup wifi already.<span class=3D"m_-8758481=
+982879607889HOEnZb"><font color=3D"#888888"><div><br></div><div>Ross</div><=
+/font></span></div><div class=3D"m_-8758481982879607889HOEnZb"><div class=
+=3D"m_-8758481982879607889h5"><div class=3D"gmail_extra"><br><div class=3D"=
+gmail_quote">On 21 March 2018 at 10:42, Rajath C S <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:rajathcs.1996@gmail.com" target=3D"_blank">rajathcs.1996@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D=
+"ltr"><div><div><div>sure, i will look into that, thanks.<br></div>and , i =
+am actually using core-image-sato<br><br></div>regards,<br></div>Rajath C S=
+ <br></div><div class=3D"gmail_extra"><span><br clear=3D"all"><div><div cla=
+ss=3D"m_-8758481982879607889m_-5634036908401493779m_6704635246269763952gmai=
+l_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>=
+Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></div=
+></div>
+<br></span><div><div class=3D"m_-8758481982879607889m_-5634036908401493779h=
+5"><div class=3D"gmail_quote">On Wed, Mar 21, 2018 at 4:11 PM, Burton, Ross=
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_=
+blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div dir=3D"ltr">Ideally in an image of your own creation, as loc=
+al.conf tweaking is for experimentation only.<div><br></div><div>There&#39;=
+s a section in the manual about customising images, and I recommend that yo=
+u start from an image with functionality instead of starting from a minimal=
+ image and trying to discover how to do basics such as make networking func=
+tional.</div><span class=3D"m_-8758481982879607889m_-5634036908401493779m_6=
+704635246269763952HOEnZb"><font color=3D"#888888"><div><br></div><div>Ross<=
+/div></font></span></div><div class=3D"m_-8758481982879607889m_-56340369084=
+01493779m_6704635246269763952HOEnZb"><div class=3D"m_-8758481982879607889m_=
+-5634036908401493779m_6704635246269763952h5"><div class=3D"gmail_extra"><br=
+><div class=3D"gmail_quote">On 21 March 2018 at 10:35, Rajath C S <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"_blank">r=
+ajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div dir=3D"ltr">so the=C2=A0 connman / ifupdown and wireless-tools hav=
+e to be placed in the local.conf file right?<br></div><div class=3D"gmail_e=
+xtra"><span><br clear=3D"all"><div><div class=3D"m_-8758481982879607889m_-5=
+634036908401493779m_6704635246269763952m_8402836057187324486m_7549818448200=
+897835gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">=
+<div><div>Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br><=
+/div></div></div>
+<br></span><div><div class=3D"m_-8758481982879607889m_-5634036908401493779m=
+_6704635246269763952m_8402836057187324486h5"><div class=3D"gmail_quote">On =
+Wed, Mar 21, 2018 at 3:57 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">ifupdo=
+wn and wireless-tools will give you the basics to configure it by hand, or =
+use connman.=C2=A0 Or network-manager, in meta-oe.<div><br></div><div>core-=
+image-sato includes both connman and a UI to join to wifi.</div><span class=
+=3D"m_-8758481982879607889m_-5634036908401493779m_6704635246269763952m_8402=
+836057187324486m_7549818448200897835HOEnZb"><font color=3D"#888888"><div><b=
+r></div><div>Ross</div></font></span></div><div class=3D"m_-875848198287960=
+7889m_-5634036908401493779m_6704635246269763952m_8402836057187324486m_75498=
+18448200897835HOEnZb"><div class=3D"m_-8758481982879607889m_-56340369084014=
+93779m_6704635246269763952m_8402836057187324486m_7549818448200897835h5"><di=
+v class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 21 March 2018 at =
+10:25, Rajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gma=
+il.com" target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"m_-8758481982879607889m_-56340=
+36908401493779m_6704635246269763952m_8402836057187324486m_75498184482008978=
+35m_-862766904418843875HOEnZb"><div class=3D"m_-8758481982879607889m_-56340=
+36908401493779m_6704635246269763952m_8402836057187324486m_75498184482008978=
+35m_-862766904418843875h5"><div dir=3D"ltr"><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr"><div><div><div>thanks,<br><br></div>i will follow the said=
+ things,<br><br></div>but as of now my situation is as such : &quot;<div><d=
+iv><div>sure, i will have one other question that is how to establish inter=
+net connection on to poky?<br></div>that
+ is , i have placed the meta-networking layer in bblayer.conf file so=20
+after that which recipe should i add to local.conf so that wireless=20
+connection is established on the poky?<br><br></div>Do help with the steps =
+<br><br></div>Thanks&quot;<br></div>I will try and implement networking fro=
+m oe-core<span class=3D"m_-8758481982879607889m_-5634036908401493779m_67046=
+35246269763952m_8402836057187324486m_7549818448200897835m_-8627669044188438=
+75m_473202723307373014HOEnZb"><font color=3D"#888888"><br><div><br></div></=
+font></span></div><div class=3D"gmail_extra"><span class=3D"m_-875848198287=
+9607889m_-5634036908401493779m_6704635246269763952m_8402836057187324486m_75=
+49818448200897835m_-862766904418843875m_473202723307373014HOEnZb"><font col=
+or=3D"#888888"><br clear=3D"all"><div><div class=3D"m_-8758481982879607889m=
+_-5634036908401493779m_6704635246269763952m_8402836057187324486m_7549818448=
+200897835m_-862766904418843875m_473202723307373014m_4339970214154050837gmai=
+l_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>=
+Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></div=
+></div></font></span><div><div class=3D"m_-8758481982879607889m_-5634036908=
+401493779m_6704635246269763952m_8402836057187324486m_7549818448200897835m_-=
+862766904418843875m_473202723307373014h5">
+<br><div class=3D"gmail_quote">On Wed, Mar 21, 2018 at 3:40 PM, Burton, Ros=
+s <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"=
+_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div dir=3D"ltr">First, you don&#39;t need meta-networking to ma=
+ke networking &quot;work&quot;, because oe-core has the basics.<div><br></d=
+iv><div>Second, you need to match the release of layers.=C2=A0 You&#39;re u=
+sing meta-networking master, and a previous release of poky.=C2=A0 Checkout=
+ the corresponding release branch of meta-networking.</div><div><br></div><=
+div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
+e"><div><div class=3D"m_-8758481982879607889m_-5634036908401493779m_6704635=
+246269763952m_8402836057187324486m_7549818448200897835m_-862766904418843875=
+m_473202723307373014m_4339970214154050837h5">On 21 March 2018 at 07:29, Raj=
+ath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" ta=
+rget=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br></div></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex"><div><div class=3D"m_-8758481982879607889m=
+_-5634036908401493779m_6704635246269763952m_8402836057187324486m_7549818448=
+200897835m_-862766904418843875m_473202723307373014m_4339970214154050837h5">=
+<div dir=3D"ltr"><div>I am tryiing to add meta-networking layer (to get Int=
+ernet connection to poky)and i have included the following line of code in =
+bbconfig file <br>/home/jarvis/poky/meta-openemb<wbr>edded/meta-networking =
+\<br><br></div>but while building i get this below error<br><br><div><div><=
+br>ERROR: ExpansionError during parsing /home/jarvis/poky/meta-openemb<wbr>=
+edded/meta-networking/recipes-<wbr>support/libtdb/<a href=3D"http://libtdb_=
+1.3.15.bb" target=3D"_blank">libtdb_1.3.15.b<wbr>b</a><br>Traceback (most r=
+ecent call last):<br>bb.data_smart.ExpansionError: Failure expanding variab=
+le do_compile, expression was=C2=A0=C2=A0=C2=A0=C2=A0 python ./buildtools/b=
+in/waf ${@oe.utils.parallel_make_argu<wbr>ment(d, &#39;-j%d&#39;, limit=3D6=
+4)}<br>=C2=A0which triggered exception AttributeError: module &#39;oe.utils=
+&#39; has no attribute &#39;parallel_make_argument&#39;<br><br><br></div><d=
+iv>DO help,<br><br></div><div>is there any other way to establish Internet =
+connection inside poky?<br><br></div><div>Thanks<br></div><div><br></div></=
+div></div>
+<br></div></div><span class=3D"m_-8758481982879607889m_-5634036908401493779=
+m_6704635246269763952m_8402836057187324486m_7549818448200897835m_-862766904=
+418843875m_473202723307373014m_4339970214154050837HOEnZb"><font color=3D"#8=
+88888">--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></font></span></blockquote></div><br></div>
+</blockquote></div><br></div></div></div>
+</div><br></div>
+</div></div></blockquote></div><br></div>
+</div></div></blockquote></div><br></div></div></div>
+</blockquote></div><br></div>
+</div></div></blockquote></div><br></div></div></div>
+</blockquote></div><br></div>
+</div></div></blockquote></div><br></div></div></div>
 </blockquote></div><br></div>
 
---001a11405f1608a5390567ea86c2--
+--001a113e91984dbc1f0567ea8b46--
