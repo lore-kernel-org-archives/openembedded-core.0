@@ -1,47 +1,48 @@
-Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9123F7896A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AD5B78972
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 09:10:43 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id v13so5751987iob.6
+	Wed, 21 Mar 2018 10:10:56 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id e79so5943664ioi.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 02:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 21 Mar 2018 03:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p+tgZxtzZ6Y6/HAvu+x24SOBOdEmhXXazRan+Cc3n0k=;
-	b=qxoiWHMrwooGgMezH4jnTeEg4SjYrOGfE3oPqe3igfcP1NknPbnia63yqWUZwuceBq
-	vzPtzFeKNEgtwxJsv/EQaKNb7mhDWjH2molTd6Shbzrcw4TyzerEgk63CPgoXbtQH7nz
-	74Pf0aRUV1luCbb4yQRmGB2Z9kgCIzytlL7D2aeI50t49853Ev+jXpOm8JOkHlmigv4d
-	045eoM/wj124ODzfrl3Ns1Elq4QMgeoRog6jVMcOa3vwWZyrAgVD5ayJUvRUC12nLAG/
-	1ddz+m0PClxZKmsSDU+PhCIj0dcUSo9Kne4OvpPgVxSv7b8iU8vALr4ars8LKZyj9O67
-	BELg==
+	:cc; bh=URKvjw8gHrUHHy6d2uEmQir7NIz0ZE+8w1D2JsEQXr4=;
+	b=eAZAp0DTy9SXGT6emztHpPRC4VyVytDfIEFENKCSy7L6+/eZi5GmysfFu4p8S5Vzpb
+	tirYbowtGpan/5m43bjMxsPe7r5AtCsCQ/rNqWaA/K+U22yMatXNRkBn3VDQEw9oOmUO
+	gN0ocsqrwUo0R8HfLTyr2WxO7RZeRmZS+iKym96Ds6A/Gyywm4+K4pog6mIJzE4KOj9N
+	gKJObbL+OyFYtaHjbsnSXIeZ3L2yxP2B5kaLheMvTOHYA7iqyWVox2s+pIQ0fgui4eMN
+	QGy1bmgXGqsby40SZ4p9NbIncck6NNil9zyiKHzG7V0BFR/7OoKBKmUOpwlzmh4YAmfu
+	UH9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=p+tgZxtzZ6Y6/HAvu+x24SOBOdEmhXXazRan+Cc3n0k=;
-	b=T3PTd9RX4hkEb2C/Ahwgd3ayIgh4aF2LEnhFjkb6DZVQLNHPBbe1TZSDopR6UMsuuS
-	A0bDcOzXfnqN8v9cQ7J/4J0cWLf4YStb7/l6sc6g0WwDbzZbXK3ztf3CCaBqQFayWTsh
-	eRsPUZyxEFXau0hllwg+ai5FzLIBpS3CGs5NJwq2J89GkmIMidsBNPyTvadnz7tXtioo
-	h52V+tYNXYuI9CObZKLYo3BffD8JgPKtYjyI9D/ZjiVgMcNqHloMNbhZU1h0o7YVXzJw
-	HSpLyicf+P1XwSDUHZr03p3zU3IhWBwBMki6pcLIUUaMARPt4il935kup6yQUZNSamwE
-	0afQ==
-X-Gm-Message-State: AElRT7Fy+5OtN5xtktz+jQRHxpw1J+4/yqvo5ryEgc2YvAz9B0OS7ZKf
-	1QzoGgfM0y8h6hfsXSUdScm/S81y97jJQmbLucs=
-X-Google-Smtp-Source: AG47ELvDe8x4XR1JAZEBW5Dmfh5scP4Sv4swrZ2EIYppoaIjoJVqI1k6+xbCGiO7VedWDe6DnKj6yK64OWwFtJsID7I=
-X-Received: by 10.107.16.65 with SMTP id y62mr19480841ioi.213.1521623444698;
-	Wed, 21 Mar 2018 02:10:44 -0700 (PDT)
+	bh=URKvjw8gHrUHHy6d2uEmQir7NIz0ZE+8w1D2JsEQXr4=;
+	b=CHyHmb+Cy4G5wv5IhhkiQIM/IpQJPPCVqMNd4kqbLVF3GYeVGY5GXdIhqp1MBYovG4
+	737/tlvV/piteUPOGypR6MiyAD3W+g/KA+WVx/O+atr79Y9tDQEPw+Xn0LtwG8eJDSHy
+	OvRQ+4+FjuIUcb2LV5Rt0uUrtld8K7QB2CSG1tFRYcFmri0DRSp5/A5cAYG8x2fdz3zf
+	0xJlvXtVCJ/ZP8WUTkDt/PwYZbVTqsVH0q5vAsx75ApjdSOLH38dL+ELQ9GNk5LfhLOB
+	L8vp0Ewa1QsnHyiUWihKlemtqiQG8ZbSZqhc4hVgcUeUCoK/NCJLPRzT2fu22m3K3WFA
+	8vTw==
+X-Gm-Message-State: AElRT7H20uPkm9ujPDRsrYcEFxhOlGIJg1OZ6fe2mg5qh33+2y/fsFlU
+	ynsI7I2DIANXEauA1TX779QXxq/TZdWLz2mup41S7A==
+X-Google-Smtp-Source: AG47ELudZxHC1OKiainz18/TtKNzQjgekziUt+B44csib3fH+DMB/mXMqRWrNmJcDriOVas+xrmG37YaZtyA78qJ65k=
+X-Received: by 10.107.183.4 with SMTP id h4mr20049731iof.201.1521627058496;
+	Wed, 21 Mar 2018 03:10:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.2.176.144 with HTTP; Wed, 21 Mar 2018 02:10:24 -0700 (PDT)
-In-Reply-To: <CAPGMVzEjwrXXsEchqDonFeNDBoB7up0espUMk4F8SvLRE3YUfg@mail.gmail.com>
-References: <CAPGMVzEjwrXXsEchqDonFeNDBoB7up0espUMk4F8SvLRE3YUfg@mail.gmail.com>
-From: Vincent Prince <vincent.prince.fr@gmail.com>
-Date: Wed, 21 Mar 2018 10:10:24 +0100
-Message-ID: <CAB2nKc9O=dv1QqbpHKTsS6smApSUX1B+3OufCE6N1LsO+NMBNQ@mail.gmail.com>
+Received: by 10.107.30.9 with HTTP; Wed, 21 Mar 2018 03:10:38 -0700 (PDT)
+In-Reply-To: <CAPGMVzEUccZZpxwJpH0akzn7+FyaZf0NbDZoN=73+u8g=yA4Fg@mail.gmail.com>
+References: <CAPGMVzEUccZZpxwJpH0akzn7+FyaZf0NbDZoN=73+u8g=yA4Fg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Mar 2018 10:10:38 +0000
+Message-ID: <CAJTo0LYGumRqn5=GeB=41abhNn8s6dqoE_d3gMZThwkLor-_zA@mail.gmail.com>
 To: Rajath C S <rajathcs.1996@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: package inclusion error
+Subject: Re: [meta-openembeded] bug in adding network layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 09:10:43 -0000
-Content-Type: multipart/alternative; boundary="001a113f2256e73a640567e890ef"
+X-List-Received-Date: Wed, 21 Mar 2018 10:10:57 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0b8e084d84370567e9688a"
 
---001a113f2256e73a640567e890ef
+--94eb2c0b8e084d84370567e9688a
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+First, you don't need meta-networking to make networking "work", because
+oe-core has the basics.
 
-With "oe-pkgdata-util list-pkgs -p opencv" command, you can check every
-packages made from opencv recipe.
-One of them is python3-opencv, did you add it to IMAGE_INSTALL as well as
-opencv?
+Second, you need to match the release of layers.  You're using
+meta-networking master, and a previous release of poky.  Checkout the
+corresponding release branch of meta-networking.
 
-Best regards,
-Vincent
+Ross
 
-2018-03-21 8:18 GMT+01:00 Rajath C S <rajathcs.1996@gmail.com>:
+On 21 March 2018 at 07:29, Rajath C S <rajathcs.1996@gmail.com> wrote:
 
-> opencv recipe is in meta-oe layer, i have included meta-oe path in
-> bblayer.config file
-> and i have also included open cv in IMAGE_INSTALL and have successfully
-> built the target using bitbake but still when i am doing 'import cv2' on
-> python terminal on yocto's poky it says 'no moudle named cv2'. what is the
-> solution?
+> I am tryiing to add meta-networking layer (to get Internet connection to
+> poky)and i have included the following line of code in bbconfig file
+> /home/jarvis/poky/meta-openembedded/meta-networking \
+>
+> but while building i get this below error
+>
+>
+> ERROR: ExpansionError during parsing /home/jarvis/poky/meta-
+> openembedded/meta-networking/recipes-support/libtdb/libtdb_1.3.15.bb
+> Traceback (most recent call last):
+> bb.data_smart.ExpansionError: Failure expanding variable do_compile,
+> expression was     python ./buildtools/bin/waf ${@oe.utils.parallel_make_argument(d,
+> '-j%d', limit=64)}
+>  which triggered exception AttributeError: module 'oe.utils' has no
+> attribute 'parallel_make_argument'
+>
+>
+> DO help,
+>
+> is there any other way to establish Internet connection inside poky?
+>
 > Thanks
+>
 >
 > --
 > _______________________________________________
@@ -88,25 +104,34 @@ Vincent
 >
 >
 
---001a113f2256e73a640567e890ef
+--94eb2c0b8e084d84370567e9688a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,=C2=A0<div><br></div><div>With &quot;oe-pkgdata-util li=
-st-pkgs -p opencv&quot; command, you can check every packages made from ope=
-ncv recipe.</div><div>One of them is=C2=A0python3-opencv, did you add it to=
- IMAGE_INSTALL as well as opencv?=C2=A0</div><div><br></div><div>Best regar=
-ds,</div><div>Vincent</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">2018-03-21 8:18 GMT+01:00 Rajath C S <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"_blank">rajathcs.1996=
-@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
-r"><div><div>opencv recipe is in meta-oe layer, i have included meta-oe pat=
-h in bblayer.config file<br></div>and i have also included open cv in IMAGE=
-_INSTALL and have successfully built the target using bitbake but still whe=
-n i am doing &#39;import cv2&#39; on python terminal on yocto&#39;s poky it=
- says &#39;no moudle named cv2&#39;. what is the solution?<br></div>Thanks<=
-br></div>
+<div dir=3D"ltr">First, you don&#39;t need meta-networking to make networki=
+ng &quot;work&quot;, because oe-core has the basics.<div><br></div><div>Sec=
+ond, you need to match the release of layers.=C2=A0 You&#39;re using meta-n=
+etworking master, and a previous release of poky.=C2=A0 Checkout the corres=
+ponding release branch of meta-networking.</div><div><br></div><div>Ross</d=
+iv></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 21 Ma=
+rch 2018 at 07:29, Rajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajat=
+hcs.1996@gmail.com" target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>I am tryii=
+ng to add meta-networking layer (to get Internet connection to poky)and i h=
+ave included the following line of code in bbconfig file <br>/home/jarvis/p=
+oky/meta-<wbr>openembedded/meta-networking \<br><br></div>but while buildin=
+g i get this below error<br><br><div><div><br>ERROR: ExpansionError during =
+parsing /home/jarvis/poky/meta-<wbr>openembedded/meta-networking/<wbr>recip=
+es-support/libtdb/<a href=3D"http://libtdb_1.3.15.bb" target=3D"_blank">lib=
+tdb_<wbr>1.3.15.bb</a><br>Traceback (most recent call last):<br>bb.data_sma=
+rt.ExpansionError: Failure expanding variable do_compile, expression was=C2=
+=A0=C2=A0=C2=A0=C2=A0 python ./buildtools/bin/waf ${@oe.utils.parallel_make=
+_<wbr>argument(d, &#39;-j%d&#39;, limit=3D64)}<br>=C2=A0which triggered exc=
+eption AttributeError: module &#39;oe.utils&#39; has no attribute &#39;para=
+llel_make_argument&#39;<br><br><br></div><div>DO help,<br><br></div><div>is=
+ there any other way to establish Internet connection inside poky?<br><br><=
+/div><div>Thanks<br></div><div><br></div></div></div>
 <br>--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
@@ -117,4 +142,4 @@ re@lists.<wbr>openembedded.org</a><br>
 ailman/listinfo/openembedded-<wbr>core</a><br>
 <br></blockquote></div><br></div>
 
---001a113f2256e73a640567e890ef--
+--94eb2c0b8e084d84370567e9688a--
