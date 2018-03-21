@@ -1,46 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F8E65CC6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D0537894E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 02:30:12 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id s13so1419027pgn.12
+	Wed, 21 Mar 2018 02:42:34 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id a19so1433053pgw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 19:30:14 -0700 (PDT)
+	Tue, 20 Mar 2018 19:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=GpGQTnqrN8b0cPJYICXNgMzQCWmood5qUNOOJqsZ2GA=;
-	b=NM4pQDXDYcsNsVNAb4GOdjW2/kwr22dnEIQDrnRuo1jX+IBHXyIPXrSX9acBMR+1nV
-	aBs3pq4oC3OOAB4w9r2d5YWsuRg2tUfJyaNfEafD9camao2luRKeJjktGAbygcztGNtc
-	2wD6R1gm+JKAP8NA++IzEbpDKHW33Rmvwt2PmmfZm5w06lTHCzAUaFZLAbHlRbWkAA7Y
-	A9gp0XwwKJHu67ynDnKW/yz5QML8NRzLJ5o4KTNSmrUG8FnIVmvn0CNidUIR4BnX1Xyq
-	Zj3zF0Kc8Fi3+quRtGrbjqz5x7jwCv5yzM5nLQy4EmPre0NAcIMnFB7aA/bkpWDPGjvJ
-	VIQA==
+	bh=kN0HVXWZq//x4TmN3Xoy3Dh3wE1aMxOfmFUy/DglWl0=;
+	b=Rwp7RvGDhfjeoK9L8gKU+EnDNpd2Aqudh9oPu7UxJXdlR2/c+S67mdwCSTpter6zRg
+	mYRa7XEz6Ve8nqPBzOdg3b8+8QJzorZXq4kOHvp2/owIg+9wHYtQjlVBxajt5qJPgNVZ
+	k7drj7qzA+isTELBb88PvbgQ7qbXxi/1qCbaKYs1wJtF9U1i9etZ4GkbdTYEVwH5DbmT
+	FKpxsTKiNGYSyMHcy0mZX9F0mswGOWpFBuVL6/ltAYM8wX1+/t4rYZ1NyCbnQ5aTmpLL
+	EVZithH5ILNeg2PkkAbPc008GtlQO+FZ6cRmUNmjJzKgYJWzu6ZRzq1N1on68xC8Iy4U
+	fdsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GpGQTnqrN8b0cPJYICXNgMzQCWmood5qUNOOJqsZ2GA=;
-	b=QqQzUAML+LdEUfKMDykReWj41fhvlZUKbfv5pGe0i1pHB6nqzVhqr75yx5fQUrCADG
-	CezkyRUt25AdntevtBFfUu9lgYTo88K+mi86oxLVerC7B2qQO/v4G8Z0tylNE85LTAsn
-	ca3LBR81WhuLfoDzyi1IZE7jGD/XMyC3LfXhc8jKK4htVw91GV0OAlsrywyfgWe3ceE3
-	VbfCNf/WfwHs+kfNQKl+GTe/5wv7K/5uFCXjuiqT4OBlbIzuxUwp2dNBxOJEeUU99bpQ
-	TDR81bgn/NWuAZBaXt22gub4OmSSDsYNPYdzd/+XlANx8Ylg8SjUT36IZnKgCs6Ng0dn
-	wkIg==
-X-Gm-Message-State: AElRT7FGyqtOct4/ikb/6QAI4nInfWvOeQ9wm8IBpu0CsQYgVXGGrpuf
-	soqmFF2I9abH5+DW8qhK9W1tNuEL
-X-Google-Smtp-Source: AG47ELs3MQ76g0/mbBh57Rngr8moPiQDBUZmfr81WN+tlS3TtQEmPVCb0bSRmPFGPkU6hxI0da0c8g==
-X-Received: by 10.101.93.71 with SMTP id e7mr13444957pgt.171.1521599414339;
-	Tue, 20 Mar 2018 19:30:14 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	bh=kN0HVXWZq//x4TmN3Xoy3Dh3wE1aMxOfmFUy/DglWl0=;
+	b=FiKN5Mc/T+8pleMMja9vQzX8I/S+LuPvop3KwuhqDAavKbMDwpHhSj0/WVNzY+MpTH
+	z/pvkO//IFLT41HQzdtk+do6pwyXhpDF2D5q7+FD6wyX44DIJGA/Eg8RYs2h0jWQgXmS
+	sUK4BT87CN+2JD0dEzpX4JEq2+8BPN/jxwpseWJrLM6icq/c3GNc1pUSG/Pxn1dh8S6u
+	xkIxyqLoujKmgYitcpBbm2IeVK0Vh8pNFY6WONg8xnnECC6MdbTT+9bVfevbirRhsfVV
+	aYV/yYS5eolJu518MQA3fvCA4NHPihhkGjslVxieC0sPx7EyLcQl0+7tggNkhRU5KXKT
+	d10A==
+X-Gm-Message-State: AElRT7H0nW+Vq8617MQfSAuuoXazG2ZaUbwcZzvhtApRHZNXREKsb0wU
+	W68AqsUkqnIYcf00bvclhBlnwA==
+X-Google-Smtp-Source: AG47ELuN9AHE9t9LU/Nst4j+PfWInxHy8BEHvORXM1bqbxwqUrQ6hv5QKnVBW7FeFLxHMLpGkMGF7g==
+X-Received: by 10.98.49.135 with SMTP id x129mr15498378pfx.75.1521600156080;
+	Tue, 20 Mar 2018 19:42:36 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	i12sm4964252pgr.9.2018.03.20.19.30.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Mar 2018 19:30:13 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	12sm6172559pfr.108.2018.03.20.19.42.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Mar 2018 19:42:35 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 19:30:04 -0700
-Message-Id: <20180321023004.37933-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.2
-Subject: [PATCH] ncurses: Abstract out termlib
+Date: Tue, 20 Mar 2018 19:42:23 -0700
+Message-Id: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [daisy][PATCH 0/6] SRC_URI updates and minor build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 02:30:13 -0000
+X-List-Received-Date: Wed, 21 Mar 2018 02:42:35 -0000
 
-termlib needs to be disabled on some targets e.g. mingw
-this change paves the way for doing that. Functionally
-it does not change anything for other platforms
+Daisy has now (long since) left upstream maintenance and entered into
+community support. As a member of a community which still actively
+develops against this version of OE, I would like to propose the
+following updates.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/ncurses/ncurses.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Andre McCurdy (4):
+  gmp_4.2.1: fix build for MIPS
+  ncurses: fix build with gcc 5
+  binutils: fix build with gcc 5
+  mesa: fix SRC_URI
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 0bfd644d18..9d06987d1c 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -59,6 +59,7 @@ EX_TERMCAP_class-nativesdk = ":/etc/termcap:/usr/share/misc/termcap"
- EX_TERMINFO = ""
- EX_TERMINFO_class-native = ":/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
- EX_TERMINFO_class-nativesdk = ":/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
-+EX_TERMLIB ?= "tinfo"
- 
- # Helper function for do_configure to allow multiple configurations
- # $1 the directory to run configure in
-@@ -80,7 +81,7 @@ ncurses_configure() {
- 	        --disable-big-core \
- 	        --program-prefix= \
- 	        --with-ticlib \
--	        --with-termlib=tinfo \
-+	        --with-termlib=${EX_TERMLIB} \
- 	        --enable-sigwinch \
- 	        --enable-pc-files \
- 	        --disable-rpath-hack \
+Khem Raj (1):
+  kernel.bbclass: Remove bashism
+
+Krzysztof Sywula (1):
+  dtc: old SRC_URI died, changing to new working one
+
+ meta/classes/kernel.bbclass                        |  2 +-
+ .../ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch    | 53 +++++++++++++++++++
+ meta/recipes-core/ncurses/ncurses_5.9.bb           |  1 +
+ meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
+ ...86.c-Werror-logical-not-parentheses-error.patch | 61 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_9.2.5.bb           |  2 +-
+ meta/recipes-kernel/dtc/dtc.inc                    |  2 +-
+ .../avoid-h-asm-constraint-for-MIPS.patch          | 57 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |  1 +
+ 9 files changed, 177 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/avoid-h-asm-constraint-for-MIPS.patch
+
 -- 
-2.16.2
+1.9.1
 
 
