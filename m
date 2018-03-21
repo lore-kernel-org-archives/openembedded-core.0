@@ -1,51 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D890D78967
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 64B2578987
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 02:42:44 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id w15-v6so2278732plq.9
+	Wed, 21 Mar 2018 02:42:46 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id d1so1439314pgv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2018 19:42:46 -0700 (PDT)
+	Tue, 20 Mar 2018 19:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OQi6dapjXOGq5IGoyuXG69s0XPYJGT7Z7zSxsyF+YbE=;
-	b=ZuvPUIMZSgMbPw+W9uUt7Qwnb1jfUah/KD98HtoL7cUnETLht3uJWovnixZQ0f5zwh
-	/pOAvIvBy4QpZ+BjsW5LURwjjhIhDr3aIRYRHYctZ4Q53S+Ze78YbdwaFc74wXP3sY5N
-	4Yp7TgMdF3apfs9ai6PxTujs50dPJS5fCf/t1cibosxrC9aUpdpGK2aXuPJIaVcN4tUn
-	xWkqpSrA6+Wm8o5GZsF9Bv6PWJL55hipS2sh05tDJruHzs8vUybxE44u0qmEQ/TJ8Y6e
-	FGBr5RiiCKrC94B/V8jVdS//OKdgnao2uugofKzRTiBUnU4E23wuV8emStHlTfzfiYWV
-	cCZg==
+	bh=4ZHCIS5KPjWja6pkqtZvbiHukmJvGYn2f396Qlj85GQ=;
+	b=dj/oIDYBYGa8RjulNXjm4NZM7YAVftxjzaqqcxxF83QeYIGPyz/hVsDJVYbj8SHxV0
+	R8XQ4cE95zB8Zn2qLzJY4ru8/TCflYtlMn4/qs8j5MF1+nqXC3HTf3ig09nJoch0IBFj
+	ArwNleBdpOiYJHAh1+c5Bn1GZZV5NQMSl3fIWlNnmvHO5Kwn/AXc4tQoMYg7E4vj+fE1
+	wJnXW5i7NzEI1+S5slJrKoyT2N8El1IppXnMQ9ohjuQ+9FY6gH5tlFLABASeBRKZ1xOo
+	h5py3e+CJUL2RzEfuBhn9F2h0iezCJMpfCSOGFKpZyx5olk5OyO7Tb3UE2Ft0Bzy4UDE
+	9Bdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OQi6dapjXOGq5IGoyuXG69s0XPYJGT7Z7zSxsyF+YbE=;
-	b=eJP/l/S2RCTrw6KHPBOTEcXp7BxCbJ88k4l1k9unOdo2yBp/bPiJhVwZ2rwr/ohw1H
-	IObYgehRINCM/QjMG4oOOKEC3CGtjAFYhCwqtnrqO97zJ+dIqxzq5RDIL1k1mDlQldZa
-	EPqw2QsDpRXtXeG6auCwlEaTAf2vQqVr8WHykD6vejq94A31C4oKg1SbnHCldtIv6fuc
-	Qe5DS1+ZFtT4pzYKYxvUM1Hgxcrjz0fJ7QQaceDRaufVJ44PfdOwQobqgE+PAq8TMKt1
-	9p1W5fsQrbcILqyYpJMBei2aoh0hN83hEpMgjQWy+uqxZJWPpKWMRllRAqaLRN2VPFPp
-	zoTg==
-X-Gm-Message-State: AElRT7HaADEM5DjneaYEbNG6+NvAcrOMQya/RIDfyadBB+VUkEHkoNrH
-	Lr9PyC+sFnZR8eDYw2BWdKB4AQ==
-X-Google-Smtp-Source: AG47ELtFext//bWpZRYURoNK6npUlAQJkhEyhigL970RH8iucm9DhUlqS+mp/g+Elyn9BzICmAlm6w==
-X-Received: by 2002:a17:902:43e4:: with SMTP id
-	j91-v6mr1160805pld.118.1521600166002; 
-	Tue, 20 Mar 2018 19:42:46 -0700 (PDT)
+	bh=4ZHCIS5KPjWja6pkqtZvbiHukmJvGYn2f396Qlj85GQ=;
+	b=lk2vAU5Qn/+3A7zM0FwNrGm8/x58vr8A8rT+tLutzWuHeKnyY3KgJ3BzClOwRIErne
+	LLT4rIfY/03os0iguPlvx2tyFJLcUP1y4C9iz0TthpgVzNkhgnnmAoItjJaNYihgAeqj
+	LVuuxF2uNuseJRLegeh4Zl+aXMtT2KcTgMjvPVphSHJ54z0tViHg3neL8noHIulO+8yO
+	KjGyGRlhry5ROOY/VRBnerjWAAS3mgOVXPFLUnEY4MA284hBhnIECKJbH0yqKdL45GhV
+	lLiAdS6ox+XSpuuhUR1pn1coUTLe3dpGaAdWiyODlnFKoWqFsUCwLP2BD07t+heTRhoR
+	L7qg==
+X-Gm-Message-State: AElRT7EdFODhFfUf/l1djIQ/qugSXmr1fJn8nRBxWftcQqfdhWZNbffB
+	3QPpJJZfa8KoFU9UgY0lxEjPQA==
+X-Google-Smtp-Source: AG47ELtrg4VCIgKKnXYDPli+mWGoBJTF4HGMB8DC3yS3Be0GI8BOL+WNygNP2eWBEE6JVucf4ND1Zw==
+X-Received: by 10.99.190.5 with SMTP id l5mr12243413pgf.25.1521600168153;
+	Tue, 20 Mar 2018 19:42:48 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	12sm6172559pfr.108.2018.03.20.19.42.44
+	12sm6172559pfr.108.2018.03.20.19.42.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Mar 2018 19:42:45 -0700 (PDT)
+	Tue, 20 Mar 2018 19:42:47 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2018 19:42:27 -0700
-Message-Id: <1521600149-3894-5-git-send-email-armccurdy@gmail.com>
+Date: Tue, 20 Mar 2018 19:42:28 -0700
+Message-Id: <1521600149-3894-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
 References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 4/6] ncurses: fix build with gcc 5
+Subject: [daisy][PATCH 5/6] binutils: fix build with gcc 5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,90 +56,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 02:42:45 -0000
+X-List-Received-Date: Wed, 21 Mar 2018 02:42:47 -0000
 
-Use Gentoo version of backport of upstream patch:
+Patch backported from upstream:
 
-  https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/sys-libs/ncurses/files/ncurses-5.9-gcc-5.patch
+  https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=ac4eb736520174305bf6e691827f7473b858cff1
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch    | 53 ++++++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_5.9.bb           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch
+ meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
+ ...86.c-Werror-logical-not-parentheses-error.patch | 61 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
 
-diff --git a/meta/recipes-core/ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch b/meta/recipes-core/ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc b/meta/recipes-devtools/binutils/binutils-2.24.inc
+index 63c9287..02d7ed7 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.24.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
+@@ -40,6 +40,7 @@ SRC_URI = "\
+      file://binutils_CVE-2014-8503.patch \
+      file://binutils_CVE-2014-8504.patch \
+      file://binutils_CVE-2014-8737.patch \
++     file://0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch \
+      "
+ 
+ SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch b/meta/recipes-devtools/binutils/binutils/0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
 new file mode 100644
-index 0000000..a52d830
+index 0000000..8e8ae06
 --- /dev/null
-+++ b/meta/recipes-core/ncurses/ncurses-5.9/ncurses-5.9-gcc-5.patch
-@@ -0,0 +1,53 @@
-+https://bugs.gentoo.org/545114
++++ b/meta/recipes-devtools/binutils/binutils/0001-Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
+@@ -0,0 +1,61 @@
++From 552b22a97e552a43a0e751e48e86db47168b2068 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 12 Sep 2014 09:46:30 +0930
++Subject: [PATCH] Fix tc-i386.c -Werror=logical-not-parentheses error
 +
-+extracted from the upstream change (which had many unrelated commits in one)
++	* config/tc-i386.c (match_template): Remove redundant "!!" testing
++	single-bit bitfields.
++	(build_modrm_byte): Don't compare single-bit bitfields to "1".
 +
-+From 97bb4678dc03e753290b39bbff30ba2825df9517 Mon Sep 17 00:00:00 2001
-+From: "Thomas E. Dickey" <dickey@invisible-island.net>
-+Date: Sun, 7 Dec 2014 03:10:09 +0000
-+Subject: [PATCH] ncurses 5.9 - patch 20141206
-+
-++ modify MKlib_gen.sh to work around change in development version of
-+  gcc introduced here:
-+	  https://gcc.gnu.org/ml/gcc-patches/2014-06/msg02185.html
-+	  https://gcc.gnu.org/ml/gcc-patches/2014-07/msg00236.html
-+  (reports by Marcus Shawcroft, Maohui Lei).
++Fix for build issues with gcc 5
 +
 +Upstream-Status: Backport
 +
-+  https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/sys-libs/ncurses/files/ncurses-5.9-gcc-5.patch
++  https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=ac4eb736520174305bf6e691827f7473b858cff1
 +
-+Signed-off-by: Sanchar Banerjee <Sanchar.Banerjee@infosys.com>
 +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ gas/config/tc-i386.c | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/ncurses/base/MKlib_gen.sh b/ncurses/base/MKlib_gen.sh
-+index d8cc3c9..b91398c 100755
-+--- a/ncurses/base/MKlib_gen.sh
-++++ b/ncurses/base/MKlib_gen.sh
-+@@ -474,11 +474,22 @@ sed -n -f $ED1 \
-+ 	-e 's/gen_$//' \
-+ 	-e 's/  / /g' >>$TMP
++diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
++index 3c423da..4464091 100644
++--- a/gas/config/tc-i386.c
+++++ b/gas/config/tc-i386.c
++@@ -4672,9 +4672,9 @@ match_template (void)
++ 	       && !operand_types[0].bitfield.regymm
++ 	       && !operand_types[0].bitfield.regzmm)
++ 	      || (!operand_types[t->operands > 1].bitfield.regmmx
++-		  && !!operand_types[t->operands > 1].bitfield.regxmm
++-		  && !!operand_types[t->operands > 1].bitfield.regymm
++-		  && !!operand_types[t->operands > 1].bitfield.regzmm))
+++		  && operand_types[t->operands > 1].bitfield.regxmm
+++		  && operand_types[t->operands > 1].bitfield.regymm
+++		  && operand_types[t->operands > 1].bitfield.regzmm))
++ 	  && (t->base_opcode != 0x0fc7
++ 	      || t->extension_opcode != 1 /* cmpxchg8b */))
++ 	continue;
++@@ -4689,7 +4689,7 @@ match_template (void)
++ 	       && ((!operand_types[0].bitfield.regmmx
++ 		    && !operand_types[0].bitfield.regxmm)
++ 		   || (!operand_types[t->operands > 1].bitfield.regmmx
++-		       && !!operand_types[t->operands > 1].bitfield.regxmm)))
+++		       && operand_types[t->operands > 1].bitfield.regxmm)))
++ 	continue;
 + 
-++cat >$ED1 <<EOF
-++s/  / /g
-++s/^ //
-++s/ $//
-++s/P_NCURSES_BOOL/NCURSES_BOOL/g
-++EOF
-++
-++# A patch discussed here:
-++#	https://gcc.gnu.org/ml/gcc-patches/2014-06/msg02185.html
-++# introduces spurious #line markers.  Work around that by ignoring the system's
-++# attempt to define "bool" and using our own symbol here.
-++sed -e 's/bool/P_NCURSES_BOOL/g' $TMP > $ED2
-++cat $ED2 >$TMP
-++
-+ $preprocessor $TMP 2>/dev/null \
-+-| sed \
-+-	-e 's/  / /g' \
-+-	-e 's/^ //' \
-+-	-e 's/_Bool/NCURSES_BOOL/g' \
-++| sed -f $ED1 \
-+ | $AWK -f $AW2 \
-+ | sed -f $ED3 \
-+ | sed \
-diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-core/ncurses/ncurses_5.9.bb
-index 6d23c0c..0644926 100644
---- a/meta/recipes-core/ncurses/ncurses_5.9.bb
-+++ b/meta/recipes-core/ncurses/ncurses_5.9.bb
-@@ -4,6 +4,7 @@ PR = "${INC_PR}.1"
- 
- SRC_URI += "file://tic-hang.patch \
-             file://config.cache \
-+            file://ncurses-5.9-gcc-5.patch \
- "
- 
- SRC_URI[md5sum] = "8cb9c412e5f2d96bc6f459aa8c6282a1"
++       /* Do not verify operands when there are none.  */
++@@ -6139,8 +6139,8 @@ build_modrm_byte (void)
++ 	      op = i.tm.operand_types[vvvv];
++ 	      op.bitfield.regmem = 0;
++ 	      if ((dest + 1) >= i.operands
++-		  || (op.bitfield.reg32 != 1
++-		      && !op.bitfield.reg64 != 1
+++		  || (!op.bitfield.reg32
+++		      && op.bitfield.reg64
++ 		      && !operand_type_equal (&op, &regxmm)
++ 		      && !operand_type_equal (&op, &regymm)
++ 		      && !operand_type_equal (&op, &regzmm)
++-- 
++1.9.1
++
++
 -- 
 1.9.1
 
