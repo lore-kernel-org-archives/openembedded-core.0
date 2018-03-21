@@ -1,27 +1,47 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 297B378967
+Return-Path: <vincent.prince.fr@gmail.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9123F7896A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 08:36:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2L8adva014950
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 21 Mar 2018 09:10:43 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id v13so5751987iob.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 01:36:39 -0700 (PDT)
-Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 21 Mar 2018 01:36:38 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2018 16:36:24 +0800
-Message-ID: <1521621384-24620-3-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1521621384-24620-1-git-send-email-yi.zhao@windriver.com>
-References: <1521621384-24620-1-git-send-email-yi.zhao@windriver.com>
+	Wed, 21 Mar 2018 02:10:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=p+tgZxtzZ6Y6/HAvu+x24SOBOdEmhXXazRan+Cc3n0k=;
+	b=qxoiWHMrwooGgMezH4jnTeEg4SjYrOGfE3oPqe3igfcP1NknPbnia63yqWUZwuceBq
+	vzPtzFeKNEgtwxJsv/EQaKNb7mhDWjH2molTd6Shbzrcw4TyzerEgk63CPgoXbtQH7nz
+	74Pf0aRUV1luCbb4yQRmGB2Z9kgCIzytlL7D2aeI50t49853Ev+jXpOm8JOkHlmigv4d
+	045eoM/wj124ODzfrl3Ns1Elq4QMgeoRog6jVMcOa3vwWZyrAgVD5ayJUvRUC12nLAG/
+	1ddz+m0PClxZKmsSDU+PhCIj0dcUSo9Kne4OvpPgVxSv7b8iU8vALr4ars8LKZyj9O67
+	BELg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=p+tgZxtzZ6Y6/HAvu+x24SOBOdEmhXXazRan+Cc3n0k=;
+	b=T3PTd9RX4hkEb2C/Ahwgd3ayIgh4aF2LEnhFjkb6DZVQLNHPBbe1TZSDopR6UMsuuS
+	A0bDcOzXfnqN8v9cQ7J/4J0cWLf4YStb7/l6sc6g0WwDbzZbXK3ztf3CCaBqQFayWTsh
+	eRsPUZyxEFXau0hllwg+ai5FzLIBpS3CGs5NJwq2J89GkmIMidsBNPyTvadnz7tXtioo
+	h52V+tYNXYuI9CObZKLYo3BffD8JgPKtYjyI9D/ZjiVgMcNqHloMNbhZU1h0o7YVXzJw
+	HSpLyicf+P1XwSDUHZr03p3zU3IhWBwBMki6pcLIUUaMARPt4il935kup6yQUZNSamwE
+	0afQ==
+X-Gm-Message-State: AElRT7Fy+5OtN5xtktz+jQRHxpw1J+4/yqvo5ryEgc2YvAz9B0OS7ZKf
+	1QzoGgfM0y8h6hfsXSUdScm/S81y97jJQmbLucs=
+X-Google-Smtp-Source: AG47ELvDe8x4XR1JAZEBW5Dmfh5scP4Sv4swrZ2EIYppoaIjoJVqI1k6+xbCGiO7VedWDe6DnKj6yK64OWwFtJsID7I=
+X-Received: by 10.107.16.65 with SMTP id y62mr19480841ioi.213.1521623444698;
+	Wed, 21 Mar 2018 02:10:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.163.220]
-Subject: [PATCH 3/3] libcap-ng: update to 0.7.9
+Received: by 10.2.176.144 with HTTP; Wed, 21 Mar 2018 02:10:24 -0700 (PDT)
+In-Reply-To: <CAPGMVzEjwrXXsEchqDonFeNDBoB7up0espUMk4F8SvLRE3YUfg@mail.gmail.com>
+References: <CAPGMVzEjwrXXsEchqDonFeNDBoB7up0espUMk4F8SvLRE3YUfg@mail.gmail.com>
+From: Vincent Prince <vincent.prince.fr@gmail.com>
+Date: Wed, 21 Mar 2018 10:10:24 +0100
+Message-ID: <CAB2nKc9O=dv1QqbpHKTsS6smApSUX1B+3OufCE6N1LsO+NMBNQ@mail.gmail.com>
+To: Rajath C S <rajathcs.1996@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: package inclusion error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,111 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 08:36:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Mar 2018 09:10:43 -0000
+Content-Type: multipart/alternative; boundary="001a113f2256e73a640567e890ef"
 
-Rebase python.patch.
+--001a113f2256e73a640567e890ef
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../libcap-ng/libcap-ng/python.patch               | 28 ++++++++++++----------
- .../{libcap-ng_0.7.8.bb => libcap-ng_0.7.9.bb}     |  4 ++--
- 2 files changed, 18 insertions(+), 14 deletions(-)
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.7.8.bb => libcap-ng_0.7.9.bb} (89%)
+Hi,
 
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng/python.patch b/meta/recipes-support/libcap-ng/libcap-ng/python.patch
-index 59591eb..d60a0a3 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng/python.patch
-+++ b/meta/recipes-support/libcap-ng/libcap-ng/python.patch
-@@ -1,4 +1,4 @@
--From b01bb2694f66cd981e6d61523433dc3eb5ed32f2 Mon Sep 17 00:00:00 2001
-+From b4a354ae8d4f7c2ec3ec421c7d8a790cc57e77a9 Mon Sep 17 00:00:00 2001
- From: Li xin <lixin.fnst@cn.fujitsu.com>
- Date: Sat, 18 Jul 2015 23:03:30 +0900
- Subject: [PATCH] configure.ac - Avoid an incorrect check for python.
-@@ -8,30 +8,32 @@ Upstream-Status: pending
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
- ---
-- bindings/python/Makefile.am |  3 ++-
-- configure.ac                | 15 ++-------------
-- 2 files changed, 4 insertions(+), 14 deletions(-)
-+ bindings/python/Makefile.am |  4 +++-
-+ configure.ac                | 17 ++---------------
-+ 2 files changed, 5 insertions(+), 16 deletions(-)
- 
- diff --git a/bindings/python/Makefile.am b/bindings/python/Makefile.am
--index 82b9bb8..f9fe7a8 100644
-+index 999b184..c8e49db 100644
- --- a/bindings/python/Makefile.am
- +++ b/bindings/python/Makefile.am
--@@ -23,7 +23,8 @@ SUBDIRS = test
-+@@ -23,7 +23,9 @@
-+ SUBDIRS = test
-  CONFIG_CLEAN_FILES = *.loT *.rej *.orig
-  AM_CFLAGS = -fPIC -DPIC
-- PYLIBVER ?= python$(PYTHON_VERSION)
- -AM_CPPFLAGS = -I. -I$(top_builddir) -I@PYINCLUDEDIR@
-++PYLIBVER ?= python$(PYTHON_VERSION)
- +PYINC ?= /usr/include/$(PYLIBVER)
- +AM_CPPFLAGS = -I. -I$(top_builddir) -I$(PYINC)
-- LIBS = $(top_builddir)/src/libcap-ng.la
-  SWIG_FLAGS = -python
-  SWIG_INCLUDES = ${AM_CPPFLAGS}
-+ pyexec_PYTHON = capng.py
- diff --git a/configure.ac b/configure.ac
--index 1d777d5..9d90f64 100644
-+index 7f66179..079d026 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -123,19 +123,8 @@ if test x$use_python = xno ; then
-+@@ -123,21 +123,8 @@ if test x$use_python = xno ; then
-  else
-  AC_MSG_RESULT(testing)
-  AM_PATH_PYTHON
-@@ -39,11 +41,13 @@ index 1d777d5..9d90f64 100644
- -if test -f ${PYINCLUDEDIR}/Python.h ; then
- -	python_found="yes"
- -	AC_SUBST(PYINCLUDEDIR)
-+-	pybind_dir="python"
-+-	AC_SUBST(pybind_dir)
- -	AC_MSG_NOTICE(Python bindings will be built)
- -else
- -	python_found="no"
- -	if test x$use_python = xyes ; then
---		AC_MSG_ERROR([Python explicitly required and python headers found])
-+-		AC_MSG_ERROR([Python explicitly requested and python headers were not found])
- -	else
- -		AC_MSG_WARN("Python headers not found - python bindings will not be made")
- -	fi
-@@ -54,5 +58,5 @@ index 1d777d5..9d90f64 100644
-  AM_CONDITIONAL(HAVE_PYTHON, test ${python_found} = "yes")
-  
- -- 
--1.8.4.2
-+2.7.4
- 
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.8.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
-similarity index 89%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.7.8.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
-index 3583194..aff6259 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.8.bb
-+++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
-@@ -12,8 +12,8 @@ SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
- 
- inherit lib_package autotools python3native
- 
--SRC_URI[md5sum] = "0dece96644bd798020e170fbf7663802"
--SRC_URI[sha256sum] = "c21af997445cd4107a55d386f955c5ea6f6e96ead693e9151277c0ab5f97d05f"
-+SRC_URI[md5sum] = "2398d695508fab9ce33668c53a89b0e9"
-+SRC_URI[sha256sum] = "4a1532bcf3731aade40936f6d6a586ed5a66ca4c7455e1338d1f6c3e09221328"
- 
- DEPENDS += "swig-native python3"
- 
--- 
-2.7.4
+With "oe-pkgdata-util list-pkgs -p opencv" command, you can check every
+packages made from opencv recipe.
+One of them is python3-opencv, did you add it to IMAGE_INSTALL as well as
+opencv?
 
+Best regards,
+Vincent
 
+2018-03-21 8:18 GMT+01:00 Rajath C S <rajathcs.1996@gmail.com>:
+
+> opencv recipe is in meta-oe layer, i have included meta-oe path in
+> bblayer.config file
+> and i have also included open cv in IMAGE_INSTALL and have successfully
+> built the target using bitbake but still when i am doing 'import cv2' on
+> python terminal on yocto's poky it says 'no moudle named cv2'. what is the
+> solution?
+> Thanks
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--001a113f2256e73a640567e890ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,=C2=A0<div><br></div><div>With &quot;oe-pkgdata-util li=
+st-pkgs -p opencv&quot; command, you can check every packages made from ope=
+ncv recipe.</div><div>One of them is=C2=A0python3-opencv, did you add it to=
+ IMAGE_INSTALL as well as opencv?=C2=A0</div><div><br></div><div>Best regar=
+ds,</div><div>Vincent</div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">2018-03-21 8:18 GMT+01:00 Rajath C S <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"_blank">rajathcs.1996=
+@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
+r"><div><div>opencv recipe is in meta-oe layer, i have included meta-oe pat=
+h in bblayer.config file<br></div>and i have also included open cv in IMAGE=
+_INSTALL and have successfully built the target using bitbake but still whe=
+n i am doing &#39;import cv2&#39; on python terminal on yocto&#39;s poky it=
+ says &#39;no moudle named cv2&#39;. what is the solution?<br></div>Thanks<=
+br></div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br></div>
+
+--001a113f2256e73a640567e890ef--
