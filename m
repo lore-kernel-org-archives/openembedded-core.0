@@ -1,43 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B7F6278967
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 921B578984
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 16:31:32 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id j4so5886024qth.8
+	Wed, 21 Mar 2018 16:40:53 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id t7so10936754wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 09:31:34 -0700 (PDT)
+	Wed, 21 Mar 2018 09:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=lU48sTuvtOUOr9xhd7xiURuu1ZDgXyGjRTA3+pb+/xI=;
+	b=ot24ZwNhR6vWA22DHljYoz0EwjiP8glMQCTUnNnXRpEoFe223GANwhppMxfKqIFdZ0
+	vTdGn4CRWlUPKSpBF0SufSQ43twpc7yVaaqu/TUfOhYWoaXcuRfnx8EeOa2HmCoKrdZr
+	g+PMk/Ka8gsBnIz2qg8oavebJfqtH037zBsSBqi2+zGUHf7BH8fjXpUDCOad4NZDyl1T
+	u6/MHk90I/O6lAHiZdSEkj0i8oAJ2Kq6duEl9gy7epwe6i4sPqoUCVsaqr6x7qdDKVkK
+	VrRR3WYaXn2DfZyXYY+BvHowk4yImUcz/KYVlqOgjXx+o8cR5JqlHZtjVqsb9KRkkxNf
+	1plg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=qOmcSxF8SkKe9eBgkvNG1ET/5R4FQvI6znIbr9x03lY=;
-	b=NhQHmILMjJIfEWuh14fs39T2Ho6EDxF/BmPdHy7i8z8xDojb4vdf93Ms2+UiEgmh49
-	DLbIvqzTZVW0E1w1SVHdbTQbbWkrhACueGCLkooX7bOLrG4Uit8TkDhudxRTITJsax93
-	1OUnPmN1XjHKTKcJ39guJCn6+uXwUf3fwAIJNe5JWpj8Xk6MHRsr5geub6oLyoqXFlEz
-	AX+4OB9nyoguCa908zPw01K6gfygUW3ezg+kooPH6lJUCYen5AY55JbiMRyeeyIw/NyB
-	HenNnDHIAHUK+zgxu8uZv4ruBZP+7yzoyt5OGLlnK9LEKpV2k0SJ1A4GXngATpf9KOMn
-	3HYQ==
-X-Gm-Message-State: AElRT7GRZoxMqc/LqwYhB5XdYVnekGvGfRycrHRQpMNTCqTOHBvV7b36
-	IRmXAYad6Bg8bKz5OSFQozCCFFmT
-X-Google-Smtp-Source: AG47ELsn0GPxNEGgQShi4ySrVuzEq9XcFl2sNYqaArUg4iAGTwN2OZzEvNxdymmKS1c+oYkilixmrQ==
-X-Received: by 10.200.10.75 with SMTP id f11mr29844995qti.214.1521649893411;
-	Wed, 21 Mar 2018 09:31:33 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	p12sm3691179qkl.41.2018.03.21.09.31.32
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lU48sTuvtOUOr9xhd7xiURuu1ZDgXyGjRTA3+pb+/xI=;
+	b=hyHheMOiu3VdgUjJDhpFhfgVcZ1qPhN+HaONwjwih4rYaQAwwK5UliTRvIHT3WqTUZ
+	j1rtO0jcUJTH1dbtwRyVnYWbL1MANLjfvK5uNCQ5IybGfAslIcRtYZqwrVsMSjFXKY/R
+	qX89rdyoFzy6LhblDtYer/jMtWHPRLcQQT3gfnTxBMS8iBwS/PrmtVMt2xs4h/OVbqr7
+	Olz0KFnxJwtIlH2QrZmjGUplEHRuOdZekZ5VibnlRqJwE43IEZqnjIvSLZFrErYr6ZUG
+	WNA2/yNk265vlfKBkDauyyJxiAoNchZOU61yOzwU4E0CTpkQpxZUIw1citJv8rsC4gl/
+	6UgA==
+X-Gm-Message-State: AElRT7G5+akY6Nu8t0OuA5EG4ljXD/+dUIoAtS6HT8L5UMufbcgIvmdU
+	kWrolEexRTNagLkjvtweIesfsjEp
+X-Google-Smtp-Source: AG47ELv1odNS/2Pm29VBVrUOfEm+/EFdAJ2gZtrSnzQkbXmpRmraEJc4xD2Q9xZc9lxnPwooa4gSeQ==
+X-Received: by 10.28.19.13 with SMTP id 13mr3458378wmt.89.1521650454004;
+	Wed, 21 Mar 2018 09:40:54 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id x78sm8055164wmd.2.2018.03.21.09.40.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Mar 2018 09:31:32 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Wed, 21 Mar 2018 09:40:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2018 16:31:30 +0000
-Message-Id: <20180321163130.23765-1-git@andred.net>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180309130000.1937-1-git@andred.net>
-References: <20180309130000.1937-1-git@andred.net>
-MIME-Version: 1.0
-Subject: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
+Date: Wed, 21 Mar 2018 16:40:51 +0000
+Message-Id: <20180321164051.22869-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] gtk-doc: don't regenerate gtk-doc in do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,58 +55,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 16:31:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Mar 2018 16:40:53 -0000
 
-From: André Draszik <andre.draszik@jci.com>
+In out-of-tree builds gtk-doc's setup-build target copies all the content from
+$srcdir to $builddir. However, if some of this content is regenerated at
+configure time this can happen:
 
-The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
-thus bypassing sstate, which results in an ever growing list
-of files.
+1) configure writes new build/version.xml
+2) make compile copies content, including the tarball's src/version.xml
+   to build/version.xml, and generates gtk-doc.
+3) make install notices build/version.xml is older than configure.status,
+   so regenerates gtk-doc.
 
-Write them to IMGDEPLOYDIR instead, so as to benefit from the
-automatic management via sstate.
+gtk-doc generation is a slow process at the best of times, so doing it twice
+isn't good.
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-v2: fix typo in subject line
----
- meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/recipes-gnome/gtk-doc/files/no-clobber.patch | 27 +++++++++++++++++++++++
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb        |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-gnome/gtk-doc/files/no-clobber.patch
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index a4e627fef8..01eee350b8 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
- python write_image_test_data() {
-     from oe.data import export2json
- 
--    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_NAME'))
--    testdata_link = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
-+    deploy_dir = d.getVar('IMGDEPLOYDIR')
-+    link_name = d.getVar('IMAGE_LINK_NAME')
-+    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" % d.getVar('IMAGE_NAME'))
- 
--    bb.utils.mkdirhier(os.path.dirname(testdata))
-     searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
--    export2json(d, testdata,searchString=searchString,replaceString="")
-+    export2json(d, testdata_name, searchString=searchString, replaceString="")
- 
--    if testdata_link != testdata:
-+    if os.path.exists(testdata_name):
-+        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
-         if os.path.lexists(testdata_link):
--           os.remove(testdata_link)
--        os.symlink(os.path.basename(testdata), testdata_link)
-+            os.remove(testdata_link)
-+        os.symlink(os.path.basename(testdata_name), testdata_link)
- }
- write_image_test_data[vardepsexclude] += "TOPDIR"
+diff --git a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
+new file mode 100644
+index 00000000000..b0a5dcade21
+--- /dev/null
++++ b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
+@@ -0,0 +1,27 @@
++In out-of-tree builds gtk-doc's setup-build target copies all the content from $srcdir to $builddir.
++
++However, if some of this content is regenerated at configure time this can happen:
++
++1) configure writes new build/version.xml
++2) make compile copies content, including the tarball's src/version.xml
++   to build/version.xml, and generates gtk-doc.
++3) make install notices build/version.xml is older than configure.status,
++   so regenerates gtk-doc.
++
++gtk-doc generation is a slow process at the best of times, so doing it twice isn't good.
++
++Solve this by changing cp --force to cp --no-clobber, so setup-build only copies
++files which don't already exist.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/gtk-doc.make b/gtk-doc.make
++index f87eaab..246f3c0 100644
++--- a/gtk-doc.make
+++++ b/gtk-doc.make
++@@ -113,3 +113,3 @@ setup-build.stamp:
++ 	      test -f $(abs_srcdir)/$$file && \
++-	        cp -pf $(abs_srcdir)/$$file $(abs_builddir)/$$file || true; \
+++	        cp -pn $(abs_srcdir)/$$file $(abs_builddir)/$$file || true; \
++ 	    done; \
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
+index b907bae1478..45528111c13 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
+@@ -23,6 +23,7 @@ SRC_URI[archive.sha256sum] = "e26bd3f7080c749b1cb66c46c6bf8239e2f320a949964fb9c6
+ SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
+            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
+            file://conditionaltests.patch \
++           file://no-clobber.patch \
+            "
+ SRC_URI_append_class-native = " file://pkg-config-native.patch"
  
 -- 
-2.16.2
+2.11.0
 
 
