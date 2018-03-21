@@ -1,42 +1,50 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B2FB678757
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 098CE6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 18:49:12 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id w6so6563007qkb.4
+	Wed, 21 Mar 2018 18:51:29 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id y128so7883096iod.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 11:49:14 -0700 (PDT)
+	Wed, 21 Mar 2018 11:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mfjFN+l3mrKIH4pfFQxYgb5hwHyWTxH7lrOaM6Mz/mA=;
+	b=za3qt0y9aJANN6K0RHVyIL5GygQ1c98zrqP1IRp885nUUiDhDjoq7b/ldrel45VAXq
+	6AXFtXPgEd7Kywtg/wB1/dDzh8VQ2ooEUOfmXnYfdldqWtIv46nGau0iHJKMEvd+shlj
+	vnRmBv7GXxww8j35ERIMIoFxtJo9M/V/rVrrWmiNiq/DjInTJ4V5hwiDSrklIG2IbBxS
+	UQCeJIwWvKcbRV7/n+6J9tV+86m0mn/D4Tt1shtdgVzahxxNqb6feVKkxKqZMDbUV02q
+	xZ6hG8J/sR3GYE0vm2sxDPoLv38WSMhOQ2aRJqCIoqNqoDkwpvD54Qgw/ARDCsO/B+jm
+	vI8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=rczWoEi9DgyEFatEP9AbjRizzRKOA8H8LSKh+cDSfh8=;
-	b=a1EJwONnoIqqP4LhwGl27naiqrZlQIe6KReI51YpWfdZOd3bUfVy8NJuNTGwMWUnwv
-	6s2wIF/Arg9xGENnCIhQ0OMpIAhV5CugtF/1AtuVLXM46NyxqwiPj2SO70EB7Sv0e6gu
-	OnCwGC1NKIYyAIIUA1si7YCLgx0mpIP0MdGC64Y1Luuk0/PiScujXwmspBTf2jHvJLjk
-	NU80CZSDDIosNpmnIPTwENp+v0JvQ8faw+3h7U3/bcd6omaCcKoUTWJzt44eaiSyvM1w
-	WmSsW+HGb20BLlc15VKJ9LOCdkFcaNsY1US67FQqeRqke0mMx556TtlUC20r768xAa2p
-	jwCQ==
-X-Gm-Message-State: AElRT7GBXYOU6lmsd+KaFgn0hlowah+9pYx/TAOuAe6PG0uy0R7GwIFy
-	9KAvn785xGW4AFcLKoR2kpRt7g==
-X-Google-Smtp-Source: AG47ELtI5Yfo6mRROB6t0UVLPfhmpJ1PErqfy3HcazeCAqAvgGPajHuvni5cn+X+Pc3m6grcIly7GA==
-X-Received: by 10.55.214.25 with SMTP id t25mr31329287qki.233.1521658153319;
-	Wed, 21 Mar 2018 11:49:13 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	e36sm3063655qtk.41.2018.03.21.11.49.10
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 21 Mar 2018 11:49:12 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 21 Mar 2018 15:49:06 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2018 15:49:05 -0300
-Message-Id: <20180321184905.25175-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.16.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade 17.3.6 -> 17.3.7
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mfjFN+l3mrKIH4pfFQxYgb5hwHyWTxH7lrOaM6Mz/mA=;
+	b=sOx6Z8Smuo3zssR+RUzhLXgWQX4MTY5x61WAZLY4oiaIQ+JglFSk/5iKa0MN36SU6j
+	koTncm6sXGOh6u8W68DH6uxK8mwK8Y7D2kt7LYI10gxx1dWO1XXuZN8cX+EVvFhCus4C
+	tvXo2Vk6YHuzLoP8wwHUbmX7o38k/70JqT8rNAi+tq175mjwZsfrXaHlZF4LsoAGWRrq
+	MsooYofhCi2EiD19ClOuQgbjIB3oZ1jYXHZHOQLeIX7dHjxfT+fHHjZy3qVB7nT/Gbsf
+	ZEWDZb2wegJgwm+wH63+sWeUPW00aZ9y9Br40IbkZhTEXKox5pFFzePQnSbyMkAFgzl6
+	k0FQ==
+X-Gm-Message-State: AElRT7HXJVfnwfsGi0MmeElEjkQjNqMCB7pN/pJCTo9hZiSsyNBGP7WO
+	tTGSCbvJ+yWMsb7LdL2YKf2Yq1xJgX5zD/I7I+Fs3Q==
+X-Google-Smtp-Source: AG47ELtbEQg8hykcjyFzcaSyTVuS0pYs/H7l5HDGsmNaMWQPR4GxaWzJqt55Kt4CK7upDpNV3njCl6ZggIT/0E6mj3s=
+X-Received: by 10.107.37.212 with SMTP id l203mr21488709iol.20.1521658290692; 
+	Wed, 21 Mar 2018 11:51:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.30.9 with HTTP; Wed, 21 Mar 2018 11:51:10 -0700 (PDT)
+In-Reply-To: <CAMKF1srT=6-+Sm5Lf-eFB-8xzrZj4ktgB-TOpHAzW7Gaq97XLQ@mail.gmail.com>
+References: <1521617238-23436-1-git-send-email-anuj.mittal@intel.com>
+	<CAMKF1srT=6-+Sm5Lf-eFB-8xzrZj4ktgB-TOpHAzW7Gaq97XLQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Mar 2018 18:51:10 +0000
+Message-ID: <CAJTo0LbdeWLb0Wy0yCu3VBa=Le+wagxyj7XsGe_-AMqah7z5gQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] librepo: disable building of tests and docs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 18:49:12 -0000
+X-List-Received-Date: Wed, 21 Mar 2018 18:51:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This version has been published at March 21, 2018, and it is a bugfix
-only release. It includes several important fixes that were made as
-part of 18.0.0 development cycle.
+No, they were not installed.
 
-Full list of bug fixes can be see online at:
+Ross
 
- https://www.mesa3d.org/relnotes/17.3.7.html
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
- meta/recipes-graphics/mesa/{mesa-gl_17.3.6.bb => mesa-gl_17.3.7.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.3.6.bb => mesa_17.3.7.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.3.6.bb => mesa-gl_17.3.7.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.3.6.bb => mesa_17.3.7.bb} (87%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb b/meta/recipes-graphics/mesa/mesa-gl_17.3.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.3.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.3.7.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.3.6.bb b/meta/recipes-graphics/mesa/mesa_17.3.7.bb
-similarity index 87%
-rename from meta/recipes-graphics/mesa/mesa_17.3.6.bb
-rename to meta/recipes-graphics/mesa/mesa_17.3.7.bb
-index 1ace5fd2443..fe09a2988df 100644
---- a/meta/recipes-graphics/mesa/mesa_17.3.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.3.7.bb
-@@ -11,8 +11,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
-            "
- 
--SRC_URI[md5sum] = "ba66ae0f09b9b84482268608557cd175"
--SRC_URI[sha256sum] = "e5915680d44ac9d05defdec529db7459ac9edd441c9845266eff2e2d3e57fbf8"
-+SRC_URI[md5sum] = "769137f2538562c300c4b76bcb097377"
-+SRC_URI[sha256sum] = "0595904a8fba65a8fe853a84ad3c940205503b94af41e8ceed245fada777ac1e"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.16.2
-
+On 21 March 2018 at 18:25, Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, Mar 21, 2018 at 12:27 AM, Anuj Mittal <anuj.mittal@intel.com> wrote:
+>> Also remove libcheck dependency which was required only for tests.
+>>
+>
+> Does this affect ptest converge ?
+>
+>> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>> ---
+>>  meta/recipes-devtools/librepo/librepo_1.8.1.bb | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/librepo/librepo_1.8.1.bb b/meta/recipes-devtools/librepo/librepo_1.8.1.bb
+>> index 0324104..4569885 100644
+>> --- a/meta/recipes-devtools/librepo/librepo_1.8.1.bb
+>> +++ b/meta/recipes-devtools/librepo/librepo_1.8.1.bb
+>> @@ -11,11 +11,11 @@ SRCREV = "7b9b7bf388f3f059529c6f50c40b30919fef30f9"
+>>
+>>  S = "${WORKDIR}/git"
+>>
+>> -DEPENDS = "curl expat glib-2.0 openssl attr libcheck gpgme"
+>> +DEPENDS = "curl expat glib-2.0 openssl attr gpgme"
+>>
+>>  inherit cmake distutils3-base pkgconfig
+>>
+>> -EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
+>> +EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DENABLE_TESTS=OFF -DENABLE_DOCS=OFF"
+>>
+>>  BBCLASSEXTEND = "native nativesdk"
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
