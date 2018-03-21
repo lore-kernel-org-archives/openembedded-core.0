@@ -1,48 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 773DB78962
+Return-Path: <rajathcs.1996@gmail.com>
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 90D6178960
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 10:25:13 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id d5so6001923iob.9
+	Wed, 21 Mar 2018 10:25:31 +0000 (UTC)
+Received: by mail-vk0-f41.google.com with SMTP id l123so2729287vke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 03:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 21 Mar 2018 03:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YZ1HOIbdC18E1l0UhsSZpZ0OUaMGTsYh+Qkyp7/H+1Q=;
-	b=vntzdZYauuXB9jYlIaaOS/CtgE2XDjHnPcWCOixOLKwATxeP1yezRAM6EP23I+VQcC
-	RbuOK6jIHPlQmcvNfGp3PkYSQ0r5+G++pci1EtJMLzfzJ1EMk64B6u0aE33WrZb+y/g+
-	A0S+/ZwfPgB02cvTLQ2VkujrPopE6IIkKI4qJb02pn4bUA0ZtrQYADPxqKVj12vaOx2O
-	F9SN3Qf+XOCyzZGZvAgX7qGXMdJrhh19VWnB/hIBtamvKA+ba9HeI+5hgcOHfSzyZm0w
-	gJfCNo39VnHHZvyMaGCvujGHq0L1Mka9UmkiyDrqb/AIIYoBPMsgaItOkw5mQSx1X6pW
-	wO4Q==
+	:cc; bh=RYGyyTica9XbOIZYeXbCSAPzomUYAav2dsyOC0J8ELw=;
+	b=DftgmDGMJmZZNscSgqGxQCvt+9P8K9RKOPaPzMXUzRoz4Bh+kjc8q7gDKAkRR2yv/E
+	sI0JEoV0qZlHPfjd5YmZ0nWR8q9JQBlS1mkLrWl/FNd7F58MpBPDMj+eXGQNQGkCT4X1
+	1qamDFa7Q/6lIn/HM+PMhEpS7ajvOCg8Zjnis1UvVBKkikjwMC8lq32MXvMCHAXcGeK7
+	fpFQEFLKkqeQhLL78b/tYWxgdvegxcAhtmyLSnMogrdCNHhFXDjTkp9v74X9P20ywGIm
+	vQyIrK3FyzGu/WGcnE0+kYLolVq4MFXRbDzJ71cx49pzjZ4dfAfDBns1ITCpBq35i384
+	JLmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=YZ1HOIbdC18E1l0UhsSZpZ0OUaMGTsYh+Qkyp7/H+1Q=;
-	b=BI00RCMiIQKIeMjI+aZEfqGWQgcK3lnpRPYQXZAY0mubU6UKIXv9k92PIBuMq/58v0
-	/8mv5ljoUaxFRgtXBKfe4NDFdo5HLWPidaxDjJR1jA8GXvR3yk/xBXYAQwaPtqCK5ePP
-	TGfsWdthoy5vm8eIpLPLRo8t1dHsqpsr/lciyo/ViZmjkQtQ32vVy9huuDE/RPtq42xs
-	21Sr71Yrxhu1fiNka2A5x4txjjeAt6uPv0MBHnTcHZ4gQCP2pCIJoR2SUzK1SayVEVrU
-	6IEHcttJA3VOBW8wngN8FxWpk1rlSl3A0DY2n3hOrwd49hjgc5gURV/IX82Wkxbbg+Zj
-	duCg==
-X-Gm-Message-State: AElRT7GGj/RqtjtZSgRy72zdwe9GnfbD3dQNJenjFtn8Chv4zPC9ShGP
-	fKKTM57GPtNbnMiqc0NVJNWV8KpzoLUz4SiKqWvjDQ==
-X-Google-Smtp-Source: AG47ELs4rMQ/q7xj1luy3TI643lA28LTgrfB0SZltOaXLF3CC8Ca40zmM5hP/gjDRVcF8HTqBzpw0TONQJ7cEAot/kk=
-X-Received: by 10.107.161.200 with SMTP id k191mr18929670ioe.270.1521627915501;
-	Wed, 21 Mar 2018 03:25:15 -0700 (PDT)
+	bh=RYGyyTica9XbOIZYeXbCSAPzomUYAav2dsyOC0J8ELw=;
+	b=g507CGklc+bW8X5dqy1imlN5p4NYVHTsPWXwshs6hk7uqD1Vm/sumucWxapivz3mWo
+	+ZctJQxPYnQzaZtjDFI3yXnaT1Zi9UAHcG4RKcWCmohYBTaTKhLO1JnXXasAvXb5RJil
+	ShaATA+aKfWVu7lLJA23r6HMeudZ+anwPsK4xleRXsXN7m8nrr6FKuwpbYp+p6NcECaN
+	aBhByIZGKEwTG9UF4XJRJnqt3d7/+nn43maHLJiml9VsIXmgE4Luu9Vq/tzl/xsnGa1J
+	mxb3tfBDfxfDq+o/nNS65CyfiT9kyj5XY3fT0FrmVIb/L1G2e4ZIKO0ZnADSNIyWaMbK
+	TkRA==
+X-Gm-Message-State: AElRT7HBhRN8JuDLO1go4k6EU6oR+pe3Y1nDI07WOY2WQUmHOwiHlspf
+	h8RcDuRvQ83OMh8FZUuSELCv8Hb/VG9oXCa5dYc=
+X-Google-Smtp-Source: AG47ELtqdPyCMBcBzQwbbWI14oLPJlqaiu5IYZfm2jsI1JYizpfmaNdwcwiQSAE6s3CcpEnPtwt6Uw62WsehbIMqz7Y=
+X-Received: by 10.31.134.147 with SMTP id i141mr12591807vkd.128.1521627932497; 
+	Wed, 21 Mar 2018 03:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Wed, 21 Mar 2018 03:24:55 -0700 (PDT)
-In-Reply-To: <1521603213-34824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1521603213-34824-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Mar 2018 10:24:55 +0000
-Message-ID: <CAJTo0LYKVpDM0aOTd3QwUC1OnkPusRdko4BrcvD4_Zd6x52Fcg@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-setuptools: 38.5.2 -> 39.0.1
+Received: by 10.103.34.4 with HTTP; Wed, 21 Mar 2018 03:25:32 -0700 (PDT)
+In-Reply-To: <CAPGMVzEqtt8C0DCR28fMik6c+9jGtM3=uKRbxrMDEv=8CexdiQ@mail.gmail.com>
+References: <CAPGMVzEUccZZpxwJpH0akzn7+FyaZf0NbDZoN=73+u8g=yA4Fg@mail.gmail.com>
+	<CAJTo0LYGumRqn5=GeB=41abhNn8s6dqoE_d3gMZThwkLor-_zA@mail.gmail.com>
+	<CAPGMVzEqtt8C0DCR28fMik6c+9jGtM3=uKRbxrMDEv=8CexdiQ@mail.gmail.com>
+From: Rajath C S <rajathcs.1996@gmail.com>
+Date: Wed, 21 Mar 2018 15:55:32 +0530
+Message-ID: <CAPGMVzHyC098J=w5Xbt8z__2-9LVSeBhiJ1U+EHQLiGU1x+huw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [meta-openembeded] bug in adding network layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,135 +56,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 10:25:14 -0000
-Content-Type: multipart/alternative; boundary="001a113e91986264b40567e99b34"
+X-List-Received-Date: Wed, 21 Mar 2018 10:25:31 -0000
+Content-Type: multipart/alternative; boundary="001a11411038659e180567e99cf5"
 
---001a113e91986264b40567e99b34
+--001a11411038659e180567e99cf5
 Content-Type: text/plain; charset="UTF-8"
 
-The 39.0.0 upgrade has already been merged, and this will break
-python3-setuptools.
+thanks,
 
-On 21 March 2018 at 03:33, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
+i will follow the said things,
 
-> Upgrade python-setuptools from 38.5.2 to 39.0.1.
+but as of now my situation is as such : "
+sure, i will have one other question that is how to establish internet
+connection on to poky?
+that is , i have placed the meta-networking layer in bblayer.conf file so
+after that which recipe should i add to local.conf so that wireless
+connection is established on the poky?
+
+Do help with the steps
+
+Thanks"
+I will try and implement networking from oe-core
+
+
+Rajath C S,
+9964182112,
+Bangalore - 560060
+
+On Wed, Mar 21, 2018 at 3:40 PM, Burton, Ross <ross.burton@intel.com> wrote:
+
+> First, you don't need meta-networking to make networking "work", because
+> oe-core has the basics.
 >
-> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-devtools/python/python-setuptools.inc                    |
-> 4 ++--
->  .../{python-setuptools_38.5.2.bb => python-setuptools_39.0.1.bb}      | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python-setuptools_38.5.2.bb =>
-> python-setuptools_39.0.1.bb} (100%)
+> Second, you need to match the release of layers.  You're using
+> meta-networking master, and a previous release of poky.  Checkout the
+> corresponding release branch of meta-networking.
 >
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc
-> b/meta/recipes-devtools/python/python-setuptools.inc
-> index b5bd8cc..c5eb4a5 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
+> Ross
 >
->  inherit pypi
+> On 21 March 2018 at 07:29, Rajath C S <rajathcs.1996@gmail.com> wrote:
 >
-> -SRC_URI[md5sum] = "b4c7f29c8079bdf2f0f355cdcd999e69"
-> -SRC_URI[sha256sum] = "8246123e984cadf687163bdcd1bb58
-> eb325e2891b066e1f0224728a41c8d9064"
-> +SRC_URI[md5sum] = "75310b72ca0ab4e673bf7679f69d7a62"
-> +SRC_URI[sha256sum] = "bec7badf0f60e7fc8153fac47836ed
-> c41b74e5d541d7692e614e635720d6a7c7"
->
->  DEPENDS += "${PYTHON_PN}"
->  DEPENDS_class-native += "${PYTHON_PN}-native"
-> diff --git a/meta/recipes-devtools/python/python-setuptools_38.5.2.bb
-> b/meta/recipes-devtools/python/python-setuptools_39.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python/python-setuptools_38.5.2.bb
-> rename to meta/recipes-devtools/python/python-setuptools_39.0.1.bb
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> I am tryiing to add meta-networking layer (to get Internet connection to
+>> poky)and i have included the following line of code in bbconfig file
+>> /home/jarvis/poky/meta-openembedded/meta-networking \
+>>
+>> but while building i get this below error
+>>
+>>
+>> ERROR: ExpansionError during parsing /home/jarvis/poky/meta-openemb
+>> edded/meta-networking/recipes-support/libtdb/libtdb_1.3.15.bb
+>> Traceback (most recent call last):
+>> bb.data_smart.ExpansionError: Failure expanding variable do_compile,
+>> expression was     python ./buildtools/bin/waf
+>> ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)}
+>>  which triggered exception AttributeError: module 'oe.utils' has no
+>> attribute 'parallel_make_argument'
+>>
+>>
+>> DO help,
+>>
+>> is there any other way to establish Internet connection inside poky?
+>>
+>> Thanks
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 >
 
---001a113e91986264b40567e99b34
+--001a11411038659e180567e99cf5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">The 39.0.0 upgrade has already been merged, and this will =
-break python3-setuptools.</div><div class=3D"gmail_extra"><br><div class=3D=
-"gmail_quote">On 21 March 2018 at 03:33, Huang Qiyu <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fns=
-t@cn.fujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Up=
-grade python-setuptools from 38.5.2 to 39.0.1.<br>
-<br>
-Signed-off-by: Huang Qiyu &lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com=
-">huangqy.fnst@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<wbr>python-setuptools.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A0.../{<a href=3D"http://python-setuptools_38.5.2.bb" rel=3D"noreferrer=
-" target=3D"_blank">python-setuptools_38.5.2.<wbr>bb</a> =3D&gt; <a href=3D=
-"http://python-setuptools_39.0.1.bb" rel=3D"noreferrer" target=3D"_blank">p=
-ython-setuptools_39.0.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 | 0<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python-setupto=
-ols_38.5.2.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>python-setuptools_=
-38.5.2.bb</a> =3D&gt; <a href=3D"http://python-setuptools_39.0.1.bb" rel=3D=
-"noreferrer" target=3D"_blank">python-setuptools_39.0.1.bb</a>} (100%)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>python/python-setuptools.inc b/meta=
-/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-index b5bd8cc..c5eb4a5 100644<br>
---- a/meta/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-+++ b/meta/recipes-devtools/<wbr>python/python-setuptools.inc<br>
-@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT =3D &quot;zip&quot;<br>
-<br>
-=C2=A0inherit pypi<br>
-<br>
--SRC_URI[md5sum] =3D &quot;<wbr>b4c7f29c8079bdf2f0f355cdcd999e<wbr>69&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>8246123e984cadf687163bdcd1bb58<wbr>eb325=
-e2891b066e1f0224728a41c8d<wbr>9064&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>75310b72ca0ab4e673bf7679f69d7a<wbr>62&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>bec7badf0f60e7fc8153fac47836ed<wbr>c41b7=
-4e5d541d7692e614e635720d6<wbr>a7c7&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot;${PYTHON_PN}&quot;<br>
-=C2=A0DEPENDS_class-native +=3D &quot;${PYTHON_PN}-native&quot;<br>
-diff --git a/meta/recipes-devtools/<wbr>python/<a href=3D"http://python-set=
-uptools_38.5.2.bb" rel=3D"noreferrer" target=3D"_blank">python-setuptools_3=
-8.5.<wbr>2.bb</a> b/meta/recipes-devtools/<wbr>python/<a href=3D"http://pyt=
-hon-setuptools_39.0.1.bb" rel=3D"noreferrer" target=3D"_blank">python-setup=
-tools_39.0.<wbr>1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python-setuptool=
-s_38.5.2.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-setuptools_38=
-.5.2.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python-setuptools_=
-39.0.1.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython-setuptools_39.0=
-.1.bb</a><br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
-<br>
-<br>
---<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr"><div><div>=
+<div>thanks,<br><br></div>i will follow the said things,<br><br></div>but a=
+s of now my situation is as such : &quot;<div><div><div>sure, i will have o=
+ne other question that is how to establish internet connection on to poky?<=
+br></div>that
+ is , i have placed the meta-networking layer in bblayer.conf file so=20
+after that which recipe should i add to local.conf so that wireless=20
+connection is established on the poky?<br><br></div>Do help with the steps =
+<br><br></div>Thanks&quot;<br></div>I will try and implement networking fro=
+m oe-core<span class=3D"HOEnZb"><font color=3D"#888888"><br><div><br></div>=
+</font></span></div><div class=3D"gmail_extra"><span class=3D"HOEnZb"><font=
+ color=3D"#888888"><br clear=3D"all"><div><div class=3D"m_43399702141540508=
+37gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div=
+><div>Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div=
+></div></div></font></span><div><div class=3D"h5">
+<br><div class=3D"gmail_quote">On Wed, Mar 21, 2018 at 3:40 PM, Burton, Ros=
+s <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"=
+_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div dir=3D"ltr">First, you don&#39;t need meta-networking to ma=
+ke networking &quot;work&quot;, because oe-core has the basics.<div><br></d=
+iv><div>Second, you need to match the release of layers.=C2=A0 You&#39;re u=
+sing meta-networking master, and a previous release of poky.=C2=A0 Checkout=
+ the corresponding release branch of meta-networking.</div><div><br></div><=
+div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
+e"><div><div class=3D"m_4339970214154050837h5">On 21 March 2018 at 07:29, R=
+ajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" =
+target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br></div></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><div><div class=3D"m_4339970214154050837=
+h5"><div dir=3D"ltr"><div>I am tryiing to add meta-networking layer (to get=
+ Internet connection to poky)and i have included the following line of code=
+ in bbconfig file <br>/home/jarvis/poky/meta-openemb<wbr>edded/meta-network=
+ing \<br><br></div>but while building i get this below error<br><br><div><d=
+iv><br>ERROR: ExpansionError during parsing /home/jarvis/poky/meta-openemb<=
+wbr>edded/meta-networking/recipes-<wbr>support/libtdb/<a href=3D"http://lib=
+tdb_1.3.15.bb" target=3D"_blank">libtdb_1.3.15.b<wbr>b</a><br>Traceback (mo=
+st recent call last):<br>bb.data_smart.ExpansionError: Failure expanding va=
+riable do_compile, expression was=C2=A0=C2=A0=C2=A0=C2=A0 python ./buildtoo=
+ls/bin/waf ${@oe.utils.parallel_make_argu<wbr>ment(d, &#39;-j%d&#39;, limit=
+=3D64)}<br>=C2=A0which triggered exception AttributeError: module &#39;oe.u=
+tils&#39; has no attribute &#39;parallel_make_argument&#39;<br><br><br></di=
+v><div>DO help,<br><br></div><div>is there any other way to establish Inter=
+net connection inside poky?<br><br></div><div>Thanks<br></div><div><br></di=
+v></div></div>
+<br></div></div><span class=3D"m_4339970214154050837HOEnZb"><font color=3D"=
+#888888">--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+<br></font></span></blockquote></div><br></div>
+</blockquote></div><br></div></div></div>
+</div><br></div>
 
---001a113e91986264b40567e99b34--
+--001a11411038659e180567e99cf5--
