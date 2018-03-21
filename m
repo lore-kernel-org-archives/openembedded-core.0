@@ -1,50 +1,29 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A7171985
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4284E78957
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 12:21:24 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l16so9450575wmh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2018 05:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=DDNmEDaQIe0FgwHKbMRbVhqyfUtw5SoZN6byqcLu8IY=;
-	b=py0U1VEfLHoDTyfbvPzDWpjOgvMCzldYBJgkrh/8A5BPxOjG/oFcivZ4U+z92j5msU
-	C8BcHU1q/OhcR2icabPs57RWKIOeOP9lKqcCCQ6qv7/NerQm3pltLxZnwKBuB9iitti5
-	CaTXrLb7JEcNRGoH7d6WMKOycJ7RIM9b6W4NUf5HN4axLLEzCR7mLEo69xGQ241Fmmjn
-	WDqvBXZJqRq1TKRS9VHBceMuZtPoC+OovsjCke7DmanMOtzsMHn+w/Ka3lTwgkly/eyf
-	4Kk8vji3gCvHmZATinQeAKtUL+x4gQD8m4mBJ8SoRS1rML8npqSPdmlkiQM59JpPRTwS
-	5vhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=DDNmEDaQIe0FgwHKbMRbVhqyfUtw5SoZN6byqcLu8IY=;
-	b=H7mYpi3/um4riWPri7baI3PPVlrYy9+g4l/TiE8JHYB3fHBAX7bokyGDH1vgxPYjS9
-	yoVEIZ7oWGYt2OqYFdzu0qaFJHdpt1GcYOb0hkKYcV4JIs8vV3F0k/mJx3S1tzTqgqXE
-	D0RTqT4ifo3Zdr1hQdCJR1wwa3AN1tatlu2JotIDvIuaBc2BsWTaAlPB7fk1ONaUgb/B
-	8/RVk2gfaz4aGHEJ0hgd/SAkUWT4TlPl1wZnCLUT0DX6jtWZmEJBDvxlCKxUdVGPJEB7
-	O+UpEYZ7FdLra8FEO/SmrDJnGQ1Z2sN3RAuqErlYTRL87fn/I0XoJDGW/Q28W9Bshzwm
-	Xxog==
-X-Gm-Message-State: AElRT7Eq0ruXY/sE/J1mWMk7VvxHRyZSXE/Mk/woDju6PEmn2/XhwnLO
-	oVZJd4jl5G23XaVzP5obiCLWlQ==
-X-Google-Smtp-Source: AG47ELtsLUXIL8pbP3PpZRZNkaVauRpsp7ASL/gTbxqyaUtdYXGSSYalRcQVw7t6nlPtBq7b3AHn1A==
-X-Received: by 10.28.91.79 with SMTP id p76mr1722781wmb.3.1521634884734;
-	Wed, 21 Mar 2018 05:21:24 -0700 (PDT)
-Received: from localhost.localdomain (p50971113.dip0.t-ipconnect.de.
-	[80.151.17.19]) by smtp.gmail.com with ESMTPSA id
-	d13sm1684512wre.36.2018.03.21.05.21.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 21 Mar 2018 05:21:23 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2018 13:20:48 +0100
-Message-Id: <20180321122048.22277-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.14.3
+	Wed, 21 Mar 2018 13:51:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Mar 2018 06:51:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,340,1517904000"; d="scan'208";a="44058338"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 21 Mar 2018 06:51:40 -0700
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1521503987-70014-1-git-send-email-ee.peng.yeoh@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <cec1c204-c8c1-74da-d89d-bba2ed0d369c@linux.intel.com>
+Date: Wed, 21 Mar 2018 15:45:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Subject: [PATCH] externalsrc: do not call make clean for recipes with CLEANBROKEN = "1" set
+In-Reply-To: <1521503987-70014-1-git-send-email-ee.peng.yeoh@intel.com>
+Subject: Re: [PATCH] oe-selftest: crosstap: add tests for crosstap script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2018 12:21:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Mar 2018 13:51:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-ERROR: distrho-ports-0.0.0+git999-r0 do_buildclean: oe_runmake failed
-ERROR: distrho-ports-0.0.0+git999-r0 do_buildclean: Function failed: do_buildclean
-ERROR: Logfile of failure stored in: <...>/temp/log.do_buildclean.17285
-Log data follows:
-| DEBUG: Executing shell function do_buildclean
-| NOTE: make clean
-| make clean -C libs/drowaudio
-| make[1]: Entering directory '/home/a.mueller/data/oe-core/workspace/sources/distrho-ports/libs/drowaudio'
-| make clean -C build-drowaudio
-| make[2]: Entering directory '/home/a.mueller/data/oe-core/workspace/sources/distrho-ports/libs/drowaudio/build-drowaudio'
-| make[2]: *** No rule to make target 'clean'.  Stop.
-| make[2]: Leaving directory '/home/a.mueller/data/oe-core/workspace/sources/distrho-ports/libs/drowaudio/build-drowaudio'
-| make[1]: *** [Makefile:7: clean] Error 2
-| make[1]: Leaving directory '/home/a.mueller/data/oe-core/workspace/sources/distrho-ports/libs/drowaudio'
-| make: *** [Makefile:73: clean] Error 2
-| ERROR: oe_runmake failed
+On 03/20/2018 01:59 AM, Yeoh Ee Peng wrote:
+> +    def start_qemu_with_image(self, recipe, fstypes, cmd, targetlogger):
+> +        tinfoil = bb.tinfoil.Tinfoil()
+> +        tinfoil.prepare(config_only=False, quiet=True)
+> +        try:
+> +            tinfoil.logger.setLevel(logging.WARNING)
+> +            tinfoil.config_data.setVar("TEST_LOG_DIR", "${WORKDIR}/testimage")
+> +            tinfoil.config_data.setVar("TEST_QEMUBOOT_TIMEOUT", "1000")
+> +            # Tell QemuTarget() whether need find rootfs/kernel or not
+> +            #tinfoil.config_data.setVar("FIND_ROOTFS", '0')
+> +            recipedata = tinfoil.parse_recipe(recipe)
+> +            logdir = recipedata.getVar("TEST_LOG_DIR")
+> +            qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, fstypes)
+> +        finally:
+> +            # We need to shut down tinfoil early here in case we actually want
+> +            # to run tinfoil-using utilities with the running QEMU instance.
+> +            # Luckily QemuTarget doesn't need it after the constructor.
+> +            tinfoil.shutdown()
+> +        print('DEBUG: qemu.deploy')
+> +        qemu.deploy()
+> +        try:
+> +            print('DEBUG: qemu.start')
+> +            qemu.start(ssh=True, launch_cmd=cmd, discard_writes=True)
+> +        except bb.build.FuncFailed:
+> +            raise Exception('Failed to start QEMU - see the logs in %s' % logdir)
+> +
+> +        return qemu
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/classes/externalsrc.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Can you use runqemu from oeqa.utils.commands, instead of this custom 
+hand-written invocation? There are plenty of examples in oe-selftests, e.g.:
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index ac1b904e72..3f1d39689b 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -173,7 +173,9 @@ do_buildclean[doc] = "Call 'make clean' or equivalent in ${B}"
- externalsrc_do_buildclean() {
- 	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
- 		rm -f ${@' '.join([x.split(':')[0] for x in (d.getVar('EXTERNALSRC_SYMLINKS') or '').split()])}
--		oe_runmake clean || die "make failed"
-+		if [ "${CLEANBROKEN}" != "1" ]; then
-+			oe_runmake clean || die "make failed"
-+		fi
- 	else
- 		bbnote "nothing to do - no makefile found"
- 	fi
--- 
-2.14.3
+                     with runqemu('core-image-minimal') as qemu:
+                         # Make the test echo a string and search for 
+that as
+                         # run_serial()'s status code is useless.'
+                         for filename in ("rootfs", "delayed-a", 
+"delayed-b"):
+                             status, output = qemu.run_serial("test -f 
+%s && echo found" % os.path.join(targettestdir, filename))
+                             self.assertEqual(output, "found", "%s was 
+not present on boot" % filename)
 
+
+Alex
 
