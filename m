@@ -1,47 +1,98 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 616966FEF5
+Return-Path: <Rasmus.Villemoes@prevas.se>
+X-Greylist: delayed 39575 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 23 Mar 2018 03:17:49 UTC
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0118.outbound.protection.outlook.com [104.47.2.118])
+	by mail.openembedded.org (Postfix) with ESMTP id 94CF3784BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 02:34:21 +0000 (UTC)
-Received: by mail-vk0-f51.google.com with SMTP id f6so6494816vkh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 19:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZtpqFRoZhS90aIYISaQ+Tjs5QP/YCpQ6NYOUkXHq9b4=;
-	b=WRi5DpTRMP4lXZsSM0w7iiDrkP1ZD6tke81n/V9BdIPpDGeqaZ66IZtEZPt33soxwx
-	OIfS58Jfi/XNw3Rr4Jmf6N9NP4N26VFp0YNuKQFFEg4vLJ8GpMByKvDqqCYTwDfdPQ/e
-	oaNNiAG6PQBbvHNiatdn0TW+SJR79/+/WsSuyVqj0kyW1XCdjHVviOqxPBSOs3bePd16
-	HhaQnu7WaiqbpCzX3r/tap5Fj2lBVC/+55UClr0Z2I9DSvdQfN2lRA1kJVZ6ejbXP9fM
-	kxHNdjz1Dv0KlLWJ9JEy/FV+blvfw9qJnC6nnsLaK+PD+kvq3yypuueP2Nc+7w9KwWBt
-	4ZWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZtpqFRoZhS90aIYISaQ+Tjs5QP/YCpQ6NYOUkXHq9b4=;
-	b=sgqpXtgPtRIWujJwQ7Y/IidpFSfzgTU5/uWCBtFr2PW8A+xaMF3wXwnHQ+9SGseZKR
-	v5w2D+p5PJ93sGS4WR2CsOuJ4trx4Yvt0kQXTlDEAb95SGE3nnw815749H3AhRZjKaqA
-	B4Go24JevwwZupG10HffnUqQ3zK/0PxENlUoDEKennMEGOl4QC4/sed8hgm15andQ+T8
-	Q8jIaF7Mi+UIQmahaIQG3oOgjjiWfKBFDMSkjI1wpoF+cp5xDlkwqXfxQaP2/7MEeujc
-	vNo0Y4DU+M1pQYYa9K3R087mKCoEWKY4P12LHifSxKipWtWfwkDl4pqwlftIXQCD98wa
-	pOeQ==
-X-Gm-Message-State: AElRT7FHoxl1bY6FO4I+AwPtUB+J7PJkdyJxhjvwd6SBAgUgxLB3JKrq
-	HPcUqyzErO44JMbcb1MKy2E4hp7NCtE7Xh6OIZ0=
-X-Google-Smtp-Source: AG47ELvN8Z9eveb698cQ6kXO3U7ri+0kNz/9Uw1u7mCvgQcQN+sayTlj7CnByug6Y1dl3mg/FGHGAEMA7wrcRBrxqo4=
-X-Received: by 10.31.7.132 with SMTP id 126mr7600018vkh.42.1521772462379; Thu,
-	22 Mar 2018 19:34:22 -0700 (PDT)
+	Fri, 23 Mar 2018 03:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=prevasonline.onmicrosoft.com; s=selector1-prevas-se;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=g1X4jYvi4Ru59kqfH/zYwjguw2B+4DSJfNAzx+c3PEo=;
+	b=MptJKShFl1ZlPHAT5VKIGZhgQwrOUnYLvbDkZFYfzr3zMhMbz2E3IXxBH3oDPECf5vUWiSUcURQd58C5otFoTsNogo533kCTc77smkHdRC/GiwWGIg+weZzEdC8dKEq8bRwlqxLpimKglQDgG9VWEiQ9NN06uQxZJKZ3++NVtlY=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+Received: from prevas-ravi.prevas.se (81.216.59.226) by
+	AM5PR10MB0436.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:203:25::22) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.609.10; Thu, 22 Mar 2018 13:44:22 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2018 14:44:13 +0100
+Message-Id: <20180322134413.8079-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.15.1
 MIME-Version: 1.0
-References: <CAPGMVzH-rzxfbLnV4BP5zGW_8EJ8bj4W_uu7dNs4UGW-UfW-5Q@mail.gmail.com>
-	<CAJTo0LYXoowKcTwW+1TLFUfSsag7u5WwtJZtn3DbqAtsHEF_Lw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYXoowKcTwW+1TLFUfSsag7u5WwtJZtn3DbqAtsHEF_Lw@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Fri, 23 Mar 2018 02:34:11 +0000
-Message-ID: <CAPGMVzEGdGbEVU7dJn3RJ+3gcsxLmHb=tuG2LGwV6m4OM5FEeA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-chicken] networking
+X-Originating-IP: [81.216.59.226]
+X-ClientProxiedBy: HE1PR0701CA0077.eurprd07.prod.outlook.com
+	(2603:10a6:3:64::21) To AM5PR10MB0436.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:203:25::22)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f0086d9f-2c32-497a-3248-08d58ffb053d
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:AM5PR10MB0436; 
+X-Microsoft-Exchange-Diagnostics: 1; AM5PR10MB0436;
+	3:dkjEbYqe3ZzWcGNAr7b6s0zUb8jbqJt+C/NC3ilmq7pnsG/RiyLTSMMVOuVkx+7+yEfL4EQDmZ049LJn8Qlh39lOAqEAqL/kNBZDL8LBjfro/StbwDPv4TNBh0H6x/5sHfhGuH/vFGgnO0AS3EWBiv+uLnHX9jv97T+BNbJv9kDmvDm0O+a3QnSFVwnlmZ372goG5j3K6RHo4kDtBUFgvPegrVWb1sMYftWxOmFvB3hI5zJcalkRlsOOFvbFihrZ;
+	25:WobuFUpm2KzFwGYrY8StnOXbnM8kz8z59UgsIYB/3whBSMAx9mUO81qfllxBIorjWMKJSsSKPt9qPthV0bO3DFM8R87DLSudpNIUInR+O6mNMNqacZhdkXABENYExIeRI9lwU7O0+KTUVoPrMQPbrmJNhTW8zDexFdTVHwgbqt/GXXqxqUxbwU6ICso823oklcFsiBHiEA1iMsL3m8JD3CouHNnGX7kJkti8qIk79mmXGCBxlYU8sftTniBv+wX+cOcqb5Bb1mFDztHN6sK9L6B3njIARqKXOwSLzuoCwpZvyB0CDwW9WmC8qJULFqay99crUaq2faFau42+RPgHbA==;
+	31:3XUbAQt3inbqI/X+pYIym8SCEmnsEHv3hWmiF5J4CuOTK4EMDTIWs/acza9bEe9GKWuC/cZ5KuEly5CN9uKlfhF7822MR0cxp4HlDN5W4dbpINcEjM6cYYxnTQ6vedU3g7o7HjmFUTQbh64SA545i3aNrI4qO/Kp+Z5qkJpioGq80XoxkPS+Cm5te5x0ToTDT2VJFJq1Waugh3ugwsHqJQWh8kE3kgB13lqJmcg2BYQ=
+X-MS-TrafficTypeDiagnostic: AM5PR10MB0436:
+X-Microsoft-Antispam-PRVS: <AM5PR10MB0436E6FEA62528CEF3D3B6AC8AA90@AM5PR10MB0436.EURPRD10.PROD.OUTLOOK.COM>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(93006095)(3231221)(944501327)(52105095)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123558120)(6072148)(201708071742011);
+	SRVR:AM5PR10MB0436; BCL:0; PCL:0; RULEID:; SRVR:AM5PR10MB0436; 
+X-Microsoft-Exchange-Diagnostics: 1; AM5PR10MB0436;
+	4:e0WAoYnCxFb+Fy2+iBadYvfdfpZ7RpRNOpwvY+okSJrKa8l7cuYsvsJR5TAveTd1yA932dtt0M05vmbVwUPf8ZsKydc+wTz/VSJo3aBlAvCy3Ag1As7eXPBmoprpB7c3I4NgVn/E54wgOpwpBVAPie8TZc5q1Ib4qqKrDk9THktaWEPvNxPD9sCwob8/kjV+nwI+XmVpY385XSprWBa6pBMMhXHW73EJcYY44f4IgeL+y+XMM18ovcS2S0WtwQN+qD+vcuPxYmU+Snp163+CnA==
+X-Forefront-PRVS: 0619D53754
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(366004)(39380400002)(346002)(396003)(376002)(39850400004)(189003)(199004)(106356001)(478600001)(4326008)(47776003)(42882007)(66066001)(36756003)(50226002)(1076002)(3846002)(386003)(6506007)(6116002)(74482002)(5660300001)(7736002)(305945005)(2906002)(25786009)(51416003)(50466002)(48376002)(59450400001)(52116002)(6486002)(69596002)(26005)(8676002)(68736007)(16586007)(72206003)(6512007)(107886003)(97736004)(53416004)(316002)(53936002)(8936002)(8976002)(81156014)(81166006)(186003)(16526019)(6666003)(1857600001)(2361001)(2351001)(6916009)(105586002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:AM5PR10MB0436;
+	H:prevas-ravi.prevas.se; FPR:; SPF:None; PTR:InfoNoRecords; MX:1;
+	A:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: prevas.se does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; AM5PR10MB0436;
+	23:qui3bZ8I6LVyw3zNI9mvxpNn+yrSTTIKeLuDNnLUN?=
+	=?us-ascii?Q?MwzzWc/0/q53xW8ekdIJJcOhocZ6/37oHokLgtFel4/YvCZ3Wcn9WGHHSYSZ?=
+	=?us-ascii?Q?/G1udWIe/2WQkqI3VFD9f/idkKjzRUavAP3wOppQTDLnzSg20OjaJ3qXSPol?=
+	=?us-ascii?Q?P4hLcUThOaYz3X5FgLj549rT+FPQNQBgKakQe2VBnIkdwrbyUy30g15jVEGM?=
+	=?us-ascii?Q?H7IqT9U/qdZkNFBFLTH2sCajUGH/B8MBkPsnIQF7OcMVcNi12mlnothHIbH+?=
+	=?us-ascii?Q?5WULmHLMC3MRW2lKyFiZLtgvD8xf0r1rIQ3+bGQF2wcmU2Vsv6VvPf0npLSo?=
+	=?us-ascii?Q?2eBrw/tmEhfWThsZLcYHqGf/MtGL74SQ/H6hPC0WgYriaatos/c2nAsSIT7a?=
+	=?us-ascii?Q?+8dZTmNQE1He/N2Mn3/N6SqSupHtgTfzzR1HJOTUl0rpL52upU8zNWhOYKHI?=
+	=?us-ascii?Q?8R/zG2h6N1QwpBly9Q13GNdSeQq8nLXcR0gb3xkaQ1RK3BOgvklyw3CAzlGE?=
+	=?us-ascii?Q?QJ2OWu3bb4QS5H2MdzCJp+4/Ff1B1AgRLoc3RSog6+PHzZDLo58I0IQstHlf?=
+	=?us-ascii?Q?gWDYSYSZxVKZNmmqyuRvEhOpBtReQJOEmKOcg2hTVdiB6ChQQmKwnBprQABr?=
+	=?us-ascii?Q?Y0lzpj82/1qlw/uI5NdqluU3ea1te9zDiMRJ1dSqJwgRGgUMIr7sh4tUDxm+?=
+	=?us-ascii?Q?I+nf+lgomxaQHQyMIk9pNXp2ZpYoJQ50j0jmR1h6UVga0f7GTX6UwED2i75t?=
+	=?us-ascii?Q?brBAkOHPTd45YkchCoqdDfUG9M6qQoK+DxArxuOqXbttrlN9hkKwMXynaBo4?=
+	=?us-ascii?Q?RffeE+WPKffntaE/6VnqGfXUQ78JvCYX3+RXyUGVttdx4MBGl8eSslVJhyP/?=
+	=?us-ascii?Q?ukuyij7pGAremdM1eTLT4XKWgJLmatfmhXWban3IyeOyPP0Uu0Lt1nP2fQop?=
+	=?us-ascii?Q?uUoIxKPHXnKJTR2NMky3UCgMvZdmQDQAc3InXncTmk0cmaMi8ClN7ybkwsNt?=
+	=?us-ascii?Q?kmNMEHXdvNejE8RxByLTSlKcmHdk5E7iILXmQiZ62S838LdTxlGz+gMDXIhX?=
+	=?us-ascii?Q?zR0YSBjp+91ij8U/BQJxIUpX3kehT71OkGm01RWlglPt1N+a9p4HomjCmwX9?=
+	=?us-ascii?Q?TfLRuHvK/5QRzT3oAXq5r5UeGuiVg9/06SU+nvWvLe3wFqpsozvubEK/Hv/f?=
+	=?us-ascii?Q?H7+EusCc0uT8J6MTTpNhcg4W5aDjGnTSBc+ASq3GNfr1dmUoQSfj/ahz/p1O?=
+	=?us-ascii?Q?KZa9LDoPUypXuX2Exxa7UNU9LHe6kdB5MhzIwKbLGZSBZs/kAboZq7HdF57o?=
+	=?us-ascii?B?Zz09?=
+X-Microsoft-Antispam-Message-Info: uqpxlyhuHtGE0cjtQ3jJzr7GmiQ7pyhPwVPmnuppr7thWcMcIQIOlScq3SClGXFJesYyq3Ihg9EH1rYWfqdH/fYD8gqBbD3ICG5HQWtQiX+AqNWgqYv5sXev4kZOj5tW9My2EMN2xz70l78XIn2N5NazrY9zLKvEgWqnZMKy/LlYTeByjbs2nYvF9AwYl1Da
+X-Microsoft-Exchange-Diagnostics: 1; AM5PR10MB0436;
+	6:kRnQQo+u7CKsGNh8ZUADHftyp9SNvTOLNxr+44YVrvLsMDkJdBzSVl1zflWO42V0Am91j8fWwm8Ye6yc01dbeQhWMe/B3uWH/Ni6zSHjyDBfX4SCwBZyXYxwfyfOfvDptBCdzSUT8ERe9W9CpqlRlWTw6p3+XrW9jS01xvGa42qEbXzy5On6Ove+wC0NfV0g95ou8a7DZRMFXE/mRohQHk5gaGk4vLyLWZi/pxdwc4wMrkLKpj8PJD9i0d0gXQyuNwt/ZPrusiLS3fnazGADM3UkiHc6KifL3DqmGXpUr94YwPHIi8wpX61c23y3O0bm2Y8nv5SXpDPC4uXv/01KUZQGahPOemtIzcroU0y43mf0D6y5SwkczlzX0U6lBXOrSZhdt9KpceUVBNTAc9d76k/mmoFXgGoWN6xcLnFLmZ6K/XF8u1LETTiAo2NiXdYrD1BoJJL+fT4XxM7QBRzvkg==;
+	5:TAu4+G0YDwX82szFdV2sKE0qn8giauZXIQ5jS3OSFCaCbz5G02ozlyFgW4xFuSofw2bT6h+cbGxzKewMM4+6EMfIDu6+rWXWYxeOaNSOicDAKAjxQ0YNCN8OlDrBL8iezrILLRcEYqwwZhtbCCCc47dla1uZuxgA8egoBNvWtKg=;
+	24:Tuq6xCFyATk7UyqdHlqQEGDU6VogrsoqR7lKN7QBNuYoOcRaoN5OGOuhDzb2wYeUOcVP6FPoBRhpAj5fgBKG/E2f83ehQFX7K02ptWJp3Oo=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; AM5PR10MB0436;
+	7:GQe72mljdMc2Dn4MOLpf27nLGEOW0BmFUUdj5JX7q5ATpIbDssgGvet9tTOxs1ACE0jU0kGXro1nv9vtEdAFK2AtkTS1bcQILEHvkrCIht53DnLAdSG73yoag8SMunk3RCg2WPNsikG8QqDHhZ5O+L63PHC0uBRNgSmYnSU/2fMrCJrRri1lRUvzhP6Kb9YjxZ+s04HGxniQOmY+mzYKK7Rdl7jx6A852ezsM8dIiXMDzWtcY+mF2rxCGWl6rDtK
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2018 13:44:22.7909 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0086d9f-2c32-497a-3248-08d58ffb053d
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR10MB0436
+Subject: [PATCH] wic: allow bitbake variables in kickstarter files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,394 +105,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 02:34:22 -0000
-Content-Type: multipart/alternative; boundary="001a11441a200c993805680b43f4"
+X-List-Received-Date: Fri, 23 Mar 2018 03:17:51 -0000
+Content-Type: text/plain
 
---001a11441a200c993805680b43f4
-Content-Type: text/plain; charset="UTF-8"
+image_types_wic.bbclass has a mechanism for doing variable substitution
+on .wks files by simply letting the input file be called
+.wks.in. However, that doesn't allow using variables in files included
+via the include directive.
 
-If it is like : my kernel doesn't support the WiFi hardware then either of
-the below things must be a possibility
-1. I can install a external WiFi adapter and check for that button in Sato
-2. I can install kernel WiFi drivers
-   2a. Are there  built WiFi drivers for poky ?
+This adds (somewhat naive) support for variable substitution in all
+files parsed by wic. The user should add all required variables to
+WICVARS to get them exported appropriately.
 
-On Fri, 23 Mar 2018, 00:49 Burton, Ross, <ross.burton@intel.com> wrote:
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+ scripts/lib/wic/ksparser.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-> As I said yesterday, core-image-sato ships with connman already.  If
-> the networking UI doesn't have a big [ ] Turn Wifi On button then the
-> problem is that your kernel doesn't support the wifi hardware.
->
-> Ross
->
-> On 22 March 2018 at 17:50, Rajath C S <rajathcs.1996@gmail.com> wrote:
-> > Can you help me setup WiFi connection to poky?
-> > Im highly struggling with this, I have placed connman in local.conf file
-> ,
-> > what next is the procedure such that my poky on qemu can detect the WiFi?
-> > Thanks
-> >
-> > On Thu, 22 Mar 2018, 23:18 Rajath C S, <rajathcs.1996@gmail.com> wrote:
-> >>
-> >> Cool, thanks!
-> >>
-> >> On Thu, 22 Mar 2018, 23:15 Burton, Ross, <ross.burton@intel.com> wrote:
-> >>>
-> >>> It contains a CSV module for the Scheme language, it isn't anything
-> >>> for the user to use.
-> >>>
-> >>> CSV files are plain text so any text editor will do.  oe-core has a
-> >>> vi-clone as part of busybox, or l3afpad if you want something
-> >>> graphical.  meta-oe has the usual Linux editors: vim, nano, joe.
-> >>>
-> >>> Ross
-> >>>
-> >>> On 22 March 2018 at 17:41, Rajath C S <rajathcs.1996@gmail.com> wrote:
-> >>> > Thanks for the tip! But meta-chicken contains a CSV formatter since I
-> >>> > need a
-> >>> > CSV editor to my image I thought of using meta-chicken.
-> >>> > Do you know of any other recipes that has the features of CSV editor?
-> >>> > Thanks
-> >>> >
-> >>> > On Thu, 22 Mar 2018, 23:09 Burton, Ross, <ross.burton@intel.com>
-> wrote:
-> >>> >>
-> >>> >> That's a failure in meta-chicken, which isn't part of oe-core.
-> >>> >>
-> >>> >> If you need to use meta-chicken then please contact the maintainers
-> of
-> >>> >> meta-chicken directly.  I do have to wonder if you actually need
-> >>> >> meta-chicken though.
-> >>> >>
-> >>> >> Ross
-> >>> >>
-> >>> >> On 22 March 2018 at 17:34, Rajath C S <rajathcs.1996@gmail.com>
-> wrote:
-> >>> >> > I was including a csv-editor and this error popped up, any
-> >>> >> > solutions?
-> >>> >> >
-> >>> >> > WARNING: chicken-4.12.0-r0 do_prepare_recipe_sysroot: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-matchable-cross-3.7-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-typeclass-cross-1.3-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-regex-cross-1.0-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-matchable-3.7-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-make-cross-1.8-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-iset-cross-2.0-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-matchable-cross-3.7-r0 do_patch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-matchable-cross-3.7-r0
-> >>> >> > do_prepare_recipe_sysroot:
-> >>> >> > Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > WARNING: chicken-egg-utf8-cross-3.4.4-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> > ERROR: chicken-egg-matchable-cross-3.7-r0 do_install: Function
-> >>> >> > failed:
-> >>> >> > do_install (log file is located at
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/work/x86_64-linux/chicken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926)
-> >>> >> > ERROR: Logfile of failure stored in:
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/work/x86_64-linux/chicken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926
-> >>> >> > Log data follows:
-> >>> >> > | DEBUG: Executing shell function do_install
-> >>> >> > |
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/work/x86_64-linux/chicken-egg-matchable-cross/3.7-r0/temp/run.do_install.17926:
-> >>> >> > 113:
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/work/x86_64-linux/chicken-egg-matchable-cross/3.7-r0/temp/run.do_install.17926:
-> >>> >> > i586-poky-linux-chicken-install: not found
-> >>> >> > | WARNING: exit code 127 from a shell command.
-> >>> >> > | ERROR: Function failed: do_install (log file is located at
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/work/x86_64-linux/chicken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926)
-> >>> >> > ERROR: Task
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> (virtual:cross:/home/jarvis/poky/meta-chicken/recipes-chicken/chicken-egg/chicken-egg-matchable_3.7.bb:
-> do_install)
-> >>> >> > failed with exit code '1'
-> >>> >> > WARNING: chicken-egg-typeclass-1.3-r0 do_fetch: Manifest
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> /home/jarvis/poky/build/tmp/sstate-control/manifest-allarch-chicken-cross.populate_sysroot
-> >>> >> > not found?
-> >>> >> >
-> >>> >> >
-> >>> >> >
-> >>> >> > Thanks
->
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index e590b2fe3c..3dc17d7fde 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -28,14 +28,30 @@
+ import os
+ import shlex
+ import logging
++import re
+ 
+ from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
+ 
+ from wic.engine import find_canned
+ from wic.partition import Partition
++from wic.misc import get_bitbake_var
+ 
+ logger = logging.getLogger('wic')
+ 
++__expand_var_regexp__ = re.compile(r"\${[^{}@\n\t :]+}")
++
++def expand_line(line):
++    while True:
++        m = __expand_var_regexp__.search(line)
++        if not m:
++            return line
++        key = m.group()[2:-1]
++        val = get_bitbake_var(key)
++        if val is None:
++            logger.warning("cannot expand variable %s" % key)
++            return line
++        line = line[:m.start()] + val + line[m.end():]
++
+ class KickStartError(Exception):
+     """Custom exception."""
+     pass
+@@ -189,6 +205,7 @@ class KickStart():
+                 line = line.strip()
+                 lineno += 1
+                 if line and line[0] != '#':
++                    line = expand_line(line)
+                     try:
+                         line_args = shlex.split(line)
+                         parsed = parser.parse_args(line_args)
+-- 
+2.15.1
 
---001a11441a200c993805680b43f4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">If it is like : my kernel doesn&#39;t support the WiFi ha=
-rdware then either of the below things must be a possibility<div dir=3D"aut=
-o">1. I can install a external WiFi adapter and check for that button in Sa=
-to</div><div dir=3D"auto">2. I can install kernel WiFi drivers=C2=A0</div><=
-div dir=3D"auto">=C2=A0 =C2=A02a. Are there=C2=A0 built WiFi drivers for po=
-ky ?</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri, 23 =
-Mar 2018, 00:49 Burton, Ross, &lt;<a href=3D"mailto:ross.burton@intel.com" =
-target=3D"_blank" rel=3D"noreferrer">ross.burton@intel.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">As I said yesterday, core-image-sato=
- ships with connman already.=C2=A0 If<br>
-the networking UI doesn&#39;t have a big [ ] Turn Wifi On button then the<b=
-r>
-problem is that your kernel doesn&#39;t support the wifi hardware.<br>
-<br>
-Ross<br>
-<br>
-On 22 March 2018 at 17:50, Rajath C S &lt;<a href=3D"mailto:rajathcs.1996@g=
-mail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">rajathcs.1996@gma=
-il.com</a>&gt; wrote:<br>
-&gt; Can you help me setup WiFi connection to poky?<br>
-&gt; Im highly struggling with this, I have placed connman in local.conf fi=
-le ,<br>
-&gt; what next is the procedure such that my poky on qemu can detect the Wi=
-Fi?<br>
-&gt; Thanks<br>
-&gt;<br>
-&gt; On Thu, 22 Mar 2018, 23:18 Rajath C S, &lt;<a href=3D"mailto:rajathcs.=
-1996@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">rajathcs.19=
-96@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Cool, thanks!<br>
-&gt;&gt;<br>
-&gt;&gt; On Thu, 22 Mar 2018, 23:15 Burton, Ross, &lt;<a href=3D"mailto:ros=
-s.burton@intel.com" rel=3D"noreferrer noreferrer" target=3D"_blank">ross.bu=
-rton@intel.com</a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; It contains a CSV module for the Scheme language, it isn&#39;t=
- anything<br>
-&gt;&gt;&gt; for the user to use.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; CSV files are plain text so any text editor will do.=C2=A0 oe-=
-core has a<br>
-&gt;&gt;&gt; vi-clone as part of busybox, or l3afpad if you want something<=
-br>
-&gt;&gt;&gt; graphical.=C2=A0 meta-oe has the usual Linux editors: vim, nan=
-o, joe.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Ross<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On 22 March 2018 at 17:41, Rajath C S &lt;<a href=3D"mailto:ra=
-jathcs.1996@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">raja=
-thcs.1996@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; &gt; Thanks for the tip! But meta-chicken contains a CSV forma=
-tter since I<br>
-&gt;&gt;&gt; &gt; need a<br>
-&gt;&gt;&gt; &gt; CSV editor to my image I thought of using meta-chicken.<b=
-r>
-&gt;&gt;&gt; &gt; Do you know of any other recipes that has the features of=
- CSV editor?<br>
-&gt;&gt;&gt; &gt; Thanks<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt; On Thu, 22 Mar 2018, 23:09 Burton, Ross, &lt;<a href=3D"m=
-ailto:ross.burton@intel.com" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; That&#39;s a failure in meta-chicken, which isn&#39;t=
- part of oe-core.<br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; If you need to use meta-chicken then please contact t=
-he maintainers of<br>
-&gt;&gt;&gt; &gt;&gt; meta-chicken directly.=C2=A0 I do have to wonder if y=
-ou actually need<br>
-&gt;&gt;&gt; &gt;&gt; meta-chicken though.<br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; Ross<br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; On 22 March 2018 at 17:34, Rajath C S &lt;<a href=3D"=
-mailto:rajathcs.1996@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">rajathcs.1996@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; I was including a csv-editor and this error popp=
-ed up, any<br>
-&gt;&gt;&gt; &gt;&gt; &gt; solutions?<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-4.12.0-r0 do_prepare_recipe_sys=
-root: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-matchable-cross-3.7-r0 do_f=
-etch: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-typeclass-cross-1.3-r0 do_f=
-etch: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-regex-cross-1.0-r0 do_fetch=
-: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-matchable-3.7-r0 do_fetch: =
-Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-make-cross-1.8-r0 do_fetch:=
- Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-iset-cross-2.0-r0 do_fetch:=
- Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-matchable-cross-3.7-r0 do_p=
-atch: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-matchable-cross-3.7-r0<br>
-&gt;&gt;&gt; &gt;&gt; &gt; do_prepare_recipe_sysroot:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-utf8-cross-3.4.4-r0 do_fetc=
-h: Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt; ERROR: chicken-egg-matchable-cross-3.7-r0 do_ins=
-tall: Function<br>
-&gt;&gt;&gt; &gt;&gt; &gt; failed:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; do_install (log file is located at<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/work/x86_64-linux/ch=
-icken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926)<br>
-&gt;&gt;&gt; &gt;&gt; &gt; ERROR: Logfile of failure stored in:<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/work/x86_64-linux/ch=
-icken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926<br>
-&gt;&gt;&gt; &gt;&gt; &gt; Log data follows:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; | DEBUG: Executing shell function do_install<br>
-&gt;&gt;&gt; &gt;&gt; &gt; |<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/work/x86_64-linux/ch=
-icken-egg-matchable-cross/3.7-r0/temp/run.do_install.17926:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; 113:<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/work/x86_64-linux/ch=
-icken-egg-matchable-cross/3.7-r0/temp/run.do_install.17926:<br>
-&gt;&gt;&gt; &gt;&gt; &gt; i586-poky-linux-chicken-install: not found<br>
-&gt;&gt;&gt; &gt;&gt; &gt; | WARNING: exit code 127 from a shell command.<b=
-r>
-&gt;&gt;&gt; &gt;&gt; &gt; | ERROR: Function failed: do_install (log file i=
-s located at<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/work/x86_64-linux/ch=
-icken-egg-matchable-cross/3.7-r0/temp/log.do_install.17926)<br>
-&gt;&gt;&gt; &gt;&gt; &gt; ERROR: Task<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; (virtual:cross:/home/jarvis/poky/meta-chicken/re=
-cipes-chicken/chicken-egg/chicken-egg-matchable_3.7.bb:do_install)<br>
-&gt;&gt;&gt; &gt;&gt; &gt; failed with exit code &#39;1&#39;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; WARNING: chicken-egg-typeclass-1.3-r0 do_fetch: =
-Manifest<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; /home/jarvis/poky/build/tmp/sstate-control/manif=
-est-allarch-chicken-cross.populate_sysroot<br>
-&gt;&gt;&gt; &gt;&gt; &gt; not found?<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;&gt; &gt; Thanks<br>
-</blockquote></div>
-
---001a11441a200c993805680b43f4--
